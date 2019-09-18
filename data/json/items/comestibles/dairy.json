@@ -65,7 +65,6 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": "0",
     "vitamins": [ [ "vitA", 1 ], [ "vitC", 1 ], [ "calcium", 1 ] ]
   },
   {
@@ -93,8 +92,7 @@
     "id": "butter",
     "name": "butter",
     "name_plural": "butter",
-    "weight": "14 g",
-    "//": "Weight should be 14.18g but the game will round down the number to 14g and 14.18g is closer to 14g",
+    "weight": "14180 mg",
     "color": "yellow",
     "spoils_in": "14 days",
     "comestible_type": "FOOD",
@@ -116,7 +114,7 @@
     "name": "ghee",
     "name_plural": "ghee",
     "copy-from": "butter",
-    "//": "Weight should be 13.5g but the game will round down the number to 14g and 13.5g is closer to 14g",
+    "weight": "13500 mg",
     "spoils_in": "90 days",
     "container": "jar_glass_sealed",
     "calories": 112,

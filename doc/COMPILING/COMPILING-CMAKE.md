@@ -3,7 +3,7 @@
 **WARNING**: CMake build is **NOT** official and should be used for *dev purposes ONLY*.
 
 For official way to build CataclysmDDA See:
-  * [COMPILING.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/COMPILING.md)
+  * [COMPILING.md](COMPILING.md)
 
 
 #Contents

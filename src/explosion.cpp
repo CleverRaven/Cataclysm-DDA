@@ -370,7 +370,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
 
     castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
                  update_fragment_cloud, accumulate_fragment_cloud>
-                 ( visited_cache, obstacle_cache, src.x, src.y, 0, initial_cloud );
+                 ( visited_cache, obstacle_cache, src.xy(), 0, initial_cloud );
 
     // Now visited_caches are populated with density and velocity of fragments.
     for( int x = start.x; x < end.x; x++ ) {

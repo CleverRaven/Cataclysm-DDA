@@ -16,6 +16,7 @@
 #include "creature_tracker.h"
 #include "debug.h"
 #include "faction.h"
+#include "int_id.h"
 #include "io.h"
 #include "kill_tracker.h"
 #include "map.h"
@@ -35,7 +36,7 @@
 #include "omdata.h"
 #include "overmap_types.h"
 #include "regional_settings.h"
-#include "int_id.h"
+#include "stats_tracker.h"
 #include "string_id.h"
 
 #if defined(__ANDROID__)
@@ -94,8 +95,9 @@ void game::serialize( std::ostream &fout )
     json.member( "active_monsters", *critter_tracker );
     json.member( "stair_monsters", coming_to_stairs );
 
-    // save killcounts.
+    // save stats.
     json.member( "kill_tracker", *kill_tracker_ptr );
+    json.member( "stats_tracker", *stats_tracker_ptr );
 
     json.member( "player", u );
     Messages::serialize( json );
@@ -236,6 +238,7 @@ void game::unserialize( std::istream &fin )
         }
 
         data.read( "player", u );
+        data.read( "stats_tracker", *stats_tracker_ptr );
         Messages::deserialize( data );
 
     } catch( const JsonError &jsonerr ) {
@@ -912,17 +915,22 @@ void overmap::unserialize( std::istream &fin )
                 }
                 cities.push_back( new_city );
             }
+        } else if( name == "connections_out" ) {
+            jsin.read( connections_out );
         } else if( name == "roads_out" ) {
+            // Legacy data, superceded by that stored in the "connections_out" member. A load and save
+            // cycle will migrate this to "connections_out".
+            std::vector<tripoint> &roads_out = connections_out[string_id<overmap_connection>( "local_road" )];
             jsin.start_array();
             while( !jsin.end_array() ) {
                 jsin.start_object();
-                city new_road;
+                tripoint new_road;
                 while( !jsin.end_object() ) {
                     std::string road_member_name = jsin.get_member_name();
                     if( road_member_name == "x" ) {
-                        jsin.read( new_road.pos.x );
+                        jsin.read( new_road.x );
                     } else if( road_member_name == "y" ) {
-                        jsin.read( new_road.pos.y );
+                        jsin.read( new_road.y );
                     }
                 }
                 roads_out.push_back( new_road );
@@ -1352,15 +1360,7 @@ void overmap::serialize( std::ostream &fout ) const
     json.end_array();
     fout << std::endl;
 
-    json.member( "roads_out" );
-    json.start_array();
-    for( auto &i : roads_out ) {
-        json.start_object();
-        json.member( "x", i.pos.x );
-        json.member( "y", i.pos.y );
-        json.end_object();
-    }
-    json.end_array();
+    json.member( "connections_out", connections_out );
     fout << std::endl;
 
     json.member( "radios" );
@@ -1626,7 +1626,7 @@ void faction_manager::deserialize( JsonIn &jsin )
             // force a revalidation of add_fac
             get( add_fac.id );
         } else {
-            factions.emplace_back( add_fac );
+            factions[add_fac.id] = add_fac;
         }
     }
 }

@@ -405,8 +405,9 @@ bool vehicle::interact_vehicle_locked()
                 g->u.assign_activity( activity_id( "ACT_HOTWIRE_CAR" ), moves, -1, INT_MIN, _( "Hotwire" ) );
                 // use part 0 as the reference point
                 point q = coord_translate( parts[0].mount );
-                g->u.activity.values.push_back( global_pos3().x + q.x ); //[0]
-                g->u.activity.values.push_back( global_pos3().y + q.y ); //[1]
+                const tripoint abs_veh_pos = g->m.getabs( global_pos3() );
+                g->u.activity.values.push_back( abs_veh_pos.x + q.x ); //[0]
+                g->u.activity.values.push_back( abs_veh_pos.y + q.y ); //[1]
                 g->u.activity.values.push_back( g->u.get_skill_level( skill_mechanics ) ); //[2]
             } else {
                 if( has_security_working() && query_yn( _( "Trigger the %s's Alarm?" ), name ) ) {
@@ -925,7 +926,7 @@ bool vehicle::start_engine( const int e )
     return true;
 }
 
-void vehicle::start_engines( const bool take_control )
+void vehicle::start_engines( const bool take_control, const bool autodrive )
 {
     bool has_engine = std::any_of( engines.begin(), engines.end(), [&]( int idx ) {
         return parts[ idx ].enabled && !parts[ idx ].is_broken();
@@ -967,10 +968,11 @@ void vehicle::start_engines( const bool take_control )
         g->u.controlling_vehicle = true;
         add_msg( _( "You take control of the %s." ), name );
     }
-
-    g->u.assign_activity( activity_id( "ACT_START_ENGINES" ), start_time );
-    g->u.activity.placement = starting_engine_position - g->u.pos();
-    g->u.activity.values.push_back( take_control );
+    if( !autodrive ) {
+        g->u.assign_activity( activity_id( "ACT_START_ENGINES" ), start_time );
+        g->u.activity.placement = starting_engine_position - g->u.pos();
+        g->u.activity.values.push_back( take_control );
+    }
 }
 
 void vehicle::honk_horn()
@@ -1528,40 +1530,52 @@ void vehicle::use_monster_capture( int part, const tripoint &pos )
 void vehicle::use_harness( int part, const tripoint &pos )
 {
     if( parts[part].is_unavailable() || parts[part].removed ) {
-        add_msg( "is unavailable" );
         return;
     }
-    const cata::optional<tripoint> target_ = choose_adjacent(
-                _( "Where is the creature to harness?" ) );
-    if( !target_ ) {
-        add_msg( _( "Never mind." ) );
+    if( !g->is_empty( pos ) ) {
+        add_msg( m_info, _( "The harness is blocked." ) );
         return;
     }
-    const tripoint target = *target_;
-    monster *mon_ptr = g->critter_at<monster>( target );
-    if( mon_ptr != nullptr ) {
-        monster &f = *mon_ptr;
-        if( f.friendly != 0 && f.has_flag( MF_PET_MOUNTABLE ) && g->is_empty( pos ) ) {
-            f.add_effect( effect_harnessed, 1_turns, num_bp, true );
-            f.setpos( pos );
-            add_msg( m_info, _( "You harness your %s to the %s." ), f.get_name(), name );
-            if( f.has_effect( effect_tied ) ) {
-                add_msg( m_info, _( "You untie your %s." ), f.get_name() );
-                f.remove_effect( effect_tied );
-                if( f.tied_item ) {
-                    g->u.i_add( *f.tied_item );
-                    f.tied_item = cata::nullopt;
-                }
-            }
-        } else if( f.friendly == 0 ) {
-            add_msg( m_info, _( "This creature is not friendly!" ) );
-        } else if( !f.has_flag( MF_PET_MOUNTABLE ) ) {
-            add_msg( m_info, _( "This creature cannot be harnessed." ) );
-        } else if( !g->is_empty( pos ) ) {
-            add_msg( m_info, _( "The harness is blocked." ) );
+    const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
+        monster *mon_ptr = g->critter_at<monster>( pnt );
+        if( mon_ptr == nullptr ) {
+            return false;
         }
-    } else {
+        monster &f = *mon_ptr;
+        return ( f.friendly != 0 && f.has_flag( MF_PET_MOUNTABLE ) );
+    };
+
+    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
+            _( "Where is the creature to harness?" ), f, false, true );
+    if( !pnt_ ) {
+        add_msg( m_info, _( "Never mind." ) );
+        return;
+    }
+    const tripoint &target = *pnt_;
+    monster *mon_ptr = g->critter_at<monster>( target );
+    if( mon_ptr == nullptr ) {
         add_msg( m_info, _( "No creature there." ) );
+        return;
+    }
+    monster &m = *mon_ptr;
+    if( m.friendly == 0 ) {
+        add_msg( m_info, _( "This creature is not friendly!" ) );
+        return;
+    } else if( !m.has_flag( MF_PET_MOUNTABLE ) ) {
+        add_msg( m_info, _( "This creature cannot be harnessed." ) );
+        return;
+    }
+
+    m.add_effect( effect_harnessed, 1_turns, num_bp, true );
+    m.setpos( pos );
+    add_msg( m_info, _( "You harness your %s to the %s." ), m.get_name(), name );
+    if( m.has_effect( effect_tied ) ) {
+        add_msg( m_info, _( "You untie your %s." ), m.get_name() );
+        m.remove_effect( effect_tied );
+        if( m.tied_item ) {
+            g->u.i_add( *m.tied_item );
+            m.tied_item = cata::nullopt;
+        }
     }
 }
 

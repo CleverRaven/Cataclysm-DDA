@@ -17,6 +17,7 @@
     "ammo": [ "454", "410shot", "45colt" ],
     "dispersion": 280,
     "durability": 8,
+    "blackpowder_tolerance": 56,
     "clip_size": 5,
     "magazines": [ [ "454", [ "454_speedloader5" ] ] ],
     "valid_mod_locations": [

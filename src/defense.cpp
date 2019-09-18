@@ -570,8 +570,8 @@ void defense_game::setup()
                             location = static_cast<defense_location>( location - 1 );
                         }
                     }
-                    mvwprintz( w, point( 2, 5 ), c_black, "\
- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" );
+                    mvwprintz( w, point( 2, 5 ), c_black,
+                               " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" );
                     mvwprintz( w, point( 2, 5 ), c_yellow, defense_location_name( location ) );
                     mvwprintz( w, point( 28, 5 ), c_light_gray, defense_location_description( location ) );
                     break;
@@ -943,12 +943,11 @@ void defense_game::caravan()
     while( !done ) {
         const std::string action = ctxt.handle_input();
         if( action == "HELP" ) {
-            popup_top( _( "\
-CARAVAN:\n\
-Start by selecting a category using your favorite up/down keys.\n\
-Switch between category selection and item selecting by pressing %s.\n\
-Pick an item with the up/down keys, press left/right to buy 1 less/more.\n\
-Press %s to buy everything in your cart, %s to buy nothing." ),
+            popup_top( _( "CARAVAN:\n"
+                          "Start by selecting a category using your favorite up/down keys.\n"
+                          "Switch between category selection and item selecting by pressing %s.\n"
+                          "Pick an item with the up/down keys, press left/right to buy 1 less/more.\n"
+                          "Press %s to buy everything in your cart, %s to buy nothing." ),
                        ctxt.get_desc( "NEXT_TAB" ),
                        ctxt.get_desc( "CONFIRM" ),
                        ctxt.get_desc( "QUIT" )

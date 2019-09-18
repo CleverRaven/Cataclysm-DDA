@@ -6,6 +6,7 @@
 #include "avatar.h"
 #include "bionics.h"
 #include "effect.h"
+#include "event_statistics.h"
 #include "filesystem.h"
 #include "game.h"
 #include "get_version.h"
@@ -19,6 +20,7 @@
 #include "overmapbuffer.h"
 #include "profession.h"
 #include "skill.h"
+#include "stats_tracker.h"
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_datura( "datura" );
@@ -148,7 +150,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
 
     const std::string locdesc = overmap_buffer.get_description_at( u.global_sm_location() );
     //~ First parameter is a pronoun ("He"/"She"), second parameter is a description
-    // that designates the location relative to its surroundings.
+    //~ that designates the location relative to its surroundings.
     const std::string kill_place = string_format( _( "%1$s was killed in a %2$s." ),
                                    pronoun, locdesc );
 
@@ -327,15 +329,11 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
     file << eol;
 
     //Lifetime stats
-    file << _( "Lifetime Stats" ) << eol;
-    file << indent << string_format( _( "Distance walked: %d squares" ),
-                                     u.lifetime_stats.squares_walked ) << eol;
-    file << indent << string_format( _( "Damage taken: %d damage" ),
-                                     u.lifetime_stats.damage_taken ) << eol;
-    file << indent << string_format( _( "Damage healed: %d damage" ),
-                                     u.lifetime_stats.damage_healed ) << eol;
-    file << indent << string_format( _( "Headshots: %d" ),
-                                     u.lifetime_stats.headshots ) << eol;
+    file << _( "Lifetime Stats and Scores" ) << eol;
+
+    for( const score &scr : score::get_all() ) {
+        file << indent << scr.description( g->stats() ) << eol;
+    }
     file << eol;
 
     //History
@@ -996,6 +994,12 @@ void memorial_logger::notify( const cata::event &e )
                  pgettext( "memorial_female", "Set off an alarm." ) );
             break;
         }
+        // All the events for which we have no memorial log are here
+        case event_type::avatar_moves:
+        case event_type::character_gets_headshot:
+        case event_type::character_heals_damage:
+        case event_type::character_takes_damage:
+            break;
         case event_type::num_event_types: {
             debugmsg( "Invalid event type" );
             break;

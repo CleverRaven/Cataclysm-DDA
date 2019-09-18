@@ -191,7 +191,7 @@ void query_popup::init() const
                 int button_x = std::max( 0, msg_width - button_width -
                                          horz_padding * static_cast<int>( line.size() - 1 ) );
                 for( const auto &opt : line ) {
-                    buttons.emplace_back( opt, button_x, msg_height );
+                    buttons.emplace_back( opt, point( button_x, msg_height ) );
                     button_x += utf8_width( opt, true ) + horz_padding;
                 }
                 msg_height += 1 + vert_padding;
@@ -369,7 +369,7 @@ query_popup::query_option::query_option(
 {
 }
 
-query_popup::button::button( const std::string &text, const int x, const int y )
-    : text( text ), pos( x, y )
+query_popup::button::button( const std::string &text, const point &p )
+    : text( text ), pos( p )
 {
 }

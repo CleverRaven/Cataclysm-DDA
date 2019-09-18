@@ -85,10 +85,10 @@
         { "item": "magazines", "x": 3, "y": 17, "chance": 50 }
       ],
       "place_loot": [
-        { "group": "corpse_male", "x": 4, "y": 19, "chance": 40 },
-        { "group": "corpse_male", "x": 4, "y": 21, "chance": 40 },
-        { "group": "corpse_female", "x": 6, "y": 19, "chance": 40 },
-        { "group": "corpse_female", "x": 6, "y": 21, "chance": 40 },
+        { "group": "corpse_male_mortuary", "x": 4, "y": 19, "chance": 40 },
+        { "group": "corpse_male_mortuary", "x": 4, "y": 21, "chance": 40 },
+        { "group": "corpse_female_mortuary", "x": 6, "y": 19, "chance": 40 },
+        { "group": "corpse_female_mortuary", "x": 6, "y": 21, "chance": 40 },
         { "group": "corpse_viewing", "x": 20, "y": 17, "chance": 50 }
       ],
       "place_vehicles": [ { "vehicle": "hearse", "x": 12, "y": 7, "chance": 90 } ]

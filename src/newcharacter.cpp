@@ -85,8 +85,6 @@ struct points_left;
 
 #define NEWCHAR_TAB_MAX 6 // The ID of the rightmost tab
 
-void draw_tabs( const catacurses::window &w, const std::string &sTab );
-void draw_points( const catacurses::window &w, points_left &points, int netPointCost = 0 );
 static int skill_increment_cost( const Character &u, const skill_id &skill );
 
 struct points_left {
@@ -228,7 +226,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
 
     for( auto &s : styles ) {
         auto &style = s.obj();
-        menu.addentry_desc( _( style.name ), _( style.description ) );
+        menu.addentry_desc( style.name.translated(), style.description.translated() );
     }
     while( true ) {
         menu.query( true );
@@ -666,62 +664,28 @@ bool avatar::create( character_type type, const std::string &tempname )
     return true;
 }
 
-void draw_tabs( const catacurses::window &w, const std::string &sTab )
+static void draw_character_tabs( const catacurses::window &w, const std::string &sTab )
 {
+    std::vector<std::string> tab_captions = {
+        _( "POINTS" ),
+        _( "SCENARIO" ),
+        _( "PROFESSION" ),
+        _( "TRAITS" ),
+        _( "STATS" ),
+        _( "SKILLS" ),
+        _( "DESCRIPTION" ),
+    };
+
+    draw_tabs( w, tab_captions, sTab );
+    draw_border_below_tabs( w );
+
     for( int i = 1; i < TERMX - 1; i++ ) {
-        mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_OXOX );
         mvwputch( w, point( i, 4 ), BORDER_COLOR, LINE_OXOX );
-        mvwputch( w, point( i, TERMY - 1 ), BORDER_COLOR, LINE_OXOX );
-
-        if( i > 2 && i < TERMY - 1 ) {
-            mvwputch( w, point( 0, i ), BORDER_COLOR, LINE_XOXO );
-            mvwputch( w, point( TERMX - 1, i ), BORDER_COLOR, LINE_XOXO );
-        }
     }
-
-    std::vector<std::string> tab_captions;
-    tab_captions.push_back( _( "POINTS" ) );
-    tab_captions.push_back( _( "SCENARIO" ) );
-    tab_captions.push_back( _( "PROFESSION" ) );
-    tab_captions.push_back( _( "TRAITS" ) );
-    tab_captions.push_back( _( "STATS" ) );
-    tab_captions.push_back( _( "SKILLS" ) );
-    tab_captions.push_back( _( "DESCRIPTION" ) );
-
-    size_t temp_len = 0;
-    size_t tabs_length = 0;
-    std::vector<int> tab_len;
-    for( const std::string &tab_name : tab_captions ) {
-        // String length + borders
-        temp_len = utf8_width( tab_name ) + 2;
-        tabs_length += temp_len;
-        tab_len.push_back( temp_len );
-    }
-
-    int next_pos = 2;
-    // Free space on tabs window. '<', '>' symbols is drawing on free space.
-    // Initial value of next_pos is free space too.
-    // '1' is used for SDL/curses screen column reference.
-    int free_space = ( TERMX - tabs_length - 1 - next_pos );
-    int spaces = free_space / ( static_cast<int>( tab_captions.size() ) - 1 );
-    if( spaces < 0 ) {
-        spaces = 0;
-    }
-    for( size_t i = 0; i < tab_captions.size(); ++i ) {
-        draw_tab( w, next_pos, tab_captions[i], ( sTab == tab_captions[i] ) );
-        next_pos += tab_len[i] + spaces;
-    }
-
-    mvwputch( w, point( 0, 2 ), BORDER_COLOR, LINE_OXXO ); // |^
-    mvwputch( w, point( TERMX - 1, 2 ), BORDER_COLOR, LINE_OOXX ); // ^|
-
     mvwputch( w, point( 0, 4 ), BORDER_COLOR, LINE_XXXO ); // |-
     mvwputch( w, point( TERMX - 1, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
-
-    mvwputch( w, point( 0, TERMY - 1 ), BORDER_COLOR, LINE_XXOO ); // |_
-    mvwputch( w, point( TERMX - 1, TERMY - 1 ), BORDER_COLOR, LINE_XOOX ); // _|
 }
-void draw_points( const catacurses::window &w, points_left &points, int netPointCost )
+static void draw_points( const catacurses::window &w, points_left &points, int netPointCost = 0 )
 {
     // Clear line (except borders)
     mvwprintz( w, point( 2, 3 ), c_black, std::string( getmaxx( w ) - 3, ' ' ) );
@@ -754,7 +718,7 @@ tab_direction set_points( const catacurses::window &w, avatar &, points_left &po
     catacurses::window w_description = catacurses::newwin( content_height, TERMX - 35,
                                        point( 31 + getbegx( w ), 5 + getbegy( w ) ) );
 
-    draw_tabs( w, _( "POINTS" ) );
+    draw_character_tabs( w, _( "POINTS" ) );
 
     input_context ctxt( "NEW_CHAR_POINTS" );
     ctxt.register_cardinal();
@@ -771,9 +735,9 @@ tab_direction set_points( const catacurses::window &w, avatar &, points_left &po
 
     const point_limit_tuple multi_pool = std::make_tuple( points_left::MULTI_POOL,
                                          _( "Multiple pools" ),
-                                         _( "Stats, traits and skills have separate point pools.\n\
-Putting stat points into traits and skills is allowed and putting trait points into skills is allowed.\n\
-Scenarios and professions affect skill point pool" ) );
+                                         _( "Stats, traits and skills have separate point pools.\n"
+                                            "Putting stat points into traits and skills is allowed and putting trait points into skills is allowed.\n"
+                                            "Scenarios and professions affect skill point pool" ) );
 
     const point_limit_tuple one_pool = std::make_tuple( points_left::ONE_POOL, _( "Single pool" ),
                                        _( "Stats, traits and skills share a single point pool." ) );
@@ -831,7 +795,7 @@ Scenarios and professions affect skill point pool" ) );
             retval = tab_direction::QUIT;
         } else if( action == "HELP_KEYBINDINGS" ) {
             // Need to redraw since the help window obscured everything.
-            draw_tabs( w, _( "POINTS" ) );
+            draw_character_tabs( w, _( "POINTS" ) );
         } else if( action == "CONFIRM" ) {
             points.limit = std::get<0>( cur_opt );
         }
@@ -866,11 +830,11 @@ tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &po
 
     do {
         werase( w );
-        draw_tabs( w, _( "STATS" ) );
-        fold_and_print( w, point( 2, 16 ), getmaxx( w ) - 4, COL_NOTE_MINOR, _( "\
-    <color_light_green>%s</color> / <color_light_green>%s</color> to select a statistic.\n\
-    <color_light_green>%s</color> to increase the statistic.\n\
-    <color_light_green>%s</color> to decrease the statistic." ),
+        draw_character_tabs( w, _( "STATS" ) );
+        fold_and_print( w, point( 2, 16 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
+                        _( "    <color_light_green>%s</color> / <color_light_green>%s</color> to select a statistic.\n"
+                           "    <color_light_green>%s</color> to increase the statistic.\n"
+                           "    <color_light_green>%s</color> to decrease the statistic." ),
                         ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
                         ctxt.get_desc( "RIGHT" ), ctxt.get_desc( "LEFT" )
                       );
@@ -1050,7 +1014,7 @@ tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &po
             return tab_direction::FORWARD;
         } else if( action == "HELP_KEYBINDINGS" ) {
             // Need to redraw since the help window obscured everything.
-            draw_tabs( w, _( "STATS" ) );
+            draw_character_tabs( w, _( "STATS" ) );
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             return tab_direction::QUIT;
         }
@@ -1061,7 +1025,7 @@ tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &p
 {
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
 
-    draw_tabs( w, _( "TRAITS" ) );
+    draw_character_tabs( w, _( "TRAITS" ) );
 
     catacurses::window w_description =
         catacurses::newwin( 3, TERMX - 2, point( 1 + getbegx( w ), TERMY - 4 + getbegy( w ) ) );
@@ -1314,7 +1278,7 @@ tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &p
             return tab_direction::FORWARD;
         } else if( action == "HELP_KEYBINDINGS" ) {
             // Need to redraw since the help window obscured everything.
-            draw_tabs( w, _( "TRAITS" ) );
+            draw_character_tabs( w, _( "TRAITS" ) );
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             return tab_direction::QUIT;
         }
@@ -1347,7 +1311,7 @@ struct {
 tab_direction set_profession( const catacurses::window &w, avatar &u, points_left &points,
                               const tab_direction direction )
 {
-    draw_tabs( w, _( "PROFESSION" ) );
+    draw_character_tabs( w, _( "PROFESSION" ) );
     int cur_id = 0;
     tab_direction retval = tab_direction::NONE;
     int desc_offset = 0;
@@ -1469,8 +1433,8 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
                                           profs_length : iContentHeight );
         int i;
         for( i = iStartPos; i < end_pos; i++ ) {
-            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray, "\
-                                             " ); // Clear the line
+            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray,
+                       "                                             " ); // Clear the line
             nc_color col;
             if( u.prof != &sorted_profs[i].obj() ) {
                 col = ( sorted_profs[i] == sorted_profs[cur_id] ? h_light_gray : c_light_gray );
@@ -1482,8 +1446,8 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
         }
         //Clear rest of space in case stuff got filtered out
         for( ; i < iStartPos + iContentHeight; ++i ) {
-            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray, "\
-                                             " ); // Clear the line
+            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray,
+                       "                                             " ); // Clear the line
         }
 
         std::ostringstream buffer;
@@ -1652,7 +1616,7 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
             recalc_profs = true;
         } else if( action == "HELP_KEYBINDINGS" ) {
             // Need to redraw since the help window obscured everything.
-            draw_tabs( w, _( "PROFESSION" ) );
+            draw_character_tabs( w, _( "PROFESSION" ) );
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             retval = tab_direction::QUIT;
         }
@@ -1675,7 +1639,7 @@ static int skill_increment_cost( const Character &u, const skill_id &skill )
 
 tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &points )
 {
-    draw_tabs( w, _( "SKILLS" ) );
+    draw_character_tabs( w, _( "SKILLS" ) );
     const int iContentHeight = TERMY - 6;
     catacurses::window w_description = catacurses::newwin( iContentHeight, TERMX - 35,
                                        point( 31 + getbegx( w ), 5 + getbegy( w ) ) );
@@ -1852,7 +1816,7 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
             return tab_direction::FORWARD;
         } else if( action == "HELP_KEYBINDINGS" ) {
             // Need to redraw since the help window obscured everything.
-            draw_tabs( w, _( "SKILLS" ) );
+            draw_character_tabs( w, _( "SKILLS" ) );
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             return tab_direction::QUIT;
         }
@@ -1889,7 +1853,7 @@ struct {
 tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left &points,
                             const tab_direction direction )
 {
-    draw_tabs( w, _( "SCENARIO" ) );
+    draw_character_tabs( w, _( "SCENARIO" ) );
 
     int cur_id = 0;
     tab_direction retval = tab_direction::NONE;
@@ -2037,8 +2001,8 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
                                           scens_length : iContentHeight );
         int i;
         for( i = iStartPos; i < end_pos; i++ ) {
-            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray, "\
-                                             " );
+            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray,
+                       "                                             " );
             nc_color col;
             if( g->scen != sorted_scens[i] ) {
                 if( sorted_scens[i] == sorted_scens[cur_id] && ( sorted_scens[i]->has_flag( "CITY_START" ) &&
@@ -2059,8 +2023,8 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
         }
         //Clear rest of space in case stuff got filtered out
         for( ; i < iStartPos + iContentHeight; ++i ) {
-            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray, "\
-                                             " ); // Clear the line
+            mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray,
+                       "                                             " ); // Clear the line
         }
 
         werase( w_sorting );
@@ -2180,7 +2144,7 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
             recalc_scens = true;
         } else if( action == "HELP_KEYBINDINGS" ) {
             // Need to redraw since the help window obscured everything.
-            draw_tabs( w, _( "SCENARIO" ) );
+            draw_character_tabs( w, _( "SCENARIO" ) );
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             retval = tab_direction::QUIT;
         }
@@ -2192,7 +2156,7 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
 tab_direction set_description( const catacurses::window &w, avatar &you, const bool allow_reroll,
                                points_left &points )
 {
-    draw_tabs( w, _( "DESCRIPTION" ) );
+    draw_character_tabs( w, _( "DESCRIPTION" ) );
 
     catacurses::window w_name =
         catacurses::newwin( 2, 42, point( getbegx( w ) + 2, getbegy( w ) + 5 ) );
@@ -2477,7 +2441,7 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             redraw = true;
         } else if( action == "HELP_KEYBINDINGS" ) {
             // Need to redraw since the help window obscured everything.
-            draw_tabs( w, _( "DESCRIPTION" ) );
+            draw_character_tabs( w, _( "DESCRIPTION" ) );
             draw_points( w, points );
             redraw = true;
         } else if( action == "ANY_INPUT" &&

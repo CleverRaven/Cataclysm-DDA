@@ -16,6 +16,7 @@
 #include "assign.h"
 #include "ballistics.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "debug.h"
 #include "effect.h"
 #include "event_bus.h"
@@ -387,47 +388,47 @@ bool player::activate_bionic( int b, bool eff_only )
         mod_moves( -100 );
     } else if( bio.id == "bio_blood_anal" ) {
         static const std::map<efftype_id, std::string> bad_effects = {{
-                { effect_fungus, _( "Fungal Infection" ) },
-                { effect_dermatik, _( "Insect Parasite" ) },
-                { effect_stung, _( "Stung" ) },
-                { effect_poison, _( "Poison" ) },
+                { effect_fungus, translate_marker( "Fungal Infection" ) },
+                { effect_dermatik, translate_marker( "Insect Parasite" ) },
+                { effect_stung, translate_marker( "Stung" ) },
+                { effect_poison, translate_marker( "Poison" ) },
                 // Those may be good for the player, but the scanner doesn't like them
-                { effect_drunk, _( "Alcohol" ) },
-                { effect_cig, _( "Nicotine" ) },
-                { effect_meth, _( "Methamphetamines" ) },
-                { effect_high, _( "Intoxicant: Other" ) },
-                { effect_weed_high, _( "THC Intoxication" ) },
+                { effect_drunk, translate_marker( "Alcohol" ) },
+                { effect_cig, translate_marker( "Nicotine" ) },
+                { effect_meth, translate_marker( "Methamphetamines" ) },
+                { effect_high, translate_marker( "Intoxicant: Other" ) },
+                { effect_weed_high, translate_marker( "THC Intoxication" ) },
                 // This little guy is immune to the blood filter though, as he lives in your bowels.
-                { effect_tapeworm, _( "Intestinal Parasite" ) },
-                { effect_bloodworms, _( "Hemolytic Parasites" ) },
+                { effect_tapeworm, translate_marker( "Intestinal Parasite" ) },
+                { effect_bloodworms, translate_marker( "Hemolytic Parasites" ) },
                 // These little guys are immune to the blood filter too, as they live in your brain.
-                { effect_brainworms, _( "Intracranial Parasites" ) },
+                { effect_brainworms, translate_marker( "Intracranial Parasites" ) },
                 // These little guys are immune to the blood filter too, as they live in your muscles.
-                { effect_paincysts, _( "Intramuscular Parasites" ) },
+                { effect_paincysts, translate_marker( "Intramuscular Parasites" ) },
                 // Tetanus infection.
-                { effect_tetanus, _( "Clostridium Tetani Infection" ) },
-                { effect_datura, _( "Anticholinergic Tropane Alkaloids" ) },
+                { effect_tetanus, translate_marker( "Clostridium Tetani Infection" ) },
+                { effect_datura, translate_marker( "Anticholinergic Tropane Alkaloids" ) },
                 // TODO: Hallucinations not inducted by chemistry
-                { effect_hallu, _( "Hallucinations" ) },
-                { effect_visuals, _( "Hallucinations" ) },
+                { effect_hallu, translate_marker( "Hallucinations" ) },
+                { effect_visuals, translate_marker( "Hallucinations" ) },
             }
         };
 
         static const std::map<efftype_id, std::string> good_effects = {{
-                { effect_pkill1, _( "Minor Painkiller" ) },
-                { effect_pkill2, _( "Moderate Painkiller" ) },
-                { effect_pkill3, _( "Heavy Painkiller" ) },
-                { effect_pkill_l, _( "Slow-Release Painkiller" ) },
+                { effect_pkill1, translate_marker( "Minor Painkiller" ) },
+                { effect_pkill2, translate_marker( "Moderate Painkiller" ) },
+                { effect_pkill3, translate_marker( "Heavy Painkiller" ) },
+                { effect_pkill_l, translate_marker( "Slow-Release Painkiller" ) },
 
-                { effect_pblue, _( "Prussian Blue" ) },
-                { effect_iodine, _( "Potassium Iodide" ) },
+                { effect_pblue, translate_marker( "Prussian Blue" ) },
+                { effect_iodine, translate_marker( "Potassium Iodide" ) },
 
-                { effect_took_xanax, _( "Xanax" ) },
-                { effect_took_prozac, _( "Prozac" ) },
-                { effect_took_flumed, _( "Antihistamines" ) },
-                { effect_adrenaline, _( "Adrenaline Spike" ) },
+                { effect_took_xanax, translate_marker( "Xanax" ) },
+                { effect_took_prozac, translate_marker( "Prozac" ) },
+                { effect_took_flumed, translate_marker( "Antihistamines" ) },
+                { effect_adrenaline, translate_marker( "Adrenaline Spike" ) },
                 // Should this be described like that? Does the bionic know what is this?
-                { effect_adrenaline_mycus, _( "Mycal Spike" ) },
+                { effect_adrenaline_mycus, translate_marker( "Mycal Spike" ) },
             }
         };
 
@@ -441,13 +442,13 @@ bool player::activate_bionic( int b, bool eff_only )
         // TODO: Expose the player's effects to check it in a cleaner way
         for( const auto &pr : bad_effects ) {
             if( has_effect( pr.first ) ) {
-                bad.push_back( pr.second );
+                bad.push_back( _( pr.second ) );
             }
         }
 
         for( const auto &pr : good_effects ) {
             if( has_effect( pr.first ) ) {
-                good.push_back( pr.second );
+                good.push_back( _( pr.second ) );
             }
         }
 
@@ -681,28 +682,49 @@ bool player::activate_bionic( int b, bool eff_only )
             reactor_plut = 0;
         }
     } else if( bio.id == "bio_cable" ) {
-        bool has_cable = has_item_with( []( const item & it ) {
-            return it.active && it.has_flag( "CABLE_SPOOL" );
+        std::vector<item *> cables = items_with( []( const item & it ) {
+            return it.has_flag( "CABLE_SPOOL" );
         } );
-        bool has_connected_cable = has_item_with( []( const item & it ) {
-            return it.active && it.has_flag( "CABLE_SPOOL" ) && it.get_var( "state" ) == "solar_pack_link";
-        } );
-
+        bool has_cable = !cables.empty();
+        bool free_cable = false;
         if( !has_cable ) {
             add_msg_if_player( m_info,
-                               _( "You need a jumper cable connected to a vehicle to drain power from it." ) );
-        }
-        if( is_wearing( "solarpack_on" ) || is_wearing( "q_solarpack_on" ) ) {
-            if( has_connected_cable ) {
-                add_msg_if_player( m_info, _( "Your plugged-in solar pack is now able to charge"
-                                              " your system." ) );
-            } else {
-                add_msg_if_player( m_info, _( "You need to connect the cable to yourself and the solar pack"
-                                              " before your solar pack can charge your system." ) );
+                               _( "You need a jumper cable connected to a power source to drain power from it." ) );
+        } else {
+            for( item *cable : cables ) {
+                const std::string state = cable->get_var( "state" );
+                if( state == "cable_charger" ) {
+                    add_msg_if_player( m_info,
+                                       _( "Cable is plugged-in to the CBM but it has to be also connected to the power source." ) );
+                }
+                if( state == "cable_charger_link" ) {
+                    add_msg_if_player( m_info,
+                                       _( "You are plugged to the vehicle.  It will charge you if it has some juice in it." ) );
+                }
+                if( state == "solar_pack_link" ) {
+                    add_msg_if_player( m_info,
+                                       _( "You are plugged to a solar pack.  It will charge you if it's unfolded and in sunlight." ) );
+                }
+                if( state == "UPS_link" ) {
+                    add_msg_if_player( m_info,
+                                       _( "You are plugged to a UPS.  It will charge you if it has some juice in it." ) );
+                }
+                if( state == "solar_pack" || state == "UPS" ) {
+                    add_msg_if_player( m_info,
+                                       _( "You have a cable plugged to a portable power source, but you need to plug it in to the CBM." ) );
+                }
+                if( state == "pay_oyt_cable" ) {
+                    add_msg_if_player( m_info,
+                                       _( "You have a cable plugged to a vehicle, but you need to plug it in to the CBM." ) );
+                }
+                if( state == "attach_first" ) {
+                    free_cable = true;
+                }
             }
-        } else if( is_wearing( "solarpack" ) || is_wearing( "q_solarpack" ) ) {
-            add_msg_if_player( m_info, _( "You might plug in your solar pack to the cable charging"
-                                          " system, if you unfold it." ) );
+        }
+        if( free_cable ) {
+            add_msg_if_player( m_info,
+                               _( "You have at least one free cable in your inventory that you could use to plug yourself in." ) );
         }
     }
 
@@ -995,6 +1017,30 @@ void player::process_bionic( int b )
         for( const item *cable : cables ) {
             const cata::optional<tripoint> target = cable->get_cable_target( this, pos() );
             if( !target ) {
+                if( g->m.is_outside( pos() ) && !is_night( calendar::turn ) &&
+                    cable->get_var( "state" ) == "solar_pack_link" ) {
+                    double modifier =  g->natural_light_level( pos().z ) / default_daylight_level();
+                    // basic solar panel produces 50W = 1 charge/20_seconds = 180 charges/hour(3600)
+                    if( is_wearing( "solarpack_on" ) && x_in_y( 180 * modifier, 3600 ) ) {
+                        charge_power( 1 );
+                    }
+                    // quantum solar backpack = solar panel x6
+                    if( is_wearing( "q_solarpack_on" ) && x_in_y( 6 * 180 * modifier, 3600 ) ) {
+                        charge_power( 1 );
+                    }
+                }
+                if( cable->get_var( "state" ) == "UPS_link" ) {
+                    static const item_filter used_ups = [&]( const item & itm ) {
+                        return itm.get_var( "cable" ) == "plugged_in";
+                    };
+                    if( has_charges( "UPS_off", 1, used_ups ) ) {
+                        use_charges( "UPS_off", 1, used_ups );
+                        charge_power( 1 );
+                    } else if( has_charges( "adv_UPS_off", 1, used_ups ) ) {
+                        use_charges( "adv_UPS_off", roll_remainder( 0.6 ), used_ups );
+                        charge_power( 1 );
+                    }
+                }
                 continue;
             }
             const optional_vpart_position vp = g->m.veh_at( *target );
@@ -2068,32 +2114,37 @@ void load_bionic( JsonObject &jsobj )
     jsobj.read( "fuel_options", new_bionic.fuel_opts );
     jsobj.read( "fuel_capacity", new_bionic.fuel_capacity );
 
-    JsonArray jsar = jsobj.get_array( "encumbrance" );
-    if( !jsar.empty() ) {
-        while( jsar.has_more() ) {
-            JsonArray ja = jsar.next_array();
-            new_bionic.encumbrance.emplace( get_body_part_token( ja.get_string( 0 ) ),
-                                            ja.get_int( 1 ) );
-        }
+    JsonArray jsr = jsobj.get_array( "stat_bonus" );
+    while( jsr.has_more() ) {
+        JsonArray ja = jsr.next_array();
+        new_bionic.stat_bonus.emplace( io::string_to_enum<Character::stat>( ja.get_string( 0 ) ),
+                                       ja.get_int( 1 ) );
     }
+
+
+    JsonArray jsar = jsobj.get_array( "encumbrance" );
+    while( jsar.has_more() ) {
+        JsonArray ja = jsar.next_array();
+        new_bionic.encumbrance.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                        ja.get_int( 1 ) );
+    }
+
 
     JsonArray jsarr = jsobj.get_array( "occupied_bodyparts" );
-    if( !jsarr.empty() ) {
-        while( jsarr.has_more() ) {
-            JsonArray ja = jsarr.next_array();
-            new_bionic.occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
-                                                   ja.get_int( 1 ) );
-        }
+    while( jsarr.has_more() ) {
+        JsonArray ja = jsarr.next_array();
+        new_bionic.occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                               ja.get_int( 1 ) );
     }
 
+
     JsonArray json_arr = jsobj.get_array( "env_protec" );
-    if( !json_arr.empty() ) {
-        while( json_arr.has_more() ) {
-            JsonArray ja = json_arr.next_array();
-            new_bionic.env_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
-                                           ja.get_int( 1 ) );
-        }
+    while( json_arr.has_more() ) {
+        JsonArray ja = json_arr.next_array();
+        new_bionic.env_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                       ja.get_int( 1 ) );
     }
+
 
     new_bionic.activated = new_bionic.toggled ||
                            new_bionic.power_activate > 0 ||

@@ -2334,7 +2334,9 @@
         { "item": "rock", "count": [ 10, 22 ] },
         { "item": "sharp_rock", "count": [ 3, 7 ] },
         { "item": "material_limestone", "charges": [ 2, 5 ], "prob": 30 },
-        { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 }
+        { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 },
+        { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 1 },
+        { "item": "material_zincite", "count": [ 0, 5 ], "prob": 2 }
       ]
     }
   },
@@ -4881,5 +4883,35 @@
     "move_cost_mod": 2,
     "required_str": -1,
     "flags": [ "NOITEM" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_swamp_gas",
+    "name": "swamp gas",
+    "description": "This is a pool of murkey water, it occassionaly bubbles, releasing a mildly toxic gas.",
+    "looks_like": "t_water_sh",
+    "symbol": "~",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "coverage": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "emissions": [ "emit_swamp_gas_leak" ],
+    "//": "a very mild toxicant, inducing nausea.",
+    "bash": { "str_min": 30, "str_max": 60, "sound": "splash!", "sound_fail": "splash!", "furn_set": "f_swamp_gas" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fog",
+    "name": "fog",
+    "description": "This is a misty cloud of fog.",
+    "looks_like": "t_moss",
+    "symbol": "^",
+    "color": "light_gray",
+    "move_cost_mod": 2,
+    "coverage": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "EMITTER" ],
+    "emissions": [ "emit_fog_plume" ]
   }
 ]

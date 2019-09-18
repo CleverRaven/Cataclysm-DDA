@@ -13,6 +13,7 @@
 #include "bodypart.h"
 #include "pimpl.h"
 #include "string_formatter.h"
+#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "debug.h"
@@ -22,7 +23,6 @@ enum game_message_type : int;
 class nc_color;
 class effect;
 class effects_map;
-class translation;
 
 namespace catacurses
 {
@@ -156,7 +156,7 @@ class Creature
         /**
          * Creature Attitude as String and color
          */
-        static const std::pair<std::string, nc_color> &get_attitude_ui_data( Attitude att );
+        static const std::pair<translation, nc_color> &get_attitude_ui_data( Attitude att );
 
         /**
          * Attitude (of this creature) towards another creature. This might not be symmetric.
@@ -345,6 +345,8 @@ class Creature
         /** Check if creature has the matching effect. bp = num_bp means to check if the Creature has any effect
          *  of the matching type, targeted or untargeted. */
         bool has_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
+        /** Check if creature has any effect with the given flag. */
+        bool has_effect_with_flag( const std::string &flag, body_part bp = num_bp ) const;
         /** Return the effect that matches the given arguments exactly. */
         const effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
         effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp );
@@ -771,7 +773,6 @@ class Creature
 
     public:
         body_part select_body_part( Creature *source, int hit_roll ) const;
-    protected:
         /**
          * This function replaces the "<npcname>" substring with the @ref disp_name of this creature.
          *
@@ -779,6 +780,7 @@ class Creature
          *
          */
         std::string replace_with_npc_name( std::string input ) const;
+    protected:
         /**
          * These two functions are responsible for storing and loading the members
          * of this class to/from json data.
