@@ -497,6 +497,8 @@ class Character : public Creature, public visitable<Character>
         /**Check for mutation disallowing the use of an healing item*/
         bool can_use_heal_item( itype_id heal_id ) const;
 
+        bool can_install_cbm_on_bp( const std::vector<body_part> &bps ) const;
+
         /**
          * Returns resistances on a body part provided by mutations
          */

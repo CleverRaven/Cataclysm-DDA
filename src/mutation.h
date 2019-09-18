@@ -195,6 +195,9 @@ struct mutation_branch {
         /**List of allowed mutatrion category*/
         std::vector<std::string> allowed_category;
 
+        /**List of body parts locked out of bionics*/
+        std::vector<body_part> no_cbm_on_bp;
+
         // amount of mana added or subtracted from max
         float mana_modifier;
         float mana_multiplier;

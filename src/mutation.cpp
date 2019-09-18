@@ -401,6 +401,21 @@ bool Character::can_use_heal_item( itype_id heal_id ) const
     return can_use;
 }
 
+bool Character::can_install_cbm_on_bp( const std::vector<body_part> &bps ) const
+{
+    bool can_install = true;
+    for( const trait_id &mut : get_mutations() ) {
+        for( const body_part restricted_bp : mut.obj().no_cbm_on_bp ) {
+            for( const body_part bp : bps ) {
+                if( bp == restricted_bp ) {
+                    can_install = false;
+                }
+            }
+        }
+    }
+    return can_install;
+}
+
 void player::activate_mutation( const trait_id &mut )
 {
     const mutation_branch &mdata = mut.obj();
