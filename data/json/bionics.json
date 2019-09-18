@@ -254,6 +254,7 @@
     "name": "Wired Reflexes",
     "description": "Your reaction time has been greatly enhanced with bionic nerve stimulators, giving you a +2 bonus to dexterity.",
     "occupied_bodyparts": [ [ "TORSO", 6 ], [ "ARM_L", 4 ], [ "ARM_R", 4 ], [ "LEG_L", 8 ], [ "LEG_R", 8 ] ],
+    "stat_bonus": [ [ "DEX", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -348,6 +349,7 @@
     "name": "Diamond Cornea",
     "description": "Your vision is greatly enhanced, giving you a +2 bonus to perception.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
+    "stat_bonus": [ [ "PER", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -533,6 +535,7 @@
     "name": "Cerebral Booster",
     "description": "Your brain has been enhanced with bionic coprocessors, giving you a +2 bonus to intelligence.",
     "occupied_bodyparts": [ [ "HEAD", 7 ] ],
+    "stat_bonus": [ [ "INT", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -946,6 +949,7 @@
     "name": "Muscle Augmentation",
     "description": "Your muscular system has been surgically enhanced with myomer fibers, giving you a +2 bonus to strength.",
     "occupied_bodyparts": [ [ "TORSO", 6 ], [ "ARM_L", 4 ], [ "ARM_R", 4 ], [ "LEG_L", 8 ], [ "LEG_R", 8 ] ],
+    "stat_bonus": [ [ "STR", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {

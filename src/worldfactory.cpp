@@ -1282,16 +1282,6 @@ void worldfactory::draw_worldgen_tabs( const catacurses::window &w, size_t curre
 {
     werase( w );
 
-    for( int i = 1; i < FULL_SCREEN_WIDTH - 1; i++ ) {
-        mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_OXOX );
-        mvwputch( w, point( i, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR, LINE_OXOX );
-
-        if( i > 2 && i < FULL_SCREEN_HEIGHT - 1 ) {
-            mvwputch( w, point( 0, i ), BORDER_COLOR, LINE_XOXO );
-            mvwputch( w, point( FULL_SCREEN_WIDTH - 1, i ), BORDER_COLOR, LINE_XOXO );
-        }
-    }
-
     static const std::vector<std::string> tab_strings = { {
             translate_marker( "World Mods" ),
             translate_marker( "World Options" ),
@@ -1299,21 +1289,8 @@ void worldfactory::draw_worldgen_tabs( const catacurses::window &w, size_t curre
         }
     };
 
-    int x = 2;
-    for( size_t i = 0; i < tab_strings.size(); ++i ) {
-        draw_tab( w, x, _( tab_strings[i] ), ( i == current ) );
-        x += utf8_width( _( tab_strings[i] ) ) + 7;
-    }
-
-    mvwputch( w, point( 0, 2 ), BORDER_COLOR, LINE_OXXO ); // |^
-    mvwputch( w, point( FULL_SCREEN_WIDTH - 1, 2 ), BORDER_COLOR, LINE_OOXX ); // ^|
-
-    mvwputch( w, point( 0, 4 ), BORDER_COLOR, LINE_XOXO ); // |
-    mvwputch( w, point( FULL_SCREEN_WIDTH - 1, 4 ), BORDER_COLOR, LINE_XOXO ); // |
-
-    mvwputch( w, point( 0, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR, LINE_XXOO ); // |_
-    mvwputch( w, point( FULL_SCREEN_WIDTH - 1, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR,
-              LINE_XOOX ); // _|
+    draw_tabs( w, tab_strings, current );
+    draw_border_below_tabs( w );
 }
 
 bool worldfactory::valid_worldname( const std::string &name, bool automated )

@@ -22,6 +22,19 @@ if (localPropertiesFile.exists()) {
     }
 }
 
+def keystorePropertiesFilename = 'keystore.properties'
+if( localProperties.getProperty('keystorePropertiesFilename') != null ) {
+    keystorePropertiesFilename = localProperties.getProperty("keystorePropertiesFilename")
+}
+
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file(keystorePropertiesFilename)
+if (keystorePropertiesFile.exists()) {
+    keystorePropertiesFile.withReader('UTF-8') { reader ->
+        keystoreProperties.load(reader)
+    }
+}
+
 def njobs = getProperty("j")
 
 task unzipDeps(type: Copy) {
@@ -101,16 +114,16 @@ android {
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
-        if( localProperties.getProperty('storeFile') != null ) {
-            if( file(localProperties.getProperty('storeFile')).exists() ) {
+        if( keystoreProperties.getProperty('storeFile') != null ) {
+            if( file(keystoreProperties.getProperty('storeFile')).exists() ) {
                 release {
-                    storeFile file(localProperties.getProperty("storeFile"))
-                    storePassword localProperties.getProperty("storePassword")
-                    keyAlias localProperties.getProperty("keyAlias")
-                    keyPassword localProperties.getProperty("keyPassword")
+                    storeFile file(keystoreProperties.getProperty("storeFile"))
+                    storePassword keystoreProperties.getProperty("storePassword")
+                    keyAlias keystoreProperties.getProperty("keyAlias")
+                    keyPassword keystoreProperties.getProperty("keyPassword")
                 }
             } else {
-                throw new GradleException("Keystore file " + localProperties.getProperty("storeFile") + " was not found.\n")
+                throw new GradleException("Keystore file " + keystoreProperties.getProperty("storeFile") + " was not found.\n")
             }
         }
     }

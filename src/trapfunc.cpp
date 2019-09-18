@@ -11,6 +11,7 @@
 #include "timed_event.h"
 #include "game.h"
 #include "map.h"
+#include "mapgen_functions.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
@@ -1382,6 +1383,25 @@ bool trapfunc::shadow( const tripoint &p, Creature *c, item * )
     return true;
 }
 
+bool trapfunc::map_regen( const tripoint &p, Creature *c, item * )
+{
+    if( c ) {
+        player *n = dynamic_cast<player *>( c );
+        if( n ) {
+            n->add_msg_if_player( m_warning, _( "Your surroundings shift!" ) );
+            const tripoint &omt_pos = n->global_omt_location();
+            const std::string &regen_mapgen = g->m.tr_at( p ).map_regen_target();
+            g->m.remove_trap( p );
+            if( !run_mapgen_update_func( regen_mapgen, omt_pos, nullptr, false ) ) {
+                popup( _( "Failed to generate the new map" ) );
+                return false;
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
 bool trapfunc::drain( const tripoint &, Creature *c, item * )
 {
     if( c != nullptr ) {
@@ -1433,6 +1453,7 @@ bool trapfunc::snake( const tripoint &p, Creature *, item * )
     return true;
 }
 
+
 /**
  * Takes the name of a trap function and returns a function pointer to it.
  * @param function_name The name of the trapfunc function to find.
@@ -1473,6 +1494,7 @@ const trap_function &trap_function_from_string( const std::string &function_name
             { "glow", trapfunc::glow },
             { "hum", trapfunc::hum },
             { "shadow", trapfunc::shadow },
+            { "map_regen", trapfunc::map_regen },
             { "drain", trapfunc::drain },
             { "snake", trapfunc::snake }
         }

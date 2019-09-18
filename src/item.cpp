@@ -319,19 +319,13 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
 
 }
 
-item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name,
-                        const bool random_corpse_type )
+item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name )
 {
     if( !mt.is_valid() ) {
         debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
 
-    std::string corpse_type = "corpse";
-
-    if( mt == mtype_id::NULL_ID() ) {
-        corpse_type = random_corpse_type ? item_group::item_from( "corpses" ).typeId() :
-                      "corpse_generic_human";
-    }
+    std::string corpse_type = mt == mtype_id::NULL_ID() ? "corpse_generic_human" : "corpse";
 
     item result( corpse_type, turn );
     result.corpse = &mt.obj();
@@ -2724,6 +2718,17 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 for( const auto &element : bid->env_protec ) {
                     info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ), " <num> ",
                                               iteminfo::no_newline, element.second ) );
+                }
+
+            }
+
+            if( !bid->stat_bonus.empty() ) {
+                info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Stat Bonus:</bold> " ),
+                                          iteminfo::no_newline ) );
+                for( const auto &element : bid->stat_bonus ) {
+                    info.push_back( iteminfo( "CBM", io::enum_to_string<Character::stat>( element.first ), " <num> ",
+                                              iteminfo::no_newline,
+                                              element.second ) );
                 }
 
             }

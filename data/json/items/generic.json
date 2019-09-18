@@ -594,6 +594,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "wire_mesh",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "steel mesh",
+    "description": "A mat of woven fine steel wire, useful for dryer lint traps and reusable coffee filter baskets.  You could put these on a window to keep mosquitoes and other bugs out, but chainlink fencing will do these days.",
+    "category": "spare_parts",
+    "weight": "318 g",
+    "volume": "500 ml",
+    "price": 700,
+    "bashing": 2,
+    "material": "steel"
+  },
+  {
+    "type": "GENERIC",
     "id": "rebar",
     "symbol": "/",
     "color": "dark_gray",
@@ -1335,7 +1349,7 @@
     "description": "A high-quality lens, useful for focusing or diffusing light.  Might be useful for starting a fire.",
     "price": 120000,
     "material": "glass",
-    "weight": "340 g",
+    "weight": "30 g",
     "volume": 0,
     "to_hit": -3,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 30000, "need_sunlight": true },
@@ -1352,7 +1366,7 @@
     "description": "A small high-quality lens, useful for focusing or diffusing light.  Might be useful for crafting.",
     "price": 6000,
     "material": "glass",
-    "weight": "170 g",
+    "weight": "15 g",
     "volume": 0
   },
   {
@@ -1366,7 +1380,7 @@
     "description": "A pair of small darkened glass, like the one that sunglasses are made of.",
     "price": 1000,
     "material": "glass",
-    "weight": "340 g",
+    "weight": "30 g",
     "volume": 0,
     "to_hit": -3
   },
