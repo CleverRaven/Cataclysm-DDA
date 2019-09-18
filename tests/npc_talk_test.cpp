@@ -730,7 +730,7 @@ TEST_CASE( "npc_talk_combat_commands", "[npc_talk]" )
     CHECK( d.responses[0].text == "Change your engagement rules..." );
     CHECK( d.responses[1].text == "Change your aiming rules..." );
     CHECK( d.responses[2].text == "Stick close to me, no matter what." );
-    CHECK( d.responses[3].text == "<ally_rule_follow_distance_2_true_text>" );
+    CHECK( d.responses[3].text == "<ally_rule_follow_distance_2_false_text>" );
     CHECK( d.responses[4].text == "Don't use ranged weapons anymore." );
     CHECK( d.responses[5].text == "Use only silent weapons." );
     CHECK( d.responses[6].text == "Don't use grenades anymore." );

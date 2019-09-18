@@ -359,7 +359,7 @@ void npc::assess_danger()
 {
     float assessment = 0.0f;
     float highest_priority = 1.0f;
-    int def_radius = 6;
+    int def_radius = rules.has_flag( ally_rule::follow_close ) ? follow_distance() : 6;
 
     // Radius we can attack without moving
     const int max_range = std::max( weapon.reach_range( *this ),
@@ -798,6 +798,11 @@ void npc::move()
             action = address_player();
             print_action( "address_player %s", action );
         }
+    }
+
+    if( action == npc_undecided && is_walking_with() && rules.has_flag( ally_rule::follow_close ) &&
+        rl_dist( pos(), g->u.pos() ) > follow_distance() ) {
+        action = npc_follow_player;
     }
 
     if( action == npc_undecided && attitude == NPCATT_ACTIVITY ) {
