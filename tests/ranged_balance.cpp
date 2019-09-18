@@ -125,7 +125,7 @@ static std::array<firing_statistics, 5> firing_test( const dispersion_sources &d
                 threshold_within_confidence_interval = true;
             }
         }
-    } while( threshold_within_confidence_interval && firing_stats[0].n() < 10000000 );
+    } while( threshold_within_confidence_interval && firing_stats[0].n() < 1000000 );
     return firing_stats;
 }
 
@@ -343,7 +343,7 @@ static void range_test( const std::array<double, 5> &test_thresholds, bool write
     if( write_data )
     {
         std::ofstream out_file;
-        out_file.open( "hit_range.json", std::ios::trunc );
+        out_file.open( "./data/json/hit_range.json", std::ios::trunc );
         JsonOut j_out( out_file );
         j_out.start_object();
         j_out.member( "even_good", data );
