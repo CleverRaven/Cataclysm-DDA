@@ -59,13 +59,13 @@ class faction_template
 {
     protected:
         faction_template();
+        void load_relations( JsonObject &jsobj );
 
     private:
         explicit faction_template( JsonObject &jsobj );
 
     public:
         explicit faction_template( const faction_template & ) = default;
-        void load_relations( JsonObject &jsobj );
         static void load( JsonObject &jsobj );
         static void reset();
 
