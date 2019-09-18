@@ -3866,9 +3866,9 @@ void player::check_needs_extremes()
                     if( get_kcal_percent() < 0.1f ) {
                         add_msg_if_player( m_warning, _( "Food..." ) );
                     } else if( get_kcal_percent() < 0.25f ) {
-                        add_msg_if_player( m_warning, _( "You are STARVING!" ) );
+                        add_msg_if_player( m_warning, _( "Due to your insufficient nutrition your body is suffering from starvation." ) );
                     } else if( get_kcal_percent() < 0.5f ) {
-                        add_msg_if_player( m_warning, _( "You feel like you haven't eaten in days..." ) );
+                        add_msg_if_player( m_warning, _( "Despite having something in your stomach, you still feel like you haven't eaten in days..." ) );
                     } else if( get_kcal_percent() < 0.8f ) {
                         add_msg_if_player( m_warning,
                                            _( "Your stomach feels so empty..." ) );
