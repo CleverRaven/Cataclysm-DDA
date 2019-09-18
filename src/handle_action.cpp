@@ -2179,7 +2179,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_FACTIONS:
-                new_faction_manager_ptr->display();
+                faction_manager_ptr->display();
                 break;
 
             case ACTION_MORALE:

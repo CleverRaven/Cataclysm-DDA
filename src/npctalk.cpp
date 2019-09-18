@@ -676,6 +676,7 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     if( get_faction() ) {
         get_faction()->known_by_u = true;
     }
+    set_known_to_u( true );
     dialogue d;
     d.alpha = &g->u;
     d.beta = this;

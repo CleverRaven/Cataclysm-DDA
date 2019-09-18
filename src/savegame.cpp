@@ -1626,7 +1626,7 @@ void faction_manager::deserialize( JsonIn &jsin )
             // force a revalidation of add_fac
             get( add_fac.id );
         } else {
-            factions.emplace_back( add_fac );
+            factions[add_fac.id] = add_fac;
         }
     }
 }

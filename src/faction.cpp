@@ -45,6 +45,7 @@ faction_template::faction_template()
     wealth = 0;
     size = 0;
     power = 0;
+    lone_wolf_faction = false;
     currency = "null";
 }
 
@@ -96,6 +97,7 @@ faction_template::faction_template( JsonObject &jsobj )
     } else {
         currency = "null";
     }
+    lone_wolf_faction = jsobj.get_bool( "lone_wolf_faction", false );
     load_relations( jsobj );
     mon_faction = jsobj.get_string( "mon_faction", "human" );
 }
@@ -104,6 +106,26 @@ std::string faction::describe() const
 {
     std::string ret = _( desc );
     return ret;
+}
+
+void faction::add_to_membership( const character_id &guy_id, const std::string guy_name,
+                                 const bool known )
+{
+    members[guy_id] = std::make_pair( guy_name, known );
+}
+
+void faction::remove_member( const character_id &guy_id )
+{
+    for( auto it = members.cbegin(), next_it = it; it != members.cend(); it = next_it ) {
+        ++next_it;
+        if( guy_id == it->first ) {
+            members.erase( it );
+            break;
+        }
+    }
+    if( members.empty() ) {
+        g->faction_manager_ptr->remove_faction( id );
+    }
 }
 
 // Used in game.cpp
@@ -316,45 +338,77 @@ void faction_manager::clear()
     factions.clear();
 }
 
+void faction_manager::remove_faction( const faction_id &id )
+{
+    if( id.str().empty() || id == faction_id( "no_faction" ) ) {
+        return;
+    }
+    for( auto it = factions.cbegin(), next_it = it; it != factions.cend(); it = next_it ) {
+        ++next_it;
+        if( id == it->first ) {
+            factions.erase( it );
+            break;
+        }
+    }
+}
+
 void faction_manager::create_if_needed()
 {
     if( !factions.empty() ) {
         return;
     }
     for( const auto &fac_temp : npc_factions::all_templates ) {
-        factions.emplace_back( fac_temp );
+        factions[fac_temp.id] = fac_temp;
     }
+}
+
+faction *faction_manager::add_new_faction( const std::string &name_new, const faction_id &id_new,
+        const faction_id &template_id )
+{
+    for( const faction_template &fac_temp : npc_factions::all_templates ) {
+        if( template_id == fac_temp.id ) {
+            faction fac( fac_temp );
+            fac.name = name_new;
+            fac.id = id_new;
+            factions[fac.id] = fac;
+        }
+    }
+    faction *ret = get( id_new );
+    return ret ? ret : nullptr;
 }
 
 faction *faction_manager::get( const faction_id &id )
 {
-    for( faction &elem : factions ) {
-        if( elem.id == id ) {
-            if( !elem.validated ) {
+    for( auto &elem : factions ) {
+        if( elem.first == id ) {
+            if( !elem.second.validated ) {
                 for( const faction_template &fac_temp : npc_factions::all_templates ) {
                     if( fac_temp.id == id ) {
-                        elem.currency = fac_temp.currency;
-                        elem.name = fac_temp.name;
-                        elem.desc = fac_temp.desc;
-                        elem.mon_faction = fac_temp.mon_faction;
+                        elem.second.currency = fac_temp.currency;
+                        elem.second.lone_wolf_faction = fac_temp.lone_wolf_faction;
+                        elem.second.name = fac_temp.name;
+                        elem.second.desc = fac_temp.desc;
+                        elem.second.mon_faction = fac_temp.mon_faction;
                         for( const auto &rel_data : fac_temp.relations ) {
-                            if( elem.relations.find( rel_data.first ) == elem.relations.end() ) {
-                                elem.relations[rel_data.first] = rel_data.second;
+                            if( elem.second.relations.find( rel_data.first ) == elem.second.relations.end() ) {
+                                elem.second.relations[rel_data.first] = rel_data.second;
                             }
                         }
                         break;
                     }
                 }
-                elem.validated = true;
+                elem.second.validated = true;
             }
-            return &elem;
+            return &elem.second;
         }
     }
     for( const faction_template &elem : npc_factions::all_templates ) {
         if( elem.id == id ) {
-            factions.emplace_back( elem );
-            factions.back().validated = true;
-            return &factions.back();
+            factions[elem.id] = elem;
+            if( !factions.empty() ) {
+                factions.rbegin()->second.validated = true;
+            }
+            return &factions.rbegin()->second;
         }
     }
 
@@ -563,7 +617,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     return retval;
 }
 
-void new_faction_manager::display() const
+void faction_manager::display() const
 {
     int term_x = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
     int term_y = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
@@ -605,9 +659,9 @@ void new_faction_manager::display() const
             followers.push_back( npc_to_add );
         }
         std::vector<const faction *> valfac; // Factions that we know of.
-        for( const faction &elem : g->faction_manager_ptr->all() ) {
-            if( elem.known_by_u && elem.id != faction_id( "your_followers" ) ) {
-                valfac.push_back( &elem );
+        for( const auto &elem : g->faction_manager_ptr->all() ) {
+            if( elem.second.known_by_u && elem.second.id != faction_id( "your_followers" ) ) {
+                valfac.push_back( &elem.second );
             }
         }
         npc *guy = nullptr;
