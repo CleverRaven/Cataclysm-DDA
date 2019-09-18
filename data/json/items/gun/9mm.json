@@ -175,7 +175,7 @@
     "bashing": 8,
     "dispersion": 270,
     "ranged_damage": 0,
-    "built_in_mods": [ "folding_stock", "grip" ]
+    "built_in_mods": [ "folding_stock", "grip" ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -236,7 +236,6 @@
     "armor_data": { "covers": [ "ARM_EITHER", "HAND_EITHER" ], "coverage": 10, "encumbrance": 30, "material_thickness": 2 },
     "flags": [ "OVERSIZE", "RELOAD_EJECT", "BELTED", "RESTRICT_HANDS" ],
     "valid_mod_locations": [  ],
-    "delete": { "handling_modifier": 6 },
     "magazines": [ [ "9mm", [ "mp5mag" ] ] ]
   },
   {
