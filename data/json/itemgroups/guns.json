@@ -486,7 +486,6 @@
       { "item": "hk_mp5", "prob": 50, "charges-min": 0, "charges-max": 30 },
       { "item": "hk_mp5k", "prob": 10, "charges-min": 0, "charges-max": 30 },
       { "item": "hk_mp5sd", "prob": 5, "charges-min": 0, "charges-max": 30 },
-      { "item": "hk_ump45", "prob": 30, "charges-min": 0, "charges-max": 25 },
       { "item": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
       { "item": "m4a1", "prob": 35, "charges-min": 0, "charges-max": 30 },
       { "item": "hk417_13", "prob": 30, "charges-min": 0, "charges-max": 20 }
