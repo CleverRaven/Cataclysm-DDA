@@ -1876,7 +1876,7 @@
       [ [ "sugar", 6 ] ],
       [ [ "whiskey", 1 ], [ "single_malt_whiskey", 1 ] ],
       [ [ "coffee_syrup", 1 ], [ "coffee", 1 ] ],
-      [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "con_milk", 1 ] ]
+      [ [ "milk_standard", 1, "LIST" ], [ "con_milk", 1 ] ]
     ]
   },
   {
@@ -2594,7 +2594,7 @@
         [ "irradiated_onion", 1 ],
         [ "onion", 1 ]
       ],
-      [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ]
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ]
     ]
   },
   {
@@ -2853,7 +2853,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "flour", 20 ] ],
-      [ [ "milk", 1 ], [ "milk_reconstituted", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ] ],
       [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
     ]
@@ -3407,7 +3407,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "hickory_nut_unshelled", 4 ] ],
-      [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
       [
         [ "honeycomb", 1 ],
         [ "honey_bottled", 6 ],
@@ -3587,7 +3587,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "flour", 1 ] ],
-      [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
@@ -3607,7 +3607,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "flour", 1 ] ],
-      [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
@@ -3628,7 +3628,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "flour", 1 ] ],
-      [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
@@ -3649,7 +3649,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
-      [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "cinnamon", 2 ] ],
       [
@@ -3674,7 +3674,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
     "components": [
       [ [ "flour", 1 ] ],
-      [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 2 ] ],
@@ -3694,7 +3694,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ] ],
     "components": [
       [ [ "flour", 1 ] ],
-      [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 2 ] ],
@@ -3716,7 +3716,7 @@
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ], [ [ "waffleiron", -1 ] ], [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ] ],
     "components": [
       [ [ "flour", 1 ] ],
-      [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "sugar", 2 ] ],
@@ -3954,7 +3954,7 @@
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
       [ [ "flour", 30 ] ],
-      [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
       [ [ "syrup", 5 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
@@ -6136,7 +6136,7 @@
     "components": [
       [ [ "flour", 3 ] ],
       [ [ "yeast", 1 ] ],
-      [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
       [ [ "sugar", 2 ] ],
       [ [ "cooking_oil", 8 ], [ "cooking_oil2", 8 ], [ "tallow", 1 ], [ "lard", 1 ] ],
@@ -6969,7 +6969,7 @@
     "time": "1 m 30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "tea", 1 ] ], [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ] ]
+    "components": [ [ [ "tea", 1 ] ], [ [ "milk_standard", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -6982,7 +6982,7 @@
     "flags": [ "BLIND_HARD" ],
     "components": [
       [ [ "coffee_syrup", 1 ], [ "coffee", 1 ] ],
-      [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ]
+      [ [ "milk_standard", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ]
     ]
   },
   {
@@ -7000,7 +7000,7 @@
     "components": [
       [ [ "tea_raw", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
       [ [ "sugar", 10 ], [ "honey_bottled", 1 ], [ "honey_glassed", 1 ], [ "syrup", 1 ] ],
       [ [ "pepper", 10 ] ],
       [ [ "cinnamon", 10 ] ]
@@ -7233,7 +7233,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
       [ [ "dry_fish", 1 ], [ "salted_fish", 1 ], [ "fish_smoked", 1 ], [ "fish_pickled", 1 ] ]
     ]
   },
@@ -7306,7 +7306,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
-      [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_powder", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "sugar", 4 ] ],
       [ [ "con_milk", 1 ] ],
       [ [ "cinnamon", 2 ] ]
@@ -7326,7 +7326,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
-      [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_powder", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
       [ [ "sugar", 4 ] ],
       [ [ "con_milk", 1 ] ],
       [ [ "hard_liquor_chem", 1, "LIST" ] ],
@@ -7347,7 +7347,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "chocolate", 1 ] ],
-      [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "sugar", 5 ] ]
     ]
@@ -7366,7 +7366,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [ [ "chocolate", 2 ] ],
-      [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "con_milk", 1 ], [ "milk_powder", 1 ] ],
       [ [ "water", 1 ] ],
       [ [ "sugar", 5 ] ],
       [ [ "chilly-p", 1 ] ],
@@ -8537,7 +8537,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 120, "LIST" ] ] ],
     "components": [
-      [ [ "milk", 2 ] ],
+      [ [ "milk_standard_raw", 2, "LIST" ] ],
       [
         [ "sugar", 100 ],
         [ "syrup", 1 ],
@@ -8569,7 +8569,7 @@
     "components": [
       [ [ "jar_3l_glass", 1 ] ],
       [ [ "water", 22 ], [ "water_clean", 22 ] ],
-      [ [ "milk", 24 ] ],
+      [ [ "milk_standard_raw", 24, "LIST" ] ],
       [
         [ "sugar", 1200 ],
         [ "syrup", 12 ],
@@ -8600,7 +8600,7 @@
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "jar_glass", 1 ] ],
-      [ [ "milk", 4 ] ],
+      [ [ "milk_standard_raw", 4, "LIST" ] ],
       [
         [ "sugar", 200 ],
         [ "syrup", 2 ],
@@ -8635,7 +8635,7 @@
     "components": [
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
-      [ [ "milk", 2 ] ],
+      [ [ "milk_standard_raw", 2, "LIST" ] ],
       [
         [ "sugar", 100 ],
         [ "syrup", 1 ],
