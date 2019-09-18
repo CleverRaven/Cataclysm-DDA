@@ -133,11 +133,11 @@
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      [ "stock", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazines": [ [ "9mm", [ "mp5mag", "mp5bigmag" ] ] ]
@@ -156,11 +156,11 @@
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      [ "stock", 1 ]
     ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 12 ] ],
     "built_in_mods": [ "mp5sd_suppressor" ]
@@ -175,7 +175,7 @@
     "bashing": 8,
     "dispersion": 270,
     "ranged_damage": 0,
-    "handling_modifier": 6,
+    "built_in_mods": [ "folding_stock", "grip" ]
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -183,14 +183,16 @@
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ]
-    ],
-    "flags": [ "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ]
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ]
+    ]
   },
   {
-    "id": "hk_mp5k",
+    "id": "hk_mp5_semi_pistol",
     "type": "GUN",
     "copy-from": "hk_mp5",
     "name": "PTR 603",
@@ -203,6 +205,20 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "bashing": 7,
     "dispersion": 270,
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ]
+    ],
     "ranged_damage": 0
   },
   {
@@ -210,7 +226,7 @@
     "copy-from": "hk_mp5k",
     "type": "GUN",
     "name": "H&K operational briefcase",
-    "description": "This is a hard-sided briefcase with a trigger in the handle and a concealed hole in the side.  To fire the internally mounted MP5K-PDW, one braces the briefcase at the waist, ensures the briefcase is pointed at the enemy, and squeezes the trigger.  Precision and handling are severely hampered all around, however if you need to 'hand over the goods' or look low profile whilst bodyguarding, this is your gun.  When the briefcase is open the MP5 may be reloaded or dismounted.",
+    "description": "This is a hard-sided briefcase with a trigger in the handle and a concealed hole in the side.  To fire the internally mounted MP5K-PDW, one braces the briefcase at the waist, ensures the briefcase is pointed at the enemy, and squeezes the trigger.  Precision and handling are severely hampered all around, however if you need to 'hand over the goods' or look low profile while bodyguarding, this is your gun.  When the briefcase is open the MP5 may be reloaded or dismounted.",
     "weight": "3500 g",
     "volume": "15 L",
     "price": 480000,
