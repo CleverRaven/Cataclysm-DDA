@@ -3,25 +3,7 @@
     "type": "palette",
     "id": "FEMA_camp",
     "terrain": {
-      ".": [
-        "t_grass",
-        "t_grass",
-        "t_grass",
-        "t_grass",
-        "t_grass",
-        "t_grass",
-        "t_grass",
-        "t_grass",
-        "t_grass",
-        "t_grass",
-        "t_grass",
-        "t_dirt",
-        "t_dirt",
-        "t_dirt",
-        "t_dirt",
-        "t_dirt",
-        "t_dirt"
-      ],
+      ".": [ [ "t_grass", 11 ], [ "t_dirt", 6 ] ],
       "#": "t_pit_corpsed",
       "-": "t_wall",
       "|": "t_wall",
@@ -31,8 +13,6 @@
       "F": "t_chaingate_c",
       "g": "t_wall_glass",
       "w": [ "t_window_domestic", "t_curtains", "t_curtains" ],
-      "<": "t_stairs_up",
-      ">": "t_stairs_down",
       "6": "t_console_broken",
       "7": "t_centrifuge"
     },
@@ -75,7 +55,7 @@
       "R": { "item": "fridge", "chance": 80, "count-min": 1, "count-max": 3 },
       "s": { "item": "cleaning", "chance": 15 },
       "S": { "item": "cleaning", "chance": 25 },
-      "t": { "item": "trash", "chance": 60, "count-min": 1, "count-max": 4 },
+      "t": { "item": "trash_cart", "chance": 60, "count-min": 1, "count-max": 4 },
       "U": { "item": "kitchen", "chance": 40, "count-min": 1, "count-max": 3 }
     }
   }

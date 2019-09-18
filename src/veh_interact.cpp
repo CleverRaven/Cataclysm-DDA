@@ -1275,8 +1275,7 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
 
     std::map<std::string, std::function<void( const catacurses::window &, int )>> headers;
 
-    int epower_w = veh->total_engine_epower_w() + veh->total_alternator_epower_w() +
-                   veh->total_accessory_epower_w() + veh->total_solar_epower_w();
+    int epower_w = veh->net_battery_charge_rate_w();
     headers["ENGINE"] = [this]( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray,
                         string_format( _( "Engines: %sSafe %4d kW</color> %sMax %4d kW</color>" ),
