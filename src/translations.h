@@ -144,9 +144,16 @@ class translation
         std::string translated() const;
 
         /**
-         * Returns the raw string, untranslated.
+         * Methods exposing the underlying raw strings are not implemented, and
+         * probably should not if there's no good reason to do so. Most importantly,
+         * the underlying strings should not be re-saved to JSON: doing so risk
+         * the original string being changed during development and the saved
+         * string will then not be properly translated when loaded back. If you
+         * really want to save a translation, translate it early on, store it using
+         * `no_translation`, and retrieve it using `translated()` when saving.
+         * This ensures consistent behavior before and after saving and loading.
          **/
-        std::string untranslated() const;
+        std::string untranslated() const = delete;
 
         /**
          * Whether the underlying string is empty, not matter what the context

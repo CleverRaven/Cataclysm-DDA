@@ -7,7 +7,7 @@
 #include "magic.h"
 #include "translations.h"
 
-#include <math.h>
+#include <cmath>
 
 void relic::add_active_effect( const fake_spell &sp )
 {
@@ -44,7 +44,7 @@ void relic::load( JsonObject &jo )
             add_passive_effect( ench );
         }
     }
-    item_name_override = to_translation( jo.get_string( "name", "" ) );
+    jo.read( "name", item_name_override );
     charges_per_activation = jo.get_int( "charges_per_activation", 1 );
     moves = jo.get_int( "moves", 100 );
 }
@@ -61,7 +61,8 @@ void relic::serialize( JsonOut &jsout ) const
 
     jsout.member( "moves", moves );
     jsout.member( "charges_per_activation", charges_per_activation );
-    jsout.member( "name", item_name_override.untranslated() );
+    // item_name_override is not saved, in case the original json text changes:
+    // in such case names read back from a save wouold no longer be properly translated.
 
     if( !passive_effects.empty() ) {
         jsout.member( "passive_effects" );
@@ -113,9 +114,6 @@ int relic::modify_value( const enchantment::mod value_type, const int value ) co
 
 std::string relic::name() const
 {
-    if( item_name_override.empty() ) {
-        return "";
-    }
     return item_name_override.translated();
 }
 

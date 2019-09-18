@@ -998,6 +998,10 @@ def extract(item, infilename):
     if "seed_data" in item:
         seed_data = item["seed_data"]
         writestr(outfile, seed_data["plant_name"], **kwargs)
+        wrote = True
+    if "relic_data" in item:
+        writestr(outfile, item["relic_data"]["name"], **kwargs)
+        wrote = True
     if "text" in item:
         writestr(outfile, item["text"], **kwargs)
         wrote = True
