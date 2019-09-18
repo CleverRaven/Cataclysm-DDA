@@ -551,7 +551,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             }
 
             if( ( *loc ).is_medication() && !p.can_use_heal_item( ( *loc ).typeId() ) ) {
-                return _( "Your biology is not compatible with that healing item." );
+                return _( "Your biology is not compatible with that item." );
             }
 
             const auto &it = get_consumable_item( loc );
@@ -788,7 +788,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
             }
 
             if( ( *loc ).is_medication() && !p.can_use_heal_item( ( *loc ).typeId() ) ) {
-                return _( "Your biology is not compatible with that healing item." );
+                return _( "Your biology is not compatible with that item." );
             }
 
             if( !p.has_enough_charges( it, false ) ) {
