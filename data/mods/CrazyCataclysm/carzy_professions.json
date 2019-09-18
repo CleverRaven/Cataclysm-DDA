@@ -1,0 +1,13 @@
+[
+  {
+    "type": "profession",
+    "ident": "sugar_kin",
+    "name": { "male": "Sugar Boy", "female": "Sugar Girl" },
+    "description": "",
+    "points": 5,
+    "traits": [ "SUGAR" ],
+    "pets": [ { "name": "mon_necco", "amount": 1 } ],
+    "items": { "both": { "items": [ "sugarkin_flyer" ] } },
+    "flags": [ "SCEN_ONLY" ]
+  }
+]
