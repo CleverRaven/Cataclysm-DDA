@@ -268,6 +268,7 @@ new syntax "name" would be a `dict`, which may break unmigrated script.
 | NPC talk response text
 | Relic name overrides
 | Speech text
+| Tutorial messages
 
 ### Recommendations
 
