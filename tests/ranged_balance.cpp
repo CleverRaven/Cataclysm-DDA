@@ -125,7 +125,7 @@ static std::array<firing_statistics, 5> firing_test( const dispersion_sources &d
                 threshold_within_confidence_interval = true;
             }
         }
-    } while( threshold_within_confidence_interval && firing_stats[0].n() < 1000000 );
+    } while( threshold_within_confidence_interval && firing_stats[0].n() < 10000000 );
     return firing_stats;
 }
 
