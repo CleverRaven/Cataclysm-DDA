@@ -101,5 +101,38 @@
       [ "corpse_child_gunned", 10 ],
       [ "corpse_oldwoman_jewelry", 10 ]
     ]
+  },
+  {
+    "id": "corpse_male",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "corpse_generic_male" },
+      { "item": "corpse_bloody" },
+      { "item": "corpse_painful" },
+      { "item": "corpse_stabbed" },
+      { "item": "corpse_half_beheaded" },
+      { "item": "corpse_generic_boy" }
+    ]
+  },
+  {
+    "id": "corpse_female",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "corpse_generic_female" },
+      { "item": "corpse_bloody" },
+      { "item": "corpse_painful" },
+      { "item": "corpse_gunned" },
+      { "item": "corpse_half_beheaded" },
+      { "item": "corpse_oldwoman_jewelry" },
+      { "item": "corpse_generic_girl" }
+    ]
+  },
+  {
+    "id": "corpse_child",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "corpse_child_calm" }, { "item": "corpse_child_gunned" } ]
   }
 ]

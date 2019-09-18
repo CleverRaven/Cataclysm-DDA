@@ -1384,7 +1384,9 @@ bool basecamp::handle_mission( const std::string &miss_id, const cata::optional<
                                     .at( *miss_dir ).id : std::string();
     // crafting missions are always supposed to have a direction
     if( miss_dir ) {
-        start_crafting( miss_id, *miss_dir, "BASE", "_faction_camp_crafting_", by_radio );
+        if( *miss_dir == base_dir ) {
+            start_crafting( miss_id, *miss_dir, "BASE", "_faction_camp_crafting_", by_radio );
+        }
         if( miss_id == base_dir_id + " (Finish) Crafting" ) {
             const std::string msg = _( "returns to you with something..." );
             mission_return( "_faction_camp_crafting_" + miss_dir_id, 1_minutes, true, msg,
@@ -1883,6 +1885,7 @@ void basecamp::start_crafting( const std::string &cur_id, const point &cur_dir,
                 comp->companion_mission_inv.add_item( results );
             }
         }
+        return;
     }
 }
 
@@ -3445,8 +3448,8 @@ int camp_food_supply( int change, bool return_days )
     faction *yours = g->u.get_faction();
     yours->food_supply += change;
     if( yours->food_supply < 0 ) {
-        yours->likes_u += yours->food_supply / 500;
-        yours->respects_u += yours->food_supply / 100;
+        yours->likes_u += yours->food_supply / 1250;
+        yours->respects_u += yours->food_supply / 625;
         yours->food_supply = 0;
     }
     if( return_days ) {

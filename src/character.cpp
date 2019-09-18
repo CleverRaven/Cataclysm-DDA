@@ -1011,6 +1011,18 @@ void Character::update_fuel_storage( const itype_id &fuel )
 
 }
 
+int Character::get_mod_stat_from_bionic( const Character::stat &Stat ) const
+{
+    int ret = 0;
+    for( const bionic &bio : *my_bionics ) {
+        const auto St_bn = bio.info().stat_bonus.find( Stat );
+        if( St_bn != bio.info().stat_bonus.end() ) {
+            ret += St_bn->second;
+        }
+    }
+    return ret;
+}
+
 std::vector<item_location> Character::nearby( const
         std::function<bool( const item *, const item * )> &func, int radius ) const
 {
@@ -1821,18 +1833,11 @@ void Character::reset_stats()
     if( has_active_bionic( bionic_id( "bio_hydraulics" ) ) ) {
         mod_str_bonus( 20 );
     }
-    if( has_bionic( bionic_id( "bio_eye_enhancer" ) ) ) {
-        mod_per_bonus( 2 );
-    }
-    if( has_bionic( bionic_id( "bio_str_enhancer" ) ) ) {
-        mod_str_bonus( 2 );
-    }
-    if( has_bionic( bionic_id( "bio_int_enhancer" ) ) ) {
-        mod_int_bonus( 2 );
-    }
-    if( has_bionic( bionic_id( "bio_dex_enhancer" ) ) ) {
-        mod_dex_bonus( 2 );
-    }
+
+    mod_str_bonus( get_mod_stat_from_bionic( STRENGTH ) );
+    mod_dex_bonus( get_mod_stat_from_bionic( DEXTERITY ) );
+    mod_per_bonus( get_mod_stat_from_bionic( PERCEPTION ) );
+    mod_int_bonus( get_mod_stat_from_bionic( INTELLIGENCE ) );
 
     // Trait / mutation buffs
     mod_str_bonus( std::floor( mutation_value( "str_modifier" ) ) );
@@ -2317,6 +2322,26 @@ void Character::mod_int_bonus( int nint )
 {
     int_bonus += nint;
     int_cur = std::max( 0, int_max + int_bonus );
+}
+
+namespace io
+{
+template<>
+std::string enum_to_string<Character::stat>( Character::stat data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+    case Character::stat::STRENGTH: return pgettext("strength stat", "STR");
+    case Character::stat::DEXTERITY: return pgettext("dexterity stat", "DEX");
+    case Character::stat::INTELLIGENCE: return pgettext("intelligence stat", "INT");
+    case Character::stat::PERCEPTION: return pgettext("perception stat", "PER");
+
+        // *INDENT-ON*
+        case Character::stat::DUMMY_STAT:
+            break;
+    }
+    abort();
+}
 }
 
 void Character::set_healthy( int nhealthy )
