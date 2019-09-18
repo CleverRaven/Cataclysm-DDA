@@ -165,7 +165,7 @@
     "copy-from": "suppressor",
     "type": "GUNMOD",
     "name": "MP5SD integral suppressor",
-    "description": "This is the integrated suppressor for the H&K MP5 SD.  Its large expansion chamber decelerates ammunition via several ports in the barrel, rendering most ammo subsonic at the cost of terminal performance.  It is not as effective as modern designs.",
+    "description": "This is the integrated suppressor for the H&K MP5SD.  Its large expansion chamber decelerates ammunition via several ports in the barrel, rendering most ammo subsonic at the cost of terminal performance.  It is not as effective as modern designs.",
     "damage_modifier": -7,
     "weight": "250 g",
     "integral_volume": 0,
