@@ -582,6 +582,6 @@
     "sym": "+",
     "color": "pink",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE", "SOURCE_OF_PEOPLE ]
+    "flags": [ "NO_ROTATE", "SOURCE_OF_PEOPLE" ]
   }
 ]
