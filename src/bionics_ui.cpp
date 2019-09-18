@@ -179,21 +179,27 @@ static void draw_bionics_tabs( const catacurses::window &win, std::vector<bvecto
 {
     werase( win );
 
-    const int width = getmaxx( win );
-    mvwhline( win, point( 0, 2 ), LINE_OXOX, width );
-    const int tab_step = 3;
-    std::string tab_name;
-    int tab_x = 1;
-    bionics_displayType_id cur_type_id = BionicsDisplayType::displayTypes[current_mode].ident();
+    std::vector<std::pair<bionics_displayType_id, std::string>> tabs;
     for( size_t i = 0; i < BionicsDisplayType::displayTypes.size(); i++ ) {
         if( bionics[i].empty() ) {
             continue;
         }
         BionicsDisplayType type = BionicsDisplayType::displayTypes[i];
-        tab_name = type.display_string();
-        draw_tab( win, tab_x, tab_name, cur_type_id == type.ident() );
-        tab_x += tab_step + utf8_width( tab_name );
+        tabs.emplace_back( type.ident(), type.display_string() );
     }
+    bionics_displayType_id cur_type_id = BionicsDisplayType::displayTypes[current_mode].ident();
+    draw_tabs( win, tabs, cur_type_id );
+
+    // Draw symbols to connect additional lines to border
+    int width = getmaxx( win );
+    int height = getmaxy( win );
+    for( int i = 0; i < height - 1; ++i ) {
+        mvwputch( win, point( 0, i ), BORDER_COLOR, LINE_XOXO ); // |
+        mvwputch( win, point( width - 1, i ), BORDER_COLOR, LINE_XOXO ); // |
+    }
+    mvwputch( win, point( 0, height - 1 ), BORDER_COLOR, LINE_XXXO ); // |-
+    mvwputch( win, point( width - 1, height - 1 ), BORDER_COLOR, LINE_XOXX ); // -|
+
     wrefresh( win );
 }
 
@@ -343,8 +349,8 @@ void player::power_bionics()
 
     //Tabs bar
     const int TAB_WINDOW_Y = TITLE_WINDOW_Y + TITLE_HEIGHT;
-    catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, WIDTH - 2,
-                                point( MAIN_WINDOW_X + 1,
+    catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, WIDTH,
+                                point( MAIN_WINDOW_X,
                                        TAB_WINDOW_Y ) );
 
     const int header_line_y = TITLE_HEIGHT + TITLE_TAB_HEIGHT + 1;
@@ -394,10 +400,6 @@ void player::power_bionics()
                                                power_level, max_power_level ) );
             std::string help_str = string_format( _( "< [%s] Columns Info >" ), ctxt.get_desc( "USAGE_HELP" ) );
             mvwprintz( wBio, point( WIDTH - 1 - utf8_width( help_str ), 0 ), c_white, help_str );
-
-            // Draw symbols to connect additional lines to border
-            mvwputch( wBio, point( 0, header_line_y - 1 ), BORDER_COLOR, LINE_XXXO ); // |-
-            mvwputch( wBio, point( WIDTH - 1, header_line_y - 1 ), BORDER_COLOR, LINE_XOXX ); // -|
 
             mvwputch( wBio, point( 0, footer_start_y - 1 ), BORDER_COLOR, LINE_XXXO ); // |-
             mvwputch( wBio, point( WIDTH - 1, footer_start_y - 1 ), BORDER_COLOR, LINE_XOXX ); // -|
@@ -553,7 +555,9 @@ void player::power_bionics()
         } else if( action == "HELP_KEYBINDINGS" ) {
             redraw = true;
         } else if( action == "CONFIRM" ) {
-            tmp = current_bionic_list[cursor];
+            if( !current_bionic_list.empty() ) {
+                tmp = current_bionic_list[cursor];
+            }
             need_activate = true;
         } else if( action == "USAGE_HELP" ) {
             std::string help_str;
