@@ -213,7 +213,8 @@ monster::monster()
     last_baby = 0;
     biosig_timer = -1;
     last_biosig = 0;
-    reset_bonuses();
+
+    monster::reset_bonuses();
 }
 
 monster::monster( const mtype_id &id ) : monster()
