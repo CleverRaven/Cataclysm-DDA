@@ -3,9 +3,9 @@
 #include <list>
 #include <ostream>
 #include <string>
-#include <fstream>
 
 #include "catch/catch.hpp"
+#include "cata_utility.h"
 #include "ballistics.h"
 #include "dispersion.h"
 #include "map_helpers.h"
@@ -342,13 +342,12 @@ static void range_test( const std::array<double, 5> &test_thresholds, bool write
     }
     if( write_data )
     {
-        std::ofstream out_file;
-        out_file.open( "./data/json/hit_range.json", std::ios::trunc );
-        JsonOut j_out( out_file );
-        j_out.start_object();
-        j_out.member( "even_good", data );
-        j_out.end_object();
-        out_file.close();
+        write_to_file( "./data/json/hit_range.json", [&]( std::ostream & fsa ){
+            JsonOut j_out( fsa );
+            j_out.start_object();
+            j_out.member( "even_good", data );
+            j_out.end_object();
+        }, _( "hit_range file" ) );
     }
 }
 
