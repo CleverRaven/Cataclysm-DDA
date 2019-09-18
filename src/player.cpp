@@ -1823,23 +1823,34 @@ bool player::is_immune_damage( const damage_type dt ) const
         case DT_TRUE:
             return false;
         case DT_BIOLOGICAL:
-            return false;
+            return has_effect_with_flag( "EFFECT_BIO_IMMUNE" ) ||
+                   worn_with_flag( "BIO_IMMUNE" );
         case DT_BASH:
-            return false;
+            return has_effect_with_flag( "EFFECT_BASH_IMMUNE" ) ||
+                   worn_with_flag( "BASH_IMMUNE" );
         case DT_CUT:
-            return false;
+            return has_effect_with_flag( "EFFECT_CUT_IMMUNE" ) ||
+                   worn_with_flag( "CUT_IMMUNE" );
         case DT_ACID:
-            return has_trait( trait_ACIDPROOF );
+            return has_trait( trait_ACIDPROOF ) ||
+                   has_effect_with_flag( "EFFECT_ACID_IMMUNE" ) ||
+                   worn_with_flag( "ACID_IMMUNE" );
         case DT_STAB:
-            return false;
+            return has_effect_with_flag( "EFFECT_STAB_IMMUNE" ) ||
+                   worn_with_flag( "STAB_IMMUNE" );
         case DT_HEAT:
-            return has_trait( trait_M_SKIN2 ) || has_trait( trait_M_SKIN3 );
+            return has_trait( trait_M_SKIN2 ) ||
+                   has_trait( trait_M_SKIN3 ) ||
+                   has_effect_with_flag( "EFFECT_HEAT_IMMUNE" ) ||
+                   worn_with_flag( "HEAT_IMMUNE" );
         case DT_COLD:
-            return false;
+            return has_effect_with_flag( "EFFECT_COLD_IMMUNE" ) ||
+                   worn_with_flag( "COLD_IMMUNE" );
         case DT_ELECTRIC:
             return has_active_bionic( bio_faraday ) ||
                    worn_with_flag( "ELECTRIC_IMMUNE" ) ||
-                   has_artifact_with( AEP_RESIST_ELECTRICITY );
+                   has_artifact_with( AEP_RESIST_ELECTRICITY ) ||
+                   has_effect_with_flag( "EFFECT_ELECTRIC_IMMUNE" );
         default:
             return true;
     }
@@ -3360,6 +3371,9 @@ int player::hitall( int dam, int vary, Creature *source )
 
 float player::fall_damage_mod() const
 {
+    if( has_effect_with_flag( "EFFECT_FEATHER_FALL" ) ) {
+        return 0.0f;
+    }
     float ret = 1.0f;
 
     // Ability to land properly is 2x as important as dexterity itself
@@ -4906,35 +4920,36 @@ void player::suffer()
         mod_thirst( -1 );
     }
 
+    time_duration timer = -6_hours;
+    if( has_trait( trait_ADDICTIVE ) ) {
+        timer = -10_hours;
+    } else if( has_trait( trait_NONADDICTIVE ) ) {
+        timer = -3_hours;
+    }
+    for( auto &cur_addiction : addictions ) {
+        if( cur_addiction.sated <= 0_turns &&
+            cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
+            addict_effect( *this, cur_addiction );
+        }
+        cur_addiction.sated -= 1_turns;
+        // Higher intensity addictions heal faster
+        if( cur_addiction.sated - 10_minutes * cur_addiction.intensity < timer ) {
+            if( cur_addiction.intensity <= 2 ) {
+                rem_addiction( cur_addiction.type );
+                break;
+            } else {
+                cur_addiction.intensity--;
+                cur_addiction.sated = 0_turns;
+            }
+        }
+    }
+
     if( !in_sleep_state() ) {
         if( !has_trait( trait_id( "DEBUG_STORAGE" ) ) && ( weight_carried() > 4 * weight_capacity() ) ) {
             if( has_effect( effect_downed ) ) {
                 add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
             } else {
                 add_effect( effect_downed, 2_turns, num_bp, false, 0, true );
-            }
-        }
-        time_duration timer = -6_hours;
-        if( has_trait( trait_ADDICTIVE ) ) {
-            timer = -10_hours;
-        } else if( has_trait( trait_NONADDICTIVE ) ) {
-            timer = -3_hours;
-        }
-        for( auto &cur_addiction : addictions ) {
-            if( cur_addiction.sated <= 0_turns &&
-                cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
-                addict_effect( *this, cur_addiction );
-            }
-            cur_addiction.sated -= 1_turns;
-            // Higher intensity addictions heal faster
-            if( cur_addiction.sated - 10_minutes * cur_addiction.intensity < timer ) {
-                if( cur_addiction.intensity <= 2 ) {
-                    rem_addiction( cur_addiction.type );
-                    break;
-                } else {
-                    cur_addiction.intensity--;
-                    cur_addiction.sated = 0_turns;
-                }
             }
         }
         if( has_trait( trait_CHEMIMBALANCE ) ) {
@@ -6558,6 +6573,15 @@ void player::process_active_items()
             active_held_items.push_back( index );
         }
     }
+    // Necessary for UPS in Aftershock - check worn items for charge
+    for( const item &it : worn ) {
+        itype_id identifier = it.type->get_id();
+        if( identifier == "UPS_off" ) {
+            ch_UPS += it.ammo_remaining();
+        } else if( identifier == "adv_UPS_off" ) {
+            ch_UPS += it.ammo_remaining() / 0.6;
+        }
+    }
     if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
         ch_UPS += power_level;
     }
@@ -7796,12 +7820,12 @@ bool player::pick_style() // Style selection menu
         auto &style = selectable_styles[i].obj();
         //Check if this style is currently selected
         const bool selected = selectable_styles[i] == style_selected;
-        std::string entry_text = _( style.name );
+        std::string entry_text = style.name.translated();
         if( selected ) {
             kmenu.selected = i + STYLE_OFFSET;
             entry_text = colorize( entry_text, c_pink );
         }
-        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, entry_text, _( style.description ) );
+        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, entry_text, style.description.translated() );
     }
 
     kmenu.query();
@@ -10731,6 +10755,7 @@ bool player::is_invisible() const
     static const bionic_id str_bio_cloak( "bio_cloak" ); // This function used in monster::plan_moves
     static const bionic_id str_bio_night( "bio_night" );
     return (
+               has_effect_with_flag( "EFFECT_INVISIBLE" ) ||
                has_active_bionic( str_bio_cloak ) ||
                has_active_bionic( str_bio_night ) ||
                has_active_optcloak() ||

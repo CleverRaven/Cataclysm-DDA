@@ -87,7 +87,7 @@ point sm_to_om_remain( int &x, int &y )
 
 point omt_to_ms_copy( const point &p )
 {
-    return point( p.x * 2 * SEEX, p.x * 2 * SEEY );
+    return point( p.x * 2 * SEEX, p.y * 2 * SEEY );
 }
 
 point omt_to_sm_copy( int x, int y )

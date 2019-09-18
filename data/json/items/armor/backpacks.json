@@ -511,6 +511,7 @@
     "coverage": 35,
     "encumbrance": 2,
     "max_encumbrance": 15,
+    "storage": "18 L",
     "warmth": 5,
     "material_thickness": 3,
     "flags": [ "BELTED", "OVERSIZE" ],

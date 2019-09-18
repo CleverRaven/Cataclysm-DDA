@@ -703,5 +703,10 @@
     "id": "smg_22_mag",
     "type": "MIGRATION",
     "replace": "survivor9mm_mag"
+  },
+  {
+    "id": "magbandolier",
+    "type": "MIGRATION",
+    "replace": "chestrig"
   }
 ]

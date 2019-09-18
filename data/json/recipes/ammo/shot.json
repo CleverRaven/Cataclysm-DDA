@@ -189,7 +189,8 @@
     "copy-from": "bp_shot_00",
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "time": 4000,
-    "tools": [ [ [ "press_dowel", -1 ] ] ]
+    "tools": [ [ [ "press_dowel", -1 ] ] ],
+    "components": [ [ [ "chem_black_powder", 6 ] ] ]
   },
   {
     "result": "bp_shot_bird",
@@ -198,7 +199,8 @@
     "copy-from": "bp_shot_bird",
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "time": 4000,
-    "tools": [ [ [ "press_dowel", -1 ] ] ]
+    "tools": [ [ [ "press_dowel", -1 ] ] ],
+    "components": [ [ [ "chem_black_powder", 3 ] ] ]
   },
   {
     "result": "bp_shot_dragon",
@@ -207,7 +209,8 @@
     "copy-from": "bp_shot_dragon",
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "time": 4000,
-    "tools": [ [ [ "press_dowel", -1 ] ] ]
+    "tools": [ [ [ "press_dowel", -1 ] ] ],
+    "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "magnesium", 5 ] ] ]
   },
   {
     "result": "bp_shot_slug",
@@ -216,7 +219,13 @@
     "copy-from": "bp_shot_slug",
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "time": 4000,
-    "tools": [ [ [ "press_dowel", -1 ] ] ]
+    "using": [ [ "ammo_bullet", 20 ], [ "ammo_shot", 1 ] ],
+    "tools": [
+      [ [ "press_dowel", -1 ] ],
+      [ [ "pipe", -1 ], [ "cu_pipe", -1 ], [ "material_sand", -1 ], [ "material_soil", -1 ], [ "clay_lump", -1 ] ],
+      [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ]
+    ],
+    "components": [ [ [ "chem_black_powder", 6 ] ] ]
   },
   {
     "result": "bp_shot_scrap",
@@ -225,7 +234,23 @@
     "copy-from": "bp_shot_scrap",
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "time": 4000,
-    "tools": [ [ [ "press_dowel", -1 ] ] ]
+    "tools": [ [ [ "press_dowel", -1 ] ] ],
+    "components": [
+      [ [ "chem_black_powder", 6 ] ],
+      [
+        [ "scrap", 1 ],
+        [ "nail", 10 ],
+        [ "bb", 20 ],
+        [ "solder_wire", 10 ],
+        [ "platinum_small", 4 ],
+        [ "gold_small", 4 ],
+        [ "bearing", 5 ],
+        [ "lead", 7 ],
+        [ "silver_small", 7 ],
+        [ "lead", 7 ],
+        [ "shrapnel", 4 ]
+      ]
+    ]
   },
   {
     "result": "shot_scrap",

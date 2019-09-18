@@ -26,6 +26,14 @@
   },
   {
     "type": "GENERIC",
+    "id": "corpse_generic_human",
+    "copy-from": "corpse",
+    "name": "human corpse",
+    "description": "A dead human body.",
+    "material": "hflesh"
+  },
+  {
+    "type": "GENERIC",
     "id": "corpse_generic_male",
     "copy-from": "corpse",
     "name": "corpse",

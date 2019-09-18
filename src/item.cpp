@@ -122,27 +122,27 @@ const trait_id trait_huge( "HUGE" );
 const trait_id trait_huge_ok( "HUGE_OK" );
 using npc_class_id = string_id<npc_class>;
 
-const std::string &rad_badge_color( const int rad )
+std::string rad_badge_color( const int rad )
 {
-    using pair_t = std::pair<const int, const std::string>;
+    using pair_t = std::pair<const int, const translation>;
 
     static const std::array<pair_t, 6> values = {{
-            pair_t {  0, _( "green" ) },
-            pair_t { 30, _( "blue" )  },
-            pair_t { 60, _( "yellow" )},
-            pair_t {120, pgettext( "color", "orange" )},
-            pair_t {240, _( "red" )   },
-            pair_t {500, _( "black" ) },
+            pair_t {  0, to_translation( "color", "green" ) },
+            pair_t { 30, to_translation( "color", "blue" )  },
+            pair_t { 60, to_translation( "color", "yellow" )},
+            pair_t {120, to_translation( "color", "orange" )},
+            pair_t {240, to_translation( "color", "red" )   },
+            pair_t {500, to_translation( "color", "black" ) },
         }
     };
 
-    for( const std::pair<const int, const std::string> &i : values ) {
+    for( const auto &i : values ) {
         if( rad <= i.first ) {
-            return i.second;
+            return i.second.translated();
         }
     }
 
-    return values.back().second;
+    return values.back().second.translated();
 }
 
 light_emission nolight = {0, 0, 0};
@@ -325,11 +325,7 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
         debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
 
-    std::string corpse_type = "corpse";
-
-    if( mt == mtype_id::NULL_ID() ) {
-        corpse_type = item_group::item_from( "corpses" ).typeId();
-    }
+    std::string corpse_type = mt == mtype_id::NULL_ID() ? "corpse_generic_human" : "corpse";
 
     item result( corpse_type, turn );
     result.corpse = &mt.obj();
@@ -2463,7 +2459,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             const std::vector<matype_id> &styles = g->u.ma_styles;
             const std::string valid_styles = enumerate_as_string( styles.begin(), styles.end(),
             [this]( const matype_id & mid ) {
-                return mid.obj().has_weapon( typeId() ) ? _( mid.obj().name ) : std::string();
+                return mid.obj().has_weapon( typeId() ) ? mid.obj().name.translated() : std::string();
             } );
             if( !valid_styles.empty() ) {
                 insert_separation_line();
@@ -2722,6 +2718,17 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 for( const auto &element : bid->env_protec ) {
                     info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ), " <num> ",
                                               iteminfo::no_newline, element.second ) );
+                }
+
+            }
+
+            if( !bid->stat_bonus.empty() ) {
+                info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Stat Bonus:</bold> " ),
+                                          iteminfo::no_newline ) );
+                for( const auto &element : bid->stat_bonus ) {
+                    info.push_back( iteminfo( "CBM", io::enum_to_string<Character::stat>( element.first ), " <num> ",
+                                              iteminfo::no_newline,
+                                              element.second ) );
                 }
 
             }
@@ -3512,9 +3519,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         } else {
             ret << _( " (packed)" );
         }
-    }
-    if( is_bionic() && !has_flag( "NO_STERILE" ) && !has_flag( "NO_PACKED" ) ) {
-        ret << _( " (sterile)" );
     }
 
     if( is_tool() && has_flag( "USE_UPS" ) ) {

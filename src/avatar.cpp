@@ -1321,6 +1321,10 @@ void avatar::upgrade_stat_prompt( const Character::stat &stat )
         case PERCEPTION:
             stat_string = _( "perception" );
             break;
+        case DUMMY_STAT:
+            stat_string = _( "invalid stat" );
+            debugmsg( "Tried to use invalid stat" );
+            break;
         default:
             return;
     }
@@ -1339,6 +1343,9 @@ void avatar::upgrade_stat_prompt( const Character::stat &stat )
                 break;
             case PERCEPTION:
                 per_upgrade++;
+                break;
+            case DUMMY_STAT:
+                debugmsg( "Tried to use invalid stat" );
                 break;
         }
     }

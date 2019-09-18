@@ -711,6 +711,9 @@ void npc::move()
 
     //faction opinion determines if it should consider you hostile
     if( !is_enemy() && guaranteed_hostile() && sees( g->u ) ) {
+        if( is_player_ally() ) {
+            mutiny();
+        }
         add_msg( m_debug, "NPC %s turning hostile because is guaranteed_hostile()", name );
         if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
             set_attitude( NPCATT_FLEE_TEMP );    // We don't want to take u on!
@@ -1297,7 +1300,7 @@ npc_action npc::method_of_attack()
             return m.melee() || m.flags.count( "NPC_AVOID" ) ||
                    !m->ammo_sufficient( m.qty ) || !can_use( *m.target ) ||
                    m->get_gun_ups_drain() > ups_charges ||
-                   ( danger <= ( ( m.qty == 1 ) ? 0.0 : 0.5 ) && !emergency() ) ||
+                   ( ( danger <= ( m.qty == 1 ? 3.0 : 15.0 ) ) && !emergency() ) ||
                    ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
                      !m.target->is_silent() );
 
@@ -2606,7 +2609,6 @@ void npc::find_item()
     }
 
     if( is_player_ally() && !rules.has_flag( ally_rule::allow_pick_up ) ) {
-
         // Grabbing stuff not allowed by our "owner"
         return;
     }
@@ -2699,34 +2701,63 @@ void npc::find_item()
             continue;
         }
 
+        const tripoint abs_p = global_square_location() - pos() + p;
+        const int prev_num_items = ai_cache.searched_tiles.get( abs_p, -1 );
+        // Prefetch the number of items present so we can bail out if we already checked here.
+        const map_stack m_stack = g->m.i_at( p );
+        int num_items = m_stack.size();
+        const optional_vpart_position vp = g->m.veh_at( p );
+        if( vp ) {
+            const cata::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
+            if( cargo ) {
+                vehicle_stack v_stack = cargo->vehicle().get_items( cargo->part_index() );
+                num_items += v_stack.size();
+            }
+        }
+        if( prev_num_items == num_items ) {
+            continue;
+        }
+        auto cache_tile = [this, &abs_p, num_items, &wanted]() {
+            if( wanted == nullptr ) {
+                ai_cache.searched_tiles.insert( 1000, abs_p, num_items );
+            }
+        };
+        bool can_see = false;
         if( g->m.sees_some_items( p, *this ) && sees( p ) ) {
-            for( const item &it : g->m.i_at( p ) ) {
+            can_see = true;
+            for( const item &it : m_stack ) {
                 consider_item( it, p );
             }
         }
 
-        // Allow terrain check without sight, because it would cost more CPU than it is worth
-        consider_terrain( p );
+        // Not cached because it gets checked once and isn't expected to change.
+        if( can_see || sees( p ) ) {
+            can_see = true;
+            consider_terrain( p );
+        }
 
-        const optional_vpart_position vp = g->m.veh_at( p );
-        if( !vp || vp->vehicle().is_moving() || !sees( p ) ) {
+        if( !vp || vp->vehicle().is_moving() || !( can_see || sees( p ) ) ) {
+            cache_tile();
             continue;
         }
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
         static const std::string locked_string( "LOCKED" );
         // TODO: Let player know what parts are safe from NPC thieves
         if( !cargo || cargo->has_feature( locked_string ) ) {
+            cache_tile();
             continue;
         }
 
         static const std::string cargo_locking_string( "CARGO_LOCKING" );
         if( vp.part_with_feature( cargo_locking_string, true ) ) {
+            cache_tile();
             continue;
         }
 
         for( const item &it : cargo->vehicle().get_items( cargo->part_index() ) ) {
             consider_item( it, p );
         }
+        cache_tile();
     }
 
     if( wanted != nullptr ) {

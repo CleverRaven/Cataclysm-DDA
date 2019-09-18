@@ -859,7 +859,7 @@ class repair_item_actor : public iuse_actor
          */
         int repair_recipe_difficulty( const player &pl, const item &fix, bool training = false ) const;
         /** Describes members of `repair_type` enum */
-        static const std::string &action_description( repair_type );
+        static std::string action_description( repair_type );
 
         repair_item_actor( const std::string &type = "repair_item" ) : iuse_actor( type ) {}
 
