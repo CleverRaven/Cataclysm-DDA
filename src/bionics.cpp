@@ -2295,13 +2295,13 @@ std::vector<BionicsDisplayType> BionicsDisplayType::displayTypes;
 static const BionicsDisplayType invalid_bionics_display_type;
 
 BionicsDisplayType::BionicsDisplayType() : BionicsDisplayType( bionics_displayType_id::NULL_ID(),
-            to_translation( "invalid" ) )
+            to_translation( "invalid" ), false )
 {
 }
 
 BionicsDisplayType::BionicsDisplayType( const bionics_displayType_id &ident,
-                                        const translation &display_string )
-    : _ident( ident ), _display_string( display_string )
+                                        const translation &display_string, bool hide_columns )
+    : _ident( ident ), _display_string( display_string ), _hide_columns( hide_columns )
 {
 }
 
@@ -2315,23 +2315,13 @@ void BionicsDisplayType::load( JsonObject &jsobj )
 
     translation display_string;
     jsobj.read( "display_string", display_string );
-    displayTypes.emplace_back( ident, display_string );
+    bool hide_col = jsobj.get_bool( "hide_columns", false );
+    displayTypes.emplace_back( ident, display_string, hide_col );
 }
 void BionicsDisplayType::reset()
 {
     displayTypes.clear();
 }
-
-const BionicsDisplayType &BionicsDisplayType::get_display_type( bionics_displayType_id id )
-{
-    for( auto &i : displayTypes ) {
-        if( i._ident == id ) {
-            return i;
-        }
-    }
-    return invalid_bionics_display_type;
-}
-
 
 bionics_displayType_id BionicsDisplayType::infer_type( const bionic_data &b )
 {

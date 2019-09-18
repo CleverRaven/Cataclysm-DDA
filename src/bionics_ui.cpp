@@ -52,16 +52,17 @@ bionic_col_data get_col_data( int col_idx )
     static std::array< bionic_col_data, column_num_entries> col_data = { {
             {
                 3, translate_marker( "Status" ),
-                string_format( translate_marker( "CBM Status:\n\t<color_c_green>+</color> - activated\n\t<color_c_red>x</color> - incapacitated. This CBM cannot be used for some time." ) )
+                translate_marker( "CBM Status:\n\t<color_c_green>+</color> - activated\n\t<color_c_red>x</color> - incapacitated.  This CBM cannot be used for some time." )
             },
             {8, translate_marker( "Activation" ), translate_marker( "Amount of Bionic Power required to activeate this CBM." )},
-            {8, translate_marker( "Turn Cost" ), translate_marker( "Amount of Bionic Power this CBM consumes every turn while activated. Values like 1 /600 mean that 1 Power will be consumed every 600 turns." ) }
+            {8, translate_marker( "Turn Cost" ), translate_marker( "Amount of Bionic Power this CBM consumes every turn while activated.  Values like 1 /600 mean that 1 Power will be consumed every 600 turns." ) }
         }
     };
     return col_data[col_idx];
 }
 
-void print_columnns( bionic *bio, bool is_selected, const catacurses::window &w, int right_bound,
+void print_columnns( bionic *bio, bool is_selected, bool name_only, const catacurses::window &w,
+                     int right_bound,
                      int cur_print_y )
 {
     const bionic_data &bio_data = bio->id.obj();
@@ -79,50 +80,51 @@ void print_columnns( bionic *bio, bool is_selected, const catacurses::window &w,
         }
     }
 
+    if( !name_only ) {
+        for( size_t col_idx = column_num_entries; col_idx-- > 0; ) {
+            std::string print_str;
+            switch( col_idx ) {
+                case    column_status: {
+                    int col_w = get_col_data( col_idx ).get_width();
+                    if( is_selected ) { //fill whole line with color
+                        mvwprintz( w, point( right_bound - col_w, cur_print_y ), print_col, "%*s", col_w, "" );
+                    }
+                    int pos_x = right_bound - 1;
+                    if( bio_data.toggled && bio->powered ) {
+                        nc_color print_col2 = is_selected ? h_green : c_green;
+                        mvwprintz( w, point( pos_x, cur_print_y ), print_col2, "+" );
+                    }
+                    --pos_x;
+                    if( bio->incapacitated_time > 0_turns ) {
+                        nc_color print_col2 = is_selected ? h_red : c_red;
+                        mvwprintz( w, point( pos_x, cur_print_y ), print_col2, "x" );
+                    }
+                    --pos_x;
 
-    for( size_t col_idx = column_num_entries; col_idx-- > 0; ) {
-        std::string print_str;
-        switch( col_idx ) {
-            case    column_status: {
-                int col_w = get_col_data( col_idx ).get_width();
-                if( is_selected ) { //fill whole line with color
-                    mvwprintz( w, point( right_bound - col_w, cur_print_y ), print_col, "%*s", col_w, "" );
+                    right_bound -= col_w;
+                    continue; //special printing case; skip generic handling
                 }
-                int pos_x = right_bound - 1;
-                if( bio_data.toggled && bio->powered ) {
-                    nc_color print_col2 = is_selected ? h_green : c_green;
-                    mvwprintz( w, point( pos_x, cur_print_y ), print_col2, "+" );
-                }
-                --pos_x;
-                if( bio->incapacitated_time > 0_turns ) {
-                    nc_color print_col2 = is_selected ? h_red : c_red;
-                    mvwprintz( w, point( pos_x, cur_print_y ), print_col2, "x" );
-                }
-                --pos_x;
-
-                right_bound -= col_w;
-                continue; //special printing case; skip generic handling
+                break;
+                case    column_act_cost:
+                    if( bio_data.power_activate > 0 ) {
+                        print_str = string_format( "%d", bio_data.power_activate );
+                    }
+                    break;
+                case    column_turn_cost:
+                    if( bio_data.charge_time > 0 && bio_data.power_over_time > 0 ) {
+                        print_str = bio_data.charge_time == 1
+                                    ? string_format( "%d", bio_data.power_over_time )
+                                    : string_format( "%d /%d", bio_data.power_over_time,
+                                                     bio_data.charge_time );
+                    }
+                    break;
+                default:
+                    break;
             }
-            break;
-            case    column_act_cost:
-                if( bio_data.power_activate > 0 ) {
-                    print_str = string_format( "%d", bio_data.power_activate );
-                }
-                break;
-            case    column_turn_cost:
-                if( bio_data.charge_time > 0 && bio_data.power_over_time > 0 ) {
-                    print_str = bio_data.charge_time == 1
-                                ? string_format( _( "%d" ), bio_data.power_over_time )
-                                : string_format( _( "%d /%d" ), bio_data.power_over_time,
-                                                 bio_data.charge_time );
-                }
-                break;
-            default:
-                break;
+            int col_w = get_col_data( col_idx ).get_width();
+            right_bound -= col_w;
+            mvwprintz( w, point( right_bound, cur_print_y ), print_col, "%*s", col_w, print_str );
         }
-        int col_w = get_col_data( col_idx ).get_width();
-        right_bound -= col_w;
-        mvwprintz( w, point( right_bound, cur_print_y ), print_col, "%*s", col_w, print_str );
     }
 
     if( is_selected ) { //fill whole line with color
@@ -421,16 +423,19 @@ void player::power_bionics()
             mvwputch( wBio, point( 0, footer_start_y - 1 ), BORDER_COLOR, LINE_XXXO ); // |-
             mvwputch( wBio, point( WIDTH - 1, footer_start_y - 1 ), BORDER_COLOR, LINE_XOXX ); // -|
             mvwhline( wBio, point( 1, footer_start_y - 1 ), LINE_OXOX, WIDTH - 2 );
-            help_str = string_format( _( "<Press %s to reassign. You can use invlets from any tab.>" ),
+            help_str = string_format( _( "<Press %s to reassign.  You can use invlets from any tab.>" ),
                                       ctxt.get_desc( "REASSIGN" ) );
             mvwprintz( wBio, point( 2, footer_start_y - 1 ), c_white, help_str );
 
-            for( size_t col_idx = column_num_entries, right_bound = col_right_bound; col_idx-- > 0; ) {
-                bionic_col_data col_data = get_col_data( col_idx );
-                int col_w = col_data.get_width();
-                right_bound -= col_w;
-                mvwprintz( wBio, point( right_bound, header_line_y ), c_light_gray, "%*s", col_w,
-                           col_data.get_name() );
+            const bool name_only = BionicsDisplayType::displayTypes[cur_tab_idx].is_hide_columns();
+            if( !name_only ) {
+                for( size_t col_idx = column_num_entries, right_bound = col_right_bound; col_idx-- > 0; ) {
+                    bionic_col_data col_data = get_col_data( col_idx );
+                    int col_w = col_data.get_width();
+                    right_bound -= col_w;
+                    mvwprintz( wBio, point( right_bound, header_line_y ), c_light_gray, "%*s", col_w,
+                               col_data.get_name() );
+                }
             }
 
             int max_width = 0;
@@ -460,7 +465,7 @@ void player::power_bionics()
                     }
                     const bool is_highlighted = cursor == static_cast<int>( i );
                     int y_pos = list_start_y + i - scroll_position;
-                    print_columnns( current_bionic_list[i], is_highlighted, wBio, col_right_bound, y_pos );
+                    print_columnns( current_bionic_list[i], is_highlighted, name_only, wBio, col_right_bound, y_pos );
                     if( is_highlighted && with_slots ) {
                         const bionic_id bio_id = current_bionic_list[i]->id;
                         draw_connectors( wBio, y_pos, col_right_bound,
@@ -526,7 +531,7 @@ void player::power_bionics()
             tmp = current_bionic_list[cursor];
             while( true ) {
                 const int invlet = popup_getkey(
-                                       _( "%s\n\nEnter new letter. Press SPACE to clear a manually assigned letter, ESCAPE to cancel." ),
+                                       _( "%s\n\nEnter new letter.  Press SPACE to clear a manually assigned letter, ESCAPE to cancel." ),
                                        bionic_chars.get_allowed_chars() );
 
                 if( invlet == KEY_ESCAPE ) {

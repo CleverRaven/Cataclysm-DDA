@@ -163,22 +163,25 @@ class BionicsDisplayType
         friend class string_id<BionicsDisplayType>;
         bionics_displayType_id _ident;
         translation _display_string;
+        bool _hide_columns;
     public:
         static std::vector<BionicsDisplayType> displayTypes;
         static void load( JsonObject &jsobj );
         static void reset();
         static bionics_displayType_id infer_type( const bionic_data &b );
 
-        static const BionicsDisplayType &get_display_type( bionics_displayType_id );
-
         BionicsDisplayType();
-        BionicsDisplayType( const bionics_displayType_id &ident, const translation &display_string );
+        BionicsDisplayType( const bionics_displayType_id &ident, const translation &display_string,
+                            bool hide_columns );
 
         const bionics_displayType_id &ident() const {
             return _ident;
         }
         std::string display_string() const {
             return _display_string.translated();
+        }
+        bool is_hide_columns() {
+            return _hide_columns;
         }
 };
 

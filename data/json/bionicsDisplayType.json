@@ -27,11 +27,13 @@
   {
     "type": "bionics_display_type",
     "ident": "display_passive",
-    "display_string": "Passive"
+    "display_string": "Passive",
+    "hide_columns": true
   },
   {
     "type": "bionics_display_type",
     "ident": "display_faulty",
-    "display_string": "Faulty"
+    "display_string": "Faulty",
+    "hide_columns": true
   }
 ]
