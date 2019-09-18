@@ -111,6 +111,7 @@
     "//": "SMGs commonly owned by citizens and found in many locations.",
     "items": [
       { "item": "tommygun", "prob": 70, "charges-min": 0, "charges-max": 20 },
+      { "item": "hk_mp5_semi_pistol", "prob": 70, "charges-min": 0, "charges-max": 30 },
       { "item": "sten", "prob": 100, "charges-min": 0, "charges-max": 32 },
       { "item": "uzi", "prob": 100, "charges-min": 0, "charges-max": 32 }
     ]
@@ -123,6 +124,7 @@
       { "item": "calico", "prob": 30, "charges-min": 0, "charges-max": 50 },
       { "item": "fn_p90", "prob": 50, "charges-min": 0, "charges-max": 50 },
       { "item": "hk_mp5", "prob": 100, "charges-min": 0, "charges-max": 30 },
+      { "item": "hk_mp5sd", "prob": 5, "charges-min": 0, "charges-max": 30 },
       { "item": "hk_ump45", "prob": 30, "charges-min": 0, "charges-max": 25 },
       { "item": "mac_10", "prob": 40, "charges-min": 0, "charges-max": 30 },
       { "item": "mac_11", "prob": 20, "charges-min": 0, "charges-max": 32 },
@@ -481,6 +483,10 @@
     "items": [
       { "group": "guns_cop", "prob": 100 },
       { "item": "hk_ump45", "prob": 15, "charges-min": 0, "charges-max": 25 },
+      { "item": "hk_mp5", "prob": 50, "charges-min": 0, "charges-max": 30 },
+      { "item": "hk_mp5k", "prob": 10, "charges-min": 0, "charges-max": 30 },
+      { "item": "hk_mp5sd", "prob": 5, "charges-min": 0, "charges-max": 30 },
+      { "item": "hk_ump45", "prob": 30, "charges-min": 0, "charges-max": 25 },
       { "item": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
       { "item": "m4a1", "prob": 35, "charges-min": 0, "charges-max": 30 },
       { "item": "hk417_13", "prob": 30, "charges-min": 0, "charges-max": 20 }
