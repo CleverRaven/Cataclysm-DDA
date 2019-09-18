@@ -318,6 +318,45 @@ bool Character::has_active_mutation( const trait_id &b ) const
     return iter != my_mutations.end() && iter->second.powered;
 }
 
+bool Character::is_category_allowed( const std::vector<std::string> &category ) const
+{
+    bool allowed = false;
+    bool restricted = false;
+    for( const trait_id &mut : get_mutations() ) {
+        for( const std::string &Ch_cat : mut.obj().allowed_category ) {
+            restricted = true;
+            for( const std::string &Mu_cat : category ) {
+                if( Ch_cat == Mu_cat ) {
+                    allowed = true;
+                }
+            }
+        }
+    }
+    if( !restricted ) {
+        allowed = true;
+    }
+    return allowed;
+
+}
+
+bool Character::is_category_allowed( const std::string &category ) const
+{
+    bool allowed = false;
+    bool restricted = false;
+    for( const trait_id &mut : get_mutations() ) {
+        for( const std::string &Ch_cat : mut.obj().allowed_category ) {
+            restricted = true;
+            if( Ch_cat == category ) {
+                allowed = true;
+            }
+        }
+    }
+    if( !restricted ) {
+        allowed = true;
+    }
+    return allowed;
+}
+
 bool Character::is_weak_to_water() const
 {
     for( const auto &mut : my_mutations ) {
@@ -550,6 +589,9 @@ trait_id Character::trait_by_invlet( const int ch ) const
 
 bool player::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const
 {
+    if( !is_category_allowed( mutation->category ) ) {
+        return false;
+    }
     if( mutation_branch::trait_is_blacklisted( mutation ) ) {
         return false;
     }
@@ -588,6 +630,10 @@ void player::mutate()
 
     // Determine the highest mutation category
     std::string cat = get_highest_category();
+
+    if( !is_category_allowed( cat ) ) {
+        cat.clear();
+    }
 
     // See if we should upgrade/extend an existing mutation...
     std::vector<trait_id> upgrades;
@@ -686,7 +732,7 @@ void player::mutate()
         if( cat.empty() ) {
             // Pull the full list
             for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
-                if( traits_iter.valid ) {
+                if( traits_iter.valid && is_category_allowed( traits_iter.category ) ) {
                     valid.push_back( traits_iter.id );
                 }
             }

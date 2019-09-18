@@ -486,6 +486,12 @@ class Character : public Creature, public visitable<Character>
 
         bool has_active_mutation( const trait_id &b ) const;
 
+        /**
+        * Returns true if this category of mutation is allowed.
+        */
+        bool is_category_allowed( const std::vector<std::string> &category ) const;
+        bool is_category_allowed( const std::string &category ) const;
+
         bool is_weak_to_water() const;
 
         /**Check for mutation disallowing the use of an healing item*/

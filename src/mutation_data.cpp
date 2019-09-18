@@ -365,6 +365,8 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "can_only_heal_with", can_only_heal_with );
     optional( jo, was_loaded, "can_heal_with", can_heal_with );
 
+    optional( jo, was_loaded, "allowed_category", allowed_category );
+
     optional( jo, was_loaded, "mana_modifier", mana_modifier, 0 );
     optional( jo, was_loaded, "mana_multiplier", mana_multiplier, 1.0f );
     optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, 1.0f );
