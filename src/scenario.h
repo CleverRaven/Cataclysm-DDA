@@ -7,6 +7,7 @@
 #include <string>
 
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 class profession;
@@ -18,17 +19,16 @@ class generic_factory;
 
 class scenario
 {
-
     private:
         friend class string_id<scenario>;
         friend class generic_factory<scenario>;
         string_id<scenario> id;
         bool was_loaded = false;
-        std::string _name_male;
-        std::string _name_female;
-        std::string _description_male;
-        std::string _description_female;
-        std::string _start_name;
+        translation _name_male;
+        translation _name_female;
+        translation _description_male;
+        translation _description_female;
+        translation _start_name;
 
         bool blacklist = false; // If true, professions is a blacklist.
         bool extra_professions = false; // If true, professions add to default professions.
