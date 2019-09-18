@@ -1772,7 +1772,7 @@
   {
     "type": "speech",
     "speaker": "mon_grocerybot_running_out_of_friendship",
-    "sound": "a neutral voice say, \"Customer I must inform you that my alocated time with you will soon come to its end.\"",
+    "sound": "a neutral voice say, \"Customer I must inform you that my allocated time with you will soon come to its end.\"",
     "volume": 8
   },
   {
