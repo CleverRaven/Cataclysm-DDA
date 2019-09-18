@@ -2258,7 +2258,7 @@
   },
   {
     "type": "keybinding",
-    "id": "TOGGLE_EXAMINE",
+    "id": "USAGE_HELP",
     "category": "BIONICS",
     "name": "Display Columns Info",
     "bindings": [ { "input_method": "keyboard", "key": "F1" } ]

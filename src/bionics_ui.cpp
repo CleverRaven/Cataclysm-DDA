@@ -321,8 +321,8 @@ void player::power_bionics()
     const int FOOTER_HEIGHT = 5;
 
     // Main window
-    // +3 = top + bottom + footer line
-    const int requested_height = TITLE_HEIGHT + TITLE_TAB_HEIGHT + FOOTER_HEIGHT + max_list_size + 3;
+    // +4 = top + bottom + footer line + column names
+    const int requested_height = TITLE_HEIGHT + TITLE_TAB_HEIGHT + FOOTER_HEIGHT + max_list_size + 4;
     const int HEIGHT = std::min( TERMY, requested_height );
 
     int requested_width = std::max( max_name_length + col_width + 3, tabs_width );
@@ -354,7 +354,6 @@ void player::power_bionics()
 
     int scroll_position = 0;
     int cursor = 0;
-    int cur_tab_idx = 0;
 
     const int list_start_y = header_line_y + 1;
     const int LIST_HEIGHT = footer_start_y - list_start_y - 1; //-1 is footer separator
@@ -371,35 +370,15 @@ void player::power_bionics()
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "USAGE_HELP" );
 
-    bool recalc = false;
+    int cur_tab_idx = 0;
+    for( ; static_cast<size_t>( cur_tab_idx ) < bionics_by_type.size() &&
+         bionics_by_type[cur_tab_idx].empty(); cur_tab_idx++ ); //try to find non-empty list
+    if( static_cast<size_t>( cur_tab_idx ) >= bionics_by_type.size() ) { //if all lists are empty
+        cur_tab_idx = 0;
+    }
+
     bool redraw = true;
-
     for( ;; ) {
-        if( recalc ) {
-            bionics_by_type.clear();
-            for( auto &b : *my_bionics ) {
-                bionics_displayType_id dType = b.id->display_type;
-                for( size_t i = 0; i < BionicsDisplayType::displayTypes.size(); i++ ) {
-                    if( BionicsDisplayType::displayTypes[i].ident() == dType ) {
-                        bionics_by_type[i].emplace_back( &b );
-                        break;
-                    }
-                }
-            }
-
-            if( --cursor < 0 ) {
-                cursor = 0;
-            }
-            if( scroll_position > max_scroll_position &&
-                cursor - scroll_position < LIST_HEIGHT - half_list_view_location ) {
-                scroll_position--;
-            }
-
-            recalc = false;
-            // bionics were modified, so it's necessary to redraw the screen
-            redraw = true;
-        }
-
         //track which list we are looking at
         const bvector &current_bionic_list = bionics_by_type[cur_tab_idx];
         max_scroll_position = std::max( 0, static_cast<int>( current_bionic_list.size() ) - LIST_HEIGHT );
@@ -427,7 +406,8 @@ void player::power_bionics()
                                       ctxt.get_desc( "REASSIGN" ) );
             mvwprintz( wBio, point( 2, footer_start_y - 1 ), c_white, help_str );
 
-            const bool name_only = BionicsDisplayType::displayTypes[cur_tab_idx].is_hide_columns();
+            const bool name_only = current_bionic_list.empty() ||
+                                   BionicsDisplayType::displayTypes[cur_tab_idx].is_hide_columns();
             if( !name_only ) {
                 for( size_t col_idx = column_num_entries, right_bound = col_right_bound; col_idx-- > 0; ) {
                     bionic_col_data col_data = get_col_data( col_idx );
