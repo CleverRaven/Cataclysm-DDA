@@ -3882,7 +3882,7 @@ void player::check_needs_extremes()
                         add_msg_if_player( m_warning, _( "You feel weak due to malnutrition." ) );
                     } else if( get_kcal_percent() < 0.8f ) {
                         add_msg_if_player( m_warning,
-                                           _( "You have a feeling that your body needs a more nutritious food." ) );
+                                           _( "You feel that your body needs more nutritious food." ) );
                     }
                 }
             }
