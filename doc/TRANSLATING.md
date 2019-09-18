@@ -267,6 +267,7 @@ new syntax "name" would be a `dict`, which may break unmigrated script.
 | Template NPC names and name suffixes
 | NPC talk response text
 | Relic name overrides
+| Speech text
 
 ### Recommendations
 

@@ -2,12 +2,14 @@
 #ifndef SPEECH_H
 #define SPEECH_H
 
+#include "translations.h"
+
 #include <string>
 
 class JsonObject;
 
 struct SpeechBubble {
-    std::string text;
+    translation text;
     int volume;
 };
 
