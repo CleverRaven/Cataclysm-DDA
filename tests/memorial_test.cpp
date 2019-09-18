@@ -14,7 +14,7 @@ void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, A
     CAPTURE( io::enum_to_string( Type ) );
     CAPTURE( ref );
     m.clear();
-    b.send( event::make<Type>( args... ) );
+    b.send( cata::event::make<Type>( args... ) );
 
     std::string result = m.dump();
     CAPTURE( result );
@@ -176,7 +176,7 @@ TEST_CASE( "memorials" )
         m, b, u_name + " was killed.\nLast words: last_words", false, "last_words" );
 
     check_memorial<event_type::game_start>(
-        m, b, u_name + " began their journey into the Cataclysm." );
+        m, b, u_name + " began their journey into the Cataclysm.", ch );
 
     check_memorial<event_type::installs_cbm>(
         m, b, "Installed bionic: Alarm System.", ch, cbm );

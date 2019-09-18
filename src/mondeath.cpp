@@ -46,6 +46,7 @@
 #include "type_id.h"
 #include "colony.h"
 #include "point.h"
+#include "mattack_actors.h"
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -197,8 +198,9 @@ void mdeath::splatter( monster &z )
     // 1% of the weight of the monster is the base, with overflow damage as a multiplier
     int gibbed_weight = rng( 0, round( to_gram( z.get_weight() ) / 100.0 *
                                        ( overflow_damage / max_hp + 1 ) ) );
+    const int z_weight = to_gram( z.get_weight() );
     // limit gibbing to 15%
-    gibbed_weight = std::min( gibbed_weight, to_gram( z.get_weight() ) * 15 / 100 );
+    gibbed_weight = std::min( gibbed_weight, z_weight * 15 / 100 );
 
     if( pulverized && gibbable ) {
         float overflow_ratio = overflow_damage / max_hp + 1;
@@ -653,17 +655,45 @@ void mdeath::broken( monster &z )
 
     g->m.add_item_or_charges( z.pos(), broken_mon );
 
-
-    // adds ammo drop
     if( z.type->has_flag( MF_DROPS_AMMO ) ) {
         for( const std::pair<std::string, int> &ammo_entry : z.type->starting_ammo ) {
             if( z.ammo[ammo_entry.first] > 0 ) {
-                g->m.spawn_item( z.pos(), ammo_entry.first, z.ammo[ammo_entry.first], 1,
-                                 calendar::turn );
+                bool spawned = false;
+                for( const std::pair<std::string, mtype_special_attack> &attack : z.type->special_attacks ) {
+                    if( attack.second->id == "gun" ) {
+                        item gun = item( dynamic_cast<const gun_actor *>( attack.second.get() )->gun_type );
+                        bool same_ammo = false;
+                        for( const ammotype &at : gun.ammo_types() ) {
+                            if( at == item( ammo_entry.first ).ammo_type() ) {
+                                same_ammo = true;
+                                break;
+                            }
+                        }
+                        const bool uses_mags = !gun.magazine_compatible().empty();
+                        if( same_ammo && uses_mags ) {
+                            std::vector<item> mags;
+                            int ammo_count = z.ammo[ammo_entry.first];
+                            while( ammo_count > 0 ) {
+                                item mag = item( gun.type->magazine_default.find( item( ammo_entry.first ).ammo_type() )->second );
+                                mag.ammo_set( ammo_entry.first,
+                                              std::min( ammo_count, mag.type->magazine->capacity ) );
+                                mags.insert( mags.end(), mag );
+                                ammo_count -= mag.type->magazine->capacity;
+                            }
+                            g->m.spawn_items( z.pos(), mags );
+                            spawned = true;
+                            break;
+                        }
+                    }
+                }
+                if( !spawned ) {
+                    g->m.spawn_item( z.pos(), ammo_entry.first, z.ammo[ammo_entry.first], 1,
+                                     calendar::turn );
+                }
             }
         }
     }
-    // end adds ammo drop
+
     //TODO: make mdeath::splatter work for robots
     if( ( broken_mon.damage() >= broken_mon.max_damage() ) && g->u.sees( z.pos() ) ) {
         add_msg( m_good, _( "The %s is destroyed!" ), z.name() );
@@ -738,8 +768,8 @@ void mdeath::jabberwock( monster &z )
 
     if( vorpal && !ch->weapon.has_technique( matec_id( "VORPAL" ) ) ) {
         if( ch->sees( z ) ) {
-            //~ %s is the possessive form of the monster's name
             ch->add_msg_if_player( m_info,
+                                   //~ %s is the possessive form of the monster's name
                                    _( "As the flames in %s eyes die out, your weapon seems to shine slightly brighter." ),
                                    z.disp_name( true ) );
         }
@@ -814,8 +844,8 @@ void mdeath::detonate( monster &z )
 
     if( g->u.sees( z ) ) {
         if( dets.empty() ) {
-            //~ %s is the possessive form of the monster's name
             add_msg( m_info,
+                     //~ %s is the possessive form of the monster's name
                      _( "The %s's hands fly to its pockets, but there's nothing left in them." ),
                      z.name() );
         } else {

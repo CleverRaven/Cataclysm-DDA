@@ -98,6 +98,9 @@ const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_infection( "infection" );
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_npc_flee_player( "npc_flee_player" );
+const efftype_id effect_riding( "riding" );
+const efftype_id effect_ridden( "ridden" );
+const efftype_id effect_controlled( "controlled" );
 
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
@@ -436,6 +439,7 @@ void npc::set_fac( const string_id<faction> &id )
 {
     my_fac = g->faction_manager_ptr->get( id );
     fac_id = my_fac->id;
+    my_fac->add_to_membership( getID(), disp_name(), known_to_u );
     for( auto &e : inv_dump() ) {
         e->set_owner( my_fac );
     }
@@ -624,6 +628,19 @@ npc_attitude npc::get_previous_attitude()
     return previous_attitude;
 }
 
+bool npc::get_known_to_u()
+{
+    return known_to_u;
+}
+
+void npc::set_known_to_u( bool known )
+{
+    known_to_u = known;
+    if( my_fac ) {
+        my_fac->add_to_membership( getID(), disp_name(), known_to_u );
+    }
+}
+
 void npc::setpos( const tripoint &pos )
 {
     position = pos;
@@ -698,7 +715,7 @@ void npc::place_on_map()
     // value of "submap_coords.x * SEEX + posx()" is unchanged
     setpos( tripoint( offset_x + dmx * SEEX, offset_y + dmy * SEEY, posz() ) );
 
-    if( g->is_empty( pos() ) ) {
+    if( g->is_empty( pos() ) || is_mounted() ) {
         return;
     }
 
@@ -1052,13 +1069,41 @@ void npc::form_opinion( const player &u )
         set_attitude( NPCATT_TALK );
     } else if( op_of_u.fear - 2 * personality.aggression - personality.bravery < -30 ) {
         set_attitude( NPCATT_KILL );
-    } else if( my_fac != nullptr && my_fac->likes_u < -10 ) {
+    } else if( my_fac && my_fac->likes_u < -10 ) {
+        if( is_player_ally() ) {
+            mutiny();
+        }
         set_attitude( NPCATT_KILL );
     } else {
         set_attitude( NPCATT_FLEE_TEMP );
     }
 
     add_msg( m_debug, "%s formed an opinion of u: %s", name, npc_attitude_id( attitude ) );
+}
+
+void npc::mutiny()
+{
+    if( !my_fac || !is_player_ally() ) {
+        return;
+    }
+    const bool seen = g->u.sees( pos() );
+    if( seen ) {
+        add_msg( m_bad, _( "%s is tired of your incompetent leadership and abuse!" ), disp_name() );
+    }
+    // NPCs leaving your faction due to mistreatment further reduce their opinion of you
+    if( my_fac->likes_u < -10 ) {
+        op_of_u.trust += my_fac->respects_u / 10;
+        op_of_u.anger += my_fac->likes_u / 10;
+    }
+    // NPCs leaving your faction for abuse reduce the hatred your (remaining) followers
+    // feel for you, but also reduces their respect for you.
+    my_fac->likes_u = std::max( 0, my_fac->likes_u / 2 + 10 );
+    my_fac->respects_u -= 5;
+    set_fac( faction_id( "amf" ) );
+    say( _( "<follower_mutiny>  Adios, motherfucker!" ), sounds::sound_t::order );
+    if( seen ) {
+        my_fac->known_by_u = true;
+    }
 }
 
 float npc::vehicle_danger( int radius ) const
@@ -1116,10 +1161,15 @@ void npc::make_angry()
         return; // We're already angry!
     }
 
+    // player allies that become angry should stop being player allies
+    if( is_player_ally() ) {
+        mutiny();
+    }
+
     // Make associated faction, if any, angry at the player too.
-    if( my_fac != nullptr ) {
-        my_fac->likes_u = std::max( -50, my_fac->likes_u - 50 );
-        my_fac->respects_u = std::max( -50, my_fac->respects_u - 50 );
+    if( my_fac && my_fac->id != faction_id( "no_faction" ) && my_fac->id != faction_id( "amf" ) ) {
+        my_fac->likes_u = std::min( -15, my_fac->likes_u - 5 );
+        my_fac->respects_u = std::min( -15, my_fac->respects_u - 5 );
     }
     if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
         set_attitude( NPCATT_FLEE_TEMP ); // We don't want to take u on!
@@ -1779,6 +1829,36 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
+void npc::npc_dismount()
+{
+    if( !mounted_creature || !has_effect( effect_riding ) ) {
+        add_msg( m_debug, "NPC %s tried to dismount, but they have no mount, or they are not riding",
+                 disp_name() );
+        return;
+    }
+    cata::optional<tripoint> pnt;
+    for( const auto &elem : g->m.points_in_radius( pos(), 1 ) ) {
+        if( g->is_empty( elem ) ) {
+            pnt = elem;
+            break;
+        }
+    }
+    if( !pnt ) {
+        add_msg( m_debug, "NPC %s could not find a place to dismount.", disp_name() );
+        return;
+    }
+    remove_effect( effect_riding );
+    if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) &&
+        !mounted_creature->type->mech_weapon.empty() ) {
+        remove_item( weapon );
+    }
+    mounted_creature->remove_effect( effect_ridden );
+    mounted_creature->add_effect( effect_controlled, 5_turns );
+    mounted_creature = nullptr;
+    setpos( *pnt );
+    mod_moves( -100 );
+}
+
 int npc::smash_ability() const
 {
     if( !is_hallucination() && ( !is_player_ally() || rules.has_flag( ally_rule::allow_bash ) ) ) {
@@ -2049,7 +2129,16 @@ void npc::die( Creature *nkiller )
     if( in_vehicle ) {
         g->m.unboard_vehicle( pos(), true );
     }
-
+    if( is_mounted() ) {
+        monster *critter = mounted_creature.get();
+        critter->remove_effect( effect_ridden );
+        critter->mounted_player = nullptr;
+        critter->mounted_player_id = character_id();
+    }
+    // if this NPC was the only member of a micro-faction, clean it up.
+    if( my_fac ) {
+        my_fac->remove_member( getID() );
+    }
     dead = true;
     Character::die( nkiller );
 
@@ -2285,6 +2374,14 @@ void npc::on_load()
     }
     if( g->m.veh_at( pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) && !in_vehicle ) {
         g->m.board_vehicle( pos(), this );
+    }
+    if( has_effect( effect_riding ) && !mounted_creature ) {
+        if( const monster *const mon = g->critter_at<monster>( pos() ) ) {
+            mounted_creature = g->shared_from( *mon );
+        } else {
+            add_msg( m_debug, "NPC is meant to be riding, though the mount is not found when %s is loaded",
+                     disp_name() );
+        }
     }
     if( has_trait( trait_id( "HALLUCINATION" ) ) ) {
         hallucination = true;

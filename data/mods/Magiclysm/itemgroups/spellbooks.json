@@ -88,13 +88,14 @@
       [ "spell_scroll_foxs_cunning", 50 ],
       [ "spell_scroll_storm_hammer", 35 ],
       [ "spell_scroll_animated_blade", 35 ],
-      [ "spell_scroll_mirror_image", 15 ]
+      [ "spell_scroll_mirror_image", 15 ],
+      [ "spell_scroll_dark_sight", 30 ]
     ]
   },
   {
     "id": "spell_scroll_tier_3",
     "type": "item_group",
-    "items": [ [ "spell_scroll_magus_mana_blast", 50 ], [ "lightning_storm_scroll", 50 ] ]
+    "items": [ [ "spell_scroll_magus_mana_blast", 50 ], [ "lightning_storm_scroll", 50 ], [ "spell_scroll_invisibility", 10 ] ]
   },
   {
     "id": "spellbook_tier_0",

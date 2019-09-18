@@ -12,8 +12,10 @@
 
 #include "sdl_wrappers.h"
 #include "animation.h"
+#include "creature.h"
 #include "lightmap.h"
 #include "line.h"
+#include "map_memory.h"
 #include "options.h"
 #include "weather.h"
 #include "enums.h"
@@ -24,6 +26,8 @@ class Creature;
 class player;
 class pixel_minimap;
 class JsonObject;
+
+using itype_id = std::string;
 
 extern void set_displaybuffer_rendertarget();
 
@@ -272,12 +276,12 @@ class cata_tiles
         void on_options_changed();
 
         /** Draw to screen */
-        void draw( int destx, int desty, const tripoint &center, int width, int height,
+        void draw( const point &dest, const tripoint &center, int width, int height,
                    std::multimap<point, formatted_text> &overlay_strings,
                    color_block_overlay_container &color_blocks );
 
         /** Minimap functionality */
-        void draw_minimap( int destx, int desty, const tripoint &center, int width, int height );
+        void draw_minimap( const point &dest, const tripoint &center, int width, int height );
 
     protected:
         /** How many rows and columns of tiles fit into given dimensions **/
@@ -297,36 +301,62 @@ class cata_tiles
         bool draw_from_id_string( std::string id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles, int &height_3d );
-        bool draw_sprite_at( const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-                             int x, int y, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-                             bool apply_night_vision_goggles );
-        bool draw_sprite_at( const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
-                             int x, int y, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-                             bool apply_night_vision_goggles, int &height_3d );
-        bool draw_tile_at( const tile_type &tile, int x, int y, unsigned int loc_rand, int rota,
+        bool draw_sprite_at(
+            const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
+            const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
+            bool apply_night_vision_goggles );
+        bool draw_sprite_at(
+            const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
+            const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
+            bool apply_night_vision_goggles, int &height_3d );
+        bool draw_tile_at( const tile_type &tile, const point &, unsigned int loc_rand, int rota,
                            lit_level ll, bool apply_night_vision_goggles, int &height_3d );
 
         /* Tile Picking */
         void get_tile_values( int t, const int *tn, int &subtile, int &rotation );
-        void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group );
-        void get_terrain_orientation( const tripoint &p, int &rota, int &subtile );
+        void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group,
+                                 const std::map<tripoint, ter_id> &ter_override );
+        void get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
+                                      const std::map<tripoint, ter_id> &ter_override,
+                                      const bool ( &invisible )[5] );
         void get_rotation_and_subtile( char val, int &rota, int &subtile );
 
+        /** Map memory */
+        bool has_memory_at( const tripoint &p ) const;
+        bool has_terrain_memory_at( const tripoint &p ) const;
+        bool has_furniture_memory_at( const tripoint &p ) const;
+        bool has_trap_memory_at( const tripoint &p ) const;
+        bool has_vpart_memory_at( const tripoint &p ) const;
+        memorized_terrain_tile get_terrain_memory_at( const tripoint &p ) const;
+        memorized_terrain_tile get_furniture_memory_at( const tripoint &p ) const;
+        memorized_terrain_tile get_trap_memory_at( const tripoint &p ) const;
+        memorized_terrain_tile get_vpart_memory_at( const tripoint &p ) const;
+
         /** Drawing Layers */
+        bool would_apply_vision_effects( visibility_type visibility ) const;
         bool apply_vision_effects( const tripoint &pos, visibility_type visibility );
-        bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d );
-        bool draw_terrain_from_memory( const tripoint &p, int &height_3d );
-        bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d );
-        bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d );
-        bool draw_graffiti( const tripoint &p, lit_level ll, int &height_3d );
-        bool draw_trap( const tripoint &p, lit_level ll, int &height_3d );
-        bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d );
-        bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d );
-        bool draw_vpart_below( const tripoint &p, lit_level ll, int &height_3d );
-        bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d );
-        bool draw_critter_at_below( const tripoint &p, lit_level ll, int &height_3d );
-        bool draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d );
-        bool draw_entity( const Creature &critter, const tripoint &p, lit_level ll, int &height_3d );
+        bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d,
+                           const bool ( &invisible )[5] );
+        bool draw_terrain_below( const tripoint &p, lit_level ll, int &height_3d,
+                                 const bool ( &invisible )[5] );
+        bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d,
+                             const bool ( &invisible )[5] );
+        bool draw_graffiti( const tripoint &p, lit_level ll, int &height_3d,
+                            const bool ( &invisible )[5] );
+        bool draw_trap( const tripoint &p, lit_level ll, int &height_3d,
+                        const bool ( &invisible )[5] );
+        bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d,
+                                 const bool ( &invisible )[5] );
+        bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d,
+                         const bool ( &invisible )[5] );
+        bool draw_vpart_below( const tripoint &p, lit_level ll, int &height_3d,
+                               const bool ( &invisible )[5] );
+        bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d,
+                              const bool ( &invisible )[5] );
+        bool draw_critter_at_below( const tripoint &p, lit_level ll, int &height_3d,
+                                    const bool ( &invisible )[5] );
+        bool draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d,
+                             const bool ( &invisible )[5] );
         void draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll, int &height_3d );
 
         bool draw_item_highlight( const tripoint &pos );
@@ -377,6 +407,40 @@ class cata_tiles
         void draw_zones_frame();
         void void_zones();
 
+        void init_draw_radiation_override( const tripoint &p, int rad );
+        void void_radiation_override();
+
+        void init_draw_terrain_override( const tripoint &p, const ter_id &id );
+        void void_terrain_override();
+
+        void init_draw_furniture_override( const tripoint &p, const furn_id &id );
+        void void_furniture_override();
+
+        void init_draw_graffiti_override( const tripoint &p, bool has );
+        void void_graffiti_override();
+
+        void init_draw_trap_override( const tripoint &p, const trap_id &id );
+        void void_trap_override();
+
+        void init_draw_field_override( const tripoint &p, const field_type_id &id );
+        void void_field_override();
+
+        void init_draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid,
+                                      bool hilite );
+        void void_item_override();
+
+        void init_draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod,
+                                       int veh_dir, bool hilite, const point &mount );
+        void void_vpart_override();
+
+        void init_draw_below_override( const tripoint &p, bool draw );
+        void void_draw_below_override();
+
+        void init_draw_monster_override( const tripoint &p, const mtype_id &id, int count,
+                                         bool more, Creature::Attitude att );
+        void void_monster_override();
+
+        bool has_draw_override( const tripoint &p ) const;
     public:
         /**
          * Initialize the current tileset (load tile images, load mapping), using the current
@@ -406,7 +470,7 @@ class cata_tiles
             return tile_ratioy;
         }
         void do_tile_loading_report();
-        point player_to_screen( int x, int y ) const;
+        point player_to_screen( const point & ) const;
         static std::vector<options_manager::id_and_option> build_renderer_list();
     protected:
         template <typename maptype>
@@ -483,6 +547,21 @@ class cata_tiles
         point o;
         // offset for drawing, in pixels.
         point op;
+
+        std::map<tripoint, int> radiation_override;
+        std::map<tripoint, ter_id> terrain_override;
+        std::map<tripoint, furn_id> furniture_override;
+        std::map<tripoint, bool> graffiti_override;
+        std::map<tripoint, trap_id> trap_override;
+        std::map<tripoint, field_type_id> field_override;
+        // bool represents item highlight
+        std::map<tripoint, std::tuple<itype_id, mtype_id, bool>> item_override;
+        // int, int, bool represents part_mod, veh_dir, and highlight respectively
+        // point represents the mount direction
+        std::map<tripoint, std::tuple<vpart_id, int, int, bool, point>> vpart_override;
+        std::map<tripoint, bool> draw_below_override;
+        // int represents spawn count
+        std::map<tripoint, std::tuple<mtype_id, int, bool, Creature::Attitude>> monster_override;
 
     private:
         /**

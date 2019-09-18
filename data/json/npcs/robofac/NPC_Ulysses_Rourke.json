@@ -62,7 +62,7 @@
       { "item": "rm13_armor" },
       { "item": "goggles_nv" },
       { "item": "holster", "prob": 50 },
-      { "item": "chestrig" }
+      { "item": "tacvest" }
     ]
   },
   {
@@ -71,11 +71,12 @@
     "subtype": "collection",
     "entries": [
       { "item": "EMPbomb" },
-      { "item": "needlegun" },
+      { "item": "needlegun", "charges": 100, "ammo-item": "5x50heavy" },
       { "item": "goggles_nv" },
       { "item": "flashbang", "count": 2 },
       { "item": "plut_cell", "count": 5 },
-      { "item": "5x50heavy", "count": 10 }
+      { "item": "5x50_100_mag", "count": 2, "charges": 100, "ammo-item": "5x50heavy" },
+      { "item": "5x50heavy", "count": 8 }
     ]
   }
 ]

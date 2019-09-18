@@ -22,6 +22,7 @@
 #include "flat_set.h"
 #include "io_tags.h"
 #include "item_location.h"
+#include "relic.h"
 #include "requirements.h"
 #include "safe_reference.h"
 #include "string_id.h"
@@ -76,7 +77,7 @@ class map;
 enum damage_type : int;
 enum clothing_mod_type : int;
 
-const std::string &rad_badge_color( int rad );
+std::string rad_badge_color( int rad );
 
 struct light_emission {
     unsigned short luminance;
@@ -1069,6 +1070,7 @@ class item : public visitable<item>
         bool is_tool() const;
         bool is_transformable() const;
         bool is_artifact() const;
+        bool is_relic() const;
         bool is_bucket() const;
         bool is_bucket_nonempty() const;
 
@@ -1268,6 +1270,7 @@ class item : public visitable<item>
          */
         /*@{*/
         void set_var( const std::string &name, int value );
+        void set_var( const std::string &name, long long value );
         // Acceptable to use long as part of overload set
         // NOLINTNEXTLINE(cata-no-long)
         void set_var( const std::string &name, long value );
@@ -1973,6 +1976,8 @@ class item : public visitable<item>
         void set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections );
         const std::vector<comp_selection<tool_comp>> &get_cached_tool_selections() const;
 
+        std::vector<enchantment> get_enchantments() const;
+
     private:
         /**
          * Calculate the thermal energy and temperature change of the item
@@ -2020,7 +2025,8 @@ class item : public visitable<item>
         // Place conditions that should remove fake smoke item in this sub-function
         bool process_fake_smoke( player *carrier, const tripoint &pos );
         bool process_fake_mill( player *carrier, const tripoint &pos );
-        bool process_cable( player *p, const tripoint &pos );
+        bool process_cable( player *carrier, const tripoint &pos );
+        bool process_UPS( player *carrier, const tripoint &pos );
         bool process_blackpowder_fouling( player *carrier );
         bool process_tool( player *carrier, const tripoint &pos );
 
@@ -2049,7 +2055,8 @@ class item : public visitable<item>
         // If the crafter has insufficient tools to continue to the next 5% progress step
         bool tools_to_continue = false;
         std::vector<comp_selection<tool_comp>> cached_tool_selections;
-
+        // any relic data specific to this item
+        cata::optional<relic> relic_data;
     public:
         int charges;
         units::energy energy;      // Amount of energy currently stored in a battery

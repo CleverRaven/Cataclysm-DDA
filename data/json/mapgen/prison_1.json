@@ -252,7 +252,11 @@
         ]
       },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE_COP", "x": [ 35, 38 ], "y": [ 2, 7 ], "density": 0.2 } ],
-      "monster": { "7": { "monster": "mon_turret" }, "Z": { "monster": "mon_zombie_prisoner" }, "C": { "monster": "mon_broken_cyborg" } }
+      "monster": {
+        "7": { "monster": "mon_turret_rifle" },
+        "Z": { "monster": "mon_zombie_prisoner" },
+        "C": { "monster": "mon_broken_cyborg" }
+      }
     }
   },
   {

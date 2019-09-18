@@ -30,8 +30,8 @@ xgettext --default-domain="cataclysm-dda" \
          --keyword="ngettext:1,2" \
          --keyword="translate_marker" \
          --keyword="translate_marker_context:1c,2" \
-         --keyword="translation:1,1t" \
-         --keyword="translation:1c,2,2t" \
+         --keyword="to_translation:1,1t" \
+         --keyword="to_translation:1c,2,2t" \
          --from-code="UTF-8" \
          src/*.cpp src/*.h lang/json/*.py
 if [ $? -ne 0 ]; then

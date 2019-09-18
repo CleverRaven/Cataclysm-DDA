@@ -140,18 +140,6 @@ class player_morale;
 // This corresponds to the level of accuracy of a "snap" or "hip" shot.
 extern const double MAX_RECOIL;
 
-//Don't forget to add new stats counters
-//to the save and load functions in savegame_json.cpp
-struct stats {
-    int squares_walked = 0;
-    int damage_taken = 0;
-    int damage_healed = 0;
-    int headshots = 0;
-
-    void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
-};
-
 struct stat_mod {
     int strength = 0;
     int dexterity = 0;
@@ -223,6 +211,8 @@ class player : public Character
         bool is_npc() const override {
             return false;    // Overloaded for NPCs in npc.h
         }
+        bool can_mount( const monster &critter ) const;
+        void mount_creature( monster &z );
         /** Returns what color the player should be drawn as */
         nc_color basic_symbol_color() const override;
 
@@ -608,7 +598,7 @@ class player : public Character
         dispersion_sources get_weapon_dispersion( const item &obj ) const;
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
-        bool handle_gun_damage( item &it, int shots_fired );
+        bool handle_gun_damage( item &it );
 
         /** Get maximum recoil penalty due to vehicle motion */
         double recoil_vehicle() const;
@@ -1583,6 +1573,7 @@ class player : public Character
         player_activity activity;
         std::list<player_activity> backlog;
         cata::optional<tripoint> destination_point;
+        int activity_vehicle_part_index = -1;
         int volume;
         const profession *prof;
 
@@ -1647,8 +1638,6 @@ class player : public Character
         std::map<body_part, int> bionic_installation_issues( const bionic_id &bioid );
 
         std::set<character_id> follower_ids;
-        //Record of player stats, for posterity only
-        stats lifetime_stats;
         void mod_stat( const std::string &stat, float modifier ) override;
 
         bool is_underwater() const override;

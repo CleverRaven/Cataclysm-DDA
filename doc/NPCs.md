@@ -428,6 +428,7 @@ Effect | Description
 `u_lose_trait: trait_string`<br/>`npc_lose_trait: trait_string` | Your character or the NPC will lose the trait.
 `u_add_var, npc_add_var`: `var_name, type: type_str`, `context: context_str`, `value: value_str` | Your character or the NPC will store `value_str` as a variable that can be later retrieved by `u_has_var` or `npc_has_var`.  `npc_add_var` can be used to store arbitary local variables, and `u_add_var` can be used to store arbitrary "global" variables, and should be used in preference to setting effects.
 `u_lose_var`, `npc_lose_var`: `var_name`, `type: type_str`, `context: context_str` | Your character or the NPC will clear any stored variable that has the same `var_name`, `type_str`, and `context_str`.
+`u_adjust_var, npc_adjust_var`: `var_name, type: type_str`, `context: context_str`, `adjustment: adjustment_num` | Your character or the NPC will adjust the stored variable by `adjustment_num`.
 `barber_hair` | Opens a menu allowing the player to choose a new hair style.
 `barber_beard` | Opens a menu allowing the player to choose a new beard style.
 `u_learn_recipe: recipe_string`  | Your character will learn and memorize the recipe `recipe_string`.
@@ -552,6 +553,7 @@ Condition | Type | Description
 `"u_has_trait_flag"`<br/>`"npc_has_trait_flag"` | string | `true` if the player character or NPC has any traits with the specific trait flag.  More robust versions of `u_has_any_trait` and `npc_has_any_trait`.  The special trait flag `"MUTATION_THRESHOLD"` checks to see if the player or NPC has crossed a mutation threshold.
 `"u_has_any_trait"`<br/>`"npc_has_any_trait"` | array | `true` if the player character or NPC has any trait or mutation in the array. Used to check multiple specific traits.
 `"u_has_var"`, `"npc_has_var"` | string | `"type": type_str`, `"context": context_str`, and `"value": value_str` are required fields in the same dictionary as `"u_has_var"` or `"npc_has_var"`.<br/>`true` is the player character or NPC has a variable set by `"u_add_var"` or `"npc_add_var"` with the string, `type_str`, `context_str`, and `value_str`.
+`"u_compare_var"`, `"npc_compare_var"` | dictionary | `"type": type_str`, `"context": context_str`, `"op": op_str`, `"value": value_num` are required fields, referencing a var as in `"u_add_var"` or `"npc_add_var"`.<br/>`true` if the player character or NPC has a stored variable that is true for the provided operator `op_str` (one of `==`, `!=`, `<`, `>`, `<=`, `>=`) and value.
 `"u_has_strength"`<br/>`"npc_has_strength"` | int | `true` if the player character's or NPC's strength is at least the value of `u_has_strength` or `npc_has_strength`.
 `"u_has_dexterity"`<br/>`"npc_has_dexterity"` | int | `true` if the player character's or NPC's dexterity is at least the value of `u_has_dexterity` or `npc_has_dexterity`.
 `"u_has_intelligence"`<br/>`"npc_has_intelligence"` | int | `true` if the player character's or NPC's intelligence is at least the value of `u_has_intelligence` or `npc_has_intelligence`.

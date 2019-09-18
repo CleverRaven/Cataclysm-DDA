@@ -123,6 +123,9 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "LOOT_ARTIFACTS" ),
                    zone_type( translate_marker( "Loot: Artifacts" ),
                               translate_marker( "Destination for artifacts" ) ) );
+    types.emplace( zone_type_id( "LOOT_CORPSE" ),
+                   zone_type( translate_marker( "Loot: Corpses" ),
+                              translate_marker( "Destination for corpses" ) ) );
     types.emplace( zone_type_id( "LOOT_ARMOR" ),
                    zone_type( translate_marker( "Loot: Armor" ),
                               translate_marker( "Destination for armor. Does include filthy armor if such zone is not specified." ) ) );
@@ -148,6 +151,15 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "FARM_PLOT" ),
                    zone_type( translate_marker( "Farm: Plot" ),
                               translate_marker( "Designate a farm plot for tilling and planting." ) ) );
+    types.emplace( zone_type_id( "CHOP_TREES" ),
+                   zone_type( translate_marker( "Chop Trees" ),
+                              translate_marker( "Designate an area to chop down trees." ) ) );
+    types.emplace( zone_type_id( "FISHING_SPOT" ),
+                   zone_type( translate_marker( "Fishing Spot" ),
+                              translate_marker( "Designate an area to fish from." ) ) );
+    types.emplace( zone_type_id( "VEHICLE_DECONSTRUCT" ),
+                   zone_type( translate_marker( "Vehicle Deconstruct Zone" ),
+                              translate_marker( "Any vehicles in this area are marked for deconstruction." ) ) );
     types.emplace( zone_type_id( "CAMP_FOOD" ),
                    zone_type( translate_marker( "Basecamp: Food" ),
                               translate_marker( "Items in this zone will be added to a basecamp's food supply in the Distribute Food mission." ) ) );
@@ -822,8 +834,8 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         const tripoint &where, int range ) const
 {
     auto cat = it.get_category();
-    if( has_near( zone_type_id( "LOOT_CUSTOM" ), where ) ) {
-        for( const auto elem : get_near( zone_type_id( "LOOT_CUSTOM" ), where, 60, &it ) ) {
+    if( has_near( zone_type_id( "LOOT_CUSTOM" ), where, range ) ) {
+        for( const auto elem : get_near( zone_type_id( "LOOT_CUSTOM" ), where, range, &it ) ) {
             ( void )elem;
             return zone_type_id( "LOOT_CUSTOM" );
         }
@@ -831,6 +843,11 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
     if( it.has_flag( "FIREWOOD" ) ) {
         if( has_near( zone_type_id( "LOOT_WOOD" ), where, range ) ) {
             return zone_type_id( "LOOT_WOOD" );
+        }
+    }
+    if( it.is_corpse() ) {
+        if( has_near( zone_type_id( "LOOT_CORPSE" ), where, range ) ) {
+            return zone_type_id( "LOOT_CORPSE" );
         }
     }
 
@@ -1101,45 +1118,6 @@ void zone_manager::rotate_zones( map &target_map, const int turns )
                                         std::max( new_z_start.y, new_z_end.y ), a_end.z );
             zone.set_position( std::make_pair( first, second ), false );
         }
-    }
-}
-
-void zone_manager::start_sort( const std::vector<tripoint> &src_sorted )
-{
-    for( auto &src : src_sorted ) {
-        num_processed[src] = 0;
-    }
-}
-
-void zone_manager::end_sort()
-{
-    num_processed.clear();
-}
-
-bool zone_manager::is_sorting() const
-{
-    return !num_processed.empty();
-}
-
-int zone_manager::get_num_processed( const tripoint &src ) const
-{
-    auto it = num_processed.find( src );
-    if( it != num_processed.end() ) {
-        return it->second;
-    }
-    return 0;
-}
-
-void zone_manager::increment_num_processed( const tripoint &src )
-{
-    num_processed[src]++;
-}
-
-void zone_manager::decrement_num_processed( const tripoint &src )
-{
-    num_processed[src]--;
-    if( num_processed[src] < 0 ) {
-        num_processed[src] = 0;
     }
 }
 

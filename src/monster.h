@@ -67,6 +67,7 @@ enum monster_attitude {
 enum monster_effect_cache_fields {
     MOVEMENT_IMPAIRED = 0,
     FLEEING,
+    VISION_IMPAIRED,
     NUM_MEFF
 };
 
@@ -197,6 +198,11 @@ class monster : public Creature
         void footsteps( const tripoint &p ); // noise made by movement
         void shove_vehicle( const tripoint &remote_destination,
                             const tripoint &nearby_destination ); // shove vehicles out of the way
+        // check if a monster at a position will drown and kill it if necessary
+        // returns true if the monster dies
+        // chance is the one_in( chance ) that the monster will drown
+        bool die_if_drowning( const tripoint &at_pos, int chance = 1 );
+
 
         tripoint scent_move();
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
@@ -411,11 +417,12 @@ class monster : public Creature
                                     const std::string &npc_msg ) const override;
         void add_msg_player_or_npc( game_message_type type, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
-
         // TEMP VALUES
         tripoint wander_pos; // Wander destination - Just try to move in that direction
         int wandf;           // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
+        player *mounted_player = nullptr; // player that is mounting this creature
+        character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
         character_id dragged_foe_id; // id of character being dragged by the monster
         cata::optional<item> tied_item; // item used to tie the monster
         cata::optional<item> battery_item; // item to power mechs
@@ -479,7 +486,6 @@ class monster : public Creature
         time_point last_updated = calendar::turn_zero;
         int last_baby;
         int last_biosig;
-
         /**
          * Do some cleanup and caching as monster is being unloaded from map.
          */
@@ -488,6 +494,7 @@ class monster : public Creature
          * Retroactively update monster.
          */
         void on_load();
+
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::set<tripoint> get_path_avoid() const override;
