@@ -9570,12 +9570,7 @@
     "coverage": 30,
     "encumbrance": 10,
     "material_thickness": 4,
-    "use_action": { 
-        "type": "bandolier", 
-        "capacity": 5, 
-        "ammo": [ "javelin", "fishspear" ], 
-        "draw_cost": 30 
-    },
+    "use_action": { "type": "bandolier", "capacity": 5, "ammo": [ "javelin", "fishspear" ], "draw_cost": 30 },
     "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ]
   },
   {
