@@ -358,4 +358,7 @@ void enchantment::activate_passive( Character &guy ) const
 
     guy.mod_int_bonus( get_value_add( mod::INTELLIGENCE ) );
     guy.mod_int_bonus( mult_bonus( mod::INTELLIGENCE, guy.get_int_base() ) );
+
+    guy.mod_speed_bonus( get_value_add( mod::SPEED ) );
+    guy.mod_speed_bonus( mult_bonus( mod::SPEED, guy.get_speed_base() ) );
 }

@@ -1860,5 +1860,10 @@
     "type": "recipe",
     "result": "smg_38_mag",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "magbandolier",
+    "obsolete": true
   }
 ]

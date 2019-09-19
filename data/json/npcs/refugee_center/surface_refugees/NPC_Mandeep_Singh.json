@@ -114,7 +114,7 @@
     "id": "TALK_REFUGEE_Mandeep_1_firstmeet",
     "dynamic_line": "It is nice to meet you as well.  Can I help you with something?",
     "responses": [
-      { "text": "I just had some questions.", "topic": "TALK_REFUGEE_Mandeep_2_stub" },
+      { "text": "I just had some questions.", "topic": "TALK_REFUGEE_Mandeep_2" },
       { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
     ]
   },

@@ -201,6 +201,16 @@ bool warm_enough_to_plant( const tripoint &pos );
 
 bool is_wind_blocker( const tripoint &location );
 
+weather_type current_weather( const tripoint &location,
+                              const time_point &t = calendar::turn );
+
+/**
+ * Amount of sunlight incident at the ground, taking weather and time of day
+ * into account.
+ */
+int incident_sunlight( weather_type wtype,
+                       const time_point &t = calendar::turn );
+
 class weather_manager
 {
     public:

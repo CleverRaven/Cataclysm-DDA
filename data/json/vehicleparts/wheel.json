@@ -281,7 +281,7 @@
     "type": "vehicle_part",
     "name": "off-road bicycle wheel",
     "item": "wheel_bicycle_or",
-    "wheel_area": 36,
+    "contact_area": 36,
     "wheel_type": "off-road"
   },
   {

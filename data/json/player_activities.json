@@ -179,7 +179,7 @@
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
     "based_on": "neither",
-    "refuel_fires": "true",
+    "refuel_fires": true,
     "verb": "constructing"
   },
   {
@@ -333,9 +333,7 @@
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
     "verb": "sorting out the loot",
-    "suspendable": false,
-    "based_on": "neither",
-    "no_resume": true
+    "based_on": "neither"
   },
   {
     "id": "ACT_TILL_PLOT",

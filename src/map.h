@@ -405,6 +405,7 @@ class map
         int move_cost( const tripoint &p, const vehicle *ignored_vehicle = nullptr ) const;
         bool impassable( const tripoint &p ) const;
         bool passable( const tripoint &p ) const;
+        bool is_wall_adjacent( const tripoint &center ) const;
 
         /**
         * Similar behavior to `move_cost()`, but ignores vehicles.
@@ -528,7 +529,7 @@ class map
         void reset_vehicle_cache( int zlev );
         void clear_vehicle_cache( int zlev );
         void clear_vehicle_list( int zlev );
-        void update_vehicle_list( submap *to, int zlev );
+        void update_vehicle_list( const submap *to, int zlev );
         //Returns true if vehicle zones are dirty and need to be recached
         bool check_vehicle_zones( int zlev );
         std::vector<zone_data *> get_vehicle_zones( int zlev );
@@ -628,8 +629,11 @@ class map
         // connect_group.  From least-significant bit the order is south, east,
         // west, north (because that's what cata_tiles expects).
         // Based on a combination of visibility and memory, not simply the true
-        // terrain.
-        uint8_t get_known_connections( const tripoint &p, int connect_group ) const;
+        // terrain. Additional overrides can be passed in to override terrain
+        // at specific positions. This is used to display terrain overview in
+        // the map editor.
+        uint8_t get_known_connections( const tripoint &p, int connect_group,
+                                       const std::map<tripoint, ter_id> &override = {} ) const;
         /**
          * Returns the full harvest list, for spawning.
          */
@@ -657,12 +661,14 @@ class map
          * the creature is at p or at an adjacent square).
          */
         bool sees_some_items( const tripoint &p, const Creature &who ) const;
+        bool sees_some_items( const tripoint &p, const tripoint &from ) const;
         /**
          * Check if the creature could see items at p if there were
          * any items. This is similar to @ref sees_some_items, but it
          * does not check that there are actually any items.
          */
         bool could_see_items( const tripoint &p, const Creature &who ) const;
+        bool could_see_items( const tripoint &p, const tripoint &from ) const;
         /**
          * Checks for existence of items. Faster than i_at(p).empty
          */
@@ -1215,6 +1221,8 @@ class map
          */
         void process_falling();
 
+        bool is_cornerfloor( const tripoint &p ) const;
+
         // mapgen.cpp functions
         void generate( const tripoint &p, const time_point &when );
         void place_spawns( const mongroup_id &group, int chance,
@@ -1425,8 +1433,6 @@ class map
                                 float density );
         void draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
                        float density );
-        void draw_silo( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                        float density );
         void draw_temple( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
                           float density );
         void draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_point &when,

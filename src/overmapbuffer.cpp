@@ -1269,7 +1269,7 @@ std::string overmapbuffer::get_description_at( const tripoint &where )
     const int sm_dist = closest_cref.distance;
 
     //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-    std::string format_string = "%1$s %2$s from %3$s";
+    std::string format_string = _( "%1$s %2$s from %3$s" );
     if( sm_dist <= 3 * sm_size / 4 ) {
         if( sm_size >= 16 ) {
             // The city is big enough to be split in districts.

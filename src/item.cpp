@@ -122,27 +122,27 @@ const trait_id trait_huge( "HUGE" );
 const trait_id trait_huge_ok( "HUGE_OK" );
 using npc_class_id = string_id<npc_class>;
 
-const std::string &rad_badge_color( const int rad )
+std::string rad_badge_color( const int rad )
 {
-    using pair_t = std::pair<const int, const std::string>;
+    using pair_t = std::pair<const int, const translation>;
 
     static const std::array<pair_t, 6> values = {{
-            pair_t {  0, _( "green" ) },
-            pair_t { 30, _( "blue" )  },
-            pair_t { 60, _( "yellow" )},
-            pair_t {120, pgettext( "color", "orange" )},
-            pair_t {240, _( "red" )   },
-            pair_t {500, _( "black" ) },
+            pair_t {  0, to_translation( "color", "green" ) },
+            pair_t { 30, to_translation( "color", "blue" )  },
+            pair_t { 60, to_translation( "color", "yellow" )},
+            pair_t {120, to_translation( "color", "orange" )},
+            pair_t {240, to_translation( "color", "red" )   },
+            pair_t {500, to_translation( "color", "black" ) },
         }
     };
 
-    for( const std::pair<const int, const std::string> &i : values ) {
+    for( const auto &i : values ) {
         if( rad <= i.first ) {
-            return i.second;
+            return i.second.translated();
         }
     }
 
-    return values.back().second;
+    return values.back().second.translated();
 }
 
 light_emission nolight = {0, 0, 0};
@@ -195,7 +195,7 @@ item::item() : bday( calendar::start_of_cataclysm )
 
 item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
 {
-    corpse = typeId() == "corpse" ? &mtype_id::NULL_ID().obj() : nullptr;
+    corpse = has_flag( "CORPSE" ) ? &mtype_id::NULL_ID().obj() : nullptr;
     item_counter = type->countdown_interval;
 
     if( qty >= 0 ) {
@@ -325,7 +325,9 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
         debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
 
-    item result( "corpse", turn );
+    std::string corpse_type = mt == mtype_id::NULL_ID() ? "corpse_generic_human" : "corpse";
+
+    item result( corpse_type, turn );
     result.corpse = &mt.obj();
 
     if( result.corpse->has_flag( MF_REVIVES ) && one_in( 20 ) ) {
@@ -2381,7 +2383,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                               making->result_name(),
                                               percent_progress ) ) );
                 } else {
-                    info.push_back( iteminfo( "DESCRIPTION", _( type->description ) ) );
+                    info.push_back( iteminfo( "DESCRIPTION", type->description.translated() ) );
                 }
             }
         }
@@ -2457,7 +2459,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             const std::vector<matype_id> &styles = g->u.ma_styles;
             const std::string valid_styles = enumerate_as_string( styles.begin(), styles.end(),
             [this]( const matype_id & mid ) {
-                return mid.obj().has_weapon( typeId() ) ? _( mid.obj().name ) : std::string();
+                return mid.obj().has_weapon( typeId() ) ? mid.obj().name.translated() : std::string();
             } );
             if( !valid_styles.empty() ) {
                 insert_separation_line();
@@ -2720,6 +2722,17 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
             }
 
+            if( !bid->stat_bonus.empty() ) {
+                info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Stat Bonus:</bold> " ),
+                                          iteminfo::no_newline ) );
+                for( const auto &element : bid->stat_bonus ) {
+                    info.push_back( iteminfo( "CBM", io::enum_to_string<Character::stat>( element.first ), " <num> ",
+                                              iteminfo::no_newline,
+                                              element.second ) );
+                }
+
+            }
+
             const units::mass weight_bonus = bid->weight_capacity_bonus;
             const float weight_modif = bid->weight_capacity_modifier;
             if( weight_modif != 1 ) {
@@ -2877,7 +2890,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 }
                 insert_separation_line();
                 info.emplace_back( "DESCRIPTION", temp1.str() );
-                info.emplace_back( "DESCRIPTION", _( mod->type->description ) );
+                info.emplace_back( "DESCRIPTION", mod->type->description.translated() );
             }
             bool contents_header = false;
             for( const item &contents_item : contents ) {
@@ -2891,7 +2904,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                         info.emplace_back( "DESCRIPTION", space );
                     }
 
-                    const std::string description = _( contents_item.type->description );
+                    const translation &description = contents_item.type->description;
 
                     if( contents_item.made_of_from_type( LIQUID ) ) {
                         units::volume contents_volume = contents_item.volume() * batch;
@@ -2909,7 +2922,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                            converted_volume );
                     } else {
                         info.emplace_back( "DESCRIPTION", contents_item.display_name() );
-                        info.emplace_back( "DESCRIPTION", description );
+                        info.emplace_back( "DESCRIPTION", description.translated() );
                     }
                 }
             }
@@ -3021,7 +3034,8 @@ nc_color item::color_in_inventory() const
     nc_color ret = is_favorite ? c_white : c_light_gray;
     if( type->can_use( "learn_spell" ) ) {
         const use_function *iuse = get_use( "learn_spell" );
-        const learn_spell_actor *actor_ptr = static_cast<learn_spell_actor *>( iuse->get_actor_ptr() );
+        const learn_spell_actor *actor_ptr =
+            static_cast<const learn_spell_actor *>( iuse->get_actor_ptr() );
         for( const std::string spell_id_str : actor_ptr->spells ) {
             const spell_id sp_id( spell_id_str );
             if( u.magic.knows_spell( sp_id ) && !u.magic.get_spell( sp_id ).is_max_level() ) {
@@ -3041,7 +3055,7 @@ nc_color item::color_in_inventory() const
     } else if( is_filthy() || item_tags.count( "DIRTY" ) ) {
         ret = c_brown;
     } else if( is_bionic() && !has_flag( "NO_STERILE" ) ) {
-        if( !has_flag( "NO_PACKED" ) || has_flag( "PACKED_FAULTY" ) ) {
+        if( !has_flag( "NO_PACKED" ) ) {
             ret = c_dark_gray;
         } else {
             ret = c_cyan;
@@ -3499,16 +3513,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( is_filthy() ) {
         ret << _( " (filthy)" );
     }
-    if( is_bionic() && ( !has_flag( "NO_PACKED" ) || has_flag( "PACKED_FAULTY" ) ) ) {
+    if( is_bionic() && !has_flag( "NO_PACKED" ) ) {
         if( !has_flag( "NO_STERILE" ) ) {
             ret << _( " (sterile)" );
         } else {
             ret << _( " (packed)" );
         }
-    }
-    if( is_bionic() && !has_flag( "NO_STERILE" ) && !( !has_flag( "NO_PACKED" ) ||
-            has_flag( "PACKED_FAULTY" ) ) ) {
-        ret << _( " (sterile)" );
     }
 
     if( is_tool() && has_flag( "USE_UPS" ) ) {
@@ -3585,7 +3595,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 std::string item::display_money( unsigned int quantity, unsigned int amount ) const
 {
     //~ This is a string to display the total amount of money in a stack of cash cards. The strings are: %s is the display name of cash cards. The following bracketed $%.2f is the amount of money on the stack of cards in dollars, to two decimal points. (e.g. "cash cards ($15.35)")
-    return string_format( "%s %s", tname( quantity ), format_money( amount ) );
+    return string_format( pgettext( "cash card and total money", "%s %s" ), tname( quantity ),
+                          format_money( amount ) );
 }
 
 std::string item::display_name( unsigned int quantity ) const
@@ -4299,10 +4310,10 @@ static int calc_hourly_rotpoints_at_temp( const int temp )
     // default temp = 65, so generic->rotten() assumes 600 decay points per hour
     const int dropoff = 38;     // ditch our fancy equation and do a linear approach to 0 rot at 31f
     const int cutoff = 105;     // stop torturing the player at this temperature, which is
-    const int cutoffrot = 3540; // ..almost 6 times the base rate. bacteria hate the heat too
+    const int cutoffrot = 21240; // ..almost 6 times the base rate. bacteria hate the heat too
 
     const int dsteps = dropoff - temperatures::freezing;
-    const int dstep = ( 35.91 * std::pow( 2.0, static_cast<float>( dropoff ) / 16.0 ) / dsteps );
+    const int dstep = ( 215.46 * std::pow( 2.0, static_cast<float>( dropoff ) / 16.0 ) / dsteps );
 
     if( temp < temperatures::freezing ) {
         return 0;
@@ -4311,7 +4322,7 @@ static int calc_hourly_rotpoints_at_temp( const int temp )
     } else if( temp < dropoff ) {
         return ( temp - temperatures::freezing ) * dstep;
     } else {
-        return lround( 35.91 * std::pow( 2.0, static_cast<float>( temp ) / 16.0 ) );
+        return lround( 215.46 * std::pow( 2.0, static_cast<float>( temp ) / 16.0 ) );
     }
 }
 
@@ -4344,7 +4355,7 @@ int get_hourly_rotpoints_at_temp( const int temp )
         return 0;
     }
     if( temp > 150 ) {
-        return 3540;
+        return 21240;
     }
     return rot_chart[temp];
 }
@@ -4979,7 +4990,7 @@ std::string item::durability_indicator( bool include_intact ) const
         } else {
             outputstring = pgettext( "damage adjective", "reinforced " );
         }
-    } else if( typeId() == "corpse" ) {
+    } else if( has_flag( "CORPSE" ) ) {
         if( damage() > 0 ) {
             switch( damage_level( 4 ) ) {
                 case 1:
@@ -5284,7 +5295,7 @@ bool item::is_med_container() const
 
 bool item::is_corpse() const
 {
-    return corpse != nullptr && typeId() == "corpse";
+    return corpse != nullptr && has_flag( "CORPSE" );
 }
 
 const mtype *item::get_mtype() const
@@ -7609,7 +7620,6 @@ std::string item::components_to_string() const
 bool item::needs_processing() const
 {
     return active || has_flag( "RADIO_ACTIVATION" ) || has_flag( "ETHEREAL_ITEM" ) ||
-           ( is_bionic() && !has_flag( "NO_STERILE" ) ) ||
            ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
            is_artifact() || is_food();
 }
@@ -8096,12 +8106,6 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
     if( !active ) {
         return false;
     }
-    field_type_id smoke_type;
-    if( has_flag( "TOBACCO" ) ) {
-        smoke_type = fd_cigsmoke;
-    } else {
-        smoke_type = fd_weedsmoke;
-    }
     // if carried by someone:
     if( carrier != nullptr ) {
         time_duration duration = 15_seconds;
@@ -8134,9 +8138,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
         }
     } else {
         // If not carried by someone, but laying on the ground:
-        // release some smoke every five ticks
         if( item_counter % 5 == 0 ) {
-            g->m.add_field( pos + point( rng( -2, 2 ), rng( -2, 2 ) ), smoke_type, 1 );
             // lit cigarette can start fires
             if( g->m.flammable_items_at( pos ) ||
                 g->m.has_flag( "FLAMMABLE", pos ) ||
@@ -8455,21 +8457,6 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
         return processed;
     }
 
-    if( is_bionic() && !has_flag( "NO_STERILE" ) && ( has_flag( "NO_PACKED" ) ||
-            has_flag( "PACKED_FAULTY" ) ) ) {
-        if( !has_var( "sterile" ) ) {
-            set_flag( "NO_STERILE" );
-            return false;
-        }
-        set_var( "sterile", std::stoi( get_var( "sterile" ) ) - 1 );
-        const bool sterile_no_more = std::stoi( get_var( "sterile" ) ) <= 0;
-        if( sterile_no_more ) {
-            set_flag( "NO_STERILE" );
-            erase_var( "sterile" );
-        }
-        return false;
-    }
-
     if( faults.count( fault_gun_blackpowder ) ) {
         return process_blackpowder_fouling( carrier );
     }
@@ -8677,7 +8664,7 @@ std::string item::type_name( unsigned int quantity ) const
     bool f_dressed = has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" );
     bool quartered = has_flag( "QUARTERED" );
     bool skinned = has_flag( "SKINNED" );
-    if( corpse != nullptr && typeId() == "corpse" ) {
+    if( corpse != nullptr && has_flag( "CORPSE" ) ) {
         if( corpse_name.empty() ) {
             if( skinned && !f_dressed && !quartered ) {
                 return string_format( npgettext( "item name", "skinned %s corpse", "skinned %s corpses", quantity ),

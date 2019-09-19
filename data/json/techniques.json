@@ -928,6 +928,110 @@
   },
   {
     "type": "technique",
+    "id": "tec_leopard_feint",
+    "name": "Leopard Paw",
+    "messages": [ "You paw aggressively at %s", "<npcname> paws aggressively at %s" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "miss_recovery": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_leopard_precise",
+    "name": "Leopard Fist",
+    "messages": [ "You strike out at %s with your Leopard Fist", "<npcname> strikes out at %s with a Leopard Fist" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_leopard_rapid",
+    "name": "Leopard Swipe",
+    "messages": [ "You quickly swipe at %s", "<npcname> quickly swipes at %s" ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_leopard_counter",
+    "name": "Leopard Foresight",
+    "messages": [ "You dodge the attack and swipe at %s's exposed flank", "<npcname> dodges and catches %s exposed" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "dodge_counter": true,
+    "knockback_dist": 1,
+    "knockback_spread": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_swordsmanship_grab",
+    "name": "Pommel Strike",
+    "messages": [ "You dodge, grab, and pommel strike %s", "<npcname> dodges, grabs, and pommel strikes %s" ],
+    "min_melee": 4,
+    "melee_allowed": true,
+    "crit_ok": true,
+    "dodge_counter": true,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "cut", 0 ], [ "damage", "stab", 0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_swordsmanship_break",
+    "name": "Grab Break",
+    "messages": [ "The %s tries to grab you, but you evade its grab!", "The %s tries to grab <npcname>, but they evade its grab!" ],
+    "min_melee": 3,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_swordsmanship_unterhau",
+    "name": "Sweeping Strike",
+    "messages": [ "You trip %s with a sweeping strike", "<npcname> trips %s with a sweeping strike" ],
+    "min_melee": 1,
+    "melee_allowed": true,
+    "req_buffs": [ "buff_swordsmanship_onblock" ],
+    "crit_tec": true,
+    "down_dur": 2
+  },
+  {
+    "type": "technique",
+    "id": "tec_swordsmanship_zornhau",
+    "name": "Vicious Strike",
+    "messages": [ "You hack at %s with a vicious strike", "<npcname> hack at %s with a vicious strike" ],
+    "min_melee": 5,
+    "melee_allowed": true,
+    "req_buffs": [ "buff_swordsmanship_oncrit" ],
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ], [ "damage", "stab", 1.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_swordsmanship_mordhau",
+    "name": "Deathblow",
+    "messages": [
+      "You flip your weapon around and deliver a mordhau to %s",
+      "<npcname> flips their weapon around and smashes down on %s"
+    ],
+    "min_melee": 4,
+    "melee_allowed": true,
+    "req_buffs": [ "buff_swordsmanship_onblock" ],
+    "crit_tec": true,
+    "stun_dur": 2,
+    "mult_bonuses": [ [ "movecost", 1.5 ], [ "damage", "bash", 3 ], [ "damage", "cut", 0 ], [ "damage", "stab", 0 ] ]
+  },
+  {
+    "type": "technique",
     "id": "tec_pankration_kick",
     "name": "kick",
     "min_unarmed": 3,
@@ -1160,36 +1264,6 @@
   },
   {
     "type": "technique",
-    "id": "tec_leopard_precise",
-    "name": "Leopard Fist",
-    "min_unarmed": 5,
-    "unarmed_allowed": true,
-    "crit_tec": true,
-    "messages": [ "You strike out at %s with your Leopard Fist", "<npcname> strikes out at %s with a Leopard Fist" ],
-    "stun_dur": 2
-  },
-  {
-    "type": "technique",
-    "id": "tec_leopard_rapid",
-    "name": "Leopard Swipe",
-    "min_unarmed": 2,
-    "unarmed_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ],
-    "messages": [ "You quickly swipe at %s", "<npcname> quickly swipes at %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_leopard_counter",
-    "name": "Leopard Foresight",
-    "min_unarmed": 4,
-    "unarmed_allowed": true,
-    "dodge_counter": true,
-    "crit_ok": true,
-    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 1.5 ] ],
-    "messages": [ "You dodge the attack and swipe at %s's exposed flank", "<npcname> dodges and catches %s exposed" ]
-  },
-  {
-    "type": "technique",
     "id": "tec_snake_rapid",
     "name": "Snake Snap",
     "min_unarmed": 2,
@@ -1398,71 +1472,5 @@
     "unarmed_allowed": true,
     "disarms": true,
     "messages": [ "You disarm %s", "<npcname> disarms %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_swordsmanship_grab",
-    "name": "grab and pommel strike",
-    "min_melee": 3,
-    "crit_tec": true,
-    "melee_allowed": true,
-    "down_dur": 1,
-    "messages": [ "You grab and pommel strike %s", "<npcname> grab and pommel strikes %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_swordsmanship_break",
-    "name": "grab break",
-    "min_melee": 3,
-    "unarmed_allowed": true,
-    "melee_allowed": true,
-    "defensive": true,
-    "grab_break": true
-  },
-  {
-    "type": "technique",
-    "id": "tec_swordsmanship_counter",
-    "name": "displace and counter",
-    "min_melee": 4,
-    "melee_allowed": true,
-    "req_buffs": [ "swordsmanship_counter" ],
-    "messages": [ "You displace and counter %s", "<npcname> displaces and counters %s" ],
-    "mult_bonuses": [ [ "damage", "cut", 1.1 ], [ "movecost", 0.75 ] ],
-    "stun_dur": 1
-  },
-  {
-    "type": "technique",
-    "id": "tec_swordsmanship_unterhau",
-    "name": "sweeping strike",
-    "min_melee": 5,
-    "crit_tec": true,
-    "melee_allowed": true,
-    "down_dur": 2,
-    "messages": [ "You trip %s with a sweeping strike", "<npcname> trips %s with a sweeping strike" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_swordsmanship_zornhau",
-    "name": "vicious strike",
-    "min_melee": 5,
-    "crit_tec": true,
-    "melee_allowed": true,
-    "mult_bonuses": [ [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ], [ "damage", "stab", 1.5 ] ],
-    "stun_dur": 1,
-    "messages": [ "You hack at %s with a vicious strike", "<npcname> hack at %s with a vicious strike" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_swordsmanship_mordhau",
-    "name": "death blow",
-    "min_melee": 6,
-    "crit_tec": true,
-    "melee_allowed": true,
-    "mult_bonuses": [ [ "damage", "bash", 3 ], [ "damage", "cut", 0 ], [ "damage", "stab", 0 ], [ "movecost", 2 ] ],
-    "stun_dur": 2,
-    "messages": [
-      "You flip your weapon around and deliver a mordhau to %s",
-      "<npcname> holds his weapon funny and slams it down on %s"
-    ]
   }
 ]

@@ -284,7 +284,7 @@ void map::clear_vehicle_list( const int zlev )
     ch.zone_vehicles.clear();
 }
 
-void map::update_vehicle_list( submap *const to, const int zlev )
+void map::update_vehicle_list( const submap *const to, const int zlev )
 {
     // Update vehicle data
     auto &ch = get_cache( zlev );
@@ -708,7 +708,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         rl_vec2d final1 = collision_axis_y * vel1_y_a + collision_axis_x * vel1_x_a;
         rl_vec2d final2 = collision_axis_y * vel2_y_a + collision_axis_x * vel2_x_a;
 
-        veh.move.init( final1.x, final1.y );
+        veh.move.init( final1.as_point() );
         if( final1.dot_product( veh.face_vec() ) < 0 ) {
             // Car is being pushed backwards. Make it move backwards
             veh.velocity = -final1.magnitude();
@@ -716,7 +716,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
             veh.velocity = final1.magnitude();
         }
 
-        veh2.move.init( final2.x, final2.y );
+        veh2.move.init( final2.as_point() );
         if( final2.dot_product( veh2.face_vec() ) < 0 ) {
             // Car is being pushed backwards. Make it move backwards
             veh2.velocity = -final2.magnitude();
@@ -1407,15 +1407,14 @@ ter_id map::ter( const tripoint &p ) const
     return current_submap->get_ter( l );
 }
 
-uint8_t map::get_known_connections( const tripoint &p, int connect_group ) const
+uint8_t map::get_known_connections( const tripoint &p, int connect_group,
+                                    const std::map<tripoint, ter_id> &override ) const
 {
     constexpr std::array<point, 4> offsets = {{
             point_south, point_east, point_west, point_north
         }
     };
     auto &ch = access_cache( p.z );
-    bool is_transparent =
-        ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
     uint8_t val = 0;
     std::function<bool( const tripoint & )> is_memorized;
 #ifdef TILES
@@ -1434,16 +1433,26 @@ uint8_t map::get_known_connections( const tripoint &p, int connect_group ) const
     }
 #endif
 
+    const bool overridden = override.find( p ) != override.end();
+    const bool is_transparent = ch.transparency_cache[p.x][p.y] > LIGHT_TRANSPARENCY_SOLID;
+
     // populate connection information
     for( int i = 0; i < 4; ++i ) {
         tripoint neighbour = p + offsets[i];
         if( !inbounds( neighbour ) ) {
             continue;
         }
-        if( is_transparent ||
-            ch.visibility_cache[neighbour.x][neighbour.y] <= LL_BRIGHT ||
-            is_memorized( neighbour ) ) {
-            const ter_t &neighbour_terrain = ter( neighbour ).obj();
+        const auto neighbour_override = override.find( neighbour );
+        const bool neighbour_overridden = neighbour_override != override.end();
+        // if there's some non-memory terrain to show at the neighboring tile
+        const bool may_connect = neighbour_overridden ||
+                                 get_visibility( ch.visibility_cache[neighbour.x][neighbour.y],
+                                         get_visibility_variables_cache() ) == VIS_CLEAR ||
+                                 // or if an actual center tile is transparent or next to a memorized tile
+                                 ( !overridden && ( is_transparent || is_memorized( neighbour ) ) );
+        if( may_connect ) {
+            const ter_t &neighbour_terrain = neighbour_overridden ?
+                                             neighbour_override->second.obj() : ter( neighbour ).obj();
             if( neighbour_terrain.connects_to( connect_group ) ) {
                 val += 1 << i;
             }
@@ -1670,6 +1679,16 @@ bool map::impassable( const point &p ) const
 bool map::passable( const point &p ) const
 {
     return passable( tripoint( p, abs_sub.z ) );
+}
+
+bool map::is_wall_adjacent( const tripoint &center ) const
+{
+    for( const tripoint &p : points_in_radius( center, 1 ) ) {
+        if( p != center && impassable( p ) ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 int map::move_cost_ter_furn( const point &p ) const
@@ -4527,7 +4546,9 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
             const time_duration time_left = cycle_time - n.age();
             static const std::string no_sterile( "NO_STERILE" );
             if( time_left <= 0_turns ) {
-                n.item_tags.erase( no_sterile );
+                if( !n.has_flag( "NO_PACKED" ) ) {
+                    n.item_tags.erase( no_sterile );
+                }
                 autoclave_finished = true;
                 cur_veh.parts[part].enabled = false;
             } else if( calendar::once_every( 15_minutes ) ) {
@@ -4731,10 +4752,20 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
 bool map::sees_some_items( const tripoint &p, const Creature &who ) const
 {
     // Can only see items if there are any items.
-    return has_items( p ) && could_see_items( p, who );
+    return has_items( p ) && could_see_items( p, who.pos() );
+}
+
+bool map::sees_some_items( const tripoint &p, const tripoint &from ) const
+{
+    return has_items( p ) && could_see_items( p, from );
 }
 
 bool map::could_see_items( const tripoint &p, const Creature &who ) const
+{
+    return could_see_items( p, who.pos() );
+}
+
+bool map::could_see_items( const tripoint &p, const tripoint &from ) const
 {
     static const std::string container_string( "CONTAINER" );
     const bool container = has_flag_ter_or_furn( container_string, p );
@@ -4746,9 +4777,9 @@ bool map::could_see_items( const tripoint &p, const Creature &who ) const
     if( container ) {
         // can see inside of containers if adjacent or
         // on top of the container
-        return ( abs( p.x - who.posx() ) <= 1 &&
-                 abs( p.y - who.posy() ) <= 1 &&
-                 abs( p.z - who.posz() ) <= 1 );
+        return ( abs( p.x - from.x ) <= 1 &&
+                 abs( p.y - from.y ) <= 1 &&
+                 abs( p.z - from.z ) <= 1 );
     }
     return true;
 }
@@ -8661,4 +8692,36 @@ void map::clip_to_bounds( int &x, int &y, int &z ) const
     } else if( z > OVERMAP_HEIGHT ) {
         z = OVERMAP_HEIGHT;
     }
+}
+
+bool map::is_cornerfloor( const tripoint &p ) const
+{
+    if( impassable( p ) ) {
+        return false;
+    }
+    std::set<tripoint> impassable_adjacent;
+    for( const tripoint &pt : points_in_radius( p, 1 ) ) {
+        if( impassable( pt ) ) {
+            impassable_adjacent.insert( pt );
+        }
+    }
+    if( !impassable_adjacent.empty() ) {
+        //to check if a floor is a corner we first search if any of its diagonal adjacent points is impassable
+        std::set< tripoint> diagonals = { p + tripoint_north_east, p + tripoint_north_west, p + tripoint_south_east, p + tripoint_south_west };
+        for( const tripoint &impassable_diagonal : diagonals ) {
+            if( impassable_adjacent.count( impassable_diagonal ) != 0 ) {
+                //for every impassable diagonal found, we check if that diagonal terrain has at least two impassable neighbors that also neighbor point p
+                int f = 0;
+                for( const tripoint &l : points_in_radius( impassable_diagonal, 1 ) ) {
+                    if( impassable_adjacent.count( l ) != 0 ) {
+                        f++;
+                    }
+                    if( f > 2 ) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }

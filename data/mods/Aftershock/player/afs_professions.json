@@ -32,17 +32,8 @@
     "points": 2,
     "skills": [ { "level": 5, "name": "computer" } ],
     "items": {
-      "both": [
-        "laptop",
-        "software_useless",
-        "eink_tablet_pc",
-        "linuxtshirt",
-        "pants_cargo",
-        "socks",
-        "slingpack",
-        "sneakers",
-        "smart_phone"
-      ],
+      "both": [ "laptop", "software_useless", "linuxtshirt", "pants_cargo", "socks", "slingpack", "sneakers", "smart_phone" ],
+      "entries": [ { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "eink_tablet_pc" } ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }

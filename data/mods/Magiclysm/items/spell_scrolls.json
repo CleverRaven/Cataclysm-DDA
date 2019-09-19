@@ -21,6 +21,14 @@
   {
     "type": "GENERIC",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_invisibility",
+    "name": "Scroll of Invisibility",
+    "description": "The light can not interact with you unless you want it to. Become invisible!",
+    "use_action": { "type": "learn_spell", "spells": [ "invisibility" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_smite",
     "name": "Scroll of Smite",
     "description": "Evil has become pervasive throughout the world.  Let your power be the light that shines in the darkness!",

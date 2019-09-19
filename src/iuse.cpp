@@ -927,7 +927,8 @@ int iuse::flusleep( player *p, item *it, bool, const tripoint & )
 
 int iuse::inhaler( player *p, item *it, bool, const tripoint & )
 {
-    p->add_msg_if_player( m_neutral, _( "You take a puff from your inhaler." ) );
+    p->add_msg_player_or_npc( m_neutral, _( "You take a puff from your inhaler." ),
+                              _( "<npcname> takes a puff from their inhaler." ) );
     if( !p->remove_effect( effect_asthma ) ) {
         p->mod_fatigue( -3 ); // if we don't have asthma can be used as stimulant
         if( one_in( 20 ) ) {   // with a small but significant risk of adverse reaction
@@ -941,7 +942,10 @@ int iuse::inhaler( player *p, item *it, bool, const tripoint & )
 int iuse::oxygen_bottle( player *p, item *it, bool, const tripoint & )
 {
     p->moves -= to_moves<int>( 10_seconds );
-    p->add_msg_if_player( m_neutral, _( "You breathe deeply from the %s" ), it->tname() );
+    p->add_msg_player_or_npc( m_neutral, string_format( _( "You breathe deeply from the %s" ),
+                              it->tname() ),
+                              string_format( _( "<npcname> breathes from the %s" ),
+                                      it->tname() ) );
     if( p->has_effect( effect_smoke ) ) {
         p->remove_effect( effect_smoke );
     } else if( p->has_effect( effect_teargas ) ) {
@@ -1283,8 +1287,8 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         g->events().send<event_type::crosses_marloss_threshold>( p.getID() );
         p.add_msg_if_player( m_good,
                              _( "You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you." ) );
-        //~ Beginning to hear the Mycus while conscious: that's it speaking
         p.add_msg_if_player( m_good,
+                             //~ Beginning to hear the Mycus while conscious: that's it speaking
                              _( "unity.  together we have reached the door.  we provide the final key.  now to pass through..." ) );
     } else {
         p.add_msg_if_player( _( "You feel a strange warmth spreading throughout your body..." ) );
@@ -1306,8 +1310,8 @@ static bool marloss_prevented( const player &p )
         return true;
     }
     if( p.has_trait( trait_MARLOSS_AVOID ) ) {
-        //~"Uh-uh" is a sound used for "nope", "no", etc.
         p.add_msg_if_player( m_warning,
+                             //~ "Uh-uh" is a sound used for "nope", "no", etc.
                              _( "After what happened that last time?  uh-uh.  You're not eating that alien poison." ) );
         return true;
     }
@@ -1385,10 +1389,10 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
         p->fall_asleep( 5_hours - p->int_cur * 1_minutes );
         p->unset_mutation( trait_THRESH_MARLOSS );
         p->set_mutation( trait_THRESH_MYCUS );
+        g->refresh_all();
         //~ The Mycus does not use the term (or encourage the concept of) "you".  The PC is a local/native organism, but is now the Mycus.
         //~ It still understands the concept, but uninitelligent fungaloids and mind-bent symbiotes should not need it.
         //~ We are the Mycus.
-        g->refresh_all();
         popup( _( "We welcome into us. We have endured long in this forbidding world." ) );
         p->add_msg_if_player( " " );
         p->add_msg_if_player( m_good,
@@ -1950,7 +1954,7 @@ int iuse::unpack_item( player *p, item *it, bool, const tripoint & )
 int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
 {
     item_location bionic = g->inv_map_splice( []( const item & e ) {
-        return e.is_bionic();
+        return e.is_bionic() && e.has_flag( "NO_PACKED" );
     }, _( "Choose CBM to pack" ), PICKUP_RANGE, _( "You don't have any CBMs." ) );
 
     if( !bionic ) {
@@ -1963,25 +1967,12 @@ int iuse::pack_cbm( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    if( !bionic.get_item()->has_flag( "NO_PACKED" ) ||
-        bionic.get_item()->has_flag( "PACKED_FAULTY" ) ) {
-        if( !p->query_yn( _( "This CBM is already packed.  Do you want to put it in a new pouch?" ) ) ) {
-            return 0;
-        }
-    }
-
-    bionic.get_item()->unset_flag( "NO_PACKED" );
-    bionic.get_item()->unset_flag( "PACKED_FAULTY" );
-
     const int success = p->get_skill_level( skill_firstaid ) - rng( 0, 6 );
     if( success > 0 ) {
-        p->add_msg_if_player( m_info, _( "You carefully prepare the CBM for sterilization." ) );
+        p->add_msg_if_player( m_good, _( "You carefully prepare the CBM for sterilization." ) );
+        bionic.get_item()->unset_flag( "NO_PACKED" );
     } else {
-        bionic.get_item()->set_flag( "PACKED_FAULTY" );
-        p->add_msg_if_player( m_info, _( "You put the CBM in the pouch and close it." ) );
-        if( success == 0 ) {
-            p->add_msg_if_player( m_info, _( "You're not sure about the quality of your work." ) );
-        }
+        p->add_msg_if_player( m_bad, _( "You fail to properly prepare the CBM." ) );
     }
 
     std::vector<item_comp> comps;
@@ -2230,7 +2221,7 @@ int iuse::ma_manual( player *p, item *it, bool, const tripoint & )
     p->ma_styles.push_back( style_to_learn );
 
     p->add_msg_if_player( m_good, _( "You learn the essential elements of %s." ),
-                          _( ma.name ) );
+                          ma.name );
     p->add_msg_if_player( m_info, _( "%s to select martial arts style." ),
                           press_x( ACTION_PICK_STYLE ) );
 
@@ -3012,7 +3003,7 @@ static int toolweapon_off( player &p, item &it, const bool fast_startup,
                            const std::string &msg_success, const std::string &msg_failure )
 {
     p.moves -= fast_startup ? 60 : 80;
-    if( condition && it.ammo_remaining() > 0 ) {
+    if( condition && it.units_sufficient( p ) ) {
         if( it.typeId() == "chainsaw_off" ) {
             sfx::play_variant_sound( "chainsaw_cord", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
             sfx::play_variant_sound( "chainsaw_start", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
@@ -3116,7 +3107,7 @@ static int toolweapon_on( player &p, item &it, const bool t,
         // 3 is the length of "_on".
         "_off";
     if( t ) { // Effects while simply on
-        if( double_charge_cost && it.ammo_remaining() > 0 ) {
+        if( double_charge_cost && it.units_sufficient( p ) ) {
             it.ammo_consume( 1, p.pos() );
         }
         if( !works_underwater && p.is_underwater() ) {
@@ -4074,25 +4065,22 @@ int iuse::mp3( player *p, item *it, bool, const tripoint & )
 
 static std::string get_music_description()
 {
-    static const std::string no_description = _( "a sweet guitar solo!" );
-    static const std::string rare = _( "some bass-heavy post-glam speed polka." );
-    static const std::array<std::string, 5> descriptions = {{
-            _( "a sweet guitar solo!" ),
-            _( "a funky bassline." ),
-            _( "some amazing vocals." ),
-            _( "some pumping bass." ),
-            _( "dramatic classical music." )
-
+    const std::array<std::string, 5> descriptions = {{
+            translate_marker( "a sweet guitar solo!" ),
+            translate_marker( "a funky bassline." ),
+            translate_marker( "some amazing vocals." ),
+            translate_marker( "some pumping bass." ),
+            translate_marker( "dramatic classical music." )
         }
     };
 
     if( one_in( 50 ) ) {
-        return rare;
+        return _( "some bass-heavy post-glam speed polka." );
     }
 
     size_t i = static_cast<size_t>( rng( 0, descriptions.size() * 2 ) );
     if( i < descriptions.size() ) {
-        return descriptions[i];
+        return _( descriptions[i] );
     }
     // Not one of the hard-coded versions, let's apply a random string made up
     // of snippets {a, b, c}, but only a 50% chance
@@ -4108,7 +4096,7 @@ static std::string get_music_description()
         }
     }
 
-    return no_description;
+    return _( "a sweet guitar solo!" );
 }
 
 void iuse::play_music( player &p, const tripoint &source, const int volume, const int max_morale )
@@ -4520,6 +4508,17 @@ int iuse::dog_whistle( player *p, item *it, bool, const tripoint & )
                 }
                 critter.add_effect( effect_docile, 1_turns, num_bp, true );
             }
+        }
+    }
+    return it->type->charges_to_use();
+}
+
+int iuse::call_of_tindalos( player *p, item *it, bool, const tripoint & )
+{
+    for( const tripoint &dest : g->m.points_in_radius( p->pos(), 12 ) ) {
+        if( g->m.is_cornerfloor( dest ) ) {
+            g->m.add_field( dest, fd_tindalos_rift, 3 );
+            add_msg( m_info, _( "You hear a low-pitched echoing howl." ) );
         }
     }
     return it->type->charges_to_use();
@@ -6958,46 +6957,46 @@ static std::string effects_description_for_creature( Creature *const creature, s
         const std::string &pronoun_sex )
 {
     struct ef_con { // effect constraint
-        std::string status;
-        std::string pose;
+        translation status;
+        translation pose;
         int intensity_lower_limit;
-        ef_con( std::string status, std::string pose, int intensity_lower_limit ) :
+        ef_con( const translation &status, const translation &pose, int intensity_lower_limit ) :
             status( status ), pose( pose ), intensity_lower_limit( intensity_lower_limit ) {}
-        ef_con( std::string status, std::string pose ) :
+        ef_con( const translation &status, const translation &pose ) :
             status( status ), pose( pose ), intensity_lower_limit( 0 ) {}
-        ef_con( std::string status, int intensity_lower_limit ) :
+        ef_con( const translation &status, int intensity_lower_limit ) :
             status( status ), intensity_lower_limit( intensity_lower_limit ) {}
-        ef_con( std::string status ) :
+        ef_con( const translation &status ) :
             status( status ), intensity_lower_limit( 0 ) {}
     };
     static const std::unordered_map<efftype_id, ef_con> vec_effect_status = {
-        { effect_onfire, ef_con( _( " is on <color_red>fire</color>. " ) ) },
-        { effect_bleed, ef_con( _( " is <color_red>bleeding</color>. " ), 1 ) },
-        { effect_happy, ef_con( _( " looks <color_green>happy</color>. " ), 13 ) },
-        { effect_downed, ef_con( "", _( "downed" ) ) },
-        { effect_in_pit, ef_con( "", _( "stuck" ) ) },
-        { effect_stunned, ef_con( _( " is <color_blue>stunned</color>. " ) ) },
-        { effect_dazed, ef_con( _( " is <color_blue>dazed</color>. " ) ) },
-        { effect_beartrap, ef_con( _( " is stuck in beartrap. " ) ) },
-        { effect_laserlocked, ef_con( _( " have tiny <color_red>red dot</color> on body. " ) ) },
-        { effect_boomered, ef_con( _( " is covered in <color_magenta>bile</color>. " ) ) },
-        { effect_glowing, ef_con( _( " is covered in <color_yellow>glowing goo</color>. " ) ) },
-        { effect_slimed, ef_con( _( " is covered in <color_green>thick goo</color>. " ) ) },
-        { effect_corroding, ef_con( _( " is covered in <color_light_green>acid</color>. " ) ) },
-        { effect_sap, ef_con( _( " is coated in <color_brown>sap</color>. " ) ) },
-        { effect_webbed, ef_con( _( " is covered in <color_gray>webs</color>. " ) ) },
-        { effect_spores, ef_con( _( " is covered in <color_green>spores</color>. " ), 1 ) },
-        { effect_crushed, ef_con( _( " lies under <color_gray>collapsed debris</color>. " ), _( "lies" ) ) },
-        { effect_lack_sleep, ef_con( _( " looks <color_gray>very tired</color>. " ) ) },
-        { effect_lying_down, ef_con( _( " is <color_dark_blue>sleeping</color>. " ), _( "lies" ) ) },
-        { effect_sleep, ef_con( _( " is <color_dark_blue>sleeping</color>. " ), _( "lies" ) ) },
-        { effect_haslight, ef_con( _( " is <color_yellow>lit</color>. " ) ) },
-        { effect_saddled, ef_con( _( " is <color_gray>saddled</color>. " ) ) },
-        { effect_harnessed, ef_con( _( " is being <color_gray>harnessed</color> by a vehicle. " ) ) },
-        { effect_monster_armor, ef_con( _( " is <color_gray>wearing armor</color>. " ) ) },
-        { effect_has_bag, ef_con( _( " have <color_gray>bag</color> attached. " ) ) },
-        { effect_tied, ef_con( _( " is <color_gray>tied</color>. " ) ) },
-        { effect_bouldering, ef_con( "", _( "balancing" ) ) }
+        { effect_onfire, ef_con( to_translation( " is on <color_red>fire</color>. " ) ) },
+        { effect_bleed, ef_con( to_translation( " is <color_red>bleeding</color>. " ), 1 ) },
+        { effect_happy, ef_con( to_translation( " looks <color_green>happy</color>. " ), 13 ) },
+        { effect_downed, ef_con( translation(), to_translation( "downed" ) ) },
+        { effect_in_pit, ef_con( translation(), to_translation( "stuck" ) ) },
+        { effect_stunned, ef_con( to_translation( " is <color_blue>stunned</color>. " ) ) },
+        { effect_dazed, ef_con( to_translation( " is <color_blue>dazed</color>. " ) ) },
+        { effect_beartrap, ef_con( to_translation( " is stuck in beartrap. " ) ) },
+        { effect_laserlocked, ef_con( to_translation( " have tiny <color_red>red dot</color> on body. " ) ) },
+        { effect_boomered, ef_con( to_translation( " is covered in <color_magenta>bile</color>. " ) ) },
+        { effect_glowing, ef_con( to_translation( " is covered in <color_yellow>glowing goo</color>. " ) ) },
+        { effect_slimed, ef_con( to_translation( " is covered in <color_green>thick goo</color>. " ) ) },
+        { effect_corroding, ef_con( to_translation( " is covered in <color_light_green>acid</color>. " ) ) },
+        { effect_sap, ef_con( to_translation( " is coated in <color_brown>sap</color>. " ) ) },
+        { effect_webbed, ef_con( to_translation( " is covered in <color_gray>webs</color>. " ) ) },
+        { effect_spores, ef_con( to_translation( " is covered in <color_green>spores</color>. " ), 1 ) },
+        { effect_crushed, ef_con( to_translation( " lies under <color_gray>collapsed debris</color>. " ), to_translation( "lies" ) ) },
+        { effect_lack_sleep, ef_con( to_translation( " looks <color_gray>very tired</color>. " ) ) },
+        { effect_lying_down, ef_con( to_translation( " is <color_dark_blue>sleeping</color>. " ), to_translation( "lies" ) ) },
+        { effect_sleep, ef_con( to_translation( " is <color_dark_blue>sleeping</color>. " ), to_translation( "lies" ) ) },
+        { effect_haslight, ef_con( to_translation( " is <color_yellow>lit</color>. " ) ) },
+        { effect_saddled, ef_con( to_translation( " is <color_gray>saddled</color>. " ) ) },
+        { effect_harnessed, ef_con( to_translation( " is being <color_gray>harnessed</color> by a vehicle. " ) ) },
+        { effect_monster_armor, ef_con( to_translation( " is <color_gray>wearing armor</color>. " ) ) },
+        { effect_has_bag, ef_con( to_translation( " have <color_gray>bag</color> attached. " ) ) },
+        { effect_tied, ef_con( to_translation( " is <color_gray>tied</color>. " ) ) },
+        { effect_bouldering, ef_con( translation(), to_translation( "balancing" ) ) }
     };
 
     std::string figure_effects;
@@ -7008,7 +7007,7 @@ static std::string effects_description_for_creature( Creature *const creature, s
                     figure_effects += pronoun_sex + pair.second.status;
                 }
                 if( !pair.second.pose.empty() ) {
-                    pose = pair.second.pose;
+                    pose = pair.second.pose.translated();
                 }
             }
         }
@@ -8430,9 +8429,8 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
             it->active = false;
             it->erase_var( "CYCLETIME" );
             for( item &bio : it->contents ) {
-                if( bio.is_bionic() ) {
+                if( bio.is_bionic() && !bio.has_flag( "NO_PACKED" ) ) {
                     bio.unset_flag( "NO_STERILE" );
-                    bio.set_var( "sterile", 1 ); // sterile for 1s if not (packed);
                 }
             }
         } else {
@@ -8916,9 +8914,10 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
         uilist kmenu;
         kmenu.text = _( "Using cable:" );
         kmenu.addentry( 0, true, -1, _( "Detach and re-spool the cable" ) );
+        kmenu.addentry( 1, ( paying_out || cable_cbm ) && !solar_pack &&
+                        !UPS, -1, _( "Attach loose end to vehicle" ) );
+
         if( has_bio_cable && loose_ends ) {
-            kmenu.addentry( 1, ( paying_out || cable_cbm ) && !solar_pack &&
-                            !UPS, -1, _( "Attach loose end to vehicle" ) );
             kmenu.addentry( 2, !cable_cbm, -1, _( "Attach loose end to self" ) );
             if( wearing_solar_pack ) {
                 kmenu.addentry( 3, !solar_pack && !paying_out && !UPS, -1, _( "Attach loose end to solar pack" ) );
@@ -9748,23 +9747,6 @@ int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
     auto color = ( rn >= BALL8_BAD ? m_bad : rn >= BALL8_UNK ? m_info : m_good );
     p->add_msg_if_player( color, _( "The %s says: %s" ), it->tname(), _( tab[rn] ) );
     return 0;
-}
-
-use_function::use_function( const use_function &other )
-    : actor( other.actor ? other.actor->clone() : nullptr )
-{
-}
-
-use_function &use_function::operator=( iuse_actor *const f )
-{
-    *this = use_function( f );
-    return *this;
-}
-
-use_function &use_function::operator=( const use_function &other )
-{
-    actor.reset( other.actor ? other.actor->clone() : nullptr );
-    return *this;
 }
 
 void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) const

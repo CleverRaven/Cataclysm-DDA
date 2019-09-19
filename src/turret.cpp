@@ -497,7 +497,7 @@ npc vehicle::get_targeting_npc( const vehicle_part &pt )
     // Make a fake NPC to represent the targeting system
     npc cpu;
     cpu.set_fake( true );
-    cpu.name = "fake targeting npc";
+    cpu.name = string_format( _( "The %s turret" ), pt.get_base().tname( 1 ) );
     // turrets are subject only to recoil_vehicle()
     cpu.recoil = 0;
 
@@ -511,6 +511,7 @@ npc vehicle::get_targeting_npc( const vehicle_part &pt )
     cpu.setpos( global_part_pos3( pt ) );
     // Assume vehicle turrets are friendly to the player.
     cpu.set_attitude( NPCATT_FOLLOW );
+    cpu.set_fac( get_owner()->id );
     return cpu;
 }
 

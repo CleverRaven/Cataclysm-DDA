@@ -878,6 +878,20 @@
     "color": "dark_gray"
   },
   {
+    "id": "sieve_primitive",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "wicker sieve",
+    "description": "This is a primitive sieve constructed from woven strips of plant material.  Early sieves like this were used to sift grain, though the openings on this one are too small for that.",
+    "weight": 50,
+    "volume": "500 ml",
+    "price": 300,
+    "bashing": 1,
+    "material": [ "paper" ],
+    "symbol": ";",
+    "color": "light_gray"
+  },
+  {
     "id": "carding_paddles",
     "type": "GENERIC",
     "category": "tools",
@@ -992,7 +1006,7 @@
     "type": "TOOL",
     "name": "cellphone - Flashlight",
     "name_plural": "cellphones - Flashlight",
-    "turns_per_charge": 30,
+    "power_draw": 500,
     "revert_to": "cell_phone",
     "use_action": { "target": "cell_phone", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
     "flags": [ "LIGHT_15", "CHARGEDIM", "TRADER_AVOID" ]
@@ -1036,7 +1050,7 @@
     "name": "smartphone - music",
     "name_plural": "smartphones - music",
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
-    "turns_per_charge": 150,
+    "power_draw": 300,
     "revert_to": "smart_phone",
     "use_action": "MP3_ON",
     "flags": [ "TRADER_AVOID" ],
@@ -1048,8 +1062,7 @@
     "type": "TOOL",
     "name": "smartphone - Flashlight",
     "name_plural": "smartphones - Flashlight",
-    "power_draw": 3000,
-    "turns_per_charge": 50,
+    "power_draw": 500,
     "revert_to": "smart_phone",
     "use_action": {
       "target": "smart_phone",
@@ -1074,7 +1087,7 @@
     "symbol": "/",
     "color": "red",
     "ammo": "gasoline",
-    "max_charges": 400,
+    "max_charges": 450,
     "techniques": "SWEEP",
     "use_action": "CHAINSAW_OFF",
     "flags": [ "NONCONDUCTIVE" ]
@@ -1089,7 +1102,7 @@
     "to_hit": -5,
     "bashing": 4,
     "cutting": 70,
-    "power_draw": 150000,
+    "turns_per_charge": 4,
     "revert_to": "chainsaw_off",
     "techniques": "SWEEP",
     "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
@@ -1766,6 +1779,19 @@
     "symbol": ";",
     "color": "yellow",
     "use_action": "DOG_WHISTLE"
+  },
+  {
+    "id": "tindalos_whistle",
+    "type": "TOOL",
+    "name": "Whistle of Tindalos",
+    "description": "Who is this Tindalos guy?",
+    "weight": "22 g",
+    "volume": 0,
+    "price": 10000,
+    "material": "superalloy",
+    "symbol": ";",
+    "color": "yellow",
+    "use_action": "CALL_OF_TINDALOS"
   },
   {
     "id": "whistle_multitool",
@@ -2758,7 +2784,7 @@
     "name": "geiger counter (on)",
     "name_plural": "geiger counters (on)",
     "description": "This is a tool for measuring radiation.  It is in continuous scan mode, and will produce quiet clicking sounds in the presence of ambient radiation.  Using it allows you to turn it off, or scan yourself or the ground.  It is currently on.",
-    "turns_per_charge": 10,
+    "power_draw": 200,
     "revert_to": "geiger_off",
     "use_action": "GEIGER",
     "flags": [ "TRADER_AVOID" ],
@@ -2935,7 +2961,7 @@
     "material": [ "wood", "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "DRILL", 1 ] ]
+    "qualities": [ [ "DRILL", 2 ] ]
   },
   {
     "id": "heatpack",
@@ -3295,7 +3321,7 @@
       "transform_age": 3600,
       "not_ready_msg": "The kiln is still burning."
     },
-    "flags": [ "LIGHT_8", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "knitting_needles",
@@ -4192,7 +4218,7 @@
     "name": "noise emitter (on)",
     "name_plural": "noise emitters (on)",
     "description": "This device has been turned on and is emitting horrible crackles, pops and other static sounds.  Quick, get away from it before it draws zombies to you!",
-    "turns_per_charge": 5,
+    "power_draw": 10000,
     "revert_to": "noise_emitter",
     "use_action": "NOISE_EMITTER_ON",
     "flags": [ "RADIO_MODABLE", "TRADER_AVOID" ]
@@ -4708,20 +4734,6 @@
     "use_action": "PORTAL"
   },
   {
-    "id": "press",
-    "type": "TOOL",
-    "name": "hand press & die set",
-    "description": "This is a small hand press for hand loading firearm ammunition.  It comes with everything you need to start hand loading your own munitions.",
-    "weight": "6350 g",
-    "volume": "500 ml",
-    "price": 10000,
-    "to_hit": -2,
-    "bashing": 6,
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "dark_gray"
-  },
-  {
     "id": "primitive_adze",
     "type": "TOOL",
     "name": "stone adze",
@@ -4815,20 +4827,6 @@
     "max_charges": 1,
     "charges_per_use": 1,
     "use_action": { "type": "picklock", "pick_quality": 40 }
-  },
-  {
-    "id": "puller",
-    "type": "TOOL",
-    "name": "kinetic bullet puller",
-    "description": "This is a tool used for properly disassembling firearm ammunition.",
-    "weight": "489 g",
-    "volume": "250 ml",
-    "price": 1000,
-    "bashing": 5,
-    "material": "plastic",
-    "symbol": ";",
-    "color": "green",
-    "qualities": [ [ "PULL", 1 ] ]
   },
   {
     "id": "rag",
@@ -4968,7 +4966,7 @@
     "initial_charges": 25,
     "max_charges": 50,
     "charges_per_use": 1,
-    "turns_per_charge": 10,
+    "turns_per_charge": 20,
     "revert_to": "ref_lighter",
     "use_action": [
       { "type": "firestarter", "moves": 40, "moves_slow": 500 },
@@ -5556,7 +5554,7 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper" ],
+        "materials": [ "plastic", "lead", "tin" ],
         "skill": "mechanics",
         "cost_scaling": 0.1,
         "move_cost": 1500
@@ -6569,7 +6567,7 @@
     "color": "brown",
     "initial_charges": 75,
     "max_charges": 75,
-    "turns_per_charge": 20,
+    "turns_per_charge": 40,
     "revert_to": "torch_done",
     "use_action": [
       { "type": "firestarter", "moves": 30 },
@@ -7499,7 +7497,7 @@
     "qualities": [ [ "GRIND", 2 ] ],
     "ammo": "battery",
     "charges_per_use": 1,
-    "turns_per_charge": 20,
+    "power_draw": 800000,
     "flags": [ "NONCONDUCTIVE" ],
     "magazines": [
       [
@@ -7553,7 +7551,7 @@
     "description": "This is a small bathroom scale, meant to weigh a person while naked.",
     "weight": "1200 g",
     "volume": "1 L",
-    "price": "500",
+    "price": 500,
     "to_hit": -2,
     "bashing": 6,
     "material": "steel",
@@ -7568,7 +7566,7 @@
     "description": "This bulky device takes water and calcium carbide and yields unpressurised acetylene.",
     "weight": "8000 g",
     "volume": "3 L",
-    "price": "3200",
+    "price": 3200,
     "to_hit": -4,
     "bashing": 12,
     "material": "steel"

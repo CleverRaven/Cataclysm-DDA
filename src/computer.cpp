@@ -407,8 +407,8 @@ void computer::activate_function( computer_action action )
 
         //Toll is required for the church computer/mechanism to function
         case COMPACT_TOLL:
-            //~ the sound of a church bell ringing
             sounds::sound( g->u.pos(), 120, sounds::sound_t::music,
+                           //~ the sound of a church bell ringing
                            _( "Bohm... Bohm... Bohm..." ), true, "environment", "church_bells" );
             break;
 
@@ -643,18 +643,15 @@ void computer::activate_function( computer_action action )
             g->refresh_all();
 
             //Put some smoke gas and explosions at the nuke location.
-            for( int i = g->u.posx() + 8; i < g->u.posx() + 15; i++ ) {
-                for( int j = g->u.posy() + 3; j < g->u.posy() + 12; j++ ) {
-                    if( !one_in( 4 ) ) {
-                        tripoint dest( i + rng( -2, 2 ), j + rng( -2, 2 ), g->u.posz() );
-                        g->m.add_field( dest, fd_smoke, rng( 1, 9 ) );
-                    }
+            const tripoint nuke_location = { g->u.pos() - point( 12, 0 ) };
+            for( const auto &loc : g->m.points_in_radius( nuke_location, 5, 0 ) ) {
+                if( one_in( 4 ) ) {
+                    g->m.add_field( loc, fd_smoke, rng( 1, 9 ) );
                 }
             }
 
-            explosion_handler::explosion( tripoint( g->u.posx() + 10, g->u.posx() + 21, g->get_levz() ), 200,
-                                          0.7,
-                                          true ); //Only explode once. But make it large.
+            //Only explode once. But make it large.
+            explosion_handler::explosion( nuke_location, 2000, 0.7, true );
 
             //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
             // For each level between here and the surface, remove the missile
@@ -790,9 +787,8 @@ void computer::activate_function( computer_action action )
             }
             g->u.moves -= 30;
             reset_terminal();
-            print_line( _( "\
-SITE %d%d%d\n\
-PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
+            print_line( _( "SITE %d%d%d\n"
+                           "PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
                         g->get_levx(), g->get_levy(), abs( g->get_levz() ) );
             print_text( "%s", SNIPPET.get( SNIPPET.assign( "amigara4" ) ) );
             print_gibberish_line();
@@ -947,27 +943,26 @@ PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
 
         case COMPACT_DISCONNECT:
             reset_terminal();
-            print_line( _( "\n\
-ERROR:  NETWORK DISCONNECT \n\
-UNABLE TO REACH NETWORK ROUTER OR PROXY.  PLEASE CONTACT YOUR\n\
-SYSTEM ADMINISTRATOR TO RESOLVE THIS ISSUE.\n\
-  \n" ) );
+            print_line( _( "\n"
+                           "ERROR:  NETWORK DISCONNECT \n"
+                           "UNABLE TO REACH NETWORK ROUTER OR PROXY.  PLEASE CONTACT YOUR\n"
+                           "SYSTEM ADMINISTRATOR TO RESOLVE THIS ISSUE.\n"
+                           "  \n" ) );
             query_any( _( "Press any key to continue..." ) );
             break;
 
         case COMPACT_EMERG_MESS:
-            print_line( _( "\
-GREETINGS CITIZEN. A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n\
-EMERGENCY HAS BEEN DECLARED. EMERGENCY PERSONNEL WILL BE AIDING YOU \n\
-SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
-\n\
-1. DO NOT PANIC. \n\
-2. REMAIN INSIDE THE BUILDING. \n\
-3. SEEK SHELTER IN THE BASEMENT. \n\
-4. USE PROVIDED GAS MASKS. \n\
-5. AWAIT FURTHER INSTRUCTIONS. \n\
-\n\
-  \n" ) );
+            print_line( _( "GREETINGS CITIZEN. A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n"
+                           "EMERGENCY HAS BEEN DECLARED. EMERGENCY PERSONNEL WILL BE AIDING YOU \n"
+                           "SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n"
+                           "\n"
+                           "1. DO NOT PANIC. \n"
+                           "2. REMAIN INSIDE THE BUILDING. \n"
+                           "3. SEEK SHELTER IN THE BASEMENT. \n"
+                           "4. USE PROVIDED GAS MASKS. \n"
+                           "5. AWAIT FURTHER INSTRUCTIONS. \n"
+                           "\n"
+                           "  \n" ) );
             query_any( _( "Press any key to continue..." ) );
             break;
 
@@ -978,203 +973,64 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
             break;
 
         case COMPACT_TOWER_UNRESPONSIVE:
-            print_line( _( "\
-  WARNING, RADIO TOWER IS UNRESPONSIVE. \n\
-  \n\
-  BACKUP POWER INSUFFICIENT TO MEET BROADCASTING REQUIREMENTS. \n\
-  IN THE EVENT OF AN EMERGENCY, CONTACT LOCAL NATIONAL GUARD \n\
-  UNITS TO RECEIVE PRIORITY WHEN GENERATORS ARE BEING DEPLOYED. \n\
-  \n\
-  \n" ) );
+            print_line( _( "  WARNING, RADIO TOWER IS UNRESPONSIVE. \n"
+                           "  \n"
+                           "  BACKUP POWER INSUFFICIENT TO MEET BROADCASTING REQUIREMENTS. \n"
+                           "  IN THE EVENT OF AN EMERGENCY, CONTACT LOCAL NATIONAL GUARD \n"
+                           "  UNITS TO RECEIVE PRIORITY WHEN GENERATORS ARE BEING DEPLOYED. \n"
+                           "  \n"
+                           "  \n" ) );
             query_any( _( "Press any key to continue..." ) );
             break;
 
         case COMPACT_SR1_MESS:
             reset_terminal();
-            print_line( _( "\n\
-  Subj: Security Reminder\n\
-  To: all SRCF staff\n\
-  From: Constantine Dvorak, Undersecretary of Nuclear Security\n\
-  \n\
-      I want to remind everyone on staff: Do not open or examine\n\
-  containers above your security-clearance.  If you have some\n\
-  question about safety protocols or shipping procedures, please\n\
-  contact your SRCF administrator or on-site military officer.\n\
-  When in doubt, assume all containers are Class-A Biohazards\n\
-  and highly toxic. Take full precautions!\n\
-  \n" ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "sr1_mess" ) ) );
             query_any( _( "Press any key to continue..." ) );
             break;
 
         case COMPACT_SR2_MESS:
             reset_terminal();
-            print_line( _( "\n\
-  Subj: Security Reminder\n\
-  To: all SRCF staff\n\
-  From: Constantine Dvorak, Undersecretary of Nuclear Security\n\
-  \n\
-  From today onward medical wastes are not to be stored anywhere\n\
-  near radioactive materials.  All containers are to be\n\
-  re-arranged according to these new regulations.  If your\n\
-  facility currently has these containers stored in close\n\
-  proximity, you are to work with armed guards on duty at all\n\
-  times. Report any unusual activity to your SRCF administrator\n\
-  at once.\n\
-  " ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "sr2_mess" ) ) );
             query_any( _( "Press any key to continue..." ) );
             break;
 
         case COMPACT_SR3_MESS:
             reset_terminal();
-            print_line( _( "\n\
-  Subj: Security Reminder\n\
-  To: all SRCF staff\n\
-  From: Constantine Dvorak, Undersecretary of Nuclear Security\n\
-  \n\
-  Worker health and safety is our number one concern!  As such,\n\
-  we are instituting weekly health examinations for all SRCF\n\
-  employees.  Report any unusual symptoms or physical changes\n\
-  to your SRCF administrator at once.\n\
-  " ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "sr3_mess" ) ) );
             query_any( _( "Press any key to continue..." ) );
             break;
 
         case COMPACT_SR4_MESS:
             reset_terminal();
-            print_line( _( "\n\
-  Subj: Security Reminder\n\
-  To: all SRCF staff\n\
-  From:  Constantine Dvorak, Undersecretary of Nuclear Security\n\
-  \n\
-  All compromised facilities will remain under lock down until\n\
-  further notice.  Anyone who has seen or come in direct contact\n\
-  with the creatures is to report to the home office for a full\n\
-  medical evaluation and security debriefing.\n\
-  " ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "sr4_mess" ) ) );
             query_any( _( "Press any key to continue..." ) );
             break;
 
         case COMPACT_SRCF_1_MESS:
             reset_terminal();
-            print_line( _( "\n\
-  Subj: EPA: Report All Potential Containment Breaches 3873643\n\
-  To: all SRCF staff\n\
-  From:  Robert Shane, Director of the EPA\n\
-  \n\
-  All hazardous waste dumps and sarcophagi must submit three\n\
-  samples from each operational leache system to the following\n\
-  addresses:\n\
-  \n\
-  CDC Bioterrorism Lab \n\
-  Building 10\n\
-  Corporate Square Boulevard\n\
-  Atlanta, GA 30329\n\
-  \n\
-  EPA Region 8 Laboratory\n\
-  16194 W. 45th Drive\n\
-  Golden, Colorado 80403\n\
-  \n\
-  These samples must be accurate and any attempts to cover\n\
-  incompetencies will result in charges of Federal Corruption\n\
-  and potentially Treason.\n" ) );
-            query_any( _( "Press any key to continue..." ) );
-            reset_terminal();
-            print_line( _( "Director of the EPA,\n\
-  Robert Shane\n\
-  \n" ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_1_mess" ) ) );
             query_any( _( "Press any key to continue..." ) );
             break;
 
         case COMPACT_SRCF_2_MESS:
             reset_terminal();
-            print_line( _( " Subj: SRCF: Internal Memo, EPA [2918024]\n\
-  To: all SRCF admin staff\n\
-  From:  Constantine Dvorak, Undersecretary of Nuclear Security\n\
-  \n\
-  Director Grimes has released a new series of accusations that\n\
-  will soon be investigated by a Congressional committee.  Below\n\
-  is the message that he sent me.\n\
-  \n\
-  --------------------------------------------------------------\n\
-  Subj: Congressional Investigations\n\
-  To: Constantine Dvorak, Undersecretary of Nuclear Safety\n\
-  From: Robert Shane, director of the EPA\n\
-  \n\
-      The EPA has opposed the Security-Restricted Containment\n\
-  Facility (SRCF) project from its inception.  We were horrified\n\
-  that these facilities would be constructed so close to populated\n\
-  areas, and only agreed to sign-off on the project if we were\n\
-  allowed to freely examine and monitor the sarcophagi.  But that\n\
-  has not happened.  Since then, the DoE has employed any and all\n\
-  means to keep EPA agents from visiting the SRCFs, using military\n\
-  secrecy, emergency powers, and inter-departmental gag orders to\n" ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_2_1_mess" ) ) );
             query_any( _( "Press any key to continue..." ) );
             reset_terminal();
-            print_line( _( " surround the project with an impenetrable thicket of red tape.\n\
-  \n\
-      Although our agents have not been allowed inside, our atmospheric\n\
-  testers in nearby communities have detected high levels of toxins\n\
-  and radiation, and we've found dozens of potentially dangerous\n\
-  unidentified compounds in the ground water.  We now have\n\
-  conclusive evidence that the SRCFs are a threat to the public\n\
-  safety.  We are taking these data to state representatives and\n\
-  petitioning for a full Congressional inquiry.  They should be\n\
-  able to force open your secret vaults, and the world will see\n\
-  what you've been hiding.\n\
-  \n\
-  If you had any hand in this outbreak I hope you rot in hell.\n\
-  \n\
-  Director of the EPA,\n\
-  Robert Shane\n\
-  \n" ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_2_2_mess" ) ) );
             query_any( _( "Press any key to continue..." ) );
             break;
 
         case COMPACT_SRCF_3_MESS:
             reset_terminal();
-            print_line( _( " Subj: CDC: Internal Memo, Standby [2918115]\n\
-  To: all SRCF staff\n\
-  From:  Ellen Grimes, Director of the CDC\n\
-  \n\
-      Your site along with many others has been found to be\n\
-  contaminated with what we will now refer to as [redacted].\n\
-  It is vital that you standby for further orders.  We are\n\
-  currently awaiting the President to decide our course of\n\
-  action in this national crisis.  You will proceed with fail-\n\
-  safe procedures and rig the sarcophagus with C-4 as outlined\n\
-  in Publication 4423.  We will send you orders to either detonate\n\
-  and seal the sarcophagus or remove the charges.  It is of the\n\
-  utmost importance that the facility be sealed immediately when\n\
-  the orders are given.  We have been alerted by Homeland Security\n\
-  that there are potential terrorist suspects that are being\n\
-  detained in connection with the recent national crisis.\n\
-  \n\
-  Director of the CDC,\n\
-  Ellen Grimes\n\
-  \n" ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_3_mess" ) ) );
             query_any( _( "Press any key to continue..." ) );
             break;
 
         case COMPACT_SRCF_SEAL_ORDER:
             reset_terminal();
-            print_line( _( " Subj: USARMY: SEAL SRCF [987167]\n\
-  To: all SRCF staff\n\
-  From:  Major General Cornelius, U.S. Army\n\
-  \n\
-    As a general warning to all civilian staff: the 10th Mountain\n\
-  Division has been assigned to oversee the sealing of the SRCF\n\
-  facilities.  By direct order, all non-essential staff must vacate\n\
-  at the earliest possible opportunity to prevent potential\n\
-  contamination.  Low yield tactical nuclear demolition charges\n\
-  will be deployed in the lower tunnels to ensure that recovery\n\
-  of hazardous material is impossible.  The Army Corps of Engineers\n\
-  will then dump concrete over the rubble so that we can redeploy \n\
-  the 10th Mountain into the greater Boston area.\n\
-  \n\
-  Cornelius,\n\
-  Major General, U.S. Army\n\
-  Commander of the 10th Mountain Division\n\
-  \n" ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_seal_order" ) ) );
             query_any( _( "Press any key to continue..." ) );
             break;
 
@@ -1676,8 +1532,7 @@ void computer::remove_option( computer_action const action )
 
 void computer::mark_refugee_center()
 {
-    print_line( _( "\
-SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT ... " ) );
+    print_line( _( "SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT ... " ) );
 
     const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
     tripoint mission_target;
@@ -1703,15 +1558,14 @@ SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT ... " ) );
     }
 
     //~555-0164 is a fake phone number in the US, please replace it with a number that will not cause issues in your locale if possible.
-    print_line( _( "\
-\nREFUGEE CENTER FOUND! LOCATION: %d %s\n\n\
-IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT \n\
-THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE. \n\
-THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND  \n\
-4PM AT 555-0164.                                              \n\
-\n\
-IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n\
-TO WRITE US A LETTER PLEASE SEND IT TO...\n" ), rl_dist( g->u.pos(), mission_target ),
+    print_line( _( "\nREFUGEE CENTER FOUND! LOCATION: %d %s\n\n"
+                   "IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT \n"
+                   "THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE. \n"
+                   "THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND  \n"
+                   "4PM AT 555-0164.                                              \n"
+                   "\n"
+                   "IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n"
+                   "TO WRITE US A LETTER PLEASE SEND IT TO...\n" ), rl_dist( g->u.pos(), mission_target ),
                 direction_name_short( direction_from( g->u.pos(), mission_target ) ) );
 
     query_any( _( "Press any key to continue..." ) );

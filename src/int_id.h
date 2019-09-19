@@ -28,6 +28,14 @@ class int_id
         explicit int_id( const int id )
             : _id( id ) {
         }
+
+        /**
+         * Prevent accidental construction from other int ids due to the non-explicit `operator int()`.
+         */
+        template < typename S, typename std::enable_if_t < !std::is_same<S, T>::value, int > = 0 >
+        int_id( const int_id<S> &id ) = delete;
+
+
         /**
          * Default constructor constructs a 0-id. No id value is special to this class, 0 as id
          * is just as normal as any other integer value.
@@ -79,6 +87,7 @@ class int_id
         }
         /**
          * Conversion to int as with the @ref to_i function.
+         * It is non-explicit to allow using int_id implicitly as indices etc
          */
         operator int() const {
             return _id;

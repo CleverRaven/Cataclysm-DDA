@@ -1393,6 +1393,16 @@
     "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
+    "id": "hk_briefcase",
+    "type": "ARMOR",
+    "copy-from": "briefcase",
+    "name": "H&K operational briefcase (empty)",
+    "description": "This is a plain, hard-sided black briefcase with a trigger in the handle and a concealed hole in the side.  Squeezing the trigger would currently do nothing, as it is empty.  Don't forget to put a suitable MP5 back inside before you try to pay any ransom fees with lead.",
+    "storage": "14500 ml",
+    "price": 2000,
+    "weight": "950 g"
+  },
+  {
     "id": "briefs",
     "type": "ARMOR",
     "name": "briefs",
@@ -2169,11 +2179,13 @@
     "//": "REI Co-op 22-liter daypack costs $54.95, so ballpark to $55",
     "price": 5500,
     "price_postapoc": 10000,
+    "rigid": false,
     "material": [ "cotton", "plastic" ],
     "covers": [ "TORSO" ],
     "coverage": 50,
     "material_thickness": 1,
-    "encumbrance": 18,
+    "encumbrance": 2,
+    "max_encumbrance": 18,
     "storage": 96,
     "warmth": 5,
     "flags": [ "BELTED", "OVERSIZE", "STURDY" ],
@@ -4551,7 +4563,7 @@
     "color": "dark_gray",
     "covers": [ "HEAD" ],
     "coverage": 100,
-    "encumbrance": 40,
+    "encumbrance": 25,
     "warmth": 15,
     "material_thickness": 5,
     "environmental_protection": 3,
@@ -6243,7 +6255,7 @@
     "coverage": 95,
     "encumbrance": 16,
     "storage": "2500 ml",
-    "warmth": 15,
+    "warmth": 12,
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY" ]
@@ -6834,7 +6846,7 @@
     "coverage": 100,
     "encumbrance": 20,
     "storage": "3500 ml",
-    "warmth": 10,
+    "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]

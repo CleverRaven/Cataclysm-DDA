@@ -1321,7 +1321,7 @@
     "id": "EDIT_FURNITURE",
     "category": "EDITMAP",
     "name": "Edit furniture",
-    "bindings": [ { "input_method": "keyboard", "key": "u" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "r" } ]
   },
   {
     "type": "keybinding",
@@ -2765,16 +2765,21 @@
     ]
   },
   {
+    "type": "keybinding",
+    "id": "IGNORE",
+    "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
+    "name": "Ignore further distractions and finish",
+    "bindings": [ { "input_method": "keyboard", "key": "I" }, { "input_method": "keyboard", "key": "i" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "YES",
     "category": "YES_NO_ALWAYS_NEVER",
     "name": "Yes",
-    "bindings": [
-      { "input_method": "keyboard", "key": [ "Y" ] },
-      { "input_method": "keyboard", "key": [ "y" ] },
-      { "input_method": "keyboard", "key": [ "ESC" ] }
-    ]
+    "bindings": [ { "input_method": "keyboard", "key": [ "Y" ] }, { "input_method": "keyboard", "key": [ "y" ] } ]
   },
   {
+    "type": "keybinding",
     "id": "NO",
     "category": "YES_NO_ALWAYS_NEVER",
     "name": "No",
@@ -2785,31 +2790,18 @@
     ]
   },
   {
+    "type": "keybinding",
     "id": "ALWAYS",
     "category": "YES_NO_ALWAYS_NEVER",
     "name": "Always",
-    "bindings": [
-      { "input_method": "keyboard", "key": [ "A" ] },
-      { "input_method": "keyboard", "key": [ "a" ] },
-      { "input_method": "keyboard", "key": [ "ESC" ] }
-    ]
-  },
-  {
-    "id": "NEVER",
-    "category": "YES_NO_ALWAYS_NEVER",
-    "name": "Never",
-    "bindings": [
-      { "input_method": "keyboard", "key": [ "E" ] },
-      { "input_method": "keyboard", "key": [ "e" ] },
-      { "input_method": "keyboard", "key": [ "ESC" ] }
-    ]
+    "bindings": [ { "input_method": "keyboard", "key": [ "A" ] }, { "input_method": "keyboard", "key": [ "a" ] } ]
   },
   {
     "type": "keybinding",
-    "id": "IGNORE",
-    "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
-    "name": "Ignore further distractions and finish",
-    "bindings": [ { "input_method": "keyboard", "key": "I" }, { "input_method": "keyboard", "key": "i" } ]
+    "id": "NEVER",
+    "category": "YES_NO_ALWAYS_NEVER",
+    "name": "Never",
+    "bindings": [ { "input_method": "keyboard", "key": [ "E" ] }, { "input_method": "keyboard", "key": [ "e" ] } ]
   },
   {
     "type": "keybinding",

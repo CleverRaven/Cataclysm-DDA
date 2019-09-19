@@ -529,6 +529,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "PARROT_AT_DANGER", mattack::parrot_at_danger );
     add_hardcoded_attack( "DARKMAN", mattack::darkman );
     add_hardcoded_attack( "SLIMESPRING", mattack::slimespring );
+    add_hardcoded_attack( "TINDALOS_TELEPORT", mattack::tindalos_teleport );
     add_hardcoded_attack( "FLESH_TENDRIL", mattack::flesh_tendril );
     add_hardcoded_attack( "BIO_OP_TAKEDOWN", mattack::bio_op_takedown );
     add_hardcoded_attack( "SUICIDE", mattack::suicide );
@@ -856,24 +857,24 @@ class mattack_hardcoded_wrapper : public mattack_actor
         bool call( monster &m ) const override {
             return cpp_function( &m );
         }
-        mattack_actor *clone() const override {
-            return new mattack_hardcoded_wrapper( *this );
+        std::unique_ptr<mattack_actor> clone() const override {
+            return std::make_unique<mattack_hardcoded_wrapper>( *this );
         }
 
         void load_internal( JsonObject &, const std::string & ) override {}
 };
 
 mtype_special_attack::mtype_special_attack( const mattack_id &id, const mon_action_attack f )
-    : mtype_special_attack( new mattack_hardcoded_wrapper( id, f ) ) {}
+    : mtype_special_attack( std::make_unique<mattack_hardcoded_wrapper>( id, f ) ) {}
 
 void MonsterGenerator::add_hardcoded_attack( const std::string &type, const mon_action_attack f )
 {
     add_attack( mtype_special_attack( type, f ) );
 }
 
-void MonsterGenerator::add_attack( mattack_actor *ptr )
+void MonsterGenerator::add_attack( std::unique_ptr<mattack_actor> ptr )
 {
-    add_attack( mtype_special_attack( ptr ) );
+    add_attack( mtype_special_attack( std::move( ptr ) ) );
 }
 
 void MonsterGenerator::add_attack( const mtype_special_attack &wrapper )
@@ -901,7 +902,7 @@ mtype_special_attack MonsterGenerator::create_actor( JsonObject obj, const std::
             "type" );
     }
 
-    mattack_actor *new_attack = nullptr;
+    std::unique_ptr<mattack_actor> new_attack;
     if( attack_type == "monster_attack" ) {
         const std::string id = obj.get_string( "id" );
         const auto &iter = attack_map.find( id );
@@ -911,21 +912,21 @@ mtype_special_attack MonsterGenerator::create_actor( JsonObject obj, const std::
 
         new_attack = iter->second->clone();
     } else if( attack_type == "leap" ) {
-        new_attack = new leap_actor();
+        new_attack = std::make_unique<leap_actor>();
     } else if( attack_type == "melee" ) {
-        new_attack = new melee_actor();
+        new_attack = std::make_unique<melee_actor>();
     } else if( attack_type == "bite" ) {
-        new_attack = new bite_actor();
+        new_attack = std::make_unique<bite_actor>();
     } else if( attack_type == "gun" ) {
-        new_attack = new gun_actor();
+        new_attack = std::make_unique<gun_actor>();
     } else if( attack_type == "spell" ) {
-        new_attack = new mon_spellcasting_actor();
+        new_attack = std::make_unique<mon_spellcasting_actor>();
     } else {
         obj.throw_error( "unknown monster attack", "attack_type" );
     }
 
     new_attack->load( obj, src );
-    return mtype_special_attack( new_attack );
+    return mtype_special_attack( std::move( new_attack ) );
 }
 
 void mattack_actor::load( JsonObject &jo, const std::string &src )

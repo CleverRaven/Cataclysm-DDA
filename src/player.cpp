@@ -151,6 +151,7 @@ const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_glowy_led( "glowy_led" );
 const efftype_id effect_got_checked( "got_checked" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_grabbing( "grabbing" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_happy( "happy" );
 const efftype_id effect_hot( "hot" );
@@ -1822,23 +1823,34 @@ bool player::is_immune_damage( const damage_type dt ) const
         case DT_TRUE:
             return false;
         case DT_BIOLOGICAL:
-            return false;
+            return has_effect_with_flag( "EFFECT_BIO_IMMUNE" ) ||
+                   worn_with_flag( "BIO_IMMUNE" );
         case DT_BASH:
-            return false;
+            return has_effect_with_flag( "EFFECT_BASH_IMMUNE" ) ||
+                   worn_with_flag( "BASH_IMMUNE" );
         case DT_CUT:
-            return false;
+            return has_effect_with_flag( "EFFECT_CUT_IMMUNE" ) ||
+                   worn_with_flag( "CUT_IMMUNE" );
         case DT_ACID:
-            return has_trait( trait_ACIDPROOF );
+            return has_trait( trait_ACIDPROOF ) ||
+                   has_effect_with_flag( "EFFECT_ACID_IMMUNE" ) ||
+                   worn_with_flag( "ACID_IMMUNE" );
         case DT_STAB:
-            return false;
+            return has_effect_with_flag( "EFFECT_STAB_IMMUNE" ) ||
+                   worn_with_flag( "STAB_IMMUNE" );
         case DT_HEAT:
-            return has_trait( trait_M_SKIN2 ) || has_trait( trait_M_SKIN3 );
+            return has_trait( trait_M_SKIN2 ) ||
+                   has_trait( trait_M_SKIN3 ) ||
+                   has_effect_with_flag( "EFFECT_HEAT_IMMUNE" ) ||
+                   worn_with_flag( "HEAT_IMMUNE" );
         case DT_COLD:
-            return false;
+            return has_effect_with_flag( "EFFECT_COLD_IMMUNE" ) ||
+                   worn_with_flag( "COLD_IMMUNE" );
         case DT_ELECTRIC:
             return has_active_bionic( bio_faraday ) ||
                    worn_with_flag( "ELECTRIC_IMMUNE" ) ||
-                   has_artifact_with( AEP_RESIST_ELECTRICITY );
+                   has_artifact_with( AEP_RESIST_ELECTRICITY ) ||
+                   has_effect_with_flag( "EFFECT_ELECTRIC_IMMUNE" );
         default:
             return true;
     }
@@ -3033,7 +3045,8 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
     //looks like this should be based off of dealt damages, not d as d has no damage reduction applied.
     // Skip all this if the damage isn't from a creature. e.g. an explosion.
     if( source != nullptr ) {
-        if( source->has_flag( MF_GRABS ) && !source->is_hallucination() ) {
+        if( source->has_flag( MF_GRABS ) && !source->is_hallucination() &&
+            !source->has_effect( effect_grabbing ) ) {
             /** @EFFECT_DEX increases chance to avoid being grabbed, if DEX>STR */
 
             /** @EFFECT_STR increases chance to avoid being grabbed, if STR>DEX */
@@ -3051,6 +3064,7 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
             } else {
                 int prev_effect = get_effect_int( effect_grabbed );
                 add_effect( effect_grabbed, 2_turns, bp_torso, false, prev_effect + 2 );
+                source->add_effect( effect_grabbing, 2_turns );
                 add_msg_player_or_npc( m_bad, _( "You are grabbed by %s!" ), _( "<npcname> is grabbed by %s!" ),
                                        source->disp_name() );
             }
@@ -3357,6 +3371,9 @@ int player::hitall( int dam, int vary, Creature *source )
 
 float player::fall_damage_mod() const
 {
+    if( has_effect_with_flag( "EFFECT_FEATHER_FALL" ) ) {
+        return 0.0f;
+    }
     float ret = 1.0f;
 
     // Ability to land properly is 2x as important as dexterity itself
@@ -4176,14 +4193,18 @@ void player::update_needs( int rate_multiplier )
 
     // Huge folks take penalties for cramming themselves in vehicles
     if( in_vehicle && ( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) ) {
-        add_msg_if_player( m_bad,
-                           _( "You're cramping up from stuffing yourself in this vehicle." ) );
-        if( is_npc() ) {
-            npc &as_npc = dynamic_cast<npc &>( *this );
-            as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
+        vehicle *veh = veh_pointer_or_null( g->m.veh_at( pos() ) );
+        // it's painful to work the controls, but passengers in open topped vehicles are fine
+        if( veh && ( veh->enclosed_at( pos() ) || veh->player_in_control( *this ) ) ) {
+            add_msg_if_player( m_bad,
+                               _( "You're cramping up from stuffing yourself in this vehicle." ) );
+            if( is_npc() ) {
+                npc &as_npc = dynamic_cast<npc &>( *this );
+                as_npc.complain_about( "cramped_vehicle", 1_hours, "<cramped_vehicle>", false );
+            }
+            mod_pain_noresist( 2 * rng( 2, 3 ) );
+            focus_pool -= 1;
         }
-        mod_pain_noresist( 2 * rng( 2, 3 ) );
-        focus_pool -= 1;
     }
 }
 
@@ -4408,7 +4429,7 @@ void player::cough( bool harmful, int loudness )
         const int stam = stamina;
         const int malus = get_stamina_max() * 0.05; // 5% max stamina
         mod_stat( "stamina", -malus );
-        if( stam < malus && x_in_y( malus - stam, malus ) ) {
+        if( stam < malus && x_in_y( malus - stam, malus ) && one_in( 6 ) ) {
             apply_damage( nullptr, bp_torso, 1 );
         }
     }
@@ -4899,35 +4920,36 @@ void player::suffer()
         mod_thirst( -1 );
     }
 
+    time_duration timer = -6_hours;
+    if( has_trait( trait_ADDICTIVE ) ) {
+        timer = -10_hours;
+    } else if( has_trait( trait_NONADDICTIVE ) ) {
+        timer = -3_hours;
+    }
+    for( auto &cur_addiction : addictions ) {
+        if( cur_addiction.sated <= 0_turns &&
+            cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
+            addict_effect( *this, cur_addiction );
+        }
+        cur_addiction.sated -= 1_turns;
+        // Higher intensity addictions heal faster
+        if( cur_addiction.sated - 10_minutes * cur_addiction.intensity < timer ) {
+            if( cur_addiction.intensity <= 2 ) {
+                rem_addiction( cur_addiction.type );
+                break;
+            } else {
+                cur_addiction.intensity--;
+                cur_addiction.sated = 0_turns;
+            }
+        }
+    }
+
     if( !in_sleep_state() ) {
         if( !has_trait( trait_id( "DEBUG_STORAGE" ) ) && ( weight_carried() > 4 * weight_capacity() ) ) {
             if( has_effect( effect_downed ) ) {
                 add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
             } else {
                 add_effect( effect_downed, 2_turns, num_bp, false, 0, true );
-            }
-        }
-        time_duration timer = -6_hours;
-        if( has_trait( trait_ADDICTIVE ) ) {
-            timer = -10_hours;
-        } else if( has_trait( trait_NONADDICTIVE ) ) {
-            timer = -3_hours;
-        }
-        for( auto &cur_addiction : addictions ) {
-            if( cur_addiction.sated <= 0_turns &&
-                cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
-                addict_effect( *this, cur_addiction );
-            }
-            cur_addiction.sated -= 1_turns;
-            // Higher intensity addictions heal faster
-            if( cur_addiction.sated - 10_minutes * cur_addiction.intensity < timer ) {
-                if( cur_addiction.intensity <= 2 ) {
-                    rem_addiction( cur_addiction.type );
-                    break;
-                } else {
-                    cur_addiction.intensity--;
-                    cur_addiction.sated = 0_turns;
-                }
             }
         }
         if( has_trait( trait_CHEMIMBALANCE ) ) {
@@ -5288,9 +5310,10 @@ void player::suffer()
         }
     } // Done with while-awake-only effects
 
-    if( has_trait( trait_ASTHMA ) &&
-        one_in( ( to_turns<int>( 6_hours ) - stim * 300 ) * ( has_effect( effect_sleep ) ? 10 : 1 ) ) &&
-        !has_effect( effect_adrenaline ) & !has_effect( effect_datura ) ) {
+    if( has_trait( trait_ASTHMA ) && !has_effect( effect_adrenaline ) &&
+        !has_effect( effect_datura ) &&
+        one_in( ( to_turns<int>( 6_hours ) - stim * 300 ) *
+                ( has_effect( effect_sleep ) ? 10 : 1 ) ) ) {
         bool auto_use = has_charges( "inhaler", 1 ) || has_charges( "oxygen_tank", 1 ) ||
                         has_charges( "smoxygen_tank", 1 );
         bool oxygenator = has_bionic( bio_gills ) && power_level >= 3;
@@ -5299,42 +5322,48 @@ void player::suffer()
             auto_use = false;
         }
 
+        add_msg_player_or_npc( m_bad, _( "You have an asthma attack!" ),
+                               "<npcname> starts wheezing and coughing." );
+
         if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
             inventory map_inv;
             map_inv.form_from_map( g->u.pos(), 2, &g->u );
+            // check if an inhaler is somewhere near
+            bool nearby_use = auto_use || oxygenator || map_inv.has_charges( "inhaler", 1 ) ||
+                              map_inv.has_charges( "oxygen_tank", 1 ) ||
+                              map_inv.has_charges( "smoxygen_tank", 1 );
             // check if character has an oxygenator first
             if( oxygenator ) {
-                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
                 charge_power( -3 );
-                add_msg_if_player( m_info, _( "You use your Oxygenator to clear it up, then go back to sleep." ) );
+                add_msg_if_player( m_info, _( "You use your Oxygenator to clear it up, "
+                                              "then go back to sleep." ) );
             } else if( auto_use ) {
-                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
                 if( use_charges_if_avail( "inhaler", 1 ) ) {
                     add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
                 } else if( use_charges_if_avail( "oxygen_tank", 1 ) ||
                            use_charges_if_avail( "smoxygen_tank", 1 ) ) {
-                    add_msg_if_player( m_info,
-                                       _( "You take a deep breath from your oxygen tank and go back to sleep." ) );
+                    add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
+                                                  "and go back to sleep." ) );
                 }
-                // check if an inhaler is somewhere near
-            } else if( map_inv.has_charges( "inhaler", 1 ) || map_inv.has_charges( "oxygen_tank", 1 ) ||
-                       map_inv.has_charges( "smoxygen_tank", 1 ) ) {
-                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
+            } else if( nearby_use ) {
                 // create new variable to resolve a reference issue
                 int amount = 1;
                 if( !g->m.use_charges( g->u.pos(), 2, "inhaler", amount ).empty() ) {
                     add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
                 } else if( !g->m.use_charges( g->u.pos(), 2, "oxygen_tank", amount ).empty() ||
                            !g->m.use_charges( g->u.pos(), 2, "smoxygen_tank", amount ).empty() ) {
-                    add_msg_if_player( m_info,
-                                       _( "You take a deep breath from your oxygen tank and go back to sleep." ) );
+                    add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
+                                                  "and go back to sleep." ) );
                 }
             } else {
                 add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
                 if( has_effect( effect_sleep ) ) {
                     wake_up();
                 } else {
-                    g->cancel_activity_or_ignore_query( distraction_type::asthma,  _( "You have an asthma attack!" ) );
+                    if( !is_npc() ) {
+                        g->cancel_activity_or_ignore_query( distraction_type::asthma,
+                                                            _( "You can't focus while choking!" ) );
+                    }
                 }
             }
         } else if( auto_use ) {
@@ -5342,32 +5371,35 @@ void player::suffer()
             if( use_charges_if_avail( "inhaler", 1 ) ) {
                 moves -= 40;
                 charges = charges_of( "inhaler" );
-                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
                 if( charges == 0 ) {
                     add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
                 } else {
-                    add_msg_if_player( m_info, ngettext( "You use your inhaler, only %d charge left.",
-                                                         "You use your inhaler, only %d charges left.", charges ),
+                    add_msg_if_player( m_info, ngettext( "You use your inhaler, "
+                                                         "only %d charge left.",
+                                                         "You use your inhaler, "
+                                                         "only %d charges left.", charges ),
                                        charges );
                 }
             } else if( use_charges_if_avail( "oxygen_tank", 1 ) ||
                        use_charges_if_avail( "smoxygen_tank", 1 ) ) {
                 moves -= 500; // synched with use action
                 charges = charges_of( "oxygen_tank" ) + charges_of( "smoxygen_tank" );
-                add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
                 if( charges == 0 ) {
-                    add_msg_if_player( m_bad, _( "You breathe in last bit of oxygen from the tank." ) );
+                    add_msg_if_player( m_bad, _( "You breathe in last bit of oxygen "
+                                                 "from the tank." ) );
                 } else {
-                    add_msg_if_player( m_info,
-                                       ngettext( "You take a deep breath from your oxygen tank, only %d charge left.",
-                                                 "You take a deep breath from your oxygen tank, only %d charges left.", charges ),
+                    add_msg_if_player( m_info, ngettext( "You take a deep breath from your oxygen "
+                                                         "tank, only %d charge left.",
+                                                         "You take a deep breath from your oxygen "
+                                                         "tank, only %d charges left.", charges ),
                                        charges );
                 }
             }
         } else {
             add_effect( effect_asthma, rng( 5_minutes, 20_minutes ) );
             if( !is_npc() ) {
-                g->cancel_activity_or_ignore_query( distraction_type::asthma,  _( "You have an asthma attack!" ) );
+                g->cancel_activity_or_ignore_query( distraction_type::asthma,
+                                                    _( "You can't focus while choking!" ) );
             }
         }
     }
@@ -6377,11 +6409,7 @@ void player::update_body_wetness( const w_point &weather )
 
     // Now per-body-part stuff
     // To make drying uniform, make just one roll and reuse it
-    const int drying_roll = rng( 1, 100 );
-    if( drying_roll > 40 ) {
-        // Wouldn't affect anything
-        return;
-    }
+    const int drying_roll = rng( 1, 80 );
 
     for( const body_part bp : all_body_parts ) {
         if( body_wetness[bp] == 0 ) {
@@ -6543,6 +6571,15 @@ void player::process_active_items()
         }
         if( it.has_flag( "USE_UPS" ) && it.charges < it.type->maximum_charges() ) {
             active_held_items.push_back( index );
+        }
+    }
+    // Necessary for UPS in Aftershock - check worn items for charge
+    for( const item &it : worn ) {
+        itype_id identifier = it.type->get_id();
+        if( identifier == "UPS_off" ) {
+            ch_UPS += it.ammo_remaining();
+        } else if( identifier == "adv_UPS_off" ) {
+            ch_UPS += it.ammo_remaining() / 0.6;
         }
     }
     if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
@@ -7783,12 +7820,12 @@ bool player::pick_style() // Style selection menu
         auto &style = selectable_styles[i].obj();
         //Check if this style is currently selected
         const bool selected = selectable_styles[i] == style_selected;
-        std::string entry_text = _( style.name );
+        std::string entry_text = style.name.translated();
         if( selected ) {
             kmenu.selected = i + STYLE_OFFSET;
             entry_text = colorize( entry_text, c_pink );
         }
-        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, entry_text, _( style.description ) );
+        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, entry_text, style.description.translated() );
     }
 
     kmenu.query();
@@ -10718,6 +10755,7 @@ bool player::is_invisible() const
     static const bionic_id str_bio_cloak( "bio_cloak" ); // This function used in monster::plan_moves
     static const bionic_id str_bio_night( "bio_night" );
     return (
+               has_effect_with_flag( "EFFECT_INVISIBLE" ) ||
                has_active_bionic( str_bio_cloak ) ||
                has_active_bionic( str_bio_night ) ||
                has_active_optcloak() ||

@@ -531,6 +531,21 @@ void draw_border( const catacurses::window &w, nc_color border_color, const std:
     }
 }
 
+void draw_border_below_tabs( const catacurses::window &w, nc_color border_color )
+{
+    int width = getmaxx( w );
+    int height = getmaxy( w );
+    for( int i = 1; i < width - 1; i++ ) {
+        mvwputch( w, point( i, height - 1 ), border_color, LINE_OXOX );
+    }
+    for( int i = 3; i < height - 1; i++ ) {
+        mvwputch( w, point( 0, i ), border_color, LINE_XOXO );
+        mvwputch( w, point( width - 1, i ), border_color, LINE_XOXO );
+    }
+    mvwputch( w, point( 0, height - 1 ), border_color, LINE_XXOO ); // |_
+    mvwputch( w, point( width - 1, height - 1 ), border_color, LINE_XOOX ); // _|
+}
+
 bool query_yn( const std::string &text )
 {
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
@@ -716,22 +731,22 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
 
     starty += fold_and_print( win, point( 1, starty ), len, c_white,
                               _( "Separate multiple items with ," ) );
-    //~ An example of how to separate multiple items with a comma when filtering items.
     starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
+                                  //~ An example of how to separate multiple items with a comma when filtering items.
                                   _( "Example: back,flash,aid, ,band" ) );
 
     if( type == item_filter_type::FILTER ) {
         starty += fold_and_print( win, point( 1, starty ), len, c_white,
                                   _( "To exclude items, place - in front." ) );
-        //~ An example of how to exclude items with - when filtering items.
         starty += 1 + fold_and_print( win, point( 1, starty ), len, c_white,
+                                      //~ An example of how to exclude items with - when filtering items.
                                       _( "Example: -pipe,-chunk,-steel" ) );
     }
 
     starty += fold_and_print( win, point( 1, starty ), len, c_white,
                               _( "Search [c]ategory, [m]aterial, [q]uality or [d]isassembled components:" ) );
-    //~ An example of how to filter items based on category or material.
     fold_and_print( win, point( 1, starty ), len, c_white,
+                    //~ An example of how to filter items based on category or material.
                     _( "Examples: c:food,m:iron,q:hammering,d:pipe" ) );
     wrefresh( win );
 }
@@ -1133,6 +1148,34 @@ void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &
             mvwputch( w, point( i, 1 ), c_black, ' ' );
         }
     }
+}
+
+void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab_texts,
+                size_t current_tab )
+{
+    int width = getmaxx( w );
+    for( int i = 0; i < width; i++ ) {
+        mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_OXOX ); // -
+    }
+
+    mvwputch( w, point( 0, 2 ), BORDER_COLOR, LINE_OXXO ); // |^
+    mvwputch( w, point( width - 1, 2 ), BORDER_COLOR, LINE_OOXX ); // ^|
+
+    const int tab_step = 3;
+    int x = 2;
+    for( size_t i = 0; i < tab_texts.size(); ++i ) {
+        const std::string &tab_text = tab_texts[i];
+        draw_tab( w, x, tab_text, i == current_tab );
+        x += utf8_width( tab_text ) + tab_step;
+    }
+}
+
+void draw_tabs( const catacurses::window &w, const std::vector<std::string> &tab_texts,
+                const std::string &current_tab )
+{
+    auto it = std::find( tab_texts.begin(), tab_texts.end(), current_tab );
+    assert( it != tab_texts.end() );
+    draw_tabs( w, tab_texts, it - tab_texts.begin() );
 }
 
 /**

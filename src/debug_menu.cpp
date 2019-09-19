@@ -811,23 +811,22 @@ void character_edit_menu()
     }
 }
 
-static const std::string &mission_status_string( mission::mission_status status )
+static std::string mission_status_string( mission::mission_status status )
 {
     static const std::map<mission::mission_status, std::string> desc{ {
-            { mission::mission_status::yet_to_start, _( "Yet to start" ) },
-            { mission::mission_status::in_progress, _( "In progress" ) },
-            { mission::mission_status::success, _( "Success" ) },
-            { mission::mission_status::failure, _( "Failure" ) }
+            { mission::mission_status::yet_to_start, translate_marker( "Yet to start" ) },
+            { mission::mission_status::in_progress, translate_marker( "In progress" ) },
+            { mission::mission_status::success, translate_marker( "Success" ) },
+            { mission::mission_status::failure, translate_marker( "Failure" ) }
         }
     };
 
     const auto &iter = desc.find( status );
     if( iter != desc.end() ) {
-        return iter->second;
+        return _( iter->second );
     }
 
-    static const std::string errmsg = _( "Bugged" );
-    return errmsg;
+    return _( "Bugged" );
 }
 
 std::string mission_debug::describe( const mission &m )
@@ -1063,7 +1062,12 @@ void debug()
             temp->mission = NPC_MISSION_NULL;
             temp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, temp->global_omt_location(),
                                    temp->getID() ) );
-            temp->set_fac( faction_id( "no_faction" ) );
+            std::string new_fac_id = "solo_";
+            new_fac_id += temp->name;
+            // create a new "lone wolf" faction for this one NPC
+            faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( temp->name,
+                                    faction_id( new_fac_id ), faction_id( "no_faction" ) );
+            temp->set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
             g->load_npcs();
         }
         break;

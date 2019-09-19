@@ -124,6 +124,11 @@
           "om_terrain": "robofachq_surface_b0",
           "om_special": "hub_01",
           "place_nested": [ { "chunks": [ "robofac_hq_surface_freemerchant_camp" ], "x": 4, "y": 0 } ]
+        },
+        {
+          "om_terrain": "robofachq_surface_entrance",
+          "om_special": "hub_01",
+          "place_nested": [ { "chunks": [ "robofac_hq_surface_merc_1" ], "x": 3, "y": 10 } ]
         }
       ],
       "effect": [ { "u_buy_item": "RobofacCoin", "count": 2 } ]
@@ -305,7 +310,7 @@
     "dynamic_line": "Given the current context, we are willing to sell you a set of our protective gear: gas mask, suit and gear, at a considerable discount.  We will sell it for two of our coins.\n\nthe intercom: Hmm wait, we might not have your size...",
     "responses": [
       {
-        "text": "[ 2 Hub 01 Gold Coins ] Deal!",
+        "text": "[ 2 HGC ] Deal!",
         "condition": { "u_has_item": "RobofacCoin" },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 2 },

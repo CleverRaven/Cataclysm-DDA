@@ -6,6 +6,10 @@
     "info": "This gear has <info>cloaking tech</info> that will <good>make you invisible</good> when active, at the cost of <info>power from a UPS</info>."
   },
   {
+    "id": "EFFECT_INVISIBLE",
+    "type": "json_flag"
+  },
+  {
     "id": "ALARMCLOCK",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -646,5 +650,41 @@
     "type": "json_flag",
     "context": [ "SPELL" ],
     "description": "This spell requires focus to cast.  The lower your focus, the higher failure rate to cast."
+  },
+  {
+    "id": "EFFECT_FEATHER_FALL",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_BIO_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_BASH_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_CUT_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_ACID_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_STAB_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_HEAT_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_COLD_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "ELECTRIC_IMMUNE",
+    "type": "json_flag"
   }
 ]

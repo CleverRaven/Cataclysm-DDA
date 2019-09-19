@@ -869,7 +869,7 @@ bool game::start_game()
         mission->assign( u );
     }
 
-    g->events().send<event_type::game_start>();
+    g->events().send<event_type::game_start>( u.getID() );
     return true;
 }
 
@@ -907,9 +907,6 @@ void game::load_npcs()
         if( temp->marked_for_death ) {
             temp->die( nullptr );
         } else {
-            if( temp->get_faction() != nullptr ) {
-                temp->get_faction()->known_by_u = true;
-            }
             active_npc.push_back( temp );
             just_added.push_back( temp );
         }
@@ -1514,6 +1511,7 @@ bool game::do_turn()
     m.build_floor_caches();
 
     m.process_falling();
+    following_vehicles();
     m.vehmove();
 
     // Process power and fuel consumption for all vehicles, including off-map ones.
@@ -1639,6 +1637,16 @@ void game::process_activity()
 
     while( u.moves > 0 && u.activity ) {
         u.activity.do_turn( u );
+    }
+}
+
+void game::following_vehicles()
+{
+    for( auto &veh : m.get_vehicles() ) {
+        auto &v = veh.v;
+        if( v->is_following ) {
+            v->drive_to_local_target( u.pos(), true );
+        }
     }
 }
 
@@ -3019,87 +3027,87 @@ void game::disp_faction_ends()
                                   std::max( 0, ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
     std::vector<std::string> data;
 
-    for( const faction &elem : faction_manager_ptr->all() ) {
-        if( elem.known_by_u ) {
-            if( elem.name == "Your Followers" ) {
+    for( const auto &elem : faction_manager_ptr->all() ) {
+        if( elem.second.known_by_u ) {
+            if( elem.second.name == "Your Followers" ) {
                 data.emplace_back( _( "       You are forgotten among the billions lost in the cataclysm..." ) );
                 display_table( w, "", 1, data );
-            } else if( elem.name == "The Old Guard" && elem.power != 100 ) {
-                if( elem.power < 150 ) {
+            } else if( elem.second.name == "The Old Guard" && elem.second.power != 100 ) {
+                if( elem.second.power < 150 ) {
                     data.emplace_back(
-                        _( "    Locked in an endless battle, the Old Guard was forced to consolidate their \
-resources in a handful of fortified bases along the coast.  Without the men \
-or material to rebuild, the soldiers that remained lost all hope..." ) );
+                        _( "    Locked in an endless battle, the Old Guard was forced to consolidate their "
+                           "resources in a handful of fortified bases along the coast.  Without the men "
+                           "or material to rebuild, the soldiers that remained lost all hope..." ) );
                 } else {
-                    data.emplace_back( _( "    The steadfastness of individual survivors after the cataclysm impressed \
-the tattered remains of the once glorious union.  Spurred on by small \
-successes, a number of operations to re-secure facilities met with limited \
-success.  Forced to eventually consolidate to large bases, the Old Guard left \
-these facilities in the hands of the few survivors that remained.  As the \
-years past, little materialized from the hopes of rebuilding civilization..." ) );
+                    data.emplace_back( _( "    The steadfastness of individual survivors after the cataclysm impressed "
+                                          "the tattered remains of the once glorious union.  Spurred on by small "
+                                          "successes, a number of operations to re-secure facilities met with limited "
+                                          "success.  Forced to eventually consolidate to large bases, the Old Guard left "
+                                          "these facilities in the hands of the few survivors that remained.  As the "
+                                          "years past, little materialized from the hopes of rebuilding civilization..." ) );
                 }
                 display_table( w, _( "The Old Guard" ), 1, data );
-            } else if( elem.name == "The Free Merchants" && elem.power != 100 ) {
-                if( elem.power < 150 ) {
-                    data.emplace_back( _( "    Life in the refugee shelter deteriorated as food shortages and disease \
-destroyed any hope of maintaining a civilized enclave.  The merchants and \
-craftsmen dispersed to found new colonies but most became victims of \
-marauding bandits.  Those who survived never found a place to call home..." ) );
+            } else if( elem.second.name == "The Free Merchants" && elem.second.power != 100 ) {
+                if( elem.second.power < 150 ) {
+                    data.emplace_back( _( "    Life in the refugee shelter deteriorated as food shortages and disease "
+                                          "destroyed any hope of maintaining a civilized enclave.  The merchants and "
+                                          "craftsmen dispersed to found new colonies but most became victims of "
+                                          "marauding bandits.  Those who survived never found a place to call home..." ) );
                 } else {
-                    data.emplace_back( _( "    The Free Merchants struggled for years to keep themselves fed but their \
-once profitable trade routes were plundered by bandits and thugs.  In squalor \
-and filth the first generations born after the cataclysm are told stories of \
-the old days when food was abundant and the children were allowed to play in \
-the sun..." ) );
+                    data.emplace_back( _( "    The Free Merchants struggled for years to keep themselves fed but their "
+                                          "once profitable trade routes were plundered by bandits and thugs.  In squalor "
+                                          "and filth the first generations born after the cataclysm are told stories of "
+                                          "the old days when food was abundant and the children were allowed to play in "
+                                          "the sun..." ) );
                 }
                 display_table( w, _( "The Free Merchants" ), 1, data );
-            } else if( elem.name == "The Tacoma Commune" && elem.power != 100 ) {
-                if( elem.power < 150 ) {
-                    data.emplace_back( _( "    The fledgling outpost was abandoned a few months later.  The external \
-threats combined with low crop yields caused the Free Merchants to withdraw \
-their support.  When the exhausted migrants returned to the refugee center \
-they were turned away to face the world on their own." ) );
+            } else if( elem.second.name == "The Tacoma Commune" && elem.second.power != 100 ) {
+                if( elem.second.power < 150 ) {
+                    data.emplace_back( _( "    The fledgling outpost was abandoned a few months later.  The external "
+                                          "threats combined with low crop yields caused the Free Merchants to withdraw "
+                                          "their support.  When the exhausted migrants returned to the refugee center "
+                                          "they were turned away to face the world on their own." ) );
                 } else {
                     data.emplace_back(
-                        _( "    The commune continued to grow rapidly through the years despite constant \
-external threat.  While maintaining a reputation as a haven for all law-\
-abiding citizens, the commune's leadership remained loyal to the interests of \
-the Free Merchants.  Hard labor for little reward remained the price to be \
-paid for those who sought the safety of the community." ) );
+                        _( "    The commune continued to grow rapidly through the years despite constant "
+                           "external threat.  While maintaining a reputation as a haven for all law-"
+                           "abiding citizens, the commune's leadership remained loyal to the interests of "
+                           "the Free Merchants.  Hard labor for little reward remained the price to be "
+                           "paid for those who sought the safety of the community." ) );
                 }
                 display_table( w, _( "The Tacoma Commune" ), 1, data );
-            } else if( elem.name == "The Wasteland Scavengers" && elem.power != 100 ) {
-                if( elem.power < 150 ) {
+            } else if( elem.second.name == "The Wasteland Scavengers" && elem.second.power != 100 ) {
+                if( elem.second.power < 150 ) {
                     data.emplace_back(
-                        _( "    The lone bands of survivors who wandered the now alien world dwindled in \
-number through the years.  Unable to compete with the growing number of \
-monstrosities that had adapted to live in their world, those who did survive \
-lived in dejected poverty and hopelessness..." ) );
+                        _( "    The lone bands of survivors who wandered the now alien world dwindled in "
+                           "number through the years.  Unable to compete with the growing number of "
+                           "monstrosities that had adapted to live in their world, those who did survive "
+                           "lived in dejected poverty and hopelessness..." ) );
                 } else {
                     data.emplace_back(
-                        _( "    The scavengers who flourished in the opening days of the cataclysm found \
-an ever increasing challenge in finding and maintaining equipment from the \
-old world.  Enormous hordes made cities impossible to enter while new \
-eldritch horrors appeared mysteriously near old research labs.  But on the \
-fringes of where civilization once ended, bands of hunter-gatherers began to \
-adopt agrarian lifestyles in fortified enclaves..." ) );
+                        _( "    The scavengers who flourished in the opening days of the cataclysm found "
+                           "an ever increasing challenge in finding and maintaining equipment from the "
+                           "old world.  Enormous hordes made cities impossible to enter while new "
+                           "eldritch horrors appeared mysteriously near old research labs.  But on the "
+                           "fringes of where civilization once ended, bands of hunter-gatherers began to "
+                           "adopt agrarian lifestyles in fortified enclaves..." ) );
                 }
                 display_table( w, _( "The Wasteland Scavengers" ), 1, data );
-            } else if( elem.name == "Hell's Raiders" && elem.power != 100 ) {
-                if( elem.power < 150 ) {
-                    data.emplace_back( _( "    The raiders grew more powerful than any other faction as attrition \
-destroyed the Old Guard.  The ruthless men and women who banded together to \
-rob refugees and pillage settlements soon found themselves without enough \
-victims to survive.  The Hell's Raiders were eventually destroyed when \
-infighting erupted into civil war but there were few survivors left to \
-celebrate their destruction." ) );
+            } else if( elem.second.name == "Hell's Raiders" && elem.second.power != 100 ) {
+                if( elem.second.power < 150 ) {
+                    data.emplace_back( _( "    The raiders grew more powerful than any other faction as attrition "
+                                          "destroyed the Old Guard.  The ruthless men and women who banded together to "
+                                          "rob refugees and pillage settlements soon found themselves without enough "
+                                          "victims to survive.  The Hell's Raiders were eventually destroyed when "
+                                          "infighting erupted into civil war but there were few survivors left to "
+                                          "celebrate their destruction." ) );
                 } else {
-                    data.emplace_back( _( "    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail to \
-overthrow the last strongholds of the Old Guard.  The costly victories \
-brought the warlords abundant territory and slaves but little in the way of \
-stability.  Within weeks, infighting led to civil war as tribes vied for \
-leadership of the faction.  When only one warlord finally secured control, \
-there was nothing left to fight for... just endless cities full of the dead." ) );
+                    data.emplace_back( _( "    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail to "
+                                          "overthrow the last strongholds of the Old Guard.  The costly victories "
+                                          "brought the warlords abundant territory and slaves but little in the way of "
+                                          "stability.  Within weeks, infighting led to civil war as tribes vied for "
+                                          "leadership of the faction.  When only one warlord finally secured control, "
+                                          "there was nothing left to fight for... just endless cities full of the dead." ) );
                 }
                 display_table( w, _( "Hell's Raiders" ), 1, data );
             }
@@ -5148,7 +5156,7 @@ void game::moving_vehicle_dismount( const tripoint &dest_loc )
         debugmsg( "Need somewhere to dismount towards." );
         return;
     }
-    tileray ray( dest_loc.x - u.posx(), dest_loc.y - u.posy() );
+    tileray ray( dest_loc.xy() + point( -u.posx(), -u.posy() ) );
     const int d = ray.dir(); // TODO:: make dir() const correct!
     add_msg( _( "You dive from the %s." ), veh->name );
     m.unboard_vehicle( u.pos() );
@@ -5246,6 +5254,7 @@ void game::control_vehicle()
         for( const tripoint &target : veh->get_points() ) {
             u.clear_memorized_tile( m.getabs( target ) );
         }
+        veh->is_following = false;
     }
 }
 
@@ -6545,8 +6554,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 {
     bVMonsterLookFire = false;
     // TODO: Make this `true`
-    const bool allow_zlev_move = m.has_zlevels() &&
-                                 ( debug_mode || fov_3d || u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) ) );
+    const bool allow_zlev_move = m.has_zlevels();
 
     temp_exit_fullscreen();
 
@@ -6637,7 +6645,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 draw_border( w_info );
 
                 static const std::string title_prefix = "< ";
-                static const char *title = _( "Look Around" );
+                const std::string title = _( "Look Around" );
                 static const std::string title_suffix = " >";
                 static const std::string full_title = title_prefix + title + title_suffix;
                 const int start_pos = center_text_pos( full_title, 0, getmaxx( w_info ) - 1 );
@@ -7649,7 +7657,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     const int iCurPos = iStartPos + y;
                     const int iCatPos = CatSortIter->first;
                     if( iCurPos == iCatPos ) {
-                        const std::string &cat_name = Creature::get_attitude_ui_data( CatSortIter->second ).first;
+                        const std::string cat_name = Creature::get_attitude_ui_data(
+                                                         CatSortIter->second ).first.translated();
                         mvwprintz( w_monsters, point( 1, y ), c_magenta, cat_name );
                         ++CatSortIter;
                         continue;
@@ -8007,8 +8016,8 @@ void game::butcher()
 
     const int factor = u.max_quality( quality_id( "BUTCHER" ) );
     const int factorD = u.max_quality( quality_id( "CUT_FINE" ) );
-    static const char *no_knife_msg = _( "You don't have a butchering tool." );
-    static const char *no_corpse_msg = _( "There are no corpses here to butcher." );
+    const std::string no_knife_msg = _( "You don't have a butchering tool." );
+    const std::string no_corpse_msg = _( "There are no corpses here to butcher." );
 
     //You can't butcher on sealed terrain- you have to smash/shovel/etc it open first
     if( m.has_flag( "SEALED", u.pos() ) ) {
@@ -8854,7 +8863,8 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
         if( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) && !boardable &&
             ( u.get_armor_bash( bp_foot_l ) < 5 || u.get_armor_bash( bp_foot_r ) < 5 ) ) {
             harmful_stuff.emplace_back( m.name( dest_loc ) );
-        } else if( m.has_flag( "SHARP", dest_loc ) && !m.has_flag( "SHARP", u.pos() ) && !boardable &&
+        } else if( m.has_flag( "SHARP", dest_loc ) && !m.has_flag( "SHARP", u.pos() ) && !( u.in_vehicle ||
+                   g->m.veh_at( dest_loc ) ) &&
                    u.dex_cur < 78 && !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
             harmful_stuff.emplace_back( m.name( dest_loc ) );
         }
@@ -9198,7 +9208,8 @@ point game::place_player( const tripoint &dest_loc )
     }
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
     if( m.has_flag( "SHARP", dest_loc ) && !one_in( 3 ) && !x_in_y( 1 + u.dex_cur / 2.0, 40 ) &&
-        ( !u.in_vehicle ) && ( !u.has_trait( trait_PARKOUR ) || one_in( 4 ) ) ) {
+        ( !u.in_vehicle && !g->m.veh_at( dest_loc ) ) && ( !u.has_trait( trait_PARKOUR ) ||
+                one_in( 4 ) ) ) {
         if( u.is_mounted() ) {
             add_msg( _( "Your %s gets cut!" ), u.mounted_creature->get_name() );
             u.mounted_creature->apply_damage( nullptr, bp_torso, rng( 1, 10 ) );
@@ -10997,6 +11008,12 @@ void game::perhaps_add_random_npc()
     std::shared_ptr<npc> tmp = std::make_shared<npc>();
     tmp->normalize();
     tmp->randomize();
+    std::string new_fac_id = "solo_";
+    new_fac_id += tmp->name;
+    // create a new "lone wolf" faction for this one NPC
+    faction *new_solo_fac = faction_manager_ptr->add_new_faction( tmp->name, faction_id( new_fac_id ),
+                            faction_id( "no_faction" ) );
+    tmp->set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
     // adds the npc to the correct overmap.
     tmp->spawn_at_sm( msx, msy, 0 );
     overmap_buffer.insert_npc( tmp );

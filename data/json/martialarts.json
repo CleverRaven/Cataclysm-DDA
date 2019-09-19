@@ -641,6 +641,123 @@
   },
   {
     "type": "martial_art",
+    "id": "style_leopard",
+    "name": "Leopard Kung Fu",
+    "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Perception improves your accuracy instead of Dexterity.  Moving increases dodge skill and accuracy further.  Attacking after moving increases damage.",
+    "initiate": [ "You prepare to pounce like a lepoard.", "%s assumes a leopard-like stance." ],
+    "static_buffs": [
+      {
+        "id": "buff_leopard_static1",
+        "name": "Leopard's Strategy",
+        "description": "You fight by overwhelming your opponents with speedy strikes that are much harder to defend against.\nDexterity increases melee damage instead of Strength.\n\nBash damage increased by 75%% of Dexterity but decreased by 75%% of Strength.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "damage", "bash", "dex", 0.75 ], [ "damage", "bash", "str", -0.75 ] ]
+      },
+      {
+        "id": "buff_leopard_static2",
+        "name": "Leopard's Agility",
+        "description": "Just like a cat, you are quick, agile, and hard to pin down.\n\n+1.0 Dodge skill.",
+        "min_unarmed": 1,
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "dodge", 1.0 ] ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_leopard_onmove1",
+        "name": "Leopard's Stalk",
+        "description": "You proudly stalk the shadows and preparing to pouce with unrelenting fury.\n\n+2 Accuracy.\nEnables \"Leopard's Pounce\" buff.\nLasts 1 turn.",
+        "min_unarmed": 1,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ [ "hit", 2.0 ] ]
+      },
+      {
+        "id": "buff_leopard_onmove2",
+        "name": "Leopard's Pounce",
+        "description": "You are ready.  Attack and claim your prey!\n\n+25% bonus to all damage.\nLasts 1 turn.",
+        "min_unarmed": 3,
+        "unarmed_allowed": true,
+        "req_buffs": [ "buff_leopard_onmove1" ],
+        "buff_duration": 1,
+        "flat_bonuses": [ [ "damage", "bash", 1.25 ], [ "damage", "cut", 1.25 ], [ "damage", "stab", 1.25 ] ]
+      }
+    ],
+    "techniques": [ "tec_leopard_rapid", "tec_leopard_feint", "tec_leopard_counter", "tec_leopard_precise" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_swordsmanship",
+    "name": "Medieval Swordsmanship",
+    "description": "The art of the longsword and sword & shield, preceding the later development of fencing.  Designed for combat both unarmored and in armor, it includes grappling as well as defensive and offensive sword techniques.  This treatise compares the Italian and German traditions of medieval combat with detailed step-by-step pictures.",
+    "initiate": [ "You take on a knightly stance.", "%s takes on a knightly stance." ],
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "buff_swordsmanship_static",
+        "name": "Swordsman's Stance",
+        "description": "Through chivalry and vigilance, your defense with a blade has increased.\n\n+1 Dodge attempts, blocked damage decreased by 50%% of Strength.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "bonus_dodges": 1,
+        "flat_bonuses": [ [ "block", "str", 0.5 ] ]
+      }
+    ],
+    "onblock_buffs": [
+      {
+        "id": "buff_swordsmanship_onblock",
+        "name": "Deflection",
+        "description": "You deflected your enemy's attack and now they are open to a counterattack!\nEnables \"Sweeping Strike\" and \"Deathblow\" techniques.\nLasts 1 turn.",
+        "min_melee": 1,
+        "melee_allowed": true,
+        "buff_duration": 1
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "buff_swordsmanship_oncrit",
+        "name": "Manslayer",
+        "description": "Your powerful attack has given you the chance to end this fight right now!\nEnables \"Vicious Strike\" techniques.\nLasts 1 turn.",
+        "min_melee": 5,
+        "melee_allowed": true,
+        "buff_duration": 1
+      }
+    ],
+    "techniques": [
+      "tec_swordsmanship_grab",
+      "tec_swordsmanship_break",
+      "tec_swordsmanship_zornhau",
+      "tec_swordsmanship_unterhau",
+      "tec_swordsmanship_mordhau"
+    ],
+    "weapons": [
+      "arming_sword",
+      "arming_sword_inferior",
+      "arming_sword_fake",
+      "broadsword",
+      "broadsword_inferior",
+      "broadsword_fake",
+      "broadfire_off",
+      "broadfire_on",
+      "estoc",
+      "estoc_inferior",
+      "estoc_fake",
+      "longsword",
+      "longsword_inferior",
+      "longsword_fake",
+      "sword_crude",
+      "sword_nail",
+      "sword_wood",
+      "zweifire_off",
+      "zweifire_on",
+      "zweihander",
+      "zweihander_inferior",
+      "zweihander_fake"
+    ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_tai_chi",
     "name": "Tai Chi",
     "description": "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
@@ -1001,37 +1118,6 @@
   },
   {
     "type": "martial_art",
-    "id": "style_leopard",
-    "name": "Leopard Kung Fu",
-    "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Perception and Intelligence both boost dodging, and moving boosts your accuracy.",
-    "initiate": [ "You prepare to pounce like a lepoard.", "%s assumes a leopard-like stance." ],
-    "learn_difficulty": 10,
-    "arm_block": 99,
-    "leg_block": 99,
-    "static_buffs": [
-      {
-        "id": "leopard_static",
-        "name": "Leopard Strategy",
-        "description": "Perception and intelligence provide a bonus to dodge.",
-        "unarmed_allowed": true,
-        "flat_bonuses": [ [ "dodge", "per", 0.15 ], [ "dodge", "int", 0.15 ] ]
-      }
-    ],
-    "onmove_buffs": [
-      {
-        "id": "leopard_move_buff",
-        "name": "Leopard's Stalk",
-        "description": "+2 Accuracy",
-        "unarmed_allowed": true,
-        "min_unarmed": 2,
-        "buff_duration": 2,
-        "flat_bonuses": [ [ "hit", 2.0 ] ]
-      }
-    ],
-    "techniques": [ "tec_leopard_rapid", "tec_leopard_counter", "tec_leopard_precise" ]
-  },
-  {
-    "type": "martial_art",
     "id": "style_tiger",
     "name": "Tiger Kung Fu",
     "description": "One of the five Shaolin animal styles.  The Tiger focuses on relentless attacks above all else.  Your Strength determines your accuracy, and your attacks do increasing damage as you continue attacking.",
@@ -1234,67 +1320,5 @@
       "tec_wingchun_disarm"
     ],
     "weapons": [ "butterfly_swords", "long_pole" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_swordsmanship",
-    "name": "Medieval Swordsmanship",
-    "description": "The art of the sword & shield, preceding the later development of fencing.  Designed for combat in and out of armor, it includes grappling as well as defensive and offensive sword techniques.",
-    "initiate": [ "You stand tall and become vigilant against attacks.", "%s stands tall and becomes vigilant." ],
-    "learn_difficulty": 6,
-    "arm_block": 99,
-    "leg_block": 99,
-    "strictly_melee": true,
-    "onattack_buffs": [
-      {
-        "id": "swordsmanship_attack_buff",
-        "name": "Perfect Defense",
-        "description": "Bonus dodges after an attack.",
-        "buff_duration": 3,
-        "melee_allowed": true,
-        "bonus_dodges": 2
-      }
-    ],
-    "ondodge_buffs": [
-      {
-        "id": "swordsmanship_counter",
-        "name": "Displacement",
-        "description": "The enemy has presented an opening in their defense.",
-        "min_melee": 2,
-        "melee_allowed": true,
-        "max_stacks": 1,
-        "buff_duration": 2
-      }
-    ],
-    "techniques": [
-      "tec_swordsmanship_counter",
-      "tec_swordsmanship_grab",
-      "tec_swordsmanship_break",
-      "tec_swordsmanship_zornhau",
-      "tec_swordsmanship_unterhau",
-      "tec_swordsmanship_mordhau"
-    ],
-    "weapons": [
-      "sword_wood",
-      "sword_nail",
-      "sword_crude",
-      "zweihander",
-      "zweihander_inferior",
-      "zweihander_fake",
-      "zweifire_off",
-      "zweifire_on",
-      "arming_sword",
-      "arming_sword_inferior",
-      "arming_sword_fake",
-      "longsword",
-      "longsword_inferior",
-      "longsword_fake",
-      "estoc",
-      "estoc_inferior",
-      "estoc_fake",
-      "jian",
-      "jian_inferior",
-      "jian_fake"
-    ]
   }
 ]

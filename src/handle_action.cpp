@@ -2179,7 +2179,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_FACTIONS:
-                new_faction_manager_ptr->display();
+                faction_manager_ptr->display();
                 break;
 
             case ACTION_MORALE:
@@ -2283,18 +2283,20 @@ bool game::handle_action()
                 break;
 
             case ACTION_TOGGLE_THIEF_MODE:
-                //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
                 if( g->u.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
                     u.set_value( "THIEF_MODE", "THIEF_HONEST" );
                     u.set_value( "THIEF_MODE_KEEP", "YES" );
+                    //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
                     add_msg( _( "You will not pick up other peoples belongings." ) );
                 } else if( g->u.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
                     u.set_value( "THIEF_MODE", "THIEF_STEAL" );
                     u.set_value( "THIEF_MODE_KEEP", "YES" );
+                    //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
                     add_msg( _( "You will pick up also those things that belong to others!" ) );
                 } else if( g->u.get_value( "THIEF_MODE" ) == "THIEF_STEAL" ) {
                     u.set_value( "THIEF_MODE", "THIEF_ASK" );
                     u.set_value( "THIEF_MODE_KEEP", "NO" );
+                    //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
                     add_msg( _( "You will be reminded not to steal." ) );
                 } else {
                     // ERROR
