@@ -91,7 +91,7 @@ struct comp_rank {
 
 mission_data::mission_data()
 {
-    for( int tab_num = TAB_MAIN; tab_num != TAB_NW + 3; tab_num++ ) {
+    for( int tab_num = base_camps::TAB_MAIN; tab_num != base_camps::TAB_NW + 3; tab_num++ ) {
         std::vector<mission_entry> k;
         entries.push_back( k );
     }
@@ -377,7 +377,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         TITLE_TAB_HEIGHT = 1;
     }
 
-    camp_tab_mode tab_mode = TAB_MAIN;
+    base_camps::tab_mode tab_mode = base_camps::TAB_MAIN;
 
     size_t part_y = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
     size_t part_x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
@@ -488,25 +488,34 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
                 }
             }
 
-            draw_scrollbar( w_list, sel, info_height + 1, folded_names_lines, point_south );
+            if( cur_key_list.size() > info_height + 1 ) {
+                scrollbar()
+                .offset_x( 0 )
+                .offset_y( 1 )
+                .content_size( folded_names_lines )
+                .viewport_pos( sel )
+                .viewport_size( info_height + 1 )
+                .apply( w_list );
+            }
             wrefresh( w_list );
             werase( w_info );
 
             // Fold mission text, store it for scrolling
             mission_text = foldstring( mission_key.cur_key.text, info_width - 2, ' ' );
-            if( info_offset > mission_text.size() - info_height ) {
+            if( info_height >= mission_text.size() ) {
+                info_offset = 0;
+            } else if( info_offset + info_height > mission_text.size() ) {
                 info_offset = mission_text.size() - info_height;
             }
-            if( mission_text.size() < info_height ) {
-                info_offset = 0;
+            if( mission_text.size() > info_height ) {
+                scrollbar()
+                .offset_x( info_width - 1 )
+                .offset_y( 0 )
+                .content_size( mission_text.size() )
+                .viewport_pos( info_offset )
+                .viewport_size( info_height )
+                .apply( w_info );
             }
-            scrollbar()
-            .offset_x( info_width - 1 )
-            .offset_y( 0 )
-            .content_size( mission_text.size() )
-            .viewport_pos( info_offset )
-            .viewport_size( info_height )
-            .apply( w_info );
             end_line = std::min( info_height, mission_text.size() - info_offset );
 
             // Display the current subset of the mission text.
@@ -526,7 +535,6 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         }
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
-            mvwprintz( w_list, point( 1, sel + 2 ), c_white, "-%s", mission_key.cur_key.id );
             if( sel == cur_key_list.size() - 1 ) {
                 sel = 0;    // Wrap around
             } else {
@@ -535,7 +543,6 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             info_offset = 0;
             redraw = true;
         } else if( action == "UP" ) {
-            mvwprintz( w_list, point( 1, sel + 2 ), c_white, "-%s", mission_key.cur_key.id );
             if( sel == 0 ) {
                 sel = cur_key_list.size() - 1;    // Wrap around
             } else {
@@ -558,11 +565,11 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             info_offset = 0;
 
             do {
-                if( tab_mode == TAB_NW ) {
-                    tab_mode = TAB_MAIN;
+                if( tab_mode == base_camps::TAB_NW ) {
+                    tab_mode = base_camps::TAB_MAIN;
                     reset_cur_key_list();
                 } else {
-                    tab_mode = static_cast<camp_tab_mode>( tab_mode + 1 );
+                    tab_mode = static_cast<base_camps::tab_mode>( tab_mode + 1 );
                     cur_key_list = mission_key.entries[tab_mode + 1];
                 }
             } while( cur_key_list.empty() );
@@ -573,13 +580,13 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             info_offset = 0;
 
             do {
-                if( tab_mode == TAB_MAIN ) {
-                    tab_mode = TAB_NW;
+                if( tab_mode == base_camps::TAB_MAIN ) {
+                    tab_mode = base_camps::TAB_NW;
                 } else {
-                    tab_mode = static_cast<camp_tab_mode>( tab_mode - 1 );
+                    tab_mode = static_cast<base_camps::tab_mode>( tab_mode - 1 );
                 }
 
-                if( tab_mode == TAB_MAIN ) {
+                if( tab_mode == base_camps::TAB_MAIN ) {
                     reset_cur_key_list();
                 } else {
                     cur_key_list = mission_key.entries[tab_mode + 1];
@@ -2120,20 +2127,20 @@ void talk_function::loot_building( const tripoint &site )
 void mission_data::add( const std::string &id, const std::string &name_display,
                         const std::string &text )
 {
-    add( id, name_display, "", text, false, true );
+    add( id, name_display, cata::nullopt, text, false, true );
 }
 void mission_data::add_return( const std::string &id, const std::string &name_display,
-                               const std::string &dir, const std::string &text, bool possible )
+                               const cata::optional<point> dir, const std::string &text, bool possible )
 {
     add( id, name_display, dir, text, true, possible );
 }
 void mission_data::add_start( const std::string &id, const std::string &name_display,
-                              const std::string &dir, const std::string &text, bool possible )
+                              const cata::optional<point> dir, const std::string &text, bool possible )
 {
     add( id, name_display, dir, text, false, possible );
 }
 void mission_data::add( const std::string &id, const std::string &name_display,
-                        const std::string &dir, const std::string &text,
+                        const cata::optional<point> dir, const std::string &text,
                         bool priority, bool possible )
 {
     mission_entry miss;
@@ -2154,24 +2161,7 @@ void mission_data::add( const std::string &id, const std::string &name_display,
     if( !possible ) {
         entries[10].push_back( miss );
     }
-    if( dir.empty() || dir == "[B]" ) {
-        entries[1].push_back( miss );
-    }
-    if( dir == "[N]" ) {
-        entries[2].push_back( miss );
-    } else if( dir == "[NE]" ) {
-        entries[3].push_back( miss );
-    } else if( dir == "[E]" ) {
-        entries[4].push_back( miss );
-    } else if( dir == "[SE]" ) {
-        entries[5].push_back( miss );
-    } else if( dir == "[S]" ) {
-        entries[6].push_back( miss );
-    } else if( dir == "[SW]" ) {
-        entries[7].push_back( miss );
-    } else if( dir == "[W]" ) {
-        entries[8].push_back( miss );
-    } else if( dir == "[NW]" ) {
-        entries[9].push_back( miss );
-    }
+    const point direction = dir ? *dir : base_camps::base_dir;
+    const int tab_order = base_camps::all_directions.at( direction ).tab_order;
+    entries[tab_order + 1].emplace_back( miss );
 }
