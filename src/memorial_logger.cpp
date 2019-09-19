@@ -331,8 +331,8 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
     //Lifetime stats
     file << _( "Lifetime Stats and Scores" ) << eol;
 
-    for( const score &scr : score::get_all() ) {
-        file << indent << scr.description( g->stats() ) << eol;
+    for( const score *scr : g->stats().valid_scores() ) {
+        file << indent << scr->description( g->stats() ) << eol;
     }
     file << eol;
 
