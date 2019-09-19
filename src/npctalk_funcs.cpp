@@ -262,6 +262,13 @@ void talk_function::do_vehicle_deconstruct( npc &p )
     p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
+void talk_function::do_vehicle_repair( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_VEHICLE_REPAIR" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
 void talk_function::do_chop_trees( npc &p )
 {
     p.set_attitude( NPCATT_ACTIVITY );
