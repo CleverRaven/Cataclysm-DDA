@@ -203,7 +203,7 @@ TEST_CASE( "memorials" )
         m, b, "Opened a strange temple." );
 
     check_memorial<event_type::player_levels_spell>(
-        m, b, "Gained a spell level." );
+        m, b, "Gained a spell level on Dark Sight.", ch, "dark_sight" );
 
     check_memorial<event_type::releases_subspace_specimens>(
         m, b, "Released subspace specimens." );
