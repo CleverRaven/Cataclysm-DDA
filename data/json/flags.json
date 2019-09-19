@@ -652,6 +652,12 @@
     "description": "This spell requires focus to cast.  The lower your focus, the higher failure rate to cast."
   },
   {
+    "id": "NON_THRESH",
+    "type": "json_flag",
+    "context": [ "mutation" ],
+    "description": "This mutation does not count toward thresholds at all."
+  },
+  {
     "id": "EFFECT_FEATHER_FALL",
     "type": "json_flag"
   },

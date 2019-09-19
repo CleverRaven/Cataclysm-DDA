@@ -2039,17 +2039,19 @@ void player::set_highest_cat_level()
     mutation_category_level.clear();
 
     // For each of our mutations...
-    for( auto &mut : my_mutations ) {
+    for( const std::pair<trait_id, Character::trait_data> &mut : my_mutations ) {
         // ...build up a map of all prerequisite/replacement mutations along the tree, along with their distance from the current mutation
         std::unordered_map<trait_id, int> dependency_map;
         build_mut_dependency_map( mut.first, dependency_map, 0 );
 
         // Then use the map to set the category levels
-        for( auto &i : dependency_map ) {
-            const auto &mdata = i.first.obj();
-            for( auto &cat : mdata.category ) {
-                // Decay category strength based on how far it is from the current mutation
-                mutation_category_level[cat] += 8 / static_cast<int>( std::pow( 2, i.second ) );
+        for( const std::pair<trait_id, int> &i : dependency_map ) {
+            const mutation_branch &mdata = i.first.obj();
+            if( !mdata.flags.count( "NON_THRESH" ) ) {
+                for( const std::string &cat : mdata.category ) {
+                    // Decay category strength based on how far it is from the current mutation
+                    mutation_category_level[cat] += 8 / static_cast<int>( std::pow( 2, i.second ) );
+                }
             }
         }
     }
