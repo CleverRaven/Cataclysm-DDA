@@ -778,6 +778,36 @@ class scrollbar
         bool scroll_to_last_v;
 };
 
+// A simple scrolling view onto some text.  Given a window, it will use the
+// leftmost column for the scrollbar and fill the rest with text.  When the
+// scrollbar is not needed it prints a vertical border in place of it, so the
+// expectation is that the given window will overlap the left edge of a
+// bordered window if one exists.
+// (Options to e.g. not print the border would be easy to add if needed).
+// Update the text with set_text (it will be wrapped for you).
+// scroll_up and scroll_down are expected to be called from handlers for the
+// keys used for that purpose.
+// Call draw when drawing related UI stuff.  draw calls werase/wrefresh for its
+// window internally.
+class scrolling_text_view
+{
+    public:
+        scrolling_text_view( catacurses::window &w ) : w_( w ) {}
+
+        void set_text( const std::string & );
+        void scroll_up();
+        void scroll_down();
+        void draw( const nc_color &base_color );
+    private:
+        int text_width();
+        int num_lines();
+        int max_offset();
+
+        catacurses::window &w_;
+        std::vector<std::string> text_;
+        int offset_ = 0;
+};
+
 class scrollingcombattext
 {
     public:
