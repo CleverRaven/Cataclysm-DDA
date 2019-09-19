@@ -3132,6 +3132,7 @@
     "locations": [ "wilderness" ],
     "city_distance": [ 3, 10 ],
     "city_sizes": [ 1, 12 ],
+    "rotate": false,
     "occurrences": [ 1, 1 ]
   },
   {
