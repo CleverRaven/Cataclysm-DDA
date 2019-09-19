@@ -102,6 +102,8 @@ static const trait_id trait_SLIME_HANDS( "SLIME_HANDS" );
 static const trait_id trait_TALONS( "TALONS" );
 static const trait_id trait_THORNS( "THORNS" );
 
+const species_id HUMAN( "HUMAN" );
+
 void player_hit_message( player *attacker, const std::string &message,
                          Creature &t, int dam, bool crit = false );
 int  stumble( player &u, const item &weap );
@@ -1015,7 +1017,8 @@ matec_id player::pick_technique( Creature &t, const item &weap,
     bool downed = t.has_effect( effect_downed );
     bool stunned = t.has_effect( effect_stunned );
     bool wall_adjacent = g->m.is_wall_adjacent( pos() );
-
+    bool is_humanoid = ( static_cast <monster *>( &t )->type->in_species( HUMAN ) );
+    
     // first add non-aoe tecs
     for( auto &tec_id : all ) {
         const ma_technique &tec = tec_id.obj();
@@ -1075,6 +1078,10 @@ matec_id player::pick_technique( Creature &t, const item &weap,
             continue;
         }
 
+	// Don't apply humanoid-only techniques to non-humanoids
+	if( tec.human_target && !is_humanoid ) {
+            continue;
+	}
         // if aoe, check if there are valid targets
         if( !tec.aoe.empty() && !valid_aoe_technique( t, tec ) ) {
             continue;
