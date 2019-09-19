@@ -623,6 +623,8 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
     }
 
+    wprintz( w, c_light_gray, _( " It is " ) + size_names.at( get_size() ) + _( "." ) );
+
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
     int numlines = lines.size();
     for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
