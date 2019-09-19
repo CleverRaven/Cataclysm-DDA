@@ -11,6 +11,7 @@
 #include <utility>
 
 #include "requirements.h"
+#include "translations.h"
 #include "type_id.h"
 
 class item;
@@ -43,7 +44,7 @@ class recipe
         std::string category;
         std::string subcategory;
 
-        std::string description;
+        translation description;
 
         int time = 0; // in movement points (100 per turn)
         int difficulty = 0;
@@ -122,7 +123,7 @@ class recipe
 
         bool is_blueprint() const;
         const std::string &get_blueprint() const;
-        const std::string &blueprint_name() const;
+        const translation &blueprint_name() const;
         const std::vector<itype_id> &blueprint_resources() const;
         const std::vector<std::pair<std::string, int>> &blueprint_provides() const;
         const std::vector<std::pair<std::string, int>> &blueprint_requires() const;
@@ -176,7 +177,7 @@ class recipe
         int batch_rsize = 0; // minimum batch size to needed to reach batch_rscale
         int result_mult = 1; // used by certain batch recipes that create more than one stack of the result
         std::string blueprint;
-        std::string bp_name;
+        translation bp_name;
         std::vector<itype_id> bp_resources;
         std::vector<std::pair<std::string, int>> bp_provides;
         std::vector<std::pair<std::string, int>> bp_requires;

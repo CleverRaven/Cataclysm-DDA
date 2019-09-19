@@ -7,6 +7,8 @@
 #include <vector>
 
 #include "calendar.h"
+#include "optional.h"
+#include "point.h"
 #include "type_id.h"
 
 class npc;
@@ -24,7 +26,7 @@ using comp_list = std::vector<npc_ptr>;
 struct mission_entry {
     std::string id;
     std::string name_display;
-    std::string dir;
+    cata::optional<point> dir;
     std::string text;
     bool priority;
     bool possible;
@@ -48,11 +50,11 @@ class mission_data
         void add( const std::string &id, const std::string &name_display = "",
                   const std::string &text = "" );
         void add_start( const std::string &id, const std::string &name_display,
-                        const std::string &dir, const std::string &text, bool possible = true );
+                        cata::optional<point> dir, const std::string &text, bool possible = true );
         void add_return( const std::string &id, const std::string &name_display,
-                         const std::string &dir, const std::string &text, bool possible = true );
+                         cata::optional<point> dir, const std::string &text, bool possible = true );
         void add( const std::string &id, const std::string &name_display,
-                  const std::string &dir, const std::string &text,
+                  cata::optional<point> dir, const std::string &text,
                   bool priority = false, bool possible = true );
 };
 

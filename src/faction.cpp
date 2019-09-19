@@ -433,8 +433,7 @@ void basecamp::faction_display( const catacurses::window &fac_w, const int width
                                            yours->food_supply_text(), yours->food_supply );
     nc_color food_col = yours->food_supply_color();
     mvwprintz( fac_w, point( width, ++y ), food_col, food_text );
-    const std::string base_dir = "[B]";
-    std::string bldg = next_upgrade( base_dir, 1 );
+    std::string bldg = next_upgrade( base_camps::base_dir, 1 );
     std::string bldg_full = _( "Next Upgrade : " ) + bldg;
     mvwprintz( fac_w, point( width, ++y ), col, bldg_full );
     std::string requirements = om_upgrade_description( bldg, true );
