@@ -761,7 +761,7 @@
     "id": "style_muay_thai",
     "name": "Muay Thai",
     "description": "Also referred to as the \"Art of 8 Limbs,\" Muay Thai is a popular fighting technique from Thailand that uses powerful strikes.  Your strength decreases blocked damage.  Blocking attacks or getting hit will increase your damage and blocked damage further.",
-    "initiate": [ "You ready yourself to trade blows with your enemies.", "%s prepares to trade blows." ],
+    "initiate": [ "You perform a short wai khru in honor of your teachers.", "%s performs a short war-dance." ],
     "learn_difficulty": 5,
     "arm_block": 2,
     "leg_block": 4,
@@ -786,7 +786,7 @@
         "flat_bonuses": [ [ "damage", "bash", "str", 0.25 ], [ "block", "str", 0.5 ] ]
       }
     ],
-    "techniques": [ "tec_muay_thai_elbow", "tec_muay_thai_kick", "tec_muay_thai_knee" ]
+    "techniques": [ "tec_muay_thai_elbow", "tec_muay_thai_kick", "tec_muay_thai_knee", "tec_muay_thai_break" ]
   },
   {
     "type": "martial_art",
