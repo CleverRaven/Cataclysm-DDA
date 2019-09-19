@@ -391,6 +391,7 @@
       "computers": {
         "6": {
           "name": "PE019 \"Sculptor\" Secure Storage",
+          "access_denied": "ERROR!  Access denied! Unauthorized access will be met with lethal force!",
           "security": 2,
           "options": [ { "name": "UNLOCK STORAGE", "action": "release_disarm", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
@@ -415,6 +416,7 @@
       "computers": {
         "6": {
           "name": "PE050 \"Alpha\" Secure Storage",
+          "access_denied": "ERROR!  Access denied! Unauthorized access will be met with lethal force!",
           "security": 2,
           "options": [ { "name": "UNLOCK STORAGE", "action": "release_disarm", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
@@ -439,6 +441,7 @@
       "computers": {
         "6": {
           "name": "PE065 \"Chimera\" Secure Storage",
+          "access_denied": "ERROR!  Access denied! Unauthorized access will be met with lethal force!",
           "security": 2,
           "options": [ { "name": "UNLOCK STORAGE", "action": "release_disarm", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
@@ -463,6 +466,7 @@
       "computers": {
         "6": {
           "name": "PE070 \"Raptor\" Secure Storage",
+          "access_denied": "ERROR!  Access denied! Unauthorized access will be met with lethal force!",
           "security": 2,
           "options": [ { "name": "UNLOCK STORAGE", "action": "release_disarm", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
@@ -487,6 +491,7 @@
       "computers": {
         "6": {
           "name": "PE023 \"Medical\" Secure Storage",
+          "access_denied": "ERROR!  Access denied! Unauthorized access will be met with lethal force!",
           "security": 2,
           "options": [ { "name": "UNLOCK STORAGE", "action": "release_disarm", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
