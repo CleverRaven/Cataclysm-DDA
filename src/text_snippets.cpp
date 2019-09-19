@@ -110,20 +110,24 @@ std::string snippet_library::get( const int index ) const
 
 std::string snippet_library::expand( const std::string &str ) const
 {
-    size_t first_hash = str.find( "#" );
-    if( first_hash == std::string::npos ) {
+    size_t tag_begin = str.find( '<' );
+    if( tag_begin == std::string::npos ) {
         return str;
     }
-    size_t second_hash = str.find( "#", first_hash + 1 );
-    if( second_hash == std::string::npos ) {
+    size_t tag_end = str.find( '>', tag_begin + 1 );
+    if( tag_end == std::string::npos ) {
         return str;
     }
 
-    std::string symbol = str.substr( first_hash + 1, second_hash - first_hash - 1 );
+    std::string symbol = str.substr( tag_begin, tag_end - tag_begin + 1 );
     std::string replacement = random_from_category( symbol );
-    return str.substr( 0, first_hash )
+    if( replacement.empty() ) {
+        return str.substr( 0, tag_end + 1 )
+               + expand( str.substr( tag_end + 1 ) );
+    }
+    return str.substr( 0, tag_begin )
            + expand( replacement )
-           + expand( str.substr( second_hash + 1 ) );
+           + expand( str.substr( tag_end + 1 ) );
 }
 
 std::string snippet_library::random_from_category( const std::string &cat ) const

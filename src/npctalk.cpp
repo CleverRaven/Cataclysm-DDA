@@ -1435,7 +1435,7 @@ int topic_category( const talk_topic &the_topic )
 
 void parse_tags( std::string &phrase, const player &u, const player &me, const itype_id &item_type )
 {
-    phrase = remove_color_tags( phrase );
+    phrase = SNIPPET.expand( remove_color_tags( phrase ) );
 
     size_t fa;
     size_t fb;
@@ -1448,12 +1448,6 @@ void parse_tags( std::string &phrase, const player &u, const player &me, const i
             tag = phrase.substr( fa, fb - fa + 1 );
         } else {
             return;
-        }
-
-        const std::string &replacement = SNIPPET.random_from_category( tag );
-        if( !replacement.empty() ) {
-            phrase.replace( fa, l, replacement );
-            continue;
         }
 
         // Special, dynamic tags go here

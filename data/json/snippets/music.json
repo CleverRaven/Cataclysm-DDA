@@ -2,22 +2,22 @@
   {
     "type": "snippet",
     "category": "music_description",
-    "text": [ "some #musicgenre#.", "some #musicgenre#. The #musicdesc_part# is #musicdesc_evaluation#." ]
+    "text": [ "some <musicgenre>.", "some <musicgenre>. The <musicdesc_part> is <musicdesc_evaluation>." ]
   },
   {
     "type": "snippet",
-    "category": "musicgenre",
+    "category": "<musicgenre>",
     "text": [
-      "#musicgenre_adj# #musicgenre_prefix##musicgenre_noun#",
-      "#musicgenre_prefix##musicgenre_noun#",
-      "#musicgenre_adj# #musicgenre_noun##musicgenre_postfix#",
-      "#musicgenre_noun##musicgenre_postfix#",
-      "#musicgenre_adj# #musicgenre_noun#"
+      "<musicgenre_adj> <musicgenre_prefix><musicgenre_noun>",
+      "<musicgenre_prefix><musicgenre_noun>",
+      "<musicgenre_adj> <musicgenre_noun><musicgenre_postfix>",
+      "<musicgenre_noun><musicgenre_postfix>",
+      "<musicgenre_adj> <musicgenre_noun>"
     ]
   },
   {
     "type": "snippet",
-    "category": "musicdesc_evaluation",
+    "category": "<musicdesc_evaluation>",
     "text": [
       "amazing",
       "funky",
@@ -40,12 +40,12 @@
   },
   {
     "type": "snippet",
-    "category": "musicdesc_part",
+    "category": "<musicdesc_part>",
     "text": [ "bassline", "melody", "chorus", "guitar part", "drum part", "violin part", "horn section", "intro" ]
   },
   {
     "type": "snippet",
-    "category": "musicgenre_adj",
+    "category": "<musicgenre_adj>",
     "text": [
       "popular",
       "top-forty",
@@ -90,7 +90,7 @@
   },
   {
     "type": "snippet",
-    "category": "musicgenre_prefix",
+    "category": "<musicgenre_prefix>",
     "text": [
       "neo",
       "retro",
@@ -158,7 +158,7 @@
   },
   {
     "type": "snippet",
-    "category": "musicgenre_noun",
+    "category": "<musicgenre_noun>",
     "text": [
       "folk",
       "country",
@@ -195,7 +195,7 @@
   },
   {
     "type": "snippet",
-    "category": "musicgenre_postfix",
+    "category": "<musicgenre_postfix>",
     "text": [ "-tune", "-core", "-wave", "-beat", "-step", "-pop", "-hop", "-drums", "-style", "-chant" ]
   }
 ]
