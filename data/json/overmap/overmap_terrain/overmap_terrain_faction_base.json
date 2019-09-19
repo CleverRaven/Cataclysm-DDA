@@ -583,5 +583,14 @@
     "color": "pink",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_storehouse_0",
+    "name": "store survey",
+    "sym": "+",
+    "color": "cyan",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
   }
 ]
