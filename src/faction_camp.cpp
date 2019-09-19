@@ -2176,8 +2176,10 @@ void basecamp::finish_return( npc &comp, bool fixed_time, const std::string &ret
 
     camp_food_supply( -need_food );
     comp.mod_hunger( -avail_food );
-    // TODO: more complicated calculation?
-    comp.set_thirst( 0 );
+    comp.mod_stored_kcal( avail_food );
+    if( has_water() ) {
+        comp.set_thirst( 0 );
+    }
     comp.set_fatigue( 0 );
     comp.set_sleep_deprivation( 0 );
 }

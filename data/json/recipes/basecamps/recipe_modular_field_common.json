@@ -521,6 +521,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmh_well_north",
     "blueprint_name": "north water well",
+    "blueprint_provides": [ { "id": "water_well" } ],
     "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
     "blueprint_autocalc": true
   },

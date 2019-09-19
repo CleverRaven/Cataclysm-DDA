@@ -178,6 +178,7 @@ class basecamp
         /// Takes all the food from the camp_food zone and increases the faction
         /// food_supply
         bool distribute_food();
+        bool has_water();
 
         // recipes, gathering, and craft support functions
         // from a direction
