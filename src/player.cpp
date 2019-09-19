@@ -5,7 +5,6 @@
 #include <cmath>
 #include <cstdlib>
 #include <iterator>
-#include <iostream>
 #include <map>
 #include <string>
 #include <sstream>
@@ -2777,7 +2776,6 @@ void player::do_read( item &book )
                         activity.set_to_null();
                         npc *guy = dynamic_cast<npc *>( this );
                         if( guy ) {
-                            std::cout << "2780" << std::endl;
                             guy->revert_after_activity();
                             return;
                         }
@@ -2880,15 +2878,15 @@ void player::do_read( item &book )
         } else {
             npc *guy = dynamic_cast<npc *>( this );
             if( guy ) {
-                std::cout << "2883" << std::endl;
-                guy->start_read( book, true, this );
+                guy->activity = player_activity();
+                guy->start_read( book, this );
+                return;
             }
         }
         if( activity ) {
             return;
         }
     }
-    std::cout << "2891" << std::endl;
     activity.set_to_null();
 }
 

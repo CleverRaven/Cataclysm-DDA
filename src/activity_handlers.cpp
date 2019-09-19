@@ -2850,10 +2850,6 @@ void activity_handlers::read_do_turn( player_activity *act, player *p )
 void activity_handlers::read_finish( player_activity *act, player *p )
 {
     p->do_read( *act->targets.front().get_item() );
-    npc *guy = dynamic_cast<npc *>( p );
-    if( guy ) {
-        guy->revert_after_activity();
-    }
     if( !act ) {
         p->add_msg_if_player( m_info, _( "You finish reading." ) );
     }

@@ -827,6 +827,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
     }
     if( !skill || ( skill && skill_level >= type->level ) ) {
         fail_reasons.push_back( string_format( _( "I won't learn anything from this book." ) ) );
+        return false;
     }
 
     // Check for conditions that disqualify us
@@ -862,13 +863,10 @@ int npc::time_to_read( const item &book, const player &reader ) const
     return retval;
 }
 
-void npc::start_read( item &chosen, const bool continuous, player *pl )
+void npc::start_read( item &chosen, player *pl )
 {
     const int time_taken = time_to_read( chosen, *pl );
-    add_msg( m_debug, "npc::do_npc_read: time_taken = %d", time_taken );
-    add_msg( m_debug, "avatar::read: time_taken = %d", time_taken );
-    player_activity act( activity_id( "ACT_READ" ), time_taken, continuous ? activity.index : 0,
-                         pl->getID().get_value() );
+    player_activity act( activity_id( "ACT_READ" ), time_taken, 0, pl->getID().get_value() );
     act.targets.emplace_back( item_location( *this, &chosen ) );
     // push an indentifier of martial art book to the action handling
     if( chosen.type->use_methods.count( "MA_MANUAL" ) ) {
@@ -878,7 +876,6 @@ void npc::start_read( item &chosen, const bool continuous, player *pl )
     assign_activity( act );
     set_attitude( NPCATT_ACTIVITY );
     set_mission( NPC_MISSION_ACTIVITY );
-    add_msg( m_info, _( "%s starts reading." ), disp_name() );
 }
 
 void npc::do_npc_read()
@@ -898,7 +895,10 @@ void npc::do_npc_read()
         }
         item &chosen = i_at( loc.obtain( *ch ) );
         if( can_read( chosen, fail_reasons ) ) {
-            start_read( chosen, true, pl );
+            if( g->u.sees( pos() ) ){
+                add_msg( m_info, _( "%s starts reading." ), disp_name() );
+            }
+            start_read( chosen, pl );
         } else {
             for( const auto elem : fail_reasons ) {
                 say( elem );
