@@ -101,7 +101,7 @@ int snippet_library::assign( const std::string &category, const unsigned seed ) 
 
 std::string snippet_library::get( const int index ) const
 {
-    const auto chosen_snippet = snippets.find( index );
+    const std::map<int, std::string>::const_iterator chosen_snippet = snippets.find( index );
     if( chosen_snippet == snippets.end() ) {
         return null_string;
     }
@@ -110,17 +110,17 @@ std::string snippet_library::get( const int index ) const
 
 std::string snippet_library::expand( const std::string &str ) const
 {
-    auto first_hash = str.find( "#" );
+    size_t first_hash = str.find( "#" );
     if( first_hash == std::string::npos ) {
         return str;
     }
-    auto second_hash = str.find( "#", first_hash + 1 );
+    size_t second_hash = str.find( "#", first_hash + 1 );
     if( second_hash == std::string::npos ) {
         return str;
     }
 
-    auto symbol = str.substr( first_hash + 1, second_hash - first_hash - 1 );
-    auto replacement = random_from_category( symbol );
+    std::string symbol = str.substr( first_hash + 1, second_hash - first_hash - 1 );
+    std::string replacement = random_from_category( symbol );
     return str.substr( 0, first_hash )
            + expand( replacement )
            + expand( str.substr( second_hash + 1 ) );
