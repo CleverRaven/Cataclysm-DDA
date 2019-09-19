@@ -216,6 +216,11 @@ void talk_function::do_construction( npc &p )
     p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
+void talk_function::do_read( npc &p )
+{
+    p.do_npc_read();
+}
+
 void talk_function::dismount( npc &p )
 {
     p.npc_dismount();

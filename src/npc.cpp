@@ -14,6 +14,7 @@
 #include "effect.h"
 #include "event_bus.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "item_group.h"
 #include "itype.h"
 #include "iuse_actor.h"
@@ -89,6 +90,9 @@ const skill_id skill_smg( "smg" );
 const skill_id skill_launcher( "launcher" );
 const skill_id skill_cutting( "cutting" );
 
+static const bionic_id bio_eye_optic( "bio_eye_optic" );
+
+const efftype_id effect_contacts( "contacts" );
 const efftype_id effect_drunk( "drunk" );
 const efftype_id effect_high( "high" );
 const efftype_id effect_pkill1( "pkill1" );
@@ -103,9 +107,13 @@ const efftype_id effect_ridden( "ridden" );
 const efftype_id effect_controlled( "controlled" );
 
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
+static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
+static const trait_id trait_ILLITERATE( "ILLITERATE" );
+static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
+
 
 void starting_clothes( npc &who, const npc_class_id &type, bool male );
 void starting_inv( npc &who, const npc_class_id &type );
@@ -797,6 +805,108 @@ void npc::starting_weapon( const npc_class_id &type )
         weapon.ammo_set( weapon.ammo_default() );
     }
     weapon.set_owner( my_fac );
+}
+
+bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
+{
+    if( !book.is_book() ) {
+        fail_reasons.push_back( string_format( _( "This %s is not good reading material." ),
+                                               book.tname() ) );
+        return false;
+    }
+    player *pl = dynamic_cast<player *>( this );
+    if( !pl ) {
+        return false;
+    }
+    const auto &type = book.type->book;
+    const skill_id &skill = type->skill;
+    const int skill_level = pl->get_skill_level( skill );
+    if( skill && skill_level < type->req ) {
+        fail_reasons.push_back( string_format( _( "I'm not smart enough to read this book." ) ) );
+        return false;
+    }
+    if( !skill || ( skill && skill_level >= type->level ) ) {
+        fail_reasons.push_back( string_format( _( "I won't learn anything from this book." ) ) );
+    }
+
+    // Check for conditions that disqualify us
+    if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
+        fail_reasons.emplace_back( _( "I can't read!" ) );
+    } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
+               !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
+        fail_reasons.emplace_back( _( "I can't read without my glasses." ) );
+    } else if( fine_detail_vision_mod() > 4 ) {
+        // Too dark to read only applies if the player can read to himself
+        fail_reasons.emplace_back( _( "It's too dark to read!" ) );
+        return false;
+    }
+    return true;
+}
+
+int npc::time_to_read( const item &book, const player &reader ) const
+{
+    const auto &type = book.type->book;
+    const skill_id &skill = type->skill;
+    // The reader's reading speed has an effect only if they're trying to understand the book as they read it
+    // Reading speed is assumed to be how well you learn from books (as opposed to hands-on experience)
+    const bool try_understand = reader.fun_to_read( book ) ||
+                                reader.get_skill_level( skill ) < type->level;
+    int reading_speed = try_understand ? std::max( reader.read_speed(), read_speed() ) : read_speed();
+
+    int retval = type->time * reading_speed;
+    retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
+
+    if( type->intel > reader.get_int() && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
+        retval += type->time * ( type->intel - reader.get_int() ) * 100;
+    }
+    return retval;
+}
+
+void npc::start_read( item &chosen, const bool continuous, player *pl )
+{
+    const int time_taken = time_to_read( chosen, *pl );
+    add_msg( m_debug, "npc::do_npc_read: time_taken = %d", time_taken );
+    add_msg( m_debug, "avatar::read: time_taken = %d", time_taken );
+    player_activity act( activity_id( "ACT_READ" ), time_taken, continuous ? activity.index : 0,
+                         pl->getID().get_value() );
+    act.targets.emplace_back( item_location( *this, &chosen ) );
+    // push an indentifier of martial art book to the action handling
+    if( chosen.type->use_methods.count( "MA_MANUAL" ) ) {
+        act.str_values.clear();
+        act.str_values.emplace_back( "martial_art" );
+    }
+    assign_activity( act );
+    set_attitude( NPCATT_ACTIVITY );
+    set_mission( NPC_MISSION_ACTIVITY );
+    add_msg( m_info, _( "%s starts reading." ), disp_name() );
+}
+
+void npc::do_npc_read()
+{
+    // Can read items from inventory or within one tile (including in vehicles)
+    player *pl = dynamic_cast<player *>( this );
+    if( !pl ) {
+        return;
+    }
+    auto loc = game_menus::inv::read( *pl );
+
+    if( loc ) {
+        std::vector<std::string> fail_reasons;
+        Character *ch = dynamic_cast<Character *>( pl );
+        if( !ch ) {
+            return;
+        }
+        item &chosen = i_at( loc.obtain( *ch ) );
+        if( can_read( chosen, fail_reasons ) ) {
+            start_read( chosen, true, pl );
+        } else {
+            for( const auto elem : fail_reasons ) {
+                say( elem );
+            }
+        }
+    } else {
+        add_msg( _( "Never mind." ) );
+    }
 }
 
 bool npc::wear_if_wanted( const item &it )

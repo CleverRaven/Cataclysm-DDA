@@ -127,11 +127,9 @@ class avatar : public player
         int time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const;
         /** Handles reading effects and returns true if activity started */
         bool read( int inventory_position, bool continuous = false );
-        /** Completes book reading action. **/
-        void do_read( item &book );
         /** Note that we've read a book at least once. **/
         bool has_identified( const std::string &item_id ) const override;
-
+        void add_identified_item( const std::string &item_id );
         hint_rating rate_action_read( const item &it ) const;
 
         void wake_up();
