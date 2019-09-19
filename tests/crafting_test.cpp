@@ -155,7 +155,10 @@ TEST_CASE( "available_recipes", "[recipes]" )
         REQUIRE_FALSE( dummy.knows_recipe( r ) );
 
         WHEN( "the player read it and has an appropriate skill" ) {
-            dummy.do_read( cookbook );
+            player *pl = dynamic_cast<player *>( &dummy );
+            if( pl ){
+                dummy.do_read( cookbook );
+            }
             dummy.set_skill_level( r->skill_used, 2 );
 
             AND_WHEN( "he searches for the recipe in the book" ) {
