@@ -2441,7 +2441,7 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
     return src_set;
 }
 
-/** Check if this activity can not be done immidiately because it has some requirements */
+/** Check if this activity can not be done immediately because it has some requirements */
 /** Returns true if this multi activity may be processed further */
 static bool generic_multi_activity_check_requirement( player &p, const activity_id &act_id,
         activity_reason_info &act_info,
