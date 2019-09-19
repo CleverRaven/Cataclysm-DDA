@@ -275,6 +275,13 @@ bool basecamp::can_expand()
     return has_provides( "bed", base_camps::base_dir, directions.size() * 2 );
 }
 
+bool basecamp::has_water()
+{
+    return has_provides( "water_well" ) || has_provides( "fbmh_well_north" ) ||
+           has_provides( "faction_base_camp_12" ) || has_provides( "faction_base_kitchen_6" ) ||
+           has_provides( "faction_base_blacksmith_11" );
+}
+
 std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
 {
     std::vector<basecamp_upgrade> ret_data;
