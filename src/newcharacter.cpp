@@ -1461,7 +1461,7 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
         // Profession addictions
         const auto prof_addictions = sorted_profs[cur_id]->addictions();
         if( !prof_addictions.empty() ) {
-            buffer << "<color_light_blue>" << _( "Addictions:" ) << "</color>\n";
+            buffer << colorize( _( "Addictions:" ), c_light_blue ) << "\n";
             for( const auto &a : prof_addictions ) {
                 const auto format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
                 buffer << string_format( format, addiction_name( a ), a.intensity ) << "\n";
@@ -1470,7 +1470,7 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
 
         // Profession traits
         const auto prof_traits = sorted_profs[cur_id]->get_locked_traits();
-        buffer << "<color_light_blue>" << _( "Profession traits:" ) << "</color>\n";
+        buffer << colorize( _( "Profession traits:" ), c_light_blue ) << "\n";
         if( prof_traits.empty() ) {
             buffer << pgettext( "set_profession_trait", "None" ) << "\n";
         } else {
@@ -1481,7 +1481,7 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
 
         // Profession skills
         const auto prof_skills = sorted_profs[cur_id]->skills();
-        buffer << "<color_light_blue>" << _( "Profession skills:" ) << "</color>\n";
+        buffer << colorize( _( "Profession skills:" ), c_light_blue ) << "\n";
         if( prof_skills.empty() ) {
             buffer << pgettext( "set_profession_skill", "None" ) << "\n";
         } else {
@@ -1493,7 +1493,7 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
 
         // Profession items
         const auto prof_items = sorted_profs[cur_id]->items( u.male, u.get_mutations() );
-        buffer << "<color_light_blue>" << _( "Profession items:" ) << "</color>\n";
+        buffer << colorize( _( "Profession items:" ), c_light_blue ) << "\n";
         if( prof_items.empty() ) {
             buffer << pgettext( "set_profession_item", "None" ) << "\n";
         } else {
@@ -1531,7 +1531,7 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
         std::sort( begin( prof_CBMs ), end( prof_CBMs ), []( const bionic_id & a, const bionic_id & b ) {
             return a->activated && !b->activated;
         } );
-        buffer << "<color_light_blue>" << _( "Profession bionics:" ) << "</color>\n";
+        buffer << colorize( _( "Profession bionics:" ), c_light_blue ) << "\n";
         if( prof_CBMs.empty() ) {
             buffer << pgettext( "set_profession_bionic", "None" ) << "\n";
         } else {
@@ -1550,7 +1550,7 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
         // Profession pet
         cata::optional<mtype_id> montype;
         if( !sorted_profs[cur_id]->pets().empty() ) {
-            buffer << "<color_light_blue>" << _( "Pets:" ) << "</color>\n";
+            buffer << colorize( _( "Pets:" ), c_light_blue ) << "\n";
             for( auto elem : sorted_profs[cur_id]->pets() ) {
                 monster mon( elem );
                 buffer << mon.get_name() << "\n";
@@ -1558,7 +1558,7 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
         }
         // Profession spells
         if( !sorted_profs[cur_id]->spells().empty() ) {
-            buffer << "<color_light_blue>" << _( "Spells:" ) << "</color>\n";
+            buffer << colorize( _( "Spells:" ), c_light_blue ) << "\n";
             for( const std::pair<spell_id, int> spell_pair : sorted_profs[cur_id]->spells() ) {
                 buffer << spell_pair.first->name << _( " level " ) << spell_pair.second << "\n";
             }
@@ -1750,9 +1750,9 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
             } );
 
             if( elem.first == currentSkill->name() ) {
-                rec_disp = "\n \n<color_c_brown>" + rec_temp + "</color>" + rec_disp;
+                rec_disp = "\n \n" + colorize( rec_temp, c_brown ) + rec_disp;
             } else {
-                rec_disp += "\n \n<color_c_light_gray>[" + elem.first + "]\n" + rec_temp + "</color>";
+                rec_disp += "\n \n" + colorize( "[" + elem.first + "]\n" + rec_temp, c_light_gray );
             }
         }
 
