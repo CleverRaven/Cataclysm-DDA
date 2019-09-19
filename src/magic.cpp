@@ -287,7 +287,7 @@ void spell_type::load( JsonObject &jo, const std::string & )
 
     JsonObject learning = jo.get_object( "learn_spells" );
     for( std::string n : learning.get_member_names() ) {
-        learn_spells.insert( std::pair<std::string, int>(n, learning.get_int( n ) ) );
+        learn_spells.insert( std::pair<std::string, int>( n, learning.get_int( n ) ) );
     }
 }
 
@@ -1723,7 +1723,8 @@ void spell_events::notify( const cata::event &e )
             spell_id sid = e.get<spell_id>( "spell" );
             int slvl = e.get<int>( "new_level" );
             spell_type spell_cast = spell_factory.obj( sid );
-            for (std::map<std::string, int>::iterator it = spell_cast.learn_spells.begin(); it != spell_cast.learn_spells.end(); ++it) {
+            for( std::map<std::string, int>::iterator it = spell_cast.learn_spells.begin();
+                 it != spell_cast.learn_spells.end(); ++it ) {
                 std::string learn_spell_id = it->first;
                 int learn_at_level = it->second;
                 if( learn_at_level == slvl ) {
