@@ -880,37 +880,36 @@ static void vehicle_repair_activity( player &p, const tripoint src_loc, int vpin
     vehicle *veh = veh_pointer_or_null( g->m.veh_at( src_loc ) );
     if( !veh ) {
         return;
-    } else {
-        if( vpindex >= static_cast<int>( veh->parts.size() ) ) {
-            // if parts got removed dduring our work, we cant just carry on removing, we want to repair parts!
-            // so just bail out, as we dont know if th enext shifted part is suitable for repair.
-            return;
-        }
-
-        const vpart_info &vp = veh->part_info( vpindex );
-        const vehicle_part part = veh->parts[ vpindex ];
-        p.assign_activity( activity_id( "ACT_VEHICLE" ),
-                           vp.repair_time( p ) * part.damage() / part.max_damage(), static_cast<int>( 'r' ) );
-        // so , NPCs can remove the last part on a position, then there is no vehicle there anymore,
-        // for someone else who stored that position at the start of their activity.
-        // so we may need to go looking a bit further afield to find it , at activities end.
-        for( const auto pt : veh->get_points( true ) ) {
-            p.activity.coord_set.insert( g->m.getabs( pt ) );
-        }
-        p.activity.values.push_back( g->m.getabs( src_loc ).x );   // values[0]
-        p.activity.values.push_back( g->m.getabs( src_loc ).y );   // values[1]
-        p.activity.values.push_back( point_zero.x );   // values[2]
-        p.activity.values.push_back( point_zero.y );   // values[3]
-        p.activity.values.push_back( -point_zero.x );   // values[4]
-        p.activity.values.push_back( -point_zero.y );   // values[5]
-        p.activity.values.push_back( veh->index_of_part( &veh->parts[vpindex] ) ); // values[6]
-        p.activity.str_values.push_back( vp.get_id().str() );
-        // this would only be used for refilling tasks
-        item_location target;
-        p.activity.targets.emplace_back( std::move( target ) );
-        p.activity.placement = g->m.getabs( src_loc );
-        p.activity_vehicle_part_index = -1;
     }
+    if( vpindex >= static_cast<int>( veh->parts.size() ) ) {
+        // if parts got removed dduring our work, we cant just carry on removing, we want to repair parts!
+        // so just bail out, as we dont know if th enext shifted part is suitable for repair.
+        return;
+    }
+
+    const vpart_info &vp = veh->part_info( vpindex );
+    const vehicle_part part = veh->parts[ vpindex ];
+    p.assign_activity( activity_id( "ACT_VEHICLE" ),
+                       vp.repair_time( p ) * part.damage() / part.max_damage(), static_cast<int>( 'r' ) );
+    // so , NPCs can remove the last part on a position, then there is no vehicle there anymore,
+    // for someone else who stored that position at the start of their activity.
+    // so we may need to go looking a bit further afield to find it , at activities end.
+    for( const auto pt : veh->get_points( true ) ) {
+        p.activity.coord_set.insert( g->m.getabs( pt ) );
+    }
+    p.activity.values.push_back( g->m.getabs( src_loc ).x );   // values[0]
+    p.activity.values.push_back( g->m.getabs( src_loc ).y );   // values[1]
+    p.activity.values.push_back( point_zero.x );   // values[2]
+    p.activity.values.push_back( point_zero.y );   // values[3]
+    p.activity.values.push_back( -point_zero.x );   // values[4]
+    p.activity.values.push_back( -point_zero.y );   // values[5]
+    p.activity.values.push_back( veh->index_of_part( &veh->parts[vpindex] ) ); // values[6]
+    p.activity.str_values.push_back( vp.get_id().str() );
+    // this would only be used for refilling tasks
+    item_location target;
+    p.activity.targets.emplace_back( std::move( target ) );
+    p.activity.placement = g->m.getabs( src_loc );
+    p.activity_vehicle_part_index = -1;
 }
 
 static void vehicle_deconstruct_activity( player &p, const tripoint src_loc, int vpindex )
@@ -1255,7 +1254,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                         continue;
                     }
                     for( const npc &guy : g->all_npcs() ) {
-                        if( guy.disp_name() != p.disp_name() && guy.activity_vehicle_part_index != -1 &&
+                        if( guy.disp_name() != p.disp_name()   && guy.activity_vehicle_part_index != -1 &&
                             guy.activity_vehicle_part_index == vpindex ) {
                             continue;
                         }
@@ -1266,18 +1265,22 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     }
                     // dont have skill to remove it
                     std::map<skill_id, int> removal_skills = vpinfo.removal_skills;
+                    bool no_skill = false;
                     for( const auto &e : removal_skills ) {
                         bool hasSkill = p.get_skill_level( e.first ) >= e.second;
                         if( !hasSkill ) {
-                            continue;
+                            no_skill = true;
+                            break;
                         }
+                    }
+                    if( no_skill ) {
+                        continue;
                     }
                     item base( vpinfo.item );
                     if( base.is_wheel() ) {
                         // no wheel removal yet
                         continue;
                     }
-                    const quality_id qual = LIFT;
                     const int max_lift = p.best_nearby_lifting_assist( src_loc );
                     const int lvl = ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
                                           TOOL_LIFT_FACTOR );
@@ -1288,12 +1291,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     }
                     const auto &reqs = vpinfo.removal_requirements();
                     const std::string ran_str = random_string( 10 );
-                    const requirement_id req_id( ran_str );
-                    requirement_data::save_requirement( reqs, req_id );
-                    std::vector<tripoint> points_to_check;
-                    for( const auto elem : g->m.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
-                        points_to_check.push_back( elem );
-                    }
                     const inventory &inv = p.crafting_inventory();
                     const bool can_make = reqs.can_make_with_inventory( inv, is_crafting_component );
                     p.set_value( "veh_index_type", vpinfo.name() );
@@ -1334,13 +1331,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                         }
                     }
                     const auto &reqs = vpinfo.repair_requirements();
-                    const std::string ran_str = random_string( 10 );
-                    const requirement_id req_id( ran_str );
-                    requirement_data::save_requirement( reqs, req_id );
-                    std::vector<tripoint> points_to_check;
-                    for( const auto elem : g->m.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
-                        points_to_check.push_back( elem );
-                    }
                     const inventory &inv = p.crafting_inventory();
                     const bool can_make = reqs.can_make_with_inventory( inv, is_crafting_component );
                     p.set_value( "veh_index_type", vpinfo.name() );
@@ -2523,11 +2513,9 @@ void generic_multi_activity_handler( player_activity &act, player &p )
                 const vpart_info &vpinfo = veh->part_info( p.activity_vehicle_part_index );
                 requirement_data reqs;
                 if( reason == NEEDS_VEH_DECONST ) {
-                    const requirement_data &local_req = vpinfo.removal_requirements();
-                    reqs = local_req;
+                    reqs = vpinfo.removal_requirements();
                 } else if( reason == NEEDS_VEH_REPAIR ) {
-                    const requirement_data &local_req = vpinfo.repair_requirements();
-                    reqs = local_req;
+                    reqs = vpinfo.repair_requirements();
                 }
                 const std::string ran_str = random_string( 10 );
                 const requirement_id req_id( ran_str );
