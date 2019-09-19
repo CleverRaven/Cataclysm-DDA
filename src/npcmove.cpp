@@ -711,6 +711,9 @@ void npc::move()
 
     //faction opinion determines if it should consider you hostile
     if( !is_enemy() && guaranteed_hostile() && sees( g->u ) ) {
+        if( is_player_ally() ) {
+            mutiny();
+        }
         add_msg( m_debug, "NPC %s turning hostile because is guaranteed_hostile()", name );
         if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
             set_attitude( NPCATT_FLEE_TEMP );    // We don't want to take u on!
@@ -1297,7 +1300,7 @@ npc_action npc::method_of_attack()
             return m.melee() || m.flags.count( "NPC_AVOID" ) ||
                    !m->ammo_sufficient( m.qty ) || !can_use( *m.target ) ||
                    m->get_gun_ups_drain() > ups_charges ||
-                   ( danger <= ( ( m.qty == 1 ) ? 0.0 : 0.5 ) && !emergency() ) ||
+                   ( ( danger <= ( m.qty == 1 ? 3.0 : 15.0 ) ) && !emergency() ) ||
                    ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
                      !m.target->is_silent() );
 

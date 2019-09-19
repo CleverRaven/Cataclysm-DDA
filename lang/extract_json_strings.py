@@ -68,6 +68,8 @@ ignorable = {
     "colordef",
     "emit",
     "enchantment",
+    "event_transformation",
+    "event_statistic",
     "EXTERNAL_OPTION",
     "GAME_OPTION",
     "ITEM_BLACKLIST",
@@ -147,6 +149,7 @@ automatically_convertible = {
     "overmap_land_use_code",
     "overmap_terrain",
     "PET_ARMOR",
+    "score",
     "skill",
     "snippet",
     "speech",
@@ -506,6 +509,8 @@ def extract_recipes(item):
                 writestr(outfile, arr[2])
     if "description" in item:
         writestr(outfile, item["description"])
+    if "blueprint_name" in item:
+        writestr(outfile, item["blueprint_name"])
 
 
 def extract_recipe_group(item):

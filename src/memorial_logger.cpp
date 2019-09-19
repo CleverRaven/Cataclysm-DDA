@@ -6,6 +6,7 @@
 #include "avatar.h"
 #include "bionics.h"
 #include "effect.h"
+#include "event_statistics.h"
 #include "filesystem.h"
 #include "game.h"
 #include "get_version.h"
@@ -328,18 +329,11 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
     file << eol;
 
     //Lifetime stats
-    file << _( "Lifetime Stats" ) << eol;
-    cata::event::data_type not_mounted = { { "mount", cata_variant( mtype_id() ) } };
-    int moves = g->stats().count( event_type::avatar_moves, not_mounted );
-    cata::event::data_type is_u = { { "character", cata_variant( u.getID() ) } };
-    int damage_taken = g->stats().total( event_type::character_takes_damage, "damage", is_u );
-    int damage_healed = g->stats().total( event_type::character_heals_damage, "damage", is_u );
-    int headshots = g->stats().count( event_type::character_gets_headshot, is_u );
+    file << _( "Lifetime Stats and Scores" ) << eol;
 
-    file << indent << string_format( _( "Distance walked: %d squares" ), moves ) << eol;
-    file << indent << string_format( _( "Damage taken: %d damage" ), damage_taken ) << eol;
-    file << indent << string_format( _( "Damage healed: %d damage" ), damage_healed ) << eol;
-    file << indent << string_format( _( "Headshots: %d" ), headshots ) << eol;
+    for( const score &scr : score::get_all() ) {
+        file << indent << scr.description( g->stats() ) << eol;
+    }
     file << eol;
 
     //History

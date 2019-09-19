@@ -1900,7 +1900,7 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                     }
                     g->m.move_vehicle( veh, shove_destination, veh.face );
                 }
-                veh.move = tileray( destination_delta_x, destination_delta_y );
+                veh.move = tileray( point( destination_delta_x, destination_delta_y ) );
                 veh.smash( shove_damage_min, shove_damage_max, 0.10F );
             }
         }

@@ -4920,35 +4920,36 @@ void player::suffer()
         mod_thirst( -1 );
     }
 
+    time_duration timer = -6_hours;
+    if( has_trait( trait_ADDICTIVE ) ) {
+        timer = -10_hours;
+    } else if( has_trait( trait_NONADDICTIVE ) ) {
+        timer = -3_hours;
+    }
+    for( auto &cur_addiction : addictions ) {
+        if( cur_addiction.sated <= 0_turns &&
+            cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
+            addict_effect( *this, cur_addiction );
+        }
+        cur_addiction.sated -= 1_turns;
+        // Higher intensity addictions heal faster
+        if( cur_addiction.sated - 10_minutes * cur_addiction.intensity < timer ) {
+            if( cur_addiction.intensity <= 2 ) {
+                rem_addiction( cur_addiction.type );
+                break;
+            } else {
+                cur_addiction.intensity--;
+                cur_addiction.sated = 0_turns;
+            }
+        }
+    }
+
     if( !in_sleep_state() ) {
         if( !has_trait( trait_id( "DEBUG_STORAGE" ) ) && ( weight_carried() > 4 * weight_capacity() ) ) {
             if( has_effect( effect_downed ) ) {
                 add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
             } else {
                 add_effect( effect_downed, 2_turns, num_bp, false, 0, true );
-            }
-        }
-        time_duration timer = -6_hours;
-        if( has_trait( trait_ADDICTIVE ) ) {
-            timer = -10_hours;
-        } else if( has_trait( trait_NONADDICTIVE ) ) {
-            timer = -3_hours;
-        }
-        for( auto &cur_addiction : addictions ) {
-            if( cur_addiction.sated <= 0_turns &&
-                cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
-                addict_effect( *this, cur_addiction );
-            }
-            cur_addiction.sated -= 1_turns;
-            // Higher intensity addictions heal faster
-            if( cur_addiction.sated - 10_minutes * cur_addiction.intensity < timer ) {
-                if( cur_addiction.intensity <= 2 ) {
-                    rem_addiction( cur_addiction.type );
-                    break;
-                } else {
-                    cur_addiction.intensity--;
-                    cur_addiction.sated = 0_turns;
-                }
             }
         }
         if( has_trait( trait_CHEMIMBALANCE ) ) {
@@ -6570,6 +6571,15 @@ void player::process_active_items()
         }
         if( it.has_flag( "USE_UPS" ) && it.charges < it.type->maximum_charges() ) {
             active_held_items.push_back( index );
+        }
+    }
+    // Necessary for UPS in Aftershock - check worn items for charge
+    for( const item &it : worn ) {
+        itype_id identifier = it.type->get_id();
+        if( identifier == "UPS_off" ) {
+            ch_UPS += it.ammo_remaining();
+        } else if( identifier == "adv_UPS_off" ) {
+            ch_UPS += it.ammo_remaining() / 0.6;
         }
     }
     if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {

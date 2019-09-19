@@ -773,7 +773,6 @@ class Creature
 
     public:
         body_part select_body_part( Creature *source, int hit_roll ) const;
-    protected:
         /**
          * This function replaces the "<npcname>" substring with the @ref disp_name of this creature.
          *
@@ -781,6 +780,7 @@ class Creature
          *
          */
         std::string replace_with_npc_name( std::string input ) const;
+    protected:
         /**
          * These two functions are responsible for storing and loading the members
          * of this class to/from json data.

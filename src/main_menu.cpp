@@ -227,7 +227,7 @@ std::string main_menu::handle_input_timeout( input_context &ctxt )
 
 void main_menu::init_windows()
 {
-    if( LAST_TERMX == TERMX && LAST_TERMY == TERMY ) {
+    if( LAST_TERM == point( TERMX, TERMY ) ) {
         return;
     }
 
@@ -254,8 +254,7 @@ void main_menu::init_windows()
     // note: if iMenuOffset is changed,
     // please update MOTD and credits to indicate how long they can be.
 
-    LAST_TERMX = TERMX;
-    LAST_TERMY = TERMY;
+    LAST_TERM = point( TERMX, TERMY );
 }
 
 void main_menu::init_strings()

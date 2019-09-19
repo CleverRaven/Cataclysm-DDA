@@ -708,7 +708,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         rl_vec2d final1 = collision_axis_y * vel1_y_a + collision_axis_x * vel1_x_a;
         rl_vec2d final2 = collision_axis_y * vel2_y_a + collision_axis_x * vel2_x_a;
 
-        veh.move.init( final1.x, final1.y );
+        veh.move.init( final1.as_point() );
         if( final1.dot_product( veh.face_vec() ) < 0 ) {
             // Car is being pushed backwards. Make it move backwards
             veh.velocity = -final1.magnitude();
@@ -716,7 +716,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
             veh.velocity = final1.magnitude();
         }
 
-        veh2.move.init( final2.x, final2.y );
+        veh2.move.init( final2.as_point() );
         if( final2.dot_product( veh2.face_vec() ) < 0 ) {
             // Car is being pushed backwards. Make it move backwards
             veh2.velocity = -final2.magnitude();
@@ -8268,14 +8268,14 @@ void map::draw_circle_furn( const furn_id type, const point &p, int rad )
     }, p, rad );
 }
 
-void map::add_corpse( const tripoint &p, const bool random_corpse_type )
+void map::add_corpse( const tripoint &p )
 {
     item body;
 
     const bool isReviveSpecial = one_in( 10 );
 
     if( !isReviveSpecial ) {
-        body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, "", random_corpse_type );
+        body = item::make_corpse();
     } else {
         body = item::make_corpse( mon_zombie );
         body.item_tags.insert( "REVIVE_SPECIAL" );

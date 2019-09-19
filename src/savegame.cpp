@@ -1611,22 +1611,45 @@ void game::serialize_master( std::ostream &fout )
 
 void faction_manager::serialize( JsonOut &jsout ) const
 {
-    jsout.write( factions );
+    std::vector<faction> local_facs;
+    for( auto &elem : factions ) {
+        local_facs.push_back( elem.second );
+    }
+    jsout.write( local_facs );
 }
 
 void faction_manager::deserialize( JsonIn &jsin )
 {
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        faction add_fac;
-        jsin.read( add_fac );
-        faction *old_fac = get( add_fac.id );
-        if( old_fac ) {
-            *old_fac = add_fac;
-            // force a revalidation of add_fac
-            get( add_fac.id );
-        } else {
-            factions.emplace_back( add_fac );
+    if( jsin.test_object() ) {
+        // whoops - this recovers factions saved under the wrong format.
+        jsin.start_object();
+        while( !jsin.end_object() ) {
+            faction add_fac;
+            add_fac.id = faction_id( jsin.get_member_name() );
+            jsin.read( add_fac );
+            faction *old_fac = get( add_fac.id );
+            if( old_fac ) {
+                *old_fac = add_fac;
+                // force a revalidation of add_fac
+                get( add_fac.id );
+            } else {
+                factions[add_fac.id] = add_fac;
+            }
+        }
+    } else if( jsin.test_array() ) {
+        // how it should have been serialized.
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            faction add_fac;
+            jsin.read( add_fac );
+            faction *old_fac = get( add_fac.id );
+            if( old_fac ) {
+                *old_fac = add_fac;
+                // force a revalidation of add_fac
+                get( add_fac.id );
+            } else {
+                factions[add_fac.id] = add_fac;
+            }
         }
     }
 }

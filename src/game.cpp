@@ -869,7 +869,7 @@ bool game::start_game()
         mission->assign( u );
     }
 
-    g->events().send<event_type::game_start>();
+    g->events().send<event_type::game_start>( u.getID() );
     return true;
 }
 
@@ -3027,13 +3027,13 @@ void game::disp_faction_ends()
                                   std::max( 0, ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
     std::vector<std::string> data;
 
-    for( const faction &elem : faction_manager_ptr->all() ) {
-        if( elem.known_by_u ) {
-            if( elem.name == "Your Followers" ) {
+    for( const auto &elem : faction_manager_ptr->all() ) {
+        if( elem.second.known_by_u ) {
+            if( elem.second.name == "Your Followers" ) {
                 data.emplace_back( _( "       You are forgotten among the billions lost in the cataclysm..." ) );
                 display_table( w, "", 1, data );
-            } else if( elem.name == "The Old Guard" && elem.power != 100 ) {
-                if( elem.power < 150 ) {
+            } else if( elem.second.name == "The Old Guard" && elem.second.power != 100 ) {
+                if( elem.second.power < 150 ) {
                     data.emplace_back(
                         _( "    Locked in an endless battle, the Old Guard was forced to consolidate their "
                            "resources in a handful of fortified bases along the coast.  Without the men "
@@ -3047,8 +3047,8 @@ void game::disp_faction_ends()
                                           "years past, little materialized from the hopes of rebuilding civilization..." ) );
                 }
                 display_table( w, _( "The Old Guard" ), 1, data );
-            } else if( elem.name == "The Free Merchants" && elem.power != 100 ) {
-                if( elem.power < 150 ) {
+            } else if( elem.second.name == "The Free Merchants" && elem.second.power != 100 ) {
+                if( elem.second.power < 150 ) {
                     data.emplace_back( _( "    Life in the refugee shelter deteriorated as food shortages and disease "
                                           "destroyed any hope of maintaining a civilized enclave.  The merchants and "
                                           "craftsmen dispersed to found new colonies but most became victims of "
@@ -3061,8 +3061,8 @@ void game::disp_faction_ends()
                                           "the sun..." ) );
                 }
                 display_table( w, _( "The Free Merchants" ), 1, data );
-            } else if( elem.name == "The Tacoma Commune" && elem.power != 100 ) {
-                if( elem.power < 150 ) {
+            } else if( elem.second.name == "The Tacoma Commune" && elem.second.power != 100 ) {
+                if( elem.second.power < 150 ) {
                     data.emplace_back( _( "    The fledgling outpost was abandoned a few months later.  The external "
                                           "threats combined with low crop yields caused the Free Merchants to withdraw "
                                           "their support.  When the exhausted migrants returned to the refugee center "
@@ -3076,8 +3076,8 @@ void game::disp_faction_ends()
                            "paid for those who sought the safety of the community." ) );
                 }
                 display_table( w, _( "The Tacoma Commune" ), 1, data );
-            } else if( elem.name == "The Wasteland Scavengers" && elem.power != 100 ) {
-                if( elem.power < 150 ) {
+            } else if( elem.second.name == "The Wasteland Scavengers" && elem.second.power != 100 ) {
+                if( elem.second.power < 150 ) {
                     data.emplace_back(
                         _( "    The lone bands of survivors who wandered the now alien world dwindled in "
                            "number through the years.  Unable to compete with the growing number of "
@@ -3093,8 +3093,8 @@ void game::disp_faction_ends()
                            "adopt agrarian lifestyles in fortified enclaves..." ) );
                 }
                 display_table( w, _( "The Wasteland Scavengers" ), 1, data );
-            } else if( elem.name == "Hell's Raiders" && elem.power != 100 ) {
-                if( elem.power < 150 ) {
+            } else if( elem.second.name == "Hell's Raiders" && elem.second.power != 100 ) {
+                if( elem.second.power < 150 ) {
                     data.emplace_back( _( "    The raiders grew more powerful than any other faction as attrition "
                                           "destroyed the Old Guard.  The ruthless men and women who banded together to "
                                           "rob refugees and pillage settlements soon found themselves without enough "
@@ -5156,7 +5156,7 @@ void game::moving_vehicle_dismount( const tripoint &dest_loc )
         debugmsg( "Need somewhere to dismount towards." );
         return;
     }
-    tileray ray( dest_loc.x - u.posx(), dest_loc.y - u.posy() );
+    tileray ray( dest_loc.xy() + point( -u.posx(), -u.posy() ) );
     const int d = ray.dir(); // TODO:: make dir() const correct!
     add_msg( _( "You dive from the %s." ), veh->name );
     m.unboard_vehicle( u.pos() );
@@ -6554,8 +6554,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 {
     bVMonsterLookFire = false;
     // TODO: Make this `true`
-    const bool allow_zlev_move = m.has_zlevels() &&
-                                 ( debug_mode || fov_3d || u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) ) );
+    const bool allow_zlev_move = m.has_zlevels();
 
     temp_exit_fullscreen();
 
@@ -8864,7 +8863,8 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
         if( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) && !boardable &&
             ( u.get_armor_bash( bp_foot_l ) < 5 || u.get_armor_bash( bp_foot_r ) < 5 ) ) {
             harmful_stuff.emplace_back( m.name( dest_loc ) );
-        } else if( m.has_flag( "SHARP", dest_loc ) && !m.has_flag( "SHARP", u.pos() ) && !boardable &&
+        } else if( m.has_flag( "SHARP", dest_loc ) && !m.has_flag( "SHARP", u.pos() ) && !( u.in_vehicle ||
+                   g->m.veh_at( dest_loc ) ) &&
                    u.dex_cur < 78 && !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
             harmful_stuff.emplace_back( m.name( dest_loc ) );
         }
@@ -9208,7 +9208,8 @@ point game::place_player( const tripoint &dest_loc )
     }
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
     if( m.has_flag( "SHARP", dest_loc ) && !one_in( 3 ) && !x_in_y( 1 + u.dex_cur / 2.0, 40 ) &&
-        ( !u.in_vehicle ) && ( !u.has_trait( trait_PARKOUR ) || one_in( 4 ) ) ) {
+        ( !u.in_vehicle && !g->m.veh_at( dest_loc ) ) && ( !u.has_trait( trait_PARKOUR ) ||
+                one_in( 4 ) ) ) {
         if( u.is_mounted() ) {
             add_msg( _( "Your %s gets cut!" ), u.mounted_creature->get_name() );
             u.mounted_creature->apply_damage( nullptr, bp_torso, rng( 1, 10 ) );
@@ -11007,6 +11008,12 @@ void game::perhaps_add_random_npc()
     std::shared_ptr<npc> tmp = std::make_shared<npc>();
     tmp->normalize();
     tmp->randomize();
+    std::string new_fac_id = "solo_";
+    new_fac_id += tmp->name;
+    // create a new "lone wolf" faction for this one NPC
+    faction *new_solo_fac = faction_manager_ptr->add_new_faction( tmp->name, faction_id( new_fac_id ),
+                            faction_id( "no_faction" ) );
+    tmp->set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
     // adds the npc to the correct overmap.
     tmp->spawn_at_sm( msx, msy, 0 );
     overmap_buffer.insert_npc( tmp );

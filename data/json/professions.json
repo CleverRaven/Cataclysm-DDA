@@ -1455,7 +1455,10 @@
     "items": {
       "both": {
         "items": [ "waistcoat", "pants", "dress_shirt", "socks", "dress_shoes", "knit_scarf", "gold_watch", "smart_phone" ],
-        "entries": [ { "item": "briefcase_smg", "ammo-item": "9mm", "charges": 32 }, { "item": "9mm", "charges": 18 } ]
+        "entries": [
+          { "item": "briefcase_smg", "ammo-item": "9mm", "charges": 30 },
+          { "item": "mp5mag", "ammo-item": "9mm", "charges": 30 }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boxer_shorts" ]
