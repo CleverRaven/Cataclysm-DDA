@@ -1497,13 +1497,33 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
         if( prof_items.empty() ) {
             buffer << pgettext( "set_profession_item", "None" ) << "\n";
         } else {
-            for( const auto &i : prof_items ) {
-                // TODO: If the item group is randomized *at all*, these will be different each time
-                // and it won't match what you actually start with
-                // TODO: Put like items together like the inventory does, so we don't have to scroll
-                // through a list of a dozen forks.
-                buffer << i.display_name() << "\n";
+            // TODO: If the item group is randomized *at all*, these will be different each time
+            // and it won't match what you actually start with
+            // TODO: Put like items together like the inventory does, so we don't have to scroll
+            // through a list of a dozen forks.
+            std::ostringstream buffer_wielded;
+            std::ostringstream buffer_worn;
+            std::ostringstream buffer_inventory;
+            for( const auto &it : prof_items ) {
+                if( it.has_flag( "no_auto_equip" ) ) {
+                    buffer_inventory << it.display_name() << "\n";
+                } else if( it.has_flag( "auto_wield" ) ) {
+                    buffer_wielded << it.display_name() << "\n";
+                } else if( it.is_armor() ) {
+                    buffer_worn << it.display_name() << "\n";
+                } else {
+                    buffer_inventory << it.display_name() << "\n";
+                }
             }
+            buffer << colorize( _( "Wielded:" ), c_cyan ) << "\n";
+            buffer << ( !buffer_wielded.str().empty() ? buffer_wielded.str() :
+                        pgettext( "set_profession_item_wielded", "None\n" ) );
+            buffer << colorize( _( "Worn:" ), c_cyan ) << "\n";
+            buffer << ( !buffer_worn.str().empty() ? buffer_worn.str() :
+                        pgettext( "set_profession_item_worn", "None\n" ) );
+            buffer << colorize( _( "Inventory:" ), c_cyan ) << "\n";
+            buffer << ( !buffer_inventory.str().empty() ? buffer_inventory.str() :
+                        pgettext( "set_profession_item_inventory", "None\n" ) );
         }
 
         // Profession bionics, active bionics shown first
