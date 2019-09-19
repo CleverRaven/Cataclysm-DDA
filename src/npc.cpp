@@ -895,7 +895,7 @@ void npc::do_npc_read()
         }
         item &chosen = i_at( loc.obtain( *ch ) );
         if( can_read( chosen, fail_reasons ) ) {
-            if( g->u.sees( pos() ) ){
+            if( g->u.sees( pos() ) ) {
                 add_msg( m_info, _( "%s starts reading." ), disp_name() );
             }
             start_read( chosen, pl );
