@@ -5450,14 +5450,102 @@ void player::suffer()
         g->is_in_sunlight( pos() ) && one_turn_in( 1_minutes ) ) {
         // Umbrellas can keep the sun off the skin and sunglasses - off the eyes.
         if( !weapon.has_flag( "RAIN_PROTECT" ) ) {
-            add_msg_if_player( m_bad, _( "The sunlight is really irritating your skin." ) );
-            if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
-                wake_up();
+            //calculate total coverage of skin
+            body_part_set affected_bp { {
+                    bp_leg_l, bp_leg_r, bp_torso, bp_head, bp_arm_l,
+                    bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r
+                }
+            };
+            //pecentage of "open skin" by body part
+            std::map<body_part, float> open_percent;
+            //initialize coverage
+            for( const body_part &bp : all_body_parts ) {
+                if( affected_bp.test( bp ) ) {
+                    open_percent[bp] = 1.0;
+                }
             }
-            if( one_turn_in( 1_minutes ) ) {
-                mod_pain( 1 );
-            } else {
-                focus_pool --;
+            //calculate coverage for every body part
+            for( const item &i : worn ) {
+                body_part_set covered = i.get_covered_body_parts();
+                for( const body_part &bp : all_body_parts )  {
+                    if( !affected_bp.test( bp ) || !covered.test( bp ) ) {
+                        continue;
+                    }
+                    //percent of "not covered skin"
+                    float p = 1.0 - i.get_coverage() / 100.0;
+                    open_percent[bp] = open_percent[bp] * p;
+                }
+            }
+
+            body_part max_affected_bp = num_bp;
+            float max_affected_bp_percent = 0;
+            int count_affected_bp = 0;
+            for( auto &it : open_percent ) {
+                const body_part &bp = it.first;
+                float &p = it.second;
+
+                if( p < 1.0 ) {
+                    p = 0;
+                    continue;
+                }
+                ++count_affected_bp;
+                if( max_affected_bp_percent < p ) {
+                    max_affected_bp_percent = p;
+                    max_affected_bp = bp;
+                }
+            }
+            if( count_affected_bp > 0 && max_affected_bp != num_bp ) {
+                std::string bp_name;
+                switch( max_affected_bp ) {
+                    case bp_head:
+                        bp_name = _( "head" );
+                        break;
+                    case bp_torso:
+                        bp_name = _( "torso" );
+                        break;
+                    case bp_arm_l:
+                        bp_name = _( "left arm" );
+                        break;
+                    case bp_arm_r:
+                        bp_name = _( "right arm" );
+                        break;
+                    case bp_hand_l:
+                        bp_name = _( "left hand" );
+                        break;
+                    case bp_hand_r:
+                        bp_name = _( "right hand" );
+                        break;
+                    case bp_leg_l:
+                        bp_name = _( "left leg" );
+                        break;
+                    case bp_leg_r:
+                        bp_name = _( "right leg" );
+                        break;
+                    case bp_foot_l:
+                        bp_name = _( "left foot" );
+                        break;
+                    case bp_foot_r:
+                        bp_name = _( "right foot" );
+                        break;
+                    default:
+                        debugmsg( "Albino: not handled body part: %d", max_affected_bp );
+                        bp_name = _( "skin" );
+                        break;
+                }
+
+                if( count_affected_bp > 1 ) {
+                    bp_name += _( " and other body parts" );
+                }
+
+                add_msg_if_player( m_bad, _( "The sunlight is really irritating your %s. " ), bp_name );
+                if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
+                    wake_up();
+                }
+                if( one_turn_in( 1_minutes ) ) {
+                    mod_pain( 1 );
+                } else {
+                    focus_pool --;
+                }
             }
         }
         if( !( ( ( worn_with_flag( "SUN_GLASSES" ) ) || worn_with_flag( "BLIND" ) ) &&
