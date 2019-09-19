@@ -101,6 +101,7 @@
 #include "safemode_ui.h"
 #include "scenario.h"
 #include "scent_map.h"
+#include "scores_ui.h"
 #include "sdltiles.h"
 #include "sounds.h"
 #include "start_location.h"
@@ -2352,7 +2353,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "sky" );
     ctxt.register_action( "missions" );
     ctxt.register_action( "factions" );
-    ctxt.register_action( "kills" );
+    ctxt.register_action( "scores" );
     ctxt.register_action( "morale" );
     ctxt.register_action( "messages" );
     ctxt.register_action( "help" );
@@ -2562,7 +2563,7 @@ void game::death_screen()
 {
     gamemode->game_over();
     Messages::display_messages();
-    get_kill_tracker().disp_kills();
+    show_scores_ui( stats(), get_kill_tracker() );
     disp_NPC_epilogues();
     follower_ids.clear();
     disp_faction_ends();
