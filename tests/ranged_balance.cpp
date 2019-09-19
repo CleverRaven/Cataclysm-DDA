@@ -344,10 +344,12 @@ static void range_test( const std::array<double, 5> &test_thresholds, bool write
     {
         write_to_file( "./data/json/hit_range.json", [&]( std::ostream & fsa ){
             JsonOut j_out( fsa );
+            j_out.start_array();
             j_out.start_object();
             j_out.member( "type", "hit_range" );
             j_out.member( "even_good", data );
             j_out.end_object();
+            j_out.end_array();
         }, _( "hit_range file" ) );
     }
 }
