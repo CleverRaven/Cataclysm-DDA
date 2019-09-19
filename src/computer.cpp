@@ -129,7 +129,7 @@ void computer::add_failure( computer_failure_type failure )
     add_failure( computer_failure( failure ) );
 }
 
-void computer::set_access_denied_msg( const std::string & new_msg )
+void computer::set_access_denied_msg( const std::string &new_msg )
 {
     access_denied = new_msg;
 }
@@ -359,8 +359,8 @@ void computer::load_data( const std::string &data )
     // For backwards compatibility, only set the access denied message if it
     // isn't empty. This is to avoid the message becoming blank when people
     // load old saves.
-    if ( !tmp_access_denied.empty() ) {
-        access_denied = string_replace( tmp_access_denied, "_", " ");
+    if( !tmp_access_denied.empty() ) {
+        access_denied = string_replace( tmp_access_denied, "_", " " );
     }
 }
 
