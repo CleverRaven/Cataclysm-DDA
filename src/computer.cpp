@@ -353,8 +353,15 @@ void computer::load_data( const std::string &data )
         add_failure( static_cast<computer_failure_type>( tmpfail ) );
     }
 
-    dump >> access_denied;
-    access_denied = string_replace( access_denied, "_", " ");
+    std::string tmp_access_denied;
+    dump >> tmp_access_denied;
+
+    // For backwards compatibility, only set the access denied message if it
+    // isn't empty. This is to avoid the message becoming blank when people
+    // load old saves.
+    if ( !tmp_access_denied.empty() ) {
+        access_denied = string_replace( tmp_access_denied, "_", " ");
+    }
 }
 
 static item *pick_usb()
