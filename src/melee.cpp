@@ -1018,7 +1018,7 @@ matec_id player::pick_technique( Creature &t, const item &weap,
     bool stunned = t.has_effect( effect_stunned );
     bool wall_adjacent = g->m.is_wall_adjacent( pos() );
     bool is_humanoid = ( static_cast <monster *>( &t )->type->in_species( HUMAN ) );
-    
+
     // first add non-aoe tecs
     for( auto &tec_id : all ) {
         const ma_technique &tec = tec_id.obj();
@@ -1078,10 +1078,10 @@ matec_id player::pick_technique( Creature &t, const item &weap,
             continue;
         }
 
-	// Don't apply humanoid-only techniques to non-humanoids
-	if( tec.human_target && !is_humanoid ) {
+        // Don't apply humanoid-only techniques to non-humanoids
+        if( tec.human_target && !is_humanoid ) {
             continue;
-	}
+        }
         // if aoe, check if there are valid targets
         if( !tec.aoe.empty() && !valid_aoe_technique( t, tec ) ) {
             continue;
