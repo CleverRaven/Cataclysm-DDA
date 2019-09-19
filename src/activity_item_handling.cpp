@@ -1231,12 +1231,17 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
     std::vector<zone_data> zones;
     if( act == activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) ||
         act == activity_id( "ACT_VEHICLE_REPAIR" ) ) {
-        if( g->m.getlocal( g->u.activity.placement ) == src_loc ) {
-            return activity_reason_info::fail( ALREADY_WORKING );
-        }
+        std::vector<int> already_working_indexes;
         for( const npc &guy : g->all_npcs() ) {
-            if( g->m.getlocal( guy.activity.placement ) == src_loc || guy.pos() == src_loc ) {
+            if( guy.disp_name() == p.disp_name() ) {
+                continue;
+            }
+            if( g->m.getlocal( g->u.activity.placement ) == src_loc ||
+                g->m.getlocal( guy.activity.placement ) == src_loc || guy.pos() == src_loc ) {
                 return activity_reason_info::fail( ALREADY_WORKING );
+            }
+            if( guy.activity_vehicle_part_index != -1 ) {
+                already_working_indexes.push_back( guy.activity_vehicle_part_index );
             }
         }
         vehicle *veh = veh_pointer_or_null( g->m.veh_at( src_loc ) );
@@ -1253,11 +1258,9 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     if( vpindex == -1 || !veh->can_unmount( vpindex ) ) {
                         continue;
                     }
-                    for( const npc &guy : g->all_npcs() ) {
-                        if( guy.disp_name() != p.disp_name()   && guy.activity_vehicle_part_index != -1 &&
-                            guy.activity_vehicle_part_index == vpindex ) {
-                            continue;
-                        }
+                    if( std::find( already_working_indexes.begin(), already_working_indexes.end(),
+                                   vpindex ) != already_working_indexes.end() ) {
+                        continue;
                     }
                     // if the vehicle is moving or player is controlling it.
                     if( abs( veh->velocity ) > 100 || veh->engine_on ) {
@@ -1312,14 +1315,12 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     if( part_elem->is_broken() || part_elem->damage() == 0 ) {
                         continue;
                     }
-                    for( const npc &guy : g->all_npcs() ) {
-                        if( guy.disp_name() != p.disp_name() && guy.activity_vehicle_part_index != -1 &&
-                            guy.activity_vehicle_part_index == vpindex ) {
-                            continue;
-                        }
-                    }
                     // if the vehicle is moving or player is controlling it.
                     if( abs( veh->velocity ) > 100 || veh->engine_on ) {
+                        continue;
+                    }
+                    if( std::find( already_working_indexes.begin(), already_working_indexes.end(),
+                                   vpindex ) != already_working_indexes.end() ) {
                         continue;
                     }
                     // dont have skill to remove it
