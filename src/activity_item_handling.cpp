@@ -1252,6 +1252,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 already_working_indexes.push_back( g->u.activity_vehicle_part_index );
             }
         }
+        // insert code here for checking same vehicle work.
         if( act == activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) ) {
             // find out if there is a vehicle part here we can remove.
             std::vector<vehicle_part *> parts = veh->get_parts_at( src_loc, "", part_status_flag::any );
