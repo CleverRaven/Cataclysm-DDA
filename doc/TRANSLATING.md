@@ -261,6 +261,10 @@ new syntax "name" would be a `dict`, which may break unmigrated script.
 | Spell messages and monster spell messages
 | Martial art names and descriptions
 | Mission names and descriptions
+| Recipe blueprint names
+| Recipe group recipe descriptions
+| Item descriptions
+| Recipe descriptions
 
 ### Recommendations
 
