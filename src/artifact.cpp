@@ -1284,6 +1284,7 @@ void it_artifact_armor::deserialize( JsonObject &jo )
     jo.read( "covers", armor->covers );
     armor->encumber = jo.get_int( "encumber" );
     // Old saves don't have max_encumber, so set it to base encumbrance value
+    armor->max_encumber = jo.get_int( "max_encumber", armor->encumber );
     if( jo.has_int( "max_encumber" ) ) {
         armor->max_encumber = jo.get_int( "max_encumber" );
     } else {
