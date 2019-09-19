@@ -1313,8 +1313,8 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [ "jeans", "socks", "boots", "hat_hunting", "jacket_flannel", "knit_scarf", "vest", "ax", "wristwatch" ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "items": [ "jeans", "socks", "boots", "hat_hunting", "jacket_flannel", "knit_scarf", "vest", "wristwatch" ],
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "ax", "custom-flags": [ "auto_wield" ] } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boxer_shorts" ]
