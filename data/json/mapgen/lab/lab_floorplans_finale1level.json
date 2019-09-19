@@ -180,12 +180,14 @@
       "computers": {
         "6": {
           "name": "PE012 Storage",
+          "warning": "Unauthorized access will be met with lethal force!",
           "security": 2,
           "options": [ { "name": "UNLOCK STORAGE", "action": "unlock", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
         },
         "7": {
           "name": "Prototype DARPA-713 AUTHORIZED PILOTS ONLY",
+          "warning": "Unauthorized access will be met with lethal force!",
           "security": 2,
           "options": [ { "name": "UNLOCK STORAGE", "action": "unlock", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]

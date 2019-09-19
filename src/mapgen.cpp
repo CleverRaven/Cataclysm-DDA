@@ -1460,12 +1460,14 @@ class jmapgen_computer : public jmapgen_piece
 {
     public:
         std::string name;
+        std::string warning;
         int security;
         std::vector<computer_option> options;
         std::vector<computer_failure> failures;
         bool target;
         jmapgen_computer( JsonObject &jsi ) {
             name = jsi.get_string( "name" );
+            warning = jsi.get_string( "warning", "" );
             security = jsi.get_int( "security", 0 );
             target = jsi.get_bool( "target", false );
             if( jsi.has_array( "options" ) ) {
@@ -1498,6 +1500,9 @@ class jmapgen_computer : public jmapgen_piece
             }
             if( target && miss ) {
                 cpu->mission_id = miss->get_id();
+            }
+            if( !warning.empty() ) {
+                cpu->set_warning( warning );
             }
         }
         bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {

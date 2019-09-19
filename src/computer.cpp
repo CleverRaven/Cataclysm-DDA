@@ -77,10 +77,9 @@ computer_option::computer_option( const std::string &N, computer_action A, int S
 {
 }
 
-computer::computer( const std::string &new_name, int new_security ): name( new_name )
+computer::computer( const std::string &new_name, int new_security )
+    : name( new_name ), mission_id( -1 ), security( new_security ), warning( "" )
 {
-    security = new_security;
-    mission_id = -1;
 }
 
 computer::computer( const computer &rhs )
@@ -94,6 +93,7 @@ computer &computer::operator=( const computer &rhs )
 {
     security = rhs.security;
     name = rhs.name;
+    warning = rhs.warning;
     mission_id = rhs.mission_id;
     options = rhs.options;
     failures = rhs.failures;
@@ -126,6 +126,11 @@ void computer::add_failure( const computer_failure &failure )
 void computer::add_failure( computer_failure_type failure )
 {
     add_failure( computer_failure( failure ) );
+}
+
+void computer::set_warning( const std::string & new_warning )
+{
+    warning = new_warning;
 }
 
 void computer::shutdown_terminal()
@@ -164,6 +169,9 @@ void computer::use()
             return;
         }
         print_error( _( "ERROR!  Access denied!" ) );
+        if ( !warning.empty() ) {
+            print_error( _( warning.c_str() ) );
+        }
         switch( query_ynq( _( "Bypass security?" ) ) ) {
             case 'q':
             case 'Q':
@@ -306,6 +314,8 @@ std::string computer::save_data() const
         data << static_cast<int>( elem.type ) << ' ';
     }
 
+    data << string_replace( warning, " ", "_" ) << ' ';
+
     return data.str();
 }
 
@@ -344,6 +354,9 @@ void computer::load_data( const std::string &data )
         dump >> tmpfail;
         add_failure( static_cast<computer_failure_type>( tmpfail ) );
     }
+
+    dump >> warning;
+    warning = string_replace( warning, "_", " ");
 }
 
 static item *pick_usb()
