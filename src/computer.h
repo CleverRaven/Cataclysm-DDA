@@ -122,7 +122,7 @@ class computer
         void add_option( const std::string &opt_name, computer_action action, int security );
         void add_failure( const computer_failure &failure );
         void add_failure( computer_failure_type failure );
-        void set_warning( const std::string &new_warning );
+        void set_access_denied_msg( const std::string &new_msg );
         // Basic usage
         /** Shutdown (free w_terminal, etc.) */
         void shutdown_terminal();
@@ -147,9 +147,10 @@ class computer
         std::vector<computer_option> options;
         // Things that happen if we fail a hack
         std::vector<computer_failure> failures;
-        // Optional message to warn the player of the consequences of a failed
-        // hacking attempt (like secubots spawning)
-        std::string warning;
+        // Message displayed when the computer is secured and initial login fails.
+        // Can be customized to for example warn the player of potentially lethal
+        // consequences like secubots spawning.
+        std::string access_denied;
         // Output window
         catacurses::window w_terminal;
         // Pretty border
