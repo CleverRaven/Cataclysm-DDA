@@ -1,0 +1,74 @@
+[
+  {
+    "id": "iv_mutagen_bdragon",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "Black Dragon Serum",
+    "description": "A super-concentrated mutagen that invites you in to swirling colors of midnight black, dark blue, and dark green. You need a syringe to inject it... if you really want to?",
+    "color": "black",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "BDRAGON" }
+  },
+  {
+    "id": "iv_mutagen_rdragon",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "Red Dragon Serum",
+    "description": "A super-concentrated mutagen that is blood red and warm to the touch. You need a syringe to inject it... if you really want to?",
+    "color": "red",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "RDRAGON" }
+  },
+  {
+    "id": "iv_mutagen_wdragon",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "White Dragon Serum",
+    "description": "A super-concentrated mutagen that is white as snow and cold to the touch. You need a syringe to inject it... if you really want to?",
+    "color": "white",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "WDRAGON" }
+  },
+  {
+    "id": "iv_mutagen_bldragon",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "Blue Dragon Serum",
+    "description": "A super-concentrated mutagen that glows blue and feels alive with energy. You need a syringe to inject it... if you really want to?",
+    "color": "blue",
+    "use_action": { "type": "mutagen_iv", "mutation_category": "BLDRAGON" }
+  },
+  {
+    "id": "mutagen_bdragon",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "Black Dragon Mutagen",
+    "description": "An extremely rare mutagen cocktail.",
+    "price": 200000,
+    "use_action": { "type": "mutagen", "mutation_category": "BDRAGON" }
+  },
+  {
+    "id": "mutagen_bldragon",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "Blue Dragon Mutagen",
+    "description": "An extremely rare mutagen cocktail.",
+    "price": 200000,
+    "use_action": { "type": "mutagen", "mutation_category": "BLDRAGON" }
+  },
+  {
+    "id": "mutagen_rdragon",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "Red Dragon Mutagen",
+    "description": "An extremely rare mutagen cocktail.",
+    "price": 200000,
+    "use_action": { "type": "mutagen", "mutation_category": "RDRAGON" }
+  },
+  {
+    "id": "mutagen_wdragon",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "White Dragon Mutagen",
+    "description": "An extremely rare mutagen cocktail.",
+    "price": 200000,
+    "use_action": { "type": "mutagen", "mutation_category": "WDRAGON" }
+  }
+]
