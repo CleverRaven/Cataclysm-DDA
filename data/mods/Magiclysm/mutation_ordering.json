@@ -1,0 +1,38 @@
+[
+  {
+    "type": "mutation_category",
+    "id": "RDRAGON",
+    "name": "Red Dragon",
+    "threshold_mut": "THRESH_RDRAGON",
+    "mutagen_message": "For a brief moment, you feel your blood burns like fire.",
+    "iv_message": "Your blood is ablaze with flame. You feel proud of your ancient power.",
+    "memorial_message": "Become the Overlord!"
+  },
+  {
+    "type": "mutation_category",
+    "id": "BDRAGON",
+    "name": "Black Dragon",
+    "threshold_mut": "THRESH_BDRAGON",
+    "mutagen_message": "For a brief moment, you feel your blood burns like acid.",
+    "iv_message": "Your blood is ablaze with acid. You feel proud of your ancient power.",
+    "memorial_message": "Become the Overlord!"
+  },
+  {
+    "type": "mutation_category",
+    "id": "BLDRAGON",
+    "name": "Blue Dragon",
+    "threshold_mut": "THRESH_RDRAGON",
+    "mutagen_message": "For a brief moment, you feel your blood come alive with electricity.",
+    "iv_message": "Your blood is coursing with lightning. You feel proud of your ancient power.",
+    "memorial_message": "Become the Overlord!"
+  },
+  {
+    "type": "mutation_category",
+    "id": "WDRAGON",
+    "name": "White Dragon",
+    "threshold_mut": "THRESH_WDRAGON",
+    "mutagen_message": "For a brief moment, you feel your blood turn cold, like ice.",
+    "iv_message": "Your blood is cold as ice. You feel proud of your ancient power.",
+    "memorial_message": "Become the Overlord!"
+  }
+]
