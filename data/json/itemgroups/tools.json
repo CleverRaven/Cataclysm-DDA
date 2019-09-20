@@ -55,6 +55,7 @@
       [ "claw_bar", 2 ],
       [ "crowbar", 10 ],
       [ "thermometer", 5 ],
+      [ "sponge", 10 ],
       [ "multitool", 10 ],
       [ "recharge_station", 10 ],
       [ "hand_crank_charger", 25 ],
