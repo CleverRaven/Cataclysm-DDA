@@ -3333,6 +3333,7 @@ void stats_tracker::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.member( "data", data );
+    jsout.member( "initial_scores", initial_scores );
     jsout.end_object();
 }
 
@@ -3343,6 +3344,7 @@ void stats_tracker::deserialize( JsonIn &jsin )
     for( std::pair<const event_type, event_multiset> &d : data ) {
         d.second.set_type( d.first );
     }
+    jo.read( "initial_scores", initial_scores );
 }
 
 void submap::store( JsonOut &jsout ) const
