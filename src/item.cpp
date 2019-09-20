@@ -2383,7 +2383,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                               making->result_name(),
                                               percent_progress ) ) );
                 } else {
-                    info.push_back( iteminfo( "DESCRIPTION", _( type->description ) ) );
+                    info.push_back( iteminfo( "DESCRIPTION", type->description.translated() ) );
                 }
             }
         }
@@ -2890,7 +2890,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 }
                 insert_separation_line();
                 info.emplace_back( "DESCRIPTION", temp1.str() );
-                info.emplace_back( "DESCRIPTION", _( mod->type->description ) );
+                info.emplace_back( "DESCRIPTION", mod->type->description.translated() );
             }
             bool contents_header = false;
             for( const item &contents_item : contents ) {
@@ -2904,7 +2904,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                         info.emplace_back( "DESCRIPTION", space );
                     }
 
-                    const std::string description = _( contents_item.type->description );
+                    const translation &description = contents_item.type->description;
 
                     if( contents_item.made_of_from_type( LIQUID ) ) {
                         units::volume contents_volume = contents_item.volume() * batch;
@@ -2922,7 +2922,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                            converted_volume );
                     } else {
                         info.emplace_back( "DESCRIPTION", contents_item.display_name() );
-                        info.emplace_back( "DESCRIPTION", description );
+                        info.emplace_back( "DESCRIPTION", description.translated() );
                     }
                 }
             }

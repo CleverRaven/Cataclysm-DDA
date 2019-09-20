@@ -3003,7 +3003,7 @@ static int toolweapon_off( player &p, item &it, const bool fast_startup,
                            const std::string &msg_success, const std::string &msg_failure )
 {
     p.moves -= fast_startup ? 60 : 80;
-    if( condition && it.ammo_remaining() > 0 ) {
+    if( condition && it.units_sufficient( p ) ) {
         if( it.typeId() == "chainsaw_off" ) {
             sfx::play_variant_sound( "chainsaw_cord", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
             sfx::play_variant_sound( "chainsaw_start", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
@@ -3107,7 +3107,7 @@ static int toolweapon_on( player &p, item &it, const bool t,
         // 3 is the length of "_on".
         "_off";
     if( t ) { // Effects while simply on
-        if( double_charge_cost && it.ammo_remaining() > 0 ) {
+        if( double_charge_cost && it.units_sufficient( p ) ) {
             it.ammo_consume( 1, p.pos() );
         }
         if( !works_underwater && p.is_underwater() ) {

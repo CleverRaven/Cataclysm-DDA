@@ -1215,7 +1215,7 @@ const itype *Item_factory::find_template( const itype_id &id ) const
     def->id = id;
     def->name = string_format( "undefined-%ss", id.c_str() );
     def->name_plural = string_format( "undefined-%s", id.c_str() );
-    def->description = string_format( "Missing item definition for %s.", id.c_str() );
+    def->description = no_translation( string_format( "Missing item definition for %s.", id.c_str() ) );
 
     m_runtimes[ id ].reset( def );
     return def;
@@ -2082,7 +2082,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     }
 
     if( jo.has_string( "description" ) ) {
-        def.description = jo.get_string( "description" );
+        jo.read( "description", def.description );
     }
 
     if( jo.has_string( "symbol" ) ) {

@@ -270,6 +270,10 @@ new syntax "name" would be a `dict`, which may break unmigrated script.
 | Speech text
 | Tutorial messages
 | Vitamin names
+| Recipe blueprint names
+| Recipe group recipe descriptions
+| Item descriptions
+| Recipe descriptions
 
 ### Recommendations
 
