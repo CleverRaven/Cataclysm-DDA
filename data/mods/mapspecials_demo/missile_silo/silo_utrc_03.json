@@ -38,7 +38,7 @@
       "computers": {
         "7": {
           "name": "Missile Control",
-          "access_denied": "ERROR!  Access denied! Unauthorized access will be met with lethal force!",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "options": [ { "name": "Launch Missile", "action": "miss_launch" }, { "name": "Disarm Missile", "action": "miss_disarm" } ],
           "failures": [ { "action": "secubots" }, { "action": "damage" } ]
         }

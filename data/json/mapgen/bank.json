@@ -221,7 +221,7 @@
       "computers": {
         "6": {
           "name": "High Security Consolidated Computerized Bank of the Treasury",
-          "access_denied": "ERROR!  Access denied! Unauthorized access will be met with lethal force!",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 4,
           "options": [ { "name": "Open Vault", "action": "unlock" } ],
           "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ]

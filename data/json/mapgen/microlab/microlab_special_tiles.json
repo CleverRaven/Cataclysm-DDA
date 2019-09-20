@@ -163,7 +163,7 @@
       "computers": {
         "6": {
           "name": "Surgery room computer",
-          "access_denied": "ERROR!  Access denied! Unauthorized access will be met with lethal force!",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 3,
           "options": [
             { "name": "Open Storage Chambers", "security": 5, "action": "release_bionics" },
