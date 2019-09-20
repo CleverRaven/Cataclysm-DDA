@@ -384,7 +384,7 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "components": [ [ [ "rag", 1 ], [ "plastic_chunk", 1 ] ], [ [ "plant_fibre", 200  ] ]
+    "components": [ [ [ "rag", 1 ], [ "plastic_chunk", 1 ] ], [ [ "plant_fibre", 200  ] ] ]
   },
   {
     "result": "sieve_primitive",
