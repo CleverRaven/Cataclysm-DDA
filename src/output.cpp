@@ -1309,6 +1309,71 @@ void scrollbar::apply( const catacurses::window &window )
     }
 }
 
+void scrolling_text_view::set_text( const std::string &text )
+{
+    text_ = foldstring( text, text_width() );
+    offset_ = 0;
+}
+
+void scrolling_text_view::scroll_up()
+{
+    if( offset_ ) {
+        --offset_;
+    }
+}
+
+void scrolling_text_view::scroll_down()
+{
+    if( offset_ < max_offset() ) {
+        ++offset_;
+    }
+}
+
+void scrolling_text_view::draw( const nc_color &base_color )
+{
+    werase( w_ );
+
+    const int height = getmaxy( w_ );
+
+    if( max_offset() > 0 ) {
+        scrollbar().
+        content_size( text_.size() ).
+        viewport_pos( offset_ ).
+        viewport_size( height ).
+        scroll_to_last( false ).
+        apply( w_ );
+    } else {
+        // No scrollbar; we need to draw the window edge instead
+        for( int i = 0; i < height; i++ ) {
+            mvwputch( w_, point( 0, i ), BORDER_COLOR, LINE_XOXO );
+        }
+    }
+
+    nc_color color = base_color;
+    int end = std::min( num_lines() - offset_, height );
+    for( int line_num = 0; line_num < end; ++line_num ) {
+        print_colored_text( w_, point( 1, line_num ), color, base_color,
+                            text_[line_num + offset_] );
+    }
+
+    wrefresh( w_ );
+}
+
+int scrolling_text_view::text_width()
+{
+    return getmaxx( w_ ) - 1;
+}
+
+int scrolling_text_view::num_lines()
+{
+    return text_.size();
+}
+
+int scrolling_text_view::max_offset()
+{
+    return std::max( 0, num_lines() - getmaxy( w_ ) );
+}
+
 void calcStartPos( int &iStartPos, const int iCurrentLine, const int iContentHeight,
                    const int iNumEntries )
 {
