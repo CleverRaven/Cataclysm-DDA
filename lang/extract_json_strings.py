@@ -488,6 +488,9 @@ def extract_mapgen(item):
                 if "options" in v:
                     for opt in v.get("options"):
                         writestr(outfile, opt.get("name"), comment="Computer option")
+                if "access_denied" in v:
+                    writestr(outfile, v.get("access_denied"),
+                             comment="Computer access denied warning")
 
 def extract_monster_attack(item):
     outfile = get_outfile("monster_attack")
