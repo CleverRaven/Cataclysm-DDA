@@ -931,7 +931,6 @@ void npc::finish_read( item &book )
                 return;
             }
         } else {
-            //skill_level == originalSkillLevel
             continuous = true;
             if( display_messages ) {
                 add_msg( m_info, _( "%s learns a little about %s!" ), disp_name(), skill.obj().name() );
