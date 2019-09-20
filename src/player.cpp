@@ -5477,15 +5477,15 @@ void player::suffer()
                 }
             }
 
+            const float COVERAGE_LIMIT = 0.01;
             body_part max_affected_bp = num_bp;
             float max_affected_bp_percent = 0;
             int count_affected_bp = 0;
             for( auto &it : open_percent ) {
                 const body_part &bp = it.first;
-                float &p = it.second;
+                const float &p = it.second;
 
-                if( p < 1.0 ) {
-                    p = 0;
+                if( p <= COVERAGE_LIMIT ) {
                     continue;
                 }
                 ++count_affected_bp;
@@ -5501,7 +5501,7 @@ void player::suffer()
                 body_part other_bp_rev = static_cast<body_part>( bp_aiOther[other_bp] );
                 if( other_bp != other_bp_rev ) {
                     const auto found = open_percent.find( other_bp );
-                    if( found != open_percent.end() && found->second > 0 ) {
+                    if( found != open_percent.end() && found->second > COVERAGE_LIMIT ) {
                         ++parts_count;
                     }
                 }
