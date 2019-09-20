@@ -1,3 +1,4 @@
+[
   {
     "type": "mutation_category",
     "id": "SUGAR",
@@ -6,4 +7,5 @@
     "mutagen_message": "How sweet!",
     "iv_message": "You inject some more fizz into your sirup.",
     "memorial_message": "Cristalized."
-  },
+  }
+]

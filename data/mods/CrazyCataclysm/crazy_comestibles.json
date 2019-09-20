@@ -28,25 +28,5 @@
     "time": 1000,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "components": [ [ [ "cookies", 4 ] ], [ [ "marloss_berry", 1 ], [ "marloss_seed", 1 ], [ "mycus_fruit", 1 ] ] ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "broken_necco",
-    "name": "necco corpse",
-    "symbol": "%",
-    "volume": "4000 ml",
-    "weight": "60 g",
-    "spoils_in": "180 days",
-    "color": "magenta",
-    "comestible_type": "FOOD",
-    "description": "The corpse of a necco, now it really looks like a giant necco wafer. Surely a bite wouldn't hurt, right?",
-    "price": 4000,
-    "charges": 40,
-    "quench": -1,
-    "healthy": -1,
-    "calories": 220,
-    "stim": 1,
-    "fun": 4,
-    "flags": [ "EDIBLE_FROZEN" ]
   }
 ]

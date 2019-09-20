@@ -3,7 +3,7 @@
     "type": "profession",
     "ident": "sugar_kin",
     "name": { "male": "Sugar Boy", "female": "Sugar Girl" },
-    "description": "",
+    "description": "You're a human shaped candy brought to life under unknown circumstances.  You have your whole life ahead of you and it's gonna be sweet!",
     "points": 5,
     "traits": [ "SUGAR" ],
     "pets": [ { "name": "mon_necco", "amount": 1 } ],

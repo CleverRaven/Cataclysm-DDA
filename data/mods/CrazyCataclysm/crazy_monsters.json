@@ -117,25 +117,5 @@
       "NO_BREATHE",
       "FILTHY"
     ]
-  },
-  {
-    "id": "mon_necco",
-    "type": "MONSTER",
-    "name": "necco",
-    "copy_from": "mon_cat",
-    "description": "A giant necco wafer happily jaunting around.",
-    "default_faction": "cat",
-    "bodytype": "dog",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "MAMMAL" ],
-    "weight": 2000,
-    "hp": 8,
-    "speed": 150,
-    "material": [ "junk" ],
-    "symbol": "%",
-    "color": "magenta",
-    "death_function": [ "BROKEN" ],
-    "placate_triggers": [ "HURT" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
   }
 ]
