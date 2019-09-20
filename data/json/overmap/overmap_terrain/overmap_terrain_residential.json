@@ -76,7 +76,7 @@
     "name": "rural house",
     "sym": "#",
     "color": "blue",
-    "flags": [ "GENERIC_LOOT", "RISK_LOW", "SOURCE_OF_SAFETY" ]
+    "flags": [ "GENERIC_LOOT", "RISK_LOW", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",

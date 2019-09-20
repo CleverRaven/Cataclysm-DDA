@@ -6,7 +6,7 @@
     "name": "sugar house",
     "sym": "S",
     "color": "i_brown",
-    "flags": [ "SOURCE_OF_FOOD", "SOURCE_OF_SAFETY", "RISK_LOW" ]
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW" ]
   },
   {
     "type": "overmap_terrain",
@@ -115,7 +115,7 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SOURCE_OF_FOOD", "SOURCE_OF_SAFETY", "RISK_LOW", "SOURCE_OF_FARMING" ]
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
     "type": "overmap_terrain",
@@ -316,7 +316,7 @@
     "see_cost": 5,
     "extras": "field",
     "mondensity": 2,
-    "flags": [ "SOURCE_OF_FOOD", "SOURCE_OF_SAFETY", "RISK_LOW", "SOURCE_OF_FARMING" ]
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
     "type": "overmap_terrain",
@@ -397,7 +397,7 @@
     "see_cost": 5,
     "extras": "field",
     "mondensity": 2,
-    "flags": [ "SOURCE_OF_FOOD", "SOURCE_OF_SAFETY", "RISK_LOW", "SOURCE_OF_FARMING" ]
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
     "type": "overmap_terrain",
@@ -528,12 +528,12 @@
     "see_cost": 1,
     "flags": [
       "SIDEWALK",
-      "SOURCE_OF_FOOD",
-      "SOURCE_OF_DRINK",
-      "SOURCE_OF_SAFETY",
-      "SOURCE_OF_ANIMALS",
+      "SOURCE_FOOD",
+      "SOURCE_DRINK",
+      "SOURCE_SAFETY",
+      "SOURCE_ANIMALS",
       "RISK_LOW",
-      "SOURCE_OF_FARMING"
+      "SOURCE_FARMING"
     ]
   },
   {
@@ -1042,7 +1042,7 @@
     "name": "orchard",
     "sym": "#",
     "color": "i_green",
-    "flags": [ "SOURCE_OF_FOOD" ]
+    "flags": [ "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1281,7 +1281,7 @@
     "see_cost": 5,
     "extras": "field",
     "mondensity": 2,
-    "flags": [ "SOURCE_OF_FOOD", "SOURCE_OF_SAFETY", "RISK_LOW", "SOURCE_OF_ANIMALS", "SOURCE_OF_FARMING" ]
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_ANIMALS", "SOURCE_FARMING" ]
   },
   {
     "type": "overmap_terrain",
@@ -1592,7 +1592,7 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SOURCE_OF_FOOD", "SOURCE_OF_SAFETY", "RISK_LOW", "SOURCE_OF_FARMING" ]
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
     "type": "overmap_terrain",

@@ -7,7 +7,7 @@
     "color": "green",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "RISK_HIGH", "SOURCE_OF_FOOD", "SOURCE_OF_DRINK", "SOURCE_OF_LUXURY", "SOURCE_OF_BOOKS" ]
+    "flags": [ "RISK_HIGH", "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_LUXURY", "SOURCE_BOOKS" ]
   },
   {
     "type": "overmap_terrain",

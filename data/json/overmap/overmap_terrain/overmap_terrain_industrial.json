@@ -7,7 +7,7 @@
     "color": "light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "SOURCE_OF_VEHICLES", "SOURCE_OF_FABRICATION", "SOURCE_OF_CONSTRUCTION" ]
+    "flags": [ "SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
   },
   {
     "type": "overmap_terrain",
@@ -26,7 +26,7 @@
     "color": "light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "SOURCE_OF_VEHICLES", "SOURCE_OF_FABRICATION", "SOURCE_OF_CONSTRUCTION" ]
+    "flags": [ "SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
   },
   {
     "type": "overmap_terrain",
@@ -45,7 +45,7 @@
     "color": "light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "SOURCE_OF_VEHICLES", "SOURCE_OF_FABRICATION", "SOURCE_OF_CONSTRUCTION" ]
+    "flags": [ "SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
   },
   {
     "type": "overmap_terrain",
@@ -64,7 +64,7 @@
     "color": "light_gray",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "SIDEWALK", "SOURCE_OF_VEHICLES", "SOURCE_OF_FABRICATION", "SOURCE_OF_CONSTRUCTION" ]
+    "flags": [ "SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
   },
   {
     "type": "overmap_terrain",
@@ -210,7 +210,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_OF_CONSTRUCTION", "SOURCE_OF_FABRICATION" ]
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",
@@ -219,7 +219,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_OF_CONSTRUCTION", "SOURCE_OF_FABRICATION" ]
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",
@@ -228,7 +228,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_OF_CONSTRUCTION", "SOURCE_OF_FABRICATION" ]
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",
@@ -237,7 +237,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_OF_CONSTRUCTION", "SOURCE_OF_FABRICATION" ]
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",
@@ -278,7 +278,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_OF_CONSTRUCTION", "SOURCE_OF_FABRICATION" ]
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",
@@ -287,7 +287,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_OF_CONSTRUCTION", "SOURCE_OF_FABRICATION" ]
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",
@@ -296,7 +296,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_OF_CONSTRUCTION", "SOURCE_OF_FABRICATION" ]
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",
@@ -305,7 +305,7 @@
     "copy-from": "generic_city_building",
     "sym": "L",
     "color": "i_green",
-    "flags": [ "SOURCE_OF_CONSTRUCTION", "SOURCE_OF_FABRICATION" ]
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",
@@ -347,7 +347,7 @@
     "sym": "L",
     "color": "green",
     "extras": "field",
-    "flags": [ "SOURCE_OF_CONSTRUCTION", "SOURCE_OF_FABRICATION" ]
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",
@@ -356,7 +356,7 @@
     "copy-from": "generic_city_building",
     "sym": "x",
     "color": "i_light_gray",
-    "flags": [ "SOURCE_OF_CONSTRUCTION", "SOURCE_OF_FABRICATION" ]
+    "flags": [ "SOURCE_CONSTRUCTION", "SOURCE_FABRICATION" ]
   },
   {
     "type": "overmap_terrain",

@@ -514,7 +514,7 @@
     "color": "light_gray",
     "see_cost": 5,
     "extras": "road",
-    "flags": [ "SOURCE_OF_FUEL" ]
+    "flags": [ "SOURCE_FUEL" ]
   },
   {
     "type": "overmap_terrain",
@@ -524,7 +524,7 @@
     "color": "light_gray",
     "see_cost": 5,
     "extras": "road",
-    "flags": [ "SOURCE_OF_FUEL" ]
+    "flags": [ "SOURCE_FUEL" ]
   },
   {
     "type": "overmap_terrain",
@@ -534,7 +534,7 @@
     "color": "dark_gray",
     "see_cost": 5,
     "extras": "build",
-    "flags": [ "SOURCE_OF_FUEL" ]
+    "flags": [ "SOURCE_FUEL" ]
   },
   {
     "type": "overmap_terrain",

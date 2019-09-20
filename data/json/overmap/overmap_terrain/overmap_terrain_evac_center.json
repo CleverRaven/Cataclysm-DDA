@@ -3,7 +3,7 @@
     "type": "overmap_terrain",
     "abstract": "generic_evac_center",
     "see_cost": 5,
-    "flags": [ "SOURCE_OF_PEOPLE" ]
+    "flags": [ "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",

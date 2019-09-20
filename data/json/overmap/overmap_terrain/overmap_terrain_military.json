@@ -7,7 +7,7 @@
     "color": "blue",
     "see_cost": 5,
     "extras": "build",
-    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_OF_GUN", "SOURCE_OF_AMMO", "SOURCE_OF_FOOD" ]
+    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -17,7 +17,7 @@
     "color": "i_blue",
     "see_cost": 5,
     "extras": "build",
-    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_OF_GUN", "SOURCE_OF_AMMO", "SOURCE_OF_FOOD" ]
+    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -126,7 +126,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "SOURCE_OF_PEOPLE", "SOURCE_OF_SAFETY" ]
+    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -143,7 +143,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "SOURCE_OF_PEOPLE", "SOURCE_OF_SAFETY" ]
+    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -160,7 +160,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "SOURCE_OF_PEOPLE", "SOURCE_OF_SAFETY" ]
+    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -186,7 +186,7 @@
     "sym": "+",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "SOURCE_OF_PEOPLE", "SOURCE_OF_SAFETY", "SOURCE_OF_GUN", "SOURCE_OF_AMMO", "SOURCE_OF_FOOD" ]
+    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -204,7 +204,7 @@
     "sym": "+",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "KNOWN_UP", "SOURCE_OF_PEOPLE", "SOURCE_OF_SAFETY", "SOURCE_OF_GUN", "SOURCE_OF_AMMO", "SOURCE_OF_FOOD" ]
+    "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -213,7 +213,7 @@
     "sym": "+",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "KNOWN_UP", "SOURCE_OF_PEOPLE", "SOURCE_OF_SAFETY", "SOURCE_OF_GUN", "SOURCE_OF_AMMO", "SOURCE_OF_FOOD" ]
+    "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -222,7 +222,7 @@
     "sym": "B",
     "color": "dark_gray",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH", "SOURCE_OF_WEAPON", "SOURCE_OF_AMMO" ]
+    "flags": [ "KNOWN_DOWN", "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",
@@ -231,7 +231,7 @@
     "sym": "B",
     "color": "dark_gray",
     "see_cost": 2,
-    "flags": [ "KNOWN_UP", "NO_ROTATE", "RISK_HIGH", "SOURCE_OF_WEAPON", "SOURCE_OF_AMMO" ]
+    "flags": [ "KNOWN_UP", "NO_ROTATE", "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",
@@ -241,7 +241,7 @@
     "color": "dark_gray",
     "see_cost": 2,
     "extras": "build",
-    "flags": [ "RISK_HIGH", "SOURCE_OF_WEAPON", "SOURCE_OF_AMMO" ]
+    "flags": [ "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",
@@ -304,7 +304,7 @@
     "name": "fire lookout tower",
     "sym": "T",
     "color": "red",
-    "flags": [ "SOURCE_OF_SAFETY" ]
+    "flags": [ "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -313,7 +313,7 @@
     "name": "fire lookout tower",
     "sym": "T",
     "color": "red",
-    "flags": [ "SOURCE_OF_SAFETY" ]
+    "flags": [ "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -322,7 +322,7 @@
     "name": "fire lookout tower",
     "sym": "T",
     "color": "red",
-    "flags": [ "SOURCE_OF_SAFETY" ]
+    "flags": [ "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -331,7 +331,7 @@
     "name": "fire lookout tower",
     "sym": "T",
     "color": "red",
-    "flags": [ "SOURCE_OF_SAFETY" ]
+    "flags": [ "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -340,7 +340,7 @@
     "name": "survivor's bunker",
     "sym": "b",
     "color": "green",
-    "flags": [ "SOURCE_OF_SAFETY", "SOURCE_OF_PEOPLE" ]
+    "flags": [ "SOURCE_SAFETY", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -349,7 +349,7 @@
     "name": "survivor's bunker",
     "sym": "b",
     "color": "green",
-    "flags": [ "SOURCE_OF_SAFETY", "SOURCE_OF_PEOPLE" ]
+    "flags": [ "SOURCE_SAFETY", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -358,6 +358,6 @@
     "name": "survivor's camp",
     "sym": "c",
     "color": "brown",
-    "flags": [ "SOURCE_OF_SAFETY", "SOURCE_OF_PEOPLE" ]
+    "flags": [ "SOURCE_SAFETY", "SOURCE_PEOPLE" ]
   }
 ]

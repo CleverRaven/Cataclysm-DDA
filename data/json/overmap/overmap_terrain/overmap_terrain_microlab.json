@@ -7,7 +7,7 @@
     "color": "light_blue",
     "spawns": { "group": "GROUP_MICROLAB", "population": [ 40, 45 ], "chance": 80 },
     "see_cost": 5,
-    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_OF_CHEMISTRY", "SOURCE_OF_MEDICINE" ]
+    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
@@ -16,7 +16,7 @@
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_OF_CHEMISTRY", "SOURCE_OF_MEDICINE" ]
+    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
@@ -36,7 +36,7 @@
     "color": "light_blue",
     "spawns": { "group": "GROUP_LAB", "population": [ 12, 25 ], "chance": 80 },
     "see_cost": 5,
-    "flags": [ "RISK_HIGH", "SOURCE_OF_CHEMISTRY", "SOURCE_OF_MEDICINE" ]
+    "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",

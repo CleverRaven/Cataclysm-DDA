@@ -39,7 +39,7 @@
     "see_cost": 3,
     "extras": "forest",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 3 ], "chance": 13 },
-    "flags": [ "NO_ROTATE", "SOURCE_OF_FORAGE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -52,7 +52,7 @@
     "extras": "forest_thick",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 6 ], "chance": 15 },
     "mapgen": [ { "method": "builtin", "name": "forest" } ],
-    "flags": [ "NO_ROTATE", "SOURCE_OF_FORAGE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
   },
   {
     "type": "overmap_terrain",
@@ -65,7 +65,7 @@
     "extras": "forest_water",
     "spawns": { "group": "GROUP_SWAMP", "population": [ 1, 4 ], "chance": 16 },
     "mapgen": [ { "method": "builtin", "name": "forest" } ],
-    "flags": [ "NO_ROTATE", "SOURCE_OF_FORAGE", "RISK_HIGH" ]
+    "flags": [ "NO_ROTATE", "SOURCE_FORAGE", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -188,7 +188,7 @@
     "color": "brown",
     "see_cost": 2,
     "extras": "field",
-    "flags": [ "NO_ROTATE", "SOURCE_OF_SAFETY" ]
+    "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -197,7 +197,7 @@
     "sym": "C",
     "color": "dark_gray",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "SOURCE_OF_SAFETY" ]
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -328,7 +328,7 @@
     "sym": "0",
     "color": "light_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE", "SOURCE_OF_SAFETY" ]
+    "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",

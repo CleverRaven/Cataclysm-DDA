@@ -220,7 +220,7 @@
     "name": "dump",
     "sym": "D",
     "color": "i_brown",
-    "flags": [ "SOURCE_OF_FABRICATION", "SOURCE_OF_CONSTRUCTION" ]
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
   },
   {
     "type": "overmap_terrain",
@@ -229,7 +229,7 @@
     "name": "recycle center",
     "sym": "R",
     "color": "i_green",
-    "flags": [ "SOURCE_OF_FABRICATION", "SOURCE_OF_CONSTRUCTION" ]
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
   },
   {
     "type": "overmap_terrain",
@@ -246,7 +246,7 @@
     "name": "recycle center",
     "sym": "R",
     "color": "i_green",
-    "flags": [ "SOURCE_OF_FABRICATION", "SOURCE_OF_CONSTRUCTION" ]
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
   },
   {
     "type": "overmap_terrain",
@@ -263,7 +263,7 @@
     "name": "recycle center",
     "sym": "R",
     "color": "i_green",
-    "flags": [ "SOURCE_OF_FABRICATION", "SOURCE_OF_CONSTRUCTION" ]
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
   },
   {
     "type": "overmap_terrain",
@@ -288,7 +288,7 @@
     "name": "junkyard",
     "sym": "J",
     "color": "i_brown",
-    "flags": [ "SOURCE_OF_FABRICATION", "SOURCE_OF_CONSTRUCTION", "SOURCE_OF_VEHICLES" ]
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
   },
   {
     "type": "overmap_terrain",
@@ -297,7 +297,7 @@
     "name": "junkyard",
     "sym": "J",
     "color": "i_brown",
-    "flags": [ "SOURCE_OF_FABRICATION", "SOURCE_OF_CONSTRUCTION", "SOURCE_OF_VEHICLES" ]
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
   },
   {
     "type": "overmap_terrain",
@@ -306,7 +306,7 @@
     "name": "junkyard",
     "sym": "J",
     "color": "i_brown",
-    "flags": [ "SOURCE_OF_FABRICATION", "SOURCE_OF_CONSTRUCTION", "SOURCE_OF_VEHICLES" ]
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
   },
   {
     "type": "overmap_terrain",
@@ -315,7 +315,7 @@
     "name": "junkyard",
     "sym": "J",
     "color": "i_brown",
-    "flags": [ "SOURCE_OF_FABRICATION", "SOURCE_OF_CONSTRUCTION", "SOURCE_OF_VEHICLES" ]
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
   },
   {
     "type": "overmap_terrain",
@@ -324,7 +324,7 @@
     "name": "regional dump",
     "sym": "d",
     "color": "i_brown",
-    "flags": [ "SOURCE_OF_FABRICATION", "SOURCE_OF_CONSTRUCTION", "SOURCE_OF_VEHICLES" ]
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
   },
   {
     "type": "overmap_terrain",
@@ -413,7 +413,7 @@
     "name": "small scrap yard",
     "sym": "s",
     "color": "red",
-    "flags": [ "SOURCE_OF_FABRICATION", "SOURCE_OF_CONSTRUCTION", "SOURCE_OF_VEHICLES" ]
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
   },
   {
     "type": "overmap_terrain",
@@ -430,7 +430,7 @@
     "name": "small dump",
     "sym": "d",
     "color": "i_brown",
-    "flags": [ "SOURCE_OF_FABRICATION", "SOURCE_OF_CONSTRUCTION", "SOURCE_OF_VEHICLES" ]
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
   },
   {
     "type": "overmap_terrain",
