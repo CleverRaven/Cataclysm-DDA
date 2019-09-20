@@ -18,7 +18,8 @@
       { "id": "faction_base_kitchen_0", "description": "Kitchen", "om_terrains": [ "field" ] },
       { "id": "faction_base_blacksmith_0", "description": "Blacksmith Shop", "om_terrains": [ "field" ] },
       { "id": "faction_base_livestock_0", "description": "Livestock Area", "om_terrains": [ "field" ] },
-      { "id": "faction_base_storehouse_0", "description": "Central Storage Building", "om_terrains": [ "field" ] }
+      { "id": "faction_base_storehouse_0", "description": "Central Storage Building", "om_terrains": [ "field" ] },
+      { "id": "faction_base_saltworks_0", "description": "Saltworks Area", "om_terrains": [ "field" ] }
     ]
   },
   {
