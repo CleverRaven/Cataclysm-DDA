@@ -2654,8 +2654,7 @@
       "type": "transform",
       "msg": "You plug up your ears.",
       "target": "attached_ear_plugs_on",
-      "menu_text": "Plug in",
-      "active": true
+      "menu_text": "Plug in"
     },
     "delete": { "flags": [ "DEAF" ] }
   }
