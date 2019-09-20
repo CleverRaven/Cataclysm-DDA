@@ -65,6 +65,18 @@ class statistics
             _min = std::min( _min, new_val );
             samples.push_back( new_val );
         }
+        void add( statistics<T> & stat )
+        {
+            _error = invalid_err;
+            _n += stat.n();
+            _sum += stat.sum();
+            _max = std::max( _max, stat.max() );
+            _min = std::min( _min, stat.min() );
+            for( T sample:stat.get_samples() )
+            {
+                samples.push_back( sample );
+            }
+        }
 
         // Adjusted Wald error is only valid for a discrete binary test. Note
         // because error takes into account population, it is only valid to
