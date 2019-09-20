@@ -79,6 +79,30 @@
   },
   {
     "type": "furniture",
+    "id": "f_down_mattress",
+    "name": "down_mattress",
+    "description": "A comfortable feather down mattress has been tossed on the floor for sleeping here.  It's not quite as comfy as a real bed, but it's pretty close.",
+    "symbol": "0",
+    "color": "magenta",
+    "move_cost_mod": 3,
+    "coverage": 40,
+    "comfort": 4,
+    "floor_bedding_warmth": 800,
+    "required_str": 7,
+    "deployed_item": "down_mattress",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "SHORT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE" ],
+    "deconstruct": { "items": [ { "item": "down_mattress", "count": 1 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "rrrrip!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "rag", "count": [ 40, 55 ] }, { "item": "down_feather", "count": [ 900, 1100 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_makeshift_bed",
     "name": "makeshift bed",
     "symbol": "#",
