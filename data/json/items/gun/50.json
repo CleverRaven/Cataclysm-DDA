@@ -107,7 +107,7 @@
     "barrel_length": 5,
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
     "magazine_well": 1,
-    "magazines": [ [ "50", [ "m107a1mag" ] ] ],
+    "magazines": [ [ "50", [ "as50mag" ] ] ],
     "flags": [ "NEVER_JAMS" ]
   }
 ]
