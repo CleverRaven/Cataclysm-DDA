@@ -363,8 +363,7 @@ void player::power_bionics()
 
     const int list_start_y = header_line_y + 1;
     const int LIST_HEIGHT = footer_start_y - list_start_y - 1; //-1 is footer separator
-    int half_list_view_location = LIST_HEIGHT / 2;
-    int max_scroll_position = std::max( 0, static_cast<int>( bionics_by_type[0].size() ) );
+    const int half_list_view_location = LIST_HEIGHT / 2;
 
     input_context ctxt( "BIONICS" );
     ctxt.register_updown();
@@ -387,7 +386,8 @@ void player::power_bionics()
     for( ;; ) {
         //track which list we are looking at
         const bvector &current_bionic_list = bionics_by_type[cur_tab_idx];
-        max_scroll_position = std::max( 0, static_cast<int>( current_bionic_list.size() ) - LIST_HEIGHT );
+        const int max_scroll_position = std::max( 0,
+                                        static_cast<int>( current_bionic_list.size() ) - LIST_HEIGHT );
 
         if( redraw ) {
             redraw = false;
