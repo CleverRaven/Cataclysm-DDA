@@ -4407,7 +4407,7 @@ int player::addiction_level( add_type type ) const
 
 void player::siphon( vehicle &veh, const itype_id &desired_liquid )
 {
-    auto qty = veh.fuel_left( type );
+    auto qty = veh.fuel_left( desired_liquid );
     if( qty <= 0 ) {
         add_msg( m_bad, _( "There is not enough %s left to siphon it." ),
                  item::nname( desired_liquid ) );
