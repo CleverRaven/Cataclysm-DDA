@@ -3,6 +3,7 @@
 #include <climits>
 #include <algorithm>
 #include <list>
+#include <iostream>
 #include <vector>
 #include <iterator>
 #include <memory>
@@ -875,7 +876,7 @@ static int move_cost( const item &it, const tripoint &src, const tripoint &dest 
     return move_cost_inv( it, src, dest );
 }
 
-static void vehicle_repair_activity( player &p, const tripoint src_loc, int vpindex )
+static void vehicle_activity( player &p, const tripoint src_loc, int vpindex, char type )
 {
     vehicle *veh = veh_pointer_or_null( g->m.veh_at( src_loc ) );
     if( !veh ) {
@@ -884,13 +885,19 @@ static void vehicle_repair_activity( player &p, const tripoint src_loc, int vpin
     if( vpindex >= static_cast<int>( veh->parts.size() ) ) {
         // if parts got removed dduring our work, we cant just carry on removing, we want to repair parts!
         // so just bail out, as we dont know if th enext shifted part is suitable for repair.
-        return;
+        if( type == 'r' ) {
+            return;
+        } else if( type == 'o' ) {
+            vpindex = veh->get_next_shifted_index( vpindex, p );
+            if( vpindex == -1 ) {
+                return;
+            }
+        }
     }
-
     const vpart_info &vp = veh->part_info( vpindex );
     const vehicle_part part = veh->parts[ vpindex ];
     p.assign_activity( activity_id( "ACT_VEHICLE" ),
-                       vp.repair_time( p ) * part.damage() / part.max_damage(), static_cast<int>( 'r' ) );
+                       vp.repair_time( p ) * part.damage() / part.max_damage(), static_cast<int>( type ) );
     // so , NPCs can remove the last part on a position, then there is no vehicle there anymore,
     // for someone else who stored that position at the start of their activity.
     // so we may need to go looking a bit further afield to find it , at activities end.
@@ -910,42 +917,6 @@ static void vehicle_repair_activity( player &p, const tripoint src_loc, int vpin
     p.activity.targets.emplace_back( std::move( target ) );
     p.activity.placement = g->m.getabs( src_loc );
     p.activity_vehicle_part_index = -1;
-}
-
-static void vehicle_deconstruct_activity( player &p, const tripoint src_loc, int vpindex )
-{
-    vehicle *veh = veh_pointer_or_null( g->m.veh_at( src_loc ) );
-    if( !veh ) {
-        return;
-    } else {
-        if( vpindex >= static_cast<int>( veh->parts.size() ) ) {
-            vpindex = veh->get_next_shifted_index( vpindex, p );
-            if( vpindex == -1 ) {
-                return;
-            }
-        }
-        const vpart_info &vp = veh->part_info( vpindex );
-        p.assign_activity( activity_id( "ACT_VEHICLE" ), vp.removal_time( p ), static_cast<int>( 'o' ) );
-        // so , NPCs can remove the last part on a position, then there is no vehicle there anymore,
-        // for someone else who stored that position at the start of their activity.
-        // so we may need to go looking a bit further afield to find it , at activities end.
-        for( const auto pt : veh->get_points( true ) ) {
-            p.activity.coord_set.insert( g->m.getabs( pt ) );
-        }
-        p.activity.values.push_back( g->m.getabs( src_loc ).x );   // values[0]
-        p.activity.values.push_back( g->m.getabs( src_loc ).y );   // values[1]
-        p.activity.values.push_back( point_zero.x );   // values[2]
-        p.activity.values.push_back( point_zero.y );   // values[3]
-        p.activity.values.push_back( -point_zero.x );   // values[4]
-        p.activity.values.push_back( -point_zero.y );   // values[5]
-        p.activity.values.push_back( veh->index_of_part( &veh->parts[vpindex] ) ); // values[6]
-        p.activity.str_values.push_back( vp.get_id().str() );
-        // this would only be used for refilling tasks
-        item_location target;
-        p.activity.targets.emplace_back( std::move( target ) );
-        p.activity.placement = g->m.getabs( src_loc );
-        p.activity_vehicle_part_index = -1;
-    }
 }
 
 static void move_item( player &p, item &it, int quantity, const tripoint &src,
@@ -1926,9 +1897,7 @@ static void fetch_activity( player &p, const tripoint src_loc, activity_id activ
             }
         }
     }
-    auto it = items_there.begin();
-    while( it != items_there.end() ) {
-        bool erased = false;
+    for( auto it = items_there.begin(); it != items_there.end(); it++ ) {
         for( auto elem : mental_map_2 ) {
             if( std::get<0>( elem ) == src_loc && it->typeId() == std::get<1>( elem ) ) {
                 // construction/crafting tasks want the requred item moved near the work spot.
@@ -1961,8 +1930,7 @@ static void fetch_activity( player &p, const tripoint src_loc, activity_id activ
                     it->set_var( "activity_var", p.name );
                     p.i_add( *it );
                     picked_up = it->tname();
-                    it = items_there.erase( it );
-                    erased = true;
+                    items_there.erase( it );
                     // If we didn't pick up a whole stack, put the remainder back where it came from.
                     if( leftovers.charges > 0 ) {
                         g->m.add_item_or_charges( src_loc, leftovers );
@@ -1974,11 +1942,9 @@ static void fetch_activity( player &p, const tripoint src_loc, activity_id activ
                             add_msg( _( "%s picks up several items." ), p.disp_name() );
                         }
                     }
+                    return;
                 }
             }
-        }
-        if( !erased ) {
-            ++it;
         }
     }
 }
@@ -2672,11 +2638,11 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             return;
         } else if( reason == NEEDS_VEH_DECONST ) {
             p.backlog.push_front( activity_to_restore );
-            vehicle_deconstruct_activity( p, src_loc, p.activity_vehicle_part_index );
+            vehicle_activity( p, src_loc, p.activity_vehicle_part_index, 'o' );
             return;
         } else if( reason == NEEDS_VEH_REPAIR ) {
             p.backlog.push_front( activity_to_restore );
-            vehicle_repair_activity( p, src_loc, p.activity_vehicle_part_index );
+            vehicle_activity( p, src_loc, p.activity_vehicle_part_index, 'r' );
             return;
         }
     }
