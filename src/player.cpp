@@ -3862,29 +3862,29 @@ void player::check_needs_extremes()
             hp_cur[hp_torso] = 0;
         } else {
             if( calendar::once_every( 1_hours ) ) {
+                std::string message;
                 if( stomach.contains() <= stomach.capacity() / 4 ) {
                     if( get_kcal_percent() < 0.1f ) {
-                        add_msg_if_player( m_warning, _( "Food..." ) );
+                        message = _( "Food..." );
                     } else if( get_kcal_percent() < 0.25f ) {
-                        add_msg_if_player( m_warning, _( "Due to insufficient nutrition, your body is suffering from starvation." ) );
+                        message = _( "Due to insufficient nutrition, your body is suffering from starvation." );
                     } else if( get_kcal_percent() < 0.5f ) {
-                        add_msg_if_player( m_warning, _( "Despite having something in your stomach, you still feel like you haven't eaten in days..." ) );
+                        message = _( "Despite having something in your stomach, you still feel like you haven't eaten in days..." );
                     } else if( get_kcal_percent() < 0.8f ) {
-                        add_msg_if_player( m_warning,
-                                           _( "Your stomach feels so empty..." ) );
+                        message = _( "Your stomach feels so empty..." );
                     }
                 } else {
                     if( get_kcal_percent() < 0.1f ) {
-                        add_msg_if_player( m_warning, _( "Food..." ) );
+                        message = _( "Food..." );
                     } else if( get_kcal_percent() < 0.25f ) {
-                        add_msg_if_player( m_warning, _( "You are EMACIATED!" ) );
+                        message = _( "You are EMACIATED!" );
                     } else if( get_kcal_percent() < 0.5f ) {
-                        add_msg_if_player( m_warning, _( "You feel weak due to malnutrition." ) );
+                        message = _( "You feel weak due to malnutrition." );
                     } else if( get_kcal_percent() < 0.8f ) {
-                        add_msg_if_player( m_warning,
-                                           _( "You feel that your body needs more nutritious food." ) );
+                        message = _( "You feel that your body needs more nutritious food." );
                     }
                 }
+                add_msg_if_player( m_warning, message );
             }
         }
     }
