@@ -104,6 +104,7 @@ nbproject/
 *.vim
 *.session
 .ycm_extra_conf.py
+.vimrc
 
 # taskwarrior files
 *.task*
