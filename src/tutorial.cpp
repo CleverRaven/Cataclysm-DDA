@@ -29,13 +29,14 @@
 #include "item.h"
 #include "pldata.h"
 #include "units.h"
+#include "translations.h"
 #include "type_id.h"
 #include "point.h"
 #include "weather.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 
-std::vector<std::string> tut_text;
+static std::vector<translation> tut_text;
 
 bool tutorial_game::init()
 {
@@ -266,7 +267,7 @@ void tutorial_game::add_message( tut_lesson lesson )
         return;
     }
     tutorials_seen[lesson] = true;
-    popup( tut_text[lesson], PF_ON_TOP );
+    popup( tut_text[lesson].translated(), PF_ON_TOP );
     g->refresh_all();
 }
 
@@ -276,7 +277,9 @@ void load_tutorial_messages( JsonObject &jo )
     tut_text.clear();
     JsonArray messages = jo.get_array( "messages" );
     while( messages.has_more() ) {
-        tut_text.push_back( _( messages.next_string() ) );
+        translation next;
+        messages.read_next( next );
+        tut_text.emplace_back( next );
     }
 }
 

@@ -3104,7 +3104,7 @@ bool mattack::photograph( monster *z )
                        _( "\"Wanted debtor in sight! Commencing debt enforcement proceedings!\"" ) );
     } else {
         const SpeechBubble &speech = get_speech( z->type->id.str() );
-        sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text );
+        sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text.translated() );
     }
     g->timed_events.add( TIMED_EVENT_ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ), 0,
                          g->u.global_sm_location() );
@@ -4300,8 +4300,8 @@ static void parrot_common( monster *parrot )
 {
     parrot->moves -= 100;  // It takes a while
     const SpeechBubble &speech = get_speech( parrot->type->id.str() );
-    sounds::sound( parrot->pos(), speech.volume, sounds::sound_t::speech, speech.text, false, "speech",
-                   parrot->type->id.str() );
+    sounds::sound( parrot->pos(), speech.volume, sounds::sound_t::speech, speech.text.translated(),
+                   false, "speech", parrot->type->id.str() );
 }
 
 bool mattack::parrot( monster *z )

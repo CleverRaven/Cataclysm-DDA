@@ -8645,7 +8645,7 @@ std::string item::get_plant_name() const
     if( !type->seed ) {
         return std::string{};
     }
-    return type->seed->plant_name;
+    return type->seed->plant_name.translated();
 }
 
 bool item::is_dangerous() const

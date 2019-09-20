@@ -2600,10 +2600,10 @@ talk_response::talk_response( JsonObject jo )
     if( jo.has_member( "truefalsetext" ) ) {
         JsonObject truefalse_jo = jo.get_object( "truefalsetext" );
         read_condition<dialogue>( truefalse_jo, "condition", truefalse_condition, true );
-        truetext = to_translation( truefalse_jo.get_string( "true" ) );
-        falsetext = to_translation( truefalse_jo.get_string( "false" ) );
+        truefalse_jo.read( "true", truetext );
+        truefalse_jo.read( "false", falsetext );
     } else {
-        truetext = to_translation( jo.get_string( "text" ) );
+        jo.read( "text", truetext );
         truefalse_condition = []( const dialogue & ) {
             return true;
         };
