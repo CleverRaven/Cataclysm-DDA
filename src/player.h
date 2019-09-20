@@ -1145,8 +1145,7 @@ class player : public Character
 
         /** Starts activity to install toolmod */
         void toolmod_add( item_location tool, item_location mod );
-        /** completes book reading activity */
-        void do_read( item &book );
+
         bool fun_to_read( const item &book ) const;
         /** Note that we've read a book at least once. **/
         virtual bool has_identified( const std::string &item_id ) const = 0;

@@ -2039,17 +2039,19 @@ void player::set_highest_cat_level()
     mutation_category_level.clear();
 
     // For each of our mutations...
-    for( auto &mut : my_mutations ) {
+    for( const std::pair<trait_id, Character::trait_data> &mut : my_mutations ) {
         // ...build up a map of all prerequisite/replacement mutations along the tree, along with their distance from the current mutation
         std::unordered_map<trait_id, int> dependency_map;
         build_mut_dependency_map( mut.first, dependency_map, 0 );
 
         // Then use the map to set the category levels
-        for( auto &i : dependency_map ) {
-            const auto &mdata = i.first.obj();
-            for( auto &cat : mdata.category ) {
-                // Decay category strength based on how far it is from the current mutation
-                mutation_category_level[cat] += 8 / static_cast<int>( std::pow( 2, i.second ) );
+        for( const std::pair<trait_id, int> &i : dependency_map ) {
+            const mutation_branch &mdata = i.first.obj();
+            if( !mdata.flags.count( "NON_THRESH" ) ) {
+                for( const std::string &cat : mdata.category ) {
+                    // Decay category strength based on how far it is from the current mutation
+                    mutation_category_level[cat] += 8 / static_cast<int>( std::pow( 2, i.second ) );
+                }
             }
         }
     }
@@ -2632,262 +2634,6 @@ void player::search_surroundings()
             add_known_trap( tp, tr );
         }
     }
-}
-
-void player::do_read( item &book )
-{
-    const auto &reading = book.type->book;
-    if( !reading ) {
-        activity.set_to_null();
-        return;
-    }
-    const skill_id &skill = reading->skill;
-
-    if( is_player() && !has_identified( book.typeId() ) ) {
-        // Note that we've read the book.
-        g->u.add_identified_item( book.typeId() );
-
-        add_msg( _( "You skim %s to find out what's in it." ), book.type_name() );
-        if( skill && get_skill_level_object( skill ).can_train() ) {
-            add_msg( m_info, _( "Can bring your %s skill to %d." ),
-                     skill.obj().name(), reading->level );
-            if( reading->req != 0 ) {
-                add_msg( m_info, _( "Requires %s level %d to understand." ),
-                         skill.obj().name(), reading->req );
-            }
-        }
-
-        if( reading->intel != 0 ) {
-            add_msg( m_info, _( "Requires intelligence of %d to easily read." ), reading->intel );
-        }
-        //It feels wrong to use a pointer to *this, but I can't find any other player pointers in this method.
-        if( book_fun_for( book, *this ) != 0 ) {
-            add_msg( m_info, _( "Reading this book affects your morale by %d" ), book_fun_for( book, *this ) );
-        }
-
-        if( book.type->use_methods.count( "MA_MANUAL" ) ) {
-            const matype_id style_to_learn = martial_art_learned_from( *book.type );
-            add_msg( m_info, _( "You can learn %s style from it." ), style_to_learn->name );
-            add_msg( m_info, _( "This fighting style is %s to learn." ),
-                     martialart_difficulty( style_to_learn ) );
-            add_msg( m_info, _( "It would be easier to master if you'd have skill expertise in %s." ),
-                     style_to_learn->primary_skill->name() );
-            add_msg( m_info, _( "A training session with this book takes %s" ),
-                     to_string( time_duration::from_minutes( reading->time ) ) );
-        } else {
-            add_msg( m_info, ngettext( "A chapter of this book takes %d minute to read.",
-                                       "A chapter of this book takes %d minutes to read.", reading->time ),
-                     reading->time );
-        }
-
-        std::vector<std::string> recipe_list;
-        for( const auto &elem : reading->recipes ) {
-            // If the player knows it, they recognize it even if it's not clearly stated.
-            if( elem.is_hidden() && !knows_recipe( elem.recipe ) ) {
-                continue;
-            }
-            recipe_list.push_back( elem.name );
-        }
-        if( !recipe_list.empty() ) {
-            std::string recipe_line =
-                string_format( ngettext( "This book contains %1$zu crafting recipe: %2$s",
-                                         "This book contains %1$zu crafting recipes: %2$s",
-                                         recipe_list.size() ),
-                               recipe_list.size(),
-                               enumerate_as_string( recipe_list ) );
-            add_msg( m_info, recipe_line );
-        }
-        if( recipe_list.size() != reading->recipes.size() ) {
-            add_msg( m_info, _( "It might help you figuring out some more recipes." ) );
-        }
-        activity.set_to_null();
-        return;
-    }
-
-    std::vector<std::pair<player *, double>> learners; //learners and their penalties
-    for( size_t i = 0; i < activity.values.size(); i++ ) {
-        player *n = g->find_npc( character_id( activity.values[i] ) );
-        if( n != nullptr ) {
-            const std::string &s = activity.get_str_value( i, "1" );
-            learners.push_back( { n, strtod( s.c_str(), nullptr ) } );
-        }
-        // Otherwise they must have died/teleported or something
-    }
-    learners.push_back( { this, 1.0 } );
-    bool continuous = false; //whether to continue reading or not
-    std::set<std::string> little_learned; // NPCs who learned a little about the skill
-    std::set<std::string> cant_learn;
-    std::list<std::string> out_of_chapters;
-
-    for( auto &elem : learners ) {
-        player *learner = elem.first;
-
-        if( book_fun_for( book, *learner ) != 0 ) {
-            //Fun bonus is no longer calculated here.
-            learner->add_morale( MORALE_BOOK, book_fun_for( book, *learner ) * 5, book_fun_for( book,
-                                 *learner ) * 15, 1_hours, 30_minutes, true,
-                                 book.type );
-        }
-
-        book.mark_chapter_as_read( *learner );
-
-        if( skill && learner->get_skill_level( skill ) < reading->level &&
-            learner->get_skill_level_object( skill ).can_train() ) {
-            SkillLevel &skill_level = learner->get_skill_level_object( skill );
-            const int originalSkillLevel = skill_level.level();
-
-            // Calculate experience gained
-            /** @EFFECT_INT increases reading comprehension */
-            // Enhanced Memory Banks modestly boosts experience
-            int min_ex = std::max( 1, reading->time / 10 + learner->get_int() / 4 );
-            int max_ex = reading->time /  5 + learner->get_int() / 2 - originalSkillLevel;
-            if( has_active_bionic( bio_memory ) ) {
-                min_ex += 2;
-            }
-            if( max_ex < 2 ) {
-                max_ex = 2;
-            }
-            if( max_ex > 10 ) {
-                max_ex = 10;
-            }
-            if( max_ex < min_ex ) {
-                max_ex = min_ex;
-            }
-
-            min_ex *= ( originalSkillLevel + 1 ) * elem.second;
-            min_ex = std::max( min_ex, 1 );
-            max_ex *= ( originalSkillLevel + 1 ) * elem.second;
-            max_ex = std::max( min_ex, max_ex );
-
-            skill_level.readBook( min_ex, max_ex, reading->level );
-
-            std::string skill_name = skill.obj().name();
-
-            if( skill_level != originalSkillLevel ) {
-                g->events().send<event_type::gains_skill_level>(
-                    learner->getID(), skill, skill_level.level() );
-                if( learner->is_player() ) {
-                    add_msg( m_good, _( "You increase %s to level %d." ), skill.obj().name(),
-                             originalSkillLevel + 1 );
-                } else {
-                    add_msg( m_good, _( "%s increases their %s level." ), learner->disp_name(), skill_name );
-                    if( is_npc() ) {
-                        // only allow NPCs to read for one skill level, otherwise theyd never stop.
-                        activity.set_to_null();
-                        npc *guy = dynamic_cast<npc *>( this );
-                        if( guy ) {
-                            guy->revert_after_activity();
-                            return;
-                        }
-                    }
-                }
-            } else {
-                //skill_level == originalSkillLevel
-                if( activity.index == learner->getID().get_value() ) {
-                    continuous = true;
-                }
-                if( learner->is_player() ) {
-                    add_msg( m_info, _( "You learn a little about %s! (%d%%)" ), skill_name, skill_level.exercise() );
-                } else {
-                    little_learned.insert( learner->disp_name() );
-                }
-            }
-
-            if( ( skill_level == reading->level || !skill_level.can_train() ) ||
-                ( ( learner->has_trait( trait_id( "SCHIZOPHRENIC" ) ) ||
-                    learner->has_artifact_with( AEP_SCHIZO ) ) && one_in( 25 ) ) ) {
-                if( learner->is_player() ) {
-                    add_msg( m_info, _( "You can no longer learn from %s." ), book.type_name() );
-                } else {
-                    cant_learn.insert( learner->disp_name() );
-                }
-            }
-        } else if( skill ) {
-            if( learner->is_player() ) {
-                add_msg( m_info, _( "You can no longer learn from %s." ), book.type_name() );
-            } else {
-                cant_learn.insert( learner->disp_name() );
-            }
-        }
-    } //end for all learners
-
-    if( little_learned.size() == 1 ) {
-        add_msg( m_info, _( "%s learns a little about %s!" ), little_learned.begin()->c_str(),
-                 skill.obj().name() );
-    } else if( !little_learned.empty() ) {
-        const std::string little_learned_msg = enumerate_as_string( little_learned );
-        add_msg( m_info, _( "%s learn a little about %s!" ), little_learned_msg, skill.obj().name() );
-    }
-
-    if( !cant_learn.empty() ) {
-        const std::string names = enumerate_as_string( cant_learn );
-        add_msg( m_info, _( "%s can no longer learn from %s." ), names, book.type_name() );
-    }
-    if( !out_of_chapters.empty() ) {
-        const std::string names = enumerate_as_string( out_of_chapters );
-        add_msg( m_info, _( "Rereading the %s isn't as much fun for %s." ),
-                 book.type_name(), names );
-        if( out_of_chapters.front() == disp_name() && one_in( 6 ) ) {
-            add_msg( m_info, _( "Maybe you should find something new to read..." ) );
-        }
-    }
-
-    // NPCs can't learn martial arts from manuals (yet).
-    auto m = book.type->use_methods.find( "MA_MANUAL" );
-    if( m != book.type->use_methods.end() ) {
-        const matype_id style_to_learn = martial_art_learned_from( *book.type );
-        skill_id skill_used = style_to_learn->primary_skill;
-        int difficulty = std::max( 1, style_to_learn->learn_difficulty );
-        difficulty = std::max( 1, 20 + difficulty * 2 - g->u.get_skill_level( skill_used ) * 2 );
-        add_msg( m_debug, _( "Chance to learn one in: %d" ), difficulty );
-
-        if( one_in( difficulty ) ) {
-            m->second.call( *this, book, false, pos() );
-            continuous = false;
-        } else {
-            if( activity.index == g->u.getID().get_value() ) {
-                continuous = true;
-                switch( rng( 1, 5 ) ) {
-                    case 1:
-                        add_msg( m_info,
-                                 _( "You train the moves according to the book, but can't get a grasp of the style, so you start from the beginning." ) );
-                        break;
-                    case 2:
-                        add_msg( m_info,
-                                 _( "This martial art is not easy to grasp.  You start training the moves from the beginning." ) );
-                        break;
-                    case 3:
-                        add_msg( m_info,
-                                 _( "You decide to read the manual and train even more.  In martial arts, patience leads to mastery." ) );
-                        break;
-                    case 4:
-                    case 5:
-                        add_msg( m_info, _( "You try again.  This training will finally pay off." ) );
-                        break;
-                }
-            } else {
-                add_msg( m_info, _( "You train for a while." ) );
-            }
-        }
-    }
-
-    if( continuous || is_npc() ) {
-        activity.set_to_null();
-        if( is_player() ) {
-            g->u.read( get_item_position( &book ), true );
-        } else {
-            npc *guy = dynamic_cast<npc *>( this );
-            if( guy ) {
-                guy->activity = player_activity();
-                guy->start_read( book, this );
-                return;
-            }
-        }
-        if( activity ) {
-            return;
-        }
-    }
-    activity.set_to_null();
 }
 
 int player::read_speed( bool return_stat_effect ) const
@@ -4663,7 +4409,7 @@ int player::addiction_level( add_type type ) const
 
 void player::siphon( vehicle &veh, const itype_id &desired_liquid )
 {
-    auto qty = veh.fuel_left( type );
+    auto qty = veh.fuel_left( desired_liquid );
     if( qty <= 0 ) {
         add_msg( m_bad, _( "There is not enough %s left to siphon it." ),
                  item::nname( desired_liquid ) );
