@@ -223,7 +223,6 @@
     "volume": "500 ml",
     "price": 50000, 
     "price_postapoc": 1250000,
-
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
