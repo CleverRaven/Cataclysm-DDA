@@ -45,6 +45,7 @@
 #include "popup.h"
 #include "ranged.h"
 #include "safemode_ui.h"
+#include "scores_ui.h"
 #include "sounds.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -2174,12 +2175,12 @@ bool game::handle_action()
                 list_missions();
                 break;
 
-            case ACTION_KILLS:
-                get_kill_tracker().disp_kills();
+            case ACTION_SCORES:
+                show_scores_ui( stats(), get_kill_tracker() );
                 break;
 
             case ACTION_FACTIONS:
-                new_faction_manager_ptr->display();
+                faction_manager_ptr->display();
                 break;
 
             case ACTION_MORALE:
@@ -2283,18 +2284,20 @@ bool game::handle_action()
                 break;
 
             case ACTION_TOGGLE_THIEF_MODE:
-                //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
                 if( g->u.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
                     u.set_value( "THIEF_MODE", "THIEF_HONEST" );
                     u.set_value( "THIEF_MODE_KEEP", "YES" );
+                    //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
                     add_msg( _( "You will not pick up other peoples belongings." ) );
                 } else if( g->u.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
                     u.set_value( "THIEF_MODE", "THIEF_STEAL" );
                     u.set_value( "THIEF_MODE_KEEP", "YES" );
+                    //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
                     add_msg( _( "You will pick up also those things that belong to others!" ) );
                 } else if( g->u.get_value( "THIEF_MODE" ) == "THIEF_STEAL" ) {
                     u.set_value( "THIEF_MODE", "THIEF_ASK" );
                     u.set_value( "THIEF_MODE_KEEP", "NO" );
+                    //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
                     add_msg( _( "You will be reminded not to steal." ) );
                 } else {
                     // ERROR

@@ -25,7 +25,7 @@
   {
     "type": "item_group",
     "id": "NC_BOUNTY_HUNTER_vest",
-    "items": [ [ "null", 20 ], [ "kevlar", 80 ], [ "chestrig", 40 ] ]
+    "items": [ [ "null", 20 ], [ "kevlar", 80 ], [ "tacvest", 40 ] ]
   },
   {
     "type": "item_group",

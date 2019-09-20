@@ -190,7 +190,8 @@ class Character : public Creature, public visitable<Character>
             STRENGTH,
             DEXTERITY,
             INTELLIGENCE,
-            PERCEPTION
+            PERCEPTION,
+            DUMMY_STAT
         };
 
         // Character stats
@@ -501,8 +502,10 @@ class Character : public Creature, public visitable<Character>
         bool has_any_bionic() const;
         /**Returns true if the character can fuel a bionic with the item*/
         bool can_fuel_bionic_with( const item &it ) const;
-        /**Return bionic_id of bionics able to use fuel*/
+        /**Return bionic_id of bionics able to use it as fuel*/
         std::vector<bionic_id> get_bionic_fueled_with( const item &it ) const;
+        /**Return bionic_id of fueled bionics*/
+        std::vector<bionic_id> get_fueled_bionics() const;
         /**Return bionic_id of bionic of most fuel efficient bionic*/
         bionic_id get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const;
         /**Return list of available fuel for this bionic*/
@@ -513,6 +516,8 @@ class Character : public Creature, public visitable<Character>
         int get_total_fuel_capacity( itype_id fuel ) const;
         /**Updates which bionic contain fuel and which is empty*/
         void update_fuel_storage( const itype_id &fuel );
+        /**Get stat bonus from bionic*/
+        int get_mod_stat_from_bionic( const Character::stat &Stat ) const;
         // route for overmap-scale travelling
         std::vector<tripoint> omt_path;
         // --------------- Generic Item Stuff ---------------
@@ -1025,6 +1030,11 @@ class Character : public Creature, public visitable<Character>
         int fatigue;
         int sleep_deprivation;
         bool check_encumbrance;
+};
+
+template<>
+struct enum_traits<Character::stat> {
+    static constexpr Character::stat last = Character::stat::DUMMY_STAT;
 };
 
 #endif

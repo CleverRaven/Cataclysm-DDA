@@ -574,5 +574,23 @@
     "color": "i_dark_gray",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_livestock_0",
+    "name": "livestock survey",
+    "sym": "+",
+    "color": "pink",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_storehouse_0",
+    "name": "store survey",
+    "sym": "+",
+    "color": "cyan",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
   }
 ]

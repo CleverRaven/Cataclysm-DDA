@@ -35,7 +35,9 @@
     "duration_increment": 4,
     "min_pierce": 0,
     "max_pierce": 1,
-    "pierce_increment": 0.1
+    "pierce_increment": 0.1,
+    "//": "Learn spells by adding map of 'spell_id': 'level' ",
+    "learn_spells": { "create_atomic_light": 1, "megablast": 2 }
   },
   {
     "id": "spawn_debug_monster",
@@ -197,5 +199,39 @@
     "base_casting_time": 100,
     "energy_source": "MANA",
     "base_energy_cost": 100
+  },
+  {
+    "id": "debug_full_protection",
+    "type": "SPELL",
+    "name": "Debug Full Protection",
+    "description": "You can not be harmed by anything.",
+    "message": "You are invulnerable, nothing can harm you!",
+    "valid_targets": [ "self" ],
+    "effect": "target_attack",
+    "effect_str": "debug_full_protection",
+    "min_range": 1,
+    "max_range": 1,
+    "base_casting_time": 100,
+    "base_energy_cost": 100,
+    "energy_source": "MANA",
+    "min_duration": 100000,
+    "max_duration": 100000
+  },
+  {
+    "id": "debug_fall_protection",
+    "type": "SPELL",
+    "name": "Debug Feather Falling",
+    "description": "You  are light as a feather and fall like.",
+    "message": "You eat a feather!",
+    "valid_targets": [ "self" ],
+    "effect": "target_attack",
+    "effect_str": "debug_feather_fall",
+    "min_range": 1,
+    "max_range": 1,
+    "base_casting_time": 100,
+    "base_energy_cost": 100,
+    "energy_source": "MANA",
+    "min_duration": 400,
+    "max_duration": 400
   }
 ]

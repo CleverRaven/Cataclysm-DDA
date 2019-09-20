@@ -131,7 +131,7 @@
         "response": {
           "text": "Here, you can have this <topic_item>.",
           "topic": "TALK_REFUGEE_BEGGAR_4_GAVE_FOOD",
-          "opinion": { "trust": [ 0, 1 ], "value": [ 0, 2 ], "fear": [ -1, 0 ], "anger": [ -1, 0 ], "owed": 2 }
+          "opinion": { "trust": 1, "value": 1, "fear": -1, "anger": -1, "owed": 2 }
         }
       }
     ]

@@ -285,8 +285,8 @@ void activity_handlers::burrow_do_turn( player_activity *act, player *p )
 {
     sfx::play_activity_sound( "activity", "burrow", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
-        //~ Sound of a Rat mutant burrowing!
         sounds::sound( act->placement, 10, sounds::sound_t::movement,
+                       //~ Sound of a Rat mutant burrowing!
                        _( "ScratchCrunchScrabbleScurry." ) );
         messages_in_process( *act, *p );
     }
@@ -929,7 +929,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 for( const fault_id &flt : entry.faults ) {
                     obj.faults.emplace( flt );
                 }
-                if( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
+                if( !p.backlog.empty() && p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
                     obj.set_var( "activity_var", p.name );
                 }
                 g->m.add_item_or_charges( p.pos(), obj );
@@ -948,7 +948,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 for( const fault_id &flt : entry.faults ) {
                     obj.faults.emplace( flt );
                 }
-                if( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
+                if( !p.backlog.empty() && p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
                     obj.set_var( "activity_var", p.name );
                 }
                 for( int i = 0; i != roll; ++i ) {
@@ -987,7 +987,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             ruined_parts.set_mtype( &mt );
             ruined_parts.set_item_temperature( 0.00001 * corpse_item->temperature );
             ruined_parts.set_rot( corpse_item->get_rot() );
-            if( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
+            if( !p.backlog.empty() && p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
                 ruined_parts.set_var( "activity_var", p.name );
             }
             g->m.add_item_or_charges( p.pos(), ruined_parts );
@@ -1276,7 +1276,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // Ready to move on to the next item, if there is one (for example if multibutchering)
     act->index = true;
     // if its mutli-tile butchering,then restart the backlog.
-    if( p->backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
+    if( !p->backlog.empty() && p->backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
         p->activity = player_activity();
     }
 }
@@ -2791,7 +2791,7 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
     ( void )p;
     act->set_to_null();
     p->add_msg_if_player( m_info, _( "You finish fishing" ) );
-    if( p->backlog.front().id() == activity_id( "ACT_MULTIPLE_FISH" ) ) {
+    if( !p->backlog.empty() && p->backlog.front().id() == activity_id( "ACT_MULTIPLE_FISH" ) ) {
         p->backlog.clear();
         p->assign_activity( activity_id( "ACT_TIDY_UP" ) );
     }
@@ -4172,67 +4172,10 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
     act->set_to_null();
 }
 
-static hack_result try_hack( player &p )
-{
-    if( p.has_trait( trait_id( "ILLITERATE" ) ) ) {
-        add_msg( _( "You can't read anything on the screen." ) );
-        return HACK_UNABLE;
-    }
-    bool using_electrohack = p.has_charges( "electrohack", 25 ) &&
-                             query_yn( _( "Use electrohack?" ) );
-    bool using_fingerhack = !using_electrohack && p.has_bionic( bionic_id( "bio_fingerhack" ) ) &&
-                            p.power_level > 24 && query_yn( _( "Use fingerhack?" ) );
-
-    if( !( using_electrohack || using_fingerhack ) ) {
-        add_msg( _( "You need a hacking tool for that." ) );
-        return HACK_UNABLE;
-    }
-
-    ///\EFFECT_COMPUTER increases success chance of hacking
-    int player_computer_skill_level = p.get_skill_level( skill_id( "computer" ) );
-    int success = rng( player_computer_skill_level / 4 - 2, player_computer_skill_level * 2 );
-    success += rng( -3, 3 );
-    if( using_fingerhack ) {
-        p.charge_power( -25 );
-        success++;
-    }
-    if( using_electrohack ) {
-        p.use_charges( "electrohack", 25 );
-        success++;
-    }
-
-    // odds go up with int>8, down with int<8
-    // 4 int stat is worth 1 computer skill here
-    ///\EFFECT_INT increases success chance of hacking
-    success += rng( 0, static_cast<int>( ( p.int_cur - 8 ) / 2 ) );
-
-    if( success < 0 ) {
-        add_msg( _( "You cause a short circuit!" ) );
-        if( success <= -5 ) {
-            if( using_electrohack ) {
-                add_msg( m_bad, _( "Your electrohack is ruined!" ) );
-                p.use_amount( "electrohack", 1 );
-            } else {
-                add_msg( m_bad, _( "Your power is drained!" ) );
-                p.charge_power( -rng( 0, p.power_level ) );
-            }
-        }
-        return HACK_FAIL;
-    } else if( success < 6 ) {
-        add_msg( _( "Nothing happens." ) );
-        return HACK_NOTHING;
-    } else {
-        return HACK_SUCCESS;
-    }
-}
-
 void activity_handlers::hack_door_finish( player_activity *act, player *p )
 {
-    hack_result result = try_hack( *p );
-    if( result == HACK_UNABLE ) {
-        act->set_to_null();
-        return;
-    } else if( result == HACK_SUCCESS ) {
+    hack_result result = iexamine::hack_attempt( *p );
+    if( result == HACK_SUCCESS ) {
         add_msg( _( "You activate the panel!" ) );
         add_msg( m_good, _( "The nearby doors slide into the floor." ) );
         g->m.ter_set( act->placement, t_card_reader_broken );
@@ -4243,22 +4186,16 @@ void activity_handlers::hack_door_finish( player_activity *act, player *p )
         }
     }
 
-    p->practice( skill_id( "computer" ), 20 );
     act->set_to_null();
 }
 
 void activity_handlers::hack_safe_finish( player_activity *act, player *p )
 {
-    hack_result result = try_hack( *p );
-    if( result == HACK_UNABLE ) {
-        act->set_to_null();
-        return;
-    } else if( result == HACK_FAIL ) {
-        act->set_to_null();
-
+    hack_result result = iexamine::hack_attempt( *p );
+    if( result == HACK_FAIL ) {
         g->events().send<event_type::triggers_alarm>( p->getID() );
-        sounds::sound( p->pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
-                       "alarm" );
+        sounds::sound( p->pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true,
+                       "environment", "alarm" );
         if( act->placement.z > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
             g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
                                  p->global_sm_location() );
@@ -4268,7 +4205,6 @@ void activity_handlers::hack_safe_finish( player_activity *act, player *p )
         g->m.furn_set( act->placement, furn_str_id( "f_safe_o" ) );
     }
 
-    p->practice( skill_id( "computer" ), 20 );
     act->set_to_null();
 }
 
@@ -4394,7 +4330,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     if( level_override == -1 ) {
         if( !casting.is_max_level() ) {
             // reap the reward
-            if( casting.get_level() == 0 ) {
+            int old_level = casting.get_level();
+            if( old_level == 0 ) {
                 casting.gain_level();
                 p->add_msg_if_player( m_good,
                                       _( "Something about how this spell works just clicked!  You gained a level!" ) );
@@ -4402,6 +4339,9 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 casting.gain_exp( exp_gained );
                 p->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
                                       casting.xp() );
+            }
+            if( casting.get_level() != old_level ) {
+                g->events().send<event_type::player_levels_spell>( casting.id(), casting.get_level() );
             }
         }
     }

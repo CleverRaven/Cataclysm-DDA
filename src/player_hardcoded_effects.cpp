@@ -7,6 +7,7 @@
 #include "effect.h"
 #include "event_bus.h"
 #include "fungal_effects.h"
+#include "field_type.h"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -59,6 +60,7 @@ const efftype_id effect_formication( "formication" );
 const efftype_id effect_frostbite( "frostbite" );
 const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_grabbing( "grabbing" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_hot( "hot" );
 const efftype_id effect_infected( "infected" );
@@ -250,21 +252,21 @@ static void eff_fun_hallu( player &u, effect &it )
         }
         if( u.is_npc() && one_in( 1200 ) ) {
             static const std::array<std::string, 4> npc_hallu = {{
-                    _( "\"I think it's starting to kick in.\"" ),
-                    _( "\"Oh God, what's happening?\"" ),
-                    _( "\"Of course... it's all fractals!\"" ),
-                    _( "\"Huh?  What was that?\"" )
+                    translate_marker( "\"I think it's starting to kick in.\"" ),
+                    translate_marker( "\"Oh God, what's happening?\"" ),
+                    translate_marker( "\"Of course... it's all fractals!\"" ),
+                    translate_marker( "\"Huh?  What was that?\"" )
                 }
             };
 
-            const std::string &npc_text = random_entry_ref( npc_hallu );
             ///\EFFECT_STR_NPC increases volume of hallucination sounds (NEGATIVE)
 
             ///\EFFECT_INT_NPC decreases volume of hallucination sounds
             int loudness = 20 + u.str_cur - u.int_cur;
             loudness = ( loudness > 5 ? loudness : 5 );
             loudness = ( loudness < 30 ? loudness : 30 );
-            sounds::sound( u.pos(), loudness, sounds::sound_t::speech, npc_text, false, "speech",
+            sounds::sound( u.pos(), loudness, sounds::sound_t::speech, _( random_entry_ref( npc_hallu ) ),
+                           false, "speech",
                            loudness < 15 ? ( u.male ? "NPC_m" : "NPC_f" ) : ( u.male ? "NPC_m_loud" : "NPC_f_loud" ) );
         }
     } else if( dur == peakTime ) {
@@ -621,6 +623,20 @@ void player::hardcoded_effects( effect &it )
                     it.set_duration( 0_turns );
                 }
             }
+            if( one_in( 7200 - ( dur - 360_minutes ) / 4_turns ) ) {
+                add_msg_if_player( m_bad, _( "You are beset with a vision of a prowling beast." ) );
+                for( const tripoint &dest : g->m.points_in_radius( pos(), 6 ) ) {
+                    if( g->m.is_cornerfloor( dest ) ) {
+                        g->m.add_field( dest, fd_tindalos_rift, 3 );
+                        add_msg_if_player( m_info, _( "Your surroundings are permeated with a foul scent." ) );
+                        break;
+                    }
+                }
+                if( one_in( 2 ) ) {
+                    // Set ourselves up for removal
+                    it.set_duration( 0_turns );
+                }
+            }
             if( one_in( 7200 - ( ( dur - 600_minutes ) / 30_seconds ) ) && one_in( 20 ) ) {
                 if( !is_npc() ) {
                     add_msg( m_bad, _( "You pass out." ) );
@@ -847,14 +863,13 @@ void player::hardcoded_effects( effect &it )
         int zed_number = 0;
         for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
             const monster *const mon = g->critter_at<monster>( dest );
-            if( mon && ( mon->has_flag( MF_GRABS ) ||
-                         mon->type->has_special_attack( "GRAB" ) ) ) {
+            if( mon && mon->has_effect( effect_grabbing ) ) {
                 zed_number += mon->get_grab_strength();
             }
         }
         if( zed_number > 0 ) {
-            add_effect( effect_grabbed, 2_turns, bp_torso, false,
-                        ( intense + zed_number ) / 2 ); //If intensity isn't pass the cap, average it with # of zeds
+            //If intensity isn't pass the cap, average it with # of zeds
+            add_effect( effect_grabbed, 2_turns, bp_torso, false, ( intense + zed_number ) / 2 );
         }
     } else if( id == effect_bite ) {
         bool recovered = false;

@@ -179,7 +179,7 @@ void game_menus::inv::common( avatar &you )
     inv_s.set_title( _( "Inventory" ) );
     inv_s.set_hint( string_format(
                         _( "Item hotkeys assigned: <color_light_gray>%d</color>/<color_light_gray>%d</color>" ),
-                        you.allocated_invlets().size(), inv_chars.size() ) );
+                        you.allocated_invlets().count(), inv_chars.size() ) );
 
     int res = 0;
 
@@ -896,12 +896,11 @@ class read_inventory_preset: public pickup_inventory_preset
 {
     public:
         read_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
-            static const std::string unknown( _( "<color_dark_gray>?</color>" ) );
-            static const std::string martial_arts( _( "martial arts" ) );
+            const std::string unknown = _( "<color_dark_gray>?</color>" );
 
-            append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
+            append_cell( [ this, &p, unknown ]( const item_location & loc ) -> std::string {
                 if( loc->type->can_use( "MA_MANUAL" ) ) {
-                    return martial_arts;
+                    return _( "martial arts" );
                 }
                 if( !is_known( loc ) ) {
                     return unknown;
@@ -916,7 +915,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 return std::string();
             }, _( "TRAINS (CURRENT)" ), unknown );
 
-            append_cell( [ this ]( const item_location & loc ) -> std::string {
+            append_cell( [ this, unknown ]( const item_location & loc ) -> std::string {
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
@@ -926,14 +925,14 @@ class read_inventory_preset: public pickup_inventory_preset
                 return unlearned > 0 ? to_string( unlearned ) : std::string();
             }, _( "RECIPES" ), unknown );
 
-            append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
+            append_cell( [ this, &p, unknown ]( const item_location & loc ) -> std::string {
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
                 return good_bad_none( p.book_fun_for( *loc, p ) );
             }, _( "FUN" ), unknown );
 
-            append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
+            append_cell( [ this, &p, unknown ]( const item_location & loc ) -> std::string {
                 if( !is_known( loc ) ) {
                     return unknown;
                 }

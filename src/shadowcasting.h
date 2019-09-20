@@ -10,6 +10,7 @@
 
 #include "game_constants.h"
 #include "lightmap.h"
+#include "point.h"
 
 struct tripoint;
 
@@ -106,7 +107,7 @@ template<typename T, typename Out, T( *calc )( const T &, const T &, const int &
          T( *accumulate )( const T &, const T &, const int & )>
 void castLightAll( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
                    const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
-                   int offsetX, int offsetY, int offsetDistance = 0,
+                   const point &offset, int offsetDistance = 0,
                    T numerator = 1.0 );
 
 // TODO: Generalize the floor check, allow semi-transparent floors

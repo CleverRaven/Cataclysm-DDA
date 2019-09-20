@@ -59,7 +59,7 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "skills_required": [ [ "gun", 4 ] ],
-    "time": 30000,
+    "time": "30 m",
     "book_learn": [
       [ "mag_guns", 4 ],
       [ "mag_pistol", 4 ],
@@ -85,7 +85,7 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "skills_required": [ [ "gun", 4 ] ],
-    "time": 30000,
+    "time": "30 m",
     "book_learn": [
       [ "mag_guns", 4 ],
       [ "mag_pistol", 4 ],
@@ -111,7 +111,7 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "skills_required": [ [ "gun", 4 ] ],
-    "time": 30000,
+    "time": "30 m",
     "book_learn": [
       [ "mag_guns", 4 ],
       [ "mag_pistol", 4 ],
@@ -137,7 +137,7 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "skills_required": [ [ "gun", 4 ] ],
-    "time": 30000,
+    "time": "30 m",
     "book_learn": [
       [ "mag_guns", 4 ],
       [ "mag_pistol", 4 ],
@@ -163,7 +163,7 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "skills_required": [ [ "gun", 4 ] ],
-    "time": 30000,
+    "time": "30 m",
     "book_learn": [
       [ "mag_guns", 4 ],
       [ "mag_pistol", 4 ],
@@ -189,7 +189,7 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "skills_required": [ [ "gun", 5 ] ],
-    "time": 30000,
+    "time": "30 m",
     "book_learn": [
       [ "mag_guns", 4 ],
       [ "mag_pistol", 4 ],
@@ -215,7 +215,7 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "skills_required": [ [ "gun", 5 ] ],
-    "time": 30000,
+    "time": "30 m",
     "book_learn": [
       [ "mag_guns", 4 ],
       [ "mag_pistol", 4 ],
@@ -357,7 +357,7 @@
     "skill_used": "fabrication",
     "skills_required": [ [ "mechanics", 2 ] ],
     "difficulty": 2,
-    "time": "2 m",
+    "time": "2 m 36 s",
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
     "components": [ [ [ "filter_liquid", 1 ], [ "muffler", 1 ] ], [ [ "pipe", 1 ] ], [ [ "scrap", 2 ] ] ]
@@ -382,7 +382,7 @@
     "skill_used": "fabrication",
     "skills_required": [ [ "archery", 2 ] ],
     "difficulty": 2,
-    "time": "1 m",
+    "time": "1 m 30 s",
     "book_learn": [ [ "mag_archery", 1 ], [ "manual_archery", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ], [ "fur", 1 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]

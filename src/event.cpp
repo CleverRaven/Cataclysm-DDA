@@ -60,6 +60,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::npc_becomes_hostile: return "npc_becomes_hostile";
         case event_type::opens_portal: return "opens_portal";
         case event_type::opens_temple: return "opens_temple";
+        case event_type::player_levels_spell: return "player_levels_spell";
         case event_type::releases_subspace_specimens: return "releases_subspace_specimens";
         case event_type::removes_cbm: return "removes_cbm";
         case event_type::seals_hazardous_material_sarcophagus: return "seals_hazardous_material_sarcophagus";
@@ -91,7 +92,7 @@ constexpr std::array<std::pair<const char *, cata_variant_type>,
 constexpr std::array<std::pair<const char *, cata_variant_type>,
           event_spec_character::fields.size()> event_spec_character::fields;
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 61,
+static_assert( static_cast<int>( event_type::num_event_types ) == 62,
                "This static_assert is a reminder to add a definition below when you add a new "
                "event_type.  If your event_spec specialization inherits from another struct for "
                "its fields definition then you probably don't need a definition here." );
@@ -101,6 +102,7 @@ static_assert( static_cast<int>( event_type::num_event_types ) == 61,
     event_spec<event_type::type>::fields.size()> \
     event_spec<event_type::type>::fields;
 
+DEFINE_EVENT_FIELDS( player_levels_spell )
 DEFINE_EVENT_FIELDS( activates_artifact )
 DEFINE_EVENT_FIELDS( administers_mutagen )
 DEFINE_EVENT_FIELDS( avatar_moves )
@@ -124,6 +126,7 @@ DEFINE_EVENT_FIELDS( gains_addiction )
 DEFINE_EVENT_FIELDS( gains_mutation )
 DEFINE_EVENT_FIELDS( gains_skill_level )
 DEFINE_EVENT_FIELDS( game_over )
+DEFINE_EVENT_FIELDS( game_start )
 DEFINE_EVENT_FIELDS( installs_cbm )
 DEFINE_EVENT_FIELDS( installs_faulty_cbm )
 DEFINE_EVENT_FIELDS( launches_nuke )
@@ -135,5 +138,33 @@ DEFINE_EVENT_FIELDS( telefrags_creature )
 DEFINE_EVENT_FIELDS( teleports_into_wall )
 
 } // namespace event_detail
+
+template<event_type Type>
+static void get_fields_if_match( event_type type, std::map<std::string, cata_variant_type> &out )
+{
+    if( Type == type ) {
+        out = { event_detail::event_spec<Type>::fields.begin(),
+                event_detail::event_spec<Type>::fields.end()
+              };
+    }
+}
+
+template<int... I>
+static std::map<std::string, cata_variant_type>
+get_fields_helper( event_type type, std::integer_sequence<int, I...> )
+{
+    std::map<std::string, cata_variant_type> result;
+    bool discard[] = {
+        ( get_fields_if_match<static_cast<event_type>( I )>( type, result ), true )...
+    };
+    ( void ) discard;
+    return result;
+}
+
+std::map<std::string, cata_variant_type> event::get_fields( event_type type )
+{
+    return get_fields_helper(
+               type, std::make_integer_sequence<int, static_cast<int>( event_type::num_event_types )> {} );
+}
 
 } // namespace cata

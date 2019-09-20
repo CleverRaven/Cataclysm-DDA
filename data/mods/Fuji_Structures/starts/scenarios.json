@@ -7,7 +7,7 @@
     "points": 1,
     "start_name": "Scavenger Bunker",
     "allowed_locs": [ "s_bunker_shop_g" ],
-    "flags": [ "SUM_ADV_START" ],
+    "flags": [ "SUM_START" ],
     "professions": [ "rookie", "novice" ]
   }
 ]

@@ -32,5 +32,20 @@
     "color": "white",
     "flags": [ "NONCONDUCTIVE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_floor_mattress" }
+  },
+  {
+    "id": "down_mattress",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "down_mattress",
+    "name_plural": "down_mattresses",
+    "description": "This is a single, or twin, sized down filled mattress.",
+    "weight": 20000,
+    "volume": "300000 ml",
+    "price": 1000,
+    "material": [ "cotton" ],
+    "symbol": "0",
+    "color": "white",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_feather_mattress" }
   }
 ]

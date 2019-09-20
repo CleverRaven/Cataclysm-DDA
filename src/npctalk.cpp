@@ -99,6 +99,8 @@ const efftype_id effect_riding( "riding" );
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 
+static const itype_id fuel_type_animal( "animal" );
+
 const zone_type_id zone_no_investigate( "NPC_NO_INVESTIGATE" );
 const zone_type_id zone_investigate_only( "NPC_INVESTIGATE_ONLY" );
 
@@ -115,17 +117,17 @@ const talk_topic &special_talk( char ch );
 
 std::string give_item_to( npc &p, bool allow_use, bool allow_carry );
 
-const std::string &talk_trial::name() const
+std::string talk_trial::name() const
 {
     static const std::array<std::string, NUM_TALK_TRIALS> texts = { {
-            "", _( "LIE" ), _( "PERSUADE" ), _( "INTIMIDATE" ), ""
+            "", translate_marker( "LIE" ), translate_marker( "PERSUADE" ), translate_marker( "INTIMIDATE" ), ""
         }
     };
     if( static_cast<size_t>( type ) >= texts.size() ) {
         debugmsg( "invalid trial type %d", static_cast<int>( type ) );
-        return texts[0];
+        return std::string();
     }
-    return texts[type];
+    return texts[type].empty() ? std::string() : _( texts[type] );
 }
 
 /** Time (in turns) and cost (in cent) for training: */
@@ -189,7 +191,9 @@ enum npc_chat_menu {
     NPC_CHAT_MOVE_FREELY,
     NPC_CHAT_SLEEP,
     NPC_CHAT_FORBID_ENGAGE,
-    NPC_CHAT_CLEAR_OVERRIDES
+    NPC_CHAT_CLEAR_OVERRIDES,
+    NPC_CHAT_ANIMAL_VEHICLE_FOLLOW,
+    NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW
 };
 
 // given a vector of NPCs, presents a menu to allow a player to pick one.
@@ -316,6 +320,29 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
 
 }
 
+static void tell_veh_stop_following()
+{
+    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
+    for( auto &veh : g->m.get_vehicles() ) {
+        auto &v = veh.v;
+        if( v->has_engine_type( fuel_type_animal, false ) && v->get_owner() == yours ) {
+            v->is_following = false;
+            v->engine_on = false;
+        }
+    }
+}
+
+static void assign_veh_to_follow()
+{
+    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
+    for( auto &veh : g->m.get_vehicles() ) {
+        auto &v = veh.v;
+        if( v->has_engine_type( fuel_type_animal, false ) && v->get_owner() == yours ) {
+            v->activate_animal_follow();
+        }
+    }
+}
+
 void game::chat()
 {
     int volume = g->u.get_shout_volume();
@@ -342,6 +369,18 @@ void game::chat()
         g->u.add_msg_if_player( m_warning, _( "You can't speak without your face!" ) );
         return;
     }
+    std::vector<vehicle *> animal_vehicles;
+    std::vector<vehicle *> following_vehicles;
+    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
+    for( auto &veh : g->m.get_vehicles() ) {
+        auto &v = veh.v;
+        if( v->has_engine_type( fuel_type_animal, false ) && v->get_owner() == yours ) {
+            animal_vehicles.push_back( v );
+            if( v->is_following ) {
+                following_vehicles.push_back( v );
+            }
+        }
+    }
 
     uilist nmenu;
     nmenu.text = std::string( _( "What do you want to do?" ) );
@@ -354,6 +393,14 @@ void game::chat()
     }
     nmenu.addentry( NPC_CHAT_YELL, true, 'a', _( "Yell" ) );
     nmenu.addentry( NPC_CHAT_SENTENCE, true, 'b', _( "Yell a sentence" ) );
+    if( !animal_vehicles.empty() ) {
+        nmenu.addentry( NPC_CHAT_ANIMAL_VEHICLE_FOLLOW, true, 'F',
+                        _( "Whistle at your animals pulling vehicles to follow you." ) );
+    }
+    if( !following_vehicles.empty() ) {
+        nmenu.addentry( NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW, true, 'S',
+                        _( "Whistle at your animals pulling vehicles to stop following you." ) );
+    }
     if( !guards.empty() ) {
         nmenu.addentry( NPC_CHAT_FOLLOW, true, 'f', guard_count == 1 ?
                         string_format( _( "Tell %s to follow" ), guards.front()->name ) :
@@ -479,6 +526,12 @@ void game::chat()
             break;
         case NPC_CHAT_ORDERS:
             npc_temp_orders_menu( followers );
+            break;
+        case NPC_CHAT_ANIMAL_VEHICLE_FOLLOW:
+            assign_veh_to_follow();
+            break;
+        case NPC_CHAT_ANIMAL_VEHICLE_STOP_FOLLOW:
+            tell_veh_stop_following();
             break;
         default:
             return;
@@ -620,6 +673,10 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
         add_msg( _( "%s is hostile!" ), name );
         return;
     }
+    if( get_faction() ) {
+        get_faction()->known_by_u = true;
+    }
+    set_known_to_u( true );
     dialogue d;
     d.alpha = &g->u;
     d.beta = this;
@@ -1136,7 +1193,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             const int cost = calc_ma_style_training_cost( *p, style.id );
             //~Martial art style (cost in dollars)
             const std::string text = string_format( cost > 0 ? _( "%s ( cost $%d )" ) : "%s",
-                                                    _( style.name ), cost / 100 );
+                                                    style.name, cost / 100 );
             add_response( text, "TALK_TRAIN_START", style );
         }
         for( auto &trained : trainable ) {
@@ -2592,10 +2649,10 @@ talk_response::talk_response( JsonObject jo )
     if( jo.has_member( "truefalsetext" ) ) {
         JsonObject truefalse_jo = jo.get_object( "truefalsetext" );
         read_condition<dialogue>( truefalse_jo, "condition", truefalse_condition, true );
-        truetext = to_translation( truefalse_jo.get_string( "true" ) );
-        falsetext = to_translation( truefalse_jo.get_string( "false" ) );
+        truefalse_jo.read( "true", truetext );
+        truefalse_jo.read( "false", falsetext );
     } else {
-        truetext = to_translation( jo.get_string( "text" ) );
+        jo.read( "text", truetext );
         truefalse_condition = []( const dialogue & ) {
             return true;
         };

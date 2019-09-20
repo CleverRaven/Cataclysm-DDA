@@ -642,7 +642,7 @@ class vehicle
                                    bool verbose = false, bool desc = false );
         void print_fuel_indicator( const catacurses::window &w, const point &p,
                                    const itype_id &fuel_type,
-                                   std::map<itype_id, int> fuel_usages,
+                                   std::map<itype_id, float> fuel_usages,
                                    bool verbose = false, bool desc = false );
 
         // Calculate how long it takes to attempt to start an engine
@@ -760,6 +760,7 @@ class vehicle
         bool handle_potential_theft( player &p, bool check_only = false, bool prompt = true );
         // project a tileray forward to predict obstacles
         std::set<point> immediate_path( int rotate = 0 );
+        void drive_to_local_target( const tripoint &autodrive_local_target, bool follow_protocol );
         void do_autodrive();
         /**
          *  Operate vehicle controls
@@ -774,7 +775,7 @@ class vehicle
         bool start_engine( int e );
 
         // Attempt to start the vehicle's active engines
-        void start_engines( bool take_control = false );
+        void start_engines( bool take_control = false, bool autodrive = false );
 
         // Engine backfire, making a loud noise
         void backfire( int e ) const;
@@ -1008,6 +1009,7 @@ class vehicle
         // get monster on a boardable part at p
         monster *get_pet( int p ) const;
 
+        bool enclosed_at( const tripoint &pos ); // not const because it calls refresh_insides
         /**
          * Get the coordinates (in map squares) of this vehicle, it's the same
          * coordinate system that player::posx uses.
@@ -1068,16 +1070,27 @@ class vehicle
          */
         std::vector<vehicle_part *> lights( bool active = false );
 
-        // Calculate vehicle's total drain or production of electrical power, including nominal
-        // solar power.
-        int total_epower_w();
-        // Calculate vehicle's total drain or production of electrical power, optionally
-        // including nominal solar power.  Return engine power as engine_power
-        int total_epower_w( int &engine_epower, bool skip_solar = true );
-        // Calculate the total available power rating of all reactors
-        int total_reactor_epower_w() const;
-        // Produce and consume electrical power, with excess power stored or taken from
-        // batteries
+        void update_alternator_load();
+
+        // Total drain or production of electrical power from engines.
+        int total_engine_epower_w() const;
+        // Total production of electrical power from alternators.
+        int total_alternator_epower_w() const;
+        // Total power currently being produced by all solar panels.
+        int total_solar_epower_w() const;
+        // Total power currently being produced by all wind turbines.
+        int total_wind_epower_w() const;
+        // Total power currently being produced by all water wheels.
+        int total_water_wheel_epower_w() const;
+        // Total power drain accross all vehicle accessories.
+        int total_accessory_epower_w() const;
+        // Net power draw or drain on batteries.
+        int net_battery_charge_rate_w() const;
+        // Maximum available power available from all reactors. Power from
+        // reactors is only drawn when batteries are empty.
+        int max_reactor_epower_w() const;
+        // Produce and consume electrical power, with excess power stored or
+        // taken from batteries.
         void power_parts();
 
         /**
@@ -1281,6 +1294,11 @@ class vehicle
         // Process the trap beneath
         void handle_trap( const tripoint &p, int part );
 
+        void activate_animal_follow();
+        /**
+         * vehicle is driving itself
+         */
+        void autodrive( int x, int y );
         /**
          * Player is driving the vehicle
          * @param p direction player is steering
@@ -1593,6 +1611,7 @@ class vehicle
         std::set<std::string> tags;        // Properties of the vehicle
         // After fuel consumption, this tracks the remainder of fuel < 1, and applies it the next time.
         std::map<itype_id, float> fuel_remainder;
+        std::map<itype_id, float> fuel_used_last_turn;
         std::unordered_multimap<point, zone_data> loot_zones;
         active_item_cache active_items;
 
@@ -1698,6 +1717,7 @@ class vehicle
 
     public:
         bool is_autodriving = false;
+        bool is_following = false;
         bool all_wheels_on_one_axis;
         // TODO: change these to a bitset + enum?
         // cruise control on/off

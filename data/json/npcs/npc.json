@@ -109,6 +109,7 @@
     "attitude": 1,
     "mission": 3,
     "mission_offered": "MISSION_JOIN_TRACKER",
-    "chat": "TALK_STRANGER_FRIENDLY"
+    "chat": "TALK_STRANGER_FRIENDLY",
+    "faction": "no_faction"
   }
 ]

@@ -401,7 +401,8 @@ void talk_function::stop_guard( npc &p )
 
 void talk_function::wake_up( npc &p )
 {
-    p.rules.clear_flag( ally_rule::allow_sleep );
+    p.rules.clear_override( ally_rule::allow_sleep );
+    p.rules.enable_override( ally_rule::allow_sleep );
     p.remove_effect( effect_allow_sleep );
     p.remove_effect( effect_lying_down );
     p.remove_effect( effect_sleep );

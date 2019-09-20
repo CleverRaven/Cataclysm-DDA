@@ -56,6 +56,21 @@
     }
   },
   {
+    "id": "laser_cannon",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": "mounted Cerberus laser cannon",
+    "item": "laser_cannon",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "difficulty": 5,
+    "breaks_into": [ { "item": "laser_cannon", "prob": 50 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ], "time": 10000 },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
     "id": "m249",
     "copy-from": "turret",
     "type": "vehicle_part",
