@@ -1,8 +1,12 @@
-#include <vector>
 #include <array>
 #include <list>
+#include <mutex>
 #include <ostream>
+#include <utility>
 #include <string>
+#include <thread>
+#include <type_traits>
+#include <vector>
 
 #include "catch/catch.hpp"
 #include "ballistics.h"
@@ -23,6 +27,30 @@
 #include "point.h"
 
 using firing_statistics = statistics<bool>;
+
+class Threshold
+{
+public:
+    Threshold( const double accuracy, const double chance )
+        : _accuracy( accuracy ), _chance( chance )
+    {
+    };
+    double accuracy() const
+    {
+        return _accuracy;
+    }
+    double chance() const
+    {
+        return _chance;
+    }
+private:
+    double _accuracy;
+    double _chance;
+};
+
+std::mutex mtx;
+firing_statistics feed_me( Z99_99 );
+int last_sample_size = 0;
 
 template < class T >
 std::ostream &operator <<( std::ostream &os, const std::vector<T> &v )
@@ -92,40 +120,92 @@ static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel
 
 std::array<double, 5> accuracy_levels = {{ accuracy_grazing, accuracy_standard, accuracy_goodhit, accuracy_critical, accuracy_headshot }};
 
-static std::array<firing_statistics, 5> firing_test( const dispersion_sources &dispersion,
-        const int range, const std::array<double, 5> &thresholds )
+static void thread_test( firing_statistics & firing_stats, const dispersion_sources &dispersion, const int range, const Threshold & threshold, const int sample_size )
 {
-    std::array<firing_statistics, 5> firing_stats = {{ Z99_99, Z99_99, Z99_99, Z99_99, Z99_99 }};
+    for( size_t i = 0; i < sample_size; i++ )
+    {
+        const projectile_attack_aim aim = projectile_attack_roll( dispersion, range, 0.5 );
+        firing_stats.add( aim.missed_by < threshold.accuracy() );
+    }
+    mtx.lock();
+    feed_me.add( firing_stats );
+    mtx.unlock();
+}
+
+
+static firing_statistics firing_test( const dispersion_sources &dispersion,
+                                      const int range, const Threshold &threshold )
+{
+    const int sample_size = std::max( 500, last_sample_size / 100 );
+    firing_statistics firing_stats( Z99_99 );
     bool threshold_within_confidence_interval = false;
-    do {
+    do
+    {
+        threshold_within_confidence_interval = false;
         // On each trip through the loop, grab a sample attack roll and add its results to
         // the stat object.  Keep sampling until our calculated confidence interval doesn't overlap
         // any thresholds we care about.  This is a mechanism to limit the number of samples
         // we have to accumulate before we declare that the true average is
         // either above or below the threshold.
-        const projectile_attack_aim aim = projectile_attack_roll( dispersion, range, 0.5 );
-        threshold_within_confidence_interval = false;
-        for( int i = 0; i < static_cast<int>( accuracy_levels.size() ); ++i ) {
-            firing_stats[i].add( aim.missed_by < accuracy_levels[i] );
-            if( thresholds[i] == -1 ) {
-                continue;
+        if( last_sample_size > 50000 )
+        {
+            std::vector<firing_statistics > stat_vector;
+            for( size_t i = 0; i < 4; i++ )
+            {
+                stat_vector.emplace_back( Z99_99 );
             }
-            // If we've accumulated less than 100 or so samples we have a high risk
-            // of reporting a bad result, so pretend we have high error if samples are low.
-            if( firing_stats[i].n() < 100 ) {
-                threshold_within_confidence_interval = true;
-                continue;
+            //Create multiple threads that calculate firing stats simultaneously
+            std::vector<std::thread> thread_vector;
+            for( size_t i = 0; i < 4; i++ )
+            {
+                thread_vector.emplace_back( &thread_test, std::ref( stat_vector[ i ] ), dispersion, range, threshold, sample_size );
             }
-            const double error = firing_stats[i].margin_of_error();
-            const double avg = firing_stats[i].avg();
-            const double threshold = thresholds[i];
-            if( avg + error > threshold && avg - error < threshold ) {
+            for( size_t i = 0; i < 4; i++ )
+            {
+                if( thread_vector[ i ].joinable() )
+                {
+                    thread_vector[ i ].join();
+                    firing_stats.add( stat_vector[ i ] );
+                }
+                else
+                {
+                    WARN( "Thread: " << thread_vector[ i ].get_id() << " is not joinable." );
+                }
+            }
+        }
+        else
+        {
+            const projectile_attack_aim aim = projectile_attack_roll( dispersion, range, 0.5 );
+            firing_stats.add( aim.missed_by < threshold.accuracy() );
+            if( firing_stats.n() < 100 )
+            {
                 threshold_within_confidence_interval = true;
             }
         }
-    } while( threshold_within_confidence_interval && firing_stats[0].n() < 10000000 );
+        const double error = firing_stats.margin_of_error();
+        const double avg = firing_stats.avg();
+        //WARN( "Margin of error: "<< error );
+        //WARN( avg+error<< ">"<<threshold.chance()<<">"<<avg-error );
+        if( avg + error > threshold.chance() && avg - error < threshold.chance() )
+        {
+            threshold_within_confidence_interval = true;
+        }
+    } while( threshold_within_confidence_interval && firing_stats.n() < 10000000 );
+    last_sample_size = firing_stats.n();
     return firing_stats;
 }
+
+static std::vector<firing_statistics> firing_test( const dispersion_sources &dispersion,
+                                                   const int range, const std::vector< Threshold > & thresholds )
+{
+    std::vector<firing_statistics> firing_stats;
+    for( const Threshold pear:thresholds )
+    {
+        firing_stats.push_back( firing_test( dispersion, range, pear ) );
+    }
+    return firing_stats;
+}
+
 
 static dispersion_sources get_dispersion( npc &shooter, const int aim_time )
 {
@@ -149,7 +229,7 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
 {
     {
         const dispersion_sources dispersion = get_dispersion( shooter, 0 );
-        std::array<firing_statistics, 5> minimum_stats = firing_test( dispersion, min_quickdraw_range, {{ 0.2, 0.1, -1, -1, -1 }} );
+        std::vector<firing_statistics> minimum_stats = firing_test( dispersion, min_quickdraw_range, { Threshold( accuracy_grazing, 0.2 ),Threshold( accuracy_standard, 0.1 ) } );
         INFO( dispersion );
         INFO( "Range: " << min_quickdraw_range );
         INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
@@ -163,25 +243,25 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
     }
     {
         const dispersion_sources dispersion = get_dispersion( shooter, 300 );
-        std::array<firing_statistics, 5> good_stats = firing_test( dispersion, min_good_range, {{ -1, -1, 0.5, -1, -1 }} );
+        firing_statistics good_stats = firing_test( dispersion, min_good_range, Threshold( accuracy_goodhit, 0.5 ) );
         INFO( dispersion );
         INFO( "Range: " << min_good_range );
         INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
         INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
-        CAPTURE( good_stats[2].n() );
-        CAPTURE( good_stats[2].margin_of_error() );
-        CHECK( good_stats[2].avg() > 0.5 );
+        CAPTURE( good_stats.n() );
+        CAPTURE( good_stats.margin_of_error() );
+        CHECK( good_stats.avg() > 0.5 );
     }
     {
         const dispersion_sources dispersion = get_dispersion( shooter, 500 );
-        std::array<firing_statistics, 5> good_stats = firing_test( dispersion, max_good_range, {{ -1, -1, 0.1, -1, -1 }} );
+        firing_statistics good_stats = firing_test( dispersion, max_good_range, Threshold( accuracy_goodhit, 0.1 ) );
         INFO( dispersion );
         INFO( "Range: " << max_good_range );
         INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
         INFO( "Min aim speed: " << shooter.aim_per_move( shooter.weapon, shooter.recoil ) );
-        CAPTURE( good_stats[2].n() );
-        CAPTURE( good_stats[2].margin_of_error() );
-        CHECK( good_stats[2].avg() < 0.1 );
+        CAPTURE( good_stats.n() );
+        CAPTURE( good_stats.margin_of_error() );
+        CHECK( good_stats.avg() < 0.1 );
     }
 }
 
@@ -190,8 +270,8 @@ static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
     const int fast_shooting_range = 3;
     const float hit_rate_cap = hit_rate + 0.3;
     const dispersion_sources dispersion = get_dispersion( shooter, moves );
-    std::array<firing_statistics, 5> fast_stats = firing_test( dispersion, fast_shooting_range, {{ -1, hit_rate, -1, -1, -1 }} );
-    std::array<firing_statistics, 5> fast_stats_upper = firing_test( dispersion, fast_shooting_range, {{ -1, hit_rate_cap, -1, -1, -1 }} );
+    firing_statistics fast_stats = firing_test( dispersion, fast_shooting_range, Threshold( accuracy_standard, hit_rate ) );
+    firing_statistics fast_stats_upper = firing_test( dispersion, fast_shooting_range, Threshold( accuracy_standard, hit_rate_cap ) );
     INFO( dispersion );
     INFO( "Range: " << fast_shooting_range );
     INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
@@ -200,12 +280,12 @@ static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
     CAPTURE( shooter.get_skill_level( shooter.weapon.gun_skill() ) );
     CAPTURE( shooter.get_dex() );
     CAPTURE( to_milliliter( shooter.weapon.volume() ) );
-    CAPTURE( fast_stats[1].n() );
-    CAPTURE( fast_stats[1].margin_of_error() );
-    CHECK( fast_stats[1].avg() > hit_rate );
-    CAPTURE( fast_stats_upper[1].n() );
-    CAPTURE( fast_stats_upper[1].margin_of_error() );
-    CHECK( fast_stats_upper[1].avg() < hit_rate_cap );
+    CAPTURE( fast_stats.n() );
+    CAPTURE( fast_stats.margin_of_error() );
+    CHECK( fast_stats.avg() > hit_rate );
+    CAPTURE( fast_stats_upper.n() );
+    CAPTURE( fast_stats_upper.margin_of_error() );
+    CHECK( fast_stats_upper.avg() < hit_rate_cap );
 }
 
 static void assert_encumbrance( npc &shooter, int encumbrance )
@@ -303,36 +383,36 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
     }
 }
 
-static void range_test( const std::array<double, 5> &test_thresholds )
+static void range_test( const Threshold &test_threshold, bool write_data = false )
 {
-    int index = 0;
-    for( index = 0; index < static_cast<int>( accuracy_levels.size() ); ++index ) {
-        if( test_thresholds[index] >= 0 ) {
-            break;
-        }
-    }
     // Start at an absurdly high dispersion and count down.
     int prev_dispersion = 6000;
-    for( int r = 1; r <= 60; ++r ) {
+    for( int r = 1; r <= 60; ++r )
+    {
         int found_dispersion = -1;
         // We carry forward prev_dispersion because we never expet the next tier of range to hit the target accuracy level with a lower dispersion.
-        for( int d = prev_dispersion; d >= 0; --d ) {
-            std::array<firing_statistics, 5> stats = firing_test( dispersion_sources( d ), r, test_thresholds );
+        for( int d = prev_dispersion; d >= 0; --d )
+        {
+            firing_statistics stats = firing_test( dispersion_sources( d ), r, test_threshold );
             // Switch this from INFO to WARN to debug the scanning process itself.
-            INFO( "Samples: " << stats[index].n() << " Range: " << r << " Dispersion: " << d <<
-                  " avg hit rate: " << stats[2].avg() );
-            if( stats[index].avg() > test_thresholds[index] ) {
+            INFO( "Samples: " << stats.n() << " Range: " << r << " Dispersion: " << d <<
+                  " avg hit rate: " << stats.avg() );
+            if( stats.avg() > test_threshold.chance() )
+            {
                 found_dispersion = d;
                 prev_dispersion = d;
                 break;
             }
             // The intent here is to skip over dispersion values proportionally to how far from converging we are.
             // As long as we check several adjacent dispersion values before a hit, we're good.
-            d -= int( ( test_thresholds[index] - stats[index].avg() ) * 10 ) * 10;
+            d -= int( ( test_threshold.chance() - stats.avg() ) * 10 ) * 10;
         }
-        if( found_dispersion == -1.0 ) {
+        if( found_dispersion == -1 )
+        {
             WARN( "No matching dispersion found" );
-        } else {
+        }
+        else
+        {
             WARN( "Range: " << r << " Dispersion: " << found_dispersion );
         }
     }
@@ -342,13 +422,17 @@ static void range_test( const std::array<double, 5> &test_thresholds )
 // I don't see any assertions we can make about these thresholds offhand.
 TEST_CASE( "synthetic_range_test", "[.]" )
 {
-    SECTION( "quickdraw thresholds" ) {
-        range_test( {{ 0.1, -1, -1, -1, -1 }} );
+    SECTION( "quickdraw thresholds" )
+    {
+        range_test( Threshold( accuracy_grazing, 0.1 ) );
     }
-    SECTION( "max range thresholds" ) {
-        range_test( {{ -1, -1, 0.1, -1, -1 }} );
+    SECTION( "max range thresholds" )
+    {
+        range_test( Threshold( accuracy_goodhit, 0.1 ) );
     }
-    SECTION( "good hit thresholds" ) {
-        range_test( {{ -1, -1, 0.5, -1, -1 }} );
+    SECTION( "good hit thresholds" )
+    {
+        range_test( Threshold( accuracy_goodhit, 0.5 ), true );
     }
 }
+
