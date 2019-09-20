@@ -257,7 +257,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HEAD",
     "skill_used": "tailor",
-    "time": "45 m",
+    "time": "2 m",
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "rag", 1 ], [ "bandana", 1 ] ], [ [ "hat_hard", 1 ] ] ]
