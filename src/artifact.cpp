@@ -710,9 +710,10 @@ std::string new_artifact()
                 def.create_name( newname.str() );
             }
         }
-        def.description = string_format(
-                              _( "This is the %s.\nIt is the only one of its kind.\nIt may have unknown powers; try activating them." ),
-                              def.nname( 1 ) );
+        def.description = no_translation(
+                              string_format(
+                                  _( "This is the %s.\nIt is the only one of its kind.\nIt may have unknown powers; try activating them." ),
+                                  def.nname( 1 ) ) );
 
         // Finally, pick some powers
         art_effect_passive passive_tmp = AEP_NULL;
@@ -887,7 +888,7 @@ std::string new_artifact()
             }
         }
 
-        def.description = description.str();
+        def.description = no_translation( description.str() );
 
         // Finally, pick some effects
         int num_good = 0;
@@ -939,8 +940,9 @@ std::string new_natural_artifact( artifact_natural_property prop )
     def.m_to_hit = 0;
 
     def.create_name( _( property_data.name ), _( shape_data.name ) );
-    def.description = string_format( pgettext( "artifact description", "This %1$s %2$s." ),
-                                     _( shape_data.desc ), _( property_data.desc ) );
+    def.description = no_translation(
+                          string_format( pgettext( "artifact description", "This %1$s %2$s." ),
+                                         _( shape_data.desc ), _( property_data.desc ) ) );
 
     // Three possibilities: good passive + bad passive, good active + bad active,
     // and bad passive + good active
@@ -1054,7 +1056,9 @@ std::string architects_cube()
         def.item_tags.insert( weapon.tag );
     }
     // Add an extra weapon perhaps?
-    def.description = _( "The architect's cube." );
+    // Most artifact descriptions are generated and stored using `no_translation`,
+    // also do it here for consistency
+    def.description = no_translation( _( "The architect's cube." ) );
     def.artifact->effects_carried.push_back( AEP_SUPER_CLAIRVOYANCE );
     item_controller->add_item_type( static_cast<itype &>( def ) );
     return def.get_id();
@@ -1129,7 +1133,7 @@ void it_artifact_tool::deserialize( JsonObject &jo )
 {
     id = jo.get_string( "id" );
     name = jo.get_string( "name" );
-    description = jo.get_string( "description" );
+    description = no_translation( jo.get_string( "description" ) );
     if( jo.has_int( "sym" ) ) {
         sym = std::string( 1, jo.get_int( "sym" ) );
     } else {
@@ -1244,7 +1248,7 @@ void it_artifact_armor::deserialize( JsonObject &jo )
 {
     id = jo.get_string( "id" );
     name = jo.get_string( "name" );
-    description = jo.get_string( "description" );
+    description = no_translation( jo.get_string( "description" ) );
     if( jo.has_int( "sym" ) ) {
         sym = std::string( 1, jo.get_int( "sym" ) );
     } else {
@@ -1279,7 +1283,8 @@ void it_artifact_armor::deserialize( JsonObject &jo )
 
     jo.read( "covers", armor->covers );
     armor->encumber = jo.get_int( "encumber" );
-    armor->max_encumber = jo.get_int( "max_encumber" );
+    // Old saves don't have max_encumber, so set it to base encumbrance value
+    armor->max_encumber = jo.get_int( "max_encumber", armor->encumber );
     armor->coverage = jo.get_int( "coverage" );
     armor->thickness = jo.get_int( "material_thickness" );
     armor->env_resist = jo.get_int( "env_resist" );
@@ -1336,7 +1341,9 @@ void it_artifact_tool::serialize( JsonOut &json ) const
     // generic data
     json.member( "id", id );
     json.member( "name", name );
-    json.member( "description", description );
+    // Artifact descriptions are always constructed using `no_translation`,
+    // so `translated()` here only retrieves the underlying string
+    json.member( "description", description.translated() );
     json.member( "sym", sym );
     json.member( "color", color );
     json.member( "price", price );
@@ -1390,7 +1397,9 @@ void it_artifact_armor::serialize( JsonOut &json ) const
     // generic data
     json.member( "id", id );
     json.member( "name", name );
-    json.member( "description", description );
+    // Artifact descriptions are always constructed using `no_translation`,
+    // so `translated()` here only retrieves the underlying string
+    json.member( "description", description.translated() );
     json.member( "sym", sym );
     json.member( "color", color );
     json.member( "price", price );

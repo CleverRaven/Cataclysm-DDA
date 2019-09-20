@@ -403,12 +403,13 @@ faction *faction_manager::get( const faction_id &id )
         }
     }
     for( const faction_template &elem : npc_factions::all_templates ) {
+        // id isnt already in factions map, so load in the template.
         if( elem.id == id ) {
             factions[elem.id] = elem;
             if( !factions.empty() ) {
-                factions.rbegin()->second.validated = true;
+                factions[elem.id].validated = true;
             }
-            return &factions.rbegin()->second;
+            return &factions[elem.id];
         }
     }
 
@@ -433,8 +434,7 @@ void basecamp::faction_display( const catacurses::window &fac_w, const int width
                                            yours->food_supply_text(), yours->food_supply );
     nc_color food_col = yours->food_supply_color();
     mvwprintz( fac_w, point( width, ++y ), food_col, food_text );
-    const std::string base_dir = "[B]";
-    std::string bldg = next_upgrade( base_dir, 1 );
+    std::string bldg = next_upgrade( base_camps::base_dir, 1 );
     std::string bldg_full = _( "Next Upgrade : " ) + bldg;
     mvwprintz( fac_w, point( width, ++y ), col, bldg_full );
     std::string requirements = om_upgrade_description( bldg, true );
