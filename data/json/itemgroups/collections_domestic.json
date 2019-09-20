@@ -4,7 +4,7 @@
     "//": "Mundane household items that might be found in or around a shower or bath.",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "rag", 40 ], [ "towel", 30 ], [ "soap", 10 ], [ "bathroom_scale", 20 ] ]
+    "items": [ [ "rag", 40 ], [ "towel", 30 ], [ "soap", 10 ], [ "bathroom_scale", 20 ], [ "sponge", 10 ] ]
   },
   {
     "id": "kitchen_counters",
@@ -61,6 +61,7 @@
       [ "pot_canning", 10 ],
       [ "pot_copper", 25 ],
       [ "iron_pot", 25 ],
+      [ "sponge", 25 ],
       [ "casserole", 25 ],
       [ "stock_pot", 15 ],
       [ "pressure_cooker", 5 ],
