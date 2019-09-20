@@ -1244,7 +1244,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         act == activity_id( "ACT_VEHICLE_REPAIR" ) ) {
         std::vector<int> already_working_indexes;
         for( const npc &guy : g->all_npcs() ) {
-            if( guy.disp_name() == p.disp_name() ) {
+            if( &guy == &p ) {
                 continue;
             }
             if( g->m.getlocal( g->u.activity.placement ) == src_loc ||
