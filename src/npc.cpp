@@ -898,7 +898,7 @@ void npc::finish_read( item &book )
         /** @EFFECT_INT increases reading comprehension */
         // Enhanced Memory Banks modestly boosts experience
         int min_ex = std::max( 1, reading->time / 10 + get_int() / 4 );
-        int max_ex = reading->time /  5 + get_int() / 2 - originalSkillLevel;
+        int max_ex = reading->time / 5 + get_int() / 2 - originalSkillLevel;
         if( has_active_bionic( bio_memory ) ) {
             min_ex += 2;
         }
