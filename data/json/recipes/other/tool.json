@@ -375,6 +375,18 @@
     "components": [ [ [ "colander_steel", 1 ], [ "wire_mesh", 1 ], [ "splatter_guard", 1 ] ] ]
   },
   {
+    "type": "recipe",
+    "result": "sponge",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "components": [ [ [ "rag", 1 ], [ "plastic_chunk", 1 ] ], [ [ "plant_fibre", 200  ] ]
+  },
+  {
     "result": "sieve_primitive",
     "type": "recipe",
     "category": "CC_ARMOR",
