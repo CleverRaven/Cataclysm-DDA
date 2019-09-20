@@ -78,9 +78,9 @@ computer_option::computer_option( const std::string &N, computer_action A, int S
 }
 
 computer::computer( const std::string &new_name, int new_security )
-    : name( new_name ), mission_id( -1 ), security( new_security ),
-      access_denied( _( "ERROR!  Access denied!" ) )
+    : name( new_name ), mission_id( -1 ), security( new_security )
 {
+    access_denied = to_translation( "ERROR!  Access denied!" );
 }
 
 computer::computer( const computer &rhs )
@@ -129,7 +129,7 @@ void computer::add_failure( computer_failure_type failure )
     add_failure( computer_failure( failure ) );
 }
 
-void computer::set_access_denied_msg( const std::string &new_msg )
+void computer::set_access_denied_msg( const translation &new_msg )
 {
     access_denied = new_msg;
 }
@@ -169,7 +169,7 @@ void computer::use()
             reset_terminal();
             return;
         }
-        print_error( access_denied.c_str() );
+        print_error( access_denied.translated().c_str() );
         switch( query_ynq( _( "Bypass security?" ) ) ) {
             case 'q':
             case 'Q':
@@ -312,7 +312,7 @@ std::string computer::save_data() const
         data << static_cast<int>( elem.type ) << ' ';
     }
 
-    data << string_replace( access_denied, " ", "_" ) << ' ';
+    data << string_replace( access_denied.untranslated(), " ", "_" ) << ' ';
 
     return data.str();
 }
@@ -360,7 +360,7 @@ void computer::load_data( const std::string &data )
     // isn't empty. This is to avoid the message becoming blank when people
     // load old saves.
     if( !tmp_access_denied.empty() ) {
-        access_denied = string_replace( tmp_access_denied, "_", " " );
+        access_denied = to_translation( string_replace( tmp_access_denied, "_", " " ) );
     }
 }
 

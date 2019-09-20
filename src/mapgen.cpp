@@ -1504,7 +1504,7 @@ class jmapgen_computer : public jmapgen_piece
 
             // The default access denied message is defined in computer's constructor
             if( !access_denied.empty() ) {
-                cpu->set_access_denied_msg( access_denied.translated() );
+                cpu->set_access_denied_msg( access_denied );
             }
         }
         bool has_vehicle_collision( const mapgendata &dat, int x, int y ) const override {
@@ -4271,7 +4271,8 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                     tmpcomp->add_failure( COMPFAIL_MANHACKS );
                     tmpcomp->add_failure( COMPFAIL_SECUBOTS );
                     tmpcomp->set_access_denied_msg(
-                        _( "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
+                        to_translation(
+                            "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
                     ter_set( point( SEEX - 2, 4 ), t_radio_tower );
                     ter_set( point( SEEX + 1, 4 ), t_radio_tower );
                     ter_set( point( SEEX - 2, 7 ), t_radio_tower );
@@ -4311,7 +4312,8 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                     tmpcomp->add_failure( COMPFAIL_MANHACKS );
                     tmpcomp->add_failure( COMPFAIL_SECUBOTS );
                     tmpcomp->set_access_denied_msg(
-                        _( "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
+                        to_translation(
+                            "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
                 }
                 break;
 
@@ -7291,7 +7293,8 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 tmpcomp->add_failure( COMPFAIL_MANHACKS );
                 tmpcomp->add_failure( COMPFAIL_SECUBOTS );
                 tmpcomp->set_access_denied_msg(
-                    _( "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
+                    to_translation(
+                        "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
 
                 biox = x2 - 2;
                 mapf::formatted_set_simple( m, biox - 1, bioy - 1,
@@ -7310,7 +7313,8 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 tmpcomp2->add_failure( COMPFAIL_MANHACKS );
                 tmpcomp2->add_failure( COMPFAIL_SECUBOTS );
                 tmpcomp2->set_access_denied_msg(
-                    _( "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
+                    to_translation(
+                        "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
             } else {
                 int bioy = y1 + 2;
                 int biox = static_cast<int>( ( x1 + x2 ) / 2 );
@@ -7330,7 +7334,8 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 tmpcomp->add_failure( COMPFAIL_MANHACKS );
                 tmpcomp->add_failure( COMPFAIL_SECUBOTS );
                 tmpcomp->set_access_denied_msg(
-                    _( "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
+                    to_translation(
+                        "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
 
                 bioy = y2 - 2;
                 mapf::formatted_set_simple( m, biox - 1, bioy - 1,
@@ -7348,7 +7353,8 @@ void science_room( map *m, int x1, int y1, int x2, int y2, int z, int rotate )
                 tmpcomp2->add_failure( COMPFAIL_MANHACKS );
                 tmpcomp2->add_failure( COMPFAIL_SECUBOTS );
                 tmpcomp2->set_access_denied_msg(
-                    _( "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
+                    to_translation(
+                        "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
             }
             break;
         case room_dorm:
