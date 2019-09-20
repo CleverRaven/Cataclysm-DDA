@@ -1223,6 +1223,17 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
     return needed_things.obj().can_make_with_inventory( temp_inv, is_crafting_component );
 }
 
+static bool has_skill_for_vehicle_work( std::map<skill_id, int> required_skills, player &p )
+{
+    for( const auto &e : required_skills ) {
+        bool hasSkill = p.get_skill_level( e.first ) >= e.second;
+        if( !hasSkill ) {
+            return false;
+        }
+    }
+    return true;
+}
+
 static activity_reason_info can_do_activity_there( const activity_id &act, player &p,
         const tripoint &src_loc )
 {
@@ -1267,16 +1278,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                         continue;
                     }
                     // dont have skill to remove it
-                    std::map<skill_id, int> removal_skills = vpinfo.removal_skills;
-                    bool no_skill = false;
-                    for( const auto &e : removal_skills ) {
-                        bool hasSkill = p.get_skill_level( e.first ) >= e.second;
-                        if( !hasSkill ) {
-                            no_skill = true;
-                            break;
-                        }
-                    }
-                    if( no_skill ) {
+                    if( !has_skill_for_vehicle_work( vpinfo.removal_skills, p ) ) {
                         continue;
                     }
                     item base( vpinfo.item );
@@ -1293,7 +1295,6 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                         continue;
                     }
                     const auto &reqs = vpinfo.removal_requirements();
-                    const std::string ran_str = random_string( 10 );
                     const inventory &inv = p.crafting_inventory();
                     const bool can_make = reqs.can_make_with_inventory( inv, is_crafting_component );
                     p.set_value( "veh_index_type", vpinfo.name() );
@@ -1323,13 +1324,9 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                                    vpindex ) != already_working_indexes.end() ) {
                         continue;
                     }
-                    // dont have skill to remove it
-                    std::map<skill_id, int> repair_skills = vpinfo.repair_skills;
-                    for( const auto &e : repair_skills ) {
-                        bool hasSkill = p.get_skill_level( e.first ) >= e.second;
-                        if( !hasSkill ) {
-                            continue;
-                        }
+                    // dont have skill to repair it
+                    if( !has_skill_for_vehicle_work( vpinfo.repair_skills, p ) ) {
+                        continue;
                     }
                     const auto &reqs = vpinfo.repair_requirements();
                     const inventory &inv = p.crafting_inventory();
