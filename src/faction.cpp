@@ -403,12 +403,13 @@ faction *faction_manager::get( const faction_id &id )
         }
     }
     for( const faction_template &elem : npc_factions::all_templates ) {
+        // id isnt already in factions map, so load in the template.
         if( elem.id == id ) {
             factions[elem.id] = elem;
             if( !factions.empty() ) {
-                factions.rbegin()->second.validated = true;
+                factions[elem.id].validated = true;
             }
-            return &factions.rbegin()->second;
+            return &factions[elem.id];
         }
     }
 
