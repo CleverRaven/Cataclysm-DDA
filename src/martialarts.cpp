@@ -1095,9 +1095,9 @@ bool player::is_quiet() const
 }
 bool player::is_stealthy() const
 {
-    return search_ma_buff_effect( *effects, []( const ma_buff &b, const effect & ) {
+    return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
         return b.is_stealthy();
-        } );
+    } );
 }
 
 bool player::can_melee() const
