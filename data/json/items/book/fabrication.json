@@ -305,7 +305,7 @@
     "required_level": 7,
     "max_level": 9,
     "intelligence": 8,
-    "time": "10 m"
+    "time": "25 m"
   },
   {
     "id": "textbook_gaswarfare",
@@ -324,7 +324,7 @@
     "required_level": 4,
     "max_level": 7,
     "intelligence": 9,
-    "time": "10 m",
+    "time": "20 m",
     "fun": -2
   },
   {
