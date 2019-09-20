@@ -526,15 +526,7 @@
     "sym": "w",
     "color": "brown",
     "see_cost": 1,
-    "flags": [
-      "SIDEWALK",
-      "SOURCE_FOOD",
-      "SOURCE_DRINK",
-      "SOURCE_SAFETY",
-      "SOURCE_ANIMALS",
-      "RISK_LOW",
-      "SOURCE_FARMING"
-    ]
+    "flags": [ "SIDEWALK", "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_SAFETY", "SOURCE_ANIMALS", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
     "id": "dairy_farm_NE",
