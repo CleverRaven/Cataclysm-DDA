@@ -3,12 +3,20 @@
     "id": "sugarkin_flyer",
     "type": "BOOK",
     "name": "SugarKin flyer",
-    "description": " \"SugarKin the first life-size human candy!  Are you a real monster?  Will you be able to devour it?\"\n On the back of the flyer you can see some hastily scribbled words:\n \"Hello my child and welcome to this world.  A world where you'll be able to thrive if you follow a few rules: \n1) Never ever get into contact with water, it would melt you!  \n2) Avoid humans wiht clear eyes they are very dangerous! (You can ignore the ones with black eyes they are harmless to you.)  \n3) Learn how to make caramel ointement, it's the only way to fix your body if you get hurt.\n There's many more things I'd like to tell you but I must leave before it's too late. I've made you a friend to keep you company, be kind to it. \n I love you,\n - F. \".",
+    "description": "A flyer for some kind of candy.  It shows a picture of a gliming human made of smooth candy looking at you in terror.  \"SugarKin the first life-size human candy!  Are you a real monster?  Will you be able to devour it?\"\n On the back of the flyer you can see some hastily scribbled words:\n \"Hello my child and welcome to this world.  A world where you'll be able to thrive if you follow a few rules: \n1) Never ever get into contact with water, it would melt you!  \n2) Avoid humans wiht clear eyes they are very dangerous! (You can ignore the ones with black eyes they are harmless to you.)  \n3) Learn how to make caramel ointement, it's the only way to fix your body if you get hurt.\n There's many more things I'd like to tell you but I must leave before it's too late. I've made you a friend to keep you company, be kind to it. \n I love you,\n - F. \".",
     "weight": "3 g",
     "volume": 0,
     "price": 0,
     "material": [ "paper" ],
     "symbol": "/",
     "color": "pink"
+  },
+  {
+    "id": "sugarkin_flyer_norm",
+    "type": "BOOK",
+    "name": "SugarKin flyer",
+    "description": " \"SugarKin the first life-size human candy!  Are you a real monster?  Will you be able to devour it?\"",
+    "copy_from": "sugarkin_flyer",
+    "symbol": "/"
   }
 ]

@@ -7,7 +7,7 @@
     "points": 5,
     "traits": [ "SUGAR" ],
     "pets": [ { "name": "mon_necco", "amount": 1 } ],
-    "items": { "both": { "items": [ "sugarkin_flyer" ] } },
+    "items": { "both": { "entries": [ { "item": "sugarkin_flyer", "custom-flags": [ "auto_wield" ] } ] } },
     "flags": [ "SCEN_ONLY" ]
   }
 ]
