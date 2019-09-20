@@ -160,22 +160,21 @@ void iuse_transform::load( JsonObject &obj )
 
     obj.read( "need_fire", need_fire );
     need_fire = std::max( need_fire, 0 );
-    need_charges_msg = obj.has_string( "need_charges_msg" ) ? _
-                       ( obj.get_string( "need_charges_msg" ) ) : _( "The %s is empty!" );
+    if( !obj.read( "need_charges_msg", need_charges_msg ) ) {
+        need_charges_msg = to_translation( "The %s is empty!" );
+    }
 
     obj.read( "need_charges", need_charges );
     need_charges = std::max( need_charges, 0 );
-    need_fire_msg = obj.has_string( "need_fire_msg" ) ? _( obj.get_string( "need_fire_msg" ) ) :
-                    _( "You need a source of fire!" );
+    if( !obj.read( "need_fire_msg", need_fire_msg ) ) {
+        need_fire_msg = to_translation( "You need a source of fire!" );
+    }
 
     obj.read( "need_worn", need_worn );
 
     obj.read( "qualities_needed", qualities_needed );
 
     obj.read( "menu_text", menu_text );
-    if( !menu_text.empty() ) {
-        menu_text = _( menu_text );
-    }
 }
 
 int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) const
@@ -210,7 +209,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     }
 
     if( possess && !msg_transform.empty() ) {
-        p.add_msg_if_player( m_neutral, _( msg_transform ), it.tname() );
+        p.add_msg_if_player( m_neutral, msg_transform, it.tname() );
     }
 
     if( possess ) {
@@ -278,7 +277,7 @@ ret_val<bool> iuse_transform::can_use( const player &p, const item &, bool,
 std::string iuse_transform::get_name() const
 {
     if( !menu_text.empty() ) {
-        return menu_text;
+        return menu_text.translated();
     }
     return iuse_actor::get_name();
 }

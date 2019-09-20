@@ -1799,7 +1799,7 @@ void Item_factory::load( islot_seed &slot, JsonObject &jo, const std::string & )
 {
     assign( jo, "grow", slot.grow, false, 1_days );
     slot.fruit_div = jo.get_int( "fruit_div", 1 );
-    slot.plant_name = _( jo.get_string( "plant_name" ) );
+    jo.read( "plant_name", slot.plant_name );
     slot.fruit_id = jo.get_string( "fruit" );
     slot.spawn_seeds = jo.get_bool( "seeds", true );
     slot.byproducts = jo.get_string_array( "byproducts" );

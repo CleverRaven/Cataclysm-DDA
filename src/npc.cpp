@@ -190,21 +190,20 @@ static std::map<string_id<npc_template>, npc_template> npc_templates;
 
 void npc_template::load( JsonObject &jsobj )
 {
-    npc guy;
+    npc_template tem;
+    npc &guy = tem.guy;
     guy.idz = jsobj.get_string( "id" );
     guy.name.clear();
-    if( jsobj.has_string( "name_unique" ) ) {
-        guy.name = static_cast<std::string>( _( jsobj.get_string( "name_unique" ) ) );
-    }
-    if( jsobj.has_string( "name_suffix" ) ) {
-        guy.name += ", " + static_cast<std::string>( _( jsobj.get_string( "name_suffix" ) ) );
-    }
+    jsobj.read( "name_unique", tem.name_unique );
+    jsobj.read( "name_suffix", tem.name_suffix );
     if( jsobj.has_string( "gender" ) ) {
         if( jsobj.get_string( "gender" ) == "male" ) {
-            guy.male = true;
+            tem.gender_override = gender::male;
         } else {
-            guy.male = false;
+            tem.gender_override = gender::female;
         }
+    } else {
+        tem.gender_override = gender::random;
     }
     if( jsobj.has_string( "faction" ) ) {
         guy.set_fac_id( jsobj.get_string( "faction" ) );
@@ -227,7 +226,7 @@ void npc_template::load( JsonObject &jsobj )
             guy.miss_ids.emplace_back( mission_type_id( ja.next_string() ) );
         }
     }
-    npc_templates[string_id<npc_template>( guy.idz )].guy = std::move( guy );
+    npc_templates.emplace( string_id<npc_template>( guy.idz ), std::move( tem ) );
 }
 
 void npc_template::reset()
@@ -270,18 +269,21 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
         debugmsg( "Tried to get invalid npc: %s", ident.c_str() );
         return;
     }
-    const npc &tguy = found->second.guy;
+    const npc_template &tem = found->second;
+    const npc &tguy = tem.guy;
 
     idz = tguy.idz;
     myclass = npc_class_id( tguy.myclass );
     randomize( myclass );
-    std::string tmpname = tguy.name;
-    if( tmpname[0] == ',' ) {
-        name = name + tguy.name;
-    } else {
-        name = tguy.name;
-        //Assume if the name is unique, the gender might also be.
-        male = tguy.male;
+    if( !tem.name_unique.empty() ) {
+        name = tem.name_unique.translated();
+    }
+    if( !tem.name_suffix.empty() ) {
+        //~ %1$s: npc name, %2$s: name suffix
+        name = string_format( pgettext( "npc name", "%1$s, %2$s" ), name, tem.name_suffix );
+    }
+    if( tem.gender_override != npc_template::gender::random ) {
+        male = tem.gender_override == npc_template::gender::male;
     }
     fac_id = tguy.fac_id;
     set_fac( fac_id );
