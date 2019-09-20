@@ -533,6 +533,7 @@
       [ "soap", 30 ],
       [ "detergent", 30 ],
       [ "rag", 30 ],
+      [ "sponge", 20 ],
       [ "bleach", 30 ],
       [ "vinegar", 30 ],
       [ "backpack", 5 ]
