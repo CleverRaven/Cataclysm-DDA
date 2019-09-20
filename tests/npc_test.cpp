@@ -181,7 +181,7 @@ TEST_CASE( "snippet-tag-test" )
             "<keep_up>", "<yawn>", "<very>",
             "<okay>", "<really>",
             "<let_me_pass>", "<done_mugging>", "<happy>",
-            "<swear>", "<lets_talk>",
+            "<drop_it>", "<swear>", "<lets_talk>",
             "<hands_up>", "<move>", "<hungry>",
             "<fuck_you>",
         }
