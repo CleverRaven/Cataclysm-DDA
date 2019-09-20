@@ -1074,6 +1074,40 @@
   },
   {
     "type": "technique",
+    "id": "tec_ninjutsu_swift",
+    "name": "Swift Strike",
+    "messages": [ "You swiftly strike %s", "<npcname> swiftly strikes %s" ],
+    "min_melee": 2,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.8 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_ninjutsu_precise",
+    "name": "Assassinate",
+    "messages": [ "You attempt to slay %s in a single stroke", "<npcname> attempts to slay %s in a single stroke" ],
+    "min_melee": 5,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ], [ "damage", "stab", 1.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_ninjutsu_takedown",
+    "name": "Ninjutsu Takedown",
+    "messages": [ "You quickly grab and bring %s to the ground", "<npcname> quickly grabs and brings attacks %s to the ground" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "down_dur": 2,
+    "stun_dur": 2,
+    "mult_bonuses": [ [ "damage", "bash", 2.0 ] ]
+  },
+  {
+    "type": "technique",
     "id": "tec_pankration_kick",
     "name": "kick",
     "min_unarmed": 3,
@@ -1160,19 +1194,6 @@
     "crit_tec": true,
     "stun_dur": 2,
     "messages": [ "You strike %s", "<npcname> strikes %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_ninjutsu_precise",
-    "name": "surprise attack",
-    "min_unarmed": 3,
-    "min_melee": 3,
-    "unarmed_allowed": true,
-    "melee_allowed": true,
-    "crit_tec": true,
-    "messages": [ "You surprise attack %s", "<npcname> surprise attacks %s" ],
-    "stun_dur": 2,
-    "mult_bonuses": [ [ "damage", "bash", 1.4 ], [ "damage", "cut", 2 ] ]
   },
   {
     "type": "technique",

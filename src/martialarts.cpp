@@ -167,6 +167,7 @@ void ma_buff::load( JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "quiet", quiet, false );
     optional( jo, was_loaded, "throw_immune", throw_immune, false );
+    optional( jo, was_loaded, "stealthy", stealthy, false );
 
     reqs.load( jo, src );
     bonuses.load( jo );
@@ -599,6 +600,10 @@ bool ma_buff::is_quiet() const
 {
     return quiet;
 }
+bool ma_buff::is_stealthy() const
+{
+    return stealthy;
+}
 
 bool ma_buff::can_melee() const
 {
@@ -647,6 +652,10 @@ std::string ma_buff::get_description( bool passive ) const
 
     if( quiet ) {
         dump << _( "* Attacks will be completely <info>silent</info>" ) << std::endl;
+    }
+
+    if( stealthy ) {
+        dump << _( "* Movement will make <info>less noise</info>" ) << std::endl;
     }
 
     return dump.str();
@@ -1083,6 +1092,12 @@ bool player::is_quiet() const
     return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
         return b.is_quiet();
     } );
+}
+bool player::is_stealthy() const
+{
+    return search_ma_buff_effect( *effects, []( const ma_buff &b, const effect & ) {
+        return b.is_stealthy();
+        } );
 }
 
 bool player::can_melee() const

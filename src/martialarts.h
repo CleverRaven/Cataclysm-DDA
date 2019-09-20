@@ -159,6 +159,7 @@ class ma_buff
         bool is_throw_immune() const;
         bool is_quiet() const;
         bool can_melee() const;
+        bool is_stealthy() const;
 
         // The ID of the effect that is used to store this buff
         efftype_id get_effect_id() const;
@@ -189,6 +190,7 @@ class ma_buff
         bool throw_immune; // are we immune to throws/grabs?
         bool strictly_unarmed; // can we use unarmed weapons?
         bool strictly_melee; // can we use it without weapons?
+        bool stealthy; // do we make less noise when moving?
 
         void load( JsonObject &jo, const std::string &src );
 };
