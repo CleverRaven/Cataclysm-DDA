@@ -284,6 +284,11 @@ void spell_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "base_casting_time", base_casting_time, 0 );
     optional( jo, was_loaded, "final_casting_time", final_casting_time, base_casting_time );
     optional( jo, was_loaded, "casting_time_increment", casting_time_increment, 0.0f );
+
+    JsonObject learning = jo.get_object( "learn_spells" );
+    for( std::string n : learning.get_member_names() ) {
+        learn_spells.insert( std::pair<std::string, int>( n, learning.get_int( n ) ) );
+    }
 }
 
 static bool spell_infinite_loop_check( std::set<spell_id> spell_effects, const spell_id &sp )
@@ -1709,4 +1714,32 @@ spell fake_spell::get_spell( const int level_override ) const
         sp.gain_level();
     }
     return sp;
+}
+
+void spell_events::notify( const cata::event &e )
+{
+    switch( e.type() ) {
+        case event_type::player_levels_spell: {
+            spell_id sid = e.get<spell_id>( "spell" );
+            int slvl = e.get<int>( "new_level" );
+            spell_type spell_cast = spell_factory.obj( sid );
+            for( std::map<std::string, int>::iterator it = spell_cast.learn_spells.begin();
+                 it != spell_cast.learn_spells.end(); ++it ) {
+                std::string learn_spell_id = it->first;
+                int learn_at_level = it->second;
+                if( learn_at_level == slvl ) {
+                    g->u.magic.learn_spell( learn_spell_id, g->u );
+                    spell_type spell_learned = spell_factory.obj( spell_id( learn_spell_id ) );
+                    add_msg(
+                        _( "Your experience and knowledge in creating and manipulating magical energies to cast %s have opened your eyes to new possibilities, you can now cast %s." ),
+                        spell_cast.name,
+                        spell_learned.name );
+                }
+            }
+            break;
+        }
+        default:
+            break;
+
+    }
 }

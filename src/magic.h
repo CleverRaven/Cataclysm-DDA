@@ -16,6 +16,7 @@
 #include "ui.h"
 #include "string_id.h"
 #include "translations.h"
+#include "event_bus.h"
 
 struct tripoint;
 class Creature;
@@ -96,6 +97,12 @@ struct fake_spell {
     void load( JsonObject &jo );
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
+};
+
+class spell_events : public event_subscriber
+{
+    public:
+        void notify( const cata::event & ) override;
 };
 
 class spell_type
@@ -209,6 +216,9 @@ class spell_type
         // max or min casting time
         int final_casting_time;
 
+        // Does leveling this spell lead to learning another spell?
+        std::map<std::string, int> learn_spells;
+
         // what energy do you use to cast this spell
         energy_type energy_source;
 
@@ -239,6 +249,7 @@ class spell_type
 class spell
 {
     private:
+        friend class spell_events;
         // basic spell data
         spell_id type;
 
