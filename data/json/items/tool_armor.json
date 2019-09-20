@@ -2730,5 +2730,36 @@
     "revert_to": "foodperson_mask",
     "use_action": "FOODPERSON",
     "flags": [ "OUTER", "SUN_GLASSES", "NO_TAKEOFF", "LIGHT_10", "WATCH", "NO_UNLOAD" ]
+  },
+  {
+    "id": "attached_ear_plugs_on",
+    "type": "ARMOR",
+    "name": "pair of attached ear plugs (in)",
+    "name_plural": "pairs of attached ear plugs (in)",
+    "description": "A pair of industrial grade ear plugs attached together by some string.  They are inside your ears, activate them to take them out.",
+    "copy-from": "ear_plugs",
+    "use_action": {
+      "type": "transform",
+      "msg": "You take the ear plugs out.",
+      "target": "attached_ear_plugs_off",
+      "menu_text": "Unplug",
+      "need_worn": true
+    }
+  },
+  {
+    "id": "attached_ear_plugs_off",
+    "type": "ARMOR",
+    "name": "pair of attached ear plugs (out)",
+    "name_plural": "pairs of attached ear plugs (out)",
+    "description": "A pair of industrial grade ear plugs, they are attached together by some string.  They hang around your neck, use them to plug them in.",
+    "copy-from": "attached_ear_plugs_on",
+    "use_action": {
+      "type": "transform",
+      "msg": "You plug up your ears.",
+      "target": "attached_ear_plugs_on",
+      "menu_text": "Plug in",
+      "need_worn": true
+    },
+    "delete": { "flags": [ "DEAF" ] }
   }
 ]
