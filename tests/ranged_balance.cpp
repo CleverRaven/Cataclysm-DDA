@@ -405,10 +405,11 @@ static void range_test( const Threshold &test_threshold, bool write_data = false
             }
             // The intent here is to skip over dispersion values proportionally to how far from converging we are.
             // As long as we check several adjacent dispersion values before a hit, we're good.
-            d -= int( ( test_threshold.chance() - stats.avg()  ) * 10 ) * 10;
+            //d -= int( ( test_threshold.chance() - stats.avg()  ) * 10 ) * 10;
+            
             //The current implementation works poorly on low numbers -
             //It never skips dispersion values when test_threshold.chance() is accuracy_grazing (0.1)
-            //d -= int( ( 1 - ( stats.avg() / test_threshold.chance() ) ) * 10 ) * 10;
+            d -= int( ( 1 - ( stats.avg() / test_threshold.chance() ) ) * 10 ) * 10;
         }
         if( found_dispersion == -1 )
         {
