@@ -1404,9 +1404,6 @@
     "skill_used": "fabrication",
     "time": "10 s",
     "autolearn": true,
-    "components": [
-      [ [ "ear_plugs", 1 ] ],
-      [ [ "filament", 100, "LIST" ], [ "cordage_short", 2, "LIST" ] ]
-    ]
+    "components": [ [ [ "ear_plugs", 1 ] ], [ [ "filament", 100, "LIST" ], [ "cordage_short", 2, "LIST" ] ] ]
   }
 ]
