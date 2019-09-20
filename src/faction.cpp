@@ -377,7 +377,7 @@ faction *faction_manager::add_new_faction( const std::string &name_new, const fa
     return ret ? ret : nullptr;
 }
 
-faction *faction_manager::get( const faction_id &id )
+faction *faction_manager::get( const faction_id &id, const bool complain )
 {
     for( auto &elem : factions ) {
         if( elem.first == id ) {
@@ -412,8 +412,10 @@ faction *faction_manager::get( const faction_id &id )
             return &factions[elem.id];
         }
     }
-
-    debugmsg( "Requested non-existing faction '%s'", id.str() );
+    // Sometimes we add new IDs to the map, sometimes we want to check if its already there.
+    if( complain ) {
+        debugmsg( "Requested non-existing faction '%s'", id.str() );
+    }
     return nullptr;
 }
 

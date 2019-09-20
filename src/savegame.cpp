@@ -1627,11 +1627,11 @@ void faction_manager::deserialize( JsonIn &jsin )
             faction add_fac;
             add_fac.id = faction_id( jsin.get_member_name() );
             jsin.read( add_fac );
-            faction *old_fac = get( add_fac.id );
+            faction *old_fac = get( add_fac.id, false );
             if( old_fac ) {
                 *old_fac = add_fac;
                 // force a revalidation of add_fac
-                get( add_fac.id );
+                get( add_fac.id, false );
             } else {
                 factions[add_fac.id] = add_fac;
             }
@@ -1642,11 +1642,11 @@ void faction_manager::deserialize( JsonIn &jsin )
         while( !jsin.end_array() ) {
             faction add_fac;
             jsin.read( add_fac );
-            faction *old_fac = get( add_fac.id );
+            faction *old_fac = get( add_fac.id, false );
             if( old_fac ) {
                 *old_fac = add_fac;
                 // force a revalidation of add_fac
-                get( add_fac.id );
+                get( add_fac.id, false );
             } else {
                 factions[add_fac.id] = add_fac;
             }

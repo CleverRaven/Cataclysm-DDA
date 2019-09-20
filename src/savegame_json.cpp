@@ -1982,7 +1982,13 @@ void item::io( Archive &archive )
         making = &recipe_id( id ).obj();
     };
     const auto load_owner = [this]( const std::string & id ) {
-        owner = g->faction_manager_ptr->get( faction_id( id ) );
+        owner = g->faction_manager_ptr->get( faction_id( id ), false );
+        if( !owner && !id.empty() ) {
+            // this is a dynamic faction and therefore not loaded yet.
+            // create a stub to be filled in later when factions deserialize.
+            owner = g->faction_manager_ptr->add_new_faction( "temp_name", faction_id( id ),
+                    faction_id( "no_faction" ) );
+        }
     };
 
     archive.template io<const itype>( "typeid", type, load_type, []( const itype & i ) {
@@ -2478,13 +2484,25 @@ void vehicle::deserialize( JsonIn &jsin )
     std::string temp_old_id;
     data.read( "owner", temp_id );
     if( !temp_id.empty() ) {
-        owner = g->faction_manager_ptr->get( faction_id( temp_id ) );
+        owner = g->faction_manager_ptr->get( faction_id( temp_id ), false );
+        if( !owner ) {
+            // this is a dynamic faction and therefore not loaded yet.
+            // create a stub to be filled in later when factions deserialize.
+            owner = g->faction_manager_ptr->add_new_faction( "temp_name", faction_id( temp_id ),
+                    faction_id( "no_faction" ) );
+        }
     } else {
         owner = nullptr;
     }
     data.read( "old_owner", temp_old_id );
     if( !temp_old_id.empty() ) {
-        old_owner = g->faction_manager_ptr->get( faction_id( temp_old_id ) );
+        old_owner = g->faction_manager_ptr->get( faction_id( temp_old_id ), false );
+        if( !old_owner ) {
+            // this is a dynamic faction and therefore not loaded yet.
+            // create a stub to be filled in later when factions deserialize.
+            old_owner = g->faction_manager_ptr->add_new_faction( "temp_name", faction_id( temp_old_id ),
+                        faction_id( "no_faction" ) );
+        }
     } else {
         old_owner = nullptr;
     }
@@ -2770,6 +2788,7 @@ void faction::deserialize( JsonIn &jsin )
     JsonObject jo = jsin.get_object();
 
     jo.read( "id", id );
+    jo.read( "name", name );
     jo.read( "likes_u", likes_u );
     jo.read( "respects_u", respects_u );
     jo.read( "known_by_u", known_by_u );
@@ -2792,6 +2811,7 @@ void faction::serialize( JsonOut &json ) const
     json.start_object();
 
     json.member( "id", id );
+    json.member( "name", name );
     json.member( "likes_u", likes_u );
     json.member( "respects_u", respects_u );
     json.member( "known_by_u", known_by_u );
