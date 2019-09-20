@@ -892,6 +892,7 @@ class game
         pimpl<stats_tracker> stats_tracker_ptr;
         pimpl<kill_tracker> kill_tracker_ptr;
         pimpl<memorial_logger> memorial_logger_ptr;
+        pimpl<spell_events> spell_events_ptr;
 
     public:
         /** Make map a reference here, to avoid map.h in game.h */
@@ -903,6 +904,7 @@ class game
         event_bus &events();
         stats_tracker &stats();
         memorial_logger &memorial();
+        spell_events &spell_events_subscriber();
 
         pimpl<Creature_tracker> critter_tracker;
         pimpl<faction_manager> faction_manager_ptr;

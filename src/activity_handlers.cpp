@@ -4394,7 +4394,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     if( level_override == -1 ) {
         if( !casting.is_max_level() ) {
             // reap the reward
-            if( casting.get_level() == 0 ) {
+            int old_level = casting.get_level();
+            if( old_level == 0 ) {
                 casting.gain_level();
                 p->add_msg_if_player( m_good,
                                       _( "Something about how this spell works just clicked!  You gained a level!" ) );
@@ -4402,6 +4403,9 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 casting.gain_exp( exp_gained );
                 p->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
                                       casting.xp() );
+            }
+            if( casting.get_level() != old_level ) {
+                g->events().send<event_type::player_levels_spell>( casting.id(), casting.get_level() );
             }
         }
     }
