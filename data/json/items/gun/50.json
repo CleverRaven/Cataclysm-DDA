@@ -85,5 +85,31 @@
     "magazines": [  ],
     "relative": { "weight": -21500, "volume": -6, "price": -1210000, "ranged_damage": -4, "dispersion": 60, "barrel_length": -1 },
     "flags": [ "RELOAD_EJECT" ]
+  },
+  {
+    "id": "as50",
+    "copy-from": "rifle_base",
+    "type": "GUN",
+    "name": "AI AS50",
+    "description": ".50 caliber anti-material rifle made by Accuracy International. with high accuracy for long range target and high fire rate, this weapon is still being used by Greek national guard.",
+    "weight": "14000 g",
+    "volume": "3500 ml",
+    "price": 1500000,
+    "to-hit": -1,
+    "bashing": 13,
+    "material": "steel",
+    "ammo": "50",
+    "range": 45,
+    "ranged_damage": -5,
+    "dispersion": 80,
+    "durability": 7,
+    "reload": 400,
+    "barrel_length": 5,
+    "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
+    "magazine_well": 1,
+    "magazines": [ [ "50", [ "m107a1mag" ] ] ],
+    "flags": [ "NEVER_JAMS" ]
   }
 ]
+    
+  
