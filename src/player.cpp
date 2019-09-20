@@ -5452,7 +5452,7 @@ void player::suffer()
         if( !weapon.has_flag( "RAIN_PROTECT" ) ) {
             //calculate total coverage of skin
             body_part_set affected_bp { {
-                    bp_leg_l, bp_leg_r, bp_torso, bp_head, bp_arm_l,
+                    bp_leg_l, bp_leg_r, bp_torso, bp_head, bp_mouth, bp_arm_l,
                     bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r
                 }
             };
@@ -5495,49 +5495,23 @@ void player::suffer()
                 }
             }
             if( count_affected_bp > 0 && max_affected_bp != num_bp ) {
-                std::string bp_name;
-                switch( max_affected_bp ) {
-                    case bp_head:
-                        bp_name = _( "head" );
-                        break;
-                    case bp_torso:
-                        bp_name = _( "torso" );
-                        break;
-                    case bp_arm_l:
-                        bp_name = _( "left arm" );
-                        break;
-                    case bp_arm_r:
-                        bp_name = _( "right arm" );
-                        break;
-                    case bp_hand_l:
-                        bp_name = _( "left hand" );
-                        break;
-                    case bp_hand_r:
-                        bp_name = _( "right hand" );
-                        break;
-                    case bp_leg_l:
-                        bp_name = _( "left leg" );
-                        break;
-                    case bp_leg_r:
-                        bp_name = _( "right leg" );
-                        break;
-                    case bp_foot_l:
-                        bp_name = _( "left foot" );
-                        break;
-                    case bp_foot_r:
-                        bp_name = _( "right foot" );
-                        break;
-                    default:
-                        debugmsg( "Albino: not handled body part: %d", max_affected_bp );
-                        bp_name = _( "skin" );
-                        break;
+                //Check if both arms/legs are affected
+                int parts_count = 1;
+                body_part other_bp = static_cast<body_part>( bp_aiOther[max_affected_bp] );
+                body_part other_bp_rev = static_cast<body_part>( bp_aiOther[other_bp] );
+                if( other_bp != other_bp_rev ) {
+                    const auto found = open_percent.find( other_bp );
+                    if( found != open_percent.end() && found->second > 0 ) {
+                        ++parts_count;
+                    }
                 }
-
-                if( count_affected_bp > 1 ) {
-                    bp_name += _( " and other body parts" );
+                std::string bp_name = body_part_name( max_affected_bp, parts_count );
+                if( count_affected_bp > parts_count ) {
+                    bp_name = string_format( _( "%s and other body parts" ), bp_name );
                 }
+                add_msg_if_player( m_bad, _( "The sunlight is really irritating your %s." ), bp_name );
 
-                add_msg_if_player( m_bad, _( "The sunlight is really irritating your %s. " ), bp_name );
+                //apply effects
                 if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
                     wake_up();
                 }
