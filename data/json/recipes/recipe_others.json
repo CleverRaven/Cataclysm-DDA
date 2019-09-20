@@ -4349,6 +4349,17 @@
   },
   {
     "type": "recipe",
+    "result": "washcloth",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "reversible": true,
+    "time": "1 s",
+    "autolearn": true,
+    "components": [ [ [ "rag", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "ash",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",

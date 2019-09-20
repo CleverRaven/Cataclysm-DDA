@@ -4858,6 +4858,19 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
+    "id": "washcloth",
+    "type": "TOOL",
+    "name": "washcloth",
+    "description": "A piece of cloth that can be used for cleaning impervious surfaces.",
+    "weight": "80 g",
+    "volume": "250 ml",
+    "price": 0,
+    "material": "cotton",
+    "symbol": ",",
+    "color": "white",
+    "use_action": "WASH_HARD_ITEMS",
+  },
+  {
     "id": "wash_kit",
     "type": "TOOL",
     "name": "washing kit",
