@@ -28,7 +28,7 @@
     "description": "Pile of chipped wood pieces.  You can move it with a shovel.",
     "color": "brown",
     "move_cost_mod": 6,
-    "max_volume": "750 L",
+    "max_volume": 3000,
     "required_str": -1,
     "flags": [
       "TRANSPARENT",

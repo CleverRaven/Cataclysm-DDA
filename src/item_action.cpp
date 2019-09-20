@@ -221,6 +221,10 @@ void game::item_action_menu()
     if( u.has_active_bionic( bionic_id( "bio_tools" ) ) ) {
         pseudos.push_back( &toolset );
     }
+    item bio_claws( "bio_claws_weapon", calendar::turn );
+    if( u.has_active_bionic( bionic_id( "bio_claws" ) ) ) {
+        pseudos.push_back( &bio_claws );
+    }
 
     item_action_map iactions = gen.map_actions_to_items( u, pseudos );
     if( iactions.empty() ) {

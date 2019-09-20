@@ -1,80 +1,138 @@
 [
   {
     "type": "overmap_terrain",
+    "id": "s_electronicstore",
+    "name": "electronics store",
+    "copy-from": "generic_city_building",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_electronicstore_2ndfloor",
+    "name": "electronics store",
+    "copy-from": "s_electronicstore",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_gunstore",
     "name": "gun store",
-    "sym": "g",
-    "color": "red",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "copy-from": "generic_city_building",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gunstore_2ndfloor",
+    "name": "gun store",
+    "copy-from": "s_gunstore"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gunstore_roof",
+    "name": "gun store",
+    "copy-from": "s_gunstore"
   },
   {
     "type": "overmap_terrain",
     "id": "s_diner",
     "name": "diner",
+    "copy-from": "generic_city_building",
     "sym": "d",
-    "color": "green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_diner_2ndfloor",
+    "name": "diner",
+    "copy-from": "s_diner"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_diner_roof",
+    "name": "diner",
+    "copy-from": "s_diner"
   },
   {
     "type": "overmap_terrain",
     "id": "s_apt",
     "name": "apartment",
+    "copy-from": "generic_city_building",
     "sym": "A",
-    "color": "light_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_apt_2ndfloor",
+    "name": "apartment",
+    "copy-from": "s_apt"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_apt_roof",
+    "name": "apartment",
+    "copy-from": "s_apt"
   },
   {
     "type": "overmap_terrain",
     "id": "s_apt_2",
     "name": "apartment",
+    "copy-from": "generic_city_building",
     "sym": "A",
-    "color": "light_green",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "color": "light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_apt_2_2ndfloor",
+    "name": "apartment",
+    "copy-from": "s_apt_2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_apt_2_roof",
+    "name": "apartment",
+    "copy-from": "s_apt_2"
   },
   {
     "type": "overmap_terrain",
     "id": "s_cardealer",
     "name": "dealership",
+    "copy-from": "generic_city_building",
     "sym": "0",
-    "color": "blue",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_cardealer_roof",
+    "name": "dealership",
+    "copy-from": "s_cardealer"
   },
   {
     "type": "overmap_terrain",
     "id": "s_camping",
     "name": "outdoorsman's store",
+    "copy-from": "generic_city_building",
     "sym": "o",
-    "color": "brown",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_camping_roof",
+    "name": "outdoorsman's store",
+    "copy-from": "s_camping"
   },
   {
     "type": "overmap_terrain",
     "id": "s_games",
     "name": "gaming store",
+    "copy-from": "generic_city_building",
     "sym": "g",
-    "color": "cyan",
-    "see_cost": 5,
-    "extras": "build",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_games_roof",
+    "name": "gaming store",
+    "copy-from": "s_games"
   },
   {
     "type": "overmap_terrain",

@@ -31,7 +31,7 @@ class activity_type
     private:
         activity_id id_;
         bool rooted_ = false;
-        translation verb_ = translation( "THIS IS A BUG" );
+        translation verb_ = to_translation( "THIS IS A BUG" );
         bool suspendable_ = true;
         based_on_type based_on_ = based_on_type::SPEED;
         bool no_resume_ = false;

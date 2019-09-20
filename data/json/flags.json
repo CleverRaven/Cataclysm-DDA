@@ -6,6 +6,10 @@
     "info": "This gear has <info>cloaking tech</info> that will <good>make you invisible</good> when active, at the cost of <info>power from a UPS</info>."
   },
   {
+    "id": "EFFECT_INVISIBLE",
+    "type": "json_flag"
+  },
+  {
     "id": "ALARMCLOCK",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -63,6 +67,10 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Blinds the wearer while worn, and provides nominal protection vs flashbang flashes.",
     "info": "This gear <bad>prevents</bad> you from <info>seeing</info> anything."
+  },
+  {
+    "id": "EFFECT_NIGHT_VISION",
+    "type": "json_flag"
   },
   {
     "id": "BLOCK_WHILE_WORN",
@@ -642,5 +650,47 @@
     "type": "json_flag",
     "context": [ "SPELL" ],
     "description": "This spell requires focus to cast.  The lower your focus, the higher failure rate to cast."
+  },
+  {
+    "id": "NON_THRESH",
+    "type": "json_flag",
+    "context": [ "mutation" ],
+    "description": "This mutation does not count toward thresholds at all."
+  },
+  {
+    "id": "EFFECT_FEATHER_FALL",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_BIO_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_BASH_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_CUT_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_ACID_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_STAB_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_HEAT_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_COLD_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "ELECTRIC_IMMUNE",
+    "type": "json_flag"
   }
 ]

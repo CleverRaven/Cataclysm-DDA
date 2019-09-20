@@ -7,11 +7,13 @@
 #include <memory>
 #include <set>
 
+#include "activity_handlers.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "debug.h"
 #include "game.h"
+#include "event_bus.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -51,6 +53,8 @@ struct itype;
 
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 
+const skill_id skill_survival( "survival" );
+
 const efftype_id effect_allow_sleep( "allow_sleep" );
 const efftype_id effect_asked_for_item( "asked_for_item" );
 const efftype_id effect_asked_personal_info( "asked_personal_info" );
@@ -64,6 +68,10 @@ const efftype_id effect_infected( "infected" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_pet( "pet" );
+const efftype_id effect_controlled( "controlled" );
+const efftype_id effect_riding( "riding" );
+const efftype_id effect_ridden( "ridden" );
+const efftype_id effect_saddled( "monster_saddled" );
 
 const mtype_id mon_horse( "mon_horse" );
 const mtype_id mon_cow( "mon_cow" );
@@ -99,11 +107,12 @@ void talk_function::mission_success( npc &p )
     int miss_val = npc_trading::cash_to_favor( p, miss->get_value() );
     npc_opinion tmp( 0, 0, 1 + miss_val / 5, -1, 0 );
     p.op_of_u += tmp;
-    if( p.my_fac != nullptr ) {
+    faction *p_fac = p.get_faction();
+    if( p_fac != nullptr ) {
         int fac_val = std::min( 1 + miss_val / 10, 10 );
-        p.my_fac->likes_u += fac_val;
-        p.my_fac->respects_u += fac_val;
-        p.my_fac->power += fac_val;
+        p_fac->likes_u += fac_val;
+        p_fac->respects_u += fac_val;
+        p_fac->power += fac_val;
     }
     miss->wrap_up();
 }
@@ -207,10 +216,70 @@ void talk_function::do_construction( npc &p )
     p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
-void talk_function::do_blueprint_construction( npc &p )
+void talk_function::dismount( npc &p )
+{
+    p.npc_dismount();
+}
+
+void talk_function::find_mount( npc &p )
+{
+    // first find one nearby
+    for( monster &critter : g->all_monsters() ) {
+        if( p.can_mount( critter ) ) {
+            p.set_attitude( NPCATT_ACTIVITY );
+            // keep the horse still for some time, so that NPC can catch up to it nad mount it.
+            p.set_mission( NPC_MISSION_ACTIVITY );
+            p.assign_activity( activity_id( "ACT_FIND_MOUNT" ) );
+            p.chosen_mount = g->shared_from( critter );
+            // we found one, thats all we need.
+            return;
+        }
+    }
+    // if we got here and this was prompted by a renewal of the activity, and there are no valid monsters nearby, then cancel whole thing.
+    if( p.has_player_activity() ) {
+        p.revert_after_activity();
+    }
+}
+
+void talk_function::do_butcher( npc &p )
 {
     p.set_attitude( NPCATT_ACTIVITY );
-    p.assign_activity( activity_id( "ACT_BLUEPRINT_CONSTRUCTION" ) );
+    p.assign_activity( activity_id( "ACT_MULTIPLE_BUTCHER" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
+void talk_function::do_chop_plank( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
+void talk_function::do_vehicle_deconstruct( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
+void talk_function::do_chop_trees( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_MULTIPLE_CHOP_TREES" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
+void talk_function::do_farming( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_MULTIPLE_FARM" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
+void talk_function::do_fishing( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_MULTIPLE_FISH" ) );
     p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
@@ -274,6 +343,10 @@ void talk_function::assign_guard( npc &p )
         return;
     }
 
+    if( p.has_player_activity() ) {
+        p.revert_after_activity();
+    }
+
     if( p.is_travelling() ) {
         if( p.has_companion_mission() ) {
             p.reset_companion_mission();
@@ -328,7 +401,8 @@ void talk_function::stop_guard( npc &p )
 
 void talk_function::wake_up( npc &p )
 {
-    p.rules.clear_flag( ally_rule::allow_sleep );
+    p.rules.clear_override( ally_rule::allow_sleep );
+    p.rules.enable_override( ally_rule::allow_sleep );
     p.remove_effect( effect_allow_sleep );
     p.remove_effect( effect_lying_down );
     p.remove_effect( effect_sleep );
@@ -450,7 +524,7 @@ void talk_function::give_equipment( npc &p )
     item it = *giving[chosen].loc.get_item();
     giving[chosen].loc.remove_item();
     popup( _( "%1$s gives you a %2$s" ), p.name, it.tname() );
-    it.set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
+    it.set_owner( g->u.get_faction() );
     g->u.i_add( it );
     p.op_of_u.owed -= giving[chosen].price;
     p.add_effect( effect_asked_for_item, 3_hours );
@@ -678,9 +752,7 @@ void talk_function::hostile( npc &p )
         add_msg( _( "%s turns hostile!" ), p.name );
     }
 
-    g->u.add_memorial_log( pgettext( "memorial_male", "%s became hostile." ),
-                           pgettext( "memorial_female", "%s became hostile." ),
-                           p.name );
+    g->events().send<event_type::npc_becomes_hostile>( p.getID(), p.name );
     p.set_attitude( NPCATT_KILL );
 }
 
@@ -715,10 +787,10 @@ void talk_function::drop_stolen_item( npc &p )
 {
     for( auto &elem : g->u.inv_dump() ) {
         if( elem->get_old_owner() ) {
-            if( elem->get_old_owner()->id.str() == p.my_fac->id.str() ) {
+            if( elem->get_old_owner() == p.get_faction() ) {
                 item to_drop = g->u.i_rem( elem );
                 to_drop.remove_old_owner();
-                to_drop.set_owner( p.my_fac );
+                to_drop.set_owner( p.get_faction() );
                 g->m.add_item_or_charges( g->u.pos(), to_drop );
             }
         }

@@ -278,7 +278,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     trajectory.insert( trajectory.begin(), source ); // Add the first point to the trajectory
 
-    static emit_id muzzle_smoke( "emit_smoke_plume" );
+    static emit_id muzzle_smoke( "emit_smaller_smoke_plume" );
     if( proj_effects.count( "MUZZLE_SMOKE" ) ) {
         g->m.emit_field( trajectory.front(), muzzle_smoke );
     }

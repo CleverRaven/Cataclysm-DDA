@@ -6,7 +6,7 @@
     "name": "SIG Sauer P230",
     "name_plural": "SIG Sauer P230",
     "description": "The SIG Sauer P230 is a small, semi-automatic handgun chambered in .32 ACP.  Due to its small dimensions, it was often carried as a backup weapon.",
-    "weight": 460,
+    "weight": "460 g",
     "volume": "250 ml",
     "price": 43000,
     "to_hit": -1,
@@ -18,6 +18,7 @@
     "skill": "pistol",
     "dispersion": 480,
     "durability": 8,
+    "min_cycle_recoil": 135,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -31,6 +32,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "32", [ "sigp230mag" ] ] ]
   },
@@ -41,7 +43,7 @@
     "name": "Skorpion Vz. 61",
     "//": "Total unloaded weight of gun 1301.81 grams, rounded to 1302.  Current weight of folding stock 200 grams.",
     "description": "The Skorpion Vz. 61 is a Czechoslovak submachine gun from the 1950s, chambered in .32 ACP.",
-    "weight": 1102,
+    "weight": "1102 g",
     "volume": "750 ml",
     "price": 150000,
     "to_hit": -2,
@@ -53,6 +55,7 @@
     "skill": "smg",
     "dispersion": 360,
     "durability": 6,
+    "min_cycle_recoil": 135,
     "burst": 14,
     "built_in_mods": [ "folding_stock" ],
     "valid_mod_locations": [
@@ -69,6 +72,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazines": [ [ "32", [ "skorpion61mag" ] ] ]
   },
   {
@@ -78,7 +82,7 @@
     "name": "Walther PPK",
     "name_plural": "Walther PPK",
     "description": "One of the most famous handguns of the 20th century.  Your name is not Bond, but you might find this little gun still useful.",
-    "weight": 525,
+    "weight": "525 g",
     "volume": "250 ml",
     "price": 45000,
     "to_hit": -1,
@@ -90,6 +94,7 @@
     "skill": "pistol",
     "dispersion": 480,
     "durability": 8,
+    "min_cycle_recoil": 135,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -103,6 +108,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "32", [ "ppkmag" ] ] ]
   },
@@ -112,7 +118,7 @@
     "type": "GUN",
     "name": "Kel-Tec P32",
     "description": "One of Kel-tec's oldest designs, the P32 is a popular option for deep concealment and backup usage.   Despite its extreme light weight and small size, its .32 ACP chambering makes for good handling and recoil control.",
-    "weight": 186,
+    "weight": "186 g",
     "volume": "186ml",
     "price": 14000,
     "to_hit": -3,
@@ -122,6 +128,7 @@
     "ammo": "32",
     "dispersion": 480,
     "durability": 8,
+    "min_cycle_recoil": 135,
     "magazines": [ [ "32", [ "kp32mag" ] ] ]
   }
 ]

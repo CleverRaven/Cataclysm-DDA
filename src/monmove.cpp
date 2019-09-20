@@ -268,8 +268,9 @@ void monster::plan()
     // Bots are more intelligent than most living stuff
     bool smart_planning = has_flag( MF_PRIORITIZE_TARGETS );
     Creature *target = nullptr;
+    int max_sight_range = std::max( type->vision_day, type->vision_night );
     // 8.6f is rating for tank drone 60 tiles away, moose 16 or boomer 33
-    float dist = !smart_planning ? 1000 : 8.6f;
+    float dist = !smart_planning ? max_sight_range : 8.6f;
     bool fleeing = false;
     bool docile = friendly != 0 && has_effect( effect_docile );
 
@@ -535,6 +536,23 @@ static float get_stagger_adjust( const tripoint &source, const tripoint &destina
     return std::max( 0.01f, initial_dist - new_dist );
 }
 
+bool monster::die_if_drowning( const tripoint &at_pos, const int chance )
+{
+    if( g->m.has_flag( "LIQUID", at_pos ) && can_drown() && one_in( chance ) ) {
+        // if there's a vehicle here with a boardable part, the monster is on it
+        // and not drowning
+        if( g->m.veh_at( at_pos ).part_with_feature( "BOARDABLE", false ) ) {
+            return false;
+        }
+        die( nullptr );
+        if( g->u.sees( at_pos ) ) {
+            add_msg( _( "The %s drowns!" ), name() );
+        }
+        return true;
+    }
+    return false;
+}
+
 // General movement.
 // Currently, priority goes:
 // 1) Special Attack
@@ -638,11 +656,7 @@ void monster::move()
 
     // The monster is in a deep water tile and has a chance to drown
     if( g->m.has_flag_ter( TFLAG_DEEP_WATER, pos() ) ) {
-        if( g->m.has_flag( "LIQUID", pos() ) && can_drown() && one_in( 10 ) ) {
-            die( nullptr );
-            if( g->u.sees( pos() ) ) {
-                add_msg( _( "The %s drowns!" ), name() );
-            }
+        if( die_if_drowning( pos(), 10 ) ) {
             return;
         }
     }
@@ -866,7 +880,7 @@ void monster::move()
             // since the chance of switching is 1/1, 1/4, 1/6, 1/8
             switch_chance += progress * 2;
             // Randomly pick one of the viable squares to move to weighted by distance.
-            if( !moved || x_in_y( progress, switch_chance ) ) {
+            if( progress > 0 && ( !moved || x_in_y( progress, switch_chance ) ) ) {
                 moved = true;
                 next_step = candidate;
                 // If we stumble, pick a random square, otherwise take the first one,
@@ -1395,15 +1409,16 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
         //Hallucinations don't do any of the stuff after this point
         return true;
     }
-    // TODO: Make tanks stop taking damage from rubble, because it's just silly
-    if( type->size != MS_TINY && on_ground ) {
-        if( g->m.has_flag( "SHARP", pos() ) && !one_in( 4 ) ) {
-            apply_damage( nullptr, bp_torso, rng( 1, 10 ) );
-        }
-        if( g->m.has_flag( "ROUGH", pos() ) && one_in( 6 ) ) {
-            apply_damage( nullptr, bp_torso, rng( 1, 2 ) );
-        }
 
+    if( type->size != MS_TINY && on_ground ) {
+        const int sharp_damage = rng( 1, 10 );
+        const int rough_damage = rng( 1, 2 );
+        if( g->m.has_flag( "SHARP", pos() ) && !one_in( 4 ) && get_armor_cut( bp_torso ) < sharp_damage ) {
+            apply_damage( nullptr, bp_torso, sharp_damage );
+        }
+        if( g->m.has_flag( "ROUGH", pos() ) && one_in( 6 ) && get_armor_cut( bp_torso ) < rough_damage ) {
+            apply_damage( nullptr, bp_torso, rough_damage );
+        }
     }
 
     if( g->m.has_flag( "UNSTABLE", p ) && on_ground ) {
@@ -1473,11 +1488,19 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
 
     if( has_flag( MF_DRIPS_NAPALM ) ) {
         if( one_in( 10 ) ) {
-            g->m.add_item_or_charges( pos(), item( "napalm" ) );
+            // if it has more napalm, drop some and reduce ammo in tank
+            if( ammo["pressurized_tank"] > 0 ) {
+                g->m.add_item_or_charges( pos(), item( "napalm", calendar::turn, 50 ) );
+                ammo["pressurized_tank"] -= 50;
+            } else {
+                // TODO remove MF_DRIPS_NAPALM flag since no more napalm in tank
+                // Not possible for now since flag check is done on type, not individual monster
+            }
         }
     }
     if( has_flag( MF_DRIPS_GASOLINE ) ) {
         if( one_in( 5 ) ) {
+            // TODO use same idea that limits napalm dripping
             g->m.add_item_or_charges( pos(), item( "gasoline" ) );
         }
     }
@@ -1713,13 +1736,9 @@ void monster::knock_back_to( const tripoint &to )
 
     // If we're still in the function at this point, we're actually moving a tile!
     if( g->m.has_flag_ter( TFLAG_DEEP_WATER, to ) ) {
-        if( g->m.has_flag( "LIQUID", to ) && can_drown() ) {
-            die( nullptr );
-            if( u_see ) {
-                add_msg( _( "The %s drowns!" ), name() );
-            }
-
-        } else if( has_flag( MF_AQUATIC ) ) { // We swim but we're NOT in water
+        // die_if_drowning will kill the monster if necessary, but if the deep water
+        // tile is on a vehicle, we should check for swimmers out of water
+        if( !die_if_drowning( to ) && has_flag( MF_AQUATIC ) ) {
             die( nullptr );
             if( u_see ) {
                 add_msg( _( "The %s flops around and dies!" ), name() );
@@ -1859,8 +1878,8 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                     break;
             }
             if( shove_velocity > 0 ) {
-                //~ %1$s - monster name, %2$s - vehicle name
                 if( g->u.sees( this->pos() ) ) {
+                    //~ %1$s - monster name, %2$s - vehicle name
                     g->u.add_msg_if_player( m_bad, _( "%1$s shoves %2$s out of their way!" ), this->disp_name(),
                                             veh.disp_name() );
                 }
@@ -1876,9 +1895,12 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                 veh.skidding = true;
                 veh.velocity = shove_velocity;
                 if( shove_destination != tripoint_zero ) {
+                    if( shove_destination.z != 0 ) {
+                        veh.vertical_velocity = shove_destination.z < 0 ? -shove_velocity : +shove_velocity;
+                    }
                     g->m.move_vehicle( veh, shove_destination, veh.face );
                 }
-                veh.move = tileray( destination_delta_x, destination_delta_y );
+                veh.move = tileray( point( destination_delta_x, destination_delta_y ) );
                 veh.smash( shove_damage_min, shove_damage_max, 0.10F );
             }
         }

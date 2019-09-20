@@ -16,10 +16,12 @@
 #include "ui.h"
 #include "string_id.h"
 #include "translations.h"
+#include "event_bus.h"
 
 struct tripoint;
 class Creature;
 class player;
+class spell;
 class JsonObject;
 class JsonOut;
 class JsonIn;
@@ -80,11 +82,27 @@ struct fake_spell {
     // max level this spell can be
     // if null pointer, spell can be up to its own max level
     cata::optional<int> max_level;
+    // level for things that need it
+    int level;
     // target tripoint is source (true) or target (false)
     bool self;
+
+    fake_spell() = default;
     fake_spell( const spell_id &sp_id, bool hit_self = false,
                 const cata::optional<int> &max_level = cata::nullopt ) : id( sp_id ),
         max_level( max_level ), self( hit_self ) {}
+
+    spell get_spell( int level_override = INT_MAX ) const;
+
+    void load( JsonObject &jo );
+    void serialize( JsonOut &json ) const;
+    void deserialize( JsonIn &jsin );
+};
+
+class spell_events : public event_subscriber
+{
+    public:
+        void notify( const cata::event & ) override;
 };
 
 class spell_type
@@ -100,6 +118,8 @@ class spell_type
         translation name;
         // spell description
         translation description;
+        // spell message when cast
+        translation message;
         // spell effect string. used to look up spell function
         std::string effect_name;
         std::function<void( const spell &, Creature &, const tripoint & )> effect;
@@ -196,6 +216,9 @@ class spell_type
         // max or min casting time
         int final_casting_time;
 
+        // Does leveling this spell lead to learning another spell?
+        std::map<std::string, int> learn_spells;
+
         // what energy do you use to cast this spell
         energy_type energy_source;
 
@@ -226,6 +249,7 @@ class spell_type
 class spell
 {
     private:
+        friend class spell_events;
         // basic spell data
         spell_id type;
 
@@ -234,9 +258,13 @@ class spell
         // returns damage type for the spell
         damage_type dmg_type() const;
 
+        // alternative cast message
+        translation alt_message;
+
     public:
         spell() = default;
         spell( spell_id sp, int xp = 0 );
+        spell( spell_id sp, translation alt_msg );
 
         // how much exp you need for the spell to gain a level
         int exp_to_next_level() const;
@@ -304,6 +332,8 @@ class spell
         std::string name() const;
         // description of spell (translated)
         std::string description() const;
+        // spell message when cast (translated)
+        std::string message() const;
         // energy source as a string (translated)
         std::string energy_string() const;
         // energy cost returned as a string

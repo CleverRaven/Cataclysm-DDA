@@ -4,7 +4,7 @@
     "type": "TOOL",
     "name": "talking doll",
     "description": "This is a talking doll, meant for children.  Fortunately it still works, and you could unload the batteries out of it.",
-    "weight": 907,
+    "weight": "907 g",
     "volume": "750 ml",
     "price": 2000,
     "to_hit": -1,
@@ -19,13 +19,13 @@
       [
         "battery",
         [
+          "light_minus_disposable_cell",
+          "light_disposable_cell",
           "light_minus_battery_cell",
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+          "light_minus_atomic_battery_cell"
         ]
       ]
     ],
@@ -36,7 +36,7 @@
     "type": "TOOL",
     "name": "talking doll",
     "description": "This is a talking doll, meant for children.  Fortunately it still works, and you could unload the batteries out of it.",
-    "weight": 907,
+    "weight": "907 g",
     "volume": "750 ml",
     "price": 2000,
     "to_hit": -1,
@@ -51,13 +51,13 @@
       [
         "battery",
         [
+          "light_minus_disposable_cell",
+          "light_disposable_cell",
           "light_minus_battery_cell",
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+          "light_minus_atomic_battery_cell"
         ]
       ]
     ],
@@ -73,7 +73,7 @@
     "description": "A baseball, good for throwing at enemies.  Getting hit with one of these hurts a lot more than you might think.",
     "price": 1000,
     "material": "leather",
-    "weight": 150,
+    "weight": "150 g",
     "volume": "250 ml",
     "bashing": 6,
     "to_hit": 3
@@ -88,7 +88,7 @@
     "description": "An oval made of leather and string, it's easily thrown but does little damage.  You could take it apart into leather if you wanted.",
     "price": 1000,
     "material": "leather",
-    "weight": 400,
+    "weight": "400 g",
     "volume": "750 ml",
     "bashing": 4,
     "to_hit": -1
@@ -103,7 +103,7 @@
     "description": "A high-quality indoor basketball.  You may throw it at zombies.",
     "price": 1200,
     "material": "leather",
-    "weight": 800,
+    "weight": "800 g",
     "volume": "1 L",
     "bashing": 6,
     "to_hit": -1
@@ -118,7 +118,7 @@
     "description": "A heavy circular block of solid rubber, normally used for playing hockey.  You can throw it to cause some serious harm.",
     "price": 1000,
     "material": "plastic",
-    "weight": 170,
+    "weight": "170 g",
     "volume": "250 ml",
     "bashing": 7,
     "to_hit": 2

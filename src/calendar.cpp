@@ -109,6 +109,17 @@ time_point sunset( const time_point &p )
     return midnight + time_duration::from_minutes( static_cast<int>( time * 60 ) );
 }
 
+time_point night_time( const time_point &p )
+{
+    return sunset( p ) + twilight_duration;
+}
+
+time_point daylight_time( const time_point &p )
+{
+    // @TODO Actual dailight should start 18 degrees before sunrise
+    return sunrise( p ) + 15_minutes;
+}
+
 bool is_night( const time_point &p )
 {
     const time_duration now = time_past_midnight( p );
@@ -162,7 +173,7 @@ double current_daylight_level( const time_point &p )
     return modifier * default_daylight_level();
 }
 
-float sunlight( const time_point &p )
+float sunlight( const time_point &p, const bool vision )
 {
     const time_duration now = time_past_midnight( p );
     const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
@@ -175,7 +186,8 @@ float sunlight( const time_point &p )
         current_phase = static_cast<int>( MOON_PHASE_MAX ) - current_phase;
     }
 
-    const int moonlight = 1 + static_cast<int>( current_phase * moonlight_per_quarter );
+    const int moonlight = vision ? 1 + static_cast<int>( current_phase * moonlight_per_quarter ) :
+                          0;
 
     if( now > sunset + twilight_duration || now < sunrise ) { // Night
         return moonlight;

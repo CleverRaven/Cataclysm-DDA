@@ -113,7 +113,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_JESSE_TIPS",
-    "dynamic_line": "We can't wait for someone else to fix things, we need to take care of ourselves.  Horses make good all around companions.  They can get places that cars can't and also help when all the engines fail.  They become very trusting if you feed them some nice fodder.",
+    "dynamic_line": "Horses make good all around companions.  They can get places that cars can't and also help when all the engines fail.  They become very trusting if you feed them some nice fodder.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -130,7 +130,7 @@
         "topic": "TALK_JESSE_CHRIS"
       },
       { "text": "What needs killing?", "topic": "TALK_MISSION_LIST" },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_Jesse_TOPICS" },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
       { "text": "I'm not interested right now, I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -188,27 +188,80 @@
     "goal": "MGOAL_KILL_MONSTER",
     "difficulty": 5,
     "value": 50000,
+    "followup": "MISSION_ISHERWOOD_JESSE_2",
     "start": {
       "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 8 },
-      "update_mapgen": { "place_monster": [ { "monster": "mon_flying_polyp", "x": 11, "y": 11, "target": true } ] }
+      "update_mapgen": { "place_monster": [ { "monster": "mon_wolf", "pack_size": [ 4, 8 ], "x": 3, "y": 9, "target": true } ] }
     },
-    "origins": [ "ORIGIN_ANY_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "We could use some help killing some wolves.",
+      "offer": "There's been some wolves that keep scaring our chickens and horses, I'd be grateful if you can kill them.",
+      "accepted": "Wonderful, let me know when it is done.",
+      "rejected": "Thanks anyway, we will try some traps.",
+      "advice": "A gun will probably help.",
+      "inquire": "Did you kill it?",
+      "success": "I appreciate it, I've got this old saddle I want you to have. I'll be happy to put a horse under it if you want to do some more heroics.",
+      "success_lie": "Show me the bodies.",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": { "opinion": { "trust": 1, "value": 1 }, "effect": [ { "u_buy_item": "riding_saddle", "count": 1 } ] }
+  },
+  {
+    "id": "MISSION_ISHERWOOD_JESSE_2",
+    "type": "mission_definition",
+    "name": "Kill monster",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 8,
+    "value": 80000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 15 },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_flying_polyp", "pack_size": [ 3, 6 ], "x": 11, "y": 11, "target": true } ] }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "We could use some help killing some wolves.",
+      "offer": "There's been some wolves that keep scaring our chickens and horses, I'd be grateful if you can kill them.",
+      "accepted": "Wonderful, let me know when it is done.",
+      "rejected": "Thanks anyway, we will try some traps.",
+      "advice": "A gun will probably help.",
+      "inquire": "Did you kill it?",
+      "success": "I appreciate it, I've got this old saddle I want you to have. I'll be happy to put a horse under it if you want to do some more heroics.",
+      "success_lie": "Show me the bodies.",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": { "opinion": { "trust": 1, "value": 1 }, "effect": [ { "u_buy_item": "riding_saddle", "count": 1 } ] }
+  },
+  {
+    "id": "MISSION_ISHERWOOD_JESSE_2",
+    "type": "mission_definition",
+    "name": "Kill monster",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 8,
+    "value": 80000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "forest_thick", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 15 },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_flying_polyp", "pack_size": [ 3, 6 ], "x": 11, "y": 11, "target": true } ] }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "We could use some help killing some monsters.",
-      "offer": "I don't know what it is, but it is very fast, I'm willing to outfit you with a horse if you succeed.",
+      "offer": "We could use some help killing a pack of monsters.  I don't know what they are, but they're very fast, I'm willing to outfit you with a horse if you succeed.",
       "accepted": "Be ready for anything.",
       "rejected": "Thanks anyway, we will try some traps.",
       "advice": "A gun will probably help.",
       "inquire": "Did you kill it?",
-      "success": "I appreciate it, this will help keep our animals safe, here's an extra saddle for you.  Take this fodder and choose a horse for your bravery.",
-      "success_lie": "Show me the body.",
+      "success": "I appreciate it, this will help keep our animals safe. This is, Steve, he's a good, steady horse.  You should talk to Carlos about some armor for him.",
+      "success_lie": "Show me the bodies.",
       "failure": "It was a lost cause anyways..."
     },
     "end": {
       "opinion": { "trust": 1, "value": 1 },
       "effect": [
-        { "u_buy_item": "riding_saddle", "count": 1 },
-        { "u_buy_item": "cattlefodder", "count": 3 },
+        { "u_buy_monster": "mon_horse", "count": 1, "name": "Steve" },
         { "u_add_var": "u_did_jesse_missions", "type": "general", "context": "recruit", "value": "yes" }
       ]
     }

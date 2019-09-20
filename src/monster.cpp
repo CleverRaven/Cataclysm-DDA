@@ -137,6 +137,7 @@ const efftype_id effect_docile( "docile" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_emp( "emp" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_grabbing( "grabbing" );
 const efftype_id effect_harnessed( "harnessed" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
@@ -265,9 +266,9 @@ void monster::setpos( const tripoint &p )
     bool wandering = wander();
     g->update_zombie_pos( *this, p );
     position = p;
-    if( has_effect( effect_ridden ) && position != g->u.pos() ) {
+    if( has_effect( effect_ridden ) && mounted_player && mounted_player->pos() != pos() ) {
         add_msg( m_debug, "Ridden monster %s moved independently and dumped player", get_name() );
-        g->u.forced_dismount();
+        mounted_player->forced_dismount();
     }
     if( wandering ) {
         unset_dest();
@@ -346,7 +347,7 @@ void monster::try_upgrade( bool pin_time )
         return;
     }
 
-    const int current_day = to_days<int>( calendar::turn - time_point( calendar::start_of_cataclysm ) );
+    const int current_day = to_days<int>( calendar::turn - calendar::start_of_cataclysm );
     //This should only occur when a monster is created or upgraded to a new form
     if( upgrade_time < 0 ) {
         upgrade_time = next_upgrade_time();
@@ -359,7 +360,7 @@ void monster::try_upgrade( bool pin_time )
         } else {
             // offset by starting season
             // @todo revisit this and make it simpler
-            upgrade_time += to_turn<int>( calendar::start_of_cataclysm );
+            upgrade_time += to_days<int>( calendar::start_of_cataclysm - calendar::turn_zero );
         }
     }
 
@@ -605,6 +606,10 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         wprintz( w, c_light_gray, _( " Difficulty " ) + to_string( type->difficulty ) );
     }
 
+    if( sees( g->u ) ) {
+        mvwprintz( w, point( column, ++vStart ), c_yellow, _( "Aware of your presence!" ) );
+    }
+
     std::string effects = get_effect_status();
     size_t used_space = att.first.length() + name().length() + 3;
     trim_and_print( w, point( used_space, vStart++ ), getmaxx( w ) - used_space - 2,
@@ -612,6 +617,9 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 
     const auto hp_desc = hp_description( hp, type->hp );
     mvwprintz( w, point( column, vStart++ ), hp_desc.second, hp_desc.first );
+    if( has_effect( effect_ridden ) && mounted_player ) {
+        mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
+    }
 
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
     int numlines = lines.size();
@@ -782,7 +790,7 @@ bool monster::has_flag( const m_flag f ) const
 
 bool monster::can_see() const
 {
-    return has_flag( MF_SEES ) && !has_effect( effect_blind );
+    return has_flag( MF_SEES ) && !effect_cache[VISION_IMPAIRED];
 }
 
 bool monster::can_hear() const
@@ -817,14 +825,19 @@ bool monster::can_act() const
 int monster::sight_range( const int light_level ) const
 {
     // Non-aquatic monsters can't see much when submerged
-    if( !can_see() || has_effect( effect_no_sight ) ||
+    if( !can_see() || effect_cache[VISION_IMPAIRED] ||
         ( underwater && !has_flag( MF_SWIMS ) && !has_flag( MF_AQUATIC ) && !digging() ) ) {
         return 1;
     }
-
-    int range = light_level * type->vision_day + ( default_daylight_level() - light_level ) *
+    static const int default_daylight = default_daylight_level();
+    if( light_level == 0 ) {
+        return type->vision_night;
+    } else if( light_level == default_daylight ) {
+        return type->vision_day;
+    }
+    int range = light_level * type->vision_day + ( default_daylight - light_level ) *
                 type->vision_night;
-    range /= default_daylight_level();
+    range /= default_daylight;
 
     return range;
 }
@@ -1281,19 +1294,28 @@ void monster::melee_attack( Creature &target, float accuracy )
         // Hallucinations always produce messages but never actually deal damage
         if( u_see_me ) {
             if( target.is_player() ) {
-                //~ 1$s is attacker name, 2$s is bodypart name in accusative.
                 sfx::play_variant_sound( "melee_attack", "monster_melee_hit",
                                          sfx::get_heard_volume( target.pos() ) );
                 sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
+                //~ 1$s is attacker name, 2$s is bodypart name in accusative.
                 add_msg( m_bad, _( "The %1$s hits your %2$s." ), name(),
                          body_part_name_accusative( bp_hit ) );
             } else if( target.is_npc() ) {
-                //~ 1$s is attacker name, 2$s is target name, 3$s is bodypart name in accusative.
-                add_msg( _( "The %1$s hits %2$s %3$s." ), name(),
-                         target.disp_name( true ),
-                         body_part_name_accusative( bp_hit ) );
+                if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) && pos() == g->u.pos() ) {
+                    add_msg( m_good, _( "Your %s hits %s for %d damage!" ), name(), target.disp_name(), total_dealt );
+                } else {
+                    //~ 1$s is attacker name, 2$s is target name, 3$s is bodypart name in accusative.
+                    add_msg( _( "The %1$s hits %2$s %3$s." ), name(),
+                             target.disp_name( true ),
+                             body_part_name_accusative( bp_hit ) );
+                }
             } else {
-                add_msg( _( "The %1$s hits %2$s!" ), name(), target.disp_name() );
+                if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) && pos() == g->u.pos() ) {
+                    add_msg( m_good, _( "Your %s hits %s for %d damage!" ), get_name(), target.disp_name(),
+                             total_dealt );
+                } else {
+                    add_msg( _( "The %1$s hits %2$s!" ), name(), target.disp_name() );
+                }
             }
         } else if( target.is_player() ) {
             //~ %s is bodypart name in accusative.
@@ -1955,7 +1977,15 @@ void monster::process_turn()
             local_attack_data.cooldown--;
         }
     }
-
+    // Persist grabs as long as there's an adjacent target.
+    if( has_effect( effect_grabbing ) ) {
+        for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
+            const player *const p = g->critter_at<player>( dest );
+            if( p && p->has_effect( effect_grabbed ) ) {
+                add_effect( effect_grabbing, 2_turns );
+            }
+        }
+    }
     // We update electrical fields here since they act every turn.
     if( has_flag( MF_ELECTRIC_FIELD ) ) {
         if( has_effect( effect_emp ) ) {
@@ -2028,7 +2058,9 @@ void monster::die( Creature *nkiller )
             item riding_saddle( "riding_saddle", 0 );
             g->m.add_item_or_charges( pos(), riding_saddle );
         }
-        g->u.forced_dismount();
+        if( mounted_player ) {
+            mounted_player->forced_dismount();
+        }
     }
     g->set_critter_died();
     dead = true;
@@ -2047,13 +2079,7 @@ void monster::die( Creature *nkiller )
             // has guilt flag or player is pacifist && monster is humanoid
             mdeath::guilt( *this );
         }
-        g->events().send( event::make<event_type::character_kills_monster>(
-                              calendar::turn, ch->getID(), type->id ) );
-        if( type->difficulty >= 30 ) {
-            ch->add_memorial_log( pgettext( "memorial_male", "Killed a %s." ),
-                                  pgettext( "memorial_female", "Killed a %s." ),
-                                  name() );
-        }
+        g->events().send<event_type::character_kills_monster>( ch->getID(), type->id );
         if( ch->is_player() && ch->has_trait( trait_KILLER ) ) {
             if( one_in( 4 ) ) {
                 std::string snip = SNIPPET.random_from_category( "killer_on_kill" );
@@ -2081,7 +2107,28 @@ void monster::die( Creature *nkiller )
     if( has_effect( effect_beartrap ) ) {
         add_item( item( "beartrap", 0 ) );
     }
-
+    if( has_effect( effect_grabbing ) ) {
+        remove_effect( effect_grabbing );
+        for( auto &player_pos : g->m.points_in_radius( pos(), 1, 0 ) ) {
+            player *p = g->critter_at<player>( player_pos );
+            if( !p || !p->has_effect( effect_grabbed ) ) {
+                continue;
+            }
+            bool grabbed = false;
+            for( auto &mon_pos : g->m.points_in_radius( player_pos, 1, 0 ) ) {
+                const monster *const mon = g->critter_at<monster>( mon_pos );
+                if( mon && mon->has_effect( effect_grabbing ) ) {
+                    grabbed = true;
+                    break;
+                }
+            }
+            if( !grabbed ) {
+                p->add_msg_player_or_npc( m_good, _( "The last enemy holding you collapses!" ),
+                                          _( "The last enemy holding <npcname> collapses!" ) );
+                p->remove_effect( effect_grabbed );
+            }
+        }
+    }
     if( !is_hallucination() ) {
         for( const auto &it : inv ) {
             g->m.add_item_or_charges( pos(), it );
@@ -2240,6 +2287,8 @@ void monster::process_one_effect( effect &it, bool is_new )
         }
     } else if( id == effect_run ) {
         effect_cache[FLEEING] = true;
+    } else if( id == effect_no_sight || id == effect_blind ) {
+        effect_cache[VISION_IMPAIRED] = true;
     }
 }
 

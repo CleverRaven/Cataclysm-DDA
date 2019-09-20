@@ -880,7 +880,7 @@ static std::vector<options_manager::id_and_option> build_resource_list(
                 }
             }
             resource_names.emplace_back( resource_name,
-                                         view_name.empty() ? no_translation( resource_name ) : translation( view_name ) );
+                                         view_name.empty() ? no_translation( resource_name ) : to_translation( view_name ) );
             if( resource_option.count( resource_name ) != 0 ) {
                 DebugLog( D_ERROR, DC_ALL ) << "Found " << operation_name << " duplicate with name " <<
                                             resource_name;
@@ -899,8 +899,8 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
                          "gfxdir", "tileset-conf" );
 
     if( tileset_names.empty() ) {
-        tileset_names.emplace_back( "hoder", translation( "Hoder's" ) );
-        tileset_names.emplace_back( "deon", translation( "Deon's" ) );
+        tileset_names.emplace_back( "hoder", to_translation( "Hoder's" ) );
+        tileset_names.emplace_back( "deon", to_translation( "Deon's" ) );
     }
     return tileset_names;
 }
@@ -935,7 +935,7 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
 
     // Select default built-in sound pack
     if( result.empty() ) {
-        result.emplace_back( "basic", translation( "Basic" ) );
+        result.emplace_back( "basic", to_translation( "Basic" ) );
     }
     return result;
 }
@@ -1085,7 +1085,7 @@ void options_manager::add_options_general()
 
     add( "AUTO_PULP_BUTCHER", "general", translate_marker( "Auto pulp or butcher" ),
          translate_marker( "Action to perform when 'Auto pulp or butcher' is enabled.  Pulp: Pulp corpses you stand on.  - Pulp Adjacent: Also pulp corpses adjacent from you.  - Butcher: Butcher corpses you stand on." ),
-    { { "off", translation( "options", "Disabled" ) }, { "pulp", translate_marker( "Pulp" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjacent" ) }, { "butcher", translate_marker( "Butcher" ) } },
+    { { "off", to_translation( "options", "Disabled" ) }, { "pulp", translate_marker( "Pulp" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjacent" ) }, { "butcher", translate_marker( "Butcher" ) } },
     "off"
        );
 
@@ -1100,7 +1100,7 @@ void options_manager::add_options_general()
 
     add( "AUTO_FORAGING", "general", translate_marker( "Auto foraging" ),
          translate_marker( "Action to perform when 'Auto foraging' is enabled.  Bushes: Only forage bushes.  - Trees: Only forage trees.  - Everything: Forage bushes, trees, and everything else including flowers, cattails etc." ),
-    { { "off", translation( "options", "Disabled" ) }, { "bushes", translate_marker( "Bushes" ) }, { "trees", translate_marker( "Trees" ) }, { "both", translate_marker( "Everything" ) } },
+    { { "off", to_translation( "options", "Disabled" ) }, { "bushes", translate_marker( "Bushes" ) }, { "trees", translate_marker( "Trees" ) }, { "both", translate_marker( "Everything" ) } },
     "off"
        );
 

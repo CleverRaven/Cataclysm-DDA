@@ -4,7 +4,7 @@
     "//": "Mundane household items that might be found in or around a shower or bath.",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "rag", 40 ], [ "towel", 30 ], [ "soap", 10 ] ]
+    "items": [ [ "rag", 40 ], [ "towel", 30 ], [ "soap", 10 ], [ "bathroom_scale", 20 ] ]
   },
   {
     "id": "kitchen_counters",
@@ -66,6 +66,8 @@
       [ "pressure_cooker", 5 ],
       [ "teapot", 40 ],
       [ "kettle", 40 ],
+      [ "colander_steel", 35 ],
+      [ "splatter_guard", 10 ],
       [ "jar_glass", 50 ],
       [ "jar_3l_glass", 40 ],
       [ "bowl_pewter", 25 ],

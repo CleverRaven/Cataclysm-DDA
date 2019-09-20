@@ -272,6 +272,7 @@ void mission_type::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "remove_container", remove_container );
     //intended for situations where closed and open container are different
     optional( jo, was_loaded, "empty_container", empty_container );
+    optional( jo, was_loaded, "has_generic_rewards", has_generic_rewards, true );
 
     goal = jo.get_enum_value<decltype( goal )>( "goal" );
 

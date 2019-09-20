@@ -4,7 +4,7 @@
     "type": "MAGAZINE",
     "name": "M2010 ESR magazine",
     "description": "A 5-round box magazine used by M2010 ESR sniper rifle.",
-    "weight": 78,
+    "weight": "78 g",
     "volume": "250 ml",
     "price": 3500,
     "material": "steel",

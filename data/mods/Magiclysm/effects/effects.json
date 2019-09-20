@@ -11,6 +11,16 @@
   },
   {
     "type": "effect_type",
+    "id": "dark_sight",
+    "name": [ "Dark Sight" ],
+    "desc": [ "You can see in the dark." ],
+    "apply_message": "Your sight adjusts to the darkness.",
+    "remove_message": "The darkness loses its shape.",
+    "rating": "good",
+    "flags": [ "EFFECT_NIGHT_VISION" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_ethereal_grasp",
     "name": [ "Ethereal Hold" ],
     "desc": [ "Ghostly arms are trying to hold you in place!" ],
@@ -20,6 +30,15 @@
     "remove_message": "The ghostly arms fade away.",
     "base_mods": { "speed_mod": [ -40 ] },
     "scaling_mods": { "speed_mod": [ -10 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "invisibility",
+    "name": [ "Invisibility" ],
+    "desc": [ "Nothing can see you." ],
+    "apply_message": "You fade away.",
+    "remove_message": "You can see your hands again.",
+    "flags": [ "EFFECT_INVISIBLE" ]
   },
   {
     "type": "effect_type",
@@ -163,5 +182,34 @@
     "rating": "good",
     "removes_effects": [ "eagles_sight", "cats_grace", "ogres_strength" ],
     "base_mods": { "int_mod": [ 4 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "debug_full_protection",
+    "name": [ "Debug Full Protection" ],
+    "desc": [ "You can not be harmed by anything." ],
+    "apply_message": "Your skin tingle with the power of the Devs!",
+    "remove_message": "Your skin stops tingling, your life is empty and meaningless again.",
+    "rating": "good",
+    "flags": [
+      "EFFECT_ELECTRIC_IMMUNE",
+      "EFFECT_BIO_IMMUNE",
+      "EFFECT_BASH_IMMUNE",
+      "EFFECT_CUT_IMMUNE",
+      "EFFECT_ACID_IMMUNE",
+      "EFFECT_STAB_IMMUNE",
+      "EFFECT_HEAT_IMMUNE",
+      "EFFECT_COLD_IMMUNE"
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "debug_feather_fall",
+    "name": [ "Debug Feather Fall" ],
+    "desc": [ "You  are light as a feather and fall like one." ],
+    "apply_message": "Your body feels light as a feather.",
+    "remove_message": "The earth pulls you down hard.",
+    "rating": "good",
+    "flags": [ "EFFECT_FEATHER_FALL" ]
   }
 ]

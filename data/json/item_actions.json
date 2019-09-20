@@ -441,6 +441,11 @@
   },
   {
     "type": "item_action",
+    "id": "CALL_OF_TINDALOS",
+    "name": "Blow"
+  },
+  {
+    "type": "item_action",
     "id": "DOLLCHAT",
     "name": "Make it talk"
   },

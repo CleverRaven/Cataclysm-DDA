@@ -363,5 +363,27 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ], [ "splinter", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ], [ [ "pine_bough", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "sieve_steel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "time": "2 m",
+    "autolearn": true,
+    "components": [ [ [ "colander_steel", 1 ], [ "wire_mesh", 1 ], [ "splatter_guard", 1 ] ] ]
+  },
+  {
+    "result": "sieve_primitive",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "survival", 1 ], [ "tailor", 2 ] ],
+    "difficulty": 3,
+    "time": "45 m",
+    "autolearn": true,
+    "components": [ [ [ "straw_pile", 3 ], [ "birchbark", 5 ] ] ]
   }
 ]

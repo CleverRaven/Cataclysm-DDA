@@ -6,7 +6,7 @@
     "difficulty": 5,
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "38super_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 3 ] ] ],
+    "components": [ [ [ "lead", 2 ] ], [ [ "38super_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_magnum_pistol", 3 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   }
 ]

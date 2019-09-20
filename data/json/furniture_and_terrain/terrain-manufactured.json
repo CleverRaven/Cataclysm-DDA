@@ -7,7 +7,7 @@
     "symbol": "&",
     "color": "green",
     "move_cost": 0,
-    "max_volume": "2000 L",
+    "max_volume": 8000,
     "flags": [ "TRANSPARENT", "REDUCE_SCENT", "PERMEABLE" ],
     "examine_action": "recycle_compactor",
     "bash": {
@@ -151,6 +151,42 @@
       "str_max": 210,
       "explosive": 5,
       "sound": "Critical failure imminent, self destruct activated.  Have a nice day!",
+      "sound_fail": "clang!",
+      "ter_set": "t_floor",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 4, 8 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_ticket_vendor",
+    "name": "ticket vendor",
+    "description": "This machine has a little screen, and slots intended to take your money and provide you with a ticket.",
+    "symbol": "&",
+    "color": "blue",
+    "move_cost": 0,
+    "coverage": 55,
+    "flags": [ "TRANSPARENT", "NOITEM", "ALARMED", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 210,
+      "sound_fail": "clang!",
+      "ter_set": "t_floor",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 4, 8 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_ticket_machine",
+    "name": "ticket machine",
+    "description": "This machine will provide you access to whatever is beyond it - for the price of a ticket, of course.",
+    "symbol": "&",
+    "color": "blue",
+    "move_cost": 0,
+    "coverage": 55,
+    "flags": [ "TRANSPARENT", "NOITEM", "ALARMED", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 210,
       "sound_fail": "clang!",
       "ter_set": "t_floor",
       "items": [ { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 4, 8 ] } ]

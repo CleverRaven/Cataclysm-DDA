@@ -308,11 +308,11 @@ inline constexpr double to_liter( const volume &v )
 // Don't use in new code! Use one of the from_* functions instead.
 static constexpr volume legacy_volume_factor = from_milliliter( 250 );
 
-class mass_in_gram_tag
+class mass_in_milligram_tag
 {
 };
 
-using mass = quantity<int, mass_in_gram_tag>;
+using mass = quantity<std::int64_t, mass_in_milligram_tag>;
 
 const mass mass_min = units::mass( std::numeric_limits<units::mass::value_type>::min(),
                                    units::mass::unit_type{} );
@@ -321,28 +321,35 @@ const mass mass_max = units::mass( std::numeric_limits<units::mass::value_type>:
                                    units::mass::unit_type{} );
 
 template<typename value_type>
-inline constexpr quantity<value_type, mass_in_gram_tag> from_gram(
+inline constexpr quantity<value_type, mass_in_milligram_tag> from_milligram(
     const value_type v )
 {
-    return quantity<value_type, mass_in_gram_tag>( v, mass_in_gram_tag{} );
+    return quantity<value_type, mass_in_milligram_tag>( v, mass_in_milligram_tag{} );
 }
 
 template<typename value_type>
-inline constexpr quantity<value_type, mass_in_gram_tag> from_kilogram(
+inline constexpr quantity<value_type, mass_in_milligram_tag> from_gram(
+    const value_type v )
+{
+    return from_milligram( v * 1000 );
+}
+
+template<typename value_type>
+inline constexpr quantity<value_type, mass_in_milligram_tag> from_kilogram(
     const value_type v )
 {
     return from_gram( v * 1000 );
 }
 
 template<typename value_type>
-inline constexpr value_type to_gram( const quantity<value_type, mass_in_gram_tag> &v )
+inline constexpr value_type to_gram( const quantity<value_type, mass_in_milligram_tag> &v )
 {
-    return v / from_gram<value_type>( 1 );
+    return v.value() / 1000.0;
 }
 
 inline constexpr double to_kilogram( const mass &v )
 {
-    return v.value() / 1000.0;
+    return v.value() / 1000000.0;
 }
 
 class energy_in_millijoule_tag
@@ -397,9 +404,9 @@ inline constexpr value_type to_kilojoule( const quantity<value_type, energy_in_m
 // Streaming operators for debugging and tests
 // (for UI output other functions should be used which render in the user's
 // chosen units)
-inline std::ostream &operator<<( std::ostream &o, mass_in_gram_tag )
+inline std::ostream &operator<<( std::ostream &o, mass_in_milligram_tag )
 {
-    return o << "g";
+    return o << "mg";
 }
 
 inline std::ostream &operator<<( std::ostream &o, volume_in_milliliter_tag )
@@ -433,6 +440,10 @@ inline constexpr units::quantity<double, units::volume_in_milliliter_tag> operat
 }
 
 // Implicitly converted to mass, which has int as value_type!
+inline constexpr units::mass operator"" _milligram( const unsigned long long v )
+{
+    return units::from_milligram( v );
+}
 inline constexpr units::mass operator"" _gram( const unsigned long long v )
 {
     return units::from_gram( v );
@@ -443,13 +454,19 @@ inline constexpr units::mass operator"" _kilogram( const unsigned long long v )
     return units::from_kilogram( v );
 }
 
-inline constexpr units::quantity<double, units::mass_in_gram_tag> operator"" _gram(
+inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _milligram(
+    const long double v )
+{
+    return units::from_milligram( v );
+}
+
+inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _gram(
     const long double v )
 {
     return units::from_gram( v );
 }
 
-inline constexpr units::quantity<double, units::mass_in_gram_tag> operator"" _kilogram(
+inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _kilogram(
     const long double v )
 {
     return units::from_kilogram( v );
@@ -497,6 +514,7 @@ static const std::vector<std::pair<std::string, energy>> energy_units = { {
     }
 };
 static const std::vector<std::pair<std::string, mass>> mass_units = { {
+        { "mg", 1_milligram },
         { "g", 1_gram },
         { "kg", 1_kilogram },
     }

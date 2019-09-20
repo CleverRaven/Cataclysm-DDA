@@ -55,9 +55,6 @@ class avatar : public player
             return this;
         }
 
-        /** Prints out the player's memorial file */
-        void memorial( std::ostream &memorial_file, const std::string &epitaph );
-
         void toggle_map_memory();
         bool should_show_map_memory();
         /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */
@@ -163,6 +160,9 @@ class avatar : public player
         int free_upgrade_points() const;
         // how much "kill xp" you have
         int kill_xp() const;
+
+        faction *get_faction() const override;
+
     private:
         map_memory player_map_memory;
         bool show_map_memory;

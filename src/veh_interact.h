@@ -51,7 +51,7 @@ class veh_interact
         static vehicle_part &select_part( const vehicle &veh, const part_selector &sel,
                                           const std::string &title = std::string() );
 
-        static void complete_vehicle();
+        static void complete_vehicle( player &p );
 
     private:
         veh_interact( vehicle &veh, const point &p = point_zero );
@@ -89,9 +89,6 @@ class veh_interact
         catacurses::window w_owner;
 
         vehicle *veh;
-        bool has_wrench;
-        bool has_jack;
-        bool has_wheel;
         inventory crafting_inv;
         input_context main_context;
 
@@ -139,7 +136,6 @@ class veh_interact
         bool do_rename( std::string &msg );
         bool do_siphon( std::string &msg );
         bool do_unload( std::string &msg );
-        bool do_tirechange( std::string &msg );
         bool do_assign_crew( std::string &msg );
         bool do_relabel( std::string &msg );
         /*@}*/
@@ -180,7 +176,7 @@ class veh_interact
         vehicle_part *get_most_repariable_part() const;
 
         //do_remove supporting operation, writes requirements to ui
-        bool can_remove_part( int idx );
+        bool can_remove_part( int idx, const player &p );
         //do install support, writes requirements to ui
         bool can_install_part();
         //true if trying to install foot crank with electric engines for example

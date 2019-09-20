@@ -18,6 +18,7 @@
 #include "iuse.h" // use_function
 #include "optional.h"
 #include "pldata.h" // add_type
+#include "relic.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -222,6 +223,10 @@ struct islot_armor {
      * How much this item encumbers the player.
      */
     int encumber = 0;
+    /**
+    * When storage is full, how much it encumbers the player.
+    */
+    int max_encumber = 0;
     /**
      * Percentage of the body part area that this item covers.
      * This determines how likely it is to hit the item instead of the player.
@@ -780,6 +785,7 @@ struct itype {
         cata::optional<islot_ammo> ammo;
         cata::optional<islot_seed> seed;
         cata::optional<islot_artifact> artifact;
+        cata::optional<relic> relic_data;
         /*@}*/
 
     private:
@@ -821,7 +827,7 @@ struct itype {
         std::string looks_like;
 
         std::string snippet_category;
-        std::string description; // Flavor text
+        translation description; // Flavor text
 
         // The container it comes in
         cata::optional<itype_id> default_container;

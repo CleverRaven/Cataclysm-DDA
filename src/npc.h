@@ -15,7 +15,9 @@
 #include <functional>
 
 #include "calendar.h"
+#include "faction.h"
 #include "line.h"
+#include "lru_cache.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player.h"
@@ -28,7 +30,6 @@
 #include "string_id.h"
 #include "material.h"
 #include "type_id.h"
-#include "faction.h"
 #include "int_id.h"
 #include "item.h"
 #include "point.h"
@@ -210,6 +211,7 @@ enum combat_engagement {
     ENGAGE_WEAK,
     ENGAGE_HIT,
     ENGAGE_ALL,
+    ENGAGE_FREE_FIRE,
     ENGAGE_NO_MOVE
 };
 const std::unordered_map<std::string, combat_engagement> combat_engagement_strs = { {
@@ -218,6 +220,7 @@ const std::unordered_map<std::string, combat_engagement> combat_engagement_strs 
         { "ENGAGE_WEAK", ENGAGE_WEAK },
         { "ENGAGE_HIT", ENGAGE_HIT },
         { "ENGAGE_ALL", ENGAGE_ALL },
+        { "ENGAGE_FREE_FIRE", ENGAGE_FREE_FIRE },
         { "ENGAGE_NO_MOVE", ENGAGE_NO_MOVE }
     }
 };
@@ -493,6 +496,8 @@ struct npc_short_term_cache {
     std::vector<sphere> dangerous_explosives;
 
     std::map<direction, float> threat_map;
+    // Cache of locations the NPC has searched recently in npc::find_item()
+    lru_cache<tripoint, int> searched_tiles;
 };
 
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
@@ -726,11 +731,19 @@ class npc : public player
             return true;
         }
         void load_npc_template( const string_id<npc_template> &ident );
-
+        void npc_dismount();
+        std::weak_ptr<monster> chosen_mount;
         // Generating our stats, etc.
         void randomize( const npc_class_id &type = npc_class_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
+        // Faction version number
+        int get_faction_ver() const;
+        void set_faction_ver( int new_version );
+        bool has_faction_relationship( const player &p,
+                                       npc_factions::relationship flag ) const;
         void set_fac( const string_id<faction> &id );
+        faction *get_faction() const override;
+        string_id<faction> get_fac_id() const;
         void clear_fac();
         /**
          * Set @ref submap_coords and @ref pos.
@@ -798,11 +811,6 @@ class npc : public player
          */
         std::vector<matype_id> styles_offered_to( const player &p ) const;
         // State checks
-        // Faction version number
-        int get_faction_ver() const;
-        void set_faction_ver( int new_version );
-        bool has_faction_relationship( const player &p,
-                                       npc_factions::relationship flag ) const;
         // We want to kill/mug/etc the player
         bool is_enemy() const;
         // Traveling w/ player (whether as a friend or a slave)
@@ -836,6 +844,8 @@ class npc : public player
         /** Is enemy or will turn into one (can't be convinced not to attack). */
         bool guaranteed_hostile() const;
         Attitude attitude_to( const Creature &other ) const override;
+        /* player allies that become guaranteed hostile should mutiny first */
+        void mutiny();
 
         /** For mutant NPCs. Returns how monsters perceive said NPC. Doesn't imply NPC sees them the same. */
         mfaction_id get_monster_faction() const;
@@ -1083,6 +1093,7 @@ class npc : public player
         bool saw_player_recently() const;
         /** Returns true if food was consumed, false otherwise. */
         bool consume_food();
+        bool consume_food_from_camp();
         int get_thirst() const override;
 
         // Movement on the overmap scale
@@ -1109,9 +1120,6 @@ class npc : public player
         using player::add_msg_if_player;
         void add_msg_if_player( const std::string &/*msg*/ ) const override {}
         void add_msg_if_player( game_message_type /*type*/, const std::string &/*msg*/ ) const override {}
-        using player::add_memorial_log;
-        void add_memorial_log( const std::string &/*male_msg*/,
-                               const std::string &/*female_msg*/ ) override {}
         using player::add_msg_player_or_say;
         void add_msg_player_or_say( const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
@@ -1152,12 +1160,9 @@ class npc : public player
         std::vector<mission_type_id> miss_ids;
 
     private:
-        // faction API versions
-        // 2 - allies are in your_followers faction; NPCATT_FOLLOW is follower but not an ally
-        // 0 - allies may be in your_followers faction; NPCATT_FOLLOW is an ally (legacy)
-        int faction_api_version = 2;  // faction API versioning
         npc_attitude attitude; // What we want to do to the player
         npc_attitude previous_attitude = NPCATT_NULL;
+        bool known_to_u = false; // Does the player know this NPC?
         /**
          * Global submap coordinates of the submap containing the npc.
          * Use global_*_location to get the global position.
@@ -1214,9 +1219,6 @@ class npc : public player
         std::vector<tripoint> path; // Our movement plans
 
         // Personality & other defining characteristics
-        string_id<faction> fac_id; // A temp variable used to inform the game which faction to link
-        faction *my_fac;
-
         std::string companion_mission_role_id; //Set mission source or squad leader for a patrol
         std::vector<tripoint>
         companion_mission_points; //Mission leader use to determine item sorting, patrols use for points
@@ -1251,6 +1253,10 @@ class npc : public player
          * Update body, but throttled.
          */
         void npc_update_body();
+
+        bool get_known_to_u();
+
+        void set_known_to_u( bool known );
 
         /// Set up (start) a companion mission.
         void set_companion_mission( npc &p, const std::string &mission_id );

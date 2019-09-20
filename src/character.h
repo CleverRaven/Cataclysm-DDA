@@ -49,6 +49,8 @@ class vehicle;
 struct mutation_branch;
 class bionic_collection;
 struct points_left;
+class faction;
+struct construction;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -168,6 +170,13 @@ class Character : public Creature, public visitable<Character>
         Character &operator=( const Character & ) = delete;
         ~Character() override;
 
+        Character *as_character() override {
+            return this;
+        }
+        const Character *as_character() const override {
+            return this;
+        }
+
         character_id getID() const;
         // sets the ID, will *only* succeed when the current id is not valid
         void setID( character_id i );
@@ -181,7 +190,8 @@ class Character : public Creature, public visitable<Character>
             STRENGTH,
             DEXTERITY,
             INTELLIGENCE,
-            PERCEPTION
+            PERCEPTION,
+            DUMMY_STAT
         };
 
         // Character stats
@@ -280,6 +290,12 @@ class Character : public Creature, public visitable<Character>
         /** Returns the name of the player's outer layer, e.g. "armor plates" */
         std::string skin_name() const override;
 
+        /* returns the character's faction */
+        virtual faction *get_faction() const {
+            return nullptr;
+        }
+        void set_fac_id( const std::string &my_fac_id );
+
         /* Adjusts provided sight dispersion to account for player stats */
         int effective_dispersion( int dispersion ) const;
 
@@ -369,6 +385,10 @@ class Character : public Creature, public visitable<Character>
          * to simulate glare, etc, night vision only works if you are in the dark.
          */
         float get_vision_threshold( float light_level ) const;
+        /**
+         * Flag encumbrance for updating.
+        */
+        void flag_encumbrance();
         /**
          * Checks worn items for the "RESET_ENCUMBRANCE" flag, which indicates
          * that encumbrance may have changed and require recalculating.
@@ -473,6 +493,7 @@ class Character : public Creature, public visitable<Character>
         float mutation_armor( body_part bp, const damage_unit &du ) const;
 
         // --------------- Bionic Stuff ---------------
+        std::vector<bionic_id> get_bionics() const;
         /** Returns true if the player has the entered bionic id */
         bool has_bionic( const bionic_id &b ) const;
         /** Returns true if the player has the entered bionic id and it is powered on */
@@ -481,8 +502,10 @@ class Character : public Creature, public visitable<Character>
         bool has_any_bionic() const;
         /**Returns true if the character can fuel a bionic with the item*/
         bool can_fuel_bionic_with( const item &it ) const;
-        /**Return bionic_id of bionics able to use fuel*/
+        /**Return bionic_id of bionics able to use it as fuel*/
         std::vector<bionic_id> get_bionic_fueled_with( const item &it ) const;
+        /**Return bionic_id of fueled bionics*/
+        std::vector<bionic_id> get_fueled_bionics() const;
         /**Return bionic_id of bionic of most fuel efficient bionic*/
         bionic_id get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const;
         /**Return list of available fuel for this bionic*/
@@ -493,6 +516,8 @@ class Character : public Creature, public visitable<Character>
         int get_total_fuel_capacity( itype_id fuel ) const;
         /**Updates which bionic contain fuel and which is empty*/
         void update_fuel_storage( const itype_id &fuel );
+        /**Get stat bonus from bionic*/
+        int get_mod_stat_from_bionic( const Character::stat &Stat ) const;
         // route for overmap-scale travelling
         std::vector<tripoint> omt_path;
         // --------------- Generic Item Stuff ---------------
@@ -729,6 +754,8 @@ class Character : public Creature, public visitable<Character>
         /** Checks whether the character's skills meet the required */
         bool meets_skill_requirements( const std::map<skill_id, int> &req,
                                        const item &context = item() ) const;
+        /** Checks whether the character's skills meet the required */
+        bool meets_skill_requirements( const construction &con ) const;
         /** Checks whether the character's stats meets the stats required by the item */
         bool meets_stat_requirements( const item &it ) const;
         /** Checks whether the character meets overall requirements to be able to use the item */
@@ -848,6 +875,8 @@ class Character : public Creature, public visitable<Character>
         int radiation;
 
         std::shared_ptr<monster> mounted_creature;
+        // for loading NPC mounts
+        int mounted_creature_id;
 
         void initialize_stomach_contents();
 
@@ -980,6 +1009,13 @@ class Character : public Creature, public visitable<Character>
          */
         mutable pimpl<pathfinding_settings> path_settings;
 
+        // faction API versions
+        // 2 - allies are in your_followers faction; NPCATT_FOLLOW is follower but not an ally
+        // 0 - allies may be in your_followers faction; NPCATT_FOLLOW is an ally (legacy)
+        int faction_api_version = 2;  // faction API versioning
+        string_id<faction> fac_id; // A temp variable used to inform the game which faction to link
+        faction *my_fac = nullptr;
+
     private:
         // A unique ID number, assigned by the game class. Values should never be reused.
         character_id id;
@@ -993,6 +1029,12 @@ class Character : public Creature, public visitable<Character>
 
         int fatigue;
         int sleep_deprivation;
+        bool check_encumbrance;
+};
+
+template<>
+struct enum_traits<Character::stat> {
+    static constexpr Character::stat last = Character::stat::DUMMY_STAT;
 };
 
 #endif

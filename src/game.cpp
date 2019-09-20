@@ -35,6 +35,7 @@
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_utility.h"
+#include "auto_note.h"
 #include "catacharset.h"
 #include "clzones.h"
 #include "computer.h"
@@ -47,7 +48,6 @@
 #include "dependency_tree.h"
 #include "editmap.h"
 #include "enums.h"
-#include "timed_event.h"
 #include "faction.h"
 #include "filesystem.h"
 #include "game_constants.h"
@@ -68,12 +68,14 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "map_item_stack.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapdata.h"
 #include "mapsharing.h"
+#include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"
 #include "mod_manager.h"
@@ -99,12 +101,15 @@
 #include "safemode_ui.h"
 #include "scenario.h"
 #include "scent_map.h"
+#include "scores_ui.h"
 #include "sdltiles.h"
 #include "sounds.h"
 #include "start_location.h"
+#include "stats_tracker.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "submap.h"
+#include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
 #include "uistate.h"
@@ -277,7 +282,10 @@ game::game() :
 {
     player_was_sleeping = false;
     reset_light_level();
+    events().subscribe( &*stats_tracker_ptr );
     events().subscribe( &*kill_tracker_ptr );
+    events().subscribe( &*memorial_logger_ptr );
+    events().subscribe( &*spell_events_ptr );
     world_generator = std::make_unique<worldfactory>();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
@@ -659,6 +667,7 @@ void game::setup()
 
     SCT.vSCT.clear(); //Delete pending messages
 
+    stats().clear();
     // reset kill counts
     kill_tracker_ptr->clear();
     // reset follower list
@@ -749,6 +758,8 @@ bool game::start_game()
     //Reset character safe mode/pickup rules
     get_auto_pickup().clear_character_rules();
     get_safemode().clear_character_rules();
+    get_auto_notes_settings().clear();
+    get_auto_notes_settings().default_initialize();
 
     //Put some NPCs in there!
     if( get_option<std::string>( "STARTING_NPC" ) == "always" ||
@@ -830,7 +841,7 @@ bool game::start_game()
         }
     }
     for( auto &e : u.inv_dump() ) {
-        e->set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
+        e->set_owner( g->u.get_faction() );
     }
     // Now that we're done handling coordinates, ensure the player's submap is in the center of the map
     update_map( u );
@@ -860,10 +871,7 @@ bool game::start_game()
         mission->assign( u );
     }
 
-    //~ %s is player name
-    u.add_memorial_log( pgettext( "memorial_male", "%s began their journey into the Cataclysm." ),
-                        pgettext( "memorial_female", "%s began their journey into the Cataclysm." ),
-                        u.name );
+    g->events().send<event_type::game_start>( u.getID() );
     return true;
 }
 
@@ -874,7 +882,6 @@ void game::load_npcs()
     // uses submap coordinates
     std::vector<std::shared_ptr<npc>> just_added;
     for( const auto &temp : overmap_buffer.get_npcs_near_player( radius ) ) {
-
         if( temp->is_active() ) {
             continue;
         }
@@ -902,9 +909,6 @@ void game::load_npcs()
         if( temp->marked_for_death ) {
             temp->die( nullptr );
         } else {
-            if( temp->my_fac != nullptr ) {
-                temp->my_fac->known_by_u = true;
-            }
             active_npc.push_back( temp );
             just_added.push_back( temp );
         }
@@ -1163,24 +1167,12 @@ bool game::cleanup_at_end()
                                  .max_length( iMaxWidth - 4 - 1 )
                                  .query_string();
         death_screen();
-        if( uquit == QUIT_SUICIDE ) {
-            u.add_memorial_log( pgettext( "memorial_male", "%s committed suicide." ),
-                                pgettext( "memorial_female", "%s committed suicide." ),
-                                u.name );
-        } else {
-            u.add_memorial_log( pgettext( "memorial_male", "%s was killed." ),
-                                pgettext( "memorial_female", "%s was killed." ),
-                                u.name );
-        }
-        if( !sLastWords.empty() ) {
-            u.add_memorial_log( pgettext( "memorial_male", "Last words: %s" ),
-                                pgettext( "memorial_female", "Last words: %s" ),
-                                sLastWords );
-        }
+        const bool is_suicide = uquit == QUIT_SUICIDE;
+        events().send<event_type::game_over>( is_suicide, sLastWords );
         // Struck the save_player_data here to forestall Weirdness
         move_save_to_graveyard();
         write_memorial_file( sLastWords );
-        u.memorial_log.clear();
+        memorial().clear();
         std::vector<std::string> characters = list_active_characters();
         // remove current player from the active characters list, as they are dead
         std::vector<std::string>::iterator curchar = std::find( characters.begin(),
@@ -1521,6 +1513,7 @@ bool game::do_turn()
     m.build_floor_caches();
 
     m.process_falling();
+    following_vehicles();
     m.vehmove();
 
     // Process power and fuel consumption for all vehicles, including off-map ones.
@@ -1646,6 +1639,16 @@ void game::process_activity()
 
     while( u.moves > 0 && u.activity ) {
         u.activity.do_turn( u );
+    }
+}
+
+void game::following_vehicles()
+{
+    for( auto &veh : m.get_vehicles() ) {
+        auto &v = veh.v;
+        if( v->is_following ) {
+            v->drive_to_local_target( u.pos(), true );
+        }
     }
 }
 
@@ -1859,6 +1862,25 @@ static void update_faction_api( npc *guy )
     if( guy->get_faction_ver() < 2 ) {
         guy->set_fac( your_followers );
         guy->set_faction_ver( 2 );
+    }
+}
+
+void game::validate_mounted_npcs()
+{
+    for( monster &m : all_monsters() ) {
+        if( m.has_effect( effect_ridden ) && m.mounted_player_id.is_valid() ) {
+            player *mounted_pl = g->critter_by_id<player>( m.mounted_player_id );
+            if( !mounted_pl ) {
+                // Target no longer valid.
+                m.mounted_player_id = character_id();
+                m.remove_effect( effect_ridden );
+                continue;
+            }
+            mounted_pl->mounted_creature = shared_from( m );
+            mounted_pl->setpos( m.pos() );
+            mounted_pl->add_effect( effect_riding, 1_turns, num_bp, true );
+            m.mounted_player = mounted_pl;
+        }
     }
 }
 
@@ -2331,13 +2353,14 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "sky" );
     ctxt.register_action( "missions" );
     ctxt.register_action( "factions" );
-    ctxt.register_action( "kills" );
+    ctxt.register_action( "scores" );
     ctxt.register_action( "morale" );
     ctxt.register_action( "messages" );
     ctxt.register_action( "help" );
     ctxt.register_action( "open_keybindings" );
     ctxt.register_action( "open_options" );
     ctxt.register_action( "open_autopickup" );
+    ctxt.register_action( "open_autonotes" );
     ctxt.register_action( "open_safemode" );
     ctxt.register_action( "open_color" );
     ctxt.register_action( "open_world_mods" );
@@ -2360,6 +2383,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "toggle_auto_mining" );
     ctxt.register_action( "toggle_auto_foraging" );
     ctxt.register_action( "toggle_auto_pickup" );
+    ctxt.register_action( "toggle_thief_mode" );
     ctxt.register_action( "action_menu" );
     ctxt.register_action( "main_menu" );
     ctxt.register_action( "item_action_menu" );
@@ -2539,7 +2563,7 @@ void game::death_screen()
 {
     gamemode->game_over();
     Messages::display_messages();
-    get_kill_tracker().disp_kills();
+    show_scores_ui( stats(), get_kill_tracker() );
     disp_NPC_epilogues();
     follower_ids.clear();
     disp_faction_ends();
@@ -2635,7 +2659,7 @@ void game::load( const save_t &name )
     weather.nextweather = calendar::turn;
 
     read_from_file_optional( worldpath + name.base_path() + ".log",
-                             std::bind( &player::load_memorial_file, &u, _1 ) );
+                             std::bind( &memorial_logger::load, &memorial(), _1 ) );
 
 #if defined(__ANDROID__)
     read_from_file_optional( worldpath + name.base_path() + ".shortcuts",
@@ -2655,19 +2679,20 @@ void game::load( const save_t &name )
 
     init_autosave();
     get_auto_pickup().load_character(); // Load character auto pickup rules
+    get_auto_notes_settings().load();   // Load character auto notes settings
     get_safemode().load_character(); // Load character safemode rules
     zone_manager::get_manager().load_zones(); // Load character world zones
     read_from_file_optional( get_world_base_save_path() + "/uistate.json", []( std::istream & stream ) {
         JsonIn jsin( stream );
         uistate.deserialize( jsin );
     } );
-
     reload_npcs();
     validate_npc_followers();
+    validate_mounted_npcs();
     validate_camps();
     update_map( u );
     for( auto &e : u.inv_dump() ) {
-        e->set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
+        e->set_owner( g->u.get_faction() );
     }
     // legacy, needs to be here as we access the map.
     if( !u.getID().is_valid() ) {
@@ -2791,7 +2816,7 @@ void game::reset_npc_dispositions()
         npc_to_add->op_of_u.trust = 0;
         npc_to_add->op_of_u.value = 0;
         npc_to_add->op_of_u.owed = 0;
-        npc_to_add->set_fac( faction_id( "wasteland_scavengers" ) );
+        npc_to_add->set_fac( faction_id( "no_faction" ) );
         npc_to_add->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC,
                                      npc_to_add->global_omt_location(),
                                      npc_to_add->getID() ) );
@@ -2843,7 +2868,7 @@ bool game::save_player_data()
         save_weather( fout );
     }, _( "weather state" ) );
     const bool saved_log = write_to_file( playerfile + ".log", [&]( std::ostream & fout ) {
-        fout << u.dump_memorial();
+        fout << memorial().dump();
     }, _( "player memorial" ) );
 #if defined(__ANDROID__)
     const bool saved_shortcuts = write_to_file( playerfile + ".shortcuts", [&]( std::ostream & fout ) {
@@ -2863,6 +2888,21 @@ event_bus &game::events()
     return *event_bus_ptr;
 }
 
+stats_tracker &game::stats()
+{
+    return *stats_tracker_ptr;
+}
+
+memorial_logger &game::memorial()
+{
+    return *memorial_logger_ptr;
+}
+
+spell_events &game::spell_events_subscriber()
+{
+    return *spell_events_ptr;
+}
+
 bool game::save()
 {
     try {
@@ -2871,6 +2911,7 @@ bool game::save()
             !save_artifacts() ||
             !save_maps() ||
             !get_auto_pickup().save_character() ||
+            !get_auto_notes_settings().save() ||
             !get_safemode().save_character() ||
         !write_to_file( get_world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
@@ -2959,7 +3000,7 @@ void game::write_memorial_file( std::string sLastWords )
 
     const std::string path_string = memorial_file_path.str();
     write_to_file( memorial_file_path.str(), [&]( std::ostream & fout ) {
-        u.memorial( fout, sLastWords );
+        memorial().write( fout, sLastWords );
     }, _( "player memorial" ) );
 }
 
@@ -2993,87 +3034,87 @@ void game::disp_faction_ends()
                                   std::max( 0, ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
     std::vector<std::string> data;
 
-    for( const faction &elem : faction_manager_ptr->all() ) {
-        if( elem.known_by_u ) {
-            if( elem.name == "Your Followers" ) {
+    for( const auto &elem : faction_manager_ptr->all() ) {
+        if( elem.second.known_by_u ) {
+            if( elem.second.name == "Your Followers" ) {
                 data.emplace_back( _( "       You are forgotten among the billions lost in the cataclysm..." ) );
                 display_table( w, "", 1, data );
-            } else if( elem.name == "The Old Guard" && elem.power != 100 ) {
-                if( elem.power < 150 ) {
+            } else if( elem.second.name == "The Old Guard" && elem.second.power != 100 ) {
+                if( elem.second.power < 150 ) {
                     data.emplace_back(
-                        _( "    Locked in an endless battle, the Old Guard was forced to consolidate their \
-resources in a handful of fortified bases along the coast.  Without the men \
-or material to rebuild, the soldiers that remained lost all hope..." ) );
+                        _( "    Locked in an endless battle, the Old Guard was forced to consolidate their "
+                           "resources in a handful of fortified bases along the coast.  Without the men "
+                           "or material to rebuild, the soldiers that remained lost all hope..." ) );
                 } else {
-                    data.emplace_back( _( "    The steadfastness of individual survivors after the cataclysm impressed \
-the tattered remains of the once glorious union.  Spurred on by small \
-successes, a number of operations to re-secure facilities met with limited \
-success.  Forced to eventually consolidate to large bases, the Old Guard left \
-these facilities in the hands of the few survivors that remained.  As the \
-years past, little materialized from the hopes of rebuilding civilization..." ) );
+                    data.emplace_back( _( "    The steadfastness of individual survivors after the cataclysm impressed "
+                                          "the tattered remains of the once glorious union.  Spurred on by small "
+                                          "successes, a number of operations to re-secure facilities met with limited "
+                                          "success.  Forced to eventually consolidate to large bases, the Old Guard left "
+                                          "these facilities in the hands of the few survivors that remained.  As the "
+                                          "years past, little materialized from the hopes of rebuilding civilization..." ) );
                 }
                 display_table( w, _( "The Old Guard" ), 1, data );
-            } else if( elem.name == "The Free Merchants" && elem.power != 100 ) {
-                if( elem.power < 150 ) {
-                    data.emplace_back( _( "    Life in the refugee shelter deteriorated as food shortages and disease \
-destroyed any hope of maintaining a civilized enclave.  The merchants and \
-craftsmen dispersed to found new colonies but most became victims of \
-marauding bandits.  Those who survived never found a place to call home..." ) );
+            } else if( elem.second.name == "The Free Merchants" && elem.second.power != 100 ) {
+                if( elem.second.power < 150 ) {
+                    data.emplace_back( _( "    Life in the refugee shelter deteriorated as food shortages and disease "
+                                          "destroyed any hope of maintaining a civilized enclave.  The merchants and "
+                                          "craftsmen dispersed to found new colonies but most became victims of "
+                                          "marauding bandits.  Those who survived never found a place to call home..." ) );
                 } else {
-                    data.emplace_back( _( "    The Free Merchants struggled for years to keep themselves fed but their \
-once profitable trade routes were plundered by bandits and thugs.  In squalor \
-and filth the first generations born after the cataclysm are told stories of \
-the old days when food was abundant and the children were allowed to play in \
-the sun..." ) );
+                    data.emplace_back( _( "    The Free Merchants struggled for years to keep themselves fed but their "
+                                          "once profitable trade routes were plundered by bandits and thugs.  In squalor "
+                                          "and filth the first generations born after the cataclysm are told stories of "
+                                          "the old days when food was abundant and the children were allowed to play in "
+                                          "the sun..." ) );
                 }
                 display_table( w, _( "The Free Merchants" ), 1, data );
-            } else if( elem.name == "The Tacoma Commune" && elem.power != 100 ) {
-                if( elem.power < 150 ) {
-                    data.emplace_back( _( "    The fledgling outpost was abandoned a few months later.  The external \
-threats combined with low crop yields caused the Free Merchants to withdraw \
-their support.  When the exhausted migrants returned to the refugee center \
-they were turned away to face the world on their own." ) );
+            } else if( elem.second.name == "The Tacoma Commune" && elem.second.power != 100 ) {
+                if( elem.second.power < 150 ) {
+                    data.emplace_back( _( "    The fledgling outpost was abandoned a few months later.  The external "
+                                          "threats combined with low crop yields caused the Free Merchants to withdraw "
+                                          "their support.  When the exhausted migrants returned to the refugee center "
+                                          "they were turned away to face the world on their own." ) );
                 } else {
                     data.emplace_back(
-                        _( "    The commune continued to grow rapidly through the years despite constant \
-external threat.  While maintaining a reputation as a haven for all law-\
-abiding citizens, the commune's leadership remained loyal to the interests of \
-the Free Merchants.  Hard labor for little reward remained the price to be \
-paid for those who sought the safety of the community." ) );
+                        _( "    The commune continued to grow rapidly through the years despite constant "
+                           "external threat.  While maintaining a reputation as a haven for all law-"
+                           "abiding citizens, the commune's leadership remained loyal to the interests of "
+                           "the Free Merchants.  Hard labor for little reward remained the price to be "
+                           "paid for those who sought the safety of the community." ) );
                 }
                 display_table( w, _( "The Tacoma Commune" ), 1, data );
-            } else if( elem.name == "The Wasteland Scavengers" && elem.power != 100 ) {
-                if( elem.power < 150 ) {
+            } else if( elem.second.name == "The Wasteland Scavengers" && elem.second.power != 100 ) {
+                if( elem.second.power < 150 ) {
                     data.emplace_back(
-                        _( "    The lone bands of survivors who wandered the now alien world dwindled in \
-number through the years.  Unable to compete with the growing number of \
-monstrosities that had adapted to live in their world, those who did survive \
-lived in dejected poverty and hopelessness..." ) );
+                        _( "    The lone bands of survivors who wandered the now alien world dwindled in "
+                           "number through the years.  Unable to compete with the growing number of "
+                           "monstrosities that had adapted to live in their world, those who did survive "
+                           "lived in dejected poverty and hopelessness..." ) );
                 } else {
                     data.emplace_back(
-                        _( "    The scavengers who flourished in the opening days of the cataclysm found \
-an ever increasing challenge in finding and maintaining equipment from the \
-old world.  Enormous hordes made cities impossible to enter while new \
-eldritch horrors appeared mysteriously near old research labs.  But on the \
-fringes of where civilization once ended, bands of hunter-gatherers began to \
-adopt agrarian lifestyles in fortified enclaves..." ) );
+                        _( "    The scavengers who flourished in the opening days of the cataclysm found "
+                           "an ever increasing challenge in finding and maintaining equipment from the "
+                           "old world.  Enormous hordes made cities impossible to enter while new "
+                           "eldritch horrors appeared mysteriously near old research labs.  But on the "
+                           "fringes of where civilization once ended, bands of hunter-gatherers began to "
+                           "adopt agrarian lifestyles in fortified enclaves..." ) );
                 }
                 display_table( w, _( "The Wasteland Scavengers" ), 1, data );
-            } else if( elem.name == "Hell's Raiders" && elem.power != 100 ) {
-                if( elem.power < 150 ) {
-                    data.emplace_back( _( "    The raiders grew more powerful than any other faction as attrition \
-destroyed the Old Guard.  The ruthless men and women who banded together to \
-rob refugees and pillage settlements soon found themselves without enough \
-victims to survive.  The Hell's Raiders were eventually destroyed when \
-infighting erupted into civil war but there were few survivors left to \
-celebrate their destruction." ) );
+            } else if( elem.second.name == "Hell's Raiders" && elem.second.power != 100 ) {
+                if( elem.second.power < 150 ) {
+                    data.emplace_back( _( "    The raiders grew more powerful than any other faction as attrition "
+                                          "destroyed the Old Guard.  The ruthless men and women who banded together to "
+                                          "rob refugees and pillage settlements soon found themselves without enough "
+                                          "victims to survive.  The Hell's Raiders were eventually destroyed when "
+                                          "infighting erupted into civil war but there were few survivors left to "
+                                          "celebrate their destruction." ) );
                 } else {
-                    data.emplace_back( _( "    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail to \
-overthrow the last strongholds of the Old Guard.  The costly victories \
-brought the warlords abundant territory and slaves but little in the way of \
-stability.  Within weeks, infighting led to civil war as tribes vied for \
-leadership of the faction.  When only one warlord finally secured control, \
-there was nothing left to fight for... just endless cities full of the dead." ) );
+                    data.emplace_back( _( "    Fueled by drugs and rage, the Hell's Raiders fought tooth and nail to "
+                                          "overthrow the last strongholds of the Old Guard.  The costly victories "
+                                          "brought the warlords abundant territory and slaves but little in the way of "
+                                          "stability.  Within weeks, infighting led to civil war as tribes vied for "
+                                          "leadership of the faction.  When only one warlord finally secured control, "
+                                          "there was nothing left to fight for... just endless cities full of the dead." ) );
                 }
                 display_table( w, _( "Hell's Raiders" ), 1, data );
             }
@@ -4144,6 +4185,9 @@ void game::monmove()
             if( !critter.has_effect( effect_controlled ) ) {
                 // Formulate a path to follow
                 critter.plan();
+            } else {
+                critter.moves = 0;
+                break;
             }
             critter.move(); // Move one square, possibly hit u
             critter.process_triggers();
@@ -4285,7 +4329,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
             add_msg( _( "%s was stunned!" ), targ->name() );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
-            if( m.impassable( point( traj[i].x, traj[i].y ) ) ) {
+            if( m.impassable( traj[i].xy() ) ) {
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -4343,7 +4387,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
             add_msg( _( "%s was stunned!" ), targ->name );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
-            if( m.impassable( point( traj[i].x, traj[i].y ) ) ) { // oops, we hit a wall!
+            if( m.impassable( traj[i].xy() ) ) { // oops, we hit a wall!
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -4525,7 +4569,18 @@ T *game::critter_at( const tripoint &p, bool allow_hallucination )
         if( !allow_hallucination && mon_ptr->is_hallucination() ) {
             return nullptr;
         }
-        return dynamic_cast<T *>( mon_ptr.get() );
+        // if we wanted to check for an NPC / player / avatar,
+        // there is sometimes a monster AND an NPC/player there at the same time.
+        // because the NPC/player etc may be riding that monster.
+        // so only return the monster if we were actually looking for a monster.
+        // otherwise, keep looking for the rider.
+        // critter_at<creature> or critter_at() with no template will still default to returning monster first,
+        // which is ok for the occasions where that happens.
+        if( !mon_ptr->has_effect( effect_ridden ) || ( std::is_same<T, monster>::value ||
+                std::is_same<T, Creature>::value || std::is_same<T, const monster>::value ||
+                std::is_same<T, const Creature>::value ) ) {
+            return dynamic_cast<T *>( mon_ptr.get() );
+        }
     }
     if( p == u.pos() ) {
         return dynamic_cast<T *>( &u );
@@ -4991,7 +5046,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     }
     const tripoint kbp( kbx, kby, p.z );
     const bool can_see = u.sees( tripoint( x, y, p.z ) );
-    player *npc_or_player = critter_at<player>( tripoint( x, y, p.z ) );
+    player *npc_or_player = critter_at<player>( tripoint( x, y, p.z ), false );
     if( npc_or_player != nullptr ) {
         if( bash_dmg <= 0 ) {
             return false;
@@ -5108,7 +5163,7 @@ void game::moving_vehicle_dismount( const tripoint &dest_loc )
         debugmsg( "Need somewhere to dismount towards." );
         return;
     }
-    tileray ray( dest_loc.x - u.posx(), dest_loc.y - u.posy() );
+    tileray ray( dest_loc.xy() + point( -u.posx(), -u.posy() ) );
     const int d = ray.dir(); // TODO:: make dir() const correct!
     add_msg( _( "You dive from the %s." ), veh->name );
     m.unboard_vehicle( u.pos() );
@@ -5206,6 +5261,7 @@ void game::control_vehicle()
         for( const tripoint &target : veh->get_points() ) {
             u.clear_memorized_tile( m.getabs( target ) );
         }
+        veh->is_following = false;
     }
 }
 
@@ -5229,8 +5285,9 @@ bool game::npc_menu( npc &who )
 
     amenu.text = string_format( _( "What to do with %s?" ), who.disp_name() );
     amenu.addentry( talk, true, 't', _( "Talk" ) );
-    amenu.addentry( swap_pos, obeys, 's', _( "Swap positions" ) );
-    amenu.addentry( push, obeys, 'p', _( "Push away" ) );
+    amenu.addentry( swap_pos, obeys && !who.is_mounted() &&
+                    !u.is_mounted(), 's', _( "Swap positions" ) );
+    amenu.addentry( push, obeys && !who.is_mounted(), 'p', _( "Push away" ) );
     amenu.addentry( examine_wounds, true, 'w', _( "Examine wounds" ) );
     amenu.addentry( use_item, true, 'i', _( "Use item on" ) );
     amenu.addentry( sort_armor, true, 'r', _( "Sort armor" ) );
@@ -6190,8 +6247,8 @@ void game::zones_manager()
                     break;
                 }
 
-                mgr.add( name, id, your_followers, false, true, position->first, position->second,
-                         options );
+                mgr.add( name, id, g->u.get_faction()->id, false, true, position->first,
+                         position->second, options );
 
                 zones = get_zones();
                 active_index = zone_cnt - 1;
@@ -6504,8 +6561,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 {
     bVMonsterLookFire = false;
     // TODO: Make this `true`
-    const bool allow_zlev_move = m.has_zlevels() &&
-                                 ( debug_mode || fov_3d || u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) ) );
+    const bool allow_zlev_move = m.has_zlevels();
 
     temp_exit_fullscreen();
 
@@ -6596,7 +6652,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 draw_border( w_info );
 
                 static const std::string title_prefix = "< ";
-                static const char *title = _( "Look Around" );
+                const std::string title = _( "Look Around" );
                 static const std::string title_suffix = " >";
                 static const std::string full_title = title_prefix + title + title_suffix;
                 const int start_pos = center_text_pos( full_title, 0, getmaxx( w_info ) - 1 );
@@ -7608,7 +7664,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     const int iCurPos = iStartPos + y;
                     const int iCatPos = CatSortIter->first;
                     if( iCurPos == iCatPos ) {
-                        const std::string &cat_name = Creature::get_attitude_ui_data( CatSortIter->second ).first;
+                        const std::string cat_name = Creature::get_attitude_ui_data(
+                                                         CatSortIter->second ).first.translated();
                         mvwprintz( w_monsters, point( 1, y ), c_magenta, cat_name );
                         ++CatSortIter;
                         continue;
@@ -7966,8 +8023,8 @@ void game::butcher()
 
     const int factor = u.max_quality( quality_id( "BUTCHER" ) );
     const int factorD = u.max_quality( quality_id( "CUT_FINE" ) );
-    static const char *no_knife_msg = _( "You don't have a butchering tool." );
-    static const char *no_corpse_msg = _( "There are no corpses here to butcher." );
+    const std::string no_knife_msg = _( "You don't have a butchering tool." );
+    const std::string no_corpse_msg = _( "There are no corpses here to butcher." );
 
     //You can't butcher on sealed terrain- you have to smash/shovel/etc it open first
     if( m.has_flag( "SEALED", u.pos() ) ) {
@@ -8303,6 +8360,9 @@ void game::eat( item_location( *menu )( player &p ), int pos )
         } else {
             item_loc.remove_item();
         }
+    }
+    if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
     }
 }
 
@@ -8810,7 +8870,8 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
         if( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) && !boardable &&
             ( u.get_armor_bash( bp_foot_l ) < 5 || u.get_armor_bash( bp_foot_r ) < 5 ) ) {
             harmful_stuff.emplace_back( m.name( dest_loc ) );
-        } else if( m.has_flag( "SHARP", dest_loc ) && !m.has_flag( "SHARP", u.pos() ) && !boardable &&
+        } else if( m.has_flag( "SHARP", dest_loc ) && !m.has_flag( "SHARP", u.pos() ) && !( u.in_vehicle ||
+                   g->m.veh_at( dest_loc ) ) &&
                    u.dex_cur < 78 && !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
             harmful_stuff.emplace_back( m.name( dest_loc ) );
         }
@@ -9071,8 +9132,12 @@ bool game::walk_move( const tripoint &dest_loc )
         add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ) );
     }
 
-    if( dest_loc != u.pos() && !u.is_mounted() ) {
-        u.lifetime_stats.squares_walked++;
+    if( dest_loc != u.pos() ) {
+        mtype_id mount_type;
+        if( u.is_mounted() ) {
+            mount_type = u.mounted_creature->type->id;
+        }
+        g->events().send<event_type::avatar_moves>( mount_type );
     }
 
     tripoint oldpos = u.pos();
@@ -9150,7 +9215,8 @@ point game::place_player( const tripoint &dest_loc )
     }
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
     if( m.has_flag( "SHARP", dest_loc ) && !one_in( 3 ) && !x_in_y( 1 + u.dex_cur / 2.0, 40 ) &&
-        ( !u.in_vehicle ) && ( !u.has_trait( trait_PARKOUR ) || one_in( 4 ) ) ) {
+        ( !u.in_vehicle && !g->m.veh_at( dest_loc ) ) && ( !u.has_trait( trait_PARKOUR ) ||
+                one_in( 4 ) ) ) {
         if( u.is_mounted() ) {
             add_msg( _( "Your %s gets cut!" ), u.mounted_creature->get_name() );
             u.mounted_creature->apply_damage( nullptr, bp_torso, rng( 1, 10 ) );
@@ -9218,6 +9284,9 @@ point game::place_player( const tripoint &dest_loc )
                 critter.move_to( u.pos(), true ); // Force the movement even though the player is there right now.
                 add_msg( _( "You displace the %s." ), critter.name() );
             }
+        } else if( !u.has_effect( effect_riding ) ) {
+            add_msg( _( "You cannot move the %s out of the way." ), critter.name() );
+            return u.pos().xy();
         }
     }
 
@@ -9723,7 +9792,7 @@ void game::on_move_effects()
     // TODO: Move this to a character method
     if( !u.is_mounted() ) {
         const item muscle( "muscle" );
-        if( u.lifetime_stats.squares_walked % 8 == 0 ) {
+        if( one_in( 8 ) ) {// active power gen
             if( u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
                 u.charge_power( 1 );
             }
@@ -9733,12 +9802,12 @@ void game::on_move_effects()
                 }
             }
         }
-        if( u.lifetime_stats.squares_walked % 160 == 0 ) {
+        if( one_in( 160 ) ) {//  passive power gen
             if( u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
                 u.charge_power( 1 );
             }
             for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
-                if( u.has_active_bionic( bid ) ) {
+                if( u.has_bionic( bid ) ) {
                     u.charge_power( muscle.fuel_energy() * bid->fuel_efficiency );
                 }
             }
@@ -10129,6 +10198,9 @@ void game::vertical_move( int movez, bool force )
     if( !m.has_zlevels() ) {
         const tripoint to = u.pos();
         for( monster &critter : all_monsters() ) {
+            if( critter.has_effect( effect_ridden ) ) {
+                continue;
+            }
             int turns = critter.turns_to_reach( to.xy() );
             if( turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach( to.xy() )
                 && !slippedpast ) {
@@ -10150,14 +10222,14 @@ void game::vertical_move( int movez, bool force )
     if( !m.has_zlevels() && abs( movez ) == 1 ) {
         std::copy_if( active_npc.begin(), active_npc.end(), back_inserter( npcs_to_bring ),
         [this]( const std::shared_ptr<npc> &np ) {
-            return np->is_walking_with() && rl_dist( np->pos(), u.pos() ) < 2;
+            return np->is_walking_with() && !np->is_mounted() && rl_dist( np->pos(), u.pos() ) < 2;
         } );
     }
 
     if( m.has_zlevels() && abs( movez ) == 1 ) {
         for( monster &critter : all_monsters() ) {
-            if( critter.attack_target() == &g->u || ( critter.has_effect( effect_pet ) &&
-                    critter.friendly == -1 ) ) {
+            if( critter.attack_target() == &g->u || ( !critter.has_effect( effect_ridden ) &&
+                    critter.has_effect( effect_pet ) && critter.friendly == -1 ) ) {
                 monsters_following.push_back( &critter );
             }
         }
@@ -10430,7 +10502,9 @@ void game::vertical_shift( const int z_after )
     }
 
     m.spawn_monsters( true );
-
+    // this may be required after a vertical shift if z-levels are not enabled
+    // the critter is unloaded/loaded, and it needs to reconstruct its rider data after being reloaded.
+    validate_mounted_npcs();
     vertical_notes( z_before, z_after );
 }
 
@@ -10941,6 +11015,12 @@ void game::perhaps_add_random_npc()
     std::shared_ptr<npc> tmp = std::make_shared<npc>();
     tmp->normalize();
     tmp->randomize();
+    std::string new_fac_id = "solo_";
+    new_fac_id += tmp->name;
+    // create a new "lone wolf" faction for this one NPC
+    faction *new_solo_fac = faction_manager_ptr->add_new_faction( tmp->name, faction_id( new_fac_id ),
+                            faction_id( "no_faction" ) );
+    tmp->set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
     // adds the npc to the correct overmap.
     tmp->spawn_at_sm( msx, msy, 0 );
     overmap_buffer.insert_npc( tmp );
@@ -10976,13 +11056,12 @@ void game::teleport( player *p, bool add_teleglow )
     p->setx( new_pos.x );
     p->sety( new_pos.y );
     if( m.impassable( new_pos ) ) { //Teleported into a wall
+        const std::string obstacle_name = m.obstacle_name( new_pos );
+        g->events().send<event_type::teleports_into_wall>( p->getID(), obstacle_name );
         if( can_see ) {
             if( is_u ) {
                 add_msg( _( "You teleport into the middle of a %s!" ),
                          m.obstacle_name( new_pos ) );
-                p->add_memorial_log( pgettext( "memorial_male", "Teleported into a %s." ),
-                                     pgettext( "memorial_female", "Teleported into a %s." ),
-                                     m.obstacle_name( new_pos ) );
             } else {
                 add_msg( _( "%1$s teleports into the middle of a %2$s!" ),
                          p->name, m.obstacle_name( new_pos ) );
@@ -10990,20 +11069,17 @@ void game::teleport( player *p, bool add_teleglow )
         }
         p->apply_damage( nullptr, bp_torso, 500 );
         p->check_dead_state();
-    } else if( can_see ) {
-        if( monster *const mon_ptr = critter_at<monster>( new_pos ) ) {
-            monster &critter = *mon_ptr;
+    } else if( monster *const mon_ptr = critter_at<monster>( new_pos ) ) {
+        g->events().send<event_type::telefrags_creature>( p->getID(), mon_ptr->name() );
+        if( can_see ) {
             if( is_u ) {
                 add_msg( _( "You teleport into the middle of a %s!" ),
-                         critter.name() );
-                u.add_memorial_log( pgettext( "memorial_male", "Telefragged a %s." ),
-                                    pgettext( "memorial_female", "Telefragged a %s." ),
-                                    critter.name() );
+                         mon_ptr->name() );
             } else {
                 add_msg( _( "%1$s teleports into the middle of a %2$s!" ),
-                         p->name, critter.name() );
+                         p->name, mon_ptr->name() );
             }
-            critter.die_in_explosion( p );
+            mon_ptr->die_in_explosion( p );
         }
     }
     if( is_u ) {
@@ -11179,12 +11255,20 @@ void game::process_artifact( item &it, player &p )
     const bool wielded = ( &it == &p.weapon );
     std::vector<art_effect_passive> effects = it.type->artifact->effects_carried;
     if( worn ) {
-        auto &ew = it.type->artifact->effects_worn;
+        const std::vector<art_effect_passive> &ew = it.type->artifact->effects_worn;
         effects.insert( effects.end(), ew.begin(), ew.end() );
     }
     if( wielded ) {
-        auto &ew = it.type->artifact->effects_wielded;
+        const std::vector<art_effect_passive> &ew = it.type->artifact->effects_wielded;
         effects.insert( effects.end(), ew.begin(), ew.end() );
+    }
+    std::vector<enchantment> active_enchantments;
+    if( it.is_relic() ) {
+        for( const enchantment &ench : it.get_enchantments() ) {
+            if( ench.is_active( p, it ) ) {
+                active_enchantments.emplace_back( ench );
+            }
+        }
     }
     if( it.is_tool() ) {
         // Recharge it if necessary
@@ -11250,7 +11334,11 @@ void game::process_artifact( item &it, player &p )
         }
     }
 
-    for( auto &i : effects ) {
+    for( const enchantment &ench : active_enchantments ) {
+        ench.activate_passive( p );
+    }
+
+    for( const art_effect_passive &i : effects ) {
         switch( i ) {
             case AEP_STR_UP:
                 p.mod_str_bonus( +4 );

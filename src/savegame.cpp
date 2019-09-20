@@ -16,6 +16,7 @@
 #include "creature_tracker.h"
 #include "debug.h"
 #include "faction.h"
+#include "int_id.h"
 #include "io.h"
 #include "kill_tracker.h"
 #include "map.h"
@@ -29,13 +30,13 @@
 #include "overmap.h"
 #include "scent_map.h"
 #include "translations.h"
-#include "tuple_hash.h"
+#include "hash_utils.h"
 #include "basecamp.h"
 #include "json.h"
 #include "omdata.h"
 #include "overmap_types.h"
 #include "regional_settings.h"
-#include "int_id.h"
+#include "stats_tracker.h"
 #include "string_id.h"
 
 #if defined(__ANDROID__)
@@ -94,8 +95,9 @@ void game::serialize( std::ostream &fout )
     json.member( "active_monsters", *critter_tracker );
     json.member( "stair_monsters", coming_to_stairs );
 
-    // save killcounts.
+    // save stats.
     json.member( "kill_tracker", *kill_tracker_ptr );
+    json.member( "stats_tracker", *stats_tracker_ptr );
 
     json.member( "player", u );
     Messages::serialize( json );
@@ -236,6 +238,7 @@ void game::unserialize( std::istream &fin )
         }
 
         data.read( "player", u );
+        data.read( "stats_tracker", *stats_tracker_ptr );
         Messages::deserialize( data );
 
     } catch( const JsonError &jsonerr ) {
@@ -912,17 +915,22 @@ void overmap::unserialize( std::istream &fin )
                 }
                 cities.push_back( new_city );
             }
+        } else if( name == "connections_out" ) {
+            jsin.read( connections_out );
         } else if( name == "roads_out" ) {
+            // Legacy data, superceded by that stored in the "connections_out" member. A load and save
+            // cycle will migrate this to "connections_out".
+            std::vector<tripoint> &roads_out = connections_out[string_id<overmap_connection>( "local_road" )];
             jsin.start_array();
             while( !jsin.end_array() ) {
                 jsin.start_object();
-                city new_road;
+                tripoint new_road;
                 while( !jsin.end_object() ) {
                     std::string road_member_name = jsin.get_member_name();
                     if( road_member_name == "x" ) {
-                        jsin.read( new_road.pos.x );
+                        jsin.read( new_road.x );
                     } else if( road_member_name == "y" ) {
-                        jsin.read( new_road.pos.y );
+                        jsin.read( new_road.y );
                     }
                 }
                 roads_out.push_back( new_road );
@@ -1010,8 +1018,8 @@ void overmap::unserialize( std::istream &fin )
             while( !jsin.end_array() ) {
                 std::shared_ptr<npc> new_npc = std::make_shared<npc>();
                 new_npc->deserialize( jsin );
-                if( !new_npc->fac_id.str().empty() ) {
-                    new_npc->set_fac( new_npc->fac_id );
+                if( !new_npc->get_fac_id().str().empty() ) {
+                    new_npc->set_fac( new_npc->get_fac_id() );
                 }
                 npcs.push_back( new_npc );
             }
@@ -1352,15 +1360,7 @@ void overmap::serialize( std::ostream &fout ) const
     json.end_array();
     fout << std::endl;
 
-    json.member( "roads_out" );
-    json.start_array();
-    for( auto &i : roads_out ) {
-        json.start_object();
-        json.member( "x", i.pos.x );
-        json.member( "y", i.pos.y );
-        json.end_object();
-    }
-    json.end_array();
+    json.member( "connections_out", connections_out );
     fout << std::endl;
 
     json.member( "radios" );
@@ -1611,22 +1611,45 @@ void game::serialize_master( std::ostream &fout )
 
 void faction_manager::serialize( JsonOut &jsout ) const
 {
-    jsout.write( factions );
+    std::vector<faction> local_facs;
+    for( auto &elem : factions ) {
+        local_facs.push_back( elem.second );
+    }
+    jsout.write( local_facs );
 }
 
 void faction_manager::deserialize( JsonIn &jsin )
 {
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        faction add_fac;
-        jsin.read( add_fac );
-        faction *old_fac = get( add_fac.id );
-        if( old_fac ) {
-            *old_fac = add_fac;
-            // force a revalidation of add_fac
-            get( add_fac.id );
-        } else {
-            factions.emplace_back( add_fac );
+    if( jsin.test_object() ) {
+        // whoops - this recovers factions saved under the wrong format.
+        jsin.start_object();
+        while( !jsin.end_object() ) {
+            faction add_fac;
+            add_fac.id = faction_id( jsin.get_member_name() );
+            jsin.read( add_fac );
+            faction *old_fac = get( add_fac.id );
+            if( old_fac ) {
+                *old_fac = add_fac;
+                // force a revalidation of add_fac
+                get( add_fac.id );
+            } else {
+                factions[add_fac.id] = add_fac;
+            }
+        }
+    } else if( jsin.test_array() ) {
+        // how it should have been serialized.
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            faction add_fac;
+            jsin.read( add_fac );
+            faction *old_fac = get( add_fac.id );
+            if( old_fac ) {
+                *old_fac = add_fac;
+                // force a revalidation of add_fac
+                get( add_fac.id );
+            } else {
+                factions[add_fac.id] = add_fac;
+            }
         }
     }
 }

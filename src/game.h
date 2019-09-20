@@ -87,10 +87,11 @@ class avatar;
 class event_bus;
 class kill_tracker;
 class map;
+class memorial_logger;
 class faction_manager;
-class new_faction_manager;
-class player;
 class npc;
+class player;
+class stats_tracker;
 class vehicle;
 class Creature_tracker;
 class scenario;
@@ -256,11 +257,11 @@ class game
         template<typename T = Creature>
         const T * critter_at( const tripoint &p, bool allow_hallucination = false ) const;
         /**
-         * Returns a shared pointer to the given critter (which can be of any of the subclasses of
-         * @ref Creature). The function may return an empty pointer if the given critter
-         * is not stored anywhere (e.g. it was allocated on the stack, not stored in
-         * the @ref critter_tracker nor in @ref active_npc nor is it @ref u).
-         */
+        * Returns a shared pointer to the given critter (which can be of any of the subclasses of
+        * @ref Creature). The function may return an empty pointer if the given critter
+        * is not stored anywhere (e.g. it was allocated on the stack, not stored in
+        * the @ref critter_tracker nor in @ref active_npc nor is it @ref u).
+        */
         template<typename T = Creature>
         std::shared_ptr<T> shared_from( const T &critter );
 
@@ -448,9 +449,11 @@ class game
         std::set<character_id> get_follower_list();
         /** validate list of followers to account for overmap buffers */
         void validate_npc_followers();
+        void validate_mounted_npcs();
         /** validate camps to ensure they are on the overmap list */
         void validate_camps();
-
+        /** process vehicles that are following the player */
+        void following_vehicles();
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport( player *p = nullptr, bool add_teleglow = true );
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
@@ -623,6 +626,18 @@ class game
         // Draw a highlight graphic at p, for example when examining something.
         // TILES only, in curses this does nothing
         void draw_highlight( const tripoint &p );
+        void draw_radiation_override( const tripoint &p, int rad );
+        void draw_terrain_override( const tripoint &p, const ter_id &id );
+        void draw_furniture_override( const tripoint &p, const furn_id &id );
+        void draw_graffiti_override( const tripoint &p, bool has );
+        void draw_trap_override( const tripoint &p, const trap_id &id );
+        void draw_field_override( const tripoint &p, const field_type_id &id );
+        void draw_item_override( const tripoint &p, const itype_id &id, const mtype_id &mid, bool hilite );
+        void draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod, int veh_dir,
+                                  bool hilite, const point &mount );
+        void draw_below_override( const tripoint &p, bool draw );
+        void draw_monster_override( const tripoint &p, const mtype_id &id, int count,
+                                    bool more, Creature::Attitude att );
 
         bool is_in_viewport( const tripoint &p, int margin = 0 ) const;
         /**
@@ -874,7 +889,10 @@ class game
         pimpl<scent_map> scent_ptr;
         pimpl<timed_event_manager> timed_event_manager_ptr;
         pimpl<event_bus> event_bus_ptr;
+        pimpl<stats_tracker> stats_tracker_ptr;
         pimpl<kill_tracker> kill_tracker_ptr;
+        pimpl<memorial_logger> memorial_logger_ptr;
+        pimpl<spell_events> spell_events_ptr;
 
     public:
         /** Make map a reference here, to avoid map.h in game.h */
@@ -884,10 +902,12 @@ class game
         timed_event_manager &timed_events;
 
         event_bus &events();
+        stats_tracker &stats();
+        memorial_logger &memorial();
+        spell_events &spell_events_subscriber();
 
         pimpl<Creature_tracker> critter_tracker;
         pimpl<faction_manager> faction_manager_ptr;
-        pimpl<new_faction_manager> new_faction_manager_ptr;
 
         /** Used in main.cpp to determine what type of quit is being performed. */
         quit_status uquit;
@@ -940,7 +960,6 @@ class game
         int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:
         std::shared_ptr<player> u_shared_ptr;
-        std::vector<std::shared_ptr<npc>> active_npc;
 
         catacurses::window w_terrain_ptr;
         catacurses::window w_minimap_ptr;
@@ -953,6 +972,7 @@ class game
         bool safe_mode_warning_logged;
         bool bVMonsterLookFire;
         character_id next_npc_id;
+        std::vector<std::shared_ptr<npc>> active_npc;
         int next_mission_id;
         std::set<character_id> follower_ids; // Keep track of follower NPC IDs
         int moves_since_last_save;

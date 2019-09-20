@@ -5,7 +5,7 @@
     "category": "spare_parts",
     "name": "ammo belt linkage",
     "description": "A small metal linkage from a disintegrating ammo belt.",
-    "weight": 2,
+    "weight": "2 g",
     "volume": "2ml",
     "stackable": true,
     "material": "steel",
@@ -32,7 +32,7 @@
     "copy-from": "ammolink",
     "type": "GENERIC",
     "name": "40mm grenade belt linkage",
-    "weight": 10,
+    "weight": "10 g",
     "volume": "10ml",
     "use_action": { "type": "ammobelt", "belt": "belt40mm" }
   },

@@ -199,6 +199,7 @@ void spell_type::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
+    optional( jo, was_loaded, "message", message, to_translation( "You cast %s!" ) );
     mandatory( jo, was_loaded, "effect", effect_name );
     const auto found_effect = effect_map.find( effect_name );
     if( found_effect == effect_map.cend() ) {
@@ -217,18 +218,10 @@ void spell_type::load( JsonObject &jo, const std::string & )
     if( jo.has_array( "extra_effects" ) ) {
         JsonArray jarray = jo.get_array( "extra_effects" );
         while( jarray.has_more() ) {
+            fake_spell temp;
             JsonObject fake_spell_obj = jarray.next_object();
-            std::string temp_id;
-            bool temp_self = false;
-            int temp_max_level = -1;
-            mandatory( fake_spell_obj, was_loaded, "id", temp_id );
-            optional( fake_spell_obj, was_loaded, "hit_self", temp_self, false );
-            optional( fake_spell_obj, was_loaded, "max_level", temp_max_level, -1 );
-            cata::optional<int> max_level = cata::nullopt;
-            if( temp_max_level >= 0 ) {
-                max_level = temp_max_level;
-            }
-            additional_spells.emplace_back( fake_spell( spell_id( temp_id ), temp_self, max_level ) );
+            temp.load( fake_spell_obj );
+            additional_spells.emplace_back( temp );
         }
     }
 
@@ -291,6 +284,11 @@ void spell_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "base_casting_time", base_casting_time, 0 );
     optional( jo, was_loaded, "final_casting_time", final_casting_time, base_casting_time );
     optional( jo, was_loaded, "casting_time_increment", casting_time_increment, 0.0f );
+
+    JsonObject learning = jo.get_object( "learn_spells" );
+    for( std::string n : learning.get_member_names() ) {
+        learn_spells.insert( std::pair<std::string, int>( n, learning.get_int( n ) ) );
+    }
 }
 
 static bool spell_infinite_loop_check( std::set<spell_id> spell_effects, const spell_id &sp )
@@ -388,6 +386,11 @@ bool spell_type::is_valid() const
 spell::spell( spell_id sp, int xp ) :
     type( sp ),
     experience( xp )
+{}
+
+spell::spell( spell_id sp, translation alt_msg ) :
+    type( sp ),
+    alt_message( alt_msg )
 {}
 
 spell_id spell::id() const
@@ -560,6 +563,14 @@ int spell::casting_time( const player &p ) const
 std::string spell::name() const
 {
     return type->name.translated();
+}
+
+std::string spell::message() const
+{
+    if( !alt_message.empty() ) {
+        return alt_message.translated();
+    }
+    return type->message.translated();
 }
 
 float spell::spell_fail( const player &p ) const
@@ -971,15 +982,8 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
     // first call the effect of the main spell
     cast_spell_effect( source, target );
     for( const fake_spell &extra_spell : type->additional_spells ) {
-        spell sp( extra_spell.id );
-        int level = sp.get_max_level();
-        if( extra_spell.max_level ) {
-            level = std::min( level, *extra_spell.max_level );
-        }
-        level = std::min( get_level(), level );
-        while( sp.get_level() < level ) {
-            sp.gain_level();
-        }
+        spell sp = extra_spell.get_spell( extra_spell.level );
+
         if( extra_spell.self ) {
             sp.cast_all_effects( source, source.pos() );
         } else {
@@ -1581,7 +1585,7 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     print_colored_text( w, point( menu->pad_left - spell_class.length() - 1, line++ ), yellow, yellow,
                         spell_class );
     line++;
-    line += fold_and_print( w, point( start_x, line ), width, gray, sp.description.translated() );
+    line += fold_and_print( w, point( start_x, line ), width, gray, "%s", sp.description );
     line++;
 
     mvwprintz( w, point( start_x, line ), c_light_gray, string_format( "%s: %d", _( "Difficulty" ),
@@ -1662,4 +1666,80 @@ void spellbook_callback::select( int entnum, uilist *menu )
         mvwputch( menu->window, point( menu->pad_left, i ), c_magenta, LINE_XOXO );
     }
     draw_spellbook_info( spells[entnum], menu );
+}
+
+void fake_spell::load( JsonObject &jo )
+{
+    std::string temp_id;
+    mandatory( jo, false, "id", temp_id );
+    id = spell_id( temp_id );
+    optional( jo, false, "hit_self", self, false );
+    int max_level_int;
+    optional( jo, false, "max_level", max_level_int, -1 );
+    if( max_level_int == -1 ) {
+        max_level = cata::nullopt;
+    } else {
+        max_level = max_level_int;
+    }
+    optional( jo, false, "level", level, 0 );
+}
+
+void fake_spell::serialize( JsonOut &json ) const
+{
+    json.member( "id", id );
+    json.member( "hit_self", self );
+    if( !max_level ) {
+        json.member( "max_level", -1 );
+    } else {
+        json.member( "max_level", *max_level );
+    }
+    json.member( "level", level );
+}
+
+void fake_spell::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    load( data );
+}
+
+spell fake_spell::get_spell( const int level_override ) const
+{
+    spell sp( id );
+    int level = sp.get_max_level();
+    if( max_level ) {
+        level = std::min( level, *max_level );
+    }
+    level = std::min( level_override, level );
+    while( sp.get_level() < level ) {
+        sp.gain_level();
+    }
+    return sp;
+}
+
+void spell_events::notify( const cata::event &e )
+{
+    switch( e.type() ) {
+        case event_type::player_levels_spell: {
+            spell_id sid = e.get<spell_id>( "spell" );
+            int slvl = e.get<int>( "new_level" );
+            spell_type spell_cast = spell_factory.obj( sid );
+            for( std::map<std::string, int>::iterator it = spell_cast.learn_spells.begin();
+                 it != spell_cast.learn_spells.end(); ++it ) {
+                std::string learn_spell_id = it->first;
+                int learn_at_level = it->second;
+                if( learn_at_level == slvl ) {
+                    g->u.magic.learn_spell( learn_spell_id, g->u );
+                    spell_type spell_learned = spell_factory.obj( spell_id( learn_spell_id ) );
+                    add_msg(
+                        _( "Your experience and knowledge in creating and manipulating magical energies to cast %s have opened your eyes to new possibilities, you can now cast %s." ),
+                        spell_cast.name,
+                        spell_learned.name );
+                }
+            }
+            break;
+        }
+        default:
+            break;
+
+    }
 }

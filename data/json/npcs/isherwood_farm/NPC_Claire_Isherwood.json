@@ -8,6 +8,8 @@
     "class": "NC_ISHERWOOD_CLAIRE",
     "attitude": 0,
     "mission": 7,
+    "carry_override": "NC_ISHERWOOD_rifle",
+    "weapon_override": "NC_ISHERWOOD_archery",
     "chat": "TALK_ISHERWOOD_CLAIRE",
     "mission_offered": "MISSION_ISHERWOOD_CLAIRE_1",
     "faction": "isherwood_family"
@@ -21,9 +23,6 @@
     "common": false,
     "bonus_per": { "one_in": 4 },
     "shopkeeper_item_group": "NC_ISHERWOOD_CLAIRE_misc",
-    "worn_override": "NC_Isherwood_worn",
-    "carry_override": "NC_ISHERWOOD_rifle",
-    "weapon_override": "NC_ISHERWOOD_archery",
     "skills": [
       {
         "skill": "ALL",
@@ -39,8 +38,33 @@
   },
   {
     "type": "item_group",
+    "id": "NC_ISHERWOOD_CLAIRE_storage",
+    "items": [ [ "backpack_hiking", 100 ] ]
+  },
+  {
+    "id": "NC_ISHERWOOD_CLAIRE_gloves",
+    "type": "item_group",
+    "items": [ [ "gloves_leather", 45 ], [ "gloves_light", 20 ] ]
+  },
+  {
+    "id": "NC_ISHERWOOD_CLAIRE_pants",
+    "type": "item_group",
+    "items": [ [ "jeans", 50 ], [ "pants_cargo", 70 ], [ "leather_belt", 30 ] ]
+  },
+  {
+    "id": "NC_ISHERWOOD_CLAIRE_shoes",
+    "type": "item_group",
+    "items": [ [ "boots", 70 ], [ "knee_high_boots", 50 ], [ "boots_hiking", 20 ], [ "mocassins", 20 ] ]
+  },
+  {
+    "id": "NC_ISHERWOOD_CLAIRE_torso",
+    "type": "item_group",
+    "items": [ [ "tank_top", 50 ], [ "dress", 45 ], [ "jacket_light", 40 ] ]
+  },
+  {
+    "type": "item_group",
     "id": "NC_ISHERWOOD_CLAIRE_hat",
-    "items": [ [ "null", 40 ], [ "cowboy_hat", 40 ], [ "hat_boonie", 20 ] ]
+    "items": [ [ "null", 40 ], [ "cowboy_hat", 40 ], [ "straw_hat", 20 ] ]
   },
   {
     "type": "item_group",
@@ -164,10 +188,17 @@
     "type": "talk_topic",
     "id": "TALK_BARRY",
     "dynamic_line": "Some of their cows were killed before we realized what was happening, Barry and Carlos went into the forest to find the predator but it was like nothing they'd ever seen.  Carlos may be willing to tell you more.",
-    "effect": { "u_add_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" },
     "responses": [
-      { "text": "I'd like to ask you something else...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      {
+        "text": "I'd like to ask you something else...",
+        "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS",
+        "effect": { "u_add_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "I'd better get going.",
+        "topic": "TALK_DONE",
+        "effect": { "u_add_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
+      }
     ]
   },
   {
@@ -236,7 +267,8 @@
     "value": 20000,
     "item": "raw_dandelion",
     "count": 50,
-    "origins": [ "ORIGIN_ANY_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_ISHERWOOD_CLAIRE_2",
     "end": {
       "opinion": { "trust": 1, "value": 1 },
@@ -266,16 +298,17 @@
     "value": 20000,
     "item": "seed_bee_balm",
     "count": 20,
+    "followup": "MISSION_ISHERWOOD_CLAIRE_3",
     "end": {
       "opinion": { "trust": 2, "value": 2 },
       "effect": [
         { "u_buy_item": "pine_tea", "container": "jar_glass_sealed", "count": 2 },
         { "u_buy_item": "royal_jelly", "count": 1 },
-        { "u_buy_item": "bee_balm_tea", "container": "jar_glass_sealed", "count": 2 },
-        { "u_add_var": "u_did_claire_missions", "type": "general", "context": "recruit", "value": "yes" }
+        { "u_buy_item": "bee_balm_tea", "container": "jar_glass_sealed", "count": 2 }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "I could use some seeds from the forest.",
       "offer": "We could use some seeds for the next planting season.  Can you bring me 20 bee balm seeds?",
@@ -286,6 +319,39 @@
       "success": "Wow, perfect.  Here are some of my own remedies and if those don't work try my other gift.",
       "success_lie": "What good does this do us?",
       "failure": "I'll have to find someone more at home in the forest..."
+    }
+  },
+  {
+    "id": "MISSION_ISHERWOOD_CLAIRE_3",
+    "type": "mission_definition",
+    "name": "Find and capture a cat",
+    "goal": "MGOAL_FIND_MONSTER",
+    "difficulty": 4,
+    "value": 100000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "start": {
+      "assign_mission_target": { "om_terrain": "cabin_isherwood", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 8 },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_cat", "pack_size": [ 3, 6 ], "x": 20, "y": 22, "target": true } ] },
+      "effect": [ { "u_buy_item": "chicken_cage", "count": 1 } ]
+    },
+    "end": {
+      "opinion": { "trust": 2, "value": 2 },
+      "effect": [
+        { "u_buy_item": "isherwood_herbal_remedies", "count": 1 },
+        { "u_add_var": "u_did_claire_missions", "type": "general", "context": "recruit", "value": "yes" }
+      ]
+    },
+    "dialogue": {
+      "describe": "I could use a barn cat to keep the mice down.",
+      "offer": "I saw some feral cats out by the old cabin.  Can you capture one for me?",
+      "accepted": "Thank you!  Please hurry back! Take this cage so you have a chance of capturing one.",
+      "rejected": "I did't want to use chemicals on these rats.",
+      "advice": "Take this pet carrier; if you can get close to a cat, you can put it inside.  If you're having problems, try befriending it with cat food.",
+      "inquire": "Have you found a cat?",
+      "success": "Thank you so much, I want you to have this copy of my natural remedy journal. I'll name this handsome fellow Joshua.",
+      "success_lie": "What?!  You're lying, I can tell!  Did you even bring back my cage?",
+      "failure": "Oh no!  I guess they are too nimble for you..."
     }
   }
 ]

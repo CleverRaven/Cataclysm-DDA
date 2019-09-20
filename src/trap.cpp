@@ -4,6 +4,8 @@
 #include <set>
 
 #include "debug.h"
+#include "event_bus.h"
+#include "game.h"
 #include "generic_factory.h"
 #include "int_id.h"
 #include "json.h"
@@ -111,6 +113,7 @@ void trap::load( JsonObject &jo, const std::string & )
     // TODO: Is there a generic_factory version of this?
     act = trap_function_from_string( jo.get_string( "action" ) );
 
+    optional( jo, was_loaded, "map_regen", map_regen, "none" );
     optional( jo, was_loaded, "benign", benign, false );
     optional( jo, was_loaded, "always_invisible", always_invisible, false );
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
@@ -145,15 +148,36 @@ void trap::load( JsonObject &jo, const std::string & )
         vehicle_data.damage = jv.get_int( "damage", 0 );
         vehicle_data.shrapnel = jv.get_int( "shrapnel", 0 );
         vehicle_data.sound_volume = jv.get_int( "sound_volume", 0 );
-        vehicle_data.sound = jv.get_string( "sound", "" );
+        jv.read( "sound", vehicle_data.sound );
         vehicle_data.sound_type = jv.get_string( "sound_type", "" );
         vehicle_data.sound_variant = jv.get_string( "sound_variant", "" );
+        vehicle_data.spawn_items.clear();
+        if( jv.has_array( "spawn_items" ) ) {
+            JsonArray ja = jv.get_array( "spawn_items" );
+            while( ja.has_more() ) {
+                if( ja.test_object() ) {
+                    JsonObject joitm = ja.next_object();
+                    vehicle_data.spawn_items.emplace_back( joitm.get_string( "id" ), joitm.get_float( "chance" ) );
+                } else {
+                    vehicle_data.spawn_items.emplace_back( ja.next_string(), 1.0 );
+                }
+            }
+        }
+        vehicle_data.set_trap = trap_str_id::NULL_ID();
+        if( jv.read( "set_trap", vehicle_data.set_trap ) ) {
+            vehicle_data.remove_trap = false;
+        }
     }
 }
 
 std::string trap::name() const
 {
     return _( name_ );
+}
+
+std::string trap::map_regen_target() const
+{
+    return map_regen;
 }
 
 void trap::reset()
@@ -203,8 +227,14 @@ bool trap::can_see( const tripoint &pos, const player &p ) const
 
 void trap::trigger( const tripoint &pos, Creature *creature, item *item ) const
 {
-    if( ( creature != nullptr && !creature->is_hallucination() ) || item != nullptr ) {
-        act( pos, creature, item );
+    const bool is_real_creature = creature != nullptr && !creature->is_hallucination();
+    if( is_real_creature || item != nullptr ) {
+        bool triggered = act( pos, creature, item );
+        if( triggered && is_real_creature ) {
+            if( Character *ch = creature->as_character() ) {
+                g->events().send<event_type::character_triggers_trap>( ch->getID(), id );
+            }
+        }
     }
 }
 
@@ -257,6 +287,7 @@ tr_caltrops_glass,
 tr_tripwire,
 tr_crossbow,
 tr_shotgun_2,
+tr_shotgun_2_1,
 tr_shotgun_1,
 tr_engine,
 tr_blade,
@@ -324,6 +355,7 @@ void trap::finalize()
     tr_tripwire = trapfind( "tr_tripwire" );
     tr_crossbow = trapfind( "tr_crossbow" );
     tr_shotgun_2 = trapfind( "tr_shotgun_2" );
+    tr_shotgun_2_1 = trapfind( "tr_shotgun_2_1" );
     tr_shotgun_1 = trapfind( "tr_shotgun_1" );
     tr_engine = trapfind( "tr_engine" );
     tr_blade = trapfind( "tr_blade" );

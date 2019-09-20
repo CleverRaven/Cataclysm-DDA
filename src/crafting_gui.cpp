@@ -63,7 +63,7 @@ int related_menu_fill( uilist &rmenu,
                        const std::vector<std::pair<itype_id, std::string>> &related_recipes,
                        const recipe_subset &available );
 
-static std::string get_cat_name( const std::string &prefixed_name )
+static std::string get_cat_unprefixed( const std::string &prefixed_name )
 {
     return prefixed_name.substr( 3, prefixed_name.size() - 3 );
 }
@@ -80,7 +80,7 @@ void load_recipe_category( JsonObject &jsobj )
     if( !is_hidden ) {
         craft_cat_list.push_back( category );
 
-        const std::string cat_name = get_cat_name( category );
+        const std::string cat_name = get_cat_unprefixed( category );
 
         craft_subcat_list[category] = std::vector<std::string>();
         JsonArray subcats = jsobj.get_array( "recipe_subcategories" );
@@ -94,24 +94,25 @@ void load_recipe_category( JsonObject &jsobj )
     }
 }
 
-static std::string get_subcat_name( const std::string &cat, const std::string &prefixed_name )
+static std::string get_subcat_unprefixed( const std::string &cat, const std::string &prefixed_name )
 {
-    std::string prefix = "CSC_" + get_cat_name( cat ) + "_";
+    std::string prefix = "CSC_" + get_cat_unprefixed( cat ) + "_";
 
     if( prefixed_name.find( prefix ) == 0 ) {
         return prefixed_name.substr( prefix.size(), prefixed_name.size() - prefix.size() );
     }
 
-    return ( prefixed_name == "CSC_ALL" ? _( "ALL" ) : _( "NONCRAFT" ) );
+    return prefixed_name == "CSC_ALL" ? translate_marker( "ALL" ) : translate_marker( "NONCRAFT" );
 }
 
 static void translate_all()
 {
+    normalized_names.clear();
     for( const auto &cat : craft_cat_list ) {
-        normalized_names[cat] = _( get_cat_name( cat ) );
+        normalized_names[cat] = _( get_cat_unprefixed( cat ) );
 
         for( const auto &subcat : craft_subcat_list[cat] ) {
-            normalized_names[subcat] = _( get_subcat_name( cat, subcat ) ) ;
+            normalized_names[subcat] = _( get_subcat_unprefixed( cat, subcat ) ) ;
         }
     }
 }
@@ -151,9 +152,8 @@ static int print_items( const recipe &r, const catacurses::window &w, int ypos, 
 
 const recipe *select_crafting_recipe( int &batch_size )
 {
-    if( normalized_names.empty() ) {
-        translate_all();
-    }
+    // always re-translate the category names in case the language has changed
+    translate_all();
 
     const int headHeight = 3;
     const int subHeadHeight = 2;
@@ -996,24 +996,10 @@ static void draw_can_craft_indicator( const catacurses::window &w, const int mar
 static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab, TAB_MODE mode )
 {
     werase( w );
-    int width = getmaxx( w );
-    for( int i = 0; i < width; i++ ) {
-        mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_OXOX );
-    }
-
-    mvwputch( w, point( 0, 2 ), BORDER_COLOR, LINE_OXXO ); // |^
-    mvwputch( w, point( width - 1, 2 ), BORDER_COLOR, LINE_OOXX ); // ^|
 
     switch( mode ) {
         case NORMAL: {
-            // Draw the tabs on each other
-            int pos_x = 2;
-            // Step between tabs, two for tabs border
-            int tab_step = 3;
-            for( const auto &tt : craft_cat_list ) {
-                draw_tab( w, pos_x, normalized_names[tt], tab == tt );
-                pos_x += utf8_width( normalized_names[tt] ) + tab_step;
-            }
+            draw_tabs( w, normalized_names, craft_cat_list, tab );
             break;
         }
         case FILTERED:

@@ -79,7 +79,6 @@ struct construction {
         std::function<void( const tripoint & )> post_special;
         // Custom error message display
         std::function<void( const tripoint & )> explain_failure;
-
         // Whether it's furniture or terrain
         bool pre_is_furniture;
         // Whether it's furniture or terrain

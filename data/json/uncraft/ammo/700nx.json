@@ -10,7 +10,7 @@
       [ [ "lead", 14 ] ],
       [ [ "700nx_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 38 ] ],
+      [ [ "gunpowder_large_rifle", 38 ] ],
       [ [ "copper", 9 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]

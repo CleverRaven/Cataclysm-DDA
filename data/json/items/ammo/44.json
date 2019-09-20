@@ -12,9 +12,10 @@
     "type": "AMMO",
     "name": ".44 Magnum",
     "description": ".44 magnum ammunition with 240gr JHP bullets.  The .44 magnum round is one of the most powerful handgun cartridges available.  It has excellent stopping power but suffers from extremely high recoil for a handgun round.",
-    "weight": 13,
+    "weight": "13 g",
     "volume": "250 ml",
-    "price": 2900,
+    "price": 175,
+    "price_postapoc": 2900,
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "light_gray",
@@ -51,11 +52,18 @@
     "id": "bp_44magnum",
     "copy-from": "44magnum",
     "type": "AMMO",
-    "name": "blackpowder .44 Magnum",
-    "description": "This .44 Magnum cartridge is loaded with 39gr of blackpowder and a 200gr cast lead semi-wadcutter.",
-    "proportional": { "price": 0.6, "dispersion": 1.2 },
-    "pierce": 0,
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE" ] },
+    "name": ".44 Magnum blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_44fmj",
+    "copy-from": "44fmj",
+    "type": "AMMO",
+    "name": ".44 Magnum FMJ blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   }
 ]

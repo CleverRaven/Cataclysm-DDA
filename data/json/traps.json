@@ -112,6 +112,32 @@
   },
   {
     "type": "trap",
+    "id": "tr_microlab_shifting_hall",
+    "name": "microlab shifting hall",
+    "color": "brown",
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "microlab_shifting_hall",
+    "benign": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_microlab_shifting_hall_2",
+    "name": "microlab shifting hall",
+    "color": "brown",
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "microlab_shifting_hall_2",
+    "benign": true
+  },
+  {
+    "type": "trap",
     "id": "tr_beartrap",
     "trigger_weight": 200,
     "name": "bear trap",
@@ -122,7 +148,15 @@
     "difficulty": 3,
     "action": "beartrap",
     "drops": [ "beartrap" ],
-    "vehicle_data": { "damage": 300, "sound_volume": 8, "sound": "SNAP!", "sound_type": "trap", "sound_variant": "bear_trap" }
+    "vehicle_data": {
+      "damage": 300,
+      "sound_volume": 8,
+      "sound": "SNAP!",
+      "sound_type": "trap",
+      "sound_variant": "bear_trap",
+      "remove_trap": true,
+      "spawn_items": [ "beartrap" ]
+    }
   },
   {
     "type": "trap",
@@ -136,7 +170,15 @@
     "difficulty": 4,
     "action": "beartrap",
     "drops": [ "beartrap" ],
-    "vehicle_data": { "damage": 300, "sound_volume": 8, "sound": "SNAP!", "sound_type": "trap", "sound_variant": "bear_trap" }
+    "vehicle_data": {
+      "damage": 300,
+      "sound_volume": 8,
+      "sound": "SNAP!",
+      "sound_type": "trap",
+      "sound_variant": "bear_trap",
+      "remove_trap": true,
+      "spawn_items": [ "beartrap" ]
+    }
   },
   {
     "type": "trap",
@@ -202,13 +244,14 @@
     "action": "crossbow",
     "drops": [ "string_36", "crossbow", "bolt_steel" ],
     "vehicle_data": {
-      "remove_trap": true,
       "chance": 30,
       "damage": 300,
       "sound_volume": 1,
       "sound": "Clank!",
       "sound_type": "fire_gun",
-      "sound_variant": "crossbow"
+      "sound_variant": "crossbow",
+      "remove_trap": true,
+      "spawn_items": [ "crossbow", "string_6", { "id": "bolt_steel", "chance": 0.9 } ]
     }
   },
   {
@@ -224,13 +267,36 @@
     "action": "shotgun",
     "drops": [ "string_36", "shotgun_d", { "item": "shot_00", "quantity": 2, "charges": 1 } ],
     "vehicle_data": {
-      "remove_trap": true,
       "chance": 70,
       "damage": 300,
       "sound_volume": 60,
       "sound": "Bang!",
       "sound_type": "fire_gun",
-      "sound_variant": "shotgun_d"
+      "sound_variant": "shotgun_d",
+      "set_trap": "tr_shotgun_2_1"
+    }
+  },
+  {
+    "type": "trap",
+    "id": "tr_shotgun_2_1",
+    "trigger_weight": 200,
+    "name": "shotgun trap",
+    "color": "red",
+    "symbol": "^",
+    "visibility": 4,
+    "avoidance": 5,
+    "difficulty": 6,
+    "action": "shotgun",
+    "drops": [ "string_36", "shotgun_d", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
+    "vehicle_data": {
+      "chance": 70,
+      "damage": 300,
+      "sound_volume": 60,
+      "sound": "Bang!",
+      "sound_type": "fire_gun",
+      "sound_variant": "shotgun_d",
+      "remove_trap": true,
+      "spawn_items": [ "shotgun_d", "string_6" ]
     }
   },
   {
@@ -251,7 +317,9 @@
       "sound_volume": 60,
       "sound": "Bang!",
       "sound_type": "fire_gun",
-      "sound_variant": "shotgun_s"
+      "sound_variant": "shotgun_s",
+      "remove_trap": true,
+      "spawn_items": [ "shotgun_s", "string_6" ]
     }
   },
   {

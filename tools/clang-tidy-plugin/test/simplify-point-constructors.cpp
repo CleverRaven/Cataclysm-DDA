@@ -55,3 +55,12 @@ int f9( const point & );
 int i9 = f9( point( p9.x, p9.y ) );
 // CHECK-MESSAGES: warning: Construction of 'point' can be simplified. [cata-simplify-point-constructors]
 // CHECK-FIXES: int i9 = f9( p9 );
+
+struct A10 {
+    point *operator->() const;
+};
+A10 a10;
+int f10( const point & );
+int i10 = f10( point( a10->x, a10->y ) );
+// CHECK-MESSAGES: warning: Construction of 'point' can be simplified. [cata-simplify-point-constructors]
+// CHECK-FIXES: int i10 = f10( *a10 );

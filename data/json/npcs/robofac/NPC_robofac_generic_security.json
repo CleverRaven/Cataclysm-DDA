@@ -43,7 +43,7 @@
       { "item": "glasses_bal", "prob": 33 },
       { "item": "boots_combat" },
       { "item": "holster", "prob": 50 },
-      { "item": "chestrig" }
+      { "item": "tacvest" }
     ]
   },
   {
@@ -55,7 +55,8 @@
       { "item": "grenade", "prob": 2 },
       { "item": "PR24-extended" },
       { "item": "flashlight" },
-      { "item": "l_mp_9mm" },
+      { "item": "l_mp_9mm", "charges": 21, "ammo-item": "9mmP" },
+      { "item": "lw21mag", "charges": 21, "ammo-item": "9mmP" },
       { "item": "9mmP", "count": 6 }
     ]
   },

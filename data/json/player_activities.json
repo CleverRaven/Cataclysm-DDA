@@ -8,6 +8,15 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_FIND_MOUNT",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "finding a mount",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_READ",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -21,18 +30,49 @@
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
     "verb": "constructing",
-    "suspendable": false,
-    "based_on": "neither",
-    "no_resume": true
+    "based_on": "neither"
   },
   {
-    "id": "ACT_BLUEPRINT_CONSTRUCTION",
+    "id": "ACT_TIDY_UP",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "tidying up",
+    "based_on": "neither"
+  },
+  {
+    "id": "ACT_VEHICLE_DECONSTRUCTION",
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
-    "verb": "constructing",
-    "suspendable": false,
-    "based_on": "neither",
-    "no_resume": true
+    "verb": "deconstructing a vehicle",
+    "based_on": "neither"
+  },
+  {
+    "id": "ACT_MULTIPLE_CHOP_PLANKS",
+    "type": "activity_type",
+    "activity_level": "EXTRA_EXERCISE",
+    "verb": "chopping logs",
+    "based_on": "neither"
+  },
+  {
+    "id": "ACT_MULTIPLE_BUTCHER",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "butchering",
+    "based_on": "neither"
+  },
+  {
+    "id": "ACT_MULTIPLE_CHOP_TREES",
+    "type": "activity_type",
+    "activity_level": "EXTRA_EXERCISE",
+    "verb": "chopping trees",
+    "based_on": "neither"
+  },
+  {
+    "id": "ACT_MULTIPLE_FISH",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "fishing",
+    "based_on": "neither"
   },
   {
     "id": "ACT_GAME",
@@ -139,7 +179,7 @@
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
     "based_on": "neither",
-    "refuel_fires": "true",
+    "refuel_fires": true,
     "verb": "constructing"
   },
   {
@@ -293,15 +333,31 @@
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
     "verb": "sorting out the loot",
-    "suspendable": false,
-    "based_on": "neither",
-    "no_resume": true
+    "based_on": "neither"
   },
   {
     "id": "ACT_TILL_PLOT",
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
     "verb": "tilling the farm plot",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_FETCH_REQUIRED",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "fetching components",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_MULTIPLE_FARM",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "farming",
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true
@@ -508,14 +564,14 @@
     "id": "ACT_CHOP_TREE",
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
-    "verb": "chopping down",
+    "verb": "chopping down a tree",
     "based_on": "speed"
   },
   {
     "id": "ACT_CHOP_LOGS",
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
-    "verb": "chopping down",
+    "verb": "chopping a log",
     "based_on": "speed"
   },
   {
@@ -532,6 +588,13 @@
     "activity_level": "ACTIVE_EXERCISE",
     "verb": "drilling",
     "based_on": "speed"
+  },
+  {
+    "id": "ACT_CHURN",
+    "type": "activity_type",
+    "activity_level": "EXTRA_EXERCISE",
+    "verb": "churning earth",
+    "based_on": "time"
   },
   {
     "id": "ACT_DIG",

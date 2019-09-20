@@ -306,10 +306,9 @@ void player::power_mutations()
                         continue;
                     }
                 } else {
-                    popup( _( "\
-You cannot activate %s!  To read a description of \
-%s, press '!', then '%c'." ), mut_data.name(), mut_data.name(),
-                           my_mutations[mut_id].key );
+                    popup( _( "You cannot activate %s!  To read a description of "
+                              "%s, press '!', then '%c'." ),
+                           mut_data.name(), mut_data.name(), my_mutations[mut_id].key );
                     redraw = true;
                 }
             }

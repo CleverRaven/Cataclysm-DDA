@@ -39,10 +39,10 @@
 #include "monster.h"
 #include "craft_command.h"
 #include "point.h"
-#include "faction.h"
 
 class basecamp;
 class effect;
+class faction;
 class map;
 class npc;
 struct pathfinding_settings;
@@ -64,6 +64,7 @@ struct dealt_projectile_attack;
 class dispersion_sources;
 
 using itype_id = std::string;
+using faction_id = string_id<faction>;
 struct trap;
 class profession;
 
@@ -139,18 +140,6 @@ class player_morale;
 // This corresponds to the level of accuracy of a "snap" or "hip" shot.
 extern const double MAX_RECOIL;
 
-//Don't forget to add new memorial counters
-//to the save and load functions in savegame_json.cpp
-struct stats {
-    int squares_walked = 0;
-    int damage_taken = 0;
-    int damage_healed = 0;
-    int headshots = 0;
-
-    void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
-};
-
 struct stat_mod {
     int strength = 0;
     int dexterity = 0;
@@ -222,6 +211,8 @@ class player : public Character
         bool is_npc() const override {
             return false;    // Overloaded for NPCs in npc.h
         }
+        bool can_mount( const monster &critter ) const;
+        void mount_creature( monster &z );
         /** Returns what color the player should be drawn as */
         nc_color basic_symbol_color() const override;
 
@@ -350,8 +341,7 @@ class player : public Character
                               int skill_level = -1 );
         /**Success or failure of installation happens here*/
         void perform_install( bionic_id bid, bionic_id upbid, int difficulty, int success,
-                              int pl_skill,
-                              std::string cbm_name, std::string upcbm_name, std::string installer_name,
+                              int pl_skill, std::string installer_name,
                               std::vector<trait_id> trait_to_rem, tripoint patient_pos );
         void bionics_install_failure( bionic_id bid, std::string installer, int difficulty, int success,
                                       float adjusted_skill, tripoint patient_pos );
@@ -362,8 +352,7 @@ class player : public Character
         bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                int skill_level = -1 );
         /**Succes or failure of removal happens here*/
-        void perform_uninstall( bionic_id bid, int difficulty, int success, int power_lvl, int pl_skill,
-                                std::string cbm_name );
+        void perform_uninstall( bionic_id bid, int difficulty, int success, int power_lvl, int pl_skill );
         /**Used by monster to perform surgery*/
         bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
                                float adjusted_skill, bool autodoc = false );
@@ -609,7 +598,7 @@ class player : public Character
         dispersion_sources get_weapon_dispersion( const item &obj ) const;
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
-        bool handle_gun_damage( item &it, int shots_fired );
+        bool handle_gun_damage( item &it );
 
         /** Get maximum recoil penalty due to vehicle motion */
         double recoil_vehicle() const;
@@ -1183,8 +1172,10 @@ class player : public Character
     public:
         /** Returns a value from 1.0 to 5.0 that acts as a multiplier
          * for the time taken to perform tasks that require detail vision,
-         * above 4.0 means these activities cannot be performed. */
-        float fine_detail_vision_mod() const;
+         * above 4.0 means these activities cannot be performed.
+         * takes pos as a parameter so that remote spots can be judged
+         * if they will potentially have enough light when player gets there */
+        float fine_detail_vision_mod( const tripoint &p = tripoint_zero ) const;
 
         /** Used to determine player feedback on item use for the inventory code.
          *  rates usability lower for non-tools (books, etc.) */
@@ -1581,8 +1572,9 @@ class player : public Character
         bool hauling;
         player_activity activity;
         std::list<player_activity> backlog;
-        int volume;
         cata::optional<tripoint> destination_point;
+        int activity_vehicle_part_index = -1;
+        int volume;
         const profession *prof;
 
         start_location_id start_location;
@@ -1645,18 +1637,7 @@ class player : public Character
         int get_free_bionics_slots( body_part bp ) const;
         std::map<body_part, int> bionic_installation_issues( const bionic_id &bioid );
 
-        //Dumps all memorial events into a single newline-delimited string
-        std::string dump_memorial() const;
-        //Log an event, to be later written to the memorial file
-        using Character::add_memorial_log;
-        void add_memorial_log( const std::string &male_msg, const std::string &female_msg ) override;
-        //Loads the memorial log from a file
-        void load_memorial_file( std::istream &fin );
-        //Notable events, to be printed in memorial
-        std::vector <std::string> memorial_log;
         std::set<character_id> follower_ids;
-        //Record of player stats, for posterity only
-        stats lifetime_stats;
         void mod_stat( const std::string &stat, float modifier ) override;
 
         bool is_underwater() const override;

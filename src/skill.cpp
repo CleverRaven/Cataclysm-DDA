@@ -19,7 +19,10 @@
 std::vector<Skill> Skill::skills;
 std::map<skill_id, Skill> Skill::contextual_skills;
 
+std::vector<SkillDisplayType> SkillDisplayType::skillTypes;
+
 static const Skill invalid_skill;
+static const SkillDisplayType invalid_skill_type;
 
 /** @relates string_id */
 template<>
@@ -46,15 +49,16 @@ bool string_id<Skill>::is_valid() const
     return &obj() != &invalid_skill;
 }
 
-Skill::Skill() : Skill( skill_id::NULL_ID(), "nothing", "The zen-most skill there is.",
-                            std::set<std::string> {} )
+Skill::Skill() : Skill( skill_id::NULL_ID(), to_translation( "nothing" ),
+                            to_translation( "The zen-most skill there is." ),
+                            std::set<std::string> {}, skill_displayType_id::NULL_ID() )
 {
 }
 
-Skill::Skill( skill_id ident, std::string name, std::string description,
-              std::set<std::string> tags )
-    : _ident( std::move( ident ) ), _name( std::move( name ) ),
-      _description( std::move( description ) ), _tags( std::move( tags ) )
+Skill::Skill( const skill_id &ident, const translation &name, const translation &description,
+              const std::set<std::string> &tags, skill_displayType_id display_type )
+    : _ident( ident ), _name( name ), _description( description ), _tags( tags ),
+      _display_type( display_type )
 {
 }
 
@@ -88,14 +92,54 @@ void Skill::load_skill( JsonObject &jsobj )
         return s._ident == ident;
     } ), end( skills ) );
 
-    const Skill sk( ident, _( jsobj.get_string( "name" ) ), _( jsobj.get_string( "description" ) ),
-                    jsobj.get_tags( "tags" ) );
+    translation name, desc;
+    jsobj.read( "name", name );
+    jsobj.read( "description", desc );
+    skill_displayType_id display_type = skill_displayType_id( jsobj.get_string( "display_category" ) );
+    const Skill sk( ident, name, desc, jsobj.get_tags( "tags" ), display_type );
 
     if( sk.is_contextual_skill() ) {
         contextual_skills[sk.ident()] = sk;
     } else {
         skills.push_back( sk );
     }
+}
+
+SkillDisplayType::SkillDisplayType() : SkillDisplayType( skill_displayType_id::NULL_ID(),
+            to_translation( "invalid" ) )
+{
+}
+
+SkillDisplayType::SkillDisplayType( const skill_displayType_id &ident,
+                                    const translation &display_string )
+    : _ident( ident ), _display_string( display_string )
+{
+}
+
+
+void SkillDisplayType::load( JsonObject &jsobj )
+{
+    skill_displayType_id ident = skill_displayType_id( jsobj.get_string( "ident" ) );
+    skillTypes.erase( std::remove_if( begin( skillTypes ),
+    end( skillTypes ), [&]( const SkillDisplayType & s ) {
+        return s._ident == ident;
+    } ), end( skillTypes ) );
+
+    translation display_string;
+    jsobj.read( "display_string", display_string );
+    const SkillDisplayType sk( ident, display_string );
+    skillTypes.push_back( sk );
+}
+
+
+const SkillDisplayType &SkillDisplayType::get_skill_type( skill_displayType_id id )
+{
+    for( auto &i : skillTypes ) {
+        if( i._ident == id ) {
+            return i;
+        }
+    }
+    return invalid_skill_type;
 }
 
 skill_id Skill::from_legacy_int( const int legacy_id )

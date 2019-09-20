@@ -14,15 +14,13 @@ namespace tidy
 namespace cata
 {
 
-static auto isMemberExpr( const std::string &type, const std::string &member_,
+static auto isMemberExpr( const std::string &/*type*/, const std::string &member_,
                           const std::string &objBind )
 {
     return ignoringParenCasts(
                memberExpr(
                    member( hasName( member_ ) ),
-                   hasObjectExpression(
-                       expr( hasType( cxxRecordDecl( hasName( type ) ) ) ).bind( objBind )
-                   )
+                   hasObjectExpression( expr().bind( objBind ) )
                )
            );
 }
@@ -33,75 +31,61 @@ void SimplifyPointConstructorsCheck::registerMatchers( MatchFinder *Finder )
         cxxConstructExpr(
             hasDeclaration( isPointConstructor().bind( "constructorDecl" ) ),
             testWhetherConstructingTemporary(),
-            hasArgument( 0, isMemberExpr( "point", "x", "xobj" ) ),
-            hasArgument( 1, isMemberExpr( "point", "y", "yobj" ) )
-        ).bind( "constructorCallFromPoint" ),
-        this
-    );
-    Finder->addMatcher(
-        cxxConstructExpr(
-            hasDeclaration( isPointConstructor().bind( "constructorDecl" ) ),
-            testWhetherConstructingTemporary(),
             hasArgument( 0, isMemberExpr( "tripoint", "x", "xobj" ) ),
             hasArgument( 1, isMemberExpr( "tripoint", "y", "yobj" ) ),
             anyOf(
                 hasArgument( 2, isMemberExpr( "tripoint", "z", "zobj" ) ),
                 anything()
             )
-        ).bind( "constructorCallFromTripoint" ),
+        ).bind( "constructorCall" ),
         this
     );
 }
 
-static void CheckFromPoint( SimplifyPointConstructorsCheck &Check,
-                            const MatchFinder::MatchResult &Result )
+struct ExpressionCategory {
+    ExpressionCategory() = default;
+
+    ExpressionCategory( const MatchFinder::MatchResult &Result, const Expr *E ) :
+        Replacement( getText( Result, E ) ) {
+        QualType EType = E->getType();
+        if( EType->isPointerType() ) {
+            IsArrowRef = true;
+            if( const CXXRecordDecl *Record = EType->getPointeeCXXRecordDecl() ) {
+                IsPoint = isPointType( Record );
+                IsTripoint = Record->getName() == "tripoint";
+            }
+        } else if( const CXXRecordDecl *Record = EType->getAsCXXRecordDecl() ) {
+            IsPoint = isPointType( Record );
+            IsTripoint = Record->getName() == "tripoint";
+        }
+    }
+
+    bool IsPoint = false;
+    bool IsTripoint = false;
+    bool IsArrowRef = false;
+    std::string Replacement;
+
+    std::tuple<bool, bool, bool, std::string> asTuple() const {
+        return std::make_tuple( IsPoint, IsTripoint, IsArrowRef, Replacement );
+    }
+
+    friend bool operator==( const ExpressionCategory &l, const ExpressionCategory &r ) {
+        return l.asTuple() == r.asTuple();
+    }
+    friend bool operator!=( const ExpressionCategory &l, const ExpressionCategory &r ) {
+        return l.asTuple() != r.asTuple();
+    }
+};
+
+static void CheckConstructor( SimplifyPointConstructorsCheck &Check,
+                              const MatchFinder::MatchResult &Result )
 {
     const CXXConstructExpr *ConstructorCall =
-        Result.Nodes.getNodeAs<CXXConstructExpr>( "constructorCallFromPoint" );
+        Result.Nodes.getNodeAs<CXXConstructExpr>( "constructorCall" );
     const CXXConstructorDecl *ConstructorDecl =
         Result.Nodes.getNodeAs<CXXConstructorDecl>( "constructorDecl" );
     const MaterializeTemporaryExpr *TempParent =
         Result.Nodes.getNodeAs<MaterializeTemporaryExpr>( "temp" );
-    const Expr *XExpr = Result.Nodes.getNodeAs<Expr>( "xobj" );
-    const Expr *YExpr = Result.Nodes.getNodeAs<Expr>( "yobj" );
-    if( !ConstructorCall || !ConstructorDecl || !XExpr || !YExpr ) {
-        return;
-    }
-
-    std::string ReplacementX = getText( Result, XExpr );
-    std::string ReplacementY = getText( Result, YExpr );
-
-    if( ReplacementX != ReplacementY ) {
-        return;
-    }
-
-    SourceRange SourceRangeToReplace( ConstructorCall->getArg( 0 )->getBeginLoc(),
-                                      ConstructorCall->getArg( 1 )->getEndLoc() );
-
-    if( TempParent ) {
-        if( ConstructorDecl->getNumParams() == 2 ) {
-            SourceRangeToReplace = ConstructorCall->getSourceRange();
-        }
-    }
-
-    CharSourceRange CharRangeToReplace = Lexer::makeFileCharRange(
-            CharSourceRange::getTokenRange( SourceRangeToReplace ), *Result.SourceManager,
-            Check.getLangOpts() );
-
-    Check.diag(
-        ConstructorCall->getBeginLoc(),
-        "Construction of %0 can be simplified." ) << ConstructorDecl->getParent() <<
-                FixItHint::CreateReplacement( CharRangeToReplace, ReplacementX );
-}
-
-static void CheckFromTripoint( SimplifyPointConstructorsCheck &Check,
-                               const MatchFinder::MatchResult &Result )
-{
-    const CXXConstructExpr *ConstructorCall =
-        Result.Nodes.getNodeAs<CXXConstructExpr>( "constructorCallFromTripoint" );
-    const CXXConstructorDecl *ConstructorDecl =
-        Result.Nodes.getNodeAs<CXXConstructorDecl>( "constructorDecl" );
-    const Expr *TempParent = Result.Nodes.getNodeAs<Expr>( "temp" );
     const Expr *XExpr = Result.Nodes.getNodeAs<Expr>( "xobj" );
     const Expr *YExpr = Result.Nodes.getNodeAs<Expr>( "yobj" );
     const Expr *ZExpr = Result.Nodes.getNodeAs<Expr>( "zobj" );
@@ -109,27 +93,43 @@ static void CheckFromTripoint( SimplifyPointConstructorsCheck &Check,
         return;
     }
 
-    std::string ReplacementX = getText( Result, XExpr );
-    std::string ReplacementY = getText( Result, YExpr );
+    ExpressionCategory XCat( Result, XExpr );
+    ExpressionCategory YCat( Result, YExpr );
 
-    if( ReplacementX != ReplacementY ) {
+    if( !XCat.IsPoint || !YCat.IsPoint ) {
         return;
     }
 
-    std::string ReplacementZ;
+    if( XCat != YCat ) {
+        return;
+    }
+
+    ExpressionCategory ZCat;
     unsigned int MaxArg = 1;
 
     if( ZExpr ) {
-        ReplacementZ = getText( Result, ZExpr );
-        if( ReplacementZ == ReplacementX ) {
+        ZCat = ExpressionCategory( Result, ZExpr );
+        if( ZCat == XCat ) {
             MaxArg = 2;
         } else {
-            ReplacementZ.clear();
+            ZCat = ExpressionCategory();
         }
     }
 
-    if( MaxArg == 1 ) {
-        ReplacementX += ".xy()";
+    std::string Replacement;
+
+    if( MaxArg == 1 && XCat.IsTripoint ) {
+        if( XCat.IsArrowRef ) {
+            Replacement = XCat.Replacement + "->xy()";
+        } else {
+            Replacement = XCat.Replacement + ".xy()";
+        }
+    } else {
+        if( XCat.IsArrowRef ) {
+            Replacement = "*" + XCat.Replacement;
+        } else {
+            Replacement = XCat.Replacement;
+        }
     }
 
     SourceRange SourceRangeToReplace( ConstructorCall->getArg( 0 )->getBeginLoc(),
@@ -148,13 +148,12 @@ static void CheckFromTripoint( SimplifyPointConstructorsCheck &Check,
     Check.diag(
         ConstructorCall->getBeginLoc(),
         "Construction of %0 can be simplified." ) << ConstructorDecl->getParent() <<
-                FixItHint::CreateReplacement( CharRangeToReplace, ReplacementX );
+                FixItHint::CreateReplacement( CharRangeToReplace, Replacement );
 }
 
 void SimplifyPointConstructorsCheck::check( const MatchFinder::MatchResult &Result )
 {
-    CheckFromPoint( *this, Result );
-    CheckFromTripoint( *this, Result );
+    CheckConstructor( *this, Result );
 }
 
 } // namespace cata

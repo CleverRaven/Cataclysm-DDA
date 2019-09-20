@@ -508,8 +508,10 @@ void mission_start::ranch_nurse_8( mission *miss )
     site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     bay.translate( t_dirtfloor, t_floor );
-    bay.place_items( "cleaning", 75, point( 17, 0 ), point( 17, 2 ), true, 0 );
-    bay.place_items( "surgery", 75, point( 15, 4 ), point( 18, 4 ), true, 0 );
+    bay.place_items( "cleaning", 75, point( 17, 0 ), point( 17, 2 ), true,
+                     calendar::start_of_cataclysm );
+    bay.place_items( "surgery", 75, point( 15, 4 ), point( 18, 4 ), true,
+                     calendar::start_of_cataclysm );
     bay.save();
 }
 
@@ -565,7 +567,8 @@ void mission_start::ranch_scavenger_2( mission *miss )
 
     site = mission_util::target_om_ter_random( "ranch_camp_49", 1, miss, false, RANCH_SIZE );
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
-    bay.place_items( "mischw", 65, point( 12, 13 ), point( 13, 16 ), true, 0 );
+    bay.place_items( "mischw", 65, point( 12, 13 ), point( 13, 16 ), true,
+                     calendar::start_of_cataclysm );
     bay.draw_square_ter( t_chaingate_l, point( 2, 22 ), point( 3, 22 ) );
     bay.spawn_item( point( 7, 20 ), "30gal_drum" );
     bay.save();
@@ -589,8 +592,8 @@ void mission_start::ranch_scavenger_3( mission *miss )
 
     site = mission_util::target_om_ter_random( "ranch_camp_49", 1, miss, false, RANCH_SIZE );
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
-    bay.place_items( "mischw", 65, point( 2, 10 ), point( 4, 10 ), true, 0 );
-    bay.place_items( "mischw", 65, point( 2, 13 ), point( 4, 13 ), true, 0 );
+    bay.place_items( "mischw", 65, point( 2, 10 ), point( 4, 10 ), true, calendar::start_of_cataclysm );
+    bay.place_items( "mischw", 65, point( 2, 13 ), point( 4, 13 ), true, calendar::start_of_cataclysm );
     bay.furn_set( point( 1, 15 ), f_fridge );
     bay.spawn_item( point( 2, 15 ), "hdframe" );
     bay.furn_set( point( 3, 15 ), f_washer );

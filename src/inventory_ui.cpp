@@ -66,7 +66,7 @@ static const std::set<std::string> ordered_categories = {{ "ITEMS_WORN" }};
 
 struct navigation_mode_data {
     navigation_mode next_mode;
-    std::string name;
+    translation name;
     nc_color color;
 };
 
@@ -99,8 +99,8 @@ class selection_column_preset : public inventory_selector_preset
             if( item->is_money() ) {
                 assert( available_count == entry.get_stack_size() );
                 if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-                    //~ In the following string, the %s is the amount of money on the selected cards as passed by the display money function, out of the total amount of money on the cards, which is specified by the format_money function")
                     res << string_format(
+                            //~ In the following string, the %s is the amount of money on the selected cards as passed by the display money function, out of the total amount of money on the cards, which is specified by the format_money function")
                             _( "%s of %s" ),
                             item->display_money( available_count, entry.get_selected_charges() ),
                             format_money( entry.get_total_charges() ) );
@@ -1000,14 +1000,14 @@ void selection_column::on_change( const inventory_entry &entry )
         }
         add_entry( my_entry );
         last_changed = my_entry;
-    } else {
+    } else if( iter->chosen_count != my_entry.chosen_count ) {
         if( my_entry.chosen_count > 0 ) {
             iter->chosen_count = my_entry.chosen_count;
             expand_to_fit( my_entry );
         } else {
             iter = entries.erase( iter );
-            paging_is_valid = false;
         }
+        paging_is_valid = false;
 
         if( iter != entries.end() ) {
             last_changed = *iter;
@@ -1149,8 +1149,9 @@ void inventory_selector::add_items( inventory_column &target_column,
 
 void inventory_selector::add_character_items( Character &character )
 {
-    static const item_category items_worn_category( "ITEMS_WORN", translation( "ITEMS WORN" ), -100 );
-    static const item_category weapon_held_category( "WEAPON_HELD", translation( "WEAPON HELD" ),
+    static const item_category items_worn_category( "ITEMS_WORN", to_translation( "ITEMS WORN" ),
+            -100 );
+    static const item_category weapon_held_category( "WEAPON_HELD", to_translation( "WEAPON HELD" ),
             -200 );
     character.visit_items( [ this, &character ]( item * it ) {
         if( it == &character.weapon ) {
@@ -1580,7 +1581,7 @@ void inventory_selector::draw_frame( const catacurses::window &w ) const
 std::pair<std::string, nc_color> inventory_selector::get_footer( navigation_mode m ) const
 {
     if( has_available_choices() ) {
-        return std::make_pair( get_navigation_data( m ).name,
+        return std::make_pair( get_navigation_data( m ).name.translated(),
                                get_navigation_data( m ).color );
     }
     return std::make_pair( _( "There are no available choices" ), i_red );
@@ -1801,8 +1802,8 @@ void inventory_selector::append_column( inventory_column &column )
 const navigation_mode_data &inventory_selector::get_navigation_data( navigation_mode m ) const
 {
     static const std::map<navigation_mode, navigation_mode_data> mode_data = {
-        { navigation_mode::ITEM,     { navigation_mode::CATEGORY, std::string(),                  c_light_gray } },
-        { navigation_mode::CATEGORY, { navigation_mode::ITEM,     _( "Category selection mode" ), h_white  } }
+        { navigation_mode::ITEM,     { navigation_mode::CATEGORY, translation(),                               c_light_gray } },
+        { navigation_mode::CATEGORY, { navigation_mode::ITEM,     to_translation( "Category selection mode" ), h_white  } }
     };
 
     return mode_data.at( m );

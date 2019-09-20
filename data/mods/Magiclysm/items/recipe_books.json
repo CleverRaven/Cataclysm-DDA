@@ -10,7 +10,7 @@
     "bashing": 5,
     "material": [ "paper" ],
     "symbol": "?",
-    "color": "white_black",
+    "color": "black_white",
     "skill": "spellcraft",
     "required_level": 1,
     "max_level": 3,

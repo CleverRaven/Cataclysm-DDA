@@ -1,6 +1,7 @@
-# JSON file contents
+# Introduction
+This document describes the contents of the json files used in Cataclysm: Dark days ahead. You are probably reading this if you want to add or change content of Catacysm: Dark days ahead and need to learn more about what to find where and what each file and property does.
 
-## File descriptions
+# File descriptions
 Here's a quick summary of what each of the JSON files contain, broken down by folder.
 
 ## `data/json/`
@@ -48,6 +49,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | regional_map_settings.json  | settings for the entire map generation
 | road_vehicles.json          | vehicle spawn information for roads
 | rotatable_symbols.json      | rotatable symbols - do not edit
+| scores.json                 | statistics, scores, and achievements
 | skills.json                 | skill descriptions and ID's
 | snippets.json               | flier/poster descriptions
 | species.json                | monster species
@@ -130,7 +132,24 @@ Groups of vehicle definitions with self-explanatory names of files:
 | vans_busses.json
 | vehicles.json
 
-# Raw JS
+# Generic properties and formatting
+This section describes properties and formatting that are applied to all of the JSON files.
+
+## Generic properties
+A few properties are applicable to most if not all json files and do not need to be described for each json file. These properties are:
+
+| Identifier               | Description
+|---                       |---
+| type                     | The type of object this json entry is describing. Setting this entry to 'armor' for example means the game will expect properties specific to armor in that entry. Also ties in with 'copy-from' (see below), if you want to inherit properties of another object, it must be of the same tipe.
+| [copy-from](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                | The identifier of the item you wish to copy properties from. This allows you to make an exact copy of an item __of the same type__ and only provide entries that should change from the item you copied from. 
+| [extends](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                  | Modders can add an "extends" field to their definition to append entries to a list instead of overriding the entire list.
+| [delete](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                   | Modders can also add a "delete" field that removes elements from lists instead of overriding the entire list.
+| [abstract](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/doc/JSON_INHERITANCE.md)                 | Creates an abstract item (an item that does not end up in the game and solely exists in the json to be copied-from. Use this _instead of_ 'id'. 
+
+
+
+## Formatting
+When editing JSON files make sure you apply the correct formatting as shown below.
 
 ### Time duration
 
@@ -145,7 +164,7 @@ Examples:
 - " +1 day -23 hours 50m " `(1*24*60 - 23*60 + 50 == 110 minutes)`
 - "1 turn 1 minutes 9 turns" (1 minute and 10 seconds because 1 turn is 1 second)
 
-### All Files
+### Other formatting
 
 ```C++
 "//" : "comment", // Preferred method of leaving comments inside json files.
@@ -158,6 +177,13 @@ Some json strings are extracted for translation, for example item names, descrip
 ```
 
 Currently, only some JSON values support this syntax (see [here](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/TRANSLATING.md#translation) for a list of supported values). If you want other json strings to support this format, look at `translations.h|cpp` and migrate the corresponding code to it. Changes to `extract_json_strings.py` might also be needed, as with the new syntax "name" would be a `dict`, which may break unmigrated script.
+
+
+# Description and content of each JSON file
+This section describes each json file and their contents. Each json has their own unique properties that are not shared with other Json files (for example 'chapters' property used in books does not apply to armor). This will make sure properties are only described and used within the context of the appropriate JSON file.
+
+
+## `data/json/` JSONs
 
 ### Bionics
 
@@ -183,6 +209,7 @@ Currently, only some JSON values support this syntax (see [here](https://github.
 | fuel_options             | (_optional_) A list of fuel that this bionic can use to produce bionic power.
 | fuel_capacity            | (_optional_) Volume of fuel this bionic can store.
 | fuel_efficiency          | (_optional_) Fraction of fuel energy converted into power. (default: `0`)
+| stat_bonus               | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
 
 ```C++
 {
@@ -194,6 +221,7 @@ Currently, only some JSON values support this syntax (see [here](https://github.
     "cost"         : 0,
     "time"         : 1,
     "fuel_efficiency": 1,
+    "stat_bonus": [ [ "INT", 2 ], [ "STR", 2 ] ],
     "fuel_options": [ "battery" ],
     "fuel_capacity": 500,
     "encumbrance"  : [ [ "TORSO", 10 ], [ "ARM_L", 10 ], [ "ARM_R", 10 ], [ "LEG_L", 10 ], [ "LEG_R", 10 ], [ "FOOT_L", 10 ], [ "FOOT_R", 10 ] ],
@@ -236,7 +264,7 @@ When adding a new bionic, if it's not included with another one, you must also a
 
 ### Item Groups
 
-Item groups have been expanded, look at doc/ITEM_SPAWN.md to their new description.
+Item groups have been expanded, look at [the detailed docs](ITEM_SPAWN.md) to their new description.
 The syntax listed here is still valid.
 
 | Identifier | Description
@@ -625,7 +653,83 @@ Mods can modify this via `add:traits` and `remove:traits`.
 "post_terrain": "t_pit_spiked"                                      // Terrain type after construction is complete
 ```
 
-## Skills
+### Scores
+
+Scores are defined in two or three steps based on *events*.  To see what events
+exist and what data they contain, read [`event.h`](../src/event.h).
+
+* First, optionally, define an `event_transformation` which converts events as
+  generated in-game into a format more suitable for your purpose.
+* Second, define an `event_statistic` which summarizes a collection of events
+  into a single value (usually a number, but other types of value are
+  possible).
+* Third, define a `score` which uses such a statistic.
+
+#### `event_transformation`
+
+Currently the only available transformation is to filter the set of events
+based on certain constraints.
+
+```C++
+"id": "moves_on_horse",
+"type": "event_transformation",
+"event_type" : "avatar_moves", // An event type.  The transformation will act on events of this type
+"value_constraints" : { // A dictionary of constraints
+    // Each key is the field to which the constraint applies
+    // The value specifies the constraint.
+    // "equals" can be used to specify a constant string value the field must take.
+    // "equals_statistic" specifies that the value must match the value of some statistic (see below)
+    "mount" : { "equals": "mon_horse" }
+}
+```
+
+#### `event_statistic`
+
+A statistic must specify a source of events via one of the following:
+
+```C++
+"event_type" : "avatar_moves" // Consider all moves of this type
+"event_transformation" : "moves_on_horse" // Consider moves resulting from this transformation
+```
+
+Then it specifies a particular `stat_type` and potentially additional details
+as follows:
+
+The number of events:
+```C++
+"stat_type" : "count"
+```
+
+The sum of the numeric value in the specified field across all events:
+```C++
+"stat_type" : "total"
+"field" : "damage"
+```
+
+Assume there is only a single event to consider, and take the value of the
+given field for that unique event:
+```C++
+"stat_type": "unique_value",
+"field": "avatar_id"
+```
+
+#### `score`
+
+Scores simply associate a description to an event for formatting in tabulations
+of scores.  The `description` specifies a string which is expected to contain a
+`%s` format specifier where the value of the statistic will be inserted.
+
+Note that even though most statistics yield an integer, you should still use
+`%s`.
+
+```C++
+"id": "score_headshots",
+"type": "score",
+"description": "Headshots: %s",
+"statistic": "avatar_num_headshots"
+```
+
+### Skills
 
 ```C++
 "ident" : "smg",  // Unique ID. Must be one continuous word, use underscores if necessary

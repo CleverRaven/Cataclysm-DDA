@@ -35,7 +35,8 @@
       "no": { "has_reason": { "use_reason": true }, "no": "What is it, friend?" }
     },
     "responses": [
-      { "text": "Combat commands...", "topic": "TALK_COMBAT_COMMANDS" },
+      { "text": "I want to give you some commands for combat.", "topic": "TALK_COMBAT_COMMANDS" },
+      { "text": "I want to set some miscellaneous rules.", "topic": "TALK_MISC_RULES" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
       {
         "text": "Can you teach me anything?",
@@ -72,32 +73,47 @@
         "default": true
       },
       {
-        "text": "Guard this position.",
-        "condition": { "not": "is_by_radio" },
-        "topic": "TALK_FRIEND_GUARD",
-        "effect": "assign_guard"
-      },
-      { "text": "I'd like to know a bit more about you...", "topic": "TALK_FRIEND", "effect": "reveal_stats" },
-      {
         "text": "I want you to use this item.",
         "condition": { "not": "is_by_radio" },
         "topic": "TALK_FRIEND",
         "effect": "npc_gets_item_to_use"
       },
-      { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
       {
         "text": "Hold on to this item.",
         "condition": { "not": "is_by_radio" },
         "topic": "TALK_FRIEND",
         "effect": "npc_gets_item"
       },
-      { "text": "Miscellaneous rules...", "topic": "TALK_MISC_RULES" },
-      { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
-      { "text": "Let's go.", "topic": "TALK_DONE" },
       {
-        "text": "Let's just chitchat for a while...",
-        "topic": "TALK_FRIEND_CHAT",
-        "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
+        "text": "Guard this position.",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_FRIEND_GUARD",
+        "effect": "assign_guard"
+      },
+      { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
+      { "text": "Let's talk about faction camps.", "topic": "TALK_CAMP_GENERAL" },
+      {
+        "text": "Find a horse and mount up!",
+        "condition": { "not": "npc_is_riding" },
+        "topic": "TALK_DONE",
+        "effect": "find_mount"
+      },
+      {
+        "text": "Get off your mount, please.",
+        "condition": "npc_is_riding",
+        "topic": "TALK_DONE",
+        "effect": "dismount"
+      },
+      {
+        "text": "Please go to this location.",
+        "topic": "TALK_GOTO_LOCATION",
+        "condition": { "or": [ "is_by_radio", "u_has_camp" ] },
+        "effect": "goto_location"
+      },
+      {
+        "text": "I'd like to know a bit more about your abilities.",
+        "topic": "TALK_FRIEND",
+        "effect": "reveal_stats"
       },
       {
         "text": "Any hints about the world we now live in?",
@@ -118,13 +134,36 @@
         "failure": { "topic": "TALK_SHELTER_ADVICE", "effect": { "npc_add_effect": "asked_to_hint", "duration": 300 } }
       },
       {
-        "text": "Please go to this location...",
-        "topic": "TALK_GOTO_LOCATION",
-        "condition": { "or": [ "is_by_radio", "u_has_camp" ] },
-        "effect": "goto_location"
+        "text": "Mind if we just chat for a bit about your history?",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [ "at_safe_space", { "or": [ { "npc_has_trait_flag": "BG_SURVIVAL_STORY" }, { "npc_has_trait": "NPC_STATIC_NPC" } ] } ]
+        },
+        "//": "If the NPC already has a BG story, or started out as a static NPC (and so probably doesn't need a random bg story), then go on.",
+        "switch": true
       },
-      { "text": "Tell me about giving you orders.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Let's talk about faction camps.", "topic": "TALK_CAMP_GENERAL" }
+      {
+        "text": "Mind if we just chat for a bit about your history?",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": "at_safe_space",
+        "switch": true,
+        "effect": { "npc_add_trait": "BGSS_Confused_1" },
+        "//": "If the NPC doesn't have a BG survival story flagged trait, and didn't start the game as a static NPC, give them a BG story.",
+        "//": "This is a stand-in for some kind of better system to add a random trait."
+      },
+      {
+        "text": "Mind if we just chat for a bit about your history?",
+        "topic": "TALK_CONVERSATION_DANGER",
+        "condition": { "not": "at_safe_space" }
+      },
+      {
+        "text": "Let's just chitchat for a while, I could use some relaxation.",
+        "topic": "TALK_FRIEND_CHAT",
+        "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
+      },
+      { "text": "Tell me about giving you orders (NPC TUTORIAL).", "topic": "TALK_ALLY_TUTORIAL" },
+      { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
+      { "text": "Let's go.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -141,9 +180,13 @@
               "no": {
                 "npc_engagement_rule": "ENGAGE_HIT",
                 "no": {
-                  "npc_engagement_rule": "ENGAGE_NO_MOVE",
-                  "no": "*will engage all enemies.",
-                  "yes": "*will engage enemies close enough to attack without moving."
+                  "npc_engagement_rule": "ENGAGE_FREE_FIRE",
+                  "no": {
+                    "npc_engagement_rule": "ENGAGE_NO_MOVE",
+                    "no": "*will engage all enemies.",
+                    "yes": "*will engage enemies close enough to attack without moving."
+                  },
+                  "yes": "*will engage distant enemies without moving."
                 },
                 "yes": "*will engage enemies you attack."
               },
@@ -310,9 +353,13 @@
               "no": {
                 "npc_engagement_rule": "ENGAGE_HIT",
                 "no": {
-                  "npc_engagement_rule": "ENGAGE_NO_MOVE",
-                  "no": "*will engage all enemies.",
-                  "yes": "*will engage enemies close enough to attack without moving."
+                  "npc_engagement_rule": "ENGAGE_FREE_FIRE",
+                  "no": {
+                    "npc_engagement_rule": "ENGAGE_NO_MOVE",
+                    "no": "*will engage all enemies.",
+                    "yes": "*will engage enemies close enough to attack without moving."
+                  },
+                  "yes": "*will engage distant enemies without moving."
                 },
                 "yes": "*will engage enemies you attack."
               },
@@ -355,6 +402,12 @@
         "topic": "TALK_NONE",
         "condition": { "not": { "npc_engagement_rule": "ENGAGE_NO_MOVE" } },
         "effect": { "set_npc_engagement_rule": "ENGAGE_NO_MOVE" }
+      },
+      {
+        "text": "Attack any enemy within range of your ranged weapon, but don't move.",
+        "topic": "TALK_NONE",
+        "condition": { "not": { "npc_engagement_rule": "ENGAGE_FREE_FIRE" } },
+        "effect": { "set_npc_engagement_rule": "ENGAGE_FREE_FIRE" }
       },
       {
         "text": "Attack anything you want.",
@@ -741,16 +794,46 @@
         "effect": "sort_loot"
       },
       {
-        "text": "Please work on any unfinished construction task that you know how to finish.",
+        "text": "Please do any construction work that you can.",
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },
         "effect": "do_construction"
       },
       {
-        "text": "Please work on any contruction blueprint zones nearby.",
+        "text": "Please start deconstructing any vehicles in a deconstruction zone.",
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },
-        "effect": "do_blueprint_construction"
+        "effect": "do_vehicle_deconstruct"
+      },
+      {
+        "text": "Please chop logs into planks.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_chop_plank"
+      },
+      {
+        "text": "Please butcher any corpses that you can.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_butcher"
+      },
+      {
+        "text": "Please chop any trees in the designated areas.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_chop_trees"
+      },
+      {
+        "text": "Please go catch some fish.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_fishing"
+      },
+      {
+        "text": "Please do some farming work.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_farming"
       }
     ]
   },

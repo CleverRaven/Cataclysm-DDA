@@ -14,8 +14,10 @@
 #include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
+#include "construction.h"
 #include "debug.h"
 #include "effect.h"
+#include "event_bus.h"
 #include "field.h"
 #include "game.h"
 #include "game_constants.h"
@@ -64,6 +66,7 @@ const efftype_id effect_downed( "downed" );
 const efftype_id effect_drunk( "drunk" );
 const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_grabbing( "grabbing" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_in_pit( "in_pit" );
@@ -582,8 +585,7 @@ bool Character::move_effects( bool attacking )
         } else {
             for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
                 const monster *const mon = g->critter_at<monster>( dest );
-                if( mon && ( mon->has_flag( MF_GRABS ) ||
-                             mon->type->has_special_attack( "GRAB" ) ) ) {
+                if( mon && mon->has_effect( effect_grabbing ) ) {
                     zed_number += mon->get_grab_strength();
                 }
             }
@@ -604,6 +606,12 @@ bool Character::move_effects( bool attacking )
                 add_msg_player_or_npc( m_good, _( "You break out of the grab!" ),
                                        _( "<npcname> breaks out of the grab!" ) );
                 remove_effect( effect_grabbed );
+                for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
+                    monster *mon = g->critter_at<monster>( dest );
+                    if( mon && mon->has_effect( effect_grabbing ) ) {
+                        mon->remove_effect( effect_grabbing );
+                    }
+                }
             }
         }
     }
@@ -805,9 +813,14 @@ float Character::get_vision_threshold( float light_level ) const
                      threshold_for_range( range ) * dimming_from_light );
 }
 
+void Character::flag_encumbrance()
+{
+    check_encumbrance = true;
+}
+
 void Character::check_item_encumbrance_flag()
 {
-    bool update_required = false;
+    bool update_required = check_encumbrance;
     for( auto &i : worn ) {
         if( !update_required && i.has_flag( "ENCUMBRANCE_UPDATE" ) ) {
             update_required = true;
@@ -818,6 +831,15 @@ void Character::check_item_encumbrance_flag()
     if( update_required ) {
         reset_encumbrance();
     }
+}
+
+std::vector<bionic_id> Character::get_bionics() const
+{
+    std::vector<bionic_id> result;
+    for( const bionic &b : *my_bionics ) {
+        result.push_back( b.id );
+    }
+    return result;
 }
 
 bool Character::has_bionic( const bionic_id &b ) const
@@ -873,6 +895,17 @@ std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
         }
     }
 
+    return bionics;
+}
+
+std::vector<bionic_id> Character::get_fueled_bionics() const
+{
+    std::vector<bionic_id> bionics;
+    for( const bionic bio : *my_bionics ) {
+        if( !bio.info().fuel_opts.empty() ) {
+            bionics.emplace_back( bio.id );
+        }
+    }
     return bionics;
 }
 
@@ -976,6 +1009,18 @@ void Character::update_fuel_storage( const itype_id &fuel )
         set_value( bd.c_str(), fuel );
     }
 
+}
+
+int Character::get_mod_stat_from_bionic( const Character::stat &Stat ) const
+{
+    int ret = 0;
+    for( const bionic &bio : *my_bionics ) {
+        const auto St_bn = bio.info().stat_bonus.find( Stat );
+        if( St_bn != bio.info().stat_bonus.end() ) {
+            ret += St_bn->second;
+        }
+    }
+    return ret;
 }
 
 std::vector<item_location> Character::nearby( const
@@ -1397,28 +1442,48 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     const std::map<const item *, int> &without = tweaks.without_items ? tweaks.without_items->get() :
             empty;
 
+    // Worn items
     units::mass ret = 0_gram;
     for( auto &i : worn ) {
         if( !without.count( &i ) ) {
             ret += i.weight();
         }
     }
+
+    // Items in inventory
     const inventory &i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
     ret += i.weight_without( without );
 
-    if( !without.count( &weapon ) ) {
-
-        const units::mass thisweight = weapon.weight();
-        if( thisweight + ret > weight_capacity() ) {
-            const float liftrequirement = ceil( units::to_gram<float>( thisweight ) / units::to_gram<float>
-                                                ( TOOL_LIFT_FACTOR ) );
-            if( g->new_game || best_nearby_lifting_assist() < liftrequirement ) {
-                ret += thisweight;
+    // Wielded item
+    units::mass weaponweight = 0_gram;
+    auto weapon_it = without.find( &weapon );
+    if( weapon_it == without.end() ) {
+        weaponweight = weapon.weight();
+    } else {
+        int subtract_count = ( *weapon_it ).second;
+        if( weapon.count_by_charges() ) {
+            item copy = weapon;
+            copy.charges -= subtract_count;
+            if( copy.charges < 0 ) {
+                debugmsg( "Trying to remove more charges than the wielded item has" );
+                copy.charges = 0;
             }
-        } else {
-            ret += thisweight;
+            weaponweight = copy.weight();
+        } else if( subtract_count > 1 ) {
+            debugmsg( "Trying to remove more than one wielded item" );
         }
     }
+    // Exclude wielded item if using lifting tool
+    if( weaponweight + ret > weight_capacity() ) {
+        const float liftrequirement = ceil( units::to_gram<float>( weaponweight ) / units::to_gram<float>
+                                            ( TOOL_LIFT_FACTOR ) );
+        if( g->new_game || best_nearby_lifting_assist() < liftrequirement ) {
+            ret += weaponweight;
+        }
+    } else {
+        ret += weaponweight;
+    }
+
     return ret;
 }
 
@@ -1680,6 +1745,14 @@ bool Character::meets_skill_requirements( const std::map<skill_id, int> &req,
     return _skills->meets_skill_requirements( req, context );
 }
 
+bool Character::meets_skill_requirements( const construction &con ) const
+{
+    return std::all_of( con.required_skills.begin(), con.required_skills.end(),
+    [&]( const std::pair<skill_id, int> &pr ) {
+        return get_skill_level( pr.first ) >= pr.second;
+    } );
+}
+
 bool Character::meets_stat_requirements( const item &it ) const
 {
     return get_str() >= it.get_min_str() &&
@@ -1760,18 +1833,11 @@ void Character::reset_stats()
     if( has_active_bionic( bionic_id( "bio_hydraulics" ) ) ) {
         mod_str_bonus( 20 );
     }
-    if( has_bionic( bionic_id( "bio_eye_enhancer" ) ) ) {
-        mod_per_bonus( 2 );
-    }
-    if( has_bionic( bionic_id( "bio_str_enhancer" ) ) ) {
-        mod_str_bonus( 2 );
-    }
-    if( has_bionic( bionic_id( "bio_int_enhancer" ) ) ) {
-        mod_int_bonus( 2 );
-    }
-    if( has_bionic( bionic_id( "bio_dex_enhancer" ) ) ) {
-        mod_dex_bonus( 2 );
-    }
+
+    mod_str_bonus( get_mod_stat_from_bionic( STRENGTH ) );
+    mod_dex_bonus( get_mod_stat_from_bionic( DEXTERITY ) );
+    mod_per_bonus( get_mod_stat_from_bionic( PERCEPTION ) );
+    mod_int_bonus( get_mod_stat_from_bionic( INTELLIGENCE ) );
 
     // Trait / mutation buffs
     mod_str_bonus( std::floor( mutation_value( "str_modifier" ) ) );
@@ -1828,7 +1894,8 @@ bool Character::has_nv()
     if( !nv_cached ) {
         nv_cached = true;
         nv = ( worn_with_flag( "GNV_EFFECT" ) ||
-               has_active_bionic( bionic_id( "bio_night_vision" ) ) );
+               has_active_bionic( bionic_id( "bio_night_vision" ) ) ||
+               has_effect_with_flag( "EFFECT_NIGHT_VISION" ) );
     }
 
     return nv;
@@ -2255,6 +2322,26 @@ void Character::mod_int_bonus( int nint )
 {
     int_bonus += nint;
     int_cur = std::max( 0, int_max + int_bonus );
+}
+
+namespace io
+{
+template<>
+std::string enum_to_string<Character::stat>( Character::stat data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+    case Character::stat::STRENGTH: return pgettext("strength stat", "STR");
+    case Character::stat::DEXTERITY: return pgettext("dexterity stat", "DEX");
+    case Character::stat::INTELLIGENCE: return pgettext("intelligence stat", "INT");
+    case Character::stat::PERCEPTION: return pgettext("perception stat", "PER");
+
+        // *INDENT-ON*
+        case Character::stat::DUMMY_STAT:
+            break;
+    }
+    abort();
+}
 }
 
 void Character::set_healthy( int nhealthy )
@@ -3787,8 +3874,7 @@ void Character::shout( std::string msg, bool order )
 
 void Character::vomit()
 {
-    add_memorial_log( pgettext( "memorial_male", "Threw up." ),
-                      pgettext( "memorial_female", "Threw up." ) );
+    g->events().send<event_type::throws_up>( getID() );
 
     if( stomach.contains() != 0_ml ) {
         // empty stomach contents
@@ -3858,4 +3944,9 @@ tripoint Character::adjacent_tile() const
 void Character::healed_bp( int bp, int amount )
 {
     healed_total[bp] += amount;
+}
+
+void Character::set_fac_id( const std::string &my_fac_id )
+{
+    fac_id = string_id<faction>( my_fac_id );
 }

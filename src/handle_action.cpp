@@ -9,6 +9,7 @@
 #include "action.h"
 #include "advanced_inv.h"
 #include "auto_pickup.h"
+#include "auto_note.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
@@ -44,6 +45,7 @@
 #include "popup.h"
 #include "ranged.h"
 #include "safemode_ui.h"
+#include "scores_ui.h"
 #include "sounds.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -419,7 +421,7 @@ static void pldrive( int x, int y )
         }
     }
 
-    veh->pldrive( x, y );
+    veh->pldrive( point( x, y ) );
 }
 
 inline static void pldrive( point d )
@@ -821,14 +823,14 @@ static void wait()
         };
 
         add_menu_item( 7,  'd',
-                       setting_alarm ? _( "Set alarm for dawn" ) : _( "Wait till dawn" ),
-                       diurnal_time_before( to_turns<int>( sunrise( calendar::turn ) - calendar::turn_zero ) ) );
+                       setting_alarm ? _( "Set alarm for dawn" ) : _( "Wait till daylight" ),
+                       diurnal_time_before( to_turns<int>( daylight_time( calendar::turn ) - calendar::turn_zero ) ) );
         add_menu_item( 8,  'n',
                        setting_alarm ? _( "Set alarm for noon" ) : _( "Wait till noon" ),
                        diurnal_time_before( last_midnight + 12_hours ) );
         add_menu_item( 9,  'k',
-                       setting_alarm ? _( "Set alarm for dusk" ) : _( "Wait till dusk" ),
-                       diurnal_time_before( to_turns<int>( sunset( calendar::turn ) - calendar::turn_zero ) ) );
+                       setting_alarm ? _( "Set alarm for dusk" ) : _( "Wait till night" ),
+                       diurnal_time_before( to_turns<int>( night_time( calendar::turn ) - calendar::turn_zero ) ) );
         add_menu_item( 10, 'm',
                        setting_alarm ? _( "Set alarm for midnight" ) : _( "Wait till midnight" ),
                        diurnal_time_before( last_midnight + 0_hours ) );
@@ -883,7 +885,10 @@ static void wait()
 static void sleep()
 {
     player &u = g->u;
-
+    if( u.is_mounted() ) {
+        u.add_msg_if_player( m_info, _( "You cannot sleep while mounted." ) );
+        return;
+    }
     uilist as_m;
     as_m.text = _( "Are you sure you want to sleep?" );
     // (Y)es/(S)ave before sleeping/(N)o
@@ -920,7 +925,7 @@ static void sleep()
 
         const auto &info = bio.info();
         if( info.power_over_time > 0 ) {
-            active.push_back( info.name );
+            active.push_back( info.name.translated() );
         }
     }
     for( auto &mut : u.get_mutations() ) {
@@ -1003,6 +1008,7 @@ static void loot()
         FertilizePlots = 16,
         HarvestPlots = 32,
         ConstructPlots = 64,
+        MultiFarmPlots = 128,
     };
 
     auto just_one = []( int flags ) {
@@ -1029,6 +1035,7 @@ static void loot()
         flags |= PlantPlots;
         flags |= FertilizePlots;
         flags |= HarvestPlots;
+        flags |= MultiFarmPlots;
     }
     flags |= g->check_near_zone( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
                                  u.pos() ) ? ConstructPlots : 0;
@@ -1077,6 +1084,10 @@ static void loot()
             menu.addentry_desc( ConstructPlots, true, 'c', _( "Construct Plots" ),
                                 _( "Work on any nearby Blueprint: construction zones" ) );
         }
+        if( flags & MultiFarmPlots ) {
+            menu.addentry_desc( MultiFarmPlots, true, 'm', _( "Farm Plots" ),
+                                _( "till and plant on any nearby farm plots - auto-fetch seeds and tools" ) );
+        }
 
         menu.query();
         flags = ( menu.ret >= 0 ) ? menu.ret : None;
@@ -1112,7 +1123,10 @@ static void loot()
             u.assign_activity( activity_id( "ACT_HARVEST_PLOT" ) );
             break;
         case ConstructPlots:
-            u.assign_activity( activity_id( "ACT_BLUEPRINT_CONSTRUCTION" ) );
+            u.assign_activity( activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) );
+            break;
+        case MultiFarmPlots:
+            u.assign_activity( activity_id( "ACT_MULTIPLE_FARM" ) );
             break;
         default:
             debugmsg( "Unsupported flag" );
@@ -2161,12 +2175,12 @@ bool game::handle_action()
                 list_missions();
                 break;
 
-            case ACTION_KILLS:
-                get_kill_tracker().disp_kills();
+            case ACTION_SCORES:
+                show_scores_ui( stats(), get_kill_tracker() );
                 break;
 
             case ACTION_FACTIONS:
-                new_faction_manager_ptr->display();
+                faction_manager_ptr->display();
                 break;
 
             case ACTION_MORALE:
@@ -2196,6 +2210,11 @@ bool game::handle_action()
 
             case ACTION_AUTOPICKUP:
                 get_auto_pickup().show();
+                refresh_all();
+                break;
+
+            case ACTION_AUTONOTES:
+                get_auto_notes_settings().show_gui();
                 refresh_all();
                 break;
 
@@ -2262,6 +2281,28 @@ bool game::handle_action()
                 add_msg( _( "%s is now %s." ),
                          get_options().get_option( "AUTO_MINING" ).getMenuText(),
                          get_option<bool>( "AUTO_MINING" ) ? _( "ON" ) : _( "OFF" ) );
+                break;
+
+            case ACTION_TOGGLE_THIEF_MODE:
+                if( g->u.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+                    u.set_value( "THIEF_MODE", "THIEF_HONEST" );
+                    u.set_value( "THIEF_MODE_KEEP", "YES" );
+                    //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
+                    add_msg( _( "You will not pick up other peoples belongings." ) );
+                } else if( g->u.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+                    u.set_value( "THIEF_MODE", "THIEF_STEAL" );
+                    u.set_value( "THIEF_MODE_KEEP", "YES" );
+                    //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
+                    add_msg( _( "You will pick up also those things that belong to others!" ) );
+                } else if( g->u.get_value( "THIEF_MODE" ) == "THIEF_STEAL" ) {
+                    u.set_value( "THIEF_MODE", "THIEF_ASK" );
+                    u.set_value( "THIEF_MODE_KEEP", "NO" );
+                    //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
+                    add_msg( _( "You will be reminded not to steal." ) );
+                } else {
+                    // ERROR
+                    add_msg( _( "THIEF_MODE CONTAINED BAD VALUE [ %s ]!" ), g->u.get_value( "THIEF_MODE" ) );
+                }
                 break;
 
             case ACTION_TOGGLE_AUTO_FORAGING:

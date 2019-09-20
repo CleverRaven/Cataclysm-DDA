@@ -181,3 +181,31 @@ int g16()
 {
     return f16();
 }
+
+struct A17 {
+    A17( int x, int y );
+    A17( const point &p );
+};
+
+A17 g17()
+{
+    return A17( 0, 1 );
+    // CHECK-MESSAGES: warning: Call to 'A17' could instead call overload using a point parameter. [cata-use-point-apis]
+    // CHECK-FIXES: return A17( point( 0, 1 ) );
+}
+
+point g18()
+{
+    return point( 0, 1 );
+}
+
+// Check const-qualification is ignored on extra params
+int f19( const int x, const int y, const int i );
+int f19( const point &p, int i );
+
+int g19()
+{
+    return f19( 0, 1, 2 );
+    // CHECK-MESSAGES: warning: Call to 'f19' could instead call overload using a point parameter. [cata-use-point-apis]
+    // CHECK-FIXES: return f19( point( 0, 1 ), 2 );
+}

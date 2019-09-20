@@ -487,12 +487,12 @@ std::string effect::disp_name() const
         if( d_name.empty() ) {
             return std::string();
         }
-        ret << d_name.translated();
+        ret << d_name;
     } else {
         if( eff_type->name[0].empty() ) {
             return std::string();
         }
-        ret << eff_type->name[0].translated();
+        ret << eff_type->name[0];
         if( intensity > 1 ) {
             if( eff_type->id == "bandaged" || eff_type->id == "disinfected" ) {
                 ret << " [" << texitify_healing_power( intensity ) << "]";
@@ -1294,8 +1294,14 @@ void load_effect_type( JsonObject &jo )
 
     new_etype.impairs_movement = hardcoded_movement_impairing.count( new_etype.id ) > 0;
 
-    effect_types[new_etype.id] = new_etype;
+    new_etype.flags = jo.get_tags( "flags" );
 
+    effect_types[new_etype.id] = new_etype;
+}
+
+bool effect::has_flag( const std::string &flag ) const
+{
+    return eff_type->flags.count( flag ) > 0;
 }
 
 void reset_effect_types()

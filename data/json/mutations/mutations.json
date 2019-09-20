@@ -479,15 +479,6 @@
   },
   {
     "type": "mutation",
-    "id": "INCONSPICUOUS",
-    "name": "Inconspicuous",
-    "points": 1,
-    "description": "While sleeping or staying still, it is less likely that monsters will wander close to you.",
-    "social_modifiers": { "lie": 2 },
-    "valid": false
-  },
-  {
-    "type": "mutation",
     "id": "MASOCHIST",
     "name": "Masochist",
     "points": 1,
@@ -1013,6 +1004,7 @@
     "name": "Sweet Tooth",
     "points": 1,
     "description": "You have a soft spot for processed foods, and gain a morale bonus from eating them.",
+    "starting_trait": true,
     "cancels": [ "ANTIJUNK" ],
     "changes_to": [ "PROJUNK2" ],
     "category": [ "MOUSE", "INSECT" ]

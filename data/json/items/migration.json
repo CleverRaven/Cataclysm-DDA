@@ -633,5 +633,80 @@
     "id": "reloaded_270",
     "type": "MIGRATION",
     "replace": "reloaded_270win_jsp"
+  },
+  {
+    "id": "afs_rolling_pin",
+    "type": "MIGRATION",
+    "replace": "rolling_pin"
+  },
+  {
+    "id": "afs_welding_mask",
+    "type": "MIGRATION",
+    "replace": "welding_mask"
+  },
+  {
+    "id": "afs_atomic_reading_light",
+    "type": "MIGRATION",
+    "replace": "atomic_light_off"
+  },
+  {
+    "id": "afs_atomic_reading_light_on",
+    "type": "MIGRATION",
+    "replace": "atomic_light"
+  },
+  {
+    "id": "afs_large_storage_battery",
+    "type": "MIGRATION",
+    "replace": "large_storage_battery"
+  },
+  {
+    "id": "afs_daypack",
+    "type": "MIGRATION",
+    "replace": "daypack"
+  },
+  {
+    "id": "afs_ski_jacket",
+    "type": "MIGRATION",
+    "replace": "ski_jacket"
+  },
+  {
+    "id": "afs_cake",
+    "type": "MIGRATION",
+    "replace": "cake2"
+  },
+  {
+    "id": "afs_fried_donut_holes",
+    "type": "MIGRATION",
+    "replace": "donut_holes"
+  },
+  {
+    "id": "afs_welding_mask_makeshift",
+    "type": "MIGRATION",
+    "replace": "welding_mask_crude"
+  },
+  {
+    "id": "smg_38",
+    "type": "MIGRATION",
+    "replace": "smg_45"
+  },
+  {
+    "id": "smg_38_mag",
+    "type": "MIGRATION",
+    "replace": "smg_45_mag"
+  },
+  {
+    "id": "smg_22",
+    "type": "MIGRATION",
+    "replace": "smg_9mm"
+  },
+  {
+    "id": "smg_22_mag",
+    "type": "MIGRATION",
+    "replace": "survivor9mm_mag"
+  },
+  {
+    "id": "magbandolier",
+    "type": "MIGRATION",
+    "replace": "chestrig"
   }
 ]

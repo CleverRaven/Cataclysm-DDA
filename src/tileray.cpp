@@ -13,9 +13,9 @@ tileray::tileray(): leftover( 0 ), direction( 0 ), steps( 0 ), infinite( false )
 {
 }
 
-tileray::tileray( int adx, int ady )
+tileray::tileray( const point &ad )
 {
-    init( adx, ady );
+    init( ad );
 }
 
 tileray::tileray( int adir ): direction( adir )
@@ -23,10 +23,9 @@ tileray::tileray( int adir ): direction( adir )
     init( adir );
 }
 
-void tileray::init( int adx, int ady )
+void tileray::init( const point &ad )
 {
-    delta.x = adx;
-    delta.y = ady;
+    delta = ad;
     abs_d = abs( delta );
     if( delta == point_zero ) {
         direction = 0;

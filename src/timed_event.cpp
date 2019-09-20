@@ -6,10 +6,12 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "debug.h"
+#include "event_bus.h"
 #include "game.h"
 #include "line.h"
 #include "map.h"
 #include "mapdata.h"
+#include "memorial_logger.h"
 #include "messages.h"
 #include "morale_types.h"
 #include "options.h"
@@ -51,8 +53,7 @@ void timed_event::actualize()
             if( rl_dist( u_pos, map_point ) <= 4 ) {
                 const mtype_id &robot_type = one_in( 2 ) ? mon_copbot : mon_riotbot;
 
-                g->u.add_memorial_log( pgettext( "memorial_male", "Became wanted by the police!" ),
-                                       pgettext( "memorial_female", "Became wanted by the police!" ) );
+                g->events().send<event_type::becomes_wanted>( g->u.getID() );
                 int robx = u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4;
                 int roby = u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4;
                 g->summon_mon( robot_type, tripoint( robx, roby, g->u.posz() ) );
@@ -64,8 +65,9 @@ void timed_event::actualize()
             if( g->get_levz() >= 0 ) {
                 return;
             }
-            g->u.add_memorial_log( pgettext( "memorial_male", "Drew the attention of more dark wyrms!" ),
-                                   pgettext( "memorial_female", "Drew the attention of more dark wyrms!" ) );
+            g->memorial().add(
+                pgettext( "memorial_male", "Drew the attention of more dark wyrms!" ),
+                pgettext( "memorial_female", "Drew the attention of more dark wyrms!" ) );
             int num_wyrms = rng( 1, 4 );
             for( int i = 0; i < num_wyrms; i++ ) {
                 int tries = 0;
@@ -98,8 +100,7 @@ void timed_event::actualize()
         break;
 
         case TIMED_EVENT_AMIGARA: {
-            g->u.add_memorial_log( pgettext( "memorial_male", "Angered a group of amigara horrors!" ),
-                                   pgettext( "memorial_female", "Angered a group of amigara horrors!" ) );
+            g->events().send<event_type::angers_amigara_horrors>();
             int num_horrors = rng( 3, 5 );
             int faultx = -1;
             int faulty = -1;
@@ -144,8 +145,7 @@ void timed_event::actualize()
         break;
 
         case TIMED_EVENT_ROOTS_DIE:
-            g->u.add_memorial_log( pgettext( "memorial_male", "Destroyed a triffid grove." ),
-                                   pgettext( "memorial_female", "Destroyed a triffid grove." ) );
+            g->events().send<event_type::destroys_triffid_grove>();
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     if( g->m.ter( point( x, y ) ) == t_root_wall && one_in( 3 ) ) {
@@ -156,8 +156,7 @@ void timed_event::actualize()
             break;
 
         case TIMED_EVENT_TEMPLE_OPEN: {
-            g->u.add_memorial_log( pgettext( "memorial_male", "Opened a strange temple." ),
-                                   pgettext( "memorial_female", "Opened a strange temple." ) );
+            g->events().send<event_type::opens_temple>();
             bool saw_grate = false;
             for( int x = 0; x < MAPSIZE_X; x++ ) {
                 for( int y = 0; y < MAPSIZE_Y; y++ ) {
@@ -222,12 +221,14 @@ void timed_event::actualize()
             if( flood_buf[g->u.posx()][g->u.posy()] != g->m.ter( point( g->u.posx(), g->u.posy() ) ) ) {
                 if( flood_buf[g->u.posx()][g->u.posy()] == t_water_sh ) {
                     add_msg( m_warning, _( "Water quickly floods up to your knees." ) );
-                    g->u.add_memorial_log( pgettext( "memorial_male", "Water level reached knees." ),
-                                           pgettext( "memorial_female", "Water level reached knees." ) );
+                    g->memorial().add(
+                        pgettext( "memorial_male", "Water level reached knees." ),
+                        pgettext( "memorial_female", "Water level reached knees." ) );
                 } else { // Must be deep water!
                     add_msg( m_warning, _( "Water fills nearly to the ceiling!" ) );
-                    g->u.add_memorial_log( pgettext( "memorial_male", "Water level reached the ceiling." ),
-                                           pgettext( "memorial_female", "Water level reached the ceiling." ) );
+                    g->memorial().add(
+                        pgettext( "memorial_male", "Water level reached the ceiling." ),
+                        pgettext( "memorial_female", "Water level reached the ceiling." ) );
                     avatar_action::swim( g->m, g->u, g->u.pos() );
                 }
             }

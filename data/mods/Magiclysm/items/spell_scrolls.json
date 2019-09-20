@@ -13,6 +13,22 @@
   {
     "type": "GENERIC",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_dark_sight",
+    "name": "Scroll of Dark Sight",
+    "description": "The darkness holds no secrets for the arcane.  Adjust your sight to see in perfect darkness!",
+    "use_action": { "type": "learn_spell", "spells": [ "dark_sight" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_invisibility",
+    "name": "Scroll of Invisibility",
+    "description": "The light can not interact with you unless you want it to. Become invisible!",
+    "use_action": { "type": "learn_spell", "spells": [ "invisibility" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_smite",
     "name": "Scroll of Smite",
     "description": "Evil has become pervasive throughout the world.  Let your power be the light that shines in the darkness!",
@@ -550,7 +566,7 @@
     "type": "GENERIC",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_synaptic_stimulation",
-    "name": "Scroll of Laze",
+    "name": "Scroll of Synaptic Stimulation",
     "description": "This spell stimulates the synapses in your brain beyond normal processing speeds, giving you a large boost in mental processing capability, including enhancing your reflexes, speed, and raw intellectual power.  Use responsibly!",
     "use_action": { "type": "learn_spell", "spells": [ "synaptic_stimulation" ] }
   },

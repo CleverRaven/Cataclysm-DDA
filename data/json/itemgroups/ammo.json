@@ -27,7 +27,6 @@
     "//": "Less common pistol ammo including that only used by police/paramilitary forces.",
     "items": [
       [ "10mm_fmj", 15 ],
-      [ "45colt_jhp", 10 ],
       [ "38_super", 20 ],
       [ "38super_fmj", 20 ],
       [ "44fmj", 15 ],
@@ -53,6 +52,7 @@
     "//": "Imported or otherwise very obscure pistol ammo.",
     "items": [
       [ "454_Casull", 100 ],
+      [ "45colt_jhp", 50 ],
       [ "500_Magnum", 100 ],
       [ "762_25", 50 ],
       [ "762_25hot", 50 ],
@@ -343,7 +343,12 @@
     "id": "ammo_parts",
     "//": "Raw materials for assembling ammo excluding casings.",
     "items": [
-      [ "gunpowder", 320 ],
+      [ "gunpowder_shotgun", 20 ],
+      [ "gunpowder_pistol", 105 ],
+      [ "gunpowder_magnum_pistol", 60 ],
+      [ "gunpowder_rifle", 85 ],
+      [ "gunpowder_large_rifle", 40 ],
+      [ "gunpowder_artillery", 5 ],
       [ "incendiary", 20 ],
       [ "lead", 160 ],
       [ "shotgun_primer", 80 ],
@@ -433,56 +438,56 @@
     "type": "item_group",
     "id": "ammo_light_batteries",
     "items": [
-      { "item": "light_battery_cell", "prob": 50, "charges-min": 0, "charges-max": 100 },
-      { "item": "light_minus_battery_cell", "prob": 30, "charges-min": 0, "charges-max": 50 },
-      { "item": "light_plus_battery_cell", "prob": 20, "charges-min": 0, "charges-max": 150 },
-      { "item": "light_disposable_cell", "prob": 25, "charges-min": 0, "charges-max": 300 }
+      { "item": "light_battery_cell", "prob": 25, "charges-min": 0, "charges-max": 100 },
+      { "item": "light_minus_battery_cell", "prob": 12, "charges-min": 0, "charges-max": 50 },
+      { "item": "light_plus_battery_cell", "prob": 9, "charges-min": 0, "charges-max": 150 },
+      { "item": "light_disposable_cell", "prob": 50, "charges-min": 0, "charges-max": 300 }
     ]
   },
   {
     "type": "item_group",
     "id": "ammo_light_batteries_full",
     "items": [
-      { "item": "light_battery_cell", "prob": 50, "charges-min": 100, "charges-max": 100 },
-      { "item": "light_minus_battery_cell", "prob": 30, "charges-min": 50, "charges-max": 50 },
-      { "item": "light_plus_battery_cell", "prob": 20, "charges-min": 150, "charges-max": 150 },
-      { "item": "light_disposable_cell", "prob": 25, "charges-min": 300, "charges-max": 300 }
+      { "item": "light_battery_cell", "prob": 25, "charges-min": 100, "charges-max": 100 },
+      { "item": "light_minus_battery_cell", "prob": 12, "charges-min": 50, "charges-max": 50 },
+      { "item": "light_plus_battery_cell", "prob": 9, "charges-min": 150, "charges-max": 150 },
+      { "item": "light_disposable_cell", "prob": 50, "charges-min": 300, "charges-max": 300 }
     ]
   },
   {
     "type": "item_group",
     "id": "ammo_medium_batteries",
     "items": [
-      { "item": "medium_battery_cell", "prob": 80, "charges-min": 0, "charges-max": 500 },
-      { "item": "medium_plus_battery_cell", "prob": 20, "charges-min": 0, "charges-max": 600 },
-      { "item": "medium_disposable_cell", "prob": 40, "charges-min": 0, "charges-max": 1200 }
+      { "item": "medium_battery_cell", "prob": 40, "charges-min": 0, "charges-max": 500 },
+      { "item": "medium_plus_battery_cell", "prob": 10, "charges-min": 0, "charges-max": 600 },
+      { "item": "medium_disposable_cell", "prob": 80, "charges-min": 0, "charges-max": 1200 }
     ]
   },
   {
     "type": "item_group",
     "id": "ammo_medium_batteries_full",
     "items": [
-      { "item": "medium_battery_cell", "prob": 80, "charges-min": 500, "charges-max": 500 },
-      { "item": "medium_plus_battery_cell", "prob": 20, "charges-min": 600, "charges-max": 600 },
-      { "item": "medium_disposable_cell", "prob": 40, "charges-min": 1200, "charges-max": 1200 }
+      { "item": "medium_battery_cell", "prob": 40, "charges-min": 500, "charges-max": 500 },
+      { "item": "medium_plus_battery_cell", "prob": 10, "charges-min": 600, "charges-max": 600 },
+      { "item": "medium_disposable_cell", "prob": 80, "charges-min": 1200, "charges-max": 1200 }
     ]
   },
   {
     "type": "item_group",
     "id": "ammo_heavy_batteries",
     "items": [
-      { "item": "heavy_battery_cell", "prob": 80, "charges-min": 0, "charges-max": 1000 },
-      { "item": "heavy_plus_battery_cell", "prob": 20, "charges-min": 0, "charges-max": 1250 },
-      { "item": "heavy_disposable_cell", "prob": 40, "charges-min": 0, "charges-max": 2500 }
+      { "item": "heavy_battery_cell", "prob": 40, "charges-min": 0, "charges-max": 1000 },
+      { "item": "heavy_plus_battery_cell", "prob": 10, "charges-min": 0, "charges-max": 1250 },
+      { "item": "heavy_disposable_cell", "prob": 80, "charges-min": 0, "charges-max": 2500 }
     ]
   },
   {
     "type": "item_group",
     "id": "ammo_heavy_batteries_full",
     "items": [
-      { "item": "heavy_battery_cell", "prob": 80, "charges-min": 1000, "charges-max": 1000 },
-      { "item": "heavy_plus_battery_cell", "prob": 20, "charges-min": 1250, "charges-max": 1250 },
-      { "item": "heavy_disposable_cell", "prob": 40, "charges-min": 2500, "charges-max": 2500 }
+      { "item": "heavy_battery_cell", "prob": 40, "charges-min": 1000, "charges-max": 1000 },
+      { "item": "heavy_plus_battery_cell", "prob": 10, "charges-min": 1250, "charges-max": 1250 },
+      { "item": "heavy_disposable_cell", "prob": 80, "charges-min": 2500, "charges-max": 2500 }
     ]
   },
   {

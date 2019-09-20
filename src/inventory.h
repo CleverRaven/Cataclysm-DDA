@@ -16,6 +16,7 @@
 
 #include "cata_utility.h"
 #include "item.h"
+#include "item_stack.h"
 #include "visitable.h"
 #include "units.h"
 
@@ -104,6 +105,7 @@ class inventory : public visitable<inventory>
         inventory &operator+= ( const item &rhs );
         inventory &operator+= ( const std::list<item> &rhs );
         inventory &operator+= ( const std::vector<item> &rhs );
+        inventory &operator+= ( const item_stack &rhs );
         inventory  operator+ ( const inventory &rhs );
         inventory  operator+ ( const item &rhs );
         inventory  operator+ ( const std::list<item> &rhs );
@@ -122,11 +124,12 @@ class inventory : public visitable<inventory>
          * the player's worn items / weapon
          */
         void restack( player &p );
-        void form_from_map( const tripoint &origin, int range, bool assign_invlet = true,
+        void form_from_map( const tripoint &origin, int range, const player *pl = nullptr,
+                            bool assign_invlet = true,
                             bool clear_path = true );
-        void form_from_map( map &m, const tripoint &origin, int range, bool assign_invlet = true,
+        void form_from_map( map &m, const tripoint &origin, int range, const player *pl = nullptr,
+                            bool assign_invlet = true,
                             bool clear_path = true );
-
         /**
          * Remove a specific item from the inventory. The item is compared
          * by pointer. Contents of the item are removed as well.

@@ -1,12 +1,12 @@
 [
   {
     "id": "colt_army",
-    "copy-from": "pistol_revolver",
+    "copy-from": "pistol_revolver_cap_ball",
     "type": "GUN",
     "name": "Colt M1860 Army",
     "name_plural": "Colt M1860 Army",
     "description": "The Colt Army Model 1860 is a cap & ball .44-caliber revolver.  It was used during the American Civil War, and made by Colt's Manufacturing Company.",
-    "weight": 1220,
+    "weight": "1220 g",
     "volume": "750 ml",
     "price": 43000,
     "to_hit": -1,
@@ -15,7 +15,38 @@
     "ammo": "44paper",
     "dispersion": 400,
     "durability": 7,
-    "clip_size": 5,
-    "proportional": { "reload": 2 }
+    "blackpowder_tolerance": 96,
+    "clip_size": 5
+  },
+  {
+    "id": "lemat_revolver",
+    "copy-from": "pistol_revolver_cap_ball",
+    "type": "GUN",
+    "name": "LeMat revolver",
+    "description": "A Pietta reproduction of the civil war era LeMat revolver, a rare and unusual cap & ball .44-caliber revolver.  While its original non-standard .42 or .35 caliber curbed its usefulness for the CSA army, this reproduction is offered in more prevalent .44 caliber.  Despite modern quality materials, the design is still rather delicate.",
+    "weight": 1295,
+    "volume": "851 ml",
+    "price": 120000,
+    "bashing": 4,
+    "material": [ "steel", "wood" ],
+    "symbol": "(",
+    "color": "brown",
+    "ammo": "44paper",
+    "dispersion": 420,
+    "durability": 6,
+    "blackpowder_tolerance": 56,
+    "clip_size": 9,
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "grip", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ]
+    ],
+    "built_in_mods": [ "lemat_revolver_shotgun" ],
+    "extend": { "flags": [ "NO_UNLOAD" ] }
   }
 ]

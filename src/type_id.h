@@ -23,6 +23,9 @@ using efftype_id = string_id<effect_type>;
 class emit;
 using emit_id = string_id<emit>;
 
+class enchantment;
+using enchantment_id = string_id<enchantment>;
+
 class fault;
 using fault_id = string_id<fault>;
 
@@ -86,6 +89,9 @@ using requirement_id = string_id<requirement_data>;
 
 class Skill;
 using skill_id = string_id<Skill>;
+
+class SkillDisplayType;
+using skill_displayType_id = string_id<SkillDisplayType>;
 
 struct species_type;
 using species_id = string_id<species_type>;

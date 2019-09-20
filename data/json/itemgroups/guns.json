@@ -68,6 +68,10 @@
     "items": [
       { "item": "m17", "prob": 100, "charges-min": 0, "charges-max": 17 },
       { "item": "glock_18c", "prob": 70, "charges-min": 0, "charges-max": 17 },
+      { "item": "mk23", "prob": 10, "charges-min": 0, "charges-max": 12 },
+      { "item": "usp_45", "prob": 15, "charges-min": 0, "charges-max": 12 },
+      { "item": "m1911_MEU", "prob": 5, "charges-min": 0, "charges-max": 7 },
+      { "item": "glock_19", "prob": 20, "charges-min": 0, "charges-max": 15 },
       { "item": "needlepistol", "prob": 45, "charges-min": 0, "charges-max": 50 },
       { "item": "rm103a_pistol", "prob": 35, "charges-min": 0, "charges-max": 10 }
     ]
@@ -87,7 +91,8 @@
       { "item": "l_bak_223", "prob": 80, "charges-min": 0, "charges-max": 5 },
       { "item": "rm99_pistol", "prob": 150, "charges-min": 0, "charges-max": 5 },
       { "item": "tokarev", "prob": 100, "charges-min": 0, "charges-max": 8 },
-      { "item": "walther_ppk", "prob": 100, "charges-min": 0, "charges-max": 8 }
+      { "item": "walther_ppk", "prob": 100, "charges-min": 0, "charges-max": 8 },
+      { "item": "colt_saa", "prob": 150, "charges-min": 0, "charges-max": 6 }
     ]
   },
   {
@@ -106,7 +111,7 @@
     "//": "SMGs commonly owned by citizens and found in many locations.",
     "items": [
       { "item": "tommygun", "prob": 70, "charges-min": 0, "charges-max": 20 },
-      { "item": "briefcase_smg", "prob": 20, "charges-min": 0, "charges-max": 32 },
+      { "item": "hk_mp5_semi_pistol", "prob": 70, "charges-min": 0, "charges-max": 30 },
       { "item": "sten", "prob": 100, "charges-min": 0, "charges-max": 32 },
       { "item": "uzi", "prob": 100, "charges-min": 0, "charges-max": 32 }
     ]
@@ -119,12 +124,14 @@
       { "item": "calico", "prob": 30, "charges-min": 0, "charges-max": 50 },
       { "item": "fn_p90", "prob": 50, "charges-min": 0, "charges-max": 50 },
       { "item": "hk_mp5", "prob": 100, "charges-min": 0, "charges-max": 30 },
+      { "item": "hk_mp5sd", "prob": 5, "charges-min": 0, "charges-max": 30 },
       { "item": "hk_ump45", "prob": 30, "charges-min": 0, "charges-max": 25 },
       { "item": "mac_10", "prob": 40, "charges-min": 0, "charges-max": 30 },
       { "item": "mac_11", "prob": 20, "charges-min": 0, "charges-max": 32 },
       { "item": "rm360_carbine", "prob": 30, "charges-min": 0, "charges-max": 100 },
       { "item": "TDI", "prob": 10, "charges-min": 0, "charges-max": 30 },
       { "item": "american_180", "prob": 50, "charges-min": 0, "charges-max": 100 },
+      { "item": "briefcase_smg", "prob": 5, "charges-min": 0, "charges-max": 30 },
       { "item": "tec9", "prob": 50, "charges-min": 0, "charges-max": 32 }
     ]
   },
@@ -136,7 +143,9 @@
       { "item": "hk_mp7", "prob": 100, "charges-min": 0, "charges-max": 20 },
       { "item": "needlegun", "prob": 30, "charges-min": 0, "charges-max": 50 },
       { "item": "rm2000_smg", "prob": 50, "charges-min": 0, "charges-max": 10 },
-      { "item": "hk_mp5sd", "prob": 75, "charges-min": 0, "charges-max": 30 }
+      { "item": "hk_mp5", "prob": 100, "charges-min": 0, "charges-max": 30 },
+      { "item": "hk_mp5k", "prob": 10, "charges-min": 0, "charges-max": 30 },
+      { "item": "hk_mp5sd", "prob": 5, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
@@ -153,7 +162,7 @@
     "type": "item_group",
     "id": "guns_smg_improvised",
     "//": "Makeshift or otherwise poor quality SMGs.",
-    "items": [ [ "smg_22", 50 ], [ "smg_38", 30 ], [ "smg_40", 40 ], [ "smg_45", 40 ], [ "smg_9mm", 100 ] ]
+    "items": [ [ "smg_40", 40 ], [ "smg_45", 40 ], [ "smg_9mm", 100 ] ]
   },
   {
     "type": "item_group",
@@ -357,7 +366,7 @@
     "items": [
       [ "LAW_Packed", 200 ],
       [ "m202_flash", 100 ],
-      [ "m235tpa", 150 ],
+      [ "m74_clip", 150 ],
       [ "m3_carlgustav", 50 ],
       [ "AT4", 50 ],
       [ "84x246mm_he", 100 ],
@@ -474,6 +483,9 @@
     "items": [
       { "group": "guns_cop", "prob": 100 },
       { "item": "hk_ump45", "prob": 15, "charges-min": 0, "charges-max": 25 },
+      { "item": "hk_mp5", "prob": 50, "charges-min": 0, "charges-max": 30 },
+      { "item": "hk_mp5k", "prob": 10, "charges-min": 0, "charges-max": 30 },
+      { "item": "hk_mp5sd", "prob": 5, "charges-min": 0, "charges-max": 30 },
       { "item": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
       { "item": "m4a1", "prob": 35, "charges-min": 0, "charges-max": 30 },
       { "item": "hk417_13", "prob": 30, "charges-min": 0, "charges-max": 20 }

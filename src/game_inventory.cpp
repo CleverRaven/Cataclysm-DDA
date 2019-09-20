@@ -179,7 +179,7 @@ void game_menus::inv::common( avatar &you )
     inv_s.set_title( _( "Inventory" ) );
     inv_s.set_hint( string_format(
                         _( "Item hotkeys assigned: <color_light_gray>%d</color>/<color_light_gray>%d</color>" ),
-                        you.allocated_invlets().size(), inv_chars.size() ) );
+                        you.allocated_invlets().count(), inv_chars.size() ) );
 
     int res = 0;
 
@@ -381,7 +381,7 @@ class pickup_inventory_preset : public inventory_selector_preset
             if( !p.has_item( *loc ) ) {
                 if( loc->made_of_from_type( LIQUID ) ) {
                     return _( "Can't pick up spilt liquids" );
-                } else if( !p.can_pickVolume( *loc ) ) {
+                } else if( !p.can_pickVolume( *loc ) && p.is_armed() ) {
                     return _( "Too big to pick up" );
                 } else if( !p.can_pickWeight( *loc ) ) {
                     return _( "Too heavy to pick up" );
@@ -524,7 +524,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                         std::vector<bionic_id> bids = p.get_bionic_fueled_with( get_consumable_item( loc ) );
                         if( !bids.empty() ) {
                             bionic_id bid = p.get_most_efficient_bionic( bids );
-                            cbm_name = bid->name;
+                            cbm_name = bid->name.translated();
                         }
                         break;
                 }
@@ -667,17 +667,15 @@ class comestible_inventory_preset : public inventory_selector_preset
 
 static std::string get_consume_needs_hint( player &p )
 {
-    const auto &cmgr = get_all_colors();
     auto hint = std::string();
     auto desc = p.get_hunger_description();
-    hint.append( string_format( "[%s <color_%s>%s</color>] ", _( "Food :" ),
-                                cmgr.get_name( desc.second ), desc.first ) );
+    hint.append( string_format( "%s %s", _( "Food :" ), colorize( desc.first, desc.second ) ) );
+    hint.append( string_format( " %s ", LINE_XOXO_S ) );
     desc = p.get_thirst_description();
-    hint.append( string_format( "[%s <color_%s>%s</color>] ", _( "Drink:" ),
-                                cmgr.get_name( desc.second ), desc.first ) );
+    hint.append( string_format( "%s %s", _( "Drink:" ), colorize( desc.first, desc.second ) ) );
+    hint.append( string_format( " %s ", LINE_XOXO_S ) );
     desc = p.get_pain_description();
-    hint.append( string_format( "[%s <color_%s>%s</color>] ", _( "Pain :" ),
-                                cmgr.get_name( desc.second ), desc.first ) );
+    hint.append( string_format( "%s %s", _( "Pain :" ), colorize( desc.first, desc.second ) ) );
     return hint;
 }
 
@@ -898,12 +896,11 @@ class read_inventory_preset: public pickup_inventory_preset
 {
     public:
         read_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
-            static const std::string unknown( _( "<color_dark_gray>?</color>" ) );
-            static const std::string martial_arts( _( "martial arts" ) );
+            const std::string unknown = _( "<color_dark_gray>?</color>" );
 
-            append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
+            append_cell( [ this, &p, unknown ]( const item_location & loc ) -> std::string {
                 if( loc->type->can_use( "MA_MANUAL" ) ) {
-                    return martial_arts;
+                    return _( "martial arts" );
                 }
                 if( !is_known( loc ) ) {
                     return unknown;
@@ -918,7 +915,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 return std::string();
             }, _( "TRAINS (CURRENT)" ), unknown );
 
-            append_cell( [ this ]( const item_location & loc ) -> std::string {
+            append_cell( [ this, unknown ]( const item_location & loc ) -> std::string {
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
@@ -928,14 +925,14 @@ class read_inventory_preset: public pickup_inventory_preset
                 return unlearned > 0 ? to_string( unlearned ) : std::string();
             }, _( "RECIPES" ), unknown );
 
-            append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
+            append_cell( [ this, &p, unknown ]( const item_location & loc ) -> std::string {
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
                 return good_bad_none( p.book_fun_for( *loc, p ) );
             }, _( "FUN" ), unknown );
 
-            append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
+            append_cell( [ this, &p, unknown ]( const item_location & loc ) -> std::string {
                 if( !is_known( loc ) ) {
                     return unknown;
                 }

@@ -2,6 +2,7 @@
 
 #include "ClangTidyModule.h"
 #include "ClangTidyModuleRegistry.h"
+#include "NoStaticGettextCheck.h"
 #include "NoLongCheck.h"
 #include "PointInitializationCheck.h"
 #include "SimplifyPointConstructorsCheck.h"
@@ -21,6 +22,7 @@ class CataModule : public ClangTidyModule
 {
     public:
         void addCheckFactories( ClangTidyCheckFactories &CheckFactories ) override {
+            CheckFactories.registerCheck<NoStaticGettext>( "cata-no-static-gettext" );
             CheckFactories.registerCheck<NoLongCheck>( "cata-no-long" );
             CheckFactories.registerCheck<PointInitializationCheck>( "cata-point-initialization" );
             CheckFactories.registerCheck<SimplifyPointConstructorsCheck>(
