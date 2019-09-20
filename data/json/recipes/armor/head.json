@@ -1392,7 +1392,7 @@
     "autolearn": true,
     "components": [
       [ [ "ear_plugs", 1 ] ],
-      [ [ "string_6", 2 ] ]
+      [ [ "filament", 100, "LIST" ], [ "cordage_short", 2, "LIST" ] ]
     ]
   }
 ]
