@@ -7,7 +7,6 @@
 
 #include "calendar.h"
 #include "cursesdef.h"
-#include "translations.h"
 
 class player;
 class JsonObject;
@@ -123,7 +122,7 @@ class computer
         void add_option( const std::string &opt_name, computer_action action, int security );
         void add_failure( const computer_failure &failure );
         void add_failure( computer_failure_type failure );
-        void set_access_denied_msg( const translation &new_msg );
+        void set_access_denied_msg( const std::string &new_msg );
         // Basic usage
         /** Shutdown (free w_terminal, etc.) */
         void shutdown_terminal();
@@ -151,7 +150,7 @@ class computer
         // Message displayed when the computer is secured and initial login fails.
         // Can be customized to for example warn the player of potentially lethal
         // consequences like secubots spawning.
-        translation access_denied;
+        std::string access_denied;
         // Output window
         catacurses::window w_terminal;
         // Pretty border
