@@ -470,8 +470,7 @@ static void draw_traits_tab( const catacurses::window &w_traits, const catacurse
         const auto &mdata = traitslist[line].obj();
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta, string_format(
-                            "<color_%s>%s</color>: %s", string_from_color( mdata.get_display_color() ),
-                            mdata.name(), traitslist[line]->desc() ) );
+                            "%s: %s", colorize( mdata.name(), mdata.get_display_color() ), traitslist[line]->desc() ) );
     }
     wrefresh( w_traits );
     wrefresh( w_info );

@@ -1413,11 +1413,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
                 const itype *cur = ammo ? ammo : m->ammo_data();
                 if( cur ) {
-                    auto str = string_format( m->ammo_remaining() ?
-                                              _( "Ammo: <color_%s>%s</color> (%d/%d)" ) :
-                                              _( "Ammo: <color_%s>%s</color>" ),
-                                              get_all_colors().get_name( cur->color ),
-                                              cur->nname( std::max( m->ammo_remaining(), 1 ) ),
+                    auto str = string_format( m->ammo_remaining() ? _( "Ammo: %s (%d/%d)" ) : _( "Ammo: %s" ),
+                                              colorize( cur->nname( std::max( m->ammo_remaining(), 1 ) ), cur->color ),
                                               m->ammo_remaining(), m->ammo_capacity() );
 
                     print_colored_text( w_target, point( 1, line_number++ ), col, col, str );

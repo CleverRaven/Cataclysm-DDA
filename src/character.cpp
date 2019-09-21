@@ -2724,10 +2724,6 @@ hp_part Character::body_window( const std::string &menu_header,
         max_bp_name_len = std::max( max_bp_name_len, utf8_width( e.name ) );
     }
 
-    const auto color_name = []( const nc_color & col ) {
-        return get_all_colors().get_name( col );
-    };
-
     const auto hp_str = [precise]( const int hp, const int maximal_hp ) -> std::string {
         if( hp <= 0 )
         {
@@ -2800,9 +2796,7 @@ hp_part Character::body_window( const std::string &menu_header,
         int new_d_power = static_cast<int>( std::floor( disinfectant_power ) );
 
         const auto &aligned_name = std::string( max_bp_name_len - utf8_width( e.name ), ' ' ) + e.name;
-        msg << string_format( "<color_%s>%s</color> %s",
-                              color_name( all_state_col ), aligned_name,
-                              hp_str( current_hp, maximal_hp ) );
+        msg << colorize( aligned_name, all_state_col ) << " " << hp_str( current_hp, maximal_hp );
 
         if( limb_is_broken ) {
             desc << colorize( _( "It is broken. It needs a splint or surgical attention." ), c_red ) << "\n";

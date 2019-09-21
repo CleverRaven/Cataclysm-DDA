@@ -4983,8 +4983,7 @@ std::string item::durability_indicator( bool include_intact ) const
 
     if( damage() < 0 )  {
         if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-            outputstring = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() +
-                           " </color>";
+            outputstring = colorize( damage_symbol() + " ", damage_color() );
         } else if( is_gun() ) {
             outputstring = pgettext( "damage adjective", "accurized " );
         } else {
@@ -5008,8 +5007,7 @@ std::string item::durability_indicator( bool include_intact ) const
             }
         }
     } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-        outputstring = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() +
-                       " </color>";
+        outputstring = colorize( damage_symbol() + " ", damage_color() );
     } else {
         outputstring = string_format( "%s ", get_base_material().dmg_adj( damage_level( 4 ) ) );
         if( include_intact && outputstring == " " ) {
