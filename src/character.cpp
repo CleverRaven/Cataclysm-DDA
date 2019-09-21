@@ -232,7 +232,7 @@ void Character::mod_stat( const std::string &stat, float modifier )
 
 int Character::get_fat_to_hp() const
 {
-    int mut_fat_hp = 0;
+    float mut_fat_hp = 0;
     for( const trait_id &mut : get_mutations() ) {
         mut_fat_hp += mut.obj().fat_to_max_hp;
     }

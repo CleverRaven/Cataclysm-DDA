@@ -140,7 +140,7 @@ struct mutation_branch {
         int bleed_resist = 0;
 
         /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/
-        int fat_to_max_hp = 0;
+        float fat_to_max_hp = 0.0f;
         /**How fast does healthy tends toward healthy_mod*/
         float healthy_rate = 1.0f;
 

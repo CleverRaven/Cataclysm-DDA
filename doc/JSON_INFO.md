@@ -725,7 +725,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 "fatigue" : true, //If true, activated mutation increases fatigue by cost. (default: false)
 "scent_modifier": 0.0,// float affecting the intensity of your smell. (default: 1.0)
 "bleed_resist": 1000, // Int quantifiying your resistance to bleed effect, if its > to the intensity of the effect you don't get any bleeding. (default: 0)
-"fat_to_max_hp": 1, // Amount of hp_max gained for each unit of bmi above character_weight_category::normal. (default: 0)
+"fat_to_max_hp": 1.0, // Amount of hp_max gained for each unit of bmi above character_weight_category::normal. (default: 0.0)
 "healthy_rate": 0.0, // How fast your health can change. If set to 0 it never changes. (default: 1.0)
 "weakness_to_water": 5, // How much damage water does to you, negative values heal you. (default: 0)
 "ignored_by": [ "ZOMBIE" ], // List of species ignoring you. (default: empty)
