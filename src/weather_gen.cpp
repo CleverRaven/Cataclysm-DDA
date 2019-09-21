@@ -314,13 +314,13 @@ void weather_generator::test_weather() const
 weather_generator weather_generator::load( JsonObject &jo )
 {
     weather_generator ret;
-    ret.base_temperature = jo.get_float( "base_temperature", 6.5 );
-    ret.base_humidity = jo.get_float( "base_humidity", 66.0 );
-    ret.base_pressure = jo.get_float( "base_pressure", 1015.0 );
-    ret.base_acid = jo.get_float( "base_acid", 1015.0 );
-    ret.base_wind = jo.get_float( "base_wind", 5.7 );
-    ret.base_wind_distrib_peaks = jo.get_int( "base_wind_distrib_peaks", 30 );
-    ret.base_wind_season_variation = jo.get_int( "base_wind_season_variation", 64 );
+    ret.base_temperature = jo.get_float( "base_temperature", 0.0 );
+    ret.base_humidity = jo.get_float( "base_humidity", 50.0 );
+    ret.base_pressure = jo.get_float( "base_pressure", 0.0 );
+    ret.base_acid = jo.get_float( "base_acid", 0.0 );
+    ret.base_wind = jo.get_float( "base_wind", 0.0 );
+    ret.base_wind_distrib_peaks = jo.get_int( "base_wind_distrib_peaks", 0 );
+    ret.base_wind_season_variation = jo.get_int( "base_wind_season_variation", 0 );
     ret.summer_temp_manual_mod = jo.get_int( "summer_temp_manual_mod", 0 );
     ret.spring_temp_manual_mod = jo.get_int( "spring_temp_manual_mod", 0 );
     ret.autumn_temp_manual_mod = jo.get_int( "autumn_temp_manual_mod", 0 );
