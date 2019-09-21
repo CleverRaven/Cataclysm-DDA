@@ -546,11 +546,14 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
+            const item &med = !( *loc ).is_container_empty() && ( *loc ).get_contained().is_medication() &&
+                              ( *loc ).get_contained().type->has_use() ? ( *loc ).get_contained() : *loc;
+
             if( loc->made_of_from_type( LIQUID ) && !g->m.has_flag( "LIQUIDCONT", loc.position() ) ) {
                 return _( "Can't drink spilt liquids" );
             }
 
-            if( ( *loc ).is_medication() && !p.can_use_heal_item( ( *loc ).typeId() ) ) {
+            if( med.is_medication() && !p.can_use_heal_item( med.typeId() ) ) {
                 return _( "Your biology is not compatible with that item." );
             }
 
@@ -787,7 +790,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
                 }
             }
 
-            if( ( *loc ).is_medication() && !p.can_use_heal_item( ( *loc ).typeId() ) ) {
+            if( it.is_medication() && !p.can_use_heal_item( it.typeId() ) ) {
                 return _( "Your biology is not compatible with that item." );
             }
 

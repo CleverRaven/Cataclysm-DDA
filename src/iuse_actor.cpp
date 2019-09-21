@@ -3678,14 +3678,9 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
                 }
             }
             if( !found_match ) {
-                if( patient.is_player() ) {
-                    add_msg( m_bad, _( "Your physiology does not allow the use of %s to heal your wounds." ),
-                             it.tname() );
-                } else {
-                    add_msg( m_bad, _( "%s's physiology does not allow the use of %s to heal their wounds." ),
-                             patient.name, it.tname() );
-                }
-
+                patient.add_msg_player_or_npc( m_bad,
+                                               _( "Your biology is not compatible with that item." ),
+                                               _( "%s's biology is not compatible with that item." ), patient.name );
                 return num_hp_parts; // canceled
             }
         }
