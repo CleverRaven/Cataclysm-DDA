@@ -1513,6 +1513,7 @@ void debug()
                     std::cout << std::to_string( count ) << " the id of that faction object is " << elem.second.id.str() << std::endl;
                     count++;
                 }
+                std::cout << "Player faction is " << g->u.get_faction()->id.str() << std::endl;
                 break;
             }
             case DEBUG_QUIT_NOSAVE:

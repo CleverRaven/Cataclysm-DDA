@@ -117,13 +117,13 @@ void faction::add_to_membership( const character_id &guy_id, const std::string g
 void faction::remove_member( const character_id &guy_id )
 {
     for( auto it = members.cbegin(), next_it = it; it != members.cend(); it = next_it ) {
-        ++next_it;
         if( guy_id == it->first ) {
             members.erase( it );
             break;
         }
+        ++next_it;
     }
-    if( members.empty() ) {
+    if( members.empty() && id != faction_id( "your_followers" ) ) {
         g->faction_manager_ptr->remove_faction( id );
     }
 }

@@ -848,12 +848,10 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     std::string item_name;
                     std::string stolen;
                     bool stealing = false;
-                    if( this_item.has_owner() ) {
-                        const faction *item_fac = this_item.get_owner();
-                        if( item_fac != g->u.get_faction() ) {
-                            stolen = "<color_light_red>!</color>";
-                            stealing = true;
-                        }
+                    if( this_item.has_owner() &&
+                        this_item.get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
+                        stolen = "<color_light_red>!</color>";
+                        stealing = true;
                     }
                     if( stacked_here[true_it].front()->is_money() ) {
                         //Count charges
