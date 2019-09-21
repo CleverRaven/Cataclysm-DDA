@@ -24,6 +24,7 @@
 #include "enums.h"
 #include "mtype.h"
 #include "stomach.h"
+#include "teleport.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -616,7 +617,7 @@ void player::hardcoded_effects( effect &it )
                 if( !is_npc() ) {
                     add_msg( _( "Glowing lights surround you, and you teleport." ) );
                 }
-                g->teleport();
+                teleport::teleport( this );
                 g->events().send<event_type::teleglow_teleports>( getID() );
                 if( one_in( 10 ) ) {
                     // Set ourselves up for removal

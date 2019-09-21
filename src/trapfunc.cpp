@@ -32,6 +32,7 @@
 #include "player.h"
 #include "int_id.h"
 #include "point.h"
+#include "teleport.h"
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_shadow( "mon_shadow" );
@@ -638,39 +639,15 @@ bool trapfunc::telepad( const tripoint &p, Creature *c, item * )
     if( c == nullptr ) {
         return false;
     }
-    monster *z = dynamic_cast<monster *>( c );
-    // TODO: NPC don't teleport?
     if( c == &g->u ) {
         c->add_msg_if_player( m_warning, _( "The air shimmers around you..." ) );
-        g->teleport();
-        return true;
-    } else if( z != nullptr ) {
-        if( g->u.sees( *z ) ) {
-            add_msg( _( "The air shimmers around the %s..." ), z->name() );
-        }
-
-        int tries = 0;
-        int newposx = 0;
-        int newposy = 0;
-        do {
-            newposx = rng( z->posx() - SEEX, z->posx() + SEEX );
-            newposy = rng( z->posy() - SEEY, z->posy() + SEEY );
-            tries++;
-        } while( g->m.impassable( point( newposx, newposy ) ) && tries != 10 );
-
-        if( tries == 10 ) {
-            z->die_in_explosion( nullptr );
-        } else if( monster *const mon_hit = g->critter_at<monster>( {newposx, newposy, z->posz()} ) ) {
-            if( g->u.sees( *z ) ) {
-                add_msg( m_good, _( "The %1$s teleports into a %2$s, killing them both!" ),
-                         z->name(), mon_hit->name() );
-            }
-            mon_hit->die_in_explosion( z );
-        } else {
-            z->setpos( {newposx, newposy, z->posz()} );
-        }
-        return true;
     }
+    else {
+        if (g->u.sees(p)) {
+            add_msg(_("The air shimmers around %s..."), c->disp_name());
+        }
+    }
+    teleport::teleport(c);
     return false;
 }
 

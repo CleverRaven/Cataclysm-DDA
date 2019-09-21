@@ -99,6 +99,7 @@
 #include "item_group.h"
 #include "omdata.h"
 #include "point.h"
+#include "teleport.h"
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -3431,7 +3432,7 @@ int iuse::teleport( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     p->moves -= to_moves<int>( 1_seconds );
-    g->teleport( p );
+    teleport::teleport(p);
     return it->type->charges_to_use();
 }
 
@@ -5275,7 +5276,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
             break;
 
             case AEA_TELEPORT:
-                g->teleport( p );
+                teleport::teleport(p);
                 break;
 
             case AEA_LIGHT:

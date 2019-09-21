@@ -57,6 +57,7 @@
 #include "point.h"
 #include "scent_block.h"
 #include "mongroup.h"
+#include "teleport.h"
 
 const species_id FUNGUS( "FUNGUS" );
 const species_id INSECT( "INSECT" );
@@ -1632,10 +1633,9 @@ void map::player_in_field( player &u )
         if( ft == fd_fatigue ) {
             // Teleports you... somewhere.
             if( rng( 0, 2 ) < cur.get_field_intensity() && u.is_player() ) {
-                // TODO: allow teleporting for npcs
                 add_msg( m_bad, _( "You're violently teleported!" ) );
                 u.hurtall( cur.get_field_intensity(), nullptr );
-                g->teleport();
+                teleport::teleport( &u );
             }
         }
         // Why do these get removed???

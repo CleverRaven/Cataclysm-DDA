@@ -41,6 +41,7 @@ enum spell_flag {
     VERBAL, // spell makes noise at caster location, mouth encumbrance affects fail %
     SOMATIC, // arm encumbrance affects fail % and casting time (slightly)
     NO_HANDS, // hands do not affect spell energy cost
+    UNSAFE_TELEPORT, // teleport spell risks killing the caster or others
     NO_LEGS, // legs do not affect casting time
     CONCENTRATE, // focus affects spell fail %
     RANDOM_AOE, // picks random number between min+increment*level and max instead of normal behavior

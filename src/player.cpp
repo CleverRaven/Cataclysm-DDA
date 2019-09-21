@@ -99,6 +99,7 @@
 #include "enums.h"
 #include "flat_set.h"
 #include "stomach.h"
+#include "teleport.h"
 
 const double MAX_RECOIL = 3000;
 
@@ -5575,7 +5576,7 @@ void player::suffer()
         mutate();
     }
     if( has_artifact_with( AEP_FORCE_TELEPORT ) && one_turn_in( 1_hours ) ) {
-        g->teleport( this );
+        teleport::teleport( this );
     }
     const bool needs_fire = !has_morale( MORALE_PYROMANIA_NEARFIRE ) &&
                             !has_morale( MORALE_PYROMANIA_STARTFIRE );

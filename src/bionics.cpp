@@ -63,6 +63,7 @@
 #include "item_location.h"
 #include "monster.h"
 #include "point.h"
+#include "teleport.h"
 
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
@@ -383,7 +384,7 @@ bool player::activate_bionic( int b, bool eff_only )
             add_msg_if_player( m_info, _( "You cannot activate that while mounted." ) );
             return false;
         }
-        g->teleport();
+        teleport::teleport( this );
         add_effect( effect_teleglow, 30_minutes );
         mod_moves( -100 );
     } else if( bio.id == "bio_blood_anal" ) {

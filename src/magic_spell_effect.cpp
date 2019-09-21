@@ -41,6 +41,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "timed_event.h"
+#include "teleport.h"
 
 static tripoint random_point( int min_distance, int max_distance, const tripoint &player_pos )
 {
@@ -53,29 +54,14 @@ static tripoint random_point( int min_distance, int max_distance, const tripoint
 
 void spell_effect::teleport_random( const spell &sp, Creature &caster, const tripoint & )
 {
+    bool safe = !sp.has_flag(spell_flag::UNSAFE_TELEPORT);
     const int min_distance = sp.range();
     const int max_distance = sp.range() + sp.aoe();
     if( min_distance > max_distance || min_distance < 0 || max_distance < 0 ) {
         debugmsg( "ERROR: Teleport argument(s) invalid" );
         return;
     }
-    const tripoint player_pos = caster.pos();
-    tripoint target;
-    // limit the loop just in case it's impossble to find a valid point in the range
-    int tries = 0;
-    do {
-        target = random_point( min_distance, max_distance, player_pos );
-        tries++;
-    } while( g->m.impassable( target ) && tries < 20 );
-    if( tries == 20 ) {
-        add_msg( m_bad, _( "Unable to find a valid target for teleport." ) );
-        return;
-    }
-    // TODO: make this spell work for non players
-    if( caster.is_player() ) {
-        sp.make_sound( caster.pos() );
-        g->place_player( target );
-    }
+    teleport::teleport(&caster, min_distance, max_distance, safe, false);
 }
 
 void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint & )
