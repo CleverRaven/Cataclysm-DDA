@@ -1035,8 +1035,8 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
-        for( trait_id mut : u->get_mutations() ) {
-            for( const species_id spe : mut.obj().ignored_by ) {
+        for( const trait_id &mut : u->get_mutations() ) {
+            for( const species_id &spe : mut.obj().ignored_by ) {
                 if( type->in_species( spe ) ) {
                     return MATT_IGNORE;
                 }
