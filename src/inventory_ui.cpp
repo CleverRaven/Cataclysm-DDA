@@ -1442,7 +1442,7 @@ std::vector<std::string> inventory_selector::get_stats() const
     std::array<size_t, num_stats> widths;
     // Add first cells and spaces after them.
     for( size_t i = 0; i < stats.size(); ++i ) {
-        lines[i] += string_format( "%d", stats[i][0] ) + " ";
+        lines[i] += string_format( "%s", stats[i][0] ) + " ";
     }
     // Now add the rest of the cells and align them to the right.
     for( size_t j = 1; j < stats.front().size(); ++j ) {
@@ -1458,7 +1458,7 @@ std::vector<std::string> inventory_selector::get_stats() const
             if( max_w > widths[i] ) {
                 lines[i] += std::string( max_w - widths[i], ' ' );
             }
-            lines[i] += string_format( "%d", stats[i][j] );
+            lines[i] += string_format( "%s", stats[i][j] );
         }
     }
     // Construct the final result.
