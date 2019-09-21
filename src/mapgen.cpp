@@ -116,7 +116,13 @@ void map::generate( const tripoint &p, const time_point &when )
     //  because other submaps won't be touched.
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            setsubmap( get_nonant( { gridx, gridy } ), new submap() );
+            if( zlevels ) {
+                for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+                    setsubmap( get_nonant( { gridx, gridy, gridz } ), new submap() );
+                }
+            } else {
+                setsubmap( get_nonant( { gridx, gridy } ), new submap() );
+            }
             // TODO: memory leak if the code below throws before the submaps get stored/deleted!
         }
     }
