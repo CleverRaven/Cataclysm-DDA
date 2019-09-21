@@ -124,6 +124,13 @@ void faction::remove_member( const character_id &guy_id )
         }
     }
     if( members.empty() ) {
+        for( const faction_template &elem : npc_factions::all_templates ) {
+            // This is a templated base faction - dont delete it, just leave it as zero members for now.
+            // Only want to delete dynamically created factions.
+            if( elem.id == id ) {
+                return;
+            }
+        }
         g->faction_manager_ptr->remove_faction( id );
     }
 }
