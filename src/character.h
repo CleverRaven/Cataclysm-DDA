@@ -284,8 +284,8 @@ class Character : public Creature, public visitable<Character>
 
         void mod_stat( const std::string &stat, float modifier ) override;
 
-        /**Some mutant change their max_hp according to their bmi*/
-        void do_fat_to_hp();
+        /**Get bonus to max_hp from excess stored fat*/
+        int get_fat_to_hp() const;
 
         /** Returns either "you" or the player's name */
         std::string disp_name( bool possessive = false ) const override;

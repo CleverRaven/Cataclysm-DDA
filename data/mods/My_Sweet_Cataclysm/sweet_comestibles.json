@@ -9,6 +9,7 @@
     "spoils_in": "180 days",
     "color": "magenta",
     "comestible_type": "FOOD",
+    "material": "junk",
     "description": "The corpse of a necco, now it really looks like a giant necco wafer. Surely a bite wouldn't hurt, right?",
     "price": 4000,
     "charges": 40,

@@ -230,19 +230,18 @@ void Character::mod_stat( const std::string &stat, float modifier )
     }
 }
 
-void Character::do_fat_to_hp()
+int Character::get_fat_to_hp() const
 {
+    int missing_hp[num_hp_parts];
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        missing_hp[i] = hp_max[i] - hp_cur[i];
+    }
     int mut_fat_hp = 0;
     for( const trait_id &mut : get_mutations() ) {
         mut_fat_hp += mut.obj().fat_to_max_hp;
     }
-    if( mut_fat_hp == 0 ) {
-        return;
-    }
 
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        hp_max[i] += mut_fat_hp * ( get_bmi() - character_weight_category::normal );
-    }
+    return mut_fat_hp * ( get_bmi() - character_weight_category::normal );
 }
 
 std::string Character::disp_name( bool possessive ) const
@@ -672,7 +671,7 @@ void Character::recalc_hp()
     float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 );
     for( auto &elem : new_max_hp ) {
         /** @EFFECT_STR_MAX increases base hp */
-        elem = 60 + str_max * 3 + hp_adjustment;
+        elem = 60 + str_max * 3 + hp_adjustment + get_fat_to_hp();
         elem *= hp_mod;
     }
     if( has_trait( trait_GLASSJAW ) ) {
@@ -2423,7 +2422,7 @@ void Character::set_stored_kcal( int kcal )
         stored_calories = kcal;
 
         //some mutant change their max_hp according to their bmi
-        do_fat_to_hp();
+        recalc_hp();
     }
 }
 
