@@ -448,7 +448,7 @@ std::string spell::damage_string() const
         if( dmg >= 0 ) {
             return string_format( "%d", dmg );
         } else {
-            return string_format( "+%d", dmg );
+            return string_format( "+%d", abs( dmg ) );
         }
     }
 }
