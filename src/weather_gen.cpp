@@ -27,7 +27,6 @@ struct weather_gen_common {
     double y;
     double z;
     double cyf;
-    double seasonal_variation;
     unsigned modSEED;
     season_type season;
 };
@@ -53,8 +52,6 @@ static weather_gen_common get_common_data( const tripoint &location, const time_
       // of winter. (Cataclsym DDA years start when spring starts.
       // Gregorian years start when winter starts.)
     result.season = season_of_year( t );
-    // Start and end at -1 going up to 1 in summer.
-    result.seasonal_variation = result.cyf * -1; // [-1, 1]
 
     return result;
 }
@@ -75,8 +72,6 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
     // manually specified seasonal temp variation from region_settings.json
     const int seasonal_temp_mod[4] = { wg.spring_temp_manual_mod, wg.summer_temp_manual_mod, wg.autumn_temp_manual_mod, wg.winter_temp_manual_mod };
     const double current_t( wg.base_temperature + seasonal_temp_mod[ season ] );
-    // Start and end at -1 going up to 1 in summer.
-    const double seasonal_variation( common.seasonal_variation ); // [-1, 1]
     // Harsh winter nights, hot summers.
     const double season_atenuation( cyf / 2 + 1 );
     // Make summers peak faster and winters not perma-frozen.
@@ -89,7 +84,7 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
 
     double T( raw_noise_4d( x, y, z, modSEED ) * 4.0 );
     T += current_t;
-    T += seasonal_variation * 8 * exp( -pow( current_t * 2.7 / 10 - 0.5, 2 ) );
+    T += -cyf * 8 * exp( -pow( current_t * 2.7 / 10 - 0.5, 2 ) );
     T += daily_variation * 8 * exp( -pow( current_t / 30, 2 ) );
 
     return T * 9 / 5 + 32;
@@ -121,9 +116,6 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     double A( raw_noise_4d( x, y, z, modSEED ) * 8.0 );
     double W( raw_noise_4d( x / 2.5, y / 2.5, z / 200, modSEED ) * 10.0 );
 
-    // Start and end at -1 going up to 1 in summer.
-    const double seasonal_variation( common.seasonal_variation ); // [-1, 1]
-
     // Humidity variation
     double mod_h( 0 );
     if( season == WINTER ) {
@@ -142,12 +134,12 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
 
     // Pressure variation
     // Pressure is mostly random, but a bit higher on summer and lower on winter. In millibars.
-    P += seasonal_variation * 20 + base_pressure;
+    P += -cyf * 20 + base_pressure;
 
     // Wind power
     W = std::max( 0, static_cast<int>( base_wind  / pow( P / 1014.78, rng( 9,
                                        base_wind_distrib_peaks ) ) +
-                                       seasonal_variation / base_wind_season_variation * rng( 1, 2 ) * W ) );
+                                       -cyf / base_wind_season_variation * rng( 1, 2 ) * W ) );
     // Wind direction
     // Initial static variable
     if( current_winddir == 1000 ) {
