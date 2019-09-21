@@ -206,6 +206,7 @@ void spell_type::load( JsonObject &jo, const std::string & )
         { "area_pull", spell_effect::area_pull },
         { "area_push", spell_effect::area_push },
         { "ter_transform", spell_effect::transform_blast },
+        { "vomit", spell_effect::vomit },
         { "none", spell_effect::none }
     };
 

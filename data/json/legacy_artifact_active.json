@@ -102,5 +102,15 @@
     "min_duration": 180000,
     "max_duration": 720000,
     "message": "You feel unhinged."
+  },
+  {
+    "type": "SPELL",
+    "id": "AEA_VOMIT",
+    "name": "Artifact Vomit",
+    "description": "Causes the caster to vomit.",
+    "valid_targets": [ "self" ],
+    "effect": "vomit",
+    "base_casting_time": 100,
+    "message": "A wave of nausea passes through you!"
   }
 ]
