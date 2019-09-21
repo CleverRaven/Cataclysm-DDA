@@ -76,6 +76,9 @@ class iuse_transform : public iuse_actor
         /**does the item requires to be worn to be activable*/
         bool need_worn = false;
 
+        /**does the item requires to be wielded to be activable*/
+        bool need_wielding = false;
+
         /** subtracted from @ref Creature::moves when transformation is successful */
         int moves = 0;
 
@@ -694,6 +697,10 @@ class cast_spell_actor : public iuse_actor
         // the spell this item casts when used.
         spell_id item_spell;
         int spell_level;
+        /**does the item requires to be worn to be activable*/
+        bool need_worn = false;
+        /**does the item requires to be wielded to be activable*/
+        bool need_wielding = false;
 
         cast_spell_actor( const std::string &type = "cast_spell" ) : iuse_actor( type ) {}
 
