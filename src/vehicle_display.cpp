@@ -265,8 +265,7 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
         std::string name_color = string_format( "<color_%1$s>",
                                                 string_from_color( vp.is_broken() ? c_dark_gray : c_light_green ) );
         possible_msg << name_color << vp.name() << "</color>\n";
-        std::string desc_color = string_format( "<color_%1$s>",
-                                                string_from_color( vp.is_broken() ? c_dark_gray : c_light_gray ) );
+        const nc_color desc_color = vp.is_broken() ? c_dark_gray : c_light_gray;
         // -4 = -2 for left & right padding + -2 for "> "
         int new_lines = 2 + vp.info().format_description( possible_msg, desc_color, width - 4 );
         if( vp.has_flag( vehicle_part::carrying_flag ) ) {
