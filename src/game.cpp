@@ -1121,7 +1121,6 @@ bool game::cleanup_at_end()
         }
 
         std::string sTemp;
-        std::stringstream ssTemp;
 
         center_print( w_rip, iInfoLine++, c_white, _( "Survived:" ) );
 
@@ -1141,12 +1140,11 @@ bool game::cleanup_at_end()
         center_print( w_rip, iInfoLine++, c_white, sTemp );
 
         const int iTotalKills = get_kill_tracker().monster_kill_count();
-        ssTemp << iTotalKills;
 
         sTemp = _( "Kills:" );
         mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - 5, 1 + iInfoLine++ ), c_light_gray,
                    ( sTemp + " " ) );
-        wprintz( w_rip, c_magenta, ssTemp.str() );
+        wprintz( w_rip, c_magenta, "%d", iTotalKills );
 
         sTemp = _( "In memory of:" );
         mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ),

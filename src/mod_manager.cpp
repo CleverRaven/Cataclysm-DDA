@@ -299,12 +299,7 @@ bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
         return false;
     }
 
-    std::ostringstream number_stream;
     for( size_t i = 0; i < mods_to_copy.size(); ++i ) {
-        number_stream.str( std::string() );
-        number_stream.width( 5 );
-        number_stream.fill( '0' );
-        number_stream << ( i + 1 );
         const MOD_INFORMATION &mod = *mods_to_copy[i];
         size_t start_index = mod.path.size();
 
@@ -327,7 +322,7 @@ bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
 
         // create needed directories
         std::ostringstream cur_mod_dir;
-        cur_mod_dir << output_base_path << "/mod_" << number_stream.str();
+        cur_mod_dir << output_base_path << string_format( "/mod_%05d", i + 1 );
 
         std::queue<std::string> dir_to_make;
         dir_to_make.push( cur_mod_dir.str() );
