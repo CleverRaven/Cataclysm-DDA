@@ -31,7 +31,7 @@
   {
     "id": "as50mag",
     "type": "MAGAZINE",
-    "name": "AS50 Magazine"
+    "name": "AS50 Magazine",
     "description": "10-Round box magazine for Accuracy International AS50.",
     "weight": "750 g",
     "volume": "500 ml",
