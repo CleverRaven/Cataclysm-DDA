@@ -208,5 +208,30 @@
       { "id": "art_summon_bees" },
       { "id": "art_summon_wasps" }
     ]
+  },
+  {
+    "type": "SPELL",
+    "id": "AEA_LIGHT",
+    "name": "Artifact Light",
+    "description": "Makes some light.",
+    "valid_targets": [ "self" ],
+    "effect": "timed_event",
+    "effect_str": "artifact_light",
+    "base_casting_time": 100,
+    "min_duration": 18000,
+    "max_duration": 18000,
+    "message": "You glow brightly!"
+  },
+  {
+    "type": "SPELL",
+    "id": "AEA_DIM",
+    "name": "Artifact Dim",
+    "description": "Darkens the sky.",
+    "valid_targets": [ "self" ],
+    "effect": "timed_event",
+    "effect_str": "dim",
+    "min_duration": 30000,
+    "max_duration": 30000,
+    "message": "The sky starts to dim."
   }
 ]
