@@ -1670,7 +1670,7 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt )
         std::string poststring = fmt.substr( pos_end + 1, std::string::npos );
         std::string shortcut = fmt.substr( pos + 1, sep - pos - 1 );
 
-        return string_format( "%s%s%s", prestring, colorize( shortcut, shortcut_color ), poststring );
+        return prestring + colorize( shortcut, shortcut_color ) + poststring;
     }
 
     // no shortcut?
