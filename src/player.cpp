@@ -8003,9 +8003,9 @@ void player::mend_item( item_location &&obj, bool interactive )
         std::vector<std::pair<fault_id, bool>> opts;
         for( const auto &f : obj->faults_potential() ) {
             opts.emplace_back( f, !!obj->faults.count( f ) );
-            menu.addentry( -1, true, -1, string_format( "%s %s",
-                           opts.back().second ? _( "Mend" ) : _( "Break" ),
-                           f.obj().name() ) );
+            menu.addentry( -1, true, -1, string_format(
+                               opts.back().second ? pgettext( "fault", "Mend: %s" ) : pgettext( "fault", "Set: %s" ),
+                               f.obj().name() ) );
         }
         if( opts.empty() ) {
             add_msg( m_info, _( "The %s doesn't have any faults to toggle." ), obj->tname() );
