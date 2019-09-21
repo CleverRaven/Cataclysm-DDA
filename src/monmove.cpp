@@ -60,6 +60,7 @@ const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_harnessed( "harnessed" );
+const efftype_id effect_hack_detected( "hack_detected" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id BLOB( "BLOB" );

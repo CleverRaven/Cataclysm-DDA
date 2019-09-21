@@ -247,6 +247,14 @@
     "copy-from": "schematics_generic"
   },
   {
+    "id": "schematics_grocerybot",
+    "type": "BOOK",
+    "name": "grocery bot schematics",
+    "name_plural": "grocery bot schematics",
+    "description": "Bearing the logo of Uncanny, those are assembly plans, design specs, and technical drawings for the grocery bot.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+    "copy-from": "schematics_generic"
+  },
+  {
     "id": "schematics_copbot",
     "type": "BOOK",
     "name": "police bot schematics",

@@ -10322,6 +10322,7 @@
     "type": "item_group",
     "items": [
       [ "schematics_nursebot", 10 ],
+      [ "schematics_grocerybot", 20 ],
       [ "schematics_copbot", 50 ],
       [ "schematics_eyebot", 50 ],
       [ "schematics_secubot", 50 ],

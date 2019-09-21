@@ -136,11 +136,14 @@ const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_got_checked( "got_checked" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_grabbing( "grabbing" );
+const efftype_id effect_has_bag( "has_bag" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_operating( "operating" );
 const efftype_id effect_paralyzepoison( "paralyzepoison" );
+const efftype_id effect_paid( "paid" );
+const efftype_id effect_pet( "pet" );
 const efftype_id effect_raising( "raising" );
 const efftype_id effect_rat( "rat" );
 const efftype_id effect_shrieking( "shrieking" );
@@ -2979,6 +2982,47 @@ bool mattack::nurse_operate( monster *z )
         return false;
     }
     z->anger = 0;
+    return false;
+}
+bool mattack::check_money_left( monster *z )
+{
+    if( !z->has_effect( effect_pet ) ) {
+        if( z->friendly == -1 &&
+            z->has_effect( effect_paid ) ) { // if the pet effect runs out we're no longer friends
+            z->friendly = 0;
+            const bool had_inventory = !z->inv.empty();
+            for( const item &it : z->inv ) {
+                g->m.add_item_or_charges( z->pos(), it );
+            }
+            z->inv.clear();
+            z->remove_effect( effect_has_bag );
+            if( had_inventory ) {
+                add_msg( m_info,
+                         _( "The %s dumps the contents of its bag on the ground and drops the bag on top of it." ),
+                         z->get_name() );
+            }
+
+            const SpeechBubble &speech_no_time = get_speech( "mon_grocerybot_friendship_done" );
+            sounds::sound( z->pos(), speech_no_time.volume, sounds::sound_t::speech, speech_no_time.text );
+            z->remove_effect( effect_paid );
+            return true;
+        }
+    } else {
+        const time_duration time_left = z->get_effect_dur( effect_pet );
+        if( time_left < 1_minutes ) {
+            if( calendar::once_every( 20_seconds ) ) {
+                const SpeechBubble &speech_time_low = get_speech( "mon_grocerybot_running_out_of_friendship" );
+                sounds::sound( z->pos(), speech_time_low.volume, sounds::sound_t::speech, speech_time_low.text );
+            }
+        }
+    }
+    if( z->friendly == -1 && !z->has_effect( effect_paid ) ) {
+        if( calendar::once_every( 3_hours ) ) {
+            const SpeechBubble &speech_override_start = get_speech( "mon_grocerybot_hacked" );
+            sounds::sound( z->pos(), speech_override_start.volume, sounds::sound_t::speech,
+                           speech_override_start.text );
+        }
+    }
     return false;
 }
 bool mattack::photograph( monster *z )

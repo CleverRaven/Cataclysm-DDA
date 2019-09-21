@@ -44,6 +44,7 @@ const efftype_id effect_harnessed( "harnessed" );
 const efftype_id effect_has_bag( "has_bag" );
 const efftype_id effect_milked( "milked" );
 const efftype_id effect_monster_armor( "monster_armor" );
+const efftype_id effect_paid( "paid" );
 const efftype_id effect_pet( "pet" );
 const efftype_id effect_tied( "tied" );
 const efftype_id effect_riding( "riding" );
@@ -66,6 +67,7 @@ bool monexamine::pet_menu( monster &z )
         play_with_pet,
         pheromone,
         milk,
+        pay,
         attach_saddle,
         remove_saddle,
         mount,
@@ -134,6 +136,9 @@ bool monexamine::pet_menu( monster &z )
     } else if( z.has_flag( MF_PET_MOUNTABLE ) && !z.has_effect( effect_saddled ) &&
                g->u.has_amount( "riding_saddle", 1 ) && g->u.get_skill_level( skill_survival ) < 1 ) {
         amenu.addentry( remove_saddle, false, 'h', _( "You don't know how to saddle %s" ), pet_name );
+    }
+    if( z.has_flag( MF_PAY_BOT ) ) {
+        amenu.addentry( pay, true, 'f', _( "Manage your friendship with %s" ), pet_name );
     }
     if( !z.has_flag( MF_RIDEABLE_MECH ) ) {
         if( z.has_flag( MF_PET_MOUNTABLE ) && g->u.can_mount( z ) ) {
@@ -230,6 +235,9 @@ bool monexamine::pet_menu( monster &z )
         case milk:
             milk_source( z );
             break;
+        case pay:
+            pay_bot( z );
+            break;
         case remove_bat:
             remove_battery( z );
             break;
@@ -310,6 +318,59 @@ bool monexamine::mech_hack( monster &z )
     } else {
         add_msg( m_info, _( "You do not have the required ID card to activate this mech." ) );
     }
+    return false;
+}
+
+static int prompt_for_amount( const char *const msg, const int max )
+{
+    const std::string formatted = string_format( msg, max );
+    const int amount = string_input_popup()
+                       .title( formatted )
+                       .width( 20 )
+                       .text( to_string( max ) )
+                       .only_digits( true )
+                       .query_int();
+
+    return clamp( amount, 0, max );
+}
+
+bool monexamine::pay_bot( monster &z )
+{
+    time_duration friend_time = z.get_effect_dur( effect_pet );
+    const int charge_count = g->u.charges_of( "cash_card" );
+
+    int amount = 0;
+    uilist bot_menu;
+    bot_menu.text = string_format(
+                        _( "Welcome to the %s Friendship Interface. What would you like to do?\n"
+                           "Your current friendship will last: %s" ), z.get_name(), to_string( friend_time ) );
+    if( charge_count > 0 ) {
+        bot_menu.addentry( 1, true, 'b', _( "Get more friendship. 10 cents/min" ) );
+    } else {
+        bot_menu.addentry( 2, true, 'q',
+                           _( "Sadly you're not currently able to extend your friendship. - Quit menu" ) );
+    }
+    bot_menu.query();
+    switch( bot_menu.ret ) {
+        case 1:
+            amount = prompt_for_amount(
+                         ngettext( "How much friendship do you get? Max: %d minute. (0 to cancel) ",
+                                   "How much friendship do you get? Max: %d minutes. ", charge_count / 10 ), charge_count / 10 );
+            if( amount > 0 ) {
+                time_duration time_bought = time_duration::from_minutes( amount );
+                g->u.use_charges( "cash_card", amount * 10 );
+                z.add_effect( effect_pet, time_bought );
+                z.add_effect( effect_paid, time_bought, num_bp, true );
+                z.friendly = -1;
+                popup( _( "Your friendship grows stronger!\n This %s will follow you for %s." ), z.get_name(),
+                       to_string( z.get_effect_dur( effect_pet ) ) );
+                return true;
+            }
+            break;
+        case 2:
+            break;
+    }
+
     return false;
 }
 

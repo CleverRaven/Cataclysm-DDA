@@ -204,6 +204,7 @@ const efftype_id effect_laserlocked( "laserlocked" );
 const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_pacified( "pacified" );
+const efftype_id effect_paid( "paid" );
 const efftype_id effect_pet( "pet" );
 const efftype_id effect_relax_gas( "relax_gas" );
 const efftype_id effect_sleep( "sleep" );
@@ -5479,6 +5480,10 @@ void game::examine( const tripoint &examp )
             if( monexamine::mech_hack( *mon ) ) {
                 return;
             }
+        } else if( mon && mon->has_flag( MF_PAY_BOT ) ) {
+            if( monexamine::pay_bot( *mon ) ) {
+                return;
+            }
         } else if( u.is_mounted() ) {
             add_msg( m_warning, _( "You cannot do that while mounted." ) );
         }
@@ -8780,7 +8785,8 @@ bool game::disable_robot( const tripoint &p )
         return false;
     }
     monster &critter = *mon_ptr;
-    if( critter.friendly == 0 || critter.has_flag( MF_RIDEABLE_MECH ) ) {
+    if( critter.friendly == 0 || critter.has_flag( MF_RIDEABLE_MECH ) ||
+        ( critter.has_flag( MF_PAY_BOT ) && critter.has_effect( effect_paid ) ) ) {
         // Can only disable / reprogram friendly monsters
         return false;
     }
