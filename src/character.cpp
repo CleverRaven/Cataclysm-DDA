@@ -2342,7 +2342,7 @@ std::string enum_to_string<Character::stat>( Character::stat data )
     }
     abort();
 }
-}
+} // namespace io
 
 void Character::set_healthy( int nhealthy )
 {
