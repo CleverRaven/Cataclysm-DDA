@@ -1216,7 +1216,7 @@ bool game::cleanup_at_end()
                 tmpmessage += "\n  ";
                 tmpmessage += character;
             }
-            popup( string_format( _( "World retained. Characters remaining:%s" ), tmpmessage ), PF_NONE );
+            popup( _( "World retained. Characters remaining:%s" ), tmpmessage );
         }
         if( gamemode ) {
             gamemode = std::make_unique<special_game>(); // null gamemode or something..
