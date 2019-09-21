@@ -1677,8 +1677,9 @@ int player::run_cost( int base_cost, bool diag ) const
         if( move_mode == PMM_CROUCH ) {
             stamina_modifier *= 0.5;
         }
-        movecost /= stamina_modifier;
 
+        movecost = calculate_by_enchantment( movecost, enchantment::mod::MOVE_COST );
+        movecost /= stamina_modifier;
     }
 
     if( diag ) {
@@ -3568,6 +3569,7 @@ void player::update_body( const time_point &from, const time_point &to )
 {
     update_stamina( to_turns<int>( to - from ) );
     update_stomach( from, to );
+    recalculate_enchantment_cache();
     if( ticks_between( from, to, 3_minutes ) > 0 ) {
         magic.update_mana( *this, to_turns<float>( 3_minutes ) );
     }
