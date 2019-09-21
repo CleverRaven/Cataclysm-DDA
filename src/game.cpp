@@ -5461,8 +5461,7 @@ static std::string get_fire_fuel_string( const tripoint &examp )
             }
         }
     }
-    static const std::string empty_string;
-    return empty_string;
+    return {};
 }
 
 void game::examine( const tripoint &examp )
