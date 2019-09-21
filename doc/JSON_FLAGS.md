@@ -1111,7 +1111,31 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```SIDEWALK``` Has sidewalks on the sides adjacent to roads.
 - ```LAKE``` Consider this location to be a valid lake terrain for mapgen purposes.
 - ```LAKE_SHORE``` Consider this location to be a valid lake shore terrain for mapgen purposes.
-
+- ```SOURCE_FUEL``` For NPC AI, this location may contain fuel for looting.
+- ```SOURCE_FOOD``` For NPC AI, this location may contain food for looting.
+- ```SOURCE_FARMING``` For NPC AI, this location may contain useful farming supplies for looting.
+- ```SOURCE_FABRICATION``` For NPC AI, this location may contain fabrication tools and components for looting.
+- ```SOURCE_GUN``` For NPC AI, this location may contain guns for looting.
+- ```SOURCE_AMMO``` For NPC AI, this location may contain ammo for looting.
+- ```SOURCE_BOOKS``` For NPC AI, this location may contain books for looting.
+- ```SOURCE_WEAPON``` For NPC AI, this location may contain weapons for looting.
+- ```SOURCE_FORAGE``` For NPC AI, this location may contain plants to forage.
+- ```SOURCE_COOKING``` For NPC AI, this location may contain useful tools and ingredients to aid in cooking.
+- ```SOURCE_TAILORING``` For NPC AI, this location may contain useful tools for tailoring.
+- ```SOURCE_DRINK``` For NPC AI, this location may contain drink for looting.
+- ```SOURCE_VEHICLES``` For NPC AI, this location may contain vehicles/parts/vehicle tools, to loot.
+- ```SOURCE_ELECTRONICS``` For NPC AI, this location may contain useful electronics to loot.
+- ```SOURCE_CONSTRUCTION``` For NPC AI, this location may contain useful tools/components for construction.
+- ```SOURCE_CHEMISTRY``` For NPC AI, this location may contain useful chemistry tools/components.
+- ```SOURCE_CLOTHING``` For NPC AI, this location may contain useful clothing to loot.
+- ```SOURCE_SAFETY``` For NPC AI, this location may be safe/sheltered and a good place for a base.
+- ```SOURCE_ANIMALS``` For NPC AI, this location may contain useful animals for farming/riding.
+- ```SOURCE_MEDICINE``` For NPC AI, this location may contain useful medicines for looting.
+- ```SOURCE_LUXURY``` For NPC AI, this location may contain valuable/feel-good items to sell/keep.
+- ```SOURCE_PEOPLE``` For NPC AI, this location may have other survivors.
+- ```RISK_HIGH``` For NPC AI, this location has a high risk associated with it - labs/superstores etc.
+- ```RISK_LOW``` For NPC AI, this location is secluded and remote, and appears to be safe.
+- ```GENERIC_LOOT``` This is a place that may contain any of the above, but at a lower frequency - usually a house.
 
 ## Recipes
 
