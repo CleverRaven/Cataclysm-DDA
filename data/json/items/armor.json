@@ -4936,7 +4936,7 @@
     "storage": "3500 ml",
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER","RAINPROOF" ]
   },
   {
     "id": "jacket_chef",
@@ -9258,7 +9258,7 @@
     "storage": "3500 ml",
     "warmth": 50,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER","RAINPROOF" ]
   },
   {
     "id": "winter_pants_army",
