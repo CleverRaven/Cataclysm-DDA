@@ -40,7 +40,6 @@
     "construction_blueprint": "fbms_brewery0_log_southwest",
     "blueprint_name": "southwest brewery",
     "blueprint_requires": [ { "faction_base_saltworks_0" } ],
->>>>>>> bf3abfa9554b0228b19250d738f6de014ef02e6c
     "blueprint_provides": [ { "id": "fbms_southwest" }, { "id": "brewery" } ],
     "blueprint_excludes": [ { "id": "fbms_southwest" } ],
     "blueprint_autocalc": true
