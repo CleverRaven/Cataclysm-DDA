@@ -641,13 +641,12 @@ bool trapfunc::telepad( const tripoint &p, Creature *c, item * )
     }
     if( c == &g->u ) {
         c->add_msg_if_player( m_warning, _( "The air shimmers around you..." ) );
-    }
-    else {
-        if (g->u.sees(p)) {
-            add_msg(_("The air shimmers around %s..."), c->disp_name());
+    } else {
+        if( g->u.sees( p ) ) {
+            add_msg( _( "The air shimmers around %s..." ), c->disp_name() );
         }
     }
-    teleport::teleport(c);
+    teleport::teleport( c );
     return false;
 }
 

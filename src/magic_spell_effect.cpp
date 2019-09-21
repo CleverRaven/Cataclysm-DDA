@@ -54,14 +54,14 @@ static tripoint random_point( int min_distance, int max_distance, const tripoint
 
 void spell_effect::teleport_random( const spell &sp, Creature &caster, const tripoint & )
 {
-    bool safe = !sp.has_flag(spell_flag::UNSAFE_TELEPORT);
+    bool safe = !sp.has_flag( spell_flag::UNSAFE_TELEPORT );
     const int min_distance = sp.range();
     const int max_distance = sp.range() + sp.aoe();
     if( min_distance > max_distance || min_distance < 0 || max_distance < 0 ) {
         debugmsg( "ERROR: Teleport argument(s) invalid" );
         return;
     }
-    teleport::teleport(&caster, min_distance, max_distance, safe, false);
+    teleport::teleport( &caster, min_distance, max_distance, safe, false );
 }
 
 void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint & )

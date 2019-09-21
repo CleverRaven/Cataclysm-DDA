@@ -4,12 +4,13 @@
 
 #include "creature.h"
 
-namespace teleport 
+namespace teleport
 {
-    /** Teleports a creature to a tile within min_distance and max_distance tiles. Limited to 2D.
-    *bool safe determines wether the teleported creature can telefrag others/itself.
-    */
-    bool teleport( Creature * c, int min_distance = 2, int max_distance = 12, bool safe = false, bool add_teleglow = true );
+/** Teleports a creature to a tile within min_distance and max_distance tiles. Limited to 2D.
+*bool safe determines wether the teleported creature can telefrag others/itself.
+*/
+bool teleport( Creature *c, int min_distance = 2, int max_distance = 12, bool safe = false,
+               bool add_teleglow = true );
 }
 
 #endif
