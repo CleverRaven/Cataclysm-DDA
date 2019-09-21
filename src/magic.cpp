@@ -1307,7 +1307,8 @@ void known_magic::update_mana( const player &p, float turns )
     // mana should replenish in 8 hours.
     const float full_replenish = to_turns<float>( 8_hours );
     const float ratio = turns / full_replenish;
-    mod_mana( p, floor( ratio * max_mana( p ) * p.mutation_value( "mana_regen_multiplier" ) ) );
+    mod_mana( p, floor( ratio * p.calculate_by_enchantment( max_mana( p ) *
+                        p.mutation_value( "mana_regen_multiplier" ), enchantment::mod::REGEN_MANA ) ) );
 }
 
 std::vector<spell_id> known_magic::spells() const

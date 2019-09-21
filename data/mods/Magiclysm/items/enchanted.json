@@ -36,5 +36,27 @@
     "bashing": 19,
     "category": "weapons",
     "to_hit": 3
+  },
+  {
+    "id": "wizard_hat",
+    "type": "ARMOR",
+    "name": "wizard hat",
+    "description": "A blue pointed hat with stars stiched into it.  Wearing it increases your mana regeneration.",
+    "weight": "390 g",
+    "volume": "2 L",
+    "price": 9500,
+    "material": [ "cotton" ],
+    "symbol": "^",
+    "color": "light_blue",
+    "covers": [ "HEAD" ],
+    "coverage": 50,
+    "encumbrance": 12,
+    "warmth": 7,
+    "material_thickness": 2,
+    "environmental_protection": 2,
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 1 } ] } ]
+    },
+    "flags": [ "VARSIZE" ]
   }
 ]
