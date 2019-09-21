@@ -699,7 +699,7 @@ class cast_spell_actor : public iuse_actor
 
         ~cast_spell_actor() override = default;
         void load( JsonObject &obj ) override;
-        int use( player &p, item &itm, bool, const tripoint & ) const override;
+        int use( player &p, item &it, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
@@ -1096,7 +1096,7 @@ class weigh_self_actor : public iuse_actor
 
         ~weigh_self_actor() override = default;
         void load( JsonObject &jo ) override;
-        int use( player &p, item &itm, bool, const tripoint & ) const override;
+        int use( player &p, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
