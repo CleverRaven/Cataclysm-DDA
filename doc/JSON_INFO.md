@@ -731,7 +731,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 "ignored_by": [ "ZOMBIE" ], // List of species ignoring you. (default: empty)
 "can_only_eat": [ "junk" ], // List of materiel required for food to be comestible for you. (default: empty)
 "can_only_heal_with": [ "bandage" ], // List of med you are restricted to, this includes mutagen,serum,aspirin,bandages etc... (default: empty)
-"can_heal_with": [ "caramel_ointement" ], // List of med that will work for you but not for anyone. See `can_heal_anyone` field for items. (default: empty)
+"can_heal_with": [ "caramel_ointement" ], // List of med that will work for you but not for anyone. See `CANT_HEAL_EVERYONE` flag for items. (default: empty)
 "allowed_category": [ "ALPHA" ], // List of category you can mutate into. (default: empty)
 "no_cbm_on_bp": [ "TORSO", "HEAD", "EYES", "MOUTH", "ARM_L" ], // List of body parts that can't receive cbms. (default: empty)
 ```
@@ -1088,8 +1088,7 @@ CBMs can be defined like this:
 "stack_size" : 8,           // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
 "fun" : 50                  // Morale effects when used
 "freezing_point": 32,       // (Optional) Temperature in F at which item freezes, default is water (32F/0C)
-"cooks_like": "meat_cooked",// (Optional) If the item is used in a recipe, replaces it with its cooks_like
-"can_heal_anyone": false    // (Optional) Can this med be used by anyone or does it require a special mutation. See `can_heal_with` in mutation. (default: true).
+"cooks_like": "meat_cooked" // (Optional) If the item is used in a recipe, replaces it with its cooks_like
 ```
 
 ### Containers

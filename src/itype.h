@@ -137,10 +137,6 @@ struct islot_comestible {
     /** stimulant effect */
     int stim = 0;
 
-    /**Can this med be used to heal anyone?*/
-    bool can_heal_anyone = true;
-
-
     /** Reference to other item that replaces this one as a component in recipe results */
     itype_id cooks_like;
 

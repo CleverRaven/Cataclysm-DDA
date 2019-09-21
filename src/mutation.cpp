@@ -386,7 +386,7 @@ bool Character::can_use_heal_item( const item &med ) const
         }
     }
     if( !got_restriction ) {
-        can_use = med.get_comestible()->can_heal_anyone;
+        can_use = !med.has_flag( "CANT_HEAL_EVERYONE" );
     }
 
     if( !can_use ) {
