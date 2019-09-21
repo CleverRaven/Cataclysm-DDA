@@ -189,8 +189,8 @@ struct mutation_branch {
         std::set<material_id> can_only_eat;
 
         /**List of healing items allowed*/
-        std::vector<itype_id> can_only_heal_with;
-        std::vector<itype_id> can_heal_with;
+        std::set<itype_id> can_only_heal_with;
+        std::set<itype_id> can_heal_with;
 
         /**List of allowed mutatrion category*/
         std::vector<std::string> allowed_category;

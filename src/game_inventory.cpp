@@ -553,7 +553,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return _( "Can't drink spilt liquids" );
             }
 
-            if( med.is_medication() && !p.can_use_heal_item( med.typeId() ) ) {
+            if( med.is_medication() && !p.can_use_heal_item( med ) ) {
                 return _( "Your biology is not compatible with that item." );
             }
 
@@ -790,7 +790,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
                 }
             }
 
-            if( it.is_medication() && !p.can_use_heal_item( it.typeId() ) ) {
+            if( it.is_medication() && !p.can_use_heal_item( it ) ) {
                 return _( "Your biology is not compatible with that item." );
             }
 

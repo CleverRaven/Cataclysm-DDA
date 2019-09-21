@@ -3668,22 +3668,11 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
     const int limb_power = get_heal_value( healer, hp_arm_l );
     const int torso_bonus = get_heal_value( healer, hp_torso );
 
-    for( const trait_id &mut : patient.get_mutations() ) {
-        bool found_match = false;
-        if( !mut.obj().can_only_heal_with.empty() ) {
-            for( const itype_id &id : mut.obj().can_only_heal_with ) {
-                if( it.typeId() == id ) {
-                    found_match = true;
-                    break;
-                }
-            }
-            if( !found_match ) {
-                patient.add_msg_player_or_npc( m_bad,
-                                               _( "Your biology is not compatible with that item." ),
-                                               _( "<npcname>'s biology is not compatible with that item." ) );
-                return num_hp_parts; // canceled
-            }
-        }
+    if( !patient.can_use_heal_item( it ) ) {
+        patient.add_msg_player_or_npc( m_bad,
+                                       _( "Your biology is not compatible with that item." ),
+                                       _( "<npcname>'s biology is not compatible with that item." ) );
+        return num_hp_parts; // canceled
     }
 
     if( healer.is_npc() ) {

@@ -495,7 +495,7 @@ class Character : public Creature, public visitable<Character>
         bool is_weak_to_water() const;
 
         /**Check for mutation disallowing the use of an healing item*/
-        bool can_use_heal_item( itype_id heal_id ) const;
+        bool can_use_heal_item( const item &med ) const;
 
         bool can_install_cbm_on_bp( const std::vector<body_part> &bps ) const;
 

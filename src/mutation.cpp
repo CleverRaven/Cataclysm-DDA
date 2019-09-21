@@ -367,20 +367,20 @@ bool Character::is_weak_to_water() const
     return false;
 }
 
-bool Character::can_use_heal_item( itype_id heal_id ) const
+bool Character::can_use_heal_item( const item &med ) const
 {
-    const item med( heal_id );
+    const itype_id heal_id = med.typeId();
 
     bool can_use = false;
     bool got_restriction = false;
 
     for( const trait_id &mut : get_mutations() ) {
-        for( const itype_id it : mut.obj().can_only_heal_with ) {
+        if( !mut.obj().can_only_heal_with.empty() ) {
             got_restriction = true;
-            if( it == heal_id ) {
-                can_use = true;
-                break;
-            }
+        }
+        if( mut.obj().can_only_heal_with.count( heal_id ) ) {
+            can_use = true;
+            break;
         }
     }
     if( !got_restriction ) {
@@ -389,11 +389,9 @@ bool Character::can_use_heal_item( itype_id heal_id ) const
 
     if( !can_use ) {
         for( const trait_id &mut : get_mutations() ) {
-            for( const itype_id it : mut.obj().can_heal_with ) {
-                if( it == heal_id ) {
-                    can_use = true;
-                    break;
-                }
+            if( mut.obj().can_heal_with.count( heal_id ) ) {
+                can_use = true;
+                break;
             }
         }
     }
