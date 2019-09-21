@@ -621,12 +621,12 @@ static Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid
     if( is_collection ) {
         if( dynamic_cast<Trait_group_distribution *>( found->second.get() ) ) {
             throw std::runtime_error( string_format(
-                                          R"("item group "%s" already defined with type "distribution")", gid.str() ) );
+                                          R"("mutation group "%s" already defined with type "distribution")", gid.str() ) );
         }
     } else {
         if( dynamic_cast<Trait_group_collection *>( found->second.get() ) ) {
             throw std::runtime_error( string_format(
-                                          R"("item group "%s" already defined with type "collection")", gid.str() ) );
+                                          R"("mutation group "%s" already defined with type "collection")", gid.str() ) );
         }
     }
     return *found->second;
