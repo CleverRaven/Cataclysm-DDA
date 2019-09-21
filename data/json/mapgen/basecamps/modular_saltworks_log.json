@@ -136,6 +136,6 @@
     "type": "mapgen",
     "update_mapgen_id": "fbms_brewery2_log_west",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbml_stable2_log" ], "x": 3, "y": 14 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbml_brewery2_log" ], "x": 3, "y": 14 } ] }
   }
 ]
