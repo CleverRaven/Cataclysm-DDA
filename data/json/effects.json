@@ -262,6 +262,13 @@
   },
   {
     "type": "effect_type",
+    "id": "heating_bionic",
+    "name": [ "Heated" ],
+    "max_intensity": 1000,
+    "desc": [ "At least one of your bionics is producing heat and warming you." ]
+  },
+  {
+    "type": "effect_type",
     "id": "winded",
     "name": [ "Winded" ],
     "desc": [ "You're short of breath.  Running and fighting will be difficult until you recover." ],

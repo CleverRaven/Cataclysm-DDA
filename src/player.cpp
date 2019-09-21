@@ -9809,6 +9809,7 @@ int player::warmth( body_part bp ) const
             ret += warmth;
         }
     }
+    ret += get_effect_int( efftype_id( "heating_bionic" ), bp );
     return ret;
 }
 
