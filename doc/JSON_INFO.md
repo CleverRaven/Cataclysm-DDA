@@ -723,6 +723,17 @@ Mods can modify this via `add:traits` and `remove:traits`.
 "hunger" : true, //If true, activated mutation increases hunger by cost. (default: false)
 "thirst" : true, //If true, activated mutation increases thirst by cost. (default: false)
 "fatigue" : true, //If true, activated mutation increases fatigue by cost. (default: false)
+"scent_modifier": 0.0,// float affecting the intensity of your smell. (default: 1.0)
+"bleed_resist": 1000, // Int quantifiying your resistance to bleed effect, if its > to the intensity of the effect you don't get any bleeding. (default: 0)
+"fat_to_max_hp": 1, // Amount of hp_max gained for each unit of bmi above character_weight_category::normal. (default: 0)
+"healthy_rate": 0.0, // How fast your health can change. If set to 0 it never changes. (default: 1.0)
+"weakness_to_water": 5, // How much damage water does to you, negative values heal you. (default: 0)
+"ignored_by": [ "ZOMBIE" ], // List of species ignoring you. (default: empty)
+"can_only_eat": [ "junk" ], // List of materiel required for food to be comestible for you. (default: empty)
+"can_only_heal_with": [ "bandage" ], // List of med you are restricted to, this includes mutagen,serum,aspirin,bandages etc... (default: empty)
+"can_heal_with": [ "caramel_ointement" ], // List of med that will work for you but not for anyone. See `can_heal_anyone` field for items. (default: empty)
+"allowed_category": [ "ALPHA" ], // List of category you can mutate into. (default: empty)
+"no_cbm_on_bp": [ "TORSO", "HEAD", "EYES", "MOUTH", "ARM_L" ], // List of body parts that can't receive cbms. (default: empty)
 ```
 
 ### Vehicle Groups
@@ -1077,7 +1088,8 @@ CBMs can be defined like this:
 "stack_size" : 8,           // (Optional) How many uses are in the above-defined volume. If omitted, is the same as 'charges'
 "fun" : 50                  // Morale effects when used
 "freezing_point": 32,       // (Optional) Temperature in F at which item freezes, default is water (32F/0C)
-"cooks_like": "meat_cooked" // (Optional) If the item is used in a recipe, replaces it with its cooks_like
+"cooks_like": "meat_cooked",// (Optional) If the item is used in a recipe, replaces it with its cooks_like
+"can_heal_anyone": false    // (Optional) Can this med be used by anyone or does it require a special mutation. See `can_heal_with` in mutation. (default: true).
 ```
 
 ### Containers
