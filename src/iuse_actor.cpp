@@ -3680,7 +3680,7 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
             if( !found_match ) {
                 patient.add_msg_player_or_npc( m_bad,
                                                _( "Your biology is not compatible with that item." ),
-                                               _( "%s's biology is not compatible with that item." ), patient.name );
+                                               _( "<npcname>'s biology is not compatible with that item." ) );
                 return num_hp_parts; // canceled
             }
         }
