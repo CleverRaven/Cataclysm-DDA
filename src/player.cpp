@@ -594,6 +594,7 @@ void player::process_turn()
 
     visit_items( [this]( item * e ) {
         e->process_artifact( this, pos() );
+        e->process_relic( this );
         return VisitResponse::NEXT;
     } );
 

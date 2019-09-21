@@ -11262,14 +11262,7 @@ void game::process_artifact( item &it, player &p )
         const std::vector<art_effect_passive> &ew = it.type->artifact->effects_wielded;
         effects.insert( effects.end(), ew.begin(), ew.end() );
     }
-    std::vector<enchantment> active_enchantments;
-    if( it.is_relic() ) {
-        for( const enchantment &ench : it.get_enchantments() ) {
-            if( ench.is_active( p, it ) ) {
-                active_enchantments.emplace_back( ench );
-            }
-        }
-    }
+
     if( it.is_tool() ) {
         // Recharge it if necessary
         if( it.ammo_remaining() < it.ammo_capacity() && calendar::once_every( 1_minutes ) ) {
@@ -11332,10 +11325,6 @@ void game::process_artifact( item &it, player &p )
                 }
             }
         }
-    }
-
-    for( const enchantment &ench : active_enchantments ) {
-        ench.activate_passive( p );
     }
 
     for( const art_effect_passive &i : effects ) {

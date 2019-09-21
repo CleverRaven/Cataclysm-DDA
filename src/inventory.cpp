@@ -984,6 +984,21 @@ std::vector<item *> inventory::active_items()
     return ret;
 }
 
+enchantment inventory::get_active_enchantment_cache( const Character &owner ) const
+{
+    enchantment temp_cache;
+    for( const std::list<item> &elem : items ) {
+        for( const item &check_item : elem ) {
+            for( const enchantment &ench : check_item.get_enchantments() ) {
+                if( ench.is_active( owner, check_item ) ) {
+                    temp_cache.force_add( ench );
+                }
+            }
+        }
+    }
+    return temp_cache;
+}
+
 void inventory::assign_empty_invlet( item &it, const Character &p, const bool force )
 {
     const std::string auto_setting = get_option<std::string>( "AUTO_INV_ASSIGN" );
