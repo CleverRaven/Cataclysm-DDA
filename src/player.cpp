@@ -5469,7 +5469,7 @@ void player::suffer()
                 if( dmg > 0 ) {
                     apply_damage( nullptr, bp, dmg );
                     add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the water." ),
-                                           _( "<npc_name>'s %s is damaged by the water." ), body_part_name( bp ) );
+                                           _( "<npcname>'s %s is damaged by the water." ), body_part_name( bp ) );
                 } else if( dmg < 0 && hp_cur[bp_to_hp( bp )] != hp_max[bp_to_hp( bp )] ) {
                     heal( bp, abs( dmg ) );
                     add_msg_player_or_npc( m_good, _( "Your %s is healed by the water." ),
