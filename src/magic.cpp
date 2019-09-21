@@ -1296,8 +1296,10 @@ void known_magic::mod_mana( const player &p, int add_mana )
 int known_magic::max_mana( const player &p ) const
 {
     const float int_bonus = ( ( 0.2f + p.get_int() * 0.1f ) - 1.0f ) * mana_base;
-    return std::max( 0.0f, ( ( mana_base + int_bonus ) * p.mutation_value( "mana_multiplier" ) ) +
-                     p.mutation_value( "mana_modifier" ) - p.power_level );
+    const float unaugmented_mana = std::max( 0.0f,
+                                   ( ( mana_base + int_bonus ) * p.mutation_value( "mana_multiplier" ) ) +
+                                   p.mutation_value( "mana_modifier" ) - p.power_level );
+    return p.calculate_by_enchantment( unaugmented_mana, enchantment::mod::MAX_MANA, true );
 }
 
 void known_magic::update_mana( const player &p, float turns )
