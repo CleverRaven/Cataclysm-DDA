@@ -1121,7 +1121,6 @@ bool game::cleanup_at_end()
         }
 
         std::string sTemp;
-        std::stringstream ssTemp;
 
         center_print( w_rip, iInfoLine++, c_white, _( "Survived:" ) );
 
@@ -1141,12 +1140,11 @@ bool game::cleanup_at_end()
         center_print( w_rip, iInfoLine++, c_white, sTemp );
 
         const int iTotalKills = get_kill_tracker().monster_kill_count();
-        ssTemp << iTotalKills;
 
         sTemp = _( "Kills:" );
         mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - 5, 1 + iInfoLine++ ), c_light_gray,
                    ( sTemp + " " ) );
-        wprintz( w_rip, c_magenta, ssTemp.str() );
+        wprintz( w_rip, c_magenta, "%d", iTotalKills );
 
         sTemp = _( "In memory of:" );
         mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ),
@@ -1213,14 +1211,12 @@ bool game::cleanup_at_end()
                 world_generator->delete_world( world_generator->active_world->world_name, false );
             }
         } else if( get_option<std::string>( "WORLD_END" ) != "keep" ) {
-            std::stringstream message;
             std::string tmpmessage;
             for( auto &character : characters ) {
                 tmpmessage += "\n  ";
                 tmpmessage += character;
             }
-            message << string_format( _( "World retained. Characters remaining:%s" ), tmpmessage );
-            popup( message.str(), PF_NONE );
+            popup( _( "World retained. Characters remaining:%s" ), tmpmessage );
         }
         if( gamemode ) {
             gamemode = std::make_unique<special_game>(); // null gamemode or something..
@@ -5463,8 +5459,7 @@ static std::string get_fire_fuel_string( const tripoint &examp )
             }
         }
     }
-    static const std::string empty_string;
-    return empty_string;
+    return {};
 }
 
 void game::examine( const tripoint &examp )

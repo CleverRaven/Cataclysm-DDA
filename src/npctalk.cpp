@@ -953,7 +953,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         ///\EFFECT_INT slightly affects whether player can size up NPCs
         int ability = g->u.per_cur * 3 + g->u.int_cur;
         if( ability <= 10 ) {
-            return "&You can't make anything out.";
+            return _( "&You can't make anything out." );
         }
 
         if( p->is_player_ally() || ability > 100 ) {

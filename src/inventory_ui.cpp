@@ -38,7 +38,6 @@
 #include <map>
 #include <limits>
 #include <numeric>
-#include <sstream>
 #include <algorithm>
 #include <iterator>
 #include <type_traits>
@@ -1397,11 +1396,11 @@ void inventory_selector::draw_header( const catacurses::window &w ) const
 inventory_selector::stat display_stat( const std::string &caption, int cur_value, int max_value,
                                        const std::function<std::string( int )> &disp_func )
 {
-    const std::string color = string_from_color( cur_value > max_value ? c_red : c_light_gray );
+    const nc_color color = cur_value > max_value ? c_red : c_light_gray;
     return {{
             caption,
-            string_format( "<color_%s>%s</color>", color, disp_func( cur_value ) ), "/",
-            string_format( "<color_light_gray>%s</color>", disp_func( max_value ) )
+            colorize( disp_func( cur_value ), color ), "/",
+            colorize( disp_func( max_value ), c_light_gray )
         }};
 }
 
@@ -1439,11 +1438,11 @@ std::vector<std::string> inventory_selector::get_stats() const
     const size_t num_stats = 2;
     const std::array<stat, num_stats> stats = get_raw_stats();
     // Streams for every stat.
-    std::array<std::ostringstream, num_stats> lines;
+    std::array<std::string, num_stats> lines;
     std::array<size_t, num_stats> widths;
     // Add first cells and spaces after them.
     for( size_t i = 0; i < stats.size(); ++i ) {
-        lines[i] << stats[i][0] << ' ';
+        lines[i] += string_format( "%d", stats[i][0] ) + " ";
     }
     // Now add the rest of the cells and align them to the right.
     for( size_t j = 1; j < stats.front().size(); ++j ) {
@@ -1457,19 +1456,13 @@ std::vector<std::string> inventory_selector::get_stats() const
         // Align all stats in this cell with spaces.
         for( size_t i = 0; i < stats.size(); ++i ) {
             if( max_w > widths[i] ) {
-                lines[i] << std::string( max_w - widths[i], ' ' );
+                lines[i] += std::string( max_w - widths[i], ' ' );
             }
-            lines[i] << stats[i][j];
+            lines[i] += string_format( "%d", stats[i][j] );
         }
     }
     // Construct the final result.
-    std::vector<std::string> result;
-    std::transform( lines.begin(), lines.end(), std::back_inserter( result ),
-    []( const std::ostringstream & elem ) {
-        return elem.str();
-    } );
-
-    return result;
+    return std::vector<std::string>( lines.begin(), lines.end() );
 }
 
 void inventory_selector::resize_window( int width, int height )

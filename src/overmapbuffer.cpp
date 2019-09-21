@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <cassert>
 #include <cstdlib>
-#include <sstream>
 #include <iterator>
 #include <list>
 #include <map>
@@ -62,21 +61,12 @@ int camp_reference::get_distance_from_bounds() const
 
 std::string overmapbuffer::terrain_filename( const point &p )
 {
-    std::ostringstream filename;
-
-    filename << g->get_world_base_save_path() << "/";
-    filename << "o." << p.x << "." << p.y;
-
-    return filename.str();
+    return string_format( "%s/o.%d.%d", g->get_world_base_save_path(), p.x, p.y );
 }
 
 std::string overmapbuffer::player_filename( const point &p )
 {
-    std::ostringstream filename;
-
-    filename << g->get_player_base_save_path() << ".seen." << p.x << "." << p.y;
-
-    return filename.str();
+    return string_format( "%s.seen.%d.%d", g->get_player_base_save_path(), p.x, p.y );
 }
 
 overmap &overmapbuffer::get( const point &p )

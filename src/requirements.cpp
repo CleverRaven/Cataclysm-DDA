@@ -388,17 +388,6 @@ void requirement_data::check_consistency()
     }
 }
 
-template <typename T>
-void print_nested( const T &to_print, std::stringstream &ss )
-{
-    ss << "\n[ ";
-    for( auto &p : to_print ) {
-        print_nested( p, ss );
-        ss << " ";
-    }
-    ss << " ]\n";
-}
-
 template <typename T, typename Getter>
 void inline_requirements( std::vector< std::vector<T> > &list, Getter getter )
 {

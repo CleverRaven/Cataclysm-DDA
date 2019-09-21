@@ -101,9 +101,7 @@ void main_menu::print_menu_items( const catacurses::window &w_in,
 
         std::string temp = shortcut_text( c_white, vItems[i] );
         if( iSel == i ) {
-            text += string_format( "[<color_%s>%s</color>]",
-                                   string_from_color( h_white ),
-                                   remove_color_tags( temp ) );
+            text += string_format( "[%s]", colorize( remove_color_tags( temp ), c_white ) );
         } else {
             text += string_format( "[%s]", temp );
         }

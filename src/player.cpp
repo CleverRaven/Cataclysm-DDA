@@ -11408,8 +11408,7 @@ std::string player::visible_mutations( const int visibility_cap ) const
         // Finally some use for visibility trait of mutations
         if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap )
         {
-            return string_format( "<color_%s>%s</color>", string_from_color( mut_branch.get_display_color() ),
-                                  mut_branch.name() );
+            return colorize( mut_branch.name(), mut_branch.get_display_color() );
         }
 
         return std::string();

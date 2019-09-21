@@ -103,8 +103,7 @@ std::string vehicle_part::name( bool with_prefix ) const
     }
 
     if( with_prefix ) {
-        res.insert( 0, "<color_" + string_from_color( this->base.damage_color() ) + ">" +
-                    this->base.damage_symbol() + "</color> " );
+        res.insert( 0, colorize( base.damage_symbol(), base.damage_color() ) + " " );
     }
     return res;
 }

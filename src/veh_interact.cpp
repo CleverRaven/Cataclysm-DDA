@@ -754,7 +754,7 @@ bool veh_interact::can_install_part()
                           colorize( aid_string, aid_color ),
                           colorize( str_string, str_color ) ) << "\n";
 
-    sel_vpart_info->format_description( msg, "<color_light_gray>", getmaxx( w_msg ) - 4 );
+    sel_vpart_info->format_description( msg, c_light_gray, getmaxx( w_msg ) - 4 );
 
     werase( w_msg );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1106,8 +1106,7 @@ bool veh_interact::do_repair( std::string &msg )
             }
         }
 
-        std::string desc_color = string_format( "<color_%1$s>",
-                                                string_from_color( pt.is_broken() ? c_dark_gray : c_light_gray ) );
+        const nc_color desc_color = pt.is_broken() ? c_dark_gray : c_light_gray;
         vp.format_description( nmsg, desc_color, getmaxx( w_msg ) - 4 );
 
         werase( w_msg );
@@ -1676,8 +1675,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
         msg << string_format( _( "> %1$s%2$s</color>" ), status_color( false ), reason ) << "\n";
         ok = false;
     }
-    std::string desc_color = string_format( "<color_%1$s>",
-                                            string_from_color( sel_vehicle_part->is_broken() ? c_dark_gray : c_light_gray ) );
+    const nc_color desc_color = sel_vehicle_part->is_broken() ? c_dark_gray : c_light_gray;
     sel_vehicle_part->info().format_description( msg, desc_color, getmaxx( w_msg ) - 4 );
 
     werase( w_msg );
