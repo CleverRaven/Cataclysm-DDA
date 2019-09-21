@@ -373,16 +373,9 @@ void multipage( const catacurses::window &w, const std::vector<std::string> &tex
 // returns single string with left aligned name and right aligned value
 std::string name_and_value( const std::string &name, const std::string &value, int field_width )
 {
-    int name_width = utf8_width( name );
-    int value_width = utf8_width( value );
-    std::stringstream result;
-    result << name;
-    for( int i = ( name_width + value_width );
-         i < std::max( field_width, name_width + value_width ); ++i ) {
-        result << " ";
-    }
-    result << value.c_str();
-    return result.str();
+    const int text_width = utf8_width( name ) + utf8_width( value );
+    const int spacing = std::max( field_width, text_width ) - text_width;
+    return name + std::string( spacing, ' ' ) + value;
 }
 
 std::string name_and_value( const std::string &name, int value, int field_width )
