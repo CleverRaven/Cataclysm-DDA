@@ -323,14 +323,16 @@ bool Character::is_category_allowed( const std::vector<std::string> &category ) 
     bool allowed = false;
     bool restricted = false;
     for( const trait_id &mut : get_mutations() ) {
-        for( const std::string &Ch_cat : mut.obj().allowed_category ) {
+        if( !mut.obj().allowed_category.empty() ) {
             restricted = true;
-            for( const std::string &Mu_cat : category ) {
-                if( Ch_cat == Mu_cat ) {
-                    allowed = true;
-                }
+        }
+        for( const std::string &Mu_cat : category ) {
+            if( mut.obj().allowed_category.count( Mu_cat ) ) {
+                allowed = true;
+                break;
             }
         }
+
     }
     if( !restricted ) {
         allowed = true;
@@ -403,11 +405,10 @@ bool Character::can_install_cbm_on_bp( const std::vector<body_part> &bps ) const
 {
     bool can_install = true;
     for( const trait_id &mut : get_mutations() ) {
-        for( const body_part restricted_bp : mut.obj().no_cbm_on_bp ) {
-            for( const body_part bp : bps ) {
-                if( bp == restricted_bp ) {
-                    can_install = false;
-                }
+        for( const body_part bp : bps ) {
+            if( mut.obj().no_cbm_on_bp.count( bp ) ) {
+                can_install = false;
+                break;
             }
         }
     }

@@ -392,7 +392,7 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     JsonArray jsar = jo.get_array( "no_cbm_on_bp" );
     while( jsar.has_more() ) {
         std::string s = jsar.next_string();
-        no_cbm_on_bp.push_back( get_body_part_token( s ) );
+        no_cbm_on_bp.emplace( get_body_part_token( s ) );
     }
 
 
