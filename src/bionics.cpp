@@ -148,7 +148,7 @@ const bionic_data &string_id<bionic_data>::obj() const
 std::vector<body_part> get_occupied_bodyparts( const bionic_id &bid )
 {
     std::vector<body_part> parts;
-    for( const auto element : bid->occupied_bodyparts ) {
+    for( const auto &element : bid->occupied_bodyparts ) {
         if( element.second > 0 ) {
             parts.push_back( element.first );
         }
