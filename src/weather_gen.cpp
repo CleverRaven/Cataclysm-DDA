@@ -26,7 +26,7 @@ struct weather_gen_common {
     double x;
     double y;
     double z;
-    double ctn;
+    double cyf;
     double seasonal_variation;
     unsigned modSEED;
     season_type season;
@@ -45,12 +45,16 @@ static weather_gen_common get_common_data( const tripoint &location, const time_
     // Limit the random seed during noise calculation, a large value flattens the noise generator to zero
     // Windows has a rand limit of 32768, other operating systems can have higher limits
     result.modSEED = seed % SIMPLEX_NOISE_RANDOM_SEED_LIMIT;
-    const double now( ( time_past_new_year( t ) + calendar::season_length() / 2 ) /
-                      calendar::year_length() ); // [0,1)
-    result.ctn = cos( tau * now ); // [-1, 1]
+    const double year_fraction( time_past_new_year( t ) /
+                                calendar::year_length() ); // [0,1)
+
+    result.cyf = cos( tau * (year_fraction + .25) ); // [-1, 1]
+      // We add .25 to line up `cyf` so that -1 is at the beginning
+      // of winter. (Cataclsym DDA years start when spring starts.
+      // Gregorian years start when winter starts.)
     result.season = season_of_year( t );
     // Start and end at -1 going up to 1 in summer.
-    result.seasonal_variation = result.ctn * -1; // [-1, 1]
+    result.seasonal_variation = result.cyf * -1; // [-1, 1]
 
     return result;
 }
@@ -63,7 +67,7 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
     const double z( common.z );
 
     const unsigned modSEED = common.modSEED;
-    const double ctn( common.ctn ); // [-1, 1]
+    const double cyf( common.cyf ); // [-1, 1]
     const season_type season = common.season;
 
     const double dayFraction = time_past_midnight( t ) / 1_days;
@@ -74,10 +78,10 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
     // Start and end at -1 going up to 1 in summer.
     const double seasonal_variation( common.seasonal_variation ); // [-1, 1]
     // Harsh winter nights, hot summers.
-    const double season_atenuation( ctn / 2 + 1 );
+    const double season_atenuation( cyf / 2 + 1 );
     // Make summers peak faster and winters not perma-frozen.
     const double season_dispersion( pow( 2,
-                                         ctn + 1 ) - 2.3 );
+                                         cyf + 1 ) - 2.3 );
 
     // Day-night temperature variation.
     double daily_variation( cos( tau * dayFraction - tau / 8 ) * -1 * season_atenuation / 2 +
@@ -106,7 +110,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     const double z( common.z );
 
     const unsigned modSEED = common.modSEED;
-    const double ctn( common.ctn ); // [-1, 1]
+    const double cyf( common.cyf ); // [-1, 1]
     const season_type season = common.season;
 
     // Noise factors
@@ -133,7 +137,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     }
     const double current_h( base_humidity + mod_h );
     // Humidity stays mostly at the mean level, but has low peaks rarely. It's a percentage.
-    H = std::max( std::min( ( ctn / 10.0 + ( -pow( H, 2 ) * 3 + H2 ) ) * current_h / 2.0 + current_h,
+    H = std::max( std::min( ( cyf / 10.0 + ( -pow( H, 2 ) * 3 + H2 ) ) * current_h / 2.0 + current_h,
                             100.0 ), 0.0 );
 
     // Pressure variation
