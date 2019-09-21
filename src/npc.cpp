@@ -447,7 +447,6 @@ void npc::set_fac( const string_id<faction> &id )
         my_fac->add_to_membership( getID(), disp_name(), known_to_u );
         fac_id = my_fac->id;
     } else {
-        my_fac = nullptr;
         return;
     }
     for( auto &e : inv_dump() ) {
