@@ -90,6 +90,8 @@ Any aoe will manifest as a circular area centered on the target, and will only d
 
 * "ter_transform" - transform the terrain and furniture in an area centered at the target.  The chance of any one of the points in the area of effect changing is one_in( damage ).  The effect_str is the id of a ter_furn_transform.
 
+* "vomit" - any creature within its area of effect will instantly vomit, if it's able to do so.
+
 ##### For Spells that have an attack type, these are the available damage types:
 * "fire"
 * "acid"
