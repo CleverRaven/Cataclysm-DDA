@@ -390,9 +390,9 @@ inline bool assign(JsonObject &jo, const std::string &name, units::money &val,
         err.throw_error("value outside supported range", name);
     }
 
- /*   if (strict && out == val) {
+    if (strict && out == val) {
         report_strict_violation(err, "assignment does not update value", name);
-    }*/
+    }
 
     val = out;
 

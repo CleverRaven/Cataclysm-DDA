@@ -2041,8 +2041,8 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     assign( jo, "weight", def.weight, strict, 0_gram );
     assign( jo, "integral_weight", def.integral_weight, strict, 0_gram );
     assign( jo, "volume", def.volume );
-    assign( jo, "price", def.price, strict, 0_cent );
-    assign( jo, "price_postapoc", def.price_post, strict, 0_cent );
+    assign( jo, "price", def.price, false, 0_cent );
+    assign( jo, "price_postapoc", def.price_post, false, 0_cent );
     assign( jo, "stackable", def.stackable_, strict );
     assign( jo, "integral_volume", def.integral_volume );
     assign( jo, "bashing", def.melee[DT_BASH], strict, 0 );
