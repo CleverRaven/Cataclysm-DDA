@@ -2901,10 +2901,6 @@ void mapgen_cave( map *m, oter_id, mapgendata &dat, const time_point &turn, floa
         m->place_spawns( mongroup_id( "GROUP_CAVE" ), 2, point( 6, 6 ), point( 18, 18 ), 1.0 );
     } else { // We're above ground!
         // First, draw a forest
-        /*
-                    draw_map(oter_id("forest"), dat.north(), dat.east(), dat.south(), dat.west(), dat.neast(), dat.seast(), dat.nwest(), dat.swest(),
-                             dat.above(), turn, g, density, dat.zlevel);
-        */
         mapgen_forest( m, oter_str_id( "forest" ).id(), dat, turn, density );
         // Clear the center with some rocks
         square( m, t_rock, SEEX - 6, SEEY - 6, SEEX + 5, SEEY + 5 );
