@@ -3953,8 +3953,11 @@ std::string get_stat_name( Character::stat Stat )
     case Character::stat::DEXTERITY:    return pgettext("dexterity stat", "DEX");
     case Character::stat::INTELLIGENCE: return pgettext("intelligence stat", "INT");
     case Character::stat::PERCEPTION:   return pgettext("perception stat", "PER");
-
-    case Character::stat::DUMMY_STAT:   return pgettext( "fake stat there's an error", "ERR" );
+            // *INDENT-ON*
+        default:
+            return pgettext( "fake stat there's an error", "ERR" );
             break;
+
     }
+    return pgettext( "fake stat there's an error", "ERR" );
 }
