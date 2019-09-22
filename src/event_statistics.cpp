@@ -1,6 +1,7 @@
 #include "event_statistics.h"
 
 #include "event.h"
+#include "event_field_transformations.h"
 #include "generic_factory.h"
 #include "stats_tracker.h"
 
@@ -193,6 +194,44 @@ struct value_constraint {
     }
 };
 
+struct new_field {
+    EventFieldTransformation transformation;
+    std::string input_field;
+
+    void deserialize( JsonIn &jsin ) {
+        JsonObject jo = jsin.get_object();
+        if( jo.size() != 1 ) {
+            jo.throw_error( "new field specifications must have exactly one entry" );
+        }
+        for( const JsonMember &m : jo ) {
+            const std::string &transformation_name = m.name();
+            auto it = event_field_transformations.find( transformation_name );
+            if( it == event_field_transformations.end() ) {
+                m.throw_error(
+                    string_format( "unknown event field transformation '%s'", transformation_name )
+                );
+            }
+            transformation = it->second;
+            input_field = m.get_string();
+        }
+    }
+
+    std::vector<cata::event::data_type> transform( const cata::event::data_type &data,
+            const std::string &new_field_name ) const {
+        std::vector<cata::event::data_type> result;
+        auto it = data.find( input_field );
+        if( it == data.end() ) {
+            debugmsg( "Expected input field '%s' not present in event", input_field );
+            return result;
+        }
+        for( cata_variant v : transformation( it->second ) ) {
+            result.push_back( data );
+            result.back().emplace( new_field_name, v );
+        }
+        return result;
+    }
+};
+
 // Helper struct to abstract the two possible sources of event_multisets:
 // event_types and event_transformations
 struct event_source {
@@ -229,29 +268,60 @@ struct event_source {
     }
 };
 
-struct event_transformation_match : public event_transformation::impl {
-    template<typename Constraints>
-    event_transformation_match( const string_id<event_transformation> &id, event_source source,
-                                const Constraints &constraints ) :
+struct event_transformation_impl : public event_transformation::impl {
+    template<typename NewFields, typename Constraints, typename DropFields>
+    event_transformation_impl( const string_id<event_transformation> &id, event_source source,
+                               const NewFields &new_fields, const Constraints &constraints,
+                               const DropFields &drop_fields ) :
         id_( id ),
         source_( source ),
-        constraints_( constraints.begin(), constraints.end() )
+        new_fields_( new_fields.begin(), new_fields.end() ),
+        constraints_( constraints.begin(), constraints.end() ),
+        drop_fields_( drop_fields.begin(), drop_fields.end() )
     {}
 
     string_id<event_transformation> id_;
     event_source source_;
+    std::vector<std::pair<std::string, new_field>> new_fields_;
     std::vector<std::pair<std::string, value_constraint>> constraints_;
+    std::vector<std::string> drop_fields_;
 
-    bool matches( const cata::event::data_type &data, stats_tracker &stats ) const {
-        for( const std::pair<std::string, value_constraint> &p : constraints_ ) {
-            const std::string &field = p.first;
-            const value_constraint &constraint = p.second;
-            const auto it = data.find( field );
-            if( it == data.end() || !constraint.permits( it->second, stats ) ) {
-                return false;
+    using EventVector = std::vector<cata::event::data_type>;
+
+    EventVector match_and_transform( const cata::event::data_type &input_data,
+                                     stats_tracker &stats ) const {
+        EventVector result = { input_data };
+        for( const std::pair<std::string, new_field> &p : new_fields_ ) {
+            EventVector before_this_pass = std::move( result );
+            result.clear();
+            for( const cata::event::data_type &data : before_this_pass ) {
+                EventVector from_this_event = p.second.transform( data, p.first );
+                result.insert( result.end(), from_this_event.begin(), from_this_event.end() );
             }
         }
-        return true;
+
+        auto violates_constraints = [&]( const cata::event::data_type & data ) {
+            for( const std::pair<std::string, value_constraint> &p : constraints_ ) {
+                const std::string &field = p.first;
+                const value_constraint &constraint = p.second;
+                const auto it = data.find( field );
+                if( it == data.end() || !constraint.permits( it->second, stats ) ) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        result.erase( std::remove_if( result.begin(), result.end(), violates_constraints ),
+                      result.end() );
+
+        for( cata::event::data_type &data : result ) {
+            for( const std::string drop_field_name : drop_fields_ ) {
+                data.erase( drop_field_name );
+            }
+        }
+
+        return result;
     }
 
     event_multiset initialize( const event_multiset::counts_type &input,
@@ -259,8 +329,10 @@ struct event_transformation_match : public event_transformation::impl {
         event_multiset result( source_.type );
 
         for( const std::pair<const cata::event::data_type, int> &p : input ) {
-            if( matches( p.first, stats ) ) {
-                result.add( p );
+            cata::event::data_type event_data = p.first;
+            EventVector transformed = match_and_transform( event_data, stats );
+            for( cata::event::data_type &d : transformed ) {
+                result.add( { d, p.second } );
             }
         }
         return result;
@@ -271,7 +343,7 @@ struct event_transformation_match : public event_transformation::impl {
     }
 
     struct state : stats_tracker_state, event_multiset_watcher, stat_watcher {
-        state( const event_transformation_match *trans, stats_tracker &stats ) :
+        state( const event_transformation_impl *trans, stats_tracker &stats ) :
             transformation_( trans ),
             data_( trans->initialize( stats ) ) {
             trans->source_.add_watcher( stats, this );
@@ -288,9 +360,11 @@ struct event_transformation_match : public event_transformation::impl {
         }
 
         void event_added( const cata::event &e, stats_tracker &stats ) override {
-            if( transformation_->matches( e.data(), stats ) ) {
-                data_.add( e );
-                stats.transformed_set_changed( transformation_->id_, e );
+            EventVector transformed = transformation_->match_and_transform( e.data(), stats );
+            for( cata::event::data_type &d : transformed ) {
+                cata::event new_event( e.type(), e.time(), std::move( d ) );
+                data_.add( new_event );
+                stats.transformed_set_changed( transformation_->id_, new_event );
             }
         }
 
@@ -299,7 +373,7 @@ struct event_transformation_match : public event_transformation::impl {
             stats.transformed_set_changed( transformation_->id_, data_ );
         }
 
-        const event_transformation_match *transformation_;
+        const event_transformation_impl *transformation_;
         event_multiset data_;
     };
 
@@ -314,7 +388,7 @@ struct event_transformation_match : public event_transformation::impl {
     }
 
     std::unique_ptr<impl> clone() const override {
-        return std::make_unique<event_transformation_match>( *this );
+        return std::make_unique<event_transformation_impl>( *this );
     }
 };
 
@@ -330,10 +404,19 @@ std::unique_ptr<stats_tracker_state> event_transformation::watch( stats_tracker 
 
 void event_transformation::load( const JsonObject &jo, const std::string & )
 {
+    std::map<std::string, new_field> new_fields;
+    optional( jo, was_loaded, "new_fields", new_fields );
     std::map<std::string, value_constraint> constraints;
-    mandatory( jo, was_loaded, "value_constraints", constraints );
+    optional( jo, was_loaded, "value_constraints", constraints );
+    std::vector<std::string> drop_fields;
+    optional( jo, was_loaded, "drop_fields", drop_fields );
 
-    impl_ = std::make_unique<event_transformation_match>( id, event_source( jo ), constraints );
+    if( new_fields.empty() && constraints.empty() && drop_fields.empty() ) {
+        jo.throw_error( "Event transformation is a no-op." );
+    }
+
+    impl_ = std::make_unique<event_transformation_impl>(
+                id, event_source( jo ), new_fields, constraints, drop_fields );
 }
 
 void event_transformation::check() const
