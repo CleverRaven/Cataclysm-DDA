@@ -122,18 +122,7 @@ void map::generate( const tripoint &p, const time_point &when )
     }
     // x, and y are submap coordinates, convert to overmap terrain coordinates
     tripoint abs_omt = sm_to_omt_copy( p );
-    const regional_settings *rsettings = &overmap_buffer.get_settings( abs_omt );
     oter_id terrain_type = overmap_buffer.ter( abs_omt );
-    oter_id t_above = overmap_buffer.ter( abs_omt + tripoint_above );
-    oter_id t_below = overmap_buffer.ter( abs_omt + tripoint_below );
-    oter_id t_north = overmap_buffer.ter( abs_omt + tripoint_north );
-    oter_id t_neast = overmap_buffer.ter( abs_omt + tripoint_north_east );
-    oter_id t_east  = overmap_buffer.ter( abs_omt + tripoint_east );
-    oter_id t_seast = overmap_buffer.ter( abs_omt + tripoint_south_east );
-    oter_id t_south = overmap_buffer.ter( abs_omt + tripoint_south );
-    oter_id t_swest = overmap_buffer.ter( abs_omt + tripoint_south_west );
-    oter_id t_west  = overmap_buffer.ter( abs_omt + tripoint_west );
-    oter_id t_nwest = overmap_buffer.ter( abs_omt + tripoint_north_west );
 
     // This attempts to scale density of zombies inversely with distance from the nearest city.
     // In other words, make city centers dense and perimeters sparse.
@@ -145,8 +134,8 @@ void map::generate( const tripoint &p, const time_point &when )
     }
     density = density / 100;
 
-    draw_map( terrain_type, t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest,
-              t_above, t_below, when, density, p.z, rsettings );
+    mapgendata dat( abs_omt, *this );
+    draw_map( terrain_type, when, density, dat );
 
     // At some point, we should add region information so we can grab the appropriate extras
     map_extras ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
@@ -2699,15 +2688,9 @@ bool jmapgen_objects::has_vehicle_collision( mapgendata &dat, const point &offse
 }
 
 /////////////
-void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const oter_id &t_east,
-                    const oter_id &t_south, const oter_id &t_west, const oter_id &t_neast,
-                    const oter_id &t_seast, const oter_id &t_swest, const oter_id &t_nwest,
-                    const oter_id &t_above, const oter_id &t_below, const time_point &when,
-                    const float density, const int zlevel, const regional_settings *rsettings )
+void map::draw_map( const oter_id &terrain_type, const time_point &when, const float density,
+                    mapgendata &dat )
 {
-    mapgendata dat( t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest, t_above,
-                    t_below, zlevel, *rsettings, *this );
-
     const std::string function_key = terrain_type->get_mapgen_id();
     bool found = true;
 
