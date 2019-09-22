@@ -666,6 +666,10 @@ void vpart_info::check()
                 }
             }
         }
+        if( part.has_flag( "WHEEL" ) && !base_item_type.wheel ) {
+            debugmsg( "vehicle part %s has the WHEEL flag, but base item %s is not a wheel. THIS WILL CRASH!",
+                      part.id.c_str(), part.item );
+        }
         for( auto &q : part.qualities ) {
             if( !q.first.is_valid() ) {
                 debugmsg( "vehicle part %s has undefined tool quality %s", part.id.c_str(), q.first.c_str() );
