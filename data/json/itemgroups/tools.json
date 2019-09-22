@@ -310,6 +310,7 @@
     "id": "tools_tailor",
     "type": "item_group",
     "items": [
+      [ "awl_steel", 60 ],
       [ "needle_curved", 30 ],
       [ "scissors", 1000 ],
       [ "sewing_kit", 120 ],
@@ -320,7 +321,7 @@
   {
     "id": "tools_commercial_tailor",
     "type": "item_group",
-    "items": [ [ "needle_curved", 30 ], [ "scissors", 1000 ], [ "sewing_kit", 10 ], [ "tailors_kit", 120 ] ]
+    "items": [ [ "awl_steel", 150 ], [ "needle_curved", 30 ], [ "scissors", 1000 ], [ "sewing_kit", 10 ], [ "tailors_kit", 120 ] ]
   },
   {
     "type": "item_group",
