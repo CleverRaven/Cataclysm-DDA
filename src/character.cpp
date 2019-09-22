@@ -1251,6 +1251,7 @@ item Character::remove_weapon()
 {
     item tmp = weapon;
     weapon = item();
+    cached_info.erase( "weapon_value" );
     return tmp;
 }
 
