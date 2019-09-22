@@ -790,6 +790,146 @@
   },
   {
     "type": "martial_art",
+    "id": "style_ninjutsu",
+    "name": "Ninjutsu",
+    "description": "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan.  It focuses on rapid, precise, silent strikes.  Ninjutsu is almost entirely silent and does extra damage if on the first attack.  It also provides small combat bonuses every time you move.",
+    "initiate": [ "You perform a kuji-in mantra with your hands. Rin, Kai, Jin!", "%s performs a series of intricate hand signs." ],
+    "learn_difficulty": 6,
+    "arm_block": 3,
+    "static_buffs": [
+      {
+        "id": "buff_ninjutsu_static1",
+        "name": "Ninjutsu Stance",
+        "description": "Your training allows you to make no noise when attacking and less noise when moving around.\n\nMelee and unarmed attacks generate 0 noise.  Moving generates 1/2 as much noise.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "quiet": true,
+        "stealthy": true
+      },
+      {
+        "id": "buff_ninjutsu_static2",
+        "name": "Sneak Attack",
+        "description": "To a true shinobi, the first strike and the last strike are one in the same.\n\n+50%% all damage.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "mult_bonuses": [ [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ], [ "damage", "stab", 1.5 ] ]
+      }
+    ],
+    "onattack_buffs": [
+      {
+        "id": "buff_ninjutsu_onattack",
+        "name": "Loss of Surprise",
+        "description": "You intentions are known!  It will take you a few moments to sneak attack again.\n\n-50%% all damage.\nLast 3 turns.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "buff_duration": 3,
+        "mult_bonuses": [ [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_ninjutsu_onmove",
+        "name": "Momentum Shift",
+        "description": "Ninjas are training to be extremely agile and mobile.\n\n+1.0 Dodge skill, Accuracy increased by 20%% of Dexterity.\nLast 1 turn.",
+        "min_unarmed": 2,
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ [ "dodge", 1.0 ], [ "hit", "dex", 0.2 ] ]
+      }
+    ],
+    "onkill_buffs": [
+      {
+        "id": "buff_ninjutsu_onkill",
+        "name": "Escape Plan",
+        "description": "Your target has perished.  It is time to leave and plan your next attack.\n\n+2 Dodge attempts, +10 movement speed.\nLast 3 turns.",
+        "min_melee": 3,
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "buff_duration": 3,
+        "bonus_dodges": 2,
+        "flat_bonuses": [ [ "speed", 10 ] ]
+      }
+    ],
+    "techniques": [ "tec_ninjutsu_swift", "tec_ninjutsu_takedown", "tec_ninjutsu_precise" ],
+    "weapons": [
+      "arming_sword",
+      "arming_sword_inferior",
+      "arming_sword_fake",
+      "bio_blade_weapon",
+      "bio_claws_weapon",
+      "bokken",
+      "bokken_inferior",
+      "bokken_fake",
+      "broadsword",
+      "broadsword_inferior",
+      "broadsword_fake",
+      "broadfire_off",
+      "broadfire_on",
+      "cavalry_sabre",
+      "cavalry_sabre_fake",
+      "copper_knife",
+      "cutlass_fake",
+      "cutlass_inferior",
+      "cutlass",
+      "dao",
+      "diveknife",
+      "firekatana_off",
+      "firekatana_on",
+      "i_staff",
+      "jian",
+      "jian_inferior",
+      "jian_fake",
+      "katana",
+      "katana_inferior",
+      "katana_fake",
+      "kirpan",
+      "knife_combat",
+      "knife_hunting",
+      "knife_rambo",
+      "knife_rm42",
+      "knife_trench",
+      "kirpan_cheap",
+      "kris",
+      "kukri",
+      "khopesh",
+      "longsword",
+      "longsword_inferior",
+      "longsword_fake",
+      "l-stick",
+      "l-stick_on",
+      "machete",
+      "makeshift_knife",
+      "nodachi",
+      "nodachi_inferior",
+      "nodachi_fake",
+      "q_staff",
+      "scimitar",
+      "scimitar_fake",
+      "scimitar_inferior",
+      "shishkebab_off",
+      "shishkebab_on",
+      "shock_staff",
+      "sickle",
+      "switchblade",
+      "sword_bayonet",
+      "sword_crude",
+      "sword_nail",
+      "sword_wood",
+      "sword_xiphos",
+      "tanto",
+      "tanto_inferior",
+      "tanto_fake",
+      "wakizashi",
+      "wakizashi_inferior",
+      "wakizashi_fake"
+    ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_tai_chi",
     "name": "Tai Chi",
     "description": "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
@@ -810,41 +950,6 @@
       }
     ],
     "techniques": [ "tec_taichi_disarm", "tec_taichi_precise" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_ninjutsu",
-    "name": "Ninjutsu",
-    "description": "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan.  It focuses on rapid, precise, silent strikes.  Ninjutsu is almost entirely silent.  It also provides small combat bonuses every time you move.",
-    "initiate": [ "You perform a kuji-in mantra with your hands. Rin, Kai, Jin!", "%s performs a series of ninja hand signs." ],
-    "learn_difficulty": 6,
-    "arm_block": 3,
-    "leg_block": 99,
-    "allow_melee": true,
-    "static_buffs": [
-      {
-        "id": "ninjutsu_static",
-        "name": "Ninjutsu",
-        "unarmed_allowed": true,
-        "melee_allowed": true,
-        "quiet": true,
-        "description": "Silent melee attacks."
-      }
-    ],
-    "onmove_buffs": [
-      {
-        "id": "ninjutsu_momentum",
-        "name": "Momentum shift",
-        "description": "Bonus dodges and increased to-hit",
-        "unarmed_allowed": true,
-        "melee_allowed": true,
-        "buff_duration": 2,
-        "max_stacks": 1,
-        "bonus_dodges": 1,
-        "flat_bonuses": [ [ "hit", "dex", 0.17 ] ]
-      }
-    ],
-    "techniques": [ "tec_ninjutsu_precise" ]
   },
   {
     "type": "martial_art",
