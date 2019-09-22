@@ -1926,27 +1926,8 @@ void map::monster_in_field( monster &z )
         if( cur_field_type == fd_fatigue ) {
             if( rng( 0, 2 ) < cur.get_field_intensity() ) {
                 dam += cur.get_field_intensity();
-                int tries = 0;
-                tripoint newpos = z.pos();
-                do {
-                    newpos.x = rng( z.posx() - SEEX, z.posx() + SEEX );
-                    newpos.y = rng( z.posy() - SEEY, z.posy() + SEEY );
-                    tries++;
-                } while( impassable( newpos ) && tries != 10 );
-
-                if( tries == 10 ) {
-                    z.die_in_explosion( nullptr );
-                } else if( monster *const other = g->critter_at<monster>( newpos ) ) {
-                    if( g->u.sees( z ) ) {
-                        add_msg( _( "The %1$s teleports into a %2$s, killing them both!" ),
-                                 z.name(), other->name() );
-                    }
-                    other->die_in_explosion( &z );
-                } else {
-                    z.setpos( newpos );
-                }
+                teleport::teleport( &z );
             }
-
         }
         if( cur_field_type == fd_incendiary ) {
             // TODO: MATERIALS Use fire resistance

@@ -4,7 +4,6 @@
 #include "avatar.h"
 #include "creature.h"
 #include "player.h"
-#include "monster.h"
 #include "game.h"
 #include "map.h"
 #include "messages.h"
