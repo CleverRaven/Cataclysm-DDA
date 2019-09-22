@@ -75,20 +75,6 @@ void event_multiset::add( const counts_type::value_type &e )
     counts_[e.first] += e.second;
 }
 
-int stats_tracker::count( const cata::event &e ) const
-{
-    return count( e.type(), e.data() );
-}
-
-int stats_tracker::count( event_type type, const cata::event::data_type &criteria ) const
-{
-    auto it = data.find( type );
-    if( it == data.end() ) {
-        return 0;
-    }
-    return it->second.count( criteria );
-}
-
 event_multiset &stats_tracker::get_events( event_type type )
 {
     return data.emplace( type, event_multiset( type ) ).first->second;
@@ -98,16 +84,6 @@ event_multiset stats_tracker::get_events(
     const string_id<event_transformation> &transform_id )
 {
     return transform_id->initialize( *this );
-}
-
-int stats_tracker::total( event_type type, const std::string &field,
-                          const cata::event::data_type &criteria ) const
-{
-    auto it = data.find( type );
-    if( it == data.end() ) {
-        return 0;
-    }
-    return it->second.total( field, criteria );
 }
 
 cata_variant stats_tracker::value_of( const string_id<event_statistic> &stat )

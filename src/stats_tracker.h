@@ -36,6 +36,17 @@ class event_multiset
             return counts_;
         }
 
+        // count returns the number of events matching given criteria that have
+        // occured.
+        // total returns the sum of some integer-valued field across every
+        // event satisfying certain criteria.
+        // For example, count might return the number of times the avatar has
+        // taken damage, while total might return the total damage taken in all
+        // those cases.
+        // The criteria takes the form of an event::data_type map specifying
+        // some values that must be matched in the events of that type.  You can
+        // provide just a subset of the relevant keys from the event_type in
+        // your criteria.
         int count() const;
         int count( const cata::event::data_type &criteria ) const;
         int total( const std::string &field ) const;
@@ -75,24 +86,6 @@ class stats_tracker_state
 class stats_tracker : public event_subscriber
 {
     public:
-        // count returns the number of events matching given criteria that have
-        // occured.
-        // total returns the sum of some integer-valued field across every
-        // event satisfying certain criteria.
-        // For example, count might return the number of times the avatar has
-        // taken damage, while total might return the total damage taken in all
-        // those cases.
-        // The criteria have two parts:
-        // - The event_type
-        // - An event::data_type map specifying some values that must be
-        //   matched in the events of that type.  You can provide just a subset
-        //   of the relevant keys from the event_type in your criteria.
-        // The first count overload combines these criteria into a single event
-        // object for convenience since that contains the two pieces necessary.
-        int count( const cata::event & ) const;
-        int count( event_type, const cata::event::data_type &criteria ) const;
-        int total( event_type, const std::string &field,
-                   const cata::event::data_type &criteria ) const;
         event_multiset &get_events( event_type );
         event_multiset get_events( const string_id<event_transformation> & );
 
