@@ -82,8 +82,6 @@ Creature::Creature()
     speed_base = 100;
     underwater = false;
 
-    Creature::reset_bonuses();
-
     fake = false;
 }
 
@@ -111,29 +109,7 @@ void Creature::bleed() const
 }
 
 void Creature::reset_bonuses()
-{
-    num_blocks = 1;
-    num_dodges = 1;
-    num_blocks_bonus = 0;
-    num_dodges_bonus = 0;
-
-    armor_bash_bonus = 0;
-    armor_cut_bonus = 0;
-
-    speed_bonus = 0;
-    dodge_bonus = 0;
-    block_bonus = 0;
-    hit_bonus = 0;
-    bash_bonus = 0;
-    cut_bonus = 0;
-
-    bash_mult = 1.0f;
-    cut_mult = 1.0f;
-
-    melee_quiet = false;
-    grab_resist = 0;
-    throw_resist = 0;
-}
+{}
 
 void Creature::process_turn()
 {
@@ -1313,19 +1289,11 @@ void Creature::set_killer( Creature *const killer )
 
 int Creature::get_num_blocks() const
 {
-    return num_blocks + num_blocks_bonus;
+    return 1;
 }
 int Creature::get_num_dodges() const
 {
-    return num_dodges + num_dodges_bonus;
-}
-int Creature::get_num_blocks_bonus() const
-{
-    return num_blocks_bonus;
-}
-int Creature::get_num_dodges_bonus() const
-{
-    return num_dodges_bonus;
+    return 1;
 }
 
 // currently this is expected to be overridden to actually have use
@@ -1335,78 +1303,41 @@ int Creature::get_env_resist( body_part ) const
 }
 int Creature::get_armor_bash( body_part ) const
 {
-    return armor_bash_bonus;
+    return 0;
 }
 int Creature::get_armor_cut( body_part ) const
 {
-    return armor_cut_bonus;
+    return 0;
 }
 int Creature::get_armor_bash_base( body_part ) const
 {
-    return armor_bash_bonus;
+    return 0;
 }
 int Creature::get_armor_cut_base( body_part ) const
 {
-    return armor_cut_bonus;
-}
-int Creature::get_armor_bash_bonus() const
-{
-    return armor_bash_bonus;
-}
-int Creature::get_armor_cut_bonus() const
-{
-    return armor_cut_bonus;
+    return 0;
 }
 
 int Creature::get_speed() const
 {
-    return get_speed_base() + get_speed_bonus();
+    return get_speed_base();
 }
 float Creature::get_dodge() const
 {
-    return get_dodge_base() + get_dodge_bonus();
+    return get_dodge_base();
 }
 float Creature::get_hit() const
 {
-    return get_hit_base() + get_hit_bonus();
+    return get_hit_base();
 }
 
 int Creature::get_speed_base() const
 {
     return speed_base;
 }
-int Creature::get_speed_bonus() const
-{
-    return speed_bonus;
-}
-float Creature::get_dodge_bonus() const
-{
-    return dodge_bonus;
-}
 int Creature::get_block_bonus() const
 {
     return block_bonus; //base is 0
-}
-float Creature::get_hit_bonus() const
-{
-    return hit_bonus; //base is 0
-}
-int Creature::get_bash_bonus() const
-{
-    return bash_bonus;
-}
-int Creature::get_cut_bonus() const
-{
-    return cut_bonus;
-}
-
-float Creature::get_bash_mult() const
-{
-    return bash_mult;
-}
-float Creature::get_cut_mult() const
-{
-    return cut_mult;
 }
 
 bool Creature::get_melee_quiet() const
@@ -1425,19 +1356,7 @@ int Creature::get_throw_resist() const
 
 void Creature::mod_stat( const std::string &stat, float modifier )
 {
-    if( stat == "speed" ) {
-        mod_speed_bonus( modifier );
-    } else if( stat == "dodge" ) {
-        mod_dodge_bonus( modifier );
-    } else if( stat == "block" ) {
-        mod_block_bonus( modifier );
-    } else if( stat == "hit" ) {
-        mod_hit_bonus( modifier );
-    } else if( stat == "bash" ) {
-        mod_bash_bonus( modifier );
-    } else if( stat == "cut" ) {
-        mod_cut_bonus( modifier );
-    } else if( stat == "pain" ) {
+    if( stat == "pain" ) {
         mod_pain( modifier );
     } else if( stat == "moves" ) {
         mod_moves( modifier );
@@ -1446,97 +1365,14 @@ void Creature::mod_stat( const std::string &stat, float modifier )
     }
 }
 
-void Creature::set_num_blocks_bonus( int nblocks )
-{
-    num_blocks_bonus = nblocks;
-}
-void Creature::set_num_dodges_bonus( int ndodges )
-{
-    num_dodges_bonus = ndodges;
-}
-
-void Creature::set_armor_bash_bonus( int nbasharm )
-{
-    armor_bash_bonus = nbasharm;
-}
-void Creature::set_armor_cut_bonus( int ncutarm )
-{
-    armor_cut_bonus = ncutarm;
-}
-
 void Creature::set_speed_base( int nspeed )
 {
     speed_base = nspeed;
 }
-void Creature::set_speed_bonus( int nspeed )
-{
-    speed_bonus = nspeed;
-}
-void Creature::set_dodge_bonus( float ndodge )
-{
-    dodge_bonus = ndodge;
-}
+
 void Creature::set_block_bonus( int nblock )
 {
     block_bonus = nblock;
-}
-void Creature::set_hit_bonus( float nhit )
-{
-    hit_bonus = nhit;
-}
-void Creature::set_bash_bonus( int nbash )
-{
-    bash_bonus = nbash;
-}
-void Creature::set_cut_bonus( int ncut )
-{
-    cut_bonus = ncut;
-}
-void Creature::mod_speed_bonus( int nspeed )
-{
-    speed_bonus += nspeed;
-}
-void Creature::mod_dodge_bonus( float ndodge )
-{
-    dodge_bonus += ndodge;
-}
-void Creature::mod_block_bonus( int nblock )
-{
-    block_bonus += nblock;
-}
-void Creature::mod_hit_bonus( float nhit )
-{
-    hit_bonus += nhit;
-}
-void Creature::mod_bash_bonus( int nbash )
-{
-    bash_bonus += nbash;
-}
-void Creature::mod_cut_bonus( int ncut )
-{
-    cut_bonus += ncut;
-}
-
-void Creature::set_bash_mult( float nbashmult )
-{
-    bash_mult = nbashmult;
-}
-void Creature::set_cut_mult( float ncutmult )
-{
-    cut_mult = ncutmult;
-}
-
-void Creature::set_melee_quiet( bool nquiet )
-{
-    melee_quiet = nquiet;
-}
-void Creature::set_grab_resist( int ngrabres )
-{
-    grab_resist = ngrabres;
-}
-void Creature::set_throw_resist( int nthrowres )
-{
-    throw_resist = nthrowres;
 }
 
 units::mass Creature::weight_capacity() const

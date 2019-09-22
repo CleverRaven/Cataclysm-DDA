@@ -85,6 +85,9 @@ class effect_type
         /** Returns the maximum intensity of this type. */
         int get_max_intensity() const;
 
+        /** Chechs if it modiyfies stats. */
+        bool has_mod() const;
+
     protected:
         int max_intensity;
         int max_effective_intensity;

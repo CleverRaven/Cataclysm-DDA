@@ -213,8 +213,6 @@ monster::monster()
     last_baby = 0;
     biosig_timer = -1;
     last_biosig = 0;
-
-    monster::reset_bonuses();
 }
 
 monster::monster( const mtype_id &id ) : monster()
@@ -622,8 +620,6 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     if( has_effect( effect_ridden ) && mounted_player ) {
         mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
     }
-
-    wprintz( w, c_light_gray, _( " It is " ) + size_names.at( get_size() ) + _( "." ) );
 
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
     int numlines = lines.size();
@@ -1666,6 +1662,13 @@ bool monster::move_effects( bool )
 void monster::add_effect( const efftype_id &eff_id, const time_duration dur, body_part/*bp*/,
                           bool permanent, int intensity, bool force, bool deferred )
 {
+    // If the effect has modifiers transform into MonsterDynamic.
+    if( eff_id.obj().has_mod() ){
+        MonsterDynamic mnew = new MonsterDynamic( this );
+        g->remove_zombie( this );
+        g->add_zombie( mnew );
+        this = &mnew;
+    }
     // Effects are not applied to specific monster body part
     Creature::add_effect( eff_id, dur, num_bp, permanent, intensity, force, deferred );
 }
@@ -2263,15 +2266,6 @@ void monster::process_one_effect( effect &it, bool is_new )
         return it.get_mod( arg, reduced );
     };
 
-    mod_speed_bonus( get_effect( "SPEED", reduced ) );
-    mod_dodge_bonus( get_effect( "DODGE", reduced ) );
-    mod_block_bonus( get_effect( "BLOCK", reduced ) );
-    mod_hit_bonus( get_effect( "HIT", reduced ) );
-    mod_bash_bonus( get_effect( "BASH", reduced ) );
-    mod_cut_bonus( get_effect( "CUT", reduced ) );
-    mod_growth_bonus( get_effect( "GROWTH", reduced ) );
-
-
     int val = get_effect( "HURT", reduced );
     if( val > 0 ) {
         if( is_new || it.activated( calendar::turn, "HURT", val, reduced, 1 ) ) {
@@ -2504,34 +2498,19 @@ field_type_id monster::gibType() const
     return type->gibType();
 }
 
-int monster::get_growth_bonus() const
-{
-    return growth_bonus;
-}
-
-void monster::set_growth_bonus( int nsize )
-{
-    growth_bonus = nsize;
-}
-
-void monster::mod_growth_bonus( int nsize )
-{
-    growth_bonus += nsize;
-}
-
 m_size monster::get_size() const
 {
-    return m_size( type->size + get_growth_bonus() );
+    return type->size;
 }
 
 units::mass monster::get_weight() const
 {
-    return type->weight * ( static_cast<float>( get_size() ) / type->size );
+    return type->weight;
 }
 
 units::volume monster::get_volume() const
 {
-    return type->volume * ( static_cast<float>( get_size() ) / type->size );
+    return type->volume;
 }
 
 void monster::add_msg_if_npc( const std::string &msg ) const

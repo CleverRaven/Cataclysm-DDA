@@ -81,7 +81,7 @@ enum monster_horde_attraction {
     NUM_MONSTER_HORDE_ATTRACTION
 };
 
-class monster : public Creature
+class monster : public virtual Creature
 {
         friend class editmap;
     public:
@@ -105,17 +105,14 @@ class monster : public Creature
         void try_reproduce();
         void try_biosignature();
         void spawn( const tripoint &p );
-        m_size get_size() const override;
-        units::mass get_weight() const override;
-        units::volume get_volume() const;
+        virtual m_size get_size() const override;
+        virtual units::mass get_weight() const override;
+        virtual units::volume get_volume() const;
         int get_hp( hp_part ) const override;
         int get_hp() const override;
         int get_hp_max( hp_part ) const override;
         int get_hp_max() const override;
         int hp_percentage() const override;
-        int get_growth_bonus() const;
-        void set_growth_bonus( int nsize );
-        void mod_growth_bonus( int nsize );
 
         // Access
         std::string get_name() const override;

@@ -478,6 +478,11 @@ int effect_type::get_max_intensity() const
     return max_intensity;
 }
 
+bool has_mod() const
+{
+    return mod_data.empty();
+}
+
 effect effect::null_effect;
 
 bool effect::is_null() const

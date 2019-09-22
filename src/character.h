@@ -163,7 +163,7 @@ inline social_modifiers operator+( social_modifiers lhs, const social_modifiers 
     return lhs;
 }
 
-class Character : public Creature, public visitable<Character>
+class Character : public BonusUser, public visitable<Character>
 {
     public:
         Character( const Character & ) = delete;
