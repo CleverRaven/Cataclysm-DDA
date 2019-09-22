@@ -6,8 +6,11 @@
 
 mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west,
                         oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,
-                        oter_id up, oter_id down, int z, const regional_settings &rsettings, map &mp )
-    : t_nesw{ north, east, south, west, northeast, southeast, southwest, northwest }
+                        oter_id up, oter_id down, int z, const regional_settings &rsettings, map &mp,
+                        const oter_id &terrain_type, const float density, const time_point &when,
+                        ::mission *const miss )
+    : terrain_type_( terrain_type ), density_( density ), when_( when ), mission_( miss )
+    , t_nesw{ north, east, south, west, northeast, southeast, southwest, northwest }
     , t_above( up )
     , t_below( down )
     , zlevel( z )
@@ -17,14 +20,21 @@ mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west
 {
 }
 
-mapgendata::mapgendata( const tripoint &over, map &m )
+mapgendata::mapgendata( const tripoint &over, map &m, const float density, const time_point &when,
+                        ::mission *const miss )
     : mapgendata( overmap_buffer.ter( over + tripoint_north ),
                   overmap_buffer.ter( over + tripoint_east ), overmap_buffer.ter( over + tripoint_south ),
                   overmap_buffer.ter( over + tripoint_west ), overmap_buffer.ter( over + tripoint_north_east ),
                   overmap_buffer.ter( over + tripoint_south_east ), overmap_buffer.ter( over + tripoint_south_west ),
                   overmap_buffer.ter( over + tripoint_north_west ), overmap_buffer.ter( over + tripoint_above ),
-                  overmap_buffer.ter( over + tripoint_below ), over.z, overmap_buffer.get_settings( over ), m )
+                  overmap_buffer.ter( over + tripoint_below ), over.z, overmap_buffer.get_settings( over ), m,
+                  overmap_buffer.ter( over ), density, when, miss )
 {
+}
+
+mapgendata::mapgendata( const mapgendata &other, const oter_id &other_id ) : mapgendata( other )
+{
+    terrain_type_ = other_id;
 }
 
 void mapgendata::set_dir( int dir_in, int val )

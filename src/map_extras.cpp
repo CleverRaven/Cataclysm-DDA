@@ -2728,9 +2728,8 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
         case map_extra_method::mapgen: {
             tripoint over( abs_sub );
             sm_to_omt( over );
-            const oter_id terrain_type = overmap_buffer.ter( over );
-            mapgendata dat( over, m );
-            run_mapgen_func( extra.generator_id, &m, terrain_type, dat, calendar::turn, 0 );
+            mapgendata dat( over, m, 0.0f, calendar::turn, nullptr );
+            run_mapgen_func( extra.generator_id, dat );
             break;
         }
         case map_extra_method::update_mapgen: {

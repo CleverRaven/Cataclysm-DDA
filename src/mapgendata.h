@@ -3,8 +3,10 @@
 #define MAPGENDATA_H
 
 #include "type_id.h"
+#include "calendar.h"
 #include "weighted_list.h"
 
+class mission;
 struct regional_settings;
 class map;
 namespace om_direction
@@ -29,6 +31,12 @@ enum class type : int;
 // @todo encapsulate data member
 class mapgendata
 {
+    private:
+        oter_id terrain_type_;
+        float density_;
+        time_point when_;
+        ::mission *mission_;
+
     public:
         oter_id t_nesw[8];
 
@@ -54,9 +62,37 @@ class mapgendata
 
         mapgendata( oter_id t_north, oter_id t_east, oter_id t_south, oter_id t_west,
                     oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,
-                    oter_id up, oter_id down, int z, const regional_settings &rsettings, map &mp );
+                    oter_id up, oter_id down, int z, const regional_settings &rsettings, map &mp,
+                    const oter_id &terrain_type, float density, const time_point &when, ::mission *miss );
 
-        mapgendata( const tripoint &over, map &m );
+        mapgendata( const tripoint &over, map &m, float density, const time_point &when, ::mission *miss );
+
+        /**
+         * Creates a copy of this mapgen data, but stores a different @ref terrain_type.
+         * Useful when you want to create a base map (e.g. forest/field/river), that gets
+         * refined later:
+         * @code
+         * void generate_foo( mapgendata &dat ) {
+         *     mapgendata base_dat( dat, oter_id( "forest" ) );
+         *     generate( base_dat );
+         *     ... // refine map some more.
+         * }
+         * @endcode
+         */
+        mapgendata( const mapgendata &other, const oter_id &other_id );
+
+        const oter_id &terrain_type() const {
+            return terrain_type_;
+        }
+        float monster_density() const {
+            return density_;
+        }
+        const time_point &when() const {
+            return when_;
+        }
+        ::mission *mission() const {
+            return mission_;
+        }
 
         void set_dir( int dir_in, int val );
         void fill( int val );
