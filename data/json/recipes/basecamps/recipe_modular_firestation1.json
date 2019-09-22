@@ -1,0 +1,25 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_firestation_0",
+    "description": "We should survey the base site and set up a bulletin board.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "time": "1 h",
+    "construction_blueprint": "fbmc_firestation1_0",
+    "blueprint_provides": [
+      { "id": "gathering" },
+      { "id": "primitive_camp_recipes_1" },
+      { "id": "fbmc_firestation1_0" },
+      { "id": "firewood" },
+      { "id": "foraging" },
+      { "id": "sorting" },
+      { "id": "logging" }
+    ],
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "blueprint_name": "basic survey"
+  }
+]

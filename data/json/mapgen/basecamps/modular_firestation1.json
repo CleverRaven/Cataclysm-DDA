@@ -1,0 +1,13 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_firestation1_0",
+    "method": "json",
+    "object": {
+      "set": [
+        { "point": "terrain", "id": "t_floor", "x": 6, "y": 12 },
+        { "point": "furniture", "id": "f_bulletin", "x": 6, "y": 12 }
+      ]
+    }
+  }
+]
