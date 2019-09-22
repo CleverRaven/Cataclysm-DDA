@@ -58,7 +58,7 @@ class submap;
 class item_location;
 class map_cursor;
 struct maptile;
-struct mapgendata;
+class mapgendata;
 class basecamp;
 class computer;
 class Character;
