@@ -93,12 +93,43 @@ std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::str
     }
     const recipe_group_data &group = recipe_groups_data.obj( group_id( id ) );
     if( om_terrain_id != "ANY" ) {
+        std::string base_om_ter_id = om_terrain_id;
+        size_t om_ter_len = om_terrain_id.size();
+        if( om_ter_len > 7 ) {
+            if( om_terrain_id.substr( om_ter_len - 6, 6 ) == "_south" ) {
+                base_om_ter_id = om_terrain_id.substr( 0, om_ter_len - 6 );
+            } else if( om_terrain_id.substr( om_ter_len - 6, 6 ) == "_north" ) {
+                base_om_ter_id = om_terrain_id.substr( 0, om_ter_len - 6 );
+            }
+        }
+        if( om_ter_len > 6 ) {
+            if( om_terrain_id.substr( om_ter_len - 5, 5 ) == "_west" ) {
+                base_om_ter_id = om_terrain_id.substr( 0, om_ter_len - 5 );
+            } else if( om_terrain_id.substr( om_ter_len - 5, 5 ) == "_east" ) {
+                base_om_ter_id = om_terrain_id.substr( 0, om_ter_len - 5 );
+            }
+        }
+
         for( const auto &recp : group.recipes ) {
             const auto &recp_terrain = group.om_terrains.find( recp.first );
             if( recp_terrain == group.om_terrains.end() ) {
                 continue;
             }
-            if( recp_terrain->second.find( om_terrain_id ) != recp_terrain->second.end() ) {
+            std::string base_om_ter_id = om_terrain_id;
+            size_t om_ter_len = om_terrain_id.size();
+            if( om_ter_len > 7 ) {
+                if( om_terrain_id.substr( om_ter_len - 6, 6 ) == "_south" ) {
+                    base_om_ter_id = om_terrain_id.substr( 0, om_ter_len - 6 );
+                } else if( om_terrain_id.substr( om_ter_len - 6, 6 ) == "_north" ) {
+                    base_om_ter_id = om_terrain_id.substr( 0, om_ter_len - 6 );
+                } else if( om_terrain_id.substr( om_ter_len - 5, 5 ) == "_west" ) {
+                    base_om_ter_id = om_terrain_id.substr( 0, om_ter_len - 5 );
+                } else if( om_terrain_id.substr( om_ter_len - 5, 5 ) == "_east" ) {
+                    base_om_ter_id = om_terrain_id.substr( 0, om_ter_len - 5 );
+                }
+            }
+
+            if( recp_terrain->second.find( base_om_ter_id ) != recp_terrain->second.end() ) {
                 all_rec.emplace( recp );
             }
         }
