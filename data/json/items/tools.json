@@ -4183,7 +4183,7 @@
     "type": "TOOL",
     "name": "noise emitter (off)",
     "name_plural": "noise emitters (off)",
-    "description": "This device was constructed by 'enhancing' a speaker ripped off from some electronic device with some amplifier circuits.  It has now no other use beside emitting loud cracling static noise, that could distract zombies.",
+    "description": "This device was constructed by 'enhancing' a speaker ripped off from some electronic device with some amplifier circuits.  It has now no other use beside emitting loud crackling static noise, that could distract zombies.",
     "weight": "340 g",
     "volume": "1 L",
     "price": 0,
