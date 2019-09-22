@@ -40,6 +40,7 @@ class Creature;
 class nc_color;
 class player;
 class npc;
+class map;
 class vehicle;
 class vehicle_part_range;
 class JsonIn;
@@ -524,6 +525,8 @@ struct label : public point {
     std::string text;
 };
 
+class RemovePartHandler;
+
 /**
  * A vehicle as a whole with all its components.
  *
@@ -720,9 +723,8 @@ class vehicle
         void init_state( int init_veh_fuel, int init_veh_status );
 
         // damages all parts of a vehicle by a random amount
-        void smash( float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
-                    float percent_of_parts_to_affect = 1.0f, point damage_origin = point_zero,
-                    float damage_size = 0 );
+        void smash( map &m, float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
+                    float percent_of_parts_to_affect = 1.0f, point damage_origin = point_zero, float damage_size = 0 );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
@@ -804,6 +806,13 @@ class vehicle
         // merge a previously found single tile vehicle into this vehicle
         bool merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts );
 
+        /**
+         * @param handler A class that receives various callbacks, e.g. for placing items.
+         * This handler is different when called during mapgen (when items need to be placed
+         * on the temporary mapgen map), and when called during normal game play (when items
+         * go on the main map g->m).
+         */
+        bool remove_part( int p, RemovePartHandler &handler );
         bool remove_part( int p );
         void part_removal_cleanup();
 

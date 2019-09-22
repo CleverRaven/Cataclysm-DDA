@@ -6887,7 +6887,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
             // Try again with the wreckage
             std::unique_ptr<vehicle> new_veh = add_vehicle_to_map( std::move( wreckage ), true );
             if( new_veh != nullptr ) {
-                new_veh->smash();
+                new_veh->smash( *this );
                 return new_veh;
             }
 
@@ -6913,7 +6913,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
     }
 
     if( needs_smashing ) {
-        veh->smash();
+        veh->smash( *this );
     }
 
     return veh;
