@@ -1,6 +1,7 @@
 #ifndef CATA_STATS_TRACKER_H
 #define CATA_STATS_TRACKER_H
 
+#include <memory>
 #include <unordered_set>
 
 #include "event_bus.h"
@@ -9,6 +10,7 @@
 class event_statistic;
 class event_transformation;
 class score;
+class stats_tracker;
 
 // The stats_tracker is intended to keep a summary of events that have occured.
 // For each event_type it stores an event_multiset.
@@ -49,6 +51,27 @@ class event_multiset
         counts_type counts_;
 };
 
+class stat_watcher
+{
+    public:
+        virtual ~stat_watcher() = 0;
+        virtual void new_value( const cata_variant &, stats_tracker & ) = 0;
+};
+
+class event_multiset_watcher
+{
+    public:
+        virtual ~event_multiset_watcher() = 0;
+        virtual void event_added( const cata::event &, stats_tracker & ) = 0;
+        virtual void events_reset( const event_multiset &, stats_tracker & ) = 0;
+};
+
+class stats_tracker_state
+{
+    public:
+        virtual ~stats_tracker_state() = 0;
+};
+
 class stats_tracker : public event_subscriber
 {
     public:
@@ -75,6 +98,17 @@ class stats_tracker : public event_subscriber
 
         cata_variant value_of( const string_id<event_statistic> & );
 
+        void add_watcher( event_type, event_multiset_watcher * );
+        void add_watcher( const string_id<event_transformation> &, event_multiset_watcher * );
+        void add_watcher( const string_id<event_statistic> &, stat_watcher * );
+
+        void transformed_set_changed( const string_id<event_transformation> &,
+                                      const cata::event &new_element );
+        void transformed_set_changed( const string_id<event_transformation> &,
+                                      const event_multiset &new_value );
+        void stat_value_changed( const string_id<event_statistic> &,
+                                 const cata_variant &new_value );
+
         // Return all scores which are valid now and existed at game start
         std::vector<const score *> valid_scores() const;
 
@@ -85,6 +119,16 @@ class stats_tracker : public event_subscriber
         void deserialize( JsonIn & );
     private:
         std::unordered_map<event_type, event_multiset> data;
+
+        std::unordered_map<event_type, std::vector<event_multiset_watcher *>> event_type_watchers;
+        std::unordered_map<string_id<event_transformation>, std::vector<event_multiset_watcher *>>
+                event_transformation_watchers;
+        std::unordered_map<string_id<event_statistic>, std::vector<stat_watcher *>> stat_watchers;
+        std::unordered_map<string_id<event_transformation>, std::unique_ptr<stats_tracker_state>>
+                event_transformation_states;
+        std::unordered_map<string_id<event_statistic>, std::unique_ptr<stats_tracker_state>>
+                stat_states;
+
         std::unordered_set<string_id<score>> initial_scores;
 };
 

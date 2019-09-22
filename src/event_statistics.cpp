@@ -104,6 +104,7 @@ class event_transformation::impl
     public:
         virtual ~impl() = default;
         virtual event_multiset initialize( stats_tracker & ) const = 0;
+        virtual std::unique_ptr<stats_tracker_state> watch( stats_tracker & ) const = 0;
         virtual void check( const std::string &/*name*/ ) const {}
         virtual std::unique_ptr<impl> clone() const = 0;
 };
@@ -113,6 +114,7 @@ class event_statistic::impl
     public:
         virtual ~impl() = default;
         virtual cata_variant value( stats_tracker & ) const = 0;
+        virtual std::unique_ptr<stats_tracker_state> watch( stats_tracker & ) const = 0;
         virtual void check( const std::string &/*name*/ ) const {}
         virtual std::unique_ptr<impl> clone() const = 0;
 };
@@ -167,11 +169,14 @@ struct value_constraint {
 
 struct event_transformation_match : public event_transformation::impl {
     template<typename Constriants>
-    event_transformation_match( event_type type, const Constriants &constriants ) :
+    event_transformation_match( const string_id<event_transformation> &id, event_type type,
+                                const Constriants &constriants ) :
+        id_( id ),
         type_( type ),
         constraints_( constriants.begin(), constriants.end() )
     {}
 
+    string_id<event_transformation> id_;
     event_type type_;
     std::vector<std::pair<std::string, value_constraint>> constraints_;
 
@@ -187,8 +192,8 @@ struct event_transformation_match : public event_transformation::impl {
         return true;
     }
 
-    event_multiset initialize( stats_tracker &stats ) const override {
-        const event_multiset::counts_type &input = stats.get_events( type_ ).counts();
+    event_multiset initialize( const event_multiset::counts_type &input,
+                               stats_tracker &stats ) const {
         event_multiset result( type_ );
 
         for( const std::pair<const cata::event::data_type, int> &p : input ) {
@@ -197,6 +202,47 @@ struct event_transformation_match : public event_transformation::impl {
             }
         }
         return result;
+    }
+
+    event_multiset initialize( stats_tracker &stats ) const override {
+        return initialize( stats.get_events( type_ ).counts(), stats );
+    }
+
+    struct state : stats_tracker_state, event_multiset_watcher, stat_watcher {
+        state( const event_transformation_match *trans, stats_tracker &stats ) :
+            transformation_( trans ),
+            data_( trans->initialize( stats ) ) {
+            stats.add_watcher( trans->type_, this );
+            for( const auto &p : trans->constraints_ ) {
+                if( p.second.equals_statistic_ ) {
+                    stats.add_watcher( *p.second.equals_statistic_, this );
+                }
+            }
+        }
+
+        void new_value( const cata_variant &, stats_tracker &stats ) override {
+            data_ = transformation_->initialize( stats );
+            stats.transformed_set_changed( transformation_->id_, data_ );
+        }
+
+        void event_added( const cata::event &e, stats_tracker &stats ) override {
+            if( transformation_->matches( e.data(), stats ) ) {
+                data_.add( e );
+                stats.transformed_set_changed( transformation_->id_, e );
+            }
+        }
+
+        void events_reset( const event_multiset &new_value, stats_tracker &stats ) override {
+            data_ = transformation_->initialize( new_value.counts(), stats );
+            stats.transformed_set_changed( transformation_->id_, data_ );
+        }
+
+        const event_transformation_match *transformation_;
+        event_multiset data_;
+    };
+
+    std::unique_ptr<stats_tracker_state> watch( stats_tracker &stats ) const override {
+        return std::make_unique<state>( this, stats );
     }
 
     void check( const std::string &name ) const override {
@@ -215,6 +261,11 @@ event_multiset event_transformation::initialize( stats_tracker &stats ) const
     return impl_->initialize( stats );
 }
 
+std::unique_ptr<stats_tracker_state> event_transformation::watch( stats_tracker &stats ) const
+{
+    return impl_->watch( stats );
+}
+
 void event_transformation::load( const JsonObject &jo, const std::string & )
 {
     event_type type = event_type::num_event_types;
@@ -222,7 +273,7 @@ void event_transformation::load( const JsonObject &jo, const std::string & )
     std::map<std::string, value_constraint> constraints;
     mandatory( jo, was_loaded, "value_constraints", constraints );
 
-    impl_ = std::make_unique<event_transformation_match>( type, constraints );
+    impl_ = std::make_unique<event_transformation_match>( id, type, constraints );
 }
 
 void event_transformation::check() const
@@ -246,16 +297,53 @@ struct event_source {
             return stats.get_events( transformation );
         }
     }
+
+    void add_watcher( stats_tracker &stats, event_multiset_watcher *watcher ) const {
+        if( transformation.is_empty() ) {
+            stats.add_watcher( type, watcher );
+        } else {
+            stats.add_watcher( transformation, watcher );
+        }
+    }
 };
 
 struct event_statistic_count : event_statistic::impl {
-    event_statistic_count( const event_source &s ) : source( s ) {}
+    event_statistic_count( const string_id<event_statistic> &i, const event_source &s ) :
+        id( i ),
+        source( s )
+    {}
 
+    string_id<event_statistic> id;
     event_source source;
 
     cata_variant value( stats_tracker &stats ) const override {
         int count = source.get( stats ).count();
         return cata_variant::make<cata_variant_type::int_>( count );
+    }
+
+    struct state : stats_tracker_state, event_multiset_watcher {
+        state( const event_statistic_count *s, stats_tracker &stats ) :
+            stat( s ),
+            value( s->value( stats ).get<int>() ) {
+            stat->source.add_watcher( stats, this );
+        }
+
+        void event_added( const cata::event &, stats_tracker &stats ) override {
+            ++value;
+            stats.stat_value_changed( stat->id, cata_variant( value ) );
+        }
+
+        void events_reset( const event_multiset &new_set, stats_tracker &stats ) override {
+            value = new_set.count();
+            stats.stat_value_changed( stat->id, cata_variant( value ) );
+        }
+
+        const event_statistic_count *stat;
+        int value;
+    };
+
+    std::unique_ptr<stats_tracker_state> watch( stats_tracker &stats ) const override {
+        return std::make_unique<state>( this, stats );
     }
 
     std::unique_ptr<impl> clone() const override {
@@ -264,10 +352,12 @@ struct event_statistic_count : event_statistic::impl {
 };
 
 struct event_statistic_total : event_statistic::impl {
-    event_statistic_total( const event_source &s, const std::string &f ) :
-        source( s ), field( f )
+    event_statistic_total( const string_id<event_statistic> &i, const event_source &s,
+                           const std::string &f ) :
+        id( i ), source( s ), field( f )
     {}
 
+    string_id<event_statistic> id;
     event_source source;
     std::string field;
 
@@ -276,16 +366,43 @@ struct event_statistic_total : event_statistic::impl {
         return cata_variant::make<cata_variant_type::int_>( total );
     }
 
+    struct state : stats_tracker_state, event_multiset_watcher {
+        state( const event_statistic_total *s, stats_tracker &stats ) :
+            stat( s ),
+            value( s->value( stats ).get<int>() ) {
+            stat->source.add_watcher( stats, this );
+        }
+
+        void event_added( const cata::event &e, stats_tracker &stats ) override {
+            value += e.get<int>( stat->field );
+            stats.stat_value_changed( stat->id, cata_variant( value ) );
+        }
+
+        void events_reset( const event_multiset &new_set, stats_tracker &stats ) override {
+            value = new_set.total( stat->field );
+            stats.stat_value_changed( stat->id, cata_variant( value ) );
+        }
+
+        const event_statistic_total *stat;
+        int value;
+    };
+
+    std::unique_ptr<stats_tracker_state> watch( stats_tracker &stats ) const override {
+        return std::make_unique<state>( this, stats );
+    }
+
     std::unique_ptr<impl> clone() const override {
         return std::make_unique<event_statistic_total>( *this );
     }
 };
 
 struct event_statistic_unique_value : event_statistic::impl {
-    event_statistic_unique_value( event_type type, const std::string &field ) :
-        type_( type ), field_( field )
+    event_statistic_unique_value( const string_id<event_statistic> &id, event_type type,
+                                  const std::string &field ) :
+        id_( id ), type_( type ), field_( field )
     {}
 
+    string_id<event_statistic> id_;
     event_type type_;
     std::string field_;
 
@@ -301,6 +418,40 @@ struct event_statistic_unique_value : event_statistic::impl {
             return cata_variant();
         }
         return it->second;
+    }
+
+    struct state : stats_tracker_state, event_multiset_watcher {
+        state( const event_statistic_unique_value *s, stats_tracker &stats ) :
+            stat( s ),
+            count( stats.get_events( s->type_ ).count() ),
+            value( s->value( stats ) ) {
+            stats.add_watcher( stat->type_, this );
+        }
+
+        void event_added( const cata::event &e, stats_tracker &stats ) override {
+            ++count;
+            if( count == 1 ) {
+                value = e.get_variant( stat->field_ );
+            } else if( count == 2 ) {
+                value = cata_variant();
+            } else {
+                return;
+            }
+            stats.stat_value_changed( stat->id_, value );
+        }
+
+        void events_reset( const event_multiset &, stats_tracker &stats ) override {
+            *this = state( stat, stats );
+            stats.stat_value_changed( stat->id_, value );
+        }
+
+        const event_statistic_unique_value *stat;
+        int count;
+        cata_variant value;
+    };
+
+    std::unique_ptr<stats_tracker_state> watch( stats_tracker &stats ) const override {
+        return std::make_unique<state>( this, stats );
     }
 
     void check( const std::string &name ) const override {
@@ -320,6 +471,11 @@ struct event_statistic_unique_value : event_statistic::impl {
 cata_variant event_statistic::value( stats_tracker &stats ) const
 {
     return impl_->value( stats );
+}
+
+std::unique_ptr<stats_tracker_state> event_statistic::watch( stats_tracker &stats ) const
+{
+    return impl_->watch( stats );
 }
 
 void event_statistic::load( const JsonObject &jo, const std::string & )
@@ -346,18 +502,18 @@ void event_statistic::load( const JsonObject &jo, const std::string & )
     };
 
     if( type == "count" ) {
-        impl_ = std::make_unique<event_statistic_count>( get_event_source() );
+        impl_ = std::make_unique<event_statistic_count>( id, get_event_source() );
     } else if( type == "total" ) {
         std::string field;
         mandatory( jo, was_loaded, "field", field );
-        impl_ = std::make_unique<event_statistic_total>( get_event_source(), field );
+        impl_ = std::make_unique<event_statistic_total>( id, get_event_source(), field );
     } else if( type == "unique_value" ) {
         event_type event_t = event_type::num_event_types;
         mandatory( jo, was_loaded, "event_type", event_t );
         std::string field;
         mandatory( jo, was_loaded, "field", field );
 
-        impl_ = std::make_unique<event_statistic_unique_value>( event_t, field );
+        impl_ = std::make_unique<event_statistic_unique_value>( id, event_t, field );
     } else {
         jo.throw_error( "Invalid stat_type '" + type + "'" );
     }

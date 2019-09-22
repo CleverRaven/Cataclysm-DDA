@@ -120,6 +120,58 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
     }
 }
 
+struct watch_stat : stat_watcher {
+    void new_value( const cata_variant &v, stats_tracker & ) override {
+        value = v;
+    }
+    cata_variant value;
+};
+
+TEST_CASE( "stats_tracker_watchers", "[stats]" )
+{
+    stats_tracker s;
+    event_bus b;
+    b.subscribe( &s );
+
+    SECTION( "movement" ) {
+        const mtype_id no_monster;
+        const mtype_id horse( "mon_horse" );
+        const cata::event walk = cata::event::make<event_type::avatar_moves>( no_monster );
+        const cata::event ride = cata::event::make<event_type::avatar_moves>( horse );
+        const string_id<event_statistic> stat_moves( "num_moves" );
+        const string_id<event_statistic> stat_walked( "num_moves_not_mounted" );
+
+        watch_stat moves_watcher;
+        watch_stat walks_watcher;
+        s.add_watcher( stat_moves, &moves_watcher );
+        s.add_watcher( stat_walked, &walks_watcher );
+
+        CHECK( walks_watcher.value == cata_variant() );
+        CHECK( moves_watcher.value == cata_variant() );
+        b.send( walk );
+        CHECK( walks_watcher.value == cata_variant( 1 ) );
+        CHECK( moves_watcher.value == cata_variant( 1 ) );
+        b.send( ride );
+        CHECK( walks_watcher.value == cata_variant( 1 ) );
+        CHECK( moves_watcher.value == cata_variant( 2 ) );
+    }
+
+    SECTION( "damage" ) {
+        const character_id u_id = g->u.getID();
+        const cata::event avatar_2_damage =
+            cata::event::make<event_type::character_takes_damage>( u_id, 2 );
+        const string_id<event_statistic> damage_taken( "avatar_damage_taken" );
+        watch_stat damage_watcher;
+        s.add_watcher( damage_taken, &damage_watcher );
+
+        CHECK( damage_watcher.value == cata_variant() );
+        b.send<event_type::game_start>( u_id );
+        CHECK( damage_watcher.value == cata_variant( 0 ) );
+        b.send( avatar_2_damage );
+        CHECK( damage_watcher.value == cata_variant( 2 ) );
+    }
+}
+
 TEST_CASE( "stats_tracker_in_game", "[stats]" )
 {
     g->stats().clear();

@@ -66,6 +66,10 @@ void event_multiset::add( const cata::event &e )
     counts_[e.data()]++;
 }
 
+stat_watcher::~stat_watcher() = default;
+event_multiset_watcher::~event_multiset_watcher() = default;
+stats_tracker_state::~stats_tracker_state() = default;
+
 void event_multiset::add( const counts_type::value_type &e )
 {
     counts_[e.first] += e.second;
@@ -111,6 +115,63 @@ cata_variant stats_tracker::value_of( const string_id<event_statistic> &stat )
     return stat->value( *this );
 }
 
+void stats_tracker::add_watcher( event_type type, event_multiset_watcher *watcher )
+{
+    event_type_watchers[type].push_back( watcher );
+}
+
+void stats_tracker::add_watcher( const string_id<event_transformation> &id,
+                                 event_multiset_watcher *watcher )
+{
+    event_transformation_watchers[id].push_back( watcher );
+    std::unique_ptr<stats_tracker_state> &state = event_transformation_states[ id ];
+    if( !state ) {
+        state = id->watch( *this );
+    }
+}
+
+void stats_tracker::add_watcher( const string_id<event_statistic> &id, stat_watcher *watcher )
+{
+    stat_watchers[id].push_back( watcher );
+    std::unique_ptr<stats_tracker_state> &state = stat_states[ id ];
+    if( !state ) {
+        state = id->watch( *this );
+    }
+}
+
+void stats_tracker::transformed_set_changed( const string_id<event_transformation> &id,
+        const cata::event &new_element )
+{
+    auto it = event_transformation_watchers.find( id );
+    if( it != event_transformation_watchers.end() ) {
+        for( event_multiset_watcher *watcher : it->second ) {
+            watcher->event_added( new_element, *this );
+        }
+    }
+}
+
+void stats_tracker::transformed_set_changed( const string_id<event_transformation> &id,
+        const event_multiset &new_value )
+{
+    auto it = event_transformation_watchers.find( id );
+    if( it != event_transformation_watchers.end() ) {
+        for( event_multiset_watcher *watcher : it->second ) {
+            watcher->events_reset( new_value, *this );
+        }
+    }
+}
+
+void stats_tracker::stat_value_changed( const string_id<event_statistic> &id,
+                                        const cata_variant &new_value )
+{
+    auto it = stat_watchers.find( id );
+    if( it != stat_watchers.end() ) {
+        for( stat_watcher *watcher : it->second ) {
+            watcher->new_value( new_value, *this );
+        }
+    }
+}
+
 std::vector<const score *> stats_tracker::valid_scores() const
 {
     std::vector<const score *> result;
@@ -129,7 +190,15 @@ void stats_tracker::clear()
 
 void stats_tracker::notify( const cata::event &e )
 {
-    get_events( e.type() ).add( e );
+    const event_type type = e.type();
+    get_events( type ).add( e );
+
+    auto it = event_type_watchers.find( type );
+    if( it != event_type_watchers.end() ) {
+        for( event_multiset_watcher *watcher : it->second ) {
+            watcher->event_added( e, *this );
+        }
+    }
 
     if( e.type() == event_type::game_start ) {
         for( const score &scr : score::get_all() ) {

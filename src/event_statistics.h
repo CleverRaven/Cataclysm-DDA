@@ -19,12 +19,14 @@ class event_multiset;
 enum class event_type : int;
 class JsonObject;
 class stats_tracker;
+class stats_tracker_state;
 
 // A transformation from one multiset of events to another
 class event_transformation
 {
     public:
         event_multiset initialize( stats_tracker & ) const;
+        std::unique_ptr<stats_tracker_state> watch( stats_tracker & ) const;
 
         void load( const JsonObject &, const std::string & );
         void check() const;
@@ -45,6 +47,7 @@ class event_statistic
 {
     public:
         cata_variant value( stats_tracker & ) const;
+        std::unique_ptr<stats_tracker_state> watch( stats_tracker & ) const;
 
         void load( const JsonObject &, const std::string & );
         void check() const;
