@@ -31,7 +31,7 @@ int MonsterDynamic::print_info( const catacurses::window &w, int vStart, int vLi
 {
     monster::print_info( w, vStart, vLines, column );
 
-    wprintz( w, c_light_gray, _( " It is " ) + size_names.at( get_size() ) + _( "." ) );
+    wprintz( w, c_light_gray, _( " It is %s." ), size_names.at( get_size() ) );
 
     return vStart;
 }
