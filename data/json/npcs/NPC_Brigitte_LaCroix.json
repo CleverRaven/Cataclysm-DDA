@@ -41,13 +41,13 @@
       { "item": "loincloth_leather" },
       { "item": "socks" },
       { "item": "cloak" },
-      { "item": "armor_blarmor" },
+      { "item": "hsurvivor_suit" },
       { "item": "balclava" },
       { "item": "gloves_liner" },
-      { "item": "helmet_bone" },
-      { "item": "gauntlets_bone" },
-      { "item": "boots_bone" },
-      { "item": "armguard_bone" },
+      { "item": "tac_helmet" },
+      { "item": "gloves_lsurvivor" },
+      { "item": "boots_hsurvivor" },
+      { "item": "elbow_pads" },
       { "item": "survivor_goggles" },
       { "item": "survivor_pack" }
     ]
