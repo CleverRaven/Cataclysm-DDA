@@ -2,6 +2,7 @@
 
 #include "regional_settings.h"
 #include "map.h"
+#include "overmapbuffer.h"
 
 mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west,
                         oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,
@@ -13,6 +14,16 @@ mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west
     , region( rsettings )
     , m( mp )
     , default_groundcover( region.default_groundcover )
+{
+}
+
+mapgendata::mapgendata( const tripoint &over, map &m )
+    : mapgendata( overmap_buffer.ter( over + tripoint_north ),
+                  overmap_buffer.ter( over + tripoint_east ), overmap_buffer.ter( over + tripoint_south ),
+                  overmap_buffer.ter( over + tripoint_west ), overmap_buffer.ter( over + tripoint_north_east ),
+                  overmap_buffer.ter( over + tripoint_south_east ), overmap_buffer.ter( over + tripoint_south_west ),
+                  overmap_buffer.ter( over + tripoint_north_west ), overmap_buffer.ter( over + tripoint_above ),
+                  overmap_buffer.ter( over + tripoint_below ), over.z, overmap_buffer.get_settings( over ), m )
 {
 }
 

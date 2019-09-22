@@ -56,6 +56,8 @@ class mapgendata
                     oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,
                     oter_id up, oter_id down, int z, const regional_settings &rsettings, map &mp );
 
+        mapgendata( const tripoint &over, map &m );
+
         void set_dir( int dir_in, int val );
         void fill( int val );
         int &dir( int dir_in );

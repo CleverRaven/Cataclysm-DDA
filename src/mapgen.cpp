@@ -7949,27 +7949,16 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, const poi
         mission *miss, bool verify ) const
 {
     tinymap update_tmap;
-    const regional_settings &rsettings = overmap_buffer.get_settings( omt_pos );
     const tripoint sm_pos = omt_to_sm_copy( omt_pos );
     update_tmap.load( sm_pos, false );
     const std::string map_id = overmap_buffer.ter( omt_pos ).id().c_str();
-    oter_id north = overmap_buffer.ter( omt_pos + tripoint_north );
-    oter_id south = overmap_buffer.ter( omt_pos + tripoint_south );
-    oter_id east = overmap_buffer.ter( omt_pos + tripoint_east );
-    oter_id west = overmap_buffer.ter( omt_pos + tripoint_west );
-    oter_id northeast = overmap_buffer.ter( omt_pos + tripoint_north_east );
-    oter_id southeast = overmap_buffer.ter( omt_pos + tripoint_south_east );
-    oter_id northwest = overmap_buffer.ter( omt_pos + tripoint_north_west );
-    oter_id southwest = overmap_buffer.ter( omt_pos + tripoint_south_west );
-    oter_id above = overmap_buffer.ter( omt_pos + tripoint_above );
-    oter_id below = overmap_buffer.ter( omt_pos + tripoint_below );
 
-    mapgendata md( north, south, east, west, northeast, southeast, northwest, southwest,
-                   above, below, omt_pos.z, rsettings, update_tmap );
+    mapgendata md( omt_pos, update_tmap );
 
     // If the existing map is rotated, we need to rotate it back to the north
     // orientation before applying our updates.
     int rotation = 0;
+    // Yeah, because a terrain named "tt_east" (length 7) is clearly not rotated and does not to be checked.
     if( map_id.size() > 7 ) {
         if( map_id.substr( map_id.size() - 6, 6 ) == "_south" ) {
             rotation = 2;
