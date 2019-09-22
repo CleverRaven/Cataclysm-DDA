@@ -5576,7 +5576,7 @@ void player::suffer()
         mutate();
     }
     if( has_artifact_with( AEP_FORCE_TELEPORT ) && one_turn_in( 1_hours ) ) {
-        teleport::teleport( this );
+        teleport::teleport( *this );
     }
     const bool needs_fire = !has_morale( MORALE_PYROMANIA_NEARFIRE ) &&
                             !has_morale( MORALE_PYROMANIA_STARTFIRE );
