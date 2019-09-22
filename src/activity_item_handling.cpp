@@ -1214,106 +1214,112 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
     if( act == activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) ||
         act == activity_id( "ACT_VEHICLE_REPAIR" ) ) {
         std::vector<int> already_working_indexes;
+        vehicle *veh = veh_pointer_or_null( g->m.veh_at( src_loc ) );
+        if( !veh ) {
+            return activity_reason_info::fail( NO_ZONE );
+        }
+        // if the vehicle is moving or player is controlling it.
+        if( abs( veh->velocity ) > 100 || veh->player_in_control( g->u ) ) {
+            return activity_reason_info::fail( NO_ZONE );
+        }
         for( const npc &guy : g->all_npcs() ) {
             if( &guy == &p ) {
                 continue;
             }
+            // If the NPC has an activity - make sure theyre not duplicating work.
+            tripoint guy_work_spot;
+            if( guy.has_player_activity() ) {
+                guy_work_spot = g->m.getlocal( guy.activity.placement );
+            }
+            // If their position or intended position or player position/intended position
+            // then discount, dont need to move each other out of the way.
             if( g->m.getlocal( g->u.activity.placement ) == src_loc ||
-                g->m.getlocal( guy.activity.placement ) == src_loc || guy.pos() == src_loc ) {
+                guy_work_spot == src_loc || guy.pos() == src_loc || g->u.pos() == src_loc ) {
                 return activity_reason_info::fail( ALREADY_WORKING );
             }
-            if( guy.activity_vehicle_part_index != -1 ) {
-                already_working_indexes.push_back( guy.activity_vehicle_part_index );
-            }
-        }
-        vehicle *veh = veh_pointer_or_null( g->m.veh_at( src_loc ) );
-        if( !veh ) {
-            return activity_reason_info::fail( NO_ZONE );
-        } else {
-            if( act == activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) ) {
-                // find out if there is a vehicle part here we can remove.
-                std::vector<vehicle_part *> parts = veh->get_parts_at( src_loc, "", part_status_flag::any );
-                for( vehicle_part *part_elem : parts ) {
-                    const vpart_info &vpinfo = part_elem->info();
-                    int vpindex = veh->index_of_part( part_elem, true );
-                    // if part is not on this vehicle, or if its attached to another part that needs to be removed first.
-                    if( vpindex == -1 || !veh->can_unmount( vpindex ) ) {
-                        continue;
-                    }
-                    if( std::find( already_working_indexes.begin(), already_working_indexes.end(),
-                                   vpindex ) != already_working_indexes.end() ) {
-                        continue;
-                    }
-                    // if the vehicle is moving or player is controlling it.
-                    if( abs( veh->velocity ) > 100 || veh->engine_on ) {
-                        continue;
-                    }
-                    // dont have skill to remove it
-                    if( !has_skill_for_vehicle_work( vpinfo.removal_skills, p ) ) {
-                        continue;
-                    }
-                    item base( vpinfo.item );
-                    if( base.is_wheel() ) {
-                        // no wheel removal yet
-                        continue;
-                    }
-                    const int max_lift = p.best_nearby_lifting_assist( src_loc );
-                    const int lvl = ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
-                                          TOOL_LIFT_FACTOR );
-                    const bool use_aid = max_lift >= lvl;
-                    const bool use_str = p.can_lift( base );
-                    if( !( use_aid || use_str ) ) {
-                        continue;
-                    }
-                    const auto &reqs = vpinfo.removal_requirements();
-                    const inventory &inv = p.crafting_inventory();
-                    const bool can_make = reqs.can_make_with_inventory( inv, is_crafting_component );
-                    p.set_value( "veh_index_type", vpinfo.name() );
-                    // temporarily store the intended index, we do this so two NPCs dont try and work on the same part at same time.
-                    p.activity_vehicle_part_index = vpindex;
-                    if( !can_make ) {
-                        return activity_reason_info::fail( NEEDS_VEH_DECONST );
-                    } else {
-                        return activity_reason_info::ok( NEEDS_VEH_DECONST );
-                    }
-                }
-            } else if( act == activity_id( "ACT_VEHICLE_REPAIR" ) ) {
-                // find out if there is a vehicle part here we can repair.
-                std::vector<vehicle_part *> parts = veh->get_parts_at( src_loc, "", part_status_flag::any );
-                for( vehicle_part *part_elem : parts ) {
-                    const vpart_info &vpinfo = part_elem->info();
-                    int vpindex = veh->index_of_part( part_elem, true );
-                    // if part is undamaged or beyond repair - can skip it.
-                    if( part_elem->is_broken() || part_elem->damage() == 0 ) {
-                        continue;
-                    }
-                    // if the vehicle is moving or player is controlling it.
-                    if( abs( veh->velocity ) > 100 || veh->engine_on ) {
-                        continue;
-                    }
-                    if( std::find( already_working_indexes.begin(), already_working_indexes.end(),
-                                   vpindex ) != already_working_indexes.end() ) {
-                        continue;
-                    }
-                    // dont have skill to repair it
-                    if( !has_skill_for_vehicle_work( vpinfo.repair_skills, p ) ) {
-                        continue;
-                    }
-                    const auto &reqs = vpinfo.repair_requirements();
-                    const inventory &inv = p.crafting_inventory();
-                    const bool can_make = reqs.can_make_with_inventory( inv, is_crafting_component );
-                    p.set_value( "veh_index_type", vpinfo.name() );
-                    // temporarily store the intended index, we do this so two NPCs dont try and work on the same part at same time.
-                    p.activity_vehicle_part_index = vpindex;
-                    if( !can_make ) {
-                        return activity_reason_info::fail( NEEDS_VEH_REPAIR );
-                    } else {
-                        return activity_reason_info::ok( NEEDS_VEH_REPAIR );
-                    }
+            if( guy_work_spot != tripoint_zero ) {
+                vehicle *other_veh = veh_pointer_or_null( g->m.veh_at( guy_work_spot ) );
+                // working on same vehicle - store the index to check later.
+                if( other_veh && other_veh == veh && guy.activity_vehicle_part_index != -1 ) {
+                    already_working_indexes.push_back( guy.activity_vehicle_part_index );
                 }
             }
-            return activity_reason_info::fail( NO_ZONE );
         }
+        if( act == activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) ) {
+            // find out if there is a vehicle part here we can remove.
+            std::vector<vehicle_part *> parts = veh->get_parts_at( src_loc, "", part_status_flag::any );
+            for( vehicle_part *part_elem : parts ) {
+                const vpart_info &vpinfo = part_elem->info();
+                int vpindex = veh->index_of_part( part_elem, true );
+                // if part is not on this vehicle, or if its attached to another part that needs to be removed first.
+                if( vpindex == -1 || !veh->can_unmount( vpindex ) ) {
+                    continue;
+                }
+                if( std::find( already_working_indexes.begin(), already_working_indexes.end(),
+                               vpindex ) != already_working_indexes.end() ) {
+                    continue;
+                }
+                // dont have skill to remove it
+                if( !has_skill_for_vehicle_work( vpinfo.removal_skills, p ) ) {
+                    continue;
+                }
+                item base( vpinfo.item );
+                if( base.is_wheel() ) {
+                    // no wheel removal yet
+                    continue;
+                }
+                const int max_lift = p.best_nearby_lifting_assist( src_loc );
+                const int lvl = ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
+                                      TOOL_LIFT_FACTOR );
+                const bool use_aid = max_lift >= lvl;
+                const bool use_str = p.can_lift( base );
+                if( !( use_aid || use_str ) ) {
+                    continue;
+                }
+                const auto &reqs = vpinfo.removal_requirements();
+                const inventory &inv = p.crafting_inventory();
+                const bool can_make = reqs.can_make_with_inventory( inv, is_crafting_component );
+                p.set_value( "veh_index_type", vpinfo.name() );
+                // temporarily store the intended index, we do this so two NPCs dont try and work on the same part at same time.
+                p.activity_vehicle_part_index = vpindex;
+                if( !can_make ) {
+                    return activity_reason_info::fail( NEEDS_VEH_DECONST );
+                } else {
+                    return activity_reason_info::ok( NEEDS_VEH_DECONST );
+                }
+            }
+        } else if( act == activity_id( "ACT_VEHICLE_REPAIR" ) ) {
+            // find out if there is a vehicle part here we can repair.
+            std::vector<vehicle_part *> parts = veh->get_parts_at( src_loc, "", part_status_flag::any );
+            for( vehicle_part *part_elem : parts ) {
+                const vpart_info &vpinfo = part_elem->info();
+                int vpindex = veh->index_of_part( part_elem, true );
+                // if part is undamaged or beyond repair - can skip it.
+                if( part_elem->is_broken() || part_elem->damage() == 0 ) {
+                    continue;
+                }
+                if( std::find( already_working_indexes.begin(), already_working_indexes.end(),
+                               vpindex ) != already_working_indexes.end() ) {
+                    continue;
+                }
+                // dont have skill to repair it
+                if( !has_skill_for_vehicle_work( vpinfo.repair_skills, p ) ) {
+                    continue;
+                }
+                const auto &reqs = vpinfo.repair_requirements();
+                const inventory &inv = p.crafting_inventory();
+                const bool can_make = reqs.can_make_with_inventory( inv, is_crafting_component );
+                p.set_value( "veh_index_type", vpinfo.name() );
+                // temporarily store the intended index, we do this so two NPCs dont try and work on the same part at same time.
+                p.activity_vehicle_part_index = vpindex;
+                if( !can_make ) {
+                    return activity_reason_info::fail( NEEDS_VEH_REPAIR );
+                } else {
+                    return activity_reason_info::ok( NEEDS_VEH_REPAIR );
+                }
+            }
+        }
+        return activity_reason_info::fail( NO_ZONE );
     }
     if( act == activity_id( "ACT_MULTIPLE_FISH" ) ) {
         if( !g->m.has_flag( "FISHABLE", src_loc ) ) {
@@ -2471,7 +2477,7 @@ void generic_multi_activity_handler( player_activity &act, player &p )
                 vehicle *veh = veh_pointer_or_null( g->m.veh_at( src_loc ) );
                 // we already checked this in can_do_activity() but check again just incase.
                 if( !veh ) {
-                    p.activity_vehicle_part_index = 1;
+                    p.activity_vehicle_part_index = -1;
                     continue;
                 }
                 const vpart_info &vpinfo = veh->part_info( p.activity_vehicle_part_index );
