@@ -1869,6 +1869,7 @@
   {
     "type": "recipe",
     "result": "improve_sights",
+    "obsolete": true
   },
   {
     "result": "washcloth",
