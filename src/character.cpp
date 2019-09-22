@@ -2331,10 +2331,10 @@ std::string enum_to_string<Character::stat>( Character::stat data )
 {
     switch( data ) {
         // *INDENT-OFF*
-    case Character::stat::STRENGTH: return "STR";
-    case Character::stat::DEXTERITY: return "DEX";
+    case Character::stat::STRENGTH:     return "STR";
+    case Character::stat::DEXTERITY:    return "DEX";
     case Character::stat::INTELLIGENCE: return "INT";
-    case Character::stat::PERCEPTION: return  "PER";
+    case Character::stat::PERCEPTION:   return "PER";
 
         // *INDENT-ON*
         case Character::stat::DUMMY_STAT:
@@ -3949,12 +3949,12 @@ std::string get_stat_name( Character::stat Stat )
 {
     switch( Stat ) {
         // *INDENT-OFF*
-    case Character::stat::STRENGTH: return pgettext("strength stat", "STR");
-    case Character::stat::DEXTERITY: return pgettext("dexterity stat", "DEX");
+    case Character::stat::STRENGTH:     return pgettext("strength stat", "STR");
+    case Character::stat::DEXTERITY:    return pgettext("dexterity stat", "DEX");
     case Character::stat::INTELLIGENCE: return pgettext("intelligence stat", "INT");
-    case Character::stat::PERCEPTION: return pgettext("perception stat", "PER");
+    case Character::stat::PERCEPTION:   return pgettext("perception stat", "PER");
 
-    case Character::stat::DUMMY_STAT: return pgettext( "fake stat there's an error", "ERR" );
+    case Character::stat::DUMMY_STAT:   return pgettext( "fake stat there's an error", "ERR" );
             break;
     }
 }
