@@ -951,7 +951,7 @@ void npc::finish_read( item &book )
         }
     }
 
-    // NPCs can't learn martial arts from manuals (yet).
+    // NPCs can't learn martial arts from manuals (yet)
 
     if( continuous ) {
         activity.set_to_null();
