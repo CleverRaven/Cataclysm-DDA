@@ -226,7 +226,7 @@
     "items": [
       { "item": "h&k416a5", "prob": 50, "charges-min": 0, "charges-max": 30 },
       { "item": "m107a1", "prob": 30, "charges-min": 0, "charges-max": 10 },
-      { "item": "as50", "prob": 30, "charges-min": 0, "charges-max": 10 },
+      { "item": "as50", "prob": 20, "charges-min": 0, "charges-max": 10 },
       { "item": "m134", "prob": 10, "charges-min": 0, "charges-max": 100 },
       { "item": "m14ebr", "prob": 10, "charges-min": 0, "charges-max": 20 },
       { "item": "m2010", "prob": 20, "charges-min": 0, "charges-max": 5 },
