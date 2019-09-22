@@ -1343,9 +1343,9 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                 int y = 0;
                 for( const auto &e : pt.faults() ) {
                     y += fold_and_print( w_msg, point( 1, y ), getmaxx( w_msg ) - 2, c_red,
-                                         _( "Faulty %1$s" ), e.obj().name() );
+                                         "%s", e.obj().name() );
                     y += fold_and_print( w_msg, point( 3, y ), getmaxx( w_msg ) - 4, c_light_gray,
-                                         e.obj().description() );
+                                         "%s", e.obj().description() );
                     y++;
                 }
                 wrefresh( w_msg );

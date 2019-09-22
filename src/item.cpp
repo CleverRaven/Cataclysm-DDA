@@ -2818,7 +2818,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( parts->test( iteminfo_parts::DESCRIPTION_FAULTS ) ) {
             for( const fault_id &e : faults ) {
                 //~ %1$s is the name of a fault and %2$s is the description of the fault
-                info.emplace_back( "DESCRIPTION", string_format( _( "* <bad>Faulty %1$s</bad>.  %2$s" ),
+                info.emplace_back( "DESCRIPTION", string_format( _( "* <bad>%1$s</bad>.  %2$s" ),
                                    e.obj().name(), e.obj().description() ) );
             }
         }
