@@ -7,6 +7,7 @@
 #include "catch/catch.hpp"
 #include "cata_utility.h"
 #include "ballistics.h"
+#include "creature.h"
 #include "dispersion.h"
 #include "map_helpers.h"
 #include "npc.h"
@@ -342,15 +343,23 @@ static void range_test( const std::array<double, 5> &test_thresholds, bool write
     }
     if( write_data )
     {
-        write_to_file( "./data/json/hit_range.json", [&]( std::ostream & fsa ){
-            JsonOut j_out( fsa );
-            j_out.start_array();
-            j_out.start_object();
-            j_out.member( "type", "hit_range" );
-            j_out.member( "even_good", data );
-            j_out.end_object();
-            j_out.end_array();
-        }, _( "hit_range file" ) );
+        if( std::equal( data.begin(), data.end(),
+                        Creature::dispersion_for_even_chance_of_good_hit.begin(),
+                        Creature::dispersion_for_even_chance_of_good_hit.end(),
+                        []( const int a, const int b ) -> bool {
+            return a > 0 && b > 0 && std::abs( static_cast<float>( a - b ) / b ) < 0.05;
+        } ) )
+        {
+            write_to_file( "./data/json/hit_range.json", [&]( std::ostream & fsa ){
+                JsonOut j_out( fsa );
+                j_out.start_array();
+                j_out.start_object();
+                j_out.member( "type", "hit_range" );
+                j_out.member( "even_good", data );
+                j_out.end_object();
+                j_out.end_array();
+            }, _( "hit_range file" ) );
+        }
     }
 }
 
