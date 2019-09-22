@@ -122,7 +122,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
             const player_activity &act = g->u.activity;
             if( act.id() == activity_id( "ACT_VEHICLE" ) && act.moves_left > 0 && act.values.size() > 6 ) {
                 if( veh_pointer_or_null( g->m.veh_at( tripoint( act.values[0], act.values[1],
-                                                    g->u.posz() ) ) ) == &veh ) {
+                                                      g->u.posz() ) ) ) == &veh ) {
                     if( act.values[6] >= part ) {
                         g->u.cancel_activity();
                         add_msg( m_info, _( "The vehicle part you were working on has gone!" ) );
