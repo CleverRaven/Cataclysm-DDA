@@ -284,6 +284,7 @@ class spell
         int xp() const;
         // gain some exp
         void gain_exp( int nxp );
+        void set_exp( int nxp );
         // how much xp you get if you successfully cast the spell
         int casting_exp( const player &p ) const;
         // modifier for gaining exp

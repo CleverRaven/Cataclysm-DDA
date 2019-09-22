@@ -730,6 +730,11 @@ void spell::gain_exp( int nxp )
     experience += nxp;
 }
 
+void spell::set_exp( int nxp )
+{
+    experience = nxp;
+}
+
 std::string spell::energy_string() const
 {
     switch( type->energy_source ) {
@@ -1117,7 +1122,11 @@ void known_magic::deserialize( JsonIn &jsin )
         std::string id = jo.get_string( "id" );
         spell_id sp = spell_id( id );
         int xp = jo.get_int( "xp" );
-        spellbook.emplace( sp, spell( sp, xp ) );
+        if( knows_spell( sp ) ) {
+            spellbook[sp].set_exp( xp );
+        } else {
+            spellbook.emplace( sp, spell( sp, xp ) );
+        }
     }
 }
 
@@ -1150,6 +1159,10 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
 {
     if( !sp->is_valid() ) {
         debugmsg( "Tried to learn invalid spell" );
+        return;
+    }
+    if( p.magic.knows_spell( sp->id ) ) {
+        // you already know the spell
         return;
     }
     spell temp_spell( sp->id );
