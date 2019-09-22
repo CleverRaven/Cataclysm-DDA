@@ -482,6 +482,8 @@ class player : public Character
         void ma_static_effects();
         /** Fires all move-triggered martial arts events */
         void ma_onmove_effects();
+        /** Fires all pause-triggered martial arts events */
+        void ma_onpause_effects();
         /** Fires all hit-triggered martial arts events */
         void ma_onhit_effects();
         /** Fires all attack-triggered martial arts events */

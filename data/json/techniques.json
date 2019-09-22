@@ -1108,6 +1108,58 @@
   },
   {
     "type": "technique",
+    "id": "niten_water_cut",
+    "name": "Flowing Water Cut",
+    "messages": [ "You strike %s with the slow power of flowing water", "<npcname> strikes %s with the slow power of flowing water" ],
+    "min_melee": 4,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "movecost", 1.75 ], [ "damage", "bash", 2.0 ], [ "damage", "cut", 2.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "niten_red_leaf",
+    "name": "Red Leaf's Cut",
+    "messages": [ "Your strike knocks %s off balance", "<npcname>'s strike knocks %s off balance" ],
+    "min_melee": 3,
+    "melee_allowed": true,
+    "down_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "niten_stone_cut",
+    "name": "Fire and Stone's Cut",
+    "messages": [ "You stun %s with the force of your cut", "<npcname> stuns %s with the force of their cut" ],
+    "min_melee": 5,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "niten_timing_attack",
+    "name": "In-One Timing",
+    "messages": [ "You strike at %s's weaknesses", "<npcname> strikes %s's weaknesses" ],
+    "min_melee": 5,
+    "melee_allowed": true,
+    "req_buffs": [ "buff_niten_ondodge" ],
+    "crit_ok": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "niten_feint",
+    "name": "Feint",
+    "messages": [ "You feint at %s", "<npcname> feints at %s" ],
+    "min_melee": 2,
+    "melee_allowed": true,
+    "defensive": true,
+    "miss_recovery": true,
+    "mult_bonuses": [ [ "movecost", 0.8 ] ]
+  },
+  {
+    "type": "technique",
     "id": "tec_pankration_kick",
     "name": "kick",
     "min_unarmed": 3,
@@ -1334,58 +1386,6 @@
     "crit_tec": true,
     "messages": [ "You strike out at %s", "<npcname> strikes out at %s" ],
     "stun_dur": 2
-  },
-  {
-    "type": "technique",
-    "id": "niten_water_cut",
-    "name": "Flowing Water Cut",
-    "min_melee": 4,
-    "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 1.75 ], [ "damage", "bash", 2.0 ], [ "damage", "cut", 2.0 ] ],
-    "messages": [ "You strike %s with the slow power of flowing water", "<npcname> strikes %s with the slow power of flowing water" ]
-  },
-  {
-    "type": "technique",
-    "id": "niten_red_leaf",
-    "name": "Red Leaf's Cut",
-    "min_melee": 5,
-    "melee_allowed": true,
-    "down_dur": 2,
-    "messages": [ "Your strike knocks %s off balance", "<npcname>'s strike knocks %s off balance" ]
-  },
-  {
-    "type": "technique",
-    "id": "niten_stone_cut",
-    "name": "Fire and Stone's Cut",
-    "min_melee": 6,
-    "melee_allowed": true,
-    "crit_tec": true,
-    "mult_bonuses": [ [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ] ],
-    "messages": [ "You stun %s with the force of the blow", "<npcname> stuns %s with the force of the blow" ],
-    "stun_dur": 2
-  },
-  {
-    "type": "technique",
-    "id": "niten_timing_attack",
-    "name": "In-One Timing",
-    "min_melee": 5,
-    "melee_allowed": true,
-    "req_buffs": [ "niten_set-up" ],
-    "messages": [ "You strike at %s's weaknesses", "<npcname> strikes %s's weaknesses" ],
-    "//": "Damage bonus plus Quick is severely powerful--generi-Quick takes a damage nerf.",
-    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ] ],
-    "stun_dur": 2
-  },
-  {
-    "type": "technique",
-    "id": "niten_feint",
-    "name": "feint at",
-    "min_melee": 2,
-    "melee_allowed": true,
-    "defensive": true,
-    "miss_recovery": true,
-    "mult_bonuses": [ [ "movecost", 0.8 ] ],
-    "messages": [ "You feint at %s", "<npcname> feints at %s" ]
   },
   {
     "type": "technique",

@@ -2470,6 +2470,9 @@ void player::pause()
                                    _( "<npcname> attempts to put out the fire on them!" ) );
         }
     }
+    
+    // on-pause effects for martial arts
+    ma_onpause_effects();
 
     if( is_npc() ) {
         // The stuff below doesn't apply to NPCs

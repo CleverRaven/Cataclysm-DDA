@@ -227,6 +227,7 @@ void martialart::load( JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "static_buffs", static_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onmove_buffs", onmove_buffs, ma_buff_reader{} );
+    optional( jo, was_loaded, "onpause_buffs", onpause_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onhit_buffs", onhit_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onattack_buffs", onattack_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "ondodge_buffs", ondodge_buffs, ma_buff_reader{} );
@@ -693,6 +694,11 @@ void martialart::apply_onmove_buffs( player &u ) const
     simultaneous_add( u, onmove_buffs );
 }
 
+void martialart::apply_onpause_buffs( player &u ) const
+{
+    simultaneous_add( u, onpause_buffs );
+}
+
 void martialart::apply_onhit_buffs( player &u ) const
 {
     simultaneous_add( u, onhit_buffs );
@@ -942,6 +948,10 @@ void player::ma_static_effects()
 void player::ma_onmove_effects()
 {
     style_selected.obj().apply_onmove_buffs( *this );
+}
+void player::ma_onpause_effects()
+{
+    style_selected.obj().apply_onpause_buffs( *this );
 }
 void player::ma_onhit_effects()
 {
@@ -1332,6 +1342,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         buff_desc( _( "Passive" ), ma.static_buffs, true );
         buff_desc( _( "Move" ), ma.onmove_buffs );
+        buff_desc( _( "Pause" ), ma.onpause_buffs );
         buff_desc( _( "Hit" ), ma.onhit_buffs );
         buff_desc( _( "Miss" ), ma.onmiss_buffs );
         buff_desc( _( "Attack" ), ma.onattack_buffs );
