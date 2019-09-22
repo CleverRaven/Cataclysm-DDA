@@ -83,7 +83,7 @@ event_multiset &stats_tracker::get_events( event_type type )
 event_multiset stats_tracker::get_events(
     const string_id<event_transformation> &transform_id )
 {
-    return transform_id->initialize( *this );
+    return transform_id->value( *this );
 }
 
 cata_variant stats_tracker::value_of( const string_id<event_statistic> &stat )

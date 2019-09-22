@@ -256,7 +256,7 @@ struct event_transformation_match : public event_transformation::impl {
     }
 };
 
-event_multiset event_transformation::initialize( stats_tracker &stats ) const
+event_multiset event_transformation::value( stats_tracker &stats ) const
 {
     return impl_->initialize( stats );
 }
