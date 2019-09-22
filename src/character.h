@@ -877,6 +877,8 @@ class Character : public Creature, public visitable<Character>
         std::shared_ptr<monster> mounted_creature;
         // for loading NPC mounts
         int mounted_creature_id;
+        // for vehicle work
+        int activity_vehicle_part_index = -1;
 
         void initialize_stomach_contents();
 

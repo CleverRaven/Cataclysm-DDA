@@ -3,7 +3,6 @@
 #include <climits>
 #include <algorithm>
 #include <list>
-#include <iostream>
 #include <vector>
 #include <iterator>
 #include <memory>
@@ -882,6 +881,7 @@ static void vehicle_activity( player &p, const tripoint src_loc, int vpindex, ch
     if( !veh ) {
         return;
     }
+    int time_to_take = 0;
     if( vpindex >= static_cast<int>( veh->parts.size() ) ) {
         // if parts got removed dduring our work, we cant just carry on removing, we want to repair parts!
         // so just bail out, as we dont know if th enext shifted part is suitable for repair.
@@ -896,8 +896,12 @@ static void vehicle_activity( player &p, const tripoint src_loc, int vpindex, ch
     }
     const vpart_info &vp = veh->part_info( vpindex );
     const vehicle_part part = veh->parts[ vpindex ];
-    p.assign_activity( activity_id( "ACT_VEHICLE" ),
-                       vp.repair_time( p ) * part.damage() / part.max_damage(), static_cast<int>( type ) );
+    if( type == 'r' ) {
+        time_to_take = vp.repair_time( p ) * part.damage() / part.max_damage();
+    } else if( type == 'o' ) {
+        time_to_take = vp.removal_time( p );
+    }
+    p.assign_activity( activity_id( "ACT_VEHICLE" ), time_to_take, static_cast<int>( type ) );
     // so , NPCs can remove the last part on a position, then there is no vehicle there anymore,
     // for someone else who stored that position at the start of their activity.
     // so we may need to go looking a bit further afield to find it , at activities end.
@@ -1228,7 +1232,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
             }
             // If the NPC has an activity - make sure theyre not duplicating work.
             tripoint guy_work_spot;
-            if( guy.has_player_activity() ) {
+            if( guy.has_player_activity() && guy.activity.placement != tripoint_min ) {
                 guy_work_spot = g->m.getlocal( guy.activity.placement );
             }
             // If their position or intended position or player position/intended position
@@ -1245,6 +1249,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 }
             }
         }
+        // insert code here for checking same vehicle work.
         if( act == activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) ) {
             // find out if there is a vehicle part here we can remove.
             std::vector<vehicle_part *> parts = veh->get_parts_at( src_loc, "", part_status_flag::any );
@@ -1255,6 +1260,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 if( vpindex == -1 || !veh->can_unmount( vpindex ) ) {
                     continue;
                 }
+                // this is the same part that somebody else wants to work on, or already is.
                 if( std::find( already_working_indexes.begin(), already_working_indexes.end(),
                                vpindex ) != already_working_indexes.end() ) {
                     continue;
@@ -1319,6 +1325,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                 }
             }
         }
+        p.activity_vehicle_part_index = -1;
         return activity_reason_info::fail( NO_ZONE );
     }
     if( act == activity_id( "ACT_MULTIPLE_FISH" ) ) {
@@ -2281,6 +2288,16 @@ static bool chop_tree_activity( player &p, const tripoint &src_loc )
     return false;
 }
 
+static void check_npc_revert( player &p )
+{
+    if( p.is_npc() ) {
+        npc *guy = dynamic_cast<npc *>( &p );
+        if( guy ) {
+            guy->revert_after_activity();
+        }
+    }
+}
+
 void generic_multi_activity_handler( player_activity &act, player &p )
 {
     // First get the things that are activity-agnostic.
@@ -2558,6 +2575,7 @@ void generic_multi_activity_handler( player_activity &act, player &p )
                     if( candidates.empty() ) {
                         p.activity = player_activity();
                         p.backlog.clear();
+                        check_npc_revert( p );
                         return;
                     }
                     p.backlog.front().coords.push_back( g->m.getabs( candidates[std::max( 0,
@@ -2573,12 +2591,12 @@ void generic_multi_activity_handler( player_activity &act, player &p )
 
             // check if we found path to source / adjacent tile
             if( route.empty() ) {
+                check_npc_revert( p );
                 return;
             }
             if( p.moves <= 0 ) {
                 // Restart activity and break from cycle.
                 p.assign_activity( activity_to_restore );
-                p.activity_vehicle_part_index = -1;
                 return;
             }
             // set the destination and restart activity after player arrives there
@@ -2645,24 +2663,24 @@ void generic_multi_activity_handler( player_activity &act, player &p )
         } else if( reason == NEEDS_VEH_DECONST ) {
             p.backlog.push_front( activity_to_restore );
             vehicle_activity( p, src_loc, p.activity_vehicle_part_index, 'o' );
+            p.activity_vehicle_part_index = -1;
             return;
         } else if( reason == NEEDS_VEH_REPAIR ) {
             p.backlog.push_front( activity_to_restore );
             vehicle_activity( p, src_loc, p.activity_vehicle_part_index, 'r' );
+            p.activity_vehicle_part_index = -1;
             return;
         }
     }
     if( p.moves <= 0 ) {
         // Restart activity and break from cycle.
         p.assign_activity( activity_to_restore );
+        p.activity_vehicle_part_index = -1;
         return;
     }
     // if we got here, we need to revert otherwise NPC will be stuck in AI Limbo and have a head explosion.
     if( p.backlog.empty() || src_set.empty() ) {
-        if( p.is_npc() ) {
-            npc *guy = dynamic_cast<npc *>( &p );
-            guy->revert_after_activity();
-        }
+        check_npc_revert( p );
         // tidy up leftover moved parts and tools left lying near the work spots.
         if( activity_to_restore == activity_id( "ACT_MULTIPLE_FARM" ) ||
             activity_to_restore == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ||
@@ -2672,9 +2690,16 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             activity_to_restore == activity_id( "ACT_VEHICLE_REPAIR" ) ||
             activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ) {
             p.assign_activity( activity_id( "ACT_TIDY_UP" ) );
+            if( p.is_npc() ) {
+                npc *guy = dynamic_cast<npc *>( &p );
+                if( guy ) {
+                    guy->set_attitude( NPCATT_ACTIVITY );
+                    guy->set_mission( NPC_MISSION_ACTIVITY );
+                }
+            }
         }
-        p.activity_vehicle_part_index = -1;
     }
+    p.activity_vehicle_part_index = -1;
 }
 
 static cata::optional<tripoint> find_best_fire( const std::vector<tripoint> &from,

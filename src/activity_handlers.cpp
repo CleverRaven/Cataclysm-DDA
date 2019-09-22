@@ -3187,8 +3187,9 @@ void activity_handlers::churn_finish( player_activity *act, player *p )
 void activity_handlers::churn_do_turn( player_activity *act, player *p )
 {
     ( void )act;
-    ( void )p;
-    p->set_moves( 0 );
+    if( p->is_npc() ) {
+        p->set_moves( 0 );
+    }
 }
 
 void activity_handlers::build_do_turn( player_activity *act, player *p )

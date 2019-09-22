@@ -387,7 +387,8 @@ void Character::load( JsonObject &data )
     data.read( "stored_calories", stored_calories );
     data.read( "radiation", radiation );
     data.read( "oxygen", oxygen );
-
+    // npc activity on vehicles.
+    data.read( "activity_vehicle_part_index", activity_vehicle_part_index );
     // health
     data.read( "healthy", healthy );
     data.read( "healthy_mod", healthy_mod );
@@ -541,6 +542,7 @@ void Character::store( JsonOut &json ) const
     json.member( "per_bonus", per_bonus );
     json.member( "int_bonus", int_bonus );
 
+    json.member( "activity_vehicle_part_index", activity_vehicle_part_index ); // NPC activity
     // health
     json.member( "healthy", healthy );
     json.member( "healthy_mod", healthy_mod );
@@ -642,7 +644,6 @@ void player::store( JsonOut &json ) const
     json.end_array();
 
     json.member( "worn", worn ); // also saves contents
-    json.member( "activity_vehicle_part_index", activity_vehicle_part_index ); // NPC activity
     json.member( "inv" );
     inv.json_save_items( json );
 
@@ -789,8 +790,6 @@ void player::load( JsonObject &data )
 
     on_stat_change( "pkill", pkill );
     on_stat_change( "perceived_pain", get_perceived_pain() );
-
-    data.read( "activity_vehicle_part_index", activity_vehicle_part_index );
 
     int tmptar;
     int tmptartyp = 0;
