@@ -3892,7 +3892,7 @@
     "price": 1000,
     "to_hit": -1,
     "bashing": 2,
-    "material": "plastic",
+    "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": "tape",
