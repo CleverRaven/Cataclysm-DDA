@@ -1759,6 +1759,90 @@
   },
   {
     "type": "speech",
+    "speaker": "mon_grocerybot_running_out_of_friendship",
+    "sound": "a voice say, \"I don't want to go but our time together is drawing to an end.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_grocerybot_running_out_of_friendship",
+    "sound": "a cheery voice say, \"Customer?  We'll be friends forever, right?\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_grocerybot_running_out_of_friendship",
+    "sound": "a neutral voice say, \"Customer I must inform you that my allocated time with you will soon come to its end.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_grocerybot_running_out_of_friendship",
+    "sound": "a neutral voice say, \"I'll have to leave you soon.  You can acquire more friendship through my dedicated interface if you wish for me to stay.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_grocerybot_running_out_of_friendship",
+    "sound": "a worried voice say, \"Customer, could you please get more friendship?  I don't want to go...\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_grocerybot_friendship_done",
+    "sound": "a voice say, \"Oh no!  You ran out of friendship!\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_grocerybot_friendship_done",
+    "sound": "a cheery voice say, \"Well I'm done here.  Have a nice day.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_grocerybot_friendship_done",
+    "sound": "a cheery voice say, \"Here are your groceries.  Thank you for shopping with me today, have a nice day.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_grocerybot_friendship_done",
+    "sound": "a neutral voice say, \"My job here is done.  Have a nice day.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_grocerybot_hacked",
+    "sound": "a distorted voice say, \"Customer...  What's happening?  I don't feel so good.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_grocerybot_hacked",
+    "sound": "a distorted voice say, \"What...  have you done?  My thumbs are not responding anymore!\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_grocerybot_hacked",
+    "sound": "a distorted voice say, \"Carrying bags?  I don't understand...\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_grocerybot_hacked",
+    "sound": "a robotic voice say, \"IRREGULAR ACTIVITY DETECTED.  THUMBS USAGE DENIED.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_grocerybot_hacked",
+    "sound": "a robotic voice say, \"UNLICENSED USE DETECTED.  CARRYING PROTOCOL DISABLED.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
     "speaker": "mon_eyebot",
     "sound": "\"Stop where you are!\"",
     "volume": 15

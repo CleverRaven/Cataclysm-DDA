@@ -603,6 +603,7 @@
     "computers": {
       "6": {
         "name": "Bionic Vault",
+        "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
         "security": 3,
         "options": [
           { "name": "MANIFEST", "action": "list_bionics", "security": 0 },

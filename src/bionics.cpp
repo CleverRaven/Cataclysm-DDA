@@ -16,6 +16,7 @@
 #include "assign.h"
 #include "ballistics.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "debug.h"
 #include "effect.h"
 #include "event_bus.h"
@@ -856,6 +857,17 @@ bool player::burn_fuel( int b, bool start )
                     charge_power( tmp_fuel.fuel_energy() *bio.info().fuel_efficiency );
                     set_value( fuel, std::to_string( temp ) );
                     update_fuel_storage( fuel );
+                    if( bio.info().exothermic_power_gen ) {
+                        const int heat_prod = tmp_fuel.fuel_energy() * ( 1 - bio.info().fuel_efficiency );
+                        const int heat_level = std::min( heat_prod / 10, 4 );
+                        const int heat_spread = std::max( heat_prod / 10 - heat_level, 1 );
+                        const emit_id hotness = emit_id( "emit_hot_air" + to_string( heat_level ) + "_cbm" );
+                        g->m.emit_field( pos(), hotness, heat_spread );
+                        for( const auto bp : bio.info().occupied_bodyparts ) {
+                            add_effect( efftype_id( "heating_bionic" ), 2_seconds, bp.first, false, heat_prod );
+                        }
+                    }
+                    g->m.emit_field( pos(), bio.info().power_gen_emission );
                 } else {
                     remove_value( fuel );
                     add_msg_player_or_npc( m_info, _( "Your %s runs out of fuel and turn off." ),
@@ -2092,6 +2104,8 @@ void load_bionic( JsonObject &jsobj )
     new_bionic.weight_capacity_modifier = jsobj.get_float( "weight_capacity_modifier", 1.0 );
 
     assign( jsobj, "weight_capacity_bonus", new_bionic.weight_capacity_bonus, false, 0_gram );
+    assign( jsobj, "exothermic_power_gen", new_bionic.exothermic_power_gen );
+    assign( jsobj, "power_gen_emission", new_bionic.power_gen_emission );
 
     jsobj.read( "canceled_mutations", new_bionic.canceled_mutations );
     jsobj.read( "included_bionics", new_bionic.included_bionics );
@@ -2100,32 +2114,37 @@ void load_bionic( JsonObject &jsobj )
     jsobj.read( "fuel_options", new_bionic.fuel_opts );
     jsobj.read( "fuel_capacity", new_bionic.fuel_capacity );
 
-    JsonArray jsar = jsobj.get_array( "encumbrance" );
-    if( !jsar.empty() ) {
-        while( jsar.has_more() ) {
-            JsonArray ja = jsar.next_array();
-            new_bionic.encumbrance.emplace( get_body_part_token( ja.get_string( 0 ) ),
-                                            ja.get_int( 1 ) );
-        }
+    JsonArray jsr = jsobj.get_array( "stat_bonus" );
+    while( jsr.has_more() ) {
+        JsonArray ja = jsr.next_array();
+        new_bionic.stat_bonus.emplace( io::string_to_enum<Character::stat>( ja.get_string( 0 ) ),
+                                       ja.get_int( 1 ) );
     }
+
+
+    JsonArray jsar = jsobj.get_array( "encumbrance" );
+    while( jsar.has_more() ) {
+        JsonArray ja = jsar.next_array();
+        new_bionic.encumbrance.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                        ja.get_int( 1 ) );
+    }
+
 
     JsonArray jsarr = jsobj.get_array( "occupied_bodyparts" );
-    if( !jsarr.empty() ) {
-        while( jsarr.has_more() ) {
-            JsonArray ja = jsarr.next_array();
-            new_bionic.occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
-                                                   ja.get_int( 1 ) );
-        }
+    while( jsarr.has_more() ) {
+        JsonArray ja = jsarr.next_array();
+        new_bionic.occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                               ja.get_int( 1 ) );
     }
 
+
     JsonArray json_arr = jsobj.get_array( "env_protec" );
-    if( !json_arr.empty() ) {
-        while( json_arr.has_more() ) {
-            JsonArray ja = json_arr.next_array();
-            new_bionic.env_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
-                                           ja.get_int( 1 ) );
-        }
+    while( json_arr.has_more() ) {
+        JsonArray ja = json_arr.next_array();
+        new_bionic.env_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                       ja.get_int( 1 ) );
     }
+
 
     new_bionic.activated = new_bionic.toggled ||
                            new_bionic.power_activate > 0 ||

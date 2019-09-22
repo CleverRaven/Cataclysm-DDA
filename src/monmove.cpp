@@ -60,6 +60,7 @@ const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_harnessed( "harnessed" );
+const efftype_id effect_hack_detected( "hack_detected" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id BLOB( "BLOB" );
@@ -1901,7 +1902,7 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                     g->m.move_vehicle( veh, shove_destination, veh.face );
                 }
                 veh.move = tileray( point( destination_delta_x, destination_delta_y ) );
-                veh.smash( shove_damage_min, shove_damage_max, 0.10F );
+                veh.smash( g->m, shove_damage_min, shove_damage_max, 0.10F );
             }
         }
     }

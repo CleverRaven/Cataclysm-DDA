@@ -136,11 +136,14 @@ const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_got_checked( "got_checked" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_grabbing( "grabbing" );
+const efftype_id effect_has_bag( "has_bag" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_laserlocked( "laserlocked" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_operating( "operating" );
 const efftype_id effect_paralyzepoison( "paralyzepoison" );
+const efftype_id effect_paid( "paid" );
+const efftype_id effect_pet( "pet" );
 const efftype_id effect_raising( "raising" );
 const efftype_id effect_rat( "rat" );
 const efftype_id effect_shrieking( "shrieking" );
@@ -886,7 +889,7 @@ bool mattack::resurrect( monster *z )
 
         for( auto &i : g->m.i_at( p ) ) {
             const mtype *mt = i.get_mtype();
-            if( !( i.is_corpse() && i.active && mt->has_flag( MF_REVIVES ) &&
+            if( !( i.is_corpse() && i.can_revive() && i.active && mt->has_flag( MF_REVIVES ) &&
                    mt->in_species( ZOMBIE ) && !mt->has_flag( MF_NO_NECRO ) ) ) {
                 continue;
             }
@@ -1427,20 +1430,15 @@ bool mattack::grow_vine( monster *z )
         }
     }
     z->moves -= 100;
-    int xshift = rng( 0, 2 );
-    int yshift = rng( 0, 2 );
-    for( int x = 0; x < 3; x++ ) {
-        for( int y = 0; y < 3; y++ ) {
-            tripoint dest( z->posx() + ( x + xshift ) % 3 - 1,
-                           z->posy() + ( y + yshift ) % 3 - 1,
-                           z->posz() );
-            if( !g->is_empty( dest ) ) {
-                continue;
-            }
+    for( const tripoint &dest : g->m.points_in_radius( z->pos(), 1 ) ) {
+        if( dest == z->pos() || !g->is_empty( dest ) ) {
+            continue;
+        }
 
-            if( monster *const vine = g->summon_mon( mon_creeper_vine, dest ) ) {
-                vine->make_ally( *z );
-            }
+        if( monster *const vine = g->summon_mon( mon_creeper_vine, dest ) ) {
+            vine->make_ally( *z );
+            // Store position of parent hub in vine goal point.
+            vine->set_goal( z->pos() );
         }
     }
 
@@ -1451,6 +1449,12 @@ bool mattack::vine( monster *z )
 {
     std::vector<tripoint> grow;
     int vine_neighbors = 0;
+    bool parent_out_of_range = !g->m.inbounds( z->move_target() );
+    monster *parent = g->critter_at<monster>( z->move_target() );
+    if( !parent_out_of_range && ( parent == nullptr || parent->type->id != mon_creeper_hub ) ) {
+        // TODO: Should probably die instead.
+        return true;
+    }
     z->moves -= 100;
     for( const tripoint &dest : g->m.points_in_radius( z->pos(), 1 ) ) {
         Creature *critter = g->critter_at( dest );
@@ -1467,9 +1471,8 @@ bool mattack::vine( monster *z )
                                             z->name(),
                                             body_part_name_accusative( bphit ) );
             damage_instance d;
-            // TODO: Buff it to more "modern" numbers - 4+4 is nothing
-            d.add_damage( DT_CUT, 4 );
-            d.add_damage( DT_BASH, 4 );
+            d.add_damage( DT_CUT, 8 );
+            d.add_damage( DT_BASH, 8 );
             critter->deal_damage( z, bphit, d );
             critter->check_dead_state();
             z->moves -= 100;
@@ -1485,23 +1488,17 @@ bool mattack::vine( monster *z )
         }
     }
     // Calculate distance from nearest hub
-    int dist_from_hub = 999;
-    for( monster &critter : g->all_monsters() ) {
-        if( critter.type->id == mon_creeper_hub ) {
-            int dist = rl_dist( z->pos(), critter.pos() );
-            if( dist < dist_from_hub ) {
-                dist_from_hub = dist;
-            }
-        }
-    }
-    if( grow.empty() || vine_neighbors > 5 || one_in( 7 - vine_neighbors ) ||
-        !one_in( dist_from_hub ) ) {
+    int dist_from_hub = rl_dist( z->pos(), z->move_target() );
+    if( grow.empty() || dist_from_hub > 20 || vine_neighbors > 5 ||
+        one_in( 7 - vine_neighbors ) || !one_in( dist_from_hub ) ) {
         return true;
     }
     const tripoint target = random_entry( grow );
     if( monster *const vine = g->summon_mon( mon_creeper_vine, target ) ) {
         vine->make_ally( *z );
         vine->reset_special( "VINE" );
+        // Store position of parent hub in vine goal point.
+        vine->set_goal( z->move_target() );
     }
 
     return true;
@@ -2987,6 +2984,47 @@ bool mattack::nurse_operate( monster *z )
     z->anger = 0;
     return false;
 }
+bool mattack::check_money_left( monster *z )
+{
+    if( !z->has_effect( effect_pet ) ) {
+        if( z->friendly == -1 &&
+            z->has_effect( effect_paid ) ) { // if the pet effect runs out we're no longer friends
+            z->friendly = 0;
+            const bool had_inventory = !z->inv.empty();
+            for( const item &it : z->inv ) {
+                g->m.add_item_or_charges( z->pos(), it );
+            }
+            z->inv.clear();
+            z->remove_effect( effect_has_bag );
+            if( had_inventory ) {
+                add_msg( m_info,
+                         _( "The %s dumps the contents of its bag on the ground and drops the bag on top of it." ),
+                         z->get_name() );
+            }
+
+            const SpeechBubble &speech_no_time = get_speech( "mon_grocerybot_friendship_done" );
+            sounds::sound( z->pos(), speech_no_time.volume, sounds::sound_t::speech, speech_no_time.text );
+            z->remove_effect( effect_paid );
+            return true;
+        }
+    } else {
+        const time_duration time_left = z->get_effect_dur( effect_pet );
+        if( time_left < 1_minutes ) {
+            if( calendar::once_every( 20_seconds ) ) {
+                const SpeechBubble &speech_time_low = get_speech( "mon_grocerybot_running_out_of_friendship" );
+                sounds::sound( z->pos(), speech_time_low.volume, sounds::sound_t::speech, speech_time_low.text );
+            }
+        }
+    }
+    if( z->friendly == -1 && !z->has_effect( effect_paid ) ) {
+        if( calendar::once_every( 3_hours ) ) {
+            const SpeechBubble &speech_override_start = get_speech( "mon_grocerybot_hacked" );
+            sounds::sound( z->pos(), speech_override_start.volume, sounds::sound_t::speech,
+                           speech_override_start.text );
+        }
+    }
+    return false;
+}
 bool mattack::photograph( monster *z )
 {
     if( !within_visual_range( z, 6 ) ) {
@@ -3110,7 +3148,7 @@ bool mattack::photograph( monster *z )
                        _( "\"Wanted debtor in sight! Commencing debt enforcement proceedings!\"" ) );
     } else {
         const SpeechBubble &speech = get_speech( z->type->id.str() );
-        sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text );
+        sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text.translated() );
     }
     g->timed_events.add( TIMED_EVENT_ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ), 0,
                          g->u.global_sm_location() );
@@ -4306,8 +4344,8 @@ static void parrot_common( monster *parrot )
 {
     parrot->moves -= 100;  // It takes a while
     const SpeechBubble &speech = get_speech( parrot->type->id.str() );
-    sounds::sound( parrot->pos(), speech.volume, sounds::sound_t::speech, speech.text, false, "speech",
-                   parrot->type->id.str() );
+    sounds::sound( parrot->pos(), speech.volume, sounds::sound_t::speech, speech.text.translated(),
+                   false, "speech", parrot->type->id.str() );
 }
 
 bool mattack::parrot( monster *z )

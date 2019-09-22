@@ -1371,7 +1371,7 @@ void npc::load( JsonObject &data )
         data.read( "myclass", classid );
         myclass = npc_class_id( classid );
     }
-
+    data.read( "known_to_u", known_to_u );
     data.read( "personality", personality );
 
     if( !data.read( "submap_coords", submap_coords ) ) {
@@ -1584,7 +1584,7 @@ void npc::store( JsonOut &json ) const
     json.member( "dead", dead );
     json.member( "patience", patience );
     json.member( "myclass", myclass.str() );
-
+    json.member( "known_to_u", known_to_u );
     json.member( "personality", personality );
 
     json.member( "submap_coords", submap_coords );
@@ -1982,7 +1982,13 @@ void item::io( Archive &archive )
         making = &recipe_id( id ).obj();
     };
     const auto load_owner = [this]( const std::string & id ) {
-        owner = g->faction_manager_ptr->get( faction_id( id ) );
+        owner = g->faction_manager_ptr->get( faction_id( id ), false );
+        if( !owner && !id.empty() ) {
+            // this is a dynamic faction and therefore not loaded yet.
+            // create a stub to be filled in later when factions deserialize.
+            owner = g->faction_manager_ptr->add_new_faction( "temp_name", faction_id( id ),
+                    faction_id( "no_faction" ) );
+        }
     };
 
     archive.template io<const itype>( "typeid", type, load_type, []( const itype & i ) {
@@ -2478,13 +2484,25 @@ void vehicle::deserialize( JsonIn &jsin )
     std::string temp_old_id;
     data.read( "owner", temp_id );
     if( !temp_id.empty() ) {
-        owner = g->faction_manager_ptr->get( faction_id( temp_id ) );
+        owner = g->faction_manager_ptr->get( faction_id( temp_id ), false );
+        if( !owner ) {
+            // this is a dynamic faction and therefore not loaded yet.
+            // create a stub to be filled in later when factions deserialize.
+            owner = g->faction_manager_ptr->add_new_faction( "temp_name", faction_id( temp_id ),
+                    faction_id( "no_faction" ) );
+        }
     } else {
         owner = nullptr;
     }
     data.read( "old_owner", temp_old_id );
     if( !temp_old_id.empty() ) {
-        old_owner = g->faction_manager_ptr->get( faction_id( temp_old_id ) );
+        old_owner = g->faction_manager_ptr->get( faction_id( temp_old_id ), false );
+        if( !old_owner ) {
+            // this is a dynamic faction and therefore not loaded yet.
+            // create a stub to be filled in later when factions deserialize.
+            old_owner = g->faction_manager_ptr->add_new_faction( "temp_name", faction_id( temp_old_id ),
+                        faction_id( "no_faction" ) );
+        }
     } else {
         old_owner = nullptr;
     }
@@ -2770,6 +2788,7 @@ void faction::deserialize( JsonIn &jsin )
     JsonObject jo = jsin.get_object();
 
     jo.read( "id", id );
+    jo.read( "name", name );
     jo.read( "likes_u", likes_u );
     jo.read( "respects_u", respects_u );
     jo.read( "known_by_u", known_by_u );
@@ -2792,6 +2811,7 @@ void faction::serialize( JsonOut &json ) const
     json.start_object();
 
     json.member( "id", id );
+    json.member( "name", name );
     json.member( "likes_u", likes_u );
     json.member( "respects_u", respects_u );
     json.member( "known_by_u", known_by_u );
@@ -3211,7 +3231,14 @@ void basecamp::deserialize( JsonIn &jsin )
     while( ja.has_more() ) {
         JsonObject edata = ja.next_object();
         expansion_data e;
-        const std::string dir = edata.get_string( "dir" );
+        point dir;
+        if( edata.has_string( "dir" ) ) {
+            // old save compatibility
+            const std::string dir_id = edata.get_string( "dir" );
+            dir = base_camps::direction_from_id( dir_id );
+        } else {
+            edata.read( "dir", dir );
+        }
         edata.read( "type", e.type );
         if( edata.has_int( "cur_level" ) ) {
             edata.read( "cur_level", e.cur_level );
@@ -3240,7 +3267,7 @@ void basecamp::deserialize( JsonIn &jsin )
         }
         edata.read( "pos", e.pos );
         expansions[ dir ] = e;
-        if( dir != "[B]" ) {
+        if( dir != base_camps::base_dir ) {
             directions.push_back( dir );
         }
     }
@@ -3326,6 +3353,7 @@ void stats_tracker::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
     jsout.member( "data", data );
+    jsout.member( "initial_scores", initial_scores );
     jsout.end_object();
 }
 
@@ -3336,6 +3364,7 @@ void stats_tracker::deserialize( JsonIn &jsin )
     for( std::pair<const event_type, event_multiset> &d : data ) {
         d.second.set_type( d.first );
     }
+    jo.read( "initial_scores", initial_scores );
 }
 
 void submap::store( JsonOut &jsout ) const

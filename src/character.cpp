@@ -1011,6 +1011,18 @@ void Character::update_fuel_storage( const itype_id &fuel )
 
 }
 
+int Character::get_mod_stat_from_bionic( const Character::stat &Stat ) const
+{
+    int ret = 0;
+    for( const bionic &bio : *my_bionics ) {
+        const auto St_bn = bio.info().stat_bonus.find( Stat );
+        if( St_bn != bio.info().stat_bonus.end() ) {
+            ret += St_bn->second;
+        }
+    }
+    return ret;
+}
+
 std::vector<item_location> Character::nearby( const
         std::function<bool( const item *, const item * )> &func, int radius ) const
 {
@@ -1821,18 +1833,11 @@ void Character::reset_stats()
     if( has_active_bionic( bionic_id( "bio_hydraulics" ) ) ) {
         mod_str_bonus( 20 );
     }
-    if( has_bionic( bionic_id( "bio_eye_enhancer" ) ) ) {
-        mod_per_bonus( 2 );
-    }
-    if( has_bionic( bionic_id( "bio_str_enhancer" ) ) ) {
-        mod_str_bonus( 2 );
-    }
-    if( has_bionic( bionic_id( "bio_int_enhancer" ) ) ) {
-        mod_int_bonus( 2 );
-    }
-    if( has_bionic( bionic_id( "bio_dex_enhancer" ) ) ) {
-        mod_dex_bonus( 2 );
-    }
+
+    mod_str_bonus( get_mod_stat_from_bionic( STRENGTH ) );
+    mod_dex_bonus( get_mod_stat_from_bionic( DEXTERITY ) );
+    mod_per_bonus( get_mod_stat_from_bionic( PERCEPTION ) );
+    mod_int_bonus( get_mod_stat_from_bionic( INTELLIGENCE ) );
 
     // Trait / mutation buffs
     mod_str_bonus( std::floor( mutation_value( "str_modifier" ) ) );
@@ -2319,6 +2324,26 @@ void Character::mod_int_bonus( int nint )
     int_cur = std::max( 0, int_max + int_bonus );
 }
 
+namespace io
+{
+template<>
+std::string enum_to_string<Character::stat>( Character::stat data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+    case Character::stat::STRENGTH:     return "STR";
+    case Character::stat::DEXTERITY:    return "DEX";
+    case Character::stat::INTELLIGENCE: return "INT";
+    case Character::stat::PERCEPTION:   return "PER";
+
+        // *INDENT-ON*
+        case Character::stat::DUMMY_STAT:
+            break;
+    }
+    abort();
+}
+} // namespace io
+
 void Character::set_healthy( int nhealthy )
 {
     healthy = nhealthy;
@@ -2699,10 +2724,6 @@ hp_part Character::body_window( const std::string &menu_header,
         max_bp_name_len = std::max( max_bp_name_len, utf8_width( e.name ) );
     }
 
-    const auto color_name = []( const nc_color & col ) {
-        return get_all_colors().get_name( col );
-    };
-
     const auto hp_str = [precise]( const int hp, const int maximal_hp ) -> std::string {
         if( hp <= 0 )
         {
@@ -2775,9 +2796,7 @@ hp_part Character::body_window( const std::string &menu_header,
         int new_d_power = static_cast<int>( std::floor( disinfectant_power ) );
 
         const auto &aligned_name = std::string( max_bp_name_len - utf8_width( e.name ), ' ' ) + e.name;
-        msg << string_format( "<color_%s>%s</color> %s",
-                              color_name( all_state_col ), aligned_name,
-                              hp_str( current_hp, maximal_hp ) );
+        msg << colorize( aligned_name, all_state_col ) << " " << hp_str( current_hp, maximal_hp );
 
         if( limb_is_broken ) {
             desc << colorize( _( "It is broken. It needs a splint or surgical attention." ), c_red ) << "\n";
@@ -3924,4 +3943,21 @@ void Character::healed_bp( int bp, int amount )
 void Character::set_fac_id( const std::string &my_fac_id )
 {
     fac_id = string_id<faction>( my_fac_id );
+}
+
+std::string get_stat_name( Character::stat Stat )
+{
+    switch( Stat ) {
+        // *INDENT-OFF*
+    case Character::stat::STRENGTH:     return pgettext("strength stat", "STR");
+    case Character::stat::DEXTERITY:    return pgettext("dexterity stat", "DEX");
+    case Character::stat::INTELLIGENCE: return pgettext("intelligence stat", "INT");
+    case Character::stat::PERCEPTION:   return pgettext("perception stat", "PER");
+            // *INDENT-ON*
+        default:
+            return pgettext( "fake stat there's an error", "ERR" );
+            break;
+
+    }
+    return pgettext( "fake stat there's an error", "ERR" );
 }

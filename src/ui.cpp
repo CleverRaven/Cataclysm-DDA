@@ -25,6 +25,14 @@
 #include "options.h"
 #endif
 
+catacurses::window new_centered_win( int nlines, int ncols )
+{
+    int height = std::min( nlines, TERMY );
+    int width = std::min( ncols, TERMX );
+    point pos( ( TERMX - width ) / 2, ( TERMY - height ) / 2 );
+    return catacurses::newwin( height, width, pos );
+}
+
 /**
 * \defgroup UI "The UI Menu."
 * @{

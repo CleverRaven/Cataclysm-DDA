@@ -190,21 +190,20 @@ static std::map<string_id<npc_template>, npc_template> npc_templates;
 
 void npc_template::load( JsonObject &jsobj )
 {
-    npc guy;
+    npc_template tem;
+    npc &guy = tem.guy;
     guy.idz = jsobj.get_string( "id" );
     guy.name.clear();
-    if( jsobj.has_string( "name_unique" ) ) {
-        guy.name = static_cast<std::string>( _( jsobj.get_string( "name_unique" ) ) );
-    }
-    if( jsobj.has_string( "name_suffix" ) ) {
-        guy.name += ", " + static_cast<std::string>( _( jsobj.get_string( "name_suffix" ) ) );
-    }
+    jsobj.read( "name_unique", tem.name_unique );
+    jsobj.read( "name_suffix", tem.name_suffix );
     if( jsobj.has_string( "gender" ) ) {
         if( jsobj.get_string( "gender" ) == "male" ) {
-            guy.male = true;
+            tem.gender_override = gender::male;
         } else {
-            guy.male = false;
+            tem.gender_override = gender::female;
         }
+    } else {
+        tem.gender_override = gender::random;
     }
     if( jsobj.has_string( "faction" ) ) {
         guy.set_fac_id( jsobj.get_string( "faction" ) );
@@ -227,7 +226,7 @@ void npc_template::load( JsonObject &jsobj )
             guy.miss_ids.emplace_back( mission_type_id( ja.next_string() ) );
         }
     }
-    npc_templates[string_id<npc_template>( guy.idz )].guy = std::move( guy );
+    npc_templates.emplace( string_id<npc_template>( guy.idz ), std::move( tem ) );
 }
 
 void npc_template::reset()
@@ -270,18 +269,21 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
         debugmsg( "Tried to get invalid npc: %s", ident.c_str() );
         return;
     }
-    const npc &tguy = found->second.guy;
+    const npc_template &tem = found->second;
+    const npc &tguy = tem.guy;
 
     idz = tguy.idz;
     myclass = npc_class_id( tguy.myclass );
     randomize( myclass );
-    std::string tmpname = tguy.name;
-    if( tmpname[0] == ',' ) {
-        name = name + tguy.name;
-    } else {
-        name = tguy.name;
-        //Assume if the name is unique, the gender might also be.
-        male = tguy.male;
+    if( !tem.name_unique.empty() ) {
+        name = tem.name_unique.translated();
+    }
+    if( !tem.name_suffix.empty() ) {
+        //~ %1$s: npc name, %2$s: name suffix
+        name = string_format( pgettext( "npc name", "%1$s, %2$s" ), name, tem.name_suffix );
+    }
+    if( tem.gender_override != npc_template::gender::random ) {
+        male = tem.gender_override == npc_template::gender::male;
     }
     fac_id = tguy.fac_id;
     set_fac( fac_id );
@@ -437,8 +439,16 @@ void npc::randomize_from_faction( faction *fac )
 
 void npc::set_fac( const string_id<faction> &id )
 {
+    if( my_fac ) {
+        my_fac->remove_member( getID() );
+    }
     my_fac = g->faction_manager_ptr->get( id );
-    fac_id = my_fac->id;
+    if( my_fac ) {
+        my_fac->add_to_membership( getID(), disp_name(), known_to_u );
+        fac_id = my_fac->id;
+    } else {
+        return;
+    }
     for( auto &e : inv_dump() ) {
         e->set_owner( my_fac );
     }
@@ -625,6 +635,19 @@ npc_mission npc::get_previous_mission()
 npc_attitude npc::get_previous_attitude()
 {
     return previous_attitude;
+}
+
+bool npc::get_known_to_u()
+{
+    return known_to_u;
+}
+
+void npc::set_known_to_u( bool known )
+{
+    known_to_u = known;
+    if( my_fac ) {
+        my_fac->add_to_membership( getID(), disp_name(), known_to_u );
+    }
 }
 
 void npc::setpos( const tripoint &pos )
@@ -1055,13 +1078,41 @@ void npc::form_opinion( const player &u )
         set_attitude( NPCATT_TALK );
     } else if( op_of_u.fear - 2 * personality.aggression - personality.bravery < -30 ) {
         set_attitude( NPCATT_KILL );
-    } else if( my_fac != nullptr && my_fac->likes_u < -10 ) {
+    } else if( my_fac && my_fac->likes_u < -10 ) {
+        if( is_player_ally() ) {
+            mutiny();
+        }
         set_attitude( NPCATT_KILL );
     } else {
         set_attitude( NPCATT_FLEE_TEMP );
     }
 
     add_msg( m_debug, "%s formed an opinion of u: %s", name, npc_attitude_id( attitude ) );
+}
+
+void npc::mutiny()
+{
+    if( !my_fac || !is_player_ally() ) {
+        return;
+    }
+    const bool seen = g->u.sees( pos() );
+    if( seen ) {
+        add_msg( m_bad, _( "%s is tired of your incompetent leadership and abuse!" ), disp_name() );
+    }
+    // NPCs leaving your faction due to mistreatment further reduce their opinion of you
+    if( my_fac->likes_u < -10 ) {
+        op_of_u.trust += my_fac->respects_u / 10;
+        op_of_u.anger += my_fac->likes_u / 10;
+    }
+    // NPCs leaving your faction for abuse reduce the hatred your (remaining) followers
+    // feel for you, but also reduces their respect for you.
+    my_fac->likes_u = std::max( 0, my_fac->likes_u / 2 + 10 );
+    my_fac->respects_u -= 5;
+    set_fac( faction_id( "amf" ) );
+    say( _( "<follower_mutiny>  Adios, motherfucker!" ), sounds::sound_t::order );
+    if( seen ) {
+        my_fac->known_by_u = true;
+    }
 }
 
 float npc::vehicle_danger( int radius ) const
@@ -1119,10 +1170,15 @@ void npc::make_angry()
         return; // We're already angry!
     }
 
+    // player allies that become angry should stop being player allies
+    if( is_player_ally() ) {
+        mutiny();
+    }
+
     // Make associated faction, if any, angry at the player too.
-    if( my_fac != nullptr && my_fac->id != faction_id( "no_faction" ) ) {
-        my_fac->likes_u = std::max( -50, my_fac->likes_u - 50 );
-        my_fac->respects_u = std::max( -50, my_fac->respects_u - 50 );
+    if( my_fac && my_fac->id != faction_id( "no_faction" ) && my_fac->id != faction_id( "amf" ) ) {
+        my_fac->likes_u = std::min( -15, my_fac->likes_u - 5 );
+        my_fac->respects_u = std::min( -15, my_fac->respects_u - 5 );
     }
     if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
         set_attitude( NPCATT_FLEE_TEMP ); // We don't want to take u on!
@@ -2087,6 +2143,10 @@ void npc::die( Creature *nkiller )
         critter->remove_effect( effect_ridden );
         critter->mounted_player = nullptr;
         critter->mounted_player_id = character_id();
+    }
+    // if this NPC was the only member of a micro-faction, clean it up.
+    if( my_fac ) {
+        my_fac->remove_member( getID() );
     }
     dead = true;
     Character::die( nkiller );

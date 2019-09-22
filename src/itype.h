@@ -726,9 +726,9 @@ struct islot_seed {
      */
     int fruit_div = 1;
     /**
-     * Name of the plant, already translated.
+     * Name of the plant.
      */
-    std::string plant_name;
+    translation plant_name;
     /**
      * Type id of the fruit item.
      */
@@ -827,7 +827,7 @@ struct itype {
         std::string looks_like;
 
         std::string snippet_category;
-        std::string description; // Flavor text
+        translation description; // Flavor text
 
         // The container it comes in
         cata::optional<itype_id> default_container;

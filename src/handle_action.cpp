@@ -45,6 +45,7 @@
 #include "popup.h"
 #include "ranged.h"
 #include "safemode_ui.h"
+#include "scores_ui.h"
 #include "sounds.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -2174,12 +2175,12 @@ bool game::handle_action()
                 list_missions();
                 break;
 
-            case ACTION_KILLS:
-                get_kill_tracker().disp_kills();
+            case ACTION_SCORES:
+                show_scores_ui( stats(), get_kill_tracker() );
                 break;
 
             case ACTION_FACTIONS:
-                new_faction_manager_ptr->display();
+                faction_manager_ptr->display();
                 break;
 
             case ACTION_MORALE:

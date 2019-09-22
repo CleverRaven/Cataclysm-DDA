@@ -89,7 +89,6 @@ class kill_tracker;
 class map;
 class memorial_logger;
 class faction_manager;
-class new_faction_manager;
 class npc;
 class player;
 class stats_tracker;
@@ -893,6 +892,7 @@ class game
         pimpl<stats_tracker> stats_tracker_ptr;
         pimpl<kill_tracker> kill_tracker_ptr;
         pimpl<memorial_logger> memorial_logger_ptr;
+        pimpl<spell_events> spell_events_ptr;
 
     public:
         /** Make map a reference here, to avoid map.h in game.h */
@@ -904,10 +904,10 @@ class game
         event_bus &events();
         stats_tracker &stats();
         memorial_logger &memorial();
+        spell_events &spell_events_subscriber();
 
         pimpl<Creature_tracker> critter_tracker;
         pimpl<faction_manager> faction_manager_ptr;
-        pimpl<new_faction_manager> new_faction_manager_ptr;
 
         /** Used in main.cpp to determine what type of quit is being performed. */
         quit_status uquit;

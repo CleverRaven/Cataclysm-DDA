@@ -534,6 +534,8 @@ class player : public Character
         float stability_roll() const override;
         /** Returns true if the player has quiet melee attacks */
         bool is_quiet() const;
+        /** Returns true if the player has stealthy movement */
+        bool is_stealthy() const;
         /** Returns true if the current martial art works with the player's current weapon */
         bool can_melee() const;
         /** Always returns false, since players can't dig currently */

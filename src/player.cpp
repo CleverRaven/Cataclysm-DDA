@@ -1947,7 +1947,6 @@ time_duration player::estimate_effect_dur( const skill_id &relevant_skill,
     time_duration estimate = std::max( zero_duration, target.get_effect_dur( target_effect ) +
                                        rng( -1, 1 ) * error_magnitude *
                                        rng( 0, std::max( 0, threshold - skill_lvl ) ) );
-
     return estimate;
 }
 
@@ -2039,17 +2038,19 @@ void player::set_highest_cat_level()
     mutation_category_level.clear();
 
     // For each of our mutations...
-    for( auto &mut : my_mutations ) {
+    for( const std::pair<trait_id, Character::trait_data> &mut : my_mutations ) {
         // ...build up a map of all prerequisite/replacement mutations along the tree, along with their distance from the current mutation
         std::unordered_map<trait_id, int> dependency_map;
         build_mut_dependency_map( mut.first, dependency_map, 0 );
 
         // Then use the map to set the category levels
-        for( auto &i : dependency_map ) {
-            const auto &mdata = i.first.obj();
-            for( auto &cat : mdata.category ) {
-                // Decay category strength based on how far it is from the current mutation
-                mutation_category_level[cat] += 8 / static_cast<int>( std::pow( 2, i.second ) );
+        for( const std::pair<trait_id, int> &i : dependency_map ) {
+            const mutation_branch &mdata = i.first.obj();
+            if( !mdata.flags.count( "NON_THRESH" ) ) {
+                for( const std::string &cat : mdata.category ) {
+                    // Decay category strength based on how far it is from the current mutation
+                    mutation_category_level[cat] += 8 / static_cast<int>( std::pow( 2, i.second ) );
+                }
             }
         }
     }
@@ -3862,15 +3863,29 @@ void player::check_needs_extremes()
             hp_cur[hp_torso] = 0;
         } else {
             if( calendar::once_every( 1_hours ) ) {
-                if( get_kcal_percent() < 0.1f ) {
-                    add_msg_if_player( m_warning, _( "Food..." ) );
-                } else if( get_kcal_percent() < 0.25f ) {
-                    add_msg_if_player( m_warning, _( "You are STARVING!" ) );
-                } else if( get_kcal_percent() < 0.5f ) {
-                    add_msg_if_player( m_warning, _( "You feel like you haven't eaten in days..." ) );
-                } else if( get_kcal_percent() < 0.8f ) {
-                    add_msg_if_player( m_warning, _( "Your stomach feels so empty..." ) );
+                std::string message;
+                if( stomach.contains() <= stomach.capacity() / 4 ) {
+                    if( get_kcal_percent() < 0.1f ) {
+                        message = _( "Food..." );
+                    } else if( get_kcal_percent() < 0.25f ) {
+                        message = _( "Due to insufficient nutrition, your body is suffering from starvation." );
+                    } else if( get_kcal_percent() < 0.5f ) {
+                        message = _( "Despite having something in your stomach, you still feel like you haven't eaten in days..." );
+                    } else if( get_kcal_percent() < 0.8f ) {
+                        message = _( "Your stomach feels so empty..." );
+                    }
+                } else {
+                    if( get_kcal_percent() < 0.1f ) {
+                        message = _( "Food..." );
+                    } else if( get_kcal_percent() < 0.25f ) {
+                        message = _( "You are EMACIATED!" );
+                    } else if( get_kcal_percent() < 0.5f ) {
+                        message = _( "You feel weak due to malnutrition." );
+                    } else if( get_kcal_percent() < 0.8f ) {
+                        message = _( "You feel that your body needs more nutritious food." );
+                    }
                 }
+                add_msg_if_player( m_warning, message );
             }
         }
     }
@@ -4407,7 +4422,7 @@ int player::addiction_level( add_type type ) const
 
 void player::siphon( vehicle &veh, const itype_id &desired_liquid )
 {
-    auto qty = veh.fuel_left( type );
+    auto qty = veh.fuel_left( desired_liquid );
     if( qty <= 0 ) {
         add_msg( m_bad, _( "There is not enough %s left to siphon it." ),
                  item::nname( desired_liquid ) );
@@ -5411,15 +5426,17 @@ void player::suffer()
     const bool leafier = has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
     const bool leafiest = has_trait( trait_LEAVES3 );
     int sunlight_nutrition = 0;
-    if( leafy && g->is_in_sunlight( pos() ) ) {
+    if( leafy && g->m.is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
+        const float weather_factor = ( g->weather.weather == WEATHER_CLEAR ||
+                                       g->weather.weather == WEATHER_SUNNY ) ? 1.0 : 0.5;
         const int player_local_temp = g->weather.get_temperature( pos() );
         int flux = ( player_local_temp - 65 ) / 2;
         if( !has_hat ) {
-            sunlight_nutrition += 100 + flux;
+            sunlight_nutrition += ( 100 + flux ) * weather_factor;
         }
         if( leafier ) {
             int rate = ( ( 100 * sleeve_factor ) + flux ) * 2;
-            sunlight_nutrition += rate * ( leafiest ? 2 : 1 );
+            sunlight_nutrition += ( rate * ( leafiest ? 2 : 1 ) ) * weather_factor;
         }
     }
 
@@ -7986,9 +8003,9 @@ void player::mend_item( item_location &&obj, bool interactive )
         std::vector<std::pair<fault_id, bool>> opts;
         for( const auto &f : obj->faults_potential() ) {
             opts.emplace_back( f, !!obj->faults.count( f ) );
-            menu.addentry( -1, true, -1, string_format( "%s %s",
-                           opts.back().second ? _( "Mend" ) : _( "Break" ),
-                           f.obj().name() ) );
+            menu.addentry( -1, true, -1, string_format(
+                               opts.back().second ? pgettext( "fault", "Mend: %s" ) : pgettext( "fault", "Set: %s" ),
+                               f.obj().name() ) );
         }
         if( opts.empty() ) {
             add_msg( m_info, _( "The %s doesn't have any faults to toggle." ), obj->tname() );
@@ -9792,6 +9809,7 @@ int player::warmth( body_part bp ) const
             ret += warmth;
         }
     }
+    ret += get_effect_int( efftype_id( "heating_bionic" ), bp );
     return ret;
 }
 
@@ -11390,8 +11408,7 @@ std::string player::visible_mutations( const int visibility_cap ) const
         // Finally some use for visibility trait of mutations
         if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap )
         {
-            return string_format( "<color_%s>%s</color>", string_from_color( mut_branch.get_display_color() ),
-                                  mut_branch.name() );
+            return colorize( mut_branch.name(), mut_branch.get_display_color() );
         }
 
         return std::string();

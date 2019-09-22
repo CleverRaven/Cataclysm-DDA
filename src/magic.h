@@ -16,6 +16,7 @@
 #include "ui.h"
 #include "string_id.h"
 #include "translations.h"
+#include "event_bus.h"
 
 struct tripoint;
 class Creature;
@@ -42,6 +43,10 @@ enum spell_flag {
     NO_HANDS, // hands do not affect spell energy cost
     NO_LEGS, // legs do not affect casting time
     CONCENTRATE, // focus affects spell fail %
+    RANDOM_AOE, // picks random number between min+increment*level and max instead of normal behavior
+    RANDOM_DAMAGE, // picks random number between min+increment*level and max instead of normal behavior
+    RANDOM_DURATION, // picks random number between min+increment*level and max instead of normal behavior
+    WONDER, // instead of casting each of the extra_spells, it picks N of them and casts them (where N is std::min( damage(), number_of_spells ))
     LAST
 };
 
@@ -96,6 +101,12 @@ struct fake_spell {
     void load( JsonObject &jo );
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
+};
+
+class spell_events : public event_subscriber
+{
+    public:
+        void notify( const cata::event & ) override;
 };
 
 class spell_type
@@ -209,6 +220,9 @@ class spell_type
         // max or min casting time
         int final_casting_time;
 
+        // Does leveling this spell lead to learning another spell?
+        std::map<std::string, int> learn_spells;
+
         // what energy do you use to cast this spell
         energy_type energy_source;
 
@@ -239,6 +253,7 @@ class spell_type
 class spell
 {
     private:
+        friend class spell_events;
         // basic spell data
         spell_id type;
 
@@ -249,6 +264,13 @@ class spell
 
         // alternative cast message
         translation alt_message;
+
+        // minimum damage including levels
+        int min_leveled_damage() const;
+        // minimum aoe including levels
+        int min_leveled_aoe() const;
+        // minimum duration including levels (moves)
+        int min_leveled_duration() const;
 
     public:
         spell() = default;
@@ -263,6 +285,7 @@ class spell
         int xp() const;
         // gain some exp
         void gain_exp( int nxp );
+        void set_exp( int nxp );
         // how much xp you get if you successfully cast the spell
         int casting_exp( const player &p ) const;
         // modifier for gaining exp
@@ -309,6 +332,8 @@ class spell
         // check if the spell's class is the same as input
         bool is_spell_class( const trait_id &mid ) const;
 
+        bool in_aoe( const tripoint &source, const tripoint &target ) const;
+
         // get spell id (from type)
         spell_id id() const;
         // get spell class (from type)
@@ -331,6 +356,11 @@ class spell
         std::string energy_cur_string( const player &p ) const;
         // prints out a list of valid targets separated by commas
         std::string enumerate_targets() const;
+
+        std::string damage_string() const;
+        std::string aoe_string() const;
+        std::string duration_string() const;
+
         // energy source enum
         energy_type energy_source() const;
         // the color that's representative of the damage type
@@ -453,6 +483,7 @@ void recover_energy( const spell &sp, Creature &, const tripoint &target );
 void spawn_summoned_monster( const spell &sp, Creature &caster, const tripoint &target );
 void translocate( const spell &sp, Creature &caster, const tripoint &target );
 void transform_blast( const spell &sp, Creature &caster, const tripoint &target );
+void vomit( const spell &sp, Creature &caster, const tripoint &target );
 void none( const spell &sp, Creature &, const tripoint &target );
 } // namespace spell_effect
 

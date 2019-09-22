@@ -65,7 +65,7 @@
     "type": "ARMOR",
     "name": "welding mask",
     "description": "A plastic mask with a very dark visor, meant to protect the entire face while welding.  It also serves as somewhat good armor, but makes it hard to see.  Activate it to push it up your head.",
-    "weight": 4000,
+    "weight": 1000,
     "volume": "4 L",
     "price": 1400,
     "to_hit": -3,
@@ -83,11 +83,13 @@
   },
   {
     "id": "welding_mask_crude",
-    "copy-from": "welding_mask",
     "type": "ARMOR",
     "name": "crude welding mask",
     "description": "A crude welding mask made from shaped steel.  It's less dark than a proper welding mask, and therefore less difficult to see in, but also less protective when welding.  Activate it to push it up your head.",
+    "weight": 4000,
+    "volume": "4 L",
     "price": 1000,
+    "to_hit": -3,
     "use_action": {
       "type": "transform",
       "msg": "You push your %s up your head.",
@@ -95,43 +97,64 @@
       "menu_text": "Raise"
     },
     "material": [ "steel" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "covers": [ "HEAD", "MOUTH", "EYES" ],
+    "coverage": 90,
+    "warmth": 5,
+    "encumbrance": 60,
     "material_thickness": 2,
-    "delete": { "qualities": [ [ "GLARE", 3 ] ], "flags": [ "BLIND" ] },
-    "extend": { "qualities": [ [ "GLARE", 2 ] ] }
+    "qualities": [ [ "GLARE", 2 ] ],
+    "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ]
   },
   {
     "id": "welding_mask_crude_raised",
-    "copy-from": "welding_mask_crude",
     "type": "ARMOR",
     "name": "crude welding mask (raised)",
     "name_plural": "crude welding masks (raised)",
     "description": "A crude welding mask made from shaped steel.  It's less dark than a proper welding mask, and therefore less difficult to see in, but also less protective when welding.  Activate it to lower it over your face.",
+    "weight": 4000,
+    "volume": "4 L",
     "price": 1000,
+    "to_hit": -3,
     "use_action": {
       "type": "transform",
       "msg": "You lower your crude welding mask over your face.",
       "target": "welding_mask_crude",
       "menu_text": "Lower"
     },
+    "material": [ "steel" ],
+    "symbol": "[",
+    "color": "dark_gray",
     "covers": [ "HEAD" ],
-    "delete": { "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ] },
+    "warmth": 5,
+    "encumbrance": 60,
+    "material_thickness": 2,
     "coverage": 30
   },
   {
     "id": "welding_mask_raised",
-    "copy-from": "welding_mask",
     "type": "ARMOR",
     "name": "welding mask (raised)",
     "name_plural": "welding masks (raised)",
     "description": "A plastic mask with a very dark visor, meant to protect the entire face while welding.  It also serves as somewhat good armor, but makes it hard to see.  Activate it to lower it over your face.",
+    "weight": 1000,
+    "volume": "4 L",
+    "price": 1400,
+    "to_hit": -3,
     "use_action": {
       "type": "transform",
       "msg": "You lower your welding mask over your face.",
       "target": "welding_mask",
       "menu_text": "Lower"
     },
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "dark_gray",
     "covers": [ "HEAD" ],
-    "delete": { "flags": [ "SUN_GLASSES", "FLASH_PROTECTION", "BLIND" ] },
+    "warmth": 5,
+    "encumbrance": 60,
+    "material_thickness": 3,
     "coverage": 30
   },
   {
@@ -2707,5 +2730,36 @@
     "revert_to": "foodperson_mask",
     "use_action": "FOODPERSON",
     "flags": [ "OUTER", "SUN_GLASSES", "NO_TAKEOFF", "LIGHT_10", "WATCH", "NO_UNLOAD" ]
+  },
+  {
+    "id": "attached_ear_plugs_on",
+    "type": "ARMOR",
+    "name": "pair of attached ear plugs (in)",
+    "name_plural": "pairs of attached ear plugs (in)",
+    "description": "A pair of industrial grade ear plugs attached together by some string.  They are inside your ears, activate them to take them out.",
+    "copy-from": "ear_plugs",
+    "use_action": {
+      "type": "transform",
+      "msg": "You take the ear plugs out.",
+      "target": "attached_ear_plugs_off",
+      "menu_text": "Unplug",
+      "need_worn": true
+    }
+  },
+  {
+    "id": "attached_ear_plugs_off",
+    "type": "ARMOR",
+    "name": "pair of attached ear plugs (out)",
+    "name_plural": "pairs of attached ear plugs (out)",
+    "description": "A pair of industrial grade ear plugs, they are attached together by some string.  They hang around your neck, use them to plug them in.",
+    "copy-from": "attached_ear_plugs_on",
+    "use_action": {
+      "type": "transform",
+      "msg": "You plug up your ears.",
+      "target": "attached_ear_plugs_on",
+      "menu_text": "Plug in",
+      "need_worn": true
+    },
+    "delete": { "flags": [ "DEAF" ] }
   }
 ]

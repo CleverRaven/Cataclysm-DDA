@@ -319,19 +319,13 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
 
 }
 
-item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name,
-                        const bool random_corpse_type )
+item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name )
 {
     if( !mt.is_valid() ) {
         debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
 
-    std::string corpse_type = "corpse";
-
-    if( mt == mtype_id::NULL_ID() ) {
-        corpse_type = random_corpse_type ? item_group::item_from( "corpses" ).typeId() :
-                      "corpse_generic_human";
-    }
+    std::string corpse_type = mt == mtype_id::NULL_ID() ? "corpse_generic_human" : "corpse";
 
     item result( corpse_type, turn );
     result.corpse = &mt.obj();
@@ -2389,7 +2383,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                               making->result_name(),
                                               percent_progress ) ) );
                 } else {
-                    info.push_back( iteminfo( "DESCRIPTION", _( type->description ) ) );
+                    info.push_back( iteminfo( "DESCRIPTION", type->description.translated() ) );
                 }
             }
         }
@@ -2728,6 +2722,16 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
             }
 
+            if( !bid->stat_bonus.empty() ) {
+                info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Stat Bonus:</bold> " ),
+                                          iteminfo::no_newline ) );
+                for( const auto &element : bid->stat_bonus ) {
+                    info.push_back( iteminfo( "CBM", get_stat_name( element.first ), " <num> ", iteminfo::no_newline,
+                                              element.second ) );
+                }
+
+            }
+
             const units::mass weight_bonus = bid->weight_capacity_bonus;
             const float weight_modif = bid->weight_capacity_modifier;
             if( weight_modif != 1 ) {
@@ -2813,7 +2817,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( parts->test( iteminfo_parts::DESCRIPTION_FAULTS ) ) {
             for( const fault_id &e : faults ) {
                 //~ %1$s is the name of a fault and %2$s is the description of the fault
-                info.emplace_back( "DESCRIPTION", string_format( _( "* <bad>Faulty %1$s</bad>.  %2$s" ),
+                info.emplace_back( "DESCRIPTION", string_format( _( "* <bad>%1$s</bad>.  %2$s" ),
                                    e.obj().name(), e.obj().description() ) );
             }
         }
@@ -2885,7 +2889,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 }
                 insert_separation_line();
                 info.emplace_back( "DESCRIPTION", temp1.str() );
-                info.emplace_back( "DESCRIPTION", _( mod->type->description ) );
+                info.emplace_back( "DESCRIPTION", mod->type->description.translated() );
             }
             bool contents_header = false;
             for( const item &contents_item : contents ) {
@@ -2899,7 +2903,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                         info.emplace_back( "DESCRIPTION", space );
                     }
 
-                    const std::string description = _( contents_item.type->description );
+                    const translation &description = contents_item.type->description;
 
                     if( contents_item.made_of_from_type( LIQUID ) ) {
                         units::volume contents_volume = contents_item.volume() * batch;
@@ -2917,7 +2921,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                            converted_volume );
                     } else {
                         info.emplace_back( "DESCRIPTION", contents_item.display_name() );
-                        info.emplace_back( "DESCRIPTION", description );
+                        info.emplace_back( "DESCRIPTION", description.translated() );
                     }
                 }
             }
@@ -4644,7 +4648,7 @@ bool item::can_revive() const
 {
     return is_corpse() && corpse->has_flag( MF_REVIVES ) && damage() < max_damage() &&
            !( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) || has_flag( "QUARTERED" ) ||
-              has_flag( "SKINNED" ) );
+              has_flag( "SKINNED" ) || has_flag( "PULPED" ) );
 }
 
 bool item::ready_to_revive( const tripoint &pos ) const
@@ -4978,8 +4982,7 @@ std::string item::durability_indicator( bool include_intact ) const
 
     if( damage() < 0 )  {
         if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-            outputstring = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() +
-                           " </color>";
+            outputstring = colorize( damage_symbol() + " ", damage_color() );
         } else if( is_gun() ) {
             outputstring = pgettext( "damage adjective", "accurized " );
         } else {
@@ -5003,8 +5006,7 @@ std::string item::durability_indicator( bool include_intact ) const
             }
         }
     } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-        outputstring = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() +
-                       " </color>";
+        outputstring = colorize( damage_symbol() + " ", damage_color() );
     } else {
         outputstring = string_format( "%s ", get_base_material().dmg_adj( damage_level( 4 ) ) );
         if( include_intact && outputstring == " " ) {
@@ -8603,7 +8605,7 @@ std::string item::get_plant_name() const
     if( !type->seed ) {
         return std::string{};
     }
-    return type->seed->plant_name;
+    return type->seed->plant_name.translated();
 }
 
 bool item::is_dangerous() const
