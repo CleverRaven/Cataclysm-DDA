@@ -83,7 +83,6 @@
     "flags": [ "NO_HANDS", "SILENT", "NO_LEGS", "UNSAFE_TELEPORT" ],
     "min_range": 2,
     "max_range": 12,
-    "max_level": 1,
     "message": "You teleport!"
   },
   {

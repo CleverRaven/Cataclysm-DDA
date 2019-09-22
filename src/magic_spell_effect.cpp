@@ -43,15 +43,6 @@
 #include "timed_event.h"
 #include "teleport.h"
 
-static tripoint random_point( int min_distance, int max_distance, const tripoint &player_pos )
-{
-    const int angle = rng( 0, 360 );
-    const int dist = rng( min_distance, max_distance );
-    const int x = round( dist * cos( angle ) );
-    const int y = round( dist * sin( angle ) );
-    return player_pos + point( x, y );
-}
-
 void spell_effect::teleport_random( const spell &sp, Creature &caster, const tripoint & )
 {
     bool safe = !sp.has_flag( spell_flag::UNSAFE_TELEPORT );

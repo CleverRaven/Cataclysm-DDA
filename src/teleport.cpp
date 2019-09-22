@@ -13,18 +13,18 @@
 
 const efftype_id effect_teleglow( "teleglow" );
 
-bool teleport::teleport( Creature *c, int min_distance, int max_distance, bool safe,
+bool teleport::teleport( Creature *const critter, int min_distance, int max_distance, bool safe,
                          bool add_teleglow )
 {
-    if( c == nullptr || min_distance > max_distance ) {
+    if( critter == nullptr || min_distance > max_distance ) {
         debugmsg( "ERROR: Function teleport::teleport called with invalid arguments." );
         return false;
     }
 
-    bool c_is_u = ( c == &g->u );
-    player *p = dynamic_cast<player *>( c );
+    bool c_is_u = ( critter == &g->u );
+    player *const p = critter->as_player();
     int tries = 0;
-    tripoint origin = c->pos();
+    tripoint origin = critter->pos();
     tripoint new_pos = tripoint_zero;
     do {
         int rangle = rng( 0, 360 );
@@ -41,11 +41,12 @@ bool teleport::teleport( Creature *c, int min_distance, int max_distance, bool s
             }
             return false;
         } else {
-            c->apply_damage( nullptr, bp_torso, 9999 );
+            critter->apply_damage( nullptr, bp_torso, 9999 );
             if( c_is_u ) {
                 g->events().send<event_type::teleports_into_wall>( p->getID(), g->m.obstacle_name( new_pos ) );
-                add_msg( m_bad, _( "You die after teleporting within a solid" ) );
+                add_msg( m_bad, _( "You die after teleporting into a solid" ) );
             }
+            critter->check_dead_state();
         }
     }
     //handles telefragging other creatures
@@ -62,7 +63,7 @@ bool teleport::teleport( Creature *c, int min_distance, int max_distance, bool s
                 add_msg( m_bad, _( "You exlpode into thousands of fragments." ) );
             }
             if( p ) {
-                p->add_msg_player_or_npc( m_bad,
+                p->add_msg_player_or_npc( m_warning,
                                           _( "You teleport into %s, and they explode into thousands of fragments." ),
                                           _( "<npcname> teleports into %s, and they explode into thousands of fragments." ),
                                           poor_soul->disp_name() );
@@ -70,7 +71,7 @@ bool teleport::teleport( Creature *c, int min_distance, int max_distance, bool s
             } else {
                 if( g->u.sees( poor_soul->pos() ) ) {
                     add_msg( m_good, _( "%1$s teleports into %2$s, killing them!" ),
-                             c->disp_name(), poor_soul->disp_name() );
+                             critter->disp_name(), poor_soul->disp_name() );
                 }
             }
             poor_soul->apply_damage( nullptr, bp_torso, 9999 ); //Splatter real nice.
@@ -78,11 +79,10 @@ bool teleport::teleport( Creature *c, int min_distance, int max_distance, bool s
         }
     }
 
-    c->setpos( new_pos );
+    critter->setpos( new_pos );
     //player and npc exclusive teleporting effects
     if( p ) {
         if( add_teleglow ) {
-            add_msg( m_bad, _( "unsafe" ) );
             p->add_effect( effect_teleglow, 30_minutes );
         }
     }
