@@ -97,8 +97,9 @@ bool string_id<quality>::is_valid() const
 
 std::string quality_requirement::to_string( int ) const
 {
-    return string_format( ngettext( "%d tool with %s of %d or more.",
-                                    "%d tools with %s of %d or more.", count ),
+    //~ %1$d: tool count, %2$s: quality requirement name, %3$d: quality level requirement
+    return string_format( ngettext( "%1$d tool with %2$s of %3$d or more.",
+                                    "%1$d tools with %2$s of %3$d or more.", count ),
                           count, type.obj().name, level );
 }
 
@@ -509,8 +510,11 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
                 }
                 if( qty > 0 ) {
                     text = item::count_by_charges( item_id ) ?
-                           string_format( _( "%s (%d of %ld)" ), item::nname( item_id ), component.count * batch, qty ) :
-                           string_format( _( "%s of %ld" ), text, qty );
+                           //~ %1$s: item name, %2$d: charge requirement, %3$d: available charges
+                           string_format( pgettext( "item requirement", "%1$s (%2$d of %3$ld)" ), item::nname( item_id ),
+                                          component.count * batch, qty ) :
+                           //~ %1$s: item count and name, %2$d: available item count
+                           string_format( pgettext( "item requirement", "%1$s of %2$ld" ), text, qty );
                 }
             }
 

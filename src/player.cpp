@@ -3510,7 +3510,7 @@ int player::impact( const int force, const tripoint &p )
 
     if( total_dealt > 0 && is_player() ) {
         // "You slam against the dirt" is fine
-        add_msg( m_bad, _( "You are slammed against %s for %d damage." ),
+        add_msg( m_bad, _( "You are slammed against %1$s for %2$d damage." ),
                  target_name, total_dealt );
     } else if( is_player() && shock_absorbers ) {
         add_msg( m_bad, _( "You are slammed against %s!" ),
@@ -7265,11 +7265,12 @@ item::reload_option player::select_ammo( const item &base,
         if( e.ammo->is_magazine() && e.ammo->ammo_data() ) {
             if( e.ammo->ammo_current() == "battery" ) {
                 // This battery ammo is not a real object that can be recovered but pseudo-object that represents charge
-                //~ magazine with ammo count
-                return string_format( _( "%s (%d)" ), e.ammo->type_name(), e.ammo->ammo_remaining() );
+                //~ battery storage (charges)
+                return string_format( pgettext( "magazine", "%1$s (%2$d)" ), e.ammo->type_name(),
+                                      e.ammo->ammo_remaining() );
             } else {
                 //~ magazine with ammo (count)
-                return string_format( _( "%s with %s (%d)" ), e.ammo->type_name(),
+                return string_format( pgettext( "magazine", "%1$s with %2$s (%3$d)" ), e.ammo->type_name(),
                                       e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ), e.ammo->ammo_remaining() );
             }
         } else if( e.ammo->is_watertight_container() ||
@@ -7737,7 +7738,9 @@ bool player::wield( item &target )
 
     // Query whether to draw an item from a holster when attempting to wield the holster
     if( target.get_use( "holster" ) && !target.contents.empty() ) {
-        if( query_yn( _( "Draw %s from %s?" ), target.get_contained().tname(), target.tname() ) ) {
+        //~ %1$s: weapon name, %2$s: holster name
+        if( query_yn( pgettext( "holster", "Draw %1$s from %2$s?" ), target.get_contained().tname(),
+                      target.tname() ) ) {
             invoke_item( &target );
             return false;
         }
@@ -11720,9 +11723,10 @@ bool player::crush_frozen_liquid( item_location loc )
 
     if( u.has_quality( quality_id( "HAMMER" ) ) ) {
         item hammering_item = u.item_with_best_of_quality( quality_id( "HAMMER" ) );
-        if( query_yn( _( "Do you want to crush up %s with your %s?\n%s" ), loc.get_item()->display_name(),
-                      hammering_item.tname(),
-                      colorize( _( "Be wary of fragile items nearby!" ), c_red ) ) ) {
+        //~ %1$s: item to be crushed, %2$s: hammer name
+        if( query_yn( _( "Do you want to crush up %1$s with your %2$s?\n"
+                         "<color_red>Be wary of fragile items nearby!</color>" ),
+                      loc.get_item()->display_name(), hammering_item.tname() ) ) {
 
             //Risk smashing tile with hammering tool, risk is lower with higher dex, damage lower with lower strength
             if( one_in( 1 + u.dex_cur / 4 ) ) {

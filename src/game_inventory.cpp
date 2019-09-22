@@ -909,7 +909,9 @@ class read_inventory_preset: public pickup_inventory_preset
                 if( book.skill ) {
                     const SkillLevel &skill = p.get_skill_level_object( book.skill );
                     if( skill.can_train() ) {
-                        return string_format( _( "%s to %d (%d)" ), book.skill->name(), book.level, skill.level() );
+                        //~ %1$s: book skill name, %2$d: book skill level, %3$d: player skill level
+                        return string_format( pgettext( "skill", "%1$s to %2$d (%3$d)" ), book.skill->name(), book.level,
+                                              skill.level() );
                     }
                 }
                 return std::string();

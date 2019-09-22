@@ -92,7 +92,9 @@ class selection_column_preset : public inventory_selector_preset
             const item_location &item = entry.any_item();
 
             if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-                res << string_format( _( "%d of %d" ), entry.chosen_count, available_count ) << ' ';
+                //~ %1$d: chosen count, %2$d: available count
+                res << string_format( pgettext( "count", "%1$d of %2$d" ), entry.chosen_count,
+                                      available_count ) << ' ';
             } else if( available_count != 1 ) {
                 res << available_count << ' ';
             }

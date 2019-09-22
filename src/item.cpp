@@ -2868,7 +2868,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             insert_separation_line();
             std::string ntext;
             if( item_note_type != item_vars.end() ) {
-                ntext += string_format( _( "%1$s on the %2$s is: " ),
+                //~ %1$s: gerund (e.g. carved), %2$s: item name
+                ntext += string_format( pgettext( "carving", "%1$s on the %2$s is: " ),
                                         item_note_type->second.c_str(), tname() );
             } else {
                 ntext += _( "Note: " );
@@ -3443,16 +3444,19 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         const item &contents_item = contents.front();
         if( contents_item.made_of( LIQUID ) || contents_item.is_food() ) {
             const unsigned contents_count = contents_item.charges > 1 ? contents_item.charges : quantity;
-            maintext = string_format( pgettext( "item name", "%s of %s" ), label( quantity ),
+            //~ %1$s: item name, %2$s: content liquid, food, or drink name
+            maintext = string_format( pgettext( "item name", "%1$s of %2$s" ), label( quantity ),
                                       contents_item.tname( contents_count, with_prefix ) );
         } else {
-            maintext = string_format( pgettext( "item name", "%s with %s" ), label( quantity ),
+            //~ %1$s: item name, %2$s: non-liquid, non-food, non-drink content item name
+            maintext = string_format( pgettext( "item name", "%1$s with %2$s" ), label( quantity ),
                                       contents_item.tname( quantity, with_prefix ) );
         }
     } else if( !contents.empty() ) {
+        //~ %1$s: item name, %2$zd: content size
         maintext = string_format( npgettext( "item name",
-                                             "%s with %zd item",
-                                             "%s with %zd items", contents.size() ),
+                                             "%1$s with %2$zd item",
+                                             "%1$s with %2$zd items", contents.size() ),
                                   label( quantity ), contents.size() );
     } else {
         maintext = label( quantity );
@@ -6814,7 +6818,8 @@ bool item::reload( player &u, item_location loc, int qty )
     } else if( !magazine_integral() ) {
         // if we already have a magazine loaded prompt to eject it
         if( magazine_current() ) {
-            std::string prompt = string_format( _( "Eject %s from %s?" ),
+            //~ %1$s: magazine name, %2$s: weapon name
+            std::string prompt = string_format( pgettext( "magazine", "Eject %1$s from %2$s?" ),
                                                 magazine_current()->tname(), tname() );
 
             // eject magazine to player inventory and try to dispose of it from there

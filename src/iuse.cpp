@@ -4163,7 +4163,9 @@ int iuse::rpgdie( player *you, item *die, bool, const tripoint & )
         die->set_var( "die_num_sides", sides );
     }
     const int roll = rng( 1, num_sides );
-    you->add_msg_if_player( _( "You roll a %d on your %d sided %s" ), roll, num_sides, die->tname() );
+    //~ %1$d: roll number, %2$d: side number of a die, %3$s: die item name
+    you->add_msg_if_player( pgettext( "dice", "You roll a %1$d on your %2$d sided %3$s" ), roll,
+                            num_sides, die->tname() );
     if( roll == num_sides ) {
         add_msg( m_good, _( "Critical!" ) );
     }
@@ -7111,7 +7113,8 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
                 ret_obj.vehicles[ veh_name ] ++;
             } else if( point == point_around_figure ) {
                 // point is center
-                description_part_on_figure = string_format( _( "%1$s from %2$s" ),
+                //~ %1$s: vehicle part name, %2$s: vehicle name
+                description_part_on_figure = string_format( pgettext( "vehicle part", "%1$s from %2$s" ),
                                              veh_part_pos.part_displayed()->part().name(), veh_name );
                 if( ret_obj.vehicles.find( veh_name ) != ret_obj.vehicles.end() &&
                     local_vehicles_recorded.find( veh_hash ) != local_vehicles_recorded.end() ) {
@@ -7128,7 +7131,9 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
             std::string item_name = colorized_item_name( item );
             item_name = trap_name + item_name + field_desc;
             if( point == point_around_figure && create_figure_desc ) {
-                description_terrain_on_figure = string_format( _( "%1$s with a %2$s" ), ter_desc, item_name );
+                //~ %1$s: terrain description, %2$s: item name
+                description_terrain_on_figure = string_format( pgettext( "terrain and item", "%1$s with a %2$s" ),
+                                                ter_desc, item_name );
             } else {
                 ret_obj.items[ item_name ] ++;
             }
