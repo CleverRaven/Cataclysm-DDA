@@ -172,7 +172,6 @@
     "min_unarmed": 0,
     "unarmed_allowed": true,
     "block_counter": true,
-    "dodge_counter": true,
     "crit_ok": true,
     "mult_bonuses": [ [ "movecost", 0.0 ] ],
     "messages": [ "You counter-attack %s", "<npcname> counter-attacks %s" ]
