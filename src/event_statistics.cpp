@@ -4,6 +4,32 @@
 #include "generic_factory.h"
 #include "stats_tracker.h"
 
+// event_transformation and event_statistic are both objects defined in json
+// and managed via generic_factory.
+// They both use the pimpl idiom and dynamic polymorphism to support their
+// implementation.
+// Their values can be calculated directly, or watched for updates.
+// To register something that watches for updates, call
+// stats_tracker::add_watcher.
+//
+// The way watching works is as follows:
+// - Each event_transformation and event_statistic has a corresponding state
+//   object, which can be stored in the stats_tracker to hold the current
+//   state of that transformation or statistic.
+// - Also, the stats_tracker stores all the watchers; any object watching any
+//   event type or the value of any transformation or statistic.
+// - Each stat object will also register itself as a watcher for any event
+//   type, transformation, or statistic it depends on.
+// - When an event occurs, watchers of that event_type will be informed.
+// - When stats are thus informed, they update their value if appropriate, and
+//   inform the stats_tracker of the new value.
+// - The stats_tracker then notifies watchers again in turn.
+//
+// In this way, the updates cascade to all relevant objects and ultimately the
+// end-users (also in the form of watchers) are informed.  For example, an
+// achievement might watch in this way so that it can trigger itself when its
+// conditions become true.
+
 namespace
 {
 
