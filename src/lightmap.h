@@ -3,7 +3,6 @@
 #define LIGHTMAP_H
 
 #include <cmath>
-#include <algorithm>
 
 #define LIGHT_SOURCE_LOCAL  0.1f
 #define LIGHT_SOURCE_BRIGHT 10
