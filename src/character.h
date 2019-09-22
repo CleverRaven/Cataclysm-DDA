@@ -1036,5 +1036,6 @@ template<>
 struct enum_traits<Character::stat> {
     static constexpr Character::stat last = Character::stat::DUMMY_STAT;
 };
-
+/**Get translated name of a stat*/
+std::string get_stat_name( Character::stat Stat );
 #endif
