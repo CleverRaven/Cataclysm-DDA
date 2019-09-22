@@ -201,7 +201,7 @@ void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down )
 ///// builtin terrain-specific mapgen functions. big multi-overmap-tile terrains are located in
 ///// mapgen_functions_big.cpp
 
-void mapgen_null( map *m, oter_id, mapgendata, const time_point &, float )
+void mapgen_null( map *m, oter_id, mapgendata &, const time_point &, float )
 {
     debugmsg( "Generating null terrain, please report this as a bug" );
     for( int i = 0; i < SEEX * 2; i++ ) {
@@ -212,7 +212,7 @@ void mapgen_null( map *m, oter_id, mapgendata, const time_point &, float )
     }
 }
 
-void mapgen_crater( map *m, oter_id, mapgendata dat, const time_point &turn, float )
+void mapgen_crater( map *m, oter_id, mapgendata &dat, const time_point &turn, float )
 {
     for( int i = 0; i < 4; i++ ) {
         if( dat.t_nesw[i] != "crater" ) {
@@ -250,7 +250,7 @@ static void ter_or_furn_set( map *m, const int x, const int y, const ter_furn_id
  * Default above ground non forested 'blank' area; typically a grassy field with a scattering of shrubs,
  *  but changes according to dat->region
  */
-void mapgen_field( map *m, oter_id, mapgendata dat, const time_point &turn, float )
+void mapgen_field( map *m, oter_id, mapgendata &dat, const time_point &turn, float )
 {
     // random area of increased vegetation. Or lava / toxic sludge / etc
     const bool boosted_vegetation = ( dat.region.field_coverage.boost_chance > rng( 0, 1000000 ) );
@@ -281,7 +281,7 @@ void mapgen_field( map *m, oter_id, mapgendata dat, const time_point &turn, floa
                     turn ); // FIXME: take 'rock' out and add as regional biome setting
 }
 
-void mapgen_hive( map *m, oter_id, mapgendata dat, const time_point &turn, float )
+void mapgen_hive( map *m, oter_id, mapgendata &dat, const time_point &turn, float )
 {
     // Start with a basic forest pattern
     for( int i = 0; i < SEEX * 2; i++ ) {
@@ -440,7 +440,7 @@ void mapgen_hive( map *m, oter_id, mapgendata dat, const time_point &turn, float
     }
 }
 
-void mapgen_spider_pit( map *m, oter_id, mapgendata dat, const time_point &turn, float )
+void mapgen_spider_pit( map *m, oter_id, mapgendata &dat, const time_point &turn, float )
 {
     // First generate a forest
     dat.fill( 4 );
@@ -507,7 +507,7 @@ void mapgen_spider_pit( map *m, oter_id, mapgendata dat, const time_point &turn,
     }
 }
 
-void mapgen_fungal_bloom( map *m, oter_id, mapgendata dat, const time_point &, float )
+void mapgen_fungal_bloom( map *m, oter_id, mapgendata &dat, const time_point &, float )
 {
     ( void )dat;
     for( int i = 0; i < SEEX * 2; i++ ) {
@@ -534,7 +534,7 @@ void mapgen_fungal_bloom( map *m, oter_id, mapgendata dat, const time_point &, f
     m->add_spawn( mon_fungaloid_queen, 1, point( 12, 12 ) );
 }
 
-void mapgen_fungal_tower( map *m, oter_id, mapgendata dat, const time_point &, float )
+void mapgen_fungal_tower( map *m, oter_id, mapgendata &dat, const time_point &, float )
 {
     ( void )dat;
     for( int i = 0; i < SEEX * 2; i++ ) {
@@ -557,7 +557,7 @@ void mapgen_fungal_tower( map *m, oter_id, mapgendata dat, const time_point &, f
     m->add_spawn( mon_fungaloid_tower, 1, point( 12, 12 ) );
 }
 
-void mapgen_fungal_flowers( map *m, oter_id, mapgendata dat, const time_point &, float )
+void mapgen_fungal_flowers( map *m, oter_id, mapgendata &dat, const time_point &, float )
 {
     ( void )dat;
     for( int i = 0; i < SEEX * 2; i++ ) {
@@ -644,7 +644,7 @@ static bool compare_neswx( bool *a1, std::initializer_list<int> a2 )
 }
 
 // mapgen_road replaces previous mapgen_road_straight _end _curved _tee _four_way
-void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
+void mapgen_road( map *m, oter_id terrain_type, mapgendata &dat, const time_point &turn,
                   float density )
 {
     // start by filling the whole map with grass/dirt/etc
@@ -964,7 +964,7 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, const time_point
 }
 ///////////////////
 
-void mapgen_subway( map *m, oter_id terrain_type, mapgendata dat, const time_point &, float )
+void mapgen_subway( map *m, oter_id terrain_type, mapgendata &dat, const time_point &, float )
 {
     // start by filling the whole map with grass/dirt/etc
     dat.fill_groundcover();
@@ -1302,7 +1302,7 @@ void mapgen_subway( map *m, oter_id terrain_type, mapgendata dat, const time_poi
     m->rotate( rot );
 }
 
-void mapgen_sewer_straight( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
+void mapgen_sewer_straight( map *m, oter_id terrain_type, mapgendata &dat, const time_point &turn,
                             float )
 {
     ( void )dat;
@@ -1321,7 +1321,7 @@ void mapgen_sewer_straight( map *m, oter_id terrain_type, mapgendata dat, const 
     }
 }
 
-void mapgen_sewer_curved( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
+void mapgen_sewer_curved( map *m, oter_id terrain_type, mapgendata &dat, const time_point &turn,
                           float )
 {
     ( void )dat;
@@ -1346,7 +1346,8 @@ void mapgen_sewer_curved( map *m, oter_id terrain_type, mapgendata dat, const ti
     }
 }
 
-void mapgen_sewer_tee( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn, float )
+void mapgen_sewer_tee( map *m, oter_id terrain_type, mapgendata &dat, const time_point &turn,
+                       float )
 {
     ( void )dat;
     for( int i = 0; i < SEEX * 2; i++ ) {
@@ -1370,7 +1371,7 @@ void mapgen_sewer_tee( map *m, oter_id terrain_type, mapgendata dat, const time_
     }
 }
 
-void mapgen_sewer_four_way( map *m, oter_id, mapgendata dat, const time_point &turn, float )
+void mapgen_sewer_four_way( map *m, oter_id, mapgendata &dat, const time_point &turn, float )
 {
     ( void )dat;
     int rn = rng( 0, 3 );
@@ -1396,7 +1397,7 @@ void mapgen_sewer_four_way( map *m, oter_id, mapgendata dat, const time_point &t
 }
 
 ///////////////////
-void mapgen_bridge( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn, float )
+void mapgen_bridge( map *m, oter_id terrain_type, mapgendata &dat, const time_point &turn, float )
 {
     const auto is_river = [&]( const om_direction::type dir ) {
         return dat.t_nesw[static_cast<int>( om_direction::add( dir,
@@ -1433,7 +1434,7 @@ void mapgen_bridge( map *m, oter_id terrain_type, mapgendata dat, const time_poi
     m->place_items( "road", 5, point_zero, point( SEEX * 2 - 1, SEEX * 2 - 1 ), false, turn );
 }
 
-void mapgen_highway( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn, float )
+void mapgen_highway( map *m, oter_id terrain_type, mapgendata &dat, const time_point &turn, float )
 {
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
@@ -1462,7 +1463,7 @@ void mapgen_highway( map *m, oter_id terrain_type, mapgendata dat, const time_po
 
 // mapgen_railroad
 // TODO: Refactor and combine with other similiar functions (e.g. road).
-void mapgen_railroad( map *m, oter_id terrain_type, mapgendata dat, const time_point &, float )
+void mapgen_railroad( map *m, oter_id terrain_type, mapgendata &dat, const time_point &, float )
 {
     // start by filling the whole map with grass/dirt/etc
     dat.fill_groundcover();
@@ -1756,7 +1757,7 @@ void mapgen_railroad( map *m, oter_id terrain_type, mapgendata dat, const time_p
     m->rotate( rot );
 }
 ///////////////////
-void mapgen_railroad_bridge( map *m, oter_id terrain_type, mapgendata, const time_point &, float )
+void mapgen_railroad_bridge( map *m, oter_id terrain_type, mapgendata &, const time_point &, float )
 {
     mapf::formatted_set_simple( m, 0, 0,
                                 "r^X^^^X^________^X^^^X^r\n"
@@ -1790,13 +1791,13 @@ void mapgen_railroad_bridge( map *m, oter_id terrain_type, mapgendata, const tim
     m->rotate( static_cast<int>( terrain_type->get_dir() ) );
 }
 
-void mapgen_river_center( map *m, oter_id, mapgendata dat, const time_point &, float )
+void mapgen_river_center( map *m, oter_id, mapgendata &dat, const time_point &, float )
 {
     ( void )dat;
     fill_background( m, t_water_moving_dp );
 }
 
-void mapgen_river_curved_not( map *m, oter_id terrain_type, mapgendata dat, const time_point &,
+void mapgen_river_curved_not( map *m, oter_id terrain_type, mapgendata &dat, const time_point &,
                               float )
 {
     ( void )dat;
@@ -1831,7 +1832,7 @@ void mapgen_river_curved_not( map *m, oter_id terrain_type, mapgendata dat, cons
     }
 }
 
-void mapgen_river_straight( map *m, oter_id terrain_type, mapgendata dat, const time_point &,
+void mapgen_river_straight( map *m, oter_id terrain_type, mapgendata &dat, const time_point &,
                             float )
 {
     ( void )dat;
@@ -1858,7 +1859,7 @@ void mapgen_river_straight( map *m, oter_id terrain_type, mapgendata dat, const 
     }
 }
 
-void mapgen_river_curved( map *m, oter_id terrain_type, mapgendata dat, const time_point &, float )
+void mapgen_river_curved( map *m, oter_id terrain_type, mapgendata &dat, const time_point &, float )
 {
     ( void )dat;
     fill_background( m, t_water_moving_dp );
@@ -1893,7 +1894,7 @@ void mapgen_river_curved( map *m, oter_id terrain_type, mapgendata dat, const ti
     }
 }
 
-void mapgen_parking_lot( map *m, oter_id, mapgendata dat, const time_point &turn, float )
+void mapgen_parking_lot( map *m, oter_id, mapgendata &dat, const time_point &turn, float )
 {
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
@@ -2263,25 +2264,25 @@ void house_room( map *m, room_type type, int x1, int y1, int x2, int y2, mapgend
     m->place_items( placed, chance, point( x1 + 1, y1 + 1 ), point( x2 - 1, y2 - 1 ), false, turn );
 }
 
-void mapgen_generic_house_boxy( map *m, oter_id terrain_type, mapgendata dat,
+void mapgen_generic_house_boxy( map *m, oter_id terrain_type, mapgendata &dat,
                                 const time_point &turn, float density )
 {
     mapgen_generic_house( m, terrain_type, dat, turn, density, 1 );
 }
 
-void mapgen_generic_house_big_livingroom( map *m, oter_id terrain_type, mapgendata dat,
+void mapgen_generic_house_big_livingroom( map *m, oter_id terrain_type, mapgendata &dat,
         const time_point &turn, float density )
 {
     mapgen_generic_house( m, terrain_type, dat, turn, density, 2 );
 }
 
-void mapgen_generic_house_center_hallway( map *m, oter_id terrain_type, mapgendata dat,
+void mapgen_generic_house_center_hallway( map *m, oter_id terrain_type, mapgendata &dat,
         const time_point &turn, float density )
 {
     mapgen_generic_house( m, terrain_type, dat, turn, density, 3 );
 }
 
-void mapgen_generic_house( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
+void mapgen_generic_house( map *m, oter_id terrain_type, mapgendata &dat, const time_point &turn,
                            float density, int variant )
 {
     int rn = 0;
@@ -2665,7 +2666,7 @@ void mapgen_generic_house( map *m, oter_id terrain_type, mapgendata dat, const t
 }
 
 ///////////////////////////////////////////////////////////
-void mapgen_basement_generic_layout( map *m, oter_id, mapgendata, const time_point &, float )
+void mapgen_basement_generic_layout( map *m, oter_id, mapgendata &, const time_point &, float )
 {
     const ter_id t_rock_smooth( "t_rock_smooth" );
     const int up = 0;
@@ -2729,7 +2730,7 @@ static point best_expand( const map &m, const tripoint &from, int maxx, int maxy
 }
 } // namespace furn_space
 
-void mapgen_basement_junk( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
+void mapgen_basement_junk( map *m, oter_id terrain_type, mapgendata &dat, const time_point &turn,
                            float density )
 {
     // Junk!
@@ -2795,7 +2796,7 @@ void mapgen_basement_junk( map *m, oter_id terrain_type, mapgendata dat, const t
                      SEEY * 2 - 2 ), density );
 }
 
-void mapgen_basement_spiders( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
+void mapgen_basement_spiders( map *m, oter_id terrain_type, mapgendata &dat, const time_point &turn,
                               float density )
 {
     // Oh no! A spider nest!
@@ -2826,7 +2827,7 @@ void mapgen_basement_spiders( map *m, oter_id terrain_type, mapgendata dat, cons
     m->place_items( "rare", 70, point_south_east, point( SEEX * 2 - 1, SEEY * 2 - 5 ), false, turn );
 }
 
-void mapgen_cave( map *m, oter_id, mapgendata dat, const time_point &turn, float density )
+void mapgen_cave( map *m, oter_id, mapgendata &dat, const time_point &turn, float density )
 {
     if( dat.above() == "cave" ) {
         // We're underground! // FIXME: y u no use z-level
@@ -2929,7 +2930,7 @@ void mapgen_cave( map *m, oter_id, mapgendata dat, const time_point &turn, float
 
 }
 
-void mapgen_cave_rat( map *m, oter_id, mapgendata dat, const time_point &turn, float )
+void mapgen_cave_rat( map *m, oter_id, mapgendata &dat, const time_point &turn, float )
 {
 
     fill_background( m, t_rock );
@@ -2999,7 +3000,7 @@ void mapgen_cave_rat( map *m, oter_id, mapgendata dat, const time_point &turn, f
     }
 }
 
-void mapgen_cavern( map *m, oter_id, mapgendata dat, const time_point &turn, float )
+void mapgen_cavern( map *m, oter_id, mapgendata &dat, const time_point &turn, float )
 {
 
     for( int i = 0; i < 4;
@@ -3088,7 +3089,7 @@ void mapgen_cavern( map *m, oter_id, mapgendata dat, const time_point &turn, flo
 
 }
 
-void mapgen_rock_partial( map *m, oter_id, mapgendata dat, const time_point &, float )
+void mapgen_rock_partial( map *m, oter_id, mapgendata &dat, const time_point &, float )
 {
     fill_background( m, t_rock );
     for( int i = 0; i < 4; i++ ) {
@@ -3110,17 +3111,17 @@ void mapgen_rock_partial( map *m, oter_id, mapgendata dat, const time_point &, f
     }
 }
 
-void mapgen_rock( map *m, oter_id, mapgendata, const time_point &, float )
+void mapgen_rock( map *m, oter_id, mapgendata &, const time_point &, float )
 {
     fill_background( m, t_rock );
 }
 
-void mapgen_open_air( map *m, oter_id, mapgendata, const time_point &, float )
+void mapgen_open_air( map *m, oter_id, mapgendata &, const time_point &, float )
 {
     fill_background( m, t_open_air );
 }
 
-void mapgen_rift( map *m, oter_id, mapgendata dat, const time_point &, float )
+void mapgen_rift( map *m, oter_id, mapgendata &dat, const time_point &, float )
 {
 
     if( dat.north() != "rift" && dat.north() != "hellmouth" ) {
@@ -3170,7 +3171,7 @@ void mapgen_rift( map *m, oter_id, mapgendata dat, const time_point &, float )
 
 }
 
-void mapgen_hellmouth( map *m, oter_id, mapgendata dat, const time_point &, float )
+void mapgen_hellmouth( map *m, oter_id, mapgendata &dat, const time_point &, float )
 {
     // what is this, doom?
     // .. seriously, though...
@@ -3275,7 +3276,7 @@ void mapgen_hellmouth( map *m, oter_id, mapgendata dat, const time_point &, floa
 
 }
 
-void mapgen_ants_curved( map *m, oter_id terrain_type, mapgendata dat, const time_point &, float )
+void mapgen_ants_curved( map *m, oter_id terrain_type, mapgendata &dat, const time_point &, float )
 {
     ( void )dat;
     int x = SEEX;
@@ -3334,7 +3335,7 @@ void mapgen_ants_curved( map *m, oter_id terrain_type, mapgendata dat, const tim
 
 }
 
-void mapgen_ants_four_way( map *m, oter_id, mapgendata dat, const time_point &, float )
+void mapgen_ants_four_way( map *m, oter_id, mapgendata &dat, const time_point &, float )
 {
     ( void )dat;
     fill_background( m, t_rock );
@@ -3376,7 +3377,8 @@ void mapgen_ants_four_way( map *m, oter_id, mapgendata dat, const time_point &, 
 
 }
 
-void mapgen_ants_straight( map *m, oter_id terrain_type, mapgendata dat, const time_point &, float )
+void mapgen_ants_straight( map *m, oter_id terrain_type, mapgendata &dat, const time_point &,
+                           float )
 {
     ( void )dat;
     int x = SEEX;
@@ -3403,7 +3405,7 @@ void mapgen_ants_straight( map *m, oter_id terrain_type, mapgendata dat, const t
 
 }
 
-void mapgen_ants_tee( map *m, oter_id terrain_type, mapgendata dat, const time_point &, float )
+void mapgen_ants_tee( map *m, oter_id terrain_type, mapgendata &dat, const time_point &, float )
 {
     ( void )dat;
     fill_background( m, t_rock );
@@ -3453,7 +3455,7 @@ void mapgen_ants_tee( map *m, oter_id terrain_type, mapgendata dat, const time_p
 
 }
 
-static void mapgen_ants_generic( map *m, oter_id terrain_type, mapgendata dat,
+static void mapgen_ants_generic( map *m, oter_id terrain_type, mapgendata &dat,
                                  const time_point &turn, float )
 {
 
@@ -3528,14 +3530,14 @@ static void mapgen_ants_generic( map *m, oter_id terrain_type, mapgendata dat,
 
 }
 
-void mapgen_ants_food( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
+void mapgen_ants_food( map *m, oter_id terrain_type, mapgendata &dat, const time_point &turn,
                        float density )
 {
     mapgen_ants_generic( m, terrain_type, dat, turn, density );
     m->place_items( "ant_food", 92, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, turn );
 }
 
-void mapgen_ants_larvae( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
+void mapgen_ants_larvae( map *m, oter_id terrain_type, mapgendata &dat, const time_point &turn,
                          float density )
 {
     mapgen_ants_generic( m, terrain_type, dat, turn, density );
@@ -3543,7 +3545,7 @@ void mapgen_ants_larvae( map *m, oter_id terrain_type, mapgendata dat, const tim
     m->add_spawn( mon_ant_larva, 10, point( SEEX, SEEY ) );
 }
 
-void mapgen_ants_queen( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
+void mapgen_ants_queen( map *m, oter_id terrain_type, mapgendata &dat, const time_point &turn,
                         float density )
 {
     mapgen_ants_generic( m, terrain_type, dat, turn, density );
@@ -3552,7 +3554,7 @@ void mapgen_ants_queen( map *m, oter_id terrain_type, mapgendata dat, const time
 
 }
 
-void mapgen_tutorial( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
+void mapgen_tutorial( map *m, oter_id terrain_type, mapgendata &dat, const time_point &turn,
                       float density )
 {
     ( void ) density; // Not used, no normally generated zombies here
@@ -3604,7 +3606,7 @@ void mapgen_tutorial( map *m, oter_id terrain_type, mapgendata dat, const time_p
     }
 }
 
-void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
+void mapgen_forest( map *m, oter_id terrain_type, mapgendata &dat, const time_point &turn,
                     float )
 {
     // Adjacency factor is basically used to weight the frequency of a feature
@@ -3854,7 +3856,7 @@ void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_poi
     }
 }
 
-void mapgen_forest_trail_straight( map *m, oter_id terrain_type, mapgendata dat,
+void mapgen_forest_trail_straight( map *m, oter_id terrain_type, mapgendata &dat,
                                    const time_point &turn,
                                    float density )
 {
@@ -3892,7 +3894,7 @@ void mapgen_forest_trail_straight( map *m, oter_id terrain_type, mapgendata dat,
                     turn );
 }
 
-void mapgen_forest_trail_curved( map *m, oter_id terrain_type, mapgendata dat,
+void mapgen_forest_trail_curved( map *m, oter_id terrain_type, mapgendata &dat,
                                  const time_point &turn,
                                  float density )
 {
@@ -3938,7 +3940,7 @@ void mapgen_forest_trail_curved( map *m, oter_id terrain_type, mapgendata dat,
                     turn );
 }
 
-void mapgen_forest_trail_tee( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
+void mapgen_forest_trail_tee( map *m, oter_id terrain_type, mapgendata &dat, const time_point &turn,
                               float density )
 {
     mapgen_forest( m, oter_str_id( "forest_thick" ).id(), dat, turn, density );
@@ -3982,7 +3984,7 @@ void mapgen_forest_trail_tee( map *m, oter_id terrain_type, mapgendata dat, cons
                     turn );
 }
 
-void mapgen_forest_trail_four_way( map *m, oter_id, mapgendata dat, const time_point &turn,
+void mapgen_forest_trail_four_way( map *m, oter_id, mapgendata &dat, const time_point &turn,
                                    float density )
 {
     mapgen_forest( m, oter_str_id( "forest_thick" ).id(), dat, turn, density );
@@ -4016,7 +4018,7 @@ void mapgen_forest_trail_four_way( map *m, oter_id, mapgendata dat, const time_p
                     turn );
 }
 
-void mapgen_lake_shore( map *m, oter_id, mapgendata dat, const time_point &turn, float density )
+void mapgen_lake_shore( map *m, oter_id, mapgendata &dat, const time_point &turn, float density )
 {
     // Our lake shores may "extend" adjacent terrain, if the adjacent types are defined as being
     // extendable in our regional settings. What this effectively means is that if the lake shore is
@@ -4472,7 +4474,7 @@ static void stairs_debug_log( const map *const m, const std::string &msg, const 
             ;
 }
 
-void place_stairs( map *m, oter_id terrain_type, mapgendata dat )
+void place_stairs( map *m, oter_id terrain_type, mapgendata &dat )
 {
     if( !dat.has_basement() ) {
         return;

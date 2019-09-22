@@ -2740,9 +2740,9 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
             const oter_id t_south_west = overmap_buffer.ter( over + tripoint_south_west );
             const oter_id t_west  = overmap_buffer.ter( over + tripoint_west );
             const oter_id t_north_west = overmap_buffer.ter( over + tripoint_north_west );
-            const mapgendata dat( t_north, t_east, t_south, t_west,
-                                  t_north_east, t_south_east, t_south_west, t_north_west,
-                                  t_above, t_below, over.z, *rsettings, m );
+            mapgendata dat( t_north, t_east, t_south, t_west,
+                            t_north_east, t_south_east, t_south_west, t_north_west,
+                            t_above, t_below, over.z, *rsettings, m );
             run_mapgen_func( extra.generator_id, &m, terrain_type, dat, calendar::turn, 0 );
             break;
         }
