@@ -1796,6 +1796,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 return;
             }
         }
+        corpse.set_flag( "PULPED" );
     }
     // If we reach this, all corpses have been pulped, finish the activity
     act->moves_left = 0;

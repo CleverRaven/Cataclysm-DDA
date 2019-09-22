@@ -4648,7 +4648,7 @@ bool item::can_revive() const
 {
     return is_corpse() && corpse->has_flag( MF_REVIVES ) && damage() < max_damage() &&
            !( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) || has_flag( "QUARTERED" ) ||
-              has_flag( "SKINNED" ) );
+              has_flag( "SKINNED" ) || has_flag( "PULPED" ) );
 }
 
 bool item::ready_to_revive( const tripoint &pos ) const
