@@ -646,7 +646,7 @@ bool trapfunc::telepad( const tripoint &p, Creature *c, item * )
             add_msg( _( "The air shimmers around %s..." ), c->disp_name() );
         }
     }
-    teleport::teleport( c );
+    teleport::teleport( *c );
     return false;
 }
 

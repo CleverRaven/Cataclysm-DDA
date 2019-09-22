@@ -1635,7 +1635,7 @@ void map::player_in_field( player &u )
             if( rng( 0, 2 ) < cur.get_field_intensity() && u.is_player() ) {
                 add_msg( m_bad, _( "You're violently teleported!" ) );
                 u.hurtall( cur.get_field_intensity(), nullptr );
-                teleport::teleport( &u );
+                teleport::teleport( u );
             }
         }
         // Why do these get removed???
@@ -1926,7 +1926,7 @@ void map::monster_in_field( monster &z )
         if( cur_field_type == fd_fatigue ) {
             if( rng( 0, 2 ) < cur.get_field_intensity() ) {
                 dam += cur.get_field_intensity();
-                teleport::teleport( &z );
+                teleport::teleport( z );
             }
         }
         if( cur_field_type == fd_incendiary ) {

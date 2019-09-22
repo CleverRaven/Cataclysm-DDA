@@ -3432,7 +3432,7 @@ int iuse::teleport( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     p->moves -= to_moves<int>( 1_seconds );
-    teleport::teleport( p );
+    teleport::teleport( *p );
     return it->type->charges_to_use();
 }
 
@@ -5276,7 +5276,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
             break;
 
             case AEA_TELEPORT:
-                teleport::teleport( p );
+                teleport::teleport( *p );
                 break;
 
             case AEA_LIGHT:

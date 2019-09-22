@@ -15,15 +15,15 @@ const efftype_id effect_teleglow( "teleglow" );
 bool teleport::teleport( Creature &critter, int min_distance, int max_distance, bool safe,
                          bool add_teleglow )
 {
-    if( critter == nullptr || min_distance > max_distance ) {
+    if( min_distance > max_distance ) {
         debugmsg( "ERROR: Function teleport::teleport called with invalid arguments." );
         return false;
     }
 
     const bool c_is_u = &critter == &g->u;
-    player *const p = critter->as_player();
+    player *const p = critter.as_player();
     int tries = 0;
-    tripoint origin = critter->pos();
+    tripoint origin = critter.pos();
     tripoint new_pos = tripoint_zero;
     do {
         int rangle = rng( 0, 360 );
@@ -39,14 +39,14 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
                 add_msg( m_bad, _( "You cannot teleport safely" ) );
             }
             return false;
-        } else {
-            critter->apply_damage( nullptr, bp_torso, 9999 );
-            if( c_is_u ) {
-                g->events().send<event_type::teleports_into_wall>( p->getID(), g->m.obstacle_name( new_pos ) );
-                add_msg( m_bad, _( "You die after teleporting into a solid." ) );
-            }
-            critter->check_dead_state();
         }
+        critter.apply_damage( nullptr, bp_torso, 9999 );
+        if( c_is_u ) {
+            g->events().send<event_type::teleports_into_wall>( p->getID(), g->m.obstacle_name( new_pos ) );
+            add_msg( m_bad, _( "You die after teleporting into a solid." ) );
+        }
+        critter.check_dead_state();
+
     }
     //handles telefragging other creatures
     if( Creature *const poor_soul = g->critter_at<Creature>( new_pos ) ) {
@@ -70,7 +70,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
             } else {
                 if( g->u.sees( *poor_soul ) ) {
                     add_msg( m_good, _( "%1$s teleports into %2$s, killing them!" ),
-                             critter->disp_name(), poor_soul->disp_name() );
+                             critter.disp_name(), poor_soul->disp_name() );
                 }
             }
             poor_soul->apply_damage( nullptr, bp_torso, 9999 ); //Splatter real nice.
@@ -78,7 +78,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
         }
     }
 
-    critter->setpos( new_pos );
+    critter.setpos( new_pos );
     //player and npc exclusive teleporting effects
     if( p ) {
         if( add_teleglow ) {

@@ -52,7 +52,7 @@ void spell_effect::teleport_random( const spell &sp, Creature &caster, const tri
         debugmsg( "ERROR: Teleport argument(s) invalid" );
         return;
     }
-    teleport::teleport( &caster, min_distance, max_distance, safe, false );
+    teleport::teleport( caster, min_distance, max_distance, safe, false );
 }
 
 void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint & )
