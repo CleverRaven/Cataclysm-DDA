@@ -2,7 +2,7 @@
 #ifndef TELEPORT_H
 #define TELEPORT_H
 
-#include "creature.h"
+class Creature;
 
 namespace teleport
 {

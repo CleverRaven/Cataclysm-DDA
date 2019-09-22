@@ -12,7 +12,7 @@
 
 const efftype_id effect_teleglow( "teleglow" );
 
-bool teleport::teleport( Creature *const critter, int min_distance, int max_distance, bool safe,
+bool teleport::teleport( Creature &critter, int min_distance, int max_distance, bool safe,
                          bool add_teleglow )
 {
     if( critter == nullptr || min_distance > max_distance ) {
@@ -20,7 +20,7 @@ bool teleport::teleport( Creature *const critter, int min_distance, int max_dist
         return false;
     }
 
-    bool c_is_u = ( critter == &g->u );
+    const bool c_is_u = &critter == &g->u;
     player *const p = critter->as_player();
     int tries = 0;
     tripoint origin = critter->pos();
@@ -43,7 +43,7 @@ bool teleport::teleport( Creature *const critter, int min_distance, int max_dist
             critter->apply_damage( nullptr, bp_torso, 9999 );
             if( c_is_u ) {
                 g->events().send<event_type::teleports_into_wall>( p->getID(), g->m.obstacle_name( new_pos ) );
-                add_msg( m_bad, _( "You die after teleporting into a solid" ) );
+                add_msg( m_bad, _( "You die after teleporting into a solid." ) );
             }
             critter->check_dead_state();
         }
@@ -52,7 +52,7 @@ bool teleport::teleport( Creature *const critter, int min_distance, int max_dist
     if( Creature *const poor_soul = g->critter_at<Creature>( new_pos ) ) {
         if( safe ) {
             if( c_is_u ) {
-                add_msg( m_bad, _( "You cannot teleport safely" ) );
+                add_msg( m_bad, _( "You cannot teleport safely." ) );
             }
             return false;
         } else {
@@ -68,7 +68,7 @@ bool teleport::teleport( Creature *const critter, int min_distance, int max_dist
                                           poor_soul->disp_name() );
                 g->events().send<event_type::telefrags_creature>( p->getID(), poor_soul->get_name() );
             } else {
-                if( g->u.sees( poor_soul->pos() ) ) {
+                if( g->u.sees( *poor_soul ) ) {
                     add_msg( m_good, _( "%1$s teleports into %2$s, killing them!" ),
                              critter->disp_name(), poor_soul->disp_name() );
                 }
