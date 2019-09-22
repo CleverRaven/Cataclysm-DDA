@@ -896,9 +896,9 @@ static void vehicle_activity( player &p, const tripoint src_loc, int vpindex, ch
     }
     const vpart_info &vp = veh->part_info( vpindex );
     const vehicle_part part = veh->parts[ vpindex ];
-    if( type == 'r' ){
+    if( type == 'r' ) {
         time_to_take = vp.repair_time( p ) * part.damage() / part.max_damage();
-    } else if( type == 'o' ){
+    } else if( type == 'o' ) {
         time_to_take = vp.removal_time( p );
     }
     p.assign_activity( activity_id( "ACT_VEHICLE" ), time_to_take, static_cast<int>( type ) );
@@ -1219,7 +1219,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         act == activity_id( "ACT_VEHICLE_REPAIR" ) ) {
         std::vector<int> already_working_indexes;
         vehicle *veh = veh_pointer_or_null( g->m.veh_at( src_loc ) );
-        if( !veh ){
+        if( !veh ) {
             return activity_reason_info::fail( NO_ZONE );
         }
         // if the vehicle is moving or player is controlling it.
@@ -1232,21 +1232,24 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
             }
             // If the NPC has an activity - make sure theyre not duplicating work.
             tripoint guy_work_spot;
-            if( guy.has_player_activity() && guy.activity.placement != tripoint_min ){
+            if( guy.has_player_activity() && guy.activity.placement != tripoint_min ) {
                 guy_work_spot = g->m.getlocal( guy.activity.placement );
             }
             // If their position or intended position or player position/intended position
             // then discount, dont need to move each other out of the way.
             if( g->m.getlocal( g->u.activity.placement ) == src_loc ||
-                guy_work_spot == src_loc || guy.pos() == src_loc || g->u.pos() == src_loc ) {
+                guy_work_spot == src_loc || guy.pos() == src_loc || ( p.is_npc() && g->u.pos() == src_loc ) ) {
                 return activity_reason_info::fail( ALREADY_WORKING );
             }
-            if( guy_work_spot != tripoint_zero ){
+            if( guy_work_spot != tripoint_zero ) {
                 vehicle *other_veh = veh_pointer_or_null( g->m.veh_at( guy_work_spot ) );
                 // working on same vehicle - store the index to check later.
-                if( other_veh && other_veh == veh && guy.activity_vehicle_part_index != -1 ){
+                if( other_veh && other_veh == veh && guy.activity_vehicle_part_index != -1 ) {
                     already_working_indexes.push_back( guy.activity_vehicle_part_index );
                 }
+            }
+            if( g->u.activity_vehicle_part_index != -1 ) {
+                already_working_indexes.push_back( g->u.activity_vehicle_part_index );
             }
         }
         if( act == activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) ) {
@@ -2289,9 +2292,9 @@ static bool chop_tree_activity( player &p, const tripoint &src_loc )
 
 static void check_npc_revert( player &p )
 {
-    if( p.is_npc() ){
+    if( p.is_npc() ) {
         npc *guy = dynamic_cast<npc *>( &p );
-        if( guy ){
+        if( guy ) {
             guy->revert_after_activity();
         }
     }
@@ -2689,9 +2692,9 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             activity_to_restore == activity_id( "ACT_VEHICLE_REPAIR" ) ||
             activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ) {
             p.assign_activity( activity_id( "ACT_TIDY_UP" ) );
-            if( p.is_npc() ){
+            if( p.is_npc() ) {
                 npc *guy = dynamic_cast<npc *>( &p );
-                if( guy ){
+                if( guy ) {
                     guy->set_attitude( NPCATT_ACTIVITY );
                     guy->set_mission( NPC_MISSION_ACTIVITY );
                 }
