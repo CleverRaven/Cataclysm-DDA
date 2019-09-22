@@ -6581,6 +6581,8 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     ctxt.register_action( "zoom_in" );
 
     const int old_levz = get_levz();
+    const int min_levz = std::max( old_levz - fov_3d_z_range, -OVERMAP_DEPTH );
+    const int max_levz = std::min( old_levz + fov_3d_z_range, OVERMAP_HEIGHT );
 
     m.update_visibility_cache( old_levz );
     const visibility_variables &cache = g->m.get_visibility_variables_cache();
@@ -6671,8 +6673,8 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             }
 
             const int dz = ( action == "LEVEL_UP" ? 1 : -1 );
-            lz = clamp( lz + dz, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
-            center.z = clamp( center.z + dz, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
+            lz = clamp( lz + dz, min_levz, max_levz );
+            center.z = clamp( center.z + dz, min_levz, max_levz );
 
             add_msg( m_debug, "levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), center.z );
             u.view_offset.z = center.z - u.posz();
