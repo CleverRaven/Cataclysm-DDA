@@ -99,6 +99,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::RANDOM_AOE: return "RANDOM_AOE";
         case spell_flag::RANDOM_DAMAGE: return "RANDOM_DAMAGE";
         case spell_flag::RANDOM_DURATION: return "RANDOM_DURATION";
+        case spell_flag::WONDER: return "WONDER";
         case spell_flag::LAST: break;
     }
     debugmsg( "Invalid spell_flag" );
@@ -1066,15 +1067,33 @@ void spell::cast_spell_effect( Creature &source, const tripoint &target ) const
 
 void spell::cast_all_effects( Creature &source, const tripoint &target ) const
 {
-    // first call the effect of the main spell
-    cast_spell_effect( source, target );
-    for( const fake_spell &extra_spell : type->additional_spells ) {
-        spell sp = extra_spell.get_spell( extra_spell.level );
+    if( has_flag( spell_flag::WONDER ) ) {
+        const auto iter = type->additional_spells.begin();
+        for( int num_spells = abs( damage() ); num_spells > 0; num_spells-- ) {
+            const int rand_spell = rng( 0, type->additional_spells.size() - 1 );
+            spell sp = ( iter + rand_spell )->get_spell( ( iter + rand_spell )->level );
 
-        if( extra_spell.self ) {
-            sp.cast_all_effects( source, source.pos() );
-        } else {
-            sp.cast_all_effects( source, target );
+            // This spell flag makes it so the message of the spell that's cast using this spell will be sent.
+            // if a message is added to the casting spell, it will be sent as well.
+            source.add_msg_if_player( sp.message() );
+
+            if( ( iter + rand_spell )->self ) {
+                sp.cast_all_effects( source, source.pos() );
+            } else {
+                sp.cast_all_effects( source, target );
+            }
+        }
+    } else {
+        // first call the effect of the main spell
+        cast_spell_effect( source, target );
+        for( const fake_spell &extra_spell : type->additional_spells ) {
+            spell sp = extra_spell.get_spell( extra_spell.level );
+
+            if( extra_spell.self ) {
+                sp.cast_all_effects( source, source.pos() );
+            } else {
+                sp.cast_all_effects( source, target );
+            }
         }
     }
 }

@@ -46,6 +46,7 @@ enum spell_flag {
     RANDOM_AOE, // picks random number between min+increment*level and max instead of normal behavior
     RANDOM_DAMAGE, // picks random number between min+increment*level and max instead of normal behavior
     RANDOM_DURATION, // picks random number between min+increment*level and max instead of normal behavior
+    WONDER, // instead of casting each of the extra_spells, it picks N of them and casts them (where N is std::min( damage(), number_of_spells ))
     LAST
 };
 
