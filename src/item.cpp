@@ -3592,11 +3592,25 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 }
 
-std::string item::display_money( unsigned int quantity, unsigned int amount ) const
+std::string item::display_money( unsigned int quantity, unsigned int total,
+                                 cata::optional<unsigned int> selected ) const
 {
-    //~ This is a string to display the total amount of money in a stack of cash cards. The strings are: %s is the display name of cash cards. The following bracketed $%.2f is the amount of money on the stack of cards in dollars, to two decimal points. (e.g. "cash cards ($15.35)")
-    return string_format( pgettext( "cash card and total money", "%s %s" ), tname( quantity ),
-                          format_money( amount ) );
+    if( selected ) {
+        //~ This is a string to display the selected and total amount of money in a stack of cash cards.
+        //~ %1$s is the display name of cash cards.
+        //~ %2$s is the total amount of money.
+        //~ %3$s is the selected amount of money.
+        //~ Example: "cash cards $15.35 of $20.48"
+        return string_format( pgettext( "cash card and money", "%1$s %3$s of %2$s" ), tname( quantity ),
+                              format_money( total ), format_money( *selected ) );
+    } else {
+        //~ This is a string to display the total amount of money in a stack of cash cards.
+        //~ %1$s is the display name of cash cards.
+        //~ %2$s is the total amount of money on the cash cards.
+        //~ Example: "cash cards $20.48"
+        return string_format( pgettext( "cash card and money", "%1$s %2$s" ), tname( quantity ),
+                              format_money( total ) );
+    }
 }
 
 std::string item::display_name( unsigned int quantity ) const
