@@ -400,6 +400,12 @@
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "chem_rdx", 200 ] ], [ [ "chem_hmtd", 20 ] ], [ [ "string_6", 1 ] ], [ [ "material_sand", 50 ] ] ]
+    "components": [
+      [ [ "pipe", 1 ] ],
+      [ [ "chem_rdx", 200 ] ],
+      [ [ "chem_hmtd", 20 ] ],
+      [ [ "string_6", 1 ] ],
+      [ [ "material_sand", 50 ] ]
+    ]
   }
 ]
