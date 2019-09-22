@@ -17,6 +17,14 @@
 namespace
 {
 constexpr double tau = 2 * M_PI;
+constexpr double coldest_hour = 5;
+  // Out of 24 hours
+constexpr double daily_magnitude_K = 5;
+   // Greatest absolute change from a day's average temperature, in kelvins
+constexpr double seasonality_magnitude_K = 15;
+   // Greatest absolute change from the year's average temperature, in kelvins
+constexpr double noise_magnitude_K = 8;
+   // Greatest absolute day-to-day noise, in kelvins
 } //namespace
 
 weather_generator::weather_generator() = default;
@@ -40,7 +48,7 @@ static weather_gen_common get_common_data( const tripoint &location, const time_
     // Integer y position / widening factor of the Perlin function.
     result.y = location.y / 2000.0;
     // Integer turn / widening factor of the Perlin function.
-    result.z = to_turn<int>( t + calendar::season_length() ) / 2000.0;
+    result.z = to_days<double>( t - calendar::turn_zero );
     // Limit the random seed during noise calculation, a large value flattens the noise generator to zero
     // Windows has a rand limit of 32768, other operating systems can have higher limits
     result.modSEED = seed % SIMPLEX_NOISE_RANDOM_SEED_LIMIT;
@@ -65,29 +73,24 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
     const double z( common.z );
 
     const unsigned modSEED = common.modSEED;
-    const double cyf( common.cyf ); // [-1, 1]
+    const double seasonality = -common.cyf;
+      // -1 in midwinter, +1 in midsummer
     const season_type season = common.season;
-
     const double dayFraction = time_past_midnight( t ) / 1_days;
+    const double dayv = cos( tau * (dayFraction + .5 - coldest_hour / 24) );
+      // -1 at coldest_hour, +1 twelve hours later
 
     // manually specified seasonal temp variation from region_settings.json
     const int seasonal_temp_mod[4] = { wg.spring_temp_manual_mod, wg.summer_temp_manual_mod, wg.autumn_temp_manual_mod, wg.winter_temp_manual_mod };
-    const double current_t( wg.base_temperature + seasonal_temp_mod[ season ] );
-    // Harsh winter nights, hot summers.
-    const double season_atenuation( cyf / 2 + 1 );
-    // Make summers peak faster and winters not perma-frozen.
-    const double season_dispersion( pow( 2,
-                                         cyf + 1 ) - 2.3 );
+    const double baseline(
+        wg.base_temperature +
+        seasonal_temp_mod[ season ] +
+        dayv * daily_magnitude_K +
+        seasonality * seasonality_magnitude_K);
 
-    // Day-night temperature variation.
-    double daily_variation( cos( tau * dayFraction - tau / 8 ) * -1 * season_atenuation / 2 +
-                            season_dispersion * -1 );
+    const double T = baseline + raw_noise_4d( x, y, z, modSEED ) * noise_magnitude_K;
 
-    double T( raw_noise_4d( x, y, z, modSEED ) * 4.0 );
-    T += current_t;
-    T += -cyf * 8 * exp( -pow( current_t * 2.7 / 10 - 0.5, 2 ) );
-    T += daily_variation * 8 * exp( -pow( current_t / 30, 2 ) );
-
+    // Convert from Celsius to Fahrenheit
     return T * 9 / 5 + 32;
 }
 
