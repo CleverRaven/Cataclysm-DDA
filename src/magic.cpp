@@ -374,9 +374,12 @@ void spell_type::check_consistency()
                           sp_t.id.c_str() );
             } else if( sp_t.field_intensity_increment < 0 &&
                        sp_t.max_field_intensity > sp_t.min_field_intensity ) {
-                debugmsg( "ERROR: min_field_intensity must be greater than max_field_intensity with negative increment.",
+                debugmsg( "ERROR: min_field_intensity must be greater than max_field_intensity with negative increment: %s",
                           sp_t.id.c_str() );
             }
+        }
+        if( sp_t.spell_tags[spell_flag::WONDER] && sp_t.additional_spells.empty() ) {
+            debugmsg( "ERROR: %s has WONDER flag but no spells to choose from!", sp_t.id.c_str() );
         }
     }
 }
@@ -1075,6 +1078,10 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
     if( has_flag( spell_flag::WONDER ) ) {
         const auto iter = type->additional_spells.begin();
         for( int num_spells = abs( damage() ); num_spells > 0; num_spells-- ) {
+            if( type->additional_spells.empty() ) {
+                debugmsg( "ERROR: %s has WONDER flag but no spells to choose from!", type->id.c_str() );
+                return;
+            }
             const int rand_spell = rng( 0, type->additional_spells.size() - 1 );
             spell sp = ( iter + rand_spell )->get_spell( ( iter + rand_spell )->level );
 
