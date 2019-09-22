@@ -3690,7 +3690,7 @@ int item::price( bool practical ) const
             return VisitResponse::NEXT;
         }
 
-        int child = practical ? e->type->price_post : e->type->price;
+        int child = units::to_cent( practical ? e->type->price_post : e->type->price );
         if( e->damage() > 0 ) {
             // maximal damage level is 4, maximal reduction is 40% of the value.
             child -= child * static_cast<double>( e->damage_level( 4 ) ) / 10;

@@ -180,7 +180,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     // use pre-cataclysm price as default if post-cataclysm price unspecified
-    if( obj.price_post < 0 ) {
+    if( obj.price_post < 0_cent ) {
         obj.price_post = obj.price;
     }
     // use base volume if integral volume unspecified
@@ -864,7 +864,7 @@ void Item_factory::check_definitions() const
                 msg << "invalid stack_size " << type->stack_size << " on type using charges\n";
             }
         }
-        if( type->price < 0 ) {
+        if( type->price < 0_cent ) {
             msg << "negative price" << "\n";
         }
         if( type->damage_min() > 0 || type->damage_max() < 0 || type->damage_min() > type->damage_max() ) {
@@ -2041,8 +2041,8 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     assign( jo, "weight", def.weight, strict, 0_gram );
     assign( jo, "integral_weight", def.integral_weight, strict, 0_gram );
     assign( jo, "volume", def.volume );
-    assign( jo, "price", def.price );
-    assign( jo, "price_postapoc", def.price_post );
+    assign( jo, "price", def.price, strict, 0_cent );
+    assign( jo, "price_postapoc", def.price_post, strict, 0_cent );
     assign( jo, "stackable", def.stackable_, strict );
     assign( jo, "integral_volume", def.integral_volume );
     assign( jo, "bashing", def.melee[DT_BASH], strict, 0 );
