@@ -464,11 +464,6 @@ faction *npc::get_faction() const
     return my_fac;
 }
 
-void npc::clear_fac()
-{
-    my_fac = nullptr;
-    fac_id = string_id<faction>( "" );
-}
 // item id from group "<class-name>_<what>" or from fallback group
 // may still be a null item!
 static item random_item_from( const npc_class_id &type, const std::string &what,
