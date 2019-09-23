@@ -115,7 +115,7 @@
     "copy-from": "rifle_base",
     "type": "GUN",
     "name": "DSR-50",
-    "description": "Bullpup, Bolt-Action anti-material rifle made by DSR-Precision, successor of DSR-1, the bullpup design make this weapon balanced and manageable.",
+    "description": "Bolt-action anti-materiel rifle made by DSR-Precision, successor of DSR-1.  The bullpup design make this weapon balanced and manageable.",
     "weight": "10300 g",
     "volume": "3100 ml",
     "price": 12500000,
