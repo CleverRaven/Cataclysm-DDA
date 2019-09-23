@@ -7940,10 +7940,6 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, const poi
         md.m.save();
     }
 
-    g->load_npcs();
-    g->m.invalidate_map_cache( md.zlevel() );
-    g->refresh_all();
-
     return applied;
 }
 
