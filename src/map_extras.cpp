@@ -24,6 +24,7 @@
 #include "rng.h"
 #include "trap.h"
 #include "veh_type.h"
+#include "mapgendata.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
 #include "vpart_position.h"

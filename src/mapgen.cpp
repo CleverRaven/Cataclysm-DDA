@@ -27,6 +27,7 @@
 #include "itype.h"
 #include "json.h"
 #include "line.h"
+#include "mapgendata.h"
 #include "magic_ter_furn_transform.h"
 #include "map.h"
 #include "map_extras.h"

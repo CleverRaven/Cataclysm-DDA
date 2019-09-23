@@ -22,6 +22,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "mapgen.h"
+#include "mapgendata.h"
 #include "mapgenformat.h"
 #include "omdata.h"
 #include "options.h"

@@ -9,11 +9,10 @@
 
 #include "type_id.h"
 #include "point.h"
-#include "mapgendata.h"
 
 class time_point;
 class map;
-
+class mapgendata;
 class mission;
 
 using mapgen_update_func = std::function<void( const tripoint &map_pos3, mission *miss )>;
