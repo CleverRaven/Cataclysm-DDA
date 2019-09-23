@@ -847,7 +847,7 @@ class jmapgen_sign : public jmapgen_piece
             return signtext;
         }
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
-            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel() ) ).has_value();
         }
 };
 /**
@@ -922,7 +922,7 @@ class jmapgen_vending_machine : public jmapgen_piece
             dat.m.place_vending( point( rx, ry ), item_group_id, reinforced );
         }
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
-            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel() ) ).has_value();
         }
 };
 /**
@@ -948,7 +948,7 @@ class jmapgen_toilet : public jmapgen_piece
             }
         }
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
-            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel() ) ).has_value();
         }
 };
 /**
@@ -986,7 +986,7 @@ class jmapgen_gaspump : public jmapgen_piece
             }
         }
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
-            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel() ) ).has_value();
         }
 };
 
@@ -1265,7 +1265,7 @@ class jmapgen_vehicle : public jmapgen_piece
             dat.m.add_vehicle( type, point( x.get(), y.get() ), random_entry( rotation ), fuel, status );
         }
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
-            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel() ) ).has_value();
         }
 };
 /**
@@ -1331,7 +1331,7 @@ class jmapgen_trap : public jmapgen_piece
             dat.m.trap_set( actual_loc, id );
         }
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
-            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel() ) ).has_value();
         }
 };
 /**
@@ -1348,7 +1348,7 @@ class jmapgen_furniture : public jmapgen_piece
             dat.m.furn_set( point( x.get(), y.get() ), id );
         }
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
-            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel() ) ).has_value();
         }
 };
 /**
@@ -1373,7 +1373,7 @@ class jmapgen_terrain : public jmapgen_piece
             }
         }
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
-            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel() ) ).has_value();
         }
 };
 /**
@@ -1474,7 +1474,7 @@ class jmapgen_computer : public jmapgen_piece
             }
         }
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
-            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel() ) ).has_value();
         }
 };
 
@@ -1577,7 +1577,7 @@ class jmapgen_sealed_item : public jmapgen_piece
             dat.m.furn_set( point( x.get(), y.get() ), furniture );
         }
         bool has_vehicle_collision( mapgendata &dat, int x, int y ) const override {
-            return dat.m.veh_at( tripoint( x, y, dat.zlevel ) ).has_value();
+            return dat.m.veh_at( tripoint( x, y, dat.zlevel() ) ).has_value();
         }
 };
 /**
@@ -3313,7 +3313,7 @@ void map::draw_lab( mapgendata &dat )
         tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
 
         if( ice_lab ) {
-            int temperature = -20 + 30 * ( dat.zlevel );
+            int temperature = -20 + 30 * ( dat.zlevel() );
             set_temperature( point( x, y ), temperature );
             set_temperature( point( x + SEEX, y ), temperature );
             set_temperature( point( x, y + SEEY ), temperature );
@@ -3337,7 +3337,7 @@ void map::draw_lab( mapgendata &dat )
         if( is_ot_match( "sewer", dat.west(), ot_match_type::type ) && connects_to( dat.west(), 1 ) ) {
             lw = EAST_EDGE + 1;
         }
-        if( dat.zlevel == 0 ) { // We're on ground level
+        if( dat.zlevel() == 0 ) { // We're on ground level
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
                     if( i <= 1 || i >= SEEX * 2 - 2 ||
@@ -3361,8 +3361,8 @@ void map::draw_lab( mapgendata &dat )
             ter_set( point( SEEX + 1, SEEY - 1 ), t_door_metal_c );
             ter_set( point( SEEX - 1, SEEY * 2 - 3 ), t_stairs_down );
             ter_set( point( SEEX, SEEY * 2 - 3 ), t_stairs_down );
-            science_room( this, 2, 2, SEEX - 3, SEEY * 2 - 3, dat.zlevel, 1 );
-            science_room( this, SEEX + 2, 2, SEEX * 2 - 3, SEEY * 2 - 3, dat.zlevel, 3 );
+            science_room( this, 2, 2, SEEX - 3, SEEY * 2 - 3, dat.zlevel(), 1 );
+            science_room( this, SEEX + 2, 2, SEEX * 2 - 3, SEEY * 2 - 3, dat.zlevel(), 3 );
 
             place_spawns( GROUP_TURRET, 1, point( SEEX, 5 ), point( SEEX, 5 ), 1, true );
 
@@ -3557,40 +3557,40 @@ void map::draw_lab( mapgendata &dat )
                             // Top left
                             if( one_in( 2 ) ) {
                                 ter_set( point( SEEX - 2, int( SEEY / 2 ) ), t_door_glass_frosted_c );
-                                science_room( this, lw, tw, SEEX - 3, SEEY - 3, dat.zlevel, 1 );
+                                science_room( this, lw, tw, SEEX - 3, SEEY - 3, dat.zlevel(), 1 );
                             } else {
                                 ter_set( point( SEEX / 2, SEEY - 2 ), t_door_glass_frosted_c );
-                                science_room( this, lw, tw, SEEX - 3, SEEY - 3, dat.zlevel, 2 );
+                                science_room( this, lw, tw, SEEX - 3, SEEY - 3, dat.zlevel(), 2 );
                             }
                             // Top right
                             if( one_in( 2 ) ) {
                                 ter_set( point( SEEX + 1, int( SEEY / 2 ) ), t_door_glass_frosted_c );
                                 science_room( this, SEEX + 2, tw, EAST_EDGE - rw, SEEY - 3,
-                                              dat.zlevel, 3 );
+                                              dat.zlevel(), 3 );
                             } else {
                                 ter_set( point( SEEX + int( SEEX / 2 ), SEEY - 2 ), t_door_glass_frosted_c );
                                 science_room( this, SEEX + 2, tw, EAST_EDGE - rw, SEEY - 3,
-                                              dat.zlevel, 2 );
+                                              dat.zlevel(), 2 );
                             }
                             // Bottom left
                             if( one_in( 2 ) ) {
                                 ter_set( point( SEEX / 2, SEEY + 1 ), t_door_glass_frosted_c );
                                 science_room( this, lw, SEEY + 2, SEEX - 3, SOUTH_EDGE - bw,
-                                              dat.zlevel, 0 );
+                                              dat.zlevel(), 0 );
                             } else {
                                 ter_set( point( SEEX - 2, SEEY + int( SEEY / 2 ) ), t_door_glass_frosted_c );
                                 science_room( this, lw, SEEY + 2, SEEX - 3, SOUTH_EDGE - bw,
-                                              dat.zlevel, 1 );
+                                              dat.zlevel(), 1 );
                             }
                             // Bottom right
                             if( one_in( 2 ) ) {
                                 ter_set( point( SEEX + int( SEEX / 2 ), SEEY + 1 ), t_door_glass_frosted_c );
                                 science_room( this, SEEX + 2, SEEY + 2, EAST_EDGE - rw,
-                                              SOUTH_EDGE - bw, dat.zlevel, 0 );
+                                              SOUTH_EDGE - bw, dat.zlevel(), 0 );
                             } else {
                                 ter_set( point( SEEX + 1, SEEY + int( SEEY / 2 ) ), t_door_glass_frosted_c );
                                 science_room( this, SEEX + 2, SEEY + 2, EAST_EDGE - rw,
-                                              SOUTH_EDGE - bw, dat.zlevel, 3 );
+                                              SOUTH_EDGE - bw, dat.zlevel(), 3 );
                             }
                             if( rw == 1 ) {
                                 ter_set( point( EAST_EDGE, SEEY - 1 ), t_door_metal_c );
@@ -3672,20 +3672,20 @@ void map::draw_lab( mapgendata &dat )
                             ter_set( point( SEEX + int( SEEX / 2 ), SEEY + 3 ), t_door_glass_frosted_c );
                             ter_set( point( SEEX - 4, SEEY + int( SEEY / 2 ) ), t_door_glass_frosted_c );
                             ter_set( point( SEEX + 3, SEEY + int( SEEY / 2 ) ), t_door_glass_frosted_c );
-                            science_room( this, lw, tw, SEEX - 5, SEEY - 5, dat.zlevel,
+                            science_room( this, lw, tw, SEEX - 5, SEEY - 5, dat.zlevel(),
                                           rng( 1, 2 ) );
-                            science_room( this, SEEX - 3, tw, SEEX + 2, SEEY - 5, dat.zlevel, 2 );
+                            science_room( this, SEEX - 3, tw, SEEX + 2, SEEY - 5, dat.zlevel(), 2 );
                             science_room( this, SEEX + 4, tw, EAST_EDGE - rw, SEEY - 5,
-                                          dat.zlevel, rng( 2, 3 ) );
-                            science_room( this, lw, SEEY - 3, SEEX - 5, SEEY + 2, dat.zlevel, 1 );
+                                          dat.zlevel(), rng( 2, 3 ) );
+                            science_room( this, lw, SEEY - 3, SEEX - 5, SEEY + 2, dat.zlevel(), 1 );
                             science_room( this, SEEX + 4, SEEY - 3, EAST_EDGE - rw, SEEY + 2,
-                                          dat.zlevel, 3 );
+                                          dat.zlevel(), 3 );
                             science_room( this, lw, SEEY + 4, SEEX - 5, SOUTH_EDGE - bw,
-                                          dat.zlevel, rng( 0, 1 ) );
+                                          dat.zlevel(), rng( 0, 1 ) );
                             science_room( this, SEEX - 3, SEEY + 4, SEEX + 2, SOUTH_EDGE - bw,
-                                          dat.zlevel, 0 );
+                                          dat.zlevel(), 0 );
                             science_room( this, SEEX + 4, SEEX + 4, EAST_EDGE - rw,
-                                          SOUTH_EDGE - bw, dat.zlevel, 3 * rng( 0, 1 ) );
+                                          SOUTH_EDGE - bw, dat.zlevel(), 3 * rng( 0, 1 ) );
                             if( rw == 1 ) {
                                 ter_set( point( EAST_EDGE, SEEY - 1 ), t_door_metal_c );
                                 ter_set( point( EAST_EDGE, SEEY ), t_door_metal_c );
@@ -3713,7 +3713,7 @@ void map::draw_lab( mapgendata &dat )
                                 }
                             }
                             science_room( this, lw, tw, EAST_EDGE - rw, SOUTH_EDGE - bw,
-                                          dat.zlevel, rng( 0, 3 ) );
+                                          dat.zlevel(), rng( 0, 3 ) );
 
                             if( rw == 1 ) {
                                 ter_set( point( EAST_EDGE, SEEY - 1 ), t_door_metal_c );
@@ -4012,7 +4012,7 @@ void map::draw_lab( mapgendata &dat )
         tower_lab = is_ot_match( "tower_lab", terrain_type, ot_match_type::prefix );
 
         if( ice_lab ) {
-            int temperature = -20 + 30 * dat.zlevel;
+            int temperature = -20 + 30 * dat.zlevel();
             set_temperature( point( x, y ), temperature );
             set_temperature( point( x + SEEX, y ), temperature );
             set_temperature( point( x, y + SEEY ), temperature );
@@ -4332,7 +4332,7 @@ void map::draw_temple( mapgendata &dat )
 {
     const oter_id &terrain_type = dat.terrain_type();
     if( terrain_type == "temple" || terrain_type == "temple_stairs" ) {
-        if( dat.zlevel == 0 ) { // Ground floor
+        if( dat.zlevel() == 0 ) { // Ground floor
             // TODO: More varieties?
             fill_background( this, t_dirt );
             square( this, t_grate, SEEX - 1, SEEY - 1, SEEX, SEEX );
@@ -4342,7 +4342,7 @@ void map::draw_temple( mapgendata &dat )
             square( this, t_rock_floor, 0, 0, EAST_EDGE, SOUTH_EDGE );
             // We always start at the south and go north.
             // We use (y / 2 + z) % 4 to guarantee that rooms don't repeat.
-            switch( 1 + abs( abs_sub.y / 2 + dat.zlevel + 4 ) % 4 ) { // TODO: More varieties!
+            switch( 1 + abs( abs_sub.y / 2 + dat.zlevel() + 4 ) % 4 ) { // TODO: More varieties!
 
                 case 1: // Flame bursts
                     square( this, t_rock, 0, 0, SEEX - 1, SOUTH_EDGE );
@@ -6139,7 +6139,7 @@ void map::draw_slimepit( mapgendata &dat )
                     ter_set( point( i, j ), ( !one_in( 10 ) ? t_slime : t_rock_floor ) );
                 } else if( rng( 0, SEEX ) > abs( i - SEEX ) && rng( 0, SEEY ) > abs( j - SEEY ) ) {
                     ter_set( point( i, j ), t_slime );
-                } else if( dat.zlevel == 0 ) {
+                } else if( dat.zlevel() == 0 ) {
                     ter_set( point( i, j ), t_dirt );
                 } else {
                     ter_set( point( i, j ), t_rock_floor );
@@ -7940,7 +7940,7 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, const poi
     }
 
     g->load_npcs();
-    g->m.invalidate_map_cache( md.zlevel );
+    g->m.invalidate_map_cache( md.zlevel() );
     g->refresh_all();
 
     return applied;

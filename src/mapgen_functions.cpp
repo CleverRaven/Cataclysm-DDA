@@ -3608,7 +3608,7 @@ void mapgen_tutorial( mapgendata &dat )
     }
     m->furn_set( point( 7, SEEY * 2 - 4 ), f_rack );
     m->place_gas_pump( point( SEEX * 2 - 2, SEEY * 2 - 4 ), rng( 500, 1000 ) );
-    if( dat.zlevel < 0 ) {
+    if( dat.zlevel() < 0 ) {
         m->ter_set( point( SEEX - 2, SEEY + 2 ), t_stairs_up );
         m->ter_set( point( 2, 2 ), t_water_sh );
         m->ter_set( point( 2, 3 ), t_water_sh );

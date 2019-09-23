@@ -36,6 +36,7 @@ class mapgendata
         float density_;
         time_point when_;
         ::mission *mission_;
+        int zlevel_;
 
     public:
         oter_id t_nesw[8];
@@ -51,8 +52,6 @@ class mapgendata
 
         oter_id t_above;
         oter_id t_below;
-
-        int zlevel;
 
         const regional_settings &region;
 
@@ -92,6 +91,10 @@ class mapgendata
         }
         ::mission *mission() const {
             return mission_;
+        }
+        int zlevel() const {
+            // @todo should be able to determine this from the map itself
+            return zlevel_;
         }
 
         void set_dir( int dir_in, int val );

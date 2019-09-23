@@ -9,11 +9,10 @@ mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west
                         oter_id up, oter_id down, int z, const regional_settings &rsettings, map &mp,
                         const oter_id &terrain_type, const float density, const time_point &when,
                         ::mission *const miss )
-    : terrain_type_( terrain_type ), density_( density ), when_( when ), mission_( miss )
+    : terrain_type_( terrain_type ), density_( density ), when_( when ), mission_( miss ), zlevel_( z )
     , t_nesw{ north, east, south, west, northeast, southeast, southwest, northwest }
     , t_above( up )
     , t_below( down )
-    , zlevel( z )
     , region( rsettings )
     , m( mp )
     , default_groundcover( region.default_groundcover )
