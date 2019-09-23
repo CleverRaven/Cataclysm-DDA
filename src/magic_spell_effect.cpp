@@ -40,6 +40,7 @@
 #include "ret_val.h"
 #include "rng.h"
 #include "translations.h"
+#include "timed_event.h"
 
 static tripoint random_point( int min_distance, int max_distance, const tripoint &player_pos )
 {
@@ -609,6 +610,33 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
         debugmsg( "Invalid effect_str %s for spell %s", energy_source, sp.name() );
     }
     sp.make_sound( caster.pos() );
+}
+
+void spell_effect::timed_event( const spell &sp, Creature &caster, const tripoint & )
+{
+    const std::map<std::string, timed_event_type> timed_event_map{
+        { "help", timed_event_type::TIMED_EVENT_HELP },
+        { "wanted", timed_event_type::TIMED_EVENT_WANTED },
+        { "robot_attack", timed_event_type::TIMED_EVENT_ROBOT_ATTACK },
+        { "spawn_wyrms", timed_event_type::TIMED_EVENT_SPAWN_WYRMS },
+        { "amigara", timed_event_type::TIMED_EVENT_AMIGARA },
+        { "roots_die", timed_event_type::TIMED_EVENT_ROOTS_DIE },
+        { "temple_open", timed_event_type::TIMED_EVENT_TEMPLE_OPEN },
+        { "temple_flood", timed_event_type::TIMED_EVENT_TEMPLE_FLOOD },
+        { "temple_spawn", timed_event_type::TIMED_EVENT_TEMPLE_SPAWN },
+        { "dim", timed_event_type::TIMED_EVENT_DIM },
+        { "artifact_light", timed_event_type::TIMED_EVENT_ARTIFACT_LIGHT }
+    };
+
+    timed_event_type spell_event = timed_event_type::TIMED_EVENT_NULL;
+
+    const auto iter = timed_event_map.find( sp.effect_data() );
+    if( iter != timed_event_map.cend() ) {
+        spell_event = iter->second;
+    }
+
+    sp.make_sound( caster.pos() );
+    g->timed_events.add( spell_event, calendar::turn + sp.duration_turns() );
 }
 
 static bool is_summon_friendly( const spell &sp )
