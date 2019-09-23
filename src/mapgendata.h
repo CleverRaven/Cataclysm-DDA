@@ -6,6 +6,7 @@
 #include "calendar.h"
 #include "weighted_list.h"
 
+struct tripoint;
 class mission;
 struct regional_settings;
 class map;

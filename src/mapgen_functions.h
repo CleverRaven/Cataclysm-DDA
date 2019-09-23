@@ -8,8 +8,9 @@
 #include <utility>
 
 #include "type_id.h"
-#include "point.h"
 
+struct tripoint;
+struct point;
 class time_point;
 class map;
 class mapgendata;
