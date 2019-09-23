@@ -24,6 +24,7 @@
 #include "rng.h"
 #include "trap.h"
 #include "veh_type.h"
+#include "mapgendata.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
 #include "vpart_position.h"
@@ -2728,22 +2729,8 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
         case map_extra_method::mapgen: {
             tripoint over( abs_sub );
             sm_to_omt( over );
-            const regional_settings *rsettings = &overmap_buffer.get_settings( over );
-            const oter_id terrain_type = overmap_buffer.ter( over );
-            const oter_id t_above = overmap_buffer.ter( over + tripoint_above );
-            const oter_id t_below = overmap_buffer.ter( over + tripoint_below );
-            const oter_id t_north = overmap_buffer.ter( over + tripoint_north );
-            const oter_id t_north_east = overmap_buffer.ter( over + tripoint_north_east );
-            const oter_id t_east  = overmap_buffer.ter( over + tripoint_east );
-            const oter_id t_south_east = overmap_buffer.ter( over + tripoint_south_east );
-            const oter_id t_south = overmap_buffer.ter( over + tripoint_south );
-            const oter_id t_south_west = overmap_buffer.ter( over + tripoint_south_west );
-            const oter_id t_west  = overmap_buffer.ter( over + tripoint_west );
-            const oter_id t_north_west = overmap_buffer.ter( over + tripoint_north_west );
-            const mapgendata dat( t_north, t_east, t_south, t_west,
-                                  t_north_east, t_south_east, t_south_west, t_north_west,
-                                  t_above, t_below, over.z, *rsettings, m );
-            run_mapgen_func( extra.generator_id, &m, terrain_type, dat, calendar::turn, 0 );
+            mapgendata dat( over, m, 0.0f, calendar::turn, nullptr );
+            run_mapgen_func( extra.generator_id, dat );
             break;
         }
         case map_extra_method::update_mapgen: {
