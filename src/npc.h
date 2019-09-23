@@ -744,7 +744,6 @@ class npc : public player
         void set_fac( const string_id<faction> &id );
         faction *get_faction() const override;
         string_id<faction> get_fac_id() const;
-        void clear_fac();
         /**
          * Set @ref submap_coords and @ref pos.
          * @param mx,my,mz are global submap coordinates.

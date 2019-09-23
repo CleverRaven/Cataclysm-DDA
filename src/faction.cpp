@@ -378,10 +378,10 @@ faction *faction_manager::add_new_faction( const std::string &name_new, const fa
             fac.name = name_new;
             fac.id = id_new;
             factions[fac.id] = fac;
+            return &factions[fac.id];
         }
     }
-    faction *ret = get( id_new );
-    return ret ? ret : nullptr;
+    return nullptr;
 }
 
 faction *faction_manager::get( const faction_id &id, const bool complain )
