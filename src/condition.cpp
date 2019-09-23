@@ -20,6 +20,7 @@
 #include "map.h"
 #include "mission.h"
 #include "npc.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "recipe.h"
 #include "recipe_groups.h"
@@ -375,7 +376,7 @@ void conditional_t<T>::set_at_om_location( JsonObject &jo, const std::string &me
             return !recipe_group::get_recipes_by_id( "all_faction_base_types",
                     omt_ref.id().c_str() ).empty();
         } else {
-            return omt_ref == oter_id( location );
+            return omt_ref == oter_id( oter_no_dir( oter_id( location ) ) );
         }
     };
 }
