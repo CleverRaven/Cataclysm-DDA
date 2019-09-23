@@ -2693,6 +2693,7 @@ void mission::deserialize( JsonIn &jsin )
     }
 
     jo.read( "value", value );
+    jo.read( "kill_count_to_reach", kill_count_to_reach );
     jo.read( "reward", reward );
     jo.read( "uid", uid );
     JsonArray ja = jo.get_array( "target" );
@@ -2751,6 +2752,7 @@ void mission::serialize( JsonOut &json ) const
     json.member( "type_id", type->id );
     json.member( "status", status_to_string( status ) );
     json.member( "value", value );
+    json.member( "kill_count_to_reach", kill_count_to_reach );
     json.member( "reward", reward );
     json.member( "uid", uid );
 
