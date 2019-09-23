@@ -2043,7 +2043,6 @@ npc_ptr talk_function::companion_choose_return( const tripoint &omt_pos,
 void talk_function::loot_building( const tripoint &site )
 {
     tinymap bay;
-    tripoint p;
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     for( const tripoint &p : bay.points_on_zlevel() ) {
         const ter_id t = bay.ter( p );
