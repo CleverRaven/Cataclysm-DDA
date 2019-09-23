@@ -658,6 +658,7 @@ static void mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
     m.place_npc( leader_pos.xy(), string_id<npc_template>( "marloss_voice" ) );
     for( int spawned = 0 ; spawned <= max_followers ; spawned++ ) {
         tripoint where = random_entry( spawnzone );
+        /// @todo wrong: this access the main game map, not m. Also accesses creatures currently loaded.
         if( g->is_empty( where ) ) {
             one_in( 2 ) ? m.add_spawn( mon_marloss_zealot_f, 1,
                                        where.xy() ) : m.add_spawn( mon_marloss_zealot_m, 1, where.xy() );
@@ -910,6 +911,7 @@ static void mx_portal( map &m, const tripoint &abs_sub )
         // Get a random location from our points that is not the portal location, does not have the
         // NO_FLOOR flag, and isn't currently occupied by a creature.
         const cata::optional<tripoint> mon_pos = random_point( points, [&]( const tripoint & p ) {
+            /// @todo wrong: this checks for creatures on the main game map. Not within the map m.
             return !m.has_flag_ter( TFLAG_NO_FLOOR, p ) && *portal_pos != p && !g->critter_at( p );
         } );
 
@@ -2611,6 +2613,7 @@ static void mx_looters( map &m, const tripoint &abs_sub )
 {
     const tripoint center( rng( 5, SEEX * 2 - 5 ), rng( 5, SEEY * 2 - 5 ), abs_sub.z );
     //25% chance to spawn a corpse with some blood around it
+    /// @todo wrong: this access the main game map, not m. Also accesses creatures currently loaded.
     if( one_in( 4 ) && g->is_empty( center ) ) {
         const auto &loc = m.points_in_radius( center, 1 );
         m.add_corpse( center );
@@ -2624,6 +2627,7 @@ static void mx_looters( map &m, const tripoint &abs_sub )
     const int num_looters = rng( 1, 5 );
     for( int i = 0; i < num_looters; i++ ) {
         const tripoint pos = random_entry( m.points_in_radius( center, rng( 1, 4 ) ) );
+        /// @todo wrong: this access the main game map, not m. Also accesses creatures currently loaded.
         if( g->is_empty( pos ) ) {
             if( one_in( 2 ) ) {
                 m.place_npc( pos.xy(), string_id<npc_template>( "bandit" ) );
@@ -2641,6 +2645,7 @@ static void mx_corpses( map &m, const tripoint &abs_sub )
     //Spawn up to 5 human corpses in random places
     for( int i = 0; i < num_corpses; i++ ) {
         const tripoint corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 1 ), abs_sub.z };
+        /// @todo wrong: this access the main game map, not m. Also accesses creatures currently loaded.
         if( g->is_empty( corpse_location ) ) {
             m.add_field( corpse_location, fd_blood, rng( 1, 3 ) );
             m.put_items_from_loc( "everyday_corpse", corpse_location );
