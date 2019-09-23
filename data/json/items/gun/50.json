@@ -139,7 +139,7 @@
     "copy-from": "rifle_base",
     "type": "GUN",
     "name": "PGM Hecate II",
-    "description": "Bolt-Action anti-material rifle made by PGM Precision. standard sniper rifle of French Army, this is the biggest weapon ever made by PGM Precision.",
+    "description": "Bolt-action anti-materiel rifle made by PGM Precision.  Standard sniper rifle of French Army, this is the biggest weapon ever made by PGM Precision.",
     "weight": "13300 g",
     "volume": "3600 ml",
     "price": 13500000,
