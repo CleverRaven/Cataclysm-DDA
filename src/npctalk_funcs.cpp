@@ -307,8 +307,9 @@ void talk_function::goto_location( npc &p )
         camps.push_back( temp_camp );
     }
     for( auto iter : camps ) {
-        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "%s at (%d, %d)" ), iter->camp_name(),
-                                 iter->camp_omt_pos().x, iter->camp_omt_pos().y );
+        //~ %1$s: camp name, %2$d and %3$d: coordinates
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, pgettext( "camp", "%1$s at (%2$d, %3$d)" ),
+                                 iter->camp_name(), iter->camp_omt_pos().x, iter->camp_omt_pos().y );
     }
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My current location" ) );
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );

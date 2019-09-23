@@ -3453,8 +3453,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
                                       contents_item.tname( quantity, with_prefix ) );
         }
     } else if( !contents.empty() ) {
-        //~ %1$s: item name, %2$zd: content size
         maintext = string_format( npgettext( "item name",
+                                             //~ %1$s: item name, %2$zd: content size
                                              "%1$s with %2$zd item",
                                              "%1$s with %2$zd items", contents.size() ),
                                   label( quantity ), contents.size() );
