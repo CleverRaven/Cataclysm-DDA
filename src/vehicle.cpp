@@ -1268,6 +1268,20 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
         }
     }
 
+    //Turret controls must be installed on a turret
+    if( part.has_flag( "TURRET_CONTROLS" ) ) {
+        bool anchor_found = false;
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "TURRET" ) ) {
+                anchor_found = true;
+                break;
+            }
+        }
+        if( !anchor_found ) {
+            return false;
+        }
+    }
+
     //Anything not explicitly denied is permitted
     return true;
 }
@@ -5154,6 +5168,9 @@ void vehicle::refresh()
         if( camera_on && vpi.has_flag( "CAMERA" ) ) {
             vp.part().enabled = true;
         } else if( !camera_on && vpi.has_flag( "CAMERA" ) ) {
+            vp.part().enabled = false;
+        }
+        if( vpi.has_flag( "TURRET" ) && !has_part( global_part_pos3( vp.part() ), "TURRET_CONTROLS" ) ) {
             vp.part().enabled = false;
         }
     }
