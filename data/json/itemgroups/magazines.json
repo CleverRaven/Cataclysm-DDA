@@ -22,6 +22,8 @@
       [ "hk46bigmag", 5 ],
       [ "m107a1mag", 50 ],
       [ "as50mag", 50 ],
+      [ "dsr50mag", 50 ],
+      [ "hecate2mag", 50 ],
       [ "m2010mag", 10 ],
       [ "scarhmag", 50 ],
       [ "scarhbigmag", 20 ],
