@@ -2192,7 +2192,11 @@
     "autolearn": true,
     "decomp_learn": 1,
     "flags": [ "BLIND_EASY" ],
-    "components": [ [ [ "xacto", 1 ] ], [ [ "saw", 1 ] ], [ [ "rag", 1 ], [ "leather", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ] ] ]
+    "components": [
+      [ [ "xacto", 1 ] ],
+      [ [ "saw", 1 ] ],
+      [ [ "rag", 1 ], [ "leather", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -2271,7 +2275,13 @@
     "autolearn": [ [ "mechanics", 3 ], [ "electronics", 2 ] ],
     "book_learn": [ [ "manual_mechanics", 3 ], [ "textbook_mechanics", 2 ], [ "welding_book", 1 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "power_supply", 4 ] ], [ [ "scrap", 2 ] ], [ [ "cable", 80 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "duct_tape", 60 ] ] ]
+    "components": [
+      [ [ "power_supply", 4 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "cable", 80 ] ],
+      [ [ "plastic_chunk", 1 ] ],
+      [ [ "duct_tape", 60 ] ]
+    ]
   },
   {
     "type": "recipe",
