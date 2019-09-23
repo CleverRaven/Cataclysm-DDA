@@ -1041,11 +1041,12 @@ static void loot()
     flags |= g->check_near_zone( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
                                  u.pos() ) ? ConstructPlots : 0;
 
-    flags |= g->check_near_zone( zone_type_id( "CHOP_TREES"), u.pos() ) ? Multichoptrees : 0;
-    flags |= g->check_near_zone( zone_type_id( "LOOT_WOOD"), u.pos() ) ? Multichopplanks : 0;
-    flags |= g->check_near_zone( zone_type_id( "VEHICLE_DECONSTRUCT" ), u.pos() ) ? Multideconvehicle : 0;
+    flags |= g->check_near_zone( zone_type_id( "CHOP_TREES" ), u.pos() ) ? Multichoptrees : 0;
+    flags |= g->check_near_zone( zone_type_id( "LOOT_WOOD" ), u.pos() ) ? Multichopplanks : 0;
+    flags |= g->check_near_zone( zone_type_id( "VEHICLE_DECONSTRUCT" ),
+                                 u.pos() ) ? Multideconvehicle : 0;
     flags |= g->check_near_zone( zone_type_id( "VEHICLE_REPAIR" ), u.pos() ) ? Multirepairvehicle : 0;
-    flags |= g->check_near_zone( zone_type_id( "LOOT_CORPSE"), u.pos() ) ? MultiButchery : 0;
+    flags |= g->check_near_zone( zone_type_id( "LOOT_CORPSE" ), u.pos() ) ? MultiButchery : 0;
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
