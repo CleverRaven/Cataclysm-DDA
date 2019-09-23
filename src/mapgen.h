@@ -9,7 +9,6 @@
 #include <vector>
 #include <utility>
 
-#include "mapgen_functions.h"
 #include "regional_settings.h"
 #include "type_id.h"
 
@@ -21,7 +20,7 @@ class mission;
 struct tripoint;
 class map;
 template <typename T> struct weighted_int_list;
-
+class mapgendata;
 using building_gen_pointer = void ( * )( mapgendata & );
 
 //////////////////////////////////////////////////////////////////////////
