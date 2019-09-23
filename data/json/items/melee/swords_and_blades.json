@@ -62,7 +62,6 @@
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
     "techniques": [ "RAPID" ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 13 } ],
     "flags": [ "STAB" ]
   },
   {
@@ -80,7 +79,6 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 11 } ],
     "flags": [ "STAB", "BELT_CLIP" ]
   },
   {
@@ -127,7 +125,6 @@
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 30 ] ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 13 } ],
     "flags": [ "SHEATH_KNIFE" ]
   },
   {
@@ -148,7 +145,6 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "BUTCHER", 7 ] ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 13 } ],
     "flags": [ "STAB", "SHEATH_SWORD" ]
   },
   {
@@ -195,7 +191,6 @@
     "symbol": ";",
     "color": "red",
     "qualities": [ [ "CUT", 1 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "SCREW", 1 ], [ "BUTCHER", 8 ] ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 6 } ],
     "flags": [ "STAB" ]
   },
   {
@@ -216,7 +211,6 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "flags": [ "DURABLE_MELEE", "STAB", "SHEATH_KNIFE" ]
   },
   {
@@ -235,7 +229,6 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 11 ] ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 11 } ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
@@ -383,7 +376,6 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 13 } ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
@@ -815,7 +807,6 @@
     "color": "dark_gray",
     "techniques": "RAPID",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 13 } ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE" ]
   },
   {
@@ -938,7 +929,6 @@
     "color": "dark_gray",
     "techniques": "RAPID",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 13 } ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
@@ -957,7 +947,6 @@
     "color": "dark_gray",
     "techniques": "RAPID",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 4 ] ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 10 } ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
@@ -978,7 +967,6 @@
     "looks_like": "tanto",
     "techniques": "RAPID",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 5 ] ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 10 } ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
@@ -999,7 +987,6 @@
     "looks_like": "tanto",
     "techniques": "RAPID",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 7 ] ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 12 } ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {

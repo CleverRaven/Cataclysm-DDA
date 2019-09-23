@@ -22,7 +22,6 @@
     "bashing": 2,
     "cutting": 10,
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 12 } ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
@@ -40,7 +39,6 @@
     "bashing": 2,
     "cutting": 7,
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 15 ] ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 12 } ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
@@ -59,7 +57,6 @@
     "bashing": 1,
     "cutting": 6,
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 10 ] ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 11 } ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
@@ -77,7 +74,6 @@
     "bashing": 1,
     "cutting": 10,
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 10 ] ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 11 } ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
@@ -95,7 +91,6 @@
     "bashing": 1,
     "cutting": 8,
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 22 ] ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 12 } ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
