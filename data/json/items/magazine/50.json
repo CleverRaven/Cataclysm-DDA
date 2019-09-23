@@ -44,5 +44,39 @@
     "reliability": 9,
     "reload_time": 110,
     "flags": [ "MAG_BULKY" ]
+  },
+  {
+    "id": "dsr50mag",
+    "type": "MAGAZINE",
+    "name": "DSR-50 Magazine",
+    "description": "3-Round box magazine for DSR-50.",
+    "weight": "470 g",
+    "volume": "500 ml",
+    "price": 15000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "dark_gray",
+    "ammo_type": "50",
+    "capacity": 3,
+    "reliability": 9,
+    "reload_time": 150,
+    "flags": [ "MAG_BULKY" ]
+  },
+  {
+    "id": "hecate2mag",
+    "type": "MAGAZINE",
+    "name": "Hecate II Magazine",
+    "description": "7-Round box magazine for PGM Hecate II",
+    "weight": "560 g",
+    "volume": "500 ml",
+    "price": 15000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "dark_gray",
+    "ammo_type": "50",
+    "capacity": 7,
+    "reliability": 8,
+    "reload_time": 150,
+    "flags": [ "MAG_BULKY" ]
   }
 ]
