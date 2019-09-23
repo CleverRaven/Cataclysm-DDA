@@ -1,0 +1,62 @@
+  [
+  {
+    "id": "roadheader",
+    "type": "vehicle",
+	"name": "Roadheader",
+	"blueprint": [
+	  ["o-o  "],
+	  ["|X--&"],
+	  ["o-o  "]
+    ],
+    "parts": [
+	  { "x": 0, "y": 0, "part": "frame_vertical"},
+	  { "x": 0, "y": 0, "part": "diesel_engine_i6" },
+      { "x": 0, "y": 0, "part": "alternator_truck" },
+      { "x": 0, "y": 0, "part": "battery_car" },
+	  { "x": 0, "y": 0, "part": "reinforced_windshield" },
+	  
+	  
+	  { "x": 0, "y": -1, "part": "frame_nw" },
+	  { "x": 0, "y": -1, "part": "tread2" },
+	  { "x": 0, "y": -1, "part": "halfboard_nw" },
+	  { "x": 0, "y": -1, "part": "headlight_reinforced" },
+	  
+	  { "x": 0, "y": 1, "part": "frame_ne"},
+	  { "x": 0, "y": 1, "part": "tread2" },
+	  { "x": 0, "y": 1, "part": "halfboard_ne" },
+	  { "x": 0, "y": 1, "part": "headlight_reinforced" }
+	  ,
+	  { "x": -1, "y": 0, "part": "frame_cross" },
+	  { "x": -1, "y": 0, "part": "seat" },
+      { "x": -1, "y": 0, "part": "seatbelt" },
+	  { "x": -1, "y": 0, "part": "floodlight" },
+      { "x": -1, "y": 0, "part": "controls" },
+      { "x": -1, "y": 0, "part": "dashboard" },
+      { "x": -1, "y": 0, "part": "horn_big" },
+	  { "x": -1, "y": 0, "part": "roof" },
+	  { "x": -1, "y": 1, "part": "frame_vertical" },
+	  { "x": -1, "y": 1, "part": "door" },	
+	  { "x": -1, "y": 1, "part": "tread2" },	  
+	  { "x": -1, "y": -1, "part": "frame_vertical" },
+  	  { "x": -1, "y": -1, "part": "door" },
+	  { "x": -1, "y": -1, "part": "tread2" },
+	  
+	  { "x": -2, "y": 1, "part": "frame_se" },
+      { "x": -2, "y": 1, "part": "tread2" },	 
+      { "x": -2, "y": 1, "part": "board_se" },
+	  
+	  { "x": -2, "y": 0, "part": "frame_horizontal" },
+      { "x": -2, "y": 0, "part": "hatch" },
+	  { "x": -2, "y": 0, "part": "muffler" },
+	  
+	  { "x": -2, "y": -1, "part": "frame_sw" },
+      { "x": -2, "y": -1, "part": "tread2" },
+      { "x": -2, "y": -1, "part": "board_sw" },
+      { "x": -2, "y": -1, "part": "tank", "fuel": "diesel" },
+
+      { "x": 1, "y": 0, "part": "frame_vertical" },
+	  { "x": 1, "y": 0, "part": "halfboard_horizontal" },
+	  { "x": 2, "y": 0, "part": "roadheader" }
+    ]
+  }
+  ]

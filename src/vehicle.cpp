@@ -1495,7 +1495,8 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
                 "SPACE_HEATER",
                 "COOLER",
                 "WATER_PURIFIER",
-                "ROCKWHEEL"
+                "ROCKWHEEL",
+                "ROADHEAD"
             }
         };
 
@@ -4654,6 +4655,10 @@ void vehicle::idle( bool on_map )
 
     if( has_part( "CHIMES", true ) ) {
         play_chimes();
+    }
+
+    if (has_part("CRASH_TERRAIN_AROUND", true)) {
+        crash_terrain_around();
     }
 
     if( is_alarm_on ) {

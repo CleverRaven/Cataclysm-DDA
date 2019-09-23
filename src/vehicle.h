@@ -1463,6 +1463,8 @@ class vehicle
         //scoop operation,pickups, battery drain, etc.
         void operate_scoop();
         void operate_reaper();
+        // for destorying any terrain around viehicle part. Automated mining tool. 
+        void crash_terrain_around();
         void transform_terrain();
         void add_toggle_to_opts( std::vector<uilist_entry> &options,
                                  std::vector<std::function<void()>> &actions, const std::string &name, char key,

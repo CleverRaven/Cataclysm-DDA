@@ -240,6 +240,7 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
     add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
     add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
     add_toggle( _( "rockwheel" ), keybind( "TOGGLE_PLOW" ), "ROCKWHEEL" );
+    add_toggle(_("rockhead"), keybind("TOGGLE_PLOW"), "ROADHEAD");
     add_toggle( _( "scoop" ), keybind( "TOGGLE_SCOOP" ), "SCOOP" );
     add_toggle( _( "water purifier" ), keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
 
@@ -1091,6 +1092,65 @@ void vehicle::play_chimes()
                        _( "a simple melody blaring from the loudspeakers." ), false, "vehicle", "chimes" );
     }
 }
+
+void vehicle::crash_terrain_around() {
+    const tripoint around[] = { {1, 1, 0}, { 0,1,0 }, {-1, 1, 0},
+    { 1, 0, 0}, {0, 0, 0}, { -1, 0, 0},
+    {1, -1, 0}, {0, -1, 0}, {-1, -1, 0}
+    };
+
+    if (total_power_w() <= 0)
+        return;
+
+    for (const vpart_reference& vp : get_enabled_parts("CRASH_TERRAIN_AROUND")) {
+        tripoint crush_target(0, 0, -OVERMAP_LAYERS);
+        const tripoint start_pos = vp.pos();
+        const transform_terrain_data& ttd = vp.info().transform_terrain;
+
+        if (vp.get_label().has_value())
+            popup(_(vp.get_label().value()));
+        //else
+        //    popup(_("test_has no label"));
+
+        const char lbl[] = { "1011011111" };
+
+        for (int i = 0; i < 9 && crush_target.z == -OVERMAP_LAYERS; i++) {
+
+            tripoint cur_pos = start_pos + around[i];
+            tripoint cur_pos_veh(vp.mount(), 0);
+
+
+            cur_pos_veh += around[i];
+
+            if (lbl[i] == '1') {
+                for (const std::string& flag : ttd.pre_flags) {
+                    if (g->m.has_flag(TFLAG_MINEABLE, cur_pos)) {
+                        crush_target = cur_pos;
+                        break;
+                    }
+                }
+            }
+        }
+        //target choosen
+        if (crush_target.z > -OVERMAP_LAYERS) {
+            velocity = 0;
+            cruise_velocity = 0;
+
+            g->m.destroy(crush_target);
+
+            sounds::sound(crush_target, 1000, sounds::sound_t::combat, _("Clanggggg!"), false,
+                "smash_success", "hit_vehicle");
+        }
+        else { //if it is actived, it will move slowly... like a snail
+            if (velocity > 4) {
+                velocity = 4;
+                cruise_velocity = 4;
+            }
+        }
+
+    }
+}
+
 
 void vehicle::transform_terrain()
 {

@@ -1,0 +1,43 @@
+  [
+  {
+    "type": "GENERIC",
+    "id": "v_roadheader_item",
+    "symbol": "&",
+    "name": "roadheader",
+    "color": "dark_gray",
+    "description": "A large and heavy jagged metal disc to mine walls.",
+    "weight": "62000 g",
+    "material": "steel",
+    "category": "veh_parts",
+    "price": 9500,
+    "volume": "8000 ml"
+  },
+  {
+    "id": "roadheader",
+    "type": "vehicle_part",
+    "name": "roadheader",
+    "item": "v_roadheader_item",
+    "location": "structure",
+    "symbol": "&",
+    "broken_symbol": "x",
+    "color": "light_gray",
+    "broken_color": "light_gray",
+    "looks_like": "crane_medium",
+    "difficulty": 5,
+    "damage_modifier": 100,
+	"label": "111101101",
+    "durability": 300,
+    "description": "A large metal disc, powered by the vehicle's engines.  Use the vehicle controls to turn it on or off.  When turned on, it will stop the vehicle unless it has a strong engine.  When turned on, it will mine walls near it.  Mount it on the front of your vehicle.",
+    "folded_volume": 12,
+    "power": -70000,
+	"mine_pos": "111101101",
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 6 ] },
+      { "item": "steel_chunk", "count": [ 4, 6 ] },
+      { "item": "scrap", "count": [ 4, 6 ] }
+    ],
+    "transform_terrain": { "pre_flags": [ "MINEABLE" ], "post_terrain": "t_pit_shallow"},
+    "flags": [ "PROTRUSION", "EXTRA_DRAG", "ROADHEAD", "CRASH_TERRAIN_AROUND"],
+    "damage_reduction": { "all": 132 }
+  }
+  ]
