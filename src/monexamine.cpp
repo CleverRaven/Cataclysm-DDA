@@ -613,7 +613,9 @@ void monexamine::remove_armor( monster &z )
             found_armor = true;
             it.erase_var( "pet_armor" );
             g->m.add_item_or_charges( z.pos(), it );
-            add_msg( m_info, "You remove the %1$s from %2$s.", it.tname( 1 ), pet_name );
+            //~ %1$s: armor name, %2$s: pet name
+            add_msg( m_info, pgettext( "pet armor", "You remove the %1$s from %2$s." ), it.tname( 1 ),
+                     pet_name );
             z.inv.erase( z.inv.begin() + pos );
             g->u.moves -= 200;
             break;

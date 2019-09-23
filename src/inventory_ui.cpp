@@ -91,18 +91,17 @@ class selection_column_preset : public inventory_selector_preset
             const item_location &item = entry.any_item();
 
             if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-                res << string_format( _( "%d of %d" ), entry.chosen_count, available_count ) << ' ';
+                //~ %1$d: chosen count, %2$d: available count
+                res << string_format( pgettext( "count", "%1$d of %2$d" ), entry.chosen_count,
+                                      available_count ) << ' ';
             } else if( available_count != 1 ) {
                 res << available_count << ' ';
             }
             if( item->is_money() ) {
                 assert( available_count == entry.get_stack_size() );
                 if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-                    res << string_format(
-                            //~ In the following string, the %s is the amount of money on the selected cards as passed by the display money function, out of the total amount of money on the cards, which is specified by the format_money function")
-                            _( "%s of %s" ),
-                            item->display_money( available_count, entry.get_selected_charges() ),
-                            format_money( entry.get_total_charges() ) );
+                    res << item->display_money( available_count, entry.get_total_charges(),
+                                                entry.get_selected_charges() );
                 } else {
                     res << item->display_money( available_count, entry.get_total_charges() );
                 }

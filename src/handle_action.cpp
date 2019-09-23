@@ -1271,8 +1271,9 @@ static void fire()
         for( auto &w : u.worn ) {
             if( w.type->can_use( "holster" ) && !w.has_flag( "NO_QUICKDRAW" ) &&
                 !w.contents.empty() && w.contents.front().is_gun() ) {
-                // draw (first) gun contained in holster
-                options.push_back( string_format( _( "%s from %s (%d)" ),
+                //~ draw (first) gun contained in holster
+                //~ %1$s: weapon name, %2$s: container name, %3$d: remaining ammo count
+                options.push_back( string_format( pgettext( "holster", "%1$s from %2$s (%3$d)" ),
                                                   w.contents.front().tname(),
                                                   w.type_name(),
                                                   w.contents.front().ammo_remaining() ) );

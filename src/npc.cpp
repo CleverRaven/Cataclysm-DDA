@@ -919,7 +919,8 @@ void npc::stow_item( item &it )
     }
     for( auto &e : worn ) {
         if( e.can_holster( it ) ) {
-            add_msg_if_npc( m_info, _( "<npcname> puts away the %s in the %s." ), weapon.tname(),
+            //~ %1$s: weapon name, %2$s: holster name
+            add_msg_if_npc( m_info, _( "<npcname> puts away the %1$s in the %2$s." ), weapon.tname(),
                             e.tname() );
             auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
             ptr->store( *this, e, it );

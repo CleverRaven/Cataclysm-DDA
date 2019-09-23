@@ -1068,7 +1068,8 @@ int Character::i_add_to_container( const item &it, const bool unloading )
         auto &contained_ammo = container.contents.front();
         if( contained_ammo.charges < container.ammo_capacity() ) {
             const int diff = container.ammo_capacity() - contained_ammo.charges;
-            add_msg( _( "You put the %s in your %s." ), it.tname(), container.tname() );
+            //~ %1$s: item name, %2$s: container name
+            add_msg( pgettext( "container", "You put the %1$s in your %2$s." ), it.tname(), container.tname() );
             if( diff > charges ) {
                 contained_ammo.charges += charges;
                 return 0;

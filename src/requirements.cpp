@@ -95,10 +95,11 @@ bool string_id<quality>::is_valid() const
     return quality_factory.is_valid( *this );
 }
 
-std::string quality_requirement::to_string( int ) const
+std::string quality_requirement::to_string( const int, const int ) const
 {
-    return string_format( ngettext( "%d tool with %s of %d or more.",
-                                    "%d tools with %s of %d or more.", count ),
+    //~ %1$d: tool count, %2$s: quality requirement name, %3$d: quality level requirement
+    return string_format( ngettext( "%1$d tool with %2$s of %3$d or more.",
+                                    "%1$d tools with %2$s of %3$d or more.", count ),
                           count, type.obj().name, level );
 }
 
@@ -107,26 +108,43 @@ bool tool_comp::by_charges() const
     return count > 0;
 }
 
-std::string tool_comp::to_string( int batch ) const
+std::string tool_comp::to_string( const int batch, const int ) const
 {
     if( by_charges() ) {
-        //~ <tool-name> (<number-of-charges> charges)
-        return string_format( ngettext( "%s (%d charge)", "%s (%d charges)", count * batch ),
+        //~ %1$s: tool name, %2$d: charge requirement
+        return string_format( npgettext( "requirement", "%1$s (%2$d charge)", "%1$s (%2$d charges)",
+                                         count * batch ),
                               item::nname( type ), count * batch );
     } else {
         return item::nname( type, abs( count ) );
     }
 }
 
-std::string item_comp::to_string( int batch ) const
+std::string item_comp::to_string( const int batch, const int avail ) const
 {
     const int c = std::abs( count ) * batch;
     const auto type_ptr = item::find_type( type );
     if( type_ptr->count_by_charges() ) {
-        return string_format( "%s (%d)", type_ptr->nname( 1 ), c );
+        if( avail > 0 ) {
+            //~ %1$s: item name, %2$d: charge requirement, %3%d: available charges
+            return string_format( npgettext( "requirement", "%1$s (%2$d of %3$d)", "%1$s (%2$d of %3$d)", c ),
+                                  type_ptr->nname( 1 ), c, avail );
+        } else {
+            //~ %1$s: item name, %2$d: charge requirement
+            return string_format( npgettext( "requirement", "%1$s (%2$d)", "%1$s (%2$d)", c ),
+                                  type_ptr->nname( 1 ), c );
+        }
+    } else {
+        if( avail > 0 ) {
+            //~ %1$s: item name, %2$d: required count, %3%d: available count
+            return string_format( npgettext( "requirement", "%2$d %1$s of %3$d", "%2$d %1$s of %3$d", c ),
+                                  type_ptr->nname( c ), c, avail );
+        } else {
+            //~ %1$s: item name, %2$d: required count
+            return string_format( npgettext( "requirement", "%2$d %1$s", "%2$d %1$s", c ),
+                                  type_ptr->nname( c ), c );
+        }
     }
-    //~ <item-count> <item-name>
-    return string_format( ngettext( "%d %s", "%d %s", c ), c, type_ptr->nname( c ) );
 }
 
 void quality_requirement::load( JsonArray &jsarr )
@@ -487,21 +505,16 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
         for( const T &component : comp_list ) {
             nc_color color = component.get_color( has_one, crafting_inv, filter, batch );
             const std::string color_tag = get_tag_from_color( color );
-            std::string text = component.to_string( batch );
+            int qty = 0;
             if( component.get_component_type() == COMPONENT_ITEM ) {
                 const itype_id item_id = static_cast<itype_id>( component.type );
-                int qty;
                 if( item::count_by_charges( item_id ) ) {
                     qty = crafting_inv.charges_of( item_id, INT_MAX, filter );
                 } else {
                     qty = crafting_inv.amount_of( item_id, false, INT_MAX, filter );
                 }
-                if( qty > 0 ) {
-                    text = item::count_by_charges( item_id ) ?
-                           string_format( _( "%s (%d of %ld)" ), item::nname( item_id ), component.count * batch, qty ) :
-                           string_format( _( "%s of %ld" ), text, qty );
-                }
             }
+            const std::string text = component.to_string( batch, qty );
 
             if( std::find( buffer_has.begin(), buffer_has.end(), text + color_tag ) != buffer_has.end() ) {
                 continue;
@@ -516,7 +529,7 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
         }
         std::sort( list_as_string.begin(), list_as_string.end() );
 
-        const std::string separator = colorize( std::string( " " ) + _( "OR" ) + " ", c_white );
+        const std::string separator = colorize( _( " OR " ), c_white );
         const std::string unfolded = join( list_as_string, separator );
         std::vector<std::string> folded = foldstring( unfolded, width - 2 );
 
