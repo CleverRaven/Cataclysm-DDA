@@ -36,7 +36,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     if( g->m.impassable( new_pos ) ) {
         if( safe ) {
             if( c_is_u ) {
-                add_msg( m_bad, _( "You cannot teleport safely" ) );
+                add_msg( m_bad, _( "You cannot teleport safely." ) );
             }
             return false;
         }
