@@ -46,10 +46,10 @@
     "flags": [ "MAG_BULKY" ]
   },
   {
-    "id": "dsr50mag",
+    "id": "tac50mag",
     "type": "MAGAZINE",
-    "name": "DSR-50 magazine",
-    "description": "3-round box magazine for DSR-50.",
+    "name": "TAC-50 magazine",
+    "description": "5-round box magazine for Mcmillan TAC-50.",
     "weight": "470 g",
     "volume": "500 ml",
     "price": 63000,
@@ -58,26 +58,8 @@
     "symbol": "#",
     "color": "dark_gray",
     "ammo_type": "50",
-    "capacity": 3,
+    "capacity": 5,
     "reliability": 9,
-    "reload_time": 150,
-    "flags": [ "MAG_BULKY" ]
-  },
-  {
-    "id": "hecate2mag",
-    "type": "MAGAZINE",
-    "name": "Hecate II magazine",
-    "description": "7-round box magazine for PGM Hecate II.",
-    "weight": "560 g",
-    "volume": "500 ml",
-    "price": 63000,
-    "price_postapoc": 47000,
-    "material": "steel",
-    "symbol": "#",
-    "color": "dark_gray",
-    "ammo_type": "50",
-    "capacity": 7,
-    "reliability": 8,
     "reload_time": 150,
     "flags": [ "MAG_BULKY" ]
   }
