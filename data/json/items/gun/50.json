@@ -139,7 +139,7 @@
     "copy-from": "rifle_base",
     "type": "GUN",
     "name": "ArmaLite AR-50",
-    "description": "Single-shot, bolt-action rifle made by ArmaLite, with great accuracy at long-range and manageable recoil makes this weapon a powerful choice.",
+    "description": "A single-shot, bolt-action rifle made by ArmaLite, with great accuracy at long-range and manageable recoil.  Affordable pricing and excellent performance make this weapon a popular choice.",
     "weight": "15500 g",
     "volume": "1511 ml",
     "price": 13500000,
