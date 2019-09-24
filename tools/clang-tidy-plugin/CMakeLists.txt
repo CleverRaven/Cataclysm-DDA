@@ -11,6 +11,7 @@ add_library(
     NoStaticGettextCheck.cpp
     PointInitializationCheck.cpp
     SimplifyPointConstructorsCheck.cpp
+    TranslatorCommentsCheck.cpp
     UseNamedPointConstantsCheck.cpp
     UsePointApisCheck.cpp
     UsePointArithmeticCheck.cpp
