@@ -189,7 +189,7 @@ TEST_CASE( "snippet-tag-test" )
 
     for( const auto &tag : npc_talk_tags ) {
         const auto ids = SNIPPET.all_ids_from_category( tag );
-        CHECK( ids.size() > 0 );
+        CHECK( !ids.empty() );
 
         for( size_t i = 0; i < ids.size() * 100; i++ ) {
             const auto snip = SNIPPET.random_from_category( tag );
