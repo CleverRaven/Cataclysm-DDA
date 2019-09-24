@@ -741,9 +741,9 @@ class npc : public player
         void set_faction_ver( int new_version );
         bool has_faction_relationship( const player &p,
                                        npc_factions::relationship flag ) const;
-        void set_fac( const string_id<faction> &id );
+        void set_fac( const faction_id &id );
         faction *get_faction() const override;
-        string_id<faction> get_fac_id() const;
+        faction_id get_fac_id() const;
         /**
          * Set @ref submap_coords and @ref pos.
          * @param mx,my,mz are global submap coordinates.

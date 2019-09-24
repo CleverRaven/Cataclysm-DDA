@@ -763,13 +763,16 @@ bool game::start_game()
     get_auto_notes_settings().default_initialize();
 
     //Put some NPCs in there!
+    std::cout << "before create starting NPC" << std::endl;
     if( get_option<std::string>( "STARTING_NPC" ) == "always" ||
         ( get_option<std::string>( "STARTING_NPC" ) == "scenario" &&
           !g->scen->has_flag( "LONE_START" ) ) ) {
         create_starting_npcs();
     }
+    std::cout << "after create starting NPC" << std::endl;
     //Load NPCs. Set nearby npcs to active.
     load_npcs();
+    std::cout << "after load NPC" << std::endl;
     // Spawn the monsters
     const bool spawn_near =
         get_option<bool>( "BLACK_ROAD" ) || g->scen->has_flag( "SUR_START" );
@@ -841,9 +844,11 @@ bool game::start_game()
             }
         }
     }
+    std::cout << "before inv dump assign owner" << std::endl;
     for( auto &e : u.inv_dump() ) {
-        e->set_owner( g->u.get_faction() );
+        e->set_owner( g->u.get_faction()->id );
     }
+    std::cout << "after inv dump assign owner" << std::endl;
     // Now that we're done handling coordinates, ensure the player's submap is in the center of the map
     update_map( u );
     // Profession pets
@@ -968,6 +973,7 @@ void game::create_starting_npcs()
     tmp->mission = NPC_MISSION_SHELTER;
     tmp->chatbin.first_topic = "TALK_SHELTER";
     tmp->toggle_trait( trait_id( "NPC_STARTING_NPC" ) );
+    tmp->set_fac( faction_id( "no_faction" ) );
     //One random starting NPC mission
     tmp->add_new_mission( mission::reserve_random( ORIGIN_OPENER_NPC, tmp->global_omt_location(),
                           tmp->getID() ) );
@@ -2688,9 +2694,11 @@ void game::load( const save_t &name )
     validate_mounted_npcs();
     validate_camps();
     update_map( u );
+    std::cout << "2. before inv dump assign owner" << std::endl;
     for( auto &e : u.inv_dump() ) {
-        e->set_owner( g->u.get_faction() );
+        e->set_owner( g->u.get_faction()->id );
     }
+    std::cout << "2. after inv dump assign owner" << std::endl;
     // legacy, needs to be here as we access the map.
     if( !u.getID().is_valid() ) {
         // player does not have a real id, so assign a new one,

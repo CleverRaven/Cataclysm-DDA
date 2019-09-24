@@ -735,7 +735,7 @@ static void move_items( player &p, const tripoint &relative_dest, bool to_vehicl
             // This is for hauling across zlevels, remove when going up and down stairs
             // is no longer teleportation
             if( !newit.has_owner() && p.is_player() ) {
-                newit.set_owner( p.get_faction() );
+                newit.set_owner( p.get_faction()->id );
             }
             const tripoint src = target.position();
             int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;

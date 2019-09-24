@@ -1044,6 +1044,26 @@ static int get_base_env_resist( const item &it )
 
 }
 
+bool item::has_owner() const
+{
+    return !owner.str().empty();
+}
+
+bool item::has_old_owner() const
+{
+    return !old_owner.str().empty();
+}
+
+const faction_id item::get_owner() const
+{
+    return owner;
+}
+
+const faction_id item::get_old_owner() const
+{
+    return old_owner;
+}
+
 std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch ) const
 {
     std::stringstream temp1;
@@ -1178,7 +1198,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list ) ) );
         }
         if( has_owner() ) {
-            info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ), _( get_owner()->name ) ) ) );
+            info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ), _( get_owner().str() ) ) ) );
         }
         if( has_var( "contained_name" ) && parts->test( iteminfo_parts::BASE_CONTENTS ) ) {
             info.push_back( iteminfo( "BASE", string_format( _( "Contains: %s" ),
@@ -3297,14 +3317,14 @@ void item::handle_pickup_ownership( Character &c )
     faction *yours = c.get_faction();
     // Add ownership to item if unowned
     if( !has_owner() ) {
-        set_owner( yours );
+        set_owner( yours->id );
     } else {
-        if( get_owner() != yours && &c == &g->u ) {
+        if( get_owner() != yours->id && &c == &g->u ) {
             std::vector<npc *> witnesses;
             for( npc &elem : g->all_npcs() ) {
                 if( rl_dist( elem.pos(), g->u.pos() ) < MAX_VIEW_DISTANCE && elem.get_faction() &&
                     elem.get_faction()->id != faction_id( "no_faction" ) &&
-                    elem.get_faction() == get_owner() && elem.sees( g->u.pos() ) ) {
+                    elem.get_faction()->id == get_owner() && elem.sees( g->u.pos() ) ) {
                     elem.say( "<witnessed_thievery>", 7 );
                     npc *npc_to_add = &elem;
                     witnesses.push_back( npc_to_add );
@@ -3325,7 +3345,7 @@ void item::handle_pickup_ownership( Character &c )
                     witnesses[random_index]->witness_thievery( &*this );
                 }
             }
-            set_owner( yours );
+            set_owner( yours->id );
         }
     }
 }

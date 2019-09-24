@@ -2656,12 +2656,12 @@ void npc::find_item()
             followers.push_back( npc_to_add );
         }
         for( auto &elem : followers ) {
-            if( it.has_owner() && it.get_owner() != my_fac && ( elem->sees( this->pos() ) ||
+            if( it.has_owner() && it.get_owner() != fac_id && ( elem->sees( this->pos() ) ||
                     elem->sees( wanted_item_pos ) ) ) {
                 return;
             }
         }
-        if( it.has_owner() && it.get_owner() != my_fac && ( g->u.sees( this->pos() ) ||
+        if( it.has_owner() && it.get_owner() != fac_id && ( g->u.sees( this->pos() ) ||
                 g->u.sees( wanted_item_pos ) ) ) {
             return;
         }

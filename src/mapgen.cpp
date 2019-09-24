@@ -6584,7 +6584,7 @@ void map::apply_faction_ownership( const point &p1, const point &p2,
             abs_sub.z ) ) ) {
         auto items = i_at( p.xy() );
         for( item &elem : items ) {
-            elem.set_owner( fac );
+            elem.set_owner( id );
         }
         vehicle *source_veh = veh_pointer_or_null( veh_at( p ) );
         if( source_veh ) {

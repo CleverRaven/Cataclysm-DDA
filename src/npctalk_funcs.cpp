@@ -525,7 +525,7 @@ void talk_function::give_equipment( npc &p )
     item it = *giving[chosen].loc.get_item();
     giving[chosen].loc.remove_item();
     popup( _( "%1$s gives you a %2$s" ), p.name, it.tname() );
-    it.set_owner( g->u.get_faction() );
+    it.set_owner( g->u.get_faction()->id );
     g->u.i_add( it );
     p.op_of_u.owed -= giving[chosen].price;
     p.add_effect( effect_asked_for_item, 3_hours );
@@ -795,11 +795,11 @@ void talk_function::stranger_neutral( npc &p )
 void talk_function::drop_stolen_item( npc &p )
 {
     for( auto &elem : g->u.inv_dump() ) {
-        if( elem->get_old_owner() ) {
-            if( elem->get_old_owner() == p.get_faction() ) {
+        if( elem->has_old_owner() ) {
+            if( elem->get_old_owner() == p.get_fac_id() ) {
                 item to_drop = g->u.i_rem( elem );
                 to_drop.remove_old_owner();
-                to_drop.set_owner( p.get_faction() );
+                to_drop.set_owner( p.get_fac_id() );
                 g->m.add_item_or_charges( g->u.pos(), to_drop );
             }
         }
