@@ -176,7 +176,7 @@
       { "item": "cx4", "prob": 45, "charges-min": 0, "charges-max": 15 },
       { "item": "ksub2000", "prob": 30, "charges-min": 0, "charges-max": 15 },
       { "item": "m1a", "prob": 50, "charges-min": 0, "charges-max": 5 },
-      { "item": "ar50", "prob": 4, "charges-min": 0, "charges-max": 1 },
+      { "item": "ar50", "prob": 5, "charges-min": 0, "charges-max": 1 },
       { "item": "marlin_9a", "prob": 80, "charges-min": 0, "charges-max": 19 },
       { "item": "mosin44", "prob": 15, "charges-min": 0, "charges-max": 5 },
       { "item": "mosin91_30", "prob": 25, "charges-min": 0, "charges-max": 5 },
