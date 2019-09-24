@@ -8024,9 +8024,9 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                        msgFactor ) );
     smenu.addentry_col( DISMEMBER, true, 'm', _( "Dismember corpse" ), cut_time( DISMEMBER ),
                         string_format( "%s  %s",
-                                       _( "If you're aiming to just destroy a body outright, and don't "
+                                       _( "If you're aiming to just destroy a body outright and don't "
                                           "care about harvesting it, dismembering it will hack it apart "
-                                          "in a very short amount of time, but yield little to no usable flesh." ),
+                                          "in a very short amount of time but yields little to no usable flesh." ),
                                        msgFactor ) );
     smenu.addentry_col( DISSECT, enough_light, 'd', _( "Dissect corpse" ),
                         enough_light ? cut_time( DISSECT ) : cannot_see,
