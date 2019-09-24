@@ -62,7 +62,8 @@
       "tec_aikido_blockdisarm",
       "tec_aikido_dodgethrow",
       "tec_aikido_blockthrow"
-    ]
+    ],
+    "weapons": [ "bagh_nakha", "bio_claws_weapon", "cestus", "knuckle_brass", "knuckle_nail", "knuckle_steel" ]
   },
   {
     "type": "martial_art",
