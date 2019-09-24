@@ -154,8 +154,7 @@
     "reload": 400,
     "barrel_length": 5,
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake", "recoil_stock" ],
-    "magazine_well": 1,
-    "magazine": [ [ "50", [ "ar50mag" ] ] ],
-    "flags": [ "NEVER_JAMS" ]
+    "clip_size": 1,
+    "flags": [ "NEVER_JAMS", "RELOAD_ONE" ]
   }
 ]
