@@ -2471,8 +2471,19 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "name", name );
     std::string temp_id;
     std::string temp_old_id;
-    data.read( "owner", owner );
-    data.read( "old_owner", old_owner );
+    data.read( "owner", temp_id );
+    data.read( "old_owner", temp_old_id );
+    // for savegames before the change to faction_id for ownership.
+    if( temp_id.empty() || temp_id == "" ) {
+        owner = faction_id::NULL_ID();
+    } else {
+        owner = faction_id( temp_id );
+    }
+    if( temp_old_id.empty() || temp_old_id == "" ) {
+        old_owner = faction_id::NULL_ID();
+    } else {
+        old_owner = faction_id( temp_old_id );
+    }
     data.read( "theft_time", theft_time );
 
     data.read( "parts", parts );

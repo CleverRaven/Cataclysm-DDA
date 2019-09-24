@@ -4050,7 +4050,13 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
     }
     // if we got here, theres some theft occuring
     if( prompt ) {
-        faction *owner_fac = g->faction_manager_ptr->get( get_owner() );
+
+        faction *owner_fac;
+        if( has_owner() ) {
+            owner_fac = g->faction_manager_ptr->get( get_owner() );
+        } else {
+            owner_fac = g->faction_manager_ptr->get( faction_id( "no_faction" ) );
+        }
         if( !owner_fac ) {
             debugmsg( "Vehicle has owner, but is not a valid faction" );
             return false;
