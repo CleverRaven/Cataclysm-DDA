@@ -368,7 +368,7 @@ void veh_interact::do_main_loop()
             if( owned_by_player ) {
                 redraw = do_rename( msg );
             } else {
-                if( owner_fac ){
+                if( owner_fac ) {
                     popup( _( "You cannot rename this vehicle as it is owned by: %s." ), _( owner_fac->name ) );
                 }
                 redraw = true;
@@ -397,7 +397,7 @@ void veh_interact::do_main_loop()
             if( owned_by_player ) {
                 redraw = do_assign_crew( msg );
             } else {
-                if( owner_fac ){
+                if( owner_fac ) {
                     popup( _( "You cannot assign crew on this vehicle as it is owned by: %s." ),
                            _( owner_fac->name ) );
                 }
@@ -407,7 +407,7 @@ void veh_interact::do_main_loop()
             if( owned_by_player ) {
                 redraw = do_relabel( msg );
             } else {
-                if( owner_fac ){
+                if( owner_fac ) {
                     popup( _( "You cannot relabel this vehicle as it is owned by: %s." ), _( owner_fac->name ) );
                 }
                 redraw = true;

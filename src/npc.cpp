@@ -443,7 +443,7 @@ void npc::set_fac( const faction_id &id )
     }
     my_fac = g->faction_manager_ptr->get( id );
     if( my_fac ) {
-        if( !is_fake() && !is_hallucination() ){
+        if( !is_fake() && !is_hallucination() ) {
             my_fac->add_to_membership( getID(), disp_name(), known_to_u );
         }
         fac_id = my_fac->id;
@@ -462,7 +462,7 @@ faction_id npc::get_fac_id() const
 
 faction *npc::get_faction() const
 {
-    if( !my_fac ){
+    if( !my_fac ) {
         return g->faction_manager_ptr->get( faction_id( "no_faction" ) );
     }
     return my_fac;
@@ -2143,9 +2143,9 @@ void npc::die( Creature *nkiller )
     }
     // if this NPC was the only member of a micro-faction, clean it up.
     if( my_fac ) {
-        if( !is_fake() && !is_hallucination() ){
-            if( my_fac->members.size() == 1 ){
-                for( auto elem : inv_dump() ){
+        if( !is_fake() && !is_hallucination() ) {
+            if( my_fac->members.size() == 1 ) {
+                for( auto elem : inv_dump() ) {
                     elem->remove_owner();
                     elem->remove_old_owner();
                 }

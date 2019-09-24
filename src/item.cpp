@@ -1046,8 +1046,8 @@ static int get_base_env_resist( const item &it )
 
 bool item::owned_by_player( const player &p ) const
 {
-    if( p.get_faction() ){
-        if( get_owner() == p.get_faction()->id ){
+    if( p.get_faction() ) {
+        if( get_owner() == p.get_faction()->id ) {
             return true;
         }
     }
@@ -1208,7 +1208,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list ) ) );
         }
         if( has_owner() ) {
-            info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ), _( get_owner().str() ) ) ) );
+            faction *owner_fac = g->faction_manager_ptr->get( get_owner() );
+            info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ), _( owner_fac->name ) ) ) );
         }
         if( has_var( "contained_name" ) && parts->test( iteminfo_parts::BASE_CONTENTS ) ) {
             info.push_back( iteminfo( "BASE", string_format( _( "Contains: %s" ),
@@ -3325,7 +3326,7 @@ void item::on_wield( player &p, int mv )
 void item::handle_pickup_ownership( Character &c )
 {
     faction *yours = c.get_faction();
-    if( !yours ){
+    if( !yours ) {
         return;
     }
     // Add ownership to item if unowned
