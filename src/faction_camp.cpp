@@ -493,29 +493,18 @@ void talk_function::start_camp( npc &p )
             near_fields += 1;
         }
     }
-    if( near_fields < 4 ) {
-        popup( _( "You need more at least 4 adjacent  for camp expansions!" ) );
-        return;
-    }
     std::vector<std::pair<std::string, tripoint>> om_region_ext = om_building_region( omt_pos, 3 );
     int forests = 0;
     int waters = 0;
-    int swamps = 0;
-    int fields = 0;
     for( const auto &om_near : om_region_ext ) {
         const oter_id &om_type = oter_id( om_near.first );
         if( is_ot_match( "faction_base", om_type, ot_match_type::contains ) ) {
             popup( _( "You are too close to another camp!" ) );
             return;
-        }
-        if( is_ot_match( "forest_water", om_type, ot_match_type::type ) ) {
-            swamps++;
         } else if( is_ot_match( "forest", om_type, ot_match_type::contains ) ) {
             forests++;
         } else if( is_ot_match( "river", om_type, ot_match_type::contains ) ) {
             waters++;
-        } else if( is_ot_match( "field", om_type, ot_match_type::contains ) ) {
-            fields++;
         }
     }
     bool display = false;
@@ -528,11 +517,7 @@ void talk_function::start_camp( npc &p )
         display = true;
         buffer += _( "There are few large clean-ish water sources.\n" );
     }
-    if( swamps == 0 ) {
-        display = true;
-        buffer += _( "There are no swamps.  Swamps provide access to a few late game industries.\n" );
-    }
-    if( fields < 4 ) {
+    if( near_fields < 4 ) {
         display = true;
         buffer += _( "There are few fields.  Farming may be difficult.\n" );
     }
