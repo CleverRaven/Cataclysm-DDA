@@ -462,6 +462,9 @@ faction_id npc::get_fac_id() const
 
 faction *npc::get_faction() const
 {
+    if( !my_fac ){
+        return g->faction_manager_ptr->get( faction_id( "no_faction" ) );
+    }
     return my_fac;
 }
 

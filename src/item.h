@@ -1921,6 +1921,7 @@ class item : public visitable<item>
         const faction_id get_owner() const;
         const faction_id get_old_owner() const;
         bool has_owner() const;
+        bool owned_by_player( const player &p ) const;
         bool has_old_owner() const;
         int get_min_str() const;
 

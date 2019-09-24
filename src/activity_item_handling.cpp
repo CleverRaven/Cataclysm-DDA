@@ -734,7 +734,7 @@ static void move_items( player &p, const tripoint &relative_dest, bool to_vehicl
         if( !newit.made_of_from_type( LIQUID ) ) {
             // This is for hauling across zlevels, remove when going up and down stairs
             // is no longer teleportation
-            if( !newit.has_owner() && p.is_player() ) {
+            if( !newit.has_owner() && p.get_faction() ) {
                 newit.set_owner( p.get_faction()->id );
             }
             const tripoint src = target.position();

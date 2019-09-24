@@ -1044,6 +1044,16 @@ static int get_base_env_resist( const item &it )
 
 }
 
+bool item::owned_by_player( const player &p ) const
+{
+    if( p.get_faction() ){
+        if( get_owner() == p.get_faction()->id ){
+            return true;
+        }
+    }
+    return false;
+}
+
 bool item::has_owner() const
 {
     return !owner.is_null();
