@@ -12,6 +12,6 @@ namespace teleport
 bool teleport( Creature &critter, int min_distance = 2, int max_distance = 12,
                bool safe = false,
                bool add_teleglow = true );
-}
+} // namespace teleport
 
 #endif
