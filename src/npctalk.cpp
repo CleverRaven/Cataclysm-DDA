@@ -325,7 +325,7 @@ static void tell_veh_stop_following()
     faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
     for( auto &veh : g->m.get_vehicles() ) {
         auto &v = veh.v;
-        if( v->has_engine_type( fuel_type_animal, false ) && v->get_owner() == yours ) {
+        if( v->has_engine_type( fuel_type_animal, false ) && v->get_owner() == yours->id ) {
             v->is_following = false;
             v->engine_on = false;
         }
@@ -337,7 +337,7 @@ static void assign_veh_to_follow()
     faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
     for( auto &veh : g->m.get_vehicles() ) {
         auto &v = veh.v;
-        if( v->has_engine_type( fuel_type_animal, false ) && v->get_owner() == yours ) {
+        if( v->has_engine_type( fuel_type_animal, false ) && v->get_owner() == yours->id ) {
             v->activate_animal_follow();
         }
     }
@@ -374,7 +374,7 @@ void game::chat()
     faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
     for( auto &veh : g->m.get_vehicles() ) {
         auto &v = veh.v;
-        if( v->has_engine_type( fuel_type_animal, false ) && v->get_owner() == yours ) {
+        if( v->has_engine_type( fuel_type_animal, false ) && v->get_owner() == yours->id ) {
             animal_vehicles.push_back( v );
             if( v->is_following ) {
                 following_vehicles.push_back( v );

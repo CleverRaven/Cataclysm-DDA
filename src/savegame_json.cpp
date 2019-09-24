@@ -2471,30 +2471,8 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "name", name );
     std::string temp_id;
     std::string temp_old_id;
-    data.read( "owner", temp_id );
-    if( !temp_id.empty() ) {
-        owner = g->faction_manager_ptr->get( faction_id( temp_id ), false );
-        if( !owner ) {
-            // this is a dynamic faction and therefore not loaded yet.
-            // create a stub to be filled in later when factions deserialize.
-            owner = g->faction_manager_ptr->add_new_faction( "temp_name", faction_id( temp_id ),
-                    faction_id( "no_faction" ) );
-        }
-    } else {
-        owner = nullptr;
-    }
-    data.read( "old_owner", temp_old_id );
-    if( !temp_old_id.empty() ) {
-        old_owner = g->faction_manager_ptr->get( faction_id( temp_old_id ), false );
-        if( !old_owner ) {
-            // this is a dynamic faction and therefore not loaded yet.
-            // create a stub to be filled in later when factions deserialize.
-            old_owner = g->faction_manager_ptr->add_new_faction( "temp_name", faction_id( temp_old_id ),
-                        faction_id( "no_faction" ) );
-        }
-    } else {
-        old_owner = nullptr;
-    }
+    data.read( "owner", owner );
+    data.read( "old_owner", old_owner );
     data.read( "theft_time", theft_time );
 
     data.read( "parts", parts );
@@ -2627,8 +2605,8 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "skidding", skidding );
     json.member( "of_turn_carry", of_turn_carry );
     json.member( "name", name );
-    json.member( "owner", owner ? owner->id.str() : "" );
-    json.member( "old_owner", old_owner ? old_owner->id.str() : "" );
+    json.member( "owner", owner );
+    json.member( "old_owner", old_owner );
     json.member( "theft_time", theft_time );
     json.member( "parts", parts );
     json.member( "tags", tags );

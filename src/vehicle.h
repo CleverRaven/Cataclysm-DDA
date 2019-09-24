@@ -736,28 +736,31 @@ class vehicle
         void print_vparts_descs( const catacurses::window &win, int max_y, int width, int p,
                                  int &start_at, int &start_limit ) const;
         // owner functions
-        void set_old_owner( const faction *temp_owner ) {
+        void set_old_owner( faction_id temp_owner ) {
             theft_time = calendar::turn;
             old_owner = temp_owner;
         }
         void remove_old_owner() {
             theft_time = cata::nullopt;
-            old_owner = nullptr;
+            old_owner = faction_id::NULL_ID();
         }
-        void set_owner( faction *new_owner ) {
+        void set_owner( faction_id new_owner ) {
             owner = new_owner;
         }
         void remove_owner() {
-            owner = nullptr;
+            owner = faction_id::NULL_ID();
         }
-        const faction *get_owner() const {
+        const faction_id get_owner() const {
             return owner;
         }
-        const faction *get_old_owner() const {
+        const faction_id get_old_owner() const {
             return old_owner;
         }
         bool has_owner() const {
-            return owner;
+            return !owner.is_null();
+        }
+        bool has_old_owner() const {
+            return !old_owner.is_null();
         }
         bool handle_potential_theft( player &p, bool check_only = false, bool prompt = true );
         // project a tileray forward to predict obstacles
@@ -1572,9 +1575,9 @@ class vehicle
         void update_time( const time_point &update_to );
 
         // The faction that owns this vehicle.
-        const faction *owner = nullptr;
+        faction_id owner = faction_id::NULL_ID();
         // The faction that previously owned this vehicle
-        const faction *old_owner = nullptr;
+        faction_id old_owner = faction_id::NULL_ID();
 
     private:
         mutable double coefficient_air_resistance = 1;

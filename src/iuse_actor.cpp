@@ -542,7 +542,7 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool, const tripoint & ) cons
         p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );
         return 0;
     }
-    veh->set_owner( g->u.get_faction() );
+    veh->set_owner( g->u.get_faction()->id );
 
     // Mark the vehicle as foldable.
     veh->tags.insert( "convertible" );

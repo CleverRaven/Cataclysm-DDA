@@ -6,7 +6,6 @@
 #include <algorithm>
 #include <functional>
 #include <limits>
-#include <iostream>
 #include <sstream>
 
 #include "auto_pickup.h"
@@ -141,6 +140,7 @@ npc::npc()
     moves = 100;
     mission = NPC_MISSION_NULL;
     myclass = npc_class_id::NULL_ID();
+    fac_id = faction_id::NULL_ID();
     patience = 0;
     attitude = NPCATT_NULL;
 
@@ -402,12 +402,10 @@ void npc::randomize( const npc_class_id &type )
     for( int i = 0; i < num_hp_parts; i++ ) {
         hp_cur[i] = hp_max[i];
     }
-    std::cout << "before starting items for NPC " << std::endl;
     starting_weapon( myclass );
     starting_clothes( *this, myclass, male );
     starting_inv( *this, myclass );
     has_new_items = true;
-    std::cout << "after starting items for NPC " << std::endl;
     empty_traits();
 
     // Add fixed traits
@@ -440,13 +438,14 @@ void npc::randomize_from_faction( faction *fac )
 
 void npc::set_fac( const faction_id &id )
 {
-
     if( my_fac ) {
         my_fac->remove_member( getID() );
     }
     my_fac = g->faction_manager_ptr->get( id );
     if( my_fac ) {
-        my_fac->add_to_membership( getID(), disp_name(), known_to_u );
+        if( !is_fake() && !is_hallucination() ){
+            my_fac->add_to_membership( getID(), disp_name(), known_to_u );
+        }
         fac_id = my_fac->id;
     } else {
         return;
@@ -458,7 +457,7 @@ void npc::set_fac( const faction_id &id )
 
 faction_id npc::get_fac_id() const
 {
-    return fac_id.str().empty() ? faction_id( "no_faction" ) : fac_id;
+    return fac_id;
 }
 
 faction *npc::get_faction() const
@@ -510,7 +509,6 @@ static item get_clothing_item( const npc_class_id &type, const std::string &what
 void starting_clothes( npc &who, const npc_class_id &type, bool male )
 {
     std::vector<item> ret;
-
     if( item_group::group_is_defined( type->worn_override ) ) {
         ret = item_group::items_from( type->worn_override );
     } else {
@@ -546,9 +544,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         if( who.can_wear( it ).success() ) {
             it.on_wear( who );
             who.worn.push_back( it );
-            std::cout << " before strting clothes.set_owner() " << who.get_fac_id().str() << std::endl;
             it.set_owner( who.get_fac_id() );
-            std::cout << " after starting clothes.set_owner() " << std::endl;
         }
     }
 }
@@ -608,11 +604,9 @@ void starting_inv( npc &who, const npc_class_id &type )
     res.erase( std::remove_if( res.begin(), res.end(), [&]( const item & e ) {
         return e.has_flag( "TRADER_AVOID" );
     } ), res.end() );
-    std::cout << " before inv.set_owner() " << who.get_fac_id().str() << std::endl;
     for( auto &it : res ) {
         it.set_owner( who.get_fac_id() );
     }
-    std::cout << " after inv.set_owner() " << std::endl;
     who.inv += res;
 }
 
@@ -804,9 +798,7 @@ void npc::starting_weapon( const npc_class_id &type )
     if( weapon.is_gun() ) {
         weapon.ammo_set( weapon.ammo_default() );
     }
-    std::cout << " before weeapon.set_owner() " << get_fac_id().str() << std::endl;
     weapon.set_owner( get_fac_id() );
-    std::cout << " after weeapon.set_owner() " << std::endl;
 }
 
 bool npc::wear_if_wanted( const item &it )
@@ -2148,10 +2140,14 @@ void npc::die( Creature *nkiller )
     }
     // if this NPC was the only member of a micro-faction, clean it up.
     if( my_fac ) {
-        my_fac->remove_member( getID() );
-        for( auto elem : inv_dump() ){
-            elem->remove_owner();
-            elem->remove_old_owner();
+        if( !is_fake() && !is_hallucination() ){
+            if( my_fac->members.size() == 1 ){
+                for( auto elem : inv_dump() ){
+                    elem->remove_owner();
+                    elem->remove_old_owner();
+                }
+            }
+            my_fac->remove_member( getID() );
         }
     }
     dead = true;

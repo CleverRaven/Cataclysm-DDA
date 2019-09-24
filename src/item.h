@@ -1910,13 +1910,13 @@ class item : public visitable<item>
             old_owner = temp_owner;
         }
         inline void remove_old_owner() {
-            old_owner = faction_id();
+            old_owner = faction_id::NULL_ID();
         }
         inline void set_owner( faction_id new_owner ) {
             owner = new_owner;
         }
         inline void remove_owner() {
-            owner = faction_id();
+            owner = faction_id::NULL_ID();
         }
         const faction_id get_owner() const;
         const faction_id get_old_owner() const;
@@ -2086,9 +2086,9 @@ class item : public visitable<item>
          */
         phase_id current_phase = static_cast<phase_id>( 0 );
         // The faction that owns this item.
-        faction_id owner;
+        faction_id owner = faction_id::NULL_ID();
         // The faction that previously owned this item
-        faction_id old_owner;
+        faction_id old_owner = faction_id::NULL_ID();
         int damage_ = 0;
         light_emission light = nolight;
 

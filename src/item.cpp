@@ -1046,12 +1046,12 @@ static int get_base_env_resist( const item &it )
 
 bool item::has_owner() const
 {
-    return !owner.str().empty();
+    return !owner.is_null();
 }
 
 bool item::has_old_owner() const
 {
-    return !old_owner.str().empty();
+    return !old_owner.is_null();
 }
 
 const faction_id item::get_owner() const
@@ -3315,6 +3315,9 @@ void item::on_wield( player &p, int mv )
 void item::handle_pickup_ownership( Character &c )
 {
     faction *yours = c.get_faction();
+    if( !yours ){
+        return;
+    }
     // Add ownership to item if unowned
     if( !has_owner() ) {
         set_owner( yours->id );

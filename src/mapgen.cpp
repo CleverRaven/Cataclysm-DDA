@@ -6577,9 +6577,8 @@ character_id map::place_npc( const point &p, const string_id<npc_template> &type
 }
 
 void map::apply_faction_ownership( const point &p1, const point &p2,
-                                   const faction_id id )
+                                   faction_id id )
 {
-    faction *fac = g->faction_manager_ptr->get( id );
     for( const tripoint &p : points_in_rectangle( tripoint( p1, abs_sub.z ), tripoint( p2,
             abs_sub.z ) ) ) {
         auto items = i_at( p.xy() );
@@ -6589,7 +6588,7 @@ void map::apply_faction_ownership( const point &p1, const point &p2,
         vehicle *source_veh = veh_pointer_or_null( veh_at( p ) );
         if( source_veh ) {
             if( !source_veh->has_owner() ) {
-                source_veh->set_owner( fac );
+                source_veh->set_owner( id );
             }
         }
     }
