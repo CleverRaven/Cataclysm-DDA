@@ -2348,18 +2348,11 @@ void veh_interact::display_name()
     werase( w_name );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w_name, point( 1, 0 ), c_light_gray, _( "Name: " ) );
-    faction *owner_fac;
-    if( veh->has_owner() ) {
-        owner_fac = g->faction_manager_ptr->get( veh->get_owner() );
-    } else {
-        owner_fac = g->faction_manager_ptr->get( faction_id( "no_faction" ) );
-    }
-    std::string fac_name = owner_fac && owner_fac != g->u.get_faction() ?
-                           _( owner_fac->name ) : _( "Yours" );
+
     mvwprintz( w_name, point( 1 + utf8_width( _( "Name: " ) ), 0 ),
-               owner_fac && owner_fac != g->u.get_faction() ? c_light_red : c_light_green,
+               veh->not_owned_by_player() ? c_light_red : c_light_green,
                string_format( _( "%s (%s)" ), veh->name,
-                              !owner_fac ? _( "not owned" ) : fac_name ) );
+                              veh->has_owner() ? veh->get_owner_name() : _( "not owned" ) ) );
     wrefresh( w_name );
 }
 

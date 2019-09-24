@@ -4011,29 +4011,88 @@ bool vehicle::sufficient_wheel_config() const
     return true;
 }
 
+bool vehicle::is_owned_by( const player &p ) const
+{
+    if( !p.get_faction() ) {
+        debugmsg( "vehicle::is_owned_by() player %s has no faction", p.disp_name() );
+        return false;
+    }
+    return p.get_faction()->id == get_owner();
+}
+
+bool vehicle::is_old_owner( const player &p ) const
+{
+    if( !p.get_faction() ) {
+        debugmsg( "vehicle::is_old_owner() player %s has no faction", p.disp_name() );
+        return false;
+    }
+    return p.get_faction()->id == get_old_owner();
+}
+
+std::string vehicle::get_owner_name() const
+{
+    if( !g->faction_manager_ptr->get( owner ) ) {
+        debugmsg( "vehicle::get_owner_name() vehicle %s has no valid nor null faction id ", disp_name() );
+        return "no owner";
+    }
+    return g->faction_manager_ptr->get( owner )->name;
+}
+
+bool vehicle::not_owned_by_player() const
+{
+    return !is_owned_by( g->u );
+}
+
+void vehicle::set_owner( player &p )
+{
+    if( !p.get_faction() ) {
+        debugmsg( "vehicle::set_owner() player %s has no valid faction", p.disp_name() );
+        return;
+    }
+    owner = p.get_faction()->id;
+}
+
+void vehicle::set_owner( Character &c )
+{
+    if( !c.get_faction() ) {
+        debugmsg( "vehicle::set_owner() player %s has no valid faction", c.disp_name() );
+        return;
+    }
+    owner = c.get_faction()->id;
+}
+
+void vehicle::set_owner( avatar &you )
+{
+    if( !you.get_faction() ) {
+        debugmsg( "vehicle::set_owner() avatar %s has no valid faction", you.disp_name() );
+        return;
+    }
+    owner = you.get_faction()->id;
+}
+
 bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
 {
-    faction *yours = p.get_faction();
+    const bool is_owned_by_player = is_owned_by( p );
     std::vector<npc *> witnesses;
     for( npc &elem : g->all_npcs() ) {
         if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && has_owner() &&
-            elem.get_faction()->id == get_owner() && elem.sees( p.pos() ) ) {
+            !is_owned_by_player && elem.sees( p.pos() ) ) {
             witnesses.push_back( &elem );
         }
     }
     // the vehicle is yours, thats fine.
-    if( get_owner() == yours->id ) {
+    if( is_owned_by_player ) {
         return true;
         // if There is no owner
         // handle transfer of ownership
     } else if( !has_owner() ) {
-        set_owner( yours->id );
+        set_owner( p.get_faction()->id );
         remove_old_owner();
         return true;
         // if there is a marker for having been stolen, but 15 minutes have passed, then officially transfer ownership
-    } else if( witnesses.empty() && has_old_owner() && get_old_owner() != yours->id && theft_time &&
+    } else if( witnesses.empty() && has_old_owner() && !is_old_owner( p ) && theft_time &&
                calendar::turn - *theft_time > 15_minutes ) {
-        set_owner( yours->id );
+        set_owner( p.get_faction()->id );
         remove_old_owner();
         return true;
         // No witnesses? then dont need to prompt, we assume the player is in process of stealing it.
@@ -4050,20 +4109,9 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
     }
     // if we got here, theres some theft occuring
     if( prompt ) {
-
-        faction *owner_fac;
-        if( has_owner() ) {
-            owner_fac = g->faction_manager_ptr->get( get_owner() );
-        } else {
-            owner_fac = g->faction_manager_ptr->get( faction_id( "no_faction" ) );
-        }
-        if( !owner_fac ) {
-            debugmsg( "Vehicle has owner, but is not a valid faction" );
-            return false;
-        }
         if( !query_yn(
                 _( "This vehicle belongs to: %s, there may be consequences if you are observed interacting with it, continue?" ),
-                _( owner_fac->name ) ) ) {
+                _( get_owner_name() ) ) ) {
             return false;
         }
     }

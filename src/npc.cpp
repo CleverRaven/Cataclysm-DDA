@@ -450,8 +450,13 @@ void npc::set_fac( const faction_id &id )
     } else {
         return;
     }
+    apply_ownership_to_inv();
+}
+
+void npc::apply_ownership_to_inv()
+{
     for( auto &e : inv_dump() ) {
-        e->set_owner( get_fac_id() );
+        e->set_owner( get_faction()->id );
     }
 }
 
@@ -547,7 +552,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         if( who.can_wear( it ).success() ) {
             it.on_wear( who );
             who.worn.push_back( it );
-            it.set_owner( who.get_fac_id() );
+            it.set_owner( who );
         }
     }
 }
@@ -608,7 +613,7 @@ void starting_inv( npc &who, const npc_class_id &type )
         return e.has_flag( "TRADER_AVOID" );
     } ), res.end() );
     for( auto &it : res ) {
-        it.set_owner( who.get_fac_id() );
+        it.set_owner( who );
     }
     who.inv += res;
 }
@@ -801,7 +806,7 @@ void npc::starting_weapon( const npc_class_id &type )
     if( weapon.is_gun() ) {
         weapon.ammo_set( weapon.ammo_default() );
     }
-    weapon.set_owner( get_fac_id() );
+    weapon.set_owner( get_faction()->id );
 }
 
 bool npc::wear_if_wanted( const item &it )
@@ -1308,7 +1313,7 @@ void npc::say( const std::string &line, const int priority ) const
 
 bool npc::wants_to_sell( const item &it ) const
 {
-    if( get_fac_id() != it.get_owner() ) {
+    if( !it.is_owned_by( *this ) ) {
         return false;
     }
     const int market_price = it.price( true );
@@ -1426,7 +1431,7 @@ void npc::shop_restock()
         if( mission == NPC_MISSION_SHOPKEEP && !my_fac->currency.empty() ) {
             item my_currency( my_fac->currency );
             if( !my_currency.is_null() ) {
-                my_currency.set_owner( get_fac_id() );
+                my_currency.set_owner( *this );
                 int my_amount = rng( 5, 15 ) * shop_value / 100 / my_currency.price( true );
                 for( int lcv = 0; lcv < my_amount; lcv++ ) {
                     ret.push_back( my_currency );
@@ -1440,7 +1445,7 @@ void npc::shop_restock()
     while( shop_value > 0 && total_space > 0_ml && !last_item ) {
         item tmpit = item_group::item_from( from, 0 );
         if( !tmpit.is_null() && total_space >= tmpit.volume() ) {
-            tmpit.set_owner( get_fac_id() );
+            tmpit.set_owner( *this );
             ret.push_back( tmpit );
             shop_value -= tmpit.price( true );
             total_space -= tmpit.volume();

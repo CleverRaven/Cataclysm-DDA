@@ -355,7 +355,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         bool stolen = false;
         if( it.has_owner() ) {
             const faction_id item_fac = it.get_owner();
-            if( item_fac != g->u.get_faction()->id ) {
+            if( it.not_owned_by_player() ) {
                 stolen_string = "<color_light_red>!</color>";
                 stolen = true;
             }

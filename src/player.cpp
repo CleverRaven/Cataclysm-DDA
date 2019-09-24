@@ -7049,7 +7049,7 @@ bool player::consume_med( item &target )
 
 static bool query_consume_ownership( item &target, player &p )
 {
-    if( target.has_owner() && target.get_owner() != p.get_faction()->id ) {
+    if( target.has_owner() && !target.is_owned_by( p ) ) {
         bool choice = true;
         if( p.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
             choice = Pickup::query_thief();

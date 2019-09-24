@@ -736,6 +736,7 @@ class npc : public player
         // Generating our stats, etc.
         void randomize( const npc_class_id &type = npc_class_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
+        void apply_ownership_to_inv();
         // Faction version number
         int get_faction_ver() const;
         void set_faction_ver( int new_version );

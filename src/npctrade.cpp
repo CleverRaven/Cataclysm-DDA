@@ -38,7 +38,6 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
                                   player &receiver, std::list<item_location *> &from_map,
                                   bool npc_gives )
 {
-    faction *fac = receiver.get_faction();
     for( item_pricing &ip : stuff ) {
         if( !ip.selected ) {
             continue;
@@ -50,7 +49,7 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
         }
 
         item gift = *ip.loc.get_item();
-        gift.set_owner( fac->id );
+        gift.set_owner( receiver );
         int charges = npc_gives ? ip.u_charges : ip.npc_charges;
         int count = npc_gives ? ip.u_has : ip.npc_has;
 
@@ -153,7 +152,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         item &it = *it_ptr;
 
         // Don't sell items we don't own.
-        if( it.has_owner() && it.get_owner() != seller.get_faction()->id ) {
+        if( it.has_owner() && !it.is_owned_by( seller ) ) {
             return;
         }
 

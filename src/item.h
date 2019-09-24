@@ -1915,13 +1915,18 @@ class item : public visitable<item>
         inline void set_owner( faction_id new_owner ) {
             owner = new_owner;
         }
+        void set_owner( player &p );
+        void set_owner( Character &c );
         inline void remove_owner() {
             owner = faction_id::NULL_ID();
         }
         const faction_id get_owner() const;
         const faction_id get_old_owner() const;
         bool has_owner() const;
-        bool owned_by_player( const player &p ) const;
+        bool is_owned_by( const Character &p ) const;
+        bool is_old_owner( const player &p ) const;
+        std::string get_owner_name() const;
+        bool not_owned_by_player() const;
         bool has_old_owner() const;
         int get_min_str() const;
 
