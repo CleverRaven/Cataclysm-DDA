@@ -292,11 +292,15 @@ void vehicle::turrets_set_targeting()
 {
     std::vector<vehicle_part *> turrets;
     std::vector<tripoint> locations;
+    std::vector<vehicle_part *> turret_controls;
 
     for( auto &p : parts ) {
         if( p.base.is_gun() ) {
             turrets.push_back( &p );
             locations.push_back( global_part_pos3( p ) );
+        }
+        if( part_flag( index_of_part( &p ), "TURRET_CONTROLS" ) ) {
+            turret_controls.push_back( &p );
         }
     }
 
@@ -327,6 +331,7 @@ void vehicle::turrets_set_targeting()
         sel = menu.ret;
         if( has_part( locations[ sel ], "TURRET_CONTROLS" ) ) {
             turrets[sel]->enabled = !turrets[sel]->enabled;
+            turret_controls[sel]->enabled = turrets[sel]->enabled;
         } else {
             turrets[sel]->enabled = false;
         }
