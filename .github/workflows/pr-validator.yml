@@ -13,3 +13,4 @@ jobs:
         uses: CleverRaven/pr-validator@master
         with:
           description-regex: '(\n|^)\s*`{0,3}SUMMARY: +(None|((Features|Content|Interface|Mods|Balance|Bugfixes|Performance|Infrastructure|Build|I18N) +".*"))`{0,3}\s*(\n|$)'
+          description-regex-flags: 'i'
