@@ -754,10 +754,10 @@ class vehicle
         void remove_owner() {
             owner = faction_id::NULL_ID();
         }
-        const faction_id get_owner() const {
+        faction_id get_owner() const {
             return owner;
         }
-        const faction_id get_old_owner() const {
+        faction_id get_old_owner() const {
             return old_owner;
         }
         bool has_owner() const {

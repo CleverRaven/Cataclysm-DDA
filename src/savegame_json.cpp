@@ -2474,12 +2474,12 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "owner", temp_id );
     data.read( "old_owner", temp_old_id );
     // for savegames before the change to faction_id for ownership.
-    if( temp_id.empty() || temp_id == "" ) {
+    if( temp_id.empty() ) {
         owner = faction_id::NULL_ID();
     } else {
         owner = faction_id( temp_id );
     }
-    if( temp_old_id.empty() || temp_old_id == "" ) {
+    if( temp_old_id.empty() ) {
         old_owner = faction_id::NULL_ID();
     } else {
         old_owner = faction_id( temp_old_id );
