@@ -2012,8 +2012,8 @@ bool player::purifiable( const trait_id &flag ) const
     return flag->purifiable;
 }
 
-void player::build_mut_dependency_map( const trait_id &mut,
-                                       std::unordered_map<trait_id, int> &dependency_map, int distance )
+void Character::build_mut_dependency_map( const trait_id &mut,
+        std::unordered_map<trait_id, int> &dependency_map, int distance )
 {
     // Skip base traits and traits we've seen with a lower distance
     const auto lowest_distance = dependency_map.find( mut );
@@ -2034,7 +2034,7 @@ void player::build_mut_dependency_map( const trait_id &mut,
     }
 }
 
-void player::set_highest_cat_level()
+void Character::set_highest_cat_level()
 {
     mutation_category_level.clear();
 
@@ -2058,7 +2058,7 @@ void player::set_highest_cat_level()
 }
 
 /// Returns the mutation category with the highest strength
-std::string player::get_highest_category() const
+std::string Character::get_highest_category() const
 {
     int iLevel = 0;
     std::string sMaxCat;
@@ -6291,7 +6291,7 @@ void player::drench( int saturation, const body_part_set &flags, bool ignore_wat
     }
 }
 
-void player::drench_mut_calc()
+void Character::drench_mut_calc()
 {
     for( const body_part bp : all_body_parts ) {
         int ignored = 0;

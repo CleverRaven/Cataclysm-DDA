@@ -504,7 +504,7 @@ trait_id Character::trait_by_invlet( const int ch ) const
     return trait_id::NULL_ID();
 }
 
-bool player::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const
+bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const
 {
     if( mutation_branch::trait_is_blacklisted( mutation ) ) {
         return false;
@@ -527,7 +527,7 @@ bool player::mutation_ok( const trait_id &mutation, bool force_good, bool force_
     return true;
 }
 
-void player::mutate()
+void Character::mutate()
 {
     bool force_bad = one_in( 3 );
     bool force_good = false;
@@ -680,7 +680,7 @@ void player::mutate()
     }
 }
 
-void player::mutate_category( const std::string &cat )
+void Character::mutate_category( const std::string &cat )
 {
     // Hacky ID comparison is better than separate hardcoded branch used before
     // TODO: Turn it into the null id
@@ -729,7 +729,7 @@ static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
     return ret;
 }
 
-bool player::mutate_towards( std::vector<trait_id> muts, int num_tries )
+bool Character::mutate_towards( std::vector<trait_id> muts, int num_tries )
 {
     while( !muts.empty() && num_tries > 0 ) {
         int i = rng( 0, muts.size() - 1 );
@@ -745,7 +745,7 @@ bool player::mutate_towards( std::vector<trait_id> muts, int num_tries )
     return false;
 }
 
-bool player::mutate_towards( const trait_id &mut )
+bool Character::mutate_towards( const trait_id &mut )
 {
     if( has_child_flag( mut ) ) {
         remove_child_flag( mut );
@@ -977,7 +977,7 @@ bool player::mutate_towards( const trait_id &mut )
     return true;
 }
 
-void player::remove_mutation( const trait_id &mut, bool silent )
+void Character::remove_mutation( const trait_id &mut, bool silent )
 {
     const auto &mdata = mut.obj();
     // Check if there's a prerequisite we should shrink back into
@@ -1129,7 +1129,7 @@ void player::remove_mutation( const trait_id &mut, bool silent )
     drench_mut_calc();
 }
 
-bool player::has_child_flag( const trait_id &flag ) const
+bool Character::has_child_flag( const trait_id &flag ) const
 {
     for( auto &elem : flag->replacements ) {
         const trait_id &tmp = elem;
@@ -1140,7 +1140,7 @@ bool player::has_child_flag( const trait_id &flag ) const
     return false;
 }
 
-void player::remove_child_flag( const trait_id &flag )
+void Character::remove_child_flag( const trait_id &flag )
 {
     for( auto &elem : flag->replacements ) {
         const trait_id &tmp = elem;
