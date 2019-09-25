@@ -1,4 +1,20 @@
 [
+  [
+  {
+    "type": "recipe",
+    "result": "faction_base_saltworks_0",
+    "description": "Survey land for a saltworks area.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_base_saltworks_0",
+    "blueprint_name": "Saltworks survey",
+    "time": "180 m",
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "blueprint_provides": [ { "id": "fbms_0" } ]
+  },
   {
     "type": "recipe",
     "result": "faction_base_modular_saltpan_log_northeast",
