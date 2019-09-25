@@ -1107,45 +1107,29 @@ void vehicle::crash_terrain_around() {
         const tripoint start_pos = vp.pos();
         const transform_terrain_data& ttd = vp.info().transform_terrain;
 
-        if (vp.get_label().has_value())
-            popup(_(vp.get_label().value()));
-        //else
-        //    popup(_("test_has no label"));
-
-        const char lbl[] = { "1011011111" };
-
         for (int i = 0; i < 9 && crush_target.z == -OVERMAP_LAYERS; i++) {
-
             tripoint cur_pos = start_pos + around[i];
-            tripoint cur_pos_veh(vp.mount(), 0);
 
+            bool busy_pos = false;
 
-            cur_pos_veh += around[i];
+            for (const vpart_reference& vp_tmp : get_all_parts()) {
+                busy_pos |= vp_tmp.pos() == cur_pos;
+            }
 
-            if (lbl[i] == '1') {
-                for (const std::string& flag : ttd.pre_flags) {
-                    if (g->m.has_flag(TFLAG_MINEABLE, cur_pos)) {
-                        crush_target = cur_pos;
-                        break;
-                    }
+            for (const std::string& flag : ttd.pre_flags) {
+                if (g->m.has_flag(flag, cur_pos) && !busy_pos) {
+                    crush_target = cur_pos;
+                    break;
                 }
             }
         }
-        //target choosen
-        if (crush_target.z > -OVERMAP_LAYERS) {
+        if (crush_target.z != -OVERMAP_LAYERS) { //target chosen
             velocity = 0;
             cruise_velocity = 0;
-
             g->m.destroy(crush_target);
 
-            sounds::sound(crush_target, 1000, sounds::sound_t::combat, _("Clanggggg!"), false,
+            sounds::sound(crush_target, 500, sounds::sound_t::combat, _("Clanggggg!"), false,
                 "smash_success", "hit_vehicle");
-        }
-        else { //if it is actived, it will move slowly... like a snail
-            if (velocity > 4) {
-                velocity = 4;
-                cruise_velocity = 4;
-            }
         }
 
     }

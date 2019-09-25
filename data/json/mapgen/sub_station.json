@@ -142,10 +142,7 @@
         "#^^-x---x-IIII-x---x-^^#",
         "#^^^X^^^X^^^^^^X^^^X^^^#"
       ],
-      "palettes": [ "subway_underground" ],
-	    "place_vehicles": [
-        { "vehicle": "roadheader", "x": [ 4, 9 ], "y": [ -5, 5 ], "chance": 5, "rotation": 0 }
-      ]
+      "palettes": [ "subway_underground" ]
     }
   }
 ]
