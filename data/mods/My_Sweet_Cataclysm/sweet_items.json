@@ -10,13 +10,5 @@
     "material": [ "paper" ],
     "symbol": "/",
     "color": "pink"
-  },
-  {
-    "id": "sugarkin_flyer_norm",
-    "type": "BOOK",
-    "name": "SugarKin flyer",
-    "description": " \"SugarKin the first life-size human candy!  Are you a real monster?  Will you be able to devour it?\"",
-    "copy_from": "sugarkin_flyer",
-    "symbol": "/"
   }
 ]
