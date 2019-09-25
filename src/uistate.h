@@ -16,7 +16,7 @@ class item;
 struct comestible_inv_save_state {
     public:
         int sort_idx = -1;
-        std::string filter = "";
+        std::string filter;
         int area_idx = 13; //A+I+W
 
         /**

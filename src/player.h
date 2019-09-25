@@ -1424,7 +1424,7 @@ class player : public Character
          * Start various types of crafts
          * @param loc the location of the workbench. tripoint_zero indicates crafting from inventory.
          */
-        void craft( const tripoint &loc = tripoint_zero, std::string filter = "" );
+        void craft( const tripoint &loc = tripoint_zero, const std::string &filter = "" );
         void recraft( const tripoint &loc = tripoint_zero );
         void long_craft( const tripoint &loc = tripoint_zero );
         void make_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );

@@ -40,20 +40,17 @@
 #endif
 
 
-void comestible_inventory_pane::init( int items_per_page,
-                                      catacurses::window w, std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS>
-                                      *a )
+void comestible_inventory_pane::init( int items_per_page, catacurses::window w )
 {
     itemsPerPage = items_per_page;
     window = w;
-    all_areas = a;
     is_compact = TERMX <= 100;
 
     inCategoryMode = false;
 
     comestible_inv_area_info::aim_location location =
         static_cast<comestible_inv_area_info::aim_location>( uistate.comestible_save.area_idx );
-    set_area( &( *all_areas )[location], uistate.comestible_save.in_vehicle );
+    set_area( all_areas[location], uistate.comestible_save.in_vehicle );
 
     index = uistate.comestible_save.selected_idx;
     filter = uistate.comestible_save.filter;
@@ -394,11 +391,11 @@ void comestible_inventory_pane::recalc()
         weight = 0_gram;
         std::vector<comestible_inv_area_info::aim_location> loc = cur_area->info.multi_locations;
         for( auto &i : loc ) {
-            comestible_inv_area *s = &( ( *all_areas )[i] );
+            comestible_inv_area &s = get_square( i );
             // Deal with squares with ground + vehicle storage
             // Also handle the case when the other tile covers vehicle
             // or the ground below the vehicle.
-            if( s->has_vehicle() ) {
+            if( s.has_vehicle() ) {
                 add_items_from_area( s, true, tmp_vol, tmp_weight );
                 volume += tmp_vol;
                 weight += tmp_weight;
@@ -410,7 +407,7 @@ void comestible_inventory_pane::recalc()
             weight += tmp_weight;
         }
     } else {
-        add_items_from_area( cur_area, viewing_cargo, volume, weight );
+        add_items_from_area( *cur_area, viewing_cargo, volume, weight );
     }
 
     // Insert category headers (only expected when sorting by category)
@@ -441,11 +438,11 @@ void comestible_inventory_pane::recalc()
     }
 }
 
-void comestible_inventory_pane::add_items_from_area( comestible_inv_area *area, bool from_cargo,
+void comestible_inventory_pane::add_items_from_area( comestible_inv_area &area, bool from_cargo,
         units::volume &ret_volume, units::mass &ret_weight )
 {
-    assert( area->info.type != comestible_inv_area_info::AREA_TYPE_MULTI );
-    if( !area->is_valid() ) {
+    assert( area.info.type != comestible_inv_area_info::AREA_TYPE_MULTI );
+    if( !area.is_valid() ) {
         return;
     }
 
@@ -455,7 +452,7 @@ void comestible_inventory_pane::add_items_from_area( comestible_inv_area *area, 
 
     // Existing items are *not* cleared on purpose, this might be called
     // several times in case all surrounding squares are to be shown.
-    const comestible_inv_area::area_items stacks = area->get_items( from_cargo );
+    const comestible_inv_area::area_items stacks = area.get_items( from_cargo );
 
     for( size_t x = 0; x < stacks.size(); ++x ) {
         it = create_listitem( stacks[x], x, area, from_cargo );
@@ -486,14 +483,14 @@ void comestible_inventory_pane::redraw()
     print_items();
 
     auto itm = get_cur_item_ptr();
-    int width = print_header( itm != nullptr ? itm->area : cur_area );
+    int width = print_header( itm != nullptr ? itm->get_area() : get_area() );
     bool same_as_dragged = ( cur_area->info.type == comestible_inv_area_info::AREA_TYPE_GROUND ) &&
                            // only cardinals
                            cur_area->info.id != comestible_inv_area_info::AIM_CENTER && viewing_cargo &&
                            // not where you stand, and pane is in vehicle
                            cur_area->info.default_offset == get_square(
-                               comestible_inv_area_info::AIM_DRAGGED )->offset; // make sure the offsets are the same as the grab point
-    const comestible_inv_area *sq = same_as_dragged ? get_square(
+                               comestible_inv_area_info::AIM_DRAGGED ).offset; // make sure the offsets are the same as the grab point
+    const comestible_inv_area *sq = same_as_dragged ? &get_square(
                                         comestible_inv_area_info::AIM_DRAGGED ) : cur_area;
 
     bool car = cur_area->has_vehicle() && viewing_cargo &&
@@ -548,29 +545,28 @@ void comestible_inventory_pane::redraw()
     wrefresh( w );
 }
 
-int comestible_inventory_pane::print_header( comestible_inv_area *sel_area )
+int comestible_inventory_pane::print_header( comestible_inv_area &sel_area )
 {
-    int wwidth = getmaxx( window );
-    int ofs = wwidth - 25 - 2 - 14;
-    for( size_t i = 0; i < all_areas->size(); ++i ) {
+    int ofs = getmaxx( window ) - 25 - 2 - 14;
+    for( size_t i = 0; i < all_areas.size(); ++i ) {
         std::string key = comestible_inv_area::get_info(
                               static_cast<comestible_inv_area_info::aim_location>( i ) ).minimapname;
 
-        comestible_inv_area *iter_square = get_square( i );
+        comestible_inv_area &iter_square = get_square( i );
 
-        const char *bracket = iter_square->has_vehicle() ? "<>" : "[]";
+        const char *bracket = iter_square.has_vehicle() ? "<>" : "[]";
 
         bool is_single = cur_area->info.type != comestible_inv_area_info::AREA_TYPE_MULTI;
-        bool is_selected_by_user = cur_area->info.has_area( get_square( i )->info.id );
+        bool is_selected_by_user = cur_area->info.has_area( iter_square.info.id );
         bool is_selected_by_item;
         if( is_single ) {
             is_selected_by_item = is_selected_by_user;
         } else {
-            is_selected_by_item = get_square( i )->info.id == sel_area->info.id;
+            is_selected_by_item = iter_square.info.id == sel_area.info.id;
         }
         nc_color bcolor = c_red;
         nc_color kcolor = c_red;
-        if( get_square( i )->is_valid() ) {
+        if( iter_square.is_valid() ) {
             if( is_single ) {
                 if( is_selected_by_item ) {
                     if( viewing_cargo ) {
@@ -583,7 +579,7 @@ int comestible_inventory_pane::print_header( comestible_inv_area *sel_area )
                     bcolor = kcolor = c_dark_gray;
                 }
             } else {
-                if( cur_area->info.id == get_square( i )->info.id ) {
+                if( cur_area->info.id == iter_square.info.id ) {
                     bcolor = c_light_gray;
                     kcolor = c_white;
                 } else {
@@ -602,18 +598,17 @@ int comestible_inventory_pane::print_header( comestible_inv_area *sel_area )
             }
         }
 
-        const int x = get_square( i )->info.hscreen.x + ofs;
-        const int y = get_square( i )->info.hscreen.y;
+        const int x = iter_square.info.hscreen.x + ofs;
+        const int y = iter_square.info.hscreen.y;
         mvwprintz( window, point( x, y ), bcolor, "%c", bracket[0] );
         wprintz( window, kcolor, "%s", viewing_cargo && is_selected_by_item && is_single &&
                  cur_area->info.id != comestible_inv_area_info::AIM_DRAGGED ? "V" : key );
         wprintz( window, bcolor, "%c", bracket[1] );
     }
-    return get_square( comestible_inv_area_info::AIM_INVENTORY )->info.hscreen.y + ofs;
+    return get_square( comestible_inv_area_info::AIM_INVENTORY ).info.hscreen.y + ofs;
 }
 
-void comestible_inventory_pane_food::init( int items_per_page, catacurses::window w,
-        std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> *s )
+void comestible_inventory_pane_food::init( int items_per_page, catacurses::window w )
 {
     columns = { COLUMN_CALORIES, COLUMN_QUENCH, COLUMN_JOY };
     if( g->u.can_estimate_rot() ) {
@@ -622,11 +617,11 @@ void comestible_inventory_pane_food::init( int items_per_page, catacurses::windo
         columns.emplace_back( COLUMN_SHELF_LIFE );
     }
     special_filter = []( const item & it ) {
-        const std::string n = it.get_category().name();
-        if( uistate.comestible_save.show_food && n != "FOOD" ) {
+        const std::string n = it.get_category().id();
+        if( uistate.comestible_save.show_food && n != "food" ) {
             return true;
         }
-        if( !uistate.comestible_save.show_food && n != "DRUGS" ) {
+        if( !uistate.comestible_save.show_food && n != "drugs" ) {
             return true;
         }
 
@@ -635,12 +630,12 @@ void comestible_inventory_pane_food::init( int items_per_page, catacurses::windo
         }
         return false;
     };
-    title = uistate.comestible_save.show_food ? "FOOD" : "DRUGS";
+    title = uistate.comestible_save.show_food ? _( "FOOD" ) : _( "DRUGS" );
     default_sortby = COLUMN_EXPIRES;
-    comestible_inventory_pane::init( items_per_page, w, s );
+    comestible_inventory_pane::init( items_per_page, w );
 }
 comestible_inv_listitem *comestible_inventory_pane_food::create_listitem( std::list<item *> list,
-        int index, comestible_inv_area *area, bool from_vehicle )
+        int index, comestible_inv_area &area, bool from_vehicle )
 {
     return new comestible_inv_listitem_food( list, index, area, from_vehicle );
 }
@@ -650,8 +645,7 @@ comestible_inv_listitem *comestible_inventory_pane_food::create_listitem(
     return new comestible_inv_listitem_food( cat );
 }
 
-void comestible_inventory_pane_bio::init( int items_per_page, catacurses::window w,
-        std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> *s )
+void comestible_inventory_pane_bio::init( int items_per_page, catacurses::window w )
 {
     columns = { COLUMN_ENERGY, COLUMN_SORTBY_CATEGORY };
     special_filter = []( const item & it ) {
@@ -659,10 +653,10 @@ void comestible_inventory_pane_bio::init( int items_per_page, catacurses::window
     };
     title = g->u.bionic_at_index( uistate.comestible_save.bio ).id.obj().name.translated();
     default_sortby = COLUMN_ENERGY;
-    comestible_inventory_pane::init( items_per_page, w, s );
+    comestible_inventory_pane::init( items_per_page, w );
 }
 comestible_inv_listitem *comestible_inventory_pane_bio::create_listitem( std::list<item *> list,
-        int index, comestible_inv_area *area, bool from_vehicle )
+        int index, comestible_inv_area &area, bool from_vehicle )
 {
     return new comestible_inv_listitem_bio( list, index, area, from_vehicle );
 }

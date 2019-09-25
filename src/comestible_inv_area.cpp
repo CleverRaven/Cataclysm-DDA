@@ -147,10 +147,7 @@ void comestible_inv_area::init()
         flags.append( _( " WATER" ) );
     }
 
-    // remove leading space
-    if( flags.length() && flags[0] == ' ' ) {
-        flags.erase( 0, 1 );
-    }
+    trim( flags );
 }
 
 bool comestible_inv_area::is_valid()
@@ -243,8 +240,7 @@ units::volume comestible_inv_area::get_max_volume( bool use_vehicle )
         assert( has_vehicle() );
         return veh->max_volume( veh_part );
     } else {
-        map &m = g->m;
-        return m.max_volume( g->u.pos() + offset );
+        return g->m.max_volume( g->u.pos() + offset );
     }
 }
 

@@ -26,7 +26,7 @@ class comestible_inventory
         virtual void display();
     protected:
         virtual input_context register_actions();
-        virtual std::string process_actions( input_context ctxt );
+        virtual std::string process_actions( input_context &ctxt );
 
         const int head_height;
         const int min_w_height;
@@ -50,7 +50,8 @@ class comestible_inventory
         bool recalc;
         bool redraw;
 
-        comestible_inventory_pane *pane;
+        //comestible_inventory_pane *pane;
+        std::unique_ptr< comestible_inventory_pane> pane;
         //static const comestible_inventory_pane null_pane;
         std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> squares;
 
@@ -85,7 +86,7 @@ class comestible_inventory_food : public comestible_inventory
     protected:
         void init() override;
         input_context register_actions() override;
-        std::string process_actions( input_context ctxt ) override;
+        std::string process_actions( input_context &ctxt ) override;
         void set_additional_info( std::vector<legend_data> data ) override;
     private:
         //try to find a way to warm up/defrost an item, and do it

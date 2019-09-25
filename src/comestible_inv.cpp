@@ -101,7 +101,6 @@ comestible_inventory::~comestible_inventory()
         g->refresh_all();
         g->u.check_item_encumbrance_flag();
     }
-    delete pane;
 }
 
 void comestible_inventory::save_settings()
@@ -131,7 +130,6 @@ void comestible_inventory::init()
     for( auto &square : squares ) {
         square.init();
     }
-
     w_height = TERMY < min_w_height + head_height ? min_w_height : TERMY - head_height;
     w_width = TERMX < min_w_width ? min_w_width : TERMX > max_w_width ? max_w_width :
               static_cast<int>( TERMX );
@@ -150,7 +148,7 @@ void comestible_inventory::init()
 
     //pane is set by child
     int itemsPerPage = w_height - 2 - 5; // 2 for the borders, 5 for the header stuff
-    pane->init( itemsPerPage, window, &squares );
+    pane->init( itemsPerPage, window );
 }
 
 void comestible_inventory::set_additional_info( std::vector<legend_data> data )
@@ -218,12 +216,11 @@ input_context comestible_inventory::register_actions()
     ctxt.register_action( "ITEMS_AROUND_I_W" );
     ctxt.register_action( "ITEMS_DRAGGED_CONTAINER" );
 
-    //todo
     ctxt.register_action( "CONSUME_FOOD" );
     return ctxt;
 }
 
-std::string comestible_inventory::process_actions( input_context ctxt )
+std::string comestible_inventory::process_actions( input_context &ctxt )
 {
     using ai = comestible_inv_area_info;
     // current item in source pane, might be null
@@ -239,10 +236,10 @@ std::string comestible_inventory::process_actions( input_context ctxt )
     } else if( action == "HELP_KEYBINDINGS" ) {
         refresh( recalc, true );
     } else if( ( new_square = get_area( action ) ) != nullptr ) {
-        if( pane->get_area()->info.id == new_square->get_relative_location() ) {
+        if( pane->get_area().info.id == new_square->get_relative_location() ) {
             //DO NOTHING
         } else if( new_square->is_valid() ) {
-            pane->set_area( new_square, new_square->is_vehicle_default() );
+            pane->set_area( *new_square, new_square->is_vehicle_default() );
             pane->index = 0;
             refresh( true, true );
         } else {
@@ -288,8 +285,8 @@ std::string comestible_inventory::process_actions( input_context ctxt )
         int ret = 0;
         const int info_width = w_width / 2;
         const int info_startx = colstart + info_width;
-        if( pane->get_area()->info.id == ai::AIM_INVENTORY || pane->get_area()->info.id == ai::AIM_WORN ) {
-            int idx = pane->get_area()->info.id == ai::AIM_INVENTORY ? sitem->idx :
+        if( pane->get_area().info.id == ai::AIM_INVENTORY || pane->get_area().info.id == ai::AIM_WORN ) {
+            int idx = pane->get_area().info.id == ai::AIM_INVENTORY ? sitem->idx :
                       player::worn_position_to_index( sitem->idx );
             // Setup a "return to AIM" activity. If examining the item creates a new activity
             // (e.g. reading, reloading, activating), the new activity will be put on top of
@@ -300,14 +297,13 @@ std::string comestible_inventory::process_actions( input_context ctxt )
             do_return_entry();
             assert( g->u.has_activity( activity_id( "ACT_COMESTIBLE_INVENTORY" ) ) );
             ret = g->inventory_item_menu( idx, info_startx, info_width, game::RIGHT_OF_INFO );
-            //src == comestible_inventory::side::left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO);
             if( !g->u.has_activity( activity_id( "ACT_COMESTIBLE_INVENTORY" ) ) ) {
                 exit = true;
             } else {
                 g->u.cancel_activity();
             }
             // Might have changed a stack (activated an item, repaired an item, etc.)
-            if( pane->get_area()->info.id == ai::AIM_INVENTORY ) {
+            if( pane->get_area().info.id == ai::AIM_INVENTORY ) {
                 g->u.inv.restack( g->u );
             }
             refresh( true, redraw );
@@ -338,8 +334,8 @@ std::string comestible_inventory::process_actions( input_context ctxt )
     } else if( action == "UP" ) {
         pane->scroll_by( -1 );
     } else if( action == "TOGGLE_VEH" ) {
-        if( pane->get_area()->has_vehicle() ) {
-            if( pane->get_area()->info.id != ai::AIM_DRAGGED ) {
+        if( pane->get_area().has_vehicle() ) {
+            if( pane->get_area().info.id != ai::AIM_DRAGGED ) {
                 // Toggle between vehicle and ground
                 pane->set_area( pane->get_area(), !pane->is_in_vehicle() );
                 pane->index = 0;
@@ -362,20 +358,20 @@ std::string comestible_inventory::process_actions( input_context ctxt )
                 it->contents.erase( it->contents.begin() );
                 add_msg( _( "You leave the empty %s." ), it->tname() );
             } else {
-                tripoint target = p.pos() + sitem->area->offset;
+                tripoint target = p.pos() + sitem->get_area().offset;
                 item_location loc;
                 if( sitem->from_vehicle ) {
                     const cata::optional<vpart_reference> vp = g->m.veh_at( target ).part_with_feature( "CARGO", true );
                     if( !vp ) {
-                        add_msg( _( "~~~~~~~~~ not vehicle?" ) );
+                        assert( false ); //item is from vehicle, but there's no vehicle at that location
                         return action;
                     }
-                    vehicle *const veh = &vp->vehicle();
+                    vehicle &veh = vp->vehicle();
                     const int part = vp->part_index();
 
-                    loc = item_location( vehicle_cursor( *veh, part ), it );
+                    loc = item_location( vehicle_cursor( veh, part ), it );
                 } else {
-                    if( sitem->area->info.type == ai::AREA_TYPE_PLAYER ) {
+                    if( sitem->get_area().info.type == ai::AREA_TYPE_PLAYER ) {
                         loc = item_location( p, it );
                     } else {
                         loc = item_location( map_cursor( target ), it );
@@ -436,10 +432,10 @@ void comestible_inventory::display()
 void comestible_inventory::redraw_minimap()
 {
     werase( mm_border );
-    // redraw border around minimap
+
     draw_border( mm_border );
     // minor addition to border for AIM_ALL, sorta hacky
-    if( pane->get_area()->info.type == comestible_inv_area_info::AREA_TYPE_MULTI ) {
+    if( pane->get_area().info.type == comestible_inv_area_info::AREA_TYPE_MULTI ) {
         //point(1,0) - point_east so travis is happy
         mvwprintz( mm_border, point_east, c_light_gray, utf8_truncate( _( "Mul" ), minimap_width ) );
     }
@@ -451,29 +447,29 @@ void comestible_inventory::redraw_minimap()
     // draw the 3x3 tiles centered around player
     g->m.draw( minimap, g->u.pos() );
 
-    if( pane->get_area()->info.type == comestible_inv_area_info::AREA_TYPE_MULTI ) {
+    if( pane->get_area().info.type == comestible_inv_area_info::AREA_TYPE_MULTI ) {
         return;
     }
 
     char sym = minimap_get_sym();
     if( sym != '\0' ) {
-        auto sq = pane->get_area();
-        auto pt = pc + sq->offset;
+        auto a = pane->get_area();
+        auto pt = pc + a.offset;
         // invert the color if pointing to the player's position
-        auto cl = sq->info.type == comestible_inv_area_info::AREA_TYPE_PLAYER ?
+        auto cl = a.info.type == comestible_inv_area_info::AREA_TYPE_PLAYER ?
                   invert_color( c_light_cyan ) : c_light_cyan.blink();
         mvwputch( minimap, pt.xy(), cl, sym );
     }
 
     // Invert player's tile color if exactly one pane points to player's tile
-    bool player_selected = pane->get_area()->info.type == comestible_inv_area_info::AREA_TYPE_PLAYER;
+    bool player_selected = pane->get_area().info.type == comestible_inv_area_info::AREA_TYPE_PLAYER;
     g->u.draw( minimap, g->u.pos(), player_selected );
     wrefresh( minimap );
 }
 
 char comestible_inventory::minimap_get_sym() const
 {
-    if( pane->get_area()->info.type == comestible_inv_area_info::AREA_TYPE_PLAYER ) {
+    if( pane->get_area().info.type == comestible_inv_area_info::AREA_TYPE_PLAYER ) {
         return '^';
     } else if( pane->is_in_vehicle() ) {
         return 'V';
@@ -500,9 +496,11 @@ void comestible_inventory::refresh( bool needs_recalc, bool needs_redraw )
     pane->needs_redraw = needs_redraw;
 }
 
+/*******    FOOD    *******/
+
 void comestible_inventory_food::init()
 {
-    pane = new comestible_inventory_pane_food();
+    pane = std::make_unique< comestible_inventory_pane_food>( squares );
     comestible_inventory::init();
 }
 
@@ -531,16 +529,15 @@ void comestible_inventory_food::set_additional_info( std::vector<legend_data> da
     comestible_inventory::set_additional_info( data );
 }
 
-std::string comestible_inventory_food::process_actions( input_context ctxt )
+std::string comestible_inventory_food::process_actions( input_context &ctxt )
 {
     const std::string action = comestible_inventory::process_actions( ctxt );
 
-    //using ai = comestible_inv_area_info;
     // current item in source pane, might be null
     comestible_inv_listitem *sitem = pane->get_cur_item_ptr();
     if( action == "SWITCH_FOOD" ) {
         uistate.comestible_save.show_food = !uistate.comestible_save.show_food;
-        pane->title = uistate.comestible_save.show_food ? "FOOD" : "DRUGS";
+        pane->title = uistate.comestible_save.show_food ? _( "FOOD" ) : _( "DRUGS" );
         refresh( true, redraw );
     } else if( action == "HEAT_UP" ) {
         heat_up( sitem->items.front() );
@@ -583,20 +580,20 @@ std::string comestible_inventory_food::process_actions( input_context ctxt )
                               status ), c_light_gray );
         desc += "\n";
 
-        desc += colorize( string_format( "%c", 'm' ), c_yellow );
+        desc += colorize( "m", c_yellow );
         desc += colorize( _( ": this food is mushy and has reduced joy.\n" ), c_light_gray );
 
-        desc += colorize( string_format( "%c", 's' ), c_yellow );
+        desc += colorize( "s", c_yellow );
         desc += colorize( _( ": this is stimulant (e.g. coffe, pop).\n" ), c_light_gray );
 
-        desc += colorize( string_format( "%c", 'd' ), c_yellow );
+        desc += colorize( "d", c_yellow );
         desc += colorize( _( ": this is depressant (e.g. alcohol).\n" ), c_light_gray );
         desc += "\n";
 
-        desc += colorize( string_format( "%c", 'a' ), c_yellow );
+        desc += colorize( "a", c_yellow );
         desc += colorize( _( ": this item is mildly addictive.\n" ), c_light_gray );
 
-        desc += colorize( string_format( "%c", 'a' ), c_red );
+        desc += colorize( "a", c_red );
         desc += colorize( _( ": this item is strongly addictive.\n" ), c_light_gray );
 
         desc += colorize( "!", c_light_red );
@@ -638,7 +635,7 @@ void comestible_inventory_food::heat_up( item *it_to_heat )
         }
     }
     if( !has_qual ) {
-        popup( "You don't have necessary tools to heat up your food." );
+        popup( _( "You don't have necessary tools to heat up your food." ) );
         return;
     }
 
@@ -658,7 +655,7 @@ void comestible_inventory_food::heat_up( item *it_to_heat )
 
         //no item found
         if( ts.comp.type == itype_id( "null" ) ) {
-            popup( "You don't have a neraby fire or tool with enough charges to heat up your food." );
+            popup( _( "You don't have a neraby fire or tool with enough charges to heat up your food." ) );
             return;
         }
 
@@ -696,17 +693,18 @@ void comestible_inventory_food::heat_up( item *it_to_heat )
     p.mod_moves( -move_mod ); // time needed to actually heat up
 }
 
+/*******    BIO    *******/
+
 void comestible_inventory_bio::set_additional_info( std::vector<legend_data> data )
 {
-    std::pair<std::string, nc_color> desc;
-    desc = g->u.get_power_description();
+    std::pair<std::string, nc_color> desc = g->u.get_power_description();
     data.push_back( { string_format( "%s %s", _( "Power :" ), colorize( desc.first, desc.second ) ), point_zero, c_dark_gray } );
     comestible_inventory::set_additional_info( data );
 }
 
 void comestible_inventory_bio::init()
 {
-    pane = new comestible_inventory_pane_bio();
+    pane = std::make_unique< comestible_inventory_pane_bio>( squares );
     comestible_inventory::init();
 }
 

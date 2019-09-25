@@ -36,12 +36,12 @@ void comestible_inv_listitem::print_columns( std::vector<comestible_inv_columns>
         int cur_print_y )
 {
     is_selected = selected_state;
-    int w;
-    std::string print_str;
-    nc_color print_col;
     for( std::vector<comestible_inv_columns>::reverse_iterator col_iter = columns.rbegin();
          col_iter != columns.rend(); ++col_iter ) {
-        w = get_col_data( *col_iter ).width;
+        std::string print_str;
+        nc_color print_col;
+        const int w = get_col_data( *col_iter ).width;
+
         if( w <= 0 ) { // internal column, not meant for display
             continue;
         }
@@ -132,7 +132,7 @@ bool comestible_inv_listitem::print_default_columns( comestible_inv_columns col,
         }
         case COLUMN_SRC:
             print_col = menu_color;
-            print_str = area->info.get_shortname();
+            print_str = area.info.get_shortname();
             break;
 
         default:
@@ -163,7 +163,7 @@ void comestible_inv_listitem::print_name( catacurses::window window,
     if( it->has_owner() ) {
         const faction *item_fac = it->get_owner();
         if( item_fac != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
-            item_name = string_format( "%s%s", colorize( "!", c_light_red ), item_name );
+            item_name = colorize( "!", c_light_red ) + item_name;
         }
     }
     if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
@@ -172,11 +172,6 @@ void comestible_inv_listitem::print_name( catacurses::window window,
 
     int name_startpos = 1;
     nc_color print_color;
-    //for (size_t i = 0; i < cond.size(); i++) {
-    //  auto c = cond[i];
-    //  set_print_color(print_color, c.second);
-    //  mvwprintz(window, point(i + 1, cur_print_y), print_color, "%c", c.first);
-    //}
     set_print_color( print_color, menu_color );
     if( is_selected ) { //fill whole line with color
         mvwprintz( window, point( 1, cur_print_y ), print_color, "%*s", right_bound, "" );
@@ -234,6 +229,24 @@ const islot_comestible &comestible_inv_listitem::get_edible_comestible( player &
     return dummy;
 }
 
+static std::string time_to_comestible_str( const time_duration &d )
+{
+    if( d >= calendar::INDEFINITELY_LONG_DURATION ) {
+        return _( "forever" );
+    }
+
+    const float day = to_days<float>( d );
+    std::string format;
+    if( day < 1.00 ) {
+        format = _( "%.2f days" );
+    } else if( day > 1.00 ) {
+        format = _( "%.0f days" );
+    } else {
+        format = _( "1 day" );
+    }
+
+    return string_format( format, day );
+}
 
 std::string comestible_inv_listitem::get_time_left_rounded( player &p, const item &it ) const
 {
@@ -254,12 +267,6 @@ std::string comestible_inv_listitem::get_time_left_rounded( player &p, const ite
         }
     }
 
-    //commneted code will give approximate times instead of exact ones, in case we want that
-    //const auto make_result = [this](const time_duration& d, const char* verbose_str,
-    //  const char* short_str) {
-    //      return string_format(false ? verbose_str : short_str, time_to_comestible_str(d));
-    //};
-
     time_duration divider = 0_turns;
     time_duration vicinity = 0_turns;
 
@@ -277,39 +284,10 @@ std::string comestible_inv_listitem::get_time_left_rounded( player &p, const ite
         if( remainder >= divider - vicinity ) {
             time_left += divider;
         } else if( remainder > vicinity ) {
-            if( remainder < divider / 2 ) {
-                //~ %s - time (e.g. 2 hours).
-                return string_format( "%s", time_to_comestible_str( time_left ) );
-                //return string_format("> %s", time_to_comestible_str(time_left));
-            } else {
-                //~ %s - time (e.g. 2 hours).
-                return string_format( "%s", time_to_comestible_str( time_left ) );
-                //return string_format("< %s", time_to_comestible_str(time_left));
-            }
+            return time_to_comestible_str( time_left );
         }
     }
-    //~ %s - time (e.g. 2 hours).
-    return string_format( "%s", time_to_comestible_str( time_left ) );
-    //return string_format("~ %s", time_to_comestible_str(time_left));
-}
-
-std::string comestible_inv_listitem::time_to_comestible_str( const time_duration &d ) const
-{
-    if( d >= calendar::INDEFINITELY_LONG_DURATION ) {
-        return _( "forever" );
-    }
-
-    const float day = to_days<float>( d );
-    std::string format;
-    if( day < 1.00 ) {
-        format = _( "%.2f days" );
-    } else if( day > 1.00 ) {
-        format = _( "%.0f days" );
-    } else {
-        format = _( "1 day" );
-    }
-
-    return string_format( format, day );
+    return time_to_comestible_str( time_left );
 }
 
 struct sort_case_insensitive_less : public std::binary_function< char, char, bool > {
@@ -396,7 +374,7 @@ comestible_inv_listitem::compare_function( comestible_inv_columns sortby )
 }
 
 comestible_inv_listitem::comestible_inv_listitem( const std::list<item *> &list, int index,
-        comestible_inv_area *area, bool from_vehicle ) :
+        comestible_inv_area &area, bool from_vehicle ) :
     idx( index ),
     area( area ),
     id( list.front()->typeId() ),
@@ -420,9 +398,12 @@ void comestible_inv_listitem::init( const item &it )
     assert( stacks >= 1 );
 }
 
+// area is not used when listitem is a category, so AIM_SOUTHWEST is fine
+static comestible_inv_area DUMMY_AREA = comestible_inv_area( comestible_inv_area::get_info(
+        comestible_inv_area_info::AIM_SOUTHWEST ) );
 comestible_inv_listitem::comestible_inv_listitem( const item_category *cat )
     : idx()
-    , area()
+    , area( DUMMY_AREA )
     , id( "null" )
     , autopickup()
     , stacks()
@@ -455,7 +436,7 @@ comestible_inv_listitem_food::comestible_inv_listitem_food( const item_category 
 
 comestible_inv_listitem_food::comestible_inv_listitem_food( const std::list<item *> &list,
         int index,
-        comestible_inv_area *area, bool from_vehicle ): comestible_inv_listitem( list, index, area,
+        comestible_inv_area &area, bool from_vehicle ): comestible_inv_listitem( list, index, area,
                     from_vehicle )
 {
     init( g->u.get_consumable_from( *list.front() ) );
@@ -466,14 +447,15 @@ void comestible_inv_listitem_food::init( const item &it )
     player &p = g->u;
     islot_comestible edible = get_edible_comestible( p, it );
 
+
+
     menu_color = it.color_in_inventory();
 
     // statuses
-    const auto &comest = it.get_comestible();
     cond.reserve( cond_size );
     const bool eat_verb = it.has_flag( "USE_EAT_VERB" );
-    const bool is_food = eat_verb || comest->comesttype == "FOOD";
-    const bool is_drink = !eat_verb && comest->comesttype == "DRINK";
+    const bool is_food = eat_verb || edible.comesttype == "FOOD";
+    const bool is_drink = !eat_verb && edible.comesttype == "DRINK";
 
     bool craft_only = false;
     bool warm_only = false;
@@ -543,17 +525,17 @@ void comestible_inv_listitem_food::print_columns( std::vector<comestible_inv_col
 {
     // if it's ineddible, but cookable or reheatable we want to show full data
     if( !eat_error.success() && eat_error.value() != edible_rating::INEDIBLE ) {
-        int max_x = right_bound;
         is_selected = selected_state;
-        int w;
-        std::string print_str;
-        nc_color print_col;
+        const int max_x = right_bound;
 
         //basically same code as base, except we skip few columns and replace them with error message
         //we still want to print base columns and find position to print error from, so keep the loop
         for( std::vector<comestible_inv_columns>::reverse_iterator col_iter = columns.rbegin();
              col_iter != columns.rend(); ++col_iter ) {
-            w = get_col_data( *col_iter ).width;
+            std::string print_str;
+            nc_color print_col;
+
+            const int w = get_col_data( *col_iter ).width;
             if( w <= 0 ) { // internal column, not meant for display
                 continue;
             }
@@ -571,9 +553,9 @@ void comestible_inv_listitem_food::print_columns( std::vector<comestible_inv_col
 
             // if (true) - we found the column, and set data for it; if (false) - try to find in another type
             if( print_string_column( *col_iter, print_str, print_col ) ) {
-                continue;
+                continue; //skip
             } else if( print_int_column( *col_iter, print_str, print_col ) ) {
-                continue;
+                continue; //skip
             } else if( print_default_columns( *col_iter, print_str, print_col ) ) {
             } else {
                 //we encountered a column that had no printing code
@@ -659,7 +641,8 @@ void comestible_inv_listitem_food::print_name( catacurses::window window,
     }
     set_print_color( print_color, menu_color );
     if( is_selected ) { //fill whole line with color
-        mvwprintz( window, point( cond.size() + 1, cur_print_y ), print_color, "%*s", right_bound, "" );
+        mvwprintz( window, point( cond.size() + 1, cur_print_y ), print_color, "%*s",
+                   right_bound - cond.size(), "" );
     }
     int max_name_length = right_bound - name_startpos - 1;
     trim_and_print( window, point( name_startpos, cur_print_y ), max_name_length, print_color, "%s",
@@ -721,7 +704,7 @@ comestible_inv_listitem_bio::comestible_inv_listitem_bio( const item_category *c
 }
 
 comestible_inv_listitem_bio::comestible_inv_listitem_bio( const std::list<item *> &list, int index,
-        comestible_inv_area *area, bool from_vehicle ) : comestible_inv_listitem( list, index, area,
+        comestible_inv_area &area, bool from_vehicle ) : comestible_inv_listitem( list, index, area,
                     from_vehicle )
 {
     energy = g->u.get_acquirable_energy( *list.front() );

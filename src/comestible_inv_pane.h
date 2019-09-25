@@ -28,7 +28,7 @@ struct legend_data {
 class comestible_inventory_pane
 {
     protected:
-        // pointer to the square this pane is pointing to
+        // where items come from. Should never be null
         comestible_inv_area *cur_area;
         bool viewing_cargo = false;
         bool is_compact;
@@ -53,16 +53,16 @@ class comestible_inventory_pane
         bool is_filtered( const comestible_inv_listitem &it ) const;
         bool is_filtered( const item &it ) const;
 
-        int print_header( comestible_inv_area *sel_area );
+        int print_header( comestible_inv_area &sel_area );
         /**
          * Insert additional category headers on the top of each page.
          */
         void paginate();
 
-        void add_items_from_area( comestible_inv_area *area, bool from_cargo, units::volume &ret_volume,
+        void add_items_from_area( comestible_inv_area &area, bool from_cargo, units::volume &ret_volume,
                                   units::mass &ret_weight );
         virtual comestible_inv_listitem *create_listitem( std::list<item *> list, int index,
-                comestible_inv_area *area, bool from_vehicle ) = 0;
+                comestible_inv_area &area, bool from_vehicle ) = 0;
         virtual comestible_inv_listitem *create_listitem( const item_category *cat = nullptr ) = 0;
 
         void print_items();
@@ -78,6 +78,9 @@ class comestible_inventory_pane
 
     public:
 
+        comestible_inventory_pane(
+            std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> &areas ) : all_areas(
+                    areas ) {};
         virtual ~comestible_inventory_pane();
 
         /**
@@ -106,8 +109,7 @@ class comestible_inventory_pane
         bool needs_recalc;
         bool needs_redraw;
 
-        virtual void init( int items_per_page, catacurses::window w,
-                           std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> *a );
+        virtual void init( int items_per_page, catacurses::window w );
         void save_settings( bool reset );
 
         /**
@@ -136,20 +138,20 @@ class comestible_inventory_pane
         //adds things this can sort on. List is provided by parent
         void add_sort_entries( uilist &sm );
 
-        std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> *all_areas;
-        comestible_inv_area *get_square( comestible_inv_area_info::aim_location loc ) {
-            return  &( ( *all_areas )[loc] );
+        std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> &all_areas;
+        comestible_inv_area &get_square( comestible_inv_area_info::aim_location loc ) {
+            return  all_areas[loc];
         }
-        comestible_inv_area *get_square( size_t loc ) {
-            return &( ( *all_areas )[loc] );
+        comestible_inv_area &get_square( size_t loc ) {
+            return all_areas[loc];
         }
         // set the pane's area via its square, and whether it is viewing a vehicle's cargo
-        void set_area( comestible_inv_area *square, bool show_vehicle ) {
-            cur_area = square;
-            viewing_cargo = square->has_vehicle() && show_vehicle;
+        void set_area( comestible_inv_area &square, bool show_vehicle ) {
+            cur_area = &square;
+            viewing_cargo = cur_area->has_vehicle() && show_vehicle;
         }
-        comestible_inv_area *get_area() const {
-            return cur_area;
+        comestible_inv_area &get_area() const {
+            return *cur_area;
         }
         bool is_in_vehicle() const {
             return viewing_cargo;
@@ -159,19 +161,17 @@ class comestible_inventory_pane
 class comestible_inventory_pane_food : public comestible_inventory_pane
 {
         using comestible_inventory_pane::comestible_inventory_pane;
-        void init( int items_per_page, catacurses::window w,
-                   std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> *s ) override;
+        void init( int items_per_page, catacurses::window w ) override;
         comestible_inv_listitem *create_listitem( std::list<item *> list, int index,
-                comestible_inv_area *area, bool from_vehicle ) override;
+                comestible_inv_area &area, bool from_vehicle ) override;
         comestible_inv_listitem *create_listitem( const item_category *cat = nullptr ) override;
 };
 class comestible_inventory_pane_bio: public comestible_inventory_pane
 {
         using comestible_inventory_pane::comestible_inventory_pane;
-        void init( int items_per_page, catacurses::window w,
-                   std::array<comestible_inv_area, comestible_inv_area_info::NUM_AIM_LOCATIONS> *s ) override;
+        void init( int items_per_page, catacurses::window w ) override;
         comestible_inv_listitem *create_listitem( std::list<item *> list, int index,
-                comestible_inv_area *area, bool from_vehicle ) override;
+                comestible_inv_area &area, bool from_vehicle ) override;
         comestible_inv_listitem *create_listitem( const item_category *cat = nullptr ) override;
 };
 #endif

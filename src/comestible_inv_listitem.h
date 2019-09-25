@@ -70,7 +70,6 @@ struct col_data {
         }
 };
 
-
 class comestible_inv_listitem
 {
     public:
@@ -103,11 +102,12 @@ class comestible_inv_listitem
          * Index of the item in the itemstack.
          */
         int idx;
-
+    private:
         /**
          * The location of the item, should nevere be AREA_TYPE_MULTI
          */
-        comestible_inv_area *area;
+        comestible_inv_area &area;
+    public:
 
         using itype_id = std::string;
         itype_id id;
@@ -166,13 +166,16 @@ class comestible_inv_listitem
         const islot_comestible &get_edible_comestible( player &p, const item &it ) const;
 
         std::string get_time_left_rounded( player &p, const item &it ) const;
-        std::string time_to_comestible_str( const time_duration &d ) const;
         /**
          * Whether this is a category header entry, which does *not* have a reference
          * to an item, only @ref cat is valid.
          */
         bool is_category_header() const;
         bool is_item_entry() const;
+
+        comestible_inv_area &get_area() {
+            return area;
+        }
 
         comestible_inv_listitem( const item_category *cat = nullptr );
         /**
@@ -183,7 +186,7 @@ class comestible_inv_listitem
          * @param from_vehicle Is the item from a vehicle cargo space?
          */
         comestible_inv_listitem( const std::list<item *> &list, int index,
-                                 comestible_inv_area *area, bool from_vehicle );
+                                 comestible_inv_area &area, bool from_vehicle );
 
         virtual ~comestible_inv_listitem() = default;
 
@@ -196,7 +199,7 @@ class comestible_inv_listitem_food : public comestible_inv_listitem
     public:
         comestible_inv_listitem_food( const item_category *cat = nullptr );
         comestible_inv_listitem_food( const std::list<item *> &list, int index,
-                                      comestible_inv_area *area, bool from_vehicle );
+                                      comestible_inv_area &area, bool from_vehicle );
         void print_columns( std::vector<comestible_inv_columns> columns,
                             comestible_select_state selected_state, catacurses::window window, int right_bound,
                             int cur_print_y ) override;
@@ -226,7 +229,7 @@ class comestible_inv_listitem_bio: public comestible_inv_listitem
     public:
         comestible_inv_listitem_bio( const item_category *cat = nullptr );
         comestible_inv_listitem_bio( const std::list<item *> &list, int index,
-                                     comestible_inv_area *area, bool from_vehicle );
+                                     comestible_inv_area &area, bool from_vehicle );
     private:
         int energy;
     protected:
