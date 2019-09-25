@@ -1065,7 +1065,7 @@ bool item::is_old_owner( const Character &c, bool available_to_take ) const
         return available_to_take;
     }
     if( !c.get_faction() ) {
-        debugmsg( "item::is_old_owner() Character %s has no faction", c.disp_name() );
+        debugmsg( "Character %s has no faction", c.disp_name() );
         return false;
     }
     return c.get_faction()->id == get_old_owner();
