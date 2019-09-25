@@ -7998,8 +7998,8 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                          c_red ) ) : cannot_see,
                         string_format( "%s  %s",
                                        _( "Technique that involves removing internal organs and "
-                                          "viscera to protect the corpse from rotting from inside. "
-                                          "Yields internal organs. Carcass will be lighter and will "
+                                          "viscera to protect the corpse from rotting from inside.  "
+                                          "Yields internal organs.  Carcass will be lighter and will "
                                           "stay fresh longer.  Can be combined with other methods for "
                                           "better effects." ),
                                        msgFactor ) );
