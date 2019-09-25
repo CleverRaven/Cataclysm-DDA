@@ -109,14 +109,15 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     const double z( common.z );
 
     const unsigned modSEED = common.modSEED;
-    const double cyf( common.cyf ); // [-1, 1]
+    const double cyf( common.cyf );
+    const double seasonality = -common.cyf;
+      // -1 in midwinter, +1 in midsummer
     const season_type season = common.season;
 
     // Noise factors
     const double T( weather_temperature_from_common_data( *this, common, t ) );
     double H( raw_noise_4d( x, y, z / 5, modSEED + 101 ) );
     double H2( raw_noise_4d( x, y, z, modSEED + 151 ) / 4 );
-    double P( raw_noise_4d( x / 2.5, y / 2.5, z / 30, modSEED + 211 ) * 70 );
     double A( raw_noise_4d( x, y, z, modSEED ) * 8.0 );
     double W( raw_noise_4d( x / 2.5, y / 2.5, z / 200, modSEED ) * 10.0 );
 
@@ -136,9 +137,11 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     H = std::max( std::min( ( cyf / 10.0 + ( -pow( H, 2 ) * 3 + H2 ) ) * current_h / 2.0 + current_h,
                             100.0 ), 0.0 );
 
-    // Pressure variation
-    // Pressure is mostly random, but a bit higher on summer and lower on winter. In millibars.
-    P += -cyf * 20 + base_pressure;
+    // Pressure
+    double P =
+        base_pressure +
+        raw_noise_4d( x, y, z, modSEED + 211 ) *
+        10 * (-seasonality + 2);
 
     // Wind power
     W = std::max( 0, static_cast<int>( base_wind  / pow( P / 1014.78, rng( 9,
