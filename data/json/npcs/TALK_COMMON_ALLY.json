@@ -812,6 +812,12 @@
         "effect": "do_vehicle_deconstruct"
       },
       {
+        "text": "Please start repairing any vehicles in a repair zone.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_vehicle_repair"
+      },
+      {
         "text": "Please chop logs into planks.",
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },

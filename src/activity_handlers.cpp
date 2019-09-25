@@ -142,6 +142,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_BUILD" ), build_do_turn },
     { activity_id( "ACT_EAT_MENU" ), eat_menu_do_turn },
     { activity_id( "ACT_VEHICLE_DECONSTRUCTION" ), vehicle_deconstruction_do_turn },
+    { activity_id( "ACT_VEHICLE_REPAIR" ), vehicle_repair_do_turn },
     { activity_id( "ACT_MULTIPLE_CHOP_TREES" ), chop_trees_do_turn },
     { activity_id( "ACT_CONSUME_FOOD_MENU" ), consume_food_menu_do_turn },
     { activity_id( "ACT_CONSUME_DRINK_MENU" ), consume_drink_menu_do_turn },
@@ -3196,8 +3197,9 @@ void activity_handlers::churn_finish( player_activity *act, player *p )
 void activity_handlers::churn_do_turn( player_activity *act, player *p )
 {
     ( void )act;
-    ( void )p;
-    p->set_moves( 0 );
+    if( p->is_npc() ) {
+        p->set_moves( 0 );
+    }
 }
 
 void activity_handlers::build_do_turn( player_activity *act, player *p )
@@ -3281,6 +3283,11 @@ void activity_handlers::multiple_butcher_do_turn( player_activity *act, player *
 }
 
 void activity_handlers::vehicle_deconstruction_do_turn( player_activity *act, player *p )
+{
+    generic_multi_activity_handler( *act, *p );
+}
+
+void activity_handlers::vehicle_repair_do_turn( player_activity *act, player *p )
 {
     generic_multi_activity_handler( *act, *p );
 }
