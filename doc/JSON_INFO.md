@@ -209,6 +209,8 @@ This section describes each json file and their contents. Each json has their ow
 | fuel_options             | (_optional_) A list of fuel that this bionic can use to produce bionic power.
 | fuel_capacity            | (_optional_) Volume of fuel this bionic can store.
 | fuel_efficiency          | (_optional_) Fraction of fuel energy converted into power. (default: `0`)
+| exothermic_power_gen     | (_optional_) If true this bionic emits heat when producing power. (default: `false`)
+| power_gen_emission       | (_optional_) `emit_id` of the field emitted by this bionic when it produces energy. Emit_ids are defined in `emit.json`.
 | stat_bonus               | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
 
 ```C++
@@ -949,7 +951,8 @@ See also VEHICLE_JSON.md
 "integral_weight" : 0,            // Weight added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
 "rigid": false,                   // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
 "insulation": 1,                  // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
-"price" : 100,                    // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges.
+"price" : 100,                    // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
+"price_post" : "1 USD",           // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
 "material" : ["COTTON"],          // Material types, can be as many as you want.  See materials.json for possible options
 "cutting" : 0,                    // (Optional, default = 0) Cutting damage caused by using it as a melee weapon
 "bashing" : -5,                   // (Optional, default = 0) Bashing damage caused by using it as a melee weapon
@@ -1188,7 +1191,7 @@ It could also be written as a generic item ("type": "GENERIC") with "armor_data"
 "color": "light_gray", // ASCII character color
 "name": "hatchet",     // In-game name displayed
 "description": "A one-handed hatchet. Makes a great melee weapon, and is useful both for cutting wood, and for use as a hammer.", // In-game description
-"price": 95,           // Used when bartering with NPCs
+"price": 95,           // Used when bartering with NPCs.  Can use string "cent" "USD" or "kUSD".
 "material": ["iron", "wood"], // Material types.  See materials.json for possible options
 "weight": 907,         // Weight, measured in grams
 "volume": "1500 ml",   // Volume, volume in ml and L can be used - "50 ml" or "2 L"
@@ -1290,7 +1293,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "color": "brown",     // ASCII character color
 "name": "torch (lit)", // In-game name displayed
 "description": "A large stick, wrapped in gasoline soaked rags. This is burning, producing plenty of light", // In-game description
-"price": 0,           // Used when bartering with NPCs
+"price": 0,           // Used when bartering with NPCs.  Can use string "cent" "USD" or "kUSD".
 "material": "wood",   // Material types.  See materials.json for possible options
 "techniques": "FLAMING", // Combat techniques used by this tool
 "flags": "FIRE",      // Indicates special effects

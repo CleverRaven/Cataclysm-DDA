@@ -1068,7 +1068,8 @@ int Character::i_add_to_container( const item &it, const bool unloading )
         auto &contained_ammo = container.contents.front();
         if( contained_ammo.charges < container.ammo_capacity() ) {
             const int diff = container.ammo_capacity() - contained_ammo.charges;
-            add_msg( _( "You put the %s in your %s." ), it.tname(), container.tname() );
+            //~ %1$s: item name, %2$s: container name
+            add_msg( pgettext( "container", "You put the %1$s in your %2$s." ), it.tname(), container.tname() );
             if( diff > charges ) {
                 contained_ammo.charges += charges;
                 return 0;
@@ -1251,6 +1252,7 @@ item Character::remove_weapon()
 {
     item tmp = weapon;
     weapon = item();
+    cached_info.erase( "weapon_value" );
     return tmp;
 }
 
@@ -2331,10 +2333,10 @@ std::string enum_to_string<Character::stat>( Character::stat data )
 {
     switch( data ) {
         // *INDENT-OFF*
-    case Character::stat::STRENGTH: return pgettext("strength stat", "STR");
-    case Character::stat::DEXTERITY: return pgettext("dexterity stat", "DEX");
-    case Character::stat::INTELLIGENCE: return pgettext("intelligence stat", "INT");
-    case Character::stat::PERCEPTION: return pgettext("perception stat", "PER");
+    case Character::stat::STRENGTH:     return "STR";
+    case Character::stat::DEXTERITY:    return "DEX";
+    case Character::stat::INTELLIGENCE: return "INT";
+    case Character::stat::PERCEPTION:   return "PER";
 
         // *INDENT-ON*
         case Character::stat::DUMMY_STAT:
@@ -2342,7 +2344,7 @@ std::string enum_to_string<Character::stat>( Character::stat data )
     }
     abort();
 }
-}
+} // namespace io
 
 void Character::set_healthy( int nhealthy )
 {
@@ -2724,10 +2726,6 @@ hp_part Character::body_window( const std::string &menu_header,
         max_bp_name_len = std::max( max_bp_name_len, utf8_width( e.name ) );
     }
 
-    const auto color_name = []( const nc_color & col ) {
-        return get_all_colors().get_name( col );
-    };
-
     const auto hp_str = [precise]( const int hp, const int maximal_hp ) -> std::string {
         if( hp <= 0 )
         {
@@ -2800,9 +2798,7 @@ hp_part Character::body_window( const std::string &menu_header,
         int new_d_power = static_cast<int>( std::floor( disinfectant_power ) );
 
         const auto &aligned_name = std::string( max_bp_name_len - utf8_width( e.name ), ' ' ) + e.name;
-        msg << string_format( "<color_%s>%s</color> %s",
-                              color_name( all_state_col ), aligned_name,
-                              hp_str( current_hp, maximal_hp ) );
+        msg << colorize( aligned_name, all_state_col ) << " " << hp_str( current_hp, maximal_hp );
 
         if( limb_is_broken ) {
             desc << colorize( _( "It is broken. It needs a splint or surgical attention." ), c_red ) << "\n";
@@ -3949,4 +3945,21 @@ void Character::healed_bp( int bp, int amount )
 void Character::set_fac_id( const std::string &my_fac_id )
 {
     fac_id = string_id<faction>( my_fac_id );
+}
+
+std::string get_stat_name( Character::stat Stat )
+{
+    switch( Stat ) {
+        // *INDENT-OFF*
+    case Character::stat::STRENGTH:     return pgettext("strength stat", "STR");
+    case Character::stat::DEXTERITY:    return pgettext("dexterity stat", "DEX");
+    case Character::stat::INTELLIGENCE: return pgettext("intelligence stat", "INT");
+    case Character::stat::PERCEPTION:   return pgettext("perception stat", "PER");
+            // *INDENT-ON*
+        default:
+            return pgettext( "fake stat there's an error", "ERR" );
+            break;
+
+    }
+    return pgettext( "fake stat there's an error", "ERR" );
 }

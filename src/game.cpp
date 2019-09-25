@@ -204,6 +204,7 @@ const efftype_id effect_laserlocked( "laserlocked" );
 const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_pacified( "pacified" );
+const efftype_id effect_paid( "paid" );
 const efftype_id effect_pet( "pet" );
 const efftype_id effect_relax_gas( "relax_gas" );
 const efftype_id effect_sleep( "sleep" );
@@ -1120,7 +1121,6 @@ bool game::cleanup_at_end()
         }
 
         std::string sTemp;
-        std::stringstream ssTemp;
 
         center_print( w_rip, iInfoLine++, c_white, _( "Survived:" ) );
 
@@ -1140,12 +1140,11 @@ bool game::cleanup_at_end()
         center_print( w_rip, iInfoLine++, c_white, sTemp );
 
         const int iTotalKills = get_kill_tracker().monster_kill_count();
-        ssTemp << iTotalKills;
 
         sTemp = _( "Kills:" );
         mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - 5, 1 + iInfoLine++ ), c_light_gray,
                    ( sTemp + " " ) );
-        wprintz( w_rip, c_magenta, ssTemp.str() );
+        wprintz( w_rip, c_magenta, "%d", iTotalKills );
 
         sTemp = _( "In memory of:" );
         mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ),
@@ -1212,14 +1211,12 @@ bool game::cleanup_at_end()
                 world_generator->delete_world( world_generator->active_world->world_name, false );
             }
         } else if( get_option<std::string>( "WORLD_END" ) != "keep" ) {
-            std::stringstream message;
             std::string tmpmessage;
             for( auto &character : characters ) {
                 tmpmessage += "\n  ";
                 tmpmessage += character;
             }
-            message << string_format( _( "World retained. Characters remaining:%s" ), tmpmessage );
-            popup( message.str(), PF_NONE );
+            popup( _( "World retained. Characters remaining:%s" ), tmpmessage );
         }
         if( gamemode ) {
             gamemode = std::make_unique<special_game>(); // null gamemode or something..
@@ -5462,8 +5459,7 @@ static std::string get_fire_fuel_string( const tripoint &examp )
             }
         }
     }
-    static const std::string empty_string;
-    return empty_string;
+    return {};
 }
 
 void game::examine( const tripoint &examp )
@@ -5477,6 +5473,10 @@ void game::examine( const tripoint &examp )
             }
         } else if( mon && mon->has_flag( MF_RIDEABLE_MECH ) && !mon->has_effect( effect_pet ) ) {
             if( monexamine::mech_hack( *mon ) ) {
+                return;
+            }
+        } else if( mon && mon->has_flag( MF_PAY_BOT ) ) {
+            if( monexamine::pay_bot( *mon ) ) {
                 return;
             }
         } else if( u.is_mounted() ) {
@@ -8641,7 +8641,9 @@ void game::wield( item_location &loc )
     // Need to do this here because holster_actor::use() checks if/where the item is worn
     item &target = *loc.get_item();
     if( target.get_use( "holster" ) && !target.contents.empty() ) {
-        if( query_yn( _( "Draw %s from %s?" ), target.get_contained().tname(), target.tname() ) ) {
+        //~ %1$s: weapon name, %2$s: holster name
+        if( query_yn( pgettext( "holster", "Draw %1$s from %2$s?" ), target.get_contained().tname(),
+                      target.tname() ) ) {
             u.invoke_item( &target );
             return;
         }
@@ -8780,7 +8782,8 @@ bool game::disable_robot( const tripoint &p )
         return false;
     }
     monster &critter = *mon_ptr;
-    if( critter.friendly == 0 || critter.has_flag( MF_RIDEABLE_MECH ) ) {
+    if( critter.friendly == 0 || critter.has_flag( MF_RIDEABLE_MECH ) ||
+        ( critter.has_flag( MF_PAY_BOT ) && critter.has_effect( effect_paid ) ) ) {
         // Can only disable / reprogram friendly monsters
         return false;
     }
@@ -9077,7 +9080,7 @@ bool game::walk_move( const tripoint &dest_loc )
         }
     }
     if( !u.has_artifact_with( AEP_STEALTH ) && !u.has_trait( trait_id( "DEBUG_SILENT" ) ) ) {
-        int volume = 6;
+        int volume = u.is_stealthy() ? 3 : 6;
         volume *= u.mutation_value( "noise_modifier" );
         if( volume > 0 ) {
             if( u.is_wearing( "rm13_armor_on" ) ) {
@@ -11030,61 +11033,6 @@ void game::perhaps_add_random_npc()
                           tmp->getID() ) );
     // This will make the new NPC active
     load_npcs();
-}
-
-void game::teleport( player *p, bool add_teleglow )
-{
-    if( p == nullptr ) {
-        p = &u;
-    }
-    int tries = 0;
-    tripoint new_pos = p->pos();
-    bool is_u = ( p == &u );
-
-    if( add_teleglow ) {
-        p->add_effect( effect_teleglow, 30_minutes );
-    }
-    do {
-        new_pos.x = p->posx() + rng( 0, SEEX * 2 ) - SEEX;
-        new_pos.y = p->posy() + rng( 0, SEEY * 2 ) - SEEY;
-        tries++;
-    } while( tries < 15 && m.impassable( new_pos ) );
-    bool can_see = ( is_u || u.sees( new_pos ) );
-    if( p->in_vehicle ) {
-        m.unboard_vehicle( p->pos() );
-    }
-    p->setx( new_pos.x );
-    p->sety( new_pos.y );
-    if( m.impassable( new_pos ) ) { //Teleported into a wall
-        const std::string obstacle_name = m.obstacle_name( new_pos );
-        g->events().send<event_type::teleports_into_wall>( p->getID(), obstacle_name );
-        if( can_see ) {
-            if( is_u ) {
-                add_msg( _( "You teleport into the middle of a %s!" ),
-                         m.obstacle_name( new_pos ) );
-            } else {
-                add_msg( _( "%1$s teleports into the middle of a %2$s!" ),
-                         p->name, m.obstacle_name( new_pos ) );
-            }
-        }
-        p->apply_damage( nullptr, bp_torso, 500 );
-        p->check_dead_state();
-    } else if( monster *const mon_ptr = critter_at<monster>( new_pos ) ) {
-        g->events().send<event_type::telefrags_creature>( p->getID(), mon_ptr->name() );
-        if( can_see ) {
-            if( is_u ) {
-                add_msg( _( "You teleport into the middle of a %s!" ),
-                         mon_ptr->name() );
-            } else {
-                add_msg( _( "%1$s teleports into the middle of a %2$s!" ),
-                         p->name, mon_ptr->name() );
-            }
-            mon_ptr->die_in_explosion( p );
-        }
-    }
-    if( is_u ) {
-        update_map( *p );
-    }
 }
 
 void game::display_scent()

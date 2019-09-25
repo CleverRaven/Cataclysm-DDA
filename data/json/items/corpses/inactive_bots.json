@@ -364,6 +364,54 @@
     }
   },
   {
+    "id": "bot_grocerybot",
+    "type": "TOOL",
+    "name": "inactive grocery bot",
+    "description": "This is an inactive grocery bot.  Using this item involves placing it on the ground and reactivating its mechanical body.  If reprogrammed and rewired successfully the grocery bot will then identify you as a friendly, roam around or follow you.",
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "price": 750000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "white",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_grocerybot",
+      "friendly_msg": "The grocery bot beeps affirmatively and awaits orders.",
+      "hostile_msg": "You misprogram the grocery bot. It's looking at you funny.",
+      "difficulty": 6,
+      "moves": 150,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
+    "id": "bot_grocerybot_busted",
+    "type": "TOOL",
+    "name": "inactive busted grocery bot",
+    "description": "This is an inactive grocery bot.  Using this item involves placing it on the ground and reactivating its mechanical body.  If reprogrammed and rewired successfully the grocery bot will then identify you as a friendly, roam around or follow you.",
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "price": 750000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "white",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_grocerybot_busted",
+      "friendly_msg": "The grocery bot beeps affirmatively and awaits orders.",
+      "hostile_msg": "You misprogram the grocery bot. It's looking at you funny.",
+      "difficulty": 4,
+      "moves": 150,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
     "id": "bot_broken_cyborg",
     "type": "TOOL",
     "name": "inactive broken cyborg",

@@ -76,6 +76,9 @@ class iuse_transform : public iuse_actor
         /**does the item requires to be worn to be activable*/
         bool need_worn = false;
 
+        /**does the item requires to be wielded to be activable*/
+        bool need_wielding = false;
+
         /** subtracted from @ref Creature::moves when transformation is successful */
         int moves = 0;
 
@@ -694,12 +697,16 @@ class cast_spell_actor : public iuse_actor
         // the spell this item casts when used.
         spell_id item_spell;
         int spell_level;
+        /**does the item requires to be worn to be activable*/
+        bool need_worn = false;
+        /**does the item requires to be wielded to be activable*/
+        bool need_wielding = false;
 
         cast_spell_actor( const std::string &type = "cast_spell" ) : iuse_actor( type ) {}
 
         ~cast_spell_actor() override = default;
         void load( JsonObject &obj ) override;
-        int use( player &p, item &itm, bool, const tripoint & ) const override;
+        int use( player &p, item &it, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
@@ -1096,7 +1103,7 @@ class weigh_self_actor : public iuse_actor
 
         ~weigh_self_actor() override = default;
         void load( JsonObject &jo ) override;
-        int use( player &p, item &itm, bool, const tripoint & ) const override;
+        int use( player &p, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 };

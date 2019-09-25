@@ -4183,7 +4183,7 @@
     "type": "TOOL",
     "name": "noise emitter (off)",
     "name_plural": "noise emitters (off)",
-    "description": "This device was constructed by 'enhancing' a speaker ripped off from some electronic device with some amplifier circuits.  It has now no other use beside emitting loud cracling static noise, that could distract zombies.",
+    "description": "This device was constructed by 'enhancing' a speaker ripped off from some electronic device with some amplifier circuits.  It has now no other use beside emitting loud crackling static noise, that could distract zombies.",
     "weight": "340 g",
     "volume": "1 L",
     "price": 0,
@@ -4840,7 +4840,7 @@
     "material": "cotton",
     "symbol": ",",
     "color": "white",
-    "use_action": { "type": "heal", "move_cost": 200, "used_up_item": "rag_bloody", "bleed": 0.5, "limb_power": 0 },
+    "use_action": [ { "type": "heal", "move_cost": 200, "used_up_item": "rag_bloody", "bleed": 0.5, "limb_power": 0 }, "WASH_HARD_ITEMS" ],
     "flags": [ "NO_SALVAGE" ]
   },
   {
@@ -4856,19 +4856,6 @@
     "color": "yellow",
     "use_action": "WASH_HARD_ITEMS",
     "flags": [ "NO_SALVAGE" ]
-  },
-  {
-    "id": "washcloth",
-    "type": "TOOL",
-    "name": "washcloth",
-    "description": "A piece of cloth that can be used for cleaning impervious surfaces.",
-    "weight": "80 g",
-    "volume": "250 ml",
-    "price": 0,
-    "material": "cotton",
-    "symbol": ",",
-    "color": "white",
-    "use_action": "WASH_HARD_ITEMS"
   },
   {
     "id": "wash_kit",

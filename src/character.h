@@ -877,6 +877,8 @@ class Character : public Creature, public visitable<Character>
         std::shared_ptr<monster> mounted_creature;
         // for loading NPC mounts
         int mounted_creature_id;
+        // for vehicle work
+        int activity_vehicle_part_index = -1;
 
         void initialize_stomach_contents();
 
@@ -1036,5 +1038,6 @@ template<>
 struct enum_traits<Character::stat> {
     static constexpr Character::stat last = Character::stat::DUMMY_STAT;
 };
-
+/**Get translated name of a stat*/
+std::string get_stat_name( Character::stat Stat );
 #endif

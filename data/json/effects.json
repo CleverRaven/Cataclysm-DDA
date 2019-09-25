@@ -179,6 +179,12 @@
   },
   {
     "type": "effect_type",
+    "id": "paid",
+    "name": [ "Paid" ],
+    "desc": [ "AI tag used for paid critters.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "pacified",
     "name": [ "Pacified" ],
     "desc": [ "AI tag used for pacified critters.  This is a bug if you have it." ]
@@ -253,6 +259,13 @@
     "id": "got_checked",
     "name": [ "Got a check-up" ],
     "desc": [ "Your received a complete check-up and are now aware of the state of your health." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "heating_bionic",
+    "name": [ "Heated" ],
+    "max_intensity": 1000,
+    "desc": [ "At least one of your bionics is producing heat and warming you." ]
   },
   {
     "type": "effect_type",

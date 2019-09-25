@@ -99,6 +99,7 @@
 #include "enums.h"
 #include "flat_set.h"
 #include "stomach.h"
+#include "teleport.h"
 
 const double MAX_RECOIL = 3000;
 
@@ -1947,7 +1948,6 @@ time_duration player::estimate_effect_dur( const skill_id &relevant_skill,
     time_duration estimate = std::max( zero_duration, target.get_effect_dur( target_effect ) +
                                        rng( -1, 1 ) * error_magnitude *
                                        rng( 0, std::max( 0, threshold - skill_lvl ) ) );
-
     return estimate;
 }
 
@@ -3511,7 +3511,7 @@ int player::impact( const int force, const tripoint &p )
 
     if( total_dealt > 0 && is_player() ) {
         // "You slam against the dirt" is fine
-        add_msg( m_bad, _( "You are slammed against %s for %d damage." ),
+        add_msg( m_bad, _( "You are slammed against %1$s for %2$d damage." ),
                  target_name, total_dealt );
     } else if( is_player() && shock_absorbers ) {
         add_msg( m_bad, _( "You are slammed against %s!" ),
@@ -5427,15 +5427,17 @@ void player::suffer()
     const bool leafier = has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
     const bool leafiest = has_trait( trait_LEAVES3 );
     int sunlight_nutrition = 0;
-    if( leafy && g->is_in_sunlight( pos() ) ) {
+    if( leafy && g->m.is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
+        const float weather_factor = ( g->weather.weather == WEATHER_CLEAR ||
+                                       g->weather.weather == WEATHER_SUNNY ) ? 1.0 : 0.5;
         const int player_local_temp = g->weather.get_temperature( pos() );
         int flux = ( player_local_temp - 65 ) / 2;
         if( !has_hat ) {
-            sunlight_nutrition += 100 + flux;
+            sunlight_nutrition += ( 100 + flux ) * weather_factor;
         }
         if( leafier ) {
             int rate = ( ( 100 * sleeve_factor ) + flux ) * 2;
-            sunlight_nutrition += rate * ( leafiest ? 2 : 1 );
+            sunlight_nutrition += ( rate * ( leafiest ? 2 : 1 ) ) * weather_factor;
         }
     }
 
@@ -5574,7 +5576,7 @@ void player::suffer()
         mutate();
     }
     if( has_artifact_with( AEP_FORCE_TELEPORT ) && one_turn_in( 1_hours ) ) {
-        g->teleport( this );
+        teleport::teleport( *this );
     }
     const bool needs_fire = !has_morale( MORALE_PYROMANIA_NEARFIRE ) &&
                             !has_morale( MORALE_PYROMANIA_STARTFIRE );
@@ -7264,11 +7266,12 @@ item::reload_option player::select_ammo( const item &base,
         if( e.ammo->is_magazine() && e.ammo->ammo_data() ) {
             if( e.ammo->ammo_current() == "battery" ) {
                 // This battery ammo is not a real object that can be recovered but pseudo-object that represents charge
-                //~ magazine with ammo count
-                return string_format( _( "%s (%d)" ), e.ammo->type_name(), e.ammo->ammo_remaining() );
+                //~ battery storage (charges)
+                return string_format( pgettext( "magazine", "%1$s (%2$d)" ), e.ammo->type_name(),
+                                      e.ammo->ammo_remaining() );
             } else {
                 //~ magazine with ammo (count)
-                return string_format( _( "%s with %s (%d)" ), e.ammo->type_name(),
+                return string_format( pgettext( "magazine", "%1$s with %2$s (%3$d)" ), e.ammo->type_name(),
                                       e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ), e.ammo->ammo_remaining() );
             }
         } else if( e.ammo->is_watertight_container() ||
@@ -7736,7 +7739,9 @@ bool player::wield( item &target )
 
     // Query whether to draw an item from a holster when attempting to wield the holster
     if( target.get_use( "holster" ) && !target.contents.empty() ) {
-        if( query_yn( _( "Draw %s from %s?" ), target.get_contained().tname(), target.tname() ) ) {
+        //~ %1$s: weapon name, %2$s: holster name
+        if( query_yn( pgettext( "holster", "Draw %1$s from %2$s?" ), target.get_contained().tname(),
+                      target.tname() ) ) {
             invoke_item( &target );
             return false;
         }
@@ -8002,9 +8007,9 @@ void player::mend_item( item_location &&obj, bool interactive )
         std::vector<std::pair<fault_id, bool>> opts;
         for( const auto &f : obj->faults_potential() ) {
             opts.emplace_back( f, !!obj->faults.count( f ) );
-            menu.addentry( -1, true, -1, string_format( "%s %s",
-                           opts.back().second ? _( "Mend" ) : _( "Break" ),
-                           f.obj().name() ) );
+            menu.addentry( -1, true, -1, string_format(
+                               opts.back().second ? pgettext( "fault", "Mend: %s" ) : pgettext( "fault", "Set: %s" ),
+                               f.obj().name() ) );
         }
         if( opts.empty() ) {
             add_msg( m_info, _( "The %s doesn't have any faults to toggle." ), obj->tname() );
@@ -9808,6 +9813,7 @@ int player::warmth( body_part bp ) const
             ret += warmth;
         }
     }
+    ret += get_effect_int( efftype_id( "heating_bionic" ), bp );
     return ret;
 }
 
@@ -11406,8 +11412,7 @@ std::string player::visible_mutations( const int visibility_cap ) const
         // Finally some use for visibility trait of mutations
         if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap )
         {
-            return string_format( "<color_%s>%s</color>", string_from_color( mut_branch.get_display_color() ),
-                                  mut_branch.name() );
+            return colorize( mut_branch.name(), mut_branch.get_display_color() );
         }
 
         return std::string();
@@ -11718,9 +11723,10 @@ bool player::crush_frozen_liquid( item_location loc )
 
     if( u.has_quality( quality_id( "HAMMER" ) ) ) {
         item hammering_item = u.item_with_best_of_quality( quality_id( "HAMMER" ) );
-        if( query_yn( _( "Do you want to crush up %s with your %s?\n%s" ), loc.get_item()->display_name(),
-                      hammering_item.tname(),
-                      colorize( _( "Be wary of fragile items nearby!" ), c_red ) ) ) {
+        //~ %1$s: item to be crushed, %2$s: hammer name
+        if( query_yn( _( "Do you want to crush up %1$s with your %2$s?\n"
+                         "<color_red>Be wary of fragile items nearby!</color>" ),
+                      loc.get_item()->display_name(), hammering_item.tname() ) ) {
 
             //Risk smashing tile with hammering tool, risk is lower with higher dex, damage lower with lower strength
             if( one_in( 1 + u.dex_cur / 4 ) ) {

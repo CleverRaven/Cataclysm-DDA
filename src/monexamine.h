@@ -8,6 +8,7 @@ namespace monexamine
 {
 bool pet_menu( monster &z );
 bool mech_hack( monster &z );
+bool pay_bot( monster &z );
 void remove_battery( monster &z );
 void insert_battery( monster &z );
 void swap( monster &z );

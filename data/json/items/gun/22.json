@@ -19,6 +19,7 @@
     "ranged_damage": 4,
     "dispersion": 280,
     "durability": 6,
+    "min_cycle_recoil": 39,
     "burst": 20,
     "barrel_length": 1,
     "valid_mod_locations": [
@@ -35,6 +36,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazines": [ [ "22", [ "a180mag" ] ] ]
   },
   {
@@ -57,6 +59,7 @@
     "ranged_damage": 5,
     "dispersion": 90,
     "durability": 8,
+    "blackpowder_tolerance": 56,
     "clip_size": 19,
     "magazines": [ [ "22", [ "marlin_tubeloader" ] ] ],
     "valid_mod_locations": [
@@ -73,6 +76,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "flags": [ "RELOAD_ONE" ]
   },
   {
@@ -93,6 +97,7 @@
     "ranged_damage": -2,
     "dispersion": 520,
     "durability": 6,
+    "blackpowder_tolerance": 96,
     "clip_size": 4,
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -104,6 +109,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -126,6 +132,7 @@
     "ranged_damage": 1,
     "dispersion": 550,
     "durability": 6,
+    "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
@@ -140,6 +147,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "flags": [ "RELOAD_EJECT" ]
   },
   {
@@ -161,6 +169,8 @@
     "ranged_damage": 3,
     "dispersion": 220,
     "durability": 9,
+    "blackpowder_tolerance": 24,
+    "min_cycle_recoil": 39,
     "burst": 20,
     "reload": 500,
     "valid_mod_locations": [
@@ -174,6 +184,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazines": [ [ "22", [ "360_200_mag", "360_400_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
@@ -197,6 +208,7 @@
     "ranged_damage": 4,
     "dispersion": 110,
     "durability": 8,
+    "min_cycle_recoil": 39,
     "barrel_length": 2,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -212,6 +224,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "22", [ "ruger1022mag", "ruger1022bigmag" ] ] ]
   },
@@ -245,6 +258,7 @@
     "ranged_damage": -1,
     "dispersion": 480,
     "durability": 8,
+    "min_cycle_recoil": 39,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -258,6 +272,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "22", [ "mosquitomag" ] ] ]
   },
@@ -278,6 +293,7 @@
     "ammo": "22",
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 39,
     "magazine_well": 1,
     "magazines": [ [ "22", [ "sw22mag" ] ] ]
   },
@@ -297,6 +313,8 @@
     "ammo": "22",
     "dispersion": 600,
     "durability": 5,
+    "min_cycle_recoil": 39,
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
     "magazines": [ [ "22", [ "j22mag" ] ] ]
   },
   {
@@ -315,6 +333,7 @@
     "ammo": "22",
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 39,
     "magazine_well": 1,
     "magazines": [ [ "22", [ "wp22mag" ] ] ]
   }
