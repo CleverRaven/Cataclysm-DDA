@@ -21,7 +21,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     }
 
     player *const p = critter.as_player();
-    const bool c_is_u = p ? c_is_u = p == g->u : false;
+    const bool c_is_u = p == &g->u;
     int tries = 0;
     tripoint origin = critter.pos();
     tripoint new_pos;
