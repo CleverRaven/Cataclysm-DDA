@@ -842,7 +842,7 @@ bool game::start_game()
         }
     }
     for( auto &e : u.inv_dump() ) {
-        e->set_owner( g->u.get_faction()->id );
+        e->set_owner( g->u );
     }
     // Now that we're done handling coordinates, ensure the player's submap is in the center of the map
     update_map( u );
@@ -2690,7 +2690,7 @@ void game::load( const save_t &name )
     validate_camps();
     update_map( u );
     for( auto &e : u.inv_dump() ) {
-        e->set_owner( g->u.get_faction()->id );
+        e->set_owner( g->u );
     }
     // legacy, needs to be here as we access the map.
     if( !u.getID().is_valid() ) {

@@ -4011,22 +4011,28 @@ bool vehicle::sufficient_wheel_config() const
     return true;
 }
 
-bool vehicle::is_owned_by( const player &p ) const
+bool vehicle::is_owned_by( const Character &c, bool available_to_take ) const
 {
-    if( !p.get_faction() ) {
-        debugmsg( "vehicle::is_owned_by() player %s has no faction", p.disp_name() );
+    if( owner.is_null() ) {
+        return available_to_take;
+    }
+    if( !c.get_faction() ) {
+        debugmsg( "vehicle::is_owned_by() player %s has no faction", c.disp_name() );
         return false;
     }
-    return p.get_faction()->id == get_owner();
+    return c.get_faction()->id == get_owner();
 }
 
-bool vehicle::is_old_owner( const player &p ) const
+bool vehicle::is_old_owner( const Character &c, bool available_to_take ) const
 {
-    if( !p.get_faction() ) {
-        debugmsg( "vehicle::is_old_owner() player %s has no faction", p.disp_name() );
+    if( old_owner.is_null() ) {
+        return available_to_take;
+    }
+    if( !c.get_faction() ) {
+        debugmsg( "vehicle::is_old_owner() player %s has no faction", c.disp_name() );
         return false;
     }
-    return p.get_faction()->id == get_old_owner();
+    return c.get_faction()->id == get_old_owner();
 }
 
 std::string vehicle::get_owner_name() const
@@ -4038,36 +4044,13 @@ std::string vehicle::get_owner_name() const
     return g->faction_manager_ptr->get( owner )->name;
 }
 
-bool vehicle::not_owned_by_player() const
-{
-    return !is_owned_by( g->u );
-}
-
-void vehicle::set_owner( player &p )
-{
-    if( !p.get_faction() ) {
-        debugmsg( "vehicle::set_owner() player %s has no valid faction", p.disp_name() );
-        return;
-    }
-    owner = p.get_faction()->id;
-}
-
-void vehicle::set_owner( Character &c )
+void vehicle::set_owner( const Character &c )
 {
     if( !c.get_faction() ) {
         debugmsg( "vehicle::set_owner() player %s has no valid faction", c.disp_name() );
         return;
     }
     owner = c.get_faction()->id;
-}
-
-void vehicle::set_owner( avatar &you )
-{
-    if( !you.get_faction() ) {
-        debugmsg( "vehicle::set_owner() avatar %s has no valid faction", you.disp_name() );
-        return;
-    }
-    owner = you.get_faction()->id;
 }
 
 bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )

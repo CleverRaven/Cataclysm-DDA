@@ -353,12 +353,9 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         std::string item_name;
         std::string stolen_string;
         bool stolen = false;
-        if( it.has_owner() ) {
-            const faction_id item_fac = it.get_owner();
-            if( it.not_owned_by_player() ) {
-                stolen_string = "<color_light_red>!</color>";
-                stolen = true;
-            }
+        if( !it.is_owned_by( g->u, true ) ) {
+            stolen_string = "<color_light_red>!</color>";
+            stolen = true;
         }
         if( it.is_money() ) {
             //Count charges

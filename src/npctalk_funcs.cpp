@@ -795,13 +795,11 @@ void talk_function::stranger_neutral( npc &p )
 void talk_function::drop_stolen_item( npc &p )
 {
     for( auto &elem : g->u.inv_dump() ) {
-        if( elem->has_old_owner() ) {
-            if( elem->is_old_owner( g->u ) ) {
-                item to_drop = g->u.i_rem( elem );
-                to_drop.remove_old_owner();
-                to_drop.set_owner( p );
-                g->m.add_item_or_charges( g->u.pos(), to_drop );
-            }
+        if( elem->is_old_owner( p ) ) {
+            item to_drop = g->u.i_rem( elem );
+            to_drop.remove_old_owner();
+            to_drop.set_owner( p );
+            g->m.add_item_or_charges( g->u.pos(), to_drop );
         }
     }
     if( p.known_stolen_item ) {

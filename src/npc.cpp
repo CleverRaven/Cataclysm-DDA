@@ -456,7 +456,7 @@ void npc::set_fac( const faction_id &id )
 void npc::apply_ownership_to_inv()
 {
     for( auto &e : inv_dump() ) {
-        e->set_owner( get_faction()->id );
+        e->set_owner( *this );
     }
 }
 

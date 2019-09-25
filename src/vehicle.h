@@ -736,10 +736,9 @@ class vehicle
         void print_vparts_descs( const catacurses::window &win, int max_y, int width, int p,
                                  int &start_at, int &start_limit ) const;
         // owner functions
-        bool is_owned_by( const player &p ) const;
-        bool is_old_owner( const player &p ) const;
+        bool is_owned_by( const Character &p, bool available_to_take = false ) const;
+        bool is_old_owner( const Character &p, bool available_to_take = false ) const;
         std::string get_owner_name() const;
-        bool not_owned_by_player() const;
         void set_old_owner( faction_id temp_owner ) {
             theft_time = calendar::turn;
             old_owner = temp_owner;
@@ -751,9 +750,7 @@ class vehicle
         void set_owner( faction_id new_owner ) {
             owner = new_owner;
         }
-        void set_owner( player &p );
-        void set_owner( Character &c );
-        void set_owner( avatar &you );
+        void set_owner( const Character &c );
         void remove_owner() {
             owner = faction_id::NULL_ID();
         }

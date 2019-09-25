@@ -152,7 +152,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         item &it = *it_ptr;
 
         // Don't sell items we don't own.
-        if( it.has_owner() && !it.is_owned_by( seller ) ) {
+        if( !it.is_owned_by( seller ) ) {
             return;
         }
 

@@ -1044,8 +1044,14 @@ static int get_base_env_resist( const item &it )
 
 }
 
-bool item::is_owned_by( const Character &c ) const
+bool item::is_owned_by( const Character &c, bool available_to_take ) const
 {
+    // owner.is_null() implies faction_id( "no_faction" ) which shouldnt happen, or no owner at all.
+    // either way, certain situations this means the thing is available to take.
+    // in other scenarios we actaully really want to check for id == id, even for no_faction
+    if( owner.is_null() ) {
+        return available_to_take;
+    }
     if( !c.get_faction() ) {
         debugmsg( "item::is_owned_by() Character %s has no faction", c.disp_name() );
         return false;
@@ -1053,13 +1059,16 @@ bool item::is_owned_by( const Character &c ) const
     return c.get_faction()->id == get_owner();
 }
 
-bool item::is_old_owner( const player &p ) const
+bool item::is_old_owner( const Character &c, bool available_to_take ) const
 {
-    if( !p.get_faction() ) {
-        debugmsg( "item::is_old_owner() player %s has no faction", p.disp_name() );
+    if( old_owner.is_null() ) {
+        return available_to_take;
+    }
+    if( !c.get_faction() ) {
+        debugmsg( "item::is_old_owner() Character %s has no faction", c.disp_name() );
         return false;
     }
-    return p.get_faction()->id == get_old_owner();
+    return c.get_faction()->id == get_old_owner();
 }
 
 std::string item::get_owner_name() const
@@ -1071,25 +1080,6 @@ std::string item::get_owner_name() const
     return g->faction_manager_ptr->get( owner )->name;
 }
 
-bool item::not_owned_by_player() const
-{
-    return !is_owned_by( g->u );
-}
-
-bool item::has_owner() const
-{
-    return !owner.is_null();
-}
-
-void item::set_owner( player &p )
-{
-    if( !p.get_faction() ) {
-        debugmsg( "item::set_owner() player %s has no valid faction", p.disp_name() );
-        return;
-    }
-    owner = p.get_faction()->id;
-}
-
 void item::set_owner( Character &c )
 {
     if( !c.get_faction() ) {
@@ -1097,11 +1087,6 @@ void item::set_owner( Character &c )
         return;
     }
     owner = c.get_faction()->id;
-}
-
-bool item::has_old_owner() const
-{
-    return !old_owner.is_null();
 }
 
 const faction_id item::get_owner() const
@@ -1247,7 +1232,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }, enumeration_conjunction::none );
             info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list ) ) );
         }
-        if( has_owner() ) {
+        if( !owner.is_null() ) {
             info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ), _( get_owner_name() ) ) ) );
         }
         if( has_var( "contained_name" ) && parts->test( iteminfo_parts::BASE_CONTENTS ) ) {
@@ -3368,14 +3353,13 @@ void item::handle_pickup_ownership( Character &c )
         return;
     }
     // Add ownership to item if unowned
-    if( !has_owner() ) {
+    if( owner.is_null() ) {
         set_owner( c );
     } else {
         if( !is_owned_by( c ) && &c == &g->u ) {
             std::vector<npc *> witnesses;
             for( npc &elem : g->all_npcs() ) {
                 if( rl_dist( elem.pos(), g->u.pos() ) < MAX_VIEW_DISTANCE && elem.get_faction() &&
-                    elem.get_faction()->id != faction_id( "no_faction" ) &&
                     is_owned_by( elem ) && elem.sees( g->u.pos() ) ) {
                     elem.say( "<witnessed_thievery>", 7 );
                     npc *npc_to_add = &elem;
