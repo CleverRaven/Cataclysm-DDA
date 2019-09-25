@@ -7,7 +7,7 @@
   {
     "type": "vehicle_group",
     "id": "junkyard_vehicles",
-     "vehicles":[ ["roadheader", 2000] ]   
+     "vehicles":[ ["roadheader", 20] ]   
  },
   {
     "type": "vehicle_group",

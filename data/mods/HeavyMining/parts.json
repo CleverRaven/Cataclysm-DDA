@@ -1,4 +1,4 @@
-  [
+[
   {
     "type": "GENERIC",
     "id": "v_roadheader_item",
@@ -75,4 +75,4 @@
     "flags": [ "PROTRUSION", "EXTRA_DRAG", "ROADHEAD", "CRASH_TERRAIN_AROUND"],
     "damage_reduction": { "all": 132 }
   }
-  ]
+]
