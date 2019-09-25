@@ -2012,68 +2012,6 @@ bool player::purifiable( const trait_id &flag ) const
     return flag->purifiable;
 }
 
-void Character::build_mut_dependency_map( const trait_id &mut,
-        std::unordered_map<trait_id, int> &dependency_map, int distance )
-{
-    // Skip base traits and traits we've seen with a lower distance
-    const auto lowest_distance = dependency_map.find( mut );
-    if( !has_base_trait( mut ) && ( lowest_distance == dependency_map.end() ||
-                                    distance < lowest_distance->second ) ) {
-        dependency_map[mut] = distance;
-        // Recurse over all prerequisite and replacement mutations
-        const auto &mdata = mut.obj();
-        for( auto &i : mdata.prereqs ) {
-            build_mut_dependency_map( i, dependency_map, distance + 1 );
-        }
-        for( auto &i : mdata.prereqs2 ) {
-            build_mut_dependency_map( i, dependency_map, distance + 1 );
-        }
-        for( auto &i : mdata.replacements ) {
-            build_mut_dependency_map( i, dependency_map, distance + 1 );
-        }
-    }
-}
-
-void Character::set_highest_cat_level()
-{
-    mutation_category_level.clear();
-
-    // For each of our mutations...
-    for( const std::pair<trait_id, Character::trait_data> &mut : my_mutations ) {
-        // ...build up a map of all prerequisite/replacement mutations along the tree, along with their distance from the current mutation
-        std::unordered_map<trait_id, int> dependency_map;
-        build_mut_dependency_map( mut.first, dependency_map, 0 );
-
-        // Then use the map to set the category levels
-        for( const std::pair<trait_id, int> &i : dependency_map ) {
-            const mutation_branch &mdata = i.first.obj();
-            if( !mdata.flags.count( "NON_THRESH" ) ) {
-                for( const std::string &cat : mdata.category ) {
-                    // Decay category strength based on how far it is from the current mutation
-                    mutation_category_level[cat] += 8 / static_cast<int>( std::pow( 2, i.second ) );
-                }
-            }
-        }
-    }
-}
-
-/// Returns the mutation category with the highest strength
-std::string Character::get_highest_category() const
-{
-    int iLevel = 0;
-    std::string sMaxCat;
-
-    for( const auto &elem : mutation_category_level ) {
-        if( elem.second > iLevel ) {
-            sMaxCat = elem.first;
-            iLevel = elem.second;
-        } else if( elem.second == iLevel ) {
-            sMaxCat.clear();  // no category on ties
-        }
-    }
-    return sMaxCat;
-}
-
 /// Returns a randomly selected dream
 std::string player::get_category_dream( const std::string &cat,
                                         int strength ) const
@@ -6288,29 +6226,6 @@ void player::drench( int saturation, const body_part_set &flags, bool ignore_wat
     // Remove onfire effect
     if( saturation > 10 || x_in_y( saturation, 10 ) ) {
         remove_effect( effect_onfire );
-    }
-}
-
-void Character::drench_mut_calc()
-{
-    for( const body_part bp : all_body_parts ) {
-        int ignored = 0;
-        int neutral = 0;
-        int good = 0;
-
-        for( const auto &iter : my_mutations ) {
-            const mutation_branch &mdata = iter.first.obj();
-            const auto wp_iter = mdata.protection.find( bp );
-            if( wp_iter != mdata.protection.end() ) {
-                ignored += wp_iter->second.x;
-                neutral += wp_iter->second.y;
-                good += wp_iter->second.z;
-            }
-        }
-
-        mut_drench[bp][WT_GOOD] = good;
-        mut_drench[bp][WT_NEUTRAL] = neutral;
-        mut_drench[bp][WT_IGNORED] = ignored;
     }
 }
 
