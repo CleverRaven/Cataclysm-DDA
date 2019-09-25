@@ -2979,6 +2979,61 @@
   },
   {
     "type": "construction",
+    "description": "Build Arc Furnace",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "120 m",
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "SAW_M", "level": 1 } ],
+      [ { "id": "WELD", "level": 2 } ],
+      [ { "id": "DRILL", "level": 3 } ],
+      [ { "id": "WRENCH", "level": 2 } ]
+    ],
+    "components": [
+      [ [ "fire_brick", 40 ] ],
+      [ [ "cu_pipe", 4 ] ],
+      [ [ "cable", 12 ] ],
+      [ [ "pipe", 4 ] ],
+      [ [ "hand_vice", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "medium_storage_battery", 2 ] ],
+      [ [ "frame", 1 ] ],
+      [ [ "mortar_build", 10 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_arcfurnace_empty"
+  },
+  {
+    "type": "construction",
+    "skill": "fabrication",
+    "description": "Build a bellow.",
+    "//": "faction camp workshop recipe",
+    "category": "CONSTRUCT",
+    "difficulty": 1,
+    "time": "60m",
+    "on_display": false,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "tanned_hide", 2 ] ], [ [ "scrap", 20 ] ], [ [ "wire", 8 ] ] ],
+    "pre_flags": [ "FLAT" ],
+    "post_terrain": "f_bellows"
+  },
+  {
+    "type": "construction",
+    "skill": "fabrication",
+    "description": "Build a drop hammer.",
+    "//": "faction camp workshop recipe",
+    "category": "CONSTRUCT",
+    "difficulty": 3,
+    "time": "120m",
+    "on_display": false,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "metal_tank", 2 ] ], [ [ "water_faucet", 2 ] ], [ [ "anvil", 1 ] ], [ [ "chain", 4 ] ], [ [ "pipe", 3 ] ] ],
+    "pre_flags": [ "FLAT" ],
+    "post_terrain": "f_drophammer"
+  },
+  {
+    "type": "construction",
     "skill": "fabrication",
     "description": "Build a radio tower.",
     "//": "faction camp workshop recipe",
@@ -3033,32 +3088,5 @@
     ],
     "pre_flags": [ "FLAT" ],
     "post_terrain": "t_radio_controls"
-  },
-  {
-    "type": "construction",
-    "description": "Build Arc Furnace",
-    "category": "FURN",
-    "required_skills": [ [ "fabrication", 3 ] ],
-    "time": "120 m",
-    "qualities": [
-      [ { "id": "HAMMER", "level": 2 } ],
-      [ { "id": "SAW_M", "level": 1 } ],
-      [ { "id": "WELD", "level": 2 } ],
-      [ { "id": "DRILL", "level": 3 } ],
-      [ { "id": "WRENCH", "level": 2 } ]
-    ],
-    "components": [
-      [ [ "fire_brick", 40 ] ],
-      [ [ "cu_pipe", 4 ] ],
-      [ [ "cable", 12 ] ],
-      [ [ "pipe", 4 ] ],
-      [ [ "hand_vice", 1 ] ],
-      [ [ "motor_tiny", 1 ] ],
-      [ [ "medium_storage_battery", 2 ] ],
-      [ [ "frame", 1 ] ],
-      [ [ "mortar_build", 10 ] ]
-    ],
-    "pre_special": "check_empty",
-    "post_terrain": "f_arcfurnace_empty"
   }
 ]
