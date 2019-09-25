@@ -1,17 +1,17 @@
-[ 
- {
+[
+  {
     "type": "vehicle_group",
     "id": "industrial_vehicles",
-     "vehicles":[ ["roadheader", 40] ]   
- },
+    "vehicles": [ [ "roadheader", 40 ] ]
+  },
   {
     "type": "vehicle_group",
     "id": "junkyard_vehicles",
-     "vehicles":[ ["roadheader", 20] ]   
- },
+    "vehicles": [ [ "roadheader", 20 ] ]
+  },
   {
     "type": "vehicle_group",
     "id": "workshop_vehicles",
-     "vehicles":[ ["roadheader", 10] ]   
- }
+    "vehicles": [ [ "roadheader", 10 ] ]
+  }
 ]

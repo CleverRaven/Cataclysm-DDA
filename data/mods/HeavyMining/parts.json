@@ -46,10 +46,10 @@
       { "item": "steel_chunk", "count": [ 4, 15 ] },
       { "item": "scrap", "count": [ 4, 100 ] }
     ],
-    "flags": [ "PROTRUSION", "EXTRA_DRAG"],
+    "flags": [ "PROTRUSION", "EXTRA_DRAG" ],
     "damage_reduction": { "all": 132 }
   },
-{
+  {
     "id": "roadheader",
     "type": "vehicle_part",
     "name": "roadheader",
@@ -71,8 +71,8 @@
       { "item": "steel_chunk", "count": [ 4, 15 ] },
       { "item": "scrap", "count": [ 4, 100 ] }
     ],
-    "transform_terrain": { "pre_flags": [ "MINEABLE"], "post_terrain": "don't used"},
-    "flags": [ "PROTRUSION", "EXTRA_DRAG", "ROADHEAD", "CRASH_TERRAIN_AROUND"],
+    "transform_terrain": { "pre_flags": [ "MINEABLE" ], "post_terrain": "don't used" },
+    "flags": [ "PROTRUSION", "EXTRA_DRAG", "ROADHEAD", "CRASH_TERRAIN_AROUND" ],
     "damage_reduction": { "all": 132 }
   }
 ]
