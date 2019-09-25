@@ -2102,7 +2102,12 @@
     "result": "radio_car_box",
     "type": "uncraft",
     "time": "30 s",
-    "components": [ [ [ "radio_car", 1 ] ], [ [ "radiocontrol", 1 ] ], [ [ "light_battery_cell", 2 ] ] ]
+    "components": [
+      [ [ "radio_car", 1 ] ],
+      [ [ "radiocontrol", 1 ] ],
+      [ [ "light_minus_battery_cell", 1 ] ],
+      [ [ "light_battery_cell", 1 ] ]
+    ]
   },
   {
     "result": "radiocontrol",

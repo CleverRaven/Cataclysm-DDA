@@ -229,7 +229,6 @@
     "items": [
       { "item": "h&k416a5", "prob": 50, "charges-min": 0, "charges-max": 30 },
       { "item": "m107a1", "prob": 30, "charges-min": 0, "charges-max": 10 },
-      { "item": "tac50", "prob": 20, "charges-min": 0, "charges-max": 5 },
       { "item": "m134", "prob": 10, "charges-min": 0, "charges-max": 100 },
       { "item": "m14ebr", "prob": 10, "charges-min": 0, "charges-max": 20 },
       { "item": "m2010", "prob": 20, "charges-min": 0, "charges-max": 5 },
@@ -242,6 +241,7 @@
       { "item": "rm51_assault_rifle", "prob": 25, "charges-min": 0, "charges-max": 50 },
       { "item": "rm614_lmg", "prob": 10, "charges-min": 0, "charges-max": 100 },
       { "item": "rm88_battle_rifle", "prob": 25, "charges-min": 0, "charges-max": 50 },
+      { "item": "tac50", "prob": 10, "charges-min": 0, "charges-max": 5 },
       { "item": "sig552", "prob": 100, "charges-min": 0, "charges-max": 30 },
       { "item": "scar_l", "prob": 50, "charges-min": 0, "charges-max": 30 },
       { "item": "scar_h", "prob": 50, "charges-min": 0, "charges-max": 20 },
@@ -492,6 +492,7 @@
       { "item": "hk_mp5sd", "prob": 5, "charges-min": 0, "charges-max": 30 },
       { "item": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
       { "item": "m4a1", "prob": 35, "charges-min": 0, "charges-max": 30 },
+      { "item": "as50", "prob": 5, "charges-min": 0, "charges-max": 10 },
       { "item": "hk417_13", "prob": 30, "charges-min": 0, "charges-max": 20 }
     ]
   },

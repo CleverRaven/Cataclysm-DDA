@@ -901,9 +901,9 @@ struct itype {
         int stack_size = 0;
 
         /** Value before cataclysm. Price given is for a default-sized stack. */
-        int price = 0;
+        units::money price = 0_cent;
         /** Value after cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
-        int price_post = -1;
+        units::money price_post = -1_cent;
 
         /**@}*/
         // If non-rigid volume (and if worn encumbrance) increases proportional to contents

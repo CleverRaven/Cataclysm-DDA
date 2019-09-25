@@ -43,6 +43,33 @@
     "extend": { "effects": [ "INCENDIARY" ] }
   },
   {
+    "id": "bp_223",
+    "copy-from": "223",
+    "type": "AMMO",
+    "name": ".223 Remington blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.57, "recoil": 0.57, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_556",
+    "copy-from": "556",
+    "type": "AMMO",
+    "name": "5.56 NATO blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.57, "recoil": 0.57, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_556_incendiary",
+    "copy-from": "556_incendiary",
+    "type": "AMMO",
+    "name": "5.56 NATO tracer blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.57, "recoil": 0.57, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
     "id": "reloaded_223",
     "copy-from": "223",
     "type": "AMMO",

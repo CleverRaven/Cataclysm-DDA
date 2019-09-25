@@ -4467,3 +4467,66 @@ std::string enum_to_string<ot_match_type>( ot_match_type data )
 } // namespace io
 
 constexpr tripoint overmap::invalid_tripoint;
+
+std::string oter_no_dir( const oter_id &oter )
+{
+    std::string base_oter_id = oter.id().c_str();
+    size_t oter_len = base_oter_id.size();
+    if( oter_len > 7 ) {
+        if( base_oter_id.substr( oter_len - 6, 6 ) == "_south" ) {
+            return base_oter_id.substr( 0, oter_len - 6 );
+        } else if( base_oter_id.substr( oter_len - 6, 6 ) == "_north" ) {
+            return base_oter_id.substr( 0, oter_len - 6 );
+        }
+    }
+    if( oter_len > 6 ) {
+        if( base_oter_id.substr( oter_len - 5, 5 ) == "_west" ) {
+            return base_oter_id.substr( 0, oter_len - 5 );
+        } else if( base_oter_id.substr( oter_len - 5, 5 ) == "_east" ) {
+            return base_oter_id.substr( 0, oter_len - 5 );
+        }
+    }
+    return base_oter_id;
+}
+
+int oter_get_rotation( const oter_id &oter )
+{
+    std::string base_oter_id = oter.id().c_str();
+    size_t oter_len = base_oter_id.size();
+    if( oter_len > 7 ) {
+        if( base_oter_id.substr( oter_len - 6, 6 ) == "_south" ) {
+            return 2;
+        } else if( base_oter_id.substr( oter_len - 6, 6 ) == "_north" ) {
+            return 0;
+        }
+    }
+    if( oter_len > 6 ) {
+        if( base_oter_id.substr( oter_len - 5, 5 ) == "_west" ) {
+            return 1;
+        } else if( base_oter_id.substr( oter_len - 5, 5 ) == "_east" ) {
+            return 3;
+        }
+    }
+    return 0;
+}
+
+std::string oter_get_rotation_string( const oter_id &oter )
+{
+    std::string base_oter_id = oter.id().c_str();
+    size_t oter_len = base_oter_id.size();
+    if( oter_len > 7 ) {
+        if( base_oter_id.substr( oter_len - 6, 6 ) == "_south" ) {
+            return "_south";
+        } else if( base_oter_id.substr( oter_len - 6, 6 ) == "_north" ) {
+            return "_north";
+        }
+    }
+    if( oter_len > 6 ) {
+        if( base_oter_id.substr( oter_len - 5, 5 ) == "_west" ) {
+            return "_west";
+        } else if( base_oter_id.substr( oter_len - 5, 5 ) == "_east" ) {
+            return "_east";
+        }
+    }
+    return "";
+}

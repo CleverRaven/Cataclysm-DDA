@@ -1648,7 +1648,8 @@ bool inscribe_actor::item_inscription( item &cut ) const
 
     const bool hasnote = cut.has_var( carving );
     std::string messageprefix = string_format( hasnote ? _( "(To delete, input one '.')\n" ) : "" ) +
-                                string_format( _( "%1$s on the %2$s is: " ),
+                                //~ %1$s: gerund (e.g. carved), %2$s: item name
+                                string_format( pgettext( "carving", "%1$s on the %2$s is: " ),
                                         _( gerund ), cut.type_name() );
 
     string_input_popup popup;
@@ -2405,7 +2406,8 @@ void cast_spell_actor::load( JsonObject &obj )
 
 void cast_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
-    const std::string message = string_format( _( "This item casts %s at level %i." ),
+    //~ %1$s: spell name, %2$i: spell level
+    const std::string message = string_format( _( "This item casts %1$s at level %2$i." ),
                                 item_spell->name, spell_level );
     dump.emplace_back( "DESCRIPTION", message );
     if( no_fail ) {
@@ -3724,7 +3726,9 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
     } else {
         // Player healing NPC
         // TODO: Remove this hack, allow using activities on NPCs
-        const std::string menu_header = string_format( _( "Select a body part of %s for %s:" ),
+        const std::string menu_header = string_format( pgettext( "healing",
+                                        //~ %1$s: patient name, %2$s: healing item name
+                                        "Select a body part of %1$s for %2$s:" ),
                                         patient.disp_name(), it.tname() );
         healed = pick_part_to_heal( healer, patient, menu_header,
                                     limb_power, head_bonus, torso_bonus,

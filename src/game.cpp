@@ -8641,7 +8641,9 @@ void game::wield( item_location &loc )
     // Need to do this here because holster_actor::use() checks if/where the item is worn
     item &target = *loc.get_item();
     if( target.get_use( "holster" ) && !target.contents.empty() ) {
-        if( query_yn( _( "Draw %s from %s?" ), target.get_contained().tname(), target.tname() ) ) {
+        //~ %1$s: weapon name, %2$s: holster name
+        if( query_yn( pgettext( "holster", "Draw %1$s from %2$s?" ), target.get_contained().tname(),
+                      target.tname() ) ) {
             u.invoke_item( &target );
             return;
         }
@@ -11031,61 +11033,6 @@ void game::perhaps_add_random_npc()
                           tmp->getID() ) );
     // This will make the new NPC active
     load_npcs();
-}
-
-void game::teleport( player *p, bool add_teleglow )
-{
-    if( p == nullptr ) {
-        p = &u;
-    }
-    int tries = 0;
-    tripoint new_pos = p->pos();
-    bool is_u = ( p == &u );
-
-    if( add_teleglow ) {
-        p->add_effect( effect_teleglow, 30_minutes );
-    }
-    do {
-        new_pos.x = p->posx() + rng( 0, SEEX * 2 ) - SEEX;
-        new_pos.y = p->posy() + rng( 0, SEEY * 2 ) - SEEY;
-        tries++;
-    } while( tries < 15 && m.impassable( new_pos ) );
-    bool can_see = ( is_u || u.sees( new_pos ) );
-    if( p->in_vehicle ) {
-        m.unboard_vehicle( p->pos() );
-    }
-    p->setx( new_pos.x );
-    p->sety( new_pos.y );
-    if( m.impassable( new_pos ) ) { //Teleported into a wall
-        const std::string obstacle_name = m.obstacle_name( new_pos );
-        g->events().send<event_type::teleports_into_wall>( p->getID(), obstacle_name );
-        if( can_see ) {
-            if( is_u ) {
-                add_msg( _( "You teleport into the middle of a %s!" ),
-                         m.obstacle_name( new_pos ) );
-            } else {
-                add_msg( _( "%1$s teleports into the middle of a %2$s!" ),
-                         p->name, m.obstacle_name( new_pos ) );
-            }
-        }
-        p->apply_damage( nullptr, bp_torso, 500 );
-        p->check_dead_state();
-    } else if( monster *const mon_ptr = critter_at<monster>( new_pos ) ) {
-        g->events().send<event_type::telefrags_creature>( p->getID(), mon_ptr->name() );
-        if( can_see ) {
-            if( is_u ) {
-                add_msg( _( "You teleport into the middle of a %s!" ),
-                         mon_ptr->name() );
-            } else {
-                add_msg( _( "%1$s teleports into the middle of a %2$s!" ),
-                         p->name, mon_ptr->name() );
-            }
-            mon_ptr->die_in_explosion( p );
-        }
-    }
-    if( is_u ) {
-        update_map( *p );
-    }
 }
 
 void game::display_scent()

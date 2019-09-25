@@ -95,6 +95,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::SOMATIC: return "SOMATIC";
         case spell_flag::NO_HANDS: return "NO_HANDS";
         case spell_flag::NO_LEGS: return "NO_LEGS";
+        case spell_flag::UNSAFE_TELEPORT: return "UNSAFE_TELEPORT";
         case spell_flag::CONCENTRATE: return "CONCENTRATE";
         case spell_flag::RANDOM_AOE: return "RANDOM_AOE";
         case spell_flag::RANDOM_DAMAGE: return "RANDOM_DAMAGE";
@@ -206,6 +207,7 @@ void spell_type::load( JsonObject &jo, const std::string & )
         { "translocate", spell_effect::translocate },
         { "area_pull", spell_effect::area_pull },
         { "area_push", spell_effect::area_push },
+        { "timed_event", spell_effect::timed_event },
         { "ter_transform", spell_effect::transform_blast },
         { "vomit", spell_effect::vomit },
         { "none", spell_effect::none }

@@ -7913,19 +7913,9 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, const poi
 
     // If the existing map is rotated, we need to rotate it back to the north
     // orientation before applying our updates.
-    int rotation = 0;
-    // Yeah, because a terrain named "tt_east" (length 7) is clearly not rotated and does not to be checked.
-    if( map_id.size() > 7 ) {
-        if( map_id.substr( map_id.size() - 6, 6 ) == "_south" ) {
-            rotation = 2;
-            md.m.rotate( rotation );
-        } else if( map_id.substr( map_id.size() - 5, 5 ) == "_east" ) {
-            rotation = 3;
-            md.m.rotate( rotation );
-        } else if( map_id.substr( map_id.size() - 5, 5 ) == "_west" ) {
-            rotation = 1;
-            md.m.rotate( rotation );
-        }
+    int rotation = oter_get_rotation( overmap_buffer.ter( omt_pos ) );
+    if( rotation > 0 ) {
+        md.m.rotate( rotation );
     }
 
     const bool applied = update_map( md, offset, verify );
@@ -7939,10 +7929,6 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, const poi
     if( applied ) {
         md.m.save();
     }
-
-    g->load_npcs();
-    g->m.invalidate_map_cache( md.zlevel() );
-    g->refresh_all();
 
     return applied;
 }

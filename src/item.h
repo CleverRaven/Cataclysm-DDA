@@ -22,6 +22,7 @@
 #include "flat_set.h"
 #include "io_tags.h"
 #include "item_location.h"
+#include "optional.h"
 #include "relic.h"
 #include "requirements.h"
 #include "safe_reference.h"
@@ -323,7 +324,8 @@ class item : public visitable<item>
          */
         std::string tname( unsigned int quantity = 1, bool with_prefix = true,
                            unsigned int truncate = 0 ) const;
-        std::string display_money( unsigned int quantity, unsigned int amount ) const;
+        std::string display_money( unsigned int quantity, unsigned int total,
+                                   cata::optional<unsigned int> selected = cata::nullopt ) const;
         /**
          * Returns the item name and the charges or contained charges (if the item can have
          * charges at all). Calls @ref tname with given quantity and with_prefix being true.

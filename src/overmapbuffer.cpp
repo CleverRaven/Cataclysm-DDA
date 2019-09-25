@@ -1259,29 +1259,29 @@ std::string overmapbuffer::get_description_at( const tripoint &where )
     const int sm_dist = closest_cref.distance;
 
     //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-    std::string format_string = _( "%1$s %2$s from %3$s" );
+    std::string format_string = pgettext( "terrain description", "%1$s %2$s from %3$s" );
     if( sm_dist <= 3 * sm_size / 4 ) {
         if( sm_size >= 16 ) {
             // The city is big enough to be split in districts.
             if( sm_dist <= sm_size / 4 ) {
                 //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-                format_string = _( "%1$s in central %3$s" );
+                format_string = pgettext( "terrain description", "%1$s in central %3$s" );
             } else {
                 //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-                format_string = _( "%1$s in %2$s %3$s" );
+                format_string = pgettext( "terrain description", "%1$s in %2$s %3$s" );
             }
         } else {
             //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-            format_string = _( "%1$s in %3$s" );
+            format_string = pgettext( "terrain description", "%1$s in %3$s" );
         }
     } else if( sm_dist <= sm_size ) {
         if( sm_size >= 8 ) {
             // The city is big enough to have outskirts.
             //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-            format_string = _( "%1$s on the %2$s outskirts of %3$s" );
+            format_string = pgettext( "terrain description", "%1$s on the %2$s outskirts of %3$s" );
         } else {
             //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-            format_string = _( "%1$s in %3$s" );
+            format_string = pgettext( "terrain description", "%1$s in %3$s" );
         }
     }
 
