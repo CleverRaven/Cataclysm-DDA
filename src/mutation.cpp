@@ -1131,7 +1131,7 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
 
 bool Character::has_child_flag( const trait_id &flag ) const
 {
-    for( auto &elem : flag->replacements ) {
+    for( const trait_id &elem : flag->replacements ) {
         const trait_id &tmp = elem;
         if( has_trait( tmp ) || has_child_flag( tmp ) ) {
             return true;

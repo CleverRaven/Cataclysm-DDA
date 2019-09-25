@@ -3973,14 +3973,14 @@ void Character::build_mut_dependency_map( const trait_id &mut,
                                     distance < lowest_distance->second ) ) {
         dependency_map[mut] = distance;
         // Recurse over all prerequisite and replacement mutations
-        const auto &mdata = mut.obj();
-        for( auto &i : mdata.prereqs ) {
+        const mutation_branch &mdata = mut.obj();
+        for( const trait_id &i : mdata.prereqs ) {
             build_mut_dependency_map( i, dependency_map, distance + 1 );
         }
-        for( auto &i : mdata.prereqs2 ) {
+        for( const trait_id &i : mdata.prereqs2 ) {
             build_mut_dependency_map( i, dependency_map, distance + 1 );
         }
-        for( auto &i : mdata.replacements ) {
+        for( const trait_id &i : mdata.replacements ) {
             build_mut_dependency_map( i, dependency_map, distance + 1 );
         }
     }
@@ -4038,7 +4038,7 @@ std::string Character::get_highest_category() const
     int iLevel = 0;
     std::string sMaxCat;
 
-    for( const auto &elem : mutation_category_level ) {
+    for( const std::pair<std::string, int> &elem : mutation_category_level ) {
         if( elem.second > iLevel ) {
             sMaxCat = elem.first;
             iLevel = elem.second;
@@ -4047,27 +4047,4 @@ std::string Character::get_highest_category() const
         }
     }
     return sMaxCat;
-}
-
-void Character::drench_mut_calc()
-{
-    for( const body_part bp : all_body_parts ) {
-        int ignored = 0;
-        int neutral = 0;
-        int good = 0;
-
-        for( const auto &iter : my_mutations ) {
-            const mutation_branch &mdata = iter.first.obj();
-            const auto wp_iter = mdata.protection.find( bp );
-            if( wp_iter != mdata.protection.end() ) {
-                ignored += wp_iter->second.x;
-                neutral += wp_iter->second.y;
-                good += wp_iter->second.z;
-            }
-        }
-
-        mut_drench[bp][WT_GOOD] = good;
-        mut_drench[bp][WT_NEUTRAL] = neutral;
-        mut_drench[bp][WT_IGNORED] = ignored;
-    }
 }
