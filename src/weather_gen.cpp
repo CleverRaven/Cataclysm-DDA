@@ -116,8 +116,6 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
 
     // Noise factors
     const double T( weather_temperature_from_common_data( *this, common, t ) );
-    double H( raw_noise_4d( x, y, z / 5, modSEED + 101 ) );
-    double H2( raw_noise_4d( x, y, z, modSEED + 151 ) / 4 );
     double A( raw_noise_4d( x, y, z, modSEED ) * 8.0 );
     double W( raw_noise_4d( x / 2.5, y / 2.5, z / 200, modSEED ) * 10.0 );
 
@@ -132,10 +130,12 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     } else if( season == AUTUMN ) {
         mod_h += autumn_humidity_manual_mod;
     }
-    const double current_h( base_humidity + mod_h );
-    // Humidity stays mostly at the mean level, but has low peaks rarely. It's a percentage.
-    H = std::max( std::min( ( cyf / 10.0 + ( -pow( H, 2 ) * 3 + H2 ) ) * current_h / 2.0 + current_h,
-                            100.0 ), 0.0 );
+    // Relative humidity, a percentage.
+    double H = std::min(100., std::max(0.,
+        base_humidity + mod_h + 100 * (
+            .15 * seasonality +
+            raw_noise_4d( x, y, z, modSEED + 101 ) *
+            .2 * (-seasonality + 2))));
 
     // Pressure
     double P =
