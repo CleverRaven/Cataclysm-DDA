@@ -68,6 +68,8 @@ ignorable = {
     "colordef",
     "emit",
     "enchantment",
+    "event_transformation",
+    "event_statistic",
     "EXTERNAL_OPTION",
     "GAME_OPTION",
     "ITEM_BLACKLIST",
@@ -147,6 +149,7 @@ automatically_convertible = {
     "overmap_land_use_code",
     "overmap_terrain",
     "PET_ARMOR",
+    "score",
     "skill",
     "snippet",
     "speech",
@@ -485,6 +488,9 @@ def extract_mapgen(item):
                 if "options" in v:
                     for opt in v.get("options"):
                         writestr(outfile, opt.get("name"), comment="Computer option")
+                if "access_denied" in v:
+                    writestr(outfile, v.get("access_denied"),
+                             comment="Computer access denied warning")
 
 def extract_monster_attack(item):
     outfile = get_outfile("monster_attack")
@@ -506,6 +512,8 @@ def extract_recipes(item):
                 writestr(outfile, arr[2])
     if "description" in item:
         writestr(outfile, item["description"])
+    if "blueprint_name" in item:
+        writestr(outfile, item["blueprint_name"])
 
 
 def extract_recipe_group(item):
@@ -565,6 +573,9 @@ def extract_talk_effects(effects, outfile):
 def extract_talk_response(response, outfile):
     if "text" in response:
         writestr(outfile, response["text"])
+    if "truefalsetext" in response:
+        writestr(outfile, response["truefalsetext"]["true"])
+        writestr(outfile, response["truefalsetext"]["false"])
     if "success" in response:
         extract_talk_response(response["success"], outfile)
     if "failure" in response:
@@ -601,6 +612,8 @@ def extract_missiondef(item):
     if item_name is None:
         raise WrongJSONItem("JSON item don't contain 'name' field", item)
     writestr(outfile, item_name)
+    if "description" in item:
+        writestr(outfile, item["description"], comment="Description for mission '{}'".format(item_name))
     if "dialogue" in item:
         dialogue = item.get("dialogue")
         if "describe" in dialogue:
@@ -990,6 +1003,10 @@ def extract(item, infilename):
     if "seed_data" in item:
         seed_data = item["seed_data"]
         writestr(outfile, seed_data["plant_name"], **kwargs)
+        wrote = True
+    if "relic_data" in item and "name" in item["relic_data"]:
+        writestr(outfile, item["relic_data"]["name"], **kwargs)
+        wrote = True
     if "text" in item:
         writestr(outfile, item["text"], **kwargs)
         wrote = True

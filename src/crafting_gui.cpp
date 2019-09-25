@@ -996,24 +996,10 @@ static void draw_can_craft_indicator( const catacurses::window &w, const int mar
 static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab, TAB_MODE mode )
 {
     werase( w );
-    int width = getmaxx( w );
-    for( int i = 0; i < width; i++ ) {
-        mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_OXOX );
-    }
-
-    mvwputch( w, point( 0, 2 ), BORDER_COLOR, LINE_OXXO ); // |^
-    mvwputch( w, point( width - 1, 2 ), BORDER_COLOR, LINE_OOXX ); // ^|
 
     switch( mode ) {
         case NORMAL: {
-            // Draw the tabs on each other
-            int pos_x = 2;
-            // Step between tabs, two for tabs border
-            int tab_step = 3;
-            for( const auto &tt : craft_cat_list ) {
-                draw_tab( w, pos_x, normalized_names[tt], tab == tt );
-                pos_x += utf8_width( normalized_names[tt] ) + tab_step;
-            }
+            draw_tabs( w, normalized_names, craft_cat_list, tab );
             break;
         }
         case FILTERED:

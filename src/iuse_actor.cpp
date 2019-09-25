@@ -160,22 +160,22 @@ void iuse_transform::load( JsonObject &obj )
 
     obj.read( "need_fire", need_fire );
     need_fire = std::max( need_fire, 0 );
-    need_charges_msg = obj.has_string( "need_charges_msg" ) ? _
-                       ( obj.get_string( "need_charges_msg" ) ) : _( "The %s is empty!" );
+    if( !obj.read( "need_charges_msg", need_charges_msg ) ) {
+        need_charges_msg = to_translation( "The %s is empty!" );
+    }
 
     obj.read( "need_charges", need_charges );
     need_charges = std::max( need_charges, 0 );
-    need_fire_msg = obj.has_string( "need_fire_msg" ) ? _( obj.get_string( "need_fire_msg" ) ) :
-                    _( "You need a source of fire!" );
+    if( !obj.read( "need_fire_msg", need_fire_msg ) ) {
+        need_fire_msg = to_translation( "You need a source of fire!" );
+    }
 
     obj.read( "need_worn", need_worn );
+    obj.read( "need_wielding", need_wielding );
 
     obj.read( "qualities_needed", qualities_needed );
 
     obj.read( "menu_text", menu_text );
-    if( !menu_text.empty() ) {
-        menu_text = _( menu_text );
-    }
 }
 
 int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) const
@@ -189,6 +189,10 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
 
     if( possess && need_worn && !p.is_worn( it ) ) {
         p.add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
+        return 0;
+    }
+    if( possess && need_wielding && !p.is_wielding( it ) ) {
+        p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
         return 0;
     }
     if( need_charges && it.units_remaining( p ) < need_charges ) {
@@ -210,7 +214,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     }
 
     if( possess && !msg_transform.empty() ) {
-        p.add_msg_if_player( m_neutral, _( msg_transform ), it.tname() );
+        p.add_msg_if_player( m_neutral, msg_transform, it.tname() );
     }
 
     if( possess ) {
@@ -278,7 +282,7 @@ ret_val<bool> iuse_transform::can_use( const player &p, const item &, bool,
 std::string iuse_transform::get_name() const
 {
     if( !menu_text.empty() ) {
-        return menu_text;
+        return menu_text.translated();
     }
     return iuse_actor::get_name();
 }
@@ -514,7 +518,7 @@ void unfold_vehicle_iuse::load( JsonObject &obj )
     obj.read( "tools_needed", tools_needed );
 }
 
-int unfold_vehicle_iuse::use( player &p, item &it, bool /*t*/, const tripoint &/*pos*/ ) const
+int unfold_vehicle_iuse::use( player &p, item &it, bool, const tripoint & ) const
 {
     if( p.is_underwater() ) {
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
@@ -772,7 +776,7 @@ void place_monster_iuse::load( JsonObject &obj )
     skill2 = skill_id( obj.get_string( "skill2", skill2.str() ) );
 }
 
-int place_monster_iuse::use( player &p, item &it, bool, const tripoint &/*pos*/ ) const
+int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
 {
     monster newmon( mtypeid );
     tripoint target;
@@ -1337,11 +1341,9 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
     const int moves = std::max<int>( min_moves, moves_base * moves_modifier ) / light;
     if( moves > to_moves<int>( 1_minutes ) ) {
         // If more than 1 minute, inform the player
-        static const std::string sun_msg =
-            _( "If the current weather holds, it will take around %d minutes to light a fire." );
-        static const std::string normal_msg =
-            _( "At your skill level, it will take around %d minutes to light a fire." );
-        p.add_msg_if_player( m_info, ( need_sunlight ? sun_msg : normal_msg ),
+        p.add_msg_if_player( m_info, need_sunlight ?
+                             _( "If the current weather holds, it will take around %d minutes to light a fire." ) :
+                             _( "At your skill level, it will take around %d minutes to light a fire." ),
                              moves / to_moves<int>( 1_minutes ) );
     } else if( moves < to_moves<int>( 2_turns ) && g->m.is_flammable( pos ) ) {
         // If less than 2 turns, don't start a long action
@@ -1646,7 +1648,8 @@ bool inscribe_actor::item_inscription( item &cut ) const
 
     const bool hasnote = cut.has_var( carving );
     std::string messageprefix = string_format( hasnote ? _( "(To delete, input one '.')\n" ) : "" ) +
-                                string_format( _( "%1$s on the %2$s is: " ),
+                                //~ %1$s: gerund (e.g. carved), %2$s: item name
+                                string_format( pgettext( "carving", "%1$s on the %2$s is: " ),
                                         _( gerund ), cut.type_name() );
 
     string_input_popup popup;
@@ -2397,11 +2400,14 @@ void cast_spell_actor::load( JsonObject &obj )
     no_fail = obj.get_bool( "no_fail" );
     item_spell = spell_id( obj.get_string( "spell_id" ) );
     spell_level = obj.get_int( "level" );
+    need_worn = obj.get_bool( "need_worn", false );
+    need_wielding = obj.get_bool( "need_wielding", false );
 }
 
 void cast_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
-    const std::string message = string_format( _( "This item casts %s at level %i." ),
+    //~ %1$s: spell name, %2$i: spell level
+    const std::string message = string_format( _( "This item casts %1$s at level %2$i." ),
                                 item_spell->name, spell_level );
     dump.emplace_back( "DESCRIPTION", message );
     if( no_fail ) {
@@ -2409,10 +2415,19 @@ void cast_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
     }
 }
 
-int cast_spell_actor::use( player &p, item &itm, bool, const tripoint & ) const
+int cast_spell_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
+    if( need_worn && !p.is_worn( it ) ) {
+        p.add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
+        return 0;
+    }
+    if( need_wielding && !p.is_wielding( it ) ) {
+        p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
+        return 0;
+    }
+
     spell casting = spell( spell_id( item_spell ) );
-    int charges = itm.type->charges_to_use();
+    int charges = it.type->charges_to_use();
 
     player_activity cast_spell( activity_id( "ACT_SPELLCASTING" ), casting.casting_time( p ) );
     // [0] this is used as a spell level override for items casting spells
@@ -2425,7 +2440,7 @@ int cast_spell_actor::use( player &p, item &itm, bool, const tripoint & ) const
         cast_spell.values.emplace_back( 0 );
     }
     cast_spell.name = casting.id().c_str();
-    if( itm.has_flag( "USE_PLAYER_ENERGY" ) ) {
+    if( it.has_flag( "USE_PLAYER_ENERGY" ) ) {
         // [2] this value overrides the mana cost if set to 0
         cast_spell.values.emplace_back( 1 );
         charges = 0;
@@ -3321,20 +3336,20 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     return AS_CANT;
 }
 
-const std::string &repair_item_actor::action_description( repair_item_actor::repair_type rt )
+std::string repair_item_actor::action_description( repair_item_actor::repair_type rt )
 {
     static const std::array<std::string, NUM_REPAIR_TYPES> arr = {{
-            _( "Nothing" ),
-            _( "Repairing" ),
-            _( "Refitting" ),
-            _( "Downsizing" ),
-            _( "Upsizing" ),
-            _( "Reinforcing" ),
-            _( "Practicing" )
+            translate_marker( "Nothing" ),
+            translate_marker( "Repairing" ),
+            translate_marker( "Refitting" ),
+            translate_marker( "Downsizing" ),
+            translate_marker( "Upsizing" ),
+            translate_marker( "Reinforcing" ),
+            translate_marker( "Practicing" )
         }
     };
 
-    return arr[rt];
+    return _( arr[rt] );
 }
 
 std::string repair_item_actor::get_name() const
@@ -3711,7 +3726,9 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
     } else {
         // Player healing NPC
         // TODO: Remove this hack, allow using activities on NPCs
-        const std::string menu_header = string_format( _( "Select a body part of %s for %s:" ),
+        const std::string menu_header = string_format( pgettext( "healing",
+                                        //~ %1$s: patient name, %2$s: healing item name
+                                        "Select a body part of %1$s for %2$s:" ),
                                         patient.disp_name(), it.tname() );
         healed = pick_part_to_heal( healer, patient, menu_header,
                                     limb_power, head_bonus, torso_bonus,

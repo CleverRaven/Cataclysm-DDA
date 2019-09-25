@@ -338,8 +338,8 @@
     "items": [
       { "item": "m1911", "charges": 6, "ammo-item": "45_acp" },
       { "item": "45_casing", "charges-min": 1, "charges-max": 1 },
-      { "item": "corpse" },
-      { "group": "underwear" }
+      { "group": "underwear" },
+      { "item": "corpse" }
     ]
   },
   {

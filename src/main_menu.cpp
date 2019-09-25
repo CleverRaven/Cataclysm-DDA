@@ -101,9 +101,7 @@ void main_menu::print_menu_items( const catacurses::window &w_in,
 
         std::string temp = shortcut_text( c_white, vItems[i] );
         if( iSel == i ) {
-            text += string_format( "[<color_%s>%s</color>]",
-                                   string_from_color( h_white ),
-                                   remove_color_tags( temp ) );
+            text += string_format( "[%s]", colorize( remove_color_tags( temp ), h_white ) );
         } else {
             text += string_format( "[%s]", temp );
         }
@@ -227,7 +225,7 @@ std::string main_menu::handle_input_timeout( input_context &ctxt )
 
 void main_menu::init_windows()
 {
-    if( LAST_TERMX == TERMX && LAST_TERMY == TERMY ) {
+    if( LAST_TERM == point( TERMX, TERMY ) ) {
         return;
     }
 
@@ -254,8 +252,7 @@ void main_menu::init_windows()
     // note: if iMenuOffset is changed,
     // please update MOTD and credits to indicate how long they can be.
 
-    LAST_TERMX = TERMX;
-    LAST_TERMY = TERMY;
+    LAST_TERM = point( TERMX, TERMY );
 }
 
 void main_menu::init_strings()

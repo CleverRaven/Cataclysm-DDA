@@ -8,7 +8,6 @@
 #include <cstring>
 #include <limits>
 #include <queue>
-#include <sstream>
 #include <unordered_map>
 
 #include "ammo.h"
@@ -708,7 +707,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         rl_vec2d final1 = collision_axis_y * vel1_y_a + collision_axis_x * vel1_x_a;
         rl_vec2d final2 = collision_axis_y * vel2_y_a + collision_axis_x * vel2_x_a;
 
-        veh.move.init( final1.x, final1.y );
+        veh.move.init( final1.as_point() );
         if( final1.dot_product( veh.face_vec() ) < 0 ) {
             // Car is being pushed backwards. Make it move backwards
             veh.velocity = -final1.magnitude();
@@ -716,7 +715,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
             veh.velocity = final1.magnitude();
         }
 
-        veh2.move.init( final2.x, final2.y );
+        veh2.move.init( final2.as_point() );
         if( final2.dot_product( veh2.face_vec() ) < 0 ) {
             // Car is being pushed backwards. Make it move backwards
             veh2.velocity = -final2.magnitude();
@@ -839,7 +838,7 @@ void map::register_vehicle_zone( vehicle *veh, const int zlev )
 
 bool map::deregister_vehicle_zone( zone_data &zone )
 {
-    if( const cata::optional<vpart_reference> vp = g->m.veh_at( g->m.getlocal(
+    if( const cata::optional<vpart_reference> vp = veh_at( getlocal(
                 zone.get_start_point() ) ).part_with_feature( "CARGO", false ) ) {
         auto bounds = vp->vehicle().loot_zones.equal_range( vp->mount() );
         for( auto it = bounds.first; it != bounds.second; it++ ) {
@@ -1605,38 +1604,31 @@ std::string map::features( const point &p )
 
 std::string map::features( const tripoint &p )
 {
+    std::string result;
+    const auto add = [&]( const std::string & text ) {
+        if( !result.empty() ) {
+            result += " ";
+        }
+        result += text;
+    };
+    const auto add_if = [&]( const bool cond, const std::string & text ) {
+        if( cond ) {
+            add( text );
+        }
+    };
     // This is used in an info window that is 46 characters wide, and is expected
     // to take up one line.  So, make sure it does that.
     // FIXME: can't control length of localized text.
-    std::stringstream ret;
-    if( is_bashable( p ) ) {
-        ret << _( "Smashable. " );
-    }
-    if( has_flag( "DIGGABLE", p ) ) {
-        ret << _( "Diggable. " );
-    }
-    if( has_flag( "PLOWABLE", p ) ) {
-        ret << _( "Plowable. " );
-    }
-    if( has_flag( "ROUGH", p ) ) {
-        ret << _( "Rough. " );
-    }
-    if( has_flag( "UNSTABLE", p ) ) {
-        ret << _( "Unstable. " );
-    }
-    if( has_flag( "SHARP", p ) ) {
-        ret << _( "Sharp. " );
-    }
-    if( has_flag( "FLAT", p ) ) {
-        ret << _( "Flat. " );
-    }
-    if( has_flag( "EASY_DECONSTRUCT", p ) ) {
-        ret << _( "Simple. " );
-    }
-    if( has_flag( "MOUNTABLE", p ) ) {
-        ret << _( "Mountable. " );
-    }
-    return ret.str();
+    add_if( is_bashable( p ), _( "Smashable." ) );
+    add_if( has_flag( "DIGGABLE", p ), _( "Diggable." ) );
+    add_if( has_flag( "PLOWABLE", p ), _( "Plowable." ) );
+    add_if( has_flag( "ROUGH", p ), _( "Rough." ) );
+    add_if( has_flag( "UNSTABLE", p ), _( "Unstable." ) );
+    add_if( has_flag( "SHARP", p ), _( "Sharp." ) );
+    add_if( has_flag( "FLAT", p ), _( "Flat." ) );
+    add_if( has_flag( "EASY_DECONSTRUCT", p ), _( "Simple." ) );
+    add_if( has_flag( "MOUNTABLE", p ), _( "Mountable." ) );
+    return result;
 }
 
 int map::move_cost_internal( const furn_t &furniture, const ter_t &terrain, const vehicle *veh,
@@ -1679,6 +1671,16 @@ bool map::impassable( const point &p ) const
 bool map::passable( const point &p ) const
 {
     return passable( tripoint( p, abs_sub.z ) );
+}
+
+bool map::is_wall_adjacent( const tripoint &center ) const
+{
+    for( const tripoint &p : points_in_radius( center, 1 ) ) {
+        if( p != center && impassable( p ) ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 int map::move_cost_ter_furn( const point &p ) const
@@ -2932,7 +2934,7 @@ void map::smash_items( const tripoint &p, const int power )
     }
 
     std::vector<item> contents;
-    auto items = g->m.i_at( p );
+    auto items = i_at( p );
     for( auto i = items.begin(); i != items.end(); ) {
         if( i->active ) {
             // Get the explosion item actor
@@ -4376,7 +4378,7 @@ item &map::add_item( const tripoint &p, item new_item )
     }
 
     if( new_item.is_map() && !new_item.has_var( "reveal_map_center_omt" ) ) {
-        new_item.set_var( "reveal_map_center_omt", ms_to_omt_copy( g->m.getabs( p ) ) );
+        new_item.set_var( "reveal_map_center_omt", ms_to_omt_copy( getabs( p ) ) );
     }
 
     current_submap->is_uniform = false;
@@ -4399,7 +4401,7 @@ item map::water_from( const tripoint &p )
         return item( "salt_water", 0, item::INFINITE_CHARGES );
     }
 
-    const ter_id terrain_id = g->m.ter( p );
+    const ter_id terrain_id = ter( p );
     if( terrain_id == t_sewage ) {
         item ret( "water_sewage", 0, item::INFINITE_CHARGES );
         ret.poison = rng( 1, 7 );
@@ -4631,7 +4633,7 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
         const tripoint map_location = tripoint( grid_offset + active_item_ref.location, gridp.z );
         // root cellars are special
         temperature_flag flag = temperature_flag::TEMP_NORMAL;
-        if( g->m.ter( map_location ) == t_rootcellar ) {
+        if( ter( map_location ) == t_rootcellar ) {
             flag = temperature_flag::TEMP_ROOT_CELLAR;
         }
         map_stack items = i_at( map_location );
@@ -5589,7 +5591,7 @@ basecamp map::hoist_submap_camp( const tripoint &p )
 
 void map::add_camp( const tripoint &p, const std::string &name )
 {
-    tripoint omt_pos = ms_to_omt_copy( g->m.getabs( p ) );
+    tripoint omt_pos = ms_to_omt_copy( getabs( p ) );
     basecamp temp_camp = basecamp( name, omt_pos );
     overmap_buffer.add_camp( temp_camp );
     g->u.camps.insert( omt_pos );
@@ -5735,7 +5737,7 @@ void map::draw( const catacurses::window &w, const tripoint &center )
     g->reset_light_level();
 
     update_visibility_cache( center.z );
-    const visibility_variables &cache = g->m.get_visibility_variables_cache();
+    const visibility_variables &cache = get_visibility_variables_cache();
 
     const auto &visibility_cache = get_cache_ref( center.z ).visibility_cache;
 
@@ -8488,8 +8490,8 @@ std::list<tripoint> map::find_furnitures_in_radius( const tripoint &center, size
         size_t radiusz )
 {
     std::list<tripoint> furn_locs;
-    for( const auto &furn_loc : g->m.points_in_radius( center, radius, radiusz ) ) {
-        if( g->m.furn( furn_loc ) == target ) {
+    for( const auto &furn_loc : points_in_radius( center, radius, radiusz ) ) {
+        if( furn( furn_loc ) == target ) {
             furn_locs.push_back( furn_loc );
         }
     }
@@ -8682,4 +8684,36 @@ void map::clip_to_bounds( int &x, int &y, int &z ) const
     } else if( z > OVERMAP_HEIGHT ) {
         z = OVERMAP_HEIGHT;
     }
+}
+
+bool map::is_cornerfloor( const tripoint &p ) const
+{
+    if( impassable( p ) ) {
+        return false;
+    }
+    std::set<tripoint> impassable_adjacent;
+    for( const tripoint &pt : points_in_radius( p, 1 ) ) {
+        if( impassable( pt ) ) {
+            impassable_adjacent.insert( pt );
+        }
+    }
+    if( !impassable_adjacent.empty() ) {
+        //to check if a floor is a corner we first search if any of its diagonal adjacent points is impassable
+        std::set< tripoint> diagonals = { p + tripoint_north_east, p + tripoint_north_west, p + tripoint_south_east, p + tripoint_south_west };
+        for( const tripoint &impassable_diagonal : diagonals ) {
+            if( impassable_adjacent.count( impassable_diagonal ) != 0 ) {
+                //for every impassable diagonal found, we check if that diagonal terrain has at least two impassable neighbors that also neighbor point p
+                int f = 0;
+                for( const tripoint &l : points_in_radius( impassable_diagonal, 1 ) ) {
+                    if( impassable_adjacent.count( l ) != 0 ) {
+                        f++;
+                    }
+                    if( f > 2 ) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }

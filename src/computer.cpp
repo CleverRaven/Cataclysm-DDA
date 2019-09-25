@@ -77,10 +77,10 @@ computer_option::computer_option( const std::string &N, computer_action A, int S
 {
 }
 
-computer::computer( const std::string &new_name, int new_security ): name( new_name )
+computer::computer( const std::string &new_name, int new_security )
+    : name( new_name ), mission_id( -1 ), security( new_security ),
+      access_denied( _( "ERROR!  Access denied!" ) )
 {
-    security = new_security;
-    mission_id = -1;
 }
 
 computer::computer( const computer &rhs )
@@ -94,6 +94,7 @@ computer &computer::operator=( const computer &rhs )
 {
     security = rhs.security;
     name = rhs.name;
+    access_denied = rhs.access_denied;
     mission_id = rhs.mission_id;
     options = rhs.options;
     failures = rhs.failures;
@@ -126,6 +127,11 @@ void computer::add_failure( const computer_failure &failure )
 void computer::add_failure( computer_failure_type failure )
 {
     add_failure( computer_failure( failure ) );
+}
+
+void computer::set_access_denied_msg( const std::string &new_msg )
+{
+    access_denied = new_msg;
 }
 
 void computer::shutdown_terminal()
@@ -163,7 +169,7 @@ void computer::use()
             reset_terminal();
             return;
         }
-        print_error( _( "ERROR!  Access denied!" ) );
+        print_error( access_denied.c_str() );
         switch( query_ynq( _( "Bypass security?" ) ) ) {
             case 'q':
             case 'Q':
@@ -306,6 +312,8 @@ std::string computer::save_data() const
         data << static_cast<int>( elem.type ) << ' ';
     }
 
+    data << string_replace( access_denied, " ", "_" ) << ' ';
+
     return data.str();
 }
 
@@ -343,6 +351,16 @@ void computer::load_data( const std::string &data )
         int tmpfail;
         dump >> tmpfail;
         add_failure( static_cast<computer_failure_type>( tmpfail ) );
+    }
+
+    std::string tmp_access_denied;
+    dump >> tmp_access_denied;
+
+    // For backwards compatibility, only set the access denied message if it
+    // isn't empty. This is to avoid the message becoming blank when people
+    // load old saves.
+    if( !tmp_access_denied.empty() ) {
+        access_denied = string_replace( tmp_access_denied, "_", " " );
     }
 }
 
@@ -643,18 +661,15 @@ void computer::activate_function( computer_action action )
             g->refresh_all();
 
             //Put some smoke gas and explosions at the nuke location.
-            for( int i = g->u.posx() + 8; i < g->u.posx() + 15; i++ ) {
-                for( int j = g->u.posy() + 3; j < g->u.posy() + 12; j++ ) {
-                    if( !one_in( 4 ) ) {
-                        tripoint dest( i + rng( -2, 2 ), j + rng( -2, 2 ), g->u.posz() );
-                        g->m.add_field( dest, fd_smoke, rng( 1, 9 ) );
-                    }
+            const tripoint nuke_location = { g->u.pos() - point( 12, 0 ) };
+            for( const auto &loc : g->m.points_in_radius( nuke_location, 5, 0 ) ) {
+                if( one_in( 4 ) ) {
+                    g->m.add_field( loc, fd_smoke, rng( 1, 9 ) );
                 }
             }
 
-            explosion_handler::explosion( tripoint( g->u.posx() + 10, g->u.posx() + 21, g->get_levz() ), 200,
-                                          0.7,
-                                          true ); //Only explode once. But make it large.
+            //Only explode once. But make it large.
+            explosion_handler::explosion( nuke_location, 2000, 0.7, true );
 
             //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
             // For each level between here and the surface, remove the missile

@@ -117,17 +117,17 @@ const talk_topic &special_talk( char ch );
 
 std::string give_item_to( npc &p, bool allow_use, bool allow_carry );
 
-const std::string &talk_trial::name() const
+std::string talk_trial::name() const
 {
     static const std::array<std::string, NUM_TALK_TRIALS> texts = { {
-            "", _( "LIE" ), _( "PERSUADE" ), _( "INTIMIDATE" ), ""
+            "", translate_marker( "LIE" ), translate_marker( "PERSUADE" ), translate_marker( "INTIMIDATE" ), ""
         }
     };
     if( static_cast<size_t>( type ) >= texts.size() ) {
         debugmsg( "invalid trial type %d", static_cast<int>( type ) );
-        return texts[0];
+        return std::string();
     }
-    return texts[type];
+    return texts[type].empty() ? std::string() : _( texts[type] );
 }
 
 /** Time (in turns) and cost (in cent) for training: */
@@ -673,6 +673,10 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
         add_msg( _( "%s is hostile!" ), name );
         return;
     }
+    if( get_faction() ) {
+        get_faction()->known_by_u = true;
+    }
+    set_known_to_u( true );
     dialogue d;
     d.alpha = &g->u;
     d.beta = this;
@@ -929,10 +933,12 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             case NPC_MISSION_GUARD_ALLY:
             case NPC_MISSION_GUARD_PATROL:
                 return _( "I'm guarding this location." );
+            case NPC_MISSION_TRAVELLING:
             case NPC_MISSION_NULL:
                 return p->myclass.obj().get_job_description();
             default:
-                return "ERROR: Someone forgot to code an npc_mission text.";
+                return string_format( "ERROR: Someone forgot to code an npc_mission text for "
+                                      "mission: %d.", static_cast<int>( p->mission ) );
         } // switch (p->mission)
     } else if( topic == "TALK_SHOUT" ) {
         alpha->shout();
@@ -947,7 +953,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         ///\EFFECT_INT slightly affects whether player can size up NPCs
         int ability = g->u.per_cur * 3 + g->u.int_cur;
         if( ability <= 10 ) {
-            return "&You can't make anything out.";
+            return _( "&You can't make anything out." );
         }
 
         if( p->is_player_ally() || ability > 100 ) {
@@ -1189,7 +1195,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             const int cost = calc_ma_style_training_cost( *p, style.id );
             //~Martial art style (cost in dollars)
             const std::string text = string_format( cost > 0 ? _( "%s ( cost $%d )" ) : "%s",
-                                                    _( style.name ), cost / 100 );
+                                                    style.name, cost / 100 );
             add_response( text, "TALK_TRAIN_START", style );
         }
         for( auto &trained : trainable ) {
@@ -2645,10 +2651,10 @@ talk_response::talk_response( JsonObject jo )
     if( jo.has_member( "truefalsetext" ) ) {
         JsonObject truefalse_jo = jo.get_object( "truefalsetext" );
         read_condition<dialogue>( truefalse_jo, "condition", truefalse_condition, true );
-        truetext = to_translation( truefalse_jo.get_string( "true" ) );
-        falsetext = to_translation( truefalse_jo.get_string( "false" ) );
+        truefalse_jo.read( "true", truetext );
+        truefalse_jo.read( "false", falsetext );
     } else {
-        truetext = to_translation( jo.get_string( "text" ) );
+        jo.read( "text", truetext );
         truefalse_condition = []( const dialogue & ) {
             return true;
         };

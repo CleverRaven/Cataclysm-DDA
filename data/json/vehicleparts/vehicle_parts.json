@@ -4,7 +4,19 @@
     "id": "ig_vp_seat",
     "subtype": "collection",
     "entries": [
+      { "item": "rag", "count": [ 2, 8 ] },
+      { "item": "pipe", "count": [ 1, 3 ] },
+      { "item": "spring", "count": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 3, 5 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ig_vp_seat_leather",
+    "subtype": "collection",
+    "entries": [
       { "item": "leather", "count": [ 1, 5 ] },
+      { "item": "rag", "count": [ 1, 3 ] },
       { "item": "pipe", "count": [ 1, 3 ] },
       { "item": "spring", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 3, 5 ] }
@@ -114,6 +126,14 @@
   },
   {
     "type": "vehicle_part",
+    "id": "seat_leather",
+    "copy-from": "seat",
+    "name": "leather seat",
+    "item": "seat_leather",
+    "breaks_into": "ig_vp_seat_leather"
+  },
+  {
+    "type": "vehicle_part",
     "id": "reclining_seat",
     "name": "reclining seat",
     "symbol": "#",
@@ -130,6 +150,14 @@
     "flags": [ "BED", "SEAT", "BOARDABLE", "BELTABLE", "CARGO", "TOOL_WRENCH" ],
     "breaks_into": "ig_vp_seat",
     "damage_reduction": { "all": 3 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "reclining_seat_leather",
+    "copy-from": "reclining_seat",
+    "name": "reclining leather seat",
+    "item": "seat_leather",
+    "breaks_into": "ig_vp_seat_leather"
   },
   {
     "type": "vehicle_part",
@@ -159,7 +187,53 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
     },
     "breaks_into": "ig_vp_wood_plate",
-    "flags": [ "ENGINE", "BOARDABLE", "TOOL_NONE", "E_STARTS_INSTANTLY", "ANIMAL_CTRL", "STEERABLE", "UNMOUNT_ON_DAMAGE", "WHEEL" ],
+    "flags": [
+      "ENGINE",
+      "BOARDABLE",
+      "TOOL_NONE",
+      "E_STARTS_INSTANTLY",
+      "ANIMAL_CTRL",
+      "HARNESS_any",
+      "STEERABLE",
+      "UNMOUNT_ON_DAMAGE",
+      "WHEEL"
+    ],
+    "damage_reduction": { "all": 2 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "cart_handle",
+    "name": "cart handle",
+    "symbol": "-",
+    "color": "white",
+    "broken_symbol": "~",
+    "broken_color": "red",
+    "damage_modifier": 10,
+    "noise_factor": 0,
+    "fuel_type": "animal",
+    "durability": 20,
+    "item": "pipe",
+    "m2c": 90,
+    "description": "A metal handle, a creature with hands could use it to push a vehicle.",
+    "difficulty": 1,
+    "power": 0,
+    "location": "structure",
+    "requirements": {
+      "install": { "time": 10000, "skills": [ [ "mechanics", 2 ] ], "using": [ [ "welding_standard", 5 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 2000, "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SAW_M", "level": 1 } ] }
+    },
+    "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] } ],
+    "flags": [
+      "ENGINE",
+      "BOARDABLE",
+      "TOOL_NONE",
+      "E_STARTS_INSTANTLY",
+      "ANIMAL_CTRL",
+      "HARNESS_human",
+      "STEERABLE",
+      "UNMOUNT_ON_DAMAGE"
+    ],
     "damage_reduction": { "all": 2 }
   },
   {
@@ -2618,22 +2692,6 @@
     "item": "acidchitin_plate",
     "breaks_into": [ { "item": "acidchitin_piece", "count": [ 6, 19 ] } ],
     "damage_reduction": { "all": 72 }
-  },
-  {
-    "type": "vehicle_part",
-    "id": "plating_bone",
-    "name": "bone plating",
-    "symbol": ")",
-    "color": "white",
-    "broken_symbol": ")",
-    "broken_color": "light_gray",
-    "durability": 120,
-    "item": "bone_plate",
-    "difficulty": 2,
-    "location": "armor",
-    "flags": [ "ARMOR" ],
-    "breaks_into": [ { "item": "bone_tainted", "count": [ 10, 30 ] } ],
-    "damage_reduction": { "all": 18 }
   },
   {
     "type": "vehicle_part",

@@ -744,7 +744,6 @@ class npc : public player
         void set_fac( const string_id<faction> &id );
         faction *get_faction() const override;
         string_id<faction> get_fac_id() const;
-        void clear_fac();
         /**
          * Set @ref submap_coords and @ref pos.
          * @param mx,my,mz are global submap coordinates.
@@ -844,6 +843,8 @@ class npc : public player
         /** Is enemy or will turn into one (can't be convinced not to attack). */
         bool guaranteed_hostile() const;
         Attitude attitude_to( const Creature &other ) const override;
+        /* player allies that become guaranteed hostile should mutiny first */
+        void mutiny();
 
         /** For mutant NPCs. Returns how monsters perceive said NPC. Doesn't imply NPC sees them the same. */
         mfaction_id get_monster_faction() const;
@@ -1091,6 +1092,7 @@ class npc : public player
         bool saw_player_recently() const;
         /** Returns true if food was consumed, false otherwise. */
         bool consume_food();
+        bool consume_food_from_camp();
         int get_thirst() const override;
 
         // Movement on the overmap scale
@@ -1159,6 +1161,7 @@ class npc : public player
     private:
         npc_attitude attitude; // What we want to do to the player
         npc_attitude previous_attitude = NPCATT_NULL;
+        bool known_to_u = false; // Does the player know this NPC?
         /**
          * Global submap coordinates of the submap containing the npc.
          * Use global_*_location to get the global position.
@@ -1250,6 +1253,10 @@ class npc : public player
          */
         void npc_update_body();
 
+        bool get_known_to_u();
+
+        void set_known_to_u( bool known );
+
         /// Set up (start) a companion mission.
         void set_companion_mission( npc &p, const std::string &mission_id );
         void set_companion_mission( const tripoint &omt_pos, const std::string &role_id,
@@ -1298,6 +1305,14 @@ class npc_template
         npc_template() = default;
 
         npc guy;
+        translation name_unique;
+        translation name_suffix;
+        enum class gender {
+            random,
+            male,
+            female
+        };
+        gender gender_override;
 
         static void load( JsonObject &jsobj );
         static void reset();

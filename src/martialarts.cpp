@@ -12,6 +12,8 @@
 #include "damage.h"
 #include "debug.h"
 #include "effect.h"
+#include "game.h"
+#include "map.h"
 #include "generic_factory.h"
 #include "input.h"
 #include "itype.h"
@@ -77,6 +79,7 @@ void ma_requirements::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
     optional( jo, was_loaded, "unarmed_weapons_allowed", unarmed_weapons_allowed, true );
+    optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
 
     optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id> {} );
     optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<> {} );
@@ -108,6 +111,7 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
     optional( jo, was_loaded, "downed_target", downed_target, false );
     optional( jo, was_loaded, "stunned_target", stunned_target, false );
+    optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
 
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
@@ -163,6 +167,7 @@ void ma_buff::load( JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "quiet", quiet, false );
     optional( jo, was_loaded, "throw_immune", throw_immune, false );
+    optional( jo, was_loaded, "stealthy", stealthy, false );
 
     reqs.load( jo, src );
     bonuses.load( jo );
@@ -409,6 +414,10 @@ bool ma_requirements::is_valid_player( const player &u ) const
         return false;
     }
 
+    if( wall_adjacent && !g->m.is_wall_adjacent( u.pos() ) ) {
+        return false;
+    }
+
     for( const auto &pr : min_skill ) {
         if( ( cqb ? 5 : u.get_skill_level( pr.first ) ) < pr.second ) {
             return false;
@@ -471,6 +480,11 @@ std::string ma_requirements::get_description( bool buff ) const
                                type ) << std::endl;
     }
 
+    if( wall_adjacent ) {
+        dump << string_format( _( "* Can %s while <info>near</info> to a <info>wall</info>" ),
+                               type ) << std::endl;
+    }
+
     return dump.str();
 }
 
@@ -496,6 +510,7 @@ ma_technique::ma_technique()
     // conditional
     downed_target = false;    // only works on downed enemies
     stunned_target = false;   // only works on stunned enemies
+    wall_adjacent = false;    // only works near a wall
 
     miss_recovery = false; // allows free recovery from misses, like tec_feint
     grab_break = false; // allows grab_breaks, like tec_break
@@ -585,6 +600,10 @@ bool ma_buff::is_quiet() const
 {
     return quiet;
 }
+bool ma_buff::is_stealthy() const
+{
+    return stealthy;
+}
 
 bool ma_buff::can_melee() const
 {
@@ -633,6 +652,10 @@ std::string ma_buff::get_description( bool passive ) const
 
     if( quiet ) {
         dump << _( "* Attacks will be completely <info>silent</info>" ) << std::endl;
+    }
+
+    if( stealthy ) {
+        dump << _( "* Movement will make <info>less noise</info>" ) << std::endl;
     }
 
     return dump.str();
@@ -1070,6 +1093,12 @@ bool player::is_quiet() const
         return b.is_quiet();
     } );
 }
+bool player::is_stealthy() const
+{
+    return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
+        return b.is_stealthy();
+    } );
+}
 
 bool player::can_melee() const
 {
@@ -1179,6 +1208,10 @@ std::string ma_technique::get_description() const
 
     if( side_switch ) {
         dump << _( "* Moves target <info>behind</info> you" ) << std::endl;
+    }
+
+    if( wall_adjacent ) {
+        dump << _( "* Will only activate while <info>near</info> to a <info>wall</info>" ) << std::endl;
     }
 
     if( downed_target ) {
@@ -1348,7 +1381,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
             werase( w );
             fold_and_print_from( w, point( 2, 1 ), width, selected, c_light_gray, text );
-            draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), _( ma.name ) ) );
+            draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), ma.name ) );
             draw_scrollbar( w, selected, height, iLines, point_south, BORDER_COLOR, true );
             wrefresh( w );
             catacurses::refresh();

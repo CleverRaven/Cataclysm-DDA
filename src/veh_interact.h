@@ -89,9 +89,6 @@ class veh_interact
         catacurses::window w_owner;
 
         vehicle *veh;
-        bool has_wrench;
-        bool has_jack;
-        bool has_wheel;
         inventory crafting_inv;
         input_context main_context;
 
@@ -139,7 +136,6 @@ class veh_interact
         bool do_rename( std::string &msg );
         bool do_siphon( std::string &msg );
         bool do_unload( std::string &msg );
-        bool do_tirechange( std::string &msg );
         bool do_assign_crew( std::string &msg );
         bool do_relabel( std::string &msg );
         /*@}*/

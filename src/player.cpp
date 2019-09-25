@@ -99,6 +99,7 @@
 #include "enums.h"
 #include "flat_set.h"
 #include "stomach.h"
+#include "teleport.h"
 
 const double MAX_RECOIL = 3000;
 
@@ -1947,7 +1948,6 @@ time_duration player::estimate_effect_dur( const skill_id &relevant_skill,
     time_duration estimate = std::max( zero_duration, target.get_effect_dur( target_effect ) +
                                        rng( -1, 1 ) * error_magnitude *
                                        rng( 0, std::max( 0, threshold - skill_lvl ) ) );
-
     return estimate;
 }
 
@@ -2039,17 +2039,19 @@ void player::set_highest_cat_level()
     mutation_category_level.clear();
 
     // For each of our mutations...
-    for( auto &mut : my_mutations ) {
+    for( const std::pair<trait_id, Character::trait_data> &mut : my_mutations ) {
         // ...build up a map of all prerequisite/replacement mutations along the tree, along with their distance from the current mutation
         std::unordered_map<trait_id, int> dependency_map;
         build_mut_dependency_map( mut.first, dependency_map, 0 );
 
         // Then use the map to set the category levels
-        for( auto &i : dependency_map ) {
-            const auto &mdata = i.first.obj();
-            for( auto &cat : mdata.category ) {
-                // Decay category strength based on how far it is from the current mutation
-                mutation_category_level[cat] += 8 / static_cast<int>( std::pow( 2, i.second ) );
+        for( const std::pair<trait_id, int> &i : dependency_map ) {
+            const mutation_branch &mdata = i.first.obj();
+            if( !mdata.flags.count( "NON_THRESH" ) ) {
+                for( const std::string &cat : mdata.category ) {
+                    // Decay category strength based on how far it is from the current mutation
+                    mutation_category_level[cat] += 8 / static_cast<int>( std::pow( 2, i.second ) );
+                }
             }
         }
     }
@@ -3509,7 +3511,7 @@ int player::impact( const int force, const tripoint &p )
 
     if( total_dealt > 0 && is_player() ) {
         // "You slam against the dirt" is fine
-        add_msg( m_bad, _( "You are slammed against %s for %d damage." ),
+        add_msg( m_bad, _( "You are slammed against %1$s for %2$d damage." ),
                  target_name, total_dealt );
     } else if( is_player() && shock_absorbers ) {
         add_msg( m_bad, _( "You are slammed against %s!" ),
@@ -3862,15 +3864,29 @@ void player::check_needs_extremes()
             hp_cur[hp_torso] = 0;
         } else {
             if( calendar::once_every( 1_hours ) ) {
-                if( get_kcal_percent() < 0.1f ) {
-                    add_msg_if_player( m_warning, _( "Food..." ) );
-                } else if( get_kcal_percent() < 0.25f ) {
-                    add_msg_if_player( m_warning, _( "You are STARVING!" ) );
-                } else if( get_kcal_percent() < 0.5f ) {
-                    add_msg_if_player( m_warning, _( "You feel like you haven't eaten in days..." ) );
-                } else if( get_kcal_percent() < 0.8f ) {
-                    add_msg_if_player( m_warning, _( "Your stomach feels so empty..." ) );
+                std::string message;
+                if( stomach.contains() <= stomach.capacity() / 4 ) {
+                    if( get_kcal_percent() < 0.1f ) {
+                        message = _( "Food..." );
+                    } else if( get_kcal_percent() < 0.25f ) {
+                        message = _( "Due to insufficient nutrition, your body is suffering from starvation." );
+                    } else if( get_kcal_percent() < 0.5f ) {
+                        message = _( "Despite having something in your stomach, you still feel like you haven't eaten in days..." );
+                    } else if( get_kcal_percent() < 0.8f ) {
+                        message = _( "Your stomach feels so empty..." );
+                    }
+                } else {
+                    if( get_kcal_percent() < 0.1f ) {
+                        message = _( "Food..." );
+                    } else if( get_kcal_percent() < 0.25f ) {
+                        message = _( "You are EMACIATED!" );
+                    } else if( get_kcal_percent() < 0.5f ) {
+                        message = _( "You feel weak due to malnutrition." );
+                    } else if( get_kcal_percent() < 0.8f ) {
+                        message = _( "You feel that your body needs more nutritious food." );
+                    }
                 }
+                add_msg_if_player( m_warning, message );
             }
         }
     }
@@ -4407,7 +4423,7 @@ int player::addiction_level( add_type type ) const
 
 void player::siphon( vehicle &veh, const itype_id &desired_liquid )
 {
-    auto qty = veh.fuel_left( type );
+    auto qty = veh.fuel_left( desired_liquid );
     if( qty <= 0 ) {
         add_msg( m_bad, _( "There is not enough %s left to siphon it." ),
                  item::nname( desired_liquid ) );
@@ -4920,35 +4936,36 @@ void player::suffer()
         mod_thirst( -1 );
     }
 
+    time_duration timer = -6_hours;
+    if( has_trait( trait_ADDICTIVE ) ) {
+        timer = -10_hours;
+    } else if( has_trait( trait_NONADDICTIVE ) ) {
+        timer = -3_hours;
+    }
+    for( auto &cur_addiction : addictions ) {
+        if( cur_addiction.sated <= 0_turns &&
+            cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
+            addict_effect( *this, cur_addiction );
+        }
+        cur_addiction.sated -= 1_turns;
+        // Higher intensity addictions heal faster
+        if( cur_addiction.sated - 10_minutes * cur_addiction.intensity < timer ) {
+            if( cur_addiction.intensity <= 2 ) {
+                rem_addiction( cur_addiction.type );
+                break;
+            } else {
+                cur_addiction.intensity--;
+                cur_addiction.sated = 0_turns;
+            }
+        }
+    }
+
     if( !in_sleep_state() ) {
         if( !has_trait( trait_id( "DEBUG_STORAGE" ) ) && ( weight_carried() > 4 * weight_capacity() ) ) {
             if( has_effect( effect_downed ) ) {
                 add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
             } else {
                 add_effect( effect_downed, 2_turns, num_bp, false, 0, true );
-            }
-        }
-        time_duration timer = -6_hours;
-        if( has_trait( trait_ADDICTIVE ) ) {
-            timer = -10_hours;
-        } else if( has_trait( trait_NONADDICTIVE ) ) {
-            timer = -3_hours;
-        }
-        for( auto &cur_addiction : addictions ) {
-            if( cur_addiction.sated <= 0_turns &&
-                cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
-                addict_effect( *this, cur_addiction );
-            }
-            cur_addiction.sated -= 1_turns;
-            // Higher intensity addictions heal faster
-            if( cur_addiction.sated - 10_minutes * cur_addiction.intensity < timer ) {
-                if( cur_addiction.intensity <= 2 ) {
-                    rem_addiction( cur_addiction.type );
-                    break;
-                } else {
-                    cur_addiction.intensity--;
-                    cur_addiction.sated = 0_turns;
-                }
             }
         }
         if( has_trait( trait_CHEMIMBALANCE ) ) {
@@ -5410,15 +5427,17 @@ void player::suffer()
     const bool leafier = has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
     const bool leafiest = has_trait( trait_LEAVES3 );
     int sunlight_nutrition = 0;
-    if( leafy && g->is_in_sunlight( pos() ) ) {
+    if( leafy && g->m.is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
+        const float weather_factor = ( g->weather.weather == WEATHER_CLEAR ||
+                                       g->weather.weather == WEATHER_SUNNY ) ? 1.0 : 0.5;
         const int player_local_temp = g->weather.get_temperature( pos() );
         int flux = ( player_local_temp - 65 ) / 2;
         if( !has_hat ) {
-            sunlight_nutrition += 100 + flux;
+            sunlight_nutrition += ( 100 + flux ) * weather_factor;
         }
         if( leafier ) {
             int rate = ( ( 100 * sleeve_factor ) + flux ) * 2;
-            sunlight_nutrition += rate * ( leafiest ? 2 : 1 );
+            sunlight_nutrition += ( rate * ( leafiest ? 2 : 1 ) ) * weather_factor;
         }
     }
 
@@ -5557,7 +5576,7 @@ void player::suffer()
         mutate();
     }
     if( has_artifact_with( AEP_FORCE_TELEPORT ) && one_turn_in( 1_hours ) ) {
-        g->teleport( this );
+        teleport::teleport( *this );
     }
     const bool needs_fire = !has_morale( MORALE_PYROMANIA_NEARFIRE ) &&
                             !has_morale( MORALE_PYROMANIA_STARTFIRE );
@@ -6572,6 +6591,15 @@ void player::process_active_items()
             active_held_items.push_back( index );
         }
     }
+    // Necessary for UPS in Aftershock - check worn items for charge
+    for( const item &it : worn ) {
+        itype_id identifier = it.type->get_id();
+        if( identifier == "UPS_off" ) {
+            ch_UPS += it.ammo_remaining();
+        } else if( identifier == "adv_UPS_off" ) {
+            ch_UPS += it.ammo_remaining() / 0.6;
+        }
+    }
     if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
         ch_UPS += power_level;
     }
@@ -7238,11 +7266,12 @@ item::reload_option player::select_ammo( const item &base,
         if( e.ammo->is_magazine() && e.ammo->ammo_data() ) {
             if( e.ammo->ammo_current() == "battery" ) {
                 // This battery ammo is not a real object that can be recovered but pseudo-object that represents charge
-                //~ magazine with ammo count
-                return string_format( _( "%s (%d)" ), e.ammo->type_name(), e.ammo->ammo_remaining() );
+                //~ battery storage (charges)
+                return string_format( pgettext( "magazine", "%1$s (%2$d)" ), e.ammo->type_name(),
+                                      e.ammo->ammo_remaining() );
             } else {
                 //~ magazine with ammo (count)
-                return string_format( _( "%s with %s (%d)" ), e.ammo->type_name(),
+                return string_format( pgettext( "magazine", "%1$s with %2$s (%3$d)" ), e.ammo->type_name(),
                                       e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ), e.ammo->ammo_remaining() );
             }
         } else if( e.ammo->is_watertight_container() ||
@@ -7710,7 +7739,9 @@ bool player::wield( item &target )
 
     // Query whether to draw an item from a holster when attempting to wield the holster
     if( target.get_use( "holster" ) && !target.contents.empty() ) {
-        if( query_yn( _( "Draw %s from %s?" ), target.get_contained().tname(), target.tname() ) ) {
+        //~ %1$s: weapon name, %2$s: holster name
+        if( query_yn( pgettext( "holster", "Draw %1$s from %2$s?" ), target.get_contained().tname(),
+                      target.tname() ) ) {
             invoke_item( &target );
             return false;
         }
@@ -7810,12 +7841,12 @@ bool player::pick_style() // Style selection menu
         auto &style = selectable_styles[i].obj();
         //Check if this style is currently selected
         const bool selected = selectable_styles[i] == style_selected;
-        std::string entry_text = _( style.name );
+        std::string entry_text = style.name.translated();
         if( selected ) {
             kmenu.selected = i + STYLE_OFFSET;
             entry_text = colorize( entry_text, c_pink );
         }
-        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, entry_text, _( style.description ) );
+        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, entry_text, style.description.translated() );
     }
 
     kmenu.query();
@@ -7976,9 +8007,9 @@ void player::mend_item( item_location &&obj, bool interactive )
         std::vector<std::pair<fault_id, bool>> opts;
         for( const auto &f : obj->faults_potential() ) {
             opts.emplace_back( f, !!obj->faults.count( f ) );
-            menu.addentry( -1, true, -1, string_format( "%s %s",
-                           opts.back().second ? _( "Mend" ) : _( "Break" ),
-                           f.obj().name() ) );
+            menu.addentry( -1, true, -1, string_format(
+                               opts.back().second ? pgettext( "fault", "Mend: %s" ) : pgettext( "fault", "Set: %s" ),
+                               f.obj().name() ) );
         }
         if( opts.empty() ) {
             add_msg( m_info, _( "The %s doesn't have any faults to toggle." ), obj->tname() );
@@ -9782,6 +9813,7 @@ int player::warmth( body_part bp ) const
             ret += warmth;
         }
     }
+    ret += get_effect_int( efftype_id( "heating_bionic" ), bp );
     return ret;
 }
 
@@ -10745,6 +10777,7 @@ bool player::is_invisible() const
     static const bionic_id str_bio_cloak( "bio_cloak" ); // This function used in monster::plan_moves
     static const bionic_id str_bio_night( "bio_night" );
     return (
+               has_effect_with_flag( "EFFECT_INVISIBLE" ) ||
                has_active_bionic( str_bio_cloak ) ||
                has_active_bionic( str_bio_night ) ||
                has_active_optcloak() ||
@@ -11379,8 +11412,7 @@ std::string player::visible_mutations( const int visibility_cap ) const
         // Finally some use for visibility trait of mutations
         if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap )
         {
-            return string_format( "<color_%s>%s</color>", string_from_color( mut_branch.get_display_color() ),
-                                  mut_branch.name() );
+            return colorize( mut_branch.name(), mut_branch.get_display_color() );
         }
 
         return std::string();
@@ -11691,9 +11723,10 @@ bool player::crush_frozen_liquid( item_location loc )
 
     if( u.has_quality( quality_id( "HAMMER" ) ) ) {
         item hammering_item = u.item_with_best_of_quality( quality_id( "HAMMER" ) );
-        if( query_yn( _( "Do you want to crush up %s with your %s?\n%s" ), loc.get_item()->display_name(),
-                      hammering_item.tname(),
-                      colorize( _( "Be wary of fragile items nearby!" ), c_red ) ) ) {
+        //~ %1$s: item to be crushed, %2$s: hammer name
+        if( query_yn( _( "Do you want to crush up %1$s with your %2$s?\n"
+                         "<color_red>Be wary of fragile items nearby!</color>" ),
+                      loc.get_item()->display_name(), hammering_item.tname() ) ) {
 
             //Risk smashing tile with hammering tool, risk is lower with higher dex, damage lower with lower strength
             if( one_in( 1 + u.dex_cur / 4 ) ) {

@@ -346,5 +346,34 @@
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
     "damage_reduction": { "all": 66 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_bone",
+    "name": "bone plating",
+    "symbol": ")",
+    "color": "white",
+    "broken_symbol": ")",
+    "broken_color": "light_gray",
+    "durability": 120,
+    "item": "bone_plate",
+    "difficulty": 2,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [ { "item": "bone_tainted", "count": [ 10, 30 ] } ],
+    "damage_reduction": { "all": 18 }
+  },
+  {
+    "id": "washcloth",
+    "type": "TOOL",
+    "name": "washcloth",
+    "description": "A piece of cloth that can be used for cleaning impervious surfaces.",
+    "weight": "80 g",
+    "volume": "250 ml",
+    "price": 0,
+    "material": "cotton",
+    "symbol": ",",
+    "color": "white",
+    "use_action": "WASH_HARD_ITEMS"
   }
 ]

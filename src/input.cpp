@@ -1032,13 +1032,9 @@ void input_context::display_menu()
     const size_t legwidth = width - 4 - BORDER_SPACE;
     // keybindings help
     std::ostringstream legend;
-    legend << "<color_" << string_from_color( unbound_key ) << ">" << _( "Unbound keys" ) <<
-           "</color>\n";
-    legend << "<color_" << string_from_color( local_key ) << ">" <<
-           _( "Keybinding active only on this screen" ) << "</color>\n";
-    legend << "<color_" << string_from_color( global_key ) << ">" << _( "Keybinding active globally" )
-           <<
-           "</color>\n";
+    legend << colorize( _( "Unbound keys" ), unbound_key ) << "\n";
+    legend << colorize( _( "Keybinding active only on this screen" ), local_key ) << "\n";
+    legend << colorize( _( "Keybinding active globally" ), global_key ) << "\n";
     legend << _( "Press - to remove keybinding\nPress + to add local keybinding\nPress = to add global keybinding\n" );
 
     std::vector<std::string> filtered_registered_actions = org_registered_actions;

@@ -95,7 +95,7 @@
   {
     "id": "spell_scroll_tier_3",
     "type": "item_group",
-    "items": [ [ "spell_scroll_magus_mana_blast", 50 ], [ "lightning_storm_scroll", 50 ] ]
+    "items": [ [ "spell_scroll_magus_mana_blast", 50 ], [ "lightning_storm_scroll", 50 ], [ "spell_scroll_invisibility", 10 ] ]
   },
   {
     "id": "spellbook_tier_0",

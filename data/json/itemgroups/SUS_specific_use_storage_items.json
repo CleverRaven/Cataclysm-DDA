@@ -106,7 +106,7 @@
       { "item": "permanent_marker", "prob": 75 },
       { "item": "permanent_marker", "prob": 40 },
       { "item": "paper", "prob": 55 },
-      { "item": "battery", "count": [ 1, 2 ], "prob": 85 },
+      { "item": "light_battery_cell", "count": [ 1, 2 ], "prob": 85 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 80 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 50 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 20 },

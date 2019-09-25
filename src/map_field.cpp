@@ -57,6 +57,7 @@
 #include "point.h"
 #include "scent_block.h"
 #include "mongroup.h"
+#include "teleport.h"
 
 const species_id FUNGUS( "FUNGUS" );
 const species_id INSECT( "INSECT" );
@@ -1632,10 +1633,9 @@ void map::player_in_field( player &u )
         if( ft == fd_fatigue ) {
             // Teleports you... somewhere.
             if( rng( 0, 2 ) < cur.get_field_intensity() && u.is_player() ) {
-                // TODO: allow teleporting for npcs
                 add_msg( m_bad, _( "You're violently teleported!" ) );
                 u.hurtall( cur.get_field_intensity(), nullptr );
-                g->teleport();
+                teleport::teleport( u );
             }
         }
         // Why do these get removed???
@@ -1926,27 +1926,8 @@ void map::monster_in_field( monster &z )
         if( cur_field_type == fd_fatigue ) {
             if( rng( 0, 2 ) < cur.get_field_intensity() ) {
                 dam += cur.get_field_intensity();
-                int tries = 0;
-                tripoint newpos = z.pos();
-                do {
-                    newpos.x = rng( z.posx() - SEEX, z.posx() + SEEX );
-                    newpos.y = rng( z.posy() - SEEY, z.posy() + SEEY );
-                    tries++;
-                } while( impassable( newpos ) && tries != 10 );
-
-                if( tries == 10 ) {
-                    z.die_in_explosion( nullptr );
-                } else if( monster *const other = g->critter_at<monster>( newpos ) ) {
-                    if( g->u.sees( z ) ) {
-                        add_msg( _( "The %1$s teleports into a %2$s, killing them both!" ),
-                                 z.name(), other->name() );
-                    }
-                    other->die_in_explosion( &z );
-                } else {
-                    z.setpos( newpos );
-                }
+                teleport::teleport( z );
             }
-
         }
         if( cur_field_type == fd_incendiary ) {
             // TODO: MATERIALS Use fire resistance

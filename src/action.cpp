@@ -296,8 +296,8 @@ std::string action_ident( action_id act )
             return "missions";
         case ACTION_FACTIONS:
             return "factions";
-        case ACTION_KILLS:
-            return "kills";
+        case ACTION_SCORES:
+            return "scores";
         case ACTION_MORALE:
             return "morale";
         case ACTION_MESSAGES:
@@ -401,7 +401,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_MAP:
         case ACTION_SKY:
         case ACTION_MISSIONS:
-        case ACTION_KILLS:
+        case ACTION_SCORES:
         case ACTION_FACTIONS:
         case ACTION_MORALE:
         case ACTION_MESSAGES:
@@ -866,7 +866,7 @@ action_id handle_action_menu()
         } else if( category == _( "Info" ) ) {
             REGISTER_ACTION( ACTION_PL_INFO );
             REGISTER_ACTION( ACTION_MISSIONS );
-            REGISTER_ACTION( ACTION_KILLS );
+            REGISTER_ACTION( ACTION_SCORES );
             REGISTER_ACTION( ACTION_FACTIONS );
             REGISTER_ACTION( ACTION_MORALE );
             REGISTER_ACTION( ACTION_MESSAGES );
@@ -895,7 +895,7 @@ action_id handle_action_menu()
 
         std::string title = _( "Actions" );
         if( category != "back" ) {
-            catgname = _( category );
+            catgname = category;
             capitalize_letter( catgname, 0 );
             title += ": " + catgname;
         }

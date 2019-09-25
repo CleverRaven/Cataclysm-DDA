@@ -726,9 +726,9 @@ struct islot_seed {
      */
     int fruit_div = 1;
     /**
-     * Name of the plant, already translated.
+     * Name of the plant.
      */
-    std::string plant_name;
+    translation plant_name;
     /**
      * Type id of the fruit item.
      */
@@ -827,7 +827,7 @@ struct itype {
         std::string looks_like;
 
         std::string snippet_category;
-        std::string description; // Flavor text
+        translation description; // Flavor text
 
         // The container it comes in
         cata::optional<itype_id> default_container;
@@ -901,9 +901,9 @@ struct itype {
         int stack_size = 0;
 
         /** Value before cataclysm. Price given is for a default-sized stack. */
-        int price = 0;
+        units::money price = 0_cent;
         /** Value after cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
-        int price_post = -1;
+        units::money price_post = -1_cent;
 
         /**@}*/
         // If non-rigid volume (and if worn encumbrance) increases proportional to contents

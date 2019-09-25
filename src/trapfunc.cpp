@@ -11,6 +11,7 @@
 #include "timed_event.h"
 #include "game.h"
 #include "map.h"
+#include "mapgen_functions.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
@@ -31,6 +32,7 @@
 #include "player.h"
 #include "int_id.h"
 #include "point.h"
+#include "teleport.h"
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_shadow( "mon_shadow" );
@@ -637,39 +639,14 @@ bool trapfunc::telepad( const tripoint &p, Creature *c, item * )
     if( c == nullptr ) {
         return false;
     }
-    monster *z = dynamic_cast<monster *>( c );
-    // TODO: NPC don't teleport?
     if( c == &g->u ) {
         c->add_msg_if_player( m_warning, _( "The air shimmers around you..." ) );
-        g->teleport();
-        return true;
-    } else if( z != nullptr ) {
-        if( g->u.sees( *z ) ) {
-            add_msg( _( "The air shimmers around the %s..." ), z->name() );
+    } else {
+        if( g->u.sees( p ) ) {
+            add_msg( _( "The air shimmers around %s..." ), c->disp_name() );
         }
-
-        int tries = 0;
-        int newposx = 0;
-        int newposy = 0;
-        do {
-            newposx = rng( z->posx() - SEEX, z->posx() + SEEX );
-            newposy = rng( z->posy() - SEEY, z->posy() + SEEY );
-            tries++;
-        } while( g->m.impassable( point( newposx, newposy ) ) && tries != 10 );
-
-        if( tries == 10 ) {
-            z->die_in_explosion( nullptr );
-        } else if( monster *const mon_hit = g->critter_at<monster>( {newposx, newposy, z->posz()} ) ) {
-            if( g->u.sees( *z ) ) {
-                add_msg( m_good, _( "The %1$s teleports into a %2$s, killing them both!" ),
-                         z->name(), mon_hit->name() );
-            }
-            mon_hit->die_in_explosion( z );
-        } else {
-            z->setpos( {newposx, newposy, z->posz()} );
-        }
-        return true;
     }
+    teleport::teleport( *c );
     return false;
 }
 
@@ -1382,6 +1359,25 @@ bool trapfunc::shadow( const tripoint &p, Creature *c, item * )
     return true;
 }
 
+bool trapfunc::map_regen( const tripoint &p, Creature *c, item * )
+{
+    if( c ) {
+        player *n = dynamic_cast<player *>( c );
+        if( n ) {
+            n->add_msg_if_player( m_warning, _( "Your surroundings shift!" ) );
+            const tripoint &omt_pos = n->global_omt_location();
+            const std::string &regen_mapgen = g->m.tr_at( p ).map_regen_target();
+            g->m.remove_trap( p );
+            if( !run_mapgen_update_func( regen_mapgen, omt_pos, nullptr, false ) ) {
+                popup( _( "Failed to generate the new map" ) );
+                return false;
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
 bool trapfunc::drain( const tripoint &, Creature *c, item * )
 {
     if( c != nullptr ) {
@@ -1433,6 +1429,7 @@ bool trapfunc::snake( const tripoint &p, Creature *, item * )
     return true;
 }
 
+
 /**
  * Takes the name of a trap function and returns a function pointer to it.
  * @param function_name The name of the trapfunc function to find.
@@ -1473,6 +1470,7 @@ const trap_function &trap_function_from_string( const std::string &function_name
             { "glow", trapfunc::glow },
             { "hum", trapfunc::hum },
             { "shadow", trapfunc::shadow },
+            { "map_regen", trapfunc::map_regen },
             { "drain", trapfunc::drain },
             { "snake", trapfunc::snake }
         }

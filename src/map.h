@@ -58,7 +58,7 @@ class submap;
 class item_location;
 class map_cursor;
 struct maptile;
-struct mapgendata;
+class mapgendata;
 class basecamp;
 class computer;
 class Character;
@@ -405,6 +405,7 @@ class map
         int move_cost( const tripoint &p, const vehicle *ignored_vehicle = nullptr ) const;
         bool impassable( const tripoint &p ) const;
         bool passable( const tripoint &p ) const;
+        bool is_wall_adjacent( const tripoint &center ) const;
 
         /**
         * Similar behavior to `move_cost()`, but ignores vehicles.
@@ -1220,6 +1221,8 @@ class map
          */
         void process_falling();
 
+        bool is_cornerfloor( const tripoint &p ) const;
+
         // mapgen.cpp functions
         void generate( const tripoint &p, const time_point &when );
         void place_spawns( const mongroup_id &group, int chance,
@@ -1420,40 +1423,21 @@ class map
         void shift_traps( const tripoint &shift );
 
         void copy_grid( const tripoint &to, const tripoint &from );
-        void draw_map( const oter_id &terrain_type, const oter_id &t_north, const oter_id &t_east,
-                       const oter_id &t_south, const oter_id &t_west, const oter_id &t_neast,
-                       const oter_id &t_seast, const oter_id &t_swest, const oter_id &t_nwest,
-                       const oter_id &t_above, const oter_id &t_below, const time_point &when,
-                       float density, int zlevel, const regional_settings *rsettings );
+        void draw_map( mapgendata &dat );
 
-        void draw_office_tower( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                                float density );
-        void draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                       float density );
-        void draw_silo( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                        float density );
-        void draw_temple( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                          float density );
-        void draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                        float density );
-        void draw_spiral( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                          float density );
-        void draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                               float density );
-        void draw_megastore( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                             float density );
-        void draw_fema( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                        float density );
-        void draw_anthill( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                           float density );
-        void draw_slimepit( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                            float density );
-        void draw_spider_pit( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                              float density );
-        void draw_triffid( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                           float density );
-        void draw_connections( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
-                               float density );
+        void draw_office_tower( mapgendata &dat );
+        void draw_lab( mapgendata &dat );
+        void draw_temple( mapgendata &dat );
+        void draw_mine( mapgendata &dat );
+        void draw_spiral( mapgendata &dat );
+        void draw_sarcophagus( mapgendata &dat );
+        void draw_megastore( mapgendata &dat );
+        void draw_fema( mapgendata &dat );
+        void draw_anthill( mapgendata &dat );
+        void draw_slimepit( mapgendata &dat );
+        void draw_spider_pit( mapgendata &dat );
+        void draw_triffid( mapgendata &dat );
+        void draw_connections( mapgendata &dat );
 
         // Builds a transparency cache and returns true if the cache was invalidated.
         // Used to determine if seen cache should be rebuilt.

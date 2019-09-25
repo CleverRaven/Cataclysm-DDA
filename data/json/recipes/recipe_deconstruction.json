@@ -330,7 +330,7 @@
   {
     "result": "binoculars",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 12 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "lens", 2 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "scrap", 1 ] ] ]
   },
@@ -414,7 +414,7 @@
   {
     "result": "blade",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ] ]
   },
@@ -474,7 +474,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 6,
-    "time": "120 m",
+    "time": "2 h",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -496,7 +496,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 6,
-    "time": "120 m",
+    "time": "2 h",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -623,7 +623,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 3,
-    "time": "180 m",
+    "time": "3 h",
     "using": [ [ "welding_standard", 6 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -641,7 +641,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 6,
-    "time": "120 m",
+    "time": "2 h",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -663,7 +663,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 6,
-    "time": "120 m",
+    "time": "2 h",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -686,7 +686,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 6,
-    "time": "120 m",
+    "time": "2 h",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -709,7 +709,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 3,
-    "time": "60 m",
+    "time": "1 h",
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -731,7 +731,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 3,
-    "time": "60 m",
+    "time": "1 h",
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -751,7 +751,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 3,
-    "time": "60 m",
+    "time": "1 h",
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -767,11 +767,31 @@
     ]
   },
   {
+    "result": "broken_crows_m240",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "1 h",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "m240", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
+    ]
+  },
+  {
     "result": "broken_turret_bmg",
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 3,
-    "time": "60 m",
+    "time": "1 h",
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -791,7 +811,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 3,
-    "time": "60 m",
+    "time": "1 h",
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -812,7 +832,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "120 m",
+    "time": "2 h",
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -836,7 +856,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 8,
-    "time": "600 m",
+    "time": "10 h",
     "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -857,7 +877,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 8,
-    "time": "600 m",
+    "time": "10 h",
     "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -878,7 +898,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 8,
-    "time": "600 m",
+    "time": "10 h",
     "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -899,7 +919,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 8,
-    "time": "600 m",
+    "time": "10 h",
     "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -926,7 +946,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 8,
-    "time": "300 m",
+    "time": "5 h",
     "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -949,7 +969,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 6,
-    "time": "150 m",
+    "time": "2 h 30 m",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -970,7 +990,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 6,
-    "time": "150 m",
+    "time": "2 h 30 m",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -987,11 +1007,68 @@
     ]
   },
   {
+    "result": "broken_grocerybot",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "150 m",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "android_legs", 1 ] ],
+      [ [ "android_chassis", 1 ] ],
+      [ [ "android_arms", 1 ] ],
+      [ [ "medium_storage_battery", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_grocerybot_busted",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "150 m",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "self_monitoring_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "android_legs", 1 ] ],
+      [ [ "android_chassis", 1 ] ],
+      [ [ "medium_storage_battery", 1 ] ]
+    ]
+  },
+  {
+    "result": "bot_grocerybot_busted",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "150 m",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "self_monitoring_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "android_legs", 1 ] ],
+      [ [ "android_chassis", 1 ] ],
+      [ [ "medium_storage_battery", 1 ] ]
+    ]
+  },
+  {
     "result": "broken_dispatch",
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "60 m",
+    "time": "1 h",
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -1015,7 +1092,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "60 m",
+    "time": "1 h",
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -1039,7 +1116,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "300 m",
+    "time": "5 h",
     "using": [ [ "soldering_standard", 20 ] ],
     "components": [ [ [ "processor", 4 ] ], [ [ "power_supply", 1 ] ], [ [ "e_scrap", 6 ] ], [ [ "solder_wire", 1 ] ] ]
   },
@@ -1048,7 +1125,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "300 m",
+    "time": "5 h",
     "using": [ [ "soldering_standard", 20 ] ],
     "components": [ [ [ "processor", 4 ] ], [ [ "power_supply", 1 ] ], [ [ "e_scrap", 6 ] ], [ [ "solder_wire", 1 ] ] ]
   },
@@ -1057,7 +1134,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "300 m",
+    "time": "5 h",
     "using": [ [ "soldering_standard", 20 ] ],
     "components": [ [ [ "processor", 4 ] ], [ [ "power_supply", 1 ] ], [ [ "e_scrap", 6 ] ], [ [ "solder_wire", 1 ] ] ]
   },
@@ -1066,7 +1143,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "300 m",
+    "time": "5 h",
     "using": [ [ "soldering_standard", 20 ] ],
     "components": [ [ [ "processor", 4 ] ], [ [ "RAM", 10 ] ], [ [ "power_supply", 1 ] ], [ [ "e_scrap", 6 ] ], [ [ "solder_wire", 1 ] ] ]
   },
@@ -1075,7 +1152,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "300 m",
+    "time": "5 h",
     "using": [ [ "soldering_standard", 20 ] ],
     "components": [
       [ [ "processor", 4 ] ],
@@ -1091,7 +1168,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "300 m",
+    "time": "5 h",
     "using": [ [ "soldering_standard", 20 ] ],
     "components": [
       [ [ "processor", 4 ] ],
@@ -1106,7 +1183,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "300 m",
+    "time": "5 h",
     "using": [ [ "soldering_standard", 20 ] ],
     "components": [
       [ [ "processor", 10 ] ],
@@ -1122,7 +1199,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "300 m",
+    "time": "5 h",
     "using": [ [ "soldering_standard", 20 ] ],
     "components": [
       [ [ "processor", 5 ] ],
@@ -1138,7 +1215,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 5,
-    "time": "300 m",
+    "time": "5 h",
     "using": [ [ "soldering_standard", 20 ] ],
     "components": [
       [ [ "processor", 15 ] ],
@@ -1154,7 +1231,7 @@
     "type": "uncraft",
     "skill_used": "mechanics",
     "difficulty": 5,
-    "time": "300 m",
+    "time": "5 h",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -1170,7 +1247,7 @@
     "type": "uncraft",
     "skill_used": "mechanics",
     "difficulty": 4,
-    "time": "400 m",
+    "time": "6 h 40 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -1186,7 +1263,7 @@
     "type": "uncraft",
     "skill_used": "mechanics",
     "difficulty": 4,
-    "time": "400 m",
+    "time": "6 h 40 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "motor_tiny", 24 ] ], [ [ "power_supply", 8 ] ], [ [ "cable", 16 ] ], [ [ "scrap", 14 ] ] ]
@@ -1196,7 +1273,7 @@
     "type": "uncraft",
     "skill_used": "mechanics",
     "difficulty": 4,
-    "time": "400 m",
+    "time": "6 h 40 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "motor_small", 6 ] ], [ [ "power_supply", 6 ] ], [ [ "cable", 12 ] ], [ [ "steel_chunk", 6 ] ] ]
@@ -1206,7 +1283,7 @@
     "type": "uncraft",
     "skill_used": "mechanics",
     "difficulty": 4,
-    "time": "400 m",
+    "time": "6 h 40 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -1222,7 +1299,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 4,
-    "time": "200 m",
+    "time": "3 h 20 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -1238,7 +1315,7 @@
     "type": "uncraft",
     "skill_used": "mechanics",
     "difficulty": 5,
-    "time": "400 m",
+    "time": "6 h 40 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [
@@ -1256,7 +1333,7 @@
     "type": "uncraft",
     "skill_used": "mechanics",
     "difficulty": 5,
-    "time": "400 m",
+    "time": "6 h 40 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [
@@ -1274,7 +1351,7 @@
     "type": "uncraft",
     "skill_used": "mechanics",
     "difficulty": 4,
-    "time": "400 m",
+    "time": "6 h 40 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "motor", 2 ] ], [ [ "power_supply", 6 ] ], [ [ "cable", 4 ] ], [ [ "steel_lump", 6 ] ], [ [ "steel_chunk", 6 ] ] ]
@@ -1297,7 +1374,7 @@
   {
     "result": "camera_pro",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 12 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 5 ] ], [ [ "processor", 1 ] ], [ [ "plastic_chunk", 10 ] ], [ [ "e_scrap", 8 ] ], [ [ "lens", 2 ] ] ]
   },
@@ -1411,7 +1488,7 @@
   {
     "result": "cu_pipe",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "copper", 200 ] ] ]
@@ -1519,7 +1596,7 @@
   {
     "result": "foon",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
@@ -1533,7 +1610,7 @@
   {
     "result": "fork",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
@@ -1601,7 +1678,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "750 m",
+    "time": "12 h 30 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "welder", 500 ], [ "toolset", 750 ] ] ],
     "components": [ [ [ "steel_plate", 10 ] ], [ [ "steel_lump", 70 ] ] ]
@@ -1673,7 +1750,7 @@
     "result": "laptop",
     "type": "uncraft",
     "skill_used": "electronics",
-    "time": "60 m",
+    "time": "1 h",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "processor", 1 ] ],
@@ -1769,7 +1846,7 @@
     "result": "microwave",
     "type": "uncraft",
     "skill_used": "electronics",
-    "time": "80 m",
+    "time": "1 h 20 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "processor", 1 ] ],
@@ -1865,7 +1942,7 @@
     "result": "multi_cooker",
     "type": "uncraft",
     "skill_used": "electronics",
-    "time": "90 m",
+    "time": "1 h 30 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "processor", 1 ] ],
@@ -1905,7 +1982,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "1 m",
+    "time": "1 m 30 s",
     "qualities": [ { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "scrap", 5 ] ], [ [ "cu_pipe", 1 ] ], [ [ "pilot_light", 1 ] ], [ [ "rag", 5 ] ], [ [ "metal_tank_little", 2 ] ] ]
   },
@@ -1955,7 +2032,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "7 m",
+    "time": "7 m 30 s",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap_copper", 5 ] ], [ [ "scrap", 1 ] ] ]
   },
@@ -1965,7 +2042,7 @@
     "skill_used": "fabrication",
     "difficulty": 7,
     "skills_required": [ "electronics", 5 ],
-    "time": "80 m",
+    "time": "1 h 20 m",
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
     "components": [
@@ -1983,7 +2060,7 @@
     "skill_used": "fabrication",
     "difficulty": 8,
     "skills_required": [ "electronics", 4 ],
-    "time": "80 m",
+    "time": "1 h 20 m",
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
     "components": [
@@ -2025,7 +2102,12 @@
     "result": "radio_car_box",
     "type": "uncraft",
     "time": "30 s",
-    "components": [ [ [ "radio_car", 1 ] ], [ [ "radiocontrol", 1 ] ], [ [ "light_battery_cell", 2 ] ] ]
+    "components": [
+      [ [ "radio_car", 1 ] ],
+      [ [ "radiocontrol", 1 ] ],
+      [ [ "light_minus_battery_cell", 1 ] ],
+      [ [ "light_battery_cell", 1 ] ]
+    ]
   },
   {
     "result": "radiocontrol",
@@ -2038,14 +2120,14 @@
   {
     "result": "rag",
     "type": "uncraft",
-    "time": "60 m",
+    "time": "1 h",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "thread", 80 ] ] ]
   },
   {
     "result": "stick_fiber",
     "type": "uncraft",
-    "time": "60 m",
+    "time": "1 h",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plant_fibre", 80 ] ] ]
   },
@@ -2091,7 +2173,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 8,
-    "time": "60 m",
+    "time": "1 h",
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "motor_tiny", 3 ] ], [ [ "processor", 3 ] ], [ [ "RAM", 2 ] ], [ [ "plastic_chunk", 2 ] ] ]
@@ -2102,14 +2184,6 @@
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "blade_scythe", 1 ] ], [ [ "stick_long", 1 ] ] ]
-  },
-  {
-    "result": "seat",
-    "type": "uncraft",
-    "time": "5 m",
-    "using": [ [ "welding_standard", 6 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "spring", 2 ] ], [ [ "leather", 12 ] ] ]
   },
   {
     "result": "sf_watch",
@@ -2160,21 +2234,21 @@
   {
     "result": "spoon",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "spork",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "spring",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 7 ] ] ]
   },
@@ -2202,14 +2276,14 @@
   {
     "result": "straw_fedora",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 30 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "straw_pile", 5 ] ] ]
   },
   {
     "result": "straw_hat",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 30 s",
     "components": [ [ [ "straw_pile", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
   },
@@ -2260,7 +2334,7 @@
     "result": "television",
     "type": "uncraft",
     "skill_used": "electronics",
-    "time": "60 m",
+    "time": "1 h",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "processor", 1 ] ],
@@ -2425,7 +2499,7 @@
     "skill_used": "electronics",
     "difficulty": 3,
     "skills_required": [ "fabrication", 2 ],
-    "time": "5 m",
+    "time": "5 m 24 s",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "e_scrap", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
@@ -2446,7 +2520,7 @@
   {
     "result": "wire",
     "type": "uncraft",
-    "time": "1 m",
+    "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
@@ -2484,7 +2558,7 @@
   {
     "result": "box_small",
     "type": "uncraft",
-    "time": "2 m",
+    "time": "2 m 3 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "paper", 35 ] ] ]
   },
@@ -2506,7 +2580,7 @@
     "result": "washing_machine",
     "type": "uncraft",
     "skill_used": "electronics",
-    "time": "60 m",
+    "time": "1 h",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "cable", 8 ] ],
@@ -2524,7 +2598,7 @@
     "result": "dishwasher",
     "type": "uncraft",
     "skill_used": "electronics",
-    "time": "60 m",
+    "time": "1 h",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [
       [ [ "cable", 8 ] ],
@@ -2732,7 +2806,7 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "skills_required": [ "cooking", 1 ],
-    "time": "60 m",
+    "time": "1 h",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "using": [ [ "soldering_standard", 20 ] ],
     "components": [
@@ -2750,7 +2824,7 @@
     "result": "melting_point",
     "type": "uncraft",
     "skill_used": "electronics",
-    "time": "60 m",
+    "time": "1 h",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "using": [ [ "soldering_standard", 5 ] ],
     "components": [
@@ -2766,7 +2840,7 @@
     "result": "vortex",
     "type": "uncraft",
     "skill_used": "electronics",
-    "time": "60 m",
+    "time": "1 h",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "using": [ [ "soldering_standard", 5 ] ],
     "components": [
@@ -2790,7 +2864,7 @@
     "result": "voltmeter",
     "type": "uncraft",
     "skill_used": "electronics",
-    "time": "60 m",
+    "time": "1 h",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "scrap", 2 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 6 ] ], [ [ "plastic_chunk", 4 ] ], [ [ "e_scrap", 3 ] ] ]
   },
@@ -2832,7 +2906,7 @@
     "result": "microcentrifuge",
     "type": "uncraft",
     "skill_used": "fabrication",
-    "time": "60 m",
+    "time": "1 h",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "using": [ [ "soldering_standard", 15 ] ],
     "components": [
@@ -2875,7 +2949,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 8,
-    "time": "120 m",
+    "time": "2 h",
     "decomp_learn": [ [ "electronics", 3 ], [ "fabrication", 2 ] ],
     "using": [ [ "soldering_standard", 80 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -2894,7 +2968,7 @@
     "result": "adobe_pallet_done",
     "type": "uncraft",
     "skill_used": "fabrication",
-    "time": 1000,
+    "time": "1 m",
     "difficulty": 1,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "adobe_brick", 20 ] ], [ [ "frame_wood_light", 1 ] ] ]
@@ -2920,7 +2994,7 @@
     "type": "uncraft",
     "skill_used": "electronics",
     "difficulty": 1,
-    "time": "80 m",
+    "time": "1 h 20 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "circuit", 1 ] ],

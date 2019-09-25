@@ -1290,6 +1290,23 @@
   },
   {
     "type": "snippet",
+    "category": "<follower_mutiny>",
+    "//": "NPC shout when the NPC is leaving your_followers because the NPC hates you due to abuse.  Always followed by 'adios, motherfucker!'  Could use more variety.",
+    "text": [
+      "I've done so much for you, and you can't even keep me fed!",
+      "You are the worst person in the world!",
+      "Why are you such a horrible leader?",
+      "I trusted you, and you can't even provide food!",
+      "I don't have to take this abuse from you, there are plenty of people to abuse me!",
+      "You said you would keep me safe, and you haven't!",
+      "There's only a couple hundred people left in the world, and I relied on the dumbest one!",
+      "You're a monster!",
+      "You call this safe?  You're crazy and incompetent!",
+      "That was the last straw!  I'm not following your orders anymore!"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<granny_name_g>",
     "text": [ "child", "my child", "dear", "my dear", "friend", "survivor" ]
   },

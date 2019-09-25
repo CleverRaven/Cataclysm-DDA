@@ -22,6 +22,7 @@
 #include "dialogue.h"
 #include "effect.h"
 #include "emit.h"
+#include "event_statistics.h"
 #include "faction.h"
 #include "fault.h"
 #include "filesystem.h"
@@ -375,6 +376,9 @@ void DynamicDataLoader::initialize()
     add( "SPELL", &spell_type::load_spell );
     add( "clothing_mod", &clothing_mods::load );
     add( "ter_furn_transform", &ter_furn_transform::load_transform );
+    add( "event_transformation", &event_transformation::load_transformation );
+    add( "event_statistic", &event_statistic::load_statistic );
+    add( "score", &score::load_score );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -519,6 +523,9 @@ void DynamicDataLoader::unload_data()
     VehicleGroup::reset();
     VehiclePlacement::reset();
     VehicleSpawn::reset();
+    event_transformation::reset();
+    event_statistic::reset();
+    score::reset();
 
     // TODO:
     //    Name::clear();
@@ -667,7 +674,10 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "NPC templates" ), &npc_template::check_consistency },
             { _( "Body parts" ), &body_part_struct::check_consistency },
             { _( "Anatomies" ), &anatomy::check_consistency },
-            { _( "Spells" ), &spell_type::check_consistency }
+            { _( "Spells" ), &spell_type::check_consistency },
+            { _( "Transformations" ), &event_transformation::check_consistency },
+            { _( "Statistics" ), &event_statistic::check_consistency },
+            { _( "Scores" ), &score::check_consistency }
         }
     };
 

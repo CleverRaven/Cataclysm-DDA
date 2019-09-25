@@ -80,6 +80,15 @@
     "chance": 15
   },
   {
+    "id": "emit_tindalos_gas_leak",
+    "type": "emit",
+    "//": "Slow infrequent leak of tindalos gas (example: hound of tindalos movement)",
+    "field": "fd_tindalos_gas",
+    "intensity": 3,
+    "qty": 10,
+    "chance": 15
+  },
+  {
     "id": "emit_toxic_cloud",
     "type": "emit",
     "//": "Small cloud of toxic gas emitted infrequently",
@@ -190,6 +199,34 @@
     "chance": 100
   },
   {
+    "id": "emit_hot_air1_cbm",
+    "type": "emit",
+    "field": "fd_hot_air1",
+    "intensity": 3,
+    "qty": 1
+  },
+  {
+    "id": "emit_hot_air2_cbm",
+    "type": "emit",
+    "field": "fd_hot_air2",
+    "intensity": 3,
+    "qty": 1
+  },
+  {
+    "id": "emit_hot_air3_cbm",
+    "type": "emit",
+    "field": "fd_hot_air3",
+    "intensity": 3,
+    "qty": 1
+  },
+  {
+    "id": "emit_hot_air4_cbm",
+    "type": "emit",
+    "field": "fd_hot_air4",
+    "intensity": 3,
+    "qty": 1
+  },
+  {
     "id": "emit_glimmer",
     "type": "emit",
     "field": "fd_dazzling",
@@ -254,6 +291,7 @@
     "id": "emit_fog_plume",
     "type": "emit",
     "field": "fd_fog",
+    "intensity": 2,
     "qty": 200
   }
 ]

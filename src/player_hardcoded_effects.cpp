@@ -7,6 +7,7 @@
 #include "effect.h"
 #include "event_bus.h"
 #include "fungal_effects.h"
+#include "field_type.h"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -23,6 +24,7 @@
 #include "enums.h"
 #include "mtype.h"
 #include "stomach.h"
+#include "teleport.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -251,21 +253,21 @@ static void eff_fun_hallu( player &u, effect &it )
         }
         if( u.is_npc() && one_in( 1200 ) ) {
             static const std::array<std::string, 4> npc_hallu = {{
-                    _( "\"I think it's starting to kick in.\"" ),
-                    _( "\"Oh God, what's happening?\"" ),
-                    _( "\"Of course... it's all fractals!\"" ),
-                    _( "\"Huh?  What was that?\"" )
+                    translate_marker( "\"I think it's starting to kick in.\"" ),
+                    translate_marker( "\"Oh God, what's happening?\"" ),
+                    translate_marker( "\"Of course... it's all fractals!\"" ),
+                    translate_marker( "\"Huh?  What was that?\"" )
                 }
             };
 
-            const std::string &npc_text = random_entry_ref( npc_hallu );
             ///\EFFECT_STR_NPC increases volume of hallucination sounds (NEGATIVE)
 
             ///\EFFECT_INT_NPC decreases volume of hallucination sounds
             int loudness = 20 + u.str_cur - u.int_cur;
             loudness = ( loudness > 5 ? loudness : 5 );
             loudness = ( loudness < 30 ? loudness : 30 );
-            sounds::sound( u.pos(), loudness, sounds::sound_t::speech, npc_text, false, "speech",
+            sounds::sound( u.pos(), loudness, sounds::sound_t::speech, _( random_entry_ref( npc_hallu ) ),
+                           false, "speech",
                            loudness < 15 ? ( u.male ? "NPC_m" : "NPC_f" ) : ( u.male ? "NPC_m_loud" : "NPC_f_loud" ) );
         }
     } else if( dur == peakTime ) {
@@ -615,9 +617,23 @@ void player::hardcoded_effects( effect &it )
                 if( !is_npc() ) {
                     add_msg( _( "Glowing lights surround you, and you teleport." ) );
                 }
-                g->teleport();
+                teleport::teleport( *this );
                 g->events().send<event_type::teleglow_teleports>( getID() );
                 if( one_in( 10 ) ) {
+                    // Set ourselves up for removal
+                    it.set_duration( 0_turns );
+                }
+            }
+            if( one_in( 7200 - ( dur - 360_minutes ) / 4_turns ) ) {
+                add_msg_if_player( m_bad, _( "You are beset with a vision of a prowling beast." ) );
+                for( const tripoint &dest : g->m.points_in_radius( pos(), 6 ) ) {
+                    if( g->m.is_cornerfloor( dest ) ) {
+                        g->m.add_field( dest, fd_tindalos_rift, 3 );
+                        add_msg_if_player( m_info, _( "Your surroundings are permeated with a foul scent." ) );
+                        break;
+                    }
+                }
+                if( one_in( 2 ) ) {
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
                 }

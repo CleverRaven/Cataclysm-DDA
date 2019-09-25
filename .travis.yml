@@ -45,6 +45,7 @@ branches:
 # - SANITIZE=address
 # - LOCALIZE=0
 # - A clang-tidy run
+# - Tests with important mods enabled (Magiclysm, RL_Classes)
 # We try to minimize the number of builds subject to those constraints.
 
 # To see what toolchains are available, consult the following:
@@ -66,8 +67,8 @@ jobs:
 
     # Then build different configurations and targets in parallel.
     - stage: "Main Compilers"
-      env: COMPILER=g++ LOCALIZE=0
-      name: "GCC 5.3 Make build with curses and no Localization"
+      env: COMPILER=g++ MODS=--mods=magiclysm LOCALIZE=0
+      name: "GCC 5.3 Make build with curses, Magiclysm, and no Localization"
       compiler: gcc
       addons: &gcc53
         apt:

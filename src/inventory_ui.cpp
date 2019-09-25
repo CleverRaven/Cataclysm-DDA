@@ -38,7 +38,6 @@
 #include <map>
 #include <limits>
 #include <numeric>
-#include <sstream>
 #include <algorithm>
 #include <iterator>
 #include <type_traits>
@@ -66,7 +65,7 @@ static const std::set<std::string> ordered_categories = {{ "ITEMS_WORN" }};
 
 struct navigation_mode_data {
     navigation_mode next_mode;
-    std::string name;
+    translation name;
     nc_color color;
 };
 
@@ -92,18 +91,17 @@ class selection_column_preset : public inventory_selector_preset
             const item_location &item = entry.any_item();
 
             if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-                res << string_format( _( "%d of %d" ), entry.chosen_count, available_count ) << ' ';
+                //~ %1$d: chosen count, %2$d: available count
+                res << string_format( pgettext( "count", "%1$d of %2$d" ), entry.chosen_count,
+                                      available_count ) << ' ';
             } else if( available_count != 1 ) {
                 res << available_count << ' ';
             }
             if( item->is_money() ) {
                 assert( available_count == entry.get_stack_size() );
                 if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
-                    res << string_format(
-                            //~ In the following string, the %s is the amount of money on the selected cards as passed by the display money function, out of the total amount of money on the cards, which is specified by the format_money function")
-                            _( "%s of %s" ),
-                            item->display_money( available_count, entry.get_selected_charges() ),
-                            format_money( entry.get_total_charges() ) );
+                    res << item->display_money( available_count, entry.get_total_charges(),
+                                                entry.get_selected_charges() );
                 } else {
                     res << item->display_money( available_count, entry.get_total_charges() );
                 }
@@ -1397,11 +1395,11 @@ void inventory_selector::draw_header( const catacurses::window &w ) const
 inventory_selector::stat display_stat( const std::string &caption, int cur_value, int max_value,
                                        const std::function<std::string( int )> &disp_func )
 {
-    const std::string color = string_from_color( cur_value > max_value ? c_red : c_light_gray );
+    const nc_color color = cur_value > max_value ? c_red : c_light_gray;
     return {{
             caption,
-            string_format( "<color_%s>%s</color>", color, disp_func( cur_value ) ), "/",
-            string_format( "<color_light_gray>%s</color>", disp_func( max_value ) )
+            colorize( disp_func( cur_value ), color ), "/",
+            colorize( disp_func( max_value ), c_light_gray )
         }};
 }
 
@@ -1439,11 +1437,11 @@ std::vector<std::string> inventory_selector::get_stats() const
     const size_t num_stats = 2;
     const std::array<stat, num_stats> stats = get_raw_stats();
     // Streams for every stat.
-    std::array<std::ostringstream, num_stats> lines;
+    std::array<std::string, num_stats> lines;
     std::array<size_t, num_stats> widths;
     // Add first cells and spaces after them.
     for( size_t i = 0; i < stats.size(); ++i ) {
-        lines[i] << stats[i][0] << ' ';
+        lines[i] += string_format( "%s", stats[i][0] ) + " ";
     }
     // Now add the rest of the cells and align them to the right.
     for( size_t j = 1; j < stats.front().size(); ++j ) {
@@ -1457,19 +1455,13 @@ std::vector<std::string> inventory_selector::get_stats() const
         // Align all stats in this cell with spaces.
         for( size_t i = 0; i < stats.size(); ++i ) {
             if( max_w > widths[i] ) {
-                lines[i] << std::string( max_w - widths[i], ' ' );
+                lines[i] += std::string( max_w - widths[i], ' ' );
             }
-            lines[i] << stats[i][j];
+            lines[i] += string_format( "%s", stats[i][j] );
         }
     }
     // Construct the final result.
-    std::vector<std::string> result;
-    std::transform( lines.begin(), lines.end(), std::back_inserter( result ),
-    []( const std::ostringstream & elem ) {
-        return elem.str();
-    } );
-
-    return result;
+    return std::vector<std::string>( lines.begin(), lines.end() );
 }
 
 void inventory_selector::resize_window( int width, int height )
@@ -1581,7 +1573,7 @@ void inventory_selector::draw_frame( const catacurses::window &w ) const
 std::pair<std::string, nc_color> inventory_selector::get_footer( navigation_mode m ) const
 {
     if( has_available_choices() ) {
-        return std::make_pair( get_navigation_data( m ).name,
+        return std::make_pair( get_navigation_data( m ).name.translated(),
                                get_navigation_data( m ).color );
     }
     return std::make_pair( _( "There are no available choices" ), i_red );
@@ -1802,8 +1794,8 @@ void inventory_selector::append_column( inventory_column &column )
 const navigation_mode_data &inventory_selector::get_navigation_data( navigation_mode m ) const
 {
     static const std::map<navigation_mode, navigation_mode_data> mode_data = {
-        { navigation_mode::ITEM,     { navigation_mode::CATEGORY, std::string(),                  c_light_gray } },
-        { navigation_mode::CATEGORY, { navigation_mode::ITEM,     _( "Category selection mode" ), h_white  } }
+        { navigation_mode::ITEM,     { navigation_mode::CATEGORY, translation(),                               c_light_gray } },
+        { navigation_mode::CATEGORY, { navigation_mode::ITEM,     to_translation( "Category selection mode" ), h_white  } }
     };
 
     return mode_data.at( m );

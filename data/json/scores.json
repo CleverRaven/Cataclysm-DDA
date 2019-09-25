@@ -1,0 +1,113 @@
+[
+  {
+    "id": "avatar_id",
+    "type": "event_statistic",
+    "stat_type": "unique_value",
+    "event_type": "game_start",
+    "field": "avatar_id"
+  },
+  {
+    "id": "avatar_kills",
+    "type": "event_transformation",
+    "event_type": "character_kills_monster",
+    "value_constraints": { "killer": { "equals_statistic": "avatar_id" } }
+  },
+  {
+    "id": "num_avatar_kills",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_kills"
+  },
+  {
+    "id": "score_kills",
+    "type": "score",
+    "description": "Number of monsters killed: %s",
+    "statistic": "num_avatar_kills"
+  },
+  {
+    "id": "moves_not_mounted",
+    "type": "event_transformation",
+    "event_type": "avatar_moves",
+    "value_constraints": { "mount": { "equals": "" } }
+  },
+  {
+    "id": "num_moves",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_type": "avatar_moves"
+  },
+  {
+    "id": "num_moves_not_mounted",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_not_mounted"
+  },
+  {
+    "id": "score_moves",
+    "type": "score",
+    "description": "Distance moved: %s squares",
+    "statistic": "num_moves"
+  },
+  {
+    "id": "score_walked",
+    "type": "score",
+    "description": "Distance walked: %s squares",
+    "statistic": "num_moves_not_mounted"
+  },
+  {
+    "id": "avatar_takes_damage",
+    "type": "event_transformation",
+    "event_type": "character_takes_damage",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } }
+  },
+  {
+    "id": "avatar_damage_taken",
+    "type": "event_statistic",
+    "stat_type": "total",
+    "field": "damage",
+    "event_transformation": "avatar_takes_damage"
+  },
+  {
+    "id": "score_damage_taken",
+    "type": "score",
+    "description": "Damage taken: %s damage",
+    "statistic": "avatar_damage_taken"
+  },
+  {
+    "id": "avatar_heals_damage",
+    "type": "event_transformation",
+    "event_type": "character_heals_damage",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } }
+  },
+  {
+    "id": "avatar_damage_healed",
+    "type": "event_statistic",
+    "stat_type": "total",
+    "field": "damage",
+    "event_transformation": "avatar_heals_damage"
+  },
+  {
+    "id": "score_damage_healed",
+    "type": "score",
+    "description": "Damage healed: %s damage",
+    "statistic": "avatar_damage_healed"
+  },
+  {
+    "id": "avatar_headshots",
+    "type": "event_transformation",
+    "event_type": "character_gets_headshot",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } }
+  },
+  {
+    "id": "avatar_num_headshots",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_headshots"
+  },
+  {
+    "id": "score_headshots",
+    "type": "score",
+    "description": { "ctxt": "score description", "str": "Headshots: %s" },
+    "statistic": "avatar_num_headshots"
+  }
+]

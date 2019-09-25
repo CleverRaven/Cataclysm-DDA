@@ -7,7 +7,7 @@
     "time": "50 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "//": "No trinitrotoluene in the game at present, but Composition B includes RDX as well.",
-    "components": [ [ [ "pilot_light", 1 ] ], [ [ "canister_empty", 1 ] ], [ [ "chem_rdx", 2 ] ] ]
+    "components": [ [ [ "pilot_light", 1 ] ], [ [ "canister_empty", 1 ] ], [ [ "chem_rdx", 200 ] ] ]
   },
   {
     "type": "uncraft",

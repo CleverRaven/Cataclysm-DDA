@@ -431,6 +431,38 @@
     "components": [ [ [ "gunpowder", 5 ], [ "gunpowder_rifle", 5 ], [ "gunpowder_magnum_pistol", 5 ] ] ]
   },
   {
+    "result": "bp_357mag_fmj",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 4 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_357mag", 1 ] ],
+    "components": [ [ [ "chem_black_powder", 8 ] ] ]
+  },
+  {
+    "result": "bp_357mag_jhp",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 4 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_357mag", 1 ] ],
+    "components": [ [ [ "chem_black_powder", 8 ] ] ]
+  },
+  {
     "result": "bp_38_special",
     "type": "recipe",
     "category": "CC_AMMO",
@@ -522,6 +554,22 @@
     "reversible": true,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_10mm", 1 ] ],
     "components": [ [ [ "gunpowder", 5 ], [ "gunpowder_magnum_pistol", 5 ] ] ]
+  },
+  {
+    "result": "bp_10mm_fmj",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 4 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_10mm", 1 ] ],
+    "components": [ [ [ "chem_black_powder", 8 ] ] ]
   },
   {
     "result": "reloaded_44fmj",

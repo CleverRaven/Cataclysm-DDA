@@ -417,7 +417,7 @@ class atm_menu
                                .only_digits( true )
                                .query_int();
 
-            return ( amount > max ) ? max : ( amount <= 0 ) ? 0 : amount;
+            return clamp( amount, 0, max );
         }
 
         //!Get a new cash card. $1.00 fine.
@@ -894,13 +894,13 @@ void iexamine::rubble( player &p, const tripoint &examp )
  */
 void iexamine::chainfence( player &p, const tripoint &examp )
 {
-    // Skip prompt if easy to climb.
-    if( !g->m.has_flag( "CLIMB_SIMPLE", examp ) ) {
-        if( !query_yn( _( "Climb %s?" ), g->m.tername( examp ) ) ) {
-            none( p, examp );
-            return;
-        }
+    // We're not going to do anything if we're already on that point.
+    // Also prompt the player before taking an action.
+    if( p.pos() == examp || !query_yn( _( "Climb obstacle?" ) ) ) {
+        none( p, examp );
+        return;
     }
+
     if( g->m.has_flag( "CLIMB_SIMPLE", examp ) && p.has_trait( trait_PARKOUR ) ) {
         add_msg( _( "You vault over the obstacle with ease." ) );
         p.moves -= 100; // Not tall enough to warrant spider-climbing, so only relevant trait.
@@ -2117,7 +2117,8 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
     g->m.furn_set( tile, old_furn );
     p.mod_moves( -to_moves<int>( 10_seconds ) );
 
-    add_msg( m_info, _( "You fertilize the %s with the %s." ), seed->get_plant_name(),
+    //~ %1$s: plant name, %2$s: fertilizer name
+    add_msg( m_info, _( "You fertilize the %1$s with the %2$s." ), seed->get_plant_name(),
              planted.front().tname() );
 }
 
@@ -4441,9 +4442,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         case UNINSTALL_CBM: {
             bionic_collection installed_bionics = *patient.my_bionics;
             if( installed_bionics.empty() ) {
-                //~ %1$s is patient name
                 popup_player_or_npc( patient, _( "You don't have any bionics installed." ),
-                                     _( "%1$s doesn't have any bionics installed." ) );
+                                     _( "<npcname> doesn't have any bionics installed." ) );
                 return;
             }
 
@@ -4539,9 +4539,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
             }
             if( broken_limbs_count == 0 ) {
-                //~ %1$s is patient name
                 popup_player_or_npc( patient, _( "You have no limbs that require splinting." ),
-                                     _( "%1$s doesn't have limbs that require splinting." ) );
+                                     _( "<npcname> doesn't have limbs that require splinting." ) );
             }
             break;
         }

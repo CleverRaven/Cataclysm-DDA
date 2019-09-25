@@ -34,11 +34,11 @@ class tileray
         bool infinite;  // ray is infinite (end will always return true)
     public:
         tileray();
-        tileray( int adx, int ady );
+        tileray( const point &ad );
         tileray( int adir );
 
-        void init( int adx, int ady );  // init ray with dx,dy
-        void init( int adir );          // init ray with direction
+        void init( const point &ad );  // init ray with ad
+        void init( int adir );         // init ray with direction
 
         int dx() const;       // return dx of last advance (-1 to 1)
         int dy() const;       // return dy of last advance (-1 to 1)

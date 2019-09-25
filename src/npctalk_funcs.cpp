@@ -307,8 +307,9 @@ void talk_function::goto_location( npc &p )
         camps.push_back( temp_camp );
     }
     for( auto iter : camps ) {
-        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "%s at (%d, %d)" ), iter->camp_name(),
-                                 iter->camp_omt_pos().x, iter->camp_omt_pos().y );
+        //~ %1$s: camp name, %2$d and %3$d: coordinates
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, pgettext( "camp", "%1$s at (%2$d, %3$d)" ),
+                                 iter->camp_name(), iter->camp_omt_pos().x, iter->camp_omt_pos().y );
     }
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My current location" ) );
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
@@ -766,7 +767,15 @@ void talk_function::leave( npc &p )
 {
     add_msg( _( "%s leaves." ), p.name );
     g->remove_npc_follower( p.getID() );
-    p.clear_fac();
+    std::string new_fac_id = "solo_";
+    new_fac_id += p.name;
+    // create a new "lone wolf" faction for this one NPC
+    faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( p.name,
+                            faction_id( new_fac_id ), faction_id( "no_faction" ) );
+    p.set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
+    if( new_solo_fac ) {
+        new_solo_fac->known_by_u = true;
+    }
     p.set_attitude( NPCATT_NULL );
 }
 

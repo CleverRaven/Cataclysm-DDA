@@ -19,6 +19,7 @@
   * [Building with Visual Studio](#building-with-visual-studio)
   * [Building with MSYS2](#building-with-msys2)
   * [Building with CYGWIN](#building-with-cygwin)
+  * [Building with Clang and MinGW64](#building-with-clang-and-mingw64)
 * [BSDs](#bsds)
 
 # General Linux Guide
@@ -589,6 +590,10 @@ MSYS2 strikes a balance between a native Windows application and a UNIX-like env
 See [COMPILING-CYGWIN.md](COMPILING-CYGWIN.md) for instructions on how to set up and use a build environment using CYGWIN on windows.
 
 CYGWIN attempts to more fully emulate a POSIX environment, to be "more unix" than MSYS2. It is a little less modern in some respects, and lacks the convenience of the MSYS2 package manager.
+
+## Building with Clang and MinGW64
+
+Clang by default uses MSVC on Windows, but also supports the MinGW64 library. Simply replace `CLANG=1` with `"CLANG=clang++ -target x86_64-pc-windows-gnu -pthread"` in your batch script, and make sure MinGW64 is in your path. You may also need to apply [a patch](https://sourceforge.net/p/mingw-w64/mailman/message/36386405/) to `float.h` of MinGW64 for the unit test to compile.
 
 # BSDs
 

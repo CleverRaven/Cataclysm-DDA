@@ -3,10 +3,7 @@
     "type": "recipe_group",
     "name": "all_faction_base_types",
     "building_type": "NONE",
-    "recipes": [
-      { "id": "faction_base_modular_hub_field_0", "description": "Field Camp", "om_terrains": [ "field" ] },
-      { "id": "faction_base_camp_0", "description": "Old Camp", "om_terrains": [ "field" ] }
-    ]
+    "recipes": [ { "id": "faction_base_modular_hub_field_0", "description": "Field Camp", "om_terrains": [ "field" ] } ]
   },
   {
     "type": "recipe_group",
@@ -16,7 +13,10 @@
       { "id": "faction_base_farm_0", "description": "Farm", "om_terrains": [ "field" ] },
       { "id": "faction_base_garage_0", "description": "Garage", "om_terrains": [ "field" ] },
       { "id": "faction_base_kitchen_0", "description": "Kitchen", "om_terrains": [ "field" ] },
-      { "id": "faction_base_blacksmith_0", "description": "Blacksmith Shop", "om_terrains": [ "field" ] }
+      { "id": "faction_base_blacksmith_0", "description": "Blacksmith Shop", "om_terrains": [ "field" ] },
+      { "id": "faction_base_livestock_0", "description": "Livestock Area", "om_terrains": [ "field" ] },
+      { "id": "faction_base_storehouse_0", "description": "Central Storage Building", "om_terrains": [ "field" ] },
+      { "id": "faction_base_workshop_0", "description": "Fabrication workshop", "om_terrains": [ "field" ] }
     ]
   },
   {

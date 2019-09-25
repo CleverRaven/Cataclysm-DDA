@@ -49,6 +49,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | regional_map_settings.json  | settings for the entire map generation
 | road_vehicles.json          | vehicle spawn information for roads
 | rotatable_symbols.json      | rotatable symbols - do not edit
+| scores.json                 | statistics, scores, and achievements
 | skills.json                 | skill descriptions and ID's
 | snippets.json               | flier/poster descriptions
 | species.json                | monster species
@@ -208,6 +209,9 @@ This section describes each json file and their contents. Each json has their ow
 | fuel_options             | (_optional_) A list of fuel that this bionic can use to produce bionic power.
 | fuel_capacity            | (_optional_) Volume of fuel this bionic can store.
 | fuel_efficiency          | (_optional_) Fraction of fuel energy converted into power. (default: `0`)
+| exothermic_power_gen     | (_optional_) If true this bionic emits heat when producing power. (default: `false`)
+| power_gen_emission       | (_optional_) `emit_id` of the field emitted by this bionic when it produces energy. Emit_ids are defined in `emit.json`.
+| stat_bonus               | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
 
 ```C++
 {
@@ -219,6 +223,7 @@ This section describes each json file and their contents. Each json has their ow
     "cost"         : 0,
     "time"         : 1,
     "fuel_efficiency": 1,
+    "stat_bonus": [ [ "INT", 2 ], [ "STR", 2 ] ],
     "fuel_options": [ "battery" ],
     "fuel_capacity": 500,
     "encumbrance"  : [ [ "TORSO", 10 ], [ "ARM_L", 10 ], [ "ARM_R", 10 ], [ "LEG_L", 10 ], [ "LEG_R", 10 ], [ "FOOT_L", 10 ], [ "FOOT_R", 10 ] ],
@@ -261,7 +266,7 @@ When adding a new bionic, if it's not included with another one, you must also a
 
 ### Item Groups
 
-Item groups have been expanded, look at doc/ITEM_SPAWN.md to their new description.
+Item groups have been expanded, look at [the detailed docs](ITEM_SPAWN.md) to their new description.
 The syntax listed here is still valid.
 
 | Identifier | Description
@@ -650,7 +655,83 @@ Mods can modify this via `add:traits` and `remove:traits`.
 "post_terrain": "t_pit_spiked"                                      // Terrain type after construction is complete
 ```
 
-## Skills
+### Scores
+
+Scores are defined in two or three steps based on *events*.  To see what events
+exist and what data they contain, read [`event.h`](../src/event.h).
+
+* First, optionally, define an `event_transformation` which converts events as
+  generated in-game into a format more suitable for your purpose.
+* Second, define an `event_statistic` which summarizes a collection of events
+  into a single value (usually a number, but other types of value are
+  possible).
+* Third, define a `score` which uses such a statistic.
+
+#### `event_transformation`
+
+Currently the only available transformation is to filter the set of events
+based on certain constraints.
+
+```C++
+"id": "moves_on_horse",
+"type": "event_transformation",
+"event_type" : "avatar_moves", // An event type.  The transformation will act on events of this type
+"value_constraints" : { // A dictionary of constraints
+    // Each key is the field to which the constraint applies
+    // The value specifies the constraint.
+    // "equals" can be used to specify a constant string value the field must take.
+    // "equals_statistic" specifies that the value must match the value of some statistic (see below)
+    "mount" : { "equals": "mon_horse" }
+}
+```
+
+#### `event_statistic`
+
+A statistic must specify a source of events via one of the following:
+
+```C++
+"event_type" : "avatar_moves" // Consider all moves of this type
+"event_transformation" : "moves_on_horse" // Consider moves resulting from this transformation
+```
+
+Then it specifies a particular `stat_type` and potentially additional details
+as follows:
+
+The number of events:
+```C++
+"stat_type" : "count"
+```
+
+The sum of the numeric value in the specified field across all events:
+```C++
+"stat_type" : "total"
+"field" : "damage"
+```
+
+Assume there is only a single event to consider, and take the value of the
+given field for that unique event:
+```C++
+"stat_type": "unique_value",
+"field": "avatar_id"
+```
+
+#### `score`
+
+Scores simply associate a description to an event for formatting in tabulations
+of scores.  The `description` specifies a string which is expected to contain a
+`%s` format specifier where the value of the statistic will be inserted.
+
+Note that even though most statistics yield an integer, you should still use
+`%s`.
+
+```C++
+"id": "score_headshots",
+"type": "score",
+"description": "Headshots: %s",
+"statistic": "avatar_num_headshots"
+```
+
+### Skills
 
 ```C++
 "ident" : "smg",  // Unique ID. Must be one continuous word, use underscores if necessary
@@ -870,7 +951,8 @@ See also VEHICLE_JSON.md
 "integral_weight" : 0,            // Weight added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
 "rigid": false,                   // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
 "insulation": 1,                  // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
-"price" : 100,                    // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges.
+"price" : 100,                    // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
+"price_post" : "1 USD",           // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
 "material" : ["COTTON"],          // Material types, can be as many as you want.  See materials.json for possible options
 "cutting" : 0,                    // (Optional, default = 0) Cutting damage caused by using it as a melee weapon
 "bashing" : -5,                   // (Optional, default = 0) Bashing damage caused by using it as a melee weapon
@@ -1109,7 +1191,7 @@ It could also be written as a generic item ("type": "GENERIC") with "armor_data"
 "color": "light_gray", // ASCII character color
 "name": "hatchet",     // In-game name displayed
 "description": "A one-handed hatchet. Makes a great melee weapon, and is useful both for cutting wood, and for use as a hammer.", // In-game description
-"price": 95,           // Used when bartering with NPCs
+"price": 95,           // Used when bartering with NPCs.  Can use string "cent" "USD" or "kUSD".
 "material": ["iron", "wood"], // Material types.  See materials.json for possible options
 "weight": 907,         // Weight, measured in grams
 "volume": "1500 ml",   // Volume, volume in ml and L can be used - "50 ml" or "2 L"
@@ -1211,7 +1293,7 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "color": "brown",     // ASCII character color
 "name": "torch (lit)", // In-game name displayed
 "description": "A large stick, wrapped in gasoline soaked rags. This is burning, producing plenty of light", // In-game description
-"price": 0,           // Used when bartering with NPCs
+"price": 0,           // Used when bartering with NPCs.  Can use string "cent" "USD" or "kUSD".
 "material": "wood",   // Material types.  See materials.json for possible options
 "techniques": "FLAMING", // Combat techniques used by this tool
 "flags": "FIRE",      // Indicates special effects

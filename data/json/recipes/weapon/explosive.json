@@ -325,7 +325,7 @@
     "skill_used": "cooking",
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 3,
-    "time": "7 m",
+    "time": "7 m 30 s",
     "autolearn": true,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -343,7 +343,7 @@
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "cooking",
     "difficulty": 7,
-    "time": "120 m",
+    "time": "2 h",
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 7 ], [ "textbook_anarch", 8 ] ],
     "tools": [ [ [ "welder", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ], [ "soldering_iron", 30 ] ] ],
@@ -382,12 +382,12 @@
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
     "difficulty": 9,
-    "time": "300 m",
+    "time": "5 h",
     "reversible": true,
     "using": [ [ "cordage", 5 ] ],
     "book_learn": [ [ "manual_launcher", 9 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "keg", 1 ], [ "keg_steel", 1 ] ], [ [ "chem_rdx", 60 ] ], [ [ "chem_hmtd", 200 ] ], [ [ "scrap", 50 ] ] ]
+    "components": [ [ [ "keg", 1 ], [ "keg_steel", 1 ] ], [ [ "chem_rdx", 6000 ] ], [ [ "chem_hmtd", 4000 ] ], [ [ "scrap", 50 ] ] ]
   },
   {
     "result": "tool_rdx_sand_bomb",
@@ -400,6 +400,12 @@
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "chem_rdx", 2 ] ], [ [ "chem_hmtd", 1 ] ], [ [ "string_6", 1 ] ], [ [ "material_sand", 50 ] ] ]
+    "components": [
+      [ [ "pipe", 1 ] ],
+      [ [ "chem_rdx", 200 ] ],
+      [ [ "chem_hmtd", 20 ] ],
+      [ [ "string_6", 1 ] ],
+      [ [ "material_sand", 50 ] ]
+    ]
   }
 ]

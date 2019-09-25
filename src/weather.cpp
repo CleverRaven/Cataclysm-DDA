@@ -97,6 +97,11 @@ void weather_effect::glare( sun_intensity intensity )
 
 ////// food vs weather
 
+int incident_sunlight( weather_type wtype, const time_point &t )
+{
+    return std::max<float>( 0.0f, sunlight( t, false ) + weather::light_modifier( wtype ) );
+}
+
 inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
                               const time_point &t, const time_duration &tick_size )
 {
@@ -120,8 +125,17 @@ inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
     }
 
     // TODO: Change this sunlight "sampling" here into a proper interpolation
-    const float tick_sunlight = sunlight( t, false ) + weather::light_modifier( wtype );
-    data.sunlight += std::max<float>( 0.0f, to_turns<int>( tick_size ) * tick_sunlight );
+    const float tick_sunlight = incident_sunlight( wtype, t );
+    data.sunlight += tick_sunlight * to_turns<int>( tick_size );
+}
+
+weather_type current_weather( const tripoint &location, const time_point &t )
+{
+    const auto wgen = g->weather.get_cur_weather_gen();
+    if( g->weather.weather_override != WEATHER_NULL ) {
+        return g->weather.weather_override;
+    }
+    return wgen.get_weather_conditions( location, t, g->get_seed() );
 }
 
 ////// Funnels.
@@ -131,7 +145,6 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
     time_duration tick_size = 0_turns;
     weather_sum data;
 
-    const auto wgen = g->weather.get_cur_weather_gen();
     for( time_point t = start; t < end; t += tick_size ) {
         const time_duration diff = end - t;
         if( diff < 10_turns ) {
@@ -142,14 +155,8 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
             tick_size = 1_minutes;
         }
 
-        weather_type wtype;
-        if( g->weather.weather_override == WEATHER_NULL ) {
-            wtype = wgen.get_weather_conditions( location, t, g->get_seed() );
-        } else {
-            wtype = g->weather.weather_override;
-        }
+        weather_type wtype = current_weather( location, t );
         proc_weather_sum( wtype, data, t, tick_size );
-        w_point w = wgen.get_weather( location, t, g->get_seed() );
         data.wind_amount += get_local_windpower( g->weather.windspeed, overmap_buffer.ter( location ),
                             location,
                             g->weather.winddirection, false ) * to_turns<int>( tick_size );
@@ -587,7 +594,8 @@ std::string weather_forecast( const point &abs_sm_pos )
     const std::string city_name = cref ? cref.city->name : std::string( _( "middle of nowhere" ) );
     // Current time
     weather_report << string_format(
-                       _( "The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s. " ),
+                       //~ %1$s: time of day, %2$s: hour of day, %3$s: city name, %4$s: weather name, %5$s: temperature value
+                       _( "The current time is %1$s Eastern Standard Time.  At %2$s in %3$s, it was %4$s.  The temperature was %5$s. " ),
                        to_string_time_of_day( calendar::turn ), print_time_just_hour( calendar::turn ),
                        city_name,
                        weather::name( g->weather.weather ), print_temperature( g->weather.temperature )

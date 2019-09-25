@@ -7,7 +7,7 @@
     "sym": "R",
     "color": "blue",
     "see_cost": 1,
-    "flags": [ "RIVER", "NO_ROTATE" ]
+    "flags": [ "RIVER", "NO_ROTATE", "SOURCE_DRINK" ]
   },
   {
     "type": "overmap_terrain",

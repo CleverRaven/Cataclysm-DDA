@@ -39,6 +39,7 @@ static const std::string part_location_structure( "structure" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_animal( "animal" );
 
+const efftype_id effect_pet( "pet" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_harnessed( "harnessed" );
 const skill_id skill_driving( "driving" );
@@ -103,7 +104,7 @@ int vehicle::slowdown( int at_velocity ) const
         slowdown -= static_drag();
     }
 
-    return slowdown;
+    return std::max( 1, slowdown );
 }
 
 void vehicle::thrust( int thd )
@@ -854,7 +855,7 @@ void vehicle::autodrive( int x, int y )
         const vehicle_part &vp = parts[ e ];
         if( vp.info().fuel_type == fuel_type_animal ) {
             monster *mon = get_pet( e );
-            if( !mon || !mon->has_effect( effect_harnessed ) ) {
+            if( !mon || !mon->has_effect( effect_harnessed ) || !mon->has_effect( effect_pet ) ) {
                 is_following = false;
             }
         }

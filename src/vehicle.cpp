@@ -75,6 +75,9 @@ static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
 static const fault_id fault_filter_air( "fault_engine_filter_air" );
 static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
 
+static bool is_sm_tile_outside( const tripoint &real_global_pos );
+static bool is_sm_tile_over_water( const tripoint &real_global_pos );
+
 const skill_id skill_mechanics( "mechanics" );
 const efftype_id effect_harnessed( "harnessed" );
 const efftype_id effect_winded( "winded" );
@@ -84,6 +87,121 @@ const int bat_energy_j = 1000;
 //
 // Point dxs for the adjacent cardinal tiles.
 point vehicles::cardinal_d[5] = { point_west, point_east, point_north, point_south, point_zero };
+
+// For reference what each function is supposed to do, see their implementation in
+// @ref DefaultRemovePartHandler. Add compatible code for it into @ref MapgenRemovePartHandler,
+// if needed.
+class RemovePartHandler
+{
+    public:
+        virtual ~RemovePartHandler() = default;
+
+        virtual void unboard( const tripoint &loc ) = 0;
+        virtual void add_item_or_charges( const tripoint &loc, item it ) = 0;
+        virtual void set_transparency_cache_dirty( int z ) = 0;
+        virtual void removed( vehicle &veh, int part ) = 0;
+        virtual void spawn_animal_from_part( item &base, const tripoint &loc ) = 0;
+};
+
+class DefaultRemovePartHandler : public RemovePartHandler
+{
+    public:
+        ~DefaultRemovePartHandler() override = default;
+
+        void unboard( const tripoint &loc ) override {
+            g->m.unboard_vehicle( loc );
+        }
+        void add_item_or_charges( const tripoint &loc, item it ) override {
+            g->m.add_item_or_charges( loc, std::move( it ) );
+        }
+        void set_transparency_cache_dirty( const int z ) override {
+            g->m.set_transparency_cache_dirty( z );
+        }
+        void removed( vehicle &veh, const int part ) override {
+            // If the player is currently working on the removed part, stop them as it's futile now.
+            const player_activity &act = g->u.activity;
+            if( act.id() == activity_id( "ACT_VEHICLE" ) && act.moves_left > 0 && act.values.size() > 6 ) {
+                if( veh_pointer_or_null( g->m.veh_at( tripoint( act.values[0], act.values[1],
+                                                      g->u.posz() ) ) ) == &veh ) {
+                    if( act.values[6] >= part ) {
+                        g->u.cancel_activity();
+                        add_msg( m_info, _( "The vehicle part you were working on has gone!" ) );
+                    }
+                }
+            }
+            // @todo maybe do this for all the nearby NPCs as well?
+
+            if( g->u.get_grab_type() == OBJECT_VEHICLE && g->u.grab_point == veh.global_part_pos3( part ) ) {
+                if( veh.parts_at_relative( veh.parts[part].mount, false ).empty() ) {
+                    add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
+                    g->u.grab( OBJECT_NONE );
+                }
+            }
+
+            g->m.dirty_vehicle_list.insert( &veh );
+        }
+        void spawn_animal_from_part( item &base, const tripoint &loc ) override {
+            tripoint target = loc;
+            bool spawn = true;
+            if( !g->is_empty( target ) ) {
+                std::vector<tripoint> valid;
+                for( const tripoint &dest : g->m.points_in_radius( target, 1 ) ) {
+                    if( g->is_empty( dest ) ) {
+                        valid.push_back( dest );
+                    }
+                }
+                if( valid.empty() ) {
+                    spawn = false;
+                } else {
+                    target = random_entry( valid );
+                }
+            }
+            base.release_monster( target, spawn );
+        }
+};
+
+class MapgenRemovePartHandler : public RemovePartHandler
+{
+    private:
+        map &m;
+
+    public:
+        MapgenRemovePartHandler( map &m ) : m( m ) { }
+
+        ~MapgenRemovePartHandler() override = default;
+
+        void unboard( const tripoint &/*loc*/ ) override {
+            debugmsg( "Tried to unboard during mapgen!" );
+            // Ignored. Will almost certainly not be called anyway, because
+            // there are no creatures that could have been mounted during mapgen.
+        }
+        void add_item_or_charges( const tripoint &loc, item it ) override {
+            if( !m.inbounds( loc ) ) {
+                debugmsg( "Tried to put item %s on invalid tile %d,%d,%d during mapgen!", it.tname(), loc.x, loc.y,
+                          loc.z );
+                tripoint copy = loc;
+                m.clip_to_bounds( copy );
+                assert( m.inbounds( copy ) ); // prevent infinite recursion
+                add_item_or_charges( copy, std::move( it ) );
+                return;
+            }
+            m.add_item_or_charges( loc, std::move( it ) );
+        }
+        void set_transparency_cache_dirty( const int /*z*/ ) override {
+            // Ignored for now. We don't initialize the transparency cache in mapgen anyway.
+        }
+        void removed( vehicle &veh, const int /*part*/ ) override {
+            // @todo check if this is necessary, it probably isn't during mapgen
+            m.dirty_vehicle_list.insert( &veh );
+        }
+        void spawn_animal_from_part( item &/*base*/, const tripoint &/*loc*/ ) override {
+            debugmsg( "Tried to spawn animal from vehicle part during mapgen!" );
+            // Ignored. The base item will not be changed and will spawn as is:
+            // still containing the animal.
+            // This should not happend during mapgen anyway.
+            // @todo *if* this actually happens: create a spawn point for the animal instead.
+        }
+};
 
 // Vehicle stack methods.
 vehicle_stack::iterator vehicle_stack::erase( vehicle_stack::const_iterator it )
@@ -690,7 +808,7 @@ void vehicle::do_autodrive()
  * (ie, any spot with multiple frames) will be completely destroyed, as that
  * was the collision point.
  */
-void vehicle::smash( float hp_percent_loss_min, float hp_percent_loss_max,
+void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_max,
                      float percent_of_parts_to_affect, point damage_origin, float damage_size )
 {
     for( auto &part : parts ) {
@@ -731,6 +849,8 @@ void vehicle::smash( float hp_percent_loss_min, float hp_percent_loss_max,
             }
         }
     }
+
+    std::unique_ptr<RemovePartHandler> handler_ptr;
     // clear out any duplicated locations
     for( int p = static_cast<int>( parts.size() ) - 1; p >= 0; p-- ) {
         vehicle_part &part = parts[ p ];
@@ -746,7 +866,18 @@ void vehicle::smash( float hp_percent_loss_min, float hp_percent_loss_max,
             if( ( part_info( p ).location.empty() &&
                   part_info( p ).get_id() == part_info( other_p ).get_id() ) ||
                 ( part_info( p ).location == part_info( other_p ).location ) ) {
-                remove_part( other_p );
+                // Deferred creation of the handler to here so it is only created when actually needed.
+                if( !handler_ptr ) {
+                    // This is a heuristic: we just assume the default handler is good enough when called
+                    // on the main game map. And assume that we run from some mapgen code if called on
+                    // another instance.
+                    if( g && &g->m == &m ) {
+                        handler_ptr = std::make_unique<DefaultRemovePartHandler>();
+                    } else {
+                        handler_ptr = std::make_unique<MapgenRemovePartHandler>( m );
+                    }
+                }
+                remove_part( other_p, *handler_ptr );
             }
         }
     }
@@ -1284,15 +1415,15 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
     // Check if the part is required by another part. Do not allow removing those.
     // { "FLAG THAT IS REQUIRED", "FLAG THAT REQUIRES", "Reason why can't remove." }
     static const std::array<std::tuple<std::string, std::string, std::string>, 9> blocking_flags = {{
-            std::make_tuple( "ENGINE", "ALTERNATOR", "Remove attached alternator first." ),
-            std::make_tuple( "BELTABLE", "SEATBELT", "Remove attached seatbelt first." ),
-            std::make_tuple( "WINDOW", "CURTAIN", "Remove attached curtains first." ),
-            std::make_tuple( "CONTROLS", "ON_CONTROLS", "Remove attached part first." ),
-            std::make_tuple( "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT", "Remove battery from mount first." ),
-            std::make_tuple( "TURRET_MOUNT", "TURRET", "Remove attached mounted weapon first." ),
-            std::make_tuple( "WHEEL_MOUNT_LIGHT", "NEEDS_WHEEL_MOUNT_LIGHT", "Remove attached wheel first." ),
-            std::make_tuple( "WHEEL_MOUNT_MEDIUM", "NEEDS_WHEEL_MOUNT_MEDIUM", "Remove attached wheel first." ),
-            std::make_tuple( "WHEEL_MOUNT_HEAVY", "NEEDS_WHEEL_MOUNT_HEAVY", "Remove attached wheel first." )
+            std::make_tuple( "ENGINE", "ALTERNATOR", translate_marker( "Remove attached alternator first." ) ),
+            std::make_tuple( "BELTABLE", "SEATBELT", translate_marker( "Remove attached seatbelt first." ) ),
+            std::make_tuple( "WINDOW", "CURTAIN", translate_marker( "Remove attached curtains first." ) ),
+            std::make_tuple( "CONTROLS", "ON_CONTROLS", translate_marker( "Remove attached part first." ) ),
+            std::make_tuple( "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT", translate_marker( "Remove battery from mount first." ) ),
+            std::make_tuple( "TURRET_MOUNT", "TURRET", translate_marker( "Remove attached mounted weapon first." ) ),
+            std::make_tuple( "WHEEL_MOUNT_LIGHT", "NEEDS_WHEEL_MOUNT_LIGHT", translate_marker( "Remove attached wheel first." ) ),
+            std::make_tuple( "WHEEL_MOUNT_MEDIUM", "NEEDS_WHEEL_MOUNT_MEDIUM", translate_marker( "Remove attached wheel first." ) ),
+            std::make_tuple( "WHEEL_MOUNT_HEAVY", "NEEDS_WHEEL_MOUNT_HEAVY", translate_marker( "Remove attached wheel first." ) )
         }
     };
     for( auto &flag_check : blocking_flags ) {
@@ -1697,8 +1828,19 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
  * Mark a part as removed from the vehicle.
  * @return bool true if the vehicle's 0,0 point shifted.
  */
-bool vehicle::remove_part( int p )
+bool vehicle::remove_part( const int p )
 {
+    DefaultRemovePartHandler handler;
+    return remove_part( p, handler );
+}
+
+bool vehicle::remove_part( const int p, RemovePartHandler &handler )
+{
+    // NOTE: Don't access g or g->m or anything from it directly here.
+    // Forward all access to the handler.
+    // There are currently two implementations of it:
+    // - one for normal game play (vehicle is on the main map g->m),
+    // - one for mapgen (vehicle is on a temporary map used only during mapgen).
     if( p >= static_cast<int>( parts.size() ) ) {
         debugmsg( "Tried to remove part %d but only %d parts!", p, parts.size() );
         return false;
@@ -1714,13 +1856,8 @@ bool vehicle::remove_part( int p )
     const tripoint part_loc = global_part_pos3( p );
 
     // Unboard any entities standing on removed boardable parts
-    if( part_flag( p, "BOARDABLE" ) ) {
-        std::vector<int> bp = boarded_parts();
-        for( auto &elem : bp ) {
-            if( elem == p ) {
-                g->m.unboard_vehicle( part_loc );
-            }
-        }
+    if( part_flag( p, "BOARDABLE" ) && parts[p].has_flag( vehicle_part::passenger_flag ) ) {
+        handler.unboard( part_loc );
     }
 
     // If `p` has flag `parent_flag`, remove child with flag `child_flag`
@@ -1730,9 +1867,8 @@ bool vehicle::remove_part( int p )
         if( part_flag( p, parent_flag ) ) {
             int dep = part_with_feature( p, child_flag, false );
             if( dep >= 0 ) {
-                item it = parts[dep].properties_to_item();
-                g->m.add_item_or_charges( part_loc, it );
-                remove_part( dep );
+                handler.add_item_or_charges( part_loc, parts[dep].properties_to_item() );
+                remove_part( dep, handler );
                 return true;
             }
         }
@@ -1742,7 +1878,7 @@ bool vehicle::remove_part( int p )
     // if a windshield is removed (usually destroyed) also remove curtains
     // attached to it.
     if( remove_dependent_part( "WINDOW", "CURTAIN" ) || part_flag( p, VPFLAG_OPAQUE ) ) {
-        g->m.set_transparency_cache_dirty( sm_pos.z );
+        handler.set_transparency_cache_dirty( sm_pos.z );
     }
 
     remove_dependent_part( "SEAT", "SEATBELT" );
@@ -1750,23 +1886,8 @@ bool vehicle::remove_part( int p )
 
     // Release any animal held by the part
     if( parts[p].has_flag( vehicle_part::animal_flag ) ) {
-        tripoint target = part_loc;
-        bool spawn = true;
-        if( !g->is_empty( target ) ) {
-            std::vector<tripoint> valid;
-            for( const tripoint &dest : g->m.points_in_radius( target, 1 ) ) {
-                if( g->is_empty( dest ) ) {
-                    valid.push_back( dest );
-                }
-            }
-            if( valid.empty() ) {
-                spawn = false;
-            } else {
-                target = random_entry( valid );
-            }
-        }
         item base = item( parts[p].get_base() );
-        base.release_monster( target, spawn );
+        handler.spawn_animal_from_part( base, part_loc );
         parts[p].set_base( base );
         parts[p].remove_flag( vehicle_part::animal_flag );
     }
@@ -1804,41 +1925,20 @@ bool vehicle::remove_part( int p )
     parts[p].removed = true;
     removed_part_count++;
 
-    // If the player is currently working on the removed part, stop them as it's futile now.
-    const player_activity &act = g->u.activity;
-    if( act.id() == activity_id( "ACT_VEHICLE" ) && act.moves_left > 0 && act.values.size() > 6 ) {
-        if( veh_pointer_or_null( g->m.veh_at( tripoint( act.values[0], act.values[1],
-                                              g->u.posz() ) ) ) == this ) {
-            if( act.values[6] >= p ) {
-                g->u.cancel_activity();
-                add_msg( m_info, _( "The vehicle part you were working on has gone!" ) );
-            }
-        }
-    }
+    handler.removed( *this, p );
 
     const point &vp_mount = parts[p].mount;
     const auto iter = labels.find( label( vp_mount ) );
-    const bool no_label = iter != labels.end();
-    const bool grab_found = g->u.get_grab_type() == OBJECT_VEHICLE && g->u.grab_point == part_loc;
-    // Checking these twice to avoid calling the relatively expensive parts_at_relative() unnecessarily.
-    if( no_label || grab_found ) {
-        if( parts_at_relative( vp_mount, false ).empty() ) {
-            if( no_label ) {
-                labels.erase( iter );
-            }
-            if( grab_found ) {
-                add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
-                g->u.grab( OBJECT_NONE );
-            }
-        }
+    if( iter != labels.end() && parts_at_relative( vp_mount, false ).empty() ) {
+        labels.erase( iter );
     }
 
     for( auto &i : get_items( p ) ) {
         // Note: this can spawn items on the other side of the wall!
+        // @todo fix this ^^
         tripoint dest( part_loc + point( rng( -3, 3 ), rng( -3, 3 ) ) );
-        g->m.add_item_or_charges( dest, i );
+        handler.add_item_or_charges( dest, i );
     }
-    g->m.dirty_vehicle_list.insert( this );
     refresh();
     coeff_air_changed = true;
     return shift_if_needed();
@@ -4109,6 +4209,8 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
 
         double amnt_precise_j = static_cast<double>( fuel_pr.second ) * t_seconds;
         amnt_precise_j *= load / 1000.0 * ( 1.0 + st * st * 100.0 );
+        auto inserted = fuel_used_last_turn.insert( { ft, 0 } );
+        inserted.first->second += amnt_precise_j;
         double remainder = fuel_remainder[ ft ];
         amnt_precise_j -= remainder;
 
@@ -4187,70 +4289,118 @@ std::vector<vehicle_part *> vehicle::lights( bool active )
     return res;
 }
 
-int vehicle::total_epower_w()
-{
-    int engine_epower = 0;
-    return total_epower_w( engine_epower, false );
-}
-
-int vehicle::total_epower_w( int &engine_epower, bool skip_solar )
+int vehicle::total_accessory_epower_w() const
 {
     int epower = 0;
-
     for( const vpart_reference &vp : get_enabled_parts( VPFLAG_ENABLED_DRAINS_EPOWER ) ) {
         epower += vp.info().epower;
-    }
-
-    // Engines: can both produce (plasma) or consume (gas, diesel)
-    // Gas engines require epower to run for ignition system, ECU, etc.
-    // Electric motor consumption not included, see @ref vpart_info::energy_consumption
-    if( engine_on ) {
-        int engine_vpower = 0;
-        for( size_t e = 0; e < engines.size(); ++e ) {
-            if( is_engine_on( e ) ) {
-                engine_epower += part_epower_w( engines[e] );
-                engine_vpower += part_vpower_w( engines[e] );
-            }
-        }
-
-        epower += engine_epower;
-
-        // Producers of epower
-
-        // If the engine is on, the alternators are working.
-        int alternators_epower = 0;
-        int alternators_power = 0;
-        for( size_t p = 0; p < alternators.size(); ++p ) {
-            if( is_alternator_on( p ) ) {
-                alternators_epower += part_epower_w( alternators[p] );
-                alternators_power += part_vpower_w( alternators[p] );
-            }
-        }
-        if( engine_vpower ) {
-            alternator_load = 1000 * ( abs( alternators_power ) + abs( extra_drag ) ) / engine_vpower;
-        } else {
-            alternator_load = 0;
-        }
-        // could check if alternator_load > 1000 and then reduce alternator epower,
-        // but that's a lot of work for a corner case.
-        if( alternators_epower > 0 ) {
-            epower += alternators_epower;
-        }
-    }
-
-    if( skip_solar ) {
-        return epower;
-    }
-    for( int part : solar_panels ) {
-        if( parts[ part ].is_unavailable() ) {
-            continue;
-        }
-        epower += part_epower_w( part );
     }
     return epower;
 }
 
-int vehicle::total_reactor_epower_w() const
+int vehicle::total_alternator_epower_w() const
+{
+    int epower = 0;
+    if( engine_on ) {
+        // If the engine is on, the alternators are working.
+        for( size_t p = 0; p < alternators.size(); ++p ) {
+            if( is_alternator_on( p ) ) {
+                epower += part_epower_w( alternators[p] );
+            }
+        }
+    }
+    return epower;
+}
+
+int vehicle::total_engine_epower_w() const
+{
+    int epower = 0;
+
+    // Engines: can both produce (plasma) or consume (gas, diesel) epower.
+    // Gas engines require epower to run for ignition system, ECU, etc.
+    // Electric motor consumption not included, see @ref vpart_info::energy_consumption
+    if( engine_on ) {
+        for( size_t e = 0; e < engines.size(); ++e ) {
+            if( is_engine_on( e ) ) {
+                epower += part_epower_w( engines[e] );
+            }
+        }
+    }
+
+    return epower;
+}
+
+int vehicle::total_solar_epower_w() const
+{
+    int epower_w = 0;
+    for( int part : solar_panels ) {
+        if( parts[ part ].is_unavailable() ) {
+            continue;
+        }
+
+        if( !is_sm_tile_outside( g->m.getabs( global_part_pos3( part ) ) ) ) {
+            continue;
+        }
+
+        epower_w += part_epower_w( part );
+    }
+    // Weather doesn't change much across the area of the vehicle, so just
+    // sample it once.
+    weather_type wtype = current_weather( global_pos3() );
+    const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
+    double intensity = tick_sunlight / default_daylight_level();
+    return epower_w * intensity;
+}
+
+int vehicle::total_wind_epower_w() const
+{
+    const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( global_pos3() ) );
+    const w_point weatherPoint = *g->weather.weather_precise;
+    int epower_w = 0;
+    for( int part : wind_turbines ) {
+        if( parts[ part ].is_unavailable() ) {
+            continue;
+        }
+
+        if( !is_sm_tile_outside( g->m.getabs( global_part_pos3( part ) ) ) ) {
+            continue;
+        }
+
+        double windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, global_part_pos3( part ),
+                                                g->weather.winddirection, false );
+        if( windpower <= ( g->weather.windspeed / 10.0 ) ) {
+            continue;
+        }
+        epower_w += part_epower_w( part ) * windpower;
+    }
+    return epower_w;
+}
+
+int vehicle::total_water_wheel_epower_w() const
+{
+    int epower_w = 0;
+    for( int part : water_wheels ) {
+        if( parts[ part ].is_unavailable() ) {
+            continue;
+        }
+
+        if( !is_sm_tile_over_water( g->m.getabs( global_part_pos3( part ) ) ) ) {
+            continue;
+        }
+
+        epower_w += part_epower_w( part );
+    }
+    // TODO: river current intensity changes power - flat for now.
+    return epower_w;
+}
+
+int vehicle::net_battery_charge_rate_w() const
+{
+    return total_engine_epower_w() + total_alternator_epower_w() + total_accessory_epower_w() +
+           total_solar_epower_w() + total_wind_epower_w() + total_water_wheel_epower_w();
+}
+
+int vehicle::max_reactor_epower_w() const
 {
     int epower_w = 0;
     for( int elem : reactors ) {
@@ -4259,19 +4409,49 @@ int vehicle::total_reactor_epower_w() const
     return epower_w;
 }
 
+void vehicle::update_alternator_load()
+{
+    // Update alternator load
+    if( engine_on ) {
+        int engine_vpower = 0;
+        for( size_t e = 0; e < engines.size(); ++e ) {
+            if( is_engine_on( e ) ) {
+                engine_vpower += part_vpower_w( engines[e] );
+            }
+        }
+        int alternators_power = 0;
+        for( size_t p = 0; p < alternators.size(); ++p ) {
+            if( is_alternator_on( p ) ) {
+                alternators_power += part_vpower_w( alternators[p] );
+            }
+        }
+        alternator_load =
+            engine_vpower
+            ? 1000 * ( abs( alternators_power ) + abs( extra_drag ) ) / engine_vpower
+            : 0;
+    } else {
+        alternator_load = 0;
+    }
+}
+
 void vehicle::power_parts()
 {
-    int engine_epower = 0;
-    int epower = total_epower_w( engine_epower );
+    update_alternator_load();
 
-    bool reactor_online = false;
+    // Things that drain energy: engines and accessories.
+    int engine_epower = total_engine_epower_w();
+    int epower = engine_epower + total_accessory_epower_w() + total_alternator_epower_w();
+
     int delta_energy_bat = power_to_energy_bat( epower, 1_turns );
     int storage_deficit_bat = std::max( 0, fuel_capacity( fuel_type_battery ) -
                                         fuel_left( fuel_type_battery ) - delta_energy_bat );
+    // Reactors trigger only on demand. If we'd otherwise run out of power, see
+    // if we can spin up the reactors.
     if( !reactors.empty() && storage_deficit_bat > 0 ) {
         // Still not enough surplus epower to fully charge battery
         // Produce additional epower from any reactors
         bool reactor_working = false;
+        bool reactor_online = false;
         for( auto &elem : reactors ) {
             // Check whether the reactor is on. If not, move on.
             if( !is_part_on( elem ) ) {
@@ -4844,7 +5024,9 @@ void vehicle::place_spawn_items()
 
 void vehicle::gain_moves()
 {
+    fuel_used_last_turn.clear();
     check_falling_or_floating();
+    const bool pl_control = player_in_control( g->u );
     if( is_moving() || is_falling ) {
         if( !loose_parts.empty() ) {
             shed_loose_parts();
@@ -4852,7 +5034,7 @@ void vehicle::gain_moves()
         of_turn = 1 + of_turn_carry;
         const int vslowdown = slowdown( velocity );
         if( vslowdown > abs( velocity ) ) {
-            if( cruise_on && cruise_velocity ) {
+            if( cruise_on && cruise_velocity && pl_control ) {
                 velocity = velocity > 0 ? 1 : -1;
             } else {
                 stop();
@@ -4868,7 +5050,7 @@ void vehicle::gain_moves()
     of_turn_carry = 0;
 
     // cruise control TODO: enable for NPC?
-    if( ( player_in_control( g->u ) || is_following ) && cruise_on && cruise_velocity != velocity ) {
+    if( ( pl_control || is_following ) && cruise_on && cruise_velocity != velocity ) {
         thrust( ( cruise_velocity ) > velocity ? 1 : -1 );
     }
 
@@ -5879,25 +6061,9 @@ void vehicle::update_time( const time_point &update_to )
         }
     }
     if( !wind_turbines.empty() ) {
-        const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( global_pos3() ) );
-        const w_point weatherPoint = *g->weather.weather_precise;
-        int epower_w = 0;
-        for( int part : wind_turbines ) {
-            if( parts[ part ].is_unavailable() ) {
-                continue;
-            }
-
-            if( !is_sm_tile_outside( g->m.getabs( global_part_pos3( part ) ) ) ) {
-                continue;
-            }
-
-            double windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, global_part_pos3( part ),
-                                                    g->weather.winddirection, false );
-            if( windpower <= ( g->weather.windspeed / 10.0 ) ) {
-                continue;
-            }
-            epower_w += part_epower_w( part ) * windpower;
-        }
+        // TODO: use accum_weather wind data to backfill wind turbine
+        // generation capacity.
+        int epower_w = total_wind_epower_w();
         int energy_bat = power_to_energy_bat( epower_w, elapsed );
         if( energy_bat > 0 ) {
             add_msg( m_debug, "%s got %d kJ energy from wind turbines", name, energy_bat );
@@ -5905,19 +6071,7 @@ void vehicle::update_time( const time_point &update_to )
         }
     }
     if( !water_wheels.empty() ) {
-        int epower_w = 0;
-        for( int part : water_wheels ) {
-            if( parts[ part ].is_unavailable() ) {
-                continue;
-            }
-
-            if( !is_sm_tile_over_water( g->m.getabs( global_part_pos3( part ) ) ) ) {
-                continue;
-            }
-
-            epower_w += part_epower_w( part );
-        }
-        // TODO: river current intensity changes power - flat for now.
+        int epower_w = total_water_wheel_epower_w();
         int energy_bat = power_to_energy_bat( epower_w, elapsed );
         if( energy_bat > 0 ) {
             add_msg( m_debug, "%s got %d kJ energy from water wheels", name, energy_bat );
