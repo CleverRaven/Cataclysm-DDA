@@ -926,7 +926,6 @@ class read_inventory_preset: public pickup_inventory_preset
 
                 return unlearned > 0 ? to_string( unlearned ) : std::string();
             }, _( "RECIPES" ), unknown );
-
             append_cell( [ this, &p, unknown ]( const item_location & loc ) -> std::string {
                 if( !is_known( loc ) ) {
                     return unknown;
@@ -1032,9 +1031,9 @@ class read_inventory_preset: public pickup_inventory_preset
         const player &p;
 };
 
-item_location game_menus::inv::read( avatar &you )
+item_location game_menus::inv::read( player &pl )
 {
-    return inv_internal( you, read_inventory_preset( you ),
+    return inv_internal( pl, read_inventory_preset( pl ),
                          _( "Read" ), 1,
                          _( "You have nothing to read." ) );
 }

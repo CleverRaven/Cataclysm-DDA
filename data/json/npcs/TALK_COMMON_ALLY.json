@@ -800,6 +800,12 @@
         "effect": "do_construction"
       },
       {
+        "text": "Please study from a book.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_read"
+      },
+      {
         "text": "Please start deconstructing any vehicles in a deconstruction zone.",
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },

@@ -2831,28 +2831,37 @@ void activity_handlers::butcher_do_turn( player_activity * /*act*/, player *p )
 
 void activity_handlers::read_do_turn( player_activity *act, player *p )
 {
-    if( !act->str_values.empty() && act->str_values[0] == "martial_art" && one_in( 3 ) ) {
-        if( act->values.empty() ) {
-            act->values.push_back( p->stamina );
+    if( p->is_player() ) {
+        if( !act->str_values.empty() && act->str_values[0] == "martial_art" && one_in( 3 ) ) {
+            if( act->values.empty() ) {
+                act->values.push_back( p->stamina );
+            }
+            p->stamina = act->values[0] - 1;
+            act->values[0] = p->stamina;
         }
-        p->stamina = act->values[0] - 1;
-        act->values[0] = p->stamina;
-    }
-    if( p->stamina < p->get_stamina_max() / 10 ) {
-        add_msg( m_info, _( "This training is exhausting.  Time to rest." ) );
-        act->set_to_null();
+        if( p->stamina < p->get_stamina_max() / 10 ) {
+            p->add_msg_if_player( m_info, _( "This training is exhausting.  Time to rest." ) );
+            act->set_to_null();
+        }
+    } else {
+        p->moves = 0;
     }
 }
 
 void activity_handlers::read_finish( player_activity *act, player *p )
 {
-    if( avatar *u = dynamic_cast<avatar *>( p ) ) {
-        u->do_read( *act->targets.front().get_item() );
+    if( p->is_npc() ) {
+        npc *guy = dynamic_cast<npc *>( p );
+        guy->finish_read( * act->targets.front().get_item() );
     } else {
-        act->set_to_null();
-    }
-    if( !act ) {
-        p->add_msg_if_player( m_info, _( "You finish reading." ) );
+        if( avatar *u = dynamic_cast<avatar *>( p ) ) {
+            u->do_read( *act->targets.front().get_item() );
+        } else {
+            act->set_to_null();
+        }
+        if( !act ) {
+            p->add_msg_if_player( m_info, _( "You finish reading." ) );
+        }
     }
 }
 
