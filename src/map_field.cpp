@@ -282,7 +282,6 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     // Then, spread to a nearby point.
     // If not possible (or randomly), try to spread up
     // Wind direction will block the field spreading into the wind.
-    spread.reserve( 8 );
     // Start at end_it + 1, then wrap around until all elements have been processed.
     for( size_t i = ( end_it + 1 ) % neighs.size(), count = 0 ;
          count != neighs.size();
