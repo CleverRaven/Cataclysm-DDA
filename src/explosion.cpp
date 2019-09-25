@@ -357,10 +357,9 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
     // TODO: Calculate range based on max effective range for projectiles.
     // Basically bisect between 0 and map diameter using shrapnel_calc().
     // Need to update shadowcasting to support limiting range without adjusting initial distance.
-    const tripoint start = { 0, 0, src.z };
-    const tripoint end = { g->m.getmapsize() *SEEX, g->m.getmapsize() *SEEY, src.z };
+    const tripoint_range area = g->m.points_on_zlevel( src.z );
 
-    g->m.build_obstacle_cache( start, end, obstacle_cache );
+    g->m.build_obstacle_cache( area.min(), area.max() + tripoint( 1, 1, 0 ), obstacle_cache );
 
     // Shadowcasting normally ignores the origin square,
     // so apply it manually to catch monsters standing on the explosive.
@@ -374,7 +373,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                  ( visited_cache, obstacle_cache, src.xy(), 0, initial_cloud );
 
     // Now visited_caches are populated with density and velocity of fragments.
-    for( const tripoint &target : tripoint_range( start, end ) ) {
+    for( const tripoint &target : area ) {
         fragment_cloud &cloud = visited_cache[target.x][target.y];
         if( cloud.density <= MIN_FRAGMENT_DENSITY ||
             cloud.velocity <= MIN_EFFECTIVE_VELOCITY ) {
