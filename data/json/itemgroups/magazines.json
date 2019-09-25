@@ -21,7 +21,6 @@
       [ "hk46mag", 15 ],
       [ "hk46bigmag", 5 ],
       [ "m107a1mag", 50 ],
-      [ "as50mag", 50 ],
       [ "m2010mag", 10 ],
       [ "scarhmag", 50 ],
       [ "scarhbigmag", 20 ],
@@ -93,6 +92,7 @@
       [ "ump45mag", 20 ],
       [ "usp45mag", 10 ],
       [ "usp9mag", 10 ],
+      [ "as50mag", 2 ],
       [ "hk417mag_20rd", 20 ]
     ]
   },
