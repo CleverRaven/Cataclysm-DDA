@@ -6577,7 +6577,7 @@ character_id map::place_npc( const point &p, const string_id<npc_template> &type
 }
 
 void map::apply_faction_ownership( const point &p1, const point &p2,
-                                   faction_id id )
+                                   const faction_id id )
 {
     for( const tripoint &p : points_in_rectangle( tripoint( p1, abs_sub.z ), tripoint( p2,
             abs_sub.z ) ) ) {

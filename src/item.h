@@ -1912,10 +1912,10 @@ class item : public visitable<item>
         inline void remove_old_owner() {
             old_owner = faction_id::NULL_ID();
         }
-        inline void set_owner( faction_id new_owner ) {
+        inline void set_owner( const faction_id new_owner ) {
             owner = new_owner;
         }
-        void set_owner( Character &c );
+        void set_owner( const Character &c );
         inline void remove_owner() {
             owner = faction_id::NULL_ID();
         }

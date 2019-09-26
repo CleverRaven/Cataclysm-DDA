@@ -1080,7 +1080,7 @@ std::string item::get_owner_name() const
     return g->faction_manager_ptr->get( owner )->name;
 }
 
-void item::set_owner( Character &c )
+void item::set_owner( const Character &c )
 {
     if( !c.get_faction() ) {
         debugmsg( "item::set_owner() Character %s has no valid faction", c.disp_name() );
