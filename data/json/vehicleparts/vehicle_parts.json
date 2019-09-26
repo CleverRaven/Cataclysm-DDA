@@ -214,9 +214,6 @@
     "durability": 20,
     "item": "pipe",
     "m2c": 90,
-    "contact_area": 60,
-    "rolling_resistance": 1.5,
-    "wheel_type": "off-road",
     "description": "A metal handle, a creature with hands could use it to push a vehicle.",
     "difficulty": 1,
     "power": 0,
@@ -235,8 +232,7 @@
       "ANIMAL_CTRL",
       "HARNESS_human",
       "STEERABLE",
-      "UNMOUNT_ON_DAMAGE",
-      "WHEEL"
+      "UNMOUNT_ON_DAMAGE"
     ],
     "damage_reduction": { "all": 2 }
   },

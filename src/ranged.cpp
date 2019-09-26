@@ -1413,11 +1413,8 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 
                 const itype *cur = ammo ? ammo : m->ammo_data();
                 if( cur ) {
-                    auto str = string_format( m->ammo_remaining() ?
-                                              _( "Ammo: <color_%s>%s</color> (%d/%d)" ) :
-                                              _( "Ammo: <color_%s>%s</color>" ),
-                                              get_all_colors().get_name( cur->color ),
-                                              cur->nname( std::max( m->ammo_remaining(), 1 ) ),
+                    auto str = string_format( m->ammo_remaining() ? _( "Ammo: %s (%d/%d)" ) : _( "Ammo: %s" ),
+                                              colorize( cur->nname( std::max( m->ammo_remaining(), 1 ) ), cur->color ),
                                               m->ammo_remaining(), m->ammo_capacity() );
 
                     print_colored_text( w_target, point( 1, line_number++ ), col, col, str );
@@ -1930,7 +1927,8 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
         if( casting.aoe() > 0 ) {
             nc_color color = c_light_gray;
             if( casting.effect() == "projectile_attack" || casting.effect() == "target_attack" ||
-                casting.effect() == "area_pull" || casting.effect() == "area_push" ) {
+                casting.effect() == "area_pull" || casting.effect() == "area_push" ||
+                casting.effect() == "ter_transform" ) {
                 line_number += fold_and_print( w_target, point( 1, line_number ), getmaxx( w_target ) - 2, color,
                                                _( "Effective Spell Radius: %s%s" ), casting.aoe_string(),
                                                casting.in_aoe( src, dst ) ? colorize( _( " WARNING! IN RANGE" ), c_red ) : "" );

@@ -95,10 +95,12 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::SOMATIC: return "SOMATIC";
         case spell_flag::NO_HANDS: return "NO_HANDS";
         case spell_flag::NO_LEGS: return "NO_LEGS";
+        case spell_flag::UNSAFE_TELEPORT: return "UNSAFE_TELEPORT";
         case spell_flag::CONCENTRATE: return "CONCENTRATE";
         case spell_flag::RANDOM_AOE: return "RANDOM_AOE";
         case spell_flag::RANDOM_DAMAGE: return "RANDOM_DAMAGE";
         case spell_flag::RANDOM_DURATION: return "RANDOM_DURATION";
+        case spell_flag::WONDER: return "WONDER";
         case spell_flag::LAST: break;
     }
     debugmsg( "Invalid spell_flag" );
@@ -205,7 +207,9 @@ void spell_type::load( JsonObject &jo, const std::string & )
         { "translocate", spell_effect::translocate },
         { "area_pull", spell_effect::area_pull },
         { "area_push", spell_effect::area_push },
+        { "timed_event", spell_effect::timed_event },
         { "ter_transform", spell_effect::transform_blast },
+        { "vomit", spell_effect::vomit },
         { "none", spell_effect::none }
     };
 
@@ -372,9 +376,12 @@ void spell_type::check_consistency()
                           sp_t.id.c_str() );
             } else if( sp_t.field_intensity_increment < 0 &&
                        sp_t.max_field_intensity > sp_t.min_field_intensity ) {
-                debugmsg( "ERROR: min_field_intensity must be greater than max_field_intensity with negative increment.",
+                debugmsg( "ERROR: min_field_intensity must be greater than max_field_intensity with negative increment: %s",
                           sp_t.id.c_str() );
             }
+        }
+        if( sp_t.spell_tags[spell_flag::WONDER] && sp_t.additional_spells.empty() ) {
+            debugmsg( "ERROR: %s has WONDER flag but no spells to choose from!", sp_t.id.c_str() );
         }
     }
 }
@@ -729,6 +736,11 @@ void spell::gain_exp( int nxp )
     experience += nxp;
 }
 
+void spell::set_exp( int nxp )
+{
+    experience = nxp;
+}
+
 std::string spell::energy_string() const
 {
     switch( type->energy_source ) {
@@ -1065,15 +1077,37 @@ void spell::cast_spell_effect( Creature &source, const tripoint &target ) const
 
 void spell::cast_all_effects( Creature &source, const tripoint &target ) const
 {
-    // first call the effect of the main spell
-    cast_spell_effect( source, target );
-    for( const fake_spell &extra_spell : type->additional_spells ) {
-        spell sp = extra_spell.get_spell( extra_spell.level );
+    if( has_flag( spell_flag::WONDER ) ) {
+        const auto iter = type->additional_spells.begin();
+        for( int num_spells = abs( damage() ); num_spells > 0; num_spells-- ) {
+            if( type->additional_spells.empty() ) {
+                debugmsg( "ERROR: %s has WONDER flag but no spells to choose from!", type->id.c_str() );
+                return;
+            }
+            const int rand_spell = rng( 0, type->additional_spells.size() - 1 );
+            spell sp = ( iter + rand_spell )->get_spell( ( iter + rand_spell )->level );
 
-        if( extra_spell.self ) {
-            sp.cast_all_effects( source, source.pos() );
-        } else {
-            sp.cast_all_effects( source, target );
+            // This spell flag makes it so the message of the spell that's cast using this spell will be sent.
+            // if a message is added to the casting spell, it will be sent as well.
+            source.add_msg_if_player( sp.message() );
+
+            if( ( iter + rand_spell )->self ) {
+                sp.cast_all_effects( source, source.pos() );
+            } else {
+                sp.cast_all_effects( source, target );
+            }
+        }
+    } else {
+        // first call the effect of the main spell
+        cast_spell_effect( source, target );
+        for( const fake_spell &extra_spell : type->additional_spells ) {
+            spell sp = extra_spell.get_spell( extra_spell.level );
+
+            if( extra_spell.self ) {
+                sp.cast_all_effects( source, source.pos() );
+            } else {
+                sp.cast_all_effects( source, target );
+            }
         }
     }
 }
@@ -1116,7 +1150,11 @@ void known_magic::deserialize( JsonIn &jsin )
         std::string id = jo.get_string( "id" );
         spell_id sp = spell_id( id );
         int xp = jo.get_int( "xp" );
-        spellbook.emplace( sp, spell( sp, xp ) );
+        if( knows_spell( sp ) ) {
+            spellbook[sp].set_exp( xp );
+        } else {
+            spellbook.emplace( sp, spell( sp, xp ) );
+        }
     }
 }
 
@@ -1149,6 +1187,10 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
 {
     if( !sp->is_valid() ) {
         debugmsg( "Tried to learn invalid spell" );
+        return;
+    }
+    if( p.magic.knows_spell( sp->id ) ) {
+        // you already know the spell
         return;
     }
     spell temp_spell( sp->id );
@@ -1515,6 +1557,8 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         damage_string = string_format( "%s %d %s", _( "Summon" ), sp.damage(),
                                        _( monster( mtype_id( sp.effect_data() ) ).get_name( ) ) );
         aoe_string = string_format( "%s: %d", _( "Spell Radius" ), sp.aoe() );
+    } else if( fx == "ter_transform" ) {
+        aoe_string = string_format( "%s: %s", _( "Spell Radius" ), sp.aoe_string() );
     }
 
     print_colored_text( w_menu, point( h_col1, line ), gray, gray, damage_string );
@@ -1686,7 +1730,7 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
         damage_string = _( "Recover" );
     } else if( fx == "teleport_random" ) {
         aoe_string = _( "Variance" );
-    } else if( fx == "area_pull" || fx == "area_push" ) {
+    } else if( fx == "area_pull" || fx == "area_push" ||  fx == "ter_transform" ) {
         aoe_string = _( "AoE" );
     }
 

@@ -1498,6 +1498,9 @@ void debug()
                         tinymap mx_map;
                         mx_map.load( where_sm, false );
                         MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
+                        g->load_npcs();
+                        g->m.invalidate_map_cache( g->get_levz() );
+                        g->refresh_all();
                     }
                 }
                 break;
@@ -1513,6 +1516,7 @@ void debug()
                     std::cout << std::to_string( count ) << " the id of that faction object is " << elem.second.id.str() << std::endl;
                     count++;
                 }
+                std::cout << "Player faction is " << g->u.get_faction()->id.str() << std::endl;
                 break;
             }
             case DEBUG_QUIT_NOSAVE:

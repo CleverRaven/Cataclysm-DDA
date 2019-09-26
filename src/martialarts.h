@@ -159,6 +159,7 @@ class ma_buff
         bool is_throw_immune() const;
         bool is_quiet() const;
         bool can_melee() const;
+        bool is_stealthy() const;
 
         // The ID of the effect that is used to store this buff
         efftype_id get_effect_id() const;
@@ -189,6 +190,7 @@ class ma_buff
         bool throw_immune; // are we immune to throws/grabs?
         bool strictly_unarmed; // can we use unarmed weapons?
         bool strictly_melee; // can we use it without weapons?
+        bool stealthy; // do we make less noise when moving?
 
         void load( JsonObject &jo, const std::string &src );
 };
@@ -204,6 +206,8 @@ class martialart
         void apply_static_buffs( player &u ) const;
 
         void apply_onmove_buffs( player &u ) const;
+
+        void apply_onpause_buffs( player &u ) const;
 
         void apply_onhit_buffs( player &u ) const;
 
@@ -252,6 +256,7 @@ class martialart
         bool force_unarmed; // Don't use ANY weapon - punch or kick if needed
         std::vector<mabuff_id> static_buffs; // all buffs triggered by each condition
         std::vector<mabuff_id> onmove_buffs;
+        std::vector<mabuff_id> onpause_buffs;
         std::vector<mabuff_id> onhit_buffs;
         std::vector<mabuff_id> onattack_buffs;
         std::vector<mabuff_id> ondodge_buffs;

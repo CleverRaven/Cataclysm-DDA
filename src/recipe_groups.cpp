@@ -8,6 +8,7 @@
 #include "generic_factory.h"
 #include "json.h"
 #include "debug.h"
+#include "overmap.h"
 #include "string_id.h"
 #include "type_id.h"
 
@@ -93,12 +94,14 @@ std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::str
     }
     const recipe_group_data &group = recipe_groups_data.obj( group_id( id ) );
     if( om_terrain_id != "ANY" ) {
+        std::string base_om_ter_id = oter_no_dir( oter_id( om_terrain_id ) );
+
         for( const auto &recp : group.recipes ) {
             const auto &recp_terrain = group.om_terrains.find( recp.first );
             if( recp_terrain == group.om_terrains.end() ) {
                 continue;
             }
-            if( recp_terrain->second.find( om_terrain_id ) != recp_terrain->second.end() ) {
+            if( recp_terrain->second.find( base_om_ter_id ) != recp_terrain->second.end() ) {
                 all_rec.emplace( recp );
             }
         }
