@@ -2351,8 +2351,7 @@ void veh_interact::display_name()
 
     mvwprintz( w_name, point( 1 + utf8_width( _( "Name: " ) ), 0 ),
                !veh->is_owned_by( g->u, true ) ? c_light_red : c_light_green,
-               string_format( _( "%s (%s)" ), veh->name,
-                              veh->is_owned_by( g->u, true ) ? veh->get_owner_name() : _( "not owned" ) ) );
+               string_format( _( "%s (%s)" ), veh->name, veh->get_owner_name() ) );
     wrefresh( w_name );
 }
 
