@@ -268,7 +268,6 @@
       { "item": "ak74", "prob": 60, "charges-min": 0, "charges-max": 30 },
       { "item": "an94", "prob": 40, "charges-min": 0, "charges-max": 30 },
       { "item": "bh_m89", "prob": 20, "charges-min": 0, "charges-max": 7 },
-      { "item": "as50", "prob": 20, "charges-min": 0, "charges-max": 10 },
       { "item": "carbine_flintlock", "prob": 140 },
       { "item": "rifle_flintlock", "prob": 180 },
       { "item": "steyr_aug", "prob": 40, "charges-min": 0, "charges-max": 30 },
