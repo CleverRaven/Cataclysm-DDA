@@ -55,6 +55,7 @@
 #include "game_ui.h"
 #include "gamemode.h"
 #include "gates.h"
+#include "harvest.h"
 #include "help.h"
 #include "iexamine.h"
 #include "init.h"
@@ -7939,9 +7940,6 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
         return to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) );
     };
     const bool enough_light = g->u.fine_detail_vision_mod() <= 4;
-    if( !enough_light ) {
-        popup( _( "Some types of butchery are not possible when it is dark." ) );
-    }
 
     const int factor = g->u.max_quality( quality_id( "BUTCHER" ) );
     const std::string msgFactor = factor > INT_MIN
@@ -7953,37 +7951,91 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
                                    ? string_format( _( "Your best tool has %d fine cutting." ), factorD )
                                    :  _( "You have no fine cutting tool." );
 
+    bool has_skin = false;
+    bool has_organs = false;
+
+    if( corpse != -1 ) {
+        const mtype *dead_mon = corpses[corpse]->get_mtype();
+        if( dead_mon ) {
+            for( const harvest_entry &entry : dead_mon->harvest.obj() ) {
+                if( entry.drop == "skin" ) {
+                    has_skin = true;
+                }
+                if( entry.drop == "offal" ) {
+                    has_organs = true;
+                }
+            }
+        }
+    }
+
     uilist smenu;
     smenu.desc_enabled = true;
     smenu.text = _( "Choose type of butchery:" );
 
-    smenu.addentry_col( BUTCHER, enough_light, 'B', _( "Quick butchery" ), cut_time( BUTCHER ),
+    const std::string cannot_see = colorize( _( "can't see!" ), c_red );
+
+    smenu.addentry_col( BUTCHER, enough_light, 'B', _( "Quick butchery" ),
+                        enough_light ? cut_time( BUTCHER ) : cannot_see,
                         string_format( "%s  %s",
-                                       _( "This technique is used when you are in a hurry, but still want to harvest something from the corpse.  Yields are lower as you don't try to be precise, but it's useful if you don't want to set up a workshop.  Prevents zombies from raising." ),
+                                       _( "This technique is used when you are in a hurry, "
+                                          "but still want to harvest something from the corpse. "
+                                          " Yields are lower as you don't try to be precise, "
+                                          "but it's useful if you don't want to set up a workshop.  "
+                                          "Prevents zombies from raising." ),
                                        msgFactor ) );
-    smenu.addentry_col( BUTCHER_FULL, enough_light, 'b', _( "Full butchery" ), cut_time( BUTCHER_FULL ),
+    smenu.addentry_col( BUTCHER_FULL, enough_light, 'b', _( "Full butchery" ),
+                        enough_light ? cut_time( BUTCHER_FULL ) : cannot_see,
                         string_format( "%s  %s",
-                                       _( "This technique is used to properly butcher a corpse, and requires a rope & a tree or a butchering rack, a flat surface (for ex. a table, a leather tarp, etc.) and good tools.  Yields are plentiful and varied, but it is time consuming." ),
+                                       _( "This technique is used to properly butcher a corpse, "
+                                          "and requires a rope & a tree or a butchering rack, "
+                                          "a flat surface (for ex. a table, a leather tarp, etc.) "
+                                          "and good tools.  Yields are plentiful and varied, "
+                                          "but it is time consuming." ),
                                        msgFactor ) );
-    smenu.addentry_col( F_DRESS, enough_light, 'f', _( "Field dress corpse" ), cut_time( F_DRESS ),
+    smenu.addentry_col( F_DRESS, enough_light &&
+                        has_organs, 'f', _( "Field dress corpse" ),
+                        enough_light ? ( has_organs ? cut_time( F_DRESS ) : colorize( _( "has no organs" ),
+                                         c_red ) ) : cannot_see,
                         string_format( "%s  %s",
-                                       _( "Technique that involves removing internal organs and viscera to protect the corpse from rotting from inside. Yields internal organs. Carcass will be lighter and will stay fresh longer.  Can be combined with other methods for better effects." ),
+                                       _( "Technique that involves removing internal organs and "
+                                          "viscera to protect the corpse from rotting from inside.  "
+                                          "Yields internal organs.  Carcass will be lighter and will "
+                                          "stay fresh longer.  Can be combined with other methods for "
+                                          "better effects." ),
                                        msgFactor ) );
-    smenu.addentry_col( SKIN, enough_light, 's', _( "Skin corpse" ), cut_time( SKIN ),
+    smenu.addentry_col( SKIN, enough_light &&
+                        has_skin, 's', _( "Skin corpse" ),
+                        enough_light ? ( has_skin ? cut_time( SKIN ) : colorize( _( "has no skin" ), c_red ) ) : cannot_see,
                         string_format( "%s  %s",
-                                       _( "Skinning a corpse is an involved and careful process that usually takes some time.  You need skill and an appropriately sharp and precise knife to do a good job.  Some corpses are too small to yield a full-sized hide and will instead produce scraps that can be used in other ways." ),
+                                       _( "Skinning a corpse is an involved and careful process that "
+                                          "usually takes some time.  You need skill and an appropriately "
+                                          "sharp and precise knife to do a good job.  Some corpses are "
+                                          "too small to yield a full-sized hide and will instead produce "
+                                          "scraps that can be used in other ways." ),
                                        msgFactor ) );
-    smenu.addentry_col( QUARTER, enough_light, 'k', _( "Quarter corpse" ), cut_time( QUARTER ),
+    smenu.addentry_col( QUARTER, enough_light, 'k', _( "Quarter corpse" ),
+                        enough_light ? cut_time( QUARTER ) : cannot_see,
                         string_format( "%s  %s",
-                                       _( "By quartering a previously field dressed corpse you will acquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ),
+                                       _( "By quartering a previously field dressed corpse you will "
+                                          "acquire four parts with reduced weight and volume.  It "
+                                          "may help in transporting large game.  This action destroys "
+                                          "skin, hide, pelt, etc., so don't use it if you want to "
+                                          "harvest them later." ),
                                        msgFactor ) );
     smenu.addentry_col( DISMEMBER, true, 'm', _( "Dismember corpse" ), cut_time( DISMEMBER ),
                         string_format( "%s  %s",
-                                       _( "If you're aiming to just destroy a body outright, and don't care about harvesting it, dismembering it will hack it apart in a very short amount of time, but yield little to no usable flesh." ),
+                                       _( "If you're aiming to just destroy a body outright and don't "
+                                          "care about harvesting it, dismembering it will hack it apart "
+                                          "in a very short amount of time but yields little to no usable flesh." ),
                                        msgFactor ) );
-    smenu.addentry_col( DISSECT, enough_light, 'd', _( "Dissect corpse" ), cut_time( DISSECT ),
+    smenu.addentry_col( DISSECT, enough_light, 'd', _( "Dissect corpse" ),
+                        enough_light ? cut_time( DISSECT ) : cannot_see,
                         string_format( "%s  %s",
-                                       _( "By careful dissection of the corpse, you will examine it for possible bionic implants, or discrete organs and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes a lot of time.  Your medical knowledge is most useful here." ),
+                                       _( "By careful dissection of the corpse, you will examine it for "
+                                          "possible bionic implants, or discrete organs and harvest them "
+                                          "if possible.  Requires scalpel-grade cutting tools, ruins "
+                                          "corpse, and consumes a lot of time.  Your medical knowledge "
+                                          "is most useful here." ),
                                        msgFactorD ) );
     smenu.query();
     switch( smenu.ret ) {
