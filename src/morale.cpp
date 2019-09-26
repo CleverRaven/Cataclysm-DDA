@@ -354,6 +354,24 @@ morale_mult player_morale::get_temper_mult() const
     return mult;
 }
 
+int player_morale::get_total_fancy_points() const
+{
+    const auto bp_bonus = [this](body_part bp, int bonus) -> int {
+        return (
+            body_parts[bp].fancy > 0 ||
+            body_parts[opposite_body_part(bp)].fancy > 0) ? bonus : 0;
+    };
+    return std::min(static_cast<int>(2 * super_fancy_items.size()) +
+        2 * std::min(static_cast<int>(no_body_part.fancy), 3) +
+        bp_bonus(bp_torso, 6) +
+        bp_bonus(bp_head, 3) +
+        bp_bonus(bp_eyes, 2) +
+        bp_bonus(bp_mouth, 2) +
+        bp_bonus(bp_leg_l, 2) +
+        bp_bonus(bp_foot_l, 1) +
+        bp_bonus(bp_hand_l, 1), 20);
+}
+
 void player_morale::calculate_percentage()
 {
     const morale_mult mult = get_temper_mult();
@@ -817,23 +835,10 @@ void player_morale::update_stylish_bonus()
 {
     int bonus = 0;
 
-    if( stylish ) {
-        const auto bp_bonus = [ this ]( body_part bp, int bonus ) -> int {
-            return (
-                body_parts[bp].fancy > 0 ||
-                body_parts[opposite_body_part( bp )].fancy > 0 ) ? bonus : 0;
-        };
-        bonus = std::min( static_cast<int>( 2 * super_fancy_items.size() ) +
-                          2 * std::min( static_cast<int>( no_body_part.fancy ), 3 ) +
-                          bp_bonus( bp_torso,  6 ) +
-                          bp_bonus( bp_head,   3 ) +
-                          bp_bonus( bp_eyes,   2 ) +
-                          bp_bonus( bp_mouth,  2 ) +
-                          bp_bonus( bp_leg_l,  2 ) +
-                          bp_bonus( bp_foot_l, 1 ) +
-                          bp_bonus( bp_hand_l, 1 ), 20 );
+    if (stylish) {
+        bonus = get_total_fancy_points();
     }
-    set_permanent( MORALE_PERM_FANCY, bonus );
+    set_permanent(MORALE_PERM_FANCY, bonus);
 }
 
 void player_morale::update_masochist_bonus()

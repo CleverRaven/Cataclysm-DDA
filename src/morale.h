@@ -58,6 +58,7 @@ class player_morale
 
         int get_total_positive_value() const;
         int get_total_negative_value() const;
+        int get_total_fancy_points() const;
 
         void on_mutation_gain( const trait_id &mid );
         void on_mutation_loss( const trait_id &mid );
