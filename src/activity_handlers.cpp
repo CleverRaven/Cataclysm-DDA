@@ -1331,8 +1331,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         }
 
         static const units::volume volume_per_second = units::from_liter( 4 / 6 );
-         const int charges_per_second = std::max( 1, liquid.charges_per_volume( volume_per_second ) );
-         liquid.charges = std::min( charges_per_second, liquid.charges );
+        const int charges_per_second = std::max( 1, liquid.charges_per_volume( volume_per_second ) );
+        liquid.charges = std::min( charges_per_second, liquid.charges );
         const int original_charges = liquid.charges;
         if( liquid.has_temperature() && liquid.specific_energy < 0 ) {
             liquid.set_item_temperature( std::max( temp_to_kelvin( g->weather.get_temperature( p->pos() ) ),
