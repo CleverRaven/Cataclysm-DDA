@@ -3107,7 +3107,7 @@
     "broken_color": "red",
     "damage_modifier": 10,
     "durability": 50,
-    "epower": -100,
+    "epower": -250,
     "item": "turret_controls",
     "description": "A set of motor, camera, and an AI unit which allows for tracking targets, friend-or-foe identification, and firing the connected turret in full automatic mode.  When installed over the turret, it will enable auto targeting mode for said turret.",
     "folded_volume": 3,
