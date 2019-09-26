@@ -348,7 +348,7 @@ static void range_test( const std::array<double, 5> &test_thresholds, bool write
                         Creature::dispersion_for_even_chance_of_good_hit.begin(),
                         Creature::dispersion_for_even_chance_of_good_hit.end(),
                         []( const int a, const int b ) -> bool {
-                                    return a > 0 && b > 0 && std::abs( static_cast<float>( a - b ) / b ) < 0.1;
+                                    return a > 0 && b > 0 && std::abs( static_cast<float>( a - b ) / b ) < 0.15;
                         } );
 
         if( similar_to_previous_test_results == false )
@@ -362,6 +362,10 @@ static void range_test( const std::array<double, 5> &test_thresholds, bool write
                 j_out.end_object();
                 j_out.end_array();
             }, _( "hit_range file" ) );
+        }
+        else
+        {
+            WARN( "Didn't write. Data too similar to previous test results." );
         }
         REQUIRE( similar_to_previous_test_results );
     }
