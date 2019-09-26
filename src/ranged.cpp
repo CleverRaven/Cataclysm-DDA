@@ -168,7 +168,6 @@ bool player::handle_gun_damage( item &it )
     }
 
     int dirt = it.get_var( "dirt", 0 );
-    int dirtreducer = 0;
     int dirtadder = 0;
     if( it.faults.count( fault_gun_chamber_spent ) ) {
         return false;
@@ -277,9 +276,6 @@ bool player::handle_gun_damage( item &it )
         }
     }
     // These are the dirtying/fouling mechanics
-    if( it.has_flag( "NEVER_JAMS" ) ) {
-        int dirtreducer = 1;
-    }
     if( dirt < 10000 ) {
         dirtadder = curammo_effects.count( "BLACKPOWDER" ) * ( 200 - ( firing->blackpowder_tolerance *
                     2 ) );
