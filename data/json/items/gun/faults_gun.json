@@ -23,7 +23,7 @@
   {
     "id": "fault_gun_dirt",
     "type": "fault",
-    "name": "fouling",
+    "name": "Fouling",
     "description": "Fouling is caused by firing gunpowder loads repeatedly, which reduces reliability and can eventually cause damage to the gun.",
     "time": "50 m",
     "skills": [ [ "mechanics", 1 ] ],
