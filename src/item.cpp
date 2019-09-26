@@ -114,6 +114,7 @@ const efftype_id effect_weed_high( "weed_high" );
 const material_id mat_leather( "leather" );
 const material_id mat_kevlar( "kevlar" );
 
+const fault_id fault_gun_dirt( "fault_gun_dirt" );
 const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 
 const trait_id trait_small2( "SMALL2" );

@@ -2498,6 +2498,9 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     p->invalidate_crafting_inventory();
 
     target->faults.erase( *f );
+    if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" ) {
+        target->set_var( "dirt", 0 );
+    }
     add_msg( m_good, _( "You successfully mended the %s." ), target->tname() );
 }
 

@@ -61,8 +61,6 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_harnessed( "harnessed" );
 
-static const fault_id fault_gun_clogged( "fault_gun_clogged" );
-
 bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
 {
     if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
@@ -631,11 +629,6 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
 
     if( !weapon.is_gun() ) {
         // The weapon itself isn't a gun, this weapon is not fireable.
-        return false;
-    }
-
-    if( weapon.faults.count( fault_gun_clogged ) ) {
-        add_msg( m_info, _( "Your %s is too clogged with blackpowder fouling to fire." ), gun->tname() );
         return false;
     }
 

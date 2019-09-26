@@ -284,7 +284,7 @@
     "loudness": 25,
     "barrel_length": 2,
     "built_in_mods": [ "combination_gun_shotgun_pipe" ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "valid_mod_locations": [
       [ "muzzle", 1 ],
       [ "sling", 1 ],
@@ -613,7 +613,7 @@
     "loudness": 25,
     "barrel_length": 2,
     "built_in_mods": [ "combination_gun_shotgun" ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],

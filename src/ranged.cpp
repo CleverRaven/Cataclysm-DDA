@@ -78,7 +78,7 @@ static const trait_id trait_PYROMANIA( "PYROMANIA" );
 const trap_str_id tr_practice_target( "tr_practice_target" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
-static const fault_id fault_gun_clogged( "fault_gun_clogged" );
+static const fault_id fault_gun_dirt( "fault_gun_dirt" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 
 static projectile make_gun_projectile( const item &gun );
@@ -167,18 +167,30 @@ bool player::handle_gun_damage( item &it )
         return false;
     }
 
-    if( it.faults.count( fault_gun_chamber_spent ) || it.faults.count( fault_gun_clogged ) ) {
+    int dirt = it.get_var( "dirt", 0 );
+    int dirtreducer = 0;
+    int dirtadder = 0;
+    if( it.faults.count( fault_gun_chamber_spent ) ) {
         return false;
     }
 
     const auto &curammo_effects = it.ammo_effects();
     const cata::optional<islot_gun> &firing = it.type->gun;
+    if( !it.has_flag( "NEVER_JAMS" ) &&
+        x_in_y( 1, ( ( 35000 - dirt ) / ( dirt + 1 ) ) ) ) {
+        add_msg_player_or_npc( _( "Your %s misfires with a muffled click!" ),
+                               _( "<npcname>'s %s misfires with a muffled click!" ),
+                               it.tname() );
+        return false;
+    }
+
     // Here we check if we're underwater and whether we should misfire.
     // As a result this causes no damage to the firearm, note that some guns are waterproof
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
     // mean the gun will actually be accurate underwater.
     int effective_durability = firing->durability;
-    if( it.faults.count( fault_gun_blackpowder ) && effective_durability > 2 ) {
+    if( ( it.faults.count( fault_gun_dirt ) || it.faults.count( fault_gun_blackpowder ) ) &&
+        effective_durability > 2 ) {
         effective_durability -= 1;
     }
     if( is_underwater() && !it.has_flag( "WATERPROOF_GUN" ) && one_in( effective_durability ) ) {
@@ -189,24 +201,16 @@ bool player::handle_gun_damage( item &it )
         // Here we check for a chance for the weapon to suffer a mechanical malfunction.
         // Note that some weapons never jam up 'NEVER_JAMS' and thus are immune to this
         // effect as current guns have a durability between 5 and 9 this results in
-        // a chance of mechanical failure between 1/64 and 1/1024 on any given shot.
-        // the malfunction may cause damage, but never enough to push the weapon beyond 'shattered'
-    } else if( ( one_in( 2 << effective_durability ) ) && !it.has_flag( "NEVER_JAMS" ) ) {
+        // a chance of mechanical failure between 1/(64*3) and 1/(1024*3) on any given shot.
+        // the malfunction can't cause damage
+    } else if( ( one_in( ( 2 << effective_durability ) * 3 ) ) && !it.has_flag( "NEVER_JAMS" ) ) {
         add_msg_player_or_npc( _( "Your %s malfunctions!" ),
                                _( "<npcname>'s %s malfunctions!" ),
                                it.tname() );
-        if( it.damage() < it.max_damage() && one_in( 4 * effective_durability ) ) {
-            add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the mechanical malfunction!" ),
-                                   _( "<npcname>'s %s is damaged by the mechanical malfunction!" ),
-                                   it.tname() );
-            // Don't increment until after the message
-            it.inc_damage();
-        }
         return false;
         // Here we check for a chance for the weapon to suffer a misfire due to
         // using OEM bullets. Note that these misfires cause no damage to the weapon and
         // some types of ammunition are immune to this effect via the NEVER_MISFIRES effect.
-    } else if( !curammo_effects.count( "NEVER_MISFIRES" ) && one_in( 1728 ) ) {
         add_msg_player_or_npc( _( "Your %s misfires with a dry click!" ),
                                _( "<npcname>'s %s misfires with a dry click!" ),
                                it.tname() );
@@ -219,13 +223,6 @@ bool player::handle_gun_damage( item &it )
         add_msg_player_or_npc( _( "Your %s misfires with a muffled click!" ),
                                _( "<npcname>'s %s misfires with a muffled click!" ),
                                it.tname() );
-        if( it.damage() < it.max_damage() && one_in( effective_durability ) ) {
-            add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the misfired round!" ),
-                                   _( "<npcname>'s %s is damaged by the misfired round!" ),
-                                   it.tname() );
-            // Don't increment until after the message
-            it.inc_damage();
-        }
         return false;
         // Here we check for a chance for attached mods to get damaged if they are flagged as 'CONSUMABLE'.
         // This is mostly for crappy handmade expedient stuff  or things that rarely receive damage during normal usage.
@@ -278,14 +275,37 @@ bool player::handle_gun_damage( item &it )
             it.faults.insert( fault_gun_chamber_spent );
             // Don't return false in this case; this shot happens, follow-up ones won't.
         }
-        if( one_in( firing->blackpowder_tolerance ) &&
-            it.faults_potential().count( fault_gun_clogged ) ) {
-            add_msg_player_or_npc( m_bad, _( "Your %s is clogged up with blackpowder fouling!" ),
-                                   _( "<npcname>'s %s is clogged up with blackpowder fouling!" ),
-                                   it.tname() );
-            it.faults.insert( fault_gun_clogged );
-            // Don't return false in this case; this shot happens, follow-up ones won't.
+    }
+    // These are the dirtying/fouling mechanics
+    if( it.has_flag( "NEVER_JAMS" ) ) {
+        int dirtreducer = 1;
+    }
+    if( dirt < 10000 ) {
+        dirtadder = curammo_effects.count( "BLACKPOWDER" ) * ( 200 - ( firing->blackpowder_tolerance *
+                    2 ) );
+        if( dirtadder < 0 ) {
+            dirtadder = 0;
         }
+        it.set_var( "dirt", ( dirt + dirtadder + 1 ) );
+        if( dirt > 10000 ) {
+            it.set_var( "dirt", 10000 );
+        }
+    }
+    if( dirt > 0 && !it.faults.count( fault_gun_blackpowder ) ) {
+        it.faults.insert( fault_gun_dirt );
+    }
+    if( curammo_effects.count( "BLACKPOWDER" ) ) {
+        it.faults.erase( fault_gun_dirt );
+        it.faults.insert( fault_gun_blackpowder );
+    }
+    // end fouling mechanics
+    if( it.damage() < it.max_damage() &&
+        dirt > 3000 && x_in_y( 1, ( ( 150000 - dirt ) / ( dirt + 1 ) ) ) ) {
+        add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the high pressure!" ),
+                               _( "<npcname>'s %s is damaged by the high pressure!" ),
+                               it.tname() );
+        // Don't increment until after the message
+        it.inc_damage();
     }
     return true;
 }
