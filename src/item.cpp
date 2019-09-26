@@ -8771,7 +8771,7 @@ int item::get_gun_ups_drain() const
     if( type->gun ) {
         draincount += type->gun->ups_charges;
         for( const item *mod : gunmods() ) {
-            draincount += mod->type->gunmod->ups_charges;
+            draincount *= mod->type->gunmod->ups_charges_multiplier;
         }
     }
     return draincount;
