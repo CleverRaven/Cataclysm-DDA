@@ -460,6 +460,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "faction_base_workshop_0",
+    "name": "store survey",
+    "sym": "+",
+    "color": "cyan",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "faction_base_blacksmith_0",
     "name": "blacksmith survey",
     "sym": "+",

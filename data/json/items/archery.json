@@ -650,9 +650,10 @@
     "weight": "268 g",
     "bashing": 1,
     "cutting": 10,
-    "thrown_damage": [ { "damage_type": "cut", "amount": 14 } ],
+    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "ammo_type": "thrown",
-    "count": 5
+    "count": 5,
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE" ]
   },
   {
     "type": "GENERIC",

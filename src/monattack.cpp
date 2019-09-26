@@ -889,7 +889,7 @@ bool mattack::resurrect( monster *z )
 
         for( auto &i : g->m.i_at( p ) ) {
             const mtype *mt = i.get_mtype();
-            if( !( i.is_corpse() && i.active && mt->has_flag( MF_REVIVES ) &&
+            if( !( i.is_corpse() && i.can_revive() && i.active && mt->has_flag( MF_REVIVES ) &&
                    mt->in_species( ZOMBIE ) && !mt->has_flag( MF_NO_NECRO ) ) ) {
                 continue;
             }
@@ -3143,13 +3143,8 @@ bool mattack::photograph( monster *z )
     } else if( g->u.is_armed() ) {
         sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "\"Drop your weapon!  Now!\"" ) );
     }
-    if( cname == g->u.name && g->u.cash < 0 && g->u.has_trait( trait_id( "DEBT" ) ) ) {
-        sounds::sound( z->pos(), 15, sounds::sound_t::alert,
-                       _( "\"Wanted debtor in sight! Commencing debt enforcement proceedings!\"" ) );
-    } else {
-        const SpeechBubble &speech = get_speech( z->type->id.str() );
-        sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text.translated() );
-    }
+    const SpeechBubble &speech = get_speech( z->type->id.str() );
+    sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text.translated() );
     g->timed_events.add( TIMED_EVENT_ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ), 0,
                          g->u.global_sm_location() );
 

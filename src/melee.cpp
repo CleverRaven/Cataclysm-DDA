@@ -2195,8 +2195,10 @@ void player::disarm( npc &target )
         my_roll += dice( 3, get_skill_level( skill_unarmed ) );
 
         if( my_roll >= their_roll ) {
+            //~ %s: weapon name
             add_msg( _( "You grab at %s and pull with all your force!" ), it.tname() );
-            add_msg( _( "You forcefully take %s from %s!" ), it.tname(), target.name );
+            //~ %1$s: weapon name, %2$s: NPC name
+            add_msg( _( "You forcefully take %1$s from %2$s!" ), it.tname(), target.name );
             // wield() will deduce our moves, consider to deduce more/less moves for balance
             item rem_it = target.i_rem( &it );
             wield( rem_it );

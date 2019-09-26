@@ -41,11 +41,13 @@ enum spell_flag {
     VERBAL, // spell makes noise at caster location, mouth encumbrance affects fail %
     SOMATIC, // arm encumbrance affects fail % and casting time (slightly)
     NO_HANDS, // hands do not affect spell energy cost
+    UNSAFE_TELEPORT, // teleport spell risks killing the caster or others
     NO_LEGS, // legs do not affect casting time
     CONCENTRATE, // focus affects spell fail %
     RANDOM_AOE, // picks random number between min+increment*level and max instead of normal behavior
     RANDOM_DAMAGE, // picks random number between min+increment*level and max instead of normal behavior
     RANDOM_DURATION, // picks random number between min+increment*level and max instead of normal behavior
+    WONDER, // instead of casting each of the extra_spells, it picks N of them and casts them (where N is std::min( damage(), number_of_spells ))
     LAST
 };
 
@@ -284,6 +286,7 @@ class spell
         int xp() const;
         // gain some exp
         void gain_exp( int nxp );
+        void set_exp( int nxp );
         // how much xp you get if you successfully cast the spell
         int casting_exp( const player &p ) const;
         // modifier for gaining exp
@@ -480,7 +483,10 @@ void spawn_ethereal_item( const spell &sp, Creature &, const tripoint & );
 void recover_energy( const spell &sp, Creature &, const tripoint &target );
 void spawn_summoned_monster( const spell &sp, Creature &caster, const tripoint &target );
 void translocate( const spell &sp, Creature &caster, const tripoint &target );
+// adds a timed event to the caster only
+void timed_event( const spell &sp, Creature &caster, const tripoint & );
 void transform_blast( const spell &sp, Creature &caster, const tripoint &target );
+void vomit( const spell &sp, Creature &caster, const tripoint &target );
 void none( const spell &sp, Creature &, const tripoint &target );
 } // namespace spell_effect
 

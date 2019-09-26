@@ -120,9 +120,8 @@ std::string help::get_note_colors()
     std::string text = _( "Note colors: " );
     for( const auto &color_pair : get_note_color_names() ) {
         // The color index is not translatable, but the name is.
-        text += string_format( "<color_%s>%s:%s</color>, ",
-                               string_from_color( get_note_color( color_pair.first ) ),
-                               color_pair.first, _( color_pair.second ) );
+        text += string_format( "%s:%s, ", colorize( color_pair.first, get_note_color( color_pair.first ) ),
+                               _( color_pair.second ) );
     }
 
     return text;

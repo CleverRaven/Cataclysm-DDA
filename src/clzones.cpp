@@ -160,6 +160,9 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "VEHICLE_DECONSTRUCT" ),
                    zone_type( translate_marker( "Vehicle Deconstruct Zone" ),
                               translate_marker( "Any vehicles in this area are marked for deconstruction." ) ) );
+    types.emplace( zone_type_id( "VEHICLE_REPAIR" ),
+                   zone_type( translate_marker( "Vehicle Repair Zone" ),
+                              translate_marker( "Any vehicles in this area are marked for repair work." ) ) );
     types.emplace( zone_type_id( "CAMP_FOOD" ),
                    zone_type( translate_marker( "Basecamp: Food" ),
                               translate_marker( "Items in this zone will be added to a basecamp's food supply in the Distribute Food mission." ) ) );

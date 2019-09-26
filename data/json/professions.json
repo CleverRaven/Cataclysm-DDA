@@ -2429,39 +2429,6 @@
   },
   {
     "type": "profession",
-    "ident": "millionaire",
-    "name": "Millionaire",
-    "description": "You had a fortune, whether inherited, built by hard work, or gained by pure luck.  You invested in trade and nothing was beyond your reach.  Now it's not worth a dime and no money in the world can guarantee your safety and well being.  Hard times are ahead, so it's time to undust your skills and try to sell some ice to the Innuit.  What currency do they accept?",
-    "points": 3,
-    "traits": [ "MILLIONAIRE" ],
-    "skills": [ { "level": 3, "name": "barter" }, { "level": 2, "name": "speech" } ],
-    "items": {
-      "both": {
-        "items": [
-          "suit",
-          "tie_skinny",
-          "tieclip",
-          "socks",
-          "dress_shoes",
-          "smart_phone",
-          "money_bundle",
-          "gold_watch",
-          "gold_ear",
-          "gold_bracelet",
-          "gasdiscount_platinum",
-          "diamond_ring",
-          "gold_small",
-          "silver_small",
-          "platinum_small"
-        ],
-        "entries": [ { "item": "cash_card", "charges": 1000000 }, { "item": "diamond", "count": 5 } ]
-      },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
-    }
-  },
-  {
-    "type": "profession",
     "ident": "priest",
     "name": "Priest",
     "description": "When the apocalypse struck, you did everything you could to protect your parish faithful, but it appears that prayers were not enough.  Now that they are all dead, you should probably find something more tangible to protect you.",

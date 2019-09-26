@@ -181,11 +181,10 @@ nc_color msgtype_to_color( game_message_type type, bool bOldMsg = false );
  * they have no such note, they probably don't handle color tags (which means they just print the
  * string as is).
  *
- * Note: use @ref string_from_color to convert a `nc_color` value to a string suitable for a
- * color tag:
+ * Note: use @ref colorize to add color tags to a string.
  * \code
  *    nc_color color = ...;
- *    text = "<color_" + string_from_color( color ) + ">some text</color>";
+ *    text = colorize( "some text", color );
  * \endcode
  *
  * One can use @ref utf8_width with the second parameter set to `true` to determine the printed

@@ -744,7 +744,6 @@ class npc : public player
         void set_fac( const string_id<faction> &id );
         faction *get_faction() const override;
         string_id<faction> get_fac_id() const;
-        void clear_fac();
         /**
          * Set @ref submap_coords and @ref pos.
          * @param mx,my,mz are global submap coordinates.
@@ -865,6 +864,11 @@ class npc : public player
         int value( const item &it ) const;
         int value( const item &it, int market_price ) const;
         bool wear_if_wanted( const item &it );
+        void start_read( item &chosen, player *pl );
+        void finish_read( item &book );
+        bool can_read( const item &book, std::vector<std::string> &fail_reasons );
+        int time_to_read( const item &book, const player &reader ) const;
+        void do_npc_read();
         void stow_item( item &it );
         bool wield( item &it ) override;
         bool adjust_worn();

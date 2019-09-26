@@ -1662,11 +1662,7 @@ void options_manager::add_options_graphics()
 
     add( "TILES", "graphics", translate_marker( "Choose tileset" ),
          translate_marker( "Choose the tileset you want to use." ),
-#if !defined(__ANDROID__)
-         build_tilesets_list(), "MSX++DEAD_PEOPLE", COPT_CURSES_HIDE
-#else
          build_tilesets_list(), "retrodays", COPT_CURSES_HIDE
-#endif
        ); // populate the options dynamically
 
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
@@ -2412,8 +2408,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    std::stringstream sTemp;
-
     while( true ) {
         auto &cOPTIONS = ( ingame || world_options_only ) && iCurrentPage == iWorldOptPage ?
                          ACTIVE_WORLD_OPTIONS : OPTIONS;
@@ -2455,9 +2449,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
             int line_pos = i - iStartPos; // Current line position in window.
 
-            sTemp.str( "" );
-            sTemp << i + 1 - iBlankOffset;
-            mvwprintz( w_options, point( 1, line_pos ), c_white, sTemp.str() );
+            mvwprintz( w_options, point( 1, line_pos ), c_white, "%d", i + 1 - iBlankOffset );
 
             if( iCurrentLine == i ) {
                 mvwprintz( w_options, point( name_col, line_pos ), c_yellow, ">> " );

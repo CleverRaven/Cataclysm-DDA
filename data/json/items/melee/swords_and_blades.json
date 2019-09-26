@@ -106,6 +106,7 @@
     },
     "techniques": "RAPID",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
+    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN" ]
   },
   {
@@ -171,6 +172,7 @@
     },
     "techniques": [ "RAPID", "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
+    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NO_CVD" ]
   },
   {

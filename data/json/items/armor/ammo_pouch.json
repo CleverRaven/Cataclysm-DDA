@@ -175,7 +175,7 @@
     "weight": "2860 g",
     "volume": "6 L",
     "price": 29900,
-    "price_postapoc": 1000000,
+    "price_postapoc": 100000,
     "to_hit": -3,
     "bashing": 6,
     "material": [ "kevlar" ],
