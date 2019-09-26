@@ -133,7 +133,7 @@ static const std::map<npc_job, std::vector<activity_id>> job_duties = {
     { NPCJOB_COOKING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CRAFT" ), activity_id( "ACT_MULTIPLE_BUTCHER" ) } },
     { NPCJOB_MENIAL, std::vector<activity_id>{ activity_id( "ACT_MOVE_LOOT" ), activity_id( "ACT_TIDY_UP" ) } },
     { NPCJOB_VEHICLES, std::vector<activity_id>{ activity_id( "ACT_VEHICLE_REPAIR" ), activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) } },
-    { NPCJOB_CONSTRUCTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CONSTRUCTION" ), activity_id( "ACT_TIDY_UP" ) } },
+    { NPCJOB_CONSTRUCTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) } },
     { NPCJOB_CRAFTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CRAFT" ) } },
     { NPCJOB_SECURITY, std::vector<activity_id>{ activity_id( activity_id::NULL_ID() ) } }, // no corresponding activities yet.
     { NPCJOB_FARMING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_FARM" ) } },
