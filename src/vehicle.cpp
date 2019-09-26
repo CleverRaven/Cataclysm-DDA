@@ -4657,7 +4657,7 @@ void vehicle::idle( bool on_map )
         play_chimes();
     }
 
-    if (has_part("CRASH_TERRAIN_AROUND", true)) {
+    if( has_part( "CRASH_TERRAIN_AROUND", true ) ) {
         crash_terrain_around();
     }
 
