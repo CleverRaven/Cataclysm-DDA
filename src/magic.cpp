@@ -1730,9 +1730,7 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
         damage_string = _( "Recover" );
     } else if( fx == "teleport_random" ) {
         aoe_string = _( "Variance" );
-    } else if( fx == "area_pull" || fx == "area_push" ) {
-        aoe_string = _( "AoE" );
-    } else if( fx == "ter_transform" ) {
+    } else if( fx == "area_pull" || fx == "area_push" ||  fx == "ter_transform" ) {
         aoe_string = _( "AoE" );
     }
 
