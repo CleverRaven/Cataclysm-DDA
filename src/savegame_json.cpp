@@ -1480,7 +1480,7 @@ void npc::load( JsonObject &data )
         }
     }
     if( data.read( "job", jobtmp ) ) {
-        job = static_cast<npc_attitude>( jobtmp );
+        job = static_cast<npc_job>( jobtmp );
     }
     if( data.read( "previous_attitude", atttmp ) ) {
         previous_attitude = static_cast<npc_attitude>( atttmp );
