@@ -108,6 +108,45 @@ enum class attitude_group : int {
     friendly // Follow, defend, listen
 };
 
+// a job assigned to an NPC when they are stationed at a basecamp.
+// this governs what tasks they will periodically scan to do.
+// some duties arent implemented yet
+// but are more indications of what category that duty will fall under when it is implemented.
+enum npc_job : int {
+    NPCJOB_NULL = 0,   // a default job of no particular responsibility.
+    NPCJOB_COOKING,    // includes cooking crafts and butchery
+    NPCJOB_MENIAL,  // sorting items, cleaning, refilling furniture ( charcoal kilns etc )
+    NPCJOB_VEHICLES,  // deconstructing/repairing/constructing/refuelling vehicles
+    NPCJOB_CONSTRUCTING, // building stuff from blueprint zones
+    NPCJOB_CRAFTING, // crafting stuff generally.
+    NPCJOB_SECURITY,  // patrolling
+    NPCJOB_FARMING,   // tilling, planting, harvesting, fertilizing, making seeds
+    NPCJOB_LUMBERJACK, // chopping trees down, chopping logs into planks, other wood-related tasks
+    NPCJOB_HUSBANDRY, // feeding animals, shearing sheep, collecting eggs/milk, training animals
+    NPCJOB_HUNTING,  // hunting for meat ( this is currently handled by off-screen companion_mission )
+    NPCJOB_FORAGING, // foraging for edibles ( this is currently handled by off-screen companion_mission )
+    NPCJOB_END
+};
+
+static const std::map<npc_job, std::vector<activity_id>> job_duties = {
+    { NPCJOB_NULL, std::vector<activity_id>{ activity_id( activity_id::NULL_ID() ) } },
+    { NPCJOB_COOKING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CRAFT" ), activity_id( "ACT_MULTIPLE_BUTCHER" ) } },
+    { NPCJOB_MENIAL, std::vector<activity_id>{ activity_id( "ACT_MOVE_LOOT" ), activity_id( "ACT_TIDY_UP" ) } },
+    { NPCJOB_VEHICLES, std::vector<activity_id>{ activity_id( "ACT_VEHICLE_REPAIR" ), activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) } },
+    { NPCJOB_CONSTRUCTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CONSTRUCTION" ), activity_id( "ACT_TIDY_UP" ) } },
+    { NPCJOB_CRAFTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CRAFT" ) } },
+    { NPCJOB_SECURITY, std::vector<activity_id>{ activity_id( activity_id::NULL_ID() ) } }, // no corresponding activities yet.
+    { NPCJOB_FARMING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_FARM" ) } },
+    { NPCJOB_LUMBERJACK, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CHOP_TREES" ), activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) } },
+    { NPCJOB_HUSBANDRY, std::vector<activity_id>{ activity_id( activity_id::NULL_ID() ) } }, // no corresponding activities yet.
+    { NPCJOB_HUNTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_FISH" ) } },
+    { NPCJOB_FORAGING, std::vector<activity_id>{ activity_id( activity_id::NULL_ID() ) } }, // no corresponding activities yet.
+};
+
+std::string npc_job_id( npc_job job );
+std::string npc_job_name( npc_job job );
+
+
 enum npc_mission : int {
     NPC_MISSION_NULL = 0, // Nothing in particular
     NPC_MISSION_LEGACY_1,
@@ -1149,6 +1188,10 @@ class npc : public player
         void travel_overmap( const tripoint &pos );
         npc_attitude get_attitude() const;
         void set_attitude( npc_attitude new_attitude );
+        npc_job get_job() const;
+        void set_job( npc_job new_job );
+        bool has_job() const;
+        void remove_job();
         void set_mission( npc_mission new_mission );
         bool has_activity() const;
         npc_attitude get_previous_attitude();
@@ -1165,6 +1208,7 @@ class npc : public player
 
     private:
         npc_attitude attitude; // What we want to do to the player
+        npc_job job = NPCJOB_NULL; // what is our job at camp
         npc_attitude previous_attitude = NPCATT_NULL;
         bool known_to_u = false; // Does the player know this NPC?
         /**
