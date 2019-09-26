@@ -931,6 +931,90 @@
   },
   {
     "type": "martial_art",
+    "id": "style_niten",
+    "name": "Niten Ichi-Ryu",
+    "description": "Niten Ichi-Ryu is an ancient school of combat, transmitting a style of classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi.  Perception increases damage and reduces blocked damage.  Moving and attacking reduces dodging and damage until you pause.  Pausing for a moment increases Dodge skill.",
+    "initiate": [ "You clear your mind as you prepare yourself for combat.", "%s relaxes and prepares for combat." ],
+    "learn_difficulty": 8,
+    "primary_skill": "cutting",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "buff_niten_static",
+        "name": "Niten Ichi-Ryu Stance",
+        "description": "Cautious watchful eyes\nmeasure and display your skill.\nPractice makes perfect.\n\nBash and Cut damage increased by 50%% of Perception, blocked damage reduced by 100%% of Perception.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "flat_bonuses": [ [ "arpen", "cut", "per", 0.5 ], [ "arpen", "bash", "per", 0.5 ], [ "block", "per", 1.0 ] ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_niten_onmove",
+        "name": "Waning Moon",
+        "description": "Blackened like darkness,\nnightmares approach from all sides.\nFlee at any cost!\n\n-5.0 Dodge skill.\nLasts 1 turn.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ [ "dodge", -5.0 ] ]
+      }
+    ],
+    "onattack_buffs": [
+      {
+        "id": "buff_niten_onattack",
+        "name": "Falling Leaf",
+        "description": "A sharp sword cuts true.\nAlthough, all things fade with time.\nRestraint hones your skills.\n\n-1.0 Dodge skill, -1 bash damage, -1 cut damage.\nLasts 1 turn. Stacks 5 times.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 5,
+        "flat_bonuses": [ [ "dodge", -1.0 ], [ "damage", "cut", -1.0 ], [ "damage", "bash", -1.0 ] ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "buff_niten_ondodge",
+        "name": "Moonlight",
+        "description": "Luck be the light,\non a dark and cloudy night\nas the moon shines down\n\nEnables \"In-One Timing\".\nLasts 1 turn.",
+        "min_melee": 5,
+        "melee_allowed": true,
+        "buff_duration": 1
+      }
+    ],
+    "onpause_buffs": [
+      {
+        "id": "buff_niten_onpause",
+        "name": "Stillness",
+        "description": "The eye of the storm,\na fleeting moment of peace,\ngone without a trace.\n\n+2 Accuracy, Dodge skill increased by 50%% of Perception.\nLasts 2 turns.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "buff_duration": 2,
+        "flat_bonuses": [ [ "hit", 2.0 ], [ "dodge", "per", 0.5 ] ]
+      }
+    ],
+    "techniques": [ "niten_water_cut", "niten_red_leaf", "niten_stone_cut", "niten_timing_attack", "niten_feint" ],
+    "weapons": [
+      "bokken",
+      "bokken_inferior",
+      "bokken_fake",
+      "firekatana_off",
+      "firekatana_on",
+      "katana",
+      "katana_inferior",
+      "katana_fake",
+      "nodachi",
+      "nodachi_inferior",
+      "nodachi_fake",
+      "sword_nail",
+      "sword_crude",
+      "sword_wood",
+      "wakizashi",
+      "wakizashi_inferior",
+      "wakizashi_fake"
+    ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_tai_chi",
     "name": "Tai Chi",
     "description": "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
@@ -1157,80 +1241,6 @@
       "switchblade",
       "l-stick",
       "l-stick_on"
-    ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_niten",
-    "name": "Niten Ichi-Ryu",
-    "description": "Niten Ichi-Ryu is an ancient school of combat, transmitting a style of classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi.",
-    "initiate": [ "You clear your mind as you prepare yourself for combat.", "%s relaxes and prepares for combat." ],
-    "learn_difficulty": 8,
-    "primary_skill": "cutting",
-    "arm_block": 99,
-    "leg_block": 99,
-    "strictly_melee": true,
-    "static_buffs": [
-      {
-        "id": "niten_stationary_buff",
-        "name": "Niten Ichi-Ryu",
-        "description": "Perception increases dodging and damage.",
-        "min_melee": 2,
-        "flat_bonuses": [ [ "damage", "cut", "per", 0.5 ], [ "damage", "bash", "per", 0.5 ], [ "dodge", "per", 0.5 ] ]
-      }
-    ],
-    "onmove_buffs": [
-      {
-        "id": "niten_move_buff",
-        "name": "Blocking",
-        "description": "You forgo dodging on the move, but gain more blocks.",
-        "min_melee": 2,
-        "max_stacks": 1,
-        "buff_duration": 2,
-        "flat_bonuses": [ [ "dodge", -10.0 ] ],
-        "bonus_dodges": -1,
-        "bonus_blocks": 2
-      }
-    ],
-    "onhit_buffs": [
-      {
-        "id": "niten_hit_buff",
-        "name": "Blocking",
-        "description": "You forgo dodging on the offensive, but gain more blocks.",
-        "min_melee": 2,
-        "max_stacks": 1,
-        "buff_duration": 2,
-        "flat_bonuses": [ [ "dodge", -10.0 ] ],
-        "bonus_dodges": -1,
-        "bonus_blocks": 2
-      }
-    ],
-    "ondodge_buffs": [
-      {
-        "id": "niten_set-up",
-        "name": "In-One Timing Set-Up",
-        "description": "You found a gap in the enemy's defense!",
-        "min_melee": 4,
-        "buff_duration": 2,
-        "max_stacks": 1
-      }
-    ],
-    "techniques": [ "niten_water_cut", "niten_red_leaf", "niten_stone_cut", "niten_timing_attack", "niten_feint" ],
-    "weapons": [
-      "katana",
-      "katana_inferior",
-      "katana_fake",
-      "firekatana_off",
-      "firekatana_on",
-      "bokken",
-      "bokken_inferior",
-      "bokken_fake",
-      "wakizashi",
-      "wakizashi_inferior",
-      "wakizashi_fake",
-      "nodachi",
-      "nodachi_inferior",
-      "nodachi_fake"
     ]
   },
   {

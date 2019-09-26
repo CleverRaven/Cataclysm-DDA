@@ -2410,6 +2410,9 @@ void player::pause()
         }
     }
 
+    // on-pause effects for martial arts
+    ma_onpause_effects();
+
     if( is_npc() ) {
         // The stuff below doesn't apply to NPCs
         // search_surroundings should eventually do, though
