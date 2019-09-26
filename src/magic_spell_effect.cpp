@@ -288,6 +288,7 @@ static void damage_targets( const spell &sp, const Creature &caster,
         }
 
         projectile bolt;
+        bolt.speed = 10000;
         bolt.impact = sp.get_damage_instance();
         bolt.proj_effects.emplace( "magic" );
 
