@@ -401,10 +401,11 @@
     "skill_used": "electronics",
     "skills_required": [ "computer", 5 ],
     "difficulty": 5,
-    "time": "1 h 15 m",
+    "time": "2 h",
     "autolearn": true,
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [ [ [ "laptop", -1 ] ] ],
     "components": [
       [ [ "targeting_module", 1 ] ],
       [ [ "ai_module", 1 ] ],
