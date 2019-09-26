@@ -1927,7 +1927,8 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
         if( casting.aoe() > 0 ) {
             nc_color color = c_light_gray;
             if( casting.effect() == "projectile_attack" || casting.effect() == "target_attack" ||
-                casting.effect() == "area_pull" || casting.effect() == "area_push" ) {
+                casting.effect() == "area_pull" || casting.effect() == "area_push" ||
+                casting.effect() == "ter_transform" ) {
                 line_number += fold_and_print( w_target, point( 1, line_number ), getmaxx( w_target ) - 2, color,
                                                _( "Effective Spell Radius: %s%s" ), casting.aoe_string(),
                                                casting.in_aoe( src, dst ) ? colorize( _( " WARNING! IN RANGE" ), c_red ) : "" );

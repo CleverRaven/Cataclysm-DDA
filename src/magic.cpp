@@ -1557,6 +1557,8 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         damage_string = string_format( "%s %d %s", _( "Summon" ), sp.damage(),
                                        _( monster( mtype_id( sp.effect_data() ) ).get_name( ) ) );
         aoe_string = string_format( "%s: %d", _( "Spell Radius" ), sp.aoe() );
+    } else if( fx == "ter_transform" ) {
+        aoe_string = string_format( "%s: %s", _( "Spell Radius" ), sp.aoe_string() );
     }
 
     print_colored_text( w_menu, point( h_col1, line ), gray, gray, damage_string );
@@ -1729,6 +1731,8 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     } else if( fx == "teleport_random" ) {
         aoe_string = _( "Variance" );
     } else if( fx == "area_pull" || fx == "area_push" ) {
+        aoe_string = _( "AoE" );
+    } else if( fx == "ter_transform" ) {
         aoe_string = _( "AoE" );
     }
 
