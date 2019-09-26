@@ -2,8 +2,18 @@
   {
     "type": "palette",
     "id": "fbmc_firestation1_palette",
-    "terrain": { "u": "t_rootcellar", ".": "t_dirt", "^": "t_dirtmound" },
-    "furniture": { "h": "f_chair", "t": "f_table", "c": "f_counter", "r": "f_rack" }
+    "terrain": { "u": "t_rootcellar", ".": "t_dirt", "^": "t_dirtmound", "|": "t_wall_w", "d": "t_door_c" },
+    "furniture": {
+      "h": "f_chair",
+      "t": "f_table",
+      "c": "f_counter",
+      "r": "f_rack",
+      "b": "f_bed",
+      "L": "f_locker",
+      "s": "f_sofa",
+      "C": "f_armchair",
+      "B": "f_bookcase"
+    }
   },
   {
     "type": "mapgen",
@@ -178,34 +188,16 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmc_firestation1_garage",
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "rows": [
-        "      ",
-        "      ",
-        "      ",
-        "      ",
-        "     c",
-        "    cc"
-      ],
-      "palettes": [ "fbmc_firestation1_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
     "update_mapgen_id": "fbmc_firestation1_garage_area",
     "method": "json",
     "object": {
-      "place_nested": [ { "chunks": [ "fbmc_firestation1_garage" ], "x": 17, "y": 16 } ],
       "place_loot": [
-        { "item": "wrench", "x": 20, "y": 21, "chance": 100 },
-        { "item": "hacksaw", "x": 20, "y": 21, "chance": 100 },
-        { "item": "pliers", "x": 20, "y": 21, "chance": 100 },
-        { "item": "screwdriver", "x": 20, "y": 21, "chance": 100 },
-        { "item": "hammer", "x": 20, "y": 21, "chance": 100 },
-        { "item": "manual_mechanics", "x": 20, "y": 21, "chance": 100 }
+        { "item": "wrench", "x": 8, "y": 21, "chance": 100 },
+        { "item": "hacksaw", "x": 8, "y": 21, "chance": 100 },
+        { "item": "pliers", "x": 8, "y": 21, "chance": 100 },
+        { "item": "screwdriver", "x": 8, "y": 21, "chance": 100 },
+        { "item": "hammer", "x": 8, "y": 21, "chance": 100 },
+        { "item": "manual_mechanics", "x": 8, "y": 21, "chance": 100 }
       ]
     }
   },
@@ -294,7 +286,7 @@
       "mapgensize": [ 7, 7 ],
       "rows": [
         "       ",
-        "^^.^.^^",
+        "       ",
         "^^.^.^^",
         "^^.^.^^",
         "^^.^.^^",
@@ -312,5 +304,139 @@
       "place_nested": [ { "chunks": [ "fbmc_firestation1_farm_land" ], "x": 7, "y": 0 } ],
       "place_loot": [ { "item": "pickaxe", "x": 8, "y": 21, "chance": 100 } ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmc_firestation1_living_quarters",
+    "object": {
+      "mapgensize": [ 13, 13 ],
+      "rows": [
+        "    |        ",
+        "    |        ",
+        "    |        ",
+        "    d        ",
+        "    |        ",
+        "   ||||| ||||",
+        "   |   | |   ",
+        "   |   d d   ",
+        "   |   | |   ",
+        "   ||||| ||||",
+        "   |   | |   ",
+        "   |   d d   ",
+        "   |   | |   "
+      ],
+      "palettes": [ "fbmc_firestation1_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_firestation1_living_area",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmc_firestation1_living_quarters" ], "x": 10, "y": 9 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmc_firestation1_living_quarters_SW",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "bbL",
+        "t  ",
+        "bb "
+      ],
+      "palettes": [ "fbmc_firestation1_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_firestation1_bedroom_sw",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmc_firestation1_living_quarters_SW" ], "x": 14, "y": 19 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmc_firestation1_living_quarters_NW",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "bbL",
+        "t  ",
+        "bbL"
+      ],
+      "palettes": [ "fbmc_firestation1_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_firestation1_bedroom_nw",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmc_firestation1_living_quarters_NW" ], "x": 14, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmc_firestation1_living_quarters_NE",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "Lbb",
+        "  t",
+        "Lbb"
+      ],
+      "palettes": [ "fbmc_firestation1_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_firestation1_bedroom_ne",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmc_firestation1_living_quarters_NE" ], "x": 20, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmc_firestation1_living_quarters_SE",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "Lbb",
+        "  t",
+        " bb"
+      ],
+      "palettes": [ "fbmc_firestation1_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_firestation1_bedroom_se",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmc_firestation1_living_quarters_SE" ], "x": 20, "y": 19 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmc_firestation1_quarters_common_room",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "      t",
+        "hhh C s",
+        "ttt   s",
+        "hhh C s",
+        "    BBB",
+        "       ",
+        "       "
+      ],
+      "palettes": [ "fbmc_firestation1_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_firestation1_quarters_common",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmc_firestation1_quarters_common_room" ], "x": 16, "y": 9 } ] }
   }
 ]
