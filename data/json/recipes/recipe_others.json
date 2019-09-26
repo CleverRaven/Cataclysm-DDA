@@ -64,6 +64,19 @@
   },
   {
     "type": "recipe",
+    "result": "down_mattress",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": "240 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 12 ] ],
+    "components": [ [ [ "rag", 60 ] ], [ [ "down_feather", 1160 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "pillow",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -4332,7 +4345,7 @@
     "reversible": true,
     "time": "1 s",
     "autolearn": true,
-    "components": [ [ [ "washboard", 1 ] ], [ [ "sponge", 1 ] ] ]
+    "components": [ [ [ "washboard", 1 ] ], [ [ "sponge", 1 ], [ "rag", 1 ] ] ]
   },
   {
     "type": "recipe",

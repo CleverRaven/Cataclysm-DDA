@@ -8,6 +8,7 @@
 #include <vector>
 #include <array>
 #include <iomanip>
+#include <iostream>
 #include <iterator>
 #include <list>
 #include <map>
@@ -23,6 +24,7 @@
 #include "action.h"
 #include "avatar.h"
 #include "coordinate_conversions.h"
+#include "faction.h"
 #include "filesystem.h"
 #include "game.h"
 #include "map_extras.h"
@@ -132,6 +134,7 @@ enum debug_menu_index {
     DEBUG_CRASH_GAME,
     DEBUG_MAP_EXTRA,
     DEBUG_DISPLAY_NPC_PATH,
+    DEBUG_PRINT_FACTION_INFO,
     DEBUG_QUIT_NOSAVE,
     DEBUG_TEST_WEATHER,
     DEBUG_SAVE_SCREENSHOT,
@@ -204,6 +207,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_SHOW_MSG, true, 'd', _( "Show debug message" ) ) },
             { uilist_entry( DEBUG_CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ) },
             { uilist_entry( DEBUG_DISPLAY_NPC_PATH, true, 'n', _( "Toggle NPC pathfinding on map" ) ) },
+            { uilist_entry( DEBUG_PRINT_FACTION_INFO, true, 'f', _( "Print faction info to console" ) ) },
             { uilist_entry( DEBUG_TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
@@ -1062,7 +1066,12 @@ void debug()
             temp->mission = NPC_MISSION_NULL;
             temp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, temp->global_omt_location(),
                                    temp->getID() ) );
-            temp->set_fac( faction_id( "no_faction" ) );
+            std::string new_fac_id = "solo_";
+            new_fac_id += temp->name;
+            // create a new "lone wolf" faction for this one NPC
+            faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( temp->name,
+                                    faction_id( new_fac_id ), faction_id( "no_faction" ) );
+            temp->set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
             g->load_npcs();
         }
         break;
@@ -1489,6 +1498,9 @@ void debug()
                         tinymap mx_map;
                         mx_map.load( where_sm, false );
                         MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
+                        g->load_npcs();
+                        g->m.invalidate_map_cache( g->get_levz() );
+                        g->refresh_all();
                     }
                 }
                 break;
@@ -1496,6 +1508,17 @@ void debug()
             case DEBUG_DISPLAY_NPC_PATH:
                 g->debug_pathfinding = !g->debug_pathfinding;
                 break;
+            case DEBUG_PRINT_FACTION_INFO: {
+                int count = 0;
+                for( const auto elem : g->faction_manager_ptr->all() ){
+                    std::cout << std::to_string( count ) << " Faction_id key in factions map = " << elem.first.str() << std::endl;
+                    std::cout << std::to_string( count ) << " Faction name associated with this id is " << elem.second.name << std::endl;
+                    std::cout << std::to_string( count ) << " the id of that faction object is " << elem.second.id.str() << std::endl;
+                    count++;
+                }
+                std::cout << "Player faction is " << g->u.get_faction()->id.str() << std::endl;
+                break;
+            }
             case DEBUG_QUIT_NOSAVE:
                 if( query_yn(
                     _( "Quit without saving? This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {

@@ -484,7 +484,8 @@ bool avatar::read( int inventory_position, const bool continuous )
             };
 
             menu.title = !skill ? string_format( _( "Reading %s" ), it.type_name() ) :
-                         string_format( _( "Reading %s (can train %s from %d to %d)" ), it.type_name(),
+                         //~ %1$s: book name, %2$s: skill name, %3$d and %4$d: skill levels
+                         string_format( _( "Reading %1$s (can train %2$s from %3$d to %4$d)" ), it.type_name(),
                                         skill_name, type->req, type->level );
 
             if( skill ) {
@@ -1321,6 +1322,10 @@ void avatar::upgrade_stat_prompt( const Character::stat &stat )
         case PERCEPTION:
             stat_string = _( "perception" );
             break;
+        case DUMMY_STAT:
+            stat_string = _( "invalid stat" );
+            debugmsg( "Tried to use invalid stat" );
+            break;
         default:
             return;
     }
@@ -1339,6 +1344,9 @@ void avatar::upgrade_stat_prompt( const Character::stat &stat )
                 break;
             case PERCEPTION:
                 per_upgrade++;
+                break;
+            case DUMMY_STAT:
+                debugmsg( "Tried to use invalid stat" );
                 break;
         }
     }

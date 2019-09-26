@@ -167,6 +167,7 @@ void ma_buff::load( JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "quiet", quiet, false );
     optional( jo, was_loaded, "throw_immune", throw_immune, false );
+    optional( jo, was_loaded, "stealthy", stealthy, false );
 
     reqs.load( jo, src );
     bonuses.load( jo );
@@ -226,6 +227,7 @@ void martialart::load( JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "static_buffs", static_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onmove_buffs", onmove_buffs, ma_buff_reader{} );
+    optional( jo, was_loaded, "onpause_buffs", onpause_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onhit_buffs", onhit_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onattack_buffs", onattack_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "ondodge_buffs", ondodge_buffs, ma_buff_reader{} );
@@ -599,6 +601,10 @@ bool ma_buff::is_quiet() const
 {
     return quiet;
 }
+bool ma_buff::is_stealthy() const
+{
+    return stealthy;
+}
 
 bool ma_buff::can_melee() const
 {
@@ -649,6 +655,10 @@ std::string ma_buff::get_description( bool passive ) const
         dump << _( "* Attacks will be completely <info>silent</info>" ) << std::endl;
     }
 
+    if( stealthy ) {
+        dump << _( "* Movement will make <info>less noise</info>" ) << std::endl;
+    }
+
     return dump.str();
 }
 
@@ -682,6 +692,11 @@ void martialart::apply_static_buffs( player &u ) const
 void martialart::apply_onmove_buffs( player &u ) const
 {
     simultaneous_add( u, onmove_buffs );
+}
+
+void martialart::apply_onpause_buffs( player &u ) const
+{
+    simultaneous_add( u, onpause_buffs );
 }
 
 void martialart::apply_onhit_buffs( player &u ) const
@@ -934,6 +949,10 @@ void player::ma_onmove_effects()
 {
     style_selected.obj().apply_onmove_buffs( *this );
 }
+void player::ma_onpause_effects()
+{
+    style_selected.obj().apply_onpause_buffs( *this );
+}
 void player::ma_onhit_effects()
 {
     style_selected.obj().apply_onhit_buffs( *this );
@@ -1082,6 +1101,12 @@ bool player::is_quiet() const
 {
     return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
         return b.is_quiet();
+    } );
+}
+bool player::is_stealthy() const
+{
+    return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
+        return b.is_stealthy();
     } );
 }
 
@@ -1317,6 +1342,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         buff_desc( _( "Passive" ), ma.static_buffs, true );
         buff_desc( _( "Move" ), ma.onmove_buffs );
+        buff_desc( _( "Pause" ), ma.onpause_buffs );
         buff_desc( _( "Hit" ), ma.onhit_buffs );
         buff_desc( _( "Miss" ), ma.onmiss_buffs );
         buff_desc( _( "Attack" ), ma.onattack_buffs );

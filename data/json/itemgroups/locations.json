@@ -937,7 +937,7 @@
     ]
   },
   {
-    "id": "corpse_male",
+    "id": "corpse_male_mortuary",
     "type": "item_group",
     "//": "For mortuary",
     "subtype": "collection",
@@ -950,7 +950,7 @@
     ]
   },
   {
-    "id": "corpse_female",
+    "id": "corpse_female_mortuary",
     "type": "item_group",
     "//": "For mortuary",
     "subtype": "collection",

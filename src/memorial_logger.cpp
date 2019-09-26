@@ -331,8 +331,8 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
     //Lifetime stats
     file << _( "Lifetime Stats and Scores" ) << eol;
 
-    for( const score &scr : score::get_all() ) {
-        file << indent << scr.description( g->stats() ) << eol;
+    for( const score *scr : g->stats().valid_scores() ) {
+        file << indent << scr->description( g->stats() ) << eol;
     }
     file << eol;
 
@@ -926,6 +926,13 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::opens_temple: {
             add( pgettext( "memorial_male", "Opened a strange temple." ),
                  pgettext( "memorial_female", "Opened a strange temple." ) );
+            break;
+        }
+        case event_type::player_levels_spell: {
+            std::string spell_name = e.get<spell_id>( "spell" )->name.translated();
+            add( pgettext( "memorial_male", "Gained a spell level on %s." ),
+                 pgettext( "memorial_female", "Gained a spell level on %s." ),
+                 spell_name );
             break;
         }
         case event_type::releases_subspace_specimens: {

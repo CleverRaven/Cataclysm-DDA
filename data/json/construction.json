@@ -3003,5 +3003,33 @@
     ],
     "pre_special": "check_empty",
     "post_terrain": "f_arcfurnace_empty"
+  },
+  {
+    "type": "construction",
+    "skill": "fabrication",
+    "description": "Build a bellow.",
+    "//": "faction camp workshop recipe",
+    "category": "CONSTRUCT",
+    "difficulty": 1,
+    "time": "60m",
+    "on_display": false,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "tanned_hide", 2 ] ], [ [ "scrap", 20 ] ], [ [ "wire", 8 ] ] ],
+    "pre_flags": [ "FLAT" ],
+    "post_terrain": "f_bellows"
+  },
+  {
+    "type": "construction",
+    "skill": "fabrication",
+    "description": "Build a drop hammer.",
+    "//": "faction camp workshop recipe",
+    "category": "CONSTRUCT",
+    "difficulty": 3,
+    "time": "120m",
+    "on_display": false,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "metal_tank", 2 ] ], [ [ "water_faucet", 2 ] ], [ [ "anvil", 1 ] ], [ [ "chain", 4 ] ], [ [ "pipe", 3 ] ] ],
+    "pre_flags": [ "FLAT" ],
+    "post_terrain": "f_drophammer"
   }
 ]
