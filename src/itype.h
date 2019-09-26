@@ -572,8 +572,8 @@ struct islot_gunmod : common_ranged_data {
     /** How many moves does this gunmod take to install? */
     int install_time = 0;
 
-    /** Increases base gun UPS consumption by this many charges per shot */
-    int ups_charges = 0;
+    /** Increases base gun UPS consumption by this many times per shot */
+    float ups_charges_multiplier = 1.0f;
 
     /** Firing modes added to or replacing those of the base gun */
     std::map<gun_mode_id, gun_modifier_data> mode_modifier;
