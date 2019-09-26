@@ -63,7 +63,7 @@
 #include "type_id.h"
 #include "point.h"
 
-const skill_id skill_throw( "throwx" );
+const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );
 const skill_id skill_driving( "driving" );
 const skill_id skill_dodge( "dodge" );
