@@ -138,7 +138,7 @@
     "id": "bfg50",
     "copy-from": "rifle_base",
     "type": "GUN",
-    "name": "Serbu BFG-50"
+    "name": "Serbu BFG-50",
     "description": "Single-shot, bolt-action rifle made by Serbu Firearms, simple and powerful, this weapon is perfect for long-range kills.",
     "weight": "8504 g",
     "volume": "2222 ml",
