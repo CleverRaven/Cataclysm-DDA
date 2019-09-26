@@ -129,7 +129,7 @@
     "durability": 8,
     "reload": 450,
     "barrel_length": 5,
-    "default_mods": [ "bipod", "rifle_scope", "muzzle_brake", "recoil_stock ],
+    "default_mods": [ "recoil_stock", "bipod", "rifle_scope", "muzzle_brake" ],
     "magazine_well": 1,
     "magazines": [ [ "50", [ "tac50mag" ] ] ],
     "flags": [ "NEVER_JAMS" ]
