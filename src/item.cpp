@@ -1089,12 +1089,12 @@ void item::set_owner( const Character &c )
     owner = c.get_faction()->id;
 }
 
-const faction_id item::get_owner() const
+faction_id item::get_owner() const
 {
     return owner;
 }
 
-const faction_id item::get_old_owner() const
+faction_id item::get_old_owner() const
 {
     return old_owner;
 }

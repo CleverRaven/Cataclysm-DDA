@@ -1919,8 +1919,8 @@ class item : public visitable<item>
         inline void remove_owner() {
             owner = faction_id::NULL_ID();
         }
-        const faction_id get_owner() const;
-        const faction_id get_old_owner() const;
+        faction_id get_owner() const;
+        faction_id get_old_owner() const;
         bool is_owned_by( const Character &c, bool available_to_take = false ) const;
         bool is_old_owner( const Character &c, bool available_to_take = false ) const;
         std::string get_owner_name() const;
