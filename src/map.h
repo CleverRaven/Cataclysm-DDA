@@ -1237,7 +1237,7 @@ class map
         // places an NPC, if static NPCs are enabled or if force is true
         character_id place_npc( const point &p, const string_id<npc_template> &type,
                                 bool force = false );
-        void apply_faction_ownership( const point &p1, const point &p2, const faction_id id );
+        void apply_faction_ownership( const point &p1, const point &p2, faction_id id );
         void add_spawn( const mtype_id &type, int count, const point &p,
                         bool friendly = false,
                         int faction_id = -1, int mission_id = -1,
