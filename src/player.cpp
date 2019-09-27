@@ -5009,7 +5009,8 @@ void player::suffer()
 
                 // Limb Breaks
                 if( !done_effect && one_turn_in( 4_hours ) ) {
-                    add_msg( m_bad, _( "Your limb breaks!" ) );
+                    std::string snip = SNIPPET.random_from_category( "broken_limb" );
+                    add_msg( m_bad, snip );
                     done_effect = true;
                 }
 
@@ -5034,29 +5035,8 @@ void player::suffer()
 
                 // Talk to self
                 if( !done_effect && one_turn_in( 4_hours ) ) {
-                    std::vector<std::string> talk_s{ _( "Hey, can you hear me?" ),
-                                                     _( "Don't touch me." ),
-                                                     _( "What's your name?" ),
-                                                     _( "I thought you were my friend." ),
-                                                     _( "How are you today?" ),
-                                                     _( "Shut up! Don't lie to me." ),
-                                                     _( "Why would you do that?" ),
-                                                     _( "Please, don't go." ),
-                                                     _( "Don't leave me alone!" ),
-                                                     _( "Yeah, sure." ),
-                                                     _( "No way, man." ),
-                                                     _( "Do you really think so?" ),
-                                                     _( "Is it really time for that?" ),
-                                                     _( "Sorry, I can't hear you." ),
-                                                     _( "You've told me already." ),
-                                                     _( "I know!" ),
-                                                     _( "Why are you following me?" ),
-                                                     _( "This place is dangerous, you shouldn't be here." ),
-                                                     _( "What are you doing out here?" ),
-                                                     _( "That's not true, is it?" ),
-                                                     _( "Are you hurt?" ) };
-
-                    add_msg( _( "%1$s says: \"%2$s\"" ), name, random_entry_ref( talk_s ) );
+                    std::string snip = SNIPPET.random_from_category( "schizo_self_talk" );
+                    add_msg( _( "%1$s says: \"%2$s\"" ), name, snip );
                     done_effect = true;
                 }
 
