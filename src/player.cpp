@@ -5137,8 +5137,8 @@ void player::suffer()
                     }
                     if( does_talk ) {
                         add_msg( _( "%1$s says: \"%2$s\"" ), i_name_w, i_talk_w );
+                        done_effect = true;
                     }
-                    done_effect = true;
                 }
                 // Bad feeling
                 if( !done_effect && one_turn_in( 4_hours ) ) {
