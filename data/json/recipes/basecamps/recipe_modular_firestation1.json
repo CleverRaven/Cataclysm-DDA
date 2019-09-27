@@ -32,7 +32,7 @@
     "never_learn": true,
     "time": "1 h",
     "construction_blueprint": "fbmc_firestation1_kitchen1_cleared",
-    "blueprint_name": "set up kitchen area.",
+    "blueprint_name": "set up kitchen area",
     "blueprint_requires": [ { "id": "fbmc_firestation1_0" } ],
     "blueprint_provides": [ { "id": "fbmc_firestation1_kitchen" }, { "id": "tool_storage" }, { "id": "bed" } ],
     "blueprint_excludes": [ { "id": "fbmc_firestation1_kitchen" } ],
