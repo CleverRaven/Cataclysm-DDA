@@ -589,7 +589,7 @@ struct islot_gunmod : common_ranged_data {
     int handling = 0;
 
     /** Proportional value change to the gun's loading time. Higher is slower */
-    float reload_modifier = 1;
+    float reload_modifier = 1.0;
 
     /** Percentage value change to the gun's loading time. Higher is less likely */
     int consume_chance = 10000;
@@ -598,7 +598,7 @@ struct islot_gunmod : common_ranged_data {
     int consume_divisor = 1;
 
     /** Proportional change to strength requirement for a gun */
-    float min_str_required_mod = 1;
+    float min_str_required_mod = 1.0;
 
     /** Additional gunmod slots to add to the gun */
     std::map<gunmod_location, int> add_mod;
