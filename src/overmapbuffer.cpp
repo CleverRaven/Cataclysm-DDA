@@ -617,10 +617,16 @@ void overmapbuffer::set_seen( const tripoint &p, bool seen )
     om_loc.om->seen( om_loc.local ) = seen;
 }
 
-oter_id &overmapbuffer::ter( const tripoint &p )
+const oter_id &overmapbuffer::ter( const tripoint &p )
 {
     const overmap_with_local_coords om_loc = get_om_global( p );
     return om_loc.om->ter( om_loc.local );
+}
+
+void overmapbuffer::ter_set( const tripoint &p, const oter_id &id )
+{
+    const overmap_with_local_coords om_loc = get_om_global( p );
+    return om_loc.om->ter_set( om_loc.local, id );
 }
 
 bool overmapbuffer::reveal( const point &center, int radius, int z )

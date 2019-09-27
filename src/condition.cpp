@@ -359,7 +359,7 @@ void conditional_t<T>::set_at_om_location( JsonObject &jo, const std::string &me
             actor = dynamic_cast<player *>( d.beta );
         }
         const tripoint omt_pos = actor->global_omt_location();
-        oter_id &omt_ref = overmap_buffer.ter( omt_pos );
+        const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
 
         if( location == "FACTION_CAMP_ANY" ) {
             cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );

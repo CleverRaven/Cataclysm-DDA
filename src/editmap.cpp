@@ -1557,11 +1557,12 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     hilights["mapgentgt"].points[target + point( 1 + SEEX, -SEEY )] = 1;
 
     // Coordinates of the overmap terrain that should be generated.
-    const point omt_pos = ms_to_omt_copy( tc.abs_pos );
-    oter_id &omt_ref = overmap_buffer.ter( tripoint( omt_pos, target.z ) );
+    const point omt_pos2 = ms_to_omt_copy( tc.abs_pos );
+    const tripoint omt_pos( omt_pos2, target.z );
+    const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     // Copy to store the original value, to restore it upon canceling
     const oter_id orig_oters = omt_ref;
-    omt_ref = oter_id( gmenu.ret );
+    overmap_buffer.ter_set( omt_pos, oter_id( gmenu.ret ) );
     tinymap tmpmap;
     // TODO: add a do-not-save-generated-submaps parameter
     // TODO: keep track of generated submaps to delete them properly and to avoid memory leaks
@@ -1598,7 +1599,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     do {
         if( gmenu.selected != lastsel ) {
             lastsel = gmenu.selected;
-            omt_ref = oter_id( gmenu.selected );
+            overmap_buffer.ter_set( omt_pos, oter_id( gmenu.selected ) );
             cleartmpmap( tmpmap );
             tmpmap.generate( tripoint( omt_pos.x * 2, omt_pos.y * 2, target.z ), calendar::turn );
         }
@@ -1769,7 +1770,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
     if( gpmenu.ret != 2 &&  // we didn't apply, so restore the original om_ter
         gpmenu.ret != 3 ) { // chose to change oter_id but not apply mapgen
-        omt_ref = orig_oters;
+        overmap_buffer.ter_set( omt_pos, orig_oters );
     }
     gmenu.border_color = c_magenta;
     gmenu.hilight_color = h_white;

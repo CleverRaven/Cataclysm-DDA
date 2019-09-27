@@ -1283,7 +1283,7 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
                 curs.y += vec->y;
             } else if( action == "CONFIRM" ) { // Actually modify the overmap
                 if( terrain ) {
-                    overmap_buffer.ter( curs ) = uistate.place_terrain->id.id();
+                    overmap_buffer.ter_set( curs, uistate.place_terrain->id.id() );
                     overmap_buffer.set_seen( curs, true );
                 } else {
                     overmap_buffer.place_special( *uistate.place_special, curs, uistate.omedit_rotation, false, true );

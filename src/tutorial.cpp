@@ -70,13 +70,13 @@ bool tutorial_game::init()
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             tripoint p( i, j, 0 );
-            starting_om.ter( p + tripoint_below ) = rock;
+            starting_om.ter_set( p + tripoint_below, rock );
             // Start with the overmap revealed
             starting_om.seen( p ) = true;
         }
     }
-    starting_om.ter( lp ) = oter_id( "tutorial" );
-    starting_om.ter( lp + tripoint_below ) = oter_id( "tutorial" );
+    starting_om.ter_set( lp, oter_id( "tutorial" ) );
+    starting_om.ter_set( lp + tripoint_below, oter_id( "tutorial" ) );
     starting_om.clear_mon_groups();
 
     g->u.toggle_trait( trait_id( "QUICK" ) );
