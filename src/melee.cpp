@@ -1650,9 +1650,9 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
 
     std::string target = t.disp_name();
 
-    if( has_active_bionic( bionic_id( "bio_shock" ) ) && power_level >= 2 &&
+    if( has_active_bionic( bionic_id( "bio_shock" ) ) && power_level >= 2_kJ &&
         ( !is_armed() || weapon.conductive() ) ) {
-        charge_power( -2 );
+        charge_power( -2_kJ );
         d.add_damage( DT_ELECTRIC, rng( 2, 10 ) );
 
         if( is_player() ) {
@@ -1663,7 +1663,7 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
     }
 
     if( has_active_bionic( bionic_id( "bio_heat_absorb" ) ) && !is_armed() && t.is_warm() ) {
-        charge_power( 3 );
+        charge_power( 3_kJ );
         d.add_damage( DT_COLD, 3 );
         if( is_player() ) {
             dump << string_format( _( "You drain %s's body heat." ), target ) << std::endl;

@@ -397,6 +397,66 @@ inline bool assign( JsonObject &jo, const std::string &name, units::money &val,
     return true;
 }
 
+inline bool assign( JsonObject &jo, const std::string &name, units::energy &val,
+                    bool strict = false,
+                    const units::energy lo = units::energy_min,
+                    const units::energy hi = units::energy_max )
+{
+    const auto parse = [&name]( JsonObject & obj, units::energy & out ) {
+        if( obj.has_int( name ) ) {
+            out = units::from_kilojoule<std::int64_t>( obj.get_int( name ) );
+            return true;
+        }
+        if( obj.has_string( name ) ) {
+
+            out = read_from_json_string<units::energy>( *obj.get_raw( name ), units::energy_units );
+            return true;
+        }
+        return false;
+    };
+
+    units::energy out;
+
+    // Object via which to report errors which differs for proportional/relative values
+    JsonObject err = jo;
+
+    // Do not require strict parsing for relative and proportional values as rules
+    // such as +10% are well-formed independent of whether they affect base value
+    if( jo.get_object( "relative" ).has_member( name ) ) {
+        units::energy tmp;
+        err = jo.get_object( "relative" );
+        if( !parse( err, tmp ) ) {
+            err.throw_error( "invalid relative value specified", name );
+        }
+        strict = false;
+        out = val + tmp;
+
+    } else if( jo.get_object( "proportional" ).has_member( name ) ) {
+        double scalar;
+        err = jo.get_object( "proportional" );
+        if( !err.read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
+            err.throw_error( "invalid proportional scalar", name );
+        }
+        strict = false;
+        out = val * scalar;
+
+    } else if( !parse( jo, out ) ) {
+        return false;
+    }
+
+    if( out < lo || out > hi ) {
+        err.throw_error( "value outside supported range", name );
+    }
+
+    if( strict && out == val ) {
+        report_strict_violation( err, "assignment does not update value", name );
+    }
+
+    val = out;
+
+    return true;
+}
+
 inline bool assign( JsonObject &jo, const std::string &name, nc_color &val,
                     const bool strict = false )
 {

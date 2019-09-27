@@ -4240,31 +4240,31 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
         const item muscle( "muscle" );
         if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             if( one_in( 1000 / load ) ) { // more pedaling = more power
-                g->u.charge_power( 1 );
+                g->u.charge_power( 1_kJ );
             }
             mod += eff_load / 5;
         }
         if( g->u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             if( one_in( 1000 / load ) && one_in( 20 ) ) { // intentional double chance check
-                g->u.charge_power( 1 );
+                g->u.charge_power( 1_kJ );
             }
             mod += eff_load / 10;
         }
         for( const bionic_id &bid : g->u.get_bionic_fueled_with( muscle ) ) {
             if( g->u.has_active_bionic( bid ) ) {
                 if( one_in( 1000 / load ) ) { // more pedaling = more power
-                    g->u.charge_power( muscle.fuel_energy() * bid->fuel_efficiency );
+                    g->u.charge_power( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
                 }
                 mod += eff_load / 5;
             }
             if( one_in( 1000 / load ) && one_in( 20 ) ) { // intentional double chance check
-                g->u.charge_power( muscle.fuel_energy() * bid->fuel_efficiency );
+                g->u.charge_power( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
             }
             mod += eff_load / 10;
         }
         // decreased stamina burn scalable with load
         if( g->u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
-            g->u.charge_power( -std::max( eff_load / 20, 1 ) );
+            g->u.charge_power( units::from_kilojoule( -std::max( eff_load / 20, 1 ) ) );
             mod -= std::max( eff_load / 5, 5 );
         }
         if( one_in( 1000 / load ) && one_in( 10 ) ) {

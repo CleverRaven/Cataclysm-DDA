@@ -876,7 +876,7 @@ void ups_based_armor_actor::load( JsonObject &obj )
 
 static bool has_powersource( const item &i, const player &p )
 {
-    if( i.is_power_armor() && p.can_interface_armor() && p.power_level > 0 ) {
+    if( i.is_power_armor() && p.can_interface_armor() && p.power_level > 0_kJ ) {
         return true;
     }
     return p.has_charges( "UPS", 1 );

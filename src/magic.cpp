@@ -613,7 +613,7 @@ bool spell::can_cast( const player &p ) const
             return false;
         }
         case bionic_energy:
-            return p.power_level >= energy_cost( p );
+            return p.power_level >= units::from_kilojoule( energy_cost( p ) );
         case fatigue_energy:
             return p.get_fatigue() < EXHAUSTED;
         case none_energy:
@@ -788,7 +788,7 @@ std::string spell::energy_cur_string( const player &p ) const
         return _( "infinite" );
     }
     if( energy_source() == bionic_energy ) {
-        return colorize( to_string( p.power_level ), c_light_blue );
+        return colorize( to_string( units::to_kilojoule( p.power_level ) ), c_light_blue );
     }
     if( energy_source() == mana_energy ) {
         return colorize( to_string( p.magic.available_mana() ), c_light_blue );
@@ -1297,7 +1297,7 @@ int known_magic::max_mana( const player &p ) const
 {
     const float int_bonus = ( ( 0.2f + p.get_int() * 0.1f ) - 1.0f ) * mana_base;
     return std::max( 0.0f, ( ( mana_base + int_bonus ) * p.mutation_value( "mana_multiplier" ) ) +
-                     p.mutation_value( "mana_modifier" ) - p.power_level );
+                     p.mutation_value( "mana_modifier" ) - units::to_kilojoule( p.power_level ) );
 }
 
 void known_magic::update_mana( const player &p, float turns )
@@ -1325,7 +1325,7 @@ bool known_magic::has_enough_energy( const player &p, spell &sp ) const
         case mana_energy:
             return available_mana() >= cost;
         case bionic_energy:
-            return p.power_level >= cost;
+            return p.power_level >= units::from_kilojoule( cost );
         case stamina_energy:
             return p.stamina >= cost;
         case hp_energy:

@@ -29,15 +29,15 @@ struct bionic_data {
     translation name;
     translation description;
     /** Power cost on activation */
-    int power_activate = 0;
+    units::energy power_activate = 0_kJ;
     /** Power cost on deactivation */
-    int power_deactivate = 0;
+    units::energy power_deactivate = 0_kJ;
     /** Power cost over time, does nothing without a non-zero charge_time */
-    int power_over_time = 0;
+    units::energy power_over_time = 0_kJ;
     /** How often a bionic draws or produces power while active in turns */
     int charge_time = 0;
     /** Power bank size **/
-    int capacity = 0;
+    units::energy capacity = 0_kJ;
 
     /** True if a bionic can be used by an NPC and installed on them */
     bool npc_usable = false;

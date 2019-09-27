@@ -506,8 +506,10 @@ void Character::load( JsonObject &data )
     reset_encumbrance();
 
     // FIXME: Fix corrupted bionic power data loading (see #31627). Temporary.
-    power_level = pmap.get_int( "power_level", data.get_int( "power_level", 0 ) );
-    max_power_level = pmap.get_int( "max_power_level", data.get_int( "max_power_level", 0 ) );
+    power_level = units::from_kilojoule( pmap.get_int( "power_level", data.get_int( "power_level",
+                                         0 ) ) );
+    max_power_level = units::from_kilojoule( pmap.get_int( "max_power_level",
+                      data.get_int( "max_power_level", 0 ) ) );
     // Bionic power scale has been changed, savegame version 21 has the new scale
     if( savegame_loading_version <= 20 ) {
         power_level *= 25;
@@ -515,8 +517,8 @@ void Character::load( JsonObject &data )
     }
 
     // Bionic power should not be negative!
-    if( power_level < 0 ) {
-        power_level = 0;
+    if( power_level < 0_kJ ) {
+        power_level = 0_kJ;
     }
 }
 

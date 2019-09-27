@@ -242,7 +242,7 @@ std::pair<int, int> player::fun_for( const item &comest ) const
     }
 
     if( has_active_bionic( bio_taste_blocker ) &&
-        power_level > abs( comest.get_comestible()->fun ) &&
+        power_level > units::from_kilojoule( abs( comest.get_comestible()->fun ) ) &&
         comest.get_comestible()->fun < 0 ) {
         fun = 0;
     }
@@ -805,17 +805,17 @@ bool player::eat( item &food, bool force )
     }
 
     if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL" ) ) {
-        charge_power( rng( 50, 200 ) );
+        charge_power( units::from_kilojoule( rng( 50, 200 ) ) );
     }
     if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL_WEAK" ) ) {
-        charge_power( rng( 25, 100 ) );
+        charge_power( units::from_kilojoule( rng( 25, 100 ) ) );
     }
     if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL_STRONG" ) ) {
-        charge_power( rng( 75, 300 ) );
+        charge_power( units::from_kilojoule( rng( 75, 300 ) ) );
     }
 
     if( has_active_bionic( bio_taste_blocker ) ) {
-        charge_power( -abs( food.get_comestible()->fun ) );
+        charge_power( units::from_kilojoule( -abs( food.get_comestible()->fun ) ) );
     }
 
     if( food.has_flag( "CANNIBALISM" ) ) {
@@ -1174,8 +1174,10 @@ bool player::feed_battery_with( item &it )
         return false;
     }
 
-    const int energy = get_acquirable_energy( it, rechargeable_cbm::battery );
-    const int profitable_energy = std::min( energy, max_power_level - power_level );
+    const units::energy energy = units::from_kilojoule( get_acquirable_energy( it,
+                                 rechargeable_cbm::battery ) );
+    const int profitable_energy = std::min( units::to_kilojoule( energy ),
+                                            units::to_kilojoule( max_power_level - power_level ) );
 
     if( profitable_energy <= 0 ) {
         add_msg_player_or_npc( m_info,
@@ -1184,7 +1186,7 @@ bool player::feed_battery_with( item &it )
         return false;
     }
 
-    charge_power( it.charges );
+    charge_power( units::from_kilojoule( it.charges ) );
     it.charges -= profitable_energy;
 
     add_msg_player_or_npc( m_info,
@@ -1268,8 +1270,9 @@ bool player::feed_furnace_with( item &it )
         return false;
     }
 
-    const int consumed_charges = std::min( it.charges, it.charges_per_volume( furnace_max_volume ) );
-    const int energy = get_acquirable_energy( it, rechargeable_cbm::furnace );
+    const units::energy consumed_charges = units::from_kilojoule( std::min( it.charges,
+                                           it.charges_per_volume( furnace_max_volume ) ) );
+    const int energy =  get_acquirable_energy( it, rechargeable_cbm::furnace ) ;
 
     if( energy == 0 ) {
         add_msg_player_or_npc( m_info,
@@ -1282,7 +1285,8 @@ bool player::feed_furnace_with( item &it )
             _( "<npcname> digests a %s for energy, they're fully powered already, so the energy is wasted." ),
             it.tname() );
     } else {
-        const int profitable_energy = std::min( energy, max_power_level - power_level );
+        const int profitable_energy = std::min( energy,
+                                                units::to_kilojoule( max_power_level - power_level ) );
         if( it.count_by_charges() ) {
             add_msg_player_or_npc( m_info,
                                    ngettext( "You digest %d %s and recharge %d point of energy.",
@@ -1306,10 +1310,10 @@ bool player::feed_furnace_with( item &it )
                                            ), it.tname(), profitable_energy
                                  );
         }
-        charge_power( profitable_energy );
+        charge_power( units::from_kilojoule( profitable_energy ) );
     }
 
-    it.charges -= consumed_charges;
+    it.charges -= units::to_kilojoule( consumed_charges );
     mod_moves( -250 );
 
     return true;
@@ -1404,7 +1408,7 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
         case rechargeable_cbm::other:
             const int to_consume = std::min( it.charges, std::numeric_limits<int>::max() );
             const int to_charge = std::min( static_cast<int>( it.fuel_energy() * to_consume ),
-                                            max_power_level - power_level );
+                                            units::to_kilojoule( max_power_level - power_level ) );
             return to_charge;
             break;
     }
