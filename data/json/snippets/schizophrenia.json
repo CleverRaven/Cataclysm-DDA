@@ -140,5 +140,18 @@
       "\"What are you!?\"",
       "\"I should never have trusted you!\""
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "schizo_weapon_drop",
+    "text": [
+      "%1$s starts burning your hands!",
+      "%1$s feels freezing cold!",
+      "An electric shock shoots into your hand from %1$s!",
+      "%1$s lied to you.",
+      "%1$s was working for... THEM",
+      "%1$s said something stupid.",
+      "%1$s is running away!"
+    ]
   }
 ]
