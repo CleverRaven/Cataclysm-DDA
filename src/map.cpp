@@ -4337,7 +4337,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
                 continue;
             }
             //must be a path to the target tile
-            if( g->m.route( pos, e, setting ).empty() ) {
+            if( route( pos, e, setting ).empty() ) {
                 continue;
             }
             if( obj.made_of( LIQUID ) || !obj.has_flag( "DROP_ACTION_ONLY_IF_LIQUID" ) ) {
@@ -8604,6 +8604,9 @@ void map::update_pathfinding_cache( int zlev ) const
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             const auto cur_submap = get_submap_at_grid( { smx, smy, zlev } );
+            if( !cur_submap ) {
+                return;
+            }
 
             tripoint p( 0, 0, zlev );
 
