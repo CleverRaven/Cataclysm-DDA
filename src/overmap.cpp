@@ -1196,15 +1196,6 @@ const oter_id &overmap::ter( const tripoint &p ) const
     return layer[p.z + OVERMAP_DEPTH].terrain[p.x][p.y];
 }
 
-oter_id overmap::get_ter( const tripoint &p ) const
-{
-    if( !inbounds( p ) ) {
-        return ot_null;
-    }
-
-    return layer[p.z + OVERMAP_DEPTH].terrain[p.x][p.y];
-}
-
 bool &overmap::seen( const tripoint &p )
 {
     if( !inbounds( p ) ) {
@@ -1821,7 +1812,7 @@ tripoint overmap::find_random_omt( const std::string &omt_base_type ) const
         for( int j = 0; j < OMAPY; j++ ) {
             for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
                 tripoint p( i, j, k );
-                if( get_ter( p )->get_type_id().str() == omt_base_type ) {
+                if( ter( p )->get_type_id().str() == omt_base_type ) {
                     valid.push_back( p );
                 }
             }
@@ -2486,12 +2477,12 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
             const tripoint p_neighbour( i, OMAPY - 1, 0 );
             const tripoint p_mine( i, 0, 0 );
 
-            if( is_river( north->get_ter( p_neighbour ) ) ) {
+            if( is_river( north->ter( p_neighbour ) ) ) {
                 ter_set( p_mine, river_center );
             }
-            if( is_river( north->get_ter( p_neighbour ) ) &&
-                is_river( north->get_ter( p_neighbour + point_east ) ) &&
-                is_river( north->get_ter( p_neighbour + point_west ) ) ) {
+            if( is_river( north->ter( p_neighbour ) ) &&
+                is_river( north->ter( p_neighbour + point_east ) ) &&
+                is_river( north->ter( p_neighbour + point_west ) ) ) {
                 if( one_in( river_chance ) && ( river_start.empty() ||
                                                 river_start[river_start.size() - 1].x < ( i - 6 ) * river_scale ) ) {
                     river_start.push_back( p_mine.xy() );
@@ -2505,12 +2496,12 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
             const tripoint p_neighbour( OMAPX - 1, i, 0 );
             const tripoint p_mine( 0, i, 0 );
 
-            if( is_river( west->get_ter( p_neighbour ) ) ) {
+            if( is_river( west->ter( p_neighbour ) ) ) {
                 ter_set( p_mine, river_center );
             }
-            if( is_river( west->get_ter( p_neighbour ) ) &&
-                is_river( west->get_ter( p_neighbour + point_north ) ) &&
-                is_river( west->get_ter( p_neighbour + point_south ) ) ) {
+            if( is_river( west->ter( p_neighbour ) ) &&
+                is_river( west->ter( p_neighbour + point_north ) ) &&
+                is_river( west->ter( p_neighbour + point_south ) ) ) {
                 if( one_in( river_chance ) && ( river_start.size() == rivers_from_north ||
                                                 river_start[river_start.size() - 1].y < ( i - 6 ) * river_scale ) ) {
                     river_start.push_back( p_mine.xy() );
@@ -2523,12 +2514,12 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
             const tripoint p_neighbour( i, 0, 0 );
             const tripoint p_mine( i, OMAPY - 1, 0 );
 
-            if( is_river( south->get_ter( p_neighbour ) ) ) {
+            if( is_river( south->ter( p_neighbour ) ) ) {
                 ter_set( p_mine, river_center );
             }
-            if( is_river( south->get_ter( p_neighbour ) ) &&
-                is_river( south->get_ter( p_neighbour + point_east ) ) &&
-                is_river( south->get_ter( p_neighbour + point_west ) ) ) {
+            if( is_river( south->ter( p_neighbour ) ) &&
+                is_river( south->ter( p_neighbour + point_east ) ) &&
+                is_river( south->ter( p_neighbour + point_west ) ) ) {
                 if( river_end.empty() ||
                     river_end[river_end.size() - 1].x < i - 6 ) {
                     river_end.push_back( p_mine.xy() );
@@ -2542,12 +2533,12 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
             const tripoint p_neighbour( 0, i, 0 );
             const tripoint p_mine( OMAPX - 1, i, 0 );
 
-            if( is_river( east->get_ter( p_neighbour ) ) ) {
+            if( is_river( east->ter( p_neighbour ) ) ) {
                 ter_set( p_mine, river_center );
             }
-            if( is_river( east->get_ter( p_neighbour ) ) &&
-                is_river( east->get_ter( p_neighbour + point_north ) ) &&
-                is_river( east->get_ter( p_neighbour + point_south ) ) ) {
+            if( is_river( east->ter( p_neighbour ) ) &&
+                is_river( east->ter( p_neighbour + point_north ) ) &&
+                is_river( east->ter( p_neighbour + point_south ) ) ) {
                 if( river_end.size() == rivers_to_south ||
                     river_end[river_end.size() - 1].y < i - 6 ) {
                     river_end.push_back( p_mine.xy() );
@@ -3202,7 +3193,7 @@ void overmap::build_anthill( const tripoint &p, int s )
     for( int i = -s; i <= s; i++ ) {
         for( int j = -s; j <= s; j++ ) {
             const tripoint root = p + point( i, j );
-            if( root_id == get_ter( root )->id ) {
+            if( root_id == ter( root )->id ) {
                 const oter_id &oter = ter( root );
                 for( auto dir : om_direction::all ) {
                     const tripoint p = root + om_direction::displace( dir );
@@ -3226,7 +3217,7 @@ void overmap::build_tunnel( const tripoint &p, int s, om_direction::type dir )
     }
 
     const oter_id root_id( "ants_isolated" );
-    if( check_ot( "ants", ot_match_type::type, p ) && root_id != get_ter( p )->id ) {
+    if( check_ot( "ants", ot_match_type::type, p ) && root_id != ter( p )->id ) {
         return;
     }
 
@@ -3321,7 +3312,7 @@ pf::path overmap::lay_out_connection( const overmap_connection &connection, cons
                                       const point &dest, int z, const bool must_be_unexplored ) const
 {
     const auto estimate = [&]( const pf::node & cur, const pf::node * prev ) {
-        const auto &id( get_ter( tripoint( cur.pos, z ) ) );
+        const auto &id( ter( tripoint( cur.pos, z ) ) );
 
         const overmap_connection::subtype *subtype = connection.pick_subtype_for( id );
 
@@ -3349,7 +3340,7 @@ pf::path overmap::lay_out_connection( const overmap_connection &connection, cons
         }
 
         if( prev && prev->dir != cur.dir ) { // Direction has changed.
-            const auto &prev_id( get_ter( tripoint( prev->pos, z ) ) );
+            const oter_id &prev_id = ter( tripoint( prev->pos, z ) );
             const overmap_connection::subtype *prev_subtype = connection.pick_subtype_for( prev_id );
 
             if( !prev_subtype || !prev_subtype->allows_turns() ) {
@@ -3374,7 +3365,7 @@ pf::path overmap::lay_out_street( const overmap_connection &connection, const po
     const tripoint from( source, 0 );
     // See if we need to make another one "step" further.
     const tripoint en_pos = from + om_direction::displace( dir, len + 1 );
-    if( inbounds( en_pos, 1 ) && connection.has( get_ter( en_pos ) ) ) {
+    if( inbounds( en_pos, 1 ) && connection.has( ter( en_pos ) ) ) {
         ++len;
     }
 
@@ -3387,7 +3378,7 @@ pf::path overmap::lay_out_street( const overmap_connection &connection, const po
             break;  // Don't approach overmap bounds.
         }
 
-        const auto &ter_id( get_ter( pos ) );
+        const oter_id &ter_id = ter( pos );
 
         if( ter_id->is_river() || !connection.pick_subtype_for( ter_id ) ) {
             break;
@@ -3405,7 +3396,7 @@ pf::path overmap::lay_out_street( const overmap_connection &connection, const po
                 if( checkp != pos + om_direction::displace( dir, 1 ) &&
                     checkp != pos + om_direction::displace( om_direction::opposite( dir ), 1 ) &&
                     checkp != pos ) {
-                    if( is_ot_match( "road", get_ter( checkp ), ot_match_type::type ) ) {
+                    if( is_ot_match( "road", ter( checkp ), ot_match_type::type ) ) {
                         collisions++;
                     }
                 }
@@ -3572,7 +3563,7 @@ void overmap::chip_rock( const tripoint &p )
 bool overmap::check_ot( const std::string &otype, ot_match_type match_type,
                         const tripoint &p ) const
 {
-    const oter_id oter = get_ter( p );
+    const oter_id &oter = ter( p );
     return is_ot_match( otype, oter, match_type );
 }
 
@@ -3593,7 +3584,7 @@ bool overmap::check_overmap_special_type( const overmap_special_id &id,
 
 void overmap::good_river( const tripoint &p )
 {
-    if( !is_ot_match( "river", get_ter( p ), ot_match_type::prefix ) ) {
+    if( !is_ot_match( "river", ter( p ), ot_match_type::prefix ) ) {
         return;
     }
     if( ( p.x == 0 ) || ( p.x == OMAPX - 1 ) ) {
@@ -3816,7 +3807,7 @@ om_direction::type overmap::random_special_rotation( const overmap_special &spec
 
         for( const auto &con : special.connections ) {
             const tripoint rp = p + om_direction::rotate( con.p, r );
-            const oter_id &oter = get_ter( rp );
+            const oter_id &oter = ter( rp );
 
             if( is_ot_match( con.terrain.str(), oter, ot_match_type::type ) ) {
                 ++score; // Found another one satisfied connection.
@@ -3877,7 +3868,7 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint 
             }
         }
 
-        const oter_id tid = get_ter( rp );
+        const oter_id &tid = ter( rp );
 
         if( rp.z == 0 ) {
             return elem.can_be_placed_on( tid );

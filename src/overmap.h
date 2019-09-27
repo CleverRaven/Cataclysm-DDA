@@ -190,7 +190,6 @@ class overmap
 
         void ter_set( const tripoint &p, const oter_id &id );
         const oter_id &ter( const tripoint &p ) const;
-        oter_id get_ter( const tripoint &p ) const;
         bool &seen( const tripoint &p );
         bool seen( const tripoint &p ) const;
         bool &explored( const tripoint &p );

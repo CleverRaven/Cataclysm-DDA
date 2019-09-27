@@ -720,11 +720,11 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         } else if( old == "bunker" ) {
             if( pos.z < 0 ) {
                 ter_set( pos, oter_id( "bunker_basement" ) );
-            } else if( is_ot_match( "road", get_ter( pos + point_east ), ot_match_type::type ) ) {
+            } else if( is_ot_match( "road", ter( pos + point_east ), ot_match_type::type ) ) {
                 ter_set( pos, oter_id( "bunker_west" ) );
-            } else if( is_ot_match( "road", get_ter( pos + point_west ), ot_match_type::type ) ) {
+            } else if( is_ot_match( "road", ter( pos + point_west ), ot_match_type::type ) ) {
                 ter_set( pos, oter_id( "bunker_east" ) );
-            } else if( is_ot_match( "road", get_ter( pos + point_south ), ot_match_type::type ) ) {
+            } else if( is_ot_match( "road", ter( pos + point_south ), ot_match_type::type ) ) {
                 ter_set( pos, oter_id( "bunker_north" ) );
             } else {
                 ter_set( pos, oter_id( "bunker_south" ) );
