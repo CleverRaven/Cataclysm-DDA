@@ -3582,12 +3582,11 @@ void vehicle::spew_field( double joules, int part, field_type_id type, int inten
  */
 void vehicle::noise_and_smoke( int load, time_duration time )
 {
-    const std::array<int, 8> sound_levels = {{ 0, 15, 30, 60, 100, 140, 180, INT_MAX }};
-    const std::array<std::string, 8> sound_msgs = {{
-            translate_marker( "hmm" ), translate_marker( "hummm!" ),
-            translate_marker( "whirrr!" ), translate_marker( "vroom!" ),
-            translate_marker( "roarrr!" ), translate_marker( "ROARRR!" ),
-            translate_marker( "BRRROARRR!" ), translate_marker( "BRUMBRUMBRUMBRUM!" )
+    static const std::array<std::pair<std::string, int>, 8> sounds = { {
+            { translate_marker( "hmm" ), 0 }, { translate_marker( "hummm!" ), 15 },
+            { translate_marker( "whirrr!" ), 30 }, { translate_marker( "vroom!" ), 60 },
+            { translate_marker( "roarrr!" ), 100 }, { translate_marker( "ROARRR!" ), 140 },
+            { translate_marker( "BRRROARRR!" ), 180 }, { translate_marker( "BRUMBRUMBRUMBRUM!" ), INT_MAX }
         }
     };
     double noise = 0.0;
@@ -3604,6 +3603,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     }
 
     bool bad_filter = false;
+    bool combustion = false;
 
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
@@ -3619,6 +3619,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
             double part_noise = cur_stress * part_info( p ).engine_noise_factor();
 
             if( part_info( p ).has_flag( "E_COMBUSTION" ) ) {
+                combustion = true;
                 double health = parts[p].health_percent();
                 if( parts[ p ].base.faults.count( fault_filter_fuel ) ) {
                     health = 0.0;
@@ -3643,8 +3644,12 @@ void vehicle::noise_and_smoke( int load, time_duration time )
             noise = std::max( noise, part_noise ); // Only the loudest engine counts.
         }
     }
-    if( ( exhaust_part != -1 ) && engine_on &&
-        has_engine_type_not( fuel_type_muscle, true ) ) { // No engine, no smoke
+    if( !combustion ) {
+        return;
+    }
+    /// @todo handle other engine types: muscle / animal / wind / coal / ...
+
+    if( exhaust_part != -1 && engine_on ) {
         spew_field( mufflesmoke, exhaust_part, fd_smoke,
                     bad_filter ? fd_smoke.obj().get_max_intensity() : 1 );
     }
@@ -3653,16 +3658,14 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     // Even a vehicle with engines off will make noise traveling at high speeds
     noise = std::max( noise, static_cast<double>( fabs( velocity / 500.0 ) ) );
     int lvl = 0;
-    if( one_in( 4 ) && rng( 0, 30 ) < noise && has_engine_type_not( fuel_type_muscle, true ) ) {
-        while( noise > sound_levels[lvl] ) {
+    if( one_in( 4 ) && rng( 0, 30 ) < noise ) {
+        while( noise > sounds[lvl].second ) {
             lvl++;
         }
     }
     add_msg( m_debug, "VEH NOISE final: %d", static_cast<int>( noise ) );
     vehicle_noise = static_cast<unsigned char>( noise );
-    if( has_engine_type_not( fuel_type_muscle, true ) ) {
-        sounds::sound( global_pos3(), noise, sounds::sound_t::movement, _( sound_msgs[lvl] ), true );
-    }
+    sounds::sound( global_pos3(), noise, sounds::sound_t::movement, _( sounds[lvl].first ), true );
 }
 
 int vehicle::wheel_area() const
