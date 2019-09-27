@@ -40,7 +40,7 @@
   },
   {
     "type": "recipe",
-    "result": "faction_base_modular_firestation1_well.",
+    "result": "faction_base_modular_firestation1_well",
     "description": "We should build a well, put it near that winch. This will make our future here more secure.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
