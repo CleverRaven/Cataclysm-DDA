@@ -25,5 +25,66 @@
       "That's not true, is it?",
       "Are you hurt?"
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "schizo_weapon_talk_monster",
+    "text": [
+      "Hey, let's go kill that %1$s!",
+      "Did you see that %1$s!?",
+      "I want to kill that %1$s!",
+      "Let me kill that %1$s!",
+      "Hey, I need to kill that %1$s!",
+      "I want to watch that %1$s bleed!",
+      "Wait, that %1$s needs to die!",
+      "Go kill that %1$s!",
+      "Look at that %1$s!",
+      "That %1$s doesn't deserve to live!"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "schizo_weapon_talk_bleeding",
+    "text": [
+      "Hey, you're bleeding.",
+      "Your wound looks pretty bad.",
+      "Shouldn't you put a bandage on that?",
+      "Please don't die! No one else lets me kill things!",
+      "You look hurt, did I do that?",
+      "Are you supposed to be bleeding?",
+      "You're not going to die, are you?",
+      "Kill a few more before you bleed out!"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "schizo_weapon_talk_damaged",
+    "text": [
+      "Hey fix me up.",
+      "I need healing!",
+      "I hurt all over...",
+      "You can put me back together, right?",
+      "I... I can't move my legs!",
+      "Medic!",
+      "I can still fight, don't replace me!",
+      "They got me!",
+      "*cough cough* Go on without me...",
+      "Am I gonna die?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "schizo_weapon_talk_misc",
+    "text": [
+      "Let me kill something already!",
+      "I'm your best friend, right?",
+      "I love you!",
+      "How are you today?",
+      "Do you think it will rain today?",
+      "Did you hear that?",
+      "Try not to drop me.",
+      "How many do you think we've killed?",
+      "I'll keep you safe!"
+    ]
   }
 ]
