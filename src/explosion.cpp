@@ -359,7 +359,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
     // Need to update shadowcasting to support limiting range without adjusting initial distance.
     const tripoint_range area = g->m.points_on_zlevel( src.z );
 
-    g->m.build_obstacle_cache( area.min(), area.max() + tripoint( 1, 1, 0 ), obstacle_cache );
+    g->m.build_obstacle_cache( area.min(), area.max() + tripoint_south_east, obstacle_cache );
 
     // Shadowcasting normally ignores the origin square,
     // so apply it manually to catch monsters standing on the explosive.
