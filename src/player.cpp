@@ -5130,24 +5130,8 @@ void player::suffer()
                 }
                 // Shout
                 if( !done_effect && one_turn_in( 4_hours ) ) {
-                    std::vector<std::string> shouts{ _( "\"Get away from there!\"" ),
-                                                     _( "\"What do you think you're doing?\"" ),
-                                                     _( "\"Stop laughing at me!\"" ),
-                                                     _( "\"Don't point that thing at me!\"" ),
-                                                     _( "\"Stay away from me!\"" ),
-                                                     _( "\"No! Stop!\"" ),
-                                                     _( "\"Get the fuck away from me!\"" ),
-                                                     _( "\"That's not true!\"" ),
-                                                     _( "\"What do you want from me?\"" ),
-                                                     _( "\"I didn't mean to do it!\"" ),
-                                                     _( "\"It wasn't my fault!\"" ),
-                                                     _( "\"I had to do it!\"" ),
-                                                     _( "\"They made me do it!\"" ),
-                                                     _( "\"What are you!?\"" ),
-                                                     _( "\"I should never have trusted you!\"" ) };
-
-                    std::string i_shout = random_entry_ref( shouts );
-                    shout( "yourself shout, " + i_shout );
+                    std::string snip = SNIPPET.random_from_category( "schizo_self_shout" );
+                    shout( "yourself shout, " + snip );
                     done_effect = true;
                 }
                 // Drop weapon
