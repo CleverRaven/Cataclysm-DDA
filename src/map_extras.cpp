@@ -2763,9 +2763,7 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
                                get_note_string_from_color( extra.color ),
                                extra.name,
                                extra.description );
-            if( !mx_note.empty() ) {
-                overmap_buffer.add_note( sm_to_omt_copy( abs_sub ), mx_note );
-            }
+            overmap_buffer.add_note( sm_to_omt_copy( abs_sub ), mx_note );
         }
     }
 }
