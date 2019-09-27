@@ -119,5 +119,26 @@
       "You feel larvae wriggling beneath the skin.",
       "You feel bugs crawling on you."
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "schizo_self_shout",
+    "text": [
+      "\"Get away from there!\"",
+      "\"What do you think you're doing?\"",
+      "\"Stop laughing at me!\"",
+      "\"Don't point that thing at me!\"",
+      "\"Stay away from me!\"",
+      "\"No! Stop!\"",
+      "\"Get the fuck away from me!\"",
+      "\"That's not true!\"",
+      "\"What do you want from me?\"",
+      "\"I didn't mean to do it!\"",
+      "\"It wasn't my fault!\"",
+      "\"I had to do it!\"",
+      "\"They made me do it!\"",
+      "\"What are you!?\"",
+      "\"I should never have trusted you!\""
+    ]
   }
 ]
