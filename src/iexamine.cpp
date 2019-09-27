@@ -417,7 +417,7 @@ class atm_menu
                                .only_digits( true )
                                .query_int();
 
-            return ( amount > max ) ? max : ( amount <= 0 ) ? 0 : amount;
+            return clamp( amount, 0, max );
         }
 
         //!Get a new cash card. $1.00 fine.
@@ -2117,7 +2117,8 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
     g->m.furn_set( tile, old_furn );
     p.mod_moves( -to_moves<int>( 10_seconds ) );
 
-    add_msg( m_info, _( "You fertilize the %s with the %s." ), seed->get_plant_name(),
+    //~ %1$s: plant name, %2$s: fertilizer name
+    add_msg( m_info, _( "You fertilize the %1$s with the %2$s." ), seed->get_plant_name(),
              planted.front().tname() );
 }
 
@@ -4441,9 +4442,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         case UNINSTALL_CBM: {
             bionic_collection installed_bionics = *patient.my_bionics;
             if( installed_bionics.empty() ) {
-                //~ %1$s is patient name
                 popup_player_or_npc( patient, _( "You don't have any bionics installed." ),
-                                     _( "%1$s doesn't have any bionics installed." ) );
+                                     _( "<npcname> doesn't have any bionics installed." ) );
                 return;
             }
 
@@ -4539,9 +4539,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
             }
             if( broken_limbs_count == 0 ) {
-                //~ %1$s is patient name
                 popup_player_or_npc( patient, _( "You have no limbs that require splinting." ),
-                                     _( "%1$s doesn't have limbs that require splinting." ) );
+                                     _( "<npcname> doesn't have limbs that require splinting." ) );
             }
             break;
         }

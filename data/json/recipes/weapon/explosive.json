@@ -387,7 +387,7 @@
     "using": [ [ "cordage", 5 ] ],
     "book_learn": [ [ "manual_launcher", 9 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "keg", 1 ], [ "keg_steel", 1 ] ], [ [ "chem_rdx", 60 ] ], [ [ "chem_hmtd", 200 ] ], [ [ "scrap", 50 ] ] ]
+    "components": [ [ [ "keg", 1 ], [ "keg_steel", 1 ] ], [ [ "chem_rdx", 6000 ] ], [ [ "chem_hmtd", 4000 ] ], [ [ "scrap", 50 ] ] ]
   },
   {
     "result": "tool_rdx_sand_bomb",
@@ -400,6 +400,12 @@
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 4 ], [ "textbook_anarch", 5 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "chem_rdx", 2 ] ], [ [ "chem_hmtd", 1 ] ], [ [ "string_6", 1 ] ], [ [ "material_sand", 50 ] ] ]
+    "components": [
+      [ [ "pipe", 1 ] ],
+      [ [ "chem_rdx", 200 ] ],
+      [ [ "chem_hmtd", 20 ] ],
+      [ [ "string_6", 1 ] ],
+      [ [ "material_sand", 50 ] ]
+    ]
   }
 ]

@@ -145,6 +145,7 @@
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "element", "count": [ 2, 3 ] },
+        { "item": "wire_mesh", "count": 1 },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "motor_small", "charges": 1 },
         { "item": "cu_pipe", "count": [ 1, 3 ] }
@@ -379,6 +380,75 @@
         { "item": "element", "count": [ 1, 3 ] },
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "pilot_light", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bellows",
+    "name": "blacksmith bellows",
+    "symbol": "#",
+    "description": "Used for delivering air to increase the combustion and heat output of a forge.  Doesn't look like it's working, although it still has parts.",
+    "color": "dark_gray",
+    "move_cost_mod": 2,
+    "coverage": 60,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "tanned_hide", "count": [ 1, 2 ] },
+        { "item": "2x4", "count": [ 2, 4 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "wire", "count": [ 1, 4 ] }
+      ]
+    },
+    "max_volume": 160,
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "leather", "count": [ 1, 4 ] },
+        { "item": "2x4", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 0, 6 ] },
+        { "item": "wire", "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_drophammer",
+    "name": "blacksmith drop hammer",
+    "symbol": "#",
+    "description": "Used for fast production of metal items.  Doesn't look like it's working, although it still has parts.",
+    "color": "white",
+    "move_cost_mod": 2,
+    "coverage": 60,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "metal_tank", "count": [ 1, 2 ] },
+        { "item": "water_faucet", "count": 2 },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "chain", "count": [ 2, 4 ] },
+        { "item": "anvil", "count": 1 },
+        { "item": "pipe", "count": [ 1, 3 ] }
+      ]
+    },
+    "max_volume": 160,
+    "bash": {
+      "str_min": 12,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "water_faucet", "count": [ 1, 2 ] },
+        { "item": "anvil", "count": 1 },
+        { "item": "chain", "count": [ 1, 3 ] },
+        { "item": "scrap", "count": [ 10, 20 ] },
+        { "item": "pipe", "count": [ 1, 3 ] }
       ]
     }
   }

@@ -874,14 +874,11 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                                 charges += ( *it )->charges;
                             }
                             if( stealing ) {
-                                //~ %s %s of %s ""!20 Cash Cards of $200" - ! added if stealing.
-                                item_name = string_format( _( "%s %s of %s" ), stolen,
-                                                           stacked_here[true_it].front()->display_money( getitem[true_it].count, charges ),
-                                                           format_money( charges_total ) );
+                                item_name = string_format( "%s %s", stolen,
+                                                           stacked_here[true_it].front()->display_money( getitem[true_it].count, charges_total, charges ) );
                             } else {
-                                item_name = string_format( _( "%s of %s" ),
-                                                           stacked_here[true_it].front()->display_money( getitem[true_it].count, charges ),
-                                                           format_money( charges_total ) );
+                                item_name = stacked_here[true_it].front()->display_money( getitem[true_it].count, charges_total,
+                                            charges );
                             }
                         }
                     } else {

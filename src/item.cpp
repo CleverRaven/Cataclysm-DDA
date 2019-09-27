@@ -319,19 +319,13 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
 
 }
 
-item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name,
-                        const bool random_corpse_type )
+item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name )
 {
     if( !mt.is_valid() ) {
         debugmsg( "tried to make a corpse with an invalid mtype id" );
     }
 
-    std::string corpse_type = "corpse";
-
-    if( mt == mtype_id::NULL_ID() ) {
-        corpse_type = random_corpse_type ? item_group::item_from( "corpses" ).typeId() :
-                      "corpse_generic_human";
-    }
+    std::string corpse_type = mt == mtype_id::NULL_ID() ? "corpse_generic_human" : "corpse";
 
     item result( corpse_type, turn );
     result.corpse = &mt.obj();
@@ -2389,7 +2383,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                               making->result_name(),
                                               percent_progress ) ) );
                 } else {
-                    info.push_back( iteminfo( "DESCRIPTION", _( type->description ) ) );
+                    info.push_back( iteminfo( "DESCRIPTION", type->description.translated() ) );
                 }
             }
         }
@@ -2728,6 +2722,16 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
             }
 
+            if( !bid->stat_bonus.empty() ) {
+                info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Stat Bonus:</bold> " ),
+                                          iteminfo::no_newline ) );
+                for( const auto &element : bid->stat_bonus ) {
+                    info.push_back( iteminfo( "CBM", get_stat_name( element.first ), " <num> ", iteminfo::no_newline,
+                                              element.second ) );
+                }
+
+            }
+
             const units::mass weight_bonus = bid->weight_capacity_bonus;
             const float weight_modif = bid->weight_capacity_modifier;
             if( weight_modif != 1 ) {
@@ -2813,7 +2817,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( parts->test( iteminfo_parts::DESCRIPTION_FAULTS ) ) {
             for( const fault_id &e : faults ) {
                 //~ %1$s is the name of a fault and %2$s is the description of the fault
-                info.emplace_back( "DESCRIPTION", string_format( _( "* <bad>Faulty %1$s</bad>.  %2$s" ),
+                info.emplace_back( "DESCRIPTION", string_format( _( "* <bad>%1$s</bad>.  %2$s" ),
                                    e.obj().name(), e.obj().description() ) );
             }
         }
@@ -2863,7 +2867,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             insert_separation_line();
             std::string ntext;
             if( item_note_type != item_vars.end() ) {
-                ntext += string_format( _( "%1$s on the %2$s is: " ),
+                //~ %1$s: gerund (e.g. carved), %2$s: item name
+                ntext += string_format( pgettext( "carving", "%1$s on the %2$s is: " ),
                                         item_note_type->second.c_str(), tname() );
             } else {
                 ntext += _( "Note: " );
@@ -2885,7 +2890,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 }
                 insert_separation_line();
                 info.emplace_back( "DESCRIPTION", temp1.str() );
-                info.emplace_back( "DESCRIPTION", _( mod->type->description ) );
+                info.emplace_back( "DESCRIPTION", mod->type->description.translated() );
             }
             bool contents_header = false;
             for( const item &contents_item : contents ) {
@@ -2899,7 +2904,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                         info.emplace_back( "DESCRIPTION", space );
                     }
 
-                    const std::string description = _( contents_item.type->description );
+                    const translation &description = contents_item.type->description;
 
                     if( contents_item.made_of_from_type( LIQUID ) ) {
                         units::volume contents_volume = contents_item.volume() * batch;
@@ -2917,7 +2922,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                            converted_volume );
                     } else {
                         info.emplace_back( "DESCRIPTION", contents_item.display_name() );
-                        info.emplace_back( "DESCRIPTION", description );
+                        info.emplace_back( "DESCRIPTION", description.translated() );
                     }
                 }
             }
@@ -3438,16 +3443,19 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         const item &contents_item = contents.front();
         if( contents_item.made_of( LIQUID ) || contents_item.is_food() ) {
             const unsigned contents_count = contents_item.charges > 1 ? contents_item.charges : quantity;
-            maintext = string_format( pgettext( "item name", "%s of %s" ), label( quantity ),
+            //~ %1$s: item name, %2$s: content liquid, food, or drink name
+            maintext = string_format( pgettext( "item name", "%1$s of %2$s" ), label( quantity ),
                                       contents_item.tname( contents_count, with_prefix ) );
         } else {
-            maintext = string_format( pgettext( "item name", "%s with %s" ), label( quantity ),
+            //~ %1$s: item name, %2$s: non-liquid, non-food, non-drink content item name
+            maintext = string_format( pgettext( "item name", "%1$s with %2$s" ), label( quantity ),
                                       contents_item.tname( quantity, with_prefix ) );
         }
     } else if( !contents.empty() ) {
         maintext = string_format( npgettext( "item name",
-                                             "%s with %zd item",
-                                             "%s with %zd items", contents.size() ),
+                                             //~ %1$s: item name, %2$zd: content size
+                                             "%1$s with %2$zd item",
+                                             "%1$s with %2$zd items", contents.size() ),
                                   label( quantity ), contents.size() );
     } else {
         maintext = label( quantity );
@@ -3587,11 +3595,25 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 }
 
-std::string item::display_money( unsigned int quantity, unsigned int amount ) const
+std::string item::display_money( unsigned int quantity, unsigned int total,
+                                 cata::optional<unsigned int> selected ) const
 {
-    //~ This is a string to display the total amount of money in a stack of cash cards. The strings are: %s is the display name of cash cards. The following bracketed $%.2f is the amount of money on the stack of cards in dollars, to two decimal points. (e.g. "cash cards ($15.35)")
-    return string_format( pgettext( "cash card and total money", "%s %s" ), tname( quantity ),
-                          format_money( amount ) );
+    if( selected ) {
+        //~ This is a string to display the selected and total amount of money in a stack of cash cards.
+        //~ %1$s is the display name of cash cards.
+        //~ %2$s is the total amount of money.
+        //~ %3$s is the selected amount of money.
+        //~ Example: "cash cards $15.35 of $20.48"
+        return string_format( pgettext( "cash card and money", "%1$s %3$s of %2$s" ), tname( quantity ),
+                              format_money( total ), format_money( *selected ) );
+    } else {
+        //~ This is a string to display the total amount of money in a stack of cash cards.
+        //~ %1$s is the display name of cash cards.
+        //~ %2$s is the total amount of money on the cash cards.
+        //~ Example: "cash cards $20.48"
+        return string_format( pgettext( "cash card and money", "%1$s %2$s" ), tname( quantity ),
+                              format_money( total ) );
+    }
 }
 
 std::string item::display_name( unsigned int quantity ) const
@@ -3685,7 +3707,7 @@ int item::price( bool practical ) const
             return VisitResponse::NEXT;
         }
 
-        int child = practical ? e->type->price_post : e->type->price;
+        int child = units::to_cent( practical ? e->type->price_post : e->type->price );
         if( e->damage() > 0 ) {
             // maximal damage level is 4, maximal reduction is 40% of the value.
             child -= child * static_cast<double>( e->damage_level( 4 ) ) / 10;
@@ -4644,7 +4666,7 @@ bool item::can_revive() const
 {
     return is_corpse() && corpse->has_flag( MF_REVIVES ) && damage() < max_damage() &&
            !( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) || has_flag( "QUARTERED" ) ||
-              has_flag( "SKINNED" ) );
+              has_flag( "SKINNED" ) || has_flag( "PULPED" ) );
 }
 
 bool item::ready_to_revive( const tripoint &pos ) const
@@ -4978,8 +5000,7 @@ std::string item::durability_indicator( bool include_intact ) const
 
     if( damage() < 0 )  {
         if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-            outputstring = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() +
-                           " </color>";
+            outputstring = colorize( damage_symbol() + " ", damage_color() );
         } else if( is_gun() ) {
             outputstring = pgettext( "damage adjective", "accurized " );
         } else {
@@ -5003,8 +5024,7 @@ std::string item::durability_indicator( bool include_intact ) const
             }
         }
     } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-        outputstring = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() +
-                       " </color>";
+        outputstring = colorize( damage_symbol() + " ", damage_color() );
     } else {
         outputstring = string_format( "%s ", get_base_material().dmg_adj( damage_level( 4 ) ) );
         if( include_intact && outputstring == " " ) {
@@ -6795,7 +6815,8 @@ bool item::reload( player &u, item_location loc, int qty )
     } else if( !magazine_integral() ) {
         // if we already have a magazine loaded prompt to eject it
         if( magazine_current() ) {
-            std::string prompt = string_format( _( "Eject %s from %s?" ),
+            //~ %1$s: magazine name, %2$s: weapon name
+            std::string prompt = string_format( pgettext( "magazine", "Eject %1$s from %2$s?" ),
                                                 magazine_current()->tname(), tname() );
 
             // eject magazine to player inventory and try to dispose of it from there
@@ -8603,7 +8624,7 @@ std::string item::get_plant_name() const
     if( !type->seed ) {
         return std::string{};
     }
-    return type->seed->plant_name;
+    return type->seed->plant_name.translated();
 }
 
 bool item::is_dangerous() const
@@ -8750,7 +8771,7 @@ int item::get_gun_ups_drain() const
     if( type->gun ) {
         draincount += type->gun->ups_charges;
         for( const item *mod : gunmods() ) {
-            draincount += mod->type->gunmod->ups_charges;
+            draincount *= mod->type->gunmod->ups_charges_multiplier;
         }
     }
     return draincount;

@@ -62,7 +62,8 @@
       "tec_aikido_blockdisarm",
       "tec_aikido_dodgethrow",
       "tec_aikido_blockthrow"
-    ]
+    ],
+    "weapons": [ "bagh_nakha", "bio_claws_weapon", "cestus", "knuckle_brass", "knuckle_nail", "knuckle_steel" ]
   },
   {
     "type": "martial_art",
@@ -688,6 +689,332 @@
   },
   {
     "type": "martial_art",
+    "id": "style_swordsmanship",
+    "name": "Medieval Swordsmanship",
+    "description": "The art of the longsword and sword & shield, preceding the later development of fencing.  Designed for combat both unarmored and in armor, it includes grappling as well as defensive and offensive sword techniques.  This treatise compares the Italian and German traditions of medieval combat with detailed step-by-step pictures.",
+    "initiate": [ "You take on a knightly stance.", "%s takes on a knightly stance." ],
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "buff_swordsmanship_static",
+        "name": "Swordsman's Stance",
+        "description": "Through chivalry and vigilance, your defense with a blade has increased.\n\n+1 Dodge attempts, blocked damage decreased by 50%% of Strength.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "bonus_dodges": 1,
+        "flat_bonuses": [ [ "block", "str", 0.5 ] ]
+      }
+    ],
+    "onblock_buffs": [
+      {
+        "id": "buff_swordsmanship_onblock",
+        "name": "Deflection",
+        "description": "You deflected your enemy's attack and now they are open to a counterattack!\nEnables \"Sweeping Strike\" and \"Deathblow\" techniques.\nLasts 1 turn.",
+        "min_melee": 1,
+        "melee_allowed": true,
+        "buff_duration": 1
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "buff_swordsmanship_oncrit",
+        "name": "Manslayer",
+        "description": "Your powerful attack has given you the chance to end this fight right now!\nEnables \"Vicious Strike\" techniques.\nLasts 1 turn.",
+        "min_melee": 5,
+        "melee_allowed": true,
+        "buff_duration": 1
+      }
+    ],
+    "techniques": [
+      "tec_swordsmanship_grab",
+      "tec_swordsmanship_break",
+      "tec_swordsmanship_zornhau",
+      "tec_swordsmanship_unterhau",
+      "tec_swordsmanship_mordhau"
+    ],
+    "weapons": [
+      "arming_sword",
+      "arming_sword_inferior",
+      "arming_sword_fake",
+      "broadsword",
+      "broadsword_inferior",
+      "broadsword_fake",
+      "broadfire_off",
+      "broadfire_on",
+      "estoc",
+      "estoc_inferior",
+      "estoc_fake",
+      "longsword",
+      "longsword_inferior",
+      "longsword_fake",
+      "sword_crude",
+      "sword_nail",
+      "sword_wood",
+      "zweifire_off",
+      "zweifire_on",
+      "zweihander",
+      "zweihander_inferior",
+      "zweihander_fake"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_muay_thai",
+    "name": "Muay Thai",
+    "description": "Also referred to as the \"Art of 8 Limbs,\" Muay Thai is a popular fighting technique from Thailand that uses powerful strikes.  Your strength decreases blocked damage.  Blocking attacks or getting hit will increase your damage and blocked damage further.",
+    "initiate": [ "You perform a short wai khru in honor of your teachers.", "%s performs a short war-dance." ],
+    "learn_difficulty": 5,
+    "arm_block": 2,
+    "leg_block": 4,
+    "static_buffs": [
+      {
+        "id": "buff_muay_thai_static",
+        "name": "Muay Thai Stance",
+        "description": "Strength is everything in Muay Thai and you know how to make the most of yours.\n\nBlocked damage decreased by 50%% of Strength.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "block", "str", 0.5 ] ]
+      }
+    ],
+    "ongethit_buffs": [
+      {
+        "id": "buff_muay_thai_ongethit",
+        "name": "Determination",
+        "description": "Taking a hit will not slow you down.  You will outlast your opponent and win this fight.\n\n+Bash damage increased by 25%% of Strength, blocked damage decreased by 50%% of Strength.\nLasts 5 turns.",
+        "min_unarmed": 3,
+        "unarmed_allowed": true,
+        "buff_duration": 5,
+        "flat_bonuses": [ [ "damage", "bash", "str", 0.25 ], [ "block", "str", 0.5 ] ]
+      }
+    ],
+    "techniques": [ "tec_muay_thai_elbow", "tec_muay_thai_kick", "tec_muay_thai_knee", "tec_muay_thai_break" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_ninjutsu",
+    "name": "Ninjutsu",
+    "description": "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan.  It focuses on rapid, precise, silent strikes.  Ninjutsu is almost entirely silent and does extra damage if on the first attack.  It also provides small combat bonuses every time you move.",
+    "initiate": [ "You perform a kuji-in mantra with your hands. Rin, Kai, Jin!", "%s performs a series of intricate hand signs." ],
+    "learn_difficulty": 6,
+    "arm_block": 3,
+    "static_buffs": [
+      {
+        "id": "buff_ninjutsu_static1",
+        "name": "Ninjutsu Stance",
+        "description": "Your training allows you to make no noise when attacking and less noise when moving around.\n\nMelee and unarmed attacks generate 0 noise.  Moving generates 1/2 as much noise.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "quiet": true,
+        "stealthy": true
+      },
+      {
+        "id": "buff_ninjutsu_static2",
+        "name": "Sneak Attack",
+        "description": "To a true shinobi, the first strike and the last strike are one in the same.\n\n+50%% all damage.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "mult_bonuses": [ [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ], [ "damage", "stab", 1.5 ] ]
+      }
+    ],
+    "onattack_buffs": [
+      {
+        "id": "buff_ninjutsu_onattack",
+        "name": "Loss of Surprise",
+        "description": "You intentions are known!  It will take you a few moments to sneak attack again.\n\n-50%% all damage.\nLast 3 turns.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "buff_duration": 3,
+        "mult_bonuses": [ [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_ninjutsu_onmove",
+        "name": "Momentum Shift",
+        "description": "Ninjas are training to be extremely agile and mobile.\n\n+1.0 Dodge skill, Accuracy increased by 20%% of Dexterity.\nLast 1 turn.",
+        "min_unarmed": 2,
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ [ "dodge", 1.0 ], [ "hit", "dex", 0.2 ] ]
+      }
+    ],
+    "onkill_buffs": [
+      {
+        "id": "buff_ninjutsu_onkill",
+        "name": "Escape Plan",
+        "description": "Your target has perished.  It is time to leave and plan your next attack.\n\n+2 Dodge attempts, +10 movement speed.\nLast 3 turns.",
+        "min_melee": 3,
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "buff_duration": 3,
+        "bonus_dodges": 2,
+        "flat_bonuses": [ [ "speed", 10 ] ]
+      }
+    ],
+    "techniques": [ "tec_ninjutsu_swift", "tec_ninjutsu_takedown", "tec_ninjutsu_precise" ],
+    "weapons": [
+      "arming_sword",
+      "arming_sword_inferior",
+      "arming_sword_fake",
+      "bio_blade_weapon",
+      "bio_claws_weapon",
+      "bokken",
+      "bokken_inferior",
+      "bokken_fake",
+      "broadsword",
+      "broadsword_inferior",
+      "broadsword_fake",
+      "broadfire_off",
+      "broadfire_on",
+      "cavalry_sabre",
+      "cavalry_sabre_fake",
+      "copper_knife",
+      "cutlass_fake",
+      "cutlass_inferior",
+      "cutlass",
+      "dao",
+      "diveknife",
+      "firekatana_off",
+      "firekatana_on",
+      "i_staff",
+      "jian",
+      "jian_inferior",
+      "jian_fake",
+      "katana",
+      "katana_inferior",
+      "katana_fake",
+      "kirpan",
+      "knife_combat",
+      "knife_hunting",
+      "knife_rambo",
+      "knife_rm42",
+      "knife_trench",
+      "kirpan_cheap",
+      "kris",
+      "kukri",
+      "khopesh",
+      "longsword",
+      "longsword_inferior",
+      "longsword_fake",
+      "l-stick",
+      "l-stick_on",
+      "machete",
+      "makeshift_knife",
+      "nodachi",
+      "nodachi_inferior",
+      "nodachi_fake",
+      "q_staff",
+      "scimitar",
+      "scimitar_fake",
+      "scimitar_inferior",
+      "shishkebab_off",
+      "shishkebab_on",
+      "shock_staff",
+      "sickle",
+      "switchblade",
+      "sword_bayonet",
+      "sword_crude",
+      "sword_nail",
+      "sword_wood",
+      "sword_xiphos",
+      "tanto",
+      "tanto_inferior",
+      "tanto_fake",
+      "wakizashi",
+      "wakizashi_inferior",
+      "wakizashi_fake"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_niten",
+    "name": "Niten Ichi-Ryu",
+    "description": "Niten Ichi-Ryu is an ancient school of combat, transmitting a style of classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi.  Perception increases damage and reduces blocked damage.  Moving and attacking reduces dodging and damage until you pause.  Pausing for a moment increases Dodge skill.",
+    "initiate": [ "You clear your mind as you prepare yourself for combat.", "%s relaxes and prepares for combat." ],
+    "learn_difficulty": 8,
+    "primary_skill": "cutting",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "buff_niten_static",
+        "name": "Niten Ichi-Ryu Stance",
+        "description": "Cautious watchful eyes\nmeasure and display your skill.\nPractice makes perfect.\n\nBash and Cut damage increased by 50%% of Perception, blocked damage reduced by 100%% of Perception.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "flat_bonuses": [ [ "arpen", "cut", "per", 0.5 ], [ "arpen", "bash", "per", 0.5 ], [ "block", "per", 1.0 ] ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_niten_onmove",
+        "name": "Waning Moon",
+        "description": "Blackened like darkness,\nnightmares approach from all sides.\nFlee at any cost!\n\n-5.0 Dodge skill.\nLasts 1 turn.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ [ "dodge", -5.0 ] ]
+      }
+    ],
+    "onattack_buffs": [
+      {
+        "id": "buff_niten_onattack",
+        "name": "Falling Leaf",
+        "description": "A sharp sword cuts true.\nAlthough, all things fade with time.\nRestraint hones your skills.\n\n-1.0 Dodge skill, -1 bash damage, -1 cut damage.\nLasts 1 turn. Stacks 5 times.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 5,
+        "flat_bonuses": [ [ "dodge", -1.0 ], [ "damage", "cut", -1.0 ], [ "damage", "bash", -1.0 ] ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "buff_niten_ondodge",
+        "name": "Moonlight",
+        "description": "Luck be the light,\non a dark and cloudy night\nas the moon shines down\n\nEnables \"In-One Timing\".\nLasts 1 turn.",
+        "min_melee": 5,
+        "melee_allowed": true,
+        "buff_duration": 1
+      }
+    ],
+    "onpause_buffs": [
+      {
+        "id": "buff_niten_onpause",
+        "name": "Stillness",
+        "description": "The eye of the storm,\na fleeting moment of peace,\ngone without a trace.\n\n+2 Accuracy, Dodge skill increased by 50%% of Perception.\nLasts 2 turns.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "buff_duration": 2,
+        "flat_bonuses": [ [ "hit", 2.0 ], [ "dodge", "per", 0.5 ] ]
+      }
+    ],
+    "techniques": [ "niten_water_cut", "niten_red_leaf", "niten_stone_cut", "niten_timing_attack", "niten_feint" ],
+    "weapons": [
+      "bokken",
+      "bokken_inferior",
+      "bokken_fake",
+      "firekatana_off",
+      "firekatana_on",
+      "katana",
+      "katana_inferior",
+      "katana_fake",
+      "nodachi",
+      "nodachi_inferior",
+      "nodachi_fake",
+      "sword_nail",
+      "sword_crude",
+      "sword_wood",
+      "wakizashi",
+      "wakizashi_inferior",
+      "wakizashi_fake"
+    ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_tai_chi",
     "name": "Tai Chi",
     "description": "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
@@ -708,62 +1035,6 @@
       }
     ],
     "techniques": [ "tec_taichi_disarm", "tec_taichi_precise" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_muay_thai",
-    "name": "Muay Thai",
-    "description": "Also referred to as the \"Art of 8 Limbs,\" Muay Thai is a popular fighting technique from Thailand that uses powerful strikes.  Your strikes are more powerful with high strength and weaker with low strength, and can momentarily disorient enemies.  As this style focuses on using legs and elbow strikes rather than punches, it does not benefit from using any weapons.",
-    "initiate": [ "You ready yourself to trade blows with your enemies.", "%s prepares to trade blows." ],
-    "learn_difficulty": 5,
-    "arm_block": 3,
-    "leg_block": 4,
-    "force_unarmed": true,
-    "static_buffs": [
-      {
-        "id": "muay_thai_static",
-        "name": "Muay Thai",
-        "unarmed_allowed": true,
-        "flat_bonuses": [ [ "damage", "bash", -5.0 ], [ "damage", "bash", "str", 0.5 ] ],
-        "description": "Attacks scale better with strength."
-      }
-    ],
-    "techniques": [ "tec_muay_thai_elbow", "tec_muay_thai_kick", "tec_muay_thai_knee" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_ninjutsu",
-    "name": "Ninjutsu",
-    "description": "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan.  It focuses on rapid, precise, silent strikes.  Ninjutsu is almost entirely silent.  It also provides small combat bonuses every time you move.",
-    "initiate": [ "You perform a kuji-in mantra with your hands. Rin, Kai, Jin!", "%s performs a series of ninja hand signs." ],
-    "learn_difficulty": 6,
-    "arm_block": 3,
-    "leg_block": 99,
-    "allow_melee": true,
-    "static_buffs": [
-      {
-        "id": "ninjutsu_static",
-        "name": "Ninjutsu",
-        "unarmed_allowed": true,
-        "melee_allowed": true,
-        "quiet": true,
-        "description": "Silent melee attacks."
-      }
-    ],
-    "onmove_buffs": [
-      {
-        "id": "ninjutsu_momentum",
-        "name": "Momentum shift",
-        "description": "Bonus dodges and increased to-hit",
-        "unarmed_allowed": true,
-        "melee_allowed": true,
-        "buff_duration": 2,
-        "max_stacks": 1,
-        "bonus_dodges": 1,
-        "flat_bonuses": [ [ "hit", "dex", 0.17 ] ]
-      }
-    ],
-    "techniques": [ "tec_ninjutsu_precise" ]
   },
   {
     "type": "martial_art",
@@ -974,80 +1245,6 @@
   },
   {
     "type": "martial_art",
-    "id": "style_niten",
-    "name": "Niten Ichi-Ryu",
-    "description": "Niten Ichi-Ryu is an ancient school of combat, transmitting a style of classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi.",
-    "initiate": [ "You clear your mind as you prepare yourself for combat.", "%s relaxes and prepares for combat." ],
-    "learn_difficulty": 8,
-    "primary_skill": "cutting",
-    "arm_block": 99,
-    "leg_block": 99,
-    "strictly_melee": true,
-    "static_buffs": [
-      {
-        "id": "niten_stationary_buff",
-        "name": "Niten Ichi-Ryu",
-        "description": "Perception increases dodging and damage.",
-        "min_melee": 2,
-        "flat_bonuses": [ [ "damage", "cut", "per", 0.5 ], [ "damage", "bash", "per", 0.5 ], [ "dodge", "per", 0.5 ] ]
-      }
-    ],
-    "onmove_buffs": [
-      {
-        "id": "niten_move_buff",
-        "name": "Blocking",
-        "description": "You forgo dodging on the move, but gain more blocks.",
-        "min_melee": 2,
-        "max_stacks": 1,
-        "buff_duration": 2,
-        "flat_bonuses": [ [ "dodge", -10.0 ] ],
-        "bonus_dodges": -1,
-        "bonus_blocks": 2
-      }
-    ],
-    "onhit_buffs": [
-      {
-        "id": "niten_hit_buff",
-        "name": "Blocking",
-        "description": "You forgo dodging on the offensive, but gain more blocks.",
-        "min_melee": 2,
-        "max_stacks": 1,
-        "buff_duration": 2,
-        "flat_bonuses": [ [ "dodge", -10.0 ] ],
-        "bonus_dodges": -1,
-        "bonus_blocks": 2
-      }
-    ],
-    "ondodge_buffs": [
-      {
-        "id": "niten_set-up",
-        "name": "In-One Timing Set-Up",
-        "description": "You found a gap in the enemy's defense!",
-        "min_melee": 4,
-        "buff_duration": 2,
-        "max_stacks": 1
-      }
-    ],
-    "techniques": [ "niten_water_cut", "niten_red_leaf", "niten_stone_cut", "niten_timing_attack", "niten_feint" ],
-    "weapons": [
-      "katana",
-      "katana_inferior",
-      "katana_fake",
-      "firekatana_off",
-      "firekatana_on",
-      "bokken",
-      "bokken_inferior",
-      "bokken_fake",
-      "wakizashi",
-      "wakizashi_inferior",
-      "wakizashi_fake",
-      "nodachi",
-      "nodachi_inferior",
-      "nodachi_fake"
-    ]
-  },
-  {
-    "type": "martial_art",
     "id": "style_tiger",
     "name": "Tiger Kung Fu",
     "description": "One of the five Shaolin animal styles.  The Tiger focuses on relentless attacks above all else.  Your Strength determines your accuracy, and your attacks do increasing damage as you continue attacking.",
@@ -1250,67 +1447,5 @@
       "tec_wingchun_disarm"
     ],
     "weapons": [ "butterfly_swords", "long_pole" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_swordsmanship",
-    "name": "Medieval Swordsmanship",
-    "description": "The art of the sword & shield, preceding the later development of fencing.  Designed for combat in and out of armor, it includes grappling as well as defensive and offensive sword techniques.",
-    "initiate": [ "You stand tall and become vigilant against attacks.", "%s stands tall and becomes vigilant." ],
-    "learn_difficulty": 6,
-    "arm_block": 99,
-    "leg_block": 99,
-    "strictly_melee": true,
-    "onattack_buffs": [
-      {
-        "id": "swordsmanship_attack_buff",
-        "name": "Perfect Defense",
-        "description": "Bonus dodges after an attack.",
-        "buff_duration": 3,
-        "melee_allowed": true,
-        "bonus_dodges": 2
-      }
-    ],
-    "ondodge_buffs": [
-      {
-        "id": "swordsmanship_counter",
-        "name": "Displacement",
-        "description": "The enemy has presented an opening in their defense.",
-        "min_melee": 2,
-        "melee_allowed": true,
-        "max_stacks": 1,
-        "buff_duration": 2
-      }
-    ],
-    "techniques": [
-      "tec_swordsmanship_counter",
-      "tec_swordsmanship_grab",
-      "tec_swordsmanship_break",
-      "tec_swordsmanship_zornhau",
-      "tec_swordsmanship_unterhau",
-      "tec_swordsmanship_mordhau"
-    ],
-    "weapons": [
-      "sword_wood",
-      "sword_nail",
-      "sword_crude",
-      "zweihander",
-      "zweihander_inferior",
-      "zweihander_fake",
-      "zweifire_off",
-      "zweifire_on",
-      "arming_sword",
-      "arming_sword_inferior",
-      "arming_sword_fake",
-      "longsword",
-      "longsword_inferior",
-      "longsword_fake",
-      "estoc",
-      "estoc_inferior",
-      "estoc_fake",
-      "jian",
-      "jian_inferior",
-      "jian_fake"
-    ]
   }
 ]

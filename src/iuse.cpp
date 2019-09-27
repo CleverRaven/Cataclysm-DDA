@@ -99,6 +99,7 @@
 #include "item_group.h"
 #include "omdata.h"
 #include "point.h"
+#include "teleport.h"
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -3003,7 +3004,7 @@ static int toolweapon_off( player &p, item &it, const bool fast_startup,
                            const std::string &msg_success, const std::string &msg_failure )
 {
     p.moves -= fast_startup ? 60 : 80;
-    if( condition && it.ammo_remaining() > 0 ) {
+    if( condition && it.units_sufficient( p ) ) {
         if( it.typeId() == "chainsaw_off" ) {
             sfx::play_variant_sound( "chainsaw_cord", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
             sfx::play_variant_sound( "chainsaw_start", "chainsaw_on", sfx::get_heard_volume( p.pos() ) );
@@ -3107,7 +3108,7 @@ static int toolweapon_on( player &p, item &it, const bool t,
         // 3 is the length of "_on".
         "_off";
     if( t ) { // Effects while simply on
-        if( double_charge_cost && it.ammo_remaining() > 0 ) {
+        if( double_charge_cost && it.units_sufficient( p ) ) {
             it.ammo_consume( 1, p.pos() );
         }
         if( !works_underwater && p.is_underwater() ) {
@@ -3431,7 +3432,7 @@ int iuse::teleport( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     p->moves -= to_moves<int>( 1_seconds );
-    g->teleport( p );
+    teleport::teleport( *p );
     return it->type->charges_to_use();
 }
 
@@ -4163,7 +4164,9 @@ int iuse::rpgdie( player *you, item *die, bool, const tripoint & )
         die->set_var( "die_num_sides", sides );
     }
     const int roll = rng( 1, num_sides );
-    you->add_msg_if_player( _( "You roll a %d on your %d sided %s" ), roll, num_sides, die->tname() );
+    //~ %1$d: roll number, %2$d: side number of a die, %3$s: die item name
+    you->add_msg_if_player( pgettext( "dice", "You roll a %1$d on your %2$d sided %3$s" ), roll,
+                            num_sides, die->tname() );
     if( roll == num_sides ) {
         add_msg( m_good, _( "Critical!" ) );
     }
@@ -5273,7 +5276,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
             break;
 
             case AEA_TELEPORT:
-                g->teleport( p );
+                teleport::teleport( *p );
                 break;
 
             case AEA_LIGHT:
@@ -5833,8 +5836,8 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
 
     const SpeechBubble speech = get_speech( it->typeId() );
 
-    sounds::sound( p->pos(), speech.volume, sounds::sound_t::speech, speech.text, true, "speech",
-                   it->typeId() );
+    sounds::sound( p->pos(), speech.volume, sounds::sound_t::speech, speech.text.translated(), true,
+                   "speech", it->typeId() );
 
     // Sound code doesn't describe noises at the player position
     if( p->can_hear( p->pos(), speech.volume ) ) {
@@ -7111,7 +7114,8 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
                 ret_obj.vehicles[ veh_name ] ++;
             } else if( point == point_around_figure ) {
                 // point is center
-                description_part_on_figure = string_format( _( "%1$s from %2$s" ),
+                //~ %1$s: vehicle part name, %2$s: vehicle name
+                description_part_on_figure = string_format( pgettext( "vehicle part", "%1$s from %2$s" ),
                                              veh_part_pos.part_displayed()->part().name(), veh_name );
                 if( ret_obj.vehicles.find( veh_name ) != ret_obj.vehicles.end() &&
                     local_vehicles_recorded.find( veh_hash ) != local_vehicles_recorded.end() ) {
@@ -7128,7 +7132,9 @@ static object_names_collection enumerate_objects_around_point( const tripoint &p
             std::string item_name = colorized_item_name( item );
             item_name = trap_name + item_name + field_desc;
             if( point == point_around_figure && create_figure_desc ) {
-                description_terrain_on_figure = string_format( _( "%1$s with a %2$s" ), ter_desc, item_name );
+                //~ %1$s: terrain description, %2$s: item name
+                description_terrain_on_figure = string_format( pgettext( "terrain and item", "%1$s with a %2$s" ),
+                                                ter_desc, item_name );
             } else {
                 ret_obj.items[ item_name ] ++;
             }
@@ -7965,7 +7971,7 @@ int iuse::foodperson( player *p, item *it, bool t, const tripoint &pos )
     if( t ) {
         if( calendar::once_every( 1_minutes ) ) {
             const SpeechBubble &speech = get_speech( "foodperson_mask" );
-            sounds::sound( pos, speech.volume, sounds::sound_t::alarm, speech.text, true, "speech",
+            sounds::sound( pos, speech.volume, sounds::sound_t::alarm, speech.text.translated(), true, "speech",
                            "foodperson_mask" );
         }
         return it->type->charges_to_use();

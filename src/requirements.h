@@ -77,7 +77,7 @@ struct tool_comp : public component {
     void load( JsonArray &ja );
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int batch = 1, std::function<void( int )> visitor = std::function<void( int )>() ) const;
-    std::string to_string( int batch = 1 ) const;
+    std::string to_string( int batch = 1, int avail = 0 ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
     bool by_charges() const;
@@ -93,7 +93,7 @@ struct item_comp : public component {
     void load( JsonArray &ja );
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int batch = 1, std::function<void( int )> visitor = std::function<void( int )>() ) const;
-    std::string to_string( int batch = 1 ) const;
+    std::string to_string( int batch = 1, int avail = 0 ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
     component_type get_component_type() const {
@@ -115,7 +115,7 @@ struct quality_requirement {
     void load( JsonArray &jsarr );
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int = 0,
               std::function<void( int )> visitor = std::function<void( int )>() ) const;
-    std::string to_string( int = 0 ) const;
+    std::string to_string( int batch = 1, int avail = 0 ) const;
     void check_consistency( const std::string &display_name ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int = 0 ) const;

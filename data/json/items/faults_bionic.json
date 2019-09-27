@@ -2,7 +2,7 @@
   {
     "id": "fault_bionic_salvaged",
     "type": "fault",
-    "name": ": already deployed",
+    "name": "Already deployed",
     "description": "This bionic needs to be reset to its factory state.",
     "time": "45 m",
     "skills": [ [ "mechanics", 3 ], [ "electronics", 2 ], [ "firstaid", 4 ] ],
