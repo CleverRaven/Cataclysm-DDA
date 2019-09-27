@@ -473,9 +473,17 @@ std::string ma_requirements::get_description( bool buff ) const
     if( unarmed_allowed && melee_allowed ) {
         dump << string_format( _( "* Can %s while <info>armed</info> or <info>unarmed</info>" ),
                                type ) << std::endl;
+        if( unarmed_weapons_allowed ) {
+            dump << string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
+                                   type ) << std::endl;
+        }
     } else if( unarmed_allowed ) {
         dump << string_format( _( "* Can <info>only</info> %s while <info>unarmed</info>" ),
                                type ) << std::endl;
+        if( unarmed_weapons_allowed ) {
+            dump << string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
+                                   type ) << std::endl;
+        }
     } else if( melee_allowed ) {
         dump << string_format( _( "* Can <info>only</info> %s while <info>armed</info>" ),
                                type ) << std::endl;
@@ -1304,8 +1312,16 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         if( ma.force_unarmed ) {
             buffer << _( "<bold>This style forces you to use unarmed strikes, even if wielding a weapon.</bold>" );
-            buffer << "--" << std::endl;
+            buffer << std::endl;
+        } else if( ma.allow_melee ) {
+            buffer << _( "<bold>This style can be used with all weapons.</bold>" );
+            buffer << std::endl;
+        } else if( ma.strictly_melee ) {
+            buffer << _( "<bold>This is an armed combat style.</bold>" );
+            buffer << std::endl;
         }
+
+        buffer << "--" << std::endl;
 
         if( ma.arm_block_with_bio_armor_arms || ma.arm_block != 99 ||
             ma.leg_block_with_bio_armor_legs || ma.leg_block != 99 ) {
