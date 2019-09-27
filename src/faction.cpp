@@ -584,6 +584,11 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
         current_status += _( "Guarding" );
     }
     mvwprintz( fac_w, point( width, ++y ), status_col, current_status );
+    if( is_stationed ) {
+        std::string current_job = _( "Basecamp job : " );
+        current_job += npc_job_name( job );
+        mvwprintz( fac_w, point( width, ++y ), col, current_job );
+    }
 
     const std::pair <std::string, nc_color> condition = hp_description();
     mvwprintz( fac_w, point( width, ++y ), condition.second, _( "Condition : " ) + condition.first );

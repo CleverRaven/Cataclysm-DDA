@@ -841,6 +841,26 @@ void npc::move()
                 mission = NPC_MISSION_NULL;
             }
         }
+        if( mission == NPC_MISSION_ASSIGNED_CAMP ) {
+            if( has_job() && calendar::once_every( 30_minutes ) ) {
+                const std::vector<activity_id> jobs_to_rotate = job_duties[job];
+                if( !jobs_to_rotate.empty() ) {
+                    assign_activity( random_entry( jobs_to_rotate ) );
+                    set_mission( NPC_MISSION_ACTIVITY );
+                    set_attitude( NPCATT_ACTIVITY );
+                    action = npc_player_activity;
+                } else {
+                    debugmsg( "NPC is assigned to a job, but the job: %s has no duties", npc_job_id( job ) );
+                    set_mission( NPC_MISSION_GUARD_ALLY );
+                    set_attitude( NPCATT_ACTIVITY );
+                    action = npc_pause;
+                    goal = global_omt_location();
+                }
+            } else {
+                action = npc_pause;
+                goal = global_omt_location();
+            }
+        }
         if( is_stationary( true ) ) {
             // if we're in a vehicle, stay in the vehicle
             if( in_vehicle ) {
@@ -1931,7 +1951,7 @@ npc_action npc::long_term_goal_action()
 {
     add_msg( m_debug, "long_term_goal_action()" );
 
-    if( mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER ) {
+    if( mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER || is_player_ally() ) {
         return npc_pause;    // Shopkeepers just stay put.
     }
 
