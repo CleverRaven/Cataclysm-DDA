@@ -391,7 +391,7 @@
     "id": "can_bomb_act",
     "copy-from": "can_bomb",
     "type": "TOOL",
-    "name": "active sand bomb",
+    "name": "active can bomb",
     "description": "This is a tin can filled to the brim with explosive and with a bit of fuse sticking out of it. The fuse has been lit, you should throw it.",
     "price": 0,
     "initial_charges": 5,
@@ -407,10 +407,10 @@
     "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "id": "bottle_bomb",
+    "id": "glass_bomb",
     "type": "TOOL",
     "category": "weapons",
-    "name": "bottle bomb",
+    "name": "glass bomb",
     "description": "This is a glass container filled to the brim with explosive and with a bit of fuse sticking out of it.",
     "//": "40g of tin can and 250ml/412g of gunpowder",
     "weight": "452 g",
@@ -434,10 +434,10 @@
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NO_REPAIR" ]
   },
   {
-    "id": "bottle_bomb_act",
-    "copy-from": "bottle_bomb",
+    "id": "glass_bomb_act",
+    "copy-from": "glass_bomb",
     "type": "TOOL",
-    "name": "active sand bomb",
+    "name": "active glass bomb",
     "description": "This is a glass container filled to the brim with explosive and with a bit of fuse sticking out of it. The fuse has been lit, you should throw it.",
     "price": 0,
     "initial_charges": 5,
