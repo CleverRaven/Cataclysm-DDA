@@ -5132,7 +5132,7 @@ void player::suffer()
                 // Shout
                 if( !done_effect && one_turn_in( 4_hours ) ) {
                     std::string snip = SNIPPET.random_from_category( "schizo_self_shout" );
-                    shout( "yourself shout, " + snip );
+                    shout( string_format( _( "yourself shout, %s" ), snip ) );
                     done_effect = true;
                 }
                 // Drop weapon
