@@ -2814,24 +2814,21 @@ void veh_interact::complete_vehicle( player &p )
                 vpinfo.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ||
                 vpinfo.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
                 // Stash offset and set it to the location of the part so look_around will start there.
-                int px = p.view_offset.x;
-                int py = p.view_offset.y;
-                p.view_offset.x = veh->global_pos3().x + q.x - p.posx();
-                p.view_offset.y = veh->global_pos3().y + q.y - p.posy();
+                const tripoint old_view_offset = p.view_offset;
+                const tripoint offset = veh->global_pos3() + q;
+                p.view_offset = offset - p.pos();
 
                 popup( _( "Choose a facing direction for the new %s.  Press space to continue." ), vpinfo.name() );
                 const cata::optional<tripoint> headlight_target = g->look_around();
                 // Restore previous view offsets.
-                p.view_offset.x = px;
-                p.view_offset.y = py;
+                p.view_offset = old_view_offset;
 
                 int dir = 0;
                 if( headlight_target ) {
-                    int delta_x = headlight_target->x - ( veh->global_pos3().x + q.x );
-                    int delta_y = headlight_target->y - ( veh->global_pos3().y + q.y );
+                    const point delta = ( *headlight_target - offset ).xy();
 
-                    dir = static_cast<int>( atan2( static_cast<float>( delta_y ),
-                                                   static_cast<float>( delta_x ) ) * 180.0 / M_PI );
+                    dir = static_cast<int>( atan2( static_cast<float>( delta.y ),
+                                                   static_cast<float>( delta.x ) ) * 180.0 / M_PI );
                     dir -= veh->face.dir();
                     while( dir < 0 ) {
                         dir += 360;
