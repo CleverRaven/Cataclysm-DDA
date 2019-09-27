@@ -9170,7 +9170,7 @@
     "storage": "3500 ml",
     "warmth": 50,
     "material_thickness": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF" ]
   },
   {
     "id": "winter_pants_army",
