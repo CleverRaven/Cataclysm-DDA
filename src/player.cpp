@@ -5099,9 +5099,11 @@ void player::suffer()
                     done_effect = true;
                 }
                 // Formication
-                if( !done_effect && one_turn_in( 4_hours ) ) {
+                if( !done_effect && one_turn_in( 6_hours ) ) {
+                    std::string snip = SNIPPET.random_from_category( "schizo_formication" );
                     body_part bp = random_body_part( true );
-                    add_effect( effect_formication, 1_hours, bp );
+                    add_effect( effect_formication, 45_minutes, bp );
+                    add_msg( m_bad, snip );
                     done_effect = true;
                 }
                 // Numbness
