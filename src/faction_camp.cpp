@@ -3015,7 +3015,6 @@ bool om_set_hide_site( npc &comp, const tripoint &omt_tgt,
                        const std::vector<item *> &itms_rem )
 {
     oter_id &omt_ref = overmap_buffer.ter( omt_tgt );
-    omt_ref = oter_id( omt_ref.id().c_str() );
     tinymap target_bay;
     target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
     target_bay.ter_set( point( 11, 10 ), t_improvised_shelter );
