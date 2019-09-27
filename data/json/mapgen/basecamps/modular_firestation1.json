@@ -2,7 +2,15 @@
   {
     "type": "palette",
     "id": "fbmc_firestation1_palette",
-    "terrain": { "u": "t_rootcellar", ".": "t_dirt", "^": "t_dirtmound", "|": "t_wall_w", "d": "t_door_c" },
+    "terrain": {
+      "u": "t_rootcellar",
+      ".": "t_dirt",
+      "^": "t_dirtmound",
+      "|": "t_wall_w",
+      "d": "t_door_c",
+      "G": "t_privacy_fencegate_c",
+      "#": "t_privacy_fence"
+    },
     "furniture": {
       "h": "f_chair",
       "t": "f_table",
@@ -414,6 +422,33 @@
     "update_mapgen_id": "fbmc_firestation1_bedroom_se",
     "method": "json",
     "object": { "place_nested": [ { "chunks": [ "fbmc_firestation1_living_quarters_SE" ], "x": 20, "y": 19 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmc_firestation1_garden_fence",
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "####G#####",
+        "         #",
+        "         #",
+        "         #",
+        "         #",
+        "         G",
+        "         #",
+        "          ",
+        "          ",
+        "          "
+      ],
+      "palettes": [ "fbmc_firestation1_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_firestation1_garden_fence1",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmc_firestation1_garden_fence" ], "x": 5, "y": 1 } ] }
   },
   {
     "type": "mapgen",
