@@ -44,6 +44,7 @@ extern std::unique_ptr<game> g;
 extern bool trigdist;
 extern bool use_tiles;
 extern bool fov_3d;
+extern int fov_3d_z_range;
 extern bool tile_iso;
 
 extern const int core_version;
