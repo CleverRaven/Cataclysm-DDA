@@ -754,7 +754,7 @@ bool veh_interact::can_install_part()
                           colorize( aid_string, aid_color ),
                           colorize( str_string, str_color ) ) << "\n";
 
-    sel_vpart_info->format_description( msg, "<color_light_gray>", getmaxx( w_msg ) - 4 );
+    sel_vpart_info->format_description( msg, c_light_gray, getmaxx( w_msg ) - 4 );
 
     werase( w_msg );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1106,8 +1106,7 @@ bool veh_interact::do_repair( std::string &msg )
             }
         }
 
-        std::string desc_color = string_format( "<color_%1$s>",
-                                                string_from_color( pt.is_broken() ? c_dark_gray : c_light_gray ) );
+        const nc_color desc_color = pt.is_broken() ? c_dark_gray : c_light_gray;
         vp.format_description( nmsg, desc_color, getmaxx( w_msg ) - 4 );
 
         werase( w_msg );
@@ -1344,9 +1343,9 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                 int y = 0;
                 for( const auto &e : pt.faults() ) {
                     y += fold_and_print( w_msg, point( 1, y ), getmaxx( w_msg ) - 2, c_red,
-                                         _( "Faulty %1$s" ), e.obj().name() );
+                                         "%s", e.obj().name() );
                     y += fold_and_print( w_msg, point( 3, y ), getmaxx( w_msg ) - 4, c_light_gray,
-                                         e.obj().description() );
+                                         "%s", e.obj().description() );
                     y++;
                 }
                 wrefresh( w_msg );
@@ -1676,8 +1675,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
         msg << string_format( _( "> %1$s%2$s</color>" ), status_color( false ), reason ) << "\n";
         ok = false;
     }
-    std::string desc_color = string_format( "<color_%1$s>",
-                                            string_from_color( sel_vehicle_part->is_broken() ? c_dark_gray : c_light_gray ) );
+    const nc_color desc_color = sel_vehicle_part->is_broken() ? c_dark_gray : c_light_gray;
     sel_vehicle_part->info().format_description( msg, desc_color, getmaxx( w_msg ) - 4 );
 
     werase( w_msg );
@@ -2541,15 +2539,16 @@ void veh_interact::display_details( const vpart_info *part )
     }
 
     if( part->has_flag( VPFLAG_WHEEL ) ) {
-        cata::optional<islot_wheel> whl = item::find_type( part->item )->wheel;
+        // Note: there is no guarantee that whl is non-empty!
+        const cata::optional<islot_wheel> &whl = item::find_type( part->item )->wheel;
         fold_and_print( w_details, point( col_1, line + 3 ), column_width, c_white,
                         "%s: <color_light_gray>%d\"</color>",
                         small_mode ? _( "Dia" ) : _( "Wheel Diameter" ),
-                        whl->diameter );
+                        whl ? whl->diameter : 0 );
         fold_and_print( w_details, point( col_2, line + 3 ), column_width, c_white,
                         "%s: <color_light_gray>%d\"</color>",
                         small_mode ? _( "Wdt" ) : _( "Wheel Width" ),
-                        whl->width );
+                        whl ? whl->width : 0 );
     }
 
     if( part->epower != 0 ) {

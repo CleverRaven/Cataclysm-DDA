@@ -63,6 +63,7 @@ bool fear_paralyze( monster *z );
 bool nurse_check_up( monster *z );
 bool nurse_assist( monster *z );
 bool nurse_operate( monster *z );
+bool check_money_left( monster *z );
 bool photograph( monster *z );
 bool tazer( monster *z );
 bool flamethrower( monster *z );

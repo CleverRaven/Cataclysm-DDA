@@ -1427,6 +1427,38 @@
   },
   {
     "type": "recipe",
+    "result": "bot_grocerybot",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_OTHER",
+    "skill_used": "electronics",
+    "skills_required": [ [ "mechanics", 7 ], [ "computer", 6 ] ],
+    "difficulty": 8,
+    "reversible": true,
+    "decomp_learn": 8,
+    "book_learn": [ [ "schematics_grocerybot", 7 ] ],
+    "time": "60 m",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "android_legs", 1 ] ],
+      [ [ "android_chassis", 1 ] ],
+      [ [ "android_arms", 1 ] ],
+      [ [ "medium_storage_battery", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "bot_hazmatbot",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",

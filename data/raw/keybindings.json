@@ -1855,9 +1855,9 @@
   },
   {
     "type": "keybinding",
-    "name": "View Kills",
+    "name": "View Scores",
     "category": "DEFAULTMODE",
-    "id": "kills",
+    "id": "scores",
     "bindings": [ { "input_method": "keyboard", "key": ")" } ]
   },
   {

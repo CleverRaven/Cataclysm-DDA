@@ -78,7 +78,7 @@
       [ "weeks_old_newspaper", 2 ],
       [ "newest_newspaper", 3 ],
       { "group": "ammo_casings", "prob": 10 },
-      { "group": "everyday_corpse", "prob": 10 }
+      { "group": "everyday_corpse", "prob": 1 }
     ]
   },
   {
@@ -119,7 +119,7 @@
       [ "syringe", 1 ],
       [ "cig_butt", 1 ],
       { "group": "ammo_casings", "prob": 20 },
-      { "group": "everyday_corpse", "prob": 10 }
+      { "group": "everyday_corpse", "prob": 1 }
     ]
   },
   {
@@ -148,7 +148,7 @@
     "id": "road",
     "items": [
       { "group": "ammo_casings", "prob": 20 },
-      { "group": "everyday_corpse", "prob": 10 },
+      { "group": "everyday_corpse", "prob": 1 },
       [ "jumper_cable", 5 ],
       [ "muffler", 5 ],
       [ "pipe", 20 ],
@@ -10322,6 +10322,7 @@
     "type": "item_group",
     "items": [
       [ "schematics_nursebot", 10 ],
+      [ "schematics_grocerybot", 20 ],
       [ "schematics_copbot", 50 ],
       [ "schematics_eyebot", 50 ],
       [ "schematics_secubot", 50 ],

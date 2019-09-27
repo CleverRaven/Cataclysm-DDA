@@ -5,7 +5,8 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "sugar house",
     "sym": "S",
-    "color": "i_brown"
+    "color": "i_brown",
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW" ]
   },
   {
     "type": "overmap_terrain",
@@ -113,7 +114,8 @@
     "color": "i_brown",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
     "type": "overmap_terrain",
@@ -313,7 +315,8 @@
     "color": "i_brown",
     "see_cost": 5,
     "extras": "field",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
     "type": "overmap_terrain",
@@ -393,7 +396,8 @@
     "color": "i_brown",
     "see_cost": 5,
     "extras": "field",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
     "type": "overmap_terrain",
@@ -522,7 +526,7 @@
     "sym": "w",
     "color": "brown",
     "see_cost": 1,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_SAFETY", "SOURCE_ANIMALS", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
     "id": "dairy_farm_NE",
@@ -1029,7 +1033,8 @@
     "copy-from": "generic_city_building",
     "name": "orchard",
     "sym": "#",
-    "color": "i_green"
+    "color": "i_green",
+    "flags": [ "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -1267,7 +1272,8 @@
     "color": "i_brown",
     "see_cost": 5,
     "extras": "field",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_ANIMALS", "SOURCE_FARMING" ]
   },
   {
     "type": "overmap_terrain",
@@ -1577,7 +1583,8 @@
     "color": "i_brown",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "SOURCE_FOOD", "SOURCE_SAFETY", "RISK_LOW", "SOURCE_FARMING" ]
   },
   {
     "type": "overmap_terrain",

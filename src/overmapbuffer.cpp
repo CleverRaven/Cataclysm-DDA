@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <cassert>
 #include <cstdlib>
-#include <sstream>
 #include <iterator>
 #include <list>
 #include <map>
@@ -62,21 +61,12 @@ int camp_reference::get_distance_from_bounds() const
 
 std::string overmapbuffer::terrain_filename( const point &p )
 {
-    std::ostringstream filename;
-
-    filename << g->get_world_base_save_path() << "/";
-    filename << "o." << p.x << "." << p.y;
-
-    return filename.str();
+    return string_format( "%s/o.%d.%d", g->get_world_base_save_path(), p.x, p.y );
 }
 
 std::string overmapbuffer::player_filename( const point &p )
 {
-    std::ostringstream filename;
-
-    filename << g->get_player_base_save_path() << ".seen." << p.x << "." << p.y;
-
-    return filename.str();
+    return string_format( "%s.seen.%d.%d", g->get_player_base_save_path(), p.x, p.y );
 }
 
 overmap &overmapbuffer::get( const point &p )
@@ -1269,29 +1259,29 @@ std::string overmapbuffer::get_description_at( const tripoint &where )
     const int sm_dist = closest_cref.distance;
 
     //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-    std::string format_string = _( "%1$s %2$s from %3$s" );
+    std::string format_string = pgettext( "terrain description", "%1$s %2$s from %3$s" );
     if( sm_dist <= 3 * sm_size / 4 ) {
         if( sm_size >= 16 ) {
             // The city is big enough to be split in districts.
             if( sm_dist <= sm_size / 4 ) {
                 //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-                format_string = _( "%1$s in central %3$s" );
+                format_string = pgettext( "terrain description", "%1$s in central %3$s" );
             } else {
                 //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-                format_string = _( "%1$s in %2$s %3$s" );
+                format_string = pgettext( "terrain description", "%1$s in %2$s %3$s" );
             }
         } else {
             //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-            format_string = _( "%1$s in %3$s" );
+            format_string = pgettext( "terrain description", "%1$s in %3$s" );
         }
     } else if( sm_dist <= sm_size ) {
         if( sm_size >= 8 ) {
             // The city is big enough to have outskirts.
             //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-            format_string = _( "%1$s on the %2$s outskirts of %3$s" );
+            format_string = pgettext( "terrain description", "%1$s on the %2$s outskirts of %3$s" );
         } else {
             //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-            format_string = _( "%1$s in %3$s" );
+            format_string = pgettext( "terrain description", "%1$s in %3$s" );
         }
     }
 

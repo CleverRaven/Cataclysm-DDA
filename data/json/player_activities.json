@@ -47,6 +47,13 @@
     "based_on": "neither"
   },
   {
+    "id": "ACT_VEHICLE_REPAIR",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "repairing a vehicle",
+    "based_on": "neither"
+  },
+  {
     "id": "ACT_MULTIPLE_CHOP_PLANKS",
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",
