@@ -370,9 +370,6 @@ void conditional_t<T>::set_at_om_location( JsonObject &jo, const std::string &me
             const std::string &omt_str = omt_ref.id().c_str();
             return omt_str.find( "faction_base_camp" ) != std::string::npos;
         } else if( location == "FACTION_CAMP_START" ) {
-            const tripoint omt_pos = actor->global_omt_location();
-            oter_id &omt_ref = overmap_buffer.ter( omt_pos );
-
             return !recipe_group::get_recipes_by_id( "all_faction_base_types",
                     omt_ref.id().c_str() ).empty();
         } else {
