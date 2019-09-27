@@ -3639,7 +3639,6 @@ void vehicle::noise_and_smoke( int load, time_duration time )
                     mufflesmoke += j;
                 }
                 part_noise = ( part_noise + max_stress * 3 + 5 ) * muffle;
-                //add_msg( m_good, "PART NOISE (2nd): %d", static_cast<int>( part_noise ) );
             }
             noise = std::max( noise, part_noise ); // Only the loudest engine counts.
         }
