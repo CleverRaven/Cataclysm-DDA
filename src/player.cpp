@@ -5087,23 +5087,13 @@ void player::suffer()
                 // Delusions
                 if( !done_effect && one_turn_in( 8_hours ) ) {
                     if (rng(1, 20) > 5) { // 75% chance
-                        const std::vector<std::string> paranoid{ _("You feel like the world is out to get you."),
-                                                                        _("You feel a mounting sense of impending doom."),
-                                                                        _("You gain the sudden realization that you must have been responsible for the cataclysm."),
-                                                                        _("You get the odd feeling that your thoughts are not your own."),
-                                                                        _("You feel as if everyone in the world must be playing a sick prank on you."),
-                                                                        _("You are being watched... by THEM.") };
+                        std::string snip = SNIPPET.random_from_category( "schizo_delusion_paranoid" );
                         add_msg(m_warning, random_entry_ref(paranoid));
-                        add_morale(MORALE_FEELING_BAD, -50, -150);
+                        add_morale(MORALE_FEELING_BAD, -20, -100);
                     } else { // 25% chance
-                        std::vector<std::string> grandiose{ _("You gain the sudden realization that you are the creator of the universe."),
-                                                            _("You increase all your skills to level 10."),
-                                                            _("You gain the sudden realization that you must have been responsible for the cataclysm."),
-                                                            _("You feel that this must be a global reality show, in which you are the star."),
-                                                            _("You now know that you are a secret agent, kept alive to continue serving the government."),
-                                                            _("You feel in full control of the situation.") };
+                        std::string snip = SNIPPET.random_from_category( "schizo_delusion_grandiose" );
                         add_msg(m_good, random_entry_ref(grandiose));
-                        add_morale(MORALE_FEELING_GOOD, 50, 150);
+                        add_morale(MORALE_FEELING_GOOD, 20, 100);
                     }
                     done_effect = true;
                 }
