@@ -3470,7 +3470,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
     if( has_flag( "ETHEREAL_ITEM" ) ) {
-        ret << " (" << get_var( "ethereal" ) << " turns)";
+        ret << string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
     } else if( goes_bad() || is_food() ) {
         if( item_tags.count( "DIRTY" ) ) {
             ret << _( " (dirty)" );
