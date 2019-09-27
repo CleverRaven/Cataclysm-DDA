@@ -1178,8 +1178,7 @@ void overmap::init_layers()
 void overmap::ter_set( const tripoint &p, const oter_id &id )
 {
     if( !inbounds( p ) ) {
-        debugmsg( "Tried to set overmap terrain %d at invalid location %d,%d,%d", id.to_i(), p.x, p.y,
-                  p.z );
+        /// @todo Add a debug message reporting this, but currently there are way too many place that would trigger it.
         return;
     }
 
