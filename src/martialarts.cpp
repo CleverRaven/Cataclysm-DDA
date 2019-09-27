@@ -475,14 +475,14 @@ std::string ma_requirements::get_description( bool buff ) const
                                type ) << std::endl;
         if( unarmed_weapons_allowed ) {
             dump << string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
-                type ) << std::endl;
+                                   type ) << std::endl;
         }
     } else if( unarmed_allowed ) {
         dump << string_format( _( "* Can <info>only</info> %s while <info>unarmed</info>" ),
                                type ) << std::endl;
         if( unarmed_weapons_allowed ) {
             dump << string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
-                type ) << std::endl;
+                                   type ) << std::endl;
         }
     } else if( melee_allowed ) {
         dump << string_format( _( "* Can <info>only</info> %s while <info>armed</info>" ),
