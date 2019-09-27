@@ -1821,7 +1821,7 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
                             g->memorial().add(
                                 pgettext( "memorial_male", "Lost %d units of power capacity." ),
                                 pgettext( "memorial_female", "Lost %d units of power capacity." ),
-                                old_power - max_power_level );
+                                units::to_kilojoule( old_power - max_power_level ) );
                         }
                     }
                     // TODO: What if we can't lose power capacity?  No penalty?
@@ -1940,7 +1940,8 @@ void player::add_bionic( const bionic_id &b )
     units::energy pow_up = bionics[b].capacity;
     max_power_level += pow_up;
     if( b == "bio_power_storage" || b == "bio_power_storage_mkII" ) {
-        add_msg_if_player( m_good, _( "Increased storage capacity by %i." ), pow_up );
+        add_msg_if_player( m_good, _( "Increased storage capacity by %i." ),
+                           units::to_kilojoule( pow_up ) );
         // Power Storage CBMs are not real bionic units, so return without adding it to my_bionics
         return;
     }
@@ -2071,7 +2072,6 @@ void load_bionic( JsonObject &jsobj )
     const bionic_id id( jsobj.get_string( "id" ) );
     jsobj.read( "name", new_bionic.name );
     jsobj.read( "description", new_bionic.description );
-
     assign( jsobj, "act_cost", new_bionic.power_activate, false, 0_kJ );
 
     new_bionic.toggled = get_bool_or_flag( jsobj, "toggled", "BIONIC_TOGGLED", false );

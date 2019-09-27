@@ -505,7 +505,6 @@ void Character::load( JsonObject &data )
     recalc_sight_limits();
     reset_encumbrance();
 
-    // FIXME: Fix corrupted bionic power data loading (see #31627). Temporary.
     power_level = units::from_kilojoule( pmap.get_int( "power_level", data.get_int( "power_level",
                                          0 ) ) );
     max_power_level = units::from_kilojoule( pmap.get_int( "max_power_level",

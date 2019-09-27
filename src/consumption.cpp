@@ -1174,9 +1174,8 @@ bool player::feed_battery_with( item &it )
         return false;
     }
 
-    const units::energy energy = units::from_kilojoule( get_acquirable_energy( it,
-                                 rechargeable_cbm::battery ) );
-    const int profitable_energy = std::min( units::to_kilojoule( energy ),
+    const int energy = get_acquirable_energy( it, rechargeable_cbm::battery );
+    const int profitable_energy = std::min( energy,
                                             units::to_kilojoule( max_power_level - power_level ) );
 
     if( profitable_energy <= 0 ) {
@@ -1270,8 +1269,7 @@ bool player::feed_furnace_with( item &it )
         return false;
     }
 
-    const units::energy consumed_charges = units::from_kilojoule( std::min( it.charges,
-                                           it.charges_per_volume( furnace_max_volume ) ) );
+    const int consumed_charges =  std::min( it.charges, it.charges_per_volume( furnace_max_volume ) );
     const int energy =  get_acquirable_energy( it, rechargeable_cbm::furnace ) ;
 
     if( energy == 0 ) {
@@ -1313,7 +1311,7 @@ bool player::feed_furnace_with( item &it )
         charge_power( units::from_kilojoule( profitable_energy ) );
     }
 
-    it.charges -= units::to_kilojoule( consumed_charges );
+    it.charges -= consumed_charges;
     mod_moves( -250 );
 
     return true;
