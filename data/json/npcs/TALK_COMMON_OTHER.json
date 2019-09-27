@@ -9,7 +9,7 @@
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
       { "text": "Want to travel with me?", "topic": "TALK_SUGGEST_FOLLOW", "condition": { "not": "npc_following" } },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
-      { "text": "I can't leave the shelter without equipment.", "topic": "TALK_SHARE_EQUIPMENT" },
+      { "text": "Want to share some useful items with me?", "topic": "TALK_SHARE_EQUIPMENT" },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
     ]
   },
