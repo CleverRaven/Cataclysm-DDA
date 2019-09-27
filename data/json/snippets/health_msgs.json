@@ -148,12 +148,5 @@
     "type": "snippet",
     "category": "health_horrible",
     "text": "Awareness seems to only come with a battle... and your body seem to be on its side."
-  },
-  {
-    "type": "snippet",
-    "category": "broken_limb",
-    "text": [
-      "Your limb breaks!"
-    ]
   }
 ]
