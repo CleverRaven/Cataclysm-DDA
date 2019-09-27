@@ -5142,21 +5142,15 @@ void player::suffer()
                                                weapon.get_var( "item_label" ) :
                                                "your " + weapon.type_name();
 
-                        std::vector<std::string> drops{ "%1$s starts burning your hands!",
-                                                        "%1$s feels freezing cold!",
-                                                        "An electric shock shoots into your hand from %1$s!",
-                                                        "%1$s lied to you.",
-                                                        "%1$s said something stupid.",
-                                                        "%1$s is running away!" };
-
-                        std::string str = string_format( random_entry_ref( drops ), i_name_w );
+                        std::string snip = SNIPPET.random_from_category( "schizo_weapon_drop" );
+                        std::string str = string_format( snip, i_name_w );
                         str[0] = toupper( str[0] );
 
                         add_msg( m_bad, str );
                         drop( get_item_position( &weapon ), pos() );
+                        // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
+                        done_effect = true;
                     }
-                    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-                    done_effect = true;
                 }
             }
         }
