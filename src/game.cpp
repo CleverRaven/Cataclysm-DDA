@@ -10587,7 +10587,7 @@ void game::vertical_notes( int z_before, int z_after )
             if( !overmap_buffer.seen( cursp_before ) ) {
                 continue;
             }
-            if( overmap_buffer.has_note( cursp_before ) ) {
+            if( overmap_buffer.has_note( cursp_after ) ) {
                 // Already has a note -> never add an AUTO-note
                 continue;
             }
