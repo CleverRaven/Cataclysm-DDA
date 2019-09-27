@@ -1020,11 +1020,11 @@ class read_inventory_preset: public pickup_inventory_preset
             if( !book_a.skill && !book_b.skill ) {
                 return ( book_a.fun == book_b.fun ) ? base_sort : book_a.fun > book_b.fun;
             } else if( !book_a.skill || !book_a.skill ) {
-                return book_a.skill ? true : false;
+                return static_cast<bool>(book_a.skill);
             }
 
-            const bool train_a = p.get_skill_level_object( book_a.skill ).level() < book_a.level;
-            const bool train_b = p.get_skill_level_object( book_b.skill ).level() < book_b.level;
+            const bool train_a = p.get_skill_level( book_a.skill ) < book_a.level;
+            const bool train_b = p.get_skill_level( book_b.skill ) < book_b.level;
 
             if( !train_a || !train_b ) {
                 return ( !train_a && !train_b ) ? base_sort : train_a;
