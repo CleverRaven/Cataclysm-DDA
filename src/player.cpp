@@ -5143,7 +5143,7 @@ void player::suffer()
                 // Delusions
                 if( !done_effect && one_turn_in( 8_hours ) ) {
                     if (rng(1, 20) > 5) { // 75% chance
-                        static const std::vector<std::string> paranoid{ _("You feel like the world is out to get you."),
+                        const std::vector<std::string> paranoid{ _("You feel like the world is out to get you."),
                                                                         _("You feel a mounting sense of impending doom."),
                                                                         _("You gain the sudden realization that you must have been responsible for the cataclysm."),
                                                                         _("You get the odd feeling that your thoughts are not your own."),
