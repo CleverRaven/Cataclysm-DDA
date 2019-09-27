@@ -189,6 +189,7 @@ const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_took_prozac( "took_prozac" );
 const efftype_id effect_took_thorazine("took_thorazine");
 const efftype_id effect_took_xanax( "took_xanax" );
+const efftype_id effect_valium("valium");
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
@@ -5123,7 +5124,7 @@ void player::suffer()
                     done_effect = true;
                 }
                 // Shaking
-                if( !done_effect && one_turn_in( 4_hours ) ) {
+                if( !done_effect && !has_effect( effect_valium ) && one_turn_in( 4_hours ) ) {
                     add_msg( m_bad, _( "You start to shake uncontrollably." ) );
                     add_effect( effect_shakes, rng( 2_minutes, 5_minutes ) );
                     done_effect = true;
