@@ -484,8 +484,6 @@ class monster : public Creature
         void init_from_item( const item &itm );
 
         time_point last_updated = calendar::turn_zero;
-        int last_baby;
-        int last_biosig;
         /**
          * Do some cleanup and caching as monster is being unloaded from map.
          */
