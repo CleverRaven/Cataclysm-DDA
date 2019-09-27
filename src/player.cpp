@@ -5057,16 +5057,6 @@ void player::suffer()
                     std::string i_talk_w;
                     bool does_talk = false;
                     if( !mons.empty() && one_turn_in( 12_minutes ) ) {
-                        std::vector<std::string> mon_near{ _( "Hey, let's go kill that %1$s!" ),
-                                                           _( "Did you see that %1$s!?" ),
-                                                           _( "I want to kill that %1$s!" ),
-                                                           _( "Let me kill that %1$s!" ),
-                                                           _( "Hey, I need to kill that %1$s!" ),
-                                                           _( "I want to watch that %1$s bleed!" ),
-                                                           _( "Wait, that %1$s needs to die!" ),
-                                                           _( "Go kill that %1$s!" ),
-                                                           _( "Look at that %1$s!" ),
-                                                           _( "That %1$s doesn't deserve to live!" ) };
                         std::vector<std::string> seen_mons;
                         for( auto &n : mons ) {
                             if( sees( *n.lock() ) ) {
@@ -5074,45 +5064,19 @@ void player::suffer()
                             }
                         }
                         if( !seen_mons.empty() ) {
-                            std::string talk_w = random_entry_ref( mon_near );
+                            std::string talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_monster" );
                             i_talk_w = string_format( talk_w, random_entry_ref( seen_mons ) );
                             does_talk = true;
                         }
-                    } else if( has_effect( effect_bleed ) && one_turn_in( 5_minutes ) ) {
-                        std::vector<std::string> bleeding{ _( "Hey, you're bleeding." ),
-                                                           _( "Your wound looks pretty bad." ),
-                                                           _( "Shouldn't you put a bandage on that?" ),
-                                                           _( "Please don't die! No one else lets me kill things!" ),
-                                                           _( "You look hurt, did I do that?" ),
-                                                           _( "Are you supposed to be bleeding?" ),
-                                                           _( "You're not going to die, are you?" ),
-                                                           _( "Kill a few more before you bleed out!" ) };
-                        i_talk_w = random_entry_ref( bleeding );
+                    } 
+                    if( !does_talk && has_effect( effect_bleed ) && one_turn_in( 5_minutes ) ) {
+                        i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" );
                         does_talk = true;
                     } else if( weapon.damage() >= weapon.max_damage() / 3 && one_turn_in( 1_hours ) ) {
-                        std::vector<std::string> damaged{ _( "Hey fix me up." ),
-                                                          _( "I need healing!" ),
-                                                          _( "I hurt all over..." ),
-                                                          _( "You can put me back together, right?" ),
-                                                          _( "I... I can't move my legs!" ),
-                                                          _( "Medic!" ),
-                                                          _( "I can still fight, don't replace me!" ),
-                                                          _( "They got me!" ),
-                                                          _( "Go on without me..." ),
-                                                          _( "Am I gonna die?" ) };
-                        i_talk_w = random_entry_ref( damaged );
+                        i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" );
                         does_talk = true;
                     } else if( one_turn_in( 4_hours ) ) {
-                        std::vector<std::string> misc{ _( "Let me kill something already!" ),
-                                                       _( "I'm your best friend, right?" ),
-                                                       _( "I love you!" ),
-                                                       _( "How are you today?" ),
-                                                       _( "Do you think it will rain today?" ),
-                                                       _( "Did you hear that?" ),
-                                                       _( "Try not to drop me." ),
-                                                       _( "How many do you think we've killed?" ),
-                                                       _( "I'll keep you safe!" ) };
-                        i_talk_w = random_entry_ref( misc );
+                        i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_misc" );
                         does_talk = true;
                     }
                     if( does_talk ) {
