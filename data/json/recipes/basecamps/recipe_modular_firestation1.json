@@ -24,7 +24,7 @@
   },
   {
     "type": "recipe",
-    "result": "faction_base_modular_firestation1_kitchen1.",
+    "result": "faction_base_modular_firestation1_kitchen1",
     "description": "Now that we have some cover, we should reorganize that dining area into our kitchen.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
