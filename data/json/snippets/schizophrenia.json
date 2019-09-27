@@ -110,5 +110,14 @@
       "You now know that you are a secret agent, kept alive to continue serving the government.",
       "You feel in full control of the situation."
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "schizo_formication",
+    "text": [
+      "Your skin feels itchy.",
+      "You feel larvae wriggling beneath the skin.",
+      "You feel bugs crawling on you."
+    ]
   }
 ]
