@@ -375,5 +375,12 @@
     "symbol": ",",
     "color": "white",
     "use_action": "WASH_HARD_ITEMS"
+  },
+  {
+    "id": "fault_gun_clogged",
+    "type": "fault",
+    "name": "Dusty",
+    "description": "It's dusty. Has no effect - obsolete fault.",
+    "time": "1 s"
   }
 ]
