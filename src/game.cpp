@@ -7958,10 +7958,10 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
         const mtype *dead_mon = corpses[corpse]->get_mtype();
         if( dead_mon ) {
             for( const harvest_entry &entry : dead_mon->harvest.obj() ) {
-                if( entry.drop == "skin" ) {
+                if( entry.type == "skin" ) {
                     has_skin = true;
                 }
-                if( entry.drop == "offal" ) {
+                if( entry.type == "offal" ) {
                     has_organs = true;
                 }
             }
