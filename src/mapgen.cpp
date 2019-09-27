@@ -117,7 +117,12 @@ void map::generate( const tripoint &p, const time_point &when )
     //  because other submaps won't be touched.
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            setsubmap( get_nonant( { gridx, gridy } ), new submap() );
+            const size_t grid_pos = get_nonant( { gridx, gridy, p.z } );
+            if( getsubmap( grid_pos ) ) {
+                debugmsg( "Submap already exists at (%d, %d, %d)", gridx, gridy, p.z );
+                continue;
+            }
+            setsubmap( grid_pos, new submap() );
             // TODO: memory leak if the code below throws before the submaps get stored/deleted!
         }
     }
@@ -189,10 +194,13 @@ void map::generate( const tripoint &p, const time_point &when )
         for( int j = 0; j < my_MAPSIZE; j++ ) {
             dbg( D_INFO ) << "map::generate: submap (" << i << "," << j << ")";
 
+            const tripoint pos( i, j, p.z );
             if( i <= 1 && j <= 1 ) {
-                saven( tripoint( i, j, p.z ) );
+                saven( pos );
             } else {
-                delete get_submap_at_grid( { i, j, p.z } );
+                const size_t grid_pos = get_nonant( pos );
+                delete getsubmap( grid_pos );
+                setsubmap( grid_pos, nullptr );
             }
         }
     }
