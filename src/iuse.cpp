@@ -214,6 +214,9 @@ const efftype_id effect_took_flumed( "took_flumed" );
 const efftype_id effect_took_prozac( "took_prozac" );
 const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 const efftype_id effect_took_prozac_visible( "took_prozac_visible" );
+const efftype_id effect_took_thorazine( "took_thorazine" );
+const efftype_id effect_took_thorazine_bad( "took_thorazine_bad" );
+const efftype_id effect_took_thorazine_visible( "took_thorazine_visible" );
 const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_took_xanax_visible( "took_xanax_visible" );
 const efftype_id effect_valium( "valium" );
@@ -858,6 +861,11 @@ int iuse::meditate( player *p, item *it, bool t, const tripoint & )
 
 int iuse::thorazine( player *p, item *it, bool, const tripoint & )
 {
+    if ( p->has_effect( effect_took_thorazine ) ) {
+        p->remove_effect( effect_took_thorazine );
+        p->mod_fatigue( 15 );
+    }
+    p->add_effect( effect_took_thorazine, 12_hours );
     p->mod_fatigue( 5 );
     p->remove_effect( effect_hallu );
     p->remove_effect( effect_visuals );
@@ -868,9 +876,11 @@ int iuse::thorazine( player *p, item *it, bool, const tripoint & )
     if( one_in( 50 ) ) { // adverse reaction
         p->add_msg_if_player( m_bad, _( "You feel completely exhausted." ) );
         p->mod_fatigue( 15 );
+        p->add_effect( effect_took_thorazine_bad, p->get_effect_dur( effect_took_thorazine ) );
     } else {
         p->add_msg_if_player( m_warning, _( "You feel a bit wobbly." ) );
     }
+    p->add_effect( effect_took_prozac_visible, rng( 9_hours, 15_hours ) );
     return it->type->charges_to_use();
 }
 
