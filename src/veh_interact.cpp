@@ -2819,9 +2819,7 @@ void veh_interact::complete_vehicle( player &p )
                 p.view_offset.x = veh->global_pos3().x + q.x - p.posx();
                 p.view_offset.y = veh->global_pos3().y + q.y - p.posy();
 
-                bool is_overheadlight = vpinfo.has_flag( VPFLAG_HALF_CIRCLE_LIGHT );
-                popup( _( "Choose a facing direction for the new %s.  Press space to continue." ),
-                       is_overheadlight ? "overhead light" : "headlight" );
+                popup( _( "Choose a facing direction for the new %s.  Press space to continue." ), vpinfo.name() );
                 const cata::optional<tripoint> headlight_target = g->look_around();
                 // Restore previous view offsets.
                 p.view_offset.x = px;
