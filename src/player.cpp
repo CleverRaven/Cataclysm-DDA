@@ -187,6 +187,7 @@ const efftype_id effect_stim_overdose( "stim_overdose" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_took_prozac( "took_prozac" );
+const efftype_id effect_took_thorazine("took_thorazine");
 const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
@@ -4970,7 +4971,7 @@ void player::suffer()
                 }
             }
         }
-        if( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) ) {
+        if( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) && !has_effect( effect_took_thorazine ) ) {
             if( is_player() ) {
                 bool done_effect = false;
                 // Sound
