@@ -479,9 +479,7 @@ int construction_menu( bool blueprint )
                                     col = c_green;
                                 }
 
-                                std::string color_s = "<color_" + string_from_color( col ) + ">";
-                                return string_format( "%s%s (%d)</color>", color_s,
-                                                      skill.first.obj().name(), skill.second );
+                                return colorize( string_format( "%s (%d)", skill.first.obj().name(), skill.second ), col );
                             }, enumeration_conjunction::none );
                         }
 

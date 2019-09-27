@@ -488,6 +488,9 @@ def extract_mapgen(item):
                 if "options" in v:
                     for opt in v.get("options"):
                         writestr(outfile, opt.get("name"), comment="Computer option")
+                if "access_denied" in v:
+                    writestr(outfile, v.get("access_denied"),
+                             comment="Computer access denied warning")
 
 def extract_monster_attack(item):
     outfile = get_outfile("monster_attack")
@@ -570,6 +573,9 @@ def extract_talk_effects(effects, outfile):
 def extract_talk_response(response, outfile):
     if "text" in response:
         writestr(outfile, response["text"])
+    if "truefalsetext" in response:
+        writestr(outfile, response["truefalsetext"]["true"])
+        writestr(outfile, response["truefalsetext"]["false"])
     if "success" in response:
         extract_talk_response(response["success"], outfile)
     if "failure" in response:
@@ -997,6 +1003,10 @@ def extract(item, infilename):
     if "seed_data" in item:
         seed_data = item["seed_data"]
         writestr(outfile, seed_data["plant_name"], **kwargs)
+        wrote = True
+    if "relic_data" in item and "name" in item["relic_data"]:
+        writestr(outfile, item["relic_data"]["name"], **kwargs)
+        wrote = True
     if "text" in item:
         writestr(outfile, item["text"], **kwargs)
         wrote = True
