@@ -2818,24 +2818,29 @@ void veh_interact::complete_vehicle( player &p )
                 const tripoint offset = veh->global_pos3() + q;
                 p.view_offset = offset - p.pos();
 
-                popup( _( "Choose a facing direction for the new %s.  Press space to continue." ), vpinfo.name() );
-                const cata::optional<tripoint> headlight_target = g->look_around();
+                point delta;
+                do {
+                    popup( _( "Press space, choose a facing direction for the new %s and confirm with enter." ),
+                           vpinfo.name() );
+                    const cata::optional<tripoint> chosen = g->look_around();
+                    if( !chosen ) {
+                        continue;
+                    }
+                    delta = ( *chosen - offset ).xy();
+                    // atan2 only gives reasonable values when delta is not all zero
+                } while( delta == point_zero );
+
                 // Restore previous view offsets.
                 p.view_offset = old_view_offset;
 
-                int dir = 0;
-                if( headlight_target ) {
-                    const point delta = ( *headlight_target - offset ).xy();
-
-                    dir = static_cast<int>( atan2( static_cast<float>( delta.y ),
+                int dir = static_cast<int>( atan2( static_cast<float>( delta.y ),
                                                    static_cast<float>( delta.x ) ) * 180.0 / M_PI );
-                    dir -= veh->face.dir();
-                    while( dir < 0 ) {
-                        dir += 360;
-                    }
-                    while( dir > 360 ) {
-                        dir -= 360;
-                    }
+                dir -= veh->face.dir();
+                while( dir < 0 ) {
+                    dir += 360;
+                }
+                while( dir > 360 ) {
+                    dir -= 360;
                 }
 
                 veh->parts[partnum].direction = dir;
