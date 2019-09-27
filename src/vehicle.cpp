@@ -1886,7 +1886,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
 
     // Release any animal held by the part
     if( parts[p].has_flag( vehicle_part::animal_flag ) ) {
-        item base = item( parts[p].get_base() );
+        item base = parts[p].get_base();
         handler.spawn_animal_from_part( base, part_loc );
         parts[p].set_base( base );
         parts[p].remove_flag( vehicle_part::animal_flag );
