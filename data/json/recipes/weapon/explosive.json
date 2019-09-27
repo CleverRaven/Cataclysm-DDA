@@ -217,18 +217,6 @@
     ]
   },
   {
-    "result": "matchbomb",
-    "type": "recipe",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_EXPLOSIVE",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "10 m",
-    "autolearn": true,
-    "tools": [ [ [ "matches", 20 ] ] ],
-    "components": [ [ [ "string_6", 1 ] ], [ [ "bottle_glass", 1 ], [ "clay_canister", 1 ], [ "flask_glass", 1 ], [ "jar_glass", 1 ] ] ]
-  },
-  {
     "result": "molotov",
     "type": "recipe",
     "category": "CC_WEAPON",
@@ -264,7 +252,7 @@
     "autolearn": true,
     "components": [
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
-      [ [ "bottle_glass", 1 ], [ "clay_canister", 1 ], [ "flask_glass", 1 ] ],
+      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_drink_unsealed", 1 ] ],
       [ [ "nail", 40 ] ],
       [
         [ "gunpowder", 216 ],
@@ -350,7 +338,7 @@
     "components": [ [ [ "keg", 1 ], [ "keg_steel", 1 ] ], [ [ "chem_anfo", 70 ] ], [ [ "dynamite", 2 ] ] ]
   },
   {
-    "result": "tool_black_powder_bomb",
+    "result": "can_bomb",
     "type": "recipe",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
