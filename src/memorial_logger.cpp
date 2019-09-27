@@ -824,10 +824,11 @@ void memorial_logger::notify( const cata::event &e )
                 skill_id skill = e.get<skill_id>( "skill" );
                 int new_level = e.get<int>( "new_level" );
                 if( new_level % 4 == 0 ) {
-                    //~ %d is skill level %s is skill name
                     add( pgettext( "memorial_male",
+                                   //~ %d is skill level %s is skill name
                                    "Reached skill level %1$d in %2$s." ),
                          pgettext( "memorial_female",
+                                   //~ %d is skill level %s is skill name
                                    "Reached skill level %1$d in %2$s." ),
                          new_level, skill->name() );
                 }
