@@ -69,5 +69,52 @@
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
       [ [ "tin_plate", 1 ], [ "tin_cup", 1 ], [ "bowl_pewter", 1 ] ]
     ]
+  },
+  {
+    "result": "fuse",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "autolearn": true,
+    "time": "40 m",
+    "batch_time_factors": [ 50, 2 ],
+    "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "components": [ [ [ "string_36", 4 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "chem_saltpetre", 7 ] ], [ [ "sugar", 5 ] ] ]
+  },
+  {
+    "result": "fuse",
+    "type": "recipe",
+    "id_suffix": "with gunpowder",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "autolearn": true,
+    "time": "10 m",
+    "charges": 6,
+    "batch_time_factors": [ 60, 2 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "string_36", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "chem_black_powder", 6 ], [ "gunpowder", 6 ] ] ]
+  },
+  {
+    "result": "fuse",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "id_suffix": "with paper & gunpowder",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "autolearn": true,
+    "time": "4 m",
+    "charges": 3,
+    "batch_time_factors": [ 30, 2 ],
+    "components": [
+      [ [ "rolling_paper", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "chem_black_powder", 3 ], [ "gunpowder", 3 ] ]
+    ]
   }
 ]
