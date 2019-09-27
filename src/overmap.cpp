@@ -1515,8 +1515,6 @@ bool overmap::generate_sub( const int z )
             tripoint p( i, j, z );
             oter_id oter_above = ter( p + tripoint_above );
             oter_id oter_ground = ter( tripoint( p.xy(), 0 ) );
-            //oter_id oter_sewer = ter(i, j, -1);
-            //oter_id oter_underground = ter(i, j, -2);
 
             if( is_ot_match( "microlab_sub_connector", ter( p ), ot_match_type::type ) ) {
                 om_direction::type rotation = ter( p )->get_dir();
