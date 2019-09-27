@@ -2761,8 +2761,8 @@ bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d
 bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_level /*ll*/,
         int &/*height_3d*/, const bool ( &invisible )[5] )
 {
-    if( !invisible[0] && g->m.could_see_items( pos, g->u ) &&
-        tileset_ptr->find_tile_type( ZOMBIE_REVIVAL_INDICATOR ) ) {
+    if( tileset_ptr->find_tile_type( ZOMBIE_REVIVAL_INDICATOR ) && !invisible[0] &&
+        item_override.find( pos ) == item_override.end() && g->m.could_see_items( pos, g->u ) ) {
         for( auto &i : g->m.i_at( pos ) ) {
             if( i.can_revive() ) {
                 return draw_from_id_string( ZOMBIE_REVIVAL_INDICATOR, C_NONE, empty_string, pos, 0, 0, LL_LIT,
