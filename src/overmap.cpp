@@ -2794,8 +2794,11 @@ void overmap::place_river( point pa, point pb )
                 if( inbounds( tripoint( x + j, y + i, 0 ), 1 ) ||
                     // UNLESS, of course, that's where the river is headed!
                     ( abs( pb.y - ( y + i ) ) < 4 && abs( pb.x - ( x + j ) ) < 4 ) ) {
-
                     tripoint p( x + j, y + i, 0 );
+                    if( !inbounds( p ) ) {
+                        continue;
+                    }
+
                     if( !ter( p )->is_lake() && one_in( river_chance ) ) {
                         ter_set( p, river_center );
                     }
@@ -3026,6 +3029,9 @@ bool overmap::build_lab( const tripoint &p, int s, std::vector<point> *lab_train
     while( !candidates.empty() ) {
         const tripoint cand = *candidates.begin();
         candidates.erase( candidates.begin() );
+        if( !inbounds( cand ) ) {
+            continue;
+        }
         const int dist = manhattan_dist( p.xy(), cand.xy() );
         if( dist <= s * 2 ) { // increase radius to compensate for sparser new algorithm
             int dist_increment = s > 3 ? 3 : 2; // Determines at what distance the odds of placement decreases
@@ -3193,6 +3199,9 @@ void overmap::build_anthill( const tripoint &p, int s )
     for( int i = -s; i <= s; i++ ) {
         for( int j = -s; j <= s; j++ ) {
             const tripoint root = p + point( i, j );
+            if( !inbounds( root ) ) {
+                continue;
+            }
             if( root_id == ter( root )->id ) {
                 const oter_id &oter = ter( root );
                 for( auto dir : om_direction::all ) {
@@ -3213,6 +3222,9 @@ void overmap::build_anthill( const tripoint &p, int s )
 void overmap::build_tunnel( const tripoint &p, int s, om_direction::type dir )
 {
     if( s <= 0 ) {
+        return;
+    }
+    if( !inbounds( p ) ) {
         return;
     }
 
@@ -3238,6 +3250,9 @@ void overmap::build_tunnel( const tripoint &p, int s, om_direction::type dir )
 
     for( auto r : valid ) {
         const tripoint cand = p + om_direction::displace( r );
+        if( !inbounds( cand ) ) {
+            continue;
+        }
 
         if( cand.xy() != next.xy() ) {
             if( one_in( s * 2 ) ) {
@@ -3563,6 +3578,10 @@ void overmap::chip_rock( const tripoint &p )
 bool overmap::check_ot( const std::string &otype, ot_match_type match_type,
                         const tripoint &p ) const
 {
+    /// @todo this check should be done by the caller. Probably.
+    if( !inbounds( p ) ) {
+        return false;
+    }
     const oter_id &oter = ter( p );
     return is_ot_match( otype, oter, match_type );
 }
@@ -3807,6 +3826,10 @@ om_direction::type overmap::random_special_rotation( const overmap_special &spec
 
         for( const auto &con : special.connections ) {
             const tripoint rp = p + om_direction::rotate( con.p, r );
+            if( !inbounds( rp ) ) {
+                valid = false;
+                break;
+            }
             const oter_id &oter = ter( rp );
 
             if( is_ot_match( con.terrain.str(), oter, ot_match_type::type ) ) {
@@ -3901,6 +3924,9 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
             for( int x = -2; x <= 2; x++ ) {
                 for( int y = -2; y <= 2; y++ ) {
                     const tripoint p = location + point( x, y );
+                    if( !inbounds( p ) ) {
+                        continue;
+                    }
                     if( one_in( 1 + abs( x ) + abs( y ) ) && elem.can_be_placed_on( ter( p ) ) ) {
                         ter_set( p, tid );
                     }
