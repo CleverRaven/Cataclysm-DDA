@@ -777,7 +777,6 @@ class Creature
         static void load_hit_range( JsonObject & );
         // Empirically determined by "synthetic_range_test" in tests/ranged_balance.cpp.
         static std::vector <int> dispersion_for_even_chance_of_good_hit;
-    protected:
         /**
          * This function replaces the "<npcname>" substring with the @ref disp_name of this creature.
          *
