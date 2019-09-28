@@ -5088,14 +5088,14 @@ void player::suffer()
                 }
                 // Delusions
                 if( !done_effect && one_turn_in( 8_hours ) ) {
-                    if (rng(1, 20) > 5) { // 75% chance
+                    if ( rng( 1, 20 ) > 5 ) { // 75% chance
                         std::string snip = SNIPPET.random_from_category( "schizo_delusion_paranoid" );
-                        add_msg(m_warning, random_entry_ref(paranoid));
-                        add_morale(MORALE_FEELING_BAD, -20, -100);
+                        add_msg( m_warning, snip );
+                        add_morale( MORALE_FEELING_BAD, -20, -100 );
                     } else { // 25% chance
                         std::string snip = SNIPPET.random_from_category( "schizo_delusion_grandiose" );
-                        add_msg(m_good, random_entry_ref(grandiose));
-                        add_morale(MORALE_FEELING_GOOD, 20, 100);
+                        add_msg( m_good, snip );
+                        add_morale( MORALE_FEELING_GOOD, 20, 100 );
                     }
                     done_effect = true;
                 }
