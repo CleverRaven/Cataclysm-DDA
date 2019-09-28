@@ -167,8 +167,9 @@ bool player::handle_gun_damage( item &it )
         return false;
     }
 
-    double dirt = it.get_var( "dirt", 0 );
-    double dirtadder = 0;
+    int dirt = it.get_var( "dirt", 0 );
+    int dirtadder = 0;
+    double dirt_dbl = static_cast<double>( dirt );
     if( it.faults.count( fault_gun_chamber_spent ) ) {
         return false;
     }
@@ -176,7 +177,7 @@ bool player::handle_gun_damage( item &it )
     const auto &curammo_effects = it.ammo_effects();
     const cata::optional<islot_gun> &firing = it.type->gun;
     if( !it.has_flag( "NEVER_JAMS" ) &&
-        x_in_y( ( dirt * dirt * dirt * dirt ), ( ( dirt * 1000000000000 ) + 1 ) ) ) {
+        x_in_y( ( dirt_dbl * dirt_dbl * dirt_dbl * dirt_dbl ), ( ( dirt_dbl * 1000000000000 ) + 1 ) ) ) {
         add_msg_player_or_npc( _( "Your %s misfires with a muffled click!" ),
                                _( "<npcname>'s %s misfires with a muffled click!" ),
                                it.tname() );
@@ -292,7 +293,8 @@ bool player::handle_gun_damage( item &it )
         it.faults.insert( fault_gun_blackpowder );
     }
     // end fouling mechanics
-    if( dirt > 5000 && x_in_y( ( dirt * dirt * dirt * dirt ), ( ( dirt * 5555555555555 ) + 1 ) ) ) {
+    if( dirt_dbl > 5000 &&
+        x_in_y( ( dirt_dbl * dirt_dbl * dirt_dbl * dirt_dbl ), ( ( dirt_dbl * 5555555555555 ) + 1 ) ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the high pressure!" ),
                                _( "<npcname>'s %s is damaged by the high pressure!" ),
                                it.tname() );
