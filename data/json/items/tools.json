@@ -4480,57 +4480,6 @@
     "qualities": [ [ "SMOKE_PIPE", 1 ] ]
   },
   {
-    "id": "pipebomb",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "pipe bomb",
-    "description": "This is a section of a pipe filled with explosive materials.  Use this item to light the fuse, which gives you five turns to get away from it before it detonates.  You'll need a lighter or some matches to use it.",
-    "weight": "1298 g",
-    "volume": "500 ml",
-    "price": 1500,
-    "to_hit": 1,
-    "bashing": 5,
-    "material": "steel",
-    "symbol": "*",
-    "color": "light_gray",
-    "use_action": {
-      "target": "pipebomb_act",
-      "msg": "You light the fuse on the pipe bomb.",
-      "target_charges": 7,
-      "active": true,
-      "need_fire": 1,
-      "menu_text": "Light fuse",
-      "type": "transform"
-    },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
-  },
-  {
-    "id": "pipebomb_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "active pipe bomb",
-    "description": "This pipe bomb's fuse is lit, and it will explode any second now.  Throw it immediately!",
-    "weight": "1298 g",
-    "volume": "500 ml",
-    "price": 0,
-    "to_hit": 1,
-    "bashing": 5,
-    "material": "steel",
-    "symbol": "*",
-    "color": "light_gray",
-    "initial_charges": 7,
-    "max_charges": 7,
-    "turns_per_charge": 1,
-    "use_action": {
-      "type": "explosion",
-      "sound_volume": 0,
-      "sound_msg": "ssss...",
-      "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-      "explosion": { "power": 500, "shrapnel": { "casing_mass": 500, "fragment_mass": 1 } }
-    },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
-  },
-  {
     "id": "pliers",
     "type": "TOOL",
     "name": "pliers",
