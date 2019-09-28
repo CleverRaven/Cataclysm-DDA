@@ -3377,6 +3377,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     int dirt_level = static_cast<double>( get_var( "dirt", 0 ) / 2000 );
     std::string dirt_symbol;
     // TODO: MATERIALS put this in json
+
+    // these symbols are a rough estimation of fouling in a gun. This appears instead of "faulty"
+    // since most guns will have some level of fouling in them, and usually it is not a big deal.
     switch( dirt_level ) {
         case 0:
             dirt_symbol = "";
@@ -3414,9 +3417,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( !faults.empty() ) {
         if( ( item::has_fault( fault_gun_blackpowder ) || item::has_fault( fault_gun_dirt ) ) &&
             faults.size() == 1 ) {
-            damtext.insert( 0, _( dirt_symbol ) );
+            damtext.insert( 0, dirt_symbol );
         } else {
-            damtext.insert( 0, _( "faulty " + dirt_symbol ) );
+            damtext.insert( 0, _( "faulty " ) + dirt_symbol );
         }
     }
 

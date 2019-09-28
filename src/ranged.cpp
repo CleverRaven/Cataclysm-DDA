@@ -284,7 +284,7 @@ bool player::handle_gun_damage( item &it )
         it.set_var( "dirt", 10000 );
 
     }
-    if( dirt > -1 && !it.faults.count( fault_gun_blackpowder ) ) {
+    if( dirt >= 0 && !it.faults.count( fault_gun_blackpowder ) ) {
         it.faults.insert( fault_gun_dirt );
     }
     if( curammo_effects.count( "BLACKPOWDER" ) ) {
