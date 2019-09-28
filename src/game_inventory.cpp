@@ -1004,6 +1004,35 @@ class read_inventory_preset: public pickup_inventory_preset
             };
         }
 
+        bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
+            const bool base_sort = inventory_selector_preset::sort_compare( lhs, rhs );
+
+            const bool known_a = is_known( lhs.any_item() );
+            const bool known_b = is_known( rhs.any_item() );
+
+            if( !known_a || !known_b ) {
+                return ( !known_a && !known_b ) ? base_sort : !known_a;
+            }
+
+            const auto &book_a = get_book( lhs.any_item() );
+            const auto &book_b = get_book( rhs.any_item() );
+
+            if( !book_a.skill && !book_b.skill ) {
+                return ( book_a.fun == book_b.fun ) ? base_sort : book_a.fun > book_b.fun;
+            } else if( !book_a.skill || !book_a.skill ) {
+                return static_cast<bool>( book_a.skill );
+            }
+
+            const bool train_a = p.get_skill_level( book_a.skill ) < book_a.level;
+            const bool train_b = p.get_skill_level( book_b.skill ) < book_b.level;
+
+            if( !train_a || !train_b ) {
+                return ( !train_a && !train_b ) ? base_sort : train_a;
+            }
+
+            return base_sort;
+        }
+
     private:
         const islot_book &get_book( const item_location &loc ) const {
             return *loc->type->book;
