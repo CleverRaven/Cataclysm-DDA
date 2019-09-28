@@ -90,8 +90,8 @@
     "id_suffix": "with gunpowder",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "cooking",
-    "difficulty": 1,
+    "skill_used": "fabrication",
+    "difficulty": 0,
     "autolearn": true,
     "time": "10 m",
     "charges": 6,
@@ -105,16 +105,12 @@
     "category": "CC_OTHER",
     "id_suffix": "with paper & gunpowder",
     "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "cooking",
+    "skill_used": "fabrication",
     "difficulty": 1,
     "autolearn": true,
     "time": "4 m",
     "charges": 3,
     "batch_time_factors": [ 30, 2 ],
-    "components": [
-      [ [ "rolling_paper", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "chem_black_powder", 3 ], [ "gunpowder", 3 ] ]
-    ]
+    "components": [ [ [ "rolling_paper", 1 ] ], [ [ "chem_black_powder", 3 ], [ "gunpowder", 3 ] ] ]
   }
 ]
