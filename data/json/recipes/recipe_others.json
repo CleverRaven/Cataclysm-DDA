@@ -3778,7 +3778,7 @@
     "skill_used": "survival",
     "skills_required": [ "cooking", 1 ],
     "difficulty": 1,
-    "time": "30 m",
+    "time": "3 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
@@ -3794,7 +3794,7 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
     "difficulty": 1,
-    "time": "20 m",
+    "time": "2 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cured_pelt", 1 ] ] ]
@@ -3833,10 +3833,10 @@
     "skill_used": "survival",
     "skills_required": [ "cooking", 1 ],
     "difficulty": 1,
-    "time": "30 m",
+    "time": "3 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ], [ [ "raw_fur", 50 ], [ "raw_tainted_fur", 50 ] ] ]
+    "components": [ [ [ "salt_water", 1 ], [ "saline", 1 ], [ "salt", 1 ] ], [ [ "raw_fur", 5 ], [ "raw_tainted_fur", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -3861,7 +3861,7 @@
       [ [ "tanbark", 1 ], [ "acorns", 2 ], [ "hops", 2 ], [ "pine_bough", 6 ] ],
       [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ],
       [ [ "tallow", 1 ], [ "tallow_tainted", 1 ], [ "lard", 1 ] ],
-      [ [ "cured_pelt", 1 ] ]
+      [ [ "cured_pelt", 10 ] ]
     ]
   },
   {
@@ -3883,7 +3883,7 @@
       { "id": "CONTAIN", "level": 1 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "water_clean", 2 ], [ "water", 2 ] ], [ [ "lye_powder", 10 ], [ "aspirin", 10 ] ], [ [ "cured_hide", 1 ] ] ]
+    "components": [ [ [ "water_clean", 2 ], [ "water", 2 ] ], [ [ "lye_powder", 10 ], [ "aspirin", 10 ] ], [ [ "cured_hide", 10 ] ] ]
   },
   {
     "type": "recipe",
