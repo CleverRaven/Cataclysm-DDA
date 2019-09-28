@@ -46,6 +46,7 @@
 #include "shadowcasting.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "map_iterator.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
@@ -356,10 +357,9 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
     // TODO: Calculate range based on max effective range for projectiles.
     // Basically bisect between 0 and map diameter using shrapnel_calc().
     // Need to update shadowcasting to support limiting range without adjusting initial distance.
-    const tripoint start = { 0, 0, src.z };
-    const tripoint end = { g->m.getmapsize() *SEEX, g->m.getmapsize() *SEEY, src.z };
+    const tripoint_range area = g->m.points_on_zlevel( src.z );
 
-    g->m.build_obstacle_cache( start, end, obstacle_cache );
+    g->m.build_obstacle_cache( area.min(), area.max() + tripoint_south_east, obstacle_cache );
 
     // Shadowcasting normally ignores the origin square,
     // so apply it manually to catch monsters standing on the explosive.
@@ -373,88 +373,85 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                  ( visited_cache, obstacle_cache, src.xy(), 0, initial_cloud );
 
     // Now visited_caches are populated with density and velocity of fragments.
-    for( int x = start.x; x < end.x; x++ ) {
-        for( int y = start.y; y < end.y; y++ ) {
-            fragment_cloud &cloud = visited_cache[x][y];
-            if( cloud.density <= MIN_FRAGMENT_DENSITY ||
-                cloud.velocity <= MIN_EFFECTIVE_VELOCITY ) {
-                continue;
-            }
-            distrib.emplace_back( x, y, src.z );
-            tripoint target( x, y, src.z );
-            int damage = ballistic_damage( cloud.velocity, fragment_mass );
-            auto critter = g->critter_at( target );
-            if( damage > 0 && critter && !critter->is_dead_state() ) {
-                std::poisson_distribution<> d( cloud.density );
-                int hits = d( rng_get_engine() );
-                dealt_projectile_attack frag;
-                frag.proj = proj;
-                frag.proj.speed = cloud.velocity;
-                frag.proj.impact = damage_instance::physical( 0, damage, 0, 0 );
-                // dealt_dag->m.total_damage() == 0 means armor block
-                // dealt_dag->m.total_damage() > 0 means took damage
-                // Need to diffentiate target among player, npc, and monster
-                // Do we even print monster damage?
-                int damage_taken = 0;
-                int damaging_hits = 0;
-                int non_damaging_hits = 0;
-                for( int i = 0; i < hits; ++i ) {
-                    frag.missed_by = rng_float( 0.05, 1.0 );
-                    critter->deal_projectile_attack( nullptr, frag, false );
-                    if( frag.dealt_dam.total_damage() > 0 ) {
-                        damaging_hits++;
-                        damage_taken += frag.dealt_dam.total_damage();
-                    } else {
-                        non_damaging_hits++;
-                    }
-                    add_msg( m_debug, "Shrapnel hit %s at %d m/s at a distance of %d",
-                             critter->disp_name(),
-                             frag.proj.speed, rl_dist( src, target ) );
-                    add_msg( m_debug, "Shrapnel dealt %d damage", frag.dealt_dam.total_damage() );
-                    if( critter->is_dead_state() ) {
-                        break;
-                    }
-                }
-                int total_hits = damaging_hits + non_damaging_hits;
-                if( total_hits > 0 && g->u.sees( *critter ) ) {
-                    // Building a phrase to summarize the fragment effects.
-                    // Target, Number of impacts, total amount of damage, proportion of deflected fragments.
-                    std::map<int, std::string> impact_count_descriptions = {
-                        { 1, _( "a" ) }, { 2, _( "several" ) }, { 5, _( "many" ) },
-                        { 20, _( "a large number of" ) }, { 100, _( "a huge number of" ) },
-                        { std::numeric_limits<int>::max(), _( "an immense number of" ) }
-                    };
-                    std::string impact_count = std::find_if(
-                                                   impact_count_descriptions.begin(), impact_count_descriptions.end(),
-                    [total_hits]( const std::pair<int, std::string> &desc ) {
-                        return desc.first >= total_hits;
-                    } )->second;
-                    std::string damage_description = ( damage_taken > 0 ) ?
-                                                     string_format( _( "dealing %d damage" ), damage_taken ) :
-                                                     _( "but they deal no damage" );
-                    if( critter->is_player() ) {
-                        add_msg( ngettext( "You are hit by %s bomb fragment, %s.",
-                                           "You are hit by %s bomb fragments, %s.", total_hits ),
-                                 impact_count, damage_description );
-                    } else if( critter->is_npc() ) {
-                        critter->add_msg_if_npc(
-                            ngettext( "<npcname> is hit by %s bomb fragment, %s.",
-                                      "<npcname> is hit by %s bomb fragments, %s.",
-                                      total_hits ),
-                            impact_count, damage_description );
-                    } else {
-                        add_msg( ngettext( "The %s is hit by %s bomb fragment, %s.",
-                                           "The %s is hit by %s bomb fragments, %s.", total_hits ),
-                                 critter->disp_name(), impact_count, damage_description );
-                    }
-                }
-            }
-            if( g->m.impassable( target ) ) {
-                if( optional_vpart_position vp = g->m.veh_at( target ) ) {
-                    vp->vehicle().damage( vp->part_index(), damage );
+    for( const tripoint &target : area ) {
+        fragment_cloud &cloud = visited_cache[target.x][target.y];
+        if( cloud.density <= MIN_FRAGMENT_DENSITY ||
+            cloud.velocity <= MIN_EFFECTIVE_VELOCITY ) {
+            continue;
+        }
+        distrib.emplace_back( target );
+        int damage = ballistic_damage( cloud.velocity, fragment_mass );
+        auto critter = g->critter_at( target );
+        if( damage > 0 && critter && !critter->is_dead_state() ) {
+            std::poisson_distribution<> d( cloud.density );
+            int hits = d( rng_get_engine() );
+            dealt_projectile_attack frag;
+            frag.proj = proj;
+            frag.proj.speed = cloud.velocity;
+            frag.proj.impact = damage_instance::physical( 0, damage, 0, 0 );
+            // dealt_dag->m.total_damage() == 0 means armor block
+            // dealt_dag->m.total_damage() > 0 means took damage
+            // Need to diffentiate target among player, npc, and monster
+            // Do we even print monster damage?
+            int damage_taken = 0;
+            int damaging_hits = 0;
+            int non_damaging_hits = 0;
+            for( int i = 0; i < hits; ++i ) {
+                frag.missed_by = rng_float( 0.05, 1.0 );
+                critter->deal_projectile_attack( nullptr, frag, false );
+                if( frag.dealt_dam.total_damage() > 0 ) {
+                    damaging_hits++;
+                    damage_taken += frag.dealt_dam.total_damage();
                 } else {
-                    g->m.bash( target, damage / 10, true );
+                    non_damaging_hits++;
                 }
+                add_msg( m_debug, "Shrapnel hit %s at %d m/s at a distance of %d",
+                         critter->disp_name(),
+                         frag.proj.speed, rl_dist( src, target ) );
+                add_msg( m_debug, "Shrapnel dealt %d damage", frag.dealt_dam.total_damage() );
+                if( critter->is_dead_state() ) {
+                    break;
+                }
+            }
+            int total_hits = damaging_hits + non_damaging_hits;
+            if( total_hits > 0 && g->u.sees( *critter ) ) {
+                // Building a phrase to summarize the fragment effects.
+                // Target, Number of impacts, total amount of damage, proportion of deflected fragments.
+                std::map<int, std::string> impact_count_descriptions = {
+                    { 1, _( "a" ) }, { 2, _( "several" ) }, { 5, _( "many" ) },
+                    { 20, _( "a large number of" ) }, { 100, _( "a huge number of" ) },
+                    { std::numeric_limits<int>::max(), _( "an immense number of" ) }
+                };
+                std::string impact_count = std::find_if(
+                                               impact_count_descriptions.begin(), impact_count_descriptions.end(),
+                [total_hits]( const std::pair<int, std::string> &desc ) {
+                    return desc.first >= total_hits;
+                } )->second;
+                std::string damage_description = ( damage_taken > 0 ) ?
+                                                 string_format( _( "dealing %d damage" ), damage_taken ) :
+                                                 _( "but they deal no damage" );
+                if( critter->is_player() ) {
+                    add_msg( ngettext( "You are hit by %s bomb fragment, %s.",
+                                       "You are hit by %s bomb fragments, %s.", total_hits ),
+                             impact_count, damage_description );
+                } else if( critter->is_npc() ) {
+                    critter->add_msg_if_npc(
+                        ngettext( "<npcname> is hit by %s bomb fragment, %s.",
+                                  "<npcname> is hit by %s bomb fragments, %s.",
+                                  total_hits ),
+                        impact_count, damage_description );
+                } else {
+                    add_msg( ngettext( "The %s is hit by %s bomb fragment, %s.",
+                                       "The %s is hit by %s bomb fragments, %s.", total_hits ),
+                             critter->disp_name(), impact_count, damage_description );
+                }
+            }
+        }
+        if( g->m.impassable( target ) ) {
+            if( optional_vpart_position vp = g->m.veh_at( target ) ) {
+                vp->vehicle().damage( vp->part_index(), damage );
+            } else {
+                g->m.bash( target, damage / 10, true );
             }
         }
     }

@@ -4186,18 +4186,15 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
             }
             return;
         }
-        for( int dx = -1; dx <= 1; dx++ ) {
-            for( int dy = -1; dy <= 1; dy++ ) {
-                tripoint neighbor = tpt + point( dx, dy );
-                if( seen.find( neighbor ) != seen.end() ) {
-                    continue;
-                }
-                seen.insert( neighbor );
-                if( !overmap_buffer.ter( neighbor ).obj().is_wooded() ) {
-                    continue;
-                }
-                q.push( neighbor );
+        for( const tripoint &neighbor : points_in_radius( tpt, 1 ) ) {
+            if( seen.find( neighbor ) != seen.end() ) {
+                continue;
             }
+            seen.insert( neighbor );
+            if( !overmap_buffer.ter( neighbor ).obj().is_wooded() ) {
+                continue;
+            }
+            q.push( neighbor );
         }
         q.pop();
     }
