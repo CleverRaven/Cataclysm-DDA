@@ -91,7 +91,7 @@ struct comp_rank {
 
 mission_data::mission_data()
 {
-    for( int tab_num = TAB_MAIN; tab_num != TAB_NW + 3; tab_num++ ) {
+    for( int tab_num = base_camps::TAB_MAIN; tab_num != base_camps::TAB_NW + 3; tab_num++ ) {
         std::vector<mission_entry> k;
         entries.push_back( k );
     }
@@ -377,7 +377,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         TITLE_TAB_HEIGHT = 1;
     }
 
-    camp_tab_mode tab_mode = TAB_MAIN;
+    base_camps::tab_mode tab_mode = base_camps::TAB_MAIN;
 
     size_t part_y = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
     size_t part_x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
@@ -389,7 +389,8 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
     catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, maxx, point( part_x, part_y ) );
 
     size_t sel = 0;
-    int offset = 0;
+    int name_offset = 0;
+    size_t folded_names_lines = 0;
     bool redraw = true;
 
     // The following are for managing the right pane scrollbar.
@@ -398,6 +399,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
     size_t info_width = maxx - 1 - MAX_FAC_NAME_SIZE;
     size_t end_line = 0;
     nc_color col = c_white;
+    std::vector<std::string> name_text;
     std::vector<std::string> mission_text;
 
     catacurses::window w_info = catacurses::newwin( info_height, info_width,
@@ -451,45 +453,69 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             mvwprintz( w_list, point( 1, 1 ), c_white, name_mission_tabs( omt_pos, role_id, title,
                        tab_mode ) );
 
-            calcStartPos( offset, sel, info_height, cur_key_list.size() );
+            std::vector<std::vector<std::string>> folded_names;
+            for( const auto &cur_key_entry : cur_key_list ) {
+                std::vector<std::string> f_name = foldstring( cur_key_entry.name_display, part_x + 5, ' ' );
+                folded_names_lines += f_name.size();
+                folded_names.emplace_back( f_name );
+            }
 
-            for( size_t i = 0; i < info_height && ( i + offset ) < cur_key_list.size(); i++ ) {
-                size_t  current = i + offset;
+            calcStartPos( name_offset, sel, info_height, folded_names_lines );
+
+            size_t list_line = 2;
+            for( size_t current = name_offset; list_line < info_height &&
+                 current < cur_key_list.size(); current++ ) {
                 nc_color col = ( current == sel ? h_white : c_white );
                 //highlight important missions
                 for( const auto &k : mission_key.entries[0] ) {
                     if( cur_key_list[current].id == k.id ) {
                         col = ( current == sel ? h_white : c_yellow );
+                        break;
                     }
                 }
                 //dull uncraftable items
                 for( const auto &k : mission_key.entries[10] ) {
                     if( cur_key_list[current].id == k.id ) {
                         col = ( current == sel ? h_white : c_dark_gray );
+                        break;
                     }
                 }
-                mvwprintz( w_list, point( 1, i + 2 ), col, "  %s", cur_key_list[current].name_display );
+                std::vector<std::string> &name_text = folded_names[current];
+                for( size_t name_line = 0; name_line < name_text.size(); name_line++ ) {
+                    print_colored_text( w_list, point( name_line ? 5 : 1, list_line ),
+                                        col, col, name_text[name_line] );
+                    list_line += 1;
+                }
             }
 
-            draw_scrollbar( w_list, sel, info_height + 1, cur_key_list.size(), point_south );
+            if( cur_key_list.size() > info_height + 1 ) {
+                scrollbar()
+                .offset_x( 0 )
+                .offset_y( 1 )
+                .content_size( folded_names_lines )
+                .viewport_pos( sel )
+                .viewport_size( info_height + 1 )
+                .apply( w_list );
+            }
             wrefresh( w_list );
             werase( w_info );
 
             // Fold mission text, store it for scrolling
             mission_text = foldstring( mission_key.cur_key.text, info_width - 2, ' ' );
-            if( info_offset > mission_text.size() - info_height ) {
+            if( info_height >= mission_text.size() ) {
+                info_offset = 0;
+            } else if( info_offset + info_height > mission_text.size() ) {
                 info_offset = mission_text.size() - info_height;
             }
-            if( mission_text.size() < info_height ) {
-                info_offset = 0;
+            if( mission_text.size() > info_height ) {
+                scrollbar()
+                .offset_x( info_width - 1 )
+                .offset_y( 0 )
+                .content_size( mission_text.size() )
+                .viewport_pos( info_offset )
+                .viewport_size( info_height )
+                .apply( w_info );
             }
-            scrollbar()
-            .offset_x( info_width - 1 )
-            .offset_y( 0 )
-            .content_size( mission_text.size() )
-            .viewport_pos( info_offset )
-            .viewport_size( info_height )
-            .apply( w_info );
             end_line = std::min( info_height, mission_text.size() - info_offset );
 
             // Display the current subset of the mission text.
@@ -509,7 +535,6 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         }
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
-            mvwprintz( w_list, point( 1, sel + 2 ), c_white, "-%s", mission_key.cur_key.id );
             if( sel == cur_key_list.size() - 1 ) {
                 sel = 0;    // Wrap around
             } else {
@@ -518,7 +543,6 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             info_offset = 0;
             redraw = true;
         } else if( action == "UP" ) {
-            mvwprintz( w_list, point( 1, sel + 2 ), c_white, "-%s", mission_key.cur_key.id );
             if( sel == 0 ) {
                 sel = cur_key_list.size() - 1;    // Wrap around
             } else {
@@ -537,32 +561,32 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         } else if( action == "NEXT_TAB" && role_id == "FACTION_CAMP" ) {
             redraw = true;
             sel = 0;
-            offset = 0;
+            name_offset = 0;
             info_offset = 0;
 
             do {
-                if( tab_mode == TAB_NW ) {
-                    tab_mode = TAB_MAIN;
+                if( tab_mode == base_camps::TAB_NW ) {
+                    tab_mode = base_camps::TAB_MAIN;
                     reset_cur_key_list();
                 } else {
-                    tab_mode = static_cast<camp_tab_mode>( tab_mode + 1 );
+                    tab_mode = static_cast<base_camps::tab_mode>( tab_mode + 1 );
                     cur_key_list = mission_key.entries[tab_mode + 1];
                 }
             } while( cur_key_list.empty() );
         } else if( action == "PREV_TAB" && role_id == "FACTION_CAMP" ) {
             redraw = true;
             sel = 0;
-            offset = 0;
+            name_offset = 0;
             info_offset = 0;
 
             do {
-                if( tab_mode == TAB_MAIN ) {
-                    tab_mode = TAB_NW;
+                if( tab_mode == base_camps::TAB_MAIN ) {
+                    tab_mode = base_camps::TAB_NW;
                 } else {
-                    tab_mode = static_cast<camp_tab_mode>( tab_mode - 1 );
+                    tab_mode = static_cast<base_camps::tab_mode>( tab_mode - 1 );
                 }
 
-                if( tab_mode == TAB_MAIN ) {
+                if( tab_mode == base_camps::TAB_MAIN ) {
                     reset_cur_key_list();
                 } else {
                     cur_key_list = mission_key.entries[tab_mode + 1];
@@ -2103,20 +2127,20 @@ void talk_function::loot_building( const tripoint &site )
 void mission_data::add( const std::string &id, const std::string &name_display,
                         const std::string &text )
 {
-    add( id, name_display, "", text, false, true );
+    add( id, name_display, cata::nullopt, text, false, true );
 }
 void mission_data::add_return( const std::string &id, const std::string &name_display,
-                               const std::string &dir, const std::string &text, bool possible )
+                               const cata::optional<point> dir, const std::string &text, bool possible )
 {
     add( id, name_display, dir, text, true, possible );
 }
 void mission_data::add_start( const std::string &id, const std::string &name_display,
-                              const std::string &dir, const std::string &text, bool possible )
+                              const cata::optional<point> dir, const std::string &text, bool possible )
 {
     add( id, name_display, dir, text, false, possible );
 }
 void mission_data::add( const std::string &id, const std::string &name_display,
-                        const std::string &dir, const std::string &text,
+                        const cata::optional<point> dir, const std::string &text,
                         bool priority, bool possible )
 {
     mission_entry miss;
@@ -2137,24 +2161,7 @@ void mission_data::add( const std::string &id, const std::string &name_display,
     if( !possible ) {
         entries[10].push_back( miss );
     }
-    if( dir.empty() || dir == "[B]" ) {
-        entries[1].push_back( miss );
-    }
-    if( dir == "[N]" ) {
-        entries[2].push_back( miss );
-    } else if( dir == "[NE]" ) {
-        entries[3].push_back( miss );
-    } else if( dir == "[E]" ) {
-        entries[4].push_back( miss );
-    } else if( dir == "[SE]" ) {
-        entries[5].push_back( miss );
-    } else if( dir == "[S]" ) {
-        entries[6].push_back( miss );
-    } else if( dir == "[SW]" ) {
-        entries[7].push_back( miss );
-    } else if( dir == "[W]" ) {
-        entries[8].push_back( miss );
-    } else if( dir == "[NW]" ) {
-        entries[9].push_back( miss );
-    }
+    const point direction = dir ? *dir : base_camps::base_dir;
+    const int tab_order = base_camps::all_directions.at( direction ).tab_order;
+    entries[tab_order + 1].emplace_back( miss );
 }

@@ -1865,5 +1865,10 @@
     "type": "recipe",
     "result": "magbandolier",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "washcloth",
+    "obsolete": true
   }
 ]

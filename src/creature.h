@@ -785,6 +785,7 @@ class Creature
          *
          */
         std::string replace_with_npc_name( std::string input ) const;
+    protected:
         /**
          * These two functions are responsible for storing and loading the members
          * of this class to/from json data.

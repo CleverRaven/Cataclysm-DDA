@@ -64,6 +64,19 @@
   },
   {
     "type": "recipe",
+    "result": "down_mattress",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": "240 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 12 ] ],
+    "components": [ [ [ "rag", 60 ] ], [ [ "down_feather", 1160 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "pillow",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -1315,6 +1328,19 @@
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
     "components": [ [ [ "wire", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "wire_mesh",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "surface_heat", 2, "LIST" ], [ "forge", 2 ], [ "oxy_torch", 2 ] ] ],
+    "components": [ [ [ "wire", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -4319,7 +4345,7 @@
     "reversible": true,
     "time": "1 s",
     "autolearn": true,
-    "components": [ [ [ "washboard", 1 ] ], [ [ "sponge", 1 ] ] ]
+    "components": [ [ [ "washboard", 1 ] ], [ [ "sponge", 1 ], [ "rag", 1 ] ] ]
   },
   {
     "type": "recipe",

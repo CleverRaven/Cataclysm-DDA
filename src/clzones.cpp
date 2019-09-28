@@ -160,6 +160,9 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "VEHICLE_DECONSTRUCT" ),
                    zone_type( translate_marker( "Vehicle Deconstruct Zone" ),
                               translate_marker( "Any vehicles in this area are marked for deconstruction." ) ) );
+    types.emplace( zone_type_id( "VEHICLE_REPAIR" ),
+                   zone_type( translate_marker( "Vehicle Repair Zone" ),
+                              translate_marker( "Any vehicles in this area are marked for repair work." ) ) );
     types.emplace( zone_type_id( "CAMP_FOOD" ),
                    zone_type( translate_marker( "Basecamp: Food" ),
                               translate_marker( "Items in this zone will be added to a basecamp's food supply in the Distribute Food mission." ) ) );
@@ -393,7 +396,7 @@ std::string plot_options::get_zone_name_suggestion() const
         auto type = itype_id( seed );
         item it = item( type );
         if( it.is_seed() ) {
-            return it.type->seed->plant_name;
+            return it.type->seed->plant_name.translated();
         } else {
             return item::nname( type );
         }
@@ -834,8 +837,8 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         const tripoint &where, int range ) const
 {
     auto cat = it.get_category();
-    if( has_near( zone_type_id( "LOOT_CUSTOM" ), where ) ) {
-        for( const auto elem : get_near( zone_type_id( "LOOT_CUSTOM" ), where, 60, &it ) ) {
+    if( has_near( zone_type_id( "LOOT_CUSTOM" ), where, range ) ) {
+        for( const auto elem : get_near( zone_type_id( "LOOT_CUSTOM" ), where, range, &it ) ) {
             ( void )elem;
             return zone_type_id( "LOOT_CUSTOM" );
         }
@@ -1118,45 +1121,6 @@ void zone_manager::rotate_zones( map &target_map, const int turns )
                                         std::max( new_z_start.y, new_z_end.y ), a_end.z );
             zone.set_position( std::make_pair( first, second ), false );
         }
-    }
-}
-
-void zone_manager::start_sort( const std::vector<tripoint> &src_sorted )
-{
-    for( auto &src : src_sorted ) {
-        num_processed[src] = 0;
-    }
-}
-
-void zone_manager::end_sort()
-{
-    num_processed.clear();
-}
-
-bool zone_manager::is_sorting() const
-{
-    return !num_processed.empty();
-}
-
-int zone_manager::get_num_processed( const tripoint &src ) const
-{
-    auto it = num_processed.find( src );
-    if( it != num_processed.end() ) {
-        return it->second;
-    }
-    return 0;
-}
-
-void zone_manager::increment_num_processed( const tripoint &src )
-{
-    num_processed[src]++;
-}
-
-void zone_manager::decrement_num_processed( const tripoint &src )
-{
-    num_processed[src]--;
-    if( num_processed[src] < 0 ) {
-        num_processed[src] = 0;
     }
 }
 

@@ -504,6 +504,7 @@
     "components": [
       [ [ "element", 4 ] ],
       [ [ "amplifier", 1 ] ],
+      [ [ "wire_mesh", 1 ], [ "sieve_steel", 1 ], [ "colander_steel", 1 ], [ "splatter_guard", 1 ] ],
       [
         [ "scrap", 2 ],
         [ "pan", 1 ],
@@ -1426,6 +1427,38 @@
   },
   {
     "type": "recipe",
+    "result": "bot_grocerybot",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_OTHER",
+    "skill_used": "electronics",
+    "skills_required": [ [ "mechanics", 7 ], [ "computer", 6 ] ],
+    "difficulty": 8,
+    "reversible": true,
+    "decomp_learn": 8,
+    "book_learn": [ [ "schematics_grocerybot", 7 ] ],
+    "time": "60 m",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "android_legs", 1 ] ],
+      [ [ "android_chassis", 1 ] ],
+      [ [ "android_arms", 1 ] ],
+      [ [ "medium_storage_battery", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "bot_hazmatbot",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -1948,6 +1981,7 @@
       [ [ "plastic_chunk", 5 ] ],
       [ [ "superglue", 1 ] ],
       [ [ "power_supply", 2 ] ],
+      [ [ "wire_mesh", 1 ], [ "sieve_steel", 1 ], [ "colander_steel", 1 ], [ "splatter_guard", 1 ] ],
       [ [ "thermos", 2 ] ],
       [ [ "element", 1 ] ],
       [ [ "scrap", 2 ] ],

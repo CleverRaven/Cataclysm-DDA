@@ -413,7 +413,7 @@
       [ "mobile_memory_card_science", 40 ],
       [ "camera_pro", 2 ],
       [ "element", 5 ],
-      [ "battery", 10 ],
+      [ "light_battery_cell", 10 ],
       [ "goggles_welding", 20 ],
       [ "sm_extinguisher", 10 ],
       [ "toolbox", 5 ],

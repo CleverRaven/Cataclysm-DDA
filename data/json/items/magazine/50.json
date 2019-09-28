@@ -27,5 +27,22 @@
     "reliability": 9,
     "reload_time": 130,
     "flags": [ "MAG_BULKY" ]
+  },
+  {
+    "id": "as50mag",
+    "type": "MAGAZINE",
+    "name": "AS50 Magazine",
+    "description": "10-Round box magazine for Accuracy International AS50.",
+    "weight": "750 g",
+    "volume": "500 ml",
+    "price": 12000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "dark_gray",
+    "ammo_type": "50",
+    "capacity": 10,
+    "reliability": 9,
+    "reload_time": 110,
+    "flags": [ "MAG_BULKY" ]
   }
 ]

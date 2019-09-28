@@ -697,8 +697,8 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
         if( const cata::optional<vehicle_stack::iterator> it = vp->vehicle().add_item( vp->part_index(),
                 newit ) ) {
             p.add_msg_player_or_npc(
-                pgettext( "item, furniture", "You put the %s on the %s." ),
-                pgettext( "item, furniture", "<npcname> puts the %s on the %s." ),
+                pgettext( "item, furniture", "You put the %1$s on the %2$s." ),
+                pgettext( "item, furniture", "<npcname> puts the %1$s on the %2$s." ),
                 ( *it )->tname(), vp->part().name() );
 
             return item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), & **it );
@@ -716,8 +716,8 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
         if( g->m.has_furn( loc ) ) {
             const furn_t &workbench = g->m.furn( loc ).obj();
             p.add_msg_player_or_npc(
-                pgettext( "item, furniture", "You put the %s on the %s." ),
-                pgettext( "item, furniture", "<npcname> puts the %s on the %s." ),
+                pgettext( "item, furniture", "You put the %1$s on the %2$s." ),
+                pgettext( "item, furniture", "<npcname> puts the %1$s on the %2$s." ),
                 newit.tname(), workbench.name() );
         } else {
             p.add_msg_player_or_npc(
@@ -1831,8 +1831,9 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
                 return ret_val<bool>::make_failure( _( "You need %s." ),
                                                     item::nname( tool_required.type ) );
             } else {
-                return ret_val<bool>::make_failure( ngettext( "You need a %s with %d charge.",
-                                                    "You need a %s with %d charges.", tool_required.count ),
+                //~ %1$s: tool name, %2$d: needed charges
+                return ret_val<bool>::make_failure( ngettext( "You need a %1$s with %2$d charge.",
+                                                    "You need a %1$s with %2$d charges.", tool_required.count ),
                                                     item::nname( tool_required.type ),
                                                     tool_required.count );
             }
