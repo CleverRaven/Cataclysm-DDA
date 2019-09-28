@@ -1218,6 +1218,14 @@ std::string ma_technique::get_description() const
 
     dump << reqs.get_description();
 
+    if( weighting > 1 ) {
+        dump << string_format( _( "* <info>Greater chance</info> to activate: <stat>+%s%%</stat>" ),
+                               ( 100 * ( weighting - 1 ) ) ) << std::endl;
+    } else if( weighting < -1 ) {
+        dump << string_format( _( "* <info>Lower chance</info> to activate: <stat>1/%s</stat>" ),
+                               abs( weighting ) ) << std::endl;
+    }
+
     if( crit_ok ) {
         dump << _( "* Can activate on a <info>normal</info> or a <info>crit</info> hit" ) << std::endl;
     } else if( crit_tec ) {
