@@ -842,21 +842,24 @@ void npc::move()
             }
         }
         if( mission == NPC_MISSION_ASSIGNED_CAMP ) {
+            bool found_job = false;
             if( has_job() && calendar::once_every( 30_minutes ) ) {
-                const std::vector<activity_id> jobs_to_rotate = job_duties[job];
-                if( !jobs_to_rotate.empty() ) {
-                    assign_activity( random_entry( jobs_to_rotate ) );
-                    set_mission( NPC_MISSION_ACTIVITY );
-                    set_attitude( NPCATT_ACTIVITY );
-                    action = npc_player_activity;
-                } else {
-                    debugmsg( "NPC is assigned to a job, but the job: %s has no duties", npc_job_id( job ) );
-                    set_mission( NPC_MISSION_GUARD_ALLY );
-                    set_attitude( NPCATT_ACTIVITY );
-                    action = npc_pause;
-                    goal = global_omt_location();
+                if ( job_duties.find(job) != job_duties.end() ) {
+                    const std::vector<activity_id> jobs_to_rotate = job_duties[job];
+                    if( !jobs_to_rotate.empty() ) {
+                        assign_activity( random_entry( jobs_to_rotate ) );
+                        set_mission( NPC_MISSION_ACTIVITY );
+                        set_attitude( NPCATT_ACTIVITY );
+                        action = npc_player_activity;
+                        found_job = true;
+                    } else {
+                        debugmsg( "NPC is assigned to a job, but the job: %s has no duties", npc_job_id( job ) );
+                        set_mission( NPC_MISSION_GUARD_ALLY );
+                        set_attitude( NPCATT_NULL );
+                    }
                 }
-            } else {
+            }
+            if( !found_job ){
                 action = npc_pause;
                 goal = global_omt_location();
             }
