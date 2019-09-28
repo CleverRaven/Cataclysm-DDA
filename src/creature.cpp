@@ -1732,7 +1732,7 @@ std::vector <int> Creature::dispersion_for_even_chance_of_good_hit = { {
     }
 };
 
-void Creature::load_hit_range( JsonObject &jo, const std::string &src )
+void Creature::load_hit_range( JsonObject &jo )
 {
     if( jo.has_array( "even_good" ) ) {
         jo.read( "even_good", dispersion_for_even_chance_of_good_hit );

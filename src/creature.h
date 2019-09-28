@@ -774,7 +774,7 @@ class Creature
     public:
         body_part select_body_part( Creature *source, int hit_roll ) const;
 
-        static void load_hit_range( JsonObject &, const std::string & );
+        static void load_hit_range( JsonObject & );
         // Empirically determined by "synthetic_range_test" in tests/ranged_balance.cpp.
         static std::vector <int> dispersion_for_even_chance_of_good_hit;
     protected:
