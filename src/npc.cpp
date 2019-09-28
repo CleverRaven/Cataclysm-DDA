@@ -2517,7 +2517,7 @@ std::string npc_job_name( npc_job job )
         case NPCJOB_NULL:
             return _( "No particular job" );
         case NPCJOB_COOKING:
-            return _( "Cooking" );
+            return _( "Cooking and butchering" );
         case NPCJOB_MENIAL:
             return _( "Tidying and cleaning" );
         case NPCJOB_VEHICLES:
@@ -2535,7 +2535,7 @@ std::string npc_job_name( npc_job job )
         case NPCJOB_HUSBANDRY:
             return _( "Caring for the livestock" );
         case NPCJOB_HUNTING:
-            return _( "Hunting for meat" );
+            return _( "Hunting and fishing" );
         case NPCJOB_FORAGING:
             return _( "Gathering edibles" );
         default:
