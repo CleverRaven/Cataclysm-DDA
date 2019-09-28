@@ -155,7 +155,7 @@ class Item_modifier
          * Charges to spawn the item with, if this turns out to
          * be negative, the default charges are used.
          */
-        std::pair<double, double> dirt;
+        std::pair<int, int> dirt;
         std::pair<int, int> charges;
         /**
          * Ammo for guns. If NULL the gun spawns without ammo.
