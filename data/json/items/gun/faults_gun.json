@@ -3,7 +3,7 @@
     "id": "fault_gun_blackpowder",
     "type": "fault",
     "name": "Blackpowder fouling",
-    "description": "Firing blackpowder loads from a gun fouls it, which reduces reliability and, if left uncleaned, leads to rust.",
+    "description": "Firing blackpowder loads from a gun fouls it, which reduces reliability and, if left uncleaned, leads to rust. It fouls the gun much faster than the use of modern smokeless powder cartridges. Fouling is only a significant impact on reliability at high levels, but black powder fouling accumulates quickly.",
     "time": "50 m",
     "skills": [ [ "mechanics", 1 ] ],
     "requirements": {
