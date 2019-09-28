@@ -209,13 +209,6 @@ bool player::handle_gun_damage( item &it )
                                it.tname() );
         return false;
         // Here we check for a chance for the weapon to suffer a misfire due to
-        // using OEM bullets. Note that these misfires cause no damage to the weapon and
-        // some types of ammunition are immune to this effect via the NEVER_MISFIRES effect.
-        add_msg_player_or_npc( _( "Your %s misfires with a dry click!" ),
-                               _( "<npcname>'s %s misfires with a dry click!" ),
-                               it.tname() );
-        return false;
-        // Here we check for a chance for the weapon to suffer a misfire due to
         // using player-made 'RECYCLED' bullets. Note that not all forms of
         // player-made ammunition have this effect the misfire may cause damage, but never
         // enough to push the weapon beyond 'shattered'.
