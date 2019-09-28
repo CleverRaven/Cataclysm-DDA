@@ -176,6 +176,7 @@
     "coverage": 40,
     "required_str": -1,
     "deployed_item": "tourist_table",
+    "looks_like": "f_table",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
     "deconstruct": { "items": [ { "item": "tourist_table", "count": 1 } ] },
     "bash": {
