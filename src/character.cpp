@@ -3951,11 +3951,11 @@ std::string get_stat_name( Character::stat Stat )
 {
     switch( Stat ) {
         // *INDENT-OFF*
-    case Character::stat::STRENGTH:     return pgettext("strength stat", "STR");
-    case Character::stat::DEXTERITY:    return pgettext("dexterity stat", "DEX");
-    case Character::stat::INTELLIGENCE: return pgettext("intelligence stat", "INT");
-    case Character::stat::PERCEPTION:   return pgettext("perception stat", "PER");
-            // *INDENT-ON*
+    case Character::stat::STRENGTH:     return pgettext( "strength stat", "STR" );
+    case Character::stat::DEXTERITY:    return pgettext( "dexterity stat", "DEX" );
+    case Character::stat::INTELLIGENCE: return pgettext( "intelligence stat", "INT" );
+    case Character::stat::PERCEPTION:   return pgettext( "perception stat", "PER" );
+        // *INDENT-ON*
         default:
             return pgettext( "fake stat there's an error", "ERR" );
             break;
@@ -4047,4 +4047,35 @@ std::string Character::get_highest_category() const
         }
     }
     return sMaxCat;
+}
+
+void Character::recalculate_enchantment_cache()
+{
+    // start by resetting the cache to all inventory items
+    enchantment_cache = inv.get_active_enchantment_cache( *this );
+
+    for( const enchantment &ench : weapon.get_enchantments() ) {
+        if( ench.is_active( *this, weapon ) ) {
+            enchantment_cache.force_add( ench );
+        }
+    }
+
+    for( const item &worn_it : worn ) {
+        for( const enchantment &ench : worn_it.get_enchantments() ) {
+            if( ench.is_active( *this, worn_it ) ) {
+                enchantment_cache.force_add( ench );
+            }
+        }
+    }
+}
+
+double Character::calculate_by_enchantment( double modify, enchantment::mod value,
+        bool round_output ) const
+{
+    modify += enchantment_cache.get_value_add( value );
+    modify *= 1.0 + enchantment_cache.get_value_multiply( value );
+    if( round_output ) {
+        modify = round( modify );
+    }
+    return modify;
 }
