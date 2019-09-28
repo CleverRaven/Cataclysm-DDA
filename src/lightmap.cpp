@@ -708,7 +708,7 @@ void cast_zlight_segment(
         T current_transparency = 0.0f;
 
         // TODO: Precalculate min/max delta.z based on start/end and distance
-        for( delta.z = 0; delta.z <= distance; delta.z++ ) {
+        for( delta.z = 0; delta.z <= std::min( fov_3d_z_range, distance ); delta.z++ ) {
             float trailing_edge_major = ( delta.z - 0.5f ) / ( delta.y + 0.5f );
             float leading_edge_major = ( delta.z + 0.5f ) / ( delta.y - 0.5f );
             current.z = offset.z + delta.x * 00 + delta.y * 00 + delta.z * zz;

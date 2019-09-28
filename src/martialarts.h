@@ -207,6 +207,8 @@ class martialart
 
         void apply_onmove_buffs( player &u ) const;
 
+        void apply_onpause_buffs( player &u ) const;
+
         void apply_onhit_buffs( player &u ) const;
 
         void apply_onattack_buffs( player &u ) const;
@@ -254,6 +256,7 @@ class martialart
         bool force_unarmed; // Don't use ANY weapon - punch or kick if needed
         std::vector<mabuff_id> static_buffs; // all buffs triggered by each condition
         std::vector<mabuff_id> onmove_buffs;
+        std::vector<mabuff_id> onpause_buffs;
         std::vector<mabuff_id> onhit_buffs;
         std::vector<mabuff_id> onattack_buffs;
         std::vector<mabuff_id> ondodge_buffs;

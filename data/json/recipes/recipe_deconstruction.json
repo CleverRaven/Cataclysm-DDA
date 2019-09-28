@@ -2102,7 +2102,12 @@
     "result": "radio_car_box",
     "type": "uncraft",
     "time": "30 s",
-    "components": [ [ [ "radio_car", 1 ] ], [ [ "radiocontrol", 1 ] ], [ [ "light_battery_cell", 2 ] ] ]
+    "components": [
+      [ [ "radio_car", 1 ] ],
+      [ [ "radiocontrol", 1 ] ],
+      [ [ "light_minus_battery_cell", 1 ] ],
+      [ [ "light_battery_cell", 1 ] ]
+    ]
   },
   {
     "result": "radiocontrol",
@@ -3003,13 +3008,6 @@
       [ [ "e_scrap", 3 ] ],
       [ [ "RAM", 1 ] ]
     ]
-  },
-  {
-    "result": "camp_chair",
-    "type": "uncraft",
-    "time": "5 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "steel_chunk", 2 ] ] ]
   },
   {
     "result": "platinum_hairpin",

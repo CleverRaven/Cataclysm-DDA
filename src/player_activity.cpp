@@ -49,6 +49,11 @@ bool player_activity::is_suspendable() const
     return type->suspendable();
 }
 
+bool player_activity::is_multi_type() const
+{
+    return type->multi_activity();
+}
+
 std::string player_activity::get_str_value( size_t index, const std::string &def ) const
 {
     return index < str_values.size() ? str_values[index] : def;

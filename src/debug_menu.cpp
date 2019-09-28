@@ -1498,6 +1498,9 @@ void debug()
                         tinymap mx_map;
                         mx_map.load( where_sm, false );
                         MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
+                        g->load_npcs();
+                        g->m.invalidate_map_cache( g->get_levz() );
+                        g->refresh_all();
                     }
                 }
                 break;

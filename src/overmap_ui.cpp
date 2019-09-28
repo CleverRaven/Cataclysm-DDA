@@ -835,7 +835,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             maxlen = std::max( maxlen, utf8_width( line.second ) );
         }
 
-        mvwputch( w, point( 1, 1 ), c_white, LINE_OXXO );
+        mvwputch( w, point_south_east, c_white, LINE_OXXO );
         for( int i = 0; i <= maxlen; i++ ) {
             mvwputch( w, point( i + 2, 1 ), c_white, LINE_OXOX );
         }

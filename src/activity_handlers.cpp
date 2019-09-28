@@ -142,6 +142,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_BUILD" ), build_do_turn },
     { activity_id( "ACT_EAT_MENU" ), eat_menu_do_turn },
     { activity_id( "ACT_VEHICLE_DECONSTRUCTION" ), vehicle_deconstruction_do_turn },
+    { activity_id( "ACT_VEHICLE_REPAIR" ), vehicle_repair_do_turn },
     { activity_id( "ACT_MULTIPLE_CHOP_TREES" ), chop_trees_do_turn },
     { activity_id( "ACT_CONSUME_FOOD_MENU" ), consume_food_menu_do_turn },
     { activity_id( "ACT_CONSUME_DRINK_MENU" ), consume_drink_menu_do_turn },
@@ -279,6 +280,19 @@ static void messages_in_process( const player_activity &act, const player &p )
         p.add_msg_if_player( m_info, _( "Almost there! Ten more minutes of work and you'll be through." ) );
         return;
     }
+}
+
+bool activity_handlers::resume_for_multi_activities( player &p )
+{
+    if( !p.backlog.empty() ) {
+        player_activity &back_act = p.backlog.front();
+        if( back_act.is_multi_type() ) {
+            p.assign_activity( p.backlog.front().id() );
+            p.backlog.clear();
+            return true;
+        }
+    }
+    return false;
 }
 
 void activity_handlers::burrow_do_turn( player_activity *act, player *p )
@@ -1017,6 +1031,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // No targets means we are done
     if( act->targets.empty() ) {
         act->set_to_null();
+        resume_for_multi_activities( *p );
         return;
     }
 
@@ -1276,9 +1291,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // Ready to move on to the next item, if there is one (for example if multibutchering)
     act->index = true;
     // if its mutli-tile butchering,then restart the backlog.
-    if( !p->backlog.empty() && p->backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
-        p->activity = player_activity();
-    }
+    resume_for_multi_activities( *p );
 }
 
 void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
@@ -1329,9 +1342,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                 break;
         }
 
-        static const auto volume_per_turn = units::from_liter( 4 );
-        const int charges_per_turn = std::max( 1, liquid.charges_per_volume( volume_per_turn ) );
-        liquid.charges = std::min( charges_per_turn, liquid.charges );
+        static const units::volume volume_per_second = units::from_liter( 4.0F / 6.0F );
+        const int charges_per_second = std::max( 1, liquid.charges_per_volume( volume_per_second ) );
+        liquid.charges = std::min( charges_per_second, liquid.charges );
         const int original_charges = liquid.charges;
         if( liquid.has_temperature() && liquid.specific_energy < 0 ) {
             liquid.set_item_temperature( std::max( temp_to_kelvin( g->weather.get_temperature( p->pos() ) ),
@@ -2001,6 +2014,9 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
                 g->refresh_all();
                 // TODO: Z (and also where the activity is queued)
                 // Or not, because the vehicle coordinates are dropped anyway
+                if( resume_for_multi_activities( *p ) ) {
+                    return;
+                }
                 g->exam_vehicle( vp->vehicle(), point( act->values[ 2 ], act->values[ 3 ] ) );
                 return;
             } else {
@@ -2831,28 +2847,37 @@ void activity_handlers::butcher_do_turn( player_activity * /*act*/, player *p )
 
 void activity_handlers::read_do_turn( player_activity *act, player *p )
 {
-    if( !act->str_values.empty() && act->str_values[0] == "martial_art" && one_in( 3 ) ) {
-        if( act->values.empty() ) {
-            act->values.push_back( p->stamina );
+    if( p->is_player() ) {
+        if( !act->str_values.empty() && act->str_values[0] == "martial_art" && one_in( 3 ) ) {
+            if( act->values.empty() ) {
+                act->values.push_back( p->stamina );
+            }
+            p->stamina = act->values[0] - 1;
+            act->values[0] = p->stamina;
         }
-        p->stamina = act->values[0] - 1;
-        act->values[0] = p->stamina;
-    }
-    if( p->stamina < p->get_stamina_max() / 10 ) {
-        add_msg( m_info, _( "This training is exhausting.  Time to rest." ) );
-        act->set_to_null();
+        if( p->stamina < p->get_stamina_max() / 10 ) {
+            p->add_msg_if_player( m_info, _( "This training is exhausting.  Time to rest." ) );
+            act->set_to_null();
+        }
+    } else {
+        p->moves = 0;
     }
 }
 
 void activity_handlers::read_finish( player_activity *act, player *p )
 {
-    if( avatar *u = dynamic_cast<avatar *>( p ) ) {
-        u->do_read( *act->targets.front().get_item() );
+    if( p->is_npc() ) {
+        npc *guy = dynamic_cast<npc *>( p );
+        guy->finish_read( * act->targets.front().get_item() );
     } else {
-        act->set_to_null();
-    }
-    if( !act ) {
-        p->add_msg_if_player( m_info, _( "You finish reading." ) );
+        if( avatar *u = dynamic_cast<avatar *>( p ) ) {
+            u->do_read( *act->targets.front().get_item() );
+        } else {
+            act->set_to_null();
+        }
+        if( !act ) {
+            p->add_msg_if_player( m_info, _( "You finish reading." ) );
+        }
     }
 }
 
@@ -3178,16 +3203,12 @@ void activity_handlers::churn_finish( player_activity *act, player *p )
     // Go back to what we were doing before
     // could be player zone activity, or could be NPC multi-farming
     act->set_to_null();
-    if( !p->backlog.empty() ) {
-        p->activity = p->backlog.front();
-        p->backlog.pop_front();
-    }
+    resume_for_multi_activities( *p );
 }
 
 void activity_handlers::churn_do_turn( player_activity *act, player *p )
 {
     ( void )act;
-    ( void )p;
     p->set_moves( 0 );
 }
 
@@ -3272,6 +3293,11 @@ void activity_handlers::multiple_butcher_do_turn( player_activity *act, player *
 }
 
 void activity_handlers::vehicle_deconstruction_do_turn( player_activity *act, player *p )
+{
+    generic_multi_activity_handler( *act, *p );
+}
+
+void activity_handlers::vehicle_repair_do_turn( player_activity *act, player *p )
 {
     generic_multi_activity_handler( *act, *p );
 }
@@ -3501,14 +3527,17 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     const tripoint &pos = g->m.getlocal( act->placement );
 
     tripoint direction;
-    if( p->is_player() ) {
-        while( true ) {
-            if( const cata::optional<tripoint> dir = choose_direction(
-                        _( "Select a direction for the tree to fall in." ) ) ) {
-                direction = *dir;
-                break;
+    if( !p->is_npc() ) {
+        if( p->backlog.empty() || ( !p->backlog.empty() &&
+                                    p->backlog.front().id() != activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ) ) {
+            while( true ) {
+                if( const cata::optional<tripoint> dir = choose_direction(
+                            _( "Select a direction for the tree to fall in." ) ) ) {
+                    direction = *dir;
+                    break;
+                }
+                // try again
             }
-            // try again
         }
     } else {
         for( const auto elem : g->m.points_in_radius( pos, 1 ) ) {
@@ -3545,6 +3574,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     sfx::play_variant_sound( "misc", "timber",
                              sfx::get_heard_volume( g->m.getlocal( act->placement ) ) );
     act->set_to_null();
+    resume_for_multi_activities( *p );
 }
 
 void activity_handlers::chop_logs_finish( player_activity *act, player *p )
@@ -3589,6 +3619,7 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act->set_to_null();
+    resume_for_multi_activities( *p );
 }
 
 void activity_handlers::chop_planks_finish( player_activity *act, player *p )
@@ -3612,6 +3643,7 @@ void activity_handlers::chop_planks_finish( player_activity *act, player *p )
         p->add_msg_if_player( m_bad, _( "You waste a lot of the wood." ) );
     }
     act->set_to_null();
+    resume_for_multi_activities( *p );
 }
 
 void activity_handlers::jackhammer_do_turn( player_activity *act, player *p )

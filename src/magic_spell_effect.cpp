@@ -41,41 +41,19 @@
 #include "ret_val.h"
 #include "rng.h"
 #include "translations.h"
-
-static tripoint random_point( int min_distance, int max_distance, const tripoint &player_pos )
-{
-    const int angle = rng( 0, 360 );
-    const int dist = rng( min_distance, max_distance );
-    const int x = round( dist * cos( angle ) );
-    const int y = round( dist * sin( angle ) );
-    return player_pos + point( x, y );
-}
+#include "timed_event.h"
+#include "teleport.h"
 
 void spell_effect::teleport_random( const spell &sp, Creature &caster, const tripoint & )
 {
+    bool safe = !sp.has_flag( spell_flag::UNSAFE_TELEPORT );
     const int min_distance = sp.range();
     const int max_distance = sp.range() + sp.aoe();
     if( min_distance > max_distance || min_distance < 0 || max_distance < 0 ) {
         debugmsg( "ERROR: Teleport argument(s) invalid" );
         return;
     }
-    const tripoint player_pos = caster.pos();
-    tripoint target;
-    // limit the loop just in case it's impossble to find a valid point in the range
-    int tries = 0;
-    do {
-        target = random_point( min_distance, max_distance, player_pos );
-        tries++;
-    } while( g->m.impassable( target ) && tries < 20 );
-    if( tries == 20 ) {
-        add_msg( m_bad, _( "Unable to find a valid target for teleport." ) );
-        return;
-    }
-    // TODO: make this spell work for non players
-    if( caster.is_player() ) {
-        sp.make_sound( caster.pos() );
-        g->place_player( target );
-    }
+    teleport::teleport( caster, min_distance, max_distance, safe, false );
 }
 
 void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint & )
@@ -308,6 +286,7 @@ static void damage_targets( const spell &sp, const Creature &caster,
         }
 
         projectile bolt;
+        bolt.speed = 10000;
         bolt.impact = sp.get_damage_instance();
         bolt.proj_effects.emplace( "magic" );
 
@@ -607,6 +586,33 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
         debugmsg( "Invalid effect_str %s for spell %s", energy_source, sp.name() );
     }
     sp.make_sound( caster.pos() );
+}
+
+void spell_effect::timed_event( const spell &sp, Creature &caster, const tripoint & )
+{
+    const std::map<std::string, timed_event_type> timed_event_map{
+        { "help", timed_event_type::TIMED_EVENT_HELP },
+        { "wanted", timed_event_type::TIMED_EVENT_WANTED },
+        { "robot_attack", timed_event_type::TIMED_EVENT_ROBOT_ATTACK },
+        { "spawn_wyrms", timed_event_type::TIMED_EVENT_SPAWN_WYRMS },
+        { "amigara", timed_event_type::TIMED_EVENT_AMIGARA },
+        { "roots_die", timed_event_type::TIMED_EVENT_ROOTS_DIE },
+        { "temple_open", timed_event_type::TIMED_EVENT_TEMPLE_OPEN },
+        { "temple_flood", timed_event_type::TIMED_EVENT_TEMPLE_FLOOD },
+        { "temple_spawn", timed_event_type::TIMED_EVENT_TEMPLE_SPAWN },
+        { "dim", timed_event_type::TIMED_EVENT_DIM },
+        { "artifact_light", timed_event_type::TIMED_EVENT_ARTIFACT_LIGHT }
+    };
+
+    timed_event_type spell_event = timed_event_type::TIMED_EVENT_NULL;
+
+    const auto iter = timed_event_map.find( sp.effect_data() );
+    if( iter != timed_event_map.cend() ) {
+        spell_event = iter->second;
+    }
+
+    sp.make_sound( caster.pos() );
+    g->timed_events.add( spell_event, calendar::turn + sp.duration_turns() );
 }
 
 static bool is_summon_friendly( const spell &sp )

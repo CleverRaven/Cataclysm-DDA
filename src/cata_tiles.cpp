@@ -977,9 +977,11 @@ void tileset_loader::load_tile_spritelists( JsonObject &entry,
 struct tile_render_info {
     const tripoint pos;
     int height_3d = 0; // accumulator for 3d tallness of sprites rendered here so far
+    lit_level ll;
     bool invisible[5];
-    tile_render_info( const tripoint &pos, const int height_3d, const bool ( &invisible )[5] )
-        : pos( pos ), height_3d( height_3d ) {
+    tile_render_info( const tripoint &pos, const int height_3d, const lit_level ll,
+                      const bool ( &invisible )[5] )
+        : pos( pos ), height_3d( height_3d ), ll( ll ) {
         std::copy( invisible, invisible + 5, this->invisible );
     }
 };
@@ -1097,16 +1099,23 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             const int &x = pos.x;
             const int &y = pos.y;
 
+            lit_level ll;
             bool invisible[5]; // invisible to normal eyes
             invisible[0] = false;
 
             if( y < min_visible_y || y > max_visible_y || x < min_visible_x || x > max_visible_x ) {
-                if( has_draw_override( pos ) || has_memory_at( pos ) ) {
+                if( has_memory_at( pos ) ) {
+                    ll = LL_MEMORIZED;
+                    invisible[0] = true;
+                } else if( has_draw_override( pos ) ) {
+                    ll = LL_DARK;
                     invisible[0] = true;
                 } else {
                     apply_vision_effects( pos, offscreen_type );
                     continue;
                 }
+            } else {
+                ll = ch.visibility_cache[x][y];
             }
 
             // Add scent value to the overlay_strings list for every visible tile when displaying scent
@@ -1183,7 +1192,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             }
 
             if( !invisible[0] &&
-                apply_vision_effects( pos, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
+                apply_vision_effects( pos, g->m.get_visibility( ll, cache ) ) ) {
 
                 const Creature *critter = g->critter_at( pos, true );
                 if( has_draw_override( pos ) || has_memory_at( pos ) ||
@@ -1204,9 +1213,9 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             int height_3d = 0;
 
             // light level is now used for choosing between grayscale filter and normal lit tiles.
-            draw_terrain( pos, ch.visibility_cache[x][y], height_3d, invisible );
+            draw_terrain( pos, ll, height_3d, invisible );
 
-            draw_points.emplace_back( pos, height_3d, invisible );
+            draw_points.emplace_back( pos, height_3d, ll, invisible );
         }
         const std::array<decltype( &cata_tiles::draw_furniture ), 10> drawing_layers = {{
                 &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap,
@@ -1220,7 +1229,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         for( auto f : drawing_layers ) {
             // ... draw all the points we drew terrain for, in the same order
             for( auto &p : draw_points ) {
-                ( this->*f )( p.pos, ch.visibility_cache[p.pos.x][p.pos.y], p.height_3d, p.invisible );
+                ( this->*f )( p.pos, p.ll, p.height_3d, p.invisible );
             }
         }
         // display number of monsters to spawn in mapgen preview

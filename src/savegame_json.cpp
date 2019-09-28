@@ -387,7 +387,8 @@ void Character::load( JsonObject &data )
     data.read( "stored_calories", stored_calories );
     data.read( "radiation", radiation );
     data.read( "oxygen", oxygen );
-
+    // npc activity on vehicles.
+    data.read( "activity_vehicle_part_index", activity_vehicle_part_index );
     // health
     data.read( "healthy", healthy );
     data.read( "healthy_mod", healthy_mod );
@@ -483,10 +484,6 @@ void Character::load( JsonObject &data )
     _skills->clear();
     JsonObject pmap = data.get_object( "skills" );
     for( const std::string &member : pmap.get_member_names() ) {
-        // FIXME: Fix corrupted bionic power data loading (see #31627). Temporary.
-        if( member == "power_level" || member == "max_power_level" ) {
-            continue;
-        }
         pmap.read( member, ( *_skills )[skill_id( member )] );
     }
 
@@ -504,9 +501,8 @@ void Character::load( JsonObject &data )
     recalc_sight_limits();
     reset_encumbrance();
 
-    // FIXME: Fix corrupted bionic power data loading (see #31627). Temporary.
-    power_level = pmap.get_int( "power_level", data.get_int( "power_level", 0 ) );
-    max_power_level = pmap.get_int( "max_power_level", data.get_int( "max_power_level", 0 ) );
+    data.read( "power_level", power_level );
+    data.read( "max_power_level", max_power_level );
     // Bionic power scale has been changed, savegame version 21 has the new scale
     if( savegame_loading_version <= 20 ) {
         power_level *= 25;
@@ -541,6 +537,7 @@ void Character::store( JsonOut &json ) const
     json.member( "per_bonus", per_bonus );
     json.member( "int_bonus", int_bonus );
 
+    json.member( "activity_vehicle_part_index", activity_vehicle_part_index ); // NPC activity
     // health
     json.member( "healthy", healthy );
     json.member( "healthy_mod", healthy_mod );
@@ -642,7 +639,6 @@ void player::store( JsonOut &json ) const
     json.end_array();
 
     json.member( "worn", worn ); // also saves contents
-    json.member( "activity_vehicle_part_index", activity_vehicle_part_index ); // NPC activity
     json.member( "inv" );
     inv.json_save_items( json );
 
@@ -789,8 +785,6 @@ void player::load( JsonObject &data )
 
     on_stat_change( "pkill", pkill );
     on_stat_change( "perceived_pain", get_perceived_pain() );
-
-    data.read( "activity_vehicle_part_index", activity_vehicle_part_index );
 
     int tmptar;
     int tmptartyp = 0;
@@ -1833,8 +1827,6 @@ void monster::load( JsonObject &data )
     if( !data.read( "last_updated", last_updated ) ) {
         last_updated = calendar::turn;
     }
-    last_baby = data.get_int( "last_baby", to_turn<int>( calendar::turn ) );
-    last_biosig = data.get_int( "last_biosig", to_turn<int>( calendar::turn ) );
     data.read( "mounted_player_id", mounted_player_id );
     data.read( "path", path );
 }
@@ -1886,10 +1878,8 @@ void monster::store( JsonOut &json ) const
     json.member( "last_updated", last_updated );
     json.member( "reproduces", reproduces );
     json.member( "baby_timer", baby_timer );
-    json.member( "last_baby", last_baby );
     json.member( "biosignatures", biosignatures );
     json.member( "biosig_timer", biosig_timer );
-    json.member( "last_biosig", last_biosig );
 
     json.member( "summon_time_limit", summon_time_limit );
 
@@ -2693,6 +2683,7 @@ void mission::deserialize( JsonIn &jsin )
     }
 
     jo.read( "value", value );
+    jo.read( "kill_count_to_reach", kill_count_to_reach );
     jo.read( "reward", reward );
     jo.read( "uid", uid );
     JsonArray ja = jo.get_array( "target" );
@@ -2751,6 +2742,7 @@ void mission::serialize( JsonOut &json ) const
     json.member( "type_id", type->id );
     json.member( "status", status_to_string( status ) );
     json.member( "value", value );
+    json.member( "kill_count_to_reach", kill_count_to_reach );
     json.member( "reward", reward );
     json.member( "uid", uid );
 

@@ -566,18 +566,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     }
 
     // setup staring bank money
-
     cash = rng( -200000, 200000 );
-
-    if( has_trait( trait_id( "MILLIONAIRE" ) ) ) {
-        cash = rng( 500000000, 1000000000 );
-    }
-    if( has_trait( trait_id( "DEBT" ) ) ) {
-        cash = rng( -1500000, -3000000 );
-    }
-    if( has_trait( trait_id( "SAVINGS" ) ) ) {
-        cash = rng( 1500000, 2000000 );
-    }
 
     if( has_trait( trait_id( "XS" ) ) ) {
         set_stored_kcal( 10000 );

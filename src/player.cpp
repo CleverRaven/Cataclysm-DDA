@@ -99,6 +99,7 @@
 #include "enums.h"
 #include "flat_set.h"
 #include "stomach.h"
+#include "teleport.h"
 
 const double MAX_RECOIL = 3000;
 
@@ -593,6 +594,7 @@ void player::process_turn()
 
     visit_items( [this]( item * e ) {
         e->process_artifact( this, pos() );
+        e->process_relic( this );
         return VisitResponse::NEXT;
     } );
 
@@ -1673,8 +1675,9 @@ int player::run_cost( int base_cost, bool diag ) const
         if( move_mode == PMM_CROUCH ) {
             stamina_modifier *= 0.5;
         }
-        movecost /= stamina_modifier;
 
+        movecost = calculate_by_enchantment( movecost, enchantment::mod::MOVE_COST );
+        movecost /= stamina_modifier;
     }
 
     if( diag ) {
@@ -2007,68 +2010,6 @@ bool player::crossed_threshold() const
 bool player::purifiable( const trait_id &flag ) const
 {
     return flag->purifiable;
-}
-
-void player::build_mut_dependency_map( const trait_id &mut,
-                                       std::unordered_map<trait_id, int> &dependency_map, int distance )
-{
-    // Skip base traits and traits we've seen with a lower distance
-    const auto lowest_distance = dependency_map.find( mut );
-    if( !has_base_trait( mut ) && ( lowest_distance == dependency_map.end() ||
-                                    distance < lowest_distance->second ) ) {
-        dependency_map[mut] = distance;
-        // Recurse over all prerequisite and replacement mutations
-        const auto &mdata = mut.obj();
-        for( auto &i : mdata.prereqs ) {
-            build_mut_dependency_map( i, dependency_map, distance + 1 );
-        }
-        for( auto &i : mdata.prereqs2 ) {
-            build_mut_dependency_map( i, dependency_map, distance + 1 );
-        }
-        for( auto &i : mdata.replacements ) {
-            build_mut_dependency_map( i, dependency_map, distance + 1 );
-        }
-    }
-}
-
-void player::set_highest_cat_level()
-{
-    mutation_category_level.clear();
-
-    // For each of our mutations...
-    for( const std::pair<trait_id, Character::trait_data> &mut : my_mutations ) {
-        // ...build up a map of all prerequisite/replacement mutations along the tree, along with their distance from the current mutation
-        std::unordered_map<trait_id, int> dependency_map;
-        build_mut_dependency_map( mut.first, dependency_map, 0 );
-
-        // Then use the map to set the category levels
-        for( const std::pair<trait_id, int> &i : dependency_map ) {
-            const mutation_branch &mdata = i.first.obj();
-            if( !mdata.flags.count( "NON_THRESH" ) ) {
-                for( const std::string &cat : mdata.category ) {
-                    // Decay category strength based on how far it is from the current mutation
-                    mutation_category_level[cat] += 8 / static_cast<int>( std::pow( 2, i.second ) );
-                }
-            }
-        }
-    }
-}
-
-/// Returns the mutation category with the highest strength
-std::string player::get_highest_category() const
-{
-    int iLevel = 0;
-    std::string sMaxCat;
-
-    for( const auto &elem : mutation_category_level ) {
-        if( elem.second > iLevel ) {
-            sMaxCat = elem.first;
-            iLevel = elem.second;
-        } else if( elem.second == iLevel ) {
-            sMaxCat.clear();  // no category on ties
-        }
-    }
-    return sMaxCat;
 }
 
 /// Returns a randomly selected dream
@@ -2468,6 +2409,9 @@ void player::pause()
                                    _( "<npcname> attempts to put out the fire on them!" ) );
         }
     }
+
+    // on-pause effects for martial arts
+    ma_onpause_effects();
 
     if( is_npc() ) {
         // The stuff below doesn't apply to NPCs
@@ -3508,7 +3452,7 @@ int player::impact( const int force, const tripoint &p )
 
     if( total_dealt > 0 && is_player() ) {
         // "You slam against the dirt" is fine
-        add_msg( m_bad, _( "You are slammed against %s for %d damage." ),
+        add_msg( m_bad, _( "You are slammed against %1$s for %2$d damage." ),
                  target_name, total_dealt );
     } else if( is_player() && shock_absorbers ) {
         add_msg( m_bad, _( "You are slammed against %s!" ),
@@ -3623,6 +3567,7 @@ void player::update_body( const time_point &from, const time_point &to )
 {
     update_stamina( to_turns<int>( to - from ) );
     update_stomach( from, to );
+    recalculate_enchantment_cache();
     if( ticks_between( from, to, 3_minutes ) > 0 ) {
         magic.update_mana( *this, to_turns<float>( 3_minutes ) );
     }
@@ -5573,7 +5518,7 @@ void player::suffer()
         mutate();
     }
     if( has_artifact_with( AEP_FORCE_TELEPORT ) && one_turn_in( 1_hours ) ) {
-        g->teleport( this );
+        teleport::teleport( *this );
     }
     const bool needs_fire = !has_morale( MORALE_PYROMANIA_NEARFIRE ) &&
                             !has_morale( MORALE_PYROMANIA_STARTFIRE );
@@ -6285,29 +6230,6 @@ void player::drench( int saturation, const body_part_set &flags, bool ignore_wat
     // Remove onfire effect
     if( saturation > 10 || x_in_y( saturation, 10 ) ) {
         remove_effect( effect_onfire );
-    }
-}
-
-void player::drench_mut_calc()
-{
-    for( const body_part bp : all_body_parts ) {
-        int ignored = 0;
-        int neutral = 0;
-        int good = 0;
-
-        for( const auto &iter : my_mutations ) {
-            const mutation_branch &mdata = iter.first.obj();
-            const auto wp_iter = mdata.protection.find( bp );
-            if( wp_iter != mdata.protection.end() ) {
-                ignored += wp_iter->second.x;
-                neutral += wp_iter->second.y;
-                good += wp_iter->second.z;
-            }
-        }
-
-        mut_drench[bp][WT_GOOD] = good;
-        mut_drench[bp][WT_NEUTRAL] = neutral;
-        mut_drench[bp][WT_IGNORED] = ignored;
     }
 }
 
@@ -7263,11 +7185,12 @@ item::reload_option player::select_ammo( const item &base,
         if( e.ammo->is_magazine() && e.ammo->ammo_data() ) {
             if( e.ammo->ammo_current() == "battery" ) {
                 // This battery ammo is not a real object that can be recovered but pseudo-object that represents charge
-                //~ magazine with ammo count
-                return string_format( _( "%s (%d)" ), e.ammo->type_name(), e.ammo->ammo_remaining() );
+                //~ battery storage (charges)
+                return string_format( pgettext( "magazine", "%1$s (%2$d)" ), e.ammo->type_name(),
+                                      e.ammo->ammo_remaining() );
             } else {
                 //~ magazine with ammo (count)
-                return string_format( _( "%s with %s (%d)" ), e.ammo->type_name(),
+                return string_format( pgettext( "magazine", "%1$s with %2$s (%3$d)" ), e.ammo->type_name(),
                                       e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ), e.ammo->ammo_remaining() );
             }
         } else if( e.ammo->is_watertight_container() ||
@@ -7735,7 +7658,9 @@ bool player::wield( item &target )
 
     // Query whether to draw an item from a holster when attempting to wield the holster
     if( target.get_use( "holster" ) && !target.contents.empty() ) {
-        if( query_yn( _( "Draw %s from %s?" ), target.get_contained().tname(), target.tname() ) ) {
+        //~ %1$s: weapon name, %2$s: holster name
+        if( query_yn( pgettext( "holster", "Draw %1$s from %2$s?" ), target.get_contained().tname(),
+                      target.tname() ) ) {
             invoke_item( &target );
             return false;
         }
@@ -9418,11 +9343,26 @@ void player::try_to_sleep( const time_duration &dur )
                          vp.part_with_feature( "SEAT", true ) ||
                          vp.part_with_feature( "BED", true ) ) ) {
         add_msg_if_player( m_good, _( "This is a comfortable place to sleep." ) );
-    } else if( ter_at_pos != t_floor && !plantsleep && !fungaloid_cosplay && !watersleep ) {
-        add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
-                           _( "It's a little hard to get to sleep on this %s." ) :
-                           _( "It's hard to get to sleep on this %s." ),
-                           ter_at_pos.obj().name() );
+    } else if( !plantsleep && !fungaloid_cosplay && !watersleep ) {
+        if( !vp && ter_at_pos != t_floor ) {
+            add_msg_if_player( ter_at_pos.obj().movecost <= 2 ?
+                               _( "It's a little hard to get to sleep on this %s." ) :
+                               _( "It's hard to get to sleep on this %s." ),
+                               ter_at_pos.obj().name() );
+        } else if( vp ) {
+            if( vp->part_with_feature( VPFLAG_AISLE, true ) ) {
+                add_msg_if_player(
+                    //~ %1$s: vehicle name, %2$s: vehicle part name
+                    _( "It's a little hard to get to sleep on this %2$s in %1$s." ),
+                    vp->vehicle().disp_name(),
+                    vp->part_with_feature( VPFLAG_AISLE, true )->part().name( false ) );
+            } else {
+                add_msg_if_player(
+                    //~ %1$s: vehicle name
+                    _( "It's hard to get to sleep in %1$s." ),
+                    vp->vehicle().disp_name() );
+            }
+        }
     }
     add_msg_if_player( _( "You start trying to fall asleep." ) );
     if( has_active_bionic( bio_soporific ) ) {
@@ -11722,9 +11662,10 @@ bool player::crush_frozen_liquid( item_location loc )
 
     if( u.has_quality( quality_id( "HAMMER" ) ) ) {
         item hammering_item = u.item_with_best_of_quality( quality_id( "HAMMER" ) );
-        if( query_yn( _( "Do you want to crush up %s with your %s?\n%s" ), loc.get_item()->display_name(),
-                      hammering_item.tname(),
-                      colorize( _( "Be wary of fragile items nearby!" ), c_red ) ) ) {
+        //~ %1$s: item to be crushed, %2$s: hammer name
+        if( query_yn( _( "Do you want to crush up %1$s with your %2$s?\n"
+                         "<color_red>Be wary of fragile items nearby!</color>" ),
+                      loc.get_item()->display_name(), hammering_item.tname() ) ) {
 
             //Risk smashing tile with hammering tool, risk is lower with higher dex, damage lower with lower strength
             if( one_in( 1 + u.dex_cur / 4 ) ) {

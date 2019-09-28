@@ -1573,7 +1573,8 @@ void vehicle::use_harness( int part, const tripoint &pos )
 
     m.add_effect( effect_harnessed, 1_turns, num_bp, true );
     m.setpos( pos );
-    add_msg( m_info, _( "You harness your %s to the %s." ), m.get_name(), name );
+    //~ %1$s: monster name, %2$s: vehicle name
+    add_msg( m_info, _( "You harness your %1$s to %2$s." ), m.get_name(), disp_name() );
     if( m.has_effect( effect_tied ) ) {
         add_msg( m_info, _( "You untie your %s." ), m.get_name() );
         m.remove_effect( effect_tied );
