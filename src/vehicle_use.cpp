@@ -1116,6 +1116,7 @@ void vehicle::crash_terrain_around()
                 }
             }
         }
+
         if( g->m.inbounds_z( crush_target.z ) ) { //target chosen
             velocity = 0;
             cruise_velocity = 0;
