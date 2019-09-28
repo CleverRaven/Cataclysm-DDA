@@ -114,11 +114,7 @@
   {
     "type": "snippet",
     "category": "schizo_formication",
-    "text": [
-      "Your skin feels itchy.",
-      "You feel larvae wriggling beneath the skin.",
-      "You feel bugs crawling on you."
-    ]
+    "text": [ "Your skin feels itchy.", "You feel larvae wriggling beneath the skin.", "You feel bugs crawling on you." ]
   },
   {
     "type": "snippet",
@@ -157,8 +153,6 @@
   {
     "type": "snippet",
     "category": "broken_limb",
-    "text": [
-      "Your limb breaks!"
-    ]
+    "text": [ "Your limb breaks!" ]
   }
 ]
