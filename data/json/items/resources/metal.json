@@ -221,6 +221,7 @@
     "category": "spare_parts",
     "name": "small metal sheet",
     "description": "A small sheet of metal.",
+    "looks_like": "sheet_metal",
     "weight": "250 g",
     "volume": "250 ml",
     "price": 2000,
