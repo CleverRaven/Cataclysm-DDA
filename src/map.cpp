@@ -1290,6 +1290,13 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
         add_msg( _( "The %s you were grabbing is destroyed!" ), old_t.name() );
         g->u.grab( OBJECT_NONE );
     }
+    // If a creature was crushed under a rubble -> free it
+    if( old_id == f_rubble && new_furniture == f_null ) {
+        Creature *c = g->critter_at( p );
+        if( c ) {
+            c->remove_effect( effect_crushed );
+        }
+    }
     if( new_t.has_flag( "EMITTER" ) ) {
         field_furn_locs.push_back( p );
     }
