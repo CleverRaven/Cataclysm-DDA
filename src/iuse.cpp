@@ -5369,9 +5369,8 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                 int num_shadows = rng( 4, 8 );
                 int num_spawned = 0;
                 for( int j = 0; j < num_shadows; j++ ) {
-                    int tries = 0;
-                    tripoint monp = p->pos();
-                    do {
+                    for( int tries = 0; tries < 10; ++tries ) {
+                        tripoint monp = p->pos();
                         if( one_in( 2 ) ) {
                             monp.x = rng( p->posx() - 5, p->posx() + 5 );
                             monp.y = ( one_in( 2 ) ? p->posy() - 5 : p->posy() + 5 );
@@ -5379,12 +5378,13 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                             monp.x = ( one_in( 2 ) ? p->posx() - 5 : p->posx() + 5 );
                             monp.y = rng( p->posy() - 5, p->posy() + 5 );
                         }
-                    } while( tries < 5 && !g->is_empty( monp ) &&
-                             !g->m.sees( monp, p->pos(), 10 ) );
-                    if( tries < 5 ) { // TODO: tries increment is missing, so this expression is always true
+                        if( !g->m.sees( monp, p->pos(), 10 ) ) {
+                            continue;
+                        }
                         if( monster *const  spawned = g->place_critter_at( mon_shadow, monp ) ) {
                             num_spawned++;
                             spawned->reset_special_rng( "DISAPPEAR" );
+                            break;
                         }
                     }
                 }
