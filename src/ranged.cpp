@@ -269,7 +269,9 @@ bool player::handle_gun_damage( item &it )
         }
         it.set_var( "dirt", std::min( 10000, dirt + dirtadder + 1 ) );
     }
-    if( dirt >= 0 && !it.faults.count( fault_gun_blackpowder ) ) {
+    dirt = it.get_var( "dirt", 0 );
+    dirt_dbl = static_cast<double>( dirt );
+    if( dirt > 0 && !it.faults.count( fault_gun_blackpowder ) ) {
         it.faults.insert( fault_gun_dirt );
     }
     if( curammo_effects.count( "BLACKPOWDER" ) ) {
