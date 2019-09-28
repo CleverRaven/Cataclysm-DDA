@@ -268,11 +268,7 @@ bool player::handle_gun_damage( item &it )
         if( dirtadder < 0 ) {
             dirtadder = 0;
         }
-        it.set_var( "dirt", dirt + dirtadder + 1 );
-    }
-    if( dirt > 10000 ) {
-        it.set_var( "dirt", 10000 );
-
+        it.set_var( "dirt", std::min( 10000, dirt + dirtadder + 1 ) );
     }
     if( dirt >= 0 && !it.faults.count( fault_gun_blackpowder ) ) {
         it.faults.insert( fault_gun_dirt );
