@@ -485,10 +485,6 @@ void Character::load( JsonObject &data )
     _skills->clear();
     JsonObject pmap = data.get_object( "skills" );
     for( const std::string &member : pmap.get_member_names() ) {
-        // FIXME: Fix corrupted bionic power data loading (see #31627). Temporary.
-        if( member == "power_level" || member == "max_power_level" ) {
-            continue;
-        }
         pmap.read( member, ( *_skills )[skill_id( member )] );
     }
 

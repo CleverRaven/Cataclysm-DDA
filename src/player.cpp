@@ -594,6 +594,7 @@ void player::process_turn()
 
     visit_items( [this]( item * e ) {
         e->process_artifact( this, pos() );
+        e->process_relic( this );
         return VisitResponse::NEXT;
     } );
 
@@ -746,19 +747,17 @@ void player::apply_persistent_morale()
         float total_time = 0;
         // Check how long we've stayed in any overmap tile within 5 of us.
         const int max_dist = 5;
-        for( int dx = -max_dist; dx <= max_dist; dx++ ) {
-            for( int dy = -max_dist; dy <= max_dist; dy++ ) {
-                const float dist = rl_dist( point_zero, point( dx, dy ) );
-                if( dist > max_dist ) {
-                    continue;
-                }
-                const point pos = ompos.xy() + point( dx, dy );
-                if( overmap_time.find( pos ) == overmap_time.end() ) {
-                    continue;
-                }
-                // Count time in own tile fully, tiles one away as 4/5, tiles two away as 3/5, etc.
-                total_time += to_moves<float>( overmap_time[pos] ) * ( max_dist - dist ) / max_dist;
+        for( const tripoint &pos : points_in_radius( ompos, max_dist ) ) {
+            const float dist = rl_dist( ompos, pos );
+            if( dist > max_dist ) {
+                continue;
             }
+            const auto iter = overmap_time.find( pos.xy() );
+            if( iter == overmap_time.end() ) {
+                continue;
+            }
+            // Count time in own tile fully, tiles one away as 4/5, tiles two away as 3/5, etc.
+            total_time += to_moves<float>( iter->second ) * ( max_dist - dist ) / max_dist;
         }
         // Characters with higher tiers of Nomad suffer worse morale penalties, faster.
         int max_unhappiness;
@@ -1676,8 +1675,9 @@ int player::run_cost( int base_cost, bool diag ) const
         if( move_mode == PMM_CROUCH ) {
             stamina_modifier *= 0.5;
         }
-        movecost /= stamina_modifier;
 
+        movecost = calculate_by_enchantment( movecost, enchantment::mod::MOVE_COST );
+        movecost /= stamina_modifier;
     }
 
     if( diag ) {
@@ -3567,6 +3567,7 @@ void player::update_body( const time_point &from, const time_point &to )
 {
     update_stamina( to_turns<int>( to - from ) );
     update_stomach( from, to );
+    recalculate_enchantment_cache();
     if( ticks_between( from, to, 3_minutes ) > 0 ) {
         magic.update_mana( *this, to_turns<float>( 3_minutes ) );
     }
@@ -11467,13 +11468,18 @@ void player::place_corpse( const tripoint &om_target )
     bay.load( tripoint( om_target.x * 2, om_target.y * 2, om_target.z ), false );
     int finX = rng( 1, SEEX * 2 - 2 );
     int finY = rng( 1, SEEX * 2 - 2 );
+    // This makes no sense at all. It may find a random tile without furniture, but
+    // if the first try to find one fails, it will go through all tiles of the map
+    // and essentially select the last one that has no furniture.
+    // Q: Why check for furniture? (Check for passable or can-place-items seems more useful.)
+    // Q: Why not grep a random point out of all the possible points (e.g. via random_entry)?
+    // Q: Why use furn_str_id instead of f_null?
+    // @todo fix it, see above.
     if( bay.furn( point( finX, finY ) ) != furn_str_id( "f_null" ) ) {
-        for( int x = 0; x < SEEX * 2 - 1; x++ ) {
-            for( int y = 0; y < SEEY * 2 - 1; y++ ) {
-                if( bay.furn( point( x, y ) ) == furn_str_id( "f_null" ) ) {
-                    finX = x;
-                    finY = y;
-                }
+        for( const tripoint &p : bay.points_on_zlevel() ) {
+            if( bay.furn( p ) == furn_str_id( "f_null" ) ) {
+                finX = p.x;
+                finY = p.y;
             }
         }
     }

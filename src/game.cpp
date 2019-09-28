@@ -10576,32 +10576,27 @@ void game::vertical_notes( int z_before, int z_after )
     // Figure out where we know there are up/down connectors
     // Fill in all the tiles we know about (e.g. subway stations)
     static const int REVEAL_RADIUS = 40;
-    const tripoint gpos = u.global_omt_location();
-    for( int x = -REVEAL_RADIUS; x <= REVEAL_RADIUS; x++ ) {
-        for( int y = -REVEAL_RADIUS; y <= REVEAL_RADIUS; y++ ) {
-            const int cursx = gpos.x + x;
-            const int cursy = gpos.y + y;
-            const tripoint cursp_before( cursx, cursy, z_before );
-            const tripoint cursp_after( cursx, cursy, z_after );
+    for( const tripoint &p : points_in_radius( u.global_omt_location(), REVEAL_RADIUS ) ) {
+        const tripoint cursp_before( p.xy(), z_before );
+        const tripoint cursp_after( p.xy(), z_after );
 
-            if( !overmap_buffer.seen( cursp_before ) ) {
-                continue;
-            }
-            if( overmap_buffer.has_note( cursp_before ) ) {
-                // Already has a note -> never add an AUTO-note
-                continue;
-            }
-            const oter_id &ter = overmap_buffer.ter( cursp_before );
-            const oter_id &ter2 = overmap_buffer.ter( cursp_after );
-            if( z_after > z_before && ter->has_flag( known_up ) &&
-                !ter2->has_flag( known_down ) ) {
-                overmap_buffer.set_seen( cursp_after, true );
-                overmap_buffer.add_note( cursp_after, string_format( ">:W;%s", _( "AUTO: goes down" ) ) );
-            } else if( z_after < z_before && ter->has_flag( known_down ) &&
-                       !ter2->has_flag( known_up ) ) {
-                overmap_buffer.set_seen( cursp_after, true );
-                overmap_buffer.add_note( cursp_after, string_format( "<:W;%s", _( "AUTO: goes up" ) ) );
-            }
+        if( !overmap_buffer.seen( cursp_before ) ) {
+            continue;
+        }
+        if( overmap_buffer.has_note( cursp_after ) ) {
+            // Already has a note -> never add an AUTO-note
+            continue;
+        }
+        const oter_id &ter = overmap_buffer.ter( cursp_before );
+        const oter_id &ter2 = overmap_buffer.ter( cursp_after );
+        if( z_after > z_before && ter->has_flag( known_up ) &&
+            !ter2->has_flag( known_down ) ) {
+            overmap_buffer.set_seen( cursp_after, true );
+            overmap_buffer.add_note( cursp_after, string_format( ">:W;%s", _( "AUTO: goes down" ) ) );
+        } else if( z_after < z_before && ter->has_flag( known_down ) &&
+                   !ter2->has_flag( known_up ) ) {
+            overmap_buffer.set_seen( cursp_after, true );
+            overmap_buffer.add_note( cursp_after, string_format( "<:W;%s", _( "AUTO: goes up" ) ) );
         }
     }
 }
@@ -10702,30 +10697,28 @@ void game::update_overmap_seen()
     const int dist_squared = dist * dist;
     // We can always see where we're standing
     overmap_buffer.set_seen( ompos, true );
-    for( int dx = -dist; dx <= dist; dx++ ) {
-        for( int dy = -dist; dy <= dist; dy++ ) {
-            const int h_squared = dx * dx + dy * dy;
-            if( trigdist && h_squared > dist_squared ) {
-                continue;
-            }
-            const tripoint p = ompos + point( dx, dy );
-            // If circular distances are enabled, scale overmap distances by the diagonality of the sight line.
-            const float multiplier = trigdist ? std::sqrt( h_squared ) / std::max<float>( std::abs( dx ),
-                                     std::abs( dy ) ) : 1;
-            const std::vector<tripoint> line = line_to( ompos, p, 0 );
-            float sight_points = dist;
-            for( auto it = line.begin();
-                 it != line.end() && sight_points >= 0; ++it ) {
-                const oter_id &ter = overmap_buffer.ter( *it );
-                sight_points -= static_cast<int>( ter->get_see_cost() ) * multiplier;
-            }
-            if( sight_points >= 0 ) {
-                tripoint seen( p );
-                do {
-                    overmap_buffer.set_seen( seen, true );
-                    --seen.z;
-                } while( seen.z >= 0 );
-            }
+    for( const tripoint &p : points_in_radius( ompos, dist ) ) {
+        const point delta = p.xy() - ompos.xy();
+        const int h_squared = delta.x * delta.x + delta.y * delta.y;
+        if( trigdist && h_squared > dist_squared ) {
+            continue;
+        }
+        // If circular distances are enabled, scale overmap distances by the diagonality of the sight line.
+        const float multiplier = trigdist ? std::sqrt( h_squared ) / std::max( std::abs( delta.x ),
+                                 std::abs( delta.y ) ) : 1;
+        const std::vector<tripoint> line = line_to( ompos, p, 0 );
+        float sight_points = dist;
+        for( auto it = line.begin();
+             it != line.end() && sight_points >= 0; ++it ) {
+            const oter_id &ter = overmap_buffer.ter( *it );
+            sight_points -= static_cast<int>( ter->get_see_cost() ) * multiplier;
+        }
+        if( sight_points >= 0 ) {
+            tripoint seen( p );
+            do {
+                overmap_buffer.set_seen( seen, true );
+                --seen.z;
+            } while( seen.z >= 0 );
         }
     }
 }
@@ -10773,15 +10766,12 @@ void game::update_stair_monsters()
         coming_to_stairs.clear();
     }
 
-    for( int x = 0; x < MAPSIZE_X; x++ ) {
-        for( int y = 0; y < MAPSIZE_Y; y++ ) {
-            tripoint dest( x, y, u.posz() );
-            if( ( from_below && m.has_flag( "GOES_DOWN", dest ) ) ||
-                ( !from_below && m.has_flag( "GOES_UP", dest ) ) ) {
-                stairx.push_back( x );
-                stairy.push_back( y );
-                stairdist.push_back( rl_dist( dest, u.pos() ) );
-            }
+    for( const tripoint &dest : m.points_on_zlevel( u.posz() ) ) {
+        if( ( from_below && m.has_flag( "GOES_DOWN", dest ) ) ||
+            ( !from_below && m.has_flag( "GOES_UP", dest ) ) ) {
+            stairx.push_back( dest.x );
+            stairy.push_back( dest.y );
+            stairdist.push_back( rl_dist( dest, u.pos() ) );
         }
     }
     if( stairdist.empty() ) {
@@ -11260,14 +11250,7 @@ void game::process_artifact( item &it, player &p )
         const std::vector<art_effect_passive> &ew = it.type->artifact->effects_wielded;
         effects.insert( effects.end(), ew.begin(), ew.end() );
     }
-    std::vector<enchantment> active_enchantments;
-    if( it.is_relic() ) {
-        for( const enchantment &ench : it.get_enchantments() ) {
-            if( ench.is_active( p, it ) ) {
-                active_enchantments.emplace_back( ench );
-            }
-        }
-    }
+
     if( it.is_tool() ) {
         // Recharge it if necessary
         if( it.ammo_remaining() < it.ammo_capacity() && calendar::once_every( 1_minutes ) ) {
@@ -11330,10 +11313,6 @@ void game::process_artifact( item &it, player &p )
                 }
             }
         }
-    }
-
-    for( const enchantment &ench : active_enchantments ) {
-        ench.activate_passive( p );
     }
 
     for( const art_effect_passive &i : effects ) {

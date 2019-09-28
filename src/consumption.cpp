@@ -1327,10 +1327,10 @@ bool player::fuel_bionic_with( item &it )
 
     const int loadable = std::min( it.charges, get_fuel_capacity( it.typeId() ) );
 
-    const std::string loaded_charge = std::to_string( loadable );
+    const std::string new_charge = std::to_string( loadable + std::stoi( get_value( it.typeId() ) ) );
 
     it.charges -= loadable;
-    set_value( it.typeId(), loaded_charge );// type and amount of fuel
+    set_value( it.typeId(), new_charge );// type and amount of fuel
     update_fuel_storage( it.typeId() );
     add_msg_player_or_npc( m_info,
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name

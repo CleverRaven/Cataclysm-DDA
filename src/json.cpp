@@ -80,9 +80,7 @@ JsonObject::JsonObject( JsonIn &j )
     while( !jsin->end_object() ) {
         std::string n = jsin->get_member_name();
         int p = jsin->tell();
-        // FIXME: Fix corrupted bionic power data loading (see #31627). Temporary.
-        if( n != "//" && n != "comment" && n != "power_level" && n != "max_power_level" &&
-            positions.count( n ) > 0 ) {
+        if( n != "//" && n != "comment" && positions.count( n ) > 0 ) {
             // members with name "//" or "comment" are used for comments and
             // should be ignored anyway.
             j.error( "duplicate entry in json object" );

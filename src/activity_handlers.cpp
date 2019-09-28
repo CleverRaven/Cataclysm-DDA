@@ -282,6 +282,19 @@ static void messages_in_process( const player_activity &act, const player &p )
     }
 }
 
+bool activity_handlers::resume_for_multi_activities( player &p )
+{
+    if( !p.backlog.empty() ) {
+        player_activity &back_act = p.backlog.front();
+        if( back_act.is_multi_type() ) {
+            p.assign_activity( p.backlog.front().id() );
+            p.backlog.clear();
+            return true;
+        }
+    }
+    return false;
+}
+
 void activity_handlers::burrow_do_turn( player_activity *act, player *p )
 {
     sfx::play_activity_sound( "activity", "burrow", sfx::get_heard_volume( act->placement ) );
@@ -1018,6 +1031,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // No targets means we are done
     if( act->targets.empty() ) {
         act->set_to_null();
+        resume_for_multi_activities( *p );
         return;
     }
 
@@ -1277,9 +1291,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // Ready to move on to the next item, if there is one (for example if multibutchering)
     act->index = true;
     // if its mutli-tile butchering,then restart the backlog.
-    if( !p->backlog.empty() && p->backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
-        p->activity = player_activity();
-    }
+    resume_for_multi_activities( *p );
 }
 
 void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
@@ -2002,6 +2014,9 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
                 g->refresh_all();
                 // TODO: Z (and also where the activity is queued)
                 // Or not, because the vehicle coordinates are dropped anyway
+                if( resume_for_multi_activities( *p ) ) {
+                    return;
+                }
                 g->exam_vehicle( vp->vehicle(), point( act->values[ 2 ], act->values[ 3 ] ) );
                 return;
             } else {
@@ -3188,18 +3203,13 @@ void activity_handlers::churn_finish( player_activity *act, player *p )
     // Go back to what we were doing before
     // could be player zone activity, or could be NPC multi-farming
     act->set_to_null();
-    if( !p->backlog.empty() ) {
-        p->activity = p->backlog.front();
-        p->backlog.pop_front();
-    }
+    resume_for_multi_activities( *p );
 }
 
 void activity_handlers::churn_do_turn( player_activity *act, player *p )
 {
     ( void )act;
-    if( p->is_npc() ) {
-        p->set_moves( 0 );
-    }
+    p->set_moves( 0 );
 }
 
 void activity_handlers::build_do_turn( player_activity *act, player *p )
@@ -3517,14 +3527,17 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     const tripoint &pos = g->m.getlocal( act->placement );
 
     tripoint direction;
-    if( p->is_player() ) {
-        while( true ) {
-            if( const cata::optional<tripoint> dir = choose_direction(
-                        _( "Select a direction for the tree to fall in." ) ) ) {
-                direction = *dir;
-                break;
+    if( !p->is_npc() ) {
+        if( p->backlog.empty() || ( !p->backlog.empty() &&
+                                    p->backlog.front().id() != activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ) ) {
+            while( true ) {
+                if( const cata::optional<tripoint> dir = choose_direction(
+                            _( "Select a direction for the tree to fall in." ) ) ) {
+                    direction = *dir;
+                    break;
+                }
+                // try again
             }
-            // try again
         }
     } else {
         for( const auto elem : g->m.points_in_radius( pos, 1 ) ) {
@@ -3561,6 +3574,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     sfx::play_variant_sound( "misc", "timber",
                              sfx::get_heard_volume( g->m.getlocal( act->placement ) ) );
     act->set_to_null();
+    resume_for_multi_activities( *p );
 }
 
 void activity_handlers::chop_logs_finish( player_activity *act, player *p )
@@ -3605,6 +3619,7 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act->set_to_null();
+    resume_for_multi_activities( *p );
 }
 
 void activity_handlers::chop_planks_finish( player_activity *act, player *p )
@@ -3628,6 +3643,7 @@ void activity_handlers::chop_planks_finish( player_activity *act, player *p )
         p->add_msg_if_player( m_bad, _( "You waste a lot of the wood." ) );
     }
     act->set_to_null();
+    resume_for_multi_activities( *p );
 }
 
 void activity_handlers::jackhammer_do_turn( player_activity *act, player *p )
@@ -4170,18 +4186,15 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
             }
             return;
         }
-        for( int dx = -1; dx <= 1; dx++ ) {
-            for( int dy = -1; dy <= 1; dy++ ) {
-                tripoint neighbor = tpt + point( dx, dy );
-                if( seen.find( neighbor ) != seen.end() ) {
-                    continue;
-                }
-                seen.insert( neighbor );
-                if( !overmap_buffer.ter( neighbor ).obj().is_wooded() ) {
-                    continue;
-                }
-                q.push( neighbor );
+        for( const tripoint &neighbor : points_in_radius( tpt, 1 ) ) {
+            if( seen.find( neighbor ) != seen.end() ) {
+                continue;
             }
+            seen.insert( neighbor );
+            if( !overmap_buffer.ter( neighbor ).obj().is_wooded() ) {
+                continue;
+            }
+            q.push( neighbor );
         }
         q.pop();
     }
