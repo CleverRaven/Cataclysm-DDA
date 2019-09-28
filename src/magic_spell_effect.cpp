@@ -711,3 +711,8 @@ void spell_effect::vomit( const spell &sp, Creature &caster, const tripoint &tar
         ch->vomit();
     }
 }
+
+void spell_effect::explosion( const spell &sp, Creature &, const tripoint &target )
+{
+    explosion_handler::explosion( target, sp.damage(), sp.aoe() / 10.0, true );
+}
