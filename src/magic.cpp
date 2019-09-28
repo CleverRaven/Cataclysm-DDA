@@ -945,9 +945,9 @@ std::string spell::damage_type_string() const
 
 // constants defined below are just for the formula to be used,
 // in order for the inverse formula to be equivalent
-static const float a = 6200.0;
-static const float b = 0.146661;
-static const float c = -62.5;
+constexpr float a = 6200.0;
+constexpr float b = 0.146661;
+constexpr float c = -62.5;
 
 int spell::get_level() const
 {
@@ -1085,7 +1085,7 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
                 return;
             }
             const int rand_spell = rng( 0, type->additional_spells.size() - 1 );
-            spell sp = ( iter + rand_spell )->get_spell( ( iter + rand_spell )->level );
+            spell sp = ( iter + rand_spell )->get_spell( get_level() );
 
             // This spell flag makes it so the message of the spell that's cast using this spell will be sent.
             // if a message is added to the casting spell, it will be sent as well.
@@ -1101,7 +1101,7 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
         // first call the effect of the main spell
         cast_spell_effect( source, target );
         for( const fake_spell &extra_spell : type->additional_spells ) {
-            spell sp = extra_spell.get_spell( extra_spell.level );
+            spell sp = extra_spell.get_spell( get_level() );
 
             if( extra_spell.self ) {
                 sp.cast_all_effects( source, source.pos() );
@@ -1802,7 +1802,10 @@ void fake_spell::load( JsonObject &jo )
     } else {
         max_level = max_level_int;
     }
-    optional( jo, false, "level", level, 0 );
+    optional( jo, false, "min_level", level, 0 );
+    if( jo.has_string( "level" ) ) {
+        debugmsg( "level member for fake_spell was renamed to min_level. id: %s", temp_id );
+    }
 }
 
 void fake_spell::serialize( JsonOut &json ) const
@@ -1814,7 +1817,7 @@ void fake_spell::serialize( JsonOut &json ) const
     } else {
         json.member( "max_level", *max_level );
     }
-    json.member( "level", level );
+    json.member( "min_level", level );
 }
 
 void fake_spell::deserialize( JsonIn &jsin )
@@ -1823,15 +1826,20 @@ void fake_spell::deserialize( JsonIn &jsin )
     load( data );
 }
 
-spell fake_spell::get_spell( const int level_override ) const
+spell fake_spell::get_spell( int input_level ) const
 {
     spell sp( id );
-    int level = sp.get_max_level();
+    int lvl = std::min( input_level, sp.get_max_level() );
     if( max_level ) {
-        level = std::min( level, *max_level );
+        lvl = std::min( lvl, *max_level );
     }
-    level = std::min( level_override, level );
-    while( sp.get_level() < level ) {
+    if( level > lvl ) {
+        debugmsg( "ERROR: fake spell %s has higher min_level than max_level", id.c_str() );
+        return sp;
+    }
+    lvl = clamp( std::max( lvl, level ), level, lvl );
+    while( sp.get_level() < lvl ) {
+        const int l = sp.get_level();
         sp.gain_level();
     }
     return sp;
