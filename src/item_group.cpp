@@ -194,10 +194,10 @@ void Single_item_creator::inherit_ammo_mag_chances( const int ammo, const int ma
 Item_modifier::Item_modifier()
     : damage( 0, 0 )
     , count( 1, 1 )
+    , dirt( 100, 9999 )
     , charges( -1, -1 )
     , with_ammo( 0 )
     , with_magazine( 0 )
-    , dirt( 100, 9999 )
 {
 }
 
