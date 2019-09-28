@@ -721,7 +721,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             validate_assignees();
             std::vector<npc_ptr> npc_list = get_npcs_assigned();
             entry = string_format( _( "Notes:\n"
-                                      "Assign repeating job duties to NPCs stationed here. "
+                                      "Assign repeating job duties to NPCs stationed here.\n"
                                       "Difficulty: N/A \n"
                                       "Effects:\n"
                                       "\n\nRisk: None\n"
