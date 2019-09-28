@@ -1293,7 +1293,7 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
     // If a creature was crushed under a rubble -> free it
     if( old_id == f_rubble && new_furniture == f_null ) {
         Creature *c = g->critter_at( p );
-        if( c && c->has_effect( effect_crushed ) ) {
+        if( c ) {
             c->remove_effect( effect_crushed );
         }
     }
