@@ -5,7 +5,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "time": "45 s",
+    "time": "1 m",
     "reversible": true,
     "autolearn": true,
     "components": [
@@ -375,7 +375,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "time": "3 m",
+    "time": "2 m",
     "reversible": true,
     "autolearn": true,
     "components": [
@@ -390,7 +390,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "time": "3 m",
+    "time": "2 m",
     "reversible": true,
     "autolearn": true,
     "components": [
@@ -434,7 +434,7 @@
     "skill_used": "fabrication",
     "skills_required": [ "mechanics", 0 ],
     "difficulty": 1,
-    "time": "10 m",
+    "time": "8 m",
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
