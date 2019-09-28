@@ -251,10 +251,10 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
-      [ [ "fuse", 1 ] ],
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_drink_unsealed", 1 ] ],
       [ [ "nail", 40 ] ],
+      [ [ "fuse", 1 ] ],
+      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
       [
         [ "gunpowder", 216 ],
         [ "chem_black_powder", 324 ],
@@ -280,10 +280,10 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [
+      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_drink_unsealed", 1 ] ],
+      [ [ "nail", 50 ], [ "scrap", 4 ] ],
       [ [ "fuse", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_drink_unsealed", 1 ] ],
-      [ [ "nail", 50 ], [ "scrap", 3 ] ],
       [
         [ "gunpowder", 216 ],
         [ "chem_black_powder", 324 ],
@@ -380,8 +380,8 @@
     "autolearn": true,
     "components": [
       [ [ "can_food_unsealed", 1 ] ],
-      [ [ "chem_black_powder", 412 ], [ "chem_match_head_powder", 440 ], [ "gunpowder", 275 ] ],
-      [ [ "fuse", 1 ] ]
+      [ [ "fuse", 1 ] ],
+      [ [ "chem_black_powder", 412 ], [ "chem_match_head_powder", 440 ], [ "gunpowder", 275 ] ]
     ]
   },
   {
@@ -395,8 +395,8 @@
     "autolearn": true,
     "components": [
       [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "jar_glass", 1 ] ],
-      [ [ "chem_black_powder", 412 ], [ "chem_match_head_powder", 440 ], [ "gunpowder", 275 ] ],
-      [ [ "fuse", 1 ] ]
+      [ [ "fuse", 1 ] ],
+      [ [ "chem_black_powder", 412 ], [ "chem_match_head_powder", 440 ], [ "gunpowder", 275 ] ]
     ]
   },
   {
@@ -437,10 +437,12 @@
     "time": "8 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ], [ "clay_canister", 1 ], [ "can_drink_unsealed", 1 ] ],
       [ [ "bag_plastic", 1 ], [ "paper", 1 ] ],
+      [ [ "material_sand", 40 ], [ "glass_shard", 6 ] ],
+      [ [ "fuse", 1 ] ],
+      [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "string_36", 1 ] ],
       [
         [ "gunpowder", 216 ],
         [ "chem_black_powder", 324 ],
@@ -450,9 +452,7 @@
         [ "shot_00", 36 ],
         [ "shot_slug", 36 ],
         [ "shot_bird", 72 ]
-      ],
-      [ [ "fuse", 1 ] ],
-      [ [ "material_sand", 50 ], [ "glass_shard", 6 ] ]
+      ]
     ]
   },
   {
