@@ -1722,19 +1722,18 @@ void Creature::add_msg_player_or_say( game_message_type type, const translation 
 }
 
 std::vector <int> Creature::dispersion_for_even_chance_of_good_hit = { {
-            1731, 859, 573, 421, 341, 286, 245, 214, 191, 175,
-            151, 143, 129, 118, 114, 107, 101, 94, 90, 78,
-            78, 78, 74, 71, 68, 66, 62, 61, 59, 57,
-            46, 46, 46, 46, 46, 46, 45, 45, 44, 42,
-            41, 41, 39, 39, 38, 37, 36, 35, 34, 34,
-            33, 33, 32, 30, 30, 30, 30, 29, 28
-        }
+        1731, 859, 573, 421, 341, 286, 245, 214, 191, 175,
+        151, 143, 129, 118, 114, 107, 101, 94, 90, 78,
+        78, 78, 74, 71, 68, 66, 62, 61, 59, 57,
+        46, 46, 46, 46, 46, 46, 45, 45, 44, 42,
+        41, 41, 39, 39, 38, 37, 36, 35, 34, 34,
+        33, 33, 32, 30, 30, 30, 30, 29, 28
+    }
 };
 
 void Creature::load_hit_range( JsonObject &jo, const std::string &src )
 {
-    if( jo.has_array( "even_good" ) )
-    {
+    if( jo.has_array( "even_good" ) ) {
         jo.read( "even_good", dispersion_for_even_chance_of_good_hit );
     }
 }
