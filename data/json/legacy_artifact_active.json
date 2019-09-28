@@ -342,5 +342,17 @@
     "message": "",
     "min_range": 40,
     "max_range": 40
+  },
+  {
+    "type": "SPELL",
+    "id": "AEA_FLASH",
+    "name": "Artifact Flash",
+    "description": "Causes a flashbang at the target",
+    "valid_targets": [ "hostile", "ground", "self" ],
+    "effect": "flashbang",
+    "base_casting_time": 100,
+    "message": "",
+    "min_range": 40,
+    "max_range": 40
   }
 ]

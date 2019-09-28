@@ -716,3 +716,9 @@ void spell_effect::explosion( const spell &sp, Creature &, const tripoint &targe
 {
     explosion_handler::explosion( target, sp.damage(), sp.aoe() / 10.0, true );
 }
+
+void spell_effect::flashbang( const spell &sp, Creature &caster, const tripoint &target )
+{
+    explosion_handler::flashbang( target, caster.is_avatar() &&
+                                  !sp.is_valid_target( valid_target::target_self ) );
+}
