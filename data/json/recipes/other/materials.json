@@ -91,7 +91,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
-    "difficulty": 0,
     "autolearn": true,
     "time": "10 m",
     "charges": 6,
