@@ -2550,7 +2550,7 @@ void advanced_inventory::swap_panes()
     std::swap( panes[left], panes[right] );
     // Window pointer must be unchanged!
     std::swap( panes[left].window, panes[right].window );
-    // No recalculation needed, data has not changed
+    // Recalculation required for weight & volume
     recalc = true;
     redraw = true;
 }
