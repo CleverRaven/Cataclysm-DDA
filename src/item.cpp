@@ -3470,7 +3470,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
     if( has_flag( "ETHEREAL_ITEM" ) ) {
-        ret << " (" << get_var( "ethereal" ) << " turns)";
+        ret << string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
     } else if( goes_bad() || is_food() ) {
         if( item_tags.count( "DIRTY" ) ) {
             ret << _( " (dirty)" );
@@ -8468,7 +8468,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
         set_var( "ethereal", std::stoi( get_var( "ethereal" ) ) - 1 );
         const bool processed = std::stoi( get_var( "ethereal" ) ) <= 0;
         if( processed && carrier != nullptr ) {
-            carrier->add_msg_if_player( _( "%s %s disappears!" ), carrier->disp_name( true ), tname() );
+            carrier->add_msg_if_player( _( "Your %s disappears!" ), tname() );
         }
         return processed;
     }
