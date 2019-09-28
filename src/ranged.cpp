@@ -199,7 +199,7 @@ bool player::handle_gun_damage( item &it )
         // effect as current guns have a durability between 5 and 9 this results in
         // a chance of mechanical failure between 1/(64*3) and 1/(1024*3) on any given shot.
         // the malfunction can't cause damage
-    } else if( ( one_in( ( 2 << effective_durability ) * 3 ) ) && !it.has_flag( "NEVER_JAMS" ) ) {
+    } else if( one_in( ( 2 << effective_durability ) * 3 ) && !it.has_flag( "NEVER_JAMS" ) ) {
         add_msg_player_or_npc( _( "Your %s malfunctions!" ),
                                _( "<npcname>'s %s malfunctions!" ),
                                it.tname() );
