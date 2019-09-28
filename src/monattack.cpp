@@ -4695,18 +4695,10 @@ bool mattack::tindalos_teleport( monster *z )
         return false;
     }
     if( one_in( 7 ) ) {
-        std::vector<tripoint> free;
-        for( const tripoint &dest : g->m.points_in_radius( z->pos(), 1 ) ) {
-            if( g->is_empty( dest ) ) {
-                free.push_back( dest );
-            }
-        }
-        if( !free.empty() ) {
+        if( monster *const afterimage = g->place_critter_around( mon_hound_tindalos_afterimage, z->pos(),
+                                        1 ) ) {
             z->moves -= 140;
-            const tripoint target = random_entry( free );
-            if( monster *const afterimage = g->summon_mon( mon_hound_tindalos_afterimage, target ) ) {
-                afterimage->make_ally( *z );
-            }
+            afterimage->make_ally( *z );
             if( g->u.sees( *z ) ) {
                 add_msg( m_warning,
                          _( "The hound's movements chaotically rewind as a living afterimage splits from it!" ) );
