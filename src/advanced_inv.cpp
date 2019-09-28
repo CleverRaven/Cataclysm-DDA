@@ -2551,6 +2551,7 @@ void advanced_inventory::swap_panes()
     // Window pointer must be unchanged!
     std::swap( panes[left].window, panes[right].window );
     // No recalculation needed, data has not changed
+    recalc = true;
     redraw = true;
 }
 
