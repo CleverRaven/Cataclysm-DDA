@@ -1839,7 +1839,6 @@ spell fake_spell::get_spell( int input_level ) const
     }
     lvl = clamp( std::max( lvl, level ), level, lvl );
     while( sp.get_level() < lvl ) {
-        const int l = sp.get_level();
         sp.gain_level();
     }
     return sp;
