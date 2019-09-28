@@ -3374,7 +3374,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 {
     std::stringstream ret;
 
-    int dirt_level = static_cast<double>( get_var( "dirt", 0 ) / 2000 );
+    int dirt_level = static_cast<int>( get_var( "dirt", 0 ) / 2000 );
     std::string dirt_symbol;
     // TODO: MATERIALS put this in json
 
