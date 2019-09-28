@@ -153,5 +153,12 @@
       "%1$s said something stupid.",
       "%1$s is running away!"
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "broken_limb",
+    "text": [
+      "Your limb breaks!"
+    ]
   }
 ]
