@@ -1146,6 +1146,7 @@
     "name": "wood ash",
     "name_plural": "wood ashes",
     "symbol": "=",
+    "looks_like": "f_ash",
     "color": "light_gray",
     "description": "This is almost weightless residue left after the burning of some substance.",
     "material": "powder_nonflam",
