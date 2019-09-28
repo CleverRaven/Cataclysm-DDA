@@ -189,10 +189,6 @@ bool player::handle_gun_damage( item &it )
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
     // mean the gun will actually be accurate underwater.
     int effective_durability = firing->durability;
-    if( ( it.faults.count( fault_gun_dirt ) || it.faults.count( fault_gun_blackpowder ) ) &&
-        effective_durability > 2 ) {
-        effective_durability -= 1;
-    }
     if( is_underwater() && !it.has_flag( "WATERPROOF_GUN" ) && one_in( effective_durability ) ) {
         add_msg_player_or_npc( _( "Your %s misfires with a wet click!" ),
                                _( "<npcname>'s %s misfires with a wet click!" ),
