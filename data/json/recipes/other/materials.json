@@ -110,6 +110,6 @@
     "time": "4 m",
     "charges": 3,
     "batch_time_factors": [ 30, 2 ],
-    "components": [ [ [ "rolling_paper", 1 ] ], [ [ "chem_black_powder", 3 ], [ "gunpowder", 3 ] ] ]
+    "components": [ [ [ "rolling_paper", 1 ] ], [ [ "chem_black_powder", 3 ], [ "chem_match_head_powder", 3 ], [ "gunpowder", 3 ] ] ]
   }
 ]
