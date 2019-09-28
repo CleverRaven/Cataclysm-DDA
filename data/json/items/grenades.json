@@ -223,6 +223,57 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
+    "id": "pipebomb",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "pipe bomb",
+    "description": "This is a section of a pipe filled with explosive materials.  Use this item to light the fuse, which gives you five turns to get away from it before it detonates.  You'll need a lighter or some matches to use it.",
+    "weight": "1298 g",
+    "volume": "500 ml",
+    "price": 1500,
+    "to_hit": 1,
+    "bashing": 5,
+    "material": "steel",
+    "symbol": "*",
+    "color": "light_gray",
+    "use_action": {
+      "target": "pipebomb_act",
+      "msg": "You light the fuse on the pipe bomb.",
+      "target_charges": 6,
+      "active": true,
+      "need_fire": 1,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
+  },
+  {
+    "id": "pipebomb_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "active pipe bomb",
+    "description": "This pipe bomb's fuse is lit, and it will explode any second now.  Throw it immediately!",
+    "weight": "1298 g",
+    "volume": "500 ml",
+    "price": 0,
+    "to_hit": 1,
+    "bashing": 5,
+    "material": "steel",
+    "symbol": "*",
+    "color": "light_gray",
+    "initial_charges": 6,
+    "max_charges": 6,
+    "turns_per_charge": 1,
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "ssss...",
+      "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
+      "explosion": { "power": 300, "shrapnel": { "casing_mass": 100, "fragment_mass": 1 } }
+    },
+    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+  },
+  {
     "id": "nail_bomb",
     "type": "TOOL",
     "name": "nail bomb",
@@ -237,7 +288,7 @@
     "symbol": "*",
     "color": "green",
     "explode_in_fire": true,
-    "explosion": { "power": 76, "shrapnel": { "casing_mass": 88, "fragment_mass": 4, "drop": "nail", "recovery": 16 } },
+    "explosion": { "power": 30, "shrapnel": { "casing_mass": 8, "fragment_mass": 0.2, "drop": "nail", "recovery": 16 } },
     "use_action": {
       "target": "nail_bomb_act",
       "msg": "You light the fuse on the %s.",
@@ -264,7 +315,7 @@
       "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
       "sound_volume": 0,
       "sound_msg": "ssss...",
-      "explosion": { "power": 76, "shrapnel": { "casing_mass": 88, "fragment_mass": 4, "drop": "nail", "recovery": 16 } }
+      "explosion": { "power": 30, "shrapnel": { "casing_mass": 8, "fragment_mass": 0.2, "drop": "nail", "recovery": 16 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
   },
@@ -283,7 +334,7 @@
     "symbol": "*",
     "color": "green",
     "explode_in_fire": true,
-    "explosion": { "power": 76, "shrapnel": { "casing_mass": 66, "fragment_mass": 2 } },
+    "explosion": { "power": 30, "shrapnel": { "casing_mass": 12, "fragment_mass": 0.1 } },
     "use_action": {
       "target": "fragment_bomb_act",
       "msg": "You light the fuse on the %s.",
@@ -310,7 +361,7 @@
       "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
       "sound_volume": 0,
       "sound_msg": "ssss...",
-      "explosion": { "power": 76, "shrapnel": { "casing_mass": 66, "fragment_mass": 2 } }
+      "explosion": { "power": 30, "shrapnel": { "casing_mass": 12, "fragment_mass": 0.1 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
   },
@@ -329,7 +380,7 @@
     "symbol": "*",
     "color": "green",
     "explode_in_fire": true,
-    "explosion": { "power": 76, "shrapnel": { "casing_mass": 70, "fragment_mass": 0.1 } },
+    "explosion": { "power": 5, "shrapnel": { "casing_mass": 45, "fragment_mass": 0.1 } },
     "use_action": {
       "target": "sand_bomb_act",
       "msg": "You light the fuse on the %s.",
@@ -356,7 +407,7 @@
       "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
       "sound_volume": 0,
       "sound_msg": "ssss...",
-      "explosion": { "power": 76, "shrapnel": { "casing_mass": 70, "fragment_mass": 0.1 } }
+      "explosion": { "power": 5, "shrapnel": { "casing_mass": 45, "fragment_mass": 0.1 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
   },
@@ -365,7 +416,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "can bomb",
-    "description": "This is a tin can filled to the brim with explosive and with a bit of fuse sticking out of it.",
+    "description": "This is a tin can filled to the brim with explosive and with a bit of fuse sticking out of it. Will produce metal shrapnel that can deal with armor ... you think.",
     "//": "40g of tin can and 250ml/412g of gunpowder",
     "weight": "452 g",
     "volume": "250 ml",
@@ -375,11 +426,11 @@
     "symbol": "*",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": { "power": 76, "shrapnel": { "casing_mass": 3, "fragment_mass": 0.12 } },
+    "explosion": { "power": 8, "shrapnel": { "casing_mass": 12, "fragment_mass": 0.4 } },
     "use_action": {
       "target": "can_bomb_act",
       "msg": "You light the fuse on the can bomb.  Throw it before it blows in your face!",
-      "target_charges": 3,
+      "target_charges": 5,
       "active": true,
       "need_fire": 1,
       "menu_text": "Light fuse",
@@ -392,7 +443,7 @@
     "copy-from": "can_bomb",
     "type": "TOOL",
     "name": "active can bomb",
-    "description": "This is a tin can filled to the brim with explosive and with a bit of fuse sticking out of it. The fuse has been lit, you should throw it.",
+    "description": "This is a tin can filled to the brim with explosive and with a bit of fuse sticking out of it. Will produce metal shrapnel that can deal with armor ... you think. The fuse has been lit, you should throw it.",
     "price": 0,
     "initial_charges": 5,
     "max_charges": 5,
@@ -402,7 +453,7 @@
       "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
       "sound_volume": 0,
       "sound_msg": "ssss...",
-      "explosion": { "power": 76, "shrapnel": { "casing_mass": 3, "fragment_mass": 0.12 } }
+      "explosion": { "power": 8, "shrapnel": { "casing_mass": 12, "fragment_mass": 0.4 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
   },
@@ -411,7 +462,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "glass bomb",
-    "description": "This is a glass container filled with explosive and with a bit of fuse sticking out of it.",
+    "description": "This is a glass container filled with explosive and with a bit of fuse sticking out of it. Will produce a damaging mist of broken glass, probably good against unarmored targets.",
     "weight": "452 g",
     "volume": "250 ml",
     "price": 2500,
@@ -420,11 +471,11 @@
     "symbol": "*",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": { "power": 76, "shrapnel": { "casing_mass": 3, "fragment_mass": 0.12 } },
+    "explosion": { "power": 3, "shrapnel": { "casing_mass": 33, "fragment_mass": 0.1 } },
     "use_action": {
-      "target": "can_bomb_act",
+      "target": "glass_bomb_act",
       "msg": "You light the fuse on the bottle bomb.",
-      "target_charges": 3,
+      "target_charges": 5,
       "active": true,
       "need_fire": 1,
       "menu_text": "Light fuse",
@@ -437,7 +488,7 @@
     "copy-from": "glass_bomb",
     "type": "TOOL",
     "name": "active glass bomb",
-    "description": "This is a glass container filled with explosive and with a bit of fuse sticking out of it. The fuse has been lit, you should throw it.",
+    "description": "This is a glass container filled with explosive and with a bit of fuse sticking out of it. Will produce a damaging mist of broken glass, probably good against unarmored targets. The fuse has been lit, you should throw it.",
     "price": 0,
     "initial_charges": 5,
     "max_charges": 5,
@@ -447,7 +498,7 @@
       "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
       "sound_volume": 0,
       "sound_msg": "ssss...",
-      "explosion": { "power": 80, "shrapnel": { "casing_mass": 3, "fragment_mass": 0.1 } }
+      "explosion": { "power": 3, "shrapnel": { "casing_mass": 33, "fragment_mass": 0.1 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
   },
