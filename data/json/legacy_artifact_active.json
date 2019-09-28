@@ -304,6 +304,22 @@
   },
   {
     "type": "SPELL",
+    "id": "AEA_NOISE",
+    "name": "Artifact Noise",
+    "description": "Makes a noise at your location",
+    "message": "You hear a deafening boom from your location!",
+    "sound_description": "a deafening boom",
+    "sound_type": "combat",
+    "sound_ambient": true,
+    "sound_id": "misc",
+    "sound_variant": "shockwave",
+    "min_damage": 100,
+    "max_damage": 100,
+    "valid_targets": [ "self" ],
+    "effect": "noise"
+  },
+  {
+    "type": "SPELL",
     "id": "AEA_LIGHT",
     "name": "Artifact Light",
     "description": "Makes some light.",

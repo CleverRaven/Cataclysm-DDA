@@ -698,6 +698,11 @@ void spell_effect::transform_blast( const spell &sp, Creature &caster,
     }
 }
 
+void spell_effect::noise( const spell &sp, Creature &, const tripoint &target )
+{
+    sp.make_sound( target, sp.damage() );
+}
+
 void spell_effect::vomit( const spell &sp, Creature &caster, const tripoint &target )
 {
     const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), true );
