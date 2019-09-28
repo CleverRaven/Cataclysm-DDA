@@ -5,7 +5,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "time": "30 s",
+    "time": "45 s",
     "reversible": true,
     "autolearn": true,
     "components": [
@@ -245,7 +245,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "skills_required": [ "mechanics", 1 ],
+    "skills_required": [ "mechanics", 0 ],
     "difficulty": 1,
     "time": "8 m",
     "reversible": true,
@@ -258,6 +258,7 @@
       [
         [ "gunpowder", 216 ],
         [ "chem_black_powder", 324 ],
+        [ "chem_match_head_powder", 350 ],
         [ "shot_he", 9 ],
         [ "shot_flechette", 36 ],
         [ "shot_00", 36 ],
@@ -272,7 +273,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "skills_required": [ "mechanics", 1 ],
+    "skills_required": [ "mechanics", 0 ],
     "difficulty": 1,
     "time": "12 m",
     "reversible": true,
@@ -286,6 +287,7 @@
       [
         [ "gunpowder", 216 ],
         [ "chem_black_powder", 324 ],
+        [ "chem_match_head_powder", 350 ],
         [ "shot_he", 9 ],
         [ "shot_flechette", 36 ],
         [ "shot_00", 36 ],
@@ -311,6 +313,7 @@
       [
         [ "gunpowder", 216 ],
         [ "chem_black_powder", 324 ],
+        [ "chem_match_head_powder", 350 ],
         [ "shot_he", 9 ],
         [ "shot_flechette", 36 ],
         [ "shot_00", 36 ],
@@ -372,12 +375,15 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "15 m",
+    "time": "6 m",
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "can_food_unsealed", 1 ] ], [ [ "chem_black_powder", 412 ], [ "gunpowder", 275 ] ], [ [ "fuse", 1 ] ] ]
+    "components": [
+      [ [ "can_food_unsealed", 1 ] ],
+      [ [ "chem_black_powder", 412 ], [ "chem_match_head_powder", 440 ], [ "gunpowder", 275 ] ],
+      [ [ "fuse", 1 ] ]
+    ]
   },
   {
     "result": "glass_bomb",
@@ -385,14 +391,13 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "15 m",
+    "time": "6 m",
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "jar_glass", 1 ] ],
-      [ [ "chem_black_powder", 412 ], [ "gunpowder", 275 ] ],
+      [ [ "chem_black_powder", 412 ], [ "chem_match_head_powder", 440 ], [ "gunpowder", 275 ] ],
       [ [ "fuse", 1 ] ]
     ]
   },
@@ -429,6 +434,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 0 ],
     "difficulty": 1,
     "time": "10 m",
     "reversible": true,
@@ -440,6 +446,7 @@
       [
         [ "gunpowder", 216 ],
         [ "chem_black_powder", 324 ],
+        [ "chem_match_head_powder", 350 ],
         [ "shot_he", 9 ],
         [ "shot_flechette", 36 ],
         [ "shot_00", 36 ],
