@@ -12,7 +12,7 @@
       { "group": "cop_pants", "damage": [ 1, 4 ] },
       { "group": "cop_shoes", "damage": [ 1, 4 ] },
       { "group": "cop_torso", "damage": [ 1, 4 ] },
-      { "group": "cop_weapons", "prob": 50, "damage": [ 0, 1 ] },
+      { "group": "cop_weapons", "prob": 50, "damage": [ 0, 1 ], "dirt": [ 1500, 6000] },
       { "group": "underwear", "damage": [ 1, 4 ] },
       { "group": "clothing_glasses", "prob": 5 },
       { "group": "clothing_watch", "prob": 5 },

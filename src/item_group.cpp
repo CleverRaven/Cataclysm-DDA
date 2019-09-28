@@ -197,6 +197,7 @@ Item_modifier::Item_modifier()
     , charges( -1, -1 )
     , with_ammo( 0 )
     , with_magazine( 0 )
+    , dirt( 100, 9999 )
 {
 }
 
@@ -208,6 +209,11 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     new_item.set_damage( rng( damage.first, damage.second ) );
+    double random_dirt = rng( dirt.first, dirt.second );
+    if( new_item.is_gun() && random_dirt > 0 ) {
+        new_item.set_var( "dirt",  random_dirt );
+        new_item.faults.emplace( "fault_gun_dirt" );
+    }
 
     int ch = ( charges.first == charges.second ) ? charges.first : rng( charges.first,
              charges.second );

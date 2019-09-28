@@ -3374,7 +3374,31 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 {
     std::stringstream ret;
 
+    int dirt_level = static_cast<double>( get_var( "dirt", 0 ) / 2000 );
+    std::string dirt_symbol;
     // TODO: MATERIALS put this in json
+    switch( dirt_level ) {
+        case 0:
+            dirt_symbol = "";
+            break;
+        case 1:
+            dirt_symbol = "<color_white>\u2581</color>";
+            break;
+        case 2:
+            dirt_symbol = "<color_light_gray>\u2583</color>";
+            break;
+        case 3:
+            dirt_symbol = "<color_light_gray>\u2585</color>";
+            break;
+        case 4:
+            dirt_symbol = "<color_dark_gray>\u2587</color>";
+            break;
+        case 5:
+            dirt_symbol = "<color_brown>\u2588</color>";
+            break;
+        default:
+            dirt_symbol = "";
+    }
     std::string damtext;
 
     // for portions of string that have <color_ etc in them, this aims to truncate the whole string correctly
@@ -3388,7 +3412,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
     if( !faults.empty() ) {
-        damtext.insert( 0, _( "faulty " ) );
+        if( ( item::has_fault( fault_gun_blackpowder ) || item::has_fault( fault_gun_dirt ) ) &&
+            faults.size() == 1 ) {
+            damtext.insert( 0, _( dirt_symbol ) );
+        } else {
+            damtext.insert( 0, _( "faulty " + dirt_symbol ) );
+        }
     }
 
     std::string vehtext;

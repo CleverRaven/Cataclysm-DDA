@@ -262,10 +262,6 @@ bool player::handle_gun_damage( item &it )
         }
     }
     if( curammo_effects.count( "BLACKPOWDER" ) ) {
-        if( !it.faults.count( fault_gun_blackpowder ) &&
-            it.faults_potential().count( fault_gun_blackpowder ) ) {
-            it.faults.insert( fault_gun_blackpowder );
-        }
         if( ( it.ammo_data()->ammo->recoil < firing->min_cycle_recoil ) &&
             it.faults_potential().count( fault_gun_chamber_spent ) ) {
             add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
@@ -288,7 +284,7 @@ bool player::handle_gun_damage( item &it )
         it.set_var( "dirt", 10000 );
 
     }
-    if( dirt > 0 && !it.faults.count( fault_gun_blackpowder ) ) {
+    if( dirt > -1 && !it.faults.count( fault_gun_blackpowder ) ) {
         it.faults.insert( fault_gun_dirt );
     }
     if( curammo_effects.count( "BLACKPOWDER" ) ) {
