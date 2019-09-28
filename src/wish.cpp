@@ -421,6 +421,9 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
                 input_context ctxt( wmenu.input_category );
                 cb.msg = string_format( _( "Spawned %d monsters, choose another or [%s] to quit." ),
                                         num_spawned, ctxt.get_desc( "QUIT" ) );
+                if( num_spawned == 0 ) {
+                    cb.msg += _( "\nTarget location is not suitable for placing this kind of monster.  Choose a different target or [i]ncrease the groups size." );
+                }
                 uistate.wishmonster_selected = wmenu.selected;
                 wmenu.redraw();
             }
