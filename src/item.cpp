@@ -3374,11 +3374,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 {
     std::stringstream ret;
 
-    int dirt_level = static_cast<int>( get_var( "dirt", 0 ) / 2000 );
+    int dirt_level = get_var( "dirt", 0 ) / 2000;
     std::string dirt_symbol;
     // TODO: MATERIALS put this in json
 
-    // these symbols are a rough estimation of fouling in a gun. This appears instead of "faulty"
+    // these symbols are unicode square characeters of different heights, representing a rough
+    // estimation of fouling in a gun. This appears instead of "faulty"
     // since most guns will have some level of fouling in them, and usually it is not a big deal.
     switch( dirt_level ) {
         case 0:
