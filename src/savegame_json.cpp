@@ -484,10 +484,6 @@ void Character::load( JsonObject &data )
     _skills->clear();
     JsonObject pmap = data.get_object( "skills" );
     for( const std::string &member : pmap.get_member_names() ) {
-        // FIXME: Fix corrupted bionic power data loading (see #31627). Temporary.
-        if( member == "power_level" || member == "max_power_level" ) {
-            continue;
-        }
         pmap.read( member, ( *_skills )[skill_id( member )] );
     }
 
@@ -505,9 +501,8 @@ void Character::load( JsonObject &data )
     recalc_sight_limits();
     reset_encumbrance();
 
-    // FIXME: Fix corrupted bionic power data loading (see #31627). Temporary.
-    power_level = pmap.get_int( "power_level", data.get_int( "power_level", 0 ) );
-    max_power_level = pmap.get_int( "max_power_level", data.get_int( "max_power_level", 0 ) );
+    data.read( "power_level", power_level );
+    data.read( "max_power_level", max_power_level );
     // Bionic power scale has been changed, savegame version 21 has the new scale
     if( savegame_loading_version <= 20 ) {
         power_level *= 25;
