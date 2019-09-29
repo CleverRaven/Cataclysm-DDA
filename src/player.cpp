@@ -5799,6 +5799,12 @@ void player::suffer()
         add_effect( effect_attention, 3_turns );
     }
 
+    if( has_artifact_with( AEP_BAD_WEATHER ) && calendar::once_every( 1_minutes ) &&
+        g->weather.weather != WEATHER_SNOWSTORM ) {
+        g->weather.weather_override = WEATHER_SNOWSTORM;
+        g->weather.set_nextweather( calendar::turn );
+    }
+
     // Stim +250 kills
     if( stim > 210 ) {
         if( one_turn_in( 2_minutes ) && !has_effect( effect_downed ) ) {
