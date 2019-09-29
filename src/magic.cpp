@@ -210,6 +210,8 @@ void spell_type::load( JsonObject &jo, const std::string & )
         { "timed_event", spell_effect::timed_event },
         { "ter_transform", spell_effect::transform_blast },
         { "vomit", spell_effect::vomit },
+        { "explosion", spell_effect::explosion },
+        { "flashbang", spell_effect::flashbang },
         { "none", spell_effect::none }
     };
 
