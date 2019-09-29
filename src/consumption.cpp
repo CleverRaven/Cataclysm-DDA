@@ -536,6 +536,12 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
                 _( "The thought of eating that makes you feel sick." ) );
     }
 
+    for( const trait_id &mut : get_mutations() ) {
+        if( !food.made_of_any( mut.obj().can_only_eat ) && !mut.obj().can_only_eat.empty() ) {
+            return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION, _( "You can't eat this." ) );
+        }
+    }
+
     return ret_val<edible_rating>::make_success();
 }
 

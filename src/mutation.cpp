@@ -318,6 +318,103 @@ bool Character::has_active_mutation( const trait_id &b ) const
     return iter != my_mutations.end() && iter->second.powered;
 }
 
+bool Character::is_category_allowed( const std::vector<std::string> &category ) const
+{
+    bool allowed = false;
+    bool restricted = false;
+    for( const trait_id &mut : get_mutations() ) {
+        if( !mut.obj().allowed_category.empty() ) {
+            restricted = true;
+        }
+        for( const std::string &Mu_cat : category ) {
+            if( mut.obj().allowed_category.count( Mu_cat ) ) {
+                allowed = true;
+                break;
+            }
+        }
+
+    }
+    if( !restricted ) {
+        allowed = true;
+    }
+    return allowed;
+
+}
+
+bool Character::is_category_allowed( const std::string &category ) const
+{
+    bool allowed = false;
+    bool restricted = false;
+    for( const trait_id &mut : get_mutations() ) {
+        for( const std::string &Ch_cat : mut.obj().allowed_category ) {
+            restricted = true;
+            if( Ch_cat == category ) {
+                allowed = true;
+            }
+        }
+    }
+    if( !restricted ) {
+        allowed = true;
+    }
+    return allowed;
+}
+
+bool Character::is_weak_to_water() const
+{
+    for( const auto &mut : my_mutations ) {
+        if( mut.first.obj().weakness_to_water > 0 ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::can_use_heal_item( const item &med ) const
+{
+    const itype_id heal_id = med.typeId();
+
+    bool can_use = false;
+    bool got_restriction = false;
+
+    for( const trait_id &mut : get_mutations() ) {
+        if( !mut.obj().can_only_heal_with.empty() ) {
+            got_restriction = true;
+        }
+        if( mut.obj().can_only_heal_with.count( heal_id ) ) {
+            can_use = true;
+            break;
+        }
+    }
+    if( !got_restriction ) {
+        can_use = !med.has_flag( "CANT_HEAL_EVERYONE" );
+    }
+
+    if( !can_use ) {
+        for( const trait_id &mut : get_mutations() ) {
+            if( mut.obj().can_heal_with.count( heal_id ) ) {
+                can_use = true;
+                break;
+            }
+        }
+    }
+
+    return can_use;
+}
+
+bool Character::can_install_cbm_on_bp( const std::vector<body_part> &bps ) const
+{
+    bool can_install = true;
+    for( const trait_id &mut : get_mutations() ) {
+        for( const body_part bp : bps ) {
+            if( mut.obj().no_cbm_on_bp.count( bp ) ) {
+                can_install = false;
+                break;
+            }
+        }
+    }
+    return can_install;
+}
+
 void player::activate_mutation( const trait_id &mut )
 {
     const mutation_branch &mdata = mut.obj();
@@ -502,6 +599,9 @@ trait_id Character::trait_by_invlet( const int ch ) const
 
 bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const
 {
+    if( !is_category_allowed( mutation->category ) ) {
+        return false;
+    }
     if( mutation_branch::trait_is_blacklisted( mutation ) ) {
         return false;
     }
@@ -540,6 +640,10 @@ void Character::mutate()
 
     // Determine the highest mutation category
     std::string cat = get_highest_category();
+
+    if( !is_category_allowed( cat ) ) {
+        cat.clear();
+    }
 
     // See if we should upgrade/extend an existing mutation...
     std::vector<trait_id> upgrades;
@@ -638,7 +742,7 @@ void Character::mutate()
         if( cat.empty() ) {
             // Pull the full list
             for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
-                if( traits_iter.valid ) {
+                if( traits_iter.valid && is_category_allowed( traits_iter.category ) ) {
                     valid.push_back( traits_iter.id );
                 }
             }

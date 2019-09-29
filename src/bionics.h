@@ -169,6 +169,9 @@ class bionic_collection : public std::vector<bionic>
 {
 };
 
+/**List of bodyparts occupied by a bionic*/
+std::vector<body_part> get_occupied_bodyparts( const bionic_id &bid );
+
 void check_bionics();
 void finalize_bionics();
 void reset_bionics();

@@ -3683,6 +3683,13 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
     const int limb_power = get_heal_value( healer, hp_arm_l );
     const int torso_bonus = get_heal_value( healer, hp_torso );
 
+    if( !patient.can_use_heal_item( it ) ) {
+        patient.add_msg_player_or_npc( m_bad,
+                                       _( "Your biology is not compatible with that item." ),
+                                       _( "<npcname>'s biology is not compatible with that item." ) );
+        return num_hp_parts; // canceled
+    }
+
     if( healer.is_npc() ) {
         // NPCs heal whatever has sustained the most damaged that they can heal but never
         // rebandage parts
