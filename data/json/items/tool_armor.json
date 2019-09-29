@@ -1214,7 +1214,7 @@
     "name_plural": "RX11 stimulant delivery system",
     "description": "The Rivtech RX11 stimulant delivery system is a jet autoinjector system worn on the user's body.  A simple press of its activator injects powerful chemical stimulants into the bloodstream without using a needle.",
     "price": 40000,
-    "material": [ "superalloy", "kevlar" ],
+    "material": [ "superalloy", "kevlar_rigid" ],
     "flags": [ "OVERSIZE" ],
     "weight": "212 g",
     "volume": "750 ml",

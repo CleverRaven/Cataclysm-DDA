@@ -855,6 +855,7 @@
     "ammo": 50,
     "magazine": 100,
     "items": [
+      [ "awl_steel", 5 ],
       [ "inhaler", 14 ],
       [ "eyedrops", 25 ],
       [ "television", 10 ],
@@ -8829,6 +8830,7 @@
     "id": "museum_primitive",
     "type": "item_group",
     "items": [
+      [ "awl_bone", 50 ],
       [ "primitive_knife", 50 ],
       [ "primitive_axe", 50 ],
       [ "primitive_shovel", 50 ],
@@ -10111,6 +10113,7 @@
     "id": "sewing_group",
     "type": "item_group",
     "items": [
+      [ "awl_steel", 10 ],
       [ "sewing_kit", 1 ],
       [ "tailors_kit", 9 ],
       [ "knitting_needles", 15 ],
