@@ -4078,6 +4078,15 @@ ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bo
     if( !get_option<bool>( "MANUAL_BIONIC_INSTALLATION" ) &&
         !p.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
         return ret_val<bool>::make_failure( _( "You can't self-install bionics." ) );
+    } else if( !p.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+        if( it.has_flag( "FILTHY" ) ) {
+            return ret_val<bool>::make_failure( _( "You can't install a filthy CBM!" ) );
+        } else if( it.has_flag( "NO_STERILE" ) ) {
+            return ret_val<bool>::make_failure( _( "This CBM is not sterile, you can't install it." ) );
+        } else if( it.has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
+            return ret_val<bool>::make_failure(
+                       _( "This is CBM already deployed.  You need to reset it to factory state." ) );
+        }
     }
 
     const bionic_id &bid = it.type->bionic->id;
