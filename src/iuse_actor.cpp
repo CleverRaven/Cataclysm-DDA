@@ -4085,7 +4085,7 @@ ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bo
             return ret_val<bool>::make_failure( _( "This CBM is not sterile, you can't install it." ) );
         } else if( it.has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
             return ret_val<bool>::make_failure(
-                       _( "This is CBM already deployed.  You need to reset it to factory state." ) );
+                       _( "This CBM is already deployed.  You need to reset it to factory state." ) );
         }
     }
 
