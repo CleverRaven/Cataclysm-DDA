@@ -396,6 +396,8 @@ class Creature
          */
         virtual int get_num_blocks() const;
         virtual int get_num_dodges() const;
+        virtual int get_num_blocks_bonus() const;
+        virtual int get_num_dodges_bonus() const;
 
         virtual int get_env_resist( body_part bp ) const;
 
@@ -403,6 +405,8 @@ class Creature
         virtual int get_armor_cut( body_part bp ) const;
         virtual int get_armor_bash_base( body_part bp ) const;
         virtual int get_armor_cut_base( body_part bp ) const;
+        virtual int get_armor_bash_bonus() const;
+        virtual int get_armor_cut_bonus() const;
 
         virtual int get_armor_type( damage_type dt, body_part bp ) const = 0;
 
@@ -442,18 +446,58 @@ class Creature
         virtual std::vector<body_part> get_all_body_parts( bool only_main = false ) const = 0;
 
         virtual int get_speed_base() const;
+        virtual int get_speed_bonus() const;
+        virtual int get_block_bonus() const;
+        virtual int get_bash_bonus() const;
+        virtual int get_cut_bonus() const;
 
         virtual float get_dodge_base() const = 0;
         virtual float get_hit_base() const = 0;
+        virtual float get_dodge_bonus() const;
+        virtual float get_hit_bonus() const;
 
+        virtual float get_bash_mult() const;
+        virtual float get_cut_mult() const;
+
+        virtual bool get_melee_quiet() const;
+        virtual int get_grab_resist() const;
         virtual bool has_grab_break_tec() const = 0;
+        virtual int get_throw_resist() const;
 
         /*
          * Setters for stats and bonuses
          */
         virtual void mod_stat( const std::string &stat, float modifier );
 
+        virtual void set_num_blocks_bonus( int nblocks );
+        virtual void set_num_dodges_bonus( int ndodges );
+
+        virtual void set_armor_bash_bonus( int nbasharm );
+        virtual void set_armor_cut_bonus( int ncutarm );
+
         virtual void set_speed_base( int nspeed );
+        virtual void set_speed_bonus( int nspeed );
+        virtual void set_block_bonus( int nblock );
+        virtual void set_bash_bonus( int nbash );
+        virtual void set_cut_bonus( int ncut );
+
+        virtual void mod_speed_bonus( int nspeed );
+        virtual void mod_block_bonus( int nblock );
+        virtual void mod_bash_bonus( int nbash );
+        virtual void mod_cut_bonus( int ncut );
+
+        virtual void set_dodge_bonus( float ndodge );
+        virtual void set_hit_bonus( float nhit );
+
+        virtual void mod_dodge_bonus( float ndodge );
+        virtual void mod_hit_bonus( float  nhit );
+
+        virtual void set_bash_mult( float nbashmult );
+        virtual void set_cut_mult( float ncutmult );
+
+        virtual void set_melee_quiet( bool nquiet );
+        virtual void set_grab_resist( int ngrabres );
+        virtual void set_throw_resist( int nthrowres );
 
         virtual units::mass weight_capacity() const;
 
@@ -693,9 +737,26 @@ class Creature
 
         int num_blocks; // base number of blocks/dodges per turn
         int num_dodges;
+        int num_blocks_bonus; // bonus ""
+        int num_dodges_bonus;
+
+        int armor_bash_bonus;
+        int armor_cut_bonus;
         int speed_base; // only speed needs a base, the rest are assumed at 0 and calculated off skills
 
+        int speed_bonus;
+        float dodge_bonus;
         int block_bonus;
+        float hit_bonus;
+        int bash_bonus;
+        int cut_bonus;
+
+        float bash_mult;
+        float cut_mult;
+        bool melee_quiet;
+
+        int grab_resist;
+        int throw_resist;
 
         bool fake;
         Creature();

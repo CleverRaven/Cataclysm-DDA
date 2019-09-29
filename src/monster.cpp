@@ -621,6 +621,10 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
     }
 
+    if( has_effect_with_flag( "MODIFIER", num_bp ) ) {
+        wprintz( w, c_light_gray, _( " It is %s." ), size_names.at( get_size() ) );
+    }
+
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
     int numlines = lines.size();
     for( int i = 0; i < numlines && vStart <= vEnd; i++ ) {
@@ -1662,13 +1666,6 @@ bool monster::move_effects( bool )
 void monster::add_effect( const efftype_id &eff_id, const time_duration dur, body_part/*bp*/,
                           bool permanent, int intensity, bool force, bool deferred )
 {
-    // If the effect has modifiers transform into MonsterDynamic.
-    if( eff_id.obj().has_mod() ){
-        MonsterDynamic mnew = new MonsterDynamic( this );
-        g->remove_zombie( this );
-        g->add_zombie( mnew );
-        this = &mnew;
-    }
     // Effects are not applied to specific monster body part
     Creature::add_effect( eff_id, dur, num_bp, permanent, intensity, force, deferred );
 }
@@ -2235,6 +2232,17 @@ bool monster::check_mech_powered() const
     return true;
 }
 
+int monster::get_effect_bonus( std::string arg, bool reduced ) const
+{
+    int rtrn = 0;
+    for( const auto effbody : *effects ) {
+        for( const auto ef : effbody.second ) {
+            rtrn += ef.second.get_mod( arg, reduced );
+        }
+    }
+    return rtrn;
+}
+
 void monster::drop_items_on_death()
 {
     if( is_hallucination() ) {
@@ -2265,6 +2273,13 @@ void monster::process_one_effect( effect &it, bool is_new )
         }
         return it.get_mod( arg, reduced );
     };
+
+    mod_speed_bonus( get_effect( "SPEED", reduced ) );
+    mod_dodge_bonus( get_effect( "DODGE", reduced ) );
+    mod_block_bonus( get_effect( "BLOCK", reduced ) );
+    mod_hit_bonus( get_effect( "HIT", reduced ) );
+    mod_bash_bonus( get_effect( "BASH", reduced ) );
+    mod_cut_bonus( get_effect( "CUT", reduced ) );
 
     int val = get_effect( "HURT", reduced );
     if( val > 0 ) {
@@ -2500,17 +2515,29 @@ field_type_id monster::gibType() const
 
 m_size monster::get_size() const
 {
-    return type->size;
+    if( has_effect_with_flag( "MODIFIER", num_bp ) ) {
+        return m_size( type->size + get_effect_bonus( "GROWTH" ) );
+    } else {
+        return type->size;
+    }
 }
 
 units::mass monster::get_weight() const
 {
-    return type->weight;
+    if( has_effect_with_flag( "MODIFIER", num_bp ) ) {
+        return units::operator*( type->weight, get_size() / type->size );
+    } else {
+        return type->weight;
+    }
 }
 
 units::volume monster::get_volume() const
 {
-    return type->volume;
+    if( has_effect_with_flag( "MODIFIER", num_bp ) ) {
+        return units::operator*( type->volume, get_size() / type->size );
+    } else {
+        return type->volume;
+    }
 }
 
 void monster::add_msg_if_npc( const std::string &msg ) const

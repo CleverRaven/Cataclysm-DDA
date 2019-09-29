@@ -81,7 +81,7 @@ enum monster_horde_attraction {
     NUM_MONSTER_HORDE_ATTRACTION
 };
 
-class monster : public virtual Creature
+class monster : public Creature
 {
         friend class editmap;
     public:
@@ -395,6 +395,9 @@ class monster : public virtual Creature
         bool use_mech_power( int amt );
         bool check_mech_powered() const;
         int mech_str_addition() const;
+        // get an value from the effect data.
+        int get_effect_bonus( std::string arg, bool reduced = false ) const;
+
         /**
          * Makes monster react to heard sound
          *

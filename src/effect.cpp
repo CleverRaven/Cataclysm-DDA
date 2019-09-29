@@ -345,11 +345,15 @@ bool effect_type::load_mod_data( JsonObject &jo, const std::string &member )
 
         // creature stats mod
         extract_effect( j, mod_data, "dodge_mod",    member, "DODGE",  "min" );
-        extract_effect( j, mod_data, "block_mod",    member, "BLOCK",  "min" );
         extract_effect( j, mod_data, "hit_mod",    member, "HIT",  "min" );
         extract_effect( j, mod_data, "bash_mod",    member, "BASH",  "min" );
         extract_effect( j, mod_data, "cut_mod",    member, "CUT",  "min" );
         extract_effect( j, mod_data, "growth_mod",    member, "GROWTH",  "min" );
+
+        // internal flags
+        if( j.has_member( "growth_mod" ) ) {
+            flags.insert( "MODIFIER" );
+        }
 
         return true;
     } else {
@@ -476,11 +480,6 @@ bool effect_type::load_decay_msgs( JsonObject &jo, const std::string &member )
 int effect_type::get_max_intensity() const
 {
     return max_intensity;
-}
-
-bool has_mod() const
-{
-    return mod_data.empty();
 }
 
 effect effect::null_effect;
