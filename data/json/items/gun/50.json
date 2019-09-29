@@ -149,7 +149,7 @@
     "ammo": "50",
     "range": 45,
     "ranged_damage": -5,
-    "dispersion": 100,
+    "dispersion": 110,
     "durability": 8,
     "barrel_length": 5,
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
