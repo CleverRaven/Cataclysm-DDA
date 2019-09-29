@@ -831,28 +831,39 @@ def tlcomment(fs, string):
 def gettextify(string, context=None, plural=None):
     "Put the string in a fake gettext call, and add a newline."
     if context:
-        return "pgettext(%r, %r)\n" % (context, string)
+        if plural:
+            return "npgettext(%r, %r, %r, n)\n" % (context, string, plural)
+        else:
+            return "pgettext(%r, %r)\n" % (context, string)
     else:
         if plural:
             return "ngettext(%r, %r, n)\n" % (string, plural)
         else:
             return "_(%r)\n" % string
 
-def writestr(filename, string, plural=None, context=None, format_strings=False, comment=None):
+def writestr(filename, string, plural=None, context=None, format_strings=False, comment=None, new_pl_fmt=False):
     "Wrap the string and write to the file."
     if type(string) is list and plural is None:
         for entry in string:
             writestr(filename, entry, None, context, format_strings, comment)
         return
     elif type(string) is dict and plural is None:
-        if "ctxt" in string:
-            writestr(filename, string["str"], None, string["ctxt"], format_strings, comment)
-        else:
-            writestr(filename, string["str"], None, None, format_strings, comment)
+        ctxt = string.get( "ctxt" )
+        str_pl = None
+        if new_pl_fmt:
+            if "str_pl" in string:
+                str_pl = string["str_pl"]
+            else:
+                # no "str_pl" entry in json, assuming regular plural form as in item_factory.cpp etc
+                str_pl = "{}s".format(string["str"])
+        writestr(filename, string["str"], str_pl, ctxt, format_strings, comment)
         return
 
     # don't write empty strings
     if not string: return
+    if new_pl_fmt:
+        # no "str_pl" entry in json, assuming regular plural form as in item_factory.cpp etc
+        plural = "{}s".format(string)
 
     with open(filename, 'a', encoding="utf-8", newline='\n') as fs:
         # Append developers comment
