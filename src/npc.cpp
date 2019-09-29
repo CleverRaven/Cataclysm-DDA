@@ -2491,6 +2491,66 @@ std::string npc_attitude_name( npc_attitude att )
     return _( "Unknown attitude" );
 }
 
+std::string npc_job_id( npc_job job )
+{
+    static const std::map<npc_job, std::string> npc_job_ids = {
+        { NPCJOB_NULL, "NPCJOB_NULL" },
+        { NPCJOB_COOKING, "NPCJOB_COOKING" },
+        { NPCJOB_MENIAL, "NPCJOB_MENIAL" },
+        { NPCJOB_VEHICLES, "NPCJOB_VEHICLES" },
+        { NPCJOB_CONSTRUCTING, "NPCJOB_CONSTRUCTING" },
+        { NPCJOB_CRAFTING, "NPCJOB_CRAFTING" },
+        { NPCJOB_SECURITY, "NPCJOB_SECURITY" },
+        { NPCJOB_FARMING, "NPCJOB_FARMING" },
+        { NPCJOB_LUMBERJACK, "NPCJOB_LUMBERJACK" },
+        { NPCJOB_HUSBANDRY, "NPCJOB_HUSBANDRY" },
+        { NPCJOB_HUNTING, "NPCJOB_HUNTING" },
+        { NPCJOB_FORAGING, "NPCJOB_FORAGING" },
+    };
+    const auto &iter = npc_job_ids.find( job );
+    if( iter == npc_job_ids.end() ) {
+        debugmsg( "Invalid job: %d", job );
+        return "NPCJOB_INVALID";
+    }
+
+    return iter->second;
+}
+
+std::string npc_job_name( npc_job job )
+{
+    switch( job ) {
+        case NPCJOB_NULL:
+            return _( "Not much" );
+        case NPCJOB_COOKING:
+            return _( "Cooking" );
+        case NPCJOB_MENIAL:
+            return _( "Tidying and cleaning" );
+        case NPCJOB_VEHICLES:
+            return _( "Vehicle work" );
+        case NPCJOB_CONSTRUCTING:
+            return _( "Building" );
+        case NPCJOB_CRAFTING:
+            return _( "Crafting" );
+        case NPCJOB_SECURITY:
+            return _( "Guarding and patrolling" );
+        case NPCJOB_FARMING:
+            return _( "Working the fields" );
+        case NPCJOB_LUMBERJACK:
+            return _( "Chopping wood" );
+        case NPCJOB_HUSBANDRY:
+            return _( "Caring for the livestock" );
+        case NPCJOB_HUNTING:
+            return _( "Hunting for meat" );
+        case NPCJOB_FORAGING:
+            return _( "Gathering edibles" );
+        default:
+            break;
+    }
+
+    debugmsg( "Invalid job: %d", job );
+    return _( "Unknown job" );
+}
+
 //message related stuff
 
 //message related stuff
@@ -3041,6 +3101,31 @@ void npc::set_mission( npc_mission new_mission )
 bool npc::has_activity() const
 {
     return mission == NPC_MISSION_ACTIVITY && attitude == NPCATT_ACTIVITY;
+}
+
+npc_job npc::get_job() const
+{
+    return job;
+}
+
+void npc::set_job( npc_job new_job )
+{
+    if( new_job == job ) {
+        return;
+    }
+    add_msg( m_debug, "%s changes job to %s.",
+             name, npc_job_id( job ) );
+    job = new_job;
+}
+
+bool npc::has_job() const
+{
+    return job != NPCJOB_NULL;
+}
+
+void npc::remove_job()
+{
+    job = NPCJOB_NULL;
 }
 
 npc_attitude npc::get_attitude() const
