@@ -457,6 +457,7 @@
     "name": "cake",
     "weight": "38 g",
     "color": "white",
+    "spoils_in": "52 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 110,
@@ -472,6 +473,7 @@
     "type": "COMESTIBLE",
     "id": "cake2",
     "name": "cake",
+    "spoils_in": "4 days",
     "copy-from": "jihelucake",
     "description": "Delicious chocolate cake.  It has all the icing.  All of it.",
     "stim": 4
@@ -480,6 +482,7 @@
     "type": "COMESTIBLE",
     "id": "cake3",
     "name": "cake",
+    "spoils_in": "4 days",
     "copy-from": "jihelucake",
     "stim": 8,
     "quench": -5,
