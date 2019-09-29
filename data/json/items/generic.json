@@ -2333,8 +2333,8 @@
     "price": 200,
     "material": [ "flesh" ],
     "flags": [ "NO_SALVAGE" ],
-    "weight": "60 g",
-    "volume": "75 ml",
+    "weight": "100 g",
+    "volume": "125 ml",
     "category": "spare_parts",
     "to_hit": -1
   },
@@ -2364,8 +2364,8 @@
     "price": 200,
     "material": [ "fur", "flesh" ],
     "flags": [ "NO_SALVAGE" ],
-    "weight": "68 g",
-    "volume": "100 ml",
+    "weight": "114 g",
+    "volume": "170 ml",
     "category": "spare_parts",
     "to_hit": -1
   },
