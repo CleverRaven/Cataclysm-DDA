@@ -1756,7 +1756,8 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         selectmenu.addentry( USE_WELDER, true, 'w', _( "Use the welding rig?" ) );
     }
     if( has_purify ) {
-        bool can_purify = fuel_left( "battery" ) >= item::find_type( "water_purifier" )->charges_to_use();
+        bool can_purify = fuel_left( "battery", true ) >=
+                          item::find_type( "water_purifier" )->charges_to_use();
         selectmenu.addentry( USE_PURIFIER, can_purify,
                              'p', _( "Purify water in carried container" ) );
         selectmenu.addentry( PURIFY_TANK, can_purify && fuel_left( "water" ),
@@ -1794,7 +1795,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     }
     auto veh_tool = [&]( const itype_id & obj ) {
         item pseudo( obj );
-        if( fuel_left( "battery" ) < pseudo.ammo_required() ) {
+        if( fuel_left( "battery", true ) < pseudo.ammo_required() ) {
             return false;
         }
         auto capacity = pseudo.ammo_capacity( true );
