@@ -5396,6 +5396,7 @@ void player::suffer()
         mod_hunger( -1 );
         // photosynthesis absorbs kcal directly
         mod_stored_nutr( -1 );
+        stomach.ate();
     }
 
     if( get_pain() > 0 ) {
@@ -5882,6 +5883,12 @@ void player::suffer()
     // Artifact effects
     if( has_artifact_with( AEP_ATTENTION ) ) {
         add_effect( effect_attention, 3_turns );
+    }
+
+    if( has_artifact_with( AEP_BAD_WEATHER ) && calendar::once_every( 1_minutes ) &&
+        g->weather.weather != WEATHER_SNOWSTORM ) {
+        g->weather.weather_override = WEATHER_SNOWSTORM;
+        g->weather.set_nextweather( calendar::turn );
     }
 
     // Stim +250 kills
@@ -7056,7 +7063,7 @@ bool player::consume_med( item &target )
 
 static bool query_consume_ownership( item &target, player &p )
 {
-    if( target.has_owner() && target.get_owner() != p.get_faction() ) {
+    if( !target.is_owned_by( p, true ) ) {
         bool choice = true;
         if( p.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
             choice = Pickup::query_thief();
@@ -7073,8 +7080,8 @@ static bool query_consume_ownership( item &target, player &p )
         for( npc *elem : witnesses ) {
             elem->say( "<witnessed_thievery>", 7 );
         }
-        if( !witnesses.empty() ) {
-            if( g->u.add_faction_warning( target.get_owner()->id ) ) {
+        if( !witnesses.empty() && target.is_owned_by( p, true ) ) {
+            if( g->u.add_faction_warning( target.get_owner() ) ) {
                 for( npc *elem : witnesses ) {
                     elem->make_angry();
                 }

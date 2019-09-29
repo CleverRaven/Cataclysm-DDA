@@ -280,7 +280,7 @@
     "price_postapoc": 120000,
     "to_hit": -3,
     "bashing": 6,
-    "material": [ "kevlar" ],
+    "material": [ "kevlar", "kevlar_rigid" ],
     "symbol": "[",
     "color": "light_gray",
     "covers": [ "TORSO" ],

@@ -2656,14 +2656,10 @@ void npc::find_item()
             followers.push_back( npc_to_add );
         }
         for( auto &elem : followers ) {
-            if( it.has_owner() && it.get_owner() != my_fac && ( elem->sees( this->pos() ) ||
-                    elem->sees( wanted_item_pos ) ) ) {
+            if( !it.is_owned_by( *this, true ) && ( g->u.sees( this->pos() ) || g->u.sees( wanted_item_pos ) ||
+                                                    elem->sees( this->pos() ) || elem->sees( wanted_item_pos ) ) ) {
                 return;
             }
-        }
-        if( it.has_owner() && it.get_owner() != my_fac && ( g->u.sees( this->pos() ) ||
-                g->u.sees( wanted_item_pos ) ) ) {
-            return;
         }
         if( whitelisting && !item_whitelisted( it ) ) {
             return;

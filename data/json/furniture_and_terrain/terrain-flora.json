@@ -1894,6 +1894,7 @@
     "description": "A tree stump, remnant of a tree that has been cut down.",
     "symbol": "^",
     "color": "brown",
+    "looks_like": "t_trunk",
     "move_cost": 3,
     "coverage": 35,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "FLAT_SURF" ],

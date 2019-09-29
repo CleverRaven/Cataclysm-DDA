@@ -321,6 +321,12 @@ void veh_interact::do_main_loop()
 {
     bool finish = false;
     const bool owned_by_player = veh->handle_potential_theft( dynamic_cast<player &>( g->u ), true );
+    faction *owner_fac;
+    if( veh->has_owner() ) {
+        owner_fac = g->faction_manager_ptr->get( veh->get_owner() );
+    } else {
+        owner_fac = g->faction_manager_ptr->get( faction_id( "no_faction" ) );
+    }
     while( !finish ) {
         overview();
         display_mode();
@@ -367,7 +373,9 @@ void veh_interact::do_main_loop()
             if( owned_by_player ) {
                 redraw = do_rename( msg );
             } else {
-                popup( _( "You cannot rename this vehicle as it is owned by: %s." ), _( veh->get_owner()->name ) );
+                if( owner_fac ) {
+                    popup( _( "You cannot rename this vehicle as it is owned by: %s." ), _( owner_fac->name ) );
+                }
                 redraw = true;
             }
         } else if( action == "SIPHON" ) {
@@ -394,15 +402,19 @@ void veh_interact::do_main_loop()
             if( owned_by_player ) {
                 redraw = do_assign_crew( msg );
             } else {
-                popup( _( "You cannot assign crew on this vehicle as it is owned by: %s." ),
-                       _( veh->get_owner()->name ) );
+                if( owner_fac ) {
+                    popup( _( "You cannot assign crew on this vehicle as it is owned by: %s." ),
+                           _( owner_fac->name ) );
+                }
                 redraw = true;
             }
         } else if( action == "RELABEL" ) {
             if( owned_by_player ) {
                 redraw = do_relabel( msg );
             } else {
-                popup( _( "You cannot relabel this vehicle as it is owned by: %s." ), _( veh->get_owner()->name ) );
+                if( owner_fac ) {
+                    popup( _( "You cannot relabel this vehicle as it is owned by: %s." ), _( owner_fac->name ) );
+                }
                 redraw = true;
             }
         } else if( action == "FUEL_LIST_DOWN" ) {
@@ -2336,12 +2348,10 @@ void veh_interact::display_name()
     werase( w_name );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w_name, point( 1, 0 ), c_light_gray, _( "Name: " ) );
-    std::string fac_name = veh->get_owner() && veh->get_owner() != g->u.get_faction() ?
-                           _( veh->get_owner()->name ) : _( "Yours" );
+
     mvwprintz( w_name, point( 1 + utf8_width( _( "Name: " ) ), 0 ),
-               veh->get_owner() != g->u.get_faction() ? c_light_red : c_light_green,
-               string_format( _( "%s (%s)" ), veh->name,
-                              veh->get_owner() == nullptr ? _( "not owned" ) : fac_name ) );
+               !veh->is_owned_by( g->u, true ) ? c_light_red : c_light_green,
+               string_format( _( "%s (%s)" ), veh->name, veh->get_owner_name() ) );
     wrefresh( w_name );
 }
 

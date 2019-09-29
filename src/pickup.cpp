@@ -236,8 +236,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
 
     const auto wield_check = u.can_wield( newit );
 
-    if( newit.has_owner() &&
-        newit.get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
+    if( !newit.is_owned_by( g->u, true ) ) {
         // Has the player given input on if stealing is ok?
         if( u.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
             Pickup::query_thief();
@@ -851,12 +850,9 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     std::string item_name;
                     std::string stolen;
                     bool stealing = false;
-                    if( this_item.has_owner() ) {
-                        const faction *item_fac = this_item.get_owner();
-                        if( item_fac != g->u.get_faction() ) {
-                            stolen = "<color_light_red>!</color>";
-                            stealing = true;
-                        }
+                    if( !this_item.is_owned_by( g->u, true ) ) {
+                        stolen = "<color_light_red>!</color>";
+                        stealing = true;
                     }
                     if( stacked_here[true_it].front()->is_money() ) {
                         //Count charges

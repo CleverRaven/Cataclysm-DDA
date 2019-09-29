@@ -3976,7 +3976,7 @@ void Character::healed_bp( int bp, int amount )
 
 void Character::set_fac_id( const std::string &my_fac_id )
 {
-    fac_id = string_id<faction>( my_fac_id );
+    fac_id = faction_id( my_fac_id );
 }
 
 std::string get_stat_name( Character::stat Stat )

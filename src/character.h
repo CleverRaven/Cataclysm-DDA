@@ -1077,7 +1077,7 @@ class Character : public Creature, public visitable<Character>
         // 2 - allies are in your_followers faction; NPCATT_FOLLOW is follower but not an ally
         // 0 - allies may be in your_followers faction; NPCATT_FOLLOW is an ally (legacy)
         int faction_api_version = 2;  // faction API versioning
-        string_id<faction> fac_id; // A temp variable used to inform the game which faction to link
+        faction_id fac_id; // A temp variable used to inform the game which faction to link
         faction *my_fac = nullptr;
 
     private:

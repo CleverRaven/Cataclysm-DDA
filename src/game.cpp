@@ -843,7 +843,7 @@ bool game::start_game()
         }
     }
     for( auto &e : u.inv_dump() ) {
-        e->set_owner( g->u.get_faction() );
+        e->set_owner( g->u );
     }
     // Now that we're done handling coordinates, ensure the player's submap is in the center of the map
     update_map( u );
@@ -969,6 +969,7 @@ void game::create_starting_npcs()
     tmp->mission = NPC_MISSION_SHELTER;
     tmp->chatbin.first_topic = "TALK_SHELTER";
     tmp->toggle_trait( trait_id( "NPC_STARTING_NPC" ) );
+    tmp->set_fac( faction_id( "no_faction" ) );
     //One random starting NPC mission
     tmp->add_new_mission( mission::reserve_random( ORIGIN_OPENER_NPC, tmp->global_omt_location(),
                           tmp->getID() ) );
@@ -2690,7 +2691,7 @@ void game::load( const save_t &name )
     validate_camps();
     update_map( u );
     for( auto &e : u.inv_dump() ) {
-        e->set_owner( g->u.get_faction() );
+        e->set_owner( g->u );
     }
     // legacy, needs to be here as we access the map.
     if( !u.getID().is_valid() ) {
@@ -7540,13 +7541,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     }
 
     mvwputch( w_monsters_border, point_zero, BORDER_COLOR, LINE_OXXO ); // |^
+    mvwhline( w_monsters_border, point( 1, 0 ), 0, width );
     mvwputch( w_monsters_border, point( width - 1, 0 ), BORDER_COLOR, LINE_OOXX ); // ^|
-
-    mvwputch( w_monsters_border, point( 0, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ), BORDER_COLOR,
-              LINE_XXXO ); // |-
-    mvwputch( w_monsters_border, point( width - 1, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ),
-              BORDER_COLOR,
-              LINE_XOXX ); // -|
 
     for( int i = 1; i < getmaxy( w_monsters ) - 1; i++ ) {
         mvwputch( w_monsters_border, point( 0, i ), BORDER_COLOR, LINE_XOXO ); // |
@@ -7625,10 +7621,21 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         }
 
         if( monster_list.empty() ) {
+            mvwputch( w_monsters_border, point( 0, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ), BORDER_COLOR,
+                      LINE_XOXO ); // |
+            mvwputch( w_monsters_border, point( width - 1, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ),
+                      BORDER_COLOR, LINE_XOXO ); // |
             wrefresh( w_monsters_border );
             mvwprintz( w_monsters, point( 2, 10 ), c_white, _( "You don't see any monsters around you!" ) );
         } else {
             werase( w_monsters );
+
+            mvwputch( w_monsters_border, point( 0, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ), BORDER_COLOR,
+                      LINE_XXXO ); // |-
+            mvwputch( w_monsters_border, point( width - 1, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ),
+                      BORDER_COLOR,
+                      LINE_XOXX ); // -|
+
             const int iNumMonster = monster_list.size();
             const int iMenuSize = monster_list.size() + mSortCategory.size();
 
@@ -7689,10 +7696,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 }
 
                 if( selected && !get_safemode().empty() ) {
-                    for( int i = 1; i < width - 2; i++ ) {
-                        mvwputch( w_monsters_border, point( i, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ), BORDER_COLOR,
-                                  LINE_OXOX ); // -
-                    }
                     const std::string monName = is_npc ? get_safemode().npc_type_name() : m->name();
 
                     std::string sSafemode;
@@ -7702,7 +7705,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                         sSafemode = _( "<A>dd to safemode Blacklist" );
                     }
 
-                    shortcut_print( w_monsters_border, point( 3, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ),
+                    mvwhline( w_monsters, point( 0, getmaxy( w_monsters ) - 2 ), 0, width - 1 );
+                    shortcut_print( w_monsters, point( 1, getmaxy( w_monsters ) - 2 ),
                                     c_white, c_light_green, sSafemode );
                 }
 
@@ -7777,8 +7781,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         for( int j = 0; j < width - 1; j++ ) {
             mvwputch( w_monster_info_border, point( j, iInfoHeight - 1 ), c_light_gray, LINE_OXOX );
         }
-
-        mvwhline( w_monsters, point( 0, getmaxy( w_monsters ) - 2 ), 0, 45 );
 
         for( int i = 1; i < getmaxy( w_monsters ) - 1; i++ ) {
             mvwputch( w_monsters_border, point( 0, i ), BORDER_COLOR, LINE_XOXO ); // |

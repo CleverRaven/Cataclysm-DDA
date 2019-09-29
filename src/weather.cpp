@@ -982,6 +982,9 @@ void weather_manager::update_weather()
         if( weather == WEATHER_SUNNY && is_night( calendar::turn ) ) {
             weather = WEATHER_CLEAR;
         }
+        if( !g->u.has_artifact_with( AEP_BAD_WEATHER ) ) {
+            weather_override = WEATHER_NULL;
+        }
         sfx::do_ambient();
         temperature = w.temperature;
         lightning_active = false;

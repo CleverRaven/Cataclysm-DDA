@@ -205,6 +205,7 @@
     "id": "leather_shop_repair",
     "type": "item_group",
     "items": [
+      [ "awl_steel", 40 ],
       [ "sewing_kit", 5 ],
       [ "tailors_kit", 50 ],
       [ "thread", 10 ],
