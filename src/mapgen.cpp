@@ -6587,17 +6587,16 @@ character_id map::place_npc( const point &p, const string_id<npc_template> &type
 void map::apply_faction_ownership( const point &p1, const point &p2,
                                    const faction_id id )
 {
-    faction *fac = g->faction_manager_ptr->get( id );
     for( const tripoint &p : points_in_rectangle( tripoint( p1, abs_sub.z ), tripoint( p2,
             abs_sub.z ) ) ) {
         auto items = i_at( p.xy() );
         for( item &elem : items ) {
-            elem.set_owner( fac );
+            elem.set_owner( id );
         }
         vehicle *source_veh = veh_pointer_or_null( veh_at( p ) );
         if( source_veh ) {
             if( !source_veh->has_owner() ) {
-                source_veh->set_owner( fac );
+                source_veh->set_owner( id );
             }
         }
     }

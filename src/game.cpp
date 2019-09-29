@@ -843,7 +843,7 @@ bool game::start_game()
         }
     }
     for( auto &e : u.inv_dump() ) {
-        e->set_owner( g->u.get_faction() );
+        e->set_owner( g->u );
     }
     // Now that we're done handling coordinates, ensure the player's submap is in the center of the map
     update_map( u );
@@ -969,6 +969,7 @@ void game::create_starting_npcs()
     tmp->mission = NPC_MISSION_SHELTER;
     tmp->chatbin.first_topic = "TALK_SHELTER";
     tmp->toggle_trait( trait_id( "NPC_STARTING_NPC" ) );
+    tmp->set_fac( faction_id( "no_faction" ) );
     //One random starting NPC mission
     tmp->add_new_mission( mission::reserve_random( ORIGIN_OPENER_NPC, tmp->global_omt_location(),
                           tmp->getID() ) );
@@ -2690,7 +2691,7 @@ void game::load( const save_t &name )
     validate_camps();
     update_map( u );
     for( auto &e : u.inv_dump() ) {
-        e->set_owner( g->u.get_faction() );
+        e->set_owner( g->u );
     }
     // legacy, needs to be here as we access the map.
     if( !u.getID().is_valid() ) {

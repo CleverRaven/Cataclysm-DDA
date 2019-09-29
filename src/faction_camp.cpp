@@ -3584,7 +3584,7 @@ void apply_camp_ownership( const tripoint &camp_pos, int radius )
             camp_pos + point( radius, radius ) ) ) {
         auto items = g->m.i_at( p.xy() );
         for( item &elem : items ) {
-            elem.set_owner( g->u.get_faction() );
+            elem.set_owner( g->u );
         }
     }
 }

@@ -432,7 +432,7 @@ void inventory::form_from_map( map &m, const tripoint &origin, int range, const 
             for( auto &i : m.i_at( p ) ) {
                 // if its *the* player requesting this from from map inventory
                 // then dont allow items owned by another faction to be factored into recipe components etc.
-                if( pl && i.has_owner() && i.get_owner() != pl->get_faction() ) {
+                if( pl && !i.is_owned_by( *pl, true ) ) {
                     continue;
                 }
                 if( !i.made_of( LIQUID ) ) {

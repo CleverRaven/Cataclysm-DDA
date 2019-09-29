@@ -1971,15 +1971,6 @@ void item::io( Archive &archive )
     const auto load_making = [this]( const std::string & id ) {
         making = &recipe_id( id ).obj();
     };
-    const auto load_owner = [this]( const std::string & id ) {
-        owner = g->faction_manager_ptr->get( faction_id( id ), false );
-        if( !owner && !id.empty() ) {
-            // this is a dynamic faction and therefore not loaded yet.
-            // create a stub to be filled in later when factions deserialize.
-            owner = g->faction_manager_ptr->add_new_faction( "temp_name", faction_id( id ),
-                    faction_id( "no_faction" ) );
-        }
-    };
 
     archive.template io<const itype>( "typeid", type, load_type, []( const itype & i ) {
         return i.get_id();
@@ -2003,6 +1994,8 @@ void item::io( Archive &archive )
     archive.io( "player_id", player_id, -1 );
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
     archive.io( "name", corpse_name, std::string() ); // TODO: change default to empty string
+    archive.io( "owner", owner );
+    archive.io( "old_owner", old_owner );
     archive.io( "invlet", invlet, '\0' );
     archive.io( "damaged", damage_, 0 );
     archive.io( "active", active, false );
@@ -2031,10 +2024,6 @@ void item::io( Archive &archive )
     archive.template io<const recipe>( "making", making, load_making,
     []( const recipe & i ) {
         return i.ident().str();
-    } );
-    archive.template io<const faction>( "owner", owner, load_owner,
-    []( const faction & i ) {
-        return i.id.str();
     } );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
@@ -2473,28 +2462,17 @@ void vehicle::deserialize( JsonIn &jsin )
     std::string temp_id;
     std::string temp_old_id;
     data.read( "owner", temp_id );
-    if( !temp_id.empty() ) {
-        owner = g->faction_manager_ptr->get( faction_id( temp_id ), false );
-        if( !owner ) {
-            // this is a dynamic faction and therefore not loaded yet.
-            // create a stub to be filled in later when factions deserialize.
-            owner = g->faction_manager_ptr->add_new_faction( "temp_name", faction_id( temp_id ),
-                    faction_id( "no_faction" ) );
-        }
-    } else {
-        owner = nullptr;
-    }
     data.read( "old_owner", temp_old_id );
-    if( !temp_old_id.empty() ) {
-        old_owner = g->faction_manager_ptr->get( faction_id( temp_old_id ), false );
-        if( !old_owner ) {
-            // this is a dynamic faction and therefore not loaded yet.
-            // create a stub to be filled in later when factions deserialize.
-            old_owner = g->faction_manager_ptr->add_new_faction( "temp_name", faction_id( temp_old_id ),
-                        faction_id( "no_faction" ) );
-        }
+    // for savegames before the change to faction_id for ownership.
+    if( temp_id.empty() ) {
+        owner = faction_id::NULL_ID();
     } else {
-        old_owner = nullptr;
+        owner = faction_id( temp_id );
+    }
+    if( temp_old_id.empty() ) {
+        old_owner = faction_id::NULL_ID();
+    } else {
+        old_owner = faction_id( temp_old_id );
     }
     data.read( "theft_time", theft_time );
 
@@ -2628,8 +2606,8 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "skidding", skidding );
     json.member( "of_turn_carry", of_turn_carry );
     json.member( "name", name );
-    json.member( "owner", owner ? owner->id.str() : "" );
-    json.member( "old_owner", old_owner ? old_owner->id.str() : "" );
+    json.member( "owner", owner );
+    json.member( "old_owner", old_owner );
     json.member( "theft_time", theft_time );
     json.member( "parts", parts );
     json.member( "tags", tags );

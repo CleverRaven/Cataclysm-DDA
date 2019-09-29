@@ -149,6 +149,7 @@ npc::npc()
     moves = 100;
     mission = NPC_MISSION_NULL;
     myclass = npc_class_id::NULL_ID();
+    fac_id = faction_id::NULL_ID();
     patience = 0;
     attitude = NPCATT_NULL;
 
@@ -410,12 +411,10 @@ void npc::randomize( const npc_class_id &type )
     for( int i = 0; i < num_hp_parts; i++ ) {
         hp_cur[i] = hp_max[i];
     }
-
     starting_weapon( myclass );
     starting_clothes( *this, myclass, male );
     starting_inv( *this, myclass );
     has_new_items = true;
-
     empty_traits();
 
     // Add fixed traits
@@ -446,30 +445,40 @@ void npc::randomize_from_faction( faction *fac )
     randomize( npc_class_id::NULL_ID() );
 }
 
-void npc::set_fac( const string_id<faction> &id )
+void npc::set_fac( const faction_id &id )
 {
     if( my_fac ) {
         my_fac->remove_member( getID() );
     }
     my_fac = g->faction_manager_ptr->get( id );
     if( my_fac ) {
-        my_fac->add_to_membership( getID(), disp_name(), known_to_u );
+        if( !is_fake() && !is_hallucination() ) {
+            my_fac->add_to_membership( getID(), disp_name(), known_to_u );
+        }
         fac_id = my_fac->id;
     } else {
         return;
     }
+    apply_ownership_to_inv();
+}
+
+void npc::apply_ownership_to_inv()
+{
     for( auto &e : inv_dump() ) {
-        e->set_owner( my_fac );
+        e->set_owner( *this );
     }
 }
 
-string_id<faction> npc::get_fac_id() const
+faction_id npc::get_fac_id() const
 {
     return fac_id;
 }
 
 faction *npc::get_faction() const
 {
+    if( !my_fac ) {
+        return g->faction_manager_ptr->get( faction_id( "no_faction" ) );
+    }
     return my_fac;
 }
 
@@ -517,7 +526,6 @@ static item get_clothing_item( const npc_class_id &type, const std::string &what
 void starting_clothes( npc &who, const npc_class_id &type, bool male )
 {
     std::vector<item> ret;
-
     if( item_group::group_is_defined( type->worn_override ) ) {
         ret = item_group::items_from( type->worn_override );
     } else {
@@ -546,7 +554,6 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         it.on_takeoff( who );
     }
     who.worn.clear();
-    faction *my_fac = who.get_faction();
     for( item &it : ret ) {
         if( it.has_flag( "VARSIZE" ) ) {
             it.item_tags.insert( "FIT" );
@@ -554,7 +561,7 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         if( who.can_wear( it ).success() ) {
             it.on_wear( who );
             who.worn.push_back( it );
-            it.set_owner( my_fac );
+            it.set_owner( who );
         }
     }
 }
@@ -614,9 +621,8 @@ void starting_inv( npc &who, const npc_class_id &type )
     res.erase( std::remove_if( res.begin(), res.end(), [&]( const item & e ) {
         return e.has_flag( "TRADER_AVOID" );
     } ), res.end() );
-    faction *my_fac = who.get_faction();
     for( auto &it : res ) {
-        it.set_owner( my_fac );
+        it.set_owner( who );
     }
     who.inv += res;
 }
@@ -809,7 +815,7 @@ void npc::starting_weapon( const npc_class_id &type )
     if( weapon.is_gun() ) {
         weapon.ammo_set( weapon.ammo_default() );
     }
-    weapon.set_owner( my_fac );
+    weapon.set_owner( get_faction()->id );
 }
 
 bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
@@ -1522,7 +1528,7 @@ void npc::say( const std::string &line, const int priority ) const
 
 bool npc::wants_to_sell( const item &it ) const
 {
-    if( my_fac != it.get_owner() ) {
+    if( !it.is_owned_by( *this ) ) {
         return false;
     }
     const int market_price = it.price( true );
@@ -1640,7 +1646,7 @@ void npc::shop_restock()
         if( mission == NPC_MISSION_SHOPKEEP && !my_fac->currency.empty() ) {
             item my_currency( my_fac->currency );
             if( !my_currency.is_null() ) {
-                my_currency.set_owner( my_fac );
+                my_currency.set_owner( *this );
                 int my_amount = rng( 5, 15 ) * shop_value / 100 / my_currency.price( true );
                 for( int lcv = 0; lcv < my_amount; lcv++ ) {
                     ret.push_back( my_currency );
@@ -1654,7 +1660,7 @@ void npc::shop_restock()
     while( shop_value > 0 && total_space > 0_ml && !last_item ) {
         item tmpit = item_group::item_from( from, 0 );
         if( !tmpit.is_null() && total_space >= tmpit.volume() ) {
-            tmpit.set_owner( my_fac );
+            tmpit.set_owner( *this );
             ret.push_back( tmpit );
             shop_value -= tmpit.price( true );
             total_space -= tmpit.volume();
@@ -2357,7 +2363,15 @@ void npc::die( Creature *nkiller )
     }
     // if this NPC was the only member of a micro-faction, clean it up.
     if( my_fac ) {
-        my_fac->remove_member( getID() );
+        if( !is_fake() && !is_hallucination() ) {
+            if( my_fac->members.size() == 1 ) {
+                for( auto elem : inv_dump() ) {
+                    elem->remove_owner();
+                    elem->remove_old_owner();
+                }
+            }
+            my_fac->remove_member( getID() );
+        }
     }
     dead = true;
     Character::die( nkiller );

@@ -386,6 +386,9 @@ faction *faction_manager::add_new_faction( const std::string &name_new, const fa
 
 faction *faction_manager::get( const faction_id &id, const bool complain )
 {
+    if( id.is_null() ) {
+        return get( faction_id( "no_faction" ) );
+    }
     for( auto &elem : factions ) {
         if( elem.first == id ) {
             if( !elem.second.validated ) {
