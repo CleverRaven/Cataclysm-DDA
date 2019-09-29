@@ -3,56 +3,36 @@
     "type": "martial_art",
     "id": "style_mma_panzer",
     "name": "Panzer Kunst",
-    "description": "A futuristic martial art devised for cyborgs fighting in zero-gravity environments.",
-    "initiate": [ "You adopt a panzer kust stance.", "%s adopts a panzer kust stance." ],
-    "arm_block": 99,
-    "leg_block": 99,
+    "description": "Panzer Kunst or \"Armor Art\" is a futuristic martial art devised for cyborgs fighting in zero-gravity environments.",
+    "initiate": [ "You adopt a panzer kunst stance.", "%s adopts a panzer kunst stance." ],
+    "learn_difficulty": 10,
     "arm_block_with_bio_armor_arms": true,
     "leg_block_with_bio_armor_legs": true,
     "static_buffs": [
       {
-        "id": "mma_panzer_static",
+        "id": "mma_buff_panzer_static",
         "name": "Schatten Folgen",
+        "description": "\"Shadow Tracking\"\nAs a künstler, you are trained to stay in your target's blind spot.\n\n+1 Dodge attemps, Dodge Skill increased by 12%% of Perception.",
+        "min_unarmed": 0,
         "unarmed_allowed": true,
         "melee_allowed": true,
-        "min_melee": 1,
-        "description": "+1 dodge",
-        "bonus_dodges": 1
+        "bonus_dodges": 1,
+        "flat_bonuses": [ [ "dodge", "per", 0.12 ] ]
       }
     ],
-    "onmove_buffs": [
+    "ondodge_buffs": [
       {
-        "id": "mma_panzer_move",
-        "name": "Einsatzrhythmen",
+        "id": "mma_buff_panzer_ondodge",
+        "name": "Einzug Rüstungen",
+        "description": "\"Armor Penetration\"\nBy attuning to the rhythm of your opponent, you can strike where their guard is the weakest.\+5 bash Armor Penetration.\nLasts 2 turns.",
+        "min_unarmed": 2,
         "unarmed_allowed": true,
         "melee_allowed": true,
-        "min_melee": 3,
-        "description": "Perception increases dodging ability, +1 block",
-        "bonus_blocks": 1,
-        "flat_bonuses": [ [ "dodge", "per", 0.12 ] ],
         "buff_duration": 2,
-        "max_stacks": 1
+        "flat_bonuses": [ [ "hit", 1.0 ], [ "arpen", "bash", "per", 0.5 ], [ "arpen", "cut", "per", 0.5 ], [ "arpen", "stab", "per", 0.5 ] ]
       }
     ],
-    "onhit_buffs": [
-      {
-        "id": "mma_panzer_combo",
-        "name": "Verschlag",
-        "description": "You have imparted a powerful shockwave to your enemy",
-        "unarmed_allowed": true,
-        "min_unarmed": 6,
-        "buff_duration": 2,
-        "max_stacks": 1
-      }
-    ],
-    "techniques": [
-      "mma_tec_panzer_counter_dodge",
-      "mma_tec_panzer_blade",
-      "mma_tec_panzer_appunch",
-      "mma_tec_panzer_rapid",
-      "mma_tec_panzer_stun",
-      "mma_tec_panzer_spin"
-    ],
+    "techniques": [ "mma_tec_panzer_counter", "mma_tec_panzer_somersault", "mma_tec_panzer_precise", "mma_tec_panzer_rapid" ],
     "weapons": [ "bio_claws_weapon", "bio_blade_weapon" ]
   }
 ]
