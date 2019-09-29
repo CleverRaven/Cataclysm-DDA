@@ -587,16 +587,9 @@ void zone_manager::cache_data()
         const std::string &type_hash = elem.get_type_hash();
         auto &cache = area_cache[type_hash];
 
-        tripoint start = elem.get_start_point();
-        tripoint end = elem.get_end_point();
-
         // Draw marked area
-        for( int x = start.x; x <= end.x; ++x ) {
-            for( int y = start.y; y <= end.y; ++y ) {
-                for( int z = start.z; z <= end.z; ++z ) {
-                    cache.insert( tripoint( x, y, z ) );
-                }
-            }
+        for( const tripoint &p : tripoint_range( elem.get_start_point(), elem.get_end_point() ) ) {
+            cache.insert( p );
         }
     }
 }
@@ -613,16 +606,11 @@ void zone_manager::cache_vzones()
         const std::string &type_hash = elem->get_type_hash();
         auto &cache = area_cache[type_hash];
 
-        tripoint start = elem->get_start_point();
-        tripoint end = elem->get_end_point();
+        // @todo looks very similar to the above cache_data - maybe merge it?
 
         // Draw marked area
-        for( int x = start.x; x <= end.x; ++x ) {
-            for( int y = start.y; y <= end.y; ++y ) {
-                for( int z = start.z; z <= end.z; ++z ) {
-                    cache.insert( tripoint( x, y, z ) );
-                }
-            }
+        for( const tripoint &p : tripoint_range( elem->get_start_point(), elem->get_end_point() ) ) {
+            cache.insert( p );
         }
     }
 }

@@ -13,6 +13,7 @@
 #include "mapdata.h"
 #include "memorial_logger.h"
 #include "messages.h"
+#include "map_iterator.h"
 #include "morale_types.h"
 #include "options.h"
 #include "rng.h"
@@ -102,35 +103,32 @@ void timed_event::actualize()
         case TIMED_EVENT_AMIGARA: {
             g->events().send<event_type::angers_amigara_horrors>();
             int num_horrors = rng( 3, 5 );
-            int faultx = -1;
-            int faulty = -1;
+            cata::optional<tripoint> fault_point;
             bool horizontal = false;
-            for( int x = 0; x < MAPSIZE_X && faultx == -1; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y && faulty == -1; y++ ) {
-                    if( g->m.ter( point( x, y ) ) == t_fault ) {
-                        faultx = x;
-                        faulty = y;
-                        horizontal = g->m.ter( point( x - 1, y ) ) == t_fault || g->m.ter( point( x + 1, y ) ) == t_fault;
-                    }
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                if( g->m.ter( p ) == t_fault ) {
+                    fault_point = p;
+                    horizontal = g->m.ter( p + tripoint_east ) == t_fault || g->m.ter( p + tripoint_west ) == t_fault;
+                    break;
                 }
             }
-            for( int i = 0; i < num_horrors; i++ ) {
+            for( int i = 0; fault_point && i < num_horrors; i++ ) {
                 int tries = 0;
                 int monx = -1;
                 int mony = -1;
                 do {
                     if( horizontal ) {
-                        monx = rng( faultx, faultx + 2 * SEEX - 8 );
+                        monx = rng( fault_point->x, fault_point->x + 2 * SEEX - 8 );
                         for( int n = -1; n <= 1; n++ ) {
-                            if( g->m.ter( point( monx, faulty + n ) ) == t_rock_floor ) {
-                                mony = faulty + n;
+                            if( g->m.ter( point( monx, fault_point->y + n ) ) == t_rock_floor ) {
+                                mony = fault_point->y + n;
                             }
                         }
                     } else { // Vertical fault
-                        mony = rng( faulty, faulty + 2 * SEEY - 8 );
+                        mony = rng( fault_point->y, fault_point->y + 2 * SEEY - 8 );
                         for( int n = -1; n <= 1; n++ ) {
-                            if( g->m.ter( point( faultx + n, mony ) ) == t_rock_floor ) {
-                                monx = faultx + n;
+                            if( g->m.ter( point( fault_point->x + n, mony ) ) == t_rock_floor ) {
+                                monx = fault_point->x + n;
                             }
                         }
                     }
@@ -146,11 +144,9 @@ void timed_event::actualize()
 
         case TIMED_EVENT_ROOTS_DIE:
             g->events().send<event_type::destroys_triffid_grove>();
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( point( x, y ) ) == t_root_wall && one_in( 3 ) ) {
-                        g->m.ter_set( point( x, y ), t_underbrush );
-                    }
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                if( g->m.ter( p ) == t_root_wall && one_in( 3 ) ) {
+                    g->m.ter_set( p, t_underbrush );
                 }
             }
             break;
@@ -158,13 +154,11 @@ void timed_event::actualize()
         case TIMED_EVENT_TEMPLE_OPEN: {
             g->events().send<event_type::opens_temple>();
             bool saw_grate = false;
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( point( x, y ) ) == t_grate ) {
-                        g->m.ter_set( point( x, y ), t_stairs_down );
-                        if( !saw_grate && g->u.sees( tripoint( x, y, g->get_levz() ) ) ) {
-                            saw_grate = true;
-                        }
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                if( g->m.ter( p ) == t_grate ) {
+                    g->m.ter_set( p, t_stairs_down );
+                    if( !saw_grate && g->u.sees( p ) ) {
+                        saw_grate = true;
                     }
                 }
             }
@@ -178,39 +172,33 @@ void timed_event::actualize()
             bool flooded = false;
 
             ter_id flood_buf[MAPSIZE_X][MAPSIZE_Y];
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    flood_buf[x][y] = g->m.ter( point( x, y ) );
-                }
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                flood_buf[p.x][p.y] = g->m.ter( p );
             }
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( point( x, y ) ) == t_water_sh ) {
-                        bool deepen = false;
-                        for( int wx = x - 1;  wx <= x + 1 && !deepen; wx++ ) {
-                            for( int wy = y - 1;  wy <= y + 1 && !deepen; wy++ ) {
-                                if( g->m.ter( point( wx, wy ) ) == t_water_dp ) {
-                                    deepen = true;
-                                }
-                            }
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                if( g->m.ter( p ) == t_water_sh ) {
+                    bool deepen = false;
+                    for( const tripoint &w : points_in_radius( p, 1 ) ) {
+                        if( g->m.ter( w ) == t_water_dp ) {
+                            deepen = true;
+                            break;
                         }
-                        if( deepen ) {
-                            flood_buf[x][y] = t_water_dp;
-                            flooded = true;
+                    }
+                    if( deepen ) {
+                        flood_buf[p.x][p.y] = t_water_dp;
+                        flooded = true;
+                    }
+                } else if( g->m.ter( p ) == t_rock_floor ) {
+                    bool flood = false;
+                    for( const tripoint &w : points_in_radius( p, 1 ) ) {
+                        if( g->m.ter( w ) == t_water_dp || g->m.ter( w ) == t_water_sh ) {
+                            flood = true;
+                            break;
                         }
-                    } else if( g->m.ter( point( x, y ) ) == t_rock_floor ) {
-                        bool flood = false;
-                        for( int wx = x - 1;  wx <= x + 1 && !flood; wx++ ) {
-                            for( int wy = y - 1;  wy <= y + 1 && !flood; wy++ ) {
-                                if( g->m.ter( point( wx, wy ) ) == t_water_dp || g->m.ter( point( wx, wy ) ) == t_water_sh ) {
-                                    flood = true;
-                                }
-                            }
-                        }
-                        if( flood ) {
-                            flood_buf[x][y] = t_water_sh;
-                            flooded = true;
-                        }
+                    }
+                    if( flood ) {
+                        flood_buf[p.x][p.y] = t_water_sh;
+                        flooded = true;
                     }
                 }
             }
@@ -218,7 +206,7 @@ void timed_event::actualize()
                 return;    // We finished flooding the entire chamber!
             }
             // Check if we should print a message
-            if( flood_buf[g->u.posx()][g->u.posy()] != g->m.ter( point( g->u.posx(), g->u.posy() ) ) ) {
+            if( flood_buf[g->u.posx()][g->u.posy()] != g->m.ter( g->u.pos() ) ) {
                 if( flood_buf[g->u.posx()][g->u.posy()] == t_water_sh ) {
                     add_msg( m_warning, _( "Water quickly floods up to your knees." ) );
                     g->memorial().add(
@@ -233,10 +221,8 @@ void timed_event::actualize()
                 }
             }
             // flood_buf is filled with correct tiles; now copy them back to g->m
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    g->m.ter_set( point( x, y ), flood_buf[x][y] );
-                }
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                g->m.ter_set( p, flood_buf[p.x][p.y] );
             }
             g->timed_events.add( TIMED_EVENT_TEMPLE_FLOOD,
                                  calendar::turn + rng( 2_turns, 3_turns ) );

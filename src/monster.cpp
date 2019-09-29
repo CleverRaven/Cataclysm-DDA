@@ -2143,16 +2143,10 @@ void monster::die( Creature *nkiller )
         // submap coordinates.
         const tripoint abssub = ms_to_sm_copy( g->m.getabs( pos() ) );
         // Do it for overmap above/below too
-        for( int z = 1; z >= -1; --z ) {
-            for( int x = -HALF_MAPSIZE; x <= HALF_MAPSIZE; x++ ) {
-                for( int y = -HALF_MAPSIZE; y <= HALF_MAPSIZE; y++ ) {
-                    tripoint offset( x, y, z );
-                    std::vector<mongroup *> groups = overmap_buffer.groups_at( abssub + offset );
-                    for( auto &mgp : groups ) {
-                        if( MonsterGroupManager::IsMonsterInGroup( mgp->type, type->id ) ) {
-                            mgp->dying = true;
-                        }
-                    }
+        for( const tripoint &p : points_in_radius( abssub, HALF_MAPSIZE, 1 ) ) {
+            for( auto &mgp : overmap_buffer.groups_at( p ) ) {
+                if( MonsterGroupManager::IsMonsterInGroup( mgp->type, type->id ) ) {
+                    mgp->dying = true;
                 }
             }
         }

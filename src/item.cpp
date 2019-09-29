@@ -3470,7 +3470,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
     if( has_flag( "ETHEREAL_ITEM" ) ) {
-        ret << " (" << get_var( "ethereal" ) << " turns)";
+        ret << string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
     } else if( goes_bad() || is_food() ) {
         if( item_tags.count( "DIRTY" ) ) {
             ret << _( " (dirty)" );
@@ -8035,7 +8035,7 @@ void item::reset_temp_check()
 
 void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
 {
-    if( !is_artifact() && !is_relic() ) {
+    if( !is_artifact() ) {
         return;
     }
     // Artifacts are currently only useful for the player character, the messages
@@ -8045,6 +8045,30 @@ void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
     if( carrier == &g->u ) {
         g->process_artifact( *this, *carrier );
     }
+}
+
+void item::process_relic( Character *carrier )
+{
+    if( !is_relic() ) {
+        return;
+    }
+    std::vector<enchantment> active_enchantments;
+
+    for( const enchantment &ench : get_enchantments() ) {
+        if( ench.is_active( *carrier, *this ) ) {
+            active_enchantments.emplace_back( ench );
+        }
+    }
+
+    for( const enchantment &ench : active_enchantments ) {
+        ench.activate_passive( *carrier );
+    }
+
+    // Recalculate, as it might have changed (by mod_*_bonus above)
+    carrier->str_cur = carrier->get_str();
+    carrier->int_cur = carrier->get_int();
+    carrier->dex_cur = carrier->get_dex();
+    carrier->per_cur = carrier->get_per();
 }
 
 bool item::process_corpse( player *carrier, const tripoint &pos )
@@ -8468,7 +8492,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
         set_var( "ethereal", std::stoi( get_var( "ethereal" ) ) - 1 );
         const bool processed = std::stoi( get_var( "ethereal" ) ) <= 0;
         if( processed && carrier != nullptr ) {
-            carrier->add_msg_if_player( _( "%s %s disappears!" ), carrier->disp_name( true ), tname() );
+            carrier->add_msg_if_player( _( "Your %s disappears!" ), tname() );
         }
         return processed;
     }

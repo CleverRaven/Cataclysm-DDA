@@ -725,11 +725,23 @@ bool avatar_action::fire( avatar &you, map &m )
     // TODO: move handling "RELOAD_AND_SHOOT" flagged guns to a separate function.
     if( gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
         if( !gun->ammo_remaining() ) {
-            item::reload_option opt =
-                you.ammo_location &&
-                gun->can_reload_with( you.ammo_location->typeId() ) ?
-                item::reload_option( &you, args.relevant, args.relevant, you.ammo_location ) :
-                you.select_ammo( *gun );
+            const auto ammo_location_is_valid = [&]() -> bool {
+                if( !you.ammo_location )
+                {
+                    return false;
+                }
+                if( !gun->can_reload_with( you.ammo_location->typeId() ) )
+                {
+                    return false;
+                }
+                if( square_dist( you.pos(), you.ammo_location.position() ) > 1 )
+                {
+                    return false;
+                }
+                return true;
+            };
+            item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, args.relevant,
+                                      args.relevant, you.ammo_location ) : you.select_ammo( *gun );
             if( !opt ) {
                 // Menu canceled
                 return false;
@@ -759,6 +771,9 @@ bool avatar_action::fire( avatar &you, map &m )
     g->temp_exit_fullscreen();
     m.draw( g->w_terrain, you.pos() );
     std::vector<tripoint> trajectory = target_handler().target_ui( you, args );
+
+    //may be changed in target_ui
+    gun = args.relevant->gun_current_mode();
 
     if( trajectory.empty() ) {
         bool not_aiming = you.activity.id() != activity_id( "ACT_AIM" );

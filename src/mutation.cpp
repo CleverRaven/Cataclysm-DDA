@@ -430,14 +430,10 @@ void player::activate_mutation( const trait_id &mut )
             return;
         }
         // Check for adjacent trees.
-        const tripoint p = pos();
         bool adjacent_tree = false;
-        for( int dx = -1; dx <= 1; dx++ ) {
-            for( int dy = -1; dy <= 1; dy++ ) {
-                const tripoint p2 = p + point( dx, dy );
-                if( g->m.has_flag( "TREE", p2 ) ) {
-                    adjacent_tree = true;
-                }
+        for( const tripoint &p2 : g->m.points_in_radius( pos(), 1 ) ) {
+            if( g->m.has_flag( "TREE", p2 ) ) {
+                adjacent_tree = true;
             }
         }
         if( !adjacent_tree ) {

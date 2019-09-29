@@ -36,6 +36,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "point.h"
+#include "magic_enchantment.h"
 
 struct pathfinding_settings;
 class item_location;
@@ -486,6 +487,11 @@ class Character : public Creature, public visitable<Character>
 
         std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
     public:
+        // recalculates enchantment cache by iterating through all held, worn, and wielded items
+        void recalculate_enchantment_cache();
+        // gets add and mult value from enchantment cache
+        double calculate_by_enchantment( double modify, enchantment::mod value,
+                                         bool round_output = false ) const;
         /** Handles things like destruction of armor, etc. */
         void mutation_effect( const trait_id &mut );
         /** Handles what happens when you lose a mutation. */
@@ -1055,6 +1061,10 @@ class Character : public Creature, public visitable<Character>
         faction *my_fac = nullptr;
 
     private:
+        // a cache of all active enchantment values.
+        // is recalculated every turn in Character::recalculate_enchantment_cache
+        enchantment enchantment_cache;
+
         // A unique ID number, assigned by the game class. Values should never be reused.
         character_id id;
 
