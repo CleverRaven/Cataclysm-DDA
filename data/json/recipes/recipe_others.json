@@ -3782,7 +3782,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ],
+      [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ],
       [ [ "raw_leather", 1 ], [ "raw_tainted_leather", 1 ], [ "raw_hleather", 1 ] ]
     ]
   },
@@ -3883,7 +3883,7 @@
       { "id": "CONTAIN", "level": 1 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "water_clean", 1 ], [ "water", 1 ] ], [ [ "lye_powder", 10 ], [ "aspirin", 10 ] ], [ [ "cured_hide", 6 ] ] ]
+    "components": [ [ [ "water_clean", 2 ], [ "water", 2 ] ], [ [ "lye_powder", 10 ], [ "aspirin", 10 ] ], [ [ "cured_hide", 6 ] ] ]
   },
   {
     "type": "recipe",
