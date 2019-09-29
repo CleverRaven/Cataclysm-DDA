@@ -8390,8 +8390,8 @@ static bool multicooker_hallu( player &p )
             } else {
                 p.add_msg_if_player( m_info, _( "You're surrounded by aggressive multi-cookers!" ) );
 
-                for( const tripoint &p : g->m.points_in_radius( p.pos(), 1 ) ) {
-                    if( monster *const m = g->place_critter_at( mon_hallu_multicooker, p ) ) {
+                for( const tripoint &pn : g->m.points_in_radius( p.pos(), 1 ) ) {
+                    if( monster *const m = g->place_critter_at( mon_hallu_multicooker, pn ) ) {
                         m->hallucination = true;
                     }
                 }
