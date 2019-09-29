@@ -7693,10 +7693,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                 }
 
                 if( selected && !get_safemode().empty() ) {
-                    for( int i = 1; i < width - 2; i++ ) {
-                        mvwputch( w_monsters_border, point( i, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ), BORDER_COLOR,
-                                  LINE_OXOX ); // -
-                    }
+                    mvwhline( w_monsters, point( 0, getmaxy( w_monsters ) - 2 ), 0, 45 );
+
                     const std::string monName = is_npc ? get_safemode().npc_type_name() : m->name();
 
                     std::string sSafemode;
@@ -7706,7 +7704,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                         sSafemode = _( "<A>dd to safemode Blacklist" );
                     }
 
-                    shortcut_print( w_monsters_border, point( 3, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ),
+
+                    shortcut_print( w_monsters, point( 1, getmaxy( w_monsters ) - 2 ),
                                     c_white, c_light_green, sSafemode );
                 }
 
@@ -7781,8 +7780,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         for( int j = 0; j < width - 1; j++ ) {
             mvwputch( w_monster_info_border, point( j, iInfoHeight - 1 ), c_light_gray, LINE_OXOX );
         }
-
-        mvwhline( w_monsters, point( 0, getmaxy( w_monsters ) - 2 ), 0, 45 );
 
         for( int i = 1; i < getmaxy( w_monsters ) - 1; i++ ) {
             mvwputch( w_monsters_border, point( 0, i ), BORDER_COLOR, LINE_XOXO ); // |
