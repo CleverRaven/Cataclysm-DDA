@@ -185,7 +185,7 @@
     "name_plural": "magnesium powder",
     "description": "A gray powder composed of the highly flammable alkaline earth metal magnesium.  Useful for constructing flares and similar items.",
     "weight": "1120 mg",
-    "//": "Weight should be 1.1g because: density 1.74g/cm³ ~ 0.44kg/250ml and density of aluminium 2.70g/cm³ = 675g/250ml => magnesium is 64% the weight of aluminium and at 250ml aluminium powder has a weight of ~0.176kg at 250ml, assuming same particle size => magnesium powder has a weight of ~0.112kg at 250ml => 1.12g per magnesium powder unit",
+    "//": "Weight should be 1.12g because magnesium is 64% less dense than aluminum (1.74g/cm³ vs 2.70g/cm³), at 250ml aluminium powder has a weight of ~0.176kg at 250ml, assuming same particle size => magnesium powder has a weight of ~0.112kg at 250ml",
     "volume": "250 ml",
     "price": 5000,
     "count": 100,
