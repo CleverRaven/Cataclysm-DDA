@@ -24,7 +24,7 @@
       {
         "id": "mma_buff_panzer_ondodge",
         "name": "Einzug Rüstungen",
-        "description": "\"Armor Penetration\"\nBy attuning to the rhythm of your opponent, you can strike where their guard is the weakest.\+5 bash Armor Penetration.\nLasts 2 turns.",
+        "description": "\"Armor Penetration\"\nBy attuning to the rhythm of your opponent, you can strike where their guard is the weakest.\n+5 bash Armor Penetration.\nLasts 2 turns.",
         "min_unarmed": 2,
         "unarmed_allowed": true,
         "melee_allowed": true,
