@@ -1330,8 +1330,13 @@ bool player::fuel_bionic_with( item &it )
     const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
 
     const int loadable = std::min( it.charges, get_fuel_capacity( it.typeId() ) );
+    const std::string str_loaded  = get_value( it.typeId() );
+    int loaded = 0;
+    if( !str_loaded.empty() ) {
+        loaded = std::stoi( str_loaded );
+    }
 
-    const std::string new_charge = std::to_string( loadable + std::stoi( get_value( it.typeId() ) ) );
+    const std::string new_charge = std::to_string( loadable + loaded );
 
     it.charges -= loadable;
     set_value( it.typeId(), new_charge );// type and amount of fuel
