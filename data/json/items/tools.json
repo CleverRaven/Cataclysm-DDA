@@ -6224,68 +6224,6 @@
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
   {
-    "id": "tool_rdx_sand_bomb",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "RDX sand bomb",
-    "description": "This is a steel pipe, containing a mixture of RDX and sand, the former propelling the latter into a deadly mist of vicious shrapnel.  Use this item to light the fuse.",
-    "weight": "2000 g",
-    "volume": "500 ml",
-    "price": 1000,
-    "to_hit": -2,
-    "bashing": 4,
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "red",
-    "explode_in_fire": true,
-    "explosion": {
-      "power": 300,
-      "//": "Fire exposure would burn away the RDX, leaving the HMTD detonator as nearly the sole source of the blast.",
-      "shrapnel": { "casing_mass": 1000, "fragment_mass": 0.01 }
-    },
-    "use_action": {
-      "target": "tool_rdx_sand_bomb_act",
-      "msg": "You light the fuse on the sand bomb.  Throw it!",
-      "target_charges": 20,
-      "active": true,
-      "need_fire": 1,
-      "menu_text": "Light fuse",
-      "type": "transform"
-    },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
-  },
-  {
-    "id": "tool_rdx_sand_bomb_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "active RDX sand bomb",
-    "description": "This is a steel pipe, containing a mixture of RDX and sand, the former propelling the latter into a deadly mist of vicious shrapnel.  The fuse has been lit, so why are you still holding it?",
-    "weight": "2000 g",
-    "volume": "500 ml",
-    "price": 0,
-    "to_hit": -2,
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "light_red",
-    "initial_charges": 20,
-    "max_charges": 20,
-    "turns_per_charge": 1,
-    "explode_in_fire": true,
-    "explosion": {
-      "power": 300,
-      "//": "Fire exposure would burn away the RDX, leaving the HMTD detonator as nearly the sole source of the blast.",
-      "shrapnel": { "casing_mass": 1000, "fragment_mass": 0.01 }
-    },
-    "use_action": {
-      "type": "explosion",
-      "sound_volume": 0,
-      "sound_msg": "Kshhh.",
-      "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
-      "explosion": { "power": 1340, "shrapnel": { "casing_mass": 1000, "fragment_mass": 0.01 } }
-    },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
-  },
-  {
     "id": "tool_rocket_candy",
     "type": "TOOL",
     "category": "weapons",
