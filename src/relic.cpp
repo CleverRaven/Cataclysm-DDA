@@ -89,7 +89,7 @@ int relic::activate( Creature &caster, const tripoint &target ) const
 {
     caster.moves -= moves;
     for( const fake_spell &sp : active_effects ) {
-        sp.get_spell().cast_all_effects( caster, target );
+        sp.get_spell( sp.level ).cast_all_effects( caster, target );
     }
     return charges_per_activation;
 }
