@@ -5396,6 +5396,7 @@ void player::suffer()
         mod_hunger( -1 );
         // photosynthesis absorbs kcal directly
         mod_stored_nutr( -1 );
+        stomach.ate();
     }
 
     if( get_pain() > 0 ) {
