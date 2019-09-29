@@ -758,5 +758,27 @@
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_lentils",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 3 ], [ "vitC", 1 ], [ "vitB", 1 ] ]
+  },
+ {
+    "type": "COMESTIBLE",
+    "id": "fiddlehead_raw",
+    "name": "handful of fiddleheads",
+    "name_plural": "handfuls of fiddleheads",
+    "weight": "50 g",
+    "flags": [ "FREEZERBURN"],
+    "color": "light_green",
+    "spoils_in": "2 days 12 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 18,
+    "description": "A handful of immature fern fronds, still curled up like the head of a fiddle. Delicious when cooked, but consuming raw can cause food poisoning.",
+    "price": 40,
+    "material": "veggy",
+    "volume": "62 ml",
+    "fun": -10,
+    "healthy": -2,
+    "//" : "Fiddleheads that haven't been boiled can make you sick.",
+    "vitamins": [ [ "vitC", 6 ], [ "vitA", 10 ], [ "calcium", 4 ] ],
+    "rot_spawn": "GROUP_ROTTING_PLANT"
   }
 ]
