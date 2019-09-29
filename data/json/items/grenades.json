@@ -366,52 +366,6 @@
     "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
-    "id": "sand_bomb",
-    "type": "TOOL",
-    "name": "sand bomb",
-    "description": "A crude and bulky improvised bomb. Made from a container, an explosive surrounded by sand or small glass shards and a fuse.  Use this item to light the fuse.  You will then have five turns before it explodes; throwing it would be a good idea.",
-    "category": "weapons",
-    "weight": "470 g",
-    "volume": "500 ml",
-    "bashing": 4,
-    "to_hit": 1,
-    "price": 900,
-    "material": [ "aluminum", "iron" ],
-    "symbol": "*",
-    "color": "green",
-    "explode_in_fire": true,
-    "explosion": { "power": 5, "shrapnel": { "casing_mass": 45, "fragment_mass": 0.1 } },
-    "use_action": {
-      "target": "sand_bomb_act",
-      "msg": "You light the fuse on the %s.",
-      "target_charges": 5,
-      "active": true,
-      "need_fire": 1,
-      "menu_text": "Light fuse",
-      "type": "transform"
-    },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NO_REPAIR" ]
-  },
-  {
-    "id": "sand_bomb_act",
-    "copy-from": "sand_bomb",
-    "type": "TOOL",
-    "name": "active sand bomb",
-    "description": "A crude and bulky improvised bomb. Made from a container, an explosive surrounded by sand or small glass shards and a fuse. The fuse has been lit, you should throw it.",
-    "price": 0,
-    "initial_charges": 5,
-    "max_charges": 5,
-    "turns_per_charge": 1,
-    "use_action": {
-      "type": "explosion",
-      "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
-      "sound_volume": 0,
-      "sound_msg": "ssss...",
-      "explosion": { "power": 5, "shrapnel": { "casing_mass": 45, "fragment_mass": 0.1 } }
-    },
-    "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
-  },
-  {
     "id": "can_bomb",
     "type": "TOOL",
     "category": "weapons",
@@ -454,51 +408,6 @@
       "sound_volume": 0,
       "sound_msg": "ssss...",
       "explosion": { "power": 8, "shrapnel": { "casing_mass": 12, "fragment_mass": 0.4 } }
-    },
-    "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
-  },
-  {
-    "id": "glass_bomb",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "glass bomb",
-    "description": "This is a glass container filled with explosive and with a bit of fuse sticking out of it. Will produce a damaging mist of broken glass, probably good against unarmored targets.",
-    "weight": "452 g",
-    "volume": "250 ml",
-    "price": 2500,
-    "to_hit": -2,
-    "material": [ "steel", "plastic" ],
-    "symbol": "*",
-    "color": "red",
-    "explode_in_fire": true,
-    "explosion": { "power": 3, "shrapnel": { "casing_mass": 33, "fragment_mass": 0.1 } },
-    "use_action": {
-      "target": "glass_bomb_act",
-      "msg": "You light the fuse on the bottle bomb.",
-      "target_charges": 5,
-      "active": true,
-      "need_fire": 1,
-      "menu_text": "Light fuse",
-      "type": "transform"
-    },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NO_REPAIR" ]
-  },
-  {
-    "id": "glass_bomb_act",
-    "copy-from": "glass_bomb",
-    "type": "TOOL",
-    "name": "active glass bomb",
-    "description": "This is a glass container filled with explosive and with a bit of fuse sticking out of it. Will produce a damaging mist of broken glass, probably good against unarmored targets. The fuse has been lit, you should throw it.",
-    "price": 0,
-    "initial_charges": 5,
-    "max_charges": 5,
-    "turns_per_charge": 1,
-    "use_action": {
-      "type": "explosion",
-      "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
-      "sound_volume": 0,
-      "sound_msg": "ssss...",
-      "explosion": { "power": 3, "shrapnel": { "casing_mass": 33, "fragment_mass": 0.1 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
   },
