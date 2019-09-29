@@ -135,7 +135,19 @@
       ],
       "terrain": {  },
       "furniture": {  },
-      "palettes": [ "steel_mill_palette" ]
+      "palettes": [ "steel_mill_palette" ],
+      "place_items": [
+        { "item": "homebooks", "x": 19, "y": 7, "chance": 30 },
+        { "item": "homebooks", "x": 24, "y": 7, "chance": 30 },
+        { "item": "homebooks", "x": 26, "y": 4, "chance": 30 },
+        { "item": "homebooks", "x": 31, "y": 4, "chance": 30 },
+        { "item": "snacks", "x": 31, "y": 7, "chance": 30 },
+        { "item": "office_paper", "x": [ 26, 27 ], "y": 7, "chance": 30 },
+        { "item": "office", "x": [ 16, 18 ], "y": 5, "chance": 30 },
+        { "item": "office", "x": [ 21, 22 ], "y": 5, "chance": 30 },
+        { "item": "office", "x": 23, "y": 5, "chance": 30 },
+        { "item": "office", "x": [ 27, 29 ], "y": 5, "chance": 30 }
+      ]
     }
   }
 ]
