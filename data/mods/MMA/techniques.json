@@ -15,7 +15,7 @@
   {
     "type": "technique",
     "id": "mma_tec_panzer_somersault",
-    "name": "Kumai Sharin Kyaku",
+    "name": "Kumai Sharinraku",
     "//": "No translation on wiki. It's a Somersault Kick.",
     "messages": [ "You jump and somersault kick %s", "<npcname> jump and somersault kick %s" ],
     "min_unarmed": 0,
