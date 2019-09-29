@@ -7780,6 +7780,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             mvwputch( w_monster_info_border, point( j, iInfoHeight - 1 ), c_light_gray, LINE_OXOX );
         }
 
+        mvwputch( w_monsters_border, point( 0, TERMY - iInfoHeight - 1 - VIEW_OFFSET_Y * 2 ), BORDER_COLOR,
+                  LINE_XXXO ); // |-
+
         for( int i = 1; i < getmaxy( w_monsters ) - 1; i++ ) {
             mvwputch( w_monsters_border, point( 0, i ), BORDER_COLOR, LINE_XOXO ); // |
             mvwputch( w_monsters_border, point( width - 1, i ), BORDER_COLOR, LINE_XOXO ); // |
