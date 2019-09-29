@@ -153,7 +153,6 @@
     "durability": 8,
     "barrel_length": 5,
     "default_mods": [ "bipod", "rifle_scope", "muzzle_brake" ],
-    "reload": 100,
     "clip_size": 1,
     "flags": [ "NEVER_JAMS", "RELOAD_ONE" ]
   }
