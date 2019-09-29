@@ -3621,7 +3621,7 @@
     "components": [
       [ [ "flour", 1 ] ],
       [ [ "milk_standard_raw", 1, "LIST" ], [ "milk_powder", 1 ] ],
-      [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "powder_eggs", 1 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
       [ [ "syrup", 1 ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
