@@ -250,35 +250,37 @@ bool player::handle_gun_damage( item &it )
             }
         }
     }
-    if( curammo_effects.count( "BLACKPOWDER" ) ) {
-        if( ( it.ammo_data()->ammo->recoil < firing->min_cycle_recoil ) &&
-            it.faults_potential().count( fault_gun_chamber_spent ) && ( it.type->gun->ups_charges < 1 ) ) {
-            add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
-                                   _( "<npcname>'s %s fails to cycle!" ),
-                                   it.tname() );
-            it.faults.insert( fault_gun_chamber_spent );
-            // Don't return false in this case; this shot happens, follow-up ones won't.
+    if( !curammo_effects.count( "NON-FOULING" ) ) {
+        if( curammo_effects.count( "BLACKPOWDER" ) ) {
+            if( ( it.ammo_data()->ammo->recoil < firing->min_cycle_recoil ) &&
+                it.faults_potential().count( fault_gun_chamber_spent ) ) {
+                add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
+                                       _( "<npcname>'s %s fails to cycle!" ),
+                                       it.tname() );
+                it.faults.insert( fault_gun_chamber_spent );
+                // Don't return false in this case; this shot happens, follow-up ones won't.
+            }
         }
-    }
-    // These are the dirtying/fouling mechanics
-    if( dirt < 10000 ) {
-        dirtadder = curammo_effects.count( "BLACKPOWDER" ) * ( 200 - ( firing->blackpowder_tolerance *
-                    2 ) );
-        if( dirtadder < 0 ) {
-            dirtadder = 0;
+        // These are the dirtying/fouling mechanics
+        if( dirt < 10000 ) {
+            dirtadder = curammo_effects.count( "BLACKPOWDER" ) * ( 200 - ( firing->blackpowder_tolerance *
+                        2 ) );
+            if( dirtadder < 0 ) {
+                dirtadder = 0;
+            }
+            it.set_var( "dirt", std::min( 10000, dirt + dirtadder + 1 ) );
         }
-        it.set_var( "dirt", std::min( 10000, dirt + dirtadder + 1 ) );
+        dirt = it.get_var( "dirt", 0 );
+        dirt_dbl = static_cast<double>( dirt );
+        if( dirt > 0 && !it.faults.count( fault_gun_blackpowder ) ) {
+            it.faults.insert( fault_gun_dirt );
+        }
+        if( dirt > 0 && curammo_effects.count( "BLACKPOWDER" ) ) {
+            it.faults.erase( fault_gun_dirt );
+            it.faults.insert( fault_gun_blackpowder );
+        }
+        // end fouling mechanics
     }
-    dirt = it.get_var( "dirt", 0 );
-    dirt_dbl = static_cast<double>( dirt );
-    if( dirt > 0 && !it.faults.count( fault_gun_blackpowder ) ) {
-        it.faults.insert( fault_gun_dirt );
-    }
-    if( dirt > 0 && curammo_effects.count( "BLACKPOWDER" ) ) {
-        it.faults.erase( fault_gun_dirt );
-        it.faults.insert( fault_gun_blackpowder );
-    }
-    // end fouling mechanics
     if( dirt_dbl > 5000 &&
         x_in_y( dirt_dbl * dirt_dbl * dirt_dbl, 5555555555555 ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the high pressure!" ),
