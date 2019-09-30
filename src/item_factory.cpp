@@ -180,7 +180,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     // use pre-cataclysm price as default if post-cataclysm price unspecified
-    if( obj.price_post < 0 ) {
+    if( obj.price_post < 0_cent ) {
         obj.price_post = obj.price;
     }
     // use base volume if integral volume unspecified
@@ -864,7 +864,7 @@ void Item_factory::check_definitions() const
                 msg << "invalid stack_size " << type->stack_size << " on type using charges\n";
             }
         }
-        if( type->price < 0 ) {
+        if( type->price < 0_cent ) {
             msg << "negative price" << "\n";
         }
         if( type->damage_min() > 0 || type->damage_max() < 0 || type->damage_min() > type->damage_max() ) {
@@ -1215,7 +1215,7 @@ const itype *Item_factory::find_template( const itype_id &id ) const
     def->id = id;
     def->name = string_format( "undefined-%ss", id.c_str() );
     def->name_plural = string_format( "undefined-%s", id.c_str() );
-    def->description = string_format( "Missing item definition for %s.", id.c_str() );
+    def->description = no_translation( string_format( "Missing item definition for %s.", id.c_str() ) );
 
     m_runtimes[ id ].reset( def );
     return def;
@@ -1799,7 +1799,7 @@ void Item_factory::load( islot_seed &slot, JsonObject &jo, const std::string & )
 {
     assign( jo, "grow", slot.grow, false, 1_days );
     slot.fruit_div = jo.get_int( "fruit_div", 1 );
-    slot.plant_name = _( jo.get_string( "plant_name" ) );
+    jo.read( "plant_name", slot.plant_name );
     slot.fruit_id = jo.get_string( "fruit" );
     slot.spawn_seeds = jo.get_bool( "seeds", true );
     slot.byproducts = jo.get_string_array( "byproducts" );
@@ -1833,7 +1833,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     assign( jo, "consume_chance", slot.consume_chance );
     assign( jo, "consume_divisor", slot.consume_divisor );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
-    assign( jo, "ups_charges", slot.ups_charges );
+    assign( jo, "ups_charges_multiplier", slot.ups_charges_multiplier );
     if( jo.has_int( "time" ) ) {
         slot.install_time = jo.get_int( "time" );
     } else if( jo.has_string( "time" ) ) {
@@ -2041,8 +2041,8 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     assign( jo, "weight", def.weight, strict, 0_gram );
     assign( jo, "integral_weight", def.integral_weight, strict, 0_gram );
     assign( jo, "volume", def.volume );
-    assign( jo, "price", def.price );
-    assign( jo, "price_postapoc", def.price_post );
+    assign( jo, "price", def.price, false, 0_cent );
+    assign( jo, "price_postapoc", def.price_post, false, 0_cent );
     assign( jo, "stackable", def.stackable_, strict );
     assign( jo, "integral_volume", def.integral_volume );
     assign( jo, "bashing", def.melee[DT_BASH], strict, 0 );
@@ -2082,7 +2082,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     }
 
     if( jo.has_string( "description" ) ) {
-        def.description = jo.get_string( "description" );
+        jo.read( "description", def.description );
     }
 
     if( jo.has_string( "symbol" ) ) {

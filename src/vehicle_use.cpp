@@ -1542,7 +1542,8 @@ void vehicle::use_harness( int part, const tripoint &pos )
             return false;
         }
         monster &f = *mon_ptr;
-        return ( f.friendly != 0 && f.has_flag( MF_PET_MOUNTABLE ) );
+        return ( f.friendly != 0 && ( f.has_flag( MF_PET_MOUNTABLE ) ||
+                                      f.has_flag( MF_PET_HARNESSABLE ) ) );
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -1558,17 +1559,22 @@ void vehicle::use_harness( int part, const tripoint &pos )
         return;
     }
     monster &m = *mon_ptr;
+    std::string Harness_Bodytype = "HARNESS_" + m.type->bodytype;
     if( m.friendly == 0 ) {
         add_msg( m_info, _( "This creature is not friendly!" ) );
         return;
-    } else if( !m.has_flag( MF_PET_MOUNTABLE ) ) {
+    } else if( !m.has_flag( MF_PET_MOUNTABLE ) && !m.has_flag( MF_PET_HARNESSABLE ) ) {
         add_msg( m_info, _( "This creature cannot be harnessed." ) );
+        return;
+    } else if( !part_flag( part, Harness_Bodytype ) && !part_flag( part, "HARNESS_any" ) ) {
+        add_msg( m_info, _( "The harness is not adapted for this creature morphology." ) );
         return;
     }
 
     m.add_effect( effect_harnessed, 1_turns, num_bp, true );
     m.setpos( pos );
-    add_msg( m_info, _( "You harness your %s to the %s." ), m.get_name(), name );
+    //~ %1$s: monster name, %2$s: vehicle name
+    add_msg( m_info, _( "You harness your %1$s to %2$s." ), m.get_name(), disp_name() );
     if( m.has_effect( effect_tied ) ) {
         add_msg( m_info, _( "You untie your %s." ), m.get_name() );
         m.remove_effect( effect_tied );
@@ -1736,7 +1742,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( curtain_part >= 0 && curtain_closed ) {
         selectmenu.addentry( PEEK_CURTAIN, true, 'p', _( "Peek through the closed curtains" ) );
     }
-    if( ( has_kitchen || has_chemlab ) && fuel_left( "battery" ) > 0 ) {
+    if( ( has_kitchen || has_chemlab ) && fuel_left( "battery", true ) > 0 ) {
         selectmenu.addentry( USE_HOTPLATE, true, 'h', _( "Use the hotplate" ) );
     }
     if( has_faucet && fuel_left( "water_clean" ) > 0 ) {
@@ -1746,11 +1752,12 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( has_towel ) {
         selectmenu.addentry( USE_TOWEL, true, 't', _( "Use a towel" ) );
     }
-    if( has_weldrig && fuel_left( "battery" ) > 0 ) {
-        selectmenu.addentry( USE_WELDER, true, 'w', _( "Use the welding rig?" ) );
+    if( has_weldrig && fuel_left( "battery", true ) > 0 ) {
+        selectmenu.addentry( USE_WELDER, true, 'w', _( "Use the welding rig" ) );
     }
     if( has_purify ) {
-        bool can_purify = fuel_left( "battery" ) >= item::find_type( "water_purifier" )->charges_to_use();
+        bool can_purify = fuel_left( "battery", true ) >=
+                          item::find_type( "water_purifier" )->charges_to_use();
         selectmenu.addentry( USE_PURIFIER, can_purify,
                              'p', _( "Purify water in carried container" ) );
         selectmenu.addentry( PURIFY_TANK, can_purify && fuel_left( "water" ),
@@ -1788,7 +1795,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     }
     auto veh_tool = [&]( const itype_id & obj ) {
         item pseudo( obj );
-        if( fuel_left( "battery" ) < pseudo.ammo_required() ) {
+        if( fuel_left( "battery", true ) < pseudo.ammo_required() ) {
             return false;
         }
         auto capacity = pseudo.ammo_capacity( true );
@@ -1878,7 +1885,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             auto &tank = veh_interact::select_part( *this, sel, title );
             if( tank ) {
                 double cost = item::find_type( "water_purifier" )->charges_to_use();
-                if( fuel_left( "battery" ) < tank.ammo_remaining() * cost ) {
+                if( fuel_left( "battery", true ) < tank.ammo_remaining() * cost ) {
                     //~ $1 - vehicle name, $2 - part name
                     add_msg( m_bad, _( "Insufficient power to purify the contents of the %1$s's %2$s" ),
                              name, tank.name() );

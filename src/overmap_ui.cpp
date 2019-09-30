@@ -835,19 +835,26 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             maxlen = std::max( maxlen, utf8_width( line.second ) );
         }
 
+        mvwputch( w, point_south_east, c_white, LINE_OXXO );
+        for( int i = 0; i <= maxlen; i++ ) {
+            mvwputch( w, point( i + 2, 1 ), c_white, LINE_OXOX );
+        }
+        mvwputch( w, point( 1, corner_text.size() + 2 ), c_white, LINE_XXOO );
         const std::string spacer( maxlen, ' ' );
         for( size_t i = 0; i < corner_text.size(); i++ ) {
             const auto &pr = corner_text[ i ];
-            // clear line, print line, print vertical line at the right side.
-            mvwprintz( w, point( 0, i ), c_yellow, spacer );
+            // clear line, print line, print vertical line on each side.
+            mvwputch( w, point( 1, i + 2 ), c_white, LINE_XOXO );
+            mvwprintz( w, point( 2, i + 2 ), c_yellow, spacer );
             nc_color default_color = c_unset;
-            print_colored_text( w, point( 0, i ), default_color, pr.first, pr.second );
-            mvwputch( w, point( maxlen, i ), c_white, LINE_XOXO );
+            print_colored_text( w, point( 2, i + 2 ), default_color, pr.first, pr.second );
+            mvwputch( w, point( maxlen + 2, i + 2 ), c_white, LINE_XOXO );
         }
+        mvwputch( w, point( maxlen + 2, 1 ), c_white, LINE_OOXX );
         for( int i = 0; i <= maxlen; i++ ) {
-            mvwputch( w, point( i, corner_text.size() ), c_white, LINE_OXOX );
+            mvwputch( w, point( i + 2, corner_text.size() + 2 ), c_white, LINE_OXOX );
         }
-        mvwputch( w, point( maxlen, corner_text.size() ), c_white, LINE_XOOX );
+        mvwputch( w, point( maxlen + 2, corner_text.size() + 2 ), c_white, LINE_XOOX );
     }
 
     if( !sZoneName.empty() && tripointZone.xy() == center.xy() ) {
@@ -1093,26 +1100,24 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
     std::vector<point> locations;
     std::vector<point> overmap_checked;
 
-    for( int x = curs.x - OMAPX / 2; x < curs.x + OMAPX / 2; x++ ) {
-        for( int y = curs.y - OMAPY / 2; y < curs.y + OMAPY / 2; y++ ) {
-            tripoint p( x, y, curs.z );
-            overmap_with_local_coords om_loc = overmap_buffer.get_existing_om_global( p );
+    const int radius = OMAPX / 2; // arbitrary
+    for( const tripoint &p : points_in_radius( curs, radius ) ) {
+        overmap_with_local_coords om_loc = overmap_buffer.get_existing_om_global( p );
 
-            if( om_loc ) {
-                tripoint om_relative = om_loc.local;
-                point om_cache = omt_to_om_copy( p.xy() );
+        if( om_loc ) {
+            tripoint om_relative = om_loc.local;
+            point om_cache = omt_to_om_copy( p.xy() );
 
-                if( std::find( overmap_checked.begin(), overmap_checked.end(), om_cache ) ==
-                    overmap_checked.end() ) {
-                    overmap_checked.push_back( om_cache );
-                    std::vector<point> notes = om_loc.om->find_notes( curs.z, term );
-                    locations.insert( locations.end(), notes.begin(), notes.end() );
-                }
+            if( std::find( overmap_checked.begin(), overmap_checked.end(),
+                           om_cache ) == overmap_checked.end() ) {
+                overmap_checked.push_back( om_cache );
+                std::vector<point> notes = om_loc.om->find_notes( curs.z, term );
+                locations.insert( locations.end(), notes.begin(), notes.end() );
+            }
 
-                if( om_loc.om->seen( om_relative ) &&
-                    match_include_exclude( om_loc.om->ter( om_relative )->get_name(), term ) ) {
-                    locations.push_back( om_loc.om->global_base_point() + om_relative.xy() );
-                }
+            if( om_loc.om->seen( om_relative ) &&
+                match_include_exclude( om_loc.om->ter( om_relative )->get_name(), term ) ) {
+                locations.push_back( om_loc.om->global_base_point() + om_relative.xy() );
             }
         }
     }

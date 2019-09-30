@@ -24,6 +24,7 @@
 #include "rng.h"
 #include "trap.h"
 #include "veh_type.h"
+#include "mapgendata.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
 #include "vpart_position.h"
@@ -412,9 +413,11 @@ static void mx_helicopter( map &m, const tripoint &abs_sub )
                 break;
         }
         if( !one_in( 4 ) ) {
-            wreckage->smash( 0.8f, 1.2f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1, 10 ) );
+            wreckage->smash( m, 0.8f, 1.2f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1,
+                             10 ) );
         } else {
-            wreckage->smash( 0.1f, 0.9f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1, 10 ) );
+            wreckage->smash( m, 0.1f, 0.9f, 1.0f, point( dice( 1, 8 ) - 5, dice( 1, 8 ) - 5 ), 6 + dice( 1,
+                             10 ) );
         }
     }
 }
@@ -655,6 +658,7 @@ static void mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
     m.place_npc( leader_pos.xy(), string_id<npc_template>( "marloss_voice" ) );
     for( int spawned = 0 ; spawned <= max_followers ; spawned++ ) {
         tripoint where = random_entry( spawnzone );
+        /// @todo wrong: this access the main game map, not m. Also accesses creatures currently loaded.
         if( g->is_empty( where ) ) {
             one_in( 2 ) ? m.add_spawn( mon_marloss_zealot_f, 1,
                                        where.xy() ) : m.add_spawn( mon_marloss_zealot_m, 1, where.xy() );
@@ -907,6 +911,7 @@ static void mx_portal( map &m, const tripoint &abs_sub )
         // Get a random location from our points that is not the portal location, does not have the
         // NO_FLOOR flag, and isn't currently occupied by a creature.
         const cata::optional<tripoint> mon_pos = random_point( points, [&]( const tripoint & p ) {
+            /// @todo wrong: this checks for creatures on the main game map. Not within the map m.
             return !m.has_flag_ter( TFLAG_NO_FLOOR, p ) && *portal_pos != p && !g->critter_at( p );
         } );
 
@@ -955,7 +960,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         line_furn( &m, f_sandbag_half, 9, 4, 9, 7 );
 
         //7.62x51mm casings left from m60 of the humvee
-        for( const auto &loc : g->m.points_in_radius( { 6, 4, abs_sub.z }, 3, 0 ) ) {
+        for( const auto &loc : m.points_in_radius( { 6, 4, abs_sub.z }, 3, 0 ) ) {
             if( one_in( 4 ) ) {
                 m.spawn_item( loc, "762_51_casing" );
             }
@@ -972,7 +977,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         line_furn( &m, f_sandbag_half, 20, 3, 20, 6 );
 
         //5.56x45mm casings left from a soldier
-        for( const auto &loc : g->m.points_in_radius( { 17, 4, abs_sub.z }, 2, 0 ) ) {
+        for( const auto &loc : m.points_in_radius( { 17, 4, abs_sub.z }, 2, 0 ) ) {
             if( one_in( 4 ) ) {
                 m.spawn_item( loc, "223_casing" );
             }
@@ -1068,7 +1073,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         if( one_in( 2 ) ) {
             m.add_splatter_trail( fd_blood, { 9, 15, abs_sub.z }, { 11, 18, abs_sub.z } );
             m.add_splatter_trail( fd_blood, { 11, 18, abs_sub.z }, { 11, 21, abs_sub.z } );
-            for( const auto &loc : g->m.points_in_radius( { 11, 21, abs_sub.z }, 1 ) ) {
+            for( const auto &loc : m.points_in_radius( { 11, 21, abs_sub.z }, 1 ) ) {
                 //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                 if( one_in( 2 ) ) {
                     m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
@@ -1087,7 +1092,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         }
 
         //5.56x45mm casings left from another soldier
-        for( const auto &loc : g->m.points_in_radius( { 15, 15, abs_sub.z }, 2, 0 ) ) {
+        for( const auto &loc : m.points_in_radius( { 15, 15, abs_sub.z }, 2, 0 ) ) {
             if( one_in( 4 ) ) {
                 m.spawn_item( loc, "223_casing" );
             }
@@ -1126,7 +1131,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
                     m.add_corpse( { x, y, abs_sub.z } );
-                    for( const auto &loc : g->m.points_in_radius( { x, y, abs_sub.z }, 1 ) ) {
+                    for( const auto &loc : m.points_in_radius( { x, y, abs_sub.z }, 1 ) ) {
                         //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
                             m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
@@ -1270,7 +1275,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
                     m.add_corpse( { x, y, abs_sub.z } );
-                    for( const auto &loc : g->m.points_in_radius( { x, y, abs_sub.z }, 1 ) ) {
+                    for( const auto &loc : m.points_in_radius( { x, y, abs_sub.z }, 1 ) ) {
                         //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
                             m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
@@ -1404,7 +1409,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
                     m.add_corpse( { x, y, abs_sub.z } );
-                    for( const auto &loc : g->m.points_in_radius( { x, y, abs_sub.z }, 1 ) ) {
+                    for( const auto &loc : m.points_in_radius( { x, y, abs_sub.z }, 1 ) ) {
                         //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
                             m.add_field( { loc.xy(), abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
@@ -1529,7 +1534,7 @@ static void mx_portal_in( map &m, const tripoint &abs_sub )
         case 1: {
             m.add_field( portal_location, fd_fatigue, 3 );
             fungal_effects fe( *g, m );
-            for( const auto &loc : g->m.points_in_radius( portal_location, 5 ) ) {
+            for( const auto &loc : m.points_in_radius( portal_location, 5 ) ) {
                 if( one_in( 3 ) ) {
                     fe.marlossify( loc );
                 }
@@ -1541,7 +1546,7 @@ static void mx_portal_in( map &m, const tripoint &abs_sub )
         //Netherworld monsters spawning around the portal
         case 2: {
             m.add_field( portal_location, fd_fatigue, 3 );
-            for( const auto &loc : g->m.points_in_radius( portal_location, 5 ) ) {
+            for( const auto &loc : m.points_in_radius( portal_location, 5 ) ) {
                 m.place_spawns( GROUP_NETHER_PORTAL, 15, loc.xy() + point( -5, -5 ), loc.xy() + point( 5, 5 ), 1,
                                 true );
             }
@@ -1623,7 +1628,7 @@ static void mx_portal_in( map &m, const tripoint &abs_sub )
         case 6: {
             //Mi-go went through the portal and began constructing their base of operations
             m.add_field( portal_location, fd_fatigue, 3 );
-            for( const auto &loc : g->m.points_in_radius( portal_location, 5 ) ) {
+            for( const auto &loc : m.points_in_radius( portal_location, 5 ) ) {
                 m.place_spawns( GROUP_MI_GO_CAMP_OM, 30, loc.xy() + point( -5, -5 ), loc.xy() + point( 5, 5 ), 1,
                                 true );
             }
@@ -2386,7 +2391,7 @@ static void mx_mayhem( map &m, const tripoint &abs_sub )
             m.add_corpse( { 16, 9, abs_sub.z } );
             m.add_field( { 16, 9, abs_sub.z }, fd_blood, rng( 1, 3 ) );
 
-            for( const auto &loc : g->m.points_in_radius( { 16, 3, abs_sub.z }, 1 ) ) {
+            for( const auto &loc : m.points_in_radius( { 16, 3, abs_sub.z }, 1 ) ) {
                 if( one_in( 2 ) ) {
                     m.spawn_item( loc, "9mm_casing" );
                 }
@@ -2406,7 +2411,7 @@ static void mx_mayhem( map &m, const tripoint &abs_sub )
 
             m.add_splatter_trail( fd_blood, { 16, 8, abs_sub.z }, { 16, 12, abs_sub.z } );
 
-            for( const auto &loc : g->m.points_in_radius( { 12, 11, abs_sub.z }, 2 ) ) {
+            for( const auto &loc : m.points_in_radius( { 12, 11, abs_sub.z }, 2 ) ) {
                 if( one_in( 3 ) ) {
                     m.spawn_item( loc, "223_casing" );
                 }
@@ -2423,16 +2428,14 @@ static void mx_mayhem( map &m, const tripoint &abs_sub )
             m.spawn_item( { 16, 16, abs_sub.z }, "wrench" );
 
             if( one_in( 2 ) ) { //Unknown people killed and robbed the poor guy
-                item body = item::make_corpse();
-                m.put_items_from_loc( "default_zombie_clothes", { 16, 15, abs_sub.z } );
-                m.add_item_or_charges( { 16, 15, abs_sub.z }, body );
+                m.put_items_from_loc( "everyday_corpse", { 16, 15, abs_sub.z } );
                 m.spawn_item( { 21, 15, abs_sub.z }, "shot_hull" );
             } else { //Wolves charged to the poor guy...
                 m.add_corpse( { 16, 15, abs_sub.z } );
                 m.add_splatter_trail( fd_gibs_flesh, { 16, 13, abs_sub.z }, { 16, 16, abs_sub.z } );
                 m.add_field( { 15, 15, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
 
-                for( const auto &loc : g->m.points_in_radius( { 16, 15, abs_sub.z }, 1 ) ) {
+                for( const auto &loc : m.points_in_radius( { 16, 15, abs_sub.z }, 1 ) ) {
                     if( one_in( 2 ) ) {
                         m.spawn_item( loc, "9mm_casing" );
                     }
@@ -2442,14 +2445,14 @@ static void mx_mayhem( map &m, const tripoint &abs_sub )
                 item body = item::make_corpse( mon_wolf );
                 if( one_in( 2 ) ) { //...from the north
                     for( int i = 0; i < max_wolves; i++ ) {
-                        const auto &loc = g->m.points_in_radius( { 12, 12, abs_sub.z }, 3 );
+                        const auto &loc = m.points_in_radius( { 12, 12, abs_sub.z }, 3 );
                         const tripoint where = random_entry( loc );
                         m.add_item_or_charges( where, body );
                         m.add_field( where, fd_blood, rng( 1, 3 ) );
                     }
                 } else { //...from the south
                     for( int i = 0; i < max_wolves; i++ ) {
-                        const auto &loc = g->m.points_in_radius( { 12, 18, abs_sub.z }, 3 );
+                        const auto &loc = m.points_in_radius( { 12, 18, abs_sub.z }, 3 );
                         const tripoint where = random_entry( loc );
                         m.add_item_or_charges( where, body );
                         m.add_field( where, fd_blood, rng( 1, 3 ) );
@@ -2470,7 +2473,7 @@ static void mx_casings( map &m, const tripoint &abs_sub )
         case 1: {
             const tripoint location = { rng( 1, SEEX * 2 - 2 ), rng( 1, SEEY * 2 - 2 ), abs_sub.z };
             //Spawn casings
-            for( const auto &loc : g->m.points_in_radius( location, rng( 1, 2 ) ) ) {
+            for( const auto &loc : m.points_in_radius( location, rng( 1, 2 ) ) ) {
                 if( one_in( 2 ) ) {
                     m.spawn_items( loc, items );
                 }
@@ -2561,12 +2564,12 @@ static void mx_casings( map &m, const tripoint &abs_sub )
             const auto first_items = item_group::items_from( "ammo_casings", calendar::turn );
             const auto second_items = item_group::items_from( "ammo_casings", calendar::turn );
 
-            for( const auto &loc : g->m.points_in_radius( first_loc, rng( 1, 2 ) ) ) {
+            for( const auto &loc : m.points_in_radius( first_loc, rng( 1, 2 ) ) ) {
                 if( one_in( 2 ) ) {
                     m.spawn_items( loc, first_items );
                 }
             }
-            for( const auto &loc : g->m.points_in_radius( second_loc, rng( 1, 2 ) ) ) {
+            for( const auto &loc : m.points_in_radius( second_loc, rng( 1, 2 ) ) ) {
                 if( one_in( 2 ) ) {
                     m.spawn_items( loc, second_items );
                 }
@@ -2610,6 +2613,7 @@ static void mx_looters( map &m, const tripoint &abs_sub )
 {
     const tripoint center( rng( 5, SEEX * 2 - 5 ), rng( 5, SEEY * 2 - 5 ), abs_sub.z );
     //25% chance to spawn a corpse with some blood around it
+    /// @todo wrong: this access the main game map, not m. Also accesses creatures currently loaded.
     if( one_in( 4 ) && g->is_empty( center ) ) {
         const auto &loc = m.points_in_radius( center, 1 );
         m.add_corpse( center );
@@ -2623,6 +2627,7 @@ static void mx_looters( map &m, const tripoint &abs_sub )
     const int num_looters = rng( 1, 5 );
     for( int i = 0; i < num_looters; i++ ) {
         const tripoint pos = random_entry( m.points_in_radius( center, rng( 1, 4 ) ) );
+        /// @todo wrong: this access the main game map, not m. Also accesses creatures currently loaded.
         if( g->is_empty( pos ) ) {
             if( one_in( 2 ) ) {
                 m.place_npc( pos.xy(), string_id<npc_template>( "bandit" ) );
@@ -2640,9 +2645,10 @@ static void mx_corpses( map &m, const tripoint &abs_sub )
     //Spawn up to 5 human corpses in random places
     for( int i = 0; i < num_corpses; i++ ) {
         const tripoint corpse_location = { rng( 1, SEEX * 2 - 1 ), rng( 1, SEEY * 2 - 1 ), abs_sub.z };
+        /// @todo wrong: this access the main game map, not m. Also accesses creatures currently loaded.
         if( g->is_empty( corpse_location ) ) {
             m.add_field( corpse_location, fd_blood, rng( 1, 3 ) );
-            m.add_corpse( corpse_location, true );
+            m.put_items_from_loc( "everyday_corpse", corpse_location );
             //50% chance to spawn blood in every tile around every corpse in 1-tile radius
             for( const auto &loc : m.points_in_radius( corpse_location, 1 ) ) {
                 if( one_in( 2 ) ) {
@@ -2728,22 +2734,8 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
         case map_extra_method::mapgen: {
             tripoint over( abs_sub );
             sm_to_omt( over );
-            const regional_settings *rsettings = &overmap_buffer.get_settings( over );
-            const oter_id terrain_type = overmap_buffer.ter( over );
-            const oter_id t_above = overmap_buffer.ter( over + tripoint_above );
-            const oter_id t_below = overmap_buffer.ter( over + tripoint_below );
-            const oter_id t_north = overmap_buffer.ter( over + tripoint_north );
-            const oter_id t_north_east = overmap_buffer.ter( over + tripoint_north_east );
-            const oter_id t_east  = overmap_buffer.ter( over + tripoint_east );
-            const oter_id t_south_east = overmap_buffer.ter( over + tripoint_south_east );
-            const oter_id t_south = overmap_buffer.ter( over + tripoint_south );
-            const oter_id t_south_west = overmap_buffer.ter( over + tripoint_south_west );
-            const oter_id t_west  = overmap_buffer.ter( over + tripoint_west );
-            const oter_id t_north_west = overmap_buffer.ter( over + tripoint_north_west );
-            const mapgendata dat( t_north, t_east, t_south, t_west,
-                                  t_north_east, t_south_east, t_south_west, t_north_west,
-                                  t_above, t_below, over.z, *rsettings, m );
-            run_mapgen_func( extra.generator_id, &m, terrain_type, dat, calendar::turn, 0 );
+            mapgendata dat( over, m, 0.0f, calendar::turn, nullptr );
+            run_mapgen_func( extra.generator_id, dat );
             break;
         }
         case map_extra_method::update_mapgen: {
@@ -2771,9 +2763,7 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
                                get_note_string_from_color( extra.color ),
                                extra.name,
                                extra.description );
-            if( !mx_note.empty() ) {
-                overmap_buffer.add_note( sm_to_omt_copy( abs_sub ), mx_note );
-            }
+            overmap_buffer.add_note( sm_to_omt_copy( abs_sub ), mx_note );
         }
     }
 }

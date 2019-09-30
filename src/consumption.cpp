@@ -536,6 +536,12 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
                 _( "The thought of eating that makes you feel sick." ) );
     }
 
+    for( const trait_id &mut : get_mutations() ) {
+        if( !food.made_of_any( mut.obj().can_only_eat ) && !mut.obj().can_only_eat.empty() ) {
+            return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION, _( "You can't eat this." ) );
+        }
+    }
+
     return ret_val<edible_rating>::make_success();
 }
 
@@ -1324,17 +1330,24 @@ bool player::fuel_bionic_with( item &it )
     const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
 
     const int loadable = std::min( it.charges, get_fuel_capacity( it.typeId() ) );
+    const std::string str_loaded  = get_value( it.typeId() );
+    int loaded = 0;
+    if( !str_loaded.empty() ) {
+        loaded = std::stoi( str_loaded );
+    }
 
-    const std::string loaded_charge = std::to_string( loadable );
+    const std::string new_charge = std::to_string( loadable + loaded );
 
     it.charges -= loadable;
-    set_value( it.typeId(), loaded_charge );// type and amount of fuel
+    set_value( it.typeId(), new_charge );// type and amount of fuel
     update_fuel_storage( it.typeId() );
     add_msg_player_or_npc( m_info,
-                           ngettext( "You load %i charge of %s in your %s.",
-                                     "You load %i charges of %s in your %s.", loadable ),
-                           ngettext( "<npcname> load %i charge of %s in their %s.",
-                                     "<npcname> load %i charges of %s in their %s.", loadable ), loadable, it.tname(), bio->name );
+                           //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
+                           ngettext( "You load %1$i charge of %2$s in your %3$s.",
+                                     "You load %1$i charges of %2$s in your %3$s.", loadable ),
+                           //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
+                           ngettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
+                                     "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, it.tname(), bio->name );
     mod_moves( -250 );
     return true;
 }

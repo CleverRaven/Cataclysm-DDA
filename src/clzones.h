@@ -407,12 +407,6 @@ class zone_manager
                 const faction_id &fac = your_fac ) const;
         std::unordered_set<tripoint> get_point_set_loot( const tripoint &where, int radius,
                 bool npc_search, const faction_id &fac = your_fac ) const;
-        void start_sort( const std::vector<tripoint> &src_sorted );
-        void end_sort();
-        bool is_sorting() const;
-        int get_num_processed( const tripoint &src ) const;
-        void increment_num_processed( const tripoint &src );
-        void decrement_num_processed( const tripoint &src );
 
         // 'direct' access to zone_manager::zones, giving direct access was nono
         std::vector<ref_zone_data> get_zones( const faction_id &fac = your_fac );

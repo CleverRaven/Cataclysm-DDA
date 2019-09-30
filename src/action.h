@@ -237,8 +237,8 @@ enum action_id : int {
     ACTION_SKY,
     /** Display missions screen */
     ACTION_MISSIONS,
-    /** Display kills list screen */
-    ACTION_KILLS,
+    /** Display scores screen */
+    ACTION_SCORES,
     /** Display factions screen */
     ACTION_FACTIONS,
     /** Display morale effects screen */

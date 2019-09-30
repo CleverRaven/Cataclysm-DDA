@@ -300,6 +300,12 @@ bool enchantment::add( const enchantment &rhs )
     if( !stacks_with( rhs ) ) {
         return false;
     }
+    force_add( rhs );
+    return true;
+}
+
+void enchantment::force_add( const enchantment &rhs )
+{
     for( const std::pair<mod, int> &pair_values : rhs.values_add ) {
         values_add[pair_values.first] += pair_values.second;
     }
@@ -319,7 +325,6 @@ bool enchantment::add( const enchantment &rhs )
             intermittent_activation[act_pair.first].emplace_back( fake );
         }
     }
-    return true;
 }
 
 int enchantment::get_value_add( const mod value ) const

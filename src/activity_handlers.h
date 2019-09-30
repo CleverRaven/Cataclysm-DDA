@@ -51,6 +51,7 @@ enum do_activity_reason : int {
     NEEDS_BUTCHERING,       // THere is at least one corpse there to butcher, and theres no need for additional tools
     ALREADY_WORKING,        // somebody is already working there
     NEEDS_VEH_DECONST,       // There is a vehicle part there that we can deconstruct, given the right tools.
+    NEEDS_VEH_REPAIR,       // There is a vehicle part there that can be repaired, given the right tools.
     NEEDS_FISHING           // This spot can be fished, if the right tool is present.
 };
 
@@ -108,6 +109,7 @@ void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &
 namespace activity_handlers
 {
 
+bool resume_for_multi_activities( player &p );
 /** activity_do_turn functions: */
 void burrow_do_turn( player_activity *act, player *p );
 void craft_do_turn( player_activity *act, player *p );
@@ -136,6 +138,7 @@ void multiple_fish_do_turn( player_activity *act, player *p );
 void multiple_construction_do_turn( player_activity *act, player *p );
 void multiple_butcher_do_turn( player_activity *act, player *p );
 void vehicle_deconstruction_do_turn( player_activity *act, player *p );
+void vehicle_repair_do_turn( player_activity *act, player *p );
 void chop_trees_do_turn( player_activity *act, player *p );
 void fetch_do_turn( player_activity *act, player *p );
 void move_loot_do_turn( player_activity *act, player *p );

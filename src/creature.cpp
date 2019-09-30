@@ -17,6 +17,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
+#include "map_iterator.h"
 #include "npc.h"
 #include "output.h"
 #include "projectile.h"
@@ -292,14 +293,10 @@ bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
 static bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint &pos,
                               const int area )
 {
-    tripoint tmp = pos;
-    int &x = tmp.x;
-    int &y = tmp.y;
-    for( x = pos.x - area; x < pos.x + area; x++ ) {
-        for( y = pos.y - area; y < pos.y + area; y++ ) {
-            if( veh_area.count( tmp ) > 0 ) {
-                return true;
-            }
+    for( const tripoint &tmp : tripoint_range( pos - tripoint( area, area, 0 ),
+            pos + tripoint( area - 1, area - 1, 0 ) ) ) {
+        if( veh_area.count( tmp ) > 0 ) {
+            return true;
         }
     }
 
@@ -795,7 +792,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                     SCT.removeCreatureHP();
                 }
 
-                add_msg( m_good, _( "You hit %s for %d damage." ),
+                //~ %1$s: creature name, %2$d: damage value
+                add_msg( m_good, _( "You hit %1$s for %2$d damage." ),
                          disp_name(), dealt_dam.total_damage() );
             } else if( u_see_this ) {
                 //~ 1$ - shooter, 2$ - target

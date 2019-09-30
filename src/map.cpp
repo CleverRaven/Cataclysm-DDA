@@ -8,7 +8,6 @@
 #include <cstring>
 #include <limits>
 #include <queue>
-#include <sstream>
 #include <unordered_map>
 
 #include "ammo.h"
@@ -839,7 +838,7 @@ void map::register_vehicle_zone( vehicle *veh, const int zlev )
 
 bool map::deregister_vehicle_zone( zone_data &zone )
 {
-    if( const cata::optional<vpart_reference> vp = g->m.veh_at( g->m.getlocal(
+    if( const cata::optional<vpart_reference> vp = veh_at( getlocal(
                 zone.get_start_point() ) ).part_with_feature( "CARGO", false ) ) {
         auto bounds = vp->vehicle().loot_zones.equal_range( vp->mount() );
         for( auto it = bounds.first; it != bounds.second; it++ ) {
@@ -1291,6 +1290,13 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
         add_msg( _( "The %s you were grabbing is destroyed!" ), old_t.name() );
         g->u.grab( OBJECT_NONE );
     }
+    // If a creature was crushed under a rubble -> free it
+    if( old_id == f_rubble && new_furniture == f_null ) {
+        Creature *c = g->critter_at( p );
+        if( c ) {
+            c->remove_effect( effect_crushed );
+        }
+    }
     if( new_t.has_flag( "EMITTER" ) ) {
         field_furn_locs.push_back( p );
     }
@@ -1605,38 +1611,31 @@ std::string map::features( const point &p )
 
 std::string map::features( const tripoint &p )
 {
+    std::string result;
+    const auto add = [&]( const std::string & text ) {
+        if( !result.empty() ) {
+            result += " ";
+        }
+        result += text;
+    };
+    const auto add_if = [&]( const bool cond, const std::string & text ) {
+        if( cond ) {
+            add( text );
+        }
+    };
     // This is used in an info window that is 46 characters wide, and is expected
     // to take up one line.  So, make sure it does that.
     // FIXME: can't control length of localized text.
-    std::stringstream ret;
-    if( is_bashable( p ) ) {
-        ret << _( "Smashable. " );
-    }
-    if( has_flag( "DIGGABLE", p ) ) {
-        ret << _( "Diggable. " );
-    }
-    if( has_flag( "PLOWABLE", p ) ) {
-        ret << _( "Plowable. " );
-    }
-    if( has_flag( "ROUGH", p ) ) {
-        ret << _( "Rough. " );
-    }
-    if( has_flag( "UNSTABLE", p ) ) {
-        ret << _( "Unstable. " );
-    }
-    if( has_flag( "SHARP", p ) ) {
-        ret << _( "Sharp. " );
-    }
-    if( has_flag( "FLAT", p ) ) {
-        ret << _( "Flat. " );
-    }
-    if( has_flag( "EASY_DECONSTRUCT", p ) ) {
-        ret << _( "Simple. " );
-    }
-    if( has_flag( "MOUNTABLE", p ) ) {
-        ret << _( "Mountable. " );
-    }
-    return ret.str();
+    add_if( is_bashable( p ), _( "Smashable." ) );
+    add_if( has_flag( "DIGGABLE", p ), _( "Diggable." ) );
+    add_if( has_flag( "PLOWABLE", p ), _( "Plowable." ) );
+    add_if( has_flag( "ROUGH", p ), _( "Rough." ) );
+    add_if( has_flag( "UNSTABLE", p ), _( "Unstable." ) );
+    add_if( has_flag( "SHARP", p ), _( "Sharp." ) );
+    add_if( has_flag( "FLAT", p ), _( "Flat." ) );
+    add_if( has_flag( "EASY_DECONSTRUCT", p ), _( "Simple." ) );
+    add_if( has_flag( "MOUNTABLE", p ), _( "Mountable." ) );
+    return result;
 }
 
 int map::move_cost_internal( const furn_t &furniture, const ter_t &terrain, const vehicle *veh,
@@ -2798,11 +2797,9 @@ void map::decay_fields_and_scent( const time_duration &amount )
 point map::random_outdoor_tile()
 {
     std::vector<point> options;
-    for( int x = 0; x < SEEX * my_MAPSIZE; x++ ) {
-        for( int y = 0; y < SEEY * my_MAPSIZE; y++ ) {
-            if( is_outside( point( x, y ) ) ) {
-                options.push_back( point( x, y ) );
-            }
+    for( const tripoint &p : points_on_zlevel() ) {
+        if( is_outside( p.xy() ) ) {
+            options.push_back( p.xy() );
         }
     }
     return random_entry( options, point_north_west );
@@ -2942,7 +2939,7 @@ void map::smash_items( const tripoint &p, const int power )
     }
 
     std::vector<item> contents;
-    auto items = g->m.i_at( p );
+    auto items = i_at( p );
     for( auto i = items.begin(); i != items.end(); ) {
         if( i->active ) {
             // Get the explosion item actor
@@ -3768,11 +3765,12 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         proj.impact.mult_damage( dam / static_cast<double>( initial_damage ) );
     }
 
-    // Now, destroy items on that tile.
-    if( ( move_cost( p ) == 2 && !hit_items ) || !inbounds( p ) ) {
-        return; // Items on floor-type spaces won't be shot up.
+    //Projectiles with NO_ITEM_DAMAGE flag won't damage items at all
+    if( !hit_items || !inbounds( p ) ) {
+        return;
     }
 
+    // Now, smash items on that tile.
     // dam / 3, because bullets aren't all that good at destroying items...
     smash_items( p, dam / 3 );
 }
@@ -3888,15 +3886,9 @@ void map::translate( const ter_id &from, const ter_id &to )
                   from.obj().name() );
         return;
     }
-
-    tripoint p( 0, 0, abs_sub.z );
-    int &x = p.x;
-    int &y = p.y;
-    for( x = 0; x < SEEX * my_MAPSIZE; x++ ) {
-        for( y = 0; y < SEEY * my_MAPSIZE; y++ ) {
-            if( ter( p ) == from ) {
-                ter_set( p, to );
-            }
+    for( const tripoint &p : points_on_zlevel() ) {
+        if( ter( p ) == from ) {
+            ter_set( p, to );
         }
     }
 }
@@ -3910,25 +3902,18 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
         return;
     }
 
-    const int uX = p.x;
-    const int uY = p.y;
-    tripoint t( 0, 0, abs_sub.z );
-    int &x = t.x;
-    int &y = t.y;
-    for( x = 0; x < SEEX * my_MAPSIZE; x++ ) {
-        for( y = 0; y < SEEY * my_MAPSIZE; y++ ) {
-            float radiX = sqrt( static_cast<float>( ( uX - x ) * ( uX - x ) + ( uY - y ) * ( uY - y ) ) );
-            if( ter( t ) == from ) {
-                // within distance, and either no submap limitation or same overmap coords.
-                if( radiX <= radi && ( !same_submap ||
-                                       ms_to_omt_copy( getabs( point( x, y ) ) ) == ms_to_omt_copy( getabs( point( uX, uY ) ) ) ) ) {
-                    ter_set( t, to );
-                }
-            } else if( toggle_between && ter( t ) == to ) {
-                if( radiX <= radi && ( !same_submap ||
-                                       ms_to_omt_copy( getabs( point( x, y ) ) ) == ms_to_omt_copy( getabs( point( uX, uY ) ) ) ) ) {
-                    ter_set( t, from );
-                }
+    const tripoint abs_omt_p = ms_to_omt_copy( getabs( p ) );
+    for( const tripoint &t : points_on_zlevel() ) {
+        const tripoint abs_omt_t = ms_to_omt_copy( getabs( t ) );
+        const float radiX = trig_dist( p, t );
+        if( ter( t ) == from ) {
+            // within distance, and either no submap limitation or same overmap coords.
+            if( radiX <= radi && ( !same_submap || abs_omt_t == abs_omt_p ) ) {
+                ter_set( t, to );
+            }
+        } else if( toggle_between && ter( t ) == to ) {
+            if( radiX <= radi && ( !same_submap || abs_omt_t == abs_omt_p ) ) {
+                ter_set( t, from );
             }
         }
     }
@@ -4335,10 +4320,17 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 
     } else if( overflow ) {
         // ...otherwise try to overflow to adjacent tiles (if permitted)
-        auto tiles = closest_tripoints_first( 2, pos );
+        const int max_dist = 2;
+        auto tiles = closest_tripoints_first( max_dist, pos );
         tiles.erase( tiles.begin() ); // we already tried this position
-        for( const auto &e : tiles ) {
+        const int max_path_length = 4 * max_dist;
+        const pathfinding_settings setting( 0, max_dist, max_path_length, 0, false, true, false, false );
+        for( const tripoint &e : tiles ) {
             if( !inbounds( e ) ) {
+                continue;
+            }
+            //must be a path to the target tile
+            if( route( pos, e, setting ).empty() ) {
                 continue;
             }
             if( obj.made_of( LIQUID ) || !obj.has_flag( "DROP_ACTION_ONLY_IF_LIQUID" ) ) {
@@ -4386,7 +4378,7 @@ item &map::add_item( const tripoint &p, item new_item )
     }
 
     if( new_item.is_map() && !new_item.has_var( "reveal_map_center_omt" ) ) {
-        new_item.set_var( "reveal_map_center_omt", ms_to_omt_copy( g->m.getabs( p ) ) );
+        new_item.set_var( "reveal_map_center_omt", ms_to_omt_copy( getabs( p ) ) );
     }
 
     current_submap->is_uniform = false;
@@ -4409,7 +4401,7 @@ item map::water_from( const tripoint &p )
         return item( "salt_water", 0, item::INFINITE_CHARGES );
     }
 
-    const ter_id terrain_id = g->m.ter( p );
+    const ter_id terrain_id = ter( p );
     if( terrain_id == t_sewage ) {
         item ret( "water_sewage", 0, item::INFINITE_CHARGES );
         ret.poison = rng( 1, 7 );
@@ -4641,7 +4633,7 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
         const tripoint map_location = tripoint( grid_offset + active_item_ref.location, gridp.z );
         // root cellars are special
         temperature_flag flag = temperature_flag::TEMP_NORMAL;
-        if( g->m.ter( map_location ) == t_rootcellar ) {
+        if( ter( map_location ) == t_rootcellar ) {
             flag = temperature_flag::TEMP_ROOT_CELLAR;
         }
         map_stack items = i_at( map_location );
@@ -5599,7 +5591,7 @@ basecamp map::hoist_submap_camp( const tripoint &p )
 
 void map::add_camp( const tripoint &p, const std::string &name )
 {
-    tripoint omt_pos = ms_to_omt_copy( g->m.getabs( p ) );
+    tripoint omt_pos = ms_to_omt_copy( getabs( p ) );
     basecamp temp_camp = basecamp( name, omt_pos );
     overmap_buffer.add_camp( temp_camp );
     g->u.camps.insert( omt_pos );
@@ -5745,7 +5737,7 @@ void map::draw( const catacurses::window &w, const tripoint &center )
     g->reset_light_level();
 
     update_visibility_cache( center.z );
-    const visibility_variables &cache = g->m.get_visibility_variables_cache();
+    const visibility_variables &cache = get_visibility_variables_cache();
 
     const auto &visibility_cache = get_cache_ref( center.z ).visibility_cache;
 
@@ -8268,14 +8260,14 @@ void map::draw_circle_furn( const furn_id type, const point &p, int rad )
     }, p, rad );
 }
 
-void map::add_corpse( const tripoint &p, const bool random_corpse_type )
+void map::add_corpse( const tripoint &p )
 {
     item body;
 
     const bool isReviveSpecial = one_in( 10 );
 
     if( !isReviveSpecial ) {
-        body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, "", random_corpse_type );
+        body = item::make_corpse();
     } else {
         body = item::make_corpse( mon_zombie );
         body.item_tags.insert( "REVIVE_SPECIAL" );
@@ -8448,6 +8440,21 @@ tripoint_range map::points_in_radius( const tripoint &center, size_t radius, siz
     return tripoint_range( tripoint( minx, miny, minz ), tripoint( maxx, maxy, maxz ) );
 }
 
+tripoint_range map::points_on_zlevel( const int z ) const
+{
+    if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
+        // @todo need a default constructor that creates an empty range.
+        return tripoint_range( tripoint_zero, tripoint_zero - tripoint( 0, 0, 1 ) );
+    }
+    return tripoint_range( tripoint( 0, 0, z ), tripoint( SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1,
+                           z ) );
+}
+
+tripoint_range map::points_on_zlevel() const
+{
+    return points_on_zlevel( abs_sub.z );
+}
+
 std::list<item_location> map::get_active_items_in_radius( const tripoint &center, int radius ) const
 {
     return get_active_items_in_radius( center, radius, special_item_type::none );
@@ -8498,8 +8505,8 @@ std::list<tripoint> map::find_furnitures_in_radius( const tripoint &center, size
         size_t radiusz )
 {
     std::list<tripoint> furn_locs;
-    for( const auto &furn_loc : g->m.points_in_radius( center, radius, radiusz ) ) {
-        if( g->m.furn( furn_loc ) == target ) {
+    for( const auto &furn_loc : points_in_radius( center, radius, radiusz ) ) {
+        if( furn( furn_loc ) == target ) {
             furn_locs.push_back( furn_loc );
         }
     }
@@ -8605,6 +8612,9 @@ void map::update_pathfinding_cache( int zlev ) const
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             const auto cur_submap = get_submap_at_grid( { smx, smy, zlev } );
+            if( !cur_submap ) {
+                return;
+            }
 
             tripoint p( 0, 0, zlev );
 

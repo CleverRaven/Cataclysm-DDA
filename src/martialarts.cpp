@@ -167,6 +167,7 @@ void ma_buff::load( JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "quiet", quiet, false );
     optional( jo, was_loaded, "throw_immune", throw_immune, false );
+    optional( jo, was_loaded, "stealthy", stealthy, false );
 
     reqs.load( jo, src );
     bonuses.load( jo );
@@ -226,6 +227,7 @@ void martialart::load( JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "static_buffs", static_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onmove_buffs", onmove_buffs, ma_buff_reader{} );
+    optional( jo, was_loaded, "onpause_buffs", onpause_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onhit_buffs", onhit_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onattack_buffs", onattack_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "ondodge_buffs", ondodge_buffs, ma_buff_reader{} );
@@ -471,9 +473,17 @@ std::string ma_requirements::get_description( bool buff ) const
     if( unarmed_allowed && melee_allowed ) {
         dump << string_format( _( "* Can %s while <info>armed</info> or <info>unarmed</info>" ),
                                type ) << std::endl;
+        if( unarmed_weapons_allowed ) {
+            dump << string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
+                                   type ) << std::endl;
+        }
     } else if( unarmed_allowed ) {
         dump << string_format( _( "* Can <info>only</info> %s while <info>unarmed</info>" ),
                                type ) << std::endl;
+        if( unarmed_weapons_allowed ) {
+            dump << string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
+                                   type ) << std::endl;
+        }
     } else if( melee_allowed ) {
         dump << string_format( _( "* Can <info>only</info> %s while <info>armed</info>" ),
                                type ) << std::endl;
@@ -599,6 +609,10 @@ bool ma_buff::is_quiet() const
 {
     return quiet;
 }
+bool ma_buff::is_stealthy() const
+{
+    return stealthy;
+}
 
 bool ma_buff::can_melee() const
 {
@@ -649,6 +663,10 @@ std::string ma_buff::get_description( bool passive ) const
         dump << _( "* Attacks will be completely <info>silent</info>" ) << std::endl;
     }
 
+    if( stealthy ) {
+        dump << _( "* Movement will make <info>less noise</info>" ) << std::endl;
+    }
+
     return dump.str();
 }
 
@@ -682,6 +700,11 @@ void martialart::apply_static_buffs( player &u ) const
 void martialart::apply_onmove_buffs( player &u ) const
 {
     simultaneous_add( u, onmove_buffs );
+}
+
+void martialart::apply_onpause_buffs( player &u ) const
+{
+    simultaneous_add( u, onpause_buffs );
 }
 
 void martialart::apply_onhit_buffs( player &u ) const
@@ -934,6 +957,10 @@ void player::ma_onmove_effects()
 {
     style_selected.obj().apply_onmove_buffs( *this );
 }
+void player::ma_onpause_effects()
+{
+    style_selected.obj().apply_onpause_buffs( *this );
+}
 void player::ma_onhit_effects()
 {
     style_selected.obj().apply_onhit_buffs( *this );
@@ -1084,6 +1111,12 @@ bool player::is_quiet() const
         return b.is_quiet();
     } );
 }
+bool player::is_stealthy() const
+{
+    return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
+        return b.is_stealthy();
+    } );
+}
 
 bool player::can_melee() const
 {
@@ -1185,6 +1218,14 @@ std::string ma_technique::get_description() const
 
     dump << reqs.get_description();
 
+    if( weighting > 1 ) {
+        dump << string_format( _( "* <info>Greater chance</info> to activate: <stat>+%s%%</stat>" ),
+                               ( 100 * ( weighting - 1 ) ) ) << std::endl;
+    } else if( weighting < -1 ) {
+        dump << string_format( _( "* <info>Lower chance</info> to activate: <stat>1/%s</stat>" ),
+                               abs( weighting ) ) << std::endl;
+    }
+
     if( crit_ok ) {
         dump << _( "* Can activate on a <info>normal</info> or a <info>crit</info> hit" ) << std::endl;
     } else if( crit_tec ) {
@@ -1279,8 +1320,16 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         if( ma.force_unarmed ) {
             buffer << _( "<bold>This style forces you to use unarmed strikes, even if wielding a weapon.</bold>" );
-            buffer << "--" << std::endl;
+            buffer << std::endl;
+        } else if( ma.allow_melee ) {
+            buffer << _( "<bold>This style can be used with all weapons.</bold>" );
+            buffer << std::endl;
+        } else if( ma.strictly_melee ) {
+            buffer << _( "<bold>This is an armed combat style.</bold>" );
+            buffer << std::endl;
         }
+
+        buffer << "--" << std::endl;
 
         if( ma.arm_block_with_bio_armor_arms || ma.arm_block != 99 ||
             ma.leg_block_with_bio_armor_legs || ma.leg_block != 99 ) {
@@ -1317,6 +1366,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         buff_desc( _( "Passive" ), ma.static_buffs, true );
         buff_desc( _( "Move" ), ma.onmove_buffs );
+        buff_desc( _( "Pause" ), ma.onpause_buffs );
         buff_desc( _( "Hit" ), ma.onhit_buffs );
         buff_desc( _( "Miss" ), ma.onmiss_buffs );
         buff_desc( _( "Attack" ), ma.onattack_buffs );

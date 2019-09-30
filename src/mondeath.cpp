@@ -46,6 +46,7 @@
 #include "type_id.h"
 #include "colony.h"
 #include "point.h"
+#include "mattack_actors.h"
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -330,17 +331,13 @@ void mdeath::vine_cut( monster &z )
 
     for( auto &vine : vines ) {
         bool found_neighbor = false;
-        tripoint tmp = vine->pos();
-        int &x = tmp.x;
-        int &y = tmp.y;
-        for( x = vine->posx() - 1; x <= vine->posx() + 1 && !found_neighbor; x++ ) {
-            for( y = vine->posy() - 1; y <= vine->posy() + 1 && !found_neighbor; y++ ) {
-                if( x != z.posx() || y != z.posy() ) {
-                    // Not the dying vine
-                    if( monster *const v = g->critter_at<monster>( { x, y, z.posz() } ) ) {
-                        if( v->type->id == mon_creeper_hub || v->type->id == mon_creeper_vine ) {
-                            found_neighbor = true;
-                        }
+        for( const tripoint &dest : g->m.points_in_radius( vine->pos(), 1 ) ) {
+            if( dest != z.pos() ) {
+                // Not the dying vine
+                if( monster *const v = g->critter_at<monster>( dest ) ) {
+                    if( v->type->id == mon_creeper_hub || v->type->id == mon_creeper_vine ) {
+                        found_neighbor = true;
+                        break;
                     }
                 }
             }
@@ -654,17 +651,45 @@ void mdeath::broken( monster &z )
 
     g->m.add_item_or_charges( z.pos(), broken_mon );
 
-
-    // adds ammo drop
     if( z.type->has_flag( MF_DROPS_AMMO ) ) {
         for( const std::pair<std::string, int> &ammo_entry : z.type->starting_ammo ) {
             if( z.ammo[ammo_entry.first] > 0 ) {
-                g->m.spawn_item( z.pos(), ammo_entry.first, z.ammo[ammo_entry.first], 1,
-                                 calendar::turn );
+                bool spawned = false;
+                for( const std::pair<std::string, mtype_special_attack> &attack : z.type->special_attacks ) {
+                    if( attack.second->id == "gun" ) {
+                        item gun = item( dynamic_cast<const gun_actor *>( attack.second.get() )->gun_type );
+                        bool same_ammo = false;
+                        for( const ammotype &at : gun.ammo_types() ) {
+                            if( at == item( ammo_entry.first ).ammo_type() ) {
+                                same_ammo = true;
+                                break;
+                            }
+                        }
+                        const bool uses_mags = !gun.magazine_compatible().empty();
+                        if( same_ammo && uses_mags ) {
+                            std::vector<item> mags;
+                            int ammo_count = z.ammo[ammo_entry.first];
+                            while( ammo_count > 0 ) {
+                                item mag = item( gun.type->magazine_default.find( item( ammo_entry.first ).ammo_type() )->second );
+                                mag.ammo_set( ammo_entry.first,
+                                              std::min( ammo_count, mag.type->magazine->capacity ) );
+                                mags.insert( mags.end(), mag );
+                                ammo_count -= mag.type->magazine->capacity;
+                            }
+                            g->m.spawn_items( z.pos(), mags );
+                            spawned = true;
+                            break;
+                        }
+                    }
+                }
+                if( !spawned ) {
+                    g->m.spawn_item( z.pos(), ammo_entry.first, z.ammo[ammo_entry.first], 1,
+                                     calendar::turn );
+                }
             }
         }
     }
-    // end adds ammo drop
+
     //TODO: make mdeath::splatter work for robots
     if( ( broken_mon.damage() >= broken_mon.max_damage() ) && g->u.sees( z.pos() ) ) {
         add_msg( m_good, _( "The %s is destroyed!" ), z.name() );
@@ -733,7 +758,6 @@ void mdeath::jabberwock( monster &z )
     player *ch = dynamic_cast<player *>( z.get_killer() );
 
     bool vorpal = ch && ch->is_player() &&
-                  rl_dist( z.pos(), ch->pos() ) <= 1 &&
                   ch->weapon.has_flag( "DIAMOND" ) &&
                   ch->weapon.volume() > 750_ml;
 

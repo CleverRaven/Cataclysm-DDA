@@ -7,7 +7,7 @@
     "color": "blue",
     "see_cost": 5,
     "extras": "build",
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -17,7 +17,107 @@
     "color": "i_blue",
     "see_cost": 5,
     "extras": "build",
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "FEMA_tlc",
+    "name": "FEMA refugee camp",
+    "sym": "f",
+    "color": "i_blue",
+    "extras": "build",
+    "see_cost": 2,
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 90 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "FEMA_te",
+    "name": "FEMA refugee camp",
+    "sym": "f",
+    "color": "i_blue",
+    "extras": "build",
+    "see_cost": 2,
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 90 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "FEMA_trc",
+    "name": "FEMA refugee camp",
+    "sym": "f",
+    "color": "i_blue",
+    "extras": "build",
+    "see_cost": 2,
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 90 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "FEMA_le",
+    "name": "FEMA refugee camp",
+    "sym": "f",
+    "color": "i_blue",
+    "extras": "build",
+    "see_cost": 2,
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 90 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "FEMA_mid",
+    "name": "FEMA refugee camp",
+    "sym": "f",
+    "color": "i_blue",
+    "extras": "build",
+    "see_cost": 2,
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 90 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "FEMA_re",
+    "name": "FEMA refugee camp",
+    "sym": "f",
+    "color": "i_blue",
+    "extras": "build",
+    "see_cost": 2,
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 90 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "FEMA_le",
+    "name": "FEMA refugee camp",
+    "sym": "f",
+    "color": "i_blue",
+    "extras": "build",
+    "see_cost": 2,
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 90 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "FEMA_blc",
+    "name": "FEMA refugee camp",
+    "sym": "f",
+    "color": "i_blue",
+    "extras": "build",
+    "see_cost": 2,
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 90 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "FEMA_entrance",
+    "name": "FEMA refugee camp",
+    "sym": "+",
+    "color": "blue",
+    "extras": "build",
+    "see_cost": 2,
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 90 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "FEMA_brc",
+    "name": "FEMA refugee camp",
+    "sym": "f",
+    "color": "i_blue",
+    "extras": "build",
+    "see_cost": 2,
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 4, 12 ], "chance": 90 }
   },
   {
     "type": "overmap_terrain",
@@ -26,7 +126,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN" ]
+    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -43,7 +143,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN" ]
+    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -60,7 +160,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN" ]
+    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -86,7 +186,7 @@
     "sym": "+",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN" ]
+    "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -104,7 +204,7 @@
     "sym": "+",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "KNOWN_UP" ]
+    "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -113,7 +213,7 @@
     "sym": "+",
     "color": "red",
     "see_cost": 2,
-    "flags": [ "KNOWN_UP" ]
+    "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
     "type": "overmap_terrain",
@@ -122,7 +222,7 @@
     "sym": "B",
     "color": "dark_gray",
     "see_cost": 2,
-    "flags": [ "KNOWN_DOWN" ]
+    "flags": [ "KNOWN_DOWN", "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",
@@ -131,7 +231,7 @@
     "sym": "B",
     "color": "dark_gray",
     "see_cost": 2,
-    "flags": [ "KNOWN_UP", "NO_ROTATE" ]
+    "flags": [ "KNOWN_UP", "NO_ROTATE", "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",
@@ -140,7 +240,8 @@
     "sym": "M",
     "color": "dark_gray",
     "see_cost": 2,
-    "extras": "build"
+    "extras": "build",
+    "flags": [ "RISK_HIGH", "SOURCE_WEAPON", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",
@@ -149,7 +250,7 @@
     "sym": "0",
     "color": "light_gray",
     "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -158,7 +259,7 @@
     "sym": "0",
     "color": "light_gray",
     "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -167,7 +268,7 @@
     "sym": "0",
     "color": "light_gray",
     "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -176,7 +277,7 @@
     "sym": "0",
     "color": "light_gray",
     "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -185,7 +286,7 @@
     "sym": "0",
     "color": "light_gray",
     "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -194,7 +295,7 @@
     "sym": "0",
     "color": "light_gray",
     "see_cost": 2,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -202,7 +303,8 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "fire lookout tower",
     "sym": "T",
-    "color": "red"
+    "color": "red",
+    "flags": [ "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -210,7 +312,8 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "fire lookout tower",
     "sym": "T",
-    "color": "red"
+    "color": "red",
+    "flags": [ "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -218,7 +321,8 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "fire lookout tower",
     "sym": "T",
-    "color": "red"
+    "color": "red",
+    "flags": [ "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -226,7 +330,8 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "fire lookout tower",
     "sym": "T",
-    "color": "red"
+    "color": "red",
+    "flags": [ "SOURCE_SAFETY" ]
   },
   {
     "type": "overmap_terrain",
@@ -234,7 +339,8 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "survivor's bunker",
     "sym": "b",
-    "color": "green"
+    "color": "green",
+    "flags": [ "SOURCE_SAFETY", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -242,7 +348,8 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "survivor's bunker",
     "sym": "b",
-    "color": "green"
+    "color": "green",
+    "flags": [ "SOURCE_SAFETY", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -250,6 +357,7 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "survivor's camp",
     "sym": "c",
-    "color": "brown"
+    "color": "brown",
+    "flags": [ "SOURCE_SAFETY", "SOURCE_PEOPLE" ]
   }
 ]

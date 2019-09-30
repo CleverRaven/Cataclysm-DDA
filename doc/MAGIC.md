@@ -90,6 +90,16 @@ Any aoe will manifest as a circular area centered on the target, and will only d
 
 * "ter_transform" - transform the terrain and furniture in an area centered at the target.  The chance of any one of the points in the area of effect changing is one_in( damage ).  The effect_str is the id of a ter_furn_transform.
 
+* "vomit" - any creature within its area of effect will instantly vomit, if it's able to do so.
+
+* "timed_event" - adds a timed event to the player only. valid timed events: "help", "wanted", "robot_attack", "spawn_wyrms", "amigara", "roots_die", "temple_open", "temple_flood", "temple_spawn", "dim", "artifact_light" NOTE: This was added only for artifact active effects. support is limited, use at your own risk.
+
+* "explosion" - an explosion is centered on the target, with power damage() and factor aoe()/10
+
+* "flashbang" - a flashbang effect is centered on the target, with poewr damage() and factor aoe()/10
+
+* "WONDER" - Unlike the above, this is not an "effect" but a "flag".  This alters the behavior of the parent spell drastically: The spell itself doesn't cast, but its damage and range information is used in order to cast the extra_effects.  N of the extra_effects will be chosen at random to be cast, where N is the current damage of the spell (stacks with RANDOM_DAMAGE flag) and the message of the spell cast by this spell will also be displayed.  If this spell's message is not wanted to be displayed, make sure the message is an empty string.
+
 ##### For Spells that have an attack type, these are the available damage types:
 * "fire"
 * "acid"

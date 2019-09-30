@@ -229,7 +229,7 @@
     "symbol": "=",
     "color": "green",
     "description": "A fletched carbon fiber arrow shaft with an expanding broadhead tip.  Deals impressive damage to targets.  Stands a good chance of remaining intact once fired.",
-    "material": [ "kevlar", "steel" ],
+    "material": [ "kevlar_rigid", "steel" ],
     "volume": "250 ml",
     "weight": "40 g",
     "bashing": 1,
@@ -650,9 +650,10 @@
     "weight": "268 g",
     "bashing": 1,
     "cutting": 10,
-    "thrown_damage": [ { "damage_type": "cut", "amount": 14 } ],
+    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "ammo_type": "thrown",
-    "count": 5
+    "count": 5,
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE" ]
   },
   {
     "type": "GENERIC",
@@ -774,7 +775,7 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "An underwater fishing spear made from carbon fiber.  It's very light, but doesn't have much range.  Stands a bad chance of remaining intact once fired.",
-    "material": "kevlar",
+    "material": "kevlar_rigid",
     "volume": "250 ml",
     "weight": "12 g",
     "bashing": 1,

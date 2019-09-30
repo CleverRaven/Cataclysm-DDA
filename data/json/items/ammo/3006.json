@@ -39,6 +39,33 @@
     "relative": { "damage": -4, "pierce": 8 }
   },
   {
+    "id": "bp_3006",
+    "copy-from": "3006",
+    "type": "AMMO",
+    "name": ".30-06 Springfield blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_3006_incendiary",
+    "copy-from": "3006_incendiary",
+    "type": "AMMO",
+    "name": ".30-06 Springfield tracer blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_3006fmj",
+    "copy-from": "bp_3006",
+    "type": "AMMO",
+    "name": ".30-06 Springfield M2 AP blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
     "id": "reloaded_3006",
     "copy-from": "3006",
     "type": "AMMO",

@@ -88,6 +88,121 @@ const int bat_energy_j = 1000;
 // Point dxs for the adjacent cardinal tiles.
 point vehicles::cardinal_d[5] = { point_west, point_east, point_north, point_south, point_zero };
 
+// For reference what each function is supposed to do, see their implementation in
+// @ref DefaultRemovePartHandler. Add compatible code for it into @ref MapgenRemovePartHandler,
+// if needed.
+class RemovePartHandler
+{
+    public:
+        virtual ~RemovePartHandler() = default;
+
+        virtual void unboard( const tripoint &loc ) = 0;
+        virtual void add_item_or_charges( const tripoint &loc, item it ) = 0;
+        virtual void set_transparency_cache_dirty( int z ) = 0;
+        virtual void removed( vehicle &veh, int part ) = 0;
+        virtual void spawn_animal_from_part( item &base, const tripoint &loc ) = 0;
+};
+
+class DefaultRemovePartHandler : public RemovePartHandler
+{
+    public:
+        ~DefaultRemovePartHandler() override = default;
+
+        void unboard( const tripoint &loc ) override {
+            g->m.unboard_vehicle( loc );
+        }
+        void add_item_or_charges( const tripoint &loc, item it ) override {
+            g->m.add_item_or_charges( loc, std::move( it ) );
+        }
+        void set_transparency_cache_dirty( const int z ) override {
+            g->m.set_transparency_cache_dirty( z );
+        }
+        void removed( vehicle &veh, const int part ) override {
+            // If the player is currently working on the removed part, stop them as it's futile now.
+            const player_activity &act = g->u.activity;
+            if( act.id() == activity_id( "ACT_VEHICLE" ) && act.moves_left > 0 && act.values.size() > 6 ) {
+                if( veh_pointer_or_null( g->m.veh_at( tripoint( act.values[0], act.values[1],
+                                                      g->u.posz() ) ) ) == &veh ) {
+                    if( act.values[6] >= part ) {
+                        g->u.cancel_activity();
+                        add_msg( m_info, _( "The vehicle part you were working on has gone!" ) );
+                    }
+                }
+            }
+            // @todo maybe do this for all the nearby NPCs as well?
+
+            if( g->u.get_grab_type() == OBJECT_VEHICLE && g->u.grab_point == veh.global_part_pos3( part ) ) {
+                if( veh.parts_at_relative( veh.parts[part].mount, false ).empty() ) {
+                    add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
+                    g->u.grab( OBJECT_NONE );
+                }
+            }
+
+            g->m.dirty_vehicle_list.insert( &veh );
+        }
+        void spawn_animal_from_part( item &base, const tripoint &loc ) override {
+            tripoint target = loc;
+            bool spawn = true;
+            if( !g->is_empty( target ) ) {
+                std::vector<tripoint> valid;
+                for( const tripoint &dest : g->m.points_in_radius( target, 1 ) ) {
+                    if( g->is_empty( dest ) ) {
+                        valid.push_back( dest );
+                    }
+                }
+                if( valid.empty() ) {
+                    spawn = false;
+                } else {
+                    target = random_entry( valid );
+                }
+            }
+            base.release_monster( target, spawn );
+        }
+};
+
+class MapgenRemovePartHandler : public RemovePartHandler
+{
+    private:
+        map &m;
+
+    public:
+        MapgenRemovePartHandler( map &m ) : m( m ) { }
+
+        ~MapgenRemovePartHandler() override = default;
+
+        void unboard( const tripoint &/*loc*/ ) override {
+            debugmsg( "Tried to unboard during mapgen!" );
+            // Ignored. Will almost certainly not be called anyway, because
+            // there are no creatures that could have been mounted during mapgen.
+        }
+        void add_item_or_charges( const tripoint &loc, item it ) override {
+            if( !m.inbounds( loc ) ) {
+                debugmsg( "Tried to put item %s on invalid tile %d,%d,%d during mapgen!", it.tname(), loc.x, loc.y,
+                          loc.z );
+                tripoint copy = loc;
+                m.clip_to_bounds( copy );
+                assert( m.inbounds( copy ) ); // prevent infinite recursion
+                add_item_or_charges( copy, std::move( it ) );
+                return;
+            }
+            m.add_item_or_charges( loc, std::move( it ) );
+        }
+        void set_transparency_cache_dirty( const int /*z*/ ) override {
+            // Ignored for now. We don't initialize the transparency cache in mapgen anyway.
+        }
+        void removed( vehicle &veh, const int /*part*/ ) override {
+            // @todo check if this is necessary, it probably isn't during mapgen
+            m.dirty_vehicle_list.insert( &veh );
+        }
+        void spawn_animal_from_part( item &/*base*/, const tripoint &/*loc*/ ) override {
+            debugmsg( "Tried to spawn animal from vehicle part during mapgen!" );
+            // Ignored. The base item will not be changed and will spawn as is:
+            // still containing the animal.
+            // This should not happend during mapgen anyway.
+            // @todo *if* this actually happens: create a spawn point for the animal instead.
+        }
+};
+
 // Vehicle stack methods.
 vehicle_stack::iterator vehicle_stack::erase( vehicle_stack::const_iterator it )
 {
@@ -693,7 +808,7 @@ void vehicle::do_autodrive()
  * (ie, any spot with multiple frames) will be completely destroyed, as that
  * was the collision point.
  */
-void vehicle::smash( float hp_percent_loss_min, float hp_percent_loss_max,
+void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_max,
                      float percent_of_parts_to_affect, point damage_origin, float damage_size )
 {
     for( auto &part : parts ) {
@@ -734,6 +849,8 @@ void vehicle::smash( float hp_percent_loss_min, float hp_percent_loss_max,
             }
         }
     }
+
+    std::unique_ptr<RemovePartHandler> handler_ptr;
     // clear out any duplicated locations
     for( int p = static_cast<int>( parts.size() ) - 1; p >= 0; p-- ) {
         vehicle_part &part = parts[ p ];
@@ -749,7 +866,18 @@ void vehicle::smash( float hp_percent_loss_min, float hp_percent_loss_max,
             if( ( part_info( p ).location.empty() &&
                   part_info( p ).get_id() == part_info( other_p ).get_id() ) ||
                 ( part_info( p ).location == part_info( other_p ).location ) ) {
-                remove_part( other_p );
+                // Deferred creation of the handler to here so it is only created when actually needed.
+                if( !handler_ptr ) {
+                    // This is a heuristic: we just assume the default handler is good enough when called
+                    // on the main game map. And assume that we run from some mapgen code if called on
+                    // another instance.
+                    if( g && &g->m == &m ) {
+                        handler_ptr = std::make_unique<DefaultRemovePartHandler>();
+                    } else {
+                        handler_ptr = std::make_unique<MapgenRemovePartHandler>( m );
+                    }
+                }
+                remove_part( other_p, *handler_ptr );
             }
         }
     }
@@ -1700,8 +1828,19 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
  * Mark a part as removed from the vehicle.
  * @return bool true if the vehicle's 0,0 point shifted.
  */
-bool vehicle::remove_part( int p )
+bool vehicle::remove_part( const int p )
 {
+    DefaultRemovePartHandler handler;
+    return remove_part( p, handler );
+}
+
+bool vehicle::remove_part( const int p, RemovePartHandler &handler )
+{
+    // NOTE: Don't access g or g->m or anything from it directly here.
+    // Forward all access to the handler.
+    // There are currently two implementations of it:
+    // - one for normal game play (vehicle is on the main map g->m),
+    // - one for mapgen (vehicle is on a temporary map used only during mapgen).
     if( p >= static_cast<int>( parts.size() ) ) {
         debugmsg( "Tried to remove part %d but only %d parts!", p, parts.size() );
         return false;
@@ -1717,13 +1856,8 @@ bool vehicle::remove_part( int p )
     const tripoint part_loc = global_part_pos3( p );
 
     // Unboard any entities standing on removed boardable parts
-    if( part_flag( p, "BOARDABLE" ) ) {
-        std::vector<int> bp = boarded_parts();
-        for( auto &elem : bp ) {
-            if( elem == p ) {
-                g->m.unboard_vehicle( part_loc );
-            }
-        }
+    if( part_flag( p, "BOARDABLE" ) && parts[p].has_flag( vehicle_part::passenger_flag ) ) {
+        handler.unboard( part_loc );
     }
 
     // If `p` has flag `parent_flag`, remove child with flag `child_flag`
@@ -1733,9 +1867,8 @@ bool vehicle::remove_part( int p )
         if( part_flag( p, parent_flag ) ) {
             int dep = part_with_feature( p, child_flag, false );
             if( dep >= 0 ) {
-                item it = parts[dep].properties_to_item();
-                g->m.add_item_or_charges( part_loc, it );
-                remove_part( dep );
+                handler.add_item_or_charges( part_loc, parts[dep].properties_to_item() );
+                remove_part( dep, handler );
                 return true;
             }
         }
@@ -1745,7 +1878,7 @@ bool vehicle::remove_part( int p )
     // if a windshield is removed (usually destroyed) also remove curtains
     // attached to it.
     if( remove_dependent_part( "WINDOW", "CURTAIN" ) || part_flag( p, VPFLAG_OPAQUE ) ) {
-        g->m.set_transparency_cache_dirty( sm_pos.z );
+        handler.set_transparency_cache_dirty( sm_pos.z );
     }
 
     remove_dependent_part( "SEAT", "SEATBELT" );
@@ -1753,23 +1886,8 @@ bool vehicle::remove_part( int p )
 
     // Release any animal held by the part
     if( parts[p].has_flag( vehicle_part::animal_flag ) ) {
-        tripoint target = part_loc;
-        bool spawn = true;
-        if( !g->is_empty( target ) ) {
-            std::vector<tripoint> valid;
-            for( const tripoint &dest : g->m.points_in_radius( target, 1 ) ) {
-                if( g->is_empty( dest ) ) {
-                    valid.push_back( dest );
-                }
-            }
-            if( valid.empty() ) {
-                spawn = false;
-            } else {
-                target = random_entry( valid );
-            }
-        }
         item base = item( parts[p].get_base() );
-        base.release_monster( target, spawn );
+        handler.spawn_animal_from_part( base, part_loc );
         parts[p].set_base( base );
         parts[p].remove_flag( vehicle_part::animal_flag );
     }
@@ -1807,41 +1925,20 @@ bool vehicle::remove_part( int p )
     parts[p].removed = true;
     removed_part_count++;
 
-    // If the player is currently working on the removed part, stop them as it's futile now.
-    const player_activity &act = g->u.activity;
-    if( act.id() == activity_id( "ACT_VEHICLE" ) && act.moves_left > 0 && act.values.size() > 6 ) {
-        if( veh_pointer_or_null( g->m.veh_at( tripoint( act.values[0], act.values[1],
-                                              g->u.posz() ) ) ) == this ) {
-            if( act.values[6] >= p ) {
-                g->u.cancel_activity();
-                add_msg( m_info, _( "The vehicle part you were working on has gone!" ) );
-            }
-        }
-    }
+    handler.removed( *this, p );
 
     const point &vp_mount = parts[p].mount;
     const auto iter = labels.find( label( vp_mount ) );
-    const bool no_label = iter != labels.end();
-    const bool grab_found = g->u.get_grab_type() == OBJECT_VEHICLE && g->u.grab_point == part_loc;
-    // Checking these twice to avoid calling the relatively expensive parts_at_relative() unnecessarily.
-    if( no_label || grab_found ) {
-        if( parts_at_relative( vp_mount, false ).empty() ) {
-            if( no_label ) {
-                labels.erase( iter );
-            }
-            if( grab_found ) {
-                add_msg( m_info, _( "The vehicle part you were holding has been destroyed!" ) );
-                g->u.grab( OBJECT_NONE );
-            }
-        }
+    if( iter != labels.end() && parts_at_relative( vp_mount, false ).empty() ) {
+        labels.erase( iter );
     }
 
     for( auto &i : get_items( p ) ) {
         // Note: this can spawn items on the other side of the wall!
+        // @todo fix this ^^
         tripoint dest( part_loc + point( rng( -3, 3 ), rng( -3, 3 ) ) );
-        g->m.add_item_or_charges( dest, i );
+        handler.add_item_or_charges( dest, i );
     }
-    g->m.dirty_vehicle_list.insert( this );
     refresh();
     coeff_air_changed = true;
     return shift_if_needed();
@@ -3485,12 +3582,11 @@ void vehicle::spew_field( double joules, int part, field_type_id type, int inten
  */
 void vehicle::noise_and_smoke( int load, time_duration time )
 {
-    const std::array<int, 8> sound_levels = {{ 0, 15, 30, 60, 100, 140, 180, INT_MAX }};
-    const std::array<std::string, 8> sound_msgs = {{
-            translate_marker( "hmm" ), translate_marker( "hummm!" ),
-            translate_marker( "whirrr!" ), translate_marker( "vroom!" ),
-            translate_marker( "roarrr!" ), translate_marker( "ROARRR!" ),
-            translate_marker( "BRRROARRR!" ), translate_marker( "BRUMBRUMBRUMBRUM!" )
+    static const std::array<std::pair<std::string, int>, 8> sounds = { {
+            { translate_marker( "hmm" ), 0 }, { translate_marker( "hummm!" ), 15 },
+            { translate_marker( "whirrr!" ), 30 }, { translate_marker( "vroom!" ), 60 },
+            { translate_marker( "roarrr!" ), 100 }, { translate_marker( "ROARRR!" ), 140 },
+            { translate_marker( "BRRROARRR!" ), 180 }, { translate_marker( "BRUMBRUMBRUMBRUM!" ), INT_MAX }
         }
     };
     double noise = 0.0;
@@ -3507,6 +3603,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     }
 
     bool bad_filter = false;
+    bool combustion = false;
 
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
@@ -3522,6 +3619,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
             double part_noise = cur_stress * part_info( p ).engine_noise_factor();
 
             if( part_info( p ).has_flag( "E_COMBUSTION" ) ) {
+                combustion = true;
                 double health = parts[p].health_percent();
                 if( parts[ p ].base.faults.count( fault_filter_fuel ) ) {
                     health = 0.0;
@@ -3542,13 +3640,16 @@ void vehicle::noise_and_smoke( int load, time_duration time )
                     mufflesmoke += j;
                 }
                 part_noise = ( part_noise + max_stress * 3 + 5 ) * muffle;
-                //add_msg( m_good, "PART NOISE (2nd): %d", static_cast<int>( part_noise ) );
             }
             noise = std::max( noise, part_noise ); // Only the loudest engine counts.
         }
     }
-    if( ( exhaust_part != -1 ) && engine_on &&
-        has_engine_type_not( fuel_type_muscle, true ) ) { // No engine, no smoke
+    if( !combustion ) {
+        return;
+    }
+    /// @todo handle other engine types: muscle / animal / wind / coal / ...
+
+    if( exhaust_part != -1 && engine_on ) {
         spew_field( mufflesmoke, exhaust_part, fd_smoke,
                     bad_filter ? fd_smoke.obj().get_max_intensity() : 1 );
     }
@@ -3557,16 +3658,14 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     // Even a vehicle with engines off will make noise traveling at high speeds
     noise = std::max( noise, static_cast<double>( fabs( velocity / 500.0 ) ) );
     int lvl = 0;
-    if( one_in( 4 ) && rng( 0, 30 ) < noise && has_engine_type_not( fuel_type_muscle, true ) ) {
-        while( noise > sound_levels[lvl] ) {
+    if( one_in( 4 ) && rng( 0, 30 ) < noise ) {
+        while( noise > sounds[lvl].second ) {
             lvl++;
         }
     }
     add_msg( m_debug, "VEH NOISE final: %d", static_cast<int>( noise ) );
     vehicle_noise = static_cast<unsigned char>( noise );
-    if( has_engine_type_not( fuel_type_muscle, true ) ) {
-        sounds::sound( global_pos3(), noise, sounds::sound_t::movement, _( sound_msgs[lvl] ), true );
-    }
+    sounds::sound( global_pos3(), noise, sounds::sound_t::movement, _( sounds[lvl].first ), true );
 }
 
 int vehicle::wheel_area() const
@@ -3914,29 +4013,71 @@ bool vehicle::sufficient_wheel_config() const
     return true;
 }
 
+bool vehicle::is_owned_by( const Character &c, bool available_to_take ) const
+{
+    if( owner.is_null() ) {
+        return available_to_take;
+    }
+    if( !c.get_faction() ) {
+        debugmsg( "vehicle::is_owned_by() player %s has no faction", c.disp_name() );
+        return false;
+    }
+    return c.get_faction()->id == get_owner();
+}
+
+bool vehicle::is_old_owner( const Character &c, bool available_to_take ) const
+{
+    if( old_owner.is_null() ) {
+        return available_to_take;
+    }
+    if( !c.get_faction() ) {
+        debugmsg( "vehicle::is_old_owner() player %s has no faction", c.disp_name() );
+        return false;
+    }
+    return c.get_faction()->id == get_old_owner();
+}
+
+std::string vehicle::get_owner_name() const
+{
+    if( !g->faction_manager_ptr->get( owner ) ) {
+        debugmsg( "vehicle::get_owner_name() vehicle %s has no valid nor null faction id ", disp_name() );
+        return "no owner";
+    }
+    return g->faction_manager_ptr->get( owner )->name;
+}
+
+void vehicle::set_owner( const Character &c )
+{
+    if( !c.get_faction() ) {
+        debugmsg( "vehicle::set_owner() player %s has no valid faction", c.disp_name() );
+        return;
+    }
+    owner = c.get_faction()->id;
+}
+
 bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
 {
-    faction *yours = p.get_faction();
+    const bool is_owned_by_player = is_owned_by( p );
     std::vector<npc *> witnesses;
     for( npc &elem : g->all_npcs() ) {
         if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && has_owner() &&
-            elem.get_faction() == get_owner() && elem.sees( p.pos() ) ) {
+            !is_owned_by_player && elem.sees( p.pos() ) ) {
             witnesses.push_back( &elem );
         }
     }
     // the vehicle is yours, thats fine.
-    if( get_owner() == yours ) {
+    if( is_owned_by_player ) {
         return true;
         // if There is no owner
         // handle transfer of ownership
     } else if( !has_owner() ) {
-        set_owner( yours );
+        set_owner( p.get_faction()->id );
         remove_old_owner();
         return true;
         // if there is a marker for having been stolen, but 15 minutes have passed, then officially transfer ownership
-    } else if( witnesses.empty() && get_old_owner() && get_old_owner() != yours && theft_time &&
+    } else if( witnesses.empty() && has_old_owner() && !is_old_owner( p ) && theft_time &&
                calendar::turn - *theft_time > 15_minutes ) {
-        set_owner( yours );
+        set_owner( p.get_faction()->id );
         remove_old_owner();
         return true;
         // No witnesses? then dont need to prompt, we assume the player is in process of stealing it.
@@ -3955,7 +4096,7 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
     if( prompt ) {
         if( !query_yn(
                 _( "This vehicle belongs to: %s, there may be consequences if you are observed interacting with it, continue?" ),
-                _( get_owner()->name ) ) ) {
+                _( get_owner_name() ) ) ) {
             return false;
         }
     }
@@ -3965,7 +4106,7 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
         elem->say( "<witnessed_thievery>", 7 );
     }
     if( !witnesses.empty() ) {
-        if( p.add_faction_warning( get_owner()->id ) ) {
+        if( p.add_faction_warning( get_owner() ) ) {
             for( npc *elem : witnesses ) {
                 elem->make_angry();
             }
@@ -5933,7 +6074,7 @@ void vehicle::update_time( const time_point &update_to )
 
         if( qty > 0 ) {
             if( has_part( global_part_pos3( pt ), "WATER_PURIFIER", true ) &&
-                ( fuel_left( "battery" ) > cost_to_purify ) ) {
+                ( fuel_left( "battery", true ) > cost_to_purify ) ) {
                 tank->ammo_set( "water_clean", c_qty );
                 discharge_battery( cost_to_purify );
             } else {

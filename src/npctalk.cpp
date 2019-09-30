@@ -322,10 +322,9 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
 
 static void tell_veh_stop_following()
 {
-    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
     for( auto &veh : g->m.get_vehicles() ) {
         auto &v = veh.v;
-        if( v->has_engine_type( fuel_type_animal, false ) && v->get_owner() == yours ) {
+        if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             v->is_following = false;
             v->engine_on = false;
         }
@@ -334,10 +333,9 @@ static void tell_veh_stop_following()
 
 static void assign_veh_to_follow()
 {
-    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
     for( auto &veh : g->m.get_vehicles() ) {
         auto &v = veh.v;
-        if( v->has_engine_type( fuel_type_animal, false ) && v->get_owner() == yours ) {
+        if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             v->activate_animal_follow();
         }
     }
@@ -371,10 +369,9 @@ void game::chat()
     }
     std::vector<vehicle *> animal_vehicles;
     std::vector<vehicle *> following_vehicles;
-    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
     for( auto &veh : g->m.get_vehicles() ) {
         auto &v = veh.v;
-        if( v->has_engine_type( fuel_type_animal, false ) && v->get_owner() == yours ) {
+        if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             animal_vehicles.push_back( v );
             if( v->is_following ) {
                 following_vehicles.push_back( v );
@@ -676,6 +673,7 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     if( get_faction() ) {
         get_faction()->known_by_u = true;
     }
+    set_known_to_u( true );
     dialogue d;
     d.alpha = &g->u;
     d.beta = this;
@@ -932,10 +930,12 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
             case NPC_MISSION_GUARD_ALLY:
             case NPC_MISSION_GUARD_PATROL:
                 return _( "I'm guarding this location." );
+            case NPC_MISSION_TRAVELLING:
             case NPC_MISSION_NULL:
                 return p->myclass.obj().get_job_description();
             default:
-                return "ERROR: Someone forgot to code an npc_mission text.";
+                return string_format( "ERROR: Someone forgot to code an npc_mission text for "
+                                      "mission: %d.", static_cast<int>( p->mission ) );
         } // switch (p->mission)
     } else if( topic == "TALK_SHOUT" ) {
         alpha->shout();
@@ -950,7 +950,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         ///\EFFECT_INT slightly affects whether player can size up NPCs
         int ability = g->u.per_cur * 3 + g->u.int_cur;
         if( ability <= 10 ) {
-            return "&You can't make anything out.";
+            return _( "&You can't make anything out." );
         }
 
         if( p->is_player_ally() || ability > 100 ) {
@@ -2505,9 +2505,11 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObjec
             WRAP( dismount ),
             WRAP( do_chop_plank ),
             WRAP( do_vehicle_deconstruct ),
+            WRAP( do_vehicle_repair ),
             WRAP( do_chop_trees ),
             WRAP( do_fishing ),
             WRAP( do_construction ),
+            WRAP( do_read ),
             WRAP( do_butcher ),
             WRAP( do_farming ),
             WRAP( assign_guard ),
@@ -2648,10 +2650,10 @@ talk_response::talk_response( JsonObject jo )
     if( jo.has_member( "truefalsetext" ) ) {
         JsonObject truefalse_jo = jo.get_object( "truefalsetext" );
         read_condition<dialogue>( truefalse_jo, "condition", truefalse_condition, true );
-        truetext = to_translation( truefalse_jo.get_string( "true" ) );
-        falsetext = to_translation( truefalse_jo.get_string( "false" ) );
+        truefalse_jo.read( "true", truetext );
+        truefalse_jo.read( "false", falsetext );
     } else {
-        truetext = to_translation( jo.get_string( "text" ) );
+        jo.read( "text", truetext );
         truefalse_condition = []( const dialogue & ) {
             return true;
         };

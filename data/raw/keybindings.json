@@ -1551,6 +1551,12 @@
   },
   {
     "type": "keybinding",
+    "id": "toggle_thief_mode",
+    "category": "DEFAULTMODE",
+    "name": "Toggle thief mode"
+  },
+  {
+    "type": "keybinding",
     "name": "Peek Around Corners",
     "category": "DEFAULTMODE",
     "id": "peek",
@@ -1855,9 +1861,9 @@
   },
   {
     "type": "keybinding",
-    "name": "View Kills",
+    "name": "View Scores",
     "category": "DEFAULTMODE",
-    "id": "kills",
+    "id": "scores",
     "bindings": [ { "input_method": "keyboard", "key": ")" } ]
   },
   {
