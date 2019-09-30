@@ -62,7 +62,6 @@
     "type": "item_group",
     "id": "NC_BONE_SEER_misc",
     "items": [
-      [ "bone_plate", 10 ],
       [ "needle_bone", 40 ],
       [ "bone_glue", 20 ],
       [ "bone_flute", 10 ],
