@@ -167,5 +167,12 @@
     "range": 100,
     "dispersion": 1000,
     "ranged_damage": { "damage_type": "stab", "amount": 30 }
+  },
+  {
+    "id": "fake_centrifuge",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": "centrifuge",
+    "qualities": [ [ "SEPARATE", 1 ], [ "ANALYSIS", 1 ] ]
   }
 ]
