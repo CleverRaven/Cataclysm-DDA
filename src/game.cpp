@@ -7098,8 +7098,8 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
 void game::list_items_monsters()
 {
     std::vector<Creature *> mons = u.get_visible_creatures( current_daylight_level( calendar::turn ) );
-    ///\EFFECT_PER increases range of interacting with items on the ground from a list
-    const std::vector<map_item_stack> items = find_nearby_items( 2 * u.per_cur + 12 );
+    // whole reality bubble
+    const std::vector<map_item_stack> items = find_nearby_items( 60 );
 
     if( mons.empty() && items.empty() ) {
         add_msg( m_info, _( "You don't see any items or monsters around you!" ) );
