@@ -8726,20 +8726,12 @@
     "skills_required": [ "survival", 1 ],
     "time": "15 m",
     "autolearn": true,
-    "qualities": [ { "id": "BOIL", "level": 1 } ], 
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "batch_time_factors": [ 80, 2 ],
-    "components": [ 
-        [ 
-            [ "fiddlehead_raw", 1 ] 
-        ], 
-        [ 
-            [ "water", 1 ], 
-            [ "water_clean", 1 ] ,
-            [ "broth", 1 ],
-            [ "broth_bone", 1 ], 
-            [ "broth_human", 1 ]
-        ] 
+    "components": [
+      [ [ "fiddlehead_raw", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "broth", 1 ], [ "broth_bone", 1 ], [ "broth_human", 1 ] ]
     ]
   },
   {
@@ -8757,10 +8749,18 @@
     "//": "The batch time adj. is because they need to be boiled before you can safely eat them, even if you pan-fry them.",
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ 
-        [ [ "fiddlehead_raw", 2 ] ],
-        [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "butter", 1 ], [ "fat", 1 ], [ "lard", 1 ], [ "tallow", 1 ], [ "ghee", 1 ] ],
-        [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    "components": [
+      [ [ "fiddlehead_raw", 2 ] ],
+      [
+        [ "cooking_oil", 1 ],
+        [ "cooking_oil2", 1 ],
+        [ "butter", 1 ],
+        [ "fat", 1 ],
+        [ "lard", 1 ],
+        [ "tallow", 1 ],
+        [ "ghee", 1 ]
+      ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },
   {
@@ -8776,10 +8776,17 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ 
-        [ [ "fiddlehead_boiled", 2 ] ],
-        [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ], [ "butter", 1 ], [ "fat", 1 ], [ "lard", 1 ], [ "tallow", 1 ], [ "ghee", 1 ] ],
-        [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    "components": [
+      [ [ "fiddlehead_boiled", 2 ] ],
+      [
+        [ "cooking_oil", 1 ],
+        [ "cooking_oil2", 1 ],
+        [ "butter", 1 ],
+        [ "fat", 1 ],
+        [ "lard", 1 ],
+        [ "tallow", 1 ],
+        [ "ghee", 1 ]
+      ]
     ]
   }
 ]
