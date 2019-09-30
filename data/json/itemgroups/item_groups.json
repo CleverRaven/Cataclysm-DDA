@@ -4057,6 +4057,8 @@
       [ "knitting_needles", 10 ],
       [ "survnote", 1 ],
       [ "holy_symbol", 80 ],
+      [ "bead_bracelet", 3 ],
+      [ "bead_necklace", 3 ],
       [ "cassock", 40 ],
       [ "thawb", 10 ],
       [ "kufi", 10 ],
