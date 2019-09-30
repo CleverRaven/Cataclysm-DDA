@@ -374,6 +374,7 @@
     "color": "magenta",
     "move_cost": 0,
     "coverage": 30,
+    "crafting_pseudo_item": "fake_centrifuge",
     "flags": [ "TRANSPARENT", "PERMEABLE" ],
     "bash": {
       "str_min": 3,
