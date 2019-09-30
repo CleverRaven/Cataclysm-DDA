@@ -2023,24 +2023,17 @@
     "color": [ "green", "brown_green", "brown", "brown" ],
     "move_cost": 3,
     "coverage": 20,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB"],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB" ],
     "examine_action": "harvest_ter_nectar",
     "harvest_by_season": [ { "seasons": [ "spring" ], "entries": [ { "drop": "fiddlehead_raw", "base_num": [ 1, 4 ] } ] } ],
     "transforms_into": "t_fern_harvested",
-    "bash": 
-    { 
-      "str_min": 2, 
-      "str_max": 6, 
-      "sound": "crunch.", 
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
       "sound_fail": "whish.",
       "ter_set": "t_dirt",
-      "items": [ 
-        {
-          "item": "withered",
-          "prob": 50, 
-          "count": [ 1, 2 ] 
-        } 
-      ]
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
     }
   },
   {
@@ -2053,23 +2046,16 @@
     "color": [ "green", "brown_green", "brown", "brown" ],
     "move_cost": 3,
     "coverage": 20,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB"],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB" ],
     "examine_action": "harvested_plant",
     "transforms_into": "t_fern",
-    "bash": 
-    { 
-      "str_min": 2, 
-      "str_max": 6, 
-      "sound": "crunch.", 
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
       "sound_fail": "whish.",
       "ter_set": "t_dirt",
-      "items": [ 
-        {
-          "item": "withered",
-          "prob": 50, 
-          "count": [ 1, 2 ] 
-        } 
-      ]
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
     }
   }
 ]
