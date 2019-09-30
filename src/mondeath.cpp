@@ -758,7 +758,6 @@ void mdeath::jabberwock( monster &z )
     player *ch = dynamic_cast<player *>( z.get_killer() );
 
     bool vorpal = ch && ch->is_player() &&
-                  rl_dist( z.pos(), ch->pos() ) <= 1 &&
                   ch->weapon.has_flag( "DIAMOND" ) &&
                   ch->weapon.volume() > 750_ml;
 
