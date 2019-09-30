@@ -308,7 +308,10 @@ void iuse_transform::finalize( const itype_id & )
 
 void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
 {
-    const item dummy( target, calendar::turn, std::max( ammo_qty, 1 ) );
+    item dummy( target, calendar::turn, std::max( ammo_qty, 1 ) );
+    if( it.has_flag( "FIT" ) ) {
+        dummy.item_tags.insert( "FIT" );
+    }
     dump.emplace_back( "TOOL", string_format( _( "<bold>Turns into</bold>: %s" ),
                        dummy.tname() ) );
     if( countdown > 0 ) {
