@@ -603,11 +603,14 @@ void mtype::load( JsonObject &jo, const std::string &src )
 
     MonsterGenerator &gen = MonsterGenerator::generator();
 
-    // Name and name plural are not translated here, but when needed in
-    // combination with the actual count in `mtype::nname`.
-    mandatory( jo, was_loaded, "name", name );
-    // default behavior: Assume the regular plural form (appending an “s”)
-    optional( jo, was_loaded, "name_plural", name_plural, name + "s" );
+    if( jo.has_string( "name_plural" ) && jo.has_string( "name" ) ) {
+        // Legacy format
+        // NOLINTNEXTLINE(cata-json-translation-input)
+        name = pl_translation( jo.get_string( "name" ), jo.get_string( "name_plural" ) );
+    } else {
+        name.make_plural();
+        mandatory( jo, was_loaded, "name", name );
+    }
     optional( jo, was_loaded, "description", description );
 
     optional( jo, was_loaded, "material", mat, auto_flags_reader<material_id> {} );

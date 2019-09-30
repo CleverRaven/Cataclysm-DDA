@@ -139,12 +139,24 @@ class translation
         static translation no_translation( const std::string &str );
 
         /**
+         * Can be used to ensure a translation object has plural form enabled
+         * before loading into it from JSON. If plural form has not been enabled
+         * yet, the plural string will be set to the original singular string.
+         * `ngettext` will ignore the new plural string and correctly retrieve
+         * the original translation.
+         *     Note that a `make_singular()` function is not provided due to the
+         * potential loss of information.
+         **/
+        void make_plural();
+
+        /**
          * Deserialize from json. Json format is:
          *     "text"
          * or
          *     { "ctxt": "foo", "str": "bar", "str_pl": "baz" }
          * "ctxt" and "str_pl" are optional. "str_pl" is only valid when an object
-         * of this class is constructed with `plural_tag` or `pl_translation()`.
+         * of this class is constructed with `plural_tag` or `pl_translation()`,
+         * or converted using `make_plural()`.
          **/
         void deserialize( JsonIn &jsin );
 

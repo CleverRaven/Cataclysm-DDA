@@ -248,7 +248,8 @@ JSON using the appropriate JSON functions. The JSON syntax is as follows:
 
 In the above code, `"ctxt"` and `"str_pl"` are both optional. Additionally,
 `"str_pl"` will only be read if the translation object is constructed using
-`plural_tag` or `pl_translation()`. Here's an example:
+`plural_tag` or `pl_translation()`, or converted using `make_plural()`. Here's
+an example:
 
 ```c++
 translation name{ translation::plural_tag() };
@@ -299,6 +300,7 @@ correctly extracted for translation.
 | Recipe group recipe descriptions
 | Item names (plural supported) and descriptions
 | Recipe descriptions
+| Monster names (plural supported) and descriptions
 
 ### Recommendations
 

@@ -13,10 +13,19 @@ The id member should be the unique id of the type. It can be any string, by conv
 
 Monster types support the following properties (mandatory, except if noted otherwise):
 
-## "name", "name_plural"
-(string)
+## "name"
+(string or object)
 
-Name (singular) displayed in-game, and optional the plural name, defaults to singular name + "s".
+```JSON
+"name": "cow"
+```
+
+```JSON
+"name": { "ctxt": "fish", "str": "pike", "str_pl": "pikes" }
+```
+
+Name displayed in-game, and optionally the plural name and a translation context.
+If the plural name is not specified, it defaults to singular name + "s".
 
 ## "description"
 (string)

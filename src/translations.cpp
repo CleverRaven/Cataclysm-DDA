@@ -409,6 +409,20 @@ translation translation::no_translation( const std::string &str )
     return { str, no_translation_tag() };
 }
 
+void translation::make_plural()
+{
+    if( needs_translation ) {
+        // if plural form has not been enabled yet
+        if( !raw_pl ) {
+            // copy the singular string without appending "s" to preserve the original behavior
+            raw_pl = raw;
+        }
+    } else if( !raw_pl ) {
+        // just mark plural form as enabled
+        raw_pl = std::string();
+    }
+}
+
 void translation::deserialize( JsonIn &jsin )
 {
     if( jsin.test_string() ) {
@@ -434,6 +448,8 @@ void translation::deserialize( JsonIn &jsin )
             } else {
                 raw_pl = raw + "s";
             }
+        } else if( jsobj.has_string( "str_pl" ) ) {
+            jsobj.throw_error( "str_pl not supported here", "str_pl" );
         }
         needs_translation = true;
     }
