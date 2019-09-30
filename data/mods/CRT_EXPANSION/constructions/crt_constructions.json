@@ -115,10 +115,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ 
-                   { "item": "withered_bundle", "count": [ 1, 3 ] },
-                   { "item": "rock", "count": [ 1, 4 ] }
-  ],
+    "byproducts": [ { "item": "withered_bundle", "count": [ 1, 3 ] }, { "item": "rock", "count": [ 1, 4 ] } ],
     "pre_terrain": "t_grass",
     "post_terrain": "t_pit_shallow"
   },
