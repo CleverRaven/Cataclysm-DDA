@@ -297,7 +297,7 @@ correctly extracted for translation.
 | Vitamin names
 | Recipe blueprint names
 | Recipe group recipe descriptions
-| Item descriptions
+| Item names (plural supported) and descriptions
 | Recipe descriptions
 
 ### Recommendations

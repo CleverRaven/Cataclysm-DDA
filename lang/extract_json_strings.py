@@ -953,14 +953,14 @@ def extract(item, infilename):
         return
     if name:
         if "name_plural" in item:
+            # legacy format
             if item["name_plural"] != "none":
                 writestr(outfile, name, item["name_plural"], **kwargs)
             else:
                 writestr(outfile, name, **kwargs)
         else:
             if object_type in needs_plural:
-                # no name_plural entry in json, use default constructed (name+"s"), as in item_factory.cpp
-                writestr(outfile, name, "{}s".format(name), **kwargs)
+                writestr(outfile, name, new_pl_fmt=True, **kwargs)
             else:
                 writestr(outfile, name, **kwargs)
         wrote = True
