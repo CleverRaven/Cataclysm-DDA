@@ -5172,6 +5172,26 @@
   },
   {
     "type": "recipe",
+    "result": "fish_bagel",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "10 m",
+    "book_learn": [ [ "family_cookbook", 2 ], [ "mag_cooking", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "fish_cooked", 1 ], [ "fish_fried", 1 ] ],
+      [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
+      [ [ "spinach", 1 ] ],
+      [ [ "cooking_oil", 1 ] ],
+      [ [ "lemon", 1 ] ],
+      [ [ "vinegar", 1 ] ],
+      [ [ "scrambled_eggs", 1 ], [ "boiled_egg", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "lutefisk",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
