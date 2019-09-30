@@ -176,7 +176,7 @@
             "clear_types": false,
             "types": {
               "t_underbrush": 30,
-              "t_fern": 15,
+              "t_fern": 9,
               "t_shrub": 5,
               "t_shrub_blueberry": 1,
               "t_shrub_strawberry": 1,
@@ -268,7 +268,7 @@
             "clear_types": false,
             "types": {
               "t_underbrush": 30,
-              "t_fern": 15,
+              "t_fern": 9,
               "t_shrub": 5,
               "t_shrub_blueberry": 1,
               "t_shrub_strawberry": 1,
