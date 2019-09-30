@@ -844,7 +844,7 @@ void npc::move()
         if( mission == NPC_MISSION_ASSIGNED_CAMP ) {
             bool found_job = false;
             if( has_job() && calendar::once_every( 30_minutes ) ) {
-                if ( job_duties.find(job) != job_duties.end() ) {
+                if( job_duties.find( job ) != job_duties.end() ) {
                     const std::vector<activity_id> jobs_to_rotate = job_duties[job];
                     if( !jobs_to_rotate.empty() ) {
                         assign_activity( random_entry( jobs_to_rotate ) );
@@ -859,7 +859,7 @@ void npc::move()
                     }
                 }
             }
-            if( !found_job ){
+            if( !found_job ) {
                 action = npc_pause;
                 goal = global_omt_location();
             }
