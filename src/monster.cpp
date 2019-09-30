@@ -212,7 +212,6 @@ monster::monster()
     upgrade_time = -1;
     last_updated = 0;
     biosig_timer = -1;
-    last_biosig = 0;
 
     monster::reset_bonuses();
 }
@@ -2310,7 +2309,6 @@ void monster::process_one_effect( effect &it, bool is_new )
 
     mod_speed_bonus( get_effect( "SPEED", reduced ) );
     mod_dodge_bonus( get_effect( "DODGE", reduced ) );
-    mod_block_bonus( get_effect( "BLOCK", reduced ) );
     mod_hit_bonus( get_effect( "HIT", reduced ) );
     mod_bash_bonus( get_effect( "BASH", reduced ) );
     mod_cut_bonus( get_effect( "CUT", reduced ) );
