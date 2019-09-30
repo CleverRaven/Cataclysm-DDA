@@ -771,7 +771,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 18,
-    "description": "A handful of immature fern fronds, still curled up like the head of a fiddle. Delicious when cooked, but consuming raw can cause food poisoning.",
+    "description": "A handful of immature fern fronds, still curled up like the head of a fiddle.  Delicious when cooked, but consuming raw can cause food poisoning.",
     "price": 40,
     "material": "veggy",
     "volume": "62 ml",
