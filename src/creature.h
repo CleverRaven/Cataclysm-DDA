@@ -339,7 +339,7 @@ class Creature
         /** Removes a listed effect. bp = num_bp means to remove all effects of
          * a given type, targeted or untargeted. Returns true if anything was
          * removed. */
-        bool remove_effect( const efftype_id &eff_id, body_part bp = num_bp );
+        virtual bool remove_effect( const efftype_id &eff_id, body_part bp = num_bp );
         /** Remove all effects. */
         void clear_effects();
         /** Check if creature has the matching effect. bp = num_bp means to check if the Creature has any effect

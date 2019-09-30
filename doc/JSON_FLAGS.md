@@ -184,7 +184,6 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```TANGLE``` When this projectile hits a target, it has a chance to tangle them up and immobilise them.
 - ```NO_EMBED``` When an item would be spawned from the projectile, it will always be spawned on the ground rather than in monster's inventory. Implied for active thrown items. Doesn't do anything on projectiles that do not drop items.
 - ```NO_ITEM_DAMAGE``` Will not damage items on the map even when it otherwise would try to.
-- ```MODIFIER``` Internal flag, effected monsters search for certain bonuses in their effect data.
 - ```PLASMA``` Creates a trail of superheated plasma.
 - ```RECOVER_[X]``` Has a (X-1/X) chance to create a single charge of the used ammo at the point of impact.
 - ```RECYCLED``` (For handmade ammo) causes the gun to misfire sometimes, this independent of the weapon flags.

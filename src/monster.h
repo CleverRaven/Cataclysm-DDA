@@ -68,6 +68,7 @@ enum monster_effect_cache_fields {
     MOVEMENT_IMPAIRED = 0,
     FLEEING,
     VISION_IMPAIRED,
+    MODIFIED, // Uses data hold by effects instead of itself.
     NUM_MEFF
 };
 
@@ -319,6 +320,10 @@ class monster : public Creature
         void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
                          bool permanent = false,
                          int intensity = 0, bool force = false, bool deferred = false ) override;
+        /** Same for removing effects.*/
+        bool remove_effect( const efftype_id &eff_id, body_part bp = num_bp ) override;
+        /** Returns true for an effect, whoose funcionality is enabled through effect_cache[MODIFIED] to reduce overhead.*/
+        bool effect_is_modifier_enabled( const effect &eff );
         /** Returns a std::string containing effects for descriptions */
         std::string get_effect_status() const;
 
@@ -515,7 +520,6 @@ class monster : public Creature
         tripoint goal;
         tripoint position;
         bool dead;
-        int growth_bonus;
         /** Legacy loading logic for monsters that are packing ammo. **/
         void normalize_ammo( int old_ammo );
         /** Normal upgrades **/

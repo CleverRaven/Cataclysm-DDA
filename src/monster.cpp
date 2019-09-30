@@ -213,6 +213,8 @@ monster::monster()
     last_baby = 0;
     biosig_timer = -1;
     last_biosig = 0;
+
+    monster::reset_bonuses();
 }
 
 monster::monster( const mtype_id &id ) : monster()
@@ -621,7 +623,7 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
         mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
     }
 
-    if( has_effect_with_flag( "MODIFIER", num_bp ) ) {
+    if( effect_cache[MODIFIED] ) {
         wprintz( w, c_light_gray, _( " It is %s." ), size_names.at( get_size() ) );
     }
 
@@ -1668,6 +1670,28 @@ void monster::add_effect( const efftype_id &eff_id, const time_duration dur, bod
 {
     // Effects are not applied to specific monster body part
     Creature::add_effect( eff_id, dur, num_bp, permanent, intensity, force, deferred );
+
+    effect_cache[MODIFIED] = effect_cache[MODIFIED] | effect_is_modifier_enabled( get_effect( eff_id ) );
+}
+
+bool monster::remove_effect( const efftype_id &eff_id, body_part bp )
+{
+    bool modif = effect_is_modifier_enabled( get_effect( eff_id ) );
+    bool rtrn = Creature::remove_effect( eff_id, bp );
+
+    if( modif && effect_cache[MODIFIED] ){
+        modif = false;
+        for( const auto& ef : *effects ) {
+            modif |= effect_is_modifier_enabled( ef.second.at( num_bp ) );
+        }
+        effect_cache[MODIFIED] = modif;
+    }
+    return rtrn;
+}
+
+bool monster::effect_is_modifier_enabled( const effect &eff )
+{
+    return eff.get_mod( "GROWTH" ) != 0;
 }
 
 std::string monster::get_effect_status() const
@@ -1878,7 +1902,6 @@ void monster::reset_bonuses()
     effect_cache.reset();
 
     Creature::reset_bonuses();
-    growth_bonus = 0;
 }
 
 void monster::reset_stats()
@@ -2515,7 +2538,7 @@ field_type_id monster::gibType() const
 
 m_size monster::get_size() const
 {
-    if( has_effect_with_flag( "MODIFIER", num_bp ) ) {
+    if( effect_cache[MODIFIED] ) {
         return m_size( type->size + get_effect_bonus( "GROWTH" ) );
     } else {
         return type->size;
@@ -2524,7 +2547,7 @@ m_size monster::get_size() const
 
 units::mass monster::get_weight() const
 {
-    if( has_effect_with_flag( "MODIFIER", num_bp ) ) {
+    if( effect_cache[MODIFIED] ) {
         return units::operator*( type->weight, get_size() / type->size );
     } else {
         return type->weight;
@@ -2533,7 +2556,7 @@ units::mass monster::get_weight() const
 
 units::volume monster::get_volume() const
 {
-    if( has_effect_with_flag( "MODIFIER", num_bp ) ) {
+    if( effect_cache[MODIFIED] ) {
         return units::operator*( type->volume, get_size() / type->size );
     } else {
         return type->volume;

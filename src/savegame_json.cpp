@@ -1737,7 +1737,6 @@ void monster::load( JsonObject &data )
     }
     data.read( "tied_item", tied_item );
     data.read( "hp", hp );
-    data.read( "growth_bonus", growth_bonus );
     data.read( "battery_item", battery_item );
 
     // sp_timeout indicates an old save, prior to the special_attacks refactor
@@ -1865,7 +1864,6 @@ void monster::store( JsonOut &json ) const
     json.member( "wandz", wander_pos.z );
     json.member( "wandf", wandf );
     json.member( "hp", hp );
-    json.member( "growth_bonus", growth_bonus );
     json.member( "special_attacks", special_attacks );
     json.member( "friendly", friendly );
     json.member( "fish_population", fish_population );

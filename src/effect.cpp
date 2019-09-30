@@ -350,11 +350,6 @@ bool effect_type::load_mod_data( JsonObject &jo, const std::string &member )
         extract_effect( j, mod_data, "cut_mod",    member, "CUT",  "min" );
         extract_effect( j, mod_data, "growth_mod",    member, "GROWTH",  "min" );
 
-        // internal flags
-        if( j.has_member( "growth_mod" ) ) {
-            flags.insert( "MODIFIER" );
-        }
-
         return true;
     } else {
         return false;
