@@ -5181,7 +5181,7 @@
     "book_learn": [ [ "family_cookbook", 2 ], [ "mag_cooking", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "fish_cooked", 1 ], [ "fish_fried", 1 ] ],
+      [ [ "fish_cooked", 1 ], [ "fish_fried", 1 ], [ "can_salmon", 1 ] ],
       [ [ "flatbread", 2 ], [ "bread", 2 ], [ "cornbread", 2 ], [ "wastebread", 2 ], [ "sourdough_bread", 2 ] ],
       [ [ "spinach", 1 ] ],
       [ [ "cooking_oil", 1 ] ],
