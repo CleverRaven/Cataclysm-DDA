@@ -2204,7 +2204,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     } );
     if( !worn_str.empty() ) {
         std::string wearing = _( "Wearing: " ) + remove_color_tags( worn_str );
-        enumerate_print( wearing, c_blue );
+        enumerate_print( wearing, c_light_blue );
     }
 
     // as of now, visibility of mutations is between 0 and 10
