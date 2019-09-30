@@ -315,7 +315,7 @@
     "name": "fish and spinach bagel",
     "name_plural": "fish and spinach bagels",
     "weight": "201 g",
-    "color": "purple",
+    "color": "magenta",
     "spoils_in": "1 day",
     "container": "wrapper",
     "comestible_type": "FOOD",
