@@ -4648,7 +4648,7 @@ void player::process_one_effect( effect &it, bool is_new )
     val = get_effect( "SLEEP", reduced );
     if( val != 0 ) {
         mod = 1;
-        if( is_new || it.activated( calendar::turn, "SLEEP", val, reduced, mod ) &&
+        if( ( is_new || it.activated( calendar::turn, "SLEEP", val, reduced, mod ) ) &&
             !has_effect( efftype_id( "sleep" ) ) ) {
             add_msg_if_player( _( "You pass out!" ) );
             fall_asleep( time_duration::from_turns( val ) );
