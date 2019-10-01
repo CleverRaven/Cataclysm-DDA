@@ -906,7 +906,13 @@
       [ "power_supply", 1 ],
       [ "press", 1 ],
       [ "processor", 1 ],
-      { "item": "protein_powder", "prob": 1, "container-item": "bottle_plastic_small", "charges-min": 1, "charges-max": 9 },
+      {
+        "item": "protein_powder",
+        "prob": 1,
+        "container-item": "bottle_plastic_small",
+        "charges-min": 1,
+        "charges-max": 9
+      },
       [ "protein_shake", 1 ],
       [ "prozac", 3 ],
       [ "puck", 1 ],
