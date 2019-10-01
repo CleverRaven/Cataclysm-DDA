@@ -243,7 +243,7 @@ std::pair<int, int> player::fun_for( const item &comest ) const
 
     if( has_active_bionic( bio_taste_blocker ) &&
         power_level > abs( comest.get_comestible()->fun ) &&
-        comest.get_comestible()->fun < 0 ) {
+        fun < 0 ) {
         fun = 0;
     }
 
