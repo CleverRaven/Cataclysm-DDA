@@ -4973,189 +4973,189 @@ void player::suffer()
             }
         }
         if( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) &&
-    !has_effect( effect_took_thorazine ) )
-{
-    if( is_player() ) {
-        bool done_effect = false;
-        // Sound
-        if( one_turn_in( 4_hours ) ) {
-            sound_hallu();
-        }
-
-        // Follower turns hostile
-        if( !done_effect && one_turn_in( 4_hours ) ) {
-            std::vector<std::shared_ptr<npc>> followers = overmap_buffer.get_npcs_near_player( 12 );
-
-            std::string who_gets_angry = name;
-            if( !followers.empty() ) {
-                who_gets_angry = random_entry_ref( followers )->name;
-            }
-            add_msg( m_bad, _( "%1$s gets angry!" ), who_gets_angry );
-            done_effect = true;
-        }
-
-        // Monster dies
-        if( !done_effect && one_turn_in( 6_hours ) ) {
-
-            // TODO: move to monster group json
-            static const mtype_id mon_zombie( "mon_zombie" );
-            static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
-            static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
-            static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
-            static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
-            static const std::array<mtype_id, 5> monsters = { {
-                    mon_zombie, mon_zombie_fat, mon_zombie_fireman, mon_zombie_cop, mon_zombie_soldier
+            !has_effect( effect_took_thorazine ) )
+        {
+            if( is_player() ) {
+                bool done_effect = false;
+                // Sound
+                if( one_turn_in( 4_hours ) ) {
+                    sound_hallu();
                 }
-            };
-            add_msg( _( "%s dies!" ), random_entry_ref( monsters )->nname() );
-            done_effect = true;
-        }
 
-        // Limb Breaks
-        if( !done_effect && one_turn_in( 4_hours ) ) {
-            std::string snip = SNIPPET.random_from_category( "broken_limb" );
-            add_msg( m_bad, snip );
-            done_effect = true;
-        }
+                // Follower turns hostile
+                if( !done_effect && one_turn_in( 4_hours ) ) {
+                    std::vector<std::shared_ptr<npc>> followers = overmap_buffer.get_npcs_near_player( 12 );
 
-        // NPC chat
-        if( !done_effect && one_turn_in( 4_hours ) ) {
-            std::string i_name = Name::generate( one_in( 2 ) );
+                    std::string who_gets_angry = name;
+                    if( !followers.empty() ) {
+                        who_gets_angry = random_entry_ref( followers )->name;
+                    }
+                    add_msg( m_bad, _( "%1$s gets angry!" ), who_gets_angry );
+                    done_effect = true;
+                }
 
-            std::string i_talk = SNIPPET.random_from_category( "<lets_talk>" );
-            parse_tags( i_talk, *this, *this );
+                // Monster dies
+                if( !done_effect && one_turn_in( 6_hours ) ) {
 
-            add_msg( _( "%1$s says: \"%2$s\"" ), i_name, i_talk );
-            done_effect = true;
-        }
+                    // TODO: move to monster group json
+                    static const mtype_id mon_zombie( "mon_zombie" );
+                    static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
+                    static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
+                    static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
+                    static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
+                    static const std::array<mtype_id, 5> monsters = { {
+                            mon_zombie, mon_zombie_fat, mon_zombie_fireman, mon_zombie_cop, mon_zombie_soldier
+                        }
+                    };
+                    add_msg( _( "%s dies!" ), random_entry_ref( monsters )->nname() );
+                    done_effect = true;
+                }
 
-        // Skill raise
-        if( !done_effect && one_turn_in( 12_hours ) ) {
-            skill_id raised_skill = Skill::random_skill();
-            add_msg( m_good, _( "You increase %1$s to level %2$d." ), raised_skill.obj().name(),
-                     get_skill_level( raised_skill ) + 1 );
-            done_effect = true;
-        }
+                // Limb Breaks
+                if( !done_effect && one_turn_in( 4_hours ) ) {
+                    std::string snip = SNIPPET.random_from_category( "broken_limb" );
+                    add_msg( m_bad, snip );
+                    done_effect = true;
+                }
 
-        // Talk to self
-        if( !done_effect && one_turn_in( 4_hours ) ) {
-            std::string snip = SNIPPET.random_from_category( "schizo_self_talk" );
-            add_msg( _( "%1$s says: \"%2$s\"" ), name, snip );
-            done_effect = true;
-        }
+                // NPC chat
+                if( !done_effect && one_turn_in( 4_hours ) ) {
+                    std::string i_name = Name::generate( one_in( 2 ) );
 
-        // Talking weapon
-        if( !done_effect && !weapon.is_null() ) {
-            // If player has a weapon, picks a message from said weapon
-            // Weapon tells player to kill a monster if any are nearby
-            // Weapon is concerned for player if bleeding
-            // Weapon is concerned for itself if damaged
-            // Otherwise random chit-chat
+                    std::string i_talk = SNIPPET.random_from_category( "<lets_talk>" );
+                    parse_tags( i_talk, *this, *this );
 
-            std::string i_name_w = weapon.has_var( "item_label" ) ?
-                                   weapon.get_var( "item_label" ) :
-                                   _( "Your " ) + weapon.type_name();
+                    add_msg( _( "%1$s says: \"%2$s\"" ), i_name, i_talk );
+                    done_effect = true;
+                }
 
-            std::vector<std::weak_ptr<monster>> mons = g->all_monsters().items;
+                // Skill raise
+                if( !done_effect && one_turn_in( 12_hours ) ) {
+                    skill_id raised_skill = Skill::random_skill();
+                    add_msg( m_good, _( "You increase %1$s to level %2$d." ), raised_skill.obj().name(),
+                             get_skill_level( raised_skill ) + 1 );
+                    done_effect = true;
+                }
 
-            std::string i_talk_w;
-            bool does_talk = false;
-            if( !mons.empty() && one_turn_in( 12_minutes ) ) {
-                std::vector<std::string> seen_mons;
-                for( auto &n : mons ) {
-                    if( sees( *n.lock() ) ) {
-                        seen_mons.emplace_back( n.lock()->get_name() );
+                // Talk to self
+                if( !done_effect && one_turn_in( 4_hours ) ) {
+                    std::string snip = SNIPPET.random_from_category( "schizo_self_talk" );
+                    add_msg( _( "%1$s says: \"%2$s\"" ), name, snip );
+                    done_effect = true;
+                }
+
+                // Talking weapon
+                if( !done_effect && !weapon.is_null() ) {
+                    // If player has a weapon, picks a message from said weapon
+                    // Weapon tells player to kill a monster if any are nearby
+                    // Weapon is concerned for player if bleeding
+                    // Weapon is concerned for itself if damaged
+                    // Otherwise random chit-chat
+
+                    std::string i_name_w = weapon.has_var( "item_label" ) ?
+                                           weapon.get_var( "item_label" ) :
+                                           _( "Your " ) + weapon.type_name();
+
+                    std::vector<std::weak_ptr<monster>> mons = g->all_monsters().items;
+
+                    std::string i_talk_w;
+                    bool does_talk = false;
+                    if( !mons.empty() && one_turn_in( 12_minutes ) ) {
+                        std::vector<std::string> seen_mons;
+                        for( auto &n : mons ) {
+                            if( sees( *n.lock() ) ) {
+                                seen_mons.emplace_back( n.lock()->get_name() );
+                            }
+                        }
+                        if( !seen_mons.empty() ) {
+                            std::string talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_monster" );
+                            i_talk_w = string_format( talk_w, random_entry_ref( seen_mons ) );
+                            does_talk = true;
+                        }
+                    }
+                    if( !does_talk && has_effect( effect_bleed ) && one_turn_in( 5_minutes ) ) {
+                        i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" );
+                        does_talk = true;
+                    } else if( weapon.damage() >= weapon.max_damage() / 3 && one_turn_in( 1_hours ) ) {
+                        i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" );
+                        does_talk = true;
+                    } else if( one_turn_in( 4_hours ) ) {
+                        i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_misc" );
+                        does_talk = true;
+                    }
+                    if( does_talk ) {
+                        add_msg( _( "%1$s says: \"%2$s\"" ), i_name_w, i_talk_w );
+                        done_effect = true;
                     }
                 }
-                if( !seen_mons.empty() ) {
-                    std::string talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_monster" );
-                    i_talk_w = string_format( talk_w, random_entry_ref( seen_mons ) );
-                    does_talk = true;
+                // Delusions
+                if( !done_effect && one_turn_in( 8_hours ) ) {
+                    if( rng( 1, 20 ) > 5 ) {  // 75% chance
+                        std::string snip = SNIPPET.random_from_category( "schizo_delusion_paranoid" );
+                        add_msg( m_warning, snip );
+                        add_morale( MORALE_FEELING_BAD, -20, -100 );
+                    } else { // 25% chance
+                        std::string snip = SNIPPET.random_from_category( "schizo_delusion_grandiose" );
+                        add_msg( m_good, snip );
+                        add_morale( MORALE_FEELING_GOOD, 20, 100 );
+                    }
+                    done_effect = true;
+                }
+                // Formication
+                if( !done_effect && one_turn_in( 6_hours ) ) {
+                    std::string snip = SNIPPET.random_from_category( "schizo_formication" );
+                    body_part bp = random_body_part( true );
+                    add_effect( effect_formication, 45_minutes, bp );
+                    add_msg( m_bad, snip );
+                    done_effect = true;
+                }
+                // Numbness
+                if( !done_effect && one_turn_in( 4_hours ) ) {
+                    add_msg( m_bad, _( "You suddenly feel so numb..." ) );
+                    mod_painkiller( 25 );
+                    done_effect = true;
+                }
+                // Hallucination
+                if( !done_effect && one_turn_in( 6_hours ) ) {
+                    add_effect( effect_hallu, 6_hours );
+                    done_effect = true;
+                }
+                // Visuals
+                if( !done_effect && one_turn_in( 2_hours ) ) {
+                    add_effect( effect_visuals, rng( 15_turns, 60_turns ) );
+                    done_effect = true;
+                }
+                // Shaking
+                if( !done_effect && !has_effect( effect_valium ) && one_turn_in( 4_hours ) ) {
+                    add_msg( m_bad, _( "You start to shake uncontrollably." ) );
+                    add_effect( effect_shakes, rng( 2_minutes, 5_minutes ) );
+                    done_effect = true;
+                }
+                // Shout
+                if( !done_effect && one_turn_in( 4_hours ) ) {
+                    std::string snip = SNIPPET.random_from_category( "schizo_self_shout" );
+                    shout( string_format( _( "yourself shout, %s" ), snip ) );
+                    done_effect = true;
+                }
+                // Drop weapon
+                if( !done_effect && one_turn_in( 2_days ) ) {
+                    if( !weapon.is_null() ) {
+                        std::string i_name_w = weapon.has_var( "item_label" ) ?
+                                               weapon.get_var( "item_label" ) :
+                                               "your " + weapon.type_name();
+
+                        std::string snip = SNIPPET.random_from_category( "schizo_weapon_drop" );
+                        std::string str = string_format( snip, i_name_w );
+                        str[0] = toupper( str[0] );
+
+                        add_msg( m_bad, str );
+                        drop( get_item_position( &weapon ), pos() );
+                        // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
+                        done_effect = true;
+                    }
                 }
             }
-            if( !does_talk && has_effect( effect_bleed ) && one_turn_in( 5_minutes ) ) {
-                i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" );
-                does_talk = true;
-            } else if( weapon.damage() >= weapon.max_damage() / 3 && one_turn_in( 1_hours ) ) {
-                i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" );
-                does_talk = true;
-            } else if( one_turn_in( 4_hours ) ) {
-                i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_misc" );
-                does_talk = true;
-            }
-            if( does_talk ) {
-                add_msg( _( "%1$s says: \"%2$s\"" ), i_name_w, i_talk_w );
-                done_effect = true;
-            }
         }
-        // Delusions
-        if( !done_effect && one_turn_in( 8_hours ) ) {
-            if( rng( 1, 20 ) > 5 ) {  // 75% chance
-                std::string snip = SNIPPET.random_from_category( "schizo_delusion_paranoid" );
-                add_msg( m_warning, snip );
-                add_morale( MORALE_FEELING_BAD, -20, -100 );
-            } else { // 25% chance
-                std::string snip = SNIPPET.random_from_category( "schizo_delusion_grandiose" );
-                add_msg( m_good, snip );
-                add_morale( MORALE_FEELING_GOOD, 20, 100 );
-            }
-            done_effect = true;
-        }
-        // Formication
-        if( !done_effect && one_turn_in( 6_hours ) ) {
-            std::string snip = SNIPPET.random_from_category( "schizo_formication" );
-            body_part bp = random_body_part( true );
-            add_effect( effect_formication, 45_minutes, bp );
-            add_msg( m_bad, snip );
-            done_effect = true;
-        }
-        // Numbness
-        if( !done_effect && one_turn_in( 4_hours ) ) {
-            add_msg( m_bad, _( "You suddenly feel so numb..." ) );
-            mod_painkiller( 25 );
-            done_effect = true;
-        }
-        // Hallucination
-        if( !done_effect && one_turn_in( 6_hours ) ) {
-            add_effect( effect_hallu, 6_hours );
-            done_effect = true;
-        }
-        // Visuals
-        if( !done_effect && one_turn_in( 2_hours ) ) {
-            add_effect( effect_visuals, rng( 15_turns, 60_turns ) );
-            done_effect = true;
-        }
-        // Shaking
-        if( !done_effect && !has_effect( effect_valium ) && one_turn_in( 4_hours ) ) {
-            add_msg( m_bad, _( "You start to shake uncontrollably." ) );
-            add_effect( effect_shakes, rng( 2_minutes, 5_minutes ) );
-            done_effect = true;
-        }
-        // Shout
-        if( !done_effect && one_turn_in( 4_hours ) ) {
-            std::string snip = SNIPPET.random_from_category( "schizo_self_shout" );
-            shout( string_format( _( "yourself shout, %s" ), snip ) );
-            done_effect = true;
-        }
-        // Drop weapon
-        if( !done_effect && one_turn_in( 2_days ) ) {
-            if( !weapon.is_null() ) {
-                std::string i_name_w = weapon.has_var( "item_label" ) ?
-                                       weapon.get_var( "item_label" ) :
-                                       "your " + weapon.type_name();
-
-                std::string snip = SNIPPET.random_from_category( "schizo_weapon_drop" );
-                std::string str = string_format( snip, i_name_w );
-                str[0] = toupper( str[0] );
-
-                add_msg( m_bad, str );
-                drop( get_item_position( &weapon ), pos() );
-                // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-                done_effect = true;
-            }
-        }
-    }
-}
 
         if( ( has_trait( trait_NARCOLEPTIC ) || has_artifact_with( AEP_SCHIZO ) ) ) {
             if( one_turn_in( 8_hours ) ) {
