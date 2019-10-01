@@ -214,9 +214,9 @@ const efftype_id effect_took_flumed( "took_flumed" );
 const efftype_id effect_took_prozac( "took_prozac" );
 const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 const efftype_id effect_took_prozac_visible( "took_prozac_visible" );
-const efftype_id effect_took_thorazine("took_thorazine");
-const efftype_id effect_took_thorazine_bad("took_thorazine_bad");
-const efftype_id effect_took_thorazine_visible("took_thorazine_visible");
+const efftype_id effect_took_thorazine( "took_thorazine" );
+const efftype_id effect_took_thorazine_bad( "took_thorazine_bad" );
+const efftype_id effect_took_thorazine_visible( "took_thorazine_visible" );
 const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_took_xanax_visible( "took_xanax_visible" );
 const efftype_id effect_valium( "valium" );
@@ -861,7 +861,7 @@ int iuse::meditate( player *p, item *it, bool t, const tripoint & )
 
 int iuse::thorazine( player *p, item *it, bool, const tripoint & )
 {
-    if ( p->has_effect( effect_took_thorazine ) ) {
+    if( p->has_effect( effect_took_thorazine ) ) {
         p->remove_effect( effect_took_thorazine );
         p->mod_fatigue( 15 );
     }
