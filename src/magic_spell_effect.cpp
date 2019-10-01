@@ -27,6 +27,7 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
+#include "overmapbuffer.h"
 #include "player.h"
 #include "projectile.h"
 #include "type_id.h"
@@ -721,4 +722,15 @@ void spell_effect::flashbang( const spell &sp, Creature &caster, const tripoint 
 {
     explosion_handler::flashbang( target, caster.is_avatar() &&
                                   !sp.is_valid_target( valid_target::target_self ) );
+}
+
+void spell_effect::map( const spell &sp, Creature &caster, const tripoint & )
+{
+    const avatar *you = caster.as_avatar();
+    if( !you ) {
+        // revealing the map only makes sense for the avatar
+        return;
+    }
+    const tripoint center = you->global_omt_location();
+    overmap_buffer.reveal( center.xy(), sp.aoe(), center.z );
 }
