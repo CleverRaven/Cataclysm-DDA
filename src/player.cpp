@@ -872,6 +872,7 @@ void player::update_bodytemp()
     const bool has_climate_control = in_climate_control();
     const bool use_floor_warmth = can_use_floor_warmth();
     const furn_id furn_at_pos = g->m.furn( pos() );
+    const optional_vpart_position vp = g->m.veh_at( pos() );
     // Temperature norms
     // Ambient normal temperature is lower while asleep
     const int ambient_norm = has_sleep ? 3100 : 1900;
@@ -1075,6 +1076,9 @@ void player::update_bodytemp()
                     if( furn_at_pos != f_null ) {
                         // Can sit on something to lift feet up to the fire
                         bonus_fire_warmth = best_fire * furn_at_pos.obj().bonus_fire_warmth_feet;
+                    } else if( vp ) {
+                        bonus_fire_warmth = best_fire * vp.part_with_feature( "BOARDABLE",
+                                            true )->info().bonus_fire_warmth_feet;
                     } else {
                         // Has to stand
                         bonus_fire_warmth = best_fire * 300;
@@ -1334,21 +1338,14 @@ int player::floor_bedding_warmth( const tripoint &pos )
     int floor_bedding_warmth = 0;
 
     const optional_vpart_position vp = g->m.veh_at( pos );
-    const bool veh_bed = static_cast<bool>( vp.part_with_feature( "BED", true ) );
-    const bool veh_seat = static_cast<bool>( vp.part_with_feature( "SEAT", true ) );
 
     // Search the floor for bedding
     if( furn_at_pos != f_null ) {
         floor_bedding_warmth += furn_at_pos.obj().floor_bedding_warmth;
     } else if( !trap_at_pos.is_null() ) {
         floor_bedding_warmth += trap_at_pos.floor_bedding_warmth;
-    } else if( veh_bed && veh_seat ) {
-        // BED+SEAT is intentionally worse than just BED
-        floor_bedding_warmth += 250;
-    } else if( veh_bed ) {
-        floor_bedding_warmth += 300;
-    } else if( veh_seat ) {
-        floor_bedding_warmth += 200;
+    } else if( vp ) {
+        floor_bedding_warmth += vp.part_with_feature( "BOARDABLE", true )->info().floor_bedding_warmth;
     } else if( ter_at_pos == t_improvised_shelter ) {
         floor_bedding_warmth -= 500;
     } else {
@@ -9513,14 +9510,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
                     break; // prevents using more than 1 sleep aid
                 }
             }
-            if( vp.part_with_feature( "BED", true ) ) {
-                comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-            } else if( vp.part_with_feature( "SEAT", true ) ) {
-                comfort += 0 + static_cast<int>( comfort_level::slightly_comfortable );
-            } else {
-                // Sleeping elsewhere is uncomfortable
-                comfort -= g->m.move_cost( p );
-            }
+            comfort += vp.part_with_feature( "BOARDABLE", true )->info().comfort;
         }
         // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
         else if( furn_at_pos != f_null ) {

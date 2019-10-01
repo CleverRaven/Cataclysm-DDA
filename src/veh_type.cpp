@@ -337,6 +337,11 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "flags", def.flags );
     assign( jo, "description", def.description );
 
+    assign( jo, "comfort", def.comfort, 0 );
+    assign( jo, "floor_bedding_warmth", def.floor_bedding_warmth, 0 );
+    assign( jo, "bonus_fire_warmth_feet", def.bonus_fire_warmth_feet, 300 );
+
+
     if( jo.has_member( "transform_terrain" ) ) {
         JsonObject jttd = jo.get_object( "transform_terrain" );
         JsonArray jpf = jttd.get_array( "pre_flags" );
