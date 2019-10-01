@@ -5502,7 +5502,8 @@ void player::suffer()
         const mutation_branch &mdata = m.first.obj();
         for( const body_part bp : all_body_parts ) {
             if( calendar::once_every( 1_minutes ) ) {
-                const float wetness_percentage =  body_wetness[bp] / drench_capacity[bp]; // 0.0 - 1.0
+                // 0.0 - 1.0
+                const float wetness_percentage =  static_cast<float>( body_wetness[bp] ) / drench_capacity[bp];
                 const int dmg = mdata.weakness_to_water * wetness_percentage;
                 if( dmg > 0 ) {
                     apply_damage( nullptr, bp, dmg );
