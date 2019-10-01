@@ -262,7 +262,7 @@
       },
       "mapping": {
         "c": { "items": [ { "item": "chem_lab", "chance": 10 } ] },
-        "r": { "items": [ { "item": "cleaning", "chance": 30 } ] }
+        "r": { "items": [ { "item": "tools_science", "chance": 80 }, { "item": "cleaning", "chance": 30 } ] }
       },
       "place_nested": [
         { "chunks": [ "lab_spawn_7x7_wall_nw" ], "x": 15, "y": 15 },
@@ -472,7 +472,7 @@
         "X": {
           "items": [ { "item": "robots", "chance": 30 }, { "item": "science", "chance": 15 }, { "item": "sewage_plant", "chance": 8 } ]
         },
-        "R": { "items": [ { "item": "cleaning", "chance": 60 } ] },
+        "R": { "items": [ { "item": "cleaning", "chance": 60 }, { "item": "tools_science", "chance": 30 } ] },
         "l": {
           "items": [
             { "item": "office", "chance": 10 },
@@ -547,6 +547,7 @@
         "r": {
           "items": [
             { "item": "dissection", "chance": 60 },
+            { "item": "tools_science", "chance": 20 },
             { "item": "bionics_common", "chance": 10 },
             { "item": "mut_lab", "chance": 5 }
           ]
@@ -762,7 +763,7 @@
         "X": {
           "items": [ { "item": "robots", "chance": 30 }, { "item": "science", "chance": 15 }, { "item": "sewage_plant", "chance": 8 } ]
         },
-        "l": { "items": [ { "item": "cleaning", "chance": 60 } ] },
+        "l": { "items": [ { "item": "cleaning", "chance": 60 }, { "item": "tools_science", "chance": 30 } ] },
         "r": { "items": [ { "item": "mine_equipment", "chance": 30 } ] }
       },
       "place_monster": [ { "monster": "mon_zombie", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 50, "pack_size": [ 2, 3 ] } ],
