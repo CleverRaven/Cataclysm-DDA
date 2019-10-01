@@ -322,10 +322,9 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
 
 static void tell_veh_stop_following()
 {
-    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
     for( auto &veh : g->m.get_vehicles() ) {
         auto &v = veh.v;
-        if( v->has_engine_type( fuel_type_animal, false ) && v->get_owner() == yours ) {
+        if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             v->is_following = false;
             v->engine_on = false;
         }
@@ -334,10 +333,9 @@ static void tell_veh_stop_following()
 
 static void assign_veh_to_follow()
 {
-    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
     for( auto &veh : g->m.get_vehicles() ) {
         auto &v = veh.v;
-        if( v->has_engine_type( fuel_type_animal, false ) && v->get_owner() == yours ) {
+        if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             v->activate_animal_follow();
         }
     }
@@ -371,10 +369,9 @@ void game::chat()
     }
     std::vector<vehicle *> animal_vehicles;
     std::vector<vehicle *> following_vehicles;
-    faction *yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
     for( auto &veh : g->m.get_vehicles() ) {
         auto &v = veh.v;
-        if( v->has_engine_type( fuel_type_animal, false ) && v->get_owner() == yours ) {
+        if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             animal_vehicles.push_back( v );
             if( v->is_following ) {
                 following_vehicles.push_back( v );
@@ -1438,7 +1435,7 @@ int topic_category( const talk_topic &the_topic )
 
 void parse_tags( std::string &phrase, const player &u, const player &me, const itype_id &item_type )
 {
-    phrase = remove_color_tags( phrase );
+    phrase = SNIPPET.expand( remove_color_tags( phrase ) );
 
     size_t fa;
     size_t fb;
@@ -1451,12 +1448,6 @@ void parse_tags( std::string &phrase, const player &u, const player &me, const i
             tag = phrase.substr( fa, fb - fa + 1 );
         } else {
             return;
-        }
-
-        const std::string &replacement = SNIPPET.random_from_category( tag );
-        if( !replacement.empty() ) {
-            phrase.replace( fa, l, replacement );
-            continue;
         }
 
         // Special, dynamic tags go here

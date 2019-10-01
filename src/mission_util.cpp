@@ -213,7 +213,7 @@ static cata::optional<tripoint> find_or_create_om_terrain( const tripoint &origi
             // We found a match, so set this position (which was our replacement terrain)
             // to our desired mission terrain.
             if( target_pos != overmap::invalid_tripoint ) {
-                overmap_buffer.ter( target_pos ) = oter_id( params.overmap_terrain );
+                overmap_buffer.ter_set( target_pos, oter_id( params.overmap_terrain ) );
             }
         }
     }

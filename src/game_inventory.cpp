@@ -546,8 +546,15 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
+            const item &med = !( *loc ).is_container_empty() && ( *loc ).get_contained().is_medication() &&
+                              ( *loc ).get_contained().type->has_use() ? ( *loc ).get_contained() : *loc;
+
             if( loc->made_of_from_type( LIQUID ) && !g->m.has_flag( "LIQUIDCONT", loc.position() ) ) {
                 return _( "Can't drink spilt liquids" );
+            }
+
+            if( med.is_medication() && !p.can_use_heal_item( med ) ) {
+                return _( "Your biology is not compatible with that item." );
             }
 
             const auto &it = get_consumable_item( loc );
@@ -781,6 +788,10 @@ class activatable_inventory_preset : public pickup_inventory_preset
                 if( !ret.success() ) {
                     return trim_punctuation_marks( ret.str() );
                 }
+            }
+
+            if( it.is_medication() && !p.can_use_heal_item( it ) ) {
+                return _( "Your biology is not compatible with that item." );
             }
 
             if( !p.has_enough_charges( it, false ) ) {
@@ -1598,6 +1609,8 @@ class bionic_install_preset: public inventory_selector_preset
                 return _( "CBM already deployed.  Please reset to factory state." );
             } else if( pa.has_bionic( bid ) ) {
                 return _( "CBM already installed" );
+            } else if( !pa.can_install_cbm_on_bp( get_occupied_bodyparts( bid ) ) ) {
+                return _( "CBM not compatible with patient's body." );
             } else if( bid->upgraded_bionic &&
                        !pa.has_bionic( bid->upgraded_bionic ) &&
                        it->is_upgrade() ) {

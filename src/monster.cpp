@@ -30,6 +30,7 @@
 #include "monfaction.h"
 #include "mongroup.h"
 #include "morale_types.h"
+#include "mutation.h"
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
@@ -1031,6 +1032,14 @@ monster_attitude monster::attitude( const Character *u ) const
                 }
             }
         }
+
+        for( const trait_id &mut : u->get_mutations() ) {
+            for( const species_id &spe : mut.obj().ignored_by ) {
+                if( type->in_species( spe ) ) {
+                    return MATT_IGNORE;
+                }
+            }
+        }
     }
 
     if( effective_morale < 0 ) {
@@ -1396,7 +1405,12 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     if( total_dealt > 6 && stab_cut > 0 && has_flag( MF_BLEED ) ) {
         // Maybe should only be if DT_CUT > 6... Balance question
-        target.add_effect( effect_bleed, 6_minutes, bp_hit );
+        if( target.is_player() || target.is_npc() ) {
+            target.as_character()->make_bleed( bp_hit, 6_minutes );
+        } else {
+            target.add_effect( effect_bleed, 6_minutes, bp_hit );
+        }
+
     }
 }
 

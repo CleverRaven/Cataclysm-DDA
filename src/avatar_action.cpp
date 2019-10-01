@@ -773,6 +773,9 @@ bool avatar_action::fire( avatar &you, map &m )
     m.draw( g->w_terrain, you.pos() );
     std::vector<tripoint> trajectory = target_handler().target_ui( you, args );
 
+    //may be changed in target_ui
+    gun = args.relevant->gun_current_mode();
+
     if( trajectory.empty() ) {
         bool not_aiming = you.activity.id() != activity_id( "ACT_AIM" );
         if( not_aiming && gun->has_flag( "RELOAD_AND_SHOOT" ) ) {

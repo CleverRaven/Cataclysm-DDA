@@ -2035,7 +2035,12 @@ bool mattack::impale( monster *z )
 
         target->on_hit( z, bp_torso,  z->type->melee_skill );
         if( one_in( 60 / ( dam + 20 ) ) ) {
-            target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso, true );
+            if( target->is_player() || target->is_npc() ) {
+                target->as_character()->make_bleed( bp_torso, rng( 75_turns, 125_turns ), true );
+            } else {
+                target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso, true );
+            }
+
         }
 
         if( rng( 0, 200 + dam ) > 100 ) {
@@ -4310,7 +4315,12 @@ bool mattack::longswipe( monster *z )
                                        _( "The %1$s slashes at your neck, cutting your throat for %2$d damage!" ),
                                        _( "The %1$s slashes at <npcname>'s neck, cutting their throat for %2$d damage!" ),
                                        z->name(), dam );
-        target->add_effect( effect_bleed, 10_minutes, hit );
+        if( target->is_player() || target->is_npc() ) {
+            target->as_character()->make_bleed( hit, 10_minutes );
+        } else {
+            target->add_effect( effect_bleed, 10_minutes, hit );
+        }
+
     } else {
         target->add_msg_player_or_npc( _( "The %1$s slashes at your %2$s, but glances off your armor!" ),
                                        _( "The %1$s slashes at <npcname>'s %2$s, but glances off armor!" ),

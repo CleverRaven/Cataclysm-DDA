@@ -18,6 +18,16 @@
   },
   {
     "type": "tool_quality",
+    "id": "LEATHER_AWL",
+    "name": "awl"
+  },
+  {
+    "type": "tool_quality",
+    "id": "SEW_CURVED",
+    "name": "curved needle"
+  },
+  {
+    "type": "tool_quality",
     "id": "ANESTHESIA",
     "name": "anesthesia"
   },

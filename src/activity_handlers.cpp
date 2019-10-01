@@ -2946,7 +2946,11 @@ void activity_handlers::wait_stamina_do_turn( player_activity *act, player *p )
 {
     int stamina_threshold = p->get_stamina_max();
     if( !act->values.empty() ) {
-        stamina_threshold = act->values.front();
+        stamina_threshold = act->values[0];
+        // remember initial stamina, only for waiting-with-threshold
+        if( act->values.size() == 1 ) {
+            act->values.push_back( p->stamina );
+        }
     }
     if( p->stamina >= stamina_threshold ) {
         wait_stamina_finish( act, p );
@@ -2956,7 +2960,9 @@ void activity_handlers::wait_stamina_do_turn( player_activity *act, player *p )
 void activity_handlers::wait_stamina_finish( player_activity *act, player *p )
 {
     if( !act->values.empty() ) {
-        if( p->stamina < act->values.front() ) {
+        const int stamina_threshold = act->values[0];
+        const int stamina_initial = ( act->values.size() > 1 ) ? act->values[1] : p->stamina;
+        if( p->stamina < stamina_threshold && p->stamina <= stamina_initial ) {
             debugmsg( "Failed to wait until stamina threshold %d reached, only at %d. You may not be regaining stamina.",
                       act->values.front(), p->stamina );
         }
@@ -3041,7 +3047,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
             }
             if( act->values.size() > 4 ) {
                 for( size_t i = 4; i < act->values.size(); i++ ) {
-                    p->add_effect( effect_bleed, 1_turns, body_part( act->values[i] ), true, difficulty );
+                    p->make_bleed( body_part( act->values[i] ), 1_turns, difficulty, true );
                     p->apply_damage( nullptr, body_part( act->values[i] ), 20 * difficulty );
 
                     if( u_see ) {
@@ -3055,7 +3061,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                     }
                 }
             } else {
-                p->add_effect( effect_bleed, 1_turns, num_bp, true, difficulty );
+                p->make_bleed( num_bp, 1_turns, difficulty, true );
                 p->apply_damage( nullptr, num_bp, 20 * difficulty );
             }
         }

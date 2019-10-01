@@ -1290,6 +1290,13 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
         add_msg( _( "The %s you were grabbing is destroyed!" ), old_t.name() );
         g->u.grab( OBJECT_NONE );
     }
+    // If a creature was crushed under a rubble -> free it
+    if( old_id == f_rubble && new_furniture == f_null ) {
+        Creature *c = g->critter_at( p );
+        if( c ) {
+            c->remove_effect( effect_crushed );
+        }
+    }
     if( new_t.has_flag( "EMITTER" ) ) {
         field_furn_locs.push_back( p );
     }
@@ -8437,7 +8444,7 @@ tripoint_range map::points_on_zlevel( const int z ) const
 {
     if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
         // @todo need a default constructor that creates an empty range.
-        return tripoint_range( tripoint_zero, tripoint_zero - tripoint( 0, 0, 1 ) );
+        return tripoint_range( tripoint_zero, tripoint_zero - tripoint_above );
     }
     return tripoint_range( tripoint( 0, 0, z ), tripoint( SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1,
                            z ) );

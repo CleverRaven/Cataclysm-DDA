@@ -243,7 +243,7 @@ std::pair<int, int> player::fun_for( const item &comest ) const
 
     if( has_active_bionic( bio_taste_blocker ) &&
         power_level > units::from_kilojoule( abs( comest.get_comestible()->fun ) ) &&
-        comest.get_comestible()->fun < 0 ) {
+        fun < 0 ) {
         fun = 0;
     }
 
@@ -534,6 +534,12 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
         // Like non-cannibal, but more strict!
         return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION,
                 _( "The thought of eating that makes you feel sick." ) );
+    }
+
+    for( const trait_id &mut : get_mutations() ) {
+        if( !food.made_of_any( mut.obj().can_only_eat ) && !mut.obj().can_only_eat.empty() ) {
+            return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION, _( "You can't eat this." ) );
+        }
     }
 
     return ret_val<edible_rating>::make_success();
@@ -1326,8 +1332,13 @@ bool player::fuel_bionic_with( item &it )
     const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
 
     const int loadable = std::min( it.charges, get_fuel_capacity( it.typeId() ) );
+    const std::string str_loaded  = get_value( it.typeId() );
+    int loaded = 0;
+    if( !str_loaded.empty() ) {
+        loaded = std::stoi( str_loaded );
+    }
 
-    const std::string new_charge = std::to_string( loadable + std::stoi( get_value( it.typeId() ) ) );
+    const std::string new_charge = std::to_string( loadable + loaded );
 
     it.charges -= loadable;
     set_value( it.typeId(), new_charge );// type and amount of fuel

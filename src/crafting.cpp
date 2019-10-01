@@ -630,7 +630,7 @@ static void finalize_crafted_item( item &newit, faction *maker_fac )
     }
     // TODO for now this assumes player is doing the crafting
     // this will need to be updated when NPCs do crafting
-    newit.set_owner( maker_fac );
+    newit.set_owner( maker_fac->id );
 }
 
 static cata::optional<item_location> wield_craft( player &p, item &craft )

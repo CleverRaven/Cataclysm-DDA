@@ -210,6 +210,8 @@ void spell_type::load( JsonObject &jo, const std::string & )
         { "timed_event", spell_effect::timed_event },
         { "ter_transform", spell_effect::transform_blast },
         { "vomit", spell_effect::vomit },
+        { "explosion", spell_effect::explosion },
+        { "flashbang", spell_effect::flashbang },
         { "none", spell_effect::none }
     };
 
@@ -945,9 +947,9 @@ std::string spell::damage_type_string() const
 
 // constants defined below are just for the formula to be used,
 // in order for the inverse formula to be equivalent
-static const float a = 6200.0;
-static const float b = 0.146661;
-static const float c = -62.5;
+constexpr float a = 6200.0;
+constexpr float b = 0.146661;
+constexpr float c = -62.5;
 
 int spell::get_level() const
 {
@@ -1085,7 +1087,7 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
                 return;
             }
             const int rand_spell = rng( 0, type->additional_spells.size() - 1 );
-            spell sp = ( iter + rand_spell )->get_spell( ( iter + rand_spell )->level );
+            spell sp = ( iter + rand_spell )->get_spell( get_level() );
 
             // This spell flag makes it so the message of the spell that's cast using this spell will be sent.
             // if a message is added to the casting spell, it will be sent as well.
@@ -1101,7 +1103,7 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
         // first call the effect of the main spell
         cast_spell_effect( source, target );
         for( const fake_spell &extra_spell : type->additional_spells ) {
-            spell sp = extra_spell.get_spell( extra_spell.level );
+            spell sp = extra_spell.get_spell( get_level() );
 
             if( extra_spell.self ) {
                 sp.cast_all_effects( source, source.pos() );
@@ -1296,8 +1298,10 @@ void known_magic::mod_mana( const player &p, int add_mana )
 int known_magic::max_mana( const player &p ) const
 {
     const float int_bonus = ( ( 0.2f + p.get_int() * 0.1f ) - 1.0f ) * mana_base;
-    return std::max( 0.0f, ( ( mana_base + int_bonus ) * p.mutation_value( "mana_multiplier" ) ) +
-                     p.mutation_value( "mana_modifier" ) - units::to_kilojoule( p.power_level ) );
+    const float unaugmented_mana = std::max( 0.0f,
+                                   ( ( mana_base + int_bonus ) * p.mutation_value( "mana_multiplier" ) ) +
+                                   p.mutation_value( "mana_modifier" ) - units::to_kilojoule( p.power_level ) );
+    return p.calculate_by_enchantment( unaugmented_mana, enchantment::mod::MAX_MANA, true );
 }
 
 void known_magic::update_mana( const player &p, float turns )
@@ -1305,7 +1309,8 @@ void known_magic::update_mana( const player &p, float turns )
     // mana should replenish in 8 hours.
     const float full_replenish = to_turns<float>( 8_hours );
     const float ratio = turns / full_replenish;
-    mod_mana( p, floor( ratio * max_mana( p ) * p.mutation_value( "mana_regen_multiplier" ) ) );
+    mod_mana( p, floor( ratio * p.calculate_by_enchantment( max_mana( p ) *
+                        p.mutation_value( "mana_regen_multiplier" ), enchantment::mod::REGEN_MANA ) ) );
 }
 
 std::vector<spell_id> known_magic::spells() const
@@ -1802,7 +1807,10 @@ void fake_spell::load( JsonObject &jo )
     } else {
         max_level = max_level_int;
     }
-    optional( jo, false, "level", level, 0 );
+    optional( jo, false, "min_level", level, 0 );
+    if( jo.has_string( "level" ) ) {
+        debugmsg( "level member for fake_spell was renamed to min_level. id: %s", temp_id );
+    }
 }
 
 void fake_spell::serialize( JsonOut &json ) const
@@ -1814,7 +1822,7 @@ void fake_spell::serialize( JsonOut &json ) const
     } else {
         json.member( "max_level", *max_level );
     }
-    json.member( "level", level );
+    json.member( "min_level", level );
 }
 
 void fake_spell::deserialize( JsonIn &jsin )
@@ -1823,15 +1831,19 @@ void fake_spell::deserialize( JsonIn &jsin )
     load( data );
 }
 
-spell fake_spell::get_spell( const int level_override ) const
+spell fake_spell::get_spell( int input_level ) const
 {
     spell sp( id );
-    int level = sp.get_max_level();
+    int lvl = std::min( input_level, sp.get_max_level() );
     if( max_level ) {
-        level = std::min( level, *max_level );
+        lvl = std::min( lvl, *max_level );
     }
-    level = std::min( level_override, level );
-    while( sp.get_level() < level ) {
+    if( level > lvl ) {
+        debugmsg( "ERROR: fake spell %s has higher min_level than max_level", id.c_str() );
+        return sp;
+    }
+    lvl = clamp( std::max( lvl, level ), level, lvl );
+    while( sp.get_level() < lvl ) {
         sp.gain_level();
     }
     return sp;

@@ -636,6 +636,10 @@ void player::process_turn()
         scent--;
     }
 
+    for( const trait_id &mut : get_mutations() ) {
+        scent *= mut.obj().scent_modifier;
+    }
+
     // We can dodge again! Assuming we can actually move...
     if( !in_sleep_state() ) {
         blocks_left = get_num_blocks();
@@ -5393,6 +5397,7 @@ void player::suffer()
         mod_hunger( -1 );
         // photosynthesis absorbs kcal directly
         mod_stored_nutr( -1 );
+        stomach.ate();
     }
 
     if( get_pain() > 0 ) {
@@ -5411,14 +5416,76 @@ void player::suffer()
         g->is_in_sunlight( pos() ) && one_turn_in( 1_minutes ) ) {
         // Umbrellas can keep the sun off the skin and sunglasses - off the eyes.
         if( !weapon.has_flag( "RAIN_PROTECT" ) ) {
-            add_msg_if_player( m_bad, _( "The sunlight is really irritating your skin." ) );
-            if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
-                wake_up();
+            //calculate total coverage of skin
+            body_part_set affected_bp { {
+                    bp_leg_l, bp_leg_r, bp_torso, bp_head, bp_mouth, bp_arm_l,
+                    bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r
+                }
+            };
+            //pecentage of "open skin" by body part
+            std::map<body_part, float> open_percent;
+            //initialize coverage
+            for( const body_part &bp : all_body_parts ) {
+                if( affected_bp.test( bp ) ) {
+                    open_percent[bp] = 1.0;
+                }
             }
-            if( one_turn_in( 1_minutes ) ) {
-                mod_pain( 1 );
-            } else {
-                focus_pool --;
+            //calculate coverage for every body part
+            for( const item &i : worn ) {
+                body_part_set covered = i.get_covered_body_parts();
+                for( const body_part &bp : all_body_parts )  {
+                    if( !affected_bp.test( bp ) || !covered.test( bp ) ) {
+                        continue;
+                    }
+                    //percent of "not covered skin"
+                    float p = 1.0 - i.get_coverage() / 100.0;
+                    open_percent[bp] = open_percent[bp] * p;
+                }
+            }
+
+            const float COVERAGE_LIMIT = 0.01;
+            body_part max_affected_bp = num_bp;
+            float max_affected_bp_percent = 0;
+            int count_affected_bp = 0;
+            for( auto &it : open_percent ) {
+                const body_part &bp = it.first;
+                const float &p = it.second;
+
+                if( p <= COVERAGE_LIMIT ) {
+                    continue;
+                }
+                ++count_affected_bp;
+                if( max_affected_bp_percent < p ) {
+                    max_affected_bp_percent = p;
+                    max_affected_bp = bp;
+                }
+            }
+            if( count_affected_bp > 0 && max_affected_bp != num_bp ) {
+                //Check if both arms/legs are affected
+                int parts_count = 1;
+                body_part other_bp = static_cast<body_part>( bp_aiOther[max_affected_bp] );
+                body_part other_bp_rev = static_cast<body_part>( bp_aiOther[other_bp] );
+                if( other_bp != other_bp_rev ) {
+                    const auto found = open_percent.find( other_bp );
+                    if( found != open_percent.end() && found->second > COVERAGE_LIMIT ) {
+                        ++parts_count;
+                    }
+                }
+                std::string bp_name = body_part_name( max_affected_bp, parts_count );
+                if( count_affected_bp > parts_count ) {
+                    bp_name = string_format( _( "%s and other body parts" ), bp_name );
+                }
+                add_msg_if_player( m_bad, _( "The sunlight is really irritating your %s." ), bp_name );
+
+                //apply effects
+                if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
+                    wake_up();
+                }
+                if( one_turn_in( 1_minutes ) ) {
+                    mod_pain( 1 );
+                } else {
+                    focus_pool --;
+                }
             }
         }
         if( !( ( ( worn_with_flag( "SUN_GLASSES" ) ) || worn_with_flag( "BLIND" ) ) &&
@@ -5429,6 +5496,24 @@ void player::suffer()
                 mod_pain( 1 );
             } else {
                 focus_pool --;
+            }
+        }
+    }
+    for( const auto &m : my_mutations ) {
+        const mutation_branch &mdata = m.first.obj();
+        for( const body_part bp : all_body_parts ) {
+            if( calendar::once_every( 1_minutes ) ) {
+                const float wetness_percentage =  body_wetness[bp] / drench_capacity[bp]; // 0.0 - 1.0
+                const int dmg = mdata.weakness_to_water * wetness_percentage;
+                if( dmg > 0 ) {
+                    apply_damage( nullptr, bp, dmg );
+                    add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the water." ),
+                                           _( "<npcname>'s %s is damaged by the water." ), body_part_name( bp ) );
+                } else if( dmg < 0 && hp_cur[bp_to_hp( bp )] != hp_max[bp_to_hp( bp )] ) {
+                    heal( bp, abs( dmg ) );
+                    add_msg_player_or_npc( m_good, _( "Your %s is healed by the water." ),
+                                           _( "<npcname>'s %s is healed by the water." ), body_part_name( bp ) );
+                }
             }
         }
     }
@@ -5799,6 +5884,12 @@ void player::suffer()
     // Artifact effects
     if( has_artifact_with( AEP_ATTENTION ) ) {
         add_effect( effect_attention, 3_turns );
+    }
+
+    if( has_artifact_with( AEP_BAD_WEATHER ) && calendar::once_every( 1_minutes ) &&
+        g->weather.weather != WEATHER_SNOWSTORM ) {
+        g->weather.weather_override = WEATHER_SNOWSTORM;
+        g->weather.set_nextweather( calendar::turn );
     }
 
     // Stim +250 kills
@@ -6226,6 +6317,10 @@ void player::drench( int saturation, const body_part_set &flags, bool ignore_wat
         if( body_wetness[bp] < wetness_max ) {
             body_wetness[bp] = std::min( wetness_max, body_wetness[bp] + wetness_increment );
         }
+    }
+
+    if( is_weak_to_water() ) {
+        add_msg_if_player( m_bad, _( "You feel the water burning your skin." ) );
     }
 
     // Remove onfire effect
@@ -6969,7 +7064,7 @@ bool player::consume_med( item &target )
 
 static bool query_consume_ownership( item &target, player &p )
 {
-    if( target.has_owner() && target.get_owner() != p.get_faction() ) {
+    if( !target.is_owned_by( p, true ) ) {
         bool choice = true;
         if( p.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
             choice = Pickup::query_thief();
@@ -6986,8 +7081,8 @@ static bool query_consume_ownership( item &target, player &p )
         for( npc *elem : witnesses ) {
             elem->say( "<witnessed_thievery>", 7 );
         }
-        if( !witnesses.empty() ) {
-            if( g->u.add_faction_warning( target.get_owner()->id ) ) {
+        if( !witnesses.empty() && target.is_owned_by( p, true ) ) {
+            if( g->u.add_faction_warning( target.get_owner() ) ) {
                 for( npc *elem : witnesses ) {
                     elem->make_angry();
                 }

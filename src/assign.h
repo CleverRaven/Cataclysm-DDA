@@ -49,7 +49,7 @@ inline void report_strict_violation( JsonObject &jo, const std::string &message,
 
 template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
 bool assign( JsonObject &jo, const std::string &name, T &val, bool strict = false,
-             T lo = std::numeric_limits<T>::min(), T hi = std::numeric_limits<T>::max() )
+             T lo = std::numeric_limits<T>::lowest(), T hi = std::numeric_limits<T>::max() )
 {
     T out;
     double scalar;
@@ -114,7 +114,7 @@ inline bool assign( JsonObject &jo, const std::string &name, bool &val, bool str
 
 template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
 bool assign( JsonObject &jo, const std::string &name, std::pair<T, T> &val,
-             bool strict = false, T lo = std::numeric_limits<T>::min(), T hi = std::numeric_limits<T>::max() )
+             bool strict = false, T lo = std::numeric_limits<T>::lowest(), T hi = std::numeric_limits<T>::max() )
 {
     std::pair<T, T> out;
 

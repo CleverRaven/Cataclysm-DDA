@@ -353,12 +353,9 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         std::string item_name;
         std::string stolen_string;
         bool stolen = false;
-        if( it.has_owner() ) {
-            const faction *item_fac = it.get_owner();
-            if( item_fac != g->u.get_faction() ) {
-                stolen_string = "<color_light_red>!</color>";
-                stolen = true;
-            }
+        if( !it.is_owned_by( g->u, true ) ) {
+            stolen_string = "<color_light_red>!</color>";
+            stolen = true;
         }
         if( it.is_money() ) {
             //Count charges
@@ -2550,7 +2547,8 @@ void advanced_inventory::swap_panes()
     std::swap( panes[left], panes[right] );
     // Window pointer must be unchanged!
     std::swap( panes[left].window, panes[right].window );
-    // No recalculation needed, data has not changed
+    // Recalculation required for weight & volume
+    recalc = true;
     redraw = true;
 }
 

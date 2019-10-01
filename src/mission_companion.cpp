@@ -2104,7 +2104,7 @@ void talk_function::loot_building( const tripoint &site )
         }
     }
     bay.save();
-    overmap_buffer.ter( site ) = oter_id( "looted_building" );
+    overmap_buffer.ter_set( site, oter_id( "looted_building" ) );
 }
 
 void mission_data::add( const std::string &id, const std::string &name_display,

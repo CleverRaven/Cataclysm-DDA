@@ -97,7 +97,7 @@ struct fake_spell {
                 const cata::optional<int> &max_level = cata::nullopt ) : id( sp_id ),
         max_level( max_level ), self( hit_self ) {}
 
-    spell get_spell( int level_override = INT_MAX ) const;
+    spell get_spell( int input_level ) const;
 
     void load( JsonObject &jo );
     void serialize( JsonOut &json ) const;
@@ -487,6 +487,8 @@ void translocate( const spell &sp, Creature &caster, const tripoint &target );
 void timed_event( const spell &sp, Creature &caster, const tripoint & );
 void transform_blast( const spell &sp, Creature &caster, const tripoint &target );
 void vomit( const spell &sp, Creature &caster, const tripoint &target );
+void explosion( const spell &sp, Creature &, const tripoint &target );
+void flashbang( const spell &sp, Creature &caster, const tripoint &target );
 void none( const spell &sp, Creature &, const tripoint &target );
 } // namespace spell_effect
 
