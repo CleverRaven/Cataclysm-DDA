@@ -95,7 +95,6 @@
 #include "game_constants.h"
 #include "point.h"
 #include "weather.h"
-#include "popup.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -3418,13 +3417,6 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         }
     } else if( craft->item_counter >= craft->get_next_failure_point() ) {
         craft->handle_craft_failure( *p );
-    }
-
-    if( calendar::once_every( 1_minutes ) ) {
-        query_popup()
-        .wait_message( _( "Crafting: %s" ), craft->tname() )
-        .on_top( true )
-        .show();
     }
 }
 
