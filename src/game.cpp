@@ -6584,10 +6584,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     bool bNewWindow = false;
     if( !w_info ) {
         int panel_width = panel_manager::get_manager().get_current_layout().begin()->get_width();
-
-        // Set the examine window to a bit smaller than the current minimap size, with a bit less to show some above it.
-        // Hopefully the player has the minimap at or close to the bottom.
-        int height = TERMY - ( catacurses::getmaxy( w_pixel_minimap ) + 11 );
+        int height = TERMY;
 
         // If particularly small, base height on panel width irrespective of other elements.
         // Value here is attempting to get a square-ish result assuming 1x2 proportioned font.
