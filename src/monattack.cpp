@@ -1058,20 +1058,11 @@ find_empty_neighbors( const tripoint &origin )
 {
     constexpr auto r = static_cast<int>( N );
 
-    const int x_min = origin.x - r;
-    const int x_max = origin.x + r;
-    const int y_min = origin.y - r;
-    const int y_max = origin.y + r;
-
     std::pair < std::array < tripoint, ( 2 * N + 1 )*( 2 * N + 1 ) >, size_t > result;
 
-    tripoint tmp;
-    tmp.z = origin.z;
-    for( tmp.x = x_min; tmp.x <= x_max; ++tmp.x ) {
-        for( tmp.y = y_min; tmp.y <= y_max; ++tmp.y ) {
-            if( g->is_empty( tmp ) ) {
-                result.first[result.second++] = tmp;
-            }
+    for( const tripoint &tmp : g->m.points_in_radius( origin, r ) ) {
+        if( g->is_empty( tmp ) ) {
+            result.first[result.second++] = tmp;
         }
     }
 
@@ -2044,7 +2035,12 @@ bool mattack::impale( monster *z )
 
         target->on_hit( z, bp_torso,  z->type->melee_skill );
         if( one_in( 60 / ( dam + 20 ) ) ) {
-            target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso, true );
+            if( target->is_player() || target->is_npc() ) {
+                target->as_character()->make_bleed( bp_torso, rng( 75_turns, 125_turns ), true );
+            } else {
+                target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso, true );
+            }
+
         }
 
         if( rng( 0, 200 + dam ) > 100 ) {
@@ -3370,23 +3366,20 @@ bool mattack::searchlight( monster *z )
             settings.set_var( "SL_PREFER_RIGHT", "TRUE" );
             settings.set_var( "SL_PREFER_LEFT", "TRUE" );
 
-            for( int x = zposx - 24; x < zposx + 24; x++ ) {
-                for( int y = zposy - 24; y < zposy + 24; y++ ) {
-                    tripoint dest( x, y, z->posz() );
-                    const monster *const mon = g->critter_at<monster>( dest );
-                    if( mon && mon->type->id == mon_turret_searchlight ) {
-                        if( x < zposx ) {
-                            settings.set_var( "SL_PREFER_LEFT", "FALSE" );
-                        }
-                        if( x > zposx ) {
-                            settings.set_var( "SL_PREFER_RIGHT", "FALSE" );
-                        }
-                        if( y < zposy ) {
-                            settings.set_var( "SL_PREFER_UP", "FALSE" );
-                        }
-                        if( y > zposy ) {
-                            settings.set_var( "SL_PREFER_DOWN", "FALSE" );
-                        }
+            for( const tripoint &dest : g->m.points_in_radius( z->pos(), 24 ) ) {
+                const monster *const mon = g->critter_at<monster>( dest );
+                if( mon && mon->type->id == mon_turret_searchlight ) {
+                    if( dest.x < zposx ) {
+                        settings.set_var( "SL_PREFER_LEFT", "FALSE" );
+                    }
+                    if( dest.x > zposx ) {
+                        settings.set_var( "SL_PREFER_RIGHT", "FALSE" );
+                    }
+                    if( dest.y < zposy ) {
+                        settings.set_var( "SL_PREFER_UP", "FALSE" );
+                    }
+                    if( dest.y > zposy ) {
+                        settings.set_var( "SL_PREFER_DOWN", "FALSE" );
                     }
                 }
             }
@@ -4322,7 +4315,12 @@ bool mattack::longswipe( monster *z )
                                        _( "The %1$s slashes at your neck, cutting your throat for %2$d damage!" ),
                                        _( "The %1$s slashes at <npcname>'s neck, cutting their throat for %2$d damage!" ),
                                        z->name(), dam );
-        target->add_effect( effect_bleed, 10_minutes, hit );
+        if( target->is_player() || target->is_npc() ) {
+            target->as_character()->make_bleed( hit, 10_minutes );
+        } else {
+            target->add_effect( effect_bleed, 10_minutes, hit );
+        }
+
     } else {
         target->add_msg_player_or_npc( _( "The %1$s slashes at your %2$s, but glances off your armor!" ),
                                        _( "The %1$s slashes at <npcname>'s %2$s, but glances off armor!" ),

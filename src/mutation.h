@@ -136,6 +136,17 @@ struct mutation_branch {
         float weight_capacity_modifier = 1.0f;
         float hearing_modifier = 1.0f;
         float noise_modifier = 1.0f;
+        float scent_modifier = 1.0f;
+        int bleed_resist = 0;
+
+        /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/
+        float fat_to_max_hp = 0.0f;
+        /**How fast does healthy tends toward healthy_mod*/
+        float healthy_rate = 1.0f;
+
+
+        /**maximum damage dealt by water every minute when wet. Can be negative and regen hit points.*/
+        int weakness_to_water = 0;
 
         // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
         float stealth_modifier = 0.0f;
@@ -170,6 +181,22 @@ struct mutation_branch {
 
         /** The item, if any, spawned by the mutation */
         itype_id spawn_item;
+
+        /**Species ignoring character with the mutation*/
+        std::vector<species_id> ignored_by;
+
+        /**List of material required for food to be be edible*/
+        std::set<material_id> can_only_eat;
+
+        /**List of healing items allowed*/
+        std::set<itype_id> can_only_heal_with;
+        std::set<itype_id> can_heal_with;
+
+        /**List of allowed mutatrion category*/
+        std::set<std::string> allowed_category;
+
+        /**List of body parts locked out of bionics*/
+        std::set<body_part> no_cbm_on_bp;
 
         // amount of mana added or subtracted from max
         float mana_modifier;

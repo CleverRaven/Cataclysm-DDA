@@ -331,17 +331,13 @@ void mdeath::vine_cut( monster &z )
 
     for( auto &vine : vines ) {
         bool found_neighbor = false;
-        tripoint tmp = vine->pos();
-        int &x = tmp.x;
-        int &y = tmp.y;
-        for( x = vine->posx() - 1; x <= vine->posx() + 1 && !found_neighbor; x++ ) {
-            for( y = vine->posy() - 1; y <= vine->posy() + 1 && !found_neighbor; y++ ) {
-                if( x != z.posx() || y != z.posy() ) {
-                    // Not the dying vine
-                    if( monster *const v = g->critter_at<monster>( { x, y, z.posz() } ) ) {
-                        if( v->type->id == mon_creeper_hub || v->type->id == mon_creeper_vine ) {
-                            found_neighbor = true;
-                        }
+        for( const tripoint &dest : g->m.points_in_radius( vine->pos(), 1 ) ) {
+            if( dest != z.pos() ) {
+                // Not the dying vine
+                if( monster *const v = g->critter_at<monster>( dest ) ) {
+                    if( v->type->id == mon_creeper_hub || v->type->id == mon_creeper_vine ) {
+                        found_neighbor = true;
+                        break;
                     }
                 }
             }
@@ -762,7 +758,6 @@ void mdeath::jabberwock( monster &z )
     player *ch = dynamic_cast<player *>( z.get_killer() );
 
     bool vorpal = ch && ch->is_player() &&
-                  rl_dist( z.pos(), ch->pos() ) <= 1 &&
                   ch->weapon.has_flag( "DIAMOND" ) &&
                   ch->weapon.volume() > 750_ml;
 

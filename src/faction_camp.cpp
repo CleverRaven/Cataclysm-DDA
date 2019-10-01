@@ -3195,15 +3195,12 @@ std::vector<std::pair<std::string, tripoint>> talk_function::om_building_region(
             const tripoint &omt_pos, int range, bool purge )
 {
     std::vector<std::pair<std::string, tripoint>> om_camp_region;
-    for( int x = -range; x <= range; x++ ) {
-        for( int y = -range; y <= range; y++ ) {
-            const tripoint omt_near_pos = omt_pos + point( x, y );
-            const oter_id &omt_rnear = overmap_buffer.ter( omt_near_pos );
-            std::string om_rnear_id = omt_rnear.id().c_str();
-            if( !purge || ( om_rnear_id.find( "faction_base_" ) != std::string::npos &&
-                            om_rnear_id.find( "faction_base_camp" ) == std::string::npos ) ) {
-                om_camp_region.push_back( std::make_pair( om_rnear_id, omt_near_pos ) );
-            }
+    for( const tripoint &omt_near_pos : points_in_radius( omt_pos, range ) ) {
+        const oter_id &omt_rnear = overmap_buffer.ter( omt_near_pos );
+        std::string om_rnear_id = omt_rnear.id().c_str();
+        if( !purge || ( om_rnear_id.find( "faction_base_" ) != std::string::npos &&
+                        om_rnear_id.find( "faction_base_camp" ) == std::string::npos ) ) {
+            om_camp_region.push_back( std::make_pair( om_rnear_id, omt_near_pos ) );
         }
     }
     return om_camp_region;
@@ -3584,7 +3581,7 @@ void apply_camp_ownership( const tripoint &camp_pos, int radius )
             camp_pos + point( radius, radius ) ) ) {
         auto items = g->m.i_at( p.xy() );
         for( item &elem : items ) {
-            elem.set_owner( g->u.get_faction() );
+            elem.set_owner( g->u );
         }
     }
 }

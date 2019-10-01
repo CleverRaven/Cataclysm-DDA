@@ -22,6 +22,7 @@
 #include "npc.h"
 #include "optional.h"
 #include "overmap.h"
+#include "map_iterator.h"
 #include "overmap_connection.h"
 #include "overmap_types.h"
 #include "string_formatter.h"
@@ -940,15 +941,12 @@ std::vector<tripoint> overmapbuffer::find_all( const tripoint &origin,
     // dist == 0 means search a whole overmap diameter.
     const int dist = params.search_range ? params.search_range : OMAPX;
     const int min_distance = std::max( 0, params.min_distance );
-    for( int x = -dist; x <= dist; x++ ) {
-        for( int y = -dist; y <= dist; y++ ) {
-            if( abs( x ) < min_distance && abs( y ) < min_distance ) {
-                continue;
-            }
-            const tripoint search_loc( origin + point( x, y ) );
-            if( is_findable_location( search_loc, params ) ) {
-                result.push_back( search_loc );
-            }
+    for( const tripoint &search_loc : points_in_radius( origin, dist ) ) {
+        if( square_dist( origin, search_loc ) < min_distance ) {
+            continue;
+        }
+        if( is_findable_location( search_loc, params ) ) {
+            result.push_back( search_loc );
         }
     }
     return result;

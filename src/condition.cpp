@@ -776,10 +776,8 @@ void conditional_t<T>::set_has_stolen_item( bool is_npc )
         npc &p = *d.beta;
         bool found_in_inv = false;
         for( auto &elem : actor->inv_dump() ) {
-            if( elem->get_old_owner() ) {
-                if( elem->get_old_owner() == p.get_faction() ) {
-                    found_in_inv = true;
-                }
+            if( elem->is_old_owner( p, true ) ) {
+                found_in_inv = true;
             }
         }
         return found_in_inv;

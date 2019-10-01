@@ -1015,6 +1015,47 @@
   },
   {
     "type": "martial_art",
+    "id": "style_pankration",
+    "name": "Pankration",
+    "description": "An ancient Greek martial art once used by the Spartans.  It combines boxing and wrestling techniques to create a brutal sport, though modern revival of the art is less of no-holds-barred in nature.",
+    "initiate": [ "You crouch slightly and prepare to rush forward.", "%s crouches slightly, ready to rush forward." ],
+    "learn_difficulty": 3,
+    "arm_block": 2,
+    "leg_block": 4,
+    "ondodge_buffs": [
+      {
+        "id": "buff_pankration_ondodge",
+        "name": "Counter Chance",
+        "description": "The enemy has presented an opening in their defense.\n+10%% bash damage.  Enables \"Close Combat\" buff.\nLasts 1 turn.",
+        "min_unarmed": 1,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "mult_bonuses": [ [ "damage", "bash", 1.1 ] ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "buff_pankration_oncrit",
+        "name": "Close Combat",
+        "description": "You got your opponent right where you want them!\n\n+20%% bash damage.\nLasts 1 turn.",
+        "min_unarmed": 4,
+        "unarmed_allowed": true,
+        "req_buffs": [ "buff_pankration_ondodge" ],
+        "buff_duration": 1,
+        "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
+      }
+    ],
+    "techniques": [
+      "tec_pankration_cross",
+      "tec_pankration_kick",
+      "tec_pankration_break",
+      "tec_pankration_grabknee",
+      "tec_pankration_grabdisarm",
+      "tec_pankration_grabthrow"
+    ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_tai_chi",
     "name": "Tai Chi",
     "description": "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
@@ -1035,49 +1076,6 @@
       }
     ],
     "techniques": [ "tec_taichi_disarm", "tec_taichi_precise" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_pankration",
-    "name": "Pankration",
-    "description": "An ancient Greek martial art, combining boxing and wrestling techniques to create a brutal sport, though modern revival of the art is less of no-holds-barred in nature.",
-    "initiate": [ "You crouch slightly and prepare to rush forward.", "%s crouches slightly, ready to rush forward." ],
-    "learn_difficulty": 3,
-    "arm_block": 2,
-    "leg_block": 4,
-    "ondodge_buffs": [
-      {
-        "id": "pankration_counter",
-        "name": "Counter Chance",
-        "description": "The enemy has presented an opening in their defense.",
-        "min_unarmed": 4,
-        "unarmed_allowed": true,
-        "max_stacks": 1,
-        "buff_duration": 2,
-        "mult_bonuses": [ [ "damage", "bash", 1.1 ] ]
-      }
-    ],
-    "onhit_buffs": [
-      {
-        "id": "pankration_grappling",
-        "name": "Grappling",
-        "description": "I have you now!",
-        "unarmed_allowed": true,
-        "min_unarmed": 5,
-        "req_buffs": [ "pankration_counter" ],
-        "buff_duration": 2,
-        "max_stacks": 1,
-        "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
-      }
-    ],
-    "techniques": [
-      "tec_pankration_kick",
-      "tec_pankration_break",
-      "tec_pankration_counter",
-      "tec_pankration_disarm",
-      "tec_pankration_throw",
-      "tec_pankration_chokehold"
-    ]
   },
   {
     "type": "martial_art",

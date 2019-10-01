@@ -67,6 +67,7 @@ class player_activity
         bool is_null() const {
             return type.is_null();
         }
+        bool is_multi_type() const;
         /** This replaces the former usage `act.type = ACT_NULL` */
         void set_to_null();
 

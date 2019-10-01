@@ -1044,6 +1044,61 @@ static int get_base_env_resist( const item &it )
 
 }
 
+bool item::is_owned_by( const Character &c, bool available_to_take ) const
+{
+    // owner.is_null() implies faction_id( "no_faction" ) which shouldnt happen, or no owner at all.
+    // either way, certain situations this means the thing is available to take.
+    // in other scenarios we actaully really want to check for id == id, even for no_faction
+    if( owner.is_null() ) {
+        return available_to_take;
+    }
+    if( !c.get_faction() ) {
+        debugmsg( "Character %s has no faction", c.disp_name() );
+        return false;
+    }
+    return c.get_faction()->id == get_owner();
+}
+
+bool item::is_old_owner( const Character &c, bool available_to_take ) const
+{
+    if( old_owner.is_null() ) {
+        return available_to_take;
+    }
+    if( !c.get_faction() ) {
+        debugmsg( "Character %s has no faction.", c.disp_name() );
+        return false;
+    }
+    return c.get_faction()->id == get_old_owner();
+}
+
+std::string item::get_owner_name() const
+{
+    if( !g->faction_manager_ptr->get( owner ) ) {
+        debugmsg( "item::get_owner_name() item %s has no valid nor null faction id ", tname() );
+        return "no owner";
+    }
+    return g->faction_manager_ptr->get( owner )->name;
+}
+
+void item::set_owner( const Character &c )
+{
+    if( !c.get_faction() ) {
+        debugmsg( "item::set_owner() Character %s has no valid faction", c.disp_name() );
+        return;
+    }
+    owner = c.get_faction()->id;
+}
+
+faction_id item::get_owner() const
+{
+    return owner;
+}
+
+faction_id item::get_old_owner() const
+{
+    return old_owner;
+}
+
 std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch ) const
 {
     std::stringstream temp1;
@@ -1177,8 +1232,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }, enumeration_conjunction::none );
             info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list ) ) );
         }
-        if( has_owner() ) {
-            info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ), _( get_owner()->name ) ) ) );
+        if( !owner.is_null() ) {
+            info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ), _( get_owner_name() ) ) ) );
         }
         if( has_var( "contained_name" ) && parts->test( iteminfo_parts::BASE_CONTENTS ) ) {
             info.push_back( iteminfo( "BASE", string_format( _( "Contains: %s" ),
@@ -3294,17 +3349,18 @@ void item::on_wield( player &p, int mv )
 
 void item::handle_pickup_ownership( Character &c )
 {
-    faction *yours = c.get_faction();
+    if( is_owned_by( c ) ) {
+        return;
+    }
     // Add ownership to item if unowned
-    if( !has_owner() ) {
-        set_owner( yours );
+    if( owner.is_null() ) {
+        set_owner( c );
     } else {
-        if( get_owner() != yours && &c == &g->u ) {
+        if( !is_owned_by( c ) && &c == &g->u ) {
             std::vector<npc *> witnesses;
             for( npc &elem : g->all_npcs() ) {
                 if( rl_dist( elem.pos(), g->u.pos() ) < MAX_VIEW_DISTANCE && elem.get_faction() &&
-                    elem.get_faction()->id != faction_id( "no_faction" ) &&
-                    elem.get_faction() == get_owner() && elem.sees( g->u.pos() ) ) {
+                    is_owned_by( elem ) && elem.sees( g->u.pos() ) ) {
                     elem.say( "<witnessed_thievery>", 7 );
                     npc *npc_to_add = &elem;
                     witnesses.push_back( npc_to_add );
@@ -3325,7 +3381,7 @@ void item::handle_pickup_ownership( Character &c )
                     witnesses[random_index]->witness_thievery( &*this );
                 }
             }
-            set_owner( yours );
+            set_owner( c );
         }
     }
 }
@@ -3470,7 +3526,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
     if( has_flag( "ETHEREAL_ITEM" ) ) {
-        ret << " (" << get_var( "ethereal" ) << " turns)";
+        ret << string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
     } else if( goes_bad() || is_food() ) {
         if( item_tags.count( "DIRTY" ) ) {
             ret << _( " (dirty)" );
@@ -8035,7 +8091,7 @@ void item::reset_temp_check()
 
 void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
 {
-    if( !is_artifact() && !is_relic() ) {
+    if( !is_artifact() ) {
         return;
     }
     // Artifacts are currently only useful for the player character, the messages
@@ -8045,6 +8101,30 @@ void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
     if( carrier == &g->u ) {
         g->process_artifact( *this, *carrier );
     }
+}
+
+void item::process_relic( Character *carrier )
+{
+    if( !is_relic() ) {
+        return;
+    }
+    std::vector<enchantment> active_enchantments;
+
+    for( const enchantment &ench : get_enchantments() ) {
+        if( ench.is_active( *carrier, *this ) ) {
+            active_enchantments.emplace_back( ench );
+        }
+    }
+
+    for( const enchantment &ench : active_enchantments ) {
+        ench.activate_passive( *carrier );
+    }
+
+    // Recalculate, as it might have changed (by mod_*_bonus above)
+    carrier->str_cur = carrier->get_str();
+    carrier->int_cur = carrier->get_int();
+    carrier->dex_cur = carrier->get_dex();
+    carrier->per_cur = carrier->get_per();
 }
 
 bool item::process_corpse( player *carrier, const tripoint &pos )
@@ -8468,7 +8548,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
         set_var( "ethereal", std::stoi( get_var( "ethereal" ) ) - 1 );
         const bool processed = std::stoi( get_var( "ethereal" ) ) <= 0;
         if( processed && carrier != nullptr ) {
-            carrier->add_msg_if_player( _( "%s %s disappears!" ), carrier->disp_name( true ), tname() );
+            carrier->add_msg_if_player( _( "Your %s disappears!" ), tname() );
         }
         return processed;
     }

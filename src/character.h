@@ -36,6 +36,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "point.h"
+#include "magic_enchantment.h"
 
 struct pathfinding_settings;
 class item_location;
@@ -285,6 +286,9 @@ class Character : public Creature, public visitable<Character>
 
         void mod_stat( const std::string &stat, float modifier ) override;
 
+        /**Get bonus to max_hp from excess stored fat*/
+        int get_fat_to_hp() const;
+
         /** Returns either "you" or the player's name */
         std::string disp_name( bool possessive = false ) const override;
         /** Returns the name of the player's outer layer, e.g. "armor plates" */
@@ -486,6 +490,11 @@ class Character : public Creature, public visitable<Character>
 
         std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
     public:
+        // recalculates enchantment cache by iterating through all held, worn, and wielded items
+        void recalculate_enchantment_cache();
+        // gets add and mult value from enchantment cache
+        double calculate_by_enchantment( double modify, enchantment::mod value,
+                                         bool round_output = false ) const;
         /** Handles things like destruction of armor, etc. */
         void mutation_effect( const trait_id &mut );
         /** Handles what happens when you lose a mutation. */
@@ -517,6 +526,19 @@ class Character : public Creature, public visitable<Character>
         /** Recursively traverses the mutation's prerequisites and replacements, building up a map */
         void build_mut_dependency_map( const trait_id &mut,
                                        std::unordered_map<trait_id, int> &dependency_map, int distance );
+
+        /**
+        * Returns true if this category of mutation is allowed.
+        */
+        bool is_category_allowed( const std::vector<std::string> &category ) const;
+        bool is_category_allowed( const std::string &category ) const;
+
+        bool is_weak_to_water() const;
+
+        /**Check for mutation disallowing the use of an healing item*/
+        bool can_use_heal_item( const item &med ) const;
+
+        bool can_install_cbm_on_bp( const std::vector<body_part> &bps ) const;
 
         /**
          * Returns resistances on a body part provided by mutations
@@ -810,6 +832,10 @@ class Character : public Creature, public visitable<Character>
             }
         }
 
+        void make_bleed( body_part bp, time_duration duration, int intensity = 1,
+                         bool permanent = false,
+                         bool force = false, bool defferred = false );
+
         /** Calls Creature::normalize()
          *  nulls out the player's weapon
          *  Should only be called through player::normalize(), not on it's own!
@@ -1051,10 +1077,14 @@ class Character : public Creature, public visitable<Character>
         // 2 - allies are in your_followers faction; NPCATT_FOLLOW is follower but not an ally
         // 0 - allies may be in your_followers faction; NPCATT_FOLLOW is an ally (legacy)
         int faction_api_version = 2;  // faction API versioning
-        string_id<faction> fac_id; // A temp variable used to inform the game which faction to link
+        faction_id fac_id; // A temp variable used to inform the game which faction to link
         faction *my_fac = nullptr;
 
     private:
+        // a cache of all active enchantment values.
+        // is recalculated every turn in Character::recalculate_enchantment_cache
+        enchantment enchantment_cache;
+
         // A unique ID number, assigned by the game class. Values should never be reused.
         character_id id;
 

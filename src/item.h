@@ -58,6 +58,7 @@ struct itype;
 struct islot_comestible;
 
 using bodytype_id = std::string;
+using faction_id = string_id<faction>;
 struct islot_armor;
 struct use_function;
 class item_category;
@@ -1042,6 +1043,7 @@ class item : public visitable<item>
          * @param pos The location of the artifact (should be the player location if carried).
          */
         void process_artifact( player *carrier, const tripoint &pos );
+        void process_relic( Character *carrier );
 
         bool destroyed_at_zero_charges() const;
         // Most of the is_whatever() functions call the same function in our itype
@@ -1905,33 +1907,24 @@ class item : public visitable<item>
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );
         int get_gun_ups_drain() const;
-        inline void set_old_owner( const faction *temp_owner ) {
+        inline void set_old_owner( const faction_id temp_owner ) {
             old_owner = temp_owner;
         }
         inline void remove_old_owner() {
-            old_owner = nullptr;
+            old_owner = faction_id::NULL_ID();
         }
-        inline void set_owner( faction *new_owner ) {
+        inline void set_owner( const faction_id new_owner ) {
             owner = new_owner;
         }
+        void set_owner( const Character &c );
         inline void remove_owner() {
-            owner = nullptr;
+            owner = faction_id::NULL_ID();
         }
-        inline const faction *get_owner() const {
-            if( owner ) {
-                return owner;
-            }
-            return nullptr;
-        }
-        inline const faction *get_old_owner() const {
-            if( old_owner ) {
-                return old_owner;
-            }
-            return nullptr;
-        }
-        inline bool has_owner() const {
-            return owner;
-        }
+        faction_id get_owner() const;
+        faction_id get_old_owner() const;
+        bool is_owned_by( const Character &c, bool available_to_take = false ) const;
+        bool is_old_owner( const Character &c, bool available_to_take = false ) const;
+        std::string get_owner_name() const;
         int get_min_str() const;
 
         const cata::optional<islot_comestible> &get_comestible() const;
@@ -2096,9 +2089,9 @@ class item : public visitable<item>
          */
         phase_id current_phase = static_cast<phase_id>( 0 );
         // The faction that owns this item.
-        const faction *owner = nullptr;
+        faction_id owner = faction_id::NULL_ID();
         // The faction that previously owned this item
-        const faction *old_owner = nullptr;
+        faction_id old_owner = faction_id::NULL_ID();
         int damage_ = 0;
         light_emission light = nolight;
 

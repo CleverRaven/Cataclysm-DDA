@@ -31,6 +31,7 @@
 #include "projectile.h"
 #include "type_id.h"
 #include "bodypart.h"
+#include "map_iterator.h"
 #include "damage.h"
 #include "debug.h"
 #include "explosion.h"
@@ -103,12 +104,9 @@ std::set<tripoint> spell_effect::spell_effect_blast( const spell &, const tripoi
 {
     std::set<tripoint> targets;
     // TODO: Make this breadth-first
-    for( int x = target.x - aoe_radius; x <= target.x + aoe_radius; x++ ) {
-        for( int y = target.y - aoe_radius; y <= target.y + aoe_radius; y++ ) {
-            const tripoint potential_target( x, y, target.z );
-            if( in_spell_aoe( target, potential_target, aoe_radius, ignore_walls ) ) {
-                targets.emplace( potential_target );
-            }
+    for( const tripoint &potential_target : g->m.points_in_radius( target, aoe_radius ) ) {
+        if( in_spell_aoe( target, potential_target, aoe_radius, ignore_walls ) ) {
+            targets.emplace( potential_target );
         }
     }
     return targets;
@@ -288,6 +286,7 @@ static void damage_targets( const spell &sp, const Creature &caster,
         }
 
         projectile bolt;
+        bolt.speed = 10000;
         bolt.impact = sp.get_damage_instance();
         bolt.proj_effects.emplace( "magic" );
 
@@ -711,4 +710,15 @@ void spell_effect::vomit( const spell &sp, Creature &caster, const tripoint &tar
         sp.make_sound( target );
         ch->vomit();
     }
+}
+
+void spell_effect::explosion( const spell &sp, Creature &, const tripoint &target )
+{
+    explosion_handler::explosion( target, sp.damage(), sp.aoe() / 10.0, true );
+}
+
+void spell_effect::flashbang( const spell &sp, Creature &caster, const tripoint &target )
+{
+    explosion_handler::flashbang( target, caster.is_avatar() &&
+                                  !sp.is_valid_target( valid_target::target_self ) );
 }
