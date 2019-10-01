@@ -9502,6 +9502,16 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
             // Note: shelled individuals can still use sleeping aids!
         } else if( vp ) {
+            vehicle *const veh = veh_pointer_or_null( vp );
+            const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
+            vehicle_stack items = veh->get_items( carg->part_index() );
+            for( auto &items_it : items ) {
+                if( items_it.has_flag( "SLEEP_AID" ) ) {
+                    // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
+                    comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
+                    break; // prevents using more than 1 sleep aid
+                }
+            }
             if( vp.part_with_feature( "BED", true ) ) {
                 comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
             } else if( vp.part_with_feature( "SEAT", true ) ) {
