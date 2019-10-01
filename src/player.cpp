@@ -4648,7 +4648,8 @@ void player::process_one_effect( effect &it, bool is_new )
     val = get_effect( "SLEEP", reduced );
     if( val != 0 ) {
         mod = 1;
-        if( is_new || it.activated( calendar::turn, "SLEEP", val, reduced, mod ) ) {
+        if( is_new || it.activated( calendar::turn, "SLEEP", val, reduced, mod ) &&
+            !has_effect( efftype_id( "sleep" ) ) ) {
             add_msg_if_player( _( "You pass out!" ) );
             fall_asleep( time_duration::from_turns( val ) );
         }
@@ -4928,7 +4929,7 @@ void player::suffer()
                 }
                 mod_painkiller( pkilladd );
             }
-            if( one_turn_in( 6_hours ) ) {
+            if( one_turn_in( 6_hours ) && !has_effect( effect_sleep ) ) {
                 add_msg_if_player( m_bad, _( "You feel dizzy for a moment." ) );
                 moves -= rng( 10, 30 );
             }
@@ -5937,7 +5938,7 @@ void player::suffer()
         }
     }
     if( stim < -85 || pkill > 145 ) {
-        if( one_turn_in( 15_seconds ) ) {
+        if( one_turn_in( 15_seconds ) && !has_effect( effect_sleep ) ) {
             add_msg_if_player( m_bad, _( "You feel dizzy for a moment." ) );
             mod_moves( -rng( 10, 30 ) );
             if( one_in( 3 ) && !has_effect( effect_downed ) ) {
@@ -10545,6 +10546,9 @@ void player::cancel_activity()
 {
     if( has_activity( activity_id( "ACT_MOVE_ITEMS" ) ) && is_hauling() ) {
         stop_hauling();
+    }
+    if( has_activity( activity_id( "ACT_TRY_SLEEP" ) ) ) {
+        remove_value( "sleep_query" );
     }
     // Clear any backlog items that aren't auto-resume.
     for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {
