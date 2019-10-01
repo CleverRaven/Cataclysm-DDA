@@ -9509,6 +9509,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
                 if( items_it.has_flag( "SLEEP_AID" ) ) {
                     // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                     comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
+                    add_msg_if_player( m_info, _( "You use your %s for comfort." ), items_it.tname() );
                     break; // prevents using more than 1 sleep aid
                 }
             }
@@ -9546,6 +9547,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             if( items_it.has_flag( "SLEEP_AID" ) ) {
                 // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                 comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
+                add_msg_if_player( m_info, _( "You use your %s for comfort." ), items_it.tname() );
                 break; // prevents using more than 1 sleep aid
             }
         }
