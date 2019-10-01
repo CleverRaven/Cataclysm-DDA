@@ -5088,7 +5088,7 @@ void player::suffer()
                 }
                 // Delusions
                 if( !done_effect && one_turn_in( 8_hours ) ) {
-                    if ( rng( 1, 20 ) > 5 ) { // 75% chance
+                    if( rng( 1, 20 ) > 5 ) { // 75% chance
                         std::string snip = SNIPPET.random_from_category( "schizo_delusion_paranoid" );
                         add_msg( m_warning, snip );
                         add_morale( MORALE_FEELING_BAD, -20, -100 );
