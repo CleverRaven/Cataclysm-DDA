@@ -905,6 +905,12 @@ void Creature::set_fake( const bool fake_value )
     fake = fake_value;
 }
 
+void Creature::add_effect( const effect &eff, bool force, bool deferred )
+{
+    add_effect( eff.get_id(), eff.get_duration(), eff.get_bp(), eff.is_permanent(), eff.get_intensity(),
+                force, deferred );
+}
+
 void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
                            bool permanent, int intensity, bool force, bool deferred )
 {

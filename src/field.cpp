@@ -4,6 +4,8 @@
 #include <utility>
 
 #include "calendar.h"
+#include "debug.h"
+#include "effect.h"
 
 int field_entry::move_cost() const
 {
@@ -261,4 +263,20 @@ int field::total_move_cost() const
         current_cost += fld.second.move_cost();
     }
     return current_cost;
+}
+
+effect field_entry::field_effect() const
+{
+    const field_effect_data &field_effect = type->intensity_levels[intensity - 1].field_effect;
+    const efftype_id fx_id = field_effect.id;
+    if( fx_id.is_empty() || fx_id.is_null() ) {
+        return effect();
+    }
+    return effect( &field_effect.id.obj(), rng( field_effect.min_duration, field_effect.max_duration ),
+                   field_effect.bp, false, field_effect.intensity, calendar::turn );
+}
+
+bool field_entry::inside_immune() const
+{
+    return type->intensity_levels[intensity].field_effect.inside_immune;
 }
