@@ -82,8 +82,7 @@ static std::string gen_dynamic_line( dialogue &d )
 static void change_om_type( const std::string &new_type )
 {
     const tripoint omt_pos = ms_to_omt_copy( g->m.getabs( g->u.pos() ) );
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos );
-    omt_ref = oter_id( new_type );
+    overmap_buffer.ter_set( omt_pos, oter_id( new_type ) );
 }
 
 static npc &prep_test( dialogue &d )

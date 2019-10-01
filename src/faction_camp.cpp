@@ -471,7 +471,7 @@ recipe_id base_camps::select_camp_option( const std::map<recipe_id, translation>
 void talk_function::start_camp( npc &p )
 {
     const tripoint omt_pos = p.global_omt_location();
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos );
+    const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
 
     const auto &pos_camps = recipe_group::get_recipes_by_id( "all_faction_base_types",
                             omt_ref.id().c_str() );
@@ -1564,10 +1564,10 @@ void basecamp::start_cut_logs()
             comp->companion_mission_time_ret = calendar::turn + work_time;
             //If we cleared a forest...
             if( om_cutdown_trees_est( forest ) < 5 ) {
-                oter_id &omt_trees = overmap_buffer.ter( forest );
+                const oter_id &omt_trees = overmap_buffer.ter( forest );
                 //Do this for swamps "forest_wet" if we have a swamp without trees...
                 if( omt_trees.id() == "forest" || omt_trees.id() == "forest_thick" ) {
-                    omt_trees = oter_id( "field" );
+                    overmap_buffer.ter_set( forest, oter_id( "field" ) );
                 }
             }
         }
@@ -1603,8 +1603,7 @@ void basecamp::start_clearcut()
             om_harvest_ter_break( *comp, forest, ter_id( "t_tree_young" ), 95 );
             //If we cleared a forest...
             if( om_cutdown_trees_est( forest ) < 5 ) {
-                oter_id &omt_trees = overmap_buffer.ter( forest );
-                omt_trees = oter_id( "field" );
+                overmap_buffer.ter_set( forest, oter_id( "field" ) );
             }
         }
     }
@@ -1759,7 +1758,7 @@ void basecamp::start_fortifications( std::string &bldg_exp, bool by_radio )
         int dist = 0;
         for( auto fort_om : fortify_om ) {
             bool valid = false;
-            oter_id &omt_ref = overmap_buffer.ter( fort_om );
+            const oter_id &omt_ref = overmap_buffer.ter( fort_om );
             for( const std::string &pos_om : allowed_locations ) {
                 if( omt_ref.id().c_str() == pos_om ) {
                     valid = true;
@@ -2473,7 +2472,7 @@ void basecamp::combat_mission_return( const std::string &miss )
             patrol.push_back( guy );
         }
         for( auto pt : comp->companion_mission_points ) {
-            oter_id &omt_ref = overmap_buffer.ter( pt );
+            const oter_id &omt_ref = overmap_buffer.ter( pt );
             int swim = comp->get_skill_level( skill_swimming );
             if( is_river( omt_ref ) && swim < 2 ) {
                 if( swim == 0 ) {
@@ -2530,7 +2529,7 @@ bool basecamp::survey_return()
         return false;
     }
 
-    oter_id &omt_ref = overmap_buffer.ter( where );
+    const oter_id &omt_ref = overmap_buffer.ter( where );
     const auto &pos_expansions = recipe_group::get_recipes_by_id( "all_faction_base_expansions",
                                  omt_ref.id().c_str() );
     if( pos_expansions.empty() ) {
@@ -2546,7 +2545,7 @@ bool basecamp::survey_return()
                expansion_type->blueprint_name() );
         return false;
     }
-    omt_ref = oter_id( expansion_type.str() );
+    overmap_buffer.ter_set( where, oter_id( expansion_type.str() ) );
     add_expansion( expansion_type.str(), where, dir );
     const std::string msg = _( "returns from surveying for the expansion." );
     finish_return( *comp, true, msg, "construction", 2 );
@@ -2917,7 +2916,7 @@ tripoint om_target_tile( const tripoint &omt_pos, int min_range, int range,
 
     tripoint omt_tgt = tripoint( where );
 
-    oter_id &omt_ref = overmap_buffer.ter( omt_tgt );
+    const oter_id &omt_ref = overmap_buffer.ter( omt_tgt );
 
     if( must_see && !overmap_buffer.seen( omt_tgt ) ) {
         errors = true;
@@ -3014,8 +3013,6 @@ bool om_set_hide_site( npc &comp, const tripoint &omt_tgt,
                        const std::vector<item *> &itms,
                        const std::vector<item *> &itms_rem )
 {
-    oter_id &omt_ref = overmap_buffer.ter( omt_tgt );
-    omt_ref = oter_id( omt_ref.id().c_str() );
     tinymap target_bay;
     target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
     target_bay.ter_set( point( 11, 10 ), t_improvised_shelter );
@@ -3029,7 +3026,7 @@ bool om_set_hide_site( npc &comp, const tripoint &omt_tgt,
     }
     target_bay.save();
 
-    omt_ref = oter_id( "faction_hide_site_0" );
+    overmap_buffer.ter_set( omt_tgt, oter_id( "faction_hide_site_0" ) );
 
     overmap_buffer.reveal( omt_tgt.xy(), 3, 0 );
     return true;
@@ -3049,7 +3046,7 @@ time_duration companion_travel_time_calc( const std::vector<tripoint> &journey,
 {
     int one_way = 0;
     for( auto &om : journey ) {
-        oter_id &omt_ref = overmap_buffer.ter( om );
+        const oter_id &omt_ref = overmap_buffer.ter( om );
         std::string om_id = omt_ref.id().c_str();
         //Player walks 1 om is roughly 2.5 min
         if( om_id == "field" ) {
@@ -3116,7 +3113,7 @@ std::vector<tripoint> om_companion_path( const tripoint &start, int range_start,
         range -= rl_dist( spt.xy(), last.xy() );
         last = spt;
 
-        oter_id &omt_ref = overmap_buffer.ter( last );
+        const oter_id &omt_ref = overmap_buffer.ter( last );
 
         if( bounce && omt_ref.id() == "faction_hide_site_0" ) {
             range = def_range * .75;
@@ -3199,7 +3196,7 @@ std::vector<std::pair<std::string, tripoint>> talk_function::om_building_region(
 {
     std::vector<std::pair<std::string, tripoint>> om_camp_region;
     for( const tripoint &omt_near_pos : points_in_radius( omt_pos, range ) ) {
-        oter_id &omt_rnear = overmap_buffer.ter( omt_near_pos );
+        const oter_id &omt_rnear = overmap_buffer.ter( omt_near_pos );
         std::string om_rnear_id = omt_rnear.id().c_str();
         if( !purge || ( om_rnear_id.find( "faction_base_" ) != std::string::npos &&
                         om_rnear_id.find( "faction_base_camp" ) == std::string::npos ) ) {

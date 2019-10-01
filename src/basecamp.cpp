@@ -169,7 +169,7 @@ void basecamp::define_camp( npc &p, const std::string &camp_type )
 {
     query_new_name();
     omt_pos = p.global_omt_location();
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos );
+    const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     // purging the regions guarantees all entries will start with faction_base_
     for( const std::pair<std::string, tripoint> &expansion :
          talk_function::om_building_region( omt_pos, 1, true ) ) {
@@ -182,7 +182,7 @@ void basecamp::define_camp( npc &p, const std::string &camp_type )
         e.cur_level = -1;
         e.pos = omt_pos;
         expansions[base_camps::base_dir] = e;
-        omt_ref = oter_id( "faction_base_camp_0" );
+        overmap_buffer.ter_set( omt_pos, oter_id( "faction_base_camp_0" ) );
         update_provides( base_camps::faction_encode_abs( e, 0 ),
                          expansions[base_camps::base_dir] );
     } else {

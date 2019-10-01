@@ -838,7 +838,7 @@ void nuke( const tripoint &p )
         }
     }
     tmpmap.save();
-    overmap_buffer.ter( p_surface ) = oter_id( "crater" );
+    overmap_buffer.ter_set( p_surface, oter_id( "crater" ) );
     // Kill any npcs on that omap location.
     for( const auto &npc : overmap_buffer.get_npcs_near_omt( p_surface, 0 ) ) {
         npc->marked_for_death = true;
