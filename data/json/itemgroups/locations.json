@@ -571,7 +571,7 @@
       },
       {
         "distribution": [
-          { "item": "protein_powder", "prob": 15 },
+          { "item": "protein_powder", "prob": 7 },
           { "item": "dry_veggy", "prob": 10 },
           { "item": "dry_fruit", "prob": 10 },
           { "item": "granola", "prob": 5 }
@@ -819,7 +819,7 @@
       [ "nyquil", 5 ],
       [ "disinfectant", 15 ],
       [ "vaccine_shot", 10 ],
-      [ "protein_powder", 30 ],
+      [ "protein_powder", 15 ],
       [ "smoxygen_tank", 20 ],
       [ "elec_hairtrimmer", 15 ],
       [ "survnote", 5 ],

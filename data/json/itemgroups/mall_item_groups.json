@@ -88,7 +88,7 @@
       [ "pills_sleep", 45 ],
       [ "disinfectant", 15 ],
       [ "vaccine_shot", 10 ],
-      [ "protein_powder", 85 ],
+      [ "protein_powder", 40 ],
       [ "caff_gum", 30 ],
       [ "nic_gum", 25 ],
       [ "bathroom_scale", 20 ]
