@@ -1586,6 +1586,17 @@ bool game::do_turn()
 
     player_was_sleeping = player_is_sleeping;
 
+    if( calendar::once_every( 1_minutes ) && u.has_activity( activity_id( "ACT_CRAFT" ) ) ) {
+        item *craft = u.activity.targets.front().get_item();
+
+        if( craft ) {
+            query_popup()
+            .wait_message( _( "Crafting: %s" ), craft->tname() )
+            .on_top( true )
+            .show();
+        }
+    }
+
     u.update_bodytemp();
     u.update_body_wetness( *weather.weather_precise );
     u.apply_wetness_morale( weather.temperature );
