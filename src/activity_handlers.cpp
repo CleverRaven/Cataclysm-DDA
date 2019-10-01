@@ -2992,6 +2992,29 @@ void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
     }
 }
 
+void activity_handlers::try_sleep_query( player_activity *act, player *p )
+{
+    uilist sleep_query;
+    sleep_query.text = _( "You have trouble sleeping, keep trying?" );
+    sleep_query.addentry( 1, true, 'S', _( "Stop trying to fall asleep and get up." ) );
+    sleep_query.addentry( 2, true, 'c', _( "Continue trying to fall asleep." ) );
+    sleep_query.addentry( 3, true, 'C',
+                          _( "Continue trying to fall asleep and don't prompt further querry." ) );
+    sleep_query.query();
+    switch( sleep_query.ret ) {
+        case 1:
+            act->set_to_null();
+            return;
+            break;
+        case 3:
+            break;
+        case 2:
+        default:
+            return;
+            break;
+    }
+}
+
 void activity_handlers::operation_do_turn( player_activity *act, player *p )
 {
     /**
