@@ -2,16 +2,15 @@
 #ifndef MAPBUFFER_H
 #define MAPBUFFER_H
 
-#include "enums.h"
-
 #include <list>
 #include <map>
 #include <memory>
 #include <string>
 
-struct point;
-struct tripoint;
-struct submap;
+#include "point.h"
+
+class submap;
+class JsonIn;
 
 /**
  * Store, buffer, save and load the entire world map.
@@ -59,7 +58,7 @@ class mapbuffer
         submap *lookup_submap( const tripoint &p );
 
     private:
-        typedef std::map<tripoint, submap *> submap_map_t;
+        using submap_map_t = std::map<tripoint, submap *>;
 
     public:
         inline submap_map_t::iterator begin() {

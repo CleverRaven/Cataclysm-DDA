@@ -1,5 +1,5 @@
 # Main project build script
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.1.4)
 
 PROJECT(CataclysmDDA)
 
@@ -8,27 +8,28 @@ SET(CMAKE_MODULE_PATH
     ${CMAKE_SOURCE_DIR}/CMakeModules
 )
 
+SET(CMAKE_TLS_VERIFY ON)
+
 # Build options
-option(LUA          "Lua support (required for some mods)."					"OFF")
 option(TILES        "Build graphical tileset version."						"OFF")
 option(CURSES       "Build curses version."							"ON" )
 option(SOUND        "Support for in-game sounds & music."					"OFF")
-option(RELEASE      "Disable debug. Use it for user-ready buils."				"OFF")
 option(BACKTRACE    "Support for printing stack backtraces on crash"			"ON" )
 option(USE_HOME_DIR "Use user's home directory for save files."					"ON" )
 option(LOCALIZE     "Support for language localizations. Also enable UTF support."		"ON" )
 option(LANGUAGES    "Compile localization files for specified languages."			""   )
 option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."	"ON")
-option(LUA_BINARY   "Lua binary name or path. You can try to use luajit for extra speed."	"")
-option(GIT_BINARY   "Git binary name or path."							"")
-OPTION(PREFIX       "Location of Data,GFX, & Lua directories"                                   "")
+option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy plugin" "OFF")
+set(CATA_CLANG_TIDY_INCLUDE_DIR "" CACHE STRING "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
+set(CATA_CHECK_CLANG_TIDY "" CACHE STRING "Path to check_clang_tidy.py for plugin tests")
+set(GIT_BINARY       "" CACHE STRING "Git binary name or path.")
+set(PREFIX           "" CACHE STRING "Location of Data & GFX directories")
 
 include(CTest)
 
 include(GetGitRevisionDescription)
 git_describe(GIT_VERSION)
 
-IF (RELEASE)
 MESSAGE("\n * Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world.")
 MESSAGE("   _________            __                   .__                                ")
 MESSAGE("   \\_   ___ \\ _____   _/  |_ _____     ____  |  |   ___.__   ______  _____      ")
@@ -37,12 +38,15 @@ MESSAGE("   \\     \\____ / __ \\_ |  |   / __ \\_\\  \\___ |  |__ \\___  | \\__
 MESSAGE("    \\______  /\(____  / |__|  \(____  / \\___  >|____/ / ____|/____  >|__|_|  /    ")
 MESSAGE("           \\/      \\/             \\/      \\/        \\/          \\/       \\/     ")
 MESSAGE("                               --= Dark Days Ahead =--")
-MESSAGE("\n * http://en.cataclysmdda.com/\n")
-ENDIF (RELEASE)
+MESSAGE("\n * https://cataclysmdda.org/\n")
 
 MESSAGE(STATUS "${PROJECT} build environment -- \n")
 
 MESSAGE(STATUS "Build realm is                : ${CMAKE_SYSTEM_NAME} ${CMAKE_HOST_SYSTEM_PROCESSOR}")
+
+IF(NOT CMAKE_BUILD_TYPE)
+	set(CMAKE_BUILD_TYPE Debug)
+ENDIF(NOT CMAKE_BUILD_TYPE)
 
 if (NOT ${GIT_VERSION} MATCHES GIT-NOTFOUND)
     string(REPLACE "-NOTFOUND" "" GIT_VERSION ${GIT_VERSION})
@@ -98,16 +102,6 @@ ELSE (NOT DYNAMIC_LINKING)
 	ENDIF(MINGW AND NOT CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 ENDIF (NOT DYNAMIC_LINKING)
 
-IF(${CMAKE_SYSTEM_NAME} MATCHES Windows)
-	SET(_OS_WINDOWS_ 1)
-	GET_FILENAME_COMPONENT(MINGW_BIN_DIRECTORY ${CMAKE_CXX_COMPILER} PATH)
-	SET(RC_COMPILER_FILENAME "windres.exe")
-	FIND_FILE(RC_COMPILER_PATH ${RC_COMPILER_FILENAME})
-	IF(RC_COMPILER_PATH)
-		MESSAGE(STATUS "Found .rc compiler: ${RC_COMPILER_PATH}")
-	ENDIF(RC_COMPILER_PATH)
-ENDIF(${CMAKE_SYSTEM_NAME} MATCHES Windows)
-
 #Sysem specific actions
 IF (${CMAKE_SYSTEM_NAME} MATCHES Linux OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
     IF(NOT DATA_PREFIX)
@@ -149,10 +143,6 @@ ENDIF (${CMAKE_SYSTEM_NAME} MATCHES Windows)
 MESSAGE(STATUS "${PROJECT_NAME} build options --\n")
 
 # Preset variables
-IF (NOT LUA_BINARY)
-	SET (LUA_BINARY "lua")
-ENDIF (NOT LUA_BINARY)
-
 IF(NOT LANGUAGES)
 	SET (LANGUAGES de es_AR es_ES fr it_IT ja ko pt_BR ru zh_CN zh_TW)
 ENDIF(NOT LANGUAGES)
@@ -176,7 +166,20 @@ IF(TILES)
 ENDIF(TILES)
 
 # Set build types and display info
-IF(RELEASE)
+IF(CMAKE_BUILD_TYPE STREQUAL Debug)
+	MESSAGE("\n")
+	MESSAGE(STATUS "Build ${PROJECT} in development mode --\n")
+	MESSAGE(STATUS "Binaries will be located in: " ${CMAKE_SOURCE_DIR})
+	SET(CMAKE_VERBOSE_MAKEFILE ON)
+	# Since CataclusmDDA does not respect PREFIX for development builds
+	# and has funny path handlers, we should create resulting Binaries
+	# in the source redectory
+	SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY
+		${CMAKE_SOURCE_DIR}
+		CACHE PATH "Single Directory for all Executables."
+	)
+	SET(BIN_PREFIX ${CMAKE_SOURCE_DIR})
+ELSE (CMAKE_BUILD_TYPE STREQUAL Debug)
 	MESSAGE(STATUS "CMAKE_INSTALL_PREFIX          : ${CMAKE_INSTALL_PREFIX}")
 	MESSAGE(STATUS "BIN_PREFIX                    : ${BIN_PREFIX}")
 	MESSAGE(STATUS "DATA_PREFIX                   : ${DATA_PREFIX}")
@@ -187,66 +190,18 @@ IF(RELEASE)
 	MESSAGE(STATUS "PIXMAPS_ENTRY_PATH            : ${PIXMAPS_ENTRY_PATH}")
 	MESSAGE(STATUS "PIXMAPS_UNITY_ENTRY_PATH      : ${PIXMAPS_UNITY_ENTRY_PATH}")
 	MESSAGE(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}\n")
-	SET(CMAKE_BUILD_TYPE RELEASE)
 	ADD_DEFINITIONS(-DRELEASE)
-	# FIXME: Removed -Werror for a while. Currently it is broken in upstream.
-	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Os")
-	IF(NOT MSVC)
-		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wall -std=c++11 -MMD")
-	ELSE()
-		if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-			add_definitions(-D_AMD64_)
-		else()
-			add_definitions(-D_X86_)
-		endif()
-	ENDIF()
-	IF(MINGW)
-		# Workaround for: http://ehc.ac/p/mingw/bugs/2250/
-		ADD_DEFINITIONS(-D__NO_INLINE__)
-	ENDIF(MINGW)
-    # Use PREFIX as storage of data,gfx,lua etc.. Usefull only on *nix OS.
+    # Use PREFIX as storage of data,gfx, etc.. Usefull only on *nix OS.
     IF (PREFIX AND NOT WIN32)
 	    ADD_DEFINITIONS(-DDATA_DIR_PREFIX)
     ENDIF (PREFIX AND NOT WIN32)
-ELSE (RELEASE)
-	MESSAGE("\n")
-	MESSAGE(STATUS "Build ${PROJECT} in development mode (RELEASE=OFF) --\n")
-	MESSAGE(STATUS "Binaries will be located in: " ${CMAKE_SOURCE_DIR})
-	SET(CMAKE_BUILD_TYPE DEBUG)
-	IF(NOT WIN32)
-		# Reduce objects and binary size to avoid 'file too big' error
-		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_GLIBCXX_DEBUG")
-	ENDIF(NOT WIN32)
-	IF(NOT MSVC)
-		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wall -std=c++11 -MMD")
-	ELSE()
-		if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-			add_definitions(-D_AMD64_)
-		else()
-			add_definitions(-D_X86_)
-		endif()
-	ENDIF()
-	SET(CMAKE_VERBOSE_MAKEFILE ON)
-	# Since CataclusmDDA does not respect PREFIX for development builds
-	# and has funny path handlers, we should create resulting Binaries
-	# in the source redectory
-	SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY
-		${CMAKE_SOURCE_DIR}
-		CACHE PATH "Single Directory for all Executables."
-	)
-	SET(BIN_PREFIX ${CMAKE_SOURCE_DIR})
-ENDIF (RELEASE)
+ENDIF (CMAKE_BUILD_TYPE STREQUAL Debug)
 
-	MESSAGE(STATUS "LUA                           : ${LUA}")
-IF (LUA)
-	MESSAGE(STATUS "LUA_BINARY                    : ${LUA_BINARY}")
-ENDIF (LUA)
 	MESSAGE(STATUS "GIT_BINARY                    : ${GIT_EXECUTABLE}")
 	MESSAGE(STATUS "DYNAMIC_LINKING               : ${DYNAMIC_LINKING}")
 	MESSAGE(STATUS "TILES                         : ${TILES}")
 	MESSAGE(STATUS "CURSES                        : ${CURSES}")
 	MESSAGE(STATUS "SOUND                         : ${SOUND}")
-	MESSAGE(STATUS "RELEASE                       : ${RELEASE}")
 	MESSAGE(STATUS "BACKTRACE                     : ${BACKTRACE}")
 	MESSAGE(STATUS "LOCALIZE                      : ${LOCALIZE}")
 	MESSAGE(STATUS "USE_HOME_DIR                  : ${USE_HOME_DIR}\n")
@@ -255,6 +210,26 @@ ENDIF (LUA)
 
 	MESSAGE(STATUS "See INSTALL file for details and more info --\n")
 
+IF(MSVC)
+	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+		add_definitions(-D_AMD64_)
+	else()
+		add_definitions(-D_X86_)
+	endif()
+ELSE()
+	SET(CATA_WARNINGS
+		"-Werror -Wall -Wextra \
+		-Wmissing-declarations \
+		-Wold-style-cast \
+		-Woverloaded-virtual \
+		-Wpedantic")
+	# Compact the whitespace in the warning string
+	string(REGEX REPLACE "[\t ]+" " " CATA_WARNINGS "${CATA_WARNINGS}")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS}")
+	SET(CMAKE_CXX_FLAGS_DEBUG "-Og -g")
+ENDIF()
+
+SET(CMAKE_CXX_STANDARD 14)
 
 # Force out-of-source build
 IF(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
@@ -339,16 +314,6 @@ IF(SOUND)
 	ENDIF(NOT SDL2_MIXER_FOUND)
 ENDIF(SOUND)
 
-IF(LUA)
-	FIND_PACKAGE(Lua)
-	IF(NOT LUA_FOUND)
-	MESSAGE(FATAL_ERROR
-		"You need the Lua development library to be able to compile with Lua support.\nSee INSTALL file for details and more info\n"
-	)
-	ENDIF(NOT LUA_FOUND)
-	ADD_DEFINITIONS(-DLUA)
-ENDIF(LUA)
-
 IF(BACKTRACE)
 	ADD_DEFINITIONS(-DBACKTRACE)
 ENDIF(BACKTRACE)
@@ -377,17 +342,15 @@ IF(USE_HOME_DIR)
 	ADD_DEFINITIONS(-DUSE_HOME_DIR)
 ENDIF(USE_HOME_DIR)
 
-IF(LUA)
-	add_subdirectory(lua)
-	add_subdirectory(src/lua)
-ENDIF(LUA)
-
 add_subdirectory(src)
 add_subdirectory(data)
 if (NOT MSVC)
 	add_subdirectory(src/chkjson)
 endif()
 add_subdirectory(tests)
+if (CATA_CLANG_TIDY_PLUGIN)
+	add_subdirectory(tools/clang-tidy-plugin)
+endif()
 
 CONFIGURE_FILE(
 	"${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"

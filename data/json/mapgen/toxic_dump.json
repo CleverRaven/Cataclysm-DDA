@@ -1,0 +1,79 @@
+[
+  {
+    "id": "toxic_waste",
+    "type": "item_group",
+    "items": [
+      { "item": "plut_slurry", "container-item": "55gal_drum", "charges-min": 2, "charges-max": 28, "chance": 5 },
+      {
+        "item": "plut_slurry_dense",
+        "container-item": "55gal_drum",
+        "charges-min": 1,
+        "charges-max": 45,
+        "chance": 2
+      },
+      { "item": "sewage", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "chance": 50 },
+      { "group": "sewer", "chance": 20 },
+      { "item": "55gal_drum", "chance": 50 },
+      { "item": "slime_scrap", "chance": 10 }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "toxic_dump" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "        x    xxx        ",
+        "       xxxxxxxxxxxxx    ",
+        "   |||||||||||||||||||| ",
+        " xx|xxxxx,,,,,,,,,,xxx| ",
+        " xx|x,,,,*********,,,x| ",
+        "  x|xxx,,*********,,xx| ",
+        " xx|x,*****~~~~~***,xx| ",
+        "  x|x,***~~~~~*****,xx|x",
+        "  x|xx,****~~~~~**,,,x| ",
+        " xx|xxx,***~~~***,,,xx| ",
+        " xx|xx,****~~~****,,,x| ",
+        "  x|x,,,,****~~~***,,x| ",
+        " xx|xx,,*****~~***,,xx|x",
+        "  x|xx,**********,xxxx| ",
+        " xx|x,,************,,x| ",
+        "  x|xxxx,,,*****,,,,xx| ",
+        "   |xxxxxx,,,,,,,xxxxx|x",
+        "  ----+---xxxxxxxxxxxx| ",
+        "  -R.|..A-xxxxxxxxxxxx| ",
+        "  -R.c..A-|||cc|||||||| ",
+        "  -R.|..A-              ",
+        "  ----+---              ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        " ": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass_dead", "t_grass_dead", "t_grass", "t_grass", "t_shrub" ],
+        "x": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass_dead", "t_grass_dead" ],
+        "~": "t_sewage",
+        "*": [ "t_sewage", "t_sewage", "t_sewage", "t_sewage", "t_sewage", "t_sewage", "t_dirt" ],
+        ",": [ "t_sewage", "t_sewage", "t_sewage", "t_dirt" ],
+        "+": "t_door_metal_pickable",
+        "-": "t_wall",
+        ".": "t_thconc_floor",
+        "c": "t_chaingate_c",
+        "|": "t_chainfence"
+      },
+      "set": [ { "square": "radiation", "amount": [ 20, 60 ], "x": 3, "y": 3, "x2": 21, "y2": 16 } ],
+      "furniture": { "R": "f_rack", "A": "f_dumpster" },
+      "place_signs": [ { "signage": "RESTRICTED AREA! AUTHORIZED PERSONNEL ONLY", "x": 10, "y": 23 } ],
+      "items": {
+        "R": { "item": "toxic_dump_equipment", "chance": 60 },
+        "A": { "item": "sewer", "chance": 60 },
+        "~": { "item": "toxic_waste", "chance": 10 }
+      },
+      "place_loot": [
+        { "group": "toxic_waste", "x": [ 5, 20 ], "y": [ 5, 16 ], "chance": 40, "repeat": [ 3, 15 ] },
+        { "item": "id_military", "x": 3, "y": [ 18, 20 ], "chance": 10 }
+      ]
+    }
+  }
+]

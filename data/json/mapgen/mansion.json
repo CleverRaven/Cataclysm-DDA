@@ -38,7 +38,7 @@
         "K": { "item": "crate_stack", "chance": 100 },
         "r": { "item": "tool_common_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 17, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 17, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -84,7 +84,7 @@
         "t": { "item": "table_foyer", "chance": 40 },
         "z": { "item": "jackets", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -128,7 +128,7 @@
         "c": { "item": "wetbar_stack", "chance": 100 },
         "{": { "item": "suit_of_armor", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 17, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 17, 21 ], "density": 0.15 } ]
     }
   },
   {
@@ -174,7 +174,7 @@
         "m": { "item": "cleaning", "chance": 45 },
         "r": { "item": "wetbar_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 14, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 14, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -218,7 +218,7 @@
         "!": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] },
         "{": { "item": "suit_of_armor", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -346,7 +346,7 @@
         "?": { "item": "fireplace_fill", "chance": 30 },
         "c": { "item": "wetbar_counter", "chance": 20 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -434,7 +434,7 @@
         "m": { "item": "tool_common_stack", "chance": 100 },
         "r": { "item": "sewing_room", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 } ]
     }
   },
   {
@@ -487,7 +487,7 @@
         "v": { "item": "a_television", "chance": 100 },
         "z": { "item": "dresser_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -539,7 +539,7 @@
         "v": { "item": "a_television", "chance": 100 },
         "z": { "item": "dresser_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 11 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 11 ], "density": 0.1 } ]
     }
   },
   {
@@ -587,7 +587,7 @@
         "r": { "item": "mansion_ammo", "chance": 40 },
         "v": { "item": "a_television", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 } ]
     }
   },
   {
@@ -648,7 +648,7 @@
         "z": { "item": "dresser_stack", "chance": 100 }
       },
       "place_loot": [ { "group": "corpse_mansion", "x": [ 10, 12 ], "y": [ 5, 7 ], "chance": 50, "repeat": [ 0, 2 ] } ],
-      "place_monsters": [ { "monster": "GROUP_PANICROOM", "x": 11, "y": 6, "chance": 100 } ]
+      "place_monsters": [ { "monster": "GROUP_PANICROOM", "x": 11, "y": 6, "chance": 75, "repeat": [ 1, 5 ] } ]
     }
   },
   {
@@ -699,7 +699,7 @@
         "v": { "item": "a_television", "chance": 100 },
         "z": { "item": "dresser_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 11 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 11 ], "density": 0.1 } ]
     }
   },
   {
@@ -751,7 +751,7 @@
         "r": { "item": "pantry", "chance": 40 },
         "t": { "item": "table_wine", "chance": 45 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 } ]
     }
   },
   {
@@ -806,7 +806,7 @@
         "c": { "item": "table_sideboard", "chance": 35 },
         "t": { "item": "table_livingroom", "chance": 35 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -903,7 +903,7 @@
         "r": { "item": "cleaning", "chance": 40 },
         "t": { "item": "voyer", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 14 ], "y": [ 2, 9 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 14 ], "y": [ 2, 9 ], "density": 0.1 } ]
     }
   },
   {
@@ -953,7 +953,7 @@
         "r": { "item": "office", "chance": 35 },
         "t": { "item": "table_livingroom", "chance": 30 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -1010,7 +1010,7 @@
         "t": { "item": "nightstand", "chance": 35 },
         "z": { "item": "dresser_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 4, 21 ], "y": [ 2, 9 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 4, 21 ], "y": [ 2, 9 ], "density": 0.1 } ]
     }
   },
   {
@@ -1060,12 +1060,12 @@
         "R": { "item": "crate_cleaning", "chance": 100 },
         "T": { "item": "dresser_stack", "chance": 100 },
         "W": { "item": "dresser_female", "chance": 10 },
-        "m": { "item": "plumber_gear", "chance": 40 },
+        "m": { "item": "hardware_plumbing", "chance": 40 },
         "o": { "item": "trash_cart", "chance": 30 },
         "r": { "item": "tool_common_stack", "chance": 100 },
         "v": { "item": "a_television", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.08 } ],
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 } ],
       "place_vehicles": [ { "vehicle": "laundry_cart", "x": [ 14, 15 ], "y": [ 0, 6 ], "chance": 50 } ]
     }
   },
@@ -1122,7 +1122,7 @@
         "t": { "item": "nightstand", "chance": 35 },
         "z": { "item": "dresser_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -1179,7 +1179,7 @@
         "t": { "item": "nightstand", "chance": 45 },
         "z": { "item": "dresser_servant", "chance": 45 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 7 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 7 ], "density": 0.1 } ]
     }
   },
   {
@@ -1228,7 +1228,7 @@
         "T": { "item": "snacks_fancy", "chance": 35 },
         "d": { "item": "mansion_ammo", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 } ]
     }
   },
   {
@@ -1280,7 +1280,7 @@
         "t": { "item": "table_card", "chance": 35 },
         "{": { "item": "suit_of_armor", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -1329,7 +1329,7 @@
         "V": { "item": "a_television", "chance": 100 },
         "t": { "item": "table_foyer", "chance": 30 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 8 ], "y": [ 2, 11 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 8 ], "y": [ 2, 11 ], "density": 0.1 } ]
     }
   },
   {
@@ -1416,7 +1416,7 @@
         "n": { "item": "garden_shed", "chance": 40 },
         "t": { "item": "snacks_fancy", "chance": 20 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -1502,7 +1502,7 @@
         "T": { "item": "snacks_fancy", "chance": 40 },
         "c": { "item": "home_hw", "chance": 25 },
         "k": { "item": "hardware_bulk", "chance": 30 },
-        "m": { "item": "plumber_gear", "chance": 40 },
+        "m": { "item": "hardware_plumbing", "chance": 40 },
         "n": { "item": "softdrugs", "chance": 5 },
         "q": { "item": "oven", "chance": 10 },
         "r": { "item": "tool_common_stack", "chance": 100 },
@@ -1510,7 +1510,7 @@
         "v": { "item": "a_television", "chance": 100 },
         "z": { "item": "dresser_shabby", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -1559,7 +1559,7 @@
         "m": { "item": "cleaning", "chance": 40 },
         "t": { "item": "table_ballroom", "chance": 35 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -1639,7 +1639,7 @@
         "$": { "item": "mansion_gunsafe", "chance": 100 },
         ".": { "item": "clutter_basement" },
         "K": { "item": "crate_stack", "chance": 100 },
-        "M": { "item": "plumber_gear", "chance": 35 },
+        "M": { "item": "hardware_plumbing", "chance": 35 },
         "R": { "item": "pantry", "chance": 35 },
         "c": { "item": "home_hw", "chance": 25 },
         "k": { "item": "hardware_bulk", "chance": 30 },
@@ -1651,7 +1651,7 @@
         "v": { "item": "a_television", "chance": 100 },
         "{": { "item": "suit_of_armor", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -1707,7 +1707,7 @@
         "m": { "item": "cleaning", "chance": 35 },
         "r": { "item": "sports", "chance": 35 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -1793,7 +1793,7 @@
         "Y": { "item": "softdrugs", "chance": 20 },
         "r": { "item": "crate_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 8 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 8 ], "density": 0.1 } ]
     }
   },
   {
@@ -1843,7 +1843,7 @@
         "m": { "item": "garden_shed", "chance": 40 },
         "r": { "item": "cleaning", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -1886,7 +1886,7 @@
         ".": { "item": "clutter_mansion" },
         "t": { "item": "table_livingroom", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 7 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 7 ], "density": 0.1 } ]
     }
   },
   {
@@ -1926,7 +1926,7 @@
       "items": {
         ".": { "item": "clutter_basement" },
         "K": { "item": "crate_stack", "chance": 100 },
-        "m": { "item": "plumber_gear", "chance": 40 },
+        "m": { "item": "hardware_plumbing", "chance": 40 },
         "r": { "item": "pantry", "chance": 25 }
       }
     }
@@ -1975,7 +1975,7 @@
         "=": { "item": "pool_side", "chance": 2 },
         "C": { "item": "softdrugs", "chance": 30 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -2022,7 +2022,7 @@
         "t": { "item": "snacks_fancy", "chance": 30 }
       },
       "place_loot": [ { "item": "lawn_dart", "x": [ 11, 14 ], "y": [ 4, 6 ], "chance": 40, "repeat": [ 1, 2 ] } ],
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 9, 21 ], "y": [ 17, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 9, 21 ], "y": [ 17, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -2067,7 +2067,7 @@
         "q": { "item": "medieval", "chance": 25 },
         "r": { "item": "pantry", "chance": 30 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 8, 21 ], "y": [ 8, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 8, 21 ], "y": [ 8, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -2118,7 +2118,7 @@
         "v": { "item": "a_television", "chance": 100 },
         "z": { "item": "jackets", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -2171,7 +2171,7 @@
         "t": { "item": "nightstand", "chance": 40 },
         "z": { "item": "dresser_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 9, 21 ], "y": [ 9, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 9, 21 ], "y": [ 9, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -2214,7 +2214,7 @@
         "d": { "item": "office", "chance": 10 },
         "v": { "item": "a_television", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 8, 21 ], "y": [ 8, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 8, 21 ], "y": [ 8, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -2262,7 +2262,7 @@
         "l": { "item": "mansion_bookcase", "chance": 100 },
         "t": { "item": "table_livingroom", "chance": 30 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -2308,7 +2308,7 @@
         "d": { "item": "mansion_guns", "chance": 100 },
         "l": { "item": "mansion_bookcase", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 15, 21 ], "y": [ 9, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 15, 21 ], "y": [ 9, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -2354,10 +2354,10 @@
         "R": { "item": "crate_cleaning", "chance": 100 },
         "T": { "item": "dresser_stack", "chance": 100 },
         "W": { "item": "dresser_female", "chance": 10 },
-        "m": { "item": "plumber_gear", "chance": 30 },
+        "m": { "item": "hardware_plumbing", "chance": 30 },
         "r": { "item": "tool_common_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 13, 21 ], "y": [ 7, 21 ], "density": 0.08 } ],
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 13, 21 ], "y": [ 7, 21 ], "density": 0.1 } ],
       "place_vehicles": [ { "vehicle": "laundry_cart", "x": [ 13, 18 ], "y": [ 8, 9 ], "chance": 50 } ]
     }
   },
@@ -2413,7 +2413,7 @@
         "t": { "item": "nightstand", "chance": 35 },
         "z": { "item": "dresser_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -2458,7 +2458,7 @@
         "b": { "item": "bed", "chance": 30 },
         "z": { "item": "dresser_servant", "chance": 45 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 18, 21 ], "y": [ 8, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 18, 21 ], "y": [ 8, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -2507,7 +2507,7 @@
         "r": { "item": "pantry", "chance": 35 },
         "t": { "item": "table_wine", "chance": 35 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 11, 21 ], "y": [ 8, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 11, 21 ], "y": [ 8, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -2560,7 +2560,7 @@
         "c": { "item": "table_sideboard", "chance": 40 },
         "t": { "item": "dining", "chance": 40 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 } ]
     }
   },
   {
@@ -2607,7 +2607,7 @@
         "t": { "item": "nightstand", "chance": 40 },
         "z": { "item": "dresser_stack", "chance": 100 }
       },
-      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 8, 21 ], "y": [ 12, 21 ], "density": 0.08 } ]
+      "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 8, 21 ], "y": [ 12, 21 ], "density": 0.1 } ]
     }
   }
 ]

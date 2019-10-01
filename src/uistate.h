@@ -2,16 +2,14 @@
 #ifndef UISTATE_H
 #define UISTATE_H
 
-#include "enums.h"
-#include "omdata.h"
-
 #include <list>
 #include <map>
 #include <string>
 #include <vector>
 
-class ammunition_type;
-using ammotype = string_id<ammunition_type>;
+#include "enums.h"
+#include "omdata.h"
+#include "type_id.h"
 
 class item;
 
@@ -19,15 +17,19 @@ class item;
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
   To use this, see the ****notes**** below
 */
+// There is only one game instance, so losing a few bytes of memory
+// due to padding is not much of a concern.
+// NOLINTNEXTLINE(clang-analyzer-optin.performance.Padding)
 class uistatedata
 {
         /**** this will set a default value on startup, however to save, see below ****/
     private:
         // not needed for compilation, but keeps syntax plugins happy
-        typedef std::string itype_id;
+        using itype_id = std::string;
         enum side { left  = 0, right = 1, NUM_PANES = 2 };
     public:
-        /**** declare your variable here. It can be anything, really *****/
+        int ags_pay_gas_selected_pump = 0;
+
         int wishitem_selected = 0;
         int wishmutate_selected = 0;
         int wishmonster_selected = 0;
@@ -43,19 +45,19 @@ class uistatedata
         int adv_inv_last_popup_dest = 0;
         int adv_inv_container_location = -1;
         int adv_inv_container_index = 0;
-        bool adv_inv_container_in_vehicle = false;
         int adv_inv_exit_code = 0;
         itype_id adv_inv_container_type = "null";
         itype_id adv_inv_container_content_type = "null";
         int adv_inv_re_enter_move_all = 0;
         int adv_inv_aim_all_location = 1;
         std::map<int, std::list<item>> adv_inv_veh_items, adv_inv_map_items;
-
-        int ags_pay_gas_selected_pump = 0;
+        bool adv_inv_container_in_vehicle = false;
 
         bool editmap_nsa_viewmode = false;      // true: ignore LOS and lighting
         bool overmap_blinking = true;           // toggles active blinking of overlays.
         bool overmap_show_overlays = false;     // whether overlays are shown or not.
+        bool overmap_show_map_notes = true;
+        bool overmap_show_land_use_codes = false; // toggle land use code sym/color for terrain
         bool overmap_show_city_labels = true;
         bool overmap_show_hordes = true;
         bool overmap_show_forest_trails = true;
@@ -66,11 +68,11 @@ class uistatedata
         int last_inv_sel = -2;
 
         // V Menu Stuff
-        bool vmenu_show_items = true; // false implies show monsters
         int list_item_sort = 0;
         std::string list_item_filter;
         std::string list_item_downvote;
         std::string list_item_priority;
+        bool vmenu_show_items = true; // false implies show monsters
         bool list_item_filter_active = false;
         bool list_item_downvote_active = false;
         bool list_item_priority_active = false;
@@ -140,6 +142,8 @@ class uistatedata
             json.member( "editmap_nsa_viewmode", editmap_nsa_viewmode );
             json.member( "overmap_blinking", overmap_blinking );
             json.member( "overmap_show_overlays", overmap_show_overlays );
+            json.member( "overmap_show_map_notes", overmap_show_map_notes );
+            json.member( "overmap_show_land_use_codes", overmap_show_land_use_codes );
             json.member( "overmap_show_city_labels", overmap_show_city_labels );
             json.member( "overmap_show_hordes", overmap_show_hordes );
             json.member( "overmap_show_forest_trails", overmap_show_forest_trails );
@@ -231,6 +235,8 @@ class uistatedata
             jo.read( "adv_inv_container_content_type", adv_inv_container_content_type );
             jo.read( "overmap_blinking", overmap_blinking );
             jo.read( "overmap_show_overlays", overmap_show_overlays );
+            jo.read( "overmap_show_map_notes", overmap_show_map_notes );
+            jo.read( "overmap_show_land_use_codes", overmap_show_land_use_codes );
             jo.read( "overmap_show_city_labels", overmap_show_city_labels );
             jo.read( "overmap_show_hordes", overmap_show_hordes );
             jo.read( "overmap_show_forest_trails", overmap_show_forest_trails );
@@ -251,10 +257,9 @@ class uistatedata
 
             auto inhist = jo.get_object( "input_history" );
             std::set<std::string> inhist_members = inhist.get_member_names();
-            for( std::set<std::string>::iterator it = inhist_members.begin();
-                 it != inhist_members.end(); ++it ) {
-                auto ja = inhist.get_array( *it );
-                std::vector<std::string> &v = gethistory( *it );
+            for( const auto &inhist_member : inhist_members ) {
+                auto ja = inhist.get_array( inhist_member );
+                std::vector<std::string> &v = gethistory( inhist_member );
                 v.clear();
                 while( ja.has_more() ) {
                     v.push_back( ja.next_string() );

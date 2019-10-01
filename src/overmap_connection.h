@@ -2,16 +2,18 @@
 #ifndef OVERMAP_CONNECTION_H
 #define OVERMAP_CONNECTION_H
 
-#include "enums.h"
+#include <list>
+#include <vector>
+#include <set>
+#include <string>
+
 #include "int_id.h"
 #include "omdata.h"
 #include "string_id.h"
 
-#include <list>
-#include <vector>
-
 class JsonObject;
 class JsonIn;
+struct overmap_location;
 
 class overmap_connection
 {
@@ -81,6 +83,6 @@ void reset();
 string_id<overmap_connection> guess_for( const int_id<oter_type_t> &oter_id );
 string_id<overmap_connection> guess_for( const int_id<oter_t> &oter_id );
 
-}
+} // namespace overmap_connections
 
 #endif // OVERMAP_CONNECTION_H

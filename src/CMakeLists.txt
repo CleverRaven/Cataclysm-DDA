@@ -1,8 +1,8 @@
 # Cataclysm DDA client
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.0.0)
 
-SET(CATACLYSM_DDA_SRCS "")
 SET(MAIN_CPP ${CMAKE_SOURCE_DIR}/src/main.cpp)
+SET(RESOURCE_RC ${CMAKE_SOURCE_DIR}/src/resource.rc)
 
 FILE(GLOB CATACLYSM_DDA_SOURCES
      ${CMAKE_SOURCE_DIR}/src/*.cpp)
@@ -29,28 +29,6 @@ ADD_CUSTOM_COMMAND (
 	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
 
-IF(WIN32)
-	IF(RC_COMPILER_PATH)
-		ADD_CUSTOM_TARGET(
-			compile_res
-			DEPENDS ${CMAKE_BINARY_DIR}/resource.rc.o
-			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-		)
-		ADD_CUSTOM_COMMAND(
-			OUTPUT ${CMAKE_BINARY_DIR}/resource.rc.o
-			COMMAND	${RC_COMPILER_PATH}
-				${CMAKE_SOURCE_DIR}/src/resource.rc
-				${CMAKE_BINARY_DIR}/resource.rc.o
-			WORKING_DIRECTORY
-				${CMAKE_SOURCE_DIR}/src
-		)
-		SET(CATACLYSM_DDA_SRCS
-			${MAIN_CPP}
-			${CMAKE_BINARY_DIR}/resource.rc.o
-		)
-	ENDIF(RC_COMPILER_PATH)
-ENDIF(WIN32)
-
 # Build tiles version if requested
 IF(TILES)
 	add_library(libcataclysm-tiles STATIC
@@ -58,11 +36,13 @@ IF(TILES)
 		${CATACLYSM_DDA_HEADERS}
 	)
 
-	target_include_directories(libcataclysm-tiles PUBLIC ${CMAKE_SOURCE_DIR}/src)
+	target_include_directories(libcataclysm-tiles INTERFACE ${CMAKE_SOURCE_DIR}/src)
 
 	IF(WIN32)
-		ADD_EXECUTABLE(cataclysm-tiles
-			${CATACLYSM_DDA_SRCS}
+		ADD_DEFINITIONS(-DUSE_WINMAIN)
+		ADD_EXECUTABLE(cataclysm-tiles WIN32
+			${MAIN_CPP}
+			${RESOURCE_RC}
 		)
 	ELSE(WIN32)
 		ADD_EXECUTABLE(cataclysm-tiles
@@ -70,20 +50,10 @@ IF(TILES)
 		)
 	ENDIF(WIN32)
 
-	IF(RC_COMPILER_PATH)
-		ADD_DEPENDENCIES(cataclysm-tiles compile_res)
-	ENDIF(RC_COMPILER_PATH)
-
 	ADD_DEPENDENCIES(libcataclysm-tiles get_version)
 
 	target_link_libraries(cataclysm-tiles libcataclysm-tiles)
 	target_compile_definitions(libcataclysm-tiles PUBLIC TILES )
-
-	IF (LUA)
-		ADD_DEPENDENCIES(libcataclysm-tiles lua_bindings)
-		target_include_directories(libcataclysm-tiles PUBLIC ${LUA_INCLUDE_DIR})
-		target_link_libraries(libcataclysm-tiles ${LUA_LIBRARIES})
-	ENDIF(LUA)
 
 	IF (LOCALIZE)
 		target_include_directories(libcataclysm-tiles PUBLIC
@@ -153,6 +123,9 @@ IF(TILES)
 		target_link_libraries(libcataclysm-tiles ole32.lib)
 		target_link_libraries(libcataclysm-tiles oleaut32.lib)
 		target_link_libraries(libcataclysm-tiles version.lib)
+		IF (BACKTRACE)
+			target_link_libraries(libcataclysm-tiles dbghelp.lib)
+		ENDIF(BACKTRACE)
 	ENDIF(WIN32)
 
 	IF(RELEASE)
@@ -167,11 +140,12 @@ IF(CURSES)
 		${CATACLYSM_DDA_HEADERS}
 	)
 
-	target_include_directories(libcataclysm PUBLIC ${CMAKE_SOURCE_DIR}/src)
+	target_include_directories(libcataclysm INTERFACE ${CMAKE_SOURCE_DIR}/src)
 
 	IF(WIN32)
 		ADD_EXECUTABLE(cataclysm
-			${CATACLYSM_DDA_SRCS}
+			${MAIN_CPP}
+			${RESOURCE_RC}
 		)
 	ELSE(WIN32)
 		ADD_EXECUTABLE(cataclysm
@@ -179,19 +153,9 @@ IF(CURSES)
 		)
 	ENDIF(WIN32)
 
-	IF(RC_COMPILER_PATH)
-		ADD_DEPENDENCIES(cataclysm compile_res)
-	ENDIF(RC_COMPILER_PATH)
-
 	ADD_DEPENDENCIES(libcataclysm get_version)
 
 	target_link_libraries(cataclysm libcataclysm)
-
-	IF (LUA)
-		ADD_DEPENDENCIES(libcataclysm lua_bindings)
-		target_include_directories(libcataclysm PUBLIC ${LUA_INCLUDE_DIR})
-		target_link_libraries(libcataclysm ${LUA_LIBRARIES})
-	ENDIF(LUA)
 
 	IF (LOCALIZE)
 		target_include_directories(libcataclysm PUBLIC
@@ -223,6 +187,9 @@ IF(CURSES)
 		target_link_libraries(libcataclysm ole32.lib)
 		target_link_libraries(libcataclysm oleaut32.lib)
 		target_link_libraries(libcataclysm version.lib)
+		IF (BACKTRACE)
+			target_link_libraries(libcataclysm dbghelp.lib)
+		ENDIF(BACKTRACE)
 	ENDIF(WIN32)
 
 	IF(RELEASE)
@@ -246,11 +213,6 @@ IF(MINGW AND NOT RELEASE)
 		${RuntimeLib_STDC_PP_6}
 		${RuntimeLib_WINPTHREAD_1}
 	)
-	IF (LUA)
-		SET(RuntimeLib_LUA
-			${LUA_LIBRARIES}
-		)
-	ENDIF (LUA)
 	IF (LOCALIZE)
 		find_library(RuntimeLib_iconv  "libiconv-2")
 		find_library(RuntimeLib_intl  "libintl-8")
@@ -320,7 +282,6 @@ IF(MINGW AND NOT RELEASE)
 	ENDIF (TILES)
 	install(FILES ${RuntimeLib_GCC_ALL}
 			${RuntimeLib_LOCALIZE}
-			${RuntimeLib_LUA}
 			${RuntimeLib_SDL}
 			${RuntimeLib_SDL_SOUND}
 		DESTINATION ${BIN_PREFIX}

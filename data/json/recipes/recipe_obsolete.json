@@ -1,0 +1,1904 @@
+[
+  {
+    "type": "recipe",
+    "result": "spear_stone",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cooked_burrito",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bolt_steel_bodkin",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_metal_bodkin",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_metal_target",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_metal",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bolt_steel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bolt_steel_target",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lightstrip_inactive",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lightstrip_dead",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "milk",
+    "id_suffix": "from_powder",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "milk",
+    "id_suffix": "from_condensed",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "offal_cooked",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "30gal_drum",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "55gal_drum",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "anesthesia",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_10mm",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "scythe_war",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "laser_sight",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rail_laser_sight",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "goggles_nv",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "goggles_ir",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "diesel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "battery_compartment",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "battery_atomic",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "grenade",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "peanut_unshelled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "walnut_unshelled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pecan_unshelled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pistachio_unshelled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "almond_unshelled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chestnut_unshelled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hazelnut_unshelled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hickory_nut_unshelled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bag_meat_vac",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bag_fish_vac",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bag_hflesh_vac",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bag_veggy_vac",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bag_apple_vac",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "1st_aid",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "20x66_bootleg_flechette",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "20x66_bootleg_shot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "20x66_bootleg_slug",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "2x4",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "40mm_acidbomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "8mm_bootleg",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "8mm_bootleg_jsp",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "acidfrom batteries",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "alarmclockuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "armor_bone",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_field_point",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_fire_hardened",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_heavy_field_point",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_heavy_fire_hardened",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_metal_sharpened",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_small_game",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "arrowhead",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "arrowhead_plastic",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "badge_deputyuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bag_bundle_10",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "barrel_small",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "baseballuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "battery",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "battery_truck",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "battletorch_doneuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bayonet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "beret_woolknitting",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bindleuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "binocularsuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_batteries",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_blood_filteruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_digestionuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_evap",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_face_maskuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_flashlight",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_ground_sonaruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_laser",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_metabolicsuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_nanobotsuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_power_armor_interface",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_power_armor_interface_mkII",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_power_storage",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_power_storage_mkII",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_recycleruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_solar",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_water_extractor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bladefrom steel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blazerknitting",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blowgun",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blueberries_cooked",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "boobytrapclosed_cans_such_as_drinks",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "boobytrapopen_cans_such_as_food",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "boots_bone",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "boots_winterknitting",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bowl_pewteruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "brew_bum_wine",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "brew_fruit_winefrom_berries",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broken_copbot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broken_eyebot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broken_manhack",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broken_molebot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broken_riotbot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broken_skitterbot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broken_tankbot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "broken_tripod",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "caltropsfrom wire",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "camera_prouncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "camerauncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "candlestickuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cell_phoneuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ceramic_bowluncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ceramic_cupuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ceramic_plateuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "char_purifieruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "charcoal",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "clockuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "copper_braceletuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "copper_earuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cotton_ballby hand",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cowl_woolknitting",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "creepy_dolluncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "crude_brick",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "cured_hidescraped",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "dart",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "diamond_bayonet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "diamond_broadsword",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "diamond_dental_grilluncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "diamond_katana",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "diamond_knife",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "diamond_kukri",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "diamond_machete",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "diamond_nodachi",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "diamond_pistol_bayonet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "diamond_rapier",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "diamond_ringuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "diamond_sword_bayonet",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "diamond_wakizashi",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "diamond_zweihander",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "down_blanketuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "down_pillowuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "dynamite_radio",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "eink_tablet_pcuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fanuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "felt_patchuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fileuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fish_bait_bread",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fish_bait_fish",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fish_bait_meat",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fish_bait_veggy",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "flamethrower_crude",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fletching",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fletchingmakeshift",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "flyeruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "foonuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "footballuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "forkuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "gasbomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "gasoline",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "gauntlets_bone",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "glass_bowluncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "glass_plateuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "glassuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "gloves_fingerlessfrom patches",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "gloves_woolknitting",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "gobag",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "gold_braceletuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "gold_dental_grilluncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "gold_earuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "gold_watchuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "golduncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "gunpowder",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hat_huntingknitting",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hat_knitknitting",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "hd_steel_drum",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "heavy_snare_kit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helmet_bone",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "helmet_netting",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "honey_bottledfrom_honey_glassed",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "honey_bottledfrom_honeycomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "inhaler_sewergas",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jam_blueberries",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jam_strawberries",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jar_V8",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jar_apple_canned",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jar_broth",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jar_broth_bone",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jar_fish_canned",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jar_fish_pickled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jar_human_canned",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jar_human_pickled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jar_kompot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jar_meat_canned",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jar_meat_pickled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jar_soup_fish",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jar_soup_human",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jar_soup_meat",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jar_soup_veggy",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jar_soup_woods",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jar_tomato_canned",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jar_veggy_canned",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jar_veggy_pickled",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jug_plasticplastic-mod",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "jumpsuit_xlfrom_jumpsuit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "kiln_done",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "knife_steakuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "l_HFPackuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "laptop",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lawnmoweruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lead",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lead_plate",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "light_snare_kit",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lighteruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lightstrip_deaduncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "locketuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "makeshift_crowbaruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "makeshift_slinguncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "many_years_old_newspaperuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mask_gas_xlexpand-existing",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mask_skiknitting",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "material_shrd_limestoneuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mess_kituncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "metal_tank_small",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "microwave",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mil_mess_kituncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "militarymapuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "milkfrom powder",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mininuke",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mirrorfrom_steel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mittensknitting",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "months_old_newspaperuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_beef_boxuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_chicken_boxuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_hotdog_boxuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_ravioli_boxuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "mre_veggy_boxuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "multi_cookeruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "necklaceuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "newest_newspaperuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "noise_emitterfrom-scratch",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "noise_emitterradio-mod",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "nx17",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "omnicamerafrom-eyebots",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "omnicamerafrom-scratch",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "one_year_old_newspaperuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pdauncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "peacoatknitting",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pillowuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pipe_shotgunsawn",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pipebomb_radio",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pipeuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "plastic_chunkfrom_milk",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "plastic_chunkfrom_plastic_bags",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "pocketwatchuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ponchoknitting",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "power_armor_basic",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "power_armor_helmet_basic",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "processoruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "radio_car_boxuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ragknitting",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "raguncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rebreather_xlmod_existing",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rechargeable_battery",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ref_lighteruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_40mm_flechette",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_40mm_shot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_shot_beanbag",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_shot_he",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_signal_flare",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "restaurantmapuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ringuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "roadmapuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "robot_controls",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rope_6from_cloth",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rope_6from_string",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "saiga_sawn",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "saltfrom_salt_water",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "scarf_fur_longmerge_scarves",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "scarf_longknitting",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "scarfknitting",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sf_watchuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shaft_metal",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shaft_plastic",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shaft_wood",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shaft_wood_heavy",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shelter_kitrepair",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shorts_denimfrom fabric",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shot_scrapbag",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shot_scrapslug",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "shotgun_sawn",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "silver_braceletuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "silver_earuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "silveruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sleeping_bag",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sleeping_bag_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sleeveless_duster_furfrom_duster_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sleeveless_duster_furfrom_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sleeveless_duster_leatherfrom_duster_leather",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sleeveless_duster_leatherfrom_leather",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sleeveless_duster_survivorfrom_duster_survivor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sleeveless_duster_survivorfrom_stuff",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sleeveless_dusterfrom_duster",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sleeveless_dusterfrom_rags",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sleeveless_trenchcoat_furfrom_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sleeveless_trenchcoat_furfrom_trenchcoat_fur",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sleeveless_trenchcoat_leatherfrom_leather",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sleeveless_trenchcoat_leatherfrom_trenchcoat_leather",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sleeveless_trenchcoat_survivorfrom_stuff",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sleeveless_trenchcoat_survivorfrom_trenchcoat_survivor",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sleeveless_trenchcoatfrom_rags",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sleeveless_trenchcoatfrom_trenchcoat",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "small_relicuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "small_storage_battery",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "snare_trigger",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "socks_woolknitting",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "spoonuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sporkuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "stockings_tent_armsfrom_rags",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "stockings_tent_armsfrom_stockings",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "stockings_tent_legsfrom_rags",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "stockings_tent_legsfrom_stockings",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "straw_basketuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "straw_dolluncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "straw_fedorauncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "straw_hatuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "straw_sandalsuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "strawberries_cooked",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sugarfrom_beets",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sugarfrom_sweet_water",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sugarfrom_sweets",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sugarfrom_wood",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "survivormapuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "survnoteuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sweaterknitting",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "sword_forged",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "talking_dolluncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tank_topuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tanning_hidemodern",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tanning_peltmodern",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "television",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "thermal_outfitthermal_outfit_from_bits",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "thermal_outfitthermal_outfit_from_scratch",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tieclipuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tin_plateuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "toaster",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "toolboxuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "touristmapuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tshirtuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "usb_driveuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "v_table",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "vac_sealeruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "veh_tracker",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "vest_leatherfrom_patches",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "water_acidfrom electrolysis",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "weeks_old_newspaperuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "wool_hoodieknitting",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "wool_suitknitting",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "wristwatchuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_armor_head",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_armor_arms",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_armor_torso",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_armor_legs",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "years_old_newspaperuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_reactoruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_plut_filteruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_reactor_upgradeuncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bio_advreactoruncraft",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "plut_slurry_dense",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "plut_slurry",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "smg_22",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "smg_38",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "smg_22_mag",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "smg_38_mag",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "magbandolier",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "washcloth",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "afs_rolling_pin",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "afs_fried_donut_holes",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "afs_cake",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "makeshift_shovel",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "leather_scraped",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tanned_hide_scraped",
+    "obsolete": true
+  }
+]

@@ -1,5 +1,15 @@
 [
   {
+    "id": "ACTIVE_CLOAKING",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has <info>cloaking tech</info> that will <good>make you invisible</good> when active, at the cost of <info>power from a UPS</info>."
+  },
+  {
+    "id": "EFFECT_INVISIBLE",
+    "type": "json_flag"
+  },
+  {
     "id": "ALARMCLOCK",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -16,6 +26,14 @@
     "type": "json_flag",
     "context": [ "TOOL" ],
     "info": "This item can be activated or reloaded from adjacent tile without picking it up."
+  },
+  {
+    "id": "AURA",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "This item goes in the outer aura layer, intended for metaphysical effects.",
+    "info": "This is in your <info>outer aura</info>.",
+    "conflicts": [ "OUTER", "SKINTIGHT", "WAIST", "PERSONAL", "BELTED" ]
   },
   {
     "id": "BAROMETER",
@@ -35,7 +53,7 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Layer for backpacks and things worn over outerwear.",
     "info": "This gear is <info>strapped</info> onto you.",
-    "conflicts": [ "OUTER", "SKINTIGHT", "WAIST" ]
+    "conflicts": [ "OUTER", "SKINTIGHT", "WAIST", "PERSONAL", "AURA" ]
   },
   {
     "id": "BIONIC_NPC_USABLE",
@@ -49,6 +67,10 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Blinds the wearer while worn, and provides nominal protection vs flashbang flashes.",
     "info": "This gear <bad>prevents</bad> you from <info>seeing</info> anything."
+  },
+  {
+    "id": "EFFECT_NIGHT_VISION",
+    "type": "json_flag"
   },
   {
     "id": "BLOCK_WHILE_WORN",
@@ -120,6 +142,11 @@
     "info": "This gear <good>completely protects</good> you from <info>electric discharges</info>."
   },
   {
+    "id": "ETHEREAL_ITEM",
+    "type": "json_flag",
+    "info": "This item disappears as soon as its timer runs out whether it is food or not."
+  },
+  {
     "id": "ONLY_ONE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -167,8 +194,8 @@
     "id": "FILTHY",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Zombie-dropped clothing giving various penalties if Filthy mod is active.",
-    "info": "This piece of clothing is <bad>filthy</bad>."
+    "description": "Zombie-dropped clothing giving various penalties if Filthy mod is active.  Also CBMs harvested from zombies.",
+    "info": "This item is <bad>filthy</bad>."
   },
   {
     "id": "FLASH_PROTECTION",
@@ -241,6 +268,18 @@
     "inherit": false
   },
   {
+    "id": "NUTRIENT_OVERRIDE",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "description": "forces calories and vitamins to be the ones defined in the json, instead of inheriting from ingredients"
+  },
+  {
+    "id": "PLANTABLE_SEED",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "You could probably <color_brown>plant</color> these."
+  },
+  {
     "id": "MELTS",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
@@ -252,7 +291,7 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Outer garment layer.",
     "info": "This gear is generally <info>worn over</info> clothing.",
-    "conflicts": [ "BELTED", "SKINTIGHT", "WAIST" ]
+    "conflicts": [ "BELTED", "SKINTIGHT", "WAIST", "PERSONAL", "AURA" ]
   },
   {
     "id": "OVERSIZE",
@@ -273,6 +312,14 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This gear <good>reduces</good> the volume of <info>sounds</info> to a safe level.",
     "conflicts": [ "DEAF" ]
+  },
+  {
+    "id": "PERSONAL",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "This item goes in the personal aura layer, intended for metaphysical effects.",
+    "info": "This is in your <info>personal aura</info>.",
+    "conflicts": [ "BELTED", "OUTER", "WAIST", "SKINTIGHT", "AURA" ]
   },
   {
     "id": "POCKETS",
@@ -309,6 +356,18 @@
     "conflicts": [ "RAD_PROOF" ]
   },
   {
+    "id": "REQUIRES_BALANCE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear requires careful balance to use. Being hit while wearing it could make you <bad>fall down</bad>."
+  },
+  {
+    "id": "TWO_WAY_RADIO",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL_ARMOR", "TOOL" ],
+    "info": "This item can be used to communicate with radio waves."
+  },
+  {
     "id": "RAINPROOF",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -320,6 +379,13 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Prevents the player from wielding a weapon two-handed, forcing one-handed use if the weapon permits it."
+  },
+  {
+    "id": "SEMITANGIBLE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "description": "Prevents the item from participating in the encumbrance system when worn.",
+    "info": "It seems <info>partially intangible</info>, and can occupy the same space as other things when worn."
   },
   {
     "id": "SHEATH_KNIFE",
@@ -351,7 +417,7 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Undergarment layer.",
     "info": "This clothing <info>lies close</info> to the skin.",
-    "conflicts": [ "BELTED", "OUTER", "WAIST" ]
+    "conflicts": [ "BELTED", "OUTER", "WAIST", "PERSONAL", "AURA" ]
   },
   {
     "id": "SLOWS_MOVEMENT",
@@ -413,7 +479,7 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "description": "Layer for belts and other things worn on the waist.",
     "info": "This gear is worn on or around your <info>waist</info>.",
-    "conflicts": [ "BELTED", "OUTER", "SKINTIGHT" ]
+    "conflicts": [ "BELTED", "OUTER", "SKINTIGHT", "PERSONAL", "AURA" ]
   },
   {
     "id": "WATCH",
@@ -512,5 +578,125 @@
     "type": "json_flag",
     "context": [ "BIONIC" ],
     "description": "This bionic can provide power to powered armor."
+  },
+  {
+    "id": "PERMANENT",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "This makes the spell's effects permanent."
+  },
+  {
+    "id": "IGNORE_WALLS",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "This makes the spell's Area of Effect ignore walls."
+  },
+  {
+    "id": "MAGIC_FOCUS",
+    "type": "json_flag",
+    "context": [ "item" ],
+    "description": "You can cast spells with this item in your hand."
+  },
+  {
+    "id": "HOSTILE_SUMMON",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "This makes the spell's summoned monster always hostile.  Note that the spell needs to be a summon spell for this to do anything."
+  },
+  {
+    "id": "HOSTILE_50",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "This makes the spell's summoned monster hostile 50% of the time.  Note that the spell needs to be a summon spell for this to do anything."
+  },
+  {
+    "id": "SILENT",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "The spell makes no sound at its point of impact."
+  },
+  {
+    "id": "LOUD",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "This spell is much louder at its point of impact."
+  },
+  {
+    "id": "VERBAL",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "The caster must speak in order to cast the spell.  More mouth encumbrannce increases failure percent, and the caster speaks when casting."
+  },
+  {
+    "id": "SOMATIC",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "The spell requires arm movement to cast.  Arm encumbrance affects failure percentage and casting time."
+  },
+  {
+    "id": "NO_HANDS",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "The spell does not require hands in order to cast it.  Encumbrance penalties on hands are nullified."
+  },
+  {
+    "id": "NO_LEGS",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "This spell does not require leg movement in order to be cast.  All encumbrance penalties for legs are nullified."
+  },
+  {
+    "id": "CONCENTRATE",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "This spell requires focus to cast.  The lower your focus, the higher failure rate to cast."
+  },
+  {
+    "id": "WONDER",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "Chooses a spell at random to cast from extra_effects.  See MAGIC.md for details"
+  },
+  {
+    "id": "NON_THRESH",
+    "type": "json_flag",
+    "context": [ "mutation" ],
+    "description": "This mutation does not count toward thresholds at all."
+  },
+  {
+    "id": "EFFECT_FEATHER_FALL",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_BIO_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_BASH_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_CUT_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_ACID_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_STAB_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_HEAT_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "EFFECT_COLD_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "ELECTRIC_IMMUNE",
+    "type": "json_flag"
   }
 ]

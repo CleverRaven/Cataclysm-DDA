@@ -1,13 +1,16 @@
 #include "map_item_stack.h"
 
+#include <algorithm>
+#include <functional>
+#include <iterator>
+#include <memory>
+
 #include "item.h"
 #include "item_category.h"
 #include "item_search.h"
 #include "line.h"
 
-#include <algorithm>
-
-map_item_stack::item_group::item_group() : pos( 0, 0, 0 ), count( 0 )
+map_item_stack::item_group::item_group() : count( 0 )
 {
 }
 
@@ -70,7 +73,7 @@ std::vector<map_item_stack> filter_item_stacks( const std::vector<map_item_stack
 //returns the first non priority items.
 int list_filter_high_priority( std::vector<map_item_stack> &stack, const std::string &priorities )
 {
-    //TODO:optimize if necessary
+    // TODO:optimize if necessary
     std::vector<map_item_stack> tempstack;
     const auto filter_fn = item_filter_from_string( priorities );
     for( auto it = stack.begin(); it != stack.end(); ) {
@@ -92,7 +95,7 @@ int list_filter_high_priority( std::vector<map_item_stack> &stack, const std::st
 int list_filter_low_priority( std::vector<map_item_stack> &stack, const int start,
                               const std::string &priorities )
 {
-    //TODO:optimize if necessary
+    // TODO:optimize if necessary
     std::vector<map_item_stack> tempstack;
     const auto filter_fn = item_filter_from_string( priorities );
     for( auto it = stack.begin() + start; it != stack.end(); ) {

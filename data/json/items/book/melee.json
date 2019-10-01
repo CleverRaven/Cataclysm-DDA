@@ -5,16 +5,17 @@
     "name": "CQB Monthly",
     "name_plural": "CQB Monthlies",
     "description": "An in-depth look at various styles of close quarters fighting.  There's an amusing essay about dirty tricks in the front section.",
-    "weight": 70,
-    "volume": 1,
+    "weight": "70 g",
+    "volume": "250 ml",
     "price": 450,
+    "price_postapoc": 1900,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
     "skill": "melee",
     "max_level": 1,
     "intelligence": 5,
-    "time": 8,
+    "time": "8 m",
     "fun": 2
   },
   {
@@ -22,15 +23,16 @@
     "type": "BOOK",
     "name": "Close Quarter Fighting Manual",
     "description": "A well-thumbed hardbound book which illustrates simple strategies and techniques for close quarters combat encounters.",
-    "weight": 564,
-    "volume": 1,
+    "weight": "564 g",
+    "volume": "250 ml",
     "price": 2000,
+    "price_postapoc": 9600,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
     "skill": "melee",
     "max_level": 3,
     "intelligence": 4,
-    "time": 18
+    "time": "18 m"
   }
 ]

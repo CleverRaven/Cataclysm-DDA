@@ -2,23 +2,30 @@
 #ifndef CATACHARSET_H
 #define CATACHARSET_H
 
+#include <cstddef>
 #include <cstdint>
 #include <string>
 
 #define ANY_LENGTH 5
+#define NULL_UNICODE 0x0000
+#define PERCENT_SIGN_UNICODE 0x0025
 #define UNKNOWN_UNICODE 0xFFFD
 
 class utf8_wrapper;
 
 // get a Unicode character from a utf8 string
 uint32_t UTF8_getch( const char **src, int *srclen );
-// from wcwidth.c, return "cell" width of a Unicode char
-int mk_wcwidth( uint32_t ucs );
+inline uint32_t UTF8_getch( const std::string &str )
+{
+    const char *utf8str = str.c_str();
+    int len = str.length();
+    return UTF8_getch( &utf8str, &len );
+}
 // convert cursorx value to byte position
-int cursorx_to_position( const char *line, int cursorx, int *prevppos = NULL, int maxlen = -1 );
-int utf8_width( const char *s, const bool ignore_tags = false );
-int utf8_width( const std::string &str, const bool ignore_tags = false );
-int utf8_width( const utf8_wrapper &str, const bool ignore_tags = false );
+int cursorx_to_position( const char *line, int cursorx, int *prevpos = nullptr, int maxlen = -1 );
+int utf8_width( const char *s, bool ignore_tags = false );
+int utf8_width( const std::string &str, bool ignore_tags = false );
+int utf8_width( const utf8_wrapper &str, bool ignore_tags = false );
 
 /**
  * Center text inside whole line.
@@ -31,10 +38,10 @@ int center_text_pos( const char *text, int start_pos, int end_pos );
 int center_text_pos( const std::string &text, int start_pos, int end_pos );
 int center_text_pos( const utf8_wrapper &text, int start_pos, int end_pos );
 std::string utf32_to_utf8( uint32_t ch );
-std::string utf8_truncate( std::string s, size_t length );
+std::string utf8_truncate( const std::string &s, size_t length );
 
-std::string base64_encode( std::string str );
-std::string base64_decode( std::string str );
+std::string base64_encode( const std::string &str );
+std::string base64_decode( const std::string &str );
 
 std::wstring utf8_to_wstr( const std::string &str );
 std::string wstr_to_utf8( const std::wstring &wstr );
@@ -69,7 +76,7 @@ std::string utf8_to_native( const std::string &str );
 class utf8_wrapper
 {
     public:
-        utf8_wrapper() : _data(), _length( 0 ), _display_width( 0 ) { }
+        utf8_wrapper() : _length( 0 ), _display_width( 0 ) { }
         utf8_wrapper( const std::string &d );
         utf8_wrapper( const char *d );
 
@@ -104,14 +111,15 @@ class utf8_wrapper
         }
 
         utf8_wrapper &operator=( const std::string &d ) {
-            return *this = utf8_wrapper( d );
+            *this = utf8_wrapper( d );
+            return *this;
         }
         const std::string &str() const {
             return _data;
         }
 
         // Returns Unicode character at position start
-        long at( size_t start ) const;
+        uint32_t at( size_t start ) const;
 
         // Returns number of Unicode characters
         size_t size() const {

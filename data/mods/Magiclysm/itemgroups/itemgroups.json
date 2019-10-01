@@ -1,0 +1,216 @@
+[
+  {
+    "type": "item_group",
+    "id": "dragon_books",
+    "//": "puts all the dragon books in one group, so it's easy to add more later",
+    "items": [ [ "black_dragons", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "religious_books",
+    "items": [ [ "priest_beginner", 1 ], [ "priest_advanced", 1 ], [ "druid_spellbook", 1 ], [ "summon_undead_spellbook", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "novels",
+    "items": [ [ "wizard_beginner", 3 ], [ "wizard_advanced", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "homebooks",
+    "items": [ { "group": "spellbook_loot_0", "prob": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "manuals",
+    "items": [ { "group": "spellbook_loot_0", "prob": 3 }, { "group": "dragon_books", "prob": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "lab_bookshelves",
+    "items": [
+      { "group": "spellbook_loot_1", "prob": 3 },
+      { "group": "magic_recipe_basic", "prob": 3 },
+      { "group": "dragon_books", "prob": 3 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mansion_books",
+    "items": [
+      { "group": "spellbook_loot_0", "prob": 6 },
+      { "group": "magic_recipe_basic", "prob": 6 },
+      { "group": "dragon_books", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "exotic_books",
+    "items": [ { "group": "spellbook_loot_1", "prob": 3 }, { "group": "dragon_books", "prob": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_rare",
+    "items": [
+      { "item": "wand_magic_missile_minor", "prob": 35, "charges-min": 12, "charges-max": 34 },
+      { "item": "wand_fireball_minor", "prob": 25, "charges-min": 3, "charges-max": 24 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "displays",
+    "items": [ [ "mana_potion_lesser", 50 ], [ "magi_staff_minor", 5 ], [ "wizard_hat", 5 ] ]
+  },
+  {
+    "id": "coffee_display_2",
+    "type": "item_group",
+    "item": [ [ "mana_potion_lesser", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "bar_alcohol",
+    "items": [ [ "mana_potion_lesser", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "bar_fridge",
+    "items": [ [ "mana_potion_lesser", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "pizza_beer",
+    "items": [ [ "mana_potion_lesser", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "pizza_soda",
+    "items": [ [ "mana_potion_lesser", 3 ] ]
+  },
+  {
+    "id": "groce_softdrink",
+    "type": "item_group",
+    "items": [ [ "mana_potion_lesser", 15 ] ]
+  },
+  {
+    "id": "trash",
+    "type": "item_group",
+    "items": [ [ "summon_scroll_smudged", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_shop_books",
+    "items": [
+      { "group": "spellbook_tier_0", "prob": 60 },
+      { "group": "spellbook_tier_1", "prob": 50 },
+      { "group": "spellbook_tier_2", "prob": 35 },
+      { "group": "spellbook_tier_3", "prob": 20 },
+      { "group": "magic_recipe_basic", "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_shop_wands",
+    "items": [
+      { "item": "wand_magic_missile_minor", "prob": 35, "charges-min": 12, "charges-max": 34 },
+      { "item": "wand_fireball_minor", "prob": 25, "charges-min": 3, "charges-max": 24 }
+    ]
+  },
+  {
+    "id": "potions_common",
+    "type": "item_group",
+    "items": [
+      [ "mana_potion_lesser", 90 ],
+      [ "mana_potion", 20 ],
+      [ "mana_potion_greater", 1 ],
+      [ "ogres_strength_potion", 10 ],
+      [ "foxs_cunning_potion", 10 ],
+      [ "eagles_sight_potion", 10 ],
+      [ "cats_grace_potion", 10 ]
+    ]
+  },
+  {
+    "id": "magic_shop_potions",
+    "type": "item_group",
+    "items": [
+      { "group": "potions_common", "prob": 80 },
+      { "group": "alchemy_items", "prob": 30 },
+      [ "crystallized_mana", 25 ],
+      { "item": "small_mana_crystal", "prob": 20, "charges-min": 5, "charges-max": 50 }
+    ]
+  },
+  {
+    "id": "alchemy_items",
+    "type": "item_group",
+    "items": [
+      [ "owlbear_stone", 10 ],
+      { "item": "stone_shell", "prob": 10, "count-min": 1, "count-max": 3 },
+      [ "egg_owlbear_rock", 5 ],
+      [ "glow_light_off", 1 ],
+      [ "bulette_plate", 10 ],
+      { "item": "bulette_pearl", "prob": 8, "count-min": 1, "count-max": 2 }
+    ]
+  },
+  {
+    "id": "demon_spider_lair_treasure",
+    "type": "item_group",
+    "items": [
+      { "group": "potions_common", "prob": 20 },
+      { "group": "magic_shop_wands", "prob": 35 },
+      { "group": "magic_shop_books", "prob": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_shop_clothes",
+    "items": [ [ "cloak", 3 ], [ "cloak_wool", 5 ], [ "jedi_cloak", 3 ], [ "robe", 5 ], [ "tophat", 5 ], [ "leathersandals", 6 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "wisp_death",
+    "items": [ [ "glow_dust", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "basement_utility_closet",
+    "//": "Stuff you would find in someone's basement closet.",
+    "items": [
+      { "group": "tools_common", "prob": 60 },
+      { "group": "paint", "prob": 20 },
+      { "group": "supplies_fuel", "prob": 35 },
+      [ "toolbox", 10 ],
+      [ "mop", 100 ],
+      [ "broom", 100 ],
+      [ "battery_car", 35 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_CBM",
+    "items": [ [ "bio_fuel_cell_blood", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "lair_loot_generic",
+    "//": "Stuff you would find in any dragon lair, gold, jewelry, etc.",
+    "items": [
+      { "group": "jewelry_safe", "prob": 50 },
+      { "group": "jewelry_front", "prob": 8 },
+      { "item": "bone_human", "prob": 20, "count-min": 1, "count-max": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "lair_black_dragon",
+    "//": "Stuff you would find in any dragon lair, gold, jewelry, etc.",
+    "items": [
+      { "item": "bone_human", "prob": 30, "count-min": 1, "count-max": 5 },
+      { "group": "archery", "prob": 1 },
+      { "group": "jewelry_safe", "prob": 2 },
+      { "group": "jewelry_front", "prob": 2 },
+      { "group": "corpses", "prob": 20 },
+      { "group": "remains_human_generic", "prob": 5, "count-min": 1, "count-max": 2 },
+      { "group": "archery_ammo", "prob": 2, "count-min": 1, "count-max": 4 },
+      { "group": "medieval", "prob": 1, "count-min": 1, "count-max": 2 }
+    ]
+  }
+]

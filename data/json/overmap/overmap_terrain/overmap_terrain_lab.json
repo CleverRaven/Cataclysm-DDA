@@ -1,0 +1,1106 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "lab",
+    "name": "science lab",
+    "sym": "L",
+    "color": "light_blue",
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_stairs",
+    "name": "science lab",
+    "sym": "L",
+    "color": "blue",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_core",
+    "name": "science lab",
+    "sym": "L",
+    "color": "light_blue",
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 8 ], "chance": 30 },
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_escape_cells",
+    "name": "science lab",
+    "sym": "L",
+    "color": "light_blue",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_escape_entrance",
+    "name": "science lab",
+    "sym": "L",
+    "color": "light_blue",
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ants_lab",
+    "name": "science lab",
+    "sym": "L",
+    "color": "light_blue",
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ants_lab_stairs",
+    "name": "science lab",
+    "sym": "L",
+    "color": "blue",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_finale",
+    "name": "science lab",
+    "sym": "L",
+    "color": "cyan",
+    "spawns": { "group": "GROUP_LAB", "population": [ 4, 12 ], "chance": 90 },
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ice_lab",
+    "name": "science lab",
+    "sym": "L",
+    "color": "light_blue",
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ice_lab_stairs",
+    "name": "science lab",
+    "sym": "L",
+    "color": "blue",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ice_lab_core",
+    "name": "science lab",
+    "sym": "L",
+    "color": "light_blue",
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 8 ], "chance": 30 },
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ice_lab_finale",
+    "name": "science lab",
+    "sym": "L",
+    "color": "cyan",
+    "spawns": { "group": "GROUP_LAB", "population": [ 4, 12 ], "chance": 90 },
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "tower_lab",
+    "name": "science lab tower",
+    "sym": "L",
+    "color": "light_blue",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "tower_lab_stairs",
+    "name": "science lab tower",
+    "sym": "L",
+    "color": "blue",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "tower_lab_finale",
+    "name": "science lab tower",
+    "sym": "L",
+    "color": "cyan",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_train_depot",
+    "name": "science train depot",
+    "sym": "L",
+    "color": "light_blue",
+    "see_cost": 5,
+    "extras": "subway",
+    "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_train_depot",
+    "name": "central train depot",
+    "copy-from": "lab_train_depot",
+    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 5 ], "chance": 20 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_entrance",
+    "name": "forest",
+    "sym": "F",
+    "color": "green",
+    "see_cost": 3,
+    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_shaft",
+    "name": "access shaft",
+    "sym": "0",
+    "color": "light_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_central_lab",
+    "name": "central lab",
+    "sym": "L",
+    "color": "cyan",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ],
+    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 5 ], "chance": 20 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_hq_1",
+    "copy-from": "generic_central_lab"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_hq_2",
+    "copy-from": "generic_central_lab"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_hq_3",
+    "copy-from": "generic_central_lab"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_hq_4",
+    "copy-from": "generic_central_lab"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_hq_5",
+    "copy-from": "generic_central_lab"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_hq_6",
+    "copy-from": "generic_central_lab"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_hq_7",
+    "copy-from": "generic_central_lab"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_hq_8",
+    "copy-from": "generic_central_lab"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_hq_9",
+    "copy-from": "generic_central_lab"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab",
+    "name": "central lab",
+    "sym": "L",
+    "color": "light_blue",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ],
+    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 7 ], "chance": 40 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_stairs",
+    "name": "central lab",
+    "sym": "L",
+    "color": "blue",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ],
+    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 7 ], "chance": 40 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_core",
+    "name": "central lab",
+    "sym": "L",
+    "color": "light_blue",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ],
+    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 7 ], "chance": 40 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_finale",
+    "name": "central lab",
+    "sym": "L",
+    "color": "cyan",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ],
+    "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 5 ], "chance": 20 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementA0",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "dark_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementB0",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementC0",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementD0",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementE0",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementA1",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementB1",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementC1",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementD1_hidden_lab_stairs",
+    "name": "lab basement",
+    "sym": "L",
+    "color": "white",
+    "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 1, 5 ], "chance": 50 },
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementE1",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementA2",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementB2",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementC2",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementD2",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementE2",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementA3",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementB3",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementC3",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementD3",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementE3",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementA4",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementB4",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementC4",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementD4",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_basementE4",
+    "copy-from": "lab_surface_brick_basementA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockA0",
+    "name": "parking lot",
+    "sym": "_",
+    "color": "dark_gray",
+    "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 5, 20 ], "chance": 50 },
+    "extras": "research_facility_lot",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockB0",
+    "copy-from": "lab_surface_brick_blockA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockC0",
+    "copy-from": "lab_surface_brick_blockA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockD0",
+    "copy-from": "lab_surface_brick_blockA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockE0",
+    "copy-from": "lab_surface_brick_blockA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockA1",
+    "copy-from": "lab_surface_brick_blockA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockB1",
+    "copy-from": "lab_surface_brick_blockA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockC1",
+    "copy-from": "lab_surface_brick_blockA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockD1",
+    "copy-from": "lab_surface_brick_blockA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockE1",
+    "copy-from": "lab_surface_brick_blockA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockA2",
+    "name": "research facility",
+    "sym": "l",
+    "color": "light_gray",
+    "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 10, 25 ], "chance": 60 },
+    "extras": "research_facility_interior",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockB2",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockC2",
+    "copy-from": "lab_surface_brick_blockA0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockD2",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockE2",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockA3",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockB3",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockC3",
+    "name": "research facility entrance",
+    "sym": "L",
+    "color": "white",
+    "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 8, 25 ], "chance": 50 },
+    "extras": "research_facility_interior",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockD3",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockE3",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockA4",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockB4",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockC4",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockD4",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_blockE4",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2A0",
+    "name": "open air",
+    "sym": ".",
+    "color": "blue",
+    "see_cost": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2B0",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2C0",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2D0",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2E0",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2A1",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2B1",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2C1",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2D1",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2E1",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2A2",
+    "name": "research facility, second floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2B2",
+    "name": "research facility, second floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2C2",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2D2",
+    "name": "research facility, second floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2E2",
+    "name": "research facility, second floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2A3",
+    "name": "research facility, second floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2B3",
+    "name": "research facility, second floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2C3",
+    "name": "research facility, second floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2D3",
+    "name": "research facility, second floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2E3",
+    "name": "research facility, second floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2A4",
+    "name": "research facility, second floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2B4",
+    "name": "research facility, second floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2C4",
+    "name": "research facility, second floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2D4",
+    "name": "research facility, second floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block2E4",
+    "name": "research facility, second floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3A0",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3B0",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3C0",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3D0",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3E0",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3A1",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3B1",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3C1",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3D1",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3E1",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3A2",
+    "name": "research facility, third floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3B2",
+    "name": "research facility, third floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3C2",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3D2",
+    "name": "research facility, third floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3E2",
+    "name": "research facility, third floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3A3",
+    "name": "research facility, third floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3B3",
+    "name": "research facility, third floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3C3",
+    "name": "research facility, third floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3D3",
+    "name": "research facility, third floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3E3",
+    "name": "research facility, third floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3A4",
+    "name": "research facility, third floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3B4",
+    "name": "research facility, third floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3C4",
+    "name": "research facility, third floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3D4",
+    "name": "research facility, third floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block3E4",
+    "name": "research facility, third floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4A0",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4B0",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4C0",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4D0",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4E0",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4A1",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4B1",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4C1",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4D1",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4E1",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4A2",
+    "name": "research facility, fourth floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4B2",
+    "name": "research facility, fourth floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4C2",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4D2",
+    "name": "research facility, fourth floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4E2",
+    "name": "research facility, fourth floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4A3",
+    "name": "research facility, fourth floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4B3",
+    "name": "research facility, fourth floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4C3",
+    "name": "research facility, fourth floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4D3",
+    "name": "research facility, fourth floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4E3",
+    "name": "research facility, fourth floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4A4",
+    "name": "research facility, fourth floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4B4",
+    "name": "research facility, fourth floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4C4",
+    "name": "research facility, fourth floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4D4",
+    "name": "research facility, fourth floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block4E4",
+    "name": "research facility, fourth floor",
+    "copy-from": "lab_surface_brick_blockA2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5A0",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5B0",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5C0",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5D0",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5E0",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5A1",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5B1",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5C1",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5D1",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5E1",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5A2",
+    "name": "research facility, roof",
+    "sym": "l",
+    "color": "dark_gray",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5B2",
+    "copy-from": "lab_surface_brick_block5A2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5C2",
+    "copy-from": "lab_surface_brick_block2A0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5D2",
+    "copy-from": "lab_surface_brick_block5A2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5E2",
+    "copy-from": "lab_surface_brick_block5A2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5A3",
+    "copy-from": "lab_surface_brick_block5A2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5B3",
+    "copy-from": "lab_surface_brick_block5A2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5C3",
+    "copy-from": "lab_surface_brick_block5A2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5D3",
+    "copy-from": "lab_surface_brick_block5A2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5E3",
+    "copy-from": "lab_surface_brick_block5A2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5A4",
+    "copy-from": "lab_surface_brick_block5A2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5B4",
+    "copy-from": "lab_surface_brick_block5A2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5C4",
+    "copy-from": "lab_surface_brick_block5A2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5D4",
+    "copy-from": "lab_surface_brick_block5A2"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_surface_brick_block5E4",
+    "copy-from": "lab_surface_brick_block5A2"
+  }
+]

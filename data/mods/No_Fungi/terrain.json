@@ -1,31 +1,24 @@
 [
-    {
-        "type" : "terrain",
-        "id" : "t_marloss",
-        "name": "marloss bush",
-        "symbol": "#",
-        "color": "dark_gray",
-        "move_cost": 8,
-        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "SHRUB", "FUNGUS", "SHORT"],
-        "bash": {
-            "str_min": 4, "str_max": 60,
-            "sound": "crunch.",
-            "sound_fail": "poof!",
-            "ter_set": "t_fungus"
-        }
-    },{
-        "type" : "terrain",
-        "id" : "t_marloss_tree",
-        "name": "marloss tree",
-        "symbol": "7",
-        "color": "dark_gray",
-        "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "FUNGUS", "TREE", "REDUCE_SCENT"],
-        "bash": {
-            "str_min": 40, "str_max": 180,
-            "sound": "crunch!",
-            "sound_fail": "poof!",
-            "ter_set": "t_fungus"
-        }
-    }
+  {
+    "type": "terrain",
+    "id": "t_marloss",
+    "name": "marloss bush",
+    "description": "",
+    "symbol": "#",
+    "color": "dark_gray",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "SHRUB", "FUNGUS", "SHORT" ],
+    "bash": { "str_min": 4, "str_max": 60, "sound": "crunch.", "sound_fail": "poof!", "ter_set": "t_fungus" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_marloss_tree",
+    "name": "marloss tree",
+    "description": "",
+    "symbol": "7",
+    "color": "dark_gray",
+    "move_cost": 0,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "FUNGUS", "TREE", "REDUCE_SCENT" ],
+    "bash": { "str_min": 40, "str_max": 180, "sound": "crunch!", "sound_fail": "poof!", "ter_set": "t_fungus" }
+  }
 ]

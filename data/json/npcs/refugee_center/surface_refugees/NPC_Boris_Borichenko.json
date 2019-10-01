@@ -1,0 +1,179 @@
+[
+  {
+    "type": "npc",
+    "id": "refugee_BorisBorichenko",
+    "name_unique": "Boris Borichenko",
+    "gender": "male",
+    "name_suffix": "refugee",
+    "class": "NC_REFUGEE_Boris",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_Boris_1",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_REFUGEE_Boris",
+    "name": "Refugee",
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "Boris is nice, but shy and sad.  He was a carpenter; he and his partner lost their son in the cataclysm, and it makes it harder for them to make friends in the survivor group.",
+    "bonus_str": { "rng": [ 1, 4 ] },
+    "bonus_dex": { "rng": [ -1, 2 ] },
+    "bonus_int": { "rng": [ -3, 2 ] },
+    "bonus_per": { "rng": [ -2, 2 ] },
+    "worn_override": "REFUGEE_Boris_worn",
+    "carry_override": "REFUGEE_Boris_carried",
+    "weapon_override": "REFUGEE_Boris_wield",
+    "traits": [
+      { "trait": "OUTDOORSMAN" },
+      { "trait": "PAINRESIST" },
+      { "group": "trait_group_STRONGBACK" },
+      { "group": "Appearance_Caucasian" }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 3, 4 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 1, 2 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Boris_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "briefs" },
+      { "item": "socks" },
+      { "item": "tank_top" },
+      { "item": "technician_shirt_gray" },
+      { "item": "technician_pants_gray" },
+      { "item": "jacket_flannel" },
+      { "item": "hat_knit" },
+      { "item": "boots" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Boris_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "multitool" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Boris_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "toolbox" } ]
+  },
+  {
+    "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [ "TALK_REFUGEE_Boris_2", "TALK_REFUGEE_Boris_Background", "TALK_REFUGEE_Boris_Work1", "TALK_REFUGEE_Boris_Situation" ],
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_REFUGEE_Boris_Background" },
+      { "text": "How are things here?", "topic": "TALK_REFUGEE_Boris_Situation" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_Boris_Borichenko",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [ "Well, well.  I'm glad you are back.", "Hello again, my friend.", "It is good to see you again." ],
+      "no": "Ah, another new face.  Hello.  I am Boris."
+    },
+    "responses": [
+      {
+        "text": "Nice to meet you, Boris.",
+        "effect": { "u_add_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_REFUGEE_Boris_1_firstmeet"
+      },
+      {
+        "text": "Hi, Boris.  What's up?",
+        "topic": "TALK_REFUGEE_Boris_2",
+        "condition": { "u_has_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "Hi Boris, nice to meet you.  I gotta go though.",
+        "effect": { "u_add_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Hi Boris.  I can't stay to talk.",
+        "condition": { "u_has_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_1_firstmeet",
+    "dynamic_line": "It is nice to meet you too.  To what do I owe the pleasure?",
+    "responses": [
+      {
+        "text": "I'm just a traveller, taking the chance to have some living human company.  What's up in your life these days?",
+        "topic": "TALK_REFUGEE_Boris_2"
+      },
+      { "text": "I just wanted to say hi.  I'll be on my way.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_2",
+    "dynamic_line": "What is \"up\"?  Less than I would like, it seems.  I am better when I am busy, and I am not at all busy.",
+    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Background",
+    "dynamic_line": "I was a carpenter.  I like to keep my hands busy, especially when I am stressed.  Now, here I am, picking my nose and stuck thinking about my problems and all that I've lost.",
+    "responses": [
+      { "text": "What have you lost, if it's okay for me to ask?", "topic": "TALK_REFUGEE_Boris_Background_loss" },
+      {
+        "text": "It seems like carpentry work would be something the Free Merchants need.  Why are you so bored?",
+        "topic": "TALK_REFUGEE_Boris_Work1"
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Background_loss",
+    "dynamic_line": "I would rather talk about what I have left: my husband, Stan, and his brother Garry, my best friend.  Without them, I'd be lost myself.  What we've lost is more than anyone should have to think about.",
+    "responses": [
+      { "text": "I'm sorry.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'm sorry.  I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Work1",
+    "dynamic_line": {
+      "u_has_var": "FMShopkeep_Mission1",
+      "type": "mission",
+      "context": "flag",
+      "value": "yes",
+      "yes": "Well, now that you mention it, with the back bay cleared I could probably set up back there and start work.  I'll think about it, get back to me later.",
+      "//yes-for-later": "Well, now that you mention it, with the back bay cleared I could probably set up back there and start work.  I don't know if I can handle it.  The last time I was back there was the last time I saw Ash... my son.  If... if someone were to clean up back there, wipe away some memories, then I could start renovating it into a better living space.",
+      "no": "There isn't much to do with a hammer and a saw here indoors, and working outside is too dangerous.  If we had enough space for me to do some shuffling around, I could build some privacy walls in here.  I tried to set up a bit of a shop in the garage space, but I had to keep taking everything down for caravan loading and unloading and couldn't get anything done.  The caravans bring food, so they get priority, I can't argue with that."
+    },
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Situation",
+    "dynamic_line": "Everyone agrees this is bad.  Sleeping on a cot on the floor, crowded in with strangers, woken by zombies in the night.  To me, though, that is all just a drop in the bucket.  What is killing me is being forced to sit with nothing but my thoughts of what I've lost.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  }
+]

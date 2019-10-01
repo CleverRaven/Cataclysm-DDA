@@ -1,0 +1,41 @@
+[
+  {
+    "type": "material",
+    "ident": "rubber",
+    "name": "Rubber",
+    "density": 12,
+    "soft": false,
+    "bash_resist": 5,
+    "cut_resist": 1,
+    "acid_resist": 8,
+    "fire_resist": 1,
+    "elec_resist": 20,
+    "chip_resist": 9,
+    "repaired_with": "plastic_chunk",
+    "salvaged_into": "chunk_rubber",
+    "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "cut",
+    "burn_data": [
+      { "fuel": 1, "smoke": 3, "burn": 1, "chance": 10 },
+      { "fuel": 1, "smoke": 3, "burn": 2 },
+      { "fuel": 1, "smoke": 3, "burn": 3 }
+    ]
+  },
+  {
+    "type": "AMMO",
+    "id": "chunk_rubber",
+    "category": "spare_parts",
+    "price": 75,
+    "name": "chunk of rubber",
+    "name_plural": "chunks of rubber",
+    "symbol": "*",
+    "color": "dark_gray",
+    "description": "A chunk of useful rubber, can be molded easily.",
+    "material": "rubber",
+    "volume": 1,
+    "weight": 38,
+    "ammo_type": "components",
+    "flags": "NO_SALVAGE"
+  }
+]

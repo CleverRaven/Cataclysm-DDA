@@ -1,50 +1,41 @@
 [
-    {
-        "type" : "mapgen",
-        "om_terrain" : ["mil_outpost_2re"],
-        "comment" : "second floor right edge",
-        "method": "json",
-        "weight": 250,
-        "object": {
-            "fill_ter": "t_flat_roof",
-            "rows": [
-                "######F          F######",
-                "######F          F######",
-                "######F   v      F######",
-                "######F     v    F######",
-                "######F v    v   F######",
-                "######F          F######",
-                "######F   v   v  F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######"
-            ],
-            "palettes":[
-               "mil_outpost_bandit"
-            ],
-            "terrain":{
-                " ": "t_flat_roof",
-                ",": "t_open_air",
-                "f": "t_railing_h",
-                "F": "t_railing_v"
-            },
-            "vehicles": {
-                "v": { "vehicle": "wheelchair", "chance": 60, "status": 3 }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": [ "mil_outpost_2re" ],
+    "comment": "second floor right edge",
+    "method": "json",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "######F          F######",
+        "######F          F######",
+        "######F   v      F######",
+        "######F     v    F######",
+        "######F v    v   F######",
+        "######F          F######",
+        "######F   v   v  F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######"
+      ],
+      "palettes": [ "mil_outpost_bandit" ],
+      "terrain": { " ": "t_flat_roof", ",": "t_open_air", "f": "t_railing_h", "F": "t_railing_v" },
+      "vehicles": { "v": { "vehicle": "wheelchair", "chance": 60, "status": 3 } }
     }
+  }
 ]

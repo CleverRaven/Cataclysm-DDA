@@ -1,8 +1,0 @@
-{
-    "type": "MOD_INFO",
-    "mod-type": "SUPPLEMENTAL",
-    "ident": "LuaPlayerTakeoff",
-    "name": "Lua Test: Player:takeoff",
-    "description": "This makes an item named Test_Takeoff that calls player:takeoff(player:iat(-2)) and removes a single item just below the wielded weapon. Not using -1 because that is wielded weapon slot, and this won't work for that slot.",
-    "path": ""
-}

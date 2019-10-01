@@ -1,9 +1,21 @@
-#include "catch/catch.hpp"
+#include <list>
+#include <memory>
+#include <set>
+#include <string>
+#include <vector>
 
+#include "avatar.h"
+#include "catch/catch.hpp"
 #include "game.h"
-#include "itype.h"
 #include "player.h"
 #include "visitable.h"
+#include "calendar.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_location.h"
+#include "type_id.h"
+
+struct itype;
 
 TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
 {
@@ -14,7 +26,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
     const itype_id bad_ammo = "9mm";      // any type of incompatible ammo
     const itype_id mag_id   = "stanag30"; // must be set to default magazine
     const itype_id bad_mag  = "glockmag"; // any incompatible magazine
-    const int mag_cap          = 30;
+    const int mag_cap       = 30;
 
     CHECK( ammo_id != alt_ammo );
     CHECK( ammo_id != bad_ammo );
@@ -38,7 +50,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
     CHECK( p.can_reload( mag, ammo_id ) == true );
     CHECK( p.can_reload( mag, alt_ammo ) == true );
     CHECK( p.can_reload( mag, bad_ammo ) == false );
-    CHECK( mag.ammo_type() == gun_ammo );
+    CHECK( mag.ammo_types().count( gun_ammo ) );
     CHECK( mag.ammo_capacity() == mag_cap );
     CHECK( mag.ammo_current() == "null" );
     CHECK( mag.ammo_data() == nullptr );
@@ -171,7 +183,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
         CHECK( gun.magazine_default() == mag_id );
         CHECK( gun.magazine_compatible().count( mag_id ) == 1 );
         CHECK( gun.magazine_current() == nullptr );
-        CHECK( gun.ammo_type() == gun_ammo );
+        CHECK( gun.ammo_types().count( gun_ammo ) );
         CHECK( gun.ammo_capacity() == 0 );
         CHECK( gun.ammo_remaining() == 0 );
         CHECK( gun.ammo_current() == "null" );
@@ -198,7 +210,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                     REQUIRE( gun.magazine_current()->typeId() == mag_id );
                 }
                 AND_THEN( "the ammo type for the gun remains unchanged" ) {
-                    REQUIRE( gun.ammo_type() == gun_ammo );
+                    REQUIRE( gun.ammo_types().count( gun_ammo ) );
                 }
                 AND_THEN( "the ammo capacity is correctly set" ) {
                     REQUIRE( gun.ammo_capacity() == mag_cap );
@@ -225,7 +237,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                     REQUIRE( gun.magazine_current()->typeId() == mag_id );
                 }
                 AND_THEN( "the ammo type for the gun remains unchanged" ) {
-                    REQUIRE( gun.ammo_type() == gun_ammo );
+                    REQUIRE( gun.ammo_types().count( gun_ammo ) );
                 }
                 AND_THEN( "the ammo capacity is correctly set" ) {
                     REQUIRE( gun.ammo_capacity() == mag_cap );

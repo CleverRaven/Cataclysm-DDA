@@ -54,28 +54,6 @@
 					<Add directory="WinDepend/lib" />
 				</Linker>
 			</Target>
-			<Target title="Release (Lua)">
-				<Option output="CataclysmWin" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/ReleaseLua/" />
-				<Option type="0" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-Os -O2" />
-					<Add option="-DLUA" />
-					<Add option="-DRELEASE=1" />
-					<Add directory="WinDepend/include" />
-					<Add directory="WinDepend/include/lua5.1" />
-				</Compiler>
-				<Linker>
-					<Add library="liblua5.1.a" />
-					<Add directory="WinDepend/lib" />
-				</Linker>
-				<ExtraCommands>
-					<Add before="cmd /c cd src/lua &amp;&amp; lua5.1 -v || echo &apos;lua5.1&apos; command not found!" />
-					<Add before="cmd /c cd src/lua &amp;&amp; lua5.1 generate_bindings.lua catabindings.cpp" />
-					<Mode after="always" />
-				</ExtraCommands>
-			</Target>
 			<Target title="Release (SDL, Sound)">
 				<Option output="Cataclysm-Tiles" prefix_auto="0" extension_auto="1" />
 				<Option object_output="obj/ReleaseSoundSDL/" />
@@ -123,9 +101,9 @@
 					<Add directory="WinDepend/lib" />
 				</Linker>
 			</Target>
-			<Target title="Release (SDL, Loc, Lua, Sound)">
+			<Target title="Release (SDL, Loc, Sound)">
 				<Option output="Cataclysm-Tiles" prefix_auto="0" extension_auto="1" />
-				<Option object_output="obj/ReleaseLocalizedLuaSoundSDL/" />
+				<Option object_output="obj/ReleaseLocalizedSoundSDL/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -134,10 +112,8 @@
 					<Add option="-DTILES" />
 					<Add option="-DSDLTILES" />
 					<Add option="-DSDL_SOUND" />
-					<Add option="-DLUA" />
 					<Add option="-DRELEASE=1" />
 					<Add directory="WinDepend/include" />
-					<Add directory="WinDepend/include/lua5.1" />
 					<Add directory="WinDepend/include/SDL2" />
 				</Compiler>
 				<Linker>
@@ -148,14 +124,8 @@
 					<Add library="libSDL2_ttf.dll.a" />
 					<Add library="libSDL2_image.dll.a" />
 					<Add library="libSDL2_mixer.dll.a" />
-					<Add library="liblua5.1.a" />
 					<Add directory="WinDepend/lib" />
 				</Linker>
-				<ExtraCommands>
-					<Add before="cmd /c cd src/lua &amp;&amp; lua5.1 -v || echo &apos;lua5.1&apos; command not found!" />
-					<Add before="cmd /c cd src/lua &amp;&amp; lua5.1 generate_bindings.lua catabindings.cpp" />
-					<Mode after="always" />
-				</ExtraCommands>
 			</Target>
 			<Target title="Debug">
 				<Option output="CataclysmWin" prefix_auto="1" extension_auto="1" />
@@ -208,28 +178,6 @@
 					<Add directory="WinDepend/lib" />
 				</Linker>
 			</Target>
-			<Target title="Debug (Lua)">
-				<Option output="CataclysmWin" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/DebugLua/" />
-				<Option type="0" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-pg -g" />
-					<Add option="-DLUA" />
-					<Add directory="WinDepend/include" />
-					<Add directory="WinDepend/include/lua5.1" />
-				</Compiler>
-				<Linker>
-					<Add option="-pg -lgmon" />
-					<Add library="liblua5.1.a" />
-					<Add directory="WinDepend/lib" />
-				</Linker>
-				<ExtraCommands>
-					<Add before="cmd /c cd src/lua &amp;&amp; lua5.1 -v || echo &apos;lua5.1&apos; command not found!" />
-					<Add before="cmd /c cd src/lua &amp;&amp; lua5.1 generate_bindings.lua catabindings.cpp" />
-					<Mode after="always" />
-				</ExtraCommands>
-			</Target>
 			<Target title="Debug (SDL, Sound)">
 				<Option output="Cataclysm-Tiles" prefix_auto="0" extension_auto="1" />
 				<Option object_output="obj/DebugSoundSDL/" />
@@ -279,9 +227,9 @@
 					<Add directory="WinDepend/lib" />
 				</Linker>
 			</Target>
-			<Target title="Debug (SDL, Loc, Lua, Sound)">
+			<Target title="Debug (SDL, Loc, Sound)">
 				<Option output="Cataclysm-Tiles" prefix_auto="0" extension_auto="1" />
-				<Option object_output="obj/DebugLocalizedLuaSoundSDL/" />
+				<Option object_output="obj/DebugLocalizedSoundSDL/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -291,9 +239,7 @@
 					<Add option="-DTILES" />
 					<Add option="-DSDLTILES" />
 					<Add option="-DSDL_SOUND" />
-					<Add option="-DLUA" />
 					<Add directory="WinDepend/include" />
-					<Add directory="WinDepend/include/lua5.1" />
 					<Add directory="WinDepend/include/SDL2" />
 				</Compiler>
 				<Linker>
@@ -305,20 +251,14 @@
 					<Add library="libSDL2_ttf.dll.a" />
 					<Add library="libSDL2_image.dll.a" />
 					<Add library="libSDL2_mixer.dll.a" />
-					<Add library="liblua5.1.a" />
 					<Add directory="WinDepend/lib" />
 				</Linker>
-				<ExtraCommands>
-					<Add before="cmd /c cd src/lua &amp;&amp; lua5.1 -v || echo &apos;lua5.1&apos; command not found!" />
-					<Add before="cmd /c cd src/lua &amp;&amp; lua5.1 generate_bindings.lua catabindings.cpp" />
-					<Mode after="always" />
-				</ExtraCommands>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
-			<Add option="-std=c++11" />
+			<Add option="-std=c++14" />
 			<Add option="-DCB_BUILD" />
 			<Add option="-D_WINDOWS -D_MINGW -D_WIN32 -DWIN32 -D__MINGW__" />
 		</Compiler>

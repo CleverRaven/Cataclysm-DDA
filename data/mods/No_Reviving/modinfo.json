@@ -6,5 +6,10 @@
     "description": "Disables zombie revival.",
     "category": "rebalance",
     "dependencies": [ "dda" ]
+  },
+  {
+    "type": "monster_adjustment",
+    "species": "ZOMBIE",
+    "flag": { "name": "REVIVES", "value": false }
   }
 ]

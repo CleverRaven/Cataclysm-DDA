@@ -1,19 +1,20 @@
 #include "creature_tracker.h"
 
+#include <algorithm>
+#include <ostream>
+#include <string>
+#include <utility>
+
 #include "debug.h"
-#include "item.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
 #include "string_formatter.h"
+#include "type_id.h"
 
-#include <algorithm>
+#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
-Creature_tracker::Creature_tracker()
-{
-}
+Creature_tracker::Creature_tracker() = default;
 
 Creature_tracker::~Creature_tracker() = default;
 
@@ -81,7 +82,23 @@ bool Creature_tracker::add( monster &critter )
 
     monsters_list.emplace_back( std::make_shared<monster>( critter ) );
     monsters_by_location[critter.pos()] = monsters_list.back();
+    add_to_faction_map( monsters_list.back() );
     return true;
+}
+
+
+void Creature_tracker::add_to_faction_map( std::shared_ptr<monster> critter_ptr )
+{
+    assert( critter_ptr );
+    monster &critter = *critter_ptr;
+
+    // Only 1 faction per mon at the moment.
+    if( critter.friendly == 0 ) {
+        monster_faction_map_[ critter.faction ].insert( critter_ptr );
+    } else {
+        static const mfaction_str_id playerfaction( "player" );
+        monster_faction_map_[ playerfaction ].insert( critter_ptr );
+    }
 }
 
 size_t Creature_tracker::size() const
@@ -104,8 +121,8 @@ bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_p
             othermon.die( nullptr );
         } else {
             debugmsg( "update_zombie_pos: wanted to move %s to %d,%d,%d, but new location already has %s",
-                      critter.disp_name().c_str(),
-                      new_pos.x, new_pos.y, new_pos.z, othermon.disp_name().c_str() );
+                      critter.disp_name(),
+                      new_pos.x, new_pos.y, new_pos.z, othermon.disp_name() );
             return false;
         }
     }
@@ -123,7 +140,7 @@ bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_p
         // We're changing the x/y/z coordinates of a zombie that hasn't been added
         // to the game yet. add_zombie() will update monsters_by_location for us.
         debugmsg( "update_zombie_pos: no %s at %d,%d,%d (moving to %d,%d,%d)",
-                  critter.disp_name().c_str(),
+                  critter.disp_name(),
                   old_pos.x, old_pos.y, old_pos.z, new_pos.x, new_pos.y, new_pos.z );
         // Rebuild cache in case the monster actually IS in the game, just bugged
         rebuild_cache();
@@ -133,12 +150,20 @@ bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_p
 
 void Creature_tracker::remove_from_location_map( const monster &critter )
 {
-    const tripoint &loc = critter.pos();
-    const auto pos_iter = monsters_by_location.find( loc );
-    if( pos_iter != monsters_by_location.end() ) {
-        if( pos_iter->second.get() == &critter ) {
-            monsters_by_location.erase( pos_iter );
-        }
+    const auto pos_iter = monsters_by_location.find( critter.pos() );
+    if( pos_iter != monsters_by_location.end() && pos_iter->second.get() == &critter ) {
+        monsters_by_location.erase( pos_iter );
+        return;
+    }
+
+    // When it's not in the map at its current location, it might still be there under,
+    // another location, so look for it.
+    const auto iter = std::find_if( monsters_by_location.begin(), monsters_by_location.end(),
+    [&]( const decltype( monsters_by_location )::value_type & v ) {
+        return v.second.get() == &critter;
+    } );
+    if( iter != monsters_by_location.end() ) {
+        monsters_by_location.erase( iter );
     }
 }
 
@@ -149,11 +174,21 @@ void Creature_tracker::remove( const monster &critter )
         return ptr.get() == &critter;
     } );
     if( iter == monsters_list.end() ) {
-        debugmsg( "Tried to remove invalid monster %s", critter.name().c_str() );
+        debugmsg( "Tried to remove invalid monster %s", critter.name() );
         return;
     }
 
+    for( auto &pair : monster_faction_map_ ) {
+        const auto fac_iter = pair.second.find( *iter );
+        if( fac_iter != pair.second.end() ) {
+            // Need to do this manually because the shared pointer containing critter is kept valid
+            // within removed_ and so the weak pointer in monster_faction_map_ is also valid.
+            pair.second.erase( fac_iter );
+            break;
+        }
+    }
     remove_from_location_map( critter );
+    removed_.push_back( *iter );
     monsters_list.erase( iter );
 }
 
@@ -161,13 +196,17 @@ void Creature_tracker::clear()
 {
     monsters_list.clear();
     monsters_by_location.clear();
+    monster_faction_map_.clear();
+    removed_.clear();
 }
 
 void Creature_tracker::rebuild_cache()
 {
     monsters_by_location.clear();
+    monster_faction_map_.clear();
     for( const std::shared_ptr<monster> &mon_ptr : monsters_list ) {
         monsters_by_location[mon_ptr->pos()] = mon_ptr;
+        add_to_faction_map( mon_ptr );
     }
 }
 
@@ -213,15 +252,20 @@ bool Creature_tracker::kill_marked_for_death()
     // Important: `Creature::die` must not be called after creature objects (NPCs, monsters) have
     // been removed, the dying creature could still have a pointer (the killer) to another creature.
     bool monster_is_dead = false;
-    for( const auto &mon_ptr : monsters_list ) {
+    // Copy the list so we can iterate the copy safely *and* add new monsters from within monster::die
+    // This happens for example with blob monsters (they split into two smaller monsters).
+    const auto copy = monsters_list;
+    for( const std::shared_ptr<monster> &mon_ptr : copy ) {
+        assert( mon_ptr );
         monster &critter = *mon_ptr;
-        if( critter.is_dead() ) {
-            dbg( D_INFO ) << string_format( "cleanup_dead: critter %d,%d,%d hp:%d %s",
-                                            critter.posx(), critter.posy(), critter.posz(),
-                                            critter.get_hp(), critter.name().c_str() );
-            critter.die( nullptr );
-            monster_is_dead = true;
+        if( !critter.is_dead() ) {
+            continue;
         }
+        dbg( D_INFO ) << string_format( "cleanup_dead: critter %d,%d,%d hp:%d %s",
+                                        critter.posx(), critter.posy(), critter.posz(),
+                                        critter.get_hp(), critter.name() );
+        critter.die( nullptr );
+        monster_is_dead = true;
     }
 
     return monster_is_dead;
@@ -239,4 +283,6 @@ void Creature_tracker::remove_dead()
             ++iter;
         }
     }
+
+    removed_.clear();
 }

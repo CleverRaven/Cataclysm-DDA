@@ -16,58 +16,9 @@
     "ammo": "38",
     "dispersion": 360,
     "durability": 8,
+    "blackpowder_tolerance": 56,
     "clip_size": 6,
     "magazines": [ [ "38", [ "38_speedloader" ] ] ]
-  },
-  {
-    "id": "cop_38",
-    "copy-from": "cop_38",
-    "type": "GUN",
-    "name": "COP .357",
-    "name_plural": "COP .357",
-    "description": "The COP 357 is a small, chubby derringer pistol that bears a slight resemblance to the Mossberg Brownie.  It fires the .357 round.",
-    "ammo": "357_mag",
-    "range": 0,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 1 ], [ "sights", 1 ] ]
-  },
-  {
-    "id": "sw_619",
-    "copy-from": "sw_619",
-    "type": "GUN",
-    "name": "S&W 619",
-    "name_plural": "S&W 619",
-    "description": "A seven-round .357 Magnum revolver sold by Smith & Wesson.  It features a fixed rear sight and a reinforced frame.",
-    "ammo": "357_mag",
-    "magazines": [ [ "357_mag", [ "357_mag_speedloader" ] ] ]
-  },
-  {
-    "id": "sw_610",
-    "copy-from": "sw_610",
-    "type": "GUN",
-    "name": "S&W 610",
-    "name_plural": "S&W 610",
-    "description": "The Smith and Wesson 610 is a classic six-shooter revolver chambered for 10mm rounds, or for S&W's own .40 round.",
-    "ammo": "10mm_auto"
-  },
-  {
-    "id": "saiga_12",
-    "copy-from": "saiga_12",
-    "type": "GUN",
-    "name": "Saiga-12",
-    "name_plural": "Saiga-12",
-    "magazines": [ [ "410", [ "saiga10mag_410", "saiga30mag_410" ] ], [ "shot", [ "saiga10mag", "saiga30mag" ] ] ]
-  },
-  {
-    "id": "saiga_410",
-    "copy-from": "saiga_12",
-    "type": "GUN",
-    "name": "Saiga-410",
-    "name_plural": "Saiga-410",
-    "description": "A lighter version of the Saiga-12 semi-automatic shotgun, chambered in .410 bore.  Like its 12 gauge version, it uses detachable magazines.",
-    "ammo": "410",
-    "weight": 3400,
-    "volume": 10,
-    "magazines": [ [ "410", [ "saiga10mag_410", "saiga30mag_410" ] ] ]
   },
   {
     "id": "m6_asw",
@@ -94,28 +45,8 @@
     "reload": 100,
     "barrel_length": 2,
     "built_in_mods": [ "M6_shotgun" ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ]
-  },
-  {
-    "id": "colt_saa",
-    "copy-from": "pistol_revolver",
-    "type": "GUN",
-    "name": "Colt Single Action Army",
-    "name_plural": "Colt Single Action Army",
-    "//": "Can be vaguely either an original or a reproduction, price based off of MSRP of Uberti Single-Action Cattleman.",
-    "description": "Also known as the Peacemaker and M1873, the Colt Single Action Army is one of the first revolvers to use a modern self-contained cartridge.  Made famous by westerns, modern reproductions are still made for Cowboy Action Shooting, and some deem them the greatest gun ever made.",
-    "weight": 1050,
-    "volume": 3,
-    "price": 47900,
-    "to_hit": -1,
-    "bashing": 8,
-    "material": [ "steel", "wood" ],
-    "ammo": "45lc",
-    "dispersion": 360,
-    "durability": 8,
-    "clip_size": 6,
-    "proportional": { "reload": 1.5 }
   },
   {
     "id": "colt_lightning",
@@ -132,7 +63,7 @@
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
-    "ammo": "45lc",
+    "ammo": "45colt",
     "ranged_damage": 5,
     "dispersion": 90,
     "durability": 7,
@@ -156,7 +87,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "410",
+    "ammo": "410shot",
     "skill": "pistol",
     "dispersion": 520,
     "durability": 6,
@@ -176,12 +107,20 @@
     "to_hit": -1,
     "bashing": 10,
     "material": [ "steel", "wood" ],
-    "ammo": "410",
+    "ammo": "410shot",
     "dispersion": 405,
     "durability": 9,
     "clip_size": 1,
     "barrel_length": 4,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "muzzle", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "sling", 1 ],
+      [ "muzzle", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ]
+    ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -196,13 +135,13 @@
     "to_hit": -1,
     "bashing": 10,
     "material": [ "steel", "wood" ],
-    "ammo": "410",
+    "ammo": "410shot",
     "dispersion": 855,
     "durability": 6,
     "clip_size": 1,
     "reload": 200,
     "barrel_length": 4,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ], [ "barrel", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sling", 1 ], [ "stock", 1 ], [ "barrel", 1 ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -218,13 +157,13 @@
     "bashing": 12,
     "material": "steel",
     "color": "light_gray",
-    "ammo": "38_super",
+    "ammo": "38super",
     "dispersion": 520,
     "durability": 7,
     "modes": [ [ "DEFAULT", "multi", 2 ] ],
-    "valid_mod_locations": [ [ "grip", 1 ] ],
+    "valid_mod_locations": [ [ "brass catcher", 1 ], [ "grip", 1 ] ],
     "magazine_well": 2,
-    "magazines": [ [ "38_super", [ "af2011a1mag" ] ] ]
+    "magazines": [ [ "38super", [ "af2011a1mag" ] ] ]
   },
   {
     "id": "m1991a1_38super",
@@ -232,7 +171,7 @@
     "type": "GUN",
     "name": "M1991A1 .38 Super",
     "description": "A modern M1911, chambered for the .38 Super cartridge.  It can achieve good accuracy.",
-    "ammo": "38_super",
+    "ammo": "38super",
     "magazines": [ [ "38_super", [ "m1991_38smag" ] ] ]
   },
   {

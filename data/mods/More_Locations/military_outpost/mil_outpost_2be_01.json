@@ -1,54 +1,42 @@
 [
-    {
-        "type" : "mapgen",
-        "om_terrain" : ["mil_outpost_2be"],
-        "comment" : "first floor bottom edge",
-        "method": "json",
-        "weight": 250,
-        "object": {
-            "fill_ter": "t_flat_roof",
-            "rows": [
-                "########################",
-                "########################",
-                "########################",
-                "########################",
-                "########################",
-                "########################",
-                "hhhfffffffffffffffhhhhhh",
-                "   F  z z  zzzz  F      ",
-                "   F  z       z  F      ",
-                "   F z  f=ff     F      ",
-                "   F   zF  F   z F      ",
-                "   F  z F@ F     F   n  ",
-                "   F    ffff zzz F   n  ",
-                "   F zzz  z  zzz F   n  ",
-                "   F  zzzz       F      ",
-                "   fffffff=fffffff      ",
-                "                        ",
-                "hhhhhhhhhhhhhhhhhhhhhhhh",
-                "########################",
-                "########################",
-                "########################",
-                "########################",
-                "########################",
-                "########################"
-            ],
-            "palettes":[
-               "mil_outpost_bandit"
-            ],
-            "terrain":{
-                ",": "t_open_air",
-                " ": "t_flat_roof",
-                "f": "t_chainfence_h",
-                "F": "t_chainfence_v",
-                "h": "t_railing_h"
-            },
-            "npcs": {
-                "@": { "class": "captive" }
-            },
-            "monster": {
-                "z": { "monster": "mon_ant" }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": [ "mil_outpost_2be" ],
+    "comment": "first floor bottom edge",
+    "method": "json",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "hhhfffffffffffffffhhhhhh",
+        "   F  z z  zzzz  F      ",
+        "   F  z       z  F      ",
+        "   F z  f=ff     F      ",
+        "   F   zF  F   z F      ",
+        "   F  z F@ F     F   n  ",
+        "   F    ffff zzz F   n  ",
+        "   F zzz  z  zzz F   n  ",
+        "   F  zzzz       F      ",
+        "   fffffff=fffffff      ",
+        "                        ",
+        "hhhhhhhhhhhhhhhhhhhhhhhh",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "mil_outpost_bandit" ],
+      "terrain": { ",": "t_open_air", " ": "t_flat_roof", "f": "t_chainfence_h", "F": "t_chainfence_v", "h": "t_railing_h" },
+      "npcs": { "@": { "class": "captive" } },
+      "monster": { "z": { "monster": "mon_ant" } }
     }
+  }
 ]

@@ -2,23 +2,22 @@
 #ifndef MORALE_TYPES_H
 #define MORALE_TYPES_H
 
+#include <string>
+
 #include "string_id.h"
+#include "translations.h"
+#include "type_id.h"
 
 class JsonObject;
-
-class morale_type_data;
-using morale_type = string_id<morale_type_data>;
 
 struct itype;
 
 class morale_type_data
 {
     private:
-        bool permanent;
-        // Translated, may contain '%s' format string
-        std::string text;
-        // If true, this morale type needs an item paired with every instance
-        bool needs_item;
+        bool permanent = false;
+        // May contain '%s' format string
+        translation text;
     public:
         morale_type id;
         bool was_loaded = false;
@@ -43,6 +42,8 @@ class morale_type_data
 extern const morale_type MORALE_NULL;
 extern const morale_type MORALE_FOOD_GOOD;
 extern const morale_type MORALE_FOOD_HOT;
+extern const morale_type MORALE_ATE_WITH_TABLE;
+extern const morale_type MORALE_ATE_WITHOUT_TABLE;
 extern const morale_type MORALE_MUSIC;
 extern const morale_type MORALE_HONEY;
 extern const morale_type MORALE_GAME;
@@ -88,21 +89,32 @@ extern const morale_type MORALE_BOOK;
 extern const morale_type MORALE_COMFY;
 extern const morale_type MORALE_SCREAM;
 extern const morale_type MORALE_PERM_MASOCHIST;
+extern const morale_type MORALE_PERM_NOFACE;
+extern const morale_type MORALE_PERM_FPMODE_ON;
 extern const morale_type MORALE_PERM_HOARDER;
 extern const morale_type MORALE_PERM_FANCY;
 extern const morale_type MORALE_PERM_OPTIMIST;
 extern const morale_type MORALE_PERM_BADTEMPER;
 extern const morale_type MORALE_PERM_CONSTRAINED;
+extern const morale_type MORALE_PERM_NOMAD;
 extern const morale_type MORALE_GAME_FOUND_KITTEN;
 extern const morale_type MORALE_HAIRCUT;
 extern const morale_type MORALE_SHAVE;
+extern const morale_type MORALE_CHAT;
 extern const morale_type MORALE_VOMITED;
+extern const morale_type MORALE_PLAY_WITH_PET;
 extern const morale_type MORALE_PYROMANIA_STARTFIRE;
 extern const morale_type MORALE_PYROMANIA_NEARFIRE;
 extern const morale_type MORALE_PYROMANIA_NOFIRE;
+extern const morale_type MORALE_KILLER_HAS_KILLED;
+extern const morale_type MORALE_KILLER_NEED_TO_KILL;
 extern const morale_type MORALE_PERM_FILTHY;
 extern const morale_type MORALE_PERM_DEBUG;
 extern const morale_type MORALE_BUTCHER;
+extern const morale_type MORALE_GRAVEDIGGER;
+extern const morale_type MORALE_FUNERAL;
+extern const morale_type MORALE_TREE_COMMUNION;
+extern const morale_type MORALE_ACCOMPLISHMENT;
+extern const morale_type MORALE_FAILURE;
 
 #endif
-

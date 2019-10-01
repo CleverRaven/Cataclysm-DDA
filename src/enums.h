@@ -2,18 +2,21 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
-#include <climits>
-#include <ostream>
-#include <utility>
-
-class JsonOut;
-class JsonIn;
+template<typename T> struct enum_traits;
 
 template<typename T>
 constexpr inline int sgn( const T x )
 {
     return x < 0 ? -1 : ( x > 0 ? 1 : 0 );
 }
+
+enum temperature_flag : int {
+    TEMP_NORMAL = 0,
+    TEMP_HEATER,
+    TEMP_FRIDGE,
+    TEMP_FREEZER,
+    TEMP_ROOT_CELLAR
+};
 
 //Used for autopickup and safemode rules
 enum rule_state : int {
@@ -29,6 +32,32 @@ enum visibility_type {
     VIS_BOOMER,
     VIS_DARK,
     VIS_BOOMER_DARK
+};
+
+// Matching rules for comparing a string to an overmap terrain id.
+enum ot_match_type {
+    // The provided string must completely match the overmap terrain id, including
+    // linear direction suffixes for linear terrain types or rotation suffixes
+    // for rotated terrain types.
+    exact,
+    // The provided string must completely match the base type id of the overmap
+    // terrain id, which means that suffixes for rotation and linear terrain types
+    // are ignored.
+    type,
+    // The provided string must be a complete prefix (with additional parts delimited
+    // by an underscore) of the overmap terrain id. For example, "forest" will match
+    // "forest" or "forest_thick" but not "forestcabin".
+    prefix,
+    // The provided string must be contained within the overmap terrain id, but may
+    // occur at the beginning, end, or middle and does not have any rules about
+    // underscore delimiting.
+    contains,
+    num_ot_match_type
+};
+
+template<>
+struct enum_traits<ot_match_type> {
+    static constexpr ot_match_type last = ot_match_type::num_ot_match_type;
 };
 
 enum special_game_id : int {
@@ -86,6 +115,11 @@ enum art_effect_passive : int {
     NUM_AEPS
 };
 
+template<>
+struct enum_traits<art_effect_passive> {
+    static constexpr art_effect_passive last = art_effect_passive::NUM_AEPS;
+};
+
 enum artifact_natural_property {
     ARTPROP_NULL,
     ARTPROP_WRIGGLING, //
@@ -109,7 +143,12 @@ enum artifact_natural_property {
 };
 
 enum phase_id : int {
-    PNULL, SOLID, LIQUID, GAS, PLASMA
+    PNULL, SOLID, LIQUID, GAS, PLASMA, num_phases
+};
+
+template<>
+struct enum_traits<phase_id> {
+    static constexpr phase_id last = phase_id::num_phases;
 };
 
 // Return the class an in-world object uses to interact with the world.
@@ -130,6 +169,10 @@ enum object_type {
     NUM_OBJECTS,
 };
 
+enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 3, LST_MONSTER = 4};
+
+enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, LTT_MONSTER = 4 };
+
 /**
  *  Possible layers that a piece of clothing/armor can occupy
  *
@@ -140,8 +183,10 @@ enum object_type {
  *  when starting the game.
  */
 enum layer_level {
+    /* "Personal effects" layer, corresponds to PERSONAL flag */
+    PERSONAL_LAYER = 0,
     /* "Close to skin" layer, corresponds to SKINTIGHT flag. */
-    UNDERWEAR = 0,
+    UNDERWEAR_LAYER,
     /* "Normal" layer, default if no flags set */
     REGULAR_LAYER,
     /* "Waist" layer, corresponds to WAIST flag. */
@@ -150,6 +195,8 @@ enum layer_level {
     OUTER_LAYER,
     /* "Strapped" layer, corresponds to BELTED flag */
     BELTED_LAYER,
+    /* "Aura" layer, corresponds to AURA flag */
+    AURA_LAYER,
     /* Not a valid layer; used for C-style iteration through this enum */
     MAX_CLOTHING_LAYER
 };
@@ -159,173 +206,6 @@ inline layer_level &operator++( layer_level &l )
     l = static_cast<layer_level>( l + 1 );
     return l;
 }
-
-struct point {
-    int x = 0;
-    int y = 0;
-    constexpr point() = default;
-    constexpr point( int X, int Y ) : x( X ), y( Y ) {}
-
-    constexpr point operator+( const point &rhs ) const {
-        return point( x + rhs.x, y + rhs.y );
-    }
-    point &operator+=( const point &rhs ) {
-        x += rhs.x;
-        y += rhs.y;
-        return *this;
-    }
-    constexpr point operator-( const point &rhs ) const {
-        return point( x - rhs.x, y - rhs.y );
-    }
-    point &operator-=( const point &rhs ) {
-        x -= rhs.x;
-        y -= rhs.y;
-        return *this;
-    }
-};
-
-void serialize( const point &p, JsonOut &jsout );
-void deserialize( point &p, JsonIn &jsin );
-
-// Make point hashable so it can be used as an unordered_set or unordered_map key,
-// or a component of one.
-namespace std
-{
-template <>
-struct hash<point> {
-    std::size_t operator()( const point &k ) const {
-        constexpr uint64_t a = 2862933555777941757;
-        size_t result = k.y;
-        result *= a;
-        result += k.x;
-        return result;
-    }
-};
-}
-
-inline constexpr bool operator<( const point &a, const point &b )
-{
-    return a.x < b.x || ( a.x == b.x && a.y < b.y );
-}
-inline constexpr bool operator==( const point &a, const point &b )
-{
-    return a.x == b.x && a.y == b.y;
-}
-inline constexpr bool operator!=( const point &a, const point &b )
-{
-    return !( a == b );
-}
-
-struct tripoint {
-    int x = 0;
-    int y = 0;
-    int z = 0;
-    constexpr tripoint() = default;
-    constexpr tripoint( int X, int Y, int Z ) : x( X ), y( Y ), z( Z ) {}
-    explicit constexpr tripoint( const point &p, int Z ) : x( p.x ), y( p.y ), z( Z ) {}
-
-    constexpr tripoint operator+( const tripoint &rhs ) const {
-        return tripoint( x + rhs.x, y + rhs.y, z + rhs.z );
-    }
-    constexpr tripoint operator-( const tripoint &rhs ) const {
-        return tripoint( x - rhs.x, y - rhs.y, z - rhs.z );
-    }
-    tripoint &operator+=( const tripoint &rhs ) {
-        x += rhs.x;
-        y += rhs.y;
-        z += rhs.z;
-        return *this;
-    }
-    constexpr tripoint operator-() const {
-        return tripoint( -x, -y, -z );
-    }
-    /*** some point operators and functions ***/
-    constexpr tripoint operator+( const point &rhs ) const {
-        return tripoint( x + rhs.x, y + rhs.y, z );
-    }
-    constexpr tripoint operator-( const point &rhs ) const {
-        return tripoint( x - rhs.x, y - rhs.y, z );
-    }
-    tripoint &operator+=( const point &rhs ) {
-        x += rhs.x;
-        y += rhs.y;
-        return *this;
-    }
-    tripoint &operator-=( const point &rhs ) {
-        x -= rhs.x;
-        y -= rhs.y;
-        return *this;
-    }
-    tripoint &operator-=( const tripoint &rhs ) {
-        x -= rhs.x;
-        y -= rhs.y;
-        z -= rhs.z;
-        return *this;
-    }
-
-    void serialize( JsonOut &jsout ) const;
-    void deserialize( JsonIn &jsin );
-};
-
-inline std::ostream &operator<<( std::ostream &os, const tripoint &pos )
-{
-    return os << pos.x << "," << pos.y << "," << pos.z;
-}
-
-// Make tripoint hashable so it can be used as an unordered_set or unordered_map key,
-// or a component of one.
-namespace std
-{
-template <>
-struct hash<tripoint> {
-    std::size_t operator()( const tripoint &k ) const {
-        constexpr uint64_t a = 2862933555777941757;
-        size_t result = k.z;
-        result *= a;
-        result += k.y;
-        result *= a;
-        result += k.x;
-        return result;
-    }
-};
-}
-
-inline constexpr bool operator==( const tripoint &a, const tripoint &b )
-{
-    return a.x == b.x && a.y == b.y && a.z == b.z;
-}
-inline constexpr bool operator!=( const tripoint &a, const tripoint &b )
-{
-    return !( a == b );
-}
-inline bool operator<( const tripoint &a, const tripoint &b )
-{
-    if( a.x != b.x ) {
-        return a.x < b.x;
-    }
-    if( a.y != b.y ) {
-        return a.y < b.y;
-    }
-    if( a.z != b.z ) {
-        return a.z < b.z;
-    }
-    return false;
-}
-
-static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
-static constexpr tripoint tripoint_zero { 0, 0, 0 };
-
-static constexpr point point_min{ tripoint_min.x, tripoint_min.y };
-static constexpr point point_zero{ tripoint_zero.x, tripoint_zero.y };
-
-struct sphere {
-    int radius = 0;
-    tripoint center = tripoint_zero;
-
-    sphere() = default;
-    explicit sphere( const tripoint &center ) : radius( 1 ), center( center ) {}
-    explicit sphere( const tripoint &center, int radius ) : radius( radius ), center( center ) {}
-};
 
 /** Possible reasons to interrupt an activity. */
 enum class distraction_type {
@@ -337,6 +217,46 @@ enum class distraction_type {
     asthma,
     motion_alarm,
     weather_change,
+};
+
+enum game_message_type : int {
+    m_good,    /* something good happened to the player character, e.g. health boost, increasing in skill */
+    m_bad,      /* something bad happened to the player character, e.g. damage, decreasing in skill */
+    m_mixed,   /* something happened to the player character which is mixed (has good and bad parts),
+                  e.g. gaining a mutation with mixed effect*/
+    m_warning, /* warns the player about a danger. e.g. enemy appeared, an alarm sounds, noise heard. */
+    m_info,    /* informs the player about something, e.g. on examination, seeing an item,
+                  about how to use a certain function, etc. */
+    m_neutral,  /* neutral or indifferent events which aren’t informational or nothing really happened e.g.
+                  a miss, a non-critical failure. May also effect for good or bad effects which are
+                  just very slight to be notable. This is the default message type. */
+
+    m_debug, /* only shown when debug_mode is true */
+    /* custom SCT colors */
+    m_headshot,
+    m_critical,
+    m_grazing,
+};
+
+enum game_message_flags {
+    /* No specific game message flags */
+    gmf_none = 0,
+    /* Allow the message to bypass message cooldown. */
+    gmf_bypass_cooldown = 1,
+};
+
+/** Structure allowing a combination of `game_message_type` and `game_message_flags`.
+ */
+struct game_message_params {
+    game_message_params( const game_message_type message_type ) : type( message_type ),
+        flags( gmf_none ) {}
+    game_message_params( const game_message_type message_type,
+                         const game_message_flags message_flags ) : type( message_type ), flags( message_flags ) {}
+
+    /* Type of the message */
+    game_message_type type;
+    /* Flags pertaining to the message */
+    game_message_flags flags;
 };
 
 #endif

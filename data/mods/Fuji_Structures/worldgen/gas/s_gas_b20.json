@@ -28,7 +28,7 @@
         "booaaabaihb baaagLljjLnc",
         "bqaaaabhiab bEEmcLLjjlnc",
         "bbbboabhhhb bbbbcLLlllkc",
-        "   bopb hhb     cLLLllLc",
+        "   bMpb hhb     cLLLllLc",
         "   bbbb         cccccccc"
       ],
       "terrain": {
@@ -47,7 +47,7 @@
         "m": "t_gates_mech_control",
         "n": "t_sewage_pipe",
         "o": "t_concrete_floor",
-        "p": "t_console",
+        "p": "t_concrete_floor",
         "q": "t_concrete_floor",
         "r": "t_concrete_floor",
         "s": "t_ind_mixer",
@@ -69,11 +69,13 @@
         "I": "t_linoleum_gray",
         "J": "t_console_broken",
         "K": "t_door_glass_c",
-        "L": "t_metal_floor"
+        "L": "t_metal_floor",
+        "M": "t_concrete_floor"
       },
       "furniture": {
         "h": "f_rubble_rock",
         "o": "f_bed",
+        "p": "f_autodoc",
         "q": "f_table",
         "r": "f_chair",
         "B": "f_rack",
@@ -82,7 +84,8 @@
         "E": "f_locker",
         "G": "f_chair",
         "H": "f_table",
-        "I": "f_fridge"
+        "I": "f_fridge",
+        "M": "f_autodoc_couch"
       },
       "place_loot": [
         { "group": "bar_table", "chance": 50, "repeat": [ 2 ], "x": [ 12, 12 ], "y": [ 1, 2 ] },
@@ -121,14 +124,7 @@
         { "monster": "GROUP_BUNKER", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.8 },
         { "monster": "GROUP_SCI", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.5 }
       ],
-      "fields": { "l": { "field": "fd_nuke_gas", "density": 1, "age": 0 }, "L": { "field": "fd_nuke_gas", "density": 1, "age": 0 } },
-      "computers": {
-        "p": {
-          "name": "Mr. Stem Cell",
-          "options": [ { "name": "Stem Cell Treatment", "action": "stemcell_treatment" } ],
-          "failures": [ { "action": "alarm" } ]
-        }
-      }
+      "fields": { "l": { "field": "fd_nuke_gas", "intensity": 1, "age": 0 }, "L": { "field": "fd_nuke_gas", "intensity": 1, "age": 0 } }
     }
   }
 ]

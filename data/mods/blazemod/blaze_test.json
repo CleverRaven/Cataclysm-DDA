@@ -6,7 +6,7 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 10,
-    "skills_required": [],
+    "skills_required": [  ],
     "time": 30000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -23,7 +23,7 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 10,
-    "skills_required": [],
+    "skills_required": [  ],
     "time": 30000,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -45,16 +45,8 @@
     "reversible": false,
     "autolearn": true,
     "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ], [ "welding_standard", 6 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "swage", -1 ] ]
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [
       [ [ "vortex_stone", 1 ] ],
       [ [ "chain", 6 ] ],
@@ -74,16 +66,8 @@
     "time": 108000,
     "autolearn": true,
     "using": [ [ "forging_standard", 3 ], [ "steel_standard", 3 ], [ "welding_standard", 6 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "swage", -1 ] ]
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [
       [ [ "vortex_stone", 1 ] ],
       [ [ "chain", 6 ] ],
@@ -104,16 +88,8 @@
     "time": 144000,
     "autolearn": true,
     "using": [ [ "welding_standard", 6 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 }
-    ],
-    "components": [
-      [ [ "cargo_rack", 1 ] ],
-      [ [ "teleporter", 1 ] ],
-      [ [ "portal", 1 ] ],
-      [ [ "plut_cell", 5 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "cargo_rack", 1 ] ], [ [ "teleporter", 1 ] ], [ [ "portal", 1 ] ], [ [ "plut_cell", 5 ] ] ]
   },
   {
     "result": "diamondnova",
@@ -126,10 +102,7 @@
     "time": 120000,
     "autolearn": true,
     "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 1 },
-      { "id": "SAW_M", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "metal_tank", 1 ] ],
       [ [ "pipe", 12 ] ],
@@ -151,10 +124,7 @@
     "time": 90000,
     "autolearn": true,
     "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 1 },
-      { "id": "SAW_M", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "metal_tank", 1 ] ],
       [ [ "2x4", 12 ], [ "stick", 12 ] ],
@@ -177,10 +147,7 @@
     "time": 30000,
     "autolearn": true,
     "using": [ [ "soldering_standard", 30 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 1 },
-      { "id": "SAW_M", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "metal_tank_little", 1 ] ],
       [ [ "pipe", 2 ] ],
@@ -201,10 +168,7 @@
     "time": 30000,
     "autolearn": true,
     "using": [ [ "soldering_standard", 30 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 1 },
-      { "id": "SAW_M", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "metal_tank_little", 1 ] ],
       [ [ "pipe", 2 ] ],
@@ -225,10 +189,7 @@
     "time": 60000,
     "autolearn": true,
     "using": [ [ "soldering_standard", 50 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 1 },
-      { "id": "SAW_M", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "metal_tank_little", 1 ] ],
       [ [ "pipe", 4 ] ],
@@ -247,15 +208,8 @@
     "time": 30000,
     "autolearn": true,
     "using": [ [ "welding_standard", 1 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "components": [
-      [ [ "charcoal", 50 ] ],
-      [ [ "plasma", 10 ] ],
-      [ [ "spiral_stone", 1 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "components": [ [ [ "charcoal", 50 ] ], [ [ "plasma", 10 ] ], [ [ "spiral_stone", 1 ] ] ]
   },
   {
     "result": "vortexcannon",
@@ -268,10 +222,7 @@
     "time": 90000,
     "autolearn": true,
     "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 1 },
-      { "id": "SAW_M", "level": 1 }
-    ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
       [ [ "metal_tank", 1 ] ],
       [ [ "pipe", 10 ] ],
@@ -401,11 +352,7 @@
     "description": "A transparent, solid sheet of self-sustaining crystals.",
     "difficulty": 6,
     "durability": 5000,
-    "breaks_into": [
-      { "item": "spiral_matrix" },
-      { "item": "dshards", "count": [ 50, 100 ] },
-      { "item": "dcluster", "count": [ 2, 6 ] }
-    ],
+    "breaks_into": [ { "item": "spiral_matrix" }, { "item": "dshards", "count": [ 50, 100 ] }, { "item": "dcluster", "count": [ 2, 6 ] } ],
     "flags": [ "OBSTACLE", "WINDOW", "FULL_BOARD" ]
   },
   {
@@ -474,11 +421,7 @@
     "description": "A framework of super-strong crystal.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "difficulty": 6,
     "durability": 3000,
-    "breaks_into": [
-      { "item": "spiral_matrix" },
-      { "item": "dshards", "count": [ 75, 150 ] },
-      { "item": "dcluster", "count": [ 4, 8 ] }
-    ],
+    "breaks_into": [ { "item": "spiral_matrix" }, { "item": "dshards", "count": [ 75, 150 ] }, { "item": "dcluster", "count": [ 4, 8 ] } ],
     "flags": [ "MOUNTABLE" ]
   },
   {
@@ -575,7 +518,7 @@
     "durability": 8,
     "clip_size": 50,
     "reload": 20,
-    "valid_mod_locations": [],
+    "valid_mod_locations": [  ],
     "ammo_effects": [ "SHOT" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
@@ -636,7 +579,7 @@
     "durability": 8,
     "clip_size": 50,
     "reload": 20,
-    "valid_mod_locations": [],
+    "valid_mod_locations": [  ],
     "ammo_effects": [ "SHOT", "FRAG", "FLASHBANG" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
@@ -688,11 +631,7 @@
     "description": "Transparent crystal armor plate.  Will partially protect other components on the same frame from damage.",
     "difficulty": 5,
     "durability": 5000,
-    "breaks_into": [
-      { "item": "spiral_matrix" },
-      { "item": "dshards", "count": [ 50, 100 ] },
-      { "item": "dcluster", "count": [ 2, 6 ] }
-    ],
+    "breaks_into": [ { "item": "spiral_matrix" }, { "item": "dshards", "count": [ 50, 100 ] }, { "item": "dcluster", "count": [ 2, 6 ] } ],
     "flags": [ "ARMOR", "WINDOW" ]
   },
   {
@@ -724,7 +663,8 @@
     "difficulty": 8,
     "durability": 400,
     "size": 40000,
-    "breaks_into": [],
+    "cargo_weight_modifier": 0,
+    "breaks_into": [  ],
     "flags": [ "CARGO", "COVERED", "UNMOUNT_ON_DAMAGE" ]
   },
   {
@@ -741,7 +681,6 @@
     "symbol": "*",
     "color": "white",
     "looks_like": "spiral_stone",
-    "ammo": "NULL",
     "revert_to": "spiral_matrix",
     "use_action": {
       "target": "spiral_matrix",
@@ -861,7 +800,7 @@
     "durability": 10,
     "clip_size": 250,
     "reload": 10,
-    "valid_mod_locations": [],
+    "valid_mod_locations": [  ],
     "ammo_effects": [ "SHOT" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
@@ -923,7 +862,7 @@
     "burst": 3,
     "clip_size": 30,
     "reload": 40,
-    "valid_mod_locations": [],
+    "valid_mod_locations": [  ],
     "ammo_effects": [ "SHOT" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
@@ -983,7 +922,7 @@
     "durability": 8,
     "clip_size": 12,
     "reload": 100,
-    "valid_mod_locations": [],
+    "valid_mod_locations": [  ],
     "ammo_effects": [ "SHOT" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
@@ -1028,7 +967,7 @@
     "burst": 5,
     "clip_size": 250,
     "reload": 10,
-    "valid_mod_locations": [],
+    "valid_mod_locations": [  ],
     "ammo_effects": [ "SHOT" ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },

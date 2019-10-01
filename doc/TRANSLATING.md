@@ -78,6 +78,34 @@ Click on the "Save" button when you are satisfied with your translation.
 
 See [Transifex's documentation][3] for more information.
 
+### Grammatical gender
+
+For NPC dialogue (and potentially other strings) some languages may wish to
+have alternate translations depending on the gender of the conversation
+participants.  This two pieces of initial configuration.
+
+1. The dialogue must have the relevant genders listed in the json file defining
+   it.  See [the NPC docs](NPCs.md).
+2. Each language must specify the genders it wishes to use via the translation
+   of `grammatical gender list`.  This should be a space-separated list of
+   genders used in this language for such translations.  Don't add genders here
+   until you're sure you will need them, because it will make more work for
+   you.  If you need different genders than are currently supported you must
+   add them to the `all_genders` lists in `lang/extract_json_strings.py` and
+   `src/translations.cpp`.
+
+Having done this, the relevant dialogue lines will appear multiple times for
+translation, with different genders specified in the message context.  For
+example, a context of `npc:m` would indicate that the NPC participant in the
+conversation is male.
+
+Because of technical limitations, all supported genders will appear as
+contexts, but you only need to provide translations for the genders listed in
+`grammatical gender list` for your language.
+
+Other parts of the game have various ad hoc solutions to grammatical gender, so
+don't be surprised to see other contexts appearing for other strings.
+
 ### Tips
 
 There are issues specific to Cataclysm: DDA which translators should be aware of.
@@ -201,6 +229,51 @@ with context is as follows:
 ```JSON
 "name": { "ctxt": "foo", "str": "bar" }
 ```
+
+Do note that currently this syntax is only supported for some JSON values, which
+are listed below. If you want other json strings to support
+this format, look at `translations.h|cpp` and migrate the corresponding code to
+it. Changes to `extract_json_strings.py` might also be needed, since with the
+new syntax "name" would be a `dict`, which may break unmigrated script.
+
+| Supported JSON values
+|---
+| Effect names
+| Item action names
+| Item category names
+| Activity verbs
+| Gate action messages
+| Spell names and descriptions
+| Terrain/furniture descriptions
+| Monster melee attack messages
+| Morale effect descriptions
+| Mutation names/descriptions
+| NPC class names/descriptions
+| Tool quality names
+| Score descriptions
+| Skill names/descriptions
+| Bionic names/descriptions
+| Terrain bash sound descriptions
+| Trap-vehicle collision sound descriptions
+| Vehicle part names/descriptions
+| Skill display type names
+| NPC dialogue u_buy_monster unique names
+| Spell messages and monster spell messages
+| Martial art names and descriptions
+| Mission names and descriptions
+| Fault names and descriptions
+| Plant names in item seed data
+| Transform use action messages and menu text
+| Template NPC names and name suffixes
+| NPC talk response text
+| Relic name overrides
+| Speech text
+| Tutorial messages
+| Vitamin names
+| Recipe blueprint names
+| Recipe group recipe descriptions
+| Item descriptions
+| Recipe descriptions
 
 ### Recommendations
 

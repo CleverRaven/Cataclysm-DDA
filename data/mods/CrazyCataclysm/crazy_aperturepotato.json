@@ -9,7 +9,13 @@
     "time": 11000,
     "book_learn": [ [ "textbook_robots", 4 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "circuit", 1 ] ], [ [ "e_scrap", 3 ] ], [ [ "cable", 5 ] ], [ [ "battery", 1 ] ], [ [ "potato_raw", 1 ] ] ]
+    "components": [
+      [ [ "circuit", 1 ] ],
+      [ [ "e_scrap", 3 ] ],
+      [ [ "cable", 5 ] ],
+      [ [ "light_minus_battery_cell", 1 ] ],
+      [ [ "potato", 1 ] ]
+    ]
   },
   {
     "id": "aperture_potato",

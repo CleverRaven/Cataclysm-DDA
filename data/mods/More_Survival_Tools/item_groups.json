@@ -1,157 +1,22 @@
 [
   {
-    "id": "mischw",
-    "type": "item_group",
-    "items": [ [ "tarp", 15 ] ]
-  },
-  {
     "id": "medieval",
     "type": "item_group",
-    "items": [
-      [ "tinderbox", 4 ],
-      [ "flint_steel", 7 ],
-      [ "canteen_wood", 5 ],
-      [ "crossbow_makeshift", 1 ]
-    ]
-  },
-  {
-    "id": "camping",
-    "type": "item_group",
-    "items": [
-      [ "flint_steel", 10 ],
-      [ "tinderbox", 5 ],
-      [ "bottle_metal", 5 ],
-      [ "tarp", 10 ],
-      [ "cloak_wool", 5 ],
-      [ "chem_hexamine", 5 ],
-      [ "esbit_stove", 10 ],
-      [ "bottle_folding", 10 ],
-      [ "mess_tin", 10 ],
-      [ "canteen_wood", 5 ],
-      [ "whistle_multitool", 5 ]
-    ]
-  },
-  {
-    "id": "allsporting",
-    "type": "item_group",
-    "items": [
-      [ "flint_steel", 10 ],
-      [ "tinderbox", 5 ],
-      [ "bottle_metal", 5 ],
-      [ "tarp", 10 ],
-      [ "chem_hexamine", 5 ],
-      [ "esbit_stove", 10 ],
-      [ "bottle_folding", 5 ],
-      [ "mess_tin", 10 ],
-      [ "canteen_wood", 5 ],
-      [ "whistle_multitool", 5 ]
-    ]
-  },
-  {
-    "id": "trash",
-    "type": "item_group",
-    "items": [ [ "tinder", 1 ] ]
-  },
-  {
-    "id": "traveler",
-    "type": "item_group",
-    "items": [
-      [ "flint_steel", 1 ],
-      [ "hobo_stove", 1 ],
-      [ "tinder", 1 ],
-      [ "tinderbox", 1 ],
-      [ "bottle_metal", 1 ]
-    ]
-  },
-  {
-    "id": "shelter",
-    "type": "item_group",
-    "items": [
-      [ "flint_steel", 3 ],
-      [ "hobo_stove", 3 ],
-      [ "tinder", 3 ],
-      [ "tinderbox", 2 ],
-      [ "bottle_metal", 2 ],
-      [ "tarp", 15 ],
-      [ "chem_hexamine", 4 ],
-      [ "esbit_stove", 8 ],
-      [ "bottle_folding", 6 ],
-      [ "mess_tin", 8 ]
-    ]
+    "items": [ [ "crossbow_makeshift", 1 ] ]
   },
   {
     "id": "tools_survival",
     "type": "item_group",
-    "items": [
-      [ "flint_steel", 3 ],
-      [ "hobo_stove", 3 ],
-      [ "tinder", 3 ],
-      [ "tinderbox", 2 ],
-      [ "bottle_metal", 2 ],
-      [ "chem_hexamine", 3 ],
-      [ "esbit_stove", 6 ],
-      [ "mess_tin", 8 ],
-      [ "canteen_wood", 2 ],
-      [ "whistle_multitool", 1 ]
-    ]
-  },
-  {
-    "id": "subway",
-    "type": "item_group",
-    "items": [
-      [ "tinder", 1 ],
-      [ "hobo_stove", 1 ]
-    ]
-  },
-  {
-    "id": "trash_forest",
-    "type": "item_group",
-    "items": [
-      [ "tinder", 1 ],
-      { "item": "plant_fibre", "prob":2,  "count-min": 1, "count-max": 10 }
-    ]
+    "items": [ [ "hobo_stove", 3 ], [ "tinder", 3 ], [ "canteen_wood", 2 ] ]
   },
   {
     "id": "museum_primitive",
     "type": "item_group",
-    "items": [
-      [ "spear_stone", 50 ],
-      [ "atlatl", 50 ],
-      [ "javelin", 30 ],
-      [ "hand_axe", 50 ],
-      [ "throwing_stick", 50 ]
-    ]
+    "items": [ [ "atlatl", 50 ], [ "javelin", 30 ] ]
   },
   {
     "id": "survivorzed_extra",
     "type": "item_group",
     "items": [ [ "hat_hooded", 1 ] ]
-  },
-  {
-    "id": "mil_surplus",
-    "type": "item_group",
-    "items": [
-      [ "chem_hexamine", 5 ],
-      [ "esbit_stove", 10 ],
-      [ "mess_tin", 10 ]
-    ]
-  },
-  {
-    "id": "mil_accessories",
-    "type": "item_group",
-    "items": [
-      [ "chem_hexamine", 3 ],
-      [ "esbit_stove", 6 ],
-      [ "mess_tin", 4 ]
-    ]
-  },
-  {
-    "id": "military",
-    "type": "item_group",
-    "items": [
-      [ "chem_hexamine", 5 ],
-      [ "esbit_stove", 8 ],
-      [ "mess_tin", 4 ]
-    ]
   }
 ]

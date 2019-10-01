@@ -1,0 +1,72 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "vehicle_controls",
+    "name": "vehicle controls",
+    "name_plural": "sets of vehicle controls",
+    "description": "A set of various vehicle controls.  Useful for crafting.",
+    "weight": "6000 g",
+    "to_hit": -4,
+    "color": "light_cyan",
+    "symbol": "$",
+    "material": [ "plastic", "steel" ],
+    "volume": "3 L",
+    "bashing": 2,
+    "category": "veh_parts",
+    "price": 40000
+  },
+  {
+    "type": "GENERIC",
+    "id": "vehicle_dashboard",
+    "name": "dashboard",
+    "description": "A vehicle instrument panel with various gauges and switches.  Useful for crafting.",
+    "weight": "2721 g",
+    "to_hit": -2,
+    "color": "cyan",
+    "symbol": "$",
+    "material": [ "plastic", "steel" ],
+    "volume": "10 L",
+    "bashing": 1,
+    "category": "veh_parts",
+    "price": 8000
+  },
+  {
+    "type": "GENERIC",
+    "id": "electronics_controls",
+    "copy-from": "vehicle_dashboard",
+    "name": "electronics control unit",
+    "description": "A vehicle instrument panel with various gauges and switches.  Useful for crafting.",
+    "weight": "1311 g",
+    "to_hit": -4,
+    "material": [ "plastic" ],
+    "volume": "1500 ml",
+    "price": 4000
+  },
+  {
+    "type": "GENERIC",
+    "id": "drive_by_wire_controls",
+    "name": "drive by wire controls",
+    "name_plural": "sets of drive by wire controls",
+    "description": "Fully electronic vehicle control system.  You could control it remotely if you had proper tools.",
+    "weight": "3000 g",
+    "color": "red",
+    "volume": "3750 ml",
+    "bashing": 1,
+    "price": 200000,
+    "copy-from": "vehicle_controls"
+  },
+  {
+    "type": "GENERIC",
+    "id": "robot_controls",
+    "name": "robot driving unit",
+    "name_plural": "robot driving units",
+    "description": "A set of servos, microcontrollers and other devices, together capable of driving an unmanned vehicle.  Its AI is not functional, but it should still have some sort of maintenance mode.",
+    "weight": "2000 g",
+    "color": "white",
+    "symbol": "&",
+    "volume": "5 L",
+    "bashing": 1,
+    "price": 20000,
+    "copy-from": "vehicle_controls"
+  }
+]

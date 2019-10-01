@@ -26,15 +26,15 @@
     "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
-    "id": "fusion_gun",
+    "id": "mounted_plasma_gun",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "mounted fusion gun",
-    "item": "ftk93",
+    "name": "mounted plasma gun",
+    "item": "plasma_gun",
     "color": "magenta",
     "broken_color": "magenta",
     "difficulty": 6,
-    "breaks_into": [ { "item": "ftk93", "prob": 50 } ],
+    "breaks_into": [ { "item": "plasma_gun", "prob": 50 } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 6 ], [ "electronics", 6 ] ], "time": 10000 },
       "removal": { "skills": [ [ "mechanics", 4 ] ] }
@@ -50,6 +50,21 @@
     "broken_color": "magenta",
     "difficulty": 5,
     "breaks_into": [ { "item": "laser_rifle", "prob": 50 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ], "time": 10000 },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "id": "laser_cannon",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": "mounted Cerberus laser cannon",
+    "item": "laser_cannon",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "difficulty": 5,
+    "breaks_into": [ { "item": "laser_cannon", "prob": 50 } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ], "time": 10000 },
       "removal": { "skills": [ [ "mechanics", 3 ] ] }
@@ -172,6 +187,22 @@
     "breaks_into": [ { "item": "mark19", "prob": 50 } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 1 ] ], "time": 10000 },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "id": "tow_launcher",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": "mounted BGM-71F TOW",
+    "item": "atgm_launcher",
+    "color": "green",
+    "broken_color": "green",
+    "durability": 800,
+    "difficulty": 8,
+    "breaks_into": [ { "item": "atgm_launcher", "prob": 50 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ], "time": 10000 },
       "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
   },

@@ -48,47 +48,17 @@
   {
     "type": "overmap_location",
     "id": "subterranean",
-    "terrains": [ "cavern", "empty_rock", "hellmouth", "rift", "rock", "slimepit", "sewer" ]
+    "terrains": [ "cavern", "empty_rock", "rock", "slimepit", "sewer" ]
   },
   {
     "type": "overmap_location",
     "id": "subterranean_subway",
-    "terrains": [ "cavern", "empty_rock", "hellmouth", "rift", "rock", "slimepit", "subway" ]
+    "terrains": [ "cavern", "empty_rock", "rock", "slimepit", "subway" ]
   },
   {
     "type": "overmap_location",
     "id": "road",
     "terrains": [ "hiway_ns", "hiway_ew", "ranch_camp_77", "necropolis_a_11", "road", "road_nesw_manhole" ]
-  },
-  {
-    "type": "overmap_location",
-    "id": "need_none",
-    "terrains": [ "house", "s_gas", "s_pharm", "s_hardware", "s_sports", "s_liquor", "s_gun", "s_library" ]
-  },
-  {
-    "type": "overmap_location",
-    "id": "need_ammo",
-    "terrains": [ "house", "s_gun" ]
-  },
-  {
-    "type": "overmap_location",
-    "id": "need_gun",
-    "terrains": [ "s_gun" ]
-  },
-  {
-    "type": "overmap_location",
-    "id": "need_weapon",
-    "terrains": [ "s_gun", "s_sports", "s_hardware" ]
-  },
-  {
-    "type": "overmap_location",
-    "id": "need_drink",
-    "terrains": [ "s_gas", "s_pharm", "s_liquor", "s_grocery" ]
-  },
-  {
-    "type": "overmap_location",
-    "id": "need_food",
-    "terrains": [ "s_grocery" ]
   },
   {
     "type": "overmap_location",
@@ -114,5 +84,15 @@
     "type": "overmap_location",
     "id": "railroad_level_crossing_allowed",
     "terrains": [ "hiway_ns", "hiway_ew", "road" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "lake_surface",
+    "terrains": [ "lake_surface" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "lake_shore",
+    "terrains": [ "lake_shore" ]
   }
 ]

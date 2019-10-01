@@ -5,8 +5,12 @@
     "//": "Pistol ammo commonly owned by citizens and found in many locations.",
     "items": [
       [ "32_acp", 20 ],
+      [ "380_FMJ", 25 ],
+      [ "380_JHP", 20 ],
       [ "38_fmj", 25 ],
       [ "38_special", 25 ],
+      [ "357mag_fmj", 15 ],
+      [ "357mag_jhp", 15 ],
       [ "357sig_jhp", 25 ],
       [ "357sig_fmj", 25 ],
       [ "40sw", 40 ],
@@ -22,26 +26,25 @@
     "id": "ammo_pistol_rare",
     "//": "Less common pistol ammo including that only used by police/paramilitary forces.",
     "items": [
-       [ "10mm", 15 ],
-       [ "38_super", 20 ],
-       [ "44fmj", 15 ],
-       [ "44magnum", 35 ],
-       [ "45_super", 30 ],
-       [ "57mm", 50 ],
-       [ "9mmP", 30 ],
-       [ "9mmP2", 20 ]
+      [ "10mm_fmj", 15 ],
+      [ "38_super", 20 ],
+      [ "38super_fmj", 20 ],
+      [ "44fmj", 15 ],
+      [ "44magnum", 35 ],
+      [ "45_super", 30 ],
+      [ "460_rowland", 15 ],
+      [ "460_fmj", 10 ],
+      [ "57mm", 50 ],
+      [ "380_p", 10 ],
+      [ "9mmP", 30 ],
+      [ "9mmP2", 20 ]
     ]
   },
   {
     "type": "item_group",
     "id": "ammo_pistol_milspec",
     "//": "Military specification pistol ammo found at military sites.",
-    "items": [
-       [ "46mm", 70 ],
-       [ "5x50dart", 30 ],
-       [ "5x50heavy", 20 ],
-       [ "9mmfmj", 100 ]
-    ]
+    "items": [ [ "46mm", 70 ], [ "5x50dart", 30 ], [ "5x50heavy", 20 ], [ "9mmfmj", 100 ] ]
   },
   {
     "type": "item_group",
@@ -49,6 +52,7 @@
     "//": "Imported or otherwise very obscure pistol ammo.",
     "items": [
       [ "454_Casull", 100 ],
+      [ "45colt_jhp", 50 ],
       [ "500_Magnum", 100 ],
       [ "762_25", 50 ],
       [ "762_25hot", 50 ],
@@ -63,73 +67,71 @@
     "id": "ammo_pistol_reloaded",
     "//": "Reloaded pistol ammo balanced according to rarity.",
     "items": [
-       [ "reloaded_10mm", 10 ],
-       [ "reloaded_32_acp", 50 ],
-       [ "reloaded_38_fmj", 30 ],
-       [ "reloaded_38_special", 80 ],
-       [ "reloaded_38_super", 40 ],
-       [ "reloaded_357sig_fmj", 70 ],
-       [ "reloaded_357sig_jhp", 70 ],
-       [ "reloaded_40fmj", 20 ],
-       [ "reloaded_40sw", 50 ],
-       [ "reloaded_44magnum", 60],
-       [ "reloaded_44fmj", 30 ],
-       [ "reloaded_45_acp", 80 ],
-       [ "reloaded_45_jhp", 100 ],
-       [ "reloaded_45_super", 40 ],
-       [ "reloaded_46mm", 20 ],
-       [ "reloaded_454_Casull", 5 ],
-       [ "reloaded_500_Magnum", 5 ],
-       [ "reloaded_57mm", 50 ],
-       [ "reloaded_9mm", 160 ],
-       [ "reloaded_9mmfmj", 80 ],
-       [ "reloaded_9mmP", 80 ],
-       [ "reloaded_9mmP2", 40 ],
-       [ "reloaded_9x18mm", 20 ],
-       [ "reloaded_9x18mmfmj", 10 ],
-       [ "reloaded_9x18mmP2", 5 ],
-       [ "reloaded_762_25", 10 ]
+      [ "reloaded_10mm_fmj", 10 ],
+      [ "reloaded_32_acp", 50 ],
+      [ "reloaded_38_fmj", 30 ],
+      [ "reloaded_38_special", 80 ],
+      [ "reloaded_38super_fmj", 40 ],
+      [ "reloaded_357mag_fmj", 30 ],
+      [ "reloaded_357mag_jhp", 30 ],
+      [ "reloaded_380_JHP", 10 ],
+      [ "reloaded_380_FMJ", 15 ],
+      [ "reloaded_380_p", 5 ],
+      [ "reloaded_357sig_fmj", 70 ],
+      [ "reloaded_357sig_jhp", 70 ],
+      [ "reloaded_40fmj", 20 ],
+      [ "reloaded_40sw", 50 ],
+      [ "reloaded_44magnum", 60 ],
+      [ "reloaded_44fmj", 30 ],
+      [ "reloaded_45_acp", 80 ],
+      [ "reloaded_45_jhp", 100 ],
+      [ "reloaded_45_super", 40 ],
+      [ "reloaded_46mm", 20 ],
+      [ "reloaded_454_Casull", 5 ],
+      [ "reloaded_45colt_jhp", 10 ],
+      [ "reloaded_460_fmj", 5 ],
+      [ "reloaded_460_rowland", 5 ],
+      [ "reloaded_500_Magnum", 5 ],
+      [ "reloaded_57mm", 50 ],
+      [ "reloaded_9mm", 160 ],
+      [ "reloaded_9mmfmj", 80 ],
+      [ "reloaded_9mmP", 80 ],
+      [ "reloaded_9mmP2", 40 ],
+      [ "reloaded_9x18mm", 20 ],
+      [ "reloaded_9x18mmfmj", 10 ],
+      [ "reloaded_9x18mmP2", 5 ],
+      [ "reloaded_762_25", 10 ]
     ]
   },
   {
     "type": "item_group",
     "id": "ammo_smg_common",
     "//": "SMG ammo commonly owned by citizens and found in many locations.",
-    "items": [
-      { "group": "ammo_pistol_common", "prob": 100 }
-    ]
+    "items": [ { "group": "ammo_pistol_common", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_smg_rare",
     "//": "Less common SMGs including that only used by police/paramilitary forces.",
-    "items": [
-      { "group": "ammo_pistol_rare", "prob": 100 }
-    ]
+    "items": [ { "group": "ammo_pistol_rare", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_smg_milspec",
     "//": "Military specification SMG ammo found at military sites.",
-    "items": [
-      { "group": "ammo_pistol_milspec", "prob": 100 }
-    ]
+    "items": [ { "group": "ammo_pistol_milspec", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_smg_obscure",
     "//": "Imported or otherwise very obscure SMG ammo.",
-    "items": [
-      { "group": "ammo_pistol_obscure", "prob": 100 }
-    ]
+    "items": [ { "group": "ammo_pistol_obscure", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_smg_reloaded",
     "//": "Reloaded SMG ammo balanced according to rarity.",
-    "items": [
-      { "group": "ammo_pistol_reloaded", "prob": 100 }
-    ]
+    "items": [ { "group": "ammo_pistol_reloaded", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -141,7 +143,7 @@
       [ "22_fmj", 50 ],
       [ "22_lr", 100 ],
       [ "22_ratshot", 30 ],
-      [ "270", 25 ],
+      [ "270win_jsp", 25 ],
       [ "3006", 25 ],
       [ "308", 25 ],
       [ "762_54R", 10 ],
@@ -157,8 +159,13 @@
       [ "3006fmj", 50 ],
       [ "556", 100 ],
       [ "762_51", 50 ],
+      [ "4570_sp", 40 ],
+      [ "4570_pen", 20 ],
+      [ "4570_low", 40 ],
       [ "762_m87", 25 ],
-      [ "8mm_civilian", 15 ]
+      [ "8mm_civilian", 15 ],
+      [ "300blk", 15 ],
+      [ "300blk_ss", 10 ]
     ]
   },
   {
@@ -180,18 +187,16 @@
       [ "8mm_fmj", 30 ],
       [ "8mm_hvp", 10 ],
       [ "8mm_inc", 20 ],
-      [ "8mm_jhp", 10 ]
+      [ "8mm_jhp", 10 ],
+      [ "300blk", 15 ],
+      [ "300blk_ss", 10 ]
     ]
   },
   {
     "type": "item_group",
     "id": "ammo_rifle_obscure",
     "//": "Imported or otherwise very obscure rifle ammo.",
-    "items": [
-      [ "545", 150 ],
-      [ "545_ap", 100 ],
-      [ "700nx", 70 ]
-    ]
+    "items": [ [ "545", 150 ], [ "545_ap", 100 ], [ "700nx", 70 ] ]
   },
   {
     "type": "item_group",
@@ -201,7 +206,7 @@
       [ "reloaded_223", 60 ],
       [ "reloaded_22_fmj", 20 ],
       [ "reloaded_22_lr", 70 ],
-      [ "reloaded_270", 15 ],
+      [ "reloaded_270win_jsp", 15 ],
       [ "reloaded_300_winmag", 15 ],
       [ "reloaded_3006", 70 ],
       [ "reloaded_3006fmj", 10 ],
@@ -209,20 +214,22 @@
       [ "reloaded_308", 40 ],
       [ "reloaded_556", 10 ],
       [ "reloaded_556_incendiary", 5 ],
+      [ "reloaded_4570_sp", 15 ],
+      [ "reloaded_4570_pen", 5 ],
+      [ "reloaded_4570_low", 15 ],
+      [ "reloaded_4570_bp", 10 ],
       [ "reloaded_762_51", 10 ],
       [ "reloaded_762_51_incendiary", 5 ],
       [ "reloaded_762_54R", 40 ],
-      [ "reloaded_762_m43", 20 ]
+      [ "reloaded_762_m43", 20 ],
+      [ "reloaded_300blk", 10 ]
     ]
   },
   {
     "type": "item_group",
     "id": "ammo_shotgun_common",
     "//": "Shotgun ammo commonly owned by citizens and found in many locations.",
-    "items": [
-      [ "shot_00", 100 ],
-      [ "shot_bird", 70 ]
-    ]
+    "items": [ [ "shot_00", 100 ], [ "shot_bird", 70 ], [ "shot_slug", 70 ], [ "410shot_000", 50 ] ]
   },
   {
     "type": "item_group",
@@ -233,7 +240,7 @@
       [ "20x66_flare", 10 ],
       [ "20x66_shot", 40 ],
       [ "20x66_slug", 20 ],
-      [ "shot_slug", 100 ],
+      [ "shot_dragon", 10 ],
       [ "shot_beanbag", 20 ]
     ]
   },
@@ -241,20 +248,13 @@
     "type": "item_group",
     "id": "ammo_shotgun_milspec",
     "//": "Military specification shotgun ammo found at military sites.",
-    "items": [
-      [ "20x66_exp", 10 ],
-      [ "20x66_flechette", 60 ],
-      [ "20x66_inc", 20 ],
-      [ "shot_flechette", 100 ],
-      [ "shot_he", 10 ]
-    ]
+    "items": [ [ "20x66_exp", 10 ], [ "20x66_flechette", 60 ], [ "20x66_inc", 20 ], [ "shot_flechette", 100 ], [ "shot_he", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "ammo_shotgun_obscure",
     "//": "Imported or otherwise very obscure shotgun ammo.",
-    "items": [
-    ]
+    "items": [  ]
   },
   {
     "type": "item_group",
@@ -263,6 +263,7 @@
     "items": [
       [ "reloaded_shot_00", 200 ],
       [ "reloaded_shot_bird", 30 ],
+      [ "reloaded_shot_dragon", 20 ],
       [ "reloaded_shot_flechette", 5 ],
       [ "reloaded_shot_slug", 30 ],
       [ "shot_scrap", 80 ]
@@ -342,7 +343,12 @@
     "id": "ammo_parts",
     "//": "Raw materials for assembling ammo excluding casings.",
     "items": [
-      [ "gunpowder", 320 ],
+      [ "gunpowder_shotgun", 20 ],
+      [ "gunpowder_pistol", 105 ],
+      [ "gunpowder_magnum_pistol", 60 ],
+      [ "gunpowder_rifle", 85 ],
+      [ "gunpowder_large_rifle", 40 ],
+      [ "gunpowder_artillery", 5 ],
       [ "incendiary", 20 ],
       [ "lead", 160 ],
       [ "shotgun_primer", 80 ],
@@ -386,28 +392,130 @@
     "id": "ammo_casings",
     "type": "item_group",
     "items": [
-      { "item": "223_casing", "prob": 100, "count": 20 },
-      { "item": "300_casing", "prob": 80, "count": 20 },
-      { "item": "3006_casing", "prob": 80, "count": 20 },
-      { "item": "308_casing", "prob": 80, "count": 20 },
-      { "item": "32_casing", "prob": 80, "count": 20 },
-      { "item": "38_casing", "prob": 80, "count": 20 },
-      { "item": "40_casing", "prob": 80, "count": 20 },
-      { "item": "44_casing", "prob": 80, "count": 20 },
-      { "item": "45_casing", "prob": 80, "count": 20 },
-      { "item": "454_casing", "prob": 60, "count": 5 },
-      { "item": "46mm_casing", "prob": 60, "count": 20 },
-      { "item": "50_casing", "prob": 60, "count": 5 },
-      { "item": "500_casing", "prob": 60, "count": 5 },
-      { "item": "57mm_casing", "prob": 60, "count": 20 },
-      { "item": "5x50_hull", "prob": 60, "count": 20 },
-      { "item": "700nx_casing", "prob": 40, "count": 5 },
-      { "item": "762_casing", "prob": 80, "count": 20 },
-      { "item": "762_25_casing", "prob": 60, "count": 20 },
-      { "item": "762_51_casing", "prob": 80, "count": 20 },
-      { "item": "9mm_casing", "prob": 100, "count": 20 },
-      { "item": "9x18mm_casing", "prob": 80, "count": 20 },
-      { "item": "shot_hull", "prob": 100, "count": 20 }
+      [ "10mm_casing", 60 ],
+      [ "22_casing", 80 ],
+      [ "223_casing", 100 ],
+      [ "270win_casing", 60 ],
+      [ "300_casing", 80 ],
+      [ "3006_casing", 80 ],
+      [ "308_casing", 80 ],
+      [ "32_casing", 80 ],
+      [ "357mag_casing", 80 ],
+      [ "357sig_casing", 60 ],
+      [ "38_casing", 80 ],
+      [ "38super_casing", 80 ],
+      [ "380_casing", 80 ],
+      [ "40_casing", 80 ],
+      [ "410shot_hull", 60 ],
+      [ "44_casing", 80 ],
+      [ "45_casing", 80 ],
+      [ "454_casing", 60 ],
+      [ "4570_casing", 60 ],
+      [ "46mm_casing", 60 ],
+      [ "460_casing", 60 ],
+      [ "50_casing", 60 ],
+      [ "500_casing", 60 ],
+      [ "545_casing", 60 ],
+      [ "57mm_casing", 60 ],
+      [ "5x50_hull", 60 ],
+      [ "700nx_casing", 40 ],
+      [ "762_casing", 80 ],
+      [ "762_25_casing", 60 ],
+      [ "762_51_casing", 80 ],
+      [ "762R_casing", 60 ],
+      [ "9mm_casing", 100 ],
+      [ "9x18mm_casing", 80 ],
+      [ "shot_hull", 100 ],
+      [ "300blk_casing", 80 ]
     ]
+  },
+  {
+    "id": "ammo_casings_bulk",
+    "type": "item_group",
+    "items": [ { "group": "ammo_casings", "charges-min": 10, "charges-max": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_light_batteries",
+    "items": [
+      { "item": "light_battery_cell", "prob": 25, "charges-min": 0, "charges-max": 100 },
+      { "item": "light_minus_battery_cell", "prob": 12, "charges-min": 0, "charges-max": 50 },
+      { "item": "light_plus_battery_cell", "prob": 9, "charges-min": 0, "charges-max": 150 },
+      { "item": "light_disposable_cell", "prob": 50, "charges-min": 0, "charges-max": 300 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_light_batteries_full",
+    "items": [
+      { "item": "light_battery_cell", "prob": 25, "charges-min": 100, "charges-max": 100 },
+      { "item": "light_minus_battery_cell", "prob": 12, "charges-min": 50, "charges-max": 50 },
+      { "item": "light_plus_battery_cell", "prob": 9, "charges-min": 150, "charges-max": 150 },
+      { "item": "light_disposable_cell", "prob": 50, "charges-min": 300, "charges-max": 300 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_medium_batteries",
+    "items": [
+      { "item": "medium_battery_cell", "prob": 40, "charges-min": 0, "charges-max": 500 },
+      { "item": "medium_plus_battery_cell", "prob": 10, "charges-min": 0, "charges-max": 600 },
+      { "item": "medium_disposable_cell", "prob": 80, "charges-min": 0, "charges-max": 1200 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_medium_batteries_full",
+    "items": [
+      { "item": "medium_battery_cell", "prob": 40, "charges-min": 500, "charges-max": 500 },
+      { "item": "medium_plus_battery_cell", "prob": 10, "charges-min": 600, "charges-max": 600 },
+      { "item": "medium_disposable_cell", "prob": 80, "charges-min": 1200, "charges-max": 1200 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_heavy_batteries",
+    "items": [
+      { "item": "heavy_battery_cell", "prob": 40, "charges-min": 0, "charges-max": 1000 },
+      { "item": "heavy_plus_battery_cell", "prob": 10, "charges-min": 0, "charges-max": 1250 },
+      { "item": "heavy_disposable_cell", "prob": 80, "charges-min": 0, "charges-max": 2500 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_heavy_batteries_full",
+    "items": [
+      { "item": "heavy_battery_cell", "prob": 40, "charges-min": 1000, "charges-max": 1000 },
+      { "item": "heavy_plus_battery_cell", "prob": 10, "charges-min": 1250, "charges-max": 1250 },
+      { "item": "heavy_disposable_cell", "prob": 80, "charges-min": 2500, "charges-max": 2500 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_any_batteries_full",
+    "items": [
+      { "group": "ammo_light_batteries_full", "prob": 5 },
+      { "group": "ammo_medium_batteries_full", "prob": 5 },
+      { "group": "ammo_heavy_batteries_full", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_any_batteries",
+    "items": [
+      { "group": "ammo_light_batteries", "prob": 5 },
+      { "group": "ammo_medium_batteries", "prob": 5 },
+      { "group": "ammo_heavy_batteries", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_pocket_batteries",
+    "items": [ { "group": "ammo_light_batteries", "prob": 10 }, { "group": "ammo_medium_batteries", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_pocket_batteries_full",
+    "items": [ { "group": "ammo_light_batteries_full", "prob": 5 }, { "group": "ammo_medium_batteries_full", "prob": 5 } ]
   }
 ]

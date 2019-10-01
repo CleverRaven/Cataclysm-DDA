@@ -1,0 +1,1062 @@
+[
+  {
+    "id": "baked_goods",
+    "type": "item_group",
+    "items": [ [ "cookies", 17 ], [ "cake2", 15 ], [ "cake3", 10 ], [ "biscuit", 10 ], [ "jihelucake", 10 ], [ "brownie", 20 ] ]
+  },
+  {
+    "id": "tea_dishes",
+    "type": "item_group",
+    "items": [ [ "ceramic_cup", 70 ], [ "ceramic_plate", 50 ], [ "spoon", 20 ] ]
+  },
+  {
+    "id": "chair_hat",
+    "type": "item_group",
+    "items": [ [ "hat_newsboy", 10 ], [ "bowhat", 40 ], [ "porkpie", 20 ] ]
+  },
+  {
+    "id": "chair_torso",
+    "type": "item_group",
+    "items": [ [ "suit", 70 ], [ "waistcoat", 70 ], [ "dress_shirt", 70 ] ]
+  },
+  {
+    "id": "chair_pants",
+    "type": "item_group",
+    "items": [ [ "pants", 70 ] ]
+  },
+  {
+    "id": "chair_feet",
+    "type": "item_group",
+    "items": [ [ "dress_shoes", 70 ] ]
+  },
+  {
+    "id": "chair_extra",
+    "type": "item_group",
+    "items": [ [ "cane", 70 ], [ "pocketwatch", 70 ], [ "umbrella", 70 ], [ "manual_fencing", 10 ] ]
+  },
+  {
+    "id": "corner_reader",
+    "type": "item_group",
+    "items": [
+      [ "mag_cutting", 70 ],
+      [ "mag_stabbing", 70 ],
+      [ "mag_unarmed", 70 ],
+      [ "manual_dodge", 70 ],
+      [ "novel_spy", 70 ],
+      [ "novel_thriller", 70 ],
+      [ "novel_crime", 70 ],
+      [ "novel_adventure", 70 ],
+      [ "novel_war", 70 ],
+      [ "poetry_book", 30 ],
+      [ "cookbook_human", 10 ]
+    ]
+  },
+  {
+    "id": "corner_weapon",
+    "type": "item_group",
+    "items": [ [ "tazer", 70 ], [ "knuckle_brass", 70 ] ]
+  },
+  {
+    "id": "displays",
+    "type": "item_group",
+    "items": [ [ "tea", 70 ], [ "tea_raw", 70 ], [ "ceramic_cup", 70 ], [ "teapot", 70 ], [ "clay_teapot", 70 ] ]
+  },
+  {
+    "id": "teashop_fridge",
+    "type": "item_group",
+    "items": [ [ "milk", 70 ] ]
+  },
+  {
+    "id": "teashop_kitchen_counter",
+    "type": "item_group",
+    "items": [ [ "sugar", 30 ], [ "tea_raw", 40 ], [ "teapot", 20 ], [ "spoon", 20 ] ]
+  },
+  {
+    "id": "bar_alcohol",
+    "type": "item_group",
+    "items": [
+      [ "beer", 70 ],
+      [ "european_pilsner", 60 ],
+      [ "pale_ale", 60 ],
+      [ "india_pale_ale", 57 ],
+      [ "wine_barley", 55 ],
+      [ "stout", 56 ],
+      [ "belgian_ale", 50 ],
+      [ "imperial_stout", 45 ],
+      [ "whiskey", 20 ],
+      [ "vodka", 12 ],
+      [ "gin", 15 ],
+      [ "rum", 12 ],
+      [ "tequila", 17 ],
+      [ "triple_sec", 10 ],
+      [ "fruit_wine", 5 ],
+      [ "wine_riesling", 7 ],
+      [ "wine_chardonnay", 4 ],
+      [ "wine_vermouth", 5 ],
+      [ "wine_cabernet", 1 ],
+      [ "wine_noir", 1 ],
+      [ "brandy", 5 ],
+      [ "drink_rumcola", 50 ],
+      [ "drink_screwdriver", 45 ],
+      [ "drink_wild_apple", 20 ],
+      [ "long_island", 27 ],
+      [ "drink_martini", 60 ]
+    ]
+  },
+  {
+    "id": "bar_food",
+    "type": "item_group",
+    "items": [
+      [ "mayonnaise", 3 ],
+      [ "mustard", 3 ],
+      [ "ketchup", 3 ],
+      { "item": "pickle", "prob": 5, "charges": 6, "container-item": "jar_glass_sealed" },
+      [ "pickle", 5 ],
+      [ "cheeseburger", 10 ],
+      [ "hamburger", 7 ],
+      [ "bobburger", 1 ],
+      [ "sloppyjoe", 6 ],
+      [ "fries", 10 ],
+      [ "cheese_fries", 7 ],
+      [ "onion_rings", 8 ]
+    ]
+  },
+  {
+    "id": "bar_fridge",
+    "type": "item_group",
+    "items": [
+      [ "water_clean", 50 ],
+      [ "water_mineral", 20 ],
+      [ "oj", 40 ],
+      [ "juice", 35 ],
+      [ "cranberry_juice", 35 ],
+      [ "cola", 50 ],
+      [ "lemonlime", 45 ],
+      [ "V8", 15 ],
+      [ "fries", 7 ],
+      [ "cheese_fries", 5 ],
+      [ "onion_rings", 7 ],
+      [ "pizza_veggy", 7 ],
+      [ "pizza_meat", 7 ]
+    ]
+  },
+  {
+    "id": "bar_table",
+    "type": "item_group",
+    "items": [
+      [ "cig", 50 ],
+      [ "matches", 45 ],
+      [ "rolling_paper", 10 ],
+      [ "bottle_glass", 70 ],
+      [ "bucket", 5 ],
+      [ "can_drink_unsealed", 65 ],
+      [ "wrapper", 50 ],
+      [ "ceramic_plate", 40 ],
+      [ "news_regional", 20 ],
+      [ "mag_news", 20 ]
+    ]
+  },
+  {
+    "id": "bar_bathroom",
+    "type": "item_group",
+    "items": [
+      [ "weed", 40 ],
+      [ "coke", 40 ],
+      [ "aspirin", 40 ],
+      [ "cig", 20 ],
+      [ "syringe", 30 ],
+      [ "meth", 20 ],
+      [ "heroin", 7 ],
+      [ "mag_porn", 35 ],
+      [ "hairpin", 5 ],
+      [ "purse", 15 ]
+    ]
+  },
+  {
+    "id": "bar_trash",
+    "type": "item_group",
+    "items": [
+      [ "wrapper", 50 ],
+      [ "bottle_glass", 70 ],
+      [ "can_drink_unsealed", 60 ],
+      [ "flyer", 30 ],
+      [ "box_small", 30 ],
+      [ "rag", 20 ],
+      [ "bag_plastic", 20 ],
+      [ "news_regional", 15 ],
+      [ "mag_news", 15 ],
+      [ "hairpin", 15 ],
+      [ "jar_glass", 10 ]
+    ]
+  },
+  {
+    "id": "pizza_display",
+    "type": "item_group",
+    "items": [ [ "pizza_human", 2 ], [ "pizza_meat", 48 ], [ "pizza_veggy", 50 ] ]
+  },
+  {
+    "id": "pizza_kitchen",
+    "type": "item_group",
+    "items": [
+      [ "seasoning_italian", 23 ],
+      [ "seasoning_salt", 13 ],
+      [ "pepper", 5 ],
+      [ "yeast", 10 ],
+      [ "sugar", 9 ],
+      [ "cornmeal", 8 ],
+      [ "flour", 25 ],
+      [ "cookbook", 3 ],
+      [ "cookbook_italian", 2 ]
+    ]
+  },
+  {
+    "id": "pizza_fridge",
+    "type": "item_group",
+    "items": [
+      [ "sauce_red", 29 ],
+      [ "royal_beef", 3 ],
+      [ "can_sardine", 18 ],
+      [ "onion", 14 ],
+      [ "chili_pepper", 14 ],
+      [ "can_chicken", 13 ],
+      [ "bacon", 15 ],
+      [ "cheese", 38 ],
+      [ "sauce_pesto", 12 ],
+      [ "zucchini", 13 ],
+      [ "tomato", 10 ],
+      [ "mushroom", 27 ],
+      [ "sausage", 25 ],
+      [ "pineapple", 20 ]
+    ]
+  },
+  {
+    "id": "pizza_beer",
+    "type": "item_group",
+    "items": [
+      [ "imperial_stout", 15 ],
+      [ "belgian_ale", 10 ],
+      [ "stout", 20 ],
+      [ "india_pale_ale", 20 ],
+      [ "pale_ale", 15 ],
+      [ "european_pilsner", 17 ],
+      [ "wine_barley", 17 ],
+      [ "mead", 5 ],
+      [ "beer", 18 ]
+    ]
+  },
+  {
+    "id": "pizza_soda",
+    "type": "item_group",
+    "items": [
+      [ "purple_drink", 3 ],
+      [ "crispycran", 7 ],
+      [ "rootbeer", 15 ],
+      [ "colamdew", 9 ],
+      [ "orangesoda", 10 ],
+      [ "lemonlime", 9 ],
+      [ "creamsoda", 9 ],
+      [ "cola", 9 ],
+      [ "energy_drink", 5 ],
+      [ "lemonade", 8 ]
+    ]
+  },
+  {
+    "id": "pizza_table",
+    "type": "item_group",
+    "items": [
+      [ "cig", 15 ],
+      [ "rolling_paper", 7 ],
+      [ "wrapper", 35 ],
+      [ "ceramic_plate", 40 ],
+      [ "cup_plastic", 40 ],
+      [ "portable_game", 10 ],
+      [ "chips", 15 ],
+      [ "chips2", 3 ],
+      [ "chips3", 3 ],
+      [ "news_regional", 12 ],
+      [ "flyer", 7 ]
+    ]
+  },
+  {
+    "id": "pizza_locker",
+    "type": "item_group",
+    "items": [
+      [ "towel", 15 ],
+      [ "soap", 15 ],
+      [ "detergent", 15 ],
+      [ "bleach", 15 ],
+      [ "broom", 13 ],
+      [ "dinosuit", 7 ],
+      [ "hat_ball", 19 ],
+      [ "jacket_light", 15 ],
+      [ "mbag", 10 ],
+      [ "rag", 6 ]
+    ]
+  },
+  {
+    "id": "pizza_bathroom",
+    "type": "item_group",
+    "items": [
+      [ "weed", 40 ],
+      [ "coke", 20 ],
+      [ "meth", 1 ],
+      [ "aspirin", 15 ],
+      [ "mag_porn", 30 ],
+      [ "purse", 10 ],
+      [ "hairpin", 3 ]
+    ]
+  },
+  {
+    "id": "pizza_trash",
+    "type": "item_group",
+    "ammo": 100,
+    "items": [
+      [ "cup_plastic", 40 ],
+      [ "wrapper", 34 ],
+      [ "bag_plastic", 20 ],
+      [ "bottle_glass", 30 ],
+      [ "can_drink_unsealed", 30 ],
+      [ "rag", 10 ],
+      [ "news_regional", 7 ],
+      [ "mag_news", 7 ],
+      [ "hairpin", 10 ],
+      [ "flyer", 7 ],
+      [ "glock_19", 5 ],
+      [ "9mm", 3 ]
+    ]
+  },
+  {
+    "id": "coffee_display_2",
+    "type": "item_group",
+    "items": [
+      [ "bottle_glass", 5 ],
+      [ "ceramic_cup", 15 ],
+      [ "ceramic_plate", 15 ],
+      [ "chips", 25 ],
+      [ "chips2", 25 ],
+      [ "chips3", 25 ],
+      [ "choco_coffee_beans", 50 ],
+      [ "coffee_raw", 50 ],
+      [ "coffee_syrup", 15 ],
+      [ "cookies", 35 ],
+      [ "tea_raw", 50 ]
+    ]
+  },
+  {
+    "id": "coffee_condiments",
+    "type": "item_group",
+    "items": [
+      [ "bag_plastic", 25 ],
+      [ "box_small", 30 ],
+      [ "honey_bottled", 10 ],
+      [ "honey_glassed", 10 ],
+      [ "milk", 10 ],
+      [ "milk_powder", 65 ],
+      [ "salt", 15 ],
+      [ "sugar", 70 ],
+      [ "tea_raw", 15 ],
+      [ "wrapper", 75 ]
+    ]
+  },
+  {
+    "id": "coffee_counter",
+    "type": "item_group",
+    "items": [
+      [ "atomic_coffee", 3 ],
+      [ "bottle_glass", 5 ],
+      [ "ceramic_cup", 30 ],
+      [ "choco_coffee_beans", 40 ],
+      [ "coffee", 55 ],
+      [ "cookies", 5 ],
+      [ "cup_plastic", 70 ],
+      [ "tea", 15 ]
+    ]
+  },
+  {
+    "id": "coffee_newsstand",
+    "type": "item_group",
+    "items": [ [ "mag_news", 35 ], [ "news_regional", 35 ], [ "newest_newspaper", 55 ] ]
+  },
+  {
+    "id": "coffee_prep",
+    "type": "item_group",
+    "items": [
+      [ "atomic_coffeepot", 1 ],
+      [ "bottle_glass", 15 ],
+      [ "coffee_raw", 25 ],
+      [ "coffee_syrup", 25 ],
+      [ "cup_plastic", 35 ],
+      [ "jug_plastic", 15 ]
+    ]
+  },
+  {
+    "id": "coffee_freezer",
+    "type": "item_group",
+    "items": [
+      [ "blt", 40 ],
+      [ "insta_salad", 60 ],
+      [ "pudding", 40 ],
+      [ "sandwich_pb", 35 ],
+      [ "sandwich_pbh", 35 ],
+      [ "sandwich_pbj", 40 ],
+      [ "sandwich_pbm", 10 ],
+      [ "sandwich_t", 45 ],
+      [ "yoghurt", 40 ]
+    ]
+  },
+  {
+    "id": "coffee_locker",
+    "type": "item_group",
+    "items": [
+      [ "apron_leather", 25 ],
+      [ "sm_extinguisher", 10 ],
+      [ "hat_ball", 25 ],
+      [ "towel", 10 ],
+      [ "soap", 8 ],
+      [ "detergent", 8 ],
+      [ "rag", 15 ],
+      [ "broom", 8 ],
+      [ "bleach", 8 ],
+      [ "hotplate", 1 ],
+      [ "vinegar", 3 ]
+    ]
+  },
+  {
+    "id": "coffee_dishes",
+    "type": "item_group",
+    "items": [ [ "ceramic_cup", 70 ], [ "ceramic_plate", 50 ], [ "cup_plastic", 20 ] ]
+  },
+  {
+    "id": "coffee_trash",
+    "type": "item_group",
+    "items": [
+      [ "wrapper", 17 ],
+      [ "bag_plastic", 15 ],
+      [ "bottle_glass", 10 ],
+      [ "can_drink_unsealed", 10 ],
+      [ "rag", 10 ],
+      [ "news_regional", 20 ],
+      [ "mag_news", 20 ],
+      [ "hairpin", 10 ],
+      [ "flyer", 7 ]
+    ]
+  },
+  {
+    "id": "coffee_bathroom",
+    "type": "item_group",
+    "items": [ [ "weed", 10 ], [ "coke", 10 ], [ "aspirin", 45 ], [ "mag_news", 30 ], [ "purse", 10 ], [ "hairpin", 25 ] ]
+  },
+  {
+    "id": "fast_table",
+    "type": "item_group",
+    "items": [
+      [ "cup_plastic", 60 ],
+      [ "wrapper", 60 ],
+      [ "bag_plastic", 45 ],
+      [ "rag", 10 ],
+      [ "fries", 25 ],
+      [ "cheese_fries", 15 ],
+      [ "onion_rings", 20 ],
+      [ "cheeseburger", 15 ],
+      [ "hamburger", 15 ],
+      [ "fish_sandwich", 10 ],
+      [ "cola", 15 ],
+      [ "lemonlime", 10 ],
+      [ "orangesoda", 10 ],
+      [ "crispycran", 10 ],
+      [ "rootbeer", 13 ],
+      [ "colamdew", 10 ],
+      [ "lemonade", 7 ]
+    ]
+  },
+  {
+    "id": "fast_kitchen",
+    "type": "item_group",
+    "items": [
+      [ "knife_butcher", 30 ],
+      [ "bread", 50 ],
+      [ "seasoning_salt", 50 ],
+      [ "seasoning_italian", 50 ],
+      [ "can_chicken", 30 ],
+      [ "sugar", 40 ],
+      [ "soysauce", 10 ],
+      [ "flour", 40 ],
+      [ "curry_powder", 40 ],
+      [ "cornmeal", 52 ]
+    ]
+  },
+  {
+    "id": "fast_trash",
+    "type": "item_group",
+    "items": [
+      [ "cup_plastic", 50 ],
+      [ "wrapper", 50 ],
+      [ "bag_plastic", 50 ],
+      [ "rag", 50 ],
+      [ "syringe", 5 ],
+      [ "restaurantmap", 1 ],
+      [ "hairpin", 25 ],
+      [ "flyer", 25 ]
+    ]
+  },
+  {
+    "id": "fast_fridge",
+    "type": "item_group",
+    "items": [
+      [ "hotdogs_frozen", 30 ],
+      [ "cheese", 60 ],
+      [ "fries", 40 ],
+      [ "can_chicken", 40 ],
+      [ "can_spam", 40 ],
+      [ "lettuce", 50 ],
+      [ "irradiated_lettuce", 10 ],
+      [ "tomato", 50 ],
+      [ "irradiated_tomato", 10 ],
+      [ "onion", 50 ],
+      [ "irradiated_onion", 10 ],
+      [ "chili_pepper", 50 ]
+    ]
+  },
+  {
+    "id": "fast_bath",
+    "type": "item_group",
+    "items": [ [ "hairpin", 10 ], [ "briefs", 10 ], [ "tieclip", 10 ] ]
+  },
+  {
+    "id": "fast_locker",
+    "type": "item_group",
+    "items": [
+      [ "hat_ball", 30 ],
+      [ "knife_steak", 20 ],
+      [ "sm_extinguisher", 40 ],
+      [ "towel", 40 ],
+      [ "soap", 30 ],
+      [ "detergent", 30 ],
+      [ "rag", 30 ],
+      [ "bleach", 30 ],
+      [ "vinegar", 30 ],
+      [ "backpack", 5 ]
+    ]
+  },
+  {
+    "id": "groce_bread",
+    "type": "item_group",
+    "items": [
+      [ "bread", 65 ],
+      [ "cake2", 10 ],
+      [ "cake3", 10 ],
+      [ "cornbread", 35 ],
+      [ "brioche", 50 ],
+      [ "hardtack", 30 ],
+      [ "jihelucake", 10 ],
+      [ "biscuit", 50 ],
+      [ "crackers", 40 ],
+      [ "soybean_seed", 40 ],
+      [ "almond_unshelled", 20 ],
+      [ "pecan_unshelled", 20 ],
+      [ "cashews", 20 ],
+      [ "pistachio_unshelled", 20 ],
+      [ "peanut_unshelled", 20 ]
+    ]
+  },
+  {
+    "id": "groce_premade",
+    "type": "item_group",
+    "items": [
+      [ "blt", 50 ],
+      [ "sandwich_pbj", 50 ],
+      [ "sandwich_pbh", 20 ],
+      [ "sandwich_pbm", 10 ],
+      [ "sandwich_pb", 35 ],
+      [ "fish_sandwich", 20 ],
+      [ "sandwich_t", 50 ],
+      [ "junk_burrito", 30 ],
+      [ "taco", 40 ],
+      [ "insta_salad", 60 ],
+      [ "yoghurt", 50 ],
+      [ "macaroni_cooked", 20 ]
+    ]
+  },
+  {
+    "id": "groce_cereal",
+    "type": "item_group",
+    "items": [
+      [ "oatmeal", 50 ],
+      [ "cereal", 65 ],
+      [ "cereal2", 55 ],
+      [ "cereal3", 65 ],
+      [ "toastem", 30 ],
+      [ "toastem2", 25 ],
+      [ "toastem3", 20 ]
+    ]
+  },
+  {
+    "id": "groce_pasta",
+    "type": "item_group",
+    "items": [ [ "spaghetti_raw", 60 ], [ "lasagne_raw", 50 ], [ "macaroni_raw", 60 ], [ "noodles_fast", 50 ] ]
+  },
+  {
+    "id": "groce_ingredient",
+    "type": "item_group",
+    "items": [
+      [ "flour", 65 ],
+      [ "cornmeal", 50 ],
+      [ "yeast", 40 ],
+      [ "powder_eggs", 55 ],
+      [ "milk_UHT", 15 ],
+      [ "milk_evap", 25 ],
+      [ "con_milk", 25 ],
+      [ "milk_powder", 45 ],
+      [ "salt", 50 ],
+      [ "soysauce", 25 ],
+      [ "sugar", 60 ],
+      [ "dry_rice", 65 ]
+    ]
+  },
+  {
+    "id": "groce_softdrink",
+    "type": "item_group",
+    "items": [
+      [ "lemonade", 30 ],
+      [ "sports_drink", 40 ],
+      [ "energy_drink", 40 ],
+      [ "energy_drink_atomic", 5 ],
+      [ "cola", 35 ],
+      [ "creamsoda", 30 ],
+      [ "lemonlime", 40 ],
+      [ "orangesoda", 30 ],
+      [ "colamdew", 40 ],
+      [ "rootbeer", 30 ],
+      [ "spezi", 10 ],
+      [ "crispycran", 35 ],
+      [ "purple_drink", 50 ],
+      { "item": "cola", "prob": 30, "container-item": "bottle_plastic" },
+      { "item": "creamsoda", "prob": 20, "container-item": "bottle_plastic" },
+      { "item": "lemonlime", "prob": 20, "container-item": "bottle_plastic" },
+      { "item": "orangesoda", "prob": 15, "container-item": "bottle_plastic" },
+      { "item": "colamdew", "prob": 10, "container-item": "bottle_plastic" },
+      { "item": "rootbeer", "prob": 20, "container-item": "bottle_plastic" },
+      { "item": "cola", "prob": 20, "container-item": "bottle_twoliter" },
+      { "item": "creamsoda", "prob": 10, "container-item": "bottle_twoliter" },
+      { "item": "lemonlime", "prob": 15, "container-item": "bottle_twoliter" },
+      { "item": "orangesoda", "prob": 15, "container-item": "bottle_twoliter" },
+      { "item": "colamdew", "prob": 10, "container-item": "bottle_twoliter" },
+      { "item": "rootbeer", "prob": 15, "container-item": "bottle_twoliter" }
+    ]
+  },
+  {
+    "id": "groce_condiment",
+    "type": "item_group",
+    "//": "might split this into two categories; condiments and seasonings, and preserves",
+    "items": [
+      [ "mayonnaise", 40 ],
+      [ "ketchup", 60 ],
+      [ "mustard", 60 ],
+      [ "horseradish", 10 ],
+      [ "sprinkles", 20 ],
+      [ "honey_bottled", 35 ],
+      [ "honey_glassed", 35 ],
+      [ "peanutbutter", 60 ],
+      { "item": "pickle", "prob": 40, "charges": 6, "container-item": "jar_glass_sealed" },
+      [ "coffee_syrup", 35 ],
+      [ "coffee_raw", 45 ],
+      [ "tea_raw", 45 ],
+      [ "salt", 50 ],
+      [ "pepper", 50 ],
+      [ "soysauce", 50 ],
+      [ "cinnamon", 20 ],
+      [ "syrup", 50 ],
+      [ "seasoning_salt", 45 ],
+      [ "seasoning_italian", 50 ],
+      [ "curry_powder", 40 ],
+      [ "can_cheese", 30 ],
+      [ "sauce_red", 40 ],
+      [ "sauce_pesto", 20 ]
+    ]
+  },
+  {
+    "id": "groce_frozen",
+    "type": "item_group",
+    "items": [
+      [ "frozen_dinner", 80 ],
+      [ "pizza_veggy", 50 ],
+      [ "pizza_meat", 50 ],
+      [ "junk_burrito", 50 ],
+      [ "icecream_artificial", 30 ],
+      [ "icecream_candy", 20 ]
+    ]
+  },
+  {
+    "id": "groce_meat",
+    "type": "item_group",
+    "items": [
+      [ "bologna", 50 ],
+      [ "sausage", 50 ],
+      [ "bratwurst_sausage", 35 ],
+      [ "sweet_sausage", 10 ],
+      [ "hotdogs_frozen", 50 ],
+      [ "lunchmeat", 60 ],
+      [ "meat", 60 ]
+    ]
+  },
+  {
+    "id": "groce_dairyegg",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "egg_bird", "prob": 65, "count-min": 6, "count-max": 12 },
+      { "item": "milk", "prob": 80 },
+      { "item": "milk_raw", "prob": 5 },
+      { "item": "milk_raw", "prob": 5 },
+      { "item": "butter", "prob": 35, "charges": 8, "container-item": "wrapper" },
+      { "item": "buttermilk", "prob": 15 },
+      { "item": "cheese", "prob": 60 },
+      { "item": "yoghurt", "prob": 40 },
+      { "item": "pudding", "prob": 30 },
+      { "item": "icecream", "prob": 30 },
+      { "item": "icecream_artificial", "prob": 15 }
+    ]
+  },
+  {
+    "id": "restaur_table",
+    "type": "item_group",
+    "items": [
+      [ "candlestick", 50 ],
+      [ "ceramic_plate", 70 ],
+      [ "ceramic_bowl", 50 ],
+      [ "glass", 70 ],
+      [ "spoon", 50 ],
+      [ "fork", 50 ],
+      [ "knife_butter", 40 ],
+      [ "knife_steak", 35 ],
+      [ "spork", 10 ],
+      [ "foon", 10 ],
+      [ "bottle_glass", 15 ],
+      [ "fruit_wine", 10 ],
+      [ "wine_vermouth", 8 ],
+      [ "wine_marsala", 6 ],
+      [ "wine_riesling", 7 ],
+      [ "wine_chardonnay", 8 ],
+      [ "wine_cabernet", 8 ],
+      [ "wine_noir", 6 ],
+      [ "currywurst", 5 ],
+      [ "macaroni_cooked", 5 ],
+      [ "lasagne", 5 ],
+      [ "spaghetti_pesto", 5 ],
+      [ "glazed_tenderloin", 5 ]
+    ]
+  },
+  {
+    "id": "restaur_fridge",
+    "type": "item_group",
+    "items": [
+      [ "water_clean", 10 ],
+      [ "water_mineral", 10 ],
+      [ "milk", 20 ],
+      { "item": "butter", "prob": 35, "charges-min": 8, "charges-max": 64, "container-item": "wrapper" },
+      { "item": "ghee", "prob": 5, "charges-min": 1, "charges-max": 64, "container-item": "jar_glass" },
+      [ "yoghurt", 10 ],
+      [ "pudding", 15 ],
+      [ "apple", 10 ],
+      [ "sandwich_t", 15 ],
+      [ "mushroom", 20 ],
+      [ "tomato", 20 ],
+      [ "lettuce", 15 ],
+      [ "zucchini", 15 ],
+      [ "onion", 15 ],
+      [ "chili_pepper", 15 ],
+      [ "carrot", 15 ],
+      [ "potato", 15 ],
+      [ "irradiated_tomato", 4 ],
+      [ "irradiated_lettuce", 4 ],
+      [ "irradiated_zucchini", 4 ],
+      [ "irradiated_onion", 4 ],
+      [ "irradiated_carrot", 4 ],
+      [ "chili", 10 ],
+      [ "fruit_wine", 10 ],
+      [ "wine_riesling", 7 ],
+      [ "wine_chardonnay", 8 ],
+      [ "wine_cabernet", 8 ],
+      [ "wine_marsala", 6 ],
+      [ "wine_vermouth", 9 ],
+      [ "wine_noir", 6 ],
+      [ "fish_fried", 7 ],
+      [ "cheese", 10 ],
+      [ "lemon", 15 ],
+      { "item": "pickle", "prob": 10, "charges": 6, "container-item": "jar_glass_sealed" },
+      [ "lutefisk", 15 ],
+      [ "fries", 15 ],
+      [ "cheese_fries", 10 ],
+      [ "onion_rings", 10 ],
+      [ "royal_beef", 1 ],
+      [ "sauce_red", 8 ],
+      [ "tofu", 8 ],
+      [ "sausage", 10 ],
+      [ "bratwurst_sausage", 10 ],
+      [ "syrup", 10 ],
+      [ "sweet_sausage", 2 ],
+      [ "soup_meat", 10 ]
+    ]
+  },
+  {
+    "id": "restaur_kitchen",
+    "type": "item_group",
+    "items": [
+      [ "vinegar", 20 ],
+      [ "jam_fruit", 5 ],
+      [ "bread", 17 ],
+      [ "meat", 20 ],
+      [ "cornbread", 7 ],
+      [ "biscuit", 8 ],
+      [ "seasoning_salt", 15 ],
+      [ "seasoning_italian", 15 ],
+      [ "garlic", 10 ],
+      [ "thyme", 10 ],
+      [ "can_chicken", 10 ],
+      [ "ghee", 15 ],
+      [ "pepper", 15 ],
+      [ "salt", 20 ],
+      [ "sugar", 5 ],
+      [ "flour", 17 ],
+      [ "soysauce", 25 ],
+      [ "cooking_oil", 20 ],
+      [ "cooking_oil2", 20 ],
+      [ "cookbook", 8 ],
+      [ "cookbook_italian", 9 ],
+      [ "cornmeal", 3 ],
+      [ "knife_steak", 15 ],
+      [ "chilly-p", 15 ],
+      [ "curry_powder", 15 ],
+      [ "spaghetti_raw", 20 ],
+      [ "lasagne_raw", 20 ],
+      [ "macaroni_raw", 20 ],
+      [ "knife_butcher", 10 ]
+    ]
+  },
+  {
+    "id": "restaur_bath",
+    "type": "item_group",
+    "items": [
+      [ "coke", 5 ],
+      [ "restaurantmap", 2 ],
+      [ "touristmap", 2 ],
+      [ "purse", 10 ],
+      [ "hairpin", 10 ],
+      [ "cig", 10 ],
+      [ "news_regional", 10 ],
+      [ "mag_news", 10 ]
+    ]
+  },
+  {
+    "id": "restaur_trash",
+    "type": "item_group",
+    "items": [
+      [ "wrapper", 40 ],
+      [ "bag_plastic", 35 ],
+      [ "bottle_glass", 35 ],
+      [ "rag", 30 ],
+      [ "flyer", 15 ],
+      [ "mag_news", 15 ],
+      [ "news_regional", 15 ],
+      { "item": "glass_shard", "prob": 30, "count": [ 1, 8 ] },
+      [ "jug_plastic", 25 ],
+      [ "fetus", 1 ]
+    ]
+  },
+  {
+    "id": "restaur_rack",
+    "type": "item_group",
+    "items": [
+      [ "ceramic_plate", 50 ],
+      [ "glass", 50 ],
+      [ "knife_butter", 30 ],
+      [ "knife_steak", 15 ],
+      [ "spoon", 20 ],
+      [ "fork", 20 ],
+      [ "spork", 5 ],
+      [ "foon", 5 ],
+      [ "fruit_wine", 20 ],
+      [ "wine_riesling", 10 ],
+      [ "wine_chardonnay", 13 ],
+      [ "wine_cabernet", 13 ],
+      [ "wine_marsala", 9 ],
+      [ "wine_vermouth", 15 ],
+      [ "wine_noir", 9 ],
+      [ "hat_chef", 30 ],
+      [ "jacket_chef", 30 ],
+      [ "pants_checkered", 28 ]
+    ]
+  },
+  {
+    "id": "restaur_sink",
+    "type": "item_group",
+    "items": [
+      [ "ceramic_plate", 50 ],
+      [ "glass", 50 ],
+      [ "knife_butter", 50 ],
+      [ "knife_steak", 25 ],
+      [ "spoon", 50 ],
+      [ "fork", 50 ],
+      [ "spork", 5 ],
+      [ "foon", 5 ]
+    ]
+  },
+  {
+    "id": "salad_bar",
+    "type": "item_group",
+    "items": [
+      [ "bowl_plastic", 80 ],
+      [ "veggy_salad", 6 ],
+      { "item": "tomato", "prob": 8, "container-item": "bowl_plastic" },
+      { "item": "onion", "prob": 6, "container-item": "bowl_plastic" },
+      { "item": "broccoli", "prob": 6, "container-item": "bowl_plastic" },
+      { "item": "celery", "prob": 6, "container-item": "bowl_plastic" },
+      { "item": "cabbage", "prob": 12, "container-item": "bowl_plastic" },
+      { "item": "carrot", "prob": 8, "charges": 2, "container-item": "bowl_plastic" }
+    ]
+  },
+  {
+    "id": "soup_bar",
+    "type": "item_group",
+    "items": [
+      [ "pot", 90 ],
+      { "item": "soup_chicken", "prob": 12, "charges": 1, "container-item": "pot" },
+      { "item": "soup_chicken", "prob": 6, "charges": 2, "container-item": "pot" },
+      { "item": "soup_fish", "prob": 9, "charges": 1, "container-item": "pot" },
+      { "item": "soup_fish", "prob": 4, "charges": 2, "container-item": "pot" },
+      { "item": "soup_tomato", "prob": 10, "charges": 1, "container-item": "pot" },
+      { "item": "soup_tomato", "prob": 5, "charges": 2, "container-item": "pot" },
+      { "item": "soup_veggy", "prob": 10, "charges": 1, "container-item": "pot" },
+      { "item": "soup_veggy", "prob": 5, "charges": 2, "container-item": "pot" }
+    ]
+  },
+  {
+    "id": "diner_food",
+    "type": "item_group",
+    "items": [
+      [ "cheeseburger", 6 ],
+      [ "hamburger", 8 ],
+      [ "sloppyjoe", 6 ],
+      [ "blt", 6 ],
+      [ "fries", 10 ],
+      [ "onion_rings", 8 ],
+      [ "fchicken", 8 ],
+      [ "sausage", 8 ],
+      [ "bratwurst_sausage", 6 ],
+      [ "sweet_sausage", 2 ],
+      [ "hotdogs_cooked", 8 ],
+      [ "chilidogs", 6 ],
+      [ "corndogs_cooked", 8 ],
+      [ "scrambled_eggs", 8 ],
+      [ "tofu_rice", 4 ],
+      [ "deluxe_eggs", 5 ],
+      [ "pancakes", 12 ],
+      [ "fruit_pancakes", 6 ],
+      [ "choc_pancakes", 6 ],
+      [ "waffles", 10 ],
+      [ "fruit_waffles", 6 ],
+      [ "choc_waffles", 6 ],
+      [ "pie", 9 ],
+      [ "pie_meat", 8 ],
+      [ "pan", 30 ]
+    ]
+  },
+  {
+    "id": "diner_back",
+    "type": "item_group",
+    "items": [
+      { "item": "pickle", "prob": 20, "charges": 6, "container-item": "jar_glass_sealed" },
+      [ "bacon", 20 ],
+      [ "fries", 20 ],
+      [ "onion_rings", 20 ],
+      [ "sausage", 20 ],
+      [ "bratwurst_sausage", 10 ],
+      [ "sweet_sausage", 5 ],
+      [ "hotdogs_frozen", 20 ],
+      [ "corndogs_frozen", 20 ],
+      [ "pancakes", 20 ],
+      [ "waffles", 20 ],
+      [ "tomato", 20 ],
+      [ "lettuce", 20 ],
+      [ "soup_veggy", 20 ],
+      [ "soup_meat", 20 ],
+      [ "soup_tomato", 20 ]
+    ]
+  },
+  {
+    "id": "keg_beer",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "keg", 100 ],
+      { "item": "beer", "prob": 40, "container-item": "keg" },
+      { "item": "belgian_ale", "prob": 30, "container-item": "keg" },
+      { "item": "european_pilsner", "prob": 20, "container-item": "keg" },
+      { "item": "wine_barley", "prob": 17, "container-item": "keg" },
+      { "item": "india_pale_ale", "prob": 20, "container-item": "keg" },
+      { "item": "pale_ale", "prob": 20, "container-item": "keg" },
+      { "item": "stout", "prob": 10, "container-item": "keg" },
+      { "item": "imperial_stout", "prob": 5, "container-item": "keg" }
+    ]
+  },
+  {
+    "id": "flask_liquor",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "flask_hip", 100 ],
+      { "item": "whiskey", "prob": 40, "container-item": "flask_hip" },
+      { "item": "vodka", "prob": 30, "container-item": "flask_hip" },
+      { "item": "gin", "prob": 20, "container-item": "flask_hip" },
+      { "item": "rum", "prob": 20, "container-item": "flask_hip" },
+      { "item": "tequila", "prob": 20, "container-item": "flask_hip" },
+      { "item": "brandy", "prob": 10, "container-item": "flask_hip" },
+      { "item": "moonshine", "prob": 5, "container-item": "flask_hip" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "butcher_raw_meat",
+    "items": [
+      [ "stomach_large", 2 ],
+      [ "stomach_boiled", 2 ],
+      [ "meat", 8 ],
+      [ "lunchmeat", 6 ],
+      [ "hotdogs_frozen", 6 ],
+      { "item": "lung", "prob": 2, "charges": 5 },
+      { "item": "kidney", "prob": 2, "charges": 5 },
+      { "item": "liver", "prob": 4, "charges": 5 },
+      { "item": "brain", "prob": 2, "charges": 5 },
+      { "item": "sweetbread", "prob": 2, "charges": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "butcher_meat",
+    "items": [
+      [ "lunchmeat", 15 ],
+      [ "bologna", 10 ],
+      [ "sausage", 4 ],
+      [ "sweet_sausage", 2 ],
+      [ "bratwurst_sausage", 4 ],
+      [ "meat_salted", 2 ],
+      [ "meat_canned", 2 ],
+      [ "offal_canned", 2 ],
+      [ "meat_smoked", 2 ],
+      { "item": "meat_pickled", "prob": 2, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "offal_pickled", "prob": 2, "charges": 2, "container-item": "jar_glass_sealed" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "butcher_tools",
+    "items": [
+      [ "knife_steak", 20 ],
+      [ "knife_butcher", 30 ],
+      [ "tongs", 10 ],
+      [ "carver_off", 5 ],
+      [ "meat", 1 ],
+      [ "hacksaw", 10 ]
+    ]
+  }
+]

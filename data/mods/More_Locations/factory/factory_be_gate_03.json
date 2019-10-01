@@ -1,52 +1,46 @@
 [
-    {
-        "type" : "mapgen",
-        "om_terrain" : ["factory_be_gate"],
-        "comment" : "bottom edge gate",
-        "method": "json",
-        "weight": 250,
-        "object": {
-            "fill_ter": "t_concrete_floor",
-            "rows": [
-                "......|t........t|......",
-                "......--gg----gg--......",
-                "........................",
-                "........................",
-                ".u....................u.",
-                "----................----",
-                ".u--................--u.",
-                "....                ....",
-                "....                ....",
-                "....    Z    Z      ....",
-                "....                ....",
-                ".t||                ||t.",
-                "---|                |---",
-                "----                ----",
-                ",t,F                F,t,",
-                ",,,F                F,,,",
-                ",,,F                F,,,",
-                ",,,F                F,,,",
-                ",,,FffffffffffffffffF,,,",
-                ",,,F                F,,,",
-                ",,,F                F,,,",
-                "ffff                ffff",
-                ",,,,                ,6,,",
-                ",,,,                ,,,,"
-            ],
-             "palettes": [
-               "factory"
-            ],
-            "monster": {
-                "t": { "monster": "mon_turret" },
-                "Z": { "monster": "mon_secubot" },
-                "z": { "monster": "mon_skitterbot" }
-            },
-            "place_signs": [
-                { "x": 11, "y": 21, "snippet": "robot_protest" },
-                { "x": 14, "y": 21, "snippet": "robot protest" },
-                { "x": 9, "y": 22, "snippet": "robot_protest" },
-                { "x": 12, "y": 23, "snippet": "robot_protest" }
-            ]
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": [ "factory_be_gate" ],
+    "comment": "bottom edge gate",
+    "method": "json",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_concrete_floor",
+      "rows": [
+        "......|t........t|......",
+        "......--gg----gg--......",
+        "........................",
+        "........................",
+        ".u....................u.",
+        "----................----",
+        ".u--................--u.",
+        "....                ....",
+        "....                ....",
+        "....    Z    Z      ....",
+        "....                ....",
+        ".t||                ||t.",
+        "---|                |---",
+        "----                ----",
+        ",t,F                F,t,",
+        ",,,F                F,,,",
+        ",,,F                F,,,",
+        ",,,F                F,,,",
+        ",,,FffffffffffffffffF,,,",
+        ",,,F                F,,,",
+        ",,,F                F,,,",
+        "ffff                ffff",
+        ",,,,                ,6,,",
+        ",,,,                ,,,,"
+      ],
+      "palettes": [ "factory" ],
+      "monster": { "t": { "monster": "mon_turret_rifle" }, "Z": { "monster": "mon_secubot" }, "z": { "monster": "mon_skitterbot" } },
+      "place_signs": [
+        { "x": 11, "y": 21, "snippet": "robot_protest" },
+        { "x": 14, "y": 21, "snippet": "robot protest" },
+        { "x": 9, "y": 22, "snippet": "robot_protest" },
+        { "x": 12, "y": 23, "snippet": "robot_protest" }
+      ]
     }
+  }
 ]

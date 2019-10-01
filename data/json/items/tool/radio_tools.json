@@ -6,8 +6,8 @@
     "name": "radio car box",
     "name_plural": "radio car boxes",
     "description": "A RC car, with radio-control and batteries included!  Disassemble to unpack and enjoy.",
-    "weight": 3200,
-    "volume": 8,
+    "weight": "3200 g",
+    "volume": "2 L",
     "price": 30000,
     "to_hit": -1,
     "material": [ "plastic" ],
@@ -23,11 +23,24 @@
     "symbol": "#",
     "color": "yellow",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
     "turns_per_charge": 5,
     "proportional": { "weight": 0.21, "volume": 0.25, "price": 0.2 },
-    "use_action": "RADIOCONTROL"
+    "use_action": "RADIOCONTROL",
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "radio_car",
@@ -37,12 +50,12 @@
     "description": "A remote-controlled car.  Fun for young and old alike.",
     "symbol": "#",
     "ammo": "battery",
-    "initial_charges": 50,
-    "max_charges": 50,
     "revert_to": "radio_car",
     "proportional": { "weight": 0.73, "volume": 0.75, "price": 0.8 },
     "use_action": "RADIOCAR",
-    "flags": [ "RADIO_CONTAINER" ]
+    "flags": [ "RADIO_CONTAINER" ],
+    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ],
+    "magazine_well": 0
   },
   {
     "id": "radio_car_on",
@@ -61,8 +74,8 @@
     "category": "spare_parts",
     "name": "radio activation mod",
     "description": "This small piece of electronics can be attached to certain items and activate them after receiving a radio signal.",
-    "weight": 142,
-    "volume": 1,
+    "weight": "142 g",
+    "volume": "250 ml",
     "price": 5000,
     "to_hit": -2,
     "material": "steel",
@@ -76,8 +89,8 @@
     "name": "radio (off)",
     "name_plural": "radios (off)",
     "description": "This is a portable radio.  Using this radio turns it on.  It will pick up any nearby signals being broadcast and play them audibly.",
-    "weight": 295,
-    "volume": 4,
+    "weight": "295 g",
+    "volume": "1 L",
     "price": 1000,
     "to_hit": -1,
     "bashing": 4,
@@ -85,65 +98,96 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
-    "use_action": "RADIO_OFF"
+    "use_action": "RADIO_OFF",
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "radio_on",
+    "copy-from": "radio",
     "type": "TOOL",
     "name": "radio (on)",
     "name_plural": "radios (on)",
     "description": "This portable radio is turned on, and continually draining its batteries.  It is playing the broadcast being sent from any nearby radio towers.",
-    "weight": 295,
-    "volume": 4,
-    "price": 1000,
-    "to_hit": -1,
-    "bashing": 4,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
-    "turns_per_charge": 8,
+    "power_draw": 500,
     "revert_to": "radio",
     "use_action": "RADIO_ON",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "magazine_well": 1
   },
   {
     "id": "two_way_radio",
     "type": "TOOL",
     "name": "two-way radio",
     "description": "This is a radio with a transmitting unit.  You could use it to contact someone who also has one.  Unfortunately no one seems to use those nowadays...",
-    "weight": 431,
-    "volume": 2,
+    "weight": "431 g",
+    "volume": "500 ml",
     "price": 2000,
     "bashing": 6,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "green",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100
+    "flags": [ "TWO_WAY_RADIO" ],
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "remotevehcontrol",
     "type": "TOOL",
     "name": "remote vehicle controller",
     "description": "A remote controller for real cars.  Can turn onboard devices on and off.  Some cars can be driven remotely.",
-    "weight": 907,
-    "volume": 4,
+    "weight": "907 g",
+    "volume": "1 L",
     "price": 2000,
     "to_hit": -1,
     "material": "plastic",
     "symbol": "#",
     "color": "yellow",
     "ammo": "battery",
-    "initial_charges": 100,
-    "max_charges": 100,
     "charges_per_use": 1,
     "turns_per_charge": 10,
-    "use_action": "REMOTEVEH"
+    "use_action": "REMOTEVEH",
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1
   }
 ]

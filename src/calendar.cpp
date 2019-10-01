@@ -1,145 +1,60 @@
 #include "calendar.h"
 
+#include <array>
+#include <cmath>
+#include <limits>
+#include <algorithm>
+
+#include "debug.h"
 #include "options.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
 
-#include <array>
-#include <cmath>
-#include <limits>
+/** How much light moon provides per lit-up quarter (Full-moon light is four times this value) */
+static constexpr double moonlight_per_quarter = 2.25;
 
 // Divided by 100 to prevent overflowing when converted to moves
 const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
-
-calendar calendar::start;
-calendar calendar::turn;
-season_type calendar::initial_season;
+const time_duration calendar::INDEFINITELY_LONG_DURATION(
+    time_duration::from_turns( std::numeric_limits<int>::max() ) );
+static bool is_eternal_season = false;
+static int cur_season_length = 1;
 
 const time_point calendar::before_time_starts = time_point::from_turn( -1 );
-const time_point calendar::time_of_cataclysm = time_point::from_turn( 0 );
+const time_point calendar::turn_zero = time_point::from_turn( 0 );
+
+time_point calendar::start_of_cataclysm = calendar::turn_zero;
+time_point calendar::turn = calendar::turn_zero;
+season_type calendar::initial_season = SPRING;
 
 // Internal constants, not part of the calendar interface.
 // Times for sunrise, sunset at equinoxes
 
 /** Hour of sunrise at winter solstice */
-#define SUNRISE_WINTER   7
-
-/** Hour of sunrise at fall and spring equinox */
-#define SUNRISE_EQUINOX 6
+static constexpr int sunrise_winter = 7;
 
 /** Hour of sunrise at summer solstice */
-#define SUNRISE_SUMMER   5
+static constexpr int sunrise_summer = 5;
+
+/** Hour of sunrise at fall and spring equinox */
+static constexpr int sunrise_equinox = ( sunrise_summer + sunrise_winter ) / 2;
 
 /** Hour of sunset at winter solstice */
-#define SUNSET_WINTER   17
-
-/** Hour of sunset at fall and spring equinox */
-#define SUNSET_EQUINOX 19
+static constexpr int sunset_winter = 17;
 
 /** Hour of sunset at summer solstice */
-#define SUNSET_SUMMER   21
+static constexpr int sunset_summer = 21;
+
+/** Hour of sunset at fall and spring equinox */
+static constexpr int sunset_equinox = ( sunset_summer + sunset_winter ) / 2;
 
 // How long, does sunrise/sunset last?
 static const time_duration twilight_duration = 1_hours;
 
-calendar::calendar()
+double default_daylight_level()
 {
-    turn_number = 0;
-    second = 0;
-    minute = 0;
-    hour = 0;
-    day = 0;
-    season = SPRING;
-    year = 0;
-}
-
-calendar::calendar( int Minute, int Hour, int Day, season_type Season, int Year )
-{
-    turn_number = MINUTES( Minute ) + HOURS( Hour ) + DAYS( Day ) + Season * to_days<int>
-                  ( season_length() ) + Year * to_turns<int>( year_length() );
-    sync();
-}
-
-calendar::calendar( int turn )
-{
-    turn_number = turn;
-    sync();
-}
-
-calendar::operator int() const
-{
-    return turn_number;
-}
-
-calendar &calendar::operator =( int rhs )
-{
-    turn_number = rhs;
-    sync();
-    return *this;
-}
-
-calendar &calendar::operator -=( const calendar &rhs )
-{
-    turn_number -= rhs.turn_number;
-    sync();
-    return *this;
-}
-
-calendar &calendar::operator -=( int rhs )
-{
-    turn_number -= rhs;
-    sync();
-    return *this;
-}
-
-calendar &calendar::operator +=( const calendar &rhs )
-{
-    turn_number += rhs.turn_number;
-    sync();
-    return *this;
-}
-
-calendar &calendar::operator +=( int rhs )
-{
-    turn_number += rhs;
-    sync();
-    return *this;
-}
-
-bool calendar::operator ==( int rhs ) const
-{
-    return int( *this ) == rhs;
-}
-bool calendar::operator ==( const calendar &rhs ) const
-{
-    return turn_number == rhs.turn_number;
-}
-
-calendar calendar::operator -( const calendar &rhs ) const
-{
-    return calendar( *this ) -= rhs;
-}
-
-calendar calendar::operator -( int rhs ) const
-{
-    return calendar( *this ) -= rhs;
-}
-
-calendar calendar::operator +( const calendar &rhs ) const
-{
-    return calendar( *this ) += rhs;
-}
-
-calendar calendar::operator +( int rhs ) const
-{
-    return calendar( *this ) += rhs;
-}
-
-void calendar::increment()
-{
-    turn_number++;
-    sync();
+    return 100.0;
 }
 
 moon_phase get_moon_phase( const time_point &p )
@@ -147,98 +62,98 @@ moon_phase get_moon_phase( const time_point &p )
     //One full phase every 2 rl months = 2/3 season length
     const time_duration moon_phase_duration = calendar::season_length() * 2.0 / 3.0;
     //Switch moon phase at noon so it stays the same all night
-    const time_duration current_day = ( p - calendar::time_of_cataclysm ) + 1_days / 2;
+    const time_duration current_day = ( p - calendar::turn_zero ) + 1_days / 2;
     const double phase_change = current_day / moon_phase_duration;
     const int current_phase = static_cast<int>( round( phase_change * MOON_PHASE_MAX ) ) %
                               static_cast<int>( MOON_PHASE_MAX );
     return static_cast<moon_phase>( current_phase );
 }
 
-calendar calendar::sunrise() const
+time_point sunrise( const time_point &p )
 {
-    int start_hour = 0;
-    int end_hour = 0;
-    int newhour = 0;
-    int newminute = 0;
-    switch( season ) {
-        case SPRING:
-            start_hour = SUNRISE_EQUINOX;
-            end_hour   = SUNRISE_SUMMER;
-            break;
-        case SUMMER:
-            start_hour = SUNRISE_SUMMER;
-            end_hour   = SUNRISE_EQUINOX;
-            break;
-        case AUTUMN:
-            start_hour = SUNRISE_EQUINOX;
-            end_hour   = SUNRISE_WINTER;
-            break;
-        case WINTER:
-            start_hour = SUNRISE_WINTER;
-            end_hour   = SUNRISE_EQUINOX;
-            break;
-    }
-    double percent = double( double( day ) / to_days<int>( season_length() ) );
-    double time = double( start_hour ) * ( 1. - percent ) + double( end_hour ) * percent;
+    static_assert( static_cast<int>( SPRING ) == 0,
+                   "Expected spring to be the first season. If not, code below will use wrong index into array" );
 
-    newhour = int( time );
-    time -= int( time );
-    newminute = int( time * 60 );
+    static const std::array<int, 4> start_hours = { { sunrise_equinox, sunrise_summer, sunrise_equinox, sunrise_winter, } };
+    const size_t season = static_cast<size_t>( season_of_year( p ) );
+    assert( season < start_hours.size() );
 
-    return calendar( newminute, newhour, day, season, year );
+    const double start_hour = start_hours[season];
+    const double end_hour = start_hours[( season + 1 ) % 4];
+
+    const double into_month = static_cast<double>( day_of_season<int>( p ) ) / to_days<int>
+                              ( calendar::season_length() );
+    const double time = start_hour * ( 1.0 - into_month ) + end_hour * into_month;
+
+    const time_point midnight = p - time_past_midnight( p );
+    return midnight + time_duration::from_minutes( static_cast<int>( time * 60 ) );
 }
 
-calendar calendar::sunset() const
+time_point sunset( const time_point &p )
 {
-    int start_hour = 0;
-    int end_hour = 0;
-    int newhour = 0;
-    int newminute = 0;
-    switch( season ) {
-        case SPRING:
-            start_hour = SUNSET_EQUINOX;
-            end_hour   = SUNSET_SUMMER;
-            break;
-        case SUMMER:
-            start_hour = SUNSET_SUMMER;
-            end_hour   = SUNSET_EQUINOX;
-            break;
-        case AUTUMN:
-            start_hour = SUNSET_EQUINOX;
-            end_hour   = SUNSET_WINTER;
-            break;
-        case WINTER:
-            start_hour = SUNSET_WINTER;
-            end_hour   = SUNSET_EQUINOX;
-            break;
-    }
-    double percent = double( double( day ) / to_days<int>( season_length() ) );
-    double time = double( start_hour ) * ( 1. - percent ) + double( end_hour ) * percent;
+    static_assert( static_cast<int>( SPRING ) == 0,
+                   "Expected spring to be the first season. If not, code below will use wrong index into array" );
 
-    newhour = int( time );
-    time -= int( time );
-    newminute = int( time * 60 );
+    static const std::array<int, 4> start_hours = { { sunset_equinox, sunset_summer, sunset_equinox, sunset_winter, } };
+    const size_t season = static_cast<size_t>( season_of_year( p ) );
+    assert( season < start_hours.size() );
 
-    return calendar( newminute, newhour, day, season, year );
+    const double start_hour = start_hours[season];
+    const double end_hour = start_hours[( season + 1 ) % 4];
+
+    const double into_month = static_cast<double>( day_of_season<int>( p ) ) / to_days<int>
+                              ( calendar::season_length() );
+    const double time = start_hour * ( 1.0 - into_month ) + end_hour * into_month;
+
+    const time_point midnight = p - time_past_midnight( p );
+    return midnight + time_duration::from_minutes( static_cast<int>( time * 60 ) );
 }
 
-bool calendar::is_night() const
+time_point night_time( const time_point &p )
 {
-    const time_duration now = time_past_midnight( *this );
-    const time_duration sunrise = time_past_midnight( this->sunrise() );
-    const time_duration sunset = time_past_midnight( this->sunset() );
+    return sunset( p ) + twilight_duration;
+}
+
+time_point daylight_time( const time_point &p )
+{
+    // @TODO Actual dailight should start 18 degrees before sunrise
+    return sunrise( p ) + 15_minutes;
+}
+
+bool is_night( const time_point &p )
+{
+    const time_duration now = time_past_midnight( p );
+    const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
+    const time_duration sunset = time_past_midnight( ::sunset( p ) );
 
     return now > sunset + twilight_duration || now < sunrise;
 }
 
-double calendar::current_daylight_level() const
+bool is_sunset_now( const time_point &p )
 {
-    double percent = double( double( day ) / to_days<int>( season_length() ) );
+    const time_duration now = time_past_midnight( p );
+    const time_duration sunset = time_past_midnight( ::sunset( p ) );
+
+    return now > sunset && now < sunset + twilight_duration;
+}
+
+bool is_sunrise_now( const time_point &p )
+{
+    const time_duration now = time_past_midnight( p );
+    const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
+
+    return now > sunrise && now < sunrise + twilight_duration;
+}
+
+double current_daylight_level( const time_point &p )
+{
+    const double percent = static_cast<double>( day_of_season<int>( p ) ) / to_days<int>
+                           ( calendar::season_length() );
     double modifier = 1.0;
     // For ~Boston: solstices are +/- 25% sunlight intensity from equinoxes
     static double deviation = 0.25;
 
-    switch( season ) {
+    switch( season_of_year( p ) ) {
         case SPRING:
             modifier = 1. + ( percent * deviation );
             break;
@@ -251,34 +166,37 @@ double calendar::current_daylight_level() const
         case WINTER:
             modifier = ( 1. - deviation ) + ( percent * deviation );
             break;
+        default:
+            debugmsg( "Invalid season" );
     }
 
-    return double( modifier * DAYLIGHT_LEVEL );
+    return modifier * default_daylight_level();
 }
 
-float calendar::sunlight() const
+float sunlight( const time_point &p, const bool vision )
 {
-    const time_duration now = time_past_midnight( *this );
-    const time_duration sunrise = time_past_midnight( this->sunrise() );
-    const time_duration sunset = time_past_midnight( this->sunset() );
+    const time_duration now = time_past_midnight( p );
+    const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
+    const time_duration sunset = time_past_midnight( ::sunset( p ) );
 
-    double daylight_level = current_daylight_level();
+    const double daylight_level = current_daylight_level( p );
 
-    int current_phase = static_cast<int>( get_moon_phase( *this ) );
-    if( current_phase > int( MOON_PHASE_MAX ) / 2 ) {
-        current_phase = int( MOON_PHASE_MAX ) - current_phase;
+    int current_phase = static_cast<int>( get_moon_phase( p ) );
+    if( current_phase > static_cast<int>( MOON_PHASE_MAX ) / 2 ) {
+        current_phase = static_cast<int>( MOON_PHASE_MAX ) - current_phase;
     }
 
-    int moonlight = 1 + int( current_phase * MOONLIGHT_PER_QUARTER );
+    const int moonlight = vision ? 1 + static_cast<int>( current_phase * moonlight_per_quarter ) :
+                          0;
 
     if( now > sunset + twilight_duration || now < sunrise ) { // Night
         return moonlight;
     } else if( now >= sunrise && now <= sunrise + twilight_duration ) {
         const double percent = ( now - sunrise ) / twilight_duration;
-        return double( moonlight ) * ( 1. - percent ) + daylight_level * percent;
+        return static_cast<double>( moonlight ) * ( 1. - percent ) + daylight_level * percent;
     } else if( now >= sunset && now <= sunset + twilight_duration ) {
         const double percent = ( now - sunset ) / twilight_duration;
-        return daylight_level * ( 1. - percent ) + double( moonlight ) * percent;
+        return daylight_level * ( 1. - percent ) + static_cast<double>( moonlight ) * percent;
     } else {
         return daylight_level;
     }
@@ -342,15 +260,12 @@ static std::string to_string_clipped( const int num, const clipped_unit type,
 
 std::pair<int, clipped_unit> clipped_time( const time_duration &d )
 {
-    //@todo: change INDEFINITELY_LONG to time_duration
-    if( to_turns<int>( d ) >= calendar::INDEFINITELY_LONG ) {
+    if( d >= calendar::INDEFINITELY_LONG_DURATION ) {
         return { 0, clipped_unit::forever };
     }
 
     if( d < 1_minutes ) {
-        //@todo: add to_seconds,from_seconds, operator ""_seconds, but currently
-        // this could be misleading as we only store turns, which are 6 whole seconds
-        const int sec = to_turns<int>( d ) * 6;
+        const int sec = to_seconds<int>( d );
         return { sec, clipped_unit::second };
     } else if( d < 1_hours ) {
         const int min = to_minutes<int>( d );
@@ -367,12 +282,12 @@ std::pair<int, clipped_unit> clipped_time( const time_duration &d )
         const int week = to_weeks<int>( d );
         return { week, clipped_unit::week };
     } else if( d < calendar::year_length() && !calendar::eternal_season() ) {
-        //@todo: consider a to_season function, but season length is variable, so
+        // TODO: consider a to_season function, but season length is variable, so
         // this might be misleading
         const int season = to_turns<int>( d ) / to_turns<int>( calendar::season_length() );
         return { season, clipped_unit::season };
     } else {
-        //@todo: consider a to_year function, but year length is variable, so
+        // TODO: consider a to_year function, but year length is variable, so
         // this might be misleading
         const int year = to_turns<int>( d ) / to_turns<int>( calendar::year_length() );
         return { year, clipped_unit::year };
@@ -382,13 +297,13 @@ std::pair<int, clipped_unit> clipped_time( const time_duration &d )
 std::string to_string_clipped( const time_duration &d,
                                const clipped_align align )
 {
-    std::pair<int, clipped_unit> time = clipped_time( d );
+    const std::pair<int, clipped_unit> time = clipped_time( d );
     return to_string_clipped( time.first, time.second, align );
 }
 
 std::string to_string( const time_duration &d )
 {
-    if( d >= time_duration::from_turns( calendar::INDEFINITELY_LONG ) ) {
+    if( d >= calendar::INDEFINITELY_LONG_DURATION ) {
         return _( "forever" );
     }
 
@@ -405,7 +320,7 @@ std::string to_string( const time_duration &d )
         divider = 24_hours;
     }
 
-    if( d % divider != 0 ) {
+    if( d % divider != 0_turns ) {
         //~ %1$s - greater units of time (e.g. 3 hours), %2$s - lesser units of time (e.g. 11 minutes).
         return string_format( _( "%1$s and %2$s" ),
                               to_string_clipped( d ),
@@ -414,10 +329,10 @@ std::string to_string( const time_duration &d )
     return to_string_clipped( d );
 }
 
-std::string to_string_approx( const time_duration &d_, const bool verbose )
+std::string to_string_approx( const time_duration &dur, const bool verbose )
 {
-    time_duration d = d_;
-    const auto make_result = [verbose]( const time_duration d, const char *verbose_str,
+    time_duration d = dur;
+    const auto make_result = [verbose]( const time_duration & d, const char *verbose_str,
     const char *short_str ) {
         return string_format( verbose ? verbose_str : short_str, to_string_clipped( d ) );
     };
@@ -433,7 +348,7 @@ std::string to_string_approx( const time_duration &d_, const bool verbose )
         vicinity = 5_minutes;
     } // Minutes and seconds can be estimated precisely.
 
-    if( divider != 0 ) {
+    if( divider != 0_turns ) {
         const time_duration remainder = d % divider;
 
         if( remainder >= divider - vicinity ) {
@@ -456,8 +371,7 @@ std::string to_string_time_of_day( const time_point &p )
 {
     const int hour = hour_of_day<int>( p );
     const int minute = minute_of_hour<int>( p );
-    //@todo add a to_seconds function?
-    const int second = ( to_turns<int>( time_past_midnight( p ) ) * 6 ) % 60;
+    const int second = ( to_seconds<int>( time_past_midnight( p ) ) ) % 60;
     const std::string format_type = get_option<std::string>( "24_HOUR" );
 
     if( format_type == "military" ) {
@@ -503,7 +417,7 @@ weekdays day_of_week( const time_point &p )
      * <wito> kevingranade: add four for thursday. ;)
      * <kevingranade> sounds like consensus to me
      * <kevingranade> Thursday it is */
-    const int day_since_cataclysm = to_days<int>( p - calendar::time_of_cataclysm );
+    const int day_since_cataclysm = to_days<int>( p - calendar::turn_zero );
     static const weekdays start_day = weekdays::THURSDAY;
     const int result = day_since_cataclysm + static_cast<int>( start_day );
     return static_cast<weekdays>( result % 7 );
@@ -511,8 +425,7 @@ weekdays day_of_week( const time_point &p )
 
 bool calendar::eternal_season()
 {
-    static const std::string eternal_season_option_name = "ETERNAL_SEASON";
-    return get_option<bool>( eternal_season_option_name );
+    return is_eternal_season;
 }
 
 time_duration calendar::year_length()
@@ -522,9 +435,15 @@ time_duration calendar::year_length()
 
 time_duration calendar::season_length()
 {
-    static const std::string s = "SEASON_LENGTH";
-    // Avoid returning 0 as this value is used in division and expected to be non-zero.
-    return time_duration::from_days( std::max( get_option<int>( s ), 1 ) );
+    return time_duration::from_days( std::max( cur_season_length, 1 ) );
+}
+void calendar::set_eternal_season( bool is_eternal )
+{
+    is_eternal_season = is_eternal;
+}
+void calendar::set_season_length( const int dur )
+{
+    cur_season_length = dur;
 }
 
 float calendar::season_ratio()
@@ -539,36 +458,12 @@ float calendar::season_from_default_ratio()
     return to_days<float>( season_length() ) / default_season_length;
 }
 
-int calendar::day_of_year() const
-{
-    return day + to_days<int>( season_length() ) * season;
-}
-
-void calendar::sync()
-{
-    const int sl = to_days<int>( season_length() );
-    year = turn_number / DAYS( sl * 4 );
-
-    if( eternal_season() ) {
-        // If we use calendar::start to determine the initial season, and the user shortens the season length
-        // mid-game, the result could be the wrong season!
-        season = initial_season;
-    } else {
-        season = season_type( turn_number / DAYS( sl ) % 4 );
-    }
-
-    day = turn_number / DAYS( 1 ) % sl;
-    hour = turn_number / HOURS( 1 ) % 24;
-    minute = turn_number / MINUTES( 1 ) % 60;
-    second = ( turn_number * 6 ) % 60;
-}
-
 bool calendar::once_every( const time_duration &event_frequency )
 {
-    return ( calendar::turn % to_turns<int>( event_frequency ) ) == 0;
+    return ( calendar::turn - calendar::turn_zero ) % event_frequency == 0_turns;
 }
 
-const std::string calendar::name_season( season_type s )
+std::string calendar::name_season( season_type s )
 {
     static const std::array<std::string, 5> season_names_untranslated = {{
             //~First letter is supposed to be uppercase
@@ -583,10 +478,10 @@ const std::string calendar::name_season( season_type s )
         }
     };
     if( s >= SPRING && s <= WINTER ) {
-        return _( season_names_untranslated[ s ].c_str() );
+        return _( season_names_untranslated[ s ] );
     }
 
-    return _( season_names_untranslated[ 4 ].c_str() );
+    return _( season_names_untranslated[ 4 ] );
 }
 
 time_duration rng( time_duration lo, time_duration hi )
@@ -598,6 +493,27 @@ bool x_in_y( const time_duration &a, const time_duration &b )
 {
     return ::x_in_y( to_turns<int>( a ), to_turns<int>( b ) );
 }
+
+const std::vector<std::pair<std::string, time_duration>> time_duration::units = { {
+        { "turns", 1_turns },
+        { "turn", 1_turns },
+        { "t", 1_turns },
+        { "seconds", 1_seconds },
+        { "second", 1_seconds },
+        { "s", 1_seconds },
+        { "minutes", 1_minutes },
+        { "minute", 1_minutes },
+        { "m", 1_minutes },
+        { "hours", 1_hours },
+        { "hour", 1_hours },
+        { "h", 1_hours },
+        { "days", 1_days },
+        { "day", 1_days },
+        { "d", 1_days },
+        // TODO: maybe add seasons?
+        // TODO: maybe add years? Those two things depend on season length!
+    }
+};
 
 season_type season_of_year( const time_point &p )
 {
@@ -621,7 +537,7 @@ season_type season_of_year( const time_point &p )
 
 std::string to_string( const time_point &p )
 {
-    const int year = to_turns<int>( p - calendar::time_of_cataclysm ) / to_turns<int>
+    const int year = to_turns<int>( p - calendar::turn_zero ) / to_turns<int>
                      ( calendar::year_length() ) + 1;
     const std::string time = to_string_time_of_day( p );
     if( calendar::eternal_season() ) {
@@ -634,4 +550,9 @@ std::string to_string( const time_point &p )
         return string_format( _( "Year %1$d, %2$s, day %3$d %4$s" ), year,
                               calendar::name_season( season_of_year( p ) ), day, time );
     }
+}
+
+time_point::time_point()
+{
+    turn_ = 0;
 }

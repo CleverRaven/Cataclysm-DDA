@@ -2,12 +2,13 @@
 #ifndef GAMEMODE_H
 #define GAMEMODE_H
 
-#include "calendar.h"
-#include "enums.h"
-#include "string_id.h"
-
 #include <memory>
 #include <vector>
+#include <string>
+
+#include "calendar.h"
+#include "enums.h"
+#include "type_id.h"
 
 enum action_id : int;
 using itype_id = std::string;
@@ -16,8 +17,6 @@ namespace catacurses
 class window;
 } // namespace catacurses
 struct special_game;
-struct mtype;
-using mtype_id = string_id<mtype>;
 
 std::string special_game_name( special_game_id id );
 std::unique_ptr<special_game> get_special_game( special_game_id id );
@@ -83,7 +82,7 @@ struct tutorial_game : public special_game {
     private:
         void add_message( tut_lesson lesson );
 
-        bool tutorials_seen[NUM_LESSONS];
+        bool tutorials_seen[NUM_LESSONS] = {};
 };
 
 // DEFENSE
@@ -164,9 +163,9 @@ struct defense_game : public special_game {
         time_duration time_between_waves;     // Cooldown / building / healing time
         int waves_between_caravans; // How many waves until we get to trade?
 
-        unsigned long initial_cash;  // How much cash do we start with?
-        unsigned long cash_per_wave; // How much cash do we get per wave?
-        unsigned long cash_increase; // How much does the above increase per wave?
+        int initial_cash;  // How much cash do we start with?
+        int cash_per_wave; // How much cash do we get per wave?
+        int cash_increase; // How much does the above increase per wave?
 
         bool zombies;
         bool specials;

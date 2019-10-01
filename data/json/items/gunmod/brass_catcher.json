@@ -1,0 +1,17 @@
+[
+  {
+    "id": "brass_catcher",
+    "type": "GUNMOD",
+    "name": "brass catcher",
+    "description": "A bag that hangs off the side of your gun and catches ejected casings so you don't have to pick them up.",
+    "weight": "114 g",
+    "volume": "250 ml",
+    "price": 2000,
+    "material": [ "cotton" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "brass catcher",
+    "mod_targets": [ "shotgun", "smg", "rifle", "pistol", "launcher" ],
+    "min_skills": [ [ "weapon", 1 ] ]
+  }
+]

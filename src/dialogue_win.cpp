@@ -1,15 +1,13 @@
 #include "dialogue_win.h"
 
-#include "debug.h"
-#include "game.h"
-#include "input.h"
-#include "map.h"
-#include "output.h"
-#include "translations.h"
-
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <memory>
+
+#include "input.h"
+#include "output.h"
+#include "translations.h"
 
 void dialogue_window::open_dialogue( bool text_only )
 {
@@ -17,11 +15,11 @@ void dialogue_window::open_dialogue( bool text_only )
         this->text_only = true;
         return;
     }
-    int win_beginy = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
-    int win_beginx = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
+    int win_beginy = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
+    int win_beginx = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
     int maxy = win_beginy ? TERMY - 2 * win_beginy : FULL_SCREEN_HEIGHT;
     int maxx = win_beginx ? TERMX - 2 * win_beginx : FULL_SCREEN_WIDTH;
-    d_win = catacurses::newwin( maxy, maxx, win_beginy, win_beginx );
+    d_win = catacurses::newwin( maxy, maxx, point( win_beginx, win_beginy ) );
 }
 
 void dialogue_window::print_header( const std::string &name )
@@ -32,11 +30,12 @@ void dialogue_window::print_header( const std::string &name )
     draw_border( d_win );
     int win_midx = getmaxx( d_win ) / 2;
     int winy = getmaxy( d_win );
-    mvwvline( d_win, 1, win_midx + 1, LINE_XOXO, winy - 1 );
-    mvwputch( d_win, 0, win_midx + 1, BORDER_COLOR, LINE_OXXX );
-    mvwputch( d_win, winy - 1, win_midx + 1, BORDER_COLOR, LINE_XXOX );
-    mvwprintz( d_win, 1,  1, c_white, _( "Dialogue: %s" ), name.c_str() );
-    mvwprintz( d_win, 1, win_midx + 3, c_white, _( "Your response:" ) );
+    mvwvline( d_win, point( win_midx + 1, 1 ), LINE_XOXO, winy - 1 );
+    mvwputch( d_win, point( win_midx + 1, 0 ), BORDER_COLOR, LINE_OXXX );
+    mvwputch( d_win, point( win_midx + 1, winy - 1 ), BORDER_COLOR, LINE_XXOX );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( d_win, point( 1, 1 ), c_white, _( "Dialogue: %s" ), name );
+    mvwprintz( d_win, point( win_midx + 3, 1 ), c_white, _( "Your response:" ) );
     npc_name = name;
 }
 
@@ -73,9 +72,9 @@ void dialogue_window::print_history( const size_t hilight_lines )
     int newindex = history.size() - hilight_lines;
     // Print at line 2 and below, line 1 contains the header, line 0 the border
     while( curindex >= 0 && curline >= 2 ) {
-        // red for new text, gray for old, similar to coloring of messages
-        nc_color const col = ( curindex >= newindex ) ? c_red : c_dark_gray;
-        mvwprintz( d_win, curline, 1, col, history[curindex] );
+        // white for new text, light gray for old messages
+        nc_color const col = ( curindex >= newindex ) ? c_white : c_light_gray;
+        mvwprintz( d_win, point( 1, curline ), col, history[curindex] );
         curline--;
         curindex--;
     }
@@ -114,14 +113,14 @@ bool dialogue_window::print_responses( const int yoffset, const std::vector<talk
                 break;
             }
             const int off = ( j != 0 ) ? +3 : 0;
-            mvwprintz( d_win, curline, xoffset + off, color, folded[j] );
+            mvwprintz( d_win, point( xoffset + off, curline ), color, folded[j] );
         }
     }
     // Those are always available, their key bindings are fixed as well.
-    mvwprintz( d_win, curline + 1, xoffset, c_magenta, _( "Shift+L: Look at" ) );
-    mvwprintz( d_win, curline + 2, xoffset, c_magenta, _( "Shift+S: Size up stats" ) );
-    mvwprintz( d_win, curline + 3, xoffset, c_magenta, _( "Shift+Y: Yell" ) );
-    mvwprintz( d_win, curline + 4, xoffset, c_magenta, _( "Shift+O: Check opinion" ) );
+    mvwprintz( d_win, point( xoffset, curline + 1 ), c_magenta, _( "Shift+L: Look at" ) );
+    mvwprintz( d_win, point( xoffset, curline + 2 ), c_magenta, _( "Shift+S: Size up stats" ) );
+    mvwprintz( d_win, point( xoffset, curline + 3 ), c_magenta, _( "Shift+Y: Yell" ) );
+    mvwprintz( d_win, point( xoffset, curline + 4 ), c_magenta, _( "Shift+O: Check opinion" ) );
     return curline > max_line; // whether there is more to print.
 }
 
@@ -134,12 +133,12 @@ void dialogue_window::refresh_response_display()
 
 void dialogue_window::display_responses( const int hilight_lines,
         const std::vector<talk_data> &responses,
-        const long &ch )
+        const int &ch )
 {
     if( text_only ) {
         return;
     }
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
     for( size_t i = 0; i < responses.size(); i++ ) {
         ctxt.register_manual_key( 'a' + i );
@@ -172,10 +171,10 @@ void dialogue_window::display_responses( const int hilight_lines,
     can_scroll_down = print_responses( yoffset, responses );
     can_scroll_up = yoffset > 0;
     if( can_scroll_up ) {
-        mvwprintz( d_win, 2, getmaxx( d_win ) - 2 - 2, c_green, "^^" );
+        mvwprintz( d_win, point( getmaxx( d_win ) - 2 - 2, 2 ), c_green, "^^" );
     }
     if( can_scroll_down ) {
-        mvwprintz( d_win, win_maxy - 2, FULL_SCREEN_WIDTH - 2 - 2, c_green, "vv" );
+        mvwprintz( d_win, point( FULL_SCREEN_WIDTH - 2 - 2, win_maxy - 2 ), c_green, "vv" );
     }
     wrefresh( d_win );
 }

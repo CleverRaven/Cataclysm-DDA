@@ -1,0 +1,76 @@
+[
+  {
+    "type": "item_group",
+    "id": "hardware",
+    "//": "A general hardware group for retail, workshops, etc.",
+    "items": [
+      { "group": "tools_general", "prob": 50 },
+      { "group": "supplies_hardware", "prob": 50 },
+      { "group": "hardware_clothing", "prob": 10 },
+      [ "survnote", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mischw",
+    "//": "A general hardware group for retail, workshops, etc., with an odd assortment of extra items.",
+    "items": [
+      { "group": "tools_general", "prob": 90 },
+      { "group": "supplies_hardware", "prob": 50 },
+      { "group": "hardware_clothing", "prob": 20 },
+      { "group": "hardware_bulk", "prob": 10 },
+      { "group": "hardware_books", "prob": 10 },
+      [ "survnote", 1 ],
+      [ "box_medium", 2 ],
+      [ "box_large", 2 ],
+      [ "plastic_sheet", 2 ],
+      [ "machete", 5 ],
+      [ "boots_combat", 10 ],
+      [ "boots_hiking", 5 ],
+      [ "runner_bag", 3 ],
+      [ "bb", 8 ],
+      [ "bbgun", 10 ],
+      [ "beartrap", 3 ],
+      [ "radio", 20 ],
+      [ "hotplate", 10 ],
+      [ "extinguisher", 20 ],
+      [ "cable", 60 ],
+      [ "sm_extinguisher", 10 ],
+      [ "grapnel", 1 ],
+      [ "misc_repairkit", 5 ],
+      [ "knitting_needles", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "hardware_plumbing",
+    "items": [
+      { "group": "plumbing_clothing", "prob": 100 },
+      { "group": "tools_plumbing", "prob": 100 },
+      { "group": "supplies_plumbing", "prob": 50 },
+      [ "survnote", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mechanics",
+    "ammo": 100,
+    "items": [
+      { "group": "supplies_spares_vehicle", "prob": 100 },
+      { "group": "tools_common", "prob": 100 },
+      { "group": "tools_mechanic", "prob": 150 },
+      { "group": "supplies_metal", "prob": 20 },
+      { "group": "supplies_mechanics", "prob": 80 },
+      [ "goggles_welding", 50 ],
+      [ "welding_book", 10 ],
+      [ "welding_mask", 30 ],
+      [ "jerrycan", 10 ],
+      [ "jerrycan_big", 10 ],
+      [ "metal_tank", 8 ],
+      [ "metal_tank_little", 8 ],
+      [ "cu_pipe", 5 ],
+      [ "eyedrops", 4 ],
+      [ "survnote", 1 ]
+    ]
+  }
+]

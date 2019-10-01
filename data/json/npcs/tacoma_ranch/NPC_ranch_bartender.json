@@ -1,0 +1,217 @@
+[
+  {
+    "type": "npc",
+    "id": "ranch_bartender",
+    "//": "Mission source, shopkeep",
+    "name_suffix": "Bartender",
+    "class": "NC_BARTENDER",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_RANCH_BARKEEP",
+    "mission_offered": "MISSION_RANCH_BARTENDER_1",
+    "faction": "tacoma_commune"
+  },
+  {
+    "id": "TALK_RANCH_BARKEEP",
+    "type": "talk_topic",
+    "dynamic_line": "Want a drink?",
+    "responses": [
+      { "text": "What is your job here?", "topic": "TALK_RANCH_BARKEEP_JOB" },
+      { "text": "I'm looking for information.", "topic": "TALK_RANCH_BARKEEP_INFORMATION" },
+      { "text": "Do you need any help?", "topic": "TALK_MISSION_LIST" },
+      {
+        "text": "Let me see what you keep behind the counter.",
+        "topic": "TALK_RANCH_BARKEEP",
+        "effect": "start_trade"
+      },
+      { "text": "What do you have on tap?", "topic": "TALK_RANCH_BARKEEP_TAP" },
+      { "text": "I'll be going...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_BARKEEP_JOB",
+    "dynamic_line": "If it isn't obvious, I oversee the bar here.  The scavengers bring in old world alcohol that we sell for special occasions.  For most that come through here though, the drinks we brew ourselves are the only thing they can afford.",
+    "responses": [ { "text": "I see.", "topic": "TALK_RANCH_BARKEEP" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_BARKEEP_INFORMATION",
+    "dynamic_line": "We have a policy of keeping information to ourselves.  Ask the patrons if you want to hear rumors or news.",
+    "responses": [ { "text": "Thanks for nothing.", "topic": "TALK_RANCH_BARKEEP" } ]
+  },
+  {
+    "id": "TALK_RANCH_BARKEEP_TAP",
+    "type": "talk_topic",
+    "dynamic_line": "Our selection is a bit limited at the moment.",
+    "responses": [
+      {
+        "text": "[$8] I'll take a beer",
+        "topic": "TALK_DONE",
+        "effect": { "u_buy_item": "beer", "container": "bottle_glass", "count": 2, "cost": 800 }
+      },
+      {
+        "text": "[$10] I'll take a shot of brandy",
+        "topic": "TALK_DONE",
+        "effect": { "u_buy_item": "brandy", "container": "bottle_glass", "cost": 1000 }
+      },
+      {
+        "text": "[$10] I'll take a shot of rum",
+        "topic": "TALK_DONE",
+        "effect": { "u_buy_item": "rum", "container": "bottle_glass", "cost": 1000 }
+      },
+      {
+        "text": "[$12] I'll take a shot of whiskey",
+        "topic": "TALK_DONE",
+        "effect": { "u_buy_item": "whiskey", "container": "bottle_glass", "cost": 1200 }
+      },
+      { "text": "On second thought, don't bother.", "topic": "TALK_RANCH_BARKEEP" }
+    ]
+  },
+  {
+    "id": "MISSION_RANCH_BARTENDER_1",
+    "type": "mission_definition",
+    "name": "Make 2 Stills",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "still",
+    "count": 2,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_BARTENDER_2",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "The wine and beer we can brew are sufficient to attract most patrons but we need something a bit stronger to get them to forget their misery.  Could you build me a pair of stills?",
+      "accepted": "This should let us start producing whiskey, rum, and brandy when we get access to the ingredients.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "I'm sure you could find the design for the stills in home brewing books.",
+      "inquire": "Do you have the stills?",
+      "success": "Thank you for the delivery.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "update_mapgen": {
+        "om_terrain": "ranch_camp_51",
+        "om_special": "ranch_camp",
+        "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_1" ], "x": 0, "y": 0 } ]
+      }
+    }
+  },
+  {
+    "id": "MISSION_RANCH_BARTENDER_2",
+    "type": "mission_definition",
+    "name": "Find 20 Yeast",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "yeast",
+    "count": 20,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_BARTENDER_3",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "The last batch that I brewed was terrible, I'm fairly sure something contaminated the yeast we have been using.  Could you locate a source of fresh yeast for us to use?  I'd need about 20 teaspoons of dry yeast to get started.",
+      "accepted": "Thank you for your assistance.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Yeast should be common in homes or bakeries.",
+      "inquire": "Do you have the yeast?",
+      "success": "Thank you for the delivery.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "effect": { "npc_add_trait": "NPC_BRANDY" },
+      "update_mapgen": {
+        "om_terrain": "ranch_camp_51",
+        "om_special": "ranch_camp",
+        "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_2" ], "x": 0, "y": 0 } ]
+      }
+    }
+  },
+  {
+    "id": "MISSION_RANCH_BARTENDER_3",
+    "type": "mission_definition",
+    "name": "Find 10 Sugar Beet Seeds",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "seed_sugar_beet",
+    "count": 10,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_BARTENDER_4",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "Sugar and molasses remains in short supply.  I've put in a request for more but it is unlikely that I'm going to see a reliable source for some time.  If you are interested, we are going to need sugar beet seeds to meet future demand regardless of what the scavengers can find.  Could you bring me at least enough seeds to plant a small 10 meter long patch?",
+      "accepted": "Thank you for your assistance.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Farms or supply stores might have a few seeds...",
+      "inquire": "Do you have the sugar beet seeds?",
+      "success": "Thank you for the delivery.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "effect": { "npc_add_trait": "NPC_RUM" },
+      "update_mapgen": {
+        "om_terrain": "ranch_camp_51",
+        "om_special": "ranch_camp",
+        "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_3" ], "x": 0, "y": 0 } ]
+      }
+    }
+  },
+  {
+    "id": "MISSION_RANCH_BARTENDER_4",
+    "type": "mission_definition",
+    "name": "Find 12 Metal Tanks",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "metal_tank",
+    "count": 12,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_BARTENDER_5",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "The drinks we brew here have become a major draw for visitors and the occasional trader.  Our batches have become larger but we are still running out of storage space between trading runs.  I've been able to get a few volunteers to help me build a set of standing tanks but I still need 12 metal tanks to build them.  I've talked with the scrappers but we are a low priority at the moment.",
+      "accepted": "Thank you for your assistance.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Scrapping vehicles might be your best bet.",
+      "inquire": "Do you have the metal tanks?",
+      "success": "Thank you for the delivery.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "update_mapgen": {
+        "effect": { "npc_add_trait": "NPC_WHISKEY" },
+        "om_terrain": "ranch_camp_51",
+        "om_special": "ranch_camp",
+        "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_4" ], "x": 0, "y": 0 } ]
+      }
+    }
+  },
+  {
+    "id": "MISSION_RANCH_BARTENDER_5",
+    "type": "mission_definition",
+    "name": "Find 2 200-Liter Drums",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "55gal_drum",
+    "count": 2,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_NULL",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "The other survivor outposts that we have contact with have been more than eager to trade for beer or other drinks.  Transporting the drinks to them has presented a number of challenges though.  If you could locate a pair of 200-liter drums we should be able to keep them supplied while turning a significant profit.",
+      "accepted": "Thank you for your assistance.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Factories or junk yards are the only places I know where to look.",
+      "inquire": "Do you have the 200-liter drums?",
+      "success": "Thank you for the delivery.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  }
+]

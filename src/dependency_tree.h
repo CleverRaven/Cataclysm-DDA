@@ -2,14 +2,12 @@
 #ifndef DEPENDENCY_TREE_H
 #define DEPENDENCY_TREE_H
 
-#include "string_id.h"
-
 #include <map>
 #include <stack>
 #include <vector>
+#include <string>
 
-struct MOD_INFORMATION;
-using mod_id = string_id<MOD_INFORMATION>;
+#include "type_id.h"
 
 enum NODE_ERROR_TYPE {
     DEPENDENCY,

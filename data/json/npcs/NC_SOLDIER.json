@@ -1,176 +1,147 @@
 [
   {
-    "type" : "item_group",
-    "id" : "NC_SOLDIER_pants_male",
-    "items":[
-      ["pants_army", 100]
+    "type": "item_group",
+    "id": "NC_SOLDIER_pants",
+    "items": [ [ "pants_army", 80 ], [ "winter_pants_army", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_shirt",
+    "items": [ [ "army_top", 20 ], [ "tshirt", 20 ], [ "polo_shirt", 20 ], [ "longshirt", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_gloves",
+    "items": [ [ "null", 20 ], [ "gloves_tactical", 50 ], [ "gloves_fingerless", 30 ], [ "winter_gloves_army", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_coat",
+    "items": [ [ "null", 20 ], [ "jacket_army", 50 ], [ "winter_jacket_army", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_vest",
+    "items": [
+      [ "null", 10 ],
+      [ "jacket_army", 50 ],
+      [ "kevlar", 10 ],
+      [ "modularvest", 15 ],
+      [ "modularvestkevlar", 25 ],
+      [ "modularvestceramic", 25 ]
     ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SOLDIER_pants_female",
-    "items":[
-      ["pants_army", 100]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SOLDIER_shirt_male",
-    "items":[
-      ["army_top", 50],
-      ["jacket_army", 50],
-      ["tank_top", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SOLDIER_shirt_female",
-    "items":[
-      ["army_top", 50],
-      ["jacket_army", 50],
-      ["tank_top", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SOLDIER_gloves",
-    "items":[
-      ["null", 20],
-      ["gloves_tactical", 50],
-      ["gloves_fingerless", 30]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SOLDIER_coat",
-    "items":[
-      ["null", 10],
-      ["kevlar", 10],
-      ["modularvest", 15],
-      ["modularvestkevlar", 25],
-      ["modularvestceramic", 25]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SOLDIER_shoes",
-    "items":[
-      ["boots_combat", 90],
-      ["boots", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SOLDIER_masks",
-    "items":[
-      ["null", 50],
-      ["mask_gas", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SOLDIER_eyes",
-    "items":[
-      ["null", 20],
-      ["glasses_safety", 10],
-      ["glasses_bal", 60]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SOLDIER_hat",
-    "items":[
-      ["null", 50],
-      ["tac_helmet", 10],
-      ["helmet_army", 50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SOLDIER_extra",
-    "items":[
-      ["null", 5],
-      ["molle_pack", 40],
-      ["rucksack", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SOLDIER_cutting",
-    "items":[
-      ["knife_combat", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SOLDIER_stabbing",
-    "items":[
-      ["knife_combat", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SOLDIER_pistols",
-    "items":[
-      ["m9", 100]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SOLDIER_smg",
-    "items":[
-      ["hk_mp5", 100]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SOLDIER_rifle",
-    "items":[
-      ["m4a1", 90],
-      ["m14ebr", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SOLDIER_weapon_random",
-    "items":[
-      ["m4a1", 35]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SOLDIER_misc",
-    "items":[
-        ["grenade", 10],
-        ["flashbang", 2],
-        ["c4", 5],
-        ["goggles_nv", 1],
-        ["goggles_ir", 1],
-        ["optical_cloak", 1],
-        ["UPS_off", 5],
-        ["adv_UPS_off", 3],
-        ["chestrig", 10],
-        ["backpack", 8],
-        ["dump_pouch", 20],
-        ["legrig", 10],
-        ["under_armor", 20],
-        ["elbow_pads", 20],
-        ["knee_pads", 20],
-        ["mil_mess_kit", 30],
-        ["e_tool", 15],
-        ["chocolate", 30],
-        ["can_beans", 20],
-        ["mre_chilibeans_box", 45],
-        ["mre_bbqbeef_box", 45],
-        ["mre_chickennoodle_box", 45],
-        ["mre_spaghetti_box", 45],
-        ["mre_chicken_box", 45],
-        ["mre_beeftaco_box", 45],
-        ["mre_beef_box", 45],
-        ["mre_meatball_box", 45],
-        ["mre_beefstew_box", 45],
-        ["mre_chilimac_box", 45],
-        ["mre_veggy_box", 45],
-        ["mre_macaronimarinara_box", 45],
-        ["mre_cheesetort_box", 45],
-        ["mre_mushroomfettuccine_box", 45],
-        ["mre_mexicanchickenstew_box", 45],
-        ["mre_maplesausage_box", 45],
-        ["mre_ravioli_box", 45],
-        ["mre_hashbrownbacon_box", 45],
-        ["mre_lemontuna_box", 45],
-        ["mre_asianbeef_box", 45],
-        ["mre_chickenpesto_box", 45],
-        ["mre_southwestbeef_box", 45],
-        ["mre_hotdog_box", 45],
-        ["1st_aid", 35],
-        ["saline", 10],
-        ["con_milk", 10],
-        ["sports_drink", 40],
-        ["water_clean", 90]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_shoes",
+    "items": [ [ "boots_combat", 90 ], [ "boots", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_masks",
+    "items": [ [ "null", 50 ], [ "mask_gas", 20 ], [ "mask_bal", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_eyes",
+    "items": [ [ "null", 20 ], [ "glasses_safety", 10 ], [ "glasses_bal", 60 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_hat",
+    "items": [ [ "null", 10 ], [ "tac_helmet", 50 ], [ "helmet_army", 50 ], [ "helmet_skid", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_storage",
+    "items": [ [ "null", 5 ], [ "molle_pack", 40 ], [ "rucksack", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_holster",
+    "items": [ [ "null", 20 ], [ "holster", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_cutting",
+    "items": [ [ "knife_combat", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_stabbing",
+    "items": [ [ "knife_combat", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_pistols",
+    "items": [ [ "m9", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_smg",
+    "items": [ [ "hk_mp5", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_rifle",
+    "items": [ [ "m4a1", 90 ], [ "m14ebr", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_weapon_random",
+    "items": [ [ "m4a1", 35 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SOLDIER_misc",
+    "items": [
+      [ "grenade", 10 ],
+      [ "flashbang", 2 ],
+      [ "c4", 5 ],
+      [ "goggles_nv", 1 ],
+      [ "goggles_ir", 1 ],
+      [ "optical_cloak", 1 ],
+      [ "UPS_off", 5 ],
+      [ "adv_UPS_off", 3 ],
+      [ "tacvest", 10 ],
+      [ "backpack", 8 ],
+      [ "dump_pouch", 20 ],
+      [ "legrig", 10 ],
+      [ "under_armor", 20 ],
+      [ "elbow_pads", 20 ],
+      [ "knee_pads", 20 ],
+      [ "mil_mess_kit", 30 ],
+      [ "e_tool", 15 ],
+      [ "chocolate", 30 ],
+      [ "can_beans", 20 ],
+      [ "mre_chilibeans_box", 45 ],
+      [ "mre_bbqbeef_box", 45 ],
+      [ "mre_chickennoodle_box", 45 ],
+      [ "mre_spaghetti_box", 45 ],
+      [ "mre_chicken_box", 45 ],
+      [ "mre_beeftaco_box", 45 ],
+      [ "mre_beef_box", 45 ],
+      [ "mre_meatball_box", 45 ],
+      [ "mre_beefstew_box", 45 ],
+      [ "mre_chilimac_box", 45 ],
+      [ "mre_veggy_box", 45 ],
+      [ "mre_macaronimarinara_box", 45 ],
+      [ "mre_cheesetort_box", 45 ],
+      [ "mre_mushroomfettuccine_box", 45 ],
+      [ "mre_mexicanchickenstew_box", 45 ],
+      [ "mre_maplesausage_box", 45 ],
+      [ "mre_ravioli_box", 45 ],
+      [ "mre_hashbrownbacon_box", 45 ],
+      [ "mre_lemontuna_box", 45 ],
+      [ "mre_asianbeef_box", 45 ],
+      [ "mre_chickenpesto_box", 45 ],
+      [ "mre_southwestbeef_box", 45 ],
+      [ "mre_hotdog_box", 45 ],
+      [ "1st_aid", 35 ],
+      [ "saline", 10 ],
+      [ "con_milk", 10 ],
+      [ "sports_drink", 40 ],
+      [ "water_clean", 90 ]
     ]
   }
 ]

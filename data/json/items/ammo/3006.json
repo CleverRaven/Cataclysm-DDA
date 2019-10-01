@@ -1,12 +1,13 @@
 [
   {
-    "id": "270",
+    "id": "3006",
     "type": "AMMO",
-    "name": ".270 Winchester",
-    "description": ".270 Winchester ammunition with 130gr soft point bullets.  Similar to .30-06, the .270 round was a popular hunting cartridge until the mid 21st century when it was supplanted by new designs.  It is a powerful round capable of taking down large targets with ease.  While not advisable, it may be possible to use it in some firearms chambered for .30-06.",
-    "weight": 20,
-    "volume": 1,
-    "price": 1700,
+    "name": ".30-06 Springfield",
+    "description": ".30-06 Springfield rounds with 165gr soft point bullets.  The .30-06 cartridge has excellent accuracy, range, and stopping power making it popular with hunters and snipers for well over a century.",
+    "weight": "20 g",
+    "volume": "250 ml",
+    "price": 160,
+    "price_postapoc": 1200,
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -14,23 +15,12 @@
     "stack_size": 20,
     "ammo_type": "3006",
     "casing": "3006_casing",
-    "range": 65,
-    "damage": 64,
-    "pierce": 4,
-    "dispersion": 10,
+    "range": 61,
+    "damage": 62,
+    "pierce": 10,
+    "dispersion": 20,
     "recoil": 3800,
     "effects": [ "COOKOFF" ]
-  },
-  {
-    "id": "3006",
-    "copy-from": "270",
-    "type": "AMMO",
-    "name": ".30-06 Springfield",
-    "description": ".30-06 Springfield rounds with 165gr soft point bullets.  The .30-06 cartridge has excellent accuracy, range, and stopping power making it popular with hunters and snipers for well over a century.",
-    "price": 1200,
-    "count": 10,
-    "relative": { "range": -4, "damage": -2, "pierce": 6, "dispersion": 10 },
-    "extend": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
     "id": "3006_incendiary",
@@ -49,12 +39,30 @@
     "relative": { "damage": -4, "pierce": 8 }
   },
   {
-    "id": "reloaded_270",
-    "copy-from": "270",
+    "id": "bp_3006",
+    "copy-from": "3006",
     "type": "AMMO",
-    "name": "reloaded .270 Winchester",
-    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
-    "extend": { "effects": [ "RECYCLED" ] },
+    "name": ".30-06 Springfield blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_3006_incendiary",
+    "copy-from": "3006_incendiary",
+    "type": "AMMO",
+    "name": ".30-06 Springfield tracer blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_3006fmj",
+    "copy-from": "bp_3006",
+    "type": "AMMO",
+    "name": ".30-06 Springfield M2 AP blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {

@@ -2,10 +2,7 @@
   {
     "id": "spider",
     "type": "item_group",
-    "items": [
-      [ "410_shot", 6 ],
-      [ "m6_asw", 1 ]
-    ]
+    "items": [ [ "410shot", 6 ], [ "m6_asw", 1 ] ]
   },
   {
     "id": "helicopter",
@@ -13,89 +10,29 @@
     "items": [ [ "m6_asw", 1 ] ]
   },
   {
-    "id": "ammo_pistol_common",
-    "type": "item_group",
-    "items": [
-      [ "357", 20 ],
-      [ "45_long_colt", 30 ]
-    ]
-  },
-  {
-    "id": "ammo_pistol_rare",
-    "type": "item_group",
-    "items": [ [ "357_P", 50 ] ]
-  },
-  {
-    "id": "ammo_pistol_reloaded",
-    "type": "item_group",
-    "items": [
-      [ "reloaded_357", 50 ],
-      [ "reloaded_357_P", 20 ],
-      [ "reloaded_45_long_colt", 40 ]
-    ]
-  },
-  {
-    "id": "ammo_shotgun_common",
-    "type": "item_group",
-    "items": [ [ "410_birdshot", 60 ] ]
-  },
-  {
-    "id": "ammo_shotgun_rare",
-    "type": "item_group",
-    "items": [
-      [ "410_shot", 40 ],
-      [ "410_slug", 20 ]
-    ]
-  },
-  {
-    "id": "ammo_shotgun_reloaded",
-    "type": "item_group",
-    "items": [
-      [ "reloaded_410_birdshot", 100 ],
-      [ "reloaded_410_shot", 15 ],
-      [ "reloaded_410_slug", 15 ]
-    ]
-  },
-  {
     "id": "guns_pistol_common",
     "type": "item_group",
-    "items": [
-      [ "model_10_revolver", 20 ]
-    ]
+    "items": [ [ "model_10_revolver", 20 ] ]
   },
   {
     "id": "guns_pistol_rare",
     "type": "item_group",
-    "items": [
-      [ "colt_saa", 30 ],
-      [ "bond_410", 20 ]
-    ]
+    "items": [ [ "bond_410", 20 ] ]
   },
   {
     "id": "guns_pistol_obscure",
     "type": "item_group",
-    "items": [
-      [ "af2011a1_38super", 100 ],
-      [ "m1991a1_38super", 150 ]
-    ]
+    "items": [ [ "af2011a1_38super", 100 ], [ "m1991a1_38super", 150 ] ]
   },
   {
     "id": "guns_rifle_rare",
     "type": "item_group",
-    "items": [
-      [ "colt_lightning", 15 ],
-      [ "m6_asw", 15 ]
-    ]
+    "items": [ [ "colt_lightning", 15 ], [ "m6_asw", 15 ] ]
   },
   {
     "id": "guns_shotgun_common",
     "type": "item_group",
     "items": [ [ "shotgun_410", 30 ] ]
-  },
-  {
-    "id": "guns_shotgun_rare",
-    "type": "item_group",
-    "items": [ [ "saiga_410", 30 ] ]
   },
   {
     "id": "guns_shotgun_improvised",
@@ -105,10 +42,7 @@
   {
     "id": "guns_survival",
     "type": "item_group",
-    "items": [
-      [ "m6_asw", 5 ],
-      [ "shotgun_410", 10 ]
-    ]
+    "items": [ [ "m6_asw", 5 ], [ "shotgun_410", 10 ] ]
   },
   {
     "id": "museum_guns",
@@ -117,41 +51,8 @@
     "items": [ [ "colt_saa", 30 ] ]
   },
   {
-    "id": "antique_ammo",
-    "type": "item_group",
-    "items": [ [ "45_long_colt", 60 ] ]
-  },
-  {
-    "id": "ammo_casings",
-    "type": "item_group",
-    "items": [
-      { "item": "357_mag_casing", "prob": 80, "count": 20 },
-      { "item": "410_hull", "prob": 75, "count": 20 },
-      { "item": "45lc_casing", "prob": 40, "count": 20 }
-    ]
-  },
-  {
     "id": "mags_obscure",
     "type": "item_group",
-    "items": [
-      [ "m1991_38smag", 10 ],
-      [ "af2011a1mag", 10 ]
-    ]
-  },
-  {
-    "type" : "item_group",
-    "id" : "mags_pistol_common",
-    "items": [
-      ["357_mag_speedloader", 5]
-    ]
-  },
-  {
-    "id": "mags_shotgun_rare",
-    "type": "item_group",
-    "//": "Aftermarket or otherwise uncommon pistol magazines excluding milspec.",
-    "items": [
-      [ "saiga10mag_410", 50 ],
-      [ "saiga30mag_410", 10 ]
-    ]
+    "items": [ [ "m1991_38smag", 10 ], [ "af2011a1mag", 10 ] ]
   }
 ]

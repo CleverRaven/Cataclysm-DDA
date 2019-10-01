@@ -1,17 +1,28 @@
-#include "catch/catch.hpp"
+#include <vector>
+#include <array>
+#include <list>
+#include <ostream>
+#include <string>
 
+#include "catch/catch.hpp"
 #include "ballistics.h"
 #include "dispersion.h"
-#include "game.h"
 #include "map_helpers.h"
-#include "monster.h"
 #include "npc.h"
 #include "test_statistics.h"
 #include "units.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "game_constants.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_location.h"
+#include "player.h"
+#include "material.h"
+#include "type_id.h"
+#include "point.h"
 
-#include <vector>
-
-typedef statistics<bool> firing_statistics;
+using firing_statistics = statistics<bool>;
 
 template < class T >
 std::ostream &operator <<( std::ostream &os, const std::vector<T> &v )
@@ -43,7 +54,7 @@ static void arm_shooter( npc &shooter, const std::string &gun_type,
 {
     shooter.remove_weapon();
 
-    itype_id gun_id( gun_type );
+    const itype_id &gun_id( gun_type );
     // Give shooter a loaded gun of the requested type.
     item &gun = shooter.i_add( item( gun_id ) );
     const itype_id ammo_id = gun.ammo_default();
@@ -61,7 +72,7 @@ static void arm_shooter( npc &shooter, const std::string &gun_type,
         magazine.reload( shooter, item_location( shooter, &ammo ), magazine.ammo_capacity() );
         gun.reload( shooter, item_location( shooter, &magazine ), magazine.ammo_capacity() );
     }
-    for( auto mod : mods ) {
+    for( const auto &mod : mods ) {
         gun.contents.push_back( item( itype_id( mod ) ) );
     }
     shooter.wield( gun );
@@ -69,7 +80,8 @@ static void arm_shooter( npc &shooter, const std::string &gun_type,
 
 static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
 {
-    tripoint shooter_pos( 60, 60, 0 );
+    const tripoint shooter_pos( 60, 60, 0 );
+    CHECK( !shooter.in_vehicle );
     shooter.setpos( shooter_pos );
     shooter.worn.clear();
     shooter.inv.clear();
@@ -81,9 +93,9 @@ static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel
 std::array<double, 5> accuracy_levels = {{ accuracy_grazing, accuracy_standard, accuracy_goodhit, accuracy_critical, accuracy_headshot }};
 
 static std::array<firing_statistics, 5> firing_test( const dispersion_sources &dispersion,
-        int range, const std::array<double, 5> &thresholds )
+        const int range, const std::array<double, 5> &thresholds )
 {
-    std::array<firing_statistics, 5> firing_stats;
+    std::array<firing_statistics, 5> firing_stats = {{ Z99_99, Z99_99, Z99_99, Z99_99, Z99_99 }};
     bool threshold_within_confidence_interval = false;
     do {
         // On each trip through the loop, grab a sample attack roll and add its results to
@@ -91,7 +103,7 @@ static std::array<firing_statistics, 5> firing_test( const dispersion_sources &d
         // any thresholds we care about.  This is a mechanism to limit the number of samples
         // we have to accumulate before we declare that the true average is
         // either above or below the threshold.
-        projectile_attack_aim aim = projectile_attack_roll( dispersion, range, 0.5 );
+        const projectile_attack_aim aim = projectile_attack_roll( dispersion, range, 0.5 );
         threshold_within_confidence_interval = false;
         for( int i = 0; i < static_cast<int>( accuracy_levels.size() ); ++i ) {
             firing_stats[i].add( aim.missed_by < accuracy_levels[i] );
@@ -104,9 +116,9 @@ static std::array<firing_statistics, 5> firing_test( const dispersion_sources &d
                 threshold_within_confidence_interval = true;
                 continue;
             }
-            double error = firing_stats[i].margin_of_error();
-            double avg = firing_stats[i].avg();
-            double threshold = thresholds[i];
+            const double error = firing_stats[i].margin_of_error();
+            const double avg = firing_stats[i].avg();
+            const double threshold = thresholds[i];
             if( avg + error > threshold && avg - error < threshold ) {
                 threshold_within_confidence_interval = true;
             }
@@ -115,7 +127,7 @@ static std::array<firing_statistics, 5> firing_test( const dispersion_sources &d
     return firing_stats;
 }
 
-static dispersion_sources get_dispersion( npc &shooter, int aim_time )
+static dispersion_sources get_dispersion( npc &shooter, const int aim_time )
 {
     item &gun = shooter.weapon;
     dispersion_sources dispersion = shooter.get_weapon_dispersion( gun );
@@ -132,11 +144,11 @@ static dispersion_sources get_dispersion( npc &shooter, int aim_time )
     return dispersion;
 }
 
-static void test_shooting_scenario( npc &shooter, int min_quickdraw_range,
-                                    int min_good_range, int max_good_range )
+static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
+                                    const int min_good_range, const int max_good_range )
 {
     {
-        dispersion_sources dispersion = get_dispersion( shooter, 0 );
+        const dispersion_sources dispersion = get_dispersion( shooter, 0 );
         std::array<firing_statistics, 5> minimum_stats = firing_test( dispersion, min_quickdraw_range, {{ 0.2, 0.1, -1, -1, -1 }} );
         INFO( dispersion );
         INFO( "Range: " << min_quickdraw_range );
@@ -150,7 +162,7 @@ static void test_shooting_scenario( npc &shooter, int min_quickdraw_range,
         CHECK( minimum_stats[1].avg() < 0.1 );
     }
     {
-        dispersion_sources dispersion = get_dispersion( shooter, 300 );
+        const dispersion_sources dispersion = get_dispersion( shooter, 300 );
         std::array<firing_statistics, 5> good_stats = firing_test( dispersion, min_good_range, {{ -1, -1, 0.5, -1, -1 }} );
         INFO( dispersion );
         INFO( "Range: " << min_good_range );
@@ -161,7 +173,7 @@ static void test_shooting_scenario( npc &shooter, int min_quickdraw_range,
         CHECK( good_stats[2].avg() > 0.5 );
     }
     {
-        dispersion_sources dispersion = get_dispersion( shooter, 500 );
+        const dispersion_sources dispersion = get_dispersion( shooter, 500 );
         std::array<firing_statistics, 5> good_stats = firing_test( dispersion, max_good_range, {{ -1, -1, 0.1, -1, -1 }} );
         INFO( dispersion );
         INFO( "Range: " << max_good_range );
@@ -173,11 +185,11 @@ static void test_shooting_scenario( npc &shooter, int min_quickdraw_range,
     }
 }
 
-static void test_fast_shooting( npc &shooter, int moves, float hit_rate )
+static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
 {
     const int fast_shooting_range = 3;
     const float hit_rate_cap = hit_rate + 0.3;
-    dispersion_sources dispersion = get_dispersion( shooter, moves );
+    const dispersion_sources dispersion = get_dispersion( shooter, moves );
     std::array<firing_statistics, 5> fast_stats = firing_test( dispersion, fast_shooting_range, {{ -1, hit_rate, -1, -1, -1 }} );
     std::array<firing_statistics, 5> fast_stats_upper = firing_test( dispersion, fast_shooting_range, {{ -1, hit_rate_cap, -1, -1, -1 }} );
     INFO( dispersion );
@@ -196,7 +208,7 @@ static void test_fast_shooting( npc &shooter, int moves, float hit_rate )
     CHECK( fast_stats_upper[1].avg() < hit_rate_cap );
 }
 
-void assert_encumbrance( npc &shooter, int encumbrance )
+static void assert_encumbrance( npc &shooter, int encumbrance )
 {
     for( const body_part bp : all_body_parts ) {
         INFO( "Body Part: " << body_part_name( bp ) );
@@ -237,7 +249,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 {
     clear_map();
     standard_npc shooter( "Shooter", {}, 5, 10, 10, 10, 10 );
-    equip_shooter( shooter, { "cloak_wool", "footrags_wool", "gloves_wraps_fur", "veil_wedding" } );
+    equip_shooter( shooter, { "cloak_wool", "footrags_wool", "gloves_wraps_fur", "glasses_safety", "balclava" } );
     assert_encumbrance( shooter, 5 );
 
     SECTION( "a skilled shooter with an accurate pistol" ) {

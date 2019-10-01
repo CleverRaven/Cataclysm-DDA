@@ -1,8 +1,8 @@
 [
   {
-    "type" : "item_group",
-    "id" : "gunmod_common",
-    "//" : "Common gunmods typically owned by citizens and found in many locations.",
+    "type": "item_group",
+    "id": "gunmod_common",
+    "//": "Common gunmods typically owned by citizens and found in many locations.",
     "items": [
       [ "brass_catcher", 100 ],
       [ "improve_sights", 60 ],
@@ -16,11 +16,11 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "gunmod_rare",
-    "//" : "Less common gunmods including those only used by police/paramilitary forces.",
+    "type": "item_group",
+    "id": "gunmod_rare",
+    "//": "Less common gunmods including those only used by police/paramilitary forces.",
     "items": [
-      [ "adjustable_stock", 80],
+      [ "adjustable_stock", 80 ],
       [ "barrel_ported", 20 ],
       [ "bipod", 20 ],
       [ "folding_stock", 60 ],
@@ -39,13 +39,14 @@
       [ "recoil_stock", 60 ],
       [ "shot_suppressor", 10 ],
       [ "u_shotgun", 60 ],
-      [ "waterproof_gunmod", 40 ]
+      [ "waterproof_gunmod", 40 ],
+      [ "retool_ar15_300blk", 40 ]
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "gunmod_milspec",
-    "//" : "Military specification gunmods found only at military sites.",
+    "type": "item_group",
+    "id": "gunmod_milspec",
+    "//": "Military specification gunmods found only at military sites.",
     "items": [
       [ "acog_scope", 100 ],
       [ "aux_flamer", 20 ],
@@ -58,13 +59,21 @@
     ]
   },
   {
-    "type" : "item_group",
-    "id" : "gunmod_archery",
-    "//" : "Gunmods for bows and crossbows.",
+    "type": "item_group",
+    "id": "gunmod_energy",
+    "//": "Gunmods for energy weaponry found only at military sites and laboratories.",
     "items": [
-      [ "arrowrest", 100 ],
-      [ "bow_sight", 100 ],
-      [ "bow_stabilizer", 100 ]
+      [ "beam_scatterer", 80 ],
+      [ "focusing_lens", 60 ],
+      [ "electrolaser_conversion", 40 ],
+      [ "effective_emitter", 40 ],
+      [ "high_density_capacitor", 60 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "gunmod_archery",
+    "//": "Gunmods for bows and crossbows.",
+    "items": [ [ "arrowrest", 100 ], [ "bow_sight", 100 ], [ "bow_stabilizer", 100 ] ]
   }
 ]

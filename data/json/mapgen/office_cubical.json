@@ -29,19 +29,20 @@
         "s|dh......h..h.|....h.|s",
         "s|cxc|^.|lxccdx|..|xdc|s",
         "s|---|--|------|D-|---|s",
-        "ssssssssssssss$$s$$sssss",
+        "ssssssssssssss$$s$$ss4ss",
         "ssssssssssssssssssssssss"
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_dirt" ],
         "$": "t_shrub",
         "+": "t_door_c",
-        "-": "t_wall",
+        "-": "t_wall_w",
         "D": "t_door_locked",
         "s": "t_sidewalk",
         "w": "t_window",
         "x": "t_console_broken",
-        "|": "t_wall"
+        "|": "t_wall_w",
+        "4": "t_gutter_downspout"
       },
       "furniture": {
         "#": "f_bench",
@@ -56,8 +57,8 @@
         "o": "f_bookcase",
         "t": "f_table"
       },
-      "vendingmachines": { "V": {} },
-      "toilets": { "T": {} },
+      "vendingmachines": { "V": {  } },
+      "toilets": { "T": {  } },
       "place_loot": [
         { "group": "dining", "x": [ 21, 21 ], "y": [ 10, 10 ], "chance": 20, "repeat": [ 1, 2 ] },
         { "group": "fridge", "x": [ 21, 21 ], "y": [ 11, 11 ], "chance": 85, "repeat": [ 1, 3 ] },
@@ -78,7 +79,60 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "office_cubical" ],
+    "om_terrain": "office_cubical_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        " |2222223      |2222223 ",
+        " |......3      |......3 ",
+        " |......3222222|......3 ",
+        " |..U.................3 ",
+        " |........oooo........3 ",
+        " |........oooo....M...3 ",
+        " |..Z.....oooo........3 ",
+        " |........oooo........3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |-------------------53 ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "nested": {
+        "U": { "chunks": [ "roof_2x2_infrastructure" ] },
+        "M": { "chunks": [ "roof_2x2_infrastructure_1" ] },
+        "Z": { "chunks": [ "roof_2x2_infrastructure_2" ] }
+      },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 4, 17 ],
+          "y": [ 10, 19 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "office_cubical_1" ],
     "weight": 300,
     "object": {
       "fill_ter": "t_floor",
@@ -96,7 +150,7 @@
         "#Kd.h..o|.|ccc.|.|----#s",
         "#^d.h.oo|.|xh..+.|d.hx#s",
         "##--+---|.|----|.|d.cc#s",
-        " #dx....+.|x.hc|....hx#s",
+        " #dx....+.|x.hc|....hx#4",
         " #dh.|---||dd.c|chx.dd#R",
         " #cc.|lll|^...^|cdd.cc#R",
         " #^..+..x|cx.dx|^....^##",
@@ -112,16 +166,17 @@
         " ": [ "t_grass", "t_grass", "t_dirt" ],
         "$": "t_shrub",
         "+": "t_door_c",
-        "-": "t_wall",
+        "-": "t_wall_w",
         "D": "t_door_locked",
         "s": "t_sidewalk",
         "W": "t_window_domestic",
         "w": "t_window",
         "x": "t_console_broken",
-        "|": "t_wall",
+        "|": "t_wall_w",
         "#": "t_brick_wall",
         "R": "t_sidewalk",
-        "U": "t_carpet_red"
+        "U": "t_carpet_red",
+        "4": "t_gutter_downspout"
       },
       "furniture": {
         "?": "f_sofa",
@@ -139,8 +194,8 @@
         "o": "f_bookcase",
         "t": "f_table"
       },
-      "vendingmachines": { "V": {} },
-      "toilets": { "T": {} },
+      "vendingmachines": { "V": {  } },
+      "toilets": { "T": {  } },
       "items": {
         "o": { "item": "novels", "chance": 70 },
         "R": { "item": "trash", "chance": 70 },
@@ -150,6 +205,59 @@
         "t": { "item": "novels", "chance": 70 }
       },
       "vehicles": { ".": { "vehicle": "swivel_chair", "chance": 1, "status": 0 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "office_cubical_roof_1",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "       ..      ..       ",
+        " |2222223      |2222223 ",
+        " |......3      |......33",
+        " |......3222222|...U...3",
+        " |.....................3",
+        " |.....................3",
+        " |.....................3",
+        " |....................33",
+        "||....................3 ",
+        "|.....................3 ",
+        "|.....................3 ",
+        "|.....................3 ",
+        "||....................3 ",
+        " |....................5 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................33",
+        " |.....................3",
+        " |.................M...3",
+        " |.....................3",
+        " |....Z...............33",
+        " |....................3 ",
+        " ||............3------3 ",
+        "  |------------3        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "nested": {
+        "U": { "chunks": [ "roof_2x2_infrastructure" ] },
+        "M": { "chunks": [ "roof_2x2_infrastructure_1" ] },
+        "Z": { "chunks": [ "roof_2x2_infrastructure_2" ] }
+      },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 4, 17 ],
+          "y": [ 5, 15 ]
+        }
+      ]
     }
   }
 ]

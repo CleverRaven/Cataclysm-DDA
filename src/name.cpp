@@ -1,13 +1,16 @@
 #include "name.h"
 
+#include <cstddef>
+#include <map>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "cata_utility.h"
 #include "json.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <map>
-#include <string>
 
 namespace Name
 {
@@ -17,6 +20,7 @@ static const std::map< std::string, nameFlags > usage_flags = {
     { "given",     nameIsGivenName },
     { "family",    nameIsFamilyName },
     { "universal", nameIsGivenName | nameIsFamilyName },
+    { "nick",      nameIsNickName },
     { "backer",    nameIsFullName },
     { "city",      nameIsTownName },
     { "world",     nameIsWorldName }
@@ -30,7 +34,7 @@ static const std::map< std::string, nameFlags > gender_flags {
 
 static nameFlags usage_flag( const std::string &usage )
 {
-    auto it = usage_flags.find( usage );
+    const auto it = usage_flags.find( usage );
     if( it != usage_flags.end() ) {
         return it->second;
     }
@@ -39,7 +43,7 @@ static nameFlags usage_flag( const std::string &usage )
 
 static nameFlags gender_flag( const std::string &gender )
 {
-    auto it = gender_flags.find( gender );
+    const auto it = gender_flags.find( gender );
     if( it != gender_flags.end() ) {
         return it->second;
     }
@@ -52,6 +56,7 @@ static nameFlags gender_flag( const std::string &gender )
 // Backer | (Female|Male|Unisex)
 // Given  | (Female|Male)        // unisex names are duplicated in each group
 // Family | Unisex
+// Nick
 // City
 // World
 static void load( JsonIn &jsin )
@@ -121,15 +126,22 @@ std::string get( nameFlags searchFlags )
 
 std::string generate( bool is_male )
 {
-    nameFlags baseSearchFlags = is_male ? nameIsMaleName : nameIsFemaleName;
-    //One in four chance to pull from the backer list, otherwise generate a name from the parts list
-    if( one_in( 4 ) ) {
+    const nameFlags baseSearchFlags = is_male ? nameIsMaleName : nameIsFemaleName;
+    //One in twenty chance to pull from the backer list, otherwise generate a name from the parts list
+    if( one_in( 20 ) ) {
         return get( baseSearchFlags | nameIsFullName );
     } else {
-        //~ used for constructing names. swapping these will put family name first.
-        return string_format( pgettext( "Full Name", "%1$s %2$s" ),
+        //~ Used for constructing full name: %1$s is `family name`, %2$s is `given name`
+        translation full_name_format = to_translation( "Full Name", "%1$s %2$s" );
+        //One in three chance to add a nickname to full name
+        if( one_in( 3 ) ) {
+            //~ Used for constructing full name with nickname: %1$s is `family name`, %2$s is `given name`, %3$s is `nickname`
+            full_name_format = to_translation( "Full Name", "%1$s '%3$s' %2$s" );
+        }
+        return string_format( full_name_format,
                               get( baseSearchFlags | nameIsGivenName ).c_str(),
-                              get( baseSearchFlags | nameIsFamilyName ).c_str()
+                              get( baseSearchFlags | nameIsFamilyName ).c_str(),
+                              get( nameIsNickName ).c_str()
                             );
     }
 }
@@ -138,5 +150,5 @@ void clear()
 {
     names.clear();
 }
-}
+} // namespace Name
 

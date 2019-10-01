@@ -1,12 +1,34 @@
 [
   {
+    "id": "abzats",
+    "copy-from": "shotgun_base",
+    "type": "GUN",
+    "name": "heavy automatic shotgun",
+    "description": "Modified from the massive M2 Browning, this heavy machine gun has been re-chambered and re-bored for shotgun shells, and completely redesigned to be wielded unmounted by one user.",
+    "weight": "21800 g",
+    "volume": "4 L",
+    "price": 745000,
+    "to_hit": -3,
+    "bashing": 12,
+    "material": [ "hardsteel", "wood" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "dispersion": 450,
+    "durability": 6,
+    "burst": 5,
+    "loudness": 25,
+    "reload": 400,
+    "barrel_length": 3,
+    "magazines": [ [ "shot", [ "shotbelt_20" ] ] ]
+  },
+  {
     "id": "ashot",
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": "12 gauge pistol",
     "description": "A single shot pistol that loads 12 gauge shotgun shells, handcrafted from scrap.",
-    "weight": 828,
-    "volume": 2,
+    "weight": "828 g",
+    "volume": "500 ml",
     "price": 100000,
     "to_hit": -2,
     "bashing": 6,
@@ -16,12 +38,20 @@
     "ammo": "shot",
     "skill": "pistol",
     "ranged_damage": 6,
-    "dispersion": 600,
+    "dispersion": 900,
     "durability": 6,
     "clip_size": 1,
     "reload": 80,
-    "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "stock", 1 ], [ "mechanism", 4 ], [ "sights", 1 ] ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "valid_mod_locations": [
+      [ "accessories", 1 ],
+      [ "grip", 1 ],
+      [ "stock", 1 ],
+      [ "mechanism", 4 ],
+      [ "sights", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
     "id": "bigun",
@@ -30,18 +60,26 @@
     "name": "manual autoshotgun",
     "//": "Hard to value this thing, but considering what a $2000 pricepoint puts it on par with, that is too much.",
     "description": "A six-barrel hand-cranked automatic shotgun made from bicycle parts.  Though a bit unwieldy, it is exceedingly powerful for such a simple machine.",
-    "weight": 4980,
-    "volume": 10,
+    "weight": "4980 g",
+    "volume": "2500 ml",
     "price": 180000,
     "to_hit": -2,
     "bashing": 9,
     "material": [ "aluminum", "steel" ],
-    "dispersion": 660,
+    "dispersion": 855,
     "durability": 6,
     "burst": 6,
     "clip_size": 6,
     "reload": 110,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ]
   },
   {
@@ -51,7 +89,7 @@
     "name": "Kel-Tec KSG",
     "name_plural": "Kel-Tec KSG",
     "description": "A bullpup pump-action shotgun, the Kel-Tec KSG uses a pair of magazine tubes to increase its capacity.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.",
-    "weight": 1550,
+    "weight": "1550 g",
     "volume": 0,
     "price": 99000,
     "to_hit": -1,
@@ -62,7 +100,19 @@
     "durability": 7,
     "clip_size": 7,
     "built_in_mods": [ "ksg_aux_shotgun" ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 2 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 2 ]
+    ]
   },
   {
     "id": "l_def_12",
@@ -72,8 +122,8 @@
     "name_plural": "L12 Defender",
     "//": "Similar stats to the NeoStead 2000 which has a similar operating mechanism",
     "description": "Leadworks LLC's sole shotgun offering to date is surprisingly compact thanks to its moving barrel and forward-back pump mechanism.  Additionally it has built in red dot and laser sights.  Like most other Leadworks products it doesn't accept third-party modifications.",
-    "weight": 3850,
-    "volume": 6,
+    "weight": "3850 g",
+    "volume": "1500 ml",
     "price": 92000,
     "to_hit": -1,
     "bashing": 6,
@@ -81,8 +131,19 @@
     "dispersion": 375,
     "durability": 8,
     "clip_size": 8,
-    "built_in_mods": [ "lead_red_dot_sight", "lead_laser_sight"],
-    "valid_mod_locations": [ [ "accessories", 2 ],  [ "sights", 1 ], [ "underbarrel", 1 ] ]
+    "magazines": [ [ "shot", [ "shot_speedloader8" ] ] ],
+    "built_in_mods": [ "lead_red_dot_sight", "lead_laser_sight" ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "brass catcher", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ],
+      [ "muzzle", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ]
+    ]
   },
   {
     "id": "m1014",
@@ -91,8 +152,8 @@
     "name": "M1014 shotgun",
     "name_plural": "M1014 shotguns",
     "description": "Its relative simplicity and reliability made the Benelli M4 the most successful semi-automatic shotgun ever created.",
-    "weight": 3820,
-    "volume": 10,
+    "weight": "3820 g",
+    "volume": "2500 ml",
     "price": 169900,
     "to_hit": -1,
     "bashing": 12,
@@ -101,6 +162,7 @@
     "dispersion": 345,
     "durability": 9,
     "clip_size": 8,
+    "magazines": [ [ "shot", [ "shot_speedloader8" ] ] ],
     "flags": [ "RELOAD_ONE" ]
   },
   {
@@ -110,8 +172,8 @@
     "name": "Mossberg 500",
     "name_plural": "Mossberg 500",
     "description": "The Mossberg 500 is a popular series of pump-action shotguns, often acquired for military use.  It is noted for its high durability and low recoil.",
-    "weight": 3401,
-    "volume": 10,
+    "weight": "3401 g",
+    "volume": "2500 ml",
     "price": 53800,
     "to_hit": -1,
     "bashing": 12,
@@ -119,6 +181,7 @@
     "dispersion": 375,
     "durability": 9,
     "clip_size": 8,
+    "magazines": [ [ "shot", [ "shot_speedloader8" ] ] ],
     "barrel_length": 1
   },
   {
@@ -128,15 +191,19 @@
     "name": "double-barrel pipe shotgun",
     "description": "A home-made double-barreled shotgun.  It is simply two pipes attached to a stock, with a pair of hammers to strike the two rounds it holds.",
     "clip_size": 2,
-    "modes": [
-      [ "DEFAULT", "single", 1 ],
-      [ "DOUBLE", "double", 2 ]
+    "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
+    "relative": { "weight": 500, "volume": 1, "price": 5000 },
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "barrel", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
-    "relative": {
-      "weight": 500,
-      "volume": 1,
-      "price": 5000
-    }
+    "extend": { "flags": [ "RELOAD_ONE" ] }
   },
   {
     "id": "pipe_shotgun",
@@ -144,8 +211,8 @@
     "type": "GUN",
     "name": "pipe shotgun",
     "description": "A home-made shotgun.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
-    "weight": 2267,
-    "volume": 9,
+    "weight": "2267 g",
+    "volume": "2250 ml",
     "price": 20000,
     "to_hit": -1,
     "bashing": 12,
@@ -156,8 +223,18 @@
     "clip_size": 1,
     "reload": 200,
     "barrel_length": 4,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ], [ "barrel", 1 ] ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "barrel", 1 ],
+      [ "muzzle", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
     "id": "remington_870",
@@ -166,8 +243,8 @@
     "name": "Remington 870",
     "name_plural": "Remington 870",
     "description": "One of the most popular shotguns on the market, the Remington 870 is used by hunters and law enforcement agencies alike thanks to its high accuracy and muzzle velocity.",
-    "weight": 3400,
-    "volume": 10,
+    "weight": "3400 g",
+    "volume": "2500 ml",
     "price": 58700,
     "to_hit": -1,
     "bashing": 12,
@@ -175,6 +252,7 @@
     "dispersion": 345,
     "durability": 8,
     "clip_size": 6,
+    "magazines": [ [ "shot", [ "shot_speedloader6" ] ] ],
     "barrel_length": 3
   },
   {
@@ -183,18 +261,27 @@
     "type": "GUN",
     "name": "shotgun revolver",
     "description": "A shotgun modified to use a revolver cylinder mechanism, it can hold 6 cartridges.",
-    "weight": 5443,
-    "volume": 12,
+    "weight": "5443 g",
+    "volume": "3 L",
     "price": 75000,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "wood" ],
-    "dispersion": 435,
+    "dispersion": 855,
     "durability": 6,
     "clip_size": 6,
     "reload": 200,
     "barrel_length": 4,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ], [ "barrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "barrel", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -203,8 +290,8 @@
     "type": "GUN",
     "name": "Saiga-12",
     "description": "The Saiga-12 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.",
-    "weight": 3550,
-    "volume": 11,
+    "weight": "3550 g",
+    "volume": "2750 ml",
     "price": 189000,
     "to_hit": -1,
     "bashing": 12,
@@ -223,15 +310,20 @@
     "name": "double barrel shotgun",
     "description": "An old shotgun, possibly antique.  It is little more than a pair of barrels, a wood stock, and a hammer to strike the cartridges.",
     "clip_size": 2,
-    "modes": [
-      [ "DEFAULT", "single", 1 ],
-      [ "DOUBLE", "double", 2 ]
+    "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
+    "relative": { "weight": 500, "volume": 1, "price": 5000 },
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
-    "relative": {
-      "weight": 500,
-      "volume": 1,
-      "price": 5000
-    }
+    "extend": { "flags": [ "RELOAD_ONE" ] }
   },
   {
     "id": "shotgun_s",
@@ -239,8 +331,8 @@
     "type": "GUN",
     "name": "single barrel shotgun",
     "description": "An old shotgun, possibly antique.  It is little more than a barrel, a wood stock, and a hammer to strike the cartridge.  Its simple design keeps it both light and accurate.",
-    "weight": 5216,
-    "volume": 8,
+    "weight": "5216 g",
+    "volume": "2 L",
     "price": 40000,
     "to_hit": -1,
     "bashing": 12,
@@ -249,8 +341,19 @@
     "durability": 9,
     "clip_size": 1,
     "barrel_length": 4,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "muzzle", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "muzzle", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
     "id": "surv_levershotgun",
@@ -258,19 +361,30 @@
     "type": "GUN",
     "name": "handmade lever shotgun",
     "description": "A well designed homemade lever-action shotgun.  With a 8 round magazine, this is one of the better homemade weapons.",
-    "weight": 3934,
-    "volume": 10,
+    "weight": "3934 g",
+    "volume": "2500 ml",
     "price": 135000,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "ranged_damage": 1,
-    "dispersion": 455,
+    "dispersion": 860,
     "durability": 6,
     "clip_size": 8,
     "reload": 200,
     "barrel_length": 4,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ], [ "barrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "brass catcher", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "barrel", 1 ],
+      [ "muzzle", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "flags": [ "RELOAD_ONE" ]
   }
 ]

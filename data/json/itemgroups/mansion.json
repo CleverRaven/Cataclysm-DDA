@@ -9,52 +9,97 @@
     "id": "cm_maid",
     "type": "item_group",
     "subtype": "collection",
-    "items": [
+    "entries": [
       { "group": "cleaning", "prob": 40 },
-      { "group": "female_underwear", "prob": 30, "damage": [ 0, 4 ] },
+      { "group": "female_underwear", "prob": 90, "damage": [ 0, 4 ] },
       { "group": "shoes_maid", "prob": 30, "damage": [ 0, 4 ] },
       { "item": "maid_hat", "prob": 50, "damage": [ 0, 4 ] },
       { "item": "maid_dress", "prob": 100, "damage": [ 0, 4 ] },
-      [ "corpse", 100 ]
+      { "group": "corpse_female" }
     ]
   },
   {
     "id": "cm_butler",
     "type": "item_group",
     "subtype": "collection",
-    "items": [
+    "entries": [
       { "group": "gear_butler", "prob": 40 },
       { "item": "socks", "prob": 30, "damage": [ 0, 4 ] },
-      { "group": "male_underwear", "prob": 30, "damage": [ 0, 4 ] },
+      { "group": "male_underwear", "prob": 90, "damage": [ 0, 4 ] },
       { "item": "dress_shoes", "prob": 30, "damage": [ 0, 4 ] },
       { "item": "dress_shirt", "prob": 50, "damage": [ 0, 4 ] },
       { "item": "suit", "prob": 100, "damage": [ 0, 4 ] },
-      [ "corpse", 100 ]
+      { "group": "corpse_male" }
     ]
   },
   {
     "id": "cm_fancy",
     "type": "item_group",
     "subtype": "collection",
-    "items": [
+    "entries": [
       { "group": "jewelry_front", "prob": 40 },
       { "group": "mansion_guns", "prob": 40 },
       { "group": "shoestore_shoes", "prob": 30, "damage": [ 0, 4 ] },
       { "group": "suits", "prob": 90, "damage": [ 0, 4 ] },
-      [ "corpse", 100 ]
+      {
+        "distribution": [
+          { "collection": [ { "group": "male_underwear", "prob": 90, "damage": [ 0, 4 ] }, { "group": "corpse_male" } ] },
+          {
+            "collection": [ { "group": "female_underwear", "prob": 90, "damage": [ 0, 4 ] }, { "group": "corpse_female" } ]
+          }
+        ]
+      }
     ]
   },
   {
     "id": "everyday_corpse",
     "type": "item_group",
     "subtype": "collection",
-    "items": [
+    "entries": [
       { "group": "everyday_gear", "prob": 40 },
-      { "group": "underwear", "prob": 30, "damage": [ 0, 4 ] },
       { "group": "shoes", "prob": 30, "damage": [ 0, 4 ] },
-      { "group": "pants", "prob": 60, "damage": [ 0, 4 ] },
       { "group": "shirts", "prob": 60, "damage": [ 0, 4 ] },
-      [ "corpse", 100 ]
+      { "group": "jackets", "prob": 20, "damage": [ 0, 4 ] },
+      { "group": "common_gloves", "prob": 20, "damage": [ 0, 4 ] },
+      { "group": "hatstore_hats", "prob": 20, "damage": [ 0, 4 ] },
+      { "group": "hatstore_accessories", "prob": 20, "damage": [ 0, 4 ] },
+      { "group": "clothing_glasses", "prob": 20, "damage": [ 0, 4 ] },
+      { "group": "jewelry_accessories", "prob": 15 },
+      {
+        "distribution": [
+          { "item": "wristwatch", "prob": 15 },
+          { "item": "pocketwatch", "prob": 5 },
+          { "item": "gold_watch", "prob": 5, "damage": [ 1, 4 ] },
+          { "item": "diving_watch", "prob": 10, "damage": [ 1, 4 ] },
+          { "item": "sf_watch", "prob": 5, "damage": [ 1, 4 ] }
+        ],
+        "prob": 20
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "group": "male_underwear", "prob": 90, "damage": [ 0, 4 ] },
+              { "group": "pants_male", "prob": 60, "damage": [ 0, 4 ] },
+              { "group": "corpse_male" }
+            ]
+          },
+          {
+            "collection": [
+              { "group": "female_underwear", "prob": 90, "damage": [ 0, 4 ] },
+              { "group": "pants_female", "prob": 60, "damage": [ 0, 4 ] },
+              { "group": "corpse_female" }
+            ]
+          },
+          {
+            "collection": [
+              { "group": "underwear", "prob": 90, "damage": [ 0, 4 ] },
+              { "group": "pants", "prob": 60, "damage": [ 0, 4 ] },
+              { "group": "corpse_child" }
+            ]
+          }
+        ]
+      }
     ]
   },
   {
@@ -166,16 +211,39 @@
     "groups": [ [ "creepy", 90 ], [ "creepy", 70 ], [ "creepy", 40 ], [ "creepy", 10 ] ]
   },
   {
+    "type": "item_group",
+    "id": "wine_glasses",
+    "subtype": "distribution",
+    "items": [ [ "glass", 75 ], [ "tin_cup", 20 ], [ "bottle_glass", 5 ] ]
+  },
+  {
+    "id": "glass_of_wine",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "wine_riesling", "prob": 20, "container-group": "wine_glasses" },
+      { "item": "wine_chardonnay", "prob": 30, "container-group": "wine_glasses" },
+      { "item": "wine_cabernet", "prob": 30, "container-group": "wine_glasses" },
+      { "item": "wine_marsala", "prob": 15, "container-group": "wine_glasses" },
+      { "item": "wine_noir", "prob": 20, "container-group": "wine_glasses" },
+      { "item": "wine_vermouth", "prob": 25, "container-group": "wine_glasses" },
+      { "item": "wine_marsala", "prob": 15, "container-group": "wine_glasses" },
+      { "item": "fruit_wine", "prob": 5, "container-group": "wine_glasses" }
+    ]
+  },
+  {
     "id": "crate_wine",
     "type": "item_group",
     "subtype": "distribution",
     "items": [
       [ "null", 100 ],
-      { "item": "glass_shard", "prob": 50, "count": [ 1, 12 ] },
+      { "item": "glass_shard", "prob": 50, "count": [ 8, 100 ] },
       { "item": "bottle_glass", "prob": 50, "count": [ 1, 6 ] },
       { "item": "wine_cabernet", "prob": 14, "count": [ 1, 12 ] },
       { "item": "wine_riesling", "prob": 12, "count": [ 1, 12 ] },
       { "item": "wine_chardonnay", "prob": 10, "count": [ 1, 12 ] },
+      { "item": "wine_marsala", "prob": 8, "count": [ 1, 12 ] },
+      { "item": "wine_vermouth", "prob": 13, "count": [ 1, 12 ] },
       { "item": "wine_noir", "prob": 8, "count": [ 1, 12 ] },
       { "item": "fruit_wine", "prob": 6, "count": [ 1, 12 ] }
     ]
@@ -201,6 +269,7 @@
       { "item": "wine_cabernet", "prob": 40, "container-item": "wooden_barrel" },
       { "item": "wine_riesling", "prob": 30, "container-item": "wooden_barrel" },
       { "item": "wine_chardonnay", "prob": 20, "container-item": "wooden_barrel" },
+      { "item": "wine_marsala", "prob": 15, "container-item": "wooden_barrel" },
       { "item": "wine_noir", "prob": 10, "container-item": "wooden_barrel" },
       { "item": "fruit_wine", "prob": 5, "container-item": "wooden_barrel" }
     ]
@@ -271,7 +340,14 @@
     "id": "mansion_bookcase",
     "type": "item_group",
     "subtype": "collection",
-    "groups": [ [ "novels", 50 ], [ "manuals", 30 ], [ "textbooks", 15 ], [ "mansion_books", 15 ] ]
+    "groups": [
+      [ "novels", 40 ],
+      [ "mansion_books", 50 ],
+      [ "homebooks", 30 ],
+      [ "manuals", 10 ],
+      [ "textbooks", 5 ],
+      [ "exotic_books", 5 ]
+    ]
   },
   {
     "id": "suit_of_armor",
@@ -393,7 +469,8 @@
       [ "pike_fake", 50 ],
       { "group": "broadsword_fake+scabbard", "prob": 17 },
       [ "mace_fake", 6 ],
-      [ "morningstar_fake", 5 ]
+      [ "morningstar_fake", 5 ],
+      [ "shillelagh_fake", 5 ]
     ]
   },
   {
@@ -411,7 +488,14 @@
     "id": "soa_real_weapon_decor",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "pike", 50 ], { "group": "broadsword+scabbard", "prob": 17 }, [ "mace", 6 ], [ "morningstar", 5 ] ]
+    "items": [
+      [ "pike", 50 ],
+      { "group": "broadsword+scabbard", "prob": 17 },
+      [ "mace", 6 ],
+      [ "morningstar", 5 ],
+      [ "shillelagh", 5 ],
+      [ "shillelagh_weighted", 3 ]
+    ]
   },
   {
     "id": "soa_fake_weapon_plate",
@@ -421,7 +505,8 @@
       [ "pike_fake", 17 ],
       { "group": "broadsword_fake+scabbard", "prob": 5 },
       [ "mace_fake", 50 ],
-      [ "morningstar_fake", 6 ]
+      [ "morningstar_fake", 6 ],
+      [ "shillelagh_fake", 6 ]
     ]
   },
   {
@@ -473,23 +558,35 @@
     "id": "soa_fake_weapon_samurai",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "samurai_sword_set_fake", "prob": 7 }, [ "bokken_fake", 6 ], [ "nodachi_fake", 5 ] ]
+    "items": [
+      { "group": "samurai_sword_set_fake", "prob": 7 },
+      [ "bokken_fake", 6 ],
+      [ "nodachi_fake", 5 ],
+      [ "naginata_fake", 5 ]
+    ]
   },
   {
     "id": "soa_poor_weapon_samurai",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "samurai_sword_set_inferior", "prob": 7 }, [ "bokken_inferior", 6 ], [ "nodachi_inferior", 5 ] ]
+    "items": [
+      { "group": "samurai_sword_set_inferior", "prob": 7 },
+      [ "bokken_inferior", 6 ],
+      [ "nodachi_inferior", 5 ],
+      [ "naginata_inferior", 5 ]
+    ]
   },
   {
     "id": "soa_real_weapon_samurai",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "samurai_sword_set", "prob": 7 }, [ "bokken", 6 ], [ "nodachi", 5 ] ]
+    "items": [ { "group": "samurai_sword_set", "prob": 7 }, [ "bokken", 6 ], [ "nodachi", 5 ], [ "naginata", 5 ] ]
   },
   {
     "id": "toy_box",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "subtype": "distribution",
     "items": [
       [ "marble", 60 ],
@@ -620,7 +717,6 @@
       [ "toaster", 20 ],
       [ "microwave", 20 ],
       [ "hat_chef", 2 ],
-      [ "bowl_pewter", 25 ],
       [ "pastaextruder", 10 ],
       [ "knife_butter", 90 ],
       [ "knife_steak", 85 ],
@@ -632,6 +728,7 @@
       [ "ceramic_plate", 10 ],
       [ "ceramic_bowl", 10 ],
       [ "ceramic_cup", 10 ],
+      { "group": "tinware", "prob": 10 },
       [ "knife_butcher", 10 ],
       [ "funnel", 50 ],
       [ "jar_glass", 50 ],
@@ -646,12 +743,13 @@
     "subtype": "distribution",
     "items": [
       [ "glass", 80 ],
-      [ "bowl_pewter", 40 ],
       [ "towel", 40 ],
       [ "ceramic_bowl", 30 ],
       [ "bucket", 30 ],
+      { "group": "glass_of_wine", "prob": 50 },
       { "group": "wines_worthy", "prob": 20 },
       { "group": "glass_set", "prob": 20 },
+      { "group": "tinware", "prob": 20 },
       [ "knife_swissarmy", 10 ],
       [ "funnel", 10 ]
     ]
@@ -661,10 +759,11 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      [ "bowl_pewter", 40 ],
       [ "ceramic_bowl", 30 ],
+      { "group": "glass_of_wine", "prob": 50 },
       { "group": "wines_worthy", "prob": 20 },
       { "group": "glass_set", "prob": 20 },
+      { "group": "tinware", "prob": 20 },
       [ "candlestick", 30 ],
       [ "spiral_stone", 2 ]
     ]
@@ -720,13 +819,14 @@
       [ "cup_plastic_unsealed", 30 ],
       [ "can_drink_unsealed", 30 ],
       [ "bottle_plastic", 30 ],
-      [ "glass_shard", 30 ],
+      { "item": "glass_shard", "prob": 30, "count": [ 1, 8 ] },
       [ "bag_plastic", 30 ],
       { "group": "vending_food", "prob": 20 },
       [ "rag_bloody", 20 ],
       [ "9mm_casing", 20 ],
       [ "38_casing", 20 ],
       [ "45_casing", 20 ],
+      { "group": "tinware", "prob": 20 },
       { "group": "vending_drink", "prob": 10 },
       [ "permanent_marker", 10 ],
       [ "bone_tainted", 5 ],
@@ -740,7 +840,7 @@
     "items": [
       [ "socks", 90 ],
       [ "sneakers", 50 ],
-      [ "battery", 50 ],
+      { "group": "ammo_pocket_batteries", "prob": 50 },
       [ "sunglasses", 40 ],
       [ "socks_wool", 40 ],
       [ "towel", 40 ],
@@ -787,6 +887,7 @@
     "subtype": "distribution",
     "items": [
       { "group": "softdrugs", "prob": 90 },
+      [ "bathroom_scale", 10 ],
       [ "string_6", 50 ],
       [ "wrapper", 50 ],
       [ "paper", 50 ],
@@ -795,7 +896,7 @@
       [ "sinew", 40 ],
       [ "rag", 40 ],
       [ "bottle_plastic", 30 ],
-      [ "glass_shard", 30 ],
+      { "item": "glass_shard", "prob": 30, "count": [ 1, 8 ] },
       [ "rag_bloody", 20 ],
       [ "9mm_casing", 20 ],
       [ "38_casing", 20 ],
@@ -864,7 +965,7 @@
       [ "ceramic_shard", 40 ],
       [ "shot_hull", 40 ],
       [ "sinew", 40 ],
-      [ "glass_shard", 30 ],
+      { "item": "glass_shard", "prob": 30, "count": [ 1, 8 ] },
       [ "wrapper", 30 ],
       [ "dance_shoes", 20 ],
       [ "dress_shoes", 20 ],
@@ -877,12 +978,14 @@
       [ "purse", 20 ],
       [ "heels", 20 ],
       [ "rag", 20 ],
+      { "group": "tinware", "prob": 20 },
       [ "mask_guy_fawkes", 10 ],
       [ "gold_ear", 10 ],
       [ "bone_tainted", 5 ],
       [ "silver_ear", 5 ],
+      [ "platinum_ear", 1 ],
       { "group": "corpse_mansion", "prob": 5 },
-      [ "skinny_tie", 1 ]
+      { "group": "neckties", "prob": 1 }
     ]
   },
   {
@@ -890,12 +993,12 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "item": "wine_chardonnay", "prob": 50, "container-item": "glass" },
+      { "group": "glass_of_wine", "prob": 75 },
       [ "bottle_glass", 50 ],
       [ "glass", 50 ],
       [ "sandwich_cucumber", 40 ],
-      { "item": "wine_riesling", "prob": 30, "container-item": "glass" },
       { "item": "coffee", "prob": 30, "container-item": "ceramic_cup" },
+      { "group": "tinware", "prob": 20 },
       [ "cake2", 20 ],
       { "group": "wines_worthy", "prob": 10 },
       [ "jihelucake", 10 ],
@@ -963,6 +1066,7 @@
       { "item": "lye_powder", "prob": 5, "container-item": "bag_canvas_small" },
       [ "oxy_powder", 5 ],
       [ "fungicide", 5 ],
+      [ "insecticide", 5 ],
       { "item": "charcoal", "prob": 5, "container-item": "bag_canvas" }
     ]
   },
@@ -975,9 +1079,12 @@
   {
     "id": "table_livingroom",
     "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
     "subtype": "distribution",
     "items": [
       { "group": "beer_selection", "prob": 30 },
+      { "group": "glass_of_wine", "prob": 30 },
       [ "novel_pulp", 30 ],
       [ "mag_news", 30 ],
       [ "mag_tv", 30 ],
@@ -1001,6 +1108,7 @@
       [ "cigar", 5 ],
       [ "chaw", 5 ],
       [ "ecig", 5 ],
+      { "group": "tinware", "prob": 5 },
       [ "months_old_newspaper", 4 ],
       [ "one_year_old_newspaper", 3 ],
       [ "years_old_newspaper", 2 ],
@@ -1016,6 +1124,7 @@
     "items": [
       { "item": "beer", "prob": 40, "container-item": "glass" },
       { "group": "beer_selection", "prob": 40 },
+      { "group": "glass_of_wine", "prob": 40 },
       [ "cig", 30 ],
       { "group": "vending_drink", "prob": 20 },
       [ "glass", 20 ],
@@ -1036,6 +1145,7 @@
     "items": [
       { "item": "beer", "prob": 40, "container-item": "glass" },
       { "group": "beer_selection", "prob": 40 },
+      { "group": "glass_of_wine", "prob": 40 },
       [ "glass", 40 ],
       [ "cig", 30 ],
       [ "cigar", 20 ],
@@ -1059,6 +1169,7 @@
       [ "india_pale_ale", 20 ],
       [ "belgian_ale", 20 ],
       [ "pale_ale", 20 ],
+      [ "wine_barley", 20 ],
       [ "stout", 20 ]
     ]
   },
@@ -1141,6 +1252,7 @@
       [ "inhaler", 20 ],
       [ "cig", 20 ],
       { "item": "water", "prob": 10, "container-item": "glass" },
+      { "group": "glass_of_wine", "prob": 10 },
       [ "gummy_vitamins", 10 ],
       [ "cell_phone", 3 ],
       [ "smart_phone", 10 ],
@@ -1275,7 +1387,7 @@
       [ "jacket_army", 10 ],
       [ "army_top", 20 ],
       [ "porkpie", 5 ],
-      [ "skinny_tie", 5 ],
+      { "group": "neckties", "prob": 5 },
       [ "jersey", 60 ],
       [ "maid_hat", 3 ],
       [ "halter_top", 50 ],
@@ -1308,7 +1420,7 @@
       [ "long_glove_white", 5 ],
       [ "veil_wedding", 1 ],
       [ "dress_wedding", 1 ],
-      [ "skinny_tie", 5 ],
+      { "group": "neckties", "prob": 5 },
       [ "tieclip", 2 ],
       [ "collarpin", 2 ],
       [ "kilt", 5 ],
@@ -1322,6 +1434,7 @@
       [ "eboshi", 1 ],
       [ "kariginu", 1 ],
       [ "kimono", 3 ],
+      [ "haori", 2 ],
       [ "hat_fur", 2 ],
       [ "coat_fur_sf", 2 ],
       [ "coat_faux_fur", 4 ],

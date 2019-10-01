@@ -1,12 +1,22 @@
-#include "catch/catch.hpp"
+#include <limits.h>
+#include <list>
+#include <memory>
 
+#include "avatar.h"
+#include "catch/catch.hpp"
 #include "game.h"
-#include "iuse.h"
 #include "monster.h"
 #include "mtype.h"
 #include "player.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "inventory.h"
+#include "item.h"
+#include "string_id.h"
+#include "type_id.h"
+#include "point.h"
 
-player &get_sanitized_player( )
+static player &get_sanitized_player( )
 {
     player &dummy = g->u;
 
@@ -48,7 +58,7 @@ TEST_CASE( "use_eyedrops" )
     REQUIRE( test_item_pos == INT_MIN );
 }
 
-monster *find_adjacent_monster( const tripoint &pos )
+static monster *find_adjacent_monster( const tripoint &pos )
 {
     tripoint target = pos;
     for( target.x = pos.x - 1; target.x <= pos.x + 1; target.x++ ) {

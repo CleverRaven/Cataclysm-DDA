@@ -3,6 +3,7 @@
 #define AMMO_H
 
 #include <string>
+#include <utility>
 
 class JsonObject;
 

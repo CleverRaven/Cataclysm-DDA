@@ -1,54 +1,111 @@
 [
   {
-    "type" : "recipe",
+    "type": "recipe",
     "result": "dry_fish",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": 18000,
+    "time": "18 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [
-      [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
-    ],
-    "components": [ [ [ "fish", 2 ] ] ]
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "fish", 1 ] ] ]
   },
   {
-    "type" : "recipe",
+    "type": "recipe",
+    "result": "dry_fish",
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "fish", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "dry_beans",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": 18000,
+    "time": "18 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [
-      [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
-    ],
-    "components": [ [ [ "raw_beans", 8 ] ] ]
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "raw_beans", 1 ] ] ]
   },
   {
-    "type" : "recipe",
+    "type": "recipe",
+    "result": "dry_beans",
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "raw_beans", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "dry_tofu",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "18 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "tofu", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "dry_tofu",
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "tofu", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "dry_fruit",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": 18000,
+    "time": "18 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [
-      [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
-    ],
-    "components": [
-      [
-        [ "sweet_fruit", 2, "LIST" ],
-        [ "coconut", 2 ],
-        [ "can_coconut", 2 ]
-      ]
-    ]
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "sweet_fruit", 1, "LIST" ], [ "coconut", 1 ], [ "can_coconut", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "dry_fruit",
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "sweet_fruit", 1, "LIST" ], [ "coconut", 1 ], [ "can_coconut", 1 ] ] ]
   },
   {
     "result": "dry_hflesh",
@@ -57,27 +114,52 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": 18000,
+    "time": "18 m",
     "batch_time_factors": [ 67, 5 ],
     "book_learn": [ [ "cookbook_human", 4 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
-    "components": [ [ [ "human_flesh", 2 ] ] ]
+    "components": [ [ [ "human_flesh", 1 ] ] ]
   },
   {
-    "type" : "recipe",
+    "result": "dry_hflesh",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "batch_time_factors": [ 67, 5 ],
+    "book_learn": [ [ "cookbook_human", 4 ] ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "human_flesh", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "dry_meat",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": 18000,
+    "time": "18 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [
-      [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
-    ],
-    "components": [ [ [ "meat", 2 ] ] ]
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "meat", 1 ], [ "meat_scrap", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "dry_meat",
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "meat", 1 ], [ "meat_scrap", 10 ] ] ]
   },
   {
     "result": "dry_meat_tainted",
@@ -86,58 +168,79 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": 18000,
+    "time": "18 m",
     "batch_time_factors": [ 67, 5 ],
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
-    "components": [ [ [ "meat_tainted", 2 ] ] ]
+    "components": [ [ [ "meat_tainted", 1 ] ] ]
   },
   {
-    "type" : "recipe",
+    "result": "dry_meat_tainted",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "batch_time_factors": [ 67, 5 ],
+    "autolearn": true,
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "meat_tainted", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "dry_mushroom",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": 18000,
+    "time": "18 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [
-      [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
-    ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "mushroom", 1 ], [ "mushroom_morel", 1 ] ] ]
   },
   {
-    "type" : "recipe",
+    "type": "recipe",
+    "result": "dry_mushroom",
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "mushroom", 1 ], [ "mushroom_morel", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "dry_veggy",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": 18000,
+    "time": "18 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [
-      [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
-    ],
-    "components": [
-      [ [ "broccoli",   2 ], [ "irradiated_broccoli", 2 ],
-        [ "tomato",     2 ], [ "irradiated_tomato",   2 ],
-        [ "pumpkin",    2 ], [ "irradiated_pumpkin",  2 ],
-        [ "zucchini",   2 ], [ "irradiated_zucchini", 2 ],
-        [ "celery",     2 ], [ "irradiated_celery",   2 ],
-        [ "potato_raw", 2 ], [ "potato_irradiated",   2 ],
-        [ "onion",      2 ], [ "irradiated_onion",    2 ],
-        [ "carrot",    12 ], [ "irradiated_carrot",  12 ],
-        [ "cabbage",    2 ], [ "irradiated_cabbage",  2 ],
-        [ "lettuce",    8 ], [ "irradiated_lettuce",  8 ],
-        [ "veggy",      2 ],
-        [ "veggy_wild", 2 ],
-        [ "dandelion_cooked", 2 ],
-        [ "wild_herbs", 40 ]
-      ]
-    ]
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "veggy_any_uncooked", 1, "LIST" ], [ "dandelion_cooked", 1 ], [ "wild_herbs", 40 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "dry_veggy",
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "veggy_any_uncooked", 1, "LIST" ], [ "dandelion_cooked", 1 ], [ "wild_herbs", 40 ] ] ]
   },
   {
     "result": "dry_veggy_tainted",
@@ -146,12 +249,25 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": 18000,
+    "time": "18 m",
     "batch_time_factors": [ 67, 5 ],
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
-    "components": [ [ [ "veggy_tainted", 2 ] ] ]
+    "components": [ [ [ "veggy_tainted", 1 ] ] ]
+  },
+  {
+    "result": "dry_veggy_tainted",
+    "type": "recipe",
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "batch_time_factors": [ 67, 5 ],
+    "autolearn": true,
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "veggy_tainted", 1 ] ] ]
   },
   {
     "result": "hflesh_powder",
@@ -160,12 +276,12 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 4,
-    "time": 12000,
+    "time": "12 m",
     "batch_time_factors": [ 83, 3 ],
     "book_learn": [ [ "cookbook_human", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 25, "LIST" ], [ "mortar_pestle", -1  ]  ] ],
-    "components": [ [ [ "dry_hflesh", 2 ] ] ]
+    "tools": [ [ [ "surface_heat", 25, "LIST" ], [ "mortar_pestle", -1 ] ] ],
+    "components": [ [ [ "dry_hflesh", 1 ] ] ]
   },
   {
     "result": "hflesh_powder",
@@ -175,42 +291,67 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 4,
-    "time": 9000,
+    "time": "9 m",
     "batch_time_factors": [ 83, 3 ],
     "book_learn": [ [ "cookbook_human", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "food_processor", 20 ] ], [ [  "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "dry_hflesh", 2 ] ] ]
+    "tools": [ [ [ "food_processor", 20 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "dry_hflesh", 1 ] ] ]
   },
   {
-    "type" : "recipe",
+    "type": "recipe",
     "result": "milk_powder",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": 18000,
+    "charges": 1,
+    "time": "18 m",
     "autolearn": true,
-    "tools": [
-      [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
-    ],
-    "components": [
-      [ [ "milk", 10 ] ]
-    ]
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "milk", 1 ] ] ]
   },
   {
-    "type" : "recipe",
+    "type": "recipe",
+    "result": "milk_powder",
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "charges": 1,
+    "time": "20 m",
+    "autolearn": true,
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "milk", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "powder_eggs",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": 18000,
+    "charges": 12,
+    "time": "18 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [
-      [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
-    ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "egg_reptile", 12 ], [ "spider_egg", 4 ], [ "ant_egg", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "powder_eggs",
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "charges": 12,
+    "time": "20 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "egg_reptile", 12 ], [ "spider_egg", 4 ], [ "ant_egg", 1 ] ] ]
   },
   {
@@ -220,12 +361,13 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 4,
-    "time": 12000,
+    "charges": 3,
+    "time": "12 m",
     "batch_time_factors": [ 83, 3 ],
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 25, "LIST" ], [ "mortar_pestle", -1  ] ] ],
-    "components": [ [ [ "dry_meat", 2 ], [ "dry_fish", 2 ] ] ]
+    "tools": [ [ [ "mortar_pestle", -1 ] ], [ [ "surface_heat", 25, "LIST" ] ] ],
+    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 1 ] ] ]
   },
   {
     "result": "protein_powder",
@@ -235,11 +377,39 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 4,
-    "time": 9000,
+    "charges": 3,
+    "time": "9 m",
     "batch_time_factors": [ 83, 3 ],
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "food_processor", 20 ] ], [ [  "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "dry_meat", 2 ], [ "dry_fish", 2 ] ] ]
+    "tools": [ [ [ "food_processor", 20 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "dry_lentils",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "18 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "raw_lentils", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "dry_lentils",
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "raw_lentils", 1 ] ] ]
   }
 ]

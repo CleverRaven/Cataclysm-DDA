@@ -1,18 +1,22 @@
-#include "catch/catch.hpp"
+#include <sstream>
+#include <map>
+#include <string>
+#include <utility>
+#include <vector>
 
-#include "game.h"
+#include "catch/catch.hpp"
 #include "mutation.h"
 #include "npc.h"
 #include "player.h"
-
-#include <sstream>
+#include "string_id.h"
+#include "type_id.h"
 
 std::string get_mutations_as_string( const player &p );
 
 // Note: If a category has two mutually-exclusive mutations (like pretty/ugly for Lupine), the
 // one they ultimately end up with depends on the order they were loaded from JSON
-void give_all_mutations( player &p, const mutation_category_trait &category,
-                         bool include_postthresh )
+static void give_all_mutations( player &p, const mutation_category_trait &category,
+                                const bool include_postthresh )
 {
     const std::vector<trait_id> category_mutations = mutations_category[category.id];
 
@@ -37,7 +41,7 @@ void give_all_mutations( player &p, const mutation_category_trait &category,
     }
 }
 
-int get_total_category_strength( const player &p )
+static int get_total_category_strength( const player &p )
 {
     int total = 0;
     for( auto &i : p.mutation_category_level ) {
@@ -105,8 +109,8 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
             npc dummy;
             give_all_mutations( dummy, cur_cat, false );
 
-            int category_strength = dummy.mutation_category_level[cat_id];
-            int total_strength = get_total_category_strength( dummy );
+            const int category_strength = dummy.mutation_category_level[cat_id];
+            const int total_strength = get_total_category_strength( dummy );
             float breach_chance = category_strength / static_cast<float>( total_strength );
 
             THEN( "Threshold breach chance is at least 0.2" ) {

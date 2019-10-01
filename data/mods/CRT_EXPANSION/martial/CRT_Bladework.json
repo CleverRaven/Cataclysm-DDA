@@ -1,0 +1,135 @@
+[
+  {
+    "id": "manual_crt_blade",
+    "copy-from": "book_martial",
+    "type": "GENERIC",
+    "name": "C.R.I.T Blade-work manual",
+    "name_plural": "C.R.I.T Blade-work manuals",
+    "description": "An advanced military manual on C.R.I.T Blade-work.",
+    "book_data": { "martial_art": "style_crt_blade" }
+  },
+  {
+    "id": "book_martial",
+    "type": "item_group",
+    "items": [ [ "manual_crt_blade", 5 ] ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_crt_blade",
+    "name": "C.R.I.T Blade-work",
+    "description": "An offensive style that is centered around rapid slashes and prodding.  Each attack landed increases combat ability",
+    "initiate": [ "Initiate blade-work.", "%s initiates blade-work." ],
+    "arm_block": 99,
+    "leg_block": 99,
+    "static_buffs": [
+      {
+        "id": "crt_blade_static",
+        "name": "C.R.I.T Calculation",
+        "description": "Increased accuracy along with minor cut and stab damage with piercing capability.",
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "min_unarmed": 2,
+        "flat_bonuses": [ [ "damage", "stab", 1 ], [ "damage", "cut", 1 ], [ "arpen", "stab", 1 ], [ "arpen", "cut", 1 ] ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "crt_blade_hit_buff",
+        "name": "C.R.I.T Intensity",
+        "description": "Additional DMG, and Arpen per stack. Max of 5 stacks",
+        "unarmed_allowed": false,
+        "melee_allowed": true,
+        "min_unarmed": 3,
+        "buff_duration": 1,
+        "max_stacks": 4,
+        "flat_bonuses": [ [ "damage", "stab", 0.25 ], [ "damage", "cut", 0.5 ], [ "arpen", "cut", 1 ] ]
+      }
+    ],
+    "techniques": [ "tec_crt_blade_normal", "tec_crt_blade_rapid", "tec_crt_blade_precise", "tec_crt_blade_arpen", "tec_feint" ],
+    "weapons": [
+      "sword_crt",
+      "blade_crt",
+      "knife_crt",
+      "knife_combat",
+      "knife_hunting",
+      "knife_rambo",
+      "knife_rm42",
+      "knife_steak",
+      "knife_trench",
+      "knife_folding",
+      "knife_paring",
+      "knife_carving",
+      "knife_vegetable_cleaver",
+      "knife_meat_cleaver",
+      "knife_bread",
+      "knife_chef",
+      "knife_butcher",
+      "makeshift_knife",
+      "primitive_knife",
+      "pockknife",
+      "copper_knife",
+      "diveknife",
+      "kris",
+      "switchblade",
+      "xacto"
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_crt_blade_normal",
+    "name": "Shimmer Flurry",
+    "min_unarmed": 1,
+    "min_melee": 1,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "damage", "bash", 0.8 ], [ "damage", "cut", 0.7 ], [ "damage", "stab", 0.6 ] ],
+    "messages": [ "You release a blindingly fast slash at %s", "<npcname> slashes at %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_crt_blade_rapid",
+    "name": "Tipped Intent",
+    "min_unarmed": 2,
+    "min_melee": 2,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.77 ], [ "damage", "bash", 0.55 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.88 ] ],
+    "messages": [ "You swiftly jab your weapon at %s", "<npcname> swiftly jabs their weapon at %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_crt_blade_precise",
+    "name": "Decisive Blow",
+    "min_unarmed": 3,
+    "min_melee": 3,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.8 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 1.05 ], [ "damage", "stab", 1.0 ] ],
+    "crit_tec": true,
+    "messages": [ "You release a debilitating swipe at %s", "<npcname> releases a debilitating swipe at %s" ],
+    "down_dur": 2
+  },
+  {
+    "type": "technique",
+    "id": "tec_crt_blade_arpen",
+    "name": "End Slash",
+    "min_unarmed": 5,
+    "min_melee": 5,
+    "weighting": 2,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "mult_bonuses": [
+      [ "damage", "bash", 0.5 ],
+      [ "damage", "cut", 1.1 ],
+      [ "damage", "stab", 1.1 ],
+      [ "arpen", "stab", 0.25 ],
+      [ "arpen", "cut", 0.5 ]
+    ],
+    "crit_tec": true,
+    "messages": [
+      "You envision the tension of a fully drawn bow and then launch a piercing blow on %s's top half",
+      "<npcname> lands a piercing blow on %s's face"
+    ],
+    "stun_dur": 2
+  }
+]

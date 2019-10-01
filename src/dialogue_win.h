@@ -2,9 +2,13 @@
 #ifndef DIALOGUE_WIN_H
 #define DIALOGUE_WIN_H
 
-#include "ui.h"
-
+#include <cstddef>
 #include <vector>
+#include <string>
+#include <utility>
+
+#include "color.h"
+#include "cursesdef.h"
 
 using talk_data = std::pair<nc_color, std::string>;
 
@@ -19,7 +23,7 @@ class dialogue_window
 
         void clear_window_texts();
         void display_responses( int hilight_lines, const std::vector<talk_data> &responses,
-                                const long &ch );
+                                const int &ch );
         void refresh_response_display();
         /**
          * Folds and adds the folded text to @ref history. Returns the number of added lines.

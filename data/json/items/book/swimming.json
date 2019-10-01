@@ -5,16 +5,17 @@
     "name": "Swim Planet",
     "name_plural": "Swim Planet",
     "description": "The world's leading resource about aquatic sports.",
-    "weight": 60,
-    "volume": 1,
+    "weight": "60 g",
+    "volume": "250 ml",
     "price": 460,
+    "price_postapoc": 1900,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
     "skill": "swimming",
     "max_level": 1,
     "intelligence": 1,
-    "time": 8,
+    "time": "8 m",
     "fun": 1
   },
   {
@@ -22,15 +23,16 @@
     "type": "BOOK",
     "name": "Water Survival Training Field Manual",
     "description": "A commercially produced survival guide that details swimming and deep water survival techniques tailored to emergency scenarios.",
-    "weight": 400,
-    "volume": 2,
+    "weight": "400 g",
+    "volume": "500 ml",
     "price": 2200,
+    "price_postapoc": 5900,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
     "skill": "swimming",
     "max_level": 3,
     "intelligence": 3,
-    "time": 15
+    "time": "15 m"
   }
 ]

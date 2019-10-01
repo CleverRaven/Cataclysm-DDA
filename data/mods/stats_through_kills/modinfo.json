@@ -1,0 +1,19 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "stats_through_kills",
+    "name": "Stats Through Kills",
+    "authors": [ "KorGgenT" ],
+    "maintainer": [ "KorGgenT" ],
+    "description": "You gain XP from kills that you can spend on increasing your stats.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "STATS_THROUGH_KILLS",
+    "info": "Stats through Kills.  A mod that allows your stats to increase by killing zombies.",
+    "stype": "bool",
+    "value": true
+  }
+]

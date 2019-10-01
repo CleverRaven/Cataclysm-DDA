@@ -19,12 +19,77 @@
           "broken_skitterbot",
           "bot_manhack",
           "electrohack",
-          "cell_phone",
           "laptop"
-        ]
+        ],
+        "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "robo_expert",
+    "name": "Robotics Engineer",
+    "description": "You were a low-level engineer at a robotics manufacturer.  The management kept telling you putting flamethrowers on manhacks was 'unnecessary' and 'too dangerous,' but there's nothing to stop you now.",
+    "points": 5,
+    "skills": [ { "level": 4, "name": "computer" }, { "level": 4, "name": "electronics" }, { "level": 2, "name": "mechanics" } ],
+    "items": {
+      "both": {
+        "items": [ "longshirt", "jeans", "socks", "boots_steel", "jacket_jean", "textbook_robots", "soldering_iron", "screwdriver" ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "robo_prodigy",
+    "name": "Robotics Prodigy",
+    "description": "You've been building robots since you could hold a soldering iron, and you don't intend to let the end of the world stop that from continuing.",
+    "points": 8,
+    "skills": [ { "level": 5, "name": "computer" }, { "level": 8, "name": "electronics" }, { "level": 5, "name": "mechanics" } ],
+    "items": {
+      "both": { "items": [ "linuxtshirt", "pants", "socks", "dress_shoes", "blazer", "bot_craftbuddy" ] },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "robo_adoptee",
+    "name": "Robot Adoptee",
+    "description": "During the riots a military robot came out of nowhere to rescue you.  Maybe it thinks you're someone important, who knows.",
+    "points": 6,
+    "items": {
+      "both": {
+        "items": [ "undershirt", "jeans", "socks", "lowtops", "hoodie", "bot_milbot_308" ],
+        "entries": [ { "item": "762_51", "charges": 100 } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "robo_hunter",
+    "name": "Robo-hunter",
+    "description": "You paid a local hacker to build you a robotic hunting dog.  It's almost as good as the real thing, but it doesn't respond well to being pet.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "gun" }, { "level": 1, "name": "rifle" } ],
+    "items": {
+      "both": {
+        "items": [ "undershirt", "jeans", "socks", "boots_hiking", "jacket_flannel", "bot_skitterbot_rat" ],
+        "entries": [
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "ruger_1022", "ammo-item": "22_lr", "charges": 10, "contents-item": "shoulder_strap" },
+          { "item": "ruger1022mag", "ammo-item": "22_lr", "charges": 10 },
+          { "item": "22_lr", "charges": 20 },
+          { "item": "sheath", "contents-item": "knife_hunting" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boy_shorts" ]
     }
   }
 ]

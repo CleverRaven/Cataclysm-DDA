@@ -1,0 +1,296 @@
+[
+  {
+    "type": "npc",
+    "id": "isherwood_eddie",
+    "//": "Dairy farmer the Isherwood family.",
+    "name_unique": "Eddie Isherwood",
+    "gender": "male",
+    "class": "NC_ISHERWOOD_EDDIE",
+    "worn_override": "NC_Isherwood_worn",
+    "carry_override": "NC_ISHERWOOD_rifle",
+    "weapon_override": "NC_ISHERWOOD_archery",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ISHERWOOD_EDDIE",
+    "mission_offered": "MISSION_ISHERWOOD_EDDIE_1",
+    "faction": "isherwood_family"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ISHERWOOD_EDDIE",
+    "name": "Eddie Isherwood",
+    "job_description": "I'm a dairy farmer, part of the Isherwood family",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "common": false,
+    "bonus_per": { "one_in": 4 },
+    "shopkeeper_item_group": "NC_ISHERWOOD_EDDIE_misc",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 4, 8 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ISHERWOOD_EDDIE_misc",
+    "items": [
+      [ "cheese_hard", 55 ],
+      [ "cheese", 55 ],
+      [ "butter", 55 ],
+      [ "meat_smoked", 45 ],
+      [ "fish_smoked", 25 ],
+      { "item": "milk", "prob": 70, "charges": 12, "container-item": "jar_3l_glass_sealed" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_EDDIE",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "I see that badge, I think you need ot keep on walking, straight off this property.",
+      "no": { "u_male": true, "yes": "Hello Sir, what brings you here?", "no": "Hello Ma'am, what brings you here?" }
+    },
+    "responses": [
+      {
+        "text": "Yeah, I'm a Marshal, what are you going to do about it?",
+        "topic": "TALK_LEAVE_NOW",
+        "effect": "hostile",
+        "opinion": { "trust": -20, "value": -20 },
+        "condition": { "u_is_wearing": "badge_marshal" }
+      },
+      {
+        "text": "...",
+        "topic": "TALK_LEAVE_NOW",
+        "opinion": { "trust": -20, "value": -20 },
+        "condition": { "u_is_wearing": "badge_marshal" }
+      },
+      {
+        "text": "Nice dairy, must be tough keeping it running.",
+        "topic": "TALK_ISHERWOOD_EDDIE_TALK1",
+        "effect": { "u_add_var": "u_met_Eddie_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "Hi, Jack and Claire suggested I come down here and meet you.",
+        "topic": "TALK_JACK_CLAIRE",
+        "condition": {
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "u_has_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "Can I do anything for you?",
+        "topic": "TALK_MISSION_LIST",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      },
+      {
+        "text": "Have anything to trade?",
+        "topic": "TALK_ISHERWOOD_EDDIE",
+        "effect": "start_trade",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      },
+      {
+        "text": "I'd better get going.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_EDDIE_TALK1",
+    "dynamic_line": "I run this dairy with my son, Luke.  It's been a tough job keeping the herd together, hasn't left a lot of time for other projects.",
+    "responses": [
+      {
+        "text": "I heard about Barry, such a tragedy.  Can you tell me more about what happened?",
+        "topic": "TALK_ISHERWOOD_EDDIE2",
+        "condition": {
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "u_has_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
+          ]
+        }
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_EDDIE2",
+    "dynamic_line": "Barry and Carlos went to hunt down something that killed our livestock, they tracked it into the forest.  It grabbed Barry and ran off, Carlos might be willing to tell you the story, he managed to allude it.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_JACK_CLAIRE",
+    "dynamic_line": "Yeah, I could use some help getting materials.  I want to outfit that old building across the road with some kilns.  We want to make our own jars and pottery so we aren't dependent on scavenging.",
+    "responses": [
+      { "text": "That is a good idea, what do you need?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
+      { "text": "I'm not interested right now, I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EDDIE_LUKE",
+    "dynamic_line": "Luke was going to start college this year, now everything is upside down.  He is adaptable though, had an idea to begin manufacturing our own jars and pottery. He's out in the old outbuilding right now, cleaning up the place.",
+    "effect": { "u_add_var": "u_heard_about_luke", "type": "general", "context": "meeting", "value": "yes" },
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EDDIE_JESSE",
+    "dynamic_line": "Jesse manages the horses and other livestock, she is amazing with animals.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EDDIE_CARLOS",
+    "dynamic_line": "Carlos will be in his workshop if he isn't out hunting.  He is trying to get a forage set up.",
+    "effect": { "u_add_var": "u_learned_about_forage", "type": "general", "context": "meeting", "value": "yes" },
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LEAVE_NOW",
+    "dynamic_line": "You should get off my farm, I won't deal with a a government stooge.",
+    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_EDDIE_TOPICS",
+    "dynamic_line": "Go on...",
+    "responses": [
+      { "text": "Your son helps with the dairy?", "topic": "TALK_EDDIE_LUKE" },
+      { "text": "So, Jesse runs the horse farm?", "topic": "TALK_EDDIE_JESSE" },
+      { "text": "Where can I find Carlos?", "topic": "TALK_EDDIE_CARLOS" },
+      { "text": "Let's trade items.", "topic": "TALK_ISHERWOOD_EDDIE", "effect": "start_trade" },
+      { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_ISHERWOOD_EDDIE_1",
+    "type": "mission_definition",
+    "name": "Gather 120 Stones",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "rock",
+    "count": 120,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "followup": "MISSION_ISHERWOOD_EDDIE_2",
+    "dialogue": {
+      "describe": "We need to build some kilns.",
+      "offer": "I could use 120 rocks to construct some kilns.",
+      "accepted": "You can break up some larger rocks, or gather them up from the fields.",
+      "rejected": "Thanks anyway, we'll find the time to get them ourselves.",
+      "advice": "Mining would always be an option if you had the resources.",
+      "inquire": "Do you have the stone?",
+      "success": "I appreciate it, this will make Luke happy.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "opinion": { "trust": 1, "value": 1 },
+      "effect": [
+        { "u_buy_item": "meat_smoked", "count": 12 },
+        { "u_buy_item": "milk", "container": "jar_3l_glass_sealed", "count": 12 }
+      ],
+      "update_mapgen": [
+        {
+          "om_terrain": "rural_outbuilding",
+          "om_special": "Isherwood Farms",
+          "place_nested": [ { "chunks": [ "isherwood_outbuilding_kilns" ], "x": 0, "y": 0 } ],
+          "set": [
+            { "point": "furniture", "id": "f_kiln_empty", "x": 8, "y": 13 },
+            { "point": "furniture", "id": "f_forge_rock", "x": 9, "y": 6 },
+            { "point": "furniture", "id": "f_clay_kiln", "x": 7, "y": 6 }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_ISHERWOOD_EDDIE_2",
+    "type": "mission_definition",
+    "name": "Gather 2000 units of sand",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 3,
+    "value": 20000,
+    "item": "material_sand",
+    "count": 2000,
+    "followup": "MISSION_ISHERWOOD_EDDIE_3",
+    "end": {
+      "opinion": { "trust": 1, "value": 1 },
+      "effect": [ { "u_buy_item": "butter", "count": 6 }, { "u_buy_item": "milk", "container": "jar_3l_glass_sealed", "count": 12 } ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "I do have some resource gathering I could use help with.",
+      "offer": "Now that the forge is set up, we could use 2000 units of sand to get production going.",
+      "accepted": "Thank you.",
+      "rejected": "Oh well.  I'll try to find time to get it myself, thanks.",
+      "advice": "You can find it along river banks, or maybe landscaping supplies and hardware stores.",
+      "inquire": "How is the search going?",
+      "success": "Thanks, now Luke can get started. Here's a token of my thanks.",
+      "success_lie": "What good does this do us?",
+      "failure": "I wonder where all the sand went..."
+    }
+  },
+  {
+    "id": "MISSION_ISHERWOOD_EDDIE_3",
+    "type": "mission_definition",
+    "name": "Gather 1000 units of clay",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 3,
+    "value": 20000,
+    "item": "clay_lump",
+    "count": 1000,
+    "end": {
+      "opinion": { "trust": 2, "value": 2 },
+      "effect": [
+        { "u_add_var": "u_did_eddie_missions", "type": "general", "context": "mission", "value": "yes" },
+        { "u_buy_item": "rope_6", "count": 1 },
+        { "u_buy_monster": "mon_cow", "count": 1, "name": "Daisy" },
+        { "u_buy_item": "cattlefodder", "count": 3 }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "I do have some resource gathering I could use help if you have time.",
+      "offer": "Now that the clay kiln is set up, we could use 1000 units of clay to get production going.",
+      "accepted": "Thank you.",
+      "rejected": "Oh well.  I'll try to find time to get it myself, thanks.",
+      "advice": "You can find it along river banks, or maybe look for deposits in the forest.",
+      "inquire": "How is the search going?",
+      "success": "Thanks, now Luke can get started making jugs, We'd like to give you a cow, Here's Daisy, take good care of her and she'll provide you with milk.",
+      "success_lie": "What good does this do us?",
+      "failure": "I wonder where all the sand went..."
+    }
+  }
+]

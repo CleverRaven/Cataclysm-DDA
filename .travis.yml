@@ -30,75 +30,113 @@ os: linux
 branches:
   only:
   - master
+  - development
+
+# Overall strategy for what sorts of builds to include:
+# We want a build for each compiler and each platform.
+# For PRs, we lessen the "each compiler" requirement to just covering the newest
+# and oldest relevant version of each compiler.
+# We also want to ensure that each of the following tweaks are covered in at
+# least one PR build:
+# - TILES=1
+# - SOUND=1
+# - RELEASE=1
+# - CMAKE=1
+# - SANITIZE=address
+# - LOCALIZE=0
+# - A clang-tidy run
+# - Tests with important mods enabled (Magiclysm, RL_Classes)
+# We try to minimize the number of builds subject to those constraints.
+
+# To see what toolchains are available, consult the following:
+# https://github.com/travis-ci/apt-source-safelist/blob/master/ubuntu.json
+# https://launchpad.net/%7Eubuntu-toolchain-r/+archive/ubuntu/test/+index
 
 jobs:
   include:
     # Initial test stage, if this fails everything else is cancelled.
-    - stage: test
-      # GCC 5 is the pre-installed compiler on Xenial
-      env: COMPILER=g++ MODS=--mods=RL_Classes
+    - stage: Test
+      # Clang is consistently the fastest to build, so use it for the initial test.
+      env: CLANG=clang++-3.8 MODS=--mods=RL_Classes TEST_STAGE=1 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
+      name: "Clang 3.8 Make build with curses, style check and RL_Classes test"
+      compiler: clang
+      addons: &clang38
+        apt:
+          packages: ["clang-3.8", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
+          sources: [*apt_sources]
 
     # Then build different configurations and targets in parallel.
-    - stage: variants
-    # Linux Tiles
-      env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1 SANITIZE=address
+    - stage: "Main Compilers"
+      env: COMPILER=g++ MODS=--mods=magiclysm LOCALIZE=0
+      name: "GCC 5.3 Make build with curses, Magiclysm, and no Localization"
+      compiler: gcc
+      addons: &gcc53
+        apt:
+          packages: ["g++-5=5.3.1-14ubuntu2", "libstdc++-5-dev=5.3.1-14ubuntu2", "gcc-5=5.3.1-14ubuntu2", "gcc-5-base=5.3.1-14ubuntu2", "cpp-5=5.3.1-14ubuntu2", "libgcc-5-dev=5.3.1-14ubuntu2", "libasan2=5.3.1-14ubuntu2", "libmpx0=5.3.1-14ubuntu2"]
+          sources: [*apt_sources]
+
+    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1 SANITIZE=address
+      name: "GCC 8 Make build with Tiles, Sound, astyle and address sanitization"
+      dist: bionic
       compiler: gcc
       addons: &gcc8
         apt:
-          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev", "astyle"]
           sources: *apt_sources
 
-      # MXE variants disabled while pkg.mxe.cc is down
-      # GCC MinGW
-    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine'
-      if: type = disabled
-      addons: &gcc
+    - env: CLANG=clang++-8 SANITIZE=address EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency ~vehicle_drag ~starting_items"
+      name: "Clang 8 Make build with address sanitization, but long-running tests disabled"
+      compiler: clang
+      addons: &clang8
         apt:
-          packages: ["wine"]
+          packages: ["clang-8", "libc6-dbg", "libc6-dbg:i386"]
+          sources: [*apt_sources, llvm-toolchain-xenial-8]
 
-    # Windows Tiles
-    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine' TILES=1 SOUND=1
-      if: type = disabled
+    - stage: "Platforms and Tidy"
+    # MXE variant using alternate repository http://mirror.mxe.cc/repos/apt
+      env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine' TILES=1 SOUND=1
+      name: "Mingw-w64 Make cross-compile to Windows with Tiles and Sound"
       compiler: gcc
       addons: &gcc
         apt:
           packages: ["wine"]
 
-    # CMake Clang 6.0 Tiles
-    - env: CLANG=clang++-6.0 TILES=1 SOUND=1 CXXFLAGS=-Wno-error=unused-command-line-argument CMAKE=1
-      dist: trusty
-      compiler: clang
-      addons: &clang60
-        apt:
-          packages: ["clang-6.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
-          sources: [*apt_sources, llvm-toolchain-trusty-6.0]
+    - env: NATIVE=android COMPILER=gcc
+      name: "Android build"
+      language: android
+      android:
+        components:
+          - build-tools-28.0.1
+          - android-26
+      cache:
+        # The ccache feature in Travis doesn't work for language: android, so
+        # do it ourselves.
+        directories:
+          - $HOME/.ccache
 
-    # macOS Tiles
-    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1 LUA=1
+    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1
+      name: "Xcode 10.1 Make build with Tiles and sound (macOS)"
       os: osx
       osx_image: xcode10.1
       compiler: clang
 
+    - env: CLANG=clang++-8 TILES=1 SOUND=1 CXXFLAGS=-Wno-unused-command-line-argument CMAKE=1 CATA_CLANG_TIDY=plugin
+      name: "Clang-tidy CMake build with Tiles and Sound"
+      compiler: clang
+      addons: &clang8
+        apt:
+          packages: ["clang-8", "libclang-8-dev", "llvm-8-dev", "llvm-8-tools", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          sources: [*apt_sources, llvm-toolchain-xenial-8]
+
     # Finally check the compiler variants
     - stage: compilers
-      env: COMPILER=g++-4.8
-      compiler: gcc
-      addons: &gcc48
-        apt:
-          packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386"]
-          sources: *apt_sources
-
-    # GCC 4.9
-    - env: COMPILER=g++-4.9
+      # GCC 5.4 is default on Xenial
+      env: COMPILER=g++
+      name: "GCC 5.4 Make build with Curses"
       if: type != pull_request
-      compiler: gcc
-      addons: &gcc49
-        apt:
-          packages: ["g++-4.9", "g++-4.9-multilib", "libc6-dbg", "libc6-dbg:i386"]
-          sources: *apt_sources
 
-    # GCC 6
-    - env: COMPILER=g++-6
+    - env: COMPILER=g++-6 CODE_COVERAGE=true
+      name: "GCC 6 Make build with Curses and Code Coverage"
       if: type != pull_request
       compiler: gcc
       addons: &gcc6
@@ -106,34 +144,24 @@ jobs:
           packages: ["g++-6",   "g++-6-multilib",   "libc6-dbg", "libc6-dbg:i386"]
           sources: *apt_sources
 
-    # GCC 7
-    - env: COMPILER=g++-7 CXXFLAGS='-Wno-implicit-fallthrough' CODE_COVERAGE=true
+    - env: COMPILER=g++-7 CXXFLAGS='-Wno-implicit-fallthrough -D_GLIBCXX_DEBUG'
+      name: "GCC 7 Make build with Curses and GLIBCXX_DEBUG"
       if: type != pull_request
       compiler: gcc
-      dist: trusty
       addons: &gcc7
         apt:
           packages: ["g++-7",   "g++-7-multilib",   "libc6-dbg", "libc6-dbg:i386", "lcov"]
           sources: *apt_sources
 
-    # GCC 8
-    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough'
-      compiler: gcc
-      addons: &gcc8
+    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine'
+      name: "Mingw-w64 Make build with Curses"
+      if: type != pull_request
+      addons: &gcc
         apt:
-          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386"]
-          sources: *apt_sources
+          packages: ["wine"]
 
-    # Clang 3.8
-    - env: CLANG=clang++-3.8 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
-      compiler: clang
-      addons: &clang38
-        apt:
-          packages: ["clang-3.8", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
-          sources: *apt_sources
-
-    # Clang 3.9
     - env: CLANG=clang++-3.9 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
+      name: "Clang 3.9 Make build with Curses"
       if: type != pull_request
       compiler: clang
       addons: &clang39
@@ -141,17 +169,20 @@ jobs:
           packages: ["clang-3.9", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
           sources: *apt_sources
 
-    # Clang 4.0
     - env: CLANG=clang++-4.0 CXXFLAGS=-Wno-error=unused-command-line-argument
+      name: "Clang 4 Make build with Curses"
       if: type != pull_request
       compiler: clang
       addons: &clang40
         apt:
           packages: ["clang-4.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
+          # Luckily the Trusty install Just Works on Xenial
           sources: [*apt_sources, llvm-toolchain-trusty-4.0]
 
-    # Clang 5.0
+    # Clang 5.0 (still on Trusty, because I could find no readily available
+    # source on Xenial at time of writing)
     - env: CLANG=clang++-5.0 CXXFLAGS=-Wno-error=unused-command-line-argument
+      name: "Clang 5 Make build with Curses"
       if: type != pull_request
       dist: trusty
       compiler: clang
@@ -160,14 +191,23 @@ jobs:
           packages: ["clang-5.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
           sources: [*apt_sources, llvm-toolchain-trusty-5.0]
 
-    # Clang 6.0
-    - env: CLANG=clang++-6.0 CXXFLAGS=-Wno-error=unused-command-line-argument SANITIZE=address
-      dist: trusty
+    - env: CLANG=clang++-6.0 TILES=1 SOUND=1 CXXFLAGS=-Wno-error=unused-command-line-argument CMAKE=1 RELEASE=1
+      name: "Clang 6 CMake build with tiles and sound"
+      if: type != pull_request
       compiler: clang
       addons: &clang60
         apt:
-          packages: ["clang-6.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
-          sources: [*apt_sources, llvm-toolchain-trusty-6.0]
+          packages: ["clang-6.0", "g++-multilib", "libc6-dbg", "g++-6", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          sources: [*apt_sources, llvm-toolchain-xenial-6.0]
+
+    - env: CLANG=clang++-7
+      name: "Clang 7 Make build with Curses"
+      if: type != pull_request
+      compiler: clang
+      addons: &clang7
+        apt:
+          packages: ["clang-7", "libc6-dbg", "libc6-dbg:i386"]
+          sources: [*apt_sources, llvm-toolchain-xenial-7]
 
 before_script:
   - if [ -n "${CLANG}" ]; then COMPILER="$CLANG"; fi
@@ -179,5 +219,5 @@ script:
   - build-scripts/build.sh
 
 after_success:
-  - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-4.8; fi
+  - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-6; fi
   - if [ -n "${CODE_COVERAGE}" ]; then bash <(curl -s https://codecov.io/bash); fi

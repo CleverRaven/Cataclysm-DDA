@@ -1,50 +1,41 @@
 [
-    {
-        "type" : "mapgen",
-        "om_terrain" : ["mil_outpost_2le"],
-        "comment" : "second floor left edge",
-        "method": "json",
-        "weight": 250,
-        "object": {
-            "fill_ter": "t_flat_roof",
-            "rows": [
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F        c F######",
-                "######F      A    ######",
-                "######F      A    ######",
-                "######F      A x  ######",
-                "######F      r    ######",
-                "######F        c F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######",
-                "######F          F######"
-            ],
-            "palettes":[
-               "mil_outpost_bandit"
-            ],
-           "terrain":{
-                " ": "t_flat_roof",
-                ",": "t_open_air",
-                "f": "t_railing_h",
-                "F": "t_railing_v"
-            },
-            "items": {
-                "x": { "item": "bowling_balls", "chance": 90 }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": [ "mil_outpost_2le" ],
+    "comment": "second floor left edge",
+    "method": "json",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F        c F######",
+        "######F      A    ######",
+        "######F      A    ######",
+        "######F      A x  ######",
+        "######F      r    ######",
+        "######F        c F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######",
+        "######F          F######"
+      ],
+      "palettes": [ "mil_outpost_bandit" ],
+      "terrain": { " ": "t_flat_roof", ",": "t_open_air", "f": "t_railing_h", "F": "t_railing_v" },
+      "items": { "x": { "item": "bowling_balls", "chance": 90 } }
     }
+  }
 ]

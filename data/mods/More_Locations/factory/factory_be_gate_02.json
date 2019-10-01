@@ -1,46 +1,40 @@
 [
-    {
-        "type" : "mapgen",
-        "om_terrain" : ["factory_be_gate"],
-        "comment" : "bottom edge gate",
-        "method": "json",
-        "weight": 250,
-        "object": {
-            "fill_ter": "t_concrete_floor",
-            "rows": [
-                "......|..........|......",
-                ".....tg..........gt.....",
-                "......|..........|6.....",
-                "....6--..........--.....",
-                "...6--             --66.",
-                "-+---               ----",
-                "..||                ||L.",
-                "...+                ||L.",
-                "..||                ||..",
-                ".l||                ||..",
-                ".l||                +...",
-                ".|||                |||.",
-                "---|                |---",
-                "---t                t---",
-                ",,,,                ,,,,",
-                ",,,,                ,,,,",
-                ",,,,                ---,",
-                ",,,,                gc+,",
-                ",,,,                ---,",
-                ",,,F                F,,,",
-                ",,,F                F%,,",
-                "ffff                ffff",
-                ",,,,                ,,,,",
-                ",,,,                ,,,,"
-            ],
-             "palettes": [
-               "factory"
-            ],
-            "monster": {
-                "t": { "monster": "mon_turret" },
-                "Z": { "monster": "mon_secubot" },
-                "z": { "monster": "mon_skitterbot" }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": [ "factory_be_gate" ],
+    "comment": "bottom edge gate",
+    "method": "json",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_concrete_floor",
+      "rows": [
+        "......|..........|......",
+        ".....tg..........gt.....",
+        "......|..........|6.....",
+        "....6--..........--.....",
+        "...6--             --66.",
+        "-+---               ----",
+        "..||                ||L.",
+        "...+                ||L.",
+        "..||                ||..",
+        ".l||                ||..",
+        ".l||                +...",
+        ".|||                |||.",
+        "---|                |---",
+        "---t                t---",
+        ",,,,                ,,,,",
+        ",,,,                ,,,,",
+        ",,,,                ---,",
+        ",,,,                gc+,",
+        ",,,,                ---,",
+        ",,,F                F,,,",
+        ",,,F                F%,,",
+        "ffff                ffff",
+        ",,,,                ,,,,",
+        ",,,,                ,,,,"
+      ],
+      "palettes": [ "factory" ],
+      "monster": { "t": { "monster": "mon_turret_rifle" }, "Z": { "monster": "mon_secubot" }, "z": { "monster": "mon_skitterbot" } }
     }
+  }
 ]

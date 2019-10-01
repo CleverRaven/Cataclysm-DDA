@@ -1,93 +1,151 @@
 [
   {
-    "id": "museum",
-    "type": "overmap_terrain",
-    "name": "museum",
-    "sym": 77,
-    "color": "white",
-    "see_cost": 5,
-    "mondensity": 2,
-    "extras": "build",
-    "mapgen": [
-      {
-        "method": "json",
-        "weight": 500,
-        "object": {
-          "rows": [
-            ".|---------LL---------|.",
-            ".|#5                  |.",
-            ".|-5            888   |.",
-            ".|#5  DD   DD   5#5   |.",
-            ".|-5  DD   DD   5#5   |.",
-            ".|#5            888  D|.",
-            ".|-5                 D|.",
-            ".|#5            888  D|.",
-            ".|-5  DD   DD   5#5   |.",
-            ".|#5  DD   DD   5#5   |.",
-            ".|-5            888  D|.",
-            ".|#5                 D|.",
-            ".|-----|        888  D|.",
-            ".|GGGGG|        5#5   |.",
-            ".|Gc   |        5#5   |.",
-            ".|G    L        888   |.",
-            ".|G    | DDD          |.",
-            ".|-----|--|--L--------|.",
-            ".|        |           |.",
-            ".|  ####  |           |.",
-            ".|  ####  +   ccccc   |.",
-            ".|        |   ttttt   |.",
-            ".|--------|-----------|.",
-            "........................"
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "museum" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ".R...R....RssR....R...R.",
+        ".|---------LL---------|.",
+        ".|d5                  |.",
+        ".|-R            888   |.",
+        ".|d5  DD   DD   5#5   |.",
+        ".|-R  DD   DD   5#5   |.",
+        ".|d5            888  P|.",
+        ".|-R                 P|.",
+        ".|d5            888  P|.",
+        ".|-R  DD   DD   5#5   |.",
+        ".|d5  DD   DD   5#5   |.",
+        ".|-R            888  Y|.",
+        ".|j5                 Y|.",
+        ".|j5       UtU  888  Y|.",
+        ".|--555|y       5#5   |.",
+        ".|GGGGG5   UtU  5#5  P|.",
+        ".|Gc   L        888  P|.",
+        ".|G UyU5 DDD          |.",
+        ".|-----|--|--L------L-|.",
+        ".| d  a   |       P| y|.",
+        ".|Y #### a|  aaaa D|&S|.",
+        ".|P ####  +  tttt  |--|.",
+        ".|y  a    |y aaaa  L l|4",
+        ".|--------|-----------|."
+      ],
+      "terrain": {
+        " ": "t_floor",
+        "+": "t_door_c",
+        "-": "t_rock_smooth",
+        "R": "t_column",
+        "s": "t_sidewalk",
+        ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
+        "5": "t_wall_glass_alarm",
+        "8": "t_wall_glass",
+        "L": "t_door_locked_alarm",
+        "4": "t_gutter_downspout",
+        "|": "t_rock_smooth"
+      },
+      "toilets": { "&": {  } },
+      "furniture": {
+        "a": "f_stool",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "U": "f_armchair",
+        "#": "f_counter",
+        "D": "f_displaycase",
+        "Y": "f_displaycase",
+        "G": "f_desk",
+        "c": "f_chair",
+        "t": "f_table",
+        "j": "f_table",
+        "S": "f_sink",
+        "l": "f_locker",
+        "d": "f_mannequin",
+        "P": "f_glass_cabinet"
+      },
+      "items": {
+        "d": [
+          { "item": "museum_armor_torso", "chance": 30 },
+          { "item": "museum_armor_legs", "chance": 20 },
+          { "item": "museum_armor_feet", "chance": 20 },
+          { "item": "museum_armor_head", "chance": 20 },
+          { "item": "museum_armor_arms", "chance": 20 }
+        ],
+        "G": { "item": "museum_security", "chance": 40 },
+        "l": { "item": "cleaning", "chance": 30 },
+        "j": { "item": "museum_armor_pet", "chance": 30 },
+        "S": { "item": "softdrugs", "chance": 30, "repeat": [ 1, 2 ] },
+        "P": { "item": "museum_primitive", "chance": 20, "repeat": [ 2, 4 ] },
+        "Y": { "item": "museum_melee", "chance": 20 }
+      },
+      "place_items": [
+        { "item": "museum_primitive", "x": [ 6, 7 ], "y": [ 4, 5 ], "chance": 65 },
+        { "item": "museum_primitive", "x": [ 6, 7 ], "y": [ 9, 10 ], "chance": 65 },
+        { "item": "museum_melee", "x": [ 11, 12 ], "y": [ 4, 5 ], "chance": 50 },
+        { "item": "museum_melee", "x": [ 11, 12 ], "y": [ 9, 10 ], "chance": 50 },
+        { "item": "museum_guns", "x": 17, "y": [ 4, 5 ], "chance": 45 },
+        { "item": "museum_guns", "x": 17, "y": [ 9, 10 ], "chance": 45 },
+        { "item": "museum_misc", "x": 17, "y": [ 14, 15 ], "chance": 85 },
+        { "item": "museum_misc", "x": [ 11, 12 ], "y": [ 9, 10 ], "chance": 85 },
+        { "item": "museum_guns", "x": [ 9, 11 ], "y": 17, "chance": 45 },
+        { "item": "museum_armor", "x": [ 4, 7 ], "y": [ 20, 21 ], "chance": 40 },
+        { "item": "museum_melee", "x": [ 4, 7 ], "y": [ 20, 21 ], "chance": 40 },
+        { "item": "museum_guns", "x": [ 4, 7 ], "y": [ 20, 21 ], "chance": 40 },
+        { "item": "museum_misc", "x": [ 4, 7 ], "y": [ 20, 21 ], "chance": 50 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "museum_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        " R   R    R  R    R   R ",
+        " |222222222222222222223 ",
+        " |....................3 ",
+        " |........U........M..3 ",
+        " |....................3 ",
+        " |....ooo..oo..ooo....3 ",
+        " |....ooo..oo..ooo....3 ",
+        " |....ooo..oo..ooo....3 ",
+        " |.Z..................3 ",
+        " |....................3 ",
+        " |....ooo..oo..ooo....3 ",
+        " |....ooo..oo..ooo....3 ",
+        " |....ooo..oo..ooo....3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................5 ",
+        " |--------------------3 "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { "R": "t_column" },
+      "nested": {
+        "U": { "chunks": [ "roof_2x2_infrastructure" ] },
+        "M": { "chunks": [ "roof_2x2_infrastructure_1" ] },
+        "Z": { "chunks": [ "roof_2x2_infrastructure_2" ] }
+      },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
           ],
-          "terrain": {
-            " ": "t_floor",
-            "#": "t_floor",
-            "+": "t_door_c",
-            "-": "t_wall",
-            ".": "t_grass",
-            "5": "t_wall_glass",
-            "8": "t_wall_glass",
-            "D": "t_floor",
-            "G": "t_floor",
-            "L": "t_door_locked_alarm",
-            "c": "t_floor",
-            "t": "t_floor",
-            "|": "t_wall"
-          },
-          "furniture": {
-            "#": "f_counter",
-            "D": "f_displaycase",
-            "G": "f_desk",
-            "c": "f_chair",
-            "t": "f_table"
-          },
-          "place_items": [
-            { "item": "museum_armor", "x": [ 2, 2 ], "y": [ 1, 1 ], "chance": 45 },
-            { "item": "museum_armor", "x": [ 2, 2 ], "y": [ 3, 3 ], "chance": 45 },
-            { "item": "museum_armor", "x": [ 2, 2 ], "y": [ 5, 5 ], "chance": 45 },
-            { "item": "museum_armor", "x": [ 2, 2 ], "y": [ 7, 7 ], "chance": 45 },
-            { "item": "museum_armor", "x": [ 2, 2 ], "y": [ 9, 9 ], "chance": 45 },
-            { "item": "museum_primitive", "x": [ 6, 7 ], "y": [ 3, 4 ], "chance": 65 },
-            { "item": "museum_primitive", "x": [ 6, 7 ], "y": [ 8, 9 ], "chance": 65 },
-            { "item": "museum_melee", "x": [ 11, 12 ], "y": [ 3, 4 ], "chance": 50 },
-            { "item": "museum_melee", "x": [ 11, 12 ], "y": [ 8, 9 ], "chance": 50 },
-            { "item": "museum_guns", "x": [ 16, 16 ], "y": [ 3, 4 ], "chance": 45 },
-            { "item": "museum_guns", "x": [ 16, 16 ], "y": [ 8, 9 ], "chance": 45 },
-            { "item": "museum_misc", "x": [ 16, 16 ], "y": [ 13, 14 ], "chance": 85 },
-            { "item": "museum_misc", "x": [ 11, 12 ], "y": [ 8, 9 ], "chance": 85 },
-            { "item": "museum_primitive", "x": [ 21, 21 ], "y": [ 5, 7 ], "chance": 65 },
-            { "item": "museum_melee", "x": [ 21, 21 ], "y": [ 10, 12 ], "chance": 50 },
-            { "item": "museum_guns", "x": [ 9, 11 ], "y": [ 16, 16 ], "chance": 45 },
-            { "item": "museum_armor", "x": [ 4, 7 ], "y": [ 19, 20 ], "chance": 40 },
-            { "item": "museum_melee", "x": [ 4, 7 ], "y": [ 19, 20 ], "chance": 40 },
-            { "item": "museum_guns", "x": [ 4, 7 ], "y": [ 19, 20 ], "chance": 40 },
-            { "item": "museum_misc", "x": [ 4, 7 ], "y": [ 19, 20 ], "chance": 50 },
-            { "item": "museum_security", "x": [ 2, 6 ], "y": [ 13, 13 ], "chance": 60 },
-            { "item": "museum_security", "x": [ 2, 2 ], "y": [ 14, 16 ], "chance": 60 }
-          ]
+          "x": [ 4, 17 ],
+          "y": [ 14, 19 ]
         }
-      }
-    ],
-    "flags": [ "SIDEWALK" ]
+      ]
+    }
   }
 ]

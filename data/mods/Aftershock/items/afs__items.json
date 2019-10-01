@@ -1,0 +1,141 @@
+[
+  {
+    "id": "afs_solderers_item",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": "precision solderers",
+    "flags": "TRADER_AVOID",
+    "qualities": [ [ "SAW_M_FINE", 1 ], [ "SCREW_FINE", 1 ], [ "CUT_FINE", 2 ] ]
+  },
+  {
+    "id": "afs_basin",
+    "type": "CONTAINER",
+    "name": "basin",
+    "description": "A wide, shallow basin used to hold liquid, hammered from a piece of sheet metal.  Ideal for collecting water.",
+    "weight": 5000,
+    "volume": 10,
+    "price": 1000,
+    "to_hit": -1,
+    "bashing": 1,
+    "material": "steel",
+    "symbol": ")",
+    "color": "dark_gray",
+    "contains": 10,
+    "watertight": true,
+    "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "use_action": "HEAT_FOOD"
+  },
+  {
+    "id": "afs_fridge",
+    "category": "veh_parts",
+    "type": "GENERIC",
+    "name": "vehicle refrigerator",
+    "description": "A household refrigerator with impressive capacity.  Its power connection has been refurbished, and it can be mounted onto a vehicle to draw from its power.",
+    "symbol": "{",
+    "color": "white",
+    "weight": 142882,
+    "volume": 1200,
+    "price": 40000,
+    "price_postapoc": 10000,
+    "material": [ "steel" ],
+    "to_hit": -4,
+    "bashing": 8,
+    "flags": [ "DURABLE_MELEE" ],
+    "looks_like": "minifridge"
+  },
+  {
+    "id": "afs_freezer",
+    "category": "veh_parts",
+    "type": "GENERIC",
+    "name": "vehicle freezer",
+    "copy-from": "afs_fridge",
+    "description": "This refurbished refrigerator has been stripped of much of its internal components and converted to run at a much lower temperature, causing it to serve as a freezer for more power.  Like its predecessor, it runs on vehicle power.",
+    "color": "light_blue"
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_scrap_titanium",
+    "symbol": ",",
+    "color": "white",
+    "name": "scrap titanium",
+    "name_plural": "scrap titanium",
+    "category": "spare_parts",
+    "description": "A piece of light titanium, usable for crafting or repairs.",
+    "price": 1000,
+    "material": "titanium",
+    "weight": 100,
+    "volume": 1,
+    "bashing": 1,
+    "to_hit": -2
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_titanium_frame",
+    "name": "ultralight frame",
+    "description": "A sturdy, lightweight frame made from titanium.  Useful for crafting.",
+    "weight": 1000,
+    "to_hit": -3,
+    "color": "white",
+    "symbol": "]",
+    "material": [ "titanium" ],
+    "techniques": [ "DEF_DISARM" ],
+    "volume": 30,
+    "bashing": 15,
+    "category": "veh_parts",
+    "price": 4000
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_metal_rig",
+    "copy-from": "vehicle_rig",
+    "name": "MetalMaster forge buddy",
+    "name_plural": "MetalMaster forge buddies",
+    "description": "From the makers of the best-selling* FOODCO kitchen buddy comes the MetalMaster forge buddy, for all your metalworking, firing, and welding needs!  It's just as clunky and awkward as the thing it's spinning off, and still requires a vehicle battery to function."
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_kitchen_rig",
+    "copy-from": "vehicle_rig",
+    "name": "KitchenMaster cooking buddy",
+    "name_plural": "KitchenMaster cooking buddies",
+    "description": "Because it *clearly* needed one, this large all-in-one station provides the functions of FOODCO's kitchen buddy, now with complementary fume hoods and chemistry materials.  Why a chef would need a chemical rig is anyone's guess, but you can mount it on a vehicle to make use of it."
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_cooking_rig",
+    "copy-from": "vehicle_rig",
+    "name": "cooking rig",
+    "name_plural": "cooking rigs",
+    "description": "Skillet, pot, hotplate, and chemistry set; everything you need to cook food and chemicals.  Includes proper fume vents and a separator, so you don't contaminate your food with toxic chemicals."
+  },
+  {
+    "id": "nuclear_waste",
+    "type": "GENERIC",
+    "name": "nuclear waste",
+    "description": "A small pellet of silvery metal, still warm to the touch.",
+    "weight": 30,
+    "volume": 1,
+    "price": 0,
+    "material": "iron",
+    "symbol": "*",
+    "color": "light_green",
+    "flags": [ "RADIOACTIVE", "LEAK_ALWAYS" ]
+  },
+  {
+    "id": "nuclear_fuel",
+    "copy-from": "nuclear_waste",
+    "type": "GENERIC",
+    "name": "nuclear fuel pellet",
+    "description": "A small pellet of fissile material.  Handle carefully."
+  },
+  {
+    "id": "hazardous_waste_drum",
+    "copy-from": "55gal_drum",
+    "type": "CONTAINER",
+    "name": "hazardous waste drum",
+    "description": "A yellow drum meant for the storage of hazardous substances.",
+    "material": [ "steel", "lead" ],
+    "symbol": "0",
+    "color": "yellow"
+  }
+]

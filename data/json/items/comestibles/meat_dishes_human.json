@@ -31,7 +31,7 @@
     "id": "hfleshbologna",
     "copy-from": "bologna",
     "name": "brat bologna",
-    "description": "A type of lunch meat made out of human flesh that comes pre-sliced.  Its first name may have been Oscar.  Can be eaten cold.",
+    "description": "Preserved and sliced human flesh.  His first name may have been Oscar.  You can eat it cold, like the cold-blooded people-eater you are.",
     "material": "hflesh"
   },
   {
@@ -191,7 +191,24 @@
     "id": "mannwurst_raw",
     "copy-from": "sausage_raw",
     "name": "raw Mannwurst",
-    "description": "A hefty raw 'long-pork' sausage that has been prepared for smoking.",
+    "description": "A hefty raw 'long-pork' sausage that has been prepared for smoking or cooking.",
+    "material": "hflesh",
+    "smoking_result": "mannwurst"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mannwurst_cooked",
+    "copy-from": "sausage_cooked",
+    "name": "cooked Mannwurst",
+    "description": "A hefty raw 'long-pork' sausage that has been cooked.  It smells as delicious as humanly possible.",
+    "material": "hflesh"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mann_bratwurst",
+    "copy-from": "bratwurst_sausage",
+    "name": "Mannbrat",
+    "description": "A type of German sausage made of finely chopped humans and meant to be pan fried or roasted.  Better eat it hot and fresh.  By the way, use any human available.  Germans are not mandatory.",
     "material": "hflesh"
   },
   {

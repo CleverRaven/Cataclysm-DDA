@@ -6,7 +6,7 @@
     "item": "motor",
     "location": "engine_block",
     "description": "An electric motor.",
-    "noise_factor": 3,
+    "noise_factor": 5,
     "m2c": 90,
     "fuel_type": "battery",
     "symbol": "*",
@@ -23,8 +23,8 @@
     "looks_like": "motor_small",
     "difficulty": 1,
     "durability": 80,
-    "power": 1492,
-    "energy_consumption": 1750,
+    "power": 750,
+    "energy_consumption": 854,
     "damage_modifier": 80,
     "folded_volume": 1,
     "breaks_into": [
@@ -54,7 +54,8 @@
       { "item": "cable", "charges": [ 3, 6 ] }
     ],
     "extend": { "flags": [ "TOOL_SCREWDRIVER", "FOLDABLE" ] },
-    "delete": { "flags": [ "TOOL_WRENCH" ] }
+    "delete": { "flags": [ "TOOL_WRENCH" ] },
+    "damage_reduction": { "all": 6 }
   },
   {
     "id": "engine_electric",
@@ -73,7 +74,8 @@
       { "item": "steel_chunk", "count": [ 3, 5 ] },
       { "item": "scrap", "count": [ 3, 5 ] },
       { "item": "cable", "charges": [ 10, 15 ] }
-    ]
+    ],
+    "damage_reduction": { "all": 32 }
   },
   {
     "id": "engine_electric_large",
@@ -91,7 +93,8 @@
       { "item": "steel_chunk", "count": [ 3, 5 ] },
       { "item": "scrap", "count": [ 3, 5 ] },
       { "item": "cable", "charges": [ 10, 15 ] }
-    ]
+    ],
+    "damage_reduction": { "all": 43 }
   },
   {
     "id": "engine_electric_enhanced",
@@ -101,14 +104,34 @@
     "item": "motor_enhanced",
     "difficulty": 4,
     "durability": 200,
-    "power": 186500,
-    "energy_consumption": 207250,
+    "power": 313300,
+    "energy_consumption": 348500,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 5 ] },
       { "item": "steel_chunk", "count": [ 3, 5 ] },
       { "item": "scrap", "count": [ 3, 5 ] },
       { "item": "cable", "charges": [ 10, 15 ] }
-    ]
+    ],
+    "damage_reduction": { "all": 50 }
+  },
+  {
+    "id": "engine_electric_super",
+    "copy-from": "engine_motor",
+    "type": "vehicle_part",
+    "name": "super electric motor",
+    "item": "motor_super",
+    "difficulty": 5,
+    "durability": 400,
+    "power": 400000,
+    "energy_consumption": 444940,
+    "damage_modifier": 80,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 10 ] },
+      { "item": "steel_chunk", "count": [ 6, 10 ] },
+      { "item": "scrap", "count": [ 6, 10 ] },
+      { "item": "cable", "charges": [ 20, 30 ] }
+    ],
+    "damage_reduction": { "all": 60 }
   }
 ]

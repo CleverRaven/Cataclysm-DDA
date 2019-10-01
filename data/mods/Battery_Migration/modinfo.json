@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "Battery_Overhaul_Legacy_Mode",
+    "name": "Battery Migration for Existing Games",
+    "authors": [ "Inglonias" ],
+    "maintainers": [ "Inglonias" ],
+    "description": "Allows you to reload and unload battery cells with legacy batteries.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  }
+]

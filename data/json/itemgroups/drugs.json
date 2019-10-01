@@ -1,20 +1,14 @@
 [
   {
     "id": "drugs_analgesic",
-    "type" : "item_group",
-    "//" : "Painkillers balanced according to rarity excluding illicit drugs",
-    "items": [
-      [ "aspirin", 150 ],
-      [ "codeine", 30 ],
-      [ "tramadol", 30 ],
-      [ "morphine", 5 ],
-      [ "oxycodone", 20 ]
-    ]
+    "type": "item_group",
+    "//": "Painkillers balanced according to rarity excluding illicit drugs",
+    "items": [ [ "aspirin", 150 ], [ "codeine", 30 ], [ "tramadol", 30 ], [ "morphine", 5 ], [ "oxycodone", 20 ] ]
   },
   {
-    "id" : "drugs_heal_simple",
-    "type" : "item_group",
-    "//" : "Common healing items found almost everywhere",
+    "id": "drugs_heal_simple",
+    "type": "item_group",
+    "//": "Common healing items found almost everywhere",
     "items": [
       [ "1st_aid", 5 ],
       [ "aspirin", 50 ],
@@ -24,37 +18,26 @@
       [ "eyedrops", 10 ],
       [ "medical_gauze", 20 ],
       [ "medical_tape", 20 ],
-      [ "saline",  10 ],
+      [ "saline", 10 ],
       [ "weak_antibiotic", 30 ]
     ]
   },
   {
-    "id" : "drugs_emergency",
-    "type" : "item_group",
-    "//" : "Medical consumables for emergency use excluduing painkillers",
-    "items": [
-      [ "adrenaline_injector", 50 ],
-      [ "inhaler", 100 ],
-      [ "quikclot", 50 ],
-      [ "smoxygen_tank", 70 ]
-    ]
+    "id": "drugs_emergency",
+    "type": "item_group",
+    "//": "Medical consumables for emergency use excluduing painkillers",
+    "items": [ [ "adrenaline_injector", 50 ], [ "inhaler", 100 ], [ "quikclot", 50 ], [ "smoxygen_tank", 70 ] ]
   },
   {
     "id": "drugs_misc",
-    "type" : "item_group",
-    "//" : "Drugs not contained within any other category",
-    "items": [
-      [ "bfipowder", 100 ],
-      [ "dayquil", 50 ],
-      [ "flu_shot", 50 ],
-      [ "nyquil", 50 ],
-      [ "vaccine_shot", 50 ]
-    ]
+    "type": "item_group",
+    "//": "Drugs not contained within any other category",
+    "items": [ [ "bfipowder", 100 ], [ "dayquil", 50 ], [ "flu_shot", 50 ], [ "nyquil", 50 ], [ "vaccine_shot", 50 ] ]
   },
   {
     "id": "drugs_pharmacy",
     "type": "item_group",
-    "//" : "Drugs stocked by a pharmacy including prescription medications",
+    "//": "Drugs stocked by a pharmacy including prescription medications",
     "items": [
       { "group": "drugs_analgesic", "prob": 100 },
       { "group": "drugs_heal_simple", "prob": 100 },
@@ -83,7 +66,7 @@
   {
     "id": "drugs_soldier",
     "type": "item_group",
-    "//" : "Healing items appropriate for soldiers and other paramilitary forces",
+    "//": "Healing items appropriate for soldiers and other paramilitary forces",
     "entries": [
       { "item": "1st_aid", "prob": 50 },
       { "item": "antibiotics", "prob": 20 },
@@ -93,5 +76,12 @@
       { "item": "smoxygen_tank", "prob": 20 },
       { "item": "tramadol", "prob": 20 }
     ]
+  },
+  {
+    "id": "jar_weed",
+    "type": "item_group",
+    "//": "For sale display appropriate packaging",
+    "subtype": "distribution",
+    "items": [ [ "jar_3l_glass", 100 ], { "item": "weed", "charges": [ 10, 420 ], "prob": 100, "container-item": "jar_3l_glass" } ]
   }
 ]

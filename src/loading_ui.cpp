@@ -1,10 +1,14 @@
 #include "loading_ui.h"
 
+#include <memory>
+
 #include "color.h"
 #include "output.h"
 #include "ui.h"
+#include "cursesdef.h"
+#include "translations.h"
 
-#ifdef TILES
+#if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #       include <SDL2/SDL.h>
 #   else
@@ -17,7 +21,7 @@ extern bool test_mode;
 loading_ui::loading_ui( bool display )
 {
     if( display && !test_mode ) {
-        menu.reset( new uilist );
+        menu = std::make_unique<uilist>();
         menu->settext( _( "Loading" ) );
     }
 }
@@ -43,7 +47,7 @@ void loading_ui::proceed()
 {
     if( menu != nullptr && !menu->entries.empty() ) {
         if( menu->selected >= 0 && menu->selected < static_cast<int>( menu->entries.size() ) ) {
-            // @todo: Color it red if it errored hard, yellow on warnings
+            // TODO: Color it red if it errored hard, yellow on warnings
             menu->entries[menu->selected].text_color = c_green;
         }
 
@@ -59,7 +63,7 @@ void loading_ui::show()
         menu->show();
         catacurses::refresh();
         refresh_display();
-#ifdef TILES
+#if defined(TILES)
         SDL_PumpEvents();
 #endif // TILES
     }

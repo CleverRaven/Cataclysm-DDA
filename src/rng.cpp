@@ -1,24 +1,58 @@
-#include "output.h"
 #include "rng.h"
 
+#include <math.h>
 #include <chrono>
-#define _USE_MATH_DEFINES
-#include <cmath>
-#include <cstdlib>
-#include <random>
+#include <utility>
 
-long rng( long val1, long val2 )
+#include "calendar.h"
+#include "cata_utility.h"
+
+unsigned int rng_bits()
 {
-    long minVal = ( val1 < val2 ) ? val1 : val2;
-    long maxVal = ( val1 < val2 ) ? val2 : val1;
-    return minVal + long( ( maxVal - minVal + 1 ) * double( rand() / double( RAND_MAX + 1.0 ) ) );
+    // Whole uint range.
+    static std::uniform_int_distribution<unsigned int> rng_uint_dist;
+    return rng_uint_dist( rng_get_engine() );
 }
 
-double rng_float( double val1, double val2 )
+int rng( int lo, int hi )
 {
-    double minVal = ( val1 < val2 ) ? val1 : val2;
-    double maxVal = ( val1 < val2 ) ? val2 : val1;
-    return minVal + ( maxVal - minVal ) * double( rand() ) / double( RAND_MAX + 1.0 );
+    static std::uniform_int_distribution<int> rng_int_dist;
+    if( lo > hi ) {
+        std::swap( lo, hi );
+    }
+    return rng_int_dist( rng_get_engine(), std::uniform_int_distribution<>::param_type( lo, hi ) );
+}
+
+double rng_float( double lo, double hi )
+{
+    static std::uniform_real_distribution<double> rng_real_dist;
+    if( lo > hi ) {
+        std::swap( lo, hi );
+    }
+    return rng_real_dist( rng_get_engine(), std::uniform_real_distribution<>::param_type( lo, hi ) );
+}
+
+double normal_roll( double mean, double stddev )
+{
+    static std::normal_distribution<double> rng_normal_dist;
+    return rng_normal_dist( rng_get_engine(), std::normal_distribution<>::param_type( mean, stddev ) );
+}
+
+double exponential_roll( double lambda )
+{
+    static std::exponential_distribution<double> rng_exponential_dist;
+    return rng_exponential_dist( rng_get_engine(),
+                                 std::exponential_distribution<>::param_type( lambda ) );
+}
+
+double rng_exponential( double min, double mean )
+{
+    const double adjusted_mean = mean - min;
+    if( adjusted_mean <= 0.0 ) {
+        return 0.0;
+    }
+    // lambda = 1 / mean
+    return min + exponential_roll( 1.0 / adjusted_mean );
 }
 
 bool one_in( int chance )
@@ -26,15 +60,14 @@ bool one_in( int chance )
     return ( chance <= 1 || rng( 0, chance - 1 ) == 0 );
 }
 
-//this works just like one_in, but it accepts doubles as input to calculate chances like "1 in 350,52"
-bool one_in_improved( double chance )
+bool one_turn_in( const time_duration &duration )
 {
-    return ( chance <= 1 || rng_float( 0, chance ) < 1 );
+    return one_in( to_turns<int>( duration ) );
 }
 
 bool x_in_y( double x, double y )
 {
-    return ( static_cast<double>( rand() ) / RAND_MAX ) <= ( static_cast<double>( x ) / y );
+    return rng_float( 0.0, 1.0 ) <= x / y;
 }
 
 int dice( int number, int sides )
@@ -50,29 +83,26 @@ int dice( int number, int sides )
 // 1.3 has a 70% chance of rounding to 1, 30% chance to 2.
 int roll_remainder( double value )
 {
-    const int trunc = int( value );
-    if( value > trunc && x_in_y( value - trunc, 1.0 ) ) {
-        return trunc + 1;
+    double integ;
+    double frac = modf( value, &integ );
+    if( value > 0.0 && value > integ && x_in_y( frac, 1.0 ) ) {
+        integ++;
+    } else if( value < 0.0 && value < integ && x_in_y( -frac, 1.0 ) ) {
+        integ--;
     }
 
-    return trunc;
-}
-
-int divide_roll_remainder( double dividend, double divisor )
-{
-    const double div = dividend / divisor;
-    return roll_remainder( div );
+    return integ;
 }
 
 // http://www.cse.yorku.ca/~oz/hash.html
 // for world seeding.
-int djb2_hash( const unsigned char *str )
+int djb2_hash( const unsigned char *input )
 {
-    unsigned long hash = 5381;
-    unsigned char c = *str++;
+    unsigned int hash = 5381;
+    unsigned char c = *input++;
     while( c != '\0' ) {
         hash = ( ( hash << 5 ) + hash ) + c; /* hash * 33 + c */
-        c = *str++;
+        c = *input++;
     }
     return hash;
 }
@@ -88,24 +118,19 @@ double rng_normal( double lo, double hi )
         return hi;
     }
     double val = normal_roll( ( hi + lo ) / 2, range );
-    return std::max( std::min( val, hi ), lo );
+    return clamp( val, lo, hi );
 }
 
-std::default_random_engine &get_engine()
+cata_default_random_engine &rng_get_engine()
 {
-    static std::default_random_engine eng(
-        std::chrono::system_clock::now().time_since_epoch().count() );
+    static cata_default_random_engine eng(
+        std::chrono::high_resolution_clock::now().time_since_epoch().count() );
     return eng;
 }
 
-void rng_set_engine_seed( uintmax_t seed )
+void rng_set_engine_seed( unsigned int seed )
 {
     if( seed != 0 ) {
-        get_engine().seed( seed );
+        rng_get_engine().seed( seed );
     }
-}
-
-double normal_roll( double mean, double stddev )
-{
-    return std::normal_distribution<double>( mean, stddev )( get_engine() );
 }

@@ -1,45 +1,42 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "3storyA_second",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "########################",
-                "########################",
-                "########################",
-                "##==ww==w==w==========##",
-                "##=          bbb +  d=##",
-                "##w BB    TTc    ----=##",
-                "##w BB           | <<=##",
-                "##=    d         +   w##",
-                "##=--------------|   w##",
-                "##=SS  ss  |d +    >>=##",
-                "##w        |---      =##",
-                "##=&       +       bb=##",
-                "##=====88====w=w=w====##",
-                "#######88rrrrrrrrrrrrr##",
-                "#########rrrrrrrrrrrrr##",
-                "#########rrrrrrrrrrrrr##",
-                "#########rrrrrrrrrrrrr##",
-                "#########rrrrrrrrrrrrr##",
-                "#########rrrrrrrrrrrrr##",
-                "#########rrrrrrrrrrrrr##",
-                "#########rrrrrrrrrrrrr##",
-                "########################",
-                "########################",
-                "########################"
-            ],
-            "palettes": [
-               "multistory_house",
-               "upper_level"
-            ],
-            "set": [
-                 { "square": "terrain", "x": 3, "y": 4, "x2": 10, "y2": 7, "id": "t_linoleum_white" },
-                 { "square": "terrain", "x": 3, "y": 9, "x2": 16, "y2": 11, "id": "t_carpet_yellow" }
-            ]
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "3storyA_second",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "##==ww==w==w==========##",
+        "##=          bbb +  d=##",
+        "##w BB    TTc    ----=##",
+        "##w BB           | <<=##",
+        "##=    d         +   w##",
+        "##=--------------|   w##",
+        "##=SS  ss  |d +    >>=##",
+        "##w        |---      =##",
+        "##=&       +       bb=##",
+        "##=====88====w=w=w====##",
+        "#######88rrrrrrrrrrrrr##",
+        "#########rrrrrrrrrrrrr##",
+        "#########rrrrrrrrrrrrr##",
+        "#########rrrrrrrrrrrrr##",
+        "#########rrrrrrrrrrrrr##",
+        "#########rrrrrrrrrrrrr##",
+        "#########rrrrrrrrrrrrr##",
+        "#########rrrrrrrrrrrrr##",
+        "########################",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "multistory_house", "upper_level" ],
+      "set": [
+        { "square": "terrain", "x": 3, "y": 4, "x2": 10, "y2": 7, "id": "t_linoleum_white" },
+        { "square": "terrain", "x": 3, "y": 9, "x2": 16, "y2": 11, "id": "t_carpet_yellow" }
+      ]
     }
+  }
 ]

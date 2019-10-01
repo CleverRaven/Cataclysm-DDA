@@ -5,6 +5,7 @@
     "om_terrain": [ "small_office" ],
     "weight": 100,
     "object": {
+      "fill_ter": "t_linoleum_white",
       "rows": [
         "________________________",
         "________________________",
@@ -18,8 +19,8 @@
         "|FCC....&-.ff.-&.......|",
         "||||+||+|||||||||||+||||",
         "gg|..|&..........&|..|_g",
-        "gg|..|............|..h_g",
-        "gg|..|....|b|b|+|+|..|_g",
+        "gg|..|............|<.h_g",
+        "g4|..|....|b|b|+|+|..|_g",
         "||||+|SSSi|T|T|T|T|+||||",
         "|&...||||||||||||||..#j|",
         "|.............^|{....#v|",
@@ -32,36 +33,25 @@
         "ggggggggggg_________gggg"
       ],
       "terrain": {
-        "#": "t_linoleum_white",
-        "&": "t_linoleum_white",
         "+": "t_door_c",
         "-": "t_wall_glass",
         ".": "t_linoleum_white",
-        "C": "t_linoleum_white",
         "D": "t_door_glass_c",
-        "F": "t_linoleum_white",
-        "H": "t_linoleum_white",
         "S": "t_linoleum_gray",
         "T": "t_linoleum_gray",
-        "^": "t_linoleum_white",
         "_": "t_sidewalk",
         "a": "t_floor_red",
         "b": "t_door_o",
-        "c": "t_linoleum_white",
-        "d": "t_linoleum_white",
         "e": "t_sidewalk",
         "f": "t_floor_red",
         "g": "t_grass",
         "h": "t_door_metal_c",
         "i": "t_linoleum_gray",
-        "j": "t_linoleum_white",
         "k": "t_grass",
         "l": "t_linoleum_gray",
-        "s": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "v": "t_linoleum_white",
-        "{": "t_linoleum_white",
-        "|": "t_wall"
+        "|": "t_wall_g",
+        "4": "t_gutter_downspout",
+        "<": "t_ladder_up"
       },
       "furniture": {
         "#": "f_chair",
@@ -103,6 +93,95 @@
         { "monster": "GROUP_PUBLICWORKERS", "x": 5, "y": 18, "chance": 2 },
         { "monster": "GROUP_PUBLICWORKERS", "x": 20, "y": 6, "chance": 2 }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "small_office_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "|222222223    |222222223",
+        "|........3    |........3",
+        "|...U....322223..Z.....3",
+        "|......................3",
+        "|......................3",
+        "|......................3",
+        "|......................3",
+        "|........M.............3",
+        "|-|..................3-3",
+        "  |..............%%%%3  ",
+        "  |..............+*>%3  ",
+        "  |..............%%%%3  ",
+        "|25..................323",
+        "|......................3",
+        "|......................3",
+        "|......................3",
+        "|......................3",
+        "|......................3",
+        "|......................3",
+        "|----------------------3",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { "%": "t_brick_wall", ">": "t_ladder_down", "+": "t_door_c", "*": "t_concrete" },
+      "nested": {
+        "U": { "chunks": [ "roof_2x2_infrastructure" ] },
+        "M": { "chunks": [ "roof_2x2_infrastructure_1" ] },
+        "Z": { "chunks": [ "roof_2x2_infrastructure_2" ] }
+      },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 4, 17 ],
+          "y": [ 14, 17 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "small_office_upper_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                 .....  ",
+        "                 .....  ",
+        "                 .....  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
     }
   }
 ]

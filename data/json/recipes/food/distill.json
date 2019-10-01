@@ -1,103 +1,91 @@
 [
-    {
-        "type" : "recipe",
-        "result": "brandy",
-        "category": "CC_FOOD",
-        "subcategory": "CSC_FOOD_BREW",
-        "skill_used": "cooking",
-        "difficulty": 3,
-        "time": 30000,
-        "batch_time_factors": [50, 4],
-        "autolearn": [ [ "cooking", 4 ] ],
-        "book_learn": [ [ "brewing_cookbook", 2 ] ],
-        "qualities": [
-            { "id": "BOIL", "level": 2 },
-            { "id": "DISTILL", "level": 2 }
-        ],
-        "tools": [ [ [ "water_boiling_heat", 21, "LIST" ] ] ],
-        "components": [ [
-            [ "fruit_wine", 21 ], [ "bum_wine", 21 ],
-            [ "dandelion_wine", 21 ], [ "pine_wine", 21 ],
-            [ "wine_riesling", 15 ], [ "wine_chardonnay", 15 ],
-            [ "wine_cabernet", 15 ], [ "wine_noir", 15 ]
-        ] ]
-    },
-    {
-        "result": "vodka",
-        "type" : "recipe",
-        "id_suffix": "from_wash",
-        "category": "CC_FOOD",
-        "subcategory": "CSC_FOOD_BREW",
-        "skill_used": "cooking",
-        "difficulty": 5,
-        "time": 30000,
-        "batch_time_factors": [50, 4],
-        "autolearn": [ [ "cooking", 6 ] ],
-        "book_learn": [ ["brewing_cookbook", 4] ],
-        "qualities": [
-            { "id": "BOIL", "level": 2 },
-            { "id": "DISTILL", "level": 2 }
-        ],
-        "tools": [
-            [ [ "water_boiling_heat", 21, "LIST" ] ]
-        ],
-        "components": [ [ [ "wash_vodka", 21 ] ] ]
-    },
-    {
-        "type" : "recipe",
-        "result": "rum",
-        "category": "CC_FOOD",
-        "subcategory": "CSC_FOOD_BREW",
-        "skill_used": "cooking",
-        "difficulty": 5,
-        "time": 30000,
-        "batch_time_factors": [50, 4],
-        "book_learn": [ ["brewing_cookbook", 4] ],
-        "qualities": [
-            { "id": "BOIL", "level": 2 },
-            { "id": "DISTILL", "level": 2 }
-        ],
-        "tools": [
-            [ [ "water_boiling_heat", 21, "LIST" ] ]
-        ],
-        "components": [ [ [ "wash_rum", 21 ] ] ]
-    },
-    {
-        "type" : "recipe",
-        "result": "whiskey",
-        "category": "CC_FOOD",
-        "subcategory": "CSC_FOOD_BREW",
-        "skill_used": "cooking",
-        "difficulty": 5,
-        "time": 30000,
-        "batch_time_factors": [50, 4],
-        "book_learn": [ ["brewing_cookbook", 4] ],
-        "qualities": [
-            { "id": "BOIL", "level": 2 },
-            { "id": "DISTILL", "level": 2 }
-        ],
-        "tools": [
-            [ [ "water_boiling_heat", 21, "LIST" ] ]
-        ],
-        "components": [ [ [ "wash_whiskey", 21 ] ] ]
-    },
-    {
-        "type" : "recipe",
-        "result": "moonshine",
-        "category": "CC_FOOD",
-        "subcategory": "CSC_FOOD_BREW",
-        "skill_used": "cooking",
-        "difficulty": 2,
-        "time": 30000,
-        "batch_time_factors": [50, 4],
-        "book_learn": [ ["brewing_cookbook", 1], ["family_cookbook", 1] ],
-        "qualities": [
-            { "id": "BOIL", "level": 2 },
-            { "id": "DISTILL", "level": 1 }
-        ],
-        "tools": [
-            [ [ "water_boiling_heat", 21, "LIST" ] ]
-        ],
-        "components": [ [ [ "wash_moonshine", 21 ] ] ]
-    }
+  {
+    "type": "recipe",
+    "result": "brandy",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREW",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "30 m",
+    "batch_time_factors": [ 50, 4 ],
+    "autolearn": [ [ "cooking", 4 ] ],
+    "book_learn": [ [ "brewing_cookbook", 2 ] ],
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
+    "tools": [ [ [ "water_boiling_heat", 21, "LIST" ] ] ],
+    "components": [ [ [ "cheap_wine", 21, "LIST" ], [ "worthy_wine", 15, "LIST" ] ] ]
+  },
+  {
+    "result": "gin",
+    "type": "recipe",
+    "id_suffix": "from_mash",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREW",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": 30000,
+    "batch_time_factors": [ 50, 4 ],
+    "autolearn": [ [ "cooking", 4 ] ],
+    "book_learn": [ [ "brewing_cookbook", 4 ] ],
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
+    "tools": [ [ [ "water_boiling_heat", 21, "LIST" ] ] ],
+    "components": [ [ [ "gin_mash", 21 ] ] ]
+  },
+  {
+    "result": "vodka",
+    "type": "recipe",
+    "id_suffix": "from_wash",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREW",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "30 m",
+    "batch_time_factors": [ 50, 4 ],
+    "autolearn": [ [ "cooking", 6 ] ],
+    "book_learn": [ [ "brewing_cookbook", 4 ] ],
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
+    "tools": [ [ [ "water_boiling_heat", 21, "LIST" ] ] ],
+    "components": [ [ [ "wash_vodka", 21 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "rum",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREW",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "30 m",
+    "batch_time_factors": [ 50, 4 ],
+    "book_learn": [ [ "brewing_cookbook", 4 ] ],
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
+    "tools": [ [ [ "water_boiling_heat", 21, "LIST" ] ] ],
+    "components": [ [ [ "wash_rum", 21 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "whiskey",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREW",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "30 m",
+    "batch_time_factors": [ 50, 4 ],
+    "book_learn": [ [ "brewing_cookbook", 4 ] ],
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
+    "tools": [ [ [ "water_boiling_heat", 21, "LIST" ] ] ],
+    "components": [ [ [ "wash_whiskey", 21 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "moonshine",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREW",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "30 m",
+    "batch_time_factors": [ 50, 4 ],
+    "book_learn": [ [ "brewing_cookbook", 1 ], [ "family_cookbook", 1 ] ],
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 21, "LIST" ] ] ],
+    "components": [ [ [ "wash_moonshine", 21 ] ] ]
+  }
 ]

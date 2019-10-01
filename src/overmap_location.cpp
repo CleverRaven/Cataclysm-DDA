@@ -1,17 +1,20 @@
 #include "overmap_location.h"
 
+#include <algorithm>
+#include <set>
+
 #include "generic_factory.h"
 #include "omdata.h"
 #include "rng.h"
-
-#include <algorithm>
+#include "debug.h"
+#include "json.h"
 
 namespace
 {
 
 generic_factory<overmap_location> locations( "overmap location" );
 
-}
+} // namespace
 
 template<>
 bool string_id<overmap_location>::is_valid() const

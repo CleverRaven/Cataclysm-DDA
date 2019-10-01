@@ -1,55 +1,46 @@
 [
-    {
-        "type" : "mapgen",
-        "om_terrain" : ["mil_outpost_3c"],
-        "comment" : "third floor top corner",
-        "method": "json",
-        "weight": 250,
-        "object": {
-            "fill_ter": "t_concrete_floor",
-            "rows": [
-                "########################",
-                "########################",
-                "########################",
-                "###--------GG--------###",
-                "###|wwwwwww..wwwwwww|###",
-                "###|w..............w|###",
-                "###|w......BB......w|###",
-                "###|w......BB......w|###",
-                "###|w..............w|###",
-                "###|w..............w|###",
-                "###|www++wwwwwww++ww|###",
-                "###......w.>>.wx....G###",
-                "###......w.>>.wxx...G###",
-                "###|w..a.w....w....w|###",
-                "###|w....w....wx.x.w|###",
-                "###|w..a.+....w.x.xw|###",
-                "###|w....w....w.x.xw|###",
-                "###-www.www..www.www-###",
-                "###----G---!!---G----###",
-                "###F                F###",
-                "###ffffffffffffffffff###",
-                "########################",
-                "########################",
-                "########################"
-            ],
-            "palettes":[
-               "mil_outpost_bandit"
-            ],
-            "terrain":{
-                ".": ["t_carpet_red", "t_carpet_yellow", "t_carpet_green", "t_carpet_purple", "t_linoleum_white" ],
-                " ": "t_flat_roof",
-                "w": [ "t_wall_r", "t_wall_w", "t_wall_b", "t_wall_g", "t_wall_y", "t_wall_p" ]
-            },
-            "items":{
-               "x": { "item": "arcade_prizes", "chance": 80 }
-            },
-            "mapping": {
-                "B": {
-                    "item": { "item": "clown_suit"},
-                    "fields": { "field": "fd_blood" }
-                }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": [ "mil_outpost_3c" ],
+    "comment": "third floor top corner",
+    "method": "json",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_concrete_floor",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "###--------GG--------###",
+        "###|wwwwwww..wwwwwww|###",
+        "###|w..............w|###",
+        "###|w......BB......w|###",
+        "###|w......BB......w|###",
+        "###|w..............w|###",
+        "###|w..............w|###",
+        "###|www++wwwwwww++ww|###",
+        "###......w.>>.wx....G###",
+        "###......w.>>.wxx...G###",
+        "###|w..a.w....w....w|###",
+        "###|w....w....wx.x.w|###",
+        "###|w..a.+....w.x.xw|###",
+        "###|w....w....w.x.xw|###",
+        "###-www.www..www.www-###",
+        "###----G---!!---G----###",
+        "###F                F###",
+        "###ffffffffffffffffff###",
+        "########################",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "mil_outpost_bandit" ],
+      "terrain": {
+        ".": [ "t_carpet_red", "t_carpet_yellow", "t_carpet_green", "t_carpet_purple", "t_linoleum_white" ],
+        " ": "t_flat_roof",
+        "w": [ "t_wall_r", "t_wall_w", "t_wall_b", "t_wall_g", "t_wall_y", "t_wall_p" ]
+      },
+      "items": { "x": { "item": "arcade_prizes", "chance": 80 } },
+      "mapping": { "B": { "item": { "item": "clown_suit" }, "fields": { "field": "fd_blood" } } }
     }
+  }
 ]

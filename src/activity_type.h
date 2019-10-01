@@ -2,7 +2,11 @@
 #ifndef ACTIVITY_TYPE_H
 #define ACTIVITY_TYPE_H
 
+#include <string>
+
+#include "game_constants.h"
 #include "string_id.h"
+#include "translations.h"
 
 class activity_type;
 class JsonObject;
@@ -27,11 +31,13 @@ class activity_type
     private:
         activity_id id_;
         bool rooted_ = false;
-        std::string stop_phrase_ = "THIS IS A BUG";
+        translation verb_ = to_translation( "THIS IS A BUG" );
         bool suspendable_ = true;
         based_on_type based_on_ = based_on_type::SPEED;
         bool no_resume_ = false;
+        bool multi_activity_ = false;
         bool refuel_fires = false;
+        float activity_level = NO_EXERCISE;
 
     public:
         const activity_id &id() const {
@@ -43,14 +49,18 @@ class activity_type
         bool suspendable() const {
             return suspendable_;
         }
-        std::string stop_phrase() const {
-            return stop_phrase_;
+        std::string stop_phrase() const;
+        const translation &verb() const {
+            return verb_;
         }
         based_on_type based_on() const {
             return based_on_;
         }
         bool no_resume() const {
             return no_resume_;
+        }
+        bool multi_activity() const {
+            return multi_activity_;
         }
         /**
          * If true, player will refuel one adjacent fire if there is firewood spot adjacent.

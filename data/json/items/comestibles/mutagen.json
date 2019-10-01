@@ -8,8 +8,8 @@
     "//": "Not commercially traded, in case there was any question.",
     "comestible_type": "DRINK",
     "category": "mutagen",
-    "weight": 250,
-    "volume": 1,
+    "weight": "250 g",
+    "volume": "250 ml",
     "phase": "liquid",
     "container": "flask_glass",
     "symbol": "~",
@@ -17,6 +17,9 @@
     "healthy": -2,
     "addiction_potential": 2,
     "addiction_type": "mutagen",
+    "flags": "NUTRIENT_OVERRIDE",
+    "vitamins": [  ],
+    "material": "water",
     "freezing_point": 17
   },
   {
@@ -27,15 +30,16 @@
     "name": "abstract iv mutagen flavor",
     "description": "A super-concentrated mutagen.  You need a syringe to inject it...  if you really want to?",
     "price": 200000,
-    "weight": 50,
-    "volume": "50ml",
+    "weight": "10 g",
+    "volume": "10ml",
     "symbol": "!",
     "color": "green",
     "healthy": -6,
     "stim": -5,
     "addiction_potential": 6,
     "container": "test_tube",
-    "tool": "syringe"
+    "tool": "syringe",
+    "flags": [ "NO_INGEST" ]
   },
   {
     "id": "iv_mutagen",
@@ -52,8 +56,9 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "alpha serum",
+    "description": "A super-concentrated mutagen strongly resembling blood.  You need a syringe to inject it...  if you really want to?",
     "price": 1000000,
-    "color": "light_green",
+    "color": "red",
     "healthy": -4,
     "use_action": { "type": "mutagen_iv", "mutation_category": "ALPHA" }
   },
@@ -62,7 +67,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "beast serum",
-    "description": "A super-concentrated mutagen strongly resembling blood.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen as red as a matador's cape.  You need a syringe to inject it...  if you really want to?",
     "color": "red",
     "use_action": { "type": "mutagen_iv", "mutation_category": "BEAST" }
   },
@@ -81,6 +86,7 @@
     "type": "COMESTIBLE",
     "name": "cattle serum",
     "description": "A super-concentrated mutagen the color of grass.  You need a syringe to inject it...  if you really want to?",
+    "color": "light_green",
     "use_action": { "type": "mutagen_iv", "mutation_category": "CATTLE" }
   },
   {
@@ -88,8 +94,8 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "cephalopod serum",
-    "description": "A (rather bright) green super-concentrated mutagen.  You need a syringe to inject it...  if you really want to?",
-    "color": "light_green",
+    "description": "A super-concentrated mutagen as black as ink.  You need a syringe to inject it...  if you really want to?",
+    "color": "dark_gray",
     "use_action": { "type": "mutagen_iv", "mutation_category": "CEPHALOPOD" }
   },
   {
@@ -97,7 +103,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "chimera serum",
-    "description": "A super-concentrated blood-red mutagen.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen that churns with iridescence.  You need a syringe to inject it...  if you really want to?",
     "price": 400000,
     "color": "red",
     "healthy": -15,
@@ -110,7 +116,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "elf-a serum",
-    "description": "A super-concentrated mutagen that reminds you of the forests.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen that's a striking sylvan green.  You need a syringe to inject it...  if you really want to?",
     "price": 400000,
     "color": "light_green",
     "use_action": { "type": "mutagen_iv", "mutation_category": "ELFA" }
@@ -120,8 +126,8 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "feline serum",
-    "description": "A super-concentrated mutagen strongly resembling blood.  You need a syringe to inject it...  if you really want to?",
-    "color": "red",
+    "description": "A super-concentrated mutagen, yellow and highly reflective.  You need a syringe to inject it...  if you really want to?",
+    "color": "yellow",
     "use_action": { "type": "mutagen_iv", "mutation_category": "FELINE" }
   },
   {
@@ -138,6 +144,8 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "insect serum",
+    "description": "A super-concentrated mutagen that's a beautiful amber color.  You need a syringe to inject it...  if you really want to?",
+    "color": "yellow",
     "use_action": { "type": "mutagen_iv", "mutation_category": "INSECT" }
   },
   {
@@ -145,6 +153,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "lizard serum",
+    "description": "A super-concentrated mutagen that shifts between various shades of green.  You need a syringe to inject it...  if you really want to?",
     "color": "light_green",
     "use_action": { "type": "mutagen_iv", "mutation_category": "LIZARD" }
   },
@@ -153,8 +162,8 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "lupine serum",
-    "description": "A super-concentrated mutagen strongly resembling blood.  You need a syringe to inject it...  if you really want to?",
-    "color": "red",
+    "description": "A super-concentrated mutagen as white as a full moon.  You need a syringe to inject it...  if you really want to?",
+    "color": "white",
     "use_action": { "type": "mutagen_iv", "mutation_category": "LUPINE" }
   },
   {
@@ -162,9 +171,9 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "medical serum",
-    "description": "A super-concentrated substance.  Judging by the amount, it should be delivered via injection.  You'd need a syringe.",
+    "description": "A super-concentrated mutagen that looks like a mixture of bodily fluids.  You need a syringe to inject it...  if you really want to?",
     "price": 300000,
-    "color": "light_green",
+    "color": "light_red",
     "healthy": -4,
     "use_action": { "type": "mutagen_iv", "mutation_category": "MEDICAL" }
   },
@@ -173,8 +182,8 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "plant serum",
-    "description": "A super-concentrated mutagen strongly resembling tree sap.  You need a syringe to inject it...  if you really want to?",
-    "color": "yellow",
+    "description": "A super-concentrated mutagen that looks like pureed spinach.  You need a syringe to inject it...  if you really want to?",
+    "color": "green",
     "use_action": { "type": "mutagen_iv", "mutation_category": "PLANT" }
   },
   {
@@ -182,7 +191,9 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "raptor serum",
+    "description": "A super-concentrated mutagen that seems to shift slightly whenever you look at it.  You need a syringe to inject it...  if you really want to?",
     "price": 400000,
+    "color": "green",
     "use_action": { "type": "mutagen_iv", "mutation_category": "RAPTOR" }
   },
   {
@@ -190,6 +201,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "rat serum",
+    "description": "A super-concentrated mutagen that's a rather unappealing beige.  You need a syringe to inject it...  if you really want to?",
     "color": "brown",
     "use_action": { "type": "mutagen_iv", "mutation_category": "RAT" }
   },
@@ -198,7 +210,8 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "slime serum",
-    "description": "A super-concentrated mutagen that looks very much like the goo or whatever-it-is in the zombies' eyes.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen that looks very much like the black ooze in the zombies' eyes.  You need a syringe to inject it...  if you really want to?",
+    "color": "dark_gray",
     "use_action": { "type": "mutagen_iv", "mutation_category": "SLIME" }
   },
   {
@@ -206,7 +219,8 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "spider serum",
-    "color": "dark_gray",
+    "description": "A super-concentrated mutagen with pale filaments suspended in it.  You need a syringe to inject it...  if you really want to?",
+    "color": "light_gray",
     "use_action": { "type": "mutagen_iv", "mutation_category": "SPIDER" }
   },
   {
@@ -214,7 +228,8 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "troglobite serum",
-    "color": "light_gray",
+    "description": "A super-concentrated mutagen that seems to recoil from the light.  You need a syringe to inject it...  if you really want to?",
+    "color": "dark_gray",
     "use_action": { "type": "mutagen_iv", "mutation_category": "TROGLOBITE" }
   },
   {
@@ -222,8 +237,8 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "ursine serum",
-    "description": "A super-concentrated mutagen strongly resembling blood.  You need a syringe to inject it...  if you really want to?",
-    "color": "red",
+    "description": "A super-concentrated mutagen that's the color of honey, and is just as thick.  You need a syringe to inject it...  if you really want to?",
+    "color": "yellow",
     "use_action": { "type": "mutagen_iv", "mutation_category": "URSINE" }
   },
   {
@@ -231,7 +246,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "mouse serum",
-    "description": "A super-concentrated mutagen strongly resembling liquefied metal.  You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated mutagen resembling liquefied metal.  You need a syringe to inject it...  if you really want to?",
     "color": "light_gray",
     "use_action": { "type": "mutagen_iv", "mutation_category": "MOUSE" }
   },
@@ -306,7 +321,7 @@
     "id": "mutagen_elfa",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": "elfa mutagen",
+    "name": "elf-a mutagen",
     "description": "An extremely rare mutagen cocktail.",
     "price": 200000,
     "use_action": { "type": "mutagen", "mutation_category": "ELFA" }
@@ -445,17 +460,16 @@
     "category": "mutagen",
     "name": "purifier smart shot",
     "description": "An experimental stem cell treatment, offering limited control over which mutations are purified.  The liquid sloshes strangely inside of this syringe.",
-    "weight": 60,
-    "volume": "50ml",
+    "weight": "12 g",
+    "volume": "10ml",
     "price": 1200000,
-    "stack_size": 40,
     "material": "plastic",
     "symbol": "!",
     "color": "magenta",
     "healthy": -6,
     "stim": -5,
     "use_action": "PURIFY_SMART",
-    "flags": [ "NPC_SAFE", "TRADER_AVOID" ]
+    "flags": [ "NPC_SAFE", "TRADER_AVOID", "NUTRIENT_OVERRIDE", "NO_INGEST" ]
   },
   {
     "type": "COMESTIBLE",
@@ -463,70 +477,67 @@
     "category": "other",
     "name": "misshapen fetus",
     "name_plural": "misshapen fetuses",
-    "weight": 760,
+    "weight": "760 g",
     "color": "pink",
     "spoils_in": "2 days",
     "use_action": { "type": "mutagen", "is_weak": true },
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -12,
     "calories": 156,
-    "description": "A deformed human fetus.  Eating this would be the most vile thing you can think of, and might just cause you to mutate.",
+    "description": "A deformed human fetus.  Eating this would be the most vile thing you can think of, and just might cause you to mutate.",
     "price": 0,
     "material": "hflesh",
-    "volume": 1,
-    "fun": -60,
-    "rot_spawn": "GROUP_CARRION"
+    "volume": "250 ml",
+    "fun": -60
   },
   {
     "type": "COMESTIBLE",
     "id": "arm",
     "category": "other",
     "name": "mutated arm",
-    "weight": 3767,
+    "weight": "3767 g",
     "color": "brown",
     "spoils_in": "2 days",
     "use_action": { "type": "mutagen", "is_weak": true },
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -8,
     "calories": 278,
-    "description": "A misshapen human arm, eating this would be incredibly disgusting and probably cause you to mutate.",
+    "description": "A misshapen human arm.  Eating this would be incredibly disgusting and probably cause you to mutate.",
     "price": 0,
     "material": "hflesh",
-    "volume": 8,
-    "fun": -20,
-    "rot_spawn": "GROUP_CARRION"
+    "volume": "2 L",
+    "fun": -20
   },
   {
     "type": "COMESTIBLE",
     "id": "leg",
     "category": "other",
     "name": "mutated leg",
-    "weight": 11071,
+    "weight": "11071 g",
     "color": "brown",
     "spoils_in": "2 days",
     "use_action": { "type": "mutagen", "is_weak": true },
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -8,
     "calories": 399,
-    "description": "A malformed human leg, this would be gross to eat, and probably cause mutations.",
+    "description": "A malformed human leg.  This would be gross to eat, and probably cause mutations.",
     "price": 0,
     "material": "hflesh",
-    "volume": 20,
-    "fun": -20,
-    "rot_spawn": "GROUP_CARRION"
+    "volume": "5 L",
+    "fun": -20
   },
   {
     "type": "COMESTIBLE",
     "id": "taint_tornado",
     "name": "tainted tornado",
     "category": "mutagen",
-    "weight": 100,
+    "weight": "100 g",
     "color": "red",
     "addiction_type": "alcohol",
     "use_action": { "type": "mutagen", "is_weak": true },
@@ -541,10 +552,10 @@
     "description": "A frothing slurry of alcohol-soaked zombie flesh and rotten blood, it smells almost as bad as it looks.  Has weak mutagenic properties.",
     "price": 6500,
     "material": [ "alcohol", "flesh" ],
-    "volume": 1,
+    "volume": "250 ml",
     "phase": "liquid",
     "charges": 2,
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "freezing_point": -22,
     "fun": -40
   },
@@ -552,7 +563,7 @@
     "type": "COMESTIBLE",
     "id": "drink_sewerbrew",
     "name": "sewer brew",
-    "weight": 250,
+    "weight": "250 g",
     "color": "yellow",
     "addiction_type": "alcohol",
     "stim": -20,
@@ -566,11 +577,11 @@
     "description": "A thirsty mutant's drink of choice.  It tastes horrible but it's probably a lot safer to drink than before.",
     "price": 1000,
     "material": [ "alcohol", "junk" ],
-    "volume": 2,
+    "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
     "use_action": { "type": "mutagen", "is_weak": true },
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "freezing_point": -22,
     "fun": -15
   }

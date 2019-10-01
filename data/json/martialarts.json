@@ -1,1008 +1,1449 @@
 [
-    {
-        "type" : "martial_art",
-        "id" : "style_none",
-        "name" : "No style",
-        "description" : "Not a martial art, this is just plain old punching and kicking.",
-        "arm_block" : 1,
-        "leg_block" : 99
-    },{
-        "type" : "martial_art",
-        "id" : "style_kicks",
-        "name" : "Force unarmed",
-        "description" : "Not a martial art, setting this style will prevent weapon attacks and force punches (with free hand) or kicks.",
-        "arm_block" : 1,
-        "leg_block" : 99,
-        "force_unarmed" : true
-    },{
-        "type" : "martial_art",
-        "id" : "style_brawling",
-        "name" : "Brawling",
-        "description" : "You're used to hand-to-creature fighting.  Not stylish or sporting, but it gets the job done.",
-        "arm_block" : -1,
-        "leg_block" : 7,
-        "techniques" : [
-            "tec_brawl_feint",
-            "tec_brawl_power",
-            "tec_brawl_trip",
-            "tec_brawl_counter"
+  {
+    "type": "martial_art",
+    "id": "style_none",
+    "name": "No style",
+    "description": "Not a martial art, this is just plain old punching and kicking.",
+    "initiate": [ "You decide to not use any martial arts.", "%s enters a generic combat stance." ],
+    "arm_block": 1,
+    "leg_block": 99,
+    "allow_melee": true
+  },
+  {
+    "type": "martial_art",
+    "id": "style_kicks",
+    "name": "Force unarmed",
+    "description": "Not a martial art, setting this style will prevent weapon attacks and force punches (with free hand) or kicks.",
+    "initiate": [ "You force yourself to fight unarmed.", "%s decides to fight unarmed." ],
+    "arm_block": 1,
+    "leg_block": 99,
+    "force_unarmed": true
+  },
+  {
+    "type": "martial_art",
+    "id": "style_aikido",
+    "name": "Aikido",
+    "description": "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker.  It uses defensive throws and disarms but lacks offensive tehcniques.",
+    "initiate": [ "You enter the hamni stance.", "%s changes into a relaxed combat posture." ],
+    "learn_difficulty": 5,
+    "arm_block": 0,
+    "static_buffs": [
+      {
+        "id": "buff_aikido_static1",
+        "name": "Aikido Stance",
+        "description": "By disregarding offensive in favor of self-defense, you are better at protecting. Blocked damage reduced by 100%% of Dexterity.",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "flat_bonuses": [ [ "block", "dex", 1.0 ] ]
+      },
+      {
+        "id": "buff_aikido_static2",
+        "name": "Intermediate Aikido",
+        "description": "An intermediate aikido practitioner can protect themselves against multiple opponents.\n\n+1 Block attempts, +1 Dodge attempts.",
+        "unarmed_allowed": true,
+        "min_unarmed": 3,
+        "bonus_dodges": 1,
+        "bonus_blocks": 1,
+        "flat_bonuses": [ [ "block", "dex", 1.0 ] ]
+      },
+      {
+        "id": "buff_aikido_static3",
+        "name": "Advanced Aikido",
+        "description": "An advanced aikido practitioner can protect themselves against even more opponents than normal.\n\n+1 Block attempts, +1 Dodge attempts.",
+        "unarmed_allowed": true,
+        "min_unarmed": 5,
+        "bonus_dodges": 1,
+        "bonus_blocks": 1
+      }
+    ],
+    "techniques": [
+      "tec_aikido_break",
+      "tec_aikido_dodgedisarm",
+      "tec_aikido_blockdisarm",
+      "tec_aikido_dodgethrow",
+      "tec_aikido_blockthrow"
+    ],
+    "weapons": [ "bagh_nakha", "bio_claws_weapon", "cestus", "knuckle_brass", "knuckle_nail", "knuckle_steel" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_boxing",
+    "name": "Boxing",
+    "description": "Sport of the true gentleman, modern boxing has evolved from the prizefights of the Victorian era.  Strength reduces blocked damage and moving increase dodge skill.",
+    "initiate": [ "You lower your chin and raise your fists to eye level.", "%s prepares to fight with raised fists." ],
+    "learn_difficulty": 1,
+    "arm_block": 1,
+    "static_buffs": [
+      {
+        "id": "buff_boxing_static",
+        "name": "Boxing Stance",
+        "description": "A solid stance allows you block more damage than normal and deliver better punches.\n\n+2 Bash damage, Blocked damge reduced by 50%% of Strength.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "block", "str", 0.5 ], [ "damage", "bash", 2.0 ] ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_boxing_onmove",
+        "name": "Footwork",
+        "description": "You are make yourself harder to hit by bobbing and weaving as you move.\n\n+1.0 Dodge skill.\nLasts for 1 turns.  Stacks 2 times.",
+        "min_unarmed": 3,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 2,
+        "flat_bonuses": [ [ "dodge", 1.0 ] ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "buff_boxing_ondodge",
+        "name": "Counter Chance",
+        "description": "You've seen your chance. Now strike back!\n\n+25% Bash damage.\nLasts for 1 turn.",
+        "min_unarmed": 5,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "mult_bonuses": [ [ "damage", "bash", 1.25 ] ]
+      }
+    ],
+    "techniques": [ "tec_boxing_rapid", "tec_boxing_cross", "tec_boxing_upper", "tec_boxing_counter" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_brawling",
+    "name": "Brawling",
+    "description": "You're used to hand-to-creature fighting.  You know how to fight when unarmed or with any weapon to a certain extent.  It's not stylish or sporting, but it gets the job done.",
+    "initiate": [ "You grit your teeth and prepare for a good fight.", "%s gets ready to brawl." ],
+    "autolearn": [ [ "melee", "1" ] ],
+    "arm_block": 1,
+    "leg_block": 7,
+    "allow_melee": true,
+    "techniques": [
+      "tec_brawl_disarm_unarmed",
+      "tec_brawl_feint_unarmed",
+      "tec_brawl_counter_unarmed",
+      "tec_brawl_break_unarmed",
+      "tec_brawl_power",
+      "tec_brawl_trip",
+      "tec_brawl_disarm_melee",
+      "tec_brawl_counter_melee",
+      "tec_brawl_feint_melee",
+      "tec_brawl_break_melee"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_capoeira",
+    "name": "Capoeira",
+    "description": "A dance-like style with its roots in Brazilian slavery, Capoeira is focused on fluid movement and sweeping kicks.  Moving briefly enables stronger techniques.  Missing an attack grants bonus damage for a short time.",
+    "initiate": [ "You begin performing the ginga.", "%s begins to rhythmically rock back and forth." ],
+    "learn_difficulty": 4,
+    "static_buffs": [
+      {
+        "id": "buff_capoeira_static",
+        "name": "Capoeira Stance",
+        "description": "You never stop moving while performing the ginga.  This makes you very mobile while fighting.\n\n+1.0 Dodge skill, +1 Dodge attempts.",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "bonus_dodges": 1,
+        "flat_bonuses": [ [ "dodge", 1.0 ] ]
+      }
+    ],
+    "onmiss_buffs": [
+      {
+        "id": "buff_capoeira_onmiss",
+        "name": "Capoeira Tempo",
+        "description": "You didn't miss, it's just part of the dance and the best part is about to start!\n\n+15%% Bash damage.\nLasts 2 turns.  Stacks 3 times.",
+        "unarmed_allowed": true,
+        "min_unarmed": 1,
+        "buff_duration": 2,
+        "max_stacks": 3,
+        "mult_bonuses": [ [ "damage", "bash", 1.15 ] ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_capoeira_onmove",
+        "name": "Capoeira Momentum",
+        "description": "You can feel the rhythm as you move.  Not only are you harder to hit, but your kicks are even more amazing!\n\n+1.0 Dodge skill.\nEnables \"Spin Kick\" and \"Sweep Kick\" techniques.\nLasts 3 turns.",
+        "unarmed_allowed": true,
+        "min_unarmed": 2,
+        "buff_duration": 3,
+        "flat_bonuses": [ [ "dodge", 1.0 ] ]
+      }
+    ],
+    "techniques": [
+      "tec_capoeira_feint",
+      "tec_capoeira_pushkick",
+      "tec_capoeira_sweepkick",
+      "tec_capoeira_circlekick",
+      "tec_capoeira_spinkick"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_crane",
+    "name": "Crane Kung Fu",
+    "description": "One of the five Shaolin animal styles.  The Crane uses intricate hand techniques and jumping dodges.  Dexterity determines your damage, rather than Strength; you also receive a dodge bonus move or dodge an attack.",
+    "initiate": [ "You raise your leg slightly and balance like a crane.", "%s assumes a crane-like stance." ],
+    "learn_difficulty": 10,
+    "arm_block": 3,
+    "static_buffs": [
+      {
+        "id": "buff_crane_static",
+        "name": "Crane's Precision",
+        "description": "Your attacks strike at your opponents weakness with speed and percision instead of brute force.\nDexterity increases melee damage instead of Strength.\n\nBash damage increased by 75%% of Dexterity but decreased by 75%% of Strength.",
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "damage", "bash", "dex", 0.75 ], [ "damage", "bash", "str", -0.75 ] ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_crane_onmove",
+        "name": "Crane's Flight",
+        "description": "Just like a bird, you take to the air to avoid danger.\n\n+1.0 Dodge skill.\nLasts 2 turns.",
+        "unarmed_allowed": true,
+        "min_unarmed": 2,
+        "buff_duration": 2,
+        "flat_bonuses": [ [ "dodge", 1.0 ] ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "buff_crane_ondodge",
+        "name": "Crane's Grace",
+        "description": "Much like the crane, you a quick to avoid danger.\n\n+1 Dodge attempts, +1.0 Dodge skill.\nLasts 2 turns.",
+        "unarmed_allowed": true,
+        "min_unarmed": 2,
+        "buff_duration": 2,
+        "bonus_dodges": 1,
+        "flat_bonuses": [ [ "dodge", 1.0 ] ]
+      }
+    ],
+    "techniques": [ "tec_crane_feint", "tec_crane_break", "tec_crane_counter", "tec_crane_precise" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_dragon",
+    "name": "Dragon Kung Fu",
+    "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes.  Intelligence improves your accuracy instead of Dexterity.  Your attacks lead to counterattacks which disable your opponents and set them up for a powerful finishing move.",
+    "initiate": [ "You relax and patiently await conflict like the great dragon.", "%s assumes a dragon-like stance." ],
+    "learn_difficulty": 10,
+    "arm_block": 2,
+    "static_buffs": [
+      {
+        "id": "buff_dragon_static",
+        "name": "Dragon's Knowledge",
+        "description": "You plan your attack far in advance relying on your intution instead of your speed to strike true. Intelligence increases Accuracy instead of Dexterity.\n\nAccuracy increased by 25%% of Intelligence but decreased by 25%% of Dexterity.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "hit", "int", 0.25 ], [ "hit", "dex", -0.25 ] ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "buff_dragon_onhit",
+        "name": "Dragon's Flight",
+        "description": "Life and combat are a circle.  An attack leads to a counter and to an attack once again.  Seek to complete this loop.\n\n+1 Accuracy, +2 bash Damage.\nEnables \"Dragon Vortex Block\" and \"Dragon Wing Dodge\"\nLasts 1 turn.",
+        "unarmed_allowed": true,
+        "min_unarmed": 1,
+        "buff_duration": 1,
+        "flat_bonuses": [ [ "hit", 1.0 ], [ "damage", "bash", 2 ] ]
+      }
+    ],
+    "techniques": [ "tec_dragon_claw", "tec_dragon_blockcounter", "tec_dragon_dodgecounter", "tec_dragon_tail", "tec_dragon_strike" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_eskrima",
+    "name": "Eskrima",
+    "description": "Eskrima, also known as Kali, is a Filipino martial art.  It emphasizes rapid strikes with knife and baton weapons, along with a variety of improvised substitutes.",
+    "initiate": [ "You enter an open guard stance and prepare to strike.", "%s enters an open stance." ],
+    "learn_difficulty": 8,
+    "primary_skill": "bashing",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "buff_eskrima_static",
+        "name": "Eskrima Stance",
+        "description": "You are skilled at getting the most out of your weapons.  The term 'weapon' might be very subjective,\n\n+2 Accuracy.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "mult_bonuses": [ [ "hit", 2.0 ] ]
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "buff_eskrima_oncrit",
+        "name": "Eskrima Combination",
+        "description": "You can follow up a critical hit with a stronger attack if the opportunity presents itself.\n\n+15%% bonus to all damage.\nEnables \"Combination Strike\" technique.\nLasts 3 turns.  Stacks 3 times.",
+        "min_melee": 2,
+        "melee_allowed": true,
+        "buff_duration": 3,
+        "max_stacks": 3,
+        "mult_bonuses": [ [ "damage", "bash", 1.15 ], [ "damage", "cut", 1.15 ], [ "damage", "stab", 1.15 ] ]
+      }
+    ],
+    "techniques": [
+      "tec_eskrima_round",
+      "tec_eskrima_fan",
+      "tec_eskrima_snap",
+      "tec_eskrima_puno",
+      "tec_eskrima_low",
+      "tec_eskrima_combination"
+    ],
+    "weapons": [
+      "2x4",
+      "bagh_nakha",
+      "baton-extended",
+      "bee_sting",
+      "bowling_pin",
+      "cane",
+      "copper_knife",
+      "cudgel",
+      "cu_pipe",
+      "diveknife",
+      "fighter_sting",
+      "firemachete_off",
+      "firemachete_on",
+      "glass_shiv",
+      "hammer",
+      "knife_combat",
+      "knife_hunting",
+      "knife_trench",
+      "kukri",
+      "knife_rambo",
+      "knife_rm42",
+      "machete",
+      "makeshift_knife",
+      "makeshift_machete",
+      "pipe",
+      "pockknife",
+      "pool_cue",
+      "PR24-extended",
+      "primitive_knife",
+      "primitive_hammer",
+      "punch_dagger",
+      "scissors",
+      "screwdriver",
+      "sharp_toothbrush",
+      "shishkebab_off",
+      "shishkebab_on",
+      "shocktonfa_off",
+      "shocktonfa_on",
+      "stick",
+      "survivor_machete",
+      "switchblade",
+      "tanto",
+      "tanto_inferior",
+      "tanto_fake",
+      "tonfa",
+      "tonfa_wood",
+      "umbrella",
+      "wasp_sting",
+      "wrench"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_fencing",
+    "name": "Fencing",
+    "description": "The noble art of fencing is taught with flexible competition blades, but the techniques are derived from (and applicable to) more functional examples.  Skilled fencers can take advantage of blocks and feints to deliver accurate strikes.",
+    "initiate": [ "You move into the en-garde stance.", "%s moves into a fencing stance." ],
+    "learn_difficulty": 5,
+    "primary_skill": "stabbing",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "buff_fencing_static",
+        "name": "Fencing Stance",
+        "description": "Your side stance minimizes the chances you will be harmed in a combat.\n\nBlocked damage reduced by 50%% of Dexterity.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "flat_bonuses": [ [ "block", "dex", 0.5 ] ]
+      }
+    ],
+    "onblock_buffs": [
+      {
+        "id": "buff_fencing_onblock",
+        "name": "Parry",
+        "description": "Your next strike will find it's mark much easier from your parry.\n\n+1 Accuracy.\nLasts 1 turn.",
+        "min_melee": 1,
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ [ "hit", 1.0 ] ]
+      }
+    ],
+    "onmiss_buffs": [
+      {
+        "id": "buff_fencing_onmiss",
+        "name": "Remise",
+        "description": "Your feint is the perfect setup for a devistating followup attack!\n\n+1 Accuracy.\nEnables \"Compound Attack\" technique.\nLasts 1 turn.",
+        "min_melee": 3,
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ [ "hit", 1.0 ] ]
+      }
+    ],
+    "techniques": [ "tec_fencing_feint", "tec_fencing_lunge", "tec_fencing_riposte", "tec_fencing_compound" ],
+    "weapons": [
+      "baton-extended",
+      "broadsword",
+      "broadsword_inferior",
+      "broadsword_fake",
+      "broadfire_off",
+      "broadfire_on",
+      "cane",
+      "cavalry_sabre",
+      "cavalry_sabre_fake",
+      "cudgel",
+      "hollow_cane",
+      "fencing_foil",
+      "fencing_sabre",
+      "fencing_epee",
+      "pointy_stick",
+      "pipe",
+      "PR24-extended",
+      "rapier",
+      "rapier_fake",
+      "sword_cane",
+      "umbrella"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_medievalpole",
+    "name": "Fior Di Battaglia",
+    "description": "Medieval Europe's martial techniques for fighting with polearms.  The \"Flower of Battle\" places great focus on countering one's opponent and knocking them down before landing a killing blow",
+    "initiate": [ "You hold your weapon in a firm grip, ready to block any attack.", "%s grips their weapon tightly." ],
+    "learn_difficulty": 6,
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "buff_medievalpole_static",
+        "name": "Stand Your Ground",
+        "description": "You stalwart and will not budge against any threat.\n\n+2 Block attempts, -1.0 Dodge skill, blocked damage reduced by 50%% of Strength.",
+        "melee_allowed": true,
+        "min_melee": 0,
+        "bonus_blocks": 2,
+        "flat_bonuses": [ [ "block", "str", 0.5 ], [ "dodge", -1.0 ] ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_medievalpole_onmove",
+        "name": "Tactical Retreat",
+        "description": "You moved and nullified the effects of Stand Your Ground!\n\n-2 Block attempts, +1.0 Dodge skill, blocked damaged increased by 50%% of Strength.\nLasts 1 turn.",
+        "melee_allowed": true,
+        "min_melee": 0,
+        "buff_duration": 1,
+        "bonus_blocks": -2,
+        "flat_bonuses": [ [ "block", "str", -0.5 ], [ "dodge", 1.0 ] ]
+      }
+    ],
+    "onmiss_buffs": [
+      {
+        "id": "buff_medievalpole_onmiss",
+        "name": "Tactical Feinting",
+        "description": "They fell for your feint!\n\nEnables \"Hook and Drag\" technique.\nLasts 1 turn.",
+        "melee_allowed": true,
+        "min_melee": 3,
+        "buff_duration": 1
+      }
+    ],
+    "onblock_buffs": [
+      {
+        "id": "buff_medievalpole_onblock",
+        "name": "Defense Break",
+        "description": "Each successful block reveals an opening in your opponent's guard.\n\n+1 Accuracy.\nLasts 1 turn.  Stacks 3 times.",
+        "melee_allowed": true,
+        "min_melee": 1,
+        "buff_duration": 1,
+        "max_stacks": 3,
+        "flat_bonuses": [ [ "hit", 1.0 ] ]
+      }
+    ],
+    "techniques": [
+      "tec_medievalpole_counter",
+      "tec_medievalpole_highround",
+      "tec_medievalpole_feint",
+      "tec_medievalpole_hook",
+      "tec_medievalpole_execute",
+      "tec_medievalpole_break"
+    ],
+    "weapons": [
+      "ax",
+      "battleaxe",
+      "battleaxe_fake",
+      "battleaxe_inferior",
+      "copper_ax",
+      "fire_ax",
+      "glaive",
+      "halberd",
+      "halberd_fake",
+      "hammer_sledge",
+      "hockey_stick",
+      "hoe",
+      "ji",
+      "lobotomizer",
+      "lucern_hammer",
+      "lucern_hammerfake",
+      "makeshift_halberd",
+      "pickaxe",
+      "primitive_axe"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_judo",
+    "name": "Judo",
+    "description": "Judo is a martial art that focuses on grabs and throws, both defensive and offensive.  You are resistant to most effects that can knock you down and can counter grab and takedown attacks with strong judo throw.",
+    "initiate": [ "You prepare yourself for a grapple.", "%s prepares for a grapple." ],
+    "learn_difficulty": 4,
+    "static_buffs": [
+      {
+        "id": "buff_judo_static",
+        "name": "Judo Stance",
+        "description": "Your knowledge of grappling allows you to recover from knock down effects instantly.\nIn addition, you can counter grabs and takedown attacks with a judo throw.",
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "unarmed_weapons_allowed": false,
+        "min_unarmed": 0,
+        "throw_immune": true
+      }
+    ],
+    "techniques": [ "tec_judo_backthrow", "tec_judo_counter", "tec_judo_disarm", "tec_judo_break", "tec_judo_throw" ],
+    "weapons": [ "bagh_nakha", "bio_claws_weapon", "cestus", "knuckle_brass", "knuckle_nail", "knuckle_steel" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_karate",
+    "name": "Karate",
+    "description": "Karate is a popular martial art, originating from Japan.  It focuses on rapid, precise attacks, blocks, and fluid movement.  A successful hit allows you an extra dodge and two extra blocks on the following round.",
+    "initiate": [ "You adopt a classic karate stance.", "%s adopts a classic karate stance." ],
+    "learn_difficulty": 5,
+    "arm_block": 2,
+    "static_buffs": [
+      {
+        "id": "buff_karate_static",
+        "name": "Karate Stance",
+        "description": "Your no nonsense stance allows you hit more accurately.\n\n+2 Accuracy.",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "flat_bonuses": [ [ "hit", 2.0 ] ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "buff_karate_onhit",
+        "name": "Karate Strike",
+        "description": "Landing a hit allows you to perfectly position yourself for maximum defense against multiple opponents.\n\n+2 Block attempts, +1 Dodges attempts, blocked damge reduced by 50%% of Strength.\nLasts 2 turns.",
+        "min_unarmed": 3,
+        "unarmed_allowed": true,
+        "buff_duration": 2,
+        "bonus_blocks": 2,
+        "bonus_dodges": 1,
+        "flat_bonuses": [ [ "block", "str", 0.5 ] ]
+      }
+    ],
+    "techniques": [ "tec_karate_rapid", "tec_karate_precise", "tec_karate_roundhouse", "tec_karate_counter" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_krav_maga",
+    "name": "Krav Maga",
+    "description": "Originating in Israel, Krav Maga is based on taking down an enemy quickly and effectively.  It focuses on applicable attacks rather than showy or complex moves.  Popular among police and armed forces everywhere.",
+    "initiate": [ "You assume a practical combat stance.", "%s assumes a practical combat stance." ],
+    "learn_difficulty": 6,
+    "arm_block": 2,
+    "leg_block": 4,
+    "static_buffs": [
+      {
+        "id": "buff_krav_maga_static1",
+        "name": "Krav Maga Stance",
+        "description": "Your training makes it easier to land hits and fight multiple opponents.\n\n+1 Accuracy, +1 Block attempts.",
+        "min_unarmed": 0,
+        "melee_allowed": true,
+        "unarmed_allowed": true,
+        "bonus_blocks": 1,
+        "flat_bonuses": [ [ "hit", 1.0 ] ]
+      }
+    ],
+    "techniques": [
+      "tec_krav_maga_rapid",
+      "tec_krav_maga_crit",
+      "tec_krav_maga_takedown",
+      "tec_krav_maga_disarm",
+      "tec_krav_maga_break",
+      "tec_krav_maga_counter"
+    ],
+    "weapons": [
+      "baton-extended",
+      "copper_knife",
+      "cudgel",
+      "diveknife",
+      "honey_scraper",
+      "knife_combat",
+      "knife_hunting",
+      "knife_rambo",
+      "knife_rm42",
+      "knife_trench",
+      "makeshift_knife",
+      "PR24-extended",
+      "shocktonfa_off",
+      "shocktonfa_on",
+      "switchblade",
+      "tonfa",
+      "tonfa_wood",
+      "fn1910",
+      "fn57",
+      "glock_17",
+      "glock_18c",
+      "glock_19",
+      "glock_22",
+      "glock_31",
+      "l_lookout_9mm",
+      "l_mp_9mm",
+      "l_sp_9mm",
+      "m17",
+      "m1911",
+      "m1911a1_38super",
+      "needlepistol",
+      "sw_22",
+      "p226_357sig",
+      "p320_357sig",
+      "sig_40",
+      "sig_p230",
+      "sig_mosquito",
+      "tokarev",
+      "usp_45",
+      "usp_9mm",
+      "walther_ppk",
+      "ar10",
+      "ar15",
+      "ar15_retool_300blk",
+      "fn_fal",
+      "scar_l",
+      "hk_g3",
+      "hk_g36",
+      "l_car_223",
+      "l_dsr_223",
+      "l_lmg_223",
+      "l_mbr_223",
+      "m14ebr",
+      "M24",
+      "m27iar",
+      "rm51_assault_rifle",
+      "rm88_battle_rifle",
+      "sig552",
+      "sks",
+      "steyr_aug"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_leopard",
+    "name": "Leopard Kung Fu",
+    "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Perception improves your accuracy instead of Dexterity.  Moving increases dodge skill and accuracy further.  Attacking after moving increases damage.",
+    "initiate": [ "You prepare to pounce like a lepoard.", "%s assumes a leopard-like stance." ],
+    "static_buffs": [
+      {
+        "id": "buff_leopard_static1",
+        "name": "Leopard's Strategy",
+        "description": "You fight by overwhelming your opponents with speedy strikes that are much harder to defend against.\nDexterity increases melee damage instead of Strength.\n\nBash damage increased by 75%% of Dexterity but decreased by 75%% of Strength.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "damage", "bash", "dex", 0.75 ], [ "damage", "bash", "str", -0.75 ] ]
+      },
+      {
+        "id": "buff_leopard_static2",
+        "name": "Leopard's Agility",
+        "description": "Just like a cat, you are quick, agile, and hard to pin down.\n\n+1.0 Dodge skill.",
+        "min_unarmed": 1,
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "dodge", 1.0 ] ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_leopard_onmove1",
+        "name": "Leopard's Stalk",
+        "description": "You proudly stalk the shadows and preparing to pouce with unrelenting fury.\n\n+2 Accuracy.\nEnables \"Leopard's Pounce\" buff.\nLasts 1 turn.",
+        "min_unarmed": 1,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ [ "hit", 2.0 ] ]
+      },
+      {
+        "id": "buff_leopard_onmove2",
+        "name": "Leopard's Pounce",
+        "description": "You are ready.  Attack and claim your prey!\n\n+25% bonus to all damage.\nLasts 1 turn.",
+        "min_unarmed": 3,
+        "unarmed_allowed": true,
+        "req_buffs": [ "buff_leopard_onmove1" ],
+        "buff_duration": 1,
+        "flat_bonuses": [ [ "damage", "bash", 1.25 ], [ "damage", "cut", 1.25 ], [ "damage", "stab", 1.25 ] ]
+      }
+    ],
+    "techniques": [ "tec_leopard_rapid", "tec_leopard_feint", "tec_leopard_counter", "tec_leopard_precise" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_swordsmanship",
+    "name": "Medieval Swordsmanship",
+    "description": "The art of the longsword and sword & shield, preceding the later development of fencing.  Designed for combat both unarmored and in armor, it includes grappling as well as defensive and offensive sword techniques.  This treatise compares the Italian and German traditions of medieval combat with detailed step-by-step pictures.",
+    "initiate": [ "You take on a knightly stance.", "%s takes on a knightly stance." ],
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "buff_swordsmanship_static",
+        "name": "Swordsman's Stance",
+        "description": "Through chivalry and vigilance, your defense with a blade has increased.\n\n+1 Dodge attempts, blocked damage decreased by 50%% of Strength.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "bonus_dodges": 1,
+        "flat_bonuses": [ [ "block", "str", 0.5 ] ]
+      }
+    ],
+    "onblock_buffs": [
+      {
+        "id": "buff_swordsmanship_onblock",
+        "name": "Deflection",
+        "description": "You deflected your enemy's attack and now they are open to a counterattack!\nEnables \"Sweeping Strike\" and \"Deathblow\" techniques.\nLasts 1 turn.",
+        "min_melee": 1,
+        "melee_allowed": true,
+        "buff_duration": 1
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "buff_swordsmanship_oncrit",
+        "name": "Manslayer",
+        "description": "Your powerful attack has given you the chance to end this fight right now!\nEnables \"Vicious Strike\" techniques.\nLasts 1 turn.",
+        "min_melee": 5,
+        "melee_allowed": true,
+        "buff_duration": 1
+      }
+    ],
+    "techniques": [
+      "tec_swordsmanship_grab",
+      "tec_swordsmanship_break",
+      "tec_swordsmanship_zornhau",
+      "tec_swordsmanship_unterhau",
+      "tec_swordsmanship_mordhau"
+    ],
+    "weapons": [
+      "arming_sword",
+      "arming_sword_inferior",
+      "arming_sword_fake",
+      "broadsword",
+      "broadsword_inferior",
+      "broadsword_fake",
+      "broadfire_off",
+      "broadfire_on",
+      "estoc",
+      "estoc_inferior",
+      "estoc_fake",
+      "longsword",
+      "longsword_inferior",
+      "longsword_fake",
+      "sword_crude",
+      "sword_nail",
+      "sword_wood",
+      "zweifire_off",
+      "zweifire_on",
+      "zweihander",
+      "zweihander_inferior",
+      "zweihander_fake"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_muay_thai",
+    "name": "Muay Thai",
+    "description": "Also referred to as the \"Art of 8 Limbs,\" Muay Thai is a popular fighting technique from Thailand that uses powerful strikes.  Your strength decreases blocked damage.  Blocking attacks or getting hit will increase your damage and blocked damage further.",
+    "initiate": [ "You perform a short wai khru in honor of your teachers.", "%s performs a short war-dance." ],
+    "learn_difficulty": 5,
+    "arm_block": 2,
+    "leg_block": 4,
+    "static_buffs": [
+      {
+        "id": "buff_muay_thai_static",
+        "name": "Muay Thai Stance",
+        "description": "Strength is everything in Muay Thai and you know how to make the most of yours.\n\nBlocked damage decreased by 50%% of Strength.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "block", "str", 0.5 ] ]
+      }
+    ],
+    "ongethit_buffs": [
+      {
+        "id": "buff_muay_thai_ongethit",
+        "name": "Determination",
+        "description": "Taking a hit will not slow you down.  You will outlast your opponent and win this fight.\n\n+Bash damage increased by 25%% of Strength, blocked damage decreased by 50%% of Strength.\nLasts 5 turns.",
+        "min_unarmed": 3,
+        "unarmed_allowed": true,
+        "buff_duration": 5,
+        "flat_bonuses": [ [ "damage", "bash", "str", 0.25 ], [ "block", "str", 0.5 ] ]
+      }
+    ],
+    "techniques": [ "tec_muay_thai_elbow", "tec_muay_thai_kick", "tec_muay_thai_knee", "tec_muay_thai_break" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_ninjutsu",
+    "name": "Ninjutsu",
+    "description": "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan.  It focuses on rapid, precise, silent strikes.  Ninjutsu is almost entirely silent and does extra damage if on the first attack.  It also provides small combat bonuses every time you move.",
+    "initiate": [ "You perform a kuji-in mantra with your hands. Rin, Kai, Jin!", "%s performs a series of intricate hand signs." ],
+    "learn_difficulty": 6,
+    "arm_block": 3,
+    "static_buffs": [
+      {
+        "id": "buff_ninjutsu_static1",
+        "name": "Ninjutsu Stance",
+        "description": "Your training allows you to make no noise when attacking and less noise when moving around.\n\nMelee and unarmed attacks generate 0 noise.  Moving generates 1/2 as much noise.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "quiet": true,
+        "stealthy": true
+      },
+      {
+        "id": "buff_ninjutsu_static2",
+        "name": "Sneak Attack",
+        "description": "To a true shinobi, the first strike and the last strike are one in the same.\n\n+50%% all damage.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "mult_bonuses": [ [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ], [ "damage", "stab", 1.5 ] ]
+      }
+    ],
+    "onattack_buffs": [
+      {
+        "id": "buff_ninjutsu_onattack",
+        "name": "Loss of Surprise",
+        "description": "You intentions are known!  It will take you a few moments to sneak attack again.\n\n-50%% all damage.\nLast 3 turns.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "buff_duration": 3,
+        "mult_bonuses": [ [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_ninjutsu_onmove",
+        "name": "Momentum Shift",
+        "description": "Ninjas are training to be extremely agile and mobile.\n\n+1.0 Dodge skill, Accuracy increased by 20%% of Dexterity.\nLast 1 turn.",
+        "min_unarmed": 2,
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ [ "dodge", 1.0 ], [ "hit", "dex", 0.2 ] ]
+      }
+    ],
+    "onkill_buffs": [
+      {
+        "id": "buff_ninjutsu_onkill",
+        "name": "Escape Plan",
+        "description": "Your target has perished.  It is time to leave and plan your next attack.\n\n+2 Dodge attempts, +10 movement speed.\nLast 3 turns.",
+        "min_melee": 3,
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "buff_duration": 3,
+        "bonus_dodges": 2,
+        "flat_bonuses": [ [ "speed", 10 ] ]
+      }
+    ],
+    "techniques": [ "tec_ninjutsu_swift", "tec_ninjutsu_takedown", "tec_ninjutsu_precise" ],
+    "weapons": [
+      "arming_sword",
+      "arming_sword_inferior",
+      "arming_sword_fake",
+      "bio_blade_weapon",
+      "bio_claws_weapon",
+      "bokken",
+      "bokken_inferior",
+      "bokken_fake",
+      "broadsword",
+      "broadsword_inferior",
+      "broadsword_fake",
+      "broadfire_off",
+      "broadfire_on",
+      "cavalry_sabre",
+      "cavalry_sabre_fake",
+      "copper_knife",
+      "cutlass_fake",
+      "cutlass_inferior",
+      "cutlass",
+      "dao",
+      "diveknife",
+      "firekatana_off",
+      "firekatana_on",
+      "i_staff",
+      "jian",
+      "jian_inferior",
+      "jian_fake",
+      "katana",
+      "katana_inferior",
+      "katana_fake",
+      "kirpan",
+      "knife_combat",
+      "knife_hunting",
+      "knife_rambo",
+      "knife_rm42",
+      "knife_trench",
+      "kirpan_cheap",
+      "kris",
+      "kukri",
+      "khopesh",
+      "longsword",
+      "longsword_inferior",
+      "longsword_fake",
+      "l-stick",
+      "l-stick_on",
+      "machete",
+      "makeshift_knife",
+      "nodachi",
+      "nodachi_inferior",
+      "nodachi_fake",
+      "q_staff",
+      "scimitar",
+      "scimitar_fake",
+      "scimitar_inferior",
+      "shishkebab_off",
+      "shishkebab_on",
+      "shock_staff",
+      "sickle",
+      "switchblade",
+      "sword_bayonet",
+      "sword_crude",
+      "sword_nail",
+      "sword_wood",
+      "sword_xiphos",
+      "tanto",
+      "tanto_inferior",
+      "tanto_fake",
+      "wakizashi",
+      "wakizashi_inferior",
+      "wakizashi_fake"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_niten",
+    "name": "Niten Ichi-Ryu",
+    "description": "Niten Ichi-Ryu is an ancient school of combat, transmitting a style of classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi.  Perception increases damage and reduces blocked damage.  Moving and attacking reduces dodging and damage until you pause.  Pausing for a moment increases Dodge skill.",
+    "initiate": [ "You clear your mind as you prepare yourself for combat.", "%s relaxes and prepares for combat." ],
+    "learn_difficulty": 8,
+    "primary_skill": "cutting",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "buff_niten_static",
+        "name": "Niten Ichi-Ryu Stance",
+        "description": "Cautious watchful eyes\nmeasure and display your skill.\nPractice makes perfect.\n\nBash and Cut damage increased by 50%% of Perception, blocked damage reduced by 100%% of Perception.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "flat_bonuses": [ [ "arpen", "cut", "per", 0.5 ], [ "arpen", "bash", "per", 0.5 ], [ "block", "per", 1.0 ] ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_niten_onmove",
+        "name": "Waning Moon",
+        "description": "Blackened like darkness,\nnightmares approach from all sides.\nFlee at any cost!\n\n-5.0 Dodge skill.\nLasts 1 turn.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ [ "dodge", -5.0 ] ]
+      }
+    ],
+    "onattack_buffs": [
+      {
+        "id": "buff_niten_onattack",
+        "name": "Falling Leaf",
+        "description": "A sharp sword cuts true.\nAlthough, all things fade with time.\nRestraint hones your skills.\n\n-1.0 Dodge skill, -1 bash damage, -1 cut damage.\nLasts 1 turn. Stacks 5 times.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 5,
+        "flat_bonuses": [ [ "dodge", -1.0 ], [ "damage", "cut", -1.0 ], [ "damage", "bash", -1.0 ] ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "buff_niten_ondodge",
+        "name": "Moonlight",
+        "description": "Luck be the light,\non a dark and cloudy night\nas the moon shines down\n\nEnables \"In-One Timing\".\nLasts 1 turn.",
+        "min_melee": 5,
+        "melee_allowed": true,
+        "buff_duration": 1
+      }
+    ],
+    "onpause_buffs": [
+      {
+        "id": "buff_niten_onpause",
+        "name": "Stillness",
+        "description": "The eye of the storm,\na fleeting moment of peace,\ngone without a trace.\n\n+2 Accuracy, Dodge skill increased by 50%% of Perception.\nLasts 2 turns.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "buff_duration": 2,
+        "flat_bonuses": [ [ "hit", 2.0 ], [ "dodge", "per", 0.5 ] ]
+      }
+    ],
+    "techniques": [ "niten_water_cut", "niten_red_leaf", "niten_stone_cut", "niten_timing_attack", "niten_feint" ],
+    "weapons": [
+      "bokken",
+      "bokken_inferior",
+      "bokken_fake",
+      "firekatana_off",
+      "firekatana_on",
+      "katana",
+      "katana_inferior",
+      "katana_fake",
+      "nodachi",
+      "nodachi_inferior",
+      "nodachi_fake",
+      "sword_nail",
+      "sword_crude",
+      "sword_wood",
+      "wakizashi",
+      "wakizashi_inferior",
+      "wakizashi_fake"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_pankration",
+    "name": "Pankration",
+    "description": "An ancient Greek martial art once used by the Spartans.  It combines boxing and wrestling techniques to create a brutal sport, though modern revival of the art is less of no-holds-barred in nature.",
+    "initiate": [ "You crouch slightly and prepare to rush forward.", "%s crouches slightly, ready to rush forward." ],
+    "learn_difficulty": 3,
+    "arm_block": 2,
+    "leg_block": 4,
+    "ondodge_buffs": [
+      {
+        "id": "buff_pankration_ondodge",
+        "name": "Counter Chance",
+        "description": "The enemy has presented an opening in their defense.\n+10%% bash damage.  Enables \"Close Combat\" buff.\nLasts 1 turn.",
+        "min_unarmed": 1,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "mult_bonuses": [ [ "damage", "bash", 1.1 ] ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "buff_pankration_oncrit",
+        "name": "Close Combat",
+        "description": "You got your opponent right where you want them!\n\n+20%% bash damage.\nLasts 1 turn.",
+        "min_unarmed": 4,
+        "unarmed_allowed": true,
+        "req_buffs": [ "buff_pankration_ondodge" ],
+        "buff_duration": 1,
+        "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
+      }
+    ],
+    "techniques": [
+      "tec_pankration_cross",
+      "tec_pankration_kick",
+      "tec_pankration_break",
+      "tec_pankration_grabknee",
+      "tec_pankration_grabdisarm",
+      "tec_pankration_grabthrow"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_tai_chi",
+    "name": "Tai Chi",
+    "description": "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
+    "initiate": [ "You settle into a gentle stance and prepare to defend yourself.", "%s settles into a gentle stance." ],
+    "learn_difficulty": 4,
+    "arm_block": 1,
+    "leg_block": 99,
+    "static_buffs": [
+      {
+        "id": "tai_chi_block",
+        "name": "Tai Chi",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "buff_duration": 2,
+        "flat_bonuses": [ [ "block", "per", 1.0 ] ],
+        "description": "+1 Block.  Perception decreases damage when blocking.",
+        "bonus_blocks": 1
+      }
+    ],
+    "techniques": [ "tec_taichi_disarm", "tec_taichi_precise" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_taekwondo",
+    "name": "Taekwondo",
+    "description": "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century.  Focused on kicks and so it does not benefit from wielded weapons.  It also includes strength training; your blocks absorb extra damage the stronger you are.",
+    "initiate": [ "You adopt a narrow fighting stance.", "You adopts a narrow fighting stance." ],
+    "learn_difficulty": 5,
+    "arm_block": 2,
+    "leg_block": 3,
+    "force_unarmed": true,
+    "static_buffs": [
+      {
+        "id": "taekwondo_static",
+        "name": "Taekwondo",
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "block", "str", 0.5 ] ],
+        "description": "Strength decreases damage when blocking."
+      }
+    ],
+    "techniques": [ "tec_taekwondo_precise", "tec_taekwondo_push", "tec_taekwondo_sweep" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_zui_quan",
+    "name": "Zui Quan",
+    "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy, giving you a passive dodge bonus based on your intelligence.  The turn after you attack, you may dodge any number of attacks with no penalty, and successfully dodging an attack gives you bonus damage and to-hit based on your intelligence.",
+    "initiate": [ "You begin to sway to and fro with a confident swagger.", "%s stumbles as if pretending to be drunk." ],
+    "learn_difficulty": 8,
+    "arm_block": 99,
+    "leg_block": 99,
+    "static_buffs": [
+      {
+        "id": "zuiquan_static",
+        "name": "Zui Quan",
+        "description": "Intelligence increases dodging ability",
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "dodge", "int", 0.12 ] ]
+      }
+    ],
+    "onattack_buffs": [
+      {
+        "id": "zuiquan_attack_buff",
+        "name": "Drunken Dodging",
+        "description": "Unlimited dodges after attacking",
+        "buff_duration": 4,
+        "unarmed_allowed": true,
+        "bonus_dodges": 100
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "zuiquan_dodge_buff",
+        "name": "Counter Strike",
+        "description": "Extra damage and to-hit after successful dodge",
+        "unarmed_allowed": true,
+        "max_stacks": 2,
+        "flat_bonuses": [ [ "damage", "bash", "int", 0.5 ], [ "hit", "int", 0.2 ] ]
+      }
+    ],
+    "techniques": [ "tec_zuiquan_feint", "tec_zuiquan_counter" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_silat",
+    "name": "Silat",
+    "description": "Pentjak Silat, of Indonesian origin, is a fighting style that covers the use of short blades and bludgeons.  Fighters stay low and mobile to avoid attacks, then unleash deadly critical hits.",
+    "initiate": [ "You give a salute of respect as you prepare to combat.", "%s gives a combat salute." ],
+    "learn_difficulty": 7,
+    "primary_skill": "cutting",
+    "arm_block": 99,
+    "leg_block": 99,
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "silat_buff",
+        "name": "Silat Stance",
+        "description": "+1 dodge",
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "bonus_dodges": 1
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "silat_dodge_buff",
+        "name": "Silat Counter",
+        "description": "Extra to-hit after successful dodge",
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "buff_duration": 3,
+        "max_stacks": 4,
+        "flat_bonuses": [ [ "hit", "dex", 0.4 ] ]
+      }
+    ],
+    "techniques": [ "tec_silat_hamstring", "tec_silat_precise", "tec_silat_brutal", "tec_silat_dirty" ],
+    "weapons": [
+      "baton-extended",
+      "bio_blade_weapon",
+      "bowling_pin",
+      "cudgel",
+      "diveknife",
+      "firemachete_off",
+      "firemachete_on",
+      "glaive",
+      "golf_club",
+      "hockey_stick",
+      "i_staff",
+      "javelin",
+      "javelin_iron",
+      "knife_combat",
+      "copper_knife",
+      "knife_hunting",
+      "knife_trench",
+      "kris",
+      "kris_fake",
+      "machete",
+      "makeshift_halberd",
+      "makeshift_knife",
+      "makeshift_machete",
+      "naginata",
+      "naginata_inferior",
+      "naginata_fake",
+      "pipe",
+      "pointy_stick",
+      "pool_cue",
+      "PR24-extended",
+      "primitive_knife",
+      "q_staff",
+      "rebar",
+      "scimitar",
+      "scimitar_inferior",
+      "scimitar_fake",
+      "scythe",
+      "scythe_war",
+      "shock_staff",
+      "shocktonfa_off",
+      "shocktonfa_on",
+      "sickle",
+      "shishkebab_off",
+      "shishkebab_on",
+      "spear_knife",
+      "spear_knife_superior",
+      "spear_spike",
+      "spear_rebar",
+      "spear_pipe",
+      "spear_forked",
+      "spear_steel",
+      "spear_survivor",
+      "spear_wood",
+      "spear_copper",
+      "spear_homemade_halfpike",
+      "stick",
+      "survivor_machete",
+      "tanto",
+      "tonfa",
+      "tonfa_wood",
+      "kukri",
+      "knife_rambo",
+      "knife_rm42",
+      "switchblade",
+      "l-stick",
+      "l-stick_on"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_tiger",
+    "name": "Tiger Kung Fu",
+    "description": "One of the five Shaolin animal styles.  The Tiger focuses on relentless attacks above all else.  Your Strength determines your accuracy, and your attacks do increasing damage as you continue attacking.",
+    "initiate": [ "You clench your hands into ferocious, tiger-like claws.", "%s assumes a tiger-like stance." ],
+    "learn_difficulty": 10,
+    "arm_block": 99,
+    "leg_block": 99,
+    "static_buffs": [
+      {
+        "id": "tiger_static",
+        "name": "Tiger Strength",
+        "description": "Strength provides additional damage bonus.",
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "damage", "bash", "str", 0.8 ] ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "tiger_hit_buff",
+        "name": "Tiger Fury",
+        "description": "+3 Bash/atk",
+        "unarmed_allowed": true,
+        "min_unarmed": 2,
+        "buff_duration": 3,
+        "max_stacks": 8,
+        "flat_bonuses": [ [ "damage", "bash", 3.0 ] ]
+      }
+    ],
+    "techniques": [ "tec_tiger_grab" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_snake",
+    "name": "Snake Kung Fu",
+    "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Your Perception improves your damage.",
+    "initiate": [ "You adopt a fluid stance, ready to strike like a snake.", "%s assumes a snake-like stance." ],
+    "learn_difficulty": 10,
+    "arm_block": 99,
+    "leg_block": 99,
+    "static_buffs": [
+      {
+        "id": "snake_static",
+        "name": "Snake Sight",
+        "description": "Perception provides a bonus to damage.",
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "damage", "bash", "per", 0.8 ] ]
+      }
+    ],
+    "techniques": [ "tec_snake_rapid", "tec_snake_feint", "tec_snake_break", "tec_snake_precise" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_debug",
+    "name": "Debug Mastery",
+    "description": "A secret martial art used only by developers and cheaters.",
+    "initiate": [ "You get ready pwn some zeds!", "%s prepares to cheat at martial arts!" ],
+    "arm_block": 99,
+    "leg_block": 99,
+    "static_buffs": [
+      {
+        "id": "debug_elem_resist",
+        "name": "Elemental resistance",
+        "description": "+Strength bash armor, +Dexterity acid armor, +Intelligence electricity armor, +Perception fire armor.",
+        "unarmed_allowed": true,
+        "strictly_unarmed": true,
+        "flat_bonuses": [
+          [ "armor", "bash", "str", 1.0 ],
+          [ "armor", "cut", "dex", 1.0 ],
+          [ "armor", "electric", "int", 1.0 ],
+          [ "armor", "heat", "per", 1.0 ]
         ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_karate",
-        "name" : "Karate",
-        "description" : "Karate is a popular martial art, originating from Japan.  It focuses on rapid, precise attacks, blocks, and fluid movement.  A successful hit allows you an extra dodge and two extra blocks on the following round.",
-        "arm_block" : 2,
-        "leg_block" : 99,
-        "onhit_buffs" : [
-            {
-                "id" : "karate_hit_buff",
-                "name" : "Karate Hit",
-                "unarmed_allowed" : true,
-                "min_unarmed" : 0,
-                "buff_duration" : 3,
-                "description" : "+1 Dodges, +2 Blocks",
-                "bonus_dodges" : 1,
-                "bonus_blocks" : 2
-            }
-        ],
-        "techniques" : ["tec_karate_rapid", "tec_karate_precise"]
-    },{
-        "type" : "martial_art",
-        "id" : "style_aikido",
-        "name" : "Aikido",
-        "description" : "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker.  It uses defensive throws and disarms.  Damage done while using this technique is halved, but pain inflicted is doubled.",
-        "arm_block" : 99,
-        "leg_block" : 99,
-        "static_buffs" : [
-            {
-                "id" : "aikido_half_damage",
-                "name" : "Aikido",
-                "unarmed_allowed" : true,
-                "mult_bonuses" : [["damage", "bash", 0.5]],
-                "min_unarmed" : 0,
-                "buff_duration" : 2,
-                "description" : "Half damage to enemies."
-            }
-        ],
-        "techniques" : [
-            "tec_aikido_feint",
-            "tec_aikido_disarm",
-            "tec_aikido_throw",
-            "tec_aikido_dodgethrow"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_boxing",
-        "name" : "Boxing",
-        "description" : "Sport of the true gentleman, modern boxing has evolved from the prizefights of the Victorian era.",
-        "arm_block" : 2,
-        "leg_block" : 99,
-           "static_buffs" : [
-            {
-                "id" : "boxing_static",
-                "name" : "Boxing",
-                "description" : "Per increases unarmed power, Str reduces block damage.",
-                "unarmed_allowed" : true,
-                "min_unarmed" : 0,
-                "max_stacks" : 1,
-                "flat_bonuses" : [
-                    ["damage", "bash", "per", 0.4],
-                    ["block", "str", 0.5]
-                ]
-            }
-        ],
-        "onmove_buffs" : [
-            {
-                "id" : "boxing_move_buff",
-                "name" : "Footwork",
-                "description" : "Gain an extra dodge while moving.",
-                "unarmed_allowed" : true,
-                "min_unarmed" : 4,
-                "buff_duration" : 2,
-                "max_stacks" : 2,
-                "bonus_dodges" : 1
-            }
-        ],
-        "ondodge_buffs" : [
-            {
-                "id" : "boxing_counter",
-                "name" : "Counter Chance",
-                "description" : "They're wide open!",
-                "min_unarmed" : 5,
-                "unarmed_allowed" : true,
-                "max_stacks": 2,
-                "buff_duration" : 3,
-                "mult_bonuses" : [["damage", "bash", 1.25]]
-            }
-        ],
-        "techniques" : [
-            "tec_boxing_rapid",
-            "tec_boxing_cross",
-            "tec_boxing_upper",
-            "tec_boxing_counter"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_judo",
-        "name" : "Judo",
-        "description" : "Judo is a martial art that focuses on grabs and throws, both defensive and offensive.  It also focuses on recovering from throws; while using judo, you will not lose any turns to being thrown or knocked down.",
-        "arm_block" : 99,
-        "leg_block" : 99,
-        "static_buffs" : [
-            {
-                "id" : "judo_recovery",
-                "name" : "Judo",
-                "unarmed_allowed" : true,
-                "min_unarmed" : 0,
-                "buff_duration" : 2,
-                "throw_immune" : true,
-                "description" : "Immune to throws and knockdowns."
-            }
-        ],
-        "techniques" : ["tec_judo_grab", "tec_judo_throw"]
-    },{
-        "type" : "martial_art",
-        "id" : "style_tai_chi",
-        "name" : "Tai Chi",
-        "description" : "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
-        "arm_block" : 1,
-        "leg_block" : 99,
-        "static_buffs" : [
-            {
-                "id" : "tai_chi_block",
-                "name" : "Tai Chi",
-                "unarmed_allowed" : true,
-                "min_unarmed" : 0,
-                "buff_duration" : 2,
-                "flat_bonuses" : [["block", "per", 1.0]],
-                "description" : "+1 Block.  Perception decreases damage when blocking.",
-                "bonus_blocks" : 1
-            }
-        ],
-        "techniques" : ["tec_taichi_disarm", "tec_taichi_precise"]
-    },{
-        "type" : "martial_art",
-        "id" : "style_capoeira",
-        "name" : "Capoeira",
-        "description" : "A dance-like style with its roots in Brazilian slavery, Capoeira is focused on fluid movement and sweeping kicks.  Moving a tile will boost attack and damage and attacking boosts dodge.  These bonuses stack up to three times each.",
-        "arm_block" : 99,
-        "leg_block" : 99,
-        "onhit_buffs" : [
-            {
-                "id" : "capoeira_hit_buff",
-                "name" : "Capoeira Tempo",
-                "description" : "+1 dodge and +1 blocks per stack",
-                "unarmed_allowed" : true,
-                "min_unarmed" : 3,
-                "buff_duration" : 5,
-                "max_stacks" : 3,
-                "bonus_blocks" : 1,
-                "flat_bonuses" : [["dodge", 1.0]]
-            }
-        ],
-        "onmove_buffs" : [
-            {
-                "id" : "capoeira_move_buff",
-                "name" : "Capoeira Momentum",
-                "description" : "+2 bash and +1 acc per stack",
-                "unarmed_allowed" : true,
-                "min_unarmed" : 2,
-                "buff_duration" : 3,
-                "max_stacks" : 3,
-                "flat_bonuses" : [
-                    ["damage", "bash", 2.0],
-                    ["hit", 1.0]
-                ]
-            }
-        ],
-        "techniques" : ["tec_capoeira_feint"]
-    },{
-        "type" : "martial_art",
-        "id" : "style_krav_maga",
-        "name" : "Krav Maga",
-        "description" : "Originating in Israel, Krav Maga is based on taking down an enemy quickly and effectively.  It focuses on applicable attacks rather than showy or complex moves.  Popular among police and armed forces everywhere.",
-        "arm_block" : 2,
-        "leg_block" : 4,
-        "static_buffs" : [
-            {
-                "id" : "krav_maga_static",
-                "name" : "Krav Maga Hand-to-Hand",
-                "unarmed_allowed" : true,
-                "min_unarmed" : 0,
-                "flat_bonuses" : [["damage", "bash", "str", 0.2]],
-                "description" : "Increased unarmed power."
-            },{
-                "id" : "krav_maga_static_edged",
-                "name" : "Krav Maga Edged",
-                "melee_allowed" : true,
-                "min_unarmed" : 0,
-                "mult_bonuses" : [["damage", "stab", 1.2]],
-                "description" : "Increased stabbing damage."
-            }
-        ],
-        "techniques" : [
-            "tec_krav_maga_rapid",
-            "tec_krav_maga_feint",
-            "tec_krav_maga_precise",
-            "tec_krav_maga_disarm",
-            "tec_krav_maga_grab",
-            "tec_krav_maga_break"
-        ],
-        "weapons" : [
-            "tonfa",
-            "tonfa_wood",
-            "shocktonfa_off",
-            "shocktonfa_on"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_muay_thai",
-        "name" : "Muay Thai",
-        "description" : "Also referred to as the \"Art of 8 Limbs,\" Muay Thai is a popular fighting technique from Thailand that uses powerful strikes.  Your strikes are more powerful with high strength and weaker with low strength, and can momentarily disorient enemies.  As this style focuses on using legs and elbow strikes rather than punches, it does not benefit from using any weapons.",
-        "arm_block" : 3,
-        "leg_block" : 4,
-        "force_unarmed" : true,
-        "static_buffs" : [
-            {
-                "id" : "muay_thai_static",
-                "name" : "Muay Thai",
-                "unarmed_allowed" : true,
-                "flat_bonuses" : [
-                    ["damage", "bash", -5.0],
-                    ["damage", "bash", "str", 0.5]
-                ],
-                "description" : "Attacks scale better with strength."
-            }
-        ],
-        "techniques" : [
-            "tec_muay_thai_elbow",
-            "tec_muay_thai_kick",
-            "tec_muay_thai_knee"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_ninjutsu",
-        "name" : "Ninjutsu",
-        "description" : "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan.  It focuses on rapid, precise, silent strikes.  Ninjutsu is almost entirely silent.  It also provides small combat bonuses every time you move.",
-        "arm_block" : 3,
-        "leg_block" : 99,
-        "static_buffs" : [
-            {
-                "id" : "ninjutsu_static",
-                "name" : "Ninjutsu",
-                "unarmed_allowed" : true,
-                "melee_allowed" : true,
-                "quiet" : true,
-                "description" : "Silent melee attacks."
-            }
-        ],
-        "onmove_buffs" : [
-            {
-                "id" : "ninjutsu_momentum",
-                "name" : "Momentum shift",
-                "description" : "Bonus dodges and increased to-hit",
-                "unarmed_allowed" : true,
-                "melee_allowed" : true,
-                "buff_duration" : 2,
-                "max_stacks" : 1,
-                "bonus_dodges" : 1,
-                "flat_bonuses" : [["hit", "dex", 0.17]]
-            }
-        ],
-        "techniques" : ["tec_ninjutsu_precise"]
-    },{
-        "type" : "martial_art",
-        "id" : "style_taekwondo",
-        "name" : "Taekwondo",
-        "description" : "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century.  Focused on kicks and so it does not benefit from wielded weapons.  It also includes strength training; your blocks absorb extra damage the stronger you are.",
-        "arm_block" : 2,
-        "leg_block" : 3,
-        "force_unarmed" : true,
-        "static_buffs" : [
-            {
-                "id" : "taekwondo_static",
-                "name" : "Taekwondo",
-                "unarmed_allowed" : true,
-                "flat_bonuses" : [["block", "str", 0.5]],
-                "description" : "Strength decreases damage when blocking."
-            }
-        ],
-        "techniques" : [
-            "tec_taekwondo_precise",
-            "tec_taekwondo_push",
-            "tec_taekwondo_sweep"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_biojutsu",
-        "name" : "Bionic Combatives",
-        "description": "A modern combat style for the post-modern human.  Bionic Combatives combines integrated weaponry, armor and augments into an consolidated fighting discipline.",
-        "arm_block" : 99,
-        "leg_block" : 99,
-        "arm_block_with_bio_armor_arms" : true,
-        "leg_block_with_bio_armor_legs" : true,
-        "static_buffs" : [
-            {
-                "id" : "biojutsu_static",
-                "name" : "Biojutsu",
-                "unarmed_allowed" : true,
-                "melee_allowed" : true,
-                "min_unarmed" : 2,
-                "description" : "+1 Blocks",
-                "bonus_blocks" : 1
-            }
-        ],
-        "techniques" : [
-            "tec_biojutsu_counter",
-            "tec_biojutsu_rapid_unarmed",
-            "tec_biojutsu_rapid_armed",
-            "tec_biojutsu_impale",
-            "tec_biojutsu_sweep",
-            "tec_biojutsu_wide"
-        ],
-        "weapons" : [
-            "bio_claws_weapon",
-            "bio_blade_weapon"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_zui_quan",
-        "name" : "Zui Quan",
-        "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy, giving you a passive dodge bonus based on your intelligence.  The turn after you attack, you may dodge any number of attacks with no penalty, and successfully dodging an attack gives you bonus damage and to-hit based on your intelligence.",
-        "arm_block" : 99,
-        "leg_block" : 99,
-        "static_buffs" : [
-            {
-                "id" : "zuiquan_static",
-                "name" : "Zui Quan",
-                "description" : "Intelligence increases dodging ability",
-                "unarmed_allowed" : true,
-                "flat_bonuses" : [["dodge", "int", 0.12]]
-            }
-        ],
-        "onattack_buffs" : [
-            {
-                "id" : "zuiquan_attack_buff",
-                "name" : "Drunken Dodging",
-                "description" : "Unlimited dodges after attacking",
-                "buff_duration" : 4,
-                "unarmed_allowed" : true,
-                "bonus_dodges" : 100
-            }
-        ],
-        "ondodge_buffs" : [
-            {
-                "id" : "zuiquan_dodge_buff",
-                "name" : "Counter Strike",
-                "description" : "Extra damage and to-hit after successful dodge",
-                "unarmed_allowed" : true,
-                "max_stacks": 2,
-                "flat_bonuses" : [
-                    ["damage", "bash", "int", 0.5],
-                    ["hit", "int", 0.2]
-                ]
-            }
-        ],
-        "techniques" : [
-            "tec_zuiquan_feint",
-            "tec_zuiquan_counter"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_silat",
-        "name" : "Silat",
-        "description": "Pentjak Silat, of Indonesian origin, is a fighting style that covers the use of short blades and bludgeons.  Fighters stay low and mobile to avoid attacks, then unleash deadly critical hits.",
-        "arm_block" : 99,
-        "leg_block" : 99,
-        "static_buffs" : [
-            {
-                "id" : "silat_buff",
-                "name" : "Silat Stance",
-                "description" : "+1 dodge",
-                "unarmed_allowed" : true,
-                "melee_allowed" : true,
-                "bonus_dodges" : 1
-            }
-        ],
-        "ondodge_buffs" : [
-            {
-                "id" : "silat_dodge_buff",
-                "name" : "Silat Counter",
-                "description" : "Extra to-hit after successful dodge",
-                "unarmed_allowed" : true,
-                "melee_allowed" : true,
-                "buff_duration" : 3,
-                "max_stacks": 4,
-                "flat_bonuses" : [["hit", "dex", 0.4]]
-            }
-        ],
-        "techniques" : [
-            "tec_silat_hamstring",
-            "tec_silat_precise",
-            "tec_silat_brutal",
-            "tec_silat_dirty"
-        ],
-        "weapons" : [
-            "baton-extended",
-            "bio_blade_weapon",
-            "bowling_pin",
-            "cudgel",
-            "diveknife",
-            "firemachete_off",
-            "firemachete_on",
-            "golf_club",
-            "hockey_stick",
-            "i_staff",
-            "javelin",
-            "javelin_iron",
-            "knife_combat",
-            "knife_hunting",
-            "knife_trench",
-            "kris",
-            "machete",
-            "makeshift_halberd",
-            "makeshift_knife",
-            "makeshift_machete",
-            "pipe",
-            "pointy_stick",
-            "pool_cue",
-            "PR24-extended",
-            "primitive_knife",
-            "q_staff",
-            "rebar",
-            "scimitar",
-            "scythe",
-            "scythe_war",
-            "shock_staff",
-            "shocktonfa_off",
-            "shocktonfa_on",
-            "sickle",
-            "shishkebab_off",
-            "shishkebab_on",
-            "spear_knife",
-            "spear_rebar",
-            "spear_pipe",
-            "spear_steel",
-            "spear_survivor",
-            "spear_wood",
-            "spear_homemade_halfpike",
-            "stick",
-            "survivor_machete",
-            "tanto",
-            "tonfa",
-            "tonfa_wood",
-            "kukri",
-            "knife_rambo",
-            "knife_rm42",
-            "switchblade",
-            "l-stick",
-            "l-stick_on"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_fencing",
-        "name" : "Fencing",
-        "description": "The noble art of fencing is taught with flexible competition blades, but the techniques are derived from (and applicable to) more functional examples.  Skilled fencers can take advantage of advances and retreats to deliver accurate strikes.",
-        "arm_block" : 99,
-        "leg_block" : 99,
-        "onmove_buffs" : [
-            {
-                "id" : "fencing_move_buff",
-                "name" : "Fencing Footwork",
-                "description" : "+2 stab and +1 acc per stack",
-                "min_melee" : 2,
-                "buff_duration" : 2,
-                "max_stacks" : 2,
-                "flat_bonuses" : [
-                    ["damage", "stab", 2.0],
-                    ["hit", 1.0]
-                ]
-            }
-        ],
-        "techniques" : [
-            "tec_feint",
-            "tec_fencing_lunge",
-            "tec_fencing_stop_thrust",
-            "tec_fencing_thrust"
-        ],
-        "weapons" : [
-            "broadsword",
-            "broadfire_off",
-            "broadfire_on",
-            "rapier",
-            "cavalry_sabre",
-            "fencing_foil",
-            "fencing_sabre",
-            "fencing_epee",
-            "umbrella",
-            "cane",
-            "cudgel"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_niten",
-        "name" : "Niten Ichi-Ryu",
-        "description" : "Niten Ichi-Ryu is an ancient school of combat, transmitting a style of classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi.",
-        "arm_block" : 99,
-        "leg_block" : 99,
-            "static_buffs" : [
-            {
-                "id": "niten_stationary_buff",
-                "name" : "Niten Ichi-Ryu",
-                "description" : "Perception increases dodging and damage.",
-                "min_melee" : 2,
-                "flat_bonuses" : [
-                    ["damage", "cut", "per", 0.5],
-                    ["damage", "bash", "per", 0.5],
-                    ["dodge", "per", 0.5]
-                ]
-            }
-        ],
-        "onmove_buffs" : [
-            {
-                "id" : "niten_move_buff",
-                "name" : "Blocking",
-                "description" : "You forgo dodging on the move, but gain more blocks.",
-                "min_melee" : 2,
-                "max_stacks" : 1,
-                "buff_duration" : 2,
-                "flat_bonuses" : [["dodge", -10.0]],
-                "bonus_dodges" : -1,
-                "bonus_blocks" : 2
-            }
-        ],
-        "onhit_buffs" : [
-            {
-                "id" : "niten_hit_buff",
-                "name" : "Blocking",
-                "description" : "You forgo dodging on the offensive, but gain more blocks.",
-                "min_melee" : 2,
-                "max_stacks" : 1,
-                "buff_duration" : 2,
-                "flat_bonuses" : [["dodge", -10.0]],
-                "bonus_dodges" : -1,
-                "bonus_blocks" : 2
-            }
-        ],
-        "ondodge_buffs" : [
-            {
-                "id" : "niten_set-up",
-                "name" : "In-One Timing Set-Up",
-                "description" : "You found a gap in the enemy's defense!",
-                "min_melee" : 4,
-                "buff_duration" : 2,
-                "max_stacks" : 1
-            }
-        ],
-        "techniques" : [
-            "niten_water_cut",
-            "niten_red_leaf",
-            "niten_stone_cut",
-            "niten_timing_attack",
-            "niten_feint"
-        ],
-        "weapons" : [
-            "katana",
-            "firekatana_off",
-            "firekatana_on",
-            "bokken",
-            "wakizashi",
-            "nodachi"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_eskrima",
-        "name" : "Eskrima",
-        "description": "Eskrima, also known as Kali, is a Filipino martial art.  It emphasizes rapid strikes with knife and baton weapons, along with a variety of improvised substitutes.",
-        "arm_block" : 99,
-        "leg_block" : 99,
-        "static_buffs" : [
-            {
-                "id" : "eskrima_bash",
-                "name" : "Eskrima Bashing",
-                "melee_allowed" : true,
-                "min_melee" : 1,
-                "mult_bonuses" : [["damage", "bash", 1.2]],
-                "description" : "Increased bashing damage."
-            }
-        ],
-        "onhit_buffs" : [
-            {
-                "id" : "eskrima_hit_buff",
-                "name" : "Eskrima Combination",
-                "description" : "Combination",
-                "melee_allowed" : true,
-                "min_melee" : 2,
-                "buff_duration" : 3,
-                "max_stacks" : 1,
-                "mult_bonuses" : [
-                    ["damage", "bash", 1.1],
-                    ["damage", "cut", 1.1],
-                    ["damage", "stab", 1.1]
-                ]
-            }
-        ],
-        "techniques" : [
-            "tec_eskrima_round",
-            "tec_eskrima_fan",
-            "tec_eskrima_snap",
-            "tec_eskrima_puno",
-            "tec_eskrima_kick",
-            "tec_eskrima_combination"
-        ],
-        "weapons" : [
-            "2x4",
-            "baton-extended",
-            "bee_sting",
-            "bio_blade_weapon",
-            "bowling_pin",
-            "cane",
-            "cudgel",
-            "cu_pipe",
-            "diveknife",
-            "fighter_sting",
-            "firemachete_off",
-            "firemachete_on",
-            "glass_shiv",
-            "hammer",
-            "knife_combat",
-            "knife_hunting",
-            "knife_trench",
-            "machete",
-            "survivor_machete",
-            "makeshift_knife",
-            "makeshift_machete",
-            "pipe",
-            "pockknife",
-            "pool_cue",
-            "PR24-extended",
-            "primitive_knife",
-            "primitive_hammer",
-            "punch_dagger",
-            "scissors",
-            "screwdriver",
-            "sharp_toothbrush",
-            "shishkebab_off",
-            "shishkebab_on",
-            "stick",
-            "switchblade",
-            "tanto",
-            "umbrella",
-            "wasp_sting",
-            "wrench",
-            "kukri",
-            "knife_rambo",
-            "knife_rm42",
-            "l-stick",
-            "l-stick_on"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_crane",
-        "name" : "Crane Kung Fu",
-        "description": "One of the five Shaolin animal styles.  The Crane uses intricate hand techniques and jumping dodges.  Dexterity determines the majority of your damage, rather than Strength; you also receive a dodge bonus the turn after moving a tile.",
-        "arm_block" : 3,
-        "leg_block" : 99,
-        "static_buffs" : [
-            {
-                "id" : "crane_static",
-                "name" : "Crane's Precision",
-                "description" : "Damage bonus from dexterity at the cost of damage from strength.",
-                "unarmed_allowed" : true,
-                "flat_bonuses" : [
-                    ["damage", "bash", "dex", 0.8],
-                    ["damage", "bash", "str", -0.2]
-                ]
-            }
-        ],
-        "onmove_buffs" : [
-            {
-                "id" : "crane_move_buff",
-                "name" : "Crane's Flight",
-                "description" : "+2 Dodge",
-                "unarmed_allowed" : true,
-                "min_unarmed" : 2,
-                "buff_duration" : 2,
-                "flat_bonuses" : [["dodge", 2.0]]
-            }
-        ],
-        "techniques" : [
-            "tec_crane_feint",
-            "tec_crane_break",
-            "tec_crane_precise"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_dragon",
-        "name" : "Dragon Kung Fu",
-        "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes.  Intelligence improves your accuracy and damage dealt, as does moving.",
-        "arm_block" : 2,
-        "leg_block" : 99,
-        "static_buffs" : [
-            {
-                "id" : "dragon_static",
-                "name" : "Dragon Style",
-                "description" : "Bonus damage from intelligence.",
-                "unarmed_allowed" : true,
-                "flat_bonuses" : [["damage", "bash", "int", 0.8]]
-            }
-        ],
-        "onmove_buffs" : [
-            {
-                "id" : "dragon_move_buff",
-                "name" : "Dragon's Flight",
-                "description" : "+2 Accuracy & Damage",
-                "unarmed_allowed" : true,
-                "min_unarmed" : 2,
-                "buff_duration" : 2,
-                "flat_bonuses" : [
-                    ["hit", 2.0],
-                    ["damage", "bash", 2]
-                ]
-            }
-        ],
-        "techniques" : [
-            "tec_dragon_grab",
-            "tec_dragon_counter",
-            "tec_dragon_sweep",
-            "tec_dragon_brutal"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_leopard",
-        "name" : "Leopard Kung Fu",
-        "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Perception and Intelligence both boost dodging, and moving boosts your accuracy.",
-        "arm_block" : 99,
-        "leg_block" : 99,
-        "static_buffs" : [
-            {
-                "id" : "leopard_static",
-                "name" : "Leopard Strategy",
-                "description" : "Perception and intelligence provide a bonus to dodge.",
-                "unarmed_allowed" : true,
-                "flat_bonuses" : [
-                    ["dodge", "per", 0.15],
-                    ["dodge", "int", 0.15]
-                ]
-            }
-        ],
-        "onmove_buffs" : [
-            {
-                "id" : "leopard_move_buff",
-                "name" : "Leopard's Stalk",
-                "description" : "+2 Accuracy",
-                "unarmed_allowed" : true,
-                "min_unarmed" : 2,
-                "buff_duration" : 2,
-                "flat_bonuses" : [["hit", 2.0]]
-            }
-        ],
-        "techniques" : [
-            "tec_leopard_rapid",
-            "tec_leopard_counter",
-            "tec_leopard_precise"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_tiger",
-        "name" : "Tiger Kung Fu",
-        "description": "One of the five Shaolin animal styles.  The Tiger focuses on relentless attacks above all else.  Your Strength determines your accuracy, and your attacks do increasing damage as you continue attacking.",
-        "arm_block" : 99,
-        "leg_block" : 99,
-        "static_buffs" : [
-            {
-                "id" : "tiger_static",
-                "name" : "Tiger Strength",
-                "description" : "Strength provides additional damage bonus.",
-                "unarmed_allowed" : true,
-                "flat_bonuses" : [["damage", "bash", "str", 0.8]]
-            }
-        ],
-        "onhit_buffs" : [
-            {
-                "id" : "tiger_hit_buff",
-                "name" : "Tiger Fury",
-                "description" : "+3 Bash/atk",
-                "unarmed_allowed" : true,
-                "min_unarmed" : 2,
-                "buff_duration" : 3,
-                "max_stacks" : 8,
-                "flat_bonuses" : [["damage", "bash", 3.0]]
-            }
-        ],
-        "techniques" : [
-            "tec_tiger_grab"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_snake",
-        "name" : "Snake Kung Fu",
-        "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Your Perception improves your damage.",
-        "arm_block" : 99,
-        "leg_block" : 99,
-        "static_buffs" : [
-            {
-                "id" : "snake_static",
-                "name" : "Snake Sight",
-                "description" : "Perception provides a bonus to damage.",
-                "unarmed_allowed" : true,
-                "flat_bonuses" : [["damage", "bash", "per", 0.8]]
-            }
-        ],
-        "techniques" : [
-            "tec_snake_rapid",
-            "tec_snake_feint",
-            "tec_snake_break",
-            "tec_snake_precise"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_centipede",
-        "name" : "Centipede Kung Fu",
-        "description": "One of the Five Deadly Venoms.  Centipede Style uses an onslaught of rapid strikes.  Each attack you land increases your speed by 4.",
-        "arm_block" : 3,
-        "leg_block" : 99,
-        "onhit_buffs" : [
-            {
-                "id" : "centipede_hit_buff",
-                "name" : "Hundred-Hitter",
-                "description" : "+4 Atk Speed",
-                "unarmed_allowed" : true,
-                "min_unarmed" : 1,
-                "buff_duration" : 3,
-                "max_stacks" : 8,
-                "flat_bonuses" : [["movecost", -4.0]]
-            }
-        ],
-        "techniques" : [
-            "tec_centipede_rapid"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_scorpion",
-        "name" : "Scorpion Kung Fu",
-        "description": "One of the Five Deadly Venoms.  Scorpion Style is a mysterious art which uses pincer-like hands and a stinger kick.  Critical hits do massive damage and knock your target back.",
-        "arm_block" : 3,
-        "leg_block" : 99,
-        "static_buffs" : [
-            {
-                "id" : "scorpion_static",
-                "name" : "Scorpion Venom",
-                "description" : "+2 bashing damage.",
-                "unarmed_allowed" : true,
-                "flat_bonuses" : [["damage", "bash", 2.0]]
-            }
-        ],
-        "techniques" : [
-            "tec_scorpion_precise",
-            "tec_scorpion_brutal"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_toad",
-        "name" : "Toad Kung Fu",
-        "description": "One of the Five Deadly Venoms.  Masters of Toad Style can focus themselves against all attacks.  You can meditate by pausing, giving you armor, though you will lose focus when you move.",
-        "arm_block" : 3,
-        "leg_block" : 99,
-        "static_buffs" : [
-            {
-                "id" : "toad_static",
-                "name" : "Toad's Iron Skin",
-                "description" : "Gain up to +6 armor while standing still",
-                "//" : "FWIW, this is twice the amount of armor provided by bionic plating.",
-                "unarmed_allowed" : true,
-                "flat_bonuses" : [
-                    ["armor", "bash", 6.0],
-                    ["armor", "cut", 6.0],
-                    ["armor", "stab", 6.0]
-                ]
-            }
-        ],
-        "onmove_buffs": [
-            {
-                "id" : "toad_armor_dissipate",
-                "name" : "Iron Skin Dissipation",
-                "description" : "Iron Skin softens when you move!",
-                "unarmed_allowed" : true,
-                "min_unarmed" : 0,
-                "buff_duration" : 6,
-                "max_stacks" : 6,
-                "flat_bonuses" : [
-                    ["armor", "bash", -1.0],
-                    ["armor", "cut", -1.0],
-                    ["armor", "stab", -1.0]
-                ]
-            }
-        ],
-        "techniques" : [
-            "tec_toad_grab"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_lizard",
-        "name" : "Lizard Kung Fu",
-        "description": "One of the Five Deadly Venoms.  Lizard Style focuses on using walls to your advantage.",
-        "arm_block" : 2,
-        "leg_block" : 99,
-        "techniques" : [
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_venom_snake",
-        "name" : "Viper Kung Fu",
-        "description": "A legacy of the Five Deadly Venoms.  Viper Style has a unique three-part combo, which initiates on a dodge, then counters with a stunning chop and the legendary Viper Strike.",
-        "arm_block" : 99,
-        "leg_block" : 99,
-        "static_buffs" : [
-            {
-                "id" : "venom_snake_static",
-                "name" : "Viper Patience",
-                "description" : "+2 Dodge.  Dodging an attack initiates a combo.",
-                "unarmed_allowed" : true,
-                "flat_bonuses" : [["dodge", 2.0]]
-            }
-        ],
-        "ondodge_buffs": [
-            {
-                "id" : "venom_snake_combo_initiate",
-                "name" : "Viper Ambush",
-                "description" : "You've lured 'em in!  Your next attack will be a Viper Bite.",
-                "unarmed_allowed" : true,
-                "min_unarmed" : 0,
-                "buff_duration" : 2,
-                "max_stacks" : 1,
-                "mult_bonuses" : [["damage", "bash", 1.5]],
-                "stun_dur" : 2
-            }
-        ],
-        "onhit_buffs": [
-            {
-                "id" : "venom_snake_combo_continue",
-                "name" : "Viper Lock",
-                "description" : "You bit true!  Your next attack will be the Viper Strike!",
-                "unarmed_allowed" : true,
-                "min_unarmed" : 0,
-                "req_buffs" : [
-                    "venom_snake_combo_initiate"
-                ],
-                "buff_duration" : 2,
-                "max_stacks" : 1,
-                "mult_bonuses" : [["damage", "bash", 3]]
-            }
-        ],
-        "techniques" : [
-            "tec_venom_snake_rapid",
-            "tec_venom_snake_feint",
-            "tec_venom_snake_break",
-            "tec_venom_snake_bite",
-            "tec_venom_snake_strike"
-        ]
-    },{
-        "type" : "martial_art",
-        "id" : "style_debug",
-        "name" : "Debug Mastery",
-        "description": "A secret martial art used only by developers and cheaters.",
-        "arm_block" : 99,
-        "leg_block" : 99,
-        "static_buffs" : [
-            {
-                "id" : "debug_elem_resist",
-                "name" : "Elemental resistance",
-                "description" : "+Strength bash armor, +Dexterity acid armor, +Intelligence electricity armor, +Perception fire armor.",
-                "unarmed_allowed" : true,
-                "strictly_unarmed" : true,
-                "flat_bonuses" : [
-                    ["armor", "bash", "str", 1.0],
-                    ["armor", "cut", "dex", 1.0],
-                    ["armor", "electric", "int", 1.0],
-                    ["armor", "heat", "per", 1.0]
-                ]
-            }
-        ],
-        "techniques" : [
-            "tec_debug_slow",
-            "tec_debug_arpen"
-        ]
-    }
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "debug_crit_buff",
+        "name": "Lightning Strike",
+        "description": "Lightning strikes twice.  +Perception electric damage for 3 turns.  Stacks 2 times.",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "buff_duration": 3,
+        "max_stacks": 2,
+        "flat_bonuses": [ [ "damage", "electric", "per", 1.0 ] ]
+      }
+    ],
+    "onmiss_buffs": [
+      {
+        "id": "debug_miss_buff",
+        "name": "Getting Angry",
+        "description": "When I get my hands on you...  +2 bash damage for 2 turns.  Stacks 5 times.",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "buff_duration": 2,
+        "max_stacks": 5,
+        "flat_bonuses": [ [ "damage", "bash", 2.0 ] ]
+      }
+    ],
+    "onkill_buffs": [
+      {
+        "id": "debug_kill_buff",
+        "name": "On Fire",
+        "description": "YOU ARE ON FIRE!  +5 fire damage for 5 turns.",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "buff_duration": 5,
+        "flat_bonuses": [ [ "damage", "heat", 5.0 ] ]
+      }
+    ],
+    "techniques": [ "tec_debug_slow", "tec_debug_arpen" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_sojutsu",
+    "name": "Sōjutsu",
+    "description": "Sōjutsu, \"The Way of the Spear\", is the Japanese martial art of fighting with a spear.  Sōjutsu focuses on keeping opponents at a distance in order to maintain advantage in combat.",
+    "initiate": [ "You prepare to defend against all that approach you.", "%s assumes a wide, defensive stance." ],
+    "learn_difficulty": 7,
+    "primary_skill": "stabbing",
+    "arm_block": 99,
+    "leg_block": 99,
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "sojutsu_static",
+        "name": "Sōjutsu Stance",
+        "description": "Bonus block with reach weapons while standing still",
+        "unarmed_allowed": false,
+        "bonus_blocks": 1
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "sojutsu_damage_buff",
+        "name": "Sōjutsu Rush",
+        "description": "Increased damage when moving but no bonus block",
+        "unarmed_allowed": false,
+        "min_melee": 0,
+        "buff_duration": 2,
+        "max_stacks": 1,
+        "bonus_blocks": -1,
+        "mult_bonuses": [ [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.1 ] ]
+      }
+    ],
+    "techniques": [ "tec_sojutsu_push", "tec_sojutsu_trip", "tec_sojutsu_skewer" ],
+    "weapons": [
+      "glaive",
+      "halberd",
+      "halberd_fake",
+      "naginata",
+      "naginata_inferior",
+      "naginata_fake",
+      "makeshift_halberd",
+      "pike",
+      "pike_inferior",
+      "pike_fake",
+      "pitchfork",
+      "qiang",
+      "spear_copper",
+      "spear_forked",
+      "spear_homemade_halfpike",
+      "spear_pipe",
+      "spear_knife",
+      "spear_knife_superior",
+      "spear_spike",
+      "spear_rebar",
+      "spear_steel",
+      "spear_survivor",
+      "spear_wood"
+    ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_wingchun",
+    "name": "Wing Chun",
+    "description": "Wing Chun is a Chinese martial art that began by selecting the easiest-to-learn effective techniques from the various Shaolin animal forms.  It has a high stance, with weight entirely on the rear leg.  Wing Chun focuses on sensitivity to the opponent's direction of force, and flowing around it to get back to hitting.",
+    "initiate": [
+      "You take your stance and prepare to receive the gift of violence.",
+      "%s patiently assumes a curiously pigeon-toed stance."
+    ],
+    "learn_difficulty": 8,
+    "arm_block": 99,
+    "leg_block": 99,
+    "static_buffs": [
+      {
+        "id": "wingchun_static",
+        "name": "Chi-Sao Sensitivity",
+        "description": "Perception increases dodging ability, +1 dodges per turn",
+        "unarmed_allowed": true,
+        "strictly_unarmed": true,
+        "flat_bonuses": [ [ "dodge", "per", 0.12 ] ],
+        "bonus_dodges": 1
+      }
+    ],
+    "techniques": [
+      "tec_wingchun_chainpunch",
+      "tec_wingchun_break",
+      "tec_wingchun_feint",
+      "tec_wingchun_stumble",
+      "tec_wingchun_counter",
+      "tec_wingchun_disarm"
+    ],
+    "weapons": [ "butterfly_swords", "long_pole" ]
+  }
 ]

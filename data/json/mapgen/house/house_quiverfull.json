@@ -124,6 +124,10 @@
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 },
         { "monster": "GROUP_QUIVERFULL", "x": [ 2, 14 ], "y": [ 15, 21 ], "chance": 1 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "tricycle", "x": 10, "y": 8, "chance": 1, "status": 0 },
+        { "vehicle": "tricycle", "x": 4, "y": 21, "chance": 5, "status": 0 }
       ]
     }
   }

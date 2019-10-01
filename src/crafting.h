@@ -5,8 +5,6 @@
 #include <list>
 
 class item;
-class inventory;
-class npc;
 class player;
 class recipe;
 

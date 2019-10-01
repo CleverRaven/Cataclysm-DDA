@@ -2,19 +2,17 @@
 #ifndef DAMAGE_H
 #define DAMAGE_H
 
-#include "enums.h"
-#include "string_id.h"
-
 #include <array>
 #include <vector>
+#include <string>
+
+#include "type_id.h"
 
 class item;
 class monster;
 class JsonObject;
 class JsonArray;
-
-class Skill;
-using skill_id = string_id<Skill>;
+class JsonIn;
 
 enum body_part : int;
 
@@ -72,8 +70,8 @@ struct damage_instance {
      */
     /*@{*/
     void add_damage( damage_type dt, float a, float rp = 0.0f, float rm = 1.0f, float mul = 1.0f );
-    void add( const damage_instance &b );
-    void add( const damage_unit &b );
+    void add( const damage_instance &added_di );
+    void add( const damage_unit &added_du );
     /*@}*/
 
     void deserialize( JsonIn & );
@@ -106,7 +104,7 @@ struct resistances {
 };
 
 damage_type dt_by_name( const std::string &name );
-const std::string name_by_dt( const damage_type &dt );
+std::string name_by_dt( const damage_type &dt );
 
 const skill_id &skill_by_dt( damage_type dt );
 

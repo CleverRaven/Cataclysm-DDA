@@ -1,247 +1,205 @@
 [
-    {
-        "type" : "vehicle_placement",
-        "id" : "road_straight_wrecks",
-        "locations" : [
-            { "x": [0,19], "y": [0,19], "facing" : [90,270] }
-        ]
-    },{
-        "type" : "vehicle_placement",
-        "id" : "road_end_wrecks",
-        "locations" : [
-            { "x": [0,19], "y": [0,19], "facing" : [0,90,180,270] }
-        ]
-    },{
-        "type" : "vehicle_placement",
-        "id" : "road_curved_wrecks",
-        "locations" : [
-            { "x": [0,19], "y": [0,19], "facing" : [90,180] }
-        ]
-    },{
-        "type" : "vehicle_placement",
-        "id" : "road_tee_wrecks",
-        "locations" : [
-            { "x": [0,19], "y": [0,19], "facing" : [90,180] }
-        ]
-    },{
-        "type" : "vehicle_placement",
-        "id" : "road_four_way_wrecks",
-        "locations" : [
-            { "x": [0,19], "y": [0,19], "facing" : [90,180] }
-        ]
-    },{
-        "type" : "vehicle_placement",
-        "id" : "road_straight_parked",
-        "locations" : [
-            { "x": 6, "y": [4,16], "facing" : 90 },
-            { "x": 17, "y": [4,16], "facing" : 270 }
-        ]
-    },{
-        "type" : "vehicle_placement",
-        "id" : "road_end_parked",
-        "locations" : [
-            { "x": [4,16], "y": 17, "facing" : 0 },
-            { "x": 6, "y": [4,16], "facing" : 90 },
-            { "x": [4,16], "y": 6, "facing" : 180 },
-            { "x": 17, "y": [4,16], "facing" : 270 }
-        ]
-    },{
-        "type" : "vehicle_placement",
-        "id" : "road_curved_parked",
-        "locations" : [
-            { "x": 6, "y": [4,16], "facing" : 90 },
-            { "x": [4,16], "y": 6, "facing" : 180 }
-        ]
-    },{
-        "type" : "vehicle_placement",
-        "id" : "road_tee_parked",
-        "locations" : [
-            { "x": 6, "y": [4,16], "facing" : 90 },
-            { "x": [4,16], "y": 6, "facing" : 180 }
-        ]
-    },{
-        "type" : "vehicle_placement",
-        "id" : "road_four_way_parked",
-        "locations" : [
-            { "x": 6, "y": [4,16], "facing" : 90 },
-            { "x": [4,16], "y": 6, "facing" : 180 }
-        ]
-    },{
-        "type" : "vehicle_placement",
-        "id" : "road_straight_semi",
-        "locations" : [
-            { "x": [0,8], "y": [4,15], "facing" : 90 },
-            { "x": [12,20], "y": [5,16], "facing" : 270 }
-        ]
-    },{
-        "type" : "vehicle_placement",
-        "id" : "road_end_semi",
-        "locations" : [
-            { "x": [0,16], "y": [14,16], "facing" : 0 },
-            { "x": [0,8], "y": [4,15], "facing" : 90 },
-            { "x": [4,16], "y": [4,6], "facing" : 180 },
-            { "x": [12,20], "y": [5,16], "facing" : 270 }
-        ]
-    },{
-        "type" : "vehicle_placement",
-        "id" : "road_curved_semi",
-        "locations" : [
-            { "x": [0,8], "y": [4,15], "facing" : 90 },
-            { "x": [4,16], "y": [4,6], "facing" : 180 }
-        ]
-    },{
-        "type" : "vehicle_placement",
-        "id" : "road_tee_semi",
-        "locations" : [
-            { "x": [0,8], "y": [4,15], "facing" : 90 },
-            { "x": [4,16], "y": [4,6], "facing" : 180 }
-        ]
-    },{
-        "type" : "vehicle_placement",
-        "id" : "road_four_way_semi",
-        "locations" : [
-            { "x": [0,8], "y": [4,15], "facing" : 90 },
-            { "x": [4,16], "y": [4,6], "facing" : 180 }
-        ]
-    },{
-        "type" : "vehicle_placement",
-        "id" : "road_straight_highway",
-        "locations" : [
-            { "x": [8,16], "y": [8,16], "facing" : [90,270] }
-        ]
-    },{
-        "type" : "vehicle_placement",
-        "id" : "road_end_highway",
-        "locations" : [
-            { "x": [8,16], "y": [8,16], "facing" : [0,90,180,270] }
-        ]
-    },{
-        "type" : "vehicle_placement",
-        "id" : "road_curved_highway",
-        "locations" : [
-            { "x": [8,16], "y": [8,16], "facing" : [90,180] }
-        ]
-    },{
-        "type" : "vehicle_placement",
-        "id" : "road_tee_highway",
-        "locations" : [
-            { "x": [8,16], "y": [8,16], "facing" : [90,180] }
-        ]
-    },{
-        "type" : "vehicle_placement",
-        "id" : "road_four_way_highway",
-        "locations" : [
-            { "x": [8,16], "y": [8,16], "facing" : [90,180] }
-        ]
-    },{
-        "type" : "vehicle_placement",
-        "id" : "pileup",
-        "locations" : [
-            { "x": [4,16], "y": [4,16], "facing" : [0,90,180,270] }
-        ]
-    },{
-        "type" : "vehicle_placement",
-        "id" : "highway",
-        "locations" : [
-            { "x": [10,12], "y": [10,12], "facing" : [90,270] }
-        ]
-    },{
-        "type" : "vehicle_spawn",
-        "id" : "default_city",
-        "spawn_types" : [
-            {
-                "description" : "Clear section of road",
-                "weight" : 33,
-                "vehicle_function" : "no_vehicles"
-            },{
-                "description" : "Randomly-distributed wrecks",
-                "weight" : 33,
-                "vehicle_json" : {
-                    "vehicle": "city_vehicles", "placement" : "%t_wrecks", "number": [1,3], "fuel" : -1, "status" : 1
-                }
-            },{
-                "description" : "Parked vehicles",
-                "weight" : 33,
-                "vehicle_json" : {
-                    "vehicle": "city_vehicles", "placement" : "%t_parked", "number": 1, "fuel" : -1, "status" : 1
-                }
-            },{
-                "description" : "Jack-knifed semi",
-                "weight" : 0.75,
-                "vehicle_function" : "jack-knifed_semi"
-            },{
-                "description" : "Random car pileup",
-                "weight" : 0.20,
-                "vehicle_function" : "vehicle_pileup"
-            },{
-                "description" : "Police car pileup",
-                "weight" : 0.05,
-                "vehicle_function" : "policecar_pileup"
-            }
-        ]
-    },{
-        "type" : "vehicle_spawn",
-        "id" : "default_country",
-        "spawn_types" : [
-            {
-                "description" : "Clear section of road",
-                "weight" : 97.5,
-                "vehicle_function" : "no_vehicles"
-            },{
-                "description" : "Out of fuel vehicle",
-                "weight" : 2.5,
-                "vehicle_json" : {
-                    "vehicle": "highway", "placement" : "%t_highway", "number": 1, "fuel" : -1, "status" : 1
-                }
-            }
-        ]
-    },{
-        "type" : "vehicle_spawn",
-        "id" : "default_bridge",
-        "spawn_types" : [
-            {
-                "description" : "Clear section of bridge",
-                "weight" : 50,
-                "vehicle_function" : "no_vehicles"
-            },{
-                "description" : "Unfueled Vehicle on the bridge",
-                "weight" : 30,
-                "vehicle_json" : {
-                    "vehicle": "highway", "placement" : "highway", "number": 1, "fuel" : 0, "status" : -1
-                }
-            },{
-                "description" : "Vehicle on the bridge",
-                "weight" : 20,
-                "vehicle_json" : {
-                    "vehicle": "highway", "placement" : "highway", "number": 1, "fuel" : -1, "status" : -1
-                }
-            }
-        ]
-    },{
-        "type" : "vehicle_spawn",
-        "id" : "default_highway",
-        "spawn_types" : [
-            {
-                "description" : "Clear section of highway",
-                "weight" : 50,
-                "vehicle_function" : "no_vehicles"
-            },{
-                "description" : "Vehicle on the highway",
-                "weight" : 50,
-                "vehicle_json" : {
-                    "vehicle": "highway", "placement" : "highway", "number": 1, "fuel" : 0, "status" : -1
-                }
-            }
-        ]
-    },{
-        "type" : "vehicle_spawn",
-        "id" : "default_parkinglot",
-        "spawn_types" : [
-            {
-                "description" : "Parking lot with vehicles",
-                "weight" : 100,
-                "vehicle_function" : "parkinglot"
-            }
-        ]
-    }
+  {
+    "type": "vehicle_placement",
+    "id": "road_straight_wrecks",
+    "locations": [ { "x": [ 0, 19 ], "y": [ 0, 19 ], "facing": [ 90, 270 ] } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_end_wrecks",
+    "locations": [ { "x": [ 0, 19 ], "y": [ 0, 19 ], "facing": [ 0, 90, 180, 270 ] } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_curved_wrecks",
+    "locations": [ { "x": [ 0, 19 ], "y": [ 0, 19 ], "facing": [ 90, 180 ] } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_tee_wrecks",
+    "locations": [ { "x": [ 0, 19 ], "y": [ 0, 19 ], "facing": [ 90, 180 ] } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_four_way_wrecks",
+    "locations": [ { "x": [ 0, 19 ], "y": [ 0, 19 ], "facing": [ 90, 180 ] } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_straight_parked",
+    "locations": [ { "x": 6, "y": [ 4, 16 ], "facing": 90 }, { "x": 17, "y": [ 4, 16 ], "facing": 270 } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_end_parked",
+    "locations": [
+      { "x": [ 4, 16 ], "y": 17, "facing": 0 },
+      { "x": 6, "y": [ 4, 16 ], "facing": 90 },
+      { "x": [ 4, 16 ], "y": 6, "facing": 180 },
+      { "x": 17, "y": [ 4, 16 ], "facing": 270 }
+    ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_curved_parked",
+    "locations": [ { "x": 6, "y": [ 4, 16 ], "facing": 90 }, { "x": [ 4, 16 ], "y": 6, "facing": 180 } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_tee_parked",
+    "locations": [ { "x": 6, "y": [ 4, 16 ], "facing": 90 }, { "x": [ 4, 16 ], "y": 6, "facing": 180 } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_four_way_parked",
+    "locations": [ { "x": 6, "y": [ 4, 16 ], "facing": 90 }, { "x": [ 4, 16 ], "y": 6, "facing": 180 } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_straight_semi",
+    "locations": [ { "x": [ 0, 8 ], "y": [ 4, 15 ], "facing": 90 }, { "x": [ 12, 20 ], "y": [ 5, 16 ], "facing": 270 } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_end_semi",
+    "locations": [
+      { "x": [ 0, 16 ], "y": [ 14, 16 ], "facing": 0 },
+      { "x": [ 0, 8 ], "y": [ 4, 15 ], "facing": 90 },
+      { "x": [ 4, 16 ], "y": [ 4, 6 ], "facing": 180 },
+      { "x": [ 12, 20 ], "y": [ 5, 16 ], "facing": 270 }
+    ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_curved_semi",
+    "locations": [ { "x": [ 0, 8 ], "y": [ 4, 15 ], "facing": 90 }, { "x": [ 4, 16 ], "y": [ 4, 6 ], "facing": 180 } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_tee_semi",
+    "locations": [ { "x": [ 0, 8 ], "y": [ 4, 15 ], "facing": 90 }, { "x": [ 4, 16 ], "y": [ 4, 6 ], "facing": 180 } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_four_way_semi",
+    "locations": [ { "x": [ 0, 8 ], "y": [ 4, 15 ], "facing": 90 }, { "x": [ 4, 16 ], "y": [ 4, 6 ], "facing": 180 } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_straight_highway",
+    "locations": [ { "x": [ 8, 16 ], "y": [ 8, 16 ], "facing": [ 90, 270 ] } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_end_highway",
+    "locations": [ { "x": [ 8, 16 ], "y": [ 8, 16 ], "facing": [ 0, 90, 180, 270 ] } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_curved_highway",
+    "locations": [ { "x": [ 8, 16 ], "y": [ 8, 16 ], "facing": [ 90, 180 ] } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_tee_highway",
+    "locations": [ { "x": [ 8, 16 ], "y": [ 8, 16 ], "facing": [ 90, 180 ] } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "road_four_way_highway",
+    "locations": [ { "x": [ 8, 16 ], "y": [ 8, 16 ], "facing": [ 90, 180 ] } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "pileup",
+    "locations": [ { "x": [ 4, 16 ], "y": [ 4, 16 ], "facing": [ 0, 90, 180, 270 ] } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "highway",
+    "locations": [ { "x": [ 10, 12 ], "y": [ 10, 12 ], "facing": [ 90, 270 ] } ]
+  },
+  {
+    "type": "vehicle_placement",
+    "id": "subway_deadend",
+    "locations": [ { "x": 16, "y": [ 3, 13 ], "facing": 270 }, { "x": 7, "y": [ 7, 17 ], "facing": 90 } ]
+  },
+  {
+    "type": "vehicle_spawn",
+    "id": "default_city",
+    "spawn_types": [
+      { "description": "Clear section of road", "weight": 33, "vehicle_function": "no_vehicles" },
+      {
+        "description": "Randomly-distributed wrecks",
+        "weight": 33,
+        "vehicle_json": { "vehicle": "city_vehicles", "placement": "%t_wrecks", "number": [ 1, 3 ], "fuel": -1, "status": 1 }
+      },
+      {
+        "description": "Parked vehicles",
+        "weight": 33,
+        "vehicle_json": { "vehicle": "city_vehicles", "placement": "%t_parked", "number": 1, "fuel": -1, "status": 1 }
+      },
+      { "description": "Jack-knifed semi", "weight": 0.75, "vehicle_function": "jack-knifed_semi" },
+      { "description": "Random car pileup", "weight": 0.2, "vehicle_function": "vehicle_pileup" },
+      { "description": "Police car pileup", "weight": 0.05, "vehicle_function": "policecar_pileup" }
+    ]
+  },
+  {
+    "type": "vehicle_spawn",
+    "id": "default_country",
+    "spawn_types": [
+      { "description": "Clear section of road", "weight": 97.5, "vehicle_function": "no_vehicles" },
+      {
+        "description": "Out of fuel vehicle",
+        "weight": 2.5,
+        "vehicle_json": { "vehicle": "highway", "placement": "%t_highway", "number": 1, "fuel": -1, "status": 1 }
+      }
+    ]
+  },
+  {
+    "type": "vehicle_spawn",
+    "id": "default_bridge",
+    "spawn_types": [
+      { "description": "Clear section of bridge", "weight": 50, "vehicle_function": "no_vehicles" },
+      {
+        "description": "Unfueled Vehicle on the bridge",
+        "weight": 30,
+        "vehicle_json": { "vehicle": "highway", "placement": "highway", "number": 1, "fuel": 0, "status": -1 }
+      },
+      {
+        "description": "Vehicle on the bridge",
+        "weight": 20,
+        "vehicle_json": { "vehicle": "highway", "placement": "highway", "number": 1, "fuel": -1, "status": -1 }
+      }
+    ]
+  },
+  {
+    "type": "vehicle_spawn",
+    "id": "default_highway",
+    "spawn_types": [
+      { "description": "Clear section of highway", "weight": 50, "vehicle_function": "no_vehicles" },
+      {
+        "description": "Vehicle on the highway",
+        "weight": 50,
+        "vehicle_json": { "vehicle": "highway", "placement": "highway", "number": 1, "fuel": 0, "status": -1 }
+      }
+    ]
+  },
+  {
+    "type": "vehicle_spawn",
+    "id": "default_parkinglot",
+    "spawn_types": [ { "description": "Parking lot with vehicles", "weight": 100, "vehicle_function": "parkinglot" } ]
+  },
+  {
+    "type": "vehicle_spawn",
+    "id": "default_subway_deadend",
+    "spawn_types": [
+      { "description": "Clear section of subway", "weight": 100, "vehicle_function": "no_vehicles" },
+      {
+        "description": "Vehicle on the subway",
+        "weight": 100,
+        "vehicle_json": { "vehicle": "trains_draisine", "placement": "subway_deadend", "number": [ 1, 2 ], "fuel": -1, "status": -1 }
+      }
+    ]
+  }
 ]

@@ -1,15 +1,9 @@
 [
   {
-    "id" : "tools_blacksmith",
-    "type" : "item_group",
-    "//" : "Tools commonly used by blacksmiths",
-    "items": [
-      [ "anvil", 30 ],
-      [ "chisel", 90 ],
-      [ "crucible", 30 ],
-      [ "swage", 60 ],
-      [ "tongs", 90 ]
-    ]
+    "id": "tools_blacksmith",
+    "type": "item_group",
+    "//": "Tools commonly used by blacksmiths",
+    "items": [ [ "anvil", 30 ], [ "chisel", 90 ], [ "crucible", 30 ], [ "swage", 60 ], [ "tongs", 90 ], [ "hammer", 90 ] ]
   },
   {
     "id": "tools_carpentry",
@@ -20,7 +14,9 @@
       [ "circsaw_off", 100 ],
       [ "cordless_drill", 100 ],
       [ "hand_drill", 20 ],
-      [ "nailgun", 100 ]
+      [ "nailgun", 100 ],
+      [ "chisel", 10 ],
+      [ "toolbox", 15 ]
     ]
   },
   {
@@ -33,13 +29,16 @@
       [ "con_mix", 120 ],
       [ "elec_jackhammer", 40 ],
       [ "metal_smoother", 90 ],
-      [ "jackhammer", 40 ]
+      [ "jackhammer", 40 ],
+      [ "toolbox", 25 ],
+      [ "recharge_station", 10 ],
+      [ "angular_grinder", 30 ]
     ]
   },
   {
-    "id" : "tools_common",
-    "type" : "item_group",
-    "//" : "Common household tools",
+    "id": "tools_common",
+    "type": "item_group",
+    "//": "Common household tools",
     "items": [
       [ "hacksaw", 50 ],
       [ "hammer", 80 ],
@@ -49,7 +48,73 @@
       [ "screwdriver", 100 ],
       [ "screwdriver_set", 50 ],
       [ "wrench", 40 ],
-      [ "xacto", 40 ]
+      [ "xacto", 40 ],
+      [ "bucket", 5 ],
+      [ "jumper_cable", 10 ],
+      [ "funnel", 50 ],
+      [ "claw_bar", 2 ],
+      [ "crowbar", 10 ],
+      [ "thermometer", 5 ],
+      [ "multitool", 10 ],
+      [ "recharge_station", 10 ],
+      [ "hand_crank_charger", 25 ],
+      [ "metal_file", 10 ],
+      [ "hand_vice", 10 ]
+    ]
+  },
+  {
+    "id": "tools_general",
+    "type": "item_group",
+    "//": "Common tools you might find in a hardware store or in a shop.",
+    "//2": "More professional/rare than tools_common; less likely to be in a home basement.",
+    "items": [
+      { "group": "tools_common", "prob": 100 },
+      { "group": "tools_construction", "prob": 50 },
+      { "group": "tools_carpentry", "prob": 100 },
+      { "group": "tools_earthworking", "prob": 100 },
+      { "group": "tools_electronics", "prob": 20 },
+      { "group": "tools_lighting_industrial", "prob": 100 },
+      { "group": "tools_mechanic", "prob": 20 },
+      { "group": "tools_plumbing", "prob": 20 },
+      [ "jumper_cable_heavy", 2 ],
+      [ "jerrycan", 10 ],
+      [ "jerrycan_big", 10 ],
+      [ "lawnmower", 10 ],
+      [ "char_smoker", 5 ],
+      [ "dehydrator", 5 ],
+      [ "tongs", 1 ],
+      [ "tourist_table", 1 ]
+    ]
+  },
+  {
+    "id": "tools_hunting",
+    "type": "item_group",
+    "//": "Gear that hunters take on hunting trips.",
+    "items": [
+      [ "binoculars", 15 ],
+      [ "canteen", 25 ],
+      [ "e_tool", 20 ],
+      [ "flashlight", 20 ],
+      [ "goggles_nv", 5 ],
+      [ "hand_crank_charger", 15 ],
+      [ "handflare", 20 ],
+      [ "hatchet", 10 ],
+      [ "heavy_flashlight", 15 ],
+      [ "knife_folding", 25 ],
+      [ "knife_hunting", 10 ],
+      [ "knife_rambo", 10 ],
+      [ "knife_swissarmy", 10 ],
+      [ "mess_kit", 20 ],
+      [ "multitool", 10 ],
+      [ "pockknife", 30 ],
+      [ "pur_tablets", 10 ],
+      [ "ref_lighter", 20 ],
+      [ "rope_30", 20 ],
+      [ "flint_steel", 10 ],
+      [ "tinderbox", 10 ],
+      [ "chem_hexamine", 10 ],
+      [ "esbit_stove", 15 ],
+      [ "mess_tin", 10 ]
     ]
   },
   {
@@ -73,25 +138,51 @@
     ]
   },
   {
+    "id": "tools_plumbing",
+    "type": "item_group",
+    "//": "Portable tools for plumbing and pipefitting",
+    "items": [
+      { "group": "tools_common", "prob": 100 },
+      [ "wrench", 200 ],
+      [ "claw_bar", 2 ],
+      [ "crowbar", 10 ],
+      [ "pliers", 200 ],
+      [ "bucket", 50 ],
+      [ "mop", 100 ],
+      [ "shovel", 40 ],
+      [ "hammer_sledge", 50 ],
+      [ "spray_can", 100 ],
+      [ "permanent_marker", 50 ],
+      [ "funnel", 200 ],
+      [ "hand_drill", 10 ],
+      [ "boltcutters", 150 ],
+      [ "flashlight", 100 ],
+      [ "heavy_flashlight", 60 ],
+      [ "magnifying_glass", 20 ],
+      [ "soldering_iron", 150 ],
+      [ "cordless_drill", 100 ],
+      [ "pin_reamer", 30 ],
+      [ "hand_vice", 10 ]
+    ]
+  },
+  {
     "id": "tools_electronics",
     "type": "item_group",
     "//": "Portable tools used by electricians and for electronics repair",
     "items": [
       { "group": "tools_common", "prob": 100 },
       [ "soldering_iron", 100 ],
-      [ "magnifying_glass", 100 ]
+      [ "magnifying_glass", 100 ],
+      [ "voltmeter", 100 ],
+      [ "recharge_station", 10 ],
+      [ "hand_crank_charger", 40 ]
     ]
   },
   {
     "id": "tools_entry",
     "type": "item_group",
     "//": "Tools used for forcing entry into a building",
-    "items": [
-      [ "boltcutters", 30 ],
-      [ "crowbar", 50 ],
-      [ "hammer_sledge", 20 ],
-      [ "halligan", 10 ]
-    ]
+    "items": [ [ "boltcutters", 30 ], [ "crowbar", 50 ], [ "claw_bar", 25 ], [ "hammer_sledge", 20 ], [ "halligan", 10 ] ]
   },
   {
     "id": "tools_home",
@@ -110,12 +201,25 @@
     "//": "Equipment of any size commonly used by engineers and mechanics",
     "ammo": 100,
     "items": [
-      [ "forge", 100 ],
-      [ "jack", 100 ],
-      [ "jack_small", 100 ],
-      [ "oxy_torch", 100 ],
-      [ "polisher", 100 ],
-      [ "welder", 100 ]
+      [ "jack", 80 ],
+      [ "jack_small", 80 ],
+      {
+        "collection": [
+          { "item": "oxy_torch", "prob": 100 },
+          {
+            "distribution": [ { "item": "weldtank", "prob": 100, "count": [ 1, 2 ] }, { "item": "tinyweldtank", "prob": 100, "count": [ 1, 3 ] } ],
+            "prob": 100
+          }
+        ],
+        "prob": 80
+      },
+      [ "oxy_torch", 60 ],
+      { "item": "weldtank", "prob": 60, "count": [ 1, 2 ] },
+      { "item": "tinyweldtank", "prob": 60, "count": [ 1, 3 ] },
+      [ "polisher", 70 ],
+      [ "angular_grinder", 5 ],
+      [ "welder", 10 ],
+      [ "hand_vice", 10 ]
     ]
   },
   {
@@ -128,7 +232,8 @@
       [ "stethoscope", 50 ],
       [ "syringe", 50 ],
       [ "thermometer", 50 ],
-      [ "vacutainer", 50 ]
+      [ "vacutainer", 50 ],
+      [ "bag_body_bag", 10 ]
     ]
   },
   {
@@ -144,10 +249,10 @@
     ]
   },
   {
-    "id" : "tools_lighting",
-    "type" : "item_group",
+    "id": "tools_lighting",
+    "type": "item_group",
     "//": "Light sources balanced according to rarity",
-    "items" : [
+    "items": [
       [ "candle", 70 ],
       [ "electric_lantern", 20 ],
       [ "handflare", 50 ],
@@ -160,20 +265,16 @@
     ]
   },
   {
-    "id" : "tools_lighting_industrial",
-    "type" : "item_group",
+    "id": "tools_lighting_industrial",
+    "type": "item_group",
     "//": "Light sources used as industrial working equipment.",
-    "items" : [
-      [ "flashlight", 100 ],
-      [ "heavy_flashlight", 40 ],
-      [ "wearable_light", 60 ]
-    ]
+    "items": [ [ "flashlight", 100 ], [ "heavy_flashlight", 40 ], [ "wearable_light", 60 ] ]
   },
   {
-    "id" : "tools_survival",
-    "type" : "item_group",
+    "id": "tools_survival",
+    "type": "item_group",
     "//": "Practical, small and light-weight tools for survival excluding camping gear.",
-    "items" : [
+    "items": [
       [ "binoculars", 30 ],
       [ "canteen", 15 ],
       [ "e_tool", 10 ],
@@ -182,7 +283,7 @@
       [ "hatchet", 10 ],
       [ "knife_hunting", 10 ],
       [ "knife_rambo", 10 ],
-      [ "knife_swissarmy", 5],
+      [ "knife_swissarmy", 5 ],
       [ "knife_trench", 10 ],
       [ "mess_kit", 20 ],
       [ "multitool", 5 ],
@@ -192,18 +293,178 @@
       [ "ref_lighter", 20 ],
       [ "signal_flare", 20 ],
       [ "sm_extinguisher", 20 ],
-      [ "whistle", 20 ]
+      [ "whistle", 20 ],
+      [ "hand_crank_charger", 15 ],
+      [ "flint_steel", 5 ],
+      [ "tinderbox", 2 ],
+      [ "whistle_multitool", 1 ],
+      [ "chem_hexamine", 10 ],
+      [ "esbit_stove", 15 ],
+      [ "mess_tin", 5 ],
+      [ "riding_saddle", 3 ],
+      [ "saddlebag", 5 ],
+      [ "acetylene_machine", 2 ]
     ]
   },
   {
-    "id" : "tools_tailor",
-    "type" : "item_group",
-    "items" : [
+    "id": "tools_tailor",
+    "type": "item_group",
+    "items": [
+      [ "awl_steel", 60 ],
       [ "needle_curved", 30 ],
       [ "scissors", 1000 ],
-      [ "sewing_kit", 100 ],
-      [ "tailors_kit", 30 ],
+      [ "sewing_kit", 120 ],
+      [ "tailors_kit", 10 ],
       [ "knitting_needles", 20 ]
+    ]
+  },
+  {
+    "id": "tools_commercial_tailor",
+    "type": "item_group",
+    "items": [ [ "awl_steel", 150 ], [ "needle_curved", 30 ], [ "scissors", 1000 ], [ "sewing_kit", 10 ], [ "tailors_kit", 120 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "tools_science",
+    "//": "tools and equipment you might find on lab benches of nearly any lab.",
+    "items": [
+      [ "chemistry_set", 5 ],
+      [ "chemistry_set_basic", 2 ],
+      [ "analytical_set_basic", 5 ],
+      [ "spectrophotometer", 5 ],
+      [ "balance_small", 5 ],
+      [ "cuvettes", 5 ],
+      [ "ph_meter", 5 ],
+      [ "voltmeter", 5 ],
+      [ "melting_point", 5 ],
+      [ "vortex", 5 ],
+      [ "hotplate", 5 ],
+      [ "jar_glass", 5 ],
+      [ "jar_3l_glass", 5 ],
+      [ "magnifying_glass", 5 ],
+      [ "thermometer", 5 ],
+      [ "geiger_off", 3 ],
+      [ "hygrometer", 3 ],
+      [ "barometer", 3 ],
+      [ "camera", 3 ],
+      [ "flask_glass", 10 ],
+      [ "bottle_glass", 10 ],
+      [ "thermos", 5 ],
+      [ "test_tube", 10 ],
+      [ "glass_tube_small", 5 ],
+      [ "funnel", 10 ],
+      [ "hose", 5 ],
+      [ "steel_grille", 5 ],
+      [ "coat_lab", 5 ],
+      [ "gloves_medical", 5 ],
+      [ "mask_dust", 5 ],
+      [ "mask_filter", 5 ],
+      [ "glasses_safety", 5 ],
+      [ "UPS_off", 3 ],
+      [ "microscope", 5 ],
+      [ "microscope_dissecting", 5 ],
+      [ "funnel_separation", 3 ],
+      [ "burette", 3 ],
+      [ "rotovap", 3 ],
+      [ "still_lab", 3 ],
+      [ "gelbox", 5 ],
+      [ "microcentrifuge", 5 ],
+      [ "stopcock", 3 ],
+      [ "beaker", 5 ],
+      [ "gradcylinder", 5 ],
+      [ "rack_test_tube", 5 ],
+      [ "test_tube_micro", 5 ],
+      [ "rack_test_tube_micro", 5 ],
+      [ "stand_ring", 5 ],
+      [ "stand_ring_clamps", 5 ],
+      [ "syringe", 4 ],
+      [ "xacto", 4 ],
+      [ "cotton_ball", 4 ],
+      { "group": "ammo_any_batteries_full", "prob": 50 },
+      [ "acetylene_machine", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "tools_robotics",
+    "//": "tools and equipment you might find on robotics laboratories.",
+    "items": [
+      [ "recipe_lab_elec", 4 ],
+      [ "UPS_off", 6 ],
+      [ "file", 10 ],
+      [ "atomic_lamp", 1 ],
+      [ "control_laptop", 1 ],
+      [ "bot_manhack", 2 ],
+      [ "teleporter", 1 ],
+      [ "laptop", 4 ],
+      [ "plut_cell", 4 ],
+      [ "superglue", 30 ],
+      [ "pliers", 10 ],
+      [ "matches", 10 ],
+      [ "glasses_safety", 20 ],
+      [ "duct_tape", 8 ],
+      [ "misc_repairkit", 15 ],
+      [ "welder", 10 ],
+      [ "soldering_iron", 8 ],
+      [ "extinguisher", 10 ],
+      [ "magnifying_glass", 10 ],
+      [ "multitool", 20 ],
+      [ "screwdriver_set", 20 ],
+      [ "flashlight", 20 ],
+      [ "mobile_memory_card_science", 40 ],
+      [ "camera_pro", 2 ],
+      [ "element", 5 ],
+      [ "light_battery_cell", 10 ],
+      [ "goggles_welding", 20 ],
+      [ "sm_extinguisher", 10 ],
+      [ "toolbox", 5 ],
+      [ "tool_belt", 10 ],
+      [ "hand_vice", 10 ],
+      [ "wrench", 10 ]
+    ]
+  },
+  {
+    "id": "hand_tools",
+    "type": "item_group",
+    "items": [
+      [ "flashlight", 35 ],
+      [ "wrench", 50 ],
+      [ "hammer", 40 ],
+      [ "saw", 50 ],
+      [ "ax", 20 ],
+      [ "hacksaw", 50 ],
+      [ "chipper", 60 ],
+      [ "boltcutters", 50 ],
+      [ "screwdriver", 35 ],
+      [ "pin_reamer", 10 ],
+      [ "metal_file", 10 ],
+      [ "hand_vice", 20 ]
+    ]
+  },
+  {
+    "id": "power_tools",
+    "type": "item_group",
+    "items": [
+      [ "chainsaw_off", 10 ],
+      [ "elec_chainsaw_off", 10 ],
+      [ "trimmer_off", 40 ],
+      [ "jackhammer", 50 ],
+      [ "elec_jackhammer", 50 ],
+      [ "circsaw_off", 10 ],
+      [ "angular_grinder", 20 ]
+    ]
+  },
+  {
+    "id": "tools_tree_cutting",
+    "type": "item_group",
+    "//": "Axes and saws.",
+    "items": [
+      [ "ax", 100 ],
+      [ "chainsaw_off", 80 ],
+      [ "saw", 100 ],
+      [ "circsaw_off", 50 ],
+      [ "circsaw_blade", 10 ],
+      [ "elec_chainsaw_off", 35 ]
     ]
   }
 ]

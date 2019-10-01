@@ -1,8 +1,8 @@
 # Code Style Guide
 
-Current policy is to update code to the standard style when changing a substantial portion of it.
+All of the C++ code in the project is styled, you should run any changes you make through astyle before pushing a pull request.
 
-Note that versions of astyle before 2.05 will handle many c++11 constructs incorrectly.
+We are using astyle version 3.0.1. Version 3.1 should also work, though there are a few cases where they disagree and require annotation.
 
 Blocks of code can be passed through astyle to ensure that their formatting is correct:
 
@@ -44,23 +44,17 @@ int foo( int arg1, int *arg2 )
 }
 ````
 
-Here's a helpful workflow to astyle some low-hanging fruit:
+## Code Guidelines
 
-````shell
-# Astyle all the things.
-make astyle-all
-# List the changed files.
-# |             Sort by number of lines changed.
-# |             |              Truncate away the first part of the list.
-# |             |              |           Truncate away the summary line.
-# |             |              |           |           Trim off the fields except the filename.
-# |             |              |           |           |                 Revert the listed files to the upstream version.
-git diff --stat | sort -g -k 3 | tail -201 | head -200 | cut -d ' ' -f 2 | xargs git checkout
-# Refresh astyle blacklist with all the files that still fail.
-astyle --dry-run --options=.astylerc src/*.cpp src/*.h tests/*.cpp tests/*.h | grep Formatted | cut -d ' ' -f 3 > astyle_blacklist
-# Add the changed files, please examine the changes to make sure they make sense, astyle occasionally messes up.
-git add -p
-# commit and push!
-git commit -m "Updated astyling coverage."
-git push
-````
+These are less generic guidelines and more pain points we've stumbled across over time.
+
+1. Use int for everything.
+    1. Long in particular is problematic since it is *not* a larger type than int on platforms we care about.
+        1. If you need an integral value larger than 32 bits, you don't. But if you do, use int64_t.
+    2. Uint is also a problem, it has poor behavior when overflowing and should be avoided for general purpose programming.
+        1. If you need binary data, unsigned int or unsigned char are fine, but you should probably use a std::bitset instead.
+    3. Float is to be avoided, but has valid uses.
+2. Auto Almost Nothing. Auto has two uses, others should be avoided.
+    1. Aliasing for extremely long iterator or functional declarations.
+    2. Generic code support (but decltype is better).
+3. Avoid using declaration for standard namespaces.

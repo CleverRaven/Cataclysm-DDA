@@ -1,13 +1,16 @@
 #include "bodypart.h"
 
+#include <map>
+#include <unordered_map>
+#include <set>
+#include <utility>
+#include <vector>
+
 #include "anatomy.h"
 #include "debug.h"
 #include "generic_factory.h"
-#include "rng.h"
 #include "translations.h"
-
-#include <map>
-#include <unordered_map>
+#include "json.h"
 
 side opposite_side( side s )
 {
@@ -18,6 +21,9 @@ side opposite_side( side s )
             return side::RIGHT;
         case side::RIGHT:
             return side::LEFT;
+        case side::num_sides:
+            debugmsg( "invalid side %d", static_cast<int>( s ) );
+            break;
     }
 
     return s;
@@ -26,20 +32,42 @@ side opposite_side( side s )
 namespace io
 {
 
-static const std::map<std::string, side> side_map = {{
-        { "left", side::LEFT },
-        { "right", side::RIGHT },
-        { "both", side::BOTH }
+template<>
+std::string enum_to_string<side>( side data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case side::LEFT: return "left";
+        case side::RIGHT: return "right";
+        case side::BOTH: return "both";
+        // *INDENT-ON*
+        case side::num_sides:
+            break;
     }
-};
+    debugmsg( "Invalid side" );
+    abort();
+}
 
 template<>
-side string_to_enum<side>( const std::string &data )
+std::string enum_to_string<hp_part>( hp_part data )
 {
-    return string_to_enum_look_up( side_map, data );
+    switch( data ) {
+        // *INDENT-OFF*
+        case hp_part::hp_head: return "head";
+        case hp_part::hp_torso: return "torso";
+        case hp_part::hp_arm_l: return "arm_l";
+        case hp_part::hp_arm_r: return "arm_r";
+        case hp_part::hp_leg_l: return "leg_l";
+        case hp_part::hp_leg_r: return "leg_r";
+        // *INDENT-ON*
+        case hp_part::num_hp_parts:
+            break;
+    }
+    debugmsg( "Invalid hp_part" );
+    abort();
 }
 
-}
+} // namespace io
 
 namespace
 {
@@ -48,7 +76,7 @@ generic_factory<body_part_struct> body_part_factory( "body part" );
 
 } // namespace
 
-body_part legacy_id_to_enum( const std::string &legacy_id )
+static body_part legacy_id_to_enum( const std::string &legacy_id )
 {
     static const std::unordered_map<std::string, body_part> body_parts = {
         { "TORSO", bp_torso },
@@ -115,7 +143,7 @@ body_part get_body_part_token( const std::string &id )
     return legacy_id_to_enum( id );
 }
 
-const bodypart_ids &convert_bp( body_part token )
+const bodypart_ids &convert_bp( body_part bp )
 {
     static const std::vector<bodypart_ids> body_parts = {
         bodypart_ids( "torso" ),
@@ -132,15 +160,15 @@ const bodypart_ids &convert_bp( body_part token )
         bodypart_ids( "foot_r" ),
         bodypart_ids( "num_bp" ),
     };
-    if( token > num_bp || token < bp_torso ) {
-        debugmsg( "Invalid body part token %d", token );
+    if( bp > num_bp || bp < bp_torso ) {
+        debugmsg( "Invalid body part token %d", bp );
         return body_parts[ num_bp ];
     }
 
-    return body_parts[static_cast<size_t>( token )];
+    return body_parts[static_cast<size_t>( bp )];
 }
 
-const body_part_struct &get_bp( body_part bp )
+static const body_part_struct &get_bp( body_part bp )
 {
     return convert_bp( bp ).obj();
 }
@@ -224,37 +252,40 @@ void body_part_struct::check() const
     }
 }
 
+// Some languages do not have plural forms, so we don't use ngettext()/npgettext()
+// in the 3 following methods so the singular and plural strings can be properly
+// translated for these languages.
 std::string body_part_name( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
-    return ngettext( bdy.name.c_str(),
-                     bdy.name_multiple.c_str(), number );
+    return number > 1 ? _( bdy.name_multiple ) : _( bdy.name );
 }
 
 std::string body_part_name_accusative( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
-    return npgettext( "bodypart_accusative",
-                      bdy.name.c_str(),
-                      bdy.name_multiple.c_str(), number );
+    if( number > 1 ) {
+        return pgettext( "bodypart_accusative", bdy.name_multiple.c_str() );
+    } else {
+        return pgettext( "bodypart_accusative", bdy.name.c_str() );
+    }
 }
 
 std::string body_part_name_as_heading( body_part bp, int number )
 {
     const auto &bdy = get_bp( bp );
-    return ngettext( bdy.name_as_heading_singular.c_str(), bdy.name_as_heading_multiple.c_str(),
-                     number );
+    return number > 1 ? _( bdy.name_as_heading_multiple ) : _( bdy.name_as_heading_singular );
 }
 
 std::string body_part_hp_bar_ui_text( body_part bp )
 {
-    return _( get_bp( bp ).hp_bar_ui_text.c_str() );
+    return _( get_bp( bp ).hp_bar_ui_text );
 }
 
 std::string encumb_text( body_part bp )
 {
     const std::string &txt = get_bp( bp ).encumb_text;
-    return !txt.empty() ? _( txt.c_str() ) : txt;
+    return !txt.empty() ? _( txt ) : txt;
 }
 
 body_part random_body_part( bool main_parts_only )

@@ -5,8 +5,8 @@
     "reload_noise_volume": 10,
     "name": "RM216 SPIW",
     "description": "This light carbine fires 5x50mm armor-piercing flechette cartridges.  Classified as a special purpose individual weapon, this advanced firearm was developed by Rivtech for the US military shortly before the end of the world.  Designed to be fired in bursts, it excels in close combat.",
-    "weight": 1302,
-    "volume": 5,
+    "weight": "1302 g",
+    "volume": "1250 ml",
     "price": 2320000,
     "to_hit": -2,
     "bashing": 12,
@@ -20,12 +20,20 @@
     "dispersion": 220,
     "durability": 9,
     "barrel_length": 1,
-    "modes": [
-      [ "DEFAULT", "semi-auto", 1 ],
-      [ "BURST", "5 rd.", 5 ],
-      [ "AUTO", "auto", 10 ]
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "auto", 10 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ],
-    "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [ [ "5x50", [ "5x50_100_mag", "5x50_50_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
@@ -36,8 +44,8 @@
     "reload_noise_volume": 10,
     "name": "RM232 IDW",
     "description": "This lightweight machine pistol fires 5x50mm armor-piercing flechette cartridges.  Classified as an individual defense weapon, this advanced firearm was developed by Rivtech for the US military shortly before the end of the world.  Designed to be fired in bursts, it excels in close combat.",
-    "weight": 682,
-    "volume": 3,
+    "weight": "682 g",
+    "volume": "750 ml",
     "price": 1200000,
     "to_hit": -2,
     "bashing": 8,
@@ -48,12 +56,18 @@
     "skill": "pistol",
     "dispersion": 280,
     "durability": 9,
-    "modes": [
-      [ "DEFAULT", "semi-auto", 1 ],
-      [ "BURST", "2 rd.", 2 ],
-      [ "AUTO", "auto", 5 ]
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ], [ "AUTO", "auto", 5 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ],
-    "valid_mod_locations": [ [ "accessories", 3 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [ [ "5x50", [ "5x50_50_mag", "5x50_100_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]

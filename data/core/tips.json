@@ -7,7 +7,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Even without electricity ovens can be useful fire containers." ]
+    "text": [ "Even without electricity, ovens can be useful fire containers." ]
   },
   {
     "type": "snippet",
@@ -37,22 +37,22 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "You died?  That's a part of the experience.  Try again with what you've learned." ]
+    "text": [ "Dying is part of the experience.  Try again with what you've learned." ]
   },
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Freezing food?  Put it by a fire or heat it up in a pan." ]
+    "text": [ "Frozen food?  Put it by a fire or heat it up in a pan." ]
   },
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Underground cave or a basement is always cool, but never freezes." ]
+    "text": [ "Underground spaces like basements or caves stay cool year-round." ]
   },
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Afraid of wild life?  Yell untill it goes away.  But beware of what comes instead." ]
+    "text": [ "Afraid of wildlife?  Yell until it goes away.  But beware of what comes instead." ]
   },
   {
     "type": "snippet",
@@ -62,7 +62,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Door is not the only way in.  Or out if that matters." ]
+    "text": [ "A door is not the only way in or out of most places." ]
   },
   {
     "type": "snippet",
@@ -82,17 +82,17 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Dangerous place is not always equal to good loot.  Use your head." ]
+    "text": [ "Just because a place is dangerous doesn't mean it's worth looting." ]
   },
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Getting in is not a problem.  Think of way out and don't get cornered." ]
+    "text": [ "If you're breaking in, be sure you also know how to get back out." ]
   },
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "There is often more then one way to achieve something.  Think outside of the box." ]
+    "text": [ "There's usually more than one way to do things.  Think outside the box." ]
   },
   {
     "type": "snippet",
@@ -122,22 +122,22 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "You don't want an overgrown cockroach in your rotten food.  Get rid of it." ]
+    "text": [ "Rotten food typically attracts bugs, and bugs got a lot bigger recently..." ]
   },
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Medicine can help you survive in a pinch but avoid overdose and addictions." ]
+    "text": [ "Drugs are great for quick stat boosts, but be careful of addictions or overdose." ]
   },
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Use your map wisely.  Prioritize looting places that will get yout what you need." ]
+    "text": [ "Use your map wisely.  Prioritize looting places that will get you what you need." ]
   },
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Wounds heal over time.  Bandaging and disinfecting can speed up the process." ]
+    "text": [ "Wounds heal over time.  Bandages and antiseptic speeds that up." ]
   },
   {
     "type": "snippet",
@@ -162,17 +162,17 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Raw food and water from unsafe sources can't be healthy?  Right?" ]
+    "text": [ "Raw food and water from unsafe sources can't be healthy.  Right?" ]
   },
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Why walk all day to nearest town when you can adapt a vehicle?" ]
+    "text": [ "Why walk when you can use a car?  Or a tank?" ]
   },
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Food from before cataclysm won't last forever.  Keep that in mind." ]
+    "text": [ "Food from before the Cataclysm won't last forever.  Keep that in mind." ]
   },
   {
     "type": "snippet",
@@ -227,7 +227,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Most medicine doesn't work instantly, so just don't swallow whole bottle of pills." ]
+    "text": [ "Most medicine doesn't work instantly, so don't swallow a whole bottle of pills." ]
   },
   {
     "type": "snippet",
@@ -257,7 +257,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Food's shelf life is not given.  Storage conditions matter, especially temperature." ]
+    "text": [ "Temperature affects the shelf life of foods.  The colder, the better." ]
   },
   {
     "type": "snippet",
@@ -282,7 +282,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Broken limb pinned you down?  Hospital might have next gen tech to get you going." ]
+    "text": [ "Broken limb pinned you down?  Hospitals might have next-gen tech to get you going." ]
   },
   {
     "type": "snippet",
@@ -297,7 +297,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Impaired movement speed through difficult terrain can be used as an advantage." ]
+    "text": [ "Terrain that slows you down will also slow down your enemies." ]
   },
   {
     "type": "snippet",
@@ -312,16 +312,81 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Survivor saved is a friend earned.  Most of the time..." ]
+    "text": [ "A survivor saved is a friend earned.  Most of the time..." ]
   },
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Learning how to play?  Visit keybindings menu and learn your ropes." ]
+    "text": [ "Learning how to play?  Visit the keybindings menu and learn your ropes." ]
   },
   {
     "type": "snippet",
     "category": "tip",
     "text": [ "Expect the unexpected, even if it's the Spanish Inquisition." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "You can throw things while peeking around corners.  Perfect for taking down gun turrets." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Nobody told the vending machines that the world ended.  Save those cash cards!" ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "There's got to be some cool stuff in those top-secret underground labs, right?" ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Put a funnel over a jug or barrel to collect rainwater over time." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "The number of zombies in a city is large but finite.  You can (eventually) kill them all." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Did you *only* take everything not nailed down?  Go back for the nails!" ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "You can make your own Safe Mode rules in the pause menu." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "The best gun in the world is useless without ammo." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Most zombies go through cars, not around them.  Remember that when running away." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "If you're stuck inside with a broken leg, read some books to pass the time." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Certain corpses can give you bionics if you dissect them." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "Don't be too greedy.  Loot doesn't matter if you're dead." ]
+  },
+  {
+    "type": "snippet",
+    "category": "tip",
+    "text": [ "The floor is too hard to sleep on?  Try gathering a pile of leaves." ]
   }
 ]

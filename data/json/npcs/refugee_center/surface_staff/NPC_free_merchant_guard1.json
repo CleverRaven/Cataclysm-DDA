@@ -1,0 +1,133 @@
+[
+  {
+    "type": "npc",
+    "id": "evac_guard1",
+    "//": "Appears in the refugee center as a guard with custom dialogue.",
+    "name_suffix": "Guard",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_EVAC_GUARD1",
+    "mission_offered": "MISSION_EVAC_SMOKER_GET_CIGARETTES",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_GUARD1",
+    "dynamic_line": { "u_is_wearing": "badge_marshal", "yes": "Hello marshal.", "no": "Hello there." },
+    "responses": [
+      { "text": "What is this place?", "topic": "TALK_EVAC_GUARD1_PLACE" },
+      { "text": "Can I join you guys?", "topic": "TALK_EVAC_GUARD1_JOIN" },
+      { "text": "Anything I can do for you?", "topic": "TALK_EVAC_GUARD1_JOB" },
+      { "text": "See you later.", "topic": "TALK_EVAC_GUARD1_BYE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_GUARD1_PLACE",
+    "dynamic_line": "This is a refugee center that we've made into a sort of trading hub.",
+    "responses": [
+      { "text": "So are you with the government or something?", "topic": "TALK_EVAC_GUARD1_GOVERNMENT" },
+      { "text": "What do you trade?", "topic": "TALK_EVAC_GUARD1_TRADE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_GUARD1_GOVERNMENT",
+    "dynamic_line": "Ha ha ha, no.  Though there is Old Guard somewhere around here if you have any questions relating to what the government is up to.",
+    "responses": [
+      { "text": "Oh, okay.", "topic": "TALK_EVAC_GUARD1" },
+      { "text": "Oh, okay.  I'll go look for him", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_GUARD1_TRADE",
+    "dynamic_line": "Anything valuable really.  If you really want to know, go ask one of the actual traders.  I'm just protection.",
+    "responses": [
+      { "text": "I'll go talk to them later.", "topic": "TALK_EVAC_GUARD1" },
+      { "text": "Will do, thanks!", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_GUARD1_JOIN",
+    "dynamic_line": "Nope.",
+    "responses": [ { "text": "That's pretty blunt!", "topic": "TALK_EVAC_GUARD1_JOIN2" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_GUARD1_JOIN2",
+    "dynamic_line": "Death is pretty blunt.",
+    "responses": [
+      { "text": "So no negotiating?  No, 'If you do this quest then we'll let you in?'", "topic": "TALK_EVAC_GUARD1_JOIN3" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_GUARD1_JOIN3",
+    "dynamic_line": "Nope.",
+    "responses": [
+      { "text": "I don't like your attitude.", "topic": "TALK_EVAC_GUARD1_ATTITUDE" },
+      { "text": "Well alright then.", "topic": "TALK_EVAC_GUARD1" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_GUARD1_ATTITUDE",
+    "dynamic_line": "Then leave, you have two feet.",
+    "responses": [
+      { "text": "I think I'd rather rearrange your face instead!", "topic": "TALK_DONE", "effect": "insult_combat" },
+      { "text": "I will.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_GUARD1_JOB",
+    "dynamic_line": "Depends on what you want.  Go talk to a merchant if you have anything to sell.  Otherwise the Old Guard liaison might have something, if you can find him.  But if you're just looking for someone to put a good word in, I might have something for you.",
+    "responses": [
+      { "text": "Alright then.", "topic": "TALK_EVAC_GUARD1" },
+      { "text": "A good word might be helpful.  What do you need?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Old Guard huh, I'll go talk to him!", "topic": "TALK_DONE" },
+      { "text": "Who are the Old Guard?", "topic": "TALK_EVAC_GUARD1_OLDGUARD" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_GUARD1_OLDGUARD",
+    "dynamic_line": "That's just our nickname for them.  They're what's left of the federal government.  Don't know how legitimate they are but they are named after some military unit that once protected the president.  Their liaison is usually hanging around here somewhere.",
+    "responses": [
+      { "text": "Whatever, I had another question.", "topic": "TALK_EVAC_GUARD1" },
+      { "text": "Okay, I'll go look for him then.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_GUARD1_BYE",
+    "dynamic_line": "Stay safe out there.  Hate to have to kill you after you've already died.",
+    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_EVAC_SMOKER_GET_CIGARETTES",
+    "type": "mission_definition",
+    "name": "Smokes, let's go.",
+    "description": "Make a friend at the refugee center by handing over around five packs - 100 cigarettes.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 800,
+    "item": "cig",
+    "count": 100,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Come on man, I just need a smoke.",
+      "offer": "With all that's been going on, it's been more and more difficult to find a smoke.  My stash has been running low for a while now.  Think you could help me out here?  A few packs is all I need.",
+      "accepted": "Thanks, it's great to see someone willing to help a guy out.",
+      "rejected": "Well, I'll find someone else to do it for me.",
+      "advice": "Plenty of smokers in towns.  Gotta be some left over cigs in some of them houses.",
+      "inquire": "Got the smokes?",
+      "success": "Thanks! I'll be sure to put in a good word for you around the center.",
+      "success_lie": "OK, then hand it over.",
+      "failure": "Shit happens."
+    }
+  }
+]

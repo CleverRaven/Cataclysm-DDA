@@ -1,11 +1,13 @@
 #include "ammo.h"
 
+#include <unordered_map>
+
 #include "debug.h"
 #include "item.h"
 #include "json.h"
 #include "translations.h"
-
-#include <unordered_map>
+#include "string_id.h"
+#include "type_id.h"
 
 namespace
 {
@@ -74,5 +76,5 @@ void ammunition_type::check_consistency()
 
 std::string ammunition_type::name() const
 {
-    return _( name_.c_str() );
+    return _( name_ );
 }

@@ -85,8 +85,11 @@
         "n": "f_table",
         "o": "f_bookcase"
       },
-      "toilets": { "t": {} },
-      "items": {  "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] }, "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] } },
+      "toilets": { "t": {  } },
+      "items": {
+        "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
+        "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] }
+      },
       "place_loot": [
         { "group": "bed", "x": [ 20, 21 ], "y": [ 19, 20 ], "chance": 90, "repeat": [ 1, 3 ] },
         { "group": "bedroom", "x": [ 15, 21 ], "y": [ 18, 21 ], "chance": 80, "repeat": [ 1, 4 ] },

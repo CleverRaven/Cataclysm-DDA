@@ -1,0 +1,20 @@
+[
+  {
+    "type": "ammunition_type",
+    "id": "dragon_blood",
+    "name": "dragon blood",
+    "default": "dragon_blood"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "tainted_blood",
+    "name": "tainted blood",
+    "default": "tainted_blood"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "blood",
+    "name": "blood",
+    "default": "blood"
+  }
+]

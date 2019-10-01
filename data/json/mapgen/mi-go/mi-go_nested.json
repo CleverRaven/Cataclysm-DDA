@@ -1,0 +1,472 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room1",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".||||@@",
+        "||V +@@",
+        "|V {|@@",
+        "||  |@@",
+        ".| V|@@",
+        ".| ||@@",
+        ".|+||@@"
+      ],
+      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 2, 3 ], "y": [ 1, 4 ], "density": 0.02, "repeat": [ 0, 2 ] } ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room2",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".||||||.",
+        "||PPPP||",
+        "+   i P|",
+        "|  {   +",
+        "|P    P|",
+        "||PPPP||",
+        "|||||||@",
+        "@@@@@@@@"
+      ],
+      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 1, 6 ], "y": [ 2, 4 ], "density": 0.01, "repeat": [ 1, 3 ] } ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room3",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||#@@@@|",
+        "+ #####|",
+        "|    iV+",
+        "||PFPV||",
+        "@||||||@",
+        "@@@@@@@@",
+        "@@@@@@@@",
+        "@@@@@@@@"
+      ],
+      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_CAPTORS", "x": [ 1, 6 ], "y": 2, "density": 0.01, "repeat": [ 1, 2 ] } ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room4",
+    "//": "Observation room with zombies",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "..||...",
+        "||||||.",
+        "|  # ||",
+        "|# #  |",
+        "@#####|",
+        "@@@@@@@",
+        "@@@@@@@"
+      ],
+      "place_monster": [
+        {
+          "monster": [ "mon_zombie_brute", "mon_zombie_screecher", "mon_zombie_hollow", "mon_zombie", "mon_zombie_fungus" ],
+          "x": 1,
+          "y": 2
+        },
+        {
+          "monster": [ "mon_skeleton", "mon_zombear", "mon_zombie_child", "mon_zombie", "mon_zombie_runner" ],
+          "x": 4,
+          "y": 2
+        }
+      ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room5",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".|||||@",
+        "|| {  @",
+        "+     @",
+        "|   F @",
+        "| {   @",
+        "||   i@",
+        "@|+|||@"
+      ],
+      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 2, 5 ], "y": [ 1, 5 ], "density": 0.02, "repeat": [ 1, 3 ] } ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room6",
+    "//": "Mi-go surgical suite",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 18, 18 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "........||........",
+        "......||||||......",
+        "....|||PPPP|||....",
+        "..|||PP    #1|||..",
+        "|||PP  i   ### ||.",
+        "|<       }   #2 |.",
+        "||  VnV    i ###||",
+        "@|i nnn        #3|",
+        "@|i nnn  i     # |",
+        "@+  VnV      ###||",
+        "||        i  #4 |.",
+        "|P    } ###  ###|.",
+        "+  i    # ####5||.",
+        "|||PPPP #7#6 |||..",
+        "@@||||||||# ||....",
+        "@||......||||.....",
+        "@@@@@@@@@@@@@@@@@@",
+        "@@@@@@@@@@@@@@@@@@"
+      ],
+      "palettes": [ "mi-go_palette" ],
+      "npcs": {
+        "1": { "class": "mi-go_prisoner", "chance": 20 },
+        "2": { "class": "mi-go_prisoner", "chance": 20 },
+        "3": { "class": "mi-go_prisoner", "chance": 20 },
+        "4": { "class": "mi-go_prisoner", "chance": 20 },
+        "5": { "class": "apis", "chance": 20 },
+        "6": { "class": "mi-go_prisoner", "chance": 20 },
+        "7": { "class": "mi-go_prisoner", "chance": 20 }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_MI-GO_BASE_CAPTORS", "x": [ 2, 12 ], "y": [ 5, 10 ], "density": 0.02, "repeat": [ 2, 3 ] },
+        { "monster": "GROUP_MI-GO_BASE_BOSS", "x": [ 12, 13 ], "y": [ 7, 8 ], "density": 0.01, "repeat": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room7",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".|+|||||",
+        "||    ||",
+        "|V  i  |",
+        "|i  }i |",
+        "|V     +",
+        "||PPPP||",
+        ".|||||||",
+        "@@@@@@@@"
+      ],
+      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 2, 5 ], "y": [ 1, 4 ], "density": 0.01, "repeat": [ 0, 3 ] } ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room8",
+    "//": "Menagerie",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||| |||",
+        "|| ### |",
+        "|P   ###",
+        "|P iV # ",
+        "|P i} #|",
+        "+     ||",
+        "|###|+|@",
+        "|| ||@@@"
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_MI-GO_BASE_CAPTORS", "x": [ 2, 4 ], "y": [ 2, 5 ], "density": 0.01, "repeat": [ 1, 2 ] },
+        { "monster": "GROUP_DOMESTIC", "x": 4, "y": 0, "density": 0.01 },
+        { "monster": "GROUP_FOREST", "x": 6, "y": 1, "density": 0.01 },
+        { "monster": "GROUP_SWAMP", "x": 7, "y": 3, "density": 0.01 },
+        { "monster": "GROUP_CAVE", "x": 2, "y": 7, "density": 0.01 }
+      ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room9",
+    "//": "Storage room, left side",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||P|+|||",
+        "|P    PPP",
+        "|P P  i  ",
+        "| V      ",
+        "|    }   ",
+        "|V }     ",
+        "|||V  }  ",
+        "@@|||V   ",
+        "@@@@||||+"
+      ],
+      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 1, 8 ], "y": [ 3, 5 ], "density": 0.01, "repeat": [ 0, 2 ] } ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room9a",
+    "//": "Storage room, right side, split across map boundaries",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 9, 9 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||.||@@@",
+        "PP|||<@@@",
+        "   P||@@@",
+        "i PVP|@@@",
+        "  P P|@@@",
+        "i    +@@@",
+        "  PP||@@@",
+        "P |||@@@@",
+        "|||@+@@@@"
+      ],
+      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 0, 3 ], "y": [ 2, 5 ], "density": 0.01, "repeat": [ 0, 2 ] } ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room10",
+    "//": "Left entry",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".||||@",
+        "||Vi|@",
+        "|{  +@",
+        "|   ||",
+        "||i  |",
+        ".|||+|"
+      ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room11",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|||||||@",
+        "||ViV ||",
+        "|  V   +",
+        "|  ||  |",
+        "+     i|",
+        "||{   ||",
+        "@||||+||",
+        "@@@@@@@@"
+      ],
+      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 1, 3 ], "y": [ 2, 5 ], "density": 0.01, "repeat": [ 0, 2 ] } ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room12",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 10, 10 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "@|+|P|||@@",
+        "||     |||",
+        "|P   i  P|",
+        "||  i{i ||",
+        "@+      |@",
+        "@|+||V  +@",
+        "@|@@|||||@",
+        "@@@@@@@@@@",
+        "@@@@@@@@@@",
+        "@@@@@@@@@@"
+      ],
+      "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "x": [ 2, 6 ], "y": [ 1, 4 ], "density": 0.01, "repeat": [ 0, 1 ] } ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room13",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "@||||+||",
+        "||V   ||",
+        "| {V   |",
+        "+   i  |",
+        "| {V   |",
+        "||V   ||",
+        "|||||||.",
+        "@@@@@@@@"
+      ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room14",
+    "//": "Large monster holding cell",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "@|||@@",
+        "|| +@@",
+        "|##|||",
+        "|1  {|",
+        "|  1||",
+        "|||||."
+      ],
+      "palettes": [ "mi-go_palette" ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE_BRUTE", "x": [ 1, 3 ], "y": [ 3, 4 ], "repeat": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room15",
+    "//": "Roomfull of zaps",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|+||@@@+",
+        "| F|||||",
+        "|     P|",
+        "||F  F||",
+        "@||||||.",
+        "@@@@@@@@",
+        "@@@@@@@@",
+        "@@@@@@@@"
+      ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_encampment1_room16",
+    "//": "Right side entrance",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|+|||",
+        "|   |",
+        "|||+|",
+        "@@@@@",
+        "@@@@@"
+      ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mi-go_scout_tower_cells",
+    "//": "Mi-go surgical suite and prisoner cells for upper z levels",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "mapgensize": [ 18, 18 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "vvvvvvvv||vvvvvvvv",
+        "vvvvvv||||||vvvvvv",
+        "vvvv|||PPPP|||vvvv",
+        "vv|||PP    #1|||vv",
+        "|||PP  i   ### ||v",
+        "|<       }   #2 |v",
+        "|>  VnV    i ###||",
+        "@|i nnn        #3|",
+        "@|i nnn  i     # |",
+        "@+  VnV      ###||",
+        "||        i  #4 |v",
+        "|P    } ###  ###|v",
+        "|  i    # ####5||v",
+        "|||PPPP #7#6 |||vv",
+        "@@||||||||# ||vvvv",
+        "@||vvvvvv||||vvvvv",
+        "@vvv@@@@@@@@@@@@@@",
+        "@@@@@@@@@@@@@@@@@@"
+      ],
+      "palettes": [ "mi-go_palette" ],
+      "npcs": {
+        "1": { "class": "mi-go_prisoner", "chance": 20 },
+        "2": { "class": "mi-go_prisoner", "chance": 20 },
+        "3": { "class": "mi-go_prisoner", "chance": 20 },
+        "4": { "class": "mi-go_prisoner", "chance": 20 },
+        "6": { "class": "mi-go_prisoner", "chance": 20 },
+        "7": { "class": "mi-go_prisoner", "chance": 20 }
+      }
+    }
+  }
+]

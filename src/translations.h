@@ -2,11 +2,15 @@
 #ifndef TRANSLATIONS_H
 #define TRANSLATIONS_H
 
+#include <map>
+#include <ostream>
+#include <string>
+#include <vector>
+#include <type_traits>
+
 #include "optional.h"
 
-#include <string>
-
-#ifndef translate_marker
+#if !defined(translate_marker)
 /**
  * Marks a string literal to be extracted for translation. This is only for running `xgettext` via
  * "lang/update_pot.sh". Use `_` to extract *and* translate at run time. The macro itself does not
@@ -14,7 +18,7 @@
  */
 #define translate_marker(x) x
 #endif
-#ifndef translate_marker_context
+#if !defined(translate_marker_context)
 /**
  * Same as @ref translate_marker, but also provides a context (string literal). This is similar
  * to @ref pgettext, but it does not translate at run time. Like @ref translate_marker it just
@@ -23,17 +27,19 @@
 #define translate_marker_context(c, x) x
 #endif
 
-#ifdef LOCALIZE
+#if defined(LOCALIZE)
 
 // MingW flips out if you don't define this before you try to statically link libintl.
 // This should prevent 'undefined reference to `_imp__libintl_gettext`' errors.
-#if (defined _WIN32 || defined __CYGWIN__) && !defined _MSC_VER
-#ifndef LIBINTL_STATIC
-#define LIBINTL_STATIC
-#endif
+#if (defined(_WIN32) || defined(__CYGWIN__)) && !defined(_MSC_VER)
+#   if !defined(LIBINTL_STATIC)
+#       define LIBINTL_STATIC
+#   endif
 #endif
 
+// IWYU pragma: begin_exports
 #include <libintl.h>
+// IWYU pragma: end_exports
 
 #if defined(__GNUC__)
 #  define ATTRIBUTE_FORMAT_ARG(a) __attribute__((format_arg(a)))
@@ -44,14 +50,31 @@
 const char *_( const char *msg ) ATTRIBUTE_FORMAT_ARG( 1 );
 inline const char *_( const char *msg )
 {
-    return ( msg[0] == '\0' ) ? msg : gettext( msg );
+    return msg[0] == '\0' ? msg : gettext( msg );
+}
+inline std::string _( const std::string &msg )
+{
+    return _( msg.c_str() );
+}
+
+// ngettext overload taking an unsigned long long so that people don't need
+// to cast at call sites.  This is particularly relevant on 64-bit Windows where
+// size_t is bigger than unsigned long, so MSVC will try to encourage you to
+// add a cast.
+template<typename T, typename = std::enable_if_t<std::is_same<T, unsigned long long>::value>>
+ATTRIBUTE_FORMAT_ARG( 1 )
+inline const char *ngettext( const char *msgid, const char *msgid_plural, T n )
+{
+    // Leaving this long because it matches the underlying API.
+    // NOLINTNEXTLINE(cata-no-long)
+    return ngettext( msgid, msgid_plural, static_cast<unsigned long>( n ) );
 }
 
 const char *pgettext( const char *context, const char *msgid ) ATTRIBUTE_FORMAT_ARG( 2 );
 
 // same as pgettext, but supports plural forms like ngettext
 const char *npgettext( const char *context, const char *msgid, const char *msgid_plural,
-                       unsigned long int n ) ATTRIBUTE_FORMAT_ARG( 2 );
+                       unsigned long long n ) ATTRIBUTE_FORMAT_ARG( 2 );
 
 #else // !LOCALIZE
 
@@ -66,6 +89,21 @@ const char *npgettext( const char *context, const char *msgid, const char *msgid
 #define npgettext(STRING0, STRING1, STRING2, COUNT) ngettext(STRING1, STRING2, COUNT)
 
 #endif // LOCALIZE
+
+using GenderMap = std::map<std::string, std::vector<std::string>>;
+/**
+ * Translation with a gendered context
+ *
+ * Similar to pgettext, but the context is a collection of genders.
+ * @param genders A map where each key is a subject name (a string which should
+ * make sense to the translator in the context of the line to be translated)
+ * and the corresponding value is a list of potential genders for that subject.
+ * The first gender from the list of genders for the current language will be
+ * chosen for each subject (or the language default if there are no genders in
+ * common).
+ */
+std::string gettext_gendered( const GenderMap &genders, const std::string &msg );
+
 bool isValidLanguage( const std::string &lang );
 std::string getLangFromLCID( const int &lcid );
 void select_language();
@@ -80,16 +118,12 @@ class translation
 {
     public:
         translation();
-        /**
-         * Create a deferred translation with context
-         **/
-        translation( const std::string &ctxt, const std::string &raw );
 
         /**
-         * Create a deferred translation without context
+         * Store a string and an optional context for translation
          **/
-        translation( const std::string &raw );
-
+        static translation to_translation( const std::string &raw );
+        static translation to_translation( const std::string &ctxt, const std::string &raw );
         /**
          * Store a string that needs no translation.
          **/
@@ -110,6 +144,18 @@ class translation
         std::string translated() const;
 
         /**
+         * Methods exposing the underlying raw strings are not implemented, and
+         * probably should not if there's no good reason to do so. Most importantly,
+         * the underlying strings should not be re-saved to JSON: doing so risk
+         * the original string being changed during development and the saved
+         * string will then not be properly translated when loaded back. If you
+         * really want to save a translation, translate it early on, store it using
+         * `no_translation`, and retrieve it using `translated()` when saving.
+         * This ensures consistent behavior before and after saving and loading.
+         **/
+        std::string untranslated() const = delete;
+
+        /**
          * Whether the underlying string is empty, not matter what the context
          * is or whether translation is needed.
          **/
@@ -121,12 +167,20 @@ class translation
          * Be especially careful when using these to sort translations, as the
          * translated result will change when switching the language.
          **/
-        bool operator<( const translation &that ) const;
+        bool translated_lt( const translation &that ) const;
+        bool translated_eq( const translation &that ) const;
+        bool translated_ne( const translation &that ) const;
+
+        /**
+         * Compare translations by their context, raw string, and no-translation flag
+         */
         bool operator==( const translation &that ) const;
         bool operator!=( const translation &that ) const;
     private:
+        translation( const std::string &ctxt, const std::string &raw );
+        translation( const std::string &raw );
         struct no_translation_tag {};
-        translation( const std::string &str, const no_translation_tag );
+        translation( const std::string &str, no_translation_tag );
 
         cata::optional<std::string> ctxt;
         std::string raw;
@@ -134,8 +188,18 @@ class translation
 };
 
 /**
+ * Shorthands for translation::to_translation
+ **/
+translation to_translation( const std::string &raw );
+translation to_translation( const std::string &ctxt, const std::string &raw );
+/**
  * Shorthand for translation::no_translation
  **/
 translation no_translation( const std::string &str );
+
+std::ostream &operator<<( std::ostream &out, const translation &t );
+std::string operator+( const translation &lhs, const std::string &rhs );
+std::string operator+( const std::string &lhs, const translation &rhs );
+std::string operator+( const translation &lhs, const translation &rhs );
 
 #endif // _TRANSLATIONS_H_

@@ -42,7 +42,9 @@
       "u": "t_dirtfloor",
       "W": "t_dirtfloor",
       "w": "t_window",
-      "y": "t_dirt"
+      "y": "t_dirt",
+      "z": "t_radio_tower",
+      "Z": "t_radio_controls"
     },
     "furniture": {
       "#": "f_null",
@@ -57,6 +59,7 @@
       "4": "f_null",
       "7": "f_brazier",
       "8": "f_null",
+      "9": "f_bulletin",
       "A": "f_anvil",
       "B": "f_null",
       "b": "f_straw_bed",
@@ -81,7 +84,8 @@
       "u": "f_cupboard",
       "W": "f_canvas_wall",
       "w": "f_null",
-      "y": "f_smoking_rack"
+      "y": "f_smoking_rack",
+      "e": "f_arcfurnace_empty"
     }
   }
 ]

@@ -5,16 +5,17 @@
     "name": "Lessons for the Novice Bowhunter",
     "name_plural": "Lessons for the Novice Bowhunter",
     "description": "This hefty paperback book contains all the information needed for novice archers to get started hunting with a variety of bows and crossbows.",
-    "weight": 932,
-    "volume": 5,
+    "weight": "932 g",
+    "volume": "1250 ml",
     "price": 2000,
+    "price_postapoc": 7500,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
     "skill": "archery",
     "max_level": 2,
     "intelligence": 7,
-    "time": 20
+    "time": "20 m"
   },
   {
     "id": "mag_archery",
@@ -22,16 +23,17 @@
     "name": "Archery for Kids",
     "name_plural": "Archery for Kids",
     "description": "Will you be able to place the arrow right into the bullseye?  It is not that easy, but once you know how it's done, you will have a lot of fun with archery.",
-    "weight": 60,
-    "volume": 1,
+    "weight": "60 g",
+    "volume": "250 ml",
     "price": 480,
+    "price_postapoc": 5000,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
     "skill": "archery",
     "max_level": 1,
     "intelligence": 2,
-    "time": 7,
+    "time": "7 m",
     "fun": 1
   },
   {
@@ -40,15 +42,16 @@
     "name": "Zen and the Art of Archery",
     "name_plural": "Zen and the Art of Archery",
     "description": "This massive book contains a wealth of vital information for the novice archer.",
-    "weight": 1454,
-    "volume": 5,
+    "weight": "1454 g",
+    "volume": "1250 ml",
     "price": 1900,
+    "price_postapoc": 5000,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
     "skill": "archery",
     "max_level": 3,
     "intelligence": 7,
-    "time": 20
+    "time": "20 m"
   }
 ]

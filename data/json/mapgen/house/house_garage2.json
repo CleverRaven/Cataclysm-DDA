@@ -90,7 +90,7 @@
         "o": "f_bookcase",
         "r": "f_rack"
       },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "items": { "Y": { "item": "coat_rack", "chance": 35 }, "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] } },
       "place_loot": [
         { "group": "bed", "x": [ 19, 20 ], "y": [ 19, 20 ], "chance": 90, "repeat": [ 1, 3 ] },

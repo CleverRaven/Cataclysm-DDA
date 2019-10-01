@@ -1,10 +1,11 @@
 #include "emit.h"
 
-#include "debug.h"
-#include "generic_factory.h"
-#include "json.h"
-
 #include <map>
+#include <algorithm>
+#include <utility>
+
+#include "debug.h"
+#include "json.h"
 
 static std::map<emit_id, emit> emits_all;
 
@@ -16,7 +17,7 @@ bool string_id<emit>::is_valid() const
     if( found == emits_all.end() ) {
         return false;
     }
-    return found->second.field() != fd_null;
+    return !found->second.field().id().is_null();
 }
 
 /** @relates string_id */
@@ -46,7 +47,7 @@ void emit::load_emit( JsonObject &jo )
     et.id_ = emit_id( jo.get_string( "id" ) );
     et.field_name = jo.get_string( "field" );
 
-    jo.read( "density", et.density_ );
+    jo.read( "intensity", et.intensity_ );
     jo.read( "qty", et.qty_ );
     jo.read( "chance", et.chance_ );
 
@@ -58,21 +59,28 @@ const std::map<emit_id, emit> &emit::all()
     return emits_all;
 }
 
+void emit::finalize()
+{
+    for( auto &e : emits_all ) {
+        e.second.field_ = field_type_id( e.second.field_name );
+    }
+}
 void emit::check_consistency()
 {
     for( auto &e : emits_all ) {
-        e.second.field_ = field_from_ident( e.second.field_name );
-
-        if( e.second.density_ > MAX_FIELD_DENSITY || e.second.density_ < 1 ) {
-            debugmsg( "emission density of %s out of range", e.second.id_.c_str() );
-            e.second.density_ = std::max( std::min( e.second.density_, MAX_FIELD_DENSITY ), 1 );
+        const int max_intensity = e.second.field_.obj().get_max_intensity();
+        if( e.second.intensity_ > max_intensity || e.second.intensity_ < 1 ) {
+            debugmsg( "emission intensity of %s out of range (%d of max %d)", e.second.id_.c_str(),
+                      e.second.intensity_, max_intensity );
+            e.second.intensity_ = max_intensity;
         }
         if( e.second.qty_ <= 0 ) {
             debugmsg( "emission qty of %s out of range", e.second.id_.c_str() );
         }
         if( e.second.chance_ > 100 || e.second.chance_ <= 0 ) {
-            e.second.density_ = std::max( std::min( e.second.chance_, 100 ), 1 );
-            debugmsg( "emission chance of %s out of range", e.second.id_.c_str() );
+            debugmsg( "emission chance of %s out of range (%d of min 1 max 100)", e.second.id_.c_str(),
+                      e.second.chance_ );
+            e.second.chance_ = std::max( std::min( e.second.chance_, 100 ), 1 );
         }
     }
 }

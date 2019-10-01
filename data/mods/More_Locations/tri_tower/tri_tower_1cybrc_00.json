@@ -1,51 +1,42 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "tri_tower_1cybrc",
-        "comment" : "courtyard or parking lot, bottom right corner",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_pavement",
-             "rows": [
-                "===#####PPPPPPPPPPP##===",
-                "=#######PPPPPPPPPPP####=",
-                "=#######PPPPPPPPPPP####=",
-                "########                ",
-                "########                ",
-                "#####v         v        ",
-                "#####                   ",
-                "#####                   ",
-                "PPP                     ",
-                "PPP                     ",
-                "PPP                     ",
-                "PPP                     ",
-                "PPP                     ",
-                "PPP       v             ",
-                "PPP                     ",
-                "PPP                     ",
-                "###                     ",
-                "###                     ",
-                "###                     ",
-                "###                     ",
-                "###                     ",
-                "=##                     ",
-                "=##                     ",
-                "===                     "
-            ],
-            "rotation": 2,
-            "palettes": [
-                "tri_tower",
-                "ground_level"
-                        ],
-            "terrain":{
-                "P": "t_pavement",
-                "y": "t_pavement_y",
-                "9": "t_card_reader_broken"
-            },
-            "vehicles": {
-                "v": { "vehicle": "suburban_home", "chance": 3 }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "tri_tower_1cybrc",
+    "comment": "courtyard or parking lot, bottom right corner",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_pavement",
+      "rows": [
+        "===#####PPPPPPPPPPP##===",
+        "=#######PPPPPPPPPPP####=",
+        "=#######PPPPPPPPPPP####=",
+        "########                ",
+        "########                ",
+        "#####v         v        ",
+        "#####                   ",
+        "#####                   ",
+        "PPP                     ",
+        "PPP                     ",
+        "PPP                     ",
+        "PPP                     ",
+        "PPP                     ",
+        "PPP       v             ",
+        "PPP                     ",
+        "PPP                     ",
+        "###                     ",
+        "###                     ",
+        "###                     ",
+        "###                     ",
+        "###                     ",
+        "=##                     ",
+        "=##                     ",
+        "===                     "
+      ],
+      "rotation": 2,
+      "palettes": [ "tri_tower", "ground_level" ],
+      "terrain": { "P": "t_pavement", "y": "t_pavement_y", "9": "t_card_reader_broken" },
+      "vehicles": { "v": { "vehicle": "suburban_home", "chance": 3 } }
     }
+  }
 ]

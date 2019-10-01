@@ -2,12 +2,13 @@
 #ifndef SAFEMODE_UI_H
 #define SAFEMODE_UI_H
 
-#include "creature.h"
-#include "enums.h"
-
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <array>
+
+#include "creature.h"
+#include "enums.h"
 
 class JsonIn;
 class JsonOut;
@@ -32,8 +33,9 @@ class safemode
 
                 rules_class() : active( false ), whitelist( false ), attitude( Creature::A_HOSTILE ),
                     proximity( 0 ) {}
-                rules_class( std::string rule_in, bool active_in, bool whitelist_in, Creature::Attitude attitude_in,
-                             int proximity_in ) : rule( rule_in ), active( active_in ), whitelist( whitelist_in ),
+                rules_class( const std::string &rule_in, bool active_in, bool whitelist_in,
+                             Creature::Attitude attitude_in, int proximity_in ) : rule( rule_in ),
+                    active( active_in ), whitelist( whitelist_in ),
                     attitude( attitude_in ), proximity( proximity_in ) {}
         };
 
@@ -63,32 +65,32 @@ class safemode
         std::vector<rules_class> global_rules;
         std::vector<rules_class> character_rules;
 
-        void test_pattern( const int tab_in, const int row_in );
+        void test_pattern( int tab_in, int row_in );
 
-        void load( const bool character_in );
-        bool save( const bool character_in );
+        void load( bool is_character_in );
+        bool save( bool is_character_in );
 
-        bool is_character;
+        bool is_character = false;
 
         void create_rules();
-        void add_rules( std::vector<rules_class> &rules_in );
-        void set_rule( const rules_class rule_in, const std::string &name_in, rule_state rs_in );
+        void add_rules( const std::vector<rules_class> &rules_in );
+        void set_rule( const rules_class &rule_in, const std::string &name_in, rule_state rs_in );
 
     public:
         std::string lastmon_whitelist;
 
-        bool has_rule( const std::string &rule_in, const Creature::Attitude attitude_in );
-        void add_rule( const std::string &rule_in, const Creature::Attitude attitude_in,
-                       const int proximity_in, const rule_state state_in );
-        void remove_rule( const std::string &rule_in, const Creature::Attitude attitude_in );
+        bool has_rule( const std::string &rule_in, Creature::Attitude attitude_in );
+        void add_rule( const std::string &rule_in, Creature::Attitude attitude_in,
+                       int proximity_in, rule_state state_in );
+        void remove_rule( const std::string &rule_in, Creature::Attitude attitude_in );
         void clear_character_rules();
-        rule_state check_monster( const std::string &creature_name_in, const Creature::Attitude attitude_in,
-                                  const int proximity_in ) const;
+        rule_state check_monster( const std::string &creature_name_in, Creature::Attitude attitude_in,
+                                  int proximity_in ) const;
 
         std::string npc_type_name();
 
         void show();
-        void show( const std::string &custom_name_in, bool is_autopickup_in );
+        void show( const std::string &custom_name_in, bool is_safemode_in );
 
         bool save_character();
         bool save_global();

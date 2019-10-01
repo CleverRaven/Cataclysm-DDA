@@ -106,7 +106,7 @@
     "copy-from": "broken_eyebot",
     "color": "pink",
     "name": "broken floating heater",
-    "description": "A broken floating heater, now cold and motionless.  Could bestripped down or re-crafted."
+    "description": "A broken floating heater, now cold and motionless.  Could be stripped down or re-crafted."
   },
   {
     "type": "GENERIC",
@@ -422,7 +422,7 @@
     "id": "broken_milbot_gaurdian",
     "copy-from": "broken_milbot_disarmed",
     "color": "white",
-    "name": "broken robo-gaurdian",
+    "name": "broken robo-guardian",
     "description": "A broken salvaged robot. Could be stripped or recrafted."
   },
   {

@@ -1,26 +1,27 @@
 [
   {
-    "id" : "mjolnir_replica",
+    "id": "mjolnir_replica",
     "copy-from": "warhammer",
-    "type":"GENERIC",
-    "name" : "Mjölnir",
-     "description" : "A replica of Mjölnir, the hammer of Thor.  It is rumored to be able to level mountains with a single blow.  It is decorated with gold and silver ornaments.",
-     "weight" : 1731,
-     "color" : "light_gray",
-     "material" : ["iron", "wood", "gold"],
-     "bashing" : 27,
-     "price" : 160000
-},{
-    "id" : "gungnir_replica",
+    "type": "GENERIC",
+    "name": "Mjölnir",
+    "description": "A replica of Mjölnir, the hammer of Thor.  It is rumored to be able to level mountains with a single blow.  It is decorated with gold and silver ornaments.",
+    "weight": 1731,
+    "color": "light_gray",
+    "material": [ "iron", "wood", "gold" ],
+    "bashing": 27,
+    "price": 160000
+  },
+  {
+    "id": "gungnir_replica",
     "copy-from": "spear_steel",
-    "type":"GENERIC",
-    "name" : "Gungnir",
-    "description" : "A replica of Gungnir, the spear of Odin.  It is rumored to be the perfect spear, perfectly hitting any target regardless of the wielder's strength or skill.  It is decorated with gold and silver ornaments.",
-    "weight" : 1854,
-    "material" : ["steel", "wood", "gold"],
-    "techniques" : ["WBLOCK_1", "IMPALE"],
-    "volume" : 13,
-    "bashing" : 10,
-    "price" : 120000
+    "type": "GENERIC",
+    "name": "Gungnir",
+    "description": "A replica of Gungnir, the spear of Odin.  It is rumored to be the perfect spear, perfectly hitting any target regardless of the wielder's strength or skill.  It is decorated with gold and silver ornaments.",
+    "weight": 1854,
+    "material": [ "steel", "wood", "gold" ],
+    "techniques": [ "WBLOCK_1", "IMPALE" ],
+    "volume": 13,
+    "bashing": 10,
+    "price": 120000
   }
 ]

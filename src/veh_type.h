@@ -2,14 +2,6 @@
 #ifndef VEH_TYPE_H
 #define VEH_TYPE_H
 
-#include "calendar.h"
-#include "color.h"
-#include "damage.h"
-#include "enums.h"
-#include "optional.h"
-#include "string_id.h"
-#include "units.h"
-
 #include <array>
 #include <bitset>
 #include <map>
@@ -18,25 +10,24 @@
 #include <set>
 #include <utility>
 #include <vector>
+#include <sstream>
+
+#include "calendar.h"
+#include "color.h"
+#include "damage.h"
+#include "optional.h"
+#include "string_id.h"
+#include "type_id.h"
+#include "units.h"
+#include "vehicle.h"
+#include "requirements.h"
+#include "point.h"
+#include "translations.h"
 
 using itype_id = std::string;
 
-class vpart_info;
-using vpart_id = string_id<vpart_info>;
-struct vehicle_prototype;
-using vproto_id = string_id<vehicle_prototype>;
-class vehicle;
 class JsonObject;
-struct vehicle_item_spawn;
-struct quality;
-using quality_id = string_id<quality>;
 class Character;
-
-struct requirement_data;
-using requirement_id = string_id<requirement_data>;
-
-class Skill;
-using skill_id = string_id<Skill>;
 
 // bitmask backing store of -certain- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
@@ -45,6 +36,8 @@ enum vpart_bitflags : int {
     VPFLAG_EVENTURN,
     VPFLAG_ODDTURN,
     VPFLAG_CONE_LIGHT,
+    VPFLAG_WIDE_CONE_LIGHT,
+    VPFLAG_HALF_CIRCLE_LIGHT,
     VPFLAG_CIRCLE_LIGHT,
     VPFLAG_BOARDABLE,
     VPFLAG_AISLE,
@@ -53,6 +46,8 @@ enum vpart_bitflags : int {
     VPFLAG_OPAQUE,
     VPFLAG_OPENABLE,
     VPFLAG_SEATBELT,
+    VPFLAG_SPACE_HEATER,
+    VPFLAG_COOLER,
     VPFLAG_WHEEL,
     VPFLAG_MOUNTABLE,
     VPFLAG_FLOATS,
@@ -69,11 +64,17 @@ enum vpart_bitflags : int {
     VPFLAG_CARGO,
     VPFLAG_INTERNAL,
     VPFLAG_SOLAR_PANEL,
+    VPFLAG_WATER_WHEEL,
+    VPFLAG_WIND_TURBINE,
     VPFLAG_RECHARGE,
     VPFLAG_EXTENDS_VISION,
     VPFLAG_ENABLED_DRAINS_EPOWER,
+    VPFLAG_AUTOCLAVE,
     VPFLAG_WASHING_MACHINE,
+    VPFLAG_DISHWASHER,
     VPFLAG_FLUIDTANK,
+    VPFLAG_REACTOR,
+    VPFLAG_RAIL,
 
     NUM_VPFLAGS
 };
@@ -100,8 +101,34 @@ struct vpslot_engine {
     std::vector<itype_id> fuel_opts;
 };
 
+struct veh_ter_mod {
+    int movecost;   /* movecost for moving through this terrain (overrides current terrain movecost)
+                     * if movecost <= 0 ignore this parameter */
+    int penalty;    // penalty while not on this terrain (adds to movecost)
+};
+
 struct vpslot_wheel {
     float rolling_resistance = 1;
+    int contact_area = 1;
+    std::vector<std::pair<std::string, veh_ter_mod>> terrain_mod;
+    float or_rating;
+};
+
+struct vpslot_workbench {
+    // Base multiplier applied for crafting here
+    float multiplier;
+    // Mass/volume allowed before a crafting speed penalty is applied
+    units::mass allowed_mass;
+    units::volume allowed_volume;
+};
+
+struct transform_terrain_data {
+    std::set<std::string> pre_flags;
+    std::string post_terrain;
+    std::string post_furniture;
+    std::string post_field;
+    int post_field_intensity;
+    time_duration post_field_age;
 };
 
 class vpart_info
@@ -112,6 +139,7 @@ class vpart_info
 
         cata::optional<vpslot_engine> engine_info;
         cata::optional<vpslot_wheel> wheel_info;
+        cata::optional<vpslot_workbench> workbench_info;
 
     public:
         /** Translated name of a part */
@@ -136,7 +164,7 @@ class vpart_info
          * y, u, n, b to NW, NE, SE, SW lines correspondingly
          * h, j, c to horizontal, vertical, cross correspondingly
          */
-        long sym = 0;
+        int sym = 0;
         char sym_broken = '#';
 
         /** hint to tilesets for what tile to use if this part doesn't have one */
@@ -146,7 +174,7 @@ class vpart_info
         int durability = 0;
 
         /** A text description of the part as a vehicle part */
-        std::string description;
+        translation description;
 
         /** Damage modifier (percentage) used when damaging other entities upon collision */
         int dmg_mod = 100;
@@ -158,16 +186,19 @@ class vpart_info
         int epower = 0;
 
         /**
-         * Energy consumed by engines and motors (TODO: units?) when delivering max @ref power
+         * Energy consumed by engines and motors (watts) when delivering max @ref power
          * Includes waste. Gets scaled based on powertrain demand.
          */
         int energy_consumption = 0;
 
         /**
-         * For engines and motors this is maximum output (TODO: units?)
+         * For engines and motors this is maximum output (watts)
          * For alternators is engine power consumed (negative value)
          */
         int power = 0;
+
+        /** Emissions of part */
+        std::set<emit_id> emissions;
 
         /** Fuel type of engine or tank */
         itype_id fuel_type = "null";
@@ -176,10 +207,10 @@ class vpart_info
         itype_id default_ammo = "null";
 
         /** Volume of a foldable part when folded */
-        units::volume folded_volume = 0;
+        units::volume folded_volume = 0_ml;
 
         /** Cargo location volume */
-        units::volume size = 0;
+        units::volume size = 0_ml;
 
         /** Mechanics skill required to install item */
         int difficulty = 0;
@@ -188,7 +219,7 @@ class vpart_info
         bool legacy = true;
 
         /** Format the description for display */
-        int format_description( std::ostringstream &msg, const std::string &format_color, int width ) const;
+        int format_description( std::ostringstream &msg, const nc_color &format_color, int width ) const;
 
         /** Installation requirements for this component */
         requirement_data install_requirements() const;
@@ -200,7 +231,7 @@ class vpart_info
         int install_moves = to_moves<int>( 1_hours );
 
         /** Installation time (in moves) for this component accounting for player skills */
-        int install_time( const Character &ch ) const;
+        int install_time( const player &p ) const;
 
         /** Requirements for removal of this component */
         requirement_data removal_requirements() const;
@@ -212,7 +243,7 @@ class vpart_info
         int removal_moves = -1;
 
         /** Removal time (in moves) for this component accounting for player skills */
-        int removal_time( const Character &ch ) const;
+        int removal_time( const player &p ) const;
 
         /** Requirements for repair of this component (per level of damage) */
         requirement_data repair_requirements() const;
@@ -227,7 +258,7 @@ class vpart_info
         int repair_moves = to_moves<int>( 1_hours );
 
         /** Repair time (in moves) to fully repair this component, accounting for player skills */
-        int repair_time( const Character &ch ) const;
+        int repair_time( const player &p ) const;
 
         /** @ref item_group this part breaks into when destroyed */
         std::string breaks_into_group = "EMPTY_GROUP";
@@ -238,8 +269,14 @@ class vpart_info
         /** seatbelt (str), muffler (%), horn (vol), light (intensity) */
         int bonus = 0;
 
+        /** cargo weight modifier (percentage) */
+        int cargo_weight_modifier = 100;
+
         /** Flat decrease of damage of a given type. */
-        std::array<float, NUM_DT> damage_reduction;
+        std::array<float, NUM_DT> damage_reduction = {};
+
+        /* Contains data for terrain transformer parts */
+        transform_terrain_data transform_terrain;
 
         /**
          * @name Engine specific functions
@@ -258,10 +295,18 @@ class vpart_info
          *
          */
         float wheel_rolling_resistance() const;
+        int wheel_area() const;
+        std::vector<std::pair<std::string, veh_ter_mod>> wheel_terrain_mod() const;
+        float wheel_or_rating() const;
+
+        /**
+         * Getter for optional workbench info
+         */
+        const cata::optional<vpslot_workbench> &get_workbench_info() const;
 
     private:
         /** Name from vehicle part definition which if set overrides the base item name */
-        mutable std::string name_;
+        translation name_;
 
         std::set<std::string> flags;    // flags
         std::bitset<NUM_VPFLAGS> bitflags; // flags checked so often that things slow down due to string cmp
@@ -287,6 +332,7 @@ class vpart_info
         static void load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo,
                                  const itype_id &fuel_type );
         static void load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo );
+        static void load_workbench( cata::optional<vpslot_workbench> &wbptr, JsonObject &jo );
         static void load( JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();

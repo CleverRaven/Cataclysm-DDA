@@ -1,69 +1,116 @@
 [
   {
-    "id": "s_antique",
-    "type": "overmap_terrain",
-    "name": "antique store",
-    "sym": 65,
-    "color": "brown",
-    "see_cost": 5,
-    "mondensity": 2,
-    "extras": "build",
-    "mapgen": [
-      {
-        "method": "json",
-        "weight": 500,
-        "object": {
-          "fill_ter": "t_floor",
-          "rows": [
-            "____,____,____,____,____",
-            "____,____,____,____,____",
-            "____,____,____,____,____",
-            "____,____,____,____,____",
-            "____,____,____,____,____",
-            "FFFFFFFFFFFFFFFFFFFFFFFF",
-            "FFFFFFFFFFFFFFFFFFFFFFFF",
-            "|--OOOOOO--++--OOOOOO--|",
-            "|l                    l|",
-            "|l                    l|",
-            "|l  llllll    llllll  l|",
-            "|l                    l|",
-            "|l                    l|",
-            "|l  llllll    llllll  l|",
-            "|l                    l|",
-            "|l                    l|",
-            "|      ##TTTTTT##      |",
-            "|              L#      |",
-            "|----------------------|",
-            "........................",
-            "........................",
-            "........................",
-            "........................",
-            "........................"
-          ],
-          "terrain": {
-            " ": "t_floor",
-            "+": "t_door_glass_c",
-            ",": "t_pavement_y",
-            "-": "t_wall",
-            ".": "t_grass",
-            "F": "t_sidewalk",
-            "O": "t_window",
-            "_": "t_pavement",
-            "|": "t_wall"
-          },
-          "furniture": { "#": "f_counter", "T": "f_displaycase", "l": "f_bookcase", "L": "f_stool" },
-          "place_items": [
-            { "item": "antique", "x": [ 4, 9 ], "y": [ 10, 10 ], "chance": 70 },
-            { "item": "antique", "x": [ 14, 19 ], "y": [ 10, 10 ], "chance": 70 },
-            { "item": "antique", "x": [ 4, 9 ], "y": [ 13, 13 ], "chance": 70 },
-            { "item": "antique", "x": [ 14, 19 ], "y": [ 13, 13 ], "chance": 70 },
-            { "item": "antique", "x": [ 1, 1 ], "y": [ 8, 15 ], "chance": 70 },
-            { "item": "antique", "x": [ 22, 22 ], "y": [ 8, 15 ], "chance": 70 },
-            { "item": "antique_rare", "x": [ 9, 14 ], "y": [ 16, 16 ], "chance": 65 }
-          ]
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_antique" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "____,____,____,____,____",
+        "____,____,____,____,____",
+        "____,____,____,____,____",
+        "____,____,____,____,____",
+        "____,____,____,____,____",
+        "FFFFFFFFFFFFFFFFFFFFFFFF",
+        "FFFFFFFFFFFFFFFFFFFFFFFF",
+        "|--OOOOOO--++--OOOOOO--|",
+        "|l                    l|",
+        "|l                    l|",
+        "|l  llllll    llllll  l|",
+        "|l                    l|",
+        "|l                    l|",
+        "|l  llllll    llllll  l|",
+        "|l                    l|",
+        "|l                    l|",
+        "|      ##TTTTTT##      |",
+        "|              L#      |",
+        "|----------M-----------|",
+        ".4........._________<...",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        " ": "t_floor",
+        "+": "t_door_glass_c",
+        ",": "t_pavement_y",
+        "-": "t_wall_w",
+        ".": [ [ "t_dirt", 5 ], [ "t_grass", 16 ], [ "t_grass_long", 5 ], [ "t_underbrush", 10 ] ],
+        "F": "t_sidewalk",
+        "O": "t_window",
+        "_": "t_pavement",
+        "M": "t_door_metal_pickable",
+        "4": "t_gutter_downspout",
+        "<": "t_ladder_up",
+        "|": "t_wall_w"
+      },
+      "furniture": { "#": "f_counter", "T": "f_displaycase", "l": "f_bookcase", "L": "f_stool" },
+      "place_items": [
+        { "item": "antique", "x": [ 4, 9 ], "y": [ 10, 10 ], "chance": 70 },
+        { "item": "antique", "x": [ 14, 19 ], "y": [ 10, 10 ], "chance": 70 },
+        { "item": "antique", "x": [ 4, 9 ], "y": [ 13, 13 ], "chance": 70 },
+        { "item": "antique", "x": [ 14, 19 ], "y": [ 13, 13 ], "chance": 70 },
+        { "item": "antique", "x": [ 1, 1 ], "y": [ 8, 15 ], "chance": 70 },
+        { "item": "antique", "x": [ 22, 22 ], "y": [ 8, 15 ], "chance": 70 },
+        { "item": "antique_rare", "x": [ 9, 14 ], "y": [ 16, 16 ], "chance": 65 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_antique_roof" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "|......................3",
+        "|.c....................3",
+        "|......................3",
+        "|......................3",
+        "|......................3",
+        "|......................3",
+        "|......................3",
+        "|......................3",
+        "|......................3",
+        "|.........&............3",
+        "|......................3",
+        "|5---------------------3",
+        "                   #>## ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        ".": "t_tar_flat_roof",
+        " ": "t_open_air",
+        "|": "t_gutter_west",
+        "-": "t_gutter_south",
+        "3": "t_gutter_east",
+        "#": "t_grate",
+        ">": "t_ladder_down",
+        "5": "t_gutter_drop"
+      },
+      "furniture": { "&": "f_roof_turbine_vent", "c": "f_cellphone_booster" },
+      "place_items": [ { "item": "roof_trash", "x": [ 4, 16 ], "y": [ 8, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        { "chunks": [ [ "roof_2x2_golf", 5 ], [ "null", 85 ], [ "roof_3x3_wine", 10 ] ], "x": [ 13, 20 ], "y": 15 },
+        {
+          "chunks": [ [ "null", 40 ], [ "roof_4x4_party", 5 ], [ "roof_4x4_utility", 50 ], [ "roof_4x4_holdout", 3 ] ],
+          "x": [ 4, 13 ],
+          "y": [ 8, 13 ]
         }
-      }
-    ],
-    "flags": [ "SIDEWALK" ]
+      ]
+    }
   }
 ]

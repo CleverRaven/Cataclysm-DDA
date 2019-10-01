@@ -1,0 +1,65 @@
+[
+  {
+    "id": "ceramics_workroom",
+    "type": "item_group",
+    "items": [
+      [ "cooking_oil", 15 ],
+      [ "mag_fabrication", 5 ],
+      [ "manual_fabrication", 5 ],
+      [ "mag_survival", 10 ],
+      [ "wax", 30 ],
+      [ "straw_pile", 15 ],
+      [ "charcoal", 25 ],
+      [ "clay_lump", 100 ]
+    ]
+  },
+  {
+    "id": "metal_workshop",
+    "type": "item_group",
+    "items": [
+      { "group": "tools_blacksmith", "prob": 50 },
+      { "group": "supplies_metal", "prob": 40 },
+      [ "welding_book", 5 ],
+      [ "mag_fabrication", 15 ],
+      [ "manual_fabrication", 15 ],
+      [ "goggles_welding", 10 ],
+      [ "apron_leather", 25 ],
+      [ "gloves_leather", 25 ],
+      [ "mask_dust", 15 ],
+      { "item": "ear_plugs", "prob": 25, "count": [ 1, 3 ] },
+      [ "charcoal", 25 ],
+      {
+        "collection": [
+          { "item": "oxy_torch", "prob": 100 },
+          {
+            "distribution": [ { "item": "weldtank", "prob": 100, "count": [ 1, 2 ] }, { "item": "tinyweldtank", "prob": 100, "count": [ 1, 3 ] } ],
+            "prob": 100
+          }
+        ],
+        "prob": 6
+      },
+      [ "oxy_torch", 5 ],
+      { "item": "weldtank", "prob": 2, "count": [ 1, 2 ] },
+      { "item": "tinyweldtank", "prob": 2, "count": [ 1, 3 ] },
+      { "item": "oxygen_cylinder", "prob": 10, "count": [ 1, 2 ] },
+      [ "polisher", 1 ],
+      [ "welder", 2 ]
+    ]
+  },
+  {
+    "id": "glass_workroom",
+    "type": "item_group",
+    "items": [
+      [ "pipe", 90 ],
+      [ "glassblowing_book", 50 ],
+      [ "tongs", 30 ],
+      [ "crucible", 30 ],
+      [ "chisel", 30 ],
+      [ "glasses_safety", 25 ],
+      [ "charcoal", 50 ],
+      { "item": "glass_shard", "prob": 90, "count": [ 1, 8 ] },
+      [ "material_sand", 80 ],
+      [ "chemistry_set", 5 ]
+    ]
+  }
+]

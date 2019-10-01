@@ -1,72 +1,61 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "bandit_tower_3blc",
-        "comment" : "bottom left corner, third and odd level floors.",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "########################",
-                "########################",
-                "########################",
-                "#######==--=====--==--==",
-                "#######=.zz.|$..zz.|..==",
-                "#####===.zz.|-|.zz.|..==",
-                "#####===.zz..$|.zz.|....",
-                "###=====j------j----....",
-                "###=x......xx......+....",
-                "###=..x.........-+----++",
-                "###w.......x...L|..XX|..",
-                "###w...x.......L|X..X|--",
-                "###w.....x..x..L|XX..+.X",
-                "###=++------------------",
-                "###=.........!..........",
-                "###=----+----|..........",
-                "###gN.......b|..===!!==.",
-                "###g...TT...b|..===..Mee",
-                "###g...TTa..L|..==>>>Mee",
-                "###g.v.TT...L|...=>>>Mee",
-                "###g...TT...L|...=>>>Mee",
-                "###g........b|..=MMMMMMM",
-                "###g.lllllll*|..=eeeeM==",
-                "###===-------|...eeeeM=="
-            ],
-            "rotation": 3,
-            "palettes": [
-                "tri_tower",
-                "upper_level",
-                "bandit_tower_stuff"
-            ],
-            "terrain":{
-                "j": "t_door_c"
-            },
-            "furniture":{
-                "K": "f_safe_l"
-            },
-            "item":{
-                "c": { "item": "textbook_robots" },
-                "x": [ 
-                    { "item": "broken_manhack", "chance": 2 },
-                    { "item": "broken_eyebot", "chance": 2 },
-                    { "item": "broken_copbot", "chance": 4 }, 
-                    { "item": "broken_riotbot", "chance": 4 }, 
-                    { "item": "broken_skitterbot", "chance": 3 }
-                ],
-                "l": { "item": "battery", "amount": [ 0, 2 ] }
-            },
-            "items":{
-                "$": { "item": "bots", "chance": 80 },
-                "b": { "item": "textbooks", "chance": 60 },
-                "l": { "item": "electronics", "chance": 60 },
-                "L": { "item": "tools_common", "chance": 60 },
-                "T": { "item": "tools_common", "chance": 30 },
-                "X": { "item": "consumer_electronics", "chance": 70 }
-            },
-            "monster":{
-                "z": { "monster": "mon_manhack" }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "bandit_tower_3blc",
+    "comment": "bottom left corner, third and odd level floors.",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "#######==--=====--==--==",
+        "#######=.zz.|$..zz.|..==",
+        "#####===.zz.|-|.zz.|..==",
+        "#####===.zz..$|.zz.|....",
+        "###=====j------j----....",
+        "###=x......xx......+....",
+        "###=..x.........-+----++",
+        "###w.......x...L|..XX|..",
+        "###w...x.......L|X..X|--",
+        "###w.....x..x..L|XX..+.X",
+        "###=++------------------",
+        "###=.........!..........",
+        "###=----+----|..........",
+        "###gN.......b|..===!!==.",
+        "###g...TT...b|..===..Mee",
+        "###g...TTa..L|..==>>>Mee",
+        "###g.v.TT...L|...=>>>Mee",
+        "###g...TT...L|...=>>>Mee",
+        "###g........b|..=MMMMMMM",
+        "###g.lllllll*|..=eeeeM==",
+        "###===-------|...eeeeM=="
+      ],
+      "rotation": 3,
+      "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
+      "terrain": { "j": "t_door_c" },
+      "furniture": { "K": "f_safe_l" },
+      "item": {
+        "c": { "item": "textbook_robots" },
+        "x": [
+          { "item": "broken_manhack", "chance": 2 },
+          { "item": "broken_eyebot", "chance": 2 },
+          { "item": "broken_copbot", "chance": 4 },
+          { "item": "broken_riotbot", "chance": 4 },
+          { "item": "broken_skitterbot", "chance": 3 }
+        ]
+      },
+      "items": {
+        "$": { "item": "bots", "chance": 80 },
+        "b": { "item": "textbooks", "chance": 60 },
+        "l": [ { "item": "electronics", "chance": 60 }, { "item": "ammo_pocket_batteries_full", "repeat": [ 0, 2 ] } ],
+        "L": { "item": "tools_common", "chance": 60 },
+        "T": { "item": "tools_common", "chance": 30 },
+        "X": { "item": "consumer_electronics", "chance": 70 }
+      },
+      "monster": { "z": { "monster": "mon_manhack" } }
     }
+  }
 ]

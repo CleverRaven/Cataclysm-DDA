@@ -2,13 +2,17 @@
 #ifndef SDL_WRAPPERS_H
 #define SDL_WRAPPERS_H
 
+// IWYU pragma: begin_exports
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #   include <SDL2/SDL.h>
 #   include <SDL2/SDL_ttf.h>
+#   include <SDL2/SDL_image.h>
 #else
 #   include <SDL.h>
 #   include <SDL_ttf.h>
+#   include <SDL_image.h>
 #endif
+// IWYU pragma: end_exports
 
 #include <memory>
 
@@ -76,16 +80,59 @@ void throwErrorIf( bool condition, const char *message );
 /**@{*/
 void RenderCopy( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &texture,
                  const SDL_Rect *srcrect, const SDL_Rect *dstrect );
+SDL_Texture_Ptr CreateTexture( const SDL_Renderer_Ptr &renderer, Uint32 format, int access,
+                               int w, int h );
 SDL_Texture_Ptr CreateTextureFromSurface( const SDL_Renderer_Ptr &renderer,
         const SDL_Surface_Ptr &surface );
 void SetRenderDrawColor( const SDL_Renderer_Ptr &renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a );
+// NOLINTNEXTLINE(cata-xy)
+void RenderDrawPoint( const SDL_Renderer_Ptr &renderer, int x, int y );
 void RenderFillRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect );
+void FillRect( const SDL_Surface_Ptr &surface, const SDL_Rect *rect, Uint32 color );
+void SetTextureBlendMode( const SDL_Texture_Ptr &texture, SDL_BlendMode blendMode );
+bool SetTextureColorMod( const SDL_Texture_Ptr &texture, Uint32 r, Uint32 g, Uint32 b );
 void SetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode blendMode );
+void GetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode &blend_mode );
 SDL_Surface_Ptr load_image( const char *path );
 void SetRenderTarget( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &texture );
 void RenderClear( const SDL_Renderer_Ptr &renderer );
 SDL_Surface_Ptr CreateRGBSurface( Uint32 flags, int width, int height, int depth, Uint32 Rmask,
                                   Uint32 Gmask, Uint32 Bmask, Uint32 Amask );
+/**@}*/
+
+/**
+ * Comparison operators which SDL lacks being a C-ish lib.
+ */
+/**@{*/
+
+inline bool operator==( const SDL_Color &lhs, const SDL_Color &rhs )
+{
+    return
+        lhs.r == rhs.r &&
+        lhs.g == rhs.g &&
+        lhs.b == rhs.b &&
+        lhs.a == rhs.a;
+}
+
+inline bool operator!=( const SDL_Color &lhs, const SDL_Color &rhs )
+{
+    return !operator==( lhs, rhs );
+}
+
+inline bool operator==( const SDL_Rect &lhs, const SDL_Rect &rhs )
+{
+    return
+        lhs.x == rhs.x &&
+        lhs.y == rhs.y &&
+        lhs.w == rhs.w &&
+        lhs.h == rhs.h;
+}
+
+inline bool operator!=( const SDL_Rect &lhs, const SDL_Rect &rhs )
+{
+    return !operator==( lhs, rhs );
+}
+
 /**@}*/
 
 #endif

@@ -10,6 +10,21 @@
     "text": "Enjoyed a hot meal"
   },
   {
+    "id": "morale_chat",
+    "type": "morale_type",
+    "text": "Enjoyed a conversation"
+  },
+  {
+    "id": "morale_ate_with_table",
+    "type": "morale_type",
+    "text": "Ate with table"
+  },
+  {
+    "id": "morale_ate_without_table",
+    "type": "morale_type",
+    "text": "Ate like an animal"
+  },
+  {
     "id": "morale_music",
     "type": "morale_type",
     "text": "Music"
@@ -37,7 +52,7 @@
   {
     "id": "morale_feeling_good",
     "type": "morale_type",
-    "text": "Good Feeling"
+    "text": "Good feeling"
   },
   {
     "id": "morale_support",
@@ -235,6 +250,16 @@
     "text": "Masochism"
   },
   {
+    "id": "morale_perm_noface",
+    "type": "morale_type",
+    "text": "You have no face!"
+  },
+  {
+    "id": "morale_perm_fpmode_on",
+    "type": "morale_type",
+    "text": "You feel pumped!"
+  },
+  {
     "id": "morale_perm_hoarder",
     "type": "morale_type",
     "text": "Hoarder"
@@ -260,6 +285,11 @@
     "text": "Uncomfy Gear"
   },
   {
+    "id": "morale_perm_nomad",
+    "type": "morale_type",
+    "text": "Nomadic Restlessness"
+  },
+  {
     "id": "morale_game_found_kitten",
     "type": "morale_type",
     "text": "Found kitten <3"
@@ -280,6 +310,11 @@
     "text": "Barfed"
   },
   {
+    "id": "morale_play_with_pet",
+    "type": "morale_type",
+    "text": "Spent time playing with a pet"
+  },
+  {
     "id": "morale_pyromania_startfire",
     "type": "morale_type",
     "text": "Lit a fire"
@@ -295,6 +330,16 @@
     "text": "Craving fire"
   },
   {
+    "id": "morale_killer_has_killed",
+    "type": "morale_type",
+    "text": "Killed recently"
+  },
+  {
+    "id": "morale_killer_need_to_kill",
+    "type": "morale_type",
+    "text": "Longing to kill"
+  },
+  {
     "id": "morale_perm_filthy",
     "type": "morale_type",
     "text": "Filthy Gear"
@@ -303,6 +348,31 @@
     "id": "morale_butcher",
     "type": "morale_type",
     "text": "Anguished by memories of butchering human corpse"
+  },
+  {
+    "id": "morale_gravedigger",
+    "type": "morale_type",
+    "text": "Dug out a grave"
+  },
+  {
+    "id": "morale_funeral",
+    "type": "morale_type",
+    "text": "Conducted a funeral"
+  },
+  {
+    "id": "morale_tree_communion",
+    "type": "morale_type",
+    "text": "Communed with the trees"
+  },
+  {
+    "id": "morale_accomplishment",
+    "type": "morale_type",
+    "text": "Accomplishment"
+  },
+  {
+    "id": "morale_failure",
+    "type": "morale_type",
+    "text": "Failure"
   },
   {
     "id": "morale_perm_debug",

@@ -16,8 +16,10 @@
     "breaks_into": [ { "item": "glooplegrow" } ],
     "description": "A set of continuous, interlocking tracks made out of blob. They can be used in place of wheels, and provide good traction and off-road performance.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "wheel_type": "treads",
+    "contact_area": 2500,
     "rolling_resistance": 6,
-    "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED", "NO_JACK", "FOLDABLE" ]
+    "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED", "FOLDABLE" ]
   },
   {
     "id": "oozletread",
@@ -172,7 +174,9 @@
     "description": "A living blob, existing in a super-cooled state.  It acts as a wheel.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "rolling_resistance": 1.5,
-    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG", "SHARP", "TRACKED", "NO_JACK" ]
+    "wheel_type": "standard",
+    "contact_area": 153,
+    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG", "SHARP", "TRACKED" ]
   },
   {
     "id": "frostie_wheel_sea",
@@ -186,13 +190,12 @@
     "broken_color": "light_blue",
     "difficulty": 1,
     "durability": 500,
-    "power": -3500,
     "damage_modifier": 200,
     "folded_volume": 1,
     "breaks_into": [ { "item": "frostiegrow" } ],
-    "description": "A living blob, existing in a super-cooled state.  It acts as a boat board.",
+    "description": "A living blob, existing in a super-cooled state.  It acts as a boat hull.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "FLOATS", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG", "SHARP", "TRACKED", "NO_JACK" ]
+    "flags": [ "FLOATS", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG", "SHARP", "TRACKED" ]
   },
   {
     "id": "fuzzle",
@@ -481,7 +484,9 @@
     "breaks_into": [ { "item": "glooplegrow" }, { "item": "water", "count": [ 50, 100 ] } ],
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "rolling_resistance": 1.75,
-    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED", "NO_JACK" ]
+    "wheel_type": "standard",
+    "contact_area": 153,
+    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED" ]
   },
   {
     "id": "gloopleaisle_horizontal",
@@ -740,7 +745,6 @@
     "description": "A living blob, shaped to provide attachment points for other blobs.  Other vehicle components and blobs can be mounted on it.  If all the frames and components of a vehicle are foldable or made from blobs, the vehicle can be folding into a small package and picked up as a normal item.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
-
   },
   {
     "id": "gray_horizontal_2",
@@ -886,7 +890,9 @@
     "breaks_into": [ { "item": "graygrow" }, { "item": "water", "count": [ 100, 200 ] } ],
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "rolling_resistance": 1.25,
-    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED", "NO_JACK" ]
+    "wheel_type": "standard",
+    "contact_area": 153,
+    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED" ]
   },
   {
     "id": "grayaisle_horizontal",
@@ -1017,7 +1023,9 @@
     "breaks_into": [ { "item": "gray" } ],
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "rolling_resistance": 6,
-    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "PROTRUSION", "STABLE", "TRACKED", "NO_JACK" ]
+    "wheel_type": "rigid",
+    "contact_area": 500,
+    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "PROTRUSION", "STABLE", "TRACKED" ]
   },
   {
     "id": "halfgloopleboard_horizontal",
@@ -1498,7 +1506,9 @@
     "breaks_into": [ { "item": "oozlegrow" }, { "item": "water", "count": [ 100, 200 ] } ],
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "rolling_resistance": 1.5,
-    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED", "NO_JACK" ]
+    "wheel_type": "standard",
+    "contact_area": 153,
+    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED" ]
   },
   {
     "id": "oozleaisle_horizontal",
@@ -1635,7 +1645,21 @@
     "breaks_into": [ { "item": "queengrow" } ],
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
     "description": "An amorphous mass, the living heart and brain of a blob vehicle.",
-    "flags": [ "BOARDABLE", "BELTABLE", "TOOL_NONE", "FOLDABLE", "ENGINE", "CONTROLS", "CTRL_ELECTRONIC", "SEAT", "BED", "E_ALTERNATOR", "E_STARTS_INSTANTLY", "E_HIGHER_SKILL", "TURRET_MOUNT" ]
+    "flags": [
+      "BOARDABLE",
+      "BELTABLE",
+      "TOOL_NONE",
+      "FOLDABLE",
+      "ENGINE",
+      "CONTROLS",
+      "CTRL_ELECTRONIC",
+      "SEAT",
+      "BED",
+      "E_ALTERNATOR",
+      "E_STARTS_INSTANTLY",
+      "E_HIGHER_SKILL",
+      "TURRET_MOUNT"
+    ]
   },
   {
     "id": "blob_turret_mount",
@@ -1675,7 +1699,7 @@
     "breaks_into": [ { "item": "queengrow" } ],
     "description": "A living blob turned into a heavy vehicle weapon.",
     "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE", "USE_TANKS" ]
   },
   {
     "id": "razorqueen",

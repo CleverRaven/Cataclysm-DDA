@@ -1,0 +1,175 @@
+[
+  {
+    "id": "spell_scroll_tier_0",
+    "type": "item_group",
+    "items": [
+      [ "summon_scroll_smudged", 10 ],
+      [ "spell_scroll_smite", 40 ],
+      [ "spell_scroll_summon_zombie", 25 ],
+      [ "spell_scroll_light_healing", 50 ],
+      [ "spell_scroll_bio_acidicspray", 35 ],
+      [ "spell_scroll_create_atomic_light", 50 ],
+      [ "spell_scroll_blinding_flash", 50 ],
+      [ "spell_scroll_ethereal_grasp", 50 ],
+      [ "spell_scroll_druid_woodshaft", 50 ],
+      [ "spell_scroll_summon_cats", 65 ],
+      [ "spell_scroll_stonefist", 20 ],
+      [ "spell_scroll_eshaper_piercing_bolt", 40 ],
+      [ "spell_scroll_eshaper_rockbolt", 50 ],
+      [ "spell_scroll_create_lighter", 50 ],
+      [ "spell_scroll_chilling_touch", 50 ],
+      [ "spell_scroll_magic_missile", 50 ],
+      [ "spell_scroll_bless", 25 ],
+      [ "spell_scroll_create_atomic_lamp", 25 ],
+      [ "spell_scroll_taze", 25 ],
+      [ "spell_scroll_laze", 25 ],
+      [ "spell_scroll_lightning_blast", 20 ],
+      [ "spell_scroll_necrotic_gaze", 50 ]
+    ]
+  },
+  {
+    "id": "spell_scroll_tier_1",
+    "type": "item_group",
+    "items": [
+      [ "spell_scroll_summon_skeleton", 35 ],
+      [ "spell_scroll_pain_split", 25 ],
+      [ "spell_scroll_bio_grotesque", 40 ],
+      [ "spell_scroll_bio_fleshpouch", 30 ],
+      [ "spell_scroll_protection_aura", 50 ],
+      [ "spell_scroll_druid_veggrasp", 35 ],
+      [ "spell_scroll_druid_rootstrike", 40 ],
+      [ "spell_scroll_druid_naturebow1", 20 ],
+      [ "spell_scroll_seismic_stomp", 20 ],
+      [ "spell_scroll_eshaper_shardspray", 25 ],
+      [ "spell_scroll_point_flare", 50 ],
+      [ "spell_scroll_ice_spike", 50 ],
+      [ "spell_scroll_burning_hands", 50 ],
+      [ "spell_scroll_frost_spray", 50 ],
+      [ "spell_scroll_glide_ice", 25 ],
+      [ "spell_scroll_ice_shield", 25 ],
+      [ "spell_scroll_frost_armor", 35 ],
+      [ "spell_scroll_phase_door", 50 ],
+      [ "spell_scroll_jolt", 50 ],
+      [ "spell_scroll_lightning_bolt", 35 ],
+      [ "spell_scroll_windstrike", 50 ],
+      [ "spell_scroll_windrun", 35 ],
+      [ "spell_scroll_holy_blade", 25 ],
+      [ "spell_scroll_spirit_armor", 25 ],
+      [ "spell_scroll_quantum_tunnel_lesser", 50 ],
+      [ "spell_scroll_synaptic_stimulation", 20 ],
+      [ "spell_scroll_purification_seed", 40 ]
+    ]
+  },
+  {
+    "id": "spell_scroll_tier_2",
+    "type": "item_group",
+    "items": [
+      [ "spell_scroll_recover_mana", 25 ],
+      [ "spell_scroll_recover_pain", 25 ],
+      [ "spell_scroll_recover_fatigue", 25 ],
+      [ "spell_scroll_recover_stamina", 25 ],
+      [ "spell_scroll_recover_bionic_power", 25 ],
+      [ "spell_scroll_summon_decayed_pouncer", 35 ],
+      [ "spell_scroll_vicious_tentacle", 40 ],
+      [ "spell_scroll_bio_bonespear", 20 ],
+      [ "spell_scroll_megablast", 10 ],
+      [ "spell_scroll_eshaper_shardstorm", 50 ],
+      [ "spell_scroll_fireball", 50 ],
+      [ "spell_scroll_cone_cold", 50 ],
+      [ "spell_scroll_hoary_blast", 50 ],
+      [ "spell_scroll_gravity_well", 35 ],
+      [ "spell_scroll_magus_mana_bolt", 35 ],
+      [ "spell_scroll_magus_haste", 50 ],
+      [ "spell_scroll_magus_mana_beam", 35 ],
+      [ "spell_scroll_magus_escape", 50 ],
+      [ "spell_scroll_cats_grace", 50 ],
+      [ "spell_scroll_eagles_sight", 50 ],
+      [ "spell_scroll_ogres_strength", 50 ],
+      [ "spell_scroll_foxs_cunning", 50 ],
+      [ "spell_scroll_storm_hammer", 35 ],
+      [ "spell_scroll_animated_blade", 35 ],
+      [ "spell_scroll_mirror_image", 15 ],
+      [ "spell_scroll_dark_sight", 30 ]
+    ]
+  },
+  {
+    "id": "spell_scroll_tier_3",
+    "type": "item_group",
+    "items": [ [ "spell_scroll_magus_mana_blast", 50 ], [ "lightning_storm_scroll", 50 ], [ "spell_scroll_invisibility", 10 ] ]
+  },
+  {
+    "id": "spellbook_tier_0",
+    "type": "item_group",
+    "//": "These are spellbooks that a beginner would have, or scrolls that would have this tier or one tier higher of spells.",
+    "items": [ [ "wizard_beginner", 30 ], [ "priest_beginner", 30 ], [ "techno_idiots", 30 ] ]
+  },
+  {
+    "id": "spellbook_tier_1",
+    "type": "item_group",
+    "items": [ [ "wizard_utility", 50 ], [ "priest_advanced", 50 ], [ "techno_fundamentals", 50 ], [ "stat_up_spellbook", 45 ] ]
+  },
+  {
+    "id": "spellbook_tier_2",
+    "type": "item_group",
+    "items": [
+      [ "winter_grasp", 60 ],
+      [ "tome_of_storms", 60 ],
+      [ "biomancer_spellbook", 60 ],
+      [ "druid_spellbook", 60 ],
+      [ "pyro", 60 ],
+      [ "eshaper_spellbook", 60 ],
+      [ "techno_em", 60 ],
+      [ "wizard_advanced", 60 ],
+      [ "stat_up_spellbook", 45 ]
+    ]
+  },
+  {
+    "id": "spellbook_tier_3",
+    "type": "item_group",
+    "items": [
+      [ "magus_spellbook", 15 ],
+      [ "magus_spellbook_move", 30 ],
+      [ "translocate_spellbook", 20 ],
+      [ "recovery_spellbook", 30 ]
+    ]
+  },
+  {
+    "id": "spellbook_loot_0",
+    "type": "item_group",
+    "//": "the difference between tiers and loot are that loot should be easy to",
+    "//": "drop into an itemgroup or mapgen without having multiple entries for higher tier spellbooks.",
+    "//": "and loot tiers will not always have the lower tier spellbook tiers.",
+    "items": [
+      { "group": "spellbook_tier_0", "prob": 60 },
+      { "group": "spellbook_tier_1", "prob": 30 },
+      { "group": "spellbook_tier_2", "prob": 9 },
+      { "group": "spellbook_tier_3", "prob": 1 },
+      { "group": "spell_scroll_tier_0", "prob": 300 },
+      { "group": "spell_scroll_tier_1", "prob": 100 }
+    ]
+  },
+  {
+    "id": "spellbook_loot_1",
+    "type": "item_group",
+    "items": [
+      { "group": "spellbook_tier_0", "prob": 30 },
+      { "group": "spellbook_tier_1", "prob": 50 },
+      { "group": "spellbook_tier_2", "prob": 18 },
+      { "group": "spellbook_tier_3", "prob": 2 },
+      { "group": "spell_scroll_tier_1", "prob": 300 },
+      { "group": "spell_scroll_tier_2", "prob": 100 }
+    ]
+  },
+  {
+    "id": "spellbook_loot_2",
+    "type": "item_group",
+    "items": [
+      { "group": "spellbook_tier_0", "prob": 5 },
+      { "group": "spellbook_tier_1", "prob": 30 },
+      { "group": "spellbook_tier_2", "prob": 50 },
+      { "group": "spellbook_tier_3", "prob": 15 },
+      { "group": "spell_scroll_tier_2", "prob": 300 },
+      { "group": "spell_scroll_tier_3", "prob": 100 }
+    ]
+  }
+]

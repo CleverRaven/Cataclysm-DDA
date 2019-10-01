@@ -34,13 +34,33 @@
         "-----------MM----------|"
       ],
       "palettes": [ "lab_palette" ],
-      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c"] },
+      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ] },
       "place_nested": [
-        { "chunks": [ ["null", 100], ["lab_cross_windows", 25] ], "x": 0, "y": 0 },
-        { "chunks": [ "lab_spawn_9x9" ], "x": [0, 1], "y": [0, 1], "neighbors": { "north": ["lab", "open_air"], "west": ["lab", "open_air"] } },
-        { "chunks": [ "lab_spawn_9x9" ], "x": 14, "y": [0,1], "neighbors": { "north": ["lab", "open_air"], "east": ["lab", "open_air"] } },
-        { "chunks": [ "lab_spawn_9x9" ], "x": [0,1], "y": 14, "neighbors": { "south": ["lab", "open_air"], "west": ["lab", "open_air"] } },
-        { "chunks": [ "lab_spawn_9x9_wall_nw" ], "x": 13, "y": 13, "neighbors": { "south": ["lab", "open_air"], "east": ["lab", "open_air"] } },
+        { "chunks": [ [ "null", 100 ], [ "lab_cross_windows", 25 ] ], "x": 0, "y": 0 },
+        {
+          "chunks": [ "lab_spawn_9x9" ],
+          "x": [ 0, 1 ],
+          "y": [ 0, 1 ],
+          "neighbors": { "north": [ "lab", "open_air" ], "west": [ "lab", "open_air" ] }
+        },
+        {
+          "chunks": [ "lab_spawn_9x9" ],
+          "x": 14,
+          "y": [ 0, 1 ],
+          "neighbors": { "north": [ "lab", "open_air" ], "east": [ "lab", "open_air" ] }
+        },
+        {
+          "chunks": [ "lab_spawn_9x9" ],
+          "x": [ 0, 1 ],
+          "y": 14,
+          "neighbors": { "south": [ "lab", "open_air" ], "west": [ "lab", "open_air" ] }
+        },
+        {
+          "chunks": [ "lab_spawn_9x9_wall_nw" ],
+          "x": 13,
+          "y": 13,
+          "neighbors": { "south": [ "lab", "open_air" ], "east": [ "lab", "open_air" ] }
+        },
         { "chunks": [ "lab_border_rock_quadrants" ], "x": 0, "y": 0 }
       ]
     }
@@ -80,13 +100,33 @@
         "-----------MM----------|"
       ],
       "palettes": [ "lab_palette" ],
-      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c"] },
+      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ] },
       "place_nested": [
-        { "chunks": [ ["null", 100], ["lab_cross_windows", 25] ], "x": 0, "y": 0 },
-        { "chunks": [ "lab_spawn_9x9" ], "x": [0, 1], "y": [0, 1], "neighbors": { "north": ["lab", "open_air"], "west": ["lab", "open_air"] } },
-        { "chunks": [ "lab_spawn_9x9" ], "x": 14, "y": [0,1], "neighbors": { "north": ["lab", "open_air"], "east": ["lab", "open_air"] } },
-        { "chunks": [ "lab_spawn_9x9" ], "x": [0,1], "y": 14, "neighbors": { "south": ["lab", "open_air"], "west": ["lab", "open_air"] } },
-        { "chunks": [ "lab_spawn_9x9_wall_nw" ], "x": 13, "y": 13, "neighbors": { "south": ["lab", "open_air"], "east": ["lab", "open_air"] } },
+        { "chunks": [ [ "null", 100 ], [ "lab_cross_windows", 25 ] ], "x": 0, "y": 0 },
+        {
+          "chunks": [ "lab_spawn_9x9" ],
+          "x": [ 0, 1 ],
+          "y": [ 0, 1 ],
+          "neighbors": { "north": [ "lab", "open_air" ], "west": [ "lab", "open_air" ] }
+        },
+        {
+          "chunks": [ "lab_spawn_9x9" ],
+          "x": 14,
+          "y": [ 0, 1 ],
+          "neighbors": { "north": [ "lab", "open_air" ], "east": [ "lab", "open_air" ] }
+        },
+        {
+          "chunks": [ "lab_spawn_9x9" ],
+          "x": [ 0, 1 ],
+          "y": 14,
+          "neighbors": { "south": [ "lab", "open_air" ], "west": [ "lab", "open_air" ] }
+        },
+        {
+          "chunks": [ "lab_spawn_9x9_wall_nw" ],
+          "x": 13,
+          "y": 13,
+          "neighbors": { "south": [ "lab", "open_air" ], "east": [ "lab", "open_air" ] }
+        },
         { "chunks": [ "lab_border_rock_quadrants" ], "x": 0, "y": 0 }
       ]
     }
@@ -127,14 +167,42 @@
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
       "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ],
-        "!": [ "t_thconc_floor", "t_thconc_floor", "t_thconc_floor", "t_thconc_floor", "t_console_broken", "t_generator_broken", "t_centrifuge" ]
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
+        "!": [
+          "t_thconc_floor",
+          "t_thconc_floor",
+          "t_thconc_floor",
+          "t_thconc_floor",
+          "t_console_broken",
+          "t_generator_broken",
+          "t_centrifuge"
+        ]
       },
       "place_nested": [
-        { "chunks": [ "lab_spawn_7x7" ], "x": [0, 1], "y": [0, 1], "neighbors": { "north": ["lab", "open_air"], "west": ["lab", "open_air"] } },
-        { "chunks": [ "lab_spawn_7x7" ], "x": 16, "y": [0,1], "neighbors": { "north": ["lab", "open_air"], "east": ["lab", "open_air"] } },
-        { "chunks": [ "lab_spawn_7x7" ], "x": [0,1], "y": 16, "neighbors": { "south": ["lab", "open_air"], "west": ["lab", "open_air"] } },
-        { "chunks": [ "lab_spawn_7x7_wall_nw" ], "x": 15, "y": 15, "neighbors": { "south": ["lab", "open_air"], "east": ["lab", "open_air"] } },
+        {
+          "chunks": [ "lab_spawn_7x7" ],
+          "x": [ 0, 1 ],
+          "y": [ 0, 1 ],
+          "neighbors": { "north": [ "lab", "open_air" ], "west": [ "lab", "open_air" ] }
+        },
+        {
+          "chunks": [ "lab_spawn_7x7" ],
+          "x": 16,
+          "y": [ 0, 1 ],
+          "neighbors": { "north": [ "lab", "open_air" ], "east": [ "lab", "open_air" ] }
+        },
+        {
+          "chunks": [ "lab_spawn_7x7" ],
+          "x": [ 0, 1 ],
+          "y": 16,
+          "neighbors": { "south": [ "lab", "open_air" ], "west": [ "lab", "open_air" ] }
+        },
+        {
+          "chunks": [ "lab_spawn_7x7_wall_nw" ],
+          "x": 15,
+          "y": 15,
+          "neighbors": { "south": [ "lab", "open_air" ], "east": [ "lab", "open_air" ] }
+        },
         { "chunks": [ "lab_border_rock_quadrants" ], "x": 0, "y": 0 }
       ]
     }
@@ -175,7 +243,8 @@
       ],
       "palettes": [ "lab_palette" ],
       "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
-      "mapping": { "t": { "items": [ { "item": "fridge", "chance": 30 } ] },
+      "mapping": {
+        "t": { "items": [ { "item": "fridge", "chance": 30 } ] },
         "l": {
           "items": [
             { "item": "office", "chance": 20 },
@@ -189,11 +258,26 @@
           ]
         }
       },
-      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c"] },
+      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ] },
       "place_nested": [
-        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 3, "y": 3, "neighbors": { "north": ["lab", "open_air"], "west": ["lab", "open_air"] } },
-        { "chunks": [ "lab_spawn_9x9" ], "x": [0,1], "y": 14, "neighbors": { "south": ["lab", "open_air"], "west": ["lab", "open_air"] } },
-        { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 16, "y": 16, "neighbors": { "south": ["lab", "open_air"], "east": ["lab", "open_air"] } },
+        {
+          "chunks": [ "lab_spawn_7x7_crossdoors" ],
+          "x": 3,
+          "y": 3,
+          "neighbors": { "north": [ "lab", "open_air" ], "west": [ "lab", "open_air" ] }
+        },
+        {
+          "chunks": [ "lab_spawn_9x9" ],
+          "x": [ 0, 1 ],
+          "y": 14,
+          "neighbors": { "south": [ "lab", "open_air" ], "west": [ "lab", "open_air" ] }
+        },
+        {
+          "chunks": [ "lab_spawn_7x7_crossdoors" ],
+          "x": 16,
+          "y": 16,
+          "neighbors": { "south": [ "lab", "open_air" ], "east": [ "lab", "open_air" ] }
+        },
         { "chunks": [ "lab_border_rock_quadrants" ], "x": 0, "y": 0 }
       ]
     }
@@ -242,18 +326,38 @@
       "mapgensize": [ 24, 24 ],
       "place_nested": [
         { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 },
-        { "else_chunks": [ "lab_nw_rock" ], "x": 0, "y": 0, "neighbors": { "north": ["lab", "open_air"] } },
-        { "else_chunks": [ "lab_nw_rock" ], "x": 0, "y": 0, "neighbors": { "west": ["lab", "open_air"] } },
-        { "else_chunks": [ "lab_ne_rock" ], "x": 13, "y": 0, "neighbors": { "north": ["lab", "open_air"] } },
-        { "else_chunks": [ "lab_ne_rock" ], "x": 13, "y": 0, "neighbors": { "east": ["lab", "open_air"] } },
-        { "else_chunks": [ "lab_sw_rock" ], "x": 0, "y": 13, "neighbors": { "south": ["lab", "open_air"] } },
-        { "else_chunks": [ "lab_sw_rock" ], "x": 0, "y": 13, "neighbors": { "west": ["lab", "open_air"] } },
-        { "else_chunks": [ "lab_se_rock" ], "x": 13, "y": 13, "neighbors": { "south": ["lab", "open_air"] } },
-        { "else_chunks": [ "lab_se_rock" ], "x": 13, "y": 13, "neighbors": { "east": ["lab", "open_air"] } },
-        { "else_chunks": [ [ "lab_n_rock", 85 ], [ "lab_n_vault", 15 ] ], "x": 0, "y": 0, "neighbors": { "north": ["lab", "open_air"] } },
-        { "else_chunks": [ [ "lab_w_rock", 85 ], [ "lab_w_vault", 15 ] ], "x": 0, "y": 0, "neighbors": { "west": ["lab", "open_air"] } },
-        { "else_chunks": [ [ "lab_s_rock", 85 ], [ "lab_s_vault", 15 ] ], "x": 0, "y": 0, "neighbors": { "south": ["lab", "open_air"] } },
-        { "else_chunks": [ [ "lab_e_rock", 85 ], [ "lab_e_vault", 15 ] ], "x": 0, "y": 0, "neighbors": { "east": ["lab", "open_air"] } }
+        { "else_chunks": [ "lab_nw_rock" ], "x": 0, "y": 0, "neighbors": { "north": [ "lab", "open_air" ] } },
+        { "else_chunks": [ "lab_nw_rock" ], "x": 0, "y": 0, "neighbors": { "west": [ "lab", "open_air" ] } },
+        { "else_chunks": [ "lab_ne_rock" ], "x": 13, "y": 0, "neighbors": { "north": [ "lab", "open_air" ] } },
+        { "else_chunks": [ "lab_ne_rock" ], "x": 13, "y": 0, "neighbors": { "east": [ "lab", "open_air" ] } },
+        { "else_chunks": [ "lab_sw_rock" ], "x": 0, "y": 13, "neighbors": { "south": [ "lab", "open_air" ] } },
+        { "else_chunks": [ "lab_sw_rock" ], "x": 0, "y": 13, "neighbors": { "west": [ "lab", "open_air" ] } },
+        { "else_chunks": [ "lab_se_rock" ], "x": 13, "y": 13, "neighbors": { "south": [ "lab", "open_air" ] } },
+        { "else_chunks": [ "lab_se_rock" ], "x": 13, "y": 13, "neighbors": { "east": [ "lab", "open_air" ] } },
+        {
+          "else_chunks": [ [ "lab_n_rock", 85 ], [ "lab_n_vault", 15 ] ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "north": [ "lab", "open_air" ] }
+        },
+        {
+          "else_chunks": [ [ "lab_w_rock", 85 ], [ "lab_w_vault", 15 ] ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "west": [ "lab", "open_air" ] }
+        },
+        {
+          "else_chunks": [ [ "lab_s_rock", 85 ], [ "lab_s_vault", 15 ] ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "south": [ "lab", "open_air" ] }
+        },
+        {
+          "else_chunks": [ [ "lab_e_rock", 85 ], [ "lab_e_vault", 15 ] ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "east": [ "lab", "open_air" ] }
+        }
       ]
     }
   },
@@ -494,34 +598,33 @@
   {
     "type": "palette",
     "id": "lab_loot_bionic_vault",
-    "mapping": { "r": { "items": [ { "item": "bionics_common", "chance": 50 }, { "item": "bionics", "chance": 10 } ] }
-    },
-    "terrain": { "r": "t_strconc_floor" },
+    "mapping": { "r": { "items": [ { "item": "bionics_common", "chance": 50 }, { "item": "bionics", "chance": 10 } ] } },
+    "terrain": { "r": "t_thconc_floor" },
     "computers": {
-        "6": {
-          "name": "Bionic Vault", "security": 3,
-          "options": [
-            { "name": "MANIFEST", "action": "list_bionics", "security": 0 },
-            { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 7 }
-          ],
-          "failures": [ { "action": "damage" }, { "action": "secubots" }, { "action": "shutdown" } ]
-        }
+      "6": {
+        "name": "Bionic Vault",
+        "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
+        "security": 3,
+        "options": [
+          { "name": "MANIFEST", "action": "list_bionics", "security": 0 },
+          { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 7 }
+        ],
+        "failures": [ { "action": "damage" }, { "action": "secubots" }, { "action": "shutdown" } ]
+      }
     }
   },
   {
     "type": "palette",
     "id": "lab_loot_serum_vault",
-    "mapping": { "r": { "items": [ { "item": "mut_iv", "chance": 50 } ] }
-    },
-    "terrain": { "r": "t_strconc_floor" },
+    "mapping": { "r": { "items": [ { "item": "mut_iv", "chance": 50 } ] } },
+    "terrain": { "r": "t_thconc_floor" },
     "computers": {
-        "6": {
-          "name": "Advanced PE012 Samples", "security": 3,
-          "options": [
-            { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 5 }
-          ],
-          "failures": [ { "action": "damage" }, { "action": "manhacks" }, { "action": "shutdown" } ]
-        }
+      "6": {
+        "name": "Advanced PE012 Samples",
+        "security": 3,
+        "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 5 } ],
+        "failures": [ { "action": "damage" }, { "action": "manhacks" }, { "action": "shutdown" } ]
+      }
     }
   },
   {
@@ -557,7 +660,7 @@
         "                        "
       ],
       "palettes": [ "lab_palette", "lab_loot_bionic_vault" ],
-      "place_monster": [ { "monster": "mon_turret", "x": [ 11, 12 ], "y": [ 2, 5 ], "chance": 25 } ]
+      "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 11, 12 ], "y": [ 2, 5 ], "chance": 25 } ]
     }
   },
   {
@@ -593,7 +696,7 @@
         "                        "
       ],
       "palettes": [ "lab_palette", "lab_loot_serum_vault" ],
-      "place_monster": [ { "monster": "mon_turret", "x": [ 11, 12 ], "y": [ 2, 5 ], "chance": 10 } ]
+      "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 11, 12 ], "y": [ 2, 5 ], "chance": 10 } ]
     }
   },
   {
@@ -629,7 +732,7 @@
         "                        "
       ],
       "palettes": [ "lab_palette", "lab_loot_bionic_vault" ],
-      "place_monster": [ { "monster": "mon_turret", "x": [ 2, 5 ], "y": [ 11, 12 ], "chance": 25 } ]
+      "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 2, 5 ], "y": [ 11, 12 ], "chance": 25 } ]
     }
   },
   {
@@ -665,7 +768,7 @@
         "                        "
       ],
       "palettes": [ "lab_palette", "lab_loot_serum_vault" ],
-      "place_monster": [ { "monster": "mon_turret", "x": [ 2, 5 ], "y": [ 11, 12 ], "chance": 10 } ]
+      "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 2, 5 ], "y": [ 11, 12 ], "chance": 10 } ]
     }
   },
   {
@@ -701,7 +804,7 @@
         "####################### "
       ],
       "palettes": [ "lab_palette", "lab_loot_bionic_vault" ],
-      "place_monster": [ { "monster": "mon_turret", "x": [ 11, 12 ], "y": [ 18, 21 ], "chance": 25 } ]
+      "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 11, 12 ], "y": [ 18, 21 ], "chance": 25 } ]
     }
   },
   {
@@ -737,7 +840,7 @@
         "####################### "
       ],
       "palettes": [ "lab_palette", "lab_loot_serum_vault" ],
-      "place_monster": [ { "monster": "mon_turret", "x": [ 11, 12 ], "y": [ 18, 21 ], "chance": 10 } ]
+      "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 11, 12 ], "y": [ 18, 21 ], "chance": 10 } ]
     }
   },
   {
@@ -773,7 +876,7 @@
         "                        "
       ],
       "palettes": [ "lab_palette", "lab_loot_bionic_vault" ],
-      "place_monster": [ { "monster": "mon_turret", "x": [ 18, 21 ], "y": [ 11, 12 ], "chance": 25 } ]
+      "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 18, 21 ], "y": [ 11, 12 ], "chance": 25 } ]
     }
   },
   {
@@ -809,7 +912,7 @@
         "                        "
       ],
       "palettes": [ "lab_palette", "lab_loot_serum_vault" ],
-      "place_monster": [ { "monster": "mon_turret", "x": [ 18, 21 ], "y": [ 11, 12 ], "chance": 10 } ]
+      "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 18, 21 ], "y": [ 11, 12 ], "chance": 10 } ]
     }
   }
 ]

@@ -1,0 +1,252 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "magic_shop",
+    "name": "magic shop",
+    "sym": "M",
+    "color": "red",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_shop_2ndfloor",
+    "name": "magic shop",
+    "sym": "M",
+    "color": "red",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_shop_roof",
+    "name": "magic shop roof",
+    "sym": "M",
+    "color": "red",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_cabin",
+    "name": "cabin",
+    "sym": "F",
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_cabin_roof",
+    "name": "cabin",
+    "sym": "F",
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "demon_spider_lair",
+    "name": "Forest",
+    "sym": "F",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "used_bookstore",
+    "name": "used bookstore",
+    "sym": "B",
+    "color": "white",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 1,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "used_bookstore_roof",
+    "name": "used bookstore",
+    "sym": "B",
+    "color": "white",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 1,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_basement",
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-0_NW",
+    "name": "Swamp",
+    "sym": "F",
+    "color": "cyan",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-0_NE",
+    "name": "Swamp",
+    "sym": "F",
+    "color": "cyan",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-0_SE",
+    "name": "Swamp",
+    "sym": "F",
+    "color": "cyan",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-0_SW",
+    "name": "Swamp",
+    "sym": "F",
+    "color": "cyan",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-1_NW",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-1_NE",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-1_SE",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-1_SW",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-2_NW",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-2_NE",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "light_gray",
+    "see,_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-2_SE",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-2_SW",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-3_NW",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-3_NE",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-3_SE",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-3_SW",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-4_NW",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-4_NE",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-4_SE",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "black_dragon_lair_z-4_SW",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "light_gray",
+    "see_cost": 5
+  }
+]

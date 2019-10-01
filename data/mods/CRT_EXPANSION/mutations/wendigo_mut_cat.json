@@ -1,0 +1,69 @@
+[
+  {
+    "type": "mutation_category",
+    "id": "WENDIGO",
+    "name": "Wendigo",
+    "threshold_mut": "THRESH_WENDIGO",
+    "mutagen_message": "Nearby plants seem to bend towards you for a moment and then they shift back into place.",
+    "iv_message": "A serene feeling of terror grips you as become acutely aware of the flora and fauna beckoning towards you.",
+    "iv_min_mutations": 2,
+    "iv_additional_mutations": 3,
+    "iv_additional_mutations_chance": 3,
+    "iv_hunger": 15,
+    "iv_thirst": 20,
+    "iv_pain": 5,
+    "iv_fatigue": -5,
+    "memorial_message": "Reclaimed by nature."
+  },
+  {
+    "id": "mutagen_wendigo",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "wendigo mutagen",
+    "description": "Mutagen cocktail simply labeled 'C.R.I.T R&D.'",
+    "use_action": { "type": "mutagen", "mutation_category": "WENDIGO" }
+  },
+  {
+    "id": "iv_mutagen_wendigo",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": "wendigo serum",
+    "description": "A super-concentrated peat-brown substance with glittering green flecks that reminds you of a a tree. You need a syringe to inject it...  if you really want to?",
+    "color": "light_gray",
+    "healthy": -2,
+    "use_action": { "type": "mutagen_iv", "mutation_category": "WENDIGO" }
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a strange dream about the mountain forests.",
+      "Your dreams give you a peculiar feeling of sinking into the treelines."
+    ],
+    "category": "WENDIGO",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a vivid dream of strolling through the woods.", "You dream of drinking copious amounts of warm water." ],
+    "category": "WENDIGO",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a dream of chasing something as a raw hunger sears your mind.",
+      "Recollections of stalking a human shakes you awake."
+    ],
+    "category": "WENDIGO",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of tearing into more and more enemies.",
+      "You have a lucid dream where nature carefully welcomes your body."
+    ],
+    "category": "WENDIGO",
+    "strength": 4
+  }
+]

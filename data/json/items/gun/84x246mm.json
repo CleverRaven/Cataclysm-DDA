@@ -12,8 +12,8 @@
     "flags": [ "RELOAD_ONE", "BACKBLAST", "NEVER_JAMS" ],
     "skill": "launcher",
     "ammo": "84x246mm",
-    "weight": 6900,
-    "volume": 18,
+    "weight": "6900 g",
+    "volume": "4500 ml",
     "bashing": 8,
     "to_hit": -3,
     "dispersion": 300,
@@ -21,6 +21,28 @@
     "clip_size": 1,
     "reload": 300,
     "loudness": 200,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "sights", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
+  },
+  {
+    "id": "AT4",
+    "type": "GUN",
+    "copy-from": "LAW",
+    "name": "AT4",
+    "description": "Mil-Spec rocket launcher.  An 84-mm unguided, portable, single-shot recoilless smoothbore weapon used primarily by the US military.",
+    "extend": { "flags": [ "FIRE_TWOHAND", "NO_REPAIR" ] },
+    "ammo": "84x246mm",
+    "weight": "6803 g",
+    "volume": "3500 ml",
+    "bashing": 4,
+    "dispersion": 200,
+    "durability": 7,
+    "loudness": 200
   }
 ]

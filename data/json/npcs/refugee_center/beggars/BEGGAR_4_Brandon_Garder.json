@@ -1,0 +1,306 @@
+[
+  {
+    "type": "npc",
+    "id": "refugee_beggar4",
+    "//": "Sickly beggar in the refugee center.",
+    "name_unique": "Brandon Garder",
+    "gender": "male",
+    "name_suffix": "beggar",
+    "class": "NC_BEGGAR_4",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_BEGGAR_4",
+    "faction": "lobby_beggars"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_BEGGAR_4",
+    "name": "Beggar",
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "All the beggars have been camping inside the evac shelter because they're too weak and unskilled to make it on their own.",
+    "bonus_str": { "rng": [ -4, -1 ] },
+    "bonus_dex": { "rng": [ -4, -1 ] },
+    "bonus_int": { "rng": [ -6, -2 ] },
+    "bonus_per": { "rng": [ -3, -1 ] },
+    "worn_override": "NC_BEGGAR_4_worn",
+    "carry_override": "EMPTY_GROUP",
+    "weapon_override": "EMPTY_GROUP",
+    "traits": [
+      { "trait": "GLASSJAW" },
+      { "trait": "ASTHMA" },
+      { "trait": "SLOWHEALER3" },
+      { "trait": "SLOWRUNNER" },
+      { "trait": "HEAVYSLEEPER" },
+      { "trait": "FLIMSY3" },
+      { "trait": "WEAKSTOMACH" },
+      { "trait": "MYOPIC" },
+      { "trait": "HYPEROPIC" },
+      { "trait": "JITTERY" },
+      { "trait": "TRIGGERHAPPY" },
+      { "trait": "SMELLY" },
+      { "trait": "PROJUNK" },
+      { "trait": "BADBACK" },
+      { "trait": "BADKNEES" },
+      { "trait": "BADCARDIO" },
+      { "group": "Appearance_demographics" }
+    ],
+    "skills": [ { "skill": "fabrication", "bonus": { "rng": [ 2, 6 ] } } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BEGGAR_4_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "socks" },
+      { "item": "briefs" },
+      { "item": "tank_top" },
+      { "item": "long_underpants" },
+      { "item": "slippers" },
+      { "item": "house_coat" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_4",
+    "dynamic_line": {
+      "npc_has_effect": "beggar_has_eaten",
+      "yes": "Thanks again for the grub, my friend.",
+      "no": "Hey, are you a big fan of survival of the fittest?"
+    },
+    "responses": [
+      {
+        "condition": { "not": { "npc_has_effect": "beggar_has_eaten" } },
+        "text": "Why do you ask?",
+        "topic": "TALK_REFUGEE_BEGGAR_4_TALK1"
+      },
+      {
+        "condition": { "not": { "npc_has_effect": "beggar_has_eaten" } },
+        "text": "Sorry, not interested.",
+        "topic": "TALK_DONE"
+      },
+      {
+        "condition": { "npc_has_effect": "beggar_has_eaten" },
+        "text": "Nice to see you too, what's up?",
+        "topic": "TALK_REFUGEE_BEGGAR_4_TALK1"
+      },
+      {
+        "condition": { "npc_has_effect": "beggar_has_eaten" },
+        "text": "Nice to see you.  I gotta be going though.",
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_4_TALK1",
+    "dynamic_line": {
+      "npc_has_effect": "beggar_has_eaten",
+      "yes": "Oh you know, the usual: sittin' out here until I starve to death, playin' cards with Dave, that kinda thing.",
+      "no": "Because I sure ain't fit, so I'm sittin' out here until I starve to death.  Help a poor sickly soul out?"
+    },
+    "responses": [
+      {
+        "condition": { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" },
+        "text": "I've talked to the others, and they're all willing to come.  So, you joining us?",
+        "topic": "TALK_REFUGEE_BEGGAR_4_RECRUITED"
+      },
+      { "text": "I could maybe help you out... want something to eat?", "topic": "TALK_REFUGEE_BEGGAR_4_GIVE_FOOD" },
+      { "text": "What's wrong with you?", "topic": "TALK_REFUGEE_BEGGAR_4_TALK2" },
+      { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
+      { "text": "How did you even get here if you're so sick?", "topic": "TALK_REFUGEE_BEGGAR_4_ARRIVAL" },
+      { "text": "Why are you camped out here if they won't let you in?", "topic": "TALK_REFUGEE_BEGGAR_4_CAMPOUT" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_4_GIVE_FOOD",
+    "dynamic_line": {
+      "npc_has_effect": "beggar_has_eaten",
+      "yes": "That's awful kind of you, you really are a wonderful person.",
+      "no": "Oh, wow!  You're a real gem, you know that?  Thanks for even thinking of it."
+    },
+    "responses": [
+      { "text": "Actually can I ask you something else?", "topic": "TALK_NONE" },
+      { "text": "I'm sorry, I was wrong.  I can't help you.", "topic": "TALK_DONE" }
+    ],
+    "repeat_responses": [
+      {
+        "for_category": [ "food" ],
+        "response": {
+          "text": "Here, you can have this <topic_item>.",
+          "topic": "TALK_REFUGEE_BEGGAR_4_GAVE_FOOD",
+          "opinion": { "trust": 1, "value": 1, "fear": -1, "anger": -1, "owed": 2 }
+        }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_4_GAVE_FOOD",
+    "dynamic_line": "It's good to know there are still people like you in the world, it really is.",
+    "speaker_effect": [ { "effect": { "npc_add_effect": "beggar_has_eaten", "duration": 3600 } } ],
+    "responses": [
+      { "text": "What are you up to?", "topic": "TALK_REFUGEE_BEGGAR_4_TALK1", "effect": "u_bulk_trade_accept" },
+      { "text": "No problem.  See you around.", "topic": "TALK_DONE", "effect": "u_bulk_trade_accept" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_4_TALK2",
+    "dynamic_line": "You name it!  Asthma, diabetes, arthritis.  Diabetes hasn't been so bad since I stopped, y'know, eating regularly.  Well, I assume it hasn't.  Not like I can check that ol' whatchamacallit, the blood test the docs used to bug me about every couple months.",
+    "responses": [
+      { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_4_LIFEBEFORE1" },
+      { "text": "You seem awfully happy considering the situation.", "topic": "TALK_REFUGEE_BEGGAR_4_HAPPY" },
+      { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
+      { "text": "How did you even get here if you're so sick?", "topic": "TALK_REFUGEE_BEGGAR_4_ARRIVAL" },
+      { "text": "Why are you camped out here if they won't let you in?", "topic": "TALK_REFUGEE_BEGGAR_4_CAMPOUT" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_4_SICKLY",
+    "dynamic_line": "They got enough mouths to feed that can pull their own weight.  I got a lot of weight and I'm too weak to pull it, so I'm out here.",
+    "responses": [
+      { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_4_LIFEBEFORE1" },
+      { "text": "You seem awfully happy considering the situation.", "topic": "TALK_REFUGEE_BEGGAR_4_HAPPY" },
+      { "text": "How did you even get here if you're so sick?", "topic": "TALK_REFUGEE_BEGGAR_4_ARRIVAL" },
+      { "text": "Why are you camped out here if they won't let you in?", "topic": "TALK_REFUGEE_BEGGAR_4_CAMPOUT" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_4_ARRIVAL",
+    "dynamic_line": "Came with a small group quite a while ago.  The others were young and fit, they got in.  They were some of the last ones to get in actually.  I didn't make the cutoff.",
+    "responses": [
+      { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_4_LIFEBEFORE1" },
+      { "text": "You seem awfully happy considering the situation.", "topic": "TALK_REFUGEE_BEGGAR_4_HAPPY" },
+      { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
+      { "text": "Why are you camped out here if they won't let you in?", "topic": "TALK_REFUGEE_BEGGAR_4_CAMPOUT" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_4_CAMPOUT",
+    "dynamic_line": "This is a mercy.  I get shelter, light, and heat, and those guards will help us if any zombies show up.  It ain't so bad.  If I was out on my own I'd have none of this and still have to look for food... in other words, I'd be dead as a doornail.  Or I guess undead.",
+    "responses": [
+      { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_4_LIFEBEFORE1" },
+      { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
+      { "text": "How did you even get here if you're so sick?", "topic": "TALK_REFUGEE_BEGGAR_4_ARRIVAL" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_4_HAPPY",
+    "dynamic_line": "What's the alternative?  You take the hand you're dealt.  I've given eulogies for two of the people I love most on this earth, and the third wrote me off.  I've already been through the end of the world.  Came out the other side with my bits intact.  And you know, I've been pretty lonely since my wife passed.  Here I've got friends.  We might be hungry but we're close.  Reena's been teaching me math and science, Luo is one of the smartest folks I've ever met - she's got a doctorate you know - and Yusuke is the only one here that can beat me at poker.  And Dave, well, he's Dave.  There's more goin' on under the surface there, mark my words.  We may be unfit, but we aren't worthless.",
+    "speaker_effect": [ { "effect": [ { "u_add_var": "luo_doctorate", "type": "general", "context": "conversation", "value": "yes" } ] } ],
+    "responses": [
+      { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_4_LIFEBEFORE1" },
+      { "text": "You seem awfully happy considering the situation.", "topic": "TALK_REFUGEE_BEGGAR_4_HAPPY" },
+      { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
+      { "text": "How did you even get here if you're so sick?", "topic": "TALK_REFUGEE_BEGGAR_4_ARRIVAL" },
+      { "text": "Why are you camped out here if they won't let you in?", "topic": "TALK_REFUGEE_BEGGAR_4_CAMPOUT" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_4_LIFEBEFORE1",
+    "dynamic_line": "Well, I used to be a roofer, but I had a bad fall and wrecked my back around '06.  Tried to get into other kinds of carpentry but I just don't have the head for it.  My wife managed to support both of us with the extra bit I made from odd jobs, but she had a stroke in 2016 and left me on my own the last few years slowly draining my savings dry while I work whatever junk jobs I can handle.  Couple days before <the_cataclysm> I got the notice that the bank was going to foreclose on my crappy little trailer.",
+    "responses": [
+      { "text": "You have any kids?", "topic": "TALK_REFUGEE_BEGGAR_4_LIFEBEFORE2" },
+      {
+        "condition": { "not": "u_has_camp" },
+        "text": "Would you like to travel with me?  Someone good with a trade could be helpful, and it's got to be better than wasting away here.",
+        "topic": "TALK_REFUGEE_BEGGAR_4_JOIN"
+      },
+      {
+        "condition": "u_has_camp",
+        "text": "I have a camp.  It's a damn sight better than those place, and there are regular meals.  Someone with your trades experience would be welcome, even if you can't do the big jobs anymore.",
+        "topic": "TALK_REFUGEE_BEGGAR_4_RECRUIT1"
+      },
+      { "text": "You seem awfully happy considering the situation.", "topic": "TALK_REFUGEE_BEGGAR_4_HAPPY" },
+      { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
+      { "text": "How did you even get here if you're so sick?", "topic": "TALK_REFUGEE_BEGGAR_4_ARRIVAL" },
+      { "text": "Why are you camped out here if they won't let you in?", "topic": "TALK_REFUGEE_BEGGAR_4_CAMPOUT" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_4_LIFEBEFORE2",
+    "dynamic_line": "Yeah, we had two.  My daughter died of an OD right at the start of that fentanyl stuff.  It did a real number on my son - they were twins you see - and he cut ties to me and my wife.  Wasn't even there for her funeral.  I can't blame him, it messed us all up pretty fierce.  As far as I'm concerned he's still out there with my grandkids, hiding away somewhere safe.  These days, no news is good news.",
+    "responses": [
+      { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_4_LIFEBEFORE1" },
+      {
+        "condition": { "not": "u_has_camp" },
+        "text": "Would you like to travel with me?  Someone good with a trade could be helpful, and it's got to be better than wasting away here.",
+        "topic": "TALK_REFUGEE_BEGGAR_4_JOIN"
+      },
+      {
+        "condition": "u_has_camp",
+        "text": "I have a camp.  It's a damn sight better than those place, and there are regular meals.  Someone with your trades experience would be welcome, even if you can't do the big jobs anymore.",
+        "topic": "TALK_REFUGEE_BEGGAR_4_RECRUIT1"
+      },
+      { "text": "You seem awfully happy considering the situation.", "topic": "TALK_REFUGEE_BEGGAR_4_HAPPY" },
+      { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
+      { "text": "How did you even get here if you're so sick?", "topic": "TALK_REFUGEE_BEGGAR_4_ARRIVAL" },
+      { "text": "Why are you camped out here if they won't let you in?", "topic": "TALK_REFUGEE_BEGGAR_4_CAMPOUT" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_4_JOIN",
+    "dynamic_line": "It's sweet of you to say that, but I'm just not up to the wandering life, not with these knees.",
+    "responses": [
+      { "text": "You seem awfully happy considering the situation.", "topic": "TALK_REFUGEE_BEGGAR_4_HAPPY" },
+      { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
+      { "text": "How did you even get here if you're so sick?", "topic": "TALK_REFUGEE_BEGGAR_4_ARRIVAL" },
+      { "text": "Why are you camped out here if they won't let you in?", "topic": "TALK_REFUGEE_BEGGAR_4_CAMPOUT" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_4_RECRUIT1",
+    "dynamic_line": "That's awful nice of you.  Tell you what: if you can help Dave get himself sorted out, so I don't feel like I've gotta stay here keeping an eye on the poor fella, then I'll come along.",
+    "responses": [
+      {
+        "condition": { "u_has_var": "dave_happy", "type": "general", "context": "recruit", "value": "yes" },
+        "text": "I think I've sorted Dave out pretty well, don't you?  Would you consider coming with me now?",
+        "topic": "TALK_REFUGEE_BEGGAR_4_RECRUIT2"
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_4_RECRUIT2",
+    "dynamic_line": "Well... I'll be honest, I didn't even think Dave could be sorted out, and you've gone and called my bluff!  It's a darn fine thing you've done for that poor soul.  Listen, I wasn't... entirely serious about wanting to come with you, but if you can convince the others to go, then I guess I'll come along.",
+    "speaker_effect": [ { "effect": { "u_add_var": "brendan_recruited", "type": "general", "context": "recruit", "value": "yes" } } ],
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_4_RECRUITED",
+    "dynamic_line": "Golly.  I didn't expect that, but I'm as good as my word.  Let's get going.",
+    "responses": [ { "text": "Let's get going.", "topic": "TALK_DONE", "effect": "follow" } ]
+  }
+]

@@ -1,21 +1,29 @@
-#include "catch/catch.hpp"
+#include <limits.h>
+#include <stddef.h>
+#include <list>
+#include <memory>
+#include <string>
+#include <vector>
 
-#include "ammo.h"
+#include "avatar.h"
+#include "catch/catch.hpp"
 #include "bionics.h"
 #include "game.h"
 #include "item.h"
 #include "player.h"
+#include "calendar.h"
+#include "pimpl.h"
+#include "string_id.h"
+#include "type_id.h"
 
-void clear_bionics( player &p )
+static void clear_bionics( player &p )
 {
     p.my_bionics->clear();
     p.power_level = 0;
     p.max_power_level = 0;
-
-    return;
 }
 
-void give_and_activate( player &p, bionic_id const &bioid )
+static void give_and_activate( player &p, bionic_id const &bioid )
 {
     INFO( "bionic " + bioid.str() + " is valid" );
     REQUIRE( bioid.is_valid() );
@@ -43,11 +51,10 @@ void give_and_activate( player &p, bionic_id const &bioid )
         INFO( "bionic " + bio.id.str() + " with index " + std::to_string( bioindex ) + " is active " );
         REQUIRE( p.has_active_bionic( bioid ) );
     }
-
-    return;
 }
 
-void test_consumable_charges( player &p, std::string &itemname, bool when_none, bool when_max )
+static void test_consumable_charges( player &p, std::string &itemname, bool when_none,
+                                     bool when_max )
 {
     item it = item( itemname, 0, 0 ) ;
 
@@ -58,14 +65,13 @@ void test_consumable_charges( player &p, std::string &itemname, bool when_none, 
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.charges ) + " charges" );
     REQUIRE( p.can_consume( it ) == when_none );
 
-    it.charges = LONG_MAX;
+    it.charges = INT_MAX;
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.charges ) + " charges" );
     REQUIRE( p.can_consume( it ) == when_max );
-
-    return;
 }
 
-void test_consumable_ammo( player &p, std::string &itemname, bool when_empty, bool when_full )
+static void test_consumable_ammo( player &p, std::string &itemname, bool when_empty,
+                                  bool when_full )
 {
     item it = item( itemname, 0, 0 ) ;
 
@@ -73,11 +79,9 @@ void test_consumable_ammo( player &p, std::string &itemname, bool when_empty, bo
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
     REQUIRE( p.can_consume( it ) == when_empty );
 
-    it.ammo_set( it.ammo_type()->default_ammotype(), -1 ); // -1 -> full
+    it.ammo_set( it.ammo_default(), -1 ); // -1 -> full
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
     REQUIRE( p.can_consume( it ) == when_full );
-
-    return;
 }
 
 TEST_CASE( "bionics", "[bionics] [item]" )
@@ -109,7 +113,7 @@ TEST_CASE( "bionics", "[bionics] [item]" )
         }
 
         static const std::list<std::string> never = {
-            "battery_atomic", // TOOLMOD, no ammo actually
+            "light_atomic_battery_cell", // TOOLMOD, no ammo actually
             "rm13_armor"      // TOOL_ARMOR
         };
         for( auto it : never ) {
@@ -138,6 +142,6 @@ TEST_CASE( "bionics", "[bionics] [item]" )
         }
     }
 
-    // TODO: bio_cable bio_furnace bio_reactor
+    // TODO: bio_cable bio_reactor
     // TODO: (pick from stuff with power_source)
 }

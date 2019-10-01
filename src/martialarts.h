@@ -2,15 +2,19 @@
 #ifndef MARTIALARTS_H
 #define MARTIALARTS_H
 
-#include "bonuses.h"
-#include "calendar.h"
-#include "string_id.h"
-#include "ui.h"
-
+#include <cstddef>
 #include <map>
 #include <set>
 #include <string>
 #include <vector>
+
+#include "bonuses.h"
+#include "calendar.h"
+#include "string_id.h"
+#include "translations.h"
+#include "type_id.h"
+#include "ui.h"
+#include "input.h"
 
 enum damage_type : int;
 class JsonObject;
@@ -18,16 +22,6 @@ class effect;
 class player;
 class item;
 struct itype;
-class martialart;
-using matype_id = string_id<martialart>;
-class ma_buff;
-using mabuff_id = string_id<ma_buff>;
-class ma_technique;
-using matec_id = string_id<ma_technique>;
-class effect_type;
-using efftype_id = string_id<effect_type>;
-class Skill;
-using skill_id = string_id<Skill>;
 
 matype_id martial_art_learned_from( const itype & );
 
@@ -36,7 +30,8 @@ struct ma_requirements {
 
     bool unarmed_allowed; // does this bonus work when unarmed?
     bool melee_allowed; // what about with a melee weapon?
-    bool strictly_unarmed; // If unarmed, what about unarmed weapons?
+    bool unarmed_weapons_allowed; // If unarmed, what about unarmed weapons?
+    bool wall_adjacent; // Does it only work near a wall?
 
     /** Minimum amount of given skill to trigger this bonus */
     std::map<skill_id, int> min_skill;
@@ -52,7 +47,8 @@ struct ma_requirements {
     ma_requirements() {
         unarmed_allowed = false;
         melee_allowed = false;
-        strictly_unarmed = false;
+        unarmed_weapons_allowed = true;
+        wall_adjacent = false;
     }
 
     std::string get_description( bool buff = false ) const;
@@ -89,8 +85,10 @@ class ma_technique
         std::string npc_message;
 
         bool defensive;
+        bool side_switch; // moves the target behind user
         bool dummy;
         bool crit_tec;
+        bool crit_ok;
 
         ma_requirements reqs;
 
@@ -99,6 +97,7 @@ class ma_technique
         int knockback_dist;
         float knockback_spread; // adding randomness to knockback, like tec_throw
         std::string aoe; // corresponds to an aoe shape, defaults to just the target
+        int knockback_follow; // player follows the knocked-back party into their former tile
 
         // offensive
         bool disarms; // like tec_disarm
@@ -109,6 +108,11 @@ class ma_technique
         bool grab_break; // allows grab_breaks, like tec_break
 
         int weighting; //how often this technique is used
+
+        // conditional
+        bool downed_target; // only works on downed enemies
+        bool stunned_target; // only works on stunned enemies
+        bool wall_adjacent; // only works near a wall
 
         /** All kinds of bonuses by types to damage, hit etc. */
         bonus_container bonuses;
@@ -142,19 +146,20 @@ class ma_buff
         int block_bonus( const player &u ) const;
 
         // returns the armor bonus for various armor stats (equivalent to armor)
-        int armor_bonus( const player &u, damage_type type ) const;
+        int armor_bonus( const player &u, damage_type dt ) const;
 
         // returns the stat bonus for the various damage stats (for rolls)
-        float damage_bonus( const player &u, damage_type type ) const;
+        float damage_bonus( const player &u, damage_type dt ) const;
 
         // returns damage multipliers for the various damage stats (applied after
         // bonuses)
-        float damage_mult( const player &u, damage_type type ) const;
+        float damage_mult( const player &u, damage_type dt ) const;
 
         // returns various boolean flags
         bool is_throw_immune() const;
         bool is_quiet() const;
         bool can_melee() const;
+        bool is_stealthy() const;
 
         // The ID of the effect that is used to store this buff
         efftype_id get_effect_id() const;
@@ -184,6 +189,8 @@ class ma_buff
         bool melee_allowed;
         bool throw_immune; // are we immune to throws/grabs?
         bool strictly_unarmed; // can we use unarmed weapons?
+        bool strictly_melee; // can we use it without weapons?
+        bool stealthy; // do we make less noise when moving?
 
         void load( JsonObject &jo, const std::string &src );
 };
@@ -200,6 +207,8 @@ class martialart
 
         void apply_onmove_buffs( player &u ) const;
 
+        void apply_onpause_buffs( player &u ) const;
+
         void apply_onhit_buffs( player &u ) const;
 
         void apply_onattack_buffs( player &u ) const;
@@ -210,17 +219,31 @@ class martialart
 
         void apply_ongethit_buffs( player &u ) const;
 
+        void apply_onmiss_buffs( player &u ) const;
+
+        void apply_oncrit_buffs( player &u ) const;
+
+        void apply_onkill_buffs( player &u ) const;
+
         // determines if a technique is valid or not for this style
-        bool has_technique( const player &u, const matec_id &tech ) const;
+        bool has_technique( const player &u, const matec_id &tec_id ) const;
         // determines if a weapon is valid for this style
-        bool has_weapon( const std::string &item ) const;
+        bool has_weapon( const std::string &itt ) const;
         // Is this weapon OK with this art?
-        bool weapon_valid( const item &u ) const;
+        bool weapon_valid( const item &it ) const;
+        // Getter for player style change message
+        std::string get_initiate_player_message() const;
+        // Getter for NPC style change message
+        std::string get_initiate_npc_message() const;
 
         matype_id id;
         bool was_loaded = false;
-        std::string name;
-        std::string description;
+        translation name;
+        translation description;
+        std::vector<std::string> initiate;
+        std::vector<std::pair<std::string, int>> autolearn_skills;
+        skill_id primary_skill;
+        int learn_difficulty = 0;
         int arm_block;
         int leg_block;
         bool arm_block_with_bio_armor_arms;
@@ -228,14 +251,20 @@ class martialart
         std::set<matec_id> techniques; // all available techniques
         std::set<std::string> weapons; // all style weapons
         bool strictly_unarmed; // Punch daggers etc.
+        bool strictly_melee; // Must have a weapon.
+        bool allow_melee; // Can use unarmed or with ANY weapon
         bool force_unarmed; // Don't use ANY weapon - punch or kick if needed
         std::vector<mabuff_id> static_buffs; // all buffs triggered by each condition
         std::vector<mabuff_id> onmove_buffs;
+        std::vector<mabuff_id> onpause_buffs;
         std::vector<mabuff_id> onhit_buffs;
         std::vector<mabuff_id> onattack_buffs;
         std::vector<mabuff_id> ondodge_buffs;
         std::vector<mabuff_id> onblock_buffs;
         std::vector<mabuff_id> ongethit_buffs;
+        std::vector<mabuff_id> onmiss_buffs;
+        std::vector<mabuff_id> oncrit_buffs;
+        std::vector<mabuff_id> onkill_buffs;
 };
 
 class ma_style_callback : public uilist_callback
@@ -259,7 +288,9 @@ void load_martial_art( JsonObject &jo, const std::string &src );
 void check_martialarts();
 void clear_techniques_and_martial_arts();
 void finialize_martial_arts();
+std::string martialart_difficulty( matype_id mstyle );
 
 std::vector<matype_id> all_martialart_types();
+std::vector<matype_id> autolearn_martialart_types();
 
 #endif

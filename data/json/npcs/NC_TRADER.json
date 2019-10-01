@@ -1,44 +1,7 @@
 [
   {
-    "type" : "item_group",
-    "id" : "NC_TRADER_pants_male",
-    "items":[
-      ["jeans", 20],
-      ["pants", 20],
-      ["pants_leather", 20],
-      ["pants_cargo", 60]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_TRADER_pants_female",
-    "items":[
-      ["jeans", 20],
-      ["pants", 20],
-      ["pants_leather", 20],
-      ["pants_cargo", 80],
-      ["skirt", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_TRADER_extra",
-    "items":[
-      ["null", 5],
-      ["backpack", 30],
-      ["backpack_leather", 30],
-      ["rucksack", 35]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_TRADER_coat",
-    "items":[
-      ["null", 10],
-      ["hoodie", 20],
-      ["jacket_light", 10],
-      ["jacket_windbreaker", 10],
-      ["jacket_leather", 10],
-      ["trenchcoat", 80],
-      ["jacket_jean", 20],
-      ["vest", 60]
-    ]
+    "type": "item_group",
+    "id": "NC_TRADER_storage",
+    "items": [ [ "duffelbag", 80 ], [ "rucksack", 50 ] ]
   }
 ]

@@ -1,76 +1,101 @@
 [
-    {
-        "type" : "gate",
-        "handle" : "t_gates_mech_control",
-        "other_handles" : [
-            "t_gates_control_concrete",
-            "t_gates_control_brick"
-        ],
-        "door" : "t_door_metal_locked",
-        "floor" : "t_floor",
-        "walls" : [
-            "t_wall",
-            "t_wall_r",
-            "t_wall_w",
-            "t_wall_b",
-            "t_wall_g",
-            "t_wall_y",
-            "t_wall_p",
-            "t_concrete_wall",
-            "t_brick_wall"
-        ],
-        "messages" : {
-            "pull" : "You turn the handle...",
-            "open" : "The gate is opened!",
-            "close" : "The gate is closed!",
-            "fail" : "The gate can't be closed!"
-        },
-        "moves" : 1800,
-        "bashing_damage" : 40
+  {
+    "type": "gate",
+    "handle": "t_gates_mech_control",
+    "other_handles": [ "t_gates_control_concrete", "t_gates_control_brick" ],
+    "door": "t_door_metal_locked",
+    "floor": "t_floor",
+    "walls": [
+      "t_wall",
+      "t_wall_r",
+      "t_wall_w",
+      "t_wall_b",
+      "t_wall_g",
+      "t_wall_y",
+      "t_wall_p",
+      "t_concrete_wall",
+      "t_brick_wall",
+      "t_strconc_wall"
+    ],
+    "messages": {
+      "pull": "You turn the handle...",
+      "open": "The gate is opened!",
+      "close": "The gate is closed!",
+      "fail": "The gate can't be closed!"
     },
-    {
-        "type" : "gate",
-        "handle" : "t_barndoor",
-        "door" : "t_door_metal_locked",
-        "floor" : "t_dirtfloor",
-        "walls" : "t_wall_wood",
-        "messages" : {
-            "pull" : "You pull the rope...",
-            "open" : "The barn doors opened!",
-            "close" : "The barn doors closed!",
-            "fail" : "The barn doors can't be closed!"
-        },
-        "moves" : 1800,
-        "bashing_damage" : 40
+    "moves": 1800,
+    "bashing_damage": 40
+  },
+  {
+    "type": "gate",
+    "handle": "t_gates_mech_control_lab",
+    "other_handles": [ "t_gates_control_concrete_lab", "t_gates_control_brick_lab" ],
+    "door": "t_door_metal_locked",
+    "floor": "t_thconc_floor",
+    "walls": [
+      "t_wall",
+      "t_wall_r",
+      "t_wall_w",
+      "t_wall_b",
+      "t_wall_g",
+      "t_wall_y",
+      "t_wall_p",
+      "t_concrete_wall",
+      "t_brick_wall",
+      "t_strconc_wall"
+    ],
+    "messages": {
+      "pull": "You turn the handle...",
+      "open": "The gate is opened!",
+      "close": "The gate is closed!",
+      "fail": "The gate can't be closed!"
     },
-    {
-        "type" : "gate",
-        "handle" : "t_palisade_pulley",
-        "door" : "t_palisade_gate",
-        "floor" : "t_palisade_gate_o",
-        "walls" : "t_palisade",
-        "messages" : {
-            "pull" : "You pull the rope...",
-            "open" : "The palisade gate swings open!",
-            "close" : "The palisade gate swings closed with a crash!",
-            "fail" : "The palisade gate can't be closed!"
-        },
-        "moves" : 1800,
-        "bashing_damage" : 30
+    "moves": 1800,
+    "bashing_damage": 40
+  },
+  {
+    "type": "gate",
+    "handle": "t_barndoor",
+    "door": "t_door_metal_locked",
+    "floor": "t_dirtfloor",
+    "walls": "t_wall_wood",
+    "messages": {
+      "pull": "You pull the rope...",
+      "open": "The barn doors opened!",
+      "close": "The barn doors closed!",
+      "fail": "The barn doors can't be closed!"
     },
-    {
-        "type" : "gate",
-        "handle" : "t_gates_control_metal",
-        "door" : "t_door_metal_locked",
-        "floor" : "t_metal_floor",
-        "walls" : "t_wall_metal",
-        "messages" : {
-            "pull" : "You throw the lever...",
-            "open" : "The door rises!",
-            "close" : "The door slams shut!",
-            "fail" : "The door can't be closed!"
-        },
-        "moves" : 1200,
-        "bashing_damage" : 60
-    }
+    "moves": 1800,
+    "bashing_damage": 40
+  },
+  {
+    "type": "gate",
+    "handle": "t_palisade_pulley",
+    "door": "t_palisade_gate",
+    "floor": "t_palisade_gate_o",
+    "walls": "t_palisade",
+    "messages": {
+      "pull": "You pull the rope...",
+      "open": "The palisade gate swings open!",
+      "close": "The palisade gate swings closed with a crash!",
+      "fail": "The palisade gate can't be closed!"
+    },
+    "moves": 1800,
+    "bashing_damage": 30
+  },
+  {
+    "type": "gate",
+    "handle": "t_gates_control_metal",
+    "door": "t_door_metal_locked",
+    "floor": "t_metal_floor",
+    "walls": "t_wall_metal",
+    "messages": {
+      "pull": "You throw the lever...",
+      "open": "The door rises!",
+      "close": "The door slams shut!",
+      "fail": "The door can't be closed!"
+    },
+    "moves": 1200,
+    "bashing_damage": 60
+  }
 ]

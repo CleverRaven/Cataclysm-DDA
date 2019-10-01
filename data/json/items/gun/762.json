@@ -5,8 +5,8 @@
     "reload_noise_volume": 10,
     "name": "AKM",
     "description": "One of the most recognizable assault rifles ever made, the AKM is renowned for its durability even under the worst conditions.",
-    "weight": 2710,
-    "volume": 7,
+    "weight": "2710 g",
+    "volume": "1750 ml",
     "price": 290000,
     "to_hit": -1,
     "bashing": 12,
@@ -19,12 +19,21 @@
     "durability": 9,
     "burst": 10,
     "barrel_length": 1,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "magazines": [
-      [ "762", [ "akmmag", "akmbigmag" ] ],
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ],
+    "magazines": [ [ "762", [ "akmmag", "akmbigmag" ] ] ],
     "flags": [ "NEVER_JAMS" ]
   },
   {
@@ -35,8 +44,8 @@
     "name_plural": "Beretta ARX-160",
     "//": "Total unloaded weight of gun 3000 grams.  Current weight of folding stock 200 grams.",
     "description": "The Beretta ARX-160 was a Phase II contender in the United States Army Individual Carbine competition to replace the M4 carbine.  It failed to replace it, but it is widely used by military all around the world.  This version is chambered for 7.62x39mm.",
-    "weight": 2800,
-    "volume": 7,
+    "weight": "2800 g",
+    "volume": "1750 ml",
     "price": 450000,
     "to_hit": -1,
     "bashing": 11,
@@ -50,12 +59,21 @@
     "burst": 12,
     "barrel_length": 1,
     "default_mods": [ "folding_stock" ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "magazines": [
-      [ "762", [ "akmmag", "akmbigmag" ] ],
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "magazines": [ [ "762", [ "akmmag", "akmbigmag" ] ] ]
   },
   {
     "id": "sks",
@@ -63,8 +81,8 @@
     "reload_noise_volume": 10,
     "name": "SKS",
     "description": "Developed by the Soviets in 1945, this rifle was quickly replaced by the full-auto AK47.  However, due to its superb accuracy, low recoil and deployable integrated bayonet, this gun maintains immense popularity.",
-    "weight": 3850,
-    "volume": 10,
+    "weight": "3850 g",
+    "volume": "2500 ml",
     "price": 38000,
     "to_hit": -1,
     "bashing": 12,
@@ -79,7 +97,20 @@
     "clip_size": 10,
     "barrel_length": 2,
     "built_in_mods": [ "inter_bayonet" ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "magazines": [ [ "762", [ "762x39_clip" ] ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
   }

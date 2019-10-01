@@ -1,69 +1,45 @@
 [
   {
-    "type" : "item_group",
-    "id" : "NC_BOUNTY_HUNTER_pants_male",
-    "items":[
-      ["jeans", 20],
-      ["pants", 20],
-      ["pants_leather", 20],
-      ["pants_cargo", 60]
+    "type": "item_group",
+    "id": "NC_BOUNTY_HUNTER_pants",
+    "items": [ [ "jeans", 20 ], [ "pants", 20 ], [ "pants_leather", 20 ], [ "pants_cargo", 60 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BOUNTY_HUNTER_shoes",
+    "items": [ [ "sneakers", 20 ], [ "boots", 20 ], [ "boots_steel", 40 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BOUNTY_HUNTER_coat",
+    "items": [
+      [ "null", 20 ],
+      [ "hoodie", 20 ],
+      [ "jacket_light", 20 ],
+      [ "jacket_windbreaker", 10 ],
+      [ "jacket_leather", 80 ],
+      [ "trenchcoat", 20 ],
+      [ "jacket_jean", 20 ]
     ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_BOUNTY_HUNTER_pants_female",
-    "items":[
-      ["jeans", 20],
-      ["pants", 20],
-      ["pants_leather", 20],
-      ["pants_cargo", 60]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_BOUNTY_HUNTER_shoes",
-    "items":[
-      ["sneakers", 20],
-      ["boots", 20],
-      ["boots_steel", 40]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_BOUNTY_HUNTER_coat",
-    "items":[
-      ["null", 20],
-      ["hoodie", 20],
-      ["jacket_light", 20],
-      ["jacket_windbreaker", 10],
-      ["jacket_leather", 80],
-      ["trenchcoat", 20],
-      ["jacket_jean", 20],
-      ["kevlar", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_BOUNTY_HUNTER_masks",
-    "items":[
-      ["null", 10],
-      ["mask_dust", 30],
-      ["bandana", 10],
-      ["mask_filter", 30]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_BOUNTY_HUNTER_extra",
-    "items":[
-      ["null", 20],
-      ["backpack", 40],
-      ["backpack_leather", 40],
-      ["rucksack", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_BOUNTY_HUNTER_eyes",
-    "items":[
-      ["null", 60],
-      ["glasses_safety", 20],
-      ["goggles_ski", 20],
-      ["sunglasses", 20]
-    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BOUNTY_HUNTER_vest",
+    "items": [ [ "null", 20 ], [ "kevlar", 80 ], [ "tacvest", 40 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BOUNTY_HUNTER_masks",
+    "items": [ [ "null", 10 ], [ "mask_dust", 30 ], [ "bandana", 10 ], [ "mask_filter", 30 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BOUNTY_HUNTER_storage",
+    "items": [ [ "null", 20 ], [ "backpack", 40 ], [ "backpack_leather", 40 ], [ "rucksack", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BOUNTY_HUNTER_eyes",
+    "items": [ [ "null", 60 ], [ "glasses_safety", 20 ], [ "goggles_ski", 20 ], [ "sunglasses", 20 ] ]
   }
 ]

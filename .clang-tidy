@@ -1,0 +1,65 @@
+# Enable some categories of checks and then disable individual ones.
+# The disabled checks that appear as part of the initial alphabetical section
+# enabling categories (e.g. cert-err58-cpp) are ones that do not make sense for
+# this codebase and we do not intend to fix.  The disabled checks appearing
+# thereafter in a separate alphabetical list have yet to be triaged.  We may
+# fix their errors or recategorise them as checks we don't care about.
+Checks: "\
+bugprone-*,\
+cata-*,\
+cert-*,\
+-cert-dcl21-cpp,\
+-cert-env33-c,\
+-cert-err58-cpp,\
+clang-diagnostic-*,\
+cppcoreguidelines-slicing,\
+llvm-namespace-comment,\
+misc-*,\
+modernize-*,\
+performance-*,\
+readability-*,\
+-bugprone-misplaced-widening-cast,\
+-bugprone-narrowing-conversions,\
+-bugprone-unused-return-value,\
+-cert-err34-c,\
+-cert-flp30-c,\
+-cert-msc30-c,\
+-cert-msc32-c,\
+-cert-msc50-cpp,\
+-cert-msc51-cpp,\
+-misc-non-private-member-variables-in-classes,\
+-modernize-avoid-c-arrays,\
+-modernize-deprecated-headers,\
+-modernize-pass-by-value,\
+-modernize-return-braced-init-list,\
+-modernize-use-auto,\
+-modernize-use-default-member-init,\
+-modernize-use-emplace,\
+-modernize-use-transparent-functors,\
+-performance-for-range-copy,\
+-performance-inefficient-vector-operation,\
+-performance-noexcept-move-constructor,\
+-performance-implicit-conversion-in-loop,\
+-performance-inefficient-algorithm,\
+-performance-inefficient-string-concatenation,\
+-performance-type-promotion-in-math-fn,\
+-performance-unnecessary-value-param,\
+-readability-braces-around-statements,\
+-readability-else-after-return,\
+-readability-function-size,\
+-readability-implicit-bool-conversion,\
+-readability-isolate-declaration,\
+-readability-magic-numbers,\
+-readability-named-parameter,\
+-readability-redundant-control-flow,\
+-readability-redundant-declaration,\
+-readability-redundant-preprocessor,\
+"
+WarningsAsErrors: '*'
+HeaderFilterRegex: '(src|test).*'
+FormatStyle:     none
+CheckOptions:
+  - key: readability-uppercase-literal-suffix.NewSuffixes
+    value: 'L;UL;LL;ULL'
+
+# vim:tw=0

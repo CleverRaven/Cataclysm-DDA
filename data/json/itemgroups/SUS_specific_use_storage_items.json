@@ -1,0 +1,195 @@
+[
+  {
+    "id": "SUS_silverware",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a silverware drawer.",
+    "subtype": "collection",
+    "items": [
+      { "item": "knife_butter", "count": [ 1, 6 ] },
+      { "item": "knife_butter", "count": [ 1, 6 ], "prob": 75 },
+      { "item": "knife_steak", "count": [ 2, 6 ], "prob": 85 },
+      { "item": "knife_paring", "prob": 75 },
+      { "item": "fork", "count": [ 1, 6 ] },
+      { "item": "fork", "count": [ 1, 6 ], "prob": 75 },
+      { "item": "spoon", "count": [ 1, 6 ] },
+      { "item": "spoon", "count": [ 1, 6 ], "prob": 75 },
+      { "item": "chopsticks", "prob": 70, "count": [ 1, 6 ] },
+      {
+        "collection": [
+          { "item": "plastic_spoon", "count": [ 0, 6 ] },
+          { "item": "plastic_knife", "count": [ 0, 6 ] },
+          { "item": "plastic_fork", "count": [ 0, 6 ] }
+        ],
+        "prob": 60
+      },
+      {
+        "collection": [
+          { "item": "plastic_spoon", "count": [ 0, 6 ] },
+          { "item": "plastic_knife", "count": [ 0, 6 ] },
+          { "item": "plastic_fork", "count": [ 0, 6 ] }
+        ],
+        "prob": 30
+      },
+      { "item": "plastic_spoon_kids", "prob": 35, "count": [ 1, 6 ] },
+      [ "corkscrew", 75 ],
+      [ "bottle_opener", 75 ],
+      { "item": "plastic_straw", "prob": 50, "count": [ 1, 6 ] }
+    ]
+  },
+  {
+    "id": "SUS_utensils",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a utensils drawer.",
+    "subtype": "collection",
+    "items": [
+      { "item": "tongs", "prob": 95 },
+      { "item": "tongs", "prob": 50 },
+      { "item": "ladle", "prob": 95 },
+      { "item": "ladle", "prob": 50 },
+      { "item": "spatula", "prob": 95, "count": [ 1, 2 ] },
+      { "item": "spatula", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "whisk", "prob": 95 },
+      { "item": "whisk", "prob": 50 },
+      { "item": "rolling_pin", "prob": 80 },
+      { "item": "rolling_pin", "prob": 30 },
+      { "item": "can_opener", "prob": 95 },
+      { "item": "can_opener", "prob": 70 },
+      { "item": "peeler", "prob": 95, "count": [ 1, 2 ] },
+      { "item": "peeler", "prob": 75 },
+      { "item": "garlic_press", "prob": 65 },
+      { "item": "potato_masher", "prob": 85 },
+      { "item": "carving_fork", "prob": 50 },
+      { "item": "corkscrew", "prob": 90 },
+      { "item": "bottle_opener", "prob": 95 }
+    ]
+  },
+  {
+    "id": "SUS_knife_drawer",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a drawer full of knives and related implements.",
+    "subtype": "collection",
+    "items": [
+      { "distribution": [ { "item": "knife_chef", "prob": 10 }, { "item": "knife_vegetable_cleaver", "prob": 3 } ] },
+      { "item": "knife_paring" },
+      { "item": "knife_paring", "prob": 75 },
+      { "item": "knife_bread", "prob": 95 },
+      { "item": "knife_bread", "prob": 45 },
+      {
+        "distribution": [ { "item": "knife_butcher", "prob": 10 }, { "item": "knife_meat_cleaver", "prob": 10 } ],
+        "prob": 65
+      },
+      { "item": "knife_steak", "count": [ 2, 4 ], "prob": 75 },
+      { "collection": [ { "item": "knife_carving" }, { "item": "carving_fork", "prob": 90 } ], "prob": 85 },
+      { "item": "scissors", "prob": 80 },
+      { "item": "peeler", "prob": 75, "count": [ 1, 2 ] },
+      { "item": "cutting_board", "count": [ 1, 2 ] },
+      { "item": "cutting_board", "prob": 75 }
+    ]
+  },
+  {
+    "id": "SUS_junk_drawer",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a junk drawer.",
+    "subtype": "collection",
+    "items": [
+      { "item": "xacto", "prob": 80 },
+      { "item": "scissors", "prob": 80 },
+      { "item": "screwdriver", "prob": 70 },
+      { "item": "hammer", "prob": 60 },
+      { "item": "pliers", "prob": 60 },
+      { "item": "flashlight", "prob": 75 },
+      { "item": "hammer", "prob": 75 },
+      { "item": "permanent_marker", "prob": 75 },
+      { "item": "permanent_marker", "prob": 40 },
+      { "item": "paper", "prob": 55 },
+      { "item": "light_battery_cell", "count": [ 1, 2 ], "prob": 85 },
+      { "item": "string_36", "count": [ 1, 4 ], "prob": 80 },
+      { "item": "string_36", "count": [ 1, 4 ], "prob": 50 },
+      { "item": "string_36", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "duct_tape", "prob": 50 },
+      { "item": "duct_tape", "prob": 30 },
+      { "item": "plastic_straw", "prob": 70, "count": [ 1, 6 ] },
+      { "item": "plastic_straw", "prob": 40, "count": [ 1, 6 ] },
+      { "item": "corkscrew", "prob": 60 },
+      { "item": "bottle_opener", "prob": 75 },
+      { "item": "candle", "prob": 75 },
+      { "item": "RPG_die", "prob": 10 },
+      { "item": "metal_RPG_die", "prob": 1 },
+      { "distribution": [ { "item": "matches" }, { "item": "lighter" } ], "prob": 90 }
+    ]
+  },
+  {
+    "id": "SUS_dishes",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a cupboard full of dining dishes.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "wine_glass", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "bowl_pewter", "prob": 50, "count": [ 1, 4 ] },
+      { "item": "ceramic_cup", "prob": 75, "count": [ 1, 4 ] },
+      { "item": "glass", "count": [ 1, 6 ] },
+      { "item": "ceramic_mug", "count": [ 1, 6 ] },
+      { "item": "ceramic_plate", "count": [ 1, 6 ] },
+      { "item": "ceramic_bowl", "count": [ 1, 6 ] },
+      {
+        "collection": [ { "item": "glass_plate", "count": [ 1, 4 ] }, { "item": "glass_bowl", "count": [ 1, 4 ] } ],
+        "prob": 60
+      },
+      {
+        "collection": [ { "item": "tumbler_plastic", "count": [ 1, 4 ] }, { "item": "plastic_plate", "count": [ 1, 4 ] } ],
+        "prob": 60
+      },
+      {
+        "collection": [
+          { "item": "plastic_bowl_kids", "count": [ 1, 4 ] },
+          { "item": "sippy_cup", "count": [ 1, 4 ] },
+          { "item": "plastic_spoon_kids", "count": [ 1, 4 ] }
+        ],
+        "prob": 60
+      }
+    ]
+  },
+  {
+    "id": "SUS_cookware",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a cupboard full of pots and pans.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "pot", "count": [ 1, 2 ] },
+      { "item": "pot", "prob": 50 },
+      { "collection": [ { "item": "iron_pot" }, { "item": "iron_pot", "prob": 60 } ], "prob": 70 },
+      { "item": "casserole", "prob": 90 },
+      { "item": "pot_copper", "prob": 75 },
+      { "item": "stock_pot", "prob": 50 },
+      { "item": "pot_canning", "prob": 25 },
+      { "item": "colander_steel", "prob": 40 },
+      { "item": "splatter_guard", "prob": 20 },
+      { "item": "pan", "count": [ 1, 2 ] },
+      { "item": "steel_pan", "prob": 80 },
+      { "item": "copper_pan", "prob": 30 },
+      { "item": "kettle", "prob": 80 }
+    ]
+  },
+  {
+    "id": "SUS_kitchen_sink",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for the cleaning materials under a kitchen sink.",
+    "subtype": "collection",
+    "items": [
+      { "item": "detergent", "count": [ 1, 2 ] },
+      { "item": "rag", "count": [ 1, 6 ] },
+      { "item": "towel", "count": [ 1, 3 ] },
+      { "item": "brush" },
+      { "item": "brush", "prob": 85 },
+      { "item": "bleach", "prob": 75 },
+      { "item": "ammonia", "prob": 65 }
+    ]
+  }
+]

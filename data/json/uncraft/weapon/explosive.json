@@ -4,13 +4,18 @@
     "result": "grenade",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": 5000,
-    "qualities": [ { "id": "SCREW","level": 1 } ],
-    "//" : "No trinitrotoluene in the game at present, but Composition B includes RDX as well.",
-    "components": [
-        [ [ "pilot_light", 1 ] ],
-        [ [ "canister_empty", 1 ] ],
-        [ [ "chem_rdx", 2 ] ]
-    ]
+    "time": "50 s",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "//": "No trinitrotoluene in the game at present, but Composition B includes RDX as well.",
+    "components": [ [ [ "pilot_light", 1 ] ], [ [ "canister_empty", 1 ] ], [ [ "chem_rdx", 200 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "grenade_inc",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "50 s",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "pilot_light", 1 ] ], [ [ "canister_empty", 1 ] ], [ [ "incendiary", 150 ] ] ]
   }
 ]

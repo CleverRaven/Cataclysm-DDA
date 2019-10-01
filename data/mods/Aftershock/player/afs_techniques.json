@@ -1,0 +1,17 @@
+[
+  {
+    "type": "technique",
+    "id": "AFS_PRESSURE_CRUNCH",
+    "name": "Pressure Crunch",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "min_melee": 3,
+    "crit_tec": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.5 ] ],
+    "stun_dur": 3,
+    "knockback_dist": 2,
+    "weighting": 1,
+    "messages": [ "You smash %s with a pressurized slam", "<npcname> smashes %s with a pressurized slam" ],
+    "description": "Heavy stun and knockback, 1.5x bash damage, crit only"
+  }
+]

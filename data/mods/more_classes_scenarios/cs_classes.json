@@ -11,49 +11,46 @@
   {
     "type": "profession",
     "ident": "bio_specops",
-    "name": "Bionic Spec-Op",
-    "description": "Once bionic augmentation proved safe, you were choosen for a top secret soldier augmentation program.  As if being a top-tier special forces operator before the procedure wasn't enough, your new enhancememts allow you to handle any combat scenario be it human or not.",
-    "points": 10,
+    "name": "Bionic Special Operator",
+    "description": "Once bionic augmentation proved safe, you were chosen for a top secret soldier augmentation program.  As if being a top-tier special forces operator before the procedure wasn't enough, your new enhancements allow you to handle any combat scenario be it human or not.",
+    "points": 8,
     "CBMs": [
       "bio_targeting",
       "bio_purifier",
       "bio_carbon",
-      "bio_shock",
+      "bio_geiger",
       "bio_adrenaline",
       "bio_night_vision",
-      "bio_ups",
-      "bio_nanobots",
-      "bio_painkiller",
-      "bio_torsionratchet",
+      "bio_metabolics",
       "bio_power_storage_mkII"
     ],
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "smg" },
-      { "level": 2, "name": "pistol" },
+      { "level": 2, "name": "cutting" },
       { "level": 2, "name": "melee" },
-      { "level": 2, "name": "unarmed" },
-      { "level": 2, "name": "stabbing" },
-      { "level": 2, "name": "dodge" }
+      { "level": 2, "name": "dodge" },
+      { "level": 1, "name": "firstaid" },
+      { "level": 1, "name": "swimming" },
+      { "level": 1, "name": "survival" }
     ],
     "items": {
       "both": {
         "items": [
-          "balclava",
-          "army_top",
-          "arm_warmers",
-          "gloves_liner",
-          "leg_warmers",
-          "socks",
-          "tac_helmet",
-          "gloves_tactical",
+          "wetsuit",
           "pants_army",
+          "wetsuit_hood",
+          "tac_helmet",
+          "glasses_bal",
+          "wetsuit_gloves",
+          "gloves_tactical",
+          "socks",
           "boots_combat",
-          "jacket_army"
+          "dive_bag",
+          "diving_watch"
         ],
         "entries": [
-          { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "v29", "container-item": "sholster" },
+          { "item": "kukri", "container-item": "sheath" },
           {
             "item": "rm2000_smg",
             "ammo-item": "8mm_fmj",
@@ -67,8 +64,7 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
-    },
-    "flags": [ "SCEN_ONLY" ]
+    }
   },
   {
     "type": "profession",
@@ -94,10 +90,10 @@
       { "level": 3, "name": "electronics" },
       { "level": 3, "name": "firstaid" },
       { "level": 3, "name": "tailor" },
-      { "level": 3, "name": "gun" },
-      { "level": 3, "name": "rifle" },
-      { "level": 3, "name": "melee" },
-      { "level": 3, "name": "bashing" }
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "rifle" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "bashing" }
     ],
     "items": {
       "both": {
@@ -115,7 +111,7 @@
         ],
         "entries": [
           { "item": "shocktonfa_off", "contents-item": "battery_ups" },
-          { "item": "coilgun", "ammo-item": "combatnail", "charges": 50, "contents-item": "shoulder_strap" },
+          { "item": "coilgun", "ammo-item": "combatnail", "charges": 50, "contents-item": [ "shoulder_strap" ] },
           { "item": "nailmag", "ammo-item": "combatnail", "charges": 50 }
         ]
       },
@@ -137,27 +133,31 @@
       { "level": 1, "name": "firstaid" }
     ],
     "items": {
-      "both": [
-        "knit_scarf",
-        "undershirt",
-        "dress_shirt",
-        "jacket_light",
-        "gloves_light",
-        "pants",
-        "fanny",
-        "socks",
-        "sneakers",
-        "roadmap",
-        "restaurantmap",
-        "shavingkit",
-        "mess_kit",
-        "aluminum_foil",
-        "cell_phone",
-        "can_chowder",
-        "apple_cider",
-        "fruit_leather",
-        "suitcase_m"
-      ],
+      "both": {
+        "items": [
+          "knit_scarf",
+          "undershirt",
+          "dress_shirt",
+          "jacket_light",
+          "gloves_light",
+          "pants",
+          "fanny",
+          "socks",
+          "sneakers",
+          "roadmap",
+          "restaurantmap",
+          "shavingkit",
+          "aluminum_foil",
+          "can_chowder",
+          "apple_cider",
+          "fruit_leather",
+          "suitcase_m"
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "mess_kit" }
+        ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
@@ -277,88 +277,35 @@
   },
   {
     "type": "profession",
-    "ident": "golfer",
-    "name": "Golfer",
-    "description": "A birdie is one under par, but how much is a zombie?  Your clubhouse was overrun by the undead, and you fled with your trusty driving wedge.",
-    "points": 0,
-    "items": {
-      "both": [ "hat_ball", "dress_shirt", "pants", "socks", "sneakers", "golf_club" ],
-      "male": [ "briefs" ],
-      "female": [ "sports_bra", "panties" ]
-    }
-  },
-  {
-    "type": "profession",
     "ident": "prep_student",
     "name": "Preppy Student",
     "description": "Your parents were busy, important people, who wanted you to have every advantage and pushed you to be \"successful,\" whatever that meant.  If only they'd ever let you experience childhood, or ever shown you their love.  You're certainly not getting either one now.",
     "points": 1,
     "skills": [ { "level": 1, "name": "speech" } ],
     "items": {
-      "both": [
-        "dress_shirt",
-        "jacket_light",
-        "pants",
-        "socks",
-        "dress_shoes",
-        "skinny_tie",
-        "tieclip",
-        "fancy_sunglasses",
-        "knit_scarf",
-        "wristwatch",
-        "mbag",
-        "water_mineral",
-        "cell_phone",
-        "money_bundle",
-        "adderall",
-        "manual_business"
-      ],
+      "both": {
+        "items": [
+          "dress_shirt",
+          "jacket_light",
+          "pants",
+          "socks",
+          "dress_shoes",
+          "tie_skinny",
+          "tieclip",
+          "fancy_sunglasses",
+          "knit_scarf",
+          "wristwatch",
+          "mbag",
+          "water_mineral",
+          "money_bundle",
+          "adderall",
+          "manual_business"
+        ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
       "male": [ "briefs" ],
       "female": [ "panties" ]
     }
-  },
-  {
-    "type": "profession",
-    "ident": "bio_gangster",
-    "name": "Bionic Gangster",
-    "description": "You were the boss' favorite, their protege; they always counted on you to get the toughtest jobs done. Seeing your potential, they invested in \"basic\" augments and the best gear on the market to better aid you in your job. After enjoying some period of freedom to do as you wanted, now you find yourself needing those skills to survive. ",
-    "points": 10,
-    "CBMs": [
-      "bio_targeting",
-      "bio_sunglasses",
-      "bio_ears",
-      "bio_carbon",
-      "bio_blade",
-      "bio_shock",
-      "bio_night_vision",
-      "bio_torsionratchet",
-      "bio_power_storage_mkII"
-    ],
-    "skills": [
-      { "level": 3, "name": "melee" },
-      { "level": 3, "name": "gun" },
-      { "level": 2, "name": "smg" },
-      { "level": 2, "name": "pistol" },
-      { "level": 2, "name": "stabbing" },
-      { "level": 2, "name": "cutting" },
-      { "level": 2, "name": "unarmed" },
-      { "level": 1, "name": "driving" }
-    ],
-    "items": {
-      "both": {
-        "items": [ "socks", "bowhat", "suit", "dress_shoes", "knit_scarf", "cigar", "mag_porn" ],
-        "entries": [
-          { "item": "glock_19", "ammo-item": "9mm", "container-item": "sholster", "charges": 15 },
-          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
-          { "item": "tommygun", "ammo-item": "45_acp", "container-item": "shoulder_strap", "charges": 30 },
-          { "item": "thompson_bigmag", "ammo-item": "45_acp", "charges": 30 },
-          { "item": "ref_lighter", "charges": 100 }
-        ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
-    },
-    "flags": [ "SCEN_ONLY" ]
   },
   {
     "type": "profession",
@@ -367,7 +314,7 @@
     "description": "You were awoken in the middle of the night by a noise. Armed only with a flashlight you went to investigate, now you face the cataclysm.",
     "points": 0,
     "items": {
-      "both": [ "slippers", "flashlight" ],
+      "both": { "items": [ "slippers" ], "entries": [ { "group": "charged_flashlight" } ] },
       "male": [ "boxer_shorts", "socks", "house_coat" ],
       "female": [ "bra", "panties", "stockings", "gown" ]
     }
@@ -404,18 +351,13 @@
     "points": 4,
     "skills": [ { "level": 1, "name": "mechanics" } ],
     "items": {
-      "both": [
-        "socks",
-        "wearable_light",
-        "goggles_welding",
-        "jumpsuit",
-        "gloves_work",
-        "boots_steel",
-        "tool_belt",
-        "apron_leather",
-        "oxy_torch",
-        "tinyweldtank"
-      ],
+      "both": {
+        "items": [ "socks", "goggles_welding", "jumpsuit", "gloves_work", "boots_steel", "tool_belt", "apron_leather" ],
+        "entries": [
+          { "item": "tinyweldtank", "ammo-item": "oxyacetylene", "charges": 60, "container-item": "oxy_torch" },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "wearable_light" }
+        ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boxer_shorts" ]
     }
@@ -424,7 +366,7 @@
     "type": "profession",
     "ident": "pri-sur",
     "name": "Primitive Survivalist",
-    "description": "You knew the day would come, the day it all went to shit. You prepared yourself, not by gear but sheer skill; all those days in the woods paid off. If your ancestors survived with no tech, you'll be damned if you dont't",
+    "description": "You knew the day would come, the day it all went to shit. You prepared yourself, not by gear but sheer skill; all those days in the woods paid off. If your ancestors survived with no tech, you'll be damned if you don't",
     "points": 6,
     "skills": [
       { "level": 5, "name": "survival" },

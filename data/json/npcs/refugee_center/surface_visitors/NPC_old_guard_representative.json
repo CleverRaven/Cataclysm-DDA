@@ -1,0 +1,229 @@
+[
+  {
+    "type": "npc",
+    "id": "old_guard_rep",
+    "//": "Appears in the refugee center as a source of missions and info.  Faction critical.",
+    "//": "name_suffix is appended to the end of the npc's name.",
+    "//": "using 'name_unique' instead will set the guy's name as is.",
+    "name_suffix": "Representative",
+    "//": "Class is based on the enum in npc.h.  The important ones are 0=NC_NONE, 2=NC_SHOPKEEP,",
+    "//": "3=NC_HACKER, 4=NC_DOCTOR, 5=NC_TRADER, 6=NC_NINJA, 7=NC_COWBOY, 8=NC_SCIENTIST,",
+    "//": "9=NC_BOUNTY_HUNTER, 10=NC_THUG, 11=NC_SCAVENGER, 13=NC_HUNTER, 14=NC_SOLDIER.",
+    "class": "NC_COWBOY",
+    "//": "Attitude is based on the enum in npc.h.  The important ones are 0=NPCATT_NULL, 1=NPCATT_TALK",
+    "//": "3=NPCATT_FOLLOW, 7=NPCATT_DEFEND, 10=NPCATT_KILL, and 11=NPCATT_FLEE",
+    "attitude": 0,
+    "//": "Mission is based on the enum in npc.h.  The important ones are 0=NPC_MISSION_NUL, 3=NPC_MISSION_SHOPKEEP",
+    "//": "and 7=NPC_MISSION_GUARD",
+    "//": "8 = NPC_MISSION_GUARD_PATROL will actively investigate noises",
+    "mission": 7,
+    "chat": "TALK_OLD_GUARD_REP",
+    "faction": "old_guard",
+    "mission_offered": "MISSION_OLD_GUARD_REP_1"
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP",
+    "type": "talk_topic",
+    "dynamic_line": { "u_has_any_trait": [ "PROF_FED" ], "yes": "Marshal...", "no": "Citizen..." },
+    "responses": [
+      { "text": "Who are you?", "topic": "TALK_OLD_GUARD_REP_NEW" },
+      { "text": "Heard anything about the outside world?", "topic": "TALK_OLD_GUARD_REP_WORLD" },
+      { "text": "Is there any way I can join the 'Old Guard'?", "topic": "TALK_OLD_GUARD_REP_ASK_JOIN" },
+      { "text": "Does the Old Guard need anything?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Well, bye.", "topic": "TALK_DONE" }
+    ],
+    "//": "TODO: The rep should know whether you're actually a sworn officer: Wearing the badge without the trait => Bad idea"
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_NEW",
+    "type": "talk_topic",
+    "dynamic_line": "I'm the region's federal liaison.  Most people here call us the 'Old Guard' and I rather like the sound of it.  Despite how things currently appear, the federal government was not entirely destroyed.  After the outbreak I was chosen to coordinate civilian and militia efforts in support of military operations.",
+    "responses": [
+      { "text": "So what are you actually doing here?", "topic": "TALK_OLD_GUARD_REP_NEW_DOING" },
+      { "text": "Never mind...", "topic": "TALK_OLD_GUARD_REP" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_NEW_DOING",
+    "type": "talk_topic",
+    "dynamic_line": "I ensure that the citizens here have what they need to survive and protect themselves from raiders.  Keeping some form of law is going to be the most important element in rebuilding the world.  We do what we can to keep the 'Free Merchants' here prospering and in return they have provided us with spare men and supplies when they can.",
+    "responses": [
+      { "text": "Is there a catch?", "topic": "TALK_OLD_GUARD_REP_NEW_DOWNSIDE" },
+      { "text": "Anything more to it?", "topic": "TALK_OLD_GUARD_REP_NEW_DOWNSIDE" },
+      { "text": "Never mind...", "topic": "TALK_OLD_GUARD_REP" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_NEW_DOWNSIDE",
+    "type": "talk_topic",
+    "dynamic_line": "Well... I was like any other civilian till they conscripted me so I'll tell it to you straight.  They're the best hope we got right now.  They are stretched impossibly thin but are willing to do what is needed to maintain order.  They don't care much about looters since they understand most everyone is dead, but if you have something they need... you WILL give it to them.  Since most survivors here have nothing they want, they are welcomed as champions.",
+    "responses": [ { "text": "Hmmm...", "topic": "TALK_OLD_GUARD_REP" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_WORLD",
+    "type": "talk_topic",
+    "dynamic_line": "There isn't much pushed out by public relations that I'd actually believe.  From what I gather, communication between the regional force commands is almost non-existent.  What I do know is that the 'Old Guard' is currently based out of the 2nd Fleet and patrols the Atlantic coast trying to provide support to the remaining footholds.",
+    "responses": [
+      { "text": "The 2nd Fleet?", "topic": "TALK_OLD_GUARD_REP_WORLD_2NDFLEET" },
+      { "text": "Tell me about the footholds.", "topic": "TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS" },
+      { "text": "Never mind...", "topic": "TALK_OLD_GUARD_REP" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_WORLD_2NDFLEET",
+    "type": "talk_topic",
+    "dynamic_line": "I don't know much about how it formed but it is the armada of military and commercial ships that's floating off the coast.  They have everything from supertankers and carriers to fishing trawlers... even a few NATO ships.  Most civilians are offered a cabin on one of the liners to retire to if they serve as a federal employee for a few years.",
+    "responses": [ { "text": "Hmmm...", "topic": "TALK_OLD_GUARD_REP" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS",
+    "type": "talk_topic",
+    "dynamic_line": "They may just be propaganda but apparently one or two cities were successful in 'walling themselves off.'  Around here I was told that there were a few places like this one but I couldn't tell you where.",
+    "responses": [ { "text": "Hmmm...", "topic": "TALK_OLD_GUARD_REP" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_ASK_JOIN",
+    "type": "talk_topic",
+    "dynamic_line": "You can't actually join unless you go through a recruiter.  We can usually use help though, ask me from time to time if there is any work available.  Completing missions as a contractor is a great way to make a name for yourself among the most powerful men left in the world.",
+    "responses": [ { "text": "Hmmm...", "topic": "TALK_OLD_GUARD_REP" } ]
+  },
+  {
+    "id": "MISSION_OLD_GUARD_REP_1",
+    "type": "mission_definition",
+    "name": "Kill Bandits",
+    "description": "A pair of bandits have been preying on locals, based out of a nearby cabin.  Ensure they meet a bitter end along with any associates, but watch out for traps around their hideout.",
+    "goal": "MGOAL_ASSASSINATE",
+    "difficulty": 5,
+    "value": 50000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "bandit_cabin", "om_special": "bandit_cabin", "reveal_radius": 1 },
+      "update_mapgen": {
+        "set": [
+          { "point": "trap", "id": "tr_landmine_buried", "x": 7, "y": 6 },
+          { "point": "trap", "id": "tr_landmine_buried", "x": 5, "y": 5 },
+          { "point": "trap", "id": "tr_landmine_buried", "x": 8, "y": 5 },
+          { "point": "trap", "id": "tr_landmine_buried", "x": 0, "y": 11 }
+        ],
+        "place_npcs": [ { "class": "bandit", "x": 12, "y": 12, "target": true } ]
+      }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_OLD_GUARD_REP_2",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "I don't like sending untested men into the field but if you have stayed alive so far you might have some skills.  There are at least a pair of bandits squatting in a local cabin, anyone who preys upon civilians meets a quick end... execute both of them for their crimes.  Complete this and the Old Guard will consider you an asset in the region.",
+      "accepted": "Contractor, I welcome you aboard.",
+      "rejected": "The States will remain a wasteland unless good men choose to save it.",
+      "advice": "They might suspect you are coming, keep an eye out for traps.",
+      "inquire": "Have you completed your mission?",
+      "success": "The Old Guard thanks you for eliminating the criminals.  You won't be forgotten.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_OLD_GUARD_REP_2",
+    "type": "mission_definition",
+    "name": "Deal with Informant",
+    "description": "The Hell's Raiders bandit group may have an informant working inside the Refugee Center.  Investigate and bring them to justice without arousing any suspicions.",
+    "goal": "MGOAL_ASSASSINATE",
+    "difficulty": 5,
+    "value": 50000,
+    "start": {
+      "update_mapgen": [
+        {
+          "om_terrain": "evac_center_19",
+          "om_special": "evac_center",
+          "place_npcs": [ { "class": "evac_guard3", "x": 12, "y": 12, "target": true } ]
+        },
+        {
+          "om_terrain": "evac_center_7",
+          "om_special": "evac_center",
+          "place_npcs": [ { "class": "scavenger_hunter", "x": [ 9, 15 ], "y": [ 9, 15 ] } ]
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_OLD_GUARD_REP_3",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "This task is going to require a little more persuasive skill.  I believe the Hell's Raiders have an informant here to monitor who comes and goes.  I need you to find out who it is and deal with them without letting anyone else know of my suspicions.  We normally allow the Free Merchants to govern themselves so I would hate to offend them.",
+      "accepted": "Thank you, please keep this discreet.",
+      "rejected": "Come back when you get a chance, we could use a few good men.",
+      "advice": "If they draw first blood their friends are less likely to blame you...",
+      "inquire": "You deal with the rat?",
+      "success": "Thank you, I'll do the explaining if anyone else asks about it.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_OLD_GUARD_REP_3",
+    "type": "mission_definition",
+    "name": "Secure Trade Route",
+    "description": "One of the Free Merchants silently disappeared while escorting a trade caravan.  Whoever or whatever is responsible must be quick and quiet - investigate the trade route and eliminate the threat.",
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 5,
+    "value": 100000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 5, "random": true, "search_range": [ 10, 50 ] },
+      "update_mapgen": {
+        "place_monster": [
+          { "monster": "mon_graboid", "name": "Little Guy", "x": 12, "y": 12, "target": true },
+          { "monster": "mon_graboid", "x": [ 9, 15 ], "y": [ 9, 15 ] }
+        ]
+      }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_OLD_GUARD_REP_4",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "There is another monster troubling the merchants but this time it isn't human... at least I don't think.  Guy just disappeared while walking behind a packed caravan.  They didn't hear any shots but I suppose some raider may have been real sneaky.  Check out the area and report anything you find.",
+      "accepted": "Thanks, keeping the people safe is what we try and do.",
+      "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
+      "advice": "Search the bushes for any trace?  I'm not an expert tracker but you should be able to find something.",
+      "inquire": "How is the search going?",
+      "success": "Great work, wasn't sure what I was sending you after.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_OLD_GUARD_REP_4",
+    "type": "mission_definition",
+    "name": "Assassinate Raider Leader",
+    "description": "The Old Guard have located a Hell's Raiders encampment that is coordinating attacks on the Free Merchants.  Pay them a visit and execute the area leadership.",
+    "goal": "MGOAL_ASSASSINATE",
+    "difficulty": 10,
+    "value": 300000,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "bandit_camp_1",
+        "om_special": "bandit_camp",
+        "om_terrain_replace": "forest",
+        "reveal_radius": 1,
+        "range": [ 10, 50 ]
+      },
+      "update_mapgen": { "place_npcs": [ { "class": "bandit", "x": 17, "y": 9, "target": true } ] },
+      "effect": [
+        { "u_buy_item": "ruger_redhawk" },
+        { "u_buy_item": "44magnum", "count": 17 },
+        { "u_buy_item": "holster" },
+        { "u_buy_item": "badge_marshal" },
+        { "u_add_trait": "PROF_FED" }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "I've located a Hell's Raiders encampment in the region that appears to be coordinating operations against the Free Merchants.  We know almost nothing about the command structure in the 'gang' so I need to send someone in to decapitate the leadership.  The raid will be held under orders of the U.S. Marshals Service and by agreeing to the mission you will become a marshal, swearing to assist the federal government in regaining order.",
+      "accepted": "Now repeat after me...  I do solemnly swear that I will support and defend the Constitution of the United States against all enemies, foreign and domestic...... that I will bear true faith and allegiance to the same...... that I take this obligation freely, without any mental reservation or purpose of evasion...... and that I will well and faithfully discharge the duties of the office on which I am about to enter.  To establish justice, insure domestic tranquility, provide for the common defense, promote the general welfare and secure the blessings of liberty.  So help me God.  Congratulations Marshal, don't forget your badge and gun.  As a marshal all men or women assisting you are considered deputy marshals so keep them in line.",
+      "rejected": "Come back when you get a chance, we could use a few good men.",
+      "advice": "I'd recommend having two deputies... it would be a death trap if a single man got surrounded.",
+      "inquire": "Has the leadership been dealt with?",
+      "success": "Marshal, you continue to impress us.  If you are interested, I recently received a message that a unit was deploying into our AO.  I don't have the exact coordinates but they said they were securing an underground facility and may require assistance.  The bird dropped them off next to a pump station.  Can't tell you much more.  If you could locate the captain in charge, I'm sure he could use your skills.  Don't forget to wear your badge when meeting with them.  Thank you once again marshal.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  }
+]

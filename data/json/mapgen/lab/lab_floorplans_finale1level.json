@@ -1,6 +1,6 @@
 [
   {
-    "//": "autodoc operating theatre",
+    "//": "autodoc operating theater",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_finale_1level" ],
@@ -45,7 +45,7 @@
         "r": "t_floor_blue"
       },
       "place_loot": [
-        { "item": "anesthesia", "x": 15, "y": 11, "repeat": [ 4, 9 ] },
+        { "item": "anesthetic_kit", "x": 15, "y": 11, "repeat": [ 4, 9 ] },
         { "item": "id_science", "x": 7, "y": 11, "chance": 100 }
       ],
       "mapping": {
@@ -60,13 +60,13 @@
       },
       "computers": {
         "6": {
-          "name": "Operating Theatre Access Control",
+          "name": "Operating Theater Access Control",
           "security": 0,
           "options": [ { "name": "EMERGENCY EVAC - OPEN ALL DOORS", "action": "open", "security": 0 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         },
         "7": {
-          "name": "Operating Theatre Access Control",
+          "name": "Operating Theater Access Control",
           "security": 2,
           "options": [ { "name": "UNLOCK AUTODOC DOOR", "action": "unlock", "security": 6 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
@@ -74,11 +74,12 @@
       },
       "place_monster": [
         { "monster": [ "mon_broken_cyborg", "mon_zombie_electric" ], "x": [ 14, 16 ], "y": [ 1, 4 ], "chance": 90 },
-        { "monster": "mon_broken_cyborg", "x": [ 14, 16 ], "y": [ 6, 9 ], "chance": 90 },
-        { "monster": "mon_broken_cyborg", "x": [ 21, 22 ], "y": [ 1, 4 ], "chance": 90 },
-        { "monster": "mon_broken_cyborg", "x": [ 21, 22 ], "y": [ 6, 9 ], "chance": 90 },
-        { "monster": "mon_zombie_scientist", "x": [15, 19], "y": 12, "chance": 90, "repeat": [1,2] },
-        { "monster": "mon_zombie_brute_shocker", "x": [ 9, 10 ], "y": [ 12, 13 ]}
+        { "monster": [ "mon_broken_cyborg", "mon_prototype_cyborg" ], "x": [ 14, 16 ], "y": [ 6, 9 ], "chance": 90 },
+        { "monster": [ "mon_broken_cyborg", "mon_prototype_cyborg" ], "x": [ 21, 22 ], "y": [ 1, 4 ], "chance": 90 },
+        { "monster": [ "mon_broken_cyborg", "mon_prototype_cyborg" ], "x": [ 21, 22 ], "y": [ 6, 9 ], "chance": 90 },
+        { "monster": [ "mon_nursebot", "mon_nursebot_defective" ], "x": [ 11, 13 ], "y": [ 13, 14 ], "chance": 50 },
+        { "monster": "mon_zombie_scientist", "x": [ 15, 19 ], "y": 12, "chance": 90, "repeat": [ 1, 2 ] },
+        { "monster": "mon_zombie_brute_shocker", "x": [ 9, 10 ], "y": [ 12, 13 ] }
       ]
     }
   },
@@ -117,12 +118,8 @@
         ".Yxx..g..........g..xxY.",
         "......g..........g......"
       ],
-      "palettes": [
-        "lab_palette", "lab_loot_research"
-      ],
-      "furniture": {
-        "R": "f_rack"
-      },
+      "palettes": [ "lab_palette", "lab_loot_research" ],
+      "furniture": { "R": "f_rack" },
       "terrain": {
         "C": "t_machinery_electronic",
         "x": "t_machinery_heavy",
@@ -132,22 +129,16 @@
         "Y": "t_thconc_floor_olight",
         "p": "t_metal_floor"
       },
-      "mapping": {
-        "r": {
-          "item": { "item": "standard_template_construct" }
-        },
-        "R": {
-          "item": { "item": "nanomaterial" }
-        }
-      },
+      "mapping": { "r": { "item": { "item": "standard_template_construct" } }, "R": { "item": { "item": "nanomaterial" } } },
       "place_monster": [
         { "monster": "mon_tripod", "x": [ 1, 4 ], "y": [ 20, 22 ], "chance": 90 },
         { "monster": "mon_tripod", "x": [ 19, 20 ], "y": [ 20, 22 ], "chance": 90 },
-        { "monster": "mon_zombie_scientist", "x": [2, 20], "y": [ 1, 9 ], "chance": 90, "repeat": [1,2] }
+        { "monster": "mon_zombie_scientist", "x": [ 2, 20 ], "y": [ 1, 9 ], "chance": 90, "repeat": [ 1, 2 ] },
+        { "monster": "mon_mech_lifter", "x": 2, "y": 2, "chance": 50 }
       ]
-   }
- },
- {
+    }
+  },
+  {
     "//": "mutagen tank, ~75% chance normal mutagen, ~25% flavored mutagen",
     "type": "mapgen",
     "method": "json",
@@ -176,25 +167,27 @@
         "........g,V,g...........",
         "........|,,,|......C....",
         "........|-g-|...........",
-        "........................",
-        "...................C....",
-        "........................",
-        "........................",
+        ".7......................",
+        ".|L|...............C....",
+        ".g.g....................",
+        ".|g|....................",
         "........................"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
       "furniture": { "V": "f_standing_tank" },
-      "terrain": {
-        ",": "t_floor_blue",
-        "V": "t_floor_blue",
-        "C": "t_centrifuge"
-      },
-      "mapping": {
-        "c": { "items": [ { "item": "mut_lab", "chance": 50 } ] }
-      },
+      "terrain": { ",": "t_floor_blue", "V": "t_floor_blue", "C": "t_centrifuge" },
+      "mapping": { "c": { "items": [ { "item": "mut_lab", "chance": 50 } ] } },
       "computers": {
         "6": {
           "name": "PE012 Storage",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
+          "security": 2,
+          "options": [ { "name": "UNLOCK STORAGE", "action": "unlock", "security": 4 } ],
+          "failures": [ { "action": "damage" }, { "action": "secubots" } ]
+        },
+        "7": {
+          "name": "Prototype DARPA-713 AUTHORIZED PILOTS ONLY",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 2,
           "options": [ { "name": "UNLOCK STORAGE", "action": "unlock", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
@@ -205,7 +198,8 @@
         { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 10, 13 ], "chance": 50, "repeat": 2 },
         { "monster": "mon_secubot", "x": [ 13, 22 ], "y": [ 10, 22 ], "chance": 50, "repeat": 2 },
         { "monster": "mon_secubot", "x": [ 1, 7 ], "y": [ 10, 22 ], "chance": 50, "repeat": 2 },
-        { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 21, 22 ], "chance": 50 }
+        { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 21, 22 ], "chance": 50 },
+        { "monster": "mon_mech_recon", "x": 3, "y": 21, "chance": 80 }
       ],
       "place_loot": [ { "item": "id_science", "x": 6, "y": 14, "chance": 100 } ],
       "place_nested": [
@@ -227,7 +221,9 @@
             [ "lab_filltank_mutagen_ursine", 2 ],
             [ "lab_filltank_mutagen_feline", 2 ],
             [ "lab_filltank_mutagen_lupine", 2 ]
-          ], "x": 10, "y": 16
+          ],
+          "x": 10,
+          "y": 16
         }
       ]
     }
@@ -236,82 +232,55 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_filltank_mutagen",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_liquids" : [ { "amount": [10, 100], "x": 0, "y": 0, "liquid": "mutagen" } ]
-    }
+    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen" } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_filltank_mutagen_plant",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_liquids" : [ { "amount": [10, 100], "x": 0, "y": 0, "liquid": "mutagen_plant" } ]
-    }
+    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_plant" } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_filltank_mutagen_insect",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_liquids" : [ { "amount": [10, 100], "x": 0, "y": 0, "liquid": "mutagen_insect" } ]
-    }
+    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_insect" } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_filltank_mutagen_spider",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_liquids" : [ { "amount": [10, 100], "x": 0, "y": 0, "liquid": "mutagen_spider" } ]
-    }
+    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_spider" } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_filltank_mutagen_fish",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_liquids" : [ { "amount": [10, 100], "x": 0, "y": 0, "liquid": "mutagen_fish" } ]
-    }
+    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_fish" } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_filltank_mutagen_slime",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_liquids" : [ { "amount": [10, 100], "x": 0, "y": 0, "liquid": "mutagen_slime" } ]
-    }
+    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_slime" } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_filltank_mutagen_rat",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_liquids" : [ { "amount": [10, 100], "x": 0, "y": 0, "liquid": "mutagen_rat" } ]
-    }
+    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_rat" } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_filltank_mutagen_beast",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_liquids" : [ { "amount": [10, 100], "x": 0, "y": 0, "liquid": "mutagen_beast" } ]
-    }
+    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_beast" } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_filltank_mutagen_cattle",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_liquids" : [ { "amount": [10, 100], "x": 0, "y": 0, "liquid": "mutagen_cattle" } ]
-    }
+    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_cattle" } ] }
   },
   {
     "type": "mapgen",
@@ -319,26 +288,20 @@
     "nested_mapgen_id": "lab_filltank_mutagen_cephalopod",
     "object": {
       "mapgensize": [ 1, 1 ],
-      "place_liquids" : [ { "amount": [10, 100], "x": 0, "y": 0, "liquid": "mutagen_cephalopod" } ]
+      "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_cephalopod" } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_filltank_mutagen_bird",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_liquids" : [ { "amount": [10, 100], "x": 0, "y": 0, "liquid": "mutagen_bird" } ]
-    }
+    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_bird" } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_filltank_mutagen_lizard",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_liquids" : [ { "amount": [10, 100], "x": 0, "y": 0, "liquid": "mutagen_lizard" } ]
-    }
+    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_lizard" } ] }
   },
   {
     "type": "mapgen",
@@ -346,35 +309,26 @@
     "nested_mapgen_id": "lab_filltank_mutagen_troglobite",
     "object": {
       "mapgensize": [ 1, 1 ],
-      "place_liquids" : [ { "amount": [10, 100], "x": 0, "y": 0, "liquid": "mutagen_troglobite" } ]
+      "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_troglobite" } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_filltank_mutagen_ursine",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_liquids" : [ { "amount": [10, 100], "x": 0, "y": 0, "liquid": "mutagen_ursine" } ]
-    }
+    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_ursine" } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_filltank_mutagen_feline",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_liquids" : [ { "amount": [10, 100], "x": 0, "y": 0, "liquid": "mutagen_feline" } ]
-    }
+    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_feline" } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lab_filltank_mutagen_lupine",
-    "object": {
-      "mapgensize": [ 1, 1 ],
-      "place_liquids" : [ { "amount": [10, 100], "x": 0, "y": 0, "liquid": "mutagen_lupine" } ]
-    }
+    "object": { "mapgensize": [ 1, 1 ], "place_liquids": [ { "amount": [ 10, 100 ], "x": 0, "y": 0, "liquid": "mutagen_lupine" } ] }
   },
   {
     "//": "turrets finale",
@@ -411,17 +365,13 @@
         "-----------MM----------|"
       ],
       "palettes": [ "lab_palette" ],
-      "monster": {
-        "7": { "monster": "mon_turret"}
-      },
+      "monster": { "7": { "monster": "mon_turret_rifle" } },
       "place_monster": [
-        { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 75, "repeat": 2 }
+        { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 75, "repeat": 2 },
+        { "monster": "mon_mech_combat", "x": 2, "y": 2, "chance": 33 }
       ],
       "place_loot": [ { "item": "id_science", "x": 7, "y": 11, "chance": 100 } ],
-      "place_nested": [
-        { "chunks": [ "lab_finale_4x4" ], "x": 10, "y": 10 },
-        { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 }
-      ]
+      "place_nested": [ { "chunks": [ "lab_finale_4x4" ], "x": 10, "y": 10 }, { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 } ]
     }
   },
   {
@@ -437,12 +387,11 @@
         ".---"
       ],
       "palettes": [ "lab_palette" ],
-      "mapping": {
-        "r": { "item": [ { "item": "purifier_smart_shot", "chance": 100 } ] }
-      },
+      "mapping": { "r": { "item": [ { "item": "purifier_smart_shot", "chance": 100 } ] } },
       "computers": {
         "6": {
           "name": "PE019 \"Sculptor\" Secure Storage",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 2,
           "options": [ { "name": "UNLOCK STORAGE", "action": "release_disarm", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
@@ -463,12 +412,11 @@
         ".---"
       ],
       "palettes": [ "lab_palette" ],
-      "mapping": {
-        "r": { "item": [ { "item": "iv_mutagen_alpha", "chance": 100 } ] }
-      },
+      "mapping": { "r": { "item": [ { "item": "iv_mutagen_alpha", "chance": 100 } ] } },
       "computers": {
         "6": {
           "name": "PE050 \"Alpha\" Secure Storage",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 2,
           "options": [ { "name": "UNLOCK STORAGE", "action": "release_disarm", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
@@ -489,12 +437,11 @@
         ".---"
       ],
       "palettes": [ "lab_palette" ],
-      "mapping": {
-        "r": { "item": [ { "item": "iv_mutagen_chimera", "chance": 100 } ] }
-      },
+      "mapping": { "r": { "item": [ { "item": "iv_mutagen_chimera", "chance": 100 } ] } },
       "computers": {
         "6": {
           "name": "PE065 \"Chimera\" Secure Storage",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 2,
           "options": [ { "name": "UNLOCK STORAGE", "action": "release_disarm", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
@@ -515,12 +462,11 @@
         ".---"
       ],
       "palettes": [ "lab_palette" ],
-      "mapping": {
-        "r": { "item": [ { "item": "iv_mutagen_raptor", "chance": 100 } ] }
-      },
+      "mapping": { "r": { "item": [ { "item": "iv_mutagen_raptor", "chance": 100 } ] } },
       "computers": {
         "6": {
           "name": "PE070 \"Raptor\" Secure Storage",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 2,
           "options": [ { "name": "UNLOCK STORAGE", "action": "release_disarm", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
@@ -541,12 +487,11 @@
         ".---"
       ],
       "palettes": [ "lab_palette" ],
-      "mapping": {
-        "r": { "item": [ { "item": "iv_mutagen_medical", "chance": 100 } ] }
-      },
+      "mapping": { "r": { "item": [ { "item": "iv_mutagen_medical", "chance": 100 } ] } },
       "computers": {
         "6": {
           "name": "PE023 \"Medical\" Secure Storage",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 2,
           "options": [ { "name": "UNLOCK STORAGE", "action": "release_disarm", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]

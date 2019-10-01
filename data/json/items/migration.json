@@ -168,24 +168,24 @@
     "flags": [ "DIAMOND" ]
   },
   {
-      "id": "fish_bait_bread",
-      "type": "MIGRATION",
-      "replace": "fish_bait"
+    "id": "fish_bait_bread",
+    "type": "MIGRATION",
+    "replace": "fish_bait"
   },
   {
-      "id": "fish_bait_fish",
-      "type": "MIGRATION",
-      "replace": "fish_bait"
+    "id": "fish_bait_fish",
+    "type": "MIGRATION",
+    "replace": "fish_bait"
   },
   {
-      "id": "fish_bait_meat",
-      "type": "MIGRATION",
-      "replace": "fish_bait"
+    "id": "fish_bait_meat",
+    "type": "MIGRATION",
+    "replace": "fish_bait"
   },
   {
-      "id": "fish_bait_veggy",
-      "type": "MIGRATION",
-      "replace": "fish_bait"
+    "id": "fish_bait_veggy",
+    "type": "MIGRATION",
+    "replace": "fish_bait"
   },
   {
     "id": "gold",
@@ -197,6 +197,18 @@
     "id": "jacqueshammer",
     "type": "MIGRATION",
     "replace": "jackhammer"
+  },
+  {
+    "id": "dogfood_canned",
+    "type": "MIGRATION",
+    "replace": "can_food",
+    "contents": [ "dogfood" ]
+  },
+  {
+    "id": "catfood_canned",
+    "type": "MIGRATION",
+    "replace": "can_food",
+    "contents": [ "catfood" ]
   },
   {
     "id": "jar_V8",
@@ -520,5 +532,181 @@
     "id": "bag_veggy_vac",
     "type": "MIGRATION",
     "replace": "veggy_salted"
+  },
+  {
+    "id": "potato_irradiated",
+    "type": "MIGRATION",
+    "replace": "irradiated_potato"
+  },
+  {
+    "id": "potato_raw",
+    "type": "MIGRATION",
+    "replace": "potato"
+  },
+  {
+    "id": "lightstrip_dead",
+    "type": "MIGRATION",
+    "replace": "lightstrip_inactive"
+  },
+  {
+    "id": "smg_9mm_mag",
+    "type": "MIGRATION",
+    "replace": "survivor9mm_mag"
+  },
+  {
+    "id": "battery_atomic",
+    "type": "MIGRATION",
+    "replace": "light_atomic_battery_cell"
+  },
+  {
+    "id": "battery_compartment",
+    "type": "MIGRATION",
+    "replace": "magazine_battery_heavy_mod"
+  },
+  {
+    "id": "dry_mushroom_magic",
+    "type": "MIGRATION",
+    "replace": "dry_mushroom",
+    "flags": [ "HIDDEN_HALLU" ]
+  },
+  {
+    "id": "hk_ucp",
+    "type": "MIGRATION",
+    "replace": "hk_mp7"
+  },
+  {
+    "id": "rechargable_battery",
+    "type": "MIGRATION",
+    "replace": "heavy_battery_cell"
+  },
+  {
+    "id": "hd_battery",
+    "type": "MIGRATION",
+    "replace": "heavy_plus_battery_cell"
+  },
+  {
+    "id": "frozen_burrito",
+    "type": "MIGRATION",
+    "replace": "junk_burrito"
+  },
+  {
+    "id": "cooked_burrito",
+    "type": "MIGRATION",
+    "replace": "junk_burrito"
+  },
+  {
+    "id": "10mm",
+    "type": "MIGRATION",
+    "replace": "10mm_fmj"
+  },
+  {
+    "id": "locket",
+    "type": "MIGRATION",
+    "replace": "silver_locket"
+  },
+  {
+    "id": "ring",
+    "type": "MIGRATION",
+    "replace": "gold_ring"
+  },
+  {
+    "id": "necklace",
+    "type": "MIGRATION",
+    "replace": "silver_necklace"
+  },
+  {
+    "id": "brooch",
+    "type": "MIGRATION",
+    "replace": "jade_brooch"
+  },
+  {
+    "id": "skinny_tie",
+    "type": "MIGRATION",
+    "replace": "tie_skinny"
+  },
+  {
+    "id": "270",
+    "type": "MIGRATION",
+    "replace": "270win_jsp"
+  },
+  {
+    "id": "reloaded_270",
+    "type": "MIGRATION",
+    "replace": "reloaded_270win_jsp"
+  },
+  {
+    "id": "afs_rolling_pin",
+    "type": "MIGRATION",
+    "replace": "rolling_pin"
+  },
+  {
+    "id": "afs_welding_mask",
+    "type": "MIGRATION",
+    "replace": "welding_mask"
+  },
+  {
+    "id": "afs_atomic_reading_light",
+    "type": "MIGRATION",
+    "replace": "atomic_light_off"
+  },
+  {
+    "id": "afs_atomic_reading_light_on",
+    "type": "MIGRATION",
+    "replace": "atomic_light"
+  },
+  {
+    "id": "afs_large_storage_battery",
+    "type": "MIGRATION",
+    "replace": "large_storage_battery"
+  },
+  {
+    "id": "afs_daypack",
+    "type": "MIGRATION",
+    "replace": "daypack"
+  },
+  {
+    "id": "afs_ski_jacket",
+    "type": "MIGRATION",
+    "replace": "ski_jacket"
+  },
+  {
+    "id": "afs_cake",
+    "type": "MIGRATION",
+    "replace": "cake2"
+  },
+  {
+    "id": "afs_fried_donut_holes",
+    "type": "MIGRATION",
+    "replace": "donut_holes"
+  },
+  {
+    "id": "afs_welding_mask_makeshift",
+    "type": "MIGRATION",
+    "replace": "welding_mask_crude"
+  },
+  {
+    "id": "smg_38",
+    "type": "MIGRATION",
+    "replace": "smg_45"
+  },
+  {
+    "id": "smg_38_mag",
+    "type": "MIGRATION",
+    "replace": "smg_45_mag"
+  },
+  {
+    "id": "smg_22",
+    "type": "MIGRATION",
+    "replace": "smg_9mm"
+  },
+  {
+    "id": "smg_22_mag",
+    "type": "MIGRATION",
+    "replace": "survivor9mm_mag"
+  },
+  {
+    "id": "magbandolier",
+    "type": "MIGRATION",
+    "replace": "chestrig"
   }
 ]

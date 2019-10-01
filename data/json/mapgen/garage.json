@@ -5,67 +5,77 @@
     "om_terrain": [ "s_garage" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "     EEEEEE    EEEEEE   ",
         "     EEEEEE    EEEEEE   ",
         "     EEEEEE    EEEEEE   ",
         "     EEEEEE    EEEEEE   ",
-        "    eEEEEEE   eEEEEEE   ",
-        " ----======----======-- ",
-        " |c.eM#MM#M...eM#MM#M.| ",
-        " |c..M#MM#M....M#MM#M.| ",
-        " |c..M#MM#M....M#MM#M.| ",
-        " |c..M#MM#M....M#MM#M.| ",
-        " |c..M#MM#M....M#MM#M.| ",
-        " |c..M#MM#M....M#MM#M.| ",
-        " |c..MMMMMMMMMMMMMMMM.| ",
-        " |....................| ",
-        " |---............HHHHH| ",
-        " |ts|............HLLLL| ",
-        " |-+|............Hbbbb| ",
-        " |...............$....+ ",
-        " |^W|............Hhbbb| ",
-        " |xx|ccccccccccccH6LLL| ",
-        " |----::::--::::------| ",
-        "                        ",
-        "                        ",
+        "    eEEEEEE   eEEEEEEEEE",
+        " ----======----======--E",
+        " |S.eM#MM#M...eM#MM#M.|E",
+        " |S..M#MM#M....M#MM#M.|E",
+        " |c..M#MM#M....M#MM#M.|E",
+        " |c..M#MM#M....M#MM#M.|E",
+        " |c..M#MM#M....M#MM#M.|E",
+        " |c..M#MM#M....M#MM#M.|E",
+        " |c..MMMMMMMMMMMMMMMM.|E",
+        " |....................|E",
+        " |---l...........HHHHH|E",
+        " |ts|c...........HLLLL|E",
+        " |-+|p...........Hbbbb|E",
+        "4|...............$....+E",
+        " |^W|............Hhbbb|E",
+        " |xx|cccccSScccccH6LLL|E",
+        " |----::::--::::------|E",
+        "                  EU<UEE",
+        "                  EUEEEE",
         "                        "
       ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        " ": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
         "E": "t_pavement",
+        "U": "t_pavement",
         "$": "t_door_glass_c",
         "+": "t_door_c",
-        "-": "t_wall",
-        ".": "t_floor",
+        "-": "t_brick_wall",
+        ".": "t_thconc_floor",
         "6": "t_console_broken",
         ":": "t_window",
         "=": "t_door_metal_locked",
+        "A": "t_m_frame",
         "H": "t_wall_glass",
         "e": "t_gates_mech_control",
-        "|": "t_wall",
+        "|": "t_brick_wall",
         "W": "t_chainfence_h",
         "^": "t_chaingate_c",
         "M": "t_metal_floor",
-        "#": "t_grate"
+        "#": "t_grate",
+        "4": "t_gutter_downspout",
+        "<": "t_ladder_up"
       },
       "furniture": {
+        "A": "f_air_conditioner",
         "L": "f_locker",
         "b": "f_bench",
         "c": "f_counter",
         "s": "f_sink",
+        "S": "f_utility_shelf",
+        "p": "f_hydraulic_press",
+        "l": "f_heavy_lathe",
         "t": "f_toilet",
         "x": "f_crate_c",
-        "h": "f_chair"
+        "h": "f_chair",
+        "U": [ "f_dumpster", "f_recycle_bin" ]
       },
       "items": {
         "L": { "item": "clothing_work_set", "chance": 25 },
-        "c": { "item": "mechanics", "chance": 20 },
-        "x": { "item": "mechanics", "chance": 10 }
+        "c": { "item": "mechanics", "chance": 30 },
+        "S": { "item": "mechanics", "chance": 40, "repeat": 4 },
+        "x": { "item": "mechanics", "chance": 50, "repeat": 2 }
       },
       "place_vehicles": [
-        { "vehicle": "garage", "x": [  8,  8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
+        { "vehicle": "garage", "x": [ 8, 8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
         { "vehicle": "garage", "x": [ 18, 18 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 }
       ]
     }
@@ -73,7 +83,51 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_garage" ],
+    "om_terrain": "s_garage_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |222222222222222222223 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....&...............3 ",
+        " 5....................3 ",
+        " |..........AA........3 ",
+        " |.=..................3 ",
+        " |----------------##### ",
+        "                  ##>## ",
+        "                  ####  ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ">": "t_ladder_down" },
+      "place_items": [ { "item": "roof_trash", "x": [ 4, 20 ], "y": [ 7, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        {
+          "chunks": [ [ "null", 20 ], [ "roof_2x2_utilities_b", 40 ], [ "roof_2x2_utilities_c", 40 ] ],
+          "x": [ 3, 15 ],
+          "y": [ 8, 12 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_garage_1" ],
     "weight": 1000,
     "object": {
       "fill_ter": "t_floor",
@@ -93,11 +147,11 @@
         " W J  ~~~~~~  ~~~~~~ *W ",
         " ^______~~~~~~~~~~~ zzW ",
         " wwwwww_~~~~~~~~~w6dwww ",
-        " wx.xxw_~~~~~~~~~wdhLLw ",
-        " wcxx.w_~~~~~~~~_wd..Lw ",
-        " wc..xD_~~~~~~~~_+....+ ",
-        " wc.x.w_~~~~~~~~_ww+www ",
-        " wxxx.w__________ws..tw ",
+        " wxxxPw_~~~~~~~~~wdhLLw ",
+        " wSx..w_~~~~~~~~_wd..Lw ",
+        " wS..xD_~~~~~~~~_+....+ ",
+        " wS.x.w_~~~~~~~~_ww+www ",
+        " wccccw4________4ws..tw ",
         " wwwwwwUUUUUUUUUUwwwwww ",
         "                        ",
         "                        ",
@@ -105,9 +159,9 @@
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "~": ["t_dirt", "t_pavement", "t_pavement", "t_pavement", "t_pavement", "t_pavement", "t_pavement" ],
-        "_": ["t_dirt", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk" ],
-        "*": ["t_tree_pine", "t_tree", "t_shrub", "t_tree_young" ],
+        "~": [ "t_dirt", "t_pavement", "t_pavement", "t_pavement", "t_pavement", "t_pavement", "t_pavement" ],
+        "_": [ "t_dirt", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk" ],
+        "*": [ "t_tree_pine", "t_tree", "t_shrub", "t_tree_young" ],
         "J": "t_water_pump",
         "D": "t_door_locked",
         "+": "t_door_c",
@@ -118,25 +172,29 @@
         ":": "t_window",
         "W": "t_chainfence_h",
         "^": "t_chaingate_c",
-        "z": "t_dirt"
+        "z": "t_dirt",
+        "4": "t_gutter_downspout"
       },
       "furniture": {
         "L": "f_locker",
         "c": "f_counter",
         "s": "f_sink",
+        "S": "f_utility_shelf",
         "t": "f_toilet",
         "x": "f_crate_c",
         "h": "f_chair",
+        "P": "f_hydraulic_press",
         "d": "f_desk",
-        "z": ["f_wreckage", "f_toilet", "f_dumpster", "f_sink" ]
+        "z": [ "f_wreckage", "f_toilet", "f_dumpster", "f_sink" ]
       },
       "items": {
         "L": { "item": "clothing_work_set", "chance": 25 },
-        "c": { "item": "mechanics", "chance": 10 },
-        "x": { "item": "mechanics", "chance": 20 }
+        "c": { "item": "mechanics", "chance": 45 },
+        "S": { "item": "mechanics", "chance": 25, "repeat": 4 },
+        "x": { "item": "mechanics", "chance": 50, "repeat": 2 }
       },
       "place_vehicles": [
-        { "vehicle": "garage", "x": [  8,  8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
+        { "vehicle": "garage", "x": [ 8, 8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
         { "vehicle": "garage", "x": [ 18, 18 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 }
       ]
     }
@@ -144,10 +202,46 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_garage" ],
+    "om_terrain": "s_garage_roof_1",
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |22223          |22223 ",
+        " |....3          |....3 ",
+        " |....3          |....3 ",
+        " |....3          |....3 ",
+        " |....3          |....3 ",
+        " |....5          5....3 ",
+        " |----30000000000|----3 ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tar_flat_roof", "0": "t_open_air_rooved" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_garage_2" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "    EEEEEE      XXX     ",
         "    EEEEEE      XXX     ",
@@ -155,66 +249,183 @@
         "    EEEEEE      XXX     ",
         "   eEEEEEEXXXXXXXXXXXXXX",
         " ---======-----HHOHH---X",
-        " |.eM#MM#M..|.........|X",
+        " |.eM#MM#M..|y.......y|X",
         " |..M#MM#M..|b........|X",
         " :..M#MM#M..:b..|-ddd-|X",
-        " :..M#MM#M..:b..|..h..|X",
-        " :..M#MM#M..:b..|--.--|X",
-        " |..M#MM#M..|b..|...hd|X",
-        " |..MMMMMM..|...+.6ddd|X",
-        " |..........|...|-----|X",
-        " |---....---|-+-|LLLLL|X",
+        " :..M#MM#M..:b..|f.h.y|X",
+        " A..M#MM#M..:b..|--.--|X",
+        " |..M#MM#M..+...+...hd|X",
+        " |..MMMMMM..|-+-|f6ddd|X",
+        " |..........|&.s|-----|X",
+        " |---....---|---|LLLLL|X",
         " |..............|bbbbb|X",
         " |WWWW..WWWW|...+.....|X",
-        " |c........c|------+--|X",
-        " |c.xx..xx.c|xx.+T|...OX",
-        " |c.xx..xx.c|x..-|----|X",
-        " |c.........O..xx|XXXXXX",
-        " |cccccccccc|----|XXXXXX",
+        " |c........c|-------+-|X",
+        " |c.xx..xx.p|xx.+T|<..OX",
+        " |l.xx..xx.c|x..-|----|X",
+        " |S.........O..xx|4UUXXX",
+        " |ScccccccSS|----|UXXXXX",
         " |----------|WWWWWWWWWWW",
         "                        "
       ],
-       "terrain": {
+      "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "E": "t_pavement",
         "X": "t_sidewalk",
+        "U": "t_sidewalk",
         "$": "t_door_glass_c",
         "+": "t_door_c",
         "O": "t_door_locked",
-        "-": "t_wall",
-        ".": "t_floor",
+        "-": "t_wall_b",
+        ".": "t_thconc_floor",
         "6": "t_console_broken",
         ":": "t_window",
         "=": "t_door_metal_locked",
+        "A": "t_m_frame",
         "H": "t_wall_glass",
         "e": "t_gates_mech_control",
-        "|": "t_wall",
+        "|": "t_wall_b",
         "W": "t_chainfence_h",
         "^": "t_chaingate_c",
         "M": "t_metal_floor",
-        "#": "t_grate"
+        "#": "t_grate",
+        "4": "t_gutter_downspout",
+        "<": "t_stairs_up"
       },
+      "toilets": { "&": {  } },
       "furniture": {
+        "A": "f_air_conditioner",
         "L": "f_locker",
         "T": "f_rack",
         "b": "f_bench",
         "d": "f_desk",
         "c": "f_counter",
+        "p": "f_hydraulic_press",
+        "l": "f_heavy_lathe",
+        "S": "f_utility_shelf",
         "s": "f_sink",
         "t": "f_toilet",
         "x": "f_crate_c",
-        "h": "f_chair"
+        "f": "f_filing_cabinet",
+        "h": "f_chair",
+        "U": [ "f_dumpster", "f_recycle_bin" ],
+        "y": [ "f_indoor_plant", "f_indoor_plant_y" ]
       },
       "items": {
         "L": { "item": "clothing_work_set", "chance": 25 },
-        "c": { "item": "mechanics", "chance": 10 },
-        "x": { "item": "mechanics", "chance": 20 },
-        "d": { "item": "office", "chance": 70 },
-        "T": { "item": "cleaning", "chance": 70 }
+        "c": { "item": "mechanics", "chance": 30 },
+        "S": { "item": "mechanics", "chance": 40, "repeat": 4 },
+        "x": { "item": "mechanics", "chance": 50, "repeat": 4 },
+        "f": { "item": "office", "chance": 50, "repeat": 2 },
+        "d": { "item": "office", "chance": 70, "repeat": 2 },
+        "T": { "item": "cleaning", "chance": 70, "repeat": 4 }
       },
-      "place_vehicles": [
-        { "vehicle": "garage", "x": [  8,  8 ], "y": [ 9, 10 ], "chance": 95, "rotation": 90 }
+      "place_vehicles": [ { "vehicle": "garage", "x": [ 8, 8 ], "y": [ 9, 10 ], "chance": 95, "rotation": 90 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_garage_roof_2",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |222222222222222222223 ",
+        " |....................3 ",
+        " |....***************.3 ",
+        " |....8......x..xx..*.3 ",
+        " |....*xxx..........*.3 ",
+        " |....%%%%%%%%%%%+%%%%% ",
+        " |....%yfff%'rr''''%ST% ",
+        " |....WI'''W'''''''%''% ",
+        " |....WIh''W'''CC''%+%% ",
+        " |....WI'''+''C'C''''C% ",
+        " |....%''''W'''''''Y''% ",
+        " |...4%tsst%'rrrrr''''% ",
+        " |....%%%%%%%%%%%%%%+%% ",
+        " |................%>''% ",
+        " |...............5%%%%% ",
+        " |...............3      ",
+        " |..........3----3      ",
+        " |----------3           ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": {
+        "%": "t_wall_b",
+        "+": "t_door_locked",
+        ">": "t_stairs_down",
+        "'": "t_thconc_floor",
+        "W": "t_window_domestic",
+        "*": "t_chainfence",
+        "8": "t_chaingate_c",
+        "x": [ "t_machinery_light", "t_machinery_heavy", "t_machinery_old", "t_machinery_electronic" ]
+      },
+      "furniture": { "I": "f_desk", "h": "f_chair", "f": "f_filing_cabinet" },
+      "items": {
+        "I": { "item": "office", "chance": 30 },
+        "f": { "item": "office_paper", "chance": 30 },
+        "S": { "item": "mechanics", "chance": 20 },
+        "r": { "item": "mechanics", "chance": 20 },
+        "C": { "item": "softdrugs", "chance": 20 }
+      },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 10 ],
+            [ "roof_2x2_utilities", 10 ],
+            [ "roof_2x2_golf", 10 ],
+            [ "roof_3x3_wine", 10 ],
+            [ "roof_4x4_party", 5 ]
+          ],
+          "x": 3,
+          "y": 18
+        }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_garage_upper_roof_2",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "      |2222222222222223 ",
+        "      |...............3 ",
+        "      |....X..........3 ",
+        "      |...............3 ",
+        "      |...............3 ",
+        "      |.........:.....3 ",
+        "      5...............3 ",
+        "      |-----------|...3 ",
+        "                  |...3 ",
+        "                  |---3 ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "furniture": { ":": "f_cellphone_booster", "X": "f_small_satelitte_dish" }
     }
   }
 ]

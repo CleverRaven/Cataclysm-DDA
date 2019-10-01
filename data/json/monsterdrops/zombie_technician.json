@@ -10,7 +10,8 @@
         "distribution": [ { "group": "tools_carpentry", "prob": 30 }, { "group": "tools_common", "prob": 70 } ],
         "prob": 30
       },
-      { "group": "supplies_electronics", "prob": 50 }
+      { "group": "supplies_electronics", "prob": 50 },
+      { "item": "id_industrial", "prob": 20 }
     ]
   }
 ]

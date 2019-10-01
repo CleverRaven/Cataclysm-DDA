@@ -1,44 +1,40 @@
 [
-    {
-        "type" : "mapgen",
-        "om_terrain" : ["factory_blc"],
-        "comment" : "bottom left corner",
-        "method": "json",
-        "weight": 250,
-        "object": {
-            "fill_ter": "t_concrete_floor",
-            "rows": [
-                ",,F,,,,,,,||......|.....",
-                ",,F,,,,,,,||t.....+.....",
-                ",,F,,,,,,,|---[]------..",
-                ",,F,,,1ggg----[]-----|..",
-                ",,F,,,g          N N||==",
-                ",,F,,,g DDD        N||=-",
-                ",,F,,,g 6c         4||33",
-                ",,F,,,g            N||33",
-                ",,F,,,g  D6         []..",
-                ",,F,,,g  Dc         []..",
-                ",,F,,,gp D          ||33",
-                ",,F,,,g             ||33",
-                ",,F,,,g            p||--",
-                ",,F,,,g             |---",
-                ",,F,,,g  6c     c6 pg,,,",
-                ",,F,,,g  DDD   DDD  g,,,",
-                ",,F,,,g            pg,,,",
-                ",,F,,,1ggggggggggggg1,,,",
-                ",,F,,,,,,,,,,,,,,,,,,,,,",
-                ",,F,,,,,,,,,,,,,,,,,,,,,",
-                ",,F,,,,,,,,,,,,,,,,,,,,,",
-                ",,ffffffffffffffffffffff",
-                ",,,,,,,,,,,,,,,,,,,,,,,,",
-                ",,,,,,,,,,,,,,,,,,,,,,,,"
-            ],
-             "palettes": [
-               "factory"
-            ],
-            "monster": {
-                "t": { "monster": "mon_turret" }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": [ "factory_blc" ],
+    "comment": "bottom left corner",
+    "method": "json",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_concrete_floor",
+      "rows": [
+        ",,F,,,,,,,||......|.....",
+        ",,F,,,,,,,||t.....+.....",
+        ",,F,,,,,,,|---[]------..",
+        ",,F,,,1ggg----[]-----|..",
+        ",,F,,,g          N N||==",
+        ",,F,,,g DDD        N||=-",
+        ",,F,,,g 6c         4||33",
+        ",,F,,,g            N||33",
+        ",,F,,,g  D6         []..",
+        ",,F,,,g  Dc         []..",
+        ",,F,,,gp D          ||33",
+        ",,F,,,g             ||33",
+        ",,F,,,g            p||--",
+        ",,F,,,g             |---",
+        ",,F,,,g  6c     c6 pg,,,",
+        ",,F,,,g  DDD   DDD  g,,,",
+        ",,F,,,g            pg,,,",
+        ",,F,,,1ggggggggggggg1,,,",
+        ",,F,,,,,,,,,,,,,,,,,,,,,",
+        ",,F,,,,,,,,,,,,,,,,,,,,,",
+        ",,F,,,,,,,,,,,,,,,,,,,,,",
+        ",,ffffffffffffffffffffff",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,"
+      ],
+      "palettes": [ "factory" ],
+      "monster": { "t": { "monster": "mon_turret_rifle" } }
     }
+  }
 ]

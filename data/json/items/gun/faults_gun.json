@@ -1,0 +1,35 @@
+[
+  {
+    "id": "fault_gun_blackpowder",
+    "type": "fault",
+    "name": "Blackpowder fouling",
+    "description": "Firing blackpowder loads from a gun fouls it, which reduces reliability and, if left uncleaned, leads to rust.",
+    "time": "50 s",
+    "skills": [ [ "mechanics", 1 ] ],
+    "requirements": {
+      "qualities": [ { "id": "SCREW", "level": 1 } ],
+      "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ]
+    }
+  },
+  {
+    "id": "fault_gun_chamber_spent",
+    "type": "fault",
+    "name": "Spent casing in chamber",
+    "description": "This gun currently has an empty casing chambered.  It will have to be removed before firing.",
+    "time": 50,
+    "skills": [  ],
+    "requirements": {  }
+  },
+  {
+    "id": "fault_gun_clogged",
+    "type": "fault",
+    "name": "Clogging",
+    "description": "Clogging is usually caused by firing many blackpowder loads without cleaning; it prevents firing the gun until cleaned.  Some guns are more resistant to this than others.",
+    "time": "5 m",
+    "skills": [ [ "mechanics", 1 ] ],
+    "requirements": {
+      "qualities": [ { "id": "SCREW", "level": 1 } ],
+      "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ]
+    }
+  }
+]

@@ -1,13 +1,15 @@
-#include "catch/catch.hpp"
-
-#include "item.h"
-#include "npc.h"
-#include "player.h"
-
+#include <stddef.h>
 #include <sstream>
+#include <array>
+#include <vector>
 
-static void test_diet( const time_duration dur, npc &dude,
-                       const std::array<int, 4> hmod_changes_per_day, int min, int max )
+#include "catch/catch.hpp"
+#include "npc.h"
+#include "calendar.h"
+#include "enums.h"
+
+static void test_diet( const time_duration &dur, npc &dude,
+                       const std::array<int, 4> &hmod_changes_per_day, int min, int max )
 {
     std::vector<int> health_samples;
     for( time_duration i = 0_turns; i < dur; i += 1_days ) {

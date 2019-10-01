@@ -1,18 +1,20 @@
 #include "mod_manager.h"
 
+#include <queue>
+#include <algorithm>
+#include <iterator>
+#include <memory>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "dependency_tree.h"
 #include "filesystem.h"
-#include "generic_factory.h"
 #include "json.h"
-#include "output.h"
 #include "path_info.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "worldfactory.h"
-
-#include <queue>
+#include "assign.h"
 
 static const std::string MOD_SEARCH_FILE( "modinfo.json" );
 
@@ -42,7 +44,7 @@ std::string MOD_INFORMATION::name() const
         //~ name of a mod that has no name entry, (%s is the mods identifier)
         return string_format( _( "No name (%s)" ), ident.c_str() );
     } else {
-        return _( name_.c_str() );
+        return _( name_ );
     }
 }
 
@@ -60,6 +62,7 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories
         {"magical", translate_marker( "MAGICAL MODS" )},
         {"item_exclude", translate_marker( "ITEM EXCLUSION MODS" )},
         {"monster_exclude", translate_marker( "MONSTER EXCLUSION MODS" )},
+        {"graphical", translate_marker( "GRAPHICAL MODS" )},
         {"", translate_marker( "NO CATEGORY" )}
     };
 
@@ -98,11 +101,6 @@ void mod_manager::load_replacement_mods( const std::string &path )
                                       mod_id( arr.size() > 1 ? arr.get_string( 1 ) : "" ) );
         }
     } );
-}
-
-bool MOD_INFORMATION::need_lua() const
-{
-    return file_exist( path + "/main.lua" ) || file_exist( path + "/preload.lua" );
 }
 
 mod_manager::mod_manager()
@@ -172,11 +170,11 @@ void mod_manager::remove_mod( const mod_id &ident )
     }
 }
 
-void mod_manager::remove_invalid_mods( std::vector<mod_id> &m ) const
+void mod_manager::remove_invalid_mods( std::vector<mod_id> &mods ) const
 {
-    m.erase( std::remove_if( m.begin(), m.end(), [this]( const mod_id & mod ) {
+    mods.erase( std::remove_if( mods.begin(), mods.end(), [this]( const mod_id & mod ) {
         return mod_map.count( mod ) == 0;
-    } ), m.end() );
+    } ), mods.end() );
 }
 
 bool mod_manager::set_default_mods( const mod_id &ident )
@@ -210,13 +208,13 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
     const mod_id m_ident( jo.get_string( "ident" ) );
     // can't use string_id::is_valid as the global mod_manger instance does not exist yet
     if( mod_map.count( m_ident ) > 0 ) {
-        // @todo: change this to make unique ident for the mod
+        // TODO: change this to make unique ident for the mod
         // (instead of discarding it?)
         debugmsg( "there is already a mod with ident %s", m_ident.c_str() );
         return;
     }
 
-    std::string m_name = jo.get_string( "name", "" );
+    const std::string m_name = jo.get_string( "name", "" );
 
     std::string m_cat = jo.get_string( "category", "" );
     std::pair<int, std::string> p_cat = {-1, ""};
@@ -225,7 +223,7 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
     do {
         for( size_t i = 0; i < get_mod_list_categories().size(); ++i ) {
             if( get_mod_list_categories()[i].first == m_cat ) {
-                p_cat = { int( i ), get_mod_list_categories()[i].second };
+                p_cat = { static_cast<int>( i ), get_mod_list_categories()[i].second };
                 bCatFound = true;
                 break;
             }
@@ -300,12 +298,7 @@ bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
         return false;
     }
 
-    std::ostringstream number_stream;
     for( size_t i = 0; i < mods_to_copy.size(); ++i ) {
-        number_stream.str( std::string() );
-        number_stream.width( 5 );
-        number_stream.fill( '0' );
-        number_stream << ( i + 1 );
         const MOD_INFORMATION &mod = *mods_to_copy[i];
         size_t start_index = mod.path.size();
 
@@ -327,13 +320,12 @@ bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
         }
 
         // create needed directories
-        std::ostringstream cur_mod_dir;
-        cur_mod_dir << output_base_path << "/mod_" << number_stream.str();
+        const std::string cur_mod_dir = string_format( "%s/mod_%05d", output_base_path, i + 1 );
 
         std::queue<std::string> dir_to_make;
-        dir_to_make.push( cur_mod_dir.str() );
+        dir_to_make.push( cur_mod_dir );
         for( auto &input_dir : input_dirs ) {
-            dir_to_make.push( cur_mod_dir.str() + "/" + input_dir.substr( start_index ) );
+            dir_to_make.push( cur_mod_dir + "/" + input_dir.substr( start_index ) );
         }
 
         while( !dir_to_make.empty() ) {
@@ -348,7 +340,7 @@ bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
         // trim file paths from full length down to just /data forward
         for( auto &input_file : input_files ) {
             std::string output_path = input_file;
-            output_path = cur_mod_dir.str() + output_path.substr( start_index );
+            output_path = cur_mod_dir + output_path.substr( start_index );
             copy_file( input_file, output_path );
         }
     }

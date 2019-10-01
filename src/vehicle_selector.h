@@ -2,9 +2,10 @@
 #ifndef VEHICLE_SELECTOR_H
 #define VEHICLE_SELECTOR_H
 
-#include "visitable.h"
-
 #include <vector>
+#include <iosfwd>
+
+#include "visitable.h"
 
 class vehicle;
 struct tripoint;
@@ -22,12 +23,12 @@ class vehicle_selector : public visitable<vehicle_selector>
         friend visitable<vehicle_selector>;
 
     public:
-        typedef vehicle_cursor value_type;
-        typedef std::vector<value_type>::size_type size_type;
-        typedef std::vector<value_type>::iterator iterator;
-        typedef std::vector<value_type>::const_iterator const_iterator;
-        typedef std::vector<value_type>::reference reference;
-        typedef std::vector<value_type>::const_reference const_reference;
+        using value_type = vehicle_cursor;
+        using size_type = std::vector<value_type>::size_type;
+        using iterator = std::vector<value_type>::iterator;
+        using const_iterator = std::vector<value_type>::const_iterator;
+        using reference = std::vector<value_type>::reference;
+        using const_reference = std::vector<value_type>::const_reference;
 
         /**
          *  Constructs vehicle_selector used for querying items located on vehicle tiles

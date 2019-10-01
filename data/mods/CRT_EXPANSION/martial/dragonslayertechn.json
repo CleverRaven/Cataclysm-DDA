@@ -1,0 +1,58 @@
+[
+  {
+    "type": "technique",
+    "id": "BERSERK",
+    "name": "BERSERK",
+    "min_melee": 1,
+    "unarmed_allowed": false,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.3 ], [ "damage", "bash", 0.77 ], [ "damage", "cut", 0.77 ], [ "damage", "stab", 0.77 ] ],
+    "flat_bonuses": [
+      [ "movecost", "str", -10 ],
+      [ "damage", "bash", "str", 0.8 ],
+      [ "damage", "stab", "str", 1.5 ],
+      [ "damage", "cut", "str", 0.8 ]
+    ],
+    "down_dur": 2,
+    "messages": [ "Your swing makes %s stagger and fall", "<npcname> hooks %s" ],
+    "description": "50% moves, 77% Bash, 77% Cut, 77% Stab, Down two turns, STR (SS+) greatly reduces action cost and adds overall damage (S)"
+  },
+  {
+    "type": "technique",
+    "id": "DSINERTIAL",
+    "name": "SWEEPER",
+    "min_melee": 4,
+    "unarmed_allowed": false,
+    "melee_allowed": true,
+    "knockback_dist": 1,
+    "mult_bonuses": [ [ "movecost", 0.15 ], [ "damage", "bash", 0.35 ], [ "damage", "cut", 0.35 ], [ "damage", "stab", 0.35 ] ],
+    "flat_bonuses": [
+      [ "movecost", "str", -15 ],
+      [ "damage", "bash", "str", 0.1 ],
+      [ "damage", "stab", "str", 0.3 ],
+      [ "damage", "cut", "str", 0.1 ]
+    ],
+    "messages": [ "Your momentum causes your weapon to strike %s", "<npcname> inertially strikes %s" ],
+    "aoe": "wide",
+    "description": "15% moves, 35% damage, wide arc, STR (SS+) dramatically reduces action cost, and adds a (A) damage bonus, min 4 melee"
+  },
+  {
+    "type": "technique",
+    "id": "DSBI",
+    "name": "BISECTION",
+    "min_melee": 2,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "mult_bonuses": [ [ "movecost", 0.35 ], [ "damage", "bash", 1.05 ], [ "damage", "cut", 1.25 ], [ "damage", "stab", 1.05 ] ],
+    "flat_bonuses": [
+      [ "movecost", "str", -15 ],
+      [ "movecost", "dex", -7 ],
+      [ "damage", "bash", "per", 0.15 ],
+      [ "damage", "cut", "per", 0.3 ],
+      [ "damage", "stab", "per", 0.15 ]
+    ],
+    "messages": [ "You wind up the sword and release a well placed swing at %s", "<npcname> chops %s" ],
+    "description": "Crit only, 35% move cost, 105% Bash and Stab, 125% Cut, DEX (D) and PER (E) reduces action cost and increases overall (B) damage, min 2 melee"
+  }
+]

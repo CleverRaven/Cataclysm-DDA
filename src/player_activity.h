@@ -2,20 +2,26 @@
 #ifndef PLAYER_ACTIVITY_H
 #define PLAYER_ACTIVITY_H
 
-#include "enums.h"
-#include "item_location.h"
-#include "string_id.h"
-
+#include <cstddef>
 #include <climits>
 #include <set>
 #include <vector>
+#include <memory>
+#include <string>
+#include <unordered_set>
+
+#include "enums.h"
+#include "item_location.h"
+#include "point.h"
+#include "string_id.h"
 
 class player;
 class Character;
 class JsonIn;
 class JsonOut;
-class player_activity;
 class activity_type;
+class monster;
+class translation;
 
 using activity_id = string_id<activity_type>;
 
@@ -39,6 +45,8 @@ class player_activity
         std::vector<int> values;
         std::vector<std::string> str_values;
         std::vector<tripoint> coords;
+        std::unordered_set<tripoint> coord_set;
+        std::vector<std::weak_ptr<monster>> monsters;
         tripoint placement;
         /** If true, the activity will be auto-resumed next time the player attempts
          *  an identical activity. This value is set dynamically.
@@ -49,9 +57,9 @@ class player_activity
         player_activity( activity_id, int turns = 0, int Index = -1, int pos = INT_MIN,
                          const std::string &name_in = "" );
         player_activity( player_activity && ) = default;
-        player_activity( const player_activity & );
+        player_activity( const player_activity & ) = default;
         player_activity &operator=( player_activity && ) = default;
-        player_activity &operator=( const player_activity & );
+        player_activity &operator=( const player_activity & ) = default;
 
         explicit operator bool() const {
             return !type.is_null();
@@ -59,6 +67,7 @@ class player_activity
         bool is_null() const {
             return type.is_null();
         }
+        bool is_multi_type() const;
         /** This replaces the former usage `act.type = ACT_NULL` */
         void set_to_null();
 
@@ -71,6 +80,8 @@ class player_activity
         // e.g. "Stop doing something?", already translated.
         std::string get_stop_phrase() const;
 
+        const translation &get_verb() const;
+
         int get_value( size_t index, int def = 0 ) const;
         std::string get_str_value( size_t index, const std::string &def = "" ) const;
         /**
@@ -81,7 +92,7 @@ class player_activity
          */
         bool is_suspendable() const;
 
-        void serialize( JsonOut &jsout ) const;
+        void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
         /** Convert from the old enumeration to the new string_id */
         void deserialize_legacy_type( int legacy_type, activity_id &dest );
@@ -102,6 +113,7 @@ class player_activity
         bool is_distraction_ignored( distraction_type type ) const;
         void ignore_distraction( distraction_type type );
         void allow_distractions();
+        void inherit_distractions( const player_activity & );
 };
 
 #endif

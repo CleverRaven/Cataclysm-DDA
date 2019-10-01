@@ -1,0 +1,403 @@
+[
+  {
+    "id": "bio_advreactor",
+    "type": "bionic",
+    "name": "Advanced Microreactor System",
+    "description": "This stripped down mini-reactor is more efficient and safer than the base model due to integrated radiation cleansers.  There is no way to shut it down once active, but you can toggle additional fuel intake.",
+    "occupied_bodyparts": [ [ "TORSO", 55 ] ],
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "included_bionics": [ "bio_plutdump" ],
+    "upgraded_bionic": "bio_reactor"
+  },
+  {
+    "id": "bio_plut_filter",
+    "type": "bionic",
+    "name": "Plutonium Filter",
+    "description": "This set of tanks and filters allows you to extract plutonium from radioactive slurry.",
+    "occupied_bodyparts": [ [ "TORSO", 10 ] ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "act_cost": 1,
+    "react_cost": 1,
+    "time": 12
+  },
+  {
+    "id": "bio_plutdump",
+    "type": "bionic",
+    "name": "Plutonium Purger",
+    "included": true,
+    "description": "Triggers an emergency reactor fuel purge that ejects all fuel from your reactor.",
+    "act_cost": 1
+  },
+  {
+    "id": "bio_reactor",
+    "type": "bionic",
+    "name": "Microreactor System",
+    "description": "This stripped down mini-reactor generates impressive amounts of bionic power.  There is no way to shut it down, but you can toggle additional fuel intake.  Irradiates your body when active.",
+    "occupied_bodyparts": [ [ "TORSO", 55 ] ],
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "included_bionics": [ "bio_plutdump" ]
+  },
+  {
+    "id": "bio_furnace",
+    "type": "bionic",
+    "name": "Internal Furnace",
+    "description": "When this bionic is active, you can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others.",
+    "occupied_bodyparts": [ [ "TORSO", 40 ] ],
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_storage",
+    "type": "bionic",
+    "name": "Internal Storage",
+    "description": "Space inside your chest cavity has been surgically converted into a storage area.  You may carry an extra 2 liters of volume.",
+    "occupied_bodyparts": [ [ "TORSO", 32 ] ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_270",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "reloaded_laser_pack",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "unbio_blaster_gun",
+    "obsolete": true
+  },
+  {
+    "id": "bio_blaster",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Fusion Blaster Arm CBM",
+    "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
+    "price": 220000,
+    "difficulty": 3
+  },
+  {
+    "id": "bio_blaster",
+    "type": "bionic",
+    "name": "Fusion Blaster Arm",
+    "description": "Your left arm has been surgically replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
+    "occupied_bodyparts": [ [ "ARM_L", 20 ], [ "HAND_L", 5 ] ],
+    "act_cost": 50,
+    "fake_item": "bio_blaster_gun",
+    "flags": [ "BIONIC_GUN" ]
+  },
+  {
+    "id": "fusion_gun",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": "mounted fusion gun",
+    "item": "ftk93",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "difficulty": 6,
+    "breaks_into": [ { "item": "ftk93", "prob": 50 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ], [ "electronics", 6 ] ], "time": 10000 },
+      "removal": { "skills": [ [ "mechanics", 4 ] ] }
+    }
+  },
+  {
+    "id": "bio_blaster_gun",
+    "type": "GUN",
+    "name": "fusion blaster",
+    "description": "this a pseudo item",
+    "volume": "3 L",
+    "price": 0,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "skill": "rifle",
+    "range": 30,
+    "ranged_damage": 22,
+    "pierce": 15,
+    "dispersion": 30,
+    "durability": 10,
+    "loudness": 12,
+    "modes": [ [ "DEFAULT", "single shot", 1 ], [ "burst", "triple shot", 3 ] ],
+    "reload": 500,
+    "built_in_mods": [ "bio_powershot" ],
+    "ammo_effects": [ "PLASMA" ],
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
+  },
+  {
+    "id": "unbio_blaster_gun",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": "fusion blaster rifle",
+    "description": "A cyborg's fusion blaster arm, cannibalized and converted into a rifle.  This improvised weapon is powered by a standard UPS connection.",
+    "weight": 2680,
+    "volume": "2500 ml",
+    "price": 420000,
+    "to_hit": -1,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "skill": "rifle",
+    "range": 30,
+    "ranged_damage": 22,
+    "dispersion": 90,
+    "durability": 6,
+    "loudness": 15,
+    "ups_charges": 40,
+    "reload": 600,
+    "valid_mod_locations": [
+      [ "emitter", 1 ],
+      [ "grip", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME", "NEVER_JAMS" ],
+    "flags": [ "NO_UNLOAD" ]
+  },
+  {
+    "id": "ftk93",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "symbol": "(",
+    "color": "magenta",
+    "name": "FTK-93 fusion gun",
+    "description": "A very powerful fusion rifle developed shortly before the influx of monsters.  It can only hold two rounds at a time, but a special superheating unit causes its bolts to be extremely deadly.",
+    "price": 980000,
+    "material": [ "steel", "plastic" ],
+    "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME" ],
+    "flags": [ "NEVER_JAMS" ],
+    "ups_charges": 5,
+    "skill": "rifle",
+    "ammo": "fusion",
+    "weight": 2267,
+    "volume": "3500 ml",
+    "bashing": 10,
+    "to_hit": -1,
+    "ranged_damage": 40,
+    "dispersion": 30,
+    "durability": 9,
+    "clip_size": 2,
+    "reload": 600,
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "emitter", 1 ],
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ]
+  },
+  {
+    "type": "ammunition_type",
+    "id": "fusion",
+    "name": "fusion cell",
+    "default": "laser_pack"
+  },
+  {
+    "type": "AMMO",
+    "id": "laser_pack",
+    "price": 80000,
+    "name": "fusion pack",
+    "symbol": "=",
+    "color": "light_green",
+    "description": "In the middle of the 21st Century, military powers began to look towards energy based weapons.  The result was the standard fusion pack, capable of delivering bolts of superheated gas at near light speed with no recoil.",
+    "material": "plastic",
+    "volume": "250 ml",
+    "weight": 68,
+    "ammo_type": "fusion",
+    "damage": 12,
+    "pierce": 15,
+    "range": 30,
+    "stack_size": 40,
+    "count": 20,
+    "effects": [ "NEVER_MISFIRES" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "reloaded_laser_pack",
+    "price": 80,
+    "name": "bootleg fusion pack",
+    "symbol": "=",
+    "color": "light_green",
+    "description": "In the middle of the 21st Century, military powers began to look towards energy based weapons.  The result was the standard fusion pack, capable of delivering bolts of superheated gas at near light speed with no recoil.  This one has been hand-crafted from spare parts.",
+    "material": "plastic",
+    "volume": "250 ml",
+    "weight": 68,
+    "bashing": 1,
+    "ammo_type": "fusion",
+    "damage": 11,
+    "pierce": 14,
+    "range": 30,
+    "stack_size": 40,
+    "count": 20,
+    "effects": [ "COOKOFF", "RECYCLED" ]
+  },
+  {
+    "type": "recipe",
+    "result": "flamethrower_simple",
+    "obsolete": true
+  },
+  {
+    "id": "wheel_steerable",
+    "copy-from": "wheel",
+    "type": "vehicle_part",
+    "name": "wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+  },
+  {
+    "id": "wheel_slick_steerable",
+    "copy-from": "wheel_slick",
+    "type": "vehicle_part",
+    "name": "racing slick (steerable)",
+    "item": "wheel_slick",
+    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+  },
+  {
+    "id": "wheel_armor_steerable",
+    "copy-from": "wheel_armor",
+    "type": "vehicle_part",
+    "name": "armored wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+  },
+  {
+    "id": "wheel_bicycle_steerable",
+    "copy-from": "wheel_bicycle",
+    "type": "vehicle_part",
+    "name": "bicycle wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+  },
+  {
+    "id": "wheel_bicycle_or_steerable",
+    "copy-from": "wheel_bicycle_or",
+    "type": "vehicle_part",
+    "name": "off-road bicycle wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+  },
+  {
+    "id": "wheel_motorbike_steerable",
+    "copy-from": "wheel_motorbike",
+    "type": "vehicle_part",
+    "name": "motorbike wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+  },
+  {
+    "id": "wheel_motorbike_or_steerable",
+    "copy-from": "wheel_motorbike_or",
+    "type": "vehicle_part",
+    "name": "off-road motorbike wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+  },
+  {
+    "id": "wheel_small_steerable",
+    "copy-from": "wheel_small",
+    "type": "vehicle_part",
+    "name": "small wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+  },
+  {
+    "id": "wheel_wide_steerable",
+    "copy-from": "wheel_wide",
+    "type": "vehicle_part",
+    "name": "wide wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+  },
+  {
+    "id": "wheel_wide_or_steerable",
+    "copy-from": "wheel_wide_or",
+    "type": "vehicle_part",
+    "name": "off-road wide wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "INCONSPICUOUS",
+    "name": "Inconspicuous",
+    "points": 1,
+    "description": "While sleeping or staying still, it is less likely that monsters will wander close to you.",
+    "social_modifiers": { "lie": 2 },
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "SAVINGS",
+    "name": "Savings",
+    "points": 1,
+    "description": "You had some money stashed at the bank for a rainy day.  Now that the storm is raging, it's a last call to use it maybe?",
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "DEBT",
+    "name": "Debt",
+    "points": -1,
+    "description": "You needed money and had a big loan in a bank.  Good thing nobody will come to collect it now, right?  Right?",
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "MILLIONAIRE",
+    "name": "Millionaire",
+    "points": 3,
+    "description": "At the time of Cataclysm you were an owner of a fortune stashed in a bank.  Does that have any meaning now?",
+    "valid": false
+  },
+  {
+    "id": "metal_wheel",
+    "type": "vehicle_part",
+    "name": "metal wheel",
+    "item": "wheel_metal",
+    "location": "under",
+    "symbol": "|",
+    "broken_symbol": "x",
+    "durability": 180,
+    "description": "A strong metal wheel.",
+    "damage_modifier": 70,
+    "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] }, { "item": "steel_chunk", "count": [ 2, 3 ] } ],
+    "rolling_resistance": 0.375,
+    "wheel_type": "rigid",
+    "contact_area": 80,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
+    "damage_reduction": { "all": 66 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_bone",
+    "name": "bone plating",
+    "symbol": ")",
+    "color": "white",
+    "broken_symbol": ")",
+    "broken_color": "light_gray",
+    "durability": 120,
+    "item": "bone_plate",
+    "difficulty": 2,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [ { "item": "bone_tainted", "count": [ 10, 30 ] } ],
+    "damage_reduction": { "all": 18 }
+  },
+  {
+    "id": "washcloth",
+    "type": "TOOL",
+    "name": "washcloth",
+    "description": "A piece of cloth that can be used for cleaning impervious surfaces.",
+    "weight": "80 g",
+    "volume": "250 ml",
+    "price": 0,
+    "material": "cotton",
+    "symbol": ",",
+    "color": "white",
+    "use_action": "WASH_HARD_ITEMS"
+  }
+]

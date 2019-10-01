@@ -2,20 +2,16 @@
 #ifndef VPART_RANGE_H
 #define VPART_RANGE_H
 
-#include "optional.h"
-#include "vpart_reference.h"
-
-#include <algorithm>
 #include <cassert>
 #include <functional>
+#include <cstddef>
+#include <iterator>
+#include <utility>
 
-// Some functions have templates with default values that may seem pointless,
-// but they allow to use the type in question without including the header
-// of it. (The header must still be included *if* you use the function template.)
-// Example: `some_range.begin() == some_range.end()` works without including
-// "vpart_reference.h", but `*some_range.begin()` requires it.
+#include "optional.h"
+#include "vpart_position.h"
+#include "vehicle.h"
 
-class vpart_reference;
 enum class part_status_flag : int;
 
 /**
@@ -88,7 +84,7 @@ namespace std
 template<class T> struct iterator_traits<vehicle_part_iterator<T>> {
     using difference_type = size_t;
     using value_type = vpart_reference;
-    // @todo maybe change into random access iterator? This requires adding
+    // TODO: maybe change into random access iterator? This requires adding
     // more operators to the iterator, which may not be efficient.
     using iterator_category = std::forward_iterator_tag;
 };
@@ -142,7 +138,6 @@ class generic_vehicle_part_range
         }
 };
 
-class vehicle_part_range;
 /** A range that contains all parts of the vehicle. */
 class vehicle_part_range : public generic_vehicle_part_range<vehicle_part_range>
 {
@@ -154,8 +149,6 @@ class vehicle_part_range : public generic_vehicle_part_range<vehicle_part_range>
         }
 };
 
-template<typename feature_type>
-class vehicle_part_with_feature_range;
 /** A range that contains parts that have a given feature and (optionally) are not broken. */
 template<typename feature_type>
 class vehicle_part_with_feature_range : public
@@ -170,7 +163,7 @@ class vehicle_part_with_feature_range : public
             generic_vehicle_part_range<vehicle_part_with_feature_range<feature_type>>( v ),
                     feature_( std::move( f ) ), required_( r ) { }
 
-        bool matches( const size_t part ) const;
+        bool matches( size_t part ) const;
 };
 
 #endif

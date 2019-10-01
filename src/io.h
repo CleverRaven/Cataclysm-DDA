@@ -2,10 +2,11 @@
 #ifndef CATA_IO_H
 #define CATA_IO_H
 
-#include "json.h"
-
+#include <functional>
 #include <string>
 #include <type_traits>
+
+#include "json.h"
 
 /**
  * @name Serialization and deserialization
@@ -39,6 +40,9 @@
  *         using archive_type_tag = io::object_archive_tag;
  *         ...
  *     };
+ *
+ * The tag types are defined in io_tags.h so that this header need not be
+ * included to use them.
  *
  * The function must be declared with the archive type as template parameter, but it can be
  * implemented outside of the header (e.g. in savegame_json.cpp). It will be instantiated with
@@ -82,11 +86,6 @@
 namespace io
 {
 
-class JsonArrayInputArchive;
-class JsonArrayOutputArchive;
-class JsonObjectInputArchive;
-class JsonObjectOutputArchive;
-
 /**
  * Tag that indicates the default value for io should be the default value of the type
  * itself, i.e. the result of default initialization: `T()`
@@ -111,22 +110,6 @@ struct empty_default_tag { };
 struct required_tag { };
 
 /**
- * Tag that indicates the class is stored in a JSON array.
- */
-struct array_archive_tag {
-    using InputArchive = JsonArrayInputArchive;
-    using OutputArchive = JsonArrayOutputArchive;
-};
-
-/**
- * Tag that indicates the class is stored in a JSON object.
- */
-struct object_archive_tag {
-    using InputArchive = JsonObjectInputArchive;
-    using OutputArchive = JsonObjectOutputArchive;
-};
-
-/**
  * The namespace contains classes that do write/read to/from JSON via either the Json classes in
  * "json.h" or via the `io` function of the object to be written/read.
  * Which of those classes is actually used determined via the template parameter and use of SFINAE.
@@ -139,7 +122,7 @@ namespace detail
 
 template<class T, class R = void>
 struct enable_if_type {
-    typedef R type;
+    using type = R;
 };
 
 /**
@@ -430,7 +413,7 @@ class JsonObjectOutputArchive
                  const std::function<std::string( const T & )> &save, bool required = false ) {
             if( pointer == nullptr ) {
                 if( required ) {
-                    throw JsonError( ( "a required member is null: " ) + name );
+                    throw JsonError( "a required member is null: " + name );
                 }
                 return false;
             }

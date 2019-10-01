@@ -4,17 +4,36 @@
     "id": "guns_pistol_common",
     "//": "Pistols commonly owned by citizens and found in many locations.",
     "items": [
-      [ "glock_17", 35 ],
-      [ "glock_19", 50 ],
-      [ "glock_22", 35 ],
-      [ "m1911", 50 ],
-      [ "m9", 30 ],
-      [ "ruger_lcr_38", 10 ],
-      [ "sig_mosquito", 15 ],
-      [ "sw_22", 15 ],
-      [ "sw_610", 20 ],
-      [ "sw_619", 25 ],
-      [ "p226_357sig", 20 ]
+      { "item": "glock_17", "prob": 35, "charges-min": 0, "charges-max": 15 },
+      { "item": "glock_19", "prob": 50, "charges-min": 0, "charges-max": 15 },
+      { "item": "glock_22", "prob": 35, "charges-min": 0, "charges-max": 15 },
+      { "item": "glock_31", "prob": 15, "charges-min": 0, "charges-max": 15 },
+      { "item": "m1911", "prob": 50, "charges-min": 0, "charges-max": 7 },
+      { "item": "m9", "prob": 30, "charges-min": 0, "charges-max": 15 },
+      { "item": "ruger_lcr_38", "prob": 10, "charges-min": 0, "charges-max": 5 },
+      { "item": "sig_mosquito", "prob": 15, "charges-min": 0, "charges-max": 10 },
+      { "item": "sw_22", "prob": 15, "charges-min": 0, "charges-max": 10 },
+      { "item": "sw_610", "prob": 20, "charges-min": 0, "charges-max": 6 },
+      { "item": "sw_619", "prob": 25, "charges-min": 0, "charges-max": 7 },
+      { "item": "p226_357sig", "prob": 20, "charges-min": 0, "charges-max": 15 },
+      { "item": "p320_357sig", "prob": 10, "charges-min": 0, "charges-max": 14 },
+      { "item": "kp32", "prob": 10, "charges-min": 0, "charges-max": 7 },
+      { "item": "kp3at", "prob": 35, "charges-min": 0, "charges-max": 6 },
+      { "item": "rugerlcp", "prob": 35, "charges-min": 0, "charges-max": 6 },
+      { "item": "kpf9", "prob": 35, "charges-min": 0, "charges-max": 7 },
+      { "item": "hi_power_9mm", "prob": 5, "charges-min": 0, "charges-max": 15 },
+      { "item": "hi_power_40", "prob": 3, "charges-min": 0, "charges-max": 10 },
+      { "item": "walther_p38", "prob": 2, "charges-min": 0, "charges-max": 8 },
+      { "item": "walther_ppq_9mm", "prob": 9, "charges-min": 0, "charges-max": 17 },
+      { "item": "walther_ppq_40", "prob": 5, "charges-min": 0, "charges-max": 14 },
+      { "item": "walther_ppq_45", "prob": 3, "charges-min": 0, "charges-max": 12 },
+      { "item": "hptc9", "prob": 3, "charges-min": 0, "charges-max": 15 },
+      { "item": "hptcf380", "prob": 2, "charges-min": 0, "charges-max": 10 },
+      { "item": "hptjcp", "prob": 1, "charges-min": 0, "charges-max": 10 },
+      { "item": "hptjhp", "prob": 1, "charges-min": 0, "charges-max": 9 },
+      { "item": "cz75", "prob": 18, "charges-min": 0, "charges-max": 26 },
+      { "item": "walther_ccp", "prob": 8, "charges-min": 0, "charges-max": 8 },
+      { "item": "walther_p22", "prob": 13, "charges-min": 0, "charges-max": 10 }
     ]
   },
   {
@@ -22,21 +41,24 @@
     "id": "guns_pistol_rare",
     "//": "Less common pistols including those only used by police/paramilitary forces.",
     "items": [
-      [ "deagle_44", 35 ],
-      [ "fn57", 80 ],
-      [ "l_enforcer_45", 25 ],
-      [ "l_lookout_9mm", 20 ],
-      [ "l_sp_45", 35 ],
-      [ "l_sp_9mm", 60 ],
-      [ "ruger_lcr_22", 35 ],
-      [ "ruger_redhawk", 25 ],
-      [ "sig_40", 35 ],
-      [ "sig_p230", 45 ],
-      [ "sw_500", 25 ],
-      [ "sw629", 40 ],
-      [ "taurus_38", 35 ],
-      [ "usp_45", 70 ],
-      [ "usp_9mm", 120 ]
+      { "item": "deagle_44", "prob": 35, "charges-min": 0, "charges-max": 8 },
+      { "item": "m1911a1_38super", "prob": 25, "charges-min": 0, "charges-max": 10 },
+      { "item": "fn57", "prob": 80, "charges-min": 0, "charges-max": 20 },
+      { "item": "l_enforcer_45", "prob": 25, "charges-min": 0, "charges-max": 6 },
+      { "item": "l_lookout_9mm", "prob": 20, "charges-min": 0, "charges-max": 7 },
+      { "item": "l_sp_45", "prob": 35, "charges-min": 0, "charges-max": 12 },
+      { "item": "l_sp_9mm", "prob": 60, "charges-min": 0, "charges-max": 21 },
+      { "item": "l_mp_45", "prob": 25, "charges-min": 0, "charges-max": 12 },
+      { "item": "l_mp_9mm", "prob": 25, "charges-min": 0, "charges-max": 21 },
+      { "item": "ruger_lcr_22", "prob": 35, "charges-min": 0, "charges-max": 8 },
+      { "item": "ruger_redhawk", "prob": 25, "charges-min": 0, "charges-max": 6 },
+      { "item": "sig_40", "prob": 35, "charges-min": 0, "charges-max": 12 },
+      { "item": "sig_p230", "prob": 45, "charges-min": 0, "charges-max": 8 },
+      { "item": "sw_500", "prob": 25, "charges-min": 0, "charges-max": 5 },
+      { "item": "sw629", "prob": 40, "charges-min": 0, "charges-max": 6 },
+      { "item": "taurus_38", "prob": 35, "charges-min": 0, "charges-max": 10 },
+      { "item": "usp_45", "prob": 70, "charges-min": 0, "charges-max": 12 },
+      { "item": "usp_9mm", "prob": 120, "charges-min": 0, "charges-max": 15 }
     ]
   },
   {
@@ -44,12 +66,14 @@
     "id": "guns_pistol_milspec",
     "//": "Military specification pistols only ever found at military sites.",
     "items": [
-      [ "hk_ucp", 100 ],
-      [ "l_bak_223", 60 ],
-      [ "l_mp_45", 70 ],
-      [ "l_mp_9mm", 100 ],
-      [ "needlepistol", 45 ],
-      [ "rm103a_pistol", 35 ]
+      { "item": "m17", "prob": 100, "charges-min": 0, "charges-max": 17 },
+      { "item": "glock_18c", "prob": 70, "charges-min": 0, "charges-max": 17 },
+      { "item": "mk23", "prob": 10, "charges-min": 0, "charges-max": 12 },
+      { "item": "usp_45", "prob": 15, "charges-min": 0, "charges-max": 12 },
+      { "item": "m1911_MEU", "prob": 5, "charges-min": 0, "charges-max": 7 },
+      { "item": "glock_19", "prob": 20, "charges-min": 0, "charges-max": 15 },
+      { "item": "needlepistol", "prob": 45, "charges-min": 0, "charges-max": 50 },
+      { "item": "rm103a_pistol", "prob": 35, "charges-min": 0, "charges-max": 10 }
     ]
   },
   {
@@ -57,15 +81,18 @@
     "id": "guns_pistol_obscure",
     "//": "Imported or otherwise very obscure pistols.",
     "items": [
-      [ "cop_38", 100 ],
-      [ "lemat_revolver", 150 ],
-      [ "makarov", 100 ],
-      [ "moss_brownie", 100 ],
-      [ "pistol_flintlock", 150 ],
-      [ "raging_bull", 100 ],
-      [ "rm99_pistol", 150 ],
-      [ "tokarev", 100 ],
-      [ "walther_ppk", 100 ]
+      { "item": "bfr", "prob": 100, "charges-min": 0, "charges-max": 5 },
+      { "item": "cop_38", "prob": 100, "charges-min": 0, "charges-max": 4 },
+      { "item": "lemat_revolver", "prob": 150, "charges-min": 0, "charges-max": 9 },
+      { "item": "makarov", "prob": 100, "charges-min": 0, "charges-max": 8 },
+      { "item": "moss_brownie", "prob": 100, "charges-min": 0, "charges-max": 4 },
+      { "item": "pistol_flintlock", "prob": 150 },
+      { "item": "raging_bull", "prob": 100, "charges-min": 0, "charges-max": 5 },
+      { "item": "l_bak_223", "prob": 80, "charges-min": 0, "charges-max": 5 },
+      { "item": "rm99_pistol", "prob": 150, "charges-min": 0, "charges-max": 5 },
+      { "item": "tokarev", "prob": 100, "charges-min": 0, "charges-max": 8 },
+      { "item": "walther_ppk", "prob": 100, "charges-min": 0, "charges-max": 8 },
+      { "item": "colt_saa", "prob": 150, "charges-min": 0, "charges-max": 6 }
     ]
   },
   {
@@ -73,9 +100,9 @@
     "id": "guns_pistol_improvised",
     "//": "Makeshift or otherwise poor quality pistols.",
     "items": [
-      [ "ashot", 100 ],
-      [ "surv_hand_cannon", 100 ],
-      [ "surv_six_shooter", 100 ]
+      { "item": "ashot", "prob": 100 },
+      { "item": "surv_hand_cannon", "prob": 100, "charges-min": 0, "charges-max": 5 },
+      { "item": "surv_six_shooter", "prob": 100, "charges-min": 0, "charges-max": 6 }
     ]
   },
   {
@@ -83,10 +110,10 @@
     "id": "guns_smg_common",
     "//": "SMGs commonly owned by citizens and found in many locations.",
     "items": [
-      [ "tommygun", 70 ],
-      [ "briefcase_smg", 20 ],
-      [ "sten", 100 ],
-      [ "uzi", 100 ]
+      { "item": "tommygun", "prob": 70, "charges-min": 0, "charges-max": 20 },
+      { "item": "hk_mp5_semi_pistol", "prob": 70, "charges-min": 0, "charges-max": 30 },
+      { "item": "sten", "prob": 100, "charges-min": 0, "charges-max": 32 },
+      { "item": "uzi", "prob": 100, "charges-min": 0, "charges-max": 32 }
     ]
   },
   {
@@ -94,15 +121,18 @@
     "id": "guns_smg_rare",
     "//": "Less common SMGs including those only used by police/paramilitary forces.",
     "items": [
-      [ "calico", 30 ],
-      [ "fn_p90", 50 ],
-      [ "hk_mp5", 100 ],
-      [ "hk_ump45", 30 ],
-      [ "mac_10", 40 ],
-      [ "rm360_carbine", 30 ],
-      [ "TDI", 10 ],
-      [ "american_180", 50 ],
-      [ "tec9", 50 ]
+      { "item": "calico", "prob": 30, "charges-min": 0, "charges-max": 50 },
+      { "item": "fn_p90", "prob": 50, "charges-min": 0, "charges-max": 50 },
+      { "item": "hk_mp5", "prob": 100, "charges-min": 0, "charges-max": 30 },
+      { "item": "hk_mp5sd", "prob": 5, "charges-min": 0, "charges-max": 30 },
+      { "item": "hk_ump45", "prob": 30, "charges-min": 0, "charges-max": 25 },
+      { "item": "mac_10", "prob": 40, "charges-min": 0, "charges-max": 30 },
+      { "item": "mac_11", "prob": 20, "charges-min": 0, "charges-max": 32 },
+      { "item": "rm360_carbine", "prob": 30, "charges-min": 0, "charges-max": 100 },
+      { "item": "TDI", "prob": 10, "charges-min": 0, "charges-max": 30 },
+      { "item": "american_180", "prob": 50, "charges-min": 0, "charges-max": 100 },
+      { "item": "briefcase_smg", "prob": 5, "charges-min": 0, "charges-max": 30 },
+      { "item": "tec9", "prob": 50, "charges-min": 0, "charges-max": 32 }
     ]
   },
   {
@@ -110,9 +140,12 @@
     "id": "guns_smg_milspec",
     "//": "Military specification SMGs only ever found at military sites.",
     "items": [
-      [ "hk_mp7", 100 ],
-      [ "needlegun", 30 ],
-      [ "rm2000_smg", 50 ]
+      { "item": "hk_mp7", "prob": 100, "charges-min": 0, "charges-max": 20 },
+      { "item": "needlegun", "prob": 30, "charges-min": 0, "charges-max": 50 },
+      { "item": "rm2000_smg", "prob": 50, "charges-min": 0, "charges-max": 10 },
+      { "item": "hk_mp5", "prob": 100, "charges-min": 0, "charges-max": 30 },
+      { "item": "hk_mp5k", "prob": 10, "charges-min": 0, "charges-max": 30 },
+      { "item": "hk_mp5sd", "prob": 5, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
@@ -120,36 +153,38 @@
     "id": "guns_smg_obscure",
     "//": "Imported or otherwise very obscure SMGs.",
     "items": [
-      [ "ppsh", 150 ],
-      [ "skorpion_61", 100 ],
-      [ "skorpion_82", 100 ]
+      { "item": "ppsh", "prob": 150, "charges-min": 0, "charges-max": 35 },
+      { "item": "skorpion_61", "prob": 100, "charges-min": 0, "charges-max": 20 },
+      { "item": "skorpion_82", "prob": 100, "charges-min": 0, "charges-max": 20 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_smg_improvised",
     "//": "Makeshift or otherwise poor quality SMGs.",
-    "items": [
-    ]
+    "items": [ [ "smg_40", 40 ], [ "smg_45", 40 ], [ "smg_9mm", 100 ] ]
   },
   {
     "type": "item_group",
     "id": "guns_rifle_common",
     "//": "Rifles commonly owned by citizens and found in many locations.",
     "items": [
-      [ "browning_blr", 25 ],
-      [ "garand", 65 ],
-      [ "ar15", 30 ],
-      [ "cx4", 45 ],
-      [ "ksub2000", 30 ],
-      [ "m1a", 50 ],
-      [ "marlin_9a", 80 ],
-      [ "mosin44", 15 ],
-      [ "mosin91_30", 25 ],
-      [ "ruger_1022", 70 ],
-      [ "ruger_mini", 60 ],
-      [ "sks", 40 ],
-      [ "win70", 15 ]
+      { "item": "browning_blr", "prob": 25, "charges-min": 0, "charges-max": 4 },
+      { "item": "garand", "prob": 65, "charges-min": 0, "charges-max": 8 },
+      { "item": "ar10", "prob": 20, "charges-min": 0, "charges-max": 20 },
+      { "item": "ar15", "prob": 30, "charges-min": 0, "charges-max": 30 },
+      { "item": "cx4", "prob": 45, "charges-min": 0, "charges-max": 15 },
+      { "item": "ksub2000", "prob": 30, "charges-min": 0, "charges-max": 15 },
+      { "item": "m1a", "prob": 50, "charges-min": 0, "charges-max": 5 },
+      { "item": "marlin_9a", "prob": 80, "charges-min": 0, "charges-max": 19 },
+      { "item": "mosin44", "prob": 15, "charges-min": 0, "charges-max": 5 },
+      { "item": "mosin91_30", "prob": 25, "charges-min": 0, "charges-max": 5 },
+      { "item": "remington700_270", "prob": 50, "charges-min": 0, "charges-max": 4 },
+      { "item": "ruger_1022", "prob": 70, "charges-min": 0, "charges-max": 10 },
+      { "item": "ruger_mini", "prob": 60, "charges-min": 0, "charges-max": 5 },
+      { "item": "sks", "prob": 40, "charges-min": 0, "charges-max": 10 },
+      { "item": "win70", "prob": 15, "charges-min": 0, "charges-max": 3 },
+      { "item": "1895sbl", "prob": 15, "charges-min": 0, "charges-max": 7 }
     ]
   },
   {
@@ -157,25 +192,31 @@
     "id": "guns_rifle_rare",
     "//": "Less common rifles including those only used by police/paramilitary forces.",
     "items": [
-      [ "acr", 25 ],
-      [ "fn_fal", 40 ],
-      [ "hk_g3", 40 ],
-      [ "hk_g36", 30 ],
-      [ "henry_big_boy", 10 ],
-      [ "l_base_223", 40 ],
-      [ "l_car_223", 10 ],
-      [ "l_dsr_223", 5 ],
-      [ "l_long_45", 30 ],
-      [ "m14ebr", 15 ],
-      [ "M24", 15 ],
-      [ "m4a1", 45 ],
-      [ "m1903", 15 ],
-      [ "m1918", 30 ],
-      [ "mosin44_ebr", 10 ],
-      [ "mosin91_30_ebr", 20 ],
-      [ "remington_700", 20 ],
-      [ "savage_111f", 15 ],
-      [ "weatherby_5", 15 ]
+      { "item": "acr", "prob": 25, "charges-min": 0, "charges-max": 30 },
+      { "item": "fn_fal", "prob": 40, "charges-min": 0, "charges-max": 20 },
+      { "item": "hk_g3", "prob": 40, "charges-min": 0, "charges-max": 20 },
+      { "item": "hk_g36", "prob": 30, "charges-min": 0, "charges-max": 30 },
+      { "item": "henry_big_boy", "prob": 10, "charges-min": 0, "charges-max": 10 },
+      { "item": "l_base_223", "prob": 40, "charges-min": 0, "charges-max": 32 },
+      { "item": "l_car_223", "prob": 10, "charges-min": 0, "charges-max": 32 },
+      { "item": "l_dsr_223", "prob": 5, "charges-min": 0, "charges-max": 32 },
+      { "item": "l_lmg_223", "prob": 5, "charges-min": 0, "charges-max": 32 },
+      { "item": "l_mbr_223", "prob": 10, "charges-min": 0, "charges-max": 32 },
+      { "item": "l_long_45", "prob": 30, "charges-min": 0, "charges-max": 12 },
+      { "item": "m14ebr", "prob": 15, "charges-min": 0, "charges-max": 20 },
+      { "item": "M24", "prob": 15, "charges-min": 0, "charges-max": 20 },
+      { "item": "m4a1", "prob": 45, "charges-min": 0, "charges-max": 30 },
+      { "item": "m1903", "prob": 15, "charges-min": 0, "charges-max": 5 },
+      { "item": "m1918", "prob": 30, "charges-min": 0, "charges-max": 20 },
+      { "item": "mosin44_ebr", "prob": 10, "charges-min": 0, "charges-max": 5 },
+      { "item": "mosin91_30_ebr", "prob": 20, "charges-min": 0, "charges-max": 5 },
+      { "item": "remington_700", "prob": 20, "charges-min": 0, "charges-max": 4 },
+      { "item": "savage_111f", "prob": 15, "charges-min": 0, "charges-max": 3 },
+      { "item": "sharps", "prob": 15, "charges-min": 0, "charges-max": 1 },
+      { "item": "weatherby_5", "prob": 15, "charges-min": 0, "charges-max": 3 },
+      { "item": "hk417_13", "prob": 40, "charges-min": 0, "charges-max": 20 },
+      { "item": "ar15_retool_300blk", "prob": 15, "charges-min": 0, "charges-max": 30 },
+      { "item": "iwi_tavor_x95_300blk", "prob": 10, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
@@ -183,36 +224,36 @@
     "id": "guns_rifle_milspec",
     "//": "Military specification rifles only ever found at military sites.",
     "items": [
-      [ "h&k416a5", 50 ],
-      [ "l_lmg_223", 30 ],
-      [ "l_mbr_223", 100 ],
-      [ "m107a1", 30 ],
-      [ "m134", 10 ],
-      [ "m14ebr", 10 ],
-      [ "m2010", 20 ],
-      [ "m240", 15 ],
-      [ "m249", 25 ],
-      [ "m27iar", 50 ],
-      [ "m60", 15 ],
-      [ "rm11b_sniper_rifle", 15 ],
-      [ "rm298", 10 ],
-      [ "rm51_assault_rifle", 25 ],
-      [ "rm614_lmg", 10 ],
-      [ "rm88_battle_rifle", 25 ],
-      [ "sig552", 100 ],
-      [ "scar_l", 50 ],
-      [ "scar_h", 50 ]
+      { "item": "h&k416a5", "prob": 50, "charges-min": 0, "charges-max": 30 },
+      { "item": "m107a1", "prob": 30, "charges-min": 0, "charges-max": 10 },
+      { "item": "m134", "prob": 10, "charges-min": 0, "charges-max": 100 },
+      { "item": "m14ebr", "prob": 10, "charges-min": 0, "charges-max": 20 },
+      { "item": "m2010", "prob": 20, "charges-min": 0, "charges-max": 5 },
+      { "item": "m240", "prob": 15, "charges-min": 0, "charges-max": 100 },
+      { "item": "m249", "prob": 25, "charges-min": 0, "charges-max": 10 },
+      { "item": "m27iar", "prob": 50, "charges-min": 0, "charges-max": 30 },
+      { "item": "m60", "prob": 15, "charges-min": 0, "charges-max": 100 },
+      { "item": "rm11b_sniper_rifle", "prob": 15, "charges-min": 0, "charges-max": 10 },
+      { "item": "rm298", "prob": 10, "charges-min": 0, "charges-max": 100 },
+      { "item": "rm51_assault_rifle", "prob": 25, "charges-min": 0, "charges-max": 50 },
+      { "item": "rm614_lmg", "prob": 10, "charges-min": 0, "charges-max": 100 },
+      { "item": "rm88_battle_rifle", "prob": 25, "charges-min": 0, "charges-max": 50 },
+      { "item": "sig552", "prob": 100, "charges-min": 0, "charges-max": 30 },
+      { "item": "scar_l", "prob": 50, "charges-min": 0, "charges-max": 30 },
+      { "item": "scar_h", "prob": 50, "charges-min": 0, "charges-max": 20 },
+      { "item": "m110a1", "prob": 50, "charges-min": 0, "charges-max": 20 },
+      { "item": "acr_300blk", "prob": 15, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_energy",
     "//": "Assorted factory crafted energy weapons.",
-    "items":[
-      [ "laser_rifle", 30 ],
-      [ "emp_gun", 10 ],
-      [ "v29", 70 ],
-      [ "ftk93", 10 ]
+    "items": [
+      { "item": "laser_rifle", "prob": 30 },
+      { "item": "emp_gun", "prob": 10 },
+      { "item": "v29", "prob": 70 },
+      { "item": "plasma_gun", "prob": 10 }
     ]
   },
   {
@@ -220,15 +261,17 @@
     "id": "guns_rifle_obscure",
     "//": "Imported or otherwise very obscure rifles.",
     "items": [
-      [ "ak47", 100 ],
-      [ "ak74", 60 ],
-      [ "an94", 40 ],
-      [ "bh_m89", 20],
-      [ "carbine_flintlock", 140 ],
-      [ "rifle_flintlock", 180 ],
-      [ "steyr_aug", 40 ],
-      [ "trex_gun", 60 ],
-      [ "arx160", 40 ]
+      { "item": "ak47", "prob": 100, "charges-min": 0, "charges-max": 30 },
+      { "item": "ak74", "prob": 60, "charges-min": 0, "charges-max": 30 },
+      { "item": "an94", "prob": 40, "charges-min": 0, "charges-max": 30 },
+      { "item": "bh_m89", "prob": 20, "charges-min": 0, "charges-max": 7 },
+      { "item": "carbine_flintlock", "prob": 140 },
+      { "item": "rifle_flintlock", "prob": 180 },
+      { "item": "steyr_aug", "prob": 40, "charges-min": 0, "charges-max": 30 },
+      { "item": "trex_gun", "prob": 60 },
+      { "item": "arx160", "prob": 40, "charges-min": 0, "charges-max": 30 },
+      { "item": "iwi_tavor_x95_300blk", "prob": 10, "charges-min": 0, "charges-max": 30 },
+      { "item": "acr_300blk", "prob": 15, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
@@ -236,10 +279,10 @@
     "id": "guns_rifle_improvised",
     "//": "Makeshift or otherwise poor quality rifles.",
     "items": [
-      [ "rifle_22", 60 ],
-      [ "rifle_3006", 30 ],
-      [ "rifle_9mm", 60 ],
-      [ "surv_carbine_223", 120 ]
+      { "item": "rifle_22", "prob": 60 },
+      { "item": "rifle_3006", "prob": 30 },
+      { "item": "rifle_9mm", "prob": 60 },
+      { "item": "surv_carbine_223", "prob": 120, "charges-min": 0, "charges-max": 5 }
     ]
   },
   {
@@ -247,10 +290,10 @@
     "id": "guns_shotgun_common",
     "//": "Shotguns commonly owned by citizens and found in many locations.",
     "items": [
-      [ "mossberg_500", 50 ],
-      [ "remington_870", 100 ],
-      [ "shotgun_d", 30 ],
-      [ "shotgun_s", 30 ]
+      { "item": "mossberg_500", "prob": 50, "charges-min": 0, "charges-max": 8 },
+      { "item": "remington_870", "prob": 100, "charges-min": 0, "charges-max": 6 },
+      { "item": "shotgun_d", "prob": 30, "charges-min": 0, "charges-max": 2 },
+      { "item": "shotgun_s", "prob": 30 }
     ]
   },
   {
@@ -258,11 +301,13 @@
     "id": "guns_shotgun_rare",
     "//": "Less common shotguns including those only used by police/paramilitary forces.",
     "items": [
-      [ "ksg", 50 ],
-      [ "m1014", 80 ],
-      [ "rm120c", 30 ],
-      [ "rm228", 30 ],
-      [ "saiga_12", 50 ]
+      { "item": "ksg", "prob": 50, "charges-min": 0, "charges-max": 7 },
+      { "item": "m1014", "prob": 80, "charges-min": 0, "charges-max": 8 },
+      { "item": "rm120c", "prob": 30, "charges-min": 0, "charges-max": 5 },
+      { "item": "rm228", "prob": 30, "charges-min": 0, "charges-max": 10 },
+      { "item": "l_def_12", "prob": 20, "charges-min": 0, "charges-max": 8 },
+      { "item": "saiga_12", "prob": 50, "charges-min": 0, "charges-max": 10 },
+      { "item": "saiga_410", "prob": 40, "charges-min": 0, "charges-max": 10 }
     ]
   },
   {
@@ -270,28 +315,27 @@
     "id": "guns_shotgun_milspec",
     "//": "Military specification shotguns only ever found at military sites.",
     "items": [
-      [ "l_def_12", 100 ],
-      [ "rm20", 20 ]
+      { "item": "rm20", "prob": 20, "charges-min": 0, "charges-max": 20 },
+      { "item": "m1014", "prob": 100, "charges-min": 0, "charges-max": 8 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_shotgun_obscure",
     "//": "Imported or otherwise very obscure shotguns.",
-    "items": [
-    ]
+    "items": [  ]
   },
   {
     "type": "item_group",
     "id": "guns_shotgun_improvised",
     "//": "Makeshift or otherwise poor quality shotguns.",
     "items": [
-      [ "blunderbuss", 70 ],
-      [ "bigun", 10 ],
-      [ "pipe_double_shotgun", 70 ],
-      [ "pipe_shotgun", 100 ],
-      [ "revolver_shotgun", 30 ],
-      [ "surv_levershotgun", 40 ]
+      { "item": "blunderbuss", "prob": 70 },
+      { "item": "bigun", "prob": 10, "charges-min": 0, "charges-max": 6 },
+      { "item": "pipe_double_shotgun", "prob": 70, "charges-min": 0, "charges-max": 2 },
+      { "item": "pipe_shotgun", "prob": 100 },
+      { "item": "revolver_shotgun", "prob": 30, "charges-min": 0, "charges-max": 6 },
+      { "item": "surv_levershotgun", "prob": 40, "charges-min": 0, "charges-max": 8 }
     ]
   },
   {
@@ -299,8 +343,8 @@
     "id": "guns_launcher_flame",
     "//": "Factory manufactured incendiary liquid projectors (excludes improvised weapons)",
     "items": [
-      [ "flamethrower", 50 ],
-      [ "rm451_flamethrower", 40 ]
+      { "item": "flamethrower", "prob": 50, "charges-min": 100, "charges-max": 1500 },
+      { "item": "rm451_flamethrower", "prob": 40, "charges-min": 100, "charges-max": 1500 }
     ]
   },
   {
@@ -308,11 +352,11 @@
     "id": "guns_launcher_grenade",
     "//": "Factory manufactured grenade launchers (excludes improvised weapons)",
     "items": [
-      [ "m320", 75 ],
-      [ "m79", 100 ],
-      [ "mark19", 10 ],
-      [ "mgl", 25 ],
-      [ "rm802", 15 ]
+      { "item": "m320", "prob": 75 },
+      { "item": "m79", "prob": 100 },
+      { "item": "mark19", "prob": 10, "charges-min": 0, "charges-max": 10 },
+      { "item": "mgl", "prob": 25, "charges-min": 0, "charges-max": 6 },
+      { "item": "rm802", "prob": 15, "charges-min": 0, "charges-max": 4 }
     ]
   },
   {
@@ -322,8 +366,9 @@
     "items": [
       [ "LAW_Packed", 200 ],
       [ "m202_flash", 100 ],
-      [ "m235tpa", 150 ],
+      [ "m74_clip", 150 ],
       [ "m3_carlgustav", 50 ],
+      [ "AT4", 50 ],
       [ "84x246mm_he", 100 ],
       [ "84x246mm_hedp", 80 ],
       [ "84x246mm_smoke", 100 ]
@@ -344,8 +389,8 @@
     "id": "guns_launcher_improvised",
     "//": "Makeshift or otherwise poor quality grenade and rocket launchers",
     "items": [
-      [ "launcher_simple", 100 ],
-      [ "triple_launcher_simple", 15 ]
+      { "item": "launcher_simple", "prob": 100 },
+      { "item": "triple_launcher_simple", "prob": 15, "charges-min": 0, "charges-max": 3 }
     ]
   },
   {
@@ -409,22 +454,26 @@
     "type": "item_group",
     "id": "guns_cop",
     "//": "Police issue weapons of all types",
-    "items":[
-      ["ar15", 15],
-      ["cx4", 20],
-      ["fn57", 20],
-      ["fn_p90", 5],
-      ["glock_19", 15],
-      ["glock_22", 20],
-      ["hk_mp5", 10],
-      ["l_enforcer_45", 10],
-      ["m9",5],
-      ["mossberg_500", 15],
-      ["remington_700", 5],
-      ["remington_870", 20],
-      ["sig_40", 20],
-      ["usp_45", 10],
-      ["usp_9mm", 10]
+    "items": [
+      { "item": "ar15", "prob": 15, "charges-min": 0, "charges-max": 30 },
+      { "item": "cx4", "prob": 20, "charges-min": 0, "charges-max": 15 },
+      { "item": "fn57", "prob": 20, "charges-min": 0, "charges-max": 20 },
+      { "item": "fn_p90", "prob": 5, "charges-min": 0, "charges-max": 50 },
+      { "item": "glock_19", "prob": 15, "charges-min": 0, "charges-max": 15 },
+      { "item": "glock_22", "prob": 20, "charges-min": 0, "charges-max": 15 },
+      { "item": "hk_mp5", "prob": 10, "charges-min": 0, "charges-max": 30 },
+      { "item": "l_enforcer_45", "prob": 10, "charges-min": 0, "charges-max": 6 },
+      { "item": "m9", "prob": 5, "charges-min": 0, "charges-max": 15 },
+      { "item": "mossberg_500", "prob": 15, "charges-min": 0, "charges-max": 8 },
+      { "item": "remington_700", "prob": 5, "charges-min": 0, "charges-max": 4 },
+      { "item": "remington_870", "prob": 20, "charges-min": 0, "charges-max": 6 },
+      { "item": "sig_40", "prob": 20, "charges-min": 0, "charges-max": 12 },
+      { "item": "usp_45", "prob": 10, "charges-min": 0, "charges-max": 12 },
+      { "item": "usp_9mm", "prob": 10, "charges-min": 0, "charges-max": 15 },
+      { "item": "kp32", "prob": 1, "charges-min": 0, "charges-max": 7 },
+      { "item": "kp3at", "prob": 2, "charges-min": 0, "charges-max": 6 },
+      { "item": "rugerlcp", "prob": 2, "charges-min": 0, "charges-max": 6 },
+      { "item": "kpf9", "prob": 3, "charges-min": 0, "charges-max": 7 }
     ]
   },
   {
@@ -433,9 +482,14 @@
     "//": "Guns issued to paramilitary forces in addition to standard police issue.",
     "items": [
       { "group": "guns_cop", "prob": 100 },
-      [ "hk_ump45", 15 ],
-      [ "m1014", 10 ],
-      [ "m4a1", 35 ]
+      { "item": "hk_ump45", "prob": 15, "charges-min": 0, "charges-max": 25 },
+      { "item": "hk_mp5", "prob": 50, "charges-min": 0, "charges-max": 30 },
+      { "item": "hk_mp5k", "prob": 10, "charges-min": 0, "charges-max": 30 },
+      { "item": "hk_mp5sd", "prob": 5, "charges-min": 0, "charges-max": 30 },
+      { "item": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
+      { "item": "m4a1", "prob": 35, "charges-min": 0, "charges-max": 30 },
+      { "item": "as50", "prob": 5, "charges-min": 0, "charges-max": 10 },
+      { "item": "hk417_13", "prob": 30, "charges-min": 0, "charges-max": 20 }
     ]
   },
   {
@@ -444,14 +498,14 @@
     "//": "Guns typically carried by survivors, either improvised or thematically appropriate.",
     "items": [
       { "group": "guns_improvised", "prob": 200 },
-      [ "ar15", 5 ],
-      [ "mossberg_500", 5 ],
-      [ "remington_870", 5 ],
-      [ "ruger_1022", 15 ],
-      [ "shotgun_s", 10 ],
-      [ "shotgun_d", 10 ],
-      [ "sten", 20 ],
-      [ "sks", 10 ]
+      { "item": "ar15", "prob": 5, "charges-min": 0, "charges-max": 30 },
+      { "item": "mossberg_500", "prob": 5, "charges-min": 0, "charges-max": 8 },
+      { "item": "remington_870", "prob": 5, "charges-min": 0, "charges-max": 6 },
+      { "item": "ruger_1022", "prob": 15, "charges-min": 0, "charges-max": 10 },
+      { "item": "shotgun_s", "prob": 10 },
+      { "item": "shotgun_d", "prob": 10, "charges-min": 0, "charges-max": 2 },
+      { "item": "sten", "prob": 20, "charges-min": 0, "charges-max": 32 },
+      { "item": "sks", "prob": 10, "charges-min": 0, "charges-max": 10 }
     ]
   }
 ]

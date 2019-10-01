@@ -1,32 +1,38 @@
 [
   {
-    "type" : "item_group",
+    "type": "item_group",
     "subtype": "collection",
     "id": "mon_zombie_survivor_death_drops",
     "magazine": 100,
     "entries": [
-      { "group": "clothing_outdoor_set", "damage": [1,4] },
-      { "group": "bags", "damage": [1,4], "prob": 10 },
-      { "distribution": [
-        { "group": "book_survival", "prob": 15 },
-        { "group": "gear_survival", "prob": 25, "damage": [ 1, 4 ] },
-        { "group": "survivor_knife", "damage": [ 1, 4 ] },
-        { "distribution": [
-          { "group": "survivor_melee", "prob": 40, "damage": [ 1, 4 ] },
-          { "group": "guns_survival", "prob": 60, "damage": [ 1, 4 ] }
-        ], "prob": 50 },
-        { "group": "survivor_grenades", "prob": 15, "damage": [ 1, 4 ] },
-        { "group": "stash_food", "prob": 40 }
-      ] },
-      { "item": "cash_card", "charges-min": 25000, "charges-max": 100000 }
+      { "group": "clothing_outdoor_set", "damage": [ 1, 4 ] },
+      { "group": "bags", "damage": [ 1, 4 ], "prob": 10 },
+      {
+        "distribution": [
+          { "group": "book_survival", "prob": 15 },
+          { "group": "gear_survival", "prob": 25, "damage": [ 1, 4 ] },
+          { "group": "survivor_knife", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "group": "survivor_melee", "prob": 40, "damage": [ 1, 4 ] },
+              { "group": "guns_survival", "prob": 60, "damage": [ 1, 4 ] }
+            ],
+            "prob": 50
+          },
+          { "group": "survivor_grenades", "prob": 15, "damage": [ 1, 4 ] },
+          { "group": "stash_food", "prob": 40 }
+        ]
+      },
+      { "item": "cash_card", "charges-min": 25000, "charges-max": 100000 },
+      { "item": "survival_kit", "prob": 5, "damage": [ 1, 4 ] }
     ]
   },
   {
     "id": "survivor_bashing",
-    "type" : "item_group",
+    "type": "item_group",
     "items": [
       [ "bat_metal", 5 ],
-      [ "bwirebat",20 ],
+      [ "bwirebat", 20 ],
       [ "crowbar", 5 ],
       [ "homewrecker", 5 ],
       [ "nailboard", 25 ],
@@ -38,28 +44,17 @@
   },
   {
     "id": "survivor_cutting",
-    "type" : "item_group",
-    "items": [
-      [ "ax", 5 ],
-      [ "hatchet", 5 ],
-      [ "machete", 5 ],
-      [ "makeshift_halberd", 5 ],
-      [ "makeshift_machete", 15 ]
-    ]
+    "type": "item_group",
+    "items": [ [ "ax", 5 ], [ "hatchet", 5 ], [ "machete", 5 ], [ "makeshift_halberd", 5 ], [ "makeshift_machete", 15 ] ]
   },
   {
     "id": "survivor_knife",
-    "type" : "item_group",
-    "items": [
-      [ "makeshift_knife", 80 ],
-      [ "copper_knife", 20 ],
-      [ "knife_steak", 20 ],
-      [ "knife_rambo", 60 ]
-    ]
+    "type": "item_group",
+    "items": [ [ "makeshift_knife", 80 ], [ "copper_knife", 20 ], [ "knife_steak", 20 ], [ "knife_rambo", 60 ] ]
   },
   {
-    "id" : "survivor_melee",
-    "type" : "item_group",
+    "id": "survivor_melee",
+    "type": "item_group",
     "items": [
       { "group": "survivor_bashing", "prob": 100 },
       { "group": "survivor_cutting", "prob": 100 },
@@ -67,19 +62,13 @@
     ]
   },
   {
-    "id" : "survivor_grenades",
-    "type" : "item_group",
-    "items": [
-      [ "gasbomb_makeshift", 30 ],
-      [ "matchbomb", 50 ],
-      [ "molotov", 100 ],
-      [ "nail_bomb", 100 ],
-      [ "pipebomb", 30 ]
-    ]
+    "id": "survivor_grenades",
+    "type": "item_group",
+    "items": [ [ "gasbomb_makeshift", 30 ], [ "matchbomb", 50 ], [ "molotov", 100 ], [ "nail_bomb", 100 ], [ "pipebomb", 30 ] ]
   },
   {
-    "id" : "survivor_stabbing",
-    "type" : "item_group",
+    "id": "survivor_stabbing",
+    "type": "item_group",
     "//": "Survivor piercing weapons other than knives",
     "items": [
       [ "spear_copper", 10 ],
@@ -91,9 +80,9 @@
     ]
   },
   {
-    "id" : "survivor_weapons",
-    "type" : "item_group",
-    "items":[
+    "id": "survivor_weapons",
+    "type": "item_group",
+    "items": [
       { "group": "survivor_knife", "prob": 10 },
       { "group": "survivor_melee", "prob": 40 },
       { "group": "guns_survival", "prob": 60 }

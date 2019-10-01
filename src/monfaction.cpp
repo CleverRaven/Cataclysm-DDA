@@ -1,10 +1,16 @@
 #include "monfaction.h"
 
-#include "debug.h"
-#include "json.h"
-
+#include <cstddef>
 #include <queue>
 #include <vector>
+#include <map>
+#include <set>
+#include <string>
+#include <utility>
+
+#include "debug.h"
+#include "json.h"
+#include "string_id.h"
 
 std::unordered_map< mfaction_str_id, mfaction_id > faction_map;
 std::vector< monfaction > faction_list;
@@ -66,12 +72,12 @@ int_id<monfaction>::int_id( const string_id<monfaction> &id )
 {
 }
 
-mfaction_id monfactions::get_or_add_faction( const mfaction_str_id &name )
+mfaction_id monfactions::get_or_add_faction( const mfaction_str_id &id )
 {
-    auto found = faction_map.find( name );
+    auto found = faction_map.find( id );
     if( found == faction_map.end() ) {
         monfaction mfact;
-        mfact.id = name;
+        mfact.id = id;
         mfact.loadid = mfaction_id( faction_map.size() );
         // -1 base faction marks this faction as not initialized.
         // If it is not changed before validation, it will become a child of
@@ -85,7 +91,7 @@ mfaction_id monfactions::get_or_add_faction( const mfaction_str_id &name )
     return found->second;
 }
 
-void apply_base_faction( mfaction_id base, mfaction_id faction_id )
+static void apply_base_faction( mfaction_id base, mfaction_id faction_id )
 {
     for( const auto &pair : base.obj().attitude_map ) {
         // Fill in values set in base faction, but not in derived one
@@ -197,14 +203,8 @@ void monfactions::finalize()
     faction_list.shrink_to_fit(); // Save a couple of bytes
 }
 
-// Non-const monfaction reference
-monfaction &get_faction( const mfaction_str_id &id )
-{
-    return faction_list[id.id()];
-}
-
 // Ensures all those factions exist
-void prealloc( const std::set< std::string > &facs )
+static void prealloc( const std::set< std::string > &facs )
 {
     for( const auto &f : facs ) {
         monfactions::get_or_add_faction( mfaction_str_id( f ) );

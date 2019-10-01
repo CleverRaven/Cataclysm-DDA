@@ -1,4 +1,4 @@
-#if !(defined TILES || defined _WIN32 || defined WINDOWS)
+#if !(defined(TILES) || defined(_WIN32))
 
 // input.h must be include *before* the ncurses header. The later has some macro
 // defines that clash with the constants defined in input.h (e.g. KEY_UP).
@@ -7,19 +7,18 @@
 // ncurses can define some functions as macros, but we need those identifiers
 // to be unchanged by the preprocessor, as we use them as function names.
 #define NCURSES_NOMACROS
-#if (defined __CYGWIN__)
+#if defined(__CYGWIN__)
 #include <ncurses/curses.h>
 #else
 #include <curses.h>
 #endif
 
-#include "cursesdef.h"
+#include <stdexcept>
 
+#include "cursesdef.h"
 #include "catacharset.h"
 #include "color.h"
 #include "game_ui.h"
-
-#include <stdexcept>
 
 extern int VIEW_OFFSET_X; // X position of terrain window
 extern int VIEW_OFFSET_Y; // Y position of terrain window
@@ -27,14 +26,13 @@ extern int VIEW_OFFSET_Y; // Y position of terrain window
 static void curses_check_result( const int result, const int expected, const char *const /*name*/ )
 {
     if( result != expected ) {
-        //@todo: debug message
+        // TODO: debug message
     }
 }
 
-catacurses::window catacurses::newwin( const int nlines, const int ncols, const int begin_y,
-                                       const int begin_x )
+catacurses::window catacurses::newwin( const int nlines, const int ncols, const point &begin )
 {
-    const auto w = ::newwin( nlines, ncols, begin_y, begin_x ); // @todo: check for errors
+    const auto w = ::newwin( nlines, ncols, begin.y, begin.x ); // TODO: check for errors
     return std::shared_ptr<void>( w, []( void *const w ) {
         ::curses_check_result( ::delwin( static_cast<::WINDOW *>( w ) ), OK, "delwin" );
     } );
@@ -90,20 +88,21 @@ void catacurses::wattron( const window &win, const nc_color &attrs )
     return curses_check_result( ::wattron( win.get<::WINDOW>(), attrs ), OK, "wattron" );
 }
 
-void catacurses::wmove( const window &win, const int y, const int x )
+void catacurses::wmove( const window &win, const point &p )
 {
-    return curses_check_result( ::wmove( win.get<::WINDOW>(), y, x ), OK, "wmove" );
+    return curses_check_result( ::wmove( win.get<::WINDOW>(), p.y, p.x ), OK, "wmove" );
 }
 
-void catacurses::mvwprintw( const window &win, const int y, const int x, const std::string &text )
+void catacurses::mvwprintw( const window &win, const point &p, const std::string &text )
 {
-    return curses_check_result( ::mvwprintw( win.get<::WINDOW>(), y, x, "%s", text.c_str() ), OK,
-                                "mvwprintw" );
+    return curses_check_result( ::mvwprintw( win.get<::WINDOW>(), p.y, p.x, "%s", text.c_str() ),
+                                OK, "mvwprintw" );
 }
 
 void catacurses::wprintw( const window &win, const std::string &text )
 {
-    return curses_check_result( ::wprintw( win.get<::WINDOW>(), "%s", text.c_str() ), OK, "wprintw" );
+    return curses_check_result( ::wprintw( win.get<::WINDOW>(), "%s", text.c_str() ),
+                                OK, "wprintw" );
 }
 
 void catacurses::refresh()
@@ -133,21 +132,21 @@ void catacurses::wborder( const window &win, const chtype ls, const chtype rs, c
                                 "wborder" );
 }
 
-void catacurses::mvwhline( const window &win, const int y, const int x, const chtype ch,
-                           const int n )
+void catacurses::mvwhline( const window &win, const point &p, const chtype ch, const int n )
 {
-    return curses_check_result( ::mvwhline( win.get<::WINDOW>(), y, x, ch, n ), OK, "mvwhline" );
+    return curses_check_result( ::mvwhline( win.get<::WINDOW>(), p.y, p.x, ch, n ), OK,
+                                "mvwhline" );
 }
 
-void catacurses::mvwvline( const window &win, const int y, const int x, const chtype ch,
-                           const int n )
+void catacurses::mvwvline( const window &win, const point &p, const chtype ch, const int n )
 {
-    return curses_check_result( ::mvwvline( win.get<::WINDOW>(), y, x, ch, n ), OK, "mvwvline" );
+    return curses_check_result( ::mvwvline( win.get<::WINDOW>(), p.y, p.x, ch, n ), OK,
+                                "mvwvline" );
 }
 
-void catacurses::mvwaddch( const window &win, const int y, const int x, const chtype ch )
+void catacurses::mvwaddch( const window &win, const point &p, const chtype ch )
 {
-    return curses_check_result( ::mvwaddch( win.get<::WINDOW>(), y, x, ch ), OK, "mvwaddch" );
+    return curses_check_result( ::mvwaddch( win.get<::WINDOW>(), p.y, p.x, ch ), OK, "mvwaddch" );
 }
 
 void catacurses::waddch( const window &win, const chtype ch )
@@ -216,7 +215,7 @@ void catacurses::init_interface()
     if( !stdscr ) {
         throw std::runtime_error( "initscr failed" );
     }
-#if !(defined __CYGWIN__)
+#if !defined(__CYGWIN__)
     // ncurses mouse registration
     mousemask( BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, NULL );
 #endif
@@ -226,16 +225,16 @@ void catacurses::init_interface()
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad( stdscr.get<::WINDOW>(), true ); // Numpad is numbers
     set_escdelay( 10 ); // Make Escape actually responsive
-    start_color(); //@todo: error checking
+    start_color(); // TODO: error checking
     init_colors();
 }
 
 input_event input_manager::get_input_event()
 {
     previously_pressed_key = 0;
-    const long key = getch();
+    const int key = getch();
     if( key != ERR ) {
-        long newch;
+        int newch;
         // Clear the buffer of characters that match the one we're going to act on.
         set_timeout( 0 );
         do {
@@ -261,8 +260,7 @@ input_event input_manager::get_input_event()
         MEVENT event;
         if( getmouse( &event ) == OK ) {
             rval.type = CATA_INPUT_MOUSE;
-            rval.mouse_x = event.x - VIEW_OFFSET_X;
-            rval.mouse_y = event.y - VIEW_OFFSET_Y;
+            rval.mouse_pos = point( event.x, event.y ) - point( VIEW_OFFSET_X, VIEW_OFFSET_Y );
             if( event.bstate & BUTTON1_CLICKED ) {
                 rval.add_input( MOUSE_BUTTON_LEFT );
             } else if( event.bstate & BUTTON3_CLICKED ) {
@@ -285,19 +283,19 @@ input_event input_manager::get_input_event()
             return input_event( KEY_BACKSPACE, CATA_INPUT_KEYBOARD );
         }
         rval.type = CATA_INPUT_KEYBOARD;
-        rval.text.append( 1, ( char ) key );
+        rval.text.append( 1, static_cast<char>( key ) );
         // Read the UTF-8 sequence (if any)
         if( key < 127 ) {
             // Single byte sequence
         } else if( 194 <= key && key <= 223 ) {
-            rval.text.append( 1, ( char ) getch() );
+            rval.text.append( 1, static_cast<char>( getch() ) );
         } else if( 224 <= key && key <= 239 ) {
-            rval.text.append( 1, ( char ) getch() );
-            rval.text.append( 1, ( char ) getch() );
+            rval.text.append( 1, static_cast<char>( getch() ) );
+            rval.text.append( 1, static_cast<char>( getch() ) );
         } else if( 240 <= key && key <= 244 ) {
-            rval.text.append( 1, ( char ) getch() );
-            rval.text.append( 1, ( char ) getch() );
-            rval.text.append( 1, ( char ) getch() );
+            rval.text.append( 1, static_cast<char>( getch() ) );
+            rval.text.append( 1, static_cast<char>( getch() ) );
+            rval.text.append( 1, static_cast<char>( getch() ) );
         } else {
             // Other control character, etc. - no text at all, return an event
             // without the text property
@@ -306,9 +304,7 @@ input_event input_manager::get_input_event()
         }
         // Now we have loaded an UTF-8 sequence (possibly several bytes)
         // but we should only return *one* key, so return the code point of it.
-        const char *utf8str = rval.text.c_str();
-        int len = rval.text.length();
-        const uint32_t cp = UTF8_getch( &utf8str, &len );
+        const uint32_t cp = UTF8_getch( rval.text );
         if( cp == UNKNOWN_UNICODE ) {
             // Invalid UTF-8 sequence, this should never happen, what now?
             // Maybe return any error instead?

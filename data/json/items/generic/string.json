@@ -5,7 +5,7 @@
     "category": "spare_parts",
     "name": "small string",
     "description": "A 6-inch long piece of cotton string.",
-    "weight": 6,
+    "weight": "6 g",
     "volume": "10ml",
     "price": 10,
     "material": "cotton",
@@ -19,11 +19,7 @@
     "type": "GENERIC",
     "name": "long string",
     "description": "A 3-foot long piece of cotton string.  Disassemble it to cut it into smaller pieces.",
-    "proportional": {
-      "weight": 6,
-      "volume": 6,
-      "price": 6
-    }
+    "proportional": { "weight": 6, "volume": 6, "price": 6 }
   },
   {
     "id": "rope_6",
@@ -31,11 +27,8 @@
     "type": "GENERIC",
     "name": "short rope",
     "description": "A six-foot long piece of rope.  Too small to be of much use.",
-    "proportional": {
-      "weight": 6,
-      "volume": 6,
-      "price": 6
-    }
+    "proportional": { "weight": 6, "volume": 6, "price": 6 },
+    "extend": { "flags": [ "TIE_UP" ] }
   },
   {
     "id": "rope_30",
@@ -43,17 +36,8 @@
     "type": "GENERIC",
     "name": "long rope",
     "description": "A 30-foot long rope.  Useful for keeping yourself safe from falls.",
-    "armor_data": {
-      "covers": [ "TORSO" ],
-      "coverage": 10,
-      "encumbrance": 12,
-      "material_thickness": 6
-    },
-    "proportional": {
-      "weight": 5,
-      "volume": 5,
-      "price": 5
-    },
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 10, "encumbrance": 12, "material_thickness": 6 },
+    "proportional": { "weight": 5, "volume": 5, "price": 5 },
     "extend": { "flags": [ "BELTED" ] }
   },
   {
@@ -61,7 +45,7 @@
     "copy-from": "rope_30",
     "type": "GENERIC",
     "name": "vine",
-    "description": "A sturdy 30-foot long vine.  Could easily be used as a rope, but can't be disassembled.",
+    "description": "A sturdy 30-foot long vine.  Could easily be used as a rope, but can't be disassembled.  Strong enough to suspend a large corpse for butchering.",
     "material": "veggy",
     "color": "light_green"
   },
@@ -78,18 +62,22 @@
     "copy-from": "rope_makeshift_6",
     "type": "GENERIC",
     "name": "long makeshift rope",
-    "description": "A 30-foot long rough rope, woven from natural cordage.  Not strong enough to hold up to falls, but still useful for some things.",
-    "armor_data": {
-      "covers": [ "TORSO" ],
-      "coverage": 12,
-      "encumbrance": 14,
-      "material_thickness": 6
-    },
-    "proportional": {
-      "weight": 5,
-      "volume": 5,
-      "price": 5
-    },
+    "description": "A 30-foot long rough rope, woven from natural cordage.  Not strong enough to hold up to falls, but still useful for some things, such as suspending large corpses for butchering.",
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 12, "encumbrance": 14, "material_thickness": 6 },
+    "proportional": { "weight": 5, "volume": 5, "price": 5 },
     "extend": { "flags": [ "BELTED" ] }
+  },
+  {
+    "id": "stick_fiber",
+    "type": "COMESTIBLE",
+    "category": "spare_parts",
+    "name": "fibrous stalk",
+    "symbol": "=",
+    "description": "A rather green stick.  Very fibrous.",
+    "fun": -100,
+    "health": -20,
+    "volume": "1 L",
+    "stack_size": 10,
+    "weight": "80 g"
   }
 ]

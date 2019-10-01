@@ -19,13 +19,13 @@
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "difficulty": 4,
-    "durability": 900,
+    "durability": 650,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ],
-    "damage_reduction": { "all": 14 }
+    "damage_reduction": { "all": 120 }
   },
   {
     "id": "ram_hardsteel",
@@ -35,14 +35,14 @@
     "item": "hard_plate",
     "color": "cyan",
     "broken_color": "cyan",
-    "durability": 2300,
+    "durability": 860,
     "difficulty": 4,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ],
-    "damage_reduction": { "all": 18 }
+    "damage_reduction": { "all": 200 }
   },
   {
     "id": "ram_military_horizontal",
@@ -52,7 +52,7 @@
     "item": "mil_plate",
     "color": "green",
     "broken_color": "green",
-    "durability": 2000,
+    "durability": 800,
     "difficulty": 6,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
@@ -60,7 +60,7 @@
       { "item": "scrap", "count": [ 4, 6 ] },
       { "item": "ceramic_armor", "count": [ 0, 4 ] }
     ],
-    "damage_reduction": { "all": 18, "cut": 36, "stab": 60 }
+    "damage_reduction": { "all": 180, "cut": 210, "stab": 280 }
   },
   {
     "id": "ram_spiked",
@@ -70,7 +70,7 @@
     "item": "spiked_plate",
     "color": "red",
     "broken_color": "red",
-    "durability": 900,
+    "durability": 550,
     "difficulty": 3,
     "damage_modifier": 200,
     "breaks_into": [
@@ -79,7 +79,7 @@
       { "item": "scrap", "count": [ 4, 6 ] },
       { "item": "spike", "count": [ 0, 2 ] }
     ],
-    "damage_reduction": { "all": 8 }
+    "damage_reduction": { "all": 148 }
   },
   {
     "id": "ram_steel",
@@ -89,9 +89,9 @@
     "item": "steel_plate",
     "color": "light_cyan",
     "broken_color": "light_cyan",
-    "durability": 1000,
+    "durability": 650,
     "breaks_into": "ig_vp_steel_plate",
-    "damage_reduction": { "all": 10 }
+    "damage_reduction": { "all": 156 }
   },
   {
     "id": "ram_wood",
@@ -104,7 +104,7 @@
     "durability": 300,
     "extend": { "flags": [ "NAILABLE" ] },
     "breaks_into": "ig_vp_wood_plate",
-    "damage_reduction": { "all": 6 }
+    "damage_reduction": { "all": 75 }
   },
   {
     "id": "ram_chitin",
@@ -115,9 +115,9 @@
     "color": "yellow",
     "broken_color": "light_gray",
     "looks_like": "ram_wood",
-    "durability": 500,
+    "durability": 320,
     "breaks_into": [ { "item": "chitin_piece", "count": [ 5, 15 ] } ],
-    "damage_reduction": { "all": 12 }
+    "damage_reduction": { "all": 80 }
   },
   {
     "id": "ram_acidchitin",
@@ -127,7 +127,24 @@
     "item": "acidchitin_plate",
     "proportional": { "durability": 1.5 },
     "breaks_into": [ { "item": "chitin_piece", "count": [ 6, 19 ] } ],
-    "damage_reduction": { "all": 14 }
+    "damage_reduction": { "all": 110 }
+  },
+  {
+    "id": "ram_mattress",
+    "copy-from": "ram_blaze",
+    "type": "vehicle_part",
+    "name": "tied mattress",
+    "symbol": "=",
+    "item": "mattress",
+    "color": "white",
+    "difficulty": 0,
+    "requirements": { "install": { "time": 30000, "using": [ [ "rope_natural_short", 2 ] ] } },
+    "damage_modifier": 50,
+    "durability": 40,
+    "description": "A mattress, strapped onto the vehicle. It could serve to blunt any impact.",
+    "breaks_into": [ { "item": "rag", "count": [ 40, 55 ] } ],
+    "damage_reduction": { "bash": 20 },
+    "flags": [ "PROTRUSION", "OBSTACLE", "OPAQUE", "TOOL_NONE" ]
   },
   {
     "id": "tearer",
@@ -140,11 +157,12 @@
     "color": "dark_gray",
     "broken_color": "dark_gray",
     "difficulty": 5,
-    "durability": 900,
+    "durability": 450,
     "power": -1750,
     "damage_modifier": 500,
     "breaks_into": [  ],
     "description": "A circular blade, powered by the vehicle's engine.  It will dramatically increase the damage the vehicle delivers in collisions.  Mount on the edges of the vehicle, preferably the front.",
-    "flags": [ "UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION" ]
+    "flags": [ "UNMOUNT_ON_DAMAGE", "SHARP", "PROTRUSION" ],
+    "damage_reduction": { "all": 82 }
   }
 ]

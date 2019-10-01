@@ -5,16 +5,17 @@
     "name": "US Weekly",
     "name_plural": "US Weeklies",
     "description": "Weekly news about a bunch of famous people who're all (un)dead now.",
-    "weight": 60,
-    "volume": 1,
+    "weight": "60 g",
+    "volume": "250 ml",
     "price": 400,
+    "price_postapoc": 100,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
     "skill": "speech",
     "max_level": 1,
     "intelligence": 3,
-    "time": 8,
+    "time": "8 m",
     "fun": 1
   },
   {
@@ -23,16 +24,17 @@
     "name": "Self-Esteem for Dummies",
     "name_plural": "Self-Esteem for Dummies",
     "description": "Full of useful tips for showing confidence in your speech.",
-    "weight": 454,
-    "volume": 3,
+    "weight": "454 g",
+    "volume": "750 ml",
     "price": 1600,
+    "price_postapoc": 2900,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
     "skill": "speech",
     "max_level": 3,
     "intelligence": 5,
-    "time": 20
+    "time": "20 m"
   },
   {
     "id": "textbook_speech",
@@ -40,9 +42,10 @@
     "name": "Principles of Effective Communication",
     "name_plural": "Principles of Effective Communication",
     "description": "A hardbound book devoted to being an effective and persuasive speaker.",
-    "weight": 1120,
-    "volume": 8,
+    "weight": "1120 g",
+    "volume": "2 L",
     "price": 4000,
+    "price_postapoc": 9000,
     "bashing": 4,
     "material": [ "paper" ],
     "symbol": "?",
@@ -51,7 +54,7 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
-    "time": 30
+    "time": "30 m"
   },
   {
     "id": "dnd_handbook",
@@ -59,9 +62,10 @@
     "name": "Dungeon Master's Guide: 6th Edition",
     "name_plural": "Dungeon Master's Guide: 6th Editions",
     "description": "A thick, hardcover volume with everything needed to weave legendary stories.  It's full of information, but finding the things you're looking for can be a chore.",
-    "weight": 2267,
-    "volume": 10,
+    "weight": "2267 g",
+    "volume": "2500 ml",
     "price": 3000,
+    "price_postapoc": 12000,
     "bashing": 7,
     "//": "Have you held one of these things? Bastards have some real weight behind 'em",
     "material": [ "paper" ],
@@ -70,6 +74,6 @@
     "skill": "speech",
     "max_level": 5,
     "intelligence": 9,
-    "time": 30
+    "time": "30 m"
   }
 ]

@@ -1,0 +1,757 @@
+[
+  {
+    "type": "profession",
+    "ident": "crt_rotc",
+    "name": "CRIT ROTC Member",
+    "description": "You were training ahead of time to become a C.R.I.T officer in the upcoming war. Your call to arms arrived dead on arrival and already plastered in the all-too vibrant gore of your squadmates. In the midst of panic, you bugged out lest you join the remnants of your friends. Now it's up to your wits and short years of training to keep you alive in this Cataclysm.",
+    "points": 7,
+    "traits": [ "MARTIAL_CRT" ],
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "rifle" },
+      { "level": 1, "name": "stabbing" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "survival" },
+      { "level": 1, "name": "firstaid" },
+      { "level": 1, "name": "swimming" }
+    ],
+    "items": {
+      "both": {
+        "items": [ "bandana", "crt_chestrig", "crt_iduster", "army_top", "crt_canteen", "crt_pants", "socks", "crt_la_boots" ],
+        "entries": [
+          { "item": "knife_crt", "container-item": "crt_belt" },
+          { "item": "scar_h", "ammo-item": "308", "contents-item": "shoulder_strap" },
+          { "item": "scarhmag", "ammo-item": "308", "count": 2 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "crt_dude",
+    "name": "CRIT Janitor",
+    "description": "*Sigh* Your life has been a wreck. Hopping place to place you finally found a job at C.R.I.T... as a janitor of sorts. The pay was good and you got some sneak-peeks on some pretty cool stuff. After all non-essential personel were purged you found yourself stuck with nothing but the uniform they gave you and your job's sign-bonus equipment.",
+    "points": 6,
+    "skills": [
+      { "level": 2, "name": "tailor" },
+      { "level": 3, "name": "barter" },
+      { "level": 3, "name": "driving" },
+      { "level": 3, "name": "speech" },
+      { "level": 1, "name": "unarmed" }
+    ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "crt_rec_hat",
+          "crt_rec_duster",
+          "crt_jacket",
+          "polo_shirt",
+          "crt_rec_gloves",
+          "crt_dress_pants",
+          "socks",
+          "crt_dress_shoes",
+          "id_military",
+          "cell_phone"
+        ],
+        "entries": [
+          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "thermos" },
+          { "item": "knife_swissarmy", "container-item": "crt_belt" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "crt_nco",
+    "name": "CRIT NCO",
+    "description": "You were a senior NCO, relaying orders to your squad was an everyday task. When the cataclysm struck, your expertise helped save everyone time and time again until it all fell apart.",
+    "points": 10,
+    "traits": [ "MARTIAL_CRT" ],
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "rifle" },
+      { "level": 1, "name": "melee" },
+      { "level": 4, "name": "speech" },
+      { "level": 1, "name": "survival" },
+      { "level": 1, "name": "firstaid" },
+      { "level": 1, "name": "barter" }
+    ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "beret",
+          "modularvestkevlar",
+          "jacket_army",
+          "army_top",
+          "legguard_hard",
+          "pants_army",
+          "armguard_hard",
+          "mre_veggy_box",
+          "crt_backpack",
+          "two_way_radio",
+          "crt_gloves_liner",
+          "gloves_tactical",
+          "socks",
+          "crt_la_boots",
+          "crt_canteen"
+        ],
+        "entries": [
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "knife_crt", "container-item": "sheath" },
+          { "item": "m4a1", "ammo-item": "223", "contents-item": [ "grip", "holo_sight" ] },
+          { "item": "stanag30", "ammo-item": "223", "count": 1 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "crt_rifleman",
+    "name": "CRIT Grunt",
+    "description": "You were part of the infantry; first to hit the ground running, clear a FOB and then come back to relax with your squad. Those days ended when the cataclysm reared its ugly head. Your lines were torn through like wet paper when the otherworldy abominations arived. Now fleeing for your life, will you have what it takes to survive or is this hellish landcape your resting place?",
+    "points": 8,
+    "traits": [ "MARTIAL_CRT" ],
+    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "rifle" }, { "level": 1, "name": "stabbing" } ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "modularvestkevlar",
+          "crt_chestrig",
+          "crt_pants",
+          "legguard_hard",
+          "army_top",
+          "crt_jacket",
+          "armguard_hard",
+          "mre_veggy_box",
+          "crt_helmet",
+          "glasses_bal",
+          "molle_pack",
+          "two_way_radio",
+          "crt_gloves",
+          "socks",
+          "crt_boots",
+          "crt_canteen"
+        ],
+        "entries": [
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "knife_rm42", "container-item": "sheath" },
+          { "item": "scar_h", "ammo-item": "308", "contents-item": "shoulder_strap" },
+          { "item": "scarhmag", "ammo-item": "308", "count": 2 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "crt_medic",
+    "name": "CRIT Combat Medic",
+    "description": "You were the team nerd. A combat medic taught on how to engage strange anomalies. However, your main focus was  keeping your squadmates in one piece. For weeks, you slogged through hell and back and ensured that everyone made it. Caught in between a tide of the undead and the crossfire of apparently rogue government robots, you were left stranded as a distraction. Forced to flee, will you have what it takes to survive or will you join the horde to haunt them for their cardinal sin?",
+    "points": 8,
+    "traits": [ "MARTIAL_CRT" ],
+    "skills": [
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "pistol" },
+      { "level": 3, "name": "firstaid" },
+      { "level": 2, "name": "speech" },
+      { "level": 1, "name": "survival" }
+    ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "helmet_army",
+          "crt_helmet_liner",
+          "crt_aarmor",
+          "armguard_hard",
+          "legguard_hard",
+          "gloves_tactical",
+          "crt_gloves_liner",
+          "crt_canteen",
+          "crt_legrig",
+          "socks",
+          "mre_veggy_box",
+          "crt_la_boots",
+          "two_way_radio",
+          "1st_aid",
+          "bandages",
+          "crt_backpack",
+          "UPS_off"
+        ],
+        "entries": [
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "sleeping_bag", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "knife_swissarmy", "container-item": "sheath" },
+          { "item": "crt_laser_pistol", "container-item": "holster" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "crt_saw",
+    "name": "CRIT Automatic Rifleman",
+    "description": "You were assigned the billet of specializing in creating dead zones and providing support fire. When the cataclysm struck, your trusty LMG couldn't keep the veritable tide of undead from overtaking your squad. Now running with all the strength your body can muster, will you have what it takes to survive or is this hellish landcape something you just can't suppress?",
+    "points": 10,
+    "traits": [ "MARTIAL_CRT" ],
+    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "rifle" }, { "level": 1, "name": "pistol" } ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "crt_helmet",
+          "crt_helmet_liner",
+          "glasses_bal",
+          "balclava",
+          "modularvestkevlar",
+          "jacket_army",
+          "army_top",
+          "crt_armguard",
+          "mre_veggy_box",
+          "molle_pack",
+          "two_way_radio",
+          "crt_gloves",
+          "socks",
+          "crt_boots",
+          "crt_canteen"
+        ],
+        "entries": [
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "sleeping_bag", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "l_lmg_223", "ammo-item": "223" },
+          { "item": "lw223bigmag", "count": 1 },
+          { "item": "m9", "ammo-item": "9mm", "container-item": "holster" },
+          { "item": "m9mag", "ammo-item": "9mm", "count": 2 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "crt_officer",
+    "name": "CRIT Commanding Officer",
+    "description": "As a top-ranking CO, you didn't see much in the way of combat other than when you felt like it. Your charisma and sharp intellect helped you climb up the ranks and provided support to allies in need. Now that everything went down the drain, will it help you again?",
+    "points": 9,
+    "traits": [ "MARTIAL_CRT" ],
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 4, "name": "speech" },
+      { "level": 3, "name": "barter" },
+      { "level": 2, "name": "firstaid" }
+    ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "beret",
+          "crt_helmet_liner",
+          "fancy_sunglasses",
+          "crt_chestrig",
+          "crt_iduster",
+          "army_top",
+          "crt_pants",
+          "mre_veggy_box",
+          "heavy_flashlight",
+          "two_way_radio",
+          "socks",
+          "crt_la_boots",
+          "crt_canteen",
+          "id_military"
+        ],
+        "entries": [
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "knife_rm42", "container-item": "sheath" },
+          { "item": "m9", "ammo-item": "9mm", "container-item": "holster" },
+          { "item": "m9mag", "ammo-item": "9mm", "count": 2 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "crt_guard",
+    "name": "CRIT Enforcer",
+    "description": "STR 10 recommended. You were a granted the authority of a U.S Marshal. As a guard, others joked that you were nothing more than a mall cop with a fancy badge. Knowingly, you laughed it off as the you donned on your equipment and deployed. While you mainly spent time at base, you honed your skills and recieved special implants to do your job easier at the low low cost of serving as a \"guard\" forever. Time to do your job, mission parameters look like they've expanded quite a bit though.",
+    "traits": [ "MARTIAL_CRT", "PROF_FED" ],
+    "CBMs": [ "bio_razors", "bio_sunglasses", "bio_ears", "bio_speed", "bio_str_enhancer" ],
+    "points": 12,
+    "skills": [
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "pistol" },
+      { "level": 4, "name": "bashing" },
+      { "level": 2, "name": "dodge" },
+      { "level": 4, "name": "melee" },
+      { "level": 2, "name": "unarmed" },
+      { "level": 2, "name": "speech" }
+    ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "crt_mask",
+          "crt_earmor",
+          "crt_sarmor",
+          "army_top",
+          "crt_gloves_liner",
+          "crt_gloves",
+          "crt_canteen",
+          "crt_legrig",
+          "socks",
+          "crt_boots",
+          "two_way_radio",
+          "crt_nstick",
+          "badge_marshal",
+          "lighter"
+        ],
+        "entries": [
+          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "crt_canteen" },
+          { "item": "knife_swissarmy", "container-item": "crt_belt" },
+          { "item": "knife_crt", "container-item": "sheath" },
+          { "item": "m9", "ammo-item": "9mm", "container-item": "holster" },
+          { "item": "m9mag", "ammo-item": "9mm", "count": 2 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "crt_juggernaught",
+    "name": "CRIT Lone Wolf",
+    "description": "STR 10 recommended. You are fully armored badass granted the full authority of a U.S Marshal. Sent in as the one man army capable of handling anything. Dropped into warzones, you singlehandedly laid out entire battalions by yourself. Time to hang them all.",
+    "traits": [ "MARTIAL_CRT", "PROF_FED" ],
+    "CBMs": [
+      "bio_weight",
+      "bio_ups",
+      "bio_armor_eyes",
+      "bio_armor_head",
+      "bio_armor_torso",
+      "bio_armor_arms",
+      "bio_armor_legs",
+      "bio_batteries",
+      "bio_razors",
+      "bio_sunglasses",
+      "bio_ears",
+      "bio_speed",
+      "bio_str_enhancer",
+      "bio_dex_enhancer",
+      "bio_tattoo_led",
+      "bio_eye_optic",
+      "bio_targeting",
+      "bio_eye_enhancer",
+      "bio_carbon",
+      "bio_power_storage_mkII"
+    ],
+    "points": 20,
+    "skills": [
+      { "level": 10, "name": "gun" },
+      { "level": 10, "name": "launcher" },
+      { "level": 6, "name": "bashing" },
+      { "level": 6, "name": "dodge" },
+      { "level": 6, "name": "melee" },
+      { "level": 6, "name": "unarmed" },
+      { "level": 5, "name": "speech" }
+    ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "crt_helmet",
+          "crt_helmet_liner",
+          "crt_gasmask",
+          "crt_warmor",
+          "crt_sarmor",
+          "army_top",
+          "crt_gloves_liner",
+          "crt_gloves",
+          "crt_canteen",
+          "crt_legrig",
+          "socks",
+          "crt_boots",
+          "two_way_radio",
+          "crt_laser_gatling",
+          "crt_nstick",
+          "badge_marshal",
+          "lighter"
+        ],
+        "entries": [
+          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "crt_canteen" },
+          { "item": "knife_swissarmy", "container-item": "crt_belt" },
+          { "item": "crt_mask", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "knife_crt", "container-item": "sheath" },
+          { "item": "m9", "ammo-item": "9mm", "container-item": "holster" },
+          { "item": "m9mag", "ammo-item": "9mm", "count": 2 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "crt",
+    "name": "CRIT Spec Ops",
+    "description": "STR 10 recommended. You were an elite member of the Catastrophe Response/Research & Investigation Team. A looming spectre which responded to secular threats which allowed your faction to leap decades in front of other world powers. Your squad was the first to be deployed into the New England region, ground zero, to contain the impending outbreak and gain information to relay back to command. Good luck soldier.",
+    "traits": [ "MARTIAL_CRT", "PROF_FED" ],
+    "CBMs": [
+      "bio_razors",
+      "bio_sunglasses",
+      "bio_ears",
+      "bio_heat_absorb",
+      "bio_speed",
+      "bio_dex_enhancer",
+      "bio_power_storage_mkII"
+    ],
+    "points": 18,
+    "skills": [
+      { "level": 3, "name": "gun" },
+      { "level": 3, "name": "pistol" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 1, "name": "cutting" },
+      { "level": 2, "name": "dodge" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "unarmed" },
+      { "level": 2, "name": "survival" }
+    ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "crt_helmet",
+          "crt_helmet_liner",
+          "crt_gasmask",
+          "crt_backpack",
+          "crt_em_vest",
+          "crt_sarmor",
+          "army_top",
+          "crt_armguard",
+          "crt_gloves_liner",
+          "crt_gloves",
+          "crt_legguard",
+          "crt_canteen",
+          "crt_legrig",
+          "socks",
+          "crt_boots",
+          "two_way_radio",
+          "UPS_off",
+          "geiger_off",
+          "crt_hatchet",
+          "mre_veggy_box",
+          "crt_mess_kit",
+          "lighter",
+          "badge_marshal",
+          "crt_etool"
+        ],
+        "entries": [
+          { "item": "sleeping_bag", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "crt_canteen" },
+          { "item": "knife_crt", "container-item": "crt_belt" },
+          { "item": "knife_swissarmy", "container-item": "sheath" },
+          {
+            "item": "crt_laser_pistol",
+            "contents-item": [ "flare_gmod", "bthk_stock", "beam_difractor" ],
+            "container-item": "holster"
+          },
+          { "item": "signal_flare", "ammo-item": "signal_flare", "count": 5 },
+          { "item": "battery", "ammo-item": "battery", "count": 25 }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "crt_exile",
+    "name": "CRIT Survivalist",
+    "description": "You were an elite recon of the C.R.I.T. You were hailed as a top survivalist after being stuck for weeks behind enemy lines and having to survive with nothing but some rocks, sticks and plants. However, after a few too many drinks (20) at the local bar and getting into a fight (knocking them out) with one of your commanding officers during a drunken bout you were stripped of your rank and sent off into the forests with your current gear to run a trial by survival. After an hour of scouting about in the forest for a good shelter, your radio rang and you were briefed over the fact that the world was suddenly ending. Of course, no one has time to pick your sorry ass up, so cheers. Staying away from drinks might be a good idea; at least you got some real tools this time!",
+    "traits": [ "MARTIAL_CRT", "DRUNKEN", "ADDICTIVE" ],
+    "points": 12,
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "rifle" },
+      { "level": 2, "name": "stabbing" },
+      { "level": 1, "name": "bashing" },
+      { "level": 1, "name": "cutting" },
+      { "level": 1, "name": "dodge" },
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "unarmed" },
+      { "level": 6, "name": "survival" },
+      { "level": 6, "name": "fabrication" },
+      { "level": 6, "name": "throw" }
+    ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "crt_rec_hat",
+          "crt_helmet_liner",
+          "crt_mask",
+          "crt_iduster",
+          "crt_jacket",
+          "army_top",
+          "crt_armguard",
+          "crt_gloves_liner",
+          "crt_gloves",
+          "crt_legguard",
+          "crt_legrig",
+          "crt_canteen",
+          "crt_pants",
+          "socks",
+          "crt_boots",
+          "two_way_radio",
+          "crt_hatchet",
+          "mre_veggy_box",
+          "lighter",
+          "pellet",
+          "pelletgun",
+          "crt_etool"
+        ],
+        "entries": [
+          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "crt_canteen" },
+          { "item": "knife_swissarmy", "container-item": "crt_belt" },
+          { "item": "knife_crt", "container-item": "sheath" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "crt_normie",
+    "name": "CRIT Recruit",
+    "description": "You were scheduled for some survival training in New England when the Cataclysm broke out and your instructor never showed up for the next lesson. Now stuck in the quarantine zone with your standard issue training equipment, you wish you had a better gun. Looks like you'll definitely learn a thing or two about survival though!",
+    "traits": [ "MARTIAL_CRT" ],
+    "points": 6,
+    "skills": [
+      { "level": 1, "name": "stabbing" },
+      { "level": 1, "name": "bashing" },
+      { "level": 1, "name": "cutting" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "unarmed" }
+    ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "crt_helmet",
+          "crt_helmet_liner",
+          "glasses_bal",
+          "crt_backpack",
+          "crt_iduster",
+          "army_top",
+          "crt_gloves",
+          "crt_gloves_liner",
+          "crt_canteen",
+          "crt_pants",
+          "socks",
+          "crt_la_boots",
+          "crt_hatchet",
+          "mre_veggy_box",
+          "lighter",
+          "crt_mess_kit",
+          "id_military",
+          "pelletgun",
+          "pellet"
+        ],
+        "entries": [
+          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
+          { "item": "knife_swissarmy", "container-item": "crt_belt" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "crt_employee",
+    "name": "CRIT Employee",
+    "description": "Like many others, you had requested to join the C.R.I.T organization's admin-offices to escape from bitter memories and past traumas after valiantly protecting your comrades for years. After you completed the readjustment program, your skills may have rusted considerably since your last deployment to battle, but the drilled muscle memories have not worn away. As your comrades' screams once again ring in your ears and repressed memories of abhorrent nature resurface, can you find it within yourself to overcome the looming terror which paralyzes you?",
+    "traits": [ "MARTIAL_CRT", "SPIRITUAL", "SCHIZOPHRENIC", "JITTERY" ],
+    "points": 6,
+    "skills": [
+      { "level": 2, "name": "computer" },
+      { "level": 1, "name": "barter" },
+      { "level": 3, "name": "driving" },
+      { "level": 3, "name": "speech" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "unarmed" },
+      { "level": 2, "name": "gun" }
+    ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "crt_rec_hat",
+          "briefcase",
+          "crt_rec_duster",
+          "crt_jacket",
+          "dress_shirt",
+          "crt_rec_gloves",
+          "crt_dress_pants",
+          "socks",
+          "crt_dress_shoes",
+          "lighter",
+          "thorazine",
+          "id_military"
+        ],
+        "entries": [
+          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "thermos" },
+          { "item": "knife_swissarmy", "container-item": "crt_belt" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "crt_engineer",
+    "name": "CRIT Engineer",
+    "description": "You were scheduled to fix the several of the lab facilities in New England and show other researchers the new weapons you were working on. When the Cataclysm broke out, it made it so testing was easier to do, but then again nothing seems to making that much sense. Time to bug-out!",
+    "traits": [ "MARTIAL_CRT" ],
+    "points": 12,
+    "skills": [
+      { "level": 5, "name": "electronics" },
+      { "level": 5, "name": "computer" },
+      { "level": 5, "name": "fabrication" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "gun" }
+    ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "rucksack",
+          "ds_armor",
+          "ds_monitor",
+          "crt_jacket",
+          "army_top",
+          "crt_rec_gloves",
+          "crt_canteen",
+          "crt_belt",
+          "crt_pants",
+          "socks",
+          "ds_plasma_cutter",
+          "ds_line_gun",
+          "ds_pulse_rifle",
+          "ds_rivet_gun",
+          "ds_ripper",
+          "toolbox",
+          "mre_veggy_box",
+          "lighter",
+          "UPS_off",
+          "id_military",
+          "id_science"
+        ],
+        "entries": [ { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "crt_vamp",
+    "name": "CRIT Night Walker",
+    "description": "Your base in New England fell to the unholy onslaught of the Cataclysm. However, as a a top researcher in the R&D department, you had chosen to slowly mutate yourself into something more than human. Even if the concotion was less than perfect, your old flimsy body feels empowered. With the new flesh that is now your own, bare your fangs and fight until the next dawn.",
+    "traits": [
+      "MARTIAL_CRT",
+      "THRESH_VAMP",
+      "PROF_MED",
+      "TROGLO3",
+      "FLEET",
+      "BADTEMPER",
+      "INSOMNIA",
+      "THINSKIN",
+      "LIGHTWEIGHT",
+      "GOODHEARING",
+      "OUTDOORSMAN",
+      "PARKOUR",
+      "GOODCARDIO",
+      "INFRESIST",
+      "BENDY1",
+      "QUICK",
+      "DEFT",
+      "STRONGBACK",
+      "FLIMSY",
+      "SELFAWARE",
+      "MYOPIC",
+      "CANNIBAL",
+      "LIAR",
+      "WAKEFUL2",
+      "BEAUTIFUL2",
+      "LIGHTSTEP",
+      "SLOWHEALER2",
+      "ALBINO",
+      "ANIMALDISCORD2",
+      "NIGHTVISION2",
+      "FANGS",
+      "NAILS",
+      "PAINRESIST",
+      "DEX_UP_3",
+      "LIGHT_BONES",
+      "HUNGER",
+      "THIRST2",
+      "SUNBURN"
+    ],
+    "points": 16,
+    "skills": [ { "level": 5, "name": "cooking" }, { "level": 3, "name": "fabrication" }, { "level": 3, "name": "electronics" } ],
+    "items": {
+      "both": {
+        "ammo": 100,
+        "items": [
+          "beret",
+          "crt_helmet_liner",
+          "fancy_sunglasses",
+          "crt_iduster",
+          "army_top",
+          "ds_monitor",
+          "crt_gloves",
+          "crt_gloves_liner",
+          "crt_canteen",
+          "crt_pants",
+          "socks",
+          "crt_la_boots",
+          "crt_hatchet",
+          "mre_veggy_box",
+          "crt_mess_kit",
+          "lighter",
+          "knife_swissarmy",
+          "sword_crt",
+          "battery",
+          "crt_etool",
+          "id_military",
+          "id_science"
+        ],
+        "entries": [
+          { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
+          { "item": "knife_crt", "container-item": "crt_belt" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boxer_shorts" ]
+    }
+  }
+]

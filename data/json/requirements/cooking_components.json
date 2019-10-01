@@ -37,6 +37,18 @@
     ]
   },
   {
+    "id": "milk_standard",
+    "type": "requirement",
+    "//": "Pasteurized milk, including reconstituted",
+    "components": [ [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_UHT", 1 ] ] ]
+  },
+  {
+    "id": "milk_standard_raw",
+    "type": "requirement",
+    "//": "Equivalent to milk_standard, with addition of raw milk for recipes using a heat source to kill microbes",
+    "components": [ [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_UHT", 1 ], [ "milk_raw", 1 ] ] ]
+  },
+  {
     "id": "hard_liquor",
     "type": "requirement",
     "//": "Hard liquor - necessarily comestible and high proof, not necessarily high quality.",
@@ -55,6 +67,20 @@
     ]
   },
   {
+    "id": "cheap_wine",
+    "type": "requirement",
+    "//": "Cheap and improvised wines.",
+    "components": [ [ [ "fruit_wine", 1 ], [ "bum_wine", 1 ], [ "dandelion_wine", 1 ], [ "pine_wine", 1 ] ] ]
+  },
+  {
+    "id": "worthy_wine",
+    "type": "requirement",
+    "//": "More expensive wines.",
+    "components": [
+      [ [ "wine_riesling", 1 ], [ "wine_chardonnay", 1 ], [ "wine_cabernet", 1 ], [ "wine_noir", 1 ], [ "wine_vermouth", 1 ] ]
+    ]
+  },
+  {
     "id": "hard_liquor_chem",
     "type": "requirement",
     "//": "Hard liquor and ethanol - Must be diluted. Added for ease of use",
@@ -65,6 +91,77 @@
     "type": "requirement",
     "//": "Hard liquor, ethanol, and denaturalized alcohol - Do not use in comestibles",
     "components": [ [ [ "hard_liquor_chem", 1, "LIST" ], [ "denat_alcohol", 125 ] ] ]
+  },
+  {
+    "id": "meat_offal",
+    "type": "requirement",
+    "//": "Anything you might consider offal or intestines.",
+    "components": [ [ [ "lung", 4 ], [ "liver", 4 ], [ "kidney", 4 ], [ "sweetbread", 4 ], [ "offal", 1 ] ] ]
+  },
+  {
+    "id": "meat_red",
+    "type": "requirement",
+    "//": "Anything you might consider raw 'red' meat.  About 300-400kcal of meat.",
+    "components": [ [ [ "meat", 1 ], [ "meat_scrap", 10 ], [ "rehydrated_meat", 1 ], [ "meat_canned", 1 ] ] ]
+  },
+  {
+    "id": "meat_nofish",
+    "type": "requirement",
+    "//": "Any type of raw meat except for fish.  About 300-400kcal of meat.",
+    "components": [
+      [
+        [ "meat_red", 1, "LIST" ],
+        [ "liver", 5 ],
+        [ "kidney", 5 ],
+        [ "lung", 5 ],
+        [ "sweetbread", 5 ],
+        [ "bacon", 4 ],
+        [ "lunchmeat", 5 ],
+        [ "bologna", 5 ],
+        [ "can_spam", 4 ],
+        [ "can_chicken", 1 ],
+        [ "meat_pickled", 1 ],
+        [ "dry_meat", 1 ],
+        [ "jerky", 1 ],
+        [ "meat_smoked", 1 ],
+        [ "meat_salted", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "meat_cooked",
+    "type": "requirement",
+    "//": "meat you'd put on a sandwich",
+    "components": [
+      [
+        [ "meat_cooked", 1 ],
+        [ "meat_pickled", 1 ],
+        [ "meat_smoked", 1 ],
+        [ "meat_salted", 1 ],
+        [ "dry_meat", 1 ],
+        [ "rehydrated_meat", 1 ],
+        [ "jerky", 1 ],
+        [ "bacon", 1 ],
+        [ "lunchmeat", 2 ],
+        [ "bologna", 5 ],
+        [ "can_spam", 4 ],
+        [ "fried_spam", 4 ],
+        [ "can_chicken", 1 ],
+        [ "fish_cooked", 1 ],
+        [ "fish_smoked", 1 ],
+        [ "can_herring", 1 ],
+        [ "can_salmon", 1 ],
+        [ "can_tuna", 1 ],
+        [ "can_sardine", 1 ],
+        [ "can_clams", 1 ],
+        [ "fish_pickled", 1 ],
+        [ "cracklins", 1 ],
+        [ "meat_aspic", 1 ],
+        [ "sausage", 1 ],
+        [ "sausage_cooked", 1 ],
+        [ "bratwurst_sausage", 1 ]
+      ]
+    ]
   },
   {
     "id": "seasoning_mild",
@@ -90,15 +187,15 @@
         [ "apple", 1 ],
         [ "apricot", 1 ],
         [ "banana", 1 ],
-        [ "blackberries", 6 ],
-        [ "blueberries", 6 ],
-        [ "cherries", 6 ],
-        [ "cranberries", 6 ],
+        [ "blackberries", 1 ],
+        [ "blueberries", 1 ],
+        [ "cherries", 1 ],
+        [ "cranberries", 1 ],
         [ "grapefruit", 1 ],
-        [ "grapes", 6 ],
-        [ "kiwi", 1 ],
+        [ "grapes", 1 ],
+        [ "kiwi", 2 ],
         [ "mango", 1 ],
-        [ "melon", 2 ],
+        [ "melon", 1 ],
         [ "orange", 1 ],
         [ "papaya", 1 ],
         [ "peach", 1 ],
@@ -106,11 +203,12 @@
         [ "pineapple", 1 ],
         [ "plums", 1 ],
         [ "pomegranate", 1 ],
-        [ "raspberries", 6 ],
-        [ "strawberries", 6 ],
-        [ "huckleberries", 6 ],
-        [ "mulberries", 6 ],
-        [ "elderberries", 6 ],
+        [ "raspberries", 1 ],
+        [ "rose_hips", 1 ],
+        [ "strawberries", 1 ],
+        [ "huckleberries", 1 ],
+        [ "mulberries", 1 ],
+        [ "elderberries", 1 ],
         [ "watermelon", 1 ]
       ]
     ]
@@ -124,15 +222,15 @@
         [ "irradiated_apple", 1 ],
         [ "irradiated_apricot", 1 ],
         [ "irradiated_banana", 1 ],
-        [ "irradiated_blackberries", 6 ],
-        [ "irradiated_blueberries", 6 ],
+        [ "irradiated_blackberries", 1 ],
+        [ "irradiated_blueberries", 1 ],
         [ "irradiated_cherries", 1 ],
-        [ "irradiated_cranberries", 6 ],
+        [ "irradiated_cranberries", 1 ],
         [ "irradiated_grapefruit", 1 ],
-        [ "irradiated_grapes", 2 ],
-        [ "irradiated_kiwi", 1 ],
+        [ "irradiated_grapes", 1 ],
+        [ "irradiated_kiwi", 2 ],
         [ "irradiated_mango", 1 ],
-        [ "irradiated_melon", 2 ],
+        [ "irradiated_melon", 1 ],
         [ "irradiated_orange", 1 ],
         [ "irradiated_papaya", 1 ],
         [ "irradiated_peach", 1 ],
@@ -140,11 +238,12 @@
         [ "irradiated_pineapple", 1 ],
         [ "irradiated_plums", 1 ],
         [ "irradiated_pomegranate", 1 ],
-        [ "irradiated_raspberries", 6 ],
-        [ "irradiated_strawberries", 6 ],
-        [ "irradiated_huckleberries", 6 ],
-        [ "irradiated_mulberries", 6 ],
-        [ "irradiated_elderberries", 6 ],
+        [ "irradiated_raspberries", 1 ],
+        [ "irradiated_rose_hips", 1 ],
+        [ "irradiated_strawberries", 1 ],
+        [ "irradiated_huckleberries", 1 ],
+        [ "irradiated_mulberries", 1 ],
+        [ "irradiated_elderberries", 1 ],
         [ "irradiated_watermelon", 1 ]
       ]
     ]
@@ -175,6 +274,74 @@
     ]
   },
   {
+    "id": "veggy_green",
+    "type": "requirement",
+    "//": "anything you would consider a leafy green vegetable",
+    "components": [
+      [
+        [ "cabbage", 1 ],
+        [ "irradiated_cabbage", 1 ],
+        [ "cattail_stalk", 1 ],
+        [ "lettuce", 1 ],
+        [ "irradiated_lettuce", 1 ],
+        [ "raw_dandelion", 1 ],
+        [ "rehydrated_veggy", 1 ],
+        [ "veggy", 1 ],
+        [ "veggy_wild", 1 ],
+        [ "veggy_salted", 1 ],
+        [ "spinach", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "veggy_any_uncooked",
+    "type": "requirement",
+    "components": [
+      [
+        [ "broccoli", 1 ],
+        [ "irradiated_broccoli", 1 ],
+        [ "cabbage", 1 ],
+        [ "irradiated_cabbage", 1 ],
+        [ "carrot", 2 ],
+        [ "irradiated_carrot", 2 ],
+        [ "cattail_stalk", 1 ],
+        [ "celery", 1 ],
+        [ "irradiated_celery", 1 ],
+        [ "corn", 1 ],
+        [ "irradiated_corn", 1 ],
+        [ "cucumber", 1 ],
+        [ "irradiated_cucumber", 1 ],
+        [ "lettuce", 1 ],
+        [ "irradiated_lettuce", 1 ],
+        [ "onion", 1 ],
+        [ "irradiated_onion", 1 ],
+        [ "plant_sac", 1 ],
+        [ "potato", 1 ],
+        [ "irradiated_potato", 1 ],
+        [ "pumpkin", 1 ],
+        [ "irradiated_pumpkin", 1 ],
+        [ "raw_dandelion", 1 ],
+        [ "rhubarb", 1 ],
+        [ "irradiated_rhubarb", 1 ],
+        [ "sugar_beet", 1 ],
+        [ "tomato", 1 ],
+        [ "irradiated_tomato", 1 ],
+        [ "rehydrated_veggy", 1 ],
+        [ "veggy", 1 ],
+        [ "veggy_wild", 1 ],
+        [ "zucchini", 1 ],
+        [ "irradiated_zucchini", 1 ],
+        [ "carrot_wild", 1 ],
+        [ "spinach", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "veggy_any",
+    "type": "requirement",
+    "components": [ [ [ "dandelion_cooked", 1 ], [ "veggy_any_uncooked", 1, "LIST" ], [ "veggy_canned", 1 ], [ "veggy_salted", 1 ] ] ]
+  },
+  {
     "id": "wash_liquor",
     "type": "requirement",
     "//": "Wash liquor - needs to be concentrated",
@@ -183,7 +350,7 @@
   {
     "id": "weak_liquor",
     "type": "requirement",
-    "//": "Weak liquor - necessarily comestible and low proof, not necessarily hish quality",
+    "//": "Weak liquor - necessarily comestible and low proof, not necessarily high quality",
     "components": [
       [
         [ "beer", 1 ],
@@ -192,6 +359,7 @@
         [ "european_pilsner", 1 ],
         [ "hb_beer", 1 ],
         [ "india_pale_ale", 1 ],
+        [ "wine_barley", 1 ],
         [ "pale_ale", 1 ],
         [ "stout", 1 ],
         [ "mixed_alcohol_weak", 1 ]

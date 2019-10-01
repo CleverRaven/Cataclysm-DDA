@@ -8,15 +8,7 @@
     "name": "GROUP_PARK_PLAYGROUND",
     "type": "monstergroup",
     "default": "mon_null",
-    "monsters": [
-      { "monster": "mon_zombie_child", "freq": 200, "cost_multiplier": 1, "pack_size": [ 5, 12 ] },
-      { "monster": "mon_zombie_anklebiter", "freq": 10, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_sproglodyte", "freq": 10, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_shriekling", "freq": 20, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_creepy", "freq": 5, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_snotgobbler", "freq": 30, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_waif", "freq": 20, "cost_multiplier": 0 }
-    ]
+    "monsters": [ { "monster": "mon_zombie_child", "freq": 295, "cost_multiplier": 1, "pack_size": [ 5, 12 ] } ]
   },
   {
     "name": "GROUP_PARK_SCENIC",
@@ -34,11 +26,10 @@
     "type": "monstergroup",
     "default": "mon_null",
     "monsters": [
-      { "monster": "mon_zombie", "freq": 100, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_zombie_dog", "freq": 100, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_dog_skeleton", "freq": 100, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_dog_zombie_cop", "freq": 100, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_dog_zombie_rot", "freq": 100, "cost_multiplier": 1, "pack_size": [ 2, 3 ] }
+      { "monster": "mon_zombie", "freq": 125, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zombie_dog", "freq": 125, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_dog_zombie_cop", "freq": 125, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_dog_zombie_rot", "freq": 125, "cost_multiplier": 1, "pack_size": [ 2, 3 ] }
     ]
   },
   {
@@ -281,7 +272,7 @@
         "s": "t_sidewalk",
         "t": "t_tree",
         "z": "t_shrub",
-        "~": "t_water_sh"
+        "~": "t_water_pool_shallow"
       },
       "furniture": { "A": "f_statue", "H": "f_bench", "R": "f_trashcan", "T": "f_table", "f": "f_dahlia" },
       "place_items": [ { "item": "trash", "x": 4, "y": 5, "chance": 50 } ],
@@ -412,12 +403,10 @@
         "4": "f_null",
         "7": "f_null",
         "C": "f_null",
-        "P": "f_plant_harvest",
         "S": "f_null",
         "T": "f_null",
         "W": "f_null",
         "_": "f_null",
-        "a": "f_plant_harvest",
         "b": "f_brazier",
         "c": "f_cattails",
         "d": "f_null",
@@ -450,6 +439,10 @@
         { "chance": 10, "item": "field", "x": 2, "y": 16 },
         { "chance": 10, "item": "field", "x": 1, "y": 13 }
       ],
+      "sealed_item": {
+        "P": { "item": { "item": "seed_raw_dandelion" }, "furniture": "f_plant_harvest" },
+        "a": { "item": { "item": "seed_sunflower" }, "furniture": "f_plant_harvest" }
+      },
       "rows": [
         "._____...........d......",
         "._____..................",
@@ -846,7 +839,7 @@
         "S": "t_grass",
         "_": "t_grass",
         "b": "t_grass",
-        "w": "t_water_sh",
+        "w": "t_water_pool_shallow",
         "|": "t_fence_h"
       }
     },

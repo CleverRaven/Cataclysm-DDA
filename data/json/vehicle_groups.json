@@ -18,6 +18,8 @@
       [ "bicycle", 400 ],
       [ "bicycle_electric", 100 ],
       [ "motorcycle", 200 ],
+      [ "motorcycle_cross", 20 ],
+      [ "motorcycle_enduro", 50 ],
       [ "superbike", 50 ],
       [ "motorcycle_sidecart", 100 ],
       [ "scooter", 200 ],
@@ -39,8 +41,11 @@
       [ "cube_van_cheap", 400 ],
       [ "cube_van", 300 ],
       [ "security_van", 500 ],
-      [ "schoolbus", 600 ],
+      [ "schoolbus", 100 ],
+      [ "bus", 500 ],
+      [ "bus_tour", 50 ],
       [ "rv", 500 ],
+      [ "limousine", 200 ],
       [ "lux_rv", 100 ],
       [ "meth_lab", 200 ],
       [ "armored_car", 200 ],
@@ -50,7 +55,20 @@
       [ "humvee_gl", 50 ],
       [ "icecream_truck", 50 ],
       [ "wienermobile", 5 ],
-      [ "tatra_truck", 100 ]
+      [ "tatra_truck", 100 ],
+      [ "4x4_car", 500 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "boatrent",
+    "vehicles": [
+      [ "canoe", 2000 ],
+      [ "kayak", 1500 ],
+      [ "kayak_racing", 500 ],
+      [ "DUKW", 250 ],
+      [ "raft", 2000 ],
+      [ "wood_rowboat_double", 1500 ]
     ]
   },
   {
@@ -70,19 +88,14 @@
       [ "flatbed_truck", 1000 ],
       [ "cube_van", 500 ],
       [ "cube_van_cheap", 500 ],
-      [ "hippie_van", 500 ]
+      [ "hippie_van", 500 ],
+      [ "4x4_car", 500 ]
     ]
   },
   {
     "type": "vehicle_group",
     "id": "police_pileup",
-    "vehicles": [
-        [ "policecar", 400 ],
-        [ "policesuv", 400 ],
-        [ "policecar_k9", 2 ],
-        [ "policesuv_k9", 3 ],
-        [ "police_k9tpt", 1 ]
-    ]
+    "vehicles": [ [ "policecar", 400 ], [ "policesuv", 400 ], [ "policecar_k9", 2 ], [ "policesuv_k9", 3 ], [ "police_k9tpt", 1 ] ]
   },
   {
     "type": "vehicle_group",
@@ -112,14 +125,18 @@
       [ "apc-gl", 100 ],
       [ "aapc-mg", 100 ],
       [ "aapc-gl", 50 ],
-      [ "schoolbus", 400 ],
+      [ "schoolbus", 50 ],
+      [ "bus", 350 ],
+      [ "bus_tour", 25 ],
       [ "rv", 800 ],
+      [ "limousine", 200 ],
       [ "lux_rv", 100 ],
       [ "meth_lab", 300 ],
       [ "armored_car", 300 ],
       [ "superbike", 50 ],
       [ "wienermobile", 5 ],
-      [ "tatra_truck", 300 ]
+      [ "tatra_truck", 300 ],
+      [ "4x4_car", 400 ]
     ]
   },
   {
@@ -133,8 +150,11 @@
       [ "beetle", 300 ],
       [ "car_sports", 100 ],
       [ "car_sports_electric", 50 ],
+      [ "car_racing_electric", 5 ],
       [ "superbike", 50 ],
       [ "motorcycle", 200 ],
+      [ "motorcycle_cross", 25 ],
+      [ "motorcycle_enduro", 50 ],
       [ "motorcycle_sidecart", 100 ],
       [ "scooter", 100 ],
       [ "scooter_electric", 100 ],
@@ -142,13 +162,17 @@
       [ "suv_electric", 200 ],
       [ "suv_electric", 120 ],
       [ "pickup", 300 ],
-      [ "portable_generator", 50 ]
+      [ "portable_generator", 50 ],
+      [ "bicycle", 150 ],
+      [ "bicycle_dirt", 125 ],
+      [ "tricycle", 5 ],
+      [ "4x4_car", 200 ]
     ]
   },
   {
     "type": "vehicle_group",
     "id": "dirtlot",
-    "vehicles": [ [ "quad_bike", 100 ], [ "pickup", 300 ] ]
+    "vehicles": [ [ "quad_bike", 100 ], [ "pickup", 300 ], [ "bicycle_dirt", 100 ] ]
   },
   {
     "type": "vehicle_group",
@@ -163,7 +187,9 @@
       [ "aapc-gl", 25 ],
       [ "bubble_car", 50 ],
       [ "rv", 200 ],
+      [ "limousine", 100 ],
       [ "schoolbus", 200 ],
+      [ "bus_tour", 50 ],
       [ "fire_truck", 200 ],
       [ "policecar", 100 ],
       [ "policecar_k9", 1 ],
@@ -193,7 +219,8 @@
       [ "shopping_cart", 1000 ],
       [ "icecream_truck", 50 ],
       [ "wienermobile", 5 ],
-      [ "portable_generator", 50 ]
+      [ "portable_generator", 50 ],
+      [ "4x4_car", 200 ]
     ]
   },
   {
@@ -208,6 +235,7 @@
       [ "portable_generator", 20 ],
       [ "quad_bike", 10 ],
       [ "quad_bike_chassis", 20 ],
+      [ "car_racing_electric", 5 ],
       [ "superbike", 5 ],
       [ "welding_cart", 20 ]
     ]
@@ -261,7 +289,7 @@
     "id": "school_vehicles",
     "type": "vehicle_group",
     "//": "School bus or fire truck found near school locations",
-    "vehicles": [ [ "schoolbus", 50 ], [ "fire_truck", 70 ] ]
+    "vehicles": [ [ "schoolbus", 50 ], [ "fire_truck", 70 ], [ "bus", 30 ] ]
   },
   {
     "id": "bandit_vehicles",
@@ -278,6 +306,7 @@
       [ "electric_car", 400 ],
       [ "car_sports", 400 ],
       [ "car_sports_electric", 100 ],
+      [ "car_racing_electric", 5 ],
       [ "suv", 500 ],
       [ "suv_electric", 200 ],
       [ "suv_electric", 120 ],
@@ -285,7 +314,8 @@
       [ "beetle", 500 ],
       [ "bubble_car", 20 ],
       [ "pickup", 600 ],
-      [ "hippie_van", 700 ]
+      [ "hippie_van", 700 ],
+      [ "4x4_car", 500 ]
     ]
   },
   {
@@ -304,7 +334,8 @@
       [ "flatbed_truck", 200 ],
       [ "cube_van_cheap", 400 ],
       [ "pickup", 500 ],
-      [ "hippie_van", 350 ]
+      [ "hippie_van", 350 ],
+      [ "4x4_car", 500 ]
     ]
   },
   {
@@ -316,11 +347,13 @@
       [ "electric_car", 100 ],
       [ "suv", 800 ],
       [ "suv_electric", 100 ],
-      [ "suv_electric", 100 ],
+      [ "suv_electric_rack", 100 ],
+      [ "bicycle_dirt", 50 ],
       [ "car_mini", 200 ],
       [ "beetle", 200 ],
       [ "pickup", 700 ],
-      [ "hippie_van", 800 ]
+      [ "hippie_van", 800 ],
+      [ "4x4_car", 800 ]
     ]
   },
   {
@@ -362,17 +395,220 @@
   },
   {
     "type": "vehicle_group",
+    "id": "workshop_vehicles",
+    "vehicles": [ [ "welding_cart", 30 ], [ "portable_generator", 20 ] ]
+  },
+  {
+    "type": "vehicle_group",
     "id": "crashed_helicopters",
     "vehicles": [
-        [ "helicopter_wreck_1a", 100 ],
-        [ "helicopter_wreck_1b", 400 ],
-        [ "helicopter_wreck_1c", 200 ],
-        [ "helicopter_wreck_2a", 100 ],
-        [ "helicopter_wreck_2b", 400 ],
-        [ "helicopter_wreck_2c", 200 ],
-        [ "helicopter_wreck_3a", 100 ],
-        [ "helicopter_wreck_3b", 400 ],
-        [ "helicopter_wreck_3c", 200 ]
-      ]
+      [ "helicopter_wreck_1a", 100 ],
+      [ "helicopter_wreck_1b", 400 ],
+      [ "helicopter_wreck_1c", 200 ],
+      [ "helicopter_wreck_2a", 100 ],
+      [ "helicopter_wreck_2b", 400 ],
+      [ "helicopter_wreck_2c", 200 ],
+      [ "helicopter_wreck_3a", 100 ],
+      [ "helicopter_wreck_3b", 400 ],
+      [ "helicopter_wreck_3c", 200 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "bikeshop",
+    "vehicles": [
+      [ "bicycle", 1000 ],
+      [ "bicycle_electric", 600 ],
+      [ "bicycle_dirt", 750 ],
+      [ "unicycle", 50 ],
+      [ "scooter", 100 ],
+      [ "scooter_electric", 50 ],
+      [ "tandem", 300 ],
+      [ "tricycle", 50 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "oa_vg_cs_vehicles",
+    "//": "for cs_car_showroom",
+    "vehicles": [
+      [ "electric_car", 100 ],
+      [ "suv_electric", 70 ],
+      [ "bubble_car", 60 ],
+      [ "rara_x", 40 ],
+      [ "car_sports", 30 ],
+      [ "car_sports_electric", 20 ],
+      [ "car_sports_atomic", 5 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "showroom_small_vehicles",
+    "//": "Selection of small vehicles suitable for cs_car_showroom",
+    "vehicles": [
+      [ "motorcycle", 200 ],
+      [ "motorcycle_cross", 150 ],
+      [ "motorcycle_enduro", 100 ],
+      [ "superbike", 100 ],
+      [ "motorcycle_sidecart", 100 ],
+      [ "scooter", 200 ],
+      [ "scooter_electric", 200 ],
+      [ "golf_cart", 200 ],
+      [ "golf_cart_4seat", 100 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "industrial_transport",
+    "//": "Industrial transport vehicles for transporting goods.",
+    "vehicles": [
+      [ "semi_truck", 200 ],
+      [ "truck_trailer", 200 ],
+      [ "cube_van", 400 ],
+      [ "cube_van_cheap", 500 ],
+      [ "flatbed_truck", 300 ],
+      [ "tatra_truck", 200 ],
+      [ "pickup", 100 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "oa_vg_cd_vehicles",
+    "//": "for cs_car_dealership",
+    "vehicles": [
+      [ "car", 2000 ],
+      [ "electric_car", 500 ],
+      [ "suv", 800 ],
+      [ "suv_electric", 200 ],
+      [ "car_mini", 800 ],
+      [ "beetle", 500 ],
+      [ "motorcycle", 200 ],
+      [ "motorcycle_sidecart", 100 ],
+      [ "scooter", 200 ],
+      [ "scooter_electric", 300 ],
+      [ "pickup", 800 ],
+      [ "hippie_van", 1000 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "buses",
+    "vehicles": [ [ "bus", 1000 ], [ "schoolbus", 100 ], [ "bus_tour", 50 ] ]
+  },
+  {
+    "id": "VETS",
+    "type": "vehicle_group",
+    "//": "for veterinarian",
+    "vehicles": [ [ "car", 300 ], [ "pickup", 100 ], [ "suv", 50 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "parking_garage",
+    "vehicles": [
+      [ "bubble_car", 200 ],
+      [ "4x4_car", 200 ],
+      [ "car_sports_electric", 100 ],
+      [ "car_mini", 750 ],
+      [ "beetle", 750 ],
+      [ "car", 1500 ],
+      [ "suv", 800 ],
+      [ "suv_electric", 100 ],
+      [ "suv_electric_rack", 100 ],
+      [ "pickup", 50 ],
+      [ "car_anmlcmpt", 150 ],
+      [ "electric_car", 750 ],
+      [ "hippie_van", 750 ],
+      [ "motorcycle", 500 ],
+      [ "motorcycle_enduro", 50 ],
+      [ "superbike", 50 ],
+      [ "motorcycle_sidecart", 50 ],
+      [ "car_sports", 30 ],
+      [ "car_sports_atomic", 5 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "trains_draisine",
+    "vehicles": [ [ "motorized_draisine_6seats", 500 ], [ "motorized_draisine_2seats", 2000 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "oa_vg_wreck",
+    "//": "for ws_regional_dump",
+    "vehicles": [
+      [ "car", 1000 ],
+      [ "electric_car", 500 ],
+      [ "suv", 800 ],
+      [ "suv_electric", 200 ],
+      [ "car_mini", 800 ],
+      [ "beetle", 500 ],
+      [ "motorcycle", 200 ],
+      [ "motorcycle_sidecart", 100 ],
+      [ "scooter", 200 ],
+      [ "scooter_electric", 300 ],
+      [ "pickup", 800 ],
+      [ "hippie_van", 800 ],
+      [ "schoolbus", 800 ],
+      [ "lux_rv", 800 ],
+      [ "meth_lab", 800 ],
+      [ "road_roller", 800 ],
+      [ "truck_trailer", 800 ],
+      [ "semi_truck", 800 ],
+      [ "flatbed_truck", 800 ],
+      [ "semi_truck", 800 ],
+      [ "military_cargo_truck", 800 ],
+      [ "humvee_gl", 800 ],
+      [ "humvee", 800 ],
+      [ "security_van", 800 ],
+      [ "tractor_seed", 800 ],
+      [ "tractor_reaper", 800 ],
+      [ "tractor_plow", 800 ],
+      [ "cube_van", 800 ],
+      [ "car_mini", 800 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "oa_vg_ts_vehicles",
+    "vehicles": [
+      [ "car", 2000 ],
+      [ "electric_car", 500 ],
+      [ "suv", 800 ],
+      [ "suv_electric", 200 ],
+      [ "car_mini", 800 ],
+      [ "beetle", 500 ],
+      [ "motorcycle", 200 ],
+      [ "motorcycle_cross", 50 ],
+      [ "motorcycle_enduro", 50 ],
+      [ "motorcycle_sidecart", 100 ],
+      [ "scooter", 200 ],
+      [ "scooter_electric", 300 ],
+      [ "pickup", 800 ],
+      [ "hippie_van", 1000 ]
+    ]
+  },
+  {
+    "id": "sugar_house_vehicles",
+    "type": "vehicle_group",
+    "vehicles": [ [ "water_cart", 100 ] ]
+  },
+  {
+    "id": "pump_station_vehicles",
+    "type": "vehicle_group",
+    "vehicles": [
+      [ "car", 2000 ],
+      [ "electric_car", 500 ],
+      [ "car_mini", 500 ],
+      [ "suv", 800 ],
+      [ "suv_electric", 200 ],
+      [ "suv_electric", 50 ],
+      [ "flatbed_truck", 1500 ],
+      [ "cube_van_cheap", 1500 ],
+      [ "cube_van", 1200 ],
+      [ "pickup", 1000 ],
+      [ "policecar", 400 ],
+      [ "ambulance", 300 ],
+      [ "fire_truck", 150 ]
+    ]
   }
 ]

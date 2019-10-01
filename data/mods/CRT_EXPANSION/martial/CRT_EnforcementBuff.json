@@ -1,0 +1,126 @@
+[
+  {
+    "id": "manual_crt_enforcement",
+    "copy-from": "book_martial",
+    "type": "GENERIC",
+    "name": "C.R.I.T Enforcement manual",
+    "name_plural": "C.R.I.T Enforcement manuals",
+    "description": "An advanced military manual on C.R.I.T Enforcer melee.",
+    "book_data": { "martial_art": "style_crt_enforcement" }
+  },
+  {
+    "id": "book_martial",
+    "type": "item_group",
+    "items": [ [ "manual_crt_enforcement", 5 ] ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_crt_enforcement",
+    "name": "C.R.I.T Enforcement",
+    "description": "A defensive style that is centered around stunning swings, knockback and grounding enemies. Each attack landed increases your armor by 0.125 and offers other combat bonuses based on stats.",
+    "initiate": [ "You ready yourself to stand your ground.", "%s draws a line in the sand." ],
+    "arm_block": 2,
+    "leg_block": 10,
+    "static_buffs": [
+      {
+        "id": "crt_enforcement_static",
+        "name": "C.R.I.T Guard",
+        "description": "+1 armor. STR provides accuracy and minor bash arpen.",
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "flat_bonuses": [
+          [ "arpen", "bash", "str", 0.15 ],
+          [ "armor", "bash", 1 ],
+          [ "armor", "cut", 1 ],
+          [ "armor", "stab", 1 ],
+          [ "hit", "str", 0.4 ]
+        ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "crt_enforcement_hit_buff",
+        "name": "C.R.I.T Buildup",
+        "description": "+0.05 armor and other small bonuses per stack. Max of 10 stacks",
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "min_unarmed": 1,
+        "buff_duration": 10,
+        "max_stacks": 10,
+        "flat_bonuses": [
+          [ "damage", "bash", "str", 0.01 ],
+          [ "armor", "bash", 0.05 ],
+          [ "armor", "cut", 0.05 ],
+          [ "armor", "stab", 0.05 ],
+          [ "armor", "bash", "str", 0.15 ],
+          [ "armor", "cut", "str", 0.125 ],
+          [ "armor", "stab", "str", 0.075 ]
+        ]
+      }
+    ],
+    "techniques": [ "tec_crt_enforcement_normal", "tec_crt_enforcement_rapid", "tec_crt_enforcement_brutal" ],
+    "weapons": [
+      "knife_crt",
+      "crt_nstick",
+      "crt_knuckledusters",
+      "baton-extended",
+      "cudgel",
+      "sword_wood",
+      "sword_nail",
+      "2x4",
+      "pipe",
+      "bat",
+      "bwirebat",
+      "nailbat",
+      "nailboard",
+      "bat_metal",
+      "cane",
+      "mace",
+      "morningstar",
+      "tonfa",
+      "tonfa_wood",
+      "PR24-extended",
+      "glass_macuahuitl"
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_crt_enforcement_normal",
+    "name": "Harsh Reprimand",
+    "min_unarmed": 1,
+    "min_melee": 1,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "damage", "bash", 1 ], [ "damage", "cut", 1 ], [ "damage", "stab", 1 ] ],
+    "flat_bonuses": [ [ "damage", "bash", "str", 0.15 ], [ "movecost", "str", -0.7 ] ],
+    "messages": [ "You clock %s's in a weak spot to knock em down", "<npcname> smashes in %s's face" ],
+    "down_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_crt_enforcement_rapid",
+    "name": "Forced Compliance",
+    "min_unarmed": 3,
+    "min_melee": 2,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "movecost", 1.04 ], [ "damage", "bash", 1 ], [ "damage", "cut", 1.05 ], [ "damage", "stab", 1.05 ] ],
+    "flat_bonuses": [ [ "arpen", "bash", "str", 0.2 ], [ "movecost", "str", -1.2 ] ],
+    "messages": [ "You swiftly swipe your weapon's tip at %s", "<npcname> swiftly jabs their weapon into %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_crt_enforcement_brutal",
+    "name": "Roomsweeper",
+    "min_unarmed": 4,
+    "min_melee": 3,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "movecost", 1.35 ], [ "damage", "bash", 1.15 ], [ "damage", "cut", 1.05 ], [ "damage", "stab", 1.0 ] ],
+    "flat_bonuses": [ [ "arpen", "bash", "str", 0.5 ], [ "damage", "cut", "str", 0.25 ], [ "movecost", "str", -1.5 ] ],
+    "crit_tec": true,
+    "messages": [ "You steady your arm and release a crushing blow at %s", "<npcname> releases a crushing blow at %s" ],
+    "stun_dur": 3,
+    "knockback_dist": 2
+  }
+]

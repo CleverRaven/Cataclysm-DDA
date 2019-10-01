@@ -1,144 +1,5 @@
 [
   {
-    "id": "pizza_display",
-    "type": "item_group",
-    "items": [
-      [ "pizza_human", 2 ],
-      [ "pizza_meat", 48 ],
-      [ "pizza_veggy", 50 ]
-    ]
-  },
-  {
-    "id": "pizza_kitchen",
-    "type": "item_group",
-    "items": [
-      [ "seasoning_italian", 23 ],
-      [ "seasoning_salt", 13 ],
-      [ "pepper", 5 ],
-      [ "yeast", 10 ],
-      [ "sugar", 9 ],
-      [ "cornmeal", 8 ],
-      [ "flour", 25 ],
-      [ "cookbook", 3 ],
-      [ "cookbook_italian", 2 ]
-    ]
-  },
-  {
-    "id": "pizza_fridge",
-    "type": "item_group",
-    "items": [
-      [ "sauce_red", 29 ],
-      [ "royal_beef", 3 ],
-      [ "can_sardine", 18 ],
-      [ "onion", 14 ],
-      [ "chili_pepper", 14 ],
-      [ "can_chicken", 13 ],
-      [ "bacon", 15 ],
-      [ "cheese", 38 ],
-      [ "sauce_pesto", 12 ],
-      [ "zucchini", 13 ],
-      [ "tomato", 10 ],
-      [ "mushroom", 27 ],
-      [ "sausage", 25 ],
-      [ "pineapple", 20 ]
-    ]
-  },
-  {
-    "id": "pizza_beer",
-    "type": "item_group",
-    "items": [
-      [ "imperial_stout", 15 ],
-      [ "belgian_ale", 10 ],
-      [ "stout", 20 ],
-      [ "india_pale_ale", 20 ],
-      [ "pale_ale", 15 ],
-      [ "european_pilsner", 17 ],
-      [ "mead", 5 ],
-      [ "beer", 18 ]
-    ]
-  },
-  {
-    "id": "pizza_soda",
-    "type": "item_group",
-    "items": [
-      [ "purple_drink", 3 ],
-      [ "crispycran", 7 ],
-      [ "rootbeer", 15 ],
-      [ "colamdew", 9 ],
-      [ "orangesoda", 10 ],
-      [ "lemonlime", 9 ],
-      [ "creamsoda", 9 ],
-      [ "cola", 9 ],
-      [ "energy_drink", 5 ],
-      [ "lemonade", 8 ]
-    ]
-  },
-  {
-    "id": "pizza_table",
-    "type": "item_group",
-    "items": [
-      [ "cig", 15 ],
-      [ "rolling_paper", 7 ],
-      [ "wrapper", 35 ],
-      [ "ceramic_plate", 40 ],
-      [ "cup_plastic", 40 ],
-      [ "portable_game", 10 ],
-      [ "chips", 15 ],
-      [ "chips2", 3 ],
-      [ "chips3", 3 ],
-      [ "news_regional", 12 ],
-      [ "flyer", 7 ]
-    ]
-  },
-  {
-    "id": "pizza_locker",
-    "type": "item_group",
-    "items": [
-      [ "towel", 15 ],
-      [ "soap", 15 ],
-      [ "detergent", 15 ],
-      [ "bleach", 15 ],
-      [ "broom", 13 ],
-      [ "dinosuit", 7 ],
-      [ "hat_ball", 19 ],
-      [ "jacket_light", 15 ],
-      [ "mbag", 10 ],
-      [ "rag", 6 ]
-    ]
-  },
-  {
-    "id": "pizza_bathroom",
-    "type": "item_group",
-    "items": [
-      [ "weed", 40 ],
-      [ "coke", 20 ],
-      [ "meth", 1 ],
-      [ "aspirin", 15 ],
-      [ "mag_porn", 30 ],
-      [ "purse", 10 ],
-      [ "hairpin", 3 ]
-    ]
-  },
-  {
-    "id": "pizza_trash",
-    "type": "item_group",
-    "ammo": 100,
-    "items": [
-      [ "cup_plastic", 40 ],
-      [ "wrapper", 34 ],
-      [ "bag_plastic", 20 ],
-      [ "bottle_glass", 30 ],
-      [ "can_drink_unsealed", 30 ],
-      [ "rag", 10 ],
-      [ "news_regional", 7 ],
-      [ "mag_news", 7 ],
-      [ "hairpin", 10 ],
-      [ "flyer", 7 ],
-      [ "glock_19", 5 ],
-      [ "9mm", 3 ]
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_pizza_parlor" ],
@@ -148,7 +9,7 @@
       "fill_ter": "t_floor",
       "rows": [
         "-||||||||||||||-        ",
-        "-FwlwL-P#######-        ",
+        "-FwlwL-P#######-4       ",
         "-Flwlw#..U.U.U.g        ",
         "-#wlwl@........g        ",
         "-#lwlw#........g        ",
@@ -164,9 +25,9 @@
         "-..............-cccccccR",
         "-C.....BB..BB..gccccBccR",
         "-C.....TT..TT..gcccBTBcR",
-        "-......BB..BB..gccccBccR",
-        "-..............gcccccccR",
-        "-||+-..........GccccBccR",
+        "---....BB..BB..gccccBccR",
+        "-<=............gcccccccR",
+        "---+-..........GccccBccR",
         "-sll-..BB..BB..gcccBTBcR",
         "-lll-..TT..TT..gccccBccR",
         "-tll-..BB..BB.PgcccccccR",
@@ -184,7 +45,7 @@
         " ": "t_sidewalk",
         "#": "t_linoleum_white",
         "+": "t_door_c",
-        "-": "t_wall",
+        "-": "t_wall_r",
         ".": "t_floor",
         "@": "t_console_broken",
         "F": "t_linoleum_white",
@@ -201,7 +62,9 @@
         "t": "t_linoleum_gray",
         "w": "t_linoleum_white",
         "{": "t_linoleum_white",
-        "|": "t_wall"
+        "4": "t_gutter_downspout",
+        "<": "t_ladder_up",
+        "|": "t_wall_r"
       },
       "furniture": {
         "#": "f_counter",
@@ -217,7 +80,7 @@
         "s": "f_sink",
         "{": "f_rack"
       },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "place_items": [
         { "item": "pizza_display", "x": 6, "y": [ 5, 8 ], "chance": 45, "repeat": [ 3, 4 ] },
         { "item": "pizza_kitchen", "x": 1, "y": [ 3, 5 ], "chance": 40, "repeat": [ 7, 10 ] },
@@ -241,11 +104,74 @@
         { "item": "pizza_trash", "x": 1, "y": [ 15, 16 ], "chance": 50, "repeat": [ 7, 9 ] }
       ]
     }
-    },
-    {
+  },
+  {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_pizza_parlor" ],
+    "om_terrain": "s_pizza_parlor_roof",
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "|222222222222222        ",
+        "|..............5        ",
+        "|..............3        ",
+        "|..............3        ",
+        "|..............3        ",
+        "|..............3        ",
+        "|..............3        ",
+        "|..............3        ",
+        "|.&............3        ",
+        "|..............3        ",
+        "|..............3        ",
+        "|..............3        ",
+        "|..............3        ",
+        "|..............3        ",
+        "|.&............3        ",
+        "|.A............3        ",
+        "|..............3        ",
+        "|..............3        ",
+        "|>.............3        ",
+        "|..............3        ",
+        "|..............3        ",
+        "|..............3        ",
+        "|.=............3        ",
+        "----------------        "
+      ],
+      "terrain": {
+        ".": "t_flat_roof",
+        " ": "t_open_air",
+        "2": "t_gutter_north",
+        "-": "t_gutter_south",
+        "3": "t_gutter_east",
+        "|": "t_gutter_west",
+        ">": "t_ladder_down",
+        "5": "t_gutter_drop"
+      },
+      "furniture": { "&": "f_roof_turbine_vent", "=": "f_vent_pipe", "A": "f_air_conditioner" },
+      "place_items": [ { "item": "roof_trash", "x": [ 4, 13 ], "y": [ 3, 20 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 20 ],
+            [ "roof_2x2_utilities", 20 ],
+            [ "roof_2x2_golf", 3 ],
+            [ "roof_3x3_wine", 3 ],
+            [ "roof_4x4_utility_1", 20 ]
+          ],
+          "x": [ 4, 11 ],
+          "y": [ 5, 15 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_pizza_parlor_1" ],
     "weight": 1000,
     "object": {
       "//": "Default terrain is floor but some things are outside (tables)",
@@ -253,8 +179,8 @@
       "rows": [
         "      ************* SS  ",
         "      *SSSSSSSSSSS* SS  ",
-        "  SSSSSSbTbSSSbTbSSSSSSS",
-        "  S   *SbTbSSSbTbS|gGGg|",
+        "  SSSSSSbxbSSSbxbSSSSSSS",
+        "  S   *SbxbSSSbxbS|gGGg|",
         "  SMM *SSSSSSSSSSS|P..P|",
         "  SMM|||ggggggg||||....|",
         "  SMM|PHTH.C.HTHP.....C|",
@@ -262,7 +188,7 @@
         "mmSSSG.RRRRRRRR...R.HTB|",
         "mmSSSGC...........R.HTB|",
         "  SbbgTH.TTTT.....R.HTB|",
-        "  STT|TH.BBBB.........P|",
+        "  Sxx|TH.BBBB.........P|",
         "  Sbb|||||||||...|||||||",
         "  S   |Fl{|$l@...QXQXQX|",
         "  S   |FlO|$l#........Q|",
@@ -272,12 +198,26 @@
         "  S   |#s#llll...TTTTTB|",
         "|...| |||||+||P..BBBBBB|",
         "|...|   |LLlL|||||||||||",
-        "|...DSSSDlllL|          ",
-        "|...|   ||||||          ",
+        "|...DSSSDlllL|W..<|     ",
+        "|...|   |||||||D|||     ",
         "|...|                   "
       ],
       "terrain": {
-        " ": ["t_dirt", "t_dirt", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt", "t_grass", "t_grass", "t_dirt", "t_grass", "t_grass", "t_shrub" ],
+        " ": [
+          "t_dirt",
+          "t_dirt",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_grass",
+          "t_dirt",
+          "t_grass",
+          "t_grass",
+          "t_dirt",
+          "t_grass",
+          "t_grass",
+          "t_shrub"
+        ],
         "S": "t_sidewalk",
         "*": "t_shrub",
         "#": "t_linoleum_white",
@@ -301,7 +241,9 @@
         "t": "t_linoleum_gray",
         "w": "t_linoleum_white",
         "{": "t_linoleum_white",
-        "|": "t_wall"
+        "x": "t_sidewalk",
+        "<": "t_ladder_up",
+        "|": "t_wall_w"
       },
       "furniture": {
         "#": "f_counter",
@@ -317,21 +259,84 @@
         "O": "f_oven",
         "P": "f_indoor_plant",
         "T": "f_table",
+        "x": "f_table",
         "U": "f_chair",
         "s": "f_sink",
+        "W": "f_water_heater",
         "{": "f_rack"
       },
-	  "items": {
-       "C": { "item": "pizza_trash", "chance": 50, "repeat": [ 7, 9 ] },
-       "F": { "item": "pizza_fridge", "chance": 40, "repeat": [ 9, 10 ] },
-       "{": { "item": "pizza_kitchen", "chance": 42, "repeat": [ 7, 9 ] },
-       "L": { "item": "pizza_locker", "chance": 55, "repeat": [ 5, 6 ] },
-       "$": { "item": "pizza_display", "chance": 45, "repeat": [ 3, 4 ] },
-       "T": { "item": "pizza_table", "chance": 25 },
-       "c": { "item": "pizza_soda", "chance": 25 }
+      "items": {
+        "C": { "item": "pizza_trash", "chance": 50, "repeat": [ 7, 9 ] },
+        "F": { "item": "pizza_fridge", "chance": 40, "repeat": [ 9, 10 ] },
+        "{": { "item": "pizza_kitchen", "chance": 42, "repeat": [ 7, 9 ] },
+        "L": { "item": "pizza_locker", "chance": 55, "repeat": [ 5, 6 ] },
+        "$": { "item": "pizza_display", "chance": 45, "repeat": [ 3, 4 ] },
+        "T": { "item": "pizza_table", "chance": 25 },
+        "c": { "item": "pizza_soda", "chance": 25 }
       },
-      "place_vehicles": [
-        { "vehicle": "bicycle", "x": [ 1, 3 ], "y": [ 20, 23 ],  "chance": 35, "status": 0, "rotation": 270 }
+      "place_vehicles": [ { "vehicle": "bicycle", "x": [ 1, 3 ], "y": [ 20, 23 ], "chance": 35, "status": 0, "rotation": 270 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_pizza_parlor_roof_1",
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                  222222",
+        "                  |:...3",
+        "     22222222222222..X.3",
+        "     |.................3",
+        "     |.................3",
+        "     |.................3",
+        "     |.................3",
+        "     |.................3",
+        "     |.................3",
+        "     ||................3",
+        "      |................3",
+        "      |................3",
+        "      |.&..............3",
+        "      |.A..............3",
+        "      |................3",
+        "      |................3",
+        "..... |-|..............3",
+        ".....   |.........||||||",
+        ".....   |.....###>#     ",
+        ".....   ------#####     ",
+        ",....                   "
+      ],
+      "terrain": {
+        ".": "t_tar_flat_roof",
+        " ": "t_open_air",
+        "2": "t_gutter_north",
+        "-": "t_gutter_south",
+        "3": "t_gutter_east",
+        "|": "t_gutter_west",
+        "#": "t_grate",
+        ">": "t_ladder_down"
+      },
+      "furniture": { "&": "f_roof_turbine_vent", ":": "f_cellphone_booster", "X": "f_small_satelitte_dish", "A": "f_air_conditioner" },
+      "place_items": [ { "item": "roof_trash", "x": [ 7, 20 ], "y": [ 7, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ],
+            [ "roof_2x2_golf", 5 ],
+            [ "roof_3x3_wine", 5 ],
+            [ "roof_4x4_utility_1", 30 ]
+          ],
+          "x": [ 7, 15 ],
+          "y": [ 9, 13 ]
+        }
       ]
     }
   }

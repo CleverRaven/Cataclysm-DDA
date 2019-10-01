@@ -1,0 +1,225 @@
+[
+  {
+    "type": "npc",
+    "id": "refugee_AlonsoLautrec",
+    "name_unique": "Alonso Lautrec",
+    "gender": "male",
+    "name_suffix": "refugee",
+    "class": "NC_REFUGEE_Alonso",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_Alonso_1",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_REFUGEE_Alonso",
+    "name": "Refugee",
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "Alonso wants to be the town bicycle, but isn't getting as much interest as he'd hoped.  He'll trade a morale bonus for condoms.",
+    "bonus_str": { "rng": [ -2, 1 ] },
+    "bonus_dex": { "rng": [ -2, 4 ] },
+    "bonus_int": { "rng": [ -2, 2 ] },
+    "bonus_per": { "rng": [ -2, 2 ] },
+    "worn_override": "REFUGEE_Alonso_worn",
+    "carry_override": "REFUGEE_Alonso_carried",
+    "weapon_override": "REFUGEE_Alonso_wield",
+    "traits": [ { "trait": "PRETTY" }, { "group": "Appearance_demographics" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -5 ] } ] } ] } },
+      { "skill": "barter", "bonus": { "rng": [ 0, 1 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Alonso_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "boxer_briefs" },
+      { "item": "socks" },
+      { "item": "tshirt" },
+      { "item": "pants_leather" },
+      { "item": "jacket_leather" },
+      { "item": "fancy_sunglasses" },
+      { "item": "dress_shoes" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Alonso_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "mag_porn" }, { "item": "vibrator" }, { "item": "condom" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Alonso_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "cudgel" } ]
+  },
+  {
+    "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [ "TALK_REFUGEE_Alonso_2", "TALK_REFUGEE_Alonso_Background", "TALK_REFUGEE_Alonso_Situation" ],
+    "responses": [
+      { "text": "You seem a little forward...", "topic": "TALK_REFUGEE_Alonso_Forward" },
+      {
+        "text": "[PERCEPTION 10] What is up with you?  What's with the fake accent, and speaking in the third person?",
+        "topic": "TALK_REFUGEE_Alonso_CalledOut1",
+        "condition": {
+          "and": [
+            { "u_has_perception": 10 },
+            { "not": { "npc_has_var": "Alonso_accent", "type": "general", "context": "none", "value": "asked" } }
+          ]
+        }
+      },
+      { "text": "What's your story?", "topic": "TALK_REFUGEE_Alonso_Background" },
+      { "text": "How are things here?", "topic": "TALK_REFUGEE_Alonso_Situation" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Alonso_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_Alonso_Lautrec",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": "Hello again, gorgeous",
+      "no": {
+        "u_male": "Oh my, it's good to see such a strong and handsome fellow around here.  They call me Alonso.",
+        "u_female": "Oh my, you're a beautiful lady, so nice to see you.  They call me Alonso."
+      }
+    },
+    "responses": [
+      {
+        "text": "Nice to meet you, Alonso.",
+        "effect": { "u_add_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_REFUGEE_Alonso_1_firstmeet"
+      },
+      {
+        "text": "Hi, Alonso.  What's up?",
+        "topic": "TALK_REFUGEE_Alonso_2",
+        "condition": { "u_has_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "Hi Alonso, nice to meet you.  I gotta go though.",
+        "effect": { "u_add_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Hi Alonso.  I can't stay to talk.",
+        "condition": { "u_has_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Alonso_1_firstmeet",
+    "dynamic_line": "Nice to meet you too.  Very nice.  It gets so lonely here in the center.",
+    "responses": [
+      { "text": "What's up?", "topic": "TALK_REFUGEE_Alonso_2" },
+      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Alonso_2",
+    "dynamic_line": {
+      "npc_has_var": "Alonso_accent",
+      "type": "general",
+      "context": "none",
+      "value": "asked",
+      "no": "Now that you are here, everything.  Is there anything Alonso can... *do for you*?",
+      "yes": "Well, it's a lot better now that you're here.  Nice to see a familiar face."
+    },
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Alonso_Forward",
+    "dynamic_line": {
+      "npc_has_var": "Alonso_accent",
+      "type": "general",
+      "context": "none",
+      "value": "asked",
+      "no": "Alonso cannot help himself, in the face of someone so fine as you.",
+      "yes": "You know me, I gotta be me, right?"
+    },
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Alonso_CalledOut1",
+    "dynamic_line": {
+      "u_male": "Aw man, why you gotta be like that?  I'm just tryin' to get an air of mystery okay?  Nobody wants to be with a slutty guy from Brooklyn, but Alonso the mysterious is another story.",
+      "u_female": "Aw come on, why you gotta be like that?  I'm just tryin' to get an air of mystery okay?  Nobody wants to be with a slutty guy from Brooklyn, but Alonso the mysterious is another story."
+    },
+    "responses": [
+      { "text": "And how is that working out for you?", "topic": "TALK_REFUGEE_Alonso_CalledOut2" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Alonso_CalledOut2",
+    "dynamic_line": "Better'n you'd maybe think, okay?  Can we drop it?",
+    "responses": [
+      {
+        "text": "Just stop talking like that around me, maybe?  It's really obnoxious.",
+        "topic": "TALK_REFUGEE_Alonso_CalledOut3",
+        "effect": { "npc_add_var": "Alonso_accent", "type": "general", "context": "none", "value": "asked" }
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'll leave you to it then.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Alonso_CalledOut3",
+    "dynamic_line": "Fine.  As a favor to you, I'll be a guy from Brooklyn.",
+    "responses": [ { "text": "Thanks.  I'd better get going.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Alonso_Background",
+    "dynamic_line": {
+      "npc_has_var": "Alonso_accent",
+      "type": "general",
+      "context": "none",
+      "value": "asked",
+      "no": "Alonso does not wish to talk about the past, only the future.  There are dark days ahead, but perhaps together we can bring a little light?",
+      "yes": "I'm tryin' ta forget, y'know?  Don't like thinkin' about the past.  Better to plan for the future, even if the future looks grim."
+    },
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Alonso_Situation",
+    "dynamic_line": {
+      "npc_has_var": "Alonso_accent",
+      "type": "general",
+      "context": "none",
+      "value": "asked",
+      "no": "Here in the center, Alonso is a bit lonely.  We get a few brave, strong travellers like yourself, though, and seeing them brightens Alonso's day.",
+      "yes": "Could be better.  I don't really got any friends here in the center, but seeing travellers like you always brightens my day."
+    },
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  }
+]

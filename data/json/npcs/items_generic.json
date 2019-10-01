@@ -1,6 +1,36 @@
 [
   {
     "type": "item_group",
+    "id": "npc_underwear_bottom_male",
+    "groups": [ [ "male_underwear_bottom", 95 ], [ "null", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_underwear_bottom_female",
+    "groups": [ [ "female_underwear_bottom", 95 ], [ "null", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_underwear_top_male",
+    "groups": [ [ "male_underwear_top", 50 ], [ "null", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_underwear_top_female",
+    "groups": [ [ "female_underwear_top", 95 ], [ "null", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_underwear_feet_male",
+    "items": [ [ "socks", 80 ], [ "socks_wool", 20 ], [ "null", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_underwear_feet_female",
+    "items": [ [ "socks", 50 ], [ "socks_wool", 10 ], [ "stockings", 20 ], [ "tights", 20 ], [ "null", 5 ] ]
+  },
+  {
+    "type": "item_group",
     "id": "npc_pants_male",
     "items": [
       [ "jeans", 20 ],
@@ -8,7 +38,9 @@
       [ "pants_leather", 20 ],
       [ "shorts", 5 ],
       [ "shorts_cargo", 10 ],
-      [ "pants_cargo", 20 ]
+      [ "pants_cargo", 20 ],
+      [ "b_shorts", 10 ],
+      [ "motorbike_pants", 5 ]
     ]
   },
   {
@@ -18,22 +50,53 @@
       [ "jeans", 20 ],
       [ "pants", 20 ],
       [ "pants_leather", 20 ],
+      [ "shorts", 5 ],
+      [ "shorts_cargo", 10 ],
       [ "pants_cargo", 20 ],
-      [ "shorts", 20 ],
-      [ "shorts_denim", 20 ],
-      [ "shorts_cargo", 20 ],
-      [ "skirt", 20 ]
+      [ "b_shorts", 10 ],
+      [ "motorbike_pants", 5 ],
+      [ "skirt", 20 ],
+      [ "skirt_leather", 20 ],
+      [ "nanoskirt", 5 ],
+      [ "hot_pants", 20 ],
+      [ "shorts_denim", 20 ]
     ]
   },
   {
     "type": "item_group",
     "id": "npc_shirt_male",
-    "items": [ [ "tshirt", 20 ], [ "polo_shirt", 20 ], [ "dress_shirt", 20 ], [ "tank_top", 20 ] ]
+    "items": [
+      [ "tshirt", 20 ],
+      [ "polo_shirt", 20 ],
+      [ "dress_shirt", 20 ],
+      [ "longshirt", 20 ],
+      [ "flag_shirt", 5 ],
+      [ "sweatshirt", 20 ],
+      [ "striped_shirt", 10 ],
+      [ "sweater", 20 ],
+      [ "jersey", 10 ]
+    ]
   },
   {
     "type": "item_group",
     "id": "npc_shirt_female",
-    "items": [ [ "tshirt", 20 ], [ "polo_shirt", 20 ], [ "dress_shirt", 20 ], [ "tank_top", 20 ] ]
+    "items": [
+      [ "tshirt", 20 ],
+      [ "polo_shirt", 20 ],
+      [ "dress_shirt", 20 ],
+      [ "longshirt", 20 ],
+      [ "flag_shirt", 5 ],
+      [ "sweatshirt", 20 ],
+      [ "striped_shirt", 10 ],
+      [ "sweater", 20 ],
+      [ "jersey", 10 ],
+      [ "tank_top", 20 ],
+      [ "halter_top", 20 ],
+      [ "camisole", 20 ],
+      [ "dress", 10 ],
+      [ "sundress", 10 ],
+      [ "corset", 5 ]
+    ]
   },
   {
     "type": "item_group",
@@ -44,7 +107,12 @@
       [ "gloves_fingerless", 20 ],
       [ "fire_gauntlets", 20 ],
       [ "gloves_work", 10 ],
-      [ "gloves_fingerless_mod", 5 ]
+      [ "gloves_fingerless_mod", 5 ],
+      [ "gloves_medical", 10 ],
+      [ "gloves_winter", 5 ],
+      [ "gloves_wool", 20 ],
+      [ "gloves_light", 20 ],
+      [ "gloves_tactical", 5 ]
     ]
   },
   {
@@ -53,50 +121,181 @@
     "items": [
       [ "null", 20 ],
       [ "hoodie", 20 ],
+      [ "wool_hoodie", 20 ],
       [ "jacket_light", 20 ],
       [ "jacket_leather", 20 ],
       [ "trenchcoat", 20 ],
       [ "jacket_jean", 20 ],
       [ "jacket_windbreaker", 10 ],
-      [ "poncho", 10 ],
+      [ "folding_poncho_on", 10 ],
       [ "jacket_leather_mod", 5 ],
-      [ "kevlar", 5 ]
+      [ "american_flag", 5 ],
+      [ "jacket_leather_red", 10 ],
+      [ "jacket_army", 10 ],
+      [ "jacket_flannel", 10 ],
+      [ "jacket_evac", 20 ],
+      [ "winter_jacket_army", 5 ],
+      [ "coat_winter", 10 ],
+      [ "peacoat", 10 ],
+      [ "greatcoat", 5 ],
+      [ "cloak", 5 ],
+      [ "cloak_wool", 5 ],
+      [ "house_coat", 5 ]
     ]
   },
   {
     "type": "item_group",
-    "id": "npc_shoes",
-    "items": [ [ "sneakers", 20 ], [ "boots", 20 ] ]
+    "id": "npc_shoes_male",
+    "items": [
+      [ "boots", 20 ],
+      [ "boots_combat", 10 ],
+      [ "boots_hiking", 20 ],
+      [ "boots_western", 10 ],
+      [ "boots_winter", 5 ],
+      [ "motorbike_boots", 5 ],
+      [ "dress_shoes", 20 ],
+      [ "sneakers", 20 ],
+      [ "lowtops", 20 ],
+      [ "flip_flops", 10 ],
+      [ "leathersandals", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_shoes_female",
+    "items": [
+      [ "boots", 10 ],
+      [ "boots_combat", 10 ],
+      [ "boots_hiking", 20 ],
+      [ "boots_western", 20 ],
+      [ "boots_winter", 5 ],
+      [ "motorbike_boots", 5 ],
+      [ "dress_shoes", 20 ],
+      [ "sneakers", 20 ],
+      [ "lowtops", 20 ],
+      [ "flip_flops", 10 ],
+      [ "leathersandals", 5 ],
+      [ "heels", 5 ],
+      [ "thigh_high_boots", 10 ],
+      [ "knee_high_boots", 10 ]
+    ]
   },
   {
     "type": "item_group",
     "id": "npc_masks",
-    "items": [ [ "null", 80 ], [ "mask_dust", 10 ], [ "bandana", 10 ], [ "mask_filter", 10 ] ]
+    "items": [
+      [ "null", 80 ],
+      [ "mask_dust", 10 ],
+      [ "bandana", 10 ],
+      [ "mask_filter", 10 ],
+      [ "mask_gas", 5 ],
+      [ "mask_bunker", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_scarf",
+    "items": [ [ "null", 20 ], [ "knit_scarf", 30 ], [ "long_knit_scarf", 15 ], [ "scarf", 30 ], [ "scarf_long", 15 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_eyes",
-    "items": [ [ "null", 80 ], [ "glasses_safety", 20 ], [ "sunglasses", 20 ] ]
+    "items": [ [ "null", 80 ], [ "glasses_safety", 20 ], [ "sunglasses", 20 ], [ "fancy_sunglasses", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_hat",
     "items": [
-      [ "null", 80 ],
-      [ "hat_ball", 10 ],
-      [ "hat_hard", 10 ],
-      [ "helmet_bike", 10 ],
-      [ "helmet_riot", 10 ],
-      [ "helmet_motor", 10 ],
+      [ "null", 20 ],
+      [ "hat_ball", 20 ],
+      [ "hat_hard", 5 ],
+      [ "hat_boonie", 5 ],
+      [ "hat_cotton", 20 ],
+      [ "hat_fur", 5 ],
+      [ "hat_knit", 20 ],
+      [ "hat_newsboy", 10 ],
       [ "cowboy_hat", 10 ],
+      [ "hat_sombrero", 5 ],
+      [ "10gal_hat", 5 ],
+      [ "straw_hat", 5 ],
       [ "hat_hunting", 10 ],
-      [ "hat_hard_hooded", 5 ]
+      [ "hat_hard_hooded", 5 ],
+      [ "helmet_bike", 10 ],
+      [ "helmet_riot", 5 ],
+      [ "helmet_motor", 5 ],
+      [ "helmet_skid", 5 ],
+      [ "helmet_ball", 5 ],
+      [ "helmet_football", 5 ],
+      [ "pot_helmet", 10 ],
+      [ "firehelmet", 5 ],
+      [ "helmet_army", 5 ]
     ]
   },
   {
     "type": "item_group",
     "id": "npc_extra",
-    "items": [ [ "null", 75 ], [ "backpack", 10 ], [ "backpack_leather", 10 ], [ "rucksack", 5 ] ]
+    "items": [
+      [ "null", 20 ],
+      [ "gold_ring", 20 ],
+      [ "diamond_ring", 2 ],
+      [ "copper_bracelet", 10 ],
+      [ "gold_bracelet", 10 ],
+      [ "silver_bracelet", 10 ],
+      [ "silver_necklace", 5 ],
+      [ "silver_locket", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_wrist",
+    "items": [
+      [ "null", 20 ],
+      [ "diving_watch", 10 ],
+      [ "game_watch", 5 ],
+      [ "gold_watch", 5 ],
+      [ "wristwatch", 20 ],
+      [ "sf_watch", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_storage",
+    "items": [
+      [ "null", 10 ],
+      [ "backpack", 20 ],
+      [ "backpack_leather", 20 ],
+      [ "rucksack", 5 ],
+      [ "mbag", 20 ],
+      [ "runner_bag", 5 ],
+      [ "duffelbag", 5 ],
+      [ "dive_bag", 5 ],
+      [ "slingpack", 10 ],
+      [ "molle_pack", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_vest",
+    "items": [
+      [ "null", 40 ],
+      [ "vest", 10 ],
+      [ "vest_leather", 5 ],
+      [ "kevlar", 10 ],
+      [ "modularvest", 5 ],
+      [ "waistcoat", 5 ],
+      [ "flotation_vest", 10 ],
+      [ "chainmail_vest", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_belt",
+    "items": [ [ "null", 20 ], [ "leather_belt", 50 ], [ "tool_belt", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "npc_holster",
+    "items": [ [ "null", 50 ], [ "sholster", 10 ], [ "sheath", 10 ] ]
   },
   {
     "type": "item_group",
@@ -116,6 +315,8 @@
   {
     "type": "item_group",
     "id": "npc_misc",
+    "ammo": 75,
+    "magazine": 50,
     "items": [
       [ "101_carpentry", 1 ],
       [ "1st_aid", 20 ],
@@ -163,14 +364,12 @@
       [ "barrel_ported", 1 ],
       [ "baseball", 1 ],
       [ "bat", 5 ],
-      [ "battery", 25 ],
-      [ "battery_compartment", 5 ],
+      { "group": "ammo_pocket_batteries_full", "prob": 25 },
       [ "beartrap", 10 ],
       [ "beer", 15 ],
       [ "belgian_ale", 3 ],
       [ "binoculars", 10 ],
       [ "biscuit", 3 ],
-      [ "bismuth", 3 ],
       [ "blackberries", 3 ],
       [ "blanket", 5 ],
       [ "bleach", 5 ],
@@ -216,7 +415,7 @@
       [ "canteen", 5 ],
       [ "carpentry_book", 1 ],
       [ "carrot", 3 ],
-      [ "catfood", 3 ],
+      { "item": "catfood", "prob": 3, "container-item": "can_food" },
       [ "cell_phone", 5 ],
       [ "smart_phone", 15 ],
       [ "ceramic_armor", 1 ],
@@ -267,6 +466,7 @@
       [ "cookbook_italian", 1 ],
       [ "cookies", 3 ],
       [ "cooking_oil", 3 ],
+      [ "cooking_oil2", 3 ],
       [ "cordless_drill", 2 ],
       [ "cornmeal", 3 ],
       [ "cotton_ball", 3 ],
@@ -293,7 +493,7 @@
       [ "diveknife", 1 ],
       [ "diving_watch", 1 ],
       [ "dog_whistle", 3 ],
-      [ "dogfood", 3 ],
+      { "item": "dogfood", "prob": 3, "container-item": "can_food" },
       [ "doublespeargun", 1 ],
       [ "drink_boozeberry", 1 ],
       [ "drink_rumcola", 1 ],
@@ -344,11 +544,12 @@
       [ "football", 1 ],
       [ "fork", 1 ],
       [ "fries", 1 ],
-      [ "frozen_burrito", 3 ],
+      [ "junk_burrito", 3 ],
       [ "frozen_dinner", 3 ],
       [ "fruit_leather", 3 ],
       [ "fruit_wine", 5 ],
       [ "fungicide", 3 ],
+      [ "insecticide", 3 ],
       [ "fun_survival", 5 ],
       [ "funnel", 3 ],
       [ "fur", 5 ],
@@ -492,7 +693,7 @@
       [ "lighter", 20 ],
       [ "lgpistol_primer", 3 ],
       [ "lgrifle_primer", 3 ],
-      [ "locket", 10 ],
+      [ "silver_locket", 10 ],
       [ "long_island", 3 ],
       [ "lsd", 3 ],
       [ "lunchmeat", 3 ],
@@ -613,8 +814,6 @@
       [ "mre_southwestbeef_box", 6 ],
       [ "mre_hotdog_box", 6 ],
       [ "mushroom", 5 ],
-      [ "mushroom_magic", 3 ],
-      [ "mushroom_poison", 3 ],
       [ "mustard", 3 ],
       [ "muzzle_brake", 1 ],
       [ "nachos", 1 ],
@@ -624,7 +823,7 @@
       [ "nail", 3 ],
       [ "nailgun", 3 ],
       [ "neccowafers", 4 ],
-      [ "necklace", 5 ],
+      [ "silver_necklace", 5 ],
       [ "news_regional", 3 ],
       [ "nic_gum", 8 ],
       [ "nicotine_liquid", 6 ],
@@ -701,13 +900,19 @@
       [ "pool_cue", 6 ],
       [ "portable_game", 1 ],
       [ "pot", 10 ],
-      [ "potato_raw", 4 ],
+      [ "potato", 4 ],
       [ "powder_candy", 2 ],
       [ "powder_eggs", 4 ],
       [ "power_supply", 1 ],
       [ "press", 1 ],
       [ "processor", 1 ],
-      [ "protein_powder", 4 ],
+      {
+        "item": "protein_powder",
+        "prob": 1,
+        "container-item": "bottle_plastic_small",
+        "charges-min": 1,
+        "charges-max": 9
+      },
       [ "protein_shake", 1 ],
       [ "prozac", 3 ],
       [ "puck", 1 ],
@@ -743,7 +948,7 @@
       [ "restaurantmap", 5 ],
       [ "rhubarb", 1 ],
       [ "rifle_scope", 4 ],
-      [ "ring", 6 ],
+      [ "gold_ring", 6 ],
       [ "roadmap", 4 ],
       [ "rolling_paper", 3 ],
       [ "rollmat", 8 ],
@@ -911,10 +1116,13 @@
       [ "welding_book", 2 ],
       [ "wheat", 3 ],
       [ "whiskey", 6 ],
+      [ "wine_barley", 12 ],
       [ "wine_cabernet", 3 ],
       [ "wine_chardonnay", 3 ],
+      [ "wine_marsala", 2 ],
       [ "wine_noir", 3 ],
       [ "wine_riesling", 3 ],
+      [ "wine_vermouth", 3 ],
       [ "wrapped_rad_badge", 2 ],
       [ "wrapper", 3 ],
       [ "wrench", 3 ],

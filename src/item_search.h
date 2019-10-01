@@ -2,11 +2,13 @@
 #ifndef ITEM_SEARCH_H
 #define ITEM_SEARCH_H
 
-#include "output.h"
-
+#include <cstddef>
 #include <algorithm>
 #include <functional>
 #include <string>
+#include <vector>
+
+#include "output.h"
 
 /**
  * Get a function that returns true if the value matches the query.
@@ -24,10 +26,10 @@ std::function<bool( const T & )> filter_from_string( std::string filter,
 
     // remove curly braces (they only get in the way)
     if( filter.find( '{' ) != std::string::npos ) {
-        filter.erase( std::remove( filter.begin(), filter.end(), '{' ) );
+        filter.erase( std::remove( filter.begin(), filter.end(), '{' ), filter.end() );
     }
     if( filter.find( '}' ) != std::string::npos ) {
-        filter.erase( std::remove( filter.begin(), filter.end(), '}' ) );
+        filter.erase( std::remove( filter.begin(), filter.end(), '}' ), filter.end() );
     }
     if( filter.find( ',' ) != std::string::npos ) {
         // functions which only one of which must return true
@@ -57,12 +59,12 @@ std::function<bool( const T & )> filter_from_string( std::string filter,
             auto apply = [&]( const std::function<bool( const T & )> &func ) {
                 return func( it );
             };
-            bool p_result = std::any_of( functions.begin(), functions.end(),
-                                         apply );
-            bool n_result = std::all_of(
-                                inv_functions.begin(),
-                                inv_functions.end(),
-                                apply );
+            const bool p_result = std::any_of( functions.begin(), functions.end(),
+                                               apply );
+            const bool n_result = std::all_of(
+                                      inv_functions.begin(),
+                                      inv_functions.end(),
+                                      apply );
             if( !functions.empty() && inv_functions.empty() ) {
                 return p_result;
             }
@@ -72,7 +74,7 @@ std::function<bool( const T & )> filter_from_string( std::string filter,
             return p_result && n_result;
         };
     }
-    bool exclude = filter[0] == '-';
+    const bool exclude = filter[0] == '-';
     if( exclude ) {
         return [filter, basic_filter]( const T & i ) {
             return !filter_from_string( filter.substr( 1 ), basic_filter )( i );

@@ -5,80 +5,73 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
-    "time": 2000,
+    "time": "2 m",
     "reversible": true,
     "autolearn": true,
     "components": [
       [ [ "rag", 1 ] ],
       [ [ "bat", 1 ] ],
       [ [ "nomex", 5 ] ],
-      [ [ "lamp_oil", 50 ], [ "chem_ethanol", 100 ], [ "denat_alcohol", 100 ], [ "gasoline", 250 ], [ "diesel", 250 ] ]
+      [
+        [ "lamp_oil", 50 ],
+        [ "chem_ethanol", 100 ],
+        [ "denat_alcohol", 100 ],
+        [ "gasoline", 250 ],
+        [ "diesel", 250 ]
+      ]
     ]
   },
   {
-    "result": "crowbar",
     "type": "recipe",
+    "result": "shillelagh",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
+    "skills_required": [ "survival", 2 ],
     "difficulty": 3,
-    "time": 120000,
+    "time": "360 m",
     "autolearn": true,
-    "using": [ [ "forging_standard", 8 ], [ "steel_standard", 2 ] ],
-    "qualities": [
-      { "id": "ANVIL", "level": 3 },
-      { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
-    ]
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "char_smoker", 100 ] ] ],
+    "components": [ [ [ "log", 1 ] ], [ [ "butter", 30 ], [ "lard", 4 ] ] ]
   },
   {
-    "result": "halligan",
     "type": "recipe",
+    "result": "shillelagh_weighted",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
-    "difficulty": 8,
-    "time": 420000,
-    "book_learn": [ [ "textbook_fireman", 8 ] ],
-    "using": [ [ "forging_standard", 20 ], [ "steel_standard", 3 ] ],
-    "qualities": [
-      { "id": "ANVIL", "level": 3 },
-      { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
-    ]
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "DRILL", "level": 1 } ],
+    "tools": [ [ [ "forge", 100 ], [ "oxy_torch", 20 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "shillelagh", 1 ] ], [ [ "weights", 15, "LIST" ] ] ]
   },
   {
-    "result": "makeshift_crowbar",
     "type": "recipe",
+    "result": "blackjack",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
-    "time": 1000,
+    "difficulty": 2,
+    "skills_required": [ "survival", 1 ],
+    "time": "60 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ] ]
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "leather", 5 ] ], [ [ "weights", 10, "LIST" ] ] ]
   },
   {
-    "result": "torch",
     "type": "recipe",
+    "result": "makeshift_sap",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
-    "skill_used": "fabrication",
-    "time": 2000,
+    "skill_used": "survival",
+    "time": "10 m",
     "autolearn": true,
-    "components": [
-      [ [ "rag", 1 ] ],
-      [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ],
-      [ [ "lamp_oil", 50 ], [ "chem_ethanol", 100 ], [ "denat_alcohol", 100 ], [ "gasoline", 250 ], [ "diesel", 250 ] ]
-    ],
-    "flags": [ "BLIND_HARD" ]
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "leather", 2 ] ], [ [ "steel_tiny", 1, "LIST" ], [ "weights", 8, "LIST" ] ] ]
   }
 ]

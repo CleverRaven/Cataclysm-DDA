@@ -1,46 +1,43 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "3storyA_second",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "########################",
-                "########################",
-                "########################",
-                "##==w=====ww==ww======##",
-                "##=SS  |         +  d=##",
-                "##w   &|BB       |---=##",
-                "##=C   |    b b b| <<=##",
-                "##ws   |--+-------   w##",
-                "##=s   +             w##",
-                "##=-----------+--- >>=##",
-                "##wDc   c      bb|---=##",
-                "##=DDD           +  e=##",
-                "##==w==8N=w==w========##",
-                "#######88=rrrrrrrrrrrr##",
-                "#########rrrrrrrrrrrrr##",
-                "#########rrrrrrrrrrrrr##",
-                "#########rrrrrrrrrrrrr##",
-                "#########rrrrrrrrrrrrr##",
-                "#########rrrrrrrrrrrrr##",
-                "#########rrrrrrrrrrrrr##",
-                "#########rrrrrrrrrrrrr##",
-                "########################",
-                "########################",
-                "########################"
-            ],
-            "palettes": [
-               "multistory_house",
-               "upper_level"
-            ],
-            "set": [
-                 { "square": "terrain", "x": 3, "y": 4, "x2": 6, "y2": 8, "id": "t_linoleum_white" },
-                 { "square": "terrain", "x": 8, "y": 4, "x2": 16, "y2": 6, "id": "t_floor_green" },
-                 { "square": "terrain", "x": 3, "y": 10, "x2": 16, "y2": 11, "id": "t_carpet_red" }
-            ]
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "3storyA_second",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "##==w=====ww==ww======##",
+        "##=SS  |         +  d=##",
+        "##w   &|BB       |---=##",
+        "##=C   |    b b b| <<=##",
+        "##ws   |--+-------   w##",
+        "##=s   +             w##",
+        "##=-----------+--- >>=##",
+        "##wDc   c      bb|---=##",
+        "##=DDD           +  e=##",
+        "##==w==8N=w==w========##",
+        "#######88=rrrrrrrrrrrr##",
+        "#########rrrrrrrrrrrrr##",
+        "#########rrrrrrrrrrrrr##",
+        "#########rrrrrrrrrrrrr##",
+        "#########rrrrrrrrrrrrr##",
+        "#########rrrrrrrrrrrrr##",
+        "#########rrrrrrrrrrrrr##",
+        "#########rrrrrrrrrrrrr##",
+        "########################",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "multistory_house", "upper_level" ],
+      "set": [
+        { "square": "terrain", "x": 3, "y": 4, "x2": 6, "y2": 8, "id": "t_linoleum_white" },
+        { "square": "terrain", "x": 8, "y": 4, "x2": 16, "y2": 6, "id": "t_floor_green" },
+        { "square": "terrain", "x": 3, "y": 10, "x2": 16, "y2": 11, "id": "t_carpet_red" }
+      ]
     }
+  }
 ]

@@ -1,23 +1,75 @@
 [
   {
+    "id": "clothing_biker",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Protective clothing for motorbike riding.",
+    "items": [
+      { "item": "helmet_motor" },
+      { "item": "motorbike_boots", "prob": 80 },
+      {
+        "distribution": [
+          { "collection": [ { "item": "motorbike_armor" }, { "item": "motorbike_pants", "prob": 80 } ], "prob": 40 },
+          { "item": "touring_suit", "prob": 60 }
+        ],
+        "prob": 80
+      }
+    ]
+  },
+  {
     "id": "clothing_glasses",
     "type": "item_group",
     "items": [
-      { "distribution": [
-          { "distribution": [
-            { "item": "sunglasses", "prob": 80 },
-            { "item": "fancy_sunglasses", "prob": 20 }
-          ], "prob": 25 },
-          { "collection": [
-            { "distribution": [
-              { "item": "glasses_eye", "prob": 80 },
-              { "item": "glasses_reading", "prob": 10 },
-              { "item": "glasses_bifocal", "prob": 5 },
-              { "item": "glasses_monocle", "prob": 5 }
-            ] },
-            { "item": "fitover_sunglasses" }
-          ], "prob": 75 }
-      ] }
+      {
+        "distribution": [
+          { "distribution": [ { "item": "sunglasses", "prob": 80 }, { "item": "fancy_sunglasses", "prob": 20 } ], "prob": 25 },
+          {
+            "collection": [
+              {
+                "distribution": [
+                  { "item": "glasses_eye", "prob": 80 },
+                  { "item": "glasses_reading", "prob": 10 },
+                  { "item": "glasses_bifocal", "prob": 5 },
+                  { "item": "glasses_monocle", "prob": 5 }
+                ]
+              },
+              { "item": "fitover_sunglasses" }
+            ],
+            "prob": 75
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "clothing_hunting",
+    "type": "item_group",
+    "//": "Clothes that hunters take on hunting trips.",
+    "items": [
+      [ "balclava", 50 ],
+      [ "hat_cotton", 50 ],
+      [ "hat_faux_fur", 25 ],
+      [ "hat_fur", 50 ],
+      [ "hat_hunting", 75 ],
+      [ "hat_knit", 25 ],
+      [ "army_top", 50 ],
+      [ "long_underpants", 50 ],
+      [ "long_undertop", 50 ],
+      [ "gloves_liner", 50 ],
+      [ "gloves_wool", 50 ],
+      [ "knit_scarf", 50 ],
+      [ "pants_cargo", 75 ],
+      [ "socks_wool", 50 ],
+      [ "coat_winter", 50 ],
+      [ "greatcoat", 25 ],
+      [ "jacket_flannel", 75 ],
+      [ "peacoat", 25 ],
+      [ "trenchcoat", 25 ],
+      [ "boots", 75 ],
+      [ "boots_winter", 50 ],
+      [ "boots_hiking", 50 ],
+      [ "boots_steel", 25 ],
+      [ "fishing_waders", 25 ]
     ]
   },
   {
@@ -50,16 +102,16 @@
       { "group": "clothing_tactical_leg", "prob": 15 },
       { "group": "clothing_tactical_torso", "prob": 15 },
       { "group": "underwear" },
-      { "distribution": [
-        { "item": "socks", "prob": 95 },
-        { "item": "socks_wool", "prob": 5 }
-      ] },
-      { "distribution": [
-        { "group": "clothing_glasses", "prob": 60 },
-        { "item": "glasses_bal", "prob": 30 },
-        { "item": "goggles_nv", "prob": 5 },
-        { "item": "goggles_ir", "prob": 5 }
-      ], "prob": 20 },
+      { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ] },
+      {
+        "distribution": [
+          { "group": "clothing_glasses", "prob": 60 },
+          { "item": "glasses_bal", "prob": 30 },
+          { "item": "goggles_nv", "prob": 5 },
+          { "item": "goggles_ir", "prob": 5 }
+        ],
+        "prob": 20
+      },
       { "group": "clothing_watch", "prob": 5 }
     ]
   },
@@ -73,28 +125,22 @@
       { "item": "winter_jacket_army" },
       { "item": "winter_pants_army" },
       { "item": "boots_combat" },
-      { "collection": [
-        { "item": "helmet_army" },
-        { "item": "helmet_liner" }
-      ], "prob": 20 },
-      { "collection": [
-        { "item": "gloves_liner" },
-        { "item": "winter_gloves_army" }
-      ], "prob": 40 },
+      { "collection": [ { "item": "helmet_army" }, { "item": "helmet_liner" } ], "prob": 20 },
+      { "collection": [ { "item": "gloves_liner" }, { "item": "winter_gloves_army" } ], "prob": 40 },
       { "item": "elbow_pads", "prob": 10 },
       { "group": "clothing_tactical_leg", "prob": 15 },
       { "group": "clothing_tactical_torso", "prob": 15 },
       { "group": "underwear" },
-      { "distribution": [
-        { "item": "socks", "prob": 10 },
-        { "item": "socks_wool", "prob": 90 }
-      ] },
-      { "distribution": [
-        { "group": "clothing_glasses", "prob": 60 },
-        { "item": "glasses_bal", "prob": 30 },
-        { "item": "goggles_nv", "prob": 5 },
-        { "item": "goggles_ir", "prob": 5 }
-      ], "prob": 20 },
+      { "distribution": [ { "item": "socks", "prob": 10 }, { "item": "socks_wool", "prob": 90 } ] },
+      {
+        "distribution": [
+          { "group": "clothing_glasses", "prob": 60 },
+          { "item": "glasses_bal", "prob": 30 },
+          { "item": "goggles_nv", "prob": 5 },
+          { "item": "goggles_ir", "prob": 5 }
+        ],
+        "prob": 20
+      },
       { "group": "clothing_watch", "prob": 5 }
     ]
   },
@@ -104,26 +150,14 @@
     "subtype": "collection",
     "//": "Standard set of clothes worn by a military helicopter pilot.",
     "items": [
-      { "distribution": [
-        { "item": "longshirt", "prob": 75 },
-        { "item": "tshirt", "prob": 25 }
-      ] },
+      { "distribution": [ { "item": "longshirt", "prob": 75 }, { "item": "tshirt", "prob": 25 } ] },
       { "item": "jacket_army" },
       { "item": "pants_army" },
       { "item": "boots_combat" },
-      { "collection": [
-        { "item": "helmet_army" },
-        { "item": "helmet_liner" }
-      ] },
+      { "collection": [ { "item": "helmet_army" }, { "item": "helmet_liner" } ] },
       { "group": "underwear" },
-      { "distribution": [
-        { "item": "socks", "prob": 10 },
-        { "item": "socks_wool", "prob": 90 }
-      ] },
-      { "distribution": [
-        { "item": "fancy_sunglasses", "prob": 95 },
-        { "item": "glasses_bal", "prob": 5 }
-      ] },
+      { "distribution": [ { "item": "socks", "prob": 10 }, { "item": "socks_wool", "prob": 90 } ] },
+      { "distribution": [ { "item": "fancy_sunglasses", "prob": 95 }, { "item": "glasses_bal", "prob": 5 } ] },
       { "group": "clothing_watch", "prob": 85 },
       { "item": "goggles_ir", "prob": 10 }
     ]
@@ -132,28 +166,34 @@
     "id": "clothing_soldier_shirt",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "army_top", "prob": 50 },
-      { "item": "longshirt", "prob": 40 },
-      { "item": "tshirt", "prob": 20 }
-    ]
+    "entries": [ { "item": "army_top", "prob": 50 }, { "item": "longshirt", "prob": 40 }, { "item": "tshirt", "prob": 20 } ]
   },
   {
     "id": "clothing_outdoor_pants",
     "type": "item_group",
     "//": "Standard (non-winter) pants suitable for wearing outdoors.",
     "items": [
-      { "collection": [
-        { "distribution": [
-          { "item": "jeans", "prob": 60 },
-          { "item": "pants", "prob": 100 },
-          { "item": "pants_leather", "prob": 30 },
-          { "item": "pants_cargo", "prob": 30 },
-          { "item": "shorts_cargo", "prob": 60 }
-        ] },
+      {
+        "collection": [
+          {
+            "distribution": [
+              { "item": "jeans", "prob": 60 },
+              { "item": "pants", "prob": 100 },
+              { "item": "pants_leather", "prob": 30 },
+              { "item": "pants_cargo", "prob": 30 },
+              { "item": "shorts_cargo", "prob": 60 }
+            ]
+          },
           { "item": "leather_belt", "prob": 30 }
-      ] }
+        ]
+      }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "ear_protection",
+    "//": "used in shooting_range.",
+    "items": [ [ "powered_earmuffs", 10 ], [ "ear_plugs", 50 ] ]
   },
   {
     "id": "clothing_outdoor_shoes",
@@ -169,40 +209,57 @@
     ]
   },
   {
-    "id" : "clothing_outdoor_torso",
+    "id": "clothing_outdoor_torso",
     "type": "item_group",
     "//": "Standard (non-winter) shirts and jackets suitable for wearing outdoors.",
     "items": [
-      { "collection": [
-        { "distribution": [
-          { "item": "longshirt", "prob": 80 },
-          { "item": "polo_shirt", "prob": 50 },
-          { "item": "tshirt", "prob": 80 },
-          { "item": "linuxtshirt", "prob": 10 }
-        ] },
-        { "distribution": [
-          { "item": "coat_rain", "prob": 30 },
-          { "item": "duster", "prob": 30 },
-          { "item": "hoodie", "prob": 60 },
-          { "item": "jacket_jean", "prob": 20 },
-          { "item": "jacket_leather", "prob": 20 },
-          { "item": "jacket_light", "prob": 40 },
-          { "item": "jacket_windbreaker", "prob": 20 },
-          { "item": "sweater", "prob": 50 },
-          { "item": "trenchcoat", "prob": 10 }
-        ], "prob": 30 }
-      ] }
+      {
+        "collection": [
+          {
+            "distribution": [
+              { "item": "longshirt", "prob": 80 },
+              { "item": "polo_shirt", "prob": 50 },
+              { "item": "tshirt", "prob": 80 },
+              { "item": "linuxtshirt", "prob": 10 },
+              { "item": "tshirt_tour", "prob": 10 }
+            ]
+          },
+          {
+            "distribution": [
+              { "item": "coat_rain", "prob": 30 },
+              { "item": "duster", "prob": 30 },
+              { "item": "hoodie", "prob": 60 },
+              { "item": "jacket_jean", "prob": 20 },
+              { "item": "jacket_leather", "prob": 20 },
+              { "item": "jacket_light", "prob": 40 },
+              { "item": "jacket_windbreaker", "prob": 20 },
+              { "item": "sweater", "prob": 50 },
+              { "item": "trenchcoat", "prob": 10 }
+            ],
+            "prob": 30
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "clothing_prisoner_shoes",
+    "type": "item_group",
+    "//": "All the footwear that prisoners might wear.",
+    "items": [
+      [ "sneakers", 80 ],
+      [ "boots", 70 ],
+      [ "lowtops", 45 ],
+      [ "golf_shoes", 20 ],
+      [ "boots_combat", 10 ],
+      [ "boots_hiking", 20 ]
     ]
   },
   {
     "id": "clothing_tactical_leg",
     "type": "item_group",
     "//": "Tactical gear that can be strapped to the legs",
-    "items": [
-      [ "knee_pads", 100 ],
-      [ "legpouch_large", 100 ],
-      [ "legrig", 100 ]
-    ]
+    "items": [ [ "knee_pads", 100 ], [ "legpouch_large", 100 ], [ "legrig", 100 ] ]
   },
   {
     "id": "clothing_tactical_torso",
@@ -213,7 +270,8 @@
       [ "backpack", 20 ],
       [ "camelbak", 40 ],
       [ "chestpouch", 40 ],
-      [ "chestrig", 160 ],
+      [ "backpack_tactical_large", 20 ],
+      [ "tacvest", 160 ],
       [ "molle_pack", 100 ],
       [ "rucksack", 80 ]
     ]
@@ -221,22 +279,14 @@
   {
     "id": "clothing_watch",
     "type": "item_group",
-    "items": [
-      [ "gold_watch", 10 ],
-      [ "pocketwatch", 25 ],
-      [ "wristwatch", 100 ]
-    ]
+    "items": [ [ "gold_watch", 10 ], [ "pocketwatch", 25 ], [ "wristwatch", 100 ] ]
   },
   {
     "id": "clothing_work_boots",
     "type": "item_group",
     "//": "Sturdy boots often worn by technicians and tradesmen.",
     "subtype": "distribution",
-    "entries": [
-      { "item": "boots", "prob": 60 },
-      { "item": "boots_hiking", "prob": 10 },
-      { "item": "boots_steel", "prob": 30 }
-    ]
+    "entries": [ { "item": "boots", "prob": 60 }, { "item": "boots_hiking", "prob": 10 }, { "item": "boots_steel", "prob": 30 } ]
   },
   {
     "id": "clothing_work_glasses",
@@ -277,33 +327,29 @@
     "type": "item_group",
     "//": "Protective masks often worn by technicians and tradesmen.",
     "subtype": "distribution",
-    "entries": [
-      { "item": "mask_dust", "prob": 90 },
-      { "item": "mask_filter", "prob": 10 }
-    ]
+    "entries": [ { "item": "mask_dust", "prob": 90 }, { "item": "mask_filter", "prob": 10 } ]
   },
   {
     "id": "clothing_work_pants",
     "type": "item_group",
     "//": "Pants often worn by technicians and tradesmen.",
     "subtype": "distribution",
-    "entries": [
-        { "item": "technician_pants_gray", "prob": 100 }
-    ]
+    "entries": [ { "item": "technician_pants_gray", "prob": 100 } ]
   },
   {
-    "id" : "clothing_work_torso",
+    "id": "clothing_work_torso",
     "type": "item_group",
     "//": "Shirts and jackets often worn by technicians and labourers.",
     "items": [
-      { "collection": [
-        { "item": "technician_shirt_gray", "prob": 100 },
-        { "distribution": [
-          { "item": "coat_rain", "prob": 30 },
-          { "item": "jacket_jean", "prob": 20 },
-          { "item": "jacket_light", "prob": 40 }
-        ], "prob": 20 }
-      ] }
+      {
+        "collection": [
+          { "item": "technician_shirt_gray", "prob": 100 },
+          {
+            "distribution": [ { "item": "coat_rain", "prob": 30 }, { "item": "jacket_jean", "prob": 20 }, { "item": "jacket_light", "prob": 40 } ],
+            "prob": 20
+          }
+        ]
+      }
     ]
   },
   {
@@ -319,13 +365,225 @@
       { "group": "clothing_work_mask", "prob": 40 },
       { "item": "ear_plugs", "prob": 15 },
       { "item": "tool_belt", "prob": 25 },
-      { "distribution": [
-          { "collection": [
-            { "group": "clothing_work_pants" },
-            { "group": "clothing_work_torso" }
-          ], "prob": 75 },
+      {
+        "distribution": [
+          { "collection": [ { "group": "clothing_work_pants" }, { "group": "clothing_work_torso" } ], "prob": 75 },
           { "item": "jumpsuit", "prob": 25 }
-      ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hardware_clothing",
+    "type": "item_group",
+    "//": "wearable utility or protective gear you can buy in a common hardware store or find on a jobsite",
+    "//2": "Not intended to be a set of clothing for NPCs or monsters",
+    "items": [
+      [ "boots_steel", 40 ],
+      [ "hat_hard", 40 ],
+      [ "mask_dust", 30 ],
+      [ "mask_filter", 30 ],
+      [ "glasses_safety", 30 ],
+      [ "ear_plugs", 35 ],
+      [ "apron_leather", 10 ],
+      [ "tool_belt", 30 ],
+      [ "knee_pads", 20 ],
+      [ "sheath", 10 ],
+      [ "bootsheath", 3 ],
+      [ "gloves_leather", 40 ],
+      [ "gloves_work", 45 ],
+      [ "wearable_light", 10 ],
+      [ "miner_hat", 1 ]
+    ]
+  },
+  {
+    "id": "plumbing_clothing",
+    "type": "item_group",
+    "//": "wearable utility or protective gear you can buy in a common hardware store or find on a jobsite",
+    "//2": "Not intended to be a set of clothing for NPCs or monsters",
+    "items": [
+      [ "tool_belt", 200 ],
+      [ "knee_pads", 70 ],
+      [ "gloves_leather", 70 ],
+      [ "gloves_rubber", 50 ],
+      [ "boots_rubber", 20 ],
+      [ "boots", 70 ],
+      [ "boots_steel", 50 ],
+      [ "fishing_waders", 20 ],
+      [ "jumpsuit", 20 ],
+      [ "apron_leather", 20 ],
+      [ "mask_filter", 20 ],
+      [ "hat_hard", 50 ],
+      [ "wearable_light", 100 ]
+    ]
+  },
+  {
+    "id": "hazmat_suits",
+    "type": "item_group",
+    "//": "Various types of hazmat suits, without masks",
+    "items": [
+      { "collection": [ { "item": "cleansuit" }, { "item": "gloves_rubber" }, { "item": "boots_rubber" } ], "prob": 40 },
+      [ "hazmat_suit", 55 ],
+      [ "anbc_suit", 5 ]
+    ]
+  },
+  {
+    "id": "hazmat_masks",
+    "type": "item_group",
+    "//": "Full face protection worn with hazmat suits",
+    "items": [ { "collection": [ { "item": "glasses_safety" }, { "item": "mask_filter" } ], "prob": 40 }, [ "mask_gas", 60 ] ]
+  },
+  {
+    "id": "boxing_clothes",
+    "type": "item_group",
+    "items": [
+      [ "tank_top", 40 ],
+      [ "shorts", 40 ],
+      [ "boxing_gloves", 50 ],
+      [ "headgear", 50 ],
+      [ "mouthpiece", 50 ],
+      [ "jersey", 40 ],
+      [ "coat_rain", 15 ],
+      [ "hood_rain", 15 ],
+      [ "gloves_wraps", 45 ],
+      [ "jeans", 30 ],
+      [ "sports_bra", 25 ],
+      [ "jacket_leather", 20 ],
+      [ "aspirin", 30 ],
+      [ "water_clean", 30 ],
+      [ "sports_drink", 30 ],
+      [ "1st_aid", 20 ]
+    ]
+  },
+  {
+    "id": "donated_clothes",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "underwear" },
+      { "group": "clothing_outdoor_torso" },
+      { "group": "clothing_outdoor_pants" },
+      { "item": "socks" },
+      { "item": "boots" }
+    ]
+  },
+  {
+    "id": "judo_belts",
+    "type": "item_group",
+    "items": [
+      [ "judo_belt_white", 100 ],
+      [ "judo_belt_yellow", 50 ],
+      [ "judo_belt_orange", 25 ],
+      [ "judo_belt_green", 15 ],
+      [ "judo_belt_blue", 5 ],
+      [ "judo_belt_brown", 4 ],
+      [ "judo_belt_black", 1 ]
+    ]
+  },
+  {
+    "id": "gi",
+    "type": "item_group",
+    "items": [
+      [ "karate_gi", 100 ],
+      [ "tabi_gi", 25 ],
+      [ "judo_gi", 50 ],
+      [ "keikogi", 25 ],
+      [ "zubon_gi", 25 ],
+      [ "hakama_gi", 10 ],
+      [ "mouthpiece", 5 ],
+      [ "obi_gi", 10 ],
+      [ "geta", 1 ],
+      [ "haori", 1 ],
+      [ "yukata", 1 ]
+    ]
+  },
+  {
+    "id": "jewelry_furshop",
+    "type": "item_group",
+    "items": [
+      [ "gold_watch", 50 ],
+      [ "sf_watch", 50 ],
+      [ "jade_brooch", 80 ],
+      [ "pearl_collar", 50 ],
+      [ "silver_bracelet", 30 ],
+      [ "gold_bracelet", 20 ]
+    ]
+  },
+  {
+    "id": "dress_shop",
+    "type": "item_group",
+    "items": [
+      [ "skirt", 40 ],
+      [ "skirt_leather", 5 ],
+      [ "dress", 120 ],
+      [ "sundress", 50 ],
+      [ "nanoskirt", 30 ],
+      [ "camisole", 60 ],
+      [ "corset", 20 ],
+      [ "stockings", 50 ],
+      [ "leggings", 20 ],
+      [ "tights", 50 ]
+    ]
+  },
+  {
+    "id": "dress_shoes",
+    "type": "item_group",
+    "items": [ [ "dress_shoes", 50 ], [ "heels", 50 ], [ "leathersandals", 20 ] ]
+  },
+  {
+    "id": "wedding_dresses",
+    "type": "item_group",
+    "items": [ [ "dress", 50 ], [ "veil_wedding", 150 ], [ "dress_wedding", 150 ] ]
+  },
+  {
+    "id": "wedding_suits",
+    "type": "item_group",
+    "items": [ [ "tux", 100 ], [ "suit", 80 ], [ "waistcoat", 50 ], [ "dress_shirt", 100 ], [ "undershirt", 50 ] ]
+  },
+  {
+    "id": "neckties",
+    "type": "item_group",
+    "items": [ [ "tie_skinny", 40 ], [ "tie_necktie", 40 ], [ "tie_bow", 40 ], [ "tie_clipon", 40 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "pants_male",
+    "entries": [
+      {
+        "distribution": [
+          [ "jeans", 90 ],
+          [ "pants_checkered", 5 ],
+          [ "shorts", 70 ],
+          [ "shorts_denim", 35 ],
+          [ "pants", 75 ],
+          [ "leather_belt", 30 ],
+          [ "pants_leather", 60 ],
+          [ "pants_cargo", 70 ],
+          [ "shorts_cargo", 50 ],
+          [ "under_armor_shorts", 20 ],
+          [ "postman_shorts", 5 ],
+          [ "kilt", 5 ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pants_female",
+    "entries": [
+      {
+        "distribution": [
+          { "group": "pants_male" },
+          [ "skirt", 75 ],
+          [ "skirt_leather", 5 ],
+          [ "leggings", 15 ],
+          [ "dress", 70 ],
+          [ "sundress", 50 ],
+          [ "dress_wedding", 1 ],
+          [ "b_shorts", 15 ],
+          [ "nanoskirt", 10 ]
+        ]
+      }
     ]
   }
 ]

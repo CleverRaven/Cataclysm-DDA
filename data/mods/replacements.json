@@ -1,13 +1,50 @@
 [
-  [ "ags" ],
-  [ "Medieval_pack" ],
-  [ "No_Diamond_Weapons" ],
-  [ "no_energy_weapons", "no_scifi" ],
-  [ "No_Joke_Monsters" ],
-  [ "no_powered_armor", "no_scifi" ],
-  [ "no_magazines" ],
-  [ "old_guns" ],
-  [ "RemoteVehicles" ],
-  [ "RemoteControls_pack" ],
-  [ "survivorweaps" ]
+  [
+    "ags"
+  ],
+  [
+    "Medieval_pack"
+  ],
+  [
+    "No_Diamond_Weapons"
+  ],
+  [
+    "no_energy_weapons",
+    "no_scifi"
+  ],
+  [
+    "No_Joke_Monsters"
+  ],
+  [
+    "no_powered_armor",
+    "no_scifi"
+  ],
+  [
+    "no_magazines"
+  ],
+  [
+    "old_guns"
+  ],
+  [
+    "RemoteVehicles"
+  ],
+  [
+    "RemoteControls_pack"
+  ],
+  [
+    "survivorweaps"
+  ],
+  [
+    "more_buildings"
+  ],
+  [
+    "oa_additional_buildings_mod"
+  ],
+  [
+    "Experimental-Z-Level"
+  ],
+  [
+    "brightnights",
+    "aftershock"
+  ]
 ]

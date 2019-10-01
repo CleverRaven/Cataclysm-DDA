@@ -1,0 +1,307 @@
+[
+  {
+    "type": "vehicle_part",
+    "id": "afs_cargo_trough",
+    "copy-from": "trunk",
+    "name": "cargo trough",
+    "color": "light_gray",
+    "broken_color": "light_gray",
+    "looks_like": "trunk",
+    "location": "center",
+    "durability": 200,
+    "description": "This is little more than a sheetmetal basin welded to the bottom of the vehicle, extending below it.  Though it holds a lot of stuff, its shoddiness makes it fragile.",
+    "size": 1200,
+    "breaks_into": [ { "item": "steel_lump", "count": [ 4, 6 ] }, { "item": "scrap", "count": [ 4, 6 ] } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "afs_hauling_space",
+    "copy-from": "cargo_space",
+    "name": "hauling space",
+    "looks_like": "cargo_space",
+    "item": "afs_hauling_space",
+    "location": "center",
+    "durability": 400,
+    "difficulty": 2,
+    "description": "A huge, empty space used in truck trailers to transport vast quantities of stuff.",
+    "size": 6000,
+    "breaks_into": [ { "item": "steel_lump", "count": [ 12, 18 ] }, { "item": "scrap", "count": [ 12, 18 ] } ],
+    "flags": [ "AISLE", "BOARDABLE", "CARGO", "ROOF" ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "afs_crude_plating",
+    "name": "crude plating",
+    "description": "A piece of sheet metal welded onto a vehicle as armor.  Thin, and not as protective as proper armor, but it'll do if there's nothing else available.",
+    "symbol": ")",
+    "color": "light_gray",
+    "broken_symbol": ")",
+    "broken_color": "dark_gray",
+    "durability": 300,
+    "item": "sheet_metal",
+    "difficulty": 2,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 4, 6 ] } ],
+    "damage_reduction": { "all": 4 }
+  },
+  {
+    "id": "laser_cannon",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": "mounted laser cannon",
+    "item": "laser_cannon",
+    "color": "magenta",
+    "broken_color": "magenta",
+    "looks_like": "laser_rifle",
+    "difficulty": 4,
+    "breaks_into": [ { "item": "laser_cannon", "prob": 50 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ], [ "electronics", 3 ] ], "time": 10000 },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "afs_fridge",
+    "copy-from": "minifridge",
+    "name": "refrigerator",
+    "symbol": "{",
+    "color": "white",
+    "broken_color": "white",
+    "looks_like": "minifridge",
+    "durability": 400,
+    "description": "A medium-sized household refrigerator, converted to utilize vehicle power.  When turned on, food inside will be cooled, extending the time it has before spoiling.",
+    "epower": -100,
+    "size": 1200,
+    "item": "afs_fridge"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "afs_freezer",
+    "copy-from": "minifreezer",
+    "name": "freezer",
+    "symbol": "{",
+    "color": "light_blue",
+    "broken_color": "light_blue",
+    "looks_like": "minifridge",
+    "durability": 400,
+    "description": "A household fridge, converted to run at a much lower temperature and on vehicle power.  When turned on, food inside will be frozen, completely stopping it from spoiling.",
+    "epower": -120,
+    "size": 1200,
+    "item": "afs_freezer"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "afs_metal_rig",
+    "name": "MetalMaster forge buddy",
+    "symbol": "&",
+    "color": "red",
+    "broken_symbol": "x",
+    "broken_color": "red",
+    "looks_like": "welding_rig",
+    "damage_modifier": 10,
+    "durability": 200,
+    "description": "A welding and metalworking station, powered by the vehicle's battery.  'e'xamine the forge rig to utilize its welder or soldering iron; you'll still need glare protection.",
+    "size": 200,
+    "item": "afs_metal_rig",
+    "difficulty": 3,
+    "location": "center",
+    "flags": [ "CARGO", "OBSTACLE", "WELDRIG", "FORGE", "KILN", "COVERED", "TOOL_WRENCH" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 3, 6 ] },
+      { "item": "steel_chunk", "count": [ 3, 6 ] },
+      { "item": "scrap", "count": [ 3, 6 ] },
+      { "item": "welder", "charges": 0, "prob": 50 },
+      { "item": "forge", "charges": 0, "prob": 50 },
+      { "item": "kiln", "charges": 0, "prob": 50 }
+    ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "afs_cooking_rig",
+    "name": "cooking rig",
+    "symbol": "&",
+    "color": "blue",
+    "broken_symbol": "x",
+    "broken_color": "blue",
+    "looks_like": "kitchen_unit",
+    "damage_modifier": 10,
+    "durability": 125,
+    "description": "An all-in-one kitchen unit and chemistry lab.  'e'xamine it to use its hotplate to heat up food or drinks.",
+    "size": 200,
+    "item": "afs_cooking_rig",
+    "difficulty": 3,
+    "location": "center",
+    "flags": [ "CARGO", "OBSTACLE", "KITCHEN", "CHEMLAB", "FAUCET", "COVERED", "TOOL_WRENCH" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 9 ] },
+      { "item": "steel_chunk", "count": [ 6, 9 ] },
+      { "item": "scrap", "count": [ 6, 9 ] },
+      { "item": "pot", "prob": 50 },
+      { "item": "pan", "prob": 50 },
+      { "item": "chemistry_set", "charges": 0, "prob": 50 },
+      { "item": "hotplate", "charges": 0, "prob": 50 }
+    ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "afs_kitchen_rig",
+    "name": "KitchenMaster cooking buddy",
+    "symbol": "&",
+    "color": "yellow",
+    "broken_symbol": "x",
+    "broken_color": "yellow",
+    "looks_like": "kitchen_unit",
+    "damage_modifier": 10,
+    "durability": 200,
+    "description": "An all-in-one kitchen unit, chemistry lab, and food preparation area.  'e'xamine it to use its hotplate to heat up food or drinks.",
+    "size": 200,
+    "item": "afs_kitchen_rig",
+    "difficulty": 3,
+    "location": "center",
+    "flags": [ "CARGO", "OBSTACLE", "KITCHEN", "CHEMLAB", "CRAFTRIG", "FAUCET", "WATER_PURIFIER", "COVERED", "TOOL_WRENCH" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 9, 18 ] },
+      { "item": "steel_chunk", "count": [ 9, 18 ] },
+      { "item": "scrap", "count": [ 9, 18 ] },
+      { "item": "pot", "prob": 50 },
+      { "item": "pan", "prob": 50 },
+      { "item": "chemistry_set", "charges": 0, "prob": 50 },
+      { "item": "hotplate", "charges": 0, "prob": 50 },
+      { "item": "water_purifier", "charges": 0, "prob": 50 },
+      { "item": "vac_sealer", "charges": 0, "prob": 50 },
+      { "item": "dehydrator", "charges": 0, "prob": 50 },
+      { "item": "food_processor", "charges": 0, "prob": 50 },
+      { "item": "press", "charges": 0, "prob": 50 }
+    ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "afs_control_station",
+    "name": "control station",
+    "symbol": "$",
+    "color": "red",
+    "broken_symbol": "$",
+    "broken_color": "light_gray",
+    "damage_modifier": 10,
+    "durability": 400,
+    "description": "A large and complex dashboard mounted with steering controls and several LCD touch screens for controlling vehicle systems.",
+    "bonus": 10,
+    "item": "afs_control_station",
+    "difficulty": 4,
+    "epower": -125,
+    "flags": [
+      "VISION",
+      "CAMERA",
+      "CONTROLS",
+      "CAMERA_CONTROL",
+      "REMOTE_CONTROLS",
+      "CTRL_ELECTRONIC",
+      "ENABLED_DRAINS_EPOWER",
+      "WATCH",
+      "ALARMCLOCK"
+    ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 4 ] },
+      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "scrap", "count": [ 2, 4 ] },
+      { "item": "cable", "charges": [ 5, 20 ] },
+      { "item": "RAM", "charges": [ 1, 4 ] },
+      { "item": "e_scrap", "charges": [ 3, 8 ] }
+    ]
+  },
+  {
+    "id": "afs_roof_external_tank",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "roof-mounted external tank (200L)",
+    "item": "55gal_drum",
+    "location": "on_roof",
+    "flags": [ "ON_ROOF" ],
+    "size": 200000
+  },
+  {
+    "id": "afs_mounted_external_tank",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "mounted external tank (200L)",
+    "item": "55gal_drum",
+    "location": "center",
+    "size": 200000
+  },
+  {
+    "abstract": "afs_lightweight_frame",
+    "type": "vehicle_part",
+    "name": "ultralight frame",
+    "item": "afs_titanium_frame",
+    "location": "structure",
+    "color": "light_gray",
+    "difficulty": 1,
+    "durability": 100,
+    "description": "An ultralight titanium framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
+    "breaks_into": [ { "item": "afs_scrap_titanium", "count": [ 1, 3 ] } ],
+    "flags": [ "MOUNTABLE" ]
+  },
+  {
+    "id": "afs_lightweight_frame_cover",
+    "copy-from": "afs_lightweight_frame",
+    "type": "vehicle_part",
+    "symbol": "^"
+  },
+  {
+    "id": "afs_lightweight_frame_cross",
+    "copy-from": "afs_lightweight_frame",
+    "type": "vehicle_part",
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
+  },
+  {
+    "id": "afs_lightweight_frame_horizontal",
+    "copy-from": "afs_lightweight_frame",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "afs_lightweight_frame_horizontal_2",
+    "copy-from": "afs_lightweight_frame",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "afs_lightweight_frame_ne",
+    "copy-from": "afs_lightweight_frame",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "afs_lightweight_frame_nw",
+    "copy-from": "afs_lightweight_frame",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "afs_lightweight_frame_se",
+    "copy-from": "afs_lightweight_frame",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "afs_lightweight_frame_sw",
+    "copy-from": "afs_lightweight_frame",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "afs_lightweight_frame_vertical",
+    "copy-from": "afs_lightweight_frame",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "afs_lightweight_frame_vertical_2",
+    "copy-from": "afs_lightweight_frame",
+    "type": "vehicle_part",
+    "symbol": "H"
+  }
+]

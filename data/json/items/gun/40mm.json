@@ -5,17 +5,27 @@
     "type": "GUN",
     "name": "tube 40mm launcher",
     "description": "A simple, home-made grenade launcher.  Basically a tube with a pin firing mechanism to activate the grenade.",
-    "weight": 2267,
-    "volume": 5,
+    "weight": "2267 g",
+    "volume": "1250 ml",
     "price": 40000,
     "to_hit": -3,
     "bashing": 12,
     "material": [ "steel", "wood" ],
     "ammo": "40mm",
-    "dispersion": 300,
+    "dispersion": 550,
     "durability": 6,
     "clip_size": 1,
-    "reload": 350
+    "reload": 350,
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "m320",
@@ -23,8 +33,8 @@
     "type": "GUN",
     "name": "M320 stand alone launcher",
     "description": "Heckler & Koch's M320 grenade launcher offers the functionality of larger launchers in a very small package at the cost of decreased accuracy.  This one is combined with a buttstock for stand alone operation.",
-    "weight": 2100,
-    "volume": 3,
+    "weight": "2100 g",
+    "volume": "750 ml",
     "price": 850000,
     "to_hit": -3,
     "bashing": 6,
@@ -42,8 +52,8 @@
     "type": "GUN",
     "name": "M79 launcher",
     "description": "A widely-used grenade launcher that first saw use by American forces in the Vietnam war.  Though mostly replaced by more modern launchers, the M79 still sees use with many units worldwide.",
-    "weight": 2930,
-    "volume": 4,
+    "weight": "2930 g",
+    "volume": "1 L",
     "price": 400000,
     "to_hit": -3,
     "bashing": 12,
@@ -53,7 +63,17 @@
     "dispersion": 150,
     "durability": 8,
     "clip_size": 1,
-    "reload": 250
+    "reload": 250,
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "mark19",
@@ -61,8 +81,8 @@
     "type": "GUN",
     "name": "Mark 19 grenade launcher",
     "description": "A heavy, tripod-mounted belt-fed grenade launcher used by the US Military since the start of the cold war all the way to the cataclysm, and if you can find some 40mm grenades, maybe even beyond.",
-    "weight": 35200,
-    "volume": 16,
+    "weight": "35200 g",
+    "volume": "4 L",
     "price": 1650000,
     "to_hit": -1,
     "bashing": 14,
@@ -73,10 +93,16 @@
     "dispersion": 180,
     "durability": 8,
     "reload": 400,
-    "modes": [
-      [ "DEFAULT", "semi-auto", 1, "NPC_AVOID" ],
-      [ "AUTO", "auto", 6, "NPC_AVOID" ]
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1, "NPC_AVOID" ], [ "AUTO", "auto", 6, "NPC_AVOID" ] ],
     "magazines": [ [ "40mm", [ "belt40mm" ] ] ],
     "flags": [ "MOUNTED_GUN" ]
   },
@@ -87,8 +113,8 @@
     "name": "Milkor MGL",
     "name_plural": "Milkor MGL",
     "description": "The Milkor Multi-Grenade Launcher is designed to compensate for the drawback of single-shot grenade launchers by allowing sustained heavy firepower.  However, it is still slow to reload and must be used with careful planning.",
-    "weight": 5300,
-    "volume": 9,
+    "weight": "5300 g",
+    "volume": "2250 ml",
     "price": 1040000,
     "to_hit": -3,
     "bashing": 12,
@@ -97,7 +123,17 @@
     "dispersion": 270,
     "durability": 8,
     "clip_size": 6,
-    "reload": 300
+    "reload": 300,
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "rm802",
@@ -106,8 +142,8 @@
     "name": "RM802 grenade launcher",
     "//": "Either Rivtech or milspec would make it Expensive.  Combined, you could buy a half-decent car for the price.",
     "description": "The Rivtech RM802 pump-action 40mm grenade launcher was designed to be a step ahead of single-shot grenade launchers by allowing sustained heavy firepower.  However, its capacity is fairly limited so it must be used with careful planning.",
-    "weight": 3120,
-    "volume": 6,
+    "weight": "3120 g",
+    "volume": "1500 ml",
     "price": 2920000,
     "to_hit": -1,
     "bashing": 8,
@@ -116,7 +152,17 @@
     "dispersion": 140,
     "durability": 9,
     "clip_size": 4,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
   {
@@ -126,14 +172,7 @@
     "name": "triple-barrel 40mm launcher",
     "description": "A homemade triple-barrel 40mm grenade launcher.  Capable of launching all three grenades at once, it is extremely powerful for a homemade weapon.",
     "clip_size": 3,
-    "modes": [
-      [ "DEFAULT", "single", 1, "NPC_AVOID" ],
-      [ "MULTI", "multi", 3, [ "NPC_AVOID", "SIMULTANEOUS" ] ]
-    ],
-    "proportional": {
-      "weight": 1.5,
-      "volume": 1.8,
-      "price": 2
-    }
+    "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ], [ "MULTI", "multi", 3, [ "NPC_AVOID", "SIMULTANEOUS" ] ] ],
+    "proportional": { "weight": 1.5, "volume": 1.8, "price": 2 }
   }
 ]

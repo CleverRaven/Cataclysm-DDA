@@ -1,0 +1,47 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_hay",
+    "name": "hay",
+    "description": "A bale of hay.  You could sleep on it, if desperate.",
+    "symbol": "#",
+    "bgcolor": "brown",
+    "move_cost_mod": 3,
+    "comfort": 2,
+    "floor_bedding_warmth": 100,
+    "required_str": 6,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "straw_pile", "count": 40 }, { "item": "rope_makeshift_30", "count": 1 } ] },
+    "bash": {
+      "str_min": 1,
+      "str_max": 12,
+      "sound": "whish!",
+      "sound_fail": "whish.",
+      "items": [ { "item": "straw_pile", "count": [ 6, 10 ] }, { "item": "rope_makeshift_6", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_woodchips",
+    "name": "pile of woodchips",
+    "symbol": "X",
+    "description": "Pile of chipped wood pieces.  You can move it with a shovel.",
+    "color": "brown",
+    "move_cost_mod": 6,
+    "max_volume": 3000,
+    "required_str": -1,
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "TINY",
+      "RUBBLE"
+    ],
+    "examine_action": "rubble"
+  }
+]

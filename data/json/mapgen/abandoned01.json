@@ -37,7 +37,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      [ "chestrig", 20 ],
+      [ "tacvest", 20 ],
       [ "jacket_light", 30 ],
       [ "jacket_leather", 30 ],
       [ "jacket_evac", 30 ],
@@ -76,7 +76,7 @@
       [ "hatchet", 5 ],
       [ "hat_ball", 5 ],
       [ "knife_combat", 5 ],
-      [ "locket", 5 ],
+      [ "silver_locket", 5 ],
       [ "mask_gas", 10 ],
       [ "molotov", 5 ],
       [ "matches", 25 ],
@@ -406,7 +406,7 @@
         "H": "f_armchair"
       },
       "place_items": [ { "item": "trash_forest", "x": [ 2, 21 ], "y": [ 5, 19 ], "chance": 80, "repeat": [ 0, 2 ] } ],
-      "place_item": [ { "item": "teddy", "x": 14, "y": 2 }, { "item": "locket", "x": 14, "y": 2 } ],
+      "place_item": [ { "item": "teddy", "x": 14, "y": 2 }, { "item": "silver_locket", "x": 14, "y": 2 } ],
       "place_vehicles": [ { "vehicle": "car", "x": 5, "y": 7, "chance": 80, "fuel": 0, "status": 1, "rotation": 0 } ]
     }
   },
@@ -553,10 +553,10 @@
         { "item": "flashlight", "x": 11, "y": 16 },
         { "item": "child_book", "x": 11, "y": 16 },
         { "item": "child_book", "x": 11, "y": 15 },
-        { "item": "pot", "x": 11, "y": 23 },
-        { "item": "battery", "x": 11, "y": 16, "chance": 33 }
+        { "item": "pot", "x": 11, "y": 23 }
       ],
       "place_loot": [
+        { "group": "ammo_any_batteries_full", "x": 11, "y": 16, "chance": 33 },
         { "group": "cabin_suicide", "x": [ 4, 4 ], "y": [ 15, 15 ], "chance": 80 },
         { "group": "cannedfood", "x": [ 11, 11 ], "y": [ 22, 23 ], "chance": 90 },
         { "group": "cannedfood", "x": [ 13, 13 ], "y": [ 22, 23 ], "chance": 90 },

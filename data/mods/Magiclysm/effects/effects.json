@@ -1,0 +1,215 @@
+[
+  {
+    "type": "effect_type",
+    "id": "enchant_windrun",
+    "name": [ "Windrunning" ],
+    "desc": [ "You are bolstered and pushed along by the power of the wind." ],
+    "apply_message": "You are bolstered and pushed along by the power of the wind",
+    "remove_message": "The wind at your back dies down.",
+    "rating": "good",
+    "base_mods": { "speed_mod": [ 20 ], "stamina_min": [ 10 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "dark_sight",
+    "name": [ "Dark Sight" ],
+    "desc": [ "You can see in the dark." ],
+    "apply_message": "Your sight adjusts to the darkness.",
+    "remove_message": "The darkness loses its shape.",
+    "rating": "good",
+    "flags": [ "EFFECT_NIGHT_VISION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ethereal_grasp",
+    "name": [ "Ethereal Hold" ],
+    "desc": [ "Ghostly arms are trying to hold you in place!" ],
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "apply_message": "Ethereal arms shoot out of the ground and grab onto you!",
+    "remove_message": "The ghostly arms fade away.",
+    "base_mods": { "speed_mod": [ -40 ] },
+    "scaling_mods": { "speed_mod": [ -10 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "invisibility",
+    "name": [ "Invisibility" ],
+    "desc": [ "Nothing can see you." ],
+    "apply_message": "You fade away.",
+    "remove_message": "You can see your hands again.",
+    "flags": [ "EFFECT_INVISIBLE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "bless",
+    "name": [ "Blessed" ],
+    "desc": [ "You are filled with energy that improves everything you do." ],
+    "apply_message": "You are filled with energy that improves everything you do!",
+    "remove_message": "Your energy fades.",
+    "rating": "good",
+    "base_mods": { "per_mod": [ 2 ], "dex_mod": [ 2 ], "str_mod": [ 2, 2 ], "speed_mod": [ 20 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "protect_env",
+    "name": [ "Enviromental Protection" ],
+    "desc": [ "You are protected by an energy field." ],
+    "apply_message": "You are protected by an energy field.",
+    "remove_message": "Your energy field fades.",
+    "rating": "good",
+    "show_in_info": true,
+    "base_mods": { "environmental_protection": [ 5 ], "material_thickness": [ 3 ], "warmth": [ 50 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "armor_frost",
+    "name": [ "Frost Armor" ],
+    "desc": [ "Covers you in a thin layer of magical ice to protect you from harm." ],
+    "apply_message": "You are protected by Frost Armor.",
+    "remove_message": "Your Frost Armor melts away.",
+    "rating": "good",
+    "show_in_info": true,
+    "base_mods": { "environmental_protection": [ 5 ], "material_thickness": [ 5 ], "warmth": [ 20 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "bio_boost",
+    "name": [ "Grotesque Enhancement" ],
+    "desc": [ "Your body ripples with writhing alien muscles, your limbs lengthen, and your eyes glow with a faint green." ],
+    "apply_message": "Your body ripples with writhing alien muscles, your limbs lengthen, and your eyes glow with a faint green.",
+    "remove_message": "Your body rapidly returns to normal.",
+    "rating": "good",
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "base_mods": { "per_mod": [ 1, 3 ], "dex_mod": [ 1, 3 ], "str_mod": [ 1, 5 ], "speed_mod": [ 5, 10 ] },
+    "scaling_mods": { "per_mod": [ 1, 3 ], "dex_mod": [ 1, 3 ], "str_mod": [ 1, 3 ], "speed_mod": [ 5, 10 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "entangled",
+    "name": [ "Vegetative Grasp" ],
+    "desc": [ "Roots and vines entangle your foes." ],
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "apply_message": "Roots and vines entangle your foes to slow them!",
+    "remove_message": "The roots and vines wither up and die.",
+    "base_mods": { "speed_mod": [ -60 ] },
+    "scaling_mods": { "speed_mod": [ -10 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "root_impale",
+    "name": [ "Root Impale" ],
+    "desc": [ "Roots and vines entangle your foes." ],
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "apply_message": "Roots rip out from the ground and impale your enemies!",
+    "remove_message": "The roots wither up and die.",
+    "base_mods": { "speed_mod": [ -30 ] },
+    "scaling_mods": { "speed_mod": [ -10 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "bio_acidburn",
+    "name": [ "Acidic burn" ],
+    "desc": [ "Burned with acid" ],
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "base_mods": { "speed_mod": [ -20 ] },
+    "scaling_mods": { "speed_mod": [ -10 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "haste",
+    "name": [ "Hasted" ],
+    "desc": [ "Your speed is boosted enormously." ],
+    "apply_message": "Your speed is boosted to superhuman levels!",
+    "remove_message": "You return to your normal speed.",
+    "rating": "good",
+    "base_mods": { "dex_mod": [ 4 ], "speed_mod": [ 300 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "synaptic_stim",
+    "name": [ "Synaptic Stimulation" ],
+    "desc": [ "Your mental processing is increased." ],
+    "apply_message": "Your mind accelerates.",
+    "remove_message": "Your mind returns to normal speed.",
+    "rating": "good",
+    "base_mods": { "dex_mod": [ 4 ], "int_mod": [ 4 ], "speed_mod": [ 30 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "ogres_strength",
+    "name": [ "Ogre's Strength" ],
+    "desc": [ "You have the strength of an Ogre!" ],
+    "apply_message": "You feel strong!",
+    "remove_message": "Your strength deflates.",
+    "rating": "good",
+    "removes_effects": [ "eagles_sight", "cats_grace", "foxs_cunning" ],
+    "base_mods": { "str_mod": [ 4 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "eagles_sight",
+    "name": [ "Eagle's Sight" ],
+    "desc": [ "You have the perception of an Eagle!" ],
+    "apply_message": "You notice small details!",
+    "remove_message": "Your vision returns to normal.",
+    "rating": "good",
+    "removes_effects": [ "ogres_strength", "cats_grace", "foxs_cunning" ],
+    "base_mods": { "per_mod": [ 4 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "cats_grace",
+    "name": [ "Cat's Grace" ],
+    "desc": [ "You have the dexterity of a cat!" ],
+    "apply_message": "Your reflexes are heightened!",
+    "remove_message": "Your reflexes return to normal.",
+    "rating": "good",
+    "removes_effects": [ "eagles_sight", "eagles_sight", "foxs_cunning" ],
+    "base_mods": { "dex_mod": [ 4 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "foxs_cunning",
+    "name": [ "Fox's Cunning" ],
+    "desc": [ "You have the cunning of a Fox!" ],
+    "apply_message": "Your intelligence is heightened!",
+    "remove_message": "Your intelligence returns to normal.",
+    "rating": "good",
+    "removes_effects": [ "eagles_sight", "cats_grace", "ogres_strength" ],
+    "base_mods": { "int_mod": [ 4 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "debug_full_protection",
+    "name": [ "Debug Full Protection" ],
+    "desc": [ "You can not be harmed by anything." ],
+    "apply_message": "Your skin tingle with the power of the Devs!",
+    "remove_message": "Your skin stops tingling, your life is empty and meaningless again.",
+    "rating": "good",
+    "flags": [
+      "EFFECT_ELECTRIC_IMMUNE",
+      "EFFECT_BIO_IMMUNE",
+      "EFFECT_BASH_IMMUNE",
+      "EFFECT_CUT_IMMUNE",
+      "EFFECT_ACID_IMMUNE",
+      "EFFECT_STAB_IMMUNE",
+      "EFFECT_HEAT_IMMUNE",
+      "EFFECT_COLD_IMMUNE"
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "debug_feather_fall",
+    "name": [ "Debug Feather Fall" ],
+    "desc": [ "You  are light as a feather and fall like one." ],
+    "apply_message": "Your body feels light as a feather.",
+    "remove_message": "The earth pulls you down hard.",
+    "rating": "good",
+    "flags": [ "EFFECT_FEATHER_FALL" ]
+  }
+]

@@ -1,9 +1,9 @@
 #include "mod_tileset.h"
 
-#include "json.h"
-
 #include <algorithm>
-#include <iterator>
+#include <memory>
+
+#include "json.h"
 
 std::vector<mod_tileset> all_mod_tilesets;
 
@@ -33,11 +33,8 @@ void reset_mod_tileset()
 
 bool mod_tileset::is_compatible( const std::string &tileset_id ) const
 {
-    auto iter = std::find( compatibility.begin(), compatibility.end(), tileset_id );
-    if( iter == compatibility.end() ) {
-        return false;
-    }
-    return true;
+    const auto iter = std::find( compatibility.begin(), compatibility.end(), tileset_id );
+    return iter != compatibility.end();
 }
 
 void mod_tileset::add_compatible_tileset( const std::string &tileset_id )

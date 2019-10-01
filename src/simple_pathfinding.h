@@ -2,11 +2,12 @@
 #ifndef SIMPLE_PATHFINDINDING_H
 #define SIMPLE_PATHFINDINDING_H
 
-#include "enums.h"
-
 #include <limits>
 #include <queue>
 #include <vector>
+
+#include "enums.h"
+#include "point.h"
 
 namespace pf
 {
@@ -14,24 +15,18 @@ namespace pf
 static const int rejected = std::numeric_limits<int>::min();
 
 struct node {
-    int x;
-    int y;
+    point pos;
     int dir;
     int priority;
 
-    node( int x, int y, int dir, int priority = 0 ) :
-        x( x ),
-        y( y ),
+    node( const point &p, int dir, int priority = 0 ) :
+        pos( p ),
         dir( dir ),
         priority( priority ) {}
 
     // Operator overload required by priority queue interface.
     bool operator< ( const node &n ) const {
         return priority > n.priority;
-    }
-
-    point pos() const {
-        return point( x, y );
     }
 };
 
@@ -55,15 +50,14 @@ path find_path( const point &source,
                 const int max_y,
                 BinaryPredicate estimator )
 {
-    static const int dx[4] = {  0, 1, 0, -1 };
-    static const int dy[4] = { -1, 0, 1,  0 };
+    static constexpr point d[4] = { point_north, point_east, point_south, point_west };
 
-    const auto inbounds = [ max_x, max_y ]( const int x, const int y ) {
-        return x >= 0 && x < max_x && y >= 0 && y <= max_y;
+    const auto inbounds = [ max_x, max_y ]( const point & p ) {
+        return p.x >= 0 && p.x < max_x && p.y >= 0 && p.y < max_y;
     };
 
-    const auto map_index = [ max_x ]( const int x, const int y ) {
-        return y * max_x + x;
+    const auto map_index = [ max_x ]( const point & p ) {
+        return p.y * max_x + p.x;
     };
 
     path res;
@@ -72,16 +66,11 @@ path find_path( const point &source,
         return res;
     }
 
-    const int x1 = source.x;
-    const int y1 = source.y;
-    const int x2 = dest.x;
-    const int y2 = dest.y;
-
-    if( !inbounds( x1, y1 ) || !inbounds( x2, y2 ) ) {
+    if( !inbounds( source ) || !inbounds( dest ) ) {
         return res;
     }
 
-    const node first_node( x1, y1, 5, 1000 );
+    const node first_node( source, 5, 1000 );
 
     if( estimator( first_node, nullptr ) == rejected ) {
         return res;
@@ -96,7 +85,7 @@ path find_path( const point &source,
 
     int i = 0;
     nodes[i].push( first_node );
-    open[map_index( x1, y1 )] = std::numeric_limits<int>::max();
+    open[map_index( source )] = std::numeric_limits<int>::max();
 
     // use A* to find the shortest path from (x1,y1) to (x2,y2)
     while( !nodes[i].empty() ) {
@@ -104,40 +93,37 @@ path find_path( const point &source,
 
         nodes[i].pop();
         // mark it visited
-        closed[map_index( mn.x, mn.y )] = true;
+        closed[map_index( mn.pos )] = true;
 
         // if we've reached the end, draw the path and return
-        if( mn.x == x2 && mn.y == y2 ) {
-            int x = mn.x;
-            int y = mn.y;
+        if( mn.pos == dest ) {
+            point p = mn.pos;
 
             res.nodes.reserve( nodes[i].size() );
 
-            while( x != x1 || y != y1 ) {
-                const int n = map_index( x, y );
-                const int d = dirs[n];
-                res.nodes.emplace_back( x, y, d );
-                x += dx[d];
-                y += dy[d];
+            while( p != source ) {
+                const int n = map_index( p );
+                const int dir = dirs[n];
+                res.nodes.emplace_back( p, dir );
+                p += d[dir];
             }
 
-            res.nodes.emplace_back( x, y, -1 );
+            res.nodes.emplace_back( p, -1 );
 
             return res;
         }
 
-        for( int d = 0; d < 4; d++ ) {
-            const int x = mn.x + dx[d];
-            const int y = mn.y + dy[d];
-            const int n = map_index( x, y );
+        for( int dir = 0; dir < 4; dir++ ) {
+            const point p = mn.pos + d[dir];
+            const int n = map_index( p );
             // don't allow:
             // * out of bounds
             // * already traversed tiles
-            if( x < 1 || x + 1 >= max_x || y < 1 || y + 1 >= max_y || closed[n] ) {
+            if( !inbounds( p ) || closed[n] ) {
                 continue;
             }
 
-            node cn( x, y, d );
+            node cn( p, dir );
             cn.priority = estimator( cn, &mn );
 
             if( cn.priority == rejected ) {
@@ -145,10 +131,10 @@ path find_path( const point &source,
             }
             // record direction to shortest path
             if( open[n] == 0 || open[n] > cn.priority ) {
-                dirs[n] = ( d + 2 ) % 4;
+                dirs[n] = ( dir + 2 ) % 4;
 
                 if( open[n] != 0 ) {
-                    while( nodes[i].top().x != x || nodes[i].top().y != y ) {
+                    while( nodes[i].top().pos != p ) {
                         nodes[1 - i].push( nodes[i].top() );
                         nodes[i].pop();
                     }
@@ -176,8 +162,7 @@ inline path straight_path( const point &source,
                            int dir,
                            size_t len )
 {
-    static const int dx[4] = {  0, 1, 0, -1 };
-    static const int dy[4] = { -1, 0, 1,  0 };
+    static constexpr point d[4] = { point_north, point_east, point_south, point_west };
 
     path res;
 
@@ -185,23 +170,21 @@ inline path straight_path( const point &source,
         return res;
     }
 
-    int x = source.x;
-    int y = source.y;
+    point p = source;
 
     res.nodes.reserve( len );
 
     for( size_t i = 0; i + 1 < len; ++i ) {
-        res.nodes.emplace_back( x, y, dir );
+        res.nodes.emplace_back( p, dir );
 
-        x += dx[dir];
-        y += dy[dir];
+        p += d[dir];
     }
 
-    res.nodes.emplace_back( x, y, -1 );
+    res.nodes.emplace_back( p, -1 );
 
     return res;
 }
 
-}
+} // namespace pf
 
 #endif

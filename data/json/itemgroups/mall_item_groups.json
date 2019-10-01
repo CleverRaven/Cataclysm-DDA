@@ -1,0 +1,389 @@
+[
+  {
+    "id": "floor_trash",
+    "type": "item_group",
+    "items": [
+      [ "flyer", 10 ],
+      [ "bag_plastic", 10 ],
+      [ "bottle_plastic", 10 ],
+      [ "cup_plastic", 10 ],
+      [ "bottle_glass", 10 ],
+      [ "can_drink_unsealed", 10 ],
+      [ "can_food_unsealed", 10 ],
+      [ "box_small", 10 ],
+      [ "jug_plastic", 10 ],
+      [ "jar_glass", 5 ],
+      [ "wrapper", 10 ],
+      [ "string_6", 5 ],
+      [ "cig_butt", 10 ],
+      [ "string_36", 5 ],
+      [ "scrap", 10 ],
+      { "item": "glass_shard", "prob": 10, "count": [ 1, 8 ] },
+      [ "wire", 5 ],
+      [ "splinter", 10 ],
+      [ "rag", 15 ],
+      [ "rag_bloody", 10 ],
+      [ "plastic_shopping_bag", 10 ]
+    ]
+  },
+  {
+    "id": "candy_shop",
+    "type": "item_group",
+    "items": [
+      [ "chocolate", 50 ],
+      [ "cookies", 50 ],
+      [ "candy", 60 ],
+      [ "candy2", 60 ],
+      [ "candy3", 60 ],
+      [ "maple_candy", 25 ],
+      [ "powder_candy", 40 ],
+      [ "neccowafers", 60 ],
+      [ "candycigarette", 45 ],
+      [ "mintpatties", 60 ]
+    ]
+  },
+  {
+    "id": "tux_shop",
+    "type": "item_group",
+    "items": [
+      [ "blazer", 75 ],
+      [ "tie_skinny", 40 ],
+      [ "tie_necktie", 40 ],
+      [ "tie_bow", 30 ],
+      [ "tie_clipon", 20 ],
+      [ "tieclip", 25 ],
+      [ "polo_shirt", 35 ],
+      [ "dress_shirt", 70 ],
+      [ "pants", 75 ],
+      [ "dress_shoes", 50 ],
+      [ "briefcase", 35 ],
+      [ "gold_watch", 20 ],
+      [ "pocketwatch", 20 ],
+      [ "collarpin", 10 ],
+      [ "tailors_kit", 40 ]
+    ]
+  },
+  {
+    "id": "flower_shop",
+    "type": "item_group",
+    "items": [ [ "trimmer_off", 30 ], [ "fertilizer_liquid", 50 ], [ "dahlia_root", 30 ], [ "fertilizer_commercial", 25 ] ]
+  },
+  {
+    "id": "music_shop",
+    "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
+    "items": [ { "group": "ammo_any_batteries_full", "prob": 50 }, [ "radio", 30 ], [ "mp3", 30 ] ]
+  },
+  {
+    "id": "vitamin_shop",
+    "type": "item_group",
+    "items": [
+      [ "bandages", 25 ],
+      [ "1st_aid", 20 ],
+      [ "vitamins", 75 ],
+      [ "calcium_tablet", 75 ],
+      [ "aspirin", 45 ],
+      [ "caffeine", 50 ],
+      [ "pills_sleep", 45 ],
+      [ "disinfectant", 15 ],
+      [ "vaccine_shot", 10 ],
+      [ "protein_powder", 40 ],
+      [ "caff_gum", 30 ],
+      [ "nic_gum", 25 ],
+      [ "bathroom_scale", 20 ]
+    ]
+  },
+  {
+    "id": "toy_store",
+    "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
+    "items": [
+      [ "portable_game", 60 ],
+      [ "bat", 60 ],
+      [ "backpack", 40 ],
+      [ "pockknife", 20 ],
+      [ "wristwatch", 20 ],
+      [ "teleumbrella", 5 ],
+      [ "novel_coa", 10 ],
+      [ "child_book", 50 ],
+      [ "manual_dodge_kid", 10 ],
+      [ "tall_tales", 20 ],
+      [ "story_book", 5 ],
+      [ "novel_pulp", 20 ],
+      [ "fairy_tales", 20 ],
+      [ "mag_comic", 40 ],
+      [ "folding_bicycle", 5 ],
+      [ "sunglasses", 25 ],
+      [ "cowboy_hat", 25 ],
+      [ "mp3", 40 ],
+      [ "wolfsuit", 5 ],
+      [ "dinosuit", 5 ],
+      [ "gum", 10 ],
+      [ "talking_doll", 50 ],
+      [ "creepy_doll", 1 ],
+      [ "jedi_cloak", 5 ],
+      [ "clown_suit", 5 ],
+      [ "clownshoes", 5 ],
+      [ "radio_car_box", 10 ],
+      [ "RPG_die", 5 ],
+      [ "metal_RPG_die", 1 ]
+    ]
+  },
+  {
+    "id": "glasses",
+    "type": "item_group",
+    "items": [
+      [ "glasses_monocle", 5 ],
+      [ "glasses_bal", 10 ],
+      [ "sunglasses", 30 ],
+      [ "glasses_bifocal", 30 ],
+      [ "glasses_safety", 30 ],
+      [ "fancy_sunglasses", 5 ],
+      [ "glasses_reading", 50 ],
+      [ "glasses_eye", 85 ]
+    ]
+  },
+  {
+    "id": "victoria_shop",
+    "type": "item_group",
+    "items": [ [ "bra", 70 ], [ "panties", 70 ], [ "boy_shorts", 50 ], [ "boxer_shorts", 70 ], [ "briefs", 50 ] ]
+  },
+  {
+    "id": "knife_shop",
+    "type": "item_group",
+    "items": [
+      [ "knife_butcher", 20 ],
+      [ "knife_combat", 35 ],
+      [ "throwing_knife", 10 ],
+      [ "pockknife", 50 ],
+      [ "punch_dagger", 10 ],
+      [ "knife_trench", 7 ],
+      [ "switchblade", 20 ],
+      [ "knife_hunting", 20 ],
+      [ "knife_rambo", 5 ]
+    ]
+  },
+  {
+    "id": "leather_shop",
+    "type": "item_group",
+    "items": [
+      [ "hot_pants_leather", 20 ],
+      [ "cloak_leather", 20 ],
+      [ "duster_leather", 20 ],
+      [ "jacket_leather_red", 20 ],
+      [ "skirt_leather", 20 ],
+      [ "touring_suit", 20 ],
+      [ "chestwrap_leather", 20 ],
+      [ "chaps_leather", 35 ],
+      [ "trenchcoat_leather", 10 ],
+      [ "vest_leather", 50 ],
+      [ "apron_leather", 10 ],
+      [ "backpack_leather", 7 ],
+      [ "pants_leather", 20 ],
+      [ "bikini_top_leather", 20 ],
+      [ "jacket_leather", 5 ]
+    ]
+  },
+  {
+    "id": "leather_shop_accessories",
+    "type": "item_group",
+    "items": [
+      [ "leather_belt", 20 ],
+      [ "gloves_leather", 35 ],
+      [ "leather_harness_dog", 10 ],
+      [ "pockknife", 50 ],
+      [ "leather_tarp", 10 ],
+      [ "leather_cat_tail", 7 ],
+      [ "leather_cat_ears", 20 ],
+      [ "leather_collar", 20 ],
+      [ "bondage_mask", 5 ]
+    ]
+  },
+  {
+    "id": "leather_shop_repair",
+    "type": "item_group",
+    "items": [
+      [ "awl_steel", 40 ],
+      [ "sewing_kit", 5 ],
+      [ "tailors_kit", 50 ],
+      [ "thread", 10 ],
+      [ "string_6", 50 ],
+      [ "leather", 10 ],
+      [ "fur", 7 ],
+      [ "tanned_hide", 20 ],
+      [ "tanned_pelt", 20 ]
+    ]
+  },
+  {
+    "id": "key_shop",
+    "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
+    "items": [
+      [ "screwdriver", 40 ],
+      [ "hammer", 35 ],
+      [ "wrench", 30 ],
+      [ "hacksaw", 50 ],
+      [ "xacto", 10 ],
+      [ "flashlight", 40 ],
+      [ "crowbar", 30 ],
+      [ "carver_off", 25 ],
+      [ "press", 40 ],
+      [ "puller", 20 ],
+      [ "boltcutters", 35 ],
+      [ "chisel", 20 ],
+      [ "misc_repairkit", 45 ],
+      [ "tool_belt", 35 ],
+      [ "multitool", 20 ]
+    ]
+  },
+  {
+    "id": "smoke_shop",
+    "type": "item_group",
+    "items": [
+      [ "pipe_tobacco", 60 ],
+      [ "tobacco", 70 ],
+      [ "weed", 5 ],
+      [ "joint", 5 ],
+      [ "seed_weed", 5 ],
+      [ "seed_tobacco", 5 ],
+      [ "rolling_paper", 45 ],
+      [ "pipe_glass", 20 ],
+      [ "cig", 60 ],
+      [ "chaw", 60 ]
+    ]
+  },
+  {
+    "id": "cell_shop",
+    "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
+    "items": [
+      [ "portable_game", 20 ],
+      [ "antenna", 25 ],
+      { "group": "ammo_any_batteries_full", "prob": 50 },
+      [ "mp3", 40 ],
+      [ "usb_drive", 10 ],
+      [ "manual_electronics", 20 ],
+      [ "cable", 60 ],
+      [ "cell_phone", 60 ],
+      [ "smart_phone", 60 ],
+      [ "wristwatch", 60 ],
+      [ "mobile_memory_card_used", 10 ]
+    ]
+  },
+  {
+    "id": "beauty",
+    "type": "item_group",
+    "ammo": 75,
+    "magazine": 100,
+    "items": [
+      [ "mag_glam", 40 ],
+      [ "mag_beauty", 30 ],
+      [ "hairpin", 40 ],
+      [ "scarf", 10 ],
+      [ "scarf_long", 5 ],
+      [ "knit_scarf", 10 ],
+      [ "long_knit_scarf", 5 ],
+      [ "barrette", 5 ],
+      [ "eyedrops", 35 ],
+      [ "candle", 50 ],
+      [ "scissors", 30 ],
+      [ "soap", 45 ],
+      [ "tailors_kit", 25 ],
+      [ "shavingkit", 20 ],
+      [ "elec_hairtrimmer", 20 ]
+    ]
+  },
+  {
+    "id": "costume_clothes",
+    "type": "item_group",
+    "items": [
+      [ "cloak", 40 ],
+      [ "cloak_leather", 30 ],
+      [ "cloak_wool", 40 ],
+      [ "jedi_cloak", 10 ],
+      [ "corset", 5 ],
+      [ "tux", 10 ],
+      [ "gown", 5 ],
+      [ "dress_wedding", 5 ],
+      [ "maid_dress", 35 ],
+      [ "postman_shirt", 50 ],
+      [ "postman_shorts", 30 ],
+      [ "robe", 45 ],
+      [ "kimono", 25 ],
+      [ "yukata", 20 ],
+      [ "coat_lab", 20 ],
+      [ "clown_suit", 20 ]
+    ]
+  },
+  {
+    "id": "costume_accessories",
+    "type": "item_group",
+    "items": [
+      [ "clownshoes", 20 ],
+      [ "bondage_mask", 30 ],
+      [ "long_glove_white", 20 ],
+      [ "porkpie", 10 ],
+      [ "postman_hat", 5 ],
+      [ "maid_hat", 10 ],
+      [ "fedora", 5 ],
+      [ "scarf_long", 5 ],
+      [ "mask_guy_fawkes", 35 ],
+      [ "mask_hockey", 20 ],
+      [ "cowboy_hat", 20 ],
+      [ "tophat", 25 ],
+      [ "hat_sombrero", 25 ],
+      [ "apron_leather", 20 ]
+    ]
+  },
+  {
+    "id": "costume_weapons",
+    "type": "item_group",
+    "items": [
+      [ "cutlass", 1 ],
+      [ "broadsword", 1 ],
+      [ "nodachi", 1 ],
+      [ "zweihander", 1 ],
+      [ "longsword", 1 ],
+      [ "katana", 1 ],
+      [ "kris", 1 ],
+      [ "rapier", 1 ],
+      [ "cavalry_sabre", 1 ],
+      [ "glaive", 1 ],
+      [ "naginata", 1 ],
+      [ "naginata_fake", 5 ],
+      [ "naginata_inferior", 3 ],
+      [ "estoc", 2 ],
+      [ "estoc_inferior", 4 ],
+      [ "estoc_fake", 6 ],
+      [ "qiang", 3 ],
+      [ "halberd", 2 ],
+      [ "halberd_fake", 7 ],
+      [ "katana_fake", 4 ],
+      [ "katana_inferior", 8 ],
+      [ "zweihander_fake", 4 ],
+      [ "zweihander_inferior", 8 ],
+      [ "cutlass_fake", 4 ],
+      [ "cutlass_inferior", 8 ],
+      [ "jian", 2 ],
+      [ "jian_fake", 4 ],
+      [ "jian_inferior", 8 ],
+      [ "scimitar", 4 ],
+      [ "scimitar_fake", 8 ],
+      [ "arming_sword", 4 ],
+      [ "arming_sword_fake", 8 ],
+      [ "broadsword_fake", 4 ],
+      [ "broadsword_inferior", 8 ],
+      [ "longsword_fake", 4 ],
+      [ "longsword_inferior", 8 ],
+      [ "rapier_fake", 4 ],
+      [ "cavalry_sabre_fake", 4 ],
+      [ "wakizashi_fake", 4 ],
+      [ "wakizashi_inferior", 8 ],
+      [ "kris_fake", 8 ]
+    ]
+  }
+]

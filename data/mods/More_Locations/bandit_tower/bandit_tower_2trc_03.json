@@ -1,71 +1,60 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "bandit_tower_2trc",
-        "comment" : "top right corner, second story and even levels",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "################88888###",
-                "################88######",
-                "################88######",
-                "#######==--=====..==--==",
-                "#######=XXXX|.....*|xx==",
-                "#####===....|-|....|..==",
-                "#####===....+X|....|...x",
-                "###=====+------....-...x",
-                "###=.xx.................",
-                "###=x.....-------....-++",
-                "###wb.....|.....|....|xx",
-                "###wb.....K..$..K....|--",
-                "###wb.....|*....|....+.x",
-                "###=......-------....---",
-                "###=.......@............",
-                "###=--ffFf-CC|..........",
-                "###kD.....|@c|..=======.",
-                "###kDc.......|..=====Mee",
-                "###kD........|..==<<<Mee",
-                "###kL.L.L.L.L|....<<<Mee",
-                "###kL.L.L.L.L|....<<<Mee",
-                "###kL.L.L.L.L|..=MMMMMMM",
-                "###kL.L.L.L.L|..=eeeeM==",
-                "###===-------|...eeeeM=="
-            ],
-            "rotation": 1,
-            "palettes": [
-                "tri_tower",
-                "upper_level",
-                "bandit_tower_stuff"
-            ],
-            "terrain":{
-                "5": "t_pavement",
-                "8": "t_bridge",
-                "f": "t_chainfence_v",
-                "F": "t_chaingate_c",
-                "k": "t_scrap_wall",
-                "K": "t_door_bar_locked"
-            },
-            "items":{
-                "b": { "item": "magazines", "chance": 80 },
-                "L":[
-                    { "item": "livingroom", "chance": 30 },
-                    { "item": "everyday_gear", "chance": 50 },
-                    { "item": "mil_food", "chance": 30 }
-                ],
-                "x": { "item": "bed", "chance": 80 },
-                "X": { "item": "allclothes", "chance": 80 }
-            },
-            "mapping": {
-                "$": {
-                    "furniture": "f_safe_l",
-                    "item": { "item": "mag_porn", "amount": [30, 50] }
-                }
-            },
-            "npcs": {
-                "@": { "class": "raider" }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "bandit_tower_2trc",
+    "comment": "top right corner, second story and even levels",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "################88888###",
+        "################88######",
+        "################88######",
+        "#######==--=====..==--==",
+        "#######=XXXX|.....*|xx==",
+        "#####===....|-|....|..==",
+        "#####===....+X|....|...x",
+        "###=====+------....-...x",
+        "###=.xx.................",
+        "###=x.....-------....-++",
+        "###wb.....|.....|....|xx",
+        "###wb.....K..$..K....|--",
+        "###wb.....|*....|....+.x",
+        "###=......-------....---",
+        "###=.......@............",
+        "###=--ffFf-CC|..........",
+        "###kD.....|@c|..=======.",
+        "###kDc.......|..=====Mee",
+        "###kD........|..==<<<Mee",
+        "###kL.L.L.L.L|....<<<Mee",
+        "###kL.L.L.L.L|....<<<Mee",
+        "###kL.L.L.L.L|..=MMMMMMM",
+        "###kL.L.L.L.L|..=eeeeM==",
+        "###===-------|...eeeeM=="
+      ],
+      "rotation": 1,
+      "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
+      "terrain": {
+        "5": "t_pavement",
+        "8": "t_bridge",
+        "f": "t_chainfence_v",
+        "F": "t_chaingate_c",
+        "k": "t_scrap_wall",
+        "K": "t_door_bar_locked"
+      },
+      "items": {
+        "b": { "item": "magazines", "chance": 80 },
+        "L": [
+          { "item": "livingroom", "chance": 30 },
+          { "item": "everyday_gear", "chance": 50 },
+          { "item": "mil_food", "chance": 30 }
+        ],
+        "x": { "item": "bed", "chance": 80 },
+        "X": { "item": "allclothes", "chance": 80 }
+      },
+      "mapping": { "$": { "furniture": "f_safe_l", "item": { "item": "mag_porn", "amount": [ 30, 50 ] } } },
+      "npcs": { "@": { "class": "raider" } }
     }
+  }
 ]

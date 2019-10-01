@@ -1,0 +1,42 @@
+[
+  {
+    "id": "wand_fireball",
+    "name": "wand of fireballs",
+    "plural": "wands of fireball",
+    "description": "A classic, this wand shoots fireballs without fail.  A more skilled Kelvinist could cast them more efficiently, though.",
+    "type": "TOOL",
+    "weight": 230,
+    "volume": 2,
+    "price": 10000,
+    "bashing": 3,
+    "to_hit": 2,
+    "material": [ "wood" ],
+    "symbol": "|",
+    "color": "brown",
+    "charges_per_use": 1,
+    "ammo": "crystallized_mana",
+    "use_action": { "type": "cast_spell", "spell_id": "fireball", "no_fail": true, "level": 5, "need_wielding": true },
+    "magazines": [ [ "crystallized_mana", [ "small_mana_crystal" ] ] ],
+    "magazine_well": 1
+  },
+  {
+    "id": "wand_magic_missile",
+    "name": "wand of magic missiles",
+    "plural": "wands of magic missile",
+    "description": "A classic, this wand shoots magic missiles without fail.  A more skilled Magus could cast them more efficiently, though.",
+    "type": "TOOL",
+    "weight": 230,
+    "volume": 2,
+    "price": 10000,
+    "bashing": 3,
+    "to_hit": 2,
+    "material": [ "wood" ],
+    "symbol": "|",
+    "color": "brown",
+    "charges_per_use": 1,
+    "ammo": "crystallized_mana",
+    "use_action": { "type": "cast_spell", "spell_id": "magic_missile", "no_fail": true, "level": 10, "need_wielding": true },
+    "magazines": [ [ "crystallized_mana", [ "small_mana_crystal" ] ] ],
+    "magazine_well": 1
+  }
+]

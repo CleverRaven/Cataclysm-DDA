@@ -1,15 +1,20 @@
 #include "anatomy.h"
 
-#include "cata_utility.h"
-#include "generic_factory.h"
-#include "messages.h"
-#include "output.h"
-#include "rng.h"
-#include "weighted_list.h"
-
+#include <cstddef>
 #include <array>
 #include <cmath>
 #include <numeric>
+#include <set>
+
+#include "cata_utility.h"
+#include "generic_factory.h"
+#include "messages.h"
+#include "rng.h"
+#include "weighted_list.h"
+#include "debug.h"
+#include "enums.h"
+#include "int_id.h"
+#include "json.h"
 
 anatomy_id human_anatomy( "human_anatomy" );
 
@@ -18,7 +23,7 @@ namespace
 
 generic_factory<anatomy> anatomy_factory( "anatomy" );
 
-}
+} // namespace
 
 template<>
 bool anatomy_id::is_valid() const
@@ -88,12 +93,13 @@ void anatomy::check() const
     }
 
     for( size_t i = 0; i < 3; i++ ) {
-        float size_all = std::accumulate( cached_bps.begin(), cached_bps.end(), 0.0f, [i]( float acc,
+        const float size_all = std::accumulate( cached_bps.begin(), cached_bps.end(), 0.0f, [i]( float acc,
         const bodypart_id & bp ) {
             return acc + bp->hit_size_relative[i];
         } );
         if( size_all <= 0.0f ) {
-            debugmsg( "Anatomy %s has no part hittable when size difference is %d", id.c_str(), ( int )i - 1 );
+            debugmsg( "Anatomy %s has no part hittable when size difference is %d", id.c_str(),
+                      static_cast<int>( i ) - 1 );
         }
     }
 }
@@ -105,7 +111,7 @@ void anatomy::add_body_part( const bodypart_ids &new_bp )
     size_sum += bp_struct.hit_size;
 }
 
-// @todo: get_function_with_better_name
+// TODO: get_function_with_better_name
 bodypart_ids anatomy::get_part_with_cumulative_hit_size( float size ) const
 {
     for( auto &part : cached_bps ) {
@@ -125,7 +131,7 @@ bodypart_id anatomy::random_body_part() const
 
 bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
 {
-    size_t size_diff_index = static_cast<size_t>( 1 + clamp( size_diff, -1, 1 ) );
+    const size_t size_diff_index = static_cast<size_t>( 1 + clamp( size_diff, -1, 1 ) );
     weighted_float_list<bodypart_id> hit_weights;
     for( const auto &bp : cached_bps ) {
         float weight = bp->hit_size_relative[size_diff_index];
@@ -142,7 +148,7 @@ bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
 
     // Debug for seeing weights.
     for( const auto &pr : hit_weights ) {
-        add_msg( m_debug, "%s = %.3f", pr.obj.obj().name.c_str(), pr.weight );
+        add_msg( m_debug, "%s = %.3f", pr.obj.obj().name, pr.weight );
     }
 
     const bodypart_id *ret = hit_weights.pick();
@@ -151,6 +157,6 @@ bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
         return bodypart_ids::NULL_ID().id();
     }
 
-    add_msg( m_debug, "selected part: %s", ret->id().obj().name.c_str() );
+    add_msg( m_debug, "selected part: %s", ret->id().obj().name );
     return *ret;
 }

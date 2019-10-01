@@ -1,1363 +1,924 @@
 [
-{
-  "type" : "recipe",
-  "result": "mininuke_mod",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "fabrication",
-  "skills_required": ["electronics",  7],
-  "difficulty": 8,
-  "time": 95000,
-  "book_learn": [ [ "recipe_lab_elec", 7 ] , [ "recipe_mininuke_launch", 5 ] ],
-  "qualities":[
-    { "id": "SAW_M", "level": 1 },
-    { "id": "SCREW", "level": 1 },
-    { "id": "WRENCH", "level": 1 }
-  ],
-  "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
-  "components": [
-    [ [ "mininuke", 1 ] ],
-    [ [ "cable", 2 ] ],
-    [ [ "circuit", 1 ] ],
-    [ [ "transponder", 1 ] ],
-    [ [ "pipe", 8 ] ],
-    [ [ "chem_rocket_fuel", 1750 ] ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "plut_slurry_dense",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "fabrication",
-  "skills_required": ["electronics",  7],
-  "difficulty": 8,
-  "time": 95000,
-  "book_learn": [[ "recipe_lab_elec", 10 ]],
-  "qualities":[
-    {"id":"SAW_M","level":1},
-    {"id":"SCREW","level":1},
-    {"id":"HAMMER","level":2}
-  ],
-  "components": [
-    [
-      ["plut_cell", 1]
-    ],
-    [
-      [ "water", 10 ],
-      [ "water_clean", 10]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "plut_slurry",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "fabrication",
-  "skills_required": ["electronics",  7],
-  "difficulty": 8,
-  "time": 95000,
-  "book_learn": [[ "recipe_lab_elec", 10 ]],
-  "qualities":[
-    {"id":"SAW_M","level":1},
-    {"id":"SCREW","level":1},
-    {"id":"HAMMER","level":2}
-  ],
-  "components": [
-    [
-      ["plut_slurry_dense", 5]
-    ],
-    [
-      [ "water", 5 ],
-      [ "water_clean", 5]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "pebble",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "fabrication",
-  "time": 1000,
-  "autolearn": true,
-  "flags": ["BLIND_EASY"],
-  "qualities":[
-    {"id":"HAMMER","level":1}
-  ], "components": [
-    [
-      [ "rock", 1 ],
-      [ "sharp_rock", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "marble",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "fabrication",
-  "difficulty": 6,
-  "time": 60000,
-  "autolearn": true,
-  "book_learn": [[ "glassblowing_book", 5 ]],
-  "tools": [
-     [
-      ["tongs", -1]
-     ],
-     [
-      ["crucible", -1],
-      ["crucible_clay", -1]
-     ],
-     [
-      ["forge", 25]
-     ]
-    ],
-  "components":
-    [
-     [
-     [ "glass_shard", 2 ]
-     ]
-    ]
-},
   {
-    "type" : "recipe",
+    "type": "recipe",
+    "result": "mininuke_mod",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 7 ],
+    "difficulty": 8,
+    "time": "95 m",
+    "book_learn": [ [ "recipe_lab_elec", 7 ], [ "recipe_mininuke_launch", 5 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
+    "components": [
+      [ [ "mininuke", 1 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "circuit", 1 ] ],
+      [ [ "transponder", 1 ] ],
+      [ [ "pipe", 8 ] ],
+      [ [ "chem_rocket_fuel", 33 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "pebble",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "time": "1 m",
+    "autolearn": true,
+    "flags": [ "BLIND_EASY" ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "rock", 1 ], [ "sharp_rock", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "pebble_clay",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "45 m",
+    "autolearn": true,
+    "tools": [ [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "marble",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "60 m",
+    "autolearn": true,
+    "book_learn": [ [ "glassblowing_book", 5 ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
+    "components": [ [ [ "glass_shard", 8 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "bearing",
     "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
+    "subcategory": "CSC_AMMO_OTHER",
     "skill_used": "fabrication",
     "skills_required": [ "gun", 4 ],
     "difficulty": 2,
-    "time": 45000,
+    "time": "45 m",
     "autolearn": true,
-    "book_learn": [[ "textbook_fabrication", 1 ]],
+    "book_learn": [ [ "textbook_fabrication", 1 ] ],
+    "tools": [ [ [ "press", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
+    "components": [ [ [ "weights", 10, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_small_game_fletched",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 3,
+    "time": "15 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 1 ], [ "pocket_survival", 1 ], [ "book_archery", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_fire_hardened_fletched",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 2 ],
+    "difficulty": 1,
+    "time": "15 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 1 ], [ "book_archery", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_wood",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 4 ], [ "survival", 1 ] ],
+    "using": [ [ "forging_standard", 1 ] ],
+    "difficulty": 5,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ] ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "steel_tiny", 1, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_field_point_fletched",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 4 ], [ "survival", 1 ] ],
+    "using": [ [ "forging_standard", 1 ] ],
+    "difficulty": 5,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ] ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "steel_tiny", 1, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_heavy_field_point_fletched",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 4 ], [ "survival", 1 ] ],
+    "using": [ [ "forging_standard", 1 ] ],
+    "difficulty": 5,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ] ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "steel_tiny", 1, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_metal_sharpened_fletched",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 3 ], [ "survival", 1 ] ],
+    "difficulty": 4,
+    "time": "20 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
+      [ [ "wire", 5 ], [ "pipe", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_heavy_fire_hardened_fletched",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "survival", 3 ], [ "archery", 1 ] ],
+    "difficulty": 3,
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "fire", -1 ] ] ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_wood_heavy",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 3 ], [ "survival", 1 ] ],
+    "difficulty": 4,
+    "time": "20 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 2 ], [ "pocket_survival", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "bee_sting", 2 ] ],
+      [
+        [ "bone", 5 ],
+        [ "bone_human", 5 ],
+        [ "bone_tainted", 10 ],
+        [ "rock", 1 ],
+        [ "ceramic_shard", 1 ],
+        [ "scrap", 2 ],
+        [ "nail", 10 ],
+        [ "sharp_rock", 1 ]
+      ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bolt_wood",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "survival", 1 ] ],
+    "using": [ [ "forging_standard", 1 ] ],
+    "difficulty": 5,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ] ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "steel_tiny", 1, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bolt_wood_bodkin",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "survival", 1 ] ],
+    "using": [ [ "forging_standard", 1 ] ],
+    "difficulty": 5,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ] ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "steel_tiny", 1, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bolt_wood_small_game",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "survival", 1 ] ],
+    "using": [ [ "forging_standard", 1 ] ],
+    "difficulty": 5,
+    "time": "30 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 1 }, { "id": "ANVIL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ] ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "steel_tiny", 1, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bolt_metal",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "survival", 1 ] ],
+    "difficulty": 4,
+    "time": "20 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
+      [ [ "wire", 4 ], [ "pipe", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bolt_crude",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 2 ],
+    "difficulty": 1,
+    "time": "15 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 1 ], [ "book_archery", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "bolt_simple_wood",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "survival", 3 ] ],
+    "difficulty": 3,
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "fire", -1 ] ] ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bolt_simple_small_game",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 3,
+    "time": "15 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 1 ], [ "pocket_survival", 1 ], [ "book_archery", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bolt_makeshift",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "survival", 1 ] ],
+    "difficulty": 4,
+    "time": "20 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 2 ], [ "pocket_survival", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "bee_sting", 2 ] ],
+      [
+        [ "bone", 5 ],
+        [ "bone_human", 5 ],
+        [ "bone_tainted", 10 ],
+        [ "rock", 1 ],
+        [ "ceramic_shard", 1 ],
+        [ "scrap", 2 ],
+        [ "nail", 10 ],
+        [ "sharp_rock", 1 ]
+      ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "flamable_arrow",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ "archery", 3 ],
+    "difficulty": 3,
+    "time": "5 m",
+    "reversible": true,
+    "book_learn": [ [ "recipe_arrows", 5 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [
+        [ "arrow_field_point_fletched", 5 ],
+        [ "arrow_fire_hardened_fletched", 5 ],
+        [ "arrow_wood", 5 ],
+        [ "arrow_heavy_fire_hardened_fletched", 5 ],
+        [ "arrow_heavy_field_point_fletched", 5 ],
+        [ "arrow_wood_heavy", 5 ],
+        [ "arrow_metal", 5 ]
+      ],
+      [ [ "rag", 1, "NO_RECOVER" ] ],
+      [
+        [ "lamp_oil", 50, "NO_RECOVER" ],
+        [ "chem_ethanol", 100, "NO_RECOVER" ],
+        [ "denat_alcohol", 100, "NO_RECOVER" ],
+        [ "gasoline", 250, "NO_RECOVER" ],
+        [ "diesel", 250, "NO_RECOVER" ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_exploding",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 4 ] ],
+    "difficulty": 4,
+    "time": "7 m",
+    "reversible": true,
+    "decomp_learn": 6,
+    "note": "you just take the warhead off or put it on, rather than making the warhead",
+    "book_learn": [ [ "recipe_arrows", 6 ], [ "textbook_anarch", 4 ], [ "recipe_bullets", 7 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "exploding_arrow_warhead", 5 ] ],
+      [
+        [ "arrow_field_point_fletched", 5 ],
+        [ "arrow_fire_hardened_fletched", 5 ],
+        [ "arrow_wood", 5 ],
+        [ "arrow_heavy_fire_hardened_fletched", 5 ],
+        [ "arrow_heavy_field_point_fletched", 5 ],
+        [ "arrow_wood_heavy", 5 ],
+        [ "arrow_metal", 5 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "exploding_arrow_warhead",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 5 ], [ "mechanics", 3 ] ],
+    "difficulty": 6,
+    "time": "5 m",
+    "book_learn": [ [ "textbook_anarch", 4 ], [ "recipe_bullets", 7 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ] ],
+      [ [ "superglue", 1 ], [ "string_36", 1 ] ],
+      [
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
+        [ "smrifle_primer", 1 ],
+        [ "lgrifle_primer", 1 ],
+        [ "shotgun_primer", 1 ]
+      ],
+      [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "bolt_explosive",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "mechanics", 3 ] ],
+    "difficulty": 5,
+    "time": "10 m",
+    "book_learn": [ [ "recipe_arrows", 7 ], [ "textbook_anarch", 4 ], [ "recipe_bullets", 7 ] ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "bolt_metal", 1 ], [ "bolt_steel", 1 ] ],
+      [ [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ] ],
+      [ [ "superglue", 1 ], [ "string_36", 1 ] ],
+      [
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
+        [ "smrifle_primer", 1 ],
+        [ "lgrifle_primer", 1 ],
+        [ "shotgun_primer", 1 ]
+      ],
+      [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "fishspear",
+    "category": "CC_AMMO",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ], [ [ "scrap", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "m_fishspear",
+    "category": "CC_AMMO",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_chunk", 3 ], [ "scrap", 8 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "blun_shot",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": "30 s",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "gunpowder", 16 ], [ "chem_black_powder", 24 ] ],
+      [
+        [ "bb", 24 ],
+        [ "clockworks", 1 ],
+        [ "pebble", 16 ],
+        [ "pebble_clay", 16 ],
+        [ "marble", 16 ],
+        [ "bearing", 16 ],
+        [ "glass_shard", 1 ]
+      ],
+      [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "blun_shot",
+    "id_suffix": "using_big_scrap",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": "50 s",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "gunpowder", 16 ], [ "chem_black_powder", 24 ] ],
+      [ [ "scrap", 1 ], [ "nail", 8 ], [ "copper", 16 ], [ "lead", 16 ] ],
+      [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "blun_slug",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": "50 s",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "gunpowder", 16 ], [ "chem_black_powder", 24 ] ],
+      [ [ "rebar", 1 ], [ "spear_rebar", 1 ], [ "rebar_rail", 1 ], [ "steel_rail", 1 ], [ "scrap", 1 ] ],
+      [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "blun_slug",
+    "id_suffix": "using_lead",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": "50 s",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "using": [ [ "surface_heat", 2 ] ],
+    "components": [ [ [ "gunpowder", 16 ], [ "chem_black_powder", 24 ] ], [ [ "lead", 24 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "blun_flechette",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": "30 s",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "gunpowder", 16 ], [ "chem_black_powder", 24 ] ],
+      [ [ "nail", 8 ], [ "combatnail", 8 ] ],
+      [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "shotcanister_scrap",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": "1 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
+    "components": [ [ [ "scrap", 1 ] ], [ [ "paper", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "shotcanister_flechette",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": "1 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
+    "components": [ [ [ "combatnail", 10 ] ], [ [ "paper", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "shotcanister_bearing",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": "1 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
+    "components": [ [ [ "bearing", 10 ] ], [ [ "paper", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "shotcanister_pebble",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 3,
+    "time": "1 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
+    "qualities": [  ],
+    "using": [  ],
+    "components": [ [ [ "pebble", 10 ] ], [ [ "paper", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "arrow_plastic",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_ARROWS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "archery", 3 ], [ "survival", 1 ] ],
+    "difficulty": 5,
+    "time": "56 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
+    "components": [
+      [ [ "plastic_chunk", 3 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "rebar_rail",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "120 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "rebar", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "steel_rail",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "100 m",
+    "autolearn": true,
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 200 ], [ "oxy_torch", 40 ] ] ],
+    "components": [ [ [ "steel_lump", 4 ], [ "steel_chunk", 16 ], [ "scrap", 48 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "combatnail",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 2,
+    "time": "180 m",
+    "autolearn": true,
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "napalm",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 7,
+    "time": "60 m",
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "book_learn": [
+      [ "textbook_gaswarfare", 8, "" ],
+      [ "textbook_anarch", 7, "Stuff THE MAN doesn't want you to know" ],
+      [ "recipe_labchem", 6 ]
+    ],
+    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
+    "components": [
+      [ [ "gasoline", 125 ], [ "diesel", 125 ] ],
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "bleach", 2 ] ],
+      [ [ "oxy_powder", 15 ] ],
+      [ [ "lye_powder", 15 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "gelled_gasoline",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "batch_time_factors": [ 80, 5 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "book_learn": [ [ "textbook_gaswarfare", 2 ], [ "textbook_anarch", 2, "Stuff THE MAN doesn't want you to know" ] ],
+    "components": [ [ [ "gasoline", 100 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "flamethrower_fuel",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "3 m",
+    "batch_time_factors": [ 80, 5 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "book_learn": [
+      [ "textbook_gaswarfare", 2 ],
+      [ "textbook_anarch", 2, "Stuff THE MAN doesn't want you to know" ],
+      [ "manual_launcher", 2 ]
+    ],
+    "components": [ [ [ "gasoline", 125 ] ], [ [ "diesel", 125 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "spiked_rocket",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "8 m",
+    "book_learn": [ [ "manual_launcher", 4 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
     "tools": [
-    [
-      [ "press", -1 ]
-    ],
-    [
-      ["crucible", -1],
-      ["crucible_clay", -1]
-    ],
-    [
-      ["forge", 100], [ "oxy_torch", 20]
-    ]
+      [ [ "oxy_torch", 6 ], [ "welder", 30 ], [ "welder_crude", 45 ], [ "toolset", 45 ] ],
+      [ [ "hotplate", 50 ], [ "toolset", 50 ] ]
     ],
     "components": [
-      [
-      [ "lead", 50 ],
-      [ "gold_small", 50 ],
-      [ "silver_small", 50 ],
-      [ "platinum_small", 50 ],
-      [ "tin", 50 ],
-      [ "bismuth", 50 ],
-      [ "solder_wire", 50 ]
-      ]
+      [ [ "pipe", 2 ] ],
+      [ [ "spike", 1 ] ],
+      [ [ "tool_rocket_candy", 3 ], [ "chem_rocket_fuel", 75 ] ],
+      [ [ "scrap", 3 ] ]
     ]
-},{
-  "type" : "recipe",
-  "result" : "arrow_field_point_fletched",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [[ "archery", 2 ], [ "survival", 1 ]],
-  "difficulty" : 3,
-  "time" : 11000,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 1 ] , [ "book_archery", 3]],
-  "qualities":[
-    {"id":"CUT","level":1},
-    {"id":"HAMMER","level":1}
-  ],
-  "components" : [
-    [
-      [ "adhesive", 1, "LIST" ],
-      [ "filament", 20, "LIST" ]
-    ],
-    [
-      [ "stick", 1 ],
-      [ "broom", 1 ],
-      [ "2x4", 1 ],
-      [ "bee_sting", 1 ]
-    ],
-    [
-      [ "bone", 5 ],
-      [ "bone_human", 5 ],
-      [ "bone_tainted", 10 ],
-      [ "rock", 1 ],
-      [ "ceramic_shard", 1 ],
-      [ "scrap", 2 ],
-      [ "nail", 10 ],
-      [ "sharp_rock", 1 ]
-    ],
-    [
-      [ "fletching", 1, "LIST" ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrow_small_game_fletched",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [ "survival", 1 ],
-  "difficulty" : 1,
-  "time" : 11000,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 1 ] , [ "pocket_survival", 1], [ "book_archery", 2]],
-  "qualities":[
-    {"id":"CUT","level":1}
-  ],
-  "components" : [
-    [
-      [ "adhesive", 1, "LIST" ],
-      [ "filament", 20, "LIST" ]
-    ],
-    [
-      [ "stick", 1 ],
-      [ "broom", 1 ],
-      [ "2x4", 1 ],
-      [ "bee_sting", 1 ]
-    ],
-    [
-      [ "bone", 5 ],
-      [ "bone_human", 5 ],
-      [ "bone_tainted", 10 ],
-      [ "rock", 1 ],
-      [ "ceramic_shard", 1 ],
-      [ "scrap", 2 ],
-      [ "nail", 10 ],
-      [ "sharp_rock", 1 ]
-    ],
-    [
-      [ "fletching", 1, "LIST" ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrow_fire_hardened_fletched",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [ "survival", 2 ],
-  "difficulty" : 1,
-  "time" : 14000,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 2 ] , [ "book_archery", 2]],
-  "qualities":[
-    {"id":"CUT","level":1}
-  ],
-  "tools" : [
-    [
-      [ "fire", -1 ]
-    ]
-  ],
-  "components" : [
-    [
-      [ "adhesive", 1, "LIST" ],
-      [ "filament", 10, "LIST" ]
-    ],
-    [
-      [ "stick", 1 ],
-      [ "broom", 1 ],
-      [ "2x4", 1 ],
-      [ "bee_sting", 1 ]
-    ],
-    [
-      [ "fletching", 1, "LIST" ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "flamable_arrow",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [ "archery", 3 ],
-  "difficulty" : 3,
-  "time" : 5000,
-  "reversible" : true,
-  "book_learn" : [[ "recipe_arrows", 5 ]],
-  "qualities":[
-    {"id":"CUT","level":1}
-  ],
-  "components" : [
-    [
-      [ "arrow_field_point_fletched", 5 ],
-      [ "arrow_fire_hardened_fletched", 5 ],
-      [ "arrow_wood", 5 ],
-      [ "arrow_heavy_fire_hardened_fletched", 5 ],
-      [ "arrow_heavy_field_point_fletched", 5 ],
-      [ "arrow_wood_heavy", 5 ],
-      [ "arrow_metal", 5 ]
-    ],
-    [
-      [ "rag", 1, "NO_RECOVER" ]
-    ],
-    [
-      [ "lamp_oil", 50, "NO_RECOVER" ],
-      [ "chem_ethanol", 100, "NO_RECOVER" ],
-      [ "denat_alcohol", 100, "NO_RECOVER" ],
-      [ "gasoline", 250, "NO_RECOVER" ],
-      [ "diesel", 250, "NO_RECOVER" ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrow_wood",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [[ "archery", 2 ], [ "survival", 1 ]],
-  "difficulty" : 3,
-  "time" : 14000,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 3 ]],
-  "qualities":[
-    {"id":"HAMMER","level":1},
-    {"id":"CUT","level":1}
-  ],
-  "components" : [
-    [
-      [ "adhesive", 1, "LIST" ],
-      [ "filament", 20, "LIST" ]
-    ],
-    [
-      [ "steel_chunk", 1 ],
-      [ "scrap", 3 ]
-    ],
-    [
-      [ "stick", 1 ],
-      [ "broom", 1 ],
-      [ "2x4", 1 ],
-      [ "bee_sting", 1 ]
-    ],
-    [
-      [ "fletching", 1, "LIST" ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrow_metal_sharpened_fletched",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [[ "archery", 3 ], [ "survival", 1 ]],
-  "difficulty" : 4,
-  "time" : 20000,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 3 ]],
-  "qualities":[
-    {"id":"HAMMER","level":1},
-    {"id":"CUT","level":1},
-    {"id":"SAW_M","level":1}
-  ], "components" : [
-    [
-      [ "adhesive", 1, "LIST" ],
-      [ "filament", 10, "LIST" ]
-    ],
-    [
-      [ "scrap", 6 ],
-      [ "steel_chunk", 2 ]
-    ],
-    [
-      [ "fletching", 1, "LIST" ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrow_heavy_fire_hardened_fletched",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [[ "survival", 3 ], [ "archery", 1 ]],
-  "difficulty" : 4,
-  "time" : 20000,
-  "autolearn" : true,
-  "qualities":[
-    {"id":"CUT","level":1}
-  ], "tools" : [
-    [
-      [ "fire", -1 ]
-    ]
-  ], "components" : [
-    [
-      [ "adhesive", 1, "LIST" ],
-      [ "filament", 10, "LIST" ]
-    ],
-    [
-      [ "stick", 2 ],
-      [ "broom", 2 ],
-      [ "2x4", 2 ],
-      [ "bee_sting", 2 ]
-    ],
-    [
-      [ "fletching", 1, "LIST" ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrow_heavy_field_point_fletched",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [[ "archery", 3 ], [ "survival", 1]],
-  "difficulty" : 4,
-  "time" : 17000,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 2 ] , [ "pocket_survival", 2]],
-  "qualities":[
-    {"id":"CUT","level":1},
-    {"id":"HAMMER","level":1}
-  ],
-  "components" : [
-    [
-      [ "adhesive", 1, "LIST" ],
-      [ "filament", 20, "LIST" ]
-    ],
-    [
-      [ "stick", 2 ],
-      [ "broom", 2 ],
-      [ "2x4", 2 ],
-      [ "bee_sting", 2 ]
-    ],
-    [
-      [ "bone", 5 ],
-      [ "bone_human", 5 ],
-      [ "bone_tainted", 10 ],
-      [ "rock", 1],
-      [ "ceramic_shard", 1 ],
-      [ "scrap", 2 ],
-      [ "nail", 10 ],
-      [ "sharp_rock", 1 ]
-    ],
-    [
-      [ "fletching", 1, "LIST" ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrow_wood_heavy",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [[ "archery", 5 ], [ "survival", 1]],
-  "difficulty" : 5,
-  "time" : 18000,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 3 ]],
-  "qualities" : [
-    {"id":"HAMMER","level":1},
-    {"id":"CUT","level":1}
-  ],
-  "components" : [
-    [
-      [ "adhesive", 1, "LIST" ],
-      [ "filament", 20, "LIST" ]
-    ],
-    [
-      [ "steel_chunk", 1 ],
-      [ "scrap", 3 ]
-    ],
-    [
-      [ "stick", 2 ],
-      [ "broom", 2 ],
-      [ "2x4", 2 ],
-      [ "bee_sting", 2 ]
-    ],
-    [
-      [ "fletching", 1, "LIST" ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrow_metal",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [[ "archery", 5 ], [ "survival", 1 ]],
-  "difficulty" : 5,
-  "time" : 20000,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 4 ]],
-  "qualities" : [
-    {"id":"CUT","level":1},
-    {"id":"HAMMER","level":1},
-    {"id":"SAW_M","level":1}
-  ], "components" : [
-    [
-      [ "adhesive", 1, "LIST" ],
-      [ "filament", 20, "LIST" ]
-    ],
-    [
-      [ "scrap", 9 ],
-      [ "steel_chunk", 3 ]
-    ],
-    [
-      [ "fletching", 1, "LIST" ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrow_metal_bodkin",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [[ "archery", 5 ], [ "survival", 1 ]],
-  "difficulty" : 5,
-  "time" : 20000,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 4 ]],
-  "qualities" : [
-    {"id":"CUT","level":1},
-    {"id":"HAMMER","level":1},
-    {"id":"SAW_M","level":1}
-  ], "components" : [
-    [
-      [ "adhesive", 1, "LIST" ],
-      [ "filament", 20, "LIST" ]
-    ],
-    [
-      [ "scrap", 9 ],
-      [ "steel_chunk", 3 ]
-    ],
-    [
-      [ "fletching", 1, "LIST" ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrow_metal_target",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [[ "archery", 5 ], [ "survival", 1 ]],
-  "difficulty" : 5,
-  "time" : 20000,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 4 ]],
-  "qualities" : [
-    {"id":"CUT","level":1},
-    {"id":"HAMMER","level":1},
-    {"id":"SAW_M","level":1}
-  ], "components" : [
-    [
-      [ "adhesive", 1, "LIST" ],
-      [ "filament", 20, "LIST" ]
-    ],
-    [
-      [ "scrap", 9 ],
-      [ "steel_chunk", 3 ]
-    ],
-    [
-      [ "fletching", 1, "LIST" ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrow_exploding",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [[ "archery", 4 ]],
-  "difficulty" : 4,
-  "time" : 7000,
-  "reversible" : true,
-  "decomp_learn": 6,
-  "note": "you just take the warhead off or put it on, rather than making the warhead",
-  "book_learn" : [[ "recipe_arrows", 6 ], [ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
-  "qualities":[
-    {"id":"SAW_M","level":1},
-    {"id":"SCREW","level":1}
-  ], "components" : [
-    [
-      [ "exploding_arrow_warhead", 5 ]
-    ],
-    [
-      [ "arrow_field_point_fletched", 5 ],
-      [ "arrow_fire_hardened_fletched", 5 ],
-      [ "arrow_wood", 5 ],
-      [ "arrow_heavy_fire_hardened_fletched", 5 ],
-      [ "arrow_heavy_field_point_fletched", 5 ],
-      [ "arrow_wood_heavy", 5 ],
-      [ "arrow_metal", 5 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "exploding_arrow_warhead",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_COMPONENTS",
-  "skill_used" : "fabrication",
-  "skills_required": [[ "archery", 5 ], [ "mechanics", 3 ]],
-  "difficulty" : 6,
-  "time" : 5000,
-  "book_learn": [[ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
-  "using": [ [ "soldering_standard", 10 ] ],
-  "qualities":[
-    {"id":"SAW_M","level":1}
-  ],
-  "components" : [
-    [
-      [ "can_food_unsealed", 1 ],
-      [ "can_drink_unsealed", 1 ],
-      [ "canister_empty", 1 ]
-    ],
-    [
-      [ "superglue", 1 ],
-      [ "string_36", 1 ]
-    ],
-    [
-        [ "smpistol_primer", 1 ],
-        [ "lgpistol_primer", 1 ],
-        [ "smrifle_primer", 1 ],
-        [ "lgrifle_primer", 1 ],
-        [ "shotgun_primer", 1 ]
-    ],
-    [
-      [ "gunpowder", 20 ],
-      [ "chem_black_powder", 20 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bolt_wood",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 5000,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1}
-  ],
-  "components": [
-    [
-      [ "stick", 1 ],
-      [ "broom", 1 ],
-      [ "2x4", 1 ],
-      [ "bee_sting", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bolt_metal",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used": "fabrication",
-  "difficulty": 3,
-  "time": 10000,
-  "autolearn": true,
-  "book_learn" : [[ "recipe_arrows", 2 ]],
-  "qualities":[
-    {"id":"HAMMER","level":1},
-    {"id":"SAW_M","level":1}
-  ], "components": [
-      [
-        ["scrap", 6],
-        ["steel_chunk", 2]
-      ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bolt_steel",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used": "fabrication",
-  "difficulty": 5,
-  "time": 10000,
-  "autolearn": true,
-  "book_learn" : [[ "recipe_arrows", 2 ]],
-  "qualities":[
-    {"id":"HAMMER","level":1}
-  ],
-     "tools": [
-    [
-      ["forge", 7],
-      ["oxy_torch", 2]
-      ]
-    ],
-     "//" : "Extra steel is for stablizers, mass, etc.  These are mostly better thanks to the maker's skill, though.",
-     "components": [
-    [
-      ["steel_chunk", 2]
-    ],
-    [
-      ["scrap", 6]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bolt_steel_bodkin",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used": "fabrication",
-  "difficulty": 5,
-  "time": 10000,
-  "autolearn": true,
-  "book_learn" : [[ "recipe_arrows", 2 ]],
-  "qualities":[
-    {"id":"HAMMER","level":1}
-  ],
-     "tools": [
-    [
-      ["forge", 7],
-      ["oxy_torch", 2]
-      ]
-    ],
-     "components": [
-    [
-      ["steel_chunk", 2]
-    ],
-    [
-      ["scrap", 6]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bolt_steel_target",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used": "fabrication",
-  "difficulty": 5,
-  "time": 10000,
-  "autolearn": true,
-  "book_learn" : [[ "recipe_arrows", 2 ]],
-  "qualities":[
-    {"id":"HAMMER","level":1}
-  ],
-     "tools": [
-    [
-      ["forge", 7],
-      ["oxy_torch", 2]
-      ]
-    ],
-     "components": [
-    [
-      ["steel_chunk", 2]
-    ],
-    [
-      ["scrap", 6]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bolt_explosive",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used": "fabrication",
-  "skills_required": [[ "archery", 4 ], [ "mechanics", 3 ]],
-  "difficulty" : 5,
-  "time": 10000,
-  "book_learn" : [[ "recipe_arrows", 7 ], [ "textbook_anarch", 4 ] , ["recipe_bullets" , 7]],
-  "using": [ [ "soldering_standard", 10 ] ],
-  "qualities":[
-    {"id":"SAW_M","level":1}
-  ], "components": [
-    [
-        ["bolt_metal", 1],
-        ["bolt_steel", 1]
-    ],
-    [
-      [ "can_food_unsealed", 1 ],
-      [ "can_drink_unsealed", 1 ],
-      [ "canister_empty", 1 ]
-    ],
-    [
-      [ "superglue", 1 ],
-      [ "string_36", 1 ]
-    ],
-    [
-        [ "smpistol_primer", 1 ],
-        [ "lgpistol_primer", 1 ],
-        [ "smrifle_primer", 1 ],
-        [ "lgrifle_primer", 1 ],
-        [ "shotgun_primer", 1 ]
-    ],
-    [
-      [ "gunpowder", 20 ],
-      [ "chem_black_powder", 20 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "fishspear",
-  "category": "CC_AMMO",
-  "skill_used": "fabrication",
-  "difficulty": 2,
-  "time": 5000,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1},
-    {"id":"HAMMER","level":1}
-  ], "components": [
-    [
-      [ "stick", 1 ],
-      [ "broom", 1 ],
-      [ "2x4", 1 ],
-      [ "bee_sting", 1 ]
-    ],
-    [
-      [ "scrap", 4 ]
-    ]
-  ]
-},{
-   "type" : "recipe",
-  "result": "m_fishspear",
-  "category": "CC_AMMO",
-  "skill_used": "fabrication",
-  "difficulty": 4,
-  "time": 10000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1},
-    {"id":"SAW_M","level":1}
-  ], "components": [
-      [
-        ["steel_chunk", 3],
-        ["scrap", 8]
-      ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "blun_shot",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_SHOT",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 500,
-  "autolearn": true,
-  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
-  "qualities":[
-    {"id":"SAW_M","level":1}
-  ],
-  "using": [ [ "surface_heat", 2 ] ],
-  "components": [
-    [
-      [ "gunpowder", 16 ],
-      [ "chem_black_powder", 16 ]
-    ],
-    [
-      [ "scrap", 1 ],
-      [ "nail", 8 ],
-      [ "bb", 16 ],
-      [ "pipe", 1 ],
-      [ "copper", 16 ],
-      [ "clockworks", 1 ],
-      [ "pebble", 16 ],
-      [ "marble", 16 ],
-      [ "bearing", 16 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "blun_slug",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_SHOT",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 500,
-  "autolearn": true,
-  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
-  "qualities":[
-    {"id":"SAW_M","level":1}
-  ],
-  "using": [ [ "surface_heat", 2 ] ],
-  "components": [
-    [
-      [ "gunpowder", 16 ],
-      [ "chem_black_powder", 16 ]
-    ],
-    [
-      [ "rebar", 1 ],
-      [ "spear_rebar", 1 ],
-      [ "rebar_rail", 1],
-      [ "steel_rail", 1],
-      [ "scrap", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "blun_flechette",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_SHOT",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 3,
-  "time": 500,
-  "autolearn": true,
-  "book_learn": [["recipe_bullets" , 2 ] , [ "manual_shotgun", 2 ]],
-  "qualities":[
-    {"id":"SAW_M","level":1}
-  ],
-  "using": [ [ "surface_heat", 2 ] ],
-  "components":  [
-    [
-      [ "gunpowder", 16 ],
-      [ "chem_black_powder", 16 ]
-    ],
-    [
-      [ "glass_shard", 1],
-      [ "nail", 8], [ "combatnail", 8 ]
-    ]
-  ]
-},{
-    "type" : "recipe",
-    "result": "smpistol_primer",
+  },
+  {
+    "type": "recipe",
+    "result": "explosive_hm_rocket",
     "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_COMPONENTS",
+    "subcategory": "CSC_AMMO_OTHER",
     "skill_used": "fabrication",
-    "skills_required": [ "gun", 3 ],
     "difficulty": 4,
-    "time": 45000,
-    "book_learn": [[ "manual_pistol", 3 ] , ["recipe_bullets" , 2]],
-    "qualities":[
-    {"id":"HAMMER","level":3}
-    ], "tools": [
-     [
-      ["swage", -1]
-     ],
-     [
-      ["press", -1]
-     ]
-    ],
+    "time": "30 m",
+    "book_learn": [ [ "manual_launcher", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
+    "tools": [ [ [ "hotplate", 50 ], [ "toolset", 50 ] ] ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "chem_black_powder", 150 ] ], [ [ "tool_rocket_candy", 2 ], [ "chem_rocket_fuel", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "incendiary_hm_rocket",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "20 m",
+    "book_learn": [ [ "manual_launcher", 6 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
+    "tools": [ [ [ "hotplate", 50 ], [ "toolset", 50 ] ] ],
     "components": [
-    [
-      [ "can_drink_unsealed", 2 ],
-      [ "can_food_unsealed", 2 ],
-      [ "canister_empty", 2 ],
-      [ "scrap", 4 ]
+      [ [ "pipe", 2 ] ],
+      [ [ "chem_thermite", 50 ] ],
+      [ [ "plastic_chunk", 5 ] ],
+      [ [ "tool_rocket_candy", 2 ], [ "chem_rocket_fuel", 50 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "gas_fungicidal",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "cooking",
+    "skills_required": [ "survival", 2 ],
+    "difficulty": 4,
+    "time": "8 m",
+    "book_learn": [ [ "textbook_gaswarfare", 4 ], [ "textbook_chemistry", 4 ], [ "adv_chemistry", 4 ], [ "recipe_labchem", 4 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "fungicide", 50 ] ], [ [ "chem_sulphur", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "gas_insecticidal",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "cooking",
+    "skills_required": [ "survival", 2 ],
+    "difficulty": 4,
+    "time": "8 m",
+    "book_learn": [ [ "textbook_gaswarfare", 4 ], [ "textbook_chemistry", 4 ], [ "adv_chemistry", 4 ], [ "recipe_labchem", 4 ] ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "insecticide", 50 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "gas_chloramine",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "cooking",
+    "skills_required": [ "survival", 2 ],
+    "difficulty": 3,
+    "time": "8 m",
+    "book_learn": [
+      [ "textbook_gaswarfare", 3 ],
+      [ "textbook_chemistry", 4 ],
+      [ "adv_chemistry", 3 ],
+      [ "recipe_labchem", 3 ],
+      [ "textbook_anarch", 3 ]
     ],
+    "qualities": [ { "id": "CHEM", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "oxy_powder", 100 ] ], [ [ "lye_powder", 100 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "tinder",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "1 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
       [
-        [ "oxy_powder", 100 ]
+        [ "stick", 1 ],
+        [ "2x4", 1 ],
+        [ "splinter", 2 ],
+        [ "pine_bough", 1 ],
+        [ "rag", 1 ],
+        [ "paper", 5 ],
+        [ "rolling_paper", 30 ],
+        [ "wrapper", 5 ],
+        [ "withered", 2 ],
+        [ "cattail_stalk", 1 ],
+        [ "birchbark", 1 ],
+        [ "willowbark", 1 ]
       ]
     ]
   },
   {
-    "type" : "recipe",
-    "result": "lgpistol_primer",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_COMPONENTS",
+    "type": "recipe",
+    "result": "cac2powder",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
-    "skills_required": [ "gun", 3 ],
-    "difficulty": 4,
-    "time": 45000,
-    "book_learn": [[ "manual_pistol", 3 ] , ["recipe_bullets" , 2]],
-    "qualities":[
-    {"id":"HAMMER","level":3}
-    ], "tools": [
-     [
-      ["swage", -1]
-     ],
-     [
-      ["press", -1]
-     ]
-    ],
-    "components": [
-    [
-      [ "can_drink_unsealed", 2 ],
-      [ "can_food_unsealed", 2 ],
-      [ "canister_empty", 2 ],
-      [ "scrap", 4 ]
-    ],
-      [
-        [ "oxy_powder", 100 ]
-      ]
-    ]
-  },
-  {
-    "type" : "recipe",
-    "result": "smrifle_primer",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_COMPONENTS",
-    "skill_used": "fabrication",
-    "skills_required": [ "gun", 3 ],
-    "difficulty": 4,
-    "time": 45000,
-    "book_learn": [[ "mag_rifle", 3 ] , ["recipe_bullets" , 2]],
-    "qualities":[
-    {"id":"HAMMER","level":3}
-    ], "tools": [
-     [
-      ["swage", -1]
-     ],
-     [
-      ["press", -1]
-     ]
-    ],
-    "components": [
-    [
-      [ "can_drink_unsealed", 2 ],
-      [ "can_food_unsealed", 2 ],
-      [ "canister_empty", 2 ],
-      [ "scrap", 4 ]
-    ],
-      [
-        [ "oxy_powder", 100 ]
-      ]
-    ]
-  },
-  {
-    "type" : "recipe",
-    "result": "lgrifle_primer",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_COMPONENTS",
-    "skill_used": "fabrication",
-    "skills_required": [ "gun", 3 ],
-    "difficulty": 4,
-    "time": 45000,
-    "book_learn": [[ "mag_rifle", 3 ] , ["recipe_bullets" , 2]],
-    "qualities":[
-    {"id":"HAMMER","level":3}
-    ], "tools": [
-     [
-      ["swage", -1]
-     ],
-     [
-      ["press", -1]
-     ]
-    ],
-    "components": [
-    [
-      [ "can_drink_unsealed", 2 ],
-      [ "can_food_unsealed", 2 ],
-      [ "canister_empty", 2 ],
-      [ "scrap", 4 ]
-    ],
-      [
-        [ "oxy_powder", 100 ]
-      ]
-    ]
-  },
-  {
-    "type" : "recipe",
-    "result": "shotgun_primer",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_COMPONENTS",
-    "skill_used": "fabrication",
-    "skills_required": [ "gun", 3 ],
-    "difficulty": 4,
-    "time": 45000,
-    "book_learn": [[ "manual_shotgun", 3 ] , ["recipe_bullets" , 2]],
-    "qualities":[
-    {"id":"HAMMER","level":3}
-    ], "tools": [
-     [
-      ["swage", -1]
-     ],
-     [
-      ["press", -1]
-     ]
-    ],
-    "components": [
-    [
-      [ "can_drink_unsealed", 2 ],
-      [ "can_food_unsealed", 2 ],
-      [ "canister_empty", 2 ],
-      [ "scrap", 4 ]
-    ],
-      [
-        [ "oxy_powder", 100 ]
-      ]
-    ]
-  },{
-  "type" : "recipe",
-  "result": "reloaded_laser_pack",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "fabrication",
-  "skills_required": [ "electronics", 5 ],
-  "difficulty": 3,
-  "time": 10000,
-  "reversible": true,
-  "decomp_learn": 4,
-  "book_learn": [[ "recipe_lab_elec", 4 ]],
-  "qualities" : [
-    {"id":"SCREW","level":1}
-  ], "components": [
-    [
-      [ "superglue", 1 ]
-    ],
-    [
-      [ "plut_cell", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrow_plastic",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required" : [["archery", 3], [ "survival", 1 ]],
-  "difficulty" : 5,
-  "time" : 56000,
-  "autolearn" : true,
-  "qualities":[
-    {"id":"CUT","level":1}
-  ],
-  "tools" : [ [ ["mold_plastic", -1] ],
-    [
-      [ "surface_heat", 15, "LIST" ]
-    ]
-  ],
-  "components" : [
-    [
-      ["plastic_chunk", 3]
-    ],
-    [
-      [ "fletching", 1, "LIST" ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "rebar_rail",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 120000,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1},
-    {"id":"SAW_M","level":1}
-  ], "components": [
-    [
-      ["rebar", 2]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "steel_rail",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "fabrication",
-  "difficulty": 2,
-  "time": 100000,
-  "autolearn": true,
-  "qualities":[
-    { "id": "ANVIL", "level": 3 },
-    {"id":"HAMMER","level":3},
-    { "id": "CHISEL", "level": 3 }
-  ], "tools": [
-     [
-      ["tongs", -1]
-     ],
-     [
-      ["crucible", -1],
-      ["crucible_clay", -1]
-     ],
-     [
-      ["forge", 200], [ "oxy_torch", 40]
-     ]
-    ],
-  "components":
-    [
-     [
-     [ "steel_lump", 4 ],
-     [ "steel_chunk", 16 ],
-     [ "scrap", 48 ]
-     ]
-    ]
-  },
-{
-  "type" : "recipe",
-  "result": "combatnail",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "fabrication",
-  "skills_required": [ "gun", 1 ],
-  "difficulty": 2,
-  "time": 180000,
-  "autolearn": true,
-  "qualities":[
-    { "id": "ANVIL", "level": 3 },
-    {"id":"HAMMER","level":3},
-    { "id": "CHISEL", "level": 3 }
-  ], "tools": [
-    [ ["tongs", -1]  ],
-    [ ["swage", -1]  ],
-    [ ["forge", 50], [ "oxy_torch", 10] ]
-           ],
-  "components": [
-    [
-      [ "steel_chunk", 1 ],
-      [ "scrap", 3 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "napalm",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "cooking",
-  "difficulty": 7,
-  "time": 60000,
-  "qualities":[
-    {"id":"CHEM","level":2}
-  ], "book_learn": [["textbook_gaswarfare" , 8, "" ], ["textbook_anarch" , 7, "Stuff THE MAN doesn't want you to know" ], ["recipe_labchem", 6 ]],
-  "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
-  "components": [
-    [ [ "gasoline", 125 ], [ "diesel", 125 ] ],
-    [ [ "plastic_chunk", 4 ] ],
-    [ [ "bleach", 2 ] ],
-    [ [ "oxy_powder", 15 ] ],
-    [ [ "lye_powder", 15 ] ]
-  ]
-},
-{
-"type" : "recipe",
-"result": "spiked_rocket",
-"category": "CC_AMMO",
-"subcategory": "CSC_AMMO_OTHER",
-"skill_used": "fabrication",
-"difficulty": 3,
-"time": 8000,
-"book_learn": [[ "manual_launcher", 4 ]],
-"qualities":[
-{"id":"HAMMER","level":3},
-{"id":"SAW_M","level":1}
-], "tools": [
-[
-[ "oxy_torch", 6 ],
-[ "welder", 30 ],
-[ "welder_crude", 45 ],
-[ "toolset", 45 ]
-],
-[
-[ "hotplate", 50 ],
-[ "toolset", 50 ]
-]
-],
-"components":
-[
-[
-[ "pipe", 2 ]
-],
-[
-[ "spike", 1 ]
-],
-[
-[ "tool_rocket_candy", 3 ],
-[ "chem_rocket_fuel", 75 ]
-],
-[
-[ "scrap", 3 ]
-]
-]
-},
-{
-"type" : "recipe",
-"result": "explosive_hm_rocket",
-"category": "CC_AMMO",
-"subcategory": "CSC_AMMO_OTHER",
-"skill_used": "fabrication",
-"difficulty": 4,
-"time": 30000,
-"book_learn": [[ "manual_launcher", 5 ]],
-"qualities":[
-{"id":"HAMMER","level":3},
-{"id":"SAW_M","level":1}
-], "tools": [
-[
-[ "hotplate", 50 ],
-[ "toolset", 50 ]
-]
-],
-"components":
-[
-[
-[ "pipe", 2 ]
-],
-[
-[ "chem_black_powder", 25 ]
-],
-[
-[ "tool_rocket_candy", 2 ],
-[ "chem_rocket_fuel", 50 ]
-]
-]
-},
-{
-"type" : "recipe",
-"result": "incendiary_hm_rocket",
-"category": "CC_AMMO",
-"subcategory": "CSC_AMMO_OTHER",
-"skill_used": "fabrication",
-"difficulty": 5,
-"time": 20000,
-"book_learn": [[ "manual_launcher", 6 ]],
-"qualities":[
-{"id":"HAMMER","level":3},
-{"id":"SAW_M","level":1}
-], "tools": [
-[
-[ "hotplate", 50 ],
-[ "toolset", 50 ]
-]
-],
-"components":
-[
-[
-[ "pipe", 2 ]
-],
-[
-[ "chem_thermite", 50 ]
-],
-[
-[ "plastic_chunk", 5 ]
-],
-[
-[ "tool_rocket_candy", 2 ],
-[ "chem_rocket_fuel", 50 ]
-]
-]
-},{
-   "type" : "recipe",
-  "result": "gas_fungicidal",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "cooking",
-  "skills_required": [ "survival", 2 ],
-  "difficulty": 4,
-  "time": 8000,
-  "book_learn": [[ "textbook_gaswarfare", 4 ] , ["textbook_chemistry", 4] , ["adv_chemistry", 4] , [ "recipe_labchem", 4]],
-  "qualities":[
-    {"id":"CHEM","level":1}
-  ], "tools": [
-    [
-      [ "surface_heat", 5, "LIST" ]
-    ]
-  ],
-  "components": [
-    [
-      [ "fungicide", 50 ]
-    ],
-    [
-      [ "chem_sulphur", 10 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "gas_chloramine",
-  "category": "CC_AMMO",
-  "subcategory": "CSC_AMMO_OTHER",
-  "skill_used": "cooking",
-  "skills_required": [ "survival", 2 ],
-  "difficulty": 3,
-  "time": 8000,
-  "book_learn": [[ "textbook_gaswarfare", 3 ], ["textbook_chemistry", 4], ["adv_chemistry", 3], [ "recipe_labchem", 3], [ "textbook_anarch", 3]],
-  "qualities":[ {"id":"CHEM","level":1} ],
-  "tools": [
-    [
-      [ "surface_heat", 5, "LIST" ]
-    ]
-  ],
-  "components": [
-    [
-      [ "oxy_powder", 100 ]
-    ],
-    [
-      [ "lye_powder", 100 ]
-    ]
-  ]
-}
+    "difficulty": 2,
+    "time": "60 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "coal_lump", 30 ] ], [ [ "material_quicklime", 44 ] ] ]
+  }
 ]

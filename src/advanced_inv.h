@@ -2,16 +2,18 @@
 #ifndef ADVANCED_INV_H
 #define ADVANCED_INV_H
 
-#include "cursesdef.h"
-#include "enums.h"
-#include "units.h"
-
+#include <cctype>
+#include <cstddef>
 #include <array>
 #include <functional>
 #include <list>
 #include <map>
 #include <string>
 #include <vector>
+
+#include "cursesdef.h"
+#include "point.h"
+#include "units.h"
 
 class uilist;
 class vehicle;
@@ -46,6 +48,7 @@ enum advanced_inv_sortby {
     SORTBY_CHARGES,
     SORTBY_CATEGORY,
     SORTBY_DAMAGE,
+    SORTBY_AMMO,
     SORTBY_SPOILAGE
 };
 
@@ -55,9 +58,11 @@ struct sort_case_insensitive_less : public std::binary_function< char, char, boo
     }
 };
 
+void advanced_inv();
+
 /**
  * Cancels ongoing move all action.
- * @todo: Make this not needed.
+ * TODO: Make this not needed.
  */
 void cancel_aim_processing();
 
@@ -69,8 +74,7 @@ struct advanced_inv_listitem;
 struct advanced_inv_area {
     const aim_location id;
     // Used for the small overview 3x3 grid
-    int hscreenx = 0;
-    int hscreeny = 0;
+    point hscreen = point_zero;
     // relative (to the player) position of the map point
     tripoint off;
     /** Long name, displayed, translated */
@@ -96,11 +100,11 @@ struct advanced_inv_area {
     int max_size;
 
     advanced_inv_area( aim_location id ) : id( id ) {}
-    advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off, std::string name,
-                       std::string shortname ) : id( id ), hscreenx( hscreenx ),
-        hscreeny( hscreeny ), off( off ), name( name ), shortname( shortname ), pos( 0, 0, 0 ),
-        canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0 ), weight( 0 ),
-        max_size( 0 ) {
+    advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off,
+                       const std::string &name, const std::string &shortname ) : id( id ),
+        hscreen( hscreenx, hscreeny ), off( off ), name( name ), shortname( shortname ),
+        canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0_ml ),
+        weight( 0_gram ), max_size( 0 ) {
     }
 
     void init();
@@ -122,7 +126,7 @@ struct advanced_inv_area {
         if( id > AIM_DRAGGED || id < AIM_SOUTHWEST ) {
             return false;
         }
-        return ( veh != nullptr && vstor >= 0 );
+        return veh != nullptr && vstor >= 0;
     }
 };
 
@@ -135,9 +139,9 @@ class item_category;
  * Most members are used only for sorting.
  */
 struct advanced_inv_listitem {
-    typedef std::string itype_id;
+    using itype_id = std::string;
     /**
-     * Index of the item in the original storage container (or inventory).
+     * Index of the item in the itemstack.
      */
     int idx;
     /**
@@ -210,12 +214,12 @@ struct advanced_inv_listitem {
                            aim_location area, bool from_vehicle );
     /**
      * Create a normal item entry.
-     * @param items The list of item pointers.
+     * @param list The list of item pointers.
      * @param index The index
      * @param area The source area. Must not be AIM_ALL.
      * @param from_vehicle Is the item from a vehicle cargo space?
      */
-    advanced_inv_listitem( const std::list<item *> &items, int index,
+    advanced_inv_listitem( const std::list<item *> &list, int index,
                            aim_location area, bool from_vehicle );
 };
 
@@ -328,6 +332,18 @@ class advanced_inventory
         ~advanced_inventory();
 
         void display();
+
+        /**
+         * Converts from screen relative location to game-space relative location
+         * for control rotation in isometric mode.
+        */
+        static aim_location screen_relative_location( aim_location area );
+
+        static char get_location_key( aim_location area );
+
+        advanced_inv_area &get_one_square( const aim_location &loc ) {
+            return squares[loc];
+        }
     private:
         /**
          * Refers to the two panes, used as index into @ref panes.
@@ -434,27 +450,11 @@ class advanced_inventory
          */
         bool query_destination( aim_location &def );
         /**
-         * Add the item to the destination area.
-         * @param destarea Where add the item to. This must not be AIM_ALL.
-         * @param new_item The item to add.
-         * @param count The amount to add items to add.
-         * @return Returns the amount of items that weren't addable, 0 if everything went fine.
-         */
-        int add_item( aim_location destarea, item &new_item, int count = 1 );
-        /**
-         * Remove the item from source area. Must not be used on items with area
-         *      AIM_ALL or AIM_INVENTORY!
-         * @param sitem The item reference that should be removed, along with the source area.
-         * @param count The amount to move of said item.
-         * @return Returns the amount of items that weren't removable, 0 if everything went fine.
-         */
-        int remove_item( advanced_inv_listitem &sitem, int count = 1 );
-        /**
          * Move content of source container into destination container (destination pane = AIM_CONTAINER)
-         * @param src Source container
-         * @param dest Destination container
+         * @param src_container Source container
+         * @param dest_container Destination container
          */
-        bool move_content( item &src, item &dest );
+        bool move_content( item &src_container, item &dest_container );
         /**
          * Setup how many items/charges (if counted by charges) should be moved.
          * @param destarea Where to move to. This must not be AIM_ALL.
@@ -467,18 +467,9 @@ class advanced_inventory
          *      a valid item count to be moved.
          */
         bool query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
-                            const std::string &action, long &amount );
+                            const std::string &action, int &amount );
 
-        void menu_square( uilist &menu );
-
-        static char get_location_key( aim_location area );
         static char get_direction_key( aim_location area );
-
-        /**
-         * Converts from screen relative location to game-space relative location
-         * for control rotation in isometric mode.
-        */
-        static aim_location screen_relative_location( aim_location area );
 };
 
 #endif

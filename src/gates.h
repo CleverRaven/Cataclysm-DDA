@@ -22,7 +22,7 @@ void open_gate( const tripoint &pos, player &p );
 /** opens the gate immediately */
 void open_gate( const tripoint &pos );
 
-}
+} // namespace gates
 
 namespace doors
 {
@@ -33,6 +33,6 @@ namespace doors
 */
 void close_door( map &m, Character &who, const tripoint &closep );
 
-}
+} // namespace doors
 
 #endif

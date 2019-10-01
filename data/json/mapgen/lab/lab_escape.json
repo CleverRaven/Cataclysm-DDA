@@ -34,20 +34,18 @@
         "-ggg|ggg|g!g|ggg|ggg-L-|"
       ],
       "palettes": [ "lab_palette" ],
-      "terrain": {
-        "^": [ "t_thconc_floor_olight" ]
-      },
-      "monster": {
-        "z": { "monster": "mon_zombie" }
-      },
+      "terrain": { "^": [ "t_thconc_floor_olight" ] },
+      "monster": { "z": { "monster": "mon_zombie" } },
       "mapping": {
         "b": { "items": [ { "item": "bed", "chance": 66 } ] },
-        "!": { "item": [ { "item": "glass_shard", "count": [3,6] } ] },
-        "l": { "item": [
-          { "item": "bottle_plastic", "count": [1,2] },
-          { "item": "can_food_unsealed", "count": [1,2] },
-          { "item": "steel_chunk", "count": 1 }
-        ] }
+        "!": { "item": [ { "item": "glass_shard", "count": [ 25, 50 ] } ] },
+        "l": {
+          "item": [
+            { "item": "bottle_plastic", "count": [ 1, 2 ] },
+            { "item": "can_food_unsealed", "count": [ 1, 2 ] },
+            { "item": "steel_chunk", "count": 1 }
+          ]
+        }
       }
     }
   },
@@ -86,19 +84,20 @@
         "-----------MM----------|"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ]
-      },
-      "monster": {
-        "Z": { "monster": "mon_zombie_brute" }
-      },
+      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ] },
+      "monster": { "Z": { "monster": "mon_zombie_brute" } },
       "place_nested": [
         { "chunks": [ "lab_spawn_7x7_wall_sw" ], "x": 4, "y": 3 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 13, "y": 3 },
         { "chunks": [ "lab_spawn_9x9" ], "x": [ 0, 1 ], "y": 14 },
         { "chunks": [ "lab_spawn_9x9_wall_nw" ], "x": 13, "y": 13 },
         { "chunks": [ "lab_border_walls_sew" ], "x": 0, "y": 0 },
-        { "chunks": [ "sub_t_stairs_up" ], "x": [11, 12], "y": [20, 21], "neighbors": { "above": [ "lab_stairs" ] } }
+        {
+          "chunks": [ "sub_t_stairs_up" ],
+          "x": [ 11, 12 ],
+          "y": [ 20, 21 ],
+          "neighbors": { "above": [ "lab_stairs" ] }
+        }
       ]
     }
   },
@@ -137,19 +136,20 @@
         "-----------MM----------|"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ]
-      },
-      "monster": {
-        "Z": { "monster": "mon_zombie_brute" }
-      },
+      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ] },
+      "monster": { "Z": { "monster": "mon_zombie_brute" } },
       "place_nested": [
         { "chunks": [ "lab_spawn_7x7_wall_nw" ], "x": 4, "y": 5 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 13, "y": 6 },
         { "chunks": [ "lab_spawn_9x9" ], "x": [ 0, 1 ], "y": 14 },
         { "chunks": [ "lab_spawn_9x9" ], "x": 14, "y": 14 },
         { "chunks": [ "lab_border_walls_sew" ], "x": 0, "y": 0 },
-        { "chunks": [ "sub_t_stairs_up" ], "x": [11, 12], "y": [20, 21], "neighbors": { "above": [ "lab_stairs" ] } }
+        {
+          "chunks": [ "sub_t_stairs_up" ],
+          "x": [ 11, 12 ],
+          "y": [ 20, 21 ],
+          "neighbors": { "above": [ "lab_stairs" ] }
+        }
       ]
     }
   },
@@ -188,12 +188,8 @@
         "-----------MM----------|"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_c" ]
-      },
-      "monster": {
-        "Z": { "monster": "mon_zombie_brute" }
-      },
+      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ] },
+      "monster": { "Z": { "monster": "mon_zombie_brute" } },
       "place_nested": [
         { "chunks": [ "lab_spawn_7x7" ], "x": 0, "y": 8 },
         { "chunks": [ "lab_spawn_7x7_crossdoors" ], "x": 0, "y": 16 },

@@ -1,10 +1,10 @@
 #include "flag.h"
 
+#include <unordered_map>
+#include <utility>
+
 #include "debug.h"
 #include "json.h"
-
-#include <algorithm>
-#include <unordered_map>
 
 static std::unordered_map<std::string, json_flag> json_flags_all;
 

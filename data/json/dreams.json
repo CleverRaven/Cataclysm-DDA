@@ -1,698 +1,675 @@
 [
-    {
-        "type" : "dream",
-        "messages" : [
-            "You have a strange dream about lizards.",
-            "Your dreams give you a strange scaly feeling."
-            ],
-        "category" : "LIZARD",
-        "strength" : 1
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a strange dream about being a patient in a frightening hospital.",
-            "Your dreams give you an oddly medicated feeling."
-            ],
-        "category" : "MEDICAL",
-        "strength" : 1
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a strange dream about birds.",
-            "Your dreams give you a strange feathered feeling."
-            ],
-        "category" : "BIRD",
-        "strength" : 1
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a strange dream about fish.",
-            "Your dreams give you a strange wet, scaly feeling."
-            ],
-        "category" : "FISH",
-        "strength" : 1
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a strange dream about animals.",
-            "Your dreams give you a strange furry feeling."
-            ],
-        "category" : "BEAST",
-        "strength" : 1
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a strange dream about bears.",
-            "Your dreams give you a rough furry feeling."
-            ],
-        "category" : "URSINE",
-        "strength" : 1
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a strange dream about cats.",
-            "Your dreams give you a sleek furry feeling."
-            ],
-        "category" : "FELINE",
-        "strength" : 1
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a strange dream about wolves.",
-            "Your dreams give you a thick furry feeling."
-            ],
-        "category" : "LUPINE",
-        "strength" : 1
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a strange dream about cattle.",
-            "Your dreams give you a strange content, furry feeling."
-            ],
-        "category" : "CATTLE",
-        "strength" : 1
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a strange dream about insects.",
-            "Your dreams give you a strange chitinous feeling."
-            ],
-        "category" : "INSECT",
-        "strength" : 1
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a strange dream about plants.",
-            "Your dreams give you a strange plantlike feeling."
-            ],
-        "category" : "PLANT",
-        "strength" : 1
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a strange dream about slime.",
-            "Your dreams give you a strange slimy feeling."
-            ],
-        "category" : "SLIME",
-        "strength" : 1
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a strange dream about living in a cave.",
-            "Your dreams give a strange reclusive feeling."
-            ],
-        "category" : "TROGLOBITE",
-        "strength" : 1
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a strange dream about sea creatures.",
-            "Your dreams give you a strange wet feeling."
-            ],
-        "category" : "CEPHALOPOD",
-        "strength" : 1
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a strange dream about spiders.",
-            "Your dreams give you a strange webbed feeling."
-            ],
-        "category" : "SPIDER",
-        "strength" : 1
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a strange dream about rats.",
-            "Your dreams give you a strange fuzzy feeling."
-            ],
-        "category" : "RAT",
-        "strength" : 1
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a strange dream.",
-            "You feel... OK."
-            ],
-        "category" : "ALPHA",
-        "strength" : 1
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a strange dream.",
-            "You feel a yearning..."
-            ],
-        "category" : "ELFA",
-        "strength" : 1
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You dream about the zoo, for some reason.",
-            "Your dreams... are complex and multifaceted."
-            ],
-        "category" : "CHIMERA",
-        "strength" : 1
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You dream of the tropics.",
-            "You feel warm."
-            ],
-        "category" : "RAPTOR",
-        "strength" : 1
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You dream of a massive block of cheese bigger than you.",
-            "You dream of being cozy in a dark place."
-            ],
-        "category" : "MOUSE",
-        "strength" : 1
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You dream of a strange quest for a bush that grows gray apples.",
-            "You feel like you're cracking a combination lock.",
-            "Red, blue, and yellow cancel each other out, don't they?",
-            "Red, blue, and yellow add together, don't they?"
-            ],
-        "category" : "MARLOSS",
-        "strength" : 1
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a disturbing dream of bathing in the sun on a rock.",
-            "While dreaming, you see a distinctively lizard-like reflection of yourself."
-            ],
-        "category" : "LIZARD",
-        "strength" : 2
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a disturbing dream of undergoing strange medical procedures.",
-            "While dreaming, you see yourself dressed in a hospital gown, receiving treatment."
-            ],
-        "category" : "MEDICAL",
-        "strength" : 2
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have strange dreams of soaring through the sky.",
-            "In a dream, you see a curiously birdlike reflection of yourself."
-            ],
-        "category" : "BIRD",
-        "strength" : 2
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You dream of swimming in the open ocean",
-            "In your dream, you see a strangely fishlike image of yourself."
-            ],
-        "category" : "FISH",
-        "strength" : 2
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a vivid dream of hunting in the woods.",
-            "Whilst dreaming, you see a disturbingly bestial version of yourself."
-            ],
-        "category" : "BEAST",
-        "strength" : 2
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You dream of foraging in the woods... mouth-first?",
-            "Your dream-reflection is rather bearish."
-            ],
-        "category" : "URSINE",
-        "strength" : 2
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You easily bound from the street to a roof..oh, only a dream.",
-            "As you dream, your reflection looks rather catlike."
-            ],
-        "category" : "FELINE",
-        "strength" : 2
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a disturbing dream of someone invading your territory.",
-            "Your dream-self's muzzle looks... wait, muzzle?"
-            ],
-        "category" : "LUPINE",
-        "strength" : 2
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You dream of grazing in an open field.",
-            "In a dream you catch a glimpse of a strangely cattle-like image of yourself."
-            ],
-        "category" : "CATTLE",
-        "strength" : 2
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a dream of working in a hive.",
-            "While dreaming you look into a mirror and see a frighteningly insectoid reflection."
-            ],
-        "category" : "INSECT",
-        "strength" : 2
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a confusing dream of growing in a garden.",
-            "You are confused by a plantlike image of yourself in a dream."
-            ],
-        "category" : "PLANT",
-        "strength" : 2
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a strange dream of living in sludge.",
-            "In your dream you see an odd, slimy reflection of yourself."
-            ],
-        "category" : "SLIME",
-        "strength" : 2
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You dream of living deep inside a dark cave.",
-            "You dream of being a primitive cave dweller."
-            ],
-        "category" : "TROGLOBITE",
-        "strength" : 2
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You dream of living on the ocean floor.",
-            "While dreaming, a reflection of yourself appears almost like an octopus."
-            ],
-        "category" : "CEPHALOPOD",
-        "strength" : 2
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a strange dream of spinning webs",
-            "In your dream you see a very spiderlike version of yourself."
-            ],
-        "category" : "SPIDER",
-        "strength" : 2
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You vividly dream of living in the sewers.",
-            "In your dream you see a group of rats that look almost like yourself."
-            ],
-        "category" : "RAT",
-        "strength" : 2
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You dream of having that success you knew you deserved, back before all this.",
-            "Your dream-self looks competent and in control."
-            ],
-        "category" : "ALPHA",
-        "strength" : 2
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You dream of a home in the forests.",
-            "You feel beautiful, and yet riven with worry..."
-            ],
-        "category" : "ELFA",
-        "strength" : 2
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You can't quite work out what the dream is about... it just keeps changing.",
-            "Your dream is filled with creatures, and yet all seem like you."
-            ],
-        "category" : "CHIMERA",
-        "strength" : 2
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You dream of stalking some sort of lizard... no, that can't be right, can it?",
-            "For some reason you dream of your shoes.  They don't fit, and nothing seems to help..."
-            ],
-        "category" : "RAPTOR",
-        "strength" : 2
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You dream of... sneaking.",
-            "You dream of a cold winter night.  Your jacket is too big to put on."
-            ],
-        "category" : "MOUSE",
-        "strength" : 2
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You are terrified by a dream of becoming a lizard hybrid.",
-            "You have a disturbingly lifelike dream of living as a lizard."
-            ],
-        "category" : "LIZARD",
-        "strength" : 3
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a dream of doctors and nurses doing unnatural things to your body, which brings you perverse pleasure.",
-            "You have a vivid dream of being a medical anomaly, as your heartbeat syncs with the steady drip of an IV line."
-            ],
-        "category" : "MEDICAL",
-        "strength" : 3
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a realistic dream of flying south with your flock for the winter.",
-            "You are disturbed when your birdlike dreams are more lifelike than reality."
-            ],
-        "category" : "BIRD",
-        "strength" : 3
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a disturbing dream of swimming with a school of fish.",
-            "When you wake up you panic about drowning from being out of water."
-            ],
-        "category" : "FISH",
-        "strength" : 3
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You vividly dream of running with your pack, hunting a wild animal.",
-            "A terrifyingly real dream has you killing game with your bare teeth."
-            ],
-        "category" : "BEAST",
-        "strength" : 3
-    },{
-        "type" : "dream",
-        "messages" : [
-            "Your dream of raiding a giant beehive has you licking your... muzzle in anticipation.",
-            "In your dream, you stalk and kill a young wolf, using only your teeth and claws."
-            ],
-        "category" : "URSINE",
-        "strength" : 3
-    },{
-        "type" : "dream",
-        "messages" : [
-            "A warm, sunny spot high up where you can watch your prey.  What a great dream!",
-            "You dream of pursuing and killing a rat, for some reason."
-            ],
-        "category" : "FELINE",
-        "strength" : 3
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You dream of tearing into a fresh kill.",
-            "You dream of finally finding the perfect place to make your den."
-            ],
-        "category" : "LUPINE",
-        "strength" : 3
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You terrifyingly dream of being led to a slaughterhouse by a farmer.",
-            "You find it hard to wake from a vivid dream of grazing on a farm."
-            ],
-        "category" : "CATTLE",
-        "strength" : 3
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You are terrified by a dream of serving the hive queen mindlessly.",
-            "Your disturbingly lifelike dream has you pollinating plants."
-            ],
-        "category" : "INSECT",
-        "strength" : 3
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a confusing and scary dream of becoming a plant.",
-            "The transition from your lifelike dreams of living as a plant to reality shocks you."
-            ],
-        "category" : "PLANT",
-        "strength" : 3
-    },{
-        "type" : "dream",
-        "messages" : [
-            "Your vivid dream of living as a slime blob frightens you.",
-            "You find it hard to control your limbs after dreaming of amorphous blob life."
-            ],
-        "category" : "SLIME",
-        "strength" : 3
-    },{
-        "type" : "dream",
-        "messages" : [
-            "Your dream of living in the dark for years is almost real.",
-            "You are frightened of the outside after your vivid dream of cave life."
-            ],
-        "category" : "TROGLOBITE",
-        "strength" : 3
-    },{
-        "type" : "dream",
-        "messages" : [
-            "Your dreams of living on the ocean floor seem more lifelike than reality.",
-            "You dream of living as a terrifying octopus mutant."
-            ],
-        "category" : "CEPHALOPOD",
-        "strength" : 3
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You vividly dream of living in a web and consuming insects.",
-            "Your dreams of fully turning into a spider frighten you."
-            ],
-        "category" : "SPIDER",
-        "strength" : 3
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You scream in fear while you dream of being chased by a cat",
-            "Your lifelike dreams have you scavenging food with a pack of rats."
-            ],
-        "category" : "RAT",
-        "strength" : 3
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You see yourself, five years from now, as the leader of a successful city.",
-            "Your success in restoring civilization was only a dream.  For now."
-            ],
-        "category" : "ALPHA",
-        "strength" : 3
-    },{
-        "type" : "dream",
-        "messages" : [
-            "NO!  You will not allow this corruption to prevail!",
-            "You see yourself reflected in the beauty of the forest."
-            ],
-        "category" : "ELFA",
-        "strength" : 3
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You are many animals, and yet one.",
-            "Hoof.  Talon.  Tooth.  Fight.  Feed.  Forward."
-            ],
-        "category" : "CHIMERA",
-        "strength" : 3
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You've never felt so lithe and powerful.",
-            "After an exciting and tasty hunt, you retire to your nest.  Mmm, yes, nest."
-            ],
-        "category" : "RAPTOR",
-        "strength" : 3
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You weave between the zombies' legs, too small for them to catch.  The gas station isn't far now, with all its soda and chips and- UGH, dream...",
-            "Once you finish your tasty dinner of seeds, you look around for your drink, but you already ate it."
-            ],
-        "category" : "MOUSE",
-        "strength" : 3
-   },{
-        "type" : "dream",
-        "messages" : [
-            "You are terrified by a dream of becoming an ape hybrid.",
-            "You blissfully recall days spent lounging in the sun."
-            ],
-        "category" : "LIZARD",
-        "strength" : 4
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You dream of your legions of undead admirers, their attentions, and the wonderful pain.",
-            "You have a vivid dream of being a medical anomaly, as your heartbeat syncs with the steady drip of an IV line."
-            ],
-        "category" : "MEDICAL",
-        "strength" : 4
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You wonder if your nest will be good enough.",
-            "Your dream of soaring over the landscape becomes a nightmare when you find yourself with arms and a glider!"
-            ],
-        "category" : "BIRD",
-        "strength" : 4
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You have a comforting dream of swimming with a school of fish.",
-            "The thought of being out of water, forced to crawl unsupported, terrifies you."
-            ],
-        "category" : "FISH",
-        "strength" : 4
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You vividly dream of sharing a kill with your pack.",
-            "A fond memory of throating some prey animal bubbles up."
-            ],
-        "category" : "BEAST",
-        "strength" : 4
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You wonder if you could find one of those 'salmon runs', or if they were just a legend...",
-            "Ah, the wolf-slaying dream again.  That's a good one..."
-            ],
-        "category" : "URSINE",
-        "strength" : 4
-    },{
-        "type" : "dream",
-        "messages" : [
-            "Boing!  and you've pounced another yummy critter.",
-            "Your nightmare of sentient rats turns successful, as you grab their King and shake it apart!"
-            ],
-        "category" : "FELINE",
-        "strength" : 4
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You dream of the hunt, the feed, and your pack.",
-            "Oh, you should really patrol your territory again, maybe expand."
-            ],
-        "category" : "LUPINE",
-        "strength" : 4
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You dream of jumping the gate and leading your herd to freedom.",
-            "The herd moves along and you with them, finding greener pastures."
-            ],
-        "category" : "CATTLE",
-        "strength" : 4
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You feel smug, knowing that the Queen is dependent on you.",
-            "You dream of a weirdly shaped plant, whose nectar surpassed your every wish..."
-            ],
-        "category" : "INSECT",
-        "strength" : 4
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You dream of bees fighting over your sweet nectar.  Mmm.",
-            "A rather attractive triffid offers you a bouquet of ape heads.  How thoughtful!"
-            ],
-        "category" : "PLANT",
-        "strength" : 4
-    },{
-        "type" : "dream",
-        "messages" : [
-            "Your vivid dream of your pseudopods calcifying into rigid structures terrifies you.",
-            "Ah, the painting-the-planet dream again.  Maybe if you assimilated more..."
-            ],
-        "category" : "SLIME",
-        "strength" : 4
-    },{
-        "type" : "dream",
-        "messages" : [
-            "The years seem to fly past as you dream of carving great underground fastnesses.",
-            "You have a horrible nightmare of being caught out in the sunlight."
-            ],
-        "category" : "TROGLOBITE",
-        "strength" : 4
-    },{
-        "type" : "dream",
-        "messages" : [
-            "Mmm.  The shellfish dream again.  Yum!",
-            "You dream of recruiting a cult of fishfolk to serve your needs."
-            ],
-        "category" : "CEPHALOPOD",
-        "strength" : 4
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You excitedly web up an interloper and prepare to feast... nope, dream.",
-            "Your dreams of having to live without a web frighten you."
-            ],
-        "category" : "SPIDER",
-        "strength" : 4
-    },{
-        "type" : "dream",
-        "messages" : [
-            "The Fury is so big!  It's GONNA GET YOAAAAAH! *pant* only a dream.",
-            "You find your paws twitching.  There's a cave.  You should go."
-            ],
-        "category" : "RAT",
-        "strength" : 4
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You dream of the peaceful world you'll give humankind.  Because no one else can.",
-            "There are underground Faults in the world.  Faults you should remedy."
-            ],
-        "category" : "ALPHA",
-        "strength" : 4
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You pant, terrified at the thought of that FUNGUS destroying your home!",
-            "You wish others could understand, and join your struggle..."
-            ],
-        "category" : "ELFA",
-        "strength" : 4
-    },{
-        "type" : "dream",
-        "messages" : [
-            "Your body flows slightly faster than you expected... oh, just a dream.",
-            "FIGHT.  FEED.  FORWARD."
-            ],
-        "category" : "CHIMERA",
-        "strength" : 4
-    },{
-        "type" : "dream",
-        "messages" : [
-            "Oh.  No, that 'rex' thing was only a myth.",
-            "You stir, saddened that your beautiful hatchlings were only a dream."
-            ],
-        "category" : "RAPTOR",
-        "strength" : 4
-    },{
-        "type" : "dream",
-        "messages" : [
-            "You curl up some more in your nest.  Geez, shredded paper really *is* comfy.",
-            "You hear the sirens again, but this time you stay in your hole in the wall.  Nobody will think to look there!"
-            ],
-        "category" : "MOUSE",
-        "strength" : 4
-   },{
-        "type" : "dream",
-        "//" : "The Mycus is ONLY post-thresh, so many more here.",
-        "messages" : [
-            "We have been waiting a long time for a place such as this.",
-            "We will raise bountiful orchards and beautiful gardens.",
-            "The walking plants seek to harness us as a food source.  We will not allow that.",
-            "Our colonists are limitless.  We shall adapt to this world, as we adapt to all.",
-            "Non-Mycus sometimes reject the Marloss.  Our colonial efforts flourish with broad-minded guidance.",
-            "The seething masses attempt to wall non-Mycus away from the Marloss.  We will adapt and defeat them."
-            ],
-        "category" : "MYCUS",
-        "strength" : 4
-   }
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about lizards.", "Your dreams give you a strange scaly feeling." ],
+    "category": "LIZARD",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a strange dream about being a patient in a frightening hospital.",
+      "Your dreams give you an oddly medicated feeling."
+    ],
+    "category": "MEDICAL",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about birds.", "Your dreams give you a strange feathered feeling." ],
+    "category": "BIRD",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about fish.", "Your dreams give you a strange wet, scaly feeling." ],
+    "category": "FISH",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about animals.", "Your dreams give you a strange furry feeling." ],
+    "category": "BEAST",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about bears.", "Your dreams give you a rough furry feeling." ],
+    "category": "URSINE",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about cats.", "Your dreams give you a sleek furry feeling." ],
+    "category": "FELINE",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about wolves.", "Your dreams give you a thick furry feeling." ],
+    "category": "LUPINE",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about cattle.", "Your dreams give you a strange content, furry feeling." ],
+    "category": "CATTLE",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about insects.", "Your dreams give you a strange chitinous feeling." ],
+    "category": "INSECT",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about plants.", "Your dreams give you a strange plantlike feeling." ],
+    "category": "PLANT",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about slime.", "Your dreams give you a strange slimy feeling." ],
+    "category": "SLIME",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about living in a cave.", "Your dreams give you a strange reclusive feeling." ],
+    "category": "TROGLOBITE",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about sea creatures.", "Your dreams give you a strange wet feeling." ],
+    "category": "CEPHALOPOD",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about spiders.", "Your dreams give you a strange webbed feeling." ],
+    "category": "SPIDER",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream about rats.", "Your dreams give you a strange fuzzy feeling." ],
+    "category": "RAT",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream.", "You feel... OK." ],
+    "category": "ALPHA",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream.", "You feel a yearning..." ],
+    "category": "ELFA",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You dream about the zoo, for some reason.", "Your dreams... are complex and multifaceted." ],
+    "category": "CHIMERA",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You dream of the tropics.", "You feel warm." ],
+    "category": "RAPTOR",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [ "You dream of a massive block of cheese bigger than you.", "You dream of being cozy in a dark place." ],
+    "category": "MOUSE",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of a strange quest for a bush that grows gray apples.",
+      "You feel like you're cracking a combination lock.",
+      "Red, blue, and yellow cancel each other out, don't they?",
+      "Red, blue, and yellow add together, don't they?"
+    ],
+    "category": "MARLOSS",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a disturbing dream of bathing in the sun on a rock.",
+      "While dreaming, you see a distinctively lizard-like reflection of yourself."
+    ],
+    "category": "LIZARD",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a disturbing dream of undergoing strange medical procedures.",
+      "While dreaming, you see yourself dressed in a hospital gown, receiving treatment."
+    ],
+    "category": "MEDICAL",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have strange dreams of soaring through the sky.",
+      "In a dream, you see a curiously birdlike reflection of yourself."
+    ],
+    "category": "BIRD",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [ "You dream of swimming in the open ocean", "In your dream, you see a strangely fishlike image of yourself." ],
+    "category": "FISH",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a vivid dream of hunting in the woods.",
+      "Whilst dreaming, you see a disturbingly bestial version of yourself."
+    ],
+    "category": "BEAST",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [ "You dream of foraging in the woods... mouth-first?", "Your dream-reflection is rather bearish." ],
+    "category": "URSINE",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You easily bound from the street to a roof..oh, only a dream.",
+      "As you dream, your reflection looks rather catlike."
+    ],
+    "category": "FELINE",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a disturbing dream of someone invading your territory.", "Your dream-self's muzzle looks... wait, muzzle?" ],
+    "category": "LUPINE",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of grazing in an open field.",
+      "In a dream you catch a glimpse of a strangely cattle-like image of yourself."
+    ],
+    "category": "CATTLE",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a dream of working in a hive.",
+      "While dreaming you look into a mirror and see a frighteningly insectoid reflection."
+    ],
+    "category": "INSECT",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a confusing dream of growing in a garden.",
+      "You are confused by a plantlike image of yourself in a dream."
+    ],
+    "category": "PLANT",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream of living in sludge.", "In your dream you see an odd, slimy reflection of yourself." ],
+    "category": "SLIME",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [ "You dream of living deep inside a dark cave.", "You dream of being a primitive cave dweller." ],
+    "category": "TROGLOBITE",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of living on the ocean floor.",
+      "While dreaming, a reflection of yourself appears almost like an octopus."
+    ],
+    "category": "CEPHALOPOD",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [ "You have a strange dream of spinning webs", "In your dream you see a very spiderlike version of yourself." ],
+    "category": "SPIDER",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You vividly dream of living in the sewers.",
+      "In your dream you see a group of rats that look almost like yourself."
+    ],
+    "category": "RAT",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of having that success you knew you deserved, back before all this.",
+      "Your dream-self looks competent and in control."
+    ],
+    "category": "ALPHA",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [ "You dream of a home in the forests.", "You feel beautiful, and yet riven with worry..." ],
+    "category": "ELFA",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You can't quite work out what the dream is about... it just keeps changing.",
+      "Your dream is filled with creatures, and yet all seem like you."
+    ],
+    "category": "CHIMERA",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of stalking some sort of lizard... no, that can't be right, can it?",
+      "For some reason you dream of your shoes.  They don't fit, and nothing seems to help..."
+    ],
+    "category": "RAPTOR",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [ "You dream of... sneaking.", "You dream of a cold winter night.  Your jacket is too big to put on." ],
+    "category": "MOUSE",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You are terrified by a dream of becoming a lizard hybrid.",
+      "You have a disturbingly lifelike dream of living as a lizard."
+    ],
+    "category": "LIZARD",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a dream of doctors and nurses doing unnatural things to your body, which brings you perverse pleasure.",
+      "You have a vivid dream of being a medical anomaly, as your heartbeat syncs with the steady drip of an IV line."
+    ],
+    "category": "MEDICAL",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a realistic dream of flying south with your flock for the winter.",
+      "You are disturbed when your birdlike dreams are more lifelike than reality."
+    ],
+    "category": "BIRD",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a disturbing dream of swimming with a school of fish.",
+      "When you wake up you panic about drowning from being out of water."
+    ],
+    "category": "FISH",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You vividly dream of running with your pack, hunting a wild animal.",
+      "A terrifyingly real dream has you killing game with your bare teeth."
+    ],
+    "category": "BEAST",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Your dream of raiding a giant beehive has you licking your... muzzle in anticipation.",
+      "In your dream, you stalk and kill a young wolf, using only your teeth and claws."
+    ],
+    "category": "URSINE",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "A warm, sunny spot high up where you can watch your prey.  What a great dream!",
+      "You dream of pursuing and killing a rat, for some reason."
+    ],
+    "category": "FELINE",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [ "You dream of tearing into a fresh kill.", "You dream of finally finding the perfect place to make your den." ],
+    "category": "LUPINE",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You terrifyingly dream of being led to a slaughterhouse by a farmer.",
+      "You find it hard to wake from a vivid dream of grazing on a farm."
+    ],
+    "category": "CATTLE",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You are terrified by a dream of serving the hive queen mindlessly.",
+      "Your disturbingly lifelike dream has you pollinating plants."
+    ],
+    "category": "INSECT",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a confusing and scary dream of becoming a plant.",
+      "The transition from your lifelike dreams of living as a plant to reality shocks you."
+    ],
+    "category": "PLANT",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Your vivid dream of living as a slime blob frightens you.",
+      "You find it hard to control your limbs after dreaming of amorphous blob life."
+    ],
+    "category": "SLIME",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Your dream of living in the dark for years is almost real.",
+      "You are frightened of the outside after your vivid dream of cave life."
+    ],
+    "category": "TROGLOBITE",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Your dreams of living on the ocean floor seem more lifelike than reality.",
+      "You dream of living as a terrifying octopus mutant."
+    ],
+    "category": "CEPHALOPOD",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You vividly dream of living in a web and consuming insects.",
+      "Your dreams of fully turning into a spider frighten you."
+    ],
+    "category": "SPIDER",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You scream in fear while you dream of being chased by a cat",
+      "Your lifelike dreams have you scavenging food with a pack of rats."
+    ],
+    "category": "RAT",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You see yourself, five years from now, as the leader of a successful city.",
+      "Your success in restoring civilization was only a dream.  For now."
+    ],
+    "category": "ALPHA",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [ "NO!  You will not allow this corruption to prevail!", "You see yourself reflected in the beauty of the forest." ],
+    "category": "ELFA",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [ "You are many animals, and yet one.", "Hoof.  Talon.  Tooth.  Fight.  Feed.  Forward." ],
+    "category": "CHIMERA",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You've never felt so lithe and powerful.",
+      "After an exciting and tasty hunt, you retire to your nest.  Mmm, yes, nest."
+    ],
+    "category": "RAPTOR",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You weave between the zombies' legs, too small for them to catch.  The gas station isn't far now, with all its soda and chips and- UGH, dream...",
+      "Once you finish your tasty dinner of seeds, you look around for your drink, but you already ate it."
+    ],
+    "category": "MOUSE",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [ "You are terrified by a dream of becoming an ape hybrid.", "You blissfully recall days spent lounging in the sun." ],
+    "category": "LIZARD",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of your legions of undead admirers, their attentions, and the wonderful pain.",
+      "You have a vivid dream of being a medical anomaly, as your heartbeat syncs with the steady drip of an IV line."
+    ],
+    "category": "MEDICAL",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You wonder if your nest will be good enough.",
+      "Your dream of soaring over the landscape becomes a nightmare when you find yourself with arms and a glider!"
+    ],
+    "category": "BIRD",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a comforting dream of swimming with a school of fish.",
+      "The thought of being out of water, forced to crawl unsupported, terrifies you."
+    ],
+    "category": "FISH",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [ "You vividly dream of sharing a kill with your pack.", "A fond memory of throating some prey animal bubbles up." ],
+    "category": "BEAST",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You wonder if you could find one of those 'salmon runs', or if they were just a legend...",
+      "Ah, the wolf-slaying dream again.  That's a good one..."
+    ],
+    "category": "URSINE",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Boing!  and you've pounced another yummy critter.",
+      "Your nightmare of sentient rats turns successful, as you grab their King and shake it apart!"
+    ],
+    "category": "FELINE",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of the hunt, the feed, and your pack.",
+      "Oh, you should really patrol your territory again, maybe expand."
+    ],
+    "category": "LUPINE",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of jumping the gate and leading your herd to freedom.",
+      "The herd moves along and you with them, finding greener pastures."
+    ],
+    "category": "CATTLE",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You feel smug, knowing that the Queen is dependent on you.",
+      "You dream of a weirdly shaped plant, whose nectar surpassed your every wish..."
+    ],
+    "category": "INSECT",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of bees fighting over your sweet nectar.  Mmm.",
+      "A rather attractive triffid offers you a bouquet of ape heads.  How thoughtful!"
+    ],
+    "category": "PLANT",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Your vivid dream of your pseudopods calcifying into rigid structures terrifies you.",
+      "Ah, the painting-the-planet dream again.  Maybe if you assimilated more..."
+    ],
+    "category": "SLIME",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "The years seem to fly past as you dream of carving great underground fastnesses.",
+      "You have a horrible nightmare of being caught out in the sunlight."
+    ],
+    "category": "TROGLOBITE",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [ "Mmm.  The shellfish dream again.  Yum!", "You dream of recruiting a cult of fishfolk to serve your needs." ],
+    "category": "CEPHALOPOD",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You excitedly web up an interloper and prepare to feast... nope, dream.",
+      "Your dreams of having to live without a web frighten you."
+    ],
+    "category": "SPIDER",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "The Fury is so big!  It's GONNA GET YOAAAAAH! *pant* only a dream.",
+      "You find your paws twitching.  There's a cave.  You should go."
+    ],
+    "category": "RAT",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of the peaceful world you'll give humankind.  Because no one else can.",
+      "There are underground Faults in the world.  Faults you should remedy."
+    ],
+    "category": "ALPHA",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You pant, terrified at the thought of that FUNGUS destroying your home!",
+      "You wish others could understand, and join your struggle..."
+    ],
+    "category": "ELFA",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [ "Your body flows slightly faster than you expected... oh, just a dream.", "FIGHT.  FEED.  FORWARD." ],
+    "category": "CHIMERA",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [ "Oh.  No, that 'rex' thing was only a myth.", "You stir, saddened that your beautiful hatchlings were only a dream." ],
+    "category": "RAPTOR",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You curl up some more in your nest.  Geez, shredded paper really *is* comfy.",
+      "You hear the sirens again, but this time you stay in your hole in the wall.  Nobody will think to look there!"
+    ],
+    "category": "MOUSE",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "//": "The Mycus is ONLY post-thresh, so many more here.",
+    "messages": [
+      "We have been waiting a long time for a place such as this.",
+      "We will raise bountiful orchards and beautiful gardens.",
+      "The walking plants seek to harness us as a food source.  We will not allow that.",
+      "Our colonists are limitless.  We shall adapt to this world, as we adapt to all.",
+      "Non-Mycus sometimes reject the Marloss.  Our colonial efforts flourish with broad-minded guidance.",
+      "The seething masses attempt to wall non-Mycus away from the Marloss.  We will adapt and defeat them."
+    ],
+    "category": "MYCUS",
+    "strength": 4
+  }
 ]

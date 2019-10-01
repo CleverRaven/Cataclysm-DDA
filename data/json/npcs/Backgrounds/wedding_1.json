@@ -1,0 +1,46 @@
+[
+  {
+    "id": "BGSS_WEDDING_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "Oh, that's quite the story.  <the_cataclysm> happened on my wedding day.",
+    "responses": [
+      { "text": "Oh, I'm sorry...", "topic": "BGSS_WEDDING_1_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_WEDDING_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Yeah, in hindsight it maybe wasn't the best choice of dates, huh?  I admit I had cold feet though.  Anyway we were getting hitched at the church.  Lucky for me I was late to the ceremony...  I guess some of the fresher corpses in the graveyard had gotten up and started harassing the party.",
+    "responses": [
+      { "text": "What did you do next?", "topic": "BGSS_WEDDING_1_STORY3" },
+      { "text": "You seem surprisingly calm about all this.", "topic": "BGSS_WEDDING_1_CALM" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_WEDDING_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "After I saw what was going on, I turned around and headed out in the opposite direction.  I've seen zombie movies before.  I picked up some stuff from home and I managed to get out of town before things went really bad.  At the time I thought I was being a coward, but now I know if I'd stayed to help, I'd just be another dripping corpse.",
+    "responses": [
+      { "text": "You seem surprisingly calm about all this.", "topic": "BGSS_WEDDING_1_CALM" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_WEDDING_1_CALM",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "npc_female": true,
+      "yes": "Well, I have this weird hope.  It's probably stupid, but I saw my fiancé peel out of there with his sister - my maid of honor - in her pickup truck as things went bad.  So, until I run into them again one way or another, I'm just gonna keep on believing they're out there, doing well.  That's more than most of us have.",
+      "no": "Well, I have this weird hope.  It's probably stupid, but I saw my fiancée peel out of there with her brother - my best man - in his pickup truck as things went bad.  So, until I run into them again one way or another, I'm just gonna keep on believing they're out there, doing well.  That's more than most of us have."
+    },
+    "responses": [
+      { "text": "What were you saying before that?", "topic": "TALK_NONE" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

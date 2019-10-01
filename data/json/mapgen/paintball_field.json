@@ -1,34 +1,16 @@
 [
   {
-    "type": "item_group",
-    "id": "paintball_items",
-    "items": [ [ "paintballgun", 55 ], [ "paintball", 45 ], [ "goggles_swim", 15 ] ]
-  },
-  {
     "method": "json",
     "object": {
+      "fill_ter": "t_floor",
       "furniture": {
-        "#": "f_null",
         "&": "f_trashcan",
-        "'": "f_null",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
-        "7": "f_null",
         "B": "f_bench",
         "C": "f_counter",
-        "F": "f_null",
         "X": "f_crate_c",
-        "_": "f_null",
         "a": "f_chair",
-        "b": "f_null",
-        "c": "f_null",
-        "d": "f_null",
-        "f": "f_null",
         "l": "f_locker",
-        "s": "f_null",
-        "{": "f_washer",
-        "|": "f_null"
+        "{": "f_washer"
       },
       "place_items": [
         { "chance": 10, "item": "bags", "x": 20, "y": 2 },
@@ -81,20 +63,17 @@
         "&": "t_concrete",
         "'": "t_window_no_curtains_open",
         "+": "t_door_c",
-        "-": "t_wall",
+        "-": "t_wall_r",
         ".": "t_dirt",
         "7": "t_tree",
-        "B": "t_concrete",
-        "C": "t_floor",
         "F": "t_floor",
+        "B": "t_concrete",
         "X": "t_dirt",
         "_": "t_grass",
-        "a": "t_floor",
         "b": "t_brick_wall",
         "c": "t_concrete",
         "d": "t_dirtfloor",
         "f": "t_fence_h",
-        "l": "t_floor",
         "s": "t_shrub",
         "{": "t_dirt",
         "|": "t_fence_v"
@@ -105,8 +84,45 @@
     "weight": 100
   },
   {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "paintball_field_roof",
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        " .........              ",
+        " .........              ",
+        " .........              ",
+        " .........              ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "     ....               ",
+        "     ....               ",
+        "     ....               ",
+        "     ....               ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tar_flat_roof" }
+    }
+  },
+  {
     "method": "json",
     "object": {
+      "fill_ter": "t_floor",
       "place_item": [
         { "item": "log", "repeat": 1, "x": 3, "y": 10 },
         { "item": "log", "repeat": 1, "x": 19, "y": 17 },
@@ -115,26 +131,13 @@
         { "item": "splinter", "repeat": 1, "x": 16, "y": 20 }
       ],
       "furniture": {
-        "#": "f_null",
         "&": "f_trashcan",
-        "'": "f_null",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
-        "4": "f_null",
-        "7": "f_null",
-        "F": "f_null",
         "T": "f_table",
         "^": "f_rubble_rock",
-        "_": "f_null",
         "b": "f_bench",
         "c": "f_counter",
-        "d": "f_null",
-        "f": "f_null",
-        "s": "f_null",
         "t": "f_table",
-        "{": "f_locker",
-        "|": "f_null"
+        "{": "f_locker"
       },
       "place_items": [
         { "chance": 35, "item": "trash_cart", "x": 20, "y": 22 },
@@ -191,21 +194,54 @@
         "4": "t_tree_pine",
         "7": "t_tree",
         "F": "t_floor",
-        "T": "t_floor",
         "^": "t_dirt",
         "_": "t_grass",
         "b": "t_sidewalk",
-        "c": "t_floor",
         "d": "t_dirtfloor",
         "f": "t_fence_h",
         "s": "t_sidewalk",
         "t": "t_dirtfloor",
-        "{": "t_floor",
-        "|": "t_wall"
+        "|": "t_wall_y"
       }
     },
-    "om_terrain": "paintball_field",
+    "om_terrain": "paintball_field_1",
     "type": "mapgen",
     "weight": 100
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "paintball_field_roof_1",
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "               ........ ",
+        "               ........ ",
+        "               ........ ",
+        "               ........ ",
+        "               ........ ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        .......         ",
+        "        .......         ",
+        "        .......         ",
+        "        .......         ",
+        "        .......         ",
+        "        .......         ",
+        "        .......         ",
+        "        .......         ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tar_flat_roof" }
+    }
   }
 ]

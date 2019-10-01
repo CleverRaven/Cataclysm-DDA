@@ -1,44 +1,40 @@
 [
-    {
-        "type" : "mapgen",
-        "om_terrain" : ["mil_outpost_1mid"],
-        "comment" : "ground level middle parking lot",
-        "method": "json",
-        "weight": 0,
-        "object": {
-            "fill_ter": "t_pavement",
-            "rows": [
-                ",,,                  ,,,",
-                ",,                    ,,",
-                ",                      ,",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                ",                      ,",
-                ",,                    ,,",
-                ",,,                  ,,,"
-            ],
-            "palettes":[
-               "mil_outpost_bandit"
-            ],
-            "terrain":{
-                " ": "t_pavement"
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": [ "mil_outpost_1mid" ],
+    "comment": "ground level middle parking lot",
+    "method": "json",
+    "weight": 0,
+    "object": {
+      "fill_ter": "t_pavement",
+      "rows": [
+        ",,,                  ,,,",
+        ",,                    ,,",
+        ",                      ,",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        ",                      ,",
+        ",,                    ,,",
+        ",,,                  ,,,"
+      ],
+      "palettes": [ "mil_outpost_bandit" ],
+      "terrain": { " ": "t_pavement" }
     }
+  }
 ]

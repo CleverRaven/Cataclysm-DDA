@@ -1,0 +1,31 @@
+[
+  {
+    "id": "chemical_thrower",
+    "copy-from": "gun_base",
+    "type": "GUN",
+    "reload_noise": "slosh.",
+    "name": "makeshift chemical thrower",
+    "description": "A bulky, self-made chemical sprayer with an internal conversion mechanism that allows all sorts of chemicals to be dispersed to your surroundings.",
+    "weight": "4588 g",
+    "volume": "4250 ml",
+    "price": 10000,
+    "to_hit": -1,
+    "bashing": 9,
+    "material": [ "steel", "plastic" ],
+    "flags": [ "FIRE_50", "NEVER_JAMS" ],
+    "skill": "launcher",
+    "ammo": "chemical_spray",
+    "dispersion": 300,
+    "durability": 6,
+    "magazines": [ [ "chemical_spray", [ "pressurized_tank_chem" ] ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ]
+  }
+]

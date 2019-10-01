@@ -41,12 +41,8 @@
         "lg  |    CSSCCC6CCC|  | ",
         "lg  v         h    v  v "
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "hospital_lab", "chance": 1 },
         "C": { "item": "hospital_lab", "chance": 30 },
@@ -55,9 +51,7 @@
         "r": { "item": "hospital_lab", "chance": 60 },
         "u": { "item": "hospital_lab", "chance": 40 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 5, 22 ], "density": 0.6 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 5, 22 ], "density": 0.6 } ]
     }
   },
   {
@@ -93,9 +87,7 @@
         "                   cl%%%",
         "                   cl%%%"
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ],
+      "palettes": [ "acidia_commercial_palette" ],
       "items": {
         " ": { "item": "hospital_lab", "chance": 1 },
         "c": { "item": "dissection", "chance": 30 },
@@ -143,9 +135,7 @@
         "%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%"
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ],
+      "palettes": [ "acidia_commercial_palette" ],
       "items": {
         " ": { "item": "hospital_lab", "chance": 1 },
         "C": { "item": "hospital_lab", "chance": 30 },
@@ -153,9 +143,7 @@
         "g": { "item": "virology_lab_fridge", "chance": 60 },
         "r": { "item": "hospital_lab", "chance": 60 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 7 ], "density": 0.5 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 7 ], "density": 0.5 } ]
     }
   },
   {
@@ -191,17 +179,13 @@
         "%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%"
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ],
+      "palettes": [ "acidia_commercial_palette" ],
       "items": {
         " ": { "item": "hospital_lab", "chance": 1 },
         "O": { "item": "dissection", "chance": 60 },
         "t": { "item": "dissection", "chance": 30 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 18 ], "y": [ 1, 6 ], "density": 0.6 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 18 ], "y": [ 1, 6 ], "density": 0.6 } ]
     }
   },
   {
@@ -237,12 +221,8 @@
         "lbbb  |        J        ",
         "l-----|  |-----|--++---|"
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         "(": { "item": "waitingroom", "chance": 30 },
         "C": { "item": "office", "chance": 30 },
@@ -253,9 +233,7 @@
         "t": { "item": "surgery", "chance": 30 },
         "u": { "item": "ambulance_equipment", "chance": 60 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.6 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.6 } ]
     }
   },
   {
@@ -291,18 +269,14 @@
         "                    l#;;",
         "---++--|  |--+--|-+-l#;;"
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ],
+      "palettes": [ "acidia_commercial_palette" ],
       "items": {
         "(": { "item": "waitingroom", "chance": 30 },
         "C": { "item": "surgery", "chance": 30 },
         "t": { "item": "surgery", "chance": 30 },
         "u": { "item": "ambulance_equipment", "chance": 60 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.6 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.6 } ]
     }
   },
   {
@@ -338,12 +312,8 @@
         ";;;;;;;;;;;;;;;;;;;;;;;;",
         ";;;;;;;;;;;;;;;;;;;;;;;;"
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         "C": { "item": "surgery", "chance": 30 },
         "L": { "item": "cleaning", "chance": 60 },
@@ -351,12 +321,8 @@
         "r": { "item": "hospital_bed", "chance": 50 },
         "u": { "item": "ambulance_equipment", "chance": 60 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.6 }
-      ],
-      "place_vehicles": [
-        { "vehicle": "ambulance", "x": 15, "y": 15, "chance": 180, "rotation": 180 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.6 } ],
+      "place_vehicles": [ { "vehicle": "ambulance", "x": 15, "y": 15, "chance": 180, "rotation": 180 } ]
     }
   },
   {
@@ -392,12 +358,8 @@
         ";;;;;;;;;;;;;;;;;;;;;;;;",
         ";;;;;;;;;;;;;;;;;;;;;;;;"
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ],
-      "terrain": {
-        "?": "t_linoleum_white"
-      },
+      "palettes": [ "acidia_commercial_palette" ],
+      "terrain": { "?": "t_linoleum_white" },
       "items": {
         "?": { "item": "vending_drink", "chance": 40 },
         "@": { "item": "waitingroom", "chance": 30 },
@@ -406,12 +368,8 @@
         "t": { "item": "surgery", "chance": 30 },
         "u": { "item": "ambulance_equipment", "chance": 60 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.6 }
-      ],
-      "place_vehicles": [
-        { "vehicle": "ambulance", "x": 5, "y": 14, "chance": 90, "rotation": 180 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.6 } ],
+      "place_vehicles": [ { "vehicle": "ambulance", "x": 5, "y": 14, "chance": 90, "rotation": 180 } ]
     }
   },
   {
@@ -447,15 +405,9 @@
         "lbbb  |                 ",
         "l-----|  |-----|----+--|"
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ],
-      "terrain": {
-        "?": "t_linoleum_white"
-      },
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_palette" ],
+      "terrain": { "?": "t_linoleum_white" },
+      "toilets": { "T": {  } },
       "items": {
         "?": { "item": "vending_drink", "chance": 70 },
         "@": { "item": "waitingroom", "chance": 30 },
@@ -466,9 +418,7 @@
         "e": { "item": "hospital_bed", "chance": 50 },
         "r": { "item": "hospital_bed", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 5, 22 ], "density": 0.5 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 5, 22 ], "density": 0.5 } ]
     }
   },
   {
@@ -504,21 +454,15 @@
         "   |T2s|   bbe  ebb l...",
         "   |S2s|   bb    bb v..."
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         "O": { "item": "harddrugs", "chance": 70 },
         "b": { "item": "bed", "chance": 60 },
         "c": { "item": "livingroom", "chance": 20 },
         "e": { "item": "hospital_bed", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 19 ], "y": [ 16, 22 ], "density": 0.5 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 19 ], "y": [ 16, 22 ], "density": 0.5 } ]
     }
   },
   {
@@ -554,12 +498,8 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         "L": { "item": "cleaning", "chance": 70 },
         "b": { "item": "bed", "chance": 60 },
@@ -567,9 +507,7 @@
         "e": { "item": "hospital_bed", "chance": 50 },
         "r": { "item": "hospital_bed", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 7 ], "density": 0.5 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 7 ], "density": 0.5 } ]
     }
   },
   {
@@ -605,20 +543,14 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         "b": { "item": "bed", "chance": 60 },
         "c": { "item": "livingroom", "chance": 20 },
         "e": { "item": "hospital_bed", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 19 ], "y": [ 1, 7 ], "density": 0.5 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 19 ], "y": [ 1, 7 ], "density": 0.5 } ]
     }
   },
   {
@@ -654,12 +586,8 @@
         "lbbb  |                 ",
         "l-----|  |-----|----+--|"
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         "C": { "item": "surgery", "chance": 30 },
         "L": { "item": "cleaning", "chance": 70 },
@@ -708,12 +636,8 @@
         "   |T2s|   bbe  ebb l...",
         "   |S2s|   bb    bb v..."
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         "C": { "item": "hospital_incubator", "chance": 30 },
         "L": { "item": "cleaning", "chance": 70 },
@@ -763,12 +687,8 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         "L": { "item": "cleaning", "chance": 70 },
         "b": { "item": "bed", "chance": 60 },
@@ -776,9 +696,7 @@
         "e": { "item": "hospital_bed", "chance": 50 },
         "r": { "item": "hospital_bed", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 7 ], "density": 0.5 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 7 ], "density": 0.5 } ]
     }
   },
   {
@@ -814,20 +732,14 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         "b": { "item": "bed", "chance": 60 },
         "c": { "item": "livingroom", "chance": 20 },
         "e": { "item": "hospital_bed", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 19 ], "y": [ 1, 7 ], "density": 0.5 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 19 ], "y": [ 1, 7 ], "density": 0.5 } ]
     }
   },
   {
@@ -863,15 +775,9 @@
         "l htth  htth  htth     v",
         "l                      l"
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ],
-      "terrain": {
-        "?": "t_linoleum_white"
-      },
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_palette" ],
+      "terrain": { "?": "t_linoleum_white" },
+      "toilets": { "T": {  } },
       "items": {
         "?": { "item": "vending_drink", "chance": 70 },
         "A": { "item": "magazines", "chance": 15 },
@@ -882,9 +788,7 @@
         "r": { "item": "kitchen", "chance": 60 },
         "t": { "item": "office_breakroom", "chance": 15 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 5, 22 ], "density": 0.5 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 5, 22 ], "density": 0.5 } ]
     }
   },
   {
@@ -920,9 +824,7 @@
         "RRRRR;;;RRRR;;;RRRRR8...",
         "RRRRR;;;;;;;;;;RRRRR8..."
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ],
+      "palettes": [ "acidia_commercial_palette" ],
       "items": {
         "C": { "item": "kitchen", "chance": 25 },
         "c": { "item": "dining", "chance": 25 },
@@ -969,19 +871,10 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
-      "items": {
-        "L": { "item": "cleaning", "chance": 70 },
-        "t": { "item": "office_breakroom", "chance": 15 }
-      },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 7 ], "density": 0.5 }
-      ]
+      "palettes": [ "acidia_commercial_palette" ],
+      "toilets": { "T": {  } },
+      "items": { "L": { "item": "cleaning", "chance": 70 }, "t": { "item": "office_breakroom", "chance": 15 } },
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 7 ], "density": 0.5 } ]
     }
   },
   {
@@ -1017,12 +910,8 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 19 ], "y": [ 1, 7 ], "density": 0.1 }
-      ]
+      "palettes": [ "acidia_commercial_palette" ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 19 ], "y": [ 1, 7 ], "density": 0.1 } ]
     }
   },
   {
@@ -1058,12 +947,8 @@
         "8RRRRRRRRRRRRRRRRRRRRRR8",
         "8RRRRRRRRRRRRRRRRRRRRRR8"
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 3, 20 ], "y": [ 5, 20 ], "density": 0.06 }
-      ]
+      "palettes": [ "acidia_commercial_palette" ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 3, 20 ], "y": [ 5, 20 ], "density": 0.06 } ]
     }
   },
   {
@@ -1099,9 +984,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ]
+      "palettes": [ "acidia_commercial_palette" ]
     }
   },
   {
@@ -1137,13 +1020,8 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_palette"
-      ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 3, 20 ], "y": [ 1, 6 ], "density": 0.06 }
-      ]
+      "palettes": [ "acidia_commercial_palette" ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 3, 20 ], "y": [ 1, 6 ], "density": 0.06 } ]
     }
   }
 ]
-

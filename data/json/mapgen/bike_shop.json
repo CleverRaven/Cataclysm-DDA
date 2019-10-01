@@ -25,11 +25,11 @@
         "  _#..........cq...r#_  ",
         "  _#..........c....r#_  ",
         "  _#########..c.....#_  ",
-        "  _________;..c.rrr.#_  ",
-        "         _@##########_  ",
-        "   *     _____________  ",
-        "                        ",
-        "                        ",
+        "  __4______;..c.rrr.#_  ",
+        "         _@#+######;#_  ",
+        "   *     __#..#l....#_  ",
+        "           #ST#<.Bll#   ",
+        "           ##########   ",
         "                        "
       ],
       "palettes": [ "bike_shop" ],
@@ -38,7 +38,8 @@
         "&": { "item": "trash", "chance": 70 },
         "@": { "item": "trash", "chance": 90 },
         "c": { "item": "bikeshop_for_sale", "chance": 60 },
-        "r": { "item": "bikeshop_tools", "chance": 80 }
+        "r": { "item": "bikeshop_tools", "chance": 80 },
+        "l": { "item": "jackets", "chance": 60 }
       },
       "place_vehicles": [
         { "vehicle": "bikeshop", "x": [ 4, 6 ], "y": [ 2, 3 ], "chance": 90, "rotation": 270 },
@@ -56,7 +57,69 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_bike_shop" ],
+    "om_terrain": "s_bike_shop_roof",
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   |22222222222222223   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   |.............&..3   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   |................3   ",
+        "   -5-------........3   ",
+        "           |.=......3   ",
+        "           |:.......3   ",
+        "           |........3   ",
+        "           |...>....3   ",
+        "           ----------   ",
+        "                        "
+      ],
+      "terrain": {
+        ".": "t_flat_roof",
+        " ": "t_open_air",
+        "2": "t_gutter_north",
+        "-": "t_gutter_south",
+        "3": "t_gutter_east",
+        "|": "t_gutter_west",
+        ">": "t_ladder_down",
+        "5": "t_gutter_drop"
+      },
+      "furniture": { "&": "f_roof_turbine_vent", ":": "f_cellphone_booster", "=": "f_vent_pipe" },
+      "place_items": [ { "item": "roof_trash", "x": [ 5, 11 ], "y": [ 8, 15 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ],
+            [ "roof_4x4_utility", 40 ],
+            [ "roof_4x4_survivor", 10 ]
+          ],
+          "x": [ 5, 11 ],
+          "y": [ 8, 12 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_bike_shop_1" ],
     "weight": 100,
     "object": {
       "fill_ter": "t_dirt",
@@ -80,9 +143,9 @@
         "_#..................c..#_",
         "_#rrrrrrrrrr^..^rrrrrrr#_",
         "_############..#########_",
-        "_#t.........;..;_________",
-        "_#th......l##+##_________",
-        "_#t...f...l#S.T#@________",
+        "_#ttt....;.....;______4__",
+        "_#.h....l#;##+##_________",
+        "_#...f..l#<#S.T#@________",
         "_###############@________",
         "_________________________"
       ],
@@ -105,149 +168,67 @@
     }
   },
   {
-    "type": "vehicle_group",
-    "id": "bikeshop",
-    "vehicles": [
-      [ "bicycle", 1000 ],
-      [ "bicycle_electric", 600 ],
-      [ "unicycle", 50 ],
-      [ "scooter", 100 ],
-      [ "scooter_electric", 50 ],
-      [ "tandem", 300 ]
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "bikeshop_tools",
-    "items": [
-      [ "wheel_bicycle", 100 ],
-      [ "horn_bicycle", 80 ],
-      [ "foot_crank", 80 ],
-      [ "saddle", 80 ],
-      [ "chain", 30 ],
-      [ "wrench", 30 ],
-      [ "screwdriver", 40 ],
-      [ "screwdriver_set", 20 ],
-      [ "superglue", 30 ],
-      [ "hacksaw", 17 ],
-      [ "pliers", 40 ],
-      [ "gloves_leather", 45 ],
-      [ "gloves_work", 45 ],
-      [ "mask_dust", 15 ],
-      [ "manual_mechanics", 35 ],
-      [ "manual_fabrication", 20 ],
-      [ "duct_tape", 70 ],
-      [ "misc_repairkit", 15 ],
-      [ "toolbox", 2 ]
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "bikeshop_for_sale",
-    "items": [
-      {
-        "distribution": [
-          { "item": "wheel_bicycle", "prob": 100 },
-          { "item": "horn_bicycle", "prob": 80 },
-          { "item": "foot_crank", "prob": 80 },
-          { "item": "saddle", "prob": 80 },
-          { "item": "chain", "prob": 40 },
-          { "item": "bike_rack", "prob": 20 },
-          { "item": "small_storage_battery", "prob": 10 },
-          { "item": "alternator_bicycle", "prob": 10 },
-          { "item": "folding_bicycle", "prob": 10 },
-          { "item": "roller_blades", "prob": 10 }
-        ]
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_bike_shop_roof_1",
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                         ",
+        "                         ",
+        " |2222222222222222222223 ",
+        " |.....................3 ",
+        " |.....................3 ",
+        " |.....................3 ",
+        " |.....................3 ",
+        " |.....................3 ",
+        " |.....................3 ",
+        " |.....................3 ",
+        " |.....................3 ",
+        " |.....................3 ",
+        " |.....................3 ",
+        " |.....................3 ",
+        " |.....................3 ",
+        " |.....................3 ",
+        " |.....................3 ",
+        " |.....................3 ",
+        " |.............-------53 ",
+        " |......##;##..3         ",
+        " |.&....#___#..3         ",
+        " |.X....#_>_#=.3         ",
+        " -------#####---         ",
+        "                         "
+      ],
+      "terrain": {
+        ".": "t_flat_roof",
+        " ": "t_open_air",
+        "2": "t_gutter_north",
+        "-": "t_gutter_south",
+        "3": "t_gutter_east",
+        "|": "t_gutter_west",
+        ">": "t_stairs_down",
+        "5": "t_gutter_drop",
+        "#": "t_wall_b",
+        "_": "t_floor",
+        ";": "t_door_locked"
       },
-      {
-        "distribution": [
-          { "item": "helmet_bike", "prob": 35 },
-          { "item": "knee_pads", "prob": 35 },
-          { "item": "elbow_pads", "prob": 35 },
-          { "item": "gloves_leather", "prob": 35 },
-          { "item": "gloves_light", "prob": 35 },
-          { "item": "gloves_fingerless", "prob": 35 },
-          { "item": "touring_suit", "prob": 25 },
-          { "item": "bandana", "prob": 25 },
-          { "item": "scarf", "prob": 15 },
-          { "item": "sunglasses", "prob": 25 },
-          { "item": "fitover_sunglasses", "prob": 20 },
-          { "item": "fancy_sunglasses", "prob": 20 },
-          { "item": "canteen", "prob": 20 },
-          { "item": "camelbak", "prob": 20 }
-        ]
-      },
-      {
-        "distribution": [
-          { "item": "protein_powder", "prob": 15 },
-          { "item": "dry_veggy", "prob": 10 },
-          { "item": "dry_fruit", "prob": 10 },
-          { "item": "granola", "prob": 5 }
-        ]
-      },
-      {
-        "distribution": [
-          { "item": "wrench", "prob": 20 },
-          { "item": "multitool", "prob": 30 },
-          { "item": "screwdriver_set", "prob": 20 },
-          { "item": "duct_tape", "prob": 50 },
-          { "item": "misc_repairkit", "prob": 25 },
-          { "item": "toolbox", "prob": 2 }
-        ]
-      }
-    ]
-  },
-  {
-    "type": "palette",
-    "id": "bike_shop",
-    "terrain": {
-      " ": [ "t_dirt", "t_grass", "t_grass", "t_grass" ],
-      "*": [ "t_dirt", "t_grass", "t_grass", "t_grass", "t_tree" ],
-      "_": "t_sidewalk",
-      ".": "t_floor",
-      "#": "t_wall",
-      "-": "t_wall_glass",
-      "|": "t_wall_glass",
-      "+": "t_door_c",
-      ":": "t_door_glass_c",
-      ";": "t_door_locked",
-      "&": "t_floor",
-      "^": "t_floor",
-      "%": "t_console_broken",
-      "@": "t_sidewalk",
-      "C": "t_floor",
-      "D": "t_floor",
-      "F": "t_floor",
-      "S": "t_floor",
-      "T": "t_floor",
-      "c": "t_floor",
-      "d": "t_floor",
-      "f": "t_floor",
-      "h": "t_floor",
-      "i": "t_floor",
-      "l": "t_floor",
-      "r": "t_floor",
-      "s": "t_floor",
-      "t": "t_floor",
-      "q": "t_floor"
-    },
-    "furniture": {
-      "c": "f_counter",
-      "D": "f_vending_c",
-      "F": "f_vending_c",
-      "S": "f_sink",
-      "T": "f_toilet",
-      "h": "f_chair",
-      "d": "f_desk",
-      "f": "f_fridge",
-      "l": "f_locker",
-      "r": "f_rack",
-      "t": "f_table",
-      "q": "f_stool",
-      "&": "f_trashcan",
-      "@": "f_dumpster",
-      "^": "f_indoor_plant"
-    },
-    "toilets": { "T": {  } }
+      "furniture": { "&": "f_roof_turbine_vent", "X": "f_small_satelitte_dish", "=": "f_vent_pipe" },
+      "place_items": [ { "item": "roof_trash", "x": [ 3, 18 ], "y": [ 4, 16 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_4x4_party", 5 ],
+            [ "roof_4x4_utility", 40 ]
+          ],
+          "x": [ 3, 15 ],
+          "y": [ 4, 14 ]
+        }
+      ]
+    }
   }
 ]

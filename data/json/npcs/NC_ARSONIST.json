@@ -1,219 +1,172 @@
 [
   {
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_pants_male",
-    "items":[
-      ["jeans", 20],
-      ["pants", 20],
-      ["pants_leather", 20],
-      ["pants_cargo", 20],
-      ["bunker_pants", 10]
+    "type": "item_group",
+    "id": "NC_ARSONIST_pants_male",
+    "items": [ [ "jeans", 20 ], [ "pants", 20 ], [ "pants_leather", 20 ], [ "pants_cargo", 20 ], [ "bunker_pants", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_pants_female",
+    "items": [
+      [ "jeans", 20 ],
+      [ "pants", 20 ],
+      [ "pants_leather", 20 ],
+      [ "pants_cargo", 20 ],
+      [ "skirt", 20 ],
+      [ "bunker_pants", 10 ]
     ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_pants_female",
-    "items":[
-      ["jeans", 20],
-      ["pants", 20],
-      ["pants_leather", 20],
-      ["pants_cargo", 20],
-      ["skirt", 20],
-      ["bunker_pants", 10]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_shirt_male",
+    "items": [ [ "tshirt", 20 ], [ "polo_shirt", 20 ], [ "dress_shirt", 20 ], [ "tank_top", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_shirt_female",
+    "items": [ [ "tshirt", 20 ], [ "polo_shirt", 20 ], [ "dress_shirt", 20 ], [ "tank_top", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_gloves",
+    "items": [ [ "null", 60 ], [ "gloves_leather", 20 ], [ "gloves_fingerless", 20 ], [ "fire_gauntlets", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_coat",
+    "items": [
+      [ "null", 20 ],
+      [ "hoodie", 20 ],
+      [ "jacket_light", 20 ],
+      [ "jacket_leather", 20 ],
+      [ "trenchcoat", 20 ],
+      [ "jacket_jean", 20 ],
+      [ "bunker_coat", 10 ],
+      [ "jacket_windbreaker", 10 ],
+      [ "kevlar", 5 ]
     ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_shirt_male",
-    "items":[
-      ["tshirt", 20],
-      ["polo_shirt", 20],
-      ["dress_shirt", 20],
-      ["tank_top", 20]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_shoes",
+    "items": [ [ "sneakers", 20 ], [ "boots", 20 ], [ "boots_bunker", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_masks",
+    "items": [ [ "null", 80 ], [ "mask_dust", 10 ], [ "bandana", 10 ], [ "mask_filter", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_eyes",
+    "items": [ [ "null", 80 ], [ "glasses_safety", 20 ], [ "sunglasses", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_hat",
+    "items": [
+      [ "null", 80 ],
+      [ "hat_ball", 10 ],
+      [ "hat_hard", 10 ],
+      [ "helmet_bike", 10 ],
+      [ "helmet_riot", 10 ],
+      [ "helmet_motor", 10 ],
+      [ "hat_hunting", 10 ]
     ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_shirt_female",
-    "items":[
-      ["tshirt", 20],
-      ["polo_shirt", 20],
-      ["dress_shirt", 20],
-      ["tank_top", 20]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_extra",
+    "items": [ [ "null", 5 ], [ "backpack", 25 ], [ "backpack_leather", 25 ], [ "rucksack", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_bashing",
+    "items": [
+      [ "hammer", 20 ],
+      [ "wrench", 20 ],
+      [ "hammer_sledge", 20 ],
+      [ "pipe", 20 ],
+      [ "bat", 20 ],
+      [ "bat_metal", 20 ],
+      [ "crowbar", 20 ]
     ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_gloves",
-    "items":[
-      ["null", 60],
-      ["gloves_leather", 20],
-      ["gloves_fingerless", 20],
-      ["fire_gauntlets", 20]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_cutting",
+    "items": [
+      [ "knife_butcher", 20 ],
+      [ "hatchet", 20 ],
+      [ "ax", 20 ],
+      [ "machete", 20 ],
+      [ "knife_combat", 20 ],
+      [ "katana", 20 ]
     ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_coat",
-    "items":[
-      ["null", 20],
-      ["hoodie", 20],
-      ["jacket_light", 20],
-      ["jacket_leather", 20],
-      ["trenchcoat", 20],
-      ["jacket_jean", 20],
-      ["bunker_coat", 10],
-      ["jacket_windbreaker", 10],
-      ["kevlar", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_shoes",
-    "items":[
-      ["sneakers", 20],
-      ["boots", 20],
-      ["boots_bunker", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_masks",
-    "items":[
-      ["null", 80],
-      ["mask_dust", 10],
-      ["bandana", 10],
-      ["mask_filter", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_eyes",
-    "items":[
-      ["null", 80],
-      ["glasses_safety", 20],
-      ["sunglasses", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_hat",
-    "items":[
-      ["null", 80],
-      ["hat_ball", 10],
-      ["hat_hard", 10],
-      ["helmet_bike", 10],
-      ["helmet_riot", 10],
-      ["helmet_motor", 10],
-      ["hat_hunting", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_extra",
-    "items":[
-      ["null", 5],
-      ["backpack", 25],
-      ["backpack_leather", 25],
-      ["rucksack", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_bashing",
-    "items":[
-      ["hammer", 20],
-      ["wrench", 20],
-      ["hammer_sledge", 20],
-      ["pipe", 20],
-      ["bat", 20],
-      ["bat_metal", 20],
-      ["crowbar", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_cutting",
-    "items":[
-      ["knife_butcher", 20],
-      ["hatchet", 20],
-      ["ax", 20],
-      ["machete", 20],
-      ["knife_combat", 20],
-      ["katana", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_stabbing",
-    "items":[
-      ["spear_knife", 50],
-      ["spear_steel", 10],
-      ["spear_forked", 10],
-      ["spear_rebar", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_throw",
-    "items":[
-      ["throwing_knife", 50],
-      ["throwing_axe", 50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_archery",
-    "items":[
-      ["crossbow", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_pistols",
-    "items":[
-      ["usp_9mm", 30],
-      ["m9", 70]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_shotgun",
-    "items":[
-      ["mossberg_500", 25],
-      ["remington_870", 25]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_smg",
-    "items":[
-      ["uzi", 50],
-      ["tec9", 50],
-      ["sten", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_rifle",
-    "items":[
-      ["m4a1", 35],
-      ["m1a", 35],
-      ["ak47", 35]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_launcher",
-    "items":[
-      ["flamethrower", 50],
-      ["flamethrower_simple", 25]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_weapon_random",
-    "items":[
-      ["q_staff", 100]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_ARSONIST_misc",
-    "items":[
-        ["trenchcoat", 25],
-        ["gloves_fingerless", 30],
-        ["mask_hockey", 20],
-        ["flamethrower_crude", 20],
-        ["flamethrower_simple", 20],
-        ["pipebomb", 40],
-        ["molotov", 100],
-        ["ref_lighter", 30],
-        ["lighter", 30],
-        ["matches", 30],
-        ["firecracker_pack", 50],
-        ["firecracker", 30],
-        ["dynamite", 50],
-        ["rebar", 100],
-        ["matchbomb", 50]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_stabbing",
+    "items": [ [ "spear_knife", 50 ], [ "spear_steel", 10 ], [ "spear_forked", 10 ], [ "spear_rebar", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_throw",
+    "items": [ [ "throwing_knife", 50 ], [ "throwing_axe", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_archery",
+    "items": [ [ "crossbow", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_pistols",
+    "items": [ [ "usp_9mm", 30 ], [ "m9", 70 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_shotgun",
+    "items": [ [ "mossberg_500", 25 ], [ "remington_870", 25 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_smg",
+    "items": [ [ "uzi", 50 ], [ "tec9", 50 ], [ "sten", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_rifle",
+    "items": [ [ "m4a1", 35 ], [ "m1a", 35 ], [ "ak47", 35 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_launcher",
+    "items": [ [ "flamethrower", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_weapon_random",
+    "items": [ [ "q_staff", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARSONIST_misc",
+    "items": [
+      [ "trenchcoat", 25 ],
+      [ "gloves_fingerless", 30 ],
+      [ "mask_hockey", 20 ],
+      [ "flamethrower_crude", 20 ],
+      [ "pipebomb", 40 ],
+      [ "molotov", 100 ],
+      [ "ref_lighter", 30 ],
+      [ "lighter", 30 ],
+      [ "matches", 30 ],
+      [ "firecracker_pack", 50 ],
+      [ "firecracker", 30 ],
+      [ "dynamite", 50 ],
+      [ "rebar", 100 ],
+      [ "matchbomb", 50 ]
     ]
   }
 ]

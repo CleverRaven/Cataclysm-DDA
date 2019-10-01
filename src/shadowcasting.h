@@ -2,12 +2,17 @@
 #ifndef SHADOWCASTING_H
 #define SHADOWCASTING_H
 
-#include "enums.h"
-#include "game_constants.h"
-
 #include <array>
 #include <algorithm>
 #include <cmath>
+#include <functional>
+#include <string>
+
+#include "game_constants.h"
+#include "lightmap.h"
+#include "point.h"
+
+struct tripoint;
 
 // For light we store four values, depending on the direction that the light
 // comes from.  This allows us to determine whether the side of the wall the
@@ -100,9 +105,9 @@ template<typename T, typename Out, T( *calc )( const T &, const T &, const int &
          bool( *check )( const T &, const T & ),
          void( *update_output )( Out &, const T &, quadrant ),
          T( *accumulate )( const T &, const T &, const int & )>
-void castLightAll( Out( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
-                   const T( &input_array )[MAPSIZE * SEEX][MAPSIZE * SEEY],
-                   const int offsetX, const int offsetY, int offsetDistance = 0,
+void castLightAll( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
+                   const T( &input_array )[MAPSIZE_X][MAPSIZE_Y],
+                   const point &offset, int offsetDistance = 0,
                    T numerator = 1.0 );
 
 // TODO: Generalize the floor check, allow semi-transparent floors
@@ -110,9 +115,9 @@ template< typename T, T( *calc )( const T &, const T &, const int & ),
           bool( *check )( const T &, const T & ),
           T( *accumulate )( const T &, const T &, const int & ) >
 void cast_zlight(
-    const std::array<T( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &output_caches,
-    const std::array<const T( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &input_arrays,
-    const std::array<const bool ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> &floor_caches,
-    const tripoint &offset, const int offset_distance, const T numerator );
+    const std::array<T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
+    const std::array<const T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
+    const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
+    const tripoint &origin, int offset_distance, T numerator );
 
 #endif

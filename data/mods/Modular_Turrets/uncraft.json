@@ -27,7 +27,7 @@
     "components": [
       [ [ "power_supply", 3 ] ],
       [ [ "lens", 1 ] ],
-      [ [ "lightstrip_dead", 8 ] ],
+      [ [ "lightstrip_inactive", 8 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 1 ] ],
       [ [ "cable", 1 ] ]
@@ -309,7 +309,7 @@
     "skill_used": "electronics",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "lightstrip_dead", 3 ] ],
+      [ [ "lightstrip_inactive", 3 ] ],
       [ [ "lens", 3 ] ],
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
@@ -326,7 +326,7 @@
     "skill_used": "electronics",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "lightstrip_dead", 3 ] ],
+      [ [ "lightstrip_inactive", 3 ] ],
       [ [ "lens", 3 ] ],
       [ [ "processor", 2 ] ],
       [ [ "RAM", 2 ] ],
@@ -343,7 +343,7 @@
     "skill_used": "electronics",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "lightstrip_dead", 3 ] ],
+      [ [ "lightstrip_inactive", 3 ] ],
       [ [ "lens", 3 ] ],
       [ [ "processor", 3 ] ],
       [ [ "RAM", 4 ] ],

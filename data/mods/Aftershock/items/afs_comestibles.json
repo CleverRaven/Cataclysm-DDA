@@ -1,0 +1,112 @@
+[
+  {
+    "id": "afs_calorie_pill",
+    "type": "COMESTIBLE",
+    "name": "nutriment",
+    "weight": 10,
+    "color": "white",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 2000,
+    "healthy": 3,
+    "quench": -5,
+    "description": "A crumbly white pill half the size of your thumb, packed with vitamins and calories.  Provides a whole day's nutrition in portable form, but it's a little hard to keep down, thanks to the rancid taste and chalky texture.",
+    "price": 10000,
+    "volume": 0,
+    "charges": 5,
+    "looks_like": "vitamins",
+    "fun": -8,
+    "freezing_point": -9999,
+    "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitA", 24, 48 ], [ "vitB", 24, 48 ], [ "vitC", 24, 48 ] ]
+  },
+  {
+    "id": "afs_calorie_water",
+    "type": "COMESTIBLE",
+    "name": "nutriment water",
+    "copy-from": "water_clean",
+    "comestible_type": "DRINK",
+    "color": "white",
+    "calories": 2000,
+    "healthy": 3,
+    "description": "Nutriment that has been dissolved in water to dilute its taste.  Unnervingly resembles spoiled milk.",
+    "price": 10000,
+    "looks_like": "bleach",
+    "fun": -2,
+    "vitamins": [ [ "calcium", 24, 48 ], [ "iron", 24, 48 ], [ "vitA", 24, 48 ], [ "vitB", 24, 48 ], [ "vitC", 24, 48 ] ]
+  },
+  {
+    "id": "afs_dough",
+    "type": "COMESTIBLE",
+    "name": "dough",
+    "weight": 226,
+    "color": "yellow",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 86,
+    "quench": -5,
+    "description": "Flour mixed with water, kneaded into a gooey paste.  This dough can be used to bake bread more efficiently than with just flour.",
+    "price": 100,
+    "volume": 2,
+    "charges": 2,
+    "flags": [ "EATEN_HOT" ],
+    "looks_like": "flour",
+    "fun": -5
+  },
+  {
+    "id": "afs_sundew",
+    "type": "COMESTIBLE",
+    "name": "sundew",
+    "copy-from": "water_clean",
+    "weight": 10,
+    "color": "yellow",
+    "healthy": 2,
+    "description": "Water treated with some sort of chemical compound.  It's incapable of freezing, is very light, and glows faintly.  Drinking it seems to sharpen the senses.",
+    "price": 1000,
+    "looks_like": "diesel",
+    "container": "flask_glass",
+    "stim": 4,
+    "flags": [ "LIGHT_2", "EATEN_HOT" ],
+    "freezing_point": -9999
+  },
+  {
+    "id": "afs_sungel",
+    "type": "COMESTIBLE",
+    "name": "sungel",
+    "copy-from": "afs_sundew",
+    "description": "Mixed with morphine, this sundew has congealed, and has an immense stimulative and pain-numbing effect.  With sufficient tools, it could be used to create anesthesia.",
+    "stim": 50,
+    "phase": "solid",
+    "charges": 2,
+    "fun": 20,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "Your vision sharpens and your eyes widen as the sungel slams your senses.",
+      "effects": [
+        { "id": "pkill3", "duration": 120 },
+        { "id": "pkill2", "duration": 1200 },
+        { "id": "cough_suppress", "duration": 1000 }
+      ]
+    }
+  },
+  {
+    "id": "afs_sunesthesia",
+    "type": "COMESTIBLE",
+    "name": "sunesthesia",
+    "copy-from": "afs_sungel",
+    "description": "This sungel has been mixed with several drugs and yet inherits none of their effects.  Its painkilling effect hasn't changed, but its stimulative properties have been reversed, and it could be used as anesthesia for installation of bionics.",
+    "stim": -30,
+    "phase": "solid",
+    "color": "light_red",
+    "flags": [ "ANESTHESIA", "LIGHT_4", "EATEN_HOT" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You go limp and collapse as the sunesthesia knocks you senseless.",
+      "effects": [
+        { "id": "pkill3", "duration": 480 },
+        { "id": "pkill2", "duration": 1200 },
+        { "id": "cough_suppress", "duration": 1000 },
+        { "id": "downed", "duration": 1 }
+      ]
+    }
+  }
+]

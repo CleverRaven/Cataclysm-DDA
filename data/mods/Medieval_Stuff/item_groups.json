@@ -2,22 +2,12 @@
   {
     "id": "medieval",
     "type": "item_group",
-    "items": [
-      [ "helmet_nasal", 1 ],
-      [ "helmet_galea", 1 ],
-      [ "helmet_conical", 1 ],
-      [ "armor_lamellar", 2 ],
-      [ "shield_kite", 5 ],
-      [ "shield_heater", 10 ],
-      [ "shield_buckler", 1 ]
-    ]
+    "items": [ [ "shield_kite", 5 ], [ "shield_heater", 10 ], [ "shield_buckler", 1 ] ]
   },
   {
     "id": "pawn",
     "type": "item_group",
     "items": [
-      [ "armor_lamellar", 2 ],
-      [ "helmet_conical", 1 ],
       [ "shield_hoplon", 1 ],
       [ "shield_scutum", 1 ],
       [ "shield_round", 3 ],
@@ -30,11 +20,6 @@
     "id": "antique_rare",
     "type": "item_group",
     "items": [
-      [ "ji", 1 ],
-      [ "dao", 3 ],
-      [ "sword_xiphos", 4 ],
-      [ "khopesh", 4 ],
-      [ "spear_dory", 3 ],
       [ "fire_lance", 2 ],
       [ "lance_charge", 1 ],
       [ "lance_charge_shot", 1 ],
@@ -47,57 +32,19 @@
     ]
   },
   {
-    "id": "museum_melee",
-    "type": "item_group",
-    "items": [
-      [ "ji", 2 ],
-      [ "dao", 3 ],
-      [ "sword_xiphos", 4 ],
-      [ "sword_forged", 3 ],
-      [ "khopesh", 4 ],
-      [ "spear_dory", 3 ]
-    ]
-  },
-  {
     "id": "museum_guns",
     "type": "item_group",
-    "items": [
-      [ "fire_lance", 20 ],
-      [ "lance_charge", 10 ],
-      [ "lance_charge_shot", 5 ]
-    ]
+    "items": [ [ "fire_lance", 20 ], [ "lance_charge", 10 ], [ "lance_charge_shot", 5 ] ]
   },
   {
     "id": "mansion_guns",
     "type": "item_group",
-    "items": [
-      [ "fire_lance", 2 ],
-      [ "lance_charge", 1 ],
-      [ "lance_charge_shot", 1 ]
-    ]
-  },
-  {
-    "id": "mansion_books",
-    "type": "item_group",
-    "items": [ [ "manual_swordsmanship", 3 ] ]
-  },
-  {
-    "id": "book_military",
-    "type": "item_group",
-    "items": [ [ "manual_pankration", 1 ] ]
+    "items": [ [ "fire_lance", 2 ], [ "lance_charge", 1 ], [ "lance_charge_shot", 1 ] ]
   },
   {
     "id": "museum_armor",
     "type": "item_group",
     "items": [
-      [ "helmet_nasal", 50 ],
-      [ "helmet_corinthian", 45 ],
-      [ "helmet_galea", 40 ],
-      [ "helmet_conical", 30 ],
-      [ "armor_lamellar", 20 ],
-      [ "armor_cuirass", 25 ],
-      [ "armor_lorica", 25 ],
-      [ "legguard_bronze", 20 ],
       [ "shield_wooden", 10 ],
       [ "shield_wooden_large", 5 ],
       [ "shield_hoplon", 10 ],
@@ -109,16 +56,8 @@
     ]
   },
   {
-    "id": "dojo_manuals",
-    "type": "item_group",
-    "items": [ [ "manual_pankration", 5 ] ]
-  },
-  {
     "id": "survivorzed_extra",
     "type": "item_group",
-    "items": [
-      [ "shield_wooden", 10 ],
-      [ "shield_wooden_large", 5 ]
-    ]
+    "items": [ [ "shield_wooden", 10 ], [ "shield_wooden_large", 5 ] ]
   }
 ]

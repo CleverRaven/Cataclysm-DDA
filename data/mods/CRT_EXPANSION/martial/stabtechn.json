@@ -1,0 +1,58 @@
+[
+  {
+    "type": "technique",
+    "id": "THRUST",
+    "name": "THRUST",
+    "min_melee": 1,
+    "unarmed_allowed": false,
+    "melee_allowed": true,
+    "crit_tec": false,
+    "weighting": 1,
+    "mult_bonuses": [ [ "damage", "stab", 1.1 ] ],
+    "flat_bonuses": [ [ "damage", "stab", "str", 0.1 ], [ "damage", "stab", "per", 0.2 ] ],
+    "messages": [ "You step forward and stab at %s", "<npcname> stabs into %s flesh" ],
+    "description": "110% Stab damage, STR (E) and PER (D) provides bonus damage, min 1 melee"
+  },
+  {
+    "type": "technique",
+    "id": "LUNGE",
+    "name": "LUNGE",
+    "min_melee": 2,
+    "unarmed_allowed": false,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "weighting": 2,
+    "mult_bonuses": [ [ "damage", "stab", 1.15 ] ],
+    "flat_bonuses": [ [ "damage", "stab", "str", 0.2 ], [ "damage", "stab", "per", 0.2 ] ],
+    "messages": [ "You explosively jab at %s", "<npcname> violently jabs at %s" ],
+    "description": "Crit only, 115% Stab damage, Crit only, Strength (D) and Perception (D) provides bonus damage, min 2 melee"
+  },
+  {
+    "type": "technique",
+    "id": "PROD",
+    "name": "PROD",
+    "min_melee": 3,
+    "unarmed_allowed": false,
+    "melee_allowed": true,
+    "crit_tec": false,
+    "weighting": 1,
+    "mult_bonuses": [ [ "movecost", 0.66 ], [ "damage", "stab", 0.7 ] ],
+    "flat_bonuses": [ [ "damage", "stab", "str", 0.15 ], [ "damage", "stab", "per", 0.25 ], [ "movecost", "dex", 0.25 ] ],
+    "messages": [ "You prod at %s defensively", "<npcname> prods at %s " ],
+    "description": "66% movecost, 70% Stab damage, STR (E) and PER (C) provides bonus damage, DEX (C) reduces action cost, min 3 melee"
+  },
+  {
+    "type": "technique",
+    "id": "PROBE",
+    "name": "PROBE",
+    "min_unarmed": 3,
+    "unarmed_allowed": false,
+    "melee_allowed": true,
+    "crit_tec": false,
+    "weighting": 1,
+    "mult_bonuses": [ [ "movecost", 0.8 ], [ "damage", "stab", 0.75 ] ],
+    "flat_bonuses": [ [ "damage", "stab", "str", 0.25 ], [ "damage", "stab", "per", 0.3 ], [ "arpen", "stab", "per", 0.12 ] ],
+    "messages": [ "You probe %s's openings", "<npcname> probe %s " ],
+    "description": "80% movecost, 75% Stab damage, STR (C) and PER (C) provides bonus damage and also provides armor pierce (E), min 3 melee"
+  }
+]

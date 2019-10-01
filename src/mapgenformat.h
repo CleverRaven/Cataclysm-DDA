@@ -2,15 +2,13 @@
 #ifndef MAPGENFORMAT_H
 #define MAPGENFORMAT_H
 
-#include "int_id.h"
-
+#include <cstddef>
 #include <string>
 #include <vector>
+#include <utility>
 
-struct ter_t;
-using ter_id = int_id<ter_t>;
-struct furn_t;
-using furn_id = int_id<furn_t>;
+#include "type_id.h"
+
 class map;
 
 namespace mapf
@@ -29,7 +27,7 @@ class format_effect;
  *   A newline character continues on the next line (resets `x` to \p startx and increments `y`).
  * @param startx,starty Coordinates in the map where to start drawing \p cstr.
  */
-void formatted_set_simple( map *m, const int startx, const int starty, const char *cstr,
+void formatted_set_simple( map *m, int startx, int starty, const char *cstr,
                            const format_effect<ter_id> &ter_b, const format_effect<furn_id> &furn_b );
 
 template<typename ID>
@@ -40,8 +38,8 @@ class format_effect
         std::vector<ID> determiners;
 
     public:
-        format_effect( std::string characters,
-                       std::vector<ID> determiners );
+        format_effect( const std::string &chars,
+                       std::vector<ID> dets );
 
         ID translate( char c ) const;
 };

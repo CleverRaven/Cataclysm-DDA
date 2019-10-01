@@ -11,7 +11,7 @@
   {
     "result": "broken_light_hack",
     "type": "uncraft",
-    "override": "true",
+    "override": true,
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
@@ -19,7 +19,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "processor", 2 ] ],
-      [ [ "lightstrip_dead", 2 ] ],
+      [ [ "lightstrip_inactive", 2 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 1 ] ],
@@ -29,7 +29,7 @@
   {
     "result": "broken_distract_hack",
     "type": "uncraft",
-    "override": "true",
+    "override": true,
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
@@ -37,7 +37,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "processor", 2 ] ],
-      [ [ "lightstrip_dead", 2 ] ],
+      [ [ "lightstrip_inactive", 2 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 1 ] ],
@@ -47,7 +47,7 @@
   {
     "result": "broken_arson_hack",
     "type": "uncraft",
-    "override": "true",
+    "override": true,
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
@@ -55,7 +55,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "processor", 2 ] ],
-      [ [ "lightstrip_dead", 2 ] ],
+      [ [ "lightstrip_inactive", 2 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 1 ] ],
@@ -65,7 +65,7 @@
   {
     "result": "broken_spore_hack",
     "type": "uncraft",
-    "override": "true",
+    "override": true,
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
@@ -73,7 +73,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "processor", 2 ] ],
-      [ [ "lightstrip_dead", 2 ] ],
+      [ [ "lightstrip_inactive", 2 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 1 ] ],
@@ -327,7 +327,7 @@
       [ [ "robopart_pharma", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "e_scrap", 1 ] ],
-      [ [ "lightstrip_dead", 10 ] ],
+      [ [ "lightstrip_inactive", 10 ] ],
       [ [ "scrap", 3 ] ]
     ]
   },

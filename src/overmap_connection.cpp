@@ -1,18 +1,22 @@
 #include "overmap_connection.h"
 
+#include <cstddef>
+#include <algorithm>
+#include <cassert>
+#include <map>
+#include <memory>
+
 #include "generic_factory.h"
 #include "json.h"
 #include "overmap_location.h"
-
-#include <algorithm>
-#include <cassert>
+#include "debug.h"
 
 namespace
 {
 
 generic_factory<overmap_connection> connections( "overmap connection" );
 
-}
+} // namespace
 
 static const std::map<std::string, overmap_connection::subtype::flag> connection_subtype_flag_map
 = {
@@ -45,7 +49,7 @@ bool overmap_connection::subtype::allows_terrain( const int_id<oter_t> &oter ) c
 
 void overmap_connection::subtype::load( JsonObject &jo )
 {
-    static const typed_flag_reader<decltype( connection_subtype_flag_map )> flag_reader{ connection_subtype_flag_map, "invalid connection subtype flag" };
+    const auto flag_reader = make_flag_reader( connection_subtype_flag_map, "connection subtype flag" );
 
     mandatory( jo, false, "terrain", terrain );
     mandatory( jo, false, "locations", locations );

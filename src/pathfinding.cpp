@@ -1,9 +1,17 @@
 #include "pathfinding.h"
 
+#include <cstdlib>
+#include <algorithm>
+#include <queue>
+#include <set>
+#include <array>
+#include <memory>
+#include <utility>
+#include <vector>
+
 #include "cata_utility.h"
 #include "coordinates.h"
 #include "debug.h"
-#include "enums.h"
 #include "map.h"
 #include "mapdata.h"
 #include "optional.h"
@@ -12,11 +20,9 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
-
-#include <algorithm>
-#include <queue>
-#include <set>
+#include "line.h"
+#include "type_id.h"
+#include "point.h"
 
 enum astar_state {
     ASL_NONE,
@@ -27,20 +33,20 @@ enum astar_state {
 // Turns two indexed to a 2D array into an index to equivalent 1D array
 constexpr int flat_index( const int x, const int y )
 {
-    return ( x * MAPSIZE * SEEY ) + y;
+    return ( x * MAPSIZE_Y ) + y;
 }
 
 // Flattened 2D array representing a single z-level worth of pathfinding data
 struct path_data_layer {
     // State is accessed way more often than all other values here
-    std::array< astar_state, SEEX *MAPSIZE *SEEY *MAPSIZE > state;
-    std::array< int, SEEX *MAPSIZE *SEEY *MAPSIZE > score;
-    std::array< int, SEEX *MAPSIZE *SEEY *MAPSIZE > gscore;
-    std::array< tripoint, SEEX *MAPSIZE *SEEY *MAPSIZE > parent;
+    std::array< astar_state, MAPSIZE_X *MAPSIZE_Y > state;
+    std::array< int, MAPSIZE_X *MAPSIZE_Y > score;
+    std::array< int, MAPSIZE_X *MAPSIZE_Y > gscore;
+    std::array< tripoint, MAPSIZE_X *MAPSIZE_Y > parent;
 
-    void init( const int minx, const int miny, const int maxx, const int maxy ) {
-        for( int x = minx; x <= maxx; x++ ) {
-            for( int y = miny; y <= maxy; y++ ) {
+    void init( const point &min, const point &max ) {
+        for( int x = min.x; x <= max.x; x++ ) {
+            for( int y = min.y; y <= max.y; y++ ) {
                 const int ind = flat_index( x, y );
                 state[ind] = ASL_NONE; // Mark as unvisited
             }
@@ -49,12 +55,10 @@ struct path_data_layer {
 };
 
 struct pathfinder {
-    int minx;
-    int miny;
-    int maxx;
-    int maxy;
+    point min;
+    point max;
     pathfinder( int _minx, int _miny, int _maxx, int _maxy ) :
-        minx( _minx ), miny( _miny ), maxx( _maxx ), maxy( _maxy ) {
+        min( _minx, _miny ), max( _maxx, _maxy ) {
     }
 
     std::priority_queue< std::pair<int, tripoint>, std::vector< std::pair<int, tripoint> >, pair_greater_cmp_first >
@@ -62,13 +66,13 @@ struct pathfinder {
     std::array< std::unique_ptr< path_data_layer >, OVERMAP_LAYERS > path_data;
 
     path_data_layer &get_layer( const int z ) {
-        auto &ptr = path_data[z + OVERMAP_DEPTH];
+        std::unique_ptr< path_data_layer > &ptr = path_data[z + OVERMAP_DEPTH];
         if( ptr != nullptr ) {
             return *ptr;
         }
 
-        ptr = std::unique_ptr<path_data_layer>( new path_data_layer() );
-        ptr->init( minx, miny, maxx, maxy );
+        ptr = std::make_unique<path_data_layer>();
+        ptr->init( min, max );
         return *ptr;
     }
 
@@ -77,7 +81,7 @@ struct pathfinder {
     }
 
     tripoint get_next() {
-        auto pt = open.top();
+        const auto pt = open.top();
         open.pop();
         return pt.second;
     }
@@ -121,8 +125,8 @@ bool vertical_move_destination( const map &m, tripoint &t )
 
     constexpr int omtileszx = SEEX * 2;
     constexpr int omtileszy = SEEY * 2;
-    real_coords rc( m.getabs( t.x, t.y ) );
-    point omtile_align_start(
+    real_coords rc( m.getabs( t.xy() ) );
+    const point omtile_align_start(
         m.getlocal( rc.begin_om_pos() )
     );
 
@@ -227,7 +231,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     int minz = std::min( f.z, t.z ); // TODO: Make this way bigger
     int maxx = std::max( f.x, t.x ) + pad;
     int maxy = std::max( f.y, t.y ) + pad;
-    int maxz = std::max( f.z, t.z ); // Same TODO as above
+    int maxz = std::max( f.z, t.z ); // Same TODO: as above
     clip_to_bounds( minx, miny, minz );
     clip_to_bounds( maxx, maxy, maxz );
 
@@ -281,7 +285,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             const tripoint p( cur.x + x_offset[i], cur.y + y_offset[i], cur.z );
             const int index = flat_index( p.x, p.y );
 
-            // @todo: Remove this and instead have sentinels at the edges
+            // TODO: Remove this and instead have sentinels at the edges
             if( p.x < minx || p.x >= maxx || p.y < miny || p.y >= maxy ) {
                 continue;
             }
@@ -294,7 +298,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             int newg = layer.gscore[parent_index] + ( ( cur.x != p.x && cur.y != p.y ) ? 1 : 0 );
 
             const auto p_special = pf_cache.special[p.x][p.y];
-            // @todo: De-uglify, de-huge-n
+            // TODO: De-uglify, de-huge-n
             if( !( p_special & non_normal ) ) {
                 // Boring flat dirt - the most common case above the ground
                 newg += 2;
@@ -341,7 +345,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                             newg += 10; // One turn to open, 4 to move there
                         } else if( part >= 0 && bash > 0 ) {
                             // Car obstacle that isn't a door
-                            // @todo: Account for armor
+                            // TODO: Account for armor
                             int hp = veh->parts[part].hp();
                             if( hp / 20 > bash ) {
                                 // Threshold damage thing means we just can't bash this down
@@ -387,8 +391,8 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                         if( has_zlevels() && terrain.has_flag( TFLAG_NO_FLOOR ) ) {
                             // Special case - ledge in z-levels
                             // Warning: really expensive, needs a cache
-                            if( valid_move( p, tripoint( p.x, p.y, p.z - 1 ), false, true ) ) {
-                                tripoint below( p.x, p.y, p.z - 1 );
+                            if( valid_move( p, tripoint( p.xy(), p.z - 1 ), false, true ) ) {
+                                tripoint below( p.xy(), p.z - 1 );
                                 if( !has_flag( TFLAG_NO_FLOOR, below ) ) {
                                     // Otherwise this would have been a huge fall
                                     auto &layer = pf.get_layer( p.z - 1 );
@@ -425,7 +429,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         const maptile &parent_tile = maptile_at_internal( cur );
         const auto &parent_terrain = parent_tile.get_ter_t();
         if( settings.allow_climb_stairs && cur.z > minz && parent_terrain.has_flag( TFLAG_GOES_DOWN ) ) {
-            tripoint dest( cur.x, cur.y, cur.z - 1 );
+            tripoint dest( cur.xy(), cur.z - 1 );
             if( vertical_move_destination<TFLAG_GOES_UP>( *this, dest ) ) {
                 auto &layer = pf.get_layer( dest.z );
                 pf.add_point( layer.gscore[parent_index] + 2,
@@ -434,7 +438,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             }
         }
         if( settings.allow_climb_stairs && cur.z < maxz && parent_terrain.has_flag( TFLAG_GOES_UP ) ) {
-            tripoint dest( cur.x, cur.y, cur.z + 1 );
+            tripoint dest( cur.xy(), cur.z + 1 );
             if( vertical_move_destination<TFLAG_GOES_DOWN>( *this, dest ) ) {
                 auto &layer = pf.get_layer( dest.z );
                 pf.add_point( layer.gscore[parent_index] + 2,
@@ -443,7 +447,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             }
         }
         if( cur.z < maxz && parent_terrain.has_flag( TFLAG_RAMP ) &&
-            valid_move( cur, tripoint( cur.x, cur.y, cur.z + 1 ), false, true ) ) {
+            valid_move( cur, tripoint( cur.xy(), cur.z + 1 ), false, true ) ) {
             auto &layer = pf.get_layer( cur.z + 1 );
             for( size_t it = 0; it < 8; it++ ) {
                 const tripoint above( cur.x + x_offset[it], cur.y + y_offset[it], cur.z + 1 );

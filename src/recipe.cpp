@@ -1,23 +1,37 @@
 #include "recipe.h"
 
+#include <algorithm>
+#include <cmath>
+#include <numeric>
+
 #include "calendar.h"
 #include "game_constants.h"
-#include "generic_factory.h"
 #include "item.h"
 #include "itype.h"
 #include "output.h"
 #include "skill.h"
 #include "uistate.h"
 #include "string_formatter.h"
-
-#include <algorithm>
-#include <cmath>
-#include <numeric>
-
-struct oter_t;
-using oter_str_id = string_id<oter_t>;
+#include "assign.h"
+#include "cata_utility.h"
+#include "character.h"
+#include "construction.h"
+#include "json.h"
+#include "mapgen_functions.h"
+#include "optional.h"
+#include "player.h"
+#include "translations.h"
+#include "type_id.h"
+#include "string_id.h"
+#include "flat_set.h"
+#include "units.h"
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
+
+time_duration recipe::batch_duration( int batch, float multiplier, size_t assistants ) const
+{
+    return time_duration::from_turns( batch_time( batch, multiplier, assistants ) / 100 );
+}
 
 int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
 {
@@ -28,11 +42,11 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
         multiplier = 1.0f;
     }
 
-    const float local_time = float( time ) / multiplier;
+    const float local_time = static_cast<float>( time ) / multiplier;
 
     // if recipe does not benefit from batching and we have no assistants, don't do unnecessary additional calculations
     if( batch_rscale == 0.0 && assistants == 0 ) {
-        return local_time * batch;
+        return static_cast<int>( local_time ) * batch;
     }
 
     float total_time = 0.0;
@@ -42,10 +56,10 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
     } else {
         // recipe benefits from batching, so batching scale factor needs to be calculated
         // At batch_rsize, incremental time increase is 99.5% of batch_rscale
-        double scale = batch_rsize / 6.0;
-        for( double x = 0; x < batch; x++ ) {
+        const double scale = batch_rsize / 6.0;
+        for( int x = 0; x < batch; x++ ) {
             // scaled logistic function output
-            double logf = ( 2.0 / ( 1.0 + exp( -( x / scale ) ) ) ) - 1.0;
+            const double logf = ( 2.0 / ( 1.0 + exp( -( x / scale ) ) ) ) - 1.0;
             total_time += local_time * ( 1.0 - ( batch_rscale * logf ) );
         }
     }
@@ -60,7 +74,7 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
         total_time = local_time;
     }
 
-    return int( total_time );
+    return static_cast<int>( total_time );
 }
 
 bool recipe::has_flag( const std::string &flag_name ) const
@@ -85,7 +99,12 @@ void recipe::load( JsonObject &jo, const std::string &src )
         assign( jo, "obsolete", obsolete );
     }
 
-    assign( jo, "time", time, strict, 0 );
+    if( jo.has_int( "time" ) ) {
+        time = jo.get_int( "time" );
+    } else if( jo.has_string( "time" ) ) {
+        time = to_moves<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
+                              time_duration::units ) );
+    }
     assign( jo, "difficulty", difficulty, strict, 0, MAX_SKILL );
     assign( jo, "flags", flags );
 
@@ -200,12 +219,48 @@ void recipe::load( JsonObject &jo, const std::string &src )
         assign( jo, "reversible", reversible, strict );
 
         if( jo.has_member( "byproducts" ) ) {
+            if( this->reversible ) {
+                jo.throw_error( "Recipe cannot be reversible and have byproducts" );
+            }
             auto bp = jo.get_array( "byproducts" );
             byproducts.clear();
             while( bp.has_more() ) {
                 auto arr = bp.next_array();
                 byproducts[ arr.get_string( 0 ) ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
             }
+        }
+        assign( jo, "construction_blueprint", blueprint );
+        if( !blueprint.empty() ) {
+            assign( jo, "blueprint_name", bp_name );
+            JsonArray bp_array = jo.get_array( "blueprint_resources" );
+            bp_resources.clear();
+            while( bp_array.has_more() ) {
+                std::string resource = bp_array.next_string();
+                bp_resources.emplace_back( resource );
+            }
+            bp_array = jo.get_array( "blueprint_provides" );
+            while( bp_array.has_more() ) {
+                JsonObject provide = bp_array.next_object();
+                bp_provides.emplace_back( std::make_pair( provide.get_string( "id" ),
+                                          provide.get_int( "amount", 1 ) ) );
+            }
+            // all blueprints provide themselves with needing it written in JSON
+            bp_provides.emplace_back( std::make_pair( result_, 1 ) );
+            bp_array = jo.get_array( "blueprint_requires" );
+            while( bp_array.has_more() ) {
+                JsonObject require = bp_array.next_object();
+                bp_requires.emplace_back( std::make_pair( require.get_string( "id" ),
+                                          require.get_int( "amount", 1 ) ) );
+            }
+            // all blueprints exclude themselves with needing it written in JSON
+            bp_excludes.emplace_back( std::make_pair( result_, 1 ) );
+            bp_array = jo.get_array( "blueprint_excludes" );
+            while( bp_array.has_more() ) {
+                JsonObject exclude = bp_array.next_object();
+                bp_excludes.emplace_back( std::make_pair( exclude.get_string( "id" ),
+                                          exclude.get_int( "amount", 1 ) ) );
+            }
+            assign( jo, "blueprint_autocalc", bp_autocalc );
         }
     } else if( type == "uncraft" ) {
         reversible = true;
@@ -221,12 +276,19 @@ void recipe::load( JsonObject &jo, const std::string &src )
 
 void recipe::finalize()
 {
+    if( bp_autocalc ) {
+        add_bp_autocalc_requirements();
+    }
     // concatenate both external and inline requirements
     add_requirements( reqs_external );
     add_requirements( reqs_internal );
 
     reqs_external.clear();
     reqs_internal.clear();
+
+    if( bp_autocalc ) {
+        requirements_.consolidate();
+    }
 
     if( contained && container == "null" ) {
         container = item::find_type( result_ )->default_container.value_or( "null" );
@@ -250,11 +312,14 @@ void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>>
 
 std::string recipe::get_consistency_error() const
 {
-    if( !item::type_is_defined( result_ )  && category != "CC_BUILDING" ) {
+    if( category == "CC_BUILDING" ) {
+        if( is_blueprint() || oter_str_id( result_.c_str() ).is_valid() ) {
+            return std::string();
+        }
         return "defines invalid result";
     }
 
-    if( category == "CC_BUILDING" && !oter_str_id( result_.c_str() ).is_valid() ) {
+    if( !item::type_is_defined( result_ ) ) {
         return "defines invalid result";
     }
 
@@ -308,7 +373,7 @@ item recipe::create_result() const
     if( !newit.craft_has_charges() ) {
         newit.charges = 0;
     } else if( result_mult != 1 ) {
-        // @todo: Make it work for charge-less items
+        // TODO: Make it work for charge-less items
         newit.charges *= result_mult;
     }
 
@@ -374,18 +439,44 @@ bool recipe::has_byproducts() const
     return !byproducts.empty();
 }
 
-std::string recipe::required_skills_string( const Character *c ) const
+std::string recipe::required_skills_string( const Character *c, bool print_skill_level ) const
 {
     if( required_skills.empty() ) {
         return _( "<color_cyan>none</color>" );
     }
     return enumerate_as_string( required_skills.begin(), required_skills.end(),
     [&]( const std::pair<skill_id, int> &skill ) {
-        auto player_skill = c ? c->get_skill_level( skill.first ) : 0;
+        const auto player_skill = c ? c->get_skill_level( skill.first ) : 0;
         std::string difficulty_color = skill.second > player_skill ? "yellow" : "green";
-        return string_format( "<color_cyan>%s</color> <color_%s>(%d)</color>",
-                              skill.first.obj().name(), difficulty_color, skill.second );
+        std::string skill_level_string = print_skill_level ? "" : ( std::to_string( player_skill ) + "/" );
+        skill_level_string += std::to_string( skill.second );
+        return string_format( "<color_cyan>%s</color> <color_%s>(%s)</color>",
+                              skill.first.obj().name(), difficulty_color, skill_level_string );
     } );
+}
+
+std::string recipe::required_skills_string( const Character *c ) const
+{
+    return required_skills_string( c, false );
+}
+
+std::string recipe::required_skills_string() const
+{
+    if( required_skills.empty() ) {
+        return _( "<color_white>none</color>" );
+    }
+    return enumerate_as_string( required_skills.begin(), required_skills.end(),
+    [&]( const std::pair<skill_id, int> &skill ) {
+        return string_format( "<color_white>%s: %d</color>", skill.first.obj().name(),
+                              skill.second );
+    } );
+}
+
+std::string recipe::batch_savings_string() const
+{
+    return ( batch_rsize != 0 ) ?
+           string_format( _( "%s%% at >%s units" ), static_cast<int>( batch_rscale * 100 ), batch_rsize )
+           : _( "none" );
 }
 
 std::string recipe::result_name() const
@@ -396,4 +487,124 @@ std::string recipe::result_name() const
     }
 
     return name;
+}
+
+std::function<bool( const item & )> recipe::get_component_filter() const
+{
+    const item result = create_result();
+
+    // Disallow crafting of non-perishables with rotten components
+    // Make an exception for items with the ALLOW_ROTTEN flag such as seeds
+    std::function<bool( const item & )> rotten_filter = return_true<item>;
+    if( result.is_food() && !result.goes_bad() && !has_flag( "ALLOW_ROTTEN" ) ) {
+        rotten_filter = []( const item & component ) {
+            return !component.rotten();
+        };
+    }
+
+    // If the result is made hot, we can allow frozen components.
+    // EDIBLE_FROZEN components ( e.g. flour, chocolate ) are allowed as well
+    // Otherwise forbid them
+    std::function<bool( const item & )> frozen_filter = return_true<item>;
+    if( result.is_food() && !hot_result() ) {
+        frozen_filter = []( const item & component ) {
+            return !component.has_flag( "FROZEN" ) || component.has_flag( "EDIBLE_FROZEN" );
+        };
+    }
+
+    // Disallow usage of non-full magazines as components
+    // This is primarily used to require a fully charged battery, but works for any magazine.
+    std::function<bool( const item & )> magazine_filter = return_true<item>;
+    if( has_flag( "FULL_MAGAZINE" ) ) {
+        magazine_filter = []( const item & component ) {
+            return !component.is_magazine() || ( component.ammo_remaining() >= component.ammo_capacity() );
+        };
+    }
+
+    return [ rotten_filter, frozen_filter, magazine_filter ]( const item & component ) {
+        return is_crafting_component( component ) &&
+               rotten_filter( component ) &&
+               frozen_filter( component ) &&
+               magazine_filter( component );
+    };
+}
+
+bool recipe::is_blueprint() const
+{
+    return !blueprint.empty();
+}
+
+const std::string &recipe::get_blueprint() const
+{
+    return blueprint;
+}
+
+const translation &recipe::blueprint_name() const
+{
+    return bp_name;
+}
+
+const std::vector<itype_id> &recipe::blueprint_resources() const
+{
+    return bp_resources;
+}
+
+const std::vector<std::pair<std::string, int>> &recipe::blueprint_provides() const
+{
+    return bp_provides;
+}
+
+const std::vector<std::pair<std::string, int>>  &recipe::blueprint_requires() const
+{
+    return bp_requires;
+}
+
+const std::vector<std::pair<std::string, int>>  &recipe::blueprint_excludes() const
+{
+    return bp_excludes;
+}
+
+void recipe::add_bp_autocalc_requirements()
+{
+    build_reqs total_reqs;
+    get_build_reqs_for_furn_ter_ids( get_changed_ids_from_update( blueprint ), total_reqs );
+    time = total_reqs.time;
+    for( const auto &skill_data : total_reqs.skills ) {
+        if( required_skills.find( skill_data.first ) == required_skills.end() ) {
+            required_skills[skill_data.first] = skill_data.second;
+        } else {
+            required_skills[skill_data.first] = std::max( skill_data.second,
+                                                required_skills[skill_data.first] );
+        }
+    }
+    for( const auto &req : total_reqs.reqs ) {
+        reqs_internal.emplace_back( std::make_pair( req.first, req.second ) );
+    }
+}
+
+bool recipe::hot_result() const
+{
+    // Check if the recipe tools make this food item hot upon making it.
+    // We don't actually know which specific tool the player used/will use here, but
+    // we're checking for a class of tools; because of the way requirements
+    // processing works, the "surface_heat" id gets nuked into an actual
+    // list of tools, see data/json/recipes/cooking_tools.json.
+    //
+    // Currently it's only checking for a hotplate because that's a
+    // suitable item in both the "surface_heat" and "water_boiling_heat"
+    // tools, and it's usually the first item in a list of tools so if this
+    // does get heated we'll find it right away.
+    //
+    // TODO: Make this less of a hack
+    if( create_result().is_food() ) {
+        const requirement_data::alter_tool_comp_vector &tool_lists = requirements().get_tools();
+        for( const std::vector<tool_comp> &tools : tool_lists ) {
+            for( const tool_comp &t : tools ) {
+                if( t.type == "hotplate" ) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }

@@ -1,0 +1,78 @@
+[
+  {
+    "type": "mutation_type",
+    "id": "HEALING"
+  },
+  {
+    "type": "mutation_type",
+    "id": "RUNNING"
+  },
+  {
+    "type": "mutation_type",
+    "id": "METABOLISM"
+  },
+  {
+    "type": "mutation_type",
+    "id": "SLEEP"
+  },
+  {
+    "type": "mutation_type",
+    "id": "SCENT"
+  },
+  {
+    "type": "mutation_type",
+    "id": "HANDS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "CLAWS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "SKIN"
+  },
+  {
+    "type": "mutation_type",
+    "id": "TEETH"
+  },
+  {
+    "type": "mutation_type",
+    "id": "MUZZLE"
+  },
+  {
+    "type": "mutation_type",
+    "id": "LEGS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "TAIL"
+  },
+  {
+    "type": "mutation_type",
+    "id": "HORNS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "EARS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "WHISKERS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "WINGS"
+  },
+  {
+    "type": "mutation_type",
+    "id": "skin_tone"
+  },
+  {
+    "type": "mutation_type",
+    "id": "hair_style"
+  },
+  {
+    "type": "mutation_type",
+    "id": "facial_hair"
+  }
+]

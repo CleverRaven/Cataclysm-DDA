@@ -6,14 +6,14 @@
     "name_plural": "milkshakes",
     "//": "they bring the boys to the yard",
     "description": "An all-natural cold beverage made with milk and sweeteners.  Tastes great when frozen.",
-    "weight": 270,
-    "volume": 1,
+    "weight": "160 g",
+    "volume": "250 ml",
     "container": "styrofoam_cup",
     "comestible_type": "DRINK",
     "symbol": "~",
     "color": "white",
     "spoils_in": "1 day",
-    "calories": 174,
+    "calories": 150,
     "quench": 30,
     "fun": 20,
     "health": -1,
@@ -21,6 +21,7 @@
     "material": "milk",
     "phase": "liquid",
     "charges": 2,
+    "vitamins": [ [ "vitA", 1 ], [ "calcium", 12 ] ],
     "flags": [ "MELTS" ]
   },
   {
@@ -30,10 +31,12 @@
     "name": "fast food milkshake",
     "name_plural": "fast food milkshakes",
     "description": "A milkshake made by freezing a premade mix.  Tastes better due to how much sugar is in it, but is bad for your health.",
-    "calories": 156,
+    "calories": 175,
     "fun": 23,
     "health": -3,
-    "price": 275
+    "price": 275,
+    "material": [ "milk", "junk" ],
+    "primary_material": "milk"
   },
   {
     "type": "COMESTIBLE",
@@ -42,12 +45,13 @@
     "name": "deluxe milkshake",
     "name_plural": "deluxe milkshakes",
     "description": "This milkshake has been enhanced with added sweeteners, and even has a cherry on top.  Tastes great, but is fairly awful for your health.",
-    "calories": 217,
+    "calories": 265,
     "quench": 40,
     "fun": 25,
     "health": -6,
     "price": 400,
-    "material": [ "milk", "junk" ]
+    "material": [ "milk", "junk" ],
+    "primary_material": "milk"
   },
   {
     "type": "COMESTIBLE",
@@ -55,21 +59,23 @@
     "name": "ice cream",
     "name_plural": "ice cream scoops",
     "description": "A sweet, frozen food made of milk with liberal amounts of sugar.",
-    "weight": 270,
-    "volume": 4,
+    "weight": "70 g",
+    "volume": "250 ml",
     "container": "plastic_bucket",
     "comestible_type": "FOOD",
     "symbol": "~",
     "color": "white",
     "spoils_in": "1 day",
-    "calories": 130,
+    "calories": 325,
     "fun": 15,
     "healthy": -1,
     "price": 250,
     "material": "milk",
+    "primary_material": "ice_cream",
     "phase": "liquid",
     "//": "not technically a drink, but is quasi-liquid enough that it'd get all over everything if you carried it",
-    "charges": 4,
+    "charges": 2,
+    "vitamins": [ [ "vitA", 9 ], [ "calcium", 9 ], [ "vitB", 11 ] ],
     "flags": [ "MELTS" ]
   },
   {
@@ -81,6 +87,7 @@
     "description": "Government regulations dictate that since this isn't *technically* ice cream, it be called a dairy dessert instead.  It still tastes good, but your body won't like you.",
     "healthy": -2,
     "price": 200,
+    "primary_material": "ice_cream",
     "material": [ "milk", "junk" ]
   },
   {
@@ -93,7 +100,9 @@
     "fun": 20,
     "healthy": -3,
     "price": 300,
-    "charges": 1,
+    "calories": 330,
+    "primary_material": "ice_cream",
+    "vitamins": [ [ "vitA", 9 ], [ "calcium", 8 ], [ "iron", 4 ], [ "vitB", 8 ] ],
     "material": [ "milk", "junk" ]
   },
   {
@@ -104,10 +113,11 @@
     "name_plural": "fruity ice cream scoops",
     "description": "Small bits of sweet fruit have been tossed into this ice cream, making it slightly less terrible for you.",
     "healthy": 0,
-    "calories": 156,
+    "calories": 224,
     "fun": 17,
     "price": 300,
-    "charges": 1,
+    "primary_material": "ice_cream",
+    "vitamins": [ [ "vitA", 8 ], [ "vitC", 6 ], [ "calcium", 8 ], [ "iron", 1 ], [ "vitB", 9 ] ],
     "material": [ "milk", "fruit" ]
   },
   {
@@ -118,8 +128,10 @@
     "name_plural": "frozen custard scoops",
     "description": "Similar to ice cream, this treat made famous in Coney Island is made like ice cream, but with egg yolk added in.  Its storing temperature is warmer, and it lasts a little longer than regular ice cream.",
     "spoils_in": "2 days",
-    "calories": 148,
+    "calories": 328,
     "price": 300,
+    "primary_material": "ice_cream",
+    "vitamins": [ [ "vitA", 1 ], [ "calcium", 8 ], [ "vitB", 10 ] ],
     "material": [ "milk", "egg" ]
   },
   {
@@ -129,8 +141,11 @@
     "name": "frozen yogurt",
     "name_plural": "frozen yogurt",
     "description": "Tarter than ice cream, this is made with yogurt and other dairy products, and is generally low-fat compared to ice cream itself.",
-    "calories": 122,
+    "calories": 127,
     "price": 275,
+    "weight": "80 g",
+    "primary_material": "ice_cream",
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 10 ] ],
     "material": [ "milk" ]
   },
   {
@@ -141,11 +156,12 @@
     "name_plural": "sorbet scoops",
     "description": "A simple frozen dessert food made from water and fruit juice.",
     "spoils_in": 336,
-    "calories": 104,
+    "calories": 116,
     "quench": 8,
     "fun": 10,
     "price": 175,
-    "charges": 1,
+    "weight": "106 g",
+    "vitamins": [  ],
     "material": [ "water", "fruit" ]
   },
   {
@@ -155,9 +171,11 @@
     "name": "gelato",
     "name_plural": "gelato scoops",
     "description": "Italian-style ice cream.  Less airy, and more dense, giving it a richer flavor and texture.",
-    "calories": 174,
+    "calories": 328,
     "price": 300,
-    "charges": 2,
+    "weight": "90 g",
+    "primary_material": "ice_cream",
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ] ],
     "material": [ "milk" ]
   }
 ]

@@ -1,15 +1,18 @@
 #include "damage.h"
 
+#include <cstddef>
+#include <algorithm>
+#include <map>
+#include <numeric>
+#include <utility>
+
 #include "debug.h"
 #include "item.h"
 #include "json.h"
 #include "monster.h"
 #include "mtype.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <map>
-#include <numeric>
+#include "cata_utility.h"
 
 bool damage_unit::operator==( const damage_unit &other ) const
 {
@@ -20,7 +23,7 @@ bool damage_unit::operator==( const damage_unit &other ) const
            damage_multiplier == other.damage_multiplier;
 }
 
-damage_instance::damage_instance() { }
+damage_instance::damage_instance() = default;
 damage_instance damage_instance::physical( float bash, float cut, float stab, float arpen )
 {
     damage_instance d;
@@ -85,9 +88,9 @@ bool damage_instance::empty() const
     return damage_units.empty();
 }
 
-void damage_instance::add( const damage_instance &b )
+void damage_instance::add( const damage_instance &added_di )
 {
-    for( auto &added_du : b.damage_units ) {
+    for( auto &added_du : added_di.damage_units ) {
         add( added_du );
     }
 }
@@ -138,9 +141,16 @@ bool damage_instance::operator==( const damage_instance &other ) const
 
 void damage_instance::deserialize( JsonIn &jsin )
 {
-    JsonObject jo( jsin );
-    // @todo Clean up
-    damage_units = load_damage_instance( jo ).damage_units;
+    // TODO: Clean up
+    if( jsin.test_object() ) {
+        JsonObject jo = jsin.get_object();
+        damage_units = load_damage_instance( jo ).damage_units;
+    } else if( jsin.test_array() ) {
+        JsonArray ja = jsin.get_array();
+        damage_units = load_damage_instance( ja ).damage_units;
+    } else {
+        jsin.error( "Expected object or array for damage_instance" );
+    }
 }
 
 dealt_damage_instance::dealt_damage_instance()
@@ -237,7 +247,7 @@ damage_type dt_by_name( const std::string &name )
     return iter->second;
 }
 
-const std::string name_by_dt( const damage_type &dt )
+std::string name_by_dt( const damage_type &dt )
 {
     auto iter = dt_map.cbegin();
     while( iter != dt_map.cend() ) {
@@ -271,7 +281,7 @@ const skill_id &skill_by_dt( damage_type dt )
     }
 }
 
-damage_unit load_damage_unit( JsonObject &curr )
+static damage_unit load_damage_unit( JsonObject &curr )
 {
     damage_type dt = dt_by_name( curr.get_string( "damage_type" ) );
     if( dt == DT_NULL ) {

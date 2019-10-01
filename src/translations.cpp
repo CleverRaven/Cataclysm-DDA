@@ -1,19 +1,30 @@
+#include "translations.h"
+
+#include <clocale>
+#include <array>
+
 #if defined(LOCALIZE) && defined(__STRICT_ANSI__)
 #undef __STRICT_ANSI__ // _putenv in minGW need that
 #include <cstdlib>
+
 #define __STRICT_ANSI__
 #endif
-
-#include "translations.h"
-
-#include "cata_utility.h"
-#include "json.h"
-#include "name.h"
-#include "path_info.h"
 
 #include <algorithm>
 #include <set>
 #include <string>
+#include <map>
+#include <memory>
+#include <ostream>
+#include <utility>
+#include <vector>
+
+#include "json.h"
+#include "name.h"
+#include "output.h"
+#include "path_info.h"
+#include "cursesdef.h"
+#include "cata_utility.h"
 
 // Names depend on the language settings. They are loaded from different files
 // based on the currently used language. If that changes, we have to reload the
@@ -24,19 +35,22 @@ static void reload_names()
     Name::load_from_file( PATH_INFO::find_translated_file( "namesdir", ".json", "names" ) );
 }
 
-#ifdef LOCALIZE
-#include <cstdlib> // for getenv()/setenv()/putenv()
+static bool sanity_checked_genders = false;
+
+#if defined(LOCALIZE)
 #include "options.h"
 #include "debug.h"
 #include "ui.h"
-#if (defined _WIN32 || defined WINDOWS)
-#include "platform_win.h"
-#include "mmsystem.h"
+#if defined(_WIN32)
+#   include "platform_win.h"
+#   include "mmsystem.h"
 #endif
 
-#if (defined MACOSX)
-#include <CoreFoundation/CFLocale.h>
-#include <CoreFoundation/CoreFoundation.h>
+#if defined(MACOSX)
+#   include <CoreFoundation/CFLocale.h>
+#   include <CoreFoundation/CoreFoundation.h>
+
+#include "cata_utility.h"
 
 std::string getOSXSystemLang();
 #endif
@@ -51,10 +65,10 @@ const char *pgettext( const char *context, const char *msgid )
     context_id += msgid;
     // null domain, uses global translation domain
     const char *msg_ctxt_id = context_id.c_str();
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     const char *translation = gettext( msg_ctxt_id );
 #else
-    const char *translation = dcgettext( NULL, msg_ctxt_id, LC_MESSAGES );
+    const char *translation = dcgettext( nullptr, msg_ctxt_id, LC_MESSAGES );
 #endif
     if( translation == msg_ctxt_id ) {
         return msgid;
@@ -64,11 +78,11 @@ const char *pgettext( const char *context, const char *msgid )
 }
 
 const char *npgettext( const char *const context, const char *const msgid,
-                       const char *const msgid_plural, const unsigned long int n )
+                       const char *const msgid_plural, const unsigned long long n )
 {
     const std::string context_id = std::string( context ) + '\004' + msgid;
     const char *const msg_ctxt_id = context_id.c_str();
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     const char *const translation = ngettext( msg_ctxt_id, msgid_plural, n );
 #else
     const char *const translation = dcngettext( nullptr, msg_ctxt_id, msgid_plural, n, LC_MESSAGES );
@@ -147,10 +161,10 @@ void select_language()
 void set_language()
 {
     std::string win_or_mac_lang;
-#if (defined _WIN32 || defined WINDOWS)
+#if defined(_WIN32)
     win_or_mac_lang = getLangFromLCID( GetUserDefaultLCID() );
 #endif
-#if (defined MACOSX)
+#if defined(MACOSX)
     win_or_mac_lang = getOSXSystemLang();
 #endif
     // Step 1. Setup locale settings.
@@ -158,7 +172,7 @@ void set_language()
                            get_option<std::string>( "USE_LANG" );
     if( !lang_opt.empty() ) { // Not 'System Language'
         // Overwrite all system locale settings. Use CDDA settings. User wants this.
-#if (defined _WIN32 || defined WINDOWS)
+#if defined(_WIN32)
         std::string lang_env = "LANGUAGE=" + lang_opt;
         if( _putenv( lang_env.c_str() ) != 0 ) {
             DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANGUAGE' environment variable";
@@ -169,8 +183,8 @@ void set_language()
         }
 #endif
         else {
-            auto env = getenv( "LANGUAGE" );
-            if( env != NULL ) {
+            const auto env = getenv( "LANGUAGE" );
+            if( env != nullptr ) {
                 DebugLog( D_INFO, D_MAIN ) << "Language is set to: '" << env << '\'';
             } else {
                 DebugLog( D_WARNING, D_MAIN ) << "Can't get 'LANGUAGE' environment variable";
@@ -178,22 +192,22 @@ void set_language()
         }
     }
 
-#if (defined _WIN32 || defined WINDOWS)
+#if defined(_WIN32)
     // Use the ANSI code page 1252 to work around some language output bugs.
-    if( setlocale( LC_ALL, ".1252" ) == NULL ) {
+    if( setlocale( LC_ALL, ".1252" ) == nullptr ) {
         DebugLog( D_WARNING, D_MAIN ) << "Error while setlocale(LC_ALL, '.1252').";
     }
 #endif
 
     // Step 2. Bind to gettext domain.
     std::string locale_dir;
-#if defined __ANDROID__
+#if defined(__ANDROID__)
     // Since we're using libintl-lite instead of libintl on Android, we hack the locale_dir to point directly to the .mo file.
     // This is because of our hacky libintl-lite bindtextdomain() implementation.
     auto env = getenv( "LANGUAGE" );
     locale_dir = std::string( FILENAMES["base_path"] + "lang/mo/" + ( env ? env : "none" ) +
                               "/LC_MESSAGES/cataclysm-dda.mo" );
-#elif (defined __linux__ || (defined MACOSX && !defined TILES))
+#elif (defined(__linux__) || (defined(MACOSX) && !defined(TILES)))
     if( !FILENAMES["base_path"].empty() ) {
         locale_dir = FILENAMES["base_path"] + "share/locale";
     } else {
@@ -209,9 +223,11 @@ void set_language()
     textdomain( "cataclysm-dda" );
 
     reload_names();
+
+    sanity_checked_genders = false;
 }
 
-#if (defined MACOSX)
+#if defined(MACOSX)
 std::string getOSXSystemLang()
 {
     // Get the user's language list (in order of preference)
@@ -221,7 +237,7 @@ std::string getOSXSystemLang()
     }
 
     const char *lang_code_raw = CFStringGetCStringPtr(
-                                    ( CFStringRef )CFArrayGetValueAtIndex( langs, 0 ),
+                                    reinterpret_cast<CFStringRef>( CFArrayGetValueAtIndex( langs, 0 ) ),
                                     kCFStringEncodingUTF8 );
     if( !lang_code_raw ) {
         return "en_US";
@@ -275,6 +291,61 @@ void set_language()
 
 #endif // LOCALIZE
 
+static void sanity_check_genders( const std::vector<std::string> &language_genders )
+{
+    if( sanity_checked_genders ) {
+        return;
+    }
+    sanity_checked_genders = true;
+
+    constexpr std::array<const char *, 3> all_genders = {{"f", "m", "n"}};
+
+    for( const std::string &gender : language_genders ) {
+        if( find( all_genders.begin(), all_genders.end(), gender ) == all_genders.end() ) {
+            debugmsg( "Unexpected gender '%s' in grammatical gender list for "
+                      "this language", gender );
+        }
+    }
+}
+
+std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
+{
+    //~ Space-separated list of grammatical genders. Default should be first.
+    //~ Use short names and try to be consistent between languages as far as
+    //~ possible.  Current choices are m (male), f (female), n (neuter).
+    //~ As appropriate we might add e.g. a (animate) or c (common).
+    //~ New genders must be added to all_genders in lang/extract_json_strings.py
+    //~ and src/translations.cpp.
+    //~ The primary purpose of this is for NPC dialogue which might depend on
+    //~ gender.  Only add genders to the extent needed by such translations.
+    //~ They are likely only needed if they affect the first and second
+    //~ person.  For example, one gender suffices for English even though
+    //~ third person pronouns differ.
+    std::string language_genders_s = pgettext( "grammatical gender list", "n" );
+    std::vector<std::string> language_genders = string_split( language_genders_s, ' ' );
+
+    sanity_check_genders( language_genders );
+
+    if( language_genders.empty() ) {
+        language_genders.push_back( "n" );
+    }
+
+    std::vector<std::string> chosen_genders;
+    for( const auto &subject_genders : genders ) {
+        std::string chosen_gender = language_genders[0]; // default if no match
+        for( const std::string &gender : subject_genders.second ) {
+            if( std::find( language_genders.begin(), language_genders.end(), gender ) !=
+                language_genders.end() ) {
+                chosen_gender = gender;
+                break;
+            }
+        }
+        chosen_genders.push_back( subject_genders.first + ":" + chosen_gender );
+    }
+    std::string context = join( chosen_genders, " " );
+    return pgettext( context.c_str(), msg.c_str() );
+}
+
 translation::translation()
     : ctxt( cata::nullopt )
 {
@@ -293,6 +364,16 @@ translation::translation( const std::string &raw )
 translation::translation( const std::string &str, const no_translation_tag )
     : ctxt( cata::nullopt ), raw( str )
 {
+}
+
+translation translation::to_translation( const std::string &raw )
+{
+    return { raw };
+}
+
+translation translation::to_translation( const std::string &ctxt, const std::string &raw )
+{
+    return { ctxt, raw };
 }
 
 translation translation::no_translation( const std::string &str )
@@ -334,14 +415,24 @@ bool translation::empty() const
     return raw.empty();
 }
 
-bool translation::operator<( const translation &that ) const
+bool translation::translated_lt( const translation &that ) const
 {
     return translated() < that.translated();
 }
 
-bool translation::operator==( const translation &that ) const
+bool translation::translated_eq( const translation &that ) const
 {
     return translated() == that.translated();
+}
+
+bool translation::translated_ne( const translation &that ) const
+{
+    return !translated_eq( that );
+}
+
+bool translation::operator==( const translation &that ) const
+{
+    return ctxt == that.ctxt && raw == that.raw && needs_translation == that.needs_translation;
 }
 
 bool translation::operator!=( const translation &that ) const
@@ -349,7 +440,37 @@ bool translation::operator!=( const translation &that ) const
     return !operator==( that );
 }
 
+translation to_translation( const std::string &raw )
+{
+    return translation::to_translation( raw );
+}
+
+translation to_translation( const std::string &ctxt, const std::string &raw )
+{
+    return translation::to_translation( ctxt, raw );
+}
+
 translation no_translation( const std::string &str )
 {
     return translation::no_translation( str );
+}
+
+std::ostream &operator<<( std::ostream &out, const translation &t )
+{
+    return out << t.translated();
+}
+
+std::string operator+( const translation &lhs, const std::string &rhs )
+{
+    return lhs.translated() + rhs;
+}
+
+std::string operator+( const std::string &lhs, const translation &rhs )
+{
+    return lhs + rhs.translated();
+}
+
+std::string operator+( const translation &lhs, const translation &rhs )
+{
+    return lhs.translated() + rhs.translated();
 }

@@ -1,0 +1,24 @@
+[
+  {
+    "result": "golf_club",
+    "//": "Google tells me that golf clubs often have titanium heads, so that's a source of it.",
+    "type": "uncraft",
+    "time": 10000,
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "material_aluminium_ingot", 2 ] ], [ [ "afs_scrap_titanium", 2 ] ] ]
+  },
+  {
+    "result": "afs_atomic_smartphone",
+    "type": "uncraft",
+    "time": 500,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 1 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "lens_small", 1 ] ],
+      [ [ "plut_cell", 1 ] ]
+    ]
+  }
+]

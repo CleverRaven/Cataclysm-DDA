@@ -1,16 +1,19 @@
 #include "harvest.h"
 
-#include "assign.h"
-#include "debug.h"
-#include "item.h"
-#include "output.h"
-
 #include <algorithm>
 #include <cmath>
 #include <sstream>
 #include <string>
+#include <iterator>
 
-// @todo: Make a generic factory
+#include "assign.h"
+#include "debug.h"
+#include "item.h"
+#include "item_group.h"
+#include "output.h"
+#include "json.h"
+
+// TODO: Make a generic factory
 static std::map<harvest_id, harvest_list> harvest_all;
 
 /** @relates string_id */
@@ -59,18 +62,22 @@ harvest_entry harvest_entry::load( JsonObject &jo, const std::string &src )
     assign( jo, "base_num", ret.base_num, strict, -1000.0f );
     assign( jo, "scale_num", ret.scale_num, strict, -1000.0f );
     assign( jo, "max", ret.max, strict, 1 );
+    assign( jo, "type", ret.type, strict );
+    assign( jo, "mass_ratio", ret.mass_ratio, strict, 0.00f );
+    assign( jo, "flags", ret.flags );
+    assign( jo, "faults", ret.faults );
 
     return ret;
 }
 
 const harvest_id &harvest_list::load( JsonObject &jo, const std::string &src,
-                                      const std::string &id )
+                                      const std::string &force_id )
 {
     harvest_list ret;
     if( jo.has_string( "id" ) ) {
         ret.id_ = harvest_id( jo.get_string( "id" ) );
-    } else if( !id.empty() ) {
-        ret.id_ = harvest_id( id );
+    } else if( !force_id.empty() ) {
+        ret.id_ = harvest_id( force_id );
     } else {
         jo.throw_error( "id was not specified for harvest" );
     }
@@ -119,13 +126,38 @@ void harvest_list::check_consistency()
 {
     for( const auto &pr : harvest_all ) {
         const auto &hl = pr.second;
+        const std::string hl_id = hl.id().c_str();
+        auto error_func = [&]( const harvest_entry & entry ) {
+            std::string errorlist;
+            bool item_valid = true;
+            if( !( item::type_is_defined( entry.drop ) || ( entry.type == "bionic_group" &&
+                    item_group::group_is_defined( entry.drop ) ) ) ) {
+                item_valid = false;
+                errorlist += entry.drop;
+            }
+            // non butchery harvests need to be excluded
+            if( hl_id.substr( 0, 14 ) != "harvest_inline" ) {
+                if( entry.type == "null" ) {
+                    if( !item_valid ) {
+                        errorlist += ", ";
+                    }
+                    errorlist += "null type";
+                } else if( !( entry.type == "flesh" || entry.type == "bone" || entry.type == "skin" ||
+                              entry.type == "offal" || entry.type == "bionic" || entry.type == "bionic_group" ) ) {
+                    if( !item_valid ) {
+                        errorlist += ", ";
+                    }
+                    errorlist += entry.type;
+                }
+            }
+            return errorlist;
+        };
         const std::string errors = enumerate_as_string( hl.entries_.begin(), hl.entries_.end(),
-        []( const harvest_entry & entry ) {
-            return item::type_is_defined( entry.drop ) ? "" : entry.drop;
-        } );
+                                   error_func );
         if( !errors.empty() ) {
-            debugmsg( "Harvest list %s has invalid drop(s): %s", hl.id_.c_str(), errors.c_str() );
+            debugmsg( "Harvest list %s has invalid entry: %s", hl_id, errors );
         }
+
     }
 }
 
@@ -165,7 +197,7 @@ std::string harvest_list::describe( int at_skill ) const
         } else {
             max_f = en.max;
         }
-        // @todo: Avoid repetition here by making a common harvest drop function
+        // TODO: Avoid repetition here by making a common harvest drop function
         int max_drops = std::min<int>( en.max, std::round( std::max( 0.0f, max_f ) ) );
         int min_drops = std::max<int>( 0.0f, std::round( std::min( min_f, max_f ) ) );
         if( max_drops <= 0 ) {

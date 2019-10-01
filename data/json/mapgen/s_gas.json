@@ -51,7 +51,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_gas" ],
+    "om_terrain": [ "s_gas_1" ],
     "weight": 200,
     "object": {
       "fill_ter": "t_floor",
@@ -79,9 +79,10 @@
         "#S.#...+......+.......~]",
         "#T.#TSl#.rrrrr#HHtcCfl#]",
         "########~##############]",
-        "        ]]]]]]]]]]]]]]]]"
+        " 4      ]]]]]]]]]]]]]]]]"
       ],
       "palettes": [ "road" ],
+      "terrain": { "P": "t_sidewalk", "4": "t_gutter_downspout" },
       "signs": { "P": { "signage": "Wide selection of storage batteries!  Discounts!" } },
       "items": { "l": { "item": "cleaning", "chance": 70 }, "&": { "item": "trash_cart", "chance": 50 } },
       "place_loot": [
@@ -105,10 +106,60 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": "s_gas_roof_1",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "|2222222222222222222223 ",
+        "|.....................3 ",
+        "|...............R.....3 ",
+        "|.....................3 ",
+        "|.....................3 ",
+        "|.....................3 ",
+        "|.....................3 ",
+        "|.....................3 ",
+        "|.....................3 ",
+        "|...........U.........3 ",
+        "|.....................3 ",
+        "|-5-------------------3 ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 5, 15 ],
+          "y": [ 15, 16 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [ "s_gas_rural" ],
     "//": "Rural Gas Station",
     "weight": 333,
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         "________________________",
         "________________________",
@@ -128,17 +179,16 @@
         ".#9999  99      >     #.",
         ".#              >  >>>#.",
         ".#FFFFFFFF            #.",
-        ".##########3########  #.",
-        ".#@@  BC#?  B66  F>#3##.",
-        ".#@@   C#?        ># ;#.",
-        ".#:     3      H  =#A #.",
-        ".##00##################.",
-        "........................"
+        ".###########3#######  #.",
+        ".#@@  BC#;R# 66 6F>#3##.",
+        ".#@@   C#  3 B    ># ;#.",
+        ".#:     ####   H   #  #.",
+        "4#:  H  3    ??6  =#A #.",
+        ".##00#####0############."
       ],
       "set": [
-        { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-        { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
-        { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] },
+        { "point": "terrain", "id": "t_dirt", "x": 0, "y": [ 0, 22 ], "repeat": [ 5, 10 ] },
+        { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 22 ], "repeat": [ 5, 10 ] },
         { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 0, 2 ], "repeat": [ 8, 10 ] },
         { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 0, 4 ], "repeat": [ 8, 2 ] }
       ],
@@ -148,24 +198,12 @@
         ".": "t_grass",
         "0": "t_curtains",
         "3": "t_door_locked",
-        "6": "t_floor",
-        "9": "t_floor",
-        ":": "t_floor",
-        ";": "t_floor",
         "=": "t_rock_floor",
-        ">": "t_floor",
-        "?": "t_floor",
-        "@": "t_floor",
-        "A": "t_floor",
-        "B": "t_floor",
-        "C": "t_floor",
-        "F": "t_floor",
-        "H": "t_floor",
         "O": "t_dirt",
-        "S": "t_floor",
         "[": "t_fence_v",
         "_": "t_pavement",
-        "~": "t_fence_h"
+        "~": "t_fence_h",
+        "4": "t_gutter_downspout"
       },
       "furniture": {
         "6": "f_table",
@@ -180,7 +218,8 @@
         "C": "f_desk",
         "F": "f_glass_fridge",
         "H": "f_armchair",
-        "S": "f_stool"
+        "S": "f_stool",
+        "R": "f_shower"
       },
       "toilets": { ";": {  } },
       "gaspumps": { "O": {  } },
@@ -202,6 +241,55 @@
         { "item": "shotgun_s", "x": 3, "y": 20 },
         { "item": "pot", "x": 18, "y": 21 },
         { "item": "shot_00", "x": 7, "y": 19, "chance": 50 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_gas_rural_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |222222222222222222223 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |................R...3 ",
+        " |....U...............3 ",
+        " 5....................3 ",
+        " |--------------------3 "
+      ],
+      "palettes": [ "roof_palette" ],
+      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 5, 15 ],
+          "y": [ 12, 17 ]
+        }
       ]
     }
   }

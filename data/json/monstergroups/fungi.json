@@ -1,0 +1,11 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FUNGI_FUNGALOID",
+    "default": "mon_fungaloid",
+    "monsters": [
+      { "monster": "mon_fungaloid", "freq": 300, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_young", "freq": 100, "cost_multiplier": 0, "pack_size": [ 2, 3 ] }
+    ]
+  }
+]

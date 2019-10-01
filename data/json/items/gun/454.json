@@ -6,18 +6,28 @@
     "name": "Taurus Raging Bull",
     "name_plural": "Taurus Raging Bull",
     "description": "The Taurus Raging Bull is a 5-shot revolver chambered in .454 Casull.  It has impressive stopping power.",
-    "weight": 1700,
-    "volume": 3,
+    "weight": "1700 g",
+    "volume": "750 ml",
     "price": 64100,
     "to_hit": -2,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": "454",
+    "ammo": [ "454", "410shot", "45colt" ],
     "dispersion": 280,
     "durability": 8,
+    "blackpowder_tolerance": 56,
     "clip_size": 5,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ] ]
+    "magazines": [ [ "454", [ "454_speedloader5" ] ] ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   }
 ]

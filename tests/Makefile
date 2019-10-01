@@ -23,18 +23,20 @@ LDFLAGS += -L.
 CXXFLAGS += -I../src -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas -Wno-parentheses -MMD -MP
 CXXFLAGS += -Wall -Wextra
 
-TEST_TARGET = $(BUILD_PREFIX)cata_test
+ifeq ($(TARGETSYSTEM), WINDOWS)
+  TEST_TARGET = $(BUILD_PREFIX)cata_test.exe
+else
+  TEST_TARGET = $(BUILD_PREFIX)cata_test
+endif
 
 tests: $(TEST_TARGET)
 
-$(BUILD_PREFIX)cata_test: $(OBJS) $(CATA_LIB)
+$(TEST_TARGET): $(OBJS) $(CATA_LIB)
 	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
 
 # Iterate over all the individual tests.
-# (the shuf call is intended to be a POSIX-compliant means to generate a random
-# integer)
 check: $(TEST_TARGET)
-	cd .. && tests/$(TEST_TARGET) -d yes -r cata --rng-seed `shuf -i 0-1000000000 -n 1`
+	cd .. && tests/$(TEST_TARGET) -d yes --rng-seed time
 
 clean:
 	rm -rf *obj

@@ -1,12 +1,36 @@
 [
   {
+    "type": "recipe",
+    "result": "tanned_hide",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "36 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "tanned_pelt", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "leather",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "6 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "fur", 1 ] ] ]
+  },
+  {
     "result": "steel_chunk",
     "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": 15000,
+    "time": "15 m",
     "batch_time_factors": [ 90, 4 ],
     "reversible": true,
     "autolearn": true,
@@ -21,7 +45,7 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": 60000,
+    "time": "60 m",
     "batch_time_factors": [ 90, 4 ],
     "reversible": true,
     "autolearn": true,
@@ -37,9 +61,13 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_fabrication", 4 ], [ "welding_book", 4 ] ],
-    "time": 30000,
+    "time": "30 m",
     "batch_time_factors": [ 50, 2 ],
     "tools": [ [ [ "electrolysis_kit", 100 ] ], [ [ "jar_glass", -1 ], [ "jar_3l_glass", -1 ] ] ],
-    "components": [ [ [ "acid", 1 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "can_food_unsealed", 1 ] ] ]
+    "components": [
+      [ [ "acid", 1 ] ],
+      [ [ "water", 3 ], [ "water_clean", 3 ] ],
+      [ [ "tin_plate", 1 ], [ "tin_cup", 1 ], [ "bowl_pewter", 1 ] ]
+    ]
   }
 ]

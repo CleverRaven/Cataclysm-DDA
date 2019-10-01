@@ -4,8 +4,17 @@
     "id": "fuji_buildings_overlay",
     "regions": [ "all" ],
     "city": {
-      "houses": { "s_apt": 4, "s_apt_2": 4 },
-      "shops": { "s_gunstore": 5, "s_diner": 4, "s_apt": 4, "s_apt_2": 4, "s_cardealer": 2, "s_camping": 1, "s_games": 1 }
+      "houses": { "s_apt": 40, "s_apt_2": 40 },
+      "shops": {
+        "s_gunstore": 500,
+        "s_diner": 400,
+        "s_apt": 400,
+        "s_apt_2": 400,
+        "s_cardealer": 200,
+        "s_camping": 100,
+        "s_games": 100,
+        "s_electronicstore": 400
+      }
     }
   }
 ]

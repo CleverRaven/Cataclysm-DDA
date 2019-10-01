@@ -1,53 +1,42 @@
 [
-    {
-        "type" : "mapgen",
-        "om_terrain" : ["mil_outpost_2te"],
-        "comment" : "second floor top edge",
-        "method": "json",
-        "weight": 250,
-        "object": {
-            "fill_ter": "t_flat_roof",
-            "rows": [
-                "########################",
-                "########################",
-                "########################",
-                "########################",
-                "########################",
-                "########################",
-                "ffffffffffffffffffffffff",
-                "                        ",
-                "   IIIIII               ",
-                "   IiiiiI               ",
-                "   IiiiiI               ",
-                "   IIIyII    IIIyIIII   ",
-                "             IiiiiiiI   ",
-                "       H  @  IiiiiiiI   ",
-                "             IiiiiiiI   ",
-                "     nnnn    IiiiiiiI   ",
-                "             IIIIIIII   ",
-                "ffffffffffffffffffffffff",
-                "########################",
-                "########################",
-                "########################",
-                "########################",
-                "########################",
-                "########################"
-            ],
-            "palettes":[
-               "mil_outpost_bandit"
-            ],
-            "terrain":{
-                " ": "t_flat_roof"
-            },
-            "furniture":{
-                "H": "f_woodstove",
-                "i": "f_large_groundsheet",
-                "I": "f_large_canvas_wall",
-                "y": "f_large_canvas_door"
-            },
-            "npcs": {
-                "@": { "class": "thug" }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": [ "mil_outpost_2te" ],
+    "comment": "second floor top edge",
+    "method": "json",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "ffffffffffffffffffffffff",
+        "                        ",
+        "   IIIIII               ",
+        "   IiiiiI               ",
+        "   IiiiiI               ",
+        "   IIIyII    IIIyIIII   ",
+        "             IiiiiiiI   ",
+        "       H  @  IiiiiiiI   ",
+        "             IiiiiiiI   ",
+        "     nnnn    IiiiiiiI   ",
+        "             IIIIIIII   ",
+        "ffffffffffffffffffffffff",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "mil_outpost_bandit" ],
+      "terrain": { " ": "t_flat_roof" },
+      "furniture": { "H": "f_woodstove", "i": "f_large_groundsheet", "I": "f_large_canvas_wall", "y": "f_large_canvas_door" },
+      "npcs": { "@": { "class": "thug" } }
     }
+  }
 ]

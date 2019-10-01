@@ -2,19 +2,16 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 
-#include "damage.h"
-#include "enums.h"
-#include "explosion.h"
-
 #include <memory>
 #include <set>
 #include <string>
 
+#include "damage.h"
+#include "point.h"
+
 class Creature;
-class dispersion_sources;
-class vehicle;
 struct explosion_data;
-struct itype;
+class item;
 
 struct projectile {
         damage_instance impact;
@@ -41,7 +38,7 @@ struct projectile {
 
         projectile();
         projectile( const projectile & );
-        projectile( projectile && ) = default;
+        projectile( projectile && );
         projectile &operator=( const projectile & );
         ~projectile();
 
@@ -61,6 +58,6 @@ struct dealt_projectile_attack {
 };
 
 void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects );
-int aoe_size( const std::set<std::string> &effects );
+int aoe_size( const std::set<std::string> &tags );
 
 #endif

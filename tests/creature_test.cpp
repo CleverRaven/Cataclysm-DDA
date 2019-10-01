@@ -1,10 +1,13 @@
-#include "catch/catch.hpp"
+#include <stdlib.h>
+#include <map>
+#include <utility>
 
+#include "catch/catch.hpp"
 #include "creature.h"
 #include "monster.h"
 #include "mtype.h"
-
 #include "test_statistics.h"
+#include "bodypart.h"
 
 float expected_weights_base[][12] = { { 20, 0,   0,   0, 15, 15, 0, 0, 25, 25, 0, 0 },
     { 33.33, 2.33, 0.33, 0, 20, 20, 0, 0, 12, 12, 0, 0 },
@@ -16,8 +19,8 @@ float expected_weights_max[][12] = { { 2000, 0,   0,   0, 1191.49, 1191.49, 0, 0
     { 3657, 2861.78,   113.73,  0, 1815.83, 1815.83, 0, 0, 508.904, 508.904, 0, 0 }
 };
 
-void calculate_bodypart_distribution( enum m_size asize, enum m_size dsize,
-                                      int hit_roll, float ( &expected )[12] )
+static void calculate_bodypart_distribution( const enum m_size asize, const enum m_size dsize,
+        const int hit_roll, float ( &expected )[12] )
 {
     INFO( "hit roll = " << hit_roll );
     std::map<body_part, int> selected_part_histogram = {
@@ -34,7 +37,7 @@ void calculate_bodypart_distribution( enum m_size asize, enum m_size dsize,
     monster defender;
     defender.type = &dtype;
 
-    int num_tests = 15000;
+    const int num_tests = 15000;
 
     for( int i = 0; i < num_tests; ++i ) {
         selected_part_histogram[defender.select_body_part( &attacker, hit_roll )]++;
@@ -47,7 +50,7 @@ void calculate_bodypart_distribution( enum m_size asize, enum m_size dsize,
 
     for( auto weight : selected_part_histogram ) {
         INFO( body_part_name( weight.first ) );
-        double expected_proportion = expected[weight.first] / total_weight;
+        const double expected_proportion = expected[weight.first] / total_weight;
         CHECK_THAT( weight.second, IsBinomialObservation( num_tests, expected_proportion ) );
     }
 }

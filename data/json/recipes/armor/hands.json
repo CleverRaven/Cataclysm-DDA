@@ -1,52 +1,27 @@
 [
   {
-    "result": "gauntlets_bone",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_HANDS",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "time": 30000,
-    "autolearn": true,
-    "book_learn": [ [ "manual_tailor", 2 ], [ "textbook_tailor", 2 ] ],
-    "using": [ [ "sewing_standard", 12 ], [ "cordage", 1 ] ],
-    "components": [
-      [ [ "bone", 12 ], [ "bone_human", 12 ], [ "bone_tainted", 24 ] ],
-      [ [ "leather", 2 ] ]
-    ]
-  },
-  {
     "result": "gauntlets_chitin",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
     "difficulty": 4,
-    "time": 30000,
+    "time": "30 m",
     "autolearn": true,
-    "components": [
-      [ [ "string_36", 1 ], [ "string_6", 4 ] ],
-      [ [ "chitin_piece", 4 ] ]
-    ]
+    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "chitin_piece", 4 ] ] ]
   },
-    {
+  {
     "result": "gauntlets_acidchitin",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
     "difficulty": 5,
-    "skills_required": [[ "survival", 4 ], [ "firstaid", 2 ]],
-    "time": 60000,
+    "skills_required": [ [ "survival", 4 ], [ "firstaid", 2 ] ],
+    "time": "1 h",
     "autolearn": true,
-    "qualities": [
-      { "id": "CUT_FINE", "level": 1 },
-      { "id": "SEW", "level": 1 }
-    ],
-    "components": [
-      [ [ "string_36", 1 ], [ "string_6", 4 ] ],
-      [ [ "acidchitin_piece", 6 ] ]
-    ]
+    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "acidchitin_piece", 6 ] ] ]
   },
   {
     "result": "gauntlets_larmor",
@@ -55,7 +30,7 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
     "difficulty": 2,
-    "time": 30000,
+    "time": "30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
     "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ] ]
@@ -66,7 +41,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "survival",
-    "time": 1000,
+    "time": "1 m",
     "autolearn": true,
     "components": [ [ [ "plastic_shopping_bag", 2 ] ] ],
     "flags": [ "BLIND_HARD" ]
@@ -77,7 +52,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
-    "time": 16000,
+    "time": "16 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "gloves_leather", 1 ] ] ]
@@ -90,7 +65,7 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": 16000,
+    "time": "16 m",
     "autolearn": true,
     "book_learn": [ [ "manual_tailor", 2 ], [ "textbook_tailor", 2 ], [ "recipe_melee", 2 ] ],
     "using": [ [ "sewing_standard", 5 ] ],
@@ -104,16 +79,11 @@
     "skill_used": "tailor",
     "difficulty": 1,
     "skills_required": [ "fabrication", 1 ],
-    "time": 24000,
+    "time": "24 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 2 }
-    ],
-    "components": [
-      [ [ "gloves_fingerless", 1 ] ],
-      [ [ "scrap", 2 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "gloves_fingerless", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
     "result": "gloves_fsurvivor",
@@ -123,7 +93,7 @@
     "skill_used": "tailor",
     "difficulty": 8,
     "skills_required": [ "fabrication", 6 ],
-    "time": 60000,
+    "time": "1 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ] ],
     "tools": [ [ [ "welder", 14 ], [ "welder_crude", 21 ], [ "soldering_iron", 21 ], [ "toolset", 21 ] ] ],
@@ -143,7 +113,7 @@
     "skill_used": "tailor",
     "difficulty": 2,
     "skills_required": [ "survival", 1 ],
-    "time": 16000,
+    "time": "16 m",
     "autolearn": true,
     "book_learn": [ [ "manual_tailor", 1 ], [ "textbook_survival", 1 ], [ "pocket_survival", 1 ] ],
     "using": [ [ "sewing_standard", 6 ] ],
@@ -157,7 +127,7 @@
     "skill_used": "tailor",
     "difficulty": 7,
     "skills_required": [ "fabrication", 6 ],
-    "time": 60000,
+    "time": "1 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ] ],
     "tools": [ [ [ "welder", 14 ], [ "welder_crude", 21 ], [ "soldering_iron", 21 ], [ "toolset", 21 ] ] ],
@@ -176,7 +146,7 @@
     "skill_used": "tailor",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
-    "time": 60000,
+    "time": "1 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 40 ] ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
@@ -186,7 +156,13 @@
       [ [ "scrap", 4 ] ],
       [ [ "duct_tape", 50 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
-      [ [ "gloves_leather", 1 ], [ "gloves_light", 1 ], [ "gloves_liner", 1 ], [ "wetsuit_gloves", 1 ], [ "fire_gauntlets", 1 ] ]
+      [
+        [ "gloves_leather", 1 ],
+        [ "gloves_light", 1 ],
+        [ "gloves_liner", 1 ],
+        [ "wetsuit_gloves", 1 ],
+        [ "fire_gauntlets", 1 ]
+      ]
     ]
   },
   {
@@ -196,7 +172,7 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
     "difficulty": 2,
-    "time": 16000,
+    "time": "16 m",
     "autolearn": true,
     "book_learn": [ [ "manual_tailor", 1 ], [ "mag_tailor", 0 ], [ "textbook_survival", 1 ], [ "pocket_survival", 1 ] ],
     "using": [ [ "sewing_standard", 6 ] ],
@@ -209,7 +185,7 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
     "difficulty": 1,
-    "time": 10000,
+    "time": "10 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 4 ] ],
     "components": [ [ [ "rag", 4 ] ] ]
@@ -221,7 +197,7 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
     "difficulty": 1,
-    "time": 10000,
+    "time": "10 m",
     "book_learn": [ [ "manual_tailor", 1 ], [ "mag_tailor", 0 ], [ "textbook_survival", 2 ], [ "pocket_survival", 2 ] ],
     "using": [ [ "sewing_standard", 2 ] ],
     "components": [ [ [ "rag", 2 ] ] ]
@@ -234,7 +210,7 @@
     "skill_used": "tailor",
     "difficulty": 5,
     "skills_required": [ "fabrication", 3 ],
-    "time": 60000,
+    "time": "1 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ] ],
     "tools": [ [ [ "welder", 14 ], [ "welder_crude", 21 ], [ "soldering_iron", 21 ], [ "toolset", 21 ] ] ],
@@ -243,7 +219,13 @@
       [ [ "leather", 2 ] ],
       [ [ "duct_tape", 80 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
-      [ [ "gloves_leather", 1 ], [ "gloves_light", 1 ], [ "gloves_liner", 1 ], [ "wetsuit_gloves", 1 ], [ "fire_gauntlets", 1 ] ]
+      [
+        [ "gloves_leather", 1 ],
+        [ "gloves_light", 1 ],
+        [ "gloves_liner", 1 ],
+        [ "wetsuit_gloves", 1 ],
+        [ "fire_gauntlets", 1 ]
+      ]
     ]
   },
   {
@@ -253,19 +235,11 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "time": 420000,
+    "time": "7 h",
     "book_learn": [ [ "textbook_armwest", 5 ] ],
     "using": [ [ "forging_standard", 15 ], [ "steel_standard", 6 ] ],
-    "qualities": [
-      { "id": "ANVIL", "level": 3 },
-      { "id": "HAMMER", "level": 3 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "swage", -1 ] ],
-      [ [ "forge", 300 ], [ "oxy_torch", 60 ] ]
-    ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 300 ], [ "oxy_torch", 60 ] ] ],
     "components": [ [ [ "fur", 10 ], [ "tanned_pelt", 2 ], [ "leather", 10 ], [ "tanned_hide", 2 ] ] ]
   },
   {
@@ -276,7 +250,7 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ "fabrication", 4 ],
-    "time": 60000,
+    "time": "1 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ] ],
     "tools": [ [ [ "welder", 14 ], [ "welder_crude", 21 ], [ "soldering_iron", 21 ], [ "toolset", 21 ] ] ],
@@ -285,7 +259,13 @@
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
       [ [ "duct_tape", 80 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
-      [ [ "gloves_leather", 1 ], [ "gloves_light", 1 ], [ "gloves_liner", 1 ], [ "wetsuit_gloves", 1 ], [ "fire_gauntlets", 1 ] ]
+      [
+        [ "gloves_leather", 1 ],
+        [ "gloves_light", 1 ],
+        [ "gloves_liner", 1 ],
+        [ "wetsuit_gloves", 1 ],
+        [ "fire_gauntlets", 1 ]
+      ]
     ]
   },
   {
@@ -295,7 +275,7 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
     "difficulty": 1,
-    "time": 90000,
+    "time": "1 h 30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "felt_patch", 4 ] ] ]
@@ -307,13 +287,10 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
     "difficulty": 2,
-    "time": 20000,
+    "time": "20 m",
     "book_learn": [ [ "manual_tailor", 2 ], [ "mag_tailor", 3 ], [ "textbook_survival", 2 ] ],
     "using": [ [ "sewing_standard", 6 ] ],
-    "components": [
-      [ [ "leather", 2 ], [ "gloves_leather", 1 ] ],
-      [ [ "rag", 2 ], [ "gloves_light", 1 ] ]
-    ]
+    "components": [ [ [ "leather", 2 ], [ "gloves_leather", 1 ] ], [ [ "rag", 2 ], [ "gloves_light", 1 ] ] ]
   },
   {
     "result": "gloves_wraps",
@@ -321,7 +298,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
-    "time": 1000,
+    "time": "1 m",
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "rag", 4 ] ] ],
@@ -333,7 +310,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
-    "time": 1500,
+    "time": "1 m 30 s",
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "fur", 6 ] ] ],
@@ -345,7 +322,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
-    "time": 1500,
+    "time": "1 m 30 s",
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "leather", 6 ] ] ],
@@ -357,7 +334,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
-    "time": 1000,
+    "time": "1 m",
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "felt_patch", 4 ] ] ],
@@ -371,7 +348,7 @@
     "skill_used": "tailor",
     "difficulty": 7,
     "skills_required": [ "fabrication", 5 ],
-    "time": 60000,
+    "time": "1 h",
     "autolearn": true,
     "using": [ [ "sewing_standard", 50 ] ],
     "tools": [ [ [ "welder", 14 ], [ "welder_crude", 21 ], [ "soldering_iron", 21 ], [ "toolset", 21 ] ] ],
@@ -380,7 +357,13 @@
       [ [ "fur", 8 ], [ "tanned_pelt", 1 ] ],
       [ [ "duct_tape", 80 ] ],
       [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
-      [ [ "gloves_leather", 1 ], [ "gloves_light", 1 ], [ "gloves_liner", 1 ], [ "wetsuit_gloves", 1 ], [ "fire_gauntlets", 1 ] ]
+      [
+        [ "gloves_leather", 1 ],
+        [ "gloves_light", 1 ],
+        [ "gloves_liner", 1 ],
+        [ "wetsuit_gloves", 1 ],
+        [ "fire_gauntlets", 1 ]
+      ]
     ]
   },
   {
@@ -391,7 +374,7 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ "fabrication", 4 ],
-    "time": 80000,
+    "time": "1 h 20 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 100 ] ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
@@ -410,7 +393,7 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
     "difficulty": 1,
-    "time": 50000,
+    "time": "50 m",
     "autolearn": true,
     "qualities": [ { "id": "KNIT", "level": 1 } ],
     "components": [ [ [ "yarn", 250 ] ] ]
@@ -422,7 +405,7 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
     "difficulty": 6,
-    "time": 24000,
+    "time": "24 m",
     "book_learn": [ [ "textbook_fireman", 6 ], [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ] ],
     "using": [ [ "sewing_standard", 12 ] ],
     "components": [ [ [ "nomex", 6 ] ] ]
@@ -433,7 +416,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "survival",
-    "time": 1000,
+    "time": "1 m",
     "autolearn": true,
     "components": [ [ [ "socks", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
@@ -446,14 +429,10 @@
     "skill_used": "electronics",
     "difficulty": 4,
     "skills_required": [ "tailor", 2 ],
-    "time": 80000,
+    "time": "1 h 20 m",
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "tailor_portfolio", 4 ], [ "textbook_tailor", 3 ], [ "atomic_survival", 3 ] ],
     "using": [ [ "sewing_standard", 8 ], [ "soldering_standard", 20 ] ],
-    "components": [
-      [ [ "rag", 4 ], [ "gloves_light", 1 ], [ "gloves_liner", 1 ] ],
-      [ [ "element", 2 ] ],
-      [ [ "cable", 2 ] ]
-    ]
+    "components": [ [ [ "rag", 4 ], [ "gloves_light", 1 ], [ "gloves_liner", 1 ] ], [ [ "element", 2 ] ], [ [ "cable", 2 ] ] ]
   },
   {
     "result": "wetsuit_gloves",
@@ -462,13 +441,10 @@
     "subcategory": "CSC_ARMOR_HANDS",
     "skill_used": "tailor",
     "difficulty": 4,
-    "time": 60000,
+    "time": "1 h",
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 5 ] ],
     "tools": [ [ [ "soldering_iron", 3 ], [ "welder", 3 ], [ "hotplate", 3 ], [ "toolset", 3 ] ] ],
-    "components": [
-      [ [ "neoprene", 1 ] ],
-      [ [ "rag", 1 ] ]
-    ]
+    "components": [ [ [ "neoprene", 1 ] ], [ [ "rag", 1 ] ] ]
   }
 ]

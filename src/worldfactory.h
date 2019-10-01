@@ -2,25 +2,26 @@
 #ifndef WORLDFACTORY_H
 #define WORLDFACTORY_H
 
-#include "options.h"
-#include "pimpl.h"
-#include "string_id.h"
-
+#include <cstddef>
 #include <functional>
 #include <iosfwd>
 #include <map>
 #include <memory>
 #include <vector>
+#include <string>
+
+#include "options.h"
+#include "pimpl.h"
+#include "type_id.h"
 
 class JsonIn;
 class JsonObject;
+
 enum special_game_id : int;
 namespace catacurses
 {
 class window;
 } // namespace catacurses
-struct MOD_INFORMATION;
-using mod_id = string_id<MOD_INFORMATION>;
 
 class save_t
 {
@@ -80,7 +81,7 @@ class mod_manager;
 class mod_ui;
 class input_context;
 
-typedef WORLD *WORLDPTR;
+using WORLDPTR = WORLD *;
 
 class worldfactory
 {
@@ -107,17 +108,16 @@ class worldfactory
 
         std::vector<std::string> all_worldnames() const;
 
+        std::string last_world_name;
+        std::string last_character_name;
+
+        void save_last_world_info();
+
         mod_manager &get_mod_manager();
 
         void remove_world( const std::string &worldname );
         bool valid_worldname( const std::string &name, bool automated = false );
 
-        /**
-         * World need CDDA build with Lua support
-         * @param world_name World name to test
-         * @return True if world can't be loaded without Lua support. False otherwise. (When LUA is defined it's always false).
-         */
-        bool world_need_lua_build( std::string world_name );
         /**
          * @param delete_folder If true: delete all the files and directories  of the given
          * world folder. Else just avoid deleting the config files and the directory
@@ -125,11 +125,13 @@ class worldfactory
          */
         void delete_world( const std::string &worldname, bool delete_folder );
 
-        static void draw_worldgen_tabs( const catacurses::window &win, size_t current );
+        static void draw_worldgen_tabs( const catacurses::window &w, size_t current );
         void show_active_world_mods( const std::vector<mod_id> &world_mods );
 
     private:
         std::map<std::string, std::unique_ptr<WORLD>> all_worlds;
+
+        void load_last_world_info();
 
         std::string pick_random_name();
         int show_worldgen_tab_options( const catacurses::window &win, WORLDPTR world );
@@ -141,12 +143,12 @@ class worldfactory
                             const std::vector<mod_id> &mods, bool is_active_list, const std::string &text_if_empty,
                             const catacurses::window &w_shift );
 
-        WORLDPTR add_world( std::unique_ptr<WORLD> world );
+        WORLDPTR add_world( std::unique_ptr<WORLD> retworld );
 
         pimpl<mod_manager> mman;
         pimpl<mod_ui> mman_ui;
 
-        typedef std::function<int( const catacurses::window &, WORLDPTR )> worldgen_display;
+        using worldgen_display = std::function<int ( const catacurses::window &, WORLDPTR )>;
 
         std::vector<worldgen_display> tabs;
 };

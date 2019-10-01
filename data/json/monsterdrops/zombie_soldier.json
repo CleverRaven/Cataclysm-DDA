@@ -6,36 +6,55 @@
     "magazine": 100,
     "ammo": 60,
     "entries": [
-      { "distribution": [
-        { "group": "clothing_soldier_set", "prob": 65, "damage-min": 1, "damage-max": 4 },
-        { "group": "clothing_soldier_winter_set", "prob": 35, "damage-min": 1, "damage-max": 4 }
-      ] },
+      {
+        "distribution": [
+          { "group": "clothing_soldier_set", "prob": 65, "damage-min": 1, "damage-max": 4 },
+          { "group": "clothing_soldier_winter_set", "prob": 35, "damage-min": 1, "damage-max": 4 }
+        ]
+      },
       { "group": "gear_soldier_sidearm", "prob": 30, "damage-min": 1, "damage-max": 4 },
-      { "collection": [
-        { "distribution": [
-          { "group": "guns_rifle_milspec", "prob": 75, "damage-min": 1, "damage-max": 4 },
-          { "group": "guns_shotgun_milspec", "prob": 25, "damage-min": 1, "damage-max": 4 }
-        ] },
-        { "distribution": [
-          { "item": "red_dot_sight", "prob": 100 },
-          { "item": "suppressor", "prob": 100 },
-          { "item": "laser_sight", "prob": 50 },
-          { "collection": [ { "item": "m320" }, { "group": "ammo_launcher_grenade" } ], "prob": 100 }
-        ], "prob": 30 }
-      ], "prob": 20 },
-      { "distribution": [
-        { "item": "LAW_Packed", "prob": 20 },
-        { "item": "e_tool", "prob": 100 },
-        { "item": "mask_gas", "prob": 100, "damage-min": 1, "damage-max": 4 },
-        { "item": "two_way_radio", "prob": 50 },
-        { "item": "c4", "prob": 10 }
-      ], "prob": 20 },
+      {
+        "collection": [
+          {
+            "distribution": [
+              { "group": "guns_rifle_milspec", "prob": 75, "damage-min": 1, "damage-max": 4 },
+              { "group": "guns_shotgun_milspec", "prob": 25, "damage-min": 1, "damage-max": 4 }
+            ]
+          },
+          {
+            "distribution": [
+              { "item": "red_dot_sight", "prob": 100 },
+              { "item": "suppressor", "prob": 100 },
+              { "item": "laser_sight", "prob": 50 },
+              { "collection": [ { "item": "m320" }, { "group": "ammo_launcher_grenade" } ], "prob": 100 }
+            ],
+            "prob": 30
+          }
+        ],
+        "prob": 20
+      },
+      {
+        "distribution": [
+          { "item": "LAW_Packed", "prob": 20 },
+          { "item": "e_tool", "prob": 100 },
+          { "item": "mask_gas", "prob": 100, "charges-min": 1, "charges-max": 100, "damage-min": 1, "damage-max": 4 },
+          { "item": "two_way_radio", "prob": 50 },
+          { "item": "c4", "prob": 10 }
+        ],
+        "prob": 20
+      },
       { "item": "grenade", "prob": 5 },
       { "group": "drugs_soldier", "prob": 20 },
       { "group": "mil_food", "prob": 15 },
       { "item": "id_military", "prob": 5 },
-      { "item": "cash_card", "charges-min": 0, "charges-max": 50000 },
+      { "item": "cash_card", "prob": 10, "charges-min": 0, "charges-max": 50000 },
       { "group": "misc_smoking", "prob": 30 }
     ]
+  },
+  {
+    "id": "mon_zombie_kevlar_death_drops",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "group": "mon_zombie_soldier_death_drops" }, { "group": "mon_zombie_cop_death_drops" } ]
   }
 ]

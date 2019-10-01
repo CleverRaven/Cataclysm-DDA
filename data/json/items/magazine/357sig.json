@@ -1,0 +1,35 @@
+[
+  {
+    "id": "p226mag_15rd_357sig",
+    "type": "MAGAZINE",
+    "name": "P226 magazine .357 SIG",
+    "description": "A 15 round double stack box magazine for a SIG P226 chambered for .357 SIG rounds.",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "price": 3000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "357sig",
+    "capacity": 15,
+    "reliability": 9,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "p320mag_14rd_357sig",
+    "type": "MAGAZINE",
+    "name": "P320 magazine .357 SIG",
+    "description": "A 14 round double stack box magazine for the SIG Sauer P320.",
+    "weight": "105 g",
+    "volume": "250 ml",
+    "price": 2900,
+    "material": "plastic",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "357sig",
+    "capacity": 14,
+    "reliability": 7,
+    "reload_time": 140,
+    "flags": [ "MAG_COMPACT" ]
+  }
+]

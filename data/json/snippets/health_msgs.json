@@ -1,0 +1,152 @@
+[
+  {
+    "type": "snippet",
+    "category": "health_great",
+    "text": "You feel great!  It doesn't seem like wounds could even slow you down for more than a day."
+  },
+  {
+    "type": "snippet",
+    "category": "health_great",
+    "text": "Within moments you're ready and up.  You don't feel like anything could stop you today!"
+  },
+  {
+    "type": "snippet",
+    "category": "health_great",
+    "text": "Your eyes open and your entire body feels like it is just bursting with energy to burn!"
+  },
+  {
+    "type": "snippet",
+    "category": "health_great",
+    "text": "You feel like a rubber ball; whatever hits you, you'll just bounce back!"
+  },
+  {
+    "type": "snippet",
+    "category": "health_great",
+    "text": "You're up and you feel fantastic.  No sickness is going to keep you down today!"
+  },
+  {
+    "type": "snippet",
+    "category": "health_very_good",
+    "text": "You're up and going rather quickly, and all the little aches from yesterday are gone."
+  },
+  {
+    "type": "snippet",
+    "category": "health_very_good",
+    "text": "You get up feeling pretty good, as if all your little aches were fading faster."
+  },
+  {
+    "type": "snippet",
+    "category": "health_very_good",
+    "text": "Getting up comes easy to you, your muscles revitalized after your rest."
+  },
+  {
+    "type": "snippet",
+    "category": "health_very_good",
+    "text": "You're up and your little pains from before seem to have faded away rather quickly."
+  },
+  {
+    "type": "snippet",
+    "category": "health_very_good",
+    "text": "Awareness comes fast, your body coming quickly to attention after your rest."
+  },
+  {
+    "type": "snippet",
+    "category": "health_good",
+    "text": "You feel good.  Healthy living does seem to have some rewards."
+  },
+  {
+    "type": "snippet",
+    "category": "health_good",
+    "text": "Getting out of bed doesn't seem too hard today.  You could get used to this!"
+  },
+  {
+    "type": "snippet",
+    "category": "health_good",
+    "text": "Alertness comes somewhat fast, and your muscles stretch easier than before you went to bed."
+  },
+  {
+    "type": "snippet",
+    "category": "health_good",
+    "text": "You feel extra alert, and your body feels ready to go."
+  },
+  {
+    "type": "snippet",
+    "category": "health_good",
+    "text": "Your body stretches with ease, and you feel ready to take on the world."
+  },
+  {
+    "type": "snippet",
+    "category": "health_bad",
+    "text": "You feel cruddy.  Maybe you should consider eating a bit healthier."
+  },
+  {
+    "type": "snippet",
+    "category": "health_bad",
+    "text": "You get up with a bit of a scratch in your throat."
+  },
+  {
+    "type": "snippet",
+    "category": "health_bad",
+    "text": "You stretch, but your muscles don't seem to be doing so good today."
+  },
+  {
+    "type": "snippet",
+    "category": "health_bad",
+    "text": "Your stomach gurgles.  It's probably nothing, but maybe you should look into eating something healthy."
+  },
+  {
+    "type": "snippet",
+    "category": "health_bad",
+    "text": "You struggle to awareness.  Being awake seems somewhat harder to reach today."
+  },
+  {
+    "type": "snippet",
+    "category": "health_very_bad",
+    "text": "Getting out of bed only comes with great difficulty, and your muscles resist the movement."
+  },
+  {
+    "type": "snippet",
+    "category": "health_very_bad",
+    "text": "Getting up seems like it should be easy, but all you want to do is go back to bed."
+  },
+  {
+    "type": "snippet",
+    "category": "health_very_bad",
+    "text": "Tired hands rub at your eyes, the little aches of yesterday protesting your stretches."
+  },
+  {
+    "type": "snippet",
+    "category": "health_very_bad",
+    "text": "Alertness seems flighty today, and your body argues when you move towards it."
+  },
+  {
+    "type": "snippet",
+    "category": "health_very_bad",
+    "text": "You're up, but your body seems like it would rather stay in bed."
+  },
+  {
+    "type": "snippet",
+    "category": "health_horrible",
+    "text": "You get up feeling horrible, as if something was messing with your body."
+  },
+  {
+    "type": "snippet",
+    "category": "health_horrible",
+    "text": "You feel awful, and every ache from yesterday is still there."
+  },
+  {
+    "type": "snippet",
+    "category": "health_horrible",
+    "text": "Your eyes struggle to open, and your muscles ache like you didn't sleep at all."
+  },
+  {
+    "type": "snippet",
+    "category": "health_horrible",
+    "text": "Bleary-eyed and half-asleep, you consider why you are doing this to yourself."
+  },
+  {
+    "type": "snippet",
+    "category": "health_horrible",
+    "text": "Awareness seems to only come with a battle... and your body seem to be on its side."
+  }
+]

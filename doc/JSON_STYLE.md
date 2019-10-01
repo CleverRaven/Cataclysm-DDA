@@ -44,4 +44,4 @@ Line breaks occur after open brackets, close brackets, or entries.
 
 ## Formatting tool
 
-The formatting tool can be invoked via the Makefile, directly as tools/format/json_formatter.cgi, or via cgi at http://dev.narc.ro/cataclysm/format.html
+The formatting tool can be invoked via the Makefile, directly as `tools/format/json_formatter.cgi` (built via (`make json_formatter`), or via cgi at http://dev.narc.ro/cataclysm/format.html

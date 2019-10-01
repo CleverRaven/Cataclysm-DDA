@@ -1,0 +1,182 @@
+[
+  {
+    "type": "npc",
+    "id": "refugee_UyenTran",
+    "name_unique": "Uyen Tran",
+    "gender": "female",
+    "name_suffix": "refugee",
+    "class": "NC_REFUGEE_Uyen",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_Uyen_1",
+    "faction": "free_merchants",
+    "mission_offered": "MISSION_REFUGEE_Uyen_1"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_REFUGEE_Uyen",
+    "name": "Refugee",
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "A paramedic who suffers a bit of racism for being asian",
+    "bonus_str": { "rng": [ -1, 1 ] },
+    "bonus_dex": { "rng": [ -2, 2 ] },
+    "bonus_int": { "rng": [ 0, 3 ] },
+    "bonus_per": { "rng": [ -1, 3 ] },
+    "worn_override": "REFUGEE_Uyen_worn",
+    "carry_override": "REFUGEE_Uyen_carried",
+    "weapon_override": "REFUGEE_Uyen_wield",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_SouthAsian" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ -2, 2 ] } ] } ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 3, 5 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 0, 2 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Uyen_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bra" },
+      { "item": "panties" },
+      { "item": "socks" },
+      { "item": "dress" },
+      { "item": "leggings" },
+      { "item": "jacket_leather" },
+      { "item": "boots_combat" },
+      { "item": "slingpack" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Uyen_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "1st_aid" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Uyen_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "scalpel" } ]
+  },
+  {
+    "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [ "TALK_REFUGEE_Uyen_2", "TALK_REFUGEE_Uyen_Background", "TALK_REFUGEE_Uyen_Situation" ],
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_REFUGEE_Uyen_Background" },
+      { "text": "How are things here?", "topic": "TALK_REFUGEE_Uyen_Situation" },
+      { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Uyen_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_Uyen_Tran",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [ "Hello again.", "Good to see you're still around.", "Oh, hi." ],
+      "no": "Hi there.  You look new, nice to meet you.  My name's Uyen."
+    },
+    "speaker_effect": { "effect": { "u_add_var": "u_met_Uyen_Tran", "type": "general", "context": "meeting", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Nice to meet you too, Uyen.",
+        "condition": { "not": { "u_has_var": "u_met_Uyen_Tran", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_REFUGEE_Uyen_1_firstmeet"
+      },
+      {
+        "text": "Hi, Uyen.  Got a minute?",
+        "condition": { "u_has_var": "u_met_Uyen_Tran", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_REFUGEE_Uyen_2"
+      },
+      { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Uyen_1_firstmeet",
+    "dynamic_line": "What brings you around here?  We don't see a lot of new faces.",
+    "responses": [
+      { "text": "Just a traveler.  Can I ask you a few things?", "topic": "TALK_REFUGEE_Uyen_2" },
+      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Uyen_2",
+    "dynamic_line": "I'm always good for a talk.  It gets pretty boring down here."
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Uyen_Background",
+    "dynamic_line": "I was a paramedic.  I was there through some of the absolute worst of it, to this day I can't tell you how I made it out.  One thing led to another and I got pushed onto a bus to help take care of a couple people who needed assistance for travel.  Broken arms, that kinda stuff.  I got here early, I was one of the first to arrive.  Then, this woman in processing 'lost' my paperwork while I was busy helping a guy with a bad gash on his head.  If I hadn't made a stink about it, I'd probably be out in the lobby with those poor souls that couldn't get in at all."
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Uyen_Situation",
+    "dynamic_line": "We've got it okay, I guess, as long as this doesn't last too long.  The situation is pretty tight, though.  If we're stuck here for too long people are going to start getting a bit stir crazy."
+  },
+  {
+    "id": "MISSION_REFUGEE_Uyen_1",
+    "type": "mission_definition",
+    "name": "Find 5 first aid kits",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 0,
+    "item": "1st_aid",
+    "count": 5,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_REFUGEE_Uyen_2",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "There's the doc out front helping anyone that can pay... but for us up here, money mostly goes to food.  I could do a lot for basic cuts, bruises, and common stuff if I had some supplies to help out.  Could you bring me a few extra first aid kits?  Five would probably have enough to last us a while.",
+      "accepted": "Thanks so much.  It's a small thing but it'd be really helpful.",
+      "rejected": "That's okay.  I'm sure we'll make do somehow.",
+      "advice": "Lots of people used to have first aid kits in their bathrooms.  I'm sure they can't all have been looted.",
+      "inquire": "How is the search going?",
+      "success": "Thanks so much.  Listen, I told some of the others what you were up to for us and we pooled our cash to thank you.  It's not much but I hope it helps... these are merch, the local money, you can trade them for goods from the shop.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "effect": [
+        { "u_buy_item": "FMCNote", "count": 25 },
+        { "u_add_var": "Uyen_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+      ]
+    }
+  },
+  {
+    "id": "MISSION_REFUGEE_Uyen_2",
+    "type": "mission_definition",
+    "name": "Find 6 bottles of Prozac",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 0,
+    "item": "prozac",
+    "count": 6,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "We could still use your help...",
+      "offer": "I probably shouldn't be prescribing things, but there's a ton of people needing help with sleep in here.  If you could get us some antidepressants, Rhyzaea and I can probably make sure they're doled out appropriately without people having to starve to pay for them.  Three month's worth - about 6 bottles - would last us a little while.",
+      "accepted": "Thanks so much.  It's a small thing but it'd be really helpful.",
+      "rejected": "That's okay.  I'm sure we'll make do somehow.",
+      "advice": "Prozac was really common.  You can probably find it in most medicine cabinets and pharmacies.",
+      "inquire": "How is the search going?",
+      "success": "Thanks so much.  Listen, I told some of the others what you were up to for us and we pooled our cash to thank you.  You've done a lot to help us out.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    },
+    "end": {
+      "effect": [
+        { "u_buy_item": "FMCNote", "count": 25 },
+        { "u_add_var": "Uyen_Mission2", "type": "mission", "context": "flag", "value": "yes" }
+      ]
+    }
+  }
+]

@@ -2,7 +2,7 @@
   {
     "abstract": "bot_hack_base",
     "type": "recipe",
-    "override": "true",
+    "override": true,
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
     "skill_used": "electronics",
@@ -36,8 +36,8 @@
     "result": "bot_manhack",
     "copy-from": "bot_hack_base",
     "components": [
-      [ [ "bot_manhack", 1 ], [ "broken_manhack", 1 ], [ "broken_grenade_hack", 1 ] ],
-      [ [ "grenade", 1 ] ],
+      [ [ "broken_manhack", 1 ] ],
+      [ [ "spike", 1 ] ],
       [ [ "processor", 1 ] ],
       [ [ "cable", 1 ] ],
       [ [ "power_supply", 1 ] ],
@@ -284,7 +284,7 @@
   {
     "type": "recipe",
     "result": "bot_laserturret",
-    "override": "true",
+    "override": true,
     "copy-from": "bot_turret_base",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",

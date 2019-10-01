@@ -1,21 +1,26 @@
 #include "cata_utility.h"
 
+#include <cctype>
+#include <cstdio>
+#include <algorithm>
+#include <cmath>
+#include <string>
+#include <exception>
+#include <iterator>
+#include <memory>
+#include <sstream>
+#include <stdexcept>
+
 #include "debug.h"
-#include "enums.h"
 #include "filesystem.h"
 #include "json.h"
 #include "mapsharing.h"
-#include "material.h"
 #include "options.h"
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
 #include "units.h"
-
-#include <algorithm>
-#include <cmath>
-#include <locale>
-#include <string>
+#include "catacharset.h"
 
 static double pow10( unsigned int n )
 {
@@ -39,6 +44,15 @@ double round_up( double val, unsigned int dp )
     return std::ceil( denominator * val ) / denominator;
 }
 
+int modulo( int v, int m )
+{
+    // C++11: negative v and positive m result in negative v%m (or 0),
+    // but this is supposed to be mathematical modulo: 0 <= v%m < m,
+    const int r = v % m;
+    // Adding m in that (and only that) case.
+    return r >= 0 ? r : r + m;
+}
+
 bool isBetween( int test, int down, int up )
 {
     return test > down && test < up;
@@ -46,6 +60,16 @@ bool isBetween( int test, int down, int up )
 
 bool lcmatch( const std::string &str, const std::string &qry )
 {
+    if( std::locale().name() != "en_US.UTF-8" && std::locale().name() != "C" ) {
+        auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
+        std::wstring wneedle = utf8_to_wstr( qry );
+        std::wstring whaystack = utf8_to_wstr( str );
+
+        f.tolower( &whaystack[0], &whaystack[0] + whaystack.size() );
+        f.tolower( &wneedle[0], &wneedle[0] + wneedle.size() );
+
+        return whaystack.find( wneedle ) != std::wstring::npos;
+    }
     std::string needle;
     needle.reserve( qry.size() );
     std::transform( qry.begin(), qry.end(), std::back_inserter( needle ), tolower );
@@ -55,6 +79,11 @@ bool lcmatch( const std::string &str, const std::string &qry )
     std::transform( str.begin(), str.end(), std::back_inserter( haystack ), tolower );
 
     return haystack.find( needle ) != std::string::npos;
+}
+
+bool lcmatch( const translation &str, const std::string &qry )
+{
+    return lcmatch( str.translated(), qry );
 }
 
 bool match_include_exclude( const std::string &text, std::string filter )
@@ -195,7 +224,7 @@ double convert_velocity( int velocity, const units_type vel_units )
 {
     const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
     // internal units to mph conversion
-    double ret = double( velocity ) / 100;
+    double ret = static_cast<double>( velocity ) / 100;
 
     if( type == "km/h" ) {
         switch( vel_units ) {
@@ -228,7 +257,7 @@ double convert_weight( const units::mass &weight )
 
 double convert_volume( int volume )
 {
-    return convert_volume( volume, NULL );
+    return convert_volume( volume, nullptr );
 }
 
 double convert_volume( int volume, int *out_scale )
@@ -262,9 +291,14 @@ double temp_to_kelvin( double fahrenheit )
     return temp_to_celsius( fahrenheit ) + 273.15;
 }
 
+double kelvin_to_fahrenheit( double kelvin )
+{
+    return 1.8 * ( kelvin - 273.15 ) + 32;
+}
+
 double clamp_to_width( double value, int width, int &scale )
 {
-    return clamp_to_width( value, width, scale, NULL );
+    return clamp_to_width( value, width, scale, nullptr );
 }
 
 double clamp_to_width( double value, int width, int &scale, bool *out_truncated )
@@ -316,31 +350,19 @@ float multi_lerp( const std::vector<std::pair<float, float>> &points, float x )
     return ( t * points[i].second ) + ( ( 1 - t ) * points[i - 1].second );
 }
 
-ofstream_wrapper::ofstream_wrapper( const std::string &path )
+void write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer )
 {
-    file_stream.open( path.c_str(), std::ios::binary );
-    if( !file_stream.is_open() ) {
-        throw std::runtime_error( "opening file failed" );
-    }
-}
-
-ofstream_wrapper::~ofstream_wrapper() = default;
-
-void ofstream_wrapper::close()
-{
-    file_stream.close();
-    if( file_stream.fail() ) {
-        throw std::runtime_error( "writing to file failed" );
-    }
+    // Any of the below may throw. ofstream_wrapper will clean up the temporary path on its own.
+    ofstream_wrapper fout( path, std::ios::binary );
+    writer( fout.stream() );
+    fout.close();
 }
 
 bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
                     const char *const fail_message )
 {
     try {
-        ofstream_wrapper fout( path );
-        writer( fout.stream() );
-        fout.close();
+        write_to_file( path, writer );
         return true;
 
     } catch( const std::exception &err ) {
@@ -351,44 +373,19 @@ bool write_to_file( const std::string &path, const std::function<void( std::ostr
     }
 }
 
-ofstream_wrapper_exclusive::ofstream_wrapper_exclusive( const std::string &path )
+ofstream_wrapper::ofstream_wrapper( const std::string &path, const std::ios::openmode mode )
     : path( path )
+
 {
-    fopen_exclusive( file_stream, path.c_str(), std::ios::binary );
-    if( !file_stream.is_open() ) {
-        throw std::runtime_error( _( "opening file failed" ) );
-    }
+    open( mode );
 }
 
-ofstream_wrapper_exclusive::~ofstream_wrapper_exclusive()
-{
-    if( file_stream.is_open() ) {
-        fclose_exclusive( file_stream, path.c_str() );
-    }
-}
-
-void ofstream_wrapper_exclusive::close()
-{
-    fclose_exclusive( file_stream, path.c_str() );
-    if( file_stream.fail() ) {
-        throw std::runtime_error( _( "writing to file failed" ) );
-    }
-}
-
-bool write_to_file_exclusive( const std::string &path,
-                              const std::function<void( std::ostream & )> &writer, const char *const fail_message )
+ofstream_wrapper::~ofstream_wrapper()
 {
     try {
-        ofstream_wrapper_exclusive fout( path );
-        writer( fout.stream() );
-        fout.close();
-        return true;
-
-    } catch( const std::exception &err ) {
-        if( fail_message ) {
-            popup( _( "Failed to write %1$s to \"%2$s\": %3$s" ), fail_message, path.c_str(), err.what() );
-        }
-        return false;
+        close();
+    } catch( ... ) {
+        // ignored in destructor
     }
 }
 
@@ -540,4 +537,17 @@ bool string_ends_with( const std::string &s1, const std::string &s2 )
 {
     return s1.size() >= s2.size() &&
            s1.compare( s1.size() - s2.size(), s2.size(), s2 ) == 0;
+}
+
+std::string join( const std::vector<std::string> &strings, const std::string &joiner )
+{
+    std::ostringstream buffer;
+
+    for( auto a = strings.begin(); a != strings.end(); ++a ) {
+        if( a != strings.begin() ) {
+            buffer << joiner;
+        }
+        buffer << *a;
+    }
+    return buffer.str();
 }

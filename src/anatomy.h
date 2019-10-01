@@ -2,12 +2,15 @@
 #ifndef ANATOMY_H
 #define ANATOMY_H
 
+#include <vector>
+#include <string>
+
 #include "bodypart.h"
 #include "string_id.h"
 
-#include <vector>
-
 class anatomy;
+class JsonObject;
+
 using anatomy_id = string_id<anatomy>;
 
 /**
@@ -22,7 +25,7 @@ class anatomy
         /** Sum of chances to hit a body part randomly, without aiming. */
         float size_sum = 0.0f;
 
-        // @todo: get_better_name_for_function
+        // TODO: get_better_name_for_function
         bodypart_ids get_part_with_cumulative_hit_size( float size ) const;
 
     public:
@@ -38,7 +41,7 @@ class anatomy
         bodypart_id select_body_part( int size_diff, int hit_roll ) const;
 
         void add_body_part( const bodypart_ids &new_bp );
-        // @todo: remove_body_part
+        // TODO: remove_body_part
 
         void load( JsonObject &jo, const std::string &src );
         void finalize();

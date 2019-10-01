@@ -1,0 +1,54 @@
+[
+  {
+    "type": "clothing_mod",
+    "id": "leather_padded",
+    "flag": "leather_padded",
+    "item": "leather",
+    "implement_prompt": "Pad with leather",
+    "destroy_prompt": "Destroy leather padding",
+    "mod_value": [
+      { "type": "bash", "value": 1, "proportion": [ "thickness", "coverage" ] },
+      { "type": "cut", "value": 1, "proportion": [ "thickness", "coverage" ] },
+      { "type": "encumbrance", "value": 2, "round_up": true, "proportion": [ "thickness", "coverage" ] }
+    ]
+  },
+  {
+    "type": "clothing_mod",
+    "id": "kevlar_padded",
+    "flag": "kevlar_padded",
+    "item": "kevlar_plate",
+    "implement_prompt": "Pad with Kevlar",
+    "destroy_prompt": "Destroy Kevlar padding",
+    "mod_value": [
+      { "type": "bash", "value": 1, "proportion": [ "thickness", "coverage" ] },
+      { "type": "cut", "value": 2, "proportion": [ "thickness", "coverage" ] },
+      { "type": "encumbrance", "value": 2, "round_up": true, "proportion": [ "thickness", "coverage" ] }
+    ]
+  },
+  {
+    "type": "clothing_mod",
+    "id": "furred",
+    "flag": "furred",
+    "item": "fur",
+    "implement_prompt": "Line it with fur",
+    "destroy_prompt": "Destroy fur lining",
+    "mod_value": [
+      { "type": "encumbrance", "value": 1 },
+      { "type": "encumbrance", "value": 4, "proportion": [ "coverage" ] },
+      { "type": "warmth", "value": 35, "proportion": [ "coverage" ] }
+    ]
+  },
+  {
+    "type": "clothing_mod",
+    "id": "wooled",
+    "flag": "wooled",
+    "item": "felt_patch",
+    "implement_prompt": "Line it with wool",
+    "destroy_prompt": "Destroy wool lining",
+    "mod_value": [
+      { "type": "encumbrance", "value": 1 },
+      { "type": "encumbrance", "value": 3, "proportion": [ "coverage" ] },
+      { "type": "warmth", "value": 20, "proportion": [ "coverage" ] }
+    ]
+  }
+]

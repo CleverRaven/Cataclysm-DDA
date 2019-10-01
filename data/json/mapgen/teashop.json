@@ -1,103 +1,5 @@
 [
   {
-    "id": "tea_dishes",
-    "type": "item_group",
-    "items": [
-      [ "ceramic_cup", 70 ],
-      [ "ceramic_plate", 50 ],
-      [ "spoon", 20 ]
-    ]
-  },
-  {
-    "id": "chair_hat",
-    "type": "item_group",
-    "items": [
-      [ "hat_newsboy", 10 ],
-      [ "bowhat", 40 ],
-      [ "porkpie", 20 ]
-    ]
-  },
-  {
-    "id": "chair_torso",
-    "type": "item_group",
-    "items": [
-      [ "suit", 70 ],
-      [ "waistcoat", 70 ],
-      [ "dress_shirt", 70 ]
-    ]
-  },
-  {
-    "id": "chair_pants",
-    "type": "item_group",
-    "items": [ [ "pants", 70 ] ]
-  },
-  {
-    "id": "chair_feet",
-    "type": "item_group",
-    "items": [ [ "dress_shoes", 70 ] ]
-  },
-  {
-    "id": "chair_extra",
-    "type": "item_group",
-    "items": [
-      [ "cane", 70 ],
-      [ "pocketwatch", 70 ],
-      [ "umbrella", 70 ],
-      [ "manual_fencing", 10 ]
-    ]
-  },
-  {
-    "id": "corner_reader",
-    "type": "item_group",
-    "items": [
-      [ "mag_cutting", 70 ],
-      [ "mag_stabbing", 70 ],
-      [ "mag_unarmed", 70 ],
-      [ "manual_dodge", 70 ],
-      [ "novel_spy", 70 ],
-      [ "novel_thriller", 70 ],
-      [ "novel_crime", 70 ],
-      [ "novel_adventure", 70 ],
-      [ "novel_war", 70 ],
-      [ "poetry_book", 30 ],
-      [ "cookbook_human", 10 ]
-    ]
-  },
-  {
-    "id": "corner_weapon",
-    "type": "item_group",
-    "items": [
-      [ "tazer", 70 ],
-      [ "knuckle_brass", 70 ]
-    ]
-  },
-  {
-    "id": "displays",
-    "type": "item_group",
-    "items": [
-      [ "tea", 70 ],
-      [ "tea_raw", 70 ],
-      [ "ceramic_cup", 70 ],
-      [ "teapot", 70 ],
-      [ "clay_teapot", 70 ]
-    ]
-  },
-  {
-    "id": "teashop_fridge",
-    "type": "item_group",
-    "items": [ [ "milk", 70 ] ]
-  },
-  {
-    "id": "teashop_kitchen_counter",
-    "type": "item_group",
-    "items": [
-      [ "sugar", 30 ],
-      [ "tea_raw", 40 ],
-      [ "teapot", 20 ],
-      [ "spoon", 20 ]
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_teashop" ],
@@ -122,26 +24,26 @@
         ".|#,F##K|,,,,,c,,,,c,O..",
         ".|#,,,,,+,,,,,,,,,ctc|..",
         ".|#,,vv,|,,ctc,,,,,c,|..",
-        ".|-+-------ooo---ooo-|..",
-        "....&&..................",
-        "........................",
-        "........................",
+        ".|-+-----------+-----|..",
+        "...S&&|RRRR|Uv|,|vU|4...",
+        "...SSS+,,,R|,,+,+,,|....",
+        "......|------O-o-O--....",
         "........................",
         "........................",
         "........................"
       ],
       "set": [
-        { "point": "furniture", "id": "f_mutpoppy", "x": [ 0, 23 ], "y": [ 19, 23 ], "repeat": [ 4, 9 ] },
-        { "point": "terrain", "id": "t_shrub", "x": [ 0, 23 ], "y": [ 19, 23 ], "repeat": [ 4, 9 ] },
-        { "point": "furniture", "id": "f_chamomile", "x": [ 0, 23 ], "y": [ 19, 23 ], "repeat": [ 4, 9 ] }
+        { "point": "furniture", "id": "f_mutpoppy", "x": [ 0, 23 ], "y": [ 21, 23 ], "repeat": [ 4, 9 ] },
+        { "point": "terrain", "id": "t_shrub", "x": [ 0, 23 ], "y": [ 21, 23 ], "repeat": [ 4, 9 ] },
+        { "point": "furniture", "id": "f_chamomile", "x": [ 0, 23 ], "y": [ 21, 23 ], "repeat": [ 4, 9 ] }
       ],
       "terrain": {
         "#": "t_floor",
         "&": "t_pavement",
         "+": "t_door_c",
         ",": "t_floor",
-        "-": "t_wall",
-        ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
+        "-": "t_wall_w",
+        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "1": "t_grass",
         "2": "t_grass",
         "3": "t_grass",
@@ -159,7 +61,8 @@
         "v": "t_floor",
         "z": "t_shrub",
         "{": "t_floor",
-        "|": "t_wall"
+        "4": "t_gutter_downspout",
+        "|": "t_wall_w"
       },
       "furniture": {
         "#": "f_counter",
@@ -174,8 +77,11 @@
         "c": "f_chair",
         "t": "f_table",
         "v": "f_sink",
+        "U": "f_toilet",
+        "R": "f_rack",
         "{": "f_bookcase"
       },
+      "toilets": { "U": {  } },
       "place_signs": [ { "signage": "The Red Dragon Tea Shop", "x": 4, "y": 4 } ],
       "place_items": [
         { "item": "tea_dishes", "x": 11, "y": 6, "chance": 30, "repeat": [ 1, 2 ] },
@@ -202,11 +108,65 @@
         { "item": "teashop_fridge", "x": 4, "y": 14, "chance": 80, "repeat": [ 1, 4 ] }
       ]
     }
-    },
-    {
+  },
+  {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_teashop" ],
+    "om_terrain": "s_teashop_roof",
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " 222222222222222222222  ",
+        " |...................3  ",
+        " |...................3  ",
+        " |...................3  ",
+        " |...................3  ",
+        " |...................3  ",
+        " |...................3  ",
+        " |...................3  ",
+        " |...................3  ",
+        " |...................3  ",
+        " |..&................3  ",
+        " |...................3  ",
+        " |-----............--3  ",
+        "      |............5    ",
+        "      |......XA.=..|    ",
+        "      |------------|    ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        ".": "t_flat_roof",
+        " ": "t_open_air",
+        "2": "t_gutter_north",
+        "-": "t_gutter_south",
+        "3": "t_gutter_east",
+        "|": "t_gutter_west",
+        ">": "t_stairs_down",
+        "5": "t_gutter_drop"
+      },
+      "furniture": { "&": "f_roof_turbine_vent", "X": "f_small_satelitte_dish", "=": "f_vent_pipe", "A": "f_air_conditioner" },
+      "place_items": [ { "item": "roof_trash", "x": [ 5, 20 ], "y": [ 7, 18 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        {
+          "chunks": [ [ "null", 20 ], [ "roof_4x4_utility", 40 ], [ "roof_2x2_utilities_b", 15 ], [ "roof_2x2_utilities", 50 ] ],
+          "x": [ 7, 15 ],
+          "y": [ 9, 12 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_teashop_1" ],
     "weight": 250,
     "object": {
       "fill_ter": "t_floor",
@@ -218,13 +178,13 @@
         ".q...TSSS.3T.zOtC,,,,C|.",
         "TqT...1SS4124z|c,,,,,Y|.",
         ".q..T23SSSS1T||Y,C,C,,|.",
-        ".qT..321SSSSS+,,cttt,,|.",
+        ".qT..3^1SSSSS+,,cttt,,|.",
         ".q...4TSSSSSS+,,,tttc,|.",
         ".q.T..SSSS134||Y,C,C,&|.",
         ".q..@.SS.341.z|c,,,,,Y|.",
         ".q...SSS1.2.TzOtC,,,,{|.",
         ".q..TSS....T.zOtC,,,,{|T",
-        ".q.T.SS.T....z|c,,,,,{|.",
+        ".q.T.SS.T....z|c,,,,,<|.",
         ".q..SSS..T..|||||6##;||.",
         ".wwW,,Www...|};;;;;;;|..",
         ".wc,,,c,w..T|};F|;;;;|..",
@@ -243,14 +203,15 @@
         "+": "t_door_c",
         ";": "t_linoleum_gray",
         ",": "t_floor",
-        ".": ["t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt"],
-        "T": ["t_tree", "t_tree_young", "t_shrub", "t_grass", "t_grass", "t_dirt" ],
+        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "T": [ "t_tree", "t_tree_young", "t_shrub", "t_grass", "t_grass", "t_dirt" ],
         "z": "t_shrub",
         "@": "t_grass",
         "1": "t_grass",
         "2": "t_grass",
         "3": "t_grass",
         "4": "t_grass",
+        "^": "t_grass",
         "6": "t_console_broken",
         "C": "t_floor",
         "F": "t_linoleum_gray",
@@ -264,10 +225,11 @@
         "Y": "t_floor",
         "t": "t_floor",
         "{": "t_floor",
-        "|": "t_wall",
+        "|": "t_wall_g",
         "w": "t_wall_log",
         "W": "t_railing_v",
         "Q": "t_fencegate_c",
+        "<": "t_stairs_up",
         "q": "t_fence_v"
       },
       "furniture": {
@@ -286,19 +248,111 @@
         "C": "f_armchair",
         "$": "f_sofa",
         "t": "f_table",
+        "^": "f_birdbath",
         "{": "f_bookcase"
       },
-     "items": {
-       "{": { "item": "corner_reader", "chance": 45, "repeat": [ 1, 2 ]  },
-       "Y": { "item": "jackets", "chance": 30, "repeat": [ 2, 4 ]  },
-       "#": { "item": "teashop_kitchen_counter", "chance": 80, "repeat": [ 1, 3 ]  },
-       "F": { "item": "teashop_fridge", "chance": 80, "repeat": [ 1, 4 ]  },
-       "}": { "item": "displays", "chance": 30, "repeat": [ 1, 3 ]  },
-       "C": { "item": "chair_extra", "chance": 20, "repeat": [ 1, 2 ]  },
-       "c": { "item": "chair_torso", "chance": 10, "repeat": [ 1, 3 ]  }
-
+      "items": {
+        "{": { "item": "corner_reader", "chance": 45, "repeat": [ 1, 2 ] },
+        "Y": { "item": "jackets", "chance": 30, "repeat": [ 2, 4 ] },
+        "#": { "item": "teashop_kitchen_counter", "chance": 80, "repeat": [ 1, 3 ] },
+        "F": { "item": "teashop_fridge", "chance": 80, "repeat": [ 1, 4 ] },
+        "}": { "item": "displays", "chance": 30, "repeat": [ 1, 3 ] },
+        "C": { "item": "chair_extra", "chance": 20, "repeat": [ 1, 2 ] },
+        "c": { "item": "chair_torso", "chance": 10, "repeat": [ 1, 3 ] }
       },
       "place_signs": [ { "signage": "The Green Leaf Tea Shop", "x": 4, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_teashop_roof_1",
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_tile_flat_roof",
+      "rows": [
+        "                        ",
+        "              --------- ",
+        "              -CtC.CtC- ",
+        "              -.......- ",
+        "              -.||||||| ",
+        "              -.|SU|SU| ",
+        "             --.|,,|,,| ",
+        "             -t.|+|||+| ",
+        "             -C.O,,,,,| ",
+        "             --.||c,,c| ",
+        "              -..OT,,TO ",
+        "              -C.+c,,c| ",
+        "              -t.O,,,,| ",
+        "              -C.|,,,>| ",
+        "            ---..|O+O|| ",
+        " ^^^^^^^^   -........-  ",
+        " ^^^^^^^^   -..CtC...-  ",
+        " ^^^^^^^^   -..CtC...-  ",
+        " ^^^^^^^^   ----------  ",
+        " ^^^^^^^^               ",
+        " ^^^^^^^^               ",
+        " ^^^^^^^^               ",
+        " ^^^^^^^^               ",
+        "                        "
+      ],
+      "terrain": {
+        ".": "t_tile_flat_roof",
+        " ": "t_open_air",
+        "^": "t_tar_flat_roof",
+        ",": "t_floor",
+        "c": "t_floor",
+        "T": "t_floor",
+        "S": "t_floor",
+        "U": "t_floor",
+        "-": "t_railing",
+        "+": "t_door_c",
+        "O": "t_window_domestic",
+        "|": "t_wall_g",
+        ">": "t_stairs_down"
+      },
+      "furniture": { "c": "f_chair", "C": "f_chair", "t": "f_table", "T": "f_table", "S": "f_sink" },
+      "toilets": { "U": {  } },
+      "items": {
+        "T": { "item": "tea_dishes", "x": 11, "y": 6, "chance": 30, "repeat": [ 1, 2 ] },
+        "t": { "item": "tea_dishes", "x": 11, "y": 6, "chance": 30, "repeat": [ 1, 2 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_teashop_upper_roof_1",
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                ....... ",
+        "                ....... ",
+        "                ....... ",
+        "                ....... ",
+        "                ....... ",
+        "                ....... ",
+        "                 ...... ",
+        "                 ...... ",
+        "                 ...... ",
+        "                 ...... ",
+        "                 ...... ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_tar_flat_roof", " ": "t_open_air" }
     }
   }
 ]

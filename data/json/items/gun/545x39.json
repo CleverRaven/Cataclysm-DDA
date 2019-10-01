@@ -6,8 +6,8 @@
     "name": "AK-74M",
     "//": "AKs likewise aren't commercially traded in the US, plus this is newer.",
     "description": "The successor to the well-known AK-47 rifle.  It combines the reliability of the AK series with the high-velocity, lightweight 5.45x39mm cartridge.",
-    "weight": 3170,
-    "volume": 7,
+    "weight": "3170 g",
+    "volume": "1750 ml",
     "price": 390000,
     "to_hit": -1,
     "bashing": 11,
@@ -20,11 +20,21 @@
     "durability": 8,
     "burst": 10,
     "barrel_length": 1,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "magazines": [
-      [ "545x39", [ "ak74mag", "rpk74mag" ] ],
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ],
+    "magazines": [ [ "545x39", [ "ak74mag", "rpk74mag" ] ] ],
     "flags": [ "NEVER_JAMS" ]
   },
   {
@@ -33,8 +43,8 @@
     "reload_noise_volume": 10,
     "name": "AN-94",
     "description": "Intended to replace the AK-74, this rifle uses a sophisticated mechanism to delay felt recoil, along with a very fast two-round burst mode.  While its increased complexity prevented it from being adopted by the Russian military, it has seen service among their special forces.",
-    "weight": 3620,
-    "volume": 7,
+    "weight": "3620 g",
+    "volume": "1750 ml",
     "price": 420000,
     "to_hit": -1,
     "bashing": 11,
@@ -46,15 +56,21 @@
     "dispersion": 150,
     "durability": 7,
     "barrel_length": 1,
-    "modes": [
-      [ "DEFAULT", "semi-auto", 1 ],
-      [ "BURST", "2 rd.", 2 ],
-      [ "AUTO", "auto", 10 ]
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ], [ "AUTO", "auto", 10 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
     ],
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "magazines": [
-      [ "545x39", [ "ak74mag", "rpk74mag" ] ],
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
-    ]
+    "magazines": [ [ "545x39", [ "ak74mag", "rpk74mag" ] ] ]
   }
 ]

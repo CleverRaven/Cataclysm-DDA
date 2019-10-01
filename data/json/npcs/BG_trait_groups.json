@@ -8,9 +8,13 @@
       { "trait": "BGSS_Confused_1" },
       { "trait": "BGSS_No_Past_1" },
       { "trait": "BGSS_No_Past_2" },
+      { "trait": "BGSS_No_Past_3" },
+      { "trait": "BGSS_No_Past_4" },
+      { "trait": "BGSS_No_Past_5" },
       { "trait": "BGSS_Religious_1" },
       { "trait": "BGSS_Religious_2" },
-      { "trait": "BGSS_Dreamer" }
+      { "trait": "BGSS_Dreamer" },
+      { "trait": "BGSS_Wedding_1" }
     ]
   },
   {
@@ -102,7 +106,12 @@
     "type": "trait_group",
     "id": "BG_survival_story_POLICE",
     "subtype": "distribution",
-    "traits": [ { "group": "BG_survival_story_UNIVERSAL" }, { "trait": "BGSS_Cop_1" }, { "trait": "BGSS_Cop_2" } ]
+    "traits": [
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "trait": "BGSS_Cop_1" },
+      { "trait": "BGSS_Cop_2" },
+      { "trait": "BGSS_Cop_3" }
+    ]
   },
   {
     "//": "This group is for NPCs that should be doing their homework instead of hunting zombies.",
@@ -135,5 +144,12 @@
       { "trait": "BGSS_Grad_Student_1" },
       { "trait": "BGSS_Lab_1" }
     ]
+  },
+  {
+    "//": "This group is for Cyborgs rescued down in the Lab.",
+    "type": "trait_group",
+    "id": "BG_survival_story_CYBORG",
+    "subtype": "distribution",
+    "traits": [ { "group": "BG_survival_story_UNIVERSAL" }, { "trait": "BGSS_Cyborg_1" } ]
   }
 ]

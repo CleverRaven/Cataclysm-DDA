@@ -1,0 +1,209 @@
+[
+  {
+    "type": "overlay_order",
+    "overlay_ordering": [
+      {
+        "id": [
+          "THRESH_CATTLE",
+          "THRESH_CEPHALOPOD",
+          "THRESH_SLIME",
+          "WEB_RAPPEL",
+          "WEB_ROPE",
+          "WEB_SPINNER",
+          "WEB_WALKER",
+          "WEB_WEAVER",
+          "WINGS_BAT",
+          "WINGS_BIRD",
+          "WINGS_BUTTERFLY",
+          "WINGS_INSECT"
+        ],
+        "order": 500
+      },
+      {
+        "id": [
+          "bio_armor_arms",
+          "bio_armor_legs",
+          "bio_armor_torso",
+          "bio_armor_head",
+          "bio_armor_eyes",
+          "bio_sunglasses",
+          "bio_blindfold"
+        ],
+        "order": 500
+      },
+      {
+        "id": [
+          "BEAUTIFUL",
+          "BEAUTIFUL2",
+          "BEAUTIFUL3",
+          "LARGE",
+          "PRETTY",
+          "RADIOACTIVE1",
+          "RADIOACTIVE2",
+          "RADIOACTIVE3",
+          "REGEN",
+          "bio_deformity",
+          "bio_face_mask"
+        ],
+        "order": 1000
+      },
+      { "id": [ "PALE", "SKIN_DARK", "SKIN_LIGHT", "SKIN_MEDIUM", "SKIN_PINK", "SKIN_TAN" ], "order": 1100 },
+      {
+        "id": [
+          "ALBINO",
+          "BARK",
+          "CHITIN",
+          "CHITIN2",
+          "CHITIN3",
+          "CHITIN_FUR",
+          "CHITIN_FUR2",
+          "CHITIN_FUR3",
+          "FEATHERS",
+          "FELINE_FUR",
+          "FUR",
+          "LIGHT_FUR",
+          "LUPINE_FUR",
+          "LYNX_FUR",
+          "PLANTSKIN",
+          "SCALES",
+          "SKIN_ROUGH",
+          "SLEEK_SCALES",
+          "SORES",
+          "THORNS",
+          "TROGLO2",
+          "TROGLO3",
+          "URSINE_FUR",
+          "VISCOUS"
+        ],
+        "order": 1500
+      },
+      {
+        "id": [
+          "FACIAL_HAIR_NONE",
+          "FACIAL_HAIR_GOATEE",
+          "FACIAL_HAIR_CIRCLE",
+          "FACIAL_HAIR_ROYALE",
+          "FACIAL_HAIR_ANCHOR",
+          "FACIAL_HAIR_SHORTBOXED",
+          "FACIAL_HAIR_CHEVRON",
+          "FACIAL_HAIR_3DAYSTUBBLE",
+          "FACIAL_HAIR_HORSESHOE",
+          "FACIAL_HAIR_MUSTACHE",
+          "FACIAL_HAIR_MUTTONCHOPS",
+          "FACIAL_HAIR_GUNSLINGER",
+          "FACIAL_HAIR_CHIN_STRIP",
+          "FACIAL_HAIR_CHIN_CURTAIN",
+          "FACIAL_HAIR_CHIN_STRAP",
+          "FACIAL_HAIR_BEARD",
+          "FACIAL_HAIR_HANDLEBAR",
+          "FACIAL_HAIR_NECKBEARD",
+          "FACIAL_HAIR_PENCIL",
+          "FACIAL_HAIR_SHENANDOAH",
+          "FACIAL_HAIR_SIDEBURNS",
+          "FACIAL_HAIR_SOUL_PATCH",
+          "FACIAL_HAIR_TOOTHBRUSH",
+          "FACIAL_HAIR_VANDYKE",
+          "FACIAL_HAIR_WALRUS",
+          "FACIAL_HAIR_ZAPPA"
+        ],
+        "order": 1550
+      },
+      {
+        "id": [
+          "hair_black_crewcut",
+          "hair_black_mohawk",
+          "hair_black_fro",
+          "hair_black_short",
+          "hair_black_medium",
+          "hair_black_long",
+          "hair_brown_crewcut",
+          "hair_brown_mohawk",
+          "hair_brown_fro",
+          "hair_brown_short",
+          "hair_brown_medium",
+          "hair_brown_long",
+          "hair_blond_crewcut",
+          "hair_blond_mohawk",
+          "hair_blond_fro",
+          "hair_blond_short",
+          "hair_blond_medium",
+          "hair_blond_long",
+          "hair_red_crewcut",
+          "hair_red_mohawk",
+          "hair_red_fro",
+          "hair_red_short",
+          "hair_red_medium",
+          "hair_red_long",
+          "hair_gray_crewcut",
+          "hair_gray_mohawk",
+          "hair_gray_fro",
+          "hair_gray_short",
+          "hair_gray_medium",
+          "hair_gray_long",
+          "hair_white_crewcut",
+          "hair_white_mohawk",
+          "hair_white_fro",
+          "hair_white_short",
+          "hair_white_medium",
+          "hair_white_long",
+          "hair_bald"
+        ],
+        "order": 1600
+      },
+      { "id": [ "LEAVES" ], "order": 1900 },
+      {
+        "id": [ "ARACHNID_ARMS", "ARACHNID_ARMS_OK", "ARM_FEATHERS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
+        "order": 2000
+      },
+      { "id": [ "PAWS", "PAWS_LARGE", "SLIME_HANDS" ], "order": 2500 },
+      {
+        "id": [ "CLAWS", "CLAWS_RAT", "CLAWS_RETRACT", "LONG_FINGERNAILS", "VINES1", "VINES2", "VINES3", "bio_claws" ],
+        "order": 3000
+      },
+      { "id": [ "bio_blade", "bio_blaster", "bio_emp_armgun" ], "order": 3250 },
+      {
+        "id": [
+          "TAIL_CATTLE",
+          "TAIL_CLUB",
+          "TAIL_FIN",
+          "TAIL_LONG",
+          "TAIL_RAPTOR",
+          "TAIL_RAT",
+          "TAIL_STING",
+          "TAIL_STUB",
+          "TAIL_THICK"
+        ],
+        "order": 3500
+      },
+      { "id": [ "LEG_TENTACLES" ], "order": 4000 },
+      { "id": [ "HOOVES", "ROOTS1", "ROOTS2", "ROOTS3", "TALONS" ], "order": 4500 },
+      { "id": [ "FLOWERS" ], "order": 5000 },
+      { "id": [ "ELFA_EARS", "FELINE_EARS", "LUPINE_EARS", "URSINE_EARS" ], "order": 5500 },
+      { "id": [ "ANTENNAE", "ANTLERS", "CURVED_HORNS", "HORNS", "POINTED_HORNS" ], "order": 6000 },
+      { "id": [ "COMPOUND_EYES", "ELFAEYES", "FEL_EYE", "LIZ_EYE" ], "order": 6500 },
+      {
+        "id": [
+          "BEAK",
+          "BEAK_HUM",
+          "BEAK_PECK",
+          "MUZZLE",
+          "MUZZLE_BEAR",
+          "MUZZLE_LONG",
+          "MUZZLE_RAT",
+          "MINOTAUR",
+          "SLIT_NOSTRILS",
+          "SNOUT",
+          "WHISKERS",
+          "WHISKERS_RAT"
+        ],
+        "order": 7000
+      },
+      { "id": [ "FANGS", "MANDIBLES", "SABER_TEETH" ], "order": 7500 },
+      { "id": [ "FORKED_TONGUE" ], "order": 8000 },
+      {
+        "id": [ "PROF_CYBERCOP", "PROF_FED", "PROF_PD_DET", "PROF_POLICE", "PROF_SWAT", "PHEROMONE_INSECT" ],
+        "order": 8500
+      }
+    ]
+  }
+]

@@ -1,99 +1,151 @@
 [
   {
-    "id": "paint",
-    "type": "item_group",
-    "items": [
-      [ "r_paint", 45 ],
-      [ "b_paint", 45 ],
-      [ "w_paint", 45 ],
-      [ "g_paint", 45 ],
-      [ "p_paint", 45 ],
-      [ "y_paint", 45 ],
-      [ "chipper", 55 ],
-      [ "paint_brush", 55 ]
-    ]
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "home_improvement" ],
+    "weight": 10000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",----------++---------|,",
+        ",|.@.@.@.@.rr.#....???|,",
+        ",O.........rr.#.A....?O,",
+        ",|.@.@.@.@.rr.#%###..?|,",
+        ",|rrrrrrrrrrrrrrrrrrrr|,",
+        ",|rrrrrrrrrrrrrrrrrrrr|,",
+        ",|:::::::::rryyyyyyyyy|,",
+        ",|.........rr.........|,",
+        ",|111111111rrLLLLLLLLL|,",
+        ",|rrrrrrrrrrrrrrrrrrrr|,",
+        ",|rrrrrrrrrrrrrrrrrrrr|,",
+        ",OSSSSSSSSSrr333333333O,",
+        ",O222222222rr333333333O,",
+        ",|rrrrrrrrrrrrrrrrrrrr|,",
+        ",||+|||rrrrrrrrrrrrrrr|,",
+        ",|y.ll|####rr#########|,",
+        ",OI...|#...rr.........O,",
+        ",|Ih.S|####rr#########|,",
+        ",O--+-|#...rr.........O,",
+        ",|6..&|####rr#########|,",
+        ",---------------------|,",
+        ",,,,,,,,,U<UU4,,,,,,,,,,"
+      ],
+      "terrain": {
+        "+": "t_door_c",
+        ",": "t_pavement",
+        "-": "t_wall_r",
+        ".": "t_floor",
+        "O": "t_window",
+        "r": "t_carpet_red",
+        "|": "t_wall_r",
+        "%": "t_console_broken",
+        "4": "t_gutter_downspout",
+        "<": "t_ladder_up"
+      },
+      "furniture": {
+        "A": "f_stool",
+        "3": "f_bookcase",
+        "U": [ "f_dumpster", "f_recycle_bin" ],
+        "2": "f_rack_coat",
+        "l": "f_locker",
+        "I": "f_desk",
+        "6": "f_sink",
+        "h": "f_chair",
+        "#": "f_counter",
+        ":": "f_dresser",
+        "1": "f_wardrobe",
+        "S": "f_filing_cabinet",
+        "L": "f_floor_lamp",
+        "?": "f_statue",
+        "@": "f_bed",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+      },
+      "toilets": { "&": {  } },
+      "items": {
+        "I": { "item": "office", "chance": 30 },
+        "U": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
+        "l": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ]
+      },
+      "place_items": [
+        { "item": "bed", "x": [ 3, 3 ], "y": [ 3, 3 ], "chance": 80 },
+        { "item": "bed", "x": [ 5, 5 ], "y": [ 3, 3 ], "chance": 80 },
+        { "item": "bed", "x": [ 7, 7 ], "y": [ 3, 3 ], "chance": 80 },
+        { "item": "bed", "x": [ 9, 9 ], "y": [ 3, 3 ], "chance": 80 },
+        { "item": "bed", "x": [ 3, 3 ], "y": [ 5, 5 ], "chance": 80 },
+        { "item": "bed", "x": [ 5, 5 ], "y": [ 5, 5 ], "chance": 80 },
+        { "item": "bed", "x": [ 7, 7 ], "y": [ 5, 5 ], "chance": 80 },
+        { "item": "bed", "x": [ 9, 9 ], "y": [ 5, 5 ], "chance": 80 },
+        { "item": "paint", "x": [ 6, 10 ], "y": 17, "chance": 75 },
+        { "item": "paint", "x": [ 6, 10 ], "y": 19, "chance": 75 },
+        { "item": "paint", "x": [ 6, 10 ], "y": 21, "chance": 75 },
+        { "item": "rug", "x": [ 13, 21 ], "y": 17, "chance": 75 },
+        { "item": "rug", "x": [ 13, 21 ], "y": 19, "chance": 75 },
+        { "item": "rug", "x": [ 13, 21 ], "y": 21, "chance": 75 }
+      ]
+    }
   },
   {
-    "id": "rug",
-    "type": "item_group",
-    "items": [ [ "r_carpet", 45 ], [ "g_carpet", 45 ], [ "y_carpet", 45 ], [ "p_carpet", 45 ] ]
-  },
-  {
-    "id": "home_improvement",
-    "type": "overmap_terrain",
-    "name": "home improvement store",
-    "sym": 94,
-    "color": "c_yellow_green",
-    "see_cost": 5,
-    "mondensity": 2,
-    "extras": "build",
-    "mapgen": [
-      {
-        "method": "json",
-        "weight": 10000,
-        "object": {
-          "rows": [
-            ",,,,,,,,,,,,,,,,,,,,,,,,",
-            ",,,,,,,,,,,,,,,,,,,,,,,,",
-            ",----------++---------|,",
-            ",|.@.@.@.@.rr?????????|,",
-            ",O.........rr.........O,",
-            ",|.@.@.@.@.rr?????????|,",
-            ",|rrrrrrrrrrrrrrrrrrrr|,",
-            ",|rrrrrrrrrrrrrrrrrrrr|,",
-            ",|:::::::::rryyyyyyyyy|,",
-            ",|.........rr.........|,",
-            ",|:::::::::rr^^^^^^^^^|,",
-            ",|rrrrrrrrrrrrrrrrrrrr|,",
-            ",|rrrrrrrrrrrrrrrrrrrr|,",
-            ",O.........rr.........O,",
-            ",O.........rr.........O,",
-            ",|rrrrrrrrrrrrrrrrrrrr|,",
-            ",|rrrrrrrrrrrrrrrrrrrr|,",
-            ",|#########rr#########|,",
-            ",O.........rr.........O,",
-            ",|#########rr#########|,",
-            ",O.........rr.........O,",
-            ",|#########rr#########|,",
-            ",---------------------|,",
-            ",,,,,,,,,,,,,,,,,,,,,,,,"
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "home_improvement_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        " |222222222222222222223 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |------####-5--------3 ",
+        "        ##>##           "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ">": "t_ladder_down" },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ],
+            [ "roof_2x2_golf", 20 ],
+            [ "roof_3x3_wine", 30 ]
           ],
-          "terrain": {
-            " ": "t_floor",
-            "#": "t_floor",
-            "+": "t_door_c",
-            ",": "t_pavement",
-            "-": "t_wall",
-            ".": "t_floor",
-            ":": "t_floor",
-            "?": "t_floor",
-            "@": "t_floor",
-            "O": "t_window",
-            "^": "t_floor",
-            "r": "t_carpet_red",
-            "y": "t_floor",
-            "|": "t_wall"
-          },
-          "furniture": { "#": "f_counter", ":": "f_dresser", "?": "f_statue", "@": "f_bed", "^": "f_indoor_plant", "y": "f_indoor_plant_y" },
-          "place_items": [
-            { "item": "bed", "x": [ 3, 3 ], "y": [ 3, 3 ], "chance": 80 },
-            { "item": "bed", "x": [ 5, 5 ], "y": [ 3, 3 ], "chance": 80 },
-            { "item": "bed", "x": [ 7, 7 ], "y": [ 3, 3 ], "chance": 80 },
-            { "item": "bed", "x": [ 9, 9 ], "y": [ 3, 3 ], "chance": 80 },
-            { "item": "bed", "x": [ 3, 3 ], "y": [ 5, 5 ], "chance": 80 },
-            { "item": "bed", "x": [ 5, 5 ], "y": [ 5, 5 ], "chance": 80 },
-            { "item": "bed", "x": [ 7, 7 ], "y": [ 5, 5 ], "chance": 80 },
-            { "item": "bed", "x": [ 9, 9 ], "y": [ 5, 5 ], "chance": 80 },
-            { "item": "paint", "x": [ 2, 10 ], "y": 17, "chance": 75 },
-            { "item": "paint", "x": [ 2, 10 ], "y": 19, "chance": 75 },
-            { "item": "paint", "x": [ 2, 10 ], "y": 21, "chance": 75 },
-            { "item": "rug", "x": [ 13, 21 ], "y": 17, "chance": 75 },
-            { "item": "rug", "x": [ 13, 21 ], "y": 19, "chance": 75 },
-            { "item": "rug", "x": [ 13, 21 ], "y": 21, "chance": 75 }
-          ]
+          "x": [ 3, 17 ],
+          "y": [ 4, 7 ]
+        },
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_4x4_party", 15 ],
+            [ "roof_4x4_utility", 40 ],
+            [ "roof_4x4_utility_1", 30 ],
+            [ "roof_6x6_utility", 20 ]
+          ],
+          "x": [ 3, 15 ],
+          "y": [ 10, 14 ]
         }
-      }
-    ],
-    "flags": [ "SIDEWALK" ]
+      ]
+    }
   }
 ]

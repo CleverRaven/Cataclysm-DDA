@@ -3,10 +3,7 @@
     "type": "recipe_category",
     "id": "CC_*",
     "//": "This is just a dummy category. No recipes should be added in here.",
-    "recipe_subcategories": [
-      "CSC_*_FAVORITE",
-      "CSC_*_RECENT"
-    ]
+    "recipe_subcategories": [ "CSC_*_FAVORITE", "CSC_*_RECENT", "CSC_*_HIDDEN" ]
   },
   {
     "type": "recipe_category",
@@ -105,8 +102,13 @@
   },
   {
     "type": "recipe_category",
+    "id": "CC_ANIMALS",
+    "recipe_subcategories": [ "CSC_ALL", "CSC_ANIMALS_CANINE ARMOR", "CSC_ANIMALS_EQUINE ARMOR" ]
+  },
+  {
+    "type": "recipe_category",
     "id": "CC_BUILDING",
     "recipe_subcategories": [ "CSC_ALL", "CSC_BUILDING_BASES", "CSC_BUILDING_EXPANSIONS" ],
-    "is_hidden":  true
+    "is_hidden": true
   }
 ]

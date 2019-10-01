@@ -1,98 +1,102 @@
 [
   {
     "result": "chem_ethanol",
-    "type" : "recipe",
+    "type": "recipe",
     "byproducts": [ [ "water_clean" ] ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_FUEL",
     "skill_used": "cooking",
     "difficulty": 5,
-    "time": 30000,
+    "time": "30 m",
     "book_learn": [ [ "textbook_chemistry" ], [ "brewing_cookbook", 4 ] ],
-    "qualities": [
-        { "id": "BOIL", "level": 2 },
-        { "id": "DISTILL", "level": 2 }
-     ],
-     "tools": [
-       [ [ "surface_heat", 30, "LIST" ] ],
-       [ [ "thermometer", -1 ] ]
-     ],
-     "components": [ [
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 30, "LIST" ] ], [ [ "thermometer", -1 ] ] ],
+    "components": [
+      [
         [ "hard_liquor", 14, "LIST" ],
         [ "weak_liquor", 10, "LIST" ],
         [ "wash_liquor", 42, "LIST" ],
-        [ "bum_wine", 56 ],
-        [ "fruit_wine", 56 ]
-    ] ]
+        [ "cheap_wine", 56, "LIST" ],
+        [ "worthy_wine", 40, "LIST" ]
+      ]
+    ]
   },
   {
     "result": "denat_alcohol",
-    "type" : "recipe",
+    "type": "recipe",
     "byproducts": [ [ "water_clean" ] ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_FUEL",
     "skill_used": "cooking",
     "difficulty": 3,
-    "time": 30000,
+    "time": "30 m",
     "book_learn": [ [ "textbook_chemistry" ], [ "brewing_cookbook" ] ],
-    "qualities": [
-        { "id": "BOIL", "level": 2 },
-        { "id": "DISTILL", "level": 1 }
-     ],
-     "tools": [
-       [ [ "surface_heat", 60, "LIST" ] ]
-     ],
-     "components": [ [
-       [ "hard_liquor", 14, "LIST" ],
-       [ "weak_liquor", 10, "LIST" ],
-       [ "wash_liquor", 42, "LIST" ],
-       [ "bum_wine", 56 ],
-       [ "fruit_wine", 56 ]
-    ] ]
+    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
+    "components": [
+      [
+        [ "hard_liquor", 14, "LIST" ],
+        [ "weak_liquor", 10, "LIST" ],
+        [ "wash_liquor", 42, "LIST" ],
+        [ "cheap_wine", 56, "LIST" ],
+        [ "worthy_wine", 40, "LIST" ]
+      ]
+    ]
   },
   {
-    "result": "diesel",
+    "result": "biodiesel",
     "type": "recipe",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_FUEL",
     "skill_used": "cooking",
     "difficulty": 6,
     "result_mult": 4,
-    "time": 420000,
+    "time": "420 m",
     "book_learn": [ [ "textbook_biodiesel", 5 ] ],
-    "batch_time_factors":[99, 1],
-    "qualities":[ { "id": "CHEM", "level": 2 } ],
-    "//": "this recipe could be done using fire, but at the moment fire requirement doesn't work properly for long time crafting",
-    "tools": [ [
-      [ "hotplate", 100 ],
-      [ "toolset", 100 ]
-    ] ],
+    "batch_time_factors": [ 99, 1 ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
     "components": [
-        [ [ "water_clean", 4 ], [ "water", 4 ] ],
-        [ [ "chem_ethanol", 100 ], [ "denat_alcohol", 100 ] ],
-        [ [ "lye_powder", 8 ] ],
-        [ [ "cooking_oil", 8 ], [ "lard", 8 ], [ "tallow", 8 ], [ "tallow_tainted", 8 ], [ "fat", 16 ], [ "fat_tainted", 16 ], [ "lamp_oil", 1000 ] ]
-    ]
+      [ [ "water_clean", 4 ], [ "water", 4 ] ],
+      [ [ "chem_ethanol", 100 ], [ "chem_methanol", 100 ], [ "denat_alcohol", 100 ] ],
+      [ [ "lye_powder", 8 ] ],
+      [
+        [ "cooking_oil", 64 ],
+        [ "cooking_oil2", 64 ],
+        [ "lard", 8 ],
+        [ "tallow", 8 ],
+        [ "tallow_tainted", 8 ],
+        [ "fat", 16 ],
+        [ "fat_tainted", 16 ],
+        [ "lamp_oil", 1000 ]
+      ]
+    ],
+    "flags": [ "ALLOW_ROTTEN" ]
   },
   {
     "result": "lamp_oil",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_FUEL",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": 30000,
+    "time": "30 m",
     "autolearn": true,
-    "qualities" : [
-      { "id": "CUT", "level": 1 },
-      { "id": "COOK", "level": 3 }
-    ],
-    "tools": [
-      [ [ "surface_heat", 10, "LIST" ] ]
-    ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "lard", 2 ], [ "cooking_oil", 2 ] ]
-    ]
+      [
+        [ "tallow", 2 ],
+        [ "tallow_tainted", 2 ],
+        [ "lard", 2 ],
+        [ "cooking_oil", 16 ],
+        [ "cooking_oil2", 16 ],
+        [ "fat", 6 ],
+        [ "fat_tainted", 6 ]
+      ]
+    ],
+    "//": "Making lamp oil from (tainted) fat directly is less efficient than using lard/tallow, but allows processing of spoilt fats. See #29770",
+    "flags": [ "ALLOW_ROTTEN" ]
   }
 ]

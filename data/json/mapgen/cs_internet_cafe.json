@@ -1,0 +1,212 @@
+[
+  {
+    "type": "item_group",
+    "id": "ic_merch_vending",
+    "items": [
+      [ "water_clean", 100 ],
+      [ "water_mineral", 100 ],
+      [ "coffee", 100 ],
+      [ "atomic_coffee", 100 ],
+      [ "chips", 100 ],
+      [ "chips2", 100 ],
+      [ "chips3", 100 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ic_merch",
+    "items": [
+      [ "cell_phone", 20 ],
+      [ "mag_computer", 20 ],
+      { "group": "ammo_pocket_batteries_full", "prob": 20 },
+      [ "radio", 20 ],
+      [ "television", 20 ],
+      [ "two_way_radio", 20 ],
+      [ "noise_emitter", 20 ],
+      [ "eyedrops", 20 ],
+      [ "mag_electronics", 20 ],
+      [ "ecig", 20 ],
+      [ "usb_drive", 20 ]
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "cs_internet_cafe" ],
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "...ssssssssssssssssss...",
+        "..gggggggggGGggggggggg..",
+        "..gccccccc,,,,cccccccg..",
+        "..|c,,,,,,,,,,,,,,,,c|..",
+        "..|c,,,,,cPccPc,,,,,c|..",
+        "..g,,,,,cc,,,,cc,,,,,g..",
+        "..g,,,,,c,,||,,c,,,,,g..",
+        "..|V,,,,cc,,,,cc,,,,A|..",
+        "..|V,,,,,cccccc,,,,,A|..",
+        "..g,,,,,,,,,,,,,,,,,,g..",
+        "..||,,,|||,,,,|||,,,||..",
+        "..gPh,hP|Ph,,hP|Ph,hPg..",
+        "..||,,,||||,,||||,,,||..",
+        "..gPh,hP|<D,,DL|Ph,hPg..",
+        "..||,,,||||GG||||,,,||..",
+        "..gPh,hP|S,,,,S|Ph,hPg..",
+        "..||,,,||||,,||||,,,||..",
+        "..gPh,hP|tD,,Dt|Ph,hPg..",
+        "..||,,,||||,,||||,,,||..",
+        "..gPh,hP|tD,,Dt|Ph,hPg..",
+        "..||,,,||||,,||||,,,||..",
+        "..gPh,hP|tD,,Dt|Ph,hPg..",
+        "..|||g|||||gg|||||g|||..",
+        "...4...................."
+      ],
+      "terrain": {
+        ".": [ [ "t_grass", 5 ], "t_dirt" ],
+        ",": "t_floor",
+        "|": "t_wall_w",
+        "s": "t_sidewalk",
+        "P": "t_console_broken",
+        "D": "t_door_c",
+        "g": "t_wall_glass_alarm",
+        "G": "t_door_glass_c",
+        "<": "t_stairs_up",
+        "4": "t_gutter_downspout",
+        "A": "t_atm"
+      },
+      "furniture": { "c": "f_displaycase", "t": "f_toilet", "h": "f_chair", "V": "f_vending_c", "S": "f_sink", "L": "f_locker" },
+      "toilets": { "t": { "comment": "no values needed here" } },
+      "items": {
+        "c": { "item": "ic_merch", "chance": 20 },
+        "V": { "item": "ic_merch_vending", "chance": 100 },
+        "L": { "item": "cleaning", "chance": 100 }
+      },
+      "add": [ { "item": "mop", "x": [ 11, 12 ], "y": [ 17, 20 ], "chance": 2 } ],
+      "place_items": [
+        { "item": "ic_merch_vending", "x": 3, "y": 7, "chance": 90 },
+        { "item": "ic_merch_vending", "x": 3, "y": 7, "chance": 90 },
+        { "item": "ic_merch_vending", "x": 3, "y": 7, "chance": 90 },
+        { "item": "ic_merch_vending", "x": 3, "y": 7, "chance": 90 },
+        { "item": "ic_merch_vending", "x": 3, "y": 8, "chance": 90 },
+        { "item": "ic_merch_vending", "x": 3, "y": 8, "chance": 90 },
+        { "item": "ic_merch_vending", "x": 3, "y": 8, "chance": 90 },
+        { "item": "ic_merch_vending", "x": 3, "y": 8, "chance": 90 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "cs_internet_cafe_roof",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "  |2222222222222222223  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |........=.........3  ",
+        "  |.#######ggg##.....3  ",
+        "  |.#kkk#cPcccP#.....3  ",
+        "  |.#kkk#,,Y,,cg.....3  ",
+        "  |.#,,,#,,,,,y#.....3  ",
+        "  |.##D####D####.....3  ",
+        "  |.#L,,,,,,,CC#.....3  ",
+        "  |.#r,,,>,,,,Cg.....3  ",
+        "  |.#r,,,,,,,,r#.....3  ",
+        "  |.####g#Dg####.....3  ",
+        "  |....AA............3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |.......&..........3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |5-----------------3  ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": {
+        ">": "t_stairs_down",
+        "#": "t_wall_w",
+        ",": "t_thconc_floor",
+        "k": "t_generator_broken",
+        "P": "t_console_broken",
+        "D": "t_door_locked",
+        "g": "t_wall_glass_alarm",
+        "&": "t_flat_roof",
+        "=": "t_flat_roof"
+      },
+      "place_loot": [ { "item": "television", "x": 14, "y": 9, "chance": 100 }, { "item": "stepladder", "x": 5, "y": 10, "chance": 100 } ],
+      "items": {
+        "c": { "item": "electronics", "chance": 40 },
+        "r": { "item": "ic_merch", "chance": 70, "repeat": [ 1, 2 ] },
+        "C": { "item": "ic_merch_vending", "chance": 70, "repeat": [ 2, 4 ] },
+        "L": { "item": "cleaning", "chance": 60, "repeat": [ 2, 4 ] }
+      },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 20 ],
+            [ "roof_3x3_wine", 10 ]
+          ],
+          "x": [ 3, 15 ],
+          "y": [ 3, 4 ]
+        },
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_4x4_party", 15 ],
+            [ "roof_6x6_survivor", 5 ],
+            [ "roof_4x4_utility", 40 ],
+            [ "roof_4x4_utility_1", 30 ]
+          ],
+          "x": 13,
+          "y": 16
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "cs_internet_cafe_upper_roof",
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    ............        ",
+        "    ............        ",
+        "    ........X...        ",
+        "    ............        ",
+        "    ............        ",
+        "    ............        ",
+        "    ............        ",
+        "    ...:........        ",
+        "    ............        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tar_flat_roof", "X": "t_tar_flat_roof", ":": "t_tar_flat_roof" }
+    }
+  }
+]

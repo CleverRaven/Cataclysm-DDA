@@ -1,70 +1,53 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "bandit_tower_2brc",
-        "comment" : "bottom right corner, second story and even levels",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "########################",
-                "########################",
-                "########################",
-                "#######==--=====--==--==",
-                "#######=llll|kkkkkk|bb==",
-                "#####===....|......|bb==",
-                "#####===....|......|@...",
-                "###=====ffFf-ffffFf-....",
-                "###=X...................",
-                "###=X.....------------!!",
-                "###|X.....|LLLL.|...*|..",
-                "###|X.@.......@cC...n|..",
-                "###|X.....|LLLL.|...n|..",
-                "###=X.....-------...n-!!",
-                "###=*.......*|..........",
-                "###=-ffFFfff-|..........",
-                "###|.........|..=======.",
-                "###|L.L.L.L.L|..=====Mee",
-                "###|L.L.L.L.L|..==>>>Mee",
-                "###|L.L.L.L.L|..!.>>>Mee",
-                "###|L.L.L.L.L|..!.>>>Mee",
-                "###|L.L.L.L.L|..=MMMMMMM",
-                "###|L.L@L.L.L|..=eeeeM==",
-                "###===-------|...eeeeM=="
-            ],
-            "rotation": 2,
-            "palettes": [
-                "tri_tower",
-                "upper_level",
-                "bandit_tower_stuff"
-            ],
-            "terrain":{
-                "5": "t_pavement",
-                "8": "t_bridge",
-                "f": "t_chainfence_v",
-                "F": "t_chaingate_c",
-                "K": "t_door_bar_locked"
-            },
-            "furniture":{
-                "k": "f_locker"
-            },
-            "items":{
-                "l": { "item": "ammo_launcher_grenade", "chance": 30 },
-                "k":[ 
-                    { "item": "mags_common", "chance": 50 }, 
-                    { "item": "mags_rare", "chance": 10 } 
-                ],
-                "L":[ 
-                    { "item": "ammo_common", "chance": 30 },
-                    { "item": "ammo_reloaded", "chance": 30 },
-                    { "item": "ammo_rare", "chance": 10 }
-                ],
-                "X": {  "item": "grenades", "chance": 40 }
-            },
-            "npcs": {
-                "@": { "class": "raider" }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "bandit_tower_2brc",
+    "comment": "bottom right corner, second story and even levels",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "#######==--=====--==--==",
+        "#######=llll|kkkkkk|bb==",
+        "#####===....|......|bb==",
+        "#####===....|......|@...",
+        "###=====ffFf-ffffFf-....",
+        "###=X...................",
+        "###=X.....------------!!",
+        "###|X.....|LLLL.|...*|..",
+        "###|X.@.......@cC...n|..",
+        "###|X.....|LLLL.|...n|..",
+        "###=X.....-------...n-!!",
+        "###=*.......*|..........",
+        "###=-ffFFfff-|..........",
+        "###|.........|..=======.",
+        "###|L.L.L.L.L|..=====Mee",
+        "###|L.L.L.L.L|..==>>>Mee",
+        "###|L.L.L.L.L|..!.>>>Mee",
+        "###|L.L.L.L.L|..!.>>>Mee",
+        "###|L.L.L.L.L|..=MMMMMMM",
+        "###|L.L@L.L.L|..=eeeeM==",
+        "###===-------|...eeeeM=="
+      ],
+      "rotation": 2,
+      "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
+      "terrain": { "5": "t_pavement", "8": "t_bridge", "f": "t_chainfence_v", "F": "t_chaingate_c", "K": "t_door_bar_locked" },
+      "furniture": { "k": "f_locker" },
+      "items": {
+        "l": { "item": "ammo_launcher_grenade", "chance": 30 },
+        "k": [ { "item": "mags_common", "chance": 50 }, { "item": "mags_rare", "chance": 10 } ],
+        "L": [
+          { "item": "ammo_common", "chance": 30 },
+          { "item": "ammo_reloaded", "chance": 30 },
+          { "item": "ammo_rare", "chance": 10 }
+        ],
+        "X": { "item": "grenades", "chance": 40 }
+      },
+      "npcs": { "@": { "class": "raider" } }
     }
+  }
 ]

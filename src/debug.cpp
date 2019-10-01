@@ -1,47 +1,71 @@
 #include "debug.h"
 
+#include <sys/stat.h>
+#include <cctype>
+#include <cstdio>
+#include <algorithm>
+#include <cassert>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+#include <fstream>
+#include <iomanip>
+#include <cstdint>
+#include <iterator>
+#include <locale>
+#include <map>
+#include <memory>
+#include <set>
+#include <sstream>
+#include <type_traits>
+#include <utility>
+#include <vector>
+
 #include "cursesdef.h"
 #include "filesystem.h"
 #include "get_version.h"
 #include "input.h"
 #include "output.h"
 #include "path_info.h"
+#include "cata_utility.h"
+#include "color.h"
+#include "optional.h"
+#include "translations.h"
+#include "worldfactory.h"
+#include "mod_manager.h"
+#include "type_id.h"
 
-#include <algorithm>
-#include <cassert>
-#include <cstdarg>
-#include <cstdlib>
-#include <cstring>
-#include <ctime>
-#include <exception>
-#include <fstream>
-#include <iomanip>
-#include <iosfwd>
-#include <streambuf>
-#include <sys/stat.h>
-
-#ifndef _MSC_VER
+#if !defined(_MSC_VER)
 #include <sys/time.h>
 #endif
 
-#ifdef BACKTRACE
-#if defined _WIN32 || defined _WIN64
-#include "platform_win.h"
-#include <dbghelp.h>
-#else
-#include <cstdlib>
-#include <execinfo.h>
-#include <unistd.h>
-#endif
+#if defined(_WIN32)
+#   if 1 // Hack to prevent reordering of #include "platform_win.h" by IWYU
+#       include "platform_win.h"
+#   endif
 #endif
 
-#ifdef TILES
+#if defined(BACKTRACE)
+#   if defined(_WIN32)
+#       include <dbghelp.h>
+#   else
+#       include <execinfo.h>
+#       include <unistd.h>
+#   endif
+#endif
+
+#if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #       include <SDL2/SDL.h>
 #   else
 #       include <SDL.h>
 #   endif
 #endif // TILES
+
+#if defined(__ANDROID__)
+// used by android_version() function for __system_property_get().
+#include <sys/system_properties.h>
+#endif
 
 // Static defines                                                   {{{1
 // ---------------------------------------------------------------------
@@ -56,8 +80,13 @@ static int debugClass = D_MAIN;
 
 extern bool test_mode;
 
-/** When in @ref test_mode will be set if any debugmsg are emitted */
-bool test_dirty = false;
+/** Set to true when any error is logged. */
+static bool error_observed = false;
+
+bool debug_has_error_been_observed()
+{
+    return error_observed;
+}
 
 bool debug_mode = false;
 
@@ -66,7 +95,7 @@ namespace
 
 std::set<std::string> ignored_messages;
 
-}
+} // namespace
 
 void realDebugmsg( const char *filename, const char *line, const char *funcname,
                    const std::string &text )
@@ -75,14 +104,12 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     assert( line != nullptr );
     assert( funcname != nullptr );
 
-    if( test_mode ) {
-        test_dirty = true;
-        std::cerr << filename << ":" << line << " [" << funcname << "] " << text << std::endl;
-        return;
-    }
-
     DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " [" << funcname << "] "
                                 << text << std::flush;
+
+    if( test_mode ) {
+        return;
+    }
 
     std::string msg_key( filename );
     msg_key += line;
@@ -102,10 +129,10 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
             " FUNCTION : %s\n"
             " FILE     : %s\n"
             " LINE     : %s\n",
-            text.c_str(), funcname, filename, line
+            text, funcname, filename, line
         );
 
-#ifdef BACKTRACE
+#if defined(BACKTRACE)
     std::string backtrace_instructions =
         string_format(
             _( "See %s for a full stack backtrace" ),
@@ -113,33 +140,33 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
         );
 #endif
 
-    fold_and_print( catacurses::stdscr, 0, 0, getmaxx( catacurses::stdscr ), c_light_red,
+    fold_and_print( catacurses::stdscr, point_zero, getmaxx( catacurses::stdscr ), c_light_red,
                     "\n \n" // Looks nicer with some space
                     " %s\n" // translated user string: error notification
                     " -----------------------------------------------------------\n"
                     "%s"
                     " -----------------------------------------------------------\n"
-#ifdef BACKTRACE
+#if defined(BACKTRACE)
                     " %s\n" // translated user string: where to find backtrace
 #endif
                     " %s\n" // translated user string: space to continue
                     " %s\n" // translated user string: ignore key
-#ifdef TILES
+#if defined(TILES)
                     " %s\n" // translated user string: copy
 #endif // TILES
                     , _( "An error has occurred! Written below is the error report:" ),
                     formatted_report,
-#ifdef BACKTRACE
+#if defined(BACKTRACE)
                     backtrace_instructions,
 #endif
                     _( "Press <color_white>space bar</color> to continue the game." ),
                     _( "Press <color_white>I</color> (or <color_white>i</color>) to also ignore this particular message in the future." )
-#ifdef TILES
+#if defined(TILES)
                     , _( "Press <color_white>C</color> (or <color_white>c</color>) to copy this message to the clipboard." )
 #endif // TILES
                   );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     input_context ctxt( "DEBUG_MSG" );
     ctxt.register_manual_key( 'C' );
     ctxt.register_manual_key( 'I' );
@@ -147,7 +174,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
 #endif
     for( bool stop = false; !stop; ) {
         switch( inp_mngr.get_input_event().get_first_input() ) {
-#ifdef TILES
+#if defined(TILES)
             case 'c':
             case 'C':
                 SDL_SetClipboardText( formatted_report.c_str() );
@@ -185,8 +212,8 @@ void limitDebugClass( int class_bitmask )
 // Debug only                                                       {{{1
 // ---------------------------------------------------------------------
 
-#ifdef BACKTRACE
-#if defined _WIN32 || defined _WIN64
+#if defined(BACKTRACE)
+#if defined(_WIN32)
 constexpr int module_path_len = 512;
 // on some systems the number of frames to capture have to be less than 63 according to the documentation
 constexpr int bt_cnt = 62;
@@ -243,8 +270,8 @@ struct time_info {
     }
 };
 
-#ifdef _MSC_VER
-time_info get_time() noexcept
+#if defined(_MSC_VER)
+static time_info get_time() noexcept
 {
     SYSTEMTIME time {};
 
@@ -255,7 +282,7 @@ time_info get_time() noexcept
                      };
 }
 #else
-time_info get_time() noexcept
+static time_info get_time() noexcept
 {
     timeval tv;
     gettimeofday( &tv, nullptr );
@@ -264,7 +291,7 @@ time_info get_time() noexcept
     const auto current = localtime( &tt );
 
     return time_info { current->tm_hour, current->tm_min, current->tm_sec,
-                       static_cast<int>( tv.tv_usec / 1000.0 + 0.5 )
+                       static_cast<int>( lround( tv.tv_usec / 1000.0 ) )
                      };
 }
 #endif
@@ -289,9 +316,7 @@ static std::ostream nullStream( &nullBuf );
 
 static DebugFile debugFile;
 
-DebugFile::DebugFile()
-{
-}
+DebugFile::DebugFile() = default;
 
 DebugFile::~DebugFile()
 {
@@ -349,19 +374,19 @@ void setupDebug( DebugOutput output_mode )
 {
     int level = 0;
 
-#ifdef DEBUG_INFO
+#if defined(DEBUG_INFO)
     level |= D_INFO;
 #endif
 
-#ifdef DEBUG_WARNING
+#if defined(DEBUG_WARNING)
     level |= D_WARNING;
 #endif
 
-#ifdef DEBUG_ERROR
+#if defined(DEBUG_ERROR)
     level |= D_ERROR;
 #endif
 
-#ifdef DEBUG_PEDANTIC_INFO
+#if defined(DEBUG_PEDANTIC_INFO)
     level |= D_PEDANTIC_INFO;
 #endif
 
@@ -371,19 +396,19 @@ void setupDebug( DebugOutput output_mode )
 
     int cl = 0;
 
-#ifdef DEBUG_ENABLE_MAIN
+#if defined(DEBUG_ENABLE_MAIN)
     cl |= D_MAIN;
 #endif
 
-#ifdef DEBUG_ENABLE_MAP
+#if defined(DEBUG_ENABLE_MAP)
     cl |= D_MAP;
 #endif
 
-#ifdef DEBUG_ENABLE_MAP_GEN
+#if defined(DEBUG_ENABLE_MAP_GEN)
     cl |= D_MAP_GEN;
 #endif
 
-#ifdef DEBUG_ENABLE_GAME
+#if defined(DEBUG_ENABLE_GAME)
     cl |= D_GAME;
 #endif
 
@@ -402,7 +427,7 @@ void deinitDebug()
 // OStream Operators                                                {{{2
 // ---------------------------------------------------------------------
 
-std::ostream &operator<<( std::ostream &out, DebugLevel lev )
+static std::ostream &operator<<( std::ostream &out, DebugLevel lev )
 {
     if( lev != DL_ALL ) {
         if( lev & D_INFO ) {
@@ -421,7 +446,7 @@ std::ostream &operator<<( std::ostream &out, DebugLevel lev )
     return out;
 }
 
-std::ostream &operator<<( std::ostream &out, DebugClass cl )
+static std::ostream &operator<<( std::ostream &out, DebugClass cl )
 {
     if( cl != DC_ALL ) {
         if( cl & D_MAIN ) {
@@ -446,14 +471,15 @@ std::ostream &operator<<( std::ostream &out, DebugClass cl )
     return out;
 }
 
-#ifdef BACKTRACE
+#if defined(BACKTRACE)
+#if !defined(_WIN32) && !defined(__CYGWIN__)
 // Verify that a string is safe for passing as an argument to addr2line.
 // In particular, we want to avoid any characters of significance to the shell.
-bool debug_is_safe_string( const char *start, const char *finish )
+static bool debug_is_safe_string( const char *start, const char *finish )
 {
     static constexpr char safe_chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                          "abcdefghijklmnopqrstuvwxyz"
-                                         "01234567890_./-";
+                                         "01234567890_./-+";
     using std::begin;
     using std::end;
     const auto is_safe_char =
@@ -464,7 +490,7 @@ bool debug_is_safe_string( const char *start, const char *finish )
     return std::all_of( start, finish, is_safe_char );
 }
 
-std::string debug_resolve_binary( const std::string &binary, std::ostream &out )
+static std::string debug_resolve_binary( const std::string &binary, std::ostream &out )
 {
     if( binary.find( '/' ) != std::string::npos ) {
         // The easy case, where we have a path to the binary
@@ -497,7 +523,7 @@ std::string debug_resolve_binary( const std::string &binary, std::ostream &out )
     return binary;
 }
 
-cata::optional<uintptr_t> debug_compute_load_offset(
+static cata::optional<uintptr_t> debug_compute_load_offset(
     const std::string &binary, const std::string &symbol,
     const std::string &offset_within_symbol_s, void *address, std::ostream &out )
 {
@@ -512,7 +538,7 @@ cata::optional<uintptr_t> debug_compute_load_offset(
     // things (e.g. dladdr1 in GNU libdl) but this approach might
     // perhaps be more portable and adds no link-time dependencies.
 
-    uintptr_t offset_within_symbol = std::stoull( offset_within_symbol_s, 0, 0 );
+    uintptr_t offset_within_symbol = std::stoull( offset_within_symbol_s, nullptr, 0 );
     std::string string_sought = " " + symbol;
 
     // We need to try calling nm in two different ways, because one
@@ -523,14 +549,14 @@ cata::optional<uintptr_t> debug_compute_load_offset(
         cmd << nm_variant << ' ' << binary << " 2>&1";
         FILE *nm = popen( cmd.str().c_str(), "re" );
         if( !nm ) {
-            out << "\tbacktrace: popen(nm) failed\n";
+            out << "\tbacktrace: popen(nm) failed: " << strerror( errno ) << "\n";
             return cata::nullopt;
         }
 
         char buf[1024];
         while( fgets( buf, sizeof( buf ), nm ) ) {
             std::string line( buf );
-            while( !line.empty() && std::isspace( line.end()[-1] ) ) {
+            while( !line.empty() && isspace( line.end()[-1] ) ) {
                 line.erase( line.end() - 1 );
             }
             if( string_ends_with( line, string_sought ) ) {
@@ -550,10 +576,11 @@ cata::optional<uintptr_t> debug_compute_load_offset(
 
     return cata::nullopt;
 }
+#endif
 
 void debug_write_backtrace( std::ostream &out )
 {
-#if defined _WIN32 || defined _WIN64
+#if defined(_WIN32)
     sym.SizeOfStruct = sizeof( SYMBOL_INFO );
     sym.MaxNameLen = max_name_len;
     USHORT num_bt = CaptureStackBackTrace( 0, bt_cnt, bt, NULL );
@@ -561,14 +588,15 @@ void debug_write_backtrace( std::ostream &out )
     for( USHORT i = 0; i < num_bt; ++i ) {
         DWORD64 off;
         out << "\n\t(";
-        if( SymFromAddr( proc, ( DWORD64 ) bt[i], &off, &sym ) ) {
+        if( SymFromAddr( proc, reinterpret_cast<DWORD64>( bt[i] ), &off, &sym ) ) {
             out << sym.Name << "+0x" << std::hex << off << std::dec;
         }
         out << "@" << bt[i];
-        DWORD64 mod_base = SymGetModuleBase64( proc, ( DWORD64 ) bt[i] );
+        DWORD64 mod_base = SymGetModuleBase64( proc, reinterpret_cast<DWORD64>( bt[i] ) );
         if( mod_base ) {
             out << "[";
-            DWORD mod_len = GetModuleFileName( ( HMODULE ) mod_base, mod_path, module_path_len );
+            DWORD mod_len = GetModuleFileName( reinterpret_cast<HMODULE>( mod_base ), mod_path,
+                                               module_path_len );
             // mod_len == module_path_len means insufficient buffer
             if( mod_len > 0 && mod_len < module_path_len ) {
                 const char *mod_name = mod_path + mod_len;
@@ -578,12 +606,17 @@ void debug_write_backtrace( std::ostream &out )
             } else {
                 out << "0x" << std::hex << mod_base << std::dec;
             }
-            out << "+0x" << std::hex << ( uintptr_t ) bt[i] - mod_base << std::dec << "]";
+            out << "+0x" << std::hex << reinterpret_cast<uintptr_t>( bt[i] ) - mod_base <<
+                std::dec << "]";
         }
         out << "), ";
     }
     out << "\n";
 #else
+#   if defined(__CYGWIN__)
+    // BACKTRACE is not supported under CYGWIN!
+    ( void ) out;
+#   else
     int count = backtrace( tracePtrs, TRACE_SIZE );
     char **funcNames = backtrace_symbols( tracePtrs, count );
     for( int i = 0; i < count; ++i ) {
@@ -654,6 +687,7 @@ void debug_write_backtrace( std::ostream &out )
         // available in tracePtrs.
 
         auto funcName = funcNames[i];
+        assert( funcName ); // To appease static analysis
         const auto funcNameEnd = funcName + std::strlen( funcName );
         const auto binaryEnd = std::find( funcName, funcNameEnd, '(' );
         if( binaryEnd == funcNameEnd ) {
@@ -712,12 +746,17 @@ void debug_write_backtrace( std::ostream &out )
         call_addr2line( last_binary_name, addresses );
     }
     free( funcNames );
+#   endif
 #endif
 }
 #endif
 
 std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
 {
+    if( lev & D_ERROR ) {
+        error_observed = true;
+    }
+
     // If debugging has not been initialized then stop
     // (we could instead use std::cerr in this case?)
     if( !debugFile.file ) {
@@ -726,7 +765,7 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
 
     // Error are always logged, they are important,
     // Messages from D_MAIN come from debugmsg and are equally important.
-    if( ( ( lev & debugLevel ) && ( cl & debugClass ) ) || lev & D_ERROR || cl & D_MAIN ) {
+    if( ( lev & debugLevel && cl & debugClass ) || lev & D_ERROR || cl & D_MAIN ) {
         std::ostream &out = *debugFile.file;
         out << std::endl;
         out << get_time() << " ";
@@ -737,7 +776,7 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
         out << ": ";
 
         // Backtrace on error.
-#ifdef BACKTRACE
+#if defined(BACKTRACE)
         // Push the first retrieved value back by a second so it won't match.
         static time_t next_backtrace = time( nullptr ) - 1;
         time_t now = time( nullptr );
@@ -754,6 +793,340 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
         return out;
     }
     return nullStream;
+}
+
+std::string game_info::operating_system()
+{
+#if defined(__ANDROID__)
+    return "Android";
+#elif defined(_WIN32)
+    return "Windows";
+#elif defined(__linux__)
+    return "Linux";
+#elif defined(unix) || defined(__unix__) || defined(__unix) || ( defined(__APPLE__) && defined(__MACH__) ) // unix; BSD; MacOs
+#if defined(__APPLE__) && defined(__MACH__)
+    // The following include is **only** needed for the TARGET_xxx defines below and is only included if both of the above defines are true.
+    // The whole function only relying on compiler defines, it is probably more meaningful to include it here and not mingle with the
+    // headers at the top of the .cpp file.
+#include <TargetConditionals.h>
+#if TARGET_IPHONE_SIMULATOR == 1
+    /* iOS in Xcode simulator */
+    return "iOS Simulator";
+#elif TARGET_OS_IPHONE == 1
+    /* iOS on iPhone, iPad, etc. */
+    return "iOS";
+#elif TARGET_OS_MAC == 1
+    /* OSX */
+    return "MacOs";
+#endif // TARGET_IPHONE_SIMULATOR
+#elif defined(BSD) // defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
+    return "BSD";
+#else
+    return "Unix";
+#endif // __APPLE__
+#else
+    return "Unknown";
+#endif
+}
+
+#if !defined(__CYGWIN__) && ( defined (__linux__) || defined(unix) || defined(__unix__) || defined(__unix) || ( defined(__APPLE__) && defined(__MACH__) ) || defined(BSD) ) // linux; unix; MacOs; BSD
+/** Execute a command with the shell by using `popen()`.
+ * @param command The full command to execute.
+ * @note The output buffer is limited to 512 characters.
+ * @returns The result of the command (only stdout) or an empty string if there was a problem.
+ */
+static std::string shell_exec( const std::string &command )
+{
+    std::vector<char> buffer( 512 );
+    std::string output;
+    try {
+        std::unique_ptr<FILE, decltype( &pclose )> pipe( popen( command.c_str(), "r" ), pclose );
+        if( pipe ) {
+            while( fgets( buffer.data(), buffer.size(), pipe.get() ) != nullptr ) {
+                output += buffer.data();
+            }
+        }
+    } catch( ... ) {
+        output = "";
+    }
+    return output;
+}
+#endif
+
+#if defined (__ANDROID__)
+/** Get a precise version number for Android systems.
+ * @note see:
+ *    - https://stackoverflow.com/a/19777977/507028
+ *    - https://github.com/pytorch/cpuinfo/blob/master/test/build.prop/galaxy-s7-us.log
+ * @returns If successful, a string containing the Android system version, otherwise an empty string.
+ */
+static std::string android_version()
+{
+    std::string output;
+
+    // buffer used for the __system_property_get() function.
+    // note: according to android sources, it can't be greater than 92 chars (see 'PROP_VALUE_MAX' define in system_properties.h)
+    std::vector<char> buffer( 255 );
+
+    static const std::vector<std::pair<std::string, std::string>> system_properties = {
+        // The manufacturer of the product/hardware; e.g. "Samsung", this is different than the carrier.
+        { "ro.product.manufacturer", "Manufacturer" },
+        // The end-user-visible name for the end product; .e.g. "SAMSUNG-SM-G930A" for a Samsung S7.
+        { "ro.product.model", "Model" },
+        // The Android system version; e.g. "6.0.1"
+        { "ro.build.version.release", "Release" },
+        // The internal value used by the underlying source control to represent this build; e.g "G930AUCS4APK1" for a Samsung S7 on 6.0.1.
+        { "ro.build.version.incremental", "Incremental" },
+    };
+
+    for( const auto &entry : system_properties ) {
+        int len = __system_property_get( entry.first.c_str(), &buffer[0] );
+        std::string value;
+        if( len <= 0 ) {
+            // failed to get the property
+            value = "<unknown>";
+        } else {
+            value = std::string( buffer.data() );
+        }
+        output.append( string_format( "%s: %s; ", entry.second, value ) );
+    }
+    return output;
+}
+
+#elif defined(BSD)
+
+/** Get a precise version number for BSD systems.
+ * @note The code shells-out to call `uname -a`.
+ * @returns If successful, a string containing the Linux system version, otherwise an empty string.
+ */
+static std::string bsd_version()
+{
+    std::string output;
+    output = shell_exec( "uname -a" );
+    if( !output.empty() ) {
+        // remove trailing '\n', if any.
+        output.erase( std::remove( output.begin(), output.end(), '\n' ),
+                      output.end() );
+    }
+    return output;
+}
+
+#elif defined(__linux__)
+
+/** Get a precise version number for Linux systems.
+ * @note The code shells-out to call `lsb_release -a`.
+ * @returns If successful, a string containing the Linux system version, otherwise an empty string.
+ */
+static std::string linux_version()
+{
+    std::string output;
+    output = shell_exec( "lsb_release -a" );
+    if( !output.empty() ) {
+        // replace '\n' and '\t' in output.
+        static const std::vector<std::pair<std::string, std::string>> to_replace = {
+            {"\n", "; "},
+            {"\t", " "},
+        };
+        for( const auto &e : to_replace ) {
+            std::string::size_type pos;
+            while( ( pos = output.find( e.first ) ) != std::string::npos ) {
+                output.replace( pos, e.first.length(), e.second );
+            }
+        }
+    }
+    return output;
+}
+
+#elif defined(__APPLE__) && defined(__MACH__) && !defined(BSD)
+
+/** Get a precise version number for MacOs systems.
+ * @note The code shells-out to call `sw_vers` with various options.
+ * @returns If successful, a string containing the MacOS system version, otherwise an empty string.
+ */
+static std::string mac_os_version()
+{
+    std::string output;
+    static const std::vector<std::pair<std::string,  std::string>> commands = {
+        { "sw_vers -productName", "Name" },
+        { "sw_vers -productVersion", "Version" },
+        { "sw_vers -buildVersion", "Build" },
+    };
+
+    for( const auto &entry : commands ) {
+        std::string command_result = shell_exec( entry.first );
+        if( command_result.empty() ) {
+            command_result = "<unknown>";
+        } else {
+            // remove trailing '\n', if any.
+            command_result.erase( std::remove( command_result.begin(), command_result.end(), '\n' ),
+                                  command_result.end() );
+        }
+        output.append( string_format( "%s: %s; ", entry.second, command_result ) );
+    }
+    return output;
+}
+
+#elif defined (_WIN32)
+
+/** Get a precise version number for Windows systems.
+ * @note Since Windows 10 all version-related APIs lie about the underlying system if the application is not Manifested (see VerifyVersionInfoA
+ *     or GetVersionEx documentation for further explanation). In this function we use the registry or the native RtlGetVersion which both
+ *     report correct versions and are compatible down to XP.
+ * @returns If successful, a string containing the Windows system version number, otherwise an empty string.
+ */
+static std::string windows_version()
+{
+    std::string output;
+    HKEY handle_key;
+    bool success = RegOpenKeyExA( HKEY_LOCAL_MACHINE, R"(SOFTWARE\Microsoft\Windows NT\CurrentVersion)",
+                                  0,
+                                  KEY_QUERY_VALUE, &handle_key ) == ERROR_SUCCESS;
+    if( success ) {
+        DWORD value_type;
+        constexpr DWORD c_buffer_size = 512;
+        std::vector<BYTE> byte_buffer( c_buffer_size );
+        DWORD buffer_size = c_buffer_size;
+        DWORD major_version = 0;
+        success = RegQueryValueExA( handle_key, "CurrentMajorVersionNumber", nullptr, &value_type,
+                                    &byte_buffer[0], &buffer_size ) == ERROR_SUCCESS && value_type == REG_DWORD;
+        if( success ) {
+            major_version = *reinterpret_cast<const DWORD *>( &byte_buffer[0] );
+            output.append( std::to_string( major_version ) );
+        }
+        if( success ) {
+            buffer_size = c_buffer_size;
+            success = RegQueryValueExA( handle_key, "CurrentMinorVersionNumber", nullptr, &value_type,
+                                        &byte_buffer[0], &buffer_size ) == ERROR_SUCCESS && value_type == REG_DWORD;
+            if( success ) {
+                const DWORD minor_version = *reinterpret_cast<const DWORD *>( &byte_buffer[0] );
+                output.append( "." );
+                output.append( std::to_string( minor_version ) );
+            }
+        }
+        if( success && major_version == 10 ) {
+            buffer_size = c_buffer_size;
+            success = RegQueryValueExA( handle_key, "ReleaseId", nullptr, &value_type, &byte_buffer[0],
+                                        &buffer_size ) == ERROR_SUCCESS && value_type == REG_SZ;
+            if( success ) {
+                output.append( " " );
+                output.append( std::string( reinterpret_cast<char *>( byte_buffer.data() ) ) );
+            }
+        }
+
+        RegCloseKey( handle_key );
+    }
+
+    if( !success ) {
+#if defined (__MINGW32__) || defined (__MINGW64__) || defined (__CYGWIN__) || defined (MSYS2)
+        output = "MINGW/CYGWIN/MSYS2 on unknown Windows version";
+#else
+        output.clear();
+        using RtlGetVersion = LONG( WINAPI * )( PRTL_OSVERSIONINFOW );
+        const HMODULE handle_ntdll = GetModuleHandleA( "ntdll" );
+        if( handle_ntdll != nullptr ) {
+            // Use union-based type-punning to convert function pointer
+            // type without gcc warnings.
+            union {
+                RtlGetVersion p;
+                FARPROC q;
+            } rtl_get_version_func;
+            rtl_get_version_func.q = GetProcAddress( handle_ntdll, "RtlGetVersion" );
+            if( rtl_get_version_func.p != nullptr ) {
+                RTL_OSVERSIONINFOW os_version_info = RTL_OSVERSIONINFOW();
+                os_version_info.dwOSVersionInfoSize = sizeof( RTL_OSVERSIONINFOW );
+                if( rtl_get_version_func.p( &os_version_info ) == 0 ) { // NT_STATUS_SUCCESS = 0
+                    output.append( string_format( "%i.%i %i", os_version_info.dwMajorVersion,
+                                                  os_version_info.dwMinorVersion, os_version_info.dwBuildNumber ) );
+                }
+            }
+        }
+#endif
+    }
+    return output;
+}
+#endif // Various OS define tests
+
+std::string game_info::operating_system_version()
+{
+#if defined(__ANDROID__)
+    return android_version();
+#elif defined(BSD)
+    return bsd_version();
+#elif defined(__linux__)
+    return linux_version();
+#elif defined(__APPLE__) && defined(__MACH__) && !defined(BSD)
+    return mac_os_version();
+#elif defined(_WIN32)
+    return windows_version();
+#else
+    return "<unknown>";
+#endif
+}
+
+std::string game_info::bitness()
+{
+    if( sizeof( void * ) == 8 ) {
+        return "64-bit";
+    }
+
+    if( sizeof( void * ) == 4 ) {
+        return "32-bit";
+    }
+
+    return "Unknown";
+}
+
+std::string game_info::game_version()
+{
+    return getVersionString();
+}
+
+std::string game_info::graphics_version()
+{
+#if defined(TILES)
+    return "Tiles";
+#else
+    return "Curses";
+#endif
+}
+
+std::string game_info::mods_loaded()
+{
+    if( world_generator->active_world == nullptr ) {
+        return "No active world";
+    }
+
+    const std::vector<mod_id> &mod_ids = world_generator->active_world->active_mod_order;
+    if( mod_ids.empty() ) {
+        return "No loaded mods";
+    }
+
+    std::vector<std::string> mod_names;
+    mod_names.reserve( mod_ids.size() );
+    std::transform( mod_ids.begin(), mod_ids.end(),
+    std::back_inserter( mod_names ), []( const mod_id mod ) -> std::string {
+        // e.g. "Dark Days Ahead [dda]".
+        return string_format( "%s [%s]", mod->name(), mod->ident.str() );
+    } );
+
+    return join( mod_names, ",\n    " ); // note: 4 spaces for a slight offset.
+}
+
+std::string game_info::game_report()
+{
+    std::string os_version = operating_system_version();
+    if( os_version.empty() ) {
+        os_version = "<unknown>";
+    }
+    std::stringstream report;
+    report <<
+           "- OS: " << operating_system() << "\n" <<
+           "    - OS Version: " << os_version << "\n" <<
+           "- Game Version: " << game_version() << " [" << bitness() << "]\n" <<
+           "- Graphics Version: " << graphics_version() << "\n" <<
+           "- Mods loaded: [\n    " << mods_loaded() << "\n]\n";
+
+    return report.str();
 }
 
 // vim:tw=72:sw=4:fdm=marker:fdl=0:

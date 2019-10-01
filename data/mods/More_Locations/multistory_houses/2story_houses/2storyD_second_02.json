@@ -1,41 +1,38 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "2storyD_second",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "########################",
-                "########################",
-                "########################",
-                "##rrrrrrrrrrrrrrrrrrrr##",
-                "##rrrrrrrrrrrrrrrrrrrr##",
-                "##rrrrrrrrrrrrrrrrrrrr##",
-                "##==w====ww=======ww==##",
-                "##=DDDp|B   +d|DD   p=##",
-                "##w c i|B   ---c  BB =##",
-                "##=   i|   b|d+   BB w##",
-                "##=-+-----+----      =##",
-                "##=           +      =##",
-                "##w  ----+---+------+=##",
-                "##=  |nn    |   dTT|d=##",
-                "##=  | z  z |      |-=##",
-                "##w  |      |  BB  |d=##",
-                "##w>>|l  MMM|p BB  + =##",
-                "##=ww===w======w=w====##",
-                "##rrrrrrr######rrrrrrr##",
-                "##rrrrrrr######rrrrrrr##",
-                "##rrrrrrr######rrrrrrr##",
-                "##rrrrrrr######rrrrrrr##",
-                "########################",
-                "########################"
-            ],
-            "palettes": [
-               "multistory_house",
-               "upper_level"
-            ]
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "2storyD_second",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "##rrrrrrrrrrrrrrrrrrrr##",
+        "##rrrrrrrrrrrrrrrrrrrr##",
+        "##rrrrrrrrrrrrrrrrrrrr##",
+        "##==w====ww=======ww==##",
+        "##=DDDp|B   +d|DD   p=##",
+        "##w c i|B   ---c  BB =##",
+        "##=   i|   b|d+   BB w##",
+        "##=-+-----+----      =##",
+        "##=           +      =##",
+        "##w  ----+---+------+=##",
+        "##=  |nn    |   dTT|d=##",
+        "##=  | z  z |      |-=##",
+        "##w  |      |  BB  |d=##",
+        "##w>>|l  MMM|p BB  + =##",
+        "##=ww===w======w=w====##",
+        "##rrrrrrr######rrrrrrr##",
+        "##rrrrrrr######rrrrrrr##",
+        "##rrrrrrr######rrrrrrr##",
+        "##rrrrrrr######rrrrrrr##",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "multistory_house", "upper_level" ]
     }
+  }
 ]

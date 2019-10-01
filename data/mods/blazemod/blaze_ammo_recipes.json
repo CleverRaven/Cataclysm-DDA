@@ -12,8 +12,22 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ] ],
-      [ [ "gunpowder", 216 ], [ "gasoline", 600 ], [ "diesel", 600 ], [ "chem_rdx", 1 ], [ "chem_hmtd", 2 ], [ "chem_anfo", 5 ], [ "matchbomb", 3 ] ],
-      [ [ "smpistol_primer", 1 ], [ "lgpistol_primer", 1 ], [ "smrifle_primer", 1 ], [ "lgrifle_primer", 1 ], [ "shotgun_primer", 1 ] ]
+      [
+        [ "gunpowder", 216 ],
+        [ "gasoline", 600 ],
+        [ "diesel", 600 ],
+        [ "chem_rdx", 1 ],
+        [ "chem_hmtd", 2 ],
+        [ "chem_anfo", 5 ],
+        [ "matchbomb", 3 ]
+      ],
+      [
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
+        [ "smrifle_primer", 1 ],
+        [ "lgrifle_primer", 1 ],
+        [ "shotgun_primer", 1 ]
+      ]
     ]
   },
   {
@@ -29,8 +43,21 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "can_food_unsealed", 5 ], [ "can_drink_unsealed", 5 ], [ "canister_empty", 5 ], [ "clay_canister", 5 ] ],
-      [ [ "dynamite", 1 ], [ "c4", 1 ], [ "fertilizer_bomb", 1 ], [ "chem_rdx", 5 ], [ "chem_hmtd", 10 ], [ "chem_anfo", 50 ] ],
-      [ [ "smpistol_primer", 1 ], [ "lgpistol_primer", 1 ], [ "smrifle_primer", 1 ], [ "lgrifle_primer", 1 ], [ "shotgun_primer", 1 ] ]
+      [
+        [ "dynamite", 1 ],
+        [ "c4", 1 ],
+        [ "fertilizer_bomb", 1 ],
+        [ "chem_rdx", 5 ],
+        [ "chem_hmtd", 10 ],
+        [ "chem_anfo", 50 ]
+      ],
+      [
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
+        [ "smrifle_primer", 1 ],
+        [ "lgrifle_primer", 1 ],
+        [ "shotgun_primer", 1 ]
+      ]
     ]
   },
   {
@@ -47,8 +74,20 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ] ],
-      [ [ "hard_liquor_chem", 7, "LIST" ], [ "lamp_oil", 150 ], [ "gasoline", 200 ], [ "diesel", 200 ], [ "napalm", 100 ] ],
-      [ [ "smpistol_primer", 1 ], [ "lgpistol_primer", 1 ], [ "smrifle_primer", 1 ], [ "lgrifle_primer", 1 ], [ "shotgun_primer", 1 ] ]
+      [
+        [ "hard_liquor_chem", 7, "LIST" ],
+        [ "lamp_oil", 150 ],
+        [ "gasoline", 200 ],
+        [ "diesel", 200 ],
+        [ "napalm", 100 ]
+      ],
+      [
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
+        [ "smrifle_primer", 1 ],
+        [ "lgrifle_primer", 1 ],
+        [ "shotgun_primer", 1 ]
+      ]
     ]
   },
   {
@@ -62,17 +101,24 @@
     "time": 5000,
     "autolearn": true,
     "using": [ [ "soldering_standard", 5 ], [ "adhesive", 1 ] ],
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "BOIL", "level": 1 }
-    ],
-    "tools": [
-      [ [ "surface_heat", 3, "LIST" ] ]
-    ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
     "components": [
       [ [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ] ],
-      [ [ "hard_liquor_chem", 21, "LIST" ], [ "lamp_oil", 600 ], [ "gasoline", 1000 ], [ "diesel", 1000 ], [ "napalm", 400 ] ],
-      [ [ "smpistol_primer", 1 ], [ "lgpistol_primer", 1 ], [ "smrifle_primer", 1 ], [ "lgrifle_primer", 1 ], [ "shotgun_primer", 1 ] ]
+      [
+        [ "hard_liquor_chem", 21, "LIST" ],
+        [ "lamp_oil", 600 ],
+        [ "gasoline", 1000 ],
+        [ "diesel", 1000 ],
+        [ "napalm", 400 ]
+      ],
+      [
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
+        [ "smrifle_primer", 1 ],
+        [ "lgrifle_primer", 1 ],
+        [ "shotgun_primer", 1 ]
+      ]
     ]
   },
   {
@@ -88,9 +134,22 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "can_food_unsealed", 1 ], [ "can_drink_unsealed", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ] ],
-      [ [ "gunpowder", 72 ], [ "gasoline", 200 ], [ "diesel", 200 ], [ "chem_rdx", 1 ], [ "chem_hmtd", 2 ], [ "chem_anfo", 5 ] ],
+      [
+        [ "gunpowder", 72 ],
+        [ "gasoline", 200 ],
+        [ "diesel", 200 ],
+        [ "chem_rdx", 1 ],
+        [ "chem_hmtd", 2 ],
+        [ "chem_anfo", 5 ]
+      ],
       [ [ "lead", 120 ], [ "nail", 30 ], [ "bb", 100 ], [ "shards", 50 ], [ "material_sand", 200 ] ],
-      [ [ "smpistol_primer", 1 ], [ "lgpistol_primer", 1 ], [ "smrifle_primer", 1 ], [ "lgrifle_primer", 1 ], [ "shotgun_primer", 1 ] ]
+      [
+        [ "smpistol_primer", 1 ],
+        [ "lgpistol_primer", 1 ],
+        [ "smrifle_primer", 1 ],
+        [ "lgrifle_primer", 1 ],
+        [ "shotgun_primer", 1 ]
+      ]
     ]
   },
   {
@@ -197,10 +256,7 @@
     "autolearn": true,
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "stick", 5 ], [ "broom", 5 ], [ "mop", 5 ], [ "2x4", 5 ], [ "log", 1 ] ],
-      [ [ "scrap", 10 ], [ "rebar", 2 ] ]
-    ]
+    "components": [ [ [ "stick", 5 ], [ "broom", 5 ], [ "mop", 5 ], [ "2x4", 5 ], [ "log", 1 ] ], [ [ "scrap", 10 ], [ "rebar", 2 ] ] ]
   },
   {
     "result": "hbolt_nuke",
@@ -242,11 +298,7 @@
     "reversible": true,
     "decomp_learn": 1,
     "autolearn": true,
-    "tools": [
-      [ [ "crucible", -1 ] ],
-      [ [ "surface_heat", 20, "LIST" ] ],
-      [ [ "mold_plastic", -1 ] ]
-    ],
+    "tools": [ [ [ "crucible", -1 ] ], [ [ "surface_heat", 20, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
     "components": [ [ [ "lead", 100 ] ] ]
   },
   {
@@ -259,16 +311,8 @@
     "time": 20000,
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "steel_standard", 1 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 1 },
-      { "id": "CUT", "level": 1 },
-      { "id": "CHISEL", "level": 3 }
-    ],
-    "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "anvil", -1 ] ],
-      [ [ "swage", -1 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ]
   },
   {
     "result": "shards",
@@ -279,10 +323,7 @@
     "difficulty": 0,
     "time": 5000,
     "autolearn": true,
-    "qualities": [
-      { "id": "CUT", "level": 1 },
-      { "id": "HAMMER", "level": 1 }
-    ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 9 ], [ "steel_chunk", 3 ], [ "steel_lump", 1 ] ] ]
   }
 ]

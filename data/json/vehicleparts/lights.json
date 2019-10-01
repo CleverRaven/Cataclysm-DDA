@@ -9,7 +9,8 @@
     "broken_symbol": "*",
     "color": "white",
     "durability": 20,
-    "epower": -75,
+    "//": "essentially an 800lm 10W LED flashlight",
+    "epower": -10,
     "bonus": 30,
     "folded_volume": 2,
     "breaks_into": [ { "item": "scrap", "count": [ 0, 2 ] } ],
@@ -62,8 +63,8 @@
     "color": "white",
     "broken_color": "blue",
     "durability": 20,
-    "description": "A very bright, wide-angle light that illuminates the area outside the vehicle when turned on.",
-    "epower": -1500,
+    "description": "A very bright, circular light that illuminates the area outside the vehicle when turned on.",
+    "epower": -200,
     "bonus": 8000,
     "damage_modifier": 10,
     "folded_volume": 8,
@@ -80,6 +81,18 @@
     "flags": [ "CIRCLE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
   },
   {
+    "id": "directed_floodlight",
+    "type": "vehicle_part",
+    "name": "directed floodlight",
+    "item": "directed_floodlight",
+    "copy-from": "floodlight",
+    "looks_like": "floodlight",
+    "description": "A very bright, directed light that illuminates a half-circular area outside the vehicle when turned on.   During installation, you can choose what direction to point the light.",
+    "//": "8000lm 100W LED floodlight",
+    "epower": -100,
+    "flags": [ "HALF_CIRCLE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
+  },
+  {
     "id": "headlight",
     "type": "vehicle_part",
     "name": "headlight",
@@ -90,6 +103,29 @@
     "broken_color": "white",
     "durability": 20,
     "description": "A bright light that illuminates a narrow cone outside the vehicle when turned on.  During installation, you can choose what direction to point the light, so multiple headlights can illuminate the sides or rear, as well as the front.",
+    "epower": -100,
+    "bonus": 8000,
+    "damage_modifier": 10,
+    "folded_volume": 1,
+    "breaks_into": [ { "item": "cable", "charges": [ 1, 4 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": 20000, "qualities": [ { "id": "SCREW", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 2000, "using": [ [ "adhesive", 1 ] ] }
+    },
+    "flags": [ "CONE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
+  },
+  {
+    "id": "motorcycle_headlight",
+    "type": "vehicle_part",
+    "name": "motorcycle headlight",
+    "item": "motorcycle_headlight",
+    "symbol": "*",
+    "broken_symbol": "*",
+    "color": "white",
+    "broken_color": "white",
+    "durability": 8,
+    "description": "A small, lightweight, bright light that illuminates a narrow cone outside the vehicle when turned on.  During installation, you can choose what direction to point the light, so multiple headlights can illuminate the sides or rear, as well as the front.",
     "epower": -187,
     "bonus": 8000,
     "damage_modifier": 10,
@@ -103,13 +139,35 @@
     "flags": [ "CONE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
   },
   {
+    "id": "wide_headlight",
+    "type": "vehicle_part",
+    "name": "wide angle headlight",
+    "item": "car_wide_headlight",
+    "copy-from": "headlight",
+    "looks_like": "headlight",
+    "description": "A bright light that illuminates a wide cone outside the vehicle when turned on.  During installation, you can choose what direction to point the light, so multiple headlights can illuminate the sides or rear, as well as the front.",
+    "epower": -150,
+    "flags": [ "WIDE_CONE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
+  },
+  {
     "id": "headlight_reinforced",
     "copy-from": "headlight",
     "type": "vehicle_part",
     "name": "reinforced headlight",
     "item": "headlight_reinforced",
     "color": "light_blue",
-    "proportional": { "durability": 4 }
+    "proportional": { "durability": 4 },
+    "damage_reduction": { "all": 12 }
+  },
+  {
+    "id": "wide_headlight_reinforced",
+    "copy-from": "wide_headlight",
+    "type": "vehicle_part",
+    "name": "reinforced wide-angle headlight",
+    "item": "wide_headlight_reinforced",
+    "color": "light_blue",
+    "proportional": { "durability": 4 },
+    "damage_reduction": { "all": 12 }
   },
   {
     "abstract": "light_emergency",
@@ -119,7 +177,8 @@
     "broken_symbol": "-",
     "durability": 20,
     "description": "Emergency lights, like a police car's or ambulance's, mounted on the vehicle's roof.  Flashes between red and blue when turned on, attracting attention without illuminating the area.",
-    "epower": -125,
+    "//": "essentially a pair of overpowered RGB LED flashlights",
+    "epower": -10,
     "bonus": 500,
     "damage_modifier": 10,
     "folded_volume": 2,
@@ -135,7 +194,8 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 2000, "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "CIRCLE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
+    "flags": [ "CIRCLE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ],
+    "damage_reduction": { "all": 6 }
   },
   {
     "id": "light_blue",
@@ -168,7 +228,7 @@
     "color": "white",
     "difficulty": 1,
     "durability": 400,
-    "epower": -75,
+    "epower": -10,
     "bonus": 30,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },

@@ -125,7 +125,7 @@
     "book_learn": [ [ "recipe_lab_elec", 3 ], [ "mag_robotics", 3 ], [ "textbook_robots", 3 ] ],
     "components": [
       [ [ "bot_manhack", 1 ], [ "broken_manhack", 1 ], [ "broken_light_hack", 1 ] ],
-      [ [ "lightstrip_dead", 4 ] ],
+      [ [ "lightstrip_inactive", 4 ] ],
       [ [ "processor", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "e_scrap", 1 ] ]
@@ -138,7 +138,7 @@
     "book_learn": [ [ "recipe_lab_elec", 3 ], [ "mag_robotics", 3 ], [ "textbook_robots", 3 ] ],
     "components": [
       [ [ "bot_manhack", 1 ], [ "broken_manhack", 1 ] ],
-      [ [ "lightstrip_dead", 2 ] ],
+      [ [ "lightstrip_inactive", 2 ] ],
       [ [ "pilot_light", 1 ] ],
       [ [ "element", 2 ] ],
       [ [ "processor", 1 ] ],
@@ -566,7 +566,7 @@
     "components": [
       [ [ "broken_medibot_disarmed", 1 ] ],
       [ [ "robopart_pharma", 1 ] ],
-      [ [ "lightstrip_dead", 4 ] ],
+      [ [ "lightstrip_inactive", 4 ] ],
       [ [ "plastic_chunk", 4 ] ],
       [ [ "RAM", 2 ] ],
       [ [ "processor", 2 ] ],
@@ -864,7 +864,7 @@
     "id_suffix": "repair",
     "copy-from": "bot_defbot_base",
     "components": [
-      [ [ "broken_defbot_disarmed", 1 ] ],
+      [ [ "broken_defbot_paladin", 1 ] ],
       [ [ "plut_cell", 4 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "processor", 2 ] ],
@@ -1047,7 +1047,7 @@
       [ [ "robopart_microreactor", 2 ] ],
       [ [ "small_storage_battery", 4 ] ],
       [ [ "lens", 4 ] ],
-      [ [ "lightstrip_dead", 8 ] ],
+      [ [ "lightstrip_inactive", 8 ] ],
       [ [ "RAM", 2 ] ],
       [ [ "processor", 2 ] ],
       [ [ "cable", 1 ] ],

@@ -1,0 +1,93 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "mi-go_camp1", "mi-go_camp2" ] ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "rows": [
+        ".......||.....||.....||.........................",
+        ".....||||||.||||||.||||||.......................",
+        ".|||||    ||| 4  |||    ||......................",
+        "||  +      ||#    |      |..........||..........",
+        "| 1 |  2   + #####|   5  |........||||||........",
+        "||  |      |  3   +      |......|||    |||......",
+        ".|  ||    |||    |||    ||....|||        |||....",
+        ".| |||||||| |||||| |+||||||.|||            ||...",
+        ".|+||||||     ||          |||<              |...",
+        "||    ||       |            ||       6      ||..",
+        "|      |       |             |               |..",
+        "|   7  |   8  ||    9     9a |               |..",
+        "|      +     |||             +              ||..",
+        "||    ||   |+| |||          ||              |...",
+        ".|||||||| ||12   |||      |||               |...",
+        "...||||||||        ||||+||| +              ||...",
+        "....||11  ||      ||    ||  |||          |||....",
+        ".||||      +      |      | 14 ||||||||  ||......",
+        "||10|   {  |+||   +  13  |   ||......||||.......",
+        "|{  +      |15|||||      |||||..................",
+        "|   ||    ||      ||    ||......................",
+        "||   ||||+|||    ||||||||.......................",
+        ".|||+|.||16 ||||||...||.........................",
+        "........|||+|.||................................"
+      ],
+      "palettes": [ "mi-go_palette" ],
+      "place_nested": [
+        { "chunks": [ "mi-go_encampment1_room1" ], "x": 0, "y": 2 },
+        { "chunks": [ "mi-go_encampment1_room2" ], "x": 4, "y": 1 },
+        { "chunks": [ "mi-go_encampment1_room3" ], "x": 11, "y": 3 },
+        { "chunks": [ "mi-go_encampment1_room4" ], "x": 12, "y": 0 },
+        { "chunks": [ "mi-go_encampment1_room5" ], "x": 18, "y": 1 },
+        { "chunks": [ "mi-go_encampment1_room6" ], "x": 28, "y": 3 },
+        { "chunks": [ "mi-go_encampment1_room7" ], "x": 0, "y": 8 },
+        { "chunks": [ "mi-go_encampment1_room8" ], "x": 7, "y": 7 },
+        { "chunks": [ "mi-go_encampment1_room9" ], "x": 15, "y": 7 },
+        { "chunks": [ "mi-go_encampment1_room9a" ], "x": 24, "y": 7 },
+        { "chunks": [ "mi-go_encampment1_room10" ], "x": 0, "y": 17 },
+        { "chunks": [ "mi-go_encampment1_room11" ], "x": 4, "y": 15 },
+        { "chunks": [ "mi-go_encampment1_room12" ], "x": 10, "y": 13 },
+        { "chunks": [ "mi-go_encampment1_room13" ], "x": 18, "y": 15 },
+        { "chunks": [ "mi-go_encampment1_room14" ], "x": 25, "y": 14 },
+        { "chunks": [ "mi-go_encampment1_room15" ], "x": 11, "y": 18 },
+        { "chunks": [ "mi-go_encampment1_room16" ], "x": 8, "y": 21 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "mi-go_camp2-1", "mi-go_camp2-2" ] ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor_resin",
+      "rows": [
+        "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",
+        "_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",
+        "__vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",
+        "__vvvvvvvvvv__vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",
+        "__vvvvvvvv______vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",
+        "__vvvvvv__________vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",
+        "__vvvv|||___________vvvvvvvv|||||vvvvvvvvvvvvvvv",
+        "___v|||i||___________vvvvvv||OOO||vvvppppvvvvvvv",
+        "____|>  <|___________vvvvv||}   >|vpp,,,,,,Fvvvv",
+        "___||   }|______||____vvvv|P i  V|vp,,,,,,,,,vvv",
+        "___|PPPP||______||____vvvv|P   |||p,,,,,,,,,,,vv",
+        "___||||||_____________vvvv|P   Y ,,,,,,,,,,,,,vv",
+        "______________________vvvv|||O Y ,,,,,,,,,,,,,vv",
+        "_____________________vvvvvvv||||||p,,,,,,,,,,vvv",
+        "_____________________vvvvvvvvvvvvvppp,,,,,,Fvvvv",
+        "_____________________vvvvvvvvvvvvvvvvvvvvvvvvvvv",
+        "____________________vvvvvvvvvvvvvvvvvvvvvvvvvvvv",
+        "__________________vvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",
+        "_______vvvvvv____vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",
+        "______vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",
+        "__vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",
+        "_vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",
+        "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+      ],
+      "palettes": [ "mi-go_palette" ]
+    }
+  }
+]

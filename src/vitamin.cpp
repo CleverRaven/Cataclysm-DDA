@@ -1,12 +1,12 @@
 #include "vitamin.h"
 
-#include "assign.h"
+#include <map>
+#include <memory>
+
 #include "calendar.h"
 #include "debug.h"
 #include "json.h"
-#include "translations.h"
-
-#include <map>
+#include "units.h"
 
 static std::map<vitamin_id, vitamin> vitamins_all;
 
@@ -32,13 +32,13 @@ const vitamin &string_id<vitamin>::obj() const
 
 int vitamin::severity( int qty ) const
 {
-    for( int i = 0; i != int( disease_.size() ); ++i ) {
+    for( int i = 0; i != static_cast<int>( disease_.size() ); ++i ) {
         if( ( qty >= disease_[ i ].first && qty <= disease_[ i ].second ) ||
             ( qty <= disease_[ i ].first && qty >= disease_[ i ].second ) ) {
             return i + 1;
         }
     }
-    // @todo: implement distinct severity levels for vitamin excesses
+    // TODO: implement distinct severity levels for vitamin excesses
     if( qty > 96 ) {
         return -1;
     }
@@ -50,12 +50,12 @@ void vitamin::load_vitamin( JsonObject &jo )
     vitamin vit;
 
     vit.id_ = vitamin_id( jo.get_string( "id" ) );
-    vit.name_ = _( jo.get_string( "name" ).c_str() );
+    jo.read( "name", vit.name_ );
     vit.deficiency_ = efftype_id( jo.get_string( "deficiency" ) );
     vit.excess_ = efftype_id( jo.get_string( "excess", "null" ) );
     vit.min_ = jo.get_int( "min" );
     vit.max_ = jo.get_int( "max", 0 );
-    assign( jo, "rate", vit.rate_, false, 1_turns );
+    vit.rate_ = read_from_json_string<time_duration>( *jo.get_raw( "rate" ), time_duration::units );
 
     if( vit.rate_ < 0_turns ) {
         jo.throw_error( "vitamin consumption rate cannot be negative", "rate" );

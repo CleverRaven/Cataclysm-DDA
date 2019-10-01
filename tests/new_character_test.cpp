@@ -1,21 +1,28 @@
-#include "catch/catch.hpp"
-
-#include "game.h"
-#include "item.h"
-#include "itype.h"
-#include "mutation.h"
-#include "player.h"
-#include "profession.h"
-#include "scenario.h"
-#include "string_id.h"
-
 #include <set>
 #include <sstream>
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <array>
+#include <functional>
+#include <list>
+#include <memory>
+#include <utility>
 
-std::ostream &operator<<( std::ostream &s, const std::vector<trait_id> &v )
+#include "avatar.h"
+#include "catch/catch.hpp"
+#include "game.h"
+#include "item.h"
+#include "itype.h"
+#include "profession.h"
+#include "scenario.h"
+#include "string_id.h"
+#include "optional.h"
+#include "pldata.h"
+#include "ret_val.h"
+#include "type_id.h"
+
+static std::ostream &operator<<( std::ostream &s, const std::vector<trait_id> &v )
 {
     for( const auto &e : v ) {
         s << e.c_str() << " ";
@@ -32,7 +39,7 @@ static std::vector<trait_id> next_subset( const std::vector<trait_id> &set )
 
     ++bitset;
     // Check each bit position for a match
-    for( unsigned idx = 0; idx < set.size(); idx++ ) {
+    for( size_t idx = 0; idx < set.size(); idx++ ) {
         if( bitset & ( 1 << idx ) ) {
             ret.push_back( set[idx] );
         }
@@ -54,10 +61,10 @@ static bool try_set_traits( const std::vector<trait_id> &traits )
     return true;
 }
 
-static player get_sanitized_player()
+static avatar get_sanitized_player()
 {
     // You'd think that this hp stuff would be in the c'tor...
-    player ret = player();
+    avatar ret = avatar();
     ret.recalc_hp();
     for( int i = 0; i < num_hp_parts; i++ ) {
         ret.hp_cur[i] = ret.hp_max[i];
@@ -83,7 +90,7 @@ struct less<failure> {
         return lhs.prof < rhs.prof;
     }
 };
-}
+} // namespace std
 
 // TODO: According to profiling (interrupt, backtrace, wait a few seconds, repeat) with a sample
 // size of 20, 70% of the time is due to the call to Character::set_mutation in try_set_traits.
@@ -121,7 +128,7 @@ TEST_CASE( "starting_items" )
 
     g->u = get_sanitized_player();
     // Avoid false positives from ingredients like salt and cornmeal.
-    const player control = get_sanitized_player();
+    const avatar control = get_sanitized_player();
 
     std::vector<trait_id> traits = next_subset( mutations );
     for( ; !traits.empty(); traits = next_subset( mutations ) ) {
@@ -142,18 +149,18 @@ TEST_CASE( "starting_items" )
                     }
 
                     for( const item &it : items ) {
-                        bool is_food =  !it.is_seed() && it.is_food() &&
-                                        !g->u.can_eat( it ).success() && control.can_eat( it ).success();
-                        bool is_armor = it.is_armor() && !g->u.wear_item( it, false );
+                        const bool is_food =  !it.is_seed() && it.is_food() &&
+                                              !g->u.can_eat( it ).success() && control.can_eat( it ).success();
+                        const bool is_armor = it.is_armor() && !g->u.wear_item( it, false );
                         // Seeds don't count- they're for growing things, not eating
                         if( is_food || is_armor ) {
                             failures.insert( failure{ prof->ident(), g->u.get_mutations(), it.typeId(), is_food ? "Couldn't eat it" : "Couldn't wear it." } );
                         }
 
-                        bool is_holster = it.is_armor() && it.type->get_use( "holster" );
+                        const bool is_holster = it.is_armor() && it.type->get_use( "holster" );
                         if( is_holster ) {
                             const item &holstered_it = it.get_contained();
-                            bool empty_holster = holstered_it.is_null();
+                            const bool empty_holster = holstered_it.is_null();
                             if( !empty_holster && !it.can_holster( holstered_it, true ) ) {
                                 failures.insert( failure{ prof->ident(), g->u.get_mutations(), it.typeId(), "Couldn't put item back to holster" } );
                             }

@@ -1,5 +1,20 @@
 #include "mapsharing.h"
 
+#include "cata_utility.h"
+#include "filesystem.h"
+#include "platform_win.h"
+
+#include <cstdlib>
+#include <stdexcept>
+
+#if defined(__linux__)
+#include <sys/file.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <cstdio>
+#endif // __linux__
+
 bool MAP_SHARING::sharing;
 bool MAP_SHARING::competitive;
 bool MAP_SHARING::worldmenu;
@@ -86,59 +101,48 @@ void MAP_SHARING::setDefaults()
     MAP_SHARING::addAdmin( "admin" );
 }
 
-#ifndef __linux__ // make non-Linux operating systems happy
-
-int getLock( const char * )
+void ofstream_wrapper::open( const std::ios::openmode mode )
 {
-    return 0;
-}
+    // Create a *unique* temporary path. No other running program should
+    // use this path. If the file exists, it must be of a *former* program
+    // instance and can savely be deleted.
+#if defined(__linux__)
+    temp_path = path + "." + std::to_string( getpid() ) + ".temp";
 
-void releaseLock( int, const char * )
-{
-    // Nothing to do.
-}
+#elif defined(_WIN32)
+    temp_path = path + "." + std::to_string( GetCurrentProcessId() ) + ".temp";
 
 #else
+    // @todo exclusive I/O for other systems
+    temp_path = path + ".temp";
 
-int getLock( const char *lockName )
-{
-    mode_t m = umask( 0 );
-    int fd = open( lockName, O_RDWR | O_CREAT, 0666 );
-    umask( m );
-    if( fd >= 0 && flock( fd, LOCK_EX | LOCK_NB ) < 0 ) {
-        close( fd );
-        fd = -1;
+#endif
+
+    if( file_exist( temp_path ) ) {
+        remove_file( temp_path );
     }
-    return fd;
+
+    file_stream.open( temp_path, mode );
+    if( !file_stream.is_open() ) {
+        throw std::runtime_error( "opening file failed" );
+    }
 }
 
-void releaseLock( int fd, const char *lockName )
+void ofstream_wrapper::close()
 {
-    if( fd < 0 ) {
+    if( !file_stream.is_open() ) {
         return;
     }
-    remove( lockName );
-    close( fd );
-}
 
-#endif // __linux__
-
-std::map<std::string, int> lockFiles;
-
-void fopen_exclusive( std::ofstream &fout, const char *filename,
-                      std::ios_base::openmode mode )  //TODO: put this in an ofstream_exclusive class?
-{
-    std::string lockfile = std::string( filename ) + ".lock";
-    lockFiles[lockfile] = getLock( lockfile.c_str() );
-    if( lockFiles[lockfile] != -1 ) {
-        fout.open( filename, mode );
+    if( file_stream.fail() ) {
+        // Remove the incomplete or otherwise faulty file (if possible).
+        // Failures from it are ignored as we can't really do anything about them.
+        remove_file( temp_path );
+        throw std::runtime_error( "writing to file failed" );
     }
-}
-
-void fclose_exclusive( std::ofstream &fout, const char *filename )
-{
-    std::string lockFile = std::string( filename ) + ".lock";
-    fout.close();
-    releaseLock( lockFiles[lockFile], lockFile.c_str() );
-    lockFiles[lockFile] = -1;
+    file_stream.close();
+    if( !rename_file( temp_path, path ) ) {
+        // Leave the temp path, so the user can move it if possible.
+        throw std::runtime_error( "moving temporary file \"" + temp_path + "\" failed" );
+    }
 }

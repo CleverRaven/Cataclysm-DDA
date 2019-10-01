@@ -1,17 +1,30 @@
 #include "veh_utils.h"
 
+#include <algorithm>
+#include <map>
+#include <cmath>
+#include <list>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include "avatar.h"
 #include "calendar.h"
-#include "craft_command.h"
 #include "game.h"
-#include "messages.h"
 #include "map.h"
-#include "output.h"
 #include "player.h"
 #include "veh_type.h"
 #include "vehicle.h"
-
-#include <algorithm>
-#include <map>
+#include "character.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "inventory.h"
+#include "item.h"
+#include "requirements.h"
+#include "translations.h"
+#include "color.h"
+#include "point.h"
 
 namespace veh_utils
 {
@@ -21,15 +34,15 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk )
     return calc_xp_gain( vp, sk, g->u );
 }
 
-int calc_xp_gain( const vpart_info &vp, const skill_id &sk, Character &who )
+int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who )
 {
-    auto iter = vp.install_skills.find( sk );
+    const auto iter = vp.install_skills.find( sk );
     if( iter == vp.install_skills.end() ) {
         return 0;
     }
 
     // how many levels are we above the requirement?
-    int lvl = std::max( who.get_skill_level( sk ) - iter->second, 1 );
+    const int lvl = std::max( who.get_skill_level( sk ) - iter->second, 1 );
 
     // scale xp gain per hour according to relative level
     // 0-1: 60 xp /h
@@ -39,13 +52,14 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, Character &who )
     //   5:  3 xp /h
     //   6:  2 xp /h
     //  7+:  1 xp /h
-    return std::ceil( double( vp.install_moves ) / to_moves<int>( 1_minutes * pow( lvl, 2 ) ) );
+    return std::ceil( static_cast<double>( vp.install_moves ) / to_moves<int>( 1_minutes * pow( lvl,
+                      2 ) ) );
 }
 
-vehicle_part &most_repairable_part( vehicle &veh, const Character &who_c, bool only_repairable )
+vehicle_part &most_repairable_part( vehicle &veh, Character &who_arg, bool only_repairable )
 {
-    // @todo: Get rid of this cast after moving relevant functions down to Character
-    player &who = ( player & )who_c;
+    // TODO: Get rid of this cast after moving relevant functions down to Character
+    player &who = static_cast<player &>( who_arg );
     const auto &inv = who.crafting_inventory();
 
     enum repairable_status {
@@ -62,7 +76,7 @@ vehicle_part &most_repairable_part( vehicle &veh, const Character &who_c, bool o
         }
 
         if( part.is_broken() ) {
-            if( info.install_requirements().can_make_with_inventory( inv ) ) {
+            if( info.install_requirements().can_make_with_inventory( inv, is_crafting_component ) ) {
                 repairable_cache[ &part ] = need_replacement;
             }
 
@@ -70,20 +84,21 @@ vehicle_part &most_repairable_part( vehicle &veh, const Character &who_c, bool o
         }
 
         if( info.is_repairable() &&
-            ( info.repair_requirements() * part.damage_level( 4 ) ).can_make_with_inventory( inv ) ) {
+            ( info.repair_requirements() * part.damage_level( 4 ) ).can_make_with_inventory( inv,
+                    is_crafting_component ) ) {
             repairable_cache[ &part ] = repairable;
         }
     }
 
-    auto part_damage_comparison = [&repairable_cache]( const vehicle_part & a,
+    const auto part_damage_comparison = [&repairable_cache]( const vehicle_part & a,
     const vehicle_part & b ) {
         return ( repairable_cache[ &b ] > repairable_cache[ &a ] ) ||
                ( repairable_cache[ &b ] == repairable_cache[ &a ] && b.damage() > a.damage() );
     };
 
-    auto high_damage_iterator = std::max_element( veh.parts.begin(),
-                                veh.parts.end(),
-                                part_damage_comparison );
+    const auto high_damage_iterator = std::max_element( veh.parts.begin(),
+                                      veh.parts.end(),
+                                      part_damage_comparison );
     if( high_damage_iterator == veh.parts.end() ||
         high_damage_iterator->removed ||
         !high_damage_iterator->info().is_repairable() ||
@@ -97,28 +112,29 @@ vehicle_part &most_repairable_part( vehicle &veh, const Character &who_c, bool o
 
 bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
 {
-    // @todo: Get rid of this cast after moving relevant functions down to Character
-    player &who = ( player & )who_c;
+    // TODO: Get rid of this cast after moving relevant functions down to Character
+    player &who = static_cast<player &>( who_c );
     int part_index = veh.index_of_part( &pt );
     auto &vp = pt.info();
 
-    // @todo: Expose base part damage somewhere, don't recalculate it here
+    // TODO: Expose base part damage somewhere, don't recalculate it here
     const auto reqs = pt.is_broken() ?
                       vp.install_requirements() :
                       vp.repair_requirements() * pt.damage_level( 4 );
 
     inventory map_inv;
     map_inv.form_from_map( who.pos(), PICKUP_RANGE );
-    if( !reqs.can_make_with_inventory( who.crafting_inventory() ) ) {
+    if( !reqs.can_make_with_inventory( who.crafting_inventory(), is_crafting_component ) ) {
         who.add_msg_if_player( m_info, _( "You don't meet the requirements to repair the %s." ),
-                               pt.name().c_str() );
+                               pt.name() );
         return false;
     }
 
     // consume items extracting any base item (which we will need if replacing broken part)
     item base( vp.item );
     for( const auto &e : reqs.get_components() ) {
-        for( auto &obj : who.consume_items( who.select_item_component( e, 1, map_inv ), 1 ) ) {
+        for( auto &obj : who.consume_items( who.select_item_component( e, 1, map_inv ), 1,
+                                            is_crafting_component ) ) {
             if( obj.typeId() == vp.item ) {
                 base = obj;
             }
@@ -136,8 +152,11 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     }
 
     // If part is broken, it will be destroyed and references invalidated
-    std::string partname = pt.name();
-    if( pt.is_broken() ) {
+    std::string partname = pt.name( false );
+    const std::string startdurability = colorize( pt.get_base().damage_symbol(),
+                                        pt.get_base().damage_color() );
+    bool wasbroken = pt.is_broken();
+    if( wasbroken ) {
         const int dir = pt.direction;
         point loc = pt.mount;
         auto replacement_id = pt.info().get_id();
@@ -150,10 +169,12 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
         veh.set_hp( pt, pt.info().durability );
     }
 
-    // @todo: NPC doing that
-    who.add_msg_if_player( m_good, _( "You repair the %1$s's %2$s." ), veh.name.c_str(),
-                           partname.c_str() );
+    // TODO: NPC doing that
+    who.add_msg_if_player( m_good,
+                           wasbroken ? _( "You replace the %1$s's %2$s. (was %3$s)" ) :
+                           _( "You repair the %1$s's %2$s. (was %3$s)" ), veh.name,
+                           partname, startdurability );
     return true;
 }
 
-}
+} // namespace veh_utils

@@ -1,0 +1,35 @@
+[
+  {
+    "type": "npc",
+    "id": "ranch_farmer_1",
+    "//": "Flavor",
+    "name_suffix": "Farmer",
+    "class": "NC_THUG",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_RANCH_FARMER_1",
+    "faction": "tacoma_commune"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_FARMER_1",
+    "dynamic_line": "...",
+    "responses": [
+      { "text": "What are you doing here?", "topic": "TALK_RANCH_FARMER_1_JOB" },
+      { "text": "I'd like to hire your services.", "topic": "TALK_RANCH_FARMER_1_HIRE" },
+      { "text": "I've got to go...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_FARMER_1_JOB",
+    "dynamic_line": "I was sent here to assist in setting-up the farm.  Most of us have no real skills that transfer from before the cataclysm so things are a bit of trial and error.",
+    "responses": [ { "text": "...", "topic": "TALK_RANCH_FARMER_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_FARMER_1_HIRE",
+    "dynamic_line": "I'm sorry, I don't have anything to trade.  The work program here splits what we produce between the refugee center, the farm, and ourselves.  If you are a skilled laborer then you can trade your time for a bit of extra income on the side.  Not much I can do to assist you as a farmer though.",
+    "responses": [ { "text": "Oh.", "topic": "TALK_RANCH_FARMER_1" } ]
+  }
+]

@@ -1,46 +1,46 @@
-#include "mutation.h"
+#include "mutation.h" // IWYU pragma: associated
+
+#include <map>
+#include <memory>
+#include <set>
+#include <vector>
+#include <array>
+#include <stdexcept>
 
 #include "bodypart.h"
 #include "color.h"
 #include "debug.h"
-#include "enums.h" // tripoint
 #include "json.h"
-#include "pldata.h" // traits
 #include "trait_group.h"
+#include "string_formatter.h"
 #include "translations.h"
+#include "generic_factory.h"
 
-#include <map>
-#include <set>
-#include <sstream>
-#include <vector>
-
-typedef std::map<trait_group::Trait_group_tag, std::shared_ptr<Trait_group>> TraitGroupMap;
-typedef std::set<trait_id> TraitSet;
+using TraitGroupMap = std::map<trait_group::Trait_group_tag, std::shared_ptr<Trait_group>>;
+using TraitSet = std::set<trait_id>;
 
 TraitSet trait_blacklist;
 TraitGroupMap trait_groups;
 
+namespace
+{
+generic_factory<mutation_branch> trait_factory( "trait" );
+} // namespace
+
 std::vector<dream> dreams;
 std::map<std::string, std::vector<trait_id> > mutations_category;
 std::map<std::string, mutation_category_trait> mutation_category_traits;
-std::unordered_map<trait_id, mutation_branch> mutation_data;
 
 template<>
 const mutation_branch &string_id<mutation_branch>::obj() const
 {
-    const auto iter = mutation_data.find( *this );
-    if( iter == mutation_data.end() ) {
-        debugmsg( "invalid trait/mutation type id %s", c_str() );
-        static const mutation_branch dummy{};
-        return dummy;
-    }
-    return iter->second;
+    return trait_factory.obj( *this );
 }
 
 template<>
 bool string_id<mutation_branch>::is_valid() const
 {
-    return mutation_data.count( *this ) > 0;
+    return trait_factory.is_valid( *this );
 }
 
 template<>
@@ -49,8 +49,9 @@ bool string_id<Trait_group>::is_valid() const
     return trait_groups.count( *this );
 }
 
-static void extract_mod( JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int> &data,
-                         const std::string &mod_type, bool active, std::string type_key )
+static void extract_mod(
+    JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> &data,
+    const std::string &mod_type, bool active, const std::string &type_key )
 {
     int val = j.get_int( mod_type, 0 );
     if( val != 0 ) {
@@ -58,8 +59,9 @@ static void extract_mod( JsonObject &j, std::unordered_map<std::pair<bool, std::
     }
 }
 
-static void load_mutation_mods( JsonObject &jsobj, const std::string &member,
-                                std::unordered_map<std::pair<bool, std::string>, int> &mods )
+static void load_mutation_mods(
+    JsonObject &jsobj, const std::string &member,
+    std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> &mods )
 {
     if( jsobj.has_object( member ) ) {
         JsonObject j = jsobj.get_object( member );
@@ -101,6 +103,8 @@ void mutation_category_trait::load( JsonObject &jsobj )
     new_category.iv_sound = jsobj.get_bool( "iv_sound", false );
     new_category.raw_iv_sound_message = jsobj.get_string( "iv_sound_message",
                                         translate_marker( "You inject yoursel-arRGH!" ) );
+    new_category.raw_iv_sound_id = jsobj.get_string( "iv_sound_id", "shout" );
+    new_category.raw_iv_sound_variant = jsobj.get_string( "iv_sound_variant", "default" );
     new_category.iv_noise = jsobj.get_int( "iv_noise", 0 );
     new_category.iv_sleep = jsobj.get_bool( "iv_sleep", false );
     new_category.raw_iv_sleep_message = jsobj.get_string( "iv_sleep_message",
@@ -118,32 +122,42 @@ void mutation_category_trait::load( JsonObject &jsobj )
 
 std::string mutation_category_trait::name() const
 {
-    return _( raw_name.c_str() );
+    return _( raw_name );
 }
 
 std::string mutation_category_trait::mutagen_message() const
 {
-    return _( raw_mutagen_message.c_str() );
+    return _( raw_mutagen_message );
 }
 
 std::string mutation_category_trait::iv_message() const
 {
-    return _( raw_iv_message.c_str() );
+    return _( raw_iv_message );
 }
 
 std::string mutation_category_trait::iv_sound_message() const
 {
-    return _( raw_iv_sound_message.c_str() );
+    return _( raw_iv_sound_message );
+}
+
+std::string mutation_category_trait::iv_sound_id() const
+{
+    return _( raw_iv_sound_id );
+}
+
+std::string mutation_category_trait::iv_sound_variant() const
+{
+    return _( raw_iv_sound_variant );
 }
 
 std::string mutation_category_trait::iv_sleep_message() const
 {
-    return _( raw_iv_sleep_message.c_str() );
+    return _( raw_iv_sleep_message );
 }
 
 std::string mutation_category_trait::junkie_message() const
 {
-    return _( raw_junkie_message.c_str() );
+    return _( raw_junkie_message );
 }
 
 std::string mutation_category_trait::memorial_message_male() const
@@ -240,113 +254,163 @@ static social_modifiers load_mutation_social_mods( JsonObject &jo )
     return ret;
 }
 
-void mutation_branch::load( JsonObject &jsobj )
+void mutation_branch::load_trait( JsonObject &jo, const std::string &src )
 {
-    const trait_id id( jsobj.get_string( "id" ) );
-    mutation_branch &new_mut = mutation_data[id];
+    trait_factory.load( jo, src );
+}
 
-    JsonArray jsarr;
-    new_mut.raw_name = jsobj.get_string( "name" );
-    new_mut.raw_desc = jsobj.get_string( "description" );
-    new_mut.points = jsobj.get_int( "points" );
-    new_mut.visibility = jsobj.get_int( "visibility", 0 );
-    new_mut.ugliness = jsobj.get_int( "ugliness", 0 );
-    new_mut.startingtrait = jsobj.get_bool( "starting_trait", false );
-    new_mut.mixed_effect = jsobj.get_bool( "mixed_effect", false );
-    new_mut.activated = jsobj.get_bool( "active", false );
-    new_mut.starts_active = jsobj.get_bool( "starts_active", false );
-    new_mut.destroys_gear = jsobj.get_bool( "destroys_gear", false );
-    new_mut.allow_soft_gear = jsobj.get_bool( "allow_soft_gear", false );
-    new_mut.cost = jsobj.get_int( "cost", 0 );
-    new_mut.cooldown = jsobj.get_int( "time", 0 );
-    new_mut.hunger = jsobj.get_bool( "hunger", false );
-    new_mut.thirst = jsobj.get_bool( "thirst", false );
-    new_mut.fatigue = jsobj.get_bool( "fatigue", false );
-    new_mut.valid = jsobj.get_bool( "valid", true );
-    new_mut.purifiable = jsobj.get_bool( "purifiable", true );
-    if( jsobj.has_object( "spawn_item" ) ) {
-        JsonObject spawn_item = jsobj.get_object( "spawn_item" );
-        new_mut.spawn_item = spawn_item.get_string( "type", "" );
-        new_mut.raw_spawn_item_message = spawn_item.get_string( "message", "" );
+void mutation_branch::load( JsonObject &jo, const std::string & )
+{
+    mandatory( jo, was_loaded, "id", id );
+    mandatory( jo, was_loaded, "name", raw_name );
+    mandatory( jo, was_loaded, "description", raw_desc );
+    mandatory( jo, was_loaded, "points", points );
+
+    optional( jo, was_loaded, "visibility", visibility, 0 );
+    optional( jo, was_loaded, "ugliness", ugliness, 0 );
+    optional( jo, was_loaded, "starting_trait", startingtrait, false );
+    optional( jo, was_loaded, "mixed_effect", mixed_effect, false );
+    optional( jo, was_loaded, "active", activated, false );
+    optional( jo, was_loaded, "starts_active", starts_active, false );
+    optional( jo, was_loaded, "destroys_gear", destroys_gear, false );
+    optional( jo, was_loaded, "allow_soft_gear", allow_soft_gear, false );
+    optional( jo, was_loaded, "cost", cost, 0 );
+    optional( jo, was_loaded, "time", cooldown, 0 );
+    optional( jo, was_loaded, "hunger", hunger, false );
+    optional( jo, was_loaded, "thirst", thirst, false );
+    optional( jo, was_loaded, "fatigue", fatigue, false );
+    optional( jo, was_loaded, "valid", valid, true );
+    optional( jo, was_loaded, "purifiable", purifiable, true );
+
+    if( jo.has_object( "spawn_item" ) ) {
+        auto si = jo.get_object( "spawn_item" );
+        optional( si, was_loaded, "type", spawn_item );
+        optional( si, was_loaded, "message", raw_spawn_item_message );
     }
-    for( auto &s : jsobj.get_string_array( "initial_ma_styles" ) ) {
-        new_mut.initial_ma_styles.push_back( matype_id( s ) );
+    if( jo.has_object( "ranged_mutation" ) ) {
+        auto si = jo.get_object( "ranged_mutation" );
+        optional( si, was_loaded, "type", ranged_mutation );
+        optional( si, was_loaded, "message", raw_ranged_mutation_message );
+    }
+    optional( jo, was_loaded, "initial_ma_styles", initial_ma_styles );
+
+    if( jo.has_array( "bodytemp_modifiers" ) ) {
+        auto bodytemp_array = jo.get_array( "bodytemp_modifiers" );
+        bodytemp_min = bodytemp_array.get_int( 0 );
+        bodytemp_max = bodytemp_array.get_int( 1 );
     }
 
-    JsonArray bodytemp_array = jsobj.get_array( "bodytemp_modifiers" );
-    if( bodytemp_array.has_more() ) {
-        new_mut.bodytemp_min = bodytemp_array.get_int( 0 );
-        new_mut.bodytemp_max = bodytemp_array.get_int( 1 );
-    }
-    new_mut.bodytemp_sleep = jsobj.get_int( "bodytemp_sleep", 0 );
-    new_mut.threshold = jsobj.get_bool( "threshold", false );
-    new_mut.profession = jsobj.get_bool( "profession", false );
-    new_mut.debug = jsobj.get_bool( "debug", false );
+    optional( jo, was_loaded, "bodytemp_sleep", bodytemp_sleep, 0 );
+    optional( jo, was_loaded, "threshold", threshold, false );
+    optional( jo, was_loaded, "profession", profession, false );
+    optional( jo, was_loaded, "debug", debug, false );
+    optional( jo, was_loaded, "player_display", player_display, true );
 
-    auto vr = jsobj.get_array( "vitamin_rates" );
+    JsonArray vr = jo.get_array( "vitamin_rates" );
+
     while( vr.has_more() ) {
         auto pair = vr.next_array();
-        new_mut.vitamin_rates.emplace( vitamin_id( pair.get_string( 0 ) ),
-                                       time_duration::from_turns( pair.get_int( 1 ) ) );
+        vitamin_rates.emplace( vitamin_id( pair.get_string( 0 ) ),
+                               time_duration::from_turns( pair.get_int( 1 ) ) );
     }
 
-    new_mut.healing_awake = jsobj.get_float( "healing_awake", 0.0f );
-    new_mut.healing_resting = jsobj.get_float( "healing_resting", 0.0f );
-    new_mut.hp_modifier = jsobj.get_float( "hp_modifier", 0.0f );
-    new_mut.hp_modifier_secondary = jsobj.get_float( "hp_modifier_secondary", 0.0f );
-    new_mut.hp_adjustment = jsobj.get_float( "hp_adjustment", 0.0f );
-    new_mut.stealth_modifier = jsobj.get_float( "stealth_modifier", 0.0f );
-
-    new_mut.metabolism_modifier = jsobj.get_float( "metabolism_modifier", 0.0f );
-    new_mut.thirst_modifier = jsobj.get_float( "thirst_modifier", 0.0f );
-    new_mut.fatigue_modifier = jsobj.get_float( "fatigue_modifier", 0.0f );
-    new_mut.fatigue_regen_modifier = jsobj.get_float( "fatigue_regen_modifier", 0.0f );
-
-    new_mut.stamina_regen_modifier = jsobj.get_float( "stamina_regen_modifier", 0.0f );
-
-    if( jsobj.has_object( "social_modifiers" ) ) {
-        JsonObject jo = jsobj.get_object( "social_modifiers" );
-        new_mut.social_mods = load_mutation_social_mods( jo );
+    auto vam = jo.get_array( "vitamins_absorb_multi" );
+    while( vam.has_more() ) {
+        auto pair = vam.next_array();
+        std::map<vitamin_id, double> vit;
+        auto vit_array = pair.get_array( 1 );
+        // fill the inner map with vitamins
+        while( vit_array.has_more() ) {
+            auto vitamins = vit_array.next_array();
+            vit.emplace( vitamin_id( vitamins.get_string( 0 ) ), vitamins.get_float( 1 ) );
+        }
+        // assign the inner vitamin map to the material_id key
+        vitamin_absorb_multi.emplace( material_id( pair.get_string( 0 ) ), vit );
     }
 
-    load_mutation_mods( jsobj, "passive_mods", new_mut.mods );
+    optional( jo, was_loaded, "healing_awake", healing_awake, 0.0f );
+    optional( jo, was_loaded, "healing_resting", healing_resting, 0.0f );
+    optional( jo, was_loaded, "hp_modifier", hp_modifier, 0.0f );
+    optional( jo, was_loaded, "hp_modifier_secondary", hp_modifier_secondary, 0.0f );
+    optional( jo, was_loaded, "hp_adjustment", hp_adjustment, 0.0f );
+    optional( jo, was_loaded, "stealth_modifier", stealth_modifier, 0.0f );
+    optional( jo, was_loaded, "str_modifier", str_modifier, 0.0f );
+    optional( jo, was_loaded, "dodge_modifier", dodge_modifier, 0.0f );
+    optional( jo, was_loaded, "speed_modifier", speed_modifier, 1.0f );
+    optional( jo, was_loaded, "movecost_modifier", movecost_modifier, 1.0f );
+    optional( jo, was_loaded, "movecost_flatground_modifier", movecost_flatground_modifier, 1.0f );
+    optional( jo, was_loaded, "movecost_obstacle_modifier", movecost_obstacle_modifier, 1.0f );
+    optional( jo, was_loaded, "attackcost_modifier", attackcost_modifier, 1.0f );
+    optional( jo, was_loaded, "max_stamina_modifier", max_stamina_modifier, 1.0f );
+    optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0f );
+    optional( jo, was_loaded, "hearing_modifier", hearing_modifier, 1.0f );
+    optional( jo, was_loaded, "noise_modifier", noise_modifier, 1.0f );
+    optional( jo, was_loaded, "temperature_speed_modifier", temperature_speed_modifier, 0.0f );
+    optional( jo, was_loaded, "metabolism_modifier", metabolism_modifier, 0.0f );
+    optional( jo, was_loaded, "thirst_modifier", thirst_modifier, 0.0f );
+    optional( jo, was_loaded, "fatigue_modifier", fatigue_modifier, 0.0f );
+    optional( jo, was_loaded, "fatigue_regen_modifier", fatigue_regen_modifier, 0.0f );
+    optional( jo, was_loaded, "stamina_regen_modifier", stamina_regen_modifier, 0.0f );
+    optional( jo, was_loaded, "overmap_sight", overmap_sight, 0.0f );
+    optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, 1.0f );
+    optional( jo, was_loaded, "map_memory_capacity_multiplier", map_memory_capacity_multiplier, 1.0f );
+    optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, 1.0f );
+    optional( jo, was_loaded, "scent_modifier", scent_modifier, 1.0f );
+    optional( jo, was_loaded, "bleed_resist", bleed_resist, 0 );
+    optional( jo, was_loaded, "healthy_rate", healthy_rate, 1.0f );
+    optional( jo, was_loaded, "fat_to_max_hp", fat_to_max_hp, 0.0f );
+    optional( jo, was_loaded, "weakness_to_water", weakness_to_water, 0 );
+    optional( jo, was_loaded, "ignored_by", ignored_by );
+    optional( jo, was_loaded, "can_only_eat", can_only_eat );
+    optional( jo, was_loaded, "can_only_heal_with", can_only_heal_with );
+    optional( jo, was_loaded, "can_heal_with", can_heal_with );
+
+    optional( jo, was_loaded, "allowed_category", allowed_category );
+
+    optional( jo, was_loaded, "mana_modifier", mana_modifier, 0 );
+    optional( jo, was_loaded, "mana_multiplier", mana_multiplier, 1.0f );
+    optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, 1.0f );
+
+    if( jo.has_object( "social_modifiers" ) ) {
+        JsonObject sm = jo.get_object( "social_modifiers" );
+        social_mods = load_mutation_social_mods( sm );
+    }
+
+    load_mutation_mods( jo, "passive_mods", mods );
     /* Not currently supported due to inability to save active mutation state
     load_mutation_mods(jsobj, "active_mods", new_mut.mods); */
 
-    for( auto &t : jsobj.get_string_array( "prereqs" ) ) {
-        new_mut.prereqs.emplace_back( t );
+    optional( jo, was_loaded, "prereqs", prereqs );
+    optional( jo, was_loaded, "prereqs2", prereqs2 );
+    optional( jo, was_loaded, "threshreq", threshreq );
+    optional( jo, was_loaded, "cancels", cancels );
+    optional( jo, was_loaded, "changes_to", replacements );
+    optional( jo, was_loaded, "leads_to", additions );
+    optional( jo, was_loaded, "flags", flags );
+    optional( jo, was_loaded, "types", types );
+
+    JsonArray jsar = jo.get_array( "no_cbm_on_bp" );
+    while( jsar.has_more() ) {
+        std::string s = jsar.next_string();
+        no_cbm_on_bp.emplace( get_body_part_token( s ) );
     }
-    // Helps to be able to have a trait require more than one other trait
-    // (Individual prerequisite-lists are "OR", not "AND".)
-    // Traits should NOT appear in both lists for a given mutation, unless
-    // you want that trait to satisfy both requirements.
-    // These are additional to the first list.
-    for( auto &t : jsobj.get_string_array( "prereqs2" ) ) {
-        new_mut.prereqs2.emplace_back( t );
-    }
-    // Dedicated-purpose prerequisite slot for Threshold mutations
-    // Stuff like Huge might fit in more than one category post-threshold, so yeah
-    for( auto &t : jsobj.get_string_array( "threshreq" ) ) {
-        new_mut.threshreq.emplace_back( t );
-    }
-    for( auto &t : jsobj.get_string_array( "cancels" ) ) {
-        new_mut.cancels.emplace_back( t );
-    }
-    for( auto &t : jsobj.get_string_array( "changes_to" ) ) {
-        new_mut.replacements.emplace_back( t );
-    }
-    for( auto &t : jsobj.get_string_array( "leads_to" ) ) {
-        new_mut.additions.emplace_back( t );
-    }
-    new_mut.flags = jsobj.get_tags( "flags" );
-    new_mut.types = jsobj.get_tags( "types" );
-    jsarr = jsobj.get_array( "category" );
+
+
+    auto jsarr = jo.get_array( "category" );
     while( jsarr.has_more() ) {
         std::string s = jsarr.next_string();
-        new_mut.category.push_back( s );
+        category.push_back( s );
         mutations_category[s].push_back( trait_id( id ) );
     }
-    jsarr = jsobj.get_array( "wet_protection" );
+
+    jsarr = jo.get_array( "spells_learned" );
+    while( jsarr.has_more() ) {
+        JsonArray ja = jsarr.next_array();
+        const spell_id sp( ja.next_string() );
+        spells_learned.emplace( sp, ja.next_int() );
+    }
+
+    jsarr = jo.get_array( "wet_protection" );
     while( jsarr.has_more() ) {
         JsonObject jo = jsarr.next_object();
         std::string part_id = jo.get_string( "part" );
@@ -354,31 +418,31 @@ void mutation_branch::load( JsonObject &jsobj )
         int neutral = jo.get_int( "neutral", 0 );
         int good = jo.get_int( "good", 0 );
         tripoint protect = tripoint( ignored, neutral, good );
-        new_mut.protection[get_body_part_token( part_id )] = protect;
+        protection[get_body_part_token( part_id )] = protect;
     }
 
-    jsarr = jsobj.get_array( "encumbrance_always" );
+    jsarr = jo.get_array( "encumbrance_always" );
     while( jsarr.has_more() ) {
         JsonArray jo = jsarr.next_array();
         std::string part_id = jo.next_string();
         int enc = jo.next_int();
-        new_mut.encumbrance_always[get_body_part_token( part_id )] = enc;
+        encumbrance_always[get_body_part_token( part_id )] = enc;
     }
 
-    jsarr = jsobj.get_array( "encumbrance_covered" );
+    jsarr = jo.get_array( "encumbrance_covered" );
     while( jsarr.has_more() ) {
         JsonArray jo = jsarr.next_array();
         std::string part_id = jo.next_string();
         int enc = jo.next_int();
-        new_mut.encumbrance_covered[get_body_part_token( part_id )] = enc;
+        encumbrance_covered[get_body_part_token( part_id )] = enc;
     }
 
-    jsarr = jsobj.get_array( "restricts_gear" );
+    jsarr = jo.get_array( "restricts_gear" );
     while( jsarr.has_more() ) {
-        new_mut.restricts_gear.insert( get_body_part_token( jsarr.next_string() ) );
+        restricts_gear.insert( get_body_part_token( jsarr.next_string() ) );
     }
 
-    jsarr = jsobj.get_array( "armor" );
+    jsarr = jo.get_array( "armor" );
     while( jsarr.has_more() ) {
         JsonObject jo = jsarr.next_object();
         auto parts = jo.get_tags( "parts" );
@@ -395,35 +459,40 @@ void mutation_branch::load( JsonObject &jsobj )
         resistances res = load_resistances_instance( jo );
 
         for( body_part bp : bps ) {
-            new_mut.armor[ bp ] = res;
+            armor[ bp ] = res;
         }
     }
 
-    if( jsobj.has_array( "attacks" ) ) {
-        jsarr = jsobj.get_array( "attacks" );
+    if( jo.has_array( "attacks" ) ) {
+        jsarr = jo.get_array( "attacks" );
         while( jsarr.has_more() ) {
             JsonObject jo = jsarr.next_object();
-            new_mut.attacks_granted.emplace_back( load_mutation_attack( jo ) );
+            attacks_granted.emplace_back( load_mutation_attack( jo ) );
         }
-    } else if( jsobj.has_object( "attacks" ) ) {
-        JsonObject jo = jsobj.get_object( "attacks" );
-        new_mut.attacks_granted.emplace_back( load_mutation_attack( jo ) );
+    } else if( jo.has_object( "attacks" ) ) {
+        JsonObject attack = jo.get_object( "attacks" );
+        attacks_granted.emplace_back( load_mutation_attack( attack ) );
     }
 }
 
 std::string mutation_branch::spawn_item_message() const
 {
-    return _( raw_spawn_item_message.c_str() );
+    return _( raw_spawn_item_message );
+}
+
+std::string mutation_branch::ranged_mutation_message() const
+{
+    return _( raw_ranged_mutation_message );
 }
 
 std::string mutation_branch::name() const
 {
-    return _( raw_name.c_str() );
+    return raw_name.translated();
 }
 
 std::string mutation_branch::desc() const
 {
-    return _( raw_desc.c_str() );
+    return raw_desc.translated();
 }
 
 static void check_consistency( const std::vector<trait_id> &mvec, const trait_id &mid,
@@ -438,9 +507,8 @@ static void check_consistency( const std::vector<trait_id> &mvec, const trait_id
 
 void mutation_branch::check_consistency()
 {
-    for( const auto &m : mutation_data ) {
-        const auto &mid = m.first;
-        const auto &mdata = m.second;
+    for( const auto &mdata : get_all() ) {
+        const auto &mid = mdata.id;
         for( const auto &style : mdata.initial_ma_styles ) {
             if( !style.is_valid() ) {
                 debugmsg( "mutation %s refers to undefined martial art style %s", mid.c_str(), style.c_str() );
@@ -482,15 +550,15 @@ std::string mutation_branch::get_name( const trait_id &mutation_id )
     return mutation_id->name();
 }
 
-const mutation_branch::MutationMap &mutation_branch::get_all()
+const std::vector<mutation_branch> &mutation_branch::get_all()
 {
-    return mutation_data;
+    return trait_factory.get_all();
 }
 
 void mutation_branch::reset_all()
 {
     mutations_category.clear();
-    mutation_data.clear();
+    trait_factory.reset();
     trait_blacklist.clear();
     trait_groups.clear();
     trait_groups.emplace( trait_group::Trait_group_tag( "EMPTY_GROUP" ),
@@ -501,7 +569,7 @@ std::vector<std::string> dream::messages() const
 {
     std::vector<std::string> ret;
     for( const auto &msg : raw_messages ) {
-        ret.push_back( _( msg.c_str() ) );
+        ret.push_back( _( msg ) );
     }
     return ret;
 }
@@ -560,7 +628,8 @@ void mutation_branch::load_trait_group( JsonObject &jsobj )
     load_trait_group( jsobj, group_id, subtype );
 }
 
-Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid, bool is_collection )
+static Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid,
+        bool is_collection )
 {
     // NOTE: If the gid is already in the map, emplace will just return an iterator to it
     auto found = ( is_collection
@@ -569,18 +638,16 @@ Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid, bool 
     // Evidently, making the collection/distribution separation better has made the code for this check worse.
     if( is_collection ) {
         if( dynamic_cast<Trait_group_distribution *>( found->second.get() ) ) {
-            std::ostringstream buf;
-            buf << "item group \"" << gid.c_str() << "\" already defined with type \"distribution\"";
-            throw std::runtime_error( buf.str() );
+            throw std::runtime_error( string_format(
+                                          R"("mutation group "%s" already defined with type "distribution")", gid.str() ) );
         }
     } else {
         if( dynamic_cast<Trait_group_collection *>( found->second.get() ) ) {
-            std::ostringstream buf;
-            buf << "item group \"" << gid.c_str() << "\" already defined with type \"collection\"";
-            throw std::runtime_error( buf.str() );
+            throw std::runtime_error( string_format(
+                                          R"("mutation group "%s" already defined with type "collection")", gid.str() ) );
         }
     }
-    return *( found->second );
+    return *found->second;
 }
 
 void mutation_branch::load_trait_group( JsonArray &entries, const trait_group::Trait_group_tag &gid,
@@ -594,9 +661,7 @@ void mutation_branch::load_trait_group( JsonArray &entries, const trait_group::T
             JsonArray subarr = entries.next_array();
 
             trait_id id( subarr.get_string( 0 ) );
-            std::unique_ptr<Trait_creation_data> ptr(
-                new Single_trait_creator( id, subarr.get_int( 1 ) ) );
-            tg.add_entry( ptr );
+            tg.add_entry( std::make_unique<Single_trait_creator>( id, subarr.get_int( 1 ) ) );
             // Otherwise load new format {"trait": ... } or {"group": ...}
         } else {
             JsonObject subobj = entries.next_object();
@@ -612,9 +677,9 @@ void mutation_branch::load_trait_group( JsonObject &jsobj, const trait_group::Tr
         jsobj.throw_error( "unknown trait group type", "subtype" );
     }
 
-    Trait_group &tg = make_group_or_throw( gid, ( subtype == "collection" || subtype == "old" ) );
+    Trait_group &tg = make_group_or_throw( gid, subtype == "collection" || subtype == "old" );
 
-    // TODO(sm): Looks like this makes the new code backwards-compatible with the old format. Great if so!
+    // TODO: (sm) Looks like this makes the new code backwards-compatible with the old format. Great if so!
     if( subtype == "old" ) {
         JsonArray traits = jsobj.get_array( "traits" );
         while( traits.has_more() ) {
@@ -624,7 +689,7 @@ void mutation_branch::load_trait_group( JsonObject &jsobj, const trait_group::Tr
         return;
     }
 
-    // TODO(sm): Taken from item_factory.cpp almost verbatim. Ensure that these work!
+    // TODO: (sm) Taken from item_factory.cpp almost verbatim. Ensure that these work!
     if( jsobj.has_member( "entries" ) ) {
         JsonArray traits = jsobj.get_array( "entries" );
         while( traits.has_more() ) {
@@ -669,10 +734,10 @@ void mutation_branch::add_entry( Trait_group &tg, JsonObject &obj )
     JsonArray jarr;
 
     if( obj.has_member( "collection" ) ) {
-        ptr.reset( new Trait_group_collection( probability ) );
+        ptr = std::make_unique<Trait_group_collection>( probability );
         jarr = obj.get_array( "collection" );
     } else if( obj.has_member( "distribution" ) ) {
-        ptr.reset( new Trait_group_distribution( probability ) );
+        ptr = std::make_unique<Trait_group_distribution>( probability );
         jarr = obj.get_array( "distribution" );
     }
 
@@ -682,29 +747,30 @@ void mutation_branch::add_entry( Trait_group &tg, JsonObject &obj )
             JsonObject job2 = jarr.next_object();
             add_entry( tg2, job2 );
         }
-        tg.add_entry( ptr );
+        tg.add_entry( std::move( ptr ) );
         return;
     }
 
     if( obj.has_member( "trait" ) ) {
         trait_id id( obj.get_string( "trait" ) );
-        ptr.reset( new Single_trait_creator( id, probability ) );
+        ptr = std::make_unique<Single_trait_creator>( id, probability );
     } else if( obj.has_member( "group" ) ) {
-        ptr.reset( new Trait_group_creator( trait_group::Trait_group_tag( obj.get_string( "group" ) ),
-                                            probability ) );
+        ptr = std::make_unique<Trait_group_creator>( trait_group::Trait_group_tag(
+                    obj.get_string( "group" ) ),
+                probability );
     }
 
     if( !ptr ) {
         return;
     }
 
-    tg.add_entry( ptr );
+    tg.add_entry( std::move( ptr ) );
 }
 
 std::shared_ptr<Trait_group> mutation_branch::get_group( const trait_group::Trait_group_tag &gid )
 {
     auto found = trait_groups.find( gid );
-    return ( found != trait_groups.end() ) ? found->second : nullptr;
+    return found != trait_groups.end() ? found->second : nullptr;
 }
 
 std::vector<trait_group::Trait_group_tag> mutation_branch::get_all_group_names()

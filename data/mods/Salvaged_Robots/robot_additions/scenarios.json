@@ -19,6 +19,6 @@
     "type": "scenario",
     "ident": "lab_chal",
     "copy-from": "lab_chal",
-    "extend": { "professions": [ "robo_hacker" ] }
+    "extend": { "professions": [ "robo_hacker", "robo_expert", "robo_prodigy" ] }
   }
 ]

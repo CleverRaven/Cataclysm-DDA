@@ -7,14 +7,7 @@
     "name_plural": "Mosin-Nagant M44",
     "description": "The Model 44 is the carbine sized variant of the standard 1891/30.  It has a shorter barrel, therefore it is weaker than the 1891/30, but easier to carry.",
     "price": 23000,
-    "relative": {
-      "weight": -500,
-      "volume": -2,
-      "range": -6,
-      "ranged_damage": -3,
-      "dispersion": 60,
-      "barrel_length": -2
-    }
+    "relative": { "weight": -500, "volume": -2, "range": -6, "ranged_damage": -3, "dispersion": 60, "barrel_length": -2 }
   },
   {
     "id": "mosin44_ebr",
@@ -25,7 +18,19 @@
     "description": "This carbine packs the classic Mosin-Nagant model 44 action in a modern-day stock capable of accepting modifications.",
     "material": [ "steel", "plastic" ],
     "color": "light_gray",
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "relative": { "price": 10000 }
   },
   {
@@ -35,8 +40,8 @@
     "name": "Mosin-Nagant 1891/30",
     "name_plural": "Mosin-Nagant 1891/30",
     "description": "The Mosin-Nagant 1891/30 is a bolt action, internal magazine-fed, military rifle, developed by the Russian Empire, and later used and perfected by the Soviet Union.",
-    "weight": 4000,
-    "volume": 12,
+    "weight": "4000 g",
+    "volume": "3 L",
     "price": 19000,
     "to_hit": -1,
     "bashing": 12,
@@ -48,7 +53,15 @@
     "durability": 10,
     "clip_size": 5,
     "barrel_length": 4,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ]
+    ],
     "magazines": [ [ "762R", [ "762R_clip" ] ] ],
     "flags": [ "RELOAD_ONE" ]
   },
@@ -61,7 +74,19 @@
     "description": "This Mosin-Nagant has exchanged the classic wooden stock for a modern synthetic model, carefully balanced to the same weight and handling yet offering support for modern accessories.",
     "material": [ "steel", "plastic" ],
     "color": "light_gray",
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
     "relative": { "price": 10000 }
   }
 ]

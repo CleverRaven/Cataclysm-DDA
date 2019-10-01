@@ -1,0 +1,8 @@
+[
+  {
+    "id": "BGSS_NO_PAST_2_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "To be honest...  I don't really remember.  I remember vague details of my life before the world was like this, but <the_cataclysm> itself?  It's all a blur.  I don't know how I got where I am now, or how any of this happened.  I think something pretty bad must have happened to me.  Or maybe I was just hit in the head really hard.  Or both.  Both seems likely.",
+    "responses": [ { "text": "Huh.", "topic": "TALK_FRIEND" } ]
+  }
+]

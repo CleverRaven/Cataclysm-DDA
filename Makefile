@@ -21,7 +21,9 @@
 # Win32 (non-Cygwin)
 #   Run: make NATIVE=win32
 # OS X
-#   Run: make NATIVE=osx
+#   Run: make NATIVE=osx OSX_MIN=10.12
+#     It is highly recommended to supply OSX_MIN > 10.11
+#     otherwise optimizations are automatically disabled with -O0
 
 # Build types:
 # Debug (no optimizations)
@@ -53,8 +55,6 @@
 #  make AUTO_BUILD_PREFIX=1
 # Install to system directories.
 #  make install
-# Enable lua support. Required only for full-fledged mods.
-#  make LUA=1
 # Use user's XDG base directories for save files and configs.
 #  make USE_XDG_DIR=1
 # Use user's home directory for save files.
@@ -63,12 +63,10 @@
 #  make DYNAMIC_LINKING=1
 # Use MSYS2 as the build environment on Windows
 #  make MSYS2=1
-# Astyle the source files that aren't blacklisted. (maintain current level of styling)
+# Astyle all source files.
 #  make astyle
-# Check if source files are styled properly (regression test, astyle_blacklist tracks un-styled files)
+# Check if source files are styled properly.
 #  make astyle-check
-# Astyle all source files using the current rules (don't PR this, it's too many changes at once).
-#  make astyle-all
 # Style the whitelisted json files (maintain the current level of styling).
 #  make style-json
 # Style all json files using the current rules (don't PR this, it's too many changes at once).
@@ -82,20 +80,18 @@
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
-# PROFILE is for use with gprof or a similar program -- don't bother generally
-# RELEASE is flags for release builds, this disables some debugging flags and
-# enforces build failure when warnings are encountered.
-# We want to error on everything to make sure we don't check in code with new warnings.
-RELEASE_FLAGS = -Werror
-WARNINGS = -Wall -Wextra
+# PROFILE is for use with gprof or a similar program -- don't bother generally.
+# RELEASE_FLAGS is flags for release builds.
+RELEASE_FLAGS =
+WARNINGS = \
+  -Werror -Wall -Wextra \
+  -Wmissing-declarations \
+  -Wold-style-cast \
+  -Woverloaded-virtual \
+  -Wpedantic
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
-ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-  DEBUG =
-else
-  DEBUG = -D_GLIBCXX_DEBUG
-endif
 #PROFILE = -pg
 #OTHERS = -O3
 #DEFINES = -DNDEBUG
@@ -118,7 +114,7 @@ endif
 # Explicitly let 'char' to be 'signed char' to fix #18776
 OTHERS += -fsigned-char
 
-VERSION = 0.C
+VERSION = 0.D
 
 TARGET_NAME = cataclysm
 TILES_TARGET_NAME = $(TARGET_NAME)-tiles
@@ -136,10 +132,6 @@ CHKJSON_BIN = $(BUILD_PREFIX)chkjson
 BINDIST_DIR = $(BUILD_PREFIX)bindist
 BUILD_DIR = $(CURDIR)
 SRC_DIR = src
-LUA_DIR = lua
-LUASRC_DIR = $(SRC_DIR)/$(LUA_DIR)
-# if you have LUAJIT installed, try make LUA_BINARY=luajit for extra speed
-LUA_BINARY = lua
 LOCALIZE = 1
 ASTYLE_BINARY = astyle
 
@@ -156,6 +148,11 @@ endif
 # Enable running tests by default
 ifndef RUNTESTS
   RUNTESTS = 1
+endif
+
+# Auto-detect MSYS2
+ifdef MSYSTEM
+  MSYS2 = 1
 endif
 
 # Enable backtrace by default
@@ -180,7 +177,7 @@ W32ODIR = $(BUILD_PREFIX)objwin
 W32ODIRTILES = $(W32ODIR)/tiles
 
 ifdef AUTO_BUILD_PREFIX
-  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-)$(if $(SANITIZE),sanitize-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(LUA),lua-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
+  BUILD_PREFIX = $(if $(RELEASE),release-)$(if $(DEBUG_SYMBOLS),symbol-)$(if $(TILES),tiles-)$(if $(SOUND),sound-)$(if $(LOCALIZE),local-)$(if $(BACKTRACE),back-)$(if $(SANITIZE),sanitize-)$(if $(MAPSIZE),map-$(MAPSIZE)-)$(if $(USE_XDG_DIR),xdg-)$(if $(USE_HOME_DIR),home-)$(if $(DYNAMIC_LINKING),dynamic-)$(if $(MSYS2),msys2-)
   export BUILD_PREFIX
 endif
 
@@ -315,9 +312,13 @@ ifndef RELEASE
 endif
 
 ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-  OTHERS += -std=gnu++11
+  OTHERS += -std=gnu++14
 else
-  OTHERS += -std=c++11
+  OTHERS += -std=c++14
+endif
+
+ifeq ($(CYGWIN),1)
+WARNINGS += -Wimplicit-fallthrough=0
 endif
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
@@ -501,41 +502,6 @@ ifeq ($(SOUND), 1)
   CXXFLAGS += -DSDL_SOUND
 endif
 
-ifdef LUA
-  ifeq ($(TARGETSYSTEM),WINDOWS)
-    ifeq ($(MSYS2),1)
-      LUA_USE_PKGCONFIG := 1
-    else
-      # Windows expects to have lua unpacked at a specific location
-      LUA_LIBS := -llua
-    endif
-  else
-    LUA_USE_PKGCONFIG := 1
-  endif
-
-  ifdef OSXCROSS
-    LUA_LIBS = -L$(LIBSDIR)/lua/lib -llua -lm
-    LUA_CFLAGS = -I$(LIBSDIR)/lua/include
-  else
-    ifdef LUA_USE_PKGCONFIG
-      # On unix-like systems, use pkg-config to find lua
-      LUA_CANDIDATES = lua5.3 lua5.2 lua-5.3 lua-5.2 lua5.1 lua-5.1 lua $(LUA_BINARY)
-      LUA_FOUND = $(firstword $(foreach lua,$(LUA_CANDIDATES),\
-          $(shell if $(PKG_CONFIG) --silence-errors --exists $(lua); then echo $(lua);fi)))
-      LUA_PKG = $(if $(LUA_FOUND),$(LUA_FOUND),$(error "Lua not found by $(PKG_CONFIG), install it or make without 'LUA=1'"))
-      LUA_LIBS := $(shell $(PKG_CONFIG) --silence-errors --libs $(LUA_PKG))
-      LUA_CFLAGS := $(shell $(PKG_CONFIG) --silence-errors --cflags $(LUA_PKG))
-    endif
-  endif
-
-  LDFLAGS += $(LUA_LIBS)
-  CXXFLAGS += $(LUA_CFLAGS)
-
-  CXXFLAGS += -DLUA
-  LUA_DEPENDENCIES = $(LUASRC_DIR)/catabindings.cpp
-  BINDIST_EXTRAS  += $(LUA_DIR)
-endif
-
 ifdef SDL
   TILES = 1
 endif
@@ -713,11 +679,25 @@ ifeq ($(MSYS2),1)
 endif
 
 # Enumerations of all the source files and headers.
-SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
-HEADERS = $(wildcard $(SRC_DIR)/*.h)
-TESTSRC = $(wildcard tests/*.cpp)
-TESTHDR = $(wildcard tests/*.h)
-TOOLSRC = $(wildcard tools/json_tools/format/*.[ch]*)
+SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
+HEADERS := $(wildcard $(SRC_DIR)/*.h)
+TESTSRC := $(wildcard tests/*.cpp)
+TESTHDR := $(wildcard tests/*.h)
+JSON_FORMATTER_SOURCES := tools/format/format.cpp src/json.cpp
+CHKJSON_SOURCES := src/chkjson/chkjson.cpp src/json.cpp
+CLANG_TIDY_PLUGIN_SOURCES := \
+  $(wildcard tools/clang-tidy-plugin/*.cpp tools/clang-tidy-plugin/*/*.cpp)
+TOOLHDR := $(wildcard tools/*/*.h)
+# Using sort here because it has the side-effect of deduplicating the list
+ASTYLE_SOURCES := $(sort \
+  $(SOURCES) \
+  $(HEADERS) \
+  $(TESTSRC) \
+  $(TESTHDR) \
+  $(JSON_FORMATTER_SOURCES) \
+  $(CHKJSON_SOURCES) \
+  $(CLANG_TIDY_PLUGIN_SOURCES) \
+  $(TOOLHDR))
 
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
 ifeq ($(TARGETSYSTEM),WINDOWS)
@@ -796,15 +776,13 @@ endif
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
 	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
-.PHONY: version json-verify
+.PHONY: version
 version:
 	@( VERSION_STRING=$(VERSION) ; \
             [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --dirty --match "[0-9A-Z]*.[0-9A-Z]*" ) && VERSION_STRING=$$GITVERSION ; \
             [ -e "$(SRC_DIR)/version.h" ] && OLDVERSION=$$(grep VERSION $(SRC_DIR)/version.h|cut -d '"' -f2) ; \
             if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then echo "#define VERSION \"$$VERSION_STRING\"" | tee $(SRC_DIR)/version.h ; fi \
          )
-json-verify:
-	$(LUA_BINARY) lua/json_verifier.lua
 
 # Unconditionally create the object dir on every invocation.
 $(shell mkdir -p $(ODIR))
@@ -819,16 +797,11 @@ src/version.h: version
 
 src/version.cpp: src/version.h
 
-$(LUASRC_DIR)/catabindings.cpp: $(LUA_DIR)/class_definitions.lua $(LUASRC_DIR)/generate_bindings.lua
-	cd $(LUASRC_DIR) && $(LUA_BINARY) generate_bindings.lua
-
-$(SRC_DIR)/catalua.cpp: $(LUA_DEPENDENCIES)
-
 localization:
 	lang/compile_mo.sh $(LANGUAGES)
 
-$(CHKJSON_BIN): src/chkjson/chkjson.cpp src/json.cpp
-	$(CXX) $(CXXFLAGS) -Isrc/chkjson -Isrc src/chkjson/chkjson.cpp src/json.cpp -o $(CHKJSON_BIN)
+$(CHKJSON_BIN): $(CHKJSON_SOURCES)
+	$(CXX) $(CXXFLAGS) -Isrc/chkjson -Isrc $(CHKJSON_SOURCES) -o $(CHKJSON_BIN)
 
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
@@ -838,7 +811,7 @@ clean: clean-tests
 	rm -rf *$(TILES_TARGET_NAME).exe *$(TARGET_NAME).exe *$(TARGET_NAME).a
 	rm -rf *obj *objwin
 	rm -rf *$(BINDIST_DIR) *cataclysmdda-*.tar.gz *cataclysmdda-*.zip
-	rm -f $(SRC_DIR)/version.h $(LUASRC_DIR)/catabindings.cpp
+	rm -f $(SRC_DIR)/version.h
 	rm -f $(CHKJSON_BIN)
 
 distclean:
@@ -875,12 +848,6 @@ endif
 ifdef SOUND
 	cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)
 endif
-ifdef LUA
-	mkdir -p $(DATA_PREFIX)/lua
-	install --mode=644 lua/autoexec.lua $(DATA_PREFIX)/lua
-	install --mode=644 lua/log.lua $(DATA_PREFIX)/lua
-	install --mode=644 lua/class_definitions.lua $(DATA_PREFIX)/lua
-endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
                    LICENSE.txt -t $(DATA_PREFIX)
 	mkdir -p $(LOCALE_DIR)
@@ -911,12 +878,6 @@ ifdef TILES
 endif
 ifdef SOUND
 	cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)
-endif
-ifdef LUA
-	mkdir -p $(DATA_PREFIX)/lua
-	install --mode=644 lua/autoexec.lua $(DATA_PREFIX)/lua
-	install --mode=644 lua/log.lua $(DATA_PREFIX)/lua
-	install --mode=644 lua/class_definitions.lua $(DATA_PREFIX)/lua
 endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
                    LICENSE.txt -t $(DATA_PREFIX)
@@ -977,11 +938,6 @@ ifeq ($(LOCALIZE), 1)
 	LIBINTL=$$($(CROSS)otool -L $(APPTARGET) | grep libintl | sed -n 's/\(.*\.dylib\).*/\1/p') && if [ -f $$LIBINTL ]; then cp $$LIBINTL $(APPRESOURCESDIR)/; fi; \
 		if [ ! -z "$$OSXCROSS" ]; then LIBINTL=$$(basename $$LIBINTL) && if [ ! -z "$$LIBINTL" ]; then cp $(LIBSDIR)/gettext/lib/$$LIBINTL $(APPRESOURCESDIR)/; fi; fi
 endif
-ifdef LUA
-	cp -R lua $(APPRESOURCESDIR)/
-	LIBLUA=$$($(CROSS)otool -L $(APPTARGET) | grep liblua | sed -n 's/\(.*\.dylib\).*/\1/p') && if [ -f $$LIBLUA ]; then cp $$LIBLUA $(APPRESOURCESDIR)/; fi; \
-		if [ ! -z "$$OSXCROSS" ]; then LIBLUA=$$(basename $$LIBLUA) && if [ ! -z "$$LIBLUA" ]; then cp $(LIBSDIR)/lua/lib/$$LIBLUA $(APPRESOURCESDIR)/; fi; fi
-endif # ifdef LUA
 ifdef TILES
 ifdef SOUND
 	cp -R data/sound $(APPDATADIR)
@@ -1037,7 +993,7 @@ ifdef LANGUAGES
 endif
 	$(BINDIST_CMD)
 
-export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS
+export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM
 
 ctags: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
 	ctags $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
@@ -1046,19 +1002,12 @@ etags: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
 	etags $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
 	find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
 
-# Generate a list of files to check based on the difference between the blacklist and the existing source files.
-ASTYLED_WHITELIST = $(filter-out $(shell cat astyle_blacklist), $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR) $(TOOLSRC) )
-
-astyle: $(ASTYLED_WHITELIST)
-	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLED_WHITELIST)
-
-astyle-all: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR) $(TOOLSRC)
-	$(ASTYLE_BINARY) --options=.astylerc -n $(SOURCES) $(HEADERS)
-	$(ASTYLE_BINARY) --options=.astylerc -n $(TESTSRC) $(TESTHDR)
+astyle: $(ASTYLE_SOURCES)
+	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
 
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
-  ASTYLE_CHECK=$(shell LC_ALL=C $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q $(ASTYLED_WHITELIST))
+  ASTYLE_CHECK=$(shell LC_ALL=C $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q $(ASTYLE_SOURCES))
 endif
 
 astyle-check:
@@ -1070,23 +1019,28 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-JSON_FILES = $(shell find data -name *.json | sed "s|^\./||")
+JSON_FILES = $(shell find data -name "*.json" | sed "s|^\./||")
 JSON_WHITELIST = $(filter-out $(shell cat json_blacklist), $(JSON_FILES))
+ifeq ($(MSYS2), 1)
+  JSON_FORMATTER_BIN=tools/format/json_formatter.exe
+else
+  JSON_FORMATTER_BIN=tools/format/json_formatter.cgi
+endif
 
 style-json: $(JSON_WHITELIST)
 
 $(JSON_WHITELIST): json_blacklist json_formatter
 ifndef CROSS
-	@tools/format/json_formatter.cgi $@
+	@$(JSON_FORMATTER_BIN) $@
 else
 	@echo Cannot run json formatter in cross compiles.
 endif
 
 style-all-json: json_formatter
-	find data -name "*.json" -print0 | xargs -0 -L 1 tools/format/json_formatter.cgi
+	find data -name "*.json" -print0 | xargs -0 -L 1 $(JSON_FORMATTER_BIN)
 
-json_formatter: tools/format/format.cpp src/json.cpp
-	$(CXX) $(CXXFLAGS) -Itools/format -Isrc tools/format/format.cpp src/json.cpp -o tools/format/json_formatter.cgi
+json_formatter: $(JSON_FORMATTER_SOURCES)
+	$(CXX) $(CXXFLAGS) -Itools/format -Isrc $(JSON_FORMATTER_SOURCES) -o $(JSON_FORMATTER_BIN)
 
 tests: version $(BUILD_PREFIX)cataclysm.a
 	$(MAKE) -C tests
@@ -1098,7 +1052,9 @@ clean-tests:
 	$(MAKE) -C tests clean
 
 validate-pr:
+ifneq ($(CYGWIN),1)
 	@build-scripts/validate_pr_in_jenkins
+endif
 
 .PHONY: tests check ctags etags clean-tests install lint validate-pr
 

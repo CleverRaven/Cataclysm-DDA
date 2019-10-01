@@ -1,0 +1,109 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_scientist_death_drops",
+    "entries": [
+      { "group": "lab_shoes", "damage": [ 1, 4 ] },
+      { "group": "lab_torso", "damage": [ 1, 4 ] },
+      { "group": "lab_pants", "damage": [ 1, 4 ] },
+      { "group": "underwear", "damage": [ 1, 4 ] },
+      {
+        "collection": [
+          { "group": "harddrugs", "prob": 25 },
+          { "group": "chem_lab", "prob": 60 },
+          { "group": "teleport", "prob": 6 },
+          { "group": "goo", "prob": 20 },
+          { "group": "cloning_vat", "prob": 1 },
+          { "group": "dissection", "prob": 50 },
+          { "group": "electronics", "prob": 40 },
+          { "group": "bionics", "prob": 10 },
+          { "group": "radio", "prob": 15 },
+          { "group": "textbooks", "prob": 25 }
+        ]
+      },
+      { "item": "cash_card", "charges-min": 0, "charges-max": 50000 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bionics_sci",
+    "subtype": "distribution",
+    "//": "High-tech bionics, handy for the harried researcher.  They get access to classified toys too, but only stuff a scientist would have use for.",
+    "items": [
+      [ "burnt_out_bionic", 60 ],
+      [ "bio_batteries", 30 ],
+      [ "bio_power_storage", 30 ],
+      [ "bio_metabolics", 5 ],
+      [ "bio_ethanol", 5 ],
+      [ "bio_ups", 10 ],
+      [ "bio_torsionratchet", 30 ],
+      [ "bio_tools", 10 ],
+      [ "bio_flashlight", 30 ],
+      [ "bio_lighter", 25 ],
+      [ "bio_magnet", 20 ],
+      [ "bio_memory", 15 ],
+      [ "bio_ears", 10 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_eye_optic", 10 ],
+      [ "bio_eye_enhancer", 5 ],
+      [ "bio_dex_enhancer", 5 ],
+      [ "bio_int_enhancer", 10 ],
+      [ "bio_night_vision", 1 ],
+      [ "bio_infrared", 2 ],
+      [ "bio_scent_vision", 5 ],
+      [ "bio_gills", 5 ],
+      [ "bio_climate", 2 ],
+      [ "bio_heatsink", 2 ],
+      [ "bio_blood_filter", 10 ],
+      [ "bio_fingerhack", 2 ],
+      [ "bio_lockpick", 2 ],
+      [ "bio_surgical_razor", 8 ],
+      [ "bio_nanobots", 15 ],
+      [ "bio_blood_anal", 10 ],
+      [ "bio_geiger", 15 ],
+      [ "bio_radscrubber", 10 ],
+      [ "bio_watch", 40 ],
+      [ "bio_leukocyte", 15 ],
+      [ "bio_syringe", 2 ],
+      [ "bio_jointservo", 10 ],
+      [ "bio_soporific", 2 ]
+    ]
+  },
+  {
+    "id": "mon_zombie_labsecurity_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 40,
+    "entries": [
+      { "group": "cop_gear", "prob": 50, "damage": [ 0, 2 ] },
+      { "group": "cop_gloves", "prob": 30, "damage": [ 1, 4 ] },
+      { "group": "security_pants", "damage": [ 1, 4 ] },
+      { "group": "security_shoes", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "security_torso", "prob": 70, "damage": [ 1, 4 ] },
+      { "group": "cop_weapons", "prob": 20, "damage": [ 0, 1 ] },
+      { "group": "underwear", "damage": [ 1, 4 ] },
+      { "group": "clothing_glasses", "prob": 5 },
+      { "group": "clothing_watch", "prob": 5 },
+      { "item": "cash_card", "charges-min": 0, "charges-max": 15000 }
+    ]
+  },
+  {
+    "id": "security_pants",
+    "type": "item_group",
+    "items": [ [ "technician_pants_gray", 75 ], [ "leather_belt", 30 ] ]
+  },
+  {
+    "id": "security_shoes",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "boots", 70 ], [ "boots_steel", 50 ], [ "boots_hiking", 20 ], [ "boots_combat", 10 ] ]
+  },
+  {
+    "id": "security_torso",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "dress_shirt", 50 ], [ "technician_shirt_gray", 45 ], [ "jacket_windbreaker", 40 ] ]
+  }
+]

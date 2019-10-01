@@ -18,7 +18,7 @@
     "ammo": "9mm",
     "clip_size": 5,
     "reload": 100,
-    "magazines": []
+    "magazines": [  ]
   },
   {
     "id": "hk_mp5",
@@ -64,7 +64,8 @@
     "name": "pump action shotgun",
     "description": "A pump-action single-barreled shotgun.  It holds six shells in an internal tubular magazine",
     "clip_size": 6,
-    "reload": 100
+    "reload": 100,
+    "magazines": [ [ "shot", [ "shot_speedloader6" ] ] ]
   },
   {
     "id": "m1014",
@@ -106,10 +107,7 @@
     "name": "Beretta ARX-160",
     "description": "The Beretta ARX-160 was a Phase II contender in the United States Army Individual Carbine competition to replace the M4 carbine.  It failed to replace it, but it is widely used by military all around the world.",
     "ammo": "308",
-    "magazines": [
-      [ "223", [ "stanag30", "stanag10", "stanag50" ] ],
-      [ "308", [ "akmmag", "akmbigmag", "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag10", "stanag50" ] ], [ "308", [ "akmmag", "akmbigmag", "g3mag", "g3bigmag" ] ] ]
   },
   {
     "id": "m249",
@@ -136,7 +134,7 @@
     "description": "Despite the name, this is a huge automatic weapon meant to be mounted on vehicles; it's only miniature compared to a cannon.  It has six barrels that rotate to keep from overheating.  It holds up to five hundred rounds of belted rifle ammo, and requires a UPS to power its electric motor.",
     "clip_size": 500,
     "reload": 200,
-    "magazines": []
+    "magazines": [  ]
   },
   {
     "id": "savage_111f",
@@ -158,7 +156,7 @@
     "ammo": "308",
     "clip_size": 10,
     "reload": 100,
-    "magazines": [],
+    "magazines": [  ],
     "flags": [ "RELOAD_ONE" ]
   },
   {

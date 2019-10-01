@@ -1,0 +1,5 @@
+[
+    { ref: "gcc.stdlib.imp" },
+    { ref: "vs.stdlib.imp" },
+    { ref: "sdl.imp" },
+]

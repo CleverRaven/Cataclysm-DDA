@@ -2,6 +2,8 @@
   {
     "type": "item_group",
     "id": "everyday_gear",
+    "ammo": 75,
+    "magazine": 100,
     "//": "Small common items carried in a person's pockets, purse, etc. Cash card at roughly 50%.",
     "items": [
       { "item": "cash_card", "prob": 1600, "charges-min": 0, "charges-max": 50000 },
@@ -43,7 +45,7 @@
       [ "portable_game", 50 ],
       [ "vibrator", 5 ],
       [ "gum", 50 ],
-      [ "battery", 50 ],
+      { "group": "ammo_pocket_batteries", "prob": 50 },
       [ "wrapper", 50 ],
       [ "string_6", 50 ],
       [ "pocket_firstaid", 5 ],
@@ -75,6 +77,8 @@
       [ "helmet_riot", 5 ],
       [ "holo_sight", 20 ],
       [ "holster", 15 ],
+      [ "bandolier_shotgun", 15 ],
+      [ "torso_bandolier_shotgun", 8 ],
       [ "kevlar", 20 ],
       [ "knife_combat", 10 ],
       [ "l_car_223_kit", 5 ],
@@ -130,9 +134,26 @@
       { "group": "tools_lighting", "prob": 50 },
       { "group": "tools_survival", "prob": 100 },
       { "group": "tools_tailor", "prob": 20 },
-      [ "battery", 10 ],
+      { "group": "ammo_pocket_batteries_full", "prob": 10 },
       [ "duct_tape", 10 ],
       [ "survivormap", 5 ]
+    ]
+  },
+  {
+    "id": "gear_homeless",
+    "type": "item_group",
+    "//": "Regular items for the homeless.",
+    "items": [
+      { "group": "trash", "prob": 30 },
+      { "group": "donated_clothes", "prob": 25 },
+      { "group": "gear_survival", "prob": 5 },
+      { "group": "contraband", "prob": 20 },
+      { "group": "prison_textile", "prob": 7, "damage": [ 1, 2 ] },
+      { "group": "novels", "prob": 10 },
+      { "group": "misc_smoking", "prob": 10 },
+      { "group": "stoner", "prob": 5 },
+      { "group": "cannedfood", "prob": 10, "repeat": [ 1, 3 ] },
+      { "item": "drink_hobo", "prob": 1 }
     ]
   }
 ]

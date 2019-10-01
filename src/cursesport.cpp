@@ -1,13 +1,15 @@
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#if defined(TILES) || defined(_WIN32)
 #include "cursesport.h"
+
+#include <cstdint>
+#include <memory>
 
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "game_ui.h"
 #include "output.h"
-
-#include <stdexcept>
+#include "wcwidth.h"
 
 /**
  * Whoever cares, btw. not my base design, but this is how it works:
@@ -34,26 +36,25 @@
 catacurses::window catacurses::stdscr;
 std::array<cata_cursesport::pairs, 100> cata_cursesport::colorpairs;   //storage for pair'ed colored
 
-static bool wmove_internal( const catacurses::window &win_, const int y, const int x )
+static bool wmove_internal( const catacurses::window &win_, const point &p )
 {
     if( !win_ ) {
         return false;
     }
     cata_cursesport::WINDOW &win = *win_.get<cata_cursesport::WINDOW>();
-    if( x >= win.width ) {
+    if( p.x >= win.width ) {
         return false;
     }
-    if( y >= win.height ) {
+    if( p.y >= win.height ) {
         return false;
     }
-    if( y < 0 ) {
+    if( p.y < 0 ) {
         return false;
     }
-    if( x < 0 ) {
+    if( p.x < 0 ) {
         return false;
     }
-    win.cursorx = x;
-    win.cursory = y;
+    win.cursor = p;
     return true;
 }
 
@@ -61,31 +62,29 @@ static bool wmove_internal( const catacurses::window &win_, const int y, const i
 //Pseudo-Curses Functions           *
 //***********************************
 
-catacurses::window catacurses::newwin( int nlines, int ncols, int begin_y, int begin_x )
+catacurses::window catacurses::newwin( int nlines, int ncols, const point &begin )
 {
-    if( begin_y < 0 || begin_x < 0 ) {
+    if( begin.y < 0 || begin.x < 0 ) {
         return window(); //it's the caller's problem now (since they have logging functions declared)
     }
 
     // default values
     if( ncols == 0 ) {
-        ncols = TERMX - begin_x;
+        ncols = TERMX - begin.x;
     }
     if( nlines == 0 ) {
-        nlines = TERMY - begin_y;
+        nlines = TERMY - begin.y;
     }
 
     cata_cursesport::WINDOW *newwindow = new cata_cursesport::WINDOW();
-    newwindow->x = begin_x;
-    newwindow->y = begin_y;
+    newwindow->pos = begin;
     newwindow->width = ncols;
     newwindow->height = nlines;
     newwindow->inuse = true;
     newwindow->draw = false;
     newwindow->BG = black;
     newwindow->FG = static_cast<base_color>( 8 );
-    newwindow->cursorx = 0;
-    newwindow->cursory = 0;
+    newwindow->cursor = point_zero;
     newwindow->line.resize( nlines );
 
     for( int j = 0; j < nlines; j++ ) {
@@ -99,9 +98,9 @@ catacurses::window catacurses::newwin( int nlines, int ncols, int begin_y, int b
 
 inline int newline( cata_cursesport::WINDOW *win )
 {
-    if( win->cursory < win->height - 1 ) {
-        win->cursory++;
-        win->cursorx = 0;
+    if( win->cursor.y < win->height - 1 ) {
+        win->cursor.y++;
+        win->cursor.x = 0;
         return 1;
     }
     return 0;
@@ -111,9 +110,9 @@ inline int newline( cata_cursesport::WINDOW *win )
 // end of a line has been reached, also sets the touched flag.
 inline void addedchar( cata_cursesport::WINDOW *win )
 {
-    win->cursorx++;
-    win->line[win->cursory].touched = true;
-    if( win->cursorx >= win->width ) {
+    win->cursor.x++;
+    win->line[win->cursor.y].touched = true;
+    if( win->cursor.x >= win->width ) {
         newline( win );
     }
 }
@@ -125,108 +124,107 @@ void catacurses::wborder( const window &win_, chtype ls, chtype rs, chtype ts, c
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     if( win == nullptr ) {
-        //@todo: log this
+        // TODO: log this
         return;
     }
     int i = 0;
     int j = 0;
-    int oldx = win->cursorx; //methods below move the cursor, save the value!
-    int oldy = win->cursory; //methods below move the cursor, save the value!
+    point old = win->cursor; //methods below move the cursor, save the value!
 
     if( ls ) {
         for( j = 1; j < win->height - 1; j++ ) {
-            mvwaddch( win_, j, 0, ls );
+            mvwaddch( win_, point( 0, j ), ls );
         }
     } else {
         for( j = 1; j < win->height - 1; j++ ) {
-            mvwaddch( win_, j, 0, LINE_XOXO );
+            mvwaddch( win_, point( 0, j ), LINE_XOXO );
         }
     }
 
     if( rs ) {
         for( j = 1; j < win->height - 1; j++ ) {
-            mvwaddch( win_, j, win->width - 1, rs );
+            mvwaddch( win_, point( win->width - 1, j ), rs );
         }
     } else {
         for( j = 1; j < win->height - 1; j++ ) {
-            mvwaddch( win_, j, win->width - 1, LINE_XOXO );
+            mvwaddch( win_, point( win->width - 1, j ), LINE_XOXO );
         }
     }
 
     if( ts ) {
         for( i = 1; i < win->width - 1; i++ ) {
-            mvwaddch( win_, 0, i, ts );
+            mvwaddch( win_, point( i, 0 ), ts );
         }
     } else {
         for( i = 1; i < win->width - 1; i++ ) {
-            mvwaddch( win_, 0, i, LINE_OXOX );
+            mvwaddch( win_, point( i, 0 ), LINE_OXOX );
         }
     }
 
     if( bs ) {
         for( i = 1; i < win->width - 1; i++ ) {
-            mvwaddch( win_, win->height - 1, i, bs );
+            mvwaddch( win_, point( i, win->height - 1 ), bs );
         }
     } else {
         for( i = 1; i < win->width - 1; i++ ) {
-            mvwaddch( win_, win->height - 1, i, LINE_OXOX );
+            mvwaddch( win_, point( i, win->height - 1 ), LINE_OXOX );
         }
     }
 
     if( tl ) {
-        mvwaddch( win_, 0, 0, tl );
+        mvwaddch( win_, point_zero, tl );
     } else {
-        mvwaddch( win_, 0, 0, LINE_OXXO );
+        mvwaddch( win_, point_zero, LINE_OXXO );
     }
 
     if( tr ) {
-        mvwaddch( win_, 0, win->width - 1, tr );
+        mvwaddch( win_, point( win->width - 1, 0 ), tr );
     } else {
-        mvwaddch( win_, 0, win->width - 1, LINE_OOXX );
+        mvwaddch( win_, point( win->width - 1, 0 ), LINE_OOXX );
     }
 
     if( bl ) {
-        mvwaddch( win_, win->height - 1, 0, bl );
+        mvwaddch( win_, point( 0, win->height - 1 ), bl );
     } else {
-        mvwaddch( win_, win->height - 1, 0, LINE_XXOO );
+        mvwaddch( win_, point( 0, win->height - 1 ), LINE_XXOO );
     }
 
     if( br ) {
-        mvwaddch( win_, win->height - 1, win->width - 1, br );
+        mvwaddch( win_, point( win->width - 1, win->height - 1 ), br );
     } else {
-        mvwaddch( win_, win->height - 1, win->width - 1, LINE_XOOX );
+        mvwaddch( win_, point( win->width - 1, win->height - 1 ), LINE_XOOX );
     }
 
     //methods above move the cursor, put it back
-    wmove( win_, oldy, oldx );
+    wmove( win_, old );
     wattroff( win_, c_white );
 }
 
-void catacurses::mvwhline( const window &win, int y, int x, chtype ch, int n )
+void catacurses::mvwhline( const window &win, const point &p, chtype ch, int n )
 {
     wattron( win, BORDER_COLOR );
     if( ch ) {
         for( int i = 0; i < n; i++ ) {
-            mvwaddch( win, y, x + i, ch );
+            mvwaddch( win, p + point( i, 0 ), ch );
         }
     } else {
         for( int i = 0; i < n; i++ ) {
-            mvwaddch( win, y, x + i, LINE_OXOX );
+            mvwaddch( win, p + point( i, 0 ), LINE_OXOX );
         }
     }
     wattroff( win, BORDER_COLOR );
 }
 
-void catacurses::mvwvline( const window &win, int y, int x, chtype ch, int n )
+void catacurses::mvwvline( const window &win, const point &p, chtype ch, int n )
 {
     wattron( win, BORDER_COLOR );
     if( ch ) {
         for( int j = 0; j < n; j++ ) {
-            mvwaddch( win, y + j, x, ch );
+            mvwaddch( win, p + point( 0, j ), ch );
         }
     } else {
         for( int j = 0; j < n; j++ ) {
-            mvwaddch( win, y + j, x, LINE_XOXO );
+            mvwaddch( win, p + point( 0, j ), LINE_XOXO );
         }
     }
     wattroff( win, BORDER_COLOR );
@@ -236,7 +234,7 @@ void catacurses::mvwvline( const window &win, int y, int x, chtype ch, int n )
 void catacurses::wrefresh( const window &win_ )
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
-    //@todo: log win == nullptr
+    // TODO: log win == nullptr
     if( win != nullptr && win->draw ) {
         cata_cursesport::curses_drawwindow( win_ );
     }
@@ -269,7 +267,7 @@ inline int fill( const char *&fmt, int &len, std::string &target )
     while( tmplen > 0 ) {
         const uint32_t ch = UTF8_getch( &tmpptr, &tmplen );
         // UNKNOWN_UNICODE is most likely a (vertical/horizontal) line or similar
-        const int cw = ( ch == UNKNOWN_UNICODE ) ? 1 : mk_wcwidth( ch );
+        const int cw = ch == UNKNOWN_UNICODE ? 1 : mk_wcwidth( ch );
         if( cw > 0 && dlen > 0 ) {
             // Stop at the *second* non-zero-width character
             break;
@@ -300,10 +298,10 @@ inline int fill( const char *&fmt, int &len, std::string &target )
 // Returns nullptr if the cursor is invalid (outside the window).
 inline cata_cursesport::cursecell *cur_cell( cata_cursesport::WINDOW *win )
 {
-    if( win->cursory >= win->height || win->cursorx >= win->width ) {
+    if( win->cursor.y >= win->height || win->cursor.x >= win->width ) {
         return nullptr;
     }
-    return &( win->line[win->cursory].chars[win->cursorx] );
+    return &win->line[win->cursor.y].chars[win->cursor.x];
 }
 
 //The core printing function, prints characters to the array, and sets colors
@@ -318,17 +316,17 @@ inline void printstring( cata_cursesport::WINDOW *win, const std::string &text )
     const char *fmt = text.c_str();
     // avoid having an invalid cursorx, so that cur_cell will only return nullptr
     // when the bottom of the window has been reached.
-    if( win->cursorx >= win->width ) {
+    if( win->cursor.x >= win->width ) {
         if( newline( win ) == 0 ) {
             return;
         }
     }
-    if( win->cursory >= win->height || win->cursorx >= win->width ) {
+    if( win->cursor.y >= win->height || win->cursor.x >= win->width ) {
         return;
     }
-    if( win->cursorx > 0 && win->line[win->cursory].chars[win->cursorx].ch.empty() ) {
+    if( win->cursor.x > 0 && win->line[win->cursor.y].chars[win->cursor.x].ch.empty() ) {
         // start inside a wide character, erase it for good
-        win->line[win->cursory].chars[win->cursorx - 1].ch.assign( " " );
+        win->line[win->cursor.y].chars[win->cursor.x - 1].ch.assign( " " );
     }
     while( len > 0 ) {
         if( *fmt == '\n' ) {
@@ -372,7 +370,7 @@ inline void printstring( cata_cursesport::WINDOW *win, const std::string &text )
             addedchar( win );
             // Have just written a wide-character into the last cell, it would not
             // display correctly if it was the last *cell* of a line
-            if( win->cursorx == 1 ) {
+            if( win->cursor.x == 1 ) {
                 // So make that last cell a space, move the width
                 // character in the first cell of the line
                 seccell->ch = curcell->ch;
@@ -385,30 +383,30 @@ inline void printstring( cata_cursesport::WINDOW *win, const std::string &text )
                 }
             }
         }
-        if( win->cursory >= win->height ) {
+        if( win->cursor.y >= win->height ) {
             return;
         }
     }
 }
 
 //Prints a formatted string to a window at the current cursor, base function
-void catacurses::wprintw( const window &win, const std::string &printbuf )
+void catacurses::wprintw( const window &win, const std::string &text )
 {
     if( !win ) {
-        //@todo: log this
+        // TODO: log this
         return;
     }
 
-    return printstring( win.get<cata_cursesport::WINDOW>(), printbuf );
+    return printstring( win.get<cata_cursesport::WINDOW>(), text );
 }
 
 //Prints a formatted string to a window, moves the cursor
-void catacurses::mvwprintw( const window &win, int y, int x, const std::string &printbuf )
+void catacurses::mvwprintw( const window &win, const point &p, const std::string &text )
 {
-    if( !wmove_internal( win, y, x ) ) {
+    if( !wmove_internal( win, p ) ) {
         return;
     }
-    return printstring( win.get<cata_cursesport::WINDOW>(), printbuf );
+    return printstring( win.get<cata_cursesport::WINDOW>(), text );
 }
 
 //Resizes the underlying terminal after a Window's console resize(maybe?) Not used in TILES
@@ -422,7 +420,7 @@ void catacurses::werase( const window &win_ )
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     if( win == nullptr ) {
-        //@todo: log this
+        // TODO: log this
         return;
     }
 
@@ -431,7 +429,7 @@ void catacurses::werase( const window &win_ )
         win->line[j].touched = true;
     }
     win->draw = true;
-    wmove( win_, 0, 0 );
+    wmove( win_, point_zero );
     //    wrefresh(win);
     handle_additional_window_clear( win );
 }
@@ -450,14 +448,13 @@ void catacurses::init_pair( const short pair, const base_color f, const base_col
 }
 
 //moves the cursor in a window
-void catacurses::wmove( const window &win_, int y, int x )
+void catacurses::wmove( const window &win_, const point &p )
 {
-    if( !wmove_internal( win_, y, x ) ) {
+    if( !wmove_internal( win_, p ) ) {
         return;
     }
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
-    win->cursorx = x;
-    win->cursory = y;
+    win->cursor = p;
 }
 
 //Clears the main window     I'm not sure if its suppose to do this?
@@ -467,9 +464,9 @@ void catacurses::clear()
 }
 
 //adds a character to the window
-void catacurses::mvwaddch( const window &win, int y, int x, const chtype ch )
+void catacurses::mvwaddch( const window &win, const point &p, const chtype ch )
 {
-    if( !wmove_internal( win, y, x ) ) {
+    if( !wmove_internal( win, p ) ) {
         return;
     }
     return waddch( win, ch );
@@ -481,11 +478,11 @@ void catacurses::wclear( const window &win_ )
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     werase( win_ );
     if( win == nullptr ) {
-        //@todo: log this
+        // TODO: log this
         return;
     }
 
-    for( int i = 0; i < win->y && i < stdscr.get<cata_cursesport::WINDOW>()->height; i++ ) {
+    for( int i = 0; i < win->pos.y && i < stdscr.get<cata_cursesport::WINDOW>()->height; i++ ) {
         stdscr.get<cata_cursesport::WINDOW>()->line[i].touched = true;
     }
 }
@@ -505,25 +502,25 @@ int catacurses::getmaxy( const window &win )
 //gets the beginning x of a window (the x pos)
 int catacurses::getbegx( const window &win )
 {
-    return win ? win.get<cata_cursesport::WINDOW>()->x : 0;
+    return win ? win.get<cata_cursesport::WINDOW>()->pos.x : 0;
 }
 
 //gets the beginning y of a window (the y pos)
 int catacurses::getbegy( const window &win )
 {
-    return win ? win.get<cata_cursesport::WINDOW>()->y : 0;
+    return win ? win.get<cata_cursesport::WINDOW>()->pos.y : 0;
 }
 
 //gets the current cursor x position in a window
 int catacurses::getcurx( const window &win )
 {
-    return win ? win.get<cata_cursesport::WINDOW>()->cursorx : 0;
+    return win ? win.get<cata_cursesport::WINDOW>()->cursor.x : 0;
 }
 
 //gets the current cursor y position in a window
 int catacurses::getcury( const window &win )
 {
-    return win ? win.get<cata_cursesport::WINDOW>()->cursory : 0;
+    return win ? win.get<cata_cursesport::WINDOW>()->cursor.y : 0;
 }
 
 void catacurses::curs_set( int )
@@ -534,7 +531,7 @@ void catacurses::wattron( const window &win_, const nc_color &attrs )
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     if( win == nullptr ) {
-        //@todo: log this
+        // TODO: log this
         return;
     }
 
@@ -553,7 +550,7 @@ void catacurses::wattroff( const window &win_, int )
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     if( win == nullptr ) {
-        //@todo: log this
+        // TODO: log this
         return;
     }
 
@@ -563,48 +560,7 @@ void catacurses::wattroff( const window &win_, int )
 
 void catacurses::waddch( const window &win, const chtype ch )
 {
-    char charcode = ch;
-
-    switch( ch ) {      //LINE_NESW  - X for on, O for off
-        case LINE_XOXO:
-            charcode = LINE_XOXO_C;
-            break;
-        case LINE_OXOX:
-            charcode = LINE_OXOX_C;
-            break;
-        case LINE_XXOO:
-            charcode = LINE_XXOO_C;
-            break;
-        case LINE_OXXO:
-            charcode = LINE_OXXO_C;
-            break;
-        case LINE_OOXX:
-            charcode = LINE_OOXX_C;
-            break;
-        case LINE_XOOX:
-            charcode = LINE_XOOX_C;
-            break;
-        case LINE_XXOX:
-            charcode = LINE_XXOX_C;
-            break;
-        case LINE_XXXO:
-            charcode = LINE_XXXO_C;
-            break;
-        case LINE_XOXX:
-            charcode = LINE_XOXX_C;
-            break;
-        case LINE_OXXX:
-            charcode = LINE_OXXX_C;
-            break;
-        case LINE_XXXX:
-            charcode = LINE_XXXX_C;
-            break;
-        default:
-            charcode = static_cast<char>( ch );
-            break;
-    }
-    char buffer[2] = { charcode, '\0' };
-    return printstring( win.get<cata_cursesport::WINDOW>(), buffer );
+    return printstring( win.get<cata_cursesport::WINDOW>(), string_from_int( ch ) );
 }
 
 static constexpr int A_BLINK = 0x00000800; /* Added characters are blinking. */
@@ -613,7 +569,7 @@ static constexpr int A_COLOR = 0x03fe0000; /* Color bits */
 
 nc_color nc_color::from_color_pair_index( const int index )
 {
-    return nc_color( ( index << 17 ) & A_COLOR );
+    return nc_color( index << 17 & A_COLOR );
 }
 
 int nc_color::to_color_pair_index() const

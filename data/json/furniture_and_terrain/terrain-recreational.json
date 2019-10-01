@@ -1,0 +1,118 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_sandbox",
+    "name": "sandbox",
+    "description": "Children used to play in this sandbox.  The population of lice probably diminished considerably now that they no longer do.",
+    "symbol": "#",
+    "color": "yellow",
+    "move_cost": 3,
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "2x4", "count": 4 },
+        { "item": "material_sand", "charges": [ 800, 1200 ] },
+        { "item": "nail", "charges": [ 6, 10 ] }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "TINY" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "nail", "charges": [ 3, 8 ] },
+        { "item": "material_sand", "charges": [ 800, 1200 ] },
+        { "item": "splinter", "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_slide",
+    "name": "slide",
+    "description": "A children's slide.  Too small to slide on comfortably anymore.",
+    "symbol": "#",
+    "color": "light_cyan",
+    "move_cost": 4,
+    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "sheet_metal", "count": 1 }, { "item": "pipe", "count": [ 4, 8 ] } ] },
+    "flags": [ "TRANSPARENT", "MOUNTABLE" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "crack!",
+      "sound_fail": "whump.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "pipe", "count": [ 2, 6 ] }, { "item": "scrap", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_monkey_bars",
+    "name": "monkey bars",
+    "description": "A set of monkey bars, to be used by children to train their arms by hanging from the bars, and have fun.",
+    "symbol": "#",
+    "color": "cyan",
+    "move_cost": 4,
+    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "pipe", "count": [ 6, 12 ] } ] },
+    "flags": [ "TRANSPARENT", "MOUNTABLE" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "crack!",
+      "sound_fail": "whump.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "pipe", "count": [ 4, 8 ] }, { "item": "scrap", "count": [ 1, 4 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_backboard",
+    "name": "backboard",
+    "description": "A basketball backboard.",
+    "symbol": "7",
+    "color": "red",
+    "move_cost": 0,
+    "deconstruct": { "ter_set": "t_pavement", "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
+    "flags": [ "TRANSPARENT", "WALL", "PERMEABLE" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 45,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_pavement",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "nail", "charges": [ 3, 8 ] },
+        { "item": "splinter", "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "id": "t_backboard_in",
+    "type": "terrain",
+    "name": "backboard",
+    "description": "A metal backboard.",
+    "symbol": "7",
+    "color": [ "red" ],
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "bash": {
+      "str_min": 8,
+      "str_max": 45,
+      "ter_set": "t_floor_waxed",
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 8 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "pipe", "count": [ 1, 2 ] }
+      ]
+    },
+    "deconstruct": { "ter_set": "t_floor_waxed", "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
+    "flags": [ "TRANSPARENT", "WALL", "PERMEABLE", "INDOORS" ]
+  }
+]

@@ -1,15 +1,15 @@
 {
-    "fontblending": false,
-    "fontwidth": 8,
-    "fontheight": 16,
-    "fontsize": 16,
-    "typeface": "unifont",
-    "map_fontwidth": 8,
-    "map_fontheight": 16,
-    "map_fontsize": 16,
-    "map_typeface": "unifont",
-    "overmap_fontwidth": 8,
-    "overmap_fontheight": 16,
-    "overmap_fontsize": 16,
-    "overmap_typeface": "unifont"
+  "fontblending": false,
+  "fontwidth": 8,
+  "fontheight": 16,
+  "fontsize": 16,
+  "typeface": "unifont",
+  "map_fontwidth": 8,
+  "map_fontheight": 16,
+  "map_fontsize": 16,
+  "map_typeface": "unifont",
+  "overmap_fontwidth": 8,
+  "overmap_fontheight": 16,
+  "overmap_fontsize": 16,
+  "overmap_typeface": "unifont"
 }

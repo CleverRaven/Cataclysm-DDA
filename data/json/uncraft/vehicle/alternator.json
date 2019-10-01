@@ -1,91 +1,49 @@
 [
-{
-  "type": "uncraft",
-  "result": "alternator_car",
-  "skill_used": "mechanics",
-  "difficulty": 3,
-  "time": 30000,
-  "qualities": [
-    { "id": "SCREW", "level": 1 },
-    { "id": "WRENCH", "level": 1 },
-    { "id": "SAW_M", "level": 1 }
-  ],
-  "using": [
-    [ "soldering_standard", 40 ],
-    [ "welding_standard", 10 ]
-  ],
-  "components": [
-    [ [ "power_supply", 1 ] ],
-    [ [ "cable", 40 ] ],
-    [ [ "bearing", 20 ] ],
-    [ [ "scrap", 2 ] ],
-    [ [ "steel_chunk", 2 ] ]
-  ]
-},
-{
-  "type": "uncraft",
-  "result": "alternator_motorbike",
-  "skill_used": "mechanics",
-  "difficulty": 2,
-  "time": 10000,
-  "qualities": [
-    { "id": "SCREW", "level": 1 }
-  ],
-  "using": [
-    [ "soldering_standard", 20 ],
-    [ "welding_standard", 5 ]
-  ],
-  "components": [
-    [ [ "power_supply", 1 ] ],
-    [ [ "cable", 20 ] ],
-    [ [ "bearing", 5 ] ],
-    [ [ "scrap", 2 ] ]
-  ]
-},
-{
-  "type": "uncraft",
-  "result": "alternator_truck",
-  "skill_used": "mechanics",
-  "difficulty": 3,
-  "time": 30000,
-  "qualities": [
-    { "id": "SCREW", "level": 1 },
-    { "id": "WRENCH", "level": 1 },
-    { "id": "SAW_M", "level": 1 }
-  ],
-  "using": [
-    [ "soldering_standard", 40 ],
-    [ "welding_standard", 10 ]
-  ],
-  "components": [
-    [ [ "power_supply", 1 ] ],
-    [ [ "cable", 60 ] ],
-    [ [ "bearing", 20 ] ],
-    [ [ "scrap", 3 ] ],
-    [ [ "steel_chunk", 3 ] ]
-  ]
-},
-{
-  "type": "uncraft",
-  "result": "generator_7500w",
-  "skill_used": "mechanics",
-  "difficulty": 4,
-  "time": 240000,
-  "qualities": [
-    { "id": "SCREW", "level": 1 },
-    { "id": "WRENCH", "level": 1 },
-    { "id": "SAW_M", "level": 1 }
-  ],
-  "tools": [
-    [ [ "soldering_iron", 80 ], [ "toolset", 80 ], [ "oxy_torch", 40 ] ]
-  ],
-  "components": [
-    [ [ "power_supply", 4 ] ],
-    [ [ "cable", 400 ] ],
-    [ [ "bearing", 80 ] ],
-    [ [ "frame", 1 ] ],
-    [ [ "scrap", 12 ] ],
-    [ [ "steel_chunk", 8 ] ]
-  ]
-}
+  {
+    "type": "uncraft",
+    "result": "alternator_car",
+    "skill_used": "mechanics",
+    "difficulty": 3,
+    "time": "5 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "using": [ [ "soldering_standard", 40 ], [ "welding_standard", 10 ] ],
+    "components": [ [ [ "power_supply", 1 ] ], [ [ "cable", 40 ] ], [ [ "bearing", 20 ] ], [ [ "scrap", 2 ] ], [ [ "steel_chunk", 2 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "alternator_motorbike",
+    "skill_used": "mechanics",
+    "difficulty": 2,
+    "time": "100 s",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
+    "components": [ [ [ "power_supply", 1 ] ], [ [ "cable", 20 ] ], [ [ "bearing", 5 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "alternator_truck",
+    "skill_used": "mechanics",
+    "difficulty": 3,
+    "time": "500 s",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "using": [ [ "soldering_standard", 40 ], [ "welding_standard", 10 ] ],
+    "components": [ [ [ "power_supply", 1 ] ], [ [ "cable", 60 ] ], [ [ "bearing", 20 ] ], [ [ "scrap", 3 ] ], [ [ "steel_chunk", 3 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "generator_7500w",
+    "skill_used": "mechanics",
+    "difficulty": 4,
+    "time": "40 m",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "tools": [ [ [ "soldering_iron", 80 ], [ "toolset", 80 ], [ "oxy_torch", 40 ] ] ],
+    "components": [
+      [ [ "power_supply", 4 ] ],
+      [ [ "cable", 400 ] ],
+      [ [ "bearing", 80 ] ],
+      [ [ "frame", 1 ] ],
+      [ [ "scrap", 12 ] ],
+      [ [ "steel_chunk", 8 ] ]
+    ]
+  }
 ]

@@ -1,1351 +1,1517 @@
 [
-    {
-        "type" : "technique",
-        "id" : "tec_none",
-        "name" : "Not at technique at all",
-        "dummy" : true
-    },{
-        "type" : "technique",
-        "id" : "WBLOCK_1",
-        "name" : "Block",
-        "dummy" : true,
-        "mult_bonuses" : [["movecost", 0.0]],
-        "messages" : [
-            "You block %s",
-            "<npcname> blocks %s"
-        ],
-        "description" : "Medium blocking ability"
-    },{
-        "type" : "technique",
-        "id" : "WBLOCK_2",
-        "name" : "Parry",
-        "dummy" : true,
-        "mult_bonuses" : [["movecost", 0.0]],
-        "messages" : [
-            "You parry %s",
-            "<npcname> parries %s"
-        ],
-        "description" : "High blocking ability"
-    },{
-        "type" : "technique",
-        "id" : "WBLOCK_3",
-        "name" : "Shield",
-        "dummy" : true,
-        "mult_bonuses" : [["movecost", 0.0]],
-        "messages" : [
-            "You shield against %s",
-            "<npcname> shields against %s"
-        ],
-        "description" : "Very high blocking ability"
-    },{
-        "type" : "technique",
-        "id" : "DEF_DISARM",
-        "name" : "disarm",
-        "min_unarmed" : 0,
-        "melee_allowed" : true,
-        "disarms" : true,
-        "description" : "Unwield target's weapon"
-    },{
-        "type" : "technique",
-        "id" : "GRAB",
-        "name" : "", "//": "not implemented -> empty name",
-        "messages" : [
-            "You grab %s",
-            "<npcname> grabs %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "SPIN",
-        "name" : "Spinning Strike",
-        "unarmed_allowed" : true,
-        "melee_allowed" : true,
-        "min_melee" : 4,
-        "crit_tec" : true,
-        "messages" : [
-            "You swing through %s and everyone nearby",
-            "<npcname> swings through %s and everyone nearby"
-        ],
-        "aoe" : "spin",
-        "description" : "Attack adjacent enemies, crit only, min 4 melee"
-    },{
-        "type" : "technique",
-        "id" : "WIDE",
-        "name" : "Wide Strike",
-        "unarmed_allowed" : true,
-        "melee_allowed" : true,
-        "min_melee" : 3,
-        "crit_tec" : true,
-        "weighting" : 2,
-        "messages" : [
-            "You swing in a wide arc through %s",
-            "<npcname> swings in a wide arc through %s"
-        ],
-        "aoe" : "wide",
-        "description" : "Attack in a wide arc, crit only, min 3 melee"
-    },{
-        "type" : "technique",
-        "id" : "IMPALE",
-        "name" : "Impaling Strike",
-        "melee_allowed" : true,
-        "min_melee" : 4,
-        "crit_tec" : true,
-        "messages" : [
-            "You pierce straight through %s",
-            "<npcname> pierces through %s"
-        ],
-        "aoe" : "impale",
-        "description" : "Attack target and another one behind it, crit only, min 4 melee"
-    },{
-        "type" : "technique",
-        "id" : "BRUTAL",
-        "name" : "Brutal Strike",
-        "unarmed_allowed" : true,
-        "melee_allowed" : true,
-        "crit_tec" : true,
-        "stun_dur" : 1,
-        "knockback_dist" : 1,
-        "messages" : [
-            "You send %s reeling",
-            "<npcname> sends %s reeling"
-        ],
-        "description" : "Stun 1 turn, knockback 1 tile, crit only"
-    },{
-        "type" : "technique",
-        "id" : "RAPID",
-        "name" : "Rapid Strike",
-        "min_unarmed" : 0,
-        "unarmed_allowed" : true,
-        "melee_allowed" : true,
-        "mult_bonuses" : [
-            ["movecost", 0.5],
-            ["damage", "bash", 0.66],
-            ["damage", "cut", 0.66],
-            ["damage", "stab", 0.66]
-        ],
-        "messages" : [
-            "You quickly strike %s",
-            "<npcname> quickly strikes %s"
-        ],
-        "description" : "50% moves, 66% damage"
-    },{
-        "type" : "technique",
-        "id" : "VORPAL",
-        "name" : "Vorpal Strike",
-        "min_unarmed" : 0,
-        "unarmed_allowed" : true,
-        "melee_allowed" : true,
-        "mult_bonuses" : [["damage", "cut", 99]],
-        "crit_tec" : true,
-        "weighting" : -250,
-        "messages" : [
-            "Snicker-snack! You slice through %s like hot knife slices through butter",
-            "Snicker-snack! <npcname> slices through %s like hot knife slices through butter"
-        ],
-        "description" : "Cut damage multiply by 99, crit only"
-    },{
-        "type" : "technique",
-        "id" : "WRAP",
-        "name" : "Wrap Attack",
-        "min_unarmed" : 0,
-        "unarmed_allowed" : true,
-        "stun_dur" : 2,
-        "messages" : [
-            "You wrap up %s",
-            "<npcname> wraps up %s"
-        ],
-        "description" : "Stun 2 turns"
-    },{
-        "type" : "technique",
-        "id" : "SWEEP",
-        "name" : "Sweep Attack",
-        "min_unarmed" : 0,
-        "unarmed_allowed" : true,
-        "down_dur" : 2,
-        "messages" : [
-            "You sweep %s",
-            "<npcname> sweeps %s"
-        ],
-        "description" : "Down 2 turns"
-    },{
-        "type" : "technique",
-        "id" : "PRECISE",
-        "name" : "Precise Strike",
-        "min_unarmed" : 0,
-        "unarmed_allowed" : true,
-        "melee_allowed" : true,
-        "crit_tec" : true,
-        "messages" : [
-            "You precisely hit %s",
-            "<npcname> precisely hits %s"
-        ],
-        "stun_dur" : 2,
-        "description" : "Stun 2 turns, crit only"
-    },{
-        "type" : "technique",
-        "id" : "WHIP_DISARM",
-        "name" : "Disarm",
-        "min_unarmed" : 0,
-        "melee_allowed" : true,
-        "disarms" : true,
-        "messages" : [
-            "You disarm %s using your whip",
-            "<npcname> disarms %s using their whip"
-        ],
-        "description" : "Unwield target's weapon"
-    },{
-        "type" : "technique",
-        "id" : "tec_counter",
-        "name" : "Counterattack",
-        "min_unarmed" : 0,
-        "unarmed_allowed" : true,
-        "block_counter": true,
-        "dodge_counter": true,
-        "mult_bonuses" : [["movecost", 0.0]],
-        "messages" : [
-            "You counter-attack %s",
-            "<npcname> counter-attacks %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_feint",
-        "name" : "Feint",
-        "unarmed_allowed" : true,
-        "melee_allowed" : true,
-        "defensive" : true,
-        "miss_recovery" : true
-    },{
-        "type" : "technique",
-        "id" : "tec_break",
-        "name" : "Grab Break",
-        "unarmed_allowed" : true,
-        "melee_allowed" : true,
-        "defensive" : true,
-        "grab_break" : true
-    },{
-        "type" : "technique",
-        "id" : "tec_precise",
-        "name" : "Precise Strike",
-        "min_unarmed" : 0,
-        "unarmed_allowed" : true,
-        "melee_allowed" : true,
-        "crit_tec" : true,
-        "messages" : [
-            "You jab deftly at %s",
-            "<npcname> jabs deftly at %s"
-        ],
-        "stun_dur" : 2
-    },{
-        "type" : "technique",
-        "id" : "tec_boxing_cross",
-        "name" : "Cross",
-        "min_unarmed" : 2,
-        "unarmed_allowed" : true,
-        "messages" : [
-            "You throw a heavy cross at %s",
-            "<npcname> throws a cross at %s"
-        ],
-        "mult_bonuses" : [["damage", "bash", 1.2]]
-    },{
-        "type" : "technique",
-        "id" : "tec_boxing_rapid",
-        "name" : "Jab",
-        "min_unarmed" : 3,
-        "unarmed_allowed" : true,
-        "messages" : [
-            "You quickly jab %s",
-            "<npcname> quickly jabs at %s"
-        ],
-        "mult_bonuses" : [
-            ["movecost", 0.5],
-            ["damage", "bash", 0.66],
-            ["damage", "cut", 0.66],
-            ["damage", "stab", 0.66]
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_boxing_upper",
-        "name" : "Uppercut",
-        "min_unarmed" : 4,
-        "unarmed_allowed" : true,
-        "crit_tec" : true,
-        "messages" : [
-            "You uppercut %s",
-            "<npcname> uppercuts %s"
-        ],
-        "mult_bonuses" : [["damage", "bash", 1.4]],
-        "stun_dur" : 2
-    },{
-        "type" : "technique",
-        "id" : "tec_boxing_counter",
-        "name" : "Cross Counter",
-        "min_unarmed" : 5,
-        "unarmed_allowed" : true,
-        "crit_tec" : true,
-        "knockback_dist" : 1,
-        "knockback_spread" : 1,
-        "req_buffs" : [
-            "boxing_counter"
-            ],
-        "messages" : [
-            "You cross-counter %s",
-            "<npcname> throws a perfect counter at %s"
-        ],
-        "mult_bonuses" : [["movecost", 0.0]],
-        "stun_dur" : 2
-    },{
-        "type" : "technique",
-        "id" : "tec_karate_rapid",
-        "name" : "quick punch",
-        "min_unarmed" : 0,
-        "unarmed_allowed" : true,
-        "messages" : [
-            "You quickly punch %s",
-            "<npcname> quickly punches %s"
-        ],
-        "mult_bonuses" : [
-            ["movecost", 0.5],
-            ["damage", "bash", 0.66],
-            ["damage", "cut", 0.66],
-            ["damage", "stab", 0.66]
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_karate_precise",
-        "name" : "karate chop",
-        "min_unarmed" : 4,
-        "unarmed_allowed" : true,
-        "crit_tec" : true,
-        "messages" : [
-            "You karate chop %s",
-            "<npcname> karate chops %s"
-        ],
-        "stun_dur" : 2
-    },{
-        "type" : "technique",
-        "id" : "tec_aikido_throw",
-        "name" : "throw",
-        "min_unarmed" : 2,
-        "unarmed_allowed" : true,
-        "down_dur" : 1,
-        "knockback_dist" : 1,
-        "knockback_spread" : 1,
-        "messages" : [
-            "You throw %s",
-            "<npcname> throws %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_aikido_dodgethrow",
-        "name" : "dodge throw",
-        "min_unarmed" : 6,
-        "unarmed_allowed" : true,
-        "dodge_counter": true,
-        "down_dur" : 1,
-        "knockback_dist" : 1,
-        "knockback_spread" : 1,
-        "mult_bonuses" : [["movecost", 0.0]],
-        "messages" : [
-            "You smoothly throw %s",
-            "<npcname> smoothly throws %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_aikido_feint",
-        "name" : "feint at",
-        "min_unarmed" : 2,
-        "unarmed_allowed" : true,
-        "defensive" : true,
-        "miss_recovery" : true,
-        "messages" : [
-            "You feint at %s",
-            "<npcname> feints at %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_aikido_disarm",
-        "name" : "disarm",
-        "min_unarmed" : 3,
-        "unarmed_allowed" : true,
-        "disarms" : true,
-        "messages" : [
-            "You disarm %s",
-            "<npcname> disarms %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_judo_throw",
-        "name" : "throw",
-        "min_unarmed" : 3,
-        "unarmed_allowed" : true,
-        "down_dur" : 1,
-        "knockback_dist" : 1,
-        "knockback_spread" : 1,
-        "messages" : [
-            "You throw %s",
-            "<npcname> throws %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_judo_grab",
-        "name" : "grab",
-        "min_unarmed" : 2,
-        "unarmed_allowed" : true,
-        "down_dur" : 2,
-        "messages" : [
-            "You grab %s",
-            "<npcname> grabs %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_taichi_disarm",
-        "name" : "disarm",
-        "min_unarmed" : 3,
-        "unarmed_allowed" : true,
-        "disarms" : true,
-        "messages" : [
-            "You disarm %s",
-            "<npcname> disarms %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_taichi_precise",
-        "name" : "precise strike",
-        "min_unarmed" : 4,
-        "unarmed_allowed" : true,
-        "crit_tec" : true,
-        "stun_dur" : 2,
-        "messages" : [
-            "You strike %s",
-            "<npcname> strikes %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_capoeira_feint",
-        "name" : "feint at",
-        "min_unarmed" : 1,
-        "unarmed_allowed" : true,
-        "defensive" : true,
-        "miss_recovery" : true,
-        "messages" : [
-            "You feint at %s",
-            "<npcname> feints at %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_muay_thai_elbow",
-        "name" : "elbow",
-        "min_unarmed" : 2,
-        "unarmed_allowed" : true,
-        "crit_tec" : true,
-        "messages" : [
-            "You elbow %s",
-            "<npcname> elbows %s"
-        ],
-        "mult_bonuses" : [["movecost", 0.5]]
-    },{
-        "type" : "technique",
-        "id" : "tec_muay_thai_kick",
-        "name" : "kick",
-        "min_unarmed" : 3,
-        "unarmed_allowed" : true,
-        "messages" : [
-            "You power-kick %s",
-            "<npcname> power-kicks %s"
-        ],
-        "stun_dur" : 1
-    },{
-        "type" : "technique",
-        "id" : "tec_muay_thai_knee",
-        "name" : "flying knee",
-        "min_unarmed" : 4,
-        "unarmed_allowed" : true,
-        "crit_tec" : true,
-        "messages" : [
-            "You flying knee %s",
-            "<npcname> flying knees %s"
-        ],
-        "stun_dur" : 2
-    },{
-        "type" : "technique",
-        "id" : "tec_krav_maga_rapid",
-        "name" : "quick punch",
-        "min_unarmed" : 2,
-        "unarmed_allowed" : true,
-        "messages" : [
-            "You quickly punch %s",
-            "<npcname> quickly punches %s"
-        ],
-        "mult_bonuses" : [
-            ["movecost", 0.5],
-            ["damage", "bash", 0.66],
-            ["damage", "cut", 0.66],
-            ["damage", "stab", 0.66]
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_krav_maga_feint",
-        "name" : "feint at",
-        "min_unarmed" : 2,
-        "unarmed_allowed" : true,
-        "defensive" : true,
-        "miss_recovery" : true,
-        "messages" : [
-            "You feint at %s",
-            "<npcname> feints at %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_krav_maga_precise",
-        "name" : "precise strike",
-        "min_unarmed" : 3,
-        "unarmed_allowed" : true,
-        "crit_tec" : true,
-        "messages" : [
-            "You jab %s",
-            "<npcname> jabs %s"
-        ],
-        "stun_dur" : 2
-    },{
-        "type" : "technique",
-        "id" : "tec_krav_maga_disarm",
-        "name" : "disarm",
-        "min_unarmed" : 3,
-        "unarmed_allowed" : true,
-        "disarms" : true,
-        "messages" : [
-            "You disarm %s",
-            "<npcname> disarms %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_krav_maga_grab",
-        "name" : "grab",
-        "min_unarmed" : 4,
-        "unarmed_allowed" : true,
-        "down_dur" : 1,
-        "messages" : [
-            "You grab %s",
-            "<npcname> grabs %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_krav_maga_break",
-        "name" : "grab break",
-        "min_unarmed" : 4,
-        "unarmed_allowed" : true,
-        "melee_allowed" : true,
-        "defensive" : true,
-        "grab_break" : true
-    },{
-        "type" : "technique",
-        "id" : "tec_ninjutsu_precise",
-        "name" : "surprise attack",
-        "min_unarmed" : 3,
-        "min_melee" : 3,
-        "unarmed_allowed" : true,
-        "melee_allowed" : true,
-        "crit_tec" : true,
-        "messages" : [
-            "You surprise attack %s",
-            "<npcname> surprise attacks %s"
-        ],
-        "stun_dur" : 2,
-        "mult_bonuses" : [
-            ["damage", "bash", 1.4],
-            ["damage", "cut", 2]
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_taekwondo_precise",
-        "name" : "axe-kick",
-        "min_unarmed" : 2,
-        "unarmed_allowed" : true,
-        "crit_tec" : true,
-        "stun_dur" : 2,
-        "messages" : [
-            "You axe-kick %s",
-            "<npcname> axe-kicks %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_taekwondo_push",
-        "name" : "side kick",
-        "min_unarmed":3,
-        "unarmed_allowed" : true,
-        "messages" : [
-            "You side-kick %s",
-            "<npcname> side-kicks %s"
-        ],
-        "stun_dur" : 1,
-        "knockback_dist" : 1
-    },{
-        "type" : "technique",
-        "id" : "tec_taekwondo_sweep",
-        "name" : "sweep kick",
-        "min_unarmed" : 4,
-        "unarmed_allowed" : true,
-        "messages" : [
-            "You sweep-kick %s",
-            "<npcname> sweep-kicks %s"
-        ],
-        "down_dur" : 2
-    },{
-        "type" : "technique",
-        "id" : "tec_biojutsu_counter",
-        "name" : "biojutsu counter",
-        "min_melee" : 4,
-        "unarmed_allowed" : true,
-        "block_counter": true,
-        "mult_bonuses" : [["movecost", 0.0]],
-        "messages" : [
-            "You block and counter-attack %s",
-            "<npcname> blocks and counter-attacks %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_biojutsu_rapid_unarmed",
-        "name" : "quick punch",
-        "min_melee" : 0,
-        "unarmed_allowed" : true,
-        "messages" : [
-            "You quickly punch %s",
-            "<npcname> quickly punches %s"
-        ],
-        "mult_bonuses" : [
-            ["movecost", 0.5],
-            ["damage", "bash", 0.66],
-            ["damage", "cut", 0.66],
-            ["damage", "stab", 0.66]
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_biojutsu_rapid_armed",
-        "name" : "quick slash",
-        "min_melee" : 0,
-        "messages" : [
-            "You quickly slash %s",
-            "<npcname> quickly slashes %s"
-        ],
-        "mult_bonuses" : [
-            ["movecost", 0.5],
-            ["damage", "bash", 0.66],
-            ["damage", "cut", 0.66],
-            ["damage", "stab", 0.66]
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_biojutsu_impale",
-        "name" : "biojutsu impale",
-        "min_melee" : 3,
-        "crit_tec" : true,
-        "mult_bonuses" : [
-            ["damage", "bash", 1.5],
-            ["damage", "cut", 1.5]
-        ],
-        "messages" : [
-            "You brutally impale %s",
-            "<npcname> brutally impales %s"
-        ],
-        "stun_dur" : 1
-    },{
-        "type" : "technique",
-        "id" : "tec_biojutsu_sweep",
-        "name" : "sweep kick",
-        "min_melee" : 3,
-        "unarmed_allowed" : true,
-        "messages" : [
-            "You sweep-kick %s",
-            "<npcname> sweep-kicks %s"
-        ],
-        "down_dur" : 2
-    },{
-        "type" : "technique",
-        "id" : "tec_biojutsu_wide",
-        "min_melee" : 5,
-        "crit_tec" : true,
-        "name" : "wide strike",
-        "messages" : [
-            "You cleave through %s",
-            "<npcname> cleave through %s"
-        ],
-        "aoe" : "wide"
-    },{
-        "type" : "technique",
-        "id" : "tec_zuiquan_feint",
-        "name" : "Drunk feint",
-        "min_unarmed" : 3,
-        "unarmed_allowed" : true,
-        "defensive" : true,
-        "miss_recovery" : true,
-        "messages" : [
-            "You stumble and leer at %s",
-            "<npcname> stumbles and leers at %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_zuiquan_counter",
-        "name" : "Drunk counter",
-        "min_unarmed" : 4,
-        "unarmed_allowed" : true,
-        "dodge_counter" : true,
-        "mult_bonuses" : [
-            ["movecost", 0.0],
-            ["damage", "bash", 1.25]
-        ],
-        "messages" : [
-            "You lurch, and your wild swing hits %s",
-            "<npcname> lurches, and hits %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_fencing_lunge",
-        "name" : "Fencing lunge",
-        "min_melee" : 2,
-        "mult_bonuses" : [["movecost", 0.75]],
-        "weighting" : 2,
-        "messages" : [
-            "You lunge at %s",
-            "<npcname> lunges at %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_fencing_thrust",
-        "name" : "Fencing thrust",
-        "min_melee" : 1,
-        "mult_bonuses" : [
-            ["movecost", 0.9],
-            ["damage", "stab", 1.25]
-        ],
-        "weighting" : 2,
-        "messages" : [
-            "You thrust at %s",
-            "<npcname> thrust at %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_fencing_stop_thrust",
-        "name" : "Fencing stop thrust",
-        "min_melee" : 3,
-        "block_counter": true,
-        "mult_bonuses" : [
-            ["movecost", 0.0],
-            ["damage", "stab", 1.5]
-        ],
-        "stun_dur" : 1,
-        "messages" : [
-            "You deliver a perfect stop thrust to %s",
-            "<npcname> delivers a perfect stop thrust to %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_eskrima_round",
-        "name" : "Round strike",
-        "min_melee" : 4,
-        "mult_bonuses" : [["movecost", 0.6]],
-        "messages" : [
-            "You round strike %s",
-            "<npcname> round strikes %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_eskrima_fan",
-        "name" : "Fan strike",
-        "min_melee" : 2,
-        "mult_bonuses" : [["movecost", 0.75]],
-        "messages" : [
-            "You fan strike %s",
-            "<npcname> fan strikes %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_eskrima_snap",
-        "name" : "Snap strike",
-        "min_melee" : 0,
-        "mult_bonuses" : [["movecost", 0.8]],
-        "messages" : [
-            "You snap out at %s",
-            "<npcname> snaps quickly at %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_eskrima_combination",
-        "name" : "Combination strike",
-        "min_melee" : 2,
-        "mult_bonuses" : [
-            ["movecost", 0.8],
-            ["damage", "bash", 1.5],
-            ["damage", "cut", 1.5],
-            ["damage", "stab", 1.5]
-        ],
-        "req_buffs" : [
-            "eskrima_hit_buff"
-        ],
-        "messages" : [
-            "You combination strike %s",
-            "<npcname> combination strikes %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_eskrima_free",
-        "name" : "free strike",
-        "min_melee" : 4,
-        "mult_bonuses" : [["movecost", 0.0]],
-        "req_buffs" : [
-            "eskrima_hit_buff"
-        ],
-        "messages" : [
-            "You whip a free strike onto %s",
-            "<npcname> free strikes %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_eskrima_puno",
-        "name" : "puño strike",
-        "min_melee" : 3,
-        "min_bashing_damage": 2,
-        "mult_bonuses" : [
-            ["damage", "bash", 4.0],
-            ["damage", "cut", 0.0],
-            ["damage", "stab", 0.0]
-        ],
-        "crit_tec" : true,
-        "stun_dur" : 1,
-        "messages" : [
-            "You deliver a puño to %s",
-            "<npcname> haftstrikes %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_eskrima_kick",
-        "name" : "knee strike",
-        "min_unarmed" : 3,
-        "crit_tec" : true,
-        "down_dur" : 2,
-        "messages" : [
-            "You deliver a knee strike to %s",
-            "<npcname> knees %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_silat_hamstring",
-        "name" : "hamstring",
-        "min_melee" : 2,
-        "crit_tec" : true,
-        "down_dur" : 3,
-        "messages" : [
-            "You ground %s with a low blow",
-            "<npcname> grounds %s with a low blow"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_silat_precise",
-        "name" : "Vicious Precision",
-        "min_melee" : 4,
-        "crit_tec" : true,
-        "mult_bonuses" : [
-            ["damage", "bash", 1.5],
-            ["damage", "cut", 1.5],
-            ["damage", "stab", 1.5]
-        ],
-        "messages" : [
-            "You viciously wound %s",
-            "<npcname> viciously wounds %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_silat_brutal",
-        "name" : "Silat Brutality",
-        "min_melee" : 3,
-        "crit_tec" : true,
-        "stun_dur" : 1,
-        "knockback_dist" : 1,
-        "messages" : [
-            "You send %s reeling backwards",
-            "<npcname> sends %s reeling"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_silat_dirty",
-        "name" : "Dirty Hit",
-        "min_melee" : 1,
-        "crit_tec" : true,
-        "stun_dur" : 2,
-        "req_buffs" : [
-            "silat_dodge_buff"
-        ],
-        "messages" : [
-            "You hit %s with a dirty blow",
-            "<npcname> delivers a dirty blow to %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_venom_snake_feint",
-        "name" : "Viper Hiss",
-        "unarmed_allowed" : true,
-        "melee_allowed" : true,
-        "defensive" : true,
-        "miss_recovery" : true,
-        "messages" : [
-            "You hiss threateningly at %s",
-            "<npcname> hisses threateningly at %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_venom_snake_rapid",
-        "name" : "Viper Fist",
-        "min_unarmed" : 3,
-        "unarmed_allowed" : true,
-        "mult_bonuses" : [
-            ["movecost", 0.5],
-            ["damage", "bash", 0.66],
-            ["damage", "cut", 0.66],
-            ["damage", "stab", 0.66]
-        ],
-        "messages" : [
-            "You quickly chop %s",
-            "<npcname> quickly chops %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_venom_snake_bite",
-        "name" : "Viper Bite",
-        "min_unarmed" : 0,
-        "unarmed_allowed" : true,
-        "req_buffs" : [
-            "venom_snake_combo_initiate"
-        ],
-        "messages" : [
-            "You Snakebite %s",
-            "<npcname> Snakebites %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_venom_snake_strike",
-        "name" : "Viper Strike",
-        "min_unarmed" : 0,
-        "unarmed_allowed" : true,
-        "req_buffs" : [
-            "venom_snake_combo_continue"
-        ],
-        "messages" : [
-            "You Viper Strike %s",
-            "<npcname> Viper Strikes %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_venom_snake_break",
-        "name" : "Viper Writhe",
-        "unarmed_allowed" : true,
-        "melee_allowed" : true,
-        "defensive" : true,
-        "grab_break" : true
-    },{
-        "type" : "technique",
-        "id" : "tec_scorpion_brutal",
-        "name" : "Stinger Strike",
-        "unarmed_allowed" : true,
-        "crit_tec" : true,
-        "stun_dur" : 3,
-        "knockback_dist" : 3,
-        "mult_bonuses" : [["damage", "bash", 2]],
-        "messages" : [
-            "Your Stinger Kick sends %s flying",
-            "<npcname>'s Stinger Kick sends %s flying"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_scorpion_precise",
-        "name" : "Pincer Strike",
-        "min_unarmed" : 4,
-        "unarmed_allowed" : true,
-        "mult_bonuses" : [["damage", "bash", 1.25]],
-        "messages" : [
-            "You punch %s with your Pincer Fist",
-            "<npcname> jabs %s with a Pincer Fist"
-        ],
-        "stun_dur" : 2
-    },{
-        "type" : "technique",
-        "id" : "tec_toad_grab",
-        "name" : "Toad's Tongue",
-        "min_unarmed" : 4,
-        "unarmed_allowed" : true,
-        "mult_bonuses" : [["movecost", 0.5]],
-        "down_dur" : 1,
-        "messages" : [
-            "You snatch and slug %s",
-            "<npcname> snatches and slug %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_centipede_rapid",
-        "name" : "Rapid Strike",
-        "min_unarmed" : 2,
-        "unarmed_allowed" : true,
-        "mult_bonuses" : [
-            ["movecost", 0.5],
-            ["damage", "bash", 0.66],
-            ["damage", "cut", 0.66],
-            ["damage", "stab", 0.66]
-        ],
-        "messages" : [
-            "You swiftly hit %s",
-            "<npcname> swiftly hits %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_snake_rapid",
-        "name" : "Snake Snap",
-        "min_unarmed" : 2,
-        "unarmed_allowed" : true,
-        "mult_bonuses" : [
-            ["movecost", 0.5],
-            ["damage", "bash", 0.66],
-            ["damage", "cut", 0.66],
-            ["damage", "stab", 0.66]
-        ],
-        "messages" : [
-            "You swiftly jab %s",
-            "<npcname> swiftly jabs %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_snake_feint",
-        "name" : "Snake Slide",
-        "min_unarmed" : 3,
-        "unarmed_allowed" : true,
-        "defensive" : true,
-        "miss_recovery" : true,
-        "messages" : [
-            "You make serpentine hand motions at %s",
-            "<npcname> makes serpentine hand motions at %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_snake_break",
-        "name" : "Snake Slither",
-        "min_unarmed" : 4,
-        "unarmed_allowed" : true,
-        "defensive" : true,
-        "grab_break" : true,
-        "messages" : [
-            "You slither free",
-            "<npcname> slithers free"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_snake_precise",
-        "name" : "Snake Strike",
-        "min_unarmed" : 4,
-        "unarmed_allowed" : true,
-        "crit_tec" : true,
-        "messages" : [
-            "You strike out at %s",
-            "<npcname> strikes out at %s"
-        ],
-        "stun_dur" : 2
-    },{
-        "type" : "technique",
-        "id" : "tec_tiger_grab",
-        "name" : "Tiger Takedown",
-        "min_unarmed" : 4,
-        "unarmed_allowed" : true,
-        "down_dur" : 1,
-        "messages" : [
-            "You grab and ground %s",
-            "<npcname> grabs and grounds %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_leopard_precise",
-        "name" : "Leopard Fist",
-        "min_unarmed" : 5,
-        "unarmed_allowed" : true,
-        "crit_tec" : true,
-        "messages" : [
-            "You strike out at %s with your Leopard Fist",
-            "<npcname> strikes out at %s with a Leopard Fist"
-        ],
-        "stun_dur" : 2
-    },{
-        "type" : "technique",
-        "id" : "tec_leopard_rapid",
-        "name" : "Leopard Swipe",
-        "min_unarmed" : 2,
-        "unarmed_allowed" : true,
-        "mult_bonuses" : [
-            ["movecost", 0.5],
-            ["damage", "bash", 0.66],
-            ["damage", "cut", 0.66],
-            ["damage", "stab", 0.66]
-        ],
-        "messages" : [
-            "You quickly swipe at %s",
-            "<npcname> quickly swipes at %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_leopard_counter",
-        "name" : "Leopard Foresight",
-        "min_unarmed" : 4,
-        "unarmed_allowed" : true,
-        "dodge_counter" : true,
-        "mult_bonuses" : [
-            ["movecost", 0.0],
-            ["damage", "bash", 1.5]
-        ],
-        "messages" : [
-            "You dodge the attack and swipe at %s's exposed flank",
-            "<npcname> dodges and catches %s exposed"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_dragon_grab",
-        "name" : "Dragon Snatch",
-        "min_unarmed" : 4,
-        "unarmed_allowed" : true,
-        "stun_dur" : 2,
-        "mult_bonuses" : [["damage", "bash", 1.2]],
-        "messages" : [
-            "You grab and knee %s",
-            "<npcname> grabs and knees %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_dragon_counter",
-        "name" : "Dragon's Vortex",
-        "min_unarmed" : 4,
-        "unarmed_allowed" : true,
-        "block_counter" : true,
-        "dodge_counter" : true,
-        "mult_bonuses" : [["movecost", 0.0]],
-        "stun_dur" : 2,
-        "messages" : [
-            "You catch the attack and send %s spinning",
-            "<npcname> catches and spins %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_dragon_sweep",
-        "name" : "Dragon Sweeper",
-        "min_unarmed" : 5,
-        "unarmed_allowed" : true,
-        "down_dur" : 2,
-        "messages" : [
-            "You low-roundhouse %s 's legs",
-            "<npcname> low-roundhouses %s 's legs"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_dragon_brutal",
-        "name" : "Dragon Strike",
-        "min_unarmed" : 6,
-        "unarmed_allowed" : true,
-        "crit_tec" : true,
-        "stun_dur" : 1,
-        "knockback_dist" : 1,
-        "messages" : [
-            "You send %s reeling with a Dragon Strike",
-            "<npcname> sends %s reeling with a Dragon Strike"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_crane_feint",
-        "name" : "Crane Wing",
-        "min_unarmed" : 2,
-        "unarmed_allowed" : true,
-        "defensive" : true,
-        "miss_recovery" : true,
-        "messages" : [
-            "You raise your arms intimidatingly",
-            "<npcname> performs the Crane Wing"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_crane_break",
-        "name" : "Crane Flap",
-        "min_unarmed" : 3,
-        "unarmed_allowed" : true,
-        "defensive" : true,
-        "grab_break" : true,
-        "messages" : [
-            "You swing your arms and break free",
-            "<npcname> flaps free"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_crane_precise",
-        "name" : "Crane Strike",
-        "min_unarmed" : 4,
-        "unarmed_allowed" : true,
-        "crit_tec" : true,
-        "messages" : [
-            "You hand-peck %s",
-            "<npcname> hand-pecks %s"
-        ],
-        "stun_dur" : 3
-    },{
-        "type" : "technique",
-        "id" : "tec_brawl_feint",
-        "name" : "Feint",
-        "min_unarmed" : 3,
-        "unarmed_allowed" : true,
-        "melee_allowed" : true,
-        "defensive" : true,
-        "miss_recovery" : true,
-        "messages" : [
-            "You fake a strike at %s",
-            "<npcname> feints at %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_brawl_power",
-        "name" : "Power Hit",
-        "min_unarmed" : 4,
-        "unarmed_allowed" : true,
-        "melee_allowed" : true,
-        "crit_tec" : true,
-        "stun_dur" : 1,
-        "knockback_dist" : 1,
-        "messages" : [
-            "You send %s reeling",
-            "<npcname> sends %s reeling"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_brawl_counter",
-        "name" : "Hit Them Back",
-        "min_unarmed" : 5,
-        "unarmed_allowed" : true,
-        "block_counter": true,
-        "mult_bonuses" : [["movecost", 0.0]],
-        "messages" : [
-            "You catch %s's attack, and hit back",
-            "<npcname> catches %s, and counters"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_brawl_trip",
-        "name" : "Trip",
-        "min_unarmed" : 5,
-        "unarmed_allowed" : true,
-        "down_dur" : 2,
-        "messages" : [
-            "You trip %s",
-            "<npcname> trips %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "niten_water_cut",
-        "name" : "Flowing Water Cut",
-        "min_melee" : 4,
-        "mult_bonuses" : [
-            ["movecost", 1.75],
-            ["damage", "bash", 2.0],
-            ["damage", "cut", 2.0]
-        ],
-        "messages" : [
-            "You strike %s with the slow power of flowing water",
-            "<npcname> strikes %s with the slow power of flowing water"
-        ]
-    },{
-       "type" : "technique",
-      "id" : "niten_red_leaf",
-      "name" : "Red Leaf's Cut",
-      "min_melee" : 5,
-      "down_dur" : 2,
-        "messages" : [
-          "Your strike knocks %s off balance",
-          "<npcname>'s strike knocks %s off balance"
-      ]
-   },{
-        "type" : "technique",
-        "id" : "niten_stone_cut",
-        "name" : "Fire and Stone's Cut",
-        "min_melee" : 6,
-        "crit_tec" : true,
-        "mult_bonuses" : [
-            ["damage", "bash", 1.5],
-            ["damage", "cut", 1.5]
-        ],
-        "messages" : [
-            "You stun %s with the force of the blow",
-            "<npcname> stuns %s with the force of the blow"
-        ],
-        "stun_dur" : 2
-   },{
-        "type" : "technique",
-        "id" : "niten_timing_attack",
-        "name" : "In-One Timing",
-        "min_melee" : 5,
-        "req_buffs" : [
-            "niten_set-up"
-        ],
-        "messages" : [
-            "You strike at %s's weaknesses",
-            "<npcname> strikes %s's weaknesses"
-        ],
-        "//" : "Damage bonus plus Quick is severely powerful--generi-Quick takes a damage nerf.",
-        "mult_bonuses" : [
-            ["movecost", 0.5],
-            ["damage", "bash", 1.5],
-            ["damage", "cut", 1.5]
-        ],
-        "//" : "Minimum effective time for a status in combat is two turns, as you have one deducted on the same turn its applied.",
-        "stun_dur" : 2
-   },{
-       "type" : "technique",
-      "id" : "niten_feint",
-      "name" : "feint at",
-      "melee_allowed" : true,
-      "min_melee" : 2,
-      "defensive" : true,
-      "miss_recovery" : true,
-      "mult_bonuses" : [["movecost", 0.8]],
-      "messages" : [
-          "You feint at %s",
-          "<npcname> feints at %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_debug_slow",
-        "name" : "slow strike",
-        "unarmed_allowed" : true,
-        "strictly_unarmed" : true,
-        "min_unarmed" : 3,
-        "mult_bonuses" : [
-            ["damage", "bash", 3.0],
-            ["damage", "bash", "str", 0.1]
-        ],
-        "flat_bonuses" : [
-            ["movecost", 100],
-            ["movecost", "str", 10]
-        ],
-        "messages" : [
-            "You slowly strike %s",
-            "<npcname> slowly strikes %s"
-        ]
-    },{
-        "type" : "technique",
-        "id" : "tec_debug_arpen",
-        "name" : "phasing strike",
-        "unarmed_allowed" : true,
-        "melee_allowed" : true,
-        "min_melee" : 3,
-        "mult_bonuses" : [
-            ["damage", "bash", 0.2],
-            ["damage", "cut", 0.2],
-            ["damage", "stab", 0.2],
-            ["movecost", 0.3]
-        ],
-        "flat_bonuses" : [
-            ["arpen", "bash", 10],
-            ["arpen", "bash", "per", 1]
-        ],
-        "crit_tec" : true,
-        "messages" : [
-            "You phase-strike %s",
-            "<npcname> phase-strikes %s"
-        ]
-    }
+  {
+    "type": "technique",
+    "id": "tec_none",
+    "name": "Not at technique at all",
+    "dummy": true
+  },
+  {
+    "type": "technique",
+    "id": "WBLOCK_1",
+    "name": "Block",
+    "dummy": true,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ],
+    "messages": [ "You block %s", "<npcname> blocks %s" ],
+    "description": "Medium blocking ability"
+  },
+  {
+    "type": "technique",
+    "id": "WBLOCK_2",
+    "name": "Parry",
+    "dummy": true,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ],
+    "messages": [ "You parry %s", "<npcname> parries %s" ],
+    "description": "High blocking ability"
+  },
+  {
+    "type": "technique",
+    "id": "WBLOCK_3",
+    "name": "Shield",
+    "dummy": true,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ],
+    "messages": [ "You shield against %s", "<npcname> shields against %s" ],
+    "description": "Very high blocking ability"
+  },
+  {
+    "type": "technique",
+    "id": "DEF_DISARM",
+    "name": "disarm",
+    "min_unarmed": 0,
+    "melee_allowed": true,
+    "disarms": true,
+    "description": "Unwield target's weapon"
+  },
+  {
+    "type": "technique",
+    "id": "GRAB",
+    "name": "",
+    "//": "not implemented -> empty name",
+    "messages": [ "You grab %s", "<npcname> grabs %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "SPIN",
+    "name": "Spinning Strike",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "min_melee": 4,
+    "crit_tec": true,
+    "messages": [ "You swing through %s and everyone nearby", "<npcname> swings through %s and everyone nearby" ],
+    "aoe": "spin",
+    "description": "Attack adjacent enemies, crit only, min 4 melee"
+  },
+  {
+    "type": "technique",
+    "id": "WIDE",
+    "name": "Wide Strike",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "min_melee": 3,
+    "crit_tec": true,
+    "weighting": 2,
+    "messages": [ "You swing in a wide arc through %s", "<npcname> swings in a wide arc through %s" ],
+    "aoe": "wide",
+    "description": "Attack in a wide arc, crit only, min 3 melee"
+  },
+  {
+    "type": "technique",
+    "id": "IMPALE",
+    "name": "Impaling Strike",
+    "melee_allowed": true,
+    "min_melee": 4,
+    "crit_tec": true,
+    "messages": [ "You pierce straight through %s", "<npcname> pierces through %s" ],
+    "aoe": "impale",
+    "description": "Attack target and another one behind it, crit only, min 4 melee"
+  },
+  {
+    "type": "technique",
+    "id": "BRUTAL",
+    "name": "Brutal Strike",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "knockback_dist": 1,
+    "messages": [ "You send %s reeling", "<npcname> sends %s reeling" ],
+    "description": "Stun 1 turn, knockback 1 tile, crit only"
+  },
+  {
+    "type": "technique",
+    "id": "RAPID",
+    "name": "Rapid Strike",
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ],
+    "messages": [ "You quickly strike %s", "<npcname> quickly strikes %s" ],
+    "description": "50% moves, 66% damage"
+  },
+  {
+    "type": "technique",
+    "id": "VORPAL",
+    "name": "Vorpal Strike",
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "damage", "cut", 99 ] ],
+    "crit_tec": true,
+    "weighting": -250,
+    "messages": [
+      "Snicker-snack! You slice through %s like hot knife slices through butter",
+      "Snicker-snack! <npcname> slices through %s like hot knife slices through butter"
+    ],
+    "description": "Cut damage multiply by 99, crit only"
+  },
+  {
+    "type": "technique",
+    "id": "WRAP",
+    "name": "Wrap Attack",
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "stun_dur": 2,
+    "messages": [ "You wrap up %s", "<npcname> wraps up %s" ],
+    "description": "Stun 2 turns"
+  },
+  {
+    "type": "technique",
+    "id": "SWEEP",
+    "name": "Sweep Attack",
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "down_dur": 2,
+    "messages": [ "You sweep %s", "<npcname> sweeps %s" ],
+    "description": "Down 2 turns"
+  },
+  {
+    "type": "technique",
+    "id": "PRECISE",
+    "name": "Precise Strike",
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "messages": [ "You precisely hit %s", "<npcname> precisely hits %s" ],
+    "stun_dur": 2,
+    "description": "Stun 2 turns, crit only"
+  },
+  {
+    "type": "technique",
+    "id": "WHIP_DISARM",
+    "name": "Disarm",
+    "min_unarmed": 0,
+    "melee_allowed": true,
+    "disarms": true,
+    "messages": [ "You disarm %s using your whip", "<npcname> disarms %s using their whip" ],
+    "description": "Unwield target's weapon"
+  },
+  {
+    "type": "technique",
+    "id": "tec_counter",
+    "name": "Counterattack",
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "block_counter": true,
+    "crit_ok": true,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ],
+    "messages": [ "You counter-attack %s", "<npcname> counter-attacks %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_feint",
+    "name": "Feint",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "defensive": true,
+    "miss_recovery": true,
+    "messages": [ "You feint at %s.", "<npcname> feints at %s." ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_break",
+    "name": "Grab Break",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "defensive": true,
+    "grab_break": true,
+    "messages": [ "The %s tries to grab you, but you break its grab!", "The %s tries to grab <npcname>, but they break its grab!" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_precise",
+    "name": "Precise Strike",
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "messages": [ "You jab deftly at %s", "<npcname> jabs deftly at %s" ],
+    "stun_dur": 2
+  },
+  {
+    "type": "technique",
+    "id": "tec_aikido_blockdisarm",
+    "name": "Block Counter Disarm",
+    "messages": [ "You block and smoothly disarm %s", "<npcname> blocks and smoothly disarms %s" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "unarmed_weapons_allowed": false,
+    "block_counter": true,
+    "crit_ok": true,
+    "disarms": true,
+    "down_dur": 1,
+    "knockback_dist": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_aikido_blockthrow",
+    "name": "Block Counter Throw",
+    "messages": [ "You block and smoothly throw %s", "<npcname> blocks and smoothly throws %s" ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "unarmed_weapons_allowed": false,
+    "block_counter": true,
+    "crit_ok": true,
+    "down_dur": 1,
+    "knockback_dist": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_aikido_dodgethrow",
+    "name": "Dodge Counter Throw",
+    "messages": [ "You dodge and smoothly throw %s", "<npcname> dodges and smoothly throws %s" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "unarmed_weapons_allowed": false,
+    "dodge_counter": true,
+    "crit_ok": true,
+    "down_dur": 1,
+    "knockback_dist": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_aikido_dodgedisarm",
+    "name": "Dodge Counter Disarm",
+    "messages": [ "You dodge and smoothly disarm %s", "<npcname> dodges and smoothly disarms %s" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "unarmed_weapons_allowed": false,
+    "dodge_counter": true,
+    "crit_ok": true,
+    "disarms": true,
+    "down_dur": 1,
+    "knockback_dist": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_aikido_break",
+    "name": "Grab Break",
+    "messages": [
+      "The %s tries to grab you, but you smoothly break free!",
+      "The %s tries to grab <npcname>, but they smoothly break free!"
+    ],
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "unarmed_weapons_allowed": false,
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_boxing_cross",
+    "name": "Cross",
+    "messages": [ "You throw a heavy cross at %s", "<npcname> throws a cross at %s" ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_boxing_counter",
+    "name": "Cross Counter",
+    "messages": [ "You cross-counter %s", "<npcname> throws a perfect counter at %s" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "dodge_counter": true,
+    "knockback_dist": 1,
+    "knockback_spread": 1,
+    "stun_dur": 1,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 1.25 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_boxing_rapid",
+    "name": "Jab",
+    "messages": [ "You quickly jab %s", "<npcname> quickly jabs at %s" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_boxing_upper",
+    "name": "Uppercut",
+    "messages": [ "You uppercut %s", "<npcname> uppercuts %s" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.4 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_brawl_break_melee",
+    "name": "Grab Break",
+    "messages": [ "The %s tries to grab you, but you force yourself free!", "The %s tries to grab <npcname>, but they break free!" ],
+    "min_melee": 6,
+    "melee_allowed": true,
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_brawl_break_unarmed",
+    "name": "Grab Break",
+    "messages": [ "The %s tries to grab you, but you force yourself free!", "The %s tries to grab <npcname>, but they break free!" ],
+    "min_unarmed": 6,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_brawl_counter_melee",
+    "name": "Hit Them Back",
+    "messages": [ "You catch %s's attack, and hit back", "<npcname> catches %s, and counters" ],
+    "min_melee": 5,
+    "melee_allowed": true,
+    "block_counter": true,
+    "crit_ok": true,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_brawl_counter_unarmed",
+    "name": "Hit Them Back",
+    "messages": [ "You catch %s's attack, and hit back", "<npcname> catches %s, and counters" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "block_counter": true,
+    "crit_ok": true,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_brawl_feint_melee",
+    "name": "Feint",
+    "messages": [ "You fake a strike at %s", "<npcname> fakes a strike at %s" ],
+    "min_melee": 3,
+    "melee_allowed": true,
+    "defensive": true,
+    "miss_recovery": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_brawl_feint_unarmed",
+    "name": "Feint",
+    "messages": [ "You fake a strike at %s", "<npcname> fakes a strike at %s" ],
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "miss_recovery": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_brawl_disarm_melee",
+    "name": "Disarm",
+    "messages": [ "You knock %s's weapon away", "<npcname> knock %s's weapon away" ],
+    "min_melee": 8,
+    "melee_allowed": true,
+    "disarms": true,
+    "crit_ok": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_brawl_disarm_unarmed",
+    "name": "Disarm",
+    "messages": [ "You knock %s's weapon away", "<npcname> knock %s's weapon away" ],
+    "min_unarmed": 8,
+    "unarmed_allowed": true,
+    "disarms": true,
+    "crit_ok": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_brawl_power",
+    "name": "Power Hit",
+    "messages": [ "You send %s reeling", "<npcname> sends %s reeling" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "knockback_dist": 1,
+    "stun_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_brawl_trip",
+    "name": "Trip",
+    "messages": [ "You trip %s", "<npcname> trip %s" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "down_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_capoeira_feint",
+    "name": "Feint",
+    "messages": [ "You fake a kick at %s", "<npcname> fakes a kick at %s" ],
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "miss_recovery": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_capoeira_pushkick",
+    "name": "Push Kick",
+    "messages": [ "You push kick %s", "<npcname> push kicks %s" ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_capoeira_circlekick",
+    "name": "Circle Kick",
+    "messages": [ "You circle kick %s", "<npcname> circle kicks %s" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.4 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_capoeira_sweepkick",
+    "name": "Sweep Kick",
+    "messages": [ "You sweep kick %s", "<npcname> sweep kicks %s" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "req_buffs": [ "buff_capoeira_onmove" ],
+    "weighting": 2,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.75 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_capoeira_spinkick",
+    "name": "Spin Kick",
+    "messages": [ "You spin kick %s", "<npcname> spin kicks %s" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "req_buffs": [ "buff_capoeira_onmove" ],
+    "weighting": 2,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.75 ], [ "damage", "bash", 1.4 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_crane_feint",
+    "name": "Crane Wing",
+    "messages": [ "You raise your arms intimidatingly at %s.", "<npcname> performs the Crane Wing at %s." ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "miss_recovery": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_crane_break",
+    "name": "Crane Flap",
+    "messages": [
+      "The %s tries to grab you, but you swing your arms and break free!",
+      "The %s tries to grab <npcname>, but they flap free!"
+    ],
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_crane_counter",
+    "name": "Crane Strike",
+    "messages": [ "You hand-peck and swat down %s", "<npcname> hand-pecks and swats down %s" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "dodge_counter": true,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_crane_precise",
+    "name": "Crane Kick",
+    "messages": [ "You leap and kick %s", "<npcname> leaps and kicks %s" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "knockback_dist": 1,
+    "knockback_spread": 1,
+    "stun_dur": 2,
+    "mult_bonuses": [ [ "damage", "bash", 1.25 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_dragon_claw",
+    "name": "Dragon Claw",
+    "min_unarmed": 1,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.2 ] ],
+    "messages": [ "You lash out at %s with a Dragon Claw", "<npcname> lashes out at %s with a Dragon Claw" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_dragon_blockcounter",
+    "name": "Dragon Vortex Block",
+    "messages": [ "You block the attack and send %s spinning", "<npcname> blocks and spins %s" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "req_buffs": [ "buff_dragon_onhit" ],
+    "block_counter": true,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_dragon_dodgecounter",
+    "name": "Dragon Wing Dodge",
+    "messages": [ "You dodge the attack and leave %s off balance", "<npcname> dodges and leaves %s off balance" ],
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "req_buffs": [ "buff_dragon_onhit" ],
+    "dodge_counter": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_dragon_tail",
+    "name": "Dragon Tail",
+    "messages": [ "You sweep %s with a quick Dragon Tail", "<npcname> sweeps %s with a quick Dragon Tail sweep" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stunned_target": true,
+    "down_dur": 2,
+    "mult_bonuses": [ [ "damage", "bash", 1.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_dragon_strike",
+    "name": "Dragon Strike",
+    "messages": [ "You descend upon %s with a powerful Dragon Strike", "<npcname>  descends upon %s with a powerful Dragon Strike" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "downed_target": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 2.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_eskrima_round",
+    "name": "Round Strike",
+    "messages": [ "You round strike %s", "<npcname> round strikes %s" ],
+    "min_melee": 4,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.6 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_eskrima_fan",
+    "name": "Fan Strike",
+    "messages": [ "You fan strike %s", "<npcname> fan strikes %s" ],
+    "min_melee": 2,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.75 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_eskrima_snap",
+    "name": "Snap Strike",
+    "messages": [ "You snap out at %s", "<npcname> snaps quickly at %s" ],
+    "min_melee": 0,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.8 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_eskrima_combination",
+    "name": "Combination Strike",
+    "messages": [ "You combination strike %s", "<npcname> combination strikes %s" ],
+    "min_melee": 2,
+    "melee_allowed": true,
+    "req_buffs": [ "buff_eskrima_oncrit" ],
+    "crit_tec": true,
+    "mult_bonuses": [ [ "movecost", 0.8 ], [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ], [ "damage", "stab", 1.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_eskrima_puno",
+    "name": "Puño Strike",
+    "messages": [ "You deliver a puño to %s", "<npcname> haftstrikes %s" ],
+    "min_melee": 3,
+    "min_bashing_damage": 2,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.6 ], [ "damage", "bash", 0.7 ], [ "damage", "cut", 0.0 ], [ "damage", "stab", 0.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_eskrima_low",
+    "name": "Low Strike",
+    "messages": [ "Your weapon becomes a blur as you ground %s", "<npcname>'s weapon becomes a blur as they ground %s" ],
+    "min_melee": 4,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "down_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_fencing_feint",
+    "messages": [ "You steady your weapon and fake a thrust at %s", "<npcname> steadies their weapon and fake a thrust at %s" ],
+    "name": "Feint",
+    "min_melee": 4,
+    "melee_allowed": true,
+    "defensive": true,
+    "miss_recovery": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_fencing_lunge",
+    "name": "Fencing Lunge",
+    "messages": [ "You lunge at %s", "<npcname> lunges at %s" ],
+    "min_melee": 2,
+    "melee_allowed": true,
+    "crit_ok": true,
+    "mult_bonuses": [ [ "movecost", 0.8 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_fencing_compound",
+    "name": "Compound Attack",
+    "messages": [ "Your feint leads to a compound attack against %s", "<npcname>'s feint leads to a compound attack against %s" ],
+    "min_melee": 3,
+    "melee_allowed": true,
+    "req_buffs": [ "buff_fencing_onmiss" ],
+    "weighting": 4,
+    "crit_ok": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.25 ], [ "damage", "cut", 1.25 ], [ "damage", "stab", 1.25 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_fencing_riposte",
+    "name": "Fencing Riposte",
+    "messages": [ "You deliver a perfect riposte to %s", "<npcname> delivers a perfect riposte to %s" ],
+    "min_melee": 5,
+    "melee_allowed": true,
+    "block_counter": true,
+    "crit_ok": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 1.2 ], [ "damage", "cut", 1.2 ], [ "damage", "stab", 1.2 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_medievalpole_counter",
+    "name": "Displace and Hook",
+    "messages": [ "You parry and hook %s down", "<npcname> parries and hooks %s down" ],
+    "min_melee": 4,
+    "melee_allowed": true,
+    "block_counter": true,
+    "down_dur": 2,
+    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_medievalpole_highround",
+    "name": "High Round Strike",
+    "messages": [ "You swing high and strike at %s", "<npcname> swings high and strikes %s" ],
+    "min_melee": 2,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.2 ], [ "damage", "cut", 1.2 ], [ "damage", "stab", 1.2 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_medievalpole_feint",
+    "name": "High Round Feint",
+    "messages": [ "You fake a high round strike at %s", "<npcname> feints at %s" ],
+    "min_melee": 3,
+    "melee_allowed": true,
+    "defensive": true,
+    "miss_recovery": true,
+    "mult_bonuses": [ [ "movecost", 0.8 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_medievalpole_break",
+    "name": "Grab Break",
+    "messages": [ "The %s tries to grab you, but you push away!", "The %s tries to grab <npcname>, but they push away!" ],
+    "min_melee": 4,
+    "melee_allowed": true,
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_medievalpole_hook",
+    "name": "Hook and Drag",
+    "messages": [ "You hook and drag %s down", "<npcname> hooks and drags %s down" ],
+    "min_melee": 3,
+    "melee_allowed": true,
+    "req_buffs": "buff_medievalpole_onmiss",
+    "crit_ok": true,
+    "weighting": 2,
+    "down_dur": 2,
+    "mult_bonuses": [ [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_medievalpole_execute",
+    "name": "Colpo di Grazia",
+    "messages": [ "You swing down hard and execute %s", "<npcname> swings down hard and executes %s" ],
+    "min_melee": 5,
+    "melee_allowed": true,
+    "downed_target": true,
+    "crit_tec": true,
+    "weighting": 2,
+    "mult_bonuses": [ [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ], [ "damage", "stab", 1.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_judo_throw",
+    "name": "Throw",
+    "messages": [ "You throw %s to the ground", "<npcname> throws %s to the ground" ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "unarmed_weapons_allowed": false,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.25 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_judo_disarm",
+    "name": "Disarming Throw",
+    "messages": [ "You disarm and throw %s", "<npcname> disarms and throws %s" ],
+    "min_unarmed": 1,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "unarmed_weapons_allowed": false,
+    "disarms": true,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.25 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_judo_backthrow",
+    "name": "Back Throw",
+    "messages": [ "You flip %s head over heels", "<npcname> flips %s head over heels" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "unarmed_weapons_allowed": false,
+    "crit_tec": true,
+    "side_switch": true,
+    "down_dur": 1,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_judo_break",
+    "name": "Grab Break",
+    "messages": [
+      "The %s tries to grab you, but you break their feeble grapple!",
+      "The %s tries to grab <npcname>, but they break its feeble grapple!"
+    ],
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_judo_counter",
+    "name": "Counter Throw",
+    "messages": [ "You evade and toss %s to the ground", "<npcname> evades and tosses %s to the ground" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "unarmed_weapons_allowed": false,
+    "dodge_counter": true,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_karate_counter",
+    "name": "Karate Counter",
+    "messages": [ "You counterattack %s", "<npcname> counterattacks %s" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "block_counter": true,
+    "crit_ok": true,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_karate_precise",
+    "name": "Knifehand Strike",
+    "messages": [ "You hit %s with a knifehand strike", "<npcname> hits %s with a knifehand strike" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.33 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_karate_rapid",
+    "name": "Backfist Strike",
+    "messages": [ "You quickly strike %s with the back of your fist", "<npcname> quickly strikes %s with the back of their fist" ],
+    "min_unarmed": 1,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_karate_roundhouse",
+    "name": "Roundhouse Kick",
+    "messages": [ "You roundhouse kick %s", "<npcname> roundhouse kicks %s" ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_krav_maga_rapid",
+    "messages": [ "You jab at %s", "<npcname> jabs at %s" ],
+    "name": "Jab",
+    "min_unarmed": 1,
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_krav_maga_crit",
+    "name": "Cheapshot",
+    "messages": [ "You hit %s where it hurts", "<npcname> hits %s with a cheapshot" ],
+    "min_unarmed": 2,
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_krav_maga_takedown",
+    "name": "Takedown",
+    "messages": [ "You force %s to the ground", "<npcname> forces %s to the ground" ],
+    "min_unarmed": 3,
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "down_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_krav_maga_disarm",
+    "name": "Bone Breaker",
+    "messages": [ "*CRACK!* You brutally maim %s's arm", "*CRACK!* <npcname> brutally maims %s's arm" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "weighting": 3,
+    "crit_ok": true,
+    "downed_target": true,
+    "stunned_target": true,
+    "disarms": true,
+    "stun_dur": 3,
+    "flat_bonuses": [ [ "arpen", "bash", "str", 1.0 ] ],
+    "mult_bonuses": [ [ "damage", "bash", 3.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_krav_maga_break",
+    "name": "Grab Break",
+    "messages": [ "The %s tries to grab you, but you wrestle free!", "The %s tries to grab <npcname>, but they wrestle free!" ],
+    "min_unarmed": 3,
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_krav_maga_counter",
+    "name": "Counter",
+    "messages": [ "You block and counter %s", "<npcname> blocks and counters %s" ],
+    "min_unarmed": 4,
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "block_counter": true,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_leopard_feint",
+    "name": "Leopard Paw",
+    "messages": [ "You paw aggressively at %s", "<npcname> paws aggressively at %s" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "miss_recovery": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_leopard_precise",
+    "name": "Leopard Fist",
+    "messages": [ "You strike out at %s with your Leopard Fist", "<npcname> strikes out at %s with a Leopard Fist" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_leopard_rapid",
+    "name": "Leopard Swipe",
+    "messages": [ "You quickly swipe at %s", "<npcname> quickly swipes at %s" ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_leopard_counter",
+    "name": "Leopard Foresight",
+    "messages": [ "You dodge the attack and swipe at %s's exposed flank", "<npcname> dodges and catches %s exposed" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "dodge_counter": true,
+    "knockback_dist": 1,
+    "knockback_spread": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_swordsmanship_grab",
+    "name": "Pommel Strike",
+    "messages": [ "You dodge, grab, and pommel strike %s", "<npcname> dodges, grabs, and pommel strikes %s" ],
+    "min_melee": 4,
+    "melee_allowed": true,
+    "crit_ok": true,
+    "dodge_counter": true,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "cut", 0 ], [ "damage", "stab", 0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_swordsmanship_break",
+    "name": "Grab Break",
+    "messages": [ "The %s tries to grab you, but you evade its grab!", "The %s tries to grab <npcname>, but they evade its grab!" ],
+    "min_melee": 3,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_swordsmanship_unterhau",
+    "name": "Sweeping Strike",
+    "messages": [ "You trip %s with a sweeping strike", "<npcname> trips %s with a sweeping strike" ],
+    "min_melee": 1,
+    "melee_allowed": true,
+    "req_buffs": [ "buff_swordsmanship_onblock" ],
+    "crit_tec": true,
+    "down_dur": 2
+  },
+  {
+    "type": "technique",
+    "id": "tec_swordsmanship_zornhau",
+    "name": "Vicious Strike",
+    "messages": [ "You hack at %s with a vicious strike", "<npcname> hack at %s with a vicious strike" ],
+    "min_melee": 5,
+    "melee_allowed": true,
+    "req_buffs": [ "buff_swordsmanship_oncrit" ],
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ], [ "damage", "stab", 1.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_swordsmanship_mordhau",
+    "name": "Deathblow",
+    "messages": [
+      "You flip your weapon around and deliver a mordhau to %s",
+      "<npcname> flips their weapon around and smashes down on %s"
+    ],
+    "min_melee": 4,
+    "melee_allowed": true,
+    "req_buffs": [ "buff_swordsmanship_onblock" ],
+    "crit_tec": true,
+    "stun_dur": 2,
+    "mult_bonuses": [ [ "movecost", 1.5 ], [ "damage", "bash", 3 ], [ "damage", "cut", 0 ], [ "damage", "stab", 0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_muay_thai_elbow",
+    "name": "Elbow Strike",
+    "messages": [ "You slam your elbow into %s", "<npcname> slams their elbow into %s" ],
+    "min_unarmed": 1,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "mult_bonuses": [ [ "movecost", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_muay_thai_kick",
+    "name": "Power Kick",
+    "messages": [ "You deal a powerful kick to %s", "<npcname> deals a powerful kick to %s" ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.3 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_muay_thai_knee",
+    "name": "Flying Knee",
+    "messages": [ "You leap and deliver a flying knee to %s", "<npcname> leaps and delivers a flying knees to %s" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.4 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_muay_thai_break",
+    "name": "Grab Break",
+    "messages": [ "The %s tries to grab you, but you break the clinch!", "The %s tries to grab <npcname>, but they break the clinch!" ],
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_ninjutsu_swift",
+    "name": "Swift Strike",
+    "messages": [ "You swiftly strike %s", "<npcname> swiftly strikes %s" ],
+    "min_melee": 2,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.8 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_ninjutsu_precise",
+    "name": "Assassinate",
+    "messages": [ "You attempt to slay %s in a single stroke", "<npcname> attempts to slay %s in a single stroke" ],
+    "min_melee": 5,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ], [ "damage", "stab", 1.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_ninjutsu_takedown",
+    "name": "Ninjutsu Takedown",
+    "messages": [ "You quickly grab and bring %s to the ground", "<npcname> quickly grabs and brings attacks %s to the ground" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "down_dur": 2,
+    "stun_dur": 2,
+    "mult_bonuses": [ [ "damage", "bash", 2.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "niten_water_cut",
+    "name": "Flowing Water Cut",
+    "messages": [ "You strike %s with the slow power of flowing water", "<npcname> strikes %s with the slow power of flowing water" ],
+    "min_melee": 4,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "movecost", 1.75 ], [ "damage", "bash", 2.0 ], [ "damage", "cut", 2.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "niten_red_leaf",
+    "name": "Red Leaf's Cut",
+    "messages": [ "Your strike knocks %s off balance", "<npcname>'s strike knocks %s off balance" ],
+    "min_melee": 3,
+    "melee_allowed": true,
+    "down_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "niten_stone_cut",
+    "name": "Fire and Stone's Cut",
+    "messages": [ "You stun %s with the force of your cut", "<npcname> stuns %s with the force of their cut" ],
+    "min_melee": 5,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "niten_timing_attack",
+    "name": "In-One Timing",
+    "messages": [ "You strike at %s's weaknesses", "<npcname> strikes %s's weaknesses" ],
+    "min_melee": 5,
+    "melee_allowed": true,
+    "req_buffs": [ "buff_niten_ondodge" ],
+    "crit_ok": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "niten_feint",
+    "name": "Feint",
+    "messages": [ "You feint at %s", "<npcname> feints at %s" ],
+    "min_melee": 2,
+    "melee_allowed": true,
+    "defensive": true,
+    "miss_recovery": true,
+    "mult_bonuses": [ [ "movecost", 0.8 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_pankration_cross",
+    "name": "Cross",
+    "messages": [ "You throw a heavy cross at %s", "<npcname> throws a cross at %s" ],
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_pankration_kick",
+    "name": "Kick",
+    "messages": [ "You kick %s hard", "<npcname> kicks %s hard" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 2
+  },
+  {
+    "type": "technique",
+    "id": "tec_pankration_break",
+    "name": "Grab Break",
+    "messages": [ "The %s tries to grab you, but you wrestle free!", "The %s tries to grab <npcname>, but they wrestle free!" ],
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_pankration_grabknee",
+    "name": "Grab and Knee",
+    "messages": [ "You grab and knee %s", "<npcname> grabs and knees %s" ],
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "stunned_target": true,
+    "weighting": 3,
+    "mult_bonuses": [ [ "movecost", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_pankration_grabdisarm",
+    "name": "Arm Lock",
+    "messages": [ "You disarm %s with an arm lock", "<npcname> disarms %s with an arm lock" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "stunned_target": true,
+    "crit_ok": true,
+    "weighting": 3,
+    "disarms": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.25 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_pankration_grabthrow",
+    "name": "Grab and Throw",
+    "messages": [ "You grab and throw %s", "<npcname> grabs and throws %s" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "weighting": 3,
+    "crit_tec": true,
+    "down_dur": 2,
+    "knockback_dist": 2,
+    "knockback_spread": 2,
+    "stunned_target": true,
+    "mult_bonuses": [ [ "damage", "bash", 2.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_taichi_disarm",
+    "name": "disarm",
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "disarms": true,
+    "messages": [ "You disarm %s", "<npcname> disarms %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_taichi_precise",
+    "name": "precise strike",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 2,
+    "messages": [ "You strike %s", "<npcname> strikes %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_taekwondo_precise",
+    "name": "axe-kick",
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 2,
+    "messages": [ "You axe-kick %s", "<npcname> axe-kicks %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_taekwondo_push",
+    "name": "side kick",
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "messages": [ "You side-kick %s", "<npcname> side-kicks %s" ],
+    "stun_dur": 1,
+    "knockback_dist": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_taekwondo_sweep",
+    "name": "sweep kick",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "messages": [ "You sweep-kick %s", "<npcname> sweep-kicks %s" ],
+    "down_dur": 2
+  },
+  {
+    "type": "technique",
+    "id": "tec_zuiquan_feint",
+    "name": "Drunk feint",
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "miss_recovery": true,
+    "messages": [ "You stumble and leer at %s", "<npcname> stumbles and leers at %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_zuiquan_counter",
+    "name": "Drunk counter",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "dodge_counter": true,
+    "crit_ok": true,
+    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 1.25 ] ],
+    "messages": [ "You lurch, and your wild swing hits %s", "<npcname> lurches, and hits %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_silat_hamstring",
+    "name": "hamstring",
+    "min_melee": 2,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "down_dur": 3,
+    "messages": [ "You ground %s with a low blow", "<npcname> grounds %s with a low blow" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_silat_precise",
+    "name": "Vicious Precision",
+    "min_melee": 4,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ], [ "damage", "stab", 1.5 ] ],
+    "messages": [ "You viciously wound %s", "<npcname> viciously wounds %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_silat_brutal",
+    "name": "Silat Brutality",
+    "min_melee": 3,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "knockback_dist": 1,
+    "messages": [ "You send %s reeling backwards", "<npcname> sends %s reeling" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_silat_dirty",
+    "name": "Dirty Hit",
+    "min_melee": 1,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 2,
+    "req_buffs": [ "silat_dodge_buff" ],
+    "messages": [ "You hit %s with a dirty blow", "<npcname> delivers a dirty blow to %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_tiger_grab",
+    "name": "Tiger Takedown",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "down_dur": 1,
+    "messages": [ "You grab and ground %s", "<npcname> grabs and grounds %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_snake_rapid",
+    "name": "Snake Snap",
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ],
+    "messages": [ "You swiftly jab %s", "<npcname> swiftly jabs %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_snake_feint",
+    "name": "Snake Slide",
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "miss_recovery": true,
+    "messages": [ "You make serpentine hand motions at %s", "<npcname> makes serpentine hand motions at %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_snake_break",
+    "name": "Snake Slither",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "grab_break": true,
+    "messages": [ "The %s tries to grab you, but you slither free!", "The %s tries to grab <npcname>, but they slither free!" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_snake_precise",
+    "name": "Snake Strike",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "messages": [ "You strike out at %s", "<npcname> strikes out at %s" ],
+    "stun_dur": 2
+  },
+  {
+    "type": "technique",
+    "id": "tec_debug_slow",
+    "name": "slow strike",
+    "unarmed_allowed": true,
+    "unarmed_weapons_allowed": false,
+    "min_unarmed": 3,
+    "mult_bonuses": [ [ "damage", "bash", 3.0 ], [ "damage", "bash", "str", 0.1 ] ],
+    "flat_bonuses": [ [ "movecost", 100 ], [ "movecost", "str", 10 ] ],
+    "messages": [ "You slowly strike %s", "<npcname> slowly strikes %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_debug_arpen",
+    "name": "phasing strike",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "min_melee": 3,
+    "mult_bonuses": [ [ "damage", "bash", 0.2 ], [ "damage", "cut", 0.2 ], [ "damage", "stab", 0.2 ], [ "movecost", 0.3 ] ],
+    "flat_bonuses": [ [ "arpen", "bash", 10 ], [ "arpen", "bash", "per", 1 ] ],
+    "crit_tec": true,
+    "messages": [ "You phase-strike %s", "<npcname> phase-strikes %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_sojutsu_push",
+    "name": "Push",
+    "min_melee": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ],
+    "melee_allowed": true,
+    "block_counter": true,
+    "crit_ok": true,
+    "knockback_dist": 1,
+    "messages": [ "You push %s away", "<npcname> pushes %s away" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_sojutsu_trip",
+    "name": "Trip",
+    "min_melee": 2,
+    "melee_allowed": true,
+    "down_dur": 2,
+    "messages": [ "You deftly trip %s", "<npcname> deftly trips %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_sojutsu_skewer",
+    "name": "Skewer",
+    "min_melee": 4,
+    "mult_bonuses": [ [ "damage", "bash", 0.0 ], [ "damage", "cut", 1.5 ], [ "damage", "stab", 1.5 ] ],
+    "melee_allowed": true,
+    "crit_tec": true,
+    "knockback_dist": 1,
+    "stun_dur": 2,
+    "messages": [ "You brutally skewer %s", "<npcname> brutally skewers %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_chainpunch",
+    "name": "Chain Punch",
+    "min_unarmed": 1,
+    "unarmed_allowed": true,
+    "knockback_dist": 1,
+    "knockback_spread": 1,
+    "knockback_follow": 1,
+    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ],
+    "messages": [ "You chain strike %s", "<npcname> chain strikes %s" ],
+    "description": "50% moves, 66% damage, knockback and follow"
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_break",
+    "name": "Grab Break",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "defensive": true,
+    "grab_break": true,
+    "messages": [ "You position yourself well and slip out of a grab", "<npcname> slips out of a grab" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_feint",
+    "name": "ask the way",
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "strictly_unarmed": true,
+    "defensive": true,
+    "miss_recovery": true,
+    "messages": [ "You miss but keep striking at %s", "<npcname> misses but keeps striking at %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_stumble",
+    "name": "White Crane stumble",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "down_dur": 1,
+    "messages": [ "You stumble %s with your onslaught", "<npcname> stumbles %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_counter",
+    "name": "Receive and Counter",
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "dodge_counter": true,
+    "crit_ok": true,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ],
+    "messages": [ "You receive %s's gift of violence, and return it in kind", "<npcname> receives %s's attack, and counters" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_disarm",
+    "name": "disarm",
+    "min_unarmed": 6,
+    "unarmed_allowed": true,
+    "disarms": true,
+    "messages": [ "You disarm %s", "<npcname> disarms %s" ]
+  }
 ]

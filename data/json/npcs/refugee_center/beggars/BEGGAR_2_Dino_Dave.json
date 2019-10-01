@@ -1,0 +1,355 @@
+[
+  {
+    "type": "npc",
+    "id": "refugee_beggar2",
+    "//": "Schizophrenic beggar in the refugee center.",
+    "name_unique": "Dino Dave",
+    "gender": "male",
+    "name_suffix": "beggar",
+    "class": "NC_BEGGAR_2",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_BEGGAR_2",
+    "faction": "lobby_beggars",
+    "mission_offered": "MISSION_BEGGAR_2_BOX_SMALL"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_BEGGAR_2",
+    "name": "Beggar",
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "All the beggars have been camping inside the evac shelter because they're too weak and unskilled to make it on their own.",
+    "bonus_str": { "rng": [ -3, -2 ] },
+    "bonus_dex": { "rng": [ -5, -1 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ -6, -2 ] },
+    "worn_override": "NC_BEGGAR_2_worn",
+    "carry_override": "EMPTY_GROUP",
+    "weapon_override": "EMPTY_GROUP",
+    "traits": [
+      { "trait": "GLASSJAW" },
+      { "trait": "ADDICTIVE" },
+      { "trait": "HOARDER" },
+      { "trait": "SLOWHEALER" },
+      { "trait": "SLOWRUNNER" },
+      { "trait": "CHEMIMBALANCE" },
+      { "trait": "HEAVYSLEEPER" },
+      { "trait": "FLIMSY2" },
+      { "trait": "SCHIZOPHRENIC" },
+      { "trait": "SLOWLEARNER" },
+      { "trait": "PACIFIST" },
+      { "group": "Appearance_demographics" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BEGGAR_2_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "boxer_shorts" },
+      { "item": "socks_wool" },
+      { "item": "dinosuit" },
+      { "item": "boots_winter" },
+      { "item": "coat_winter" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_2",
+    "dynamic_line": {
+      "has_no_available_mission": {
+        "has_no_assigned_mission": "We've done it!  We've solved the list!",
+        "no": "How's things with you?  My cardboard collection is getting quite impressive."
+      },
+      "no": "Have I told you about cardboard, friend?  Do you have any?"
+    },
+    "responses": [
+      { "condition": "has_assigned_mission", "text": "About that shopping list of yours...", "topic": "TALK_MISSION_INQUIRE" },
+      {
+        "condition": {
+          "and": [
+            { "npc_has_var": "cardboard_donor", "type": "mission", "context": "dinodave", "value": "yes" },
+            { "not": "has_no_available_mission" }
+          ]
+        },
+        "text": "Is there anything else I can do for you?",
+        "topic": "TALK_MISSION_OFFER"
+      },
+      {
+        "condition": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] },
+        "text": "What are you going to do with all that cardboard now?",
+        "topic": "TALK_REFUGEE_BEGGAR_2_JOBSDONE",
+        "effect": { "u_add_var": "dave_happy", "type": "general", "context": "recruit", "value": "yes" }
+      },
+      {
+        "condition": { "not": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] } },
+        "text": "Cardboard?",
+        "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD"
+      },
+      {
+        "condition": { "not": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] } },
+        "text": "Why are you sitting out here?",
+        "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE"
+      },
+      {
+        "condition": { "not": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] } },
+        "text": "Are you seriously wearing a dinosaur costume?",
+        "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR"
+      },
+      {
+        "condition": { "not": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] } },
+        "text": "Do you need something to eat?",
+        "topic": "TALK_REFUGEE_BEGGAR_2_GIVE_FOOD"
+      },
+      {
+        "condition": { "not": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] } },
+        "text": "Get away from me.",
+        "topic": "TALK_DONE"
+      },
+      { "text": "...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_2_GIVE_FOOD",
+    "dynamic_line": {
+      "npc_has_effect": "beggar_has_eaten",
+      "yes": "Oh nice.  Crunchings and munchings.  That's a cool, a cool thing.",
+      "no": "Yeah, I'm real hungry and they put drugs in most of the food.  I can see you're not like that."
+    },
+    "responses": [
+      { "text": "Actually can I ask you something else?", "topic": "TALK_NONE" },
+      { "text": "I'm sorry, I was wrong.  I can't help you.", "topic": "TALK_DONE" }
+    ],
+    "repeat_responses": [
+      {
+        "for_category": [ "food" ],
+        "response": { "text": "Here, you can have this <topic_item>.", "topic": "TALK_REFUGEE_BEGGAR_2_GAVE_FOOD" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_2_GAVE_FOOD",
+    "dynamic_line": "I can tell when it has stuff in it, it's got a sandy texture.  But this doesn't.  Thanks again.",
+    "speaker_effect": [ { "effect": { "npc_add_effect": "beggar_has_eaten", "duration": 3600 } } ],
+    "responses": [
+      { "text": "What are you doing here?", "topic": "TALK_REFUGEE_BEGGAR_2", "effect": "u_bulk_trade_accept" },
+      { "text": "No problem.  See you around.", "topic": "TALK_DONE", "effect": "u_bulk_trade_accept" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_2_CARDBOARD",
+    "dynamic_line": "I'm building a house out of cardboard.  The sandman doesn't want me to, but I told him to go fuck himself.",
+    "responses": [
+      { "text": "Why cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD2" },
+      { "text": "The sandman?", "topic": "TALK_REFUGEE_BEGGAR_2_SANDMAN" },
+      { "text": "Would you like me to give you some cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD" },
+      { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
+      { "text": "Are you seriously wearing a dinosaur costume?", "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR" },
+      { "text": "I think I have to get going...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_2_CARDBOARD2",
+    "dynamic_line": "There's so much of it now, and the zombies are afraid of it.  It's kept me safe so far.  The beta rays come from the center point of the zombie, so it hits the cardboard and can't penetrate.  The reflection can stop any further damage.",
+    "responses": [
+      { "text": "Would you like me to give you some cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD" },
+      { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
+      { "text": "Are you seriously wearing a dinosaur costume?", "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR" },
+      { "text": "I think I have to get going...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD",
+    "dynamic_line": "Kind of a question's that?  Yeah man, you got cardboard, I got a whole... a whole shopping list.  Got it here.",
+    "speaker_effect": { "effect": { "npc_add_var": "cardboard_donor", "type": "mission", "context": "dinodave", "value": "yes" } },
+    "responses": [
+      { "text": "What's next on the list?", "topic": "TALK_MISSION_LIST" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I think I have to get going...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_2_SANDMAN",
+    "dynamic_line": "If you don't know who he is, I definitely can't tell you.  He talks to everyone, if you didn't hear him that means you can't be trusted, except to help me out.",
+    "responses": [
+      { "text": "... What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I think I have to get going...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_2_REFUGEE",
+    "dynamic_line": "These cowards are afraid of me.  They won't let me into their base.  I'm going to build my new house and I won't let them in.",
+    "responses": [
+      { "text": "You said you were building a house?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
+      { "text": "I think I have to get going...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_2_DINOSAUR",
+    "dynamic_line": "No.",
+    "responses": [
+      { "text": "I... I can see you wearing it.  Why are you wearing that?", "topic": "TALK_REFUGEE_BEGGAR_2_WEARING" },
+      { "text": "What was that about cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
+      { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
+      { "text": "I think I have to get going...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_2_WEARING",
+    "dynamic_line": "You ask me what I can see, but I don't tell you what you see.  Sometimes we have shields up, to protect ourselves.",
+    "responses": [
+      { "text": "What was that about cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
+      { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
+      { "text": "I think I have to get going...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_2_JOBSDONE",
+    "dynamic_line": {
+      "u_has_var": "beggars_recruited",
+      "type": "general",
+      "context": "recruit",
+      "value": "yes",
+      "yes": "Well... I had it all pretty together, but the others have left, and now the masters won't let me build my sanctuary.  Can you help me figure them out?",
+      "no": "That's it!  I'm just gonna need a little time to get it all set up.  Thanks.  You've helped me a lot.  I'm feeling much more myself with all this to keep me going."
+    },
+    "responses": [
+      {
+        "condition": { "not": { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" } },
+        "text": "Why don't you leave this place?  Come with me, I could use some help out there.",
+        "topic": "TALK_REFUGEE_BEGGAR_2_JOIN"
+      },
+      { "text": "Well.  No problem, glad to be of service.  Talk to you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_2_JOIN",
+    "dynamic_line": "No!  I just got everything together.  I am not leaving, not now.  Everything's finally coming together!",
+    "responses": [ { "text": "Well.  No problem, glad to be of service.  Talk to you later.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_BEGGAR_2_BOX_SMALL",
+    "type": "mission_definition",
+    "name": "Bring 40 small cardboard boxes",
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "box_small",
+    "count": 40,
+    "followup": "MISSION_BEGGAR_2_DUCT_TAPE",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Gotta start small right?  Little ones for keeping little things safe.  I could use 'em.",
+      "offer": "Gotta start small right?  Little ones for keeping little things safe.  I could use 'em.  I need a bunch of 'em.  Little ones, you know?  Can you bring me like... like... forty?",
+      "accepted": "Oh man, thanks so much my friend.  You won't regret it.",
+      "rejected": "I didn't think so.",
+      "advice": "Watch out, he's looking for it too.",
+      "inquire": "Got the little ones yet?",
+      "success": "Oh this is so great, so great!",
+      "success_lie": "Oh this is so great, so great!",
+      "failure": "Oh, that's too bad.  Guess they're eating it all."
+    }
+  },
+  {
+    "id": "MISSION_BEGGAR_2_DUCT_TAPE",
+    "type": "mission_definition",
+    "name": "Bring a roll of duct tape",
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "duct_tape",
+    "followup": "MISSION_BEGGAR_2_BOX_MEDIUM",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "These ones are good, good ones.  They need something to, you know, bind them together.  Surround them, light side, dark side.",
+      "offer": "These ones are good, good ones.  They need something to, you know, bind them together.  Surround them, light side, dark side.  Bring me the Force!",
+      "accepted": "Oh man, thanks so much my friend.  You won't regret it.",
+      "rejected": "I didn't think so.",
+      "advice": "Watch out, he's looking for it too.",
+      "inquire": "It's all around us... but did you get it in a crude matter form?",
+      "success": "Oh this is so great, so great!",
+      "success_lie": "Oh this is so great, so great!",
+      "failure": "Oh, that's too bad.  Guess they're eating it all."
+    }
+  },
+  {
+    "id": "MISSION_BEGGAR_2_BOX_MEDIUM",
+    "type": "mission_definition",
+    "name": "Bring 10 medium-sized cardboard boxes",
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "box_medium",
+    "count": 10,
+    "followup": "MISSION_BEGGAR_2_PLASTIC_SHEET",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Ten bigger ones now please.  The list doesn't lie.  You've done so well.",
+      "offer": "Ten bigger ones now please.  The list doesn't lie.  You've done so well.  I got a little more on the list, but we're more than half there.",
+      "accepted": "Oh man, thanks so much my friend.  You won't regret it.",
+      "rejected": "I didn't think so.",
+      "advice": "Watch out, he's looking for it too.",
+      "inquire": "Any luck?  Bigger ones?",
+      "success": "I'm so happy now!",
+      "success_lie": "I'm so happy now!",
+      "failure": "Oh, that's too bad.  Guess they're eating it all."
+    }
+  },
+  {
+    "id": "MISSION_BEGGAR_2_PLASTIC_SHEET",
+    "type": "mission_definition",
+    "name": "Bring 10 large plastic sheets",
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "plastic_sheet",
+    "count": 10,
+    "followup": "MISSION_BEGGAR_2_BOX_LARGE",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "If I can set it up in here I won't need it, but they might drive me out, so I guess I need some plastic just in case.  I don't like it, the sandman can smell through plastic, but I think the cardboard is stronger.",
+      "offer": "If I can set it up in here I won't need it, but they might drive me out, so I guess I need some plastic just in case.  I don't like it, the sandman can smell through plastic, but I think the cardboard is stronger.  Please bring me some plastic sheets.",
+      "accepted": "We're almost there, now.",
+      "rejected": "I didn't think so.",
+      "advice": "They keep a lot of this stuff in hardware stores and lumber yards.",
+      "inquire": "I really feel bad sending you on this one, it's dangerous.  Have you found anything?",
+      "success": "Nice, this will do perfectly!",
+      "success_lie": "Nice, this will do perfectly!",
+      "failure": "Oh, that's too bad."
+    }
+  },
+  {
+    "id": "MISSION_BEGGAR_2_BOX_LARGE",
+    "type": "mission_definition",
+    "name": "Bring 5 large cardboard boxes",
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "box_large",
+    "count": 5,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "This is the last thing I need from you.  I've been collecting the other parts myself, it's been easier with more cardboard around.  Can you bring me five more really big cardboard boxes?",
+      "offer": "This is the last thing I need from you.  I've been collecting the other parts myself, it's been easier with more cardboard around.  Can you bring me five more really big cardboard boxes?  Five more cardboard boxes, as big as it gets.  I have a few already stored up, that should be all I need.",
+      "accepted": "Yes! The home stretch!",
+      "rejected": "Oh man, but we're so close!",
+      "advice": "Try looking in cargo storage areas.",
+      "inquire": "Did you bring me those last few boxes?",
+      "success": "Brilliant!  You're a true hero.  I'll see if I can find a place to set these up now.",
+      "success_lie": "Brilliant!  You're a true hero.  I'll see if I can find a place to set these up now.",
+      "failure": "No!  Oh god, no, this can't be happening..."
+    }
+  }
+]

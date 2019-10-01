@@ -4,7 +4,7 @@
     "type": "COMESTIBLE",
     "id": "sporeos",
     "name": "SpOreos",
-    "color": "gray",
+    "color": "dark_gray",
     "spoils_in": 0,
     "symbol": "%",
     "quench": 25,
@@ -15,7 +15,7 @@
     "charges": 4,
     "stack_size": 20,
     "fun": 10,
-    "flags": [ "MYCUS_OK" ]
+    "flags": [ "MYCUS_OK", "FUNGAL_VECTOR" ]
   },
   {
     "type": "recipe",

@@ -1,9 +1,14 @@
 #include "morale_types.h"
 
+#include <cstddef>
+#include <set>
+#include <vector>
+
 #include "generic_factory.h"
 #include "itype.h"
 #include "json.h"
 #include "string_formatter.h"
+#include "debug.h"
 
 const morale_type &morale_type_data::convert_legacy( int lmt )
 {
@@ -11,6 +16,8 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
             morale_type( "morale_null" ),
             morale_type( "morale_food_good" ),
             morale_type( "morale_food_hot" ),
+            morale_type( "morale_ate_with_table" ),
+            morale_type( "morale_ate_without_table" ),
             morale_type( "morale_music" ),
             morale_type( "morale_honey" ),
             morale_type( "morale_game" ),
@@ -66,20 +73,32 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
             morale_type( "morale_perm_optimist" ),
             morale_type( "morale_perm_badtemper" ),
             morale_type( "morale_perm_constrained" ),
+            morale_type( "morale_perm_nomad" ),
             morale_type( "morale_game_found_kitten" ),
 
             morale_type( "morale_haircut" ),
             morale_type( "morale_shave" ),
+            morale_type( "morale_chat" ),
 
             morale_type( "morale_vomited" ),
+
+            morale_type( "morale_play_with_pet" ),
 
             morale_type( "morale_pyromania_startfire" ),
             morale_type( "morale_pyromania_nearfire" ),
             morale_type( "morale_pyromania_nofire" ),
 
+            morale_type( "morale_killer_has_killed" ),
+            morale_type( "morale_killer_need_to_kill" ),
+
             morale_type( "morale_perm_filthy" ),
 
             morale_type( "morale_butcher" ),
+            morale_type( "morale_gravedigger" ),
+            morale_type( "morale_funeral" ),
+
+            morale_type( "morale_accomplishment" ),
+            morale_type( "morale_failure" ),
 
             morale_type( "morale_null" )
         }
@@ -97,6 +116,8 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
 const morale_type MORALE_NULL( "morale_null" );
 const morale_type MORALE_FOOD_GOOD( "morale_food_good" );
 const morale_type MORALE_FOOD_HOT( "morale_food_hot" );
+const morale_type MORALE_ATE_WITH_TABLE( "morale_ate_with_table" );
+const morale_type MORALE_ATE_WITHOUT_TABLE( "morale_ate_without_table" );
 const morale_type MORALE_MUSIC( "morale_music" );
 const morale_type MORALE_HONEY( "morale_honey" );
 const morale_type MORALE_GAME( "morale_game" );
@@ -142,28 +163,40 @@ const morale_type MORALE_BOOK( "morale_book" );
 const morale_type MORALE_COMFY( "morale_comfy" );
 const morale_type MORALE_SCREAM( "morale_scream" );
 const morale_type MORALE_PERM_MASOCHIST( "morale_perm_masochist" );
+const morale_type MORALE_PERM_NOFACE( "morale_perm_noface" );
+const morale_type MORALE_PERM_FPMODE_ON( "morale_perm_fpmode_on" );
 const morale_type MORALE_PERM_HOARDER( "morale_perm_hoarder" );
 const morale_type MORALE_PERM_FANCY( "morale_perm_fancy" );
 const morale_type MORALE_PERM_OPTIMIST( "morale_perm_optimist" );
 const morale_type MORALE_PERM_BADTEMPER( "morale_perm_badtemper" );
 const morale_type MORALE_PERM_CONSTRAINED( "morale_perm_constrained" );
+const morale_type MORALE_PERM_NOMAD( "morale_perm_nomad" );
 const morale_type MORALE_GAME_FOUND_KITTEN( "morale_game_found_kitten" );
 const morale_type MORALE_HAIRCUT( "morale_haircut" );
 const morale_type MORALE_SHAVE( "morale_shave" );
+const morale_type MORALE_CHAT( "morale_chat" );
 const morale_type MORALE_VOMITED( "morale_vomited" );
+const morale_type MORALE_PLAY_WITH_PET( "morale_play_with_pet" );
 const morale_type MORALE_PYROMANIA_STARTFIRE( "morale_pyromania_startfire" );
 const morale_type MORALE_PYROMANIA_NEARFIRE( "morale_pyromania_nearfire" );
 const morale_type MORALE_PYROMANIA_NOFIRE( "morale_pyromania_nofire" );
+const morale_type MORALE_KILLER_HAS_KILLED( "morale_killer_has_killed" );
+const morale_type MORALE_KILLER_NEED_TO_KILL( "morale_killer_need_to_kill" );
 const morale_type MORALE_PERM_FILTHY( "morale_perm_filthy" );
 const morale_type MORALE_PERM_DEBUG( "morale_perm_debug" );
 const morale_type MORALE_BUTCHER( "morale_butcher" );
+const morale_type MORALE_GRAVEDIGGER( "morale_gravedigger" );
+const morale_type MORALE_FUNERAL( "morale_funeral" );
+const morale_type MORALE_TREE_COMMUNION( "morale_tree_communion" );
+const morale_type MORALE_ACCOMPLISHMENT( "morale_accomplishment" );
+const morale_type MORALE_FAILURE( "morale_failure" );
 
 namespace
 {
 
 generic_factory<morale_type_data> morale_data( "morale type" );
 
-}
+} // namespace
 
 template<>
 const morale_type_data &morale_type::obj() const
@@ -195,30 +228,22 @@ void morale_type_data::reset()
 void morale_type_data::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
-    mandatory( jo, was_loaded, "text", text, translated_string_reader );
+    mandatory( jo, was_loaded, "text", text );
 
     optional( jo, was_loaded, "permanent", permanent, false );
-    needs_item = text.find( "%s" ) != std::string::npos;
 }
 
 void morale_type_data::check() const
 {
-    if( needs_item != ( text.find( "%s" ) != std::string::npos ) ) {
-        debugmsg( "Morale type %s has exactly one of: needs_item or format string '%%s'", id.c_str() );
-    }
 }
 
 std::string morale_type_data::describe( const itype *it ) const
 {
-    if( it != nullptr ) {
-        if( !needs_item ) {
-            debugmsg( "Item type supplied but not needed" );
-        }
-        return string_format( text, it->nname( 1 ).c_str() );
+    if( it ) {
+        return string_format( text, it->nname( 1 ) );
+    } else {
+        // if `msg` contains conversion specification (e.g. %s) but `it` is nullptr,
+        // `string_format` will return an error message
+        return string_format( text );
     }
-
-    if( needs_item ) {
-        debugmsg( "Item type needed but not supplied" );
-    }
-    return text;
 }

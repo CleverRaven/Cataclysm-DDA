@@ -1,52 +1,42 @@
 [
-    {
-        "type" : "mapgen",
-        "om_terrain" : ["mil_outpost_1mid"],
-        "comment" : "ground level middle parking lot",
-        "method": "json",
-        "weight": 250,
-        "object": {
-            "fill_ter": "t_pavement",
-            "rows": [
-                ",,,                  ,,,",
-                ",,                    ,,",
-                ",             XXXXX    ,",
-                "              XxxxX     ",
-                "       v      XxxxX     ",
-                "              XxxxX     ",
-                "              XXyXX     ",
-                "                        ",
-                " XXXXX                  ",
-                " XxxxX   XXXXXXXXXXXX   ",
-                " XxxxX   XxxxxxxxxxxX   ",
-                " XxxxX   XxxxxxxxxxxX   ",
-                " XXyXX   XxxxxxxxxxxX   ",
-                "         XxxxxxxxxxxX   ",
-                "         XxxxxxxxxxxX   ",
-                "         XxxxxxxxxxxX   ",
-                "         XxxxxxxxxxxX   ",
-                "         XxxxxxxxxxxX   ",
-                "         XxxxxxxxxxxX   ",
-                "         XxxxxxxxxxxX   ",
-                "         XXXXXyyXXXXX   ",
-                ",                      ,",
-                ",,                    ,,",
-                ",,,                  ,,,"
-            ],
-            "palettes":[
-               "mil_outpost_bandit"
-            ],
-            "terrain":{
-                " ": "t_pavement"
-            },
-            "furniture":{
-                "x": "f_large_groundsheet",
-                "X": "f_large_canvas_wall",
-                "y": "f_large_canvas_door"
-            },
-            "vehicles": {
-                "v": { "vehicle": "armored_car", "chance": 50, "fuel": 90, "status": 4 }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": [ "mil_outpost_1mid" ],
+    "comment": "ground level middle parking lot",
+    "method": "json",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_pavement",
+      "rows": [
+        ",,,                  ,,,",
+        ",,                    ,,",
+        ",             XXXXX    ,",
+        "              XxxxX     ",
+        "       v      XxxxX     ",
+        "              XxxxX     ",
+        "              XXyXX     ",
+        "                        ",
+        " XXXXX                  ",
+        " XxxxX   XXXXXXXXXXXX   ",
+        " XxxxX   XxxxxxxxxxxX   ",
+        " XxxxX   XxxxxxxxxxxX   ",
+        " XXyXX   XxxxxxxxxxxX   ",
+        "         XxxxxxxxxxxX   ",
+        "         XxxxxxxxxxxX   ",
+        "         XxxxxxxxxxxX   ",
+        "         XxxxxxxxxxxX   ",
+        "         XxxxxxxxxxxX   ",
+        "         XxxxxxxxxxxX   ",
+        "         XxxxxxxxxxxX   ",
+        "         XXXXXyyXXXXX   ",
+        ",                      ,",
+        ",,                    ,,",
+        ",,,                  ,,,"
+      ],
+      "palettes": [ "mil_outpost_bandit" ],
+      "terrain": { " ": "t_pavement" },
+      "furniture": { "x": "f_large_groundsheet", "X": "f_large_canvas_wall", "y": "f_large_canvas_door" },
+      "vehicles": { "v": { "vehicle": "armored_car", "chance": 50, "fuel": 90, "status": 4 } }
     }
+  }
 ]

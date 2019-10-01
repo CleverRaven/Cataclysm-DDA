@@ -1,0 +1,44 @@
+[
+  {
+    "type": "mutation",
+    "id": "SHMELD",
+    "name": "Shadow Meld",
+    "points": 4,
+    "description": "The light around you bends strangely, making it harder for enemies to notice you.",
+    "valid": false,
+    "purifiable": false,
+    "prereqs": [ "WEAKSCENT" ],
+    "threshreq": [ "THRESH_VAMP" ],
+    "category": [ "VAMP" ],
+    "stealth_modifier": 25
+  },
+  {
+    "type": "mutation",
+    "id": "BEAUTIFULVAMP",
+    "name": "Moon-lit Grace",
+    "points": 6,
+    "visibility": -7,
+    "ugliness": -7,
+    "description": "Aside from your appearances, your movements are incredibly graceful and allow you to seemingly glide through every task.",
+    "thresheq": [ "THRESH_VAMP" ],
+    "category": [ "VAMP" ],
+    "stealth_modifier": 5,
+    "noise_modifier": 0.2,
+    "movecost_modifier": 0.9,
+    "attackcost_modifier": 0.9
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPEYES",
+    "name": "Red Iris",
+    "mixed_effect": true,
+    "points": 4,
+    "visibility": -1,
+    "ugliness": -1,
+    "description": "You eyes are a pleasant shade of hypnotic scarlet.  People feel mildly persuaded by you.",
+    "prereqs": [ "BEAUTIFUL" ],
+    "cancels": [ "BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES", "ELFAEYES" ],
+    "category": [ "VAMP" ],
+    "social_modifiers": { "lie": 5, "persuade": 10, "intimidate": 1 }
+  }
+]

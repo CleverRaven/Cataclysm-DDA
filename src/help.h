@@ -2,12 +2,13 @@
 #ifndef HELP_H
 #define HELP_H
 
-#include "cursesdef.h"
-#include "input.h"
-
 #include <map>
 #include <string>
 #include <vector>
+#include <utility>
+
+#include "cursesdef.h"
+#include "input.h"
 
 class JsonIn;
 

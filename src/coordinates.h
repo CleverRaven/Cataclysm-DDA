@@ -2,16 +2,17 @@
 #ifndef COORDINATES_H
 #define COORDINATES_H
 
+#include <cstdlib>
+
 #include "enums.h"
 #include "game_constants.h"
-
-#include <cstdlib>
+#include "point.h"
 
 /* find appropriate subdivided coordinates for absolute tile coordinate.
  * This is less obvious than one might think, for negative coordinates, so this
  * was created to give a definitive answer.
  *
- * 'absolute' is defined as the -actual- submap x,y * 12 + position in submap, and
+ * 'absolute' is defined as the -actual- submap x,y * SEEX + position in submap, and
  * can be obtained from map.getabs(x, y);
  *   usage:
  *    real_coords rc( g->m.getabs(g->u.posx(), g->u.posy() ) );
@@ -31,8 +32,7 @@ struct real_coords {
     point om_pos;      // overmap tile: 2x2 submaps.
     point om_sub;      // submap (0-359) in overmap / abs_sub constrained to % 360. equivalent to g->levx
 
-    real_coords() {
-    }
+    real_coords() = default;
 
     real_coords( point ap ) {
         fromabs( ap.x, ap.y );
@@ -44,26 +44,26 @@ struct real_coords {
         abs_pos = point( absx, absy );
 
         if( absx < 0 ) {
-            abs_sub.x = ( absx - 11 ) / 12;
-            sub_pos.x = 11 - ( ( normx - 1 ) % 12 );
+            abs_sub.x = ( absx - SEEX + 1 ) / SEEX;
+            sub_pos.x = SEEX - 1 - ( ( normx - 1 ) % SEEX );
             abs_om.x = ( abs_sub.x - subs_in_om_n ) / subs_in_om;
-            om_sub.x = subs_in_om_n - ( ( ( normx - 1 ) / 12 ) % subs_in_om );
+            om_sub.x = subs_in_om_n - ( ( ( normx - 1 ) / SEEX ) % subs_in_om );
         } else {
-            abs_sub.x = normx / 12;
-            sub_pos.x = absx % 12;
+            abs_sub.x = normx / SEEX;
+            sub_pos.x = absx % SEEX;
             abs_om.x = abs_sub.x / subs_in_om;
             om_sub.x = abs_sub.x % subs_in_om;
         }
         om_pos.x = om_sub.x / 2;
 
         if( absy < 0 ) {
-            abs_sub.y = ( absy - 11 ) / 12;
-            sub_pos.y = 11 - ( ( normy - 1 ) % 12 );
+            abs_sub.y = ( absy - SEEY + 1 ) / SEEY;
+            sub_pos.y = SEEY - 1 - ( ( normy - 1 ) % SEEY );
             abs_om.y = ( abs_sub.y - subs_in_om_n ) / subs_in_om;
-            om_sub.y = subs_in_om_n - ( ( ( normy - 1 ) / 12 ) % subs_in_om );
+            om_sub.y = subs_in_om_n - ( ( ( normy - 1 ) / SEEY ) % subs_in_om );
         } else {
-            abs_sub.y = normy / 12;
-            sub_pos.y = absy % 12;
+            abs_sub.y = normy / SEEY;
+            sub_pos.y = absy % SEEY;
             abs_om.y = abs_sub.y / subs_in_om;
             om_sub.y = abs_sub.y % subs_in_om;
         }
@@ -76,9 +76,9 @@ struct real_coords {
 
     // specifically for the subjective position returned by overmap::draw
     void fromomap( int rel_omx, int rel_omy, int rel_om_posx, int rel_om_posy ) {
-        int ax = ( rel_omx * OMAPX ) + rel_om_posx;
-        int ay = ( rel_omy * OMAPY ) + rel_om_posy;
-        fromabs( ax * 24, ay * 24 );
+        const int ax = rel_omx * OMAPX + rel_om_posx;
+        const int ay = rel_omy * OMAPY + rel_om_posy;
+        fromabs( ax * SEEX * 2, ay * SEEY * 2 );
     }
 
     // helper functions to return abs_pos of submap/overmap tile/overmap's start

@@ -1,0 +1,54 @@
+[
+  {
+    "type": "npc",
+    "id": "ranch_woodcutter_1",
+    "//": "Can purchase wood",
+    "name_suffix": "Lumberjack",
+    "class": "NC_COWBOY",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_RANCH_WOODCUTTER",
+    "faction": "tacoma_commune"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_WOODCUTTER",
+    "dynamic_line": "You need something?",
+    "responses": [
+      { "text": "What are you doing here?", "topic": "TALK_RANCH_WOODCUTTER_JOB" },
+      { "text": "I'd like to hire your services.", "topic": "TALK_RANCH_WOODCUTTER_HIRE" },
+      { "text": "I've got to go...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_WOODCUTTER_JOB",
+    "dynamic_line": "I'm one of the migrants that got diverted to this outpost when I arrived at the refugee center.  They said I was big enough to swing an ax so my profession became lumberjack... didn't have any say in it.  If I want to eat then I'll be cutting wood from now till kingdom come.",
+    "responses": [ { "text": "Oh.", "topic": "TALK_RANCH_WOODCUTTER" } ]
+  },
+  {
+    "id": "TALK_RANCH_WOODCUTTER_HIRE",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "npc_has_effect": "currently_busy",
+      "yes": "Come back later, I need to take care of a few things first.",
+      "no": "The rate is a bit steep but I still have my quotas that I need to fulfill.  The logs will be dropped off in the garage at the entrance to the camp.  I'll need a bit of time before I can deliver another load."
+    },
+    "responses": [
+      {
+        "text": "[$2000, 1d] 10 logs",
+        "topic": "TALK_DONE",
+        "effect": [ "buy_10_logs", { "u_spend_cash": 200000 } ],
+        "condition": { "npc_service": 200000 }
+      },
+      {
+        "text": "[$12000, 7d] 100 logs",
+        "topic": "TALK_DONE",
+        "effect": [ "buy_100_logs", { "u_spend_cash": 1200000 } ],
+        "condition": { "npc_service": 1200000 }
+      },
+      { "text": "Maybe later.", "topic": "TALK_RANCH_WOODCUTTER", "condition": "npc_available" },
+      { "text": "I'll be back later.", "topic": "TALK_RANCH_WOODCUTTER" }
+    ]
+  }
+]

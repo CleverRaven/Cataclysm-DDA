@@ -1,71 +1,60 @@
 [
   {
-    "type" : "item_group",
-    "id" : "NC_SCAVENGER_gloves",
-    "items":[
-      ["null", 30],
-      ["gloves_leather", 20],
-      ["gloves_work", 20],
-      ["gloves_fingerless", 50],
-      ["gloves_fingerless_mod", 20]
+    "type": "item_group",
+    "id": "NC_SCAVENGER_gloves",
+    "items": [
+      [ "null", 30 ],
+      [ "gloves_leather", 20 ],
+      [ "gloves_work", 20 ],
+      [ "gloves_fingerless", 50 ],
+      [ "gloves_fingerless_mod", 20 ]
     ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SCAVENGER_archery",
-    "items":[
-      ["shortbow", 5],
-      ["crossbow", 25]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SCAVENGER_pistols",
-    "items":[
-      ["usp_45", 30],
-      ["sw_619", 30],
-      ["sw_610", 30],
-      ["ruger_redhawk", 5],
-      ["makarov", 5],
-      ["m9", 50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SCAVENGER_rifle",
-    "items":[
-      ["browning_blr", 35],
-      ["remington_700", 35],
-      ["m1a", 35],
-      ["m1903", 15]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SCAVENGER_misc",
-    "items":[
-      ["water_clean", 90],
-      ["water_mineral", 5],
-      ["cola", 70],
-      ["creamsoda", 60],
-      ["lemonlime", 60],
-      ["orangesoda", 60],
-      ["crispycran", 40],
-      ["colamdew", 60],
-      ["choc_drink", 30],
-      ["jerky", 55],
-      ["cracklins", 25],
-      ["salted_fish", 35],
-      ["porkstick", 55],
-      ["ravioli", 25],
-      ["can_beans", 40],
-      ["can_corn", 35],
-      ["can_spam", 30],
-      ["salt", 10],
-      ["seasoning_salt", 5],
-      ["vinegar", 10],
-      {"item": "veggy_pickled", "prob":  30, "charges": 2, "container-item": "jar_glass_sealed"},
-      ["con_milk", 20],
-      {"item": "fish_pickled", "prob":  26, "charges": 2, "container-item": "jar_glass_sealed"},
-      ["lutefisk", 1],
-      ["pemmican", 10],
-      {"item": "meat_pickled", "prob":  20, "charges": 2, "container-item": "jar_glass_sealed"}
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SCAVENGER_archery",
+    "items": [ [ "shortbow", 5 ], [ "crossbow", 25 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SCAVENGER_pistols",
+    "items": [ [ "usp_45", 30 ], [ "sw_619", 30 ], [ "sw_610", 30 ], [ "ruger_redhawk", 5 ], [ "makarov", 5 ], [ "m9", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SCAVENGER_rifle",
+    "items": [ [ "browning_blr", 35 ], [ "remington_700", 35 ], [ "m1a", 35 ], [ "m1903", 15 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SCAVENGER_misc",
+    "items": [
+      [ "water_clean", 90 ],
+      [ "water_mineral", 5 ],
+      [ "cola", 70 ],
+      [ "creamsoda", 60 ],
+      [ "lemonlime", 60 ],
+      [ "orangesoda", 60 ],
+      [ "crispycran", 40 ],
+      [ "colamdew", 60 ],
+      [ "choc_drink", 30 ],
+      [ "jerky", 55 ],
+      [ "cracklins", 25 ],
+      [ "salted_fish", 35 ],
+      [ "porkstick", 55 ],
+      [ "ravioli", 25 ],
+      [ "can_beans", 40 ],
+      [ "can_corn", 35 ],
+      [ "can_spam", 30 ],
+      [ "salt", 10 ],
+      [ "seasoning_salt", 5 ],
+      [ "vinegar", 10 ],
+      { "item": "veggy_pickled", "prob": 30, "charges": 2, "container-item": "jar_glass_sealed" },
+      [ "con_milk", 20 ],
+      { "item": "fish_pickled", "prob": 26, "charges": 2, "container-item": "jar_glass_sealed" },
+      [ "lutefisk", 1 ],
+      [ "pemmican", 10 ],
+      { "item": "meat_pickled", "prob": 20, "charges": 2, "container-item": "jar_glass_sealed" }
     ]
   }
 ]

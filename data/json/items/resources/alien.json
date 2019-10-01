@@ -1,0 +1,32 @@
+[
+  {
+    "id": "resin_chunk",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "alien resin chunk",
+    "description": "This is a shattered fragment of alien resin.  It looks a bit like a large piece of sea glass, frosted and gritty with the edges rounded off.  It is somewhat warm to the touch.",
+    "weight": "70 g",
+    "volume": "250 ml",
+    "price": 0,
+    "material": "alien_resin",
+    "symbol": ",",
+    "color": "light_gray",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "alien_pod_resin",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": "alien resin pod",
+    "description": "This is a large pod, the size of a keg, filled with gooey alien resin.  Squeezing it firmly causes resin to squirt from the broken stalk at the end, hardening within a few seconds of being exposed to the air.",
+    "weight": "70000 g",
+    "volume": "22000 ml",
+    "price": 10000,
+    "material": "alien_resin",
+    "count": 4,
+    "stack_size": 4,
+    "symbol": "0",
+    "color": "light_blue",
+    "flags": [ "NO_SALVAGE" ]
+  }
+]

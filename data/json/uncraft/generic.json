@@ -1,19 +1,31 @@
 [
   {
+    "result": "basket_laundry",
+    "type": "uncraft",
+    "time": "30 s",
+    "components": [ [ [ "plastic_chunk", 10 ] ] ]
+  },
+  {
+    "result": "blade_scythe",
+    "type": "uncraft",
+    "time": 0,
+    "components": [ [ [ "steel_lump", 1 ] ] ]
+  },
+  {
     "type": "uncraft",
     "result": "handflare",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": 2000,
+    "time": "20 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "incendiary", 25 ] ] ]
+    "components": [ [ [ "incendiary", 75 ] ] ]
   },
   {
     "result": "sheet_metal",
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": 15000,
+    "time": "150 s",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "sheet_metal_small", 24 ] ] ]
   },
@@ -22,8 +34,47 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": 1200,
+    "time": "12 s",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "scrap", 5 ] ] ]
+  },
+  {
+    "result": "atgm_spent",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "30 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_chunk", 38 ] ] ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
+    "result": "mattress",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "22 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 60 ] ], [ [ "sheet", 4 ] ], [ [ "scrap", 20 ] ], [ [ "wire", 20 ] ] ]
+  },
+  {
+    "result": "character_sheet",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "1 s",
+    "components": [ [ [ "paper", 3 ] ] ]
+  },
+  {
+    "result": "sandbag",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_sand", 60 ] ] ]
+  },
+  {
+    "result": "earthbag",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_soil", 3 ] ] ]
   }
 ]

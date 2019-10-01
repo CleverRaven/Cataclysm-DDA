@@ -5,32 +5,147 @@
     "subtype": "collection",
     "//": "Smokable item and something to light it with",
     "items": [
-      { "distribution": [
-        { "item": "cig", "prob": 70, "charges": [1, 10] },
-        { "collection": [
-            { "item": "tobacco" },
-            { "distribution": [
-              { "item": "rolling_paper", "prob": 70 },
-              { "item": "pipe_tobacco", "prob": 30 }
-            ] }
-        ], "prob": 20 },
-        { "item": "cigar", "prob": 5, "charges": [1, 1] },
-        { "item": "joint", "prob": 5 }
-      ] },
-      { "distribution": [
-        { "item": "lighter" },
-        { "item": "matches" }
-      ] }
+      {
+        "distribution": [
+          { "item": "cig", "prob": 70, "charges": [ 1, 10 ] },
+          {
+            "collection": [
+              { "item": "tobacco", "charges-min": 1, "charges-max": 20 },
+              {
+                "distribution": [ { "item": "rolling_paper", "prob": 70, "charges-min": 1, "charges-max": 30 }, { "item": "pipe_tobacco", "prob": 30 } ]
+              }
+            ],
+            "prob": 20
+          },
+          { "item": "cigar", "prob": 5, "charges": [ 1, 1 ] },
+          { "item": "joint", "prob": 5 }
+        ]
+      },
+      { "distribution": [ { "item": "lighter" }, { "item": "matches", "charges-min": 1, "charges-max": 20 } ] }
     ]
   },
   {
     "id": "stoner",
     "type": "item_group",
-    "//" : "Processed weed and weed accessories",
+    "//": "Processed weed and weed accessories",
+    "items": [ [ "joint", 100 ], [ "joint_roach", 20 ], [ "pipe_glass", 10 ] ]
+  },
+  {
+    "id": "silverware",
+    "type": "item_group",
+    "//": "Forks, spoons, knives, ect.",
+    "items": [ [ "knife_butter", 30 ], [ "knife_steak", 10 ], [ "fork", 30 ], [ "spoon", 30 ] ]
+  },
+  {
+    "id": "tinware",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "bowl_pewter", 100 ], [ "tin_plate", 100 ], [ "tin_cup", 100 ] ]
+  },
+  {
+    "id": "dinnerware",
+    "type": "item_group",
+    "//": "Plates, bowls, cups, etc.",
     "items": [
-      [ "joint", 100 ],
-      [ "joint_roach", 20 ],
-      [ "pipe_glass", 10 ]
+      [ "glass", 20 ],
+      [ "glass_plate", 20 ],
+      [ "glass_bowl", 20 ],
+      [ "ceramic_plate", 10 ],
+      [ "ceramic_bowl", 10 ],
+      [ "ceramic_cup", 10 ]
     ]
+  },
+  {
+    "id": "digging_soil_loam_50L",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "~50L of loamy soil, sand, clay, and rocks from digging in generic dirt",
+    "items": [
+      { "item": "material_soil", "count": [ 8, 12 ] },
+      { "item": "material_sand", "charges": [ 1, 10 ], "prob": 5 },
+      { "item": "clay_lump", "count": [ 1, 4 ], "prob": 5 },
+      { "item": "rock", "count": [ 1, 4 ], "prob": 15 },
+      { "item": "pebble", "count": [ 1, 4 ], "prob": 15 }
+    ]
+  },
+  {
+    "id": "office_paper",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Random paper/data items. for filing cabinets or other office locations",
+    "items": [
+      { "group": "oa_discarded_news", "count": [ 2, 12 ], "prob": 20 },
+      { "group": "flask_liquor", "prob": 10 },
+      { "group": "elecsto_pcs", "count": [ 1, 2 ], "prob": 10 },
+      { "item": "file", "count": [ 1, 8 ], "prob": 50 },
+      { "group": "elecsto_stor", "count": [ 1, 2 ], "prob": 30 },
+      { "item": "money_bundle", "count": [ 1, 10 ], "prob": 20 },
+      { "item": "scorecard", "count": [ 1, 10 ], "prob": 10 },
+      { "item": "survnote", "prob": 10 },
+      { "item": "flyer", "count": [ 1, 10 ], "prob": 30 },
+      { "item": "character_sheet", "count": [ 1, 2 ], "prob": 5 },
+      { "item": "phonebook", "prob": 10 },
+      { "item": "magic_8_ball", "prob": 5 },
+      { "item": "family_photo", "prob": 5 },
+      { "item": "coin_quarter", "prob": 5 },
+      { "item": "mobile_memory_card_used", "count": [ 1, 4 ], "prob": 15 },
+      { "item": "RPG_die", "prob": 5 },
+      { "item": "metal_RPG_die", "prob": 1 },
+      { "item": "mobile_memory_card_encrypted", "count": [ 1, 2 ], "prob": 15 }
+    ]
+  },
+  {
+    "id": "bus_common",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "child_items", "prob": 15 },
+      { "group": "jackets", "prob": 15 },
+      { "group": "novels", "prob": 15 },
+      { "group": "bags_trip", "prob": 20 }
+    ]
+  },
+  {
+    "id": "gobag_contents",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Items generated from a go bag",
+    "items": [
+      { "item": "duffelbag" },
+      { "item": "backpack" },
+      { "item": "helmet_army" },
+      { "item": "jacket_army" },
+      { "item": "pants_army" },
+      { "item": "tshirt", "count": 3 },
+      { "item": "under_armor" },
+      { "item": "tacvest" },
+      { "item": "coat_rain" },
+      { "item": "hood_rain" },
+      { "item": "long_underpants" },
+      { "item": "towel" },
+      { "item": "boots_combat" },
+      { "item": "socks", "count": 3 },
+      { "item": "gloves_tactical" },
+      { "item": "light_plus_battery_cell", "charges": 150 },
+      { "item": "light_plus_battery_cell", "charges": 150, "container-item": "flashlight" },
+      { "item": "light_plus_battery_cell", "charges": 150, "container-item": "radio" },
+      { "item": "lighter", "charges": 100 },
+      { "item": "pockknife" },
+      { "item": "multitool" },
+      { "item": "1st_aid" },
+      { "item": "rollmat" },
+      { "item": "sleeping_bag_roll" },
+      { "item": "ear_plugs" },
+      { "item": "mre_hashbrownbacon_box" },
+      { "item": "mre_macaronimarinara_box" },
+      { "item": "mre_meatball_box" },
+      { "item": "water_clean", "count": 2, "charges": 2, "container-item": "bottle_plastic" }
+    ]
+  },
+  {
+    "id": "horse_gear",
+    "type": "item_group",
+    "//": "Horse vehicle items",
+    "items": [ [ "riding_saddle", 50 ], [ "yoke_harness", 50 ] ]
   }
 ]
