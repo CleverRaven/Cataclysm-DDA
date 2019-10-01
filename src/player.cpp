@@ -4973,8 +4973,7 @@ void player::suffer()
             }
         }
         if( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) &&
-            !has_effect( effect_took_thorazine ) )
-        {
+            !has_effect( effect_took_thorazine ) ) {
             if( is_player() ) {
                 bool done_effect = false;
                 // Sound
