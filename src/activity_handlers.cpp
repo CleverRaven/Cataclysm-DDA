@@ -3006,7 +3006,7 @@ void activity_handlers::try_sleep_query( player_activity *act, player *p )
     sleep_query.addentry( 1, true, 'S', _( "Stop trying to fall asleep and get up." ) );
     sleep_query.addentry( 2, true, 'c', _( "Continue trying to fall asleep." ) );
     sleep_query.addentry( 3, true, 'C',
-                          _( "Continue trying to fall asleep and don't prompt further querry." ) );
+                          _( "Continue trying to fall asleep and don't ask again." ) );
     sleep_query.query();
     switch( sleep_query.ret ) {
         case 1:
