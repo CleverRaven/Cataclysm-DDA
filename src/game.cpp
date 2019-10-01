@@ -7538,6 +7538,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     }
 
     mvwputch( w_monsters_border, point_zero, BORDER_COLOR, LINE_OXXO ); // |^
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwhline( w_monsters_border, point( 1, 0 ), 0, width );
     mvwputch( w_monsters_border, point( width - 1, 0 ), BORDER_COLOR, LINE_OOXX ); // ^|
 
