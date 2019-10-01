@@ -4087,14 +4087,7 @@ static std::string get_music_description()
     // of snippets {a, b, c}, but only a 50% chance
     // Actual chance = 24.5% of being selected
     if( one_in( 2 ) ) {
-        const std::string &from_a = SNIPPET.random_from_category( "musicgenre_a" );
-        const std::string &from_b = SNIPPET.random_from_category( "musicgenre_b" );
-        const std::string &from_c = SNIPPET.random_from_category( "musicgenre_c" );
-
-        // Require all to be non-empty
-        if( !( from_a.empty() || from_b.empty() || from_c.empty() ) ) {
-            return from_a + from_b + from_c;
-        }
+        return SNIPPET.random_from_category( "music_description" );
     }
 
     return _( "a sweet guitar solo!" );
