@@ -2986,14 +2986,21 @@ void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
         if( p->can_sleep() ) {
             act->set_to_null();
             p->fall_asleep();
+            p->remove_value( "sleep_query" );
         } else if( one_in( 1000 ) ) {
             p->add_msg_if_player( _( "You toss and turn..." ) );
+        }
+        if( calendar::once_every( 30_minutes ) ) {
+            try_sleep_query( act, p );
         }
     }
 }
 
 void activity_handlers::try_sleep_query( player_activity *act, player *p )
 {
+    if( p->get_value( "sleep_query" ) == "false" ) {
+        return;
+    }
     uilist sleep_query;
     sleep_query.text = _( "You have trouble sleeping, keep trying?" );
     sleep_query.addentry( 1, true, 'S', _( "Stop trying to fall asleep and get up." ) );
@@ -3004,13 +3011,12 @@ void activity_handlers::try_sleep_query( player_activity *act, player *p )
     switch( sleep_query.ret ) {
         case 1:
             act->set_to_null();
-            return;
             break;
         case 3:
+            p->set_value( "sleep_query", "false" );
             break;
         case 2:
         default:
-            return;
             break;
     }
 }
