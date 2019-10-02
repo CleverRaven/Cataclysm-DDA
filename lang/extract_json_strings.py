@@ -63,7 +63,6 @@ ignore_files = {os.path.normpath(i) for i in {
 # these objects have no translatable strings
 ignorable = {
     "behavior",
-    "BULLET_PULLING",
     "city_building",
     "colordef",
     "emit",
@@ -71,14 +70,10 @@ ignorable = {
     "event_transformation",
     "event_statistic",
     "EXTERNAL_OPTION",
-    "GAME_OPTION",
     "ITEM_BLACKLIST",
     "item_group",
-    "ITEM_OPTION",
-    "ITEM_WHITELIST",
     "MIGRATION",
     "mod_tileset",
-    "monitems",
     "monster_adjustment",
     "MONSTER_BLACKLIST",
     "MONSTER_FACTION",
@@ -102,7 +97,6 @@ ignorable = {
     "uncraft",
     "vehicle_group",
     "vehicle_placement",
-    "WORLD_OPTION",
     "enchantment"
 }
 
@@ -143,7 +137,6 @@ automatically_convertible = {
     "MOD_INFO",
     "MONSTER",
     "morale_type",
-    "morale_type",
     "npc",
     "npc_class",
     "overmap_land_use_code",
@@ -155,14 +148,12 @@ automatically_convertible = {
     "speech",
     "SPELL",
     "start_location",
-    "STATIONARY_ITEM",
     "terrain",
     "TOOL",
     "TOOLMOD",
     "TOOL_ARMOR",
     "tool_quality",
     "tutorial_messages",
-    "VAR_VEH_PART",
     "vehicle",
     "vehicle_part",
     "vitamin",
@@ -180,11 +171,9 @@ needs_plural = {
     "GUN",
     "GUNMOD",
     "MONSTER",
-    "STATIONARY_ITEM",
     "TOOL",
     "TOOLMOD",
     "TOOL_ARMOR",
-    "VAR_VEH_PART",
 }
 
 # these objects can be automatically converted, but use format strings
@@ -936,6 +925,9 @@ def extract_use_action_msgs(outfile, use_action, it_name, kwargs):
         for (k, v) in sorted(use_action.items(), key=lambda x: x[0]):
             extract_use_action_msgs(outfile, v, it_name, kwargs)
 
+found_types = set();
+known_types = ignorable | use_format_strings | extract_specials.keys() | automatically_convertible
+
 # extract commonly translatable data from json to fake-python
 def extract(item, infilename):
     """Find any extractable strings in the given json object,
@@ -943,6 +935,7 @@ def extract(item, infilename):
     if not "type" in item:
         raise WrongJSONItem("ERROR: Object doesn't have a type: {}".format(infilename), item)
     object_type = item["type"]
+    found_types.add(object_type)
     outfile = get_outfile(object_type)
     kwargs = {}
     if object_type in ignorable:
@@ -954,6 +947,8 @@ def extract(item, infilename):
         return
     elif object_type not in automatically_convertible:
         raise WrongJSONItem("ERROR: Unrecognized object type '{}'!".format(object_type), item)
+    if object_type not in known_types:
+        print("WARNING: known_types does not contain object type '{}'".format(object_type))
     wrote = False
     name = item.get("name") # Used in gettext comments below.
     # Don't extract any record with name = "none".
@@ -1116,16 +1111,6 @@ def extract_all_from_file(json_file):
         print(E)
         exit(1)
 
-def add_fake_types():
-    """Add names of fake items and monsters. This is done by hand and must be updated
-    manually each time something is added to itypedef.cpp or mtypedef.cpp."""
-    outfile = os.path.join(to_dir, os.path.normpath("faketypes.py"))
-
-    # fake item types
-
-    # fake monster types
-    writestr(outfile, "human", "humans")
-
 def prepare_git_file_list():
     command_str = "git ls-files"
     res = None;
@@ -1153,6 +1138,9 @@ for i in sorted(directories):
     print("----> Traversing directory {}".format(i))
     extract_all_from_dir(i)
 print("==> Finalizing")
-add_fake_types()
+if len(known_types - found_types) != 0:
+    print("WARNING: type {} not found in any JSON objects".format(known_types - found_types))
+if len(needs_plural - found_types) != 0:
+    print("WARNING: type {} from needs_plural not found in any JSON objects".format(needs_plural - found_types))
 
 # done.
