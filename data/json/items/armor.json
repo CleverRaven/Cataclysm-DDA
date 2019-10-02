@@ -1188,6 +1188,7 @@
     "coverage": 5,
     "encumbrance": 4,
     "material_thickness": 1,
+    "rigid": false,
     "use_action": {
       "type": "holster",
       "holster_prompt": "Holster spear",
