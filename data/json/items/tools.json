@@ -1170,7 +1170,7 @@
     "weight": "104 g",
     "volume": "592 ml",
     "price": 4000,
-    "price_postapoc": 7500
+    "price_postapoc": 7500,
     "to_hit": -3,
     "bashing": 3,
     "material": [ "cotton", "plastic" ],
