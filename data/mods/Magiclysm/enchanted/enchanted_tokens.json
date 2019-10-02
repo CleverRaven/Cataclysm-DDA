@@ -1,0 +1,89 @@
+[
+  {
+    "abstract": "mtoken",
+    "name": "magic token",
+    "type": "GENERIC",
+    "category": "other",
+    "weight": "8 g",
+    "volume": 0,
+    "price": 25000,
+    "material": [ "silver" ],
+    "symbol": "o",
+    "color": "light_gray"
+  },
+  {
+    "copy-from": "mtoken",
+    "type": "GENERIC",
+    "id": "mtoken_longsword",
+    "name": "longsword token",
+    "name_plural": "longsword tokens",
+    "description": "A large silver coin that, when activted by uttering the word on the back, turns into the item pictured on the front, in this case a longsword.",
+    "use_action": {
+      "type": "transform",
+      "target": "longsword",
+      "active": false,
+      "moves": 200,
+      "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine longsword!"
+    }
+  },
+  {
+    "copy-from": "mtoken",
+    "type": "GENERIC",
+    "id": "mtoken_arming_sword",
+    "name": "arming sword token",
+    "name_plural": "arming sword tokens",
+    "description": "A large silver coin that, when activted by uttering the word on the back, turns into the item pictured on the front, in this case an arming sword.",
+    "use_action": {
+      "type": "transform",
+      "target": "arming_sword",
+      "active": false,
+      "moves": 200,
+      "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine arming sword!"
+    }
+  },
+  {
+    "copy-from": "mtoken",
+    "type": "GENERIC",
+    "id": "mtoken_broadsword",
+    "name": "broadsword token",
+    "name_plural": "broadsword tokens",
+    "description": "A large silver coin that, when activted by uttering the word on the back, turns into the item pictured on the front, in this case a broadsword.",
+    "use_action": {
+      "type": "transform",
+      "target": "broadsword",
+      "active": false,
+      "moves": 200,
+      "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine broadsword!"
+    }
+  },
+  {
+    "copy-from": "mtoken",
+    "type": "GENERIC",
+    "id": "mtoken_battleaxe",
+    "name": "battleaxe token",
+    "name_plural": "battle axe tokens",
+    "description": "A large silver coin that, when activted by uttering the word on the back, turns into the item pictured on the front, in this case a battle axe.",
+    "use_action": {
+      "type": "transform",
+      "target": "battleaxe",
+      "active": false,
+      "moves": 200,
+      "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine battle axe!"
+    }
+  },
+  {
+    "copy-from": "mtoken",
+    "type": "GENERIC",
+    "id": "mtoken_battleaxe",
+    "name": "battleaxe token",
+    "name_plural": "battle axe tokens",
+    "description": "A large silver coin that, when activted by uttering the word on the back, turns into the item pictured on the front, in this case a battle axe.",
+    "use_action": {
+      "type": "transform",
+      "target": "battleaxe",
+      "active": false,
+      "moves": 200,
+      "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine battle axe!"
+    }
+  }
+]

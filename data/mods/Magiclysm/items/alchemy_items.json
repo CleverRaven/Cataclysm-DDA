@@ -124,11 +124,11 @@
     "color": "light_blue",
     "use_action": {
       "target": "glow_light_off",
-      "msg": "You close the nightlight's cover.",
+      "msg": "You close the reading light's cover.",
       "menu_text": "Close cover",
       "type": "transform"
     },
-    "flags": [ "LIGHT_5", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "LIGHT_10", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "glow_light_off",
@@ -143,7 +143,7 @@
     "material": "glass",
     "symbol": ",",
     "color": "light_blue",
-    "use_action": { "target": "glow_light", "msg": "You open the nightlight's cover.", "menu_text": "Open cover", "type": "transform" },
+    "use_action": { "target": "glow_light", "msg": "You open the reading light's cover.", "menu_text": "Open cover", "type": "transform" },
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {

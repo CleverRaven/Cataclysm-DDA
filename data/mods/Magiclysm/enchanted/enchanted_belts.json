@@ -1,0 +1,100 @@
+[
+  {
+    "abstract": "mbelt_leather",
+    "type": "TOOL_ARMOR",
+    "name": "magic leather belt",
+    "description": "A leather belt.  Useful for making your pair of pants fit.",
+    "weight": "102 g",
+    "volume": "250 ml",
+    "price": 90000,
+    "bashing": 5,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "TORSO" ],
+    "coverage": 5,
+    "material_thickness": 2,
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "Stick what into your belt",
+      "holster_msg": "You tuck your %s into your %s",
+      "max_volume": "500 ml",
+      "max_weight": 400,
+      "draw_cost": 60,
+      "flags": [ "BELT_CLIP" ]
+    },
+    "flags": [ "WAIST", "WATER_FRIENDLY", "STURDY" ]
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "copy-from": "mbelt_leather",
+    "id": "mbelt_haste",
+    "name": "Belt of Haste",
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.15, "add": 5 } ] } ]
+    }
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "copy-from": "mbelt_leather",
+    "id": "mbelt_thor",
+    "name": "Megingjörð",
+    "description": "The mythical belt of Thor, god of thunder.  Or at least so it appears.  It doubles the wearer's base strength.",
+    "material": [ "superalloy" ],
+    "material_thickness": 10,
+    "environmental": 20,
+    "weight_capacity_bonus": "50 kg",
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "multiply": 1.0 } ] } ]
+    }
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "copy-from": "mbelt_leather",
+    "id": "mbelt_pockets",
+    "name": "Girdle of Pockets",
+    "description": "A wide girdle that fits around your waist, coverd in numerous small pouches that hold a lot more than they should.",
+    "coverage": 10,
+    "encumbrance": 5,
+    "weight_capacity_bonus": "10 kg",
+    "storage": "15 L"
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "copy-from": "mbelt_leather",
+    "id": "mbelt_weaponry",
+    "name": "Belt of Weaponry",
+    "description": "A wide girdle that fits around your waist, you can sheath or holster any weapon into it in the blink of an eye, and it seemingly stores them somewhere else.",
+    "coverage": 10,
+    "encumbrance": 3,
+    "storage": "10 L",
+    "weight_capacity_bonus": "10 kg",
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "Stick what into your belt",
+      "holster_msg": "You tuck your %s into your %s",
+      "min_volume": "1 ml",
+      "max_volume": "4 L",
+      "max_weight": "5 kg",
+      "draw_cost": 5,
+      "multi": 4,
+      "skills": [
+        "pistol",
+        "shotgun",
+        "cutting",
+        "archery",
+        "bashing",
+        "launcher",
+        "melee",
+        "rifle",
+        "smg",
+        "stabbing",
+        "throw",
+        "ALL",
+        "gun",
+        "unarmed"
+      ],
+      "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD", "BELT_CLIP", "SHEATH_SPEAR" ]
+    }
+  }
+]

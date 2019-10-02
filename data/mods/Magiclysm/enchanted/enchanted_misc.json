@@ -1,0 +1,187 @@
+[
+  {
+    "type": "TOOL",
+    "id": "heat_cube",
+    "symbol": "#",
+    "color": "light_gray",
+    "name": "heat cube",
+    "description": "A smooth steel cube the size of your fist. Several buttons on the sides activate the powers of the cube.",
+    "price": 20000,
+    "price_postapoc": 1000,
+    "material": "steel",
+    "weight": "500 g",
+    "volume": "250 ml",
+    "bashing": 8,
+    "to_hit": -1,
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "flags": [ "ALLOWS_REMOTE_USE", "FIRE" ],
+    "initial_charges": 50,
+    "charges": 50,
+    "max_charges": 50,
+    "charges_per_use": 1,
+    "artifact_data": { "charge_type": "ARTC_TIME" },
+    "use_action": [
+      "HOTPLATE",
+      {
+        "type": "transform",
+        "target": "heat_cube_torch_on",
+        "active": true,
+        "msg": "You push the torch button and the cube emits a large flame from the top, one that does radiate heat, but won't burn anything.",
+        "menu_text": "Activate torch mode",
+        "moves": 150
+      },
+      { "type": "firestarter", "moves_cost": 5 },
+      { "flame": false, "type": "cauterize" }
+    ]
+  },
+  {
+    "id": "heat_cube_torch_on",
+    "copy-from": "heat_cube",
+    "type": "TOOL",
+    "name": "heat cube (torch on)",
+    "name_plural": "heat cubes (torch on)",
+    "description": "The heat cube in the torch configuration, where it emits warmth and a bright flame that does not burn.",
+    "turns_per_charge": 360,
+    "revert_to": "heat_cube",
+    "use_action": { "target": "heat_cube", "msg": "The torch flame is extinguished.", "menu_text": "Turn off", "type": "transform" },
+    "emits": [ "emit_hot_air2_stream" ],
+    "flags": [ "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "mkey_opening",
+    "type": "TOOL",
+    "name": "skeleton key of opening",
+    "name_plural": "skeleton key of opening",
+    "description": "A small gold skeleton key. You can activate it to unlock locked things.",
+    "weight": "20 g",
+    "volume": 0,
+    "price": 500000,
+    "material": [ "gold" ],
+    "symbol": "[",
+    "color": "yellow",
+    "initial_charges": 5,
+    "max_charges": 5,
+    "charges_per_use": 1,
+    "flags": [ "ARTC_TIME" ],
+    "use_action": { "type": "picklock", "pick_quality": 50 }
+  },
+  {
+    "id": "mtorch_everburning",
+    "type": "TOOL",
+    "name": "everburning torch",
+    "name_plural": "everburning torches",
+    "description": "This is a large stick, wrapped in rags that are soaked with a flammable material.  When lit, produces a fair amount of light.  You'll need a lighter or matches to light it.",
+    "weight": "831 g",
+    "volume": "750 ml",
+    "price": 0,
+    "to_hit": 1,
+    "bashing": 8,
+    "material": "wood",
+    "symbol": "/",
+    "color": "brown",
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "STURDY" ],
+    "use_action": {
+      "target": "mtorch_everburning_lit",
+      "msg": "You light the torch.",
+      "active": true,
+      "menu_text": "Light torch",
+      "type": "transform"
+    }
+  },
+  {
+    "id": "mtorch_everburning_lit",
+    "type": "TOOL",
+    "name": "everburning torch",
+    "name_plural": "everburning torches",
+    "copy-from": "mtorch_everburning",
+    "revert_to": "mtorch_everburning",
+    "use_action": [
+      { "type": "firestarter", "moves": 30 },
+      {
+        "target": "mtorch_everburning",
+        "msg": "The torch is extinguished.",
+        "active": false,
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "FIRE", "LIGHT_240", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "STURDY" ]
+  },
+  {
+    "name": "endless flask",
+    "id": "mflask_hip_whiskey",
+    "name_plural": "endless flasks",
+    "type": "CONTAINER",
+    "copy-from": "flask_hip",
+    "category": "clothing",
+    "use_action": {
+      "target": "whiskey",
+      "msg": "You open the flask and discover it full of sweet, sweet, whiskey!",
+      "container": "mflask_hip_whiskey",
+      "target_charges": 7,
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 14400,
+      "not_ready_msg": "The flask isn't done refilling yet.",
+      "//": "24 hours"
+    }
+  },
+  {
+    "id": "mtailors_kit",
+    "type": "TOOL",
+    "name": "enchanted tailor's kit",
+    "description": "This is a high quality, engraved steel kit with a variety of needles, some plastic spools for thread, some small scissors, even a small heating element for melting and joining plastic.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.  It also contains one of those magic spiders that constantly, if slowly, makes new thread.",
+    "weight": "200 g",
+    "volume": "500 ml",
+    "price": 100000,
+    "to_hit": -2,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "red",
+    "ammo": "thread",
+    "sub": "sewing_kit",
+    "initial_charges": 500,
+    "max_charges": 1000,
+    "charges_per_use": 1,
+    "artifact_data": { "charge_type": "ARTC_TIME" },
+    "qualities": [ [ "SEW", 2 ], [ "KNIT", 2 ], [ "CUT", 2 ] ],
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_fabric",
+        "materials": [ "cotton", "leather", "wool", "fur", "nomex", "neoprene" ],
+        "skill": "tailor",
+        "tool_quality": 1,
+        "cost_scaling": 0.1,
+        "move_cost": 600
+      },
+      {
+        "type": "sew_advanced",
+        "materials": [ "cotton", "leather", "fur", "nomex", "plastic", "kevlar", "wool" ],
+        "skill": "tailor",
+        "clothing_mods": [ "leather_padded", "kevlar_padded", "furred", "wooled" ]
+      }
+    ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "mspider_box",
+    "type": "TOOL",
+    "name": "spider box",
+    "name_plural": "spider boxes",
+    "description": "This is a small glass box that contains a spider that diligently works day and night to produce silk thread that it stores in a reservoir you can open and retrieve it from.",
+    "weight": "100 g",
+    "volume": "100 ml",
+    "price": 100000,
+    "to_hit": -2,
+    "material": [ "glass" ],
+    "symbol": ";",
+    "color": "red",
+    "ammo": "thread",
+    "initial_charges": 500,
+    "max_charges": 1000,
+    "artifact_data": { "charge_type": "ARTC_TIME" }
+  }
+]

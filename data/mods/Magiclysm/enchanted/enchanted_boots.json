@@ -1,0 +1,37 @@
+[
+  {
+    "id": "mboots_sevenleague",
+    "type": "ARMOR",
+    "copy-from": "boots_hiking",
+    "name": "seven league boots",
+    "name_plural": "pairs of seven league boots",
+    "looks-like": "boots_hiking",
+    "description": "Rugged yet extremely comfortable and well fitting boots of worn leather and steel, they look like they've seen a lot of use and will likely see a lot more.  They make your movement a lot less work.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -30 } ] } ] },
+    "encumbrance": 8,
+    "warmth": 30,
+    "material_thickness": 3,
+    "environmental_protection": 3,
+    "flags": [ "WATERPROOF", "STURDY" ]
+  },
+  {
+    "id": "mboots_haste",
+    "type": "ARMOR",
+    "copy-from": "boots_hiking",
+    "name": "boots of haste",
+    "name_plural": "pairs of boots of haste",
+    "looks-like": "boots_hiking",
+    "description": "Rugged yet extremely comfortable and well fitting boots of worn leather and steel, they look like they've seen a lot of use and will likely see a lot more.  They make your movement a lot less work.",
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -20 } ] },
+        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 10 } ] }
+      ]
+    },
+    "encumbrance": 8,
+    "warmth": 30,
+    "material_thickness": 3,
+    "environmental_protection": 3,
+    "flags": [ "WATERPROOF", "STURDY" ]
+  }
+]
