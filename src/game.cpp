@@ -1575,12 +1575,10 @@ bool game::do_turn()
 
     player_was_sleeping = player_is_sleeping;
 
-    if( calendar::once_every( 1_minutes ) && u.has_activity( activity_id( "ACT_CRAFT" ) ) ) {
-        item *craft = u.activity.targets.front().get_item();
-
-        if( craft ) {
+    if( calendar::once_every( 1_minutes ) ) {
+        if( const cata::optional<std::string> progress = u.activity.get_progress_message() ) {
             query_popup()
-            .wait_message( _( "Crafting: %s" ), craft->tname() )
+            .wait_message( "%s", *progress )
             .on_top( true )
             .show();
         }
