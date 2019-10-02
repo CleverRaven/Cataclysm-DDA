@@ -573,7 +573,8 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
         p->mod_fatigue( -healing );
     } else if( energy_source == "BIONIC" ) {
         if( healing > 0 ) {
-            p->power_level = std::min( p->max_power_level, p->power_level + healing );
+            p->power_level = units::from_kilojoule( std::min( units::to_kilojoule( p->max_power_level ),
+                                                    units::to_kilojoule( p->power_level ) + healing ) );
         } else {
             p->mod_stat( "stamina", healing );
         }

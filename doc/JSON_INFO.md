@@ -194,18 +194,20 @@ This section describes each json file and their contents. Each json has their ow
 | active                   | Whether the bionic is active or passive. (default: `passive`)
 | power_source             | Whether the bionic provides power. (default: `false`)
 | faulty                   | Whether it is a faulty type. (default: `false`)
-| cost                     | How many PUs it costs to use the bionic. (default: `0`)
+| act_cost                 | How many kJ it costs to activate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| deact_cost               | How many kJ it costs to deactivate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| react_cost               | How many kJ it costs over time to keep this bionic active, does nothing without a non-zero "time".  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
 | time                     | How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
 | description              | In-game description.
 | encumbrance              | (_optional_) A list of body parts and how much this bionic encumber them.
-| weight_capacity_bonus    | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings must be used - "5000 g" or "5 kg" (default: `0`)
+| weight_capacity_bonus    | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings can be used - "5000 g" or "5 kg" (default: `0`)
 | weight_capacity_modifier | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)
 | canceled_mutations       | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
 | included_bionics         | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
 | included                 | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
 | env_protec               | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
 | occupied_bodyparts       | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
-| capacity                 | (_optional_) Amount of power storage added by this bionic.
+| capacity                 | (_optional_) Amount of power storage added by this bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
 | fuel_options             | (_optional_) A list of fuel that this bionic can use to produce bionic power.
 | fuel_capacity            | (_optional_) Volume of fuel this bionic can store.
 | fuel_efficiency          | (_optional_) Fraction of fuel energy converted into power. (default: `0`)
@@ -220,7 +222,7 @@ This section describes each json file and their contents. Each json has their ow
     "active"       : false,
     "power_source" : false,
     "faulty"       : false,
-    "cost"         : 0,
+    "act_cost"     : 0,
     "time"         : 1,
     "fuel_efficiency": 1,
     "stat_bonus": [ [ "INT", 2 ], [ "STR", 2 ] ],

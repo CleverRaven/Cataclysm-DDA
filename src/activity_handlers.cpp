@@ -4382,7 +4382,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 p->mod_stat( "stamina", -cost );
                 break;
             case bionic_energy:
-                p->power_level -= cost;
+                p->power_level -= units::from_kilojoule( cost );
                 break;
             case hp_energy:
                 blood_magic( p, cost );

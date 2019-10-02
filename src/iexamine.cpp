@@ -3943,7 +3943,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     int pricePerUnit = getGasPricePerLiter( discount );
 
     bool can_hack = ( !p.has_trait( trait_ILLITERATE ) && ( ( p.has_charges( "electrohack", 25 ) ) ||
-                      ( p.has_bionic( bionic_id( "bio_fingerhack" ) ) && p.power_level > 24 ) ) );
+                      ( p.has_bionic( bionic_id( "bio_fingerhack" ) ) && p.power_level > 24_kJ ) ) );
 
     uilist amenu;
     amenu.selected = 1;
@@ -5685,7 +5685,7 @@ hack_result iexamine::hack_attempt( player &p )
     bool using_electrohack = p.has_charges( "electrohack", 25 ) &&
                              query_yn( _( "Use electrohack?" ) );
     bool using_fingerhack = !using_electrohack && p.has_bionic( bionic_id( "bio_fingerhack" ) ) &&
-                            p.power_level > 24 && query_yn( _( "Use fingerhack?" ) );
+                            p.power_level > 24_kJ && query_yn( _( "Use fingerhack?" ) );
 
     if( !( using_electrohack || using_fingerhack ) ) {
         return HACK_UNABLE;
@@ -5694,7 +5694,7 @@ hack_result iexamine::hack_attempt( player &p )
     p.moves -= to_moves<int>( 5_minutes );
     p.practice( skill_computer, 20 );
     if( using_fingerhack ) {
-        p.charge_power( -25 );
+        p.charge_power( -25_kJ );
     } else {
         p.use_charges( "electrohack", 25 );
     }
@@ -5706,7 +5706,7 @@ hack_result iexamine::hack_attempt( player &p )
     if( success < 0 ) {
         add_msg( _( "You cause a short circuit!" ) );
         if( using_fingerhack ) {
-            p.charge_power( -25 );
+            p.charge_power( -25_kJ );
         } else {
             p.use_charges( "electrohack", 25 );
         }
@@ -5717,7 +5717,7 @@ hack_result iexamine::hack_attempt( player &p )
                 p.use_amount( "electrohack", 1 );
             } else {
                 add_msg( m_bad, _( "Your power is drained!" ) );
-                p.charge_power( -rng( 25, p.power_level ) );
+                p.charge_power( units::from_kilojoule( -rng( 25, units::to_kilojoule( p.power_level ) ) ) );
             }
         }
         return HACK_FAIL;

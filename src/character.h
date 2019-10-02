@@ -928,8 +928,8 @@ class Character : public Creature, public visitable<Character>
         stomach_contents stomach;
         stomach_contents guts;
 
-        int power_level;
-        int max_power_level;
+        units::energy power_level;
+        units::energy max_power_level;
         int oxygen;
         int stamina;
         int radiation;

@@ -26,6 +26,7 @@
 #include <bitset>
 
 #include "auto_pickup.h"
+#include "assign.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
@@ -501,8 +502,9 @@ void Character::load( JsonObject &data )
     recalc_sight_limits();
     reset_encumbrance();
 
-    data.read( "power_level", power_level );
-    data.read( "max_power_level", max_power_level );
+    assign( data, "power_level", power_level, false, 0_kJ );
+    assign( data, "max_power_level", max_power_level, false, 0_kJ );
+
     // Bionic power scale has been changed, savegame version 21 has the new scale
     if( savegame_loading_version <= 20 ) {
         power_level *= 25;
@@ -510,8 +512,8 @@ void Character::load( JsonObject &data )
     }
 
     // Bionic power should not be negative!
-    if( power_level < 0 ) {
-        power_level = 0;
+    if( power_level < 0_kJ ) {
+        power_level = 0_kJ;
     }
 }
 
@@ -575,8 +577,8 @@ void Character::store( JsonOut &json ) const
     json.end_object();
 
     // npc; unimplemented
-    json.member( "power_level", power_level );
-    json.member( "max_power_level", max_power_level );
+    json.member( "power_level", units::to_kilojoule( power_level ) );
+    json.member( "max_power_level", units::to_kilojoule( max_power_level ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

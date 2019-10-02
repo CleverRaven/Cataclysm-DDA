@@ -287,7 +287,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
     }
     file << string_format(
              _( "Bionic Power: <color_light_blue>%d</color>/<color_light_blue>%d</color>" ),
-             u.power_level, u.max_power_level ) << eol;
+             units::to_kilojoule( u.power_level ), units::to_kilojoule( u.max_power_level ) ) << eol;
     file << eol;
 
     //Equipment
