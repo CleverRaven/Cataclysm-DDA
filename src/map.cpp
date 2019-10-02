@@ -6533,7 +6533,6 @@ void map::load( const tripoint &w, const bool update_vehicle )
             loadn( point( gridx, gridy ), update_vehicle );
         }
     }
-    calc_max_populated_zlev();
 }
 
 void map::shift_traps( const tripoint &shift )
@@ -8567,7 +8566,7 @@ level_cache::level_cache()
     std::fill_n( &visibility_cache[0][0], map_dimensions, LL_DARK );
     veh_in_active_range = false;
     std::fill_n( &veh_exists_at[0][0], map_dimensions, false );
-    max_populated_zlev = 0;
+    max_populated_zlev = OVERMAP_HEIGHT;
 }
 
 pathfinding_cache::pathfinding_cache()
@@ -8740,7 +8739,7 @@ bool map::is_cornerfloor( const tripoint &p ) const
 }
 
 void map::calc_max_populated_zlev() {
-    //We'll assume ground level is populated
+    // We'll assume ground level is populated
     int max_z = 0;
 
     for( int sz = 1; sz <= OVERMAP_HEIGHT; sz++ ) {
@@ -8759,8 +8758,8 @@ void map::calc_max_populated_zlev() {
             }
         }
     }
+    // This will be the same for every zlevel in the cache, so just put it in all of them
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
         get_cache( z ).max_populated_zlev = max_z;
     }
-    add_msg( "max_z: %d", max_z );
 }

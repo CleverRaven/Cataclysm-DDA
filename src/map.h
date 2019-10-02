@@ -1517,6 +1517,7 @@ class map
          */
         void setsubmap( size_t grididx, submap *smap );
     private:
+        // Caclulate the greatest populated zlevel in the loaded submaps and save in the level cache.
         void calc_max_populated_zlev();
         /**
          * Internal versions of public functions to avoid checking same variables multiple times.

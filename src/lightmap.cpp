@@ -274,7 +274,8 @@ void map::generate_lightmap( const int zlev )
 
     const float natural_light = g->natural_light_level( zlev );
     const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
-    const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
+    // Start at the topmost populated zlevel to avoid unnecessary raycasting
+    const int maxz = zlevels ? map_cache.max_populated_zlev : zlev;
 
     // Iterate top to bottom because sunlight cache needs to construct in that order.
     for( int z = maxz; z >= minz; z-- ) {
