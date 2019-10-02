@@ -4,7 +4,7 @@
     "type": "TOOL_ARMOR",
     "name": "copper magic ring",
     "description": "A generic copper magic ring.",
-    "weight": "6 g",
+    "weight": "45 g",
     "volume": 0,
     "price": 5000,
     "material": [ "copper" ],
