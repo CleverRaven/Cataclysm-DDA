@@ -1338,14 +1338,14 @@ int player::floor_bedding_warmth( const tripoint &pos )
     int floor_bedding_warmth = 0;
 
     const optional_vpart_position vp = g->m.veh_at( pos );
-
+    const cata::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
     // Search the floor for bedding
     if( furn_at_pos != f_null ) {
         floor_bedding_warmth += furn_at_pos.obj().floor_bedding_warmth;
     } else if( !trap_at_pos.is_null() ) {
         floor_bedding_warmth += trap_at_pos.floor_bedding_warmth;
-    } else if( vp.part_with_feature( "BOARDABLE", true ) ) {
-        floor_bedding_warmth += vp.part_with_feature( "BOARDABLE", true )->info().floor_bedding_warmth;
+    } else if( boardable ) {
+        floor_bedding_warmth += boardable->info().floor_bedding_warmth;
     } else if( ter_at_pos == t_improvised_shelter ) {
         floor_bedding_warmth -= 500;
     } else {
@@ -9502,17 +9502,19 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             vehicle &veh = vp->vehicle();
             const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
             const cata::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
-            vehicle_stack items = veh.get_items( carg->part_index() );
-            for( auto &items_it : items ) {
-                if( items_it.has_flag( "SLEEP_AID" ) ) {
-                    // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
-                    comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                    add_msg_if_player( m_info, _( "You use your %s for comfort." ), items_it.tname() );
-                    break; // prevents using more than 1 sleep aid
+            if( carg ) {
+                vehicle_stack items = veh.get_items( carg->part_index() );
+                for( auto &items_it : items ) {
+                    if( items_it.has_flag( "SLEEP_AID" ) ) {
+                        // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
+                        comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
+                        add_msg_if_player( m_info, _( "You use your %s for comfort." ), items_it.tname() );
+                        break; // prevents using more than 1 sleep aid
+                    }
                 }
             }
-            if( vp.part_with_feature( "BOARDABLE", true ) ) {
-                comfort += vp.part_with_feature( "BOARDABLE", true )->info().comfort;
+            if( board ) {
+                comfort += board->info().comfort;
             } else {
                 comfort -= g->m.move_cost( p );
             }
