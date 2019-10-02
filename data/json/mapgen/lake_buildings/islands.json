@@ -40,9 +40,104 @@
       "furniture": { ".": [ [ "f_boulder_medium", 1 ], [ "f_boulder_small", 1 ], [ "f_boulder_large", 2 ] ] },
       "place_nested": [
         {
-          "chunks": [ [ "null", 20 ], [ "roof_4x4_survivor", 15 ], [ "roof_3x3_wine", 40 ], [ "roof_6x6_survivor", 50 ] ],
-          "x": [ 8, 16 ],
-          "y": [ 8, 16 ]
+          "chunks": [
+            [ "null", 80 ],
+            [ "roof_4x4_survivor", 3 ],
+            [ "roof_3x3_wine", 3 ],
+            [ "roof_6x6_survivor", 4 ],
+            [ "small_camp_8x8", 5 ],
+            [ "gone_fishing_3x3", 5 ]
+          ],
+          "x": [ 3, 20 ],
+          "y": [ 3, 20 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "island_forest",
+    "object": {
+      "predecessor_mapgen": "forest",
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 80 ],
+            [ "roof_4x4_survivor", 3 ],
+            [ "roof_3x3_wine", 3 ],
+            [ "roof_6x6_survivor", 4 ],
+            [ "small_camp_8x8", 5 ],
+            [ "gone_fishing_3x3", 5 ]
+          ],
+          "x": [ 3, 20 ],
+          "y": [ 3, 20 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "island_forest_thick",
+    "object": {
+      "predecessor_mapgen": "forest_thick",
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 80 ],
+            [ "roof_4x4_survivor", 3 ],
+            [ "roof_3x3_wine", 3 ],
+            [ "roof_6x6_survivor", 4 ],
+            [ "small_camp_8x8", 5 ],
+            [ "gone_fishing_3x3", 5 ]
+          ],
+          "x": [ 3, 20 ],
+          "y": [ 3, 20 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "island_forest_water",
+    "object": {
+      "predecessor_mapgen": "forest_water",
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 80 ],
+            [ "roof_4x4_survivor", 3 ],
+            [ "roof_3x3_wine", 3 ],
+            [ "roof_6x6_survivor", 4 ],
+            [ "small_camp_8x8", 5 ],
+            [ "gone_fishing_3x3", 5 ]
+          ],
+          "x": [ 3, 20 ],
+          "y": [ 3, 20 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "island_field",
+    "object": {
+      "predecessor_mapgen": "field",
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 80 ],
+            [ "roof_4x4_survivor", 3 ],
+            [ "roof_3x3_wine", 3 ],
+            [ "roof_6x6_survivor", 4 ],
+            [ "small_camp_8x8", 5 ],
+            [ "gone_fishing_3x3", 5 ]
+          ],
+          "x": [ 3, 20 ],
+          "y": [ 3, 20 ]
         }
       ]
     }
