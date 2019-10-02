@@ -36,7 +36,7 @@
     "type": "TOOL_ARMOR",
     "name": "magic ring",
     "description": "A generic gold magic ring.",
-    "weight": "6 g",
+    "weight": "9 g",
     "volume": 0,
     "price": 5000,
     "material": [ "gold" ],
