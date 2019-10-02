@@ -112,6 +112,7 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "downed_target", downed_target, false );
     optional( jo, was_loaded, "stunned_target", stunned_target, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
+    optional( jo, was_loaded, "human_target", human_target, false );
 
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
@@ -520,6 +521,7 @@ ma_technique::ma_technique()
     downed_target = false;    // only works on downed enemies
     stunned_target = false;   // only works on stunned enemies
     wall_adjacent = false;    // only works near a wall
+    human_target = false;     // only works on humanoid enemies
 
     miss_recovery = false; // allows free recovery from misses, like tec_feint
     grab_break = false; // allows grab_breaks, like tec_break
@@ -1246,6 +1248,10 @@ std::string ma_technique::get_description() const
 
     if( stunned_target ) {
         dump << _( "* Only works on a <info>stunned</info> target" ) << std::endl;
+    }
+
+    if( human_target ) {
+        dump << _( "* Only works on a <info>humanoid</info> target" ) << std::endl;
     }
 
     if( dodge_counter ) {

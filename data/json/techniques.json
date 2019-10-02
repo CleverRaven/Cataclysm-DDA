@@ -907,7 +907,7 @@
     "crit_ok": true,
     "downed_target": true,
     "stunned_target": true,
-    "disarms": true,
+    "human_target": true,
     "stun_dur": 3,
     "flat_bonuses": [ [ "arpen", "bash", "str", 1.0 ] ],
     "mult_bonuses": [ [ "damage", "bash", 3.0 ] ]
