@@ -531,7 +531,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     // Create the targeting computer's npc
     npc cpu = get_targeting_npc( pt );
 
-    int area = aoe_size( gun.ammo_effects() );
+    int area = max_aoe_size( gun.ammo_effects() );
     if( area > 0 ) {
         // Pad a bit for less friendly fire
         area += area == 1 ? 1 : 2;

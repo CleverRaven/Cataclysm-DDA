@@ -81,6 +81,7 @@
 #include "construction_category.h"
 #include "overmap.h"
 #include "clothing_mod.h"
+#include "ammo_effect.h"
 
 DynamicDataLoader::DynamicDataLoader()
 {
@@ -188,6 +189,7 @@ void DynamicDataLoader::initialize()
     add( "json_flag", &json_flag::load );
     add( "fault", &fault::load_fault );
     add( "field_type", &field_types::load );
+    add( "ammo_effect", &ammo_effects::load );
     add( "emit", &emit::load_emit );
     add( "activity_type", &activity_type::load );
     add( "vitamin", &vitamin::load_vitamin );
@@ -467,6 +469,7 @@ void DynamicDataLoader::unload_data()
     requirement_data::reset();
     vitamin::reset();
     field_types::reset();
+    ammo_effects::reset();
     emit::reset();
     activity_type::reset();
     fault::reset();
@@ -550,6 +553,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     const std::vector<named_entry> entries = {{
             { _( "Body parts" ), &body_part_struct::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
+            { _( "Ammo effects" ), &ammo_effects::finalize_all },
             { _( "Emissions" ), &emit::finalize },
             {
                 _( "Items" ), []()
@@ -627,6 +631,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             },
             { _( "Vitamins" ), &vitamin::check_consistency },
             { _( "Field types" ), &field_types::check_consistency },
+            { _( "Ammo effects" ), &ammo_effects::check_consistency },
             { _( "Emissions" ), &emit::check_consistency },
             { _( "Activities" ), &activity_type::check_consistency },
             {
