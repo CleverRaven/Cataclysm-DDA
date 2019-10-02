@@ -52,7 +52,7 @@
     "type": "TOOL_ARMOR",
     "name": "magic ring",
     "description": "A generic platinum magic ring.",
-    "weight": "6 g",
+    "weight": "11.7 g",
     "volume": 0,
     "price": 5000,
     "material": [ "platinum" ],
