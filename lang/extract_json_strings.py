@@ -340,16 +340,15 @@ def extract_gun(item):
     outfile = get_outfile("gun")
     if "name" in item:
         item_name = item.get("name")
-        writestr(outfile, item_name)
         if "name_plural" in item:
-            if item.get("name_plural") != "none":
-                writestr(outfile, item_name, item.get("name_plural"))
+            # legacy format
+            if item["name_plural"] != "none":
+                writestr(outfile, item_name, item["name_plural"])
             else:
                 writestr(outfile, item_name)
         else:
-            if item.get("type") in needs_plural:
-                # no name_plural entry in json, use default constructed (name+"s"), as in item_factory.cpp
-                writestr(outfile, item_name, "{}s".format(item_name))
+            if item["type"] in needs_plural:
+                writestr(outfile, item_name, new_pl_fmt=True)
             else:
                 writestr(outfile, item_name)
     if "description" in item:
@@ -375,16 +374,15 @@ def extract_gunmod(item):
     outfile = get_outfile("gunmod")
     if "name" in item:
         item_name = item.get("name")
-        writestr(outfile, item_name)
         if "name_plural" in item:
-            if item.get("name_plural") != "none":
-                writestr(outfile, item_name, item.get("name_plural"))
+            # legacy format
+            if item["name_plural"] != "none":
+                writestr(outfile, item_name, item["name_plural"])
             else:
                 writestr(outfile, item_name)
         else:
-            if item.get("type") in needs_plural:
-                # no name_plural entry in json, use default constructed (name+"s"), as in item_factory.cpp
-                writestr(outfile, item_name, "{}s".format(item_name))
+            if item["type"] in needs_plural:
+                writestr(outfile, item_name, new_pl_fmt=True)
             else:
                 writestr(outfile, item_name)
     if "description" in item:
