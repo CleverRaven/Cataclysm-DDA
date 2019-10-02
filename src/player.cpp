@@ -854,7 +854,8 @@ void player::update_bodytemp()
     int Ctemperature = static_cast<int>( 100 * temp_to_celsius( player_local_temp ) );
     const w_point weather = *g->weather.weather_precise;
     int vehwindspeed = 0;
-    if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
+    const optional_vpart_position vp = g->m.veh_at( pos() );
+    if( vp ) {
         vehwindspeed = abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
@@ -872,7 +873,7 @@ void player::update_bodytemp()
     const bool has_climate_control = in_climate_control();
     const bool use_floor_warmth = can_use_floor_warmth();
     const furn_id furn_at_pos = g->m.furn( pos() );
-    const optional_vpart_position vp = g->m.veh_at( pos() );
+    const cata::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
     // Temperature norms
     // Ambient normal temperature is lower while asleep
     const int ambient_norm = has_sleep ? 3100 : 1900;
@@ -1076,9 +1077,8 @@ void player::update_bodytemp()
                     if( furn_at_pos != f_null ) {
                         // Can sit on something to lift feet up to the fire
                         bonus_fire_warmth = best_fire * furn_at_pos.obj().bonus_fire_warmth_feet;
-                    } else if( vp.part_with_feature( "BOARDABLE", true ) ) {
-                        bonus_fire_warmth = best_fire * vp.part_with_feature( "BOARDABLE",
-                                            true )->info().bonus_fire_warmth_feet;
+                    } else if( boardable ) {
+                        bonus_fire_warmth = best_fire * boardable->info().bonus_fire_warmth_feet;
                     } else {
                         // Has to stand
                         bonus_fire_warmth = best_fire * 300;
