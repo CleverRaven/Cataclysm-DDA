@@ -172,6 +172,8 @@ struct level_cache {
     std::map< tripoint, std::pair<vehicle *, int> > veh_cached_parts;
     std::set<vehicle *> vehicle_list;
     std::set<vehicle *> zone_vehicles;
+
+    int max_populated_zlev;
 };
 
 /**
@@ -1515,6 +1517,7 @@ class map
          */
         void setsubmap( size_t grididx, submap *smap );
     private:
+        void calc_max_populated_zlev();
         /**
          * Internal versions of public functions to avoid checking same variables multiple times.
          * They lack safety checks, because their callers already do those.

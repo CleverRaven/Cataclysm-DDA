@@ -6533,6 +6533,7 @@ void map::load( const tripoint &w, const bool update_vehicle )
             loadn( point( gridx, gridy ), update_vehicle );
         }
     }
+    calc_max_populated_zlev();
 }
 
 void map::shift_traps( const tripoint &shift )
@@ -6705,6 +6706,7 @@ void map::shift( const point &sp )
             support_cache_dirty.insert( pt + point( -sp.x * SEEX, -sp.y * SEEY ) );
         }
     }
+    calc_max_populated_zlev();
 }
 
 void map::vertical_shift( const int newz )
@@ -8565,6 +8567,7 @@ level_cache::level_cache()
     std::fill_n( &visibility_cache[0][0], map_dimensions, LL_DARK );
     veh_in_active_range = false;
     std::fill_n( &veh_exists_at[0][0], map_dimensions, false );
+    max_populated_zlev = 0;
 }
 
 pathfinding_cache::pathfinding_cache()
@@ -8734,4 +8737,30 @@ bool map::is_cornerfloor( const tripoint &p ) const
         }
     }
     return false;
+}
+
+void map::calc_max_populated_zlev() {
+    //We'll assume ground level is populated
+    int max_z = 0;
+
+    for( int sz = 1; sz <= OVERMAP_HEIGHT; sz++ ) {
+        bool level_done = false;
+        for( int sx = 0; sx < my_MAPSIZE; sx++ ) {
+            for( int sy = 0; sy < my_MAPSIZE; sy++ ) {
+                const submap *sm = get_submap_at_grid( tripoint( sx, sy, sz ) );
+                if( !sm->is_uniform ) {
+                    max_z = sz;
+                    level_done = true;
+                    break;
+                }
+            }
+            if( level_done ) {
+                break;
+            }
+        }
+    }
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        get_cache( z ).max_populated_zlev = max_z;
+    }
+    add_msg( "max_z: %d", max_z );
 }
