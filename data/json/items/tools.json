@@ -1179,7 +1179,7 @@
     "initial_charges": 50,
     "max_charges": 50,
     "charges_per_use": 1,
-    "use_action": "WATER_PURIFIER",
+    "use_action": "WATER_PURIFIER"
   },
   {
     "id": "char_smoker",
