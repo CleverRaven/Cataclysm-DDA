@@ -267,7 +267,7 @@ int field::total_move_cost() const
 
 effect field_entry::field_effect() const
 {
-    const field_effect_data &field_effect = type->intensity_levels[intensity - 1].field_effect;
+    const field_effect_data &field_effect = type->get_intensity_level( intensity - 1 ).field_effect;
     const efftype_id fx_id = field_effect.id;
     if( fx_id.is_empty() || fx_id.is_null() ) {
         return effect();
@@ -278,5 +278,5 @@ effect field_entry::field_effect() const
 
 bool field_entry::inside_immune() const
 {
-    return type->intensity_levels[intensity].field_effect.inside_immune;
+    return type->get_intensity_level( intensity - 1 ).field_effect.inside_immune;
 }
