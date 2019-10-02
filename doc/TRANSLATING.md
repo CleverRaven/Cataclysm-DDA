@@ -256,6 +256,16 @@ translation name{ translation::plural_tag() };
 jsobj.read( "name", name );
 ```
 
+You can also add comments for translators by writing it like below (the order
+of the entries does not matter):
+
+```JSON
+"name": {
+    "//~": "as in 'foobar'",
+    "str": "bar"
+}
+```
+
 Do note that currently the JSON syntax is only supported for some JSON values,
 which are listed below. If you want other json strings to use this format,
 refer to `translations.h|cpp` and migrate the corresponding code. Afterwards

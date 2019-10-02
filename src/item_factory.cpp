@@ -2084,7 +2084,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
         }
     }
 
-    if( jo.has_string( "description" ) ) {
+    if( jo.has_member( "description" ) ) {
         jo.read( "description", def.description );
     }
 

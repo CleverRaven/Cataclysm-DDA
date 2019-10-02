@@ -176,8 +176,17 @@ Some json strings are extracted for translation, for example item names, descrip
 "name": { "ctxt": "foo", "str": "bar", "str_pl": "baz" }
 ```
 
-Currently, only some JSON values support this syntax (see [here](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/TRANSLATING.md#translation) for a list of supported values and more detailed explanation).
+You can also add comments for translators by adding a "//~" entry like below. The
+order of the entries does not matter.
 
+```JSON
+"name": {
+    "//~": "as in 'foobar'",
+    "str": "bar"
+}
+```
+
+Currently, only some JSON values support this syntax (see [here](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/TRANSLATING.md#translation) for a list of supported values and more detailed explanation).
 
 # Description and content of each JSON file
 This section describes each json file and their contents. Each json has their own unique properties that are not shared with other Json files (for example 'chapters' property used in books does not apply to armor). This will make sure properties are only described and used within the context of the appropriate JSON file.

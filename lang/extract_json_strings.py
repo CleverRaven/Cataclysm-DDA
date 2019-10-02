@@ -826,7 +826,8 @@ for filename in os.listdir(to_dir):
 def tlcomment(fs, string):
     "Write the string to the file as a comment for translators."
     if len(string) > 0:
-        fs.write("#~ {}\n".format(string))
+        for line in string.splitlines():
+            fs.write("#~ {}\n".format(line))
 
 def gettextify(string, context=None, plural=None):
     "Put the string in a fake gettext call, and add a newline."
@@ -848,6 +849,11 @@ def writestr(filename, string, plural=None, context=None, format_strings=False, 
             writestr(filename, entry, None, context, format_strings, comment)
         return
     elif type(string) is dict and plural is None:
+        if "//~" in string:
+            if comment is None:
+                comment = string["//~"]
+            else:
+                comment = "{}\n{}".format(comment, string["//~"])
         ctxt = string.get( "ctxt" )
         str_pl = None
         if new_pl_fmt:
