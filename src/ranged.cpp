@@ -124,20 +124,10 @@ double Creature::ranged_target_size() const
 
 int range_with_even_chance_of_good_hit( int dispersion )
 {
-    // Empirically determined by "synthetic_range_test" in tests/ranged_balance.cpp.
-    static const std::array<int, 59> dispersion_for_even_chance_of_good_hit = {{
-            1731, 859, 573, 421, 341, 286, 245, 214, 191, 175,
-            151, 143, 129, 118, 114, 107, 101, 94, 90, 78,
-            78, 78, 74, 71, 68, 66, 62, 61, 59, 57,
-            46, 46, 46, 46, 46, 46, 45, 45, 44, 42,
-            41, 41, 39, 39, 38, 37, 36, 35, 34, 34,
-            33, 33, 32, 30, 30, 30, 30, 29, 28
-        }
-    };
     int even_chance_range = 0;
     while( static_cast<unsigned>( even_chance_range ) <
-           dispersion_for_even_chance_of_good_hit.size() &&
-           dispersion < dispersion_for_even_chance_of_good_hit[ even_chance_range ] ) {
+           Creature::dispersion_for_even_chance_of_good_hit.size() &&
+           dispersion < Creature::dispersion_for_even_chance_of_good_hit[ even_chance_range ] ) {
         even_chance_range++;
     }
     return even_chance_range;
