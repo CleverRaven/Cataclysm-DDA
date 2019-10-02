@@ -129,6 +129,7 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "stun_dur", stun_dur, 0 );
     optional( jo, was_loaded, "knockback_dist", knockback_dist, 0 );
     optional( jo, was_loaded, "knockback_spread", knockback_spread, 0 );
+    optional( jo, was_loaded, "powerful_knockback", powerful_knockback, false );
     optional( jo, was_loaded, "knockback_follow", knockback_follow, 0 );
 
     optional( jo, was_loaded, "aoe", aoe, "" );
@@ -510,6 +511,7 @@ ma_technique::ma_technique()
     stun_dur = 0;
     knockback_dist = 0;
     knockback_spread = 0; // adding randomness to knockback, like tec_throw
+    powerful_knockback = false;
     knockback_follow = 0; // player follows the knocked-back party into their former tile
 
     // offensive
@@ -1252,6 +1254,11 @@ std::string ma_technique::get_description() const
 
     if( human_target ) {
         dump << _( "* Only works on a <info>humanoid</info> target" ) << std::endl;
+    }
+
+    if( powerful_knockback ) {
+        dump << _( "* Will cause extra <info>damage</info> if target <info>collides</info> with something." )
+            << std::endl;
     }
 
     if( dodge_counter ) {
