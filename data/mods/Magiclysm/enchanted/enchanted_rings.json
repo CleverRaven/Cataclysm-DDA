@@ -85,7 +85,7 @@
     "valid_targets": [ "self" ],
     "effect": "spawn_item",
     "effect_str": "throwing_knife",
-    "message": "You activate your ring and 3 throwing knives appear, ready to throw!",
+    "message": "You activate your ring and three throwing knives appear, ready to throw!",
     "spell_class": "NONE",
     "max_level": 1,
     "min_damage": 3,
