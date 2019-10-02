@@ -8740,7 +8740,8 @@ bool map::is_cornerfloor( const tripoint &p ) const
     return false;
 }
 
-void map::calc_max_populated_zlev() {
+void map::calc_max_populated_zlev()
+{
     // We'll assume ground level is populated
     int max_z = 0;
 
