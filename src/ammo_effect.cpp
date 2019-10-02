@@ -60,7 +60,6 @@ int_id<ammo_effect>::int_id( const string_id<ammo_effect> &id ) : _id( id.id() )
 
 void ammo_effect::load( JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "effect_tag", effect_tag );
     if( jo.has_member( "aoe" ) ) {
         JsonObject joa = jo.get_object( "aoe" );
         optional( joa, was_loaded, "field_type", aoe_field_type_name, "fd_null" );

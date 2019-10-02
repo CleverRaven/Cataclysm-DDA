@@ -18,8 +18,6 @@ struct ammo_effect {
         void check() const;
 
     public:
-        std::string effect_tag;
-
         field_type_id aoe_field_type = fd_null;
         /** used during JSON loading only */
         std::string aoe_field_type_name = "fd_null";

@@ -93,7 +93,7 @@ void projectile::unset_custom_explosion()
 void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects )
 {
     for( const ammo_effect &ae : ammo_effects::get_all() ) {
-        if( effects.count( ae.effect_tag ) > 0 ) {
+        if( effects.count( ae.id.str() ) > 0 ) {
             for( auto &pt : g->m.points_in_radius( p, ae.aoe_radius, ae.aoe_radius_z ) ) {
                 if( one_in( ae.aoe_chance ) ) {
                     const bool check_sees = !ae.aoe_check_sees ||
@@ -128,7 +128,7 @@ int max_aoe_size( const std::set<std::string> &tags )
 {
     int aoe_size = 0;
     for( const ammo_effect &aed : ammo_effects::get_all() ) {
-        if( tags.count( aed.effect_tag ) > 0 ) {
+        if( tags.count( aed.id.str() ) > 0 ) {
             aoe_size = std::max( aoe_size,  aed.aoe_size ) ;
         }
     }
