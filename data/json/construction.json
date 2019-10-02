@@ -2322,6 +2322,42 @@
   },
   {
     "type": "construction",
+    "description": "Build Deep River Dock",
+    "//": "Step 1: securing a pile down on the riverbed; not easy work without machinery",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "720 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "wood_beam", 1 ] ], [ [ "spike", 4 ] ] ],
+    "pre_terrain": "t_water_moving_dp",
+    "post_terrain": "t_dock_deep_pile"
+  },
+  {
+    "type": "construction",
+    "description": "Build Deep River Dock",
+    "//": "Step 2: add a log frame atop the pile",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "120 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "log", 4 ] ], [ [ "spike", 8 ] ] ],
+    "pre_terrain": "t_dock_deep_pile",
+    "post_terrain": "t_dock_deep_frame"
+  },
+  {
+    "type": "construction",
+    "description": "Build Deep River Dock",
+    "//": "Step 3: Finish with a wood surface",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 14 ] ], [ [ "nail", 28 ] ] ],
+    "pre_terrain": "t_dock_deep_frame",
+    "post_terrain": "t_dock_deep"
+  },
+  {
+    "type": "construction",
     "description": "Place Water Mill",
     "//": "Set up Water Mill",
     "category": "CONSTRUCT",
