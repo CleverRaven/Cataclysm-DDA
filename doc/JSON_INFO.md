@@ -934,7 +934,7 @@ See also VEHICLE_JSON.md
 
 ### Generic Items
 
-```JSON
+```C++
 "type": "GENERIC",                // Defines this as some generic item
 "id": "socks",                    // Unique ID. Must be one continuous word, use underscores if necessary
 "name": {
