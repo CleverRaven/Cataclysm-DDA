@@ -160,22 +160,22 @@ void iuse_transform::load( JsonObject &obj )
 
     obj.read( "need_fire", need_fire );
     need_fire = std::max( need_fire, 0 );
-    need_charges_msg = obj.has_string( "need_charges_msg" ) ? _
-                       ( obj.get_string( "need_charges_msg" ) ) : _( "The %s is empty!" );
+    if( !obj.read( "need_charges_msg", need_charges_msg ) ) {
+        need_charges_msg = to_translation( "The %s is empty!" );
+    }
 
     obj.read( "need_charges", need_charges );
     need_charges = std::max( need_charges, 0 );
-    need_fire_msg = obj.has_string( "need_fire_msg" ) ? _( obj.get_string( "need_fire_msg" ) ) :
-                    _( "You need a source of fire!" );
+    if( !obj.read( "need_fire_msg", need_fire_msg ) ) {
+        need_fire_msg = to_translation( "You need a source of fire!" );
+    }
 
     obj.read( "need_worn", need_worn );
+    obj.read( "need_wielding", need_wielding );
 
     obj.read( "qualities_needed", qualities_needed );
 
     obj.read( "menu_text", menu_text );
-    if( !menu_text.empty() ) {
-        menu_text = _( menu_text );
-    }
 }
 
 int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) const
@@ -189,6 +189,10 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
 
     if( possess && need_worn && !p.is_worn( it ) ) {
         p.add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
+        return 0;
+    }
+    if( possess && need_wielding && !p.is_wielding( it ) ) {
+        p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
         return 0;
     }
     if( need_charges && it.units_remaining( p ) < need_charges ) {
@@ -210,7 +214,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
     }
 
     if( possess && !msg_transform.empty() ) {
-        p.add_msg_if_player( m_neutral, _( msg_transform ), it.tname() );
+        p.add_msg_if_player( m_neutral, msg_transform, it.tname() );
     }
 
     if( possess ) {
@@ -278,7 +282,7 @@ ret_val<bool> iuse_transform::can_use( const player &p, const item &, bool,
 std::string iuse_transform::get_name() const
 {
     if( !menu_text.empty() ) {
-        return menu_text;
+        return menu_text.translated();
     }
     return iuse_actor::get_name();
 }
@@ -304,7 +308,10 @@ void iuse_transform::finalize( const itype_id & )
 
 void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
 {
-    const item dummy( target, calendar::turn, std::max( ammo_qty, 1 ) );
+    item dummy( target, calendar::turn, std::max( ammo_qty, 1 ) );
+    if( it.has_flag( "FIT" ) ) {
+        dummy.item_tags.insert( "FIT" );
+    }
     dump.emplace_back( "TOOL", string_format( _( "<bold>Turns into</bold>: %s" ),
                        dummy.tname() ) );
     if( countdown > 0 ) {
@@ -514,7 +521,7 @@ void unfold_vehicle_iuse::load( JsonObject &obj )
     obj.read( "tools_needed", tools_needed );
 }
 
-int unfold_vehicle_iuse::use( player &p, item &it, bool /*t*/, const tripoint &/*pos*/ ) const
+int unfold_vehicle_iuse::use( player &p, item &it, bool, const tripoint & ) const
 {
     if( p.is_underwater() ) {
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
@@ -538,7 +545,7 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool /*t*/, const tripoint &/
         p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );
         return 0;
     }
-    veh->set_owner( g->u.get_faction() );
+    veh->set_owner( p );
 
     // Mark the vehicle as foldable.
     veh->tags.insert( "convertible" );
@@ -772,37 +779,31 @@ void place_monster_iuse::load( JsonObject &obj )
     skill2 = skill_id( obj.get_string( "skill2", skill2.str() ) );
 }
 
-int place_monster_iuse::use( player &p, item &it, bool, const tripoint &/*pos*/ ) const
+int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
 {
-    monster newmon( mtypeid );
-    tripoint target;
+    std::shared_ptr<monster> newmon_ptr = std::make_shared<monster>( mtypeid );
+    monster &newmon = *newmon_ptr;
+    newmon.init_from_item( it );
     if( place_randomly ) {
-        std::vector<tripoint> valid;
-        for( const tripoint &dest : g->m.points_in_radius( p.pos(), 1 ) ) {
-            if( g->is_empty( dest ) ) {
-                valid.push_back( dest );
-            }
-        }
-        if( valid.empty() ) { // No valid points!
+        // place_critter_around returns the same pointer as its parameter (or null)
+        if( !g->place_critter_around( newmon_ptr, p.pos(), 1 ) ) {
             p.add_msg_if_player( m_info, _( "There is no adjacent square to release the %s in!" ),
                                  newmon.name() );
             return 0;
         }
-        target = random_entry( valid );
     } else {
         const std::string query = string_format( _( "Place the %s where?" ), newmon.name() );
-        if( const cata::optional<tripoint> pnt_ = choose_adjacent( query ) ) {
-            target = *pnt_;
-        } else {
+        const cata::optional<tripoint> pnt_ = choose_adjacent( query );
+        if( !pnt_ ) {
             return 0;
         }
-        if( !g->is_empty( target ) ) {
+        // place_critter_at returns the same pointer as its parameter (or null)
+        if( !g->place_critter_at( newmon_ptr, *pnt_ ) ) {
             p.add_msg_if_player( m_info, _( "You cannot place a %s there." ), newmon.name() );
             return 0;
         }
     }
     p.moves -= moves;
-    newmon.spawn( target );
     if( !newmon.has_flag( MF_INTERIOR_AMMO ) ) {
         for( auto &amdef : newmon.ammo ) {
             item ammo_item( amdef.first, 0 );
@@ -825,7 +826,6 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint &/*pos*/ 
             amdef.second = ammo_item.charges;
         }
     }
-    newmon.init_from_item( it );
     int skill_offset = 0;
     if( skill1 ) {
         skill_offset += p.get_skill_level( skill1 ) / 2;
@@ -854,7 +854,6 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint &/*pos*/ 
     if( newmon.type->id == mtype_id( "mon_laserturret" ) && !g->is_in_sunlight( newmon.pos() ) ) {
         p.add_msg_if_player( _( "A flashing LED on the laser turret appears to indicate low light." ) );
     }
-    g->add_zombie( newmon, true );
     return 1;
 }
 
@@ -872,7 +871,7 @@ void ups_based_armor_actor::load( JsonObject &obj )
 
 static bool has_powersource( const item &i, const player &p )
 {
-    if( i.is_power_armor() && p.can_interface_armor() && p.power_level > 0 ) {
+    if( i.is_power_armor() && p.can_interface_armor() && p.power_level > 0_kJ ) {
         return true;
     }
     return p.has_charges( "UPS", 1 );
@@ -1644,7 +1643,8 @@ bool inscribe_actor::item_inscription( item &cut ) const
 
     const bool hasnote = cut.has_var( carving );
     std::string messageprefix = string_format( hasnote ? _( "(To delete, input one '.')\n" ) : "" ) +
-                                string_format( _( "%1$s on the %2$s is: " ),
+                                //~ %1$s: gerund (e.g. carved), %2$s: item name
+                                string_format( pgettext( "carving", "%1$s on the %2$s is: " ),
                                         _( gerund ), cut.type_name() );
 
     string_input_popup popup;
@@ -2395,11 +2395,14 @@ void cast_spell_actor::load( JsonObject &obj )
     no_fail = obj.get_bool( "no_fail" );
     item_spell = spell_id( obj.get_string( "spell_id" ) );
     spell_level = obj.get_int( "level" );
+    need_worn = obj.get_bool( "need_worn", false );
+    need_wielding = obj.get_bool( "need_wielding", false );
 }
 
 void cast_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
-    const std::string message = string_format( _( "This item casts %s at level %i." ),
+    //~ %1$s: spell name, %2$i: spell level
+    const std::string message = string_format( _( "This item casts %1$s at level %2$i." ),
                                 item_spell->name, spell_level );
     dump.emplace_back( "DESCRIPTION", message );
     if( no_fail ) {
@@ -2407,10 +2410,19 @@ void cast_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
     }
 }
 
-int cast_spell_actor::use( player &p, item &itm, bool, const tripoint & ) const
+int cast_spell_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
+    if( need_worn && !p.is_worn( it ) ) {
+        p.add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
+        return 0;
+    }
+    if( need_wielding && !p.is_wielding( it ) ) {
+        p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
+        return 0;
+    }
+
     spell casting = spell( spell_id( item_spell ) );
-    int charges = itm.type->charges_to_use();
+    int charges = it.type->charges_to_use();
 
     player_activity cast_spell( activity_id( "ACT_SPELLCASTING" ), casting.casting_time( p ) );
     // [0] this is used as a spell level override for items casting spells
@@ -2423,7 +2435,7 @@ int cast_spell_actor::use( player &p, item &itm, bool, const tripoint & ) const
         cast_spell.values.emplace_back( 0 );
     }
     cast_spell.name = casting.id().c_str();
-    if( itm.has_flag( "USE_PLAYER_ENERGY" ) ) {
+    if( it.has_flag( "USE_PLAYER_ENERGY" ) ) {
         // [2] this value overrides the mana cost if set to 0
         cast_spell.values.emplace_back( 1 );
         charges = 0;
@@ -3666,6 +3678,13 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
     const int limb_power = get_heal_value( healer, hp_arm_l );
     const int torso_bonus = get_heal_value( healer, hp_torso );
 
+    if( !patient.can_use_heal_item( it ) ) {
+        patient.add_msg_player_or_npc( m_bad,
+                                       _( "Your biology is not compatible with that item." ),
+                                       _( "<npcname>'s biology is not compatible with that item." ) );
+        return num_hp_parts; // canceled
+    }
+
     if( healer.is_npc() ) {
         // NPCs heal whatever has sustained the most damaged that they can heal but never
         // rebandage parts
@@ -3709,7 +3728,9 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
     } else {
         // Player healing NPC
         // TODO: Remove this hack, allow using activities on NPCs
-        const std::string menu_header = string_format( _( "Select a body part of %s for %s:" ),
+        const std::string menu_header = string_format( pgettext( "healing",
+                                        //~ %1$s: patient name, %2$s: healing item name
+                                        "Select a body part of %1$s for %2$s:" ),
                                         patient.disp_name(), it.tname() );
         healed = pick_part_to_heal( healer, patient, menu_header,
                                     limb_power, head_bonus, torso_bonus,
@@ -4052,6 +4073,15 @@ ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bo
     if( !get_option<bool>( "MANUAL_BIONIC_INSTALLATION" ) &&
         !p.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
         return ret_val<bool>::make_failure( _( "You can't self-install bionics." ) );
+    } else if( !p.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+        if( it.has_flag( "FILTHY" ) ) {
+            return ret_val<bool>::make_failure( _( "You can't install a filthy CBM!" ) );
+        } else if( it.has_flag( "NO_STERILE" ) ) {
+            return ret_val<bool>::make_failure( _( "This CBM is not sterile, you can't install it." ) );
+        } else if( it.has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
+            return ret_val<bool>::make_failure(
+                       _( "This CBM is already deployed.  You need to reset it to factory state." ) );
+        }
     }
 
     const bionic_id &bid = it.type->bionic->id;

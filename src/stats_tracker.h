@@ -1,11 +1,14 @@
 #ifndef CATA_STATS_TRACKER_H
 #define CATA_STATS_TRACKER_H
 
+#include <unordered_set>
+
 #include "event_bus.h"
 #include "hash_utils.h"
 
 class event_statistic;
 class event_transformation;
+class score;
 
 // The stats_tracker is intended to keep a summary of events that have occured.
 // For each event_type it stores an event_multiset.
@@ -72,6 +75,9 @@ class stats_tracker : public event_subscriber
 
         cata_variant value_of( const string_id<event_statistic> & );
 
+        // Return all scores which are valid now and existed at game start
+        std::vector<const score *> valid_scores() const;
+
         void clear();
         void notify( const cata::event & ) override;
 
@@ -79,6 +85,7 @@ class stats_tracker : public event_subscriber
         void deserialize( JsonIn & );
     private:
         std::unordered_map<event_type, event_multiset> data;
+        std::unordered_set<string_id<score>> initial_scores;
 };
 
 #endif // CATA_STATS_TRACKER_H

@@ -60,6 +60,7 @@ const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_harnessed( "harnessed" );
+const efftype_id effect_hack_detected( "hack_detected" );
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id BLOB( "BLOB" );
@@ -584,18 +585,17 @@ void monster::move()
         static const auto volume_per_hp = 250_ml;
         for( auto &elem : g->m.i_at( pos() ) ) {
             hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
-            if( has_flag( MF_ABSORBS_SPLITS ) && hp / 2 > type->hp ) {
-                for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
-                    if( g->is_empty( dest ) && hp / 2 > type->hp ) {
-                        if( monster *const  spawn = g->summon_mon( type->id, dest ) ) {
-                            hp -= type->hp;
-                            //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
-                            spawn->make_ally( *this );
-                            if( g->u.sees( *this ) ) {
-                                add_msg( _( "The %s splits in two!" ),
-                                         name() );
-                            }
-                        }
+            if( has_flag( MF_ABSORBS_SPLITS ) ) {
+                while( hp / 2 > type->hp ) {
+                    monster *const spawn = g->place_critter_around( type->id, pos(), 1 );
+                    if( !spawn ) {
+                        break;
+                    }
+                    hp -= type->hp;
+                    //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
+                    spawn->make_ally( *this );
+                    if( g->u.sees( *this ) ) {
+                        add_msg( _( "The %s splits in two!" ), name() );
                     }
                 }
             }
@@ -1392,12 +1392,16 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
                      g->m.tername( pos() ) );
         }
     } else if( was_water && !will_be_water && g->u.sees( p ) ) {
-        //Use more dramatic messages for swimming monsters
-        add_msg( m_warning, _( "A %1$s %2$s from the %3$s!" ), name(),
+        // Use more dramatic messages for swimming monsters
+        //~ Message when a monster emerges from water
+        //~ %1$s: monster name, %2$s: leaps/emerges, %3$s: terrain name
+        add_msg( m_warning, pgettext( "monster movement", "A %1$s %2$s from the %3$s!" ), name(),
                  has_flag( MF_SWIMS ) || has_flag( MF_AQUATIC ) ? _( "leaps" ) : _( "emerges" ),
                  g->m.tername( pos() ) );
     } else if( !was_water && will_be_water && g->u.sees( p ) ) {
-        add_msg( m_warning, _( "A %1$s %2$s into the %3$s!" ), name(),
+        //~ Message when a monster enters water
+        //~ %1$s: monster name, %2$s: dives/sinks, %3$s: terrain name
+        add_msg( m_warning, pgettext( "monster movement", "A %1$s %2$s into the %3$s!" ), name(),
                  has_flag( MF_SWIMS ) || has_flag( MF_AQUATIC ) ? _( "dives" ) : _( "sinks" ),
                  g->m.tername( p ) );
     }
@@ -1901,7 +1905,7 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                     g->m.move_vehicle( veh, shove_destination, veh.face );
                 }
                 veh.move = tileray( point( destination_delta_x, destination_delta_y ) );
-                veh.smash( shove_damage_min, shove_damage_max, 0.10F );
+                veh.smash( g->m, shove_damage_min, shove_damage_max, 0.10F );
             }
         }
     }

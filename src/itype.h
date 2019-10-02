@@ -572,8 +572,8 @@ struct islot_gunmod : common_ranged_data {
     /** How many moves does this gunmod take to install? */
     int install_time = 0;
 
-    /** Increases base gun UPS consumption by this many charges per shot */
-    int ups_charges = 0;
+    /** Increases base gun UPS consumption by this many times per shot */
+    float ups_charges_multiplier = 1.0f;
 
     /** Firing modes added to or replacing those of the base gun */
     std::map<gun_mode_id, gun_modifier_data> mode_modifier;
@@ -726,9 +726,9 @@ struct islot_seed {
      */
     int fruit_div = 1;
     /**
-     * Name of the plant, already translated.
+     * Name of the plant.
      */
-    std::string plant_name;
+    translation plant_name;
     /**
      * Type id of the fruit item.
      */
@@ -901,9 +901,9 @@ struct itype {
         int stack_size = 0;
 
         /** Value before cataclysm. Price given is for a default-sized stack. */
-        int price = 0;
+        units::money price = 0_cent;
         /** Value after cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
-        int price_post = -1;
+        units::money price_post = -1_cent;
 
         /**@}*/
         // If non-rigid volume (and if worn encumbrance) increases proportional to contents

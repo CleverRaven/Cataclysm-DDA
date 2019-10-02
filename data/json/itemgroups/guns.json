@@ -488,6 +488,7 @@
       { "item": "hk_mp5sd", "prob": 5, "charges-min": 0, "charges-max": 30 },
       { "item": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
       { "item": "m4a1", "prob": 35, "charges-min": 0, "charges-max": 30 },
+      { "item": "as50", "prob": 5, "charges-min": 0, "charges-max": 10 },
       { "item": "hk417_13", "prob": 30, "charges-min": 0, "charges-max": 20 }
     ]
   },

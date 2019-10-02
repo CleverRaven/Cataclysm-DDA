@@ -6,7 +6,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -15,7 +15,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -24,7 +24,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -33,7 +33,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -42,7 +42,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -51,7 +51,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -60,7 +60,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -69,7 +69,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -78,7 +78,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -87,7 +87,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -96,7 +96,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -105,7 +105,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -114,7 +114,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -123,7 +123,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -132,7 +132,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -141,7 +141,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -150,7 +150,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -159,7 +159,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -168,7 +168,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -177,7 +177,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -186,7 +186,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -195,7 +195,7 @@
     "sym": "+",
     "color": "i_brown",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -204,7 +204,7 @@
     "sym": "+",
     "color": "i_brown",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -213,7 +213,7 @@
     "sym": "+",
     "color": "i_brown",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -222,7 +222,7 @@
     "sym": "+",
     "color": "i_brown",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -231,7 +231,7 @@
     "sym": "+",
     "color": "i_brown",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -240,7 +240,7 @@
     "sym": "+",
     "color": "i_light_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -249,7 +249,7 @@
     "sym": "+",
     "color": "i_light_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -258,7 +258,7 @@
     "sym": "+",
     "color": "i_light_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -267,7 +267,7 @@
     "sym": "+",
     "color": "i_light_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -276,7 +276,7 @@
     "sym": "+",
     "color": "i_light_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -285,7 +285,7 @@
     "sym": "+",
     "color": "i_light_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -294,7 +294,7 @@
     "sym": "+",
     "color": "i_light_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -303,7 +303,7 @@
     "sym": "+",
     "color": "i_green",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -312,7 +312,7 @@
     "sym": "+",
     "color": "i_green",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -321,7 +321,7 @@
     "sym": "+",
     "color": "i_green",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -330,7 +330,7 @@
     "sym": "+",
     "color": "i_green",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -339,7 +339,7 @@
     "sym": "+",
     "color": "i_green",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -348,7 +348,7 @@
     "sym": "+",
     "color": "i_green",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -357,7 +357,7 @@
     "sym": "+",
     "color": "i_green",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -366,7 +366,7 @@
     "sym": "+",
     "color": "i_green",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -375,7 +375,7 @@
     "sym": "+",
     "color": "i_green",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -384,7 +384,7 @@
     "sym": "+",
     "color": "white",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -393,7 +393,7 @@
     "sym": "X",
     "color": "light_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -402,7 +402,7 @@
     "sym": "X",
     "color": "light_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -411,7 +411,7 @@
     "sym": "X",
     "color": "light_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -420,7 +420,7 @@
     "sym": "X",
     "color": "light_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -429,7 +429,7 @@
     "sym": "X",
     "color": "dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -438,7 +438,7 @@
     "sym": "X",
     "color": "dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -447,7 +447,7 @@
     "sym": "X",
     "color": "dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -455,6 +455,15 @@
     "name": "spiked trench",
     "sym": "X",
     "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_workshop_0",
+    "name": "store survey",
+    "sym": "+",
+    "color": "cyan",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
   },
@@ -465,7 +474,7 @@
     "sym": "+",
     "color": "i_dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -474,7 +483,7 @@
     "sym": "+",
     "color": "i_dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -483,7 +492,7 @@
     "sym": "+",
     "color": "i_dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -492,7 +501,7 @@
     "sym": "+",
     "color": "i_dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -501,7 +510,7 @@
     "sym": "+",
     "color": "i_dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -510,7 +519,7 @@
     "sym": "+",
     "color": "i_dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -519,7 +528,7 @@
     "sym": "+",
     "color": "i_dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -528,7 +537,7 @@
     "sym": "+",
     "color": "i_dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -537,7 +546,7 @@
     "sym": "+",
     "color": "i_dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -546,7 +555,7 @@
     "sym": "+",
     "color": "i_dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -555,7 +564,7 @@
     "sym": "+",
     "color": "i_dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -564,7 +573,7 @@
     "sym": "+",
     "color": "i_dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -573,7 +582,7 @@
     "sym": "+",
     "color": "i_dark_gray",
     "see_cost": 5,
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
   },
   {
     "type": "overmap_terrain",
@@ -581,6 +590,15 @@
     "name": "livestock survey",
     "sym": "+",
     "color": "pink",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE", "SOURCE_PEOPLE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "faction_base_storehouse_0",
+    "name": "store survey",
+    "sym": "+",
+    "color": "cyan",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
   }

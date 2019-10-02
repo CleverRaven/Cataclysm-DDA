@@ -29,15 +29,15 @@ struct bionic_data {
     translation name;
     translation description;
     /** Power cost on activation */
-    int power_activate = 0;
+    units::energy power_activate = 0_kJ;
     /** Power cost on deactivation */
-    int power_deactivate = 0;
+    units::energy power_deactivate = 0_kJ;
     /** Power cost over time, does nothing without a non-zero charge_time */
-    int power_over_time = 0;
+    units::energy power_over_time = 0_kJ;
     /** How often a bionic draws or produces power while active in turns */
     int charge_time = 0;
     /** Power bank size **/
-    int capacity = 0;
+    units::energy capacity = 0_kJ;
 
     /** True if a bionic can be used by an NPC and installed on them */
     bool npc_usable = false;
@@ -89,6 +89,10 @@ struct bionic_data {
     int fuel_capacity;
     /**Fraction of fuel energy converted to bionic power*/
     float fuel_efficiency;
+    /**If true this bionic emits heat when producing power*/
+    bool exothermic_power_gen = false;
+    /**Type of field emitted by this bionic when it produces energy*/
+    emit_id power_gen_emission = emit_id::NULL_ID();
     /**Amount of environemental protection offered by this bionic*/
     std::map<body_part, size_t> env_protec;
     /**
@@ -164,6 +168,9 @@ struct bionic {
 class bionic_collection : public std::vector<bionic>
 {
 };
+
+/**List of bodyparts occupied by a bionic*/
+std::vector<body_part> get_occupied_bodyparts( const bionic_id &bid );
 
 void check_bionics();
 void finalize_bionics();

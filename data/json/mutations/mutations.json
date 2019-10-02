@@ -658,39 +658,6 @@
   },
   {
     "type": "mutation",
-    "id": "SAVINGS",
-    "name": "Savings",
-    "points": 1,
-    "description": "You had some money stashed at the bank for a rainy day.  Now that the storm is raging, it's a last call to use it maybe?",
-    "starting_trait": true,
-    "purifiable": false,
-    "valid": false,
-    "cancels": [ "DEBT", "MILLIONAIRE" ]
-  },
-  {
-    "type": "mutation",
-    "id": "DEBT",
-    "name": "Debt",
-    "points": -1,
-    "description": "You needed money and had a big loan in a bank.  Good thing nobody will come to collect it now, right?  Right?",
-    "starting_trait": true,
-    "purifiable": false,
-    "valid": false,
-    "cancels": [ "SAVINGS", "MILLIONAIRE" ]
-  },
-  {
-    "type": "mutation",
-    "id": "MILLIONAIRE",
-    "name": "Millionaire",
-    "points": 3,
-    "description": "At the time of Cataclysm you were an owner of a fortune stashed in a bank.  Does that have any meaning now?",
-    "valid": false,
-    "purifiable": false,
-    "starting_trait": true,
-    "cancels": [ "DEBT", "SAVINGS" ]
-  },
-  {
-    "type": "mutation",
     "id": "XS",
     "name": "Weight: XS",
     "points": -1,
@@ -6254,7 +6221,7 @@
   {
     "type": "mutation",
     "id": "DEBUG_NIGHTVISION",
-    "name": "Debug Vision",
+    "name": "Debug Night Vision",
     "points": 99,
     "valid": false,
     "description": "You can clearly see that this is for dev purposes only.",

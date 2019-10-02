@@ -169,7 +169,7 @@ void basecamp::define_camp( npc &p, const std::string &camp_type )
 {
     query_new_name();
     omt_pos = p.global_omt_location();
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos );
+    const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     // purging the regions guarantees all entries will start with faction_base_
     for( const std::pair<std::string, tripoint> &expansion :
          talk_function::om_building_region( omt_pos, 1, true ) ) {
@@ -182,7 +182,7 @@ void basecamp::define_camp( npc &p, const std::string &camp_type )
         e.cur_level = -1;
         e.pos = omt_pos;
         expansions[base_camps::base_dir] = e;
-        omt_ref = oter_id( "faction_base_camp_0" );
+        overmap_buffer.ter_set( omt_pos, oter_id( "faction_base_camp_0" ) );
         update_provides( base_camps::faction_encode_abs( e, 0 ),
                          expansions[base_camps::base_dir] );
     } else {
@@ -273,6 +273,13 @@ bool basecamp::has_provides( const std::string &req, const cata::optional<point>
 bool basecamp::can_expand()
 {
     return has_provides( "bed", base_camps::base_dir, directions.size() * 2 );
+}
+
+bool basecamp::has_water()
+{
+    return has_provides( "water_well" ) || has_provides( "fbmh_well_north" ) ||
+           has_provides( "faction_base_camp_12" ) || has_provides( "faction_base_kitchen_6" ) ||
+           has_provides( "faction_base_blacksmith_11" );
 }
 
 std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )

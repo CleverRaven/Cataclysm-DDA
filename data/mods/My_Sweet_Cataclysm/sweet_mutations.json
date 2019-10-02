@@ -1,0 +1,29 @@
+[
+  {
+    "type": "mutation",
+    "id": "SUGAR",
+    "name": "Made Of Sugar",
+    "mixed_effect": true,
+    "valid": false,
+    "purifiable": false,
+    "profession": true,
+    "points": 2,
+    "weakness_to_water": 5,
+    "ignored_by": [ "ZOMBIE" ],
+    "scent_modifier": 0,
+    "thirst_modifier": -1.0,
+    "can_only_eat": [ "junk", "sugar" ],
+    "can_only_heal_with": [ "caramel_ointement" ],
+    "description": "You are literally made of sugar.",
+    "vitamin_rates": [ [ "vitC", -900 ], [ "vitB", -900 ], [ "vitA", -900 ], [ "iron", -900 ], [ "calcium", -900 ] ],
+    "starting_trait": true,
+    "healing_awake": 0,
+    "healing_resting": 0,
+    "healthy_rate": 0,
+    "bleed_resist": 1000,
+    "fat_to_max_hp": 0.1,
+    "allowed_category": [ "SUGAR" ],
+    "no_cbm_on_bp": [ "TORSO", "HEAD", "EYES", "MOUTH", "ARM_L", "ARM_R", "HAND_L", "HAND_R", "LEG_L", "LEG_R", "FOOT_L", "FOOT_R" ],
+    "armor": [ { "parts": "ALL", "cut": 10, "bash": 5 } ]
+  }
+]

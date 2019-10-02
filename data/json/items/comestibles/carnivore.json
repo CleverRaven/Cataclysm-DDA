@@ -584,7 +584,8 @@
     "//": "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes except for charcoal.",
     "material": "bone",
     "volume": "250 ml",
-    "fun": -10
+    "fun": -10,
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "type": "GENERIC",

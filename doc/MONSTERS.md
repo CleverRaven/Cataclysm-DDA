@@ -261,6 +261,30 @@ The upgraded monster's type is taken from the specified group. The cost in these
 (string, optional)
 The upgraded monster's type.
 
+## "reproduction"
+(dictionary, optional)
+The monster's reproduction cycle, if any. Supports:
+
+### "baby_monster"
+(string, optional)
+the id of the monster spawned on reproduction for monsters who give live births. You must declare either this or `baby_egg` for reproduction to work.
+
+### "baby_egg"
+(string, optional)
+The id of the egg type to spawn for egg-laying monsters. You must declare either this or "baby_monster" for reproduction to work.
+
+### "baby_count"
+(int)
+Number of new creatures or eggs to spawn on reproduction.
+
+### "baby_timer"
+(int)
+Number of days between reproduction events.
+
+## "baby_flags"
+(Array, optional)
+Designate seasons during which this monster is capable of reproduction. ie: `[ "SPRING", "SUMMER" ]`
+
 ## "special_when_hit"
 (array, optional)
 

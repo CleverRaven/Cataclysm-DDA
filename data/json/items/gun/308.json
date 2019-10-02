@@ -18,6 +18,7 @@
     "ranged_damage": -1,
     "dispersion": 150,
     "durability": 8,
+    "min_cycle_recoil": 2700,
     "burst": 12,
     "barrel_length": 2,
     "magazines": [ [ "308", [ "falmag", "falbigmag" ] ] ]
@@ -40,6 +41,7 @@
     "ammo": "308",
     "ranged_damage": -2,
     "dispersion": 150,
+    "min_cycle_recoil": 2700,
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 10 ] ],
     "magazines": [ [ "308", [ "g3mag", "g3bigmag" ] ] ]
@@ -63,10 +65,12 @@
     "ranged_damage": -1,
     "dispersion": 200,
     "durability": 9,
+    "blackpowder_tolerance": 96,
     "ups_charges": 1,
     "reload": 400,
     "valid_mod_locations": [ [ "brass catcher", 1 ], [ "sling", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ] ],
     "modes": [ [ "DEFAULT", "low auto", 50 ], [ "AUTO", "high auto", 100 ] ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "magazines": [ [ "308", [ "belt308" ] ] ],
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
@@ -115,6 +119,7 @@
     "ranged_damage": -1,
     "dispersion": 110,
     "durability": 8,
+    "min_cycle_recoil": 2700,
     "barrel_length": 2,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -149,6 +154,7 @@
     "ammo": "308",
     "dispersion": 200,
     "durability": 9,
+    "min_cycle_recoil": 2700,
     "reload": 400,
     "modes": [ [ "DEFAULT", "auto", 11 ] ],
     "built_in_mods": [ "bipod" ],
@@ -185,6 +191,7 @@
     "ranged_damage": -1,
     "dispersion": 180,
     "durability": 7,
+    "min_cycle_recoil": 2700,
     "reload": 400,
     "modes": [ [ "DEFAULT", "auto", 11 ] ],
     "built_in_mods": [ "bipod" ],
@@ -223,6 +230,7 @@
     "ranged_damage": -5,
     "dispersion": 550,
     "durability": 6,
+    "blackpowder_tolerance": 60,
     "clip_size": 6,
     "reload": 200,
     "barrel_length": 2,
@@ -260,6 +268,7 @@
     "ammo": "308",
     "dispersion": 90,
     "durability": 9,
+    "blackpowder_tolerance": 24,
     "clip_size": 3,
     "barrel_length": 3,
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
@@ -273,6 +282,7 @@
     "description": "A highly accurate and modular battle rifle specially designed for the United States Special Operations Command.  The 'H' in its name stands for heavy, as it uses the powerful .308 round.",
     "ammo": "308",
     "ranged_damage": -3,
+    "min_cycle_recoil": 2700,
     "magazine_well": 1,
     "magazines": [ [ "308", [ "scarhmag", "scarhbigmag" ] ] ]
   },
@@ -294,6 +304,7 @@
     "ammo": "308",
     "dispersion": 85,
     "durability": 9,
+    "min_cycle_recoil": 2700,
     "barrel_length": 2,
     "default_mods": [ "rifle_scope", "cheek_pad" ],
     "magazines": [ [ "308", [ "m14mag", "m14smallmag" ] ] ],
@@ -331,6 +342,7 @@
     "ranged_damage": -4,
     "dispersion": 180,
     "durability": 8,
+    "min_cycle_recoil": 2700,
     "burst": 10,
     "default_mods": [ "adjustable_stock" ],
     "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd" ] ] ]
@@ -353,6 +365,7 @@
     "ranged_damage": -1,
     "dispersion": 120,
     "durability": 8,
+    "min_cycle_recoil": 2700,
     "default_mods": [ "adjustable_stock", "bipod", "rifle_scope", "suppressor" ],
     "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd" ] ] ]
   },
@@ -374,6 +387,7 @@
     "ranged_damage": -1,
     "dispersion": 150,
     "durability": 7,
+    "min_cycle_recoil": 2700,
     "magazines": [ [ "308", [ "ar10mag_20rd" ] ] ]
   }
 ]

@@ -17,6 +17,7 @@
     "ranged_damage": -1,
     "dispersion": 150,
     "durability": 8,
+    "min_cycle_recoil": 1350,
     "burst": 11,
     "barrel_length": 1,
     "built_in_mods": [ "folding_stock" ],
@@ -40,6 +41,7 @@
     "ammo": "223",
     "dispersion": 150,
     "durability": 7,
+    "min_cycle_recoil": 1350,
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
@@ -61,6 +63,7 @@
     "ranged_damage": -2,
     "dispersion": 180,
     "durability": 8,
+    "min_cycle_recoil": 1350,
     "burst": 14,
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
@@ -81,6 +84,7 @@
     "ammo": "223",
     "dispersion": 150,
     "durability": 8,
+    "min_cycle_recoil": 1350,
     "burst": 13,
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
@@ -105,6 +109,7 @@
     "ranged_damage": -16,
     "dispersion": 380,
     "durability": 8,
+    "blackpowder_tolerance": 32,
     "loudness": 30,
     "clip_size": 5,
     "magazines": [ [ "223", [ "223_speedloader5" ] ] ],
@@ -128,6 +133,7 @@
     "ranged_damage": -1,
     "dispersion": 140,
     "durability": 3,
+    "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "muzzle", 1 ], [ "sling", 1 ] ],
     "magazines": [ [ "223", [ "lw223mag", "lw223bigmag" ] ] ],
@@ -239,6 +245,7 @@
     "ammo": "223",
     "dispersion": 200,
     "durability": 7,
+    "min_cycle_recoil": 1350,
     "reload": 400,
     "modes": [ [ "DEFAULT", "auto", 12 ] ],
     "built_in_mods": [ "bipod" ],
@@ -286,6 +293,7 @@
     "ranged_damage": -2,
     "dispersion": 180,
     "durability": 6,
+    "min_cycle_recoil": 1350,
     "burst": 14,
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
@@ -306,6 +314,7 @@
     "ammo": "223",
     "dispersion": 150,
     "durability": 7,
+    "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3rd burst", 3 ] ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
@@ -329,6 +338,7 @@
     "ranged_damage": -2,
     "dispersion": 550,
     "durability": 6,
+    "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
@@ -343,6 +353,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ]
   },
   {
@@ -363,6 +374,7 @@
     "ranged_damage": 1,
     "dispersion": 100,
     "durability": 8,
+    "min_cycle_recoil": 1350,
     "barrel_length": 2,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -398,6 +410,7 @@
     "ranged_damage": -2,
     "dispersion": 150,
     "durability": 8,
+    "min_cycle_recoil": 1350,
     "burst": 10,
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
@@ -416,6 +429,7 @@
     "ammo": "223",
     "dispersion": 180,
     "durability": 9,
+    "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 12 ] ],
     "built_in_mods": [ "folding_stock" ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
@@ -437,6 +451,7 @@
     "ammo": "223",
     "dispersion": 140,
     "durability": 8,
+    "min_cycle_recoil": 1350,
     "burst": 12,
     "built_in_mods": [ "grip" ],
     "valid_mod_locations": [
@@ -474,6 +489,8 @@
     "ranged_damage": -4,
     "dispersion": 550,
     "durability": 6,
+    "min_cycle_recoil": 855,
+    "blackpowder_tolerance": 32,
     "loudness": 25,
     "reload": 200,
     "valid_mod_locations": [

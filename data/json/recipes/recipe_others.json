@@ -64,6 +64,19 @@
   },
   {
     "type": "recipe",
+    "result": "down_mattress",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": "240 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 12 ] ],
+    "components": [ [ [ "rag", 60 ] ], [ [ "down_feather", 1160 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "pillow",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -401,16 +414,19 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "15 m",
+    "time": "1 m",
     "reversible": true,
+    "decomp_learn": 3,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
     "using": [ [ "soldering_standard", 5 ] ],
+    "flags": [ "BLIND_EASY" ],
     "//": "The tailoring kit is an expanded sewing kit, so a bone/wood needle is inappropriate.",
     "components": [
       [ [ "sewing_kit", 1 ] ],
       [ [ "scissors", 1 ] ],
       [ [ "knitting_needles", 1 ] ],
-      [ [ "lighter", 1 ] ],
+      [ [ "awl_steel", 1 ] ],
+      [ [ "needle_curved", 1 ] ],
       [ [ "plastic_chunk", 3 ] ]
     ]
   },
@@ -2171,11 +2187,16 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "2 m",
+    "time": "1 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "chisel", 1 ] ], [ [ "hammer", 1 ] ], [ [ "rag", 2 ], [ "leather", 2 ], [ "fur", 2 ] ] ]
+    "decomp_learn": 1,
+    "flags": [ "BLIND_EASY" ],
+    "components": [
+      [ [ "xacto", 1 ] ],
+      [ [ "saw", 1 ] ],
+      [ [ "rag", 1 ], [ "leather", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -2246,15 +2267,21 @@
     "result": "welder_crude",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "mechanics",
+    "skill_used": "electronics",
     "difficulty": 2,
-    "time": "12 m",
+    "time": "30 m",
     "reversible": true,
     "decomp_learn": 2,
     "autolearn": [ [ "mechanics", 3 ], [ "electronics", 2 ] ],
     "book_learn": [ [ "manual_mechanics", 3 ], [ "textbook_mechanics", 2 ], [ "welding_book", 1 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "element", 3 ] ], [ [ "scrap", 2 ] ], [ [ "cable", 8 ] ] ]
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "power_supply", 4 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "cable", 80 ] ],
+      [ [ "plastic_chunk", 1 ] ],
+      [ [ "duct_tape", 60 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -3496,7 +3523,7 @@
     "result_mult": 15,
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
-    "components": [ [ [ "milk", 15 ] ], [ [ "bleach", 1 ], [ "vinegar", 4 ] ] ]
+    "components": [ [ [ "milk_standard_raw", 15, "LIST" ] ], [ [ "bleach", 1 ], [ "vinegar", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -4304,12 +4331,15 @@
     "result": "needle_curved",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "time": "5 m",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "4 h",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 4 ] ],
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 } ],
-    "components": [ [ [ "sewing_kit", 1 ], [ "tailors_kit", 1 ] ] ]
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "scrap", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -4332,7 +4362,7 @@
     "reversible": true,
     "time": "1 s",
     "autolearn": true,
-    "components": [ [ [ "washboard", 1 ] ], [ [ "sponge", 1 ] ] ]
+    "components": [ [ [ "washboard", 1 ] ], [ [ "sponge", 1 ], [ "rag", 1 ] ] ]
   },
   {
     "type": "recipe",

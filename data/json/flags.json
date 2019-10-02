@@ -652,6 +652,18 @@
     "description": "This spell requires focus to cast.  The lower your focus, the higher failure rate to cast."
   },
   {
+    "id": "WONDER",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "description": "Chooses a spell at random to cast from extra_effects.  See MAGIC.md for details"
+  },
+  {
+    "id": "NON_THRESH",
+    "type": "json_flag",
+    "context": [ "mutation" ],
+    "description": "This mutation does not count toward thresholds at all."
+  },
+  {
     "id": "EFFECT_FEATHER_FALL",
     "type": "json_flag"
   },

@@ -1794,6 +1794,9 @@ npc_action npc::address_needs( float danger )
     // Extreme thirst or hunger, bypass safety check.
     if( get_thirst() > 80 ||
         get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.75 ) {
+        if( consume_food_from_camp() ) {
+            return npc_noop;
+        }
         if( consume_food() ) {
             return npc_noop;
         }
@@ -1811,6 +1814,9 @@ npc_action npc::address_needs( float danger )
 
     if( get_thirst() > 40 ||
         get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.95 ) {
+        if( consume_food_from_camp() ) {
+            return npc_noop;
+        }
         if( consume_food() ) {
             return npc_noop;
         }
@@ -2650,14 +2656,10 @@ void npc::find_item()
             followers.push_back( npc_to_add );
         }
         for( auto &elem : followers ) {
-            if( it.has_owner() && it.get_owner() != my_fac && ( elem->sees( this->pos() ) ||
-                    elem->sees( wanted_item_pos ) ) ) {
+            if( !it.is_owned_by( *this, true ) && ( g->u.sees( this->pos() ) || g->u.sees( wanted_item_pos ) ||
+                                                    elem->sees( this->pos() ) || elem->sees( wanted_item_pos ) ) ) {
                 return;
             }
-        }
-        if( it.has_owner() && it.get_owner() != my_fac && ( g->u.sees( this->pos() ) ||
-                g->u.sees( wanted_item_pos ) ) ) {
-            return;
         }
         if( whitelisting && !item_whitelisted( it ) ) {
             return;
@@ -3616,6 +3618,40 @@ static float rate_food( const item &it, int want_nutr, int want_quench )
     }
 
     return weight;
+}
+
+bool npc::consume_food_from_camp()
+{
+    if( !is_player_ally() ) {
+        return false;
+    }
+    cata::optional<basecamp *> potential_bc;
+    for( const tripoint &camp_pos : g->u.camps ) {
+        if( rl_dist( camp_pos, global_omt_location() ) < 3 ) {
+            potential_bc = overmap_buffer.find_camp( camp_pos.xy() );
+            if( potential_bc ) {
+                break;
+            }
+        }
+    }
+    if( !potential_bc ) {
+        return false;
+    }
+    basecamp *bcp = *potential_bc;
+    if( get_thirst() > 40 && bcp->has_water() ) {
+        set_thirst( 0 );
+        return true;
+    }
+    faction *yours = g->u.get_faction();
+    int camp_kcals = std::min( std::max( 0, 19 * get_healthy_kcal() / 20 - get_stored_kcal() -
+                                         stomach.get_calories() ), yours->food_supply );
+    if( camp_kcals > 0 ) {
+        mod_hunger( -camp_kcals );
+        mod_stored_kcal( camp_kcals );
+        yours->food_supply -= camp_kcals;
+        return true;
+    }
+    return false;
 }
 
 bool npc::consume_food()

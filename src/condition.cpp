@@ -20,8 +20,10 @@
 #include "map.h"
 #include "mission.h"
 #include "npc.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "recipe.h"
+#include "recipe_groups.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "vehicle.h"
@@ -302,7 +304,7 @@ void conditional_t<T>::set_has_bionics( JsonObject &jo, const std::string &membe
             actor = dynamic_cast<player *>( d.beta );
         }
         if( bionics_id == "ANY" ) {
-            return actor->num_bionics() > 0 || actor->max_power_level > 0;
+            return actor->num_bionics() > 0 || actor->max_power_level > 0_kJ;
         }
         return actor->has_bionic( bionic_id( bionics_id ) );
     };
@@ -357,7 +359,7 @@ void conditional_t<T>::set_at_om_location( JsonObject &jo, const std::string &me
             actor = dynamic_cast<player *>( d.beta );
         }
         const tripoint omt_pos = actor->global_omt_location();
-        oter_id &omt_ref = overmap_buffer.ter( omt_pos );
+        const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
 
         if( location == "FACTION_CAMP_ANY" ) {
             cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
@@ -367,8 +369,11 @@ void conditional_t<T>::set_at_om_location( JsonObject &jo, const std::string &me
             // legacy check
             const std::string &omt_str = omt_ref.id().c_str();
             return omt_str.find( "faction_base_camp" ) != std::string::npos;
+        } else if( location == "FACTION_CAMP_START" ) {
+            return !recipe_group::get_recipes_by_id( "all_faction_base_types",
+                    omt_ref.id().c_str() ).empty();
         } else {
-            return omt_ref == oter_id( location );
+            return omt_ref == oter_id( oter_no_dir( oter_id( location ) ) );
         }
     };
 }
@@ -771,10 +776,8 @@ void conditional_t<T>::set_has_stolen_item( bool is_npc )
         npc &p = *d.beta;
         bool found_in_inv = false;
         for( auto &elem : actor->inv_dump() ) {
-            if( elem->get_old_owner() ) {
-                if( elem->get_old_owner() == p.get_faction() ) {
-                    found_in_inv = true;
-                }
+            if( elem->is_old_owner( p, true ) ) {
+                found_in_inv = true;
             }
         }
         return found_in_inv;

@@ -102,6 +102,8 @@ static const trait_id trait_SLIME_HANDS( "SLIME_HANDS" );
 static const trait_id trait_TALONS( "TALONS" );
 static const trait_id trait_THORNS( "THORNS" );
 
+const species_id HUMAN( "HUMAN" );
+
 void player_hit_message( player *attacker, const std::string &message,
                          Creature &t, int dam, bool crit = false );
 int  stumble( player &u, const item &weap );
@@ -1015,6 +1017,7 @@ matec_id player::pick_technique( Creature &t, const item &weap,
     bool downed = t.has_effect( effect_downed );
     bool stunned = t.has_effect( effect_stunned );
     bool wall_adjacent = g->m.is_wall_adjacent( pos() );
+    bool is_humanoid = t.is_player() || ( static_cast <monster *>( &t )->type->in_species( HUMAN ) );
 
     // first add non-aoe tecs
     for( auto &tec_id : all ) {
@@ -1075,6 +1078,10 @@ matec_id player::pick_technique( Creature &t, const item &weap,
             continue;
         }
 
+        // Don't apply humanoid-only techniques to non-humanoids
+        if( tec.human_target && !is_humanoid ) {
+            continue;
+        }
         // if aoe, check if there are valid targets
         if( !tec.aoe.empty() && !valid_aoe_technique( t, tec ) ) {
             continue;
@@ -1650,9 +1657,9 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
 
     std::string target = t.disp_name();
 
-    if( has_active_bionic( bionic_id( "bio_shock" ) ) && power_level >= 2 &&
+    if( has_active_bionic( bionic_id( "bio_shock" ) ) && power_level >= 2_kJ &&
         ( !is_armed() || weapon.conductive() ) ) {
-        charge_power( -2 );
+        charge_power( -2_kJ );
         d.add_damage( DT_ELECTRIC, rng( 2, 10 ) );
 
         if( is_player() ) {
@@ -1663,7 +1670,7 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
     }
 
     if( has_active_bionic( bionic_id( "bio_heat_absorb" ) ) && !is_armed() && t.is_warm() ) {
-        charge_power( 3 );
+        charge_power( 3_kJ );
         d.add_damage( DT_COLD, 3 );
         if( is_player() ) {
             dump << string_format( _( "You drain %s's body heat." ), target ) << std::endl;
@@ -2195,8 +2202,10 @@ void player::disarm( npc &target )
         my_roll += dice( 3, get_skill_level( skill_unarmed ) );
 
         if( my_roll >= their_roll ) {
+            //~ %s: weapon name
             add_msg( _( "You grab at %s and pull with all your force!" ), it.tname() );
-            add_msg( _( "You forcefully take %s from %s!" ), it.tname(), target.name );
+            //~ %1$s: weapon name, %2$s: NPC name
+            add_msg( _( "You forcefully take %1$s from %2$s!" ), it.tname(), target.name );
             // wield() will deduce our moves, consider to deduce more/less moves for balance
             item rem_it = target.i_rem( &it );
             wield( rem_it );

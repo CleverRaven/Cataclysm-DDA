@@ -78,7 +78,7 @@
       [ "weeks_old_newspaper", 2 ],
       [ "newest_newspaper", 3 ],
       { "group": "ammo_casings", "prob": 10 },
-      { "group": "everyday_corpse", "prob": 10 }
+      { "group": "everyday_corpse", "prob": 1 }
     ]
   },
   {
@@ -119,7 +119,7 @@
       [ "syringe", 1 ],
       [ "cig_butt", 1 ],
       { "group": "ammo_casings", "prob": 20 },
-      { "group": "everyday_corpse", "prob": 10 }
+      { "group": "everyday_corpse", "prob": 1 }
     ]
   },
   {
@@ -148,7 +148,7 @@
     "id": "road",
     "items": [
       { "group": "ammo_casings", "prob": 20 },
-      { "group": "everyday_corpse", "prob": 10 },
+      { "group": "everyday_corpse", "prob": 1 },
       [ "jumper_cable", 5 ],
       [ "muffler", 5 ],
       [ "pipe", 20 ],
@@ -493,7 +493,13 @@
       [ "cornmeal", 40 ],
       [ "powder_eggs", 20 ],
       [ "granola", 5 ],
-      [ "protein_powder", 15 ],
+      {
+        "item": "protein_powder",
+        "prob": 12,
+        "container-item": "bottle_plastic_small",
+        "charges-min": 1,
+        "charges-max": 9
+      },
       [ "dry_meat", 10 ],
       [ "dry_fish", 10 ],
       [ "dry_veggy", 10 ],
@@ -855,6 +861,7 @@
     "ammo": 50,
     "magazine": 100,
     "items": [
+      [ "awl_steel", 5 ],
       [ "inhaler", 14 ],
       [ "eyedrops", 25 ],
       [ "television", 10 ],
@@ -1721,7 +1728,13 @@
       [ "nyquil", 70 ],
       [ "disinfectant", 35 ],
       [ "vaccine_shot", 10 ],
-      [ "protein_powder", 15 ],
+      {
+        "item": "protein_powder",
+        "prob": 12,
+        "container-item": "bottle_plastic_small",
+        "charges-min": 1,
+        "charges-max": 9
+      },
       [ "caff_gum", 10 ],
       [ "oxygen_tank", 20 ],
       [ "smoxygen_tank", 5 ],
@@ -1839,7 +1852,13 @@
       [ "milk_powder", 20 ],
       [ "cornmeal", 30 ],
       [ "powder_eggs", 20 ],
-      [ "protein_powder", 15 ],
+      {
+        "item": "protein_powder",
+        "prob": 12,
+        "container-item": "bottle_plastic_small",
+        "charges-min": 1,
+        "charges-max": 9
+      },
       [ "dry_meat", 10 ],
       [ "dry_fish", 10 ],
       [ "dry_veggy", 10 ],
@@ -2115,7 +2134,13 @@
       [ "roller_blades", 20 ],
       [ "rollerskates", 10 ],
       [ "manual_throw", 12 ],
-      [ "protein_powder", 15 ],
+      {
+        "item": "protein_powder",
+        "prob": 12,
+        "container-item": "bottle_plastic_small",
+        "charges-min": 1,
+        "charges-max": 9
+      },
       [ "airhorn", 40 ],
       [ "whistle", 10 ],
       [ "boots_hiking", 10 ],
@@ -2483,7 +2508,13 @@
       [ "boots_hiking", 10 ],
       [ "runner_bag", 5 ],
       [ "pur_tablets", 5 ],
-      [ "protein_powder", 15 ],
+      {
+        "item": "protein_powder",
+        "prob": 12,
+        "container-item": "bottle_plastic_small",
+        "charges-min": 1,
+        "charges-max": 9
+      },
       [ "protein_shake", 15 ],
       [ "knife_trench", 7 ],
       [ "sm_extinguisher", 10 ],
@@ -4056,6 +4087,8 @@
       [ "knitting_needles", 10 ],
       [ "survnote", 1 ],
       [ "holy_symbol", 80 ],
+      [ "bead_bracelet", 3 ],
+      [ "bead_necklace", 3 ],
       [ "cassock", 40 ],
       [ "thawb", 10 ],
       [ "kufi", 10 ],
@@ -8829,6 +8862,7 @@
     "id": "museum_primitive",
     "type": "item_group",
     "items": [
+      [ "awl_bone", 50 ],
       [ "primitive_knife", 50 ],
       [ "primitive_axe", 50 ],
       [ "primitive_shovel", 50 ],
@@ -10111,6 +10145,7 @@
     "id": "sewing_group",
     "type": "item_group",
     "items": [
+      [ "awl_steel", 10 ],
       [ "sewing_kit", 1 ],
       [ "tailors_kit", 9 ],
       [ "knitting_needles", 15 ],
@@ -10322,6 +10357,7 @@
     "type": "item_group",
     "items": [
       [ "schematics_nursebot", 10 ],
+      [ "schematics_grocerybot", 20 ],
       [ "schematics_copbot", 50 ],
       [ "schematics_eyebot", 50 ],
       [ "schematics_secubot", 50 ],

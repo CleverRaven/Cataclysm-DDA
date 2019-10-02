@@ -35,7 +35,7 @@
       [ "underbarrel", 1 ],
       [ "rail mount", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "762x25", [ "ppshmag", "ppshdrum" ] ] ]
   },
   {

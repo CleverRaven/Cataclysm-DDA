@@ -321,6 +321,12 @@ void veh_interact::do_main_loop()
 {
     bool finish = false;
     const bool owned_by_player = veh->handle_potential_theft( dynamic_cast<player &>( g->u ), true );
+    faction *owner_fac;
+    if( veh->has_owner() ) {
+        owner_fac = g->faction_manager_ptr->get( veh->get_owner() );
+    } else {
+        owner_fac = g->faction_manager_ptr->get( faction_id( "no_faction" ) );
+    }
     while( !finish ) {
         overview();
         display_mode();
@@ -367,7 +373,9 @@ void veh_interact::do_main_loop()
             if( owned_by_player ) {
                 redraw = do_rename( msg );
             } else {
-                popup( _( "You cannot rename this vehicle as it is owned by: %s." ), _( veh->get_owner()->name ) );
+                if( owner_fac ) {
+                    popup( _( "You cannot rename this vehicle as it is owned by: %s." ), _( owner_fac->name ) );
+                }
                 redraw = true;
             }
         } else if( action == "SIPHON" ) {
@@ -394,15 +402,19 @@ void veh_interact::do_main_loop()
             if( owned_by_player ) {
                 redraw = do_assign_crew( msg );
             } else {
-                popup( _( "You cannot assign crew on this vehicle as it is owned by: %s." ),
-                       _( veh->get_owner()->name ) );
+                if( owner_fac ) {
+                    popup( _( "You cannot assign crew on this vehicle as it is owned by: %s." ),
+                           _( owner_fac->name ) );
+                }
                 redraw = true;
             }
         } else if( action == "RELABEL" ) {
             if( owned_by_player ) {
                 redraw = do_relabel( msg );
             } else {
-                popup( _( "You cannot relabel this vehicle as it is owned by: %s." ), _( veh->get_owner()->name ) );
+                if( owner_fac ) {
+                    popup( _( "You cannot relabel this vehicle as it is owned by: %s." ), _( owner_fac->name ) );
+                }
                 redraw = true;
             }
         } else if( action == "FUEL_LIST_DOWN" ) {
@@ -754,7 +766,7 @@ bool veh_interact::can_install_part()
                           colorize( aid_string, aid_color ),
                           colorize( str_string, str_color ) ) << "\n";
 
-    sel_vpart_info->format_description( msg, "<color_light_gray>", getmaxx( w_msg ) - 4 );
+    sel_vpart_info->format_description( msg, c_light_gray, getmaxx( w_msg ) - 4 );
 
     werase( w_msg );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1106,8 +1118,7 @@ bool veh_interact::do_repair( std::string &msg )
             }
         }
 
-        std::string desc_color = string_format( "<color_%1$s>",
-                                                string_from_color( pt.is_broken() ? c_dark_gray : c_light_gray ) );
+        const nc_color desc_color = pt.is_broken() ? c_dark_gray : c_light_gray;
         vp.format_description( nmsg, desc_color, getmaxx( w_msg ) - 4 );
 
         werase( w_msg );
@@ -1344,9 +1355,9 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                 int y = 0;
                 for( const auto &e : pt.faults() ) {
                     y += fold_and_print( w_msg, point( 1, y ), getmaxx( w_msg ) - 2, c_red,
-                                         _( "Faulty %1$s" ), e.obj().name() );
+                                         "%s", e.obj().name() );
                     y += fold_and_print( w_msg, point( 3, y ), getmaxx( w_msg ) - 4, c_light_gray,
-                                         e.obj().description() );
+                                         "%s", e.obj().description() );
                     y++;
                 }
                 wrefresh( w_msg );
@@ -1676,8 +1687,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
         msg << string_format( _( "> %1$s%2$s</color>" ), status_color( false ), reason ) << "\n";
         ok = false;
     }
-    std::string desc_color = string_format( "<color_%1$s>",
-                                            string_from_color( sel_vehicle_part->is_broken() ? c_dark_gray : c_light_gray ) );
+    const nc_color desc_color = sel_vehicle_part->is_broken() ? c_dark_gray : c_light_gray;
     sel_vehicle_part->info().format_description( msg, desc_color, getmaxx( w_msg ) - 4 );
 
     werase( w_msg );
@@ -2338,12 +2348,10 @@ void veh_interact::display_name()
     werase( w_name );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w_name, point( 1, 0 ), c_light_gray, _( "Name: " ) );
-    std::string fac_name = veh->get_owner() && veh->get_owner() != g->u.get_faction() ?
-                           _( veh->get_owner()->name ) : _( "Yours" );
+
     mvwprintz( w_name, point( 1 + utf8_width( _( "Name: " ) ), 0 ),
-               veh->get_owner() != g->u.get_faction() ? c_light_red : c_light_green,
-               string_format( _( "%s (%s)" ), veh->name,
-                              veh->get_owner() == nullptr ? _( "not owned" ) : fac_name ) );
+               !veh->is_owned_by( g->u, true ) ? c_light_red : c_light_green,
+               string_format( _( "%s (%s)" ), veh->name, veh->get_owner_name() ) );
     wrefresh( w_name );
 }
 
@@ -2541,15 +2549,16 @@ void veh_interact::display_details( const vpart_info *part )
     }
 
     if( part->has_flag( VPFLAG_WHEEL ) ) {
-        cata::optional<islot_wheel> whl = item::find_type( part->item )->wheel;
+        // Note: there is no guarantee that whl is non-empty!
+        const cata::optional<islot_wheel> &whl = item::find_type( part->item )->wheel;
         fold_and_print( w_details, point( col_1, line + 3 ), column_width, c_white,
                         "%s: <color_light_gray>%d\"</color>",
                         small_mode ? _( "Dia" ) : _( "Wheel Diameter" ),
-                        whl->diameter );
+                        whl ? whl->diameter : 0 );
         fold_and_print( w_details, point( col_2, line + 3 ), column_width, c_white,
                         "%s: <color_light_gray>%d\"</color>",
                         small_mode ? _( "Wdt" ) : _( "Wheel Width" ),
-                        whl->width );
+                        whl ? whl->width : 0 );
     }
 
     if( part->epower != 0 ) {
@@ -2815,33 +2824,33 @@ void veh_interact::complete_vehicle( player &p )
                 vpinfo.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ||
                 vpinfo.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
                 // Stash offset and set it to the location of the part so look_around will start there.
-                int px = p.view_offset.x;
-                int py = p.view_offset.y;
-                p.view_offset.x = veh->global_pos3().x + q.x - p.posx();
-                p.view_offset.y = veh->global_pos3().y + q.y - p.posy();
+                const tripoint old_view_offset = p.view_offset;
+                const tripoint offset = veh->global_pos3() + q;
+                p.view_offset = offset - p.pos();
 
-                bool is_overheadlight = vpinfo.has_flag( VPFLAG_HALF_CIRCLE_LIGHT );
-                popup( _( "Choose a facing direction for the new %s.  Press space to continue." ),
-                       is_overheadlight ? "overhead light" : "headlight" );
-                const cata::optional<tripoint> headlight_target = g->look_around();
+                point delta;
+                do {
+                    popup( _( "Press space, choose a facing direction for the new %s and confirm with enter." ),
+                           vpinfo.name() );
+                    const cata::optional<tripoint> chosen = g->look_around();
+                    if( !chosen ) {
+                        continue;
+                    }
+                    delta = ( *chosen - offset ).xy();
+                    // atan2 only gives reasonable values when delta is not all zero
+                } while( delta == point_zero );
+
                 // Restore previous view offsets.
-                p.view_offset.x = px;
-                p.view_offset.y = py;
+                p.view_offset = old_view_offset;
 
-                int dir = 0;
-                if( headlight_target ) {
-                    int delta_x = headlight_target->x - ( veh->global_pos3().x + q.x );
-                    int delta_y = headlight_target->y - ( veh->global_pos3().y + q.y );
-
-                    dir = static_cast<int>( atan2( static_cast<float>( delta_y ),
-                                                   static_cast<float>( delta_x ) ) * 180.0 / M_PI );
-                    dir -= veh->face.dir();
-                    while( dir < 0 ) {
-                        dir += 360;
-                    }
-                    while( dir > 360 ) {
-                        dir -= 360;
-                    }
+                int dir = static_cast<int>( atan2( static_cast<float>( delta.y ),
+                                                   static_cast<float>( delta.x ) ) * 180.0 / M_PI );
+                dir -= veh->face.dir();
+                while( dir < 0 ) {
+                    dir += 360;
+                }
+                while( dir > 360 ) {
+                    dir -= 360;
                 }
 
                 veh->parts[partnum].direction = dir;

@@ -160,6 +160,9 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "VEHICLE_DECONSTRUCT" ),
                    zone_type( translate_marker( "Vehicle Deconstruct Zone" ),
                               translate_marker( "Any vehicles in this area are marked for deconstruction." ) ) );
+    types.emplace( zone_type_id( "VEHICLE_REPAIR" ),
+                   zone_type( translate_marker( "Vehicle Repair Zone" ),
+                              translate_marker( "Any vehicles in this area are marked for repair work." ) ) );
     types.emplace( zone_type_id( "CAMP_FOOD" ),
                    zone_type( translate_marker( "Basecamp: Food" ),
                               translate_marker( "Items in this zone will be added to a basecamp's food supply in the Distribute Food mission." ) ) );
@@ -393,7 +396,7 @@ std::string plot_options::get_zone_name_suggestion() const
         auto type = itype_id( seed );
         item it = item( type );
         if( it.is_seed() ) {
-            return it.type->seed->plant_name;
+            return it.type->seed->plant_name.translated();
         } else {
             return item::nname( type );
         }
@@ -584,16 +587,9 @@ void zone_manager::cache_data()
         const std::string &type_hash = elem.get_type_hash();
         auto &cache = area_cache[type_hash];
 
-        tripoint start = elem.get_start_point();
-        tripoint end = elem.get_end_point();
-
         // Draw marked area
-        for( int x = start.x; x <= end.x; ++x ) {
-            for( int y = start.y; y <= end.y; ++y ) {
-                for( int z = start.z; z <= end.z; ++z ) {
-                    cache.insert( tripoint( x, y, z ) );
-                }
-            }
+        for( const tripoint &p : tripoint_range( elem.get_start_point(), elem.get_end_point() ) ) {
+            cache.insert( p );
         }
     }
 }
@@ -610,16 +606,11 @@ void zone_manager::cache_vzones()
         const std::string &type_hash = elem->get_type_hash();
         auto &cache = area_cache[type_hash];
 
-        tripoint start = elem->get_start_point();
-        tripoint end = elem->get_end_point();
+        // @todo looks very similar to the above cache_data - maybe merge it?
 
         // Draw marked area
-        for( int x = start.x; x <= end.x; ++x ) {
-            for( int y = start.y; y <= end.y; ++y ) {
-                for( int z = start.z; z <= end.z; ++z ) {
-                    cache.insert( tripoint( x, y, z ) );
-                }
-            }
+        for( const tripoint &p : tripoint_range( elem->get_start_point(), elem->get_end_point() ) ) {
+            cache.insert( p );
         }
     }
 }
