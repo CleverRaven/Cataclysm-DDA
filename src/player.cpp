@@ -9228,6 +9228,15 @@ int player::book_fun_for( const item &book, const player &p ) const
         return 0;
     }
 
+    // If you don't have a problem with eating humans, To Serve Man becomes rewarding
+    if( ( p.has_trait( trait_CANNIBAL ) || p.has_trait( trait_PSYCHOPATH ) ||
+          p.has_trait( trait_SAPIOVORE ) ) &&
+        book.typeId() == "cookbook_human" ) {
+        fun_bonus = abs( fun_bonus );
+    } else if( p.has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
+        fun_bonus = abs( fun_bonus * 3 );
+    }
+
     if( has_trait( trait_LOVES_BOOKS ) ) {
         fun_bonus++;
     } else if( has_trait( trait_HATES_BOOKS ) ) {
@@ -9237,14 +9246,7 @@ int player::book_fun_for( const item &book, const player &p ) const
             fun_bonus--;
         }
     }
-    // If you don't have a problem with eating humans, To Serve Man becomes rewarding
-    if( ( p.has_trait( trait_CANNIBAL ) || p.has_trait( trait_PSYCHOPATH ) ||
-          p.has_trait( trait_SAPIOVORE ) ) &&
-        book.typeId() == "cookbook_human" ) {
-        fun_bonus = abs( fun_bonus );
-    } else if( p.has_trait( trait_SPIRITUAL ) && book.has_flag( "INSPIRATIONAL" ) ) {
-        fun_bonus = abs( fun_bonus * 3 );
-    }
+
     return fun_bonus;
 }
 
