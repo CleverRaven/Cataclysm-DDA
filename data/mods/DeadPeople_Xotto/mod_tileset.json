@@ -1,0 +1,20 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "MSX++DEAD_PEOPLE", "UNDEAD_PEOPLE" ],
+    "tiles-new": [
+      {
+        "file": "Xotto_Items.png",
+        "tiles": [
+          { "id": "highlight_item", "fg": 0 },
+          { "id": "footstep", "fg": 1 },
+          { "id": [ "cursor", "highlight", "line_target", "line_trail" ], "fg": 2 },
+          { "id": "animation_hit", "fg": 3 },
+          { "id": "animation_bullet_flame", "fg": 4 },
+          { "id": [ "animation_bullet_normal", "animation_line" ], "fg": 5 },
+          { "id": "animation_bullet_shrapnel", "fg": 6 }
+        ]
+      }
+    ]
+  }
+]

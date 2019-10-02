@@ -6,7 +6,6 @@
     "authors": [ "SomeDeadGuy" ],
     "description": "Hides DEBUG graphic above character head when he has debug mutations.",
     "category": "graphical",
-    "obsolete": true,
     "dependencies": [ "dda" ]
   }
 ]
