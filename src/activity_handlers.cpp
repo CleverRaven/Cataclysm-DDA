@@ -3718,7 +3718,7 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
                 }
             };
 
-            g->summon_mon( random_entry( monids ), dump_loc );
+            g->place_critter_at( random_entry( monids ), dump_loc );
             g->m.furn_set( pos, f_coffin_o );
             p->add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
         } else {

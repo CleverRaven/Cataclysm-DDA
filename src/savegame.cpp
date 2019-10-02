@@ -1659,9 +1659,10 @@ void Creature_tracker::deserialize( JsonIn &jsin )
     monsters_by_location.clear();
     jsin.start_array();
     while( !jsin.end_array() ) {
-        monster montmp;
-        jsin.read( montmp );
-        add( montmp );
+        // @todo would be nice if monster had a constructor using JsonIn or similar, so this could be one statement.
+        std::shared_ptr<monster> mptr = std::make_shared<monster>();
+        jsin.read( *mptr );
+        add( mptr );
     }
 }
 

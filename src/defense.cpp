@@ -322,20 +322,9 @@ void defense_game::init_map()
     g->u.sety( SEEY );
 
     g->update_map( g-> u );
-    monster generator( mtype_id( "mon_generator" ),
-                       tripoint( g->u.posx() + 1, g->u.posy() + 1, g->u.posz() ) );
-    // Find a valid spot to spawn the generator
-    std::vector<tripoint> valid;
-    for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-        if( generator.can_move_to( dest ) && g->is_empty( dest ) ) {
-            valid.push_back( dest );
-        }
-    }
-    if( !valid.empty() ) {
-        generator.spawn( random_entry( valid ) );
-    }
-    generator.friendly = -1;
-    g->add_zombie( generator );
+    monster *const generator = g->place_critter_around( mtype_id( "mon_generator" ), g->u.pos(), 2 );
+    assert( generator );
+    generator->friendly = -1;
 }
 
 void defense_game::init_to_style( defense_style new_style )
@@ -1419,9 +1408,8 @@ std::vector<mtype_id> defense_game::pick_monster_wave()
 
 void defense_game::spawn_wave_monster( const mtype_id &type )
 {
-    point pnt;
-    int tries = 0;
-    while( true ) {
+    for( int tries = 0; tries < 1000; tries++ ) {
+        point pnt;
         if( location == DEFLOC_HOSPITAL || location == DEFLOC_MALL ) {
             // Always spawn to the north!
             pnt = point( rng( HALF_MAPSIZE_X, HALF_MAPSIZE_X + SEEX ), SEEY );
@@ -1436,21 +1424,18 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
                 pnt = point( -pnt.x, pnt.y ) + point( MAPSIZE_X - 1, 0 );
             }
         }
-        if( g->is_empty( { pnt, g->get_levz() } ) ) {
-            break;
+        monster *const mon = g->place_critter_at( type, tripoint( pnt, g->get_levz() ) );
+        if( !mon ) {
+            continue;
         }
-        if( tries++ == 1000 ) {
-            DebugLog( D_ERROR, DC_ALL ) << "could not find acceptable monster spawn location";
-            return;
-        }
+        monster &tmp = *mon;
+        tmp.wander_pos = g->u.pos();
+        tmp.wandf = 150;
+        // We want to kill!
+        tmp.anger = 100;
+        tmp.morale = 100;
+        return;
     }
-    monster tmp( type, tripoint( pnt, g->get_levz() ) );
-    tmp.wander_pos = g->u.pos();
-    tmp.wandf = 150;
-    // We want to kill!
-    tmp.anger = 100;
-    tmp.morale = 100;
-    g->add_zombie( tmp );
 }
 
 std::string defense_game::special_wave_message( std::string name )

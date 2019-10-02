@@ -848,23 +848,12 @@ bool game::start_game()
     // Now that we're done handling coordinates, ensure the player's submap is in the center of the map
     update_map( u );
     // Profession pets
-    if( !u.starting_pets.empty() ) {
-        std::vector<tripoint> valid;
-        for( const tripoint &jk : g->m.points_in_radius( u.pos(), 5 ) ) {
-            if( is_empty( jk ) ) {
-                valid.push_back( jk );
-            }
-        }
-        for( auto elem : u.starting_pets ) {
-            if( !valid.empty() ) {
-                tripoint chosen = random_entry( valid );
-                valid.erase( std::remove( valid.begin(), valid.end(), chosen ), valid.end() );
-                monster *mon = summon_mon( elem, chosen );
-                mon->friendly = -1;
-                mon->add_effect( effect_pet, 1_turns, num_bp, true );
-            } else {
-                add_msg( m_debug, "cannot place starting pet, no space!" );
-            }
+    for( const mtype_id &elem : u.starting_pets ) {
+        if( monster *const mon = place_critter_around( elem, u.pos(), 5 ) ) {
+            mon->friendly = -1;
+            mon->add_effect( effect_pet, 1_turns, num_bp, true );
+        } else {
+            add_msg( m_debug, "cannot place starting pet, no space!" );
         }
     }
     // Assign all of this scenario's missions to the player.
@@ -4658,36 +4647,88 @@ template player *game::critter_by_id<player>( character_id );
 template npc *game::critter_by_id<npc>( character_id );
 template Creature *game::critter_by_id<Creature>( character_id );
 
-monster *game::summon_mon( const mtype_id &id, const tripoint &p )
+static bool can_place_monster( game &g, const monster &mon, const tripoint &p )
 {
-    monster mon( id );
-    mon.spawn( p );
-    return add_zombie( mon, true ) ? critter_at<monster>( p ) : nullptr;
+    if( const monster *const critter = g.critter_at<monster>( p ) ) {
+        // Creature_tracker handles this. The hallucination monster will simply vanish
+        if( !critter->is_hallucination() ) {
+            return false;
+        }
+    }
+    // Although monsters can sometimes exist on the same place as a Character (e.g. ridden horse),
+    // it is usually wrong. So don't allow it.
+    if( g.critter_at<Character>( p ) ) {
+        return false;
+    }
+    return mon.can_move_to( p );
 }
 
-// By default don't pin upgrades to current day
-bool game::add_zombie( monster &critter )
+static cata::optional<tripoint> choose_where_to_place_monster( game &g, const monster &mon,
+        const tripoint_range &range )
 {
-    return add_zombie( critter, false );
+    return random_point( range, [&]( const tripoint & p ) {
+        return can_place_monster( g, mon, p );
+    } );
 }
 
-bool game::add_zombie( monster &critter, bool pin_upgrade )
+monster *game::place_critter_at( const mtype_id &id, const tripoint &p )
 {
-    if( !m.inbounds( critter.pos() ) ) {
-        dbg( D_ERROR ) << "added a critter with out-of-bounds position: "
-                       << critter.posx() << "," << critter.posy() << ","  << critter.posz()
-                       << " - " << critter.disp_name();
+    return place_critter_around( id, p, 0 );
+}
+
+monster *game::place_critter_at( const std::shared_ptr<monster> mon, const tripoint &p )
+{
+    return place_critter_around( mon, p, 0 );
+}
+
+monster *game::place_critter_around( const mtype_id &id, const tripoint &center, const int radius )
+{
+    // @todo change this into an assert, it must never happen.
+    if( id.is_null() ) {
+        return nullptr;
+    }
+    return place_critter_around( std::make_shared<monster>( id ), center, radius );
+}
+
+monster *game::place_critter_around( const std::shared_ptr<monster> mon, const tripoint &center,
+                                     const int radius )
+{
+    cata::optional<tripoint> where;
+    if( can_place_monster( *this, *mon, center ) ) {
+        where = center;
     }
 
-    critter.try_upgrade( pin_upgrade );
-    critter.try_reproduce();
-    critter.try_biosignature();
-    if( !pin_upgrade ) {
-        critter.on_load();
+    // This loop ensures the monster is placed as close to the center as possible,
+    // but all places that equally far from the center have the same probability.
+    for( int r = 1; r <= radius && !where; ++r ) {
+        where = choose_where_to_place_monster( *this, *mon, m.points_in_radius( center, r ) );
     }
 
-    critter.last_updated = calendar::turn;
-    return critter_tracker->add( critter );
+    if( !where ) {
+        return nullptr;
+    }
+    mon->spawn( *where );
+    return critter_tracker->add( mon ) ? mon.get() : nullptr;
+}
+
+monster *game::place_critter_within( const mtype_id &id, const tripoint_range &range )
+{
+    // @todo change this into an assert, it must never happen.
+    if( id.is_null() ) {
+        return nullptr;
+    }
+    return place_critter_within( std::make_shared<monster>( id ), range );
+}
+
+monster *game::place_critter_within( const std::shared_ptr<monster> mon,
+                                     const tripoint_range &range )
+{
+    const cata::optional<tripoint> where = choose_where_to_place_monster( *this, *mon, range );
+    if( !where ) {
+        return nullptr;
+    }
+    mon->spawn( *where );
+    return critter_tracker->add( mon ) ? mon.get() : nullptr;
 }
 
 size_t game::num_creatures() const
@@ -4732,12 +4773,13 @@ bool game::spawn_hallucination( const tripoint &p )
         }
     }
 
-    monster phantasm( MonsterGenerator::generator().get_valid_hallucination() );
-    phantasm.hallucination = true;
-    phantasm.spawn( p );
+    const mtype_id &mt = MonsterGenerator::generator().get_valid_hallucination();
+    const std::shared_ptr<monster> phantasm = std::make_shared<monster>( mt );
+    phantasm->hallucination = true;
+    phantasm->spawn( p );
 
     //Don't attempt to place phantasms inside of other creatures
-    if( !critter_at( phantasm.pos(), true ) ) {
+    if( !critter_at( phantasm->pos(), true ) ) {
         return critter_tracker->add( phantasm );
     } else {
         return false;
@@ -4842,11 +4884,8 @@ bool game::revive_corpse( const tripoint &p, item &it )
         debugmsg( "Tried to revive a non-corpse." );
         return false;
     }
-    if( critter_at( p ) != nullptr ) {
-        // Someone is in the way, try again later
-        return false;
-    }
-    monster critter( it.get_mtype()->id, p );
+    std::shared_ptr<monster> newmon_ptr = std::make_shared<monster>( it.get_mtype()->id );
+    monster &critter = *newmon_ptr;
     critter.init_from_item( it );
     if( critter.get_hp() < 1 ) {
         // Failed reanimation due to corpse being too burned
@@ -4872,14 +4911,7 @@ bool game::revive_corpse( const tripoint &p, item &it )
         }
     }
 
-    const bool ret = add_zombie( critter );
-    if( !ret ) {
-        debugmsg( "Couldn't add a revived monster" );
-    }
-    if( ret && !critter_at<monster>( p ) ) {
-        debugmsg( "Revived monster is not where it's supposed to be. Prepare for crash." );
-    }
-    return ret;
+    return place_critter_at( newmon_ptr, p );
 }
 
 void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer )
@@ -10255,9 +10287,13 @@ void game::vertical_move( int movez, bool force )
     // Save all monsters that can reach the stairs, remove them from the tracker,
     // then despawn the remaining monsters. Because it's a vertical shift, all
     // monsters are out of the bounds of the map and will despawn.
-    monster stored_mount;
-    if( u.is_mounted() ) {
-        stored_mount = *u.mounted_creature.get();
+    std::shared_ptr<monster> stored_mount;
+    if( u.is_mounted() && !m.has_zlevels() ) {
+        // Store a *copy* of the mount, so we can remove the original monster instance
+        // from the tracker before the map shifts.
+        // Map shifting would otherwise just despawn the mount and would later respawn it.
+        stored_mount = std::make_shared<monster>( *u.mounted_creature );
+        critter_tracker->remove( *u.mounted_creature );
     }
     if( !m.has_zlevels() ) {
         const tripoint to = u.pos();
@@ -10321,14 +10357,11 @@ void game::vertical_move( int movez, bool force )
         submap_shift = update_map( stairs.x, stairs.y );
     }
     if( u.is_mounted() ) {
-        if( !m.has_zlevels() ) {
-            stored_mount.spawn( g->u.pos() );
-            if( add_zombie( stored_mount ) ) {
-                auto mons = critter_tracker->find( g->u.pos() );
-                if( mons ) {
-                    u.mounted_creature = mons;
-                }
-                stored_mount.setpos( g->u.pos() );
+        if( stored_mount ) {
+            assert( !m.has_zlevels() );
+            stored_mount->spawn( g->u.pos() );
+            if( critter_tracker->add( stored_mount ) ) {
+                u.mounted_creature = stored_mount;
             }
         } else {
             u.mounted_creature->setpos( g->u.pos() );
@@ -10738,19 +10771,8 @@ void game::replace_stair_monsters()
 {
     for( auto &elem : coming_to_stairs ) {
         elem.staircount = 0;
-        tripoint spawn_point( elem.posx(), elem.posy(), get_levz() );
-        // Find some better spots if current is occupied
-        // If we can't, just destroy the poor monster
-        for( size_t i = 0; i < 10; i++ ) {
-            if( is_empty( spawn_point ) && elem.can_move_to( spawn_point ) ) {
-                elem.spawn( spawn_point );
-                add_zombie( elem );
-                break;
-            }
-
-            spawn_point.x = elem.posx() + rng( -10, 10 );
-            spawn_point.y = elem.posy() + rng( -10, 10 );
-        }
+        const tripoint pnt( elem.pos().xy(), get_levz() );
+        place_critter_around( std::make_shared<monster>( elem ), pnt, 10 );
     }
 
     coming_to_stairs.clear();
@@ -10857,7 +10879,7 @@ void game::update_stair_monsters()
         if( is_empty( dest ) ) {
             critter.spawn( dest );
             critter.staircount = 0;
-            add_zombie( critter );
+            place_critter_at( std::make_shared<monster>( critter ), dest );
             if( u.sees( dest ) ) {
                 if( !from_below ) {
                     add_msg( m_warning, _( "The %1$s comes down the %2$s!" ),

@@ -482,19 +482,11 @@ void player::hardcoded_effects( effect &it )
             add_msg_player_or_npc( m_bad,
                                    _( "Your flesh crawls; insects tear through the flesh and begin to emerge!" ),
                                    _( "Insects begin to emerge from <npcname>'s skin!" ) );
-            for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
-                if( num_insects == 0 ) {
-                    break;
-                } else if( pos() == dest ) {
-                    continue;
-                }
-                if( !g->critter_at( dest ) ) {
-                    if( monster *const grub = g->summon_mon( mon_dermatik_larva, dest ) ) {
-                        if( one_in( 3 ) ) {
-                            grub->friendly = -1;
-                        }
+            for( ; num_insects > 0; num_insects-- ) {
+                if( monster *const grub = g->place_critter_around( mon_dermatik_larva, pos(), 1 ) ) {
+                    if( one_in( 3 ) ) {
+                        grub->friendly = -1;
                     }
-                    num_insects--;
                 }
             }
             g->events().send<event_type::dermatik_eggs_hatch>( getID() );
@@ -570,7 +562,7 @@ void player::hardcoded_effects( effect &it )
                 }
                 MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
                                                        mongroup_id( "GROUP_NETHER" ) );
-                g->summon_mon( spawn_details.name, dest );
+                g->place_critter_at( spawn_details.name, dest );
                 if( g->u.sees( dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
                                                         _( "A monster appears nearby!" ) );
@@ -670,7 +662,7 @@ void player::hardcoded_effects( effect &it )
                     }
                     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
                                                            mongroup_id( "GROUP_NETHER" ) );
-                    g->summon_mon( spawn_details.name, dest );
+                    g->place_critter_at( spawn_details.name, dest );
                     if( g->u.sees( dest ) ) {
                         g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
                                                             _( "A monster appears nearby!" ) );

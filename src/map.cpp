@@ -7475,7 +7475,6 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
             if( !tmp.can_move_to( p ) ) {
                 continue; // target can not contain the monster
             }
-            tmp.spawn( p );
             if( group.horde ) {
                 // Give monster a random point near horde's expected destination
                 const tripoint rand_dest = horde_target +
@@ -7486,7 +7485,10 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                          tmp.wander_pos.x, tmp.wander_pos.y, tmp.wander_pos.z );
             }
 
-            g->add_zombie( tmp );
+            monster *const placed = g->place_critter_at( std::make_shared<monster>( tmp ), p );
+            if( placed ) {
+                placed->on_load();
+            }
             break;
         }
     }
@@ -7527,8 +7529,10 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             };
 
             const auto place_it = [&]( const tripoint & p ) {
-                tmp.spawn( p );
-                g->add_zombie( tmp );
+                monster *const placed = g->place_critter_at( std::make_shared<monster>( tmp ), p );
+                if( placed ) {
+                    placed->on_load();
+                }
             };
 
             // First check out defined spawn location for a valid placement, and if that doesn't work

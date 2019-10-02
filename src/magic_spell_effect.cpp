@@ -628,12 +628,12 @@ static bool is_summon_friendly( const spell &sp )
 static bool add_summoned_mon( const mtype_id &id, const tripoint &pos, const time_duration &time,
                               const spell &sp )
 {
-    if( g->critter_at( pos ) ) {
-        // add_zombie doesn't check if there's a critter at the location already
+    monster *const mon_ptr = g->place_critter_at( id, pos );
+    if( !mon_ptr ) {
         return false;
     }
     const bool permanent = sp.has_flag( spell_flag::PERMANENT );
-    monster spawned_mon( id, pos );
+    monster &spawned_mon = *mon_ptr;
     if( is_summon_friendly( sp ) ) {
         spawned_mon.friendly = INT_MAX;
     } else {
@@ -643,7 +643,7 @@ static bool add_summoned_mon( const mtype_id &id, const tripoint &pos, const tim
         spawned_mon.set_summon_time( time );
     }
     spawned_mon.no_extra_death_drops = true;
-    return g->add_zombie( spawned_mon );
+    return true;
 }
 
 void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,

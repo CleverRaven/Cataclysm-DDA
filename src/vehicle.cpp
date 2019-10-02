@@ -141,22 +141,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
             g->m.dirty_vehicle_list.insert( &veh );
         }
         void spawn_animal_from_part( item &base, const tripoint &loc ) override {
-            tripoint target = loc;
-            bool spawn = true;
-            if( !g->is_empty( target ) ) {
-                std::vector<tripoint> valid;
-                for( const tripoint &dest : g->m.points_in_radius( target, 1 ) ) {
-                    if( g->is_empty( dest ) ) {
-                        valid.push_back( dest );
-                    }
-                }
-                if( valid.empty() ) {
-                    spawn = false;
-                } else {
-                    target = random_entry( valid );
-                }
-            }
-            base.release_monster( target, spawn );
+            base.release_monster( loc, 1 );
         }
 };
 
@@ -1887,7 +1872,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
 
     // Release any animal held by the part
     if( parts[p].has_flag( vehicle_part::animal_flag ) ) {
-        item base = item( parts[p].get_base() );
+        item base = parts[p].get_base();
         handler.spawn_animal_from_part( base, part_loc );
         parts[p].set_base( base );
         parts[p].remove_flag( vehicle_part::animal_flag );
