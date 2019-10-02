@@ -209,7 +209,7 @@
         "=": "t_conveyor",
         "%": "t_machinery_heavy"
       },
-      "mapping": { "c": { "items": [ { "item": "chem_lab", "chance": 20 } ] } },
+      "mapping": { "c": { "items": [ { "item": "chem_lab", "chance": 20 }, { "item":  "tools_science", "chance": 20 } ] } },
       "place_nested": [
         { "chunks": [ "lab_spawn_9x9_wall_sw" ], "x": 13, "y": 1 },
         { "chunks": [ "sub_t_concrete_wall" ], "x": 13, "y": 10 },
@@ -261,7 +261,7 @@
         "C": "t_centrifuge"
       },
       "mapping": {
-        "c": { "items": [ { "item": "chem_lab", "chance": 10 } ] },
+        "c": { "items": [ { "item": "chem_lab", "chance": 10 }, { "item":  "tools_science", "chance": 10 } ] },
         "r": { "items": [ { "item": "tools_science", "chance": 80 }, { "item": "cleaning", "chance": 30 } ] }
       },
       "place_nested": [
@@ -472,7 +472,7 @@
         "X": {
           "items": [ { "item": "robots", "chance": 30 }, { "item": "science", "chance": 15 }, { "item": "sewage_plant", "chance": 8 } ]
         },
-        "R": { "items": [ { "item": "cleaning", "chance": 60 }, { "item": "tools_science", "chance": 30 } ] },
+        "R": { "items": [ { "item": "cleaning", "chance": 60 } ] },
         "l": {
           "items": [
             { "item": "office", "chance": 10 },
@@ -486,7 +486,7 @@
           ]
         },
         "r": { "items": [ { "item": "mine_equipment", "chance": 30 } ] },
-        "c": { "items": [ { "item": "chem_lab", "chance": 30 } ] }
+        "c": { "items": [ { "item": "chem_lab", "chance": 30 }, { "item":  "tools_science", "chance": 30 } ] }
       },
       "place_monster": [ { "monster": "mon_turret_rifle", "x": 11, "y": 9, "chance": 20 } ],
       "place_nested": [
@@ -684,7 +684,7 @@
       ],
       "palettes": [ "lab_palette" ],
       "terrain": { "C": "t_centrifuge", "7": "t_console", ",": "t_floor_blue" },
-      "mapping": { "c": { "items": [ { "item": "office", "chance": 30 } ] }, "l": { "items": [ { "item": "science", "chance": 60 } ] } },
+      "mapping": { "c": { "items": [ { "item": "office", "chance": 30 }, { "item":  "tools_science", "chance": 15 } ] }, "l": { "items": [ { "item": "science", "chance": 60 } ] } },
       "computers": {
         "6": {
           "name": "Containment Control",
@@ -763,7 +763,7 @@
         "X": {
           "items": [ { "item": "robots", "chance": 30 }, { "item": "science", "chance": 15 }, { "item": "sewage_plant", "chance": 8 } ]
         },
-        "l": { "items": [ { "item": "cleaning", "chance": 60 }, { "item": "tools_science", "chance": 30 } ] },
+        "l": { "items": [ { "item": "cleaning", "chance": 60 } ] },
         "r": { "items": [ { "item": "mine_equipment", "chance": 30 } ] }
       },
       "place_monster": [ { "monster": "mon_zombie", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 50, "pack_size": [ 2, 3 ] } ],
