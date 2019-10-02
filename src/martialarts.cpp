@@ -1257,8 +1257,7 @@ std::string ma_technique::get_description() const
     }
 
     if( powerful_knockback ) {
-        dump << _( "* Will cause extra <info>damage</info> if target <info>collides</info> with something." )
-            << std::endl;
+        dump << _( "* Causes extra damage on <info>knockback collision</info>." ) << std::endl;
     }
 
     if( dodge_counter ) {
