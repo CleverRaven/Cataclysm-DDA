@@ -1076,7 +1076,7 @@ void player::update_bodytemp()
                     if( furn_at_pos != f_null ) {
                         // Can sit on something to lift feet up to the fire
                         bonus_fire_warmth = best_fire * furn_at_pos.obj().bonus_fire_warmth_feet;
-                    } else if( vp ) {
+                    } else if( vp.part_with_feature( "BOARDABLE", true ) ) {
                         bonus_fire_warmth = best_fire * vp.part_with_feature( "BOARDABLE",
                                             true )->info().bonus_fire_warmth_feet;
                     } else {
@@ -1344,7 +1344,7 @@ int player::floor_bedding_warmth( const tripoint &pos )
         floor_bedding_warmth += furn_at_pos.obj().floor_bedding_warmth;
     } else if( !trap_at_pos.is_null() ) {
         floor_bedding_warmth += trap_at_pos.floor_bedding_warmth;
-    } else if( vp ) {
+    } else if( vp.part_with_feature( "BOARDABLE", true ) ) {
         floor_bedding_warmth += vp.part_with_feature( "BOARDABLE", true )->info().floor_bedding_warmth;
     } else if( ter_at_pos == t_improvised_shelter ) {
         floor_bedding_warmth -= 500;
@@ -9499,9 +9499,10 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
             // Note: shelled individuals can still use sleeping aids!
         } else if( vp ) {
-            vehicle *const veh = veh_pointer_or_null( vp );
+            vehicle &veh = vp->vehicle();
             const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
-            vehicle_stack items = veh->get_items( carg->part_index() );
+            const cata::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
+            vehicle_stack items = veh.get_items( carg->part_index() );
             for( auto &items_it : items ) {
                 if( items_it.has_flag( "SLEEP_AID" ) ) {
                     // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
@@ -9510,7 +9511,11 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
                     break; // prevents using more than 1 sleep aid
                 }
             }
-            comfort += vp.part_with_feature( "BOARDABLE", true )->info().comfort;
+            if( vp.part_with_feature( "BOARDABLE", true ) ) {
+                comfort += vp.part_with_feature( "BOARDABLE", true )->info().comfort;
+            } else {
+                comfort -= g->m.move_cost( p );
+            }
         }
         // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
         else if( furn_at_pos != f_null ) {
