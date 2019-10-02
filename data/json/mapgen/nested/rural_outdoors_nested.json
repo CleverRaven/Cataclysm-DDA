@@ -384,5 +384,55 @@
       "palettes": [ "desolatebarn_palette" ],
       "r": { "items": [ { "item": "hardware", "chance": 10, "damage": [ 1, 4 ] } ] }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "small_camp_8x8",
+    "//": "a tent and firepit",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  ###   ",
+        "  #x#   ",
+        "  #+#   ",
+        "        ",
+        "     k  ",
+        "   b k  ",
+        "     k  ",
+        "        "
+      ],
+      "terrain": { " ": "t_null", "k": "t_trunk" },
+      "furniture": { "#": "f_canvas_wall", "x": "f_groundsheet", "+": "f_canvas_door", "b": "f_firering" },
+      "place_items": [
+        { "item": "cannedfood", "x": 3, "y": 1, "chance": 75 },
+        { "item": "cannedfood", "x": 3, "y": 1, "chance": 75 },
+        { "item": "camping", "x": 1, "y": 5, "chance": 30, "repeat": [ 1, 3 ] },
+        { "item": "stash_wood", "x": 3, "y": 6, "chance": 100, "repeat": [ 6, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "gone_fishing_3x3",
+    "//": "fishing stuff",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " b ",
+        "   ",
+        "hrh"
+      ],
+      "terrain": { " ": "t_null" },
+      "furniture": { "h": "f_camp_chair", "b": "f_firering", "r": "f_tourist_table" },
+      "place_items": [
+        { "item": "cannedfood", "x": 1, "y": 2, "chance": 75 },
+        { "item": "fishing_items", "x": 1, "y": 2, "chance": 30, "repeat": [ 1, 3 ] },
+        { "item": "stash_wood", "x": 0, "y": 0, "chance": 100, "repeat": [ 2, 6 ] }
+      ]
+    }
   }
 ]

@@ -172,8 +172,39 @@
     "name": "island",
     "sym": ".",
     "color": "yellow",
-    "see_cost": 1,
-    "flags": [ "LAKE" ]
+    "see_cost": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "island_forest",
+    "name": "island",
+    "sym": "F",
+    "color": "green",
+    "see_cost": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "island_forest_thick",
+    "name": "island",
+    "sym": "F",
+    "color": "green",
+    "see_cost": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "island_forest_water",
+    "name": "island",
+    "sym": "F",
+    "color": "cyan",
+    "see_cost": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "island_field",
+    "name": "island",
+    "sym": ".",
+    "color": "brown",
+    "see_cost": 1
   },
   {
     "type": "overmap_terrain",
