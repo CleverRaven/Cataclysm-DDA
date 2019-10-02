@@ -511,7 +511,7 @@ npc vehicle::get_targeting_npc( const vehicle_part &pt )
     cpu.setpos( global_part_pos3( pt ) );
     // Assume vehicle turrets are friendly to the player.
     cpu.set_attitude( NPCATT_FOLLOW );
-    cpu.set_fac( get_owner()->id );
+    cpu.set_fac( get_owner() );
     return cpu;
 }
 

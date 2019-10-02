@@ -3031,5 +3031,62 @@
     "components": [ [ [ "metal_tank", 2 ] ], [ [ "water_faucet", 2 ] ], [ [ "anvil", 1 ] ], [ [ "chain", 4 ] ], [ [ "pipe", 3 ] ] ],
     "pre_flags": [ "FLAT" ],
     "post_terrain": "f_drophammer"
+  },
+  {
+    "type": "construction",
+    "skill": "fabrication",
+    "description": "Build a radio tower.",
+    "//": "faction camp workshop recipe",
+    "category": "CONSTRUCT",
+    "difficulty": 3,
+    "time": "24h",
+    "on_display": false,
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [
+      [
+        [ "wind_turbine", 4 ],
+        [ "xl_wind_turbine", 1 ],
+        [ "solar_panel", 4 ],
+        [ "reinforced_solar_panel", 4 ],
+        [ "solar_panel_v2", 2 ],
+        [ "reinforced_solar_panel_v2", 2 ],
+        [ "solar_panel_v3", 1 ]
+      ],
+      [ [ "storage_battery", 1 ], [ "medium_storage_battery", 4 ], [ "small_storage_battery", 32 ] ],
+      [ [ "sheet_metal", 2 ], [ "wire", 8 ] ],
+      [ [ "pipe", 24 ] ]
+    ],
+    "pre_flags": [ "FLAT" ],
+    "post_terrain": "t_radio_tower"
+  },
+  {
+    "type": "construction",
+    "skill": "fabrication",
+    "description": "Build a radio tower console.",
+    "//": "faction camp workshop recipe",
+    "category": "CONSTRUCT",
+    "difficulty": 3,
+    "time": "24h",
+    "on_display": false,
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "processor", 2 ] ],
+      [ [ "RAM", 2 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "e_scrap", 8 ] ],
+      [ [ "frame", 1 ] ],
+      [ [ "circuit", 4 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "amplifier", 2 ] ],
+      [ [ "cable", 80 ] ],
+      [ [ "motor_small", 1 ], [ "motor_tiny", 2 ] ]
+    ],
+    "pre_flags": [ "FLAT" ],
+    "post_terrain": "t_radio_controls"
   }
 ]

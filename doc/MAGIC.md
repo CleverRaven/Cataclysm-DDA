@@ -94,6 +94,12 @@ Any aoe will manifest as a circular area centered on the target, and will only d
 
 * "timed_event" - adds a timed event to the player only. valid timed events: "help", "wanted", "robot_attack", "spawn_wyrms", "amigara", "roots_die", "temple_open", "temple_flood", "temple_spawn", "dim", "artifact_light" NOTE: This was added only for artifact active effects. support is limited, use at your own risk.
 
+* "explosion" - an explosion is centered on the target, with power damage() and factor aoe()/10
+
+* "flashbang" - a flashbang effect is centered on the target, with poewr damage() and factor aoe()/10
+
+* "map" - maps the overmap centered on the player out to a radius of aoe()
+
 * "WONDER" - Unlike the above, this is not an "effect" but a "flag".  This alters the behavior of the parent spell drastically: The spell itself doesn't cast, but its damage and range information is used in order to cast the extra_effects.  N of the extra_effects will be chosen at random to be cast, where N is the current damage of the spell (stacks with RANDOM_DAMAGE flag) and the message of the spell cast by this spell will also be displayed.  If this spell's message is not wanted to be displayed, make sure the message is an empty string.
 
 ##### For Spells that have an attack type, these are the available damage types:

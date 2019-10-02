@@ -194,18 +194,20 @@ This section describes each json file and their contents. Each json has their ow
 | active                   | Whether the bionic is active or passive. (default: `passive`)
 | power_source             | Whether the bionic provides power. (default: `false`)
 | faulty                   | Whether it is a faulty type. (default: `false`)
-| cost                     | How many PUs it costs to use the bionic. (default: `0`)
+| act_cost                 | How many kJ it costs to activate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| deact_cost               | How many kJ it costs to deactivate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| react_cost               | How many kJ it costs over time to keep this bionic active, does nothing without a non-zero "time".  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
 | time                     | How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
 | description              | In-game description.
 | encumbrance              | (_optional_) A list of body parts and how much this bionic encumber them.
-| weight_capacity_bonus    | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings must be used - "5000 g" or "5 kg" (default: `0`)
+| weight_capacity_bonus    | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings can be used - "5000 g" or "5 kg" (default: `0`)
 | weight_capacity_modifier | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)
 | canceled_mutations       | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
 | included_bionics         | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
 | included                 | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
 | env_protec               | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
 | occupied_bodyparts       | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
-| capacity                 | (_optional_) Amount of power storage added by this bionic.
+| capacity                 | (_optional_) Amount of power storage added by this bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
 | fuel_options             | (_optional_) A list of fuel that this bionic can use to produce bionic power.
 | fuel_capacity            | (_optional_) Volume of fuel this bionic can store.
 | fuel_efficiency          | (_optional_) Fraction of fuel energy converted into power. (default: `0`)
@@ -220,7 +222,7 @@ This section describes each json file and their contents. Each json has their ow
     "active"       : false,
     "power_source" : false,
     "faulty"       : false,
-    "cost"         : 0,
+    "act_cost"     : 0,
     "time"         : 1,
     "fuel_efficiency": 1,
     "stat_bonus": [ [ "INT", 2 ], [ "STR", 2 ] ],
@@ -804,6 +806,17 @@ Note that even though most statistics yield an integer, you should still use
 "hunger" : true, //If true, activated mutation increases hunger by cost. (default: false)
 "thirst" : true, //If true, activated mutation increases thirst by cost. (default: false)
 "fatigue" : true, //If true, activated mutation increases fatigue by cost. (default: false)
+"scent_modifier": 0.0,// float affecting the intensity of your smell. (default: 1.0)
+"bleed_resist": 1000, // Int quantifiying your resistance to bleed effect, if its > to the intensity of the effect you don't get any bleeding. (default: 0)
+"fat_to_max_hp": 1.0, // Amount of hp_max gained for each unit of bmi above character_weight_category::normal. (default: 0.0)
+"healthy_rate": 0.0, // How fast your health can change. If set to 0 it never changes. (default: 1.0)
+"weakness_to_water": 5, // How much damage water does to you, negative values heal you. (default: 0)
+"ignored_by": [ "ZOMBIE" ], // List of species ignoring you. (default: empty)
+"can_only_eat": [ "junk" ], // List of materiel required for food to be comestible for you. (default: empty)
+"can_only_heal_with": [ "bandage" ], // List of med you are restricted to, this includes mutagen,serum,aspirin,bandages etc... (default: empty)
+"can_heal_with": [ "caramel_ointement" ], // List of med that will work for you but not for anyone. See `CANT_HEAL_EVERYONE` flag for items. (default: empty)
+"allowed_category": [ "ALPHA" ], // List of category you can mutate into. (default: empty)
+"no_cbm_on_bp": [ "TORSO", "HEAD", "EYES", "MOUTH", "ARM_L" ], // List of body parts that can't receive cbms. (default: empty)
 ```
 
 ### Vehicle Groups
@@ -1025,6 +1038,7 @@ Armor can be defined like this:
 "warmth" : 10,        //  (Optional, default = 0) How much warmth clothing provides
 "environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
 "encumbrance" : 0,    // Base encumbrance (unfitted value)
+"max_encumbrance" : 0,    // When a character is completely full of volume, the encumbrance of a non-rigid storage container will be set to this. Otherwise it'll be between the encumbrance and max_encumbrance following the equation: encumbrance + (max_encumbrance - encumbrance) * character volume.
 "weight_capacity_bonus": "20 kg",    // (Optional, default = 0) Bonus to weight carrying capacity, can be negative. Strings must be used - "5000 g" or "5 kg"
 "weight_capacity_modifier": 1.5, // (Optional, default = 1) Factor modifying base weight carrying capacity.
 "coverage" : 80,      // What percentage of body part

@@ -27,10 +27,12 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
+#include "overmapbuffer.h"
 #include "player.h"
 #include "projectile.h"
 #include "type_id.h"
 #include "bodypart.h"
+#include "map_iterator.h"
 #include "damage.h"
 #include "debug.h"
 #include "explosion.h"
@@ -103,12 +105,9 @@ std::set<tripoint> spell_effect::spell_effect_blast( const spell &, const tripoi
 {
     std::set<tripoint> targets;
     // TODO: Make this breadth-first
-    for( int x = target.x - aoe_radius; x <= target.x + aoe_radius; x++ ) {
-        for( int y = target.y - aoe_radius; y <= target.y + aoe_radius; y++ ) {
-            const tripoint potential_target( x, y, target.z );
-            if( in_spell_aoe( target, potential_target, aoe_radius, ignore_walls ) ) {
-                targets.emplace( potential_target );
-            }
+    for( const tripoint &potential_target : g->m.points_in_radius( target, aoe_radius ) ) {
+        if( in_spell_aoe( target, potential_target, aoe_radius, ignore_walls ) ) {
+            targets.emplace( potential_target );
         }
     }
     return targets;
@@ -288,6 +287,7 @@ static void damage_targets( const spell &sp, const Creature &caster,
         }
 
         projectile bolt;
+        bolt.speed = 10000;
         bolt.impact = sp.get_damage_instance();
         bolt.proj_effects.emplace( "magic" );
 
@@ -574,7 +574,8 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
         p->mod_fatigue( -healing );
     } else if( energy_source == "BIONIC" ) {
         if( healing > 0 ) {
-            p->power_level = std::min( p->max_power_level, p->power_level + healing );
+            p->power_level = units::from_kilojoule( std::min( units::to_kilojoule( p->max_power_level ),
+                                                    units::to_kilojoule( p->power_level ) + healing ) );
         } else {
             p->mod_stat( "stamina", healing );
         }
@@ -629,12 +630,12 @@ static bool is_summon_friendly( const spell &sp )
 static bool add_summoned_mon( const mtype_id &id, const tripoint &pos, const time_duration &time,
                               const spell &sp )
 {
-    if( g->critter_at( pos ) ) {
-        // add_zombie doesn't check if there's a critter at the location already
+    monster *const mon_ptr = g->place_critter_at( id, pos );
+    if( !mon_ptr ) {
         return false;
     }
     const bool permanent = sp.has_flag( spell_flag::PERMANENT );
-    monster spawned_mon( id, pos );
+    monster &spawned_mon = *mon_ptr;
     if( is_summon_friendly( sp ) ) {
         spawned_mon.friendly = INT_MAX;
     } else {
@@ -644,7 +645,7 @@ static bool add_summoned_mon( const mtype_id &id, const tripoint &pos, const tim
         spawned_mon.set_summon_time( time );
     }
     spawned_mon.no_extra_death_drops = true;
-    return g->add_zombie( spawned_mon );
+    return true;
 }
 
 void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
@@ -711,4 +712,26 @@ void spell_effect::vomit( const spell &sp, Creature &caster, const tripoint &tar
         sp.make_sound( target );
         ch->vomit();
     }
+}
+
+void spell_effect::explosion( const spell &sp, Creature &, const tripoint &target )
+{
+    explosion_handler::explosion( target, sp.damage(), sp.aoe() / 10.0, true );
+}
+
+void spell_effect::flashbang( const spell &sp, Creature &caster, const tripoint &target )
+{
+    explosion_handler::flashbang( target, caster.is_avatar() &&
+                                  !sp.is_valid_target( valid_target::target_self ) );
+}
+
+void spell_effect::map( const spell &sp, Creature &caster, const tripoint & )
+{
+    const avatar *you = caster.as_avatar();
+    if( !you ) {
+        // revealing the map only makes sense for the avatar
+        return;
+    }
+    const tripoint center = you->global_omt_location();
+    overmap_buffer.reveal( center.xy(), sp.aoe(), center.z );
 }

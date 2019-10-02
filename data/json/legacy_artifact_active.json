@@ -326,5 +326,45 @@
     "min_duration": 30000,
     "max_duration": 30000,
     "message": "The sky starts to dim."
+  },
+  {
+    "type": "SPELL",
+    "id": "AEA_FIREBALL",
+    "name": "Artifact Fireball",
+    "description": "Causes an explosion at the target",
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "effect": "explosion",
+    "base_casting_time": 100,
+    "min_damage": 180,
+    "max_damage": 180,
+    "min_aoe": 5,
+    "max_aoe": 5,
+    "message": "",
+    "min_range": 40,
+    "max_range": 40
+  },
+  {
+    "type": "SPELL",
+    "id": "AEA_FLASH",
+    "name": "Artifact Flash",
+    "description": "Causes a flashbang at the target",
+    "valid_targets": [ "hostile", "ground", "self" ],
+    "effect": "flashbang",
+    "base_casting_time": 100,
+    "message": "",
+    "min_range": 40,
+    "max_range": 40
+  },
+  {
+    "type": "SPELL",
+    "id": "AEA_MAP",
+    "effect": "map",
+    "name": "Artifact Map",
+    "description": "Reveals an area around you on the overmap",
+    "valid_targets": [ "self" ],
+    "min_aoe": 20,
+    "max_aoe": 20,
+    "message": "You have a vision of the surrounding area...",
+    "base_casting_time": 100
   }
 ]

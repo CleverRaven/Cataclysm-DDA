@@ -548,7 +548,7 @@ const inventory &player::crafting_inventory( const tripoint &src_pos, int radius
         if( ( !bio_data.activated || bio.powered ) &&
             !bio_data.fake_item.empty() ) {
             cached_crafting_inventory += item( bio.info().fake_item,
-                                               calendar::turn, power_level );
+                                               calendar::turn, units::to_kilojoule( power_level ) );
         }
     }
     if( has_trait( trait_BURROW ) ) {
@@ -630,7 +630,7 @@ static void finalize_crafted_item( item &newit, faction *maker_fac )
     }
     // TODO for now this assumes player is doing the crafting
     // this will need to be updated when NPCs do crafting
-    newit.set_owner( maker_fac );
+    newit.set_owner( maker_fac->id );
 }
 
 static cata::optional<item_location> wield_craft( player &p, item &craft )

@@ -3,7 +3,7 @@
     "id": "bead_bracelet",
     "type": "ARMOR",
     "name": "beaded bracelet",
-    "description": "A simple bracelet of string and wooden beads.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A simple bracelet of string and wooden beads.  You can wear it if you like, but it won't provide any effects.  Also doubles as a set of prayer beads, if you're so inclined.",
     "looks_like": "copper_bracelet",
     "weight": "12 g",
     "volume": 0,
@@ -12,7 +12,8 @@
     "flags": [ "VARSIZE", "FANCY" ],
     "material": [ "wood" ],
     "symbol": "[",
-    "color": "brown"
+    "color": "brown",
+    "use_action": "MEDITATE"
   },
   {
     "id": "bead_ear",
@@ -32,7 +33,7 @@
     "id": "bead_necklace",
     "type": "ARMOR",
     "name": "beaded necklace",
-    "description": "A simple necklace made of string and wooden beads.  You can wear it if you like, but it won't provide any effects.",
+    "description": "A simple necklace made of string and wooden beads.  You can wear it if you like, but it won't provide any effects.  Also doubles as a set of prayer beads, if you're so inclined.",
     "looks_like": "necklace",
     "weight": "15 g",
     "volume": 0,
@@ -41,7 +42,8 @@
     "material": [ "wood" ],
     "flags": [ "VARSIZE", "FANCY" ],
     "symbol": "u",
-    "color": "brown"
+    "color": "brown",
+    "use_action": "MEDITATE"
   },
   {
     "id": "bracelet_friendship",

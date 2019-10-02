@@ -6221,7 +6221,7 @@
   {
     "type": "mutation",
     "id": "DEBUG_NIGHTVISION",
-    "name": "Debug Vision",
+    "name": "Debug Night Vision",
     "points": 99,
     "valid": false,
     "description": "You can clearly see that this is for dev purposes only.",

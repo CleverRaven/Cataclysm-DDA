@@ -7,6 +7,7 @@
 #include "NoStaticGettextCheck.h"
 #include "PointInitializationCheck.h"
 #include "SimplifyPointConstructorsCheck.h"
+#include "TranslatorCommentsCheck.h"
 #include "UseNamedPointConstantsCheck.h"
 #include "UsePointApisCheck.h"
 #include "UsePointArithmeticCheck.h"
@@ -29,6 +30,7 @@ class CataModule : public ClangTidyModule
             CheckFactories.registerCheck<PointInitializationCheck>( "cata-point-initialization" );
             CheckFactories.registerCheck<SimplifyPointConstructorsCheck>(
                 "cata-simplify-point-constructors" );
+            CheckFactories.registerCheck<TranslatorCommentsCheck>( "cata-translator-comments" );
             CheckFactories.registerCheck<UseNamedPointConstantsCheck>(
                 "cata-use-named-point-constants" );
             CheckFactories.registerCheck<UsePointApisCheck>( "cata-use-point-apis" );

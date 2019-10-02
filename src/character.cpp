@@ -230,6 +230,16 @@ void Character::mod_stat( const std::string &stat, float modifier )
     }
 }
 
+int Character::get_fat_to_hp() const
+{
+    float mut_fat_hp = 0;
+    for( const trait_id &mut : get_mutations() ) {
+        mut_fat_hp += mut.obj().fat_to_max_hp;
+    }
+
+    return mut_fat_hp * ( get_bmi() - character_weight_category::normal );
+}
+
 std::string Character::disp_name( bool possessive ) const
 {
     if( !possessive ) {
@@ -657,7 +667,7 @@ void Character::recalc_hp()
     float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 );
     for( auto &elem : new_max_hp ) {
         /** @EFFECT_STR_MAX increases base hp */
-        elem = 60 + str_max * 3 + hp_adjustment;
+        elem = 60 + str_max * 3 + hp_adjustment + get_fat_to_hp();
         elem *= hp_mod;
     }
     if( has_trait( trait_GLASSJAW ) ) {
@@ -1769,6 +1779,21 @@ bool Character::meets_requirements( const item &it, const item &context ) const
     return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, ctx );
 }
 
+void Character::make_bleed( body_part bp, time_duration duration, int intensity,
+                            bool permanent, bool force, bool defferred )
+{
+    int b_resist = 0;
+    for( const trait_id &mut : get_mutations() ) {
+        b_resist += mut.obj().bleed_resist;
+    }
+
+    if( b_resist > intensity ) {
+        return;
+    }
+
+    add_effect( effect_bleed, duration, bp, permanent, intensity, force, defferred );
+}
+
 void Character::normalize()
 {
     Creature::normalize();
@@ -2352,7 +2377,11 @@ void Character::set_healthy( int nhealthy )
 }
 void Character::mod_healthy( int nhealthy )
 {
-    healthy += nhealthy;
+    float mut_rate = 1.0f;
+    for( const trait_id &mut : get_mutations() ) {
+        mut_rate *= mut.obj().healthy_rate;
+    }
+    healthy += nhealthy * mut_rate;
 }
 void Character::set_healthy_mod( int nhealthy_mod )
 {
@@ -2414,6 +2443,9 @@ void Character::set_stored_kcal( int kcal )
 {
     if( stored_calories != kcal ) {
         stored_calories = kcal;
+
+        //some mutant change their max_hp according to their bmi
+        recalc_hp();
     }
 }
 
@@ -3944,18 +3976,18 @@ void Character::healed_bp( int bp, int amount )
 
 void Character::set_fac_id( const std::string &my_fac_id )
 {
-    fac_id = string_id<faction>( my_fac_id );
+    fac_id = faction_id( my_fac_id );
 }
 
 std::string get_stat_name( Character::stat Stat )
 {
     switch( Stat ) {
         // *INDENT-OFF*
-    case Character::stat::STRENGTH:     return pgettext("strength stat", "STR");
-    case Character::stat::DEXTERITY:    return pgettext("dexterity stat", "DEX");
-    case Character::stat::INTELLIGENCE: return pgettext("intelligence stat", "INT");
-    case Character::stat::PERCEPTION:   return pgettext("perception stat", "PER");
-            // *INDENT-ON*
+    case Character::stat::STRENGTH:     return pgettext( "strength stat", "STR" );
+    case Character::stat::DEXTERITY:    return pgettext( "dexterity stat", "DEX" );
+    case Character::stat::INTELLIGENCE: return pgettext( "intelligence stat", "INT" );
+    case Character::stat::PERCEPTION:   return pgettext( "perception stat", "PER" );
+        // *INDENT-ON*
         default:
             return pgettext( "fake stat there's an error", "ERR" );
             break;
@@ -4047,4 +4079,35 @@ std::string Character::get_highest_category() const
         }
     }
     return sMaxCat;
+}
+
+void Character::recalculate_enchantment_cache()
+{
+    // start by resetting the cache to all inventory items
+    enchantment_cache = inv.get_active_enchantment_cache( *this );
+
+    for( const enchantment &ench : weapon.get_enchantments() ) {
+        if( ench.is_active( *this, weapon ) ) {
+            enchantment_cache.force_add( ench );
+        }
+    }
+
+    for( const item &worn_it : worn ) {
+        for( const enchantment &ench : worn_it.get_enchantments() ) {
+            if( ench.is_active( *this, worn_it ) ) {
+                enchantment_cache.force_add( ench );
+            }
+        }
+    }
+}
+
+double Character::calculate_by_enchantment( double modify, enchantment::mod value,
+        bool round_output ) const
+{
+    modify += enchantment_cache.get_value_add( value );
+    modify *= 1.0 + enchantment_cache.get_value_multiply( value );
+    if( round_output ) {
+        modify = round( modify );
+    }
+    return modify;
 }

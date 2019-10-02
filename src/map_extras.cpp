@@ -2761,11 +2761,9 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
                 string_format( "%s:%s;<color_yellow>%s</color>: <color_white>%s</color>",
                                extra.get_symbol(),
                                get_note_string_from_color( extra.color ),
-                               extra.name,
-                               extra.description );
-            if( !mx_note.empty() ) {
-                overmap_buffer.add_note( sm_to_omt_copy( abs_sub ), mx_note );
-            }
+                               _( extra.name ),
+                               _( extra.description ) );
+            overmap_buffer.add_note( sm_to_omt_copy( abs_sub ), mx_note );
         }
     }
 }

@@ -194,6 +194,7 @@ void Single_item_creator::inherit_ammo_mag_chances( const int ammo, const int ma
 Item_modifier::Item_modifier()
     : damage( 0, 0 )
     , count( 1, 1 )
+    , dirt( 100, 9999 )
     , charges( -1, -1 )
     , with_ammo( 0 )
     , with_magazine( 0 )
@@ -208,6 +209,11 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     new_item.set_damage( rng( damage.first, damage.second ) );
+    int random_dirt = rng( dirt.first, dirt.second );
+    if( new_item.is_gun() && random_dirt > 0 ) {
+        new_item.set_var( "dirt",  random_dirt );
+        new_item.faults.emplace( "fault_gun_dirt" );
+    }
 
     int ch = ( charges.first == charges.second ) ? charges.first : rng( charges.first,
              charges.second );

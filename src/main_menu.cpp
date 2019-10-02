@@ -42,7 +42,7 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-static const bool halloween_theme = false;
+static const bool halloween_theme = true;
 
 void main_menu::on_move() const
 {

@@ -1,0 +1,371 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_BONE_SEER",
+    "name": "Bone Seer",
+    "job_description": "I wish to sing the song of the Bones",
+    "traits": [
+      { "trait": "OUTDOORSMAN" },
+      { "trait": "HEAVYSLEEPER" },
+      { "trait": "GOODCARDIO" },
+      { "trait": "LIGHTSTEP" },
+      { "trait": "ROBUST" },
+      { "trait": "seer_mark" },
+      { "group": "Appearance_African" },
+      { "trait": "hair_black_mohawk" }
+    ],
+    "common": false,
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "bonus_str": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ 0, 2 ] },
+    "worn_override": "BONE_SEER_Brigitte_worn",
+    "weapon_override": "BONE_SEER_Brigitte_wield",
+    "shopkeeper_item_group": "NC_BONE_SEER_misc",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "survival", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 4, 6 ] } },
+      { "skill": "bashing", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "cutting", "bonus": { "rng": [ 3, 6 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "BONE_SEER_Brigitte_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "loincloth_leather" },
+      { "item": "socks" },
+      { "item": "cloak" },
+      { "item": "hsurvivor_suit" },
+      { "item": "balclava" },
+      { "item": "gloves_liner" },
+      { "item": "tac_helmet" },
+      { "item": "gloves_lsurvivor" },
+      { "item": "boots_hsurvivor" },
+      { "item": "elbow_pads" },
+      { "item": "survivor_goggles" },
+      { "item": "survivor_pack" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "BONE_SEER_Brigitte_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "2h_flail_steel" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BONE_SEER_misc",
+    "items": [
+      [ "needle_bone", 40 ],
+      [ "bone_glue", 20 ],
+      [ "bone_flute", 10 ],
+      [ "bone_human", 10 ],
+      [ "broth_bone", 60 ],
+      [ "water_clean", 90 ]
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "seer_mark",
+    "name": "Mark of the Seer",
+    "points": 1,
+    "description": "A strange occult symbol carved into your hand by Brigitte LaCroix.",
+    "starting_trait": false,
+    "valid": false,
+    "purifiable": false
+  },
+  {
+    "type": "npc",
+    "id": "SEER_Brigitte_LaCroix",
+    "//": "A mysterious member of a doomsday cult.",
+    "name_unique": "Brigitte LaCroix",
+    "gender": "female",
+    "name_suffix": "Bone Seer",
+    "class": "NC_BONE_SEER",
+    "attitude": 7,
+    "mission": 3,
+    "chat": "TALK_BONE_SEER",
+    "faction": "wasteland_scavengers",
+    "mission_offered": "MISSION_SEER_GATHER_BONE"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER",
+    "dynamic_line": {
+      "u_has_var": "talked_to_seer",
+      "type": "dialogue",
+      "context": "first_meeting",
+      "value": "yes",
+      "no": "You there. Quiet down. Can you hear it? The song?",
+      "yes": {
+        "u_has_var": "asked_about_song",
+        "type": "dialogue",
+        "context": "song",
+        "value": "yes",
+        "no": "You're back. Have you come to listen to the song?",
+        "yes": "Acolyte."
+      }
+    },
+    "speaker_effect": { "effect": { "u_add_var": "talked_to_seer", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "responses": [
+      {
+        "text": "What? What do you mean? What song?",
+        "topic": "TALK_BONE_SEER_SONG",
+        "condition": { "not": { "u_has_var": "asked_about_song", "type": "dialogue", "context": "song", "value": "yes" } },
+        "effect": { "u_add_var": "asked_about_song", "type": "dialogue", "context": "song", "value": "yes" }
+      },
+      {
+        "text": "So about the songs...",
+        "topic": "TALK_BONE_SEER_SONG",
+        "condition": { "u_has_var": "asked_about_song", "type": "dialogue", "context": "song", "value": "yes" }
+      },
+      {
+        "text": "You mentioned some cycle before, when I gave you the bones. What does that mean?",
+        "topic": "TALK_BONE_SEER_CYCLE",
+        "condition": { "u_has_var": "NC_SEER_MISSION_1", "type": "general", "context": "mission", "value": "yes" }
+      },
+      {
+        "text": "Would you like to join me on my travels?",
+        "topic": "TALK_SUGGEST_FOLLOW_SEER",
+        "condition": { "not": "npc_following" }
+      },
+      { "text": "Let's trade items.", "topic": "TALK_BONE_SEER", "effect": "start_trade" },
+      {
+        "text": "Is there a way I can help you with your song?",
+        "topic": "TALK_MISSION_LIST_SEER",
+        "condition": { "u_has_var": "asked_about_song", "type": "dialogue", "context": "song", "value": "yes" }
+      },
+      { "text": "I have to get going. Take care, Seer.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_SONG",
+    "dynamic_line": "Listen carefully. The bones... they sing. Can you hear it? The song they weave? The stories they hold?",
+    "responses": [
+      { "text": "What? Singing bones? What are you talking about?", "topic": "TALK_BONE_SEER_SONG2" },
+      { "text": "Uh... yeah, sure. I think I'll just be on my way.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_SONG2",
+    "dynamic_line": "When it all happened, the cataclysm, something... changed. You can see it in all creatures, but most of all their bones. They break, morph, rise again, in an infinite cycle. Living dead walk. Monsters rip and tear each other apart. You can see the resonance, the quiet hum of raw strength, and only by taking the bones does the cycle end - their story, their song, their strength, become yours to use.",
+    "responses": [
+      { "text": "So what do you actually do with the bones?", "topic": "TALK_BONE_SEER_BONES" },
+      { "text": "I'm still not quite sure what you mean about songs or strength.", "topic": "TALK_BONE_SEER_SONG3" },
+      { "text": "Does anyone else, uh, believe this?", "topic": "TALK_BONE_SEER_OTHERS" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_SONG3",
+    "dynamic_line": "Only when you crush the bones of a body does it cease to rise. Only if you examine the bones can you see what was. Thus is the story. Whatever causes this change is alive, moving within us all, an inevitable part of this new world. It holds the power of change. When we hold the bones, we hold the power. Thus the strength. Together... they form a beautiful song.",
+    "responses": [ { "text": "I think I understand what you mean, though I am not sure if I agree.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_OTHERS",
+    "dynamic_line": "There are others who follow this cause. You'd do well to aid them, for though we may not be numerous, we are emboldened by the songs we carry.",
+    "responses": [
+      { "text": "I will bear that in mind", "topic": "TALK_NONE" },
+      { "text": "Cause? Why do you gather these bones anyway?", "topic": "TALK_BONE_SEER_BONES" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_BONES",
+    "dynamic_line": "The song can be weaved in many forms. Carved bone charms, weapons and armor all hold immense power, and when the time comes, me and my kindred shall gather a great amount of song and sing it to restore this world. Restore it, or end it. Makes no difference.",
+    "responses": [ { "text": "End the world? What?", "topic": "TALK_BONE_SEER_END" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_END",
+    "dynamic_line": "We believe that enough power in one song could revert the Cataclysm - or accelerate it to a time beyond all, ending it all the same. But with the world looking as is, both options are preferable.",
+    "responses": [
+      {
+        "text": "Sounds somewhat... doomsday-ish, but I suppose it's a belief like any other. Still, at least you have a goal to help the world, one way or another.",
+        "topic": "TALK_BONE_SEER_ACOLYTE"
+      },
+      { "text": "You're nuts.", "topic": "TALK_BONE_SEER_INSULT" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_ACOLYTE",
+    "dynamic_line": "Your mind is open. More than most. Perhaps one day, you too will feel the power of the song and become Kindred. For now, Acolyte, listen, listen and feel the song.",
+    "responses": [ { "text": "I... thank you.", "topic": "TALK_BONE_SEER" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_INSULT",
+    "dynamic_line": "Your skepticism does not surprise me. Perhaps one day, you too will hear the inevitability of the song, feel its power. But until then, you will remain an Acolyte, path to the Kindred closed.",
+    "responses": [ { "text": "Yeah, alright.", "topic": "TALK_BONE_SEER" } ]
+  },
+  {
+    "id": "MISSION_SEER_GATHER_BONE",
+    "type": "mission_definition",
+    "name": "Gather bones for the Brigitte. About 8 should do it.",
+    "difficulty": 1,
+    "value": 10000,
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "bone",
+    "count": 8,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "end": {
+      "effect": [
+        {
+          "u_add_var": "NC_SEER_MISSION_1",
+          "type": "general",
+          "context": "mission",
+          "value": "yes",
+          "u_add_trait": "seer_mark"
+        }
+      ]
+    },
+    "dialogue": {
+      "describe": "There is always work to be done, song to be woven.",
+      "offer": "If you wish to be set on the path to enlightenment, first you must learn to listen and hear the song. Go out, butcher a creature and feel the power between your fingertips. Then bring me the bones and I shall carve them for you.",
+      "accepted": "Excellent. Now be on your way.",
+      "rejected": "I understand your reluctancy. Feel free to return when you see the way.",
+      "advice": "The shambling corpses we see all around move in discord. Their song can be used, but for an Acolyte, this would be needlessly hard. Be sure to carve an unspoiled living creature.",
+      "inquire": "Have you felt the song in your hands yet?",
+      "success": "And so, another cycle ends. You have done well. I will now bestow my mark upon you, so that others may know the path you walk and aid you.",
+      "success_lie": "So you say, but the song sings otherwise.",
+      "failure": "Then you shall try again, until you hear."
+    }
+  },
+  {
+    "id": "TALK_MISSION_LIST_SEER",
+    "type": "talk_topic",
+    "category": "CATEGORY_MISSION_SEER",
+    "dynamic_line": {
+      "has_no_available_mission": {
+        "has_no_assigned_mission": "The song is... quiet for now. Perhaps with time, more notes will be etched in the bones of this world.",
+        "no": { "has_many_assigned_missions": "An acolyte should not take on too many songs at once.", "no": "That is all for now." }
+      },
+      "no": {
+        "has_many_available_missions": {
+          "has_no_assigned_mission": "There are bones to etch, songs to sing. Wish to join me?",
+          "no": {
+            "has_many_assigned_missions": "Do you wish to take on more songs?",
+            "no": "Do you believe you can take on the burden of additional bones?"
+          }
+        },
+        "no": {
+          "has_no_assigned_mission": "A song may yet be sung by you, should you wish to.",
+          "no": {
+            "has_many_assigned_missions": "There is an additional song you could take on, if you'd like.",
+            "no": "I know of certain bones that could be of use, if you'd like to know more."
+          }
+        }
+      }
+    },
+    "responses": [
+      { "text": "I see.", "topic": "TALK_NONE", "condition": "has_no_available_mission" },
+      {
+        "text": "I'm listening.",
+        "topic": "TALK_MISSION_OFFER_SEER",
+        "condition": { "not": "has_no_available_mission" }
+      },
+      {
+        "text": "Perhaps another time, Seer.",
+        "topic": "TALK_NONE",
+        "condition": { "not": "has_no_available_mission" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_MISSION_OFFER_SEER",
+    "type": "talk_topic",
+    "category": "CATEGORY_MISSION_SEER",
+    "dynamic_line": "If you wish to be set on the path to enlightenment, first you must learn to listen and hear the song. Go out, butcher a creature and feel the power between your fingertips. Then bring me the bones and I shall carve them for you. ",
+    "responses": [
+      {
+        "text": "Well, I guess I oughta see where this goes. I'm in.",
+        "topic": "TALK_MISSION_ACCEPTED_SEER",
+        "effect": "assign_mission"
+      },
+      { "text": "Not interested.", "topic": "TALK_MISSION_REJECTED_SEER" }
+    ]
+  },
+  {
+    "id": "TALK_MISSION_ACCEPTED_SEER",
+    "type": "talk_topic",
+    "category": "CATEGORY_MISSION_SEER",
+    "dynamic_line": "Excellent. Now be on your way.",
+    "responses": [
+      { "text": "Consider it done. But I also wanted to ask...", "topic": "TALK_BONE_SEER" },
+      { "text": "Where should I start?", "topic": "TALK_MISSION_ADVICE_SEER" },
+      { "text": "Can you share some equipment to aid me in this?", "topic": "TALK_SHARE_EQUIPMENT_SEER" },
+      { "text": "I'm off then.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_MISSION_ADVICE_SEER",
+    "type": "talk_topic",
+    "category": "CATEGORY_MISSION_SEER",
+    "dynamic_line": "The shambling corpses we see all around move in discord. Their song can be used, but for an Acolyte, this would be needlessly hard. Be sure to carve an unspoiled living creature.",
+    "responses": [ { "text": "So, a creature that isn't a zombie, or a monster. Got it.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_SHARE_EQUIPMENT_SEER",
+    "type": "talk_topic",
+    "category": "CATEGORY_MISSION_SEER",
+    "dynamic_line": "The path to enlightenment is for you to walk. For me to aid you would ultimately impede your progress and muddle your song.",
+    "responses": [ { "text": "I see. Very well then.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_SUGGEST_FOLLOW_SEER",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_trait": "seer_mark",
+      "type": "dialogue",
+      "context": "mark_of_the_seer",
+      "value": "yes",
+      "no": "Only those who bear my mark will prove themselves worthy of my skills.",
+      "yes": "You bear my mark, meaning I believe you have potential to learn to truly listen to the Song. Yes, I will lend my skills to you, for now."
+    },
+    "responses": [
+      { "text": "I see. Very well then.", "topic": "TALK_NONE", "condition": { "not": { "u_has_trait": "seer_mark" } } },
+      {
+        "text": "I am glad to hear it. Let's go then.",
+        "effect": "follow",
+        "condition": { "u_has_trait": "seer_mark" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "That's good, but I need to go at it alone right now. Maybe later.",
+        "condition": { "u_has_trait": "seer_mark" },
+        "topic": "TALK_NONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_MISSION_REJECTED_SEER",
+    "type": "talk_topic",
+    "dynamic_line": "I understand your reluctancy. Feel free to return when you see the way.",
+    "responses": [
+      { "text": "Maybe some other time. Changing the topic...", "topic": "TALK_NONE" },
+      { "text": "Alright, but I have to go now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BONE_SEER_CYCLE",
+    "dynamic_line": "It's not just walking horrors and monsters that have changed with the Cataclysm. It started a... cycle, of sorts. Everything repeats. We can only see it in others, but it happens to us, even you and I. How many times have you fallen? Your flesh rent from your body, devoured. Or perhaps it was the quiet whimper of death to exposure. But your bones rose again. Different flesh, different name, sometimes even different knowledge, but the bones, the same. We are all trapped in the same cycle. We just keep forgetting. That's why we need to amass the Song. That's why it has to end, even if it means the destruction, not restoration.",
+    "responses": [
+      {
+        "text": "That is... that's really one hell of a belief. Well, if it helps you deal with the world, who am I to argue.",
+        "topic": "TALK_NONE"
+      },
+      { "text": "And here I thought you were nuts before. I'm out of here.", "topic": "TALK_DONE" }
+    ]
+  }
+]

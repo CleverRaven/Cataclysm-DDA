@@ -484,14 +484,15 @@ class monster : public Creature
         void init_from_item( const item &itm );
 
         time_point last_updated = calendar::turn_zero;
-        int last_baby;
-        int last_biosig;
         /**
          * Do some cleanup and caching as monster is being unloaded from map.
          */
         void on_unload();
         /**
          * Retroactively update monster.
+         * Call this after a preexisting monster has been placed on map.
+         * Don't call for monsters that have been freshly created, it may cause
+         * the monster to upgrade itself into another monster type.
          */
         void on_load();
 
