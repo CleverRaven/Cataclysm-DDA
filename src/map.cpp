@@ -6705,7 +6705,9 @@ void map::shift( const point &sp )
             support_cache_dirty.insert( pt + point( -sp.x * SEEX, -sp.y * SEEY ) );
         }
     }
-    calc_max_populated_zlev();
+    if( zlevels ) {
+        calc_max_populated_zlev();
+    }
 }
 
 void map::vertical_shift( const int newz )
