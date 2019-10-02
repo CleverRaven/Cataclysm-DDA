@@ -354,5 +354,17 @@
     "message": "",
     "min_range": 40,
     "max_range": 40
+  },
+  {
+    "type": "SPELL",
+    "id": "AEA_MAP",
+    "effect": "map",
+    "name": "Artifact Map",
+    "description": "Reveals an area around you on the overmap",
+    "valid_targets": [ "self" ],
+    "min_aoe": 20,
+    "max_aoe": 20,
+    "message": "You have a vision of the surrounding area...",
+    "base_casting_time": 100
   }
 ]
