@@ -229,7 +229,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         if( ups_drain > 0 ) {
             ammo_count = std::min( ammo_count, ups_charges / ups_drain );
         }
-        std::int64_t cbm_ammo = free_power / units::to_kilojoule( bionics[bio.id].power_activate );
+        int cbm_ammo = free_power / units::to_kilojoule( bionics[bio.id].power_activate );
 
         if( weapon_value( weapon, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
             real_weapon = weapon;
