@@ -505,8 +505,8 @@ class inscribe_actor : public iuse_actor
         };
 
         // How will the inscription be described
-        std::string verb = "Carve";
-        std::string gerund = "Carved";
+        translation verb = to_translation( "Carve" );
+        translation gerund = to_translation( "Carved" );
 
         bool item_inscription( item &cut ) const;
 

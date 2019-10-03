@@ -1608,7 +1608,7 @@ bool inscribe_actor::item_inscription( item &cut ) const
     }
 
     if( material_restricted && !cut.made_of_any( material_whitelist ) ) {
-        std::string lower_verb = _( verb );
+        std::string lower_verb = verb.translated();
         std::transform( lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower );
         add_msg( m_info, _( "You can't %1$s %2$s because of the material it is made of." ),
                  lower_verb, cut.display_name() );
@@ -1621,7 +1621,7 @@ bool inscribe_actor::item_inscription( item &cut ) const
     };
 
     uilist menu;
-    menu.text = string_format( _( "%s meaning?" ), _( verb ) );
+    menu.text = string_format( _( "%s meaning?" ), verb );
     menu.addentry( INSCRIPTION_LABEL, true, -1, _( "It's a label" ) );
     menu.addentry( INSCRIPTION_NOTE, true, -1, _( "It's a note" ) );
     menu.query();
@@ -1645,10 +1645,10 @@ bool inscribe_actor::item_inscription( item &cut ) const
     std::string messageprefix = string_format( hasnote ? _( "(To delete, input one '.')\n" ) : "" ) +
                                 //~ %1$s: gerund (e.g. carved), %2$s: item name
                                 string_format( pgettext( "carving", "%1$s on the %2$s is: " ),
-                                        _( gerund ), cut.type_name() );
+                                        gerund, cut.type_name() );
 
     string_input_popup popup;
-    popup.title( string_format( _( "%s what?" ), _( verb ) ) )
+    popup.title( string_format( _( "%s what?" ), verb ) )
     .width( 64 )
     .text( hasnote ? cut.get_var( carving ) : "" )
     .description( messageprefix )
@@ -1664,7 +1664,7 @@ bool inscribe_actor::item_inscription( item &cut ) const
         cut.erase_var( carving_type );
     } else {
         cut.set_var( carving, message );
-        cut.set_var( carving_type, _( gerund ) );
+        cut.set_var( carving_type, gerund.translated() );
     }
 
     return true;
@@ -1679,7 +1679,7 @@ int inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
     int choice = INT_MAX;
     if( on_terrain && on_items ) {
         uilist imenu;
-        imenu.text = string_format( _( "%s on what?" ), _( verb ) );
+        imenu.text = string_format( _( "%s on what?" ), verb );
         imenu.addentry( 0, true, MENU_AUTOASSIGN, _( "The ground" ) );
         imenu.addentry( 1, true, MENU_AUTOASSIGN, _( "An item" ) );
         imenu.query();
@@ -1695,7 +1695,7 @@ int inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
     }
 
     if( choice == 0 ) {
-        return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), _( verb ) ), p.pos() );
+        return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), verb ), p.pos() );
     }
 
     int pos = g->inv_for_all( _( "Inscribe which item?" ) );

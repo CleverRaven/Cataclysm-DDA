@@ -72,6 +72,7 @@ ignorable = {
     "event_statistic",
     "EXTERNAL_OPTION",
     "GAME_OPTION",
+    "hit_range",
     "ITEM_BLACKLIST",
     "item_group",
     "ITEM_OPTION",
@@ -103,7 +104,6 @@ ignorable = {
     "vehicle_group",
     "vehicle_placement",
     "WORLD_OPTION",
-    "enchantment"
 }
 
 # these objects can have their strings automatically extracted.

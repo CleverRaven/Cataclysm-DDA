@@ -274,6 +274,7 @@ new syntax "name" would be a `dict`, which may break unmigrated script.
 | Recipe group recipe descriptions
 | Item descriptions
 | Recipe descriptions
+| Inscribe use action verbs/gerunds
 
 ### Recommendations
 
