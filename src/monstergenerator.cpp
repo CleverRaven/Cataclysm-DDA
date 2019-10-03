@@ -786,7 +786,6 @@ void mtype::load( JsonObject &jo, const std::string &src )
                            time_duration::units );
         }
 
-
         optional( biosig, was_loaded, "biosig_item", biosig_item, auto_flags_reader<itype_id> {},
                   "null" );
         biosignatures = true;

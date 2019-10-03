@@ -4642,7 +4642,6 @@ int item::get_encumber_when_containing(
         }
     }
 
-
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
     if( has_flag( "FIT" ) && has_flag( "VARSIZE" ) ) {
         encumber = std::max( encumber / 2, encumber - 10 );

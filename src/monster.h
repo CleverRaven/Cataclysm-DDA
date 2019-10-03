@@ -203,7 +203,6 @@ class monster : public Creature
         // chance is the one_in( chance ) that the monster will drown
         bool die_if_drowning( const tripoint &at_pos, int chance = 1 );
 
-
         tripoint scent_move();
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
         int calc_climb_cost( const tripoint &f, const tripoint &t ) const;
@@ -495,7 +494,6 @@ class monster : public Creature
          * the monster to upgrade itself into another monster type.
          */
         void on_load();
-
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::set<tripoint> get_path_avoid() const override;

@@ -261,7 +261,6 @@ void auto_note_manager_gui::show()
         currentX += shortcut_print( w_header, point( currentX, 0 ), c_white, c_light_green,
                                     _( "<S>witch " ) );
 
-
         // Clear table
         for( int y = 0; y < iContentHeight; y++ ) {
             for( int x = 0; x < 79; x++ ) {

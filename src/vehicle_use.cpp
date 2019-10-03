@@ -1126,7 +1126,6 @@ void vehicle::crash_terrain_around()
     }
 }
 
-
 void vehicle::transform_terrain()
 {
     for( const vpart_reference &vp : get_enabled_parts( "TRANSFORM_TERRAIN" ) ) {
