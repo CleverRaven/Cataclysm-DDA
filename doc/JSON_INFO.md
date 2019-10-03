@@ -1,5 +1,7 @@
 # JSON INFO
 
+Use the `Home` key to return to the top.
+
 - [Introduction](#introduction)
 - [File descriptions](#file-descriptions)
   * [`data/json/`](#-data-json--)
