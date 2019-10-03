@@ -3108,10 +3108,10 @@
     ]
   },
   {
-    "id": "mon_zombie_retched",
+    "id": "mon_zombie_wretched",
 	  "looks_like": "mon_zombie_rot",
     "type": "MONSTER",
-    "name": "retched puker",
+    "name": "wretched puker",
     "description": "A degenerate corpse, shambling as it walks. Several junks and waste materials have unified into its skin and wounds around it reeks in black goo.",
     "default_faction": "zombie",
     "bodytype": "human",
