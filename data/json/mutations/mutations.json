@@ -1097,7 +1097,7 @@
     "type": "mutation",
     "id": "SCHIZOPHRENIC",
     "name": "Schizophrenic",
-    "points": -2,
+    "points": -3,
     "description": "You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of Thorazine.",
     "starting_trait": true,
     "valid": false,
@@ -5182,8 +5182,10 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 5,
-    "//~": "The idea is that you, for lack of a better term, plant yourself.  Crafting and digging don't count because they presume a certain amount of movement during the task.  The handheld game does count.",
-    "description": "It's about time you started developing a root system.  When reading, fishing, waiting, or otherwise being stationary for a while on diggable terrain, you'll extract nutrients and water from the soil.",
+    "description": {
+      "//~": "The idea is that you, for lack of a better term, plant yourself.  Crafting and digging don't count because they presume a certain amount of movement during the task.  The handheld game does count.",
+      "str": "It's about time you started developing a root system.  When reading, fishing, waiting, or otherwise being stationary for a while on diggable terrain, you'll extract nutrients and water from the soil."
+    },
     "types": [ "LEGS" ],
     "prereqs": [ "ROOTS1" ],
     "threshreq": [ "THRESH_PLANT" ],

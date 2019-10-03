@@ -2240,8 +2240,10 @@
       "npc_descriptions": [ "play a little tune on the tuba.", "play a ditty on the tuba.", "play a marching tune on the tuba." ]
     },
     "symbol": "&",
-    "//~": "ol' is an informal short-form for old, and here is part of big-ol as large-and-cumbersome.",
-    "description": "A big ol' tuba.  Much easier to play when wearing.",
+    "description": {
+      "//~": "ol' is an informal short-form for old, and here is part of big-ol as large-and-cumbersome.",
+      "str": "A big ol' tuba.  Much easier to play when wearing."
+    },
     "price": 5500,
     "material": [ "iron" ],
     "volume": "12500 ml",

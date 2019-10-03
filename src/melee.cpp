@@ -1033,7 +1033,6 @@ matec_id player::pick_technique( Creature &t, const item &weap,
             continue;
         }
 
-
         // skip wall adjacent techniques if not next to a wall
         if( tec.wall_adjacent && !wall_adjacent ) {
             continue;

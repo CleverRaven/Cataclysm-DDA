@@ -1725,7 +1725,8 @@ void map::creature_in_field( Creature &critter )
         }
         const field_type_id cur_field_id = cur_field_entry.get_field_type();
         const effect field_fx = cur_field_entry.field_effect();
-        if( critter.is_immune_field( cur_field_id ) || field_fx.get_id().is_empty() ||
+        if( field_fx.is_null() ||
+            critter.is_immune_field( cur_field_id ) || field_fx.get_id().is_empty() ||
             critter.is_immune_effect( field_fx.get_id() ) ) {
             continue;
         }

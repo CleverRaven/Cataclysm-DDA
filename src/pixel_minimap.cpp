@@ -33,7 +33,6 @@
 #include <utility>
 #include <vector>
 
-
 extern void set_displaybuffer_rendertarget();
 
 namespace

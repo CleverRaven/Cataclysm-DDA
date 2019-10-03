@@ -144,7 +144,6 @@ struct mutation_branch {
         /**How fast does healthy tends toward healthy_mod*/
         float healthy_rate = 1.0f;
 
-
         /**maximum damage dealt by water every minute when wet. Can be negative and regen hit points.*/
         int weakness_to_water = 0;
 

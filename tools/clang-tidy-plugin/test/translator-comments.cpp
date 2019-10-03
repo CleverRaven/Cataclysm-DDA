@@ -30,11 +30,15 @@ class translation
     public:
         static translation to_translation( const std::string & );
         static translation to_translation( const std::string &, const std::string & );
+        static translation pl_translation( const std::string &, const std::string & );
+        static translation pl_translation( const std::string &, const std::string &, const std::string & );
         static translation no_translation( const std::string & );
 };
 
 translation to_translation( const std::string & );
 translation to_translation( const std::string &, const std::string & );
+translation pl_translation( const std::string &, const std::string & );
+translation pl_translation( const std::string &, const std::string &, const std::string & );
 translation no_translation( const std::string & );
 
 void foo()
@@ -71,6 +75,9 @@ void foo()
     ngettext( "bar", "baz", 1 );
 
     /*~ bar */ to_translation( "bar" );
+
+    /*~ bar */
+    pl_translation( "bar", "baz" );
 
     _( /*~ bar */ "bar" );
 
