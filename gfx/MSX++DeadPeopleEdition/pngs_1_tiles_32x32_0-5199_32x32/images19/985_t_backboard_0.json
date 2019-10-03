@@ -1,0 +1,1 @@
+{"additional_tiles": [{"bg": ["985_t_backboard_0"], "id": "corner", "fg": []}, {"bg": [], "id": "center", "fg": []}, {"bg": [], "id": "t_connection", "fg": []}], "multitile": true, "bg": ["985_t_backboard_0"], "id": "t_missile_exploded", "fg": []}

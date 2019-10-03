@@ -1,0 +1,103 @@
+[
+  {
+    "width": 32,
+    "pixelscale": 1,
+    "height": 32
+  },
+  {
+    "1_tiles_32x32_0-5199.png": { "//": "indices 0 to 5199" }
+  },
+  {
+    "2_expan_32x32_5200-5391.png": { "//": "indices 5200 to 5391" }
+  },
+  {
+    "3_tree_64x80_5392-5471.png": {
+      "//": "indices 5392 to 5471",
+      "sprite_offset_x": -16,
+      "sprite_offset_y": -48,
+      "sprite_height": 80,
+      "sprite_width": 64
+    }
+  },
+  {
+    "4_fallback_5472-9567.png": { "fallback": true }
+  },
+  {
+    "5_tiles_character_customization_32x32_9568-11567.png": { "//": "indices 9568 to 11567" }
+  },
+  {
+    "6_tiles_wide_monsters_160x128_11568-11603.png": {
+      "//": "indices 11568 to 11603",
+      "sprite_offset_x": -48,
+      "sprite_offset_y": -48,
+      "sprite_height": 128,
+      "sprite_width": 160
+    }
+  },
+  {
+    "7_expan2_32x32_11604-11651.png": {
+      "//": "indices 11604 to 11651",
+      "sprite_offset_x": 0,
+      "sprite_offset_y": -16,
+      "sprite_height": 32,
+      "sprite_width": 32
+    }
+  },
+  {
+    "8_tiles-monster-variants_32x32_11652-16851.png": { "//": "indices 11652 to 16851" }
+  },
+  {
+    "9_tiles-connected_32x32_16852-22051.png": { "//": "indices 16852 to 22051" }
+  },
+  {
+    "10_xfiles_32x32_22052-22195.png": { "//": "indices 22052 to 22195" }
+  },
+  {
+    "11_tiles_kawaiimaidmod_32x32_22196-22291.png": { "//": "indices 22196 to 22291" }
+  },
+  {
+    "12_tiles_kawaiimaidmod_offset_32x32_22292-22339.png": { "//": "indices 22292 to 22339", "sprite_offset_x": 0, "sprite_offset_y": -4, "sprite_height": 32, "sprite_width": 32 }
+  },
+  {
+    "13_tiles_kawaiimaidmod_64x48-22340-22364.png": {
+      "//": "indices 22340 to 22364",
+      "sprite_offset_x": -16,
+      "sprite_offset_y": -16,
+      "sprite_height": 48,
+      "sprite_width": 64
+    }
+  },
+  {
+    "14_tiles2_32x32_22365-27564.png": { "//": "indices 22365 to 27564" }
+  },
+  {
+    "15_tiles-connected_variants_32x32_27565-32764.png": { "//": "indices 27565 to 32764" }
+  },
+  {
+    "16_tiles_trees_64x80_32765-33164.png": {
+      "//": "indices 32765 to 33164",
+      "sprite_offset_x": -16,
+      "sprite_offset_y": -48,
+      "sprite_height": 80,
+      "sprite_width": 64
+    }
+  },
+  {
+    "17_top_hats_32x32-33165-35756.png": {
+      "//": "indices 33165 to 35756",
+      "sprite_offset_x": 0,
+      "sprite_offset_y": -16,
+      "sprite_height": 32,
+      "sprite_width": 32
+    }
+  },
+  {
+    "18_big_things_64x80_35757-36076.png": {
+      "//": "indices 35757 to 36076",
+      "sprite_offset_x": -16,
+      "sprite_offset_y": -48,
+      "sprite_height": 80,
+      "sprite_width": 64
+    }
+  }
+]

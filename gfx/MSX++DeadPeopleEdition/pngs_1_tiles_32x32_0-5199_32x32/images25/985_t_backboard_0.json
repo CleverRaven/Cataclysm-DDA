@@ -1,0 +1,1 @@
+{"bg": ["985_t_backboard_0"], "additional_tiles": [{"bg": [], "id": "corner", "fg": ["4285_t_pavement_1", "4286_t_pavement_2", "4287_t_pavement_3", "4288_t_pavement_4"]}], "fg": ["985_t_backboard_0"], "multitile": false, "rotates": false, "id": "t_pavement"}

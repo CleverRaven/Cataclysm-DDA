@@ -1,0 +1,1 @@
+{"bg": [], "additional_tiles": [{"bg": [], "id": "open", "fg": ["24878_vp_nano_door_1"]}, {"bg": [], "id": "broken", "fg": ["24879_vp_nano_door_2"]}], "fg": ["24877_vp_nano_door_0"], "multitile": true, "rotates": true, "id": "vp_nano_door"}

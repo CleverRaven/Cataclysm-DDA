@@ -1,0 +1,1 @@
+{"bg": ["985_t_backboard_0"], "additional_tiles": [{"bg": [], "id": "center", "fg": []}, {"bg": [], "id": "corner", "fg": []}, {"bg": [], "id": "edge", "fg": []}, {"bg": [], "id": "end_piece", "fg": []}, {"bg": [], "id": "unconnected", "fg": []}], "fg": [], "multitile": true, "rotates": false, "id": "t_swater_dp"}
