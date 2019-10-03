@@ -30,7 +30,7 @@
     "type": "item_group",
     "id": "NC_ROBOFAC_INTERCOM_trade",
     "subtype": "collection",
-    "entries": [ { "group": "robofac_basic_trade", "repeat": [ 15, 25 ] } ]
+    "entries": [ { "group": "robofac_basic_trade", "count": [ 15, 25 ] } ]
   },
   {
     "type": "item_group",

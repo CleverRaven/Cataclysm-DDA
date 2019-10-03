@@ -412,7 +412,7 @@
     "melee_skill": 3,
     "melee_dice_sides": 6,
     "melee_cut": 3,
-    "loos_like": "mon_fish_pike",
+    "looks_like": "mon_fish_pike",
     "description": "A Muskellunge.  Closely related to pike, it shares the same aggression and sharp teeth."
   },
   {

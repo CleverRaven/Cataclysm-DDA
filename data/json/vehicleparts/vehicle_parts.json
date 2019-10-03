@@ -1318,7 +1318,7 @@
     "folded_volume": 3,
     "flags": [ "MOUNTABLE", "FOLDABLE", "BOARDABLE", "CARGO" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ],
-    "damage_reduction": { "smash": 10 }
+    "damage_reduction": { "bash": 10 }
   },
   {
     "type": "vehicle_part",
@@ -1336,7 +1336,7 @@
     "folded_volume": 3,
     "flags": [ "FLOATS", "VARIABLE_SIZE", "FOLDABLE" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ],
-    "damage_reduction": { "smash": 10 }
+    "damage_reduction": { "bash": 10 }
   },
   {
     "type": "vehicle_part",

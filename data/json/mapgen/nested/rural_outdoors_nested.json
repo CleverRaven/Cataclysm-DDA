@@ -13,7 +13,7 @@
         "____"
       ],
       "palettes": [ "desolatebarn_palette" ],
-      "C": { "items": [ { "item": "wood_stash", "chance": 60, "repeat": [ 1, 4 ] } ] },
+      "items": { "C": { "item": "stash_wood", "chance": 60, "repeat": [ 1, 4 ] } },
       "place_monster": [ { "monster": "mon_dog_zombie_rot", "chance": 60, "x": 1, "y": 1 } ]
     }
   },
@@ -47,7 +47,7 @@
         "____"
       ],
       "palettes": [ "desolatebarn_palette" ],
-      "C": { "items": [ { "item": "hardware", "chance": 60, "damage": [ 1, 4 ] } ] }
+      "items": { "C": { "item": "hardware", "chance": 60 } }
     }
   },
   {
@@ -64,8 +64,7 @@
         "__R_"
       ],
       "palettes": [ "desolatebarn_palette" ],
-      "^": { "items": [ { "item": "hardware", "chance": 10, "damage": [ 1, 4 ] } ] },
-      "R": { "items": [ { "item": "hardware", "chance": 25, "damage": [ 1, 4 ] } ] },
+      "items": { "^": { "item": "hardware", "chance": 10 }, "R": { "item": "hardware", "chance": 25 } },
       "place_monster": [ { "monster": "mon_dog_skeleton", "chance": 60, "x": 2, "y": 1 } ]
     }
   },
@@ -99,7 +98,7 @@
         "_mg^"
       ],
       "palettes": [ "desolatebarn_palette" ],
-      "^": { "items": [ { "item": "hardware", "chance": 10, "damage": [ 1, 4 ] } ] }
+      "items": { "^": { "item": "hardware", "chance": 10 } }
     }
   },
   {
@@ -316,7 +315,7 @@
         "....#..."
       ],
       "palettes": [ "desolatebarn_palette" ],
-      "r": { "items": [ { "item": "hardware", "chance": 10, "damage": [ 1, 4 ] } ] }
+      "items": { "r": { "item": "hardware", "chance": 10 } }
     }
   },
   {
@@ -360,7 +359,7 @@
         "...d...."
       ],
       "palettes": [ "desolatebarn_palette" ],
-      ".": { "items": [ { "item": "hardware", "chance": 10, "damage": [ 1, 4 ] } ] }
+      "items": { ".": { "item": "hardware", "chance": 10 } }
     }
   },
   {
@@ -382,7 +381,7 @@
         "...d...."
       ],
       "palettes": [ "desolatebarn_palette" ],
-      "r": { "items": [ { "item": "hardware", "chance": 10, "damage": [ 1, 4 ] } ] }
+      "items": { "r": { "item": "hardware", "chance": 10 } }
     }
   },
   {

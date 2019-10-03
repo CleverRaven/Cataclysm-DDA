@@ -2,22 +2,26 @@
   {
     "type": "item_group",
     "id": "npc_underwear_bottom_male",
-    "groups": [ [ "male_underwear_bottom", 95 ], [ "null", 5 ] ]
+    "subtype": "collection",
+    "groups": [ [ "male_underwear_bottom", 95 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_underwear_bottom_female",
-    "groups": [ [ "female_underwear_bottom", 95 ], [ "null", 5 ] ]
+    "subtype": "collection",
+    "groups": [ [ "female_underwear_bottom", 95 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_underwear_top_male",
-    "groups": [ [ "male_underwear_top", 50 ], [ "null", 50 ] ]
+    "subtype": "collection",
+    "groups": [ [ "male_underwear_top", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_underwear_top_female",
-    "groups": [ [ "female_underwear_top", 95 ], [ "null", 5 ] ]
+    "subtype": "collection",
+    "groups": [ [ "female_underwear_top", 95 ] ]
   },
   {
     "type": "item_group",

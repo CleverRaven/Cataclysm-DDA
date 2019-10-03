@@ -60,7 +60,7 @@
     "weight": "322 g",
     "volume": "250 ml",
     "bashing": 3,
-    "to_hit:": -1
+    "to_hit": -1
   },
   {
     "id": "base_glass_dish",
@@ -75,7 +75,7 @@
     "weight": "322 g",
     "volume": "250 ml",
     "bashing": 3,
-    "to_hit:": -1
+    "to_hit": -1
   },
   {
     "id": "base_tin_dish",
@@ -90,7 +90,7 @@
     "weight": "262 g",
     "volume": "250 ml",
     "bashing": 2,
-    "to_hit:": -1
+    "to_hit": -1
   },
   {
     "id": "base_plastic_dish",
@@ -105,7 +105,7 @@
     "weight": "130 g",
     "volume": "250 ml",
     "bashing": 1,
-    "to_hit:": -1
+    "to_hit": -1
   },
   {
     "id": "base_cookpot",
@@ -340,9 +340,7 @@
     "proportional": { "weight": 0.4, "volume": 0.5 },
     "description": "A plastic cup with a spill-proof lid, designed for use by children.",
     "copy-from": "base_plastic_dish",
-    "contains": "250 ml",
-    "watertight": true,
-    "seals": true,
+    "container_data": { "contains": "250 ml", "watertight": true, "seals": true },
     "qualities": [ [ "CONTAIN", 1 ] ],
     "snippet_category": [
       { "id": "sippycup1", "text": "This cup is decorated with cartoon bears." },
@@ -402,8 +400,6 @@
     "description": "A plastic spoon designed for use by children.",
     "looks_like": "spoon",
     "copy-from": "base_plastic_silverware",
-    "contains": "250 ml",
-    "watertight": true,
     "qualities": [ [ "CONTAIN", 1 ] ],
     "snippet_category": [
       { "id": "kspoon1", "text": "This spoon is striped in bright primary colors." },

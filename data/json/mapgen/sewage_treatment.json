@@ -105,32 +105,32 @@
     "id": "treatment_chemicals",
     "type": "item_group",
     "items": [
-      { "item": "bleach", "container-item": "55gal_drum", "charges-min": 10, "charges-max": 126, "chance": 50 },
+      { "item": "bleach", "container-item": "55gal_drum", "charges-min": 10, "charges-max": 126, "prob": 50 },
       {
         "item": "chem_sulphuric_acid",
         "container-item": "55gal_drum",
         "charges-min": 2,
         "charges-max": 50,
-        "chance": 20
+        "prob": 20
       },
       {
         "item": "material_quicklime",
         "container-item": "55gal_drum",
         "charges-min": 2,
         "charges-max": 50,
-        "chance": 20
+        "prob": 20
       },
-      { "item": "55gal_drum", "chance": 50 }
+      { "item": "55gal_drum", "prob": 50 }
     ]
   },
   {
     "id": "sewage_samples",
     "type": "item_group",
     "items": [
-      { "item": "sewage", "container-item": "flask_glass", "charges": 1, "chance": 50 },
-      { "item": "water", "container-item": "flask_glass", "charges": 1, "chance": 50 },
-      { "item": "water_clean", "container-item": "flask_glass", "charges": 1, "chance": 30 },
-      { "item": "slime_scrap", "container-item": "flask_glass", "charges": 1, "chance": 10 }
+      { "item": "sewage", "container-item": "flask_glass", "charges": 1, "prob": 50 },
+      { "item": "water", "container-item": "flask_glass", "charges": 1, "prob": 50 },
+      { "item": "water_clean", "container-item": "flask_glass", "charges": 1, "prob": 30 },
+      { "item": "slime_scrap", "container-item": "flask_glass", "charges": 1, "prob": 10 }
     ]
   },
   {
@@ -566,7 +566,7 @@
         "f": { "item": "fridgesnacks", "chance": 80, "repeat": [ 1, 2 ] }
       },
       "place_loot": [
-        { "item": "katana", "x": 2, "y": 11, "amount": 2 },
+        { "item": "katana", "x": 2, "y": 11, "repeat": 2 },
         { "item": "q_staff", "x": 3, "y": 12 },
         { "item": "television", "x": 1, "y": 15 },
         { "item": "judo_belt_orange", "x": 3, "y": 13 },
@@ -580,16 +580,16 @@
     "id": "cannibal_corpse",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "group": "clothing_work_set", "chance": 40 }, { "group": "supplies_plumbing", "chance": 20 }, { "item": "corpse" } ]
+    "items": [ { "group": "clothing_work_set", "prob": 40 }, { "group": "supplies_plumbing", "prob": 20 }, { "item": "corpse" } ]
   },
   {
     "id": "human_remains",
     "type": "item_group",
     "subtype": "collection",
     "items": [
-      { "item": "human_flesh", "chance": 70, "count-min": 1, "count-max": 10 },
-      { "item": "hstomach_large", "chance": 60 },
-      { "item": "hstomach", "chance": 60 },
+      { "item": "human_flesh", "prob": 70, "count-min": 1, "count-max": 10 },
+      { "item": "hstomach_large", "prob": 60 },
+      { "item": "hstomach", "prob": 60 },
       { "item": "bone_human", "prob": 90, "count-min": 1, "count-max": 5 },
       { "item": "rag_bloody", "prob": 90, "count-min": 1, "count-max": 4 }
     ]

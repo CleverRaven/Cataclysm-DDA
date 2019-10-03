@@ -1038,7 +1038,7 @@
         "need_charges_msg": "The smartphone's charge is too low.",
         "type": "transform"
       },
-      { "revert_to": "smart_phone", "type": "CAMERA" },
+      "CAMERA",
       "MP3"
     ],
     "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
@@ -7145,7 +7145,7 @@
     "turns_per_charge": 300,
     "revert_to": "hobo_stove",
     "use_action": [
-      { "type": "HOTPLATE", "moves": 60, "msg": "You heat up the food.", "menu_text": "Heat up food" },
+      "HOTPLATE",
       {
         "target": "hobo_stove",
         "msg": "The ember is extinguished.",
