@@ -252,8 +252,8 @@
     "type": "GUN",
     "name": "shotcestus",
     "description": "A double-barrel shotgun mounted on a metal cestus. The lack of a stock to absorb recoil means some strength is required to fire.",
-    "weight": "2267 g",
-    "volume": "2250 ml",
+    "weight": "1566 g",
+    "volume": "1500 ml",
     "price": 20000,
     "bashing": 12,
     "material": [ "steel" ],
@@ -262,14 +262,49 @@
     "ranged_damage": 1,
     "dispersion": 855,
     "durability": 6,
+    "blackpowder_tolerance": 66,
     "clip_size": 2,
+    "range": -8,
     "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
     "reload": 200,
-    "barrel_length": 4,
+    "barrel_length": 2,
     "valid_mod_locations": [
-      [ "accessories", 1 ],
       [ "mechanism", 1 ]
     ],
-    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NEVER_JAMS", "RELOAD_EJECT", "RELOAD_ONE" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
+  },
+  {
+    "id": "gunblade",
+    "type": "GUN",
+    "name": "gunblade",
+    "description": "Constructed similarly to a falcata, this forward-sloping blade has a pipe shotgun attached to the blade's spine for finishing blows or a first strike.",
+    "weight": "1539 g",
+    "volume": "1750 ml",
+    "price": 8000,
+    "to_hit": 2,
+    "bashing": 10,
+    "cutting": 22,
+    "material": [ "steel" ],
+    "symbol": "/",
+    "color": "dark_gray",
+    "techniques": [ "WBLOCK_2" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 20 ] ],
+    "skill": "shotgun",
+    "ranged_damage": 1,
+    "dispersion": 837,
+    "durability": 6,
+    "blackpowder_tolerance": 66,
+    "clip_size": 1,
+    "range": -4,
+    "modes": [ [ "DEFAULT", "single", 1 ] ],
+    "ammo": "shot",
+    "reload": 200,
+    "barrel_length": 2,
+    "valid_mod_locations": [
+      [ "mechanism", 1 ]
+    ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "NEVER_JAMS", "RELOAD_EJECT" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   }
 ]
