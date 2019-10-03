@@ -12,9 +12,10 @@ Here are a list of things that require balancing, modification, or implementatio
 ## Map Gen
 
 - Underground labs need a full rework
+- Railroad station needs... a railroad
 
 ### Item Gen
 
-- Subway station
+- Railroad station
 
 # C++
