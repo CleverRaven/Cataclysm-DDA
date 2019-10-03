@@ -508,7 +508,7 @@ class inscribe_actor : public iuse_actor
         translation verb = to_translation( "Carve" );
         translation gerund = to_translation( "Carved" );
 
-        bool item_inscription( item &cut ) const;
+        bool item_inscription( item &tool, item &cut ) const;
 
         inscribe_actor( const std::string &type = "inscribe" ) : iuse_actor( type ) {}
 

@@ -1600,7 +1600,7 @@ std::unique_ptr<iuse_actor> inscribe_actor::clone() const
     return std::make_unique<inscribe_actor>( *this );
 }
 
-bool inscribe_actor::item_inscription( item &cut ) const
+bool inscribe_actor::item_inscription( item &tool, item &cut ) const
 {
     if( !cut.made_of( SOLID ) ) {
         add_msg( m_info, _( "You can't inscribe an item that isn't solid!" ) );
@@ -1627,15 +1627,15 @@ bool inscribe_actor::item_inscription( item &cut ) const
     menu.query();
 
     std::string carving;
-    std::string carving_type;
+    std::string carving_tool;
     switch( menu.ret ) {
         case INSCRIPTION_LABEL:
             carving = "item_label";
-            carving_type = "item_label_type";
+            carving_tool = "item_label_tool";
             break;
         case INSCRIPTION_NOTE:
             carving = "item_note";
-            carving_type = "item_note_type";
+            carving_tool = "item_note_tool";
             break;
         default:
             return false;
@@ -1661,10 +1661,10 @@ bool inscribe_actor::item_inscription( item &cut ) const
     const std::string message = popup.text();
     if( hasnote && message == "." ) {
         cut.erase_var( carving );
-        cut.erase_var( carving_type );
+        cut.erase_var( carving_tool );
     } else {
         cut.set_var( carving, message );
-        cut.set_var( carving_type, gerund.translated() );
+        cut.set_var( carving_tool, tool.typeId() );
     }
 
     return true;
@@ -1700,9 +1700,17 @@ int inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
 
     int pos = g->inv_for_all( _( "Inscribe which item?" ) );
     item &cut = p.i_at( pos );
+    if( cut.is_null() ) {
+        p.add_msg_if_player( m_info, _( "Never mind." ) );
+        return 0;
+    }
+    if( &cut == &it ) {
+        p.add_msg_if_player( _( "You try to bend your %s, but fail." ), it.tname() );
+        return 0;
+    }
     // inscribe_item returns false if the action fails or is canceled somehow.
 
-    if( item_inscription( cut ) ) {
+    if( item_inscription( it, cut ) ) {
         return cost >= 0 ? cost : it.ammo_required();
     }
 

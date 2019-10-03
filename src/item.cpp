@@ -2916,20 +2916,24 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         std::map<std::string, std::string>::const_iterator item_note = item_vars.find( "item_note" );
-        std::map<std::string, std::string>::const_iterator item_note_type =
-            item_vars.find( "item_note_type" );
+        std::map<std::string, std::string>::const_iterator item_note_tool =
+            item_vars.find( "item_note_tool" );
 
         if( item_note != item_vars.end() && parts->test( iteminfo_parts::DESCRIPTION_NOTES ) ) {
             insert_separation_line();
             std::string ntext;
-            if( item_note_type != item_vars.end() ) {
+            const use_function *use_func = item_note_tool != item_vars.end() ?
+                                           item_controller->find_template( item_note_tool->second )->get_use( "inscribe" ) : nullptr;
+            const inscribe_actor *use_actor = use_func ?
+                                              dynamic_cast<const inscribe_actor *>( use_func->get_actor_ptr() ) : nullptr;
+            if( use_actor ) {
                 //~ %1$s: gerund (e.g. carved), %2$s: item name
-                ntext += string_format( pgettext( "carving", "%1$s on the %2$s is: " ),
-                                        item_note_type->second.c_str(), tname() );
+                ntext = string_format( pgettext( "carving", "%1$s on the %2$s is: %3$s" ),
+                                       use_actor->gerund, tname(), item_note->second );
             } else {
-                ntext += _( "Note: " );
+                ntext = string_format( pgettext( "carving", "Note: %1$s" ), item_note->second );
             }
-            info.push_back( iteminfo( "DESCRIPTION", ntext + item_note->second ) );
+            info.push_back( iteminfo( "DESCRIPTION", ntext ) );
         }
 
         // describe contents
