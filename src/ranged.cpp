@@ -250,7 +250,8 @@ bool player::handle_gun_damage( item &it )
             }
         }
     }
-    if( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( "NON-FOULING" ) ) {
+    if( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( "NON-FOULING" ) &&
+        !it.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
         if( curammo_effects.count( "BLACKPOWDER" ) ) {
             if( ( it.ammo_data()->ammo->recoil < firing->min_cycle_recoil ) &&
                 it.faults_potential().count( fault_gun_chamber_spent ) ) {
