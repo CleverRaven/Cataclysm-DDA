@@ -469,7 +469,7 @@ effect effect::null_effect;
 
 bool effect::is_null() const
 {
-    return this == &null_effect;
+    return !eff_type;
 }
 
 std::string effect::disp_name() const
