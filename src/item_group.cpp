@@ -216,6 +216,7 @@ void Item_modifier::modify( item &new_item ) const
             new_item.faults.emplace( "fault_gun_dirt" );
         }
     }
+
     int ch = ( charges.first == charges.second ) ? charges.first : rng( charges.first,
              charges.second );
 
