@@ -4067,6 +4067,7 @@ ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bo
     if( !it.is_bionic() ) {
         return ret_val<bool>::make_failure();
     }
+    const bionic_id &bid = it.type->bionic->id;
     if( p.is_mounted() ) {
         return ret_val<bool>::make_failure( _( "You can't install bionics while mounted." ) );
     }
@@ -4081,10 +4082,10 @@ ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bo
         } else if( it.has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
             return ret_val<bool>::make_failure(
                        _( "This CBM is already deployed.  You need to reset it to factory state." ) );
+        } else if( units::energy_max - p.max_power_level < bid->capacity ) {
+            return ret_val<bool>::make_failure( _( "Max power capacity already reached" ) );
         }
     }
-
-    const bionic_id &bid = it.type->bionic->id;
 
     if( p.has_bionic( bid ) ) {
         return ret_val<bool>::make_failure( _( "You have already installed this bionic." ) );
