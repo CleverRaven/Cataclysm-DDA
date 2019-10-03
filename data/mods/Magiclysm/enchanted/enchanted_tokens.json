@@ -17,7 +17,7 @@
     "id": "mtoken_longsword",
     "name": "longsword token",
     "name_plural": "longsword tokens",
-    "description": "A large silver coin that, when activted by uttering the word on the back, turns into the item pictured on the front, in this case a longsword.",
+    "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a longsword.",
     "use_action": {
       "type": "transform",
       "target": "longsword",
@@ -32,7 +32,7 @@
     "id": "mtoken_arming_sword",
     "name": "arming sword token",
     "name_plural": "arming sword tokens",
-    "description": "A large silver coin that, when activted by uttering the word on the back, turns into the item pictured on the front, in this case an arming sword.",
+    "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case an arming sword.",
     "use_action": {
       "type": "transform",
       "target": "arming_sword",
@@ -47,7 +47,7 @@
     "id": "mtoken_broadsword",
     "name": "broadsword token",
     "name_plural": "broadsword tokens",
-    "description": "A large silver coin that, when activted by uttering the word on the back, turns into the item pictured on the front, in this case a broadsword.",
+    "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a broadsword.",
     "use_action": {
       "type": "transform",
       "target": "broadsword",
@@ -62,7 +62,7 @@
     "id": "mtoken_battleaxe",
     "name": "battleaxe token",
     "name_plural": "battle axe tokens",
-    "description": "A large silver coin that, when activted by uttering the word on the back, turns into the item pictured on the front, in this case a battle axe.",
+    "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a battle axe.",
     "use_action": {
       "type": "transform",
       "target": "battleaxe",
@@ -77,7 +77,7 @@
     "id": "mtoken_battleaxe",
     "name": "battleaxe token",
     "name_plural": "battle axe tokens",
-    "description": "A large silver coin that, when activted by uttering the word on the back, turns into the item pictured on the front, in this case a battle axe.",
+    "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a battle axe.",
     "use_action": {
       "type": "transform",
       "target": "battleaxe",
