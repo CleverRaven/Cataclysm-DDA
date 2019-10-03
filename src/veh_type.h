@@ -279,10 +279,10 @@ class vpart_info
         transform_terrain_data transform_terrain;
 
         /*Comfort data for sleeping in vehicles*/
-        int comfort;
-        int floor_bedding_warmth;
-        int bonus_fire_warmth_feet;
 
+        int comfort = 0;
+        int floor_bedding_warmth = 0;
+        int bonus_fire_warmth_feet = 300;
 
         /**
          * @name Engine specific functions
