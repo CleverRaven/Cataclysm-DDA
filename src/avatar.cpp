@@ -630,7 +630,7 @@ bool avatar::read( int inventory_position, const bool continuous )
 		if( !continuous ) {
 			add_msg( m_good, _( "This is a comfortable place to read books." ) );
 		}
-		add_morale( MORALE_SIT, 1, 10, 1_minutes * time_taken + 10_minutes, 1_minutes * time_taken, true );
+		add_morale( MORALE_SIT, 1, 10, 1_minutes * time_taken + 1_minutes, 1_minutes * time_taken, true );
 	}
 
     assign_activity( act );
