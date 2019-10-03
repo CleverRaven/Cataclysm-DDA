@@ -707,7 +707,7 @@
     "id": "QUIT",
     "category": "WORLDGEN_CONFIRM_DIALOG",
     "name": "Exit worldgen screen",
-    "comment": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the world name entry feature of this dialog",
+    "//": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the world name entry feature of this dialog",
     "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
   },
   {
@@ -1060,7 +1060,7 @@
     "id": "QUIT",
     "category": "NEW_CHAR_DESCRIPTION",
     "name": "Exit new character screen",
-    "comment": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the character name entry feature of this dialog",
+    "//": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the character name entry feature of this dialog",
     "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
   },
   {
@@ -2303,7 +2303,7 @@
     "id": "QUIT",
     "category": "HELP_KEYBINDINGS",
     "name": "Exit this keybinding screen",
-    "comment": "separate entry, because the global entry also has 'q', 'Q' and space listed, which conflicts with the search text input",
+    "//": "separate entry, because the global entry also has 'q', 'Q' and space listed, which conflicts with the search text input",
     "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
   },
   {

@@ -456,7 +456,7 @@
     "difficulty": 2,
     "time": "5 m",
     "autolearn": true,
-    "note": "'stick the blob globs in a can and seal it' does not seem hugely challenging",
+    "//": "'stick the blob globs in a can and seal it' does not seem hugely challenging",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "canister_empty", 1 ] ], [ [ "slime_scrap", 10 ] ] ]
   },
