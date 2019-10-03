@@ -803,10 +803,8 @@ struct itype {
         std::string id = "null"; /** unique string identifier for this type */
 
         // private because is should only be accessed through itype::nname!
-        // name and name_plural are not translated automatically
         // nname() is used for display purposes
-        std::string name = "none";        // Proper name, singular form, in American English.
-        std::string name_plural = "none"; // name, plural form, in American English.
+        translation name = no_translation( "none" );
 
         /** If set via JSON forces item category to this (preventing automatic assignment) */
         std::string category_force;

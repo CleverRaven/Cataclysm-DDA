@@ -170,14 +170,23 @@ Examples:
 "//" : "comment", // Preferred method of leaving comments inside json files.
 ```
 
-Some json strings are extracted for translation, for example item names, descriptions, etc. The exact extraction is handled in `lang/extract_json_strings.py`. Apart from the obvious way of writing a string without translation context, the string can also have an optional translation context, by writing it like:
+Some json strings are extracted for translation, for example item names, descriptions, etc. The exact extraction is handled in `lang/extract_json_strings.py`. Apart from the obvious way of writing a string without translation context, the string can also have an optional translation context (and sometimes a plural form), by writing it like:
 
-```C++
-"name": { "ctxt": "foo", "str": "bar" }
+```JSON
+"name": { "ctxt": "foo", "str": "bar", "str_pl": "baz" }
 ```
 
-Currently, only some JSON values support this syntax (see [here](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/TRANSLATING.md#translation) for a list of supported values). If you want other json strings to support this format, look at `translations.h|cpp` and migrate the corresponding code to it. Changes to `extract_json_strings.py` might also be needed, as with the new syntax "name" would be a `dict`, which may break unmigrated script.
+You can also add comments for translators by adding a "//~" entry like below. The
+order of the entries does not matter.
 
+```JSON
+"name": {
+    "//~": "as in 'foobar'",
+    "str": "bar"
+}
+```
+
+Currently, only some JSON values support this syntax (see [here](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/TRANSLATING.md#translation) for a list of supported values and more detailed explanation).
 
 # Description and content of each JSON file
 This section describes each json file and their contents. Each json has their own unique properties that are not shared with other Json files (for example 'chapters' property used in books does not apply to armor). This will make sure properties are only described and used within the context of the appropriate JSON file.
@@ -948,10 +957,13 @@ See also VEHICLE_JSON.md
 ### Generic Items
 
 ```C++
-"type" : "GENERIC",               // Defines this as some generic item
-"id" : "socks",                   // Unique ID. Must be one continuous word, use underscores if necessary
-"name" : "socks",                 // The name appearing in the examine box.  Can be more than one word separated by spaces
-"name_plural" : "pairs of socks", // (Optional)
+"type": "GENERIC",                // Defines this as some generic item
+"id": "socks",                    // Unique ID. Must be one continuous word, use underscores if necessary
+"name": {
+    "ctxt": "clothing",           // Optional translation context. Useful when a string has multiple meanings that need to be translated differently in other languages.
+    "str": "pair of socks",       // The name appearing in the examine box.  Can be more than one word separated by spaces
+    "str_pl": "pairs of socks"    // Optional. If a name has an irregular plural form (i.e. cannot be formed by simply appending "s" to the singular form), then this should be specified.
+},
 "container" : "null",             // What container (if any) this item should spawn within
 "color" : "blue",                 // Color of the item symbol.
 "symbol" : "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
