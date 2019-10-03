@@ -854,7 +854,8 @@ void player::update_bodytemp()
     int Ctemperature = static_cast<int>( 100 * temp_to_celsius( player_local_temp ) );
     const w_point weather = *g->weather.weather_precise;
     int vehwindspeed = 0;
-    if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
+    const optional_vpart_position vp = g->m.veh_at( pos() );
+    if( vp ) {
         vehwindspeed = abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
@@ -872,6 +873,7 @@ void player::update_bodytemp()
     const bool has_climate_control = in_climate_control();
     const bool use_floor_warmth = can_use_floor_warmth();
     const furn_id furn_at_pos = g->m.furn( pos() );
+    const cata::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
     // Temperature norms
     // Ambient normal temperature is lower while asleep
     const int ambient_norm = has_sleep ? 3100 : 1900;
@@ -1075,6 +1077,8 @@ void player::update_bodytemp()
                     if( furn_at_pos != f_null ) {
                         // Can sit on something to lift feet up to the fire
                         bonus_fire_warmth = best_fire * furn_at_pos.obj().bonus_fire_warmth_feet;
+                    } else if( boardable ) {
+                        bonus_fire_warmth = best_fire * boardable->info().bonus_fire_warmth_feet;
                     } else {
                         // Has to stand
                         bonus_fire_warmth = best_fire * 300;
@@ -1334,21 +1338,14 @@ int player::floor_bedding_warmth( const tripoint &pos )
     int floor_bedding_warmth = 0;
 
     const optional_vpart_position vp = g->m.veh_at( pos );
-    const bool veh_bed = static_cast<bool>( vp.part_with_feature( "BED", true ) );
-    const bool veh_seat = static_cast<bool>( vp.part_with_feature( "SEAT", true ) );
-
+    const cata::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
     // Search the floor for bedding
     if( furn_at_pos != f_null ) {
         floor_bedding_warmth += furn_at_pos.obj().floor_bedding_warmth;
     } else if( !trap_at_pos.is_null() ) {
         floor_bedding_warmth += trap_at_pos.floor_bedding_warmth;
-    } else if( veh_bed && veh_seat ) {
-        // BED+SEAT is intentionally worse than just BED
-        floor_bedding_warmth += 250;
-    } else if( veh_bed ) {
-        floor_bedding_warmth += 300;
-    } else if( veh_seat ) {
-        floor_bedding_warmth += 200;
+    } else if( boardable ) {
+        floor_bedding_warmth += boardable->info().floor_bedding_warmth;
     } else if( ter_at_pos == t_improvised_shelter ) {
         floor_bedding_warmth -= 500;
     } else {
@@ -9489,12 +9486,23 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
             // Note: shelled individuals can still use sleeping aids!
         } else if( vp ) {
-            if( vp.part_with_feature( "BED", true ) ) {
-                comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-            } else if( vp.part_with_feature( "SEAT", true ) ) {
-                comfort += 0 + static_cast<int>( comfort_level::slightly_comfortable );
+            vehicle &veh = vp->vehicle();
+            const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
+            const cata::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
+            if( carg ) {
+                vehicle_stack items = veh.get_items( carg->part_index() );
+                for( auto &items_it : items ) {
+                    if( items_it.has_flag( "SLEEP_AID" ) ) {
+                        // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
+                        comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
+                        add_msg_if_player( m_info, _( "You use your %s for comfort." ), items_it.tname() );
+                        break; // prevents using more than 1 sleep aid
+                    }
+                }
+            }
+            if( board ) {
+                comfort += board->info().comfort;
             } else {
-                // Sleeping elsewhere is uncomfortable
                 comfort -= g->m.move_cost( p );
             }
         }
@@ -9523,6 +9531,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
             if( items_it.has_flag( "SLEEP_AID" ) ) {
                 // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
                 comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
+                add_msg_if_player( m_info, _( "You use your %s for comfort." ), items_it.tname() );
                 break; // prevents using more than 1 sleep aid
             }
         }
