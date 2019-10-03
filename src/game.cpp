@@ -1575,27 +1575,23 @@ bool game::do_turn()
 
         if( calendar::once_every( 1_minutes ) ) {
             query_popup()
-            .wait_message( "%s", _( "Wait till you wake up..." ) )
+            .wait_message( "%s", _( "Wait till you wake up…" ) )
             .on_top( true )
             .show();
 
             catacurses::refresh();
             refresh_display();
         }
+    } else if( calendar::once_every( 1_minutes ) && u.activity && !u.activity.name.empty() ) {
+        query_popup()
+        .wait_message( "%s%s",
+                       _( u.activity.name ),
+                       u.activity.disp_info.empty() ? "…" : ": " + u.activity.disp_info )
+        .on_top( true )
+        .show();
     }
 
     player_was_sleeping = player_is_sleeping;
-
-    if( calendar::once_every( 1_minutes ) && u.has_activity( activity_id( "ACT_CRAFT" ) ) ) {
-        item *craft = u.activity.targets.front().get_item();
-
-        if( craft ) {
-            query_popup()
-            .wait_message( _( "Crafting: %s" ), craft->tname() )
-            .on_top( true )
-            .show();
-        }
-    }
 
     u.update_bodytemp();
     u.update_body_wetness( *weather.weather_precise );

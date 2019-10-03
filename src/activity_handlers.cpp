@@ -170,7 +170,6 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_CHOP_LOGS" ), chop_tree_do_turn },
     { activity_id( "ACT_TIDY_UP" ), tidy_up_do_turn },
     { activity_id( "ACT_CHOP_PLANKS" ), chop_tree_do_turn },
-    { activity_id( "ACT_TIDY_UP" ), tidy_up_do_turn },
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_do_turn },
     { activity_id( "ACT_FIND_MOUNT" ), find_mount_do_turn },
     { activity_id( "ACT_DIG" ), dig_do_turn },
@@ -3349,6 +3348,8 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         p->cancel_activity();
         return;
     }
+
+    act->disp_info = craft->tname();
 
     const recipe &rec = craft->get_making();
     const tripoint loc = act->targets.front().where() == item_location::type::character ?

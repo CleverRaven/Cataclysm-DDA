@@ -202,7 +202,7 @@ void query_popup::init() const
 
     // Calculate window size
     const int win_width = std::min( TERMX,
-                                    fullscr ? FULL_SCREEN_WIDTH : msg_width + border_width * 2 );
+                                    fullscr ? FULL_SCREEN_WIDTH : msg_width + 1 + border_width * 2 );
     const int win_height = std::min( TERMY,
                                      fullscr ? FULL_SCREEN_HEIGHT : msg_height + border_width * 2 );
     const int win_x = ( TERMX - win_width ) / 2;
