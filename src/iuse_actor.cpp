@@ -1642,7 +1642,7 @@ bool inscribe_actor::item_inscription( item &tool, item &cut ) const
     }
 
     const bool hasnote = cut.has_var( carving );
-    std::string messageprefix = string_format( hasnote ? _( "(To delete, input one '.')\n" ) : "" ) +
+    std::string messageprefix = ( hasnote ? _( "(To delete, clear the text and confirm)\n" ) : "" ) +
                                 //~ %1$s: gerund (e.g. carved), %2$s: item name
                                 string_format( pgettext( "carving", "%1$s on the %2$s is: " ),
                                         gerund, cut.type_name() );
@@ -1650,7 +1650,7 @@ bool inscribe_actor::item_inscription( item &tool, item &cut ) const
     string_input_popup popup;
     popup.title( string_format( _( "%s what?" ), verb ) )
     .width( 64 )
-    .text( hasnote ? cut.get_var( carving ) : "" )
+    .text( hasnote ? cut.get_var( carving ) : std::string() )
     .description( messageprefix )
     .identifier( "inscribe_item" )
     .max_length( 128 )
@@ -1659,7 +1659,7 @@ bool inscribe_actor::item_inscription( item &tool, item &cut ) const
         return false;
     }
     const std::string message = popup.text();
-    if( hasnote && message == "." ) {
+    if( message.empty() ) {
         cut.erase_var( carving );
         cut.erase_var( carving_tool );
     } else {
