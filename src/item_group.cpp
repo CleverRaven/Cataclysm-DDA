@@ -209,8 +209,8 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     new_item.set_damage( rng( damage.first, damage.second ) );
-    if( !new_item.has_flag( "PRIMITIVE_RANGED_WEAPON" ) {
-    int random_dirt = rng( dirt.first, dirt.second );
+    if( !new_item.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+        int random_dirt = rng( dirt.first, dirt.second );
         if( new_item.is_gun() && random_dirt > 0 ) {
             new_item.set_var( "dirt", random_dirt );
             new_item.faults.emplace( "fault_gun_dirt" );
@@ -220,7 +220,7 @@ void Item_modifier::modify( item &new_item ) const
              charges.second );
 
     if( ch != -1 ) {
-    if( new_item.count_by_charges() || new_item.made_of( LIQUID ) ) {
+        if( new_item.count_by_charges() || new_item.made_of( LIQUID ) ) {
             // food, ammo
             // count_by_charges requires that charges is at least 1. It makes no sense to
             // spawn a "water (0)" item.
@@ -237,7 +237,7 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     if( ch > 0 && ( new_item.is_gun() || new_item.is_magazine() ) ) {
-    if( ammo == nullptr ) {
+        if( ammo == nullptr ) {
             // In case there is no explicit ammo item defined, use the default ammo
             if( !new_item.ammo_types().empty() ) {
                 new_item.ammo_set( new_item.ammo_default(), ch );
@@ -255,7 +255,7 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     if( new_item.is_tool() || new_item.is_gun() || new_item.is_magazine() ) {
-    bool spawn_ammo = rng( 0, 99 ) < with_ammo && new_item.ammo_remaining() == 0 && ch == -1 &&
+        bool spawn_ammo = rng( 0, 99 ) < with_ammo && new_item.ammo_remaining() == 0 && ch == -1 &&
                           ( !new_item.is_tool() || new_item.type->tool->rand_charges.empty() );
         bool spawn_mag  = rng( 0, 99 ) < with_magazine && !new_item.magazine_integral() &&
                           !new_item.magazine_current();
@@ -275,7 +275,7 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     if( container != nullptr ) {
-    item cont = container->create_single( new_item.birthday() );
+        item cont = container->create_single( new_item.birthday() );
         if( !cont.is_null() ) {
             if( new_item.made_of( LIQUID ) ) {
                 int rc = cont.get_remaining_capacity_for_liquid( new_item );
@@ -291,12 +291,12 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     if( contents != nullptr ) {
-    Item_spawn_data::ItemList contentitems = contents->create( new_item.birthday() );
+        Item_spawn_data::ItemList contentitems = contents->create( new_item.birthday() );
         new_item.contents.insert( new_item.contents.end(), contentitems.begin(), contentitems.end() );
     }
 
     for( auto &flag : custom_flags ) {
-    new_item.set_flag( flag );
+        new_item.set_flag( flag );
     }
 }
 
