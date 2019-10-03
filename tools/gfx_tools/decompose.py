@@ -10,14 +10,24 @@ import json
 import os
 import subprocess
 
+try:
+    import pyvips
+    Vips = pyvips
+except ImportError:
+    import gi
+    gi.require_version('Vips', '8.0')
+    from gi.repository import Vips
 
 # stupid stinking Python 2 versus Python 3 syntax
-def write_to_json(pathname, data):
+def write_to_json(pathname, data, prettify=False):
     with open(pathname, "w") as fp:
         try:
             json.dump(data, fp)
         except ValueError:
             fp.write(json.dumps(data))
+    cmd = ["./tools/format/json_formatter.cgi", pathname]
+    if prettify:
+        subprocess.call(cmd)
 
 
 def find_or_make_dir(pathname):
@@ -32,7 +42,6 @@ class TileSheetData(object):
         self.ts_filename = tilesheet_data.get("file", "")
         #print("working on {}".format(self.ts_filename))
         self.tile_id_to_tile_entrys = {}
-        self.pngnum_min = refs.last_pngnum
         self.sprite_height = tilesheet_data.get("sprite_height", refs.default_height)
         self.sprite_width = tilesheet_data.get("sprite_width", refs.default_width)
         self.sprite_offset_x = tilesheet_data.get("sprite_offset_x", 0)
@@ -41,16 +50,18 @@ class TileSheetData(object):
         self.write_dim |= self.sprite_height != refs.default_height
         self.write_dim |= self.sprite_offset_x or self.sprite_offset_y
         self.ts_pathname = refs.tileset_pathname + "/" + self.ts_filename
-        cmd = ["identify", "-format", "\"%G\"", self.ts_pathname]
-        geometry_dim = subprocess.check_output(cmd)
-        self.ts_width = int(geometry_dim.split("x")[0][1:])
+        self.ts_image = Vips.Image.pngload(self.ts_pathname)
+        self.ts_width = self.ts_image.width
         self.ts_tiles_per_row = self.ts_width / self.sprite_width
-        self.ts_height = int(geometry_dim.split("x")[1][:-1])
+        self.ts_height = self.ts_image.height
         self.ts_rows = self.ts_height / self.sprite_height
+        self.pngnum_min = refs.last_pngnum
         self.pngnum_max = refs.last_pngnum + self.ts_tiles_per_row * self.ts_rows - 1
-        #print("\t{}; {} rows; spans {} to {}".format(geometry_dim, self.ts_rows,
-        #                                              self.pngnum_min, self.pngnum_max))
+        #print("\t{}x{}; {} rows; spans {} to {}".format(self.ts_width, self.ts_height,
+        #                                                self.ts_rows, self.pngnum_min,
+        #                                                self.pngnum_max))
         self.expansions = []
+        self.fallback = tilesheet_data.get("ascii")
         refs.last_pngnum = self.pngnum_max + 1
         refs.tspathname_to_tsfilename.setdefault(self.ts_pathname, self.ts_filename)
 
@@ -107,24 +118,30 @@ class TileSheetData(object):
                     sprite_ids = pngnum.get("sprite", -10)
                     if isinstance(sprite_ids, list):
                         for sprite_id in sprite_ids:
-                            if sprite_id >= 0 and sprite_id not in all_pngnums:
+                            if sprite_id < 0 or sprite_id in refs.delete_pngnums:
+                                continue
+                            if sprite_id not in all_pngnums:
                                 all_pngnums.append(sprite_id)
-                            if sprite_id >= 0 and sprite_id not in local_pngnums:
+                            if sprite_id not in local_pngnums:
                                 local_pngnums.append(sprite_id)
                     else:
-                        if sprite_ids >= 0 and sprite_ids not in all_pngnums:
+                        if sprite_ids < 0 or sprite_ids in refs.delete_pngnums:
+                            continue
+                        if sprite_ids not in all_pngnums:
                             all_pngnums.append(sprite_ids)
-                        if sprite_ids >= 0 and sprite_ids not in local_pngnums:
+                        if sprite_ids not in local_pngnums:
                             local_pngnums.append(sprite_ids)
                 else:
-                    if pngnum >= 0 and pngnum not in all_pngnums:
+                    if pngnum < 0 or pngnum in refs.delete_pngnums:
+                        continue
+                    if pngnum not in all_pngnums:
                         all_pngnums.append(pngnum)
-                    if pngnum >= 0 and pngnum not in local_pngnums:
+                    if pngnum not in local_pngnums:
                         local_pngnums.append(pngnum)
-        else:
-            if read_pngnums >= 0 and read_pngnums not in all_pngnums:
+        elif read_pngnums >= 0 and read_pngnums not in refs.delete_pngnums:
+            if read_pngnums not in all_pngnums:
                 all_pngnums.append(read_pngnums)
-            if read_pngnums >= 0 and read_pngnums not in local_pngnums:
+            if read_pngnums not in local_pngnums:
                 local_pngnums.append(read_pngnums)
         return all_pngnums
 
@@ -174,7 +191,14 @@ class TileSheetData(object):
 
     def summarize(self, tile_info, refs):
         #debug statement to verify pngnum_min and pngnum_max
-        print("{} from {} to {}".format(self.ts_filename, self.pngnum_min, self.pngnum_max))
+        #print("{} from {} to {}".format(self.ts_filename, self.pngnum_min, self.pngnum_max))
+        if self.fallback:
+            refs.ts_data[self.ts_filename] = self
+            ts_tile_info = {
+                "fallback": True
+            }
+            tile_info.append({self.ts_filename: ts_tile_info})
+            return
         if self.pngnum_max > 0:
             refs.ts_data[self.ts_filename] = self
             ts_tile_info = {
@@ -237,25 +261,14 @@ class ExtractionData(object):
         file_index = png_index - tile_data.pngnum_min
         y_index = file_index / tile_data.ts_tiles_per_row
         x_index = file_index - y_index * tile_data.ts_tiles_per_row
-        file_off_x = max(0, tile_data.sprite_width * x_index)
-        file_off_y = max(0, tile_data.sprite_height * y_index)
-        if file_off_x > tile_data.ts_width or file_off_y > tile_data.ts_height:
-            print("index {} '{}' in {} has bad {}x{} versus {}x{}".format(png_index, pngname, ts_filename, file_off_x, file_off_y, tile_data.ts_width, tile_data.ts_height))
-            file_off_x = min(tile_data.ts_width - tile_data.sprite_width, file_off_x)
-            file_off_y = min(tile_data.ts_height - tile_data.sprite_height, file_off_x)
-
+        tile_off_x = max(0, tile_data.sprite_width * x_index)
+        tile_off_y = max(0, tile_data.sprite_height * y_index)
+        tile_image = tile_data.ts_image.extract_area(tile_off_x, tile_off_y,
+                                                     tile_data.sprite_width,
+                                                     tile_data.sprite_height)
         tile_png_pathname = self.subdir_pathname + "/" + pngname + ".png"
-        cmd = ["vips", "crop", ts_pathname, tile_png_pathname]
-        for intval in [file_off_x, file_off_y, tile_data.sprite_width, tile_data.sprite_height]:
-            cmd += ["{}".format(intval)]
-        #debug statement for convert call
-        #print("for {}, trying {}".format(png_index, cmd))
-        failure = subprocess.check_output(cmd)
-        if failure:
-            print("failed to extract name {} #{}: {}".format(pngname, file_index, failure))
-        else:
-            #print("extracted {}".format(png_index))
-            refs.extracted_pngnums[png_index] = True
+        tile_image.pngsave(tile_png_pathname)
+        refs.extracted_pngnums[png_index] = True
 
     def write_images(self, refs):
         for pngnum in range(self.ts_data.pngnum_min, self.ts_data.pngnum_max + 1):
@@ -273,6 +286,8 @@ class PngRefs(object):
         self.tspathname_to_tsfilename = {}
         # list of pngs written out
         self.extracted_pngnums = {}
+        # list of pngs to not use
+        self.delete_pngnums = []
         # misc data
         self.tileset_pathname = ""
         self.default_width = 16
@@ -280,7 +295,7 @@ class PngRefs(object):
         self.last_pngnum = 0
         self.ts_data = {}
 
-    def get_all_data(self, tileset_dirname):
+    def get_all_data(self, tileset_dirname, delete_pathname):
         self.tileset_pathname = tileset_dirname
         if not tileset_dirname.startswith("gfx/"):
             self.tileset_pathname = "gfx/" + tileset_dirname
@@ -299,8 +314,21 @@ class PngRefs(object):
             print("cannot find a directory {}".format(tileset_confname))
             exit -1
 
+        if delete_pathname:
+            with open(delete_pathname) as del_file:
+                del_ranges = json.load(del_file)
+                for delete_range in del_ranges:
+                    if not isinstance(delete_range, list):
+                        contineu
+                    min_png = delete_range[0]
+                    max_png = min_png
+                    if len(delete_range) > 1:
+                        max_png = delete_range[1]
+                    for i in range(min_png, max_png + 1):
+                        self.delete_pngnums.append(i)
+
         with open(tileset_confname) as conf_file:
-            return(json.load(conf_file))
+            return(json.load(conf_file))       
 
     def add_pngnum_to_tsfilepath(self, pngnum):
         if not isinstance(pngnum, int):
@@ -321,22 +349,22 @@ class PngRefs(object):
                     if isinstance(sprite_ids, list):
                         new_sprites = []
                         for sprite_id in sprite_ids:
-                            if sprite_id >= 0:
+                            if sprite_id >= 0 and sprite_id not in self.delete_pngnums:
                                 if not new_id:
                                     new_id = self.pngnum_to_pngname[sprite_id]
                                 new_sprites.append(self.pngnum_to_pngname[sprite_id])
                         pngnum["sprite"] = new_sprites
                     else:
-                        if sprite_ids >= 0:
+                        if sprite_ids >= 0 and sprite_ids not in self.delete_pngnums:
                             if not new_id:
                                 new_id = self.pngnum_to_pngname[sprite_ids]
                             pngnum["sprite"] = self.pngnum_to_pngname[sprite_ids]
                     new_index.append(pngnum)
-                else:
+                elif pngnum >= 0 and pngnum not in self.delete_pngnums:
                     if not new_id:
                         new_id = self.pngnum_to_pngname[pngnum]
                     new_index.append(self.pngnum_to_pngname[pngnum])
-        elif read_pngnums >= 0:
+        elif read_pngnums >= 0 and read_pngnums not in self.delete_pngnums:
             if not new_id:
                 new_id = self.pngnum_to_pngname[read_pngnums]
             new_index.append(self.pngnum_to_pngname[read_pngnums])
@@ -367,13 +395,15 @@ class PngRefs(object):
 args = argparse.ArgumentParser(description="Split a tileset's tile_config.json into a directory per tile containing the tile data and png.")
 args.add_argument("tileset_dir", action="store",
                   help="local name of the tileset directory under gfx/")
+args.add_argument("--delete_file", dest="del_path", action="store",
+                  help="local name of file containing lists of ranges of indices to delete")
 argsDict = vars(args.parse_args())
 
 tileset_dirname = argsDict.get("tileset_dir", "")
+delete_pathname = argsDict.get("del_path", "")
 
 refs = PngRefs()
-all_tiles = refs.get_all_data(tileset_dirname)
-
+all_tiles = refs.get_all_data(tileset_dirname, delete_pathname)
 
 all_tilesheet_data = all_tiles.get("tiles-new", [])
 tile_info = all_tiles.get("tile_info", {})
@@ -391,6 +421,8 @@ for tilesheet_data in all_tilesheet_data:
 for tilesheet_data in all_tilesheet_data:
     ts_filename = tilesheet_data.get("file", "")
     ts_data = refs.ts_data[ts_filename]
+    if ts_data.fallback:
+        continue
     tile_id_to_tile_entrys = {}
     all_tile_entry = tilesheet_data.get("tiles", [])
     for tile_entry in all_tile_entry:
@@ -418,12 +450,14 @@ for ts_filename in ts_sequence:
         for tile_entry in tile_entrys:
             subdir_pathname = out_data.increment_dir()
             tile_entry_name, tile_entry = refs.convert_pngnum_to_pngname(tile_entry)
+            if not tile_entry_name:
+                continue
             tile_entry_pathname = subdir_pathname + "/" + tile_entry_name + ".json"
             write_to_json(tile_entry_pathname, tile_entry)
     out_data.write_images(refs)
 
 if tile_info:
     tile_info_pathname = refs.tileset_pathname + "/" + "tile_info.json"
-    write_to_json(tile_info_pathname, tile_info)
+    write_to_json(tile_info_pathname, tile_info, True)
 
 refs.report_missing()
