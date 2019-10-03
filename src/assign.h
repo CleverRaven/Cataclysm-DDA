@@ -404,7 +404,7 @@ inline bool assign( JsonObject &jo, const std::string &name, units::energy &val,
 {
     const auto parse = [&name]( JsonObject & obj, units::energy & out ) {
         if( obj.has_int( name ) ) {
-            out = units::from_kilojoule( obj.get_int( name ) );
+            out = units::from_kilojoule<std::int64_t>( obj.get_int( name ) );
             return true;
         }
         if( obj.has_string( name ) ) {

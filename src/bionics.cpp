@@ -195,8 +195,8 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         return;
     }
 
-    int free_power = std::max( 0, units::to_kilojoule( power_level - max_power_level ) *
-                               static_cast<int>( rules.cbm_reserve ) / 100 );
+    int free_power = std::max<std::int64_t>( 0, units::to_kilojoule( power_level - max_power_level ) *
+                     static_cast<int>( rules.cbm_reserve ) / 100 );
     if( free_power == 0 ) {
         return;
     }
@@ -229,7 +229,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         if( ups_drain > 0 ) {
             ammo_count = std::min( ammo_count, ups_charges / ups_drain );
         }
-        int cbm_ammo = free_power / units::to_kilojoule( bionics[bio.id].power_activate );
+        std::int64_t cbm_ammo = free_power / units::to_kilojoule( bionics[bio.id].power_activate );
 
         if( weapon_value( weapon, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
             real_weapon = weapon;

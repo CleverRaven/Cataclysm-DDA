@@ -6799,7 +6799,7 @@ std::list<item> player::use_charges( const itype_id &what, int qty,
             return res;
         }
         if( power_level > 0_kJ && has_active_bionic( bio_ups ) ) {
-            int bio = std::min( units::to_kilojoule( power_level ), qty );
+            int bio = std::min<std::int64_t>( units::to_kilojoule( power_level ), qty );
             charge_power( units::from_kilojoule( -bio ) );
             qty -= std::min( qty, bio );
         }

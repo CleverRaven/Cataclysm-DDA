@@ -1174,7 +1174,7 @@ bool player::feed_battery_with( item &it )
     }
 
     const int energy = get_acquirable_energy( it, rechargeable_cbm::battery );
-    const int profitable_energy = std::min( energy,
+    const int profitable_energy = std::min<std::int64_t>( energy,
                                             units::to_kilojoule( max_power_level - power_level ) );
 
     if( profitable_energy <= 0 ) {
@@ -1282,7 +1282,7 @@ bool player::feed_furnace_with( item &it )
             _( "<npcname> digests a %s for energy, they're fully powered already, so the energy is wasted." ),
             it.tname() );
     } else {
-        const int profitable_energy = std::min( energy,
+        const int profitable_energy = std::min<std::int64_t>( energy,
                                                 units::to_kilojoule( max_power_level - power_level ) );
         if( it.count_by_charges() ) {
             add_msg_player_or_npc( m_info,
@@ -1409,7 +1409,7 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
         }
         case rechargeable_cbm::other:
             const int to_consume = std::min( it.charges, std::numeric_limits<int>::max() );
-            const int to_charge = std::min( static_cast<int>( it.fuel_energy() * to_consume ),
+            const int to_charge = std::min<std::int64_t>( static_cast<int>( it.fuel_energy() * to_consume ),
                                             units::to_kilojoule( max_power_level - power_level ) );
             return to_charge;
             break;
