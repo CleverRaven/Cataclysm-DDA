@@ -620,6 +620,19 @@ bool avatar::read( int inventory_position, const bool continuous )
         act.str_values.emplace_back( "martial_art" );
     }
 
+	const optional_vpart_position vp = g->m.veh_at( pos() );
+	const ter_id ter_at_pos = g->m.ter( pos() );
+	const furn_id furn_at_pos = g->m.furn( pos() );
+	if( (furn_at_pos.obj().comfort > static_cast<int>( comfort_level::neutral ) ||
+										ter_at_pos == t_improvised_shelter ||
+										vp.part_with_feature( "SEAT", true ) ||
+										vp.part_with_feature( "BED", true ) ) ) {
+		if( !continuous ) {
+			add_msg( m_good, _( "This is a comfortable place to read books." ) );
+		}
+		add_morale( MORALE_SIT, 1, 10, 1_minutes * time_taken + 10_minutes, 1_minutes * time_taken, true );
+	}
+
     assign_activity( act );
 
     // Reinforce any existing morale bonus/penalty, so it doesn't decay

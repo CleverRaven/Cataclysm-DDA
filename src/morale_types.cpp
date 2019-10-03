@@ -63,6 +63,7 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
 
             morale_type( "morale_moodswing" ),
             morale_type( "morale_book" ),
+            morale_type( "morale_sit" ),
             morale_type( "morale_comfy" ),
 
             morale_type( "morale_scream" ),
@@ -160,6 +161,7 @@ const morale_type MORALE_MUTAGEN_CHIMERA( "morale_mutagen_chimera" );
 const morale_type MORALE_MUTAGEN_MUTATION( "morale_mutagen_mutation" );
 const morale_type MORALE_MOODSWING( "morale_moodswing" );
 const morale_type MORALE_BOOK( "morale_book" );
+const morale_type MORALE_SIT( "morale_sit" );
 const morale_type MORALE_COMFY( "morale_comfy" );
 const morale_type MORALE_SCREAM( "morale_scream" );
 const morale_type MORALE_PERM_MASOCHIST( "morale_perm_masochist" );

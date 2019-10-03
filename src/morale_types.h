@@ -86,6 +86,7 @@ extern const morale_type MORALE_MUTAGEN_CHIMERA;
 extern const morale_type MORALE_MUTAGEN_MUTATION;
 extern const morale_type MORALE_MOODSWING;
 extern const morale_type MORALE_BOOK;
+extern const morale_type MORALE_SIT;
 extern const morale_type MORALE_COMFY;
 extern const morale_type MORALE_SCREAM;
 extern const morale_type MORALE_PERM_MASOCHIST;

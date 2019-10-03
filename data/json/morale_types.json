@@ -235,6 +235,11 @@
     "text": "Read %s"
   },
   {
+    "id": "morale_sit",
+    "type": "morale_type",
+    "text": "Comfortable Seat"
+  },
+  {
     "id": "morale_comfy",
     "type": "morale_type",
     "text": "Got comfy"
