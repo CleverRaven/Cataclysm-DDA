@@ -610,7 +610,7 @@
   },
   {
     "type": "construction",
-    "description": "Frame Wall",
+    "description": "Build Wood Wall",
     "//": "Step 1: half of a wall where a window used to be",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
@@ -622,7 +622,7 @@
   },
   {
     "type": "construction",
-    "description": "Frame Wall",
+    "description": "Build Wood Wall",
     "//": "Step 1: frame wall in an empty space",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
