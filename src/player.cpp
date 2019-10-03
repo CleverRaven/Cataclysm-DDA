@@ -187,7 +187,9 @@ const efftype_id effect_stim_overdose( "stim_overdose" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_took_prozac( "took_prozac" );
+const efftype_id effect_took_thorazine( "took_thorazine" );
 const efftype_id effect_took_xanax( "took_xanax" );
+const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
@@ -4956,7 +4958,8 @@ void player::suffer()
                 }
             }
         }
-        if( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) ) {
+        if( ( has_trait( trait_SCHIZOPHRENIC ) || has_artifact_with( AEP_SCHIZO ) ) &&
+            !has_effect( effect_took_thorazine ) ) {
             if( is_player() ) {
                 bool done_effect = false;
                 // Sound
@@ -4995,7 +4998,8 @@ void player::suffer()
 
                 // Limb Breaks
                 if( !done_effect && one_turn_in( 4_hours ) ) {
-                    add_msg( m_bad, _( "Your limb breaks!" ) );
+                    std::string snip = SNIPPET.random_from_category( "broken_limb" );
+                    add_msg( m_bad, snip );
                     done_effect = true;
                 }
 
@@ -5020,29 +5024,8 @@ void player::suffer()
 
                 // Talk to self
                 if( !done_effect && one_turn_in( 4_hours ) ) {
-                    std::vector<std::string> talk_s{ _( "Hey, can you hear me?" ),
-                                                     _( "Don't touch me." ),
-                                                     _( "What's your name?" ),
-                                                     _( "I thought you were my friend." ),
-                                                     _( "How are you today?" ),
-                                                     _( "Shut up! Don't lie to me." ),
-                                                     _( "Why would you do that?" ),
-                                                     _( "Please, don't go." ),
-                                                     _( "Don't leave me alone!" ),
-                                                     _( "Yeah, sure." ),
-                                                     _( "No way, man." ),
-                                                     _( "Do you really think so?" ),
-                                                     _( "Is it really time for that?" ),
-                                                     _( "Sorry, I can't hear you." ),
-                                                     _( "You've told me already." ),
-                                                     _( "I know!" ),
-                                                     _( "Why are you following me?" ),
-                                                     _( "This place is dangerous, you shouldn't be here." ),
-                                                     _( "What are you doing out here?" ),
-                                                     _( "That's not true, is it?" ),
-                                                     _( "Are you hurt?" ) };
-
-                    add_msg( _( "%1$s says: \"%2$s\"" ), name, random_entry_ref( talk_s ) );
+                    std::string snip = SNIPPET.random_from_category( "schizo_self_talk" );
+                    add_msg( _( "%1$s says: \"%2$s\"" ), name, snip );
                     done_effect = true;
                 }
 
@@ -5063,16 +5046,6 @@ void player::suffer()
                     std::string i_talk_w;
                     bool does_talk = false;
                     if( !mons.empty() && one_turn_in( 12_minutes ) ) {
-                        std::vector<std::string> mon_near{ _( "Hey, let's go kill that %1$s!" ),
-                                                           _( "Did you see that %1$s!?" ),
-                                                           _( "I want to kill that %1$s!" ),
-                                                           _( "Let me kill that %1$s!" ),
-                                                           _( "Hey, I need to kill that %1$s!" ),
-                                                           _( "I want to watch that %1$s bleed!" ),
-                                                           _( "Wait, that %1$s needs to die!" ),
-                                                           _( "Go kill that %1$s!" ),
-                                                           _( "Look at that %1$s!" ),
-                                                           _( "That %1$s doesn't deserve to live!" ) };
                         std::vector<std::string> seen_mons;
                         for( auto &n : mons ) {
                             if( sees( *n.lock() ) ) {
@@ -5080,62 +5053,45 @@ void player::suffer()
                             }
                         }
                         if( !seen_mons.empty() ) {
-                            std::string talk_w = random_entry_ref( mon_near );
+                            std::string talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_monster" );
                             i_talk_w = string_format( talk_w, random_entry_ref( seen_mons ) );
                             does_talk = true;
                         }
-                    } else if( has_effect( effect_bleed ) && one_turn_in( 5_minutes ) ) {
-                        std::vector<std::string> bleeding{ _( "Hey, you're bleeding." ),
-                                                           _( "Your wound looks pretty bad." ),
-                                                           _( "Shouldn't you put a bandage on that?" ),
-                                                           _( "Please don't die! No one else lets me kill things!" ),
-                                                           _( "You look hurt, did I do that?" ),
-                                                           _( "Are you supposed to be bleeding?" ),
-                                                           _( "You're not going to die, are you?" ),
-                                                           _( "Kill a few more before you bleed out!" ) };
-                        i_talk_w = random_entry_ref( bleeding );
+                    }
+                    if( !does_talk && has_effect( effect_bleed ) && one_turn_in( 5_minutes ) ) {
+                        i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_bleeding" );
                         does_talk = true;
                     } else if( weapon.damage() >= weapon.max_damage() / 3 && one_turn_in( 1_hours ) ) {
-                        std::vector<std::string> damaged{ _( "Hey fix me up." ),
-                                                          _( "I need healing!" ),
-                                                          _( "I hurt all over..." ),
-                                                          _( "You can put me back together, right?" ),
-                                                          _( "I... I can't move my legs!" ),
-                                                          _( "Medic!" ),
-                                                          _( "I can still fight, don't replace me!" ),
-                                                          _( "They got me!" ),
-                                                          _( "Go on without me..." ),
-                                                          _( "Am I gonna die?" ) };
-                        i_talk_w = random_entry_ref( damaged );
+                        i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_damaged" );
                         does_talk = true;
                     } else if( one_turn_in( 4_hours ) ) {
-                        std::vector<std::string> misc{ _( "Let me kill something already!" ),
-                                                       _( "I'm your best friend, right?" ),
-                                                       _( "I love you!" ),
-                                                       _( "How are you today?" ),
-                                                       _( "Do you think it will rain today?" ),
-                                                       _( "Did you hear that?" ),
-                                                       _( "Try not to drop me." ),
-                                                       _( "How many do you think we've killed?" ),
-                                                       _( "I'll keep you safe!" ) };
-                        i_talk_w = random_entry_ref( misc );
+                        i_talk_w = SNIPPET.random_from_category( "schizo_weapon_talk_misc" );
                         does_talk = true;
                     }
                     if( does_talk ) {
                         add_msg( _( "%1$s says: \"%2$s\"" ), i_name_w, i_talk_w );
+                        done_effect = true;
+                    }
+                }
+                // Delusions
+                if( !done_effect && one_turn_in( 8_hours ) ) {
+                    if( rng( 1, 20 ) > 5 ) {  // 75% chance
+                        std::string snip = SNIPPET.random_from_category( "schizo_delusion_paranoid" );
+                        add_msg( m_warning, snip );
+                        add_morale( MORALE_FEELING_BAD, -20, -100 );
+                    } else { // 25% chance
+                        std::string snip = SNIPPET.random_from_category( "schizo_delusion_grandiose" );
+                        add_msg( m_good, snip );
+                        add_morale( MORALE_FEELING_GOOD, 20, 100 );
                     }
                     done_effect = true;
                 }
-                // Bad feeling
-                if( !done_effect && one_turn_in( 4_hours ) ) {
-                    add_msg( m_warning, _( "You get a bad feeling." ) );
-                    add_morale( MORALE_FEELING_BAD, -50, -150 );
-                    done_effect = true;
-                }
                 // Formication
-                if( !done_effect && one_turn_in( 4_hours ) ) {
+                if( !done_effect && one_turn_in( 6_hours ) ) {
+                    std::string snip = SNIPPET.random_from_category( "schizo_formication" );
                     body_part bp = random_body_part( true );
-                    add_effect( effect_formication, 1_hours, bp );
+                    add_effect( effect_formication, 45_minutes, bp );
+                    add_msg( m_bad, snip );
                     done_effect = true;
                 }
                 // Numbness
@@ -5155,31 +5111,15 @@ void player::suffer()
                     done_effect = true;
                 }
                 // Shaking
-                if( !done_effect && one_turn_in( 4_hours ) ) {
+                if( !done_effect && !has_effect( effect_valium ) && one_turn_in( 4_hours ) ) {
                     add_msg( m_bad, _( "You start to shake uncontrollably." ) );
                     add_effect( effect_shakes, rng( 2_minutes, 5_minutes ) );
                     done_effect = true;
                 }
                 // Shout
                 if( !done_effect && one_turn_in( 4_hours ) ) {
-                    std::vector<std::string> shouts{ _( "\"Get away from there!\"" ),
-                                                     _( "\"What do you think you're doing?\"" ),
-                                                     _( "\"Stop laughing at me!\"" ),
-                                                     _( "\"Don't point that thing at me!\"" ),
-                                                     _( "\"Stay away from me!\"" ),
-                                                     _( "\"No! Stop!\"" ),
-                                                     _( "\"Get the fuck away from me!\"" ),
-                                                     _( "\"That's not true!\"" ),
-                                                     _( "\"What do you want from me?\"" ),
-                                                     _( "\"I didn't mean to do it!\"" ),
-                                                     _( "\"It wasn't my fault!\"" ),
-                                                     _( "\"I had to do it!\"" ),
-                                                     _( "\"They made me do it!\"" ),
-                                                     _( "\"What are you!?\"" ),
-                                                     _( "\"I should never have trusted you!\"" ) };
-
-                    std::string i_shout = random_entry_ref( shouts );
-                    shout( "yourself shout, " + i_shout );
+                    std::string snip = SNIPPET.random_from_category( "schizo_self_shout" );
+                    shout( string_format( _( "yourself shout, %s" ), snip ) );
                     done_effect = true;
                 }
                 // Drop weapon
@@ -5189,21 +5129,15 @@ void player::suffer()
                                                weapon.get_var( "item_label" ) :
                                                "your " + weapon.type_name();
 
-                        std::vector<std::string> drops{ "%1$s starts burning your hands!",
-                                                        "%1$s feels freezing cold!",
-                                                        "An electric shock shoots into your hand from %1$s!",
-                                                        "%1$s lied to you.",
-                                                        "%1$s said something stupid.",
-                                                        "%1$s is running away!" };
-
-                        std::string str = string_format( random_entry_ref( drops ), i_name_w );
+                        std::string snip = SNIPPET.random_from_category( "schizo_weapon_drop" );
+                        std::string str = string_format( snip, i_name_w );
                         str[0] = toupper( str[0] );
 
                         add_msg( m_bad, str );
                         drop( get_item_position( &weapon ), pos() );
+                        // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
+                        done_effect = true;
                     }
-                    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
-                    done_effect = true;
                 }
             }
         }

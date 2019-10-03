@@ -635,6 +635,20 @@
   },
   {
     "type": "effect_type",
+    "id": "took_thorazine"
+  },
+  {
+    "type": "effect_type",
+    "id": "took_thorazine_bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "took_thorazine_visible",
+    "name": [ "Took Thorazine" ],
+    "desc": [ "You took Thorazine some time ago and you might still be under its influence." ]
+  },
+  {
+    "type": "effect_type",
     "id": "no_sight",
     "name": [ "Poor sight" ],
     "desc": [ "You can't see very far from this spot." ],
