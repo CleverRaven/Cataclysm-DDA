@@ -357,6 +357,18 @@
   },
   {
     "type": "SPELL",
+    "id": "AEA_PARALYZE",
+    "name": "Artifact Paralyze",
+    "description": "Paralyzes you for a second or two",
+    "message": "You're paralyzed!",
+    "valid_targets": [ "self" ],
+    "min_damage": -50,
+    "max_damage": -200,
+    "effect": "mod_moves",
+    "flags": [ "RANDOM_DAMAGE", "SILENT" ]
+  },
+  {
+    "type": "SPELL",
     "id": "AEA_MAP",
     "effect": "map",
     "name": "Artifact Map",

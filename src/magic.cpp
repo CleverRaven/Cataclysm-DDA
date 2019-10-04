@@ -212,6 +212,7 @@ void spell_type::load( JsonObject &jo, const std::string & )
         { "vomit", spell_effect::vomit },
         { "explosion", spell_effect::explosion },
         { "flashbang", spell_effect::flashbang },
+        { "mod_moves", spell_effect::mod_moves },
         { "map", spell_effect::map },
         { "none", spell_effect::none }
     };

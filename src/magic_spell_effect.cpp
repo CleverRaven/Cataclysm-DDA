@@ -725,6 +725,22 @@ void spell_effect::flashbang( const spell &sp, Creature &caster, const tripoint 
                                   !sp.is_valid_target( valid_target::target_self ) );
 }
 
+void spell_effect::mod_moves( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), false );
+    for( const tripoint &potential_target : area ) {
+        if( !sp.is_valid_target( caster, potential_target ) ) {
+            continue;
+        }
+        Creature *critter = g->critter_at<Creature>( potential_target );
+        if( !critter ) {
+            continue;
+        }
+        sp.make_sound( potential_target );
+        critter->moves += sp.damage();
+    }
+}
+
 void spell_effect::map( const spell &sp, Creature &caster, const tripoint & )
 {
     const avatar *you = caster.as_avatar();
