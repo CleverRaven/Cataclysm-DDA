@@ -329,6 +329,22 @@
   },
   {
     "type": "SPELL",
+    "id": "AEA_FATIGUE",
+    "name": "Artifact Dimensional Fatigue",
+    "description": "Creates some dimensional fatigue at a random point within range",
+    "valid_targets": [ "ground", "self", "ally", "hostile" ],
+    "effect": "target_attack",
+    "field_id": "fd_fatigue",
+    "field_chance": 1,
+    "min_field_intensity": 2,
+    "max_field_intensity": 2,
+    "field_intensity_variance": 0.5,
+    "min_range": 3,
+    "max_range": 3,
+    "flags": [ "RANDOM_TARGET" ]
+  },
+  {
+    "type": "SPELL",
     "id": "AEA_FIREBALL",
     "name": "Artifact Fireball",
     "description": "Causes an explosion at the target",
