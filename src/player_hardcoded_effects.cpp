@@ -1280,7 +1280,7 @@ void player::hardcoded_effects( effect &it )
                                    "alarm_clock" );
                     const std::string alarm = _( "Your alarm is going off." );
                     g->cancel_activity_or_ignore_query( distraction_type::noise, alarm );
-                    add_msg( "Your alarm went off." );
+                    add_msg( _( "Your alarm went off." ) );
                 }
             }
         }
