@@ -98,6 +98,8 @@ Any aoe will manifest as a circular area centered on the target, and will only d
 
 * "flashbang" - a flashbang effect is centered on the target, with poewr damage() and factor aoe()/10
 
+* "mod_moves" - adds damage() moves to the target. can be negative to "freeze" the target for that amount of time
+
 * "map" - maps the overmap centered on the player out to a radius of aoe()
 
 * "morale" - gives a morale effect to all npcs or avatar within aoe, with value damage(). decay_start is duration() / 10.
