@@ -35,7 +35,7 @@
     "required_str": 4,
     "coverage": 60,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "ORGANIC" ],
-    "connects_to": "COUNTER",
+    "//connects_to": "COUNTER",
     "open": "f_counter_gate_o",
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": 10 } ] },
     "bash": {
@@ -55,7 +55,7 @@
     "color": "blue",
     "move_cost_mod": 2,
     "required_str": 4,
-    "connects_to": "COUNTER",
+    "//connects_to": "COUNTER",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ROAD", "ORGANIC" ],
     "close": "f_counter_gate_c",
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": 10 } ] },
