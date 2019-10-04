@@ -342,7 +342,6 @@
     "object": {
       "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 19 ], "y": [ 0, 19 ] } ],
       "mapgensize": [ 14, 14 ],
-      "fill_ter": "t_dirtfloor",
       "rows": [
         "........................",
         "........................",

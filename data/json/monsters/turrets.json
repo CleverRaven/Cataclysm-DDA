@@ -71,7 +71,6 @@
         "cooldown": 1,
         "gun_type": "laser_cannon",
         "fake_skills": [ [ "gun", 4 ], [ "rifle", 8 ] ],
-        "range": 18,
         "ranges": [ [ 0, 30, "DEFAULT" ] ],
         "require_sunlight": true
       }

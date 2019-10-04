@@ -567,7 +567,6 @@
     "weight": "460 g",
     "bashing": 1,
     "ammo_type": "components",
-    "charges": 2,
     "phase": "liquid",
     "container": "bottle_glass",
     "freezing_point": 25,
@@ -588,7 +587,6 @@
     "weight": 460,
     "bashing": 1,
     "ammo_type": "components",
-    "charges": 2,
     "phase": "liquid",
     "container": "bottle_glass",
     "freezing_point": 25,
@@ -626,7 +624,6 @@
     "weight": "375 g",
     "bashing": 1,
     "ammo_type": "components",
-    "charges": 2,
     "phase": "liquid",
     "container": "bottle_glass",
     "freezing_point": -44,
@@ -1374,7 +1371,6 @@
     "material": [ "cotton", "powder" ],
     "symbol": ")",
     "color": "brown",
-    "ammo_type": "components",
     "looks_like": "bag_canvas"
   },
   {
@@ -1389,7 +1385,6 @@
     "material": [ "cotton", "powder" ],
     "symbol": ")",
     "color": "brown",
-    "ammo_type": "components",
     "looks_like": "bag_canvas"
   },
   {
@@ -1419,10 +1414,8 @@
     "material": [ "hydrocarbons" ],
     "symbol": "=",
     "color": "red",
-    "count": 100,
     "stack_size": 100,
     "phase": "liquid",
-    "effects": [ "COOKOFF" ],
     "explode_in_fire": true,
     "explosion": { "power": 20, "shrapnel": 0 },
     "flags": [ "NO_DROP", "IRREMOVABLE" ]

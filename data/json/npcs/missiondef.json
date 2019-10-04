@@ -540,18 +540,7 @@
     "goal": "MGOAL_NULL",
     "difficulty": 0,
     "value": 0,
-    "place": "never",
-    "dialogue": {
-      "describe": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "offer": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "accepted": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "rejected": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "advice": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "inquire": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "success": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "success_lie": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "failure": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
-    }
+    "place": "never"
   },
   {
     "id": "MISSION_REACH_FARM_HOUSE",
@@ -607,18 +596,7 @@
     "difficulty": 1,
     "value": 0,
     "start": "find_safety",
-    "origins": [ "ORIGIN_NULL" ],
-    "dialogue": {
-      "describe": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "offer": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "accepted": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "rejected": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "advice": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "inquire": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "success": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "success_lie": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "failure": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
-    }
+    "origins": [ "ORIGIN_NULL" ]
   },
   {
     "id": "MISSION_RECOVER_PRIEST_DIARY",

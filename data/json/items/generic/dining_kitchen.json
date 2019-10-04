@@ -113,7 +113,6 @@
     "description": "generic item template",
     "type": "GENERIC",
     "symbol": ")",
-    "watertight": true,
     "to_hit": 1,
     "price": 4500,
     "price_postapoc": 10,

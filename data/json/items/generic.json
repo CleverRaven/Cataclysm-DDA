@@ -2967,7 +2967,6 @@
     "price": 0,
     "weight": "1 g",
     "volume": "250 ml",
-    "max_charges": 20,
     "use_action": "CRAFT",
     "flags": [ "NO_SALVAGE", "TRADER_AVOID", "CAN_HAVE_CHARGES" ]
   },

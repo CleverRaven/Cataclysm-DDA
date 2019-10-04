@@ -1479,7 +1479,6 @@
     "name": "ask the way",
     "min_unarmed": 2,
     "unarmed_allowed": true,
-    "strictly_unarmed": true,
     "defensive": true,
     "miss_recovery": true,
     "messages": [ "You miss but keep striking at %s", "<npcname> misses but keeps striking at %s" ]

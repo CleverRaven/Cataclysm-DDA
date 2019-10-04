@@ -120,8 +120,7 @@
     "responses": [
       {
         "text": "If you join up with me, we can go check it out, I want to see what they are doing.",
-        "topic": "TALK_MISSION_OFFER",
-        "assign_mission": "MISSION_ISHERWOOD_CHRIS_1"
+        "topic": "TALK_MISSION_OFFER"
       },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_CHRIS_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

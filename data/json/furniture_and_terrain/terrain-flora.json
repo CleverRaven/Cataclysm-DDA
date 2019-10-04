@@ -1252,7 +1252,6 @@
       "SHORT",
       "HARVESTED"
     ],
-    "harvest_season": "SPRING",
     "transforms_into": "t_underbrush",
     "bash": {
       "str_min": 4,
@@ -1282,7 +1281,6 @@
       "SHORT",
       "HARVESTED"
     ],
-    "harvest_season": "SUMMER",
     "transforms_into": "t_underbrush",
     "bash": {
       "str_min": 4,
@@ -1312,7 +1310,6 @@
       "SHORT",
       "HARVESTED"
     ],
-    "harvest_season": "AUTUMN",
     "transforms_into": "t_underbrush",
     "bash": {
       "str_min": 4,
@@ -1342,7 +1339,6 @@
       "SHORT",
       "HARVESTED"
     ],
-    "harvest_season": "WINTER",
     "transforms_into": "t_underbrush",
     "bash": {
       "str_min": 4,

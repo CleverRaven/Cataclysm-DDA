@@ -325,7 +325,6 @@
     "use_action": [
       {
         "type": "fireweapon_on",
-        "target_id": "firemachete_off",
         "noise": 5,
         "noise_chance": 25,
         "noise_message": "Your No. 9 hisses.",
@@ -1404,7 +1403,6 @@
     "use_action": [
       {
         "type": "fireweapon_on",
-        "target_id": "firemachete_off",
         "noise_chance": 35,
         "noise_message": "The Sun shines brightly.",
         "voluntary_extinguish_message": "The Sun sets.",
