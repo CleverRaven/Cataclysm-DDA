@@ -59,7 +59,7 @@
     "ammo_type": "50",
     "capacity": 5,
     "reliability": 9,
-    "reload_time": 110,
+    "reload_time": 200,
     "flags": [ "MAG_BULKY" ]
   }
 ]
