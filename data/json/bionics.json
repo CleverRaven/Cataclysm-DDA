@@ -499,8 +499,8 @@
     "description": "While activated, your muscles will be greatly enhanced, increasing your strength by 20.",
     "occupied_bodyparts": [ [ "TORSO", 4 ], [ "ARM_L", 8 ], [ "ARM_R", 8 ], [ "LEG_L", 14 ], [ "LEG_R", 14 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "act_cost": "500 J",
-    "react_cost": "500 J",
+    "act_cost": "1000 J",
+    "react_cost": "1000 J",
     "time": 1
   },
   {
