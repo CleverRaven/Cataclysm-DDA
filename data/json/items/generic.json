@@ -1487,8 +1487,8 @@
     "description": "A very small electric motor like those used in RC cars.  Useful in lots of electronics recipes.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": "110 g",
-    "volume": "250 ml"
+    "weight": "125 g",
+    "volume": "25 ml"
   },
   {
     "type": "GENERIC",
