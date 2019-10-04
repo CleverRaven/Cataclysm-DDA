@@ -4328,7 +4328,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     target_handler th;
     tripoint target = p->pos();
     bool target_is_valid = false;
-    if( casting.range() > 0 && !casting.is_valid_target( target_none ) ) {
+    if( casting.range() > 0 && !casting.is_valid_target( target_none ) &&
+        !casting.has_flag( RANDOM_TARGET ) ) {
         do {
             std::vector<tripoint> trajectory = th.target_ui( casting, no_fail, no_mana );
             if( !trajectory.empty() ) {
@@ -4346,6 +4347,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 }
             }
         } while( !target_is_valid );
+    } else if( casting.has_flag( RANDOM_TARGET ) ) {
+        target = casting.random_valid_target( *p, p->pos() );
     }
 
     // no turning back now. it's all said and done.
