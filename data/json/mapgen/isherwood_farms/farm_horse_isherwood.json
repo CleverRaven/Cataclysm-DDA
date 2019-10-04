@@ -121,9 +121,9 @@
         "..%.........................,,..,,...........................................................%.."
       ],
       "place_npcs": [
-        { "chance": 100, "class": "isherwood_carlos", "x": 80, "y": 17 },
-        { "chance": 100, "class": "isherwood_jesse", "x": 54, "y": 44 },
-        { "chance": 100, "class": "isherwood_lisa", "x": 11, "y": 77 }
+        { "class": "isherwood_carlos", "x": 80, "y": 17 },
+        { "class": "isherwood_jesse", "x": 54, "y": 44 },
+        { "class": "isherwood_lisa", "x": 11, "y": 77 }
       ],
       "place_vehicles": [ { "vehicle": "uncovered_wagon", "x": 78, "y": 19, "rotation": 180, "chance": 100, "status": 0 } ],
       "palettes": [ "farm_horse" ],

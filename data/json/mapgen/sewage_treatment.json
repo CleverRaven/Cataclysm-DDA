@@ -497,7 +497,7 @@
         "=": [ { "item": "cannibal_corpse", "chance": 15 }, { "item": "human_remains", "chance": 15 } ],
         "r": { "item": "tools_electronics", "chance": 30, "repeat": [ 1, 3 ] }
       },
-      "fields": { "=": { "field": "fd_blood", "intensity": 1, "age": 990, "chance": 40 } },
+      "fields": { "=": { "field": "fd_blood", "intensity": 1, "age": 990 } },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 16, 20 ], "y": [ 11, 14 ], "density": 0.1 },
         { "monster": "GROUP_CHUD", "x": [ 4, 6 ], "y": [ 16, 18 ], "density": 0.2 }

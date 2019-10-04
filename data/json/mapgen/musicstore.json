@@ -149,9 +149,9 @@
         { "item": "amplifier_head", "x": 21, "y": [ 16, 17 ], "chance": 10 }
       ],
       "place_furniture": [
-        { "furn": "f_speaker_cabinet", "x": 15, "y": 17, "chance": 5 },
-        { "furn": "f_speaker_cabinet", "x": 18, "y": [ 16, 17 ], "chance": 10 },
-        { "furn": "f_speaker_cabinet", "x": 21, "y": [ 16, 17 ], "chance": 10 }
+        { "furn": "f_speaker_cabinet", "x": 15, "y": 17 },
+        { "furn": "f_speaker_cabinet", "x": 18, "y": [ 16, 17 ] },
+        { "furn": "f_speaker_cabinet", "x": 21, "y": [ 16, 17 ] }
       ]
     }
   },

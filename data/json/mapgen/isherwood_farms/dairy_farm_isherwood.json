@@ -118,7 +118,7 @@
         { "vehicle": "quad_bike", "x": 17, "y": 2, "chance": 30, "fuel": 200, "status": -1, "rotation": 0 },
         { "vehicle": "bicycle", "x": 17, "y": 2, "chance": 80, "fuel": 0, "status": 0, "rotation": 0 }
       ],
-      "place_npcs": [ { "chance": 100, "class": "isherwood_eddie", "x": 8, "y": 17 } ]
+      "place_npcs": [ { "class": "isherwood_eddie", "x": 8, "y": 17 } ]
     }
   },
   {
@@ -249,7 +249,7 @@
         "........................",
         "........................"
       ],
-      "place_npcs": [ { "chance": 100, "class": "isherwood_luke", "x": 7, "y": 9 } ],
+      "place_npcs": [ { "class": "isherwood_luke", "x": 7, "y": 9 } ],
       "terrain": {
         ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
         "|": "t_wall_log",

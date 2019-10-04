@@ -49,10 +49,7 @@
     "nested_mapgen_id": "roof_4x4_survivor",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "place_furniture": [
-        { "furn": "f_camp_chair", "x": 0, "y": 0, "chance": 50 },
-        { "furn": "f_makeshift_bed", "x": 2, "y": 0, "chance": 50 }
-      ],
+      "place_furniture": [ { "furn": "f_camp_chair", "x": 0, "y": 0 }, { "furn": "f_makeshift_bed", "x": 2, "y": 0 } ],
       "place_loot": [
         { "group": "cannedfood", "x": 1, "y": 0, "repeat": [ 2, 3 ] },
         { "group": "camping", "x": [ 0, 3 ], "y": [ 0, 3 ], "chance": 50, "repeat": [ 2, 3 ] },

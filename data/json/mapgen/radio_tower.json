@@ -257,10 +257,7 @@
     "nested_mapgen_id": "radio_tower_2x2_holdout",
     "object": {
       "mapgensize": [ 2, 2 ],
-      "place_furniture": [
-        { "furn": "f_camp_chair", "x": 1, "y": 0, "chance": 50 },
-        { "furn": "f_makeshift_bed", "x": 1, "y": 1, "chance": 50 }
-      ],
+      "place_furniture": [ { "furn": "f_camp_chair", "x": 1, "y": 0 }, { "furn": "f_makeshift_bed", "x": 1, "y": 1 } ],
       "place_loot": [
         { "group": "camping", "x": 1, "y": [ 0, 1 ], "chance": 50, "repeat": [ 2, 3 ] },
         { "item": "blanket", "x": 1, "y": [ 0, 1 ], "chance": 50, "repeat": [ 1, 2 ] },
@@ -277,7 +274,7 @@
     "nested_mapgen_id": "radio_tower_2x2_sniper",
     "object": {
       "mapgensize": [ 2, 2 ],
-      "place_furniture": [ { "furn": "f_camp_chair", "x": 1, "y": 0, "chance": 50 } ],
+      "place_furniture": [ { "furn": "f_camp_chair", "x": 1, "y": 0 } ],
       "place_loot": [
         { "item": "corpse", "x": 1, "y": 0 },
         { "group": "mon_zombie_soldier_death_drops", "x": 1, "y": 0 },

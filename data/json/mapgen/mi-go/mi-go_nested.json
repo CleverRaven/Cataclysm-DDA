@@ -143,13 +143,13 @@
       ],
       "palettes": [ "mi-go_palette" ],
       "npcs": {
-        "1": { "class": "mi-go_prisoner", "chance": 20 },
-        "2": { "class": "mi-go_prisoner", "chance": 20 },
-        "3": { "class": "mi-go_prisoner", "chance": 20 },
-        "4": { "class": "mi-go_prisoner", "chance": 20 },
-        "5": { "class": "apis", "chance": 20 },
-        "6": { "class": "mi-go_prisoner", "chance": 20 },
-        "7": { "class": "mi-go_prisoner", "chance": 20 }
+        "1": { "class": "mi-go_prisoner" },
+        "2": { "class": "mi-go_prisoner" },
+        "3": { "class": "mi-go_prisoner" },
+        "4": { "class": "mi-go_prisoner" },
+        "5": { "class": "apis" },
+        "6": { "class": "mi-go_prisoner" },
+        "7": { "class": "mi-go_prisoner" }
       },
       "place_monsters": [
         { "monster": "GROUP_MI-GO_BASE_CAPTORS", "x": [ 2, 12 ], "y": [ 5, 10 ], "density": 0.02, "repeat": [ 2, 3 ] },
@@ -424,12 +424,12 @@
       ],
       "palettes": [ "mi-go_palette" ],
       "npcs": {
-        "1": { "class": "mi-go_prisoner", "chance": 20 },
-        "2": { "class": "mi-go_prisoner", "chance": 20 },
-        "3": { "class": "mi-go_prisoner", "chance": 20 },
-        "4": { "class": "mi-go_prisoner", "chance": 20 },
-        "6": { "class": "mi-go_prisoner", "chance": 20 },
-        "7": { "class": "mi-go_prisoner", "chance": 20 }
+        "1": { "class": "mi-go_prisoner" },
+        "2": { "class": "mi-go_prisoner" },
+        "3": { "class": "mi-go_prisoner" },
+        "4": { "class": "mi-go_prisoner" },
+        "6": { "class": "mi-go_prisoner" },
+        "7": { "class": "mi-go_prisoner" }
       }
     }
   }
