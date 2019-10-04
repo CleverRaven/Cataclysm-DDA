@@ -1,26 +1,5 @@
 [
   {
-    "id": "MISSION_BOOK",
-    "type": "mission_definition",
-    "name": "Find a Book",
-    "goal": "MGOAL_FIND_ANY_ITEM",
-    "difficulty": 2,
-    "value": 800,
-    "start": "place_book",
-    "origins": [ "ORIGIN_NULL" ],
-    "dialogue": {
-      "describe": "Wanna help me out?",
-      "offer": "Get me a book.",
-      "accepted": "Thanks.",
-      "rejected": "Well, I'll find someone else to do it for me.",
-      "advice": "Try a library.",
-      "inquire": "Got that book for me?",
-      "success": "Thanks!",
-      "success_lie": "OK, then hand it over.",
-      "failure": "Shit happens."
-    }
-  },
-  {
     "id": "MISSION_EXPLORE_SARCOPHAGUS",
     "type": "mission_definition",
     "name": "Follow Sarcophagus Team",
