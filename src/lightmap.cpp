@@ -447,7 +447,7 @@ void map::generate_lightmap( const int zlev )
 
     if( g->u.has_active_bionic( bionic_id( "bio_night" ) ) ) {
         for( const tripoint &p : points_in_rectangle( cache_start, cache_end ) ) {
-            if( rl_dist( p, g->u.pos() ) < 15 ) {
+            if( rl_dist( p, g->u.pos() ) < 2 ) {
                 lm[p.x][p.y].fill( LIGHT_AMBIENT_MINIMAL );
             }
         }
