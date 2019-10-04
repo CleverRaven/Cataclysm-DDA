@@ -711,7 +711,6 @@ void faction_manager::display() const
         } else if( tab == tab_mode::TAB_OTHERFACTIONS ) {
             if( !valfac.empty() ) {
                 cur_fac = valfac[selection];
-                active_vec_size = valfac.size();
             }
             active_vec_size = valfac.size();
         }
