@@ -2927,10 +2927,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             const inscribe_actor *use_actor = use_func ?
                                               dynamic_cast<const inscribe_actor *>( use_func->get_actor_ptr() ) : nullptr;
             if( use_actor ) {
-                //~ %1$s: gerund (e.g. carved), %2$s: item name
+                //~ %1$s: gerund (e.g. carved), %2$s: item name, %3$s: inscription text
                 ntext = string_format( pgettext( "carving", "%1$s on the %2$s is: %3$s" ),
                                        use_actor->gerund, tname(), item_note->second );
             } else {
+                //~ %1$s: inscription text
                 ntext = string_format( pgettext( "carving", "Note: %1$s" ), item_note->second );
             }
             info.push_back( iteminfo( "DESCRIPTION", ntext ) );
