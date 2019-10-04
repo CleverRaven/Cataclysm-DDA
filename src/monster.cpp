@@ -1687,7 +1687,8 @@ void monster::add_effect( const efftype_id &eff_id, const time_duration dur, bod
     // Effects are not applied to specific monster body part
     Creature::add_effect( eff_id, dur, num_bp, permanent, intensity, force, deferred );
 
-    effect_cache[MODIFIED] = effect_cache[MODIFIED] | effect_is_modifier_enabled( get_effect( eff_id ) );
+    effect_cache[MODIFIED] = effect_cache[MODIFIED] | effect_is_modifier_enabled( get_effect(
+                                 eff_id ) );
 }
 
 bool monster::remove_effect( const efftype_id &eff_id, body_part bp )
@@ -1695,9 +1696,9 @@ bool monster::remove_effect( const efftype_id &eff_id, body_part bp )
     bool modif = effect_is_modifier_enabled( get_effect( eff_id ) );
     bool rtrn = Creature::remove_effect( eff_id, bp );
 
-    if( modif && effect_cache[MODIFIED] ){
+    if( modif && effect_cache[MODIFIED] ) {
         modif = false;
-        for( const auto& ef : *effects ) {
+        for( const auto &ef : *effects ) {
             modif |= effect_is_modifier_enabled( ef.second.at( num_bp ) );
         }
         effect_cache[MODIFIED] = modif;
