@@ -707,11 +707,12 @@ void faction_manager::display() const
             if( !camps.empty() ) {
                 camp = camps[selection];
             }
+            active_vec_size = camps.size();
         } else if( tab == tab_mode::TAB_OTHERFACTIONS ) {
             if( !valfac.empty() ) {
                 cur_fac = valfac[selection];
-                active_vec_size = valfac.size();
             }
+            active_vec_size = valfac.size();
         }
 
         for( int i = 3; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
