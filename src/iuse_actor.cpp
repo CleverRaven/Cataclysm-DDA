@@ -3835,7 +3835,7 @@ place_trap_actor::place_trap_actor( const std::string &type ) :
 
 place_trap_actor::data::data() : trap( trap_str_id::NULL_ID() ) {}
 
-void place_trap_actor::data::load( JsonObject obj )
+void place_trap_actor::data::load( JsonObject &obj )
 {
     assign( obj, "trap", trap );
     assign( obj, "done_message", done_message );
@@ -3851,7 +3851,8 @@ void place_trap_actor::load( JsonObject &obj )
     assign( obj, "needs_neighbor_terrain", needs_neighbor_terrain );
     assign( obj, "bury_question", bury_question );
     if( !bury_question.empty() ) {
-        buried_data.load( obj.get_object( "bury" ) );
+        JsonObject buried_json = obj.get_object( "bury" );
+        buried_data.load( buried_json );
     }
     unburied_data.load( obj );
     assign( obj, "outer_layer_trap", outer_layer_trap );

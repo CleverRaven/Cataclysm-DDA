@@ -285,6 +285,7 @@ void mission_type::load( JsonObject &jo, const std::string &src )
             JsonObject j_start = jo.get_object( phase );
             if( !parse_funcs( j_start, phase_func ) ) {
                 deferred.emplace_back( jo.str(), src );
+                j_start.allow_omitted_members();
                 return false;
             }
         }

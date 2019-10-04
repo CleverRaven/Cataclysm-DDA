@@ -202,6 +202,7 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
 {
     if( !jo.has_string( "type" ) || jo.get_string( "type" ) != "MOD_INFO" ) {
         // Ignore anything that is not a mod-info
+        jo.allow_omitted_members();
         return;
     }
 

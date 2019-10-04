@@ -70,7 +70,7 @@ struct talk_trial {
     bool roll( dialogue &d ) const;
 
     talk_trial() = default;
-    talk_trial( JsonObject );
+    talk_trial( JsonObject & );
 };
 
 struct talk_topic {
@@ -94,20 +94,20 @@ struct talk_effect_fun_t {
         talk_effect_fun_t( std::function<void( npc & )> );
         talk_effect_fun_t( std::function<void( const dialogue &d )> );
         void set_companion_mission( const std::string &role_id );
-        void set_add_effect( JsonObject jo, const std::string &member, bool is_npc = false );
-        void set_remove_effect( JsonObject jo, const std::string &member, bool is_npc = false );
-        void set_add_trait( JsonObject jo, const std::string &member, bool is_npc = false );
-        void set_remove_trait( JsonObject jo, const std::string &member, bool is_npc = false );
-        void set_add_var( JsonObject jo, const std::string &member, bool is_npc = false );
-        void set_remove_var( JsonObject jo, const std::string &member, bool is_npc = false );
-        void set_adjust_var( JsonObject jo, const std::string &member, bool is_npc = false );
+        void set_add_effect( JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_remove_effect( JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_add_trait( JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_remove_trait( JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_add_var( JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_remove_var( JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_adjust_var( JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_u_buy_item( const std::string &item_name, int cost, int count,
                              const std::string &container_name );
         void set_u_spend_cash( int amount );
         void set_u_sell_item( const std::string &item_name, int cost, int count );
-        void set_consume_item( JsonObject jo, const std::string &member, int count,
+        void set_consume_item( JsonObject &jo, const std::string &member, int count,
                                bool is_npc = false );
-        void set_remove_item_with( JsonObject jo, const std::string &member, bool is_npc = false );
+        void set_remove_item_with( JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_npc_change_faction( const std::string &faction_name );
         void set_npc_change_class( const std::string &class_name );
         void set_change_faction_rep( int rep_change );
@@ -119,7 +119,7 @@ struct talk_effect_fun_t {
         void set_npc_aim_rule( const std::string &setting );
         void set_npc_cbm_reserve_rule( const std::string &setting );
         void set_npc_cbm_recharge_rule( const std::string &setting );
-        void set_mapgen_update( JsonObject jo, const std::string &member );
+        void set_mapgen_update( JsonObject &jo, const std::string &member );
         void set_bulk_trade_accept( bool is_trade, bool is_npc = false );
         void set_npc_gets_item( bool to_use );
         void set_add_mission( std::string mission_id );
@@ -171,11 +171,11 @@ struct talk_effect_t {
         void set_effect_consequence( std::function<void( npc &p )> ptr, dialogue_consequence con );
 
         void load_effect( JsonObject &jo );
-        void parse_sub_effect( JsonObject jo );
+        void parse_sub_effect( JsonObject &jo );
         void parse_string_effect( const std::string &effect_id, JsonObject &jo );
 
         talk_effect_t() = default;
-        talk_effect_t( JsonObject );
+        talk_effect_t( JsonObject & );
 
         /**
          * Functions that are called when the response is chosen.
@@ -217,7 +217,7 @@ struct talk_response {
     std::set<dialogue_consequence> get_consequences( const dialogue &d ) const;
 
     talk_response();
-    talk_response( JsonObject );
+    talk_response( JsonObject & );
 };
 
 struct dialogue {
@@ -365,7 +365,7 @@ class json_talk_response
 
     public:
         json_talk_response() = default;
-        json_talk_response( JsonObject jo );
+        json_talk_response( JsonObject &jo );
 
         /**
          * Callback from @ref json_talk_topic::gen_responses, see there.
@@ -395,7 +395,7 @@ class json_dynamic_line_effect
         std::function<bool( const dialogue & )> condition;
         talk_effect_t effect;
     public:
-        json_dynamic_line_effect( JsonObject jo, const std::string &id );
+        json_dynamic_line_effect( JsonObject &jo, const std::string &id );
         bool test_condition( const dialogue &d ) const;
         void apply( dialogue &d ) const;
 };
