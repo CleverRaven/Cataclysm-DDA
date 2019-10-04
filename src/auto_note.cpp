@@ -301,7 +301,7 @@ void auto_note_manager_gui::show()
                     wprintz( w, c_yellow, "   " );
                 }
 
-                wprintz( w, lineColor, "%s", cacheEntry.first.name );
+                wprintz( w, lineColor, "%s", _( cacheEntry.first.name ) );
 
                 // Since yes is longer than no, we need to clear the space for the status string before
                 // displaying the current text. Otherwise artifacts might occur.
