@@ -366,5 +366,20 @@
     "max_aoe": 20,
     "message": "You have a vision of the surrounding area...",
     "base_casting_time": 100
+  },
+  {
+    "type": "SPELL",
+    "id": "AEA_FUN",
+    "name": "Artifact Fun",
+    "effect": "morale",
+    "effect_str": "morale_feeling_good",
+    "description": "Makes you feel pretty good",
+    "message": "You're filled with euphoria!",
+    "min_damage": 20,
+    "max_damage": 50,
+    "valid_targets": [ "self" ],
+    "min_duration": 30000,
+    "max_duration": 30000,
+    "flags": [ "RANDOM_DAMAGE", "SILENT" ]
   }
 ]

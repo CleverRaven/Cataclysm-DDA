@@ -100,6 +100,8 @@ Any aoe will manifest as a circular area centered on the target, and will only d
 
 * "map" - maps the overmap centered on the player out to a radius of aoe()
 
+* "morale" - gives a morale effect to all npcs or avatar within aoe, with value damage(). decay_start is duration() / 10.
+
 * "WONDER" - Unlike the above, this is not an "effect" but a "flag".  This alters the behavior of the parent spell drastically: The spell itself doesn't cast, but its damage and range information is used in order to cast the extra_effects.  N of the extra_effects will be chosen at random to be cast, where N is the current damage of the spell (stacks with RANDOM_DAMAGE flag) and the message of the spell cast by this spell will also be displayed.  If this spell's message is not wanted to be displayed, make sure the message is an empty string.
 
 ##### For Spells that have an attack type, these are the available damage types:
