@@ -5,7 +5,7 @@
     "name": "Adrenaline Pump",
     "description": "A stimulator system has been surgically implanted alongside your adrenal glands, allowing you to trigger your body's adrenaline response at the cost of some bionic power.",
     "occupied_bodyparts": [ [ "TORSO", 6 ] ],
-    "act_cost": "50 J"
+    "act_cost": "5 J"
   },
   {
     "id": "bio_ads",
@@ -93,7 +93,7 @@
     "name": "Monomolecular Blade",
     "description": "A deadly foot-long blade made of advanced material now resides inside your forearm, capable of being extended through the back of your wrist at the cost of a small amount of power.  Though exceptionally sharp, it will prevent you from holding anything else while extended.",
     "occupied_bodyparts": [ [ "ARM_R", 5 ], [ "HAND_R", 2 ] ],
-    "act_cost": "1000 J",
+    "act_cost": "50 J",
     "fake_item": "bio_blade_weapon",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
   },
@@ -104,7 +104,7 @@
     "description": "Concealed in your left arm is a single shot 12 gauge shotgun.  Activate the bionic to fire and reload the shotgun.",
     "occupied_bodyparts": [ [ "ARM_L", 15 ] ],
     "encumbrance": [ [ "ARM_L", 5 ] ],
-    "act_cost": "1000 J",
+    "act_cost": "50 J",
     "fake_item": "bio_shotgun_gun",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ]
   },
@@ -130,7 +130,7 @@
     "name": "Blood Filter",
     "description": "A filtration system in your heart allows you to actively filter out chemical impurities, primarily drugs.  It will have limited impact on viruses.  Note that it is not a targeted filter; ALL drugs in your system will be affected.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
-    "act_cost": "6 kJ"
+    "act_cost": "600 J"
   },
   {
     "id": "bio_cable",
@@ -176,7 +176,7 @@
     "name": "Bionic Claws",
     "description": "Vicious claws have been surgically installed inside your fingers, allowing you to extend and retract them at the cost of a small amount of power.  These do considerable cutting damage, but prevent you from holding anything else while extended.",
     "occupied_bodyparts": [ [ "HAND_L", 5 ], [ "HAND_R", 5 ] ],
-    "act_cost": "500 J",
+    "act_cost": "25 J",
     "fake_item": "bio_claws_weapon",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
   },
@@ -230,8 +230,8 @@
     "name": "Close Quarters Battle",
     "description": "Bionic processors and databanks, loaded with martial arts combat programs, are surgically integrated into your nervous system.  Whilst active, the CQB module will improve your hand to hand combat skills, but prevents you from improving them through combat experience.",
     "occupied_bodyparts": [ [ "HEAD", 4 ] ],
-    "act_cost": "100 J",
-    "react_cost": "100 J",
+    "act_cost": "20 J",
+    "react_cost": "20 J",
     "time": 1,
     "flags": [ "BIONIC_TOGGLED" ]
   },
@@ -575,7 +575,7 @@
     "name": "Fingerpick",
     "description": "One of your fingers has an electronic lockpick surgically embedded in it.  This automatic system will quickly unlock all but the most advanced key locks without any skill required on the part of the user.",
     "occupied_bodyparts": [ [ "HAND_R", 2 ] ],
-    "act_cost": "100 J"
+    "act_cost": "50 J"
   },
   {
     "id": "bio_magnet",
@@ -832,8 +832,8 @@
     "description": "While this system is powered, you're able to visually sense your own scent, making it possible for you to recognize your surroundings even in complete darkness.",
     "occupied_bodyparts": [ [ "HEAD", 3 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "act_cost": "50 J",
-    "react_cost": "50 J",
+    "act_cost": "2 J",
+    "react_cost": "2 J",
     "time": 1
   },
   {
@@ -1041,8 +1041,8 @@
     "description": "Your nervous system has been augmented with bionic processors, allowing you to dodge attacks beyond normal human capability, including bullets.",
     "occupied_bodyparts": [ [ "TORSO", 12 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "LEG_L", 5 ], [ "LEG_R", 5 ], [ "FOOT_L", 1 ], [ "FOOT_R", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "act_cost": 1,
-    "react_cost": 1,
+    "act_cost": "6 J",
+    "react_cost": "6 J",
     "time": 10
   },
   {
