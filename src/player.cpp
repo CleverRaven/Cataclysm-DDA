@@ -5525,7 +5525,7 @@ void player::suffer()
                             !has_morale( MORALE_PYROMANIA_STARTFIRE );
     if( has_trait( trait_PYROMANIA ) && needs_fire && !in_sleep_state() &&
         calendar::once_every( 2_hours ) ) {
-        add_morale( MORALE_PYROMANIA_NOFIRE, -1, -30, 24_hours, 24_hours );
+        add_morale( MORALE_PYROMANIA_NOFIRE, -1, -30, 24_hours, 24_hours, true );
         if( calendar::once_every( 4_hours ) ) {
             std::string smokin_hot_fiyah = SNIPPET.random_from_category( "pyromania_withdrawal" );
             add_msg_if_player( m_bad, _( smokin_hot_fiyah ) );
