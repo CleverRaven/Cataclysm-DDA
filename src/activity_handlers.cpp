@@ -282,6 +282,19 @@ static void messages_in_process( const player_activity &act, const player &p )
     }
 }
 
+bool activity_handlers::resume_for_multi_activities( player &p )
+{
+    if( !p.backlog.empty() ) {
+        player_activity &back_act = p.backlog.front();
+        if( back_act.is_multi_type() ) {
+            p.assign_activity( p.backlog.front().id() );
+            p.backlog.clear();
+            return true;
+        }
+    }
+    return false;
+}
+
 void activity_handlers::burrow_do_turn( player_activity *act, player *p )
 {
     sfx::play_activity_sound( "activity", "burrow", sfx::get_heard_volume( act->placement ) );
@@ -1018,6 +1031,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // No targets means we are done
     if( act->targets.empty() ) {
         act->set_to_null();
+        resume_for_multi_activities( *p );
         return;
     }
 
@@ -1277,9 +1291,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // Ready to move on to the next item, if there is one (for example if multibutchering)
     act->index = true;
     // if its mutli-tile butchering,then restart the backlog.
-    if( !p->backlog.empty() && p->backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
-        p->activity = player_activity();
-    }
+    resume_for_multi_activities( *p );
 }
 
 void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
@@ -2002,6 +2014,9 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
                 g->refresh_all();
                 // TODO: Z (and also where the activity is queued)
                 // Or not, because the vehicle coordinates are dropped anyway
+                if( resume_for_multi_activities( *p ) ) {
+                    return;
+                }
                 g->exam_vehicle( vp->vehicle(), point( act->values[ 2 ], act->values[ 3 ] ) );
                 return;
             } else {
@@ -2499,6 +2514,9 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     p->invalidate_crafting_inventory();
 
     target->faults.erase( *f );
+    if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" ) {
+        target->set_var( "dirt", 0 );
+    }
     add_msg( m_good, _( "You successfully mended the %s." ), target->tname() );
 }
 
@@ -2931,7 +2949,11 @@ void activity_handlers::wait_stamina_do_turn( player_activity *act, player *p )
 {
     int stamina_threshold = p->get_stamina_max();
     if( !act->values.empty() ) {
-        stamina_threshold = act->values.front();
+        stamina_threshold = act->values[0];
+        // remember initial stamina, only for waiting-with-threshold
+        if( act->values.size() == 1 ) {
+            act->values.push_back( p->stamina );
+        }
     }
     if( p->stamina >= stamina_threshold ) {
         wait_stamina_finish( act, p );
@@ -2941,7 +2963,9 @@ void activity_handlers::wait_stamina_do_turn( player_activity *act, player *p )
 void activity_handlers::wait_stamina_finish( player_activity *act, player *p )
 {
     if( !act->values.empty() ) {
-        if( p->stamina < act->values.front() ) {
+        const int stamina_threshold = act->values[0];
+        const int stamina_initial = ( act->values.size() > 1 ) ? act->values[1] : p->stamina;
+        if( p->stamina < stamina_threshold && p->stamina <= stamina_initial ) {
             debugmsg( "Failed to wait until stamina threshold %d reached, only at %d. You may not be regaining stamina.",
                       act->values.front(), p->stamina );
         }
@@ -2965,9 +2989,38 @@ void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
         if( p->can_sleep() ) {
             act->set_to_null();
             p->fall_asleep();
+            p->remove_value( "sleep_query" );
         } else if( one_in( 1000 ) ) {
             p->add_msg_if_player( _( "You toss and turn..." ) );
         }
+        if( calendar::once_every( 30_minutes ) ) {
+            try_sleep_query( act, p );
+        }
+    }
+}
+
+void activity_handlers::try_sleep_query( player_activity *act, player *p )
+{
+    if( p->get_value( "sleep_query" ) == "false" ) {
+        return;
+    }
+    uilist sleep_query;
+    sleep_query.text = _( "You have trouble sleeping, keep trying?" );
+    sleep_query.addentry( 1, true, 'S', _( "Stop trying to fall asleep and get up." ) );
+    sleep_query.addentry( 2, true, 'c', _( "Continue trying to fall asleep." ) );
+    sleep_query.addentry( 3, true, 'C',
+                          _( "Continue trying to fall asleep and don't ask again." ) );
+    sleep_query.query();
+    switch( sleep_query.ret ) {
+        case 1:
+            act->set_to_null();
+            break;
+        case 3:
+            p->set_value( "sleep_query", "false" );
+            break;
+        case 2:
+        default:
+            break;
     }
 }
 
@@ -3026,7 +3079,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
             }
             if( act->values.size() > 4 ) {
                 for( size_t i = 4; i < act->values.size(); i++ ) {
-                    p->add_effect( effect_bleed, 1_turns, body_part( act->values[i] ), true, difficulty );
+                    p->make_bleed( body_part( act->values[i] ), 1_turns, difficulty, true );
                     p->apply_damage( nullptr, body_part( act->values[i] ), 20 * difficulty );
 
                     if( u_see ) {
@@ -3040,7 +3093,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                     }
                 }
             } else {
-                p->add_effect( effect_bleed, 1_turns, num_bp, true, difficulty );
+                p->make_bleed( num_bp, 1_turns, difficulty, true );
                 p->apply_damage( nullptr, num_bp, 20 * difficulty );
             }
         }
@@ -3188,18 +3241,13 @@ void activity_handlers::churn_finish( player_activity *act, player *p )
     // Go back to what we were doing before
     // could be player zone activity, or could be NPC multi-farming
     act->set_to_null();
-    if( !p->backlog.empty() ) {
-        p->activity = p->backlog.front();
-        p->backlog.pop_front();
-    }
+    resume_for_multi_activities( *p );
 }
 
 void activity_handlers::churn_do_turn( player_activity *act, player *p )
 {
     ( void )act;
-    if( p->is_npc() ) {
-        p->set_moves( 0 );
-    }
+    p->set_moves( 0 );
 }
 
 void activity_handlers::build_do_turn( player_activity *act, player *p )
@@ -3517,14 +3565,17 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     const tripoint &pos = g->m.getlocal( act->placement );
 
     tripoint direction;
-    if( p->is_player() ) {
-        while( true ) {
-            if( const cata::optional<tripoint> dir = choose_direction(
-                        _( "Select a direction for the tree to fall in." ) ) ) {
-                direction = *dir;
-                break;
+    if( !p->is_npc() ) {
+        if( p->backlog.empty() || ( !p->backlog.empty() &&
+                                    p->backlog.front().id() != activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ) ) {
+            while( true ) {
+                if( const cata::optional<tripoint> dir = choose_direction(
+                            _( "Select a direction for the tree to fall in." ) ) ) {
+                    direction = *dir;
+                    break;
+                }
+                // try again
             }
-            // try again
         }
     } else {
         for( const auto elem : g->m.points_in_radius( pos, 1 ) ) {
@@ -3561,6 +3612,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     sfx::play_variant_sound( "misc", "timber",
                              sfx::get_heard_volume( g->m.getlocal( act->placement ) ) );
     act->set_to_null();
+    resume_for_multi_activities( *p );
 }
 
 void activity_handlers::chop_logs_finish( player_activity *act, player *p )
@@ -3605,6 +3657,7 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act->set_to_null();
+    resume_for_multi_activities( *p );
 }
 
 void activity_handlers::chop_planks_finish( player_activity *act, player *p )
@@ -3628,6 +3681,7 @@ void activity_handlers::chop_planks_finish( player_activity *act, player *p )
         p->add_msg_if_player( m_bad, _( "You waste a lot of the wood." ) );
     }
     act->set_to_null();
+    resume_for_multi_activities( *p );
 }
 
 void activity_handlers::jackhammer_do_turn( player_activity *act, player *p )
@@ -3693,7 +3747,7 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
                 }
             };
 
-            g->summon_mon( random_entry( monids ), dump_loc );
+            g->place_critter_at( random_entry( monids ), dump_loc );
             g->m.furn_set( pos, f_coffin_o );
             p->add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
         } else {
@@ -4170,18 +4224,15 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
             }
             return;
         }
-        for( int dx = -1; dx <= 1; dx++ ) {
-            for( int dy = -1; dy <= 1; dy++ ) {
-                tripoint neighbor = tpt + point( dx, dy );
-                if( seen.find( neighbor ) != seen.end() ) {
-                    continue;
-                }
-                seen.insert( neighbor );
-                if( !overmap_buffer.ter( neighbor ).obj().is_wooded() ) {
-                    continue;
-                }
-                q.push( neighbor );
+        for( const tripoint &neighbor : points_in_radius( tpt, 1 ) ) {
+            if( seen.find( neighbor ) != seen.end() ) {
+                continue;
             }
+            seen.insert( neighbor );
+            if( !overmap_buffer.ter( neighbor ).obj().is_wooded() ) {
+                continue;
+            }
+            q.push( neighbor );
         }
         q.pop();
     }
@@ -4277,7 +4328,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     target_handler th;
     tripoint target = p->pos();
     bool target_is_valid = false;
-    if( casting.range() > 0 && !casting.is_valid_target( target_none ) ) {
+    if( casting.range() > 0 && !casting.is_valid_target( target_none ) &&
+        !casting.has_flag( RANDOM_TARGET ) ) {
         do {
             std::vector<tripoint> trajectory = th.target_ui( casting, no_fail, no_mana );
             if( !trajectory.empty() ) {
@@ -4295,6 +4347,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 }
             }
         } while( !target_is_valid );
+    } else if( casting.has_flag( RANDOM_TARGET ) ) {
+        target = casting.random_valid_target( *p, p->pos() );
     }
 
     // no turning back now. it's all said and done.
@@ -4331,7 +4385,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 p->mod_stat( "stamina", -cost );
                 break;
             case bionic_energy:
-                p->power_level -= cost;
+                p->power_level -= units::from_kilojoule( cost );
                 break;
             case hp_energy:
                 blood_magic( p, cost );

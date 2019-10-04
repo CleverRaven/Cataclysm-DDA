@@ -3010,13 +3010,6 @@
     ]
   },
   {
-    "result": "camp_chair",
-    "type": "uncraft",
-    "time": "5 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "steel_chunk", 2 ] ] ]
-  },
-  {
     "result": "platinum_hairpin",
     "type": "uncraft",
     "time": "30 s",

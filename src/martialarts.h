@@ -113,6 +113,7 @@ class ma_technique
         bool downed_target; // only works on downed enemies
         bool stunned_target; // only works on stunned enemies
         bool wall_adjacent; // only works near a wall
+        bool human_target;  // only works on humanoid enemies
 
         /** All kinds of bonuses by types to damage, hit etc. */
         bonus_container bonuses;

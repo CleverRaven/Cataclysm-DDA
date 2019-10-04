@@ -454,7 +454,7 @@ float calendar::season_ratio()
 
 float calendar::season_from_default_ratio()
 {
-    static const int default_season_length = 14;
+    static const int default_season_length = 91;
     return to_days<float>( season_length() ) / default_season_length;
 }
 

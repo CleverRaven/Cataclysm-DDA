@@ -47,6 +47,7 @@ enum spell_flag {
     RANDOM_AOE, // picks random number between min+increment*level and max instead of normal behavior
     RANDOM_DAMAGE, // picks random number between min+increment*level and max instead of normal behavior
     RANDOM_DURATION, // picks random number between min+increment*level and max instead of normal behavior
+    RANDOM_TARGET, // picks a random valid target within your range instead of normal behavior.
     WONDER, // instead of casting each of the extra_spells, it picks N of them and casts them (where N is std::min( damage(), number_of_spells ))
     LAST
 };
@@ -97,7 +98,7 @@ struct fake_spell {
                 const cata::optional<int> &max_level = cata::nullopt ) : id( sp_id ),
         max_level( max_level ), self( hit_self ) {}
 
-    spell get_spell( int level_override = INT_MAX ) const;
+    spell get_spell( int input_level ) const;
 
     void load( JsonObject &jo );
     void serialize( JsonOut &json ) const;
@@ -389,6 +390,9 @@ class spell
         bool is_valid_target( const Creature &caster, const tripoint &p ) const;
         bool is_valid_target( valid_target t ) const;
         bool is_valid_effect_target( valid_target t ) const;
+
+        // picks a random valid tripoint from @area
+        tripoint random_valid_target( const Creature &caster, const tripoint &caster_pos ) const;
 };
 
 class known_magic
@@ -487,6 +491,9 @@ void translocate( const spell &sp, Creature &caster, const tripoint &target );
 void timed_event( const spell &sp, Creature &caster, const tripoint & );
 void transform_blast( const spell &sp, Creature &caster, const tripoint &target );
 void vomit( const spell &sp, Creature &caster, const tripoint &target );
+void explosion( const spell &sp, Creature &, const tripoint &target );
+void flashbang( const spell &sp, Creature &caster, const tripoint &target );
+void map( const spell &sp, Creature &caster, const tripoint & );
 void none( const spell &sp, Creature &, const tripoint &target );
 } // namespace spell_effect
 

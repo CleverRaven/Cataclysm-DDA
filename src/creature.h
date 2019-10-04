@@ -327,6 +327,7 @@ class Creature
         /** Processes move stopping effects. Returns false if movement is stopped. */
         virtual bool move_effects( bool attacking ) = 0;
 
+        void add_effect( const effect &eff, bool force = false, bool deferred = false );
         /** Adds or modifies an effect. If intensity is given it will set the effect intensity
             to the given value, or as close as max_intensity values permit. */
         virtual void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
@@ -773,6 +774,10 @@ class Creature
 
     public:
         body_part select_body_part( Creature *source, int hit_roll ) const;
+
+        static void load_hit_range( JsonObject & );
+        // Empirically determined by "synthetic_range_test" in tests/ranged_balance.cpp.
+        static std::vector <int> dispersion_for_even_chance_of_good_hit;
         /**
          * This function replaces the "<npcname>" substring with the @ref disp_name of this creature.
          *

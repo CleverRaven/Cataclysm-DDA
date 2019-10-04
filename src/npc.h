@@ -772,14 +772,15 @@ class npc : public player
         // Generating our stats, etc.
         void randomize( const npc_class_id &type = npc_class_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
+        void apply_ownership_to_inv();
         // Faction version number
         int get_faction_ver() const;
         void set_faction_ver( int new_version );
         bool has_faction_relationship( const player &p,
                                        npc_factions::relationship flag ) const;
-        void set_fac( const string_id<faction> &id );
+        void set_fac( const faction_id &id );
         faction *get_faction() const override;
-        string_id<faction> get_fac_id() const;
+        faction_id get_fac_id() const;
         /**
          * Set @ref submap_coords and @ref pos.
          * @param mx,my,mz are global submap coordinates.

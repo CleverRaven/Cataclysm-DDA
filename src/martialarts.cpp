@@ -112,6 +112,7 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "downed_target", downed_target, false );
     optional( jo, was_loaded, "stunned_target", stunned_target, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
+    optional( jo, was_loaded, "human_target", human_target, false );
 
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
@@ -473,9 +474,17 @@ std::string ma_requirements::get_description( bool buff ) const
     if( unarmed_allowed && melee_allowed ) {
         dump << string_format( _( "* Can %s while <info>armed</info> or <info>unarmed</info>" ),
                                type ) << std::endl;
+        if( unarmed_weapons_allowed ) {
+            dump << string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
+                                   type ) << std::endl;
+        }
     } else if( unarmed_allowed ) {
         dump << string_format( _( "* Can <info>only</info> %s while <info>unarmed</info>" ),
                                type ) << std::endl;
+        if( unarmed_weapons_allowed ) {
+            dump << string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
+                                   type ) << std::endl;
+        }
     } else if( melee_allowed ) {
         dump << string_format( _( "* Can <info>only</info> %s while <info>armed</info>" ),
                                type ) << std::endl;
@@ -512,6 +521,7 @@ ma_technique::ma_technique()
     downed_target = false;    // only works on downed enemies
     stunned_target = false;   // only works on stunned enemies
     wall_adjacent = false;    // only works near a wall
+    human_target = false;     // only works on humanoid enemies
 
     miss_recovery = false; // allows free recovery from misses, like tec_feint
     grab_break = false; // allows grab_breaks, like tec_break
@@ -1210,6 +1220,14 @@ std::string ma_technique::get_description() const
 
     dump << reqs.get_description();
 
+    if( weighting > 1 ) {
+        dump << string_format( _( "* <info>Greater chance</info> to activate: <stat>+%s%%</stat>" ),
+                               ( 100 * ( weighting - 1 ) ) ) << std::endl;
+    } else if( weighting < -1 ) {
+        dump << string_format( _( "* <info>Lower chance</info> to activate: <stat>1/%s</stat>" ),
+                               abs( weighting ) ) << std::endl;
+    }
+
     if( crit_ok ) {
         dump << _( "* Can activate on a <info>normal</info> or a <info>crit</info> hit" ) << std::endl;
     } else if( crit_tec ) {
@@ -1230,6 +1248,10 @@ std::string ma_technique::get_description() const
 
     if( stunned_target ) {
         dump << _( "* Only works on a <info>stunned</info> target" ) << std::endl;
+    }
+
+    if( human_target ) {
+        dump << _( "* Only works on a <info>humanoid</info> target" ) << std::endl;
     }
 
     if( dodge_counter ) {
@@ -1304,8 +1326,16 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         if( ma.force_unarmed ) {
             buffer << _( "<bold>This style forces you to use unarmed strikes, even if wielding a weapon.</bold>" );
-            buffer << "--" << std::endl;
+            buffer << std::endl;
+        } else if( ma.allow_melee ) {
+            buffer << _( "<bold>This style can be used with all weapons.</bold>" );
+            buffer << std::endl;
+        } else if( ma.strictly_melee ) {
+            buffer << _( "<bold>This is an armed combat style.</bold>" );
+            buffer << std::endl;
         }
+
+        buffer << "--" << std::endl;
 
         if( ma.arm_block_with_bio_armor_arms || ma.arm_block != 99 ||
             ma.leg_block_with_bio_armor_legs || ma.leg_block != 99 ) {

@@ -117,7 +117,12 @@ void map::generate( const tripoint &p, const time_point &when )
     //  because other submaps won't be touched.
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            setsubmap( get_nonant( { gridx, gridy } ), new submap() );
+            const size_t grid_pos = get_nonant( { gridx, gridy, p.z } );
+            if( getsubmap( grid_pos ) ) {
+                debugmsg( "Submap already exists at (%d, %d, %d)", gridx, gridy, p.z );
+                continue;
+            }
+            setsubmap( grid_pos, new submap() );
             // TODO: memory leak if the code below throws before the submaps get stored/deleted!
         }
     }
@@ -189,10 +194,13 @@ void map::generate( const tripoint &p, const time_point &when )
         for( int j = 0; j < my_MAPSIZE; j++ ) {
             dbg( D_INFO ) << "map::generate: submap (" << i << "," << j << ")";
 
+            const tripoint pos( i, j, p.z );
             if( i <= 1 && j <= 1 ) {
-                saven( tripoint( i, j, p.z ) );
+                saven( pos );
             } else {
-                delete get_submap_at_grid( { i, j, p.z } );
+                const size_t grid_pos = get_nonant( pos );
+                delete getsubmap( grid_pos );
+                setsubmap( grid_pos, nullptr );
             }
         }
     }
@@ -6579,17 +6587,16 @@ character_id map::place_npc( const point &p, const string_id<npc_template> &type
 void map::apply_faction_ownership( const point &p1, const point &p2,
                                    const faction_id id )
 {
-    faction *fac = g->faction_manager_ptr->get( id );
     for( const tripoint &p : points_in_rectangle( tripoint( p1, abs_sub.z ), tripoint( p2,
             abs_sub.z ) ) ) {
         auto items = i_at( p.xy() );
         for( item &elem : items ) {
-            elem.set_owner( fac );
+            elem.set_owner( id );
         }
         vehicle *source_veh = veh_pointer_or_null( veh_at( p ) );
         if( source_veh ) {
             if( !source_veh->has_owner() ) {
-                source_veh->set_owner( fac );
+                source_veh->set_owner( id );
             }
         }
     }

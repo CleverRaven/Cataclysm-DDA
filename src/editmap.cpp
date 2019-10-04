@@ -41,6 +41,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "cata_utility.h"
+#include "map_iterator.h"
 #include "creature.h"
 #include "game_constants.h"
 #include "int_id.h"
@@ -400,32 +401,29 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
     if( refresh_mplans ) {
         hilights["mplan"].points.clear();
     }
-    for( int x = start.x, sx = 0; x <= end.x; x++, sx++ ) {
-        for( int y = start.y, sy = 0; y <= end.y; y++, sy++ ) {
-            tripoint p{ x, y, target.z };
-            int sym = game_map ? '%' : ' ';
-            if( x >= 0 && x < msize && y >= 0 && y < msize ) {
-                if( game_map ) {
-                    Creature *critter = g->critter_at( p );
-                    if( critter != nullptr ) {
-                        critter->draw( w, center.xy(), false );
-                    } else {
-                        m->drawsq( w, g->u, p, false, draw_itm, center, false, true );
-                    }
-                    if( refresh_mplans ) {
-                        monster *mon = dynamic_cast<monster *>( critter );
-                        if( mon != nullptr && mon->pos() != mon->move_target() ) {
-                            for( auto &location : line_to( mon->pos(), mon->move_target() ) ) {
-                                hilights["mplan"].points[location] = 1;
-                            }
-                        }
-                    }
+    for( const tripoint &p : tripoint_range( start, end ) ) {
+        int sym = game_map ? '%' : ' ';
+        if( p.x >= 0 && p.x < msize && p.y >= 0 && p.y < msize ) {
+            if( game_map ) {
+                Creature *critter = g->critter_at( p );
+                if( critter != nullptr ) {
+                    critter->draw( w, center.xy(), false );
                 } else {
                     m->drawsq( w, g->u, p, false, draw_itm, center, false, true );
                 }
+                if( refresh_mplans ) {
+                    monster *mon = dynamic_cast<monster *>( critter );
+                    if( mon != nullptr && mon->pos() != mon->move_target() ) {
+                        for( auto &location : line_to( mon->pos(), mon->move_target() ) ) {
+                            hilights["mplan"].points[location] = 1;
+                        }
+                    }
+                }
             } else {
-                mvwputch( w, point( sx, sy ), c_dark_gray, sym );
+                m->drawsq( w, g->u, p, false, draw_itm, center, false, true );
             }
+        } else {
+            mvwputch( w, p.xy() - start.xy(), c_dark_gray, sym );
         }
     }
     if( refresh_mplans ) {
@@ -1325,13 +1323,10 @@ void editmap::recalc_target( shapetype shape )
     switch( shape ) {
         case editmap_circle: {
             int radius = rl_dist( origin, target );
-            for( int x = origin.x - radius; x <= origin.x + radius; x++ ) {
-                for( int y = origin.y - radius; y <= origin.y + radius; y++ ) {
-                    const tripoint p( x, y, z );
-                    if( rl_dist( p, origin ) <= radius ) {
-                        if( editmap_boundaries.contains_half_open( p ) ) {
-                            target_list.push_back( p );
-                        }
+            for( const tripoint &p : g->m.points_in_radius( origin, radius ) ) {
+                if( rl_dist( p, origin ) <= radius ) {
+                    if( editmap_boundaries.contains_half_open( p ) ) {
+                        target_list.push_back( p );
                     }
                 }
             }
@@ -1557,11 +1552,12 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     hilights["mapgentgt"].points[target + point( 1 + SEEX, -SEEY )] = 1;
 
     // Coordinates of the overmap terrain that should be generated.
-    const point omt_pos = ms_to_omt_copy( tc.abs_pos );
-    oter_id &omt_ref = overmap_buffer.ter( tripoint( omt_pos, target.z ) );
+    const point omt_pos2 = ms_to_omt_copy( tc.abs_pos );
+    const tripoint omt_pos( omt_pos2, target.z );
+    const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     // Copy to store the original value, to restore it upon canceling
     const oter_id orig_oters = omt_ref;
-    omt_ref = oter_id( gmenu.ret );
+    overmap_buffer.ter_set( omt_pos, oter_id( gmenu.ret ) );
     tinymap tmpmap;
     // TODO: add a do-not-save-generated-submaps parameter
     // TODO: keep track of generated submaps to delete them properly and to avoid memory leaks
@@ -1598,7 +1594,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     do {
         if( gmenu.selected != lastsel ) {
             lastsel = gmenu.selected;
-            omt_ref = oter_id( gmenu.selected );
+            overmap_buffer.ter_set( omt_pos, oter_id( gmenu.selected ) );
             cleartmpmap( tmpmap );
             tmpmap.generate( tripoint( omt_pos.x * 2, omt_pos.y * 2, target.z ), calendar::turn );
         }
@@ -1690,11 +1686,8 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             hilights["mapgentgt"].draw( *this, true );
             g->draw_panels();
             tmpmap.reset_vehicle_cache( target.z );
-            for( int x = 0; x < SEEX * 2; x++ ) {
-                for( int y = 0; y < SEEY * 2; y++ ) {
-                    tmpmap.drawsq( w_preview, g->u, tripoint( x, y, target.z ),
-                                   false, true, tripoint( SEEX, SEEY, target.z ), false, true );
-                }
+            for( const tripoint &p : tmpmap.points_on_zlevel() ) {
+                tmpmap.drawsq( w_preview, g->u, p, false, true, tripoint( SEEX, SEEY, target.z ), false, true );
             }
             wrefresh( w_preview );
         }
@@ -1769,7 +1762,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
     if( gpmenu.ret != 2 &&  // we didn't apply, so restore the original om_ter
         gpmenu.ret != 3 ) { // chose to change oter_id but not apply mapgen
-        omt_ref = orig_oters;
+        overmap_buffer.ter_set( omt_pos, orig_oters );
     }
     gmenu.border_color = c_magenta;
     gmenu.hilight_color = h_white;

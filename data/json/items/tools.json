@@ -3885,21 +3885,31 @@
   {
     "id": "misc_repairkit",
     "type": "TOOL",
-    "name": "basic repair kit",
-    "description": "This is a portable toolkit.  When supplied with duct tape, it serves as a vital tool for fixing items made of wood, paper, bone, or chitin.  It requires 50 units of duct tape per use.",
-    "weight": "1040 g",
-    "volume": "1 L",
+    "name": "misc repair kit",
+    "description": "This is a portable toolkit, consisting of a small carving knife for precise carving of replacement parts from raw materials, a wood saw for more heavy-duty wood cutting, and a patch of soft material for cleaning surfaces.  If supplied with duct tape, it can be used to repair certain items.",
+    "weight": "386 g",
+    "volume": "1500 ml",
     "price": 1000,
     "to_hit": -1,
     "bashing": 2,
-    "material": "plastic",
+    "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": "tape",
     "max_charges": 200,
-    "charges_per_use": 50,
-    "qualities": [ [ "CHISEL", 3 ], [ "HAMMER_FINE", 1 ], [ "HAMMER", 3 ], [ "PRY", 1 ] ],
-    "use_action": [ "MISC_REPAIR", "CROWBAR" ],
+    "charges_per_use": 5,
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 2 ], [ "AXE", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -90 ] ],
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "acidchitin", "bone", "chitin", "paper", "wood", "kevlar_rigid" ],
+        "skill": "fabrication",
+        "tool_quality": 5,
+        "cost_scaling": 0.1,
+        "move_cost": 1000
+      }
+    ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -4112,11 +4122,11 @@
     "sub": "sewing_kit",
     "max_charges": 200,
     "charges_per_use": 1,
-    "qualities": [ [ "SEW", 1 ] ],
+    "qualities": [ [ "SEW", 2 ] ],
     "use_action": {
       "type": "repair_item",
       "item_action_type": "repair_fabric",
-      "materials": [ "cotton", "leather", "wool", "fur", "nomex" ],
+      "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar", "gutskin" ],
       "skill": "tailor",
       "tool_quality": -1,
       "cost_scaling": 0.1,
@@ -4139,11 +4149,11 @@
     "sub": "sewing_kit",
     "max_charges": 200,
     "charges_per_use": 1,
-    "qualities": [ [ "SEW", 1 ] ],
+    "qualities": [ [ "SEW_CURVED", 1 ] ],
     "use_action": {
       "type": "repair_item",
       "item_action_type": "repair_fabric",
-      "materials": [ "neoprene", "nomex" ],
+      "materials": [ "neoprene" ],
       "skill": "tailor",
       "tool_quality": 0,
       "cost_scaling": 0.1,
@@ -4155,7 +4165,7 @@
     "id": "needle_wood",
     "type": "TOOL",
     "name": "wooden needle",
-    "description": "This is a wooden needle whittled down to a sharp point.  It has a narrow hole carved into the head for threading.  Its low quality makes it rather unsuitable for anything requiring speed or precision.",
+    "description": "This is a wooden needle whittled down to a sharp point.  It has a narrow hole carved into the head for threading.  Its low quality makes it rather unsuitable for anything requiring speed or precision, or involving tougher materials like Kevlar.",
     "weight": "85 g",
     "volume": "250 ml",
     "price": 0,
@@ -4170,7 +4180,7 @@
     "use_action": {
       "type": "repair_item",
       "item_action_type": "repair_fabric",
-      "materials": [ "cotton", "leather", "wool", "fur", "nomex" ],
+      "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "gutskin" ],
       "skill": "tailor",
       "tool_quality": -1,
       "cost_scaling": 0.1,
@@ -5224,11 +5234,11 @@
     "initial_charges": 50,
     "max_charges": 200,
     "charges_per_use": 1,
-    "qualities": [ [ "SEW", 1 ] ],
+    "qualities": [ [ "SEW", 3 ] ],
     "use_action": {
       "type": "repair_item",
       "item_action_type": "repair_fabric",
-      "materials": [ "cotton", "leather", "wool", "fur", "nomex" ],
+      "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar", "gutskin" ],
       "skill": "tailor",
       "tool_quality": 0,
       "cost_scaling": 0.1,
@@ -5554,8 +5564,8 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "plastic", "lead", "tin" ],
-        "skill": "mechanics",
+        "materials": [ "plastic", "lead", "tin", "zinc" ],
+        "skill": "fabrication",
         "cost_scaling": 0.1,
         "move_cost": 1500
       },
@@ -5767,7 +5777,7 @@
     "id": "tailors_kit",
     "type": "TOOL",
     "name": "tailor's kit",
-    "description": "This is a high quality, plastic kit with a variety of needles, some plastic spools for thread, some small scissors, even a small heating element for melting and joining plastic.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.",
+    "description": "This is a high quality kit consisting of a variety of needles, some plastic spools for thread, some small scissors, and an awl.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.",
     "weight": "100 g",
     "volume": "500 ml",
     "price": 1000,
@@ -5780,12 +5790,12 @@
     "initial_charges": 50,
     "max_charges": 400,
     "charges_per_use": 1,
-    "qualities": [ [ "SEW", 1 ], [ "KNIT", 1 ], [ "CUT", 1 ] ],
+    "qualities": [ [ "SEW", 4 ], [ "SEW_CURVED", 1 ], [ "KNIT", 1 ], [ "LEATHER_AWL", 2 ], [ "CUT", 1 ] ],
     "use_action": [
       {
         "type": "repair_item",
         "item_action_type": "repair_fabric",
-        "materials": [ "cotton", "leather", "wool", "fur", "nomex", "neoprene" ],
+        "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin" ],
         "skill": "tailor",
         "tool_quality": 1,
         "cost_scaling": 0.1,
@@ -5793,7 +5803,7 @@
       },
       {
         "type": "sew_advanced",
-        "materials": [ "cotton", "leather", "fur", "nomex", "plastic", "kevlar", "wool" ],
+        "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin", "plastic", "kevlar_rigid" ],
         "skill": "tailor",
         "clothing_mods": [ "leather_padded", "kevlar_padded", "furred", "wooled" ]
       }
@@ -5806,7 +5816,7 @@
     "category": "spare_parts",
     "name": "tanning leather hide",
     "description": "A treated animal hide which is undergoing the chemical processes required to become leather.  You will be able to activate it to unroll and make use of it when it is done.",
-    "weight": "400 g",
+    "weight": "600 g",
     "volume": "1 L",
     "price": 0,
     "to_hit": -2,
@@ -5830,7 +5840,7 @@
     "category": "spare_parts",
     "name": "tanning fur pelt",
     "description": "A treated animal pelt which is undergoing the chemical processes required to become fur.  You will be able to activate it to unroll and make use of it when it is done.",
-    "weight": "400 g",
+    "weight": "684 g",
     "volume": "1 L",
     "price": 0,
     "to_hit": -2,
@@ -6998,8 +7008,8 @@
   {
     "id": "welder",
     "type": "TOOL",
-    "name": "welder",
-    "description": "This is a battery powered tool for welding metal pieces together.  It is an indispensable tool for construction or repair.",
+    "name": "arc welder",
+    "description": "This is a battery powered tool for welding metal pieces together using an electric arc.  It is an indispensable tool for construction or repair.",
     "weight": "4200 g",
     "volume": "2500 ml",
     "price": 9000,
@@ -7015,15 +7025,14 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper", "silver", "gold" ],
-        "skill": "mechanics",
+        "materials": [ "iron", "steel", "hardsteel", "aluminum", "copper", "bronze", "silver", "gold", "platinum", "superalloy" ],
+        "skill": "fabrication",
         "tool_quality": 10,
         "cost_scaling": 0.1,
         "move_cost": 500
-      },
-      { "flame": false, "type": "cauterize" }
+      }
     ],
-    "flags": [ "FIRESTARTER", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "magazines": [
       [
         "battery",
@@ -7035,8 +7044,8 @@
   {
     "id": "welder_crude",
     "type": "TOOL",
-    "name": "makeshift welder",
-    "description": "This crude welder has been fashioned from a bundle of copper wire, scrap metal, and complete disregard for personal safety.  While it's not as efficient as a factory welder, it will serve in a pinch.",
+    "name": "makeshift arc welder",
+    "description": "This crude arc welder has been fashioned from a few small transformers, some wire, improvised electrode holder and complete disregard for personal safety.  While it's not as efficient as a factory welder, it will serve in a pinch.",
     "weight": "7250 g",
     "volume": "3500 ml",
     "price": 5000,
@@ -7052,15 +7061,14 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper", "silver", "gold" ],
-        "skill": "mechanics",
+        "materials": [ "iron", "steel", "hardsteel", "aluminum", "copper", "bronze", "silver", "gold", "platinum", "superalloy" ],
+        "skill": "fabrication",
         "tool_quality": 5,
         "cost_scaling": 0.1,
         "move_cost": 1000
-      },
-      { "flame": false, "type": "cauterize" }
+      }
     ],
-    "flags": [ "FIRESTARTER", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "magazines": [
       [
         "battery",

@@ -571,7 +571,7 @@
       },
       {
         "distribution": [
-          { "item": "protein_powder", "prob": 15 },
+          { "item": "protein_powder", "prob": 7 },
           { "item": "dry_veggy", "prob": 10 },
           { "item": "dry_fruit", "prob": 10 },
           { "item": "granola", "prob": 5 }
@@ -819,7 +819,7 @@
       [ "nyquil", 5 ],
       [ "disinfectant", 15 ],
       [ "vaccine_shot", 10 ],
-      [ "protein_powder", 30 ],
+      [ "protein_powder", 15 ],
       [ "smoxygen_tank", 20 ],
       [ "elec_hairtrimmer", 15 ],
       [ "survnote", 5 ],
@@ -1218,6 +1218,39 @@
       [ "hdframe", 20 ],
       [ "cu_pipe", 25 ],
       [ "scrap_copper", 50 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "steel_mill_mill",
+    "//": "for the steel mill in the well, steel mill",
+    "items": [
+      { "item": "scrap", "prob": 50, "charges-min": 1, "charges-max": 3 },
+      { "item": "steel_chunk", "prob": 50, "charges-min": 1, "charges-max": 2 },
+      { "item": "steel_lump", "prob": 50, "charges-min": 1, "charges-max": 2 },
+      [ "chain", 35 ],
+      [ "rebar", 35 ],
+      [ "pipe", 40 ],
+      [ "wire", 40 ],
+      [ "sheet_metal", 25 ],
+      [ "sheet_metal_small", 25 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "steel_mill_foundry",
+    "//": "for the foundry in the steel mill",
+    "items": [
+      { "item": "steel_lump", "prob": 5, "count": [ 1, 3 ] },
+      { "item": "steel_chunk", "prob": 15, "count": [ 1, 5 ] },
+      { "item": "scrap", "prob": 70, "count": [ 1, 10 ] },
+      [ "chain", 35 ],
+      [ "rebar", 35 ],
+      [ "pipe", 40 ],
+      [ "wire", 40 ],
+      { "item": "sheet_metal", "prob": 5 },
+      { "item": "sheet_metal_small", "prob": 5, "count": [ 2, 4 ] },
+      { "item": "material_aluminium_ingot", "prob": 10, "count": [ 1, 5 ] }
     ]
   },
   {

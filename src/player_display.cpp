@@ -374,7 +374,7 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
         curtab = action == "NEXT_TAB" ? curtab + 1 : 6;
     } else if( action == "QUIT" ) {
         done = true;
-    } else if( action == "CONFIRM" && line < 5 && get_option<bool>( "STATS_THROUGH_KILLS" ) &&
+    } else if( action == "CONFIRM" && line < 4 && get_option<bool>( "STATS_THROUGH_KILLS" ) &&
                you.is_player() ) {
         g->u.upgrade_stat_prompt( static_cast<Character::stat>( line ) );
     }
@@ -513,7 +513,8 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
     center_print( w_bionics, 0, h_light_gray, _( title_BIONICS ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
-                    string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), you.max_power_level ) );
+                    string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
+                                   units::to_kilojoule( you.power_level ), units::to_kilojoule( you.max_power_level ) ) );
 
     const size_t useful_y = bionics_win_size_y - 1;
     const size_t half_y = useful_y / 2;
@@ -559,7 +560,8 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
         center_print( w_bionics, 0, c_light_gray, _( title_BIONICS ) );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
-                        string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), you.max_power_level ) );
+                        string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
+                                       units::to_kilojoule( you.power_level ), units::to_kilojoule( you.max_power_level ) ) );
         for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y - 1; i++ ) {
             mvwprintz( w_bionics, point( 1, static_cast<int>( i + 2 ) ), c_black, "                         " );
             trim_and_print( w_bionics, point( 1, static_cast<int>( i + 2 ) ), getmaxx( w_bionics ) - 1,
@@ -979,7 +981,7 @@ static void draw_initial_windows( const catacurses::window &w_stats,
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
                     string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
-                                   you.power_level, you.max_power_level ) );
+                                   units::to_kilojoule( you.power_level ), units::to_kilojoule( you.max_power_level ) ) );
     for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y - 1; i++ ) {
         trim_and_print( w_bionics, point( 1, static_cast<int>( i ) + 2 ), getmaxx( w_bionics ) - 1, c_white,
                         "%s", bionicslist[i].info().name );
