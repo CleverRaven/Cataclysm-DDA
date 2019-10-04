@@ -735,3 +735,28 @@ void spell_effect::map( const spell &sp, Creature &caster, const tripoint & )
     const tripoint center = you->global_omt_location();
     overmap_buffer.reveal( center.xy(), sp.aoe(), center.z );
 }
+
+void spell_effect::morale( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), false );
+    if( sp.effect_data().empty() ) {
+        debugmsg( "ERROR: %s must have a valid morale_type as effect_str. None specified.",
+                  sp.id().c_str() );
+        return;
+    }
+    if( !morale_type( sp.effect_data() ).is_valid() ) {
+        debugmsg( "ERROR: %s must have a valid morale_type as effect_str. %s is invalid.", sp.id().c_str(),
+                  sp.effect_data() );
+        return;
+    }
+    for( const tripoint &potential_target : area ) {
+        player *player_target;
+        if( !( sp.is_valid_target( caster, potential_target ) &&
+               ( player_target = g->critter_at<player>( potential_target ) ) ) ) {
+            continue;
+        }
+        player_target->add_morale( morale_type( sp.effect_data() ), sp.damage(), 0, sp.duration_turns(),
+                                   sp.duration_turns() / 10, false );
+        sp.make_sound( potential_target );
+    }
+}

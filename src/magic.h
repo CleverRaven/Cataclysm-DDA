@@ -494,6 +494,7 @@ void vomit( const spell &sp, Creature &caster, const tripoint &target );
 void explosion( const spell &sp, Creature &, const tripoint &target );
 void flashbang( const spell &sp, Creature &caster, const tripoint &target );
 void map( const spell &sp, Creature &caster, const tripoint & );
+void morale( const spell &sp, Creature &caster, const tripoint &target );
 void none( const spell &sp, Creature &, const tripoint &target );
 } // namespace spell_effect
 
