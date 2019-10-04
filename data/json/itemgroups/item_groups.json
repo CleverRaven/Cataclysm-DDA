@@ -3226,6 +3226,12 @@
   },
   {
     "type": "item_group",
+    "id": "allclothes_damaged",
+    "subtype": "distribution",
+    "items": [ { "group": "allclothes", "damage": [ 3, 4 ] } ]
+  },
+  {
+    "type": "item_group",
     "id": "traveler",
     "items": [
       [ "daypack", 20 ],
