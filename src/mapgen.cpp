@@ -1016,7 +1016,7 @@ class jmapgen_liquid_item : public jmapgen_piece
             , liquid( jsi.get_string( "liquid" ) )
             , chance( jsi, "chance", 1, 1 ) {
             if( !item::type_is_defined( itype_id( liquid ) ) ) {
-                set_mapgen_defer( jsi, "liquid", "no such item type" );
+                set_mapgen_defer( jsi, "liquid", "no such item type '" + liquid + "'" );
             }
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
@@ -1045,7 +1045,7 @@ class jmapgen_item_group : public jmapgen_piece
             group_id( jsi.get_string( "item" ) )
             , chance( jsi, "chance", 1, 1 ) {
             if( !item_group::group_is_defined( group_id ) ) {
-                set_mapgen_defer( jsi, "item", "no such item type" );
+                set_mapgen_defer( jsi, "item", "no such item group '" + group_id + "'" );
             }
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
@@ -1075,7 +1075,7 @@ class jmapgen_loot : public jmapgen_piece
                 set_mapgen_defer( jsi, "group", "no such item group" );
             }
             if( !name.empty() && !item::type_is_defined( name ) ) {
-                set_mapgen_defer( jsi, "item", "no such item type" );
+                set_mapgen_defer( jsi, "item", "no such item type '" + name + "'" );
             }
 
             // All the probabilities are 100 because we do the roll in @ref apply.
