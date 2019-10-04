@@ -953,6 +953,16 @@
   },
   {
     "type": "recipe",
+    "result": "chem_match_head_powder",
+    "category": "CC_CHEM",
+    "subcategory": "CC_CHEM_OTHER",
+    "skill_used": "fabrication",
+    "time": "8 m",
+    "autolearn": true,
+    "tools": [ [ [ "matches", 20 ] ], [ [ "mortar_pestle", -1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "chem_anfo",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
