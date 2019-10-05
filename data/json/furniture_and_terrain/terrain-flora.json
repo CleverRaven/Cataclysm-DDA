@@ -2019,7 +2019,7 @@
     "name": "fern",
     "description": "A short plant with thousands of leaves which grow in a fractal pattern from the stem.",
     "symbol": "#",
-    "looks_like": "t_underbrush",
+    "looks_like": "t_shrub",
     "color": [ "green", "brown_green", "brown", "brown" ],
     "move_cost": 3,
     "coverage": 20,
