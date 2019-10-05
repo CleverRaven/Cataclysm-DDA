@@ -3030,7 +3030,6 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
     }
 
     // Let the player know that the item was damaged if they can see it.
-
     if( items_damaged > 1 && g->u.sees( p ) ) {
         add_msg( m_bad, _( "The %s damages several items!" ), cause_message );
     } else if( items_damaged == 1 && g->u.sees( p ) )  {
