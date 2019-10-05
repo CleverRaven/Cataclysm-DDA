@@ -68,5 +68,51 @@
     "qualities": [ [ "HAMMER", 2 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "OVERSIZE", "MESSY" ]
+  },
+  {
+    "id": "shotcestus",
+    "copy-from": "shotgun_base",
+    "type": "GUN",
+    "name": "shotcestus",
+    "description": "A sawn-off double-barrel shotgun mounted on a metal cestus. The lack of a stock to absorb recoil means some strength is required to fire.",
+    "weight": "1566 g",
+    "volume": "1500 ml",
+    "price": 20000,
+    "bashing": 12,
+    "material": [ "steel" ],
+    "techniques": [ "WBLOCK_1", "BRUTAL" ],
+    "min_strength": 7,
+    "ranged_damage": 1,
+    "dispersion": 855,
+    "durability": 6,
+    "blackpowder_tolerance": 66,
+    "clip_size": 2,
+    "range": -8,
+    "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
+    "reload": 200,
+    "barrel_length": 2,
+    "valid_mod_locations": [
+      [ "mechanism", 1 ]
+    ],
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NEVER_JAMS", "RELOAD_EJECT", "RELOAD_ONE" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "rune_earthshaper_weapon",
+    "symbol": "3",
+    "color": "light_gray",
+    "name": "Earthshaper cestus",
+    "name_plural": "Earthshaper cesti",
+    "\\": "Equivalent to cestus +1 with BRUTAL and WBLOCK1",
+    "description": "A stone battle glove with carved runes encasing the hand, protecting it while increasing striking power. There is an Earthshaper rune embedded in the palm.",
+    "material": [ "stone", "leather", "steel" ],
+    "volume": "500 ml",
+    "weight": 873,
+    "bashing": 13,
+    "to_hit": 1,
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "techniques": [ "WBLOCK_1", "BRUTAL" ],
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "TRADER_AVOID", "MAGIC_FOCUS" ]
   }
 ]
