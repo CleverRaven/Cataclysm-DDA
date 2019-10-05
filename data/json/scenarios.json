@@ -253,7 +253,7 @@
     "type": "scenario",
     "ident": "ambushed",
     "name": "Ambush",
-    "points": 0,
+    "points": -3,
     "description": "It is the winter after zero hour.   As you were scavenging for food and a warm place to stay at, you heard the sound of lots of movement nearby.",
     "allowed_locs": [
       "cabin",
