@@ -2939,18 +2939,14 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
         return;
     }
 
-    // Keep track of how many items have been damaged, and what the most recent one is
+    // Keep track of how many items have been damaged, and what the first one is
     bool item_was_damaged = false;
     int items_damaged = 0;
-    std::string most_recently_damaged;
+    std::string damaged_item_name;
 
     std::vector<item> contents;
     auto items = i_at( p );
     for( auto i = items.begin(); i != items.end(); ) {
-
-        // Set the item_was_damaged flag to false for each item
-        item_was_damaged = false;
-
         if( i->active ) {
             // Get the explosion item actor
             if( i->type->get_use( "explosion" ) != nullptr ) {
@@ -2983,8 +2979,6 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
         // 5 damage (destruction)
 
         const bool by_charges = i->count_by_charges();
-
-
         // See if they were damaged
         if( by_charges ) {
             damage_chance *= i->charges_per_volume( 250_ml );
@@ -3010,8 +3004,14 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
 
         // If an item was damaged, increment the counter and set it as most recently damaged.
         if( item_was_damaged ) {
+
+            // If this is the first item to be damaged, store its name in damaged_item_name.
+            if( items_damaged == 0 ) {
+                damaged_item_name = i->tname();
+            }
+            // Increment the counter, and reset the flag.
             items_damaged++;
-            most_recently_damaged = i->tname();
+            item_was_damaged = false;
         }
 
         // Remove them if they were damaged too much
@@ -3034,7 +3034,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
         add_msg( m_bad, _( "The %s damages several items!" ), cause_message );
     } else if( items_damaged == 1 && g->u.sees( p ) )  {
         //~ %1$s: the cause of damage, %2$s: damaged item name
-        add_msg( m_bad, _( "The %1$s damages the %2$s!" ), cause_message, most_recently_damaged );
+        add_msg( m_bad, _( "The %1$s damages the %2$s!" ), cause_message, damaged_item_name );
     }
 
     for( const item &it : contents ) {
