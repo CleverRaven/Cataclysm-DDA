@@ -113,7 +113,7 @@
         "ammo_type": "50bmg",
         "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
         "fake_dex": 12,
-        "ranges": [ [ 0, 10, "AUTO" ], [ 11, 40, "DEFAULT" ] ],
+        "ranges": [ [ 0, 40, "AUTO" ], [ 41, 110, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
         "laser_lock": false,
