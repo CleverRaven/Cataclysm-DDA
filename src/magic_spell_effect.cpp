@@ -776,3 +776,32 @@ void spell_effect::morale( const spell &sp, Creature &caster, const tripoint &ta
         sp.make_sound( potential_target );
     }
 }
+
+void spell_effect::mutate( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), false );
+    for( const tripoint &potential_target : area ) {
+        if( !sp.is_valid_target( caster, potential_target ) ) {
+            continue;
+        }
+        Character *guy = g->critter_at<Character>( potential_target );
+        if( !guy ) {
+            continue;
+        }
+        // 10000 represents 100.00% to increase granularity without swapping everything to a float
+        if( sp.damage() >= rng( 0, 10000 ) ) {
+            // chance failure! but keep trying for other targets
+            continue;
+        }
+        if( sp.effect_data().empty() ) {
+            guy->mutate();
+        } else {
+            if( sp.has_flag( spell_flag::MUTATE_TRAIT ) ) {
+                guy->mutate_towards( trait_id( sp.effect_data() ) );
+            } else {
+                guy->mutate_category( sp.effect_data() );
+            }
+        }
+        sp.make_sound( potential_target );
+    }
+}
