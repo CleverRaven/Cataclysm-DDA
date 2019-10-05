@@ -732,7 +732,7 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
     //~ the sound of a dissector dissecting
     sounds::sound( p, 10, sounds::sound_t::combat, _( "BRZZZAP!" ), false, "trap", "dissector" );
     if( c != nullptr ) {
-        if( g->u.sees( p ) ){
+        if( g->u.sees( p ) ) {
             add_msg( m_bad, _( "Electrical beams emit from the floor and slice the %s!" ), c->get_name() );
         }
         c->deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
