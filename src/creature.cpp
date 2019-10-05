@@ -895,6 +895,11 @@ bool Creature::is_warm() const
     return true;
 }
 
+bool Creature::in_species( const species_id & ) const
+{
+    return false;
+}
+
 bool Creature::is_fake() const
 {
     return fake;

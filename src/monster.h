@@ -274,6 +274,8 @@ class monster : public Creature
         bool is_underwater() const override;
         bool is_on_ground() const override;
         bool is_warm() const override;
+        bool in_species( const species_id &spec ) const override;
+
         bool has_weapon() const override;
         bool is_dead_state() const override; // check if we should be dead or not
         bool is_elec_immune() const override;

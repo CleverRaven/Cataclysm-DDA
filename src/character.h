@@ -185,6 +185,8 @@ class Character : public Creature, public visitable<Character>
         field_type_id bloodType() const override;
         field_type_id gibType() const override;
         bool is_warm() const override;
+        bool in_species( const species_id &spec ) const override;
+
         const std::string &symbol() const override;
 
         enum stat {
