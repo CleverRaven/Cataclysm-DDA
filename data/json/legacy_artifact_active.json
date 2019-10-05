@@ -493,5 +493,35 @@
     "max_damage": 4,
     "flags": [ "WONDER", "RANDOM_DAMAGE" ],
     "extra_effects": [ { "id": "AEA_STORM_bolt" } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "AEA_SCREAM_morale",
+    "name": "Morale Scream",
+    "description": "Morale effect from AEA_SCREAM",
+    "effect": "morale",
+    "effect_str": "morale_scream",
+    "valid_targets": [ "self" ],
+    "min_damage": -10,
+    "max_damage": -10,
+    "min_duration": 180000,
+    "max_duration": 180000
+  },
+  {
+    "type": "SPELL",
+    "id": "AEA_SCREAM",
+    "name": "Artifact Scream",
+    "description": "An ethereal scream",
+    "message": "",
+    "effect": "noise",
+    "sound_ambient": true,
+    "sound_id": "shout",
+    "sound_description": "an ethereal scream",
+    "sound_type": "alert",
+    "sound_variant": "scream",
+    "min_damage": 40,
+    "max_damage": 40,
+    "valid_targets": [ "self" ],
+    "extra_effects": [ { "id": "AEA_SCREAM_morale" } ]
   }
 ]
