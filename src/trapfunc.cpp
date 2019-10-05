@@ -697,35 +697,34 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
     if( c == nullptr ) {
         return false;
     }
-    monster *z = dynamic_cast<monster *>( c );
-    if( z != nullptr && z->type->in_species( ROBOT ) ) {
+    if( c->in_species( ROBOT ) ) {
         //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
         sounds::sound( p, 4, sounds::sound_t::speech,
                        _( "BEEPBOOP! Please remove non-organic object." ), false, "speech",
                        "robot" ); //Dissector error sound.
-        c->add_msg_player_or_npc( m_bad, _( "The dissector lights up, and shuts down." ),
-                                  _( "The dissector lights up, and shuts down." ) );
+        if( g->u.sees( p ) ) {
+             add_msg( m_bad, _( "The dissector lights up, and shuts down." ) );
+        }
         return false;
     }
 
     //~ the sound of a dissector dissecting
     sounds::sound( p, 10, sounds::sound_t::combat, _( "BRZZZAP!" ), false, "trap", "dissector" );
 
-    if( c != nullptr ) {
+    if( g->u.sees( p ) ) {
         c->add_msg_player_or_npc( m_bad, _( "Electrical beams emit from the floor and slice your flesh!" ),
                                   _( "Electrical beams emit from the floor and slice <npcname>s flesh!" ) );
-        c->deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
-        c->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, 20 ) );
-        c->deal_damage( nullptr, bp_arm_r, damage_instance( DT_CUT, 12 ) );
-        c->deal_damage( nullptr, bp_arm_l, damage_instance( DT_CUT, 12 ) );
-        c->deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, 10 ) );
-        c->deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, 10 ) );
-        c->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
-        c->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
-        c->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 10 ) );
-        c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
-        c->check_dead_state();
     }
+    c->deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
+    c->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, 20 ) );
+    c->deal_damage( nullptr, bp_arm_r, damage_instance( DT_CUT, 12 ) );
+    c->deal_damage( nullptr, bp_arm_l, damage_instance( DT_CUT, 12 ) );
+    c->deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, 10 ) );
+    c->deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, 10 ) );
+    c->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
+    c->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
+    c->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 10 ) );
+    c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
     if( c != nullptr ) {
         if( c->has_effect( effect_ridden ) ) {
             g->u.deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );

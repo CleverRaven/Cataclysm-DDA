@@ -119,6 +119,8 @@ static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id debug_nodmg( "DEBUG_NODMG" );
 
+const species_id HUMAN( "HUMAN" );
+
 // *INDENT-OFF*
 Character::Character() :
 
@@ -198,6 +200,11 @@ field_type_id Character::bloodType() const
 field_type_id Character::gibType() const
 {
     return fd_gibs_flesh;
+}
+
+bool Character::in_species( const species_id &spec ) const
+{
+    return spec == HUMAN;
 }
 
 bool Character::is_warm() const
