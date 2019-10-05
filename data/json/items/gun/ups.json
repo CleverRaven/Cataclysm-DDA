@@ -34,7 +34,7 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "DRAW_LASER_BEAM", "EMP" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING" ]
   },
   {
     "id": "gatling_mech_laser",
@@ -61,7 +61,7 @@
     "reload": 0,
     "modes": [ [ "DEFAULT", "3 rd.", 3 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "high auto", 15 ] ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NO_UNLOAD", "NEVER_JAMS", "MECH_WEAPON", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE" ]
+    "flags": [ "NO_UNLOAD", "NEVER_JAMS", "MECH_WEAPON", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE", "NON-FOULING" ]
   },
   {
     "id": "recon_mech_laser",
@@ -87,7 +87,7 @@
     "ups_charges": 180,
     "reload": 0,
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NO_UNLOAD", "NEVER_JAMS", "MECH_WEAPON", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE" ]
+    "flags": [ "NO_UNLOAD", "NEVER_JAMS", "MECH_WEAPON", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE", "NON-FOULING" ]
   },
   {
     "id": "laser_cannon",
@@ -123,7 +123,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NO_UNLOAD" ]
+    "flags": [ "NO_UNLOAD", "NON-FOULING" ]
   },
   {
     "id": "laser_rifle",
@@ -161,7 +161,7 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING" ]
   },
   {
     "id": "v29",
@@ -197,6 +197,6 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING" ]
   }
 ]
