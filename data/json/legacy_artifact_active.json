@@ -397,6 +397,25 @@
   },
   {
     "type": "SPELL",
+    "id": "AEA_FIRESTORM",
+    "name": "Artifact Firestorm",
+    "description": "Calls a firestorm around you",
+    "effect": "target_attack",
+    "valid_targets": [ "ground", "self", "ally", "hostile" ],
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "message": "Fire rains down around you!",
+    "field_id": "fd_fire",
+    "field_chance": 2,
+    "field_intensity_variance": 0.6,
+    "min_field_intensity": 2,
+    "max_field_intensity": 2,
+    "min_duration": 18000,
+    "max_duration": 18000,
+    "flags": [ "LOUD" ]
+  },
+  {
+    "type": "SPELL",
     "id": "AEA_FUN",
     "name": "Artifact Fun",
     "effect": "morale",
@@ -409,5 +428,18 @@
     "min_duration": 30000,
     "max_duration": 30000,
     "flags": [ "RANDOM_DAMAGE", "SILENT" ]
+  },
+  {
+    "type": "SPELL",
+    "id": "AEA_MUTATE",
+    "name": "Artifact Mutate",
+    "effect": "mutate",
+    "description": "Mutates you randomly",
+    "message": "",
+    "//": "33.33% chance, or 1/3",
+    "min_damage": 3333,
+    "max_damage": 3333,
+    "flags": [ "VERBAL", "SILENT" ],
+    "valid_targets": [ "self" ]
   }
 ]

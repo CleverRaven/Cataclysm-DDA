@@ -276,8 +276,7 @@ void map::generate_lightmap( const int zlev )
     const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
     // Start at the topmost populated zlevel to avoid unnecessary raycasting
     // Plus one zlevel to prevent clipping inside structures
-    const int maxz = zlevels ? std::min( map_cache.max_populated_zlev + 1, OVERMAP_HEIGHT ) :
-                               zlev;
+    const int maxz = zlevels ? std::min( map_cache.max_populated_zlev + 1, OVERMAP_HEIGHT ) : zlev;
 
     // Iterate top to bottom because sunlight cache needs to construct in that order.
     for( int z = maxz; z >= minz; z-- ) {
