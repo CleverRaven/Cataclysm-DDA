@@ -620,7 +620,8 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
             veh.handle_trap( wheel_p, w );
             if( !has_flag( "SEALED", wheel_p ) ) {
                 // TODO: Make this value depend on the wheel
-                smash_items( wheel_p, 5, "weight of the " + veh.name );
+                //~ %1$s: vehicle name
+                smash_items( wheel_p, 5, string_format( _( "weight of %1$s" ), veh.disp_name() ) );
             }
         }
     }
