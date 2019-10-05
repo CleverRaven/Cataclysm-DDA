@@ -61,7 +61,16 @@
     "reload": 0,
     "modes": [ [ "DEFAULT", "3 rd.", 3 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "high auto", 15 ] ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NO_UNLOAD", "NEVER_JAMS", "MECH_WEAPON", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE", "NON-FOULING" ]
+    "flags": [
+      "NO_UNLOAD",
+      "NEVER_JAMS",
+      "MECH_WEAPON",
+      "NO_UNWIELD",
+      "NO_SALVAGE",
+      "NO_REPAIR",
+      "UNBREAKABLE_MELEE",
+      "NON-FOULING"
+    ]
   },
   {
     "id": "recon_mech_laser",
@@ -87,7 +96,16 @@
     "ups_charges": 180,
     "reload": 0,
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NO_UNLOAD", "NEVER_JAMS", "MECH_WEAPON", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE", "NON-FOULING" ]
+    "flags": [
+      "NO_UNLOAD",
+      "NEVER_JAMS",
+      "MECH_WEAPON",
+      "NO_UNWIELD",
+      "NO_SALVAGE",
+      "NO_REPAIR",
+      "UNBREAKABLE_MELEE",
+      "NON-FOULING"
+    ]
   },
   {
     "id": "laser_cannon",
