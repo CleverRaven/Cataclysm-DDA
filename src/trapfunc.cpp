@@ -703,7 +703,7 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
                        _( "BEEPBOOP! Please remove non-organic object." ), false, "speech",
                        "robot" ); //Dissector error sound.
         if( g->u.sees( p ) ) {
-             add_msg( m_bad, _( "The dissector lights up, and shuts down." ) );
+            add_msg( m_bad, _( "The dissector lights up, and shuts down." ) );
         }
         return false;
     }
