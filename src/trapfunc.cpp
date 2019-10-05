@@ -721,17 +721,20 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
             pl->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
             pl->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 10 ) );
             pl->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
-            pl->add_msg_player_or_npc( m_bad, _( "Electrical beams emit from the floor and slice your flesh!" ),
-                                       _( "Electrical beams emit from the floor and slice <npcname>s flesh!" ) );
+            if( g->u.sees( p ) ) {
+                pl->add_msg_player_or_npc( m_bad, _( "Electrical beams emit from the floor and slice your flesh!" ),
+                                           _( "Electrical beams emit from the floor and slice <npcname>s flesh!" ) );
+            }
             pl->check_dead_state();
         }
     }
 
     //~ the sound of a dissector dissecting
     sounds::sound( p, 10, sounds::sound_t::combat, _( "BRZZZAP!" ), false, "trap", "dissector" );
-
     if( c != nullptr ) {
-        add_msg( m_bad, _( "Electrical beams emit from the floor and slice the %s!" ), c->get_name() );
+        if( g->u.sees( p ) ){
+            add_msg( m_bad, _( "Electrical beams emit from the floor and slice the %s!" ), c->get_name() );
+        }
         c->deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
         c->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, 20 ) );
         c->deal_damage( nullptr, bp_arm_r, damage_instance( DT_CUT, 12 ) );

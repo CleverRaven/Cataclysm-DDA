@@ -923,13 +923,18 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     } else if( topic == "TALK_DESCRIBE_MISSION" ) {
         switch( p->mission ) {
             case NPC_MISSION_SHELTER:
-                return _( "I'm holing up here for safety." );
+                return string_format( _( "I'm holing up here for safety.  Long term, %s" ),
+                                      p->myclass.obj().get_job_description() );
             case NPC_MISSION_SHOPKEEP:
                 return _( "I run the shop here." );
             case NPC_MISSION_GUARD:
             case NPC_MISSION_GUARD_ALLY:
             case NPC_MISSION_GUARD_PATROL:
-                return _( "I'm guarding this location." );
+                return string_format( _( "Currently, I'm guarding this location.  Overall, %s" ),
+                                      p->myclass.obj().get_job_description() );
+            case NPC_MISSION_ACTIVITY:
+                return string_format( _( "Right now, I'm <current_activity>.  In general, %s" ),
+                                      p->myclass.obj().get_job_description() );
             case NPC_MISSION_TRAVELLING:
             case NPC_MISSION_NULL:
                 return p->myclass.obj().get_job_description();

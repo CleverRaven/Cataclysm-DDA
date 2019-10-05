@@ -11535,10 +11535,9 @@ void player::place_corpse( const tripoint &om_target )
 
 bool player::sees_with_infrared( const Creature &critter ) const
 {
-    const monster *m = dynamic_cast< const monster * >( &critter );
     // electroreceptors grants vision of robots and electric monsters through walls
-    if( m != nullptr && has_trait( trait_ELECTRORECEPTORS ) && ( m->type->in_species( ROBOT ) ||
-            critter.has_flag( MF_ELECTRIC ) ) ) {
+    if( has_trait( trait_ELECTRORECEPTORS ) &&
+        ( critter.in_species( ROBOT ) || critter.has_flag( MF_ELECTRIC ) ) ) {
         return true;
     }
 

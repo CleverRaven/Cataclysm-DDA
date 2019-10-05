@@ -725,6 +725,22 @@ void spell_effect::flashbang( const spell &sp, Creature &caster, const tripoint 
                                   !sp.is_valid_target( valid_target::target_self ) );
 }
 
+void spell_effect::mod_moves( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), false );
+    for( const tripoint &potential_target : area ) {
+        if( !sp.is_valid_target( caster, potential_target ) ) {
+            continue;
+        }
+        Creature *critter = g->critter_at<Creature>( potential_target );
+        if( !critter ) {
+            continue;
+        }
+        sp.make_sound( potential_target );
+        critter->moves += sp.damage();
+    }
+}
+
 void spell_effect::map( const spell &sp, Creature &caster, const tripoint & )
 {
     const avatar *you = caster.as_avatar();
@@ -734,4 +750,58 @@ void spell_effect::map( const spell &sp, Creature &caster, const tripoint & )
     }
     const tripoint center = you->global_omt_location();
     overmap_buffer.reveal( center.xy(), sp.aoe(), center.z );
+}
+
+void spell_effect::morale( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), false );
+    if( sp.effect_data().empty() ) {
+        debugmsg( "ERROR: %s must have a valid morale_type as effect_str. None specified.",
+                  sp.id().c_str() );
+        return;
+    }
+    if( !morale_type( sp.effect_data() ).is_valid() ) {
+        debugmsg( "ERROR: %s must have a valid morale_type as effect_str. %s is invalid.", sp.id().c_str(),
+                  sp.effect_data() );
+        return;
+    }
+    for( const tripoint &potential_target : area ) {
+        player *player_target;
+        if( !( sp.is_valid_target( caster, potential_target ) &&
+               ( player_target = g->critter_at<player>( potential_target ) ) ) ) {
+            continue;
+        }
+        player_target->add_morale( morale_type( sp.effect_data() ), sp.damage(), 0, sp.duration_turns(),
+                                   sp.duration_turns() / 10, false );
+        sp.make_sound( potential_target );
+    }
+}
+
+void spell_effect::mutate( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), false );
+    for( const tripoint &potential_target : area ) {
+        if( !sp.is_valid_target( caster, potential_target ) ) {
+            continue;
+        }
+        Character *guy = g->critter_at<Character>( potential_target );
+        if( !guy ) {
+            continue;
+        }
+        // 10000 represents 100.00% to increase granularity without swapping everything to a float
+        if( sp.damage() >= rng( 0, 10000 ) ) {
+            // chance failure! but keep trying for other targets
+            continue;
+        }
+        if( sp.effect_data().empty() ) {
+            guy->mutate();
+        } else {
+            if( sp.has_flag( spell_flag::MUTATE_TRAIT ) ) {
+                guy->mutate_towards( trait_id( sp.effect_data() ) );
+            } else {
+                guy->mutate_category( sp.effect_data() );
+            }
+        }
+        sp.make_sound( potential_target );
+    }
 }

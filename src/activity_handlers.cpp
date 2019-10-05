@@ -260,28 +260,6 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_STUDY_SPELL" ), study_spell_finish }
 };
 
-static void messages_in_process( const player_activity &act, const player &p )
-{
-    const time_duration act_time_left = time_duration::from_turns<int>( act.moves_left /
-                                        p.get_speed() );
-    if( act_time_left <= 90_minutes + 30_seconds && act_time_left > 90_minutes - 30_seconds ) {
-        p.add_msg_if_player( m_info, _( "You figure it'll take about an hour and a half at this rate." ) );
-        return;
-    }
-    if( act_time_left <= 60_minutes + 30_seconds && act_time_left > 60_minutes - 30_seconds ) {
-        p.add_msg_if_player( m_info, _( "About an hour left to go." ) );
-        return;
-    }
-    if( act_time_left <= 30_minutes + 30_seconds && act_time_left > 30_minutes - 30_seconds ) {
-        p.add_msg_if_player( m_info, _( "Shouldn't be more than half an hour or so now!" ) );
-        return;
-    }
-    if( act_time_left <= 10_minutes + 30_seconds && act_time_left > 10_minutes - 30_seconds ) {
-        p.add_msg_if_player( m_info, _( "Almost there! Ten more minutes of work and you'll be through." ) );
-        return;
-    }
-}
-
 bool activity_handlers::resume_for_multi_activities( player &p )
 {
     if( !p.backlog.empty() ) {
@@ -295,14 +273,13 @@ bool activity_handlers::resume_for_multi_activities( player &p )
     return false;
 }
 
-void activity_handlers::burrow_do_turn( player_activity *act, player *p )
+void activity_handlers::burrow_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "activity", "burrow", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         sounds::sound( act->placement, 10, sounds::sound_t::movement,
                        //~ Sound of a Rat mutant burrowing!
                        _( "ScratchCrunchScrabbleScurry." ) );
-        messages_in_process( *act, *p );
     }
 }
 
@@ -1697,14 +1674,13 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::pickaxe_do_turn( player_activity *act, player *p )
+void activity_handlers::pickaxe_do_turn( player_activity *act, player * )
 {
     const tripoint &pos = act->placement;
     sfx::play_activity_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
     if( calendar::once_every( 1_minutes ) ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
         sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK! CHNK! CHNK!" ) );
-        messages_in_process( *act, *p );
     }
 }
 
@@ -3484,13 +3460,12 @@ void activity_handlers::eat_menu_finish( player_activity *, player * )
     return;
 }
 
-void activity_handlers::hacksaw_do_turn( player_activity *act, player *p )
+void activity_handlers::hacksaw_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a metal sawing tool at work!
         sounds::sound( act->placement, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
-        messages_in_process( *act, *p );
     }
 }
 
@@ -3550,13 +3525,12 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::chop_tree_do_turn( player_activity *act, player *p )
+void activity_handlers::chop_tree_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "tool", "axe", sfx::get_heard_volume( g->m.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
         sounds::sound( g->m.getlocal( act->placement ), 15, sounds::sound_t::activity, _( "CHK!" ) );
-        messages_in_process( *act, *p );
     }
 }
 
@@ -3684,13 +3658,12 @@ void activity_handlers::chop_planks_finish( player_activity *act, player *p )
     resume_for_multi_activities( *p );
 }
 
-void activity_handlers::jackhammer_do_turn( player_activity *act, player *p )
+void activity_handlers::jackhammer_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "tool", "jackhammer", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a jackhammer at work!
         sounds::sound( act->placement, 15, sounds::sound_t::destructive_activity, _( "TATATATATATATAT!" ) );
-        messages_in_process( *act, *p );
     }
 }
 
@@ -3709,23 +3682,21 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::dig_do_turn( player_activity *act, player *p )
+void activity_handlers::dig_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
         sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
-        messages_in_process( *act, *p );
     }
 }
 
-void activity_handlers::dig_channel_do_turn( player_activity *act, player *p )
+void activity_handlers::dig_channel_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
         sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
-        messages_in_process( *act, *p );
     }
 }
 
@@ -3808,13 +3779,12 @@ void activity_handlers::dig_channel_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::fill_pit_do_turn( player_activity *act, player *p )
+void activity_handlers::fill_pit_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "tool", "shovel", 100 );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel filling a pit or mound at work!
         sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
-        messages_in_process( *act, *p );
     }
 }
 

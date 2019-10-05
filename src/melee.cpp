@@ -1017,7 +1017,6 @@ matec_id player::pick_technique( Creature &t, const item &weap,
     bool downed = t.has_effect( effect_downed );
     bool stunned = t.has_effect( effect_stunned );
     bool wall_adjacent = g->m.is_wall_adjacent( pos() );
-    bool is_humanoid = t.is_player() || ( static_cast <monster *>( &t )->type->in_species( HUMAN ) );
 
     // first add non-aoe tecs
     for( auto &tec_id : all ) {
@@ -1078,7 +1077,7 @@ matec_id player::pick_technique( Creature &t, const item &weap,
         }
 
         // Don't apply humanoid-only techniques to non-humanoids
-        if( tec.human_target && !is_humanoid ) {
+        if( tec.human_target && !t.in_species( HUMAN ) ) {
             continue;
         }
         // if aoe, check if there are valid targets
@@ -1314,7 +1313,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
         }
     }
 
-    if( technique.stun_dur > 0 ) {
+    if( technique.stun_dur > 0 && !technique.powerful_knockback ) {
         t.add_effect( effect_stunned, rng( 1_turns, time_duration::from_turns( technique.stun_dur ) ) );
     }
 
@@ -1323,9 +1322,15 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
         const int kb_offset_x = rng( -technique.knockback_spread, technique.knockback_spread );
         const int kb_offset_y = rng( -technique.knockback_spread, technique.knockback_spread );
         tripoint kb_point( posx() + kb_offset_x, posy() + kb_offset_y, posz() );
-        for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
-            t.knock_back_from( kb_point );
+
+        if( !technique.powerful_knockback ) {
+            for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
+                t.knock_back_from( kb_point );
+            }
+        } else {
+            g->knockback( pos(), t.pos(), technique.knockback_dist, technique.stun_dur, 1 );
         }
+
         // This technique makes the player follow into the tile the target was knocked from
         if( technique.knockback_follow > 0 ) {
             // Check if terrain there is safe then if a critter's still there - if clear, move player there
