@@ -70,6 +70,7 @@ ignorable = {
     "event_transformation",
     "event_statistic",
     "EXTERNAL_OPTION",
+    "hit_range",
     "ITEM_BLACKLIST",
     "item_group",
     "MIGRATION",
