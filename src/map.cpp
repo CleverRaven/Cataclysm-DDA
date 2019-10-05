@@ -620,7 +620,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
             veh.handle_trap( wheel_p, w );
             if( !has_flag( "SEALED", wheel_p ) ) {
                 // TODO: Make this value depend on the wheel
-                smash_items( wheel_p, 5, "weight of the "+veh.name);
+                smash_items( wheel_p, 5, "weight of the " + veh.name );
             }
         }
     }
@@ -2941,7 +2941,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
     // Keep track of how many items have been damaged, and what the most recent one is
     bool item_was_damaged = false;
     int items_damaged = 0;
-    const item *most_recently_damaged{};
+    std::string most_recently_damaged = "";
 
     std::vector<item> contents;
     auto items = i_at( p );
@@ -3007,10 +3007,10 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
             }
         }
 
-        // If an item was damaged, increment the counted and mark it as most recently damaged.
+        // If an item was damaged, increment the counter and set it as most recently damaged.
         if( item_was_damaged ) {
             items_damaged++;
-            most_recently_damaged = &( *i );
+            most_recently_damaged = i->tname();
         }
 
         // Remove them if they were damaged too much
@@ -3030,10 +3030,10 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
 
     // Let the player know that the item was damaged if they can see it.
 
-    if( (items_damaged > 1) & (g->u.sees( p ))) {
+    if( ( items_damaged > 1 ) & ( g->u.sees( p ) ) ) {
         add_msg( m_bad, _( "The %s damages several items!" ), cause_message );
-    } else if( (items_damaged == 1) & (g->u.sees( p )))  {
-        add_msg( m_bad, _( "The %s damages the %s!" ), cause_message, most_recently_damaged->tname() );
+    } else if( ( items_damaged == 1 ) & ( g->u.sees( p ) ) )  {
+        add_msg( m_bad, _( "The %s damages the %s!" ), cause_message, most_recently_damaged );
     }
 
     for( const item &it : contents ) {
