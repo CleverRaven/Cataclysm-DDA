@@ -139,7 +139,8 @@ static void thread_test( firing_statistics & firing_stats, const dispersion_sour
 static firing_statistics firing_test( const dispersion_sources &dispersion,
                                       const int range, const Threshold &threshold )
 {
-    const int sample_size = std::max( 500, last_sample_size / 100 );
+    const unsigned int max_threads = std::thread::hardware_concurrency();
+    const int sample_size = last_sample_size / (max_threads*10);
     firing_statistics firing_stats( Z99_99 );
     bool threshold_within_confidence_interval = false;
     do
@@ -150,20 +151,20 @@ static firing_statistics firing_test( const dispersion_sources &dispersion,
         // any thresholds we care about.  This is a mechanism to limit the number of samples
         // we have to accumulate before we declare that the true average is
         // either above or below the threshold.
-        if( last_sample_size > 50000 )
+        if( last_sample_size > 50000 && max_threads != 0)
         {
             std::vector<firing_statistics > stat_vector;
-            for( size_t i = 0; i < 4; i++ )
+            for( size_t i = 0; i < max_threads; i++ )
             {
                 stat_vector.emplace_back( Z99_99 );
             }
             //Create multiple threads that calculate firing stats simultaneously
             std::vector<std::thread> thread_vector;
-            for( size_t i = 0; i < 4; i++ )
+            for( size_t i = 0; i < max_threads; i++ )
             {
                 thread_vector.emplace_back( &thread_test, std::ref( stat_vector[ i ] ), dispersion, range, threshold, sample_size );
             }
-            for( size_t i = 0; i < 4; i++ )
+            for( size_t i = 0; i < max_threads; i++ )
             {
                 if( thread_vector[ i ].joinable() )
                 {
@@ -412,7 +413,7 @@ static void range_test( const Threshold &test_threshold, bool write_data = false
             
             //The current implementation works poorly on low numbers -
             //It never skips dispersion values when test_threshold.chance() is accuracy_grazing (0.1)
-            d -= int( ( 1 - ( stats.avg() / test_threshold.chance() ) ) * 10 ) * 10;
+            d -= int( ( 1 - ( stats.avg() / test_threshold.chance() ) ) * 15 ) * 5;
         }
         if( found_dispersion == -1 )
         {
