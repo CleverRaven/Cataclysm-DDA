@@ -210,6 +210,9 @@ void Item_modifier::modify( item &new_item ) const
 
     new_item.set_damage( rng( damage.first, damage.second ) );
     if( new_item.is_gun() && !new_item.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+        if( one_in( 10 ) ) {
+            new_item.faults.emplace( "fault_gun_unlubricated" );
+        }
         int random_dirt = rng( dirt.first, dirt.second );
         if( random_dirt > 0 ) {
             new_item.set_var( "dirt", random_dirt );

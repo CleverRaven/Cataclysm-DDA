@@ -79,6 +79,7 @@ const trap_str_id tr_practice_target( "tr_practice_target" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_dirt( "fault_gun_dirt" );
+static const fault_id fault_gun_unlubricated( "fault_gun_unlubricated" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
 
 static projectile make_gun_projectile( const item &gun );
@@ -227,12 +228,12 @@ bool player::handle_gun_damage( item &it )
                 }
                 if( one_in( modconsume ) ) {
                     if( mod->mod_damage( dmgamt ) ) {
-                        add_msg_player_or_npc( m_bad,  _( "Your attached %s is destroyed by your shot!" ),
+                        add_msg_player_or_npc( m_bad, _( "Your attached %s is destroyed by your shot!" ),
                                                _( "<npcname>'s attached %s is destroyed by their shot!" ),
                                                mod->tname() );
                         i_rem( mod );
                     } else if( it.damage() > initstate ) {
-                        add_msg_player_or_npc( m_bad,  _( "Your attached %s is damaged by your shot!" ),
+                        add_msg_player_or_npc( m_bad, _( "Your attached %s is damaged by your shot!" ),
                                                _( "<npcname>'s %s is damaged by their shot!" ),
                                                mod->tname() );
                     }
@@ -240,10 +241,20 @@ bool player::handle_gun_damage( item &it )
             }
         }
     }
-    if( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( "NON-FOULING" ) &&
+    if( it.has_fault( fault_gun_unlubricated ) &&
+        x_in_y( dirt_dbl, 10000.0 ) ) {
+        add_msg_player_or_npc( m_bad, _( "Your %s emits a grimace-inducing screech!" ),
+                               _( "<npcname>'s %s emits a grimace-inducing screech!" ),
+                               it.tname() );
+        it.inc_damage();
+    }
+    if( ( ( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( "NON-FOULING" ) ) ||
+          ( it.has_fault( fault_gun_unlubricated ) ) ) &&
         !it.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
-        if( curammo_effects.count( "BLACKPOWDER" ) ) {
-            if( ( it.ammo_data()->ammo->recoil < firing->min_cycle_recoil ) &&
+        if( curammo_effects.count( "BLACKPOWDER" ) ||
+            it.has_fault( fault_gun_unlubricated ) ) {
+            if( ( ( it.ammo_data()->ammo->recoil < firing->min_cycle_recoil ) ||
+                  ( it.has_fault( fault_gun_unlubricated ) && one_in( 2 ) ) ) &&
                 it.faults_potential().count( fault_gun_chamber_spent ) ) {
                 add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
                                        _( "<npcname>'s %s fails to cycle!" ),
@@ -253,24 +264,26 @@ bool player::handle_gun_damage( item &it )
             }
         }
         // These are the dirtying/fouling mechanics
-        if( dirt < 10000 ) {
-            dirtadder = curammo_effects.count( "BLACKPOWDER" ) * ( 200 - ( firing->blackpowder_tolerance *
-                        2 ) );
-            if( dirtadder < 0 ) {
-                dirtadder = 0;
+        if( !curammo_effects.count( "NON-FOULING" ) && !it.has_flag( "NON-FOULING" ) ) {
+            if( dirt < 10000 ) {
+                dirtadder = curammo_effects.count( "BLACKPOWDER" ) * ( 200 - ( firing->blackpowder_tolerance *
+                            2 ) );
+                if( dirtadder < 0 ) {
+                    dirtadder = 0;
+                }
+                it.set_var( "dirt", std::min( 10000, dirt + dirtadder + 1 ) );
             }
-            it.set_var( "dirt", std::min( 10000, dirt + dirtadder + 1 ) );
+            dirt = it.get_var( "dirt", 0 );
+            dirt_dbl = static_cast<double>( dirt );
+            if( dirt > 0 && !it.faults.count( fault_gun_blackpowder ) ) {
+                it.faults.insert( fault_gun_dirt );
+            }
+            if( dirt > 0 && curammo_effects.count( "BLACKPOWDER" ) ) {
+                it.faults.erase( fault_gun_dirt );
+                it.faults.insert( fault_gun_blackpowder );
+            }
+            // end fouling mechanics
         }
-        dirt = it.get_var( "dirt", 0 );
-        dirt_dbl = static_cast<double>( dirt );
-        if( dirt > 0 && !it.faults.count( fault_gun_blackpowder ) ) {
-            it.faults.insert( fault_gun_dirt );
-        }
-        if( dirt > 0 && curammo_effects.count( "BLACKPOWDER" ) ) {
-            it.faults.erase( fault_gun_dirt );
-            it.faults.insert( fault_gun_blackpowder );
-        }
-        // end fouling mechanics
     }
     if( dirt_dbl > 5000 &&
         x_in_y( dirt_dbl * dirt_dbl * dirt_dbl, 5555555555555 ) ) {
