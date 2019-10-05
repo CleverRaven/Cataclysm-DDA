@@ -38,7 +38,7 @@
     "id": "fault_gun_unlubricated",
     "type": "fault",
     "name": "Unlubricated",
-    "description": "Either this gun is brand new and came without lubrication or it was recently cleaned with a solvent. Either way, it's not lubricated and will not cycle properly,and can even be damaged.",
+    "description": "Either this gun is brand new and came without lubrication or it was recently cleaned with a solvent. Either way, it's not lubricated and will not cycle properly, and can even be damaged.",
     "time": "15 m",
     "skills": [ [ "mechanics", 1 ] ],
     "requirements": {
