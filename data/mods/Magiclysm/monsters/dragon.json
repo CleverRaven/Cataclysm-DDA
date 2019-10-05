@@ -2,7 +2,6 @@
   {
     "id": "fd_fright",
     "type": "field_type",
-    "legacy_enum_id": 12,
     "intensity_levels": [
       {
         "name": "dreadful presense",
