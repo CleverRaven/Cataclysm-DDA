@@ -3033,7 +3033,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
 
     if( items_damaged > 1 && g->u.sees( p ) ) {
         add_msg( m_bad, _( "The %s damages several items!" ), cause_message );
-    } else if( ( items_damaged == 1 ) & ( g->u.sees( p ) ) )  {
+    } else if( items_damaged == 1 && g->u.sees( p ) )  {
         add_msg( m_bad, _( "The %s damages the %s!" ), cause_message, most_recently_damaged );
     }
 
