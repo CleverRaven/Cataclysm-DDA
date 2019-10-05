@@ -2942,7 +2942,7 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
     // Keep track of how many items have been damaged, and what the most recent one is
     bool item_was_damaged = false;
     int items_damaged = 0;
-    std::string most_recently_damaged = "";
+    std::string most_recently_damaged;
 
     std::vector<item> contents;
     auto items = i_at( p );
