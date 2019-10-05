@@ -262,7 +262,7 @@
       },
       "mapping": {
         "c": { "items": [ { "item": "chem_lab", "chance": 10 }, { "item":  "tools_science", "chance": 10 } ] },
-        "r": { "items": [ { "item": "tools_science", "chance": 80 }, { "item": "cleaning", "chance": 30 } ] }
+        "r": { "items": [ { "item": "cleaning", "chance": 30 } ] }
       },
       "place_nested": [
         { "chunks": [ "lab_spawn_7x7_wall_nw" ], "x": 15, "y": 15 },
