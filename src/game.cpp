@@ -8943,7 +8943,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
     if( !harmful_stuff.empty() && u.is_mounted() &&
         m.tr_at( dest_loc ).loadid == tr_ledge ) {
         add_msg( m_warning, _( "Your %s refuses to move over that ledge!" ),
-            u.mounted_creature->get_name() );
+                 u.mounted_creature->get_name() );
         return false;
     }
     return true;
