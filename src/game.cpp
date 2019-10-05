@@ -8482,7 +8482,7 @@ void game::reload( int pos, bool prompt )
 void game::reload( item_location &loc, bool prompt, bool empty )
 {
     item *it = loc.get_item();
-    
+
     // bows etc do not need to reload. select favorite ammo for them instead
     if( it->has_flag( "RELOAD_AND_SHOOT" ) ) {
         item::reload_option opt = u.select_ammo( *it, prompt );
@@ -8529,27 +8529,28 @@ void game::reload( item_location &loc, bool prompt, bool empty )
     item::reload_option opt = u.ammo_location && it->can_reload_with( u.ammo_location->typeId() ) ?
                               item::reload_option( &u, it, it, u.ammo_location ) :
                               u.select_ammo( *it, prompt, empty );
-    
-    if( opt.ammo.get_item() == nullptr || ( opt.ammo.get_item()->is_frozen_liquid() && !u.crush_frozen_liquid(opt.ammo) ) ) {
+
+    if( opt.ammo.get_item() == nullptr || ( opt.ammo.get_item()->is_frozen_liquid() &&
+                                            !u.crush_frozen_liquid( opt.ammo ) ) ) {
         return;
     }
 
     bool use_loc = true;
-    if (!it->has_flag("ALLOWS_REMOTE_USE")) {
-        it = &u.i_at(loc.obtain(u));
+    if( !it->has_flag( "ALLOWS_REMOTE_USE" ) ) {
+        it = &u.i_at( loc.obtain( u ) );
         use_loc = false;
     }
 
     // for holsters and ammo pouches try to reload any contained item
-    if (it->type->can_use("holster") && !it->contents.empty()) {
+    if( it->type->can_use( "holster" ) && !it->contents.empty() ) {
         it = &it->contents.front();
     }
 
     // for bandoliers we currently defer to iuse_actor methods
-    if (it->is_bandolier()) {
-        auto ptr = dynamic_cast<const bandolier_actor*>
-            (it->type->get_use("bandolier")->get_actor_ptr());
-        ptr->reload(u, *it);
+    if( it->is_bandolier() ) {
+        auto ptr = dynamic_cast<const bandolier_actor *>
+                   ( it->type->get_use( "bandolier" )->get_actor_ptr() );
+        ptr->reload( u, *it );
         return;
     }
 
