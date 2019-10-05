@@ -236,8 +236,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
 
     const auto wield_check = u.can_wield( newit );
 
-    if( newit.has_owner() &&
-        newit.get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
+    if( !newit.is_owned_by( g->u, true ) ) {
         // Has the player given input on if stealing is ok?
         if( u.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
             Pickup::query_thief();
@@ -319,6 +318,9 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             if( wield_check.success() ) {
                 //using original item, possibly modifying it
                 picked_up = u.wield( it );
+                if( picked_up ) {
+                    it.charges = newit.charges;
+                }
                 if( u.weapon.invlet ) {
                     add_msg( m_info, _( "Wielding %c - %s" ), u.weapon.invlet,
                              u.weapon.display_name() );
@@ -848,12 +850,9 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     std::string item_name;
                     std::string stolen;
                     bool stealing = false;
-                    if( this_item.has_owner() ) {
-                        const faction *item_fac = this_item.get_owner();
-                        if( item_fac != g->u.get_faction() ) {
-                            stolen = "<color_light_red>!</color>";
-                            stealing = true;
-                        }
+                    if( !this_item.is_owned_by( g->u, true ) ) {
+                        stolen = "<color_light_red>!</color>";
+                        stealing = true;
                     }
                     if( stacked_here[true_it].front()->is_money() ) {
                         //Count charges
@@ -874,14 +873,11 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                                 charges += ( *it )->charges;
                             }
                             if( stealing ) {
-                                //~ %s %s of %s ""!20 Cash Cards of $200" - ! added if stealing.
-                                item_name = string_format( _( "%s %s of %s" ), stolen,
-                                                           stacked_here[true_it].front()->display_money( getitem[true_it].count, charges ),
-                                                           format_money( charges_total ) );
+                                item_name = string_format( "%s %s", stolen,
+                                                           stacked_here[true_it].front()->display_money( getitem[true_it].count, charges_total, charges ) );
                             } else {
-                                item_name = string_format( _( "%s of %s" ),
-                                                           stacked_here[true_it].front()->display_money( getitem[true_it].count, charges ),
-                                                           format_money( charges_total ) );
+                                item_name = stacked_here[true_it].front()->display_money( getitem[true_it].count, charges_total,
+                                            charges );
                             }
                         }
                     } else {

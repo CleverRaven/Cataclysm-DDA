@@ -231,7 +231,7 @@ void stomach_contents::ingest( player &p, item &food, int charges = 1 )
     // @TODO: Move quench values to mL and remove the magic number here
     mod_contents( comest.base_volume() * charges - add_water );
 
-    last_ate = calendar::turn;
+    ate();
 
     mod_calories( p.kcal_for( comest ) );
 }
@@ -428,6 +428,12 @@ units::volume stomach_contents::get_water() const
 {
     return water;
 }
+
+void stomach_contents::ate()
+{
+    last_ate = calendar::turn;
+}
+
 time_duration stomach_contents::time_since_ate() const
 {
     return calendar::turn - last_ate;

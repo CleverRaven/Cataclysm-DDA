@@ -30,6 +30,7 @@
 #include "monfaction.h"
 #include "mongroup.h"
 #include "morale_types.h"
+#include "mutation.h"
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
@@ -210,9 +211,7 @@ monster::monster()
     upgrades = false;
     upgrade_time = -1;
     last_updated = 0;
-    last_baby = 0;
     biosig_timer = -1;
-    last_biosig = 0;
 }
 
 monster::monster( const mtype_id &id ) : monster()
@@ -1033,6 +1032,14 @@ monster_attitude monster::attitude( const Character *u ) const
                 }
             }
         }
+
+        for( const trait_id &mut : u->get_mutations() ) {
+            for( const species_id &spe : mut.obj().ignored_by ) {
+                if( type->in_species( spe ) ) {
+                    return MATT_IGNORE;
+                }
+            }
+        }
     }
 
     if( effective_morale < 0 ) {
@@ -1302,18 +1309,22 @@ void monster::melee_attack( Creature &target, float accuracy )
                          body_part_name_accusative( bp_hit ) );
             } else if( target.is_npc() ) {
                 if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) && pos() == g->u.pos() ) {
-                    add_msg( m_good, _( "Your %s hits %s for %d damage!" ), name(), target.disp_name(), total_dealt );
+                    //~ %1$s: name of your mount, %2$s: target NPC name, %3$d: damage value
+                    add_msg( m_good, _( "Your %1$s hits %2$s for %3$d damage!" ), name(), target.disp_name(),
+                             total_dealt );
                 } else {
-                    //~ 1$s is attacker name, 2$s is target name, 3$s is bodypart name in accusative.
+                    //~ %1$s: attacker name, %2$s: target NPC name, %3$s: bodypart name in accusative
                     add_msg( _( "The %1$s hits %2$s %3$s." ), name(),
                              target.disp_name( true ),
                              body_part_name_accusative( bp_hit ) );
                 }
             } else {
                 if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) && pos() == g->u.pos() ) {
-                    add_msg( m_good, _( "Your %s hits %s for %d damage!" ), get_name(), target.disp_name(),
+                    //~ %1$s: name of your mount, %2$s: target creature name, %3$d: damage value
+                    add_msg( m_good, _( "Your %1$s hits %2$s for %3$d damage!" ), get_name(), target.disp_name(),
                              total_dealt );
                 } else {
+                    //~ %1$s: attacker name, %2$s: target creature name
                     add_msg( _( "The %1$s hits %2$s!" ), name(), target.disp_name() );
                 }
             }
@@ -1394,7 +1405,12 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     if( total_dealt > 6 && stab_cut > 0 && has_flag( MF_BLEED ) ) {
         // Maybe should only be if DT_CUT > 6... Balance question
-        target.add_effect( effect_bleed, 6_minutes, bp_hit );
+        if( target.is_player() || target.is_npc() ) {
+            target.as_character()->make_bleed( bp_hit, 6_minutes );
+        } else {
+            target.add_effect( effect_bleed, 6_minutes, bp_hit );
+        }
+
     }
 }
 
@@ -2141,16 +2157,10 @@ void monster::die( Creature *nkiller )
         // submap coordinates.
         const tripoint abssub = ms_to_sm_copy( g->m.getabs( pos() ) );
         // Do it for overmap above/below too
-        for( int z = 1; z >= -1; --z ) {
-            for( int x = -HALF_MAPSIZE; x <= HALF_MAPSIZE; x++ ) {
-                for( int y = -HALF_MAPSIZE; y <= HALF_MAPSIZE; y++ ) {
-                    tripoint offset( x, y, z );
-                    std::vector<mongroup *> groups = overmap_buffer.groups_at( abssub + offset );
-                    for( auto &mgp : groups ) {
-                        if( MonsterGroupManager::IsMonsterInGroup( mgp->type, type->id ) ) {
-                            mgp->dying = true;
-                        }
-                    }
+        for( const tripoint &p : points_in_radius( abssub, HALF_MAPSIZE, 1 ) ) {
+            for( auto &mgp : overmap_buffer.groups_at( p ) ) {
+                if( MonsterGroupManager::IsMonsterInGroup( mgp->type, type->id ) ) {
+                    mgp->dying = true;
                 }
             }
         }
@@ -2756,13 +2766,15 @@ void monster::on_unload()
 
 void monster::on_load()
 {
-    // Possible TODO: Integrate monster upgrade
+    try_upgrade( false );
+    try_reproduce();
+    try_biosignature();
+
     const time_duration dt = calendar::turn - last_updated;
     last_updated = calendar::turn;
     if( dt <= 0_turns ) {
         return;
     }
-
     float regen = 0.0f;
     if( has_flag( MF_REGENERATES_50 ) ) {
         regen = 50.0f;

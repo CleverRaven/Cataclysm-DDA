@@ -90,6 +90,26 @@ Any aoe will manifest as a circular area centered on the target, and will only d
 
 * "ter_transform" - transform the terrain and furniture in an area centered at the target.  The chance of any one of the points in the area of effect changing is one_in( damage ).  The effect_str is the id of a ter_furn_transform.
 
+* "vomit" - any creature within its area of effect will instantly vomit, if it's able to do so.
+
+* "timed_event" - adds a timed event to the player only. valid timed events: "help", "wanted", "robot_attack", "spawn_wyrms", "amigara", "roots_die", "temple_open", "temple_flood", "temple_spawn", "dim", "artifact_light" NOTE: This was added only for artifact active effects. support is limited, use at your own risk.
+
+* "explosion" - an explosion is centered on the target, with power damage() and factor aoe()/10
+
+* "flashbang" - a flashbang effect is centered on the target, with poewr damage() and factor aoe()/10
+
+* "mod_moves" - adds damage() moves to the target. can be negative to "freeze" the target for that amount of time
+
+* "map" - maps the overmap centered on the player out to a radius of aoe()
+
+* "morale" - gives a morale effect to all npcs or avatar within aoe, with value damage(). decay_start is duration() / 10.
+
+* "mutate" - mutates the target(s). if effect_str is defined, mutates toward that category instead of picking at random. the "MUTATE_TRAIT" flag allows effect_str to be a specific trait instead of a category. damage() / 100 is the percent chance the mutation will be successful (a value of 10000 represents 100.00%)
+
+* "WONDER" - Unlike the above, this is not an "effect" but a "flag".  This alters the behavior of the parent spell drastically: The spell itself doesn't cast, but its damage and range information is used in order to cast the extra_effects.  N of the extra_effects will be chosen at random to be cast, where N is the current damage of the spell (stacks with RANDOM_DAMAGE flag) and the message of the spell cast by this spell will also be displayed.  If this spell's message is not wanted to be displayed, make sure the message is an empty string.
+
+* "RANDOM_TARGET" - A special spell flag (like wonder) that forces the spell to choose a random valid target within range instead of the caster choosing the target. This also affects extra_effects.
+
 ##### For Spells that have an attack type, these are the available damage types:
 * "fire"
 * "acid"

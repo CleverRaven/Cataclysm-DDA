@@ -9,7 +9,9 @@
 #include <vector>
 
 #include "catch/catch.hpp"
+#include "cata_utility.h"
 #include "ballistics.h"
+#include "creature.h"
 #include "dispersion.h"
 #include "map_helpers.h"
 #include "npc.h"
@@ -21,6 +23,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "json.h"
 #include "player.h"
 #include "material.h"
 #include "type_id.h"
@@ -206,7 +209,6 @@ static std::vector<firing_statistics> firing_test( const dispersion_sources &dis
     return firing_stats;
 }
 
-
 static dispersion_sources get_dispersion( npc &shooter, const int aim_time )
 {
     item &gun = shooter.weapon;
@@ -385,6 +387,7 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
 
 static void range_test( const Threshold &test_threshold, bool write_data = false )
 {
+	std::vector <int> data;
     // Start at an absurdly high dispersion and count down.
     int prev_dispersion = 6000;
     for( int r = 1; r <= 60; ++r )
@@ -418,7 +421,32 @@ static void range_test( const Threshold &test_threshold, bool write_data = false
         else
         {
             WARN( "Range: " << r << " Dispersion: " << found_dispersion );
+            data.push_back( found_dispersion );
         }
+    }
+    if( write_data ) {
+        const bool similar_to_previous_test_results =
+            std::equal( data.begin(), data.end(),
+                        Creature::dispersion_for_even_chance_of_good_hit.begin(),
+                        Creature::dispersion_for_even_chance_of_good_hit.end(),
+        []( const int a, const int b ) -> bool {
+            return a > 0 && b > 0 && std::abs( static_cast<float>( a - b ) / b ) < 0.15;
+        } );
+
+        if( similar_to_previous_test_results == false ) {
+            write_to_file( "./data/json/hit_range.json", [&]( std::ostream & fsa ) {
+                JsonOut j_out( fsa );
+                j_out.start_array();
+                j_out.start_object();
+                j_out.member( "type", "hit_range" );
+                j_out.member( "even_good", data );
+                j_out.end_object();
+                j_out.end_array();
+            }, _( "hit_range file" ) );
+        } else {
+            WARN( "Didn't write. Data too similar to previous test results." );
+        }
+        REQUIRE( similar_to_previous_test_results );
     }
 }
 
@@ -439,4 +467,3 @@ TEST_CASE( "synthetic_range_test", "[.]" )
         range_test( Threshold( accuracy_goodhit, 0.5 ), true );
     }
 }
-

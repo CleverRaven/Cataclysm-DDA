@@ -864,6 +864,24 @@
   },
   {
     "type": "AMMO",
+    "id": "chem_match_head_powder",
+    "category": "chems",
+    "price": 50,
+    "name": "match head powder",
+    "name_plural": "match head powder",
+    "symbol": "=",
+    "color": "light_red",
+    "description": "Some match head powder from match heads, similar to black gunpowder but a bit weaker. It can be used in crafting explosives and fuses when other more suitable candidates are less available.",
+    "material": "powder",
+    "volume": "10 ml",
+    "weight": "1 g",
+    "bashing": 1,
+    "ammo_type": "components",
+    "container": "bag_plastic",
+    "count": 10
+  },
+  {
+    "type": "AMMO",
     "id": "chem_rdx",
     "category": "chems",
     "price": 7500,
@@ -873,11 +891,12 @@
     "color": "white",
     "description": "Several off-white crystals of RDX or hexogen: a military-grade, shelf-stable high explosive.  Can be cast into shaped charges or mixed with scrap to pepper the blast area with high-velocity shrapnel.",
     "material": "powder",
-    "volume": "250 ml",
-    "weight": "100 g",
+    "//": "Density of RDX is 1.858 g/cm3",
+    "volume": "270 ml",
+    "weight": "1 g",
     "bashing": 1,
     "ammo_type": "components",
-    "count": 5
+    "count": 500
   },
   {
     "type": "AMMO",
@@ -890,12 +909,13 @@
     "color": "white",
     "description": "Hexamine peroxide: this fine, yellowish powder is a powerful primary explosive, used to initiate detonation of more stable explosives, such as RDX.  Relatively stable, but best not store it for too long.",
     "material": "powder",
-    "volume": "250 ml",
-    "weight": "200 g",
+    "//": "Density of RDX is 1.57 g/cm3",
+    "volume": "140 ml",
+    "weight": "1 g",
     "bashing": 1,
     "ammo_type": "components",
     "container": "bag_plastic",
-    "count": 10
+    "count": 200
   },
   {
     "type": "AMMO",
@@ -1144,6 +1164,7 @@
     "name": "wood ash",
     "name_plural": "wood ashes",
     "symbol": "=",
+    "looks_like": "f_ash",
     "color": "light_gray",
     "description": "This is almost weightless residue left after the burning of some substance.",
     "material": "powder_nonflam",
