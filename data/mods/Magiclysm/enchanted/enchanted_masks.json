@@ -25,7 +25,7 @@
     "id": "mmask_disappearance",
     "name": "mask of disappearance",
     "plural": "masks of disappearance",
-    "description": "A mask with no facial features at all, just eye and mouth holes, upon activation it makes the everything ignore your presence for a while.",
+    "description": "A mask with no facial features at all, just eye and mouth holes, upon activation it makes everything ignore your presence for a while.",
     "copy-from": "mmask",
     "initial_charges": 10,
     "max_charges": 10,
