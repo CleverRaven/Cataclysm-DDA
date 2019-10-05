@@ -4765,7 +4765,7 @@
     "id": "wash_kit",
     "type": "TOOL",
     "name": "washing kit",
-    "description": "A combination kit of a washboard and a sponge.  Everything you need to clean items after the apocalypse.",
+    "description": "A combination kit of a washboard and a sponge or rag.  Everything you need to clean items after the apocalypse.",
     "weight": "80 g",
     "volume": "250 ml",
     "price": 0,
