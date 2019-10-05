@@ -1043,7 +1043,7 @@
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": "6 J",
     "react_cost": "6 J",
-     "time": 1
+    "time": 1
   },
   {
     "id": "bio_ups",
