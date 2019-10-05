@@ -3803,7 +3803,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 
     // Now, smash items on that tile.
     // dam / 3, because bullets aren't all that good at destroying items...
-    smash_items( p, dam / 3, "flying projectile" );
+    smash_items( p, dam / 3, _( "flying projectile" ) );
 }
 
 bool map::hit_with_acid( const tripoint &p )
