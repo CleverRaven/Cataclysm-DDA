@@ -457,5 +457,41 @@
     "max_damage": 3333,
     "flags": [ "VERBAL", "SILENT" ],
     "valid_targets": [ "self" ]
+  },
+  {
+    "type": "SPELL",
+    "id": "AEA_STORM_bolt",
+    "name": "Bolt",
+    "description": "One of the bolts thrown by AEA_STORM",
+    "effect": "line_attack",
+    "valid_targets": [ "ground", "hostile", "ally" ],
+    "sound_ambient": true,
+    "sound_description": "Ka-BOOM!",
+    "sound_id": "thunder_near",
+    "sound_variant": "environment",
+    "message": "",
+    "field_id": "fd_electricity",
+    "field_chance": 1,
+    "field_intensity_variance": 0.5,
+    "min_field_intensity": 2,
+    "max_field_intensity": 2,
+    "min_range": 12,
+    "max_range": 12,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "flags": [ "RANDOM_TARGET" ]
+  },
+  {
+    "type": "SPELL",
+    "id": "AEA_STORM",
+    "name": "Artifact Storm",
+    "description": "Calls down a storm near you",
+    "valid_targets": [ "self" ],
+    "message": "",
+    "effect": "target_attack",
+    "min_damage": 2,
+    "max_damage": 4,
+    "flags": [ "WONDER", "RANDOM_DAMAGE" ],
+    "extra_effects": [ { "id": "AEA_STORM_bolt" } ]
   }
 ]
