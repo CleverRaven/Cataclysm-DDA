@@ -409,5 +409,18 @@
     "min_duration": 30000,
     "max_duration": 30000,
     "flags": [ "RANDOM_DAMAGE", "SILENT" ]
+  },
+  {
+    "type": "SPELL",
+    "id": "AEA_MUTATE",
+    "name": "Artifact Mutate",
+    "effect": "mutate",
+    "description": "Mutates you randomly",
+    "message": "",
+    "//": "33.33% chance, or 1/3",
+    "min_damage": 3333,
+    "max_damage": 3333,
+    "flags": [ "VERBAL", "SILENT" ],
+    "valid_targets": [ "self" ]
   }
 ]
