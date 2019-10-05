@@ -117,31 +117,55 @@ class JsonIn;
 class translation
 {
     public:
+        struct plural_tag {};
+
         translation();
+        /**
+         * Same as `translation()`, but with plural form enabled.
+         **/
+        translation( plural_tag );
 
         /**
-         * Store a string and an optional context for translation
+         * Store a string, an optional plural form, and an optional context for translation
          **/
         static translation to_translation( const std::string &raw );
         static translation to_translation( const std::string &ctxt, const std::string &raw );
+        static translation pl_translation( const std::string &raw, const std::string &raw_pl );
+        static translation pl_translation( const std::string &ctxt, const std::string &raw,
+                                           const std::string &raw_pl );
         /**
          * Store a string that needs no translation.
          **/
         static translation no_translation( const std::string &str );
 
         /**
+         * Can be used to ensure a translation object has plural form enabled
+         * before loading into it from JSON. If plural form has not been enabled
+         * yet, the plural string will be set to the original singular string.
+         * `ngettext` will ignore the new plural string and correctly retrieve
+         * the original translation.
+         *     Note that a `make_singular()` function is not provided due to the
+         * potential loss of information.
+         **/
+        void make_plural();
+
+        /**
          * Deserialize from json. Json format is:
          *     "text"
          * or
-         *     { "ctxt": "foo", "str": "bar" }
+         *     { "ctxt": "foo", "str": "bar", "str_pl": "baz" }
+         * "ctxt" and "str_pl" are optional. "str_pl" is only valid when an object
+         * of this class is constructed with `plural_tag` or `pl_translation()`,
+         * or converted using `make_plural()`.
          **/
         void deserialize( JsonIn &jsin );
 
         /**
          * Returns raw string if no translation is needed, otherwise returns
-         * the translated string.
+         * the translated string. A number can be used to translate the plural
+         * form if the object has it.
          **/
-        std::string translated() const;
+        std::string translated( int num = 1 ) const;
 
         /**
          * Methods exposing the underlying raw strings are not implemented, and
@@ -162,7 +186,7 @@ class translation
         bool empty() const;
 
         /**
-         * Compare translations by their translated strings.
+         * Compare translations by their translated strings (singular form).
          *
          * Be especially careful when using these to sort translations, as the
          * translated result will change when switching the language.
@@ -172,18 +196,22 @@ class translation
         bool translated_ne( const translation &that ) const;
 
         /**
-         * Compare translations by their context, raw string, and no-translation flag
+         * Compare translations by their context, raw strings (singular / plural), and no-translation flag
          */
         bool operator==( const translation &that ) const;
         bool operator!=( const translation &that ) const;
     private:
         translation( const std::string &ctxt, const std::string &raw );
         translation( const std::string &raw );
+        translation( const std::string &raw, const std::string &raw_pl, plural_tag );
+        translation( const std::string &ctxt, const std::string &raw, const std::string &raw_pl,
+                     plural_tag );
         struct no_translation_tag {};
         translation( const std::string &str, no_translation_tag );
 
         cata::optional<std::string> ctxt;
         std::string raw;
+        cata::optional<std::string> raw_pl;
         bool needs_translation = false;
 };
 
@@ -193,10 +221,19 @@ class translation
 translation to_translation( const std::string &raw );
 translation to_translation( const std::string &ctxt, const std::string &raw );
 /**
+ * Shorthands for translation::pl_translation
+ **/
+translation pl_translation( const std::string &raw, const std::string &raw_pl );
+translation pl_translation( const std::string &ctxt, const std::string &raw,
+                            const std::string &raw_pl );
+/**
  * Shorthand for translation::no_translation
  **/
 translation no_translation( const std::string &str );
 
+/**
+ * Stream output and concatenation of translations. Singular forms are used.
+ **/
 std::ostream &operator<<( std::ostream &out, const translation &t );
 std::string operator+( const translation &lhs, const std::string &rhs );
 std::string operator+( const std::string &lhs, const translation &rhs );

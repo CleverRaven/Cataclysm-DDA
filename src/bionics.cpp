@@ -1776,8 +1776,6 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
     bool drop_cbm = false;
     add_msg( m_neutral, _( "The installation is a failure." ) );
 
-
-
     if( installer != "NOT_MED" ) {
         //~"Complications" is USian medical-speak for "unintended damage from a medical procedure".
         add_msg( m_neutral, _( "%s training helps to minimize the complications." ),
@@ -2135,14 +2133,12 @@ void load_bionic( JsonObject &jsobj )
                                        ja.get_int( 1 ) );
     }
 
-
     JsonArray jsar = jsobj.get_array( "encumbrance" );
     while( jsar.has_more() ) {
         JsonArray ja = jsar.next_array();
         new_bionic.encumbrance.emplace( get_body_part_token( ja.get_string( 0 ) ),
                                         ja.get_int( 1 ) );
     }
-
 
     JsonArray jsarr = jsobj.get_array( "occupied_bodyparts" );
     while( jsarr.has_more() ) {
@@ -2151,14 +2147,12 @@ void load_bionic( JsonObject &jsobj )
                                                ja.get_int( 1 ) );
     }
 
-
     JsonArray json_arr = jsobj.get_array( "env_protec" );
     while( json_arr.has_more() ) {
         JsonArray ja = json_arr.next_array();
         new_bionic.env_protec.emplace( get_body_part_token( ja.get_string( 0 ) ),
                                        ja.get_int( 1 ) );
     }
-
 
     new_bionic.activated = new_bionic.toggled ||
                            new_bionic.power_activate > 0_kJ ||

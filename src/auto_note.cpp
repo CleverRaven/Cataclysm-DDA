@@ -261,7 +261,6 @@ void auto_note_manager_gui::show()
         currentX += shortcut_print( w_header, point( currentX, 0 ), c_white, c_light_green,
                                     _( "<S>witch " ) );
 
-
         // Clear table
         for( int y = 0; y < iContentHeight; y++ ) {
             for( int x = 0; x < 79; x++ ) {
@@ -302,7 +301,7 @@ void auto_note_manager_gui::show()
                     wprintz( w, c_yellow, "   " );
                 }
 
-                wprintz( w, lineColor, "%s", cacheEntry.first.name );
+                wprintz( w, lineColor, "%s", _( cacheEntry.first.name ) );
 
                 // Since yes is longer than no, we need to clear the space for the status string before
                 // displaying the current text. Otherwise artifacts might occur.

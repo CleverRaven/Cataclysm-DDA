@@ -30,6 +30,70 @@
   },
   {
     "type": "terrain",
+    "id": "t_dock_deep_pile",
+    "name": "deep dock pile",
+    "description": "A sturdy pile made of wood extending all the way to the riverbed. A frame will be required to support a surface.",
+    "symbol": "|",
+    "color": "brown",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "FISHABLE" ],
+    "examine_action": "water_source",
+    "deconstruct": { "ter_set": "t_water_moving_dp", "items": [ { "item": "spike", "count": 4 }, { "item": "wood_beam", "count": 1 } ] },
+    "looks_like": "t_column",
+    "bash": {
+      "str_min": 20,
+      "str_max": 120,
+      "sound": "smash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_water_moving_dp",
+      "items": [ { "item": "splinter", "count": [ 12, 24 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_dock_deep_frame",
+    "name": "deep dock frame",
+    "description": "A log frame secured atop a wooden pile. Adding a wood surface will make this into a proper dock section.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 6,
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
+    "deconstruct": { "ter_set": "t_dock_deep_pile", "items": [ { "item": "spike", "count": 8 }, { "item": "log", "count": 4 } ] },
+    "looks_like": "t_wall_log_half",
+    "bash": {
+      "str_min": 12,
+      "str_max": 100,
+      "sound": "smash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_dock_deep_pile",
+      "items": [ { "item": "log", "count": 2, "prob": 25 }, { "item": "splinter", "count": [ 4, 8 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_dock_deep",
+    "name": "deep dock",
+    "description": "A wooden platform held by a tall wooden pile that extend to the riverbed. Very sturdy, and likely to outlast you.",
+    "symbol": "8",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ],
+    "deconstruct": {
+      "ter_set": "t_dock_deep_frame",
+      "items": [ { "item": "nail", "charges": [ 12, 24 ] }, { "item": "2x4", "count": 16 } ]
+    },
+    "looks_like": "t_riverbridge_dp",
+    "bash": {
+      "str_min": 12,
+      "str_max": 100,
+      "sound": "smash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_dock_deep_pile",
+      "items": [ { "item": "2x4", "count": 8, "prob": 25 }, { "item": "splinter", "count": [ 8, 24 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_sh_bridge",
     "name": "shallow bridge",
     "description": "A wooden platform held by a support made of logs dug into the ground.",

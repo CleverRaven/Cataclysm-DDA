@@ -395,7 +395,6 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
         no_cbm_on_bp.emplace( get_body_part_token( s ) );
     }
 
-
     auto jsarr = jo.get_array( "category" );
     while( jsarr.has_more() ) {
         std::string s = jsarr.next_string();

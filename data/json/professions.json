@@ -180,6 +180,7 @@
       { "item": "glasses_bifocal", "bonus": [ [ "HYPEROPIC", "MYOPIC" ] ] },
       { "item": "glasses_reading", "bonus": [ [ "HYPEROPIC" ], [ "MYOPIC" ] ] },
       { "item": "inhaler", "bonus": [ [ "ASTHMA" ] ] },
+      { "item": "thorazine", "bonus": [ [ "SCHIZOPHRENIC" ] ] },
       { "item": "cookbook_human", "bonus": [ [ "CANNIBAL" ] ] },
       { "item": "teleumbrella", "bonus": [ [ "ALBINO" ] ] }
     ]

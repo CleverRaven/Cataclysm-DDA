@@ -146,7 +146,6 @@ static const std::map<npc_job, std::vector<activity_id>> job_duties = {
 std::string npc_job_id( npc_job job );
 std::string npc_job_name( npc_job job );
 
-
 enum npc_mission : int {
     NPC_MISSION_NULL = 0, // Nothing in particular
     NPC_MISSION_LEGACY_1,

@@ -1203,7 +1203,7 @@ const itype *Item_factory::find_template( const itype_id &id ) const
         ( making_id.is_valid() && making_id.obj().is_blueprint() ) ) {
         itype *def = new itype();
         def->id = id;
-        def->name = def->name_plural = string_format( "DEBUG: %s", id.c_str() );
+        def->name = no_translation( string_format( "DEBUG: %s", id.c_str() ) );
         def->description = making_id.obj().description;
         m_runtimes[ id ].reset( def );
         return def;
@@ -1213,8 +1213,7 @@ const itype *Item_factory::find_template( const itype_id &id ) const
 
     itype *def = new itype();
     def->id = id;
-    def->name = string_format( "undefined-%ss", id.c_str() );
-    def->name_plural = string_format( "undefined-%s", id.c_str() );
+    def->name = no_translation( string_format( "undefined-%s", id.c_str() ) );
     def->description = no_translation( string_format( "Missing item definition for %s.", id.c_str() ) );
 
     m_runtimes[ id ].reset( def );
@@ -2074,14 +2073,18 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
         def.damage_max_ = arr.get_int( 1 ) * itype::damage_scale;
     }
 
-    def.name = jo.get_string( "name" );
     if( jo.has_member( "name_plural" ) ) {
-        def.name_plural = jo.get_string( "name_plural" );
+        // legacy format
+        // NOLINTNEXTLINE(cata-json-translation-input)
+        def.name = pl_translation( jo.get_string( "name" ), jo.get_string( "name_plural" ) );
     } else {
-        def.name_plural = jo.get_string( "name" ) += "s";
+        def.name = translation( translation::plural_tag() );
+        if( !jo.read( "name", def.name ) ) {
+            jo.throw_error( "name unspecified for item type" );
+        }
     }
 
-    if( jo.has_string( "description" ) ) {
+    if( jo.has_member( "description" ) ) {
         jo.read( "description", def.description );
     }
 
