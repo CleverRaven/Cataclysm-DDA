@@ -1937,6 +1937,28 @@
     }
   },
   {
+    "id": "milk_cream_rising",
+    "type": "GENERIC",
+    "category": "food",
+    "name": "milk cream jar",
+    "description": "This jar contains raw milk separating into cream.  You can seal up the jar once the process is completed.",
+    "weight": "52 g",
+    "volume": "3000 ml",
+    "price": 10,
+    "bashing": 8,
+    "material": [ "glass", "dairy" ],
+    "symbol": "%",
+    "color": "white",
+    "use_action": {
+      "target": "milk_cream_jar",
+      "msg": "You examine the batch and see that the cream has risen to the top, so you seal the jar up for storage.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 86400,
+      "not_ready_msg": "The cream has not risen yet."
+    }
+  },
+  {
     "id": "eink_tablet_pc",
     "type": "TOOL",
     "name": "e-ink tablet PC",
