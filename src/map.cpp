@@ -620,7 +620,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
             veh.handle_trap( wheel_p, w );
             if( !has_flag( "SEALED", wheel_p ) ) {
                 // TODO: Make this value depend on the wheel
-                smash_items( wheel_p, 5 );
+                smash_items( wheel_p, 5, "weight of the "+veh.name);
             }
         }
     }
@@ -2932,15 +2932,24 @@ void map::collapse_at( const tripoint &p, const bool silent )
     }
 }
 
-void map::smash_items( const tripoint &p, const int power )
+void map::smash_items( const tripoint &p, const int power, const std::string &cause_message )
 {
     if( !has_items( p ) ) {
         return;
     }
 
+    // Keep track of how many items have been damaged, and what the most recent one is
+    bool item_was_damaged = false;
+    int items_damaged = 0;
+    const item *most_recently_damaged{};
+
     std::vector<item> contents;
     auto items = i_at( p );
     for( auto i = items.begin(); i != items.end(); ) {
+
+        // Set the item_was_damaged flag to false for each item
+        item_was_damaged = false;
+
         if( i->active ) {
             // Get the explosion item actor
             if( i->type->get_use( "explosion" ) != nullptr ) {
@@ -2973,6 +2982,8 @@ void map::smash_items( const tripoint &p, const int power )
         // 5 damage (destruction)
 
         const bool by_charges = i->count_by_charges();
+
+
         // See if they were damaged
         if( by_charges ) {
             damage_chance *= i->charges_per_volume( 250_ml );
@@ -2981,6 +2992,8 @@ void map::smash_items( const tripoint &p, const int power )
                    i->charges > 0 ) {
                 i->charges--;
                 damage_chance -= material_factor;
+                // We can't increment items_damaged directly because a single item can be damaged more than once
+                item_was_damaged = true;
             }
         } else {
             const field_type_id type_blood = i->is_corpse() ? i->get_mtype()->bloodType() : fd_null;
@@ -2990,8 +3003,16 @@ void map::smash_items( const tripoint &p, const int power )
                 i->inc_damage( DT_BASH );
                 add_splash( type_blood, p, 1, damage_chance );
                 damage_chance -= material_factor;
+                item_was_damaged = true;
             }
         }
+
+        // If an item was damaged, increment the counted and mark it as most recently damaged.
+        if( item_was_damaged ) {
+            items_damaged++;
+            most_recently_damaged = &( *i );
+        }
+
         // Remove them if they were damaged too much
         if( i->damage() == i->max_damage() || ( by_charges && i->charges == 0 ) ) {
             // But save the contents, except for irremovable gunmods
@@ -3005,6 +3026,14 @@ void map::smash_items( const tripoint &p, const int power )
         } else {
             i++;
         }
+    }
+
+    // Let the player know that the item was damaged if they can see it.
+
+    if( (items_damaged > 1) & (g->u.sees( p ))) {
+        add_msg( m_bad, _( "The %s damages several items!" ), cause_message );
+    } else if( (items_damaged == 1) & (g->u.sees( p )))  {
+        add_msg( m_bad, _( "The %s damages the %s!" ), cause_message, most_recently_damaged->tname() );
     }
 
     for( const item &it : contents ) {
@@ -3772,7 +3801,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 
     // Now, smash items on that tile.
     // dam / 3, because bullets aren't all that good at destroying items...
-    smash_items( p, dam / 3 );
+    smash_items( p, dam / 3, "flying projectile" );
 }
 
 bool map::hit_with_acid( const tripoint &p )

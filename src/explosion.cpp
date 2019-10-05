@@ -257,7 +257,7 @@ static void do_blast( const tripoint &p, const float power,
             continue;
         }
 
-        g->m.smash_items( pt, force );
+        g->m.smash_items( pt, force, "force of the explosion" );
 
         if( fire ) {
             int intensity = ( force > 50.0f ) + ( force > 100.0f );

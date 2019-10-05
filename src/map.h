@@ -840,7 +840,7 @@ class map
         /** Causes a collapse at p, such as from destroying a wall */
         void collapse_at( const tripoint &p, bool silent );
         /** Tries to smash the items at the given tripoint. Used by the explosion code */
-        void smash_items( const tripoint &p, int power );
+        void smash_items( const tripoint &p, int power, const std::string &cause_message = "undefined cause" );
         /**
          * Returns a pair where first is whether anything was smashed and second is if it was destroyed.
          *
