@@ -620,7 +620,8 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
             veh.handle_trap( wheel_p, w );
             if( !has_flag( "SEALED", wheel_p ) ) {
                 // TODO: Make this value depend on the wheel
-                smash_items( wheel_p, 5 );
+                //~ %1$s: vehicle name
+                smash_items( wheel_p, 5, string_format( _( "weight of %1$s" ), veh.disp_name() ) );
             }
         }
     }
@@ -2932,11 +2933,16 @@ void map::collapse_at( const tripoint &p, const bool silent )
     }
 }
 
-void map::smash_items( const tripoint &p, const int power )
+void map::smash_items( const tripoint &p, const int power, const std::string &cause_message )
 {
     if( !has_items( p ) ) {
         return;
     }
+
+    // Keep track of how many items have been damaged, and what the first one is
+    bool item_was_damaged = false;
+    int items_damaged = 0;
+    std::string damaged_item_name;
 
     std::vector<item> contents;
     auto items = i_at( p );
@@ -2981,6 +2987,8 @@ void map::smash_items( const tripoint &p, const int power )
                    i->charges > 0 ) {
                 i->charges--;
                 damage_chance -= material_factor;
+                // We can't increment items_damaged directly because a single item can be damaged more than once
+                item_was_damaged = true;
             }
         } else {
             const field_type_id type_blood = i->is_corpse() ? i->get_mtype()->bloodType() : fd_null;
@@ -2990,8 +2998,22 @@ void map::smash_items( const tripoint &p, const int power )
                 i->inc_damage( DT_BASH );
                 add_splash( type_blood, p, 1, damage_chance );
                 damage_chance -= material_factor;
+                item_was_damaged = true;
             }
         }
+
+        // If an item was damaged, increment the counter and set it as most recently damaged.
+        if( item_was_damaged ) {
+
+            // If this is the first item to be damaged, store its name in damaged_item_name.
+            if( items_damaged == 0 ) {
+                damaged_item_name = i->tname();
+            }
+            // Increment the counter, and reset the flag.
+            items_damaged++;
+            item_was_damaged = false;
+        }
+
         // Remove them if they were damaged too much
         if( i->damage() == i->max_damage() || ( by_charges && i->charges == 0 ) ) {
             // But save the contents, except for irremovable gunmods
@@ -3005,6 +3027,14 @@ void map::smash_items( const tripoint &p, const int power )
         } else {
             i++;
         }
+    }
+
+    // Let the player know that the item was damaged if they can see it.
+    if( items_damaged > 1 && g->u.sees( p ) ) {
+        add_msg( m_bad, _( "The %s damages several items!" ), cause_message );
+    } else if( items_damaged == 1 && g->u.sees( p ) )  {
+        //~ %1$s: the cause of damage, %2$s: damaged item name
+        add_msg( m_bad, _( "The %1$s damages the %2$s!" ), cause_message, damaged_item_name );
     }
 
     for( const item &it : contents ) {
@@ -3772,7 +3802,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 
     // Now, smash items on that tile.
     // dam / 3, because bullets aren't all that good at destroying items...
-    smash_items( p, dam / 3 );
+    smash_items( p, dam / 3, _( "flying projectile" ) );
 }
 
 bool map::hit_with_acid( const tripoint &p )
@@ -6705,6 +6735,9 @@ void map::shift( const point &sp )
             support_cache_dirty.insert( pt + point( -sp.x * SEEX, -sp.y * SEEY ) );
         }
     }
+    if( zlevels ) {
+        calc_max_populated_zlev();
+    }
 }
 
 void map::vertical_shift( const int newz )
@@ -7475,7 +7508,6 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
             if( !tmp.can_move_to( p ) ) {
                 continue; // target can not contain the monster
             }
-            tmp.spawn( p );
             if( group.horde ) {
                 // Give monster a random point near horde's expected destination
                 const tripoint rand_dest = horde_target +
@@ -7486,7 +7518,10 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                          tmp.wander_pos.x, tmp.wander_pos.y, tmp.wander_pos.z );
             }
 
-            g->add_zombie( tmp );
+            monster *const placed = g->place_critter_at( std::make_shared<monster>( tmp ), p );
+            if( placed ) {
+                placed->on_load();
+            }
             break;
         }
     }
@@ -7527,8 +7562,10 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             };
 
             const auto place_it = [&]( const tripoint & p ) {
-                tmp.spawn( p );
-                g->add_zombie( tmp );
+                monster *const placed = g->place_critter_at( std::make_shared<monster>( tmp ), p );
+                if( placed ) {
+                    placed->on_load();
+                }
             };
 
             // First check out defined spawn location for a valid placement, and if that doesn't work
@@ -8565,6 +8602,7 @@ level_cache::level_cache()
     std::fill_n( &visibility_cache[0][0], map_dimensions, LL_DARK );
     veh_in_active_range = false;
     std::fill_n( &veh_exists_at[0][0], map_dimensions, false );
+    max_populated_zlev = OVERMAP_HEIGHT;
 }
 
 pathfinding_cache::pathfinding_cache()
@@ -8734,4 +8772,31 @@ bool map::is_cornerfloor( const tripoint &p ) const
         }
     }
     return false;
+}
+
+void map::calc_max_populated_zlev()
+{
+    // We'll assume ground level is populated
+    int max_z = 0;
+
+    for( int sz = 1; sz <= OVERMAP_HEIGHT; sz++ ) {
+        bool level_done = false;
+        for( int sx = 0; sx < my_MAPSIZE; sx++ ) {
+            for( int sy = 0; sy < my_MAPSIZE; sy++ ) {
+                const submap *sm = get_submap_at_grid( tripoint( sx, sy, sz ) );
+                if( !sm->is_uniform ) {
+                    max_z = sz;
+                    level_done = true;
+                    break;
+                }
+            }
+            if( level_done ) {
+                break;
+            }
+        }
+    }
+    // This will be the same for every zlevel in the cache, so just put it in all of them
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        get_cache( z ).max_populated_zlev = max_z;
+    }
 }

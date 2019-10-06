@@ -185,6 +185,8 @@ class Character : public Creature, public visitable<Character>
         field_type_id bloodType() const override;
         field_type_id gibType() const override;
         bool is_warm() const override;
+        bool in_species( const species_id &spec ) const override;
+
         const std::string &symbol() const override;
 
         enum stat {
@@ -928,8 +930,8 @@ class Character : public Creature, public visitable<Character>
         stomach_contents stomach;
         stomach_contents guts;
 
-        int power_level;
-        int max_power_level;
+        units::energy power_level;
+        units::energy max_power_level;
         int oxygen;
         int stamina;
         int radiation;

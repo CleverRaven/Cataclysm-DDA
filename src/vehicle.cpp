@@ -141,22 +141,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
             g->m.dirty_vehicle_list.insert( &veh );
         }
         void spawn_animal_from_part( item &base, const tripoint &loc ) override {
-            tripoint target = loc;
-            bool spawn = true;
-            if( !g->is_empty( target ) ) {
-                std::vector<tripoint> valid;
-                for( const tripoint &dest : g->m.points_in_radius( target, 1 ) ) {
-                    if( g->is_empty( dest ) ) {
-                        valid.push_back( dest );
-                    }
-                }
-                if( valid.empty() ) {
-                    spawn = false;
-                } else {
-                    target = random_entry( valid );
-                }
-            }
-            base.release_monster( target, spawn );
+            base.release_monster( loc, 1 );
         }
 };
 
@@ -1887,7 +1872,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
 
     // Release any animal held by the part
     if( parts[p].has_flag( vehicle_part::animal_flag ) ) {
-        item base = item( parts[p].get_base() );
+        item base = parts[p].get_base();
         handler.spawn_animal_from_part( base, part_loc );
         parts[p].set_base( base );
         parts[p].remove_flag( vehicle_part::animal_flag );
@@ -4285,31 +4270,31 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
         const item muscle( "muscle" );
         if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             if( one_in( 1000 / load ) ) { // more pedaling = more power
-                g->u.charge_power( 1 );
+                g->u.charge_power( 1_kJ );
             }
             mod += eff_load / 5;
         }
         if( g->u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             if( one_in( 1000 / load ) && one_in( 20 ) ) { // intentional double chance check
-                g->u.charge_power( 1 );
+                g->u.charge_power( 1_kJ );
             }
             mod += eff_load / 10;
         }
         for( const bionic_id &bid : g->u.get_bionic_fueled_with( muscle ) ) {
             if( g->u.has_active_bionic( bid ) ) {
                 if( one_in( 1000 / load ) ) { // more pedaling = more power
-                    g->u.charge_power( muscle.fuel_energy() * bid->fuel_efficiency );
+                    g->u.charge_power( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
                 }
                 mod += eff_load / 5;
             }
             if( one_in( 1000 / load ) && one_in( 20 ) ) { // intentional double chance check
-                g->u.charge_power( muscle.fuel_energy() * bid->fuel_efficiency );
+                g->u.charge_power( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
             }
             mod += eff_load / 10;
         }
         // decreased stamina burn scalable with load
         if( g->u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
-            g->u.charge_power( -std::max( eff_load / 20, 1 ) );
+            g->u.charge_power( units::from_kilojoule( -std::max( eff_load / 20, 1 ) ) );
             mod -= std::max( eff_load / 5, 5 );
         }
         if( one_in( 1000 / load ) && one_in( 10 ) ) {

@@ -88,6 +88,7 @@ class avatar;
 class event_bus;
 class kill_tracker;
 class map;
+class tripoint_range;
 class memorial_logger;
 class faction_manager;
 class npc;
@@ -267,13 +268,36 @@ class game
         std::shared_ptr<T> shared_from( const T &critter );
 
         /**
-         * Summons a brand new monster at the current time. Returns the summoned monster.
-         * Returns a `nullptr` if the monster could not be created.
+         * Adds critters to the reality bubble, creating them if necessary.
+         * Functions taking a @p id parameter will construct a monster based on that id,
+         * (with default properties).
+         * Functions taking a @p mon parameter will use the supplied monster instance instead
+         * (which must not be null).
+         * Note: the monster will not be upgraded by these functions, it is placed as is.
+         *
+         * @ref place_critter_at will place the creature exactly at the given point.
+         *
+         * @ref place_critter_around will place the creature around
+         * the center @p p within the given @p radius (radius 0 means only the center point is used).
+         * The chosen point will be as close to the center as possible.
+         *
+         * @ref place_critter_within will place the creature at a random point within
+         * that given range. (All points within have equal probability.)
+         *
+         * @return All functions return null if the creature could not be placed (usually because
+         * the target is not suitable for it: may be a solid wall, or air, or already occupied
+         * by some creature).
+         * If the creature has been placed, it returns a pointer to it (which is the same as
+         * the one contained in @p mon).
          */
-        monster *summon_mon( const mtype_id &id, const tripoint &p );
-        /** Calls the creature_tracker add function. Returns true if successful. */
-        bool add_zombie( monster &critter );
-        bool add_zombie( monster &critter, bool pin_upgrade );
+        /** @{ */
+        monster *place_critter_at( const mtype_id &id, const tripoint &p );
+        monster *place_critter_at( std::shared_ptr<monster> mon, const tripoint &p );
+        monster *place_critter_around( const mtype_id &id, const tripoint &center, int radius );
+        monster *place_critter_around( std::shared_ptr<monster> mon, const tripoint &center, int radius );
+        monster *place_critter_within( const mtype_id &id, const tripoint_range &range );
+        monster *place_critter_within( std::shared_ptr<monster> mon, const tripoint_range &range );
+        /** @} */
         /**
          * Returns the approximate number of creatures in the reality bubble.
          * Because of performance restrictions it may return a slightly incorrect

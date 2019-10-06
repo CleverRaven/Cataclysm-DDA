@@ -903,14 +903,14 @@
     "messages": [ "*CRACK!* You brutally maim %s's arm", "*CRACK!* <npcname> brutally maims %s's arm" ],
     "min_unarmed": 5,
     "unarmed_allowed": true,
-    "weighting": 3,
-    "crit_ok": true,
+    "weighting": 2,
+    "crit_tec": true,
     "downed_target": true,
     "stunned_target": true,
-    "disarms": true,
-    "stun_dur": 3,
+    "human_target": true,
+    "stun_dur": 1,
     "flat_bonuses": [ [ "arpen", "bash", "str", 1.0 ] ],
-    "mult_bonuses": [ [ "damage", "bash", 3.0 ] ]
+    "mult_bonuses": [ [ "damage", "bash", 2.0 ] ]
   },
   {
     "type": "technique",

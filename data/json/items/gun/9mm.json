@@ -36,7 +36,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "calicomag" ] ] ]
   },
@@ -76,7 +76,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "m9bigmag", "m9mag" ] ] ]
   },
@@ -139,7 +139,7 @@
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "9mm", [ "mp5mag", "mp5bigmag" ] ] ]
   },
   {
@@ -271,7 +271,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
   },
@@ -390,7 +390,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ]
   },
   {
@@ -463,7 +463,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "9mm", [ "stenmag", "survivor9mm_mag" ] ] ]
   },
   {
@@ -501,7 +501,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "tec9mag" ] ] ]
   },

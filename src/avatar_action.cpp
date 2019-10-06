@@ -61,8 +61,6 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_harnessed( "harnessed" );
 
-static const fault_id fault_gun_clogged( "fault_gun_clogged" );
-
 bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
 {
     if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
@@ -634,11 +632,6 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
         return false;
     }
 
-    if( weapon.faults.count( fault_gun_clogged ) ) {
-        add_msg( m_info, _( "Your %s is too clogged with blackpowder fouling to fire." ), gun->tname() );
-        return false;
-    }
-
     if( gun->has_flag( "FIRE_TWOHAND" ) && ( !you.has_two_arms() ||
             you.worn_with_flag( "RESTRICT_HANDS" ) ) ) {
         add_msg( m_info, _( "You need two free hands to fire your %s." ), gun->tname() );
@@ -670,7 +663,8 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
             if( !is_mech_weapon ) {
                 if( !( you.has_charges( "UPS_off", ups_drain ) ||
                        you.has_charges( "adv_UPS_off", adv_ups_drain ) ||
-                       ( you.has_active_bionic( bionic_id( "bio_ups" ) ) && you.power_level >= ups_drain ) ) ) {
+                       ( you.has_active_bionic( bionic_id( "bio_ups" ) ) &&
+                         you.power_level >= units::from_kilojoule( ups_drain ) ) ) ) {
                     add_msg( m_info,
                              _( "You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!" ),
                              ups_drain, adv_ups_drain );
@@ -804,7 +798,7 @@ bool avatar_action::fire( avatar &you, map &m )
     }
 
     if( shots && args.power_cost ) {
-        you.charge_power( -args.power_cost * shots );
+        you.charge_power( units::from_kilojoule( -args.power_cost ) * shots );
     }
     g->reenter_fullscreen();
     return shots != 0;

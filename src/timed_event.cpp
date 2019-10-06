@@ -57,7 +57,7 @@ void timed_event::actualize()
                 g->events().send<event_type::becomes_wanted>( g->u.getID() );
                 int robx = u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4;
                 int roby = u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4;
-                g->summon_mon( robot_type, tripoint( robx, roby, g->u.posz() ) );
+                g->place_critter_at( robot_type, tripoint( robx, roby, g->u.posz() ) );
             }
         }
         break;
@@ -71,17 +71,8 @@ void timed_event::actualize()
                 pgettext( "memorial_female", "Drew the attention of more dark wyrms!" ) );
             int num_wyrms = rng( 1, 4 );
             for( int i = 0; i < num_wyrms; i++ ) {
-                int tries = 0;
-                tripoint monp = g->u.pos();
-                do {
-                    monp.x = rng( 0, MAPSIZE_X );
-                    monp.y = rng( 0, MAPSIZE_Y );
-                    tries++;
-                } while( tries < 10 && !g->is_empty( monp ) &&
-                         rl_dist( g->u.pos(), monp ) <= 2 );
-                if( tries < 10 ) {
-                    g->m.ter_set( monp, t_rock_floor );
-                    g->summon_mon( mon_dark_wyrm, monp );
+                if( monster *const mon = g->place_critter_around( mon_dark_wyrm, g->u.pos(), 2 ) ) {
+                    g->m.ter_set( mon->pos(), t_rock_floor );
                 }
             }
             // You could drop the flag, you know.
@@ -113,30 +104,26 @@ void timed_event::actualize()
                 }
             }
             for( int i = 0; fault_point && i < num_horrors; i++ ) {
-                int tries = 0;
-                int monx = -1;
-                int mony = -1;
-                do {
+                for( int tries = 0; tries < 10; ++tries ) {
+                    tripoint monp = g->u.pos();
                     if( horizontal ) {
-                        monx = rng( fault_point->x, fault_point->x + 2 * SEEX - 8 );
+                        monp.x = rng( fault_point->x, fault_point->x + 2 * SEEX - 8 );
                         for( int n = -1; n <= 1; n++ ) {
-                            if( g->m.ter( point( monx, fault_point->y + n ) ) == t_rock_floor ) {
-                                mony = fault_point->y + n;
+                            if( g->m.ter( point( monp.x, fault_point->y + n ) ) == t_rock_floor ) {
+                                monp.y = fault_point->y + n;
                             }
                         }
                     } else { // Vertical fault
-                        mony = rng( fault_point->y, fault_point->y + 2 * SEEY - 8 );
+                        monp.y = rng( fault_point->y, fault_point->y + 2 * SEEY - 8 );
                         for( int n = -1; n <= 1; n++ ) {
-                            if( g->m.ter( point( fault_point->x + n, mony ) ) == t_rock_floor ) {
-                                monx = fault_point->x + n;
+                            if( g->m.ter( point( fault_point->x + n, monp.y ) ) == t_rock_floor ) {
+                                monp.x = fault_point->x + n;
                             }
                         }
                     }
-                    tries++;
-                } while( ( monx == -1 || mony == -1 || !g->is_empty( {monx, mony, g->u.posz()} ) ) &&
-                         tries < 10 );
-                if( tries < 10 ) {
-                    g->summon_mon( mon_amigara_horror, tripoint( monx, mony, g->u.posz() ) );
+                    if( g->place_critter_at( mon_amigara_horror, monp ) ) {
+                        break;
+                    }
                 }
             }
         }
@@ -235,18 +222,7 @@ void timed_event::actualize()
                 }
             };
             const mtype_id &montype = random_entry( temple_monsters );
-            int tries = 0;
-            int x = 0;
-            int y = 0;
-            do {
-                x = rng( g->u.posx() - 5, g->u.posx() + 5 );
-                y = rng( g->u.posy() - 5, g->u.posy() + 5 );
-                tries++;
-            } while( tries < 20 && !g->is_empty( {x, y, g->u.posz()} ) &&
-                     rl_dist( point( x, y ), point( g->u.posx(), g->u.posy() ) ) <= 2 );
-            if( tries < 20 ) {
-                g->summon_mon( montype, tripoint( x, y, g->u.posz() ) );
-            }
+            g->place_critter_around( montype, g->u.pos(), 2 );
         }
         break;
 
@@ -265,7 +241,7 @@ void timed_event::per_turn()
                 if( place.x == -1 && place.y == -1 ) {
                     return; // We're safely indoors!
                 }
-                g->summon_mon( mon_eyebot, tripoint( place, g->u.posz() ) );
+                g->place_critter_at( mon_eyebot, tripoint( place, g->u.posz() ) );
                 if( g->u.sees( tripoint( place, g->u.posz() ) ) ) {
                     add_msg( m_warning, _( "An eyebot swoops down nearby!" ) );
                 }

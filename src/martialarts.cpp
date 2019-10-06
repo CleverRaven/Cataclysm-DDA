@@ -112,6 +112,7 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "downed_target", downed_target, false );
     optional( jo, was_loaded, "stunned_target", stunned_target, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
+    optional( jo, was_loaded, "human_target", human_target, false );
 
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
@@ -128,6 +129,7 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "stun_dur", stun_dur, 0 );
     optional( jo, was_loaded, "knockback_dist", knockback_dist, 0 );
     optional( jo, was_loaded, "knockback_spread", knockback_spread, 0 );
+    optional( jo, was_loaded, "powerful_knockback", powerful_knockback, false );
     optional( jo, was_loaded, "knockback_follow", knockback_follow, 0 );
 
     optional( jo, was_loaded, "aoe", aoe, "" );
@@ -509,6 +511,7 @@ ma_technique::ma_technique()
     stun_dur = 0;
     knockback_dist = 0;
     knockback_spread = 0; // adding randomness to knockback, like tec_throw
+    powerful_knockback = false;
     knockback_follow = 0; // player follows the knocked-back party into their former tile
 
     // offensive
@@ -520,6 +523,7 @@ ma_technique::ma_technique()
     downed_target = false;    // only works on downed enemies
     stunned_target = false;   // only works on stunned enemies
     wall_adjacent = false;    // only works near a wall
+    human_target = false;     // only works on humanoid enemies
 
     miss_recovery = false; // allows free recovery from misses, like tec_feint
     grab_break = false; // allows grab_breaks, like tec_break
@@ -1246,6 +1250,14 @@ std::string ma_technique::get_description() const
 
     if( stunned_target ) {
         dump << _( "* Only works on a <info>stunned</info> target" ) << std::endl;
+    }
+
+    if( human_target ) {
+        dump << _( "* Only works on a <info>humanoid</info> target" ) << std::endl;
+    }
+
+    if( powerful_knockback ) {
+        dump << _( "* Causes extra damage on <info>knockback collision</info>." ) << std::endl;
     }
 
     if( dodge_counter ) {

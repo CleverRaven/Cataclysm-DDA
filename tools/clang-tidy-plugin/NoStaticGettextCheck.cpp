@@ -34,7 +34,7 @@ void NoStaticGettextCheck::check( const MatchFinder::MatchResult &Result )
         gettextCall->getBeginLoc(),
         "Gettext calls in static variable initialization will cause text to be "
         "untranslated (global static) or not updated when switching language "
-        "(local static). Consider using translation objects (to_translation()) "
+        "(local static). Consider using translation objects (to_translation() or pl_translation()) "
         "or translate_marker(), and translate the text on demand "
         "(with translation::translated() or gettext calls outside static vars)"
     );

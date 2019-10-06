@@ -116,7 +116,12 @@
       "noise_threshold_lake": 0.25,
       "lake_size_min": 20,
       "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
-      "shore_extendable_overmap_terrain_aliases": [  ]
+      "shore_extendable_overmap_terrain_aliases": [
+        { "om_terrain": "island_forest", "om_terrain_match_type": "TYPE", "alias": "forest" },
+        { "om_terrain": "island_forest_thick", "om_terrain_match_type": "TYPE", "alias": "forest_thick" },
+        { "om_terrain": "island_forest_water", "om_terrain_match_type": "TYPE", "alias": "forest_water" },
+        { "om_terrain": "island_field", "om_terrain_match_type": "TYPE", "alias": "field" }
+      ]
     },
     "overmap_forest_settings": {
       "noise_threshold_forest": 0.2,

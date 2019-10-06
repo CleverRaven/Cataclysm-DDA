@@ -96,6 +96,7 @@ class ma_technique
         int stun_dur;
         int knockback_dist;
         float knockback_spread; // adding randomness to knockback, like tec_throw
+        bool powerful_knockback;
         std::string aoe; // corresponds to an aoe shape, defaults to just the target
         int knockback_follow; // player follows the knocked-back party into their former tile
 
@@ -113,6 +114,7 @@ class ma_technique
         bool downed_target; // only works on downed enemies
         bool stunned_target; // only works on stunned enemies
         bool wall_adjacent; // only works near a wall
+        bool human_target;  // only works on humanoid enemies
 
         /** All kinds of bonuses by types to damage, hit etc. */
         bonus_container bonuses;

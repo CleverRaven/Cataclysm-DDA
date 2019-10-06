@@ -203,7 +203,6 @@ class monster : public Creature
         // chance is the one_in( chance ) that the monster will drown
         bool die_if_drowning( const tripoint &at_pos, int chance = 1 );
 
-
         tripoint scent_move();
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
         int calc_climb_cost( const tripoint &f, const tripoint &t ) const;
@@ -275,6 +274,8 @@ class monster : public Creature
         bool is_underwater() const override;
         bool is_on_ground() const override;
         bool is_warm() const override;
+        bool in_species( const species_id &spec ) const override;
+
         bool has_weapon() const override;
         bool is_dead_state() const override; // check if we should be dead or not
         bool is_elec_immune() const override;
@@ -490,9 +491,11 @@ class monster : public Creature
         void on_unload();
         /**
          * Retroactively update monster.
+         * Call this after a preexisting monster has been placed on map.
+         * Don't call for monsters that have been freshly created, it may cause
+         * the monster to upgrade itself into another monster type.
          */
         void on_load();
-
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::set<tripoint> get_path_avoid() const override;

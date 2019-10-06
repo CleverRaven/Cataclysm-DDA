@@ -781,35 +781,29 @@ void place_monster_iuse::load( JsonObject &obj )
 
 int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
 {
-    monster newmon( mtypeid );
-    tripoint target;
+    std::shared_ptr<monster> newmon_ptr = std::make_shared<monster>( mtypeid );
+    monster &newmon = *newmon_ptr;
+    newmon.init_from_item( it );
     if( place_randomly ) {
-        std::vector<tripoint> valid;
-        for( const tripoint &dest : g->m.points_in_radius( p.pos(), 1 ) ) {
-            if( g->is_empty( dest ) ) {
-                valid.push_back( dest );
-            }
-        }
-        if( valid.empty() ) { // No valid points!
+        // place_critter_around returns the same pointer as its parameter (or null)
+        if( !g->place_critter_around( newmon_ptr, p.pos(), 1 ) ) {
             p.add_msg_if_player( m_info, _( "There is no adjacent square to release the %s in!" ),
                                  newmon.name() );
             return 0;
         }
-        target = random_entry( valid );
     } else {
         const std::string query = string_format( _( "Place the %s where?" ), newmon.name() );
-        if( const cata::optional<tripoint> pnt_ = choose_adjacent( query ) ) {
-            target = *pnt_;
-        } else {
+        const cata::optional<tripoint> pnt_ = choose_adjacent( query );
+        if( !pnt_ ) {
             return 0;
         }
-        if( !g->is_empty( target ) ) {
+        // place_critter_at returns the same pointer as its parameter (or null)
+        if( !g->place_critter_at( newmon_ptr, *pnt_ ) ) {
             p.add_msg_if_player( m_info, _( "You cannot place a %s there." ), newmon.name() );
             return 0;
         }
     }
     p.moves -= moves;
-    newmon.spawn( target );
     if( !newmon.has_flag( MF_INTERIOR_AMMO ) ) {
         for( auto &amdef : newmon.ammo ) {
             item ammo_item( amdef.first, 0 );
@@ -832,7 +826,6 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
             amdef.second = ammo_item.charges;
         }
     }
-    newmon.init_from_item( it );
     int skill_offset = 0;
     if( skill1 ) {
         skill_offset += p.get_skill_level( skill1 ) / 2;
@@ -861,7 +854,6 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
     if( newmon.type->id == mtype_id( "mon_laserturret" ) && !g->is_in_sunlight( newmon.pos() ) ) {
         p.add_msg_if_player( _( "A flashing LED on the laser turret appears to indicate low light." ) );
     }
-    g->add_zombie( newmon, true );
     return 1;
 }
 
@@ -879,7 +871,7 @@ void ups_based_armor_actor::load( JsonObject &obj )
 
 static bool has_powersource( const item &i, const player &p )
 {
-    if( i.is_power_armor() && p.can_interface_armor() && p.power_level > 0 ) {
+    if( i.is_power_armor() && p.can_interface_armor() && p.power_level > 0_kJ ) {
         return true;
     }
     return p.has_charges( "UPS", 1 );
@@ -4075,6 +4067,7 @@ ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bo
     if( !it.is_bionic() ) {
         return ret_val<bool>::make_failure();
     }
+    const bionic_id &bid = it.type->bionic->id;
     if( p.is_mounted() ) {
         return ret_val<bool>::make_failure( _( "You can't install bionics while mounted." ) );
     }
@@ -4089,10 +4082,10 @@ ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bo
         } else if( it.has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
             return ret_val<bool>::make_failure(
                        _( "This CBM is already deployed.  You need to reset it to factory state." ) );
+        } else if( units::energy_max - p.max_power_level < bid->capacity ) {
+            return ret_val<bool>::make_failure( _( "Max power capacity already reached" ) );
         }
     }
-
-    const bionic_id &bid = it.type->bionic->id;
 
     if( p.has_bionic( bid ) ) {
         return ret_val<bool>::make_failure( _( "You have already installed this bionic." ) );

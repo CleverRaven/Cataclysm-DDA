@@ -5855,20 +5855,6 @@
   },
   {
     "type": "recipe",
-    "result": "sauce_red",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "cooking",
-    "difficulty": 3,
-    "charges": 4,
-    "time": "45 m",
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "can_tomato", 1 ], [ "tomato", 1 ], [ "irradiated_tomato", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "ketchup",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -8447,6 +8433,20 @@
   {
     "type": "recipe",
     "result": "sauce_red",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "charges": 4,
+    "time": "45 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "can_tomato", 1 ], [ "tomato", 1 ], [ "irradiated_tomato", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "sauce_red",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water", 10 ] ],
     "container": "jar_3l_glass_sealed",
@@ -8463,7 +8463,7 @@
     "components": [
       [ [ "jar_3l_glass", 1 ] ],
       [ [ "water", 22 ], [ "water_clean", 22 ] ],
-      [ [ "can_tomato", 24 ], [ "tomato", 36 ], [ "irradiated_tomato", 36 ] ]
+      [ [ "can_tomato", 24 ], [ "tomato", 24 ], [ "irradiated_tomato", 24 ] ]
     ]
   },
   {
@@ -8483,7 +8483,7 @@
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "jar_glass", 1 ] ],
-      [ [ "can_tomato", 4 ], [ "tomato", 8 ], [ "irradiated_tomato", 8 ] ],
+      [ [ "can_tomato", 4 ], [ "tomato", 4 ], [ "irradiated_tomato", 4 ] ],
       [ [ "water", 12 ], [ "water_clean", 12 ] ]
     ]
   },
@@ -8509,7 +8509,7 @@
     "components": [
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
-      [ [ "can_tomato", 2 ], [ "tomato", 4 ], [ "irradiated_tomato", 4 ] ],
+      [ [ "can_tomato", 2 ], [ "tomato", 2 ], [ "irradiated_tomato", 2 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ]
     ]
   },

@@ -1,3 +1,160 @@
+# JSON INFO
+
+Use the `Home` key to return to the top.
+
+- [Introduction](#introduction)
+- [File descriptions](#file-descriptions)
+  * [`data/json/`](#-data-json--)
+  * [`data/json/items/`](#-data-json-items--)
+  * [`data/json/requirements/`](#-data-json-requirements--)
+  * [`data/json/vehicles/`](#-data-json-vehicles--)
+- [Generic properties and formatting](#generic-properties-and-formatting)
+  * [Generic properties](#generic-properties)
+  * [Formatting](#formatting)
+    + [Time duration](#time-duration)
+    + [Other formatting](#other-formatting)
+- [Description and content of each JSON file](#description-and-content-of-each-json-file)
+  * [`data/json/` JSONs](#-data-json---jsons)
+    + [Bionics](#bionics)
+    + [Dreams](#dreams)
+    + [Item Groups](#item-groups)
+    + [Materials](#materials)
+    + [Monster Groups](#monster-groups)
+      - [Group definition](#group-definition)
+      - [Monster definition](#monster-definition)
+    + [Monster Factions](#monster-factions)
+    + [Monsters](#monsters)
+    + [Names](#names)
+    + [Professions](#professions)
+      - [`description`](#-description-)
+      - [`name`](#-name-)
+      - [`points`](#-points-)
+      - [`addictions`](#-addictions-)
+      - [`skills`](#-skills-)
+      - [`items`](#-items-)
+      - [`pet`](#-pet-)
+      - [`flags`](#-flags-)
+      - [`cbms`](#-cbms-)
+      - [`traits`](#-traits-)
+    + [Recipes](#recipes)
+    + [Constructions](#constructions)
+    + [Scores](#scores)
+      - [`event_transformation`](#-event-transformation-)
+      - [`event_statistic`](#-event-statistic-)
+      - [`score`](#-score-)
+    + [Skills](#skills)
+    + [Traits/Mutations](#traits-mutations)
+    + [Vehicle Groups](#vehicle-groups)
+    + [Vehicle Parts](#vehicle-parts)
+    + [Part Resistance](#part-resistance)
+    + [Vehicle Placement](#vehicle-placement)
+    + [Vehicle Spawn](#vehicle-spawn)
+    + [Vehicles](#vehicles)
+- [`data/json/items/` JSONs](#-data-json-items---jsons)
+    + [Generic Items](#generic-items)
+    + [Ammo](#ammo)
+    + [Magazine](#magazine)
+    + [Armor](#armor)
+    + [Pet Armor](#pet-armor)
+    + [Books](#books)
+      - [Color Key](#color-key)
+    + [Comestibles](#comestibles)
+    + [Containers](#containers)
+    + [Melee](#melee)
+    + [Gun](#gun)
+    + [Gunmod](#gunmod)
+    + [Batteries](#batteries)
+    + [Tools](#tools)
+    + [Seed Data](#seed-data)
+    + [Artifact Data](#artifact-data)
+    + [Brewing Data](#brewing-data)
+      - [`Charge_type`](#-charge-type-)
+      - [`Effects_carried`](#-effects-carried-)
+      - [`effects_worn`](#-effects-worn-)
+      - [`effects_wielded`](#-effects-wielded-)
+      - [`effects_activated`](#-effects-activated-)
+    + [Software Data](#software-data)
+    + [Fuel data](#fuel-data)
+    + [Use Actions](#use-actions)
+- [`json/` JSONs](#-json---jsons)
+    + [Harvest](#harvest)
+      - [`id`](#-id-)
+      - [`type`](#-type-)
+      - [`message`](#-message-)
+      - [`entries`](#-entries-)
+    + [Furniture](#furniture)
+      - [`type`](#-type--1)
+      - [`move_cost_mod`](#-move-cost-mod-)
+      - [`light_emitted`](#-light-emitted-)
+      - [`required_str`](#-required-str-)
+      - [`crafting_pseudo_item`](#-crafting-pseudo-item-)
+      - [`workbench`](#-workbench-)
+      - [`plant_data`](#-plant-data-)
+    + [Terrain](#terrain)
+      - [`type`](#-type--2)
+      - [`move_cost`](#-move-cost-)
+      - [`light_emitted`](#-light-emitted--1)
+      - [`trap`](#-trap-)
+      - [`harvestable`](#-harvestable-)
+      - [`transforms_into`](#-transforms-into-)
+      - [`harvest_season`](#-harvest-season-)
+      - [`roof`](#-roof-)
+    + [Common To Furniture And Terrain](#common-to-furniture-and-terrain)
+      - [`id`](#-id--1)
+      - [`name`](#-name--1)
+      - [`flags`](#-flags--1)
+      - [`connects_to`](#-connects-to-)
+      - [`symbol`](#-symbol-)
+      - [`looks_like`](#-looks-like-)
+      - [`color` or `bgcolor`](#-color--or--bgcolor-)
+      - [`max_volume`](#-max-volume-)
+      - [`examine_action`](#-examine-action-)
+      - [`close" And "open`](#-close--and--open-)
+      - [`bash`](#-bash-)
+      - [`deconstruct`](#-deconstruct-)
+      - [`map_bash_info`](#-map-bash-info-)
+      - [`str_min`, `str_max`, `str_min_blocked`, `str_max_blocked`, `str_min_supported`, `str_max_supported`](#-str-min----str-max----str-min-blocked----str-max-blocked----str-min-supported----str-max-supported-)
+      - [`sound`, `sound_fail`, `sound_vol`, `sound_fail_vol`](#-sound----sound-fail----sound-vol----sound-fail-vol-)
+      - [`furn_set`, `ter_set`](#-furn-set----ter-set-)
+      - [`explosive`](#-explosive-)
+      - [`destroy_only`](#-destroy-only-)
+      - [`bash_below`](#-bash-below-)
+      - [`tent_centers`, `collapse_radius`](#-tent-centers----collapse-radius-)
+      - [`items`](#-items--1)
+      - [`map_deconstruct_info`](#-map-deconstruct-info-)
+      - [`furn_set`, `ter_set`](#-furn-set----ter-set--1)
+    + [`items`](#-items--2)
+    + [`plant_data`](#-plant-data--1)
+      - [`transform`](#-transform-)
+      - [`base`](#-base-)
+      - [`growth_multiplier`](#-growth-multiplier-)
+      - [`harvest_multiplier`](#-harvest-multiplier-)
+    + [clothing_mod](#clothing-mod)
+- [Scenarios](#scenarios)
+  * [`description`](#-description--1)
+  * [`name`](#-name--2)
+  * [`points`](#-points--1)
+  * [`items`](#-items--3)
+  * [`flags`](#-flags--2)
+  * [`cbms`](#-cbms--1)
+  * [`traits", "forced_traits", "forbidden_traits`](#-traits----forced-traits----forbidden-traits-)
+  * [`allowed_locs`](#-allowed-locs-)
+  * [`start_name`](#-start-name-)
+  * [`professions`](#-professions-)
+  * [`map_special`](#-map-special-)
+  * [`missions`](#-missions-)
+- [Starting locations](#starting-locations)
+  * [`name`](#-name--3)
+  * [`target`](#-target-)
+  * [`flags`](#-flags--3)
+    + [`tile_config`](#-tile-config-)
+- [Mutation overlay ordering](#mutation-overlay-ordering)
+  * [`id`](#-id--2)
+  * [`order`](#-order-)
+- [MOD tileset](#mod-tileset)
+  * [`compatibility`](#-compatibility-)
+  * [`tiles-new`](#-tiles-new-)
+  
 # Introduction
 This document describes the contents of the json files used in Cataclysm: Dark days ahead. You are probably reading this if you want to add or change content of Catacysm: Dark days ahead and need to learn more about what to find where and what each file and property does.
 
@@ -170,14 +327,23 @@ Examples:
 "//" : "comment", // Preferred method of leaving comments inside json files.
 ```
 
-Some json strings are extracted for translation, for example item names, descriptions, etc. The exact extraction is handled in `lang/extract_json_strings.py`. Apart from the obvious way of writing a string without translation context, the string can also have an optional translation context, by writing it like:
+Some json strings are extracted for translation, for example item names, descriptions, etc. The exact extraction is handled in `lang/extract_json_strings.py`. Apart from the obvious way of writing a string without translation context, the string can also have an optional translation context (and sometimes a plural form), by writing it like:
 
-```C++
-"name": { "ctxt": "foo", "str": "bar" }
+```JSON
+"name": { "ctxt": "foo", "str": "bar", "str_pl": "baz" }
 ```
 
-Currently, only some JSON values support this syntax (see [here](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/TRANSLATING.md#translation) for a list of supported values). If you want other json strings to support this format, look at `translations.h|cpp` and migrate the corresponding code to it. Changes to `extract_json_strings.py` might also be needed, as with the new syntax "name" would be a `dict`, which may break unmigrated script.
+You can also add comments for translators by adding a "//~" entry like below. The
+order of the entries does not matter.
 
+```JSON
+"name": {
+    "//~": "as in 'foobar'",
+    "str": "bar"
+}
+```
+
+Currently, only some JSON values support this syntax (see [here](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/TRANSLATING.md#translation) for a list of supported values and more detailed explanation).
 
 # Description and content of each JSON file
 This section describes each json file and their contents. Each json has their own unique properties that are not shared with other Json files (for example 'chapters' property used in books does not apply to armor). This will make sure properties are only described and used within the context of the appropriate JSON file.
@@ -194,18 +360,20 @@ This section describes each json file and their contents. Each json has their ow
 | active                   | Whether the bionic is active or passive. (default: `passive`)
 | power_source             | Whether the bionic provides power. (default: `false`)
 | faulty                   | Whether it is a faulty type. (default: `false`)
-| cost                     | How many PUs it costs to use the bionic. (default: `0`)
+| act_cost                 | How many kJ it costs to activate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| deact_cost               | How many kJ it costs to deactivate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| react_cost               | How many kJ it costs over time to keep this bionic active, does nothing without a non-zero "time".  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
 | time                     | How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
 | description              | In-game description.
 | encumbrance              | (_optional_) A list of body parts and how much this bionic encumber them.
-| weight_capacity_bonus    | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings must be used - "5000 g" or "5 kg" (default: `0`)
+| weight_capacity_bonus    | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings can be used - "5000 g" or "5 kg" (default: `0`)
 | weight_capacity_modifier | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)
 | canceled_mutations       | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
 | included_bionics         | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
 | included                 | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
 | env_protec               | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
 | occupied_bodyparts       | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
-| capacity                 | (_optional_) Amount of power storage added by this bionic.
+| capacity                 | (_optional_) Amount of power storage added by this bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
 | fuel_options             | (_optional_) A list of fuel that this bionic can use to produce bionic power.
 | fuel_capacity            | (_optional_) Volume of fuel this bionic can store.
 | fuel_efficiency          | (_optional_) Fraction of fuel energy converted into power. (default: `0`)
@@ -220,7 +388,7 @@ This section describes each json file and their contents. Each json has their ow
     "active"       : false,
     "power_source" : false,
     "faulty"       : false,
-    "cost"         : 0,
+    "act_cost"     : 0,
     "time"         : 1,
     "fuel_efficiency": 1,
     "stat_bonus": [ [ "INT", 2 ], [ "STR", 2 ] ],
@@ -876,6 +1044,9 @@ Vehicle components when installed on a vehicle.
 "muscle_power_factor": 0,     // Optional field, defaults to 0. If more than 0, each point of the survivor's Strength over 8 adds this much power to the engine, and each point less than 8 removes this much power.
 "exclusions": [ "souls" ]     // Optional field, defaults to empty. A list of words. A new engine can't be installed on the vehicle if any engine on the vehicle shares a word from exclusions.
 "fuel_options": [ "soul", "black_soul" ] // Optional field, defaults to fuel_type.  A list of words. An engine can be fueled by any fuel type in its fuel_options.  If provided, it overrides fuel_type and should include the fuel in fuel_type.
+"comfort": 3,                 // Optional field, defaults to 0. How comfortable this terrain/furniture is. Impact ability to fall asleep on it. (uncomfortable = -999, neutral = 0, slightly_comfortable = 3, comfortable = 5, very_comfortable = 10)
+"floor_bedding_warmth": 300,  // Optional field, defaults to 0. Bonus warmth offered by this terrain/furniture when used to sleep. 
+"bonus_fire_warmth_feet": 200,// Optional field, defaults to 300. Increase warmth received on feet from nearby fire.
 ```
 
 ### Part Resistance
@@ -946,10 +1117,13 @@ See also VEHICLE_JSON.md
 ### Generic Items
 
 ```C++
-"type" : "GENERIC",               // Defines this as some generic item
-"id" : "socks",                   // Unique ID. Must be one continuous word, use underscores if necessary
-"name" : "socks",                 // The name appearing in the examine box.  Can be more than one word separated by spaces
-"name_plural" : "pairs of socks", // (Optional)
+"type": "GENERIC",                // Defines this as some generic item
+"id": "socks",                    // Unique ID. Must be one continuous word, use underscores if necessary
+"name": {
+    "ctxt": "clothing",           // Optional translation context. Useful when a string has multiple meanings that need to be translated differently in other languages.
+    "str": "pair of socks",       // The name appearing in the examine box.  Can be more than one word separated by spaces
+    "str_pl": "pairs of socks"    // Optional. If a name has an irregular plural form (i.e. cannot be formed by simply appending "s" to the singular form), then this should be specified.
+},
 "container" : "null",             // What container (if any) this item should spawn within
 "color" : "blue",                 // Color of the item symbol.
 "symbol" : "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
@@ -1036,6 +1210,7 @@ Armor can be defined like this:
 "warmth" : 10,        //  (Optional, default = 0) How much warmth clothing provides
 "environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
 "encumbrance" : 0,    // Base encumbrance (unfitted value)
+"max_encumbrance" : 0,    // When a character is completely full of volume, the encumbrance of a non-rigid storage container will be set to this. Otherwise it'll be between the encumbrance and max_encumbrance following the equation: encumbrance + (max_encumbrance - encumbrance) * character volume.
 "weight_capacity_bonus": "20 kg",    // (Optional, default = 0) Bonus to weight carrying capacity, can be negative. Strings must be used - "5000 g" or "5 kg"
 "weight_capacity_modifier": 1.5, // (Optional, default = 1) Factor modifying base weight carrying capacity.
 "coverage" : 80,      // What percentage of body part
@@ -2049,6 +2224,23 @@ Example: `-` , `|` , `X` and `Y` are terrain which share the same `connects_to` 
 #### `symbol`
 
 ASCII symbol of the object as it appears in the game. The symbol string must be exactly one character long. This can also be an array of 4 strings, which define the symbol during the different seasons. The first entry defines the symbol during spring. If it's not an array, the same symbol is used all year round.
+
+#### `comfort`
+
+How comfortable this terrain/furniture is. Impact ability to fall asleep on it.
+    uncomfortable = -999,
+    neutral = 0,
+    slightly_comfortable = 3,
+    comfortable = 5,
+    very_comfortable = 10
+
+#### `floor_bedding_warmth`
+
+Bonus warmth offered by this terrain/furniture when used to sleep. 
+
+#### `bonus_fire_warmth_feet`
+
+Increase warmth received on feet from nearby fire  (default = 300)
 
 #### `looks_like`
 

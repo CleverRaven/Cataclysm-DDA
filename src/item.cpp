@@ -114,6 +114,7 @@ const efftype_id effect_weed_high( "weed_high" );
 const material_id mat_leather( "leather" );
 const material_id mat_kevlar( "kevlar" );
 
+const fault_id fault_gun_dirt( "fault_gun_dirt" );
 const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 
 const trait_id trait_small2( "SMALL2" );
@@ -3429,7 +3430,35 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 {
     std::stringstream ret;
 
+    int dirt_level = get_var( "dirt", 0 ) / 2000;
+    std::string dirt_symbol;
     // TODO: MATERIALS put this in json
+
+    // these symbols are unicode square characeters of different heights, representing a rough
+    // estimation of fouling in a gun. This appears instead of "faulty"
+    // since most guns will have some level of fouling in them, and usually it is not a big deal.
+    switch( dirt_level ) {
+        case 0:
+            dirt_symbol = "";
+            break;
+        case 1:
+            dirt_symbol = "<color_white>\u2581</color>";
+            break;
+        case 2:
+            dirt_symbol = "<color_light_gray>\u2583</color>";
+            break;
+        case 3:
+            dirt_symbol = "<color_light_gray>\u2585</color>";
+            break;
+        case 4:
+            dirt_symbol = "<color_dark_gray>\u2587</color>";
+            break;
+        case 5:
+            dirt_symbol = "<color_brown>\u2588</color>";
+            break;
+        default:
+            dirt_symbol = "";
+    }
     std::string damtext;
 
     // for portions of string that have <color_ etc in them, this aims to truncate the whole string correctly
@@ -3443,7 +3472,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
     if( !faults.empty() ) {
-        damtext.insert( 0, _( "faulty " ) );
+        if( ( item::has_fault( fault_gun_blackpowder ) || item::has_fault( fault_gun_dirt ) ) &&
+            faults.size() == 1 ) {
+            damtext.insert( 0, dirt_symbol );
+        } else {
+            damtext.insert( 0, _( "faulty " ) + dirt_symbol );
+        }
     }
 
     std::string vehtext;
@@ -4607,7 +4641,6 @@ int item::get_encumber_when_containing(
             encumber += contents_volume / 250_ml;
         }
     }
-
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
     if( has_flag( "FIT" ) && has_flag( "VARSIZE" ) ) {
@@ -6102,7 +6135,7 @@ int item::ammo_remaining() const
     if( is_tool() || is_gun() ) {
         // includes auxiliary gunmods
         if( has_flag( "USES_BIONIC_POWER" ) ) {
-            int power = g->u.power_level;
+            int power = units::to_kilojoule( g->u.power_level );
             return power;
         }
         return charges;
@@ -6233,8 +6266,8 @@ int item::ammo_consume( int qty, const tripoint &pos )
     } else if( is_tool() || is_gun() ) {
         qty = std::min( qty, charges );
         if( has_flag( "USES_BIONIC_POWER" ) ) {
-            charges = g->u.power_level;
-            g->u.charge_power( -qty );
+            charges = units::to_kilojoule( g->u.power_level );
+            g->u.charge_power( units::from_kilojoule( -qty ) );
         }
         charges -= qty;
         if( charges == 0 ) {
