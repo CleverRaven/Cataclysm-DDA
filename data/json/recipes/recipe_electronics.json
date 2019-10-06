@@ -2051,7 +2051,7 @@
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
     "using": [ [ "soldering_standard", 5 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "cable", 3 ] ], [ [ "e_scrap", 5 ] ] ]
+    "components": [ [ [ "cable", 3 ] ], [ [ "e_scrap", 3 ] ] ]
   },
   {
     "type": "recipe",
