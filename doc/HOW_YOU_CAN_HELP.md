@@ -77,6 +77,7 @@ If you wish to find something pertaining to your specialty, then use the more de
 | [Translation](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3ATranslation)                                                               | I18n
 | [Vehicles](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3AVehicles)                                                                     | Vehicles, parts, mechanics & interactions
 | [Weather](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3AWeather)                                                                       | Rain, snow, and non-temperature environment
+| [Z-levels](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3AZ-levels)                                                                     | Levels below and above ground.
 
 &nbsp;
 
@@ -109,5 +110,4 @@ If you wish to find something pertaining to your specialty, then use the more de
 | [SDL: Tiles / Sound](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22SDL%3A+Tiles+%2F+Sound%22)                                                           | Tiles visual interface and sounds.
 | [stale](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3Astale)                                                                                               | Closed for lack of activity, but still valid.
 | [weekly-digest](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3Aweekly-digest)                                                                               | </div>
-| [Z-levels](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3AZ-levels)                                                                                         | Levels below and above ground.
 
