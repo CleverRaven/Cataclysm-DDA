@@ -1,0 +1,116 @@
+[
+  [
+  {
+    "type": "recipe",
+    "result": "faction_base_saltworks_0",
+    "description": "Survey land for a saltworks area.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_base_saltworks_0",
+    "blueprint_name": "Saltworks survey",
+    "time": "180 m",
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "blueprint_provides": [ { "id": "fbms_0" } ]
+  },
+    {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_0",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "fbms_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_saltworks_0",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbml_0" ], "x": 15, "y": 3 } ] }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_saltpan_metal_northeast",
+    "description": "We could divert saltwater from the swamp nearby to create a steady supply of salt for our needs",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_saltpan_metal_northeast",
+    "blueprint_name": "northeast saltpan",
+    "blueprint_requires": [ { "id": "fbms_0" } ],
+    "blueprint_provides": [ { "id": "fbms_northeast" }, { "id": "Salt_Pan" } ],
+    "blueprint_excludes": [ { "id": "fbms_northeast" } ],
+    "blueprint_autocalc": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_shack_metal_southeast",
+    "description": "We could use a storage room for chemicals and tools, so build a metal shack with a roof on the southeast side of the saltworks field.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_shack_metal_southeast",
+    "blueprint_name": "southeast storage room",
+    "blueprint_requires": [ { "id": "fbms_0" } ],
+    "blueprint_provides": [ { "id": "fbms_southeast" } ],
+    "blueprint_excludes": [ { "id": "fbms_southeast" } ],
+    "blueprint_autocalc": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_brewery0_metal_southwest",
+    "description": "We could take advantage of the the designation of this area to build a brewery.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_brewery0_metal_southwest",
+    "blueprint_name": "southwest brewery",
+    "blueprint_requires": [ { "faction_base_saltworks_0" } ],
+    "blueprint_provides": [ { "id": "fbms_southwest" }, { "id": "brewery" } ],
+    "blueprint_excludes": [ { "id": "fbms_southwest" } ],
+    "blueprint_autocalc": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_brewery1_metal_southwest",
+    "description": "We could uprade the workspace in the brewery to add a still, wood stove and work table.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_brewery1_metal_southwest",
+    "blueprint_name": "southwestwest brewery1",
+    "blueprint_requires": [ { "id": "fbms_southwest" } ],
+    "blueprint_provides": [ { "id": "fbms_southwest" } ],
+    "blueprint_excludes": [ { "id": "fbms_southwest" } ],
+    "blueprint_autocalc": true
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_brewer2_metal_southwest",
+    "description": "We could use fill out the space with extra kegs and storage racks.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbms_brewery2_metal_southwest",
+    "blueprint_name": "southwest brewery2",
+    "blueprint_requires": [ { "id": "fbms_southwest" } ],
+    "blueprint_provides": [ { "id": "fbms_southwest" } ],
+    "blueprint_excludes": [ { "id": "fbms_souththwest" } ],
+    "blueprint_autocalc": true
+  }
+]
