@@ -138,7 +138,7 @@ void advanced_inv_listitem::print_name( catacurses::window window,
 {
     std::string item_name;
 
-    item& it = *items.front();
+    item &it = *items.front();
     if( it.is_money() ) {
         //Count charges
         unsigned int charges_total = 0;
@@ -150,7 +150,7 @@ void advanced_inv_listitem::print_name( catacurses::window window,
         item_name = it.display_name();
     }
     //check stolen
-    if (!it.is_owned_by(g->u, true)) {
+    if( !it.is_owned_by( g->u, true ) ) {
         item_name = "<color_light_red>!</color>" + item_name;
     }
     if( get_option<bool>( "ITEM_SYMBOLS" ) ) {

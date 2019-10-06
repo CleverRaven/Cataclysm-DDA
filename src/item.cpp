@@ -5890,8 +5890,8 @@ const material_type &item::get_base_material() const
 bool item::operator<( const item &other ) const
 {
     struct sort_case_insensitive_less : public std::binary_function< char, char, bool > {
-        bool operator()(char x, char y) const {
-            return toupper(static_cast<unsigned char>(x)) < toupper(static_cast<unsigned char>(y));
+        bool operator()( char x, char y ) const {
+            return toupper( static_cast<unsigned char>( x ) ) < toupper( static_cast<unsigned char>( y ) );
         }
     };
 
