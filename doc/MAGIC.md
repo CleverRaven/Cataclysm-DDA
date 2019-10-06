@@ -46,6 +46,11 @@ In `data/mods/Magiclysm` there is a template spell, copied here for your perusal
 	"max_field_intensity": 10,
 	"field_intensity_increment": 1,
 	"field_intensity_variance": 0.1                           // the field can range in intensity from -variance as a percent to +variance as a percent i.e. this spell would be 9-11
+	"sound_type": "combat",                                   // the type of sound. possible types are: background, weather, music, movement, speech, activity, destructive_activity, alarm, combat, alert, order
+	"sound_description": "a whoosh",                          // the sound description. in the form of "You hear %s" by default it is "an explosion"
+	"sound_ambient": true,                                    // whether or not this is treated as an ambient sound or not
+	"sound_id": "misc",                                       // the sound id
+	"sound_variant": "shockwave"                              // the sound variant
   }
 ```
 Most of the default values for the above are either 0 or "NONE", so you may leave out most of the values if they do not pertain to your spell.

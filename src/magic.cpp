@@ -211,6 +211,7 @@ void spell_type::load( JsonObject &jo, const std::string & )
         { "area_push", spell_effect::area_push },
         { "timed_event", spell_effect::timed_event },
         { "ter_transform", spell_effect::transform_blast },
+        { "noise", spell_effect::noise },
         { "vomit", spell_effect::vomit },
         { "explosion", spell_effect::explosion },
         { "flashbang", spell_effect::flashbang },
@@ -225,6 +226,12 @@ void spell_type::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "message", message, to_translation( "You cast %s!" ) );
+    optional( jo, was_loaded, "sound_description", sound_description,
+              to_translation( "an explosion" ) );
+    optional( jo, was_loaded, "sound_type", sound_type, sounds::sound_t::combat );
+    optional( jo, was_loaded, "sound_ambient", sound_ambient, false );
+    optional( jo, was_loaded, "sound_id", sound_id, "" );
+    optional( jo, was_loaded, "sound_variant", sound_variant, "default" );
     mandatory( jo, was_loaded, "effect", effect_name );
     const auto found_effect = effect_map.find( effect_name );
     if( found_effect == effect_map.cend() ) {
@@ -853,8 +860,14 @@ void spell::make_sound( const tripoint &target ) const
         if( has_flag( spell_flag::LOUD ) ) {
             loudness += 1 + damage() / 3;
         }
-        sounds::sound( target, loudness, sounds::sound_t::combat, _( "an explosion" ), false );
+        make_sound( target, loudness );
     }
+}
+
+void spell::make_sound( const tripoint &target, int loudness ) const
+{
+    sounds::sound( target, loudness, type->sound_type, type->sound_description.translated(),
+                   type->sound_ambient, type->sound_id, type->sound_variant );
 }
 
 std::string spell::effect() const
