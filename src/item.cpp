@@ -6135,7 +6135,7 @@ int item::ammo_remaining() const
     if( is_tool() || is_gun() ) {
         // includes auxiliary gunmods
         if( has_flag( "USES_BIONIC_POWER" ) ) {
-            int power = units::to_kilojoule( g->u.power_level );
+            int power = units::to_kilojoule( g->u.get_power_level() );
             return power;
         }
         return charges;
@@ -6266,7 +6266,7 @@ int item::ammo_consume( int qty, const tripoint &pos )
     } else if( is_tool() || is_gun() ) {
         qty = std::min( qty, charges );
         if( has_flag( "USES_BIONIC_POWER" ) ) {
-            charges = units::to_kilojoule( g->u.power_level );
+            charges = units::to_kilojoule( g->u.get_power_level() );
             g->u.charge_power( units::from_kilojoule( -qty ) );
         }
         charges -= qty;

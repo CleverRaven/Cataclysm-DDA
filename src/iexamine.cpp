@@ -2577,7 +2577,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
 
     const bool has_firestarter = !firestarters.empty();
     const bool has_bionic_firestarter = p.has_bionic( bionic_id( "bio_lighter" ) ) &&
-                                        p.power_level >= bionic_id( "bio_lighter" )->power_activate;
+                                        p.enough_power_for( bionic_id( "bio_lighter" ) );
 
     auto firequenchers = p.items_with( []( const item & it ) {
         return it.damage_melee( DT_BASH );
@@ -3944,7 +3944,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     int pricePerUnit = getGasPricePerLiter( discount );
 
     bool can_hack = ( !p.has_trait( trait_ILLITERATE ) && ( ( p.has_charges( "electrohack", 25 ) ) ||
-                      ( p.has_bionic( bionic_id( "bio_fingerhack" ) ) && p.power_level > 24_kJ ) ) );
+                      ( p.has_bionic( bionic_id( "bio_fingerhack" ) ) && p.get_power_level() > 24_kJ ) ) );
 
     uilist amenu;
     amenu.selected = 1;
@@ -5686,7 +5686,7 @@ hack_result iexamine::hack_attempt( player &p )
     bool using_electrohack = p.has_charges( "electrohack", 25 ) &&
                              query_yn( _( "Use electrohack?" ) );
     bool using_fingerhack = !using_electrohack && p.has_bionic( bionic_id( "bio_fingerhack" ) ) &&
-                            p.power_level > 24_kJ && query_yn( _( "Use fingerhack?" ) );
+                            p.get_power_level() > 24_kJ && query_yn( _( "Use fingerhack?" ) );
 
     if( !( using_electrohack || using_fingerhack ) ) {
         return HACK_UNABLE;
@@ -5718,7 +5718,7 @@ hack_result iexamine::hack_attempt( player &p )
                 p.use_amount( "electrohack", 1 );
             } else {
                 add_msg( m_bad, _( "Your power is drained!" ) );
-                p.charge_power( units::from_kilojoule( -rng( 25, units::to_kilojoule( p.power_level ) ) ) );
+                p.charge_power( units::from_kilojoule( -rng( 25, units::to_kilojoule( p.get_power_level() ) ) ) );
             }
         }
         return HACK_FAIL;

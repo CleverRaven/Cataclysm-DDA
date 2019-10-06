@@ -1661,7 +1661,7 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
 
     std::string target = t.disp_name();
 
-    if( has_active_bionic( bionic_id( "bio_shock" ) ) && power_level >= 2_kJ &&
+    if( has_active_bionic( bionic_id( "bio_shock" ) ) && get_power_level() >= 2_kJ &&
         ( !is_armed() || weapon.conductive() ) ) {
         charge_power( -2_kJ );
         d.add_damage( DT_ELECTRIC, rng( 2, 10 ) );

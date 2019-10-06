@@ -4589,7 +4589,7 @@ bool mattack::riotbot( monster *z )
             handcuffs.set_var( "HANDCUFFS_Y", foe->posy() );
 
             const bool is_uncanny = foe->has_active_bionic( bionic_id( "bio_uncanny_dodge" ) ) &&
-                                    foe->power_level > 74_kJ &&
+                                    foe->get_power_level() > 74_kJ &&
                                     !one_in( 3 );
             ///\EFFECT_DEX >13 allows and increases chance to slip out of riot bot handcuffs
             const bool is_dex = foe->dex_cur > 13 && !one_in( foe->dex_cur - 11 );

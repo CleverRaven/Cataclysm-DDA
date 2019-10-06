@@ -871,7 +871,7 @@ void ups_based_armor_actor::load( JsonObject &obj )
 
 static bool has_powersource( const item &i, const player &p )
 {
-    if( i.is_power_armor() && p.can_interface_armor() && p.power_level > 0_kJ ) {
+    if( i.is_power_armor() && p.can_interface_armor() && p.has_power() ) {
         return true;
     }
     return p.has_charges( "UPS", 1 );
@@ -4082,7 +4082,7 @@ ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bo
         } else if( it.has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
             return ret_val<bool>::make_failure(
                        _( "This CBM is already deployed.  You need to reset it to factory state." ) );
-        } else if( units::energy_max - p.max_power_level < bid->capacity ) {
+        } else if( units::energy_max - p.get_max_power_level() < bid->capacity ) {
             return ret_val<bool>::make_failure( _( "Max power capacity already reached" ) );
         }
     }

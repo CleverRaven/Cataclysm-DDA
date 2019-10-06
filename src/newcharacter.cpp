@@ -626,7 +626,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         add_bionic( bio );
     }
     // Adjust current energy level to maximum
-    power_level = max_power_level;
+    set_power_level( get_max_power_level() );
 
     for( auto &t : get_base_traits() ) {
         std::vector<matype_id> styles;

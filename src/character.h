@@ -578,6 +578,17 @@ class Character : public Creature, public visitable<Character>
         int get_mod_stat_from_bionic( const Character::stat &Stat ) const;
         // route for overmap-scale travelling
         std::vector<tripoint> omt_path;
+
+        units::energy get_power_level() const;
+        units::energy get_max_power_level() const;
+        void mod_power_level( units::energy npower );
+        void mod_max_power_level( units::energy npower_max );
+        void set_power_level( units::energy npower );
+        void set_max_power_level( units::energy npower_max );
+        bool is_max_power() const;
+        bool has_power() const;
+        bool has_max_power() const;
+        bool enough_power_for( const bionic_id &bid ) const;
         // --------------- Generic Item Stuff ---------------
 
         struct has_mission_item_filter {
@@ -930,8 +941,6 @@ class Character : public Creature, public visitable<Character>
         stomach_contents stomach;
         stomach_contents guts;
 
-        units::energy power_level;
-        units::energy max_power_level;
         int oxygen;
         int stamina;
         int radiation;
@@ -1089,6 +1098,9 @@ class Character : public Creature, public visitable<Character>
 
         // A unique ID number, assigned by the game class. Values should never be reused.
         character_id id;
+
+        units::energy power_level;
+        units::energy max_power_level;
 
         /** Needs (hunger, starvation, thirst, fatigue, etc.) */
         int stored_calories;

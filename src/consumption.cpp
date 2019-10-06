@@ -242,7 +242,7 @@ std::pair<int, int> player::fun_for( const item &comest ) const
     }
 
     if( has_active_bionic( bio_taste_blocker ) &&
-        power_level > units::from_kilojoule( abs( comest.get_comestible()->fun ) ) &&
+        get_power_level() > units::from_kilojoule( abs( comest.get_comestible()->fun ) ) &&
         fun < 0 ) {
         fun = 0;
     }
@@ -1175,7 +1175,7 @@ bool player::feed_battery_with( item &it )
 
     const int energy = get_acquirable_energy( it, rechargeable_cbm::battery );
     const int profitable_energy = std::min( energy,
-                                            units::to_kilojoule( max_power_level - power_level ) );
+                                            units::to_kilojoule( get_max_power_level() - get_power_level() ) );
 
     if( profitable_energy <= 0 ) {
         add_msg_player_or_npc( m_info,
@@ -1276,14 +1276,14 @@ bool player::feed_furnace_with( item &it )
                                _( "You digest your %s, but fail to acquire energy from it." ),
                                _( "<npcname> digests their %s for energy, but fails to acquire energy from it." ),
                                it.tname() );
-    } else if( power_level >= max_power_level ) {
+    } else if( is_max_power() ) {
         add_msg_player_or_npc(
             _( "You digest your %s, but you're fully powered already, so the energy is wasted." ),
             _( "<npcname> digests a %s for energy, they're fully powered already, so the energy is wasted." ),
             it.tname() );
     } else {
         const int profitable_energy = std::min( energy,
-                                                units::to_kilojoule( max_power_level - power_level ) );
+                                                units::to_kilojoule( get_max_power_level() - get_power_level() ) );
         if( it.count_by_charges() ) {
             add_msg_player_or_npc( m_info,
                                    ngettext( "You digest %d %s and recharge %d point of energy.",
@@ -1410,7 +1410,7 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
         case rechargeable_cbm::other:
             const int to_consume = std::min( it.charges, std::numeric_limits<int>::max() );
             const int to_charge = std::min( static_cast<int>( it.fuel_energy() * to_consume ),
-                                            units::to_kilojoule( max_power_level - power_level ) );
+                                            units::to_kilojoule( get_max_power_level() - get_power_level() ) );
             return to_charge;
             break;
     }

@@ -195,7 +195,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         return;
     }
 
-    int free_power = std::max( 0, units::to_kilojoule( power_level - max_power_level ) *
+    int free_power = std::max( 0, units::to_kilojoule( get_power_level() - get_max_power_level() ) *
                                static_cast<int>( rules.cbm_reserve ) / 100 );
     if( free_power == 0 ) {
         return;
@@ -282,7 +282,7 @@ bool player::activate_bionic( int b, bool eff_only )
             // It's already on!
             return false;
         }
-        if( power_level < bionics[bio.id].power_activate ) {
+        if( !enough_power_for( bio.id ) ) {
             add_msg_if_player( m_info, _( "You don't have the power to activate your %s." ),
                                bionics[bio.id].name );
             return false;
@@ -376,8 +376,8 @@ bool player::activate_bionic( int b, bool eff_only )
             add_msg_if_player( m_info, _( "You cannot activate that while mounted." ) );
             return false;
         }
-        mod_moves( units::to_kilojoule( power_level ) );
-        power_level = 0_kJ;
+        mod_moves( units::to_kilojoule( get_power_level() ) );
+        set_power_level( 0_kJ );
         add_msg_if_player( m_good, _( "Your speed suddenly increases!" ) );
         if( one_in( 3 ) ) {
             add_msg_if_player( m_bad, _( "Your muscles tear with the strain." ) );
@@ -679,7 +679,7 @@ bool player::activate_bionic( int b, bool eff_only )
             } else {
                 ctr = item( "radiocontrol", 0 );
             }
-            ctr.charges = units::to_kilojoule( power_level );
+            ctr.charges = units::to_kilojoule( get_power_level() );
             int power_use = invoke_item( &ctr );
             charge_power( units::from_kilojoule( -power_use ) );
             bio.powered = ctr.active;
@@ -778,7 +778,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
                                bionics[bio.id].name );
             return false;
         }
-        if( power_level < bionics[bio.id].power_deactivate ) {
+        if( get_power_level() < bionics[bio.id].power_deactivate ) {
             add_msg( m_info, _( "You don't have the power to deactivate your %s." ),
                      bionics[bio.id].name );
             return false;
@@ -854,8 +854,9 @@ bool player::burn_fuel( int b, bool start )
         for( const itype_id &fuel : get_fuel_available( bio.id ) ) {
             const item tmp_fuel( fuel );
             int temp = std::stoi( get_value( fuel ) );
-            if( power_level + units::from_kilojoule( tmp_fuel.fuel_energy() ) *bio.info().fuel_efficiency >
-                max_power_level ) {
+            if( get_power_level() + units::from_kilojoule( tmp_fuel.fuel_energy() ) *bio.info().fuel_efficiency
+                >
+                get_max_power_level() ) {
 
                 add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
                                        _( "<npcname>'s %s turns off to not waste fuel." ), bio.info().name );
@@ -921,7 +922,7 @@ static bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 
                 power_cost -= units::from_kilojoule( armor_power_cost ) * factor;
             }
         }
-        if( p.power_level >= power_cost ) {
+        if( p.get_power_level() >= power_cost ) {
             // Set the recharging cost and charge the bionic.
             amount = units::to_kilojoule( power_cost );
             // This is our first turn of charging, so subtract a turn from the recharge delay.
@@ -990,13 +991,13 @@ void player::process_bionic( int b )
                        "bio_hydraulics" );
     } else if( bio.id == "bio_nanobots" ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
-            if( power_level >= 5_kJ && hp_cur[i] > 0 && hp_cur[i] < hp_max[i] ) {
+            if( get_power_level() >= 5_kJ && hp_cur[i] > 0 && hp_cur[i] < hp_max[i] ) {
                 heal( static_cast<hp_part>( i ), 1 );
                 charge_power( -5_kJ );
             }
         }
         for( const body_part bp : all_body_parts ) {
-            if( power_level >= 2_kJ && remove_effect( effect_bleed, bp ) ) {
+            if( get_power_level() >= 2_kJ && remove_effect( effect_bleed, bp ) ) {
                 charge_power( -2_kJ );
             }
         }
@@ -1017,7 +1018,7 @@ void player::process_bionic( int b )
             charge_power( -2_kJ );
         }
     } else if( bio.id == "bio_cable" ) {
-        if( power_level >= max_power_level ) {
+        if( is_max_power() ) {
             return;
         }
 
@@ -1477,7 +1478,7 @@ void player::perform_uninstall( bionic_id bid, int difficulty, int success, int 
         remove_bionic( bid );
 
         // remove power bank provided by bionic
-        max_power_level -= units::from_kilojoule( power_lvl );
+        mod_max_power_level( -units::from_kilojoule( power_lvl ) );
 
         item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( bid.c_str() ) ) {
@@ -1557,7 +1558,7 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
         }
 
         // remove power bank provided by bionic
-        patient.max_power_level -= target_cbm.info().capacity;
+        patient.mod_max_power_level( -target_cbm.info().capacity );
         patient.remove_bionic( target_cbm.id );
         item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( target_cbm.id.c_str() ) ) {
@@ -1822,15 +1823,16 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
                 } );
 
                 if( valid.empty() ) { // We've got all the bad bionics!
-                    if( max_power_level > 0_kJ ) {
-                        units::energy old_power = max_power_level;
+                    if( has_max_power() ) {
+                        units::energy old_power = get_max_power_level();
                         add_msg( m_bad, _( "%s lose power capacity!" ), disp_name() );
-                        max_power_level = units::from_kilojoule( rng( 0, units::to_kilojoule( max_power_level ) - 25 ) );
+                        set_max_power_level( units::from_kilojoule( rng( 0,
+                                             units::to_kilojoule( get_max_power_level() ) - 25 ) ) );
                         if( is_player() ) {
                             g->memorial().add(
                                 pgettext( "memorial_male", "Lost %d units of power capacity." ),
                                 pgettext( "memorial_female", "Lost %d units of power capacity." ),
-                                units::to_kilojoule( old_power - max_power_level ) );
+                                units::to_kilojoule( old_power - get_max_power_level() ) );
                         }
                     }
                     // TODO: What if we can't lose power capacity?  No penalty?
@@ -1947,7 +1949,7 @@ void player::add_bionic( const bionic_id &b )
     }
 
     units::energy pow_up = bionics[b].capacity;
-    max_power_level += pow_up;
+    mod_max_power_level( pow_up );
     if( b == "bio_power_storage" || b == "bio_power_storage_mkII" ) {
         add_msg_if_player( m_good, _( "Increased storage capacity by %i." ),
                            units::to_kilojoule( pow_up ) );
@@ -1995,7 +1997,7 @@ int player::num_bionics() const
 
 std::pair<int, int> player::amount_of_storage_bionics() const
 {
-    units::energy lvl = max_power_level;
+    units::energy lvl = get_max_power_level();
 
     // exclude amount of power capacity obtained via non-power-storage CBMs
     for( const auto &it : *my_bionics ) {
