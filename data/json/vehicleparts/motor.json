@@ -27,10 +27,7 @@
     "energy_consumption": 1000,
     "damage_modifier": 80,
     "folded_volume": 1,
-    "breaks_into": [
-      { "item": "scrap", "count": [ 1, 4 ] },
-      { "item": "cable", "charges": [ 1, 3 ] }
-    ],
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "cable", "charges": [ 1, 3 ] } ],
     "extend": { "flags": [ "TOOL_SCREWDRIVER", "FOLDABLE" ] },
     "delete": { "flags": [ "TOOL_WRENCH" ] }
   },
