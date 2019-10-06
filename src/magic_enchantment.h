@@ -102,6 +102,9 @@ class enchantment
         // if their conditions don't match, return false. else true.
         bool add( const enchantment &rhs );
 
+        // adds two enchantments together and ignores their conditions
+        void force_add( const enchantment &rhs );
+
         int get_value_add( mod value ) const;
         double get_value_multiply( mod value ) const;
 

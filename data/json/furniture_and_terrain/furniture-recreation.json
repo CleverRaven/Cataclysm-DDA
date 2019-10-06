@@ -1,0 +1,351 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_exercise",
+    "name": "exercise machine",
+    "symbol": "T",
+    "description": "Typically used for, well, exercising.  You're getting quite enough of that; running for your life.",
+    "color": "dark_gray",
+    "move_cost_mod": 1,
+    "coverage": 35,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "MINEABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 1 },
+        { "item": "steel_chunk", "count": 1 },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "lead", "charges": [ 1000, 2000 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 60,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "prob": 50 },
+        { "item": "pipe", "count": 1 },
+        { "item": "lead", "charges": [ 1000, 2000 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ball_mach",
+    "name": "ball machine",
+    "description": "An unpowered machine that seems like it could've been used to launch various balls for different types of sports.  It's only good for parts now if disassembled.",
+    "symbol": "T",
+    "color": "dark_gray",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "MINEABLE" ],
+    "bash": {
+      "str_min": 18,
+      "str_max": 60,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": [ 2, 6 ] }, { "item": "steel_chunk", "prob": 50 }, { "item": "pipe", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_pool_table",
+    "name": "pool table",
+    "symbol": "#",
+    "description": "A good-looking pool table.  You wish you learned how to play.",
+    "color": "green",
+    "move_cost_mod": 2,
+    "coverage": 50,
+    "required_str": -1,
+    "max_volume": 4000,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": 4 },
+        { "item": "felt_patch", "count": 4 },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "nail", "charges": [ 6, 10 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 2, 6 ] },
+        { "item": "nail", "charges": [ 4, 12 ] },
+        { "item": "splinter", "count": 1 },
+        { "item": "felt_patch", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_dive_block",
+    "name": "diving block",
+    "description": "Jump!  Jump!  Dive!",
+    "symbol": "O",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "required_str": 16,
+    "flags": [ "TRANSPARENT", "MOUNTABLE" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "plastic_chunk", "count": [ 2, 4 ] }, { "item": "pipe", "count": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_target",
+    "name": "target",
+    "description": "A metal shooting target in the rough shape of a human.",
+    "symbol": "@",
+    "color": "black",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "required_str": 5,
+    "flags": [ "PLACE_ITEM", "TRANSPARENT" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "sheet_metal_small", "count": [ 3, 7 ] }, { "item": "pipe", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_arcade_machine",
+    "name": "arcade machine",
+    "description": "Play stupid games, win stupid prizes.  That was the idea, anyway.  Now, without power, it's just stupid.  Smarter to disassemble for all kinds of useful electronic parts.",
+    "symbol": "6",
+    "color": "red",
+    "move_cost_mod": -1,
+    "coverage": 75,
+    "required_str": 12,
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "television", "count": 1 },
+        { "item": "plastic_chunk", "count": [ 3, 6 ] },
+        { "item": "circuit", "count": [ 4, 6 ] },
+        { "item": "2x4", "count": 8 },
+        { "item": "nail", "charges": [ 10, 16 ] },
+        { "item": "cable", "charges": [ 14, 20 ] },
+        { "item": "power_supply", "count": [ 1, 2 ] },
+        { "item": "RAM", "count": [ 2, 4 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 35,
+      "sound": "smash!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "splinter", "count": [ 0, 6 ] },
+        { "item": "television", "prob": 50 },
+        { "item": "2x4", "count": [ 2, 6 ] },
+        { "item": "nail", "charges": [ 4, 10 ] },
+        { "item": "cable", "charges": [ 4, 10 ] },
+        { "item": "circuit", "count": [ 0, 4 ] },
+        { "item": "power_supply", "prob": 50 },
+        { "item": "RAM", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_pinball_machine",
+    "name": "pinball machine",
+    "description": "Most underrated game of the 20th century.  Press buttons so the ball doesn't go in the hole.  It doesn't seem to be working without electricity.  Could be disassembled for various electronic parts.",
+    "symbol": "7",
+    "color": "red",
+    "move_cost_mod": -1,
+    "coverage": 35,
+    "required_str": 8,
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": [ 3, 5 ] },
+        { "item": "circuit", "count": 1 },
+        { "item": "2x4", "count": 4 },
+        { "item": "nail", "charges": [ 10, 12 ] },
+        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "power_supply", "prob": 50 },
+        { "item": "RAM", "count": 1 },
+        { "item": "pipe", "count": 2 },
+        { "item": "glass_sheet", "count": 1 },
+        { "item": "bearing", "charges": [ 10, 16 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump!",
+      "items": [
+        { "item": "splinter", "count": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 0, 4 ] },
+        { "item": "2x4", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "cable", "charges": [ 4, 10 ] },
+        { "item": "circuit", "prob": 50 },
+        { "item": "power_supply", "prob": 50 },
+        { "item": "RAM", "prob": 50 },
+        { "item": "pipe", "count": [ 0, 2 ] },
+        { "item": "glass_shard", "count": [ 33, 67 ] },
+        { "item": "plastic_chunk", "count": [ 1, 3 ] },
+        { "item": "bearing", "charges": [ 0, 16 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ergometer",
+    "name": "ergometer",
+    "description": "An rowing exercise machine.  Without power, it can no longer help you with your workout.  Might have useful electronic parts in it.",
+    "symbol": "5",
+    "color": "dark_gray",
+    "move_cost_mod": 2,
+    "required_str": 8,
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "foot_crank", "count": [ 1, 1 ] },
+        { "item": "plastic_chunk", "count": [ 8, 10 ] },
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "chain", "count": 1 },
+        { "item": "pipe", "count": [ 4, 5 ] },
+        { "item": "saddle", "count": [ 1, 1 ] },
+        { "item": "wheel_small", "count": [ 1, 1 ] },
+        { "item": "small_lcd_screen", "count": 1 },
+        { "item": "processor", "count": 1 },
+        { "item": "RAM", "count": 1 },
+        { "item": "nail", "charges": [ 6, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 25,
+      "sound": "smash!",
+      "sound_fail": "thump!",
+      "items": [
+        { "item": "foot_crank", "prob": 50 },
+        { "item": "plastic_chunk", "count": [ 4, 6 ] },
+        { "item": "scrap", "count": [ 0, 2 ] },
+        { "item": "chain", "prob": 50 },
+        { "item": "pipe", "count": [ 0, 4 ] },
+        { "item": "saddle", "prob": 50 },
+        { "item": "wheel_small", "prob": 50 },
+        { "item": "small_lcd_screen", "prob": 50 },
+        { "item": "processor", "prob": 50 },
+        { "item": "RAM", "prob": 50 },
+        { "item": "nail", "charges": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_treadmill",
+    "name": "treadmill",
+    "description": "Used for training leg muscles.  It'll be extra hard without power.  Could be taken apart for its... parts.",
+    "symbol": "L",
+    "color": "dark_gray",
+    "move_cost_mod": 1,
+    "required_str": 12,
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "plastic_chunk", "count": [ 10, 14 ] },
+        { "item": "scrap", "count": [ 2, 5 ] },
+        { "item": "pipe", "count": [ 4, 3 ] },
+        { "item": "small_lcd_screen", "count": 1 },
+        { "item": "RAM", "count": 1 },
+        { "item": "nail", "charges": [ 6, 8 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump!",
+      "items": [
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "scrap", "count": [ 0, 3 ] },
+        { "item": "pipe", "count": [ 0, 4 ] },
+        { "item": "small_lcd_screen", "prob": 50 },
+        { "item": "RAM", "count": [ 0, 1 ] },
+        { "item": "nail", "charges": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_punching_bag",
+    "aliases": "f_floor_canvas",
+    "looks_like": "f_floor_canvas",
+    "name": "heavy punching bag",
+    "description": "Punch Punch!  Exercise those arms!  Main selling point: it doesn't fight back!",
+    "symbol": "0",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 65,
+    "required_str": 10,
+    "flags": [ "BASHABLE", "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC" ],
+    "bash": {
+      "str_min": 15,
+      "str_max": 20,
+      "sound": "whack!",
+      "sound_fail": "whud.",
+      "items": [
+        { "item": "chain", "count": [ 1, 3 ] },
+        { "item": "leather", "count": [ 4, 12 ] },
+        { "item": "rag", "count": [ 4, 18 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_piano",
+    "name": "piano",
+    "description": "The ol' ebony and ivory.  Really classes up the place.  You could take it apart if you wanted... you monster.",
+    "symbol": "P",
+    "color": "i_black",
+    "move_cost_mod": 6,
+    "coverage": 70,
+    "required_str": 8,
+    "//": "While heavy, most large pianos have casters for relatively easy movement.",
+    "flags": [ "FLAMMABLE", "ORGANIC", "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": 12 },
+        { "item": "nail", "charges": [ 8, 12 ] },
+        { "item": "wire", "count": [ 2, 10 ] },
+        { "item": "string_36", "count": [ 2, 10 ] },
+        { "item": "wheel_caster", "count": [ 0, 1 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 10 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "a suffering piano!",
+      "sound_fail": "kerchang.",
+      "items": [
+        { "item": "2x4", "count": [ 4, 8 ] },
+        { "item": "wire", "count": [ 0, 3 ] },
+        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "splinter", "count": 1 },
+        { "item": "plastic_chunk", "count": [ 1, 5 ] }
+      ]
+    }
+  }
+]

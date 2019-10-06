@@ -138,26 +138,23 @@ void advanced_inv_listitem::print_name( catacurses::window window,
 {
     std::string item_name;
 
-    item *it = items.front();
-    if( it->is_money() ) {
+    item& it = *items.front();
+    if( it.is_money() ) {
         //Count charges
         unsigned int charges_total = 0;
         for( const auto item : items ) {
             charges_total += item->charges;
         }
-        item_name = it->display_money( items.size(), charges_total );
+        item_name = it.display_money( items.size(), charges_total );
     } else {
-        item_name = it->display_name();
+        item_name = it.display_name();
     }
     //check stolen
-    if( it->has_owner() ) {
-        const faction *item_fac = it->get_owner();
-        if( item_fac != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
-            item_name = colorize( "!", c_light_red ) + item_name;
-        }
+    if (!it.is_owned_by(g->u, true)) {
+        item_name = "<color_light_red>!</color>" + item_name;
     }
     if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
-        item_name = string_format( "%s %s", it->symbol(), item_name );
+        item_name = string_format( "%s %s", it.symbol(), item_name );
     }
 
     int name_startpos = cond_size + 1;

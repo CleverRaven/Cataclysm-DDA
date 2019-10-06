@@ -100,6 +100,8 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::RANDOM_AOE: return "RANDOM_AOE";
         case spell_flag::RANDOM_DAMAGE: return "RANDOM_DAMAGE";
         case spell_flag::RANDOM_DURATION: return "RANDOM_DURATION";
+        case spell_flag::RANDOM_TARGET: return "RANDOM_TARGET";
+        case spell_flag::MUTATE_TRAIT: return "MUTATE_TRAIT";
         case spell_flag::WONDER: return "WONDER";
         case spell_flag::LAST: break;
     }
@@ -210,6 +212,12 @@ void spell_type::load( JsonObject &jo, const std::string & )
         { "timed_event", spell_effect::timed_event },
         { "ter_transform", spell_effect::transform_blast },
         { "vomit", spell_effect::vomit },
+        { "explosion", spell_effect::explosion },
+        { "flashbang", spell_effect::flashbang },
+        { "mod_moves", spell_effect::mod_moves },
+        { "map", spell_effect::map },
+        { "morale", spell_effect::morale },
+        { "mutate", spell_effect::mutate },
         { "none", spell_effect::none }
     };
 
@@ -613,7 +621,7 @@ bool spell::can_cast( const player &p ) const
             return false;
         }
         case bionic_energy:
-            return p.power_level >= energy_cost( p );
+            return p.power_level >= units::from_kilojoule( energy_cost( p ) );
         case fatigue_energy:
             return p.get_fatigue() < EXHAUSTED;
         case none_energy:
@@ -788,7 +796,7 @@ std::string spell::energy_cur_string( const player &p ) const
         return _( "infinite" );
     }
     if( energy_source() == bionic_energy ) {
-        return colorize( to_string( p.power_level ), c_light_blue );
+        return colorize( to_string( units::to_kilojoule( p.power_level ) ), c_light_blue );
     }
     if( energy_source() == mana_energy ) {
         return colorize( to_string( p.magic.available_mana() ), c_light_blue );
@@ -945,9 +953,9 @@ std::string spell::damage_type_string() const
 
 // constants defined below are just for the formula to be used,
 // in order for the inverse formula to be equivalent
-static const float a = 6200.0;
-static const float b = 0.146661;
-static const float c = -62.5;
+constexpr float a = 6200.0;
+constexpr float b = 0.146661;
+constexpr float c = -62.5;
 
 int spell::get_level() const
 {
@@ -1085,31 +1093,63 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
                 return;
             }
             const int rand_spell = rng( 0, type->additional_spells.size() - 1 );
-            spell sp = ( iter + rand_spell )->get_spell( ( iter + rand_spell )->level );
+            spell sp = ( iter + rand_spell )->get_spell( get_level() );
+            const bool _self = ( iter + rand_spell )->self;
 
             // This spell flag makes it so the message of the spell that's cast using this spell will be sent.
             // if a message is added to the casting spell, it will be sent as well.
             source.add_msg_if_player( sp.message() );
 
-            if( ( iter + rand_spell )->self ) {
-                sp.cast_all_effects( source, source.pos() );
+            if( sp.has_flag( RANDOM_TARGET ) ) {
+                if( _self ) {
+                    sp.cast_all_effects( source, sp.random_valid_target( source, source.pos() ) );
+                } else {
+                    sp.cast_all_effects( source, sp.random_valid_target( source, target ) );
+                }
             } else {
-                sp.cast_all_effects( source, target );
+                if( _self ) {
+                    sp.cast_all_effects( source, source.pos() );
+                } else {
+                    sp.cast_all_effects( source, target );
+                }
             }
         }
     } else {
         // first call the effect of the main spell
         cast_spell_effect( source, target );
         for( const fake_spell &extra_spell : type->additional_spells ) {
-            spell sp = extra_spell.get_spell( extra_spell.level );
-
-            if( extra_spell.self ) {
-                sp.cast_all_effects( source, source.pos() );
+            spell sp = extra_spell.get_spell( get_level() );
+            if( sp.has_flag( RANDOM_TARGET ) ) {
+                if( extra_spell.self ) {
+                    sp.cast_all_effects( source, sp.random_valid_target( source, source.pos() ) );
+                } else {
+                    sp.cast_all_effects( source, sp.random_valid_target( source, target ) );
+                }
             } else {
-                sp.cast_all_effects( source, target );
+                if( extra_spell.self ) {
+                    sp.cast_all_effects( source, source.pos() );
+                } else {
+                    sp.cast_all_effects( source, target );
+                }
             }
         }
     }
+}
+
+tripoint spell::random_valid_target( const Creature &caster, const tripoint &caster_pos ) const
+{
+    const std::set<tripoint> area = spell_effect::spell_effect_blast( *this, caster_pos, caster_pos,
+                                    range(), false );
+    std::set<tripoint> valid_area;
+    for( const tripoint &target : area ) {
+        if( is_valid_target( caster, target ) ) {
+            valid_area.emplace( target );
+        }
+    }
+    size_t rand_i = rng( 0, valid_area.size() - 1 );
+    auto iter = valid_area.begin();
+    std::advance( iter, rand_i );
+    return *iter;
 }
 
 // player
@@ -1296,8 +1336,10 @@ void known_magic::mod_mana( const player &p, int add_mana )
 int known_magic::max_mana( const player &p ) const
 {
     const float int_bonus = ( ( 0.2f + p.get_int() * 0.1f ) - 1.0f ) * mana_base;
-    return std::max( 0.0f, ( ( mana_base + int_bonus ) * p.mutation_value( "mana_multiplier" ) ) +
-                     p.mutation_value( "mana_modifier" ) - p.power_level );
+    const float unaugmented_mana = std::max( 0.0f,
+                                   ( ( mana_base + int_bonus ) * p.mutation_value( "mana_multiplier" ) ) +
+                                   p.mutation_value( "mana_modifier" ) - units::to_kilojoule( p.power_level ) );
+    return p.calculate_by_enchantment( unaugmented_mana, enchantment::mod::MAX_MANA, true );
 }
 
 void known_magic::update_mana( const player &p, float turns )
@@ -1305,7 +1347,8 @@ void known_magic::update_mana( const player &p, float turns )
     // mana should replenish in 8 hours.
     const float full_replenish = to_turns<float>( 8_hours );
     const float ratio = turns / full_replenish;
-    mod_mana( p, floor( ratio * max_mana( p ) * p.mutation_value( "mana_regen_multiplier" ) ) );
+    mod_mana( p, floor( ratio * p.calculate_by_enchantment( max_mana( p ) *
+                        p.mutation_value( "mana_regen_multiplier" ), enchantment::mod::REGEN_MANA ) ) );
 }
 
 std::vector<spell_id> known_magic::spells() const
@@ -1325,7 +1368,7 @@ bool known_magic::has_enough_energy( const player &p, spell &sp ) const
         case mana_energy:
             return available_mana() >= cost;
         case bionic_energy:
-            return p.power_level >= cost;
+            return p.power_level >= units::from_kilojoule( cost );
         case stamina_energy:
             return p.stamina >= cost;
         case hp_energy:
@@ -1557,6 +1600,8 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         damage_string = string_format( "%s %d %s", _( "Summon" ), sp.damage(),
                                        _( monster( mtype_id( sp.effect_data() ) ).get_name( ) ) );
         aoe_string = string_format( "%s: %d", _( "Spell Radius" ), sp.aoe() );
+    } else if( fx == "ter_transform" ) {
+        aoe_string = string_format( "%s: %s", _( "Spell Radius" ), sp.aoe_string() );
     }
 
     print_colored_text( w_menu, point( h_col1, line ), gray, gray, damage_string );
@@ -1728,7 +1773,7 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
         damage_string = _( "Recover" );
     } else if( fx == "teleport_random" ) {
         aoe_string = _( "Variance" );
-    } else if( fx == "area_pull" || fx == "area_push" ) {
+    } else if( fx == "area_pull" || fx == "area_push" ||  fx == "ter_transform" ) {
         aoe_string = _( "AoE" );
     }
 
@@ -1800,7 +1845,10 @@ void fake_spell::load( JsonObject &jo )
     } else {
         max_level = max_level_int;
     }
-    optional( jo, false, "level", level, 0 );
+    optional( jo, false, "min_level", level, 0 );
+    if( jo.has_string( "level" ) ) {
+        debugmsg( "level member for fake_spell was renamed to min_level. id: %s", temp_id );
+    }
 }
 
 void fake_spell::serialize( JsonOut &json ) const
@@ -1812,7 +1860,7 @@ void fake_spell::serialize( JsonOut &json ) const
     } else {
         json.member( "max_level", *max_level );
     }
-    json.member( "level", level );
+    json.member( "min_level", level );
 }
 
 void fake_spell::deserialize( JsonIn &jsin )
@@ -1821,15 +1869,19 @@ void fake_spell::deserialize( JsonIn &jsin )
     load( data );
 }
 
-spell fake_spell::get_spell( const int level_override ) const
+spell fake_spell::get_spell( int input_level ) const
 {
     spell sp( id );
-    int level = sp.get_max_level();
+    int lvl = std::min( input_level, sp.get_max_level() );
     if( max_level ) {
-        level = std::min( level, *max_level );
+        lvl = std::min( lvl, *max_level );
     }
-    level = std::min( level_override, level );
-    while( sp.get_level() < level ) {
+    if( level > lvl ) {
+        debugmsg( "ERROR: fake spell %s has higher min_level than max_level", id.c_str() );
+        return sp;
+    }
+    lvl = clamp( std::max( lvl, level ), level, lvl );
+    while( sp.get_level() < lvl ) {
         sp.gain_level();
     }
     return sp;

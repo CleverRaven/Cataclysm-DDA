@@ -90,7 +90,7 @@
     "name": "Safe Place",
     "points": 1,
     "description": "You've found some distant safe place, devoid of the living dead.  Looks like you're on your own...",
-    "allowed_locs": [ "refugee", "Swamp Shack", "survivalist farm", "cabin", "lmoe", "horse_farm_13" ],
+    "allowed_locs": [ "refugee", "Swamp Shack", "survivalist farm", "cabin", "lmoe", "horse_farm_13", "lighthouse_ground", "cabin_lake" ],
     "start_name": "Safe Building",
     "flags": [ "LONE_START" ]
   },
@@ -253,7 +253,7 @@
     "type": "scenario",
     "ident": "ambushed",
     "name": "Ambush",
-    "points": 0,
+    "points": -3,
     "description": "It is the winter after zero hour.   As you were scavenging for food and a warm place to stay at, you heard the sound of lots of movement nearby.",
     "allowed_locs": [
       "cabin",
@@ -295,7 +295,9 @@
       "campsite_a",
       "campsite",
       "campground_1a",
-      "campground_2b"
+      "campground_2b",
+      "lighthouse_ground",
+      "cabin_lake"
     ],
     "start_name": "Outside Town",
     "flags": [ "SUM_ADV_START", "LONE_START" ],

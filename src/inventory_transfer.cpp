@@ -342,7 +342,7 @@ void inventory_transfer::move_item( advanced_inv_area &move_to, bool to_vehicle,
 
     advanced_inv_pane &spane = *get_pane();
     // current item in source pane, might be null
-    advanced_inv_listitem *sitem = cur_pane->get_cur_item_ptr();
+    advanced_inv_listitem *sitem = spane.get_cur_item_ptr();
 
     if( sitem == nullptr || !sitem->is_item_entry() ) {
         return;
@@ -412,13 +412,14 @@ void inventory_transfer::move_item( advanced_inv_area &move_to, bool to_vehicle,
 
         tripoint target = p.pos() + sarea.offset;
         if( by_charges ) {
-            p.activity.targets.push_back( sarea.generate_item_location( spane.is_in_vehicle(),
+            
+            p.activity.targets.push_back( sarea.generate_item_location(sitem->from_vehicle,
                                           sitem->items.front() ) );
             p.activity.values.push_back( amount_to_move );
         } else {
             for( std::list<item *>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
                  it != sitem->items.end(); ++it ) {
-                p.activity.targets.push_back( sarea.generate_item_location( spane.is_in_vehicle(), *it ) );
+                p.activity.targets.push_back( sarea.generate_item_location(sitem->from_vehicle, *it ) );
                 p.activity.values.push_back( 0 );
                 --amount_to_move;
             }

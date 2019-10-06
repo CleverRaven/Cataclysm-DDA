@@ -132,7 +132,7 @@ void mission_start::kill_horde_master( mission *miss )
  * 3) A spot near the center of the tile that is not a console
  * 4) A random spot near the center of the tile.
  */
-static tripoint find_potential_computer_point( const tinymap &compmap, int z )
+static tripoint find_potential_computer_point( const tinymap &compmap )
 {
     constexpr int rng_x_min = 10;
     constexpr int rng_x_max = SEEX * 2 - 11;
@@ -142,37 +142,33 @@ static tripoint find_potential_computer_point( const tinymap &compmap, int z )
     std::vector<tripoint> broken;
     std::vector<tripoint> potential;
     std::vector<tripoint> last_resort;
-    for( int x = 0; x < SEEX * 2; x++ ) {
-        for( int y = 0; y < SEEY * 2; y++ ) {
-            if( compmap.ter( point( x, y ) ) == t_console_broken ) {
-                broken.emplace_back( x, y, z );
-            } else if( broken.empty() && compmap.ter( point( x, y ) ) == t_floor &&
-                       compmap.furn( point( x, y ) ) == f_null ) {
-                bool okay = false;
-                int wall = 0;
-                for( int x2 = x - 1; x2 <= x + 1 && !okay; x2++ ) {
-                    for( int y2 = y - 1; y2 <= y + 1 && !okay; y2++ ) {
-                        if( compmap.furn( point( x2, y2 ) ) == f_bed || compmap.furn( point( x2, y2 ) ) == f_dresser ) {
-                            okay = true;
-                            potential.emplace_back( x, y, z );
-                        }
-                        if( compmap.has_flag_ter( "WALL", point( x2, y2 ) ) ) {
-                            wall++;
-                        }
-                    }
+    for( const tripoint &p : compmap.points_on_zlevel() ) {
+        if( compmap.ter( p ) == t_console_broken ) {
+            broken.emplace_back( p );
+        } else if( broken.empty() && compmap.ter( p ) == t_floor && compmap.furn( p ) == f_null ) {
+            for( const tripoint &p2 : compmap.points_in_radius( p, 1 ) ) {
+                if( compmap.furn( p2 ) == f_bed || compmap.furn( p2 ) == f_dresser ) {
+                    potential.emplace_back( p );
+                    break;
                 }
-                if( wall == 5 ) {
-                    if( compmap.is_last_ter_wall( true, point( x, y ), point( SEEX * 2, SEEY * 2 ), NORTH ) &&
-                        compmap.is_last_ter_wall( true, point( x, y ), point( SEEX * 2, SEEY * 2 ), SOUTH ) &&
-                        compmap.is_last_ter_wall( true, point( x, y ), point( SEEX * 2, SEEY * 2 ), WEST ) &&
-                        compmap.is_last_ter_wall( true, point( x, y ), point( SEEX * 2, SEEY * 2 ), EAST ) ) {
-                        potential.emplace_back( x, y, z );
-                    }
-                }
-            } else if( broken.empty() && potential.empty() && x >= rng_x_min && x <= rng_x_max
-                       && y >= rng_y_min && y <= rng_y_max && compmap.ter( point( x, y ) ) != t_console ) {
-                last_resort.emplace_back( x, y, z );
             }
+            int wall = 0;
+            for( const tripoint &p2 : compmap.points_in_radius( p, 1 ) ) {
+                if( compmap.has_flag_ter( "WALL", p2 ) ) {
+                    wall++;
+                }
+            }
+            if( wall == 5 ) {
+                if( compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), NORTH ) &&
+                    compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), SOUTH ) &&
+                    compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), WEST ) &&
+                    compmap.is_last_ter_wall( true, p.xy(), point( SEEX * 2, SEEY * 2 ), EAST ) ) {
+                    potential.emplace_back( p );
+                }
+            }
+        } else if( broken.empty() && potential.empty() && p.x >= rng_x_min && p.x <= rng_x_max
+                   && p.y >= rng_y_min && p.y <= rng_y_max && compmap.ter( p ) != t_console ) {
+            last_resort.emplace_back( p );
         }
     }
     std::vector<tripoint> *used = &broken;
@@ -183,7 +179,8 @@ static tripoint find_potential_computer_point( const tinymap &compmap, int z )
         used = &last_resort;
     }
     // if there's no possible location, then we have to overwrite an existing console...
-    const tripoint fallback( rng( rng_x_min, rng_x_max ), rng( rng_y_min, rng_y_max ), z );
+    const tripoint fallback( rng( rng_x_min, rng_x_max ), rng( rng_y_min, rng_y_max ),
+                             compmap.get_abs_sub().z );
     return random_entry( *used, fallback );
 }
 
@@ -227,7 +224,7 @@ void mission_start::place_npc_software( mission *miss )
     oter_id oter = overmap_buffer.ter( place );
     if( is_ot_match( "house", oter, ot_match_type::prefix ) ||
         is_ot_match( "s_pharm", oter, ot_match_type::type ) || oter == "" ) {
-        comppoint = find_potential_computer_point( compmap, place.z );
+        comppoint = find_potential_computer_point( compmap );
     }
 
     compmap.ter_set( comppoint, t_console );
@@ -247,12 +244,10 @@ void mission_start::place_priest_diary( mission *miss )
     compmap.load( tripoint( place.x * 2, place.y * 2, place.z ), false );
 
     std::vector<tripoint> valid;
-    for( int x = 0; x < SEEX * 2; x++ ) {
-        for( int y = 0; y < SEEY * 2; y++ ) {
-            if( compmap.furn( point( x, y ) ) == f_bed || compmap.furn( point( x, y ) ) == f_dresser ||
-                compmap.furn( point( x, y ) ) == f_indoor_plant || compmap.furn( point( x, y ) ) == f_cupboard ) {
-                valid.push_back( tripoint( x, y, place.z ) );
-            }
+    for( const tripoint &p : compmap.points_on_zlevel() ) {
+        if( compmap.furn( p ) == f_bed || compmap.furn( p ) == f_dresser ||
+            compmap.furn( p ) == f_indoor_plant || compmap.furn( p ) == f_cupboard ) {
+            valid.push_back( p );
         }
     }
     const tripoint fallback( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), place.z );
@@ -286,17 +281,12 @@ void mission_start::place_deposit_box( mission *miss )
     tinymap compmap;
     compmap.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
     std::vector<tripoint> valid;
-    for( int x = 0; x < SEEX * 2; x++ ) {
-        for( int y = 0; y < SEEY * 2; y++ ) {
-            if( compmap.ter( point( x, y ) ) == t_floor ) {
-                bool okay = false;
-                for( int x2 = x - 1; x2 <= x + 1 && !okay; x2++ ) {
-                    for( int y2 = y - 1; y2 <= y + 1 && !okay; y2++ ) {
-                        if( compmap.ter( point( x2, y2 ) ) == t_wall_metal ) {
-                            okay = true;
-                            valid.push_back( tripoint( x, y, site.z ) );
-                        }
-                    }
+    for( const tripoint &p : compmap.points_on_zlevel() ) {
+        if( compmap.ter( p ) == t_floor ) {
+            for( const tripoint &p2 : compmap.points_in_radius( p, 1 ) ) {
+                if( compmap.ter( p2 ) == t_wall_metal ) {
+                    valid.push_back( p );
+                    break;
                 }
             }
         }
@@ -643,7 +633,7 @@ void static create_lab_consoles( mission *miss, const tripoint &place, const std
         tinymap compmap;
         compmap.load( tripoint( om_place.x * 2, om_place.y * 2, om_place.z ), false );
 
-        tripoint comppoint = find_potential_computer_point( compmap, om_place.z );
+        tripoint comppoint = find_potential_computer_point( compmap );
 
         computer *tmpcomp = compmap.add_computer( comppoint, _( comp_name ), security );
         tmpcomp->mission_id = miss->get_id();
@@ -712,22 +702,21 @@ void mission_start::reveal_lab_train_depot( mission *miss )
 
     tinymap compmap;
     compmap.load( tripoint( place.x * 2, place.y * 2, place.z ), false );
-    tripoint comppoint;
+    cata::optional<tripoint> comppoint;
 
-    for( tripoint point : compmap.points_in_rectangle(
-             tripoint( 0, 0, place.z ), tripoint( SEEX * 2 - 1, SEEY * 2 - 1, place.z ) ) ) {
+    for( const tripoint &point : compmap.points_on_zlevel() ) {
         if( compmap.ter( point ) == t_console ) {
             comppoint = point;
             break;
         }
     }
 
-    if( comppoint == tripoint() ) {
+    if( !comppoint ) {
         debugmsg( "Could not find a computer in the lab train depot, mission will fail." );
         return;
     }
 
-    computer *tmpcomp = compmap.computer_at( comppoint );
+    computer *tmpcomp = compmap.computer_at( *comppoint );
     tmpcomp->mission_id = miss->uid;
     tmpcomp->add_option( _( "Download Routing Software" ), COMPACT_DOWNLOAD_SOFTWARE, 0 );
 

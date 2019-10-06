@@ -2150,7 +2150,6 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
     return false;
 }
 
-
 bool cata_tiles::has_memory_at( const tripoint &p ) const
 {
     if( g->u.should_show_map_memory() ) {

@@ -386,6 +386,9 @@ faction *faction_manager::add_new_faction( const std::string &name_new, const fa
 
 faction *faction_manager::get( const faction_id &id, const bool complain )
 {
+    if( id.is_null() ) {
+        return get( faction_id( "no_faction" ) );
+    }
     for( auto &elem : factions ) {
         if( elem.first == id ) {
             if( !elem.second.validated ) {
@@ -455,7 +458,7 @@ void faction::faction_display( const catacurses::window &fac_w, const int width 
     int y = 2;
     mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Attitude to you:           %s" ),
                fac_ranking_text( likes_u ) );
-    fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_light_gray, desc );
+    fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_light_gray, _( desc ) );
 }
 
 int npc::faction_display( const catacurses::window &fac_w, const int width ) const
@@ -704,11 +707,12 @@ void faction_manager::display() const
             if( !camps.empty() ) {
                 camp = camps[selection];
             }
+            active_vec_size = camps.size();
         } else if( tab == tab_mode::TAB_OTHERFACTIONS ) {
             if( !valfac.empty() ) {
                 cur_fac = valfac[selection];
-                active_vec_size = valfac.size();
             }
+            active_vec_size = valfac.size();
         }
 
         for( int i = 3; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
@@ -786,7 +790,7 @@ void faction_manager::display() const
                     for( size_t i = top_of_page; i < active_vec_size; i++ ) {
                         const int y = i - top_of_page + 3;
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
-                                        valfac[i]->name );
+                                        _( valfac[i]->name ) );
                     }
                     if( selection < valfac.size() ) {
                         assert( cur_fac ); // To appease static analysis

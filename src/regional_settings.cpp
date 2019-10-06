@@ -351,8 +351,8 @@ static void load_overmap_lake_settings( JsonObject &jo,
                 JsonObject jo = aliases_jarr.next_object();
                 jo.read( "om_terrain", alias.overmap_terrain );
                 jo.read( "alias", alias.alias );
-                alias.match_type = jo.get_enum_value<ot_match_type>( jo.get_string( "om_terrain_match_type",
-                                   "CONTAINS" ), ot_match_type::contains );
+                alias.match_type = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
+                                   ot_match_type::contains );
                 overmap_lake_settings.shore_extendable_overmap_terrain_aliases.emplace_back( alias );
             }
         }

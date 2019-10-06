@@ -507,7 +507,7 @@ void advanced_inv_pane::redraw()
     const int max_page = ( items.size() + itemsPerPage - 1 ) / itemsPerPage;
     if( max_page > 1 ) {
         const int page = index / itemsPerPage;
-        mvwprintz( w, point( 2, 4 ), c_light_blue, _( "[<] page %d of %d [>]" ), page + 1, max_page );
+        mvwprintz( w, point( 2, 4 ), c_light_blue, _( "[<] page %1$d of %2$d [>]" ), page + 1, max_page );
     }
 
     wattron( w, c_cyan );

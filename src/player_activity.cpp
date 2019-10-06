@@ -49,9 +49,50 @@ bool player_activity::is_suspendable() const
     return type->suspendable();
 }
 
+bool player_activity::is_multi_type() const
+{
+    return type->multi_activity();
+}
+
 std::string player_activity::get_str_value( size_t index, const std::string &def ) const
 {
     return index < str_values.size() ? str_values[index] : def;
+}
+
+cata::optional<std::string> player_activity::get_progress_message() const
+{
+    if( type == activity_id( "ACT_CRAFT" ) ) {
+        if( const item *craft = targets.front().get_item() ) {
+            return string_format( _( "Crafting: %s" ), craft->tname() );
+        }
+    } else if( moves_total > 0 ) {
+        const int percentage = ( ( moves_total - moves_left ) * 100 ) / moves_total;
+
+        if( type == activity_id( "ACT_BURROW" ) ) {
+            return string_format( _( "Burrowing: %d%%" ), percentage );
+        } else if( type == activity_id( "ACT_HACKSAW" ) ) {
+            return string_format( _( "Sawing: %d%%" ), percentage );
+        } else if( type == activity_id( "ACT_JACKHAMMER" ) ) {
+            return string_format( _( "Jackhammering: %d%%" ), percentage );
+        } else if( type == activity_id( "ACT_PICKAXE" ) ) {
+            return string_format( _( "Digging: %d%%" ), percentage );
+        } else if( type == activity_id( "ACT_DISASSEMBLE" ) ) {
+            return string_format( _( "Disassembling: %d%%" ), percentage );
+        } else if(
+            type == activity_id( "ACT_FILL_PIT" ) ||
+            type == activity_id( "ACT_DIG" ) ||
+            type == activity_id( "ACT_DIG_CHANNEL" )
+        ) {
+            return string_format( _( "Shoveling: %d%%" ), percentage );
+        } else if(
+            type == activity_id( "ACT_CHOP_TREE" ) ||
+            type == activity_id( "ACT_CHOP_LOGS" ) ||
+            type == activity_id( "ACT_CHOP_PLANKS" )
+        ) {
+            return string_format( _( "Chopping: %d%%" ), percentage );
+        }
+    }
+    return cata::optional<std::string>();
 }
 
 void player_activity::do_turn( player &p )

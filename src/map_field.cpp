@@ -18,6 +18,7 @@
 #include "calendar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
+#include "effect.h"
 #include "emit.h"
 #include "enums.h"
 #include "fire.h"
@@ -282,7 +283,6 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     // Then, spread to a nearby point.
     // If not possible (or randomly), try to spread up
     // Wind direction will block the field spreading into the wind.
-    spread.reserve( 8 );
     // Start at end_it + 1, then wrap around until all elements have been processed.
     for( size_t i = ( end_it + 1 ) % neighs.size(), count = 0 ;
          count != neighs.size();
@@ -297,7 +297,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     const maptile remove_tile = std::get<0>( maptiles );
     const maptile remove_tile2 = std::get<1>( maptiles );
     const maptile remove_tile3 = std::get<2>( maptiles );
-    if( !zlevels || one_in( spread.size() ) ) {
+    if( !spread.empty() && ( !zlevels || one_in( spread.size() ) ) ) {
         // Construct the destination from offset and p
         if( g->is_sheltered( p ) || windpower < 5 ) {
             gas_spread_to( cur, neighs[ random_entry( spread ) ] );
@@ -1507,28 +1507,6 @@ void map::player_in_field( player &u )
             }
 
         }
-        if( ft == fd_smoke ) {
-            if( !inside ) {
-                // Get smoke disease from standing in smoke.
-                const int intensity = cur.get_field_intensity();
-                int cough_strength;
-                time_duration cough_duration = 0_turns;
-                // Thick smoke
-                if( intensity >= 3 ) {
-                    cough_strength = 4;
-                    cough_duration = 15_turns;
-                    // Smoke
-                } else if( intensity == 2 ) {
-                    cough_strength = 2;
-                    cough_duration = 7_turns;
-                    // Intensity 1, thin smoke
-                } else {
-                    cough_strength = 1;
-                    cough_duration = 2_turns;
-                }
-                u.add_env_effect( effect_smoke, bp_mouth, cough_strength, cough_duration );
-            }
-        }
         if( ft == fd_tear_gas ) {
             // Tear gas will both give you teargas disease and/or blind you.
             if( ( cur.get_field_intensity() > 1 || !one_in( 3 ) ) && ( !inside || one_in( 3 ) ) ) {
@@ -1737,6 +1715,34 @@ void map::creature_in_field( Creature &critter )
         monster_in_field( *static_cast<monster *>( &critter ) );
     } else if( player *p = critter.as_player() ) {
         player_in_field( *p );
+    }
+
+    field &curfield = get_field( critter.pos() );
+    for( auto &field_entry_it : curfield ) {
+        field_entry &cur_field_entry = field_entry_it.second;
+        if( !cur_field_entry.is_field_alive() ) {
+            continue;
+        }
+        const field_type_id cur_field_id = cur_field_entry.get_field_type();
+        const effect field_fx = cur_field_entry.field_effect();
+        if( field_fx.is_null() ||
+            critter.is_immune_field( cur_field_id ) || field_fx.get_id().is_empty() ||
+            critter.is_immune_effect( field_fx.get_id() ) ) {
+            continue;
+        }
+        player *u = critter.as_player();
+        if( u && cur_field_entry.inside_immune() ) {
+            // If we are in a vehicle figure out if we are inside (reduces effects usually)
+            // and what part of the vehicle we need to deal with.
+            if( u->in_vehicle ) {
+                if( const optional_vpart_position vp = veh_at( u->pos() ) ) {
+                    if( vp->is_inside() ) {
+                        continue;
+                    }
+                }
+            }
+        }
+        critter.add_effect( field_fx );
     }
 }
 

@@ -355,6 +355,17 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, 1.0f );
     optional( jo, was_loaded, "map_memory_capacity_multiplier", map_memory_capacity_multiplier, 1.0f );
     optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, 1.0f );
+    optional( jo, was_loaded, "scent_modifier", scent_modifier, 1.0f );
+    optional( jo, was_loaded, "bleed_resist", bleed_resist, 0 );
+    optional( jo, was_loaded, "healthy_rate", healthy_rate, 1.0f );
+    optional( jo, was_loaded, "fat_to_max_hp", fat_to_max_hp, 0.0f );
+    optional( jo, was_loaded, "weakness_to_water", weakness_to_water, 0 );
+    optional( jo, was_loaded, "ignored_by", ignored_by );
+    optional( jo, was_loaded, "can_only_eat", can_only_eat );
+    optional( jo, was_loaded, "can_only_heal_with", can_only_heal_with );
+    optional( jo, was_loaded, "can_heal_with", can_heal_with );
+
+    optional( jo, was_loaded, "allowed_category", allowed_category );
 
     optional( jo, was_loaded, "mana_modifier", mana_modifier, 0 );
     optional( jo, was_loaded, "mana_multiplier", mana_multiplier, 1.0f );
@@ -377,6 +388,12 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "leads_to", additions );
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "types", types );
+
+    JsonArray jsar = jo.get_array( "no_cbm_on_bp" );
+    while( jsar.has_more() ) {
+        std::string s = jsar.next_string();
+        no_cbm_on_bp.emplace( get_body_part_token( s ) );
+    }
 
     auto jsarr = jo.get_array( "category" );
     while( jsarr.has_more() ) {

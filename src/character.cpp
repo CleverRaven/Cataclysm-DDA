@@ -119,6 +119,8 @@ static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id debug_nodmg( "DEBUG_NODMG" );
 
+const species_id HUMAN( "HUMAN" );
+
 // *INDENT-OFF*
 Character::Character() :
 
@@ -200,6 +202,11 @@ field_type_id Character::gibType() const
     return fd_gibs_flesh;
 }
 
+bool Character::in_species( const species_id &spec ) const
+{
+    return spec == HUMAN;
+}
+
 bool Character::is_warm() const
 {
     return true; // TODO: is there a mutation (plant?) that makes a npc not warm blooded?
@@ -228,6 +235,16 @@ void Character::mod_stat( const std::string &stat, float modifier )
     } else {
         Creature::mod_stat( stat, modifier );
     }
+}
+
+int Character::get_fat_to_hp() const
+{
+    float mut_fat_hp = 0;
+    for( const trait_id &mut : get_mutations() ) {
+        mut_fat_hp += mut.obj().fat_to_max_hp;
+    }
+
+    return mut_fat_hp * ( get_bmi() - character_weight_category::normal );
 }
 
 std::string Character::disp_name( bool possessive ) const
@@ -657,7 +674,7 @@ void Character::recalc_hp()
     float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 );
     for( auto &elem : new_max_hp ) {
         /** @EFFECT_STR_MAX increases base hp */
-        elem = 60 + str_max * 3 + hp_adjustment;
+        elem = 60 + str_max * 3 + hp_adjustment + get_fat_to_hp();
         elem *= hp_mod;
     }
     if( has_trait( trait_GLASSJAW ) ) {
@@ -1769,6 +1786,21 @@ bool Character::meets_requirements( const item &it, const item &context ) const
     return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, ctx );
 }
 
+void Character::make_bleed( body_part bp, time_duration duration, int intensity,
+                            bool permanent, bool force, bool defferred )
+{
+    int b_resist = 0;
+    for( const trait_id &mut : get_mutations() ) {
+        b_resist += mut.obj().bleed_resist;
+    }
+
+    if( b_resist > intensity ) {
+        return;
+    }
+
+    add_effect( effect_bleed, duration, bp, permanent, intensity, force, defferred );
+}
+
 void Character::normalize()
 {
     Creature::normalize();
@@ -2352,7 +2384,11 @@ void Character::set_healthy( int nhealthy )
 }
 void Character::mod_healthy( int nhealthy )
 {
-    healthy += nhealthy;
+    float mut_rate = 1.0f;
+    for( const trait_id &mut : get_mutations() ) {
+        mut_rate *= mut.obj().healthy_rate;
+    }
+    healthy += nhealthy * mut_rate;
 }
 void Character::set_healthy_mod( int nhealthy_mod )
 {
@@ -2414,6 +2450,9 @@ void Character::set_stored_kcal( int kcal )
 {
     if( stored_calories != kcal ) {
         stored_calories = kcal;
+
+        //some mutant change their max_hp according to their bmi
+        recalc_hp();
     }
 }
 
@@ -2644,7 +2683,8 @@ void Character::reset_bonuses()
 int Character::get_max_healthy() const
 {
     const float bmi = get_bmi();
-    return clamp( static_cast<int>( round( -3 * ( bmi - 18.5 ) * ( bmi - 25 ) + 200 ) ), -200, 200 );
+    return clamp( static_cast<int>( round( -3 * ( bmi - character_weight_category::normal ) *
+                                           ( bmi - character_weight_category::overweight ) + 200 ) ), -200, 200 );
 }
 
 void Character::update_health( int external_modifiers )
@@ -3944,22 +3984,138 @@ void Character::healed_bp( int bp, int amount )
 
 void Character::set_fac_id( const std::string &my_fac_id )
 {
-    fac_id = string_id<faction>( my_fac_id );
+    fac_id = faction_id( my_fac_id );
 }
 
 std::string get_stat_name( Character::stat Stat )
 {
     switch( Stat ) {
         // *INDENT-OFF*
-    case Character::stat::STRENGTH:     return pgettext("strength stat", "STR");
-    case Character::stat::DEXTERITY:    return pgettext("dexterity stat", "DEX");
-    case Character::stat::INTELLIGENCE: return pgettext("intelligence stat", "INT");
-    case Character::stat::PERCEPTION:   return pgettext("perception stat", "PER");
-            // *INDENT-ON*
+    case Character::stat::STRENGTH:     return pgettext( "strength stat", "STR" );
+    case Character::stat::DEXTERITY:    return pgettext( "dexterity stat", "DEX" );
+    case Character::stat::INTELLIGENCE: return pgettext( "intelligence stat", "INT" );
+    case Character::stat::PERCEPTION:   return pgettext( "perception stat", "PER" );
+        // *INDENT-ON*
         default:
             return pgettext( "fake stat there's an error", "ERR" );
             break;
 
     }
     return pgettext( "fake stat there's an error", "ERR" );
+}
+
+void Character::build_mut_dependency_map( const trait_id &mut,
+        std::unordered_map<trait_id, int> &dependency_map, int distance )
+{
+    // Skip base traits and traits we've seen with a lower distance
+    const auto lowest_distance = dependency_map.find( mut );
+    if( !has_base_trait( mut ) && ( lowest_distance == dependency_map.end() ||
+                                    distance < lowest_distance->second ) ) {
+        dependency_map[mut] = distance;
+        // Recurse over all prerequisite and replacement mutations
+        const mutation_branch &mdata = mut.obj();
+        for( const trait_id &i : mdata.prereqs ) {
+            build_mut_dependency_map( i, dependency_map, distance + 1 );
+        }
+        for( const trait_id &i : mdata.prereqs2 ) {
+            build_mut_dependency_map( i, dependency_map, distance + 1 );
+        }
+        for( const trait_id &i : mdata.replacements ) {
+            build_mut_dependency_map( i, dependency_map, distance + 1 );
+        }
+    }
+}
+
+void Character::set_highest_cat_level()
+{
+    mutation_category_level.clear();
+
+    // For each of our mutations...
+    for( const std::pair<trait_id, Character::trait_data> &mut : my_mutations ) {
+        // ...build up a map of all prerequisite/replacement mutations along the tree, along with their distance from the current mutation
+        std::unordered_map<trait_id, int> dependency_map;
+        build_mut_dependency_map( mut.first, dependency_map, 0 );
+
+        // Then use the map to set the category levels
+        for( const std::pair<trait_id, int> &i : dependency_map ) {
+            const mutation_branch &mdata = i.first.obj();
+            if( !mdata.flags.count( "NON_THRESH" ) ) {
+                for( const std::string &cat : mdata.category ) {
+                    // Decay category strength based on how far it is from the current mutation
+                    mutation_category_level[cat] += 8 / static_cast<int>( std::pow( 2, i.second ) );
+                }
+            }
+        }
+    }
+}
+
+void Character::drench_mut_calc()
+{
+    for( const body_part bp : all_body_parts ) {
+        int ignored = 0;
+        int neutral = 0;
+        int good = 0;
+
+        for( const auto &iter : my_mutations ) {
+            const mutation_branch &mdata = iter.first.obj();
+            const auto wp_iter = mdata.protection.find( bp );
+            if( wp_iter != mdata.protection.end() ) {
+                ignored += wp_iter->second.x;
+                neutral += wp_iter->second.y;
+                good += wp_iter->second.z;
+            }
+        }
+
+        mut_drench[bp][WT_GOOD] = good;
+        mut_drench[bp][WT_NEUTRAL] = neutral;
+        mut_drench[bp][WT_IGNORED] = ignored;
+    }
+}
+
+/// Returns the mutation category with the highest strength
+std::string Character::get_highest_category() const
+{
+    int iLevel = 0;
+    std::string sMaxCat;
+
+    for( const std::pair<std::string, int> &elem : mutation_category_level ) {
+        if( elem.second > iLevel ) {
+            sMaxCat = elem.first;
+            iLevel = elem.second;
+        } else if( elem.second == iLevel ) {
+            sMaxCat.clear();  // no category on ties
+        }
+    }
+    return sMaxCat;
+}
+
+void Character::recalculate_enchantment_cache()
+{
+    // start by resetting the cache to all inventory items
+    enchantment_cache = inv.get_active_enchantment_cache( *this );
+
+    for( const enchantment &ench : weapon.get_enchantments() ) {
+        if( ench.is_active( *this, weapon ) ) {
+            enchantment_cache.force_add( ench );
+        }
+    }
+
+    for( const item &worn_it : worn ) {
+        for( const enchantment &ench : worn_it.get_enchantments() ) {
+            if( ench.is_active( *this, worn_it ) ) {
+                enchantment_cache.force_add( ench );
+            }
+        }
+    }
+}
+
+double Character::calculate_by_enchantment( double modify, enchantment::mod value,
+        bool round_output ) const
+{
+    modify += enchantment_cache.get_value_add( value );
+    modify *= 1.0 + enchantment_cache.get_value_multiply( value );
+    if( round_output ) {
+        modify = round( modify );
+    }
+    return modify;
 }

@@ -22,7 +22,6 @@
     "ups_charges": 5,
     "valid_mod_locations": [
       [ "accessories", 4 ],
-      [ "emitter", 1 ],
       [ "grip", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
