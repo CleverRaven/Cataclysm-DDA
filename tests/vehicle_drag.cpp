@@ -244,7 +244,7 @@ TEST_CASE( "vehicle_drag_calc_baseline", "[.]" )
 TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
 {
     test_vehicle_drag( "bicycle", 0.609525, 0.016957, 42.679167, 2356, 3078 );
-    test_vehicle_drag( "bicycle_electric", 0.609525, 0.031616, 79.577083, 2672, 3208 );
+    test_vehicle_drag( "bicycle_electric", 0.609525, 0.027581, 69.420833, 2704, 3233 );
     test_vehicle_drag( "motorcycle", 0.609525, 0.568903, 254.351562, 7212, 8628 );
     test_vehicle_drag( "motorcycle_sidecart", 0.880425, 0.857295, 454.268750, 6349, 7604 );
     test_vehicle_drag( "quad_bike", 0.537285, 1.110281, 709.138393, 7369, 8856 );
