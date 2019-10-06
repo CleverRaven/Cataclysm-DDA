@@ -258,7 +258,7 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
                 keybind( "TOGGLE_PLANTER" ), "PLANTER" );
     add_toggle( pgettext( "electronics menu option", "rockwheel" ),
                 keybind( "TOGGLE_PLOW" ), "ROCKWHEEL" );
-    add_toggle( pgettext( "electronics menu option", "rockhead" ),
+    add_toggle( pgettext( "electronics menu option", "roadhead" ),
                 keybind( "TOGGLE_PLOW" ), "ROADHEAD" );
     add_toggle( pgettext( "electronics menu option", "scoop" ),
                 keybind( "TOGGLE_SCOOP" ), "SCOOP" );
