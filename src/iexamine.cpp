@@ -2627,7 +2627,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
         }
         case 2: {
             if( g->m.add_field( examp, fd_fire, 1 ) ) {
-                p.charge_power( -bionic_id( "bio_lighter" )->power_activate );
+                p.mod_power_level( -bionic_id( "bio_lighter" )->power_activate );
                 p.mod_moves( -to_moves<int>( 1_seconds ) );
             } else {
                 p.add_msg_if_player( m_info, _( "You can't light a fire there." ) );
@@ -5695,7 +5695,7 @@ hack_result iexamine::hack_attempt( player &p )
     p.moves -= to_moves<int>( 5_minutes );
     p.practice( skill_computer, 20 );
     if( using_fingerhack ) {
-        p.charge_power( -25_kJ );
+        p.mod_power_level( -25_kJ );
     } else {
         p.use_charges( "electrohack", 25 );
     }
@@ -5707,7 +5707,7 @@ hack_result iexamine::hack_attempt( player &p )
     if( success < 0 ) {
         add_msg( _( "You cause a short circuit!" ) );
         if( using_fingerhack ) {
-            p.charge_power( -25_kJ );
+            p.mod_power_level( -25_kJ );
         } else {
             p.use_charges( "electrohack", 25 );
         }
@@ -5718,7 +5718,8 @@ hack_result iexamine::hack_attempt( player &p )
                 p.use_amount( "electrohack", 1 );
             } else {
                 add_msg( m_bad, _( "Your power is drained!" ) );
-                p.charge_power( units::from_kilojoule( -rng( 25, units::to_kilojoule( p.get_power_level() ) ) ) );
+                p.mod_power_level( units::from_kilojoule( -rng( 25,
+                                   units::to_kilojoule( p.get_power_level() ) ) ) );
             }
         }
         return HACK_FAIL;

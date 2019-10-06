@@ -6267,7 +6267,7 @@ int item::ammo_consume( int qty, const tripoint &pos )
         qty = std::min( qty, charges );
         if( has_flag( "USES_BIONIC_POWER" ) ) {
             charges = units::to_kilojoule( g->u.get_power_level() );
-            g->u.charge_power( units::from_kilojoule( -qty ) );
+            g->u.mod_power_level( units::from_kilojoule( -qty ) );
         }
         charges -= qty;
         if( charges == 0 ) {

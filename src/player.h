@@ -360,8 +360,6 @@ class player : public Character
                                         float adjusted_skill );
         /**Has enough anesthetic for surgery*/
         bool has_enough_anesth( const itype *cbm, player &patient );
-        /** Adds the entered amount to the player's bionic power_level */
-        void charge_power( units::energy amount );
         /** Generates and handles the UI for player interaction with installed bionics */
         void power_bionics();
         void power_mutations();

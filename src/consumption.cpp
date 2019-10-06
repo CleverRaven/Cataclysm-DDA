@@ -811,17 +811,17 @@ bool player::eat( item &food, bool force )
     }
 
     if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL" ) ) {
-        charge_power( units::from_kilojoule( rng( 50, 200 ) ) );
+        mod_power_level( units::from_kilojoule( rng( 50, 200 ) ) );
     }
     if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL_WEAK" ) ) {
-        charge_power( units::from_kilojoule( rng( 25, 100 ) ) );
+        mod_power_level( units::from_kilojoule( rng( 25, 100 ) ) );
     }
     if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL_STRONG" ) ) {
-        charge_power( units::from_kilojoule( rng( 75, 300 ) ) );
+        mod_power_level( units::from_kilojoule( rng( 75, 300 ) ) );
     }
 
     if( has_active_bionic( bio_taste_blocker ) ) {
-        charge_power( units::from_kilojoule( -abs( food.get_comestible()->fun ) ) );
+        mod_power_level( units::from_kilojoule( -abs( food.get_comestible()->fun ) ) );
     }
 
     if( food.has_flag( "CANNIBALISM" ) ) {
@@ -1184,7 +1184,7 @@ bool player::feed_battery_with( item &it )
         return false;
     }
 
-    charge_power( units::from_kilojoule( it.charges ) );
+    mod_power_level( units::from_kilojoule( it.charges ) );
     it.charges -= profitable_energy;
 
     add_msg_player_or_npc( m_info,
@@ -1307,7 +1307,7 @@ bool player::feed_furnace_with( item &it )
                                            ), it.tname(), profitable_energy
                                  );
         }
-        charge_power( units::from_kilojoule( profitable_energy ) );
+        mod_power_level( units::from_kilojoule( profitable_energy ) );
     }
 
     it.charges -= consumed_charges;

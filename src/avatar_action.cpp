@@ -798,7 +798,7 @@ bool avatar_action::fire( avatar &you, map &m )
     }
 
     if( shots && args.power_cost ) {
-        you.charge_power( units::from_kilojoule( -args.power_cost ) * shots );
+        you.mod_power_level( units::from_kilojoule( -args.power_cost ) * shots );
     }
     g->reenter_fullscreen();
     return shots != 0;

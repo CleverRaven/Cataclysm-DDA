@@ -588,7 +588,7 @@ void player::process_turn()
         0.8f < get_kcal_percent() && calendar::once_every( 3_turns ) ) {
         // Efficiency is approximately 25%, power output is ~60W
         mod_stored_kcal( -1 );
-        charge_power( 1_kJ );
+        mod_power_level( 1_kJ );
     }
     if( has_trait( trait_DEBUG_BIONIC_POWER ) ) {
         mod_power_level( get_max_power_level() );
@@ -2133,11 +2133,6 @@ bool player::has_active_optcloak() const
     return false;
 }
 
-void player::charge_power( units::energy amount )
-{
-    Character::mod_power_level( amount );
-}
-
 /*
  * Calculate player brightness based on the brightest active item, as
  * per itype tag LIGHT_* and optional CHARGEDIM ( fade starting at 20% charge )
@@ -2719,7 +2714,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
                      source->disp_name() );
         }
         int shock = rng( 1, 4 );
-        charge_power( units::from_kilojoule( -shock ) );
+        mod_power_level( units::from_kilojoule( -shock ) );
         damage_instance ods_shock_damage;
         ods_shock_damage.add_damage( DT_ELECTRIC, shock * 5 );
         // Should hit body part used for attack
@@ -4130,7 +4125,7 @@ void player::update_needs( int rate_multiplier )
 
     if( g->is_in_sunlight( pos() ) ) {
         if( has_bionic( bn_bio_solar ) ) {
-            charge_power( units::from_kilojoule( rate_multiplier * 25 ) );
+            mod_power_level( units::from_kilojoule( rate_multiplier * 25 ) );
         }
     }
 
@@ -4250,7 +4245,7 @@ void player::update_stamina( int turns )
             stamina_recovery += bonus;
             bonus /= 10;
             bonus = std::max( bonus, 1 );
-            charge_power( units::from_kilojoule( -bonus ) );
+            mod_power_level( units::from_kilojoule( -bonus ) );
         }
     }
 
@@ -4820,7 +4815,7 @@ void player::suffer()
         if( oxygen <= 5 ) {
             if( has_bionic( bio_gills ) && get_power_level() >= 25_kJ ) {
                 oxygen += 5;
-                charge_power( -25_kJ );
+                mod_power_level( -25_kJ );
             } else {
                 add_msg_if_player( m_bad, _( "You're drowning!" ) );
                 apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
@@ -5211,7 +5206,7 @@ void player::suffer()
                               map_inv.has_charges( "smoxygen_tank", 1 );
             // check if character has an oxygenator first
             if( oxygenator ) {
-                charge_power( -3_kJ );
+                mod_power_level( -3_kJ );
                 add_msg_if_player( m_info, _( "You use your Oxygenator to clear it up, "
                                               "then go back to sleep." ) );
             } else if( auto_use ) {
@@ -5692,10 +5687,10 @@ void player::suffer()
                     apply_damage( nullptr, bp_torso, 1 );
                     mod_pain( 1 );
                     add_msg_if_player( m_bad, _( "Your chest burns as your power systems overload!" ) );
-                    charge_power( 50_kJ );
+                    mod_power_level( 50_kJ );
                     power_gen -= 60; // ten units of power lost due to short-circuiting into you
                 }
-                charge_power( units::from_kilojoule( power_gen ) );
+                mod_power_level( units::from_kilojoule( power_gen ) );
             }
         } else {
             slow_rad += ( ( ( reactor_plut * 0.4 ) + ( tank_plut * 0.4 ) ) * 100 );
@@ -5715,7 +5710,7 @@ void player::suffer()
         add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
         mod_pain( 1 );
         moves -= 150;
-        charge_power( -10_kJ );
+        mod_power_level( -10_kJ );
 
         if( weapon.typeId() == "e_handcuffs" && weapon.charges > 0 ) {
             weapon.charges -= rng( 1, 3 ) * 50;
@@ -5736,7 +5731,7 @@ void player::suffer()
     }
     if( has_bionic( bio_drain ) && get_power_level() > 24_kJ && one_turn_in( 1_hours ) ) {
         add_msg_if_player( m_bad, _( "Your batteries discharge slightly." ) );
-        charge_power( -25_kJ );
+        mod_power_level( -25_kJ );
         sfx::play_variant_sound( "bionics", "elec_crackle_low", 100 );
     }
     if( has_bionic( bio_noise ) && one_turn_in( 50_minutes ) &&
@@ -5773,7 +5768,7 @@ void player::suffer()
     }
     if( has_bionic( bio_shakes ) && get_power_level() > 24_kJ && one_turn_in( 2_hours ) ) {
         add_msg_if_player( m_bad, _( "Your bionics short-circuit, causing you to tremble and shiver." ) );
-        charge_power( -25_kJ );
+        mod_power_level( -25_kJ );
         add_effect( effect_shakes, 5_minutes );
         sfx::play_variant_sound( "bionics", "elec_crackle_med", 100 );
     }
@@ -5793,7 +5788,7 @@ void player::suffer()
         get_power_level() > 1_kJ ) {
         add_msg_if_player( m_bad, _( "Your malfunctioning bionic starts to glow!" ) );
         add_effect( effect_glowy_led, 5_minutes );
-        charge_power( -1_kJ );
+        mod_power_level( -1_kJ );
     }
 
     // Artifact effects
@@ -6762,13 +6757,13 @@ void player::use_fire( const int quantity )
             }
         }
     } else if( has_active_bionic( bio_tools ) && get_power_level() > quantity * 5_kJ ) {
-        charge_power( -quantity * 5_kJ );
+        mod_power_level( -quantity * 5_kJ );
         return;
     } else if( has_bionic( bio_lighter ) && get_power_level() > quantity * 5_kJ ) {
-        charge_power( -quantity * 5_kJ );
+        mod_power_level( -quantity * 5_kJ );
         return;
     } else if( has_bionic( bio_laser ) && get_power_level() > quantity * 5_kJ ) {
-        charge_power( -quantity * 5_kJ );
+        mod_power_level( -quantity * 5_kJ );
         return;
     }
 }
@@ -6782,7 +6777,7 @@ std::list<item> player::use_charges( const itype_id &what, int qty,
         return res;
 
     } else if( what == "toolset" ) {
-        charge_power( units::from_kilojoule( -qty ) );
+        mod_power_level( units::from_kilojoule( -qty ) );
         return res;
 
     } else if( what == "fire" ) {
@@ -6800,7 +6795,7 @@ std::list<item> player::use_charges( const itype_id &what, int qty,
         }
         if( has_power() && has_active_bionic( bio_ups ) ) {
             int bio = std::min( units::to_kilojoule( get_power_level() ), qty );
-            charge_power( units::from_kilojoule( -bio ) );
+            mod_power_level( units::from_kilojoule( -bio ) );
             qty -= std::min( qty, bio );
         }
 
@@ -10073,7 +10068,7 @@ void player::absorb_hit( body_part bp, damage_instance &dam )
                 } else if( elem.type == DT_STAB ) {
                     elem.amount -= rng( 1, 2 );
                 }
-                charge_power( -25_kJ );
+                mod_power_level( -25_kJ );
             }
             if( elem.amount < 0 ) {
                 elem.amount = 0;
@@ -10676,7 +10671,7 @@ bool player::uncanny_dodge()
         return false;
     }
     tripoint adjacent = adjacent_tile();
-    charge_power( -75_kJ );
+    mod_power_level( -75_kJ );
     if( adjacent.x != posx() || adjacent.y != posy() ) {
         position.x = adjacent.x;
         position.y = adjacent.y;
@@ -11853,7 +11848,7 @@ void player::do_skill_rust()
         if( skill_level_obj.rust( charged_bio_mem ) ) {
             add_msg_if_player( m_warning,
                                _( "Your knowledge of %s begins to fade, but your memory banks retain it!" ), aSkill.name() );
-            charge_power( -25_kJ );
+            mod_power_level( -25_kJ );
         }
         const int newSkill = skill_level_obj.level();
         if( newSkill < oldSkillLevel ) {
