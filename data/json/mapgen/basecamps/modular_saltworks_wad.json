@@ -1,116 +1,110 @@
-[
-  [
+[[
   {
-    "type": "recipe",
-    "result": "faction_base_saltworks_0",
-    "description": "Survey land for a saltworks area.",
-    "category": "CC_BUILDING",
-    "subcategory": "CSC_BUILDING_BASES",
-    "skill_used": "fabrication",
-    "autolearn": false,
-    "never_learn": true,
-    "construction_blueprint": "faction_base_saltworks_0",
-    "blueprint_name": "Saltworks survey",
-    "time": "180 m",
-    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
-    "blueprint_provides": [ { "id": "fbms_0" } ]
+    "type": "palette",
+    "id": "fbms_wad_palette",
+    "terrain": {
+      ".": "t_dirtfloor",
+      "b": "t_dirtfloor",
+      "r": "t_dirtfloor",
+      "t": "t_dirtfloor",
+      "#": "t_dirtfloor",
+      "H": "t_dirtfloor",
+      "^": "t_dirtfloor",
+      "s": "t_dirtfloor",
+      "~": "t_swater_sh",
+      "$": "t_machinery_light",
+      "o": "t_wall_wattle_half",
+      "w": "t_wall_wattle",
+      "+": "t_door_c"
+    },
+    "furniture": { "b": "f_bench", "r": "f_rack", "t": "f_table", "#": "f_stool", "H": "f_wood_keg", "O": "f_fvat_empty", "^": "f_still", "s": "f_woodstove" }
   },
-    {
+  {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbms_0",
+    "nested_mapgen_id": "fbms_saltpan_wad",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [ 7, 7 ],
       "rows": [
-        "      ",
-        "      ",
-        "      ",
-        "      ",
-        "      ",
-        "      "
+        "wwwowww",
+        "w.....w",
+        "w.$.$.w",
+        "o.~t~.o",
+        "w.~#~.w",
+        "w.....w",
+        "www+www"
       ],
       "palettes": [ "fbms_wad_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "faction_base_saltworks_0",
+    "update_mapgen_id": "fbms_saltpan_wad_northeast",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbml_0" ], "x": 15, "y": 3 } ] }
+    "object": { "place_nested": [ { "chunks": [ "fbms_saltpan_wad" ], "x": 14, "y": 3 } ] }
   },
   {
-    "type": "recipe",
-    "result": "faction_base_modular_saltpan_wad_northeast",
-    "description": "We could divert saltwater from the swamp nearby to create a steady supply of salt for our needs",
-    "category": "CC_BUILDING",
-    "subcategory": "CSC_BUILDING_BASES",
-    "autolearn": false,
-    "never_learn": true,
-    "construction_blueprint": "fbms_saltpan_wad_northeast",
-    "blueprint_name": "northeast saltpan",
-    "blueprint_requires": [ { "id": "fbms_0" } ],
-    "blueprint_provides": [ { "id": "fbms_northeast" }, { "id": "Salt_Pan" } ],
-    "blueprint_excludes": [ { "id": "fbms_northeast" } ],
-    "blueprint_autocalc": true
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_shack_wad",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "  woww",
+        " wwrrw",
+        " +..to",
+        " orrrw",
+        " wwoww"
+      ],
+      "palettes": [ "fbms_wad_palette" ]
+    }
   },
   {
-    "type": "recipe",
-    "result": "faction_base_modular_shack_wad_southeast",
-    "description": "We could use a storage room for chemicals and tools, so build a wad shack with a roof on the southeast side of the saltworks field.",
-    "category": "CC_BUILDING",
-    "subcategory": "CSC_BUILDING_BASES",
-    "autolearn": false,
-    "never_learn": true,
-    "construction_blueprint": "fbms_shack_wad_southeast",
-    "blueprint_name": "southeast storage room",
-    "blueprint_requires": [ { "id": "fbms_0" } ],
-    "blueprint_provides": [ { "id": "fbms_southeast" } ],
-    "blueprint_excludes": [ { "id": "fbms_southeast" } ],
-    "blueprint_autocalc": true
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_shack_wad_southeast",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_shack_wad" ], "x": 15, "y": 15 } ] }
   },
   {
-    "type": "recipe",
-    "result": "faction_base_modular_brewery0_wad_southwest",
-    "description": "We could take advantage of the the designation of this area to build a brewery.",
-    "category": "CC_BUILDING",
-    "subcategory": "CSC_BUILDING_BASES",
-    "autolearn": false,
-    "never_learn": true,
-    "construction_blueprint": "fbms_brewery0_wad_southwest",
-    "blueprint_name": "southwest brewery",
-    "blueprint_requires": [ { "faction_base_saltworks_0" } ],
-    "blueprint_provides": [ { "id": "fbms_southwest" }, { "id": "brewery" } ],
-    "blueprint_excludes": [ { "id": "fbms_southwest" } ],
-    "blueprint_autocalc": true
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_brewery0_wad",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwwwwww",
+        "w.rrr.w",
+        "oH....+",
+        "wO....w",
+        "o.....w",
+        "w.....w",
+        "wwwwwww"
+      ],
+      "palettes": [ "fbms_wad_palette" ]
+    }
   },
   {
-    "type": "recipe",
-    "result": "faction_base_modular_brewery1_wad_southwest",
-    "description": "We could uprade the workspace in the brewery to add a still, wood stove and work table.",
-    "category": "CC_BUILDING",
-    "subcategory": "CSC_BUILDING_BASES",
-    "autolearn": false,
-    "never_learn": true,
-    "construction_blueprint": "fbms_brewery1_wad_southwest",
-    "blueprint_name": "southwestwest brewery1",
-    "blueprint_requires": [ { "id": "fbms_southwest" } ],
-    "blueprint_provides": [ { "id": "fbms_southwest" } ],
-    "blueprint_excludes": [ { "id": "fbms_southwest" } ],
-    "blueprint_autocalc": true
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_brewery0_wad_southwest",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_brewery0_wad" ], "x": 3, "y": 14 } ] }
   },
   {
-    "type": "recipe",
-    "result": "faction_base_modular_brewer2_wad_southwest",
-    "description": "We could use fill out the space with extra kegs and storage racks.",
-    "category": "CC_BUILDING",
-    "subcategory": "CSC_BUILDING_BASES",
-    "autolearn": false,
-    "never_learn": true,
-    "construction_blueprint": "fbms_brewery2_wad_southwest",
-    "blueprint_name": "southwest brewery2",
-    "blueprint_requires": [ { "id": "fbms_southwest" } ],
-    "blueprint_provides": [ { "id": "fbms_southwest" } ],
-    "blueprint_excludes": [ { "id": "fbms_souththwest" } ],
-    "blueprint_autocalc": true
-  }
-]
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_brewery1_wad",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwwwwww",
+        "w.rrr.w",
+        "oH....+",
+        "wO..^.w",
+        "oH..#.w",
+        "w.s.trw",
+        "wwwwwww"
+      ],
+      "palettes": [ "fbms_wad_palette" ]
+    }
+  },
