@@ -244,7 +244,6 @@
   {
     "id": "TALK_MISSION_LIST_SEER",
     "type": "talk_topic",
-    "category": "CATEGORY_MISSION_SEER",
     "dynamic_line": {
       "has_no_available_mission": {
         "has_no_assigned_mission": "The song is... quiet for now. Perhaps with time, more notes will be etched in the bones of this world.",
@@ -284,7 +283,6 @@
   {
     "id": "TALK_MISSION_OFFER_SEER",
     "type": "talk_topic",
-    "category": "CATEGORY_MISSION_SEER",
     "dynamic_line": "If you wish to be set on the path to enlightenment, first you must learn to listen and hear the song. Go out, butcher a creature and feel the power between your fingertips. Then bring me the bones and I shall carve them for you. ",
     "responses": [
       {
@@ -298,7 +296,6 @@
   {
     "id": "TALK_MISSION_ACCEPTED_SEER",
     "type": "talk_topic",
-    "category": "CATEGORY_MISSION_SEER",
     "dynamic_line": "Excellent. Now be on your way.",
     "responses": [
       { "text": "Consider it done. But I also wanted to ask...", "topic": "TALK_BONE_SEER" },
@@ -310,14 +307,12 @@
   {
     "id": "TALK_MISSION_ADVICE_SEER",
     "type": "talk_topic",
-    "category": "CATEGORY_MISSION_SEER",
     "dynamic_line": "The shambling corpses we see all around move in discord. Their song can be used, but for an Acolyte, this would be needlessly hard. Be sure to carve an unspoiled living creature.",
     "responses": [ { "text": "So, a creature that isn't a zombie, or a monster. Got it.", "topic": "TALK_NONE" } ]
   },
   {
     "id": "TALK_SHARE_EQUIPMENT_SEER",
     "type": "talk_topic",
-    "category": "CATEGORY_MISSION_SEER",
     "dynamic_line": "The path to enlightenment is for you to walk. For me to aid you would ultimately impede your progress and muddle your song.",
     "responses": [ { "text": "I see. Very well then.", "topic": "TALK_NONE" } ]
   },
@@ -326,9 +321,6 @@
     "type": "talk_topic",
     "dynamic_line": {
       "u_has_trait": "seer_mark",
-      "type": "dialogue",
-      "context": "mark_of_the_seer",
-      "value": "yes",
       "no": "Only those who bear my mark will prove themselves worthy of my skills.",
       "yes": "You bear my mark, meaning I believe you have potential to learn to truly listen to the Song. Yes, I will lend my skills to you, for now."
     },

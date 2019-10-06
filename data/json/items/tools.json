@@ -5269,7 +5269,6 @@
     "max_charges": 50,
     "use_action": {
       "type": "fireweapon_off",
-      "active": true,
       "target_id": "shishkebab_on",
       "moves": 10,
       "noise": 10,

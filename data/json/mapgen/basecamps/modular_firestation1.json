@@ -50,14 +50,14 @@
       ],
       "palettes": [ "fbmc_firestation1_palette" ],
       "place_furniture": [
-        { "furn": "f_null", "x": 0, "y": 2, "chance": 100 },
-        { "furn": "f_null", "x": 0, "y": 3, "chance": 100 },
-        { "furn": "f_null", "x": 1, "y": 2, "chance": 100 },
-        { "furn": "f_null", "x": 1, "y": 3, "chance": 100 },
-        { "furn": "f_null", "x": 1, "y": 4, "chance": 100 },
-        { "furn": "f_null", "x": 2, "y": 2, "chance": 100 },
-        { "furn": "f_null", "x": 2, "y": 3, "chance": 100 },
-        { "furn": "f_null", "x": 2, "y": 4, "chance": 100 }
+        { "furn": "f_null", "x": 0, "y": 2 },
+        { "furn": "f_null", "x": 0, "y": 3 },
+        { "furn": "f_null", "x": 1, "y": 2 },
+        { "furn": "f_null", "x": 1, "y": 3 },
+        { "furn": "f_null", "x": 1, "y": 4 },
+        { "furn": "f_null", "x": 2, "y": 2 },
+        { "furn": "f_null", "x": 2, "y": 3 },
+        { "furn": "f_null", "x": 2, "y": 4 }
       ]
     }
   },
@@ -135,14 +135,14 @@
     "object": {
       "mapgensize": [ 6, 6 ],
       "place_furniture": [
-        { "furn": "f_null", "x": 0, "y": 3, "chance": 100 },
-        { "furn": "f_null", "x": 0, "y": 4, "chance": 100 },
-        { "furn": "f_null", "x": 2, "y": 1, "chance": 100 },
-        { "furn": "f_null", "x": 2, "y": 2, "chance": 100 },
-        { "furn": "f_null", "x": 1, "y": 0, "chance": 100 },
-        { "furn": "f_null", "x": 0, "y": 0, "chance": 100 },
-        { "furn": "f_null", "x": 1, "y": 1, "chance": 100 },
-        { "furn": "f_null", "x": 1, "y": 2, "chance": 100 }
+        { "furn": "f_null", "x": 0, "y": 3 },
+        { "furn": "f_null", "x": 0, "y": 4 },
+        { "furn": "f_null", "x": 2, "y": 1 },
+        { "furn": "f_null", "x": 2, "y": 2 },
+        { "furn": "f_null", "x": 1, "y": 0 },
+        { "furn": "f_null", "x": 0, "y": 0 },
+        { "furn": "f_null", "x": 1, "y": 1 },
+        { "furn": "f_null", "x": 1, "y": 2 }
       ]
     }
   },
