@@ -1175,6 +1175,7 @@
     "bashing": 1,
     "material": [ "cotton", "plastic" ],
     "symbol": "i",
+    "looks_like": "pipe"
     "color": "light_cyan",
     "initial_charges": 4000,
     "max_charges": 4000,
