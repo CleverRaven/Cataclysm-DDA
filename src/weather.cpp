@@ -383,7 +383,7 @@ static void wet_player( int amount )
  */
 static void generic_wet( bool acid )
 {
-    fill_water_collectors( 4, acid );
+    fill_water_collectors( 1.5, acid );
     g->m.decay_fields_and_scent( 15_turns );
     wet_player( 30 );
 }
@@ -394,7 +394,7 @@ static void generic_wet( bool acid )
  */
 static void generic_very_wet( bool acid )
 {
-    fill_water_collectors( 8, acid );
+    fill_water_collectors( 3, acid );
     g->m.decay_fields_and_scent( 45_turns );
     wet_player( 60 );
 }

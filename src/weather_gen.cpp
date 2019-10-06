@@ -182,22 +182,22 @@ weather_type weather_generator::get_weather_conditions( const tripoint &location
 weather_type weather_generator::get_weather_conditions( const w_point &w ) const
 {
     weather_type r( WEATHER_CLEAR );
-    if( w.pressure > 1030 && w.humidity < 70 ) {
+    if( w.pressure > 1020 && w.humidity < 70 ) {
         r = WEATHER_SUNNY;
     }
-    if( w.pressure < 1030 && w.humidity > 40 ) {
+    if( w.pressure < 1010 && w.humidity > 40 ) {
         r = WEATHER_CLOUDY;
     }
-    if( r == WEATHER_CLOUDY && ( w.humidity > 60 || w.pressure < 1010 ) ) {
+    if( r == WEATHER_CLOUDY && ( w.humidity > 97 || w.pressure < 1000 ) ) {
         r = WEATHER_DRIZZLE;
     }
-    if( r == WEATHER_DRIZZLE && ( w.humidity > 70 || w.pressure < 1000 ) ) {
+    if( r >= WEATHER_CLOUDY && ( w.humidity > 98 || w.pressure < 994 ) ) {
         r = WEATHER_RAINY;
     }
-    if( r == WEATHER_RAINY && w.pressure < 985 ) {
+    if( r == WEATHER_RAINY && w.pressure < 997 ) {
         r = WEATHER_THUNDER;
     }
-    if( r == WEATHER_THUNDER && w.pressure < 970 ) {
+    if( r == WEATHER_THUNDER && w.pressure < 990 ) {
         r = WEATHER_LIGHTNING;
     }
 
@@ -205,10 +205,11 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
         if( r == WEATHER_DRIZZLE ) {
             r = WEATHER_FLURRIES;
         } else if( r > WEATHER_DRIZZLE ) {
-            r = WEATHER_SNOW;
-        }
-        if( r == WEATHER_SNOW && w.pressure < 960 && w.windpower > 15 ) {
-            r = WEATHER_SNOWSTORM;
+            if( r >= WEATHER_THUNDER && w.windpower > 15 ) {
+                r = WEATHER_SNOWSTORM;
+            } else {
+                r = WEATHER_SNOW;
+            }
         }
     }
 
