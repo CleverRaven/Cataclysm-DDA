@@ -218,7 +218,6 @@ int inventory_transfer::query_charges( const advanced_inv_area &darea, bool to_v
     player &p = g->u;
     int charges;
 
-    advanced_inv_pane &spane = *get_pane();
     // current item in source pane, might be null
     advanced_inv_listitem *sitem = cur_pane->get_cur_item_ptr();
     if( sitem == nullptr ) {
@@ -432,7 +431,6 @@ bool inventory_transfer::setup_move_all( advanced_inv_area &move_to, bool to_veh
     inventory_transfer_save_state &save = *static_cast<inventory_transfer_save_state *>( save_state );
     assert( !save.move_all_is_processing ); // shouldn't be here again, before finishing previous move all
     using ainfo = advanced_inv_area_info;
-    player &p = g->u;
 
     inventory_transfer_pane &spane = *static_cast<inventory_transfer_pane *>( get_pane() );
     advanced_inv_area &sarea = spane.get_area();
@@ -570,7 +568,7 @@ bool inventory_transfer::move_all_items( advanced_inv_area &move_from, bool from
         // Moving them would cause tons of annoying prompts or spills
         bool filter_buckets = move_to.info.type == ainfo::AREA_TYPE_PLAYER || to_vehicle;
         bool filtered_any_bucket = false;
-        tripoint target = p.pos() + move_from.offset;
+
         // Push item_locations and item counts for all items at placement
         for( item_stack::iterator it = stack_begin; it != stack_end; ++it ) {
             if( !filter( *it ) ) {
