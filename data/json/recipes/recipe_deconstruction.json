@@ -1920,13 +1920,7 @@
     "time": "30 m",
     "using": [ [ "soldering_standard", 40 ], [ "welding_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [
-      [ [ "amplifier", 2 ] ],
-      [ [ "cable", 20 ] ],
-      [ [ "bearing", 10 ] ],
-      [ [ "steel_lump", 5 ] ],
-      [ [ "e_scrap", 5 ] ]
-    ]
+    "components": [ [ [ "amplifier", 2 ] ], [ [ "cable", 20 ] ], [ [ "bearing", 10 ] ], [ [ "steel_lump", 5 ] ], [ [ "e_scrap", 5 ] ] ]
   },
   {
     "result": "motor_large",
