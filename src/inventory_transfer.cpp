@@ -934,7 +934,7 @@ void query_destination_callback::draw_squares( const uilist *menu )
  * Cancels ongoing move all action.
  * TODO: Make this not needed.
  */
-void cancel_aim_processing2()
+void cancel_aim_processing()
 {
     uistate.transfer_save.move_all_is_processing = false;
 }

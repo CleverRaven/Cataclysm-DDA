@@ -52,7 +52,6 @@
 struct construction_category;
 
 void cancel_aim_processing();
-void cancel_aim_processing2();
 
 const efftype_id effect_controlled( "controlled" );
 const efftype_id effect_pet( "pet" );
@@ -692,7 +691,6 @@ void activity_on_turn_pickup()
         // AIM might have more pickup activities pending, also cancel them.
         // TODO: Move this to advanced inventory instead of hacking it in here
         cancel_aim_processing();
-        cancel_aim_processing2();
     } else if( g->u.activity.targets.empty() ) {
         // The user did not cancel, but there's no item left
         g->u.cancel_activity();

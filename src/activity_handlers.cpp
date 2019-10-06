@@ -16,7 +16,6 @@
 #include <utility>
 
 #include "action.h"
-#include "advanced_inv.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "clzones.h"

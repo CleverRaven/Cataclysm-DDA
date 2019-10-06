@@ -7,7 +7,6 @@
 #include <utility>
 
 #include "action.h"
-#include "advanced_inv.h"
 #include "auto_pickup.h"
 #include "auto_note.h"
 #include "avatar.h"
@@ -66,6 +65,7 @@
 #include "units.h"
 #include "string_id.h"
 #include "item.h"
+void create_transfer_menu();
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1777,7 +1777,7 @@ bool game::handle_action()
                 } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't move mass quantities while you're riding." ) );
                 } else {
-                    advanced_inv();
+                    create_transfer_menu();
                 }
                 break;
 

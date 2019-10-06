@@ -14,7 +14,6 @@
 #include <limits>
 #include <locale>
 
-#include "advanced_inv.h"
 #include "ammo.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -5801,6 +5800,12 @@ const material_type &item::get_base_material() const
 
 bool item::operator<( const item &other ) const
 {
+    struct sort_case_insensitive_less : public std::binary_function< char, char, bool > {
+        bool operator()(char x, char y) const {
+            return toupper(static_cast<unsigned char>(x)) < toupper(static_cast<unsigned char>(y));
+        }
+    };
+
     const item_category &cat_a = get_category();
     const item_category &cat_b = other.get_category();
     if( cat_a != cat_b ) {
