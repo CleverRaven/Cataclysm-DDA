@@ -225,8 +225,8 @@ int inventory_transfer::query_charges( const advanced_inv_area &darea, bool to_v
         return -1;
     }
 
-    assert( darea.info.type != ainfo::AIM_ALL ); // should be a specific location instead
-    assert( !sitem.items.empty() ); // valid item is obviously required
+    assert( darea.info.type != ainfo::AREA_TYPE_MULTI ); // should be a specific location instead
+    assert( !sitem->items.empty() ); // valid item is obviously required
     const item &it = *sitem->items.front();
     const bool by_charges = it.count_by_charges();
 
@@ -410,9 +410,7 @@ void inventory_transfer::move_item( advanced_inv_area &move_to, bool to_vehicle,
             p.activity.coords.push_back( move_to.offset );
         }
 
-        tripoint target = p.pos() + sarea.offset;
         if( by_charges ) {
-
             p.activity.targets.push_back( sarea.generate_item_location( sitem->from_vehicle,
                                           sitem->items.front() ) );
             p.activity.values.push_back( amount_to_move );
@@ -432,7 +430,7 @@ void inventory_transfer::move_item( advanced_inv_area &move_to, bool to_vehicle,
 bool inventory_transfer::setup_move_all( advanced_inv_area &move_to, bool to_vehicle )
 {
     inventory_transfer_save_state &save = *static_cast<inventory_transfer_save_state *>( save_state );
-    assert( !save.adv_inv_move_all_is_processing ); // shouldn't be here again, before finishing previous move all
+    assert( !save.move_all_is_processing ); // shouldn't be here again, before finishing previous move all
     using ainfo = advanced_inv_area_info;
     player &p = g->u;
 

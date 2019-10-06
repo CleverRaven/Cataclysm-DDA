@@ -56,6 +56,7 @@ class inventory_transfer_pane : public advanced_inv_pane
 {
     public:
         using advanced_inv_pane::advanced_inv_pane;
+        using advanced_inv_pane::init;
         void init( int items_per_page, catacurses::window w, advanced_inv_pane *other_pane );
         //void save_settings(advanced_inv_pane_save_state& save_state, bool reset) override;
         advanced_inv_listitem *create_listitem( std::list<item *> list, int index,

@@ -69,7 +69,7 @@ struct inventory_transfer_save_state : public advanced_inv_save_state {
         int default_area_right = 10;
 
         bool move_all_is_processing = false;
-        int move_all_idx;
+        size_t move_all_idx;
         std::vector<std::pair<int, bool>> move_all_locations;
         std::pair<int, bool> move_all_to;
         std::function<bool( const item & )> move_all_filter;
