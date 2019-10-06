@@ -1181,7 +1181,6 @@
     "max_charges": 4000,
     "charges_per_use": 1,
     "use_action": { "type": "WATER_PURIFIER", "moves": 80 },
-    "use_action": "WATER_PURIFIER"
   },
   {
     "id": "char_smoker",
