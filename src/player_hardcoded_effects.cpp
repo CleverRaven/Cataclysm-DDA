@@ -161,8 +161,8 @@ static void eff_fun_fungus( player &u, effect &it )
                 }
                 // We're fucked
             } else if( one_in( 36000 + bonus * 120 ) ) {
-                if( u.hp_cur[hp_arm_l] <= 0 || u.hp_cur[hp_arm_r] <= 0 ) {
-                    if( u.hp_cur[hp_arm_l] <= 0 && u.hp_cur[hp_arm_r] <= 0 ) {
+                if( u.is_limb_broken( hp_arm_l ) || u.is_limb_broken( hp_arm_r ) ) {
+                    if( u.is_limb_broken( hp_arm_l ) <= 0 && u.is_limb_broken( hp_arm_r ) ) {
                         u.add_msg_player_or_npc( m_bad,
                                                  _( "The flesh on your broken arms bulges. Fungus stalks burst through!" ),
                                                  _( "<npcname>'s broken arms bulge. Fungus stalks burst out of the bulges!" ) );

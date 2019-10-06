@@ -1589,15 +1589,15 @@ int player::run_cost( int base_cost, bool diag ) const
                     75; // Mycal characters are faster on their home territory, even through things like shrubs
             }
         }
-        if( hp_cur[hp_leg_l] == 0 ) {
+        if( is_limb_broken( hp_leg_l ) ) {
             movecost += 50;
-        } else if( hp_cur[hp_leg_l] < hp_max[hp_leg_l] * .40 ) {
+        } else if( is_limb_hindered( hp_leg_l ) ) {
             movecost += 25;
         }
 
-        if( hp_cur[hp_leg_r] == 0 ) {
+        if( is_limb_broken( hp_leg_r ) ) {
             movecost += 50;
-        } else if( hp_cur[hp_leg_r] < hp_max[hp_leg_r] * .40 ) {
+        } else if( is_limb_hindered( hp_leg_r ) ) {
             movecost += 25;
         }
         movecost *= Character::mutation_value( "movecost_modifier" );
@@ -1781,7 +1781,7 @@ bool player::digging() const
 
 bool player::is_on_ground() const
 {
-    return hp_cur[hp_leg_l] == 0 || hp_cur[hp_leg_r] == 0 || has_effect( effect_downed );
+    return get_working_leg_count() >= 2 || has_effect( effect_downed );
 }
 
 bool player::is_elec_immune() const
@@ -2302,14 +2302,6 @@ bool player::sight_impaired() const
                !has_effect( effect_contacts ) &&
                !has_bionic( bio_eye_optic ) ) ||
              has_trait( trait_PER_SLIME ) );
-}
-
-bool player::has_two_arms() const
-{
-    // If you've got a blaster arm, low hp arm, or you're inside a shell then you don't have two
-    // arms to use.
-    return !( ( has_bionic( bio_blaster ) || hp_cur[hp_arm_l] < hp_max[hp_arm_l] * 0.125 ||
-                hp_cur[hp_arm_r] < hp_max[hp_arm_r] * 0.125 ) || has_active_mutation( trait_id( "SHELL2" ) ) );
 }
 
 bool player::avoid_trap( const tripoint &pos, const trap &tr ) const

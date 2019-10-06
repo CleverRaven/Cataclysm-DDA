@@ -858,7 +858,8 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
             wprintz( w, color, sym );
         }
     };
-    if( u.hp_cur[limb_index] == 0 && ( limb_index >= hp_arm_l && limb_index <= hp_leg_r ) ) {
+    if( u.is_limb_broken( ( hp_part )limb_index ) && ( limb_index >= hp_arm_l &&
+            limb_index <= hp_leg_r ) ) {
         //Limb is broken
         std::string limb = "~~%~~";
         nc_color color = c_light_red;

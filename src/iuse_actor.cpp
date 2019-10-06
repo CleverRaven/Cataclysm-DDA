@@ -3653,7 +3653,7 @@ static hp_part pick_part_to_heal(
             return healed_part;
         }
 
-        if( patient.hp_cur[healed_part] == 0 ) {
+        if( patient.is_limb_broken( healed_part ) ) {
             if( healed_part == hp_arm_l || healed_part == hp_arm_r ) {
                 add_msg( m_info, _( "That arm is broken.  It needs surgical attention or a splint." ) );
             } else if( healed_part == hp_leg_l || healed_part == hp_leg_r ) {

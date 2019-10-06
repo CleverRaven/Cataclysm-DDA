@@ -3154,10 +3154,9 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
             const int p = avail_part_with_feature( vp->part_index(), VPFLAG_ENGINE, true );
             if( p >= 0 && is_part_on( p ) && part_info( p ).fuel_type == fuel_type_muscle ) {
                 //Broken limbs prevent muscle engines from working
-                if( ( part_info( p ).has_flag( "MUSCLE_LEGS" ) && g->u.hp_cur[hp_leg_l] > 0 &&
-                      g->u.hp_cur[hp_leg_r] > 0 ) || ( part_info( p ).has_flag( "MUSCLE_ARMS" ) &&
-                                                       g->u.hp_cur[hp_arm_l] > 0 &&
-                                                       g->u.hp_cur[hp_arm_r] > 0 ) ) {
+                if( ( part_info( p ).has_flag( "MUSCLE_LEGS" ) && ( g->u.get_working_leg_count() >= 2 ) ) ||
+                    ( part_info( p ).has_flag( "MUSCLE_ARMS" ) &&
+                      ( g->u.get_working_arm_count() >= 2 ) ) ) {
                     fl += 10;
                 }
             }

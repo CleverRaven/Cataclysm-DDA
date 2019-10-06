@@ -4497,7 +4497,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         case BONESETTING: {
             int broken_limbs_count = 0;
             for( int i = 0; i < num_hp_parts; i++ ) {
-                const bool broken = patient.get_hp( static_cast<hp_part>( i ) ) <= 0;
+                const bool broken = patient.is_limb_broken( static_cast<hp_part>( i ) );
                 body_part part = player::hp_to_bp( static_cast<hp_part>( i ) );
                 effect &existing_effect = patient.get_effect( effect_mending, part );
                 // Skip part if not broken or already healed 50%
