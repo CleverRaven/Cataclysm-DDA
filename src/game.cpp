@@ -8524,14 +8524,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
             break;
     }
 
-    item::reload_option opt = u.ammo_location && it->can_reload_with( u.ammo_location->typeId() ) ?
-                              item::reload_option( &u, it, it, u.ammo_location ) :
-                              u.select_ammo( *it, prompt, empty );
 
-    if( opt.ammo.get_item() == nullptr || ( opt.ammo.get_item()->is_frozen_liquid() &&
-                                            !u.crush_frozen_liquid( opt.ammo ) ) ) {
-        return;
-    }
 
     bool use_loc = true;
     if( !it->has_flag( "ALLOWS_REMOTE_USE" ) ) {
@@ -8549,6 +8542,15 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         auto ptr = dynamic_cast<const bandolier_actor *>
                    ( it->type->get_use( "bandolier" )->get_actor_ptr() );
         ptr->reload( u, *it );
+        return;
+    }
+
+    item::reload_option opt = u.ammo_location && it->can_reload_with( u.ammo_location->typeId() ) ?
+                              item::reload_option( &u, it, it, u.ammo_location ) :
+                              u.select_ammo( *it, prompt, empty );
+
+    if( opt.ammo.get_item() == nullptr || ( opt.ammo.get_item()->is_frozen_liquid() &&
+                                            !u.crush_frozen_liquid( opt.ammo ) ) ) {
         return;
     }
 
