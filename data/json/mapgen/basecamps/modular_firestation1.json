@@ -69,7 +69,7 @@
       "place_nested": [ { "chunks": [ "fbmc_firestation1_kitchen1" ], "x": 1, "y": 9 } ],
       "place_loot": [
         { "item": "2x4", "repeat": 24, "x": 2, "y": 10, "chance": 100 },
-        { "item": "nail", "charges": 36, "x": 2, "y": 10, "chance": 100 }
+        { "item": "nail", "repeat": 36, "x": 2, "y": 10, "chance": 100 }
       ]
     }
   },

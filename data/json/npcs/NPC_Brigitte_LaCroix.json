@@ -220,13 +220,8 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "end": {
       "effect": [
-        {
-          "u_add_var": "NC_SEER_MISSION_1",
-          "type": "general",
-          "context": "mission",
-          "value": "yes",
-          "u_add_trait": "seer_mark"
-        }
+        { "u_add_var": "NC_SEER_MISSION_1", "type": "general", "context": "mission", "value": "yes" },
+        { "u_add_trait": "seer_mark" }
       ]
     },
     "dialogue": {
