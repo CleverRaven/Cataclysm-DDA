@@ -3109,7 +3109,6 @@
   },
   {
     "id": "mon_zombie_wretched",
-    "looks_like": "mon_zombie_rot",
     "type": "MONSTER",
     "name": "wretched puker",
     "description": "A degenerate corpse, shambling as it walks. Several junks and waste materials have unified into its skin and wounds around it reeks in black goo.",
@@ -3124,6 +3123,7 @@
     "speed": 65,
     "material": [ "flesh" ],
     "symbol": "Z",
+    "looks_like": "mon_zombie_acidic",
     "color": "dark_gray_yellow",
     "aggression": 100,
     "morale": 100,
