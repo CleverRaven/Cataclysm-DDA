@@ -2616,6 +2616,13 @@
   },
   {
     "type": "keybinding",
+    "id": "ITEMS_AROUND_I_W",
+    "category": "ADVANCED_INVENTORY",
+    "name": "Select items @ all 9 fields",
+    "bindings": [ { "input_method": "keyboard", "key": "x" }, { "input_method": "keyboard", "key": "X" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ITEMS_DRAGGED_CONTAINER",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items in dragged container",

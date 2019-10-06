@@ -13,6 +13,84 @@
 
 class item;
 
+
+struct advanced_inv_pane_save_state {
+    public:
+        int sort_idx = -1;
+        std::string filter;
+        int area_idx = 12; //A+I+W
+
+        /**
+        When we sort by weight and item change charges it might jump down the list, so we want to keep track of that item with pointer
+        When item is fully consumed we want to keep list at the same index
+        */
+        int selected_idx = 0;
+        item *selected_itm = nullptr;
+
+        bool in_vehicle = false;
+
+        template<typename JsonStream>
+        void serialize( JsonStream &json, std::string prefix ) const {
+            json.member( prefix + "sort_idx", sort_idx );
+            json.member( prefix + "filter", filter );
+            json.member( prefix + "area_idx", area_idx );
+            json.member( prefix + "selected_idx", selected_idx );
+            json.member( prefix + "in_vehicle", in_vehicle );
+        }
+
+        void deserialize( JsonObject &jo, std::string prefix ) {
+            jo.read( prefix + "sort_idx", sort_idx );
+            jo.read( prefix + "filter", filter );
+            jo.read( prefix + "area_idx", area_idx );
+            jo.read( prefix + "selected_idx", selected_idx );
+            jo.read( prefix + "in_vehicle", in_vehicle );
+        }
+};
+struct advanced_inv_save_state {
+    public:
+        int exit_code = 0;
+        advanced_inv_pane_save_state pane;
+
+        template<typename JsonStream>
+        void serialize( JsonStream &json, std::string prefix ) const {
+            pane.serialize( json, prefix + "pane_" );
+        }
+
+        void deserialize( JsonObject &jo, std::string prefix ) {
+            pane.deserialize( jo, prefix + "pane_" );
+        }
+};
+struct inventory_transfer_save_state : public advanced_inv_save_state {
+    public:
+        advanced_inv_pane_save_state pane_right;
+        bool active_left = true;
+        int last_popup_dest = 0;
+        int default_area_left = 12;
+        int default_area_right = 10;
+
+        bool move_all_is_processing = false;
+        int move_all_idx;
+        std::vector<std::pair<int, bool>> move_all_locations;
+        std::pair<int, bool> move_all_to;
+        std::function<bool( const item & )> move_all_filter;
+
+        template<typename JsonStream>
+        void serialize( JsonStream &json, std::string prefix ) const {
+            advanced_inv_save_state::serialize( json, prefix );
+            json.member( prefix + "active_left", active_left );
+            json.member( prefix + "default_area_left", default_area_left );
+            json.member( prefix + "default_area_right", default_area_right );
+            pane_right.serialize( json, prefix + "pane_right_" );
+        }
+
+        void deserialize( JsonObject &jo, std::string prefix ) {
+            advanced_inv_save_state::deserialize( jo, prefix );
+            jo.read( prefix + "active_left", active_left );
+            jo.read( prefix + "default_area_left", default_area_left );
+            jo.read( prefix + "default_area_right", default_area_right );
+            pane_right.deserialize( jo, prefix + "pane_right_" );
+        }
+};
 /*
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
   To use this, see the ****notes**** below
@@ -34,6 +112,7 @@ class uistatedata
         int wishmutate_selected = 0;
         int wishmonster_selected = 0;
         int iexamine_atm_selected = 0;
+
         std::array<int, 2> adv_inv_sort = {{1, 1}};
         std::array<int, 2> adv_inv_area = {{5, 0}};
         std::array<int, 2> adv_inv_index = {{0, 0}};
@@ -43,15 +122,19 @@ class uistatedata
         int adv_inv_src = left;
         int adv_inv_dest = right;
         int adv_inv_last_popup_dest = 0;
+        int adv_inv_exit_code = 0;
         int adv_inv_container_location = -1;
         int adv_inv_container_index = 0;
-        int adv_inv_exit_code = 0;
         itype_id adv_inv_container_type = "null";
         itype_id adv_inv_container_content_type = "null";
+        bool adv_inv_container_in_vehicle = false;
         int adv_inv_re_enter_move_all = 0;
         int adv_inv_aim_all_location = 1;
         std::map<int, std::list<item>> adv_inv_veh_items, adv_inv_map_items;
-        bool adv_inv_container_in_vehicle = false;
+
+        std::function<void()>
+        adv_func; // used to determine what advanced_inventory child should be called back
+        inventory_transfer_save_state transfer_save;
 
         bool editmap_nsa_viewmode = false;      // true: ignore LOS and lighting
         bool overmap_blinking = true;           // toggles active blinking of overlays.
@@ -123,6 +206,8 @@ class uistatedata
             const unsigned int input_history_save_max = 25;
             json.start_object();
 
+            transfer_save.serialize( json, "transfer_save_" );
+
             /**** if you want to save whatever so it's whatever when the game is started next, declare here and.... ****/
             serialize_array( json, "adv_inv_sort", adv_inv_sort );
             serialize_array( json, "adv_inv_area", adv_inv_area );
@@ -180,6 +265,8 @@ class uistatedata
         template<typename JsonStream>
         void deserialize( JsonStream &jsin ) {
             auto jo = jsin.get_object();
+
+            transfer_save.deserialize( jo, "transfer_save_" );
             /**** here ****/
             if( jo.has_array( "adv_inv_sort" ) ) {
                 auto tmp = jo.get_int_array( "adv_inv_sort" );

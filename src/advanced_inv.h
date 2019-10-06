@@ -66,12 +66,12 @@ void advanced_inv();
  */
 void cancel_aim_processing();
 
-struct advanced_inv_listitem;
+struct advanced_inv_listitem_old;
 
 /**
  * Defines the source of item stacks.
  */
-struct advanced_inv_area {
+struct advanced_inv_area_old {
     const aim_location id;
     // Used for the small overview 3x3 grid
     point hscreen = point_zero;
@@ -99,9 +99,9 @@ struct advanced_inv_area {
     // maximal count / volume of items there.
     int max_size;
 
-    advanced_inv_area( aim_location id ) : id( id ) {}
-    advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off,
-                       const std::string &name, const std::string &shortname ) : id( id ),
+    advanced_inv_area_old( aim_location id ) : id( id ) {}
+    advanced_inv_area_old( aim_location id, int hscreenx, int hscreeny, tripoint off,
+                           const std::string &name, const std::string &shortname ) : id( id ),
         hscreen( hscreenx, hscreeny ), off( off ), name( name ), shortname( shortname ),
         canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0_ml ),
         weight( 0_gram ), max_size( 0 ) {
@@ -112,12 +112,12 @@ struct advanced_inv_area {
     units::volume free_volume( bool in_vehicle = false ) const;
     int get_item_count() const;
     // Other area is actually the same item source, e.g. dragged vehicle to the south and AIM_SOUTH
-    bool is_same( const advanced_inv_area &other ) const;
+    bool is_same( const advanced_inv_area_old &other ) const;
     // does _not_ check vehicle storage, do that with `can_store_in_vehicle()' below
-    bool canputitems( const advanced_inv_listitem *advitem = nullptr );
+    bool canputitems( const advanced_inv_listitem_old *advitem = nullptr );
     // if you want vehicle cargo, specify so via `in_vehicle'
     item *get_container( bool in_vehicle = false );
-    void set_container( const advanced_inv_listitem *advitem );
+    void set_container( const advanced_inv_listitem_old *advitem );
     bool is_container_valid( const item *it ) const;
     void set_container_position();
     aim_location offset_to_location() const;
@@ -138,7 +138,7 @@ class item_category;
  * single item or a category header or nothing (empty entry).
  * Most members are used only for sorting.
  */
-struct advanced_inv_listitem {
+struct advanced_inv_listitem_old {
     using itype_id = std::string;
     /**
      * Index of the item in the itemstack.
@@ -197,11 +197,11 @@ struct advanced_inv_listitem {
      * Create a category header entry.
      * @param cat The category reference, must not be null.
      */
-    advanced_inv_listitem( const item_category *cat );
+    advanced_inv_listitem_old( const item_category *cat );
     /**
      * Creates an empty entry, both category and item pointer are null.
      */
-    advanced_inv_listitem();
+    advanced_inv_listitem_old();
     /**
      * Create a normal item entry.
      * @param an_item The item pointer. Must not be null.
@@ -210,8 +210,8 @@ struct advanced_inv_listitem {
      * @param area The source area. Must not be AIM_ALL.
      * @param from_vehicle Is the item from a vehicle cargo space?
      */
-    advanced_inv_listitem( item *an_item, int index, int count,
-                           aim_location area, bool from_vehicle );
+    advanced_inv_listitem_old( item *an_item, int index, int count,
+                               aim_location area, bool from_vehicle );
     /**
      * Create a normal item entry.
      * @param list The list of item pointers.
@@ -219,8 +219,8 @@ struct advanced_inv_listitem {
      * @param area The source area. Must not be AIM_ALL.
      * @param from_vehicle Is the item from a vehicle cargo space?
      */
-    advanced_inv_listitem( const std::list<item *> &list, int index,
-                           aim_location area, bool from_vehicle );
+    advanced_inv_listitem_old( const std::list<item *> &list, int index,
+                               aim_location area, bool from_vehicle );
 };
 
 /**
@@ -236,7 +236,7 @@ class advanced_inventory_pane
         bool prev_viewing_cargo = false;
     public:
         // set the pane's area via its square, and whether it is viewing a vehicle's cargo
-        void set_area( advanced_inv_area &square, bool in_vehicle_cargo = false ) {
+        void set_area( advanced_inv_area_old &square, bool in_vehicle_cargo = false ) {
             prev_area = area;
             prev_viewing_cargo = viewing_cargo;
             area = square.id;
@@ -264,7 +264,7 @@ class advanced_inventory_pane
         int index;
         advanced_inv_sortby sortby;
         catacurses::window window;
-        std::vector<advanced_inv_listitem> items;
+        std::vector<advanced_inv_listitem_old> items;
         /**
          * The current filter string.
          */
@@ -279,7 +279,7 @@ class advanced_inventory_pane
          */
         bool redraw;
 
-        void add_items_from_area( advanced_inv_area &square, bool vehicle_override = false );
+        void add_items_from_area( advanced_inv_area_old &square, bool vehicle_override = false );
         /**
          * Makes sure the @ref index is valid (if possible).
          */
@@ -288,7 +288,7 @@ class advanced_inventory_pane
          * @param it The item to check, oly the name member is examined.
          * @return Whether the item should be filtered (and not shown).
          */
-        bool is_filtered( const advanced_inv_listitem &it ) const;
+        bool is_filtered( const advanced_inv_listitem_old &it ) const;
         /**
          * Same as the other, but checks the real item.
          */
@@ -307,7 +307,7 @@ class advanced_inventory_pane
          * @return either null, if @ref index is invalid, or the selected
          * item in @ref items.
          */
-        advanced_inv_listitem *get_cur_item_ptr();
+        advanced_inv_listitem_old *get_cur_item_ptr();
         /**
          * Set the filter string, disables filtering when the filter string is empty.
          */
@@ -341,7 +341,7 @@ class advanced_inventory
 
         static char get_location_key( aim_location area );
 
-        advanced_inv_area &get_one_square( const aim_location &loc ) {
+        advanced_inv_area_old &get_one_square( const aim_location &loc ) {
             return squares[loc];
         }
     private:
@@ -400,7 +400,7 @@ class advanced_inventory
          */
         std::array<advanced_inventory_pane, NUM_PANES> panes;
         static const advanced_inventory_pane null_pane;
-        std::array<advanced_inv_area, NUM_AIM_LOCATIONS> squares;
+        std::array<advanced_inv_area_old, NUM_AIM_LOCATIONS> squares;
 
         catacurses::window head;
         catacurses::window left_window;
@@ -466,7 +466,7 @@ class advanced_inventory
          *      should be moved. A return value of true indicates that amount now contains
          *      a valid item count to be moved.
          */
-        bool query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
+        bool query_charges( aim_location destarea, const advanced_inv_listitem_old &sitem,
                             const std::string &action, int &amount );
 
         static char get_direction_key( aim_location area );

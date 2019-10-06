@@ -95,6 +95,7 @@
 #include "game_constants.h"
 #include "point.h"
 #include "weather.h"
+#include "uistate.h"
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -2642,7 +2643,7 @@ void activity_handlers::move_loot_do_turn( player_activity *act, player *p )
 void activity_handlers::adv_inventory_do_turn( player_activity *, player *p )
 {
     p->cancel_activity();
-    advanced_inv();
+    uistate.adv_func();
 }
 
 void activity_handlers::drive_do_turn( player_activity *act, player *p )
