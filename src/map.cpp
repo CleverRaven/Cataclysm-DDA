@@ -7998,10 +7998,20 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         do_vehicle_caching( z );
     }
 
-    // The tile player is standing on should always be transparent
     const tripoint &p = g->u.pos();
-    if( ( has_furn( p ) && !furn( p ).obj().transparent ) || !ter( p ).obj().transparent ) {
-        get_cache( p.z ).transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_CLEAR;
+    bool is_crouching = g->u.movement_mode_is( PMM_CROUCH );
+    for( const tripoint &loc : points_in_radius( p, 1 ) ) {
+        if( loc == p ) {
+            // The tile player is standing on should always be transparent
+            if( ( has_furn( p ) && !furn( p ).obj().transparent ) || !ter( p ).obj().transparent ) {
+                get_cache( p.z ).transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_CLEAR;
+            }
+        } else if( is_crouching && coverage( loc ) >= 30 ) {
+            // If we're crouching behind an obstacle, we can't see past it.
+            get_cache( loc.z ).transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
+            get_cache( loc.z ).transparency_cache_dirty = true;
+            seen_cache_dirty = true;
+        }
     }
 
     if( seen_cache_dirty ) {
