@@ -7079,7 +7079,7 @@ bool player::consume( int target_position )
             }
             if( drop_it ) {
                 add_msg( _( "You drop the empty %s." ), target.tname() );
-                g->m.add_item_or_charges( pos(), inv.remove_item( &target ) );
+                put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, { inv.remove_item( &target ) } );
             } else {
                 int quantity = inv.const_stack( inv.position_by_item( &target ) ).size();
                 char letter = target.invlet ? target.invlet : ' ';
@@ -7871,7 +7871,7 @@ bool player::dispose_item( item_location &&obj, const std::string &prompt )
 
     opts.emplace_back( dispose_option {
         _( "Drop item" ), true, '2', 0, [this, &obj] {
-            g->m.add_item_or_charges( pos(), *obj );
+            put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, { *obj } );
             obj.remove_item();
             return true;
         }
