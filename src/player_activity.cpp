@@ -7,6 +7,76 @@
 #include "player.h"
 #include "sounds.h"
 
+static const std::map< activity_id, std::string> activity_names = {
+    { activity_id( "ACT_BURROW" ), translate_marker( "Burrowing" ) },
+    { activity_id( "ACT_CRAFT" ), translate_marker( "Crafting" ) },
+    { activity_id( "ACT_FILL_LIQUID" ), translate_marker( "Filling with liquid" ) },
+    { activity_id( "ACT_PICKAXE" ), translate_marker( "Mining" ) },
+    { activity_id( "ACT_DROP" ), translate_marker( "Dropping" ) },
+    { activity_id( "ACT_STASH" ), translate_marker( "Stashing" ) },
+    { activity_id( "ACT_PULP" ), translate_marker( "Pulping" ) },
+    { activity_id( "ACT_GAME" ), translate_marker( "Gaming" ) },
+    { activity_id( "ACT_START_FIRE" ), translate_marker( "Starting fire" ) },
+    { activity_id( "ACT_VIBE" ), translate_marker( "Recreating" ) },
+    { activity_id( "ACT_HAND_CRANK" ), translate_marker( "Handcrank charging" ) },
+    { activity_id( "ACT_OXYTORCH" ), translate_marker( "Welding" ) },
+    { activity_id( "ACT_AIM" ), translate_marker( "Aiming" ) },
+    { activity_id( "ACT_PICKUP" ), translate_marker( "Picking up" ) },
+    { activity_id( "ACT_WEAR" ), translate_marker( "Wearing" ) },
+    { activity_id( "ACT_MULTIPLE_FISH" ), translate_marker( "Fishing" ) },
+    { activity_id( "ACT_MULTIPLE_CONSTRUCTION" ), translate_marker( "Constructing" ) },
+    { activity_id( "ACT_MULTIPLE_BUTCHER" ), translate_marker( "Butchering" ) },
+    { activity_id( "ACT_MULTIPLE_FARM" ), translate_marker( "Farming" ) },
+    { activity_id( "ACT_FETCH_REQUIRED" ), translate_marker( "Fetching item" ) },
+    { activity_id( "ACT_BUILD" ), translate_marker( "Building" ) },
+    { activity_id( "ACT_EAT_MENU" ), translate_marker( "Eating" ) },
+    { activity_id( "ACT_VEHICLE_DECONSTRUCTION" ), translate_marker( "Deconstructing" ) },
+    { activity_id( "ACT_VEHICLE_REPAIR" ), translate_marker( "Repairing" ) },
+    { activity_id( "ACT_MULTIPLE_CHOP_TREES" ), translate_marker( "Chopping tree" ) },
+    { activity_id( "ACT_CONSUME_FOOD_MENU" ), translate_marker( "Consuming food" ) },
+    { activity_id( "ACT_CONSUME_DRINK_MENU" ), translate_marker( "Consuming drinks" ) },
+    { activity_id( "ACT_CONSUME_MEDS_MENU" ), translate_marker( "Consuming meds" ) },
+    { activity_id( "ACT_MOVE_ITEMS" ), translate_marker( "Moving items" ) },
+    { activity_id( "ACT_MOVE_LOOT" ), translate_marker( "Moving loot" ) },
+    { activity_id( "ACT_ARMOR_LAYERS" ), translate_marker( "Layering Armor" ) },
+    { activity_id( "ACT_ATM" ), translate_marker( "Handling ATM" ) },
+    { activity_id( "ACT_CRACKING" ), translate_marker( "Cracking safe" ) },
+    { activity_id( "ACT_FISH" ), translate_marker( "Fishing" ) },
+    { activity_id( "ACT_REPAIR_ITEM" ), translate_marker( "Repairing item" ) },
+    { activity_id( "ACT_BUTCHER" ), translate_marker( "Butchering" ) },
+    { activity_id( "ACT_BUTCHER_FULL" ), translate_marker( "Fully butchering" ) },
+    { activity_id( "ACT_TRAVELLING" ), translate_marker( "Traveling" ) },
+    { activity_id( "ACT_AUTODRIVE" ), translate_marker( "Driving" ) },
+    { activity_id( "ACT_CHURN" ), translate_marker( "Churning" ) },
+    { activity_id( "ACT_FIELD_DRESS" ), translate_marker( "Fielddressing" ) },
+    { activity_id( "ACT_SKIN" ), translate_marker( "Skinning" ) },
+    { activity_id( "ACT_QUARTER" ), translate_marker( "Quatering" ) },
+    { activity_id( "ACT_DISMEMBER" ), translate_marker( "Dismembering" ) },
+    { activity_id( "ACT_DISSECT" ), translate_marker( "Dissecting" ) },
+    { activity_id( "ACT_HACKSAW" ), translate_marker( "Hacksawing" ) },
+    { activity_id( "ACT_CHOP_TREE" ), translate_marker( "Chopping tree" ) },
+    { activity_id( "ACT_CHOP_LOGS" ), translate_marker( "Chopping log" ) },
+    { activity_id( "ACT_TIDY_UP" ), translate_marker( "Tidying up" ) },
+    { activity_id( "ACT_CHOP_PLANKS" ), translate_marker( "Chopping plank" ) },
+    { activity_id( "ACT_JACKHAMMER" ), translate_marker( "Jackhammering" ) },
+    { activity_id( "ACT_FIND_MOUNT" ), translate_marker( "Finding mount" ) },
+    { activity_id( "ACT_DIG" ), translate_marker( "Digging" ) },
+    { activity_id( "ACT_DIG_CHANNEL" ), translate_marker( "Digging channel" ) },
+    { activity_id( "ACT_FILL_PIT" ), translate_marker( "Filling pit" ) },
+    { activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ), translate_marker( "Chopping plank" ) },
+    { activity_id( "ACT_TILL_PLOT" ), translate_marker( "Tilling plot" ) },
+    { activity_id( "ACT_HARVEST_PLOT" ), translate_marker( "Harvesting plot" ) },
+    { activity_id( "ACT_PLANT_PLOT" ), translate_marker( "Planting plot" ) },
+    { activity_id( "ACT_FERTILIZE_PLOT" ), translate_marker( "Fertilizing plot" ) },
+    { activity_id( "ACT_TRY_SLEEP" ), translate_marker( "Trying to sleep" ) },
+    { activity_id( "ACT_OPERATION" ), translate_marker( "Operating" ) },
+    { activity_id( "ACT_ROBOT_CONTROL" ), translate_marker( "Controling robot" ) },
+    { activity_id( "ACT_TREE_COMMUNION" ), translate_marker( "Tree communion" ) },
+    { activity_id( "ACT_STUDY_SPELL" ), translate_marker( "Studying spell" )},
+    { activity_id( "ACT_READ" ), translate_marker( "Reading" )},
+    { activity_id( "ACT_WAIT_STAMINA" ), translate_marker( "Catching breath" ) }
+};
+
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
 player_activity::player_activity( activity_id t, int turns, int Index, int pos,
@@ -61,38 +131,36 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
 
 cata::optional<std::string> player_activity::get_progress_message() const
 {
+    const auto iter = activity_names.find( type );
+    if( iter == activity_names.end() ) {
+        return cata::optional<std::string>();
+    }
+
+    std::string extra_info = "";
     if( type == activity_id( "ACT_CRAFT" ) ) {
         if( const item *craft = targets.front().get_item() ) {
-            return string_format( _( "Crafting: %s" ), craft->tname() );
+            extra_info = craft->tname();
         }
     } else if( moves_total > 0 ) {
         const int percentage = ( ( moves_total - moves_left ) * 100 ) / moves_total;
 
-        if( type == activity_id( "ACT_BURROW" ) ) {
-            return string_format( _( "Burrowing: %d%%" ), percentage );
-        } else if( type == activity_id( "ACT_HACKSAW" ) ) {
-            return string_format( _( "Sawing: %d%%" ), percentage );
-        } else if( type == activity_id( "ACT_JACKHAMMER" ) ) {
-            return string_format( _( "Jackhammering: %d%%" ), percentage );
-        } else if( type == activity_id( "ACT_PICKAXE" ) ) {
-            return string_format( _( "Digging: %d%%" ), percentage );
-        } else if( type == activity_id( "ACT_DISASSEMBLE" ) ) {
-            return string_format( _( "Disassembling: %d%%" ), percentage );
-        } else if(
+        if( type == activity_id( "ACT_BURROW" ) ||
+            type == activity_id( "ACT_HACKSAW" ) ||
+            type == activity_id( "ACT_JACKHAMMER" ) ||
+            type == activity_id( "ACT_PICKAXE" ) ||
+            type == activity_id( "ACT_DISASSEMBLE" ) ||
             type == activity_id( "ACT_FILL_PIT" ) ||
             type == activity_id( "ACT_DIG" ) ||
-            type == activity_id( "ACT_DIG_CHANNEL" )
-        ) {
-            return string_format( _( "Shoveling: %d%%" ), percentage );
-        } else if(
+            type == activity_id( "ACT_DIG_CHANNEL" ) ||
             type == activity_id( "ACT_CHOP_TREE" ) ||
             type == activity_id( "ACT_CHOP_LOGS" ) ||
             type == activity_id( "ACT_CHOP_PLANKS" )
         ) {
-            return string_format( _( "Chopping: %d%%" ), percentage );
+            extra_info = string_format( "%d%%", percentage );
         }
     }
-    return cata::optional<std::string>();
+
+    return string_format("%s%s", _( iter->second ), extra_info.empty() ? "…" : ": " + extra_info);
 }
 
 void player_activity::do_turn( player &p )
