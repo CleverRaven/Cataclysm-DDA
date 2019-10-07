@@ -971,9 +971,10 @@ class game
         bool debug_pathfinding = false; // show NPC pathfinding on overmap ui
 
         /* tile overlays */
-        void display_toggle_overlay(
-            action_id ); // Toggle all other overlays off and flip the given overlay on/off.
-        bool display_overlay_state( action_id ); // Get the state of an overlay (on/off).
+        // Toggle all other overlays off and flip the given overlay on/off.
+        void display_toggle_overlay( action_id );
+        // Get the state of an overlay (on/off).
+        bool display_overlay_state( action_id );
         /** Creature for which to display the visibility map */
         Creature *displaying_visibility_creature;
         /** Type of lighting condition overlay to display */
