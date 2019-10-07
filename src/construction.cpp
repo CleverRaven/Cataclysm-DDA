@@ -1345,14 +1345,25 @@ void load_construction( JsonObject &jo )
                                   time_duration::units ) );
     }
 
+    // Warning: the IDs may change!
+    const requirement_id req_id( string_format( "inline_construction_%u", con.id ) );
+    requirement_data::load_requirement( jo, req_id );
+    con.requirements = req_id;
+
+    requirement_data requirements_ = *con.requirements;
     if( jo.has_string( "using" ) ) {
-        con.requirements = requirement_id( jo.get_string( "using" ) );
-    } else {
-        // Warning: the IDs may change!
-        const requirement_id req_id( string_format( "inline_construction_%u", con.id ) );
-        requirement_data::load_requirement( jo, req_id );
-        con.requirements = req_id;
+        requirements_ = requirements_ + ( *requirement_id( jo.get_string( "using" ) ) * 1 );
+    } else if( jo.has_array( "using" ) ) {
+        auto arr = jo.get_array( "using" );
+
+        while( arr.has_more() ) {
+            auto cur = arr.next_array();
+            requirements_ = requirements_ + ( *requirement_id( cur.get_string( 0 ) ) * cur.get_int( 1 ) );
+        }
     }
+
+    requirement_data::save_requirement( requirements_, req_id );
+
     con.pre_note = jo.get_string( "pre_note", "" );
     con.pre_terrain = jo.get_string( "pre_terrain", "" );
     if( con.pre_terrain.size() > 1
