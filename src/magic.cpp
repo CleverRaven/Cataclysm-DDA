@@ -219,6 +219,7 @@ void spell_type::load( JsonObject &jo, const std::string & )
         { "map", spell_effect::map },
         { "morale", spell_effect::morale },
         { "mutate", spell_effect::mutate },
+        { "bash", spell_effect::bash },
         { "none", spell_effect::none }
     };
 
