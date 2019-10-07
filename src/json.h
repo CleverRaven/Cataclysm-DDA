@@ -758,6 +758,21 @@ class JsonOut
  *     if (!jo.read("messages", messages)) {
  *         DebugLog() << "No messages.";
  *     }
+ *
+ *
+ * Automatic error checking
+ * ------------------------
+ *
+ * By default, when a JsonObject is destroyed (or when you call finish) it will
+ * check to see whether every member of the object was referenced in some way
+ * (even simply checking for the existence of the member is suffucient).
+ *
+ * If not all the members were referenced, then an error will be written to the
+ * log (which in particular will cause the tests to fail).
+ *
+ * If you don't want this behaviour, then call allow_omitted_members() before
+ * the JsonObject is destroyed.  Calling str() also suppresses it (on the basis
+ * that you may be intending to re-parse that string later).
  */
 class JsonObject
 {
