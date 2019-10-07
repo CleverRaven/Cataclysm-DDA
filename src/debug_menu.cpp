@@ -1298,339 +1298,343 @@ void debug()
 
         case DEBUG_SHOW_SOUND: {
 #if defined(TILES)
-                // *INDENT-OFF*
-                const point offset{
-                    u.view_offset.xy() + point( POSX - u.posx(), POSY - u.posy() )
-                }; // *INDENT-ON*
-                g->draw_ter();
-                auto sounds_to_draw = sounds::get_monster_sounds();
-                for( const auto &sound : sounds_to_draw.first ) {
-                    mvwputch( g->w_terrain, offset + sound.xy(), c_yellow, '?' );
-                }
-                for( const auto &sound : sounds_to_draw.second ) {
-                    mvwputch( g->w_terrain, offset + sound.xy(), c_red, '?' );
-                }
-                wrefresh( g->w_terrain );
-                g->draw_panels();
-                inp_mngr.wait_for_any_key();
+            const point offset = u.view_offset.xy() + point( POSX - u.posx(), POSY - u.posy() );
+            g->draw_ter();
+            auto sounds_to_draw = sounds::get_monster_sounds();
+            for( const auto &sound : sounds_to_draw.first ) {
+                mvwputch( g->w_terrain, offset + sound.xy(), c_yellow, '?' );
+            }
+            for( const auto &sound : sounds_to_draw.second ) {
+                mvwputch( g->w_terrain, offset + sound.xy(), c_red, '?' );
+            }
+            wrefresh( g->w_terrain );
+            g->draw_panels();
+            inp_mngr.wait_for_any_key();
 #else
-                popup( _( "This binary was not compiled with tiles support." ) );
+            popup( _( "This binary was not compiled with tiles support." ) );
 #endif
-            }
-                     break;
+        }
+        break;
 
-            case DEBUG_DISPLAY_WEATHER:
-                ui::omap::display_weather();
-                break;
-            case DEBUG_DISPLAY_SCENTS:
-                ui::omap::display_scents();
-                break;
-            case DEBUG_DISPLAY_SCENTS_LOCAL:
-                g->displaying_temperature = false;
-                g->displaying_visibility = false;
-                g->displaying_radiation = false;
-                g->displaying_scent = !g->displaying_scent;
-                break;
-            case DEBUG_DISPLAY_TEMP:
-                g->displaying_scent = false;
-                g->displaying_visibility = false;
-                g->displaying_radiation = false;
-                g->displaying_temperature = !g->displaying_temperature;
-                break;
-            case DEBUG_DISPLAY_VISIBILITY: {
-                g->displaying_scent = false;
-                g->displaying_temperature = false;
-                g->displaying_radiation = false;
-                g->displaying_visibility = !g->displaying_visibility;
-                if( g->displaying_visibility ) {
-                    std::vector< tripoint > locations;
-                    uilist creature_menu;
-                    int num_creatures = 0;
-                    creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
-                    locations.emplace_back( g->u.pos() ); // add player first.
-                    for( const Creature &critter : g->all_creatures() ) {
-                        if( critter.is_player() ) {
-                            continue;
-                        }
-                        creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, critter.disp_name() );
-                        locations.emplace_back( critter.pos() );
-                    }
-
-                    pointmenu_cb callback( locations );
-                    creature_menu.callback = &callback;
-                    creature_menu.w_y = 0;
-                    creature_menu.query();
-                    if( creature_menu.ret >= 0 && static_cast<size_t>( creature_menu.ret ) < locations.size() ) {
-                        Creature *creature = g->critter_at<Creature>( locations[creature_menu.ret] );
-                        g->displaying_visibility_creature = creature;
-                    }
-                } else {
-                    g->displaying_visibility_creature = nullptr;
-                }
-            }
+        case DEBUG_DISPLAY_WEATHER:
+            ui::omap::display_weather();
             break;
-            case DEBUG_DISPLAY_RADIATION: {
-                g->displaying_scent = false;
-                g->displaying_temperature = false;
-                g->displaying_visibility = false;
-                g->displaying_radiation = !g->displaying_radiation;
-            }
+        case DEBUG_DISPLAY_SCENTS:
+            ui::omap::display_scents();
             break;
-            case DEBUG_CHANGE_TIME: {
-                auto set_turn = [&]( const int initial, const time_duration factor, const char *const msg ) {
-                    const auto text = string_input_popup()
-                        .title( msg )
-                        .width( 20 )
-                        .text( to_string( initial ) )
-                        .only_digits( true )
-                        .query_string();
-                    if( text.empty() ) {
-                        return;
+        case DEBUG_DISPLAY_SCENTS_LOCAL:
+            g->displaying_temperature = false;
+            g->displaying_visibility = false;
+            g->displaying_radiation = false;
+            g->displaying_scent = !g->displaying_scent;
+            break;
+        case DEBUG_DISPLAY_TEMP:
+            g->displaying_scent = false;
+            g->displaying_visibility = false;
+            g->displaying_radiation = false;
+            g->displaying_temperature = !g->displaying_temperature;
+            break;
+        case DEBUG_DISPLAY_VISIBILITY: {
+            g->displaying_scent = false;
+            g->displaying_temperature = false;
+            g->displaying_radiation = false;
+            g->displaying_visibility = !g->displaying_visibility;
+            if( g->displaying_visibility ) {
+                std::vector< tripoint > locations;
+                uilist creature_menu;
+                int num_creatures = 0;
+                creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
+                locations.emplace_back( g->u.pos() ); // add player first.
+                for( const Creature &critter : g->all_creatures() ) {
+                    if( critter.is_player() ) {
+                        continue;
                     }
-                    const int new_value = std::atoi( text.c_str() );
-                    const time_duration offset = ( new_value - initial ) * factor;
-                    // Arbitrary maximal value.
-                    const time_point max = calendar::turn_zero + time_duration::from_turns( std::numeric_limits<int>::max() / 2 );
-                    calendar::turn = std::max( std::min( max, calendar::turn + offset ), calendar::turn_zero );
-                };
-
-                uilist smenu;
-                static const auto years = [](const time_point &p) { return static_cast<int>( ( p - calendar::turn_zero ) / calendar::year_length() ); };
-                do {
-                    const int iSel = smenu.ret;
-                    smenu.reset();
-                    smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), years( calendar::turn ) );
-                    smenu.addentry( 1, !calendar::eternal_season(), 's', "%s: %d",
-                                    _( "season" ), static_cast<int>( season_of_year( calendar::turn ) ) );
-                    smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), day_of_season<int>( calendar::turn ) );
-                    smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );
-                    smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), minute_of_hour<int>( calendar::turn ) );
-                    smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ), to_turns<int>( calendar::turn - calendar::turn_zero ) );
-                    smenu.selected = iSel;
-                    smenu.query();
-
-                    switch( smenu.ret ) {
-                        case 0:
-                            set_turn( years( calendar::turn ), calendar::year_length(), _( "Set year to?" ) );
-                            break;
-                        case 1:
-                            set_turn( static_cast<int>( season_of_year( calendar::turn ) ), calendar::season_length(), _( "Set season to? (0 = spring)" ) );
-                            break;
-                        case 2:
-                            set_turn( day_of_season<int>( calendar::turn ), 1_days, _( "Set days to?" ) );
-                            break;
-                        case 3:
-                            set_turn( hour_of_day<int>( calendar::turn ), 1_hours, _( "Set hour to?" ) );
-                            break;
-                        case 4:
-                            set_turn( minute_of_hour<int>( calendar::turn ), 1_minutes, _( "Set minute to?" ) );
-                            break;
-                        case 5:
-                            set_turn( to_turns<int>( calendar::turn - calendar::turn_zero ), 1_turns,
-                                      string_format( _( "Set turn to? (One day is %i turns)" ), to_turns<int>( 1_days ) ).c_str() );
-                            break;
-                        default:
-                            break;
-                    }
-                } while( smenu.ret != UILIST_CANCEL );
-            }
-                     break;
-            case DEBUG_SET_AUTOMOVE: {
-                const cata::optional<tripoint> dest = g->look_around();
-                if( !dest || *dest == u.pos() ) {
-                    break;
+                    creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, critter.disp_name() );
+                    locations.emplace_back( critter.pos() );
                 }
 
-                auto rt = m.route( u.pos(), *dest, u.get_pathfinding_settings(), u.get_path_avoid() );
-                if( !rt.empty() ) {
-                    u.set_destination( rt );
-                } else {
-                    popup( "Couldn't find path" );
+                pointmenu_cb callback( locations );
+                creature_menu.callback = &callback;
+                creature_menu.w_y = 0;
+                creature_menu.query();
+                if( creature_menu.ret >= 0 && static_cast<size_t>( creature_menu.ret ) < locations.size() ) {
+                    Creature *creature = g->critter_at<Creature>( locations[creature_menu.ret] );
+                    g->displaying_visibility_creature = creature;
                 }
-            }
-                     break;
-            case DEBUG_SHOW_MUT_CAT:
-                for( const auto &elem : u.mutation_category_level ) {
-                    add_msg( "%s: %d", elem.first.c_str(), elem.second );
-                }
-                break;
-
-            case DEBUG_OM_EDITOR:
-                ui::omap::display_editor();
-                break;
-
-            case DEBUG_BENCHMARK: {
-                const int ms = string_input_popup()
-                    .title( _( "Enter benchmark length (in milliseconds):" ) )
-                    .width( 20 )
-                    .text( "5000" )
-                    .query_int();
-                debug_menu::draw_benchmark( ms );
-            }
-                     break;
-
-            case DEBUG_OM_TELEPORT:
-                debug_menu::teleport_overmap();
-                break;
-            case DEBUG_TRAIT_GROUP:
-                trait_group::debug_spawn();
-                break;
-            case DEBUG_SHOW_MSG:
-                debugmsg( "Test debugmsg" );
-                break;
-            case DEBUG_CRASH_GAME:
-                raise( SIGSEGV );
-                break;
-            case DEBUG_MAP_EXTRA: {
-                std::unordered_map<std::string, map_extra_pointer> FM = MapExtras::all_functions();
-                uilist mx_menu;
-                std::vector<std::string> mx_str;
-                for( auto &extra : FM ) {
-                    mx_menu.addentry( -1, true, -1, extra.first );
-                    mx_str.push_back( extra.first );
-                }
-                mx_menu.query();
-                int mx_choice = mx_menu.ret;
-                if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
-                    const tripoint where_omt( ui::omap::choose_point() );
-                    if( where_omt != overmap::invalid_tripoint ) {
-                        tripoint where_sm = omt_to_sm_copy( where_omt );
-                        tinymap mx_map;
-                        mx_map.load( where_sm, false );
-                        MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
-                        g->load_npcs();
-                        g->m.invalidate_map_cache( g->get_levz() );
-                        g->refresh_all();
-                    }
-                }
-                break;
-            }
-            case DEBUG_DISPLAY_NPC_PATH:
-                g->debug_pathfinding = !g->debug_pathfinding;
-                break;
-            case DEBUG_PRINT_FACTION_INFO: {
-                int count = 0;
-                for( const auto elem : g->faction_manager_ptr->all() ){
-                    std::cout << std::to_string( count ) << " Faction_id key in factions map = " << elem.first.str() << std::endl;
-                    std::cout << std::to_string( count ) << " Faction name associated with this id is " << elem.second.name << std::endl;
-                    std::cout << std::to_string( count ) << " the id of that faction object is " << elem.second.id.str() << std::endl;
-                    count++;
-                }
-                std::cout << "Player faction is " << g->u.get_faction()->id.str() << std::endl;
-                break;
-            }
-            case DEBUG_QUIT_NOSAVE:
-                if( query_yn(
-                    _( "Quit without saving? This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
-                    u.moves = 0;
-                    g->uquit = QUIT_NOSAVED;
-                }
-                break;
-            case DEBUG_TEST_WEATHER: {
-                weather_generator weathergen;
-                weathergen.test_weather();
-            }
-                break;
-
-            case DEBUG_SAVE_SCREENSHOT: {
-#if defined(TILES)
-                // check that the current '<world>/screenshots' directory exists
-                std::stringstream map_directory;
-                map_directory << g->get_world_base_save_path() << "/screenshots/";
-                assure_dir_exist( map_directory.str() );
-
-                // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png
-                // Date format is a somewhat ISO-8601 compliant GMT time date (except for some characters that wouldn't pass on most file systems like ':').
-                std::time_t time = std::time( nullptr );
-                std::stringstream date_buffer;
-                date_buffer << std::put_time( std::gmtime(&time), "%F_%H-%M-%S_%z" );
-                const auto tmp_file_name = string_format( "[%s]_%s.png", g->u.get_name(), date_buffer.str() );
-
-                std::string file_name = ensure_valid_file_name( tmp_file_name );
-                auto current_file_path = map_directory.str() + file_name;
-
-                // Take a screenshot of the viewport.
-                if ( g->take_screenshot( current_file_path ) ) {
-                    popup( _( "Successfully saved your screenshot to: %s" ), map_directory.str() );
-                }
-                else {
-                    popup( _( "An error occurred while trying to save the screenshot." ) );
-                }
-#else
-                popup( _( "This binary was not compiled with tiles support." ) );
-#endif
-            }
-                break;
-
-            case DEBUG_GAME_REPORT: {
-                // generate a game report, useful for bug reporting.
-                std::string report = game_info::game_report();
-                // write to log
-                DebugLog( DL_ALL, DC_ALL ) << " GAME REPORT: \n" << report;
-                std::string popup_msg = _( "Report written to debug.log" );
-#if defined(TILES)
-                // copy to clipboard
-                int clipboard_result = SDL_SetClipboardText( report.c_str() );
-                printErrorIf( clipboard_result != 0, "Error while copying the game report to the clipboard." );
-                if ( clipboard_result == 0 ) {
-                    popup_msg += _( " and to the clipboard." );
-                }
-#endif
-                popup( popup_msg );
-            }
-                                    break;
-            case DEBUG_LEARN_SPELLS:
-                if ( spell_type::get_all().empty() ) {
-                    add_msg( m_bad, _( "There are no spells to learn.  You must install a mod that adds some." ) );
-                }
-                else {
-                    for ( const spell_type &learn : spell_type::get_all() ) {
-                        g->u.magic.learn_spell( &learn, g->u, true );
-                    }
-                    add_msg( m_good, _( "You have become an Archwizardpriest!  What will you do with your newfound power?" ) );
-                }
-                break;
-            case DEBUG_LEVEL_SPELLS: {
-                std::vector<spell *> spells = g->u.magic.get_spells();
-                if( spells.empty() ) {
-                    add_msg( m_bad, _( "Try learning some spells first." ) );
-                    return;
-                }
-                std::vector<uilist_entry> uiles;
-                {
-                    uilist_entry uile( _( "Spell" ) );
-                    uile.ctxt = string_format( "%3s %3s", _( "LVL" ), _( "MAX" ) );
-                    uile.enabled = false;
-                    uile.force_color = c_light_blue;
-                    uiles.emplace_back( uile );
-                }
-                int retval = 0;
-                for( spell *sp : spells ) {
-                    uilist_entry uile( sp->name() );
-                    uile.ctxt = string_format( "%3d %3d", sp->get_level(), sp->get_max_level() );
-                    uile.retval = retval++;
-                    uile.enabled = !sp->is_max_level();
-                    uiles.emplace_back( uile );
-                }
-                int action = uilist( _( "Debug level spell:" ), uiles );
-                if( action < 0 ) {
-                    return;
-                }
-                int desired_level = 0;
-                int cur_level = spells[action]->get_level();
-                query_int( desired_level, _( "Desired Spell Level: (Current %d)" ), cur_level );
-                desired_level = std::min( desired_level, spells[action]->get_max_level() );
-                while( cur_level < desired_level ) {
-                    spells[action]->gain_level();
-                    cur_level = spells[action]->get_level();
-                }
-                add_msg( m_good, _( "%s is now level %d!" ), spells[action]->name(), spells[action]->get_level() );
-                break;
+            } else {
+                g->displaying_visibility_creature = nullptr;
             }
         }
-        catacurses::erase();
-        m.invalidate_map_cache( g->get_levz() );
-        g->refresh_all();
+        break;
+        case DEBUG_DISPLAY_RADIATION: {
+            g->displaying_scent = false;
+            g->displaying_temperature = false;
+            g->displaying_visibility = false;
+            g->displaying_radiation = !g->displaying_radiation;
+        }
+        break;
+        case DEBUG_CHANGE_TIME: {
+            auto set_turn = [&]( const int initial, const time_duration factor, const char *const msg ) {
+                const auto text = string_input_popup()
+                                  .title( msg )
+                                  .width( 20 )
+                                  .text( to_string( initial ) )
+                                  .only_digits( true )
+                                  .query_string();
+                if( text.empty() ) {
+                    return;
+                }
+                const int new_value = std::atoi( text.c_str() );
+                const time_duration offset = ( new_value - initial ) * factor;
+                // Arbitrary maximal value.
+                const time_point max = calendar::turn_zero + time_duration::from_turns(
+                                           std::numeric_limits<int>::max() / 2 );
+                calendar::turn = std::max( std::min( max, calendar::turn + offset ), calendar::turn_zero );
+            };
+
+            uilist smenu;
+            static const auto years = []( const time_point & p ) {
+                return static_cast<int>( ( p - calendar::turn_zero ) / calendar::year_length() );
+            };
+            do {
+                const int iSel = smenu.ret;
+                smenu.reset();
+                smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), years( calendar::turn ) );
+                smenu.addentry( 1, !calendar::eternal_season(), 's', "%s: %d",
+                                _( "season" ), static_cast<int>( season_of_year( calendar::turn ) ) );
+                smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), day_of_season<int>( calendar::turn ) );
+                smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );
+                smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), minute_of_hour<int>( calendar::turn ) );
+                smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ),
+                                to_turns<int>( calendar::turn - calendar::turn_zero ) );
+                smenu.selected = iSel;
+                smenu.query();
+
+                switch( smenu.ret ) {
+                    case 0:
+                        set_turn( years( calendar::turn ), calendar::year_length(), _( "Set year to?" ) );
+                        break;
+                    case 1:
+                        set_turn( static_cast<int>( season_of_year( calendar::turn ) ), calendar::season_length(),
+                                  _( "Set season to? (0 = spring)" ) );
+                        break;
+                    case 2:
+                        set_turn( day_of_season<int>( calendar::turn ), 1_days, _( "Set days to?" ) );
+                        break;
+                    case 3:
+                        set_turn( hour_of_day<int>( calendar::turn ), 1_hours, _( "Set hour to?" ) );
+                        break;
+                    case 4:
+                        set_turn( minute_of_hour<int>( calendar::turn ), 1_minutes, _( "Set minute to?" ) );
+                        break;
+                    case 5:
+                        set_turn( to_turns<int>( calendar::turn - calendar::turn_zero ), 1_turns,
+                                  string_format( _( "Set turn to? (One day is %i turns)" ), to_turns<int>( 1_days ) ).c_str() );
+                        break;
+                    default:
+                        break;
+                }
+            } while( smenu.ret != UILIST_CANCEL );
+        }
+        break;
+        case DEBUG_SET_AUTOMOVE: {
+            const cata::optional<tripoint> dest = g->look_around();
+            if( !dest || *dest == u.pos() ) {
+                break;
+            }
+
+            auto rt = m.route( u.pos(), *dest, u.get_pathfinding_settings(), u.get_path_avoid() );
+            if( !rt.empty() ) {
+                u.set_destination( rt );
+            } else {
+                popup( "Couldn't find path" );
+            }
+        }
+        break;
+        case DEBUG_SHOW_MUT_CAT:
+            for( const auto &elem : u.mutation_category_level ) {
+                add_msg( "%s: %d", elem.first.c_str(), elem.second );
+            }
+            break;
+
+        case DEBUG_OM_EDITOR:
+            ui::omap::display_editor();
+            break;
+
+        case DEBUG_BENCHMARK: {
+            const int ms = string_input_popup()
+                           .title( _( "Enter benchmark length (in milliseconds):" ) )
+                           .width( 20 )
+                           .text( "5000" )
+                           .query_int();
+            debug_menu::draw_benchmark( ms );
+        }
+        break;
+
+        case DEBUG_OM_TELEPORT:
+            debug_menu::teleport_overmap();
+            break;
+        case DEBUG_TRAIT_GROUP:
+            trait_group::debug_spawn();
+            break;
+        case DEBUG_SHOW_MSG:
+            debugmsg( "Test debugmsg" );
+            break;
+        case DEBUG_CRASH_GAME:
+            raise( SIGSEGV );
+            break;
+        case DEBUG_MAP_EXTRA: {
+            std::unordered_map<std::string, map_extra_pointer> FM = MapExtras::all_functions();
+            uilist mx_menu;
+            std::vector<std::string> mx_str;
+            for( auto &extra : FM ) {
+                mx_menu.addentry( -1, true, -1, extra.first );
+                mx_str.push_back( extra.first );
+            }
+            mx_menu.query();
+            int mx_choice = mx_menu.ret;
+            if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
+                const tripoint where_omt( ui::omap::choose_point() );
+                if( where_omt != overmap::invalid_tripoint ) {
+                    tripoint where_sm = omt_to_sm_copy( where_omt );
+                    tinymap mx_map;
+                    mx_map.load( where_sm, false );
+                    MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
+                    g->load_npcs();
+                    g->m.invalidate_map_cache( g->get_levz() );
+                    g->refresh_all();
+                }
+            }
+            break;
+        }
+        case DEBUG_DISPLAY_NPC_PATH:
+            g->debug_pathfinding = !g->debug_pathfinding;
+            break;
+        case DEBUG_PRINT_FACTION_INFO: {
+            int count = 0;
+            for( const auto elem : g->faction_manager_ptr->all() ) {
+                std::cout << std::to_string( count ) << " Faction_id key in factions map = " << elem.first.str() <<
+                          std::endl;
+                std::cout << std::to_string( count ) << " Faction name associated with this id is " <<
+                          elem.second.name << std::endl;
+                std::cout << std::to_string( count ) << " the id of that faction object is " << elem.second.id.str()
+                          << std::endl;
+                count++;
+            }
+            std::cout << "Player faction is " << g->u.get_faction()->id.str() << std::endl;
+            break;
+        }
+        case DEBUG_QUIT_NOSAVE:
+            if( query_yn(
+                    _( "Quit without saving? This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
+                u.moves = 0;
+                g->uquit = QUIT_NOSAVED;
+            }
+            break;
+        case DEBUG_TEST_WEATHER: {
+            weather_generator weathergen;
+            weathergen.test_weather();
+        }
+        break;
+
+        case DEBUG_SAVE_SCREENSHOT: {
+#if defined(TILES)
+            // check that the current '<world>/screenshots' directory exists
+            std::stringstream map_directory;
+            map_directory << g->get_world_base_save_path() << "/screenshots/";
+            assure_dir_exist( map_directory.str() );
+
+            // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png
+            // Date format is a somewhat ISO-8601 compliant GMT time date (except for some characters that wouldn't pass on most file systems like ':').
+            std::time_t time = std::time( nullptr );
+            std::stringstream date_buffer;
+            date_buffer << std::put_time( std::gmtime( &time ), "%F_%H-%M-%S_%z" );
+            const auto tmp_file_name = string_format( "[%s]_%s.png", g->u.get_name(), date_buffer.str() );
+
+            std::string file_name = ensure_valid_file_name( tmp_file_name );
+            auto current_file_path = map_directory.str() + file_name;
+
+            // Take a screenshot of the viewport.
+            if( g->take_screenshot( current_file_path ) ) {
+                popup( _( "Successfully saved your screenshot to: %s" ), map_directory.str() );
+            } else {
+                popup( _( "An error occurred while trying to save the screenshot." ) );
+            }
+#else
+            popup( _( "This binary was not compiled with tiles support." ) );
+#endif
+        }
+        break;
+
+        case DEBUG_GAME_REPORT: {
+            // generate a game report, useful for bug reporting.
+            std::string report = game_info::game_report();
+            // write to log
+            DebugLog( DL_ALL, DC_ALL ) << " GAME REPORT: \n" << report;
+            std::string popup_msg = _( "Report written to debug.log" );
+#if defined(TILES)
+            // copy to clipboard
+            int clipboard_result = SDL_SetClipboardText( report.c_str() );
+            printErrorIf( clipboard_result != 0, "Error while copying the game report to the clipboard." );
+            if( clipboard_result == 0 ) {
+                popup_msg += _( " and to the clipboard." );
+            }
+#endif
+            popup( popup_msg );
+        }
+        break;
+        case DEBUG_LEARN_SPELLS:
+            if( spell_type::get_all().empty() ) {
+                add_msg( m_bad, _( "There are no spells to learn.  You must install a mod that adds some." ) );
+            } else {
+                for( const spell_type &learn : spell_type::get_all() ) {
+                    g->u.magic.learn_spell( &learn, g->u, true );
+                }
+                add_msg( m_good,
+                         _( "You have become an Archwizardpriest!  What will you do with your newfound power?" ) );
+            }
+            break;
+        case DEBUG_LEVEL_SPELLS: {
+            std::vector<spell *> spells = g->u.magic.get_spells();
+            if( spells.empty() ) {
+                add_msg( m_bad, _( "Try learning some spells first." ) );
+                return;
+            }
+            std::vector<uilist_entry> uiles;
+            {
+                uilist_entry uile( _( "Spell" ) );
+                uile.ctxt = string_format( "%3s %3s", _( "LVL" ), _( "MAX" ) );
+                uile.enabled = false;
+                uile.force_color = c_light_blue;
+                uiles.emplace_back( uile );
+            }
+            int retval = 0;
+            for( spell *sp : spells ) {
+                uilist_entry uile( sp->name() );
+                uile.ctxt = string_format( "%3d %3d", sp->get_level(), sp->get_max_level() );
+                uile.retval = retval++;
+                uile.enabled = !sp->is_max_level();
+                uiles.emplace_back( uile );
+            }
+            int action = uilist( _( "Debug level spell:" ), uiles );
+            if( action < 0 ) {
+                return;
+            }
+            int desired_level = 0;
+            int cur_level = spells[action]->get_level();
+            query_int( desired_level, _( "Desired Spell Level: (Current %d)" ), cur_level );
+            desired_level = std::min( desired_level, spells[action]->get_max_level() );
+            while( cur_level < desired_level ) {
+                spells[action]->gain_level();
+                cur_level = spells[action]->get_level();
+            }
+            add_msg( m_good, _( "%s is now level %d!" ), spells[action]->name(), spells[action]->get_level() );
+            break;
+        }
     }
+    catacurses::erase();
+    m.invalidate_map_cache( g->get_levz() );
+    g->refresh_all();
+}
 
 } // namespace debug_menu
