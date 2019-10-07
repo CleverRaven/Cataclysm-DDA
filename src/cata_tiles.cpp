@@ -1204,7 +1204,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     float lighting = std::max( 1.0, LIGHT_AMBIENT_LIT - g->m.ambient_light_at( {x, y, center.z} ) +
                                                1.0 );
 
-                    auto tile_pos = player_to_screen( x, y );
+                    auto tile_pos = player_to_screen( point( x, y ) );
 
                     // color overlay
                     auto color = lighting_colors[static_cast<int>( lighting ) - 1];
