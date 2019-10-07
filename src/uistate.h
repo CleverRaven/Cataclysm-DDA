@@ -43,15 +43,10 @@ class uistatedata
         int adv_inv_src = left;
         int adv_inv_dest = right;
         int adv_inv_last_popup_dest = 0;
-        int adv_inv_container_location = -1;
-        int adv_inv_container_index = 0;
         int adv_inv_exit_code = 0;
-        itype_id adv_inv_container_type = "null";
-        itype_id adv_inv_container_content_type = "null";
         int adv_inv_re_enter_move_all = 0;
         int adv_inv_aim_all_location = 1;
         std::map<int, std::list<item>> adv_inv_veh_items, adv_inv_map_items;
-        bool adv_inv_container_in_vehicle = false;
 
         bool editmap_nsa_viewmode = false;      // true: ignore LOS and lighting
         bool overmap_blinking = true;           // toggles active blinking of overlays.
@@ -134,11 +129,6 @@ class uistatedata
             json.member( "adv_inv_src", adv_inv_src );
             json.member( "adv_inv_dest", adv_inv_dest );
             json.member( "adv_inv_last_popup_dest", adv_inv_last_popup_dest );
-            json.member( "adv_inv_container_location", adv_inv_container_location );
-            json.member( "adv_inv_container_index", adv_inv_container_index );
-            json.member( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
-            json.member( "adv_inv_container_type", adv_inv_container_type );
-            json.member( "adv_inv_container_content_type", adv_inv_container_content_type );
             json.member( "editmap_nsa_viewmode", editmap_nsa_viewmode );
             json.member( "overmap_blinking", overmap_blinking );
             json.member( "overmap_show_overlays", overmap_show_overlays );
@@ -227,12 +217,6 @@ class uistatedata
             // the rest
             jo.read( "adv_inv_src", adv_inv_src );
             jo.read( "adv_inv_dest", adv_inv_dest );
-            jo.read( "adv_inv_last_popup_dest", adv_inv_last_popup_dest );
-            jo.read( "adv_inv_container_location", adv_inv_container_location );
-            jo.read( "adv_inv_container_index", adv_inv_container_index );
-            jo.read( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
-            jo.read( "adv_inv_container_type", adv_inv_container_type );
-            jo.read( "adv_inv_container_content_type", adv_inv_container_content_type );
             jo.read( "overmap_blinking", overmap_blinking );
             jo.read( "overmap_show_overlays", overmap_show_overlays );
             jo.read( "overmap_show_map_notes", overmap_show_map_notes );
