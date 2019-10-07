@@ -1218,17 +1218,6 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 }
             }
 
-            if( apply_vision_effects( temp, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
-                int height_3d = 0;
-                draw_terrain_from_memory( tripoint( x, y, center.z ), height_3d );
-                const auto critter = g->critter_at( tripoint( x, y, center.z ), true );
-                if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
-                    // TODO: defer drawing this until later when we know how tall
-                    //     the terrain/furniture under the creature is.
-                    draw_from_id_string( "infrared_creature", C_NONE, empty_string, temp, 0, 0, LL_LIT, false );
-                }
-            }
-
             if( !invisible[0] &&
                 apply_vision_effects( pos, g->m.get_visibility( ll, cache ) ) ) {
 
