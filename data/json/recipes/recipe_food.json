@@ -4003,7 +4003,7 @@
       ],
       [ [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
       [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ],
-      [ [ "curry_powder", 4 ] ]
+      [ [ "curry_powder", 4 ], [ "chilly-p", 4 ] ]
     ]
   },
   {
@@ -4039,7 +4039,7 @@
         [ "dry_rice", 1 ]
       ],
       [ [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
-      [ [ "curry_powder", 4 ] ]
+      [ [ "curry_powder", 4 ], [ "chilly-p", 4 ] ]
     ]
   },
   {
@@ -5602,7 +5602,7 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "sausage", 2 ], [ "sausage_cooked", 2 ], [ "bratwurst_sausage", 2 ] ],
-      [ [ "curry_powder", 20 ] ],
+      [ [ "curry_powder", 20 ], [ "chilly-p", 20 ] ],
       [ [ "ketchup", 4 ] ]
     ]
   },
@@ -5637,7 +5637,7 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "mannwurst", 2 ], [ "mannwurst_cooked", 2 ], [ "mann_bratwurst", 2 ] ],
-      [ [ "curry_powder", 20 ] ],
+      [ [ "curry_powder", 20 ], [ "chilly-p", 20 ] ],
       [ [ "ketchup", 4 ] ]
     ]
   },
