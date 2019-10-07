@@ -167,7 +167,7 @@
     "name": "solid rock",
     "sym": "%",
     "color": "light_gray",
-    "see,_cost": 5
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",

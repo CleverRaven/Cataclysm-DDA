@@ -38,7 +38,7 @@
     "primary_material": "water",
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "NO_SALVAGE" ],
     "fun": 10,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1 ] ]
   },

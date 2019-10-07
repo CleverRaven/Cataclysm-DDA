@@ -114,6 +114,7 @@ const efftype_id effect_weed_high( "weed_high" );
 const material_id mat_leather( "leather" );
 const material_id mat_kevlar( "kevlar" );
 
+const fault_id fault_gun_dirt( "fault_gun_dirt" );
 const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 
 const trait_id trait_small2( "SMALL2" );
@@ -1044,6 +1045,61 @@ static int get_base_env_resist( const item &it )
 
 }
 
+bool item::is_owned_by( const Character &c, bool available_to_take ) const
+{
+    // owner.is_null() implies faction_id( "no_faction" ) which shouldnt happen, or no owner at all.
+    // either way, certain situations this means the thing is available to take.
+    // in other scenarios we actaully really want to check for id == id, even for no_faction
+    if( owner.is_null() ) {
+        return available_to_take;
+    }
+    if( !c.get_faction() ) {
+        debugmsg( "Character %s has no faction", c.disp_name() );
+        return false;
+    }
+    return c.get_faction()->id == get_owner();
+}
+
+bool item::is_old_owner( const Character &c, bool available_to_take ) const
+{
+    if( old_owner.is_null() ) {
+        return available_to_take;
+    }
+    if( !c.get_faction() ) {
+        debugmsg( "Character %s has no faction.", c.disp_name() );
+        return false;
+    }
+    return c.get_faction()->id == get_old_owner();
+}
+
+std::string item::get_owner_name() const
+{
+    if( !g->faction_manager_ptr->get( owner ) ) {
+        debugmsg( "item::get_owner_name() item %s has no valid nor null faction id ", tname() );
+        return "no owner";
+    }
+    return g->faction_manager_ptr->get( owner )->name;
+}
+
+void item::set_owner( const Character &c )
+{
+    if( !c.get_faction() ) {
+        debugmsg( "item::set_owner() Character %s has no valid faction", c.disp_name() );
+        return;
+    }
+    owner = c.get_faction()->id;
+}
+
+faction_id item::get_owner() const
+{
+    return owner;
+}
+
+faction_id item::get_old_owner() const
+{
+    return old_owner;
+}
+
 std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch ) const
 {
     std::stringstream temp1;
@@ -1177,8 +1233,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }, enumeration_conjunction::none );
             info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list ) ) );
         }
-        if( has_owner() ) {
-            info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ), _( get_owner()->name ) ) ) );
+        if( !owner.is_null() ) {
+            info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ), _( get_owner_name() ) ) ) );
         }
         if( has_var( "contained_name" ) && parts->test( iteminfo_parts::BASE_CONTENTS ) ) {
             info.push_back( iteminfo( "BASE", string_format( _( "Contains: %s" ),
@@ -2726,8 +2782,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Stat Bonus:</bold> " ),
                                           iteminfo::no_newline ) );
                 for( const auto &element : bid->stat_bonus ) {
-                    info.push_back( iteminfo( "CBM", io::enum_to_string<Character::stat>( element.first ), " <num> ",
-                                              iteminfo::no_newline,
+                    info.push_back( iteminfo( "CBM", get_stat_name( element.first ), " <num> ", iteminfo::no_newline,
                                               element.second ) );
                 }
 
@@ -2818,7 +2873,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( parts->test( iteminfo_parts::DESCRIPTION_FAULTS ) ) {
             for( const fault_id &e : faults ) {
                 //~ %1$s is the name of a fault and %2$s is the description of the fault
-                info.emplace_back( "DESCRIPTION", string_format( _( "* <bad>Faulty %1$s</bad>.  %2$s" ),
+                info.emplace_back( "DESCRIPTION", string_format( _( "* <bad>%1$s</bad>.  %2$s" ),
                                    e.obj().name(), e.obj().description() ) );
             }
         }
@@ -2868,7 +2923,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             insert_separation_line();
             std::string ntext;
             if( item_note_type != item_vars.end() ) {
-                ntext += string_format( _( "%1$s on the %2$s is: " ),
+                //~ %1$s: gerund (e.g. carved), %2$s: item name
+                ntext += string_format( pgettext( "carving", "%1$s on the %2$s is: " ),
                                         item_note_type->second.c_str(), tname() );
             } else {
                 ntext += _( "Note: " );
@@ -3294,17 +3350,18 @@ void item::on_wield( player &p, int mv )
 
 void item::handle_pickup_ownership( Character &c )
 {
-    faction *yours = c.get_faction();
+    if( is_owned_by( c ) ) {
+        return;
+    }
     // Add ownership to item if unowned
-    if( !has_owner() ) {
-        set_owner( yours );
+    if( owner.is_null() ) {
+        set_owner( c );
     } else {
-        if( get_owner() != yours && &c == &g->u ) {
+        if( !is_owned_by( c ) && &c == &g->u ) {
             std::vector<npc *> witnesses;
             for( npc &elem : g->all_npcs() ) {
                 if( rl_dist( elem.pos(), g->u.pos() ) < MAX_VIEW_DISTANCE && elem.get_faction() &&
-                    elem.get_faction()->id != faction_id( "no_faction" ) &&
-                    elem.get_faction() == get_owner() && elem.sees( g->u.pos() ) ) {
+                    is_owned_by( elem ) && elem.sees( g->u.pos() ) ) {
                     elem.say( "<witnessed_thievery>", 7 );
                     npc *npc_to_add = &elem;
                     witnesses.push_back( npc_to_add );
@@ -3325,7 +3382,7 @@ void item::handle_pickup_ownership( Character &c )
                     witnesses[random_index]->witness_thievery( &*this );
                 }
             }
-            set_owner( yours );
+            set_owner( c );
         }
     }
 }
@@ -3373,7 +3430,35 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 {
     std::stringstream ret;
 
+    int dirt_level = get_var( "dirt", 0 ) / 2000;
+    std::string dirt_symbol;
     // TODO: MATERIALS put this in json
+
+    // these symbols are unicode square characeters of different heights, representing a rough
+    // estimation of fouling in a gun. This appears instead of "faulty"
+    // since most guns will have some level of fouling in them, and usually it is not a big deal.
+    switch( dirt_level ) {
+        case 0:
+            dirt_symbol = "";
+            break;
+        case 1:
+            dirt_symbol = "<color_white>\u2581</color>";
+            break;
+        case 2:
+            dirt_symbol = "<color_light_gray>\u2583</color>";
+            break;
+        case 3:
+            dirt_symbol = "<color_light_gray>\u2585</color>";
+            break;
+        case 4:
+            dirt_symbol = "<color_dark_gray>\u2587</color>";
+            break;
+        case 5:
+            dirt_symbol = "<color_brown>\u2588</color>";
+            break;
+        default:
+            dirt_symbol = "";
+    }
     std::string damtext;
 
     // for portions of string that have <color_ etc in them, this aims to truncate the whole string correctly
@@ -3387,7 +3472,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
     if( !faults.empty() ) {
-        damtext.insert( 0, _( "faulty " ) );
+        if( ( item::has_fault( fault_gun_blackpowder ) || item::has_fault( fault_gun_dirt ) ) &&
+            faults.size() == 1 ) {
+            damtext.insert( 0, dirt_symbol );
+        } else {
+            damtext.insert( 0, _( "faulty " ) + dirt_symbol );
+        }
     }
 
     std::string vehtext;
@@ -3443,16 +3533,19 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         const item &contents_item = contents.front();
         if( contents_item.made_of( LIQUID ) || contents_item.is_food() ) {
             const unsigned contents_count = contents_item.charges > 1 ? contents_item.charges : quantity;
-            maintext = string_format( pgettext( "item name", "%s of %s" ), label( quantity ),
+            //~ %1$s: item name, %2$s: content liquid, food, or drink name
+            maintext = string_format( pgettext( "item name", "%1$s of %2$s" ), label( quantity ),
                                       contents_item.tname( contents_count, with_prefix ) );
         } else {
-            maintext = string_format( pgettext( "item name", "%s with %s" ), label( quantity ),
+            //~ %1$s: item name, %2$s: non-liquid, non-food, non-drink content item name
+            maintext = string_format( pgettext( "item name", "%1$s with %2$s" ), label( quantity ),
                                       contents_item.tname( quantity, with_prefix ) );
         }
     } else if( !contents.empty() ) {
         maintext = string_format( npgettext( "item name",
-                                             "%s with %zd item",
-                                             "%s with %zd items", contents.size() ),
+                                             //~ %1$s: item name, %2$zd: content size
+                                             "%1$s with %2$zd item",
+                                             "%1$s with %2$zd items", contents.size() ),
                                   label( quantity ), contents.size() );
     } else {
         maintext = label( quantity );
@@ -3467,7 +3560,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
     if( has_flag( "ETHEREAL_ITEM" ) ) {
-        ret << " (" << get_var( "ethereal" ) << " turns)";
+        ret << string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
     } else if( goes_bad() || is_food() ) {
         if( item_tags.count( "DIRTY" ) ) {
             ret << _( " (dirty)" );
@@ -3592,11 +3685,25 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     }
 }
 
-std::string item::display_money( unsigned int quantity, unsigned int amount ) const
+std::string item::display_money( unsigned int quantity, unsigned int total,
+                                 cata::optional<unsigned int> selected ) const
 {
-    //~ This is a string to display the total amount of money in a stack of cash cards. The strings are: %s is the display name of cash cards. The following bracketed $%.2f is the amount of money on the stack of cards in dollars, to two decimal points. (e.g. "cash cards ($15.35)")
-    return string_format( pgettext( "cash card and total money", "%s %s" ), tname( quantity ),
-                          format_money( amount ) );
+    if( selected ) {
+        //~ This is a string to display the selected and total amount of money in a stack of cash cards.
+        //~ %1$s is the display name of cash cards.
+        //~ %2$s is the total amount of money.
+        //~ %3$s is the selected amount of money.
+        //~ Example: "cash cards $15.35 of $20.48"
+        return string_format( pgettext( "cash card and money", "%1$s %3$s of %2$s" ), tname( quantity ),
+                              format_money( total ), format_money( *selected ) );
+    } else {
+        //~ This is a string to display the total amount of money in a stack of cash cards.
+        //~ %1$s is the display name of cash cards.
+        //~ %2$s is the total amount of money on the cash cards.
+        //~ Example: "cash cards $20.48"
+        return string_format( pgettext( "cash card and money", "%1$s %2$s" ), tname( quantity ),
+                              format_money( total ) );
+    }
 }
 
 std::string item::display_name( unsigned int quantity ) const
@@ -3690,7 +3797,7 @@ int item::price( bool practical ) const
             return VisitResponse::NEXT;
         }
 
-        int child = practical ? e->type->price_post : e->type->price;
+        int child = units::to_cent( practical ? e->type->price_post : e->type->price );
         if( e->damage() > 0 ) {
             // maximal damage level is 4, maximal reduction is 40% of the value.
             child -= child * static_cast<double>( e->damage_level( 4 ) ) / 10;
@@ -4535,7 +4642,6 @@ int item::get_encumber_when_containing(
         }
     }
 
-
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
     if( has_flag( "FIT" ) && has_flag( "VARSIZE" ) ) {
         encumber = std::max( encumber / 2, encumber - 10 );
@@ -4649,7 +4755,7 @@ bool item::can_revive() const
 {
     return is_corpse() && corpse->has_flag( MF_REVIVES ) && damage() < max_damage() &&
            !( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) || has_flag( "QUARTERED" ) ||
-              has_flag( "SKINNED" ) );
+              has_flag( "SKINNED" ) || has_flag( "PULPED" ) );
 }
 
 bool item::ready_to_revive( const tripoint &pos ) const
@@ -4983,8 +5089,7 @@ std::string item::durability_indicator( bool include_intact ) const
 
     if( damage() < 0 )  {
         if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-            outputstring = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() +
-                           " </color>";
+            outputstring = colorize( damage_symbol() + " ", damage_color() );
         } else if( is_gun() ) {
             outputstring = pgettext( "damage adjective", "accurized " );
         } else {
@@ -5008,8 +5113,7 @@ std::string item::durability_indicator( bool include_intact ) const
             }
         }
     } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-        outputstring = "<color_" + string_from_color( damage_color() ) + ">" + damage_symbol() +
-                       " </color>";
+        outputstring = colorize( damage_symbol() + " ", damage_color() );
     } else {
         outputstring = string_format( "%s ", get_base_material().dmg_adj( damage_level( 4 ) ) );
         if( include_intact && outputstring == " " ) {
@@ -6031,7 +6135,7 @@ int item::ammo_remaining() const
     if( is_tool() || is_gun() ) {
         // includes auxiliary gunmods
         if( has_flag( "USES_BIONIC_POWER" ) ) {
-            int power = g->u.power_level;
+            int power = units::to_kilojoule( g->u.power_level );
             return power;
         }
         return charges;
@@ -6162,8 +6266,8 @@ int item::ammo_consume( int qty, const tripoint &pos )
     } else if( is_tool() || is_gun() ) {
         qty = std::min( qty, charges );
         if( has_flag( "USES_BIONIC_POWER" ) ) {
-            charges = g->u.power_level;
-            g->u.charge_power( -qty );
+            charges = units::to_kilojoule( g->u.power_level );
+            g->u.charge_power( units::from_kilojoule( -qty ) );
         }
         charges -= qty;
         if( charges == 0 ) {
@@ -6800,7 +6904,8 @@ bool item::reload( player &u, item_location loc, int qty )
     } else if( !magazine_integral() ) {
         // if we already have a magazine loaded prompt to eject it
         if( magazine_current() ) {
-            std::string prompt = string_format( _( "Eject %s from %s?" ),
+            //~ %1$s: magazine name, %2$s: weapon name
+            std::string prompt = string_format( pgettext( "magazine", "Eject %1$s from %2$s?" ),
                                                 magazine_current()->tname(), tname() );
 
             // eject magazine to player inventory and try to dispose of it from there
@@ -8019,7 +8124,7 @@ void item::reset_temp_check()
 
 void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
 {
-    if( !is_artifact() && !is_relic() ) {
+    if( !is_artifact() ) {
         return;
     }
     // Artifacts are currently only useful for the player character, the messages
@@ -8029,6 +8134,30 @@ void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
     if( carrier == &g->u ) {
         g->process_artifact( *this, *carrier );
     }
+}
+
+void item::process_relic( Character *carrier )
+{
+    if( !is_relic() ) {
+        return;
+    }
+    std::vector<enchantment> active_enchantments;
+
+    for( const enchantment &ench : get_enchantments() ) {
+        if( ench.is_active( *carrier, *this ) ) {
+            active_enchantments.emplace_back( ench );
+        }
+    }
+
+    for( const enchantment &ench : active_enchantments ) {
+        ench.activate_passive( *carrier );
+    }
+
+    // Recalculate, as it might have changed (by mod_*_bonus above)
+    carrier->str_cur = carrier->get_str();
+    carrier->int_cur = carrier->get_int();
+    carrier->dex_cur = carrier->get_dex();
+    carrier->per_cur = carrier->get_per();
 }
 
 bool item::process_corpse( player *carrier, const tripoint &pos )
@@ -8452,7 +8581,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
         set_var( "ethereal", std::stoi( get_var( "ethereal" ) ) - 1 );
         const bool processed = std::stoi( get_var( "ethereal" ) ) <= 0;
         if( processed && carrier != nullptr ) {
-            carrier->add_msg_if_player( _( "%s %s disappears!" ), carrier->disp_name( true ), tname() );
+            carrier->add_msg_if_player( _( "Your %s disappears!" ), tname() );
         }
         return processed;
     }
@@ -8755,7 +8884,7 @@ int item::get_gun_ups_drain() const
     if( type->gun ) {
         draincount += type->gun->ups_charges;
         for( const item *mod : gunmods() ) {
-            draincount += mod->type->gunmod->ups_charges;
+            draincount *= mod->type->gunmod->ups_charges_multiplier;
         }
     }
     return draincount;

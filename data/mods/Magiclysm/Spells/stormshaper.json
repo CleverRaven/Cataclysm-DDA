@@ -22,6 +22,7 @@
     "base_energy_cost": 150,
     "energy_source": "MANA",
     "difficulty": 2,
+    "sound_description": "a crackle",
     "damage_type": "electric"
   },
   {
@@ -52,6 +53,7 @@
     "max_field_intensity": 1,
     "field_chance": 1,
     "damage_type": "electric",
+    "sound_description": "a crackle",
     "energy_source": "MANA"
   },
   {
@@ -82,6 +84,7 @@
     "spell_class": "STORMSHAPER",
     "energy_source": "MANA",
     "difficulty": 3,
+    "sound_description": "a whoosh",
     "damage_type": "bash"
   },
   {
@@ -174,6 +177,7 @@
     "casting_time_increment": -5,
     "base_energy_cost": 55,
     "damage_type": "electric",
+    "sound_description": "a crackle",
     "effect": "projectile_attack"
   },
   {

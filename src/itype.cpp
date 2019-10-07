@@ -23,7 +23,7 @@ std::string itype::nname( unsigned int quantity ) const
     if( phase == LIQUID ) {
         quantity = 1;
     }
-    return ngettext( name.c_str(), name_plural.c_str(), quantity );
+    return name.translated( quantity );
 }
 
 int itype::charges_per_volume( const units::volume &vol ) const

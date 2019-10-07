@@ -3655,61 +3655,6 @@
     ]
   },
   {
-    "id": "matchbomb",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "match head bomb",
-    "description": "This is a homemade bomb consisting of a bottle filled with match heads and equipped with a fuse.  Use this item to light the fuse; you will, of course, need a lighter in your inventory to do this.",
-    "weight": "412 g",
-    "volume": "500 ml",
-    "price": 0,
-    "to_hit": 1,
-    "bashing": 8,
-    "material": [ "glass", "cotton" ],
-    "symbol": "*",
-    "color": "light_red",
-    "explode_in_fire": true,
-    "explosion": { "power": 100 },
-    "use_action": {
-      "target": "matchbomb_act",
-      "msg": "You light the match head bomb.",
-      "target_charges": 20,
-      "active": true,
-      "need_fire": 1,
-      "menu_text": "Light fuse",
-      "type": "transform"
-    }
-  },
-  {
-    "id": "matchbomb_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "match head bomb (lit)",
-    "name_plural": "match head bombs (lit)",
-    "description": "This is a bottle filled with match heads and equipped with a fuse.  This one has been lit, and its fuse is rapidly burning down.  You may not want to hold onto it much longer.",
-    "weight": "412 g",
-    "volume": "500 ml",
-    "price": 0,
-    "to_hit": 1,
-    "bashing": 8,
-    "material": [ "glass", "cotton" ],
-    "symbol": "*",
-    "color": "light_red",
-    "initial_charges": 1,
-    "max_charges": 1,
-    "turns_per_charge": 1,
-    "explode_in_fire": true,
-    "explosion": { "power": 100 },
-    "use_action": {
-      "type": "explosion",
-      "sound_volume": 0,
-      "sound_msg": "ssss...",
-      "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-      "explosion": { "power": 120 }
-    },
-    "flags": [ "TRADER_AVOID" ]
-  },
-  {
     "id": "matches",
     "type": "TOOL",
     "name": "matchbook",
@@ -3885,21 +3830,31 @@
   {
     "id": "misc_repairkit",
     "type": "TOOL",
-    "name": "basic repair kit",
-    "description": "This is a portable toolkit.  When supplied with duct tape, it serves as a vital tool for fixing items made of wood, paper, bone, or chitin.  It requires 50 units of duct tape per use.",
-    "weight": "1040 g",
-    "volume": "1 L",
+    "name": "misc repair kit",
+    "description": "This is a portable toolkit, consisting of a small carving knife for precise carving of replacement parts from raw materials, a wood saw for more heavy-duty wood cutting, and a patch of soft material for cleaning surfaces.  If supplied with duct tape, it can be used to repair certain items.",
+    "weight": "386 g",
+    "volume": "1500 ml",
     "price": 1000,
     "to_hit": -1,
     "bashing": 2,
-    "material": "plastic",
+    "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": "tape",
     "max_charges": 200,
-    "charges_per_use": 50,
-    "qualities": [ [ "CHISEL", 3 ], [ "HAMMER_FINE", 1 ], [ "HAMMER", 3 ], [ "PRY", 1 ] ],
-    "use_action": [ "MISC_REPAIR", "CROWBAR" ],
+    "charges_per_use": 5,
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 2 ], [ "AXE", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -90 ] ],
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "acidchitin", "bone", "chitin", "paper", "wood", "kevlar_rigid" ],
+        "skill": "fabrication",
+        "tool_quality": 5,
+        "cost_scaling": 0.1,
+        "move_cost": 1000
+      }
+    ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -4112,11 +4067,11 @@
     "sub": "sewing_kit",
     "max_charges": 200,
     "charges_per_use": 1,
-    "qualities": [ [ "SEW", 1 ] ],
+    "qualities": [ [ "SEW", 2 ] ],
     "use_action": {
       "type": "repair_item",
       "item_action_type": "repair_fabric",
-      "materials": [ "cotton", "leather", "wool", "fur", "nomex" ],
+      "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar", "gutskin" ],
       "skill": "tailor",
       "tool_quality": -1,
       "cost_scaling": 0.1,
@@ -4139,11 +4094,11 @@
     "sub": "sewing_kit",
     "max_charges": 200,
     "charges_per_use": 1,
-    "qualities": [ [ "SEW", 1 ] ],
+    "qualities": [ [ "SEW_CURVED", 1 ] ],
     "use_action": {
       "type": "repair_item",
       "item_action_type": "repair_fabric",
-      "materials": [ "neoprene", "nomex" ],
+      "materials": [ "neoprene" ],
       "skill": "tailor",
       "tool_quality": 0,
       "cost_scaling": 0.1,
@@ -4155,7 +4110,7 @@
     "id": "needle_wood",
     "type": "TOOL",
     "name": "wooden needle",
-    "description": "This is a wooden needle whittled down to a sharp point.  It has a narrow hole carved into the head for threading.  Its low quality makes it rather unsuitable for anything requiring speed or precision.",
+    "description": "This is a wooden needle whittled down to a sharp point.  It has a narrow hole carved into the head for threading.  Its low quality makes it rather unsuitable for anything requiring speed or precision, or involving tougher materials like Kevlar.",
     "weight": "85 g",
     "volume": "250 ml",
     "price": 0,
@@ -4170,7 +4125,7 @@
     "use_action": {
       "type": "repair_item",
       "item_action_type": "repair_fabric",
-      "materials": [ "cotton", "leather", "wool", "fur", "nomex" ],
+      "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "gutskin" ],
       "skill": "tailor",
       "tool_quality": -1,
       "cost_scaling": 0.1,
@@ -4183,7 +4138,7 @@
     "type": "TOOL",
     "name": "noise emitter (off)",
     "name_plural": "noise emitters (off)",
-    "description": "This device was constructed by 'enhancing' a speaker ripped off from some electronic device with some amplifier circuits.  It has now no other use beside emitting loud cracling static noise, that could distract zombies.",
+    "description": "This device was constructed by 'enhancing' a speaker ripped off from some electronic device with some amplifier circuits.  It has now no other use beside emitting loud crackling static noise, that could distract zombies.",
     "weight": "340 g",
     "volume": "1 L",
     "price": 0,
@@ -4535,57 +4490,6 @@
     "qualities": [ [ "SMOKE_PIPE", 1 ] ]
   },
   {
-    "id": "pipebomb",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "pipe bomb",
-    "description": "This is a section of a pipe filled with explosive materials.  Use this item to light the fuse, which gives you five turns to get away from it before it detonates.  You'll need a lighter or some matches to use it.",
-    "weight": "1298 g",
-    "volume": "500 ml",
-    "price": 1500,
-    "to_hit": 1,
-    "bashing": 5,
-    "material": "steel",
-    "symbol": "*",
-    "color": "light_gray",
-    "use_action": {
-      "target": "pipebomb_act",
-      "msg": "You light the fuse on the pipe bomb.",
-      "target_charges": 7,
-      "active": true,
-      "need_fire": 1,
-      "menu_text": "Light fuse",
-      "type": "transform"
-    },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "NPC_ACTIVATE" ]
-  },
-  {
-    "id": "pipebomb_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "active pipe bomb",
-    "description": "This pipe bomb's fuse is lit, and it will explode any second now.  Throw it immediately!",
-    "weight": "1298 g",
-    "volume": "500 ml",
-    "price": 0,
-    "to_hit": 1,
-    "bashing": 5,
-    "material": "steel",
-    "symbol": "*",
-    "color": "light_gray",
-    "initial_charges": 7,
-    "max_charges": 7,
-    "turns_per_charge": 1,
-    "use_action": {
-      "type": "explosion",
-      "sound_volume": 0,
-      "sound_msg": "ssss...",
-      "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-      "explosion": { "power": 500, "shrapnel": { "casing_mass": 500, "fragment_mass": 1 } }
-    },
-    "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
-  },
-  {
     "id": "pliers",
     "type": "TOOL",
     "name": "pliers",
@@ -4840,7 +4744,7 @@
     "material": "cotton",
     "symbol": ",",
     "color": "white",
-    "use_action": { "type": "heal", "move_cost": 200, "used_up_item": "rag_bloody", "bleed": 0.5, "limb_power": 0 },
+    "use_action": [ { "type": "heal", "move_cost": 200, "used_up_item": "rag_bloody", "bleed": 0.5, "limb_power": 0 }, "WASH_HARD_ITEMS" ],
     "flags": [ "NO_SALVAGE" ]
   },
   {
@@ -4858,23 +4762,10 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
-    "id": "washcloth",
-    "type": "TOOL",
-    "name": "washcloth",
-    "description": "A piece of cloth that can be used for cleaning impervious surfaces.",
-    "weight": "80 g",
-    "volume": "250 ml",
-    "price": 0,
-    "material": "cotton",
-    "symbol": ",",
-    "color": "white",
-    "use_action": "WASH_HARD_ITEMS"
-  },
-  {
     "id": "wash_kit",
     "type": "TOOL",
     "name": "washing kit",
-    "description": "A combination kit of a washboard and a sponge.  Everything you need to clean items after the apocalypse.",
+    "description": "A combination kit of a washboard and a sponge or rag.  Everything you need to clean items after the apocalypse.",
     "weight": "80 g",
     "volume": "250 ml",
     "price": 0,
@@ -5237,11 +5128,11 @@
     "initial_charges": 50,
     "max_charges": 200,
     "charges_per_use": 1,
-    "qualities": [ [ "SEW", 1 ] ],
+    "qualities": [ [ "SEW", 3 ] ],
     "use_action": {
       "type": "repair_item",
       "item_action_type": "repair_fabric",
-      "materials": [ "cotton", "leather", "wool", "fur", "nomex" ],
+      "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar", "gutskin" ],
       "skill": "tailor",
       "tool_quality": 0,
       "cost_scaling": 0.1,
@@ -5567,8 +5458,8 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "plastic", "lead", "tin" ],
-        "skill": "mechanics",
+        "materials": [ "plastic", "lead", "tin", "zinc" ],
+        "skill": "fabrication",
         "cost_scaling": 0.1,
         "move_cost": 1500
       },
@@ -5780,7 +5671,7 @@
     "id": "tailors_kit",
     "type": "TOOL",
     "name": "tailor's kit",
-    "description": "This is a high quality, plastic kit with a variety of needles, some plastic spools for thread, some small scissors, even a small heating element for melting and joining plastic.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.",
+    "description": "This is a high quality kit consisting of a variety of needles, some plastic spools for thread, some small scissors, and an awl.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.",
     "weight": "100 g",
     "volume": "500 ml",
     "price": 1000,
@@ -5793,12 +5684,12 @@
     "initial_charges": 50,
     "max_charges": 400,
     "charges_per_use": 1,
-    "qualities": [ [ "SEW", 1 ], [ "KNIT", 1 ], [ "CUT", 1 ] ],
+    "qualities": [ [ "SEW", 4 ], [ "SEW_CURVED", 1 ], [ "KNIT", 1 ], [ "LEATHER_AWL", 2 ], [ "CUT", 1 ] ],
     "use_action": [
       {
         "type": "repair_item",
         "item_action_type": "repair_fabric",
-        "materials": [ "cotton", "leather", "wool", "fur", "nomex", "neoprene" ],
+        "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin" ],
         "skill": "tailor",
         "tool_quality": 1,
         "cost_scaling": 0.1,
@@ -5806,7 +5697,7 @@
       },
       {
         "type": "sew_advanced",
-        "materials": [ "cotton", "leather", "fur", "nomex", "plastic", "kevlar", "wool" ],
+        "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin", "plastic", "kevlar_rigid" ],
         "skill": "tailor",
         "clothing_mods": [ "leather_padded", "kevlar_padded", "furred", "wooled" ]
       }
@@ -5819,7 +5710,7 @@
     "category": "spare_parts",
     "name": "tanning leather hide",
     "description": "A treated animal hide which is undergoing the chemical processes required to become leather.  You will be able to activate it to unroll and make use of it when it is done.",
-    "weight": "400 g",
+    "weight": "600 g",
     "volume": "1 L",
     "price": 0,
     "to_hit": -2,
@@ -5843,7 +5734,7 @@
     "category": "spare_parts",
     "name": "tanning fur pelt",
     "description": "A treated animal pelt which is undergoing the chemical processes required to become fur.  You will be able to activate it to unroll and make use of it when it is done.",
-    "weight": "400 g",
+    "weight": "684 g",
     "volume": "1 L",
     "price": 0,
     "to_hit": -2,
@@ -6339,68 +6230,6 @@
       "sound_msg": "Kshhh.",
       "no_deactivate_msg": "You've already lit the fuse - clear the area immediately!",
       "explosion": { "power": 67000, "shrapnel": { "casing_mass": 50000, "fragment_mass": 0.1, "drop": "shrapnel", "recovery": 1 } }
-    },
-    "flags": [ "BOMB", "TRADER_AVOID" ]
-  },
-  {
-    "id": "tool_rdx_sand_bomb",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "RDX sand bomb",
-    "description": "This is a steel pipe, containing a mixture of RDX and sand, the former propelling the latter into a deadly mist of vicious shrapnel.  Use this item to light the fuse.",
-    "weight": "2000 g",
-    "volume": "500 ml",
-    "price": 1000,
-    "to_hit": -2,
-    "bashing": 4,
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "red",
-    "explode_in_fire": true,
-    "explosion": {
-      "power": 300,
-      "//": "Fire exposure would burn away the RDX, leaving the HMTD detonator as nearly the sole source of the blast.",
-      "shrapnel": { "casing_mass": 1000, "fragment_mass": 0.01 }
-    },
-    "use_action": {
-      "target": "tool_rdx_sand_bomb_act",
-      "msg": "You light the fuse on the sand bomb.  Throw it!",
-      "target_charges": 20,
-      "active": true,
-      "need_fire": 1,
-      "menu_text": "Light fuse",
-      "type": "transform"
-    },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
-  },
-  {
-    "id": "tool_rdx_sand_bomb_act",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": "active RDX sand bomb",
-    "description": "This is a steel pipe, containing a mixture of RDX and sand, the former propelling the latter into a deadly mist of vicious shrapnel.  The fuse has been lit, so why are you still holding it?",
-    "weight": "2000 g",
-    "volume": "500 ml",
-    "price": 0,
-    "to_hit": -2,
-    "material": [ "steel", "plastic" ],
-    "symbol": ";",
-    "color": "light_red",
-    "initial_charges": 20,
-    "max_charges": 20,
-    "turns_per_charge": 1,
-    "explode_in_fire": true,
-    "explosion": {
-      "power": 300,
-      "//": "Fire exposure would burn away the RDX, leaving the HMTD detonator as nearly the sole source of the blast.",
-      "shrapnel": { "casing_mass": 1000, "fragment_mass": 0.01 }
-    },
-    "use_action": {
-      "type": "explosion",
-      "sound_volume": 0,
-      "sound_msg": "Kshhh.",
-      "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
-      "explosion": { "power": 1340, "shrapnel": { "casing_mass": 1000, "fragment_mass": 0.01 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
@@ -7011,8 +6840,8 @@
   {
     "id": "welder",
     "type": "TOOL",
-    "name": "welder",
-    "description": "This is a battery powered tool for welding metal pieces together.  It is an indispensable tool for construction or repair.",
+    "name": "arc welder",
+    "description": "This is a battery powered tool for welding metal pieces together using an electric arc.  It is an indispensable tool for construction or repair.",
     "weight": "4200 g",
     "volume": "2500 ml",
     "price": 9000,
@@ -7028,15 +6857,14 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper", "silver", "gold" ],
-        "skill": "mechanics",
+        "materials": [ "iron", "steel", "hardsteel", "aluminum", "copper", "bronze", "silver", "gold", "platinum", "superalloy" ],
+        "skill": "fabrication",
         "tool_quality": 10,
         "cost_scaling": 0.1,
         "move_cost": 500
-      },
-      { "flame": false, "type": "cauterize" }
+      }
     ],
-    "flags": [ "FIRESTARTER", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "magazines": [
       [
         "battery",
@@ -7048,8 +6876,8 @@
   {
     "id": "welder_crude",
     "type": "TOOL",
-    "name": "makeshift welder",
-    "description": "This crude welder has been fashioned from a bundle of copper wire, scrap metal, and complete disregard for personal safety.  While it's not as efficient as a factory welder, it will serve in a pinch.",
+    "name": "makeshift arc welder",
+    "description": "This crude arc welder has been fashioned from a few small transformers, some wire, improvised electrode holder and complete disregard for personal safety.  While it's not as efficient as a factory welder, it will serve in a pinch.",
     "weight": "7250 g",
     "volume": "3500 ml",
     "price": 5000,
@@ -7065,15 +6893,14 @@
       {
         "type": "repair_item",
         "item_action_type": "repair_metal",
-        "materials": [ "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper", "silver", "gold" ],
-        "skill": "mechanics",
+        "materials": [ "iron", "steel", "hardsteel", "aluminum", "copper", "bronze", "silver", "gold", "platinum", "superalloy" ],
+        "skill": "fabrication",
         "tool_quality": 5,
         "cost_scaling": 0.1,
         "move_cost": 1000
-      },
-      { "flame": false, "type": "cauterize" }
+      }
     ],
-    "flags": [ "FIRESTARTER", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
     "magazines": [
       [
         "battery",

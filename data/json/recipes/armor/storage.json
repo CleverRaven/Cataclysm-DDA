@@ -315,7 +315,7 @@
     "time": "36 s",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "raw_leather", 50 ], [ "raw_hleather", 50 ], [ "raw_fur", 50 ] ] ],
+    "components": [ [ [ "raw_leather", 6 ], [ "raw_hleather", 6 ], [ "raw_fur", 6 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

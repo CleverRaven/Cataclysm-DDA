@@ -219,7 +219,7 @@ class vpart_info
         bool legacy = true;
 
         /** Format the description for display */
-        int format_description( std::ostringstream &msg, const std::string &format_color, int width ) const;
+        int format_description( std::ostringstream &msg, const nc_color &format_color, int width ) const;
 
         /** Installation requirements for this component */
         requirement_data install_requirements() const;
@@ -277,6 +277,11 @@ class vpart_info
 
         /* Contains data for terrain transformer parts */
         transform_terrain_data transform_terrain;
+
+        /*Comfort data for sleeping in vehicles*/
+        int comfort = 0;
+        int floor_bedding_warmth = 0;
+        int bonus_fire_warmth_feet = 300;
 
         /**
          * @name Engine specific functions

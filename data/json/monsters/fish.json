@@ -389,7 +389,7 @@
     "id": "mon_fish_pike",
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
-    "name": "pike",
+    "name": { "ctxt": "fish", "str": "pike" },
     "aggression": 10,
     "melee_skill": 3,
     "melee_dice_sides": 6,

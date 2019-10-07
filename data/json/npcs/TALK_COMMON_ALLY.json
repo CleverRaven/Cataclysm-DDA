@@ -780,6 +780,7 @@
     "type": "talk_topic",
     "dynamic_line": { "npc_has_activity": "I'm currently <current_activity>.", "no": "I'm not doing much currently." },
     "responses": [
+      { "text": "I meant what are your goals?", "topic": "TALK_DESCRIBE_MISSION" },
       { "text": "Carry on.", "topic": "TALK_DONE" },
       {
         "text": "Please stop your current activity.",
@@ -800,10 +801,22 @@
         "effect": "do_construction"
       },
       {
+        "text": "Please study from a book.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_read"
+      },
+      {
         "text": "Please start deconstructing any vehicles in a deconstruction zone.",
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },
         "effect": "do_vehicle_deconstruct"
+      },
+      {
+        "text": "Please start repairing any vehicles in a repair zone.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_vehicle_repair"
       },
       {
         "text": "Please chop logs into planks.",

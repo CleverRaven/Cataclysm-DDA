@@ -19,6 +19,7 @@
     "ranged_damage": -1,
     "dispersion": 90,
     "durability": 7,
+    "blackpowder_tolerance": 24,
     "barrel_length": 2,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -34,6 +35,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "magazine_well": 1,
     "magazines": [ [ "3006", [ "blrmag" ] ] ]
   },
@@ -55,6 +57,7 @@
     "skill": "rifle",
     "dispersion": 150,
     "durability": 8,
+    "min_cycle_recoil": 3420,
     "reload": 150,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -69,6 +72,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "3006", [ "garandclip" ] ] ]
   },
@@ -88,6 +92,7 @@
     "ammo": "3006",
     "dispersion": 120,
     "durability": 8,
+    "blackpowder_tolerance": 60,
     "clip_size": 5,
     "barrel_length": 1,
     "valid_mod_locations": [
@@ -125,6 +130,7 @@
     "skill": "rifle",
     "dispersion": 180,
     "durability": 8,
+    "min_cycle_recoil": 3420,
     "burst": 8,
     "barrel_length": 4,
     "valid_mod_locations": [
@@ -141,6 +147,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "3006", [ "m1918mag", "m1918bigmag" ] ] ]
   },
   {
@@ -160,6 +167,7 @@
     "ammo": "3006",
     "dispersion": 90,
     "durability": 8,
+    "blackpowder_tolerance": 24,
     "clip_size": 4,
     "barrel_length": 3,
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
@@ -185,6 +193,7 @@
     "ranged_damage": -2,
     "dispersion": 550,
     "durability": 6,
+    "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
@@ -199,6 +208,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ]
   },
   {
@@ -222,6 +232,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "blackpowder_tolerance": 60,
     "relative": { "durability": -3 },
     "proportional": { "reload": 4 }
   }

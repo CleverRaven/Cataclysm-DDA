@@ -115,6 +115,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_MECH_DEFENSIVE: return "MECH_DEFENSIVE";
         case MF_HIT_AND_RUN: return "HIT_AND_RUN";
         case MF_GUILT: return "GUILT";
+        case MF_PAY_BOT: return "PAY_BOT";
         case MF_HUMAN: return "HUMAN";
         case MF_NO_BREATHE: return "NO_BREATHE";
         case MF_REGENERATES_50: return "REGENERATES_50";
@@ -160,6 +161,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_CATTLEFODDER: return "CATTLEFODDER";
         case MF_BIRDFOOD: return "BIRDFOOD";
         case MF_PET_MOUNTABLE: return "PET_MOUNTABLE";
+        case MF_PET_HARNESSABLE: return "PET_HARNESSABLE";
         case MF_DOGFOOD: return "DOGFOOD";
         case MF_MILKABLE: return "MILKABLE";
         case MF_NO_BREED: return "NO_BREED";
@@ -462,6 +464,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "CHECK_UP", mattack::nurse_check_up );
     add_hardcoded_attack( "ASSIST", mattack::nurse_assist );
     add_hardcoded_attack( "OPERATE", mattack::nurse_operate );
+    add_hardcoded_attack( "PAID_BOT", mattack::check_money_left );
     add_hardcoded_attack( "SHRIEK", mattack::shriek );
     add_hardcoded_attack( "SHRIEK_ALERT", mattack::shriek_alert );
     add_hardcoded_attack( "SHRIEK_STUN", mattack::shriek_stun );
@@ -600,11 +603,14 @@ void mtype::load( JsonObject &jo, const std::string &src )
 
     MonsterGenerator &gen = MonsterGenerator::generator();
 
-    // Name and name plural are not translated here, but when needed in
-    // combination with the actual count in `mtype::nname`.
-    mandatory( jo, was_loaded, "name", name );
-    // default behavior: Assume the regular plural form (appending an “s”)
-    optional( jo, was_loaded, "name_plural", name_plural, name + "s" );
+    if( jo.has_string( "name_plural" ) && jo.has_string( "name" ) ) {
+        // Legacy format
+        // NOLINTNEXTLINE(cata-json-translation-input)
+        name = pl_translation( jo.get_string( "name" ), jo.get_string( "name_plural" ) );
+    } else {
+        name.make_plural();
+        mandatory( jo, was_loaded, "name", name );
+    }
     optional( jo, was_loaded, "description", description );
 
     optional( jo, was_loaded, "material", mat, auto_flags_reader<material_id> {} );
@@ -779,7 +785,6 @@ void mtype::load( JsonObject &jo, const std::string &src )
             biosig_timer = read_from_json_string<time_duration>( *biosig.get_raw( "biosig_timer" ),
                            time_duration::units );
         }
-
 
         optional( biosig, was_loaded, "biosig_item", biosig_item, auto_flags_reader<itype_id> {},
                   "null" );

@@ -23,6 +23,15 @@ class JsonObject;
 enum phase_id : int;
 enum body_part : int;
 
+struct field_effect_data {
+    efftype_id id;
+    time_duration min_duration;
+    time_duration max_duration;
+    int intensity;
+    body_part bp;
+    bool inside_immune;
+};
+
 struct field_intensity_level {
     std::string name;
     uint32_t symbol = PERCENT_SIGN_UNICODE;
@@ -44,6 +53,7 @@ struct field_intensity_level {
     float light_emitted = 0.0f;
     float translucency = 0.0f;
     int convection_temperature_mod = 0;
+    field_effect_data field_effect;
 };
 
 struct field_type {
