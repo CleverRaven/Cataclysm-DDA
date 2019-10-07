@@ -1600,7 +1600,7 @@ std::unique_ptr<iuse_actor> inscribe_actor::clone() const
     return std::make_unique<inscribe_actor>( *this );
 }
 
-bool inscribe_actor::item_inscription( item &cut ) const
+bool inscribe_actor::item_inscription( item &tool, item &cut ) const
 {
     if( !cut.made_of( SOLID ) ) {
         add_msg( m_info, _( "You can't inscribe an item that isn't solid!" ) );
@@ -1608,7 +1608,7 @@ bool inscribe_actor::item_inscription( item &cut ) const
     }
 
     if( material_restricted && !cut.made_of_any( material_whitelist ) ) {
-        std::string lower_verb = _( verb );
+        std::string lower_verb = verb.translated();
         std::transform( lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower );
         add_msg( m_info, _( "You can't %1$s %2$s because of the material it is made of." ),
                  lower_verb, cut.display_name() );
@@ -1621,36 +1621,36 @@ bool inscribe_actor::item_inscription( item &cut ) const
     };
 
     uilist menu;
-    menu.text = string_format( _( "%s meaning?" ), _( verb ) );
+    menu.text = string_format( _( "%s meaning?" ), verb );
     menu.addentry( INSCRIPTION_LABEL, true, -1, _( "It's a label" ) );
     menu.addentry( INSCRIPTION_NOTE, true, -1, _( "It's a note" ) );
     menu.query();
 
     std::string carving;
-    std::string carving_type;
+    std::string carving_tool;
     switch( menu.ret ) {
         case INSCRIPTION_LABEL:
             carving = "item_label";
-            carving_type = "item_label_type";
+            carving_tool = "item_label_tool";
             break;
         case INSCRIPTION_NOTE:
             carving = "item_note";
-            carving_type = "item_note_type";
+            carving_tool = "item_note_tool";
             break;
         default:
             return false;
     }
 
     const bool hasnote = cut.has_var( carving );
-    std::string messageprefix = string_format( hasnote ? _( "(To delete, input one '.')\n" ) : "" ) +
+    std::string messageprefix = ( hasnote ? _( "(To delete, clear the text and confirm)\n" ) : "" ) +
                                 //~ %1$s: gerund (e.g. carved), %2$s: item name
                                 string_format( pgettext( "carving", "%1$s on the %2$s is: " ),
-                                        _( gerund ), cut.type_name() );
+                                        gerund, cut.type_name() );
 
     string_input_popup popup;
-    popup.title( string_format( _( "%s what?" ), _( verb ) ) )
+    popup.title( string_format( _( "%s what?" ), verb ) )
     .width( 64 )
-    .text( hasnote ? cut.get_var( carving ) : "" )
+    .text( hasnote ? cut.get_var( carving ) : std::string() )
     .description( messageprefix )
     .identifier( "inscribe_item" )
     .max_length( 128 )
@@ -1659,12 +1659,12 @@ bool inscribe_actor::item_inscription( item &cut ) const
         return false;
     }
     const std::string message = popup.text();
-    if( hasnote && message == "." ) {
+    if( message.empty() ) {
         cut.erase_var( carving );
-        cut.erase_var( carving_type );
+        cut.erase_var( carving_tool );
     } else {
         cut.set_var( carving, message );
-        cut.set_var( carving_type, _( gerund ) );
+        cut.set_var( carving_tool, tool.typeId() );
     }
 
     return true;
@@ -1679,7 +1679,7 @@ int inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
     int choice = INT_MAX;
     if( on_terrain && on_items ) {
         uilist imenu;
-        imenu.text = string_format( _( "%s on what?" ), _( verb ) );
+        imenu.text = string_format( _( "%s on what?" ), verb );
         imenu.addentry( 0, true, MENU_AUTOASSIGN, _( "The ground" ) );
         imenu.addentry( 1, true, MENU_AUTOASSIGN, _( "An item" ) );
         imenu.query();
@@ -1695,14 +1695,22 @@ int inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
     }
 
     if( choice == 0 ) {
-        return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), _( verb ) ), p.pos() );
+        return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), verb ), p.pos() );
     }
 
     int pos = g->inv_for_all( _( "Inscribe which item?" ) );
     item &cut = p.i_at( pos );
+    if( cut.is_null() ) {
+        p.add_msg_if_player( m_info, _( "Never mind." ) );
+        return 0;
+    }
+    if( &cut == &it ) {
+        p.add_msg_if_player( _( "You try to bend your %s, but fail." ), it.tname() );
+        return 0;
+    }
     // inscribe_item returns false if the action fails or is canceled somehow.
 
-    if( item_inscription( cut ) ) {
+    if( item_inscription( it, cut ) ) {
         return cost >= 0 ? cost : it.ammo_required();
     }
 

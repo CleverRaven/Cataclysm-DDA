@@ -5039,7 +5039,8 @@ void player::suffer()
 
                     std::string i_name_w = weapon.has_var( "item_label" ) ?
                                            weapon.get_var( "item_label" ) :
-                                           _( "Your " ) + weapon.type_name();
+                                           //~ %1$s: weapon name
+                                           string_format( _( "Your %1$s" ), weapon.type_name() );
 
                     std::vector<std::weak_ptr<monster>> mons = g->all_monsters().items;
 
@@ -5127,7 +5128,8 @@ void player::suffer()
                     if( !weapon.is_null() ) {
                         std::string i_name_w = weapon.has_var( "item_label" ) ?
                                                weapon.get_var( "item_label" ) :
-                                               "your " + weapon.type_name();
+                                               //~ %1$s: weapon name
+                                               string_format( _( "your %1$s" ), weapon.type_name() );
 
                         std::string snip = SNIPPET.random_from_category( "schizo_weapon_drop" );
                         std::string str = string_format( snip, i_name_w );

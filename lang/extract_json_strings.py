@@ -98,7 +98,6 @@ ignorable = {
     "uncraft",
     "vehicle_group",
     "vehicle_placement",
-    "enchantment"
 }
 
 # these objects can have their strings automatically extracted.
