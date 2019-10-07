@@ -11197,9 +11197,8 @@ void game::display_lighting()
     if( use_tiles ) {
         display_toggle_overlay( ACTION_DISPLAY_LIGHTING );
         if( !g->display_overlay_state( ACTION_DISPLAY_LIGHTING ) ) {
-            break;
+            return;
         }
-
         uilist lighting_menu;
         std::vector<std::string> lighting_menu_strings{
             "Global lighting conditions"
