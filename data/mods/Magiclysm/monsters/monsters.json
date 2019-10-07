@@ -65,7 +65,7 @@
         "spell_id": "bio_acidicspray",
         "cooldown": 20,
         "monster_message": "The black pudding burns you with acid!",
-        "level": 0
+        "spell_level": 0
       }
     ],
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
@@ -148,8 +148,7 @@
     "melee_skill": 6,
     "melee_dice": 4,
     "melee_dice_sides": 3,
-    "melee_bash": 20,
-    "melee_cut": 10,
+    "melee_damage": [ { "damage_type": "bash", "amount": 20 }, { "damage_type": "cut", "amount": 10 } ],
     "dodge": 2,
     "armor_bash": 32,
     "armor_cut": 30,

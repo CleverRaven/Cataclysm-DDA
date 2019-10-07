@@ -59,7 +59,7 @@
     "remove_message": "Your energy field fades.",
     "rating": "good",
     "show_in_info": true,
-    "base_mods": { "environmental_protection": [ 5 ], "material_thickness": [ 3 ], "warmth": [ 50 ] }
+    "base_mods": {  }
   },
   {
     "type": "effect_type",
@@ -70,7 +70,7 @@
     "remove_message": "Your Frost Armor melts away.",
     "rating": "good",
     "show_in_info": true,
-    "base_mods": { "environmental_protection": [ 5 ], "material_thickness": [ 5 ], "warmth": [ 20 ] }
+    "base_mods": {  }
   },
   {
     "type": "effect_type",
