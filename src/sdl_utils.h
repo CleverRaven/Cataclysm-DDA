@@ -165,7 +165,7 @@ SDL_Rect fit_rect_inside( const SDL_Rect &inner, const SDL_Rect &outer );
  *     - The second intermediate color is: (r=85, g=85, b=255)
  * Obviously the more intermediate steps there are, the harder it is to differentiate the intermediate colors.
  */
-std::vector<SDL_Color> color_linear_interpolate( const SDL_Color &start_color, SDL_Color &end_color,
-        unsigned additional_steps );
+std::vector<SDL_Color> color_linear_interpolate( const SDL_Color &start_color, const SDL_Color &end_color,
+        const unsigned additional_steps );
 
 #endif // SDL_UTILS_H
