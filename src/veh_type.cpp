@@ -523,22 +523,18 @@ void vpart_info::check()
                 if( !part.has_flag( "NO_REPAIR" ) ) {
                     part.repair_reqs  = { { requirement_id( "welding_standard" ), 5 } };
                 }
-
-
             } else if( part.has_flag( "TOOL_SCREWDRIVER" ) ) {
                 part.install_reqs = { { requirement_id( "vehicle_screw" ), 1 } };
                 part.removal_reqs = { { requirement_id( "vehicle_screw" ), 1 } };
                 if( !part.has_flag( "NO_REPAIR" ) ) {
                     part.repair_reqs  = { { requirement_id( "adhesive" ), 1 } };
                 }
-
             } else if( part.has_flag( "NAILABLE" ) ) {
                 part.install_reqs = { { requirement_id( "vehicle_nail_install" ), 1 } };
                 part.removal_reqs = { { requirement_id( "vehicle_nail_removal" ), 1 } };
                 if( !part.has_flag( "NO_REPAIR" ) ) {
                     part.repair_reqs  = { { requirement_id( "adhesive" ), 2 } };
                 }
-
             } else if( part.has_flag( "TOOL_NONE" ) ) {
                 // no-op
 
