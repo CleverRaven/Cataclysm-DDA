@@ -2077,6 +2077,8 @@ int player::attack_speed( const item &weap ) const
     move_cost *= stamina_penalty;
     move_cost += skill_cost;
     move_cost -= dexbonus;
+
+    move_cost = calculate_by_enchantment( move_cost, enchantment::mod::ATTACK_SPEED, true );
     // Martial arts last. Flat has to be after mult, because comments say so.
     move_cost *= ma_mult;
     move_cost += ma_move_cost;

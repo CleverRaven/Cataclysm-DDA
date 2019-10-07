@@ -63,6 +63,7 @@ namespace io
             case enchantment::mod::INTELLIGENCE: return "INTELLIGENCE";
             case enchantment::mod::SPEED: return "SPEED";
             case enchantment::mod::ATTACK_COST: return "ATTACK_COST";
+            case enchantment::mod::ATTACK_SPEED: return "ATTACK_SPEED";
             case enchantment::mod::MOVE_COST: return "MOVE_COST";
             case enchantment::mod::METABOLISM: return "METABOLISM";
             case enchantment::mod::MAX_MANA: return "MAX_MANA";
@@ -170,6 +171,11 @@ bool enchantment::is_active( const Character &guy, const item &parent ) const
         return g->m.is_divable( guy.pos() );
     }
     return false;
+}
+
+bool enchantment::active_wield() const
+{
+    return active_conditions.first == has::HELD || active_conditions.first == has::WIELD;
 }
 
 void enchantment::add_activation( const time_duration &dur, const fake_spell &fake )
