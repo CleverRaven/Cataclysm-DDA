@@ -679,7 +679,7 @@ void computer::activate_function( computer_action action )
                     !( p.x == target.x + 2 && p.y == target.y - 2 ) &&
                     !( p.x == target.x + 2 && p.y == target.y + 2 ) ) {
                     // TODO: other Z-levels.
-                    explosion_handler::nuke( tripoint( p.x, p.y, 0 ) );
+                    explosion_handler::nuke( p.xy() );
                 }
             }
 
