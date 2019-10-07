@@ -276,7 +276,7 @@
   {
     "id": "mon_shrieker",
     "type": "MONSTER",
-    "name": "shrikier",
+    "name": "shrieker",
     "description": "A shrieker is a human-sized mushroom that emits a piercing screech to drive off creatures that disturb it.",
     "default_faction": "magical_beast",
     "species": [ "FUNGUS" ],
