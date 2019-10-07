@@ -11164,6 +11164,31 @@ void game::display_visibility()
 {
     if( use_tiles ) {
         display_toggle_overlay( ACTION_DISPLAY_VISIBILITY );
+        if( display_overlay_state( ACTION_DISPLAY_VISIBILITY ) ) {
+            std::vector< tripoint > locations;
+            uilist creature_menu;
+            int num_creatures = 0;
+            creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
+            locations.emplace_back( g->u.pos() ); // add player first.
+            for( const Creature &critter : g->all_creatures() ) {
+                if( critter.is_player() ) {
+                    continue;
+                }
+                creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, critter.disp_name() );
+                locations.emplace_back( critter.pos() );
+            }
+
+            pointmenu_cb callback( locations );
+            creature_menu.callback = &callback;
+            creature_menu.w_y = 0;
+            creature_menu.query();
+            if( creature_menu.ret >= 0 && static_cast<size_t>( creature_menu.ret ) < locations.size() ) {
+                Creature *creature = critter_at<Creature>( locations[creature_menu.ret] );
+                displaying_visibility_creature = creature;
+            }
+        } else {
+            displaying_visibility_creature = nullptr;
+        }
     }
 }
 
