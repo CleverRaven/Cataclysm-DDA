@@ -1480,7 +1480,7 @@ float map::vehicle_wheel_traction( const vehicle &veh,
         }
 
         // Ignore the movement modifier if needed.
-        if( ignore_movement_modifiers == true ) {
+        if( ignore_movement_modifiers ) {
             move_mod = 2;
         }
 
