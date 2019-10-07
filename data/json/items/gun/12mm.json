@@ -3,7 +3,7 @@
     "id": "hk_g80",
     "copy-from": "gun_base",
     "type": "GUN",
-    "name": "H&K G80 Railgun",
+    "name": "H&K G80 railgun",
     "description": "Developed by Heckler & Koch in the first quarter of 21st century, the railgun magnetically propels a ferromagnetic projectile using an alternating current.  Powered by UPS.",
     "weight": "3914 g",
     "volume": "2750 ml",

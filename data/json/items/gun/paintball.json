@@ -5,7 +5,7 @@
     "reload_noise_volume": 6,
     "symbol": "(",
     "color": "light_gray",
-    "name": "Paintball gun",
+    "name": "paintball gun",
     "description": "A fairly harmless gun that shoots small paintballs.",
     "price": 8000,
     "material": [ "aluminum", "plastic" ],
