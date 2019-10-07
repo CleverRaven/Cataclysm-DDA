@@ -11196,6 +11196,26 @@ void game::display_lighting()
 {
     if( use_tiles ) {
         display_toggle_overlay( ACTION_DISPLAY_LIGHTING );
+        if( !g->display_overlay_state( ACTION_DISPLAY_LIGHTING ) ) {
+            break;
+        }
+
+        uilist lighting_menu;
+        std::vector<std::string> lighting_menu_strings{
+            "Global lighting conditions"
+        };
+
+        int count = 0;
+        for( const auto &menu_str : lighting_menu_strings ) {
+            lighting_menu.addentry( count++, true, MENU_AUTOASSIGN, "%s", menu_str );
+        }
+
+        lighting_menu.w_y = 0;
+        lighting_menu.query();
+        if( ( lighting_menu.ret >= 0 ) &&
+            ( static_cast<size_t>( lighting_menu.ret ) < lighting_menu_strings.size() ) ) {
+            g->displaying_lighting_condition = lighting_menu.ret;
+        }
     }
 }
 
