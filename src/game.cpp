@@ -11173,10 +11173,7 @@ void game::display_lighting()
 void game::display_radiation()
 {
     if( use_tiles ) {
-        displaying_scent = false;
-        displaying_visibility = false;
-        displaying_temperature = false;
-        displaying_radiation = !displaying_radiation;
+        display_toggle_overlay( ACTION_DISPLAY_RADIATION );
     }
 }
 
