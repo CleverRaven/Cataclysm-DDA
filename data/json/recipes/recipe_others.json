@@ -3836,7 +3836,7 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ], [ [ "raw_fur", 50 ], [ "raw_tainted_fur", 50 ] ] ]
+    "components": [ [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ], [ [ "raw_fur", 1 ], [ "raw_tainted_fur", 1 ] ] ]
   },
   {
     "type": "recipe",
