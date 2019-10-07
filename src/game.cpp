@@ -9589,7 +9589,9 @@ point game::place_player( const tripoint &dest_loc )
 
     if( vp1.part_with_feature( "CONTROLS", true ) && u.in_vehicle && !u.is_mounted() ) {
         add_msg( _( "There are vehicle controls here." ) );
-        add_msg( m_info, _( "%s to drive." ), press_x( ACTION_CONTROL_VEHICLE ) );
+        if ( !u.has_trait(trait_id( "WAYFARER" ) ) ) {
+            add_msg( m_info, _("%s to drive."), press_x( ACTION_CONTROL_VEHICLE ) );
+        }
     } else if( vp1.part_with_feature( "CONTROLS", true ) && u.in_vehicle &&
                u.is_mounted() ) {
         add_msg( _( "There are vehicle controls here but you cannot reach them whilst mounted." ) );
