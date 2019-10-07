@@ -43,8 +43,8 @@ SDL_Color curses_color_to_SDL( const nc_color &color )
     return windowsPalette[palette_index];
 }
 
-std::vector<SDL_Color> color_linear_interpolate( const SDL_Color &start_color, const SDL_Color &end_color,
-        const unsigned additional_steps )
+std::vector<SDL_Color> color_linear_interpolate( const SDL_Color &start_color,
+        const SDL_Color &end_color, const unsigned additional_steps )
 {
     const unsigned steps = additional_steps + 2;
     std::vector<SDL_Color> colors;
