@@ -40,45 +40,6 @@
     "flags": [ "WATCH", "ALARMCLOCK", "LIGHT_25" ]
   },
   {
-    "id": "afs_atomic_reading_light",
-    "type": "TOOL",
-    "name": "atomic reading light",
-    "description": "Rated for almost 100 million years of operation, the Rivtech atomic reading light clips onto any book, anytime, anywhere!  Following after their obsession with making household gadgets powered with plutonium cells, it's bulky for a reading light, but can provide a small, steady light with no fear of ever running out of batteries.",
-    "weight": 120,
-    "volume": "100 ml",
-    "price": 10000,
-    "price_postapoc": 1000,
-    "material": [ "plastic", "aluminum" ],
-    "looks_like": "reading_light",
-    "symbol": ",",
-    "color": "light_green",
-    "use_action": {
-      "target": "afs_atomic_reading_light_on",
-      "msg": "You switch on the reading light.",
-      "active": true,
-      "menu_text": "Turn on",
-      "type": "transform"
-    },
-    "flags": [ "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "afs_atomic_reading_light_on",
-    "copy-from": "afs_atomic_reading_light",
-    "type": "TOOL",
-    "name": "atomic reading light (on)",
-    "description": "Rated for almost 200 million years of operation, the Rivtech atomic reading light clips onto any book, anytime, anywhere!  Its blue-tinted lens sheds a pleasing Cherenkov glow in a small circle onto anything you might need to read.",
-    "name_plural": "atomic reading lights (on)",
-    "revert_to": "afs_atomic_reading_light",
-    "looks_like": "reading_light_on",
-    "use_action": {
-      "target": "afs_atomic_reading_light",
-      "msg": "You switch off the light.",
-      "menu_text": "Turn off",
-      "type": "transform"
-    },
-    "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_8" ]
-  },
-  {
     "id": "afs_atompot",
     "type": "TOOL",
     "name": "atompot",
@@ -127,7 +88,7 @@
     "cutting": 3,
     "material": [ "steel", "plastic", "diamond" ],
     "symbol": "/",
-    "color": "ltred",
+    "color": "light_red",
     "ammo": "gasoline",
     "max_charges": 500,
     "charges_per_use": 1,

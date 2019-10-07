@@ -34,5 +34,205 @@
       "both": [ "druid_spellbook", "leathersandals", "robe", "rope_makeshift_30", "hide_bag", "hat_fur", "gloves_wraps_fur" ]
     },
     "traits": [ "DRUID" ]
+  },
+  {
+    "type": "profession",
+    "ident": "priest_magic2",
+    "name": "Priest",
+    "description": "When the apocalypse struck you did everything you could to protect your parish faithful, but it appears that prayers were not enough.  Now that they are all dead, you should probably find something more tangible to protect you.",
+    "points": 0,
+    "flags": [ "SCEN_ONLY" ],
+    "skills": [ { "level": 3, "name": "speech" } ],
+    "items": {
+      "both": {
+        "items": [ "pants", "longshirt", "socks", "cassock", "dress_shoes", "holy_symbol", "holybook_bible1", "priest_beginner" ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "shinto_priest_magic2",
+    "name": "Kannushi",
+    "description": "You were one of the maintainers of a Shinto shrine, performing rituals and sacred tasks.  You preferred it when only the spirits of the dead inhabited your shrine, and not their rotting corpses.",
+    "points": 0,
+    "flags": [ "SCEN_ONLY" ],
+    "skills": [ { "level": 1, "name": "fabrication" }, { "level": 1, "name": "tailor" } ],
+    "items": {
+      "both": {
+        "items": [ "kariginu", "eboshi", "pants", "tabi_dress", "geta", "holy_symbol", "holybook_kojiki", "priest_beginner" ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "imam_magic2",
+    "name": { "male": "Imam", "female": "Mourchida" },
+    "description": "You spent much of your time prior to the apocalypse at the local mosque, studying the words of the Prophet and the Quran and guiding your community in prayer.  Back then they came from far and wide to listen to you, now they come to eat your brains.",
+    "points": 0,
+    "flags": [ "SCEN_ONLY" ],
+    "//": "No knife, fire, or decent storage/armor.  Skill points are countered.",
+    "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "barter" } ],
+    "items": {
+      "both": {
+        "items": [ "pants", "tshirt", "socks", "kufi", "thawb", "lowtops", "holybook_quran", "priest_beginner" ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "rabbi_magic2",
+    "name": "Rabbi",
+    "description": "You were celebrating with your flock in the temple when the cataclysm struck.  You sure could use a messiah right now!",
+    "points": 0,
+    "flags": [ "SCEN_ONLY" ],
+    "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "firstaid" } ],
+    "items": {
+      "both": {
+        "items": [
+          "pants",
+          "leather_belt",
+          "dress_shirt",
+          "socks",
+          "kittel",
+          "kippah",
+          "dress_shoes",
+          "holy_symbol",
+          "holybook_talmud",
+          "holybook_tanakh",
+          "priest_beginner"
+        ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "guru_magic2",
+    "name": "Guru",
+    "description": "You spent many years traveling the world, becoming wise and learned.  Normally, you can answer any question, but even you are not quite sure what to do about the ravenous undead.",
+    "points": 2,
+    "flags": [ "SCEN_ONLY" ],
+    "//": "1.5 pts skills, cutting implement, and plenty of storage, so lack of fire only goes so far.",
+    "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "survival" } ],
+    "items": {
+      "both": {
+        "items": [
+          "jeans",
+          "tshirt",
+          "socks",
+          "robe",
+          "turban",
+          "waterskin",
+          "pockknife",
+          "mbag",
+          "leathersandals",
+          "holy_symbol",
+          "wristwatch",
+          "priest_beginner"
+        ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "preacher_magic2",
+    "name": "Preacher",
+    "description": "You devoted your life to spreading the good word; always on the road, traveling from town to town.  Now everything has gone to hell, you can't host your daily podcast, and the undead listening to your sermons don't seem particularly moved.",
+    "points": 2,
+    "flags": [ "SCEN_ONLY" ],
+    "//": "Storage + 2 points in skills, - no knife or fire.",
+    "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "driving" }, { "level": 1, "name": "computer" } ],
+    "items": {
+      "both": {
+        "items": [
+          "dress_shirt",
+          "pants",
+          "socks",
+          "dress_shoes",
+          "wristwatch",
+          "backpack",
+          "laptop",
+          "flyer",
+          "flyer",
+          "flyer",
+          "holy_symbol",
+          "priest_beginner"
+        ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "novice_necromancer",
+    "name": "Novice Necromancer",
+    "description": "You always had to hide your magic, as it was generally not an acceptable type of magic in the wizarding world, but with the cataclysm you need to pull every trick out of the book.",
+    "spells": [ { "id": "summon_zombie", "level": 5 }, { "id": "necrotic_gaze", "level": 1 } ],
+    "points": 2,
+    "skills": [ { "level": 1, "name": "spellcraft" } ],
+    "items": {
+      "both": [ "jeans", "tshirt", "gloves_light", "hat_ball", "boots", "socks", "hoodie", "knit_scarf", "primitive_knife" ],
+      "male": [ "boxer_briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "traits": [ "ANIMIST" ]
+  },
+  {
+    "type": "profession",
+    "ident": "novice_stormshaper",
+    "name": "Novice Stormshaper",
+    "description": "The son of a weatherman, you were always interested in the weather.  Recently you found it was possible to manipulate the weather yourself through arcane means!  Unfortunately you did not have long to enjoy your power, as events unfolded...",
+    "spells": [ { "id": "lightning_bolt", "level": 1 }, { "id": "windrun", "level": 1 } ],
+    "points": 0,
+    "items": {
+      "both": [ "jeans", "tshirt", "hat_ball", "sneakers", "socks", "hoodie" ],
+      "male": [ "boxer_briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "traits": [ "STORMSHAPER" ]
+  },
+  {
+    "type": "profession",
+    "ident": "novice_earthshaper",
+    "name": "Novice Earthshaper",
+    "description": "You always were tough in a fight.  Your coach managed to teach you a trick or two to make you a little tougher.",
+    "spells": [ { "id": "stonefist", "level": 1 }, { "id": "seismic_stomp", "level": 1 } ],
+    "points": 0,
+    "items": {
+      "both": [ "jeans", "tshirt", "boxing_gloves", "hat_ball", "sneakers", "socks", "hoodie" ],
+      "male": [ "boxer_briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "traits": [ "EARTHSHAPER" ]
+  },
+  {
+    "type": "profession",
+    "ident": "novice_technomancer",
+    "name": "Novice Technomancer",
+    "description": "With the recent Cataclysm, the way you found to cheat on tests may have to find some other use.",
+    "spells": [ { "id": "synaptic_stimulation", "level": 4 } ],
+    "points": 0,
+    "items": {
+      "both": [ "jeans", "tshirt", "gloves_light", "hat_ball", "sneakers", "socks", "hoodie" ],
+      "male": [ "boxer_briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "traits": [ "TECHNOMANCER" ]
   }
 ]

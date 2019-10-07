@@ -86,7 +86,7 @@ const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup
         const time_duration replace_time = groupptr->monster_group_time *
                                            get_option<float>( "MONSTER_UPGRADE_FACTOR" );
         while( groupptr->replace_monster_group &&
-               calendar::turn - time_point( calendar::start ) > replace_time ) {
+               calendar::turn - time_point( calendar::start_of_cataclysm ) > replace_time ) {
             groupptr = &groupptr->new_monster_group.obj();
         }
     }
@@ -104,17 +104,17 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
 
     bool monster_found = false;
     // Loop invariant values
-    const time_point sunset = calendar::turn.sunset();
-    const time_point sunrise = calendar::turn.sunrise();
+    const time_point sunset = ::sunset( calendar::turn );
+    const time_point sunrise = ::sunrise( calendar::turn );
     const season_type season = season_of_year( calendar::turn );
     // Step through spawn definitions from the monster group until one is found or
     for( auto it = group.monsters.begin(); it != group.monsters.end() && !monster_found; ++it ) {
         // There's a lot of conditions to work through to see if this spawn definition is valid
         bool valid_entry = true;
         //Insure that the time is not before the spawn first appears or after it stops appearing
-        valid_entry = valid_entry && ( calendar::time_of_cataclysm + it->starts < calendar::turn );
+        valid_entry = valid_entry && ( calendar::start_of_cataclysm + it->starts < calendar::turn );
         valid_entry = valid_entry && ( it->lasts_forever() ||
-                                       calendar::time_of_cataclysm + it->ends > calendar::turn );
+                                       calendar::start_of_cataclysm + it->ends > calendar::turn );
 
         std::vector<std::pair<time_point, time_point> > valid_times_of_day;
         bool season_limited = false;

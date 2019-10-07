@@ -1,0 +1,520 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_0_0_0",
+    "name": "sewage treatment plant",
+    "sym": "P",
+    "color": "red",
+    "see_cost": 5,
+    "flags": [ "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_0_0_roof",
+    "name": "open air",
+    "sym": ".",
+    "color": "blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_1_0_0",
+    "copy-from": "sewage_treatment_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_1_0_roof",
+    "name": "sewage treatment plant roof",
+    "sym": "P",
+    "color": "red",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_0_1_0",
+    "name": "sewage treatment plant",
+    "sym": "O",
+    "color": "blue",
+    "see_cost": 5,
+    "flags": [ "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_0_1_roof",
+    "name": "sewage treatment plant roof",
+    "sym": "O",
+    "color": "blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_1_1_0",
+    "copy-from": "sewage_treatment_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_1_1_roof",
+    "copy-from": "sewage_treatment_1_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_0_0_-1",
+    "name": "sewage treatment plant - underground",
+    "sym": "P",
+    "color": "green",
+    "see_cost": 5,
+    "extras": "build",
+    "flags": [ "KNOWN_UP" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_1_0_-1",
+    "copy-from": "sewage_treatment_0_0_-1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_2_0_-1",
+    "copy-from": "sewage_treatment_0_0_-1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_0_1_-1",
+    "copy-from": "sewage_treatment_0_0_-1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_1_1_-1",
+    "copy-from": "sewage_treatment_0_0_-1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_2_1_-1",
+    "copy-from": "sewage_treatment_0_0_-1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "toxic_dump",
+    "name": "toxic waste dump",
+    "sym": "D",
+    "color": "pink",
+    "see_cost": 2,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "haz_sar_entrance",
+    "name": "hazardous waste sarcophagus",
+    "sym": "X",
+    "color": "pink",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "haz_sar",
+    "name": "hazardous waste sarcophagus",
+    "sym": "X",
+    "color": "pink",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "haz_sar_entrance_b1",
+    "name": "hazardous waste sarcophagus",
+    "sym": "X",
+    "color": "pink",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "haz_sar_b1",
+    "name": "hazardous waste sarcophagus",
+    "sym": "X",
+    "color": "pink",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewer",
+    "name": "sewer",
+    "color": "green",
+    "see_cost": 5,
+    "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pump_station_1",
+    "copy-from": "generic_city_building",
+    "name": "pump station",
+    "sym": "P",
+    "color": "red",
+    "flags": [ "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pump_station_1_roof",
+    "copy-from": "generic_city_building",
+    "name": "pump station roof",
+    "sym": "P",
+    "color": "red",
+    "flags": [ "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pump_station_2",
+    "copy-from": "generic_city_building",
+    "name": "pump station",
+    "sym": "P",
+    "color": "red",
+    "flags": [ "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pump_station_2_roof",
+    "copy-from": "generic_city_building",
+    "name": "pump station roof",
+    "sym": "P",
+    "color": "red",
+    "flags": [ "KNOWN_DOWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pump_station_3",
+    "name": "sewer",
+    "sym": "│",
+    "color": "green",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pump_station_4",
+    "name": "sewer",
+    "sym": "│",
+    "color": "green",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "pump_station_5",
+    "name": "sewer",
+    "sym": "│",
+    "color": "green",
+    "see_cost": 999,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dumpsite",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "dumpsite",
+    "sym": "D",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dump",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "dump",
+    "sym": "D",
+    "color": "i_brown",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "recyclecenter",
+    "copy-from": "generic_city_building",
+    "name": "recycle center",
+    "sym": "R",
+    "color": "i_green",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "recyclecenter_roof",
+    "copy-from": "generic_city_building",
+    "name": "recycle center roof",
+    "sym": "R",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "recyclecenter_1",
+    "copy-from": "generic_city_building",
+    "name": "recycle center",
+    "sym": "R",
+    "color": "i_green",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "recyclecenter_roof_1",
+    "copy-from": "generic_city_building",
+    "name": "recycle center roof",
+    "sym": "R",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "recyclecenter_2",
+    "copy-from": "generic_city_building",
+    "name": "recycle center",
+    "sym": "R",
+    "color": "i_green",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "recyclecenter_roof_2",
+    "copy-from": "generic_city_building",
+    "name": "recycle center roof",
+    "sym": "R",
+    "color": "i_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "landfill",
+    "copy-from": "generic_city_building",
+    "name": "landfill",
+    "sym": "L",
+    "color": "i_brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "junkyard_1a",
+    "copy-from": "generic_city_building",
+    "name": "junkyard",
+    "sym": "J",
+    "color": "i_brown",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "junkyard_1b",
+    "copy-from": "generic_city_building",
+    "name": "junkyard",
+    "sym": "J",
+    "color": "i_brown",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "junkyard_2a",
+    "copy-from": "generic_city_building",
+    "name": "junkyard",
+    "sym": "J",
+    "color": "i_brown",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "junkyard_2b",
+    "copy-from": "generic_city_building",
+    "name": "junkyard",
+    "sym": "J",
+    "color": "i_brown",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_regional_dump",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "regional dump",
+    "sym": "d",
+    "color": "i_brown",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_regional_dump_0_0",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_regional_dump_1_0",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_regional_dump_2_0",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_regional_dump_3_0",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_regional_dump_0_1",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_regional_dump_1_1",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_regional_dump_2_1",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_regional_dump_3_1",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_regional_dump_0_2",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_regional_dump_1_2",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_regional_dump_2_2",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_regional_dump_3_2",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_regional_dump_0_3",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_regional_dump_1_3",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_regional_dump_2_3",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_regional_dump_3_3",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "smallscrapyard",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "small scrap yard",
+    "sym": "s",
+    "color": "red",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_open_sewer",
+    "copy-from": "generic_city_building",
+    "name": "open sewer",
+    "sym": "s",
+    "color": "i_light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_city_dump_small",
+    "copy-from": "generic_city_building",
+    "name": "small dump",
+    "sym": "d",
+    "color": "i_brown",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_0_0",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_1_0",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_2_0",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_3_0",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_0_1",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_1_1",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_2_1",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_3_1",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_0_2",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_1_2",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_2_2",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_2_2_roof",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_3_2",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_0_3",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_1_3",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_2_3",
+    "copy-from": "generic_regional_dump"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ws_biker_dump_3_3",
+    "copy-from": "generic_regional_dump"
+  }
+]

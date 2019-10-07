@@ -4,6 +4,7 @@
 #include <array>
 #include <memory>
 
+#include "ime.h"
 #include "input.h"
 #include "output.h"
 #include "catacharset.h"
@@ -190,7 +191,7 @@ void query_popup::init() const
                 int button_x = std::max( 0, msg_width - button_width -
                                          horz_padding * static_cast<int>( line.size() - 1 ) );
                 for( const auto &opt : line ) {
-                    buttons.emplace_back( opt, button_x, msg_height );
+                    buttons.emplace_back( opt, point( button_x, msg_height ) );
                     button_x += utf8_width( opt, true ) + horz_padding;
                 }
                 msg_height += 1 + vert_padding;
@@ -206,7 +207,7 @@ void query_popup::init() const
                                      fullscr ? FULL_SCREEN_HEIGHT : msg_height + border_width * 2 );
     const int win_x = ( TERMX - win_width ) / 2;
     const int win_y = ontop ? 0 : ( TERMY - win_height ) / 2;
-    win = catacurses::newwin( win_height, win_width, win_y, win_x );
+    win = catacurses::newwin( win_height, win_width, point( win_x, win_y ) );
 }
 
 void query_popup::show() const
@@ -220,14 +221,14 @@ void query_popup::show() const
 
     for( size_t line = 0; line < folded_msg.size(); ++line ) {
         nc_color col = default_text_color;
-        print_colored_text( win, border_width + line, border_width, col, col,
+        print_colored_text( win, point( border_width, border_width + line ), col, col,
                             folded_msg[line] );
     }
 
     for( size_t ind = 0; ind < buttons.size(); ++ind ) {
         nc_color col = ind == cur ? hilite( c_white ) : c_white;
         const auto &btn = buttons[ind];
-        print_colored_text( win, border_width + btn.y, border_width + btn.x,
+        print_colored_text( win, btn.pos + point( border_width, border_width ),
                             col, col, btn.text );
     }
 
@@ -323,6 +324,8 @@ query_popup::result query_popup::query_once()
 
 query_popup::result query_popup::query()
 {
+    ime_sentry sentry( ime_sentry::disable );
+
     result res;
     do {
         res = query_once();
@@ -340,8 +343,7 @@ std::string query_popup::wait_text( const std::string &text, const nc_color &bar
     static const std::array<std::string, 4> phase_icons = {{ "|", "/", "-", "\\" }};
     static size_t phase = phase_icons.size() - 1;
     phase = ( phase + 1 ) % phase_icons.size();
-    return string_format( " <color_%s>%s</color> %s",
-                          string_from_color( bar_color ), phase_icons[phase], text );
+    return string_format( " %s %s", colorize( phase_icons[phase], bar_color ), text );
 }
 
 std::string query_popup::wait_text( const std::string &text )
@@ -366,7 +368,7 @@ query_popup::query_option::query_option(
 {
 }
 
-query_popup::button::button( const std::string &text, const int x, const int y )
-    : text( text ), x( x ), y( y )
+query_popup::button::button( const std::string &text, const point &p )
+    : text( text ), pos( p )
 {
 }

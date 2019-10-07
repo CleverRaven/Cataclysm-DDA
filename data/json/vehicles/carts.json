@@ -85,20 +85,20 @@
       { "x": 0, "y": 1, "part": "storage_battery" },
       { "x": 1, "y": 0, "part": "frame_nw" },
       { "x": 1, "y": 0, "part": "halfboard_nw" },
-      { "x": 1, "y": 0, "part": "wheel_small_steerable" },
+      { "x": 1, "y": 0, "parts": [ "wheel_mount_light_steerable", "wheel_small" ] },
       { "x": 1, "y": 1, "part": "frame_ne" },
       { "x": 1, "y": 1, "part": "halfboard_ne" },
-      { "x": 1, "y": 1, "part": "wheel_small_steerable" },
+      { "x": 1, "y": 1, "parts": [ "wheel_mount_light_steerable", "wheel_small" ] },
       { "x": -1, "y": 0, "part": "frame_sw" },
       { "x": -1, "y": 0, "part": "box" },
-      { "x": -1, "y": 0, "part": "wheel_small" },
+      { "x": -1, "y": 0, "parts": [ "wheel_mount_light", "wheel_small" ] },
       { "x": -1, "y": 1, "part": "frame_se" },
       { "x": -1, "y": 1, "part": "box" },
-      { "x": -1, "y": 1, "part": "wheel_small" }
+      { "x": -1, "y": 1, "parts": [ "wheel_mount_light", "wheel_small" ] }
     ],
     "items": [
-      { "x": -1, "y": 0, "chance": 25, "repeat": 2, "item_groups": [ "golf_cart" ] },
-      { "x": -1, "y": 1, "chance": 25, "repeat": 2, "item_groups": [ "golf_cart" ] }
+      { "x": -1, "y": 0, "chance": 25, "//repeat": 2, "item_groups": [ "golf_cart" ] },
+      { "x": -1, "y": 1, "chance": 25, "//repeat": 2, "item_groups": [ "golf_cart" ] }
     ]
   },
   {
@@ -121,22 +121,22 @@
       { "x": 0, "y": 1, "part": "storage_battery" },
       { "x": 1, "y": 0, "part": "frame_nw" },
       { "x": 1, "y": 0, "part": "halfboard_nw" },
-      { "x": 1, "y": 0, "part": "wheel_small_steerable" },
+      { "x": 1, "y": 0, "parts": [ "wheel_mount_light_steerable", "wheel_small" ] },
       { "x": 1, "y": 1, "part": "frame_ne" },
       { "x": 1, "y": 1, "part": "halfboard_ne" },
-      { "x": 1, "y": 1, "part": "wheel_small_steerable" },
+      { "x": 1, "y": 1, "parts": [ "wheel_mount_light_steerable", "wheel_small" ] },
       { "x": -1, "y": 0, "part": "frame_sw" },
       { "x": -1, "y": 0, "part": "roof" },
       { "x": -1, "y": 0, "part": "seat" },
-      { "x": -1, "y": 0, "part": "wheel_small" },
+      { "x": -1, "y": 0, "parts": [ "wheel_mount_light", "wheel_small" ] },
       { "x": -1, "y": 1, "part": "frame_se" },
       { "x": -1, "y": 1, "part": "roof" },
       { "x": -1, "y": 1, "part": "seat" },
-      { "x": -1, "y": 1, "part": "wheel_small" }
+      { "x": -1, "y": 1, "parts": [ "wheel_mount_light", "wheel_small" ] }
     ],
     "items": [
-      { "x": -1, "y": 0, "chance": 20, "repeat": 2, "item_groups": [ "golf_cart" ] },
-      { "x": -1, "y": 1, "chance": 20, "repeat": 2, "item_groups": [ "golf_cart" ] },
+      { "x": -1, "y": 0, "chance": 20, "//repeat": 2, "item_groups": [ "golf_cart" ] },
+      { "x": -1, "y": 1, "chance": 20, "//repeat": 2, "item_groups": [ "golf_cart" ] },
       { "x": 0, "y": 0, "chance": 20, "item_groups": [ "golf_cart" ] },
       { "x": 0, "y": 1, "chance": 20, "item_groups": [ "golf_cart" ] }
     ]
@@ -210,6 +210,22 @@
     "items": [ { "x": 0, "y": 0, "chance": 35, "item_groups": [ "trash_cart" ] } ]
   },
   {
+    "id": "grocery_cart",
+    "type": "vehicle",
+    "name": "Grocery Cart",
+    "blueprint": [
+      [ "o" ],
+      [ "-" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
+      { "x": 0, "y": 0, "part": "wheel_caster" },
+      { "x": 0, "y": 0, "part": "basketlg" },
+      { "x": -1, "y": 0, "part": "cart_handle" }
+    ],
+    "items": [ { "x": 0, "y": 0, "chance": 35, "item_groups": [ "trash_cart" ] } ]
+  },
+  {
     "id": "swivel_chair",
     "type": "vehicle",
     "name": "Swivel Chair",
@@ -277,7 +293,7 @@
     "blueprint": [ "o" ],
     "parts": [
       { "x": 0, "y": 0, "part": "frame_handle" },
-      { "x": 0, "y": 0, "part": "wheel_barrow" },
+      { "x": 0, "y": 0, "parts": [ "wheel_mount_light", "wheel_barrow" ] },
       { "x": 0, "y": 0, "part": "box" }
     ]
   },
@@ -289,7 +305,7 @@
     "parts": [
       { "x": 0, "y": 0, "part": "folding_frame" },
       { "x": 0, "y": 0, "part": "folding_seat" },
-      { "x": 0, "y": 0, "part": "wheel_wheelchair" },
+      { "x": 0, "y": 0, "parts": [ "wheel_mount_light", "wheel_wheelchair" ] },
       { "x": 0, "y": 0, "part": "hand_rims" },
       { "x": 0, "y": 0, "part": "basketsm" }
     ]

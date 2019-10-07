@@ -16,6 +16,8 @@
 #include "itype.h"
 #include "optional.h"
 #include "rng.h"
+#include "character.h"
+#include "options.h"
 
 stomach_contents::stomach_contents() = default;
 
@@ -94,6 +96,9 @@ units::volume stomach_contents::contains() const
 
 bool stomach_contents::store_absorbed( player &p )
 {
+    if( p.is_npc() && get_option<bool>( "NO_NPC_FOOD" ) ) {
+        return false;
+    }
     bool absorbed = false;
     if( calories_absorbed != 0 ) {
         p.mod_stored_kcal( calories_absorbed );
@@ -226,9 +231,9 @@ void stomach_contents::ingest( player &p, item &food, int charges = 1 )
     // @TODO: Move quench values to mL and remove the magic number here
     mod_contents( comest.base_volume() * charges - add_water );
 
-    last_ate = calendar::turn;
+    ate();
 
-    mod_calories( comest_t->get_calories() );
+    mod_calories( p.kcal_for( comest ) );
 }
 
 void stomach_contents::absorb_water( player &p, units::volume amount )
@@ -260,7 +265,7 @@ void stomach_contents::absorb_kcal( int amount )
     }
 }
 
-bool stomach_contents::absorb_vitamin( vitamin_id vit, int amount )
+bool stomach_contents::absorb_vitamin( const vitamin_id &vit, int amount )
 {
     if( amount <= 0 ) {
         return false;
@@ -274,7 +279,7 @@ bool stomach_contents::absorb_vitamin( vitamin_id vit, int amount )
     return true;
 }
 
-bool stomach_contents::absorb_vitamin( std::pair<vitamin_id, int> vit )
+bool stomach_contents::absorb_vitamin( const std::pair<vitamin_id, int> &vit )
 {
     return absorb_vitamin( vit.first, vit.second );
 }
@@ -423,6 +428,12 @@ units::volume stomach_contents::get_water() const
 {
     return water;
 }
+
+void stomach_contents::ate()
+{
+    last_ate = calendar::turn;
+}
+
 time_duration stomach_contents::time_since_ate() const
 {
     return calendar::turn - last_ate;

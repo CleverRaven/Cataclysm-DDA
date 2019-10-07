@@ -4,8 +4,8 @@
     "id": "afs_cargo_trough",
     "copy-from": "trunk",
     "name": "cargo trough",
-    "color": "ltgray",
-    "broken_color": "ltgray",
+    "color": "light_gray",
+    "broken_color": "light_gray",
     "looks_like": "trunk",
     "location": "center",
     "durability": 200,
@@ -34,7 +34,7 @@
     "name": "crude plating",
     "description": "A piece of sheet metal welded onto a vehicle as armor.  Thin, and not as protective as proper armor, but it'll do if there's nothing else available.",
     "symbol": ")",
-    "color": "ltgray",
+    "color": "light_gray",
     "broken_symbol": ")",
     "broken_color": "dark_gray",
     "durability": 300,
@@ -183,7 +183,7 @@
     "symbol": "$",
     "color": "red",
     "broken_symbol": "$",
-    "broken_color": "ltgray",
+    "broken_color": "light_gray",
     "damage_modifier": 10,
     "durability": 400,
     "description": "A large and complex dashboard mounted with steering controls and several LCD touch screens for controlling vehicle systems.",
@@ -209,27 +209,6 @@
       { "item": "cable", "charges": [ 5, 20 ] },
       { "item": "RAM", "charges": [ 1, 4 ] },
       { "item": "e_scrap", "charges": [ 3, 8 ] }
-    ]
-  },
-  {
-    "id": "afs_large_storage_battery",
-    "type": "vehicle_part",
-    "name": "large storage battery",
-    "item": "afs_large_storage_battery",
-    "location": "fuel_source",
-    "fuel_type": "battery",
-    "symbol": "O",
-    "color": "yellow",
-    "broken_color": "red",
-    "difficulty": 3,
-    "durability": 600,
-    "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.",
-    "damage_modifier": 80,
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 10, 20 ] },
-      { "item": "steel_chunk", "count": [ 5, 10 ] },
-      { "item": "scrap", "count": [ 5, 10 ] },
-      { "item": "storage_battery", "count": [ 0, 1 ] }
     ]
   },
   {

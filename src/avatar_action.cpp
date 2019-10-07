@@ -1,5 +1,15 @@
 #include "avatar_action.h"
 
+#include <stdlib.h>
+#include <algorithm>
+#include <functional>
+#include <memory>
+#include <ostream>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "action.h"
 #include "avatar.h"
 #include "creature.h"
@@ -16,7 +26,6 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
-#include "player.h"
 #include "projectile.h"
 #include "ranged.h"
 #include "translations.h"
@@ -24,9 +33,21 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
+#include "bodypart.h"
+#include "cursesdef.h"
+#include "debug.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "gun_mode.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item_location.h"
+#include "mtype.h"
+#include "player_activity.h"
+#include "ret_val.h"
+#include "rng.h"
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -37,7 +58,7 @@ static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_harnessed( "harnessed" );
 
 bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
@@ -71,7 +92,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     if( m.has_flag( TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
         !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
-        !you.has_effect( effect_riding ) ) {
+        !you.is_mounted() ) {
         if( you.weapon.has_flag( "DIG_TOOL" ) ) {
             if( you.weapon.type->can_use( "JACKHAMMER" ) && you.weapon.ammo_sufficient() ) {
                 you.invoke_item( &you.weapon, "JACKHAMMER", dest_loc );
@@ -92,27 +113,74 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     }
 
     // by this point we're either walking, running, crouching, or attacking, so update the activity level to match
-    if( you.get_movement_mode() == "walk" ) {
+    if( you.movement_mode_is( PMM_WALK ) ) {
         you.increase_activity_level( LIGHT_EXERCISE );
-    } else if( you.get_movement_mode() == "crouch" ) {
+    } else if( you.movement_mode_is( PMM_CROUCH ) ) {
         you.increase_activity_level( MODERATE_EXERCISE );
     } else {
         you.increase_activity_level( ACTIVE_EXERCISE );
     }
 
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
-    const int new_dx = dest_loc.x - you.posx();
-    if( new_dx > 0 ) {
-        you.facing = FD_RIGHT;
-        if( you.has_effect( effect_riding ) && you.mounted_creature ) {
-            auto mons = you.mounted_creature.get();
-            mons->facing = FD_RIGHT;
+    int new_dx = dest_loc.x - you.posx();
+    int new_dy = dest_loc.y - you.posy();
+
+    if( ! tile_iso ) {
+        if( new_dx > 0 ) {
+            you.facing = FD_RIGHT;
+            if( you.is_mounted() ) {
+                you.mounted_creature->facing = FD_RIGHT;
+            }
+        } else if( new_dx < 0 ) {
+            you.facing = FD_LEFT;
+            if( you.is_mounted() ) {
+                you.mounted_creature->facing = FD_LEFT;
+            }
         }
-    } else if( new_dx < 0 ) {
-        you.facing = FD_LEFT;
-        if( you.has_effect( effect_riding ) && you.mounted_creature ) {
-            auto mons = you.mounted_creature.get();
-            mons->facing = FD_LEFT;
+    } else {
+        //
+        // iso:
+        //
+        // right key            =>  +x -y       FD_RIGHT
+        // left key             =>  -x +y       FD_LEFT
+        // up key               =>  +x +y       ______
+        // down key             =>  -x -y       ______
+        // y: left-up key       =>  __ +y       FD_LEFT
+        // u: right-up key      =>  +x __       FD_RIGHT
+        // b: left-down key     =>  -x __       FD_LEFT
+        // n: right-down key    =>  __ -y       FD_RIGHT
+        //
+        // right key            =>  +x -y       FD_RIGHT
+        // u: right-up key      =>  +x __       FD_RIGHT
+        // n: right-down key    =>  __ -y       FD_RIGHT
+        // up key               =>  +x +y       ______
+        // down key             =>  -x -y       ______
+        // left key             =>  -x +y       FD_LEFT
+        // y: left-up key       =>  __ +y       FD_LEFT
+        // b: left-down key     =>  -x __       FD_LEFT
+        //
+        // right key            =>  +x +y       FD_RIGHT
+        // u: right-up key      =>  +x __       FD_RIGHT
+        // n: right-down key    =>  __ +y       FD_RIGHT
+        // up key               =>  +x -y       ______
+        // left key             =>  -x -y       FD_LEFT
+        // b: left-down key     =>  -x __       FD_LEFT
+        // y: left-up key       =>  __ -y       FD_LEFT
+        // down key             =>  -x +y       ______
+        //
+        if( new_dx >= 0 && new_dy >= 0 ) {
+            you.facing = FD_RIGHT;
+            if( you.is_mounted() ) {
+                auto mons = you.mounted_creature.get();
+                mons->facing = FD_RIGHT;
+            }
+        }
+        if( new_dy <= 0 && new_dx <= 0 ) {
+            you.facing = FD_LEFT;
+            if( you.is_mounted() ) {
+                auto mons = you.mounted_creature.get();
+                mons->facing = FD_LEFT;
+            }
         }
     }
 
@@ -193,7 +261,8 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
             }
             g->draw_hit_mon( dest_loc, critter, critter.is_dead() );
             return false;
-        } else if( critter.has_flag( MF_IMMOBILE ) || critter.has_effect( effect_harnessed ) ) {
+        } else if( critter.has_flag( MF_IMMOBILE ) || critter.has_effect( effect_harnessed ) ||
+                   critter.has_effect( effect_ridden ) ) {
             add_msg( m_info, _( "You can't displace your %s." ), critter.name() );
             return false;
         }
@@ -259,10 +328,10 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
 
     if( toSwimmable && toDeepWater && !toBoat ) {  // Dive into water!
         // Requires confirmation if we were on dry land previously
-        if( you.has_effect( effect_riding ) && you.mounted_creature != nullptr ) {
+        if( you.is_mounted() ) {
             auto mon = you.mounted_creature.get();
             if( !mon->has_flag( MF_SWIMS ) || mon->get_size() < you.get_size() + 2 ) {
-                add_msg( m_warning, _( "Your mount shies away from the water!" ) );
+                add_msg( m_warning, _( "The %s cannot swim while it is carrying you!" ), mon->get_name() );
                 return false;
             }
         }
@@ -283,7 +352,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     // open it if we are walking
     // vault over it if we are running
     if( m.passable_ter_furn( dest_loc )
-        && you.get_movement_mode() == "walk"
+        && you.movement_mode_is( PMM_WALK )
         && m.open_door( dest_loc, !m.is_outside( you.pos() ) ) ) {
         you.moves -= 100;
         // if auto-move is on, continue moving next turn
@@ -292,22 +361,23 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         }
         return true;
     }
-
     if( g->walk_move( dest_loc ) ) {
         return true;
     }
-
     if( g->phasing_move( dest_loc ) ) {
         return true;
     }
-
     if( veh_closed_door ) {
-        if( outside_vehicle ) {
-            veh1->open_all_at( dpart );
+        if( !veh1->handle_potential_theft( dynamic_cast<player &>( you ) ) ) {
+            return true;
         } else {
-            veh1->open( dpart );
-            add_msg( _( "You open the %1$s's %2$s." ), veh1->name,
-                     veh1->part_info( dpart ).name() );
+            if( outside_vehicle ) {
+                veh1->open_all_at( dpart );
+            } else {
+                veh1->open( dpart );
+                add_msg( _( "You open the %1$s's %2$s." ), veh1->name,
+                         veh1->part_info( dpart ).name() );
+            }
         }
         you.moves -= 100;
         // if auto-move is on, continue moving next turn
@@ -353,11 +423,11 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
 
     // We're moving onto a tile with no support, check if it has a ramp below
     if( !m.has_floor_or_support( dest_loc ) ) {
-        tripoint below( dest_loc.x, dest_loc.y, dest_loc.z - 1 );
+        tripoint below( dest_loc.xy(), dest_loc.z - 1 );
         if( m.has_flag( TFLAG_RAMP, below ) ) {
             // But we're moving onto one from above
             const tripoint dp = dest_loc - you.pos();
-            move( you, m, dp.x, dp.y, -1 );
+            move( you, m, tripoint( dp.xy(), -1 ) );
             // No penalty for misaligned stairs here
             // Also cheaper than climbing up
             return true;
@@ -389,7 +459,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
 
     const tripoint dp = dest_loc - you.pos();
     const tripoint old_pos = you.pos();
-    move( you, m, dp.x, dp.y, 1 );
+    move( you, m, tripoint( dp.xy(), 1 ) );
     // We can't just take the result of the above function here
     if( you.pos() != old_pos ) {
         you.moves -= 50 + ( aligned_ramps ? 0 : 50 );
@@ -409,7 +479,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     if( you.has_effect( effect_onfire ) ) {
         add_msg( _( "The water puts out the flames!" ) );
         you.remove_effect( effect_onfire );
-        if( you.has_effect( effect_riding ) && you.mounted_creature != nullptr ) {
+        if( you.is_mounted() ) {
             monster *mon = you.mounted_creature.get();
             if( mon->has_effect( effect_onfire ) ) {
                 mon->remove_effect( effect_onfire );
@@ -442,10 +512,14 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     if( you.in_vehicle ) {
         m.unboard_vehicle( you.pos() );
     }
-    if( you.has_effect( effect_riding ) &&
-        m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+    if( you.is_mounted() && m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         add_msg( m_warning, _( "You cannot board a vehicle while mounted." ) );
         return;
+    }
+    if( const auto vp = m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+        if( !vp->vehicle().handle_potential_theft( dynamic_cast<player &>( you ) ) ) {
+            return;
+        }
     }
     you.setpos( p );
     g->update_map( you );
@@ -455,7 +529,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     you.moves -= ( movecost > 200 ? 200 : movecost ) * ( trigdist && diagonal ? 1.41 : 1 );
     you.inv.rust_iron_items();
 
-    if( !you.has_effect( effect_riding ) ) {
+    if( !you.is_mounted() ) {
         you.burn_move_stamina( movecost );
     }
 
@@ -501,7 +575,7 @@ void avatar_action::autoattack( avatar &you, map &m )
 
     const tripoint diff = best.pos() - you.pos();
     if( abs( diff.x ) <= 1 && abs( diff.y ) <= 1 && diff.z == 0 ) {
-        move( you, m, diff.x, diff.y );
+        move( you, m, tripoint( diff.xy(), 0 ) );
         return;
     }
 
@@ -579,14 +653,28 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
         if( gun->get_gun_ups_drain() > 0 ) {
             const int ups_drain = gun->get_gun_ups_drain();
             const int adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
-
-            if( !( you.has_charges( "UPS_off", ups_drain ) ||
-                   you.has_charges( "adv_UPS_off", adv_ups_drain ) ||
-                   ( you.has_active_bionic( bionic_id( "bio_ups" ) ) && you.power_level >= ups_drain ) ) ) {
-                add_msg( m_info,
-                         _( "You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!" ),
-                         ups_drain, adv_ups_drain );
-                return false;
+            bool is_mech_weapon = false;
+            if( you.is_mounted() ) {
+                auto mons = g->u.mounted_creature.get();
+                if( !mons->type->mech_weapon.empty() ) {
+                    is_mech_weapon = true;
+                }
+            }
+            if( !is_mech_weapon ) {
+                if( !( you.has_charges( "UPS_off", ups_drain ) ||
+                       you.has_charges( "adv_UPS_off", adv_ups_drain ) ||
+                       ( you.has_active_bionic( bionic_id( "bio_ups" ) ) &&
+                         you.power_level >= units::from_kilojoule( ups_drain ) ) ) ) {
+                    add_msg( m_info,
+                             _( "You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!" ),
+                             ups_drain, adv_ups_drain );
+                    return false;
+                }
+            } else {
+                if( !you.has_charges( "UPS", ups_drain ) ) {
+                    add_msg( m_info, _( "Your mech has an empty battery, its weapon will not fire." ) );
+                    return false;
+                }
             }
         }
 
@@ -631,9 +719,23 @@ bool avatar_action::fire( avatar &you, map &m )
     // TODO: move handling "RELOAD_AND_SHOOT" flagged guns to a separate function.
     if( gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
         if( !gun->ammo_remaining() ) {
-            item::reload_option opt = you.ammo_location &&
-                                      gun->can_reload_with( you.ammo_location->typeId() ) ? item::reload_option( &you, args.relevant,
-                                              args.relevant, you.ammo_location.clone() ) : you.select_ammo( *gun );
+            const auto ammo_location_is_valid = [&]() -> bool {
+                if( !you.ammo_location )
+                {
+                    return false;
+                }
+                if( !gun->can_reload_with( you.ammo_location->typeId() ) )
+                {
+                    return false;
+                }
+                if( square_dist( you.pos(), you.ammo_location.position() ) > 1 )
+                {
+                    return false;
+                }
+                return true;
+            };
+            item::reload_option opt = ammo_location_is_valid() ? item::reload_option( &you, args.relevant,
+                                      args.relevant, you.ammo_location ) : you.select_ammo( *gun );
             if( !opt ) {
                 // Menu canceled
                 return false;
@@ -644,8 +746,9 @@ bool avatar_action::fire( avatar &you, map &m )
                 return false;
             }
 
-            // Burn 2x the strength required to fire in stamina.
-            you.mod_stat( "stamina", gun->get_min_str() * -2 );
+            // Burn 0.2% max base stamina x the strength required to fire.
+            you.mod_stat( "stamina", gun->get_min_str() * static_cast<int>( 0.002f *
+                          get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
             // At low stamina levels, firing starts getting slow.
             int sta_percent = ( 100 * you.stamina ) / you.get_stamina_max();
             reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
@@ -662,6 +765,9 @@ bool avatar_action::fire( avatar &you, map &m )
     g->temp_exit_fullscreen();
     m.draw( g->w_terrain, you.pos() );
     std::vector<tripoint> trajectory = target_handler().target_ui( you, args );
+
+    //may be changed in target_ui
+    gun = args.relevant->gun_current_mode();
 
     if( trajectory.empty() ) {
         bool not_aiming = you.activity.id() != activity_id( "ACT_AIM" );
@@ -692,7 +798,7 @@ bool avatar_action::fire( avatar &you, map &m )
     }
 
     if( shots && args.power_cost ) {
-        you.charge_power( -args.power_cost * shots );
+        you.charge_power( units::from_kilojoule( -args.power_cost ) * shots );
     }
     g->reenter_fullscreen();
     return shots != 0;
@@ -705,6 +811,10 @@ bool avatar_action::fire( avatar &you, map &m, item &weapon, int bp_cost )
     // gun can be null if the item is an unattached gunmod
     if( !gun ) {
         add_msg( m_info, _( "The %s can't be fired in its current state." ), weapon.tname() );
+        return false;
+    } else if( weapon.ammo_data() && !weapon.ammo_types().count( weapon.ammo_data()->ammo->type ) ) {
+        add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
+                 weapon.tname(), weapon.ammo_current() );
         return false;
     }
 
@@ -724,6 +834,16 @@ void avatar_action::plthrow( avatar &you, int pos,
     if( you.has_active_mutation( trait_SHELL2 ) ) {
         add_msg( m_info, _( "You can't effectively throw while you're in your shell." ) );
         return;
+    }
+    if( you.is_mounted() ) {
+        auto mons = g->u.mounted_creature.get();
+        if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
+            if( !mons->check_mech_powered() ) {
+                add_msg( m_bad, _( "Your %s refuses to move as its batteries have been drained." ),
+                         mons->get_name() );
+                return;
+            }
+        }
     }
 
     if( pos == INT_MIN ) {
@@ -761,7 +881,14 @@ void avatar_action::plthrow( avatar &you, int pos,
             return;
         }
     }
-
+    // if you're wearing the item you need to be able to take it off
+    if( pos < -1 ) {
+        auto ret = you.can_takeoff( you.i_at( pos ) );
+        if( !ret.success() ) {
+            add_msg( m_info, "%s", ret.c_str() );
+            return;
+        }
+    }
     // you must wield the item to throw it
     if( pos != -1 ) {
         you.i_rem( pos );

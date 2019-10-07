@@ -77,7 +77,7 @@ item_location disassemble( player &p );
 /** Gunmod installation menu. */
 item_location gun_to_modify( player &p, const item &gunmod );
 /** Book reading menu. */
-item_location read( avatar &you );
+item_location read( player &pl );
 /** Menu for stealing stuff. */
 item_location steal( avatar &you, player &victim );
 /** Item activation menu. */
@@ -97,11 +97,15 @@ item_location salvage( player &p, const salvage_actor *actor );
 /** Repair menu. */
 item_location repair( player &p, const repair_item_actor *actor, const item *main_tool );
 /** Bionic install menu. */
-item_location install_bionic( player &p, player &patient );
+item_location install_bionic( player &p, player &patient, bool surgeon = false );
+/** Bionic uninstall menu. */
+item_location uninstall_bionic( player &p, player &patient );
+/**Autoclave sterilize menu*/
+item_location sterilize_cbm( player &p );
 /*@}*/
 
-}
+} // namespace inv
 
-}
+} // namespace game_menus
 
 #endif // GAME_INVENTORY_H

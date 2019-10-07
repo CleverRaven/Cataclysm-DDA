@@ -2,6 +2,8 @@
   {
     "type": "item_group",
     "id": "everyday_gear",
+    "ammo": 75,
+    "magazine": 100,
     "//": "Small common items carried in a person's pockets, purse, etc. Cash card at roughly 50%.",
     "items": [
       { "item": "cash_card", "prob": 1600, "charges-min": 0, "charges-max": 50000 },
@@ -150,7 +152,7 @@
       { "group": "novels", "prob": 10 },
       { "group": "misc_smoking", "prob": 10 },
       { "group": "stoner", "prob": 5 },
-      { "group": "cannedfood", "prob": 10, "repeat": [ 1, 3 ] },
+      { "group": "cannedfood", "prob": 10, "count": [ 1, 3 ] },
       { "item": "drink_hobo", "prob": 1 }
     ]
   }

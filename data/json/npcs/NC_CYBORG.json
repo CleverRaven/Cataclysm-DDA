@@ -3,7 +3,7 @@
     "type": "item_group",
     "id": "NC_CYBORG_worn",
     "subtype": "collection",
-    "entries": [ { "item": "subsuit_xl" }, { "item": "footrags" }, { "item": "briefs" } ]
+    "entries": [ { "item": "briefs" }, { "item": "footrags" }, { "item": "subsuit_xl" } ]
   },
   {
     "type": "item_group",

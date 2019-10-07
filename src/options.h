@@ -7,8 +7,10 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <tuple>
 
 #include "translations.h"
+#include "optional.h"
 
 class JsonIn;
 class JsonOut;
@@ -20,7 +22,7 @@ class options_manager
         {
             public:
                 id_and_option( const std::string &first, const std::string &second )
-                    : std::pair<std::string, translation>( first, second ) {
+                    : std::pair<std::string, translation>( first, to_translation( second ) ) {
                 }
                 id_and_option( const std::string &first, const translation &second )
                     : std::pair<std::string, translation>( first, second ) {
@@ -36,6 +38,8 @@ class options_manager
 
         void enable_json( const std::string &var );
         void add_retry( const std::string &var, const std::string &val );
+
+        void update_global_locale();
 
         std::map<std::string, std::string> post_json_verify;
 
@@ -88,13 +92,13 @@ class options_manager
                 std::string getValue( bool classis_locale = false ) const;
                 /// The translated currently selected option value.
                 std::string getValueName() const;
-                std::string getDefaultText( const bool bTranslated = true ) const;
+                std::string getDefaultText( bool bTranslated = true ) const;
 
                 int getItemPos( const std::string &sSearch ) const;
                 std::vector<id_and_option> getItems() const;
 
-                int getIntPos( const int iSearch ) const;
-                cata::optional< std::tuple<int, std::string> > findInt( const int iSearch ) const;
+                int getIntPos( int iSearch ) const;
+                cata::optional< std::tuple<int, std::string> > findInt( int iSearch ) const;
 
                 int getMaxLength() const;
 
@@ -194,10 +198,10 @@ class options_manager
         void add_options_android();
         void load();
         bool save();
-        std::string show( const bool ingame = false, const bool world_options_only = false );
+        std::string show( bool ingame = false, bool world_options_only = false );
 
-        void add_value( const std::string &myoption, const std::string &myval,
-                        const translation &myvaltxt );
+        void add_value( const std::string &lvar, const std::string &lval,
+                        const translation &lvalname );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
@@ -233,18 +237,18 @@ class options_manager
         //add string input option
         void add( const std::string &sNameIn, const std::string &sPageIn,
                   const std::string &sMenuTextIn, const std::string &sTooltipIn,
-                  const std::string &sDefaultIn, const int iMaxLengthIn,
+                  const std::string &sDefaultIn, int iMaxLengthIn,
                   copt_hide_t opt_hide = COPT_NO_HIDE );
 
         //add bool option
         void add( const std::string &sNameIn, const std::string &sPageIn,
                   const std::string &sMenuTextIn, const std::string &sTooltipIn,
-                  const bool bDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE );
+                  bool bDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE );
 
         //add int option
         void add( const std::string &sNameIn, const std::string &sPageIn,
                   const std::string &sMenuTextIn, const std::string &sTooltipIn,
-                  const int iMinIn, int iMaxIn, int iDefaultIn,
+                  int iMinIn, int iMaxIn, int iDefaultIn,
                   copt_hide_t opt_hide = COPT_NO_HIDE,
                   const std::string &format = "%i" );
 
@@ -253,12 +257,12 @@ class options_manager
                   const std::string &sMenuTextIn, const std::string &sTooltipIn,
                   const std::vector< std::tuple<int, std::string> > &mIntValuesIn,
                   int iInitialIn, int iDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE,
-                  const bool verbose = false );
+                  bool verbose = false );
 
         //add float option
         void add( const std::string &sNameIn, const std::string &sPageIn,
                   const std::string &sMenuTextIn, const std::string &sTooltipIn,
-                  const float fMinIn, float fMaxIn,
+                  float fMinIn, float fMaxIn,
                   float fDefaultIn, float fStepIn,
                   copt_hide_t opt_hide = COPT_NO_HIDE,
                   const std::string &format = "%.2f" );

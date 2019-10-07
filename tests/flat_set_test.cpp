@@ -1,5 +1,11 @@
-#include "catch/catch.hpp"
+#include <algorithm>
+#include <functional>
+#include <iterator>
+#include <type_traits>
+#include <utility>
+#include <vector>
 
+#include "catch/catch.hpp"
 #include "flat_set.h"
 #include "assertion_helpers.h"
 
@@ -94,8 +100,10 @@ TEST_CASE( "flat_set_std_inserter", "[flat_set]" )
 TEST_CASE( "flat_set_comparison", "[flat_set]" )
 {
     using int_set = cata::flat_set<int>;
+    // NOLINTNEXTLINE(readability-container-size-empty)
     CHECK( int_set{} == int_set{} );
     CHECK( int_set{ 0 } == int_set{ 0 } );
+    // NOLINTNEXTLINE(readability-container-size-empty)
     CHECK( int_set{} != int_set{ 0 } );
     CHECK( int_set{ 0 } != int_set{ 1 } );
     CHECK( int_set{} < int_set{ 0 } );

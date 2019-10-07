@@ -16,7 +16,7 @@ std::unordered_map<std::string, const strategy_t *> strategy_map = {{
         { "sequential_until_done", &default_until_done }
     }
 };
-}
+} // namespace behavior
 
 using namespace behavior;
 

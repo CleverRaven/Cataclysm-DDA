@@ -5,7 +5,9 @@
 #include <string>
 
 #include "catch/catch.hpp"
+#include "cata_utility.h"
 #include "ballistics.h"
+#include "creature.h"
 #include "dispersion.h"
 #include "map_helpers.h"
 #include "npc.h"
@@ -13,14 +15,15 @@
 #include "units.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "enums.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "json.h"
 #include "player.h"
 #include "material.h"
 #include "type_id.h"
+#include "point.h"
 
 using firing_statistics = statistics<bool>;
 
@@ -54,7 +57,7 @@ static void arm_shooter( npc &shooter, const std::string &gun_type,
 {
     shooter.remove_weapon();
 
-    const itype_id gun_id( gun_type );
+    const itype_id &gun_id( gun_type );
     // Give shooter a loaded gun of the requested type.
     item &gun = shooter.i_add( item( gun_id ) );
     const itype_id ammo_id = gun.ammo_default();
@@ -249,7 +252,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 {
     clear_map();
     standard_npc shooter( "Shooter", {}, 5, 10, 10, 10, 10 );
-    equip_shooter( shooter, { "cloak_wool", "footrags_wool", "gloves_wraps_fur", "veil_wedding" } );
+    equip_shooter( shooter, { "cloak_wool", "footrags_wool", "gloves_wraps_fur", "glasses_safety", "balclava" } );
     assert_encumbrance( shooter, 5 );
 
     SECTION( "a skilled shooter with an accurate pistol" ) {
@@ -303,8 +306,9 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
     }
 }
 
-static void range_test( const std::array<double, 5> &test_thresholds )
+static void range_test( const std::array<double, 5> &test_thresholds, bool write_data = false )
 {
+    std::vector <int> data;
     int index = 0;
     for( index = 0; index < static_cast<int>( accuracy_levels.size() ); ++index ) {
         if( test_thresholds[index] >= 0 ) {
@@ -334,7 +338,32 @@ static void range_test( const std::array<double, 5> &test_thresholds )
             WARN( "No matching dispersion found" );
         } else {
             WARN( "Range: " << r << " Dispersion: " << found_dispersion );
+            data.push_back( found_dispersion );
         }
+    }
+    if( write_data ) {
+        const bool similar_to_previous_test_results =
+            std::equal( data.begin(), data.end(),
+                        Creature::dispersion_for_even_chance_of_good_hit.begin(),
+                        Creature::dispersion_for_even_chance_of_good_hit.end(),
+        []( const int a, const int b ) -> bool {
+            return a > 0 && b > 0 && std::abs( static_cast<float>( a - b ) / b ) < 0.15;
+        } );
+
+        if( similar_to_previous_test_results == false ) {
+            write_to_file( "./data/json/hit_range.json", [&]( std::ostream & fsa ) {
+                JsonOut j_out( fsa );
+                j_out.start_array();
+                j_out.start_object();
+                j_out.member( "type", "hit_range" );
+                j_out.member( "even_good", data );
+                j_out.end_object();
+                j_out.end_array();
+            }, _( "hit_range file" ) );
+        } else {
+            WARN( "Didn't write. Data too similar to previous test results." );
+        }
+        REQUIRE( similar_to_previous_test_results );
     }
 }
 
@@ -349,6 +378,6 @@ TEST_CASE( "synthetic_range_test", "[.]" )
         range_test( {{ -1, -1, 0.1, -1, -1 }} );
     }
     SECTION( "good hit thresholds" ) {
-        range_test( {{ -1, -1, 0.5, -1, -1 }} );
+        range_test( {{ -1, -1, 0.5, -1, -1 }}, true );
     }
 }

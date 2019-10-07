@@ -1,0 +1,16 @@
+[
+  {
+    "type": "MONSTER_FACTION",
+    "name": "magical_beast"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dragon_black",
+    "friendly": [ "ooze" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "ooze",
+    "friendly": [ "dragon_black" ]
+  }
+]

@@ -17,7 +17,7 @@
     "name": "Refugee",
     "job_description": "I'm just trying to survive.",
     "common": false,
-    "//": "A counsellor from far away, Rhy can offer a lot of supports to player and survivors if she can get herself sorted a little",
+    "//": "A counselor from far away, Rhy can offer a lot of supports to player and survivors if she can get herself sorted a little",
     "bonus_str": { "rng": [ -1, 1 ] },
     "bonus_dex": { "rng": [ -2, 2 ] },
     "bonus_int": { "rng": [ 0, 3 ] },
@@ -101,7 +101,7 @@
     "id": "TALK_REFUGEE_Rhyzaea_1_firstmeet",
     "dynamic_line": "So, what's your story?  We don't see a lot of new people back here.",
     "responses": [
-      { "text": "Just a curious traveller.  What's up with you?", "topic": "TALK_REFUGEE_Rhyzaea_2" },
+      { "text": "Just a curious traveler.  What's up with you?", "topic": "TALK_REFUGEE_Rhyzaea_2" },
       { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
     ]
   },
@@ -123,7 +123,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Rhyzaea_Background2",
-    "dynamic_line": "I was a counsellor actually, I worked for my band, Gitxsan.  Did a lot of mental health and addictions for people that had been through some really tough stuff.  Maybe not zombies eating your child level tough, but surprisingly not far off.  My people have gone through some real messy crap.",
+    "dynamic_line": "I was a counselor actually, I worked for my band, Gitxsan.  Did a lot of mental health and addictions for people that had been through some really tough stuff.  Maybe not zombies eating your child level tough, but surprisingly not far off.  My people have gone through some real messy crap.",
     "responses": [
       { "text": "Tell me about your family.", "topic": "TALK_REFUGEE_Rhyzaea_Family" },
       { "text": "Tell me about your band.", "topic": "TALK_REFUGEE_Rhyzaea_Band" },

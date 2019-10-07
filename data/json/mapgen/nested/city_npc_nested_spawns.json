@@ -22,7 +22,7 @@
       ],
       "terrain": { "_": "t_null", "-": "t_wall", "W": "t_window_boarded" },
       "furniture": { "r": "f_rack", "f": "f_fridge", "t": "f_table", "#": "f_counter", "m": "f_makeshift_bed" },
-      "place_npcs": [ { "chance": 100, "class": "survivor_chef", "x": 5, "y": 1 } ],
+      "place_npcs": [ { "class": "survivor_chef", "x": 5, "y": 1 } ],
       "place_loot": [
         { "group": "produce", "x": [ 10, 11 ], "y": 2, "chance": 70, "repeat": [ 2, 3 ] },
         { "group": "groce_meat", "x": [ 10, 11 ], "y": 2, "chance": 70, "repeat": [ 2, 3 ] },
@@ -58,7 +58,7 @@
       ],
       "terrain": { "_": "t_null", "-": "t_wall", ".": "t_floor" },
       "furniture": { "t": "f_table", "b": "f_brazier", "m": "f_makeshift_bed", "7": "f_safe_o", "L": "f_locker" },
-      "place_npcs": [ { "chance": 100, "class": "survivor_cop", "x": 5, "y": 8 } ],
+      "place_npcs": [ { "class": "survivor_cop", "x": 5, "y": 8 } ],
       "items": {
         "L": [ { "item": "cannedfood", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "alcohol", "chance": 50, "repeat": [ 1, 2 ] } ],
         "7": [
@@ -70,6 +70,67 @@
         "b": { "item": "stash_wood", "chance": 100, "repeat": [ 2, 3 ] },
         "t": { "item": "cannedfood", "chance": 100, "repeat": [ 2, 3 ] }
       }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "foodperson_break_room",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "WWWWWWWWW",
+        ",,sWh,,sW",
+        ",,,WT,,,W",
+        "WDWWWWDWW",
+        ",,bWl,,bW",
+        ",,bWl,,bW",
+        "WDWWWWDWW",
+        ",,,M@,,,W",
+        ",,,,,,,aW"
+      ],
+      "terrain": { "W": "t_wall_p", "D": "t_door_c", ",": "t_floor" },
+      "toilets": { "T": {  } },
+      "furniture": {
+        "l": "f_locker",
+        "b": "f_bench",
+        "h": "f_shower",
+        "s": "f_sink",
+        "M": "f_bigmirror",
+        "@": "f_mannequin",
+        "a": "f_armchair"
+      },
+      "place_nested": [ { "chunks": [ [ "foodperson_barred_bathroom", 20 ], [ "null", 80 ] ], "x": 3, "y": 1 } ],
+      "place_npcs": [ { "class": "true_foodperson", "x": 4, "y": 8 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "foodperson_barred_bathroom",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "Wh,,sW",
+        "WT,,,W",
+        "WWWDWW",
+        "Wl,,bW",
+        "Wl,,bW",
+        "WWWXWW"
+      ],
+      "terrain": { "W": "t_wall_p", "D": "t_door_c", "X": "t_rdoor_boarded", ",": "t_floor" },
+      "toilets": { "T": {  } },
+      "furniture": { "l": "f_locker", "b": "f_bench", "h": "f_shower", "s": "f_sink" },
+      "place_loot": [
+        { "item": "corpse", "x": 0, "y": [ 0, 1 ], "repeat": 3, "chance": 100 },
+        { "item": "foodperson_mask", "x": 0, "y": [ 0, 1 ], "repeat": 3, "chance": 100 },
+        { "item": "cape_fp", "x": 0, "y": [ 0, 1 ], "repeat": 3, "chance": 100 },
+        { "item": "chestguard_hard", "x": 0, "y": [ 0, 1 ], "repeat": 3, "chance": 100 },
+        { "item": "legguard_hard", "x": 0, "y": [ 0, 1 ], "repeat": 3, "chance": 100 },
+        { "item": "armguard_hard", "x": 0, "y": [ 0, 1 ], "repeat": 3, "chance": 100 },
+        { "item": "gloves_rubber", "x": 0, "y": [ 0, 1 ], "repeat": 3, "chance": 100 },
+        { "item": "boots_rubber", "x": 0, "y": [ 0, 1 ], "repeat": 3, "chance": 100 }
+      ]
     }
   }
 ]

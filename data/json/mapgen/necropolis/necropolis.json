@@ -19,7 +19,7 @@
       [ "splinter", 10 ],
       [ "rebar", 25 ],
       [ "nail", 5 ],
-      [ "glass_shard", 15 ],
+      { "item": "glass_shard", "prob": 15, "count": [ 1, 8 ] },
       [ "wire", 5 ],
       [ "splinter", 20 ]
     ]
@@ -38,7 +38,7 @@
       [ "bearing", 5 ],
       [ "cu_pipe", 5 ],
       [ "scrap", 20 ],
-      [ "glass_shard", 10 ],
+      { "item": "glass_shard", "prob": 10, "count": [ 1, 8 ] },
       [ "wire", 5 ]
     ]
   },

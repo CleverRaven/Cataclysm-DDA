@@ -5,7 +5,8 @@
     "reload_noise_volume": 10,
     "name": "base gun",
     "symbol": "(",
-    "color": "light_gray"
+    "color": "light_gray",
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ]
   },
   {
     "abstract": "flamethrower_base",
@@ -17,7 +18,8 @@
     "ammo": "flammable",
     "ammo_effects": [ "NO_BOOM", "FLARE" ],
     "reload": 4,
-    "flags": [ "FIRE_100", "NEVER_JAMS", "FIRESTARTER" ]
+    "flags": [ "FIRE_100", "NEVER_JAMS", "FIRESTARTER" ],
+    "faults": [  ]
   },
   {
     "abstract": "launcher_base",
@@ -26,8 +28,9 @@
     "name": "base launcher",
     "skill": "launcher",
     "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ] ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "sights", 1 ] ],
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "sights", 1 ], [ "sling", 1 ] ],
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },
   {
     "abstract": "pistol_base",
@@ -56,7 +59,19 @@
     "type": "GUN",
     "name": "backup pistol",
     "//": "diminuitive backup pistols that lack underbarrel rails, sight dovetails and decent places to affix stocks.",
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 2 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "abstract": "pistol_revolver",
@@ -66,6 +81,7 @@
     "proportional": { "reload": 0.7 },
     "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ] },
     "//": "Revolvers exclude the muzzle location preventing installation of suppressors",
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -73,7 +89,28 @@
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "sights", 1 ],
-      [ "stock", 1 ]
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
+  },
+  {
+    "abstract": "pistol_revolver_cap_ball",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": "cap & ball revolver",
+    "reload": 150,
+    "extend": { "flags": [ "RELOAD_ONE", "NO_UNLOAD" ] },
+    "//": "Slower reloads, no unloading.  Base, unskilled person should take 1.5 seconds per chamber.  No underbarrel mods, that's where the ram goes.",
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "grip", 1 ],
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ]
     ]
   },
   {
@@ -105,6 +142,7 @@
     "name": "rifle with manual actions",
     "name_plural": "rifles with manual actions",
     "//": "Manual actions exclude the magazine location preventing installation of belt-feed adaptors",
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -160,7 +198,8 @@
     "type": "GUN",
     "name": "pump action shotgun",
     "reload_noise": "chuk chuk.",
-    "flags": [ "RELOAD_ONE", "PUMP_ACTION" ]
+    "flags": [ "RELOAD_ONE", "PUMP_ACTION" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },
   {
     "abstract": "smg_base",

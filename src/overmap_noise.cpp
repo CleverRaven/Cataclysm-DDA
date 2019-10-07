@@ -35,4 +35,4 @@ float om_noise_layer_lake::noise_at( const point &local_omt_pos ) const
     return r;
 }
 
-}
+} // namespace om_noise

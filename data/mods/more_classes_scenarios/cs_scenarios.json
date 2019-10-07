@@ -1,33 +1,10 @@
 [
   {
     "type": "scenario",
-    "name": "Bunker Evacuee",
-    "description": "You had connections, or intel somehow..., and because of it, you found this LMOE Shelter. It's summer now and you somehow survived, now things get a little bit easier.",
-    "flags": [ "SUR_START", "SUM_START" ],
-    "ident": "bunker",
-    "points": 2,
-    "start_name": "LMOE Shelter",
-    "allowed_locs": [ "lmoe" ],
-    "professions": [
-      "senior",
-      "hacker",
-      "lawyer",
-      "labtech",
-      "bionic_spy",
-      "soldier",
-      "national_guard",
-      "specops",
-      "bio_soldier",
-      "bio_sniper",
-      "bio_specops"
-    ]
-  },
-  {
-    "type": "scenario",
     "ident": "fema_help",
     "name": "Challenge-FEMA Death Camp",
     "points": -6,
-    "description": "You were one of the many law enforcement and military personnel alike called in to keep order on one of the FEMA camps, it all went to shit fast...wounded, infected, surrounded by fire you lay...and they just keep coming...",
+    "description": "You were one of the many law-enforcement and military personnel alike called in to keep order on one of the FEMA camps.  It all went to shit fast...wounded, infected, surrounded by fire you lie on the ground...and they just keep coming...",
     "allowed_locs": [ "fema_entrance_s", "fema_s" ],
     "professions": [
       "cop",
@@ -50,22 +27,11 @@
     "ident": "mansion_scen",
     "name": "Mansion Holdout",
     "points": -1,
-    "description": "While the world ended, you felt relatively safe inside the mansion you have serviced for years. Now the dead have come knocking at your doorstep, it might be time to leave",
+    "description": "While the world ended, you felt relatively safe inside the mansion you have serviced for years.  Now the dead have come knocking at your doorstep, and it might be time to leave.",
     "allowed_locs": [ "mansion_e2_s", "mansion_+2_s" ],
     "professions": [ "maid" ],
     "start_name": "Mansion",
     "flags": [ "SUR_START" ]
-  },
-  {
-    "type": "scenario",
-    "ident": "last_crime",
-    "name": "The Last Gig",
-    "points": -6,
-    "description": "You were on your way to another routine job, it might of been a target to kill, an item to steal or intel to gather.  Whatever it was doesn't matter anymore; you did your best to avoid the horde and when you arrive, the place is surrounded, not by cops as you might expected, but by the dead. Worse, you got a cut somewhere along the way and it's looking infected.",
-    "allowed_locs": [ "house", "bank", "pawn", "s_gun", "s_gas_s" ],
-    "professions": [ "convict", "scoundrel", "gangster", "burglar", "bionic_thief", "razorgirl", "bionic_hitman", "bio_gangster" ],
-    "start_name": "Intended Crime Scene",
-    "flags": [ "SUR_START", "INFECTED" ]
   },
   {
     "type": "scenario",
@@ -81,68 +47,27 @@
   },
   {
     "type": "scenario",
-    "ident": "heli_crash",
-    "copy-from": "heli_crash",
-    "extend": { "professions": [ "bio_specops" ] }
-  },
-  {
-    "type": "scenario",
-    "ident": "lab_chal",
-    "copy-from": "lab_chal",
-    "extend": { "professions": [ "cykotic" ] }
-  },
-  {
-    "type": "scenario",
-    "ident": "mutant",
-    "copy-from": "mutant",
-    "extend": { "professions": [ "cykotic" ] }
-  },
-  {
-    "type": "scenario",
-    "ident": "schools_out",
-    "copy-from": "schools_out",
-    "extend": { "professions": [ "elementary_student", "prep_student", "janitor", "poor_student" ] }
-  },
-  {
-    "type": "scenario",
     "ident": "cyberpunk",
     "copy-from": "cyberpunk",
-    "extend": { "professions": [ "bionic_thief", "bionic_hitman", "bio_gangster", "wasteland_cyborg" ] }
-  },
-  {
-    "type": "scenario",
-    "ident": "wilderness",
-    "copy-from": "wilderness",
-    "extend": { "professions": [ "pri-sur" ] }
-  },
-  {
-    "type": "scenario",
-    "ident": "infected",
-    "copy-from": "infected",
-    "extend": { "allowed_locs": [ "s_electronics_s", "s_clothes_s" ] }
-  },
-  {
-    "type": "scenario",
-    "ident": "fire",
-    "copy-from": "fire",
-    "extend": { "allowed_locs": [ "s_electronics_s", "s_clothes_s" ] }
+    "add_professions": true,
+    "extend": { "professions": [ "bio_gangster", "bionic_hitman" ] }
   },
   {
     "type": "scenario",
     "ident": "missed",
     "copy-from": "missed",
-    "extend": { "allowed_locs": [ "s_electronics_s", "s_clothes_s" ] }
+    "extend": { "allowed_locs": [ "s_electronics_s", "s_clothes_s", "bank", "pawn", "s_gun", "s_gas_s" ] }
   },
   {
     "type": "scenario",
-    "ident": "mutant",
-    "copy-from": "mutant",
-    "extend": { "professions": [ "faulty_bionic" ] }
+    "ident": "infected",
+    "copy-from": "infected",
+    "extend": { "allowed_locs": [ "s_electronics_s", "s_clothes_s", "bank", "pawn", "s_gun", "s_gas_s" ] }
   },
   {
     "type": "scenario",
-    "ident": "bad_day",
-    "copy-from": "bad_day",
-    "extend": { "professions": [ "faulty_bionic", "cykotic" ] }
+    "ident": "fire",
+    "copy-from": "fire",
+    "extend": { "allowed_locs": [ "s_electronics_s", "s_clothes_s", "bank", "pawn", "s_gun", "s_gas_s" ] }
   }
 ]

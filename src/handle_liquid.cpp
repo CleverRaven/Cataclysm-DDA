@@ -1,7 +1,17 @@
 #include "handle_liquid.h"
 
+#include <limits.h>
+#include <stddef.h>
+#include <algorithm>
+#include <functional>
+#include <iterator>
+#include <memory>
+#include <ostream>
+#include <set>
+#include <string>
+#include <vector>
+
 #include "action.h"
-#include "activity_handlers.h"
 #include "avatar.h"
 #include "game.h"
 #include "game_inventory.h"
@@ -11,13 +21,20 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
-#include "player.h"
 #include "translations.h"
 #include "ui.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "cata_utility.h"
+#include "colony.h"
+#include "debug.h"
+#include "enums.h"
+#include "line.h"
+#include "optional.h"
+#include "player_activity.h"
+#include "string_formatter.h"
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 // All serialize_liquid_source functions should add the same number of elements to the vectors of
 // the activity. This makes it easier to distinguish the values of the source and the values of the target.
@@ -74,7 +91,7 @@ namespace liquid_handler
 {
 void handle_all_liquid( item liquid, const int radius )
 {
-    while( liquid.charges > 0l ) {
+    while( liquid.charges > 0 ) {
         // handle_liquid allows to pour onto the ground, which will handle all the liquid and
         // set charges to 0. This allows terminating the loop.
         // The result of handle_liquid is ignored, the player *has* to handle all the liquid.
@@ -91,7 +108,7 @@ bool consume_liquid( item &liquid, const int radius )
     return original_charges != liquid.charges;
 }
 
-bool handle_liquid_from_ground( std::list<item>::iterator on_ground,
+bool handle_liquid_from_ground( map_stack::iterator on_ground,
                                 const tripoint &pos,
                                 const int radius )
 {
@@ -105,11 +122,10 @@ bool handle_liquid_from_ground( std::list<item>::iterator on_ground,
 }
 
 bool handle_liquid_from_container( std::list<item>::iterator in_container,
-                                   item &container,
-                                   int radius )
+                                   item &container, int radius )
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
-    const long old_charges = in_container->charges;
+    const int old_charges = in_container->charges;
     handle_liquid( *in_container, &container, radius );
     if( in_container->charges != old_charges ) {
         container.on_contents_changed();
@@ -144,16 +160,20 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
 
     const std::string liquid_name = liquid.display_name( liquid.charges );
     if( source_pos != nullptr ) {
-        menu.text = string_format( _( "What to do with the %s from %s?" ), liquid_name,
+        //~ %1$s: liquid name, %2$s: terrain name
+        menu.text = string_format( pgettext( "liquid", "What to do with the %1$s from %2$s?" ), liquid_name,
                                    g->m.name( *source_pos ) );
     } else if( source_veh != nullptr ) {
-        menu.text = string_format( _( "What to do with the %s from the %s?" ), liquid_name,
-                                   source_veh->name );
+        //~ %1$s: liquid name, %2$s: vehicle name
+        menu.text = string_format( pgettext( "liquid", "What to do with the %1$s from %2$s?" ), liquid_name,
+                                   source_veh->disp_name() );
     } else if( source_mon != nullptr ) {
-        menu.text = string_format( _( "What to do with the %s from the %s?" ), liquid_name,
-                                   source_mon->get_name() );
+        //~ %1$s: liquid name, %2$s: monster name
+        menu.text = string_format( pgettext( "liquid", "What to do with the %1$s from the %2$s?" ),
+                                   liquid_name, source_mon->get_name() );
     } else {
-        menu.text = string_format( _( "What to do with the %s?" ), liquid_name );
+        //~ %s: liquid name
+        menu.text = string_format( pgettext( "liquid", "What to do with the %s?" ), liquid_name );
     }
     std::vector<std::function<void()>> actions;
 
@@ -381,4 +401,4 @@ bool handle_liquid( item &liquid, item *const source, const int radius,
     }
     return false;
 }
-}
+} // namespace liquid_handler

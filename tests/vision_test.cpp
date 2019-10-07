@@ -11,21 +11,20 @@
 #include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
-#include "player.h"
 #include "field.h"
 #include "map.h"
-#include "mapdata.h"
 #include "map_helpers.h"
 #include "calendar.h"
-#include "enums.h"
 #include "item.h"
 #include "lightmap.h"
 #include "shadowcasting.h"
 #include "type_id.h"
+#include "game_constants.h"
+#include "point.h"
 
 static void full_map_test( const std::vector<std::string> &setup,
                            const std::vector<std::string> &expected_results,
-                           const calendar &time )
+                           const time_point &time )
 {
     const ter_id t_brick_wall( "t_brick_wall" );
     const ter_id t_window_frame( "t_window_frame" );
@@ -94,7 +93,7 @@ static void full_map_test( const std::vector<std::string> &setup,
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const tripoint p = origin + point( x, y );
-            const tripoint above = p + tripoint( 0, 0, 1 );
+            const tripoint above = p + tripoint_above;
             switch( setup[y][x] ) {
                 case ' ':
                     break;
@@ -155,7 +154,7 @@ static void full_map_test( const std::vector<std::string> &setup,
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const tripoint p = origin + point( x, y );
-            const map::apparent_light_info al = g->m.apparent_light_helper( cache, p );
+            const map::apparent_light_info al = map::apparent_light_helper( cache, p );
             for( auto &pr : g->m.field_at( p ) ) {
                 fields << pr.second.name() << ',';
             }
@@ -224,7 +223,7 @@ static void full_map_test( const std::vector<std::string> &setup,
 struct vision_test_case {
     std::vector<std::string> setup;
     std::vector<std::string> expected_results;
-    calendar time;
+    time_point time;
     bool test_3d;
 
     static void transpose( std::vector<std::string> &v ) {
@@ -233,9 +232,9 @@ struct vision_test_case {
         }
         std::vector<std::string> new_v( v[0].size() );
 
-        for( size_t x = 0; x < v.size(); ++x ) {
+        for( const std::string &col : v ) {
             for( size_t y = 0; y < new_v.size(); ++y ) {
-                new_v[y].push_back( v[x].at( y ) );
+                new_v[y].push_back( col.at( y ) );
             }
         }
 
@@ -300,8 +299,8 @@ struct vision_test_case {
     }
 };
 
-static constexpr int midnight = HOURS( 0 );
-static constexpr int midday = HOURS( 12 );
+static const time_point midnight = calendar::turn_zero + 0_hours;
+static const time_point midday = calendar::turn_zero + 12_hours;
 
 // The following characters are used in these setups:
 // ' ' - empty, outdoors
@@ -343,7 +342,7 @@ TEST_CASE( "vision_day_indoors", "[shadowcasting][vision]" )
         },
         {
             "111",
-            "141",
+            "111",
             "111",
         },
         midday,
@@ -364,9 +363,9 @@ TEST_CASE( "vision_light_shining_in", "[shadowcasting][vision]" )
             "##########",
         },
         {
-            "1144444166",
+            "1144444666",
             "1144444466",
-            "1444444444",
+            "1144444444",
             "1144444444",
             "1144444444",
         },
@@ -386,7 +385,7 @@ TEST_CASE( "vision_no_lights", "[shadowcasting][vision]" )
         },
         {
             "111",
-            "141",
+            "111",
         },
         midnight,
         true
@@ -426,7 +425,7 @@ TEST_CASE( "vision_wall_obstructs_light", "[shadowcasting][vision]" )
         {
             "666",
             "111",
-            "141",
+            "111",
         },
         midnight,
         true
@@ -461,11 +460,9 @@ TEST_CASE( "vision_wall_can_be_lit_by_player", "[shadowcasting][vision]" )
 
 TEST_CASE( "vision_see_wall_in_moonlight", "[shadowcasting][vision]" )
 {
-    const time_duration till_full_moon = calendar::season_length() / 3;
+    const time_point full_moon = calendar::turn_zero + calendar::season_length() / 3;
     // Verify that I've picked the full_moon time correctly.
-    CHECK( get_moon_phase( calendar::time_of_cataclysm + till_full_moon ) == MOON_FULL );
-    // Want a night time
-    const int days_till_full_moon = to_days<int>( till_full_moon );
+    CHECK( get_moon_phase( full_moon ) == MOON_FULL );
 
     vision_test_case t {
         {
@@ -480,9 +477,10 @@ TEST_CASE( "vision_see_wall_in_moonlight", "[shadowcasting][vision]" )
             "111",
             "111",
             "111",
-            "141",
+            "111",
         },
-        DAYS( days_till_full_moon ),
+        // Want a night time
+        full_moon - time_past_midnight( full_moon ),
         true
     };
 

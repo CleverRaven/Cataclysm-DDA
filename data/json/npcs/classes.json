@@ -123,6 +123,7 @@
       [ "MYCUS_FRIEND", 100 ],
       [ "FLIMSY2", 100 ]
     ],
+    "common": false,
     "worn_override": "NC_VOICE_worn",
     "carry_override": "NC_VOICE_carry",
     "weapon_override": "NC_VOICE_weapon",
@@ -355,6 +356,23 @@
       },
       { "skill": "throw", "bonus": { "rng": [ 1, 3 ] } },
       { "skill": "cooking", "bonus": { "rng": [ 3, 6 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_TRUE_FOODPERSON",
+    "name": "Foodperson",
+    "job_description": "I AM FOODPERSON. AND I BRING SUSTENANCE!",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, [ "PROF_FOODP", 100 ] ],
+    "common": false,
+    "worn_override": "NC_TRUE_FOODPERSON_worn",
+    "weapon_override": "NC_TRUE_FOODPERSON_melee",
+    "bonus_str": { "rng": [ 0, 2 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } },
+      { "skill": "bashing", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 3, 6 ] } }
     ]
   },
   {

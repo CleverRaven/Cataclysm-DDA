@@ -4,6 +4,8 @@ The Square font (data/font/square.ttf) is copyright Wouter van Oortmerssen, lice
 
 GNU Unifont (data/font/unitfont.ttf) is licensed under GNU General Public License v2+ with the GNU font embedding exception. Visit http://unifoundry.com/LICENSE.txt for details.
 
-CATCH unit-test framework is licensed under the Boost Software License. Visit https://github.com/philsquared/Catch/blob/master/LICENSE.txt to read the license.
+CATCH unit-test framework (tests/catch/catch.hpp) is licensed under the Boost Software License. Visit https://github.com/philsquared/Catch/blob/master/LICENSE.txt to read the license.
+
+PLF List and PLF Colony (src/list.h, src/colony.h) are licensed under the zLib license (https://www.zlib.net/zlib_license.html).
 
 getpost (tools/json_tools/format/getpost.h) is licensed under the MIT license, see file for text of license.

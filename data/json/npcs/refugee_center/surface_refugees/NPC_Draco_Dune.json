@@ -57,62 +57,70 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_REFUGEE_Draco_1",
-    "faction": "free_merchants"
+    "faction": "free_merchants",
+    "mission_offered": "MISSION_REFUGEE_Draco_GET_GUITAR"
   },
   {
     "type": "effect_type",
-    "id": "u_met_Draco_Dune",
-    "//": "Use this flag to indicate if the player has met this NPC before."
+    "id": "u_sold_to_Draco",
+    "//": "Use this flag to indicate if the player sold weed recently to Draco."
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_1",
     "dynamic_line": {
-      "u_has_effect": "u_met_Draco_Dune",
+      "u_has_var": "u_met_Draco_Dune",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
       "yes": "Always good to see you, friend.",
       "no": "Well now, good to see another new face!  Welcome to the center, friend, I'm Draco."
     },
     "responses": [
       {
         "text": "Nice to meet you, Draco.",
-        "condition": { "not": { "u_has_effect": "u_met_Draco_Dune" } },
-        "effect": { "u_add_effect": "u_met_Draco_Dune", "duration": "PERMANENT" },
+        "condition": { "not": { "u_has_var": "u_met_Draco_Dune", "type": "general", "context": "meeting", "value": "yes" } },
+        "effect": { "u_add_var": "u_met_Draco_Dune", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_REFUGEE_Draco_1_firstmeet",
         "switch": true
       },
       {
-        "text": "Hi, Draco.  What's up?",
-        "condition": { "days_since_cataclysm": 180 },
-        "topic": "TALK_REFUGEE_Draco_2_stub",
-        "switch": true
+        "text": "Hi, Draco, how are you doing?",
+        "condition": {
+          "and": [
+            { "not": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" } },
+            {
+              "not": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7" }
+            }
+          ]
+        },
+        "topic": "TALK_REFUGEE_Draco_2"
       },
       {
-        "text": "Hi, Draco.  What's up?",
-        "condition": { "days_since_cataclysm": 60 },
-        "topic": "TALK_REFUGEE_Draco_2_stub",
-        "switch": true
+        "text": "Hi again, Draco, nice to see you too.",
+        "condition": {
+          "and": [
+            { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" },
+            {
+              "not": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7" }
+            }
+          ]
+        },
+        "topic": "TALK_REFUGEE_Draco_5a"
       },
       {
-        "text": "Hi, Draco.  What's up?",
-        "condition": { "days_since_cataclysm": 30 },
-        "topic": "TALK_REFUGEE_Draco_2_stub",
-        "switch": true
-      },
-      {
-        "text": "Hi, Draco.  What's up?",
-        "condition": { "u_has_effect": "u_met_Draco_Dune" },
-        "topic": "TALK_REFUGEE_Draco_2_stub",
-        "switch": true
+        "text": "Hi again, Draco, nice to see you too.",
+        "condition": { "u_has_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7" },
+        "topic": "TALK_REFUGEE_Draco_7"
       },
       {
         "text": "Hi Draco, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_effect": "u_met_Draco_Dune", "duration": "PERMANENT" },
-        "condition": { "not": { "u_has_effect": "u_met_Draco_Dune" } },
+        "condition": { "not": { "u_has_var": "u_met_Draco_Dune", "type": "general", "context": "meeting", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
         "text": "Hi Draco, nice to see you too.  I gotta go though.",
-        "condition": { "u_has_effect": "u_met_Draco_Dune" },
+        "condition": { "u_has_var": "u_met_Draco_Dune", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]
@@ -122,15 +130,325 @@
     "id": "TALK_REFUGEE_Draco_1_firstmeet",
     "dynamic_line": "Nice to meet you too.  What brings you to these parts?  Got any stories to share?  Happy ones, hopefully... we've had our fill of sadness around here.",
     "responses": [
-      { "text": "What about you, what's your story?", "topic": "TALK_REFUGEE_Draco_2_stub" },
-      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+      { "text": "What about you, how're you doing?", "topic": "TALK_REFUGEE_Draco_2" },
+      { "text": "Yeah, it's tough everywhere.  Well, bye.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Draco_2_stub",
-    "dynamic_line": "Why don't we talk about it some other time?",
-    "//": "TK: not written yet",
-    "responses": [ { "text": "Sure.  Talk to you later.", "topic": "TALK_DONE" } ]
+    "id": "TALK_REFUGEE_Draco_2",
+    "dynamic_line": "Well, look at you.  Asking after random folks like some sort of shepherd!  No, don't take offense now... I mean it well.  We could use more folks askin' after other folks.  I figure it makes the world go round, now, more than ever.  I'm well, friend, considering I have both of my legs and much of my health left to me.  A bit of pain in the back, but can't really complain much if that's the worst of it, right?  You look like you've had a story of your own to tell, just getting here.  I'm writing it in my imagination right now.  Fought through countless hordes, run ragged, chased at every turn, yeah, no thank-you any more of that for me!",
+    "responses": [
+      {
+        "text": "What about you, what's your story?",
+        "topic": "TALK_REFUGEE_Draco_3",
+        "effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" }
+      },
+      { "text": "No more indeed.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_3",
+    "dynamic_line": "Oh you don't have time for all that, do you?  Well, I'll give you the short version.  I've gotten kinda tired of it in the telling.  Frankly, it's not as heroic, not as inspiring, not as tragic, and certainly not as funny as some of the tales around here.  But it's mine, ya know?  I'm a musician.  Guitar's my baby.  You like folk and the blues, friend?  Well, that was my bag and I sure could please my own ear with em, anyway.  Folks who's bein' generous might also say it pleased theirs.  Problem is, I seem to be between guitars right now, you know? Temporarily guitar-light, if you get my saying.  Problem is, in the run for my life, I had to use old Jasmine as a bit of a billy club.  Had to curb some rowdy dudes on my way here.  It was her or me, you understand?  You wouldn't begrudge a man breakin' his instrument to save his life, would ya?",
+    "responses": [
+      { "text": "I think I would've done the same.  Nobody around here has a guitar?", "topic": "TALK_REFUGEE_Draco_4" },
+      { "text": "Yes, yes I would... you monster.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_4",
+    "dynamic_line": "Would you believe that they don't!  Not a one in the whole place.  Well, maybe downstairs, but that's a different matter, isn't it?  Say, you're not planning on sticking around, right?  You're a free-roller, not a settler, seems like to me.  Don't know if I could beg or cajole you into maybe keepin' an ear out for a new guitar for me?  There gotta still be plenty out there not gettin' any love these days.  Whattya say?  Help an old man play some blues?  Would be good to have some real music around this place.  Be good for PEOPLE, you know what I'm sayin'?",
+    "responses": [
+      { "text": "Where would we be without music?", "topic": "TALK_REFUGEE_Draco_5a" },
+      {
+        "text": "You're aware that the world has ended, right?  I've got real problems to deal with.  You're on your own.",
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_5a",
+    "dynamic_line": "Let me ask you something.  What type are you?",
+    "responses": [
+      { "text": "Uhh, what do you mean?", "topic": "TALK_REFUGEE_Draco_5b" },
+      { "text": "I'll tell you what type I am.", "topic": "TALK_REFUGEE_Draco_5c" },
+      { "text": "No, not playing this game.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_5b",
+    "dynamic_line": "You know, what kinda person are you?  What motivates you?",
+    "responses": [
+      { "text": "I'll tell you what type I am.", "topic": "TALK_REFUGEE_Draco_5c" },
+      { "text": "Leaving.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_5c",
+    "dynamic_line": "So then, what type are you?",
+    "responses": [
+      { "text": "The 'just getting by' type.", "topic": "TALK_REFUGEE_Draco_6a" },
+      { "text": "The serious type.", "topic": "TALK_REFUGEE_Draco_6b" },
+      { "text": "The zany type.", "topic": "TALK_REFUGEE_Draco_6c" },
+      { "text": "I fight stuff.", "topic": "TALK_REFUGEE_Draco_6d" },
+      { "text": "I want to see it all.", "topic": "TALK_REFUGEE_Draco_6e" },
+      { "text": "The 'doesn't have time for this' type.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_6a",
+    "dynamic_line": "Me too!  You can understand how folks be wantin' some liveliness in these times.  Some music sure would help with that.  Damn, I miss it.  All I hear is those MP3 players with their tin-can drum machines and whiny vocals.  Help me find a guitar and we'll really get this place smokin'!",
+    "responses": [
+      { "text": "I could be persuaded.", "topic": "TALK_REFUGEE_Draco_7" },
+      { "text": "It's called dub-step and I like it.  Goodbye, old man.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_6b",
+    "dynamic_line": "Me too!  Times are hard for folks and that's no laughing matter.  People need some normality in these times.  Some reminders of how things used to be.  I think a sing-along or two could do folks good.",
+    "responses": [
+      { "text": "Couldn't hurt.", "topic": "TALK_REFUGEE_Draco_7" },
+      { "text": "I don't need to hear amateur-hour karaoke around here.  Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_6c",
+    "dynamic_line": "Me too!  I did stand-up comedy at a club once.  Well, outside a club anyway.  You know what'd be funny?  Next time one of those stupid ferals starts running around chasing after a squirrel or something, if I had me a guitar I could play the Benny Hill tune and get everybody crackin' up.  Places needs some laughter badly.",
+    "responses": [
+      { "text": "That'd be awesome.", "topic": "TALK_REFUGEE_Draco_7" },
+      {
+        "text": "Yeah, wouldn't be so funny when Zed heard all the sound and broke in.  Be responsible.",
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_6d",
+    "dynamic_line": "Me too.  It's fight a stay afloat in these times.  Some music would lift all spirits, though, don't you think?",
+    "responses": [
+      { "text": "Can you play heavy metal on an acoustic guitar?", "topic": "TALK_REFUGEE_Draco_7" },
+      { "text": "Boring.  I'm going to go destroy something.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_6e",
+    "dynamic_line": "Me too!  For now, anyway, that's not really possible for me.  I mean, I guess you know better than me about that.  Man, I used to travel all around.  Saw halfa the States with my guitar on my back.  Now, though, well, I think I'll stay inside til this all flies over.",
+    "responses": [
+      { "text": "Maybe I could help with something?", "topic": "TALK_REFUGEE_Draco_7" },
+      { "text": "Well then, I'll leave you here where it's safe.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_7",
+    "dynamic_line": {
+      "u_has_var": "NC_REFUGEE_Draco_has_guitar",
+      "type": "general",
+      "context": "mission",
+      "value": "yes",
+      "yes": "My savior!  My patron of the arts!  You're always welcome here, friend.",
+      "no": "Man, just imagine what I could do with a new guitar."
+    },
+    "speaker_effect": { "effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "7" } },
+    "responses": [
+      {
+        "text": "Let's talk about getting you that guitar.",
+        "topic": "TALK_MISSION_LIST",
+        "condition": { "not": { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" } }
+      },
+      {
+        "text": "I've been thinking about that deal you mentioned.",
+        "condition": { "u_has_var": "NC_REFUGEE_Draco_offered_weed_deal", "type": "general", "context": "barter", "value": "yes" },
+        "topic": "TALK_REFUGEE_Draco_10_approve"
+      },
+      {
+        "text": "Anything you buying or selling, by chance?",
+        "condition": { "not": { "u_has_var": "NC_REFUGEE_Draco_offered_weed_deal", "type": "general", "context": "barter", "value": "yes" } },
+        "effect": { "u_add_var": "NC_REFUGEE_Draco_offered_weed_deal", "type": "general", "context": "barter", "value": "yes" },
+        "topic": "TALK_REFUGEE_Draco_8"
+      },
+      { "text": "See you around, Draco.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_8",
+    "dynamic_line": "Well now, my friend-o!  You just asked a mighty fine question.  Folks have been missing the little things in life.  New shoes, new cellphones, can't exactly go shopping, or, well, I guess you sorta can, if you mind the broken glass.  I left my wallet in an outdoorsman's store when I 'bought' this warmer coat.  Figured that's kinda it, you know?  It didn't matter anymore.  I don't think my insurance's going to pay out for any health care I get now.  I did what you see in the movies though, I rolled a joint with a hundred dollar bill.  Ended up coughing and rerolling it in regular paper though.  Was too harsh.  Just letting you know in case you get the smart idea of trying it.",
+    "responses": [ { "text": "Go on.", "topic": "TALK_REFUGEE_Draco_9" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_9",
+    "dynamic_line": "Say, I don't mean to get you in any trouble or nothing, if any folks still care about that, but you haven't seen any green around town, have ya?",
+    "responses": [
+      { "text": "What?.", "topic": "TALK_REFUGEE_Draco_10_question" },
+      { "text": "WHAT.", "topic": "TALK_REFUGEE_Draco_10_disapprove" },
+      {
+        "text": "Oh yeah, some people've been growing it in their basements.",
+        "topic": "TALK_REFUGEE_Draco_10_approve",
+        "effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" }
+      },
+      { "text": "I'm not comfortable with where this is going.", "topic": "TALK_REFUGEE_Draco_10_disapprove" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_10_question",
+    "dynamic_line": "Where you say you're from again?  You're not as worldly as you look.  I'm talking about weed.  Marijuana.  Wondered if you've happened upon any.",
+    "responses": [
+      { "text": "Oh.  Uh, sure.", "topic": "TALK_REFUGEE_Draco_10_approve" },
+      {
+        "text": "Right, of course I knew that!  There's tons of the stuff out there for the taking.",
+        "topic": "TALK_REFUGEE_Draco_10_approve",
+        "effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" }
+      },
+      { "text": "Nope, sorry.", "topic": "TALK_REFUGEE_Draco_10_hasnt_found_weed" },
+      { "text": "I'm not doing this.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_10_disapprove",
+    "dynamic_line": "Hey, don't get all serious on me all of a sudden.  It helps me relax.  Lubricates my joints.  Eases the pain, ya know?  Makes every day a bit more bearable.",
+    "responses": [
+      {
+        "text": "I can help.",
+        "topic": "TALK_REFUGEE_Draco_10_approve",
+        "effect": { "u_add_var": "Draco_Dune_convo_depth", "type": "general", "context": "meeting", "value": "3" }
+      },
+      { "text": "Find somebody else, dude.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_10_approve",
+    "dynamic_line": {
+      "npc_has_effect": "u_sold_to_Draco",
+      "yes": "Yeah, no worries, though.  I'm good at the moment.  Ask me again later and maybe I'll have scrounged up some more cash for you.",
+      "no": "Amazing!  My lucky day.  Let's see here.  What can I offer... I can scrounge up some Merch bucks for, say, five joints or joints-worth of the good stuff."
+    },
+    "responses": [
+      {
+        "text": "You have yourself a deal.  Here's the marijuana.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "weed", "count": 5 } },
+            {
+              "not": { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" }
+            },
+            { "not": { "npc_has_effect": "u_sold_to_Draco" } }
+          ]
+        },
+        "effect": [
+          { "u_sell_item": "weed", "count": 5 },
+          { "u_buy_item": "FMCNote", "count": 4 },
+          { "npc_add_effect": "u_sold_to_Draco", "duration": 240000 }
+        ],
+        "topic": "TALK_REFUGEE_Draco_10_sold"
+      },
+      {
+        "text": "You have yourself a deal.  Here's the marijuana.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "weed", "count": 5 } },
+            { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" },
+            { "not": { "npc_has_effect": "u_sold_to_Draco" } }
+          ]
+        },
+        "effect": [
+          { "u_sell_item": "weed", "count": 5 },
+          { "u_buy_item": "FMCNote", "count": 6 },
+          { "npc_add_effect": "u_sold_to_Draco", "duration": 200000 }
+        ],
+        "topic": "TALK_REFUGEE_Draco_10_sold"
+      },
+      {
+        "text": "You have yourself a deal.  Here's some joints.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "joint", "count": 5 } },
+            {
+              "not": { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" }
+            },
+            { "not": { "npc_has_effect": "u_sold_to_Draco" } }
+          ]
+        },
+        "effect": [
+          { "u_sell_item": "joint", "count": 5 },
+          { "u_buy_item": "FMCNote", "count": 4 },
+          { "npc_add_effect": "u_sold_to_Draco", "duration": 240000 }
+        ],
+        "topic": "TALK_REFUGEE_Draco_10_sold"
+      },
+      {
+        "text": "You have yourself a deal.  Here's some joints.",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "joint", "count": 5 } },
+            { "u_has_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" },
+            { "not": { "npc_has_effect": "u_sold_to_Draco" } }
+          ]
+        },
+        "effect": [
+          { "u_sell_item": "joint", "count": 5 },
+          { "u_buy_item": "FMCNote", "count": 6 },
+          { "npc_add_effect": "u_sold_to_Draco", "duration": 200000 }
+        ],
+        "topic": "TALK_REFUGEE_Draco_10_sold"
+      },
+      { "text": "Oh, alright.  I'll be back later with the goods.", "topic": "TALK_REFUGEE_Draco_7" },
+      { "text": "On second thought, maybe later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_10_hasnt_found_weed",
+    "dynamic_line": "Well, let me know when you have.  I'm not going anywhere.",
+    "responses": [
+      { "text": "Sure.", "topic": "TALK_REFUGEE_Draco_10_approve" },
+      { "text": "Let's talk about something else.", "topic": "TALK_REFUGEE_Draco_7" },
+      { "text": "I'm not your drug dealer, buddy.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_10_sold",
+    "dynamic_line": "Sold!  Thanks for helping me out, friend.",
+    "responses": [
+      { "text": "No problem, Draco.", "topic": "TALK_REFUGEE_Draco_7" },
+      { "text": "You're welcome.  Later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_REFUGEE_Draco_GET_GUITAR",
+    "type": "mission_definition",
+    "name": "Bring an acoustic guitar",
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "acoustic_guitar",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "end": { "effect": { "u_add_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" } },
+    "dialogue": {
+      "describe": "Yeah, sure, imagine how things would be if we had some live music around here?  I don't know how much I could thank you, though, if you're looking for payment.  You'd sure be improving the mood, though.",
+      "offer": "I just want a functional acoustic guitar.  Preferably one that hasn't been used to cave in any zombie skulls.",
+      "accepted": "Great!  We'll be makin' music in no time!",
+      "rejected": "Oh well.  I understand your reluctancy... I guess.",
+      "advice": "Well, I'll let you in on a little secret.  Guitars COULD be found at a music store.  Let that one sink in a bit.",
+      "inquire": "How's my guitar comin', friend?",
+      "success": "Hell yeah, bud!  You just made a lot of people really happy!  In thanks, I'll have enough cash to offer you more recompense for our little dealings.",
+      "success_lie": "Huh.  This... is something, isn't it.",
+      "failure": "No worries.  They don't grow from trees, but we have time."
+    }
   }
 ]

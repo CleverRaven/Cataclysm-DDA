@@ -5,7 +5,6 @@
     "//": "Appears in the refugee center as a unique trader and potential mission provider.",
     "name_unique": "Makayla Sanchez",
     "name_suffix": "Arsonist",
-    "//": "Gender is only referenced when the npc has a complete unique name",
     "gender": "female",
     "class": "NC_ARSONIST",
     "attitude": 0,
@@ -34,7 +33,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ARSONIST_NEW",
-    "dynamic_line": "Guess that makes two of us.  Well, kind of.  I don't think we're open, though.  Full up as hell; it's almost a crowd downstairs.  Did you see the trader at the enterance?  There's the one to ask.",
+    "dynamic_line": "Guess that makes two of us.  Well, kind of.  I don't think we're open, though.  Full up as hell; it's almost a crowd downstairs.  Did you see the trader at the entrance?  There's the one to ask.",
     "responses": [ { "text": "Sucks...", "topic": "TALK_ARSONIST" } ]
   },
   {

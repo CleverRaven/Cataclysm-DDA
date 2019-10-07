@@ -83,7 +83,12 @@
 # PROFILE is for use with gprof or a similar program -- don't bother generally.
 # RELEASE_FLAGS is flags for release builds.
 RELEASE_FLAGS =
-WARNINGS = -Werror -Wall -Wextra -Woverloaded-virtual -Wpedantic -Wmissing-declarations
+WARNINGS = \
+  -Werror -Wall -Wextra \
+  -Wmissing-declarations \
+  -Wold-style-cast \
+  -Woverloaded-virtual \
+  -Wpedantic
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
@@ -674,11 +679,25 @@ ifeq ($(MSYS2),1)
 endif
 
 # Enumerations of all the source files and headers.
-SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
-HEADERS = $(wildcard $(SRC_DIR)/*.h)
-TESTSRC = $(wildcard tests/*.cpp)
-TESTHDR = $(wildcard tests/*.h)
-TOOLSRC = $(wildcard tools/json_tools/format/*.[ch]*)
+SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
+HEADERS := $(wildcard $(SRC_DIR)/*.h)
+TESTSRC := $(wildcard tests/*.cpp)
+TESTHDR := $(wildcard tests/*.h)
+JSON_FORMATTER_SOURCES := tools/format/format.cpp src/json.cpp
+CHKJSON_SOURCES := src/chkjson/chkjson.cpp src/json.cpp
+CLANG_TIDY_PLUGIN_SOURCES := \
+  $(wildcard tools/clang-tidy-plugin/*.cpp tools/clang-tidy-plugin/*/*.cpp)
+TOOLHDR := $(wildcard tools/*/*.h)
+# Using sort here because it has the side-effect of deduplicating the list
+ASTYLE_SOURCES := $(sort \
+  $(SOURCES) \
+  $(HEADERS) \
+  $(TESTSRC) \
+  $(TESTHDR) \
+  $(JSON_FORMATTER_SOURCES) \
+  $(CHKJSON_SOURCES) \
+  $(CLANG_TIDY_PLUGIN_SOURCES) \
+  $(TOOLHDR))
 
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
 ifeq ($(TARGETSYSTEM),WINDOWS)
@@ -781,8 +800,8 @@ src/version.cpp: src/version.h
 localization:
 	lang/compile_mo.sh $(LANGUAGES)
 
-$(CHKJSON_BIN): src/chkjson/chkjson.cpp src/json.cpp
-	$(CXX) $(CXXFLAGS) -Isrc/chkjson -Isrc src/chkjson/chkjson.cpp src/json.cpp -o $(CHKJSON_BIN)
+$(CHKJSON_BIN): $(CHKJSON_SOURCES)
+	$(CXX) $(CXXFLAGS) -Isrc/chkjson -Isrc $(CHKJSON_SOURCES) -o $(CHKJSON_BIN)
 
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
@@ -974,7 +993,7 @@ ifdef LANGUAGES
 endif
 	$(BINDIST_CMD)
 
-export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS
+export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM
 
 ctags: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
 	ctags $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
@@ -983,13 +1002,12 @@ etags: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
 	etags $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
 	find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
 
-astyle: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR) $(TOOLSRC)
-	$(ASTYLE_BINARY) --options=.astylerc -n $(SOURCES) $(HEADERS)
-	$(ASTYLE_BINARY) --options=.astylerc -n $(TESTSRC) $(TESTHDR)
+astyle: $(ASTYLE_SOURCES)
+	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
 
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
-  ASTYLE_CHECK=$(shell LC_ALL=C $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR))
+  ASTYLE_CHECK=$(shell LC_ALL=C $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q $(ASTYLE_SOURCES))
 endif
 
 astyle-check:
@@ -1021,8 +1039,8 @@ endif
 style-all-json: json_formatter
 	find data -name "*.json" -print0 | xargs -0 -L 1 $(JSON_FORMATTER_BIN)
 
-json_formatter: tools/format/format.cpp src/json.cpp
-	$(CXX) $(CXXFLAGS) -Itools/format -Isrc tools/format/format.cpp src/json.cpp -o $(JSON_FORMATTER_BIN)
+json_formatter: $(JSON_FORMATTER_SOURCES)
+	$(CXX) $(CXXFLAGS) -Itools/format -Isrc $(JSON_FORMATTER_SOURCES) -o $(JSON_FORMATTER_BIN)
 
 tests: version $(BUILD_PREFIX)cataclysm.a
 	$(MAKE) -C tests

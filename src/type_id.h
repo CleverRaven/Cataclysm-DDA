@@ -11,14 +11,27 @@ using ammotype = string_id<ammunition_type>;
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
 
+struct construction_category;
+using construction_category_id = string_id<construction_category>;
+
+struct clothing_mod;
+using clothing_mod_id = string_id<clothing_mod>;
+
 class effect_type;
 using efftype_id = string_id<effect_type>;
 
 class emit;
 using emit_id = string_id<emit>;
 
+class enchantment;
+using enchantment_id = string_id<enchantment>;
+
 class fault;
 using fault_id = string_id<fault>;
+
+struct field_type;
+using field_type_id = int_id<field_type>;
+using field_type_str_id = string_id<field_type>;
 
 struct furn_t;
 using furn_id = int_id<furn_t>;
@@ -64,6 +77,9 @@ using mtype_id = string_id<mtype>;
 class npc_class;
 using npc_class_id = string_id<npc_class>;
 
+class faction;
+using faction_id = string_id<faction>;
+
 struct oter_t;
 using oter_id = int_id<oter_t>;
 using oter_str_id = string_id<oter_t>;
@@ -76,6 +92,9 @@ using requirement_id = string_id<requirement_data>;
 
 class Skill;
 using skill_id = string_id<Skill>;
+
+class SkillDisplayType;
+using skill_displayType_id = string_id<SkillDisplayType>;
 
 struct species_type;
 using species_id = string_id<species_type>;
@@ -90,11 +109,14 @@ struct ter_t;
 using ter_id = int_id<ter_t>;
 using ter_str_id = string_id<ter_t>;
 
+class ter_furn_transform;
+using ter_furn_transform_id = string_id<ter_furn_transform>;
+
 class Trait_group;
 namespace trait_group
 {
 using Trait_group_tag = string_id<Trait_group>;
-}
+} // namespace trait_group
 
 struct trap;
 using trap_id = int_id<trap>;

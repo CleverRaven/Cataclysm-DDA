@@ -7,6 +7,10 @@ class monster;
 namespace monexamine
 {
 bool pet_menu( monster &z );
+bool mech_hack( monster &z );
+bool pay_bot( monster &z );
+void remove_battery( monster &z );
+void insert_battery( monster &z );
 void swap( monster &z );
 void push( monster &z );
 void rename_pet( monster &z );
@@ -28,5 +32,5 @@ void attach_or_remove_saddle( monster &z );
 *and amount the times per day you can milk the monster.
 */
 void milk_source( monster &source_mon );
-}
+} // namespace monexamine
 #endif

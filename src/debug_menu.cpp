@@ -1,11 +1,14 @@
 #include "debug_menu.h"
 
-#include <cstddef>
+// IWYU pragma: no_include <cxxabi.h>
+#include <limits.h>
+#include <stdint.h>
 #include <algorithm>
 #include <chrono>
 #include <vector>
 #include <array>
 #include <iomanip>
+#include <iostream>
 #include <iterator>
 #include <list>
 #include <map>
@@ -14,12 +17,17 @@
 #include <string>
 #include <type_traits>
 #include <utility>
+#include <cstdlib>
+#include <ctime>
+#include <unordered_map>
 
 #include "action.h"
 #include "avatar.h"
 #include "coordinate_conversions.h"
+#include "faction.h"
 #include "filesystem.h"
 #include "game.h"
+#include "map_extras.h"
 #include "messages.h"
 #include "mission.h"
 #include "morale_types.h"
@@ -48,28 +56,41 @@
 #include "pldata.h"
 #include "translations.h"
 #include "type_id.h"
-
 #include "map.h"
 #include "veh_type.h"
-#include "enums.h"
 #include "weather.h"
 #include "recipe_dictionary.h"
 #include "martialarts.h"
-#include "item.h"
 #include "sounds.h"
 #include "trait_group.h"
-#include "map_extras.h"
 #include "artifact.h"
 #include "vpart_position.h"
 #include "rng.h"
 #include "signal.h"
 #include "magic.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "cata_utility.h"
+#include "clzones.h"
+#include "compatibility.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "input.h"
+#include "item_group.h"
+#include "monster.h"
+#include "point.h"
+#include "stomach.h"
+#include "string_id.h"
+#include "units.h"
+#include "weather_gen.h"
+
+class vehicle;
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
 #endif
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 const efftype_id effect_riding( "riding" );
 namespace debug_menu
 {
@@ -113,6 +134,7 @@ enum debug_menu_index {
     DEBUG_CRASH_GAME,
     DEBUG_MAP_EXTRA,
     DEBUG_DISPLAY_NPC_PATH,
+    DEBUG_PRINT_FACTION_INFO,
     DEBUG_QUIT_NOSAVE,
     DEBUG_TEST_WEATHER,
     DEBUG_SAVE_SCREENSHOT,
@@ -121,6 +143,7 @@ enum debug_menu_index {
     DEBUG_DISPLAY_TEMP,
     DEBUG_DISPLAY_VISIBILITY,
     DEBUG_DISPLAY_LIGHTING,
+    DEBUG_DISPLAY_RADIATION,
     DEBUG_LEARN_SPELLS,
     DEBUG_LEVEL_SPELLS
 };
@@ -179,12 +202,14 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_DISPLAY_TEMP, true, 'T', _( "Toggle display temperature" ) ) },
             { uilist_entry( DEBUG_DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
             { uilist_entry( DEBUG_DISPLAY_LIGHTING, true, 'l', _( "Toggle display lighting" ) ) },
+            { uilist_entry( DEBUG_DISPLAY_RADIATION, true, 'R', _( "Toggle display radiation" ) ) },
             { uilist_entry( DEBUG_SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
             { uilist_entry( DEBUG_BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
             { uilist_entry( DEBUG_TRAIT_GROUP, true, 't', _( "Test trait group" ) ) },
             { uilist_entry( DEBUG_SHOW_MSG, true, 'd', _( "Show debug message" ) ) },
             { uilist_entry( DEBUG_CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ) },
             { uilist_entry( DEBUG_DISPLAY_NPC_PATH, true, 'n', _( "Toggle NPC pathfinding on map" ) ) },
+            { uilist_entry( DEBUG_PRINT_FACTION_INFO, true, 'f', _( "Print faction info to console" ) ) },
             { uilist_entry( DEBUG_TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
@@ -361,7 +386,7 @@ void character_edit_menu()
     }
     const size_t index = charmenu.ret;
     // The NPC is also required for "Add mission", so has to be in this scope
-    npc *np = g->critter_at<npc>( locations[index] );
+    npc *np = g->critter_at<npc>( locations[index], false );
     player &p = np ? static_cast<player &>( *np ) : static_cast<player &>( g->u );
     uilist nmenu;
 
@@ -370,8 +395,8 @@ void character_edit_menu()
         data << np->name << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
         data << np->myclass.obj().get_name() << "; " <<
              npc_attitude_name( np->get_attitude() ) << "; " <<
-             ( np->my_fac ? np->my_fac->name : _( "no faction" ) ) << "; " <<
-             ( np->my_fac ? np->my_fac->currency : _( "no currency" ) ) << "; " <<
+             ( np->get_faction() ? np->get_faction()->name : _( "no faction" ) ) << "; " <<
+             ( np->get_faction() ? np->get_faction()->currency : _( "no currency" ) ) << "; " <<
              "api: " << np->get_faction_ver() << std::endl;
         if( np->has_destination() ) {
             data << string_format( _( "Destination: %d:%d:%d (%s)" ),
@@ -405,8 +430,8 @@ void character_edit_menu()
 
     enum {
         D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
-        D_HP, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE
+        D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
+        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION
     };
     nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
@@ -416,6 +441,7 @@ void character_edit_menu()
     nmenu.addentry( D_ITEM_WORN, true, 'w', "%s",
                     _( "[w]ear/[w]ield an item from player's inventory" ) );
     nmenu.addentry( D_HP, true, 'h', "%s", _( "Set [h]it points" ) );
+    nmenu.addentry( D_STAMINA, true, 'S', "%s", _( "Set [S]tamina" ) );
     nmenu.addentry( D_MORALE, true, 'o', "%s", _( "Set m[o]rale" ) );
     nmenu.addentry( D_PAIN, true, 'p', "%s", _( "Cause [p]ain" ) );
     nmenu.addentry( D_HEALTHY, true, 'a', "%s", _( "Set he[a]lth" ) );
@@ -428,6 +454,7 @@ void character_edit_menu()
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
         nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with [c]lass" ) );
         nmenu.addentry( D_ATTITUDE, true, 'A', "%s", _( "Set [A]ttitude" ) );
+        nmenu.addentry( D_OPINION, true, 'O', "%s", _( "Set [O]pinion" ) );
     }
     nmenu.query();
     switch( nmenu.ret ) {
@@ -535,6 +562,17 @@ void character_edit_menu()
             }
         }
         break;
+        case D_STAMINA:
+            int value;
+            if( query_int( value, _( "Set stamina to? Current: %d. Max: %d." ), p.stamina,
+                           p.get_stamina_max() ) ) {
+                if( value >= 0 && value <= p.get_stamina_max() ) {
+                    p.stamina = value;
+                } else {
+                    add_msg( m_bad, _( "Target stamina value out of bounds!" ) );
+                }
+            }
+            break;
         case D_MORALE: {
             int current_morale_level = p.get_morale_level();
             int value;
@@ -542,6 +580,48 @@ void character_edit_menu()
                 int morale_level_delta = value - current_morale_level;
                 p.add_morale( MORALE_PERM_DEBUG, morale_level_delta );
                 p.apply_persistent_morale();
+            }
+        }
+        break;
+        case D_OPINION: {
+            uilist smenu;
+            smenu.addentry( 0, true, 'h', "%s: %d", _( "trust" ), np->op_of_u.trust );
+            smenu.addentry( 1, true, 's', "%s: %d", _( "fear" ), np->op_of_u.fear );
+            smenu.addentry( 2, true, 't', "%s: %d", _( "value" ), np->op_of_u.value );
+            smenu.addentry( 3, true, 'f', "%s: %d", _( "anger" ), np->op_of_u.anger );
+            smenu.addentry( 4, true, 'd', "%s: %d", _( "owed" ), np->op_of_u.owed );
+
+            smenu.query();
+            int value;
+            switch( smenu.ret ) {
+                case 0:
+                    if( query_int( value, _( "Set trust to? Currently: %d" ),
+                                   np->op_of_u.trust ) ) {
+                        np->op_of_u.trust = value;
+                    }
+                    break;
+                case 1:
+                    if( query_int( value, _( "Set fear to? Currently: %d" ), np->op_of_u.fear ) ) {
+                        np->op_of_u.fear = value;
+                    }
+                    break;
+                case 2:
+                    if( query_int( value, _( "Set value to? Currently: %d" ),
+                                   np->op_of_u.value ) ) {
+                        np->op_of_u.value = value;
+                    }
+                    break;
+                case 3:
+                    if( query_int( value, _( "Set anger to? Currently: %d" ),
+                                   np->op_of_u.anger ) ) {
+                        np->op_of_u.anger = value;
+                    }
+                    break;
+                case 4:
+                    if( query_int( value, _( "Set owed to? Currently: %d" ), np->op_of_u.owed ) ) {
+                        np->op_of_u.owed = value;
+                    }
+                    break;
             }
         }
         break;
@@ -672,7 +752,7 @@ void character_edit_menu()
             const auto all_missions = mission_type::get_all();
             std::vector<const mission_type *> mts;
             for( size_t i = 0; i < all_missions.size(); i++ ) {
-                types.addentry( i, true, -1, all_missions[i].name );
+                types.addentry( i, true, -1, all_missions[i].tname() );
                 mts.push_back( &all_missions[i] );
             }
 
@@ -689,8 +769,8 @@ void character_edit_menu()
             if( const cata::optional<tripoint> newpos = g->look_around() ) {
                 p.setpos( *newpos );
                 if( p.is_player() ) {
-                    if( p.has_effect( effect_riding ) && p.mounted_creature ) {
-                        p.mounted_creature.get()->setpos( *newpos );
+                    if( p.is_mounted() ) {
+                        p.mounted_creature->setpos( *newpos );
                     }
                     g->update_map( g->u );
                 }
@@ -737,23 +817,22 @@ void character_edit_menu()
     }
 }
 
-static const std::string &mission_status_string( mission::mission_status status )
+static std::string mission_status_string( mission::mission_status status )
 {
     static const std::map<mission::mission_status, std::string> desc{ {
-            { mission::mission_status::yet_to_start, _( "Yet to start" ) },
-            { mission::mission_status::in_progress, _( "In progress" ) },
-            { mission::mission_status::success, _( "Success" ) },
-            { mission::mission_status::failure, _( "Failure" ) }
+            { mission::mission_status::yet_to_start, translate_marker( "Yet to start" ) },
+            { mission::mission_status::in_progress, translate_marker( "In progress" ) },
+            { mission::mission_status::success, translate_marker( "Success" ) },
+            { mission::mission_status::failure, translate_marker( "Failure" ) }
         }
     };
 
     const auto &iter = desc.find( status );
     if( iter != desc.end() ) {
-        return iter->second;
+        return _( iter->second );
     }
 
-    static const std::string errmsg = _( "Bugged" );
-    return errmsg;
+    return _( "Bugged" );
 }
 
 std::string mission_debug::describe( const mission &m )
@@ -917,7 +996,7 @@ void draw_benchmark( const int max_difference )
     // call the draw procedure as many times as possible in max_difference milliseconds
     auto start_tick = std::chrono::steady_clock::now();
     auto end_tick = std::chrono::steady_clock::now();
-    long difference = 0;
+    int64_t difference = 0;
     int draw_counter = 0;
     while( true ) {
         end_tick = std::chrono::steady_clock::now();
@@ -951,7 +1030,7 @@ void debug()
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG, false ) != -1;
     int action = debug_menu_uilist( debug_menu_has_hotkey );
     g->refresh_all();
-    player &u = g->u;
+    avatar &u = g->u;
     map &m = g->m;
     switch( action ) {
         case DEBUG_WISH:
@@ -971,7 +1050,7 @@ void debug()
             for( int i = 0; i < OMAPX; i++ ) {
                 for( int j = 0; j < OMAPY; j++ ) {
                     for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
-                        cur_om.seen( i, j, k ) = true;
+                        cur_om.seen( { i, j, k } ) = true;
                     }
                 }
             }
@@ -989,7 +1068,12 @@ void debug()
             temp->mission = NPC_MISSION_NULL;
             temp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, temp->global_omt_location(),
                                    temp->getID() ) );
-            temp->set_fac( faction_id( "wasteland_scavengers" ) );
+            std::string new_fac_id = "solo_";
+            new_fac_id += temp->name;
+            // create a new "lone wolf" faction for this one NPC
+            faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( temp->name,
+                                    faction_id( new_fac_id ), faction_id( "no_faction" ) );
+            temp->set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
             g->load_npcs();
         }
         break;
@@ -1006,7 +1090,7 @@ void debug()
                 s.c_str(),
                 u.posx(), g->u.posy(), g->get_levx(), g->get_levy(),
                 overmap_buffer.ter( g->u.global_omt_location() )->get_name(),
-                static_cast<int>( calendar::turn ),
+                to_turns<int>( calendar::turn - calendar::turn_zero ),
                 get_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
                 _( "NPCs are NOT going to spawn." ),
                 g->num_creatures() );
@@ -1029,6 +1113,9 @@ void debug()
                      u.get_healthy_kcal() );
             add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), u.get_bmi(), u.get_bmr() );
             add_msg( m_info, _( "Player activity level: %s" ), u.activity_level_str() );
+            if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
+                add_msg( m_info, _( "Kill xp: %d" ), u.kill_xp() );
+            }
             g->disp_NPCs();
             break;
         }
@@ -1067,7 +1154,7 @@ void debug()
                     //Didn't cancel
                     const vproto_id &selected_opt = veh_strings[veh_menu.ret];
                     tripoint dest = u.pos(); // TODO: Allow picking this when add_vehicle has 3d argument
-                    vehicle *veh = m.add_vehicle( selected_opt, dest.x, dest.y, -90, 100, 0 );
+                    vehicle *veh = m.add_vehicle( selected_opt, dest.xy(), -90, 100, 0 );
                     if( veh != nullptr ) {
                         m.board_vehicle( u.pos(), &u );
                     }
@@ -1107,7 +1194,7 @@ void debug()
 
         case DEBUG_SPAWN_ARTIFACT:
             if( const cata::optional<tripoint> center = g->look_around() ) {
-                artifact_natural_property prop = artifact_natural_property( rng( ARTPROP_NULL + 1,
+                artifact_natural_property prop = static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1,
                                                  ARTPROP_MAX - 1 ) );
                 m.create_anomaly( *center, prop );
                 m.spawn_natural_artifact( *center, prop );
@@ -1129,7 +1216,7 @@ void debug()
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
             for( int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++ ) {
                 weather_menu.addentry( weather_id, true, MENU_AUTOASSIGN,
-                                       weather_data( static_cast<weather_type>( weather_id ) ).name );
+                                       weather::name( static_cast<weather_type>( weather_id ) ) );
             }
 
             weather_menu.query();
@@ -1215,16 +1302,15 @@ void debug()
 #if defined(TILES)
                 // *INDENT-OFF*
                 const point offset{
-                    POSX - u.posx() + u.view_offset.x,
-                    POSY - u.posy() + u.view_offset.y
+                    u.view_offset.xy() + point( POSX - u.posx(), POSY - u.posy() )
                 }; // *INDENT-ON*
                 g->draw_ter();
                 auto sounds_to_draw = sounds::get_monster_sounds();
                 for( const auto &sound : sounds_to_draw.first ) {
-                    mvwputch( g->w_terrain, offset.y + sound.y, offset.x + sound.x, c_yellow, '?' );
+                    mvwputch( g->w_terrain, offset + sound.xy(), c_yellow, '?' );
                 }
                 for( const auto &sound : sounds_to_draw.second ) {
-                    mvwputch( g->w_terrain, offset.y + sound.y, offset.x + sound.x, c_red, '?' );
+                    mvwputch( g->w_terrain, offset + sound.xy(), c_red, '?' );
                 }
                 wrefresh( g->w_terrain );
                 g->draw_panels();
@@ -1267,8 +1353,7 @@ void debug()
                     creature_menu.callback = &callback;
                     creature_menu.w_y = 0;
                     creature_menu.query();
-                    if( ( creature_menu.ret >= 0 ) &&
-                        ( static_cast<size_t>( creature_menu.ret ) < locations.size() ) ) {
+                    if( creature_menu.ret >= 0 && static_cast<size_t>( creature_menu.ret ) < locations.size() ) {
                         Creature *creature = g->critter_at<Creature>( locations[creature_menu.ret] );
                         g->displaying_visibility_creature = creature;
                     }
@@ -1301,8 +1386,12 @@ void debug()
                 }
             }
             break;
+            case DEBUG_DISPLAY_RADIATION:
+                g->display_toggle_overlay( ACTION_DISPLAY_RADIATION );
+                break;
+            break;
             case DEBUG_CHANGE_TIME: {
-                auto set_turn = [&]( const int initial, const int factor, const char *const msg ) {
+                auto set_turn = [&]( const int initial, const time_duration factor, const char *const msg ) {
                     const auto text = string_input_popup()
                         .title( msg )
                         .width( 20 )
@@ -1312,46 +1401,47 @@ void debug()
                     if( text.empty() ) {
                         return;
                     }
-                    const int new_value = ( std::atoi( text.c_str() ) - initial ) * factor;
-                    calendar::turn += std::max( std::min( INT_MAX / 2 - calendar::turn, new_value ),
-                                                -calendar::turn );
+                    const int new_value = std::atoi( text.c_str() );
+                    const time_duration offset = ( new_value - initial ) * factor;
+                    // Arbitrary maximal value.
+                    const time_point max = calendar::turn_zero + time_duration::from_turns( std::numeric_limits<int>::max() / 2 );
+                    calendar::turn = std::max( std::min( max, calendar::turn + offset ), calendar::turn_zero );
                 };
 
                 uilist smenu;
+                static const auto years = [](const time_point &p) { return static_cast<int>( ( p - calendar::turn_zero ) / calendar::year_length() ); };
                 do {
                     const int iSel = smenu.ret;
                     smenu.reset();
-                    smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), calendar::turn.years() );
+                    smenu.addentry( 0, true, 'y', "%s: %d", _( "year" ), years( calendar::turn ) );
                     smenu.addentry( 1, !calendar::eternal_season(), 's', "%s: %d",
                                     _( "season" ), static_cast<int>( season_of_year( calendar::turn ) ) );
                     smenu.addentry( 2, true, 'd', "%s: %d", _( "day" ), day_of_season<int>( calendar::turn ) );
                     smenu.addentry( 3, true, 'h', "%s: %d", _( "hour" ), hour_of_day<int>( calendar::turn ) );
                     smenu.addentry( 4, true, 'm', "%s: %d", _( "minute" ), minute_of_hour<int>( calendar::turn ) );
-                    smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ), static_cast<int>( calendar::turn ) );
+                    smenu.addentry( 5, true, 't', "%s: %d", _( "turn" ), to_turns<int>( calendar::turn - calendar::turn_zero ) );
                     smenu.selected = iSel;
                     smenu.query();
 
                     switch( smenu.ret ) {
                         case 0:
-                            set_turn( calendar::turn.years(), to_turns<int>( calendar::year_length() ), _( "Set year to?" ) );
+                            set_turn( years( calendar::turn ), calendar::year_length(), _( "Set year to?" ) );
                             break;
                         case 1:
-                            set_turn( static_cast<int>( season_of_year( calendar::turn ) ),
-                                      to_turns<int>( calendar::turn.season_length() ),
-                                      _( "Set season to? (0 = spring)" ) );
+                            set_turn( static_cast<int>( season_of_year( calendar::turn ) ), calendar::season_length(), _( "Set season to? (0 = spring)" ) );
                             break;
                         case 2:
-                            set_turn( day_of_season<int>( calendar::turn ), DAYS( 1 ), _( "Set days to?" ) );
+                            set_turn( day_of_season<int>( calendar::turn ), 1_days, _( "Set days to?" ) );
                             break;
                         case 3:
-                            set_turn( hour_of_day<int>( calendar::turn ), HOURS( 1 ), _( "Set hour to?" ) );
+                            set_turn( hour_of_day<int>( calendar::turn ), 1_hours, _( "Set hour to?" ) );
                             break;
                         case 4:
-                            set_turn( minute_of_hour<int>( calendar::turn ), MINUTES( 1 ), _( "Set minute to?" ) );
+                            set_turn( minute_of_hour<int>( calendar::turn ), 1_minutes, _( "Set minute to?" ) );
                             break;
                         case 5:
-                            set_turn( calendar::turn, 1,
-                                      string_format( _( "Set turn to? (One day is %i turns)" ), static_cast<int>( DAYS( 1 ) ) ).c_str() );
+                            set_turn( to_turns<int>( calendar::turn - calendar::turn_zero ), 1_turns,
+                                      string_format( _( "Set turn to? (One day is %i turns)" ), to_turns<int>( 1_days ) ).c_str() );
                             break;
                         default:
                             break;
@@ -1406,7 +1496,7 @@ void debug()
                 raise( SIGSEGV );
                 break;
             case DEBUG_MAP_EXTRA: {
-                std::unordered_map<std::string, map_special_pointer> FM = MapExtras::all_functions();
+                std::unordered_map<std::string, map_extra_pointer> FM = MapExtras::all_functions();
                 uilist mx_menu;
                 std::vector<std::string> mx_str;
                 for( auto &extra : FM ) {
@@ -1416,14 +1506,15 @@ void debug()
                 mx_menu.query();
                 int mx_choice = mx_menu.ret;
                 if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
-                    auto func = MapExtras::get_function( mx_str[mx_choice] );
-                    if( func != nullptr ) {
-                        const tripoint where( ui::omap::choose_point() );
-                        if( where != overmap::invalid_tripoint ) {
-                            tinymap mx_map;
-                            mx_map.load( where.x * 2, where.y * 2, where.z, false );
-                            func( mx_map, where );
-                        }
+                    const tripoint where_omt( ui::omap::choose_point() );
+                    if( where_omt != overmap::invalid_tripoint ) {
+                        tripoint where_sm = omt_to_sm_copy( where_omt );
+                        tinymap mx_map;
+                        mx_map.load( where_sm, false );
+                        MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
+                        g->load_npcs();
+                        g->m.invalidate_map_cache( g->get_levz() );
+                        g->refresh_all();
                     }
                 }
                 break;
@@ -1431,6 +1522,17 @@ void debug()
             case DEBUG_DISPLAY_NPC_PATH:
                 g->debug_pathfinding = !g->debug_pathfinding;
                 break;
+            case DEBUG_PRINT_FACTION_INFO: {
+                int count = 0;
+                for( const auto elem : g->faction_manager_ptr->all() ){
+                    std::cout << std::to_string( count ) << " Faction_id key in factions map = " << elem.first.str() << std::endl;
+                    std::cout << std::to_string( count ) << " Faction name associated with this id is " << elem.second.name << std::endl;
+                    std::cout << std::to_string( count ) << " the id of that faction object is " << elem.second.id.str() << std::endl;
+                    count++;
+                }
+                std::cout << "Player faction is " << g->u.get_faction()->id.str() << std::endl;
+                break;
+            }
             case DEBUG_QUIT_NOSAVE:
                 if( query_yn(
                     _( "Quit without saving? This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
@@ -1463,7 +1565,7 @@ void debug()
 
                 // Take a screenshot of the viewport.
                 if ( g->take_screenshot( current_file_path ) ) {
-                    popup( string_format( _( "Successfully saved your screenshot to: %s" ), map_directory.str() ) );
+                    popup( _( "Successfully saved your screenshot to: %s" ), map_directory.str() );
                 }
                 else {
                     popup( _( "An error occurred while trying to save the screenshot." ) );
@@ -1545,4 +1647,4 @@ void debug()
         g->refresh_all();
     }
 
-}
+} // namespace debug_menu

@@ -1,5 +1,6 @@
 #include "ui.h"
 
+#include <assert.h>
 #include <cctype>
 #include <climits>
 #include <cstdlib>
@@ -12,6 +13,7 @@
 #include "catacharset.h"
 #include "debug.h"
 #include "game.h"
+#include "ime.h"
 #include "input.h"
 #include "output.h"
 #include "player.h"
@@ -22,6 +24,14 @@
 
 #include "options.h"
 #endif
+
+catacurses::window new_centered_win( int nlines, int ncols )
+{
+    int height = std::min( nlines, TERMY );
+    int width = std::min( ncols, TERMX );
+    point pos( ( TERMX - width ) / 2, ( TERMY - height ) / 2 );
+    return catacurses::newwin( height, width, pos );
+}
 
 /**
 * \defgroup UI "The UI Menu."
@@ -42,38 +52,38 @@ uilist::uilist( const std::string &hotkeys_override )
 }
 
 uilist::uilist( const std::string &msg, const std::vector<uilist_entry> &opts )
-    : uilist( MENU_AUTOASSIGN, MENU_AUTOASSIGN, MENU_AUTOASSIGN, msg, opts )
+    : uilist( MENU_AUTOASSIGN_POS, MENU_AUTOASSIGN, msg, opts )
 {
 }
 
 uilist::uilist( const std::string &msg, const std::vector<std::string> &opts )
-    : uilist( MENU_AUTOASSIGN, MENU_AUTOASSIGN, MENU_AUTOASSIGN, msg, opts )
+    : uilist( MENU_AUTOASSIGN_POS, MENU_AUTOASSIGN, msg, opts )
 {
 }
 
 uilist::uilist( const std::string &msg, std::initializer_list<const char *const> opts )
-    : uilist( MENU_AUTOASSIGN, MENU_AUTOASSIGN, MENU_AUTOASSIGN, msg, opts )
+    : uilist( MENU_AUTOASSIGN_POS, MENU_AUTOASSIGN, msg, opts )
 {
 }
 
-uilist::uilist( int startx, int width, int starty, const std::string &msg,
+uilist::uilist( const point &start, int width, const std::string &msg,
                 const std::vector<uilist_entry> &opts )
 {
     init();
-    w_x = startx;
-    w_y = starty;
+    w_x = start.x;
+    w_y = start.y;
     w_width = width;
     text = msg;
     entries = opts;
     query();
 }
 
-uilist::uilist( int startx, int width, int starty, const std::string &msg,
+uilist::uilist( const point &start, int width, const std::string &msg,
                 const std::vector<std::string> &opts )
 {
     init();
-    w_x = startx;
-    w_y = starty;
+    w_x = start.x;
+    w_y = start.y;
     w_width = width;
     text = msg;
     for( const auto &opt : opts ) {
@@ -82,12 +92,12 @@ uilist::uilist( int startx, int width, int starty, const std::string &msg,
     query();
 }
 
-uilist::uilist( int startx, int width, int starty, const std::string &msg,
+uilist::uilist( const point &start, int width, const std::string &msg,
                 std::initializer_list<const char *const> opts )
 {
     init();
-    w_x = startx;
-    w_y = starty;
+    w_x = start.x;
+    w_y = start.y;
     w_width = width;
     text = msg;
     for( auto opt : opts ) {
@@ -142,6 +152,7 @@ void uilist::init()
     allow_disabled = false;  // disallow selecting disabled options
     allow_anykey = false;    // do not return on unbound keys
     allow_cancel = true;     // allow cancelling with "QUIT" action
+    allow_additional = false; // do not return on unhandled additional actions
     hilight_full = true;     // render hilight_color background over the entire line (minus padding)
     hilight_disabled =
         false; // if false, hitting 'down' onto a disabled entry will advance downward to the first enabled entry
@@ -225,8 +236,8 @@ void uilist::filterlist()
 std::string uilist::inputfilter()
 {
     std::string identifier; // TODO: uilist.filter_identifier ?
-    mvwprintz( window, w_height - 1, 2, border_color, "< " );
-    mvwprintz( window, w_height - 1, w_width - 3, border_color, " >" );
+    mvwprintz( window, point( 2, w_height - 1 ), border_color, "< " );
+    mvwprintz( window, point( w_width - 3, w_height - 1 ), border_color, " >" );
     /*
     //debatable merit
         std::string origfilter = filter;
@@ -240,11 +251,7 @@ std::string uilist::inputfilter()
     .window( window, 4, w_height - 1, w_width - 4 )
     .identifier( identifier );
     input_event event;
-#if defined(__ANDROID__)
-    if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-        SDL_StartTextInput();
-    }
-#endif
+    ime_sentry sentry;
     do {
         // filter=filter_input->query(filter, false);
         filter = popup.query_string( false );
@@ -271,7 +278,7 @@ std::string uilist::inputfilter()
 
     wattron( window, border_color );
     for( int i = 1; i < w_width - 1; i++ ) {
-        mvwaddch( window, w_height - 1, i, LINE_OXOX );
+        mvwaddch( window, point( i, w_height - 1 ), LINE_OXOX );
     }
     wattroff( window, border_color );
 
@@ -333,16 +340,11 @@ void uilist::setup()
             w_width = title.size() + 5;
         }
     }
+    const int max_desc_width = w_auto ? TERMX - 4 : w_width - 4;
 
     bool h_auto = ( w_height == -1 );
     if( h_auto ) {
         w_height = 4;
-    }
-
-    if( desc_enabled && !( w_auto && h_auto ) ) {
-        desc_enabled = false; // give up
-        debugmsg( "desc_enabled without w_auto and h_auto (h: %d, w: %d)", static_cast<int>( h_auto ),
-                  static_cast<int>( w_auto ) );
     }
 
     max_entry_len = 0;
@@ -378,10 +380,9 @@ void uilist::setup()
             }
         }
         if( desc_enabled ) {
-            const int min_width = std::min( TERMX, std::max( w_width, descwidth_final ) ) - 4;
-            const int max_width = TERMX - 4;
+            const int min_desc_width = std::min( max_desc_width, std::max( w_width, descwidth_final ) - 4 );
             int descwidth = find_minimum_fold_width( footer_text.empty() ? entries[i].desc : footer_text,
-                            desc_lines, min_width, max_width );
+                            desc_lines, min_desc_width, max_desc_width );
             descwidth += 4; // 2x border + 2x ' ' pad
             if( descwidth_final < descwidth ) {
                 descwidth_final = descwidth;
@@ -493,8 +494,8 @@ void uilist::setup()
                 popup( "Can't display menu options, 0 %d available screen rows are occupied\nThis is probably a bug.\n",
                        TERMY );
             } else {
-                popup( "Can't display menu options, %lu %d available screen rows are occupied by\n'%s\n(snip)\n%s'\nThis is probably a bug.\n",
-                       static_cast<unsigned long>( textformatted.size() ), TERMY, textformatted[ 0 ].c_str(),
+                popup( "Can't display menu options, %zu %d available screen rows are occupied by\n'%s\n(snip)\n%s'\nThis is probably a bug.\n",
+                       textformatted.size(), TERMY, textformatted[ 0 ].c_str(),
                        textformatted[ textformatted.size() - 1 ].c_str() );
             }
         }
@@ -513,7 +514,7 @@ void uilist::setup()
     if( static_cast<int>( entries.size() ) <= vmax ) {
         scrollbar_auto = false;
     }
-    window = catacurses::newwin( w_height, w_width, w_y, w_x );
+    window = catacurses::newwin( w_height, w_width, point( w_x, w_y ) );
     if( !window ) {
         debugmsg( "Window not created; probably trying to use uilist in test mode." );
         abort();
@@ -576,7 +577,8 @@ void uilist::show()
     werase( window );
     draw_border( window, border_color );
     if( !title.empty() ) {
-        mvwprintz( window, 0, 1, border_color, "< " );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( window, point( 1, 0 ), border_color, "< " );
         wprintz( window, title_color, title );
         wprintz( window, border_color, " >" );
     }
@@ -587,14 +589,14 @@ void uilist::show()
     int estart = 1;
     if( !textformatted.empty() ) {
         for( int i = 0; i < text_lines; i++ ) {
-            trim_and_print( window, 1 + i, 2, getmaxx( window ) - 4, text_color, textformatted[i] );
+            trim_and_print( window, point( 2, 1 + i ), getmaxx( window ) - 4, text_color, textformatted[i] );
         }
 
-        mvwputch( window, text_lines + 1, 0, border_color, LINE_XXXO );
+        mvwputch( window, point( 0, text_lines + 1 ), border_color, LINE_XXXO );
         for( int i = 1; i < w_width - 1; ++i ) {
-            mvwputch( window, text_lines + 1, i, border_color, LINE_OXOX );
+            mvwputch( window, point( i, text_lines + 1 ), border_color, LINE_OXOX );
         }
-        mvwputch( window, text_lines + 1, w_width - 1, border_color, LINE_XOXX );
+        mvwputch( window, point( w_width - 1, text_lines + 1 ), border_color, LINE_XOXX );
         estart += text_lines + 1; // +1 for the horizontal line.
     }
 
@@ -611,11 +613,11 @@ void uilist::show()
                           );
 
             if( hilight_full ) {
-                mvwprintz( window, estart + si, pad_left + 1, co, padspaces );
+                mvwprintz( window, point( pad_left + 1, estart + si ), co, padspaces );
             }
             if( entries[ ei ].hotkey >= 33 && entries[ ei ].hotkey < 126 ) {
                 const nc_color hotkey_co = ei == selected ? hilight_color : hotkey_color;
-                mvwprintz( window, estart + si, pad_left + 2, entries[ ei ].enabled ? hotkey_co : co,
+                mvwprintz( window, point( pad_left + 2, estart + si ), entries[ ei ].enabled ? hotkey_co : co,
                            "%c", entries[ ei ].hotkey );
             }
             if( padspaces.size() > 3 ) {
@@ -625,57 +627,57 @@ void uilist::show()
                 // to be used.
                 const auto entry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].txt ) :
                                                  entries[ ei ].txt );
-                trim_and_print( window, estart + si, pad_left + 4,
+                trim_and_print( window, point( pad_left + 4, estart + si ),
                                 max_entry_len, co, "%s", entry.c_str() );
 
                 if( max_column_len && !entries[ ei ].ctxt.empty() ) {
                     const auto centry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].ctxt ) :
                                                       entries[ ei ].ctxt );
-                    trim_and_print( window, estart + si, getmaxx( window ) - max_column_len - 2,
+                    trim_and_print( window, point( getmaxx( window ) - max_column_len - 2, estart + si ),
                                     max_column_len, co, "%s", centry.c_str() );
                 }
             }
             mvwzstr menu_entry_extra_text = entries[ei].extratxt;
             if( !menu_entry_extra_text.txt.empty() ) {
-                mvwprintz( window, estart + si, pad_left + 1 + menu_entry_extra_text.left,
+                mvwprintz( window, point( pad_left + 1 + menu_entry_extra_text.left, estart + si ),
                            menu_entry_extra_text.color, menu_entry_extra_text.txt );
             }
             if( menu_entry_extra_text.sym != 0 ) {
-                mvwputch( window, estart + si, pad_left + 1 + menu_entry_extra_text.left,
+                mvwputch( window, point( pad_left + 1 + menu_entry_extra_text.left, estart + si ),
                           menu_entry_extra_text.color, menu_entry_extra_text.sym );
             }
             if( callback != nullptr && ei == selected ) {
                 callback->select( ei, this );
             }
         } else {
-            mvwprintz( window, estart + si, pad_left + 1, c_light_gray, padspaces );
+            mvwprintz( window, point( pad_left + 1, estart + si ), c_light_gray, padspaces );
         }
     }
 
     if( desc_enabled ) {
         // draw border
-        mvwputch( window, w_height - desc_lines - 2, 0, border_color, LINE_XXXO );
+        mvwputch( window, point( 0, w_height - desc_lines - 2 ), border_color, LINE_XXXO );
         for( int i = 1; i < w_width - 1; ++i ) {
-            mvwputch( window, w_height - desc_lines - 2, i, border_color, LINE_OXOX );
+            mvwputch( window, point( i, w_height - desc_lines - 2 ), border_color, LINE_OXOX );
         }
-        mvwputch( window, w_height - desc_lines - 2, w_width - 1, border_color, LINE_XOXX );
+        mvwputch( window, point( w_width - 1, w_height - desc_lines - 2 ), border_color, LINE_XOXX );
 
         // clear previous desc the ugly way
         for( int y = desc_lines + 1; y > 1; --y ) {
             for( int x = 2; x < w_width - 2; ++x ) {
-                mvwputch( window, w_height - y, x, text_color, " " );
+                mvwputch( window, point( x, w_height - y ), text_color, " " );
             }
         }
 
         if( static_cast<size_t>( selected ) < entries.size() ) {
-            fold_and_print( window, w_height - desc_lines - 1, 2, w_width - 4, text_color,
+            fold_and_print( window, point( 2, w_height - desc_lines - 1 ), w_width - 4, text_color,
                             footer_text.empty() ? entries[selected].desc : footer_text );
         }
     }
 
     if( !filter.empty() ) {
-        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter );
-        mvwprintz( window, w_height - 1, 4, text_color, filter );
+        mvwprintz( window, point( 2, w_height - 1 ), border_color, "< %s >", filter );
+        mvwprintz( window, point( 4, w_height - 1 ), text_color, filter );
     }
     apply_scrollbar();
 
@@ -700,13 +702,14 @@ void uilist::redraw( bool redraw_callback )
 {
     draw_border( window, border_color );
     if( !title.empty() ) {
-        mvwprintz( window, 0, 1, border_color, "< " );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( window, point( 1, 0 ), border_color, "< " );
         wprintz( window, title_color, title );
         wprintz( window, border_color, " >" );
     }
     if( !filter.empty() ) {
-        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter );
-        mvwprintz( window, w_height - 1, 4, text_color, filter );
+        mvwprintz( window, point( 2, w_height - 1 ), border_color, "< %s >", filter );
+        mvwprintz( window, point( 4, w_height - 1 ), text_color, filter );
     }
     ( void )redraw_callback; // TODO: something
     /*
@@ -847,16 +850,14 @@ void uilist::query( bool loop, int timeout )
 #endif
 
     do {
-        const auto action = ctxt.handle_input( timeout );
+        ret_act = ctxt.handle_input( timeout );
         const auto event = ctxt.get_raw_input();
         keypress = event.get_first_input();
         const auto iter = keymap.find( keypress );
 
-        if( scrollby( scroll_amount_from_action( action ) ) ) {
+        if( scrollby( scroll_amount_from_action( ret_act ) ) ) {
             /* nothing */
-        } else if( action == "HELP_KEYBINDINGS" ) {
-            /* nothing, handled by input_context */
-        } else if( filtering && action == "FILTER" ) {
+        } else if( filtering && ret_act == "FILTER" ) {
             inputfilter();
         } else if( iter != keymap.end() ) {
             selected = iter->second;
@@ -865,20 +866,27 @@ void uilist::query( bool loop, int timeout )
             } else if( allow_disabled ) {
                 ret = entries[selected].retval; // disabled
             }
-        } else if( !fentries.empty() && action == "CONFIRM" ) {
+        } else if( !fentries.empty() && ret_act == "CONFIRM" ) {
             if( entries[ selected ].enabled ) {
                 ret = entries[ selected ].retval; // valid
             } else if( allow_disabled ) {
                 ret = entries[selected].retval; // disabled
             }
-        } else if( allow_cancel && action == "QUIT" ) {
+        } else if( allow_cancel && ret_act == "QUIT" ) {
             ret = UILIST_CANCEL;
-        } else if( action == "TIMEOUT" ) {
+        } else if( ret_act == "TIMEOUT" ) {
             ret = UILIST_TIMEOUT;
-        } else {
+        } else { // including HELP_KEYBINDINGS, in case the caller wants to refresh their contents
             bool unhandled = callback == nullptr || !callback->key( ctxt, event, selected, this );
             if( unhandled && allow_anykey ) {
                 ret = UILIST_UNBOUND;
+            } else if( unhandled && allow_additional ) {
+                for( const auto &it : additional_actions ) {
+                    if( it.first == ret_act ) {
+                        ret = UILIST_ADDITIONAL;
+                        break;
+                    }
+                }
             }
         }
 

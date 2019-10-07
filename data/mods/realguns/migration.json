@@ -1,0 +1,92 @@
+[
+  {
+    "id": "357",
+    "type": "MIGRATION",
+    "replace": "357mag_fmj"
+  },
+  {
+    "id": "357_P",
+    "type": "MIGRATION",
+    "replace": "357mag_fmj"
+  },
+  {
+    "id": "reloaded_357",
+    "type": "MIGRATION",
+    "replace": "reloaded_357mag_fmj"
+  },
+  {
+    "id": "reloaded_357_P",
+    "type": "MIGRATION",
+    "replace": "reloaded_357mag_fmj"
+  },
+  {
+    "id": "357_mag_casing",
+    "type": "MIGRATION",
+    "replace": "357mag_casing"
+  },
+  {
+    "id": "45lc_casing",
+    "type": "MIGRATION",
+    "replace": "45colt_casing"
+  },
+  {
+    "id": "410_hull",
+    "type": "MIGRATION",
+    "replace": "410shot_hull"
+  },
+  {
+    "id": "45_long_colt",
+    "type": "MIGRATION",
+    "replace": "45colt_jhp"
+  },
+  {
+    "id": "reloaded_45_long_colt",
+    "type": "MIGRATION",
+    "replace": "reloaded_45colt_jhp"
+  },
+  {
+    "id": "reloaded_410_birdshot",
+    "type": "MIGRATION",
+    "replace": "reloaded_410shot_000"
+  },
+  {
+    "id": "reloaded_410_shot",
+    "type": "MIGRATION",
+    "replace": "reloaded_410shot_000"
+  },
+  {
+    "id": "reloaded_410_slug",
+    "type": "MIGRATION",
+    "replace": "reloaded_410shot_000"
+  },
+  {
+    "id": "410_shot",
+    "type": "MIGRATION",
+    "replace": "410shot_000"
+  },
+  {
+    "id": "410_slug",
+    "type": "MIGRATION",
+    "replace": "410shot_000"
+  },
+  {
+    "id": "410_birdshot",
+    "type": "MIGRATION",
+    "replace": "410shot_000"
+  },
+  {
+    "id": "410_scrap",
+    "type": "MIGRATION",
+    "replace": "reloaded_410shot_000"
+  },
+  {
+    "id": "saiga10mag_410",
+    "type": "MIGRATION",
+    "replace": "saiga410mag_10rd"
+  },
+  {
+    "id": "saiga30mag_410",
+    "type": "MIGRATION",
+    "replace": "saiga410mag_30rd"
+  }
+]

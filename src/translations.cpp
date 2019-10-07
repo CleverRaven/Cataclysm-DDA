@@ -1,6 +1,7 @@
 #include "translations.h"
 
 #include <clocale>
+#include <array>
 
 #if defined(LOCALIZE) && defined(__STRICT_ANSI__)
 #undef __STRICT_ANSI__ // _putenv in minGW need that
@@ -23,6 +24,7 @@
 #include "output.h"
 #include "path_info.h"
 #include "cursesdef.h"
+#include "cata_utility.h"
 
 // Names depend on the language settings. They are loaded from different files
 // based on the currently used language. If that changes, we have to reload the
@@ -76,7 +78,7 @@ const char *pgettext( const char *context, const char *msgid )
 }
 
 const char *npgettext( const char *const context, const char *const msgid,
-                       const char *const msgid_plural, const unsigned long int n )
+                       const char *const msgid_plural, const unsigned long long n )
 {
     const std::string context_id = std::string( context ) + '\004' + msgid;
     const char *const msg_ctxt_id = context_id.c_str();
@@ -235,7 +237,7 @@ std::string getOSXSystemLang()
     }
 
     const char *lang_code_raw = CFStringGetCStringPtr(
-                                    ( CFStringRef )CFArrayGetValueAtIndex( langs, 0 ),
+                                    reinterpret_cast<CFStringRef>( CFArrayGetValueAtIndex( langs, 0 ) ),
                                     kCFStringEncodingUTF8 );
     if( !lang_code_raw ) {
         return "en_US";
@@ -345,23 +347,61 @@ std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
 }
 
 translation::translation()
-    : ctxt( cata::nullopt )
+    : ctxt( cata::nullopt ), raw(), raw_pl( cata::nullopt ), needs_translation( false )
+{
+}
+
+translation::translation( const plural_tag )
+    : ctxt( cata::nullopt ), raw(), raw_pl( std::string() ), needs_translation( false )
 {
 }
 
 translation::translation( const std::string &ctxt, const std::string &raw )
-    : ctxt( ctxt ), raw( raw ), needs_translation( true )
+    : ctxt( ctxt ), raw( raw ), raw_pl( cata::nullopt ), needs_translation( true )
 {
 }
 
 translation::translation( const std::string &raw )
-    : ctxt( cata::nullopt ), raw( raw ), needs_translation( true )
+    : ctxt( cata::nullopt ), raw( raw ), raw_pl( cata::nullopt ), needs_translation( true )
+{
+}
+
+translation::translation( const std::string &raw, const std::string &raw_pl,
+                          const plural_tag )
+    : ctxt( cata::nullopt ), raw( raw ), raw_pl( raw_pl ), needs_translation( true )
+{
+}
+
+translation::translation( const std::string &ctxt, const std::string &raw,
+                          const std::string &raw_pl, const plural_tag )
+    : ctxt( ctxt ), raw( raw ), raw_pl( raw_pl ), needs_translation( true )
 {
 }
 
 translation::translation( const std::string &str, const no_translation_tag )
-    : ctxt( cata::nullopt ), raw( str )
+    : ctxt( cata::nullopt ), raw( str ), raw_pl( cata::nullopt ), needs_translation( false )
 {
+}
+
+translation translation::to_translation( const std::string &raw )
+{
+    return { raw };
+}
+
+translation translation::to_translation( const std::string &ctxt, const std::string &raw )
+{
+    return { ctxt, raw };
+}
+
+translation translation::pl_translation( const std::string &raw, const std::string &raw_pl )
+{
+    return { raw, raw_pl, plural_tag() };
+}
+
+translation translation::pl_translation( const std::string &ctxt, const std::string &raw,
+        const std::string &raw_pl )
+{
+    return { ctxt, raw, raw_pl, plural_tag() };
 }
 
 translation translation::no_translation( const std::string &str )
@@ -369,11 +409,29 @@ translation translation::no_translation( const std::string &str )
     return { str, no_translation_tag() };
 }
 
+void translation::make_plural()
+{
+    if( needs_translation ) {
+        // if plural form has not been enabled yet
+        if( !raw_pl ) {
+            // copy the singular string without appending "s" to preserve the original behavior
+            raw_pl = raw;
+        }
+    } else if( !raw_pl ) {
+        // just mark plural form as enabled
+        raw_pl = std::string();
+    }
+}
+
 void translation::deserialize( JsonIn &jsin )
 {
     if( jsin.test_string() ) {
         ctxt = cata::nullopt;
         raw = jsin.get_string();
+        // if plural form is enabled
+        if( raw_pl ) {
+            raw_pl = raw + "s";
+        }
         needs_translation = true;
     } else {
         JsonObject jsobj = jsin.get_object();
@@ -383,18 +441,36 @@ void translation::deserialize( JsonIn &jsin )
             ctxt = cata::nullopt;
         }
         raw = jsobj.get_string( "str" );
+        // if plural form is enabled
+        if( raw_pl ) {
+            if( jsobj.has_string( "str_pl" ) ) {
+                raw_pl = jsobj.get_string( "str_pl" );
+            } else {
+                raw_pl = raw + "s";
+            }
+        } else if( jsobj.has_string( "str_pl" ) ) {
+            jsobj.throw_error( "str_pl not supported here", "str_pl" );
+        }
         needs_translation = true;
     }
 }
 
-std::string translation::translated() const
+std::string translation::translated( const int num ) const
 {
     if( !needs_translation || raw.empty() ) {
         return raw;
     } else if( !ctxt ) {
-        return _( raw.c_str() );
+        if( !raw_pl ) {
+            return _( raw );
+        } else {
+            return ngettext( raw.c_str(), raw_pl->c_str(), num );
+        }
     } else {
-        return pgettext( ctxt->c_str(), raw.c_str() );
+        if( !raw_pl ) {
+            return pgettext( ctxt->c_str(), raw.c_str() );
+        } else {
+            return npgettext( ctxt->c_str(), raw.c_str(), raw_pl->c_str(), num );
+        }
     }
 }
 
@@ -403,14 +479,25 @@ bool translation::empty() const
     return raw.empty();
 }
 
-bool translation::operator<( const translation &that ) const
+bool translation::translated_lt( const translation &that ) const
 {
     return translated() < that.translated();
 }
 
-bool translation::operator==( const translation &that ) const
+bool translation::translated_eq( const translation &that ) const
 {
     return translated() == that.translated();
+}
+
+bool translation::translated_ne( const translation &that ) const
+{
+    return !translated_eq( that );
+}
+
+bool translation::operator==( const translation &that ) const
+{
+    return ctxt == that.ctxt && raw == that.raw && raw_pl == that.raw_pl &&
+           needs_translation == that.needs_translation;
 }
 
 bool translation::operator!=( const translation &that ) const
@@ -418,7 +505,48 @@ bool translation::operator!=( const translation &that ) const
     return !operator==( that );
 }
 
+translation to_translation( const std::string &raw )
+{
+    return translation::to_translation( raw );
+}
+
+translation to_translation( const std::string &ctxt, const std::string &raw )
+{
+    return translation::to_translation( ctxt, raw );
+}
+
+translation pl_translation( const std::string &raw, const std::string &raw_pl )
+{
+    return translation::pl_translation( raw, raw_pl );
+}
+
+translation pl_translation( const std::string &ctxt, const std::string &raw,
+                            const std::string &raw_pl )
+{
+    return translation::pl_translation( ctxt, raw, raw_pl );
+}
+
 translation no_translation( const std::string &str )
 {
     return translation::no_translation( str );
+}
+
+std::ostream &operator<<( std::ostream &out, const translation &t )
+{
+    return out << t.translated();
+}
+
+std::string operator+( const translation &lhs, const std::string &rhs )
+{
+    return lhs.translated() + rhs;
+}
+
+std::string operator+( const std::string &lhs, const translation &rhs )
+{
+    return lhs + rhs.translated();
+}
+
+std::string operator+( const translation &lhs, const translation &rhs )
+{
+    return lhs.translated() + rhs.translated();
 }

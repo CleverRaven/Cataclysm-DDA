@@ -10,13 +10,12 @@
 #include "rng.h"
 #include "translations.h"
 #include "item.h"
-#include "player.h"
 
 void mission_end::deposit_box( mission *miss )
 {
     npc *p = g->find_npc( miss->get_npc_id() );
     if( p == nullptr ) {
-        debugmsg( "could not find mission NPC %d", miss->get_npc_id() );
+        debugmsg( "could not find mission NPC %d", miss->get_npc_id().get_value() );
         return;
     }
     // Npc leaves your party

@@ -105,6 +105,6 @@ inline std::vector<std::vector<int>> generate_cellular_automaton( const int widt
 
     return current;
 }
-}
+} // namespace CellularAutomata
 
 #endif

@@ -30,6 +30,18 @@
     "components": [ [ [ "plasma", 5 ] ], [ [ "charcoal", 25 ], [ "coal_lump", 25 ] ] ]
   },
   {
+    "id": "autoclave",
+    "type": "requirement",
+    "//": "Materials required to run one cycle of the furniture autoclave",
+    "components": [ [ [ "water", 64 ], [ "water_clean", 64 ] ] ]
+  },
+  {
+    "id": "autoclave_item",
+    "type": "requirement",
+    "//": "Materials required to run one cycle of the item version autoclave",
+    "components": [ [ [ "water", 8 ], [ "water_clean", 8 ] ] ]
+  },
+  {
     "id": "nanofabricator",
     "type": "requirement",
     "//": "Materials required by the nanofabricator to create an item (per 250ml volume)",
@@ -120,5 +132,17 @@
         [ "cash_card", 2 ]
       ]
     ]
+  },
+  {
+    "id": "weights",
+    "type": "requirement",
+    "//": "Materials used for adding weight to weapons and to other items. The materials should be malleable, ductile and dense.",
+    "components": [ [ [ "lead", 5 ], [ "silver_small", 5 ], [ "gold_small", 3 ], [ "platinum_small", 3 ] ] ]
+  },
+  {
+    "id": "plastics",
+    "type": "requirement",
+    "//": "Materials used for plastic and rubber things.",
+    "components": [ [ [ "plastic_chunk", 1 ] ] ]
   }
 ]

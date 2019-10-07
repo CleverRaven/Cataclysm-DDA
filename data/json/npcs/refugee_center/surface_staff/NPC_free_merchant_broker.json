@@ -99,7 +99,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_FREE_MERCHANT_STOCKS_JAR",
+    "id": "TALK_FREE_MERCHANT_STOCKS_JARS",
     "dynamic_line": "Yes, I can buy 500 mL or 3 L glass jars at the moment.",
     "repeat_responses": {
       "for_item": [ "jar_glass", "jar_3l_glass" ],
@@ -194,8 +194,9 @@
   {
     "id": "MISSION_BROKER_1",
     "type": "mission_definition",
-    "name": "Find 50 3L jars",
-    "goal": "MGOAL_FIND_ITEM_GROUP",
+    "name": "In a Pickle Pt. 2",
+    "description": "Deliver 50 large three-liter jars in exchange for <reward_count:FMCNote> certified notes.",
+    "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
     "item": "jar_3l_glass",

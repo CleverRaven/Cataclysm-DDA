@@ -27,7 +27,7 @@ class format_effect;
  *   A newline character continues on the next line (resets `x` to \p startx and increments `y`).
  * @param startx,starty Coordinates in the map where to start drawing \p cstr.
  */
-void formatted_set_simple( map *m, const int startx, const int starty, const char *cstr,
+void formatted_set_simple( map *m, int startx, int starty, const char *cstr,
                            const format_effect<ter_id> &ter_b, const format_effect<furn_id> &furn_b );
 
 template<typename ID>

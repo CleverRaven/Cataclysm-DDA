@@ -46,12 +46,12 @@
     "id": "NC_BEGGAR_5_worn",
     "subtype": "collection",
     "items": [
-      { "item": "jacket_jean" },
+      { "item": "socks" },
       { "item": "boxer_briefs" },
       { "item": "hoodie" },
       { "item": "pants_cargo" },
+      { "item": "jacket_jean" },
       { "item": "boots" },
-      { "item": "socks" },
       { "item": "backpack" }
     ]
   },
@@ -170,7 +170,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_5_PAST_RHODE",
-    "dynamic_line": "You don't know?  The governor went nuts, like a lot of people did leading up to the end, only he had a lot more power to work with.  One day he just showed up to work with a militia of rowdies and loyalists and staged a coup, taking over the government completely, killing those that opposed him, and moving as many people as he could get behidn him onto the islands.  The rumors I've heard is that most of them survived the cataclysm and are still running the show there, but that seems kind of impossible to me.",
+    "dynamic_line": "You don't know?  The governor went nuts, like a lot of people did leading up to the end, only he had a lot more power to work with.  One day he just showed up to work with a militia of rowdies and loyalists and staged a coup, taking over the government completely, killing those that opposed him, and moving as many people as he could get behind him onto the islands.  The rumors I've heard is that most of them survived the cataclysm and are still running the show there, but that seems kind of impossible to me.",
     "responses": [
       { "text": "Do you think you'd go back and look for your family?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST_RETURN" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },

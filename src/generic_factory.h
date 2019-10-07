@@ -19,6 +19,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
+#include "wcwidth.h"
 
 /**
 A generic class to store objects identified by a `string_id`.
@@ -472,7 +473,11 @@ inline void mandatory( JsonObject &jo, const bool was_loaded, const std::string 
 {
     if( !jo.read( name, member ) ) {
         if( !was_loaded ) {
-            jo.throw_error( "missing mandatory member \"" + name + "\"" );
+            if( jo.has_member( name ) ) {
+                jo.throw_error( "failed to read mandatory member \"" + name + "\"" );
+            } else {
+                jo.throw_error( "missing mandatory member \"" + name + "\"" );
+            }
         }
     }
 }
@@ -482,7 +487,11 @@ inline void mandatory( JsonObject &jo, const bool was_loaded, const std::string 
 {
     if( !reader( jo, name, member, was_loaded ) ) {
         if( !was_loaded ) {
-            jo.throw_error( "missing mandatory member \"" + name + "\"" );
+            if( jo.has_member( name ) ) {
+                jo.throw_error( "failed to read mandatory member \"" + name + "\"" );
+            } else {
+                jo.throw_error( "missing mandatory member \"" + name + "\"" );
+            }
         }
     }
 }
@@ -543,25 +552,10 @@ inline void optional( JsonObject &jo, const bool was_loaded, const std::string &
 /**@}*/
 
 /**
- * Reads a string from JSON and (if not empty) applies the translation function to it.
- */
-inline bool translated_string_reader( JsonObject &jo, const std::string &member_name,
-                                      std::string &member, bool )
-{
-    if( !jo.read( member_name, member ) ) {
-        return false;
-    }
-    if( !member.empty() ) {
-        member = _( member );
-    }
-    return true;
-}
-
-/**
  * Reads a string and stores the first byte of it in `sym`. Throws if the input contains more
  * or less than one byte.
  */
-inline bool one_char_symbol_reader( JsonObject &jo, const std::string &member_name, long &sym,
+inline bool one_char_symbol_reader( JsonObject &jo, const std::string &member_name, int &sym,
                                     bool )
 {
     std::string sym_as_string;
@@ -576,20 +570,20 @@ inline bool one_char_symbol_reader( JsonObject &jo, const std::string &member_na
 }
 
 /**
- * Reads a UTF-8 string (or long as legacy fallback) and stores Unicode codepoint of it in `symbol`.
+ * Reads a UTF-8 string (or int as legacy fallback) and stores Unicode codepoint of it in `symbol`.
  * Throws if the inputs width is more than one console cell wide.
  */
 inline bool unicode_codepoint_from_symbol_reader( JsonObject &jo, const std::string &member_name,
         uint32_t &member, bool )
 {
-    long sym_as_long;
+    int sym_as_int;
     std::string sym_as_string;
-    if( !jo.read( member_name, sym_as_string ) ) {
-        // Legacy fallback to long `sym`.
-        if( !jo.read( member_name, sym_as_long ) ) {
+    if( !jo.read( member_name, sym_as_string, false ) ) {
+        // Legacy fallback to integer `sym`.
+        if( !jo.read( member_name, sym_as_int ) ) {
             return false;
         } else {
-            sym_as_string = string_from_long( sym_as_long );
+            sym_as_string = string_from_int( sym_as_int );
         }
     }
     uint32_t sym_as_codepoint = UTF8_getch( sym_as_string );

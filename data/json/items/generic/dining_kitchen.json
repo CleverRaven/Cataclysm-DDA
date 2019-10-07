@@ -8,7 +8,7 @@
     "color": "light_gray",
     "price": 100,
     "price_postapoc": 0,
-    "weight": 48,
+    "weight": "48 g",
     "volume": "25 ml",
     "material": "steel",
     "bashing": 2,
@@ -24,7 +24,7 @@
     "color": "light_gray",
     "price": 200,
     "price_postapoc": 0,
-    "weight": 158,
+    "weight": "158 g",
     "volume": "75 ml",
     "material": "steel",
     "bashing": 3,
@@ -40,7 +40,7 @@
     "color": "light_gray",
     "price": 10,
     "price_postapoc": 0,
-    "weight": 28,
+    "weight": "28 g",
     "volume": "25 ml",
     "material": "plastic",
     "bashing": 1,
@@ -57,10 +57,10 @@
     "price": 1200,
     "price_postapoc": 0,
     "material": "ceramic",
-    "weight": 322,
+    "weight": "322 g",
     "volume": "250 ml",
     "bashing": 3,
-    "to_hit:": -1
+    "to_hit": -1
   },
   {
     "id": "base_glass_dish",
@@ -72,10 +72,10 @@
     "price": 1400,
     "price_postapoc": 0,
     "material": "glass",
-    "weight": 322,
+    "weight": "322 g",
     "volume": "250 ml",
     "bashing": 3,
-    "to_hit:": -1
+    "to_hit": -1
   },
   {
     "id": "base_tin_dish",
@@ -86,11 +86,11 @@
     "color": "light_gray",
     "price": 400,
     "price_postapoc": 0,
-    "material": "aluminum",
-    "weight": 262,
+    "material": "tin",
+    "weight": "262 g",
     "volume": "250 ml",
     "bashing": 2,
-    "to_hit:": -1
+    "to_hit": -1
   },
   {
     "id": "base_plastic_dish",
@@ -102,10 +102,10 @@
     "price": 400,
     "price_postapoc": 0,
     "material": "plastic",
-    "weight": 130,
+    "weight": "130 g",
     "volume": "250 ml",
     "bashing": 1,
-    "to_hit:": -1
+    "to_hit": -1
   },
   {
     "id": "base_cookpot",
@@ -113,7 +113,6 @@
     "description": "generic item template",
     "type": "GENERIC",
     "symbol": ")",
-    "watertight": true,
     "to_hit": 1,
     "price": 4500,
     "price_postapoc": 10,
@@ -139,7 +138,7 @@
     "symbol": ")",
     "description": "A perfectly ordinary ceramic soup bowl.",
     "copy-from": "base_ceramic_dish",
-    "container_data": { "contains": 2, "watertight": true },
+    "container_data": { "contains": "500 ml", "watertight": true },
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -151,7 +150,7 @@
     "description": "A light ceramic teacup.  Quite classy.",
     "copy-from": "base_ceramic_dish",
     "proportional": { "weight": 0.6 },
-    "container_data": { "contains": 1, "watertight": true },
+    "container_data": { "contains": "250 ml", "watertight": true },
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -163,7 +162,7 @@
     "description": "A ceramic coffee cup with a logo on the side.",
     "copy-from": "base_ceramic_dish",
     "proportional": { "weight": 0.8 },
-    "container_data": { "contains": 1, "watertight": true },
+    "container_data": { "contains": "250 ml", "watertight": true },
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "snippet_category": [
       { "id": "mug1", "text": "The side of the mug reads 'World's Greatest Dad'." },
@@ -211,7 +210,7 @@
     "looks_like": "ceramic_cup",
     "proportional": { "weight": 0.8 },
     "copy-from": "base_tin_dish",
-    "container_data": { "contains": 1, "watertight": true },
+    "container_data": { "contains": "250 ml", "watertight": true },
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -222,7 +221,7 @@
     "description": "A small pewter serving bowl without a lid.  Holds 250 ml of liquid.",
     "copy-from": "base_tin_dish",
     "symbol": "u",
-    "container_data": { "contains": 1, "watertight": true },
+    "container_data": { "contains": "250 ml", "watertight": true },
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -245,7 +244,7 @@
     "symbol": "U",
     "description": "A tall drinking glass.",
     "copy-from": "base_glass_dish",
-    "container_data": { "contains": 2, "watertight": true },
+    "container_data": { "contains": "500 ml", "watertight": true },
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -258,7 +257,7 @@
     "symbol": "Y",
     "description": "A stemmed drinking glass that makes you feel very fancy when you drink from it.",
     "copy-from": "base_glass_dish",
-    "container_data": { "contains": 1, "watertight": true },
+    "container_data": { "contains": "250 ml", "watertight": true },
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
@@ -269,7 +268,7 @@
     "symbol": "u",
     "description": "A glass bowl for soup or dessert.",
     "copy-from": "base_glass_dish",
-    "container_data": { "contains": 2, "watertight": true },
+    "container_data": { "contains": "500 ml", "watertight": true },
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -290,7 +289,7 @@
     "symbol": "U",
     "description": "A durable plastic drinking vessel.  This one is made of clear acrylic and looks almost like glass.",
     "copy-from": "base_plastic_dish",
-    "container_data": { "contains": 2, "watertight": true },
+    "container_data": { "contains": "500 ml", "watertight": true },
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
@@ -302,7 +301,7 @@
     "description": "A plastic bowl with a convenient sealing lid.  Holds 750 ml of liquid.",
     "copy-from": "base_plastic_dish",
     "volume": "750 ml",
-    "container_data": { "contains": 3, "seals": true, "watertight": true },
+    "container_data": { "contains": "750 ml", "seals": true, "watertight": true },
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
@@ -314,7 +313,7 @@
     "proportional": { "weight": 0.6, "volume": 0.5 },
     "description": "A plastic bowl designed for use by children.",
     "copy-from": "base_plastic_dish",
-    "container_data": { "contains": 1, "watertight": true },
+    "container_data": { "contains": "250 ml", "watertight": true },
     "qualities": [ [ "CONTAIN", 1 ] ],
     "snippet_category": [
       { "id": "kbowl1", "text": "This bowl is decorated with cartoon bears." },
@@ -329,6 +328,27 @@
         "text": "This bowl is shaped like the head of a silly frog with the opening forming the mouth."
       },
       { "id": "kbowl6", "text": "There are cute farm animals decorating this bowl." }
+    ]
+  },
+  {
+    "id": "sippy_cup",
+    "type": "GENERIC",
+    "category": "other",
+    "name": "sippy cup",
+    "symbol": "u",
+    "proportional": { "weight": 0.4, "volume": 0.5 },
+    "description": "A plastic cup with a spill-proof lid, designed for use by children.",
+    "copy-from": "base_plastic_dish",
+    "container_data": { "contains": "250 ml", "watertight": true, "seals": true },
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "snippet_category": [
+      { "id": "sippycup1", "text": "This cup is decorated with cartoon bears." },
+      { "id": "sippycup2", "text": "This cup has a cartoony picture of the Avengers wrapped around the side." },
+      { "id": "sippycup3", "text": "This sippy cup is made of plastic in bright clashing colors." },
+      { "id": "sippycup4", "text": "This is a simple blue sippy cup with tooth marks around the spout." },
+      { "id": "sippycup5", "text": "This cup is decorated to look like a pokeball." },
+      { "id": "sippycup6", "text": "There are cute anthropomorphic fruits decorating this cup." },
+      { "id": "sippycup7", "text": "This sippy cup is decorated with crayon-like text that reads 'I love you'." }
     ]
   },
   {
@@ -379,8 +399,6 @@
     "description": "A plastic spoon designed for use by children.",
     "looks_like": "spoon",
     "copy-from": "base_plastic_silverware",
-    "contains": 1,
-    "watertight": true,
     "qualities": [ [ "CONTAIN", 1 ] ],
     "snippet_category": [
       { "id": "kspoon1", "text": "This spoon is striped in bright primary colors." },
@@ -491,13 +509,14 @@
     "category": "other",
     "id": "chopsticks",
     "name": "chopsticks",
+    "name_plural": "pairs of chopsticks",
     "description": "One of the most popular eating utensils in the world.  Does double duty as a way of dealing with especially fragile vampires.",
     "flags": [ "STAB" ],
     "symbol": "X",
     "color": "light_gray",
     "price": 100,
     "price_postapoc": 0,
-    "weight": 28,
+    "weight": "28 g",
     "volume": "15 ml",
     "material": "wood",
     "bashing": 1,
@@ -536,6 +555,7 @@
     "category": "other",
     "id": "garlic_press",
     "name": "garlic press",
+    "name_plural": "garlic presses",
     "description": "This tool can squash a clove or two of garlic into a fine paste.",
     "looks_like": "spoon",
     "copy-from": "base_utensil"
@@ -576,7 +596,7 @@
     "id": "rolling_pin",
     "name": "rolling pin",
     "description": "A stout piece of hardwood, turned and sanded smooth, with rounded handles at the ends.  This timeless kitchen tool also doubles as a very effective club.",
-    "weight": 725,
+    "weight": "725 g",
     "to_hit": 1,
     "color": "brown",
     "symbol": "/",
@@ -596,10 +616,10 @@
     "copy-from": "base_cookpot",
     "material": "steel",
     "color": "light_gray",
-    "weight": 550,
-    "volume": 8,
+    "weight": "550 g",
+    "volume": "2 L",
     "bashing": 6,
-    "container_data": { "contains": 8, "watertight": true }
+    "container_data": { "contains": "2 L", "watertight": true }
   },
   {
     "type": "GENERIC",
@@ -610,10 +630,10 @@
     "copy-from": "base_cookpot",
     "material": "iron",
     "color": "dark_gray",
-    "weight": 3000,
-    "volume": 8,
+    "weight": "3000 g",
+    "volume": "2 L",
     "bashing": 10,
-    "container_data": { "contains": 8, "watertight": true }
+    "container_data": { "contains": "2 L", "watertight": true }
   },
   {
     "type": "GENERIC",
@@ -624,10 +644,10 @@
     "copy-from": "base_cookpot",
     "material": "copper",
     "color": "light_red",
-    "weight": 750,
-    "volume": 8,
+    "weight": "750 g",
+    "volume": "2 L",
     "bashing": 6,
-    "container_data": { "contains": 8, "watertight": true }
+    "container_data": { "contains": "2 L", "watertight": true }
   },
   {
     "type": "GENERIC",
@@ -638,10 +658,10 @@
     "copy-from": "base_cookpot",
     "material": "ceramic",
     "color": "white",
-    "weight": 650,
-    "volume": 8,
+    "weight": "650 g",
+    "volume": "2 L",
     "bashing": 4,
-    "container_data": { "contains": 8, "watertight": true }
+    "container_data": { "contains": "2 L", "watertight": true }
   },
   {
     "type": "GENERIC",
@@ -652,11 +672,11 @@
     "copy-from": "base_cookpot",
     "material": "steel",
     "color": "light_gray",
-    "weight": 2490,
-    "volume": 36,
+    "weight": "2490 g",
+    "volume": "9 L",
     "//": "Volume assumes you can stick some stuff in the pot inside your bag",
     "bashing": 8,
-    "container_data": { "contains": 48, "watertight": true }
+    "container_data": { "contains": "12 L", "watertight": true }
   },
   {
     "id": "pot_canning",
@@ -664,15 +684,15 @@
     "category": "tools",
     "name": "canning pot",
     "description": "A very large 25 liter pot, primarily meant for canning food in glass jars via the water bath method, though it can cook normal foods just as well.  Canning foods with it will require a lot of water.  If you're only canning a couple of jars at a time, you'd fill it up with rocks or something to displace the water above the lids.",
-    "weight": 5625,
-    "volume": 100,
+    "weight": "5625 g",
+    "volume": "25 L",
     "price": 20000,
     "to_hit": -2,
     "bashing": 10,
     "material": "steel",
     "symbol": ")",
     "color": "dark_gray",
-    "container_data": { "contains": 100, "watertight": true },
+    "container_data": { "contains": "25 L", "watertight": true },
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": "HEAT_FOOD"
   },
@@ -685,11 +705,11 @@
     "copy-from": "base_cookpot",
     "material": "iron",
     "color": "dark_gray",
-    "proportional": { "to-hit": 2 },
-    "weight": 2628,
-    "volume": 4,
+    "proportional": { "to_hit": 2 },
+    "weight": "2628 g",
+    "volume": "1 L",
     "bashing": 12,
-    "container_data": { "contains": 4, "watertight": true },
+    "container_data": { "contains": "1 L", "watertight": true },
     "delete": { "qualities": [ [ "COOK", 3 ] ] },
     "extend": { "qualities": [ [ "HAMMER", 1 ], [ "COOK", 2 ] ] }
   },
@@ -702,11 +722,11 @@
     "copy-from": "base_cookpot",
     "material": "steel",
     "color": "light_gray",
-    "proportional": { "to-hit": 2 },
-    "weight": 528,
-    "volume": 4,
+    "proportional": { "to_hit": 2 },
+    "weight": "528 g",
+    "volume": "1 L",
     "bashing": 8,
-    "container_data": { "contains": 8, "watertight": true },
+    "container_data": { "contains": "2 L", "watertight": true },
     "delete": { "qualities": [ [ "COOK", 3 ] ] },
     "extend": { "qualities": [ [ "COOK", 2 ] ] }
   },
@@ -719,13 +739,51 @@
     "copy-from": "base_cookpot",
     "material": "copper",
     "color": "light_red",
-    "proportional": { "to-hit": 2 },
-    "weight": 628,
-    "volume": 4,
+    "proportional": { "to_hit": 2 },
+    "weight": "628 g",
+    "volume": "1 L",
     "bashing": 7,
-    "container_data": { "contains": 4, "watertight": true },
+    "container_data": { "contains": "1 L", "watertight": true },
     "delete": { "qualities": [ [ "COOK", 3 ] ] },
     "extend": { "qualities": [ [ "COOK", 2 ] ] }
+  },
+  {
+    "id": "pot_makeshift",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "makeshift pot",
+    "description": "A sheet of metal crudely hammered into a cooking pot.  Good enough to cook food and boil water, but not as useful as proper cookware.",
+    "weight": "6000 g",
+    "volume": "1 L",
+    "price": 200,
+    "price_postapoc": 5,
+    "to_hit": 1,
+    "bashing": 10,
+    "material": "steel",
+    "symbol": ")",
+    "color": "light_gray",
+    "container_data": { "contains": "1 L", "watertight": true },
+    "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "use_action": "HEAT_FOOD"
+  },
+  {
+    "id": "pot_makeshift_copper",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "makeshift copper pot",
+    "description": "A cooking pot crudely hammered out of copper.  Good enough to cook food and boil water, but not as useful as proper cookware.",
+    "weight": "884 g",
+    "volume": "1 L",
+    "price": 200,
+    "price_postapoc": 5,
+    "to_hit": 1,
+    "bashing": 10,
+    "material": "copper",
+    "symbol": ")",
+    "color": "light_red",
+    "container_data": { "contains": "1 L", "watertight": true },
+    "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "use_action": "HEAT_FOOD"
   },
   {
     "type": "GENERIC",
@@ -736,11 +794,34 @@
     "copy-from": "base_cookpot",
     "material": "steel",
     "color": "light_gray",
-    "weight": 728,
-    "volume": 6,
+    "weight": "728 g",
+    "volume": "1500 ml",
     "bashing": 5,
-    "container_data": { "contains": 6, "watertight": true },
+    "container_data": { "contains": "1500 ml", "watertight": true },
     "delete": { "qualities": [ [ "COOK", 3 ] ] }
+  },
+  {
+    "id": "colander_steel",
+    "name": "mesh colander",
+    "category": "other",
+    "description": "A stainless steel mesh colander, for washing rice, vegetables or straining liquid off from noodles or other foods.",
+    "type": "GENERIC",
+    "volume": 2,
+    "weight": 318,
+    "symbol": ")",
+    "price": 600,
+    "price_postapoc": 5
+  },
+  {
+    "id": "splatter_guard",
+    "name": "splatter guard",
+    "description": "A stainless steel mesh screen for preventing flying oil from getting all over your nice counters (or you) when frying.",
+    "type": "GENERIC",
+    "volume": 2,
+    "weight": 357,
+    "symbol": ")",
+    "price": 600,
+    "price_postapoc": 5
   },
   {
     "id": "cutting_board",
@@ -748,7 +829,7 @@
     "category": "other",
     "name": "cutting board",
     "description": "A large flat piece of wood for chopping vegetables on without ruining your knife or your countertop.",
-    "weight": 945,
+    "weight": "945 g",
     "to_hit": -1,
     "color": "brown",
     "symbol": "/",

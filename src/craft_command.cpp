@@ -1,15 +1,19 @@
 #include "craft_command.h"
 
+#include <limits.h>
 #include <cstdlib>
 #include <sstream>
 #include <algorithm>
 #include <limits>
 #include <list>
+#include <map>
+#include <utility>
 
 #include "debug.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
+#include "json.h"
 #include "output.h"
 #include "player.h"
 #include "recipe.h"
@@ -29,11 +33,64 @@ std::string comp_selection<CompType>::nname() const
         case use_from_player: // Is the same as the default return;
         case use_from_none:
         case cancel:
+        case num_usages:
             break;
     }
 
     return item::nname( comp.type, comp.count );
 }
+
+namespace io
+{
+
+template<>
+std::string enum_to_string<usage>( usage data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case usage::use_from_map: return "map";
+        case usage::use_from_player: return "player";
+        case usage::use_from_both: return "both";
+        case usage::use_from_none: return "none";
+        case usage::cancel: return "cancel";
+        // *INDENT-ON*
+        case usage::num_usages:
+            break;
+    }
+    debugmsg( "Invalid usage" );
+    abort();
+}
+
+} // namespace io
+
+template<typename CompType>
+void comp_selection<CompType>::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "use_from", io::enum_to_string( use_from ) );
+    jsout.member( "type", comp.type );
+    jsout.member( "count", comp.count );
+
+    jsout.end_object();
+}
+
+template<typename CompType>
+void comp_selection<CompType>::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+
+    std::string use_from_str;
+    data.read( "use_from", use_from_str );
+    use_from = io::string_to_enum<usage>( use_from_str );
+    data.read( "type", comp.type );
+    data.read( "count", comp.count );
+}
+
+template void comp_selection<tool_comp>::serialize( JsonOut &jsout ) const;
+template void comp_selection<item_comp>::serialize( JsonOut &jsout ) const;
+template void comp_selection<tool_comp>::deserialize( JsonIn &jsin );
+template void comp_selection<item_comp>::deserialize( JsonIn &jsin );
 
 void craft_command::execute( const tripoint &new_loc )
 {
@@ -47,7 +104,7 @@ void craft_command::execute( const tripoint &new_loc )
 
     bool need_selections = true;
     inventory map_inv;
-    map_inv.form_from_map( crafter->pos(), PICKUP_RANGE );
+    map_inv.form_from_map( crafter->pos(), PICKUP_RANGE, crafter );
 
     if( has_cached_selections() ) {
         std::vector<comp_selection<item_comp>> missing_items = check_item_components_missing( map_inv );
@@ -62,6 +119,18 @@ void craft_command::execute( const tripoint &new_loc )
     }
 
     if( need_selections ) {
+        if( !crafter->can_make( rec, batch_size ) ) {
+            if( crafter->can_start_craft( rec, batch_size ) ) {
+                if( !query_yn( _( "You don't have enough charges to complete the %s.\n"
+                                  "Start crafting anyway?" ), rec->result_name() ) ) {
+                    return;
+                }
+            } else {
+                debugmsg( "Tried to start craft without sufficient charges" );
+                return;
+            }
+        }
+
         item_selections.clear();
         const auto needs = rec->requirements();
         const auto filter = rec->get_component_filter();
@@ -78,7 +147,9 @@ void craft_command::execute( const tripoint &new_loc )
         tool_selections.clear();
         for( const auto &it : needs.get_tools() ) {
             comp_selection<tool_comp> ts = crafter->select_tool_component(
-                                               it, batch_size, map_inv, DEFAULT_HOTKEYS, true );
+            it, batch_size, map_inv, DEFAULT_HOTKEYS, true, true, []( int charges ) {
+                return charges / 20 + charges % 20;
+            } );
             if( ts.use_from == cancel ) {
                 return;
             }
@@ -148,7 +219,7 @@ item craft_command::create_in_progress_craft()
     }
 
     inventory map_inv;
-    map_inv.form_from_map( crafter->pos(), PICKUP_RANGE );
+    map_inv.form_from_map( crafter->pos(), PICKUP_RANGE, crafter );
 
     if( !check_item_components_missing( map_inv ).empty() ) {
         debugmsg( "Aborting crafting: couldn't find cached components" );
@@ -162,17 +233,32 @@ item craft_command::create_in_progress_craft()
         used.splice( used.end(), tmp );
     }
 
-    for( const auto &it : tool_selections ) {
-        crafter->consume_tools( it, batch_size );
-    }
-
     for( const comp_selection<item_comp> &selection : item_selections ) {
         item_comp comp_used = selection.comp;
         comp_used.count *= batch_size;
-        comps_used.emplace_back( comp_used );
+
+        //Handle duplicate component requirement
+        auto found_it = std::find_if( comps_used.begin(),
+        comps_used.end(), [&comp_used]( const item_comp & c ) {
+            return c.type == comp_used.type;
+        } );
+        if( found_it != comps_used.end() ) {
+            item_comp &found_comp = *found_it;
+            found_comp.count += comp_used.count;
+        } else {
+            comps_used.emplace_back( comp_used );
+        }
     }
 
-    return item( rec, batch_size, used, comps_used );
+    item new_craft( rec, batch_size, used, comps_used );
+
+    new_craft.set_cached_tool_selections( tool_selections );
+    new_craft.set_tools_to_continue( true );
+    // Pass true to indicate that we are starting the craft and the remainder should be consumed as well
+    crafter->craft_consume_tools( new_craft, 1, true );
+    new_craft.set_next_failure_point( *crafter );
+
+    return new_craft;
 }
 
 std::vector<comp_selection<item_comp>> craft_command::check_item_components_missing(
@@ -207,6 +293,7 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
                     break;
                 case use_from_none:
                 case cancel:
+                case num_usages:
                     break;
             }
         } else {
@@ -230,6 +317,7 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
                     break;
                 case use_from_none:
                 case cancel:
+                case num_usages:
                     break;
             }
         }
@@ -261,6 +349,7 @@ std::vector<comp_selection<tool_comp>> craft_command::check_tool_components_miss
                 case use_from_both:
                 case use_from_none:
                 case cancel:
+                case num_usages:
                     break;
             }
         } else if( !crafter->has_amount( type, 1 ) && !map_inv.has_tools( type, 1 ) ) {

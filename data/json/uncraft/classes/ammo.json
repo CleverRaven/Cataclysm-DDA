@@ -3,7 +3,7 @@
     "abstract": "ammo_cartridge",
     "type": "uncraft",
     "//": "Disassemble a single ammo cartridge",
-    "time": 500,
+    "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   }

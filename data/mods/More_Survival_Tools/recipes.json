@@ -16,20 +16,6 @@
   },
   {
     "type": "recipe",
-    "result": "tinderbox",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "survival",
-    "skills_required": [ "fabrication", 2 ],
-    "difficulty": 2,
-    "time": 5000,
-    "autolearn": true,
-    "book_learn": [ [ "mag_survival", 1 ], [ "textbook_survival", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ], [ "scrap", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "cured_hide",
     "id_suffix": "drying",
     "category": "CC_OTHER",
@@ -42,7 +28,7 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "raw_leather", 50 ], [ "raw_tainted_leather", 50 ], [ "raw_hleather", 50 ] ] ]
+    "components": [ [ [ "raw_leather", 1 ], [ "raw_tainted_leather", 1 ], [ "raw_hleather", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -58,7 +44,7 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "raw_fur", 50 ], [ "raw_tainted_fur", 50 ] ] ]
+    "components": [ [ [ "raw_fur", 1 ], [ "raw_tainted_fur", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -155,20 +141,7 @@
   },
   {
     "type": "recipe",
-    "result": "leg_warmers_f",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_LEGS",
-    "skill_used": "tailor",
-    "difficulty": 2,
-    "time": 5000,
-    "autolearn": true,
-    "using": [ [ "sewing_standard", 10 ] ],
-    "components": [ [ [ "fur", 4 ], [ "tanned_pelt", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "sharp_rock",
-    "override": true,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -240,94 +213,6 @@
   },
   {
     "type": "recipe",
-    "result": "pot_makeshift",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "survival",
-    "skills_required": [ "cooking", 1 ],
-    "difficulty": 1,
-    "time": 20000,
-    "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "sheet_metal", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "pot_makeshift_copper",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "survival",
-    "skills_required": [ "cooking", 1 ],
-    "difficulty": 1,
-    "time": 20000,
-    "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "scrap_copper", 4 ], [ "copper", 400 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "canteen_wood",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_CONTAINERS",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": 30000,
-    "autolearn": true,
-    "using": [ [ "adhesive", 1 ], [ "waterproofing", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_W", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [
-      [ [ "stick", 2 ], [ "2x4", 2 ] ],
-      [ [ "wire", 1 ], [ "scrap", 2 ], [ "copper", 20 ] ],
-      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "makeshift_shovel",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "survival",
-    "skills_required": [ "fabrication", 1 ],
-    "difficulty": 2,
-    "time": 60000,
-    "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [
-      [ [ "stick", 1 ], [ "2x4", 1 ] ],
-      [ [ "sheet_metal", 1 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "sinew", 40 ], [ "thread", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "tanned_hide",
-    "id_suffix": "scraped",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "time": 30000,
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "tanned_pelt", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "leather",
-    "id_suffix": "scraped",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "time": 6000,
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "fur", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "bolt_bone",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
@@ -356,7 +241,6 @@
   {
     "type": "recipe",
     "result": "snare_trigger",
-    "override": true,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
     "skill_used": "traps",
@@ -370,7 +254,6 @@
   {
     "type": "recipe",
     "result": "light_snare_kit",
-    "override": true,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
     "skill_used": "traps",
@@ -385,7 +268,6 @@
   {
     "type": "recipe",
     "result": "heavy_snare_kit",
-    "override": true,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
     "skill_used": "traps",

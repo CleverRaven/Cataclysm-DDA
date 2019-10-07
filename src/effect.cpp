@@ -15,11 +15,12 @@
 #include "string_formatter.h"
 #include "color.h"
 #include "enums.h"
+#include "units.h"
 
 namespace
 {
 std::map<efftype_id, effect_type> effect_types;
-}
+} // namespace
 
 /** @relates string_id */
 template<>
@@ -175,9 +176,11 @@ void weed_msg( player &p )
     }
 }
 
-static void extract_effect( JsonObject &j,
-                            std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double> &data,
-                            const std::string &mod_type, std::string data_key, std::string type_key, std::string arg_key )
+static void extract_effect(
+    JsonObject &j,
+    std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double,
+    cata::tuple_hash> &data,
+    const std::string &mod_type, std::string data_key, std::string type_key, std::string arg_key )
 {
     double val = 0;
     double reduced_val = 0;
@@ -361,9 +364,9 @@ bool effect_type::use_name_ints() const
 bool effect_type::use_desc_ints( bool reduced ) const
 {
     if( reduced ) {
-        return ( static_cast<size_t>( max_intensity ) <= reduced_desc.size() );
+        return static_cast<size_t>( max_intensity ) <= reduced_desc.size();
     } else {
-        return ( static_cast<size_t>( max_intensity ) <= desc.size() );
+        return static_cast<size_t>( max_intensity ) <= desc.size();
     }
 }
 
@@ -466,7 +469,7 @@ effect effect::null_effect;
 
 bool effect::is_null() const
 {
-    return this == &null_effect;
+    return !eff_type;
 }
 
 std::string effect::disp_name() const
@@ -484,12 +487,12 @@ std::string effect::disp_name() const
         if( d_name.empty() ) {
             return std::string();
         }
-        ret << d_name.translated();
+        ret << d_name;
     } else {
         if( eff_type->name[0].empty() ) {
             return std::string();
         }
-        ret << eff_type->name[0].translated();
+        ret << eff_type->name[0];
         if( intensity > 1 ) {
             if( eff_type->id == "bandaged" || eff_type->id == "disinfected" ) {
                 ret << " [" << texitify_healing_power( intensity ) << "]";
@@ -687,22 +690,21 @@ std::string effect::disp_short_desc( bool reduced ) const
 void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem_bps,
                     const time_point &time, const bool player )
 {
-    // Decay duration if not permanent
-    if( !is_permanent() ) {
-        mod_duration( -1_turns, player );
-    }
-
     // Decay intensity if supposed to do so
     // TODO: Remove effects that would decay to 0 intensity?
     if( intensity > 1 && eff_type->int_decay_tick != 0 &&
-        to_turn<int>( time ) % eff_type->int_decay_tick == 0 ) {
+        to_turn<int>( time ) % eff_type->int_decay_tick == 0 &&
+        get_max_duration() > get_duration() ) {
         set_intensity( intensity + eff_type->int_decay_step, player );
     }
 
     // Add to removal list if duration is <= 0
+    // Decay duration if not permanent
     if( duration <= 0_turns ) {
         rem_ids.push_back( get_id() );
         rem_bps.push_back( bp );
+    } else if( !is_permanent() ) {
+        mod_duration( -1_turns, player );
     }
 }
 
@@ -825,7 +827,7 @@ const std::vector<efftype_id> &effect::get_removes_effects() const
 {
     return eff_type->removes_effects;
 }
-const std::vector<efftype_id> effect::get_blocks_effects() const
+std::vector<efftype_id> effect::get_blocks_effects() const
 {
     std::vector<efftype_id> ret = eff_type->removes_effects;
     ret.insert( ret.end(), eff_type->blocks_effects.begin(), eff_type->blocks_effects.end() );
@@ -898,8 +900,8 @@ int effect::get_avg_mod( std::string arg, bool reduced ) const
 
 int effect::get_amount( std::string arg, bool reduced ) const
 {
-    int intensity_capped = ( ( eff_type->max_effective_intensity > 0 ) ? std::min(
-                                 eff_type->max_effective_intensity, intensity ) : intensity );
+    int intensity_capped = eff_type->max_effective_intensity > 0 ? std::min(
+                               eff_type->max_effective_intensity, intensity ) : intensity;
     auto &mod_data = eff_type->mod_data;
     double ret = 0;
     auto found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "amount" ) );
@@ -1091,14 +1093,14 @@ bool effect::activated( const time_point &when, std::string arg, int val, bool r
 
     // has to be an && here to avoid undefined behavior of turn % 0
     if( tick > 0 &&
-        ( when - calendar::time_of_cataclysm ) % time_duration::from_turns( tick ) == 0_turns ) {
+        ( when - calendar::turn_zero ) % time_duration::from_turns( tick ) == 0_turns ) {
         if( bot_base != 0 && bot_scale != 0 ) {
             if( bot_base + bot_scale == 0 ) {
                 // Special crash avoidance case, in most effect fields 0 = "nothing happens"
                 // so assume false here for consistency
                 return false;
             } else {
-                return x_in_y( ( top_base + top_scale ) * mod, ( bot_base + bot_scale ) );
+                return x_in_y( ( top_base + top_scale ) * mod, bot_base + bot_scale );
             }
         } else {
             return x_in_y( mod, top_base + top_scale );
@@ -1254,13 +1256,25 @@ void load_effect_type( JsonObject &jo )
         new_etype.blocks_effects.push_back( efftype_id( f ) );
     }
 
+    if( jo.has_string( "max_duration" ) ) {
+        new_etype.max_duration = read_from_json_string<time_duration>( *jo.get_raw( "max_duration" ),
+                                 time_duration::units );
+    } else {
+        new_etype.max_duration = time_duration::from_turns( jo.get_int( "max_duration", 0 ) );
+    }
+
+    if( jo.has_string( "int_dur_factor" ) ) {
+        new_etype.int_dur_factor = read_from_json_string<time_duration>( *jo.get_raw( "int_dur_factor" ),
+                                   time_duration::units );
+    } else {
+        new_etype.int_dur_factor = time_duration::from_turns( jo.get_int( "int_dur_factor", 0 ) );
+    }
+
     new_etype.max_intensity = jo.get_int( "max_intensity", 1 );
-    new_etype.max_duration = time_duration::from_turns( jo.get_int( "max_duration", 0 ) );
     new_etype.dur_add_perc = jo.get_int( "dur_add_perc", 100 );
     new_etype.int_add_val = jo.get_int( "int_add_val", 0 );
     new_etype.int_decay_step = jo.get_int( "int_decay_step", -1 );
     new_etype.int_decay_tick = jo.get_int( "int_decay_tick", 0 );
-    new_etype.int_dur_factor = time_duration::from_turns( jo.get_int( "int_dur_factor", 0 ) );
 
     new_etype.load_miss_msgs( jo, "miss_messages" );
     new_etype.load_decay_msgs( jo, "decay_messages" );
@@ -1280,8 +1294,14 @@ void load_effect_type( JsonObject &jo )
 
     new_etype.impairs_movement = hardcoded_movement_impairing.count( new_etype.id ) > 0;
 
-    effect_types[new_etype.id] = new_etype;
+    new_etype.flags = jo.get_tags( "flags" );
 
+    effect_types[new_etype.id] = new_etype;
+}
+
+bool effect::has_flag( const std::string &flag ) const
+{
+    return eff_type->flags.count( flag ) > 0;
 }
 
 void reset_effect_types()
@@ -1319,7 +1339,7 @@ void effect::deserialize( JsonIn &jsin )
     bp = static_cast<body_part>( jo.get_int( "bp" ) );
     permanent = jo.get_bool( "permanent" );
     intensity = jo.get_int( "intensity" );
-    start_time = calendar::time_of_cataclysm;
+    start_time = calendar::turn_zero;
     jo.read( "start_turn", start_time );
 }
 

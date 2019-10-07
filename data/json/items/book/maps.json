@@ -5,9 +5,10 @@
     "category": "maps",
     "name": "abstract map",
     "description": "seeing this is a bug",
-    "weight": 30,
-    "volume": 1,
+    "weight": "30 g",
+    "volume": "250 ml",
     "price": 1000,
+    "price_postapoc": 4000,
     "to_hit": -1,
     "material": "paper",
     "symbol": ";",
@@ -23,7 +24,17 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 180,
-      "terrain": [ "hiway", "road", "bridge", "fema_entrance", "bunker", "outpost", "silo", "shelter", "police" ],
+      "terrain": [
+        "hiway",
+        "road",
+        "bridge",
+        "fema_entrance",
+        "bunker",
+        "outpost",
+        { "om_terrain": "silo", "om_terrain_match_type": "TYPE" },
+        { "om_terrain": "shelter", "om_terrain_match_type": "TYPE" },
+        "police"
+      ],
       "message": "You add roads and facilities to your map."
     }
   },
@@ -37,7 +48,7 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 180,
-      "terrain": [ "hiway", "road", "bridge", "s_pharm", "s_gun", "s_grocery", "mil_surplus", "s_gas" ],
+      "terrain": [ "hiway", "road", "bridge", "s_pharm", "s_gun", "s_grocery", "s_hunting", "mil_surplus", "s_gas" ],
       "message": "You add roads and possible supply points to your map."
     }
   },
@@ -51,7 +62,17 @@
     "use_action": {
       "type": "reveal_map",
       "radius": 180,
-      "terrain": [ "hiway", "road", "bridge", "shelter", "hospital", "school", "police", "sub_station", "bank" ],
+      "terrain": [
+        "hiway",
+        "road",
+        "bridge",
+        { "om_terrain": "shelter", "om_terrain_match_type": "TYPE" },
+        "hospital",
+        "school",
+        "police",
+        "sub_station",
+        "bank"
+      ],
       "message": "You add roads and points of interest to your map."
     }
   },

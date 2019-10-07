@@ -337,6 +337,25 @@ static void load_overmap_lake_settings( JsonObject &jo,
                 overmap_lake_settings.unfinalized_shore_extendable_overmap_terrain.end(), from_json.begin(),
                 from_json.end() );
         }
+
+        if( !overmap_lake_settings_jo.has_array( "shore_extendable_overmap_terrain_aliases" ) ) {
+            if( !overlay ) {
+                overmap_lake_settings_jo.throw_error( "shore_extendable_overmap_terrain_aliases required" );
+            }
+        } else {
+            JsonArray aliases_jarr =
+                overmap_lake_settings_jo.get_array( "shore_extendable_overmap_terrain_aliases" );
+            oter_str_id alias;
+            while( aliases_jarr.has_more() ) {
+                shore_extendable_overmap_terrain_alias alias;
+                JsonObject jo = aliases_jarr.next_object();
+                jo.read( "om_terrain", alias.overmap_terrain );
+                jo.read( "alias", alias.alias );
+                alias.match_type = jo.get_enum_value<ot_match_type>( "om_terrain_match_type",
+                                   ot_match_type::contains );
+                overmap_lake_settings.shore_extendable_overmap_terrain_aliases.emplace_back( alias );
+            }
+        }
     }
 }
 
@@ -349,6 +368,9 @@ void load_region_settings( JsonObject &jo )
     bool strict = new_region.id == "default";
     if( ! jo.read( "default_oter", new_region.default_oter ) && strict ) {
         jo.throw_error( "default_oter required for default ( though it should probably remain 'field' )" );
+    }
+    if( ! jo.read( "river_scale", new_region.river_scale ) && strict ) {
+        jo.throw_error( "river_scale required for default" );
     }
     if( jo.has_array( "default_groundcover" ) ) {
         JsonArray jia = jo.get_array( "default_groundcover" );
@@ -562,7 +584,7 @@ void load_region_overlay( JsonObject &jo )
 void apply_region_overlay( JsonObject &jo, regional_settings &region )
 {
     jo.read( "default_oter", region.default_oter );
-
+    jo.read( "river_scale", region.river_scale );
     if( jo.has_array( "default_groundcover" ) ) {
         JsonArray jia = jo.get_array( "default_groundcover" );
         region.default_groundcover_str.reset( new weighted_int_list<ter_str_id> );
@@ -865,6 +887,15 @@ void overmap_lake_settings::finalize()
             continue;
         }
         shore_extendable_overmap_terrain.emplace_back( ot.id() );
+    }
+
+    for( shore_extendable_overmap_terrain_alias &alias : shore_extendable_overmap_terrain_aliases ) {
+        if( std::find( shore_extendable_overmap_terrain.begin(), shore_extendable_overmap_terrain.end(),
+                       alias.alias ) == shore_extendable_overmap_terrain.end() ) {
+            debugmsg( " %s was referenced as an alias in overmap_lake_settings shore_extendable_overmap_terrain_alises, but the value is not present in the shore_extendable_overmap_terrain.",
+                      alias.alias.c_str() );
+            continue;
+        }
     }
 }
 

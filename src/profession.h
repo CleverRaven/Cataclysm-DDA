@@ -3,14 +3,15 @@
 #define PROFESSION_H
 
 #include <list>
+#include <map>
 #include <set>
 #include <vector>
 #include <string>
 #include <utility>
 
 #include "string_id.h"
-#include "optional.h"
 #include "pldata.h"
+#include "translations.h"
 #include "type_id.h"
 
 template<typename T>
@@ -20,8 +21,10 @@ using Group_tag = std::string;
 class item;
 
 using itype_id = std::string;
+class avatar;
 class player;
 class JsonObject;
+
 enum add_type : int;
 
 class profession
@@ -47,10 +50,10 @@ class profession
         string_id<profession> id;
         bool was_loaded = false;
 
-        std::string _name_male;
-        std::string _name_female;
-        std::string _description_male;
-        std::string _description_female;
+        translation _name_male;
+        translation _name_female;
+        translation _description_male;
+        translation _description_female;
         signed int _point_cost;
 
         // TODO: In professions.json, replace lists of itypes (legacy) with item groups
@@ -66,6 +69,8 @@ class profession
         std::vector<bionic_id> _starting_CBMs;
         std::vector<trait_id> _starting_traits;
         std::vector<mtype_id> _starting_pets;
+        // the int is what level the spell starts at
+        std::map<spell_id, int> _starting_spells;
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
 
@@ -100,7 +105,10 @@ class profession
         std::vector<addiction> addictions() const;
         std::vector<mtype_id> pets() const;
         std::vector<bionic_id> CBMs() const;
-        const StartingSkillList skills() const;
+        StartingSkillList skills() const;
+
+        std::map<spell_id, int> spells() const;
+        void learn_spells( avatar &you ) const;
 
         /**
          * Check if this type of profession has a certain flag set.

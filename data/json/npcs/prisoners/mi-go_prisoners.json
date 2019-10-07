@@ -1,0 +1,50 @@
+[
+  {
+    "type": "npc",
+    "id": "mi-go_prisoner",
+    "//": "A naked prisoner trapped in a horrifing cage, watching horrible things happen.",
+    "name_suffix": "prisoner",
+    "class": "NC_PRISONER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_MI-GO_PRISONER1",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_PRISONER",
+    "name": "Prisoner",
+    "common": false,
+    "job_description": "I'm just trying to survive.",
+    "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "skills": [ { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 3 ] }, { "constant": -5 } ] } } ],
+    "worn_override": "naked_prisoner",
+    "carry_override": "naked_prisoner",
+    "weapon_override": "naked_prisoner",
+    "//": "Skills intentionally kept low.  This character should probably have a higher chance of having insanity type traits eventually."
+  },
+  {
+    "type": "item_group",
+    "id": "naked_prisoner"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MI-GO_PRISONER1",
+    "dynamic_line": [
+      "My god, you've got to get me out of here.  The things... the things they've done... please help.",
+      "Aren't you a little short to be a stormtrooper?",
+      "Please, help me.",
+      "Can you get me out of this hell hole?",
+      "Who are you?  Are you real?",
+      "Can you please save me?  I have to get out of here.",
+      "Hallelujah, rescue!",
+      "I can't believe my eyes.  Thank you, thank you!",
+      "You're... you're actually real!",
+      "How are you here?  Are you one of them, somehow?  What's going on?"
+    ],
+    "responses": [
+      { "text": "Come with me, if you want to live.", "topic": "TALK_DONE", "effect": "follow" },
+      { "text": "I've no use for weaklings.  Run.  Now.", "topic": "TALK_DONE", "effect": "flee" }
+    ]
+  }
+]

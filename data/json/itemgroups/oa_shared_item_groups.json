@@ -16,6 +16,8 @@
   {
     "type": "item_group",
     "id": "oa_custom_trash",
+    "ammo": 50,
+    "magazine": 100,
     "items": [
       { "item": "lighter", "prob": 50, "charges-min": 0, "charges-max": 10 },
       { "item": "matches", "prob": 50, "charges-min": 0, "charges-max": 20 },
@@ -26,7 +28,7 @@
       [ "heroin", 1 ],
       [ "string_6", 10 ],
       [ "chain", 20 ],
-      [ "glass_shard", 30 ],
+      { "item": "glass_shard", "prob": 30, "count": [ 1, 8 ] },
       [ "ceramic_shard", 35 ],
       [ "stick", 30 ],
       [ "joint_roach", 20 ],

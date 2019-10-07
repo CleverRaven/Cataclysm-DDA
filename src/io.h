@@ -2,6 +2,7 @@
 #ifndef CATA_IO_H
 #define CATA_IO_H
 
+#include <functional>
 #include <string>
 #include <type_traits>
 

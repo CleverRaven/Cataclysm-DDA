@@ -9,14 +9,29 @@
       { "item": "knife_butter", "count": [ 1, 6 ] },
       { "item": "knife_butter", "count": [ 1, 6 ], "prob": 75 },
       { "item": "knife_steak", "count": [ 2, 6 ], "prob": 85 },
+      { "item": "knife_paring", "prob": 75 },
       { "item": "fork", "count": [ 1, 6 ] },
       { "item": "fork", "count": [ 1, 6 ], "prob": 75 },
       { "item": "spoon", "count": [ 1, 6 ] },
       { "item": "spoon", "count": [ 1, 6 ], "prob": 75 },
-      { "item": "chopsticks", "prob": 50, "count": [ 0, 6 ] },
-      { "item": "plastic_spoon", "prob": 50, "count": [ 0, 6 ] },
-      { "item": "plastic_knife", "prob": 50, "count": [ 1, 6 ] },
-      { "item": "plastic_fork", "prob": 50, "count": [ 0, 6 ] },
+      { "item": "chopsticks", "prob": 70, "count": [ 1, 6 ] },
+      {
+        "collection": [
+          { "item": "plastic_spoon", "count": [ 0, 6 ] },
+          { "item": "plastic_knife", "count": [ 0, 6 ] },
+          { "item": "plastic_fork", "count": [ 0, 6 ] }
+        ],
+        "prob": 60
+      },
+      {
+        "collection": [
+          { "item": "plastic_spoon", "count": [ 0, 6 ] },
+          { "item": "plastic_knife", "count": [ 0, 6 ] },
+          { "item": "plastic_fork", "count": [ 0, 6 ] }
+        ],
+        "prob": 30
+      },
+      { "item": "plastic_spoon_kids", "prob": 35, "count": [ 1, 6 ] },
       [ "corkscrew", 75 ],
       [ "bottle_opener", 75 ],
       { "item": "plastic_straw", "prob": 50, "count": [ 1, 6 ] }
@@ -91,7 +106,7 @@
       { "item": "permanent_marker", "prob": 75 },
       { "item": "permanent_marker", "prob": 40 },
       { "item": "paper", "prob": 55 },
-      { "item": "battery", "count": [ 1, 2 ], "prob": 85 },
+      { "item": "light_battery_cell", "count": [ 1, 2 ], "prob": 85 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 80 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 50 },
       { "item": "string_36", "count": [ 1, 4 ], "prob": 20 },
@@ -102,6 +117,8 @@
       { "item": "corkscrew", "prob": 60 },
       { "item": "bottle_opener", "prob": 75 },
       { "item": "candle", "prob": 75 },
+      { "item": "RPG_die", "prob": 10 },
+      { "item": "metal_RPG_die", "prob": 1 },
       { "distribution": [ { "item": "matches" }, { "item": "lighter" } ], "prob": 90 }
     ]
   },
@@ -122,6 +139,18 @@
       {
         "collection": [ { "item": "glass_plate", "count": [ 1, 4 ] }, { "item": "glass_bowl", "count": [ 1, 4 ] } ],
         "prob": 60
+      },
+      {
+        "collection": [ { "item": "tumbler_plastic", "count": [ 1, 4 ] }, { "item": "plastic_plate", "count": [ 1, 4 ] } ],
+        "prob": 60
+      },
+      {
+        "collection": [
+          { "item": "plastic_bowl_kids", "count": [ 1, 4 ] },
+          { "item": "sippy_cup", "count": [ 1, 4 ] },
+          { "item": "plastic_spoon_kids", "count": [ 1, 4 ] }
+        ],
+        "prob": 60
       }
     ]
   },
@@ -139,6 +168,8 @@
       { "item": "pot_copper", "prob": 75 },
       { "item": "stock_pot", "prob": 50 },
       { "item": "pot_canning", "prob": 25 },
+      { "item": "colander_steel", "prob": 40 },
+      { "item": "splatter_guard", "prob": 20 },
       { "item": "pan", "count": [ 1, 2 ] },
       { "item": "steel_pan", "prob": 80 },
       { "item": "copper_pan", "prob": 30 },

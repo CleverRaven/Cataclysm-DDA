@@ -49,10 +49,7 @@
     "nested_mapgen_id": "roof_4x4_survivor",
     "object": {
       "mapgensize": [ 4, 4 ],
-      "place_furniture": [
-        { "furn": "f_camp_chair", "x": 0, "y": 0, "chance": 50 },
-        { "furn": "f_makeshift_bed", "x": 2, "y": 0, "chance": 50 }
-      ],
+      "place_furniture": [ { "furn": "f_camp_chair", "x": 0, "y": 0 }, { "furn": "f_makeshift_bed", "x": 2, "y": 0 } ],
       "place_loot": [
         { "group": "cannedfood", "x": 1, "y": 0, "repeat": [ 2, 3 ] },
         { "group": "camping", "x": [ 0, 3 ], "y": [ 0, 3 ], "chance": 50, "repeat": [ 2, 3 ] },
@@ -68,9 +65,9 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "roof_16x16_help",
-    "rotation": [ 0, 0 ],
     "object": {
       "mapgensize": [ 16, 16 ],
+      "rotation": [ 0, 0 ],
       "place_loot": [
         { "group": "roof_sign", "x": 0, "y": 0 },
         { "group": "roof_sign", "x": 0, "y": 1 },
@@ -149,7 +146,8 @@
         "__ox"
       ],
       "terrain": { "_": "t_concrete", "x": "t_sewage_pipe" },
-      "furniture": { "o": "f_water_heater", "a": "f_air_conditioner" }
+      "furniture": { "o": "f_water_heater", "a": "f_air_conditioner" },
+      "liquids": { "o": { "liquid": "water_clean", "amount": [ 0, 100 ] } }
     }
   },
   {
@@ -166,7 +164,8 @@
         "UUUU"
       ],
       "terrain": { "_": "t_null", "c": "t_chaingate_l", "U": "t_chainfence" },
-      "furniture": { "o": "f_water_heater", "a": "f_water_purifier", "A": "f_standing_tank" }
+      "furniture": { "o": "f_water_heater", "a": "f_water_purifier", "A": "f_standing_tank" },
+      "liquids": { "o": { "liquid": "water_clean", "amount": [ 0, 100 ] } }
     }
   },
   {
@@ -185,7 +184,8 @@
         "xxxxxx"
       ],
       "terrain": { "_": "t_null", "x": "t_sewage_pipe" },
-      "furniture": { "o": "f_water_heater", "a": "f_water_purifier", "A": "f_standing_tank" }
+      "furniture": { "o": "f_water_heater", "a": "f_water_purifier", "A": "f_standing_tank" },
+      "liquids": { "o": { "liquid": "water_clean", "amount": [ 0, 100 ] } }
     }
   },
   {
@@ -203,6 +203,33 @@
         { "item": "golf_ball", "x": 1, "y": 0 },
         { "item": "scorecard", "x": 0, "y": 0 }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_2x2_infrastructure",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_furniture": [ { "furn": "f_vent_pipe", "x": 0, "y": 0 }, { "furn": "f_roof_turbine_vent", "x": 0, "y": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_2x2_infrastructure_1",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_furniture": [ { "furn": "f_small_satelitte_dish", "x": 1, "y": 0 }, { "furn": "f_cellphone_booster", "x": 0, "y": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_2x2_infrastructure_2",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_terrain": [ { "ter": "t_switchgear_s", "x": 0, "y": 0 }, { "ter": "t_sai_box", "x": 0, "y": 1 } ]
     }
   },
   {
@@ -355,6 +382,36 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "roof_6x6_greenhouse_3",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 2 ],
+      "rows": [
+        "%#++#%",
+        "%1__1%",
+        "#1a_1#",
+        "#1__1#",
+        "%1_a1%",
+        "%#++#%"
+      ],
+      "terrain": {
+        "_": "t_null",
+        "#": "t_reinforced_glass_shutter_open",
+        "+": "t_reinforced_door_glass_c",
+        "%": "t_reinforced_glass_shutter",
+        "$": "t_wall_glass"
+      },
+      "furniture": { "a": "f_stool" },
+      "place_loot": [
+        { "item": "stepladder", "x": 3, "y": 5, "chance": 75, "repeat": [ 1, 3 ] },
+        { "item": "seed_weed", "x": [ 2, 3 ], "y": [ 2, 3 ], "chance": 75, "repeat": [ 1, 3 ] }
+      ],
+      "sealed_item": { "1": { "item": { "item": "seed_weed" }, "furniture": "f_planter_harvest" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "roof_6x6_garden_1",
     "object": {
       "mapgensize": [ 6, 6 ],
@@ -396,6 +453,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "roof_6x6_garden_3",
+    "//": "herb garden",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 3 ],
@@ -414,6 +472,26 @@
         "3": { "item": { "item": "seed_bee_balm" }, "furniture": "f_planter_harvest" },
         "4": { "item": { "item": "seed_mugwort" }, "furniture": "f_planter_harvest" }
       }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_6x6_garden_4",
+    "//": "zen garden.",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "bb__bb",
+        "b2222b",
+        "_22G2_",
+        "_2G22_",
+        "b2222b",
+        "bb__bb"
+      ],
+      "terrain": { "_": "t_railroad_rubble", "b": "t_railroad_rubble", "2": "t_sandbox", "G": "t_sandbox" },
+      "furniture": { "G": [ "f_boulder_medium", "f_boulder_large" ], "b": "f_bench" }
     }
   }
 ]

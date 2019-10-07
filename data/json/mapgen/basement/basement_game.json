@@ -239,7 +239,9 @@
       "place_loot": [
         { "item": "dnd_handbook", "x": 18, "y": 8, "chance": 100 },
         { "item": "novel_fantasy", "x": [ 17, 19 ], "y": [ 8, 10 ], "chance": 60, "repeat": [ 0, 4 ] },
-        { "item": "character_sheet", "x": [ 17, 19 ], "y": [ 9, 10 ], "chance": 80, "repeat": [ 1, 5 ] }
+        { "item": "character_sheet", "x": [ 17, 19 ], "y": [ 9, 10 ], "chance": 80, "repeat": [ 1, 5 ] },
+        { "item": "metal_RPG_die", "x": 18, "y": 8, "chance": 10 },
+        { "item": "RPG_die", "x": [ 17, 19 ], "y": [ 8, 10 ], "chance": 90, "repeat": [ 1, 4 ] }
       ],
       "mapping": {
         "F": { "items": [ { "item": "fridgesnacks", "chance": 80, "repeat": [ 1, 3 ] } ] },

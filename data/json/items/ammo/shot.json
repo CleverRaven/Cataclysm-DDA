@@ -9,6 +9,15 @@
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
+    "id": "reloaded_shot_dragon",
+    "copy-from": "shot_dragon",
+    "type": "AMMO",
+    "name": "reloaded dragon's breath shell",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
     "id": "reloaded_shot_00",
     "copy-from": "shot_00",
     "type": "AMMO",
@@ -41,7 +50,16 @@
     "type": "AMMO",
     "name": "blackpowder birdshot",
     "proportional": { "price": 0.6, "damage": 0.8, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE" ] },
+    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_shot_dragon",
+    "copy-from": "shot_dragon",
+    "type": "AMMO",
+    "name": "blackpowder dragon's breath shell",
+    "proportional": { "price": 0.6, "damage": 0.8, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
@@ -49,7 +67,7 @@
     "copy-from": "shot_00",
     "type": "AMMO",
     "name": "blackpowder 00 shot",
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE" ] },
+    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
@@ -58,7 +76,7 @@
     "type": "AMMO",
     "name": "blackpowder flechette shell",
     "proportional": { "price": 0.6, "damage": 0.8, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE" ] },
+    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
@@ -67,7 +85,7 @@
     "type": "AMMO",
     "name": "blackpowder shotgun slug",
     "proportional": { "price": 0.6, "damage": 0.8, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE" ] },
+    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
@@ -75,9 +93,10 @@
     "type": "AMMO",
     "name": "00 shot",
     "description": "A shell filled with metal pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  Favored by SWAT forces.",
-    "weight": 32,
-    "volume": 1,
-    "price": 3500,
+    "weight": "32 g",
+    "volume": "250 ml",
+    "price": 500,
+    "price_postapoc": 3500,
     "material": [ "plastic", "powder" ],
     "symbol": "=",
     "color": "red",
@@ -97,7 +116,8 @@
     "type": "AMMO",
     "name": "shotgun beanbag",
     "description": "A beanbag round for shotguns, not deadly but designed to disable.",
-    "price": 3500,
+    "price": 500,
+    "price_postapoc": 3500,
     "count": 10,
     "proportional": { "damage": 0.1, "recoil": 0.4, "loudness": 0.6 },
     "extend": { "effects": [ "BEANBAG", "NOGIB" ] }
@@ -108,9 +128,21 @@
     "type": "AMMO",
     "name": "birdshot",
     "description": "Weak shotgun ammunition.  Designed for hunting birds and other small game, its applications in combat are very limited.",
-    "price": 2400,
+    "price": 100,
+    "price_postapoc": 2400,
     "proportional": { "damage": 0.3, "recoil": 0.6, "loudness": 0.8 },
     "extend": { "effects": [ "NOGIB" ] }
+  },
+  {
+    "id": "shot_dragon",
+    "copy-from": "shot_00",
+    "type": "AMMO",
+    "name": "dragon's breath shell",
+    "description": "A shotgun shell filled with magnesium pellets or shards, used mostly as a distress flare or pyrotechnics tool.  When the round is fired, high temperature sparks and flames shoot out of the barrel, igniting everything in their path.",
+    "price": 1000,
+    "price_postapoc": 14000,
+    "proportional": { "damage": 0.2, "recoil": 0.6, "loudness": 0.8, "dispersion": 1.2, "range": 0.5 },
+    "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }
   },
   {
     "id": "shot_flechette",
@@ -118,7 +150,8 @@
     "type": "AMMO",
     "name": "flechette shell",
     "description": "A shotgun shell filled with tiny steel darts.  Extremely damaging, plus the spread makes it very accurate at short range.  Slices through most forms of armor with ease.",
-    "price": 10000,
+    "price": 2000,
+    "price_postapoc": 10000,
     "count": 10,
     "relative": { "damage": -6, "pierce": 12 }
   },
@@ -129,7 +162,8 @@
     "name": "explosive slug",
     "//": "$30/shot thanks to tight regulation, one way or another.",
     "description": "A shotgun shell shooting a small explosive.  Damaging, but rather inaccurate and short ranged.  Banned in several states.",
-    "price": 15000,
+    "price": 3000,
+    "price_postapoc": 15000,
     "count": 5,
     "damage": 10,
     "pierce": 0,
@@ -146,12 +180,22 @@
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
+    "id": "bp_shot_scrap",
+    "copy-from": "shot_scrap",
+    "type": "AMMO",
+    "name": "makeshift shotgun shot (black powder)",
+    "proportional": { "price": 0.6, "damage": 0.8 },
+    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
     "id": "shot_slug",
     "copy-from": "shot_00",
     "type": "AMMO",
     "name": "shotgun slug",
     "description": "A heavy metal slug used with shotguns to give them the range capabilities of a rifle.  Extremely damaging but rather inaccurate.",
-    "price": 4500,
+    "price": 400,
+    "price_postapoc": 4500,
     "dispersion": 100,
     "relative": { "range": 12, "pierce": 6 },
     "proportional": { "recoil": 1.4 },

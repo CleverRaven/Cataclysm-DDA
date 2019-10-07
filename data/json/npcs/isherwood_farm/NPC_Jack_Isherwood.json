@@ -1,0 +1,365 @@
+[
+  {
+    "type": "npc",
+    "id": "isherwood_jack",
+    "//": "Patriarch of the Isherwood family.",
+    "name_unique": "Jack Isherwood",
+    "gender": "male",
+    "class": "NC_ISHERWOOD_JACK",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ISHERWOOD_JACK",
+    "mission_offered": "MISSION_ISHERWOOD_JACK_1",
+    "faction": "isherwood_family"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ISHERWOOD_JACK",
+    "name": "Jack Isherwood",
+    "job_description": "I'm the patriarch of the Isherwood family",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "common": false,
+    "bonus_per": { "one_in": 4 },
+    "worn_override": "NC_Isherwood_worn",
+    "carry_override": "NC_ISHERWOOD_rifle",
+    "weapon_override": "NC_ISHERWOOD_archery",
+    "shopkeeper_item_group": "NC_ISHERWOOD_JACK_misc",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 4, 8 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_Isherwood_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "backpack_leather" },
+      { "item": "jeans" },
+      { "item": "tshirt" },
+      { "item": "gloves_fingerless" },
+      { "item": "panties" },
+      { "item": "socks" },
+      { "item": "cowboy_hat" },
+      { "item": "boots" }
+    ],
+    "items": [
+      [ "jacket_light", 20 ],
+      [ "jacket_leather", 20 ],
+      [ "trenchcoat", 20 ],
+      [ "jacket_jean", 20 ],
+      [ "jacket_flannel", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ISHERWOOD_archery",
+    "items": [
+      [ "crossbow", 20 ],
+      [ "shortbow", 5 ],
+      [ "compbow", 15 ],
+      [ "compositebow", 15 ],
+      [ "recurbow", 15 ],
+      [ "reflexbow", 10 ],
+      [ "longbow", 10 ],
+      [ "hand_crossbow", 15 ],
+      [ "selfbow", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ISHERWOOD_rifle",
+    "items": [
+      [ "rifle_22", 5 ],
+      [ "rifle_9mm", 5 ],
+      [ "ruger_1022", 10 ],
+      [ "browning_blr", 10 ],
+      [ "remington_700", 10 ],
+      [ "savage_111f", 5 ],
+      [ "marlin_9a", 25 ],
+      [ "m1903", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ISHERWOOD_JACK_misc",
+    "items": [
+      [ "cheese_hard", 50 ],
+      [ "vinegar", 55 ],
+      { "item": "veggy_pickled", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
+      [ "jar_sauerkraut_pickled", 50 ],
+      { "item": "meat_pickled", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "fish_pickled", "prob": 60, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "meat_canned", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "veggy_canned", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "apple_canned", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "can_tomato", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "fish_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "meat_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "veggy_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "fish_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "sauce_red", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "kompot", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_JACK",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "Is that a U.S. Marshal's badge you're wearing?",
+      "no": { "u_male": true, "yes": "Hello travler, what brings you here?", "no": "Hello traveler, what brings you here?" }
+    },
+    "responses": [
+      {
+        "text": "Yes, I'm a marshal.",
+        "topic": "TALK_LEAVE_NOW",
+        "effect": "hostile",
+        "opinion": { "trust": -20, "value": -20 },
+        "condition": { "u_is_wearing": "badge_marshal" }
+      },
+      {
+        "text": "...",
+        "topic": "TALK_LEAVE_NOW",
+        "opinion": { "trust": -20, "value": -20 },
+        "condition": { "u_is_wearing": "badge_marshal" }
+      },
+      {
+        "text": "I'm here to deliver some resources.",
+        "topic": "TALK_ISHERWOOD_JACK_RESOURCES",
+        "condition": {
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "u_has_var": "u_scavenge_for_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "This is a lot of land, you been here since the collapse?",
+        "topic": "TALK_ISHERWOOD_JACK_TALK1",
+        "effect": { "u_add_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "Hey, good to see you again.",
+        "topic": "TALK_ISHERWOOD_JACK_TOPICS",
+        "condition": {
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "u_has_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "Can I do anything for you?",
+        "topic": "TALK_MISSION_LIST",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      },
+      {
+        "text": "Have anything to trade?",
+        "topic": "TALK_ISHERWOOD_JACK",
+        "effect": "start_trade",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      },
+      {
+        "text": "I'd better get going.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_JACK_TALK1",
+    "dynamic_line": "I live here with my wife, this is our family's land.  My daughter's family and son live down the road.",
+    "responses": [
+      { "text": "Your whole family survived?", "topic": "TALK_ISHERWOOD_JACK2" },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_JACK2",
+    "dynamic_line": "We've had our losses... now we stay close to home, preparing for trouble.  We've always taken disaster prepardness seriously, but we didn't expect anything like this though.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_JACK_FARM",
+    "dynamic_line": "Even out here we've had some attacks and seen ... other things.  We have been working on our defenses, but it takes time.  We've been able to keep up with the crops and animals though so we won't have to risk our necks for supplies.",
+    "responses": [
+      { "text": "What sort of defenses do you want?", "topic": "TALK_FARM_DEFENSE" },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FARM_DEFENSE",
+    "dynamic_line": "We want to put up more fencing and build some look out spots, maybe lay some traps for the monsters.  We could use some extra resources.  If you want to bring me logs, sand, clay, wire, nails, wood planks, and metal chunks, I'll give you signed chits you can use to buy goods from any of the family.",
+    "responses": [
+      {
+        "text": "Sounds reasonable, I'll see what I can do.",
+        "topic": "TALK_NONE",
+        "effect": { "u_add_var": "u_scavenge_for_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      { "text": "I'm not interested right now, I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_JACK_WIFE",
+    "dynamic_line": "Claire and I have been together for 40 years now, couldn't run this place without her.  She's quite the herbalist too, been real useful lately.  She is probably in the house, you should stop in.",
+    "speaker_effect": { "effect": { "u_add_var": "u_learned_claire_herbalist", "type": "general", "context": "meeting", "value": "yes" } },
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_JACK_DAUGHTER",
+    "dynamic_line": "Jesse and her family live up at the horse farm. Her husband, Carlos, may have some jobs for you.",
+    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_jesse", "type": "general", "context": "meeting", "value": "yes" } },
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_JACK_BROTHER",
+    "dynamic_line": "Eddie's dairy is at the end of the road.  It's just him and his son since Barry was taken by that thing in the woods.",
+    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_eddie", "type": "general", "context": "meeting", "value": "yes" } },
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LEAVE_NOW",
+    "dynamic_line": "You should get off my land, the governemnt proved its incompetence with this catastrophe.",
+    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_JACK_TOPICS",
+    "dynamic_line": "Go on ...",
+    "responses": [
+      {
+        "text": "I'm here to deliver some resources.",
+        "topic": "TALK_ISHERWOOD_JACK_RESOURCES",
+        "condition": {
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "u_has_var": "u_scavenge_for_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+          ]
+        }
+      },
+      { "text": "A farm must be a pretty safe place these days.", "topic": "TALK_JACK_FARM" },
+      { "text": "Tell me about your wife, is she around?", "topic": "TALK_JACK_WIFE" },
+      { "text": "Your daughter lives down the road?", "topic": "TALK_JACK_DAUGHTER" },
+      { "text": "Where is your brother's place?", "topic": "TALK_JACK_BROTHER" },
+      { "text": "Let's trade items.", "topic": "TALK_ISHERWOOD_JACK", "effect": "start_trade" },
+      { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_JACK_RESOURCES",
+    "dynamic_line": "Excellent.  What've you brought us?",
+    "repeat_responses": {
+      "for_item": [
+        "log",
+        "2x4",
+        "wood_panel",
+        "wood_sheet",
+        "material_sand",
+        "clay_lump",
+        "nail",
+        "wire",
+        "rock",
+        "steel_chunk",
+        "steel_lump"
+      ],
+      "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
+    },
+    "responses": [
+      { "text": "That's all for now.  Can we discuss something else?", "topic": "TALK_NONE" },
+      { "text": "That's all for now.  I'd best get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_ISHERWOOD_JACK_1",
+    "type": "mission_definition",
+    "name": "Find 10 3L jars",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 3,
+    "value": 20000,
+    "item": "jar_3l_glass",
+    "count": 20,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "followup": "MISSION_ISHERWOOD_JACK_2",
+    "end": {
+      "opinion": { "trust": 1, "value": 1 },
+      "effect": { "u_buy_item": "veggy_pickled", "container": "jar_3l_glass_sealed", "count": 12 }
+    },
+    "dialogue": {
+      "describe": "I could use some help scavenging.",
+      "offer": "We could use some 3 liter jars to preserve our produce.  Can you bring me 20 large three liter jars?  I'll give you some preserves in exchange.",
+      "accepted": "Thank you.  It's important to preserve foods while we can.",
+      "rejected": "Oh well.  I'll see if I can find another way, thanks.",
+      "advice": "Grocery stores, house kitchens, there's plenty of places to look.",
+      "inquire": "How is the search going?",
+      "success": "Wow, perfect.  Thanks.  Here's your reward.",
+      "success_lie": "What good does this do us?",
+      "failure": "I wonder where all the jars went..."
+    }
+  },
+  {
+    "id": "MISSION_ISHERWOOD_JACK_2",
+    "type": "mission_definition",
+    "name": "Find 100 wheat seeds",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 3,
+    "value": 20000,
+    "item": "seed_wheat",
+    "count": 100,
+    "end": {
+      "opinion": { "trust": 2, "value": 2 },
+      "effect": [
+        { "u_buy_item": "tomato", "count": 25 },
+        { "u_buy_item": "onion", "count": 25 },
+        { "u_buy_item": "cucumber", "count": 25 },
+        { "u_add_var": "u_did_jack_missions", "type": "general", "context": "recruit", "value": "yes" }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "I do have some more scavenging for you.",
+      "offer": "We could use some seeds for the next planting season.  Can you bring me 100 wheat seeds?  I'll give you some fresh produce.",
+      "accepted": "Thank you.  It's important to preserve healthy foods while we can.",
+      "rejected": "Oh well.  I'll see if I can find another supplier, thanks.",
+      "advice": "Grocery stores, house kitchens, there's plenty of places to look.",
+      "inquire": "How is the search going?",
+      "success": "Wow, perfect.  Thanks.  Here's your reward.",
+      "success_lie": "What good does this do us?",
+      "failure": "I wonder where all the seeds went..."
+    }
+  }
+]

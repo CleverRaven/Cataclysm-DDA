@@ -196,12 +196,12 @@ class flat_set : private Compare, Data
     friend bool operator op( const flat_set &l, const flat_set &r ) { \
         return l.data() op r.data(); \
     }
-        FLAT_SET_OPERATOR( == );
-        FLAT_SET_OPERATOR( != );
-        FLAT_SET_OPERATOR( < );
-        FLAT_SET_OPERATOR( <= );
-        FLAT_SET_OPERATOR( > );
-        FLAT_SET_OPERATOR( >= );
+        FLAT_SET_OPERATOR( == )
+        FLAT_SET_OPERATOR( != )
+        FLAT_SET_OPERATOR( < )
+        FLAT_SET_OPERATOR( <= )
+        FLAT_SET_OPERATOR( > )
+        FLAT_SET_OPERATOR( >= )
 #undef FLAT_SET_OPERATOR
     private:
         const Data &data() const {
@@ -214,6 +214,6 @@ class flat_set : private Compare, Data
         }
 };
 
-}
+} // namespace cata
 
 #endif // CATA_FLAT_SET

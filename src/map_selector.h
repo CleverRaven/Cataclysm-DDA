@@ -4,7 +4,7 @@
 
 #include <vector>
 
-#include "enums.h"
+#include "point.h"
 #include "visitable.h"
 
 class map_cursor : public tripoint, public visitable<map_cursor>

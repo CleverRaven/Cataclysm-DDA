@@ -19,6 +19,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "color.h"
+#include "coordinate_conversions.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
@@ -45,11 +46,19 @@
 #include "shadowcasting.h"
 #include "sounds.h"
 #include "string_formatter.h"
+#include "map_iterator.h"
 #include "translations.h"
 #include "trap.h"
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "flat_set.h"
+#include "int_id.h"
+#include "material.h"
+#include "monster.h"
+#include "mtype.h"
+#include "point.h"
+#include "type_id.h"
 
 static const itype_id null_itype( "null" );
 
@@ -173,7 +182,7 @@ static void do_blast( const tripoint &p, const float power,
         // Don't check up/down (for now) - this will make 2D/3D balancing easier
         int empty_neighbors = 0;
         for( size_t i = 0; i < 8; i++ ) {
-            tripoint dest( pt.x + x_offset[i], pt.y + y_offset[i], pt.z + z_offset[i] );
+            tripoint dest( pt + tripoint( x_offset[i], y_offset[i], z_offset[i] ) );
             if( closed.count( dest ) == 0 && g->m.valid_move( pt, dest, false, true ) ) {
                 empty_neighbors++;
             }
@@ -182,7 +191,7 @@ static void do_blast( const tripoint &p, const float power,
         empty_neighbors = std::max( 1, empty_neighbors );
         // Iterate over all neighbors. Bash all of them, propagate to some
         for( size_t i = 0; i < max_index; i++ ) {
-            tripoint dest( pt.x + x_offset[i], pt.y + y_offset[i], pt.z + z_offset[i] );
+            tripoint dest( pt + tripoint( x_offset[i], y_offset[i], z_offset[i] ) );
             if( closed.count( dest ) != 0 || !g->m.inbounds( dest ) ) {
                 continue;
             }
@@ -248,21 +257,21 @@ static void do_blast( const tripoint &p, const float power,
             continue;
         }
 
-        g->m.smash_items( pt, force );
+        g->m.smash_items( pt, force, _( "force of the explosion" ) );
 
         if( fire ) {
-            int density = ( force > 50.0f ) + ( force > 100.0f );
+            int intensity = ( force > 50.0f ) + ( force > 100.0f );
             if( force > 10.0f || x_in_y( force, 10.0f ) ) {
-                density++;
+                intensity++;
             }
 
-            if( !g->m.has_zlevels() && g->m.is_outside( pt ) && density == 2 ) {
+            if( !g->m.has_zlevels() && g->m.is_outside( pt ) && intensity == 2 ) {
                 // In 3D mode, it would have fire fields above, which would then fall
                 // and fuel the fire on this tile
-                density++;
+                intensity++;
             }
 
-            g->m.add_field( pt, fd_fire, density );
+            g->m.add_field( pt, fd_fire, intensity );
         }
 
         if( const optional_vpart_position vp = g->m.veh_at( pt ) ) {
@@ -280,8 +289,8 @@ static void do_blast( const tripoint &p, const float power,
         player *pl = dynamic_cast<player *>( critter );
         if( pl == nullptr ) {
             // TODO: player's fault?
-            const int dmg = force - ( critter->get_armor_bash( bp_torso ) / 2 );
-            const int actual_dmg = rng( dmg * 2, dmg * 3 );
+            const double dmg = force - critter->get_armor_bash( bp_torso ) / 2.0;
+            const int actual_dmg = rng_float( dmg * 2, dmg * 3 );
             critter->apply_damage( nullptr, bp_torso, actual_dmg );
             critter->check_dead_state();
             add_msg( m_debug, "Blast hits %s for %d damage", critter->disp_name(), actual_dmg );
@@ -348,10 +357,9 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
     // TODO: Calculate range based on max effective range for projectiles.
     // Basically bisect between 0 and map diameter using shrapnel_calc().
     // Need to update shadowcasting to support limiting range without adjusting initial distance.
-    const tripoint start = { 0, 0, src.z };
-    const tripoint end = { g->m.getmapsize() *SEEX, g->m.getmapsize() *SEEY, src.z };
+    const tripoint_range area = g->m.points_on_zlevel( src.z );
 
-    g->m.build_obstacle_cache( start, end, obstacle_cache );
+    g->m.build_obstacle_cache( area.min(), area.max() + tripoint_south_east, obstacle_cache );
 
     // Shadowcasting normally ignores the origin square,
     // so apply it manually to catch monsters standing on the explosive.
@@ -362,91 +370,88 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
 
     castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
                  update_fragment_cloud, accumulate_fragment_cloud>
-                 ( visited_cache, obstacle_cache, src.x, src.y, 0, initial_cloud );
+                 ( visited_cache, obstacle_cache, src.xy(), 0, initial_cloud );
 
     // Now visited_caches are populated with density and velocity of fragments.
-    for( int x = start.x; x < end.x; x++ ) {
-        for( int y = start.y; y < end.y; y++ ) {
-            fragment_cloud &cloud = visited_cache[x][y];
-            if( cloud.density <= MIN_FRAGMENT_DENSITY ||
-                cloud.velocity <= MIN_EFFECTIVE_VELOCITY ) {
-                continue;
-            }
-            distrib.emplace_back( x, y, src.z );
-            tripoint target( x, y, src.z );
-            int damage = ballistic_damage( cloud.velocity, fragment_mass );
-            auto critter = g->critter_at( target );
-            if( damage > 0 && critter && !critter->is_dead_state() ) {
-                std::poisson_distribution<> d( cloud.density );
-                int hits = d( rng_get_engine() );
-                dealt_projectile_attack frag;
-                frag.proj = proj;
-                frag.proj.speed = cloud.velocity;
-                frag.proj.impact = damage_instance::physical( 0, damage, 0, 0 );
-                // dealt_dag->m.total_damage() == 0 means armor block
-                // dealt_dag->m.total_damage() > 0 means took damage
-                // Need to diffentiate target among player, npc, and monster
-                // Do we even print monster damage?
-                int damage_taken = 0;
-                int damaging_hits = 0;
-                int non_damaging_hits = 0;
-                for( int i = 0; i < hits; ++i ) {
-                    frag.missed_by = rng_float( 0.05, 1.0 );
-                    critter->deal_projectile_attack( nullptr, frag, false );
-                    if( frag.dealt_dam.total_damage() > 0 ) {
-                        damaging_hits++;
-                        damage_taken += frag.dealt_dam.total_damage();
-                    } else {
-                        non_damaging_hits++;
-                    }
-                    add_msg( m_debug, "Shrapnel hit %s at %d m/s at a distance of %d",
-                             critter->disp_name(),
-                             frag.proj.speed, rl_dist( src, target ) );
-                    add_msg( m_debug, "Shrapnel dealt %d damage", frag.dealt_dam.total_damage() );
-                    if( critter->is_dead_state() ) {
-                        break;
-                    }
-                }
-                int total_hits = damaging_hits + non_damaging_hits;
-                if( total_hits > 0 && g->u.sees( *critter ) ) {
-                    // Building a phrase to summarize the fragment effects.
-                    // Target, Number of impacts, total amount of damage, proportion of deflected fragments.
-                    std::map<int, std::string> impact_count_descriptions = {
-                        { 1, _( "a" ) }, { 2, _( "several" ) }, { 5, _( "many" ) },
-                        { 20, _( "a large number of" ) }, { 100, _( "a huge number of" ) },
-                        { std::numeric_limits<int>::max(), _( "an immense number of" ) }
-                    };
-                    std::string impact_count = std::find_if(
-                                                   impact_count_descriptions.begin(), impact_count_descriptions.end(),
-                    [total_hits]( const std::pair<int, std::string> &desc ) {
-                        return desc.first >= total_hits;
-                    } )->second;
-                    std::string damage_description = ( damage_taken > 0 ) ?
-                                                     string_format( _( "dealing %d damage" ), damage_taken ) :
-                                                     _( "but they deal no damage" );
-                    if( critter->is_player() ) {
-                        add_msg( ngettext( "You are hit by %s bomb fragment, %s.",
-                                           "You are hit by %s bomb fragments, %s.", total_hits ),
-                                 impact_count, damage_description );
-                    } else if( critter->is_npc() ) {
-                        critter->add_msg_if_npc(
-                            ngettext( "<npcname> is hit by %s bomb fragment, %s.",
-                                      "<npcname> is hit by %s bomb fragments, %s.",
-                                      total_hits ),
-                            impact_count, damage_description );
-                    } else {
-                        add_msg( ngettext( "The %s is hit by %s bomb fragment, %s.",
-                                           "The %s is hit by %s bomb fragments, %s.", total_hits ),
-                                 critter->disp_name(), impact_count, damage_description );
-                    }
-                }
-            }
-            if( g->m.impassable( target ) ) {
-                if( optional_vpart_position vp = g->m.veh_at( target ) ) {
-                    vp->vehicle().damage( vp->part_index(), damage );
+    for( const tripoint &target : area ) {
+        fragment_cloud &cloud = visited_cache[target.x][target.y];
+        if( cloud.density <= MIN_FRAGMENT_DENSITY ||
+            cloud.velocity <= MIN_EFFECTIVE_VELOCITY ) {
+            continue;
+        }
+        distrib.emplace_back( target );
+        int damage = ballistic_damage( cloud.velocity, fragment_mass );
+        auto critter = g->critter_at( target );
+        if( damage > 0 && critter && !critter->is_dead_state() ) {
+            std::poisson_distribution<> d( cloud.density );
+            int hits = d( rng_get_engine() );
+            dealt_projectile_attack frag;
+            frag.proj = proj;
+            frag.proj.speed = cloud.velocity;
+            frag.proj.impact = damage_instance::physical( 0, damage, 0, 0 );
+            // dealt_dag->m.total_damage() == 0 means armor block
+            // dealt_dag->m.total_damage() > 0 means took damage
+            // Need to diffentiate target among player, npc, and monster
+            // Do we even print monster damage?
+            int damage_taken = 0;
+            int damaging_hits = 0;
+            int non_damaging_hits = 0;
+            for( int i = 0; i < hits; ++i ) {
+                frag.missed_by = rng_float( 0.05, 1.0 );
+                critter->deal_projectile_attack( nullptr, frag, false );
+                if( frag.dealt_dam.total_damage() > 0 ) {
+                    damaging_hits++;
+                    damage_taken += frag.dealt_dam.total_damage();
                 } else {
-                    g->m.bash( target, damage / 10, true );
+                    non_damaging_hits++;
                 }
+                add_msg( m_debug, "Shrapnel hit %s at %d m/s at a distance of %d",
+                         critter->disp_name(),
+                         frag.proj.speed, rl_dist( src, target ) );
+                add_msg( m_debug, "Shrapnel dealt %d damage", frag.dealt_dam.total_damage() );
+                if( critter->is_dead_state() ) {
+                    break;
+                }
+            }
+            int total_hits = damaging_hits + non_damaging_hits;
+            if( total_hits > 0 && g->u.sees( *critter ) ) {
+                // Building a phrase to summarize the fragment effects.
+                // Target, Number of impacts, total amount of damage, proportion of deflected fragments.
+                std::map<int, std::string> impact_count_descriptions = {
+                    { 1, _( "a" ) }, { 2, _( "several" ) }, { 5, _( "many" ) },
+                    { 20, _( "a large number of" ) }, { 100, _( "a huge number of" ) },
+                    { std::numeric_limits<int>::max(), _( "an immense number of" ) }
+                };
+                std::string impact_count = std::find_if(
+                                               impact_count_descriptions.begin(), impact_count_descriptions.end(),
+                [total_hits]( const std::pair<int, std::string> &desc ) {
+                    return desc.first >= total_hits;
+                } )->second;
+                std::string damage_description = ( damage_taken > 0 ) ?
+                                                 string_format( _( "dealing %d damage" ), damage_taken ) :
+                                                 _( "but they deal no damage" );
+                if( critter->is_player() ) {
+                    add_msg( ngettext( "You are hit by %s bomb fragment, %s.",
+                                       "You are hit by %s bomb fragments, %s.", total_hits ),
+                             impact_count, damage_description );
+                } else if( critter->is_npc() ) {
+                    critter->add_msg_if_npc(
+                        ngettext( "<npcname> is hit by %s bomb fragment, %s.",
+                                  "<npcname> is hit by %s bomb fragments, %s.",
+                                  total_hits ),
+                        impact_count, damage_description );
+                } else {
+                    add_msg( ngettext( "The %s is hit by %s bomb fragment, %s.",
+                                       "The %s is hit by %s bomb fragments, %s.", total_hits ),
+                             critter->disp_name(), impact_count, damage_description );
+                }
+            }
+        }
+        if( g->m.impassable( target ) ) {
+            if( optional_vpart_position vp = g->m.veh_at( target ) ) {
+                vp->vehicle().damage( vp->part_index(), damage );
+            } else {
+                g->m.bash( target, damage / 10, true );
             }
         }
     }
@@ -610,22 +615,22 @@ void emp_blast( const tripoint &p )
     int x = p.x;
     int y = p.y;
     const bool sight = g->u.sees( p );
-    if( g->m.has_flag( "CONSOLE", x, y ) ) {
+    if( g->m.has_flag( "CONSOLE", point( x, y ) ) ) {
         if( sight ) {
-            add_msg( _( "The %s is rendered non-functional!" ), g->m.tername( x, y ) );
+            add_msg( _( "The %s is rendered non-functional!" ), g->m.tername( point( x, y ) ) );
         }
-        g->m.ter_set( x, y, t_console_broken );
+        g->m.ter_set( point( x, y ), t_console_broken );
         return;
     }
     // TODO: More terrain effects.
-    if( g->m.ter( x, y ) == t_card_science || g->m.ter( x, y ) == t_card_military ||
-        g->m.ter( x, y ) == t_card_industrial ) {
+    if( g->m.ter( point( x, y ) ) == t_card_science || g->m.ter( point( x, y ) ) == t_card_military ||
+        g->m.ter( point( x, y ) ) == t_card_industrial ) {
         int rn = rng( 1, 100 );
         if( rn > 92 || rn < 40 ) {
             if( sight ) {
                 add_msg( _( "The card reader is rendered non-functional." ) );
             }
-            g->m.ter_set( x, y, t_card_reader_broken );
+            g->m.ter_set( point( x, y ), t_card_reader_broken );
         }
         if( rn > 80 ) {
             if( sight ) {
@@ -633,8 +638,8 @@ void emp_blast( const tripoint &p )
             }
             for( int i = -3; i <= 3; i++ ) {
                 for( int j = -3; j <= 3; j++ ) {
-                    if( g->m.ter( x + i, y + j ) == t_door_metal_locked ) {
-                        g->m.ter_set( x + i, y + j, t_floor );
+                    if( g->m.ter( point( x + i, y + j ) ) == t_door_metal_locked ) {
+                        g->m.ter_set( point( x + i, y + j ), t_floor );
                     }
                 }
             }
@@ -666,10 +671,10 @@ void emp_blast( const tripoint &p )
                 if( sight ) {
                     add_msg( _( "The %s beeps erratically and deactivates!" ), critter.name() );
                 }
-                g->m.add_item_or_charges( x, y, critter.to_item() );
+                g->m.add_item_or_charges( point( x, y ), critter.to_item() );
                 for( auto &ammodef : critter.ammo ) {
                     if( ammodef.second > 0 ) {
-                        g->m.spawn_item( x, y, ammodef.first, 1, ammodef.second, calendar::turn );
+                        g->m.spawn_item( point( x, y ), ammodef.first, 1, ammodef.second, calendar::turn );
                     }
                 }
                 g->remove_zombie( critter );
@@ -703,10 +708,10 @@ void emp_blast( const tripoint &p )
         }
     }
     if( g->u.posx() == x && g->u.posy() == y ) {
-        if( g->u.power_level > 0 ) {
+        if( g->u.power_level > 0_kJ ) {
             add_msg( m_bad, _( "The EMP blast drains your power." ) );
-            int max_drain = ( g->u.power_level > 1000 ? 1000 : g->u.power_level );
-            g->u.charge_power( -rng( 1 + max_drain / 3, max_drain ) );
+            int max_drain = ( g->u.power_level > 1000_kJ ? 1000 : units::to_kilojoule( g->u.power_level ) );
+            g->u.charge_power( units::from_kilojoule( -rng( 1 + max_drain / 3, max_drain ) ) );
         }
         // TODO: More effects?
         //e-handcuffs effects
@@ -719,8 +724,8 @@ void emp_blast( const tripoint &p )
         }
     }
     // Drain any items of their battery charge
-    for( auto &it : g->m.i_at( x, y ) ) {
-        if( it.is_tool() && it.ammo_type() == ammotype( "battery" ) ) {
+    for( auto &it : g->m.i_at( point( x, y ) ) ) {
+        if( it.is_tool() && it.ammo_current() == "battery" ) {
             it.charges = 0;
         }
     }
@@ -730,11 +735,10 @@ void emp_blast( const tripoint &p )
 void resonance_cascade( const tripoint &p )
 {
     const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p, g->u.pos() ) );
-    const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - 5 * trig_dist( p,
-                                            g->u.pos() ) ) );
     MonsterGroupResult spawn_details;
-    monster invader;
     if( maxglow > 0_turns ) {
+        const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - 5 * trig_dist( p,
+                                                g->u.pos() ) ) );
         g->u.add_effect( efftype_id( "teleglow" ), rng( minglow, maxglow ) * 100 );
     }
     int startx = ( p.x < 8 ? 0 : p.x - 8 ), endx = ( p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8 );
@@ -752,7 +756,7 @@ void resonance_cascade( const tripoint &p )
                 case 5:
                     for( int k = i - 1; k <= i + 1; k++ ) {
                         for( int l = j - 1; l <= j + 1; l++ ) {
-                            field_id type = fd_null;
+                            field_type_id type = fd_null;
                             switch( rng( 1, 7 ) ) {
                                 case 1:
                                     type = fd_blood;
@@ -793,8 +797,7 @@ void resonance_cascade( const tripoint &p )
                 case 14:
                 case 15:
                     spawn_details = MonsterGroupManager::GetResultFromGroup( mongroup_id( "GROUP_NETHER" ) );
-                    invader = monster( spawn_details.name, dest );
-                    g->add_zombie( invader );
+                    g->place_critter_at( spawn_details.name, dest );
                     break;
                 case 16:
                 case 17:
@@ -815,10 +818,9 @@ void nuke( const tripoint &p )
 {
     // TODO: nukes hit above surface, not critter = 0
     // TODO: Z
-    int x = p.x;
-    int y = p.y;
+    tripoint p_surface( p.xy(), 0 );
     tinymap tmpmap;
-    tmpmap.load( x * 2, y * 2, 0, false );
+    tmpmap.load( omt_to_sm_copy( p_surface ), false );
     tripoint dest( 0, 0, p.z );
     int &i = dest.x;
     int &j = dest.y;
@@ -834,14 +836,14 @@ void nuke( const tripoint &p )
         }
     }
     tmpmap.save();
-    overmap_buffer.ter( x, y, 0 ) = oter_id( "crater" );
+    overmap_buffer.ter_set( p_surface, oter_id( "crater" ) );
     // Kill any npcs on that omap location.
-    for( const auto &npc : overmap_buffer.get_npcs_near_omt( x, y, 0, 0 ) ) {
+    for( const auto &npc : overmap_buffer.get_npcs_near_omt( p_surface, 0 ) ) {
         npc->marked_for_death = true;
     }
 }
 
-}
+} // namespace explosion_handler
 
 // This is only ever used to zero the cloud values, which is what makes it work.
 fragment_cloud &fragment_cloud::operator=( const float &value )

@@ -132,13 +132,13 @@ std::string generate( bool is_male )
         return get( baseSearchFlags | nameIsFullName );
     } else {
         //~ Used for constructing full name: %1$s is `family name`, %2$s is `given name`
-        std::string full_name_format = "%1$s %2$s";
+        translation full_name_format = to_translation( "Full Name", "%1$s %2$s" );
         //One in three chance to add a nickname to full name
         if( one_in( 3 ) ) {
             //~ Used for constructing full name with nickname: %1$s is `family name`, %2$s is `given name`, %3$s is `nickname`
-            full_name_format = "%1$s '%3$s' %2$s";
+            full_name_format = to_translation( "Full Name", "%1$s '%3$s' %2$s" );
         }
-        return string_format( pgettext( "Full Name", full_name_format.c_str() ),
+        return string_format( full_name_format,
                               get( baseSearchFlags | nameIsGivenName ).c_str(),
                               get( baseSearchFlags | nameIsFamilyName ).c_str(),
                               get( nameIsNickName ).c_str()
@@ -150,5 +150,5 @@ void clear()
 {
     names.clear();
 }
-}
+} // namespace Name
 

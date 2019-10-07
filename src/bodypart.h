@@ -8,11 +8,11 @@
 #include <initializer_list>
 #include <string>
 
-#include "enum_bitset.h"
 #include "int_id.h"
 #include "string_id.h"
 
 class JsonObject;
+template <typename E> struct enum_traits;
 
 // The order is important ; pldata.h has to be in the same order
 enum body_part : int {
@@ -39,7 +39,13 @@ struct enum_traits<body_part> {
 enum class side : int {
     BOTH,
     LEFT,
-    RIGHT
+    RIGHT,
+    num_sides
+};
+
+template<>
+struct enum_traits<side> {
+    static constexpr auto last = side::num_sides;
 };
 
 /**

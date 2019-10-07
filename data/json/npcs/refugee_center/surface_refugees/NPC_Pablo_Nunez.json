@@ -1,5 +1,17 @@
 [
   {
+    "type": "npc",
+    "id": "refugee_PabloNunez",
+    "name_unique": "Pablo Nunez",
+    "gender": "male",
+    "name_suffix": "refugee",
+    "class": "NC_REFUGEE_Pablo",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_Pablo_1",
+    "faction": "free_merchants"
+  },
+  {
     "type": "npc_class",
     "id": "NC_REFUGEE_Pablo",
     "name": "Refugee",
@@ -48,18 +60,6 @@
     "id": "REFUGEE_Pablo_wield",
     "subtype": "collection",
     "entries": [ { "item": "heavy_flashlight", "ammo-item": "battery", "charges": 200 } ]
-  },
-  {
-    "type": "npc",
-    "id": "refugee_PabloNunez",
-    "name_unique": "Pablo Nunez",
-    "gender": "male",
-    "name_suffix": "refugee",
-    "class": "NC_REFUGEE_Pablo",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_REFUGEE_Pablo_1",
-    "faction": "free_merchants"
   },
   {
     "type": "talk_topic",

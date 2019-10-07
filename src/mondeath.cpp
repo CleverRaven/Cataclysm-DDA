@@ -13,13 +13,14 @@
 
 #include "avatar.h"
 #include "explosion.h"
-#include "event.h"
+#include "timed_event.h"
 #include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "kill_tracker.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -43,6 +44,9 @@
 #include "units.h"
 #include "weighted_list.h"
 #include "type_id.h"
+#include "colony.h"
+#include "point.h"
+#include "mattack_actors.h"
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -78,6 +82,7 @@ static const trait_id trait_PRED2( "PRED2" );
 static const trait_id trait_PRED3( "PRED3" );
 static const trait_id trait_PRED4( "PRED4" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_KILLER( "KILLER" );
 
 void mdeath::normal( monster &z )
 {
@@ -132,7 +137,7 @@ static void scatter_chunks( const std::string &chunk_name, int chunk_amt, monste
 
         for( size_t j = 0; j < traj.size(); j++ ) {
             tarp = traj[j];
-            if( one_in( 2 ) && z.bloodType() != fd_null ) {
+            if( one_in( 2 ) && z.bloodType().id() ) {
                 g->m.add_splatter( z.bloodType(), tarp );
             } else {
                 g->m.add_splatter( z.gibType(), tarp, rng( 1, j + 1 ) );
@@ -173,8 +178,8 @@ void mdeath::splatter( monster &z )
         }
     }
 
-    const field_id type_blood = z.bloodType();
-    const field_id type_gib = z.gibType();
+    const field_type_id type_blood = z.bloodType();
+    const field_type_id type_gib = z.gibType();
 
     if( gibbable ) {
         const auto area = g->m.points_in_radius( z.pos(), 1 );
@@ -191,10 +196,11 @@ void mdeath::splatter( monster &z )
         }
     }
     // 1% of the weight of the monster is the base, with overflow damage as a multiplier
-    int gibbed_weight = rng( 0, round( to_gram( z.get_weight() ) / 100 *
+    int gibbed_weight = rng( 0, round( to_gram( z.get_weight() ) / 100.0 *
                                        ( overflow_damage / max_hp + 1 ) ) );
+    const int z_weight = to_gram( z.get_weight() );
     // limit gibbing to 15%
-    gibbed_weight = std::min( gibbed_weight, to_gram( z.get_weight() ) * 15 / 100 );
+    gibbed_weight = std::min( gibbed_weight, z_weight * 15 / 100 );
 
     if( pulverized && gibbable ) {
         float overflow_ratio = overflow_damage / max_hp + 1;
@@ -325,17 +331,13 @@ void mdeath::vine_cut( monster &z )
 
     for( auto &vine : vines ) {
         bool found_neighbor = false;
-        tripoint tmp = vine->pos();
-        int &x = tmp.x;
-        int &y = tmp.y;
-        for( x = vine->posx() - 1; x <= vine->posx() + 1 && !found_neighbor; x++ ) {
-            for( y = vine->posy() - 1; y <= vine->posy() + 1 && !found_neighbor; y++ ) {
-                if( x != z.posx() || y != z.posy() ) {
-                    // Not the dying vine
-                    if( monster *const v = g->critter_at<monster>( { x, y, z.posz() } ) ) {
-                        if( v->type->id == mon_creeper_hub || v->type->id == mon_creeper_vine ) {
-                            found_neighbor = true;
-                        }
+        for( const tripoint &dest : g->m.points_in_radius( vine->pos(), 1 ) ) {
+            if( dest != z.pos() ) {
+                // Not the dying vine
+                if( monster *const v = g->critter_at<monster>( dest ) ) {
+                    if( v->type->id == mon_creeper_hub || v->type->id == mon_creeper_vine ) {
+                        found_neighbor = true;
+                        break;
                     }
                 }
             }
@@ -351,16 +353,11 @@ void mdeath::triffid_heart( monster &z )
     if( g->u.sees( z ) ) {
         add_msg( m_warning, _( "The surrounding roots begin to crack and crumble." ) );
     }
-    g->events.add( EVENT_ROOTS_DIE, calendar::turn + 10_minutes );
+    g->timed_events.add( TIMED_EVENT_ROOTS_DIE, calendar::turn + 10_minutes );
 }
 
 void mdeath::fungus( monster &z )
 {
-    // If the fungus died from anti-fungal poison, don't pouf
-    if( g->m.get_field_strength( z.pos(), fd_fungicidal_gas ) ) {
-        return;
-    }
-
     //~ the sound of a fungus dying
     sounds::sound( z.pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
 
@@ -392,19 +389,9 @@ void mdeath::worm( monster &z )
         }
     }
 
-    std::vector <tripoint> wormspots;
-    for( auto &&wormp : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
-        if( g->m.has_flag( "DIGGABLE", wormp ) && g->is_empty( wormp ) ) {
-            wormspots.push_back( wormp );
-        }
-    }
-    int worms = 0;
-    while( worms < 2 && !wormspots.empty() ) {
-        const tripoint target = random_entry_removed( wormspots );
-        if( !g->critter_at( target ) ) {
-            g->summon_mon( mon_halfworm, target );
-            worms++;
-        }
+    int worms = 2;
+    while( worms > 0 && g->place_critter_around( mon_halfworm, z.pos(), 1 ) ) {
+        worms--;
     }
 }
 
@@ -418,7 +405,7 @@ void mdeath::disappear( monster &z )
 void mdeath::guilt( monster &z )
 {
     const int MAX_GUILT_DISTANCE = 5;
-    int kill_count = g->kill_count( z.type->id );
+    int kill_count = g->get_kill_tracker().kill_count( z.type->id );
     int maxKills = 100; // this is when the player stop caring altogether.
 
     // different message as we kill more of the same monster
@@ -430,7 +417,7 @@ void mdeath::guilt( monster &z )
     guilt_tresholds[25] = _( "You feel remorse for killing %s." );
 
     if( g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait( trait_PRED3 ) ||
-        g->u.has_trait( trait_PRED4 ) ) {
+        g->u.has_trait( trait_PRED4 ) || g->u.has_trait( trait_KILLER ) ) {
         return;
     }
     if( rl_dist( z.pos(), g->u.pos() ) > MAX_GUILT_DISTANCE ) {
@@ -500,17 +487,10 @@ void mdeath::blobsplit( monster &z )
             add_msg( m_bad, _( "Two small blobs slither out of the corpse." ) );
         }
     }
-    std::vector <tripoint> valid;
 
-    for( auto &&dest : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
-        if( g->is_empty( dest ) && z.can_move_to( dest ) ) {
-            valid.push_back( dest );
-        }
-    }
-
-    for( int s = 0; s < 2 && !valid.empty(); s++ ) {
-        const tripoint target = random_entry_removed( valid );
-        if( monster *const blob = g->summon_mon( speed < 50 ? mon_blob_small : mon_blob, target ) ) {
+    const mtype_id &child = speed < 50 ? mon_blob_small : mon_blob;
+    for( int s = 0; s < 2; s++ ) {
+        if( monster *const blob = g->place_critter_around( child, z.pos(), 1 ) ) {
             blob->make_ally( z );
             blob->set_speed_base( speed );
             blob->set_hp( speed );
@@ -571,7 +551,7 @@ void mdeath::amigara( monster &z )
 
 void mdeath::thing( monster &z )
 {
-    g->summon_mon( mon_thing, z.pos() );
+    g->place_critter_at( mon_thing, z.pos() );
 }
 
 void mdeath::explode( monster &z )
@@ -599,10 +579,12 @@ void mdeath::explode( monster &z )
 
 void mdeath::focused_beam( monster &z )
 {
-
-    for( int k = g->m.i_at( z.pos() ).size() - 1; k >= 0; k-- ) {
-        if( g->m.i_at( z.pos() )[k].typeId() == "processor" ) {
-            g->m.i_rem( z.pos(), k );
+    map_stack items = g->m.i_at( z.pos() );
+    for( map_stack::iterator it = items.begin(); it != items.end(); ) {
+        if( it->typeId() == "processor" ) {
+            it = items.erase( it );
+        } else {
+            ++it;
         }
     }
 
@@ -644,7 +626,6 @@ void mdeath::broken( monster &z )
     }
     // make "broken_manhack", or "broken_eyebot", ...
     item_id.insert( 0, "broken_" );
-
     item broken_mon( item_id, calendar::turn );
     const int max_hp = std::max( z.get_hp_max(), 1 );
     const float overflow_damage = std::max( -z.get_hp(), 0 );
@@ -652,6 +633,45 @@ void mdeath::broken( monster &z )
     broken_mon.set_damage( static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
 
     g->m.add_item_or_charges( z.pos(), broken_mon );
+
+    if( z.type->has_flag( MF_DROPS_AMMO ) ) {
+        for( const std::pair<std::string, int> &ammo_entry : z.type->starting_ammo ) {
+            if( z.ammo[ammo_entry.first] > 0 ) {
+                bool spawned = false;
+                for( const std::pair<std::string, mtype_special_attack> &attack : z.type->special_attacks ) {
+                    if( attack.second->id == "gun" ) {
+                        item gun = item( dynamic_cast<const gun_actor *>( attack.second.get() )->gun_type );
+                        bool same_ammo = false;
+                        for( const ammotype &at : gun.ammo_types() ) {
+                            if( at == item( ammo_entry.first ).ammo_type() ) {
+                                same_ammo = true;
+                                break;
+                            }
+                        }
+                        const bool uses_mags = !gun.magazine_compatible().empty();
+                        if( same_ammo && uses_mags ) {
+                            std::vector<item> mags;
+                            int ammo_count = z.ammo[ammo_entry.first];
+                            while( ammo_count > 0 ) {
+                                item mag = item( gun.type->magazine_default.find( item( ammo_entry.first ).ammo_type() )->second );
+                                mag.ammo_set( ammo_entry.first,
+                                              std::min( ammo_count, mag.type->magazine->capacity ) );
+                                mags.insert( mags.end(), mag );
+                                ammo_count -= mag.type->magazine->capacity;
+                            }
+                            g->m.spawn_items( z.pos(), mags );
+                            spawned = true;
+                            break;
+                        }
+                    }
+                }
+                if( !spawned ) {
+                    g->m.spawn_item( z.pos(), ammo_entry.first, z.ammo[ammo_entry.first], 1,
+                                     calendar::turn );
+                }
+            }
+        }
+    }
 
     //TODO: make mdeath::splatter work for robots
     if( ( broken_mon.damage() >= broken_mon.max_damage() ) && g->u.sees( z.pos() ) ) {
@@ -668,14 +688,8 @@ void mdeath::ratking( monster &z )
         add_msg( m_warning, _( "Rats suddenly swarm into view." ) );
     }
 
-    std::vector <tripoint> ratspots;
-    for( auto &&ratp : g->m.points_in_radius( z.pos(), 1 ) ) { // *NOPAD*
-        if( g->is_empty( ratp ) ) {
-            ratspots.push_back( ratp );
-        }
-    }
-    for( int rats = 0; rats < 7 && !ratspots.empty(); rats++ ) {
-        g->summon_mon( mon_sewer_rat, random_entry_removed( ratspots ) );
+    for( int rats = 0; rats < 7; rats++ ) {
+        g->place_critter_around( mon_sewer_rat, z.pos(), 1 );
     }
 }
 
@@ -701,19 +715,33 @@ void mdeath::smokeburst( monster &z )
     g->m.emit_field( z.pos(), emit_id( "emit_smoke_blast" ) );
 }
 
+void mdeath::fungalburst( monster &z )
+{
+    // If the fungus died from anti-fungal poison, don't pouf
+    if( g->m.get_field_intensity( z.pos(), fd_fungicidal_gas ) ) {
+        if( g->u.sees( z ) ) {
+            add_msg( m_good, _( "The %s inflates and melts away." ), z.name() );
+        }
+        return;
+    }
+
+    std::string explode = string_format( _( "a %s explodes!" ), z.name() );
+    sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
+    g->m.emit_field( z.pos(), emit_id( "emit_fungal_blast" ) );
+}
+
 void mdeath::jabberwock( monster &z )
 {
     player *ch = dynamic_cast<player *>( z.get_killer() );
 
     bool vorpal = ch && ch->is_player() &&
-                  rl_dist( z.pos(), ch->pos() ) <= 1 &&
                   ch->weapon.has_flag( "DIAMOND" ) &&
-                  ch->weapon.volume() > units::from_milliliter( 750 );
+                  ch->weapon.volume() > 750_ml;
 
     if( vorpal && !ch->weapon.has_technique( matec_id( "VORPAL" ) ) ) {
         if( ch->sees( z ) ) {
-            //~ %s is the possessive form of the monster's name
             ch->add_msg_if_player( m_info,
+                                   //~ %s is the possessive form of the monster's name
                                    _( "As the flames in %s eyes die out, your weapon seems to shine slightly brighter." ),
                                    z.disp_name( true ) );
         }
@@ -788,8 +816,8 @@ void mdeath::detonate( monster &z )
 
     if( g->u.sees( z ) ) {
         if( dets.empty() ) {
-            //~ %s is the possessive form of the monster's name
             add_msg( m_info,
+                     //~ %s is the possessive form of the monster's name
                      _( "The %s's hands fly to its pockets, but there's nothing left in them." ),
                      z.name() );
         } else {
@@ -844,24 +872,10 @@ void make_mon_corpse( monster &z, int damageLvl )
 void mdeath::preg_roach( monster &z )
 {
     int num_roach = rng( 1, 3 );
-    std::vector <tripoint> roachspots;
-    for( const auto &roachp : g->m.points_in_radius( z.pos(), 1 ) ) {
-        if( g->is_empty( roachp ) ) {
-            roachspots.push_back( roachp );
-        }
-    }
-
-    while( !roachspots.empty() ) {
-        const tripoint target = random_entry_removed( roachspots );
-        if( !g->critter_at( target ) ) {
-            g->summon_mon( mon_giant_cockroach_nymph, target );
-            num_roach--;
-            if( g->u.sees( z ) ) {
-                add_msg( m_warning, _( "A cockroach nymph crawls out of the pregnant giant cockroach corpse." ) );
-            }
-        }
-        if( num_roach == 0 ) {
-            break;
+    while( num_roach > 0 && g->place_critter_around( mon_giant_cockroach_nymph, z.pos(), 1 ) ) {
+        num_roach--;
+        if( g->u.sees( z ) ) {
+            add_msg( m_warning, _( "A cockroach nymph crawls out of the pregnant giant cockroach corpse." ) );
         }
     }
 }

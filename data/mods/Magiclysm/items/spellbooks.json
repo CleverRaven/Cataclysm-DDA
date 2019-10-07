@@ -19,7 +19,10 @@
         "fireball",
         "gravity_well",
         "cone_cold",
-        "megablast"
+        "megablast",
+        "test_area_push",
+        "test_area_pull_field",
+        "test_area_pull_all"
       ]
     }
   },
@@ -33,7 +36,7 @@
     "price": 5000,
     "symbol": "?",
     "color": "light_red",
-    "use_action": { "type": "learn_spell", "spells": [ "magic_missile", "phase_door" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "magic_missile", "phase_door", "create_atomic_light" ] }
   },
   {
     "id": "wizard_utility",
@@ -45,7 +48,7 @@
     "price": 35000,
     "symbol": "?",
     "color": "red",
-    "use_action": { "type": "learn_spell", "spells": [ "phase_door", "burning_hands", "pain_split" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "phase_door", "create_lighter", "pain_split", "protection_aura" ] }
   },
   {
     "id": "pyro",
@@ -57,7 +60,7 @@
     "price": 1904,
     "symbol": "?",
     "color": "light_red",
-    "use_action": { "type": "learn_spell", "spells": [ "point_flare", "fireball", "burning_hands" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "point_flare", "fireball", "burning_hands", "create_lighter" ] }
   },
   {
     "id": "wizard_advanced",
@@ -81,7 +84,7 @@
     "price": 5000,
     "symbol": "?",
     "color": "light_green",
-    "use_action": { "type": "learn_spell", "spells": [ "light_healing" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "light_healing", "blinding_flash", "bless" ] }
   },
   {
     "id": "priest_advanced",
@@ -93,7 +96,7 @@
     "price": 30000,
     "symbol": "?",
     "color": "green",
-    "use_action": { "type": "learn_spell", "spells": [ "smite" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "smite", "holy_blade", "spirit_armor" ] }
   },
   {
     "id": "winter_grasp",
@@ -116,8 +119,23 @@
     "volume": 3,
     "price": 5000,
     "symbol": "?",
-    "color": "light_grey",
-    "use_action": { "type": "learn_spell", "spells": [ "jolt", "windstrike" ] }
+    "color": "light_gray",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "jolt", "windstrike", "windrun", "storm_hammer", "lightning_bolt", "lightning_blast" ]
+    }
+  },
+  {
+    "id": "lightning_storm_scroll",
+    "type": "GENERIC",
+    "name": "Scroll of Lightning Storm",
+    "description": "This scroll details how a spell called 'Lightning Blast' which is commonly used among Stormshapers can be altered to become much more powerful, at a much higher mana cost.",
+    "weight": 129,
+    "volume": 2,
+    "price": 25000,
+    "symbol": "?",
+    "color": "light_blue",
+    "use_action": { "type": "learn_spell", "spells": [ "lightning_storm" ] }
   },
   {
     "id": "generic_spellbook",
@@ -128,7 +146,7 @@
     "volume": 2,
     "symbol": "?",
     "color": "magenta",
-    "use_action": { "type": "learn_spell", "spells": [ "seismic_stomp" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "seismic_stomp", "create_atomic_lamp", "ethereal_grasp" ] }
   },
   {
     "id": "biomancer_spellbook",
@@ -154,5 +172,132 @@
     "symbol": "?",
     "color": "green",
     "use_action": { "type": "learn_spell", "spells": [ "druid_woodshaft", "druid_veggrasp", "druid_rootstrike", "druid_naturebow1" ] }
+  },
+  {
+    "id": "recovery_spellbook",
+    "type": "GENERIC",
+    "name": "The Utility of Mana as an Energy Source",
+    "description": "This book details spells that use your mana to recover various physiological effects.",
+    "weight": 728,
+    "volume": "3 L",
+    "symbol": "?",
+    "color": "light_blue",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "recover_mana", "recover_bionic_power", "recover_pain", "recover_fatigue", "recover_stamina" ]
+    }
+  },
+  {
+    "id": "magus_spellbook",
+    "type": "GENERIC",
+    "name": "The Tome of The Battle Mage",
+    "description": "Your standard wizardy looking spellbook, filled with Magus combat spells.  You sure lucked out!",
+    "weight": 434,
+    "volume": 3,
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_mana_beam", "magus_mana_bolt", "magus_mana_blast" ] }
+  },
+  {
+    "id": "eshaper_spellbook",
+    "type": "GENERIC",
+    "name": "The Tome of the Hollow Earth",
+    "description": "This large dusty spellbook seems perpetually, well, dusty.  It contains the power of the earth.",
+    "weight": 483,
+    "volume": 3.3,
+    "symbol": "?",
+    "color": "brown",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "eshaper_rockbolt", "eshaper_shardspray", "eshaper_piercing_bolt", "eshaper_shardstorm" ]
+    }
+  },
+  {
+    "id": "magus_spellbook_move",
+    "type": "GENERIC",
+    "name": "The Tome of Magical Movement",
+    "description": "This small lightweight book seems to almost not entirely exist, let's say it 97% does.  It contains Magus spells focused on movement.",
+    "weight": 231,
+    "volume": 2,
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "phase_door", "magus_escape", "magus_haste" ] }
+  },
+  {
+    "id": "summon_scroll_smudged",
+    "type": "GENERIC",
+    "name": "Smudged Scroll",
+    "description": "This looks like someone was designing a new spell, but spilled a mug of coffee on it and crumpled it up in anger.  You can tell that it will definitely cast something, but you can't be sure that it will work very well.",
+    "weight": 129,
+    "volume": "100 ml",
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_bear" ] }
+  },
+  {
+    "id": "summon_undead_spellbook",
+    "type": "GENERIC",
+    "name": "Necromantic Minions for Dummies",
+    "description": "This book details various ways of summoning an undead minion to fight for you.  They all appear to disappear after a short time, crumbling to dust.",
+    "weight": 788,
+    "volume": 9,
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_zombie", "summon_skeleton", "summon_decayed_pouncer" ] }
+  },
+  {
+    "id": "techno_fundamentals",
+    "type": "GENERIC",
+    "name": "Fundamentals of Technomancy",
+    "description": "This thick manual instructs the spellcaster on manipulating and empowering various forms of matter and energy.",
+    "weight": 258,
+    "volume": 3,
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "synaptic_stimulation", "animated_blade", "mirror_image" ] }
+  },
+  {
+    "id": "techno_idiots",
+    "type": "GENERIC",
+    "name": "Complete Idiot's Guide to Technomancy",
+    "description": "This colorful guide, full of diagrams and cartoons, teaches a couple of very basic Technomancy spells for the not-so-bright pupils.",
+    "weight": 211,
+    "volume": 2,
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "taze", "quantum_tunnel_lesser" ] }
+  },
+  {
+    "id": "techno_em",
+    "type": "GENERIC",
+    "name": "Technomancy and the Electromagnetic Spectrum",
+    "description": "This lab reference material book is thick and overflowing with information on combining magic with EM radiation.",
+    "weight": 284,
+    "volume": 4,
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "taze", "laze" ] }
+  },
+  {
+    "id": "translocate_spellbook",
+    "type": "GENERIC",
+    "name": "Geospatial Systems: The Lie Of Linearity",
+    "description": "This book outlines in great detail how time and space are wibbly-wobbly and non-Euclidean.  It also appears to have a dozen different coordinate systems that it uses nearly interchangeably, which makes it hard to follow.  There's lots of jargon, but with intense study you can probably learn a thing or two about portals.",
+    "weight": 1200,
+    "volume": 10,
+    "symbol": "?",
+    "color": "light_blue",
+    "use_action": { "type": "learn_spell", "spells": [ "translocate_self" ] }
+  },
+  {
+    "id": "stat_up_spellbook",
+    "type": "GENERIC",
+    "name": "Transcendence of the Human Condition",
+    "description": "The Human is the only creature that seeks to improve himself.  This study examines different spells that can heighten various senses temporarily, in hopes to discover a more permanent solution.",
+    "weight": 1300,
+    "volume": 10,
+    "symbol": "?",
+    "color": "yellow",
+    "use_action": { "type": "learn_spell", "spells": [ "cats_grace", "ogres_strength", "foxs_cunning", "eagles_sight" ] }
   }
 ]

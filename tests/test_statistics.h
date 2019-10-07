@@ -117,12 +117,9 @@ class statistics
          * Returns true if the confidence interval partially overlaps the target region.
          */
         bool uncertain_about( const epsilon_threshold &t ) {
-            if( test_threshold( t ) || // Inside target
-                ( t.midpoint - t.epsilon ) > upper() || // Below target
-                ( t.midpoint + t.epsilon ) < lower() ) { // Above target
-                return false;
-            }
-            return true;
+            return !test_threshold( t ) && // Inside target
+                   t.midpoint - t.epsilon < upper() && // Below target
+                   t.midpoint + t.epsilon > lower(); // Above target
         }
 
         bool test_threshold( const epsilon_threshold &t ) {

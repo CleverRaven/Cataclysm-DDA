@@ -11,16 +11,13 @@
 #include "map_iterator.h"
 #include "vehicle.h"
 #include "vpart_range.h"
-#include "vpart_reference.h"
-#include "player.h"
 #include "test_statistics.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "enums.h"
 #include "game_constants.h"
 #include "type_id.h"
-
-class monster;
+#include "point.h"
+#include "vpart_position.h"
 
 using efficiency_stat = statistics<long>;
 
@@ -35,13 +32,13 @@ static void clear_game_drag( const ter_id &terrain )
 
     // Move player somewhere safe
     CHECK( !g->u.in_vehicle );
-    g->u.setpos( tripoint( 0, 0, 0 ) );
+    g->u.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
     g->u.add_effect( effect_blind, 1_turns, num_bp, true );
     // Make sure the ST is 8 so that muscle powered results are consistent
     g->u.str_cur = 8;
 
-    for( const tripoint &p : g->m.points_in_rectangle( tripoint( 0, 0, 0 ),
+    for( const tripoint &p : g->m.points_in_rectangle( tripoint_zero,
             tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
         g->m.furn_set( p, furn_id( "f_null" ) );
         g->m.ter_set( p, terrain );
@@ -49,7 +46,7 @@ static void clear_game_drag( const ter_id &terrain )
         g->m.i_clear( p );
     }
 
-    for( wrapped_vehicle &veh : g->m.get_vehicles( tripoint( 0, 0, 0 ), tripoint( MAPSIZE * SEEX,
+    for( wrapped_vehicle &veh : g->m.get_vehicles( tripoint_zero, tripoint( MAPSIZE * SEEX,
             MAPSIZE * SEEY, 0 ) ) ) {
         g->m.destroy_vehicle( veh.v );
     }
@@ -57,8 +54,8 @@ static void clear_game_drag( const ter_id &terrain )
     g->m.invalidate_map_cache( 0 );
     g->m.build_map_cache( 0, true );
     // hard force a rebuild of caches
-    g->m.shift( 0, 1 );
-    g->m.shift( 0, -1 );
+    g->m.shift( point_south );
+    g->m.shift( point_north );
 }
 
 
@@ -77,7 +74,7 @@ static vehicle *setup_drag_test( const vproto_id &veh_id )
     // Remove all items from cargo to normalize weight.
     // turn everything on
     for( const vpart_reference vp : veh_ptr->get_all_parts() ) {
-        while( veh_ptr->remove_item( vp.part_index(), 0 ) );
+        veh_ptr->get_items( vp.part_index() ).clear();
         veh_ptr->toggle_specific_part( vp.part_index(), true );
     }
     // close the doors

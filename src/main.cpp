@@ -16,7 +16,6 @@
 #include <string>
 #include <utility>
 #include <vector>
-#include <type_traits>
 #if defined(_WIN32)
 #include "platform_win.h"
 #else
@@ -124,7 +123,8 @@ void printHelpMessage( const arg_handler *first_pass_arguments, size_t num_first
 }  // namespace
 
 #if defined(USE_WINMAIN)
-int APIENTRY WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
+int APIENTRY WinMain( HINSTANCE /* hInstance */, HINSTANCE /* hPrevInstance */,
+                      LPSTR /* lpCmdLine */, int /* nCmdShow */ )
 {
     int argc = __argc;
     char **argv = __argv;
@@ -614,7 +614,7 @@ int main( int argc, char *argv[] )
 
     rng_set_engine_seed( seed );
 
-    g.reset( new game );
+    g = std::make_unique<game>();
     // First load and initialize everything that does not
     // depend on the mods.
     try {
@@ -648,7 +648,7 @@ int main( int argc, char *argv[] )
     sigIntHandler.sa_handler = exit_handler;
     sigemptyset( &sigIntHandler.sa_mask );
     sigIntHandler.sa_flags = 0;
-    sigaction( SIGINT, &sigIntHandler, NULL );
+    sigaction( SIGINT, &sigIntHandler, nullptr );
 #endif
 
 #if defined(LOCALIZE)
@@ -656,8 +656,8 @@ int main( int argc, char *argv[] )
 #if defined(_WIN32)
     lang = getLangFromLCID( GetUserDefaultLCID() );
 #else
-    const char *v = setlocale( LC_ALL, NULL );
-    if( v != NULL ) {
+    const char *v = setlocale( LC_ALL, nullptr );
+    if( v != nullptr ) {
         lang = v;
 
         if( lang == "C" ) {
@@ -735,7 +735,7 @@ void printHelpMessage( const arg_handler *first_pass_arguments,
         }
         printf( "\n" );
         if( handler->documentation ) {
-            printf( "\t%s\n", handler->documentation );
+            printf( "    %s\n", handler->documentation );
         }
     }
 }

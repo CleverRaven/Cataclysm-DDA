@@ -4,12 +4,10 @@
 
 #include <map>
 #include <string>
-#include <vector>
 
 using itype_id = std::string;
 
 struct tripoint;
-
 class JsonObject;
 class nc_color;
 
@@ -66,7 +64,7 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
 
 void draw_explosion( const tripoint &p, int radius, const nc_color &col );
 void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area );
-}
+} // namespace explosion_handler
 
 shrapnel_data load_shrapnel_data( JsonObject &jo );
 explosion_data load_explosion_data( JsonObject &jo );

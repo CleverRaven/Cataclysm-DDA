@@ -233,8 +233,8 @@ static distribution load_distribution( JsonObject &jo, const std::string &name )
 
 void npc_class::load( JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "name", name, translated_string_reader );
-    mandatory( jo, was_loaded, "job_description", job_description, translated_string_reader );
+    mandatory( jo, was_loaded, "name", name );
+    mandatory( jo, was_loaded, "job_description", job_description );
 
     optional( jo, was_loaded, "common", common, true );
     bonus_str = load_distribution( jo, "bonus_str" );
@@ -339,14 +339,14 @@ const npc_class_id &npc_class::random_common()
     return *random_entry( common_classes );
 }
 
-const std::string &npc_class::get_name() const
+std::string npc_class::get_name() const
 {
-    return name;
+    return name.translated();
 }
 
-const std::string &npc_class::get_job_description() const
+std::string npc_class::get_job_description() const
 {
-    return job_description;
+    return job_description.translated();
 }
 
 const Group_tag &npc_class::get_shopkeeper_items() const
@@ -462,8 +462,4 @@ distribution distribution::operator*( const distribution &other ) const
     } );
 }
 
-distribution &distribution::operator=( const distribution &other )
-{
-    generator_function = other.generator_function;
-    return *this;
-}
+distribution &distribution::operator=( const distribution &other ) = default;

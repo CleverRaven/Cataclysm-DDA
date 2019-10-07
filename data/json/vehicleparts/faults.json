@@ -2,9 +2,9 @@
   {
     "id": "fault_engine_belt_drive",
     "type": "fault",
-    "name": "drive belt",
+    "name": "Worn drive belt",
     "description": "Required for operation of an attached alternator.",
-    "time": 30000,
+    "time": "5 m",
     "skills": [ [ "mechanics", 2 ] ],
     "requirements": {
       "qualities": [ { "id": "WRENCH", "level": 1 } ],
@@ -14,36 +14,36 @@
   {
     "id": "fault_engine_glow_plug",
     "type": "fault",
-    "name": "glow plugs",
+    "name": "Faulty glow plugs",
     "description": "Help when starting an engine in low ambient temperatures.",
-    "time": 240000,
+    "time": "40 m",
     "skills": [ [ "mechanics", 4 ] ],
     "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "glowplug", 1 ] ] ] }
   },
   {
     "id": "fault_engine_immobiliser",
     "type": "fault",
-    "name": "immobiliser",
+    "name": "Active immobiliser",
     "description": "Prevents starting of the vehicle without the appropriate key.",
-    "time": 30000,
+    "time": "5 m",
     "skills": [ [ "mechanics", 2 ], [ "electronics", 5 ] ],
     "requirements": { "qualities": [ { "id": "SCREW_FINE", "level": 1 } ] }
   },
   {
     "id": "fault_engine_pump_diesel",
     "type": "fault",
-    "name": "diesel pump",
+    "name": "Faulty diesel pump",
     "description": "Required to pump and pressurize diesel from a vehicles tank.",
-    "time": 240000,
+    "time": "40 m",
     "skills": [ [ "mechanics", 4 ] ],
     "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "pump_complex", 1 ] ] ] }
   },
   {
     "id": "fault_engine_filter_air",
     "type": "fault",
-    "name": "air filter",
+    "name": "Expired air filter",
     "description": "An expired filter reduces fuel efficiency and increases smoke production.",
-    "time": 30000,
+    "time": "5 m",
     "skills": [ [ "mechanics", 1 ] ],
     "requirements": {
       "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -53,9 +53,9 @@
   {
     "id": "fault_engine_filter_fuel",
     "type": "fault",
-    "name": "fuel filter",
+    "name": "Expired fuel filter",
     "description": "An expired filter reduces performance and increases the chance of backfires.",
-    "time": 30000,
+    "time": "5 m",
     "skills": [ [ "mechanics", 1 ] ],
     "requirements": {
       "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -65,27 +65,27 @@
   {
     "id": "fault_engine_pump_fuel",
     "type": "fault",
-    "name": "fuel pump",
+    "name": "Faulty fuel pump",
     "description": "Required to pump gasoline from a vehicles tank.",
-    "time": 240000,
+    "time": "40 m",
     "skills": [ [ "mechanics", 4 ] ],
     "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "well_pump", 1 ] ] ] }
   },
   {
     "id": "fault_engine_pump_water",
     "type": "fault",
-    "name": "water pump",
+    "name": "Faulty water pump",
     "description": "Required to pump water to an external radiator or heatsink.",
-    "time": 120000,
+    "time": "20 m",
     "skills": [ [ "mechanics", 4 ] ],
     "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "well_pump", 1 ] ] ] }
   },
   {
     "id": "fault_engine_starter",
     "type": "fault",
-    "name": "starter motor",
+    "name": "Faulty starter motor",
     "description": "Required to initially start the engine.",
-    "time": 60000,
+    "time": "10 m",
     "skills": [ [ "mechanics", 3 ] ],
     "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "motor_small", 1 ] ] ] }
   }

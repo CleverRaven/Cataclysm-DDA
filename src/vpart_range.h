@@ -9,14 +9,8 @@
 #include <utility>
 
 #include "optional.h"
-#include "vpart_reference.h"
+#include "vpart_position.h"
 #include "vehicle.h"
-
-// Some functions have templates with default values that may seem pointless,
-// but they allow to use the type in question without including the header
-// of it. (The header must still be included *if* you use the function template.)
-// Example: `some_range.begin() == some_range.end()` works without including
-// "vpart_reference.h", but `*some_range.begin()` requires it.
 
 enum class part_status_flag : int;
 
@@ -169,7 +163,7 @@ class vehicle_part_with_feature_range : public
             generic_vehicle_part_range<vehicle_part_with_feature_range<feature_type>>( v ),
                     feature_( std::move( f ) ), required_( r ) { }
 
-        bool matches( const size_t part ) const;
+        bool matches( size_t part ) const;
 };
 
 #endif

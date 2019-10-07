@@ -5,7 +5,9 @@
 #include <cmath>
 #include <set>
 #include <memory>
+#include <list>
 
+#include "avatar.h"
 #include "debug.h"
 #include "game.h"
 #include "item.h"
@@ -20,7 +22,8 @@
 #include "weather.h"
 #include "optional.h"
 #include "color.h"
-#include "string_id.h"
+#include "enums.h"
+#include "flat_set.h"
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );
@@ -28,7 +31,7 @@ static const itype_id fuel_type_battery( "battery" );
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
 vehicle_part::vehicle_part()
-    : mount( 0, 0 ), id( vpart_id::NULL_ID() ) {}
+    : id( vpart_id::NULL_ID() ) {}
 
 vehicle_part::vehicle_part( const vpart_id &vp, const point &dp, item &&obj )
     : mount( dp ), id( vp ), base( std::move( obj ) )
@@ -92,7 +95,7 @@ std::string vehicle_part::name( bool with_prefix ) const
     }
 
     if( base.is_faulty() ) {
-        res += ( _( " (faulty)" ) );
+        res += _( " (faulty)" );
     }
 
     if( base.has_var( "contained_name" ) ) {
@@ -100,8 +103,7 @@ std::string vehicle_part::name( bool with_prefix ) const
     }
 
     if( with_prefix ) {
-        res.insert( 0, "<color_" + string_from_color( this->base.damage_color() ) + ">" +
-                    this->base.damage_symbol() + "</color> " );
+        res.insert( 0, colorize( base.damage_symbol(), base.damage_color() ) + " " );
     }
     return res;
 }
@@ -110,7 +112,7 @@ int vehicle_part::hp() const
 {
     const int dur = info().durability;
     if( base.max_damage() > 0 ) {
-        return dur - ( dur * base.damage() / base.max_damage() );
+        return dur - dur * base.damage() / base.max_damage();
     } else {
         return dur;
     }
@@ -121,6 +123,11 @@ int vehicle_part::damage() const
     return base.damage();
 }
 
+int vehicle_part::max_damage() const
+{
+    return base.max_damage();
+}
+
 int vehicle_part::damage_level( int max ) const
 {
     return base.damage_level( max );
@@ -128,7 +135,7 @@ int vehicle_part::damage_level( int max ) const
 
 double vehicle_part::health_percent() const
 {
-    return ( 1.0 - static_cast<double>( base.damage() ) / base.max_damage() );
+    return 1.0 - static_cast<double>( base.damage() ) / base.max_damage();
 }
 
 double vehicle_part::damage_percent() const
@@ -397,7 +404,7 @@ int vehicle_part::wheel_width() const
 
 npc *vehicle_part::crew() const
 {
-    if( is_broken() || crew_id < 0 ) {
+    if( is_broken() || !crew_id.is_valid() ) {
         return nullptr;
     }
 
@@ -422,7 +429,7 @@ bool vehicle_part::set_crew( const npc &who )
 
 void vehicle_part::unset_crew()
 {
-    crew_id = -1;
+    crew_id = character_id();
 }
 
 void vehicle_part::reset_target( const tripoint &pos )
@@ -463,7 +470,7 @@ bool vehicle_part::is_tank() const
 
 bool vehicle_part::is_battery() const
 {
-    return base.is_magazine() && base.ammo_type() == "battery";
+    return base.is_magazine() && base.ammo_types().count( ammotype( "battery" ) );
 }
 
 bool vehicle_part::is_reactor() const
@@ -523,7 +530,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
         return false;
     }
 
-    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant() ) {
+    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( g->u.pos() ) ) {
         if( alert ) {
             add_msg( m_bad, _( "It is too cold to plant anything now." ) );
         }

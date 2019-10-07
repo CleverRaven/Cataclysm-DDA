@@ -6,9 +6,12 @@
 #include <string>
 #include <vector>
 #include <utility>
+#include <set>
 
 #include "optional.h"
 #include "item.h"
+
+struct itype;
 
 using Item_tag = std::string;
 using Group_tag = std::string;
@@ -92,7 +95,7 @@ void load_item_group( JsonObject &jsobj, const Group_tag &group_id, const std::s
  * @throw std::string as usual for JSON errors, including invalid input values.
  */
 Group_tag load_item_group( JsonIn &stream, const std::string &default_subtype );
-}
+} // namespace item_group
 
 /**
  * Base interface for item spawn.
@@ -124,7 +127,7 @@ class Item_spawn_data
          * Check item / spawn settings for consistency. Includes
          * checking for valid item types and valid settings.
          */
-        virtual void check_consistency() const = 0;
+        virtual void check_consistency( const std::string &context ) const = 0;
         /**
          * For item blacklisted, remove the given item from this and
          * all linked groups.
@@ -152,7 +155,8 @@ class Item_modifier
          * Charges to spawn the item with, if this turns out to
          * be negative, the default charges are used.
          */
-        std::pair<long, long> charges;
+        std::pair<int, int> dirt;
+        std::pair<int, int> charges;
         /**
          * Ammo for guns. If NULL the gun spawns without ammo.
          * This takes @ref charges and @ref with_ammo into account.
@@ -181,8 +185,8 @@ class Item_modifier
         Item_modifier();
         Item_modifier( Item_modifier && ) = default;
 
-        void modify( item &it ) const;
-        void check_consistency() const;
+        void modify( item &new_item ) const;
+        void check_consistency( const std::string &context ) const;
         bool remove_item( const Item_tag &itemid );
 
         // Currently these always have the same chance as the item group it's part of, but
@@ -225,11 +229,11 @@ class Single_item_creator : public Item_spawn_data
         Type type;
         cata::optional<Item_modifier> modifier;
 
-        void inherit_ammo_mag_chances( const int ammo, const int mag );
+        void inherit_ammo_mag_chances( int ammo, int mag );
 
         ItemList create( const time_point &birthday, RecursionList &rec ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
-        void check_consistency() const override;
+        void check_consistency( const std::string &context ) const override;
         bool remove_item( const Item_tag &itemid ) override;
         bool has_item( const Item_tag &itemid ) const override;
         std::set<const itype *> every_item() const override;
@@ -273,7 +277,7 @@ class Item_group : public Item_spawn_data
 
         ItemList create( const time_point &birthday, RecursionList &rec ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
-        void check_consistency() const override;
+        void check_consistency( const std::string &context ) const override;
         bool remove_item( const Item_tag &itemid ) override;
         bool has_item( const Item_tag &itemid ) const override;
         std::set<const itype *> every_item() const override;

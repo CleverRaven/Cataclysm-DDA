@@ -5,6 +5,7 @@
     "om_terrain": [ "warehouse" ],
     "weight": 500,
     "object": {
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "....S.SSSSSSSSSSSS......",
         "zzzzSzSSSSSSSSSSSSzzzzzz",
@@ -21,10 +22,10 @@
         ".|111               1 |.",
         ".|111                 |.",
         ".|11   1            61|.",
-        ".|--3---            11|.",
-        ".|55   |@        1  11|.",
-        ".|4    |1          111|.",
-        ".O2   9|1 11  111  111|.",
+        ".|---3--            11|.",
+        ".|43  5|@        1  11|.",
+        ".|--  5|1          111|.",
+        ".O2   9|1 11  111  111|U",
         ".|5 6 9|1 111  611 111|.",
         "z|5@788|11111111111111|z",
         "z---O------------------z",
@@ -32,7 +33,6 @@
         "zzzz..zzzzzzzzzzzz..zzzz"
       ],
       "set": [
-        { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
         { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] },
         { "point": "terrain", "id": "t_tree_pine", "x": [ 0, 5 ], "y": 0, "repeat": [ 0, 1 ] },
         { "point": "terrain", "id": "t_tree_pine", "x": [ 18, 23 ], "y": 0, "repeat": [ 0, 1 ] },
@@ -42,29 +42,21 @@
         { "point": "terrain", "id": "t_tree_pine", "x": 23, "y": [ 2, 19 ], "repeat": [ 0, 2 ] }
       ],
       "terrain": {
-        " ": "t_floor",
-        "-": "t_wall",
+        " ": "t_thconc_floor",
+        "-": "t_brick_wall",
         ".": "t_grass",
-        "1": "t_floor",
-        "2": "t_floor",
         "3": "t_door_locked",
-        "4": "t_floor",
-        "5": "t_floor",
-        "6": "t_floor",
-        "7": "t_floor",
-        "8": "t_floor",
-        "9": "t_floor",
-        "@": "t_floor",
         "M": "t_door_metal_locked",
         "O": "t_window",
         "S": "t_sidewalk",
         "^": "t_tree_pine",
         "w": "t_gates_mech_control",
         "z": "t_shrub",
-        "|": "t_wall"
+        "|": "t_brick_wall",
+        "U": "t_gutter_downspout"
       },
       "furniture": {
-        "1": "f_crate_c",
+        "1": [ "f_crate_c", "f_cardboard_box" ],
         "2": "f_sink",
         "5": "f_counter",
         "6": "f_chair",
@@ -73,9 +65,19 @@
         "9": "f_sofa",
         "@": "f_trashcan"
       },
+      "items": {
+        "1": [
+          { "item": "kitchen_counters", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "dishes_dining", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "dishes_utility", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "allclothes", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "homebooks", "chance": 2, "repeat": [ 1, 2 ] },
+          { "item": "softdrugs", "chance": 5, "repeat": [ 1, 2 ] },
+          { "item": "home_hw", "chance": 5, "repeat": [ 1, 2 ] }
+        ]
+      },
       "toilets": { "4": {  } },
       "place_items": [
-        { "item": "home_hw", "x": [ 3, 20 ], "y": [ 3, 20 ], "chance": 4 },
         { "item": "cannedfood", "x": [ 2, 2 ], "y": [ 19, 20 ], "chance": 20 },
         { "item": "softdrugs", "x": [ 2, 3 ], "y": [ 16, 16 ], "chance": 30 }
       ],
@@ -85,6 +87,42 @@
         { "vehicle": "warehouse_vehicles", "x": 17, "y": 13, "chance": 50, "rotation": 270 },
         { "vehicle": "tatra_truck", "x": 8, "y": 7, "chance": 50, "rotation": 270 }
       ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "warehouse_roof",
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        " |222222222222222222223 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |.........&..........3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................5 ",
+        " |..=..........:......3 ",
+        " |....................3 ",
+        " |--------------------3 ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tar_flat_roof" }
     }
   }
 ]

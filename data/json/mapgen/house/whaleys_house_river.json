@@ -1446,11 +1446,11 @@
         { "item": "splinter", "repeat": 1, "x": 14, "y": 8 },
         { "item": "splinter", "repeat": 1, "x": 20, "y": 8 },
         { "item": "log", "repeat": 1, "x": 5, "y": 15 },
-        { "item": "glass_shard", "repeat": 1, "x": 14, "y": 16 },
+        { "item": "glass_shard", "repeat": 8, "x": 14, "y": 16 },
         { "item": "splinter", "repeat": 1, "x": 18, "y": 16 },
-        { "item": "glass_shard", "repeat": 1, "x": 13, "y": 17 },
-        { "item": "glass_shard", "repeat": 1, "x": 14, "y": 17 },
-        { "item": "glass_shard", "repeat": 1, "x": 13, "y": 18 }
+        { "item": "glass_shard", "repeat": 8, "x": 13, "y": 17 },
+        { "item": "glass_shard", "repeat": 8, "x": 14, "y": 17 },
+        { "item": "glass_shard", "repeat": 8, "x": 13, "y": 18 }
       ],
       "furniture": {
         "#": "f_null",

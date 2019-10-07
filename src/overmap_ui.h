@@ -2,12 +2,12 @@
 #ifndef OVERMAP_UI_H
 #define OVERMAP_UI_H
 
-#include "enums.h"
+#include "point.h"
 
 namespace catacurses
 {
 class window;
-}
+} // namespace catacurses
 
 class input_context;
 
@@ -40,7 +40,7 @@ void display_scents();
 /**
  * Display overmap like with @ref display() and display the given zone.
  */
-void display_zones( const tripoint &center, const tripoint &select, const int iZoneIndex );
+void display_zones( const tripoint &center, const tripoint &select, int iZoneIndex );
 /**
  * Display overmap like with @ref display() and enable the overmap editor.
  */
@@ -94,5 +94,5 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
            const tripoint &orig, bool blink, bool show_explored, bool fast_scroll, input_context *inp_ctxt,
            const draw_data_t &data );
 void create_note( const tripoint &curs );
-}
+} // namespace overmap_ui
 #endif /* OVERMAP_UI_H */

@@ -1,13 +1,11 @@
 #include "game.h" // IWYU pragma: associated
 
 #include <cstdlib>
-#include <cmath>
 #include <algorithm>
 
 #include "avatar.h"
 #include "map.h"
 #include "messages.h"
-#include "player.h"
 #include "sounds.h"
 #include "vehicle.h"
 #include "vpart_position.h"
@@ -28,6 +26,9 @@ bool game::grabbed_veh_move( const tripoint &dp )
         return false;
     }
     vehicle *grabbed_vehicle = &grabbed_vehicle_vp->vehicle();
+    if( !grabbed_vehicle->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+        return false;
+    }
     const int grabbed_part = grabbed_vehicle_vp->part_index();
     for( size_t part_index = 0; part_index < grabbed_vehicle->parts.size(); ++part_index ) {
         monster *mon = grabbed_vehicle->get_pet( part_index );
@@ -61,8 +62,8 @@ bool game::grabbed_veh_move( const tripoint &dp )
                next_grab.x != 0 && next_grab.y != 0 ) {
         // Zig-zag (or semi-zig-zag) pull: player is diagonal to vehicle
         // and moves away from it, but not directly away
-        dp_veh.x = ( dp.x == -dp_veh.x ) ? 0 : dp_veh.x;
-        dp_veh.y = ( dp.y == -dp_veh.y ) ? 0 : dp_veh.y;
+        dp_veh.x = dp.x == -dp_veh.x ? 0 : dp_veh.x;
+        dp_veh.y = dp.y == -dp_veh.y ? 0 : dp_veh.y;
 
         next_grab = -dp_veh;
         zigzag = true;
@@ -76,7 +77,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     //vehicle movement: strength check
     int mc = 0;
-    int str_req = ( grabbed_vehicle->total_mass() / 25_kilogram ); //strength required to move vehicle.
+    int str_req = grabbed_vehicle->total_mass() / 25_kilogram; //strength required to move vehicle.
 
     //if vehicle is rollable we modify str_req based on a function of movecost per wheel.
 
@@ -95,7 +96,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         for( int p : wheel_indices ) {
             const tripoint wheel_pos = vehpos + grabbed_vehicle->parts[p].precalc[0];
             const int mapcost = m.move_cost( wheel_pos, grabbed_vehicle );
-            mc += ( str_req / wheel_indices.size() ) * mapcost;
+            mc += str_req / wheel_indices.size() * mapcost;
         }
         //set strength check threshold
         //if vehicle has many or only one wheel (shopping cart), it is as if it had four.
@@ -138,7 +139,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     const auto get_move_dir = [&]( const tripoint & dir, const tripoint & from ) {
         tileray mdir;
 
-        mdir.init( dir.x, dir.y );
+        mdir.init( dir.xy() );
         grabbed_vehicle->turn( mdir.dir() - grabbed_vehicle->face.dir() );
         grabbed_vehicle->face = grabbed_vehicle->turn_dir;
         grabbed_vehicle->precalc_mounts( 1, mdir.dir(), grabbed_vehicle->pivot_point() );

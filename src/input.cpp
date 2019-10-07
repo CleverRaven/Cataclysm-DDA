@@ -20,6 +20,7 @@
 #include "filesystem.h"
 #include "game.h"
 #include "help.h"
+#include "ime.h"
 #include "json.h"
 #include "optional.h"
 #include "options.h"
@@ -30,7 +31,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "color.h"
-#include "enums.h"
+#include "point.h"
 
 using std::min; // from <algorithm>
 using std::max;
@@ -49,17 +50,17 @@ struct ContainsPredicate {
     }
 };
 
-static long str_to_long( const std::string &number )
+static int str_to_int( const std::string &number )
 {
     // ensure user's locale doesn't interfere with number format
     std::istringstream buffer( number );
     buffer.imbue( std::locale::classic() );
-    long result;
+    int result;
     buffer >> result;
     return result;
 }
 
-static std::string long_to_str( long number )
+static std::string int_to_str( int number )
 {
     // ensure user's locale doesn't interfere with number format
     std::ostringstream buffer;
@@ -94,7 +95,7 @@ std::string get_input_string_from_file( const std::string &fname )
     return ret;
 }
 
-long input_event::get_first_input() const
+int input_event::get_first_input() const
 {
     if( sequence.empty() ) {
         return UNKNOWN_UNICODE;
@@ -319,65 +320,70 @@ void input_manager::save()
     }, _( "key bindings configuration" ) );
 }
 
-void input_manager::add_keycode_pair( long ch, const std::string &name )
+void input_manager::add_keycode_pair( int ch, const std::string &name )
 {
     keycode_to_keyname[ch] = name;
     keyname_to_keycode[name] = ch;
 }
 
-void input_manager::add_gamepad_keycode_pair( long ch, const std::string &name )
+void input_manager::add_gamepad_keycode_pair( int ch, const std::string &name )
 {
     gamepad_keycode_to_keyname[ch] = name;
     keyname_to_keycode[name] = ch;
 }
 
+constexpr int char_key_beg = ' ';
+constexpr int char_key_end = '~';
+
 void input_manager::init_keycode_mapping()
 {
     // Between space and tilde, all keys more or less map
     // to themselves(see ASCII table)
-    for( char c = ' '; c <= '~'; c++ ) {
+    for( char c = char_key_beg; c <= char_key_end; c++ ) {
         std::string name( 1, c );
         add_keycode_pair( c, name );
     }
 
-    add_keycode_pair( '\t',          "TAB" );
-    add_keycode_pair( KEY_BTAB,      "BACKTAB" );
-    add_keycode_pair( ' ',           "SPACE" );
-    add_keycode_pair( KEY_UP,        "UP" );
-    add_keycode_pair( KEY_DOWN,      "DOWN" );
-    add_keycode_pair( KEY_LEFT,      "LEFT" );
-    add_keycode_pair( KEY_RIGHT,     "RIGHT" );
-    add_keycode_pair( KEY_NPAGE,     "NPAGE" );
-    add_keycode_pair( KEY_PPAGE,     "PPAGE" );
-    add_keycode_pair( KEY_ESCAPE,    "ESC" );
-    add_keycode_pair( KEY_BACKSPACE, "BACKSPACE" );
-    add_keycode_pair( KEY_HOME,      "HOME" );
-    add_keycode_pair( KEY_BREAK,     "BREAK" );
-    add_keycode_pair( KEY_END,       "END" );
-    add_keycode_pair( '\n',          "RETURN" );
+    add_keycode_pair( '\t',          translate_marker_context( "key name", "TAB" ) );
+    add_keycode_pair( KEY_BTAB,      translate_marker_context( "key name", "BACKTAB" ) );
+    add_keycode_pair( ' ',           translate_marker_context( "key name", "SPACE" ) );
+    add_keycode_pair( KEY_UP,        translate_marker_context( "key name", "UP" ) );
+    add_keycode_pair( KEY_DOWN,      translate_marker_context( "key name", "DOWN" ) );
+    add_keycode_pair( KEY_LEFT,      translate_marker_context( "key name", "LEFT" ) );
+    add_keycode_pair( KEY_RIGHT,     translate_marker_context( "key name", "RIGHT" ) );
+    add_keycode_pair( KEY_NPAGE,     translate_marker_context( "key name", "NPAGE" ) );
+    add_keycode_pair( KEY_PPAGE,     translate_marker_context( "key name", "PPAGE" ) );
+    add_keycode_pair( KEY_ESCAPE,    translate_marker_context( "key name", "ESC" ) );
+    add_keycode_pair( KEY_BACKSPACE, translate_marker_context( "key name", "BACKSPACE" ) );
+    add_keycode_pair( KEY_HOME,      translate_marker_context( "key name", "HOME" ) );
+    add_keycode_pair( KEY_BREAK,     translate_marker_context( "key name", "BREAK" ) );
+    add_keycode_pair( KEY_END,       translate_marker_context( "key name", "END" ) );
+    add_keycode_pair( '\n',          translate_marker_context( "key name", "RETURN" ) );
 
     // function keys, as defined by ncurses
-    for( int i = 0; i <= 63; i++ ) {
+    for( int i = F_KEY_NUM_BEG; i <= F_KEY_NUM_END; i++ ) {
+        // not marked for translation here, but specially handled in get_keyname so
+        // it gets properly translated.
         add_keycode_pair( KEY_F( i ), string_format( "F%d", i ) );
     }
 
-    add_gamepad_keycode_pair( JOY_LEFT,      "JOY_LEFT" );
-    add_gamepad_keycode_pair( JOY_RIGHT,     "JOY_RIGHT" );
-    add_gamepad_keycode_pair( JOY_UP,        "JOY_UP" );
-    add_gamepad_keycode_pair( JOY_DOWN,      "JOY_DOWN" );
-    add_gamepad_keycode_pair( JOY_LEFTUP,    "JOY_LEFTUP" );
-    add_gamepad_keycode_pair( JOY_LEFTDOWN,  "JOY_LEFTDOWN" );
-    add_gamepad_keycode_pair( JOY_RIGHTUP,   "JOY_RIGHTUP" );
-    add_gamepad_keycode_pair( JOY_RIGHTDOWN, "JOY_RIGHTDOWN" );
+    add_gamepad_keycode_pair( JOY_LEFT,      translate_marker_context( "key name", "JOY_LEFT" ) );
+    add_gamepad_keycode_pair( JOY_RIGHT,     translate_marker_context( "key name", "JOY_RIGHT" ) );
+    add_gamepad_keycode_pair( JOY_UP,        translate_marker_context( "key name", "JOY_UP" ) );
+    add_gamepad_keycode_pair( JOY_DOWN,      translate_marker_context( "key name", "JOY_DOWN" ) );
+    add_gamepad_keycode_pair( JOY_LEFTUP,    translate_marker_context( "key name", "JOY_LEFTUP" ) );
+    add_gamepad_keycode_pair( JOY_LEFTDOWN,  translate_marker_context( "key name", "JOY_LEFTDOWN" ) );
+    add_gamepad_keycode_pair( JOY_RIGHTUP,   translate_marker_context( "key name", "JOY_RIGHTUP" ) );
+    add_gamepad_keycode_pair( JOY_RIGHTDOWN, translate_marker_context( "key name", "JOY_RIGHTDOWN" ) );
 
-    add_gamepad_keycode_pair( JOY_0,         "JOY_0" );
-    add_gamepad_keycode_pair( JOY_1,         "JOY_1" );
-    add_gamepad_keycode_pair( JOY_2,         "JOY_2" );
-    add_gamepad_keycode_pair( JOY_3,         "JOY_3" );
-    add_gamepad_keycode_pair( JOY_4,         "JOY_4" );
-    add_gamepad_keycode_pair( JOY_5,         "JOY_5" );
-    add_gamepad_keycode_pair( JOY_6,         "JOY_6" );
-    add_gamepad_keycode_pair( JOY_7,         "JOY_7" );
+    add_gamepad_keycode_pair( JOY_0,         translate_marker_context( "key name", "JOY_0" ) );
+    add_gamepad_keycode_pair( JOY_1,         translate_marker_context( "key name", "JOY_1" ) );
+    add_gamepad_keycode_pair( JOY_2,         translate_marker_context( "key name", "JOY_2" ) );
+    add_gamepad_keycode_pair( JOY_3,         translate_marker_context( "key name", "JOY_3" ) );
+    add_gamepad_keycode_pair( JOY_4,         translate_marker_context( "key name", "JOY_4" ) );
+    add_gamepad_keycode_pair( JOY_5,         translate_marker_context( "key name", "JOY_5" ) );
+    add_gamepad_keycode_pair( JOY_6,         translate_marker_context( "key name", "JOY_6" ) );
+    add_gamepad_keycode_pair( JOY_7,         translate_marker_context( "key name", "JOY_7" ) );
 
     keyname_to_keycode["MOUSE_LEFT"] = MOUSE_BUTTON_LEFT;
     keyname_to_keycode["MOUSE_RIGHT"] = MOUSE_BUTTON_RIGHT;
@@ -386,50 +392,66 @@ void input_manager::init_keycode_mapping()
     keyname_to_keycode["MOUSE_MOVE"] = MOUSE_MOVE;
 }
 
-long input_manager::get_keycode( const std::string &name ) const
+int input_manager::get_keycode( const std::string &name ) const
 {
     const t_name_to_key_map::const_iterator a = keyname_to_keycode.find( name );
     if( a != keyname_to_keycode.end() ) {
         return a->second;
     }
-    // Not found in map, try to parse as long
+    // Not found in map, try to parse as int
     if( name.compare( 0, 8, "UNKNOWN_" ) == 0 ) {
-        return str_to_long( name.substr( 8 ) );
+        return str_to_int( name.substr( 8 ) );
     }
     return 0;
 }
 
-std::string input_manager::get_keyname( long ch, input_event_t inp_type, bool portable ) const
+std::string input_manager::get_keyname( int ch, input_event_t inp_type, bool portable ) const
 {
+    cata::optional<std::string> raw;
     if( inp_type == CATA_INPUT_KEYBOARD ) {
         const t_key_to_name_map::const_iterator a = keycode_to_keyname.find( ch );
         if( a != keycode_to_keyname.end() ) {
-            return a->second;
+            if( IS_F_KEY( ch ) ) {
+                // special case it since F<num> key names are generated using loop
+                // and not marked individually for translation
+                if( portable ) {
+                    return a->second;
+                } else {
+                    return string_format( pgettext( "function key name", "F%d" ), F_KEY_NUM( ch ) );
+                }
+            } else if( ch >= char_key_beg && ch <= char_key_end && ch != ' ' ) {
+                // character keys except space need no translation
+                return a->second;
+            }
+            raw = a->second;
         }
     } else if( inp_type == CATA_INPUT_MOUSE ) {
         if( ch == MOUSE_BUTTON_LEFT ) {
-            return "MOUSE_LEFT";
+            raw = translate_marker_context( "key name", "MOUSE_LEFT" );
         } else if( ch == MOUSE_BUTTON_RIGHT ) {
-            return "MOUSE_RIGHT";
+            raw = translate_marker_context( "key name", "MOUSE_RIGHT" );
         } else if( ch == SCROLLWHEEL_UP ) {
-            return "SCROLL_UP";
+            raw = translate_marker_context( "key name", "SCROLL_UP" );
         } else if( ch == SCROLLWHEEL_DOWN ) {
-            return "SCROLL_DOWN";
+            raw = translate_marker_context( "key name", "SCROLL_DOWN" );
         } else if( ch == MOUSE_MOVE ) {
-            return "MOUSE_MOVE";
+            raw = translate_marker_context( "key name", "MOUSE_MOVE" );
         }
     } else if( inp_type == CATA_INPUT_GAMEPAD ) {
         const t_key_to_name_map::const_iterator a = gamepad_keycode_to_keyname.find( ch );
         if( a != gamepad_keycode_to_keyname.end() ) {
-            return a->second;
+            raw = a->second;
         }
     } else {
-        return "UNKNOWN";
+        raw = translate_marker_context( "key name", "UNKNOWN" );
     }
-    if( portable ) {
-        return std::string( "UNKNOWN_" ) + long_to_str( ch );
+    if( !raw ) {
+        if( portable ) {
+            return std::string( "UNKNOWN_" ) + int_to_str( ch );
+        }
+        return string_format( _( "unknown key %ld" ), ch );
     }
-    return string_format( _( "unknown key %ld" ), ch );
+    return portable ? *raw : pgettext( "key name", raw->c_str() );
 }
 
 const std::vector<input_event> &input_manager::get_input_for_action( const std::string
@@ -440,7 +462,7 @@ const std::vector<input_event> &input_manager::get_input_for_action( const std::
     return attributes.input_events;
 }
 
-long input_manager::get_first_char_for_action( const std::string &action_descriptor,
+int input_manager::get_first_char_for_action( const std::string &action_descriptor,
         const std::string &context )
 {
     std::vector<input_event> input_events = get_input_for_action( action_descriptor, context );
@@ -632,7 +654,7 @@ void input_context::register_manual_key( manual_key mk )
     registered_manual_keys.push_back( mk );
 }
 
-void input_context::register_manual_key( long key, const std::string text )
+void input_context::register_manual_key( int key, const std::string text )
 {
     // Prevent duplicates
     for( const manual_key &manual_key : registered_manual_keys )
@@ -701,7 +723,7 @@ std::string input_context::get_available_single_char_hotkeys( std::string reques
             // Only consider keyboard events without modifiers
             if( events_event.type == CATA_INPUT_KEYBOARD && events_event.modifiers.empty() ) {
                 requested_keys.erase( std::remove_if( requested_keys.begin(), requested_keys.end(),
-                                                      ContainsPredicate<std::vector<long>, char>(
+                                                      ContainsPredicate<std::vector<int>, char>(
                                                               events_event.sequence ) ),
                                       requested_keys.end() );
             }
@@ -711,9 +733,9 @@ std::string input_context::get_available_single_char_hotkeys( std::string reques
     return requested_keys;
 }
 
-const std::string input_context::get_desc( const std::string &action_descriptor,
-        const unsigned int max_limit,
-        const std::function<bool( const input_event & )> evt_filter ) const
+std::string input_context::get_desc( const std::string &action_descriptor,
+                                     const unsigned int max_limit,
+                                     const std::function<bool( const input_event & )> evt_filter ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
         return "(*)"; // * for wildcard
@@ -763,13 +785,14 @@ const std::string input_context::get_desc( const std::string &action_descriptor,
     return rval.str();
 }
 
-const std::string input_context::get_desc( const std::string &action_descriptor,
-        const std::string &text,
-        const std::function<bool( const input_event & )> evt_filter ) const
+std::string input_context::get_desc( const std::string &action_descriptor,
+                                     const std::string &text,
+                                     const std::function<bool( const input_event & )> evt_filter ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
+        // \u00A0 is the non-breaking space
         //~ keybinding description for anykey
-        return string_format( pgettext( "keybinding", "[any] %s" ) + text );
+        return string_format( pgettext( "keybinding", "[any]\u00A0%s" ), text );
     }
 
     const auto &events = inp_mngr.get_input_for_action( action_descriptor, category );
@@ -794,12 +817,18 @@ const std::string input_context::get_desc( const std::string &action_descriptor,
 
     if( na ) {
         //~ keybinding description for unbound or disabled keys
-        return string_format( pgettext( "keybinding", "[n/a] %s" ), text );
+        return string_format( pgettext( "keybinding", "[n/a]\u00A0%s" ), text );
     } else {
         //~ keybinding description for bound keys
-        return string_format( pgettext( "keybinding", "[%s] %s" ),
+        return string_format( pgettext( "keybinding", "[%s]\u00A0%s" ),
                               get_desc( action_descriptor, 1, evt_filter ), text );
     }
+}
+
+std::string input_context::describe_key_and_name( const std::string &action_descriptor,
+        const std::function<bool( const input_event & )> evt_filter ) const
+{
+    return get_desc( action_descriptor, get_action_name( action_descriptor ), evt_filter );
 }
 
 const std::string &input_context::handle_input()
@@ -839,8 +868,7 @@ const std::string &input_context::handle_input( const int timeout )
             }
 
             coordinate_input_received = true;
-            coordinate_x = next_action.mouse_x;
-            coordinate_y = next_action.mouse_y;
+            coordinate = next_action.mouse_pos;
         } else {
             coordinate_input_received = false;
         }
@@ -906,8 +934,8 @@ void rotate_direction_cw( int &dx, int &dy )
     static const std::array<int, 9> rotate_direction_vec = {{ 1, 2, 5, 0, 4, 8, 3, 6, 7 }};
     dir_num = rotate_direction_vec[dir_num];
     // convert back to -1,0,+1
-    dx = ( dir_num % 3 ) - 1;
-    dy = ( dir_num / 3 ) - 1;
+    dx = dir_num % 3 - 1;
+    dy = dir_num / 3 - 1;
 }
 
 cata::optional<tripoint> input_context::get_direction( const std::string &action ) const
@@ -922,21 +950,21 @@ cata::optional<tripoint> input_context::get_direction( const std::string &action
     const auto transform = iso_mode && tile_iso && use_tiles ? rotate : noop;
 
     if( action == "UP" ) {
-        return transform( tripoint( 0, -1, 0 ) );
+        return transform( tripoint_north );
     } else if( action == "DOWN" ) {
-        return transform( tripoint( 0, +1, 0 ) );
+        return transform( tripoint_south );
     } else if( action == "LEFT" ) {
-        return transform( tripoint( -1, 0, 0 ) );
-    } else if( action ==  "RIGHT" ) {
-        return transform( tripoint( +1, 0, 0 ) );
+        return transform( tripoint_west );
+    } else if( action == "RIGHT" ) {
+        return transform( tripoint_east );
     } else if( action == "LEFTUP" ) {
-        return transform( tripoint( -1, -1, 0 ) );
+        return transform( tripoint_north_west );
     } else if( action == "RIGHTUP" ) {
-        return transform( tripoint( +1, -1, 0 ) );
+        return transform( tripoint_north_east );
     } else if( action == "LEFTDOWN" ) {
-        return transform( tripoint( -1, +1, 0 ) );
+        return transform( tripoint_south_west );
     } else if( action == "RIGHTDOWN" ) {
-        return transform( tripoint( +1, +1, 0 ) );
+        return transform( tripoint_south_east );
     } else {
         return cata::nullopt;
     }
@@ -953,8 +981,8 @@ void input_context::display_menu()
     // Shamelessly stolen from help.cpp
 
     input_context ctxt( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "UP", _( "Scroll up" ) );
-    ctxt.register_action( "DOWN", _( "Scroll down" ) );
+    ctxt.register_action( "UP", translate_marker( "Scroll up" ) );
+    ctxt.register_action( "DOWN", translate_marker( "Scroll down" ) );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "REMOVE" );
@@ -975,8 +1003,8 @@ void input_context::display_menu()
     int maxheight = max( FULL_SCREEN_HEIGHT, TERMY );
     int height = min( maxheight, static_cast<int>( hotkeys.size() ) + LEGEND_HEIGHT + BORDER_SPACE );
 
-    catacurses::window w_help = catacurses::newwin( height - 2, width - 2, maxheight / 2 - height / 2,
-                                maxwidth / 2 - width / 2 );
+    catacurses::window w_help = catacurses::newwin( height - 2, width - 2,
+                                point( maxwidth / 2 - width / 2, maxheight / 2 - height / 2 ) );
 
     // has the user changed something?
     bool changed = false;
@@ -1004,30 +1032,28 @@ void input_context::display_menu()
     const size_t legwidth = width - 4 - BORDER_SPACE;
     // keybindings help
     std::ostringstream legend;
-    legend << "<color_" << string_from_color( unbound_key ) << ">" << _( "Unbound keys" ) <<
-           "</color>\n";
-    legend << "<color_" << string_from_color( local_key ) << ">" <<
-           _( "Keybinding active only on this screen" ) << "</color>\n";
-    legend << "<color_" << string_from_color( global_key ) << ">" << _( "Keybinding active globally" )
-           <<
-           "</color>\n";
+    legend << colorize( _( "Unbound keys" ), unbound_key ) << "\n";
+    legend << colorize( _( "Keybinding active only on this screen" ), local_key ) << "\n";
+    legend << colorize( _( "Keybinding active globally" ), global_key ) << "\n";
     legend << _( "Press - to remove keybinding\nPress + to add local keybinding\nPress = to add global keybinding\n" );
 
     std::vector<std::string> filtered_registered_actions = org_registered_actions;
     std::string filter_phrase;
     std::string action;
-    long raw_input_char = 0;
+    int raw_input_char = 0;
     string_input_popup spopup;
     spopup.window( w_help, 4, 8, legwidth )
     .max_length( legwidth )
     .context( ctxt );
 
+    // do not switch IME mode now, but restore previous mode on return
+    ime_sentry sentry( ime_sentry::keep );
     while( true ) {
         werase( w_help );
         draw_border( w_help, BORDER_COLOR, _( "Keybindings" ), c_light_red );
         draw_scrollbar( w_help, scroll_offset, display_height,
-                        filtered_registered_actions.size(), 10, 0, c_white, true );
-        fold_and_print( w_help, 1, 2, legwidth, c_white, legend.str() );
+                        filtered_registered_actions.size(), point( 0, 10 ), c_white, true );
+        fold_and_print( w_help, point( 2, 1 ), legwidth, c_white, legend.str() );
 
         for( size_t i = 0; i + scroll_offset < filtered_registered_actions.size() &&
              i < display_height; i++ ) {
@@ -1047,13 +1073,13 @@ void input_context::display_menu()
             if( status == s_add_global && overwrite_default ) {
                 // We're trying to add a global, but this action has a local
                 // defined, so gray out the invlet.
-                mvwprintz( w_help, i + 10, 2, c_dark_gray, "%c ", invlet );
+                mvwprintz( w_help, point( 2, i + 10 ), c_dark_gray, "%c ", invlet );
             } else if( status == s_add || status == s_add_global ) {
-                mvwprintz( w_help, i + 10, 2, c_blue, "%c ", invlet );
+                mvwprintz( w_help, point( 2, i + 10 ), c_light_blue, "%c ", invlet );
             } else if( status == s_remove ) {
-                mvwprintz( w_help, i + 10, 2, c_blue, "%c ", invlet );
+                mvwprintz( w_help, point( 2, i + 10 ), c_light_blue, "%c ", invlet );
             } else {
-                mvwprintz( w_help, i + 10, 2, c_blue, "  " );
+                mvwprintz( w_help, point( 2, i + 10 ), c_blue, "  " );
             }
             nc_color col;
             if( attributes.input_events.empty() ) {
@@ -1063,8 +1089,8 @@ void input_context::display_menu()
             } else {
                 col = global_key;
             }
-            mvwprintz( w_help, i + 10, 4, col, "%s: ", get_action_name( action_id ) );
-            mvwprintz( w_help, i + 10, 52, col, "%s", get_desc( action_id ) );
+            mvwprintz( w_help, point( 4, i + 10 ), col, "%s: ", get_action_name( action_id ) );
+            mvwprintz( w_help, point( 52, i + 10 ), col, "%s", get_desc( action_id ) );
         }
 
         // spopup.query_string() will call wrefresh( w_help )
@@ -1228,7 +1254,7 @@ input_event input_context::get_raw_input()
     return next_action;
 }
 
-long input_manager::get_previously_pressed_key() const
+int input_manager::get_previously_pressed_key() const
 {
     return previously_pressed_key;
 }
@@ -1262,38 +1288,31 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
     if( !coordinate_input_received ) {
         return cata::nullopt;
     }
-    int view_columns = getmaxx( capture_win );
-    int view_rows = getmaxy( capture_win );
-    int win_left = getbegx( capture_win ) - VIEW_OFFSET_X;
-    int win_right = win_left + view_columns - 1;
-    int win_top = getbegy( capture_win ) - VIEW_OFFSET_Y;
-    int win_bottom = win_top + view_rows - 1;
-    if( coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top ||
-        coordinate_y > win_bottom ) {
+    const point view_size( getmaxx( capture_win ), getmaxy( capture_win ) );
+    const point win_min( getbegx( capture_win ) - VIEW_OFFSET_X,
+                         getbegy( capture_win ) - VIEW_OFFSET_Y );
+    const rectangle win_bounds( win_min, win_min + view_size );
+    if( !win_bounds.contains_half_open( coordinate ) ) {
         return cata::nullopt;
     }
 
-    int view_offset_x = 0;
-    int view_offset_y = 0;
+    point view_offset;
     if( capture_win == g->w_terrain ) {
-        view_offset_x = g->ter_view_x;
-        view_offset_y = g->ter_view_y;
+        view_offset = g->ter_view_p.xy();
     }
 
-    const int x = view_offset_x - ( ( view_columns / 2 ) - coordinate_x );
-    const int y = view_offset_y - ( ( view_rows / 2 ) - coordinate_y );
-
-    return tripoint( x, y, g->get_levz() );
+    const point p = view_offset - ( view_size / 2 - coordinate );
+    return tripoint( p, g->get_levz() );
 }
 #endif
 
-const std::string input_context::get_action_name( const std::string &action_id ) const
+std::string input_context::get_action_name( const std::string &action_id ) const
 {
     // 1) Check action name overrides specific to this input_context
     const input_manager::t_string_string_map::const_iterator action_name_override =
         action_name_overrides.find( action_id );
     if( action_name_override != action_name_overrides.end() ) {
-        return action_name_override->second;
+        return _( action_name_override->second );
     }
 
     // 2) Check if the hotkey has a name

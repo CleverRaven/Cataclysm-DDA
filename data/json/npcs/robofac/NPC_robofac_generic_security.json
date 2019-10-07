@@ -1,0 +1,69 @@
+[
+  {
+    "type": "npc",
+    "id": "hub_security",
+    "//": "A generic guard for Hub 01.",
+    "name_suffix": "Hub Security",
+    "class": "NC_ROBOFAC_SECURITY",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_HUB_SECURITY",
+    "faction": "robofac"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ROBOFAC_SECURITY",
+    "name": "Hub Security",
+    "job_description": "I'm part of the Hub security team.",
+    "common": false,
+    "traits": [ { "group": "BG_survival_story_POLICE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ 1, 3 ] },
+    "bonus_int": { "rng": [ 1, 2 ] },
+    "bonus_per": { "rng": [ 1, 2 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -2 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } }
+    ],
+    "carry_override": "NC_robofac_generic_security_misc",
+    "worn_override": "NC_robofac_generic_security_worn"
+  },
+  {
+    "type": "item_group",
+    "id": "NC_robofac_generic_security_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "under_armor" },
+      { "item": "under_armor_shorts" },
+      { "item": "robofac_jumpsuit" },
+      { "item": "tac_helmet" },
+      { "item": "modularvestceramic" },
+      { "item": "gloves_tactical" },
+      { "item": "glasses_bal", "prob": 33 },
+      { "item": "boots_combat" },
+      { "item": "holster", "prob": 50 },
+      { "item": "tacvest" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_robofac_generic_security_misc",
+    "subtype": "collection",
+    "entries": [
+      { "item": "EMPbomb", "prob": 33 },
+      { "item": "grenade", "prob": 2 },
+      { "item": "PR24-extended" },
+      { "item": "flashlight" },
+      { "item": "l_mp_9mm", "charges": 21, "ammo-item": "9mmP" },
+      { "item": "lw21mag", "charges": 21, "ammo-item": "9mmP" },
+      { "item": "9mmP", "count": 6 }
+    ]
+  },
+  {
+    "id": "TALK_HUB_SECURITY",
+    "type": "talk_topic",
+    "dynamic_line": [ "Keep it civil, merc.", "Just on watch, move along.", { "u_male": [ "Sir." ], "no": [ "Ma'am" ] } ],
+    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+  }
+]

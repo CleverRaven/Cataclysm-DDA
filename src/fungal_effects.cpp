@@ -1,6 +1,9 @@
 #include "fungal_effects.h"
 
 #include <memory>
+#include <algorithm>
+#include <ostream>
+#include <string>
 
 #include "avatar.h"
 #include "creature.h"
@@ -21,6 +24,10 @@
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
+#include "colony.h"
+#include "debug.h"
+#include "point.h"
+#include "string_formatter.h"
 
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_spore( "mon_spore" );
@@ -71,7 +78,7 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
             add_msg( m_warning, _( "You're covered in tiny spores!" ) );
         }
     } else if( gm.num_creatures() < 250 && x_in_y( spore_chance, 1.0 ) ) { // Spawn a spore
-        if( monster *const spore = gm.summon_mon( mon_spore, p ) ) {
+        if( monster *const spore = gm.place_critter_at( mon_spore, p ) ) {
             monster *origin_mon = dynamic_cast<monster *>( origin );
             if( origin_mon != nullptr ) {
                 spore->make_ally( *origin_mon );
@@ -100,9 +107,8 @@ void fungal_effects::marlossify( const tripoint &p )
         m.ter_set( p, t_marloss );
         return;
     }
-    bool is_fungi;
     for( int i = 0; i < 25; i++ ) {
-        is_fungi = m.has_flag_ter( "FUNGUS", p );
+        bool is_fungi = m.has_flag_ter( "FUNGUS", p );
         spread_fungus( p );
         if( is_fungi ) {
             return;
@@ -151,11 +157,10 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
         }
     } else if( m.has_flag( "YOUNG", p ) ) {
         if( x_in_y( growth * 10, 500 ) ) {
-            if( m.get_field_strength( p, fd_fungal_haze ) != 0 ) {
+            if( m.get_field_intensity( p, fd_fungal_haze ) != 0 ) {
                 if( x_in_y( growth * 10, 800 ) ) { // young trees are vulnerable
                     m.ter_set( p, t_fungus );
-                    gm.summon_mon( mon_fungal_blossom, p );
-                    if( gm.u.sees( p ) ) {
+                    if( gm.place_critter_at( mon_fungal_blossom, p ) && gm.u.sees( p ) ) {
                         add_msg( m_warning, _( "The young tree blooms forth into a fungal blossom!" ) );
                     }
                 } else if( x_in_y( growth * 10, 400 ) ) {
@@ -168,11 +173,10 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
         }
     } else if( m.has_flag( "TREE", p ) ) {
         if( one_in( 10 ) ) {
-            if( m.get_field_strength( p, fd_fungal_haze ) != 0 ) {
+            if( m.get_field_intensity( p, fd_fungal_haze ) != 0 ) {
                 if( x_in_y( growth * 10, 100 ) ) {
                     m.ter_set( p, t_fungus );
-                    gm.summon_mon( mon_fungal_blossom, p );
-                    if( gm.u.sees( p ) ) {
+                    if( gm.place_critter_at( mon_fungal_blossom, p ) && gm.u.sees( p ) ) {
                         add_msg( m_warning, _( "The tree blooms forth into a fungal blossom!" ) );
                     }
                 } else if( x_in_y( growth * 10, 600 ) ) {
@@ -201,11 +205,16 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             }
         } else if( m.has_flag( "PLANT", p ) ) {
             // Replace the (already existing) seed
-            if( !m.i_at( p ).empty() ) {
-                m.i_at( p )[0] = item( "fungal_seeds", calendar::turn );
-            } else {
+            // Can't use item_stack::only_item() since there might be fertilizer
+            map_stack items = m.i_at( p );
+            const map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
+                return it.is_seed();
+            } );
+            if( seed == items.end() || !seed->is_seed() ) {
                 DebugLog( D_ERROR, DC_ALL ) << "No seed item in the PLANT terrain at position " <<
                                             string_format( "%d,%d,%d.", p.x, p.y, p.z );
+            } else {
+                *seed = item( "fungal_seeds", calendar::turn );
             }
         }
     }

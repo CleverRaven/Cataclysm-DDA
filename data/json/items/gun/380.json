@@ -5,11 +5,12 @@
     "type": "GUN",
     "name": "MAC-11",
     "description": "A lesser known variant of the MAC-10, this machine pistol is chambered in .380 ACP for a smaller overall size while remaining inherently subsonic.  Smaller in almost every dimension, this inexpensive automatic weapon was declared 'fit only for combat in a phone booth' due to its low weight and absurd fire rate ranging from 1200 to 1400 rounds per minute.",
-    "weight": 1590,
-    "volume": 2,
+    "weight": "1590 g",
+    "volume": "500 ml",
     "price": 160000,
     "bashing": 5,
     "ammo": "380",
+    "min_cycle_recoil": 270,
     "burst": 23,
     "magazines": [ [ "380", [ "mac11mag" ] ] ]
   },
@@ -19,10 +20,11 @@
     "type": "GUN",
     "name": "Kel-Tec P3AT",
     "description": "Essentially a slightly scaled up Kel-tec P32 in .380 ACP, the ever popular P3AT offers better ballistics in a small, concealable lightweight package.  Handling leaves something to be desired due to snappier recoil and diminuitive controls.",
-    "weight": 240,
+    "weight": "240 g",
     "volume": "231ml",
     "price": 25000,
     "ammo": "380",
+    "min_cycle_recoil": 270,
     "magazines": [ [ "380", [ "kp3atmag" ] ] ]
   },
   {
@@ -31,7 +33,7 @@
     "type": "GUN",
     "name": "FN 1910 .380",
     "description": "Made infamous in Sarajevo in 1914, the FN1910 was a popular pocket pistol, albeit in .32 ACP.  Collectors value the .380 model for its notoriety and more modern terminal performance.  If such a humble firearm could start a world war, could it perhaps protect you from the undead?",
-    "weight": 680,
+    "weight": "680 g",
     "volume": "186ml",
     "price": 75000,
     "to_hit": -3,
@@ -41,6 +43,7 @@
     "ammo": "380",
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 270,
     "magazines": [ [ "380", [ "fn1910mag" ] ] ]
   },
   {
@@ -49,8 +52,8 @@
     "type": "GUN",
     "name": "Ruger LCP",
     "description": "One of the best selling modern day 'pocket pistol's, the LCP is an affordable, polymer framed pistol chambered in .380 ACP.  Despite the round's relatively low power, the pistol's low weight and short sight radius make for a moderately poor handling pistol.",
-    "weight": 267,
-    "volume": 1,
+    "weight": "267 g",
+    "volume": "250 ml",
     "price": 21000,
     "to_hit": -3,
     "bashing": 1,
@@ -59,6 +62,26 @@
     "ammo": "380",
     "dispersion": 480,
     "durability": 8,
+    "min_cycle_recoil": 270,
     "magazines": [ [ "380", [ "rugerlcpmag" ] ] ]
+  },
+  {
+    "id": "hptcf380",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": "Hi-Point CF-380",
+    "description": "The Hi-Point CF-380 is a blowback operated semi automatic pistol designed by Hi-Point Firearms, which is known for making inexpensive firearms, and for making said firearms bulky and uncomfortable. Hi-Points have slides made with a zinc pot-metal which is relatively fragile compared to steel slides.",
+    "weight": "709 g",
+    "volume": "539 ml",
+    "price": 7500,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "plastic", "steel", "zinc" ],
+    "color": "dark_gray",
+    "ammo": "380",
+    "dispersion": 480,
+    "durability": 7,
+    "magazine_well": 1,
+    "magazines": [ [ "380", [ "hptcf380mag_8rd", "hptcf380mag_10rd" ] ] ]
   }
 ]

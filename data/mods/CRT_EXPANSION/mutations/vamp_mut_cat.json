@@ -5,7 +5,7 @@
     "name": "Vampire",
     "threshold_mut": "THRESH_VAMP",
     "mutagen_message": "Nearby shadows seem to bend towards you for a moment and then reality warps back into place.",
-    "iv_message": "You twitch and pant randomly as your desire to slake your thirst becomes overwhelming.",
+    "iv_message": "You twitch and pant randomly as your desire to slake your inhuman thirst becomes overwhelming.",
     "iv_min_mutations": 1,
     "iv_additional_mutations": 2,
     "iv_additional_mutations_chance": 3,
@@ -29,7 +29,7 @@
     "type": "COMESTIBLE",
     "name": "vampire serum",
     "description": "A super-concentrated pitch-black substance with silvery flecks that reminds you of a starry-night sky. You need a syringe to inject it...  if you really want to?",
-    "color": "ltgray",
+    "color": "light_gray",
     "healthy": -2,
     "use_action": { "type": "mutagen_iv", "mutation_category": "VAMP" }
   },

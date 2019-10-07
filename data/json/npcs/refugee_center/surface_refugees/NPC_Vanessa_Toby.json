@@ -87,7 +87,7 @@
           "and": [
             { "not": { "npc_has_effect": "vanessa_haircut_in_progress" } },
             { "not": { "npc_has_effect": "vanessa_shave_in_progress" } },
-            { "npc_has_var": "Vanessa_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+            { "u_has_var": "Vanessa_Mission1", "type": "mission", "context": "flag", "value": "yes" }
           ]
         }
       },
@@ -151,7 +151,7 @@
       {
         "text": "Could you give me a haircut?",
         "topic": "TALK_REFUGEE_Vanessa_Haircut_no",
-        "condition": { "not": { "npc_has_var": "Vanessa_Mission1", "type": "mission", "context": "flag", "value": "yes" } }
+        "condition": { "not": { "u_has_var": "Vanessa_Mission1", "type": "mission", "context": "flag", "value": "yes" } }
       }
     ]
   },
@@ -159,7 +159,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Vanessa_Situation",
     "dynamic_line": {
-      "npc_has_var": "Vanessa_Mission1",
+      "u_has_var": "Vanessa_Mission1",
       "type": "mission",
       "context": "flag",
       "value": "yes",
@@ -221,7 +221,7 @@
   {
     "id": "MISSION_REFUGEE_Vanessa_1",
     "type": "mission_definition",
-    "name": "Find a haircut kit for Vanessa",
+    "name": "Make a makeshift haircut kit",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,
@@ -240,7 +240,7 @@
     },
     "end": {
       "effect": [
-        { "npc_add_var": "Vanessa_Mission1", "type": "mission", "context": "flag", "value": "yes" },
+        { "u_add_var": "Vanessa_Mission1", "type": "mission", "context": "flag", "value": "yes" },
         { "npc_add_var": "owed_haircut_1", "type": "mission", "context": "services", "value": "yes" }
       ]
     }

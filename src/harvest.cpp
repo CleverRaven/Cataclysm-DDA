@@ -64,6 +64,8 @@ harvest_entry harvest_entry::load( JsonObject &jo, const std::string &src )
     assign( jo, "max", ret.max, strict, 1 );
     assign( jo, "type", ret.type, strict );
     assign( jo, "mass_ratio", ret.mass_ratio, strict, 0.00f );
+    assign( jo, "flags", ret.flags );
+    assign( jo, "faults", ret.faults );
 
     return ret;
 }

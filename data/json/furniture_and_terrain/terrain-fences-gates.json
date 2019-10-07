@@ -1,0 +1,888 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_palisade_gate",
+    "name": "palisade gate",
+    "description": "A large doorway consisting of long logs cabled together, that could be expanded upon.  Can act as a door if some type of pulley system were rigged on an adjacent palisade wall.",
+    "symbol": "+",
+    "color": "light_red",
+    "move_cost": 0,
+    "coverage": 55,
+    "flags": [ "FLAMMABLE", "NOITEM", "DOOR", "CONNECT_TO_WALL", "WALL", "BLOCK_WIND", "BURROWABLE" ],
+    "bash": {
+      "str_min": 24,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_palisade_gate_o",
+    "name": "open palisade gate",
+    "description": "A hanging palisade gate, hoisted by a nearby pulley system.  Probably shouldn't be underneath when it comes down.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT", "CONNECT_TO_WALL", "BURROWABLE" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_portcullis",
+    "name": "makeshift portcullis",
+    "description": "An immense gateway scrapped together with various bits of steel and metal scraps.",
+    "symbol": "&",
+    "color": "cyan",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "MINEABLE", "BURROWABLE" ],
+    "bash": {
+      "str_min": 60,
+      "str_max": 210,
+      "str_min_blocked": 80,
+      "str_max_blocked": 240,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_chaingate_l",
+    "name": "locked wire gate",
+    "description": "A gate for a chain link fence.  This one has a locked padlock on the latch system.  With the right tools, you could cut the metal fence or pick the lock.  You could also examine the fence to see if it looks climbable.",
+    "symbol": "+",
+    "color": "cyan",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "PERMEABLE", "LOCKED", "THIN_OBSTACLE", "BURROWABLE" ],
+    "connects_to": "CHAINFENCE",
+    "bash": {
+      "str_min": 10,
+      "str_max": 150,
+      "str_min_blocked": 15,
+      "str_max_blocked": 175,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [ { "item": "wire", "count": [ 8, 20 ] }, { "item": "scrap", "count": [ 0, 12 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_chaingate_c",
+    "name": "closed wire gate",
+    "description": "A gate for a chain link fence with a latch system to stay closed.",
+    "symbol": "+",
+    "color": "cyan",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "THIN_OBSTACLE", "BURROWABLE" ],
+    "connects_to": "CHAINFENCE",
+    "open": "t_chaingate_o",
+    "bash": {
+      "str_min": 10,
+      "str_max": 150,
+      "str_min_blocked": 15,
+      "str_max_blocked": 100,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "wire", "count": [ 6, 15 ] },
+        { "item": "pipe", "count": [ 6, 15 ] },
+        { "item": "scrap", "count": [ 0, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_chaingate_o",
+    "name": "open wire gate",
+    "description": "A gate for a chain link fence with a latch system to stay closed.  The latch is undone, so the gate has swung open.",
+    "symbol": ".",
+    "color": "cyan",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "BURROWABLE" ],
+    "connects_to": "CHAINFENCE",
+    "close": "t_chaingate_c",
+    "bash": {
+      "str_min": 5,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "wire", "count": [ 6, 15 ] },
+        { "item": "pipe", "count": [ 6, 15 ] },
+        { "item": "scrap", "count": [ 0, 12 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_fencegate_c",
+    "name": "closed wooden gate",
+    "description": "A commercial quality gate made of wood with a latch system.",
+    "symbol": "+",
+    "color": "brown",
+    "move_cost": 3,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "MOUNTABLE", "BURROWABLE" ],
+    "connects_to": "WOODFENCE",
+    "open": "t_fencegate_o",
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "2x4", "count": 5 },
+        { "item": "pointy_stick", "count": 2 },
+        { "item": "nail", "charges": 12 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "str_min_blocked": 6,
+      "str_max_blocked": 30,
+      "sound": "crack.",
+      "sound_fail": "wham.",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "nail", "charges": [ 2, 8 ] },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_fencegate_o",
+    "name": "open wooden gate",
+    "description": "A commercial quality gate made of wood with a latch system.  The gate is wide open, allowing anything to travel through.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ROAD", "BURROWABLE" ],
+    "connects_to": "WOODFENCE",
+    "close": "t_fencegate_c",
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "2x4", "count": 5 },
+        { "item": "pointy_stick", "count": 2 },
+        { "item": "nail", "charges": 12 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crash!",
+      "sound_fail": "wham!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "nail", "charges": [ 2, 8 ] },
+        { "item": "splinter", "count": 1 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_chickenwire_gate_c",
+    "name": "closed chickenwire gate",
+    "description": "A gate for a chickenwire fence with a simple latch system to stay closed.",
+    "symbol": "+",
+    "color": "brown",
+    "looks_like": "t_chaingate_c",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "BURROWABLE" ],
+    "connects_to": "CHAINFENCE",
+    "open": "t_chickenwire_gate_o",
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "2x4", "count": 5 },
+        { "item": "wire", "count": 10 },
+        { "item": "nail", "charges": 20 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 5,
+      "str_max": 12,
+      "str_min_blocked": 5,
+      "str_max_blocked": 15,
+      "sound": "rattle!",
+      "sound_fail": "thump!",
+      "ter_set": "t_null",
+      "items": [ { "item": "wire", "count": [ 4, 6 ] }, { "item": "2x4", "count": [ 2, 4 ] }, { "item": "hinge", "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_chickenwire_gate_o",
+    "name": "open chickenwire gate",
+    "description": "A gate for a chickenwire fence with a simple latch system to stay closed.  The latch is undone, so the gate has swung open.",
+    "symbol": ".",
+    "color": "brown",
+    "looks_like": "t_chaingate_o",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "BURROWABLE" ],
+    "connects_to": "CHAINFENCE",
+    "close": "t_chickenwire_gate_c",
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "2x4", "count": 5 },
+        { "item": "wire", "count": 10 },
+        { "item": "nail", "charges": 20 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 5,
+      "str_max": 12,
+      "sound": "rattle!",
+      "sound_fail": "thump!",
+      "ter_set": "t_null",
+      "items": [ { "item": "wire", "count": [ 4, 6 ] }, { "item": "2x4", "count": [ 2, 4 ] }, { "item": "hinge", "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_fence",
+    "aliases": [ "t_fence_h", "t_fence_v" ],
+    "name": "picket fence",
+    "description": "A barrier made of wood, it's nothing complicated.  Mildly suggests where not to go.",
+    "symbol": "LINE_OXOX",
+    "color": "brown",
+    "move_cost": 3,
+    "flags": [
+      "TRANSPARENT",
+      "DIGGABLE",
+      "FLAMMABLE_ASH",
+      "NOITEM",
+      "THIN_OBSTACLE",
+      "REDUCE_SCENT",
+      "MOUNTABLE",
+      "SHORT",
+      "AUTO_WALL_SYMBOL",
+      "BURROWABLE"
+    ],
+    "connects_to": "WOODFENCE",
+    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 5 }, { "item": "nail", "charges": 8 } ] },
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "sound": "crack.",
+      "sound_fail": "wham.",
+      "ter_set": "t_null",
+      "items": [ { "item": "2x4", "count": [ 1, 3 ] }, { "item": "nail", "charges": [ 2, 6 ] }, { "item": "splinter", "count": 1 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_chainfence",
+    "aliases": [ "t_chainfence_h", "t_chainfence_v" ],
+    "name": "chain link fence",
+    "description": "A tall fence made of woven wires.  It doesn't suggest to stop, it just stops.",
+    "symbol": "LINE_OXOX",
+    "color": "cyan",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "UNSTABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
+    "connects_to": "CHAINFENCE",
+    "examine_action": "chainfence",
+    "bash": {
+      "str_min": 10,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_chainfence_posts",
+      "items": [ { "item": "wire", "count": [ 8, 15 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_chainfence_posts",
+    "name": "metal post",
+    "description": "Set of metal posts, that can hold more serious fences.",
+    "symbol": "#",
+    "color": "cyan",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_chickenwire_fence",
+    "aliases": [ "t_chickenwire_fence_h", "t_chickenwire_fence_v" ],
+    "name": "chickenwire fence",
+    "description": "A rather flimsy tall fence made of 2x4s and woven wire, suitable for containing small livestock like chickens.",
+    "symbol": "LINE_OXOX",
+    "color": "brown",
+    "looks_like": "t_chainfence",
+    "move_cost": 0,
+    "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
+    "connects_to": "CHAINFENCE",
+    "examine_action": "chainfence",
+    "deconstruct": {
+      "ter_set": "t_chickenwire_fence_post",
+      "items": [ { "item": "wire", "count": 10 }, { "item": "nail", "charges": 20 } ]
+    },
+    "bash": {
+      "str_min": 5,
+      "str_max": 12,
+      "sound": "metal rattling!",
+      "sound_fail": "whack!",
+      "ter_set": "t_fence_post",
+      "items": [ { "item": "wire", "count": [ 5, 10 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_chickenwire_fence_post",
+    "name": "chickenwire fence post",
+    "description": "A couple of posts that support the fence.  They look alone without the fence.",
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "t_fence_post",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE" ],
+    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "2x4", "count": 2 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 20,
+      "sound": "crack.",
+      "sound_fail": "whump.",
+      "ter_set": "t_null",
+      "items": [ { "item": "2x4", "count": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_fence_post",
+    "name": "fence post",
+    "description": "A couple of posts that support the fence.  They look alone without the fence.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHORT" ],
+    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "pointy_stick", "count": 2 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 20,
+      "sound": "crack.",
+      "sound_fail": "whump.",
+      "ter_set": "t_null",
+      "items": [ { "item": "pointy_stick", "count": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_fence_wire",
+    "name": "wire fence",
+    "description": "A barrier made of wire, it's nothing complicated.  Mildly suggests where not to go.",
+    "symbol": "$",
+    "color": "blue",
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHORT", "EASY_DECONSTRUCT", "BURROWABLE" ],
+    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "wire", "count": 2 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 20,
+      "sound": "crack.",
+      "sound_fail": "whump.",
+      "ter_set": "t_null",
+      "items": [ { "item": "pointy_stick", "count": [ 0, 2 ] }, { "item": "wire", "count": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_fence_barbed",
+    "name": "barbed wire fence",
+    "description": "A barrier made of sharp barbed wire.  More persuasive brother of wire fence.",
+    "symbol": "$",
+    "color": "blue",
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "SHARP", "THIN_OBSTACLE", "SHORT", "EASY_DECONSTRUCT", "BURROWABLE" ],
+    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "wire_barbed", "count": 2 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 20,
+      "sound": "crack.",
+      "sound_fail": "whump.",
+      "ter_set": "t_null",
+      "items": [ { "item": "pointy_stick", "count": [ 0, 2 ] }, { "item": "wire_barbed", "count": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_fence_rope",
+    "name": "rope fence",
+    "description": "A barrier made of rope, it's nothing complicated.  Mildly suggests where not to go.",
+    "symbol": "$",
+    "color": "brown",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "EASY_DECONSTRUCT", "BURROWABLE" ],
+    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "rope_6", "count": 2 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 20,
+      "sound": "crack.",
+      "sound_fail": "whump.",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "pointy_stick", "count": [ 0, 2 ] },
+        { "item": "rope_6", "prob": 50 },
+        { "item": "string_36", "count": [ 2, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_splitrail_fence",
+    "aliases": [ "t_splitrail_fence_h", "t_splitrail_fence_v" ],
+    "name": "split rail fence",
+    "description": "A rather stout fence made of 2x4s and fence posts, suitable for containing livestock like horses, cows and pigs.",
+    "symbol": "LINE_OXOX",
+    "color": "brown",
+    "looks_like": "t_fence",
+    "move_cost": 0,
+    "examine_action": "chainfence",
+    "flags": [
+      "TRANSPARENT",
+      "NOITEM",
+      "THIN_OBSTACLE",
+      "PERMEABLE",
+      "FLAMMABLE_ASH",
+      "CLIMBABLE",
+      "AUTO_WALL_SYMBOL",
+      "BURROWABLE"
+    ],
+    "connects_to": "WOODFENCE",
+    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": 20 } ] },
+    "bash": {
+      "str_min": 5,
+      "str_max": 12,
+      "sound": "whump!",
+      "sound_fail": "whack!",
+      "ter_set": "t_fence_post",
+      "items": [ { "item": "2x4", "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_splitrail_fencegate_c",
+    "name": "closed wooden split rail gate",
+    "description": "A commercial quality gate made of wood with a latch system.",
+    "symbol": "+",
+    "color": "brown",
+    "looks_like": "t_fencegate_c",
+    "move_cost": 0,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "BURROWABLE" ],
+    "connects_to": "WOODFENCE",
+    "open": "t_splitrail_fencegate_o",
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "2x4", "count": 5 },
+        { "item": "pointy_stick", "count": 2 },
+        { "item": "nail", "charges": 12 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "str_min_blocked": 6,
+      "str_max_blocked": 30,
+      "sound": "crack.",
+      "sound_fail": "wham.",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "nail", "charges": [ 2, 8 ] },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_splitrail_fencegate_o",
+    "name": "open wooden split rail gate",
+    "description": "A commercial quality gate made of wood with a latch system.  The gate is wide open, allowing anything to travel through.",
+    "symbol": ".",
+    "color": "brown",
+    "looks_like": "t_fencegate_o",
+    "move_cost": 1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ROAD", "BURROWABLE" ],
+    "connects_to": "WOODFENCE",
+    "close": "t_splitrail_fencegate_c",
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "2x4", "count": 5 },
+        { "item": "pointy_stick", "count": 2 },
+        { "item": "nail", "charges": 12 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_fence_metal",
+    "name": "metal fence",
+    "description": "A simple metal fence.",
+    "symbol": "LINE_OXOX",
+    "color": "light_gray",
+    "looks_like": "t_metal_railing",
+    "move_cost": 0,
+    "coverage": 60,
+    "examine_action": "chainfence",
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
+    "connects_to": "WOODFENCE",
+    "deconstruct": {
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "pipe", "count": 8 },
+        { "item": "sheet_metal_small", "count": [ 16, 20 ] },
+        { "item": "sheet_metal", "count": 2 }
+      ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 18,
+      "sound": "clang!",
+      "sound_fail": "smash!",
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "pipe", "count": [ 4, 8 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 20 ] },
+        { "item": "sheet_metal", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_gate_metal_c",
+    "name": "closed metal gate",
+    "description": "A closed metal gate.",
+    "symbol": "+",
+    "color": "light_gray",
+    "looks_like": "t_fencegate_c",
+    "move_cost": 0,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "DOOR", "BURROWABLE" ],
+    "connects_to": "WOODFENCE",
+    "open": "t_gate_metal_o",
+    "deconstruct": {
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "pipe", "count": 8 },
+        { "item": "sheet_metal_small", "count": [ 16, 20 ] },
+        { "item": "sheet_metal", "count": 2 },
+        { "item": "hinge", "count": 2 }
+      ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "str_min_blocked": 12,
+      "str_max_blocked": 30,
+      "sound": "crack.",
+      "sound_fail": "wham.",
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "pipe", "count": [ 4, 8 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 20 ] },
+        { "item": "sheet_metal", "count": [ 0, 2 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_gate_metal_o",
+    "name": "closed metal gate",
+    "description": "A closed metal gate.",
+    "symbol": ",",
+    "color": "light_gray",
+    "looks_like": "t_fencegate_o",
+    "move_cost": 1,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "DOOR", "BURROWABLE", "FLAT", "ROAD" ],
+    "connects_to": "WOODFENCE",
+    "close": "t_gate_metal_c",
+    "deconstruct": {
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "pipe", "count": 8 },
+        { "item": "sheet_metal_small", "count": [ 16, 20 ] },
+        { "item": "sheet_metal", "count": 2 },
+        { "item": "hinge", "count": 2 }
+      ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "str_min_blocked": 12,
+      "str_max_blocked": 30,
+      "sound": "crack.",
+      "sound_fail": "wham.",
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "pipe", "count": [ 4, 8 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 20 ] },
+        { "item": "sheet_metal", "count": [ 0, 2 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_privacy_fence",
+    "aliases": [ "t_privacy_fence_h", "t_privacy_fence_v" ],
+    "name": "wooden privacy fence",
+    "description": "A rather stout fence made of 2x4s and fence posts, it is tall and prevents people from seeing into your yard.",
+    "symbol": "LINE_OXOX",
+    "color": "brown",
+    "looks_like": "t_fence",
+    "move_cost": 0,
+    "examine_action": "chainfence",
+    "flags": [ "NOITEM", "CLIMBABLE", "PERMEABLE", "AUTO_WALL_SYMBOL", "FLAMMABLE_ASH", "THIN_OBSTACLE", "BURROWABLE" ],
+    "connects_to": "WOODFENCE",
+    "deconstruct": {
+      "ter_set": "t_fence_post",
+      "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "charges": 20 }, { "item": "hinge", "count": [ 1, 2 ] } ]
+    },
+    "bash": {
+      "str_min": 5,
+      "str_max": 12,
+      "sound": "whump!",
+      "sound_fail": "whack!",
+      "ter_set": "t_fence_post",
+      "items": [ { "item": "2x4", "count": [ 4, 10 ] }, { "item": "hinge", "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_privacy_fencegate_c",
+    "name": "closed wooden split rail gate",
+    "description": "A commercial quality gate made of wood with a latch system.",
+    "symbol": "+",
+    "color": "brown",
+    "looks_like": "t_fencegate_c",
+    "move_cost": 0,
+    "coverage": 60,
+    "flags": [ "FLAMMABLE_ASH", "DOOR", "BURROWABLE" ],
+    "connects_to": "WOODFENCE",
+    "open": "t_privacy_fencegate_o",
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "2x4", "count": 8 },
+        { "item": "pointy_stick", "count": 2 },
+        { "item": "nail", "charges": 20 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "str_min_blocked": 6,
+      "str_max_blocked": 30,
+      "sound": "crack.",
+      "sound_fail": "wham.",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "2x4", "count": [ 4, 8 ] },
+        { "item": "nail", "charges": [ 10, 20 ] },
+        { "item": "splinter", "count": [ 4, 6 ] },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_privacy_fencegate_o",
+    "name": "open wooden split rail gate",
+    "description": "A commercial quality gate made of wood with a latch system.  The gate is wide open, allowing anything to travel through.",
+    "symbol": ".",
+    "color": "brown",
+    "looks_like": "t_fencegate_o",
+    "move_cost": 1,
+    "flags": [ "FLAMMABLE_ASH", "FLAT", "ROAD", "BURROWABLE" ],
+    "connects_to": "WOODFENCE",
+    "close": "t_privacy_fencegate_c",
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "2x4", "count": 8 },
+        { "item": "pointy_stick", "count": 2 },
+        { "item": "nail", "charges": 20 },
+        { "item": "hinge", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_railing",
+    "aliases": [ "t_railing_h", "t_railing_v" ],
+    "name": "railing",
+    "description": "A section of wooden railing.",
+    "symbol": "LINE_OXOX",
+    "color": "yellow",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
+    "connects_to": "RAILING",
+    "bash": {
+      "str_min": 20,
+      "str_max": 80,
+      "sound": "crack!",
+      "sound_fail": "whump.",
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "2x4", "prob": 50 },
+        { "item": "nail", "charges": [ 2, 6 ] },
+        { "item": "scrap", "count": [ 1, 3 ] },
+        { "item": "splinter", "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_glass_railing",
+    "aliases": [ "t_glass_railing_h", "t_glass_railing_v" ],
+    "name": "glass railing",
+    "description": "A section of railing made out of glass.",
+    "symbol": "LINE_OXOX",
+    "color": "cyan",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
+    "connects_to": "RAILING",
+    "deconstruct": { "ter_set": "t_rock_floor", "items": [ { "item": "glass_sheet", "count": 2 }, { "item": "pipe", "count": 4 } ] },
+    "bash": {
+      "str_min": 10,
+      "str_max": 40,
+      "sound": "glass braking!",
+      "sound_fail": "ker-rash!",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "glass_shard", "count": [ 50, 164 ] },
+        { "item": "pipe", "charges": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_metal_railing",
+    "aliases": [ "t_metal__railing_h", "t_metal__railing_v" ],
+    "name": "metal railing",
+    "description": "A section of metal railing.",
+    "symbol": "LINE_OXOX",
+    "color": "dark_gray",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
+    "connects_to": "RAILING",
+    "deconstruct": { "ter_set": "t_rock_floor", "items": [ { "item": "sheet_metal", "count": 2 }, { "item": "pipe", "count": 4 } ] },
+    "bash": {
+      "str_min": 20,
+      "str_max": 80,
+      "sound": "clang!",
+      "sound_fail": "whump.",
+      "ter_set": "t_rock_floor",
+      "items": [
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "sheet_metal_small", "charges": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_concrete_railing",
+    "aliases": [ "t_concrete_railing_h", "t_concrete_railing_v" ],
+    "name": "concrete railing",
+    "description": "A section of cemented concrete railing.",
+    "symbol": "LINE_OXOX",
+    "color": "cyan",
+    "looks_like": "t_ponywall",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL", "MINEABLE", "BURROWABLE" ],
+    "connects_to": "RAILING",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_thconc_floor",
+      "items": [
+        { "item": "rock", "count": [ 5, 10 ] },
+        { "item": "scrap", "count": [ 5, 8 ] },
+        { "item": "rebar", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_guardrail_bg_dp",
+    "name": "guard rail",
+    "description": "A section of metal railing, put in place to prevent people from falling or taking the easy way out.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THIN_OBSTACLE", "ROAD", "BURROWABLE" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "clang!",
+      "ter_set": "t_pavement_bg_dp",
+      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_guardrail",
+    "name": "guard rail",
+    "description": "A section of metal railing, put in place to prevent people from falling or taking the easy way out.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "THIN_OBSTACLE", "ROAD", "BURROWABLE" ],
+    "looks_like": "t_guardrail_bg_dp",
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "clang!",
+      "ter_set": "t_pavement",
+      "items": [ { "item": "pipe", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+    }
+  }
+]

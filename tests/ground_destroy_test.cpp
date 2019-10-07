@@ -11,9 +11,9 @@
 #include "map_helpers.h"
 #include "mapdata.h"
 #include "options.h"
-#include "enums.h"
 #include "int_id.h"
 #include "type_id.h"
+#include "point.h"
 
 // Destroying pavement with a pickaxe should not leave t_flat_roof.
 // See issue #24707:
@@ -28,12 +28,11 @@ TEST_CASE( "pavement_destroy", "[.]" )
     INFO( "ZLEVELS is " << zlevels_set );
     clear_map_and_put_player_underground();
     // Populate the map with pavement.
-    const tripoint pt( 0, 0, 0 );
-    g->m.ter_set( pt, ter_id( "t_pavement" ) );
+    g->m.ter_set( tripoint_zero, ter_id( "t_pavement" ) );
 
     // Destroy it
-    g->m.destroy( pt, true );
-    ter_id after_destroy = g->m.ter( pt );
+    g->m.destroy( tripoint_zero, true );
+    ter_id after_destroy = g->m.ter( tripoint_zero );
     if( after_destroy == flat_roof_id ) {
         FAIL( flat_roof_id.obj().name() << " found after destroying pavement" );
     } else {

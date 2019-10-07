@@ -48,26 +48,22 @@
       {
         "text": "[$8] I'll take a beer",
         "topic": "TALK_DONE",
-        "condition": { "u_has_cash": 800 },
         "effect": { "u_buy_item": "beer", "container": "bottle_glass", "count": 2, "cost": 800 }
       },
       {
         "text": "[$10] I'll take a shot of brandy",
         "topic": "TALK_DONE",
-        "condition": { "u_has_cash": 1000 },
-        "effect": { "u_buy_item": "beer", "container": "bottle_glass", "cost": 1000 }
+        "effect": { "u_buy_item": "brandy", "container": "bottle_glass", "cost": 1000 }
       },
       {
         "text": "[$10] I'll take a shot of rum",
         "topic": "TALK_DONE",
-        "condition": { "u_has_cash": 1000 },
-        "effect": { "u_buy_item": "beer", "container": "bottle_glass", "cost": 1000 }
+        "effect": { "u_buy_item": "rum", "container": "bottle_glass", "cost": 1000 }
       },
       {
         "text": "[$12] I'll take a shot of whiskey",
         "topic": "TALK_DONE",
-        "condition": { "u_has_cash": 1200 },
-        "effect": { "u_buy_item": "beer", "container": "bottle_glass", "cost": 1200 }
+        "effect": { "u_buy_item": "whiskey", "container": "bottle_glass", "cost": 1200 }
       },
       { "text": "On second thought, don't bother.", "topic": "TALK_RANCH_BARKEEP" }
     ]
@@ -187,8 +183,8 @@
       "failure": "It was a lost cause anyways..."
     },
     "end": {
+      "effect": { "npc_add_trait": "NPC_WHISKEY" },
       "update_mapgen": {
-        "effect": { "npc_add_trait": "NPC_WHISKEY" },
         "om_terrain": "ranch_camp_51",
         "om_special": "ranch_camp",
         "place_nested": [ { "chunks": [ "tacoma_commune_bar_bartender_4" ], "x": 0, "y": 0 } ]

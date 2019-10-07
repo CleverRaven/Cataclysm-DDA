@@ -4,7 +4,7 @@
     "ident": "magiclysm",
     "name": "Magiclysm",
     "authors": [ "KorGgenT", "Aptronym" ],
-    "maintainer": [ "KorGgenT" ],
+    "maintainers": [ "KorGgenT" ],
     "description": "Cataclysm but with magic spells!",
     "category": "content",
     "dependencies": [ "dda" ]
@@ -13,6 +13,7 @@
     "type": "skill",
     "ident": "spellcraft",
     "name": "spellcraft",
+    "display_category": "display_ranged",
     "description": "Your skill in the arcane.  Represents magic theory and all that entails.  A higher skill increases how quickly you can learn spells, and decreases their spell failure chance.  You learn this skill by studying books or spells."
   }
 ]

@@ -6,6 +6,7 @@
     "items": [
       [ "rm4502", 2 ],
       [ "rm4504", 2 ],
+      [ "huge_atomic_battery_cell", 2 ],
       [ "20x66_20_mag", 10 ],
       [ "20x66_40_mag", 5 ],
       [ "5x50_50_mag", 5 ],
@@ -19,18 +20,16 @@
       [ "hk_g80mag", 40 ],
       [ "hk46mag", 15 ],
       [ "hk46bigmag", 5 ],
-      [ "lw12mag", 30 ],
-      [ "lw21mag", 60 ],
-      [ "lw223mag", 60 ],
-      [ "lw223bigmag", 20 ],
       [ "m107a1mag", 50 ],
+      [ "tac50mag", 20 ],
       [ "m2010mag", 10 ],
       [ "scarhmag", 50 ],
       [ "scarhbigmag", 20 ],
       [ "stanag30", 20 ],
       [ "stanag50", 5 ],
       [ "hk417mag_20rd", 30 ],
-      [ "hk417mag_10rd", 20 ]
+      [ "hk417mag_10rd", 20 ],
+      [ "p320mag_17rd_9x19mm", 60 ]
     ]
   },
   {
@@ -68,7 +67,14 @@
       [ "m9mag", 5 ],
       [ "mp5mag", 10 ],
       [ "sig40mag", 20 ],
-      [ "stanag30", 5 ]
+      [ "stanag30", 5 ],
+      [ "ppq9mag_10rd", 1 ],
+      [ "ppq9mag_15rd", 1 ],
+      [ "ppq9mag_17rd", 1 ],
+      [ "ppq40mag_10rd", 1 ],
+      [ "ppq40mag_12rd", 1 ],
+      [ "ppq40mag_14rd", 1 ],
+      [ "ppq45mag", 1 ]
     ]
   },
   {
@@ -87,6 +93,7 @@
       [ "ump45mag", 20 ],
       [ "usp45mag", 10 ],
       [ "usp9mag", 10 ],
+      [ "as50mag", 2 ],
       [ "hk417mag_20rd", 20 ]
     ]
   },
@@ -108,7 +115,27 @@
       [ "kp3atmag", 4 ],
       [ "rugerlcpmag", 10 ],
       [ "sw22mag", 10 ],
-      [ "p226mag_15rd_357sig", 25 ]
+      [ "p226mag_15rd_357sig", 25 ],
+      [ "p320mag_14rd_357sig", 10 ],
+      [ "bhp9mag_13rd", 2 ],
+      [ "bhp9mag_15rd", 1 ],
+      [ "p38mag", 1 ],
+      [ "ppq9mag_10rd", 4 ],
+      [ "ppq9mag_15rd", 2 ],
+      [ "ppq9mag_17rd", 1 ],
+      [ "ppq40mag_10rd", 3 ],
+      [ "ppq40mag_12rd", 2 ],
+      [ "ppq40mag_14rd", 1 ],
+      [ "ppq45mag", 1 ],
+      [ "hptc9", 1 ],
+      [ "hptcf380", 1 ],
+      [ "hptjcp", 1 ],
+      [ "hptjhp", 1 ],
+      [ "cz75mag_12rd", 9 ],
+      [ "cz75mag_20rd", 5 ],
+      [ "cz75mag_26rd", 2 ],
+      [ "ccpmag", 4 ],
+      [ "wp22mag", 7 ]
     ]
   },
   {
@@ -137,6 +164,7 @@
       [ "glockbigmag", 60 ],
       [ "glock40bigmag", 30 ],
       [ "m1911bigmag", 40 ],
+      [ "m1911mag_10rd_38super", 10 ],
       [ "m9bigmag", 20 ],
       [ "sig40mag", 40 ],
       [ "sigp230mag", 40 ],
@@ -144,7 +172,9 @@
       [ "kp32mag", 5 ],
       [ "fn1910mag", 2 ],
       [ "taurus38mag", 30 ],
-      [ "ppkmag", 15 ]
+      [ "ppkmag", 15 ],
+      [ "lw12mag", 5 ],
+      [ "lw21mag", 5 ]
     ]
   },
   {
@@ -169,7 +199,7 @@
     "type": "item_group",
     "id": "mags_smg_makeshift",
     "//": "Makeshift or otherwise poor quality SMG magazines.",
-    "items": [ [ "survivor9mm_mag", 50 ], [ "smg_22_mag", 20 ], [ "smg_38_mag", 15 ], [ "smg_40_mag", 15 ], [ "smg_45_mag", 20 ] ]
+    "items": [ [ "survivor9mm_mag", 50 ], [ "smg_40_mag", 15 ], [ "smg_45_mag", 20 ] ]
   },
   {
     "type": "item_group",
@@ -219,7 +249,9 @@
       [ "g3mag", 80 ],
       [ "g3bigmag", 40 ],
       [ "m1918bigmag", 40 ],
-      [ "ruger1022bigmag", 70 ]
+      [ "ruger1022bigmag", 70 ],
+      [ "lw223mag", 20 ],
+      [ "lw223bigmag", 20 ]
     ]
   },
   {
@@ -237,8 +269,15 @@
   {
     "type": "item_group",
     "id": "mags_shotgun_rare",
-    "//": "Aftermarket or otherwise uncommon pistol magazines excluding milspec.",
-    "items": [ [ "saiga10mag", 50 ], [ "saiga30mag", 10 ] ]
+    "//": "Aftermarket or otherwise uncommon shotgun magazines excluding milspec.",
+    "items": [
+      [ "saiga10mag", 50 ],
+      [ "saiga30mag", 10 ],
+      [ "saiga410mag_10rd", 30 ],
+      [ "saiga410mag_30rd", 10 ],
+      [ "shot_speedloader6", 15 ],
+      [ "shot_speedloader8", 15 ]
+    ]
   },
   {
     "type": "item_group",

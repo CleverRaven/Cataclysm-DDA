@@ -3,11 +3,12 @@
 #define WEATHER_H
 
 #include "color.h"
-#include "enums.h"
 #include "optional.h"
 #include "pimpl.h"
+#include "point.h"
 #include "type_id.h"
 #include "weather_gen.h"
+#include "calendar.h"
 
 /**
  * @name BODYTEMP
@@ -32,11 +33,7 @@
 #include <unordered_map>
 #include <utility>
 
-class time_duration;
-class time_point;
 class item;
-struct point;
-struct tripoint;
 struct trap;
 struct rl_vec2d;
 
@@ -84,10 +81,6 @@ struct weather_printable {
     std::vector<std::pair<int, int> > vdrops; //!< Coordinates targeted for droplets.
     nc_color colGlyph; //!< Color to draw glyph this animation frame.
     char cGlyph; //!< Glyph to draw this animation frame.
-    int startx;
-    int starty;
-    int endx;
-    int endy;
 };
 
 /**
@@ -96,8 +89,14 @@ struct weather_printable {
  */
 namespace weather_effect
 {
+
+enum sun_intensity : int {
+    normal = 1,
+    high
+};
+
 void none();        //!< Fallback weather.
-void glare( bool );
+void glare( sun_intensity );
 void wet();
 void very_wet();
 void thunder();
@@ -107,21 +106,22 @@ void acid();
 void flurry();      //!< Currently flurries have no additional effects.
 void snow();
 void sunny();
-void snow_glare();
 void snowstorm();
 } //namespace weather_effect
 
+using weather_effect_fn = void ( * )();
+
 struct weather_datum {
-    std::string name;       //!< UI name of weather type.
-    nc_color color;         //!< UI color of weather type.
-    nc_color map_color;     //!< Map color of weather type.
-    char glyph;             //!< Map glyph of weather type.
-    int ranged_penalty;     //!< Penalty to ranged attacks.
-    float sight_penalty;    //!< Penalty to per-square visibility, applied in transparency map.
-    int light_modifier;     //!< Modification to ambient light.
-    int sound_attn;         //!< Sound attenuation of a given weather type.
-    bool dangerous;         //!< If true, our activity gets interrupted.
-    void ( *effect )();     //!< Function pointer for weather effects.
+    std::string name;             //!< UI name of weather type.
+    nc_color color;               //!< UI color of weather type.
+    nc_color map_color;           //!< Map color of weather type.
+    char glyph;                   //!< Map glyph of weather type.
+    int ranged_penalty;           //!< Penalty to ranged attacks.
+    float sight_penalty;          //!< Penalty to per-square visibility, applied in transparency map.
+    int light_modifier;           //!< Modification to ambient light.
+    int sound_attn;               //!< Sound attenuation of a given weather type.
+    bool dangerous;               //!< If true, our activity gets interrupted.
+    weather_effect_fn effect;     //!< Function pointer for weather effects.
 };
 
 struct weather_sum {
@@ -131,7 +131,20 @@ struct weather_sum {
     int wind_amount = 0;
 };
 
-weather_datum const weather_data( weather_type const type );
+weather_datum weather_data( weather_type type );
+namespace weather
+{
+std::string name( weather_type type );
+nc_color color( weather_type type );
+nc_color map_color( weather_type type );
+char glyph( weather_type type );
+int ranged_penalty( weather_type type );
+float sight_penalty( weather_type type );
+int light_modifier( weather_type type );
+int sound_attn( weather_type type );
+bool dangerous( weather_type type );
+weather_effect_fn effect( weather_type type );
+} // namespace weather
 
 std::string get_shortdirstring( int angle );
 
@@ -169,7 +182,7 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point 
 
 double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_per_hour );
 
-rl_vec2d convert_wind_to_coord( const int angle );
+rl_vec2d convert_wind_to_coord( int angle );
 
 std::string get_wind_arrow( int );
 
@@ -179,14 +192,24 @@ nc_color get_wind_color( double );
 /**
 * Calculates rot per hour at given temperature. Reference in weather_data.cpp
 */
-int get_hourly_rotpoints_at_temp( const int temp );
+int get_hourly_rotpoints_at_temp( int temp );
 
 /**
  * Is it warm enough to plant seeds?
  */
-bool warm_enough_to_plant();
+bool warm_enough_to_plant( const tripoint &pos );
 
 bool is_wind_blocker( const tripoint &location );
+
+weather_type current_weather( const tripoint &location,
+                              const time_point &t = calendar::turn );
+
+/**
+ * Amount of sunlight incident at the ground, taking weather and time of day
+ * into account.
+ */
+int incident_sunlight( weather_type wtype,
+                       const time_point &t = calendar::turn );
 
 class weather_manager
 {

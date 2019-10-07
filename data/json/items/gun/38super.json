@@ -1,0 +1,22 @@
+[
+  {
+    "id": "m1911a1_38super",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": "M1911A1",
+    "description": "The M1911A1 is an extremely popular pistol known for its reliability.  This one is chambered for .38 Super.",
+    "weight": "1035 g",
+    "volume": "500 ml",
+    "price": 78400,
+    "to_hit": -2,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "light_gray",
+    "ammo": "38super",
+    "dispersion": 480,
+    "durability": 7,
+    "magazine_well": 1,
+    "magazines": [ [ "38super", [ "m1911mag_10rd_38super" ] ] ]
+  }
+]

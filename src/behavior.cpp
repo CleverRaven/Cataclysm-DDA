@@ -1,10 +1,16 @@
 #include "behavior.h"
 
+#include <assert.h>
 #include <list>
+#include <set>
+#include <unordered_map>
+#include <utility>
 
 #include "behavior_oracle.h"
 #include "behavior_strategy.h"
 #include "generic_factory.h"
+#include "debug.h"
+#include "json.h"
 
 using namespace behavior;
 
@@ -75,7 +81,7 @@ namespace
 {
 generic_factory<behavior::node_t> behavior_factory( "behavior" );
 std::list<node_data> temp_node_data;
-}
+} // namespace
 
 template<>
 const node_t &string_id<node_t>::obj() const

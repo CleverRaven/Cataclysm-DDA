@@ -1,0 +1,25 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 10
+    - name: install dependencies
+      run: sudo apt-get install libncursesw5-dev
+    - name: make
+      run: make
+    - name: run tests
+      run: make check

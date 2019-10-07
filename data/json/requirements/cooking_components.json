@@ -37,6 +37,18 @@
     ]
   },
   {
+    "id": "milk_standard",
+    "type": "requirement",
+    "//": "Pasteurized milk, including reconstituted",
+    "components": [ [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_UHT", 1 ] ] ]
+  },
+  {
+    "id": "milk_standard_raw",
+    "type": "requirement",
+    "//": "Equivalent to milk_standard, with addition of raw milk for recipes using a heat source to kill microbes",
+    "components": [ [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_UHT", 1 ], [ "milk_raw", 1 ] ] ]
+  },
+  {
     "id": "hard_liquor",
     "type": "requirement",
     "//": "Hard liquor - necessarily comestible and high proof, not necessarily high quality.",
@@ -64,7 +76,9 @@
     "id": "worthy_wine",
     "type": "requirement",
     "//": "More expensive wines.",
-    "components": [ [ [ "wine_riesling", 1 ], [ "wine_chardonnay", 1 ], [ "wine_cabernet", 1 ], [ "wine_noir", 1 ] ] ]
+    "components": [
+      [ [ "wine_riesling", 1 ], [ "wine_chardonnay", 1 ], [ "wine_cabernet", 1 ], [ "wine_noir", 1 ], [ "wine_vermouth", 1 ] ]
+    ]
   },
   {
     "id": "hard_liquor_chem",
@@ -190,6 +204,7 @@
         [ "plums", 1 ],
         [ "pomegranate", 1 ],
         [ "raspberries", 1 ],
+        [ "rose_hips", 1 ],
         [ "strawberries", 1 ],
         [ "huckleberries", 1 ],
         [ "mulberries", 1 ],
@@ -224,6 +239,7 @@
         [ "irradiated_plums", 1 ],
         [ "irradiated_pomegranate", 1 ],
         [ "irradiated_raspberries", 1 ],
+        [ "irradiated_rose_hips", 1 ],
         [ "irradiated_strawberries", 1 ],
         [ "irradiated_huckleberries", 1 ],
         [ "irradiated_mulberries", 1 ],
@@ -272,7 +288,8 @@
         [ "rehydrated_veggy", 1 ],
         [ "veggy", 1 ],
         [ "veggy_wild", 1 ],
-        [ "veggy_salted", 1 ]
+        [ "veggy_salted", 1 ],
+        [ "spinach", 1 ]
       ]
     ]
   },
@@ -314,8 +331,8 @@
         [ "veggy_wild", 1 ],
         [ "zucchini", 1 ],
         [ "irradiated_zucchini", 1 ],
-        [ "veggy", 1 ],
-        [ "veggy_wild", 1 ]
+        [ "carrot_wild", 1 ],
+        [ "spinach", 1 ]
       ]
     ]
   },
@@ -342,6 +359,7 @@
         [ "european_pilsner", 1 ],
         [ "hb_beer", 1 ],
         [ "india_pale_ale", 1 ],
+        [ "wine_barley", 1 ],
         [ "pale_ale", 1 ],
         [ "stout", 1 ],
         [ "mixed_alcohol_weak", 1 ]

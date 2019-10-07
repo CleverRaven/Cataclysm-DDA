@@ -14,7 +14,8 @@
     "range_increment": 0.75,
     "effect": "target_attack",
     "base_casting_time": 300,
-    "base_energy_cost": 300,
+    "base_energy_cost": 800,
+    "flags": [ "SOMATIC", "VERBAL" ],
     "spell_class": "BIOMANCER",
     "difficulty": 2,
     "energy_source": "MANA"
@@ -29,6 +30,7 @@
     "base_casting_time": 100,
     "base_energy_cost": 800,
     "energy_source": "MANA",
+    "flags": [ "SOMATIC", "NO_LEGS", "CONCENTRATE" ],
     "spell_class": "BIOMANCER",
     "difficulty": 4,
     "max_level": 1
@@ -50,6 +52,7 @@
     "duration_increment": 3000,
     "difficulty": 6,
     "max_level": 20,
+    "flags": [ "SOMATIC", "LOUD" ],
     "spell_class": "BIOMANCER",
     "energy_source": "MANA"
   },
@@ -68,7 +71,8 @@
     "difficulty": 6,
     "max_level": 20,
     "min_damage": 0,
-    "max_damage": -20,
+    "max_damage": -8,
+    "flags": [ "SOMATIC", "LOUD" ],
     "damage_increment": -1,
     "//": "duration is in moves",
     "min_duration": 6000,
@@ -95,6 +99,7 @@
     "damage_type": "acid",
     "min_range": 3,
     "max_range": 5,
+    "flags": [ "VERBAL", "NO_HANDS" ],
     "range_increment": 0.25,
     "min_aoe": 25,
     "max_aoe": 60,
@@ -117,6 +122,7 @@
     "duration_increment": 15000,
     "difficulty": 4,
     "max_level": 20,
+    "flags": [ "NO_HANDS", "NO_LEGS", "SOMATIC" ],
     "spell_class": "BIOMANCER",
     "energy_source": "MANA"
   },
@@ -137,7 +143,29 @@
     "duration_increment": 3000,
     "difficulty": 14,
     "max_level": 20,
+    "flags": [ "LOUD", "SOMATIC" ],
     "spell_class": "BIOMANCER",
     "energy_source": "MANA"
+  },
+  {
+    "id": "create_rune_biomancer",
+    "type": "SPELL",
+    "name": "Biomancer Rune",
+    "description": "This ritual creates a small pebble attuned to Biomancers. You can use the rune as a catalyst for recipes.",
+    "valid_targets": [ "self" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "rune_biomancer",
+    "base_casting_time": 5000,
+    "base_energy_cost": 5,
+    "min_duration": 1,
+    "max_duration": 2,
+    "duration_increment": 1,
+    "difficulty": 0,
+    "max_level": 1,
+    "spell_class": "BIOMANCER",
+    "energy_source": "MANA",
+    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
   }
 ]

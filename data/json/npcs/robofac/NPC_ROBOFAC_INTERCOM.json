@@ -30,7 +30,7 @@
     "type": "item_group",
     "id": "NC_ROBOFAC_INTERCOM_trade",
     "subtype": "collection",
-    "entries": [ { "group": "robofac_basic_trade", "repeat": [ 15, 25 ] } ]
+    "entries": [ { "group": "robofac_basic_trade", "count": [ 15, 25 ] } ]
   },
   {
     "type": "item_group",
@@ -42,6 +42,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_1",
     "type": "mission_definition",
     "name": "Return Field Data",
+    "description": "Investigate a nearby field and return with Dr. Prado and the robot prototype she was testing.  Failing that, retrieve the I/O recorder stored within the robot.  If the robot remains operational, avoid direct confrontation and use EMP grenades to disable it.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "item": "robofac_test_data",
@@ -76,7 +77,7 @@
           "                        "
         ],
         "terrain": { "@": "t_grass", "b": "t_dirt", "M": "t_dirt" },
-        "fields": { "b": { "field": "fd_blood", "density": 1 } },
+        "fields": { "b": { "field": "fd_blood", "intensity": 1 } },
         "items": { "@": { "item": "NC_ROBOFAC_FIELD_RESEARCHER_worn", "chance": 100 } },
         "item": { "@": [ { "item": "EMPbomb", "amount": 2 }, { "item": "corpse" } ] },
         "monster": { "M": { "monster": "mon_robofac_prototype" } }
@@ -89,6 +90,7 @@
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_ROBOFAC_INTERCOM_2",
     "dialogue": {
       "describe": "No, I said ... [*You hear a short, muffled conversation from across the intercom*]/nWell, it seems we do have a use for you.  It's dangerous and you are likely to die, but if you complete it we will allow you limited access to our resources.",
@@ -106,12 +108,13 @@
     "id": "MISSION_ROBOFAC_INTERCOM_2",
     "type": "mission_definition",
     "name": "Steal a dead man's mind",
+    "description": "Find the corpse of a Hub 01's AI researcher and use the mind splicer kit to recover the memories stored inside their memory implant.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "item": "mind_scan_robofac",
     "value": 1000,
     "start": {
-      "assign_mission_target": { "om_terrain": "road_ew", "reveal_radius": 2, "random": true, "search_range": 80 },
+      "assign_mission_target": { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT", "reveal_radius": 2, "random": true, "search_range": 80 },
       "update_mapgen": { "place_nested": [ { "chunks": [ "robofac_mi2_convoy_ambush_chunk" ], "x": 0, "y": 0 } ] },
       "effect": [ { "u_buy_item": "mind_splicer" }, { "u_buy_item": "data_card" } ]
     },
@@ -121,17 +124,60 @@
           "om_terrain": "robofachq_surface_b0",
           "om_special": "hub_01",
           "place_nested": [ { "chunks": [ "robofac_hq_surface_freemerchant_camp" ], "x": 4, "y": 0 } ]
+        },
+        {
+          "om_terrain": "robofachq_surface_entrance",
+          "om_special": "hub_01",
+          "place_nested": [ { "chunks": [ "robofac_hq_surface_merc_1" ], "x": 3, "y": 10 } ]
         }
-      ]
+      ],
+      "effect": [ { "u_buy_item": "RobofacCoin", "count": 2 } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "followup": "MISSION_ROBOFAC_INTERCOM_3",
     "dialogue": {
       "describe": "...",
       "offer": "When the portal storms started, the Government issued an evacuation order for critical XEDRA personnel and sent convoys to retrieve them, with our head of AI research among the recalled.  We recently discovered that he died when the convoy transferring him was ambushed in the initial chaos, but his corpse and memory bionic might remain intact enough for us to extract valuable knowledge.  We want you to travel to the location, make a copy of his Bionic Memory Unit, and return it to us.",
-      "accepted": "Remember, do extraction /exactly/ as specified, otherwise the bionic will self-destruct.",
+      "accepted": "Remember, perform the extraction /exactly/ as specified, otherwise the bionic will self-destruct.",
       "rejected": "Yes, we recognize that our request is exceptional.  Return if you change your mind.",
       "advice": " You do know what a memory unit looks like, right?  Matte gray, pill-sized, right in front of the corpus callosum.  We suggest a forceps through the eye socket, shaking slightly, then slowly and carefully...",
       "inquire": "Do you have the scan?",
+      "success": "You have our thanks and payment.",
+      "success_lie": "What good does this do us?",
+      "failure": "Simply useless..."
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_3",
+    "type": "mission_definition",
+    "name": "Light retrieval",
+    "description": "Reach the collapsed tower basement, and search the ruins for a photonic circuitry template. The intercom warned you about heavy enemy prescence, and of the existence of a hazardous enviroment.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "item": "template_photonics",
+    "value": 0,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "office_tower_collapse_b_a0",
+        "om_special": "office_tower_collapsed",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 180,
+        "z": -1
+      },
+      "update_mapgen": [ { "place_nested": [ { "chunks": [ "robofac_mi3_photonics_chunk" ], "x": 10, "y": 22 } ] } ]
+    },
+    "end": { "effect": [ { "u_buy_item": "RobofacCoin", "count": 4 } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "...",
+      "offer": "Our facility once sourced advanced photonic circuitry from a nearby robotics manufacturer.  Their building suffered major damage during the portal storms, and collapsed almost entirely.  However, preliminary scouting reveals that the basement prototyping lab likely remains intact.\n\nthe intercom: We ask you to investigate the ruins, and if possible, retrieve a template for the fabrication of said photonic circuitry.",
+      "accepted": "We expect your success, mercenary.",
+      "rejected": "Return if you change your mind.",
+      "advice": "The scout drone also revealed extensive heat signatures and high concentrations of toxic compounds within the ruins, plan accordingly.  We are willing to sell you some protective gear at a discount, if you require it.",
+      "inquire": "Have you retrieved the blueprints?",
       "success": "You have our thanks and payment.",
       "success_lie": "What good does this do us?",
       "failure": "Simply useless..."
@@ -211,6 +257,18 @@
         "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ASK"
       },
       {
+        "text": "So, about that protective gear?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_3" },
+            {
+              "not": { "npc_has_var": "npc_bought_protective_gear", "type": "dialogue", "context": "intercom", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_BUY_PROTECTIVE_GEAR"
+      },
+      {
         "truefalsetext": {
           "condition": { "npc_has_var": "npc_intercom_trade", "type": "dialogue", "context": "intercom", "value": "yes" },
           "true": "I gotta go.",
@@ -245,6 +303,26 @@
     "type": "talk_topic",
     "dynamic_line": "It was a modified Wraitheon chassis, with a custom AI.  We hoped it would interact with the outside world for us, but you know how well it went...  Shame about what happened, with the evisceration and all...",
     "responses": [ { "text": "...", "topic": "TALK_ROBOFAC_INTERCOM" } ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_BUY_PROTECTIVE_GEAR",
+    "type": "talk_topic",
+    "dynamic_line": "Given the current context, we are willing to sell you a set of our protective gear: gas mask, suit and gear, at a considerable discount.  We will sell it for two of our coins.\n\nthe intercom: Hmm wait, we might not have your size...",
+    "responses": [
+      {
+        "text": "[ 2 HGC ] Deal!",
+        "condition": { "u_has_item": "RobofacCoin" },
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 2 },
+          { "u_buy_item": "mask_gas" },
+          { "u_buy_item": "robofac_enviro_suit" },
+          { "u_buy_item": "gasfilter_m", "count": 100 },
+          { "npc_add_var": "npc_bought_protective_gear", "type": "dialogue", "context": "intercom", "value": "yes" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM"
+      },
+      { "text": "I have to give it a thought.", "topic": "TALK_ROBOFAC_INTERCOM" }
+    ]
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_PLEAD",

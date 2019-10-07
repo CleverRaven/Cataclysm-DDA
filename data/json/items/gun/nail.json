@@ -6,8 +6,8 @@
     "name": "coilgun",
     "//": "Hard to make, plentiful and cheap ammo, and silent - people will want this thing.",
     "description": "A homemade gun, using electromagnets to accelerate a ferromagnetic projectile to high velocity.  Powered by UPS.",
-    "weight": 3341,
-    "volume": 11,
+    "weight": "3341 g",
+    "volume": "2750 ml",
     "price": 75000,
     "to_hit": -2,
     "bashing": 10,
@@ -20,7 +20,15 @@
     "dispersion": 180,
     "durability": 5,
     "ups_charges": 5,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "magazines": [ [ "nail", [ "nailmag" ] ] ]
   },
   {
@@ -29,8 +37,8 @@
     "reload_noise_volume": 10,
     "name": "nail gun",
     "description": "A tool used to drive nails into wood or other material.  It could also be used as a ad-hoc weapon.",
-    "weight": 3904,
-    "volume": 3,
+    "weight": "3904 g",
+    "volume": "750 ml",
     "price": 13000,
     "to_hit": -2,
     "bashing": 6,
@@ -43,7 +51,8 @@
     "durability": 8,
     "loudness": 5,
     "clip_size": 20,
-    "reload": 50
+    "reload": 50,
+    "valid_mod_locations": [ [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ]
   },
   {
     "id": "nailrifle",
@@ -56,7 +65,16 @@
     "skill": "rifle",
     "burst": 10,
     "clip_size": 0,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "grip", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "magazines": [ [ "nail", [ "nailmag" ] ] ],
     "relative": { "weight": 1000, "volume": 6, "range": 3, "ranged_damage": 4 },
     "proportional": { "price": 3, "dispersion": 0.5 }

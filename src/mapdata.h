@@ -13,6 +13,7 @@
 #include "int_id.h"
 #include "optional.h"
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -41,8 +42,8 @@ struct map_bash_info {
     bool destroy_only;      // Only used for destroying, not normally bashable
     bool bash_below;        // This terrain is the roof of the tile below it, try to destroy that too
     std::string drop_group; // item group of items that are dropped when the object is bashed
-    std::string sound;      // sound made on success ('You hear a "smash!"')
-    std::string sound_fail; // sound  made on fail
+    translation sound;      // sound made on success ('You hear a "smash!"')
+    translation sound_fail; // sound  made on fail
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     ter_str_id ter_set_bashed_from_above; // terrain to set if bashed from above (defaults to ter_set)
     furn_str_id furn_set;   // furniture to set (only used by furniture, not terrain)
@@ -231,21 +232,22 @@ struct map_data_common_t {
     public:
         std::string name() const;
 
-        enum { SEASONS_PER_YEAR = 4 };
         /*
-        * The symbol drawn on the screen for the terrain. Please note that there are extensive rules
-        * as to which possible object/field/entity in a single square gets drawn and that some symbols
-        * are "reserved" such as * and % to do programmatic behavior.
+        * The symbol drawn on the screen for the terrain. Please note that
+        * there are extensive rules as to which possible object/field/entity in
+        * a single square gets drawn and that some symbols are "reserved" such
+        * as * and % to do programmatic behavior.
         */
-        std::array<long, SEASONS_PER_YEAR> symbol_;
+        std::array<int, NUM_SEASONS> symbol_;
 
+        int light_emitted;
         int movecost;   // The amount of movement points required to pass this terrain by default.
         int coverage; // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         units::volume max_volume; // Maximal volume of items that can be stored in/on this furniture
 
-        std::string description;
+        translation description;
 
-        std::array<nc_color, SEASONS_PER_YEAR> color_; //The color the sym will draw in on the GUI.
+        std::array<nc_color, NUM_SEASONS> color_; //The color the sym will draw in on the GUI.
         void load_symbol( JsonObject &jo );
 
         std::string looks_like;
@@ -256,7 +258,7 @@ struct map_data_common_t {
          * When will this terrain/furniture get harvested and what will drop?
          * Note: This excludes items that take extra tools to harvest.
          */
-        std::array<harvest_id, SEASONS_PER_YEAR> harvest_by_season = {{
+        std::array<harvest_id, NUM_SEASONS> harvest_by_season = {{
                 harvest_id::NULL_ID(), harvest_id::NULL_ID(), harvest_id::NULL_ID(), harvest_id::NULL_ID()
             }
         };
@@ -280,10 +282,10 @@ struct map_data_common_t {
         bool connects( int &ret ) const;
 
         bool connects_to( int test_connect_group ) const {
-            return ( connect_group != TERCONN_NONE ) && ( connect_group == test_connect_group );
+            return connect_group != TERCONN_NONE && connect_group == test_connect_group;
         }
 
-        long symbol() const;
+        int symbol() const;
         nc_color color() const;
 
         const harvest_id &get_harvest() const;
@@ -296,6 +298,11 @@ struct map_data_common_t {
         std::string extended_description() const;
 
         bool was_loaded = false;
+
+        bool is_flammable() const {
+            return flags.count( "FLAMMABLE" ) > 0 || flags.count( "FLAMMABLE_ASH" ) > 0 ||
+                   flags.count( "FLAMMABLE_HARD" ) > 0;
+        }
 
         virtual void load( JsonObject &jo, const std::string &src );
         virtual void check() const;
@@ -340,6 +347,9 @@ struct furn_t : map_data_common_t {
     units::volume keg_capacity = 0_ml;
     int comfort = 0;
     int floor_bedding_warmth = 0;
+    /** Emissions of furniture */
+    std::set<emit_id> emissions;
+
     int bonus_fire_warmth_feet = 300;
     itype_id deployed_item; // item id string used to create furniture
 
@@ -527,6 +537,7 @@ extern furn_id f_null,
        f_flower_marloss,
        f_tatami,
        f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
+       f_arcfurnace_empty, f_arcfurnace_full,
        f_smoking_rack, f_smoking_rack_active, f_metal_smoking_rack, f_metal_smoking_rack_active,
        f_water_mill, f_water_mill_active,
        f_wind_mill, f_wind_mill_active,

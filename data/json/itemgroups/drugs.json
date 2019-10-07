@@ -66,6 +66,7 @@
   {
     "id": "drugs_soldier",
     "type": "item_group",
+    "subtype": "distribution",
     "//": "Healing items appropriate for soldiers and other paramilitary forces",
     "entries": [
       { "item": "1st_aid", "prob": 50 },
@@ -76,5 +77,12 @@
       { "item": "smoxygen_tank", "prob": 20 },
       { "item": "tramadol", "prob": 20 }
     ]
+  },
+  {
+    "id": "jar_weed",
+    "type": "item_group",
+    "//": "For sale display appropriate packaging",
+    "subtype": "distribution",
+    "items": [ [ "jar_3l_glass", 100 ], { "item": "weed", "charges": [ 10, 420 ], "prob": 100, "container-item": "jar_3l_glass" } ]
   }
 ]

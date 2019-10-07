@@ -5,15 +5,15 @@ bool item_category::operator<( const item_category &rhs ) const
     if( sort_rank_ != rhs.sort_rank_ ) {
         return sort_rank_ < rhs.sort_rank_;
     }
-    if( name_ != rhs.name_ ) {
-        return name_ < rhs.name_;
+    if( name_.translated_ne( rhs.name_ ) ) {
+        return name_.translated_lt( rhs.name_ );
     }
     return id_ < rhs.id_;
 }
 
 bool item_category::operator==( const item_category &rhs ) const
 {
-    return sort_rank_ == rhs.sort_rank_ && name_ == rhs.name_ && id_ == rhs.id_;
+    return sort_rank_ == rhs.sort_rank_ && name_.translated_eq( rhs.name_ ) && id_ == rhs.id_;
 }
 
 bool item_category::operator!=( const item_category &rhs ) const

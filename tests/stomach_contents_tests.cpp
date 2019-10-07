@@ -14,7 +14,7 @@
 
 static void reset_time()
 {
-    calendar::turn = calendar( 0 );
+    calendar::turn = calendar::start_of_cataclysm;
     player &p = g->u;
     p.set_stored_kcal( p.get_healthy_kcal() );
     p.set_hunger( 0 );
@@ -24,7 +24,7 @@ static void reset_time()
 static void pass_time( player &p, time_duration amt )
 {
     for( auto turns = 1_turns; turns < amt; turns += 1_turns ) {
-        calendar::turn.increment();
+        calendar::turn += 1_turns;
         p.update_body();
     }
 }

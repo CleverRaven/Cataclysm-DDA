@@ -13,15 +13,30 @@
     "material": [ "superalloy" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "HANDS", "ARMS" ],
-    "coverage": 100,
-    "encumbrance": 0,
-    "warmth": 20,
-    "material_thickness": 4,
-    "environmental_protection": 10,
+    "armor_data": {
+      "covers": [ "HANDS", "ARMS" ],
+      "coverage": 100,
+      "encumbrance": 0,
+      "warmth": 20,
+      "material_thickness": 4,
+      "environmental_protection": 10
+    },
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
     "techniques": [ "WBLOCK_3" ]
+  },
+  {
+    "id": "finger_firelighter",
+    "type": "TOOL",
+    "name": "finger firelighter",
+    "description": "This is a small flame you can hold in your hand.  With a thought, you can cause it to light something on fire.",
+    "weight": 1,
+    "volume": "1 ml",
+    "price": 0,
+    "symbol": ",",
+    "color": "yellow",
+    "use_action": [ { "type": "firestarter", "moves": 20 } ],
+    "flags": [ "TRADER_AVOID", "FIRESTARTER", "FIRE", "LIGHT_8", "FLAMING", "WATER_EXTINGUISH" ]
   },
   {
     "id": "armor_stonefist",
@@ -45,7 +60,7 @@
     "material_thickness": 4,
     "environmental_protection": 10,
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
     "techniques": [ "WBLOCK_3" ]
   },
   {
@@ -61,7 +76,8 @@
     "bashing": 8,
     "symbol": ",",
     "color": "light_green",
-    "flags": [ "LIGHT_15", "LEAK_DAM" ]
+    "covers": [ "HEAD" ],
+    "flags": [ "LIGHT_15", "LEAK_DAM", "AURA", "SEMITANGIBLE" ]
   },
   {
     "id": "magic_light",
@@ -74,7 +90,8 @@
     "price": 0,
     "symbol": ",",
     "color": "light_green",
-    "flags": [ "LIGHT_5", "LEAK_DAM" ]
+    "covers": [ "HEAD" ],
+    "flags": [ "LIGHT_5", "LEAK_DAM", "AURA", "SEMITANGIBLE" ]
   },
   {
     "id": "shield_ice",
@@ -117,6 +134,7 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 2,
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ] },
     "flags": [ "WATERPROOF", "ROLLER_QUAD", "BELTED" ]
   },
   {
@@ -130,10 +148,19 @@
     "symbol": "/",
     "material": [ "superalloy" ],
     "techniques": [ "WBLOCK_2", "BRUTAL", "SWEEP" ],
-    "flags": [ "NONCONDUCTIVE", "BELT_CLIP", "LIGHT_15", "TRADER_AVOID", "UNBREAKABLE_MELEE", "NO_REPAIR", "NO_SALVAGE" ],
+    "flags": [
+      "NONCONDUCTIVE",
+      "BELT_CLIP",
+      "LIGHT_15",
+      "TRADER_AVOID",
+      "UNBREAKABLE_MELEE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS"
+    ],
     "volume": 5,
     "bashing": 30,
-    "electric": 15,
+    "//electric": 15,
     "price": 0,
     "qualities": [ [ "HAMMER", 1 ] ]
   },
@@ -168,8 +195,17 @@
     "volume": 1,
     "weight": 1,
     "bashing": 10,
-    "electric": 15,
-    "flags": [ "UNARMED_WEAPON", "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "LIGHT_5", "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ]
+    "//electric": 15,
+    "flags": [
+      "UNARMED_WEAPON",
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "LIGHT_5",
+      "TRADER_AVOID",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS"
+    ]
   },
   {
     "id": "tentacle_whip",
@@ -191,10 +227,10 @@
       "UNARMED_WEAPON",
       "UNBREAKABLE_MELEE",
       "NO_REPAIR",
-      "NO_SALVAGE"
+      "NO_SALVAGE",
+      "MAGIC_FOCUS"
     ],
     "cutting": 30,
-    "pierce": 6,
     "category": "weapons"
   },
   {
@@ -226,19 +262,20 @@
     "flags": [
       "UNBREAKABLE_MELEE",
       "REACH_ATTACK",
+      "SPEAR",
       "REACH2",
       "NONCONDUCTIVE",
       "SHEATH_SPEAR",
       "ONLY_ONE",
       "NO_REPAIR",
-      "NO_SALVAGE"
+      "NO_SALVAGE",
+      "MAGIC_FOCUS"
     ],
     "techniques": [ "WBLOCK_2", "WIDE", "SWEEP", "BRUTAL" ],
     "weight": 2175,
     "volume": 10,
     "bashing": 16,
     "cutting": 36,
-    "pierce": 8,
     "to_hit": 2
   },
   {
@@ -262,19 +299,49 @@
       "NO_UNLOAD",
       "NO_AMMO"
     ],
-    "ammo": "NULL",
     "skill": "archery",
     "min_strength": 5,
     "weight": 540,
     "volume": 10,
     "bashing": 16,
     "to_hit": 1,
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 10 },
     "reload_noise_volume": 2,
     "loudness": 2,
     "ranged_damage": 17,
     "range": 15,
     "dispersion": 120,
     "durability": 8
+  },
+  {
+    "type": "TOOL",
+    "id": "druid_seed",
+    "name": "seed of purification",
+    "weight": 1,
+    "color": "white",
+    "use_action": {
+      "type": "transform",
+      "target": "druid_dust",
+      "msg": "You squeeze the seed in your palm, and it begins to turn to a fine dust.",
+      "target_charges": 15,
+      "menu_text": "Squeeze seed"
+    },
+    "symbol": "!",
+    "description": "A magical seed that can be squeezed to release purifying dust, which can then be used to purify up to a gallon of water",
+    "volume": 1,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "druid_dust",
+    "type": "TOOL",
+    "name": "faintly glowing dust",
+    "description": "This fine dust glows with a growing intensity",
+    "weight": 0.25,
+    "volume": 0.1,
+    "price": 0,
+    "symbol": "!",
+    "color": "white",
+    "initial_charges": 15,
+    "max_charges": 15,
+    "use_action": "WATER_PURIFIER"
   }
 ]

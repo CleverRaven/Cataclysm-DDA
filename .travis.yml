@@ -45,6 +45,7 @@ branches:
 # - SANITIZE=address
 # - LOCALIZE=0
 # - A clang-tidy run
+# - Tests with important mods enabled (Magiclysm, RL_Classes)
 # We try to minimize the number of builds subject to those constraints.
 
 # To see what toolchains are available, consult the following:
@@ -62,12 +63,12 @@ jobs:
       addons: &clang38
         apt:
           packages: ["clang-3.8", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
-          sources: *apt_sources
+          sources: [*apt_sources]
 
     # Then build different configurations and targets in parallel.
     - stage: "Main Compilers"
-      env: COMPILER=g++ LOCALIZE=0
-      name: "GCC 5.3 Make build with curses and no Localization"
+      env: COMPILER=g++ MODS=--mods=magiclysm LOCALIZE=0
+      name: "GCC 5.3 Make build with curses, Magiclysm, and no Localization"
       compiler: gcc
       addons: &gcc53
         apt:
@@ -75,11 +76,12 @@ jobs:
           sources: [*apt_sources]
 
     - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough' TILES=1 SOUND=1 SANITIZE=address
-      name: "GCC 8 Make build with Tiles, Sound and address sanitization"
+      name: "GCC 8 Make build with Tiles, Sound, astyle and address sanitization"
+      dist: bionic
       compiler: gcc
       addons: &gcc8
         apt:
-          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev", "astyle"]
           sources: *apt_sources
 
     - env: CLANG=clang++-8 SANITIZE=address EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency ~vehicle_drag ~starting_items"
@@ -99,18 +101,31 @@ jobs:
         apt:
           packages: ["wine"]
 
+    - env: NATIVE=android COMPILER=gcc
+      name: "Android build"
+      language: android
+      android:
+        components:
+          - build-tools-28.0.1
+          - android-26
+      cache:
+        # The ccache feature in Travis doesn't work for language: android, so
+        # do it ourselves.
+        directories:
+          - $HOME/.ccache
+
     - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1
       name: "Xcode 10.1 Make build with Tiles and sound (macOS)"
       os: osx
       osx_image: xcode10.1
       compiler: clang
 
-    - env: CLANG=clang++-8 TILES=1 SOUND=1 CXXFLAGS=-Wno-unused-command-line-argument CMAKE=1 CATA_CLANG_TIDY=clang-tidy-8
+    - env: CLANG=clang++-8 TILES=1 SOUND=1 CXXFLAGS=-Wno-unused-command-line-argument CMAKE=1 CATA_CLANG_TIDY=plugin
       name: "Clang-tidy CMake build with Tiles and Sound"
       compiler: clang
       addons: &clang8
         apt:
-          packages: ["clang-8", "clang-tidy-8", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          packages: ["clang-8", "libclang-8-dev", "llvm-8-dev", "llvm-8-tools", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
           sources: [*apt_sources, llvm-toolchain-xenial-8]
 
     # Finally check the compiler variants

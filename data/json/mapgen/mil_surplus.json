@@ -5,16 +5,17 @@
     "om_terrain": [ "mil_surplus" ],
     "weight": 300,
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         "...........~~...........",
         "...........~~...........",
         "..-''''''--++--''''''--.",
+        "..|             QrQd  |.",
+        "..| #         b     b |.",
+        "..| #           *]*   |.",
+        "..| #        d  *8*   |.",
+        "..| #           ***   |.",
         "..|                   |.",
-        "..| #                 |.",
-        "..| #                 |.",
-        "..| #                 |.",
-        "..| #                 |.",
-        "..|                   |.",
         "..| R R R R R R R R R |.",
         "..| R R R R R R R R R |.",
         "..| R R R R R R R R R |.",
@@ -27,9 +28,9 @@
         "..| R R R R R R R R R |.",
         "..| R R R R R R R R R |.",
         "..|                   |.",
-        "..---------------------.",
-        "........................",
-        "........................"
+        "..|-+-----+--------+- |.",
+        "..|& %|4YYYUUYUU<|LL|d|.",
+        "..|----YYYYYYYYYY-----|."
       ],
       "palettes": [ "mil_surplus" ],
       "place_loot": [
@@ -42,15 +43,89 @@
         { "group": "mil_food_nodrugs", "x": 16, "y": [ 9, 19 ], "chance": 70 },
         { "group": "mil_food_nodrugs", "x": 18, "y": [ 9, 19 ], "chance": 70 },
         { "group": "mil_food_nodrugs", "x": 20, "y": [ 9, 19 ], "chance": 70 }
+      ],
+      "items": {
+        "%": { "item": "softdrugs", "chance": 30 },
+        "L": { "item": "cleaning", "chance": 30 },
+        "U": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
+        "d": [
+          { "item": "mil_armor", "chance": 40 },
+          { "item": "mil_armor_pants", "chance": 100 },
+          { "item": "mil_armor_torso", "chance": 100 },
+          { "item": "mil_armor_helmet", "chance": 10 },
+          { "item": "shoestore_shoes", "chance": 20 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "mil_surplus_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "  |22222222222222222223 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |.R.5-------####..U.3 ",
+        "  |...3     ####>#....3 ",
+        "  |---3          |----3 "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ">": "t_ladder_down" },
+      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 40 ]
+          ],
+          "x": [ 4, 18 ],
+          "y": [ 5, 6 ]
+        },
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_4x4_utility", 40 ],
+            [ "roof_6x6_survivor", 20 ],
+            [ "roof_4x4_holdout", 5 ],
+            [ "roof_6x6_utility", 20 ]
+          ],
+          "x": [ 3, 13 ],
+          "y": [ 8, 14 ]
+        }
       ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "mil_surplus" ],
+    "om_terrain": [ "mil_surplus_1" ],
     "weight": 300,
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         "...........~~...........",
         "...........~~...........",
@@ -73,12 +148,22 @@
         ".|                    |.",
         ".| CCCCCCC    CCCCCCC |.",
         ".|                    |.",
-        ".| CCCCCCC    CCCCCCC |.",
+        ".| CCCCCCC    CCCCCCC |4",
         ".----------------------.",
         "........................"
       ],
       "palettes": [ "mil_surplus" ],
-      "items": { "R": { "item": "mil_armor", "chance": 50 } },
+      "items": {
+        "R": { "item": "mil_armor", "chance": 50 },
+        "%": { "item": "softdrugs", "chance": 30 },
+        "@": [
+          { "item": "mil_armor", "chance": 40 },
+          { "item": "mil_armor_pants", "chance": 100 },
+          { "item": "mil_armor_torso", "chance": 100 },
+          { "item": "mil_armor_helmet", "chance": 10 },
+          { "item": "shoestore_shoes", "chance": 20 }
+        ]
+      },
       "place_loot": [
         { "group": "mil_armor", "x": 8, "y": [ 7, 11 ], "chance": 70 },
         { "group": "mil_armor", "x": 11, "y": [ 7, 11 ], "chance": 70 },
@@ -98,46 +183,70 @@
     }
   },
   {
+    "type": "mapgen",
     "method": "json",
+    "om_terrain": "mil_surplus_roof_1",
     "object": {
-      "furniture": {
-        "#": "f_counter",
-        "+": "f_null",
-        "-": "f_null",
-        ".": "f_null",
-        "D": "f_null",
-        "S": "f_null",
-        "^": "f_indoor_plant",
-        "_": "f_null",
-        "b": "f_bench",
-        "c": "f_chair",
-        "d": "f_null",
-        "l": "f_locker",
-        "r": "f_null",
-        "s": "f_null",
-        "t": "f_table",
-        "u": "f_null",
-        "{": "f_rack",
-        "|": "f_null"
-      },
-      "place_items": [
-        { "chance": 25, "item": "mil_armor_pants", "x": [ 3, 5 ], "y": 11 },
-        { "chance": 25, "item": "mil_armor_pants", "x": [ 3, 5 ], "y": 8 },
-        { "chance": 25, "item": "jackets", "x": [ 8, 9 ], "y": 18 },
-        { "chance": 55, "item": "winter", "x": [ 4, 5 ], "y": 13 },
-        { "chance": 55, "item": "winter", "x": [ 3, 6 ], "y": 6 },
-        { "chance": 55, "item": "winter", "x": [ 3, 6 ], "y": 2 },
-        { "chance": 25, "item": "mil_accessories", "x": 3, "y": [ 13, 16 ] },
-        { "chance": 35, "item": "magazines", "x": [ 10, 11 ], "y": 18 },
-        { "chance": 45, "item": "knife_shop", "x": [ 4, 6 ], "y": 4 },
-        { "chance": 35, "item": "antique_guns", "x": 20, "y": 5 },
-        { "chance": 35, "item": "antique_guns", "x": 18, "y": 5 },
-        { "chance": 35, "item": "mil_surplus", "x": [ 9, 10 ], "y": [ 13, 14 ] },
-        { "chance": 35, "item": "mil_surplus", "x": 21, "y": [ 11, 19 ] },
-        { "chance": 35, "item": "mil_surplus", "x": [ 17, 18 ], "y": [ 11, 18 ] },
-        { "chance": 35, "item": "mil_surplus", "x": [ 14, 15 ], "y": [ 11, 18 ] },
-        { "chance": 35, "item": "mil_surplus", "x": [ 9, 10 ], "y": [ 9, 10 ] }
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        " |222222222222222222223 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |..U...............Z.3 ",
+        " |..........R.........3 ",
+        " |................... 5 ",
+        " |--------------------3 ",
+        "                        "
       ],
+      "palettes": [ "roof_palette" ],
+      "nested": {
+        "U": { "chunks": [ "roof_2x2_infrastructure" ] },
+        "R": { "chunks": [ "roof_2x2_infrastructure_1" ] },
+        "Z": { "chunks": [ "roof_2x2_infrastructure_2" ] }
+      },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 4, 18 ],
+          "y": [ 4, 6 ]
+        },
+        {
+          "chunks": [ [ "null", 20 ], [ "roof_4x4_utility", 40 ], [ "roof_6x6_utility", 20 ] ],
+          "x": [ 5, 13 ],
+          "y": [ 8, 11 ]
+        }
+      ]
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "mil_surplus_2",
+    "type": "mapgen",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
       "rows": [
         "___d___ud___________ss__",
         "__||||||||||||------ssr_",
@@ -156,37 +265,112 @@
         "__|#.....tt...{{.{{..{|_",
         "__|#..........{{.{{..{|_",
         "__|#..........{{.{{..{|d",
-        "_u|....||||||.{{.{{..{|u",
+        "_u|b...||||||.{{.{{..{|u",
         "__|b...|llll|.{{.{{..{|_",
-        "__|b...|....|........{|_",
-        "__|b...+....|||||||||||_",
-        "d_|^...|tc..+ss____duS__",
+        "__||||.|....|........{|_",
+        "__|&.+.+....|||||||||||4",
+        "d_|%.|y|tc..+ss____duS__",
         "__|||||||||||ss_________",
         "____u_u_______________d_"
       ],
       "terrain": {
-        "#": "t_floor",
         "+": "t_door_c",
         "-": "t_railing_h",
         ".": "t_floor",
         "D": "t_door_glass_c",
         "S": "t_shrub",
-        "^": "t_floor",
         "_": "t_grass",
-        "b": "t_floor",
-        "c": "t_floor",
         "d": "t_dirt",
-        "l": "t_floor",
         "r": "t_railing_v",
         "s": "t_sidewalk",
-        "t": "t_floor",
         "u": "t_underbrush",
-        "{": "t_floor",
-        "|": "t_wall"
-      }
-    },
-    "om_terrain": "mil_surplus",
+        "|": "t_wall_g",
+        "4": "t_gutter_downspout"
+      },
+      "furniture": {
+        "#": "f_counter",
+        "^": "f_indoor_plant",
+        "b": "f_bench",
+        "c": "f_chair",
+        "l": "f_locker",
+        "t": "f_table",
+        "{": "f_rack",
+        "%": "f_sink",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+      },
+      "toilets": { "&": {  } },
+      "place_items": [
+        { "chance": 25, "item": "mil_armor_pants", "x": [ 3, 5 ], "y": 11 },
+        { "chance": 25, "item": "mil_armor_pants", "x": [ 3, 5 ], "y": 8 },
+        { "chance": 25, "item": "jackets", "x": [ 8, 9 ], "y": 18 },
+        { "chance": 55, "item": "winter", "x": [ 4, 5 ], "y": 13 },
+        { "chance": 55, "item": "winter", "x": [ 3, 6 ], "y": 6 },
+        { "chance": 55, "item": "winter", "x": [ 3, 6 ], "y": 2 },
+        { "chance": 25, "item": "mil_accessories", "x": 3, "y": [ 13, 16 ] },
+        { "chance": 35, "item": "magazines", "x": [ 10, 11 ], "y": 18 },
+        { "chance": 45, "item": "knife_shop", "x": [ 4, 6 ], "y": 4 },
+        { "chance": 35, "item": "antique_guns", "x": 20, "y": 5 },
+        { "chance": 35, "item": "antique_guns", "x": 18, "y": 5 },
+        { "chance": 35, "item": "mil_surplus", "x": [ 9, 10 ], "y": [ 13, 14 ] },
+        { "chance": 35, "item": "mil_surplus", "x": 21, "y": [ 11, 19 ] },
+        { "chance": 35, "item": "mil_surplus", "x": [ 17, 18 ], "y": [ 11, 18 ] },
+        { "chance": 35, "item": "mil_surplus", "x": [ 14, 15 ], "y": [ 11, 18 ] },
+        { "chance": 35, "item": "mil_surplus", "x": [ 9, 10 ], "y": [ 9, 10 ] }
+      ]
+    }
+  },
+  {
     "type": "mapgen",
-    "weight": 100
+    "method": "json",
+    "om_terrain": "mil_surplus_roof_2",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "  |22222222222222222223 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |...................3 ",
+        "  |..R...U..3---------5 ",
+        "  |.........3           ",
+        "  |---------3           ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "nested": { "U": { "chunks": [ "roof_2x2_infrastructure" ] }, "R": { "chunks": [ "roof_2x2_infrastructure_1" ] } },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 5, 18 ],
+          "y": [ 3, 6 ]
+        },
+        {
+          "chunks": [ [ "null", 20 ], [ "roof_4x4_utility", 40 ], [ "roof_6x6_utility", 20 ] ],
+          "x": [ 3, 13 ],
+          "y": [ 8, 13 ]
+        }
+      ]
+    }
   }
 ]

@@ -8,12 +8,13 @@
 #include <vector>
 #include <string>
 #include <utility>
+#include <set>
 
 #include "bodypart.h"
 #include "calendar.h"
 #include "string_id.h"
 #include "translations.h"
-#include "tuple_hash.h"
+#include "hash_utils.h"
 #include "type_id.h"
 
 class player;
@@ -93,6 +94,8 @@ class effect_type
         int int_decay_tick;
         time_duration int_dur_factor;
 
+        std::set<std::string> flags;
+
         bool main_parts_only;
 
         // Determines if effect should be shown in description.
@@ -131,14 +134,16 @@ class effect_type
         std::string remove_memorial_log;
 
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
-        std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double> mod_data;
+        std::unordered_map <
+        std::tuple<std::string, bool, std::string, std::string>, double, cata::tuple_hash
+        > mod_data;
 };
 
 class effect
 {
     public:
-        effect() : eff_type( NULL ), duration( 0_turns ), bp( num_bp ),
-            permanent( false ), intensity( 1 ), start_time( calendar::time_of_cataclysm ) {
+        effect() : eff_type( nullptr ), duration( 0_turns ), bp( num_bp ),
+            permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ) {
         }
         effect( const effect_type *peff_type, const time_duration &dur, body_part part,
                 bool perm, int nintensity, const time_point &nstart_time ) :
@@ -148,11 +153,11 @@ class effect
         effect( const effect & ) = default;
         effect &operator=( const effect & ) = default;
 
-        /** Dummy effect returned when getting an effect that doesn't exist. */
-        static effect null_effect;
-
-        /** Compares pointers of this effect with the dummy above. */
+        /** Returns true if the effect is the result of `effect()`, ie. an effect that doesn't exist. */
         bool is_null() const;
+
+        /** Dummy used for "reference to effect()" */
+        static effect null_effect;
 
         /** Returns the name displayed in the player status window. */
         std::string disp_name() const;
@@ -226,7 +231,7 @@ class effect
         /** Returns the string ids of the effects removed by this effect to be used in remove_effect("id"). */
         const std::vector<efftype_id> &get_removes_effects() const;
         /** Returns the string ids of the effects blocked by this effect to be used in add_effect("id"). */
-        const std::vector<efftype_id> get_blocks_effects() const;
+        std::vector<efftype_id> get_blocks_effects() const;
 
         /** Returns the matching modifier type from an effect, used for getting actual effect effects. */
         int get_mod( std::string arg, bool reduced = false ) const;
@@ -246,6 +251,9 @@ class effect
          *  multiplier on the overall chance of a modifier type activating. */
         bool activated( const time_point &when, std::string arg, int val,
                         bool reduced = false, double mod = 1 ) const;
+
+        /** Check if the effect has the specified flag */
+        bool has_flag( const std::string &flag ) const;
 
         /** Returns the modifier caused by addictions. Currently only handles painkiller addictions. */
         double get_addict_mod( const std::string &arg, int addict_level ) const;
@@ -288,8 +296,8 @@ class effect
 void load_effect_type( JsonObject &jo );
 void reset_effect_types();
 
-std::string texitify_base_healing_power( const int power );
-std::string texitify_healing_power( const int power );
+std::string texitify_base_healing_power( int power );
+std::string texitify_healing_power( int power );
 
 // Inheritance here allows forward declaration of the map in class Creature.
 // Storing body_part as an int to make things easier for hash and JSON

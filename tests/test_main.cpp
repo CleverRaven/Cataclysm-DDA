@@ -38,13 +38,14 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
-#include "player.h"
 #include "worldfactory.h"
 #include "color.h"
 #include "options.h"
 #include "pldata.h"
 #include "rng.h"
 #include "type_id.h"
+#include "cata_utility.h"
+#include "calendar.h"
 
 using name_value_pair_t = std::pair<std::string, std::string>;
 using option_overrides_t = std::vector<name_value_pair_t>;
@@ -119,8 +120,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     // Apply command-line option overrides for test suite execution.
     if( !option_overrides.empty() ) {
-        for( auto iter = option_overrides.begin(); iter != option_overrides.end(); ++iter ) {
-            name_value_pair_t option = *iter;
+        for( const name_value_pair_t &option : option_overrides ) {
             if( get_options().has_option( option.first ) ) {
                 options_manager::cOpt &opt = get_options().get_option( option.first );
                 opt.setValue( option.second );
@@ -129,16 +129,19 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     }
     init_colors();
 
-    g.reset( new game );
+    g = std::make_unique<game>( );
     g->new_game = true;
     g->load_static_data();
 
-    world_generator->set_active_world( NULL );
+    world_generator->set_active_world( nullptr );
     world_generator->init();
     WORLDPTR test_world = world_generator->make_new_world( mods );
-    assert( test_world != NULL );
+    assert( test_world != nullptr );
     world_generator->set_active_world( test_world );
-    assert( world_generator->active_world != NULL );
+    assert( world_generator->active_world != nullptr );
+
+    calendar::set_eternal_season( get_option<bool>( "ETERNAL_SEASON" ) );
+    calendar::set_season_length( get_option<int>( "SEASON_LENGTH" ) );
 
     loading_ui ui( false );
     g->load_core_data( ui );
@@ -149,10 +152,10 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     g->m = map( get_option<bool>( "ZLEVELS" ) );
 
-    overmap_special_batch empty_specials( { 0, 0 } );
-    overmap_buffer.create_custom_overmap( 0, 0, empty_specials );
+    overmap_special_batch empty_specials( point_zero );
+    overmap_buffer.create_custom_overmap( point_zero, empty_specials );
 
-    g->m.load( g->get_levx(), g->get_levy(), g->get_levz(), false );
+    g->m.load( tripoint( g->get_levx(), g->get_levy(), g->get_levz() ), false );
 }
 
 // Checks if any of the flags are in container, removes them all
@@ -227,7 +230,7 @@ static std::string extract_user_dir( std::vector<const char *> &arg_vec )
 struct CataListener : Catch::TestEventListenerBase {
     using TestEventListenerBase::TestEventListenerBase;
 
-    virtual void sectionStarting( Catch::SectionInfo const &sectionInfo ) override {
+    void sectionStarting( Catch::SectionInfo const &sectionInfo ) override {
         TestEventListenerBase::sectionStarting( sectionInfo );
         // Initialize the cata RNG with the Catch seed for reproducible tests
         rng_set_engine_seed( m_config->rngSeed() );

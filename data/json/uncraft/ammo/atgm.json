@@ -1,0 +1,20 @@
+[
+  {
+    "result": "atgm_heat",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "1 h",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "atgm_spent", 1 ] ],
+      [ [ "copper", 2004 ] ],
+      [ [ "chem_hmtd", 5 ] ],
+      [ [ "chem_rdx", 60 ] ],
+      [ [ "chem_rocket_fuel", 15 ] ],
+      [ [ "scrap", 20 ] ],
+      [ [ "e_scrap", 3 ] ]
+    ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  }
+]

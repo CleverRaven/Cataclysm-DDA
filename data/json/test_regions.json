@@ -16,7 +16,8 @@
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.25,
       "lake_size_min": 20,
-      "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ]
+      "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
+      "shore_extendable_overmap_terrain_aliases": [  ]
     },
     "overmap_forest_settings": {
       "noise_threshold_forest": 0.6,
@@ -97,7 +98,6 @@
       "trail_terrain": { "t_dirt": 1 }
     },
     "city": {
-      "type": "town",
       "shop_radius": 30,
       "shop_sigma": 50,
       "park_radius": 20,
@@ -235,7 +235,6 @@
   },
   {
     "type": "region_settings",
-    "id": "river",
-    "swamp_river_influence": 50
+    "id": "river"
   }
 ]

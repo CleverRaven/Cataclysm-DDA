@@ -1,0 +1,74 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NULL",
+    "is_safe": true,
+    "default": "mon_null"
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FOREST",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_owlbear", "freq": 10, "cost_multiplier": 10 },
+      { "monster": "mon_wisp", "freq": 3, "cost_multiplier": 10, "conditions": [ "NIGHT" ] },
+      { "monster": "mon_troll", "freq": 3, "cost_multiplier": 10, "conditions": [ "DAY" ] },
+      { "monster": "mon_demon_spiderling", "freq": 15, "cost_multiplier": 5, "pack_size": [ 3, 7 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SWAMP",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_black_pudding", "freq": 14, "cost_multiplier": 0.8, "pack_size": [ 4, 6 ] },
+      { "monster": "mon_wisp", "freq": 5, "cost_multiplier": 10, "conditions": [ "NIGHT" ] },
+      { "monster": "mon_wisp", "freq": 1, "cost_multiplier": 10, "conditions": [ "NIGHT" ], "pack_size": [ 1, 3 ] },
+      { "monster": "mon_dragon_black_wyrmling", "freq": 2, "cost_multiplier": 50 },
+      { "monster": "mon_dragon_black_young", "freq": 1, "cost_multiplier": 65 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CAVE",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [ { "monster": "mon_owlbear", "freq": 100, "cost_multiplier": 10, "pack_size": [ 2, 4 ] } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_WORM",
+    "default": "mon_worm",
+    "is_animal": true,
+    "monsters": [ { "monster": "mon_bulette", "freq": 5, "cost_multiplier": 40 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BLACKDRAGON_LAIR_1",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_black_pudding", "freq": 14, "cost_multiplier": 0.8, "pack_size": [ 4, 6 ] },
+      { "monster": "mon_wisp", "freq": 5, "cost_multiplier": 10, "conditions": [ "NIGHT" ] },
+      { "monster": "mon_wisp", "freq": 1, "cost_multiplier": 10, "conditions": [ "NIGHT" ], "pack_size": [ 1, 3 ] },
+      { "monster": "mon_bat", "freq": 5, "cost_multiplier": 5, "pack_size": [ 6, 10 ] },
+      { "monster": "mon_rattlesnake", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_rattlesnake_giant", "freq": 5, "cost_multiplier": 2 },
+      { "monster": "mon_black_rat", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_dragon_black_wyrmling", "freq": 2, "cost_multiplier": 50 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BLACKDRAGON_LAIR_2",
+    "default": "mon_null",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_black_pudding", "freq": 14, "cost_multiplier": 0.8, "pack_size": [ 4, 6 ] },
+      { "monster": "mon_dragon_black_wyrmling", "freq": 2, "cost_multiplier": 50 },
+      { "monster": "mon_dragon_black_young", "freq": 1, "cost_multiplier": 65 }
+    ]
+  }
+]

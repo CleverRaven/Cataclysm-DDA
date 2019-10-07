@@ -10,11 +10,11 @@
 #include "player.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "enums.h"
 #include "inventory.h"
 #include "item.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "point.h"
 
 static player &get_sanitized_player( )
 {

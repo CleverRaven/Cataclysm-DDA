@@ -4,9 +4,7 @@
 #include <cassert>
 #include <list>
 #include <set>
-#include <type_traits>
 
-#include "ammo.h"
 #include "debug.h"
 #include "item.h"
 #include "item_factory.h"
@@ -16,8 +14,8 @@
 #include "calendar.h"
 #include "compatibility.h"
 #include "enums.h"
-#include "string_id.h"
 #include "type_id.h"
+#include "flat_set.h"
 
 static const std::string null_item_id( "null" );
 
@@ -116,15 +114,15 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
     return result;
 }
 
-void Single_item_creator::check_consistency() const
+void Single_item_creator::check_consistency( const std::string &context ) const
 {
     if( type == S_ITEM ) {
         if( !item::type_is_defined( id ) ) {
-            debugmsg( "item id %s is unknown", id.c_str() );
+            debugmsg( "item id %s is unknown (in %s)", id, context );
         }
     } else if( type == S_ITEM_GROUP ) {
         if( !item_group::group_is_defined( id ) ) {
-            debugmsg( "item group id %s is unknown", id.c_str() );
+            debugmsg( "item group id %s is unknown (in %s)", id, context );
         }
     } else if( type == S_NONE ) {
         // this is okay, it will be ignored
@@ -132,7 +130,7 @@ void Single_item_creator::check_consistency() const
         debugmsg( "Unknown type of Single_item_creator: %d", static_cast<int>( type ) );
     }
     if( modifier ) {
-        modifier->check_consistency();
+        modifier->check_consistency( context );
     }
 }
 
@@ -196,6 +194,7 @@ void Single_item_creator::inherit_ammo_mag_chances( const int ammo, const int ma
 Item_modifier::Item_modifier()
     : damage( 0, 0 )
     , count( 1, 1 )
+    , dirt( 100, 9999 )
     , charges( -1, -1 )
     , with_ammo( 0 )
     , with_magazine( 0 )
@@ -210,6 +209,13 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     new_item.set_damage( rng( damage.first, damage.second ) );
+    if( new_item.is_gun() && !new_item.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) {
+        int random_dirt = rng( dirt.first, dirt.second );
+        if( random_dirt > 0 ) {
+            new_item.set_var( "dirt", random_dirt );
+            new_item.faults.emplace( "fault_gun_dirt" );
+        }
+    }
 
     int ch = ( charges.first == charges.second ) ? charges.first : rng( charges.first,
              charges.second );
@@ -223,11 +229,10 @@ void Item_modifier::modify( item &new_item ) const
         } else if( new_item.is_tool() ) {
             const int qty = std::min( ch, new_item.ammo_capacity() );
             new_item.charges = qty;
-            if( new_item.ammo_type() && qty > 0 ) {
-                new_item.ammo_set( new_item.ammo_type()->default_ammotype(), qty );
+            if( !new_item.ammo_types().empty() && qty > 0 ) {
+                new_item.ammo_set( new_item.ammo_default(), qty );
             }
-        } else if( !new_item.is_gun() ) {
-            //not gun, food, ammo or tool.
+        } else if( new_item.type->can_have_charges() ) {
             new_item.charges = ch;
         }
     }
@@ -235,8 +240,8 @@ void Item_modifier::modify( item &new_item ) const
     if( ch > 0 && ( new_item.is_gun() || new_item.is_magazine() ) ) {
         if( ammo == nullptr ) {
             // In case there is no explicit ammo item defined, use the default ammo
-            if( new_item.ammo_type() ) {
-                new_item.ammo_set( new_item.ammo_type()->default_ammotype(), ch );
+            if( !new_item.ammo_types().empty() ) {
+                new_item.ammo_set( new_item.ammo_default(), ch );
             }
         } else {
             const item am = ammo->create_single( new_item.birthday() );
@@ -265,7 +270,7 @@ void Item_modifier::modify( item &new_item ) const
                 const item am = ammo->create_single( new_item.birthday() );
                 new_item.ammo_set( am.typeId() );
             } else {
-                new_item.ammo_set( new_item.ammo_type()->default_ammotype() );
+                new_item.ammo_set( new_item.ammo_default() );
             }
         }
     }
@@ -296,13 +301,13 @@ void Item_modifier::modify( item &new_item ) const
     }
 }
 
-void Item_modifier::check_consistency() const
+void Item_modifier::check_consistency( const std::string &context ) const
 {
     if( ammo != nullptr ) {
-        ammo->check_consistency();
+        ammo->check_consistency( "ammo of " + context );
     }
     if( container != nullptr ) {
-        container->check_consistency();
+        container->check_consistency( "container of " + context );
     }
     if( with_ammo < 0 || with_ammo > 100 ) {
         debugmsg( "Item modifier's ammo chance %d is out of range", with_ammo );
@@ -348,16 +353,14 @@ Item_group::Item_group( Type t, int probability, int ammo_chance, int magazine_c
 
 void Item_group::add_item_entry( const Item_tag &itemid, int probability )
 {
-    std::unique_ptr<Item_spawn_data> ptr( new Single_item_creator( itemid, Single_item_creator::S_ITEM,
-                                          probability ) );
-    add_entry( std::move( ptr ) );
+    add_entry( std::make_unique<Single_item_creator>(
+                   itemid, Single_item_creator::S_ITEM, probability ) );
 }
 
 void Item_group::add_group_entry( const Group_tag &groupid, int probability )
 {
-    std::unique_ptr<Item_spawn_data> ptr( new Single_item_creator( groupid,
-                                          Single_item_creator::S_ITEM_GROUP, probability ) );
-    add_entry( std::move( ptr ) );
+    add_entry( std::make_unique<Single_item_creator>(
+                   groupid, Single_item_creator::S_ITEM_GROUP, probability ) );
 }
 
 void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
@@ -429,10 +432,10 @@ item Item_group::create_single( const time_point &birthday, RecursionList &rec )
     return item( null_item_id, birthday );
 }
 
-void Item_group::check_consistency() const
+void Item_group::check_consistency( const std::string &context ) const
 {
     for( const auto &elem : items ) {
-        ( elem )->check_consistency();
+        ( elem )->check_consistency( "item in " + context );
     }
 }
 

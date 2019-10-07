@@ -283,6 +283,20 @@
     "flags": [ "BLIND_HARD" ]
   },
   {
+    "result": "legguard_scrap",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "40 m",
+    "autolearn": true,
+    "book_learn": [ [ "recipe_melee", 2 ] ],
+    "using": [ [ "cordage", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 60 ] ] ]
+  },
+  {
     "result": "loincloth",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -395,6 +409,18 @@
     "components": [ [ [ "rag", 8 ] ] ]
   },
   {
+    "type": "recipe",
+    "result": "leg_warmers_f",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ] ] ]
+  },
+  {
     "result": "pants_fur",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -447,7 +473,7 @@
       [ [ "kevlar", 1 ], [ "modularvest", 1 ], [ "kevlar_plate", 12 ] ],
       [ [ "rag", 12 ] ],
       [
-        [ "chestrig", 1 ],
+        [ "tacvest", 1 ],
         [ "legrig", 1 ],
         [ "vest", 1 ],
         [ "tool_belt", 1 ],
@@ -557,5 +583,18 @@
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "chainmail_standard", 4 ] ],
     "components": [ [ [ "link_sheet", 4 ] ], [ [ "chain_link", 100 ] ], [ [ "wire", 1 ] ], [ [ "rag", 6 ] ] ]
+  },
+  {
+    "result": "legguard_bronze",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": 120000,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
+    "using": [ [ "forging_standard", 6 ], [ "bronzesmithing_tools", 1 ] ],
+    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ], [ [ "scrap_bronze", 12 ] ] ]
   }
 ]

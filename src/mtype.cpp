@@ -8,18 +8,16 @@
 #include "item.h"
 #include "itype.h"
 #include "mondeath.h"
+#include "monstergenerator.h"
 #include "translations.h"
 #include "mapdata.h"
-
-struct species_type;
 
 const species_id MOLLUSK( "MOLLUSK" );
 
 mtype::mtype()
 {
     id = mtype_id::NULL_ID();
-    name = "human";
-    name_plural = "humans";
+    name = pl_translation( "human", "humans" );
     sym = " ";
     color = c_white;
     size = MS_MEDIUM;
@@ -35,19 +33,17 @@ mtype::mtype()
     upgrade_group = mongroup_id::NULL_ID();
 
     reproduces = false;
-    baby_timer = -1;
     baby_count = -1;
     baby_monster = mtype_id::NULL_ID();
     baby_egg = "null";
 
     biosignatures = false;
-    biosig_timer = -1;
     biosig_item = "null";
 
     burn_into = mtype_id::NULL_ID();
     dies.push_back( &mdeath::normal );
     sp_defense = nullptr;
-    harvest = harvest_id::NULL_ID();
+    harvest = harvest_id( "human" );
     luminance = 0;
     bash_skill = 0;
 
@@ -59,7 +55,7 @@ mtype::mtype()
 
 std::string mtype::nname( unsigned int quantity ) const
 {
-    return ngettext( name.c_str(), name_plural.c_str(), quantity );
+    return name.translated( quantity );
 }
 
 bool mtype::has_special_attack( const std::string &attack_name ) const
@@ -133,7 +129,7 @@ bool mtype::same_species( const mtype &other ) const
     return false;
 }
 
-field_id mtype::bloodType() const
+field_type_id mtype::bloodType() const
 {
     if( has_flag( MF_ACID_BLOOD ) )
         //A monster that has the death effect "ACID" does not need to have acid blood.
@@ -158,7 +154,7 @@ field_id mtype::bloodType() const
     return fd_null;
 }
 
-field_id mtype::gibType() const
+field_type_id mtype::gibType() const
 {
     if( has_flag( MF_LARVA ) || in_species( MOLLUSK ) ) {
         return fd_gibs_invertebrate;
@@ -219,5 +215,13 @@ int mtype::get_meat_chunks_count() const
 
 std::string mtype::get_description() const
 {
-    return _( description );
+    return description.translated();
+}
+
+std::string mtype::get_footsteps() const
+{
+    for( const species_id &s : species ) {
+        return s.obj().get_footsteps();
+    }
+    return "footsteps.";
 }

@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <string>
 #include <vector>
-#include <list>
 #include <memory>
 #include <set>
 
@@ -24,13 +23,14 @@
 #include "enums.h"
 #include "int_id.h"
 #include "item.h"
-#include "item_stack.h"
 #include "optional.h"
 #include "player_activity.h"
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
 #include "type_id.h"
+#include "colony.h"
+#include "point.h"
 
 // Gates namespace
 
@@ -54,10 +54,10 @@ struct gate_data {
     ter_str_id floor;
     std::vector<ter_str_id> walls;
 
-    std::string pull_message;
-    std::string open_message;
-    std::string close_message;
-    std::string fail_message;
+    translation pull_message;
+    translation open_message;
+    translation close_message;
+    translation fail_message;
 
     int moves;
     int bash_dmg;
@@ -87,10 +87,10 @@ void gate_data::load( JsonObject &jo, const std::string & )
     if( !was_loaded || jo.has_member( "messages" ) ) {
         JsonObject messages_obj = jo.get_object( "messages" );
 
-        optional( messages_obj, was_loaded, "pull", pull_message, translated_string_reader );
-        optional( messages_obj, was_loaded, "open", open_message, translated_string_reader );
-        optional( messages_obj, was_loaded, "close", close_message, translated_string_reader );
-        optional( messages_obj, was_loaded, "fail", fail_message, translated_string_reader );
+        optional( messages_obj, was_loaded, "pull", pull_message );
+        optional( messages_obj, was_loaded, "open", open_message );
+        optional( messages_obj, was_loaded, "close", close_message );
+        optional( messages_obj, was_loaded, "fail", fail_message );
     }
 
     optional( jo, was_loaded, "moves", moves, 0 );
@@ -178,7 +178,7 @@ void gates::open_gate( const tripoint &pos )
 
     for( int i = 0; i < 4; ++i ) {
         static constexpr tripoint dir[4] = {
-            { 1, 0, 0 }, { 0, 1, 0 }, { -1, 0, 0 }, { 0, -1, 0 }
+            { tripoint_east }, { tripoint_south }, { tripoint_west }, { tripoint_north }
         };
         const tripoint wall_pos = pos + dir[i];
 
@@ -276,6 +276,9 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
         const int inside_closable = veh->next_part_to_close( vpart );
         const int openable = veh->next_part_to_open( vpart );
         if( closable >= 0 ) {
+            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+                return;
+            }
             veh->close( closable );
             didit = true;
         } else if( inside_closable >= 0 ) {
@@ -316,7 +319,7 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
                 m.close_door( closep, inside, false );
                 didit = true;
                 who.add_msg_if_player( m_info, _( "You push the %s out of the way." ),
-                                       items_in_way.size() == 1 ?  items_in_way[0].tname() : _( "stuff" ) );
+                                       items_in_way.size() == 1 ? items_in_way.only_item().tname() : _( "stuff" ) );
                 who.mod_moves( -std::min( items_in_way.stored_volume() / ( max_nudge / 50 ), 100 ) );
 
                 if( m.has_flag( "NOITEM", closep ) ) {
@@ -338,4 +341,3 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
         who.mod_moves( -90 ); // TODO: Vary this? Based on strength, broken legs, and so on.
     }
 }
-

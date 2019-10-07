@@ -14,7 +14,6 @@
 #include "game.h"
 #include "item.h"
 #include "itype.h"
-#include "player.h"
 #include "profession.h"
 #include "scenario.h"
 #include "string_id.h"
@@ -40,7 +39,7 @@ static std::vector<trait_id> next_subset( const std::vector<trait_id> &set )
 
     ++bitset;
     // Check each bit position for a match
-    for( unsigned idx = 0; idx < set.size(); idx++ ) {
+    for( size_t idx = 0; idx < set.size(); idx++ ) {
         if( bitset & ( 1 << idx ) ) {
             ret.push_back( set[idx] );
         }
@@ -91,7 +90,7 @@ struct less<failure> {
         return lhs.prof < rhs.prof;
     }
 };
-}
+} // namespace std
 
 // TODO: According to profiling (interrupt, backtrace, wait a few seconds, repeat) with a sample
 // size of 20, 70% of the time is due to the call to Character::set_mutation in try_set_traits.

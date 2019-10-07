@@ -38,7 +38,8 @@
       "i": "f_null",
       "j": "f_shower",
       "p": "f_null",
-      "u": "f_null"
+      "u": "f_null",
+      "o": "f_oven"
     },
     "terrain": {
       "#": "t_underbrush",
@@ -64,7 +65,7 @@
       "t": "t_floor",
       "w": "t_window",
       "{": "t_floor",
-      "|": "t_wall",
+      "|": "t_wall_w",
       "-": "t_door_boarded",
       "0": "t_window_frame",
       "4": "t_tree_pine",
@@ -76,7 +77,8 @@
       "i": "t_curtains",
       "j": "t_floor",
       "p": "t_palisade_gate_o",
-      "u": "t_underbrush"
+      "u": "t_underbrush",
+      "o": "t_floor"
     }
   }
 ]

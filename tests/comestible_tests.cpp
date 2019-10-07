@@ -2,7 +2,6 @@
 #include <algorithm>
 #include <list>
 #include <map>
-#include <string>
 #include <utility>
 #include <vector>
 
@@ -15,7 +14,6 @@
 #include "item.h"
 #include "optional.h"
 #include "string_id.h"
-#include "type_id.h"
 
 struct all_stats {
     statistics<int> calories;
@@ -110,9 +108,14 @@ static item food_or_food_container( const item &it )
 
 TEST_CASE( "recipe_permutations" )
 {
-    for( auto i = recipe_dict.begin(); i != recipe_dict.end(); i++ ) {
+    // Are these tests failing? Here's how to fix that:
+    // If the average is greater than the upper bound, you need to increase the calories
+    // for the item that is causing the test to fail
+    // If the average is greater than the lower bound, you need to decrease the calories
+    // for the item that is causing the test to fail
+    for( const auto &recipe_pair : recipe_dict ) {
         // the resulting item
-        const recipe &recipe_obj = i->first.obj();
+        const recipe &recipe_obj = recipe_pair.first.obj();
         item res_it = food_or_food_container( recipe_obj.create_result() );
         const bool is_food = res_it.is_food();
         const bool has_override = res_it.has_flag( "NUTRIENT_OVERRIDE" );
@@ -133,8 +136,9 @@ TEST_CASE( "recipe_permutations" )
             if( mystats.calories.min() != mystats.calories.max() ) {
                 if( mystats.calories.min() < 0 || lower_bound >= mystats.calories.avg() ||
                     mystats.calories.avg() >= upper_bound ) {
-                    printf( "\n\nRecipeID: %s, Lower Bound: %f, Average: %f, Upper Bound: %f\n\n", i->first.c_str(),
-                            lower_bound, mystats.calories.avg(), upper_bound );
+                    printf( "\n\nRecipeID: %s, Lower Bound: %f, Average: %f, Upper Bound: %f\n\n",
+                            recipe_pair.first.c_str(), lower_bound, mystats.calories.avg(),
+                            upper_bound );
                 }
                 CHECK( mystats.calories.min() >= 0 );
                 CHECK( lower_bound < mystats.calories.avg() );

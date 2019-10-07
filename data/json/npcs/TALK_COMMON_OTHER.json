@@ -9,7 +9,7 @@
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
       { "text": "Want to travel with me?", "topic": "TALK_SUGGEST_FOLLOW", "condition": { "not": "npc_following" } },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
-      { "text": "I can't leave the shelter without equipment.", "topic": "TALK_SHARE_EQUIPMENT" },
+      { "text": "Want to share some useful items with me?", "topic": "TALK_SHARE_EQUIPMENT" },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
     ]
   },
@@ -65,7 +65,6 @@
   {
     "id": "TALK_SUGGEST_FOLLOW",
     "type": "talk_topic",
-    "category": "CATEGORY_FOLLOW",
     "dynamic_line": {
       "npc_has_effect": "infection",
       "no": {
@@ -129,14 +128,12 @@
   {
     "id": "TALK_AGREE_FOLLOW",
     "type": "talk_topic",
-    "category": "CATEGORY_FOLLOW",
     "dynamic_line": "You got it, I'm with you!",
     "responses": [ { "text": "Awesome!", "topic": "TALK_FRIEND" }, { "text": "Okay, let's go!", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_DENY_FOLLOW",
     "type": "talk_topic",
-    "category": "CATEGORY_FOLLOW",
     "dynamic_line": "Yeah... I don't think so.",
     "responses": [ { "text": "Oh, okay.", "topic": "TALK_DONE" } ]
   },
@@ -184,7 +181,6 @@
   {
     "id": "TALK_DESCRIBE_MISSION",
     "type": "talk_topic",
-    "category": "CATEGORY_MISSION",
     "responses": [ { "text": "I see.", "topic": "TALK_NONE" }, { "text": "Bye.", "topic": "TALK_DONE" } ]
   },
   {
@@ -280,7 +276,6 @@
   {
     "id": "TALK_SHARE_EQUIPMENT",
     "type": "talk_topic",
-    "category": "CATEGORY_EQUIP",
     "dynamic_line": {
       "npc_has_effect": "infected",
       "yes": "You just asked me for stuff; ask later.",
@@ -298,7 +293,7 @@
         "opinion": { "value": -1 }
       },
       {
-        "text": "Because I'm you're friend!",
+        "text": "Because I'm your friend!",
         "switch": true,
         "default": true,
         "trial": { "type": "PERSUADE", "difficulty": 10, "mod": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ] ] },
@@ -356,7 +351,6 @@
   {
     "id": "TALK_GIVE_EQUIPMENT",
     "type": "talk_topic",
-    "category": "CATEGORY_EQUIP",
     "dynamic_line": "Okay, here you go.",
     "responses": [
       { "text": "Thank you!", "topic": "TALK_NONE" },
@@ -425,7 +419,6 @@
   {
     "id": "TALK_DENY_EQUIPMENT",
     "type": "talk_topic",
-    "category": "CATEGORY_EQUIP",
     "dynamic_line": [ "<no>, and if you ask again, <ill_kill_you>!", "<no><punc> <fuck_you>!" ],
     "responses": [
       { "text": "Okay, okay, sorry.", "topic": "TALK_NONE" },

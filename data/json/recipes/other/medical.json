@@ -6,7 +6,7 @@
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "firstaid",
     "difficulty": 1,
-    "time": "0 m",
+    "time": "30 s",
     "autolearn": true,
     "components": [
       [ [ "rag", 3 ], [ "medical_gauze", 1 ] ],
@@ -20,7 +20,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "tailor",
-    "time": "0 m",
+    "time": "9 s",
     "autolearn": true,
     "charges": 1,
     "components": [ [ [ "rag", 1 ] ] ]
@@ -72,7 +72,8 @@
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "cooking",
     "autolearn": true,
-    "time": "0 m",
+    "book_learn": [ [ "isherwood_herbal_remedies", 1 ] ],
+    "time": "30 s",
     "components": [ [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ] ]
   },
   {
@@ -85,6 +86,7 @@
     "skills_required": [ "survival", 4 ],
     "time": "60 m",
     "autolearn": true,
+    "book_learn": [ [ "isherwood_herbal_remedies", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "cooking_oil", 2 ], [ "cooking_oil2", 2 ] ], [ [ "mugwort", 2 ] ] ]
@@ -99,6 +101,7 @@
     "skills_required": [ "survival", 4 ],
     "time": "60 m",
     "autolearn": true,
+    "book_learn": [ [ "isherwood_herbal_remedies", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "cooking_oil", 2 ], [ "cooking_oil2", 2 ] ], [ [ "thyme", 2 ] ] ]
@@ -117,7 +120,8 @@
       [ "mag_survival", 1 ],
       [ "textbook_survival", 1 ],
       [ "survival_book", 1 ],
-      [ "pocket_survival", 1 ]
+      [ "pocket_survival", 1 ],
+      [ "isherwood_herbal_remedies", 1 ]
     ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cattail_stalk", 4 ] ] ]
@@ -131,8 +135,9 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
+    "charges": 2,
     "flags": [ "BLIND_EASY" ],
-    "components": [ [ [ "rag", 1 ] ], [ [ "disinfectant", 1 ] ] ]
+    "components": [ [ [ "rag", 2 ] ], [ [ "disinfectant", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -143,7 +148,8 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
+    "charges": 4,
     "flags": [ "BLIND_EASY" ],
-    "components": [ [ [ "cotton_ball", 1 ] ], [ [ "disinfectant", 1 ] ] ]
+    "components": [ [ [ "cotton_ball", 4 ] ], [ [ "disinfectant", 1 ] ] ]
   }
 ]

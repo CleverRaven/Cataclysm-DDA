@@ -47,11 +47,11 @@
     "id": "NC_BEGGAR_2_worn",
     "subtype": "collection",
     "entries": [
-      { "item": "dinosuit" },
-      { "item": "coat_winter" },
       { "item": "boxer_shorts" },
       { "item": "socks_wool" },
-      { "item": "boots_winter" }
+      { "item": "dinosuit" },
+      { "item": "boots_winter" },
+      { "item": "coat_winter" }
     ]
   },
   {
@@ -242,7 +242,7 @@
   {
     "id": "MISSION_BEGGAR_2_BOX_SMALL",
     "type": "mission_definition",
-    "name": "Bring Dino Dave small cardboard boxes.",
+    "name": "Bring 40 small cardboard boxes",
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
@@ -265,7 +265,7 @@
   {
     "id": "MISSION_BEGGAR_2_DUCT_TAPE",
     "type": "mission_definition",
-    "name": "Bring Dino Dave a roll of duct tape.",
+    "name": "Bring a roll of duct tape",
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
@@ -287,7 +287,7 @@
   {
     "id": "MISSION_BEGGAR_2_BOX_MEDIUM",
     "type": "mission_definition",
-    "name": "Bring Dino Dave medium-sized cardboard boxes",
+    "name": "Bring 10 medium-sized cardboard boxes",
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
@@ -310,7 +310,7 @@
   {
     "id": "MISSION_BEGGAR_2_PLASTIC_SHEET",
     "type": "mission_definition",
-    "name": "Bring Dino Dave some large plastic sheets",
+    "name": "Bring 10 large plastic sheets",
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
@@ -333,7 +333,7 @@
   {
     "id": "MISSION_BEGGAR_2_BOX_LARGE",
     "type": "mission_definition",
-    "name": "Bring Dino Dave large cardboard boxes",
+    "name": "Bring 5 large cardboard boxes",
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",

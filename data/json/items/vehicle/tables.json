@@ -4,13 +4,13 @@
     "id": "v_table",
     "name": "fancy table",
     "description": "A very fancy table from a very fancy RV.  If times were better it might be useful for something more than firewood.",
-    "weight": 9071,
+    "weight": "9071 g",
     "to_hit": -8,
     "color": "red",
     "symbol": "0",
     "material": [ "wood" ],
     "flags": "TRADER_AVOID",
-    "volume": 42,
+    "volume": "10500 ml",
     "bashing": 6,
     "category": "veh_parts",
     "price": 20000
@@ -20,7 +20,7 @@
     "id": "w_table",
     "name": "wooden table",
     "description": "A crude wooden table.",
-    "weight": 10071,
+    "weight": "10071 g",
     "copy-from": "v_table"
   },
   {
@@ -28,7 +28,7 @@
     "id": "workbench",
     "name": "workbench",
     "description": "A sturdy workbench built out of metal.  It is perfect for crafting large and heavy things.",
-    "weight": 23000,
+    "weight": "23000 g",
     "material": [ "steel" ],
     "bashing": 8,
     "price": 40000,

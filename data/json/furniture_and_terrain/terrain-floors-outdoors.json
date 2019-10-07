@@ -1,0 +1,313 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_dirt",
+    "name": "dirt",
+    "description": "It's dirt.  Looks like some fine soil for tillage.  Could also be dug out for construction projects.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sand",
+    "name": "sand",
+    "description": "A large area of fine sand that could be useful in a number of ways, if it was extracted properly.",
+    "symbol": ".",
+    "color": "yellow",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_mud",
+    "name": "mud",
+    "description": "An area of wet, slick mud.",
+    "symbol": ".",
+    "color": "brown",
+    "looks_like": "t_dirt",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_clay",
+    "name": "clay",
+    "description": "A field full of malleable clay, suitable for kiln firing if it was extracted properly.",
+    "symbol": ".",
+    "color": "light_red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_claymound",
+    "name": "mound of clay",
+    "description": "A mound of clay soil.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "BURROWABLE" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 4,
+      "sound": "splosh!",
+      "sound_fail": "splosh!",
+      "ter_set": "t_water_dp",
+      "items": [ { "item": "clay_lump", "count": [ 6, 12 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sandmound",
+    "name": "mound of sand",
+    "description": "A mound of sand.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "BURROWABLE" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 4,
+      "sound": "splosh!",
+      "sound_fail": "splosh!",
+      "ter_set": "t_water_dp",
+      "items": [ { "item": "material_sand", "charges": [ 300, 600 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_dirtmound",
+    "name": "mound of dirt",
+    "description": "An area of heaped dirt, not easily traversable.  If examined more closely, it's quite favorable for planting seeds and the like.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE", "PLANTABLE" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100 },
+    "examine_action": "dirtmound"
+  },
+  {
+    "type": "terrain",
+    "id": "t_dirtmoundfloor",
+    "name": "mound of dirt",
+    "description": "A giant hill of dirt that looks like you could crawl inside for shelter.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 3,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 100,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+    },
+    "examine_action": "dirtmound"
+  },
+  {
+    "type": "terrain",
+    "id": "t_fault",
+    "name": "odd fault",
+    "description": "An unnaturally humanoid-shaped hole, it seems oddly familiar.  There's a strange sensation to examine it closer, as if it belongs to you somehow.",
+    "symbol": "#",
+    "color": "magenta",
+    "move_cost": 0,
+    "roof": "t_rock_floor",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL" ],
+    "examine_action": "fault"
+  },
+  {
+    "type": "terrain",
+    "id": "t_grave",
+    "name": "grave",
+    "looks_like": "t_dirtmound",
+    "description": "A dirt grave, with some grass growing on it.  At least some of the dead do actually rest in peace.",
+    "symbol": "#",
+    "color": "green",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE" ],
+    "bash": { "sound": "thump", "ter_set": "t_dirt", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
+  },
+  {
+    "type": "terrain",
+    "id": "t_grave_new",
+    "name": "grave",
+    "looks_like": "t_dirtmound",
+    "description": "A fresh grave, covered with stones, either to keep something from digging it out or to keep one inside from digging out of it.  Two planks mark this place of someone's eternal rest.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE", "CONTAINER", "SEALED" ],
+    "bash": { "sound": "thump", "ter_set": "t_dirt", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
+  },
+  {
+    "type": "terrain",
+    "id": "t_rock_floor_no_roof",
+    "name": "rock floor",
+    "description": "A relatively flat area of rock and stone.  Looks stable enough to be mined with the proper mining gear.",
+    "symbol": ".",
+    "color": "light_gray",
+    "looks_like": "t_rock_floor",
+    "move_cost": 2,
+    "roof": "t_open_air",
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_pavement",
+    "name": "pavement",
+    "connects_to": "PAVEMENT",
+    "description": "A segment of asphalt, slowly degrading from cracks, frost heaves and lack of maintenance.",
+    "symbol": ".",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
+    "bash": {
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "rock", "count": [ 2, 10 ] }, { "item": "rebar", "count": [ 0, 4 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_pavement_y",
+    "name": "yellow pavement",
+    "connects_to": "PAVEMENT",
+    "description": "Streaks of carefully aligned yellow paint mark the road to inform drivers not to cross.  No one is enforcing these rules anymore.",
+    "symbol": ".",
+    "color": "yellow",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
+    "bash": {
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "rock", "count": [ 2, 10 ] }, { "item": "rebar", "count": [ 0, 4 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sidewalk",
+    "name": "sidewalk",
+    "description": "An area of common poured concrete, damaged by frost heaves and large cracks due to lack of maintenance.",
+    "symbol": ".",
+    "color": "light_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
+    "bash": {
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "rock", "count": [ 2, 10 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_concrete",
+    "name": "concrete",
+    "description": "A newer segment of poured concrete with surface finishes for aesthetics and resistance to freeze-thaw cycles.",
+    "symbol": ".",
+    "color": "light_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD", "MINEABLE" ],
+    "bash": {
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "rock", "count": [ 2, 15 ] }, { "item": "rebar", "count": [ 0, 4 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_floor_noroof",
+    "name": "wooden floor",
+    "description": "Wooden floor created from boards, packed tightly together and nailed down. Common in patios.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_metal_floor_no_roof",
+    "name": "metal floor",
+    "looks_like": "t_metal_floor",
+    "description": "High-quality and tough checkered flooring to reduce risk of slips and falls.",
+    "symbol": ".",
+    "color": "light_cyan",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_null",
+      "str_min": 200,
+      "str_max": 500,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 3, 12 ] },
+        { "item": "scrap", "count": [ 9, 36 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_linoleum_white_no_roof",
+    "name": "linoleum tile",
+    "looks_like": "t_linoleum_white",
+    "description": "A section of flooring made out of a tough, rubbery material.  Colored a simple white.",
+    "symbol": ".",
+    "color": "white",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_linoleum_gray_no_roof",
+    "name": "linoleum tile",
+    "looks_like": "t_linoleum_gray",
+    "description": "A section of flooring made out of a tough, gray, rubbery material.",
+    "symbol": ".",
+    "color": "light_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+    }
+  }
+]

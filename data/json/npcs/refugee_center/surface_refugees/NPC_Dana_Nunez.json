@@ -41,10 +41,10 @@
     "entries": [
       { "item": "bra" },
       { "item": "panties" },
+      { "item": "socks" },
       { "item": "longshirt" },
       { "item": "jeans" },
       { "item": "jacket_evac" },
-      { "item": "socks" },
       { "item": "boots" },
       { "item": "purse" }
     ]

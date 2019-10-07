@@ -141,9 +141,16 @@ bool damage_instance::operator==( const damage_instance &other ) const
 
 void damage_instance::deserialize( JsonIn &jsin )
 {
-    JsonObject jo( jsin );
     // TODO: Clean up
-    damage_units = load_damage_instance( jo ).damage_units;
+    if( jsin.test_object() ) {
+        JsonObject jo = jsin.get_object();
+        damage_units = load_damage_instance( jo ).damage_units;
+    } else if( jsin.test_array() ) {
+        JsonArray ja = jsin.get_array();
+        damage_units = load_damage_instance( ja ).damage_units;
+    } else {
+        jsin.error( "Expected object or array for damage_instance" );
+    }
 }
 
 dealt_damage_instance::dealt_damage_instance()
@@ -240,7 +247,7 @@ damage_type dt_by_name( const std::string &name )
     return iter->second;
 }
 
-const std::string name_by_dt( const damage_type &dt )
+std::string name_by_dt( const damage_type &dt )
 {
     auto iter = dt_map.cbegin();
     while( iter != dt_map.cend() ) {

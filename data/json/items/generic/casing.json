@@ -16,7 +16,7 @@
     "type": "GENERIC",
     "name": ".223 casing",
     "description": "An empty casing from a .223 round.",
-    "weight": 5,
+    "weight": "5 g",
     "volume": "5ml"
   },
   {
@@ -25,7 +25,7 @@
     "type": "GENERIC",
     "name": ".22 LR casing",
     "description": "An empty casing from a .22 LR round.  These can't be hand-reloaded.",
-    "weight": 2,
+    "weight": "2 g",
     "volume": "3ml"
   },
   {
@@ -34,7 +34,16 @@
     "type": "GENERIC",
     "name": ".30-06 casing",
     "description": "An empty casing from a .30-06 round.",
-    "weight": 7,
+    "weight": "7 g",
+    "volume": "10ml"
+  },
+  {
+    "id": "270win_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".270 Winchester casing",
+    "description": "An empty casing from a .270 Winchester round.",
+    "weight": "7 g",
     "volume": "10ml"
   },
   {
@@ -43,7 +52,7 @@
     "type": "GENERIC",
     "name": ".300 Win Mag casing",
     "description": "An empty casing from a .300 Winchester Magnum round.",
-    "weight": 7,
+    "weight": "7 g",
     "volume": "10ml"
   },
   {
@@ -52,7 +61,7 @@
     "type": "GENERIC",
     "name": ".308 casing",
     "description": "An empty casing from a .308 round.",
-    "weight": 6,
+    "weight": "6 g",
     "volume": "9ml"
   },
   {
@@ -61,7 +70,7 @@
     "type": "GENERIC",
     "name": "7.62x51mm casing",
     "description": "An empty casing from a 7.62x51mm M80 round.",
-    "weight": 6,
+    "weight": "6 g",
     "volume": "9ml"
   },
   {
@@ -70,7 +79,7 @@
     "type": "GENERIC",
     "name": ".32 ACP casing",
     "description": "An empty casing from a .32 ACP round.",
-    "weight": 2,
+    "weight": "2 g",
     "volume": "3ml"
   },
   {
@@ -79,7 +88,16 @@
     "type": "GENERIC",
     "name": ".38 Special casing",
     "description": "An empty casing from a .38 Special round.",
-    "weight": 3,
+    "weight": "3 g",
+    "volume": "4ml"
+  },
+  {
+    "id": "38super_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".38 Super casing",
+    "description": "An empty casing from a .38 Super round.",
+    "weight": "3 g",
     "volume": "4ml"
   },
   {
@@ -88,7 +106,16 @@
     "type": "GENERIC",
     "name": ".40 S&W casing",
     "description": "An empty casing from a .40 S&W round.",
-    "weight": 3,
+    "weight": "3 g",
+    "volume": "5ml"
+  },
+  {
+    "id": "10mm_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": "10mm Auto casing",
+    "description": "An empty casing from a 10mm Auto round.",
+    "weight": "3 g",
     "volume": "5ml"
   },
   {
@@ -97,7 +124,7 @@
     "category": "spare_parts",
     "name": "40mm canister",
     "description": "A large canister from a spent 40mm grenade.",
-    "weight": 50,
+    "weight": "50 g",
     "volume": "25ml",
     "material": "steel",
     "symbol": "=",
@@ -109,7 +136,7 @@
     "type": "GENERIC",
     "name": ".44 Magnum casing",
     "description": "An empty casing from a .44 Magnum round.",
-    "weight": 4,
+    "weight": "4 g",
     "volume": "6ml"
   },
   {
@@ -118,7 +145,7 @@
     "type": "GENERIC",
     "name": ".454 Casull casing",
     "description": "An empty casing from a .454 Casull round.",
-    "weight": 7,
+    "weight": "7 g",
     "volume": "10ml"
   },
   {
@@ -127,7 +154,16 @@
     "type": "GENERIC",
     "name": ".45 ACP casing",
     "description": "An empty casing from a .45 ACP round.",
-    "weight": 4,
+    "weight": "4 g",
+    "volume": "6ml"
+  },
+  {
+    "id": "45colt_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".45 Colt casing",
+    "description": "An empty casing from a .45 Colt round.",
+    "weight": "4 g",
     "volume": "6ml"
   },
   {
@@ -136,7 +172,7 @@
     "type": "GENERIC",
     "name": ".45-70 casing",
     "description": "An empty casing from a .45-70 Government round.",
-    "weight": 4,
+    "weight": "4 g",
     "volume": "10ml"
   },
   {
@@ -145,7 +181,7 @@
     "type": "GENERIC",
     "name": "4.6x30mm casing",
     "description": "An empty casing from a 4.6x30mm round.",
-    "weight": 2,
+    "weight": "2 g",
     "volume": "3ml"
   },
   {
@@ -154,7 +190,7 @@
     "type": "GENERIC",
     "name": ".460 Rowland casing",
     "description": "An empty casing from a .460 Rowland round.  It looks deceptively like a .45ACP casing.",
-    "weight": 4,
+    "weight": "4 g",
     "volume": "6ml"
   },
   {
@@ -163,7 +199,7 @@
     "type": "GENERIC",
     "name": "5x50mm hull",
     "description": "An empty plastic hull from a 5x50mm flechette round.",
-    "weight": 1,
+    "weight": "1 g",
     "volume": "5ml",
     "material": "plastic",
     "color": "light_green"
@@ -174,7 +210,7 @@
     "type": "GENERIC",
     "name": ".500 S&W Magnum casing",
     "description": "An empty casing from a .500 S&W Magnum round.",
-    "weight": 7,
+    "weight": "7 g",
     "volume": "10ml"
   },
   {
@@ -183,7 +219,7 @@
     "type": "GENERIC",
     "name": ".50 BMG casing",
     "description": "An empty casing from a .50 BMG round.  These are rare, so you might want to hold onto these.",
-    "weight": 18,
+    "weight": "18 g",
     "volume": "12ml"
   },
   {
@@ -192,7 +228,7 @@
     "type": "GENERIC",
     "name": "5.45x39mm casing",
     "description": "An empty casing from a 5.45x39mm round.",
-    "weight": 4,
+    "weight": "4 g",
     "volume": "7ml"
   },
   {
@@ -201,7 +237,7 @@
     "type": "GENERIC",
     "name": "5.7x28mm casing",
     "description": "An empty casing from a 5.7x28mm round.",
-    "weight": 2,
+    "weight": "2 g",
     "volume": "3ml"
   },
   {
@@ -210,7 +246,7 @@
     "type": "GENERIC",
     "name": ".700 NX casing",
     "description": "An empty casing from a .700 NX round.  These are rare, so you might want to hold onto these.",
-    "weight": 18,
+    "weight": "18 g",
     "volume": "12ml"
   },
   {
@@ -219,7 +255,7 @@
     "type": "GENERIC",
     "name": "7.62x54mmR casing",
     "description": "An empty casing from a 7.62x54mmR round.",
-    "weight": 7,
+    "weight": "7 g",
     "volume": "10ml"
   },
   {
@@ -228,7 +264,7 @@
     "type": "GENERIC",
     "name": "7.62x39mm casing",
     "description": "An empty casing from a 7.62x39mm round.",
-    "weight": 6,
+    "weight": "6 g",
     "volume": "9ml"
   },
   {
@@ -237,7 +273,7 @@
     "type": "GENERIC",
     "name": "7.62x25mm casing",
     "description": "An empty casing from a 7.62x25mm round.",
-    "weight": 4,
+    "weight": "4 g",
     "volume": "7ml"
   },
   {
@@ -246,7 +282,7 @@
     "type": "GENERIC",
     "name": "9x19mm casing",
     "description": "An empty casing from a 9x19mm round.",
-    "weight": 3,
+    "weight": "3 g",
     "volume": "5ml"
   },
   {
@@ -255,7 +291,16 @@
     "type": "GENERIC",
     "name": ".357 SIG casing",
     "description": "An empty casing from a .357 SIG round.",
-    "weight": 3,
+    "weight": "3 g",
+    "volume": "5ml"
+  },
+  {
+    "id": "357mag_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".357 magnum casing",
+    "description": "An empty casing from a .357 magnum round.",
+    "weight": "3 g",
     "volume": "5ml"
   },
   {
@@ -264,7 +309,7 @@
     "type": "GENERIC",
     "name": "9x18mm casing",
     "description": "An empty casing from a 9x18mm round.",
-    "weight": 3,
+    "weight": "3 g",
     "volume": "5ml"
   },
   {
@@ -273,8 +318,19 @@
     "type": "GENERIC",
     "name": ".380 ACP casing",
     "description": "An empty casing from a .380 ACP round.",
-    "weight": 3,
+    "weight": "3 g",
     "volume": "5ml"
+  },
+  {
+    "id": "atgm_spent",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": "152mm ATGM tube",
+    "color": "dark_gray",
+    "description": "An empty steel tube which once contained a 152mm ATGM.  Now it's essentially just a huge pipe.",
+    "material": "steel",
+    "weight": "9500 g",
+    "volume": "7500 ml"
   },
   {
     "id": "shot_hull",
@@ -282,12 +338,35 @@
     "category": "spare_parts",
     "name": "shotgun hull",
     "description": "An empty hull from a shotgun shell.",
-    "weight": 8,
+    "weight": "8 g",
     "volume": "12ml",
     "stackable": true,
     "material": "plastic",
     "symbol": "=",
     "color": "red",
     "damage_states": [ 0, 0 ]
+  },
+  {
+    "id": "410shot_hull",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": ".410 hull",
+    "description": "An empty hull from a .410 shotgun shell.",
+    "weight": "8 g",
+    "volume": "12ml",
+    "stackable": true,
+    "material": "plastic",
+    "symbol": "=",
+    "color": "red",
+    "damage_states": [ 0, 0 ]
+  },
+  {
+    "id": "300blk_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".300BLK casing",
+    "description": "An empty casing from a .300 AAC Blackout round.",
+    "weight": "6 g",
+    "volume": "9ml"
   }
 ]

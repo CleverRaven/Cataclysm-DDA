@@ -8,14 +8,12 @@
 #include <set>
 #include <utility>
 
-#include "ammo.h"
 #include "avatar.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "init.h"
 #include "item_factory.h"
 #include "loading_ui.h"
 #include "npc.h"
-#include "player.h"
 #include "recipe_dictionary.h"
 #include "skill.h"
 #include "veh_type.h"
@@ -29,7 +27,9 @@
 #include "translations.h"
 #include "units.h"
 #include "material.h"
-#include "string_id.h"
+#include "output.h"
+#include "flat_set.h"
+#include "item.h"
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )
@@ -74,23 +74,20 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             "Range", "Dispersion", "Recoil", "Damage", "Pierce", "Damage multiplier"
         };
         auto dump = [&rows]( const item & obj ) {
-            // a common task is comparing ammo by type so ammo has multiple repeat the entry
-            for( const auto &e : obj.type->ammo->type ) {
-                std::vector<std::string> r;
-                r.push_back( obj.tname( 1, false ) );
-                r.push_back( e.str() );
-                r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
-                r.push_back( to_string( to_gram( obj.weight() ) ) );
-                r.push_back( to_string( obj.type->stack_size ) );
-                r.push_back( to_string( obj.type->ammo->range ) );
-                r.push_back( to_string( obj.type->ammo->dispersion ) );
-                r.push_back( to_string( obj.type->ammo->recoil ) );
-                damage_instance damage = obj.type->ammo->damage;
-                r.push_back( to_string( damage.total_damage() ) );
-                r.push_back( to_string( damage.empty() ? 0 : ( *damage.begin() ).res_pen ) );
-                r.push_back( obj.type->ammo->prop_damage ? to_string( *obj.type->ammo->prop_damage ) : "---" );
-                rows.push_back( r );
-            }
+            std::vector<std::string> r;
+            r.push_back( obj.tname( 1, false ) );
+            r.push_back( obj.ammo_type().str() );
+            r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
+            r.push_back( to_string( to_gram( obj.weight() ) ) );
+            r.push_back( to_string( obj.type->stack_size ) );
+            r.push_back( to_string( obj.type->ammo->range ) );
+            r.push_back( to_string( obj.type->ammo->dispersion ) );
+            r.push_back( to_string( obj.type->ammo->recoil ) );
+            damage_instance damage = obj.type->ammo->damage;
+            r.push_back( to_string( damage.total_damage() ) );
+            r.push_back( to_string( damage.empty() ? 0 : ( *damage.begin() ).res_pen ) );
+            r.push_back( obj.type->ammo->prop_damage ? to_string( *obj.type->ammo->prop_damage ) : "---" );
+            rows.push_back( r );
         };
         for( const itype *e : item_controller->all() ) {
             if( e->ammo ) {
@@ -187,7 +184,10 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         auto dump = [&rows, &locations]( const standard_npc & who, const item & obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
-            r.push_back( obj.ammo_type() ? obj.ammo_type().str() : "" );
+            r.push_back( !obj.ammo_types().empty() ? enumerate_as_string( obj.ammo_types().begin(),
+            obj.ammo_types().end(), []( const ammotype & at ) {
+                return at.str();
+            }, enumeration_conjunction::none ) : "" );
             r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
             r.push_back( to_string( obj.ammo_capacity() ) );
@@ -213,7 +213,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
                 if( !gun.magazine_integral() ) {
                     gun.emplace_back( gun.magazine_default() );
                 }
-                gun.ammo_set( gun.ammo_type()->default_ammotype(), gun.ammo_capacity() );
+                gun.ammo_set( gun.ammo_default( false ), gun.ammo_capacity() );
 
                 dump( test_npcs[ "S1" ], gun );
 

@@ -53,10 +53,22 @@
     "type": "ENGINE",
     "name": "1-cylinder engine",
     "description": "A single-cylinder 4-stroke combustion engine.",
-    "weight": 20000,
-    "volume": 6,
+    "weight": "20000 g",
+    "volume": "1500 ml",
     "price": 10000,
     "displacement": 40,
+    "faults": [ "fault_engine_starter" ]
+  },
+  {
+    "id": "1cyl_combustion_large",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": "large 1-cylinder engine",
+    "description": "A powerful high-compression single-cylinder 4-stroke combustion engine.",
+    "weight": "40000 g",
+    "volume": "2 L",
+    "price": 10000,
+    "displacement": 55,
     "faults": [ "fault_engine_starter" ]
   },
   {
@@ -65,8 +77,8 @@
     "type": "ENGINE",
     "name": "small 1-cylinder engine",
     "description": "A small single-cylinder 2-stroke combustion engine.",
-    "weight": 10000,
-    "volume": 3,
+    "weight": "10000 g",
+    "volume": "750 ml",
     "price": 6000,
     "displacement": 20,
     "faults": [  ]
@@ -77,8 +89,8 @@
     "type": "ENGINE",
     "name": "Inline-4 engine",
     "description": "A small, yet powerful 4-cylinder combustion engine.",
-    "weight": 130000,
-    "volume": 14,
+    "weight": "130000 g",
+    "volume": "3500 ml",
     "price": 15000,
     "displacement": 160
   },
@@ -88,8 +100,8 @@
     "type": "ENGINE",
     "name": "I6 diesel engine",
     "description": "A powerful straight-6 diesel engine.",
-    "weight": 185000,
-    "volume": 28,
+    "weight": "185000 g",
+    "volume": "7 L",
     "price": 27000,
     "displacement": 600
   },
@@ -99,8 +111,8 @@
     "type": "ENGINE",
     "name": "V-twin engine",
     "description": "A 2-cylinder 4-stroke combustion engine.",
-    "weight": 45000,
-    "volume": 8,
+    "weight": "45000 g",
+    "volume": "2 L",
     "price": 10000,
     "displacement": 100
   },
@@ -110,8 +122,8 @@
     "type": "ENGINE",
     "name": "V6 engine",
     "description": "A powerful 6-cylinder combustion engine.",
-    "weight": 180000,
-    "volume": 19,
+    "weight": "180000 g",
+    "volume": "4750 ml",
     "price": 18000,
     "displacement": 280
   },
@@ -121,8 +133,8 @@
     "type": "ENGINE",
     "name": "V6 diesel engine",
     "description": "A powerful 6-cylinder diesel engine.",
-    "weight": 190000,
-    "volume": 20,
+    "weight": "190000 g",
+    "volume": "5 L",
     "price": 20000,
     "displacement": 280
   },
@@ -132,8 +144,8 @@
     "type": "ENGINE",
     "name": "V8 engine",
     "description": "A large and very powerful 8-cylinder combustion engine.",
-    "weight": 250000,
-    "volume": 30,
+    "weight": "250000 g",
+    "volume": "7500 ml",
     "price": 25000,
     "displacement": 450
   },
@@ -143,8 +155,8 @@
     "type": "ENGINE",
     "name": "V8 diesel engine",
     "description": "A powerful 8-cylinder diesel engine.",
-    "weight": 255000,
-    "volume": 32,
+    "weight": "255000 g",
+    "volume": "8 L",
     "price": 26500,
     "displacement": 450
   },
@@ -154,8 +166,8 @@
     "type": "ENGINE",
     "name": "V12 engine",
     "description": "A massive and extremely powerful V12 engine, usually built into high end sports cars.",
-    "weight": 300000,
-    "volume": 58,
+    "weight": "300000 g",
+    "volume": "14500 ml",
     "price": 36000,
     "displacement": 700
   },
@@ -165,8 +177,8 @@
     "type": "ENGINE",
     "name": "V12 diesel engine",
     "description": "A massive and extremely powerful V12 engine, usually built into heavy trucks.",
-    "weight": 310000,
-    "volume": 60,
+    "weight": "310000 g",
+    "volume": "15 L",
     "price": 32000,
     "displacement": 700
   },
@@ -176,8 +188,8 @@
     "type": "ENGINE",
     "name": "makeshift steam engine",
     "description": "A small, primitive, steam engine.  An integrated boiler burns coal to heat water into steam, driving a reciprocating shaft.  A condenser recaptures the water, making this a closed cycle system.",
-    "weight": 225000,
-    "volume": 250,
+    "weight": "225000 g",
+    "volume": "62500 ml",
     "price": 225000,
     "price_postapoc": 300000
   },
@@ -187,8 +199,8 @@
     "type": "ENGINE",
     "name": "small steam engine",
     "description": "A small steam engine.  An integrated boiler burns coal to heat water into steam, driving a reciprocating shaft.  A condenser recaptures the water, making this a closed cycle system.",
-    "weight": 180000,
-    "volume": 150,
+    "weight": "180000 g",
+    "volume": "37500 ml",
     "price": 555000,
     "price_postapoc": 1110000
   },
@@ -198,8 +210,8 @@
     "type": "ENGINE",
     "name": "medium steam engine",
     "description": "A medium sized steam engine.  An integrated boiler burns coal to heat water into steam, driving a reciprocating shaft.  A condenser recaptures the water, making this a closed cycle system.",
-    "weight": 280000,
-    "volume": 230,
+    "weight": "280000 g",
+    "volume": "57500 ml",
     "price": 870000,
     "price_postapoc": 1740000
   },
@@ -210,8 +222,8 @@
     "name": "massive engine block",
     "description": "The beginnings of a massive gas or diesel engine.  It's not good for much of anything on its own.",
     "material": "iron",
-    "weight": 280000,
-    "volume": 25,
+    "weight": "280000 g",
+    "volume": "6250 ml",
     "price": 30000
   },
   {
@@ -221,8 +233,8 @@
     "name": "large engine block",
     "description": "The beginnings of a large gas or diesel engine.  It's not good for much of anything on its own.",
     "material": "iron",
-    "weight": 190000,
-    "volume": 20,
+    "weight": "190000 g",
+    "volume": "5 L",
     "price": 20000
   },
   {
@@ -232,8 +244,8 @@
     "name": "medium engine block",
     "description": "The beginnings of a medium gas or diesel engine.  It's not good for much of anything on its own.",
     "material": "iron",
-    "weight": 90000,
-    "volume": 10,
+    "weight": "90000 g",
+    "volume": "2500 ml",
     "price": 10000
   },
   {
@@ -243,8 +255,8 @@
     "name": "small engine block",
     "description": "The beginnings of a small gas or diesel engine.  It's not good for much of anything on its own.",
     "material": "iron",
-    "weight": 40000,
-    "volume": 5,
+    "weight": "40000 g",
+    "volume": "1250 ml",
     "price": 5000
   },
   {
@@ -254,8 +266,8 @@
     "name": "tiny engine block",
     "description": "The beginnings of a tiny gas or diesel engine.  It's not good for much of anything on its own.",
     "material": "iron",
-    "weight": 8000,
-    "volume": 2,
+    "weight": "8000 g",
+    "volume": "500 ml",
     "price": 3500
   },
   {
@@ -264,8 +276,8 @@
     "type": "ENGINE",
     "name": "1350 hp gas turbine engine",
     "description": "A gas turbine engine, usually used for military vehicles.  Known for its high rate of fuel consumption.",
-    "weight": 1130000,
-    "volume": 180,
+    "weight": "1130000 g",
+    "volume": "45 L",
     "price": 96000,
     "displacement": 2700
   },
@@ -275,8 +287,8 @@
     "type": "ENGINE",
     "name": "1900 hp gas turbine engine",
     "description": "A large gas turbine engine, usually used for military helicopters.  Known for its high rate of fuel consumption.",
-    "weight": 1582000,
-    "volume": 252,
+    "weight": "1582000 g",
+    "volume": "63 L",
     "price": 192000,
     "displacement": 3800
   },
@@ -286,8 +298,8 @@
     "type": "ENGINE",
     "name": "6000 hp gas turbine engine",
     "description": "A massive gas turbine engine, used to power the V-22 Osprey.  Known for its high rate of fuel consumption.",
-    "weight": 3164000,
-    "volume": 380,
+    "weight": "3164000 g",
+    "volume": "95 L",
     "price": 960000,
     "displacement": 11995
   }

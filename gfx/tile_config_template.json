@@ -1528,6 +1528,13 @@
             "multitile":false
         },
         {
+            "id": "tr_shotgun_2_1",
+            "fg":-1,
+            "bg":-1,
+            "rotates":false,
+            "multitile":false
+        },
+        {
             "id": "tr_shotgun_1",
             "fg":-1,
             "bg":-1,
@@ -5707,14 +5714,14 @@
             "multitile":false
         },
         {
-            "id": "ring",
+            "id": "gold_ring",
             "fg":-1,
             "bg":-1,
             "rotates":false,
             "multitile":false
         },
         {
-            "id": "necklace",
+            "id": "silver_necklace",
             "fg":-1,
             "bg":-1,
             "rotates":false,

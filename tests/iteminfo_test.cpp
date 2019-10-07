@@ -7,7 +7,6 @@
 #include "game.h"
 #include "item.h"
 #include "iteminfo_query.h"
-#include "player.h"
 
 static void iteminfo_test( const item &i, const iteminfo_query &q, const std::string &reference )
 {

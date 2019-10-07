@@ -1,0 +1,55 @@
+[
+  {
+    "id": "300blk",
+    "type": "AMMO",
+    "name": ".300 AAC Blackout",
+    "description": "A .300 AAC Blackout round with a 125gr open tip match bullet.  300 BLK is an intermediate cartridge necked up from 5.56x45mm, designed to achieve similar ballistics to 7.62x39mm.  It is compatible with standard AR-15 lower receivers and will feed from STANAG magazines.",
+    "weight": "18 g",
+    "volume": "250 ml",
+    "price": 290,
+    "price_postapoc": 3500,
+    "material": [ "brass", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 30,
+    "stack_size": 47,
+    "ammo_type": "300blk",
+    "casing": "300blk_casing",
+    "range": 45,
+    "damage": 43,
+    "pierce": 5,
+    "dispersion": 30,
+    "recoil": 2000,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "300blk_ss",
+    "copy-from": "300blk",
+    "type": "AMMO",
+    "name": ".300 AAC Blackout",
+    "description": "A subsonic .300 AAC Blackout round with a 220gr open tip match bullet.  300 BLK is an intermediate cartridge necked up from 5.56x45mm, designed to achieve similar ballistics to 7.62x39mm.  It is compatible with standard AR-15 lower receivers and will feed from STANAG magazines.",
+    "weight": "21 g",
+    "range": 40,
+    "damage": 26,
+    "recoil": 1700
+  },
+  {
+    "id": "bp_300blk",
+    "copy-from": "300blk",
+    "type": "AMMO",
+    "name": ".300 AAC Blackout blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "reloaded_300blk",
+    "copy-from": "300blk",
+    "type": "AMMO",
+    "name": "reloaded .300 AAC Blackout",
+    "description": ".300 AAC Blackout is an intermediate cartridge that achieves ballistics similar to the 7.62x39 but allows use on the AR-15 platform.  The round is necked-up from the 5.56mm NATO, but feeds from a STANAG magazine.  It requires a specific barrel, so will not work in a standard M4 or similar carbine.  This one has been hand-reloaded.",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  }
+]

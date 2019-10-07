@@ -5,7 +5,15 @@
     "type": "GUN",
     "name": "flintlock carbine",
     "description": "This short rifle design once dominated the battlefields of ancient Europe, and may yet re-earn its feared status due to its ease of handling and ability to use easily-crafted ammunition.",
-    "valid_mod_locations": [ [ "accessories", 1 ], [ "sling", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "relative": { "weight": -500, "volume": -4, "range": -2, "ranged_damage": -4 },
     "proportional": { "bashing": 0.6, "dispersion": 1.35, "reload": 0.6 }
   },
@@ -26,8 +34,8 @@
     "reload_noise_volume": 10,
     "name": "flintlock pistol",
     "description": "A beautifully decorated flintlock pistol.  If using this doesn't makes you feel a pirate, nothing will.",
-    "weight": 753,
-    "volume": 3,
+    "weight": "753 g",
+    "volume": "750 ml",
     "price": 35000,
     "to_hit": -1,
     "bashing": 5,
@@ -40,9 +48,17 @@
     "ranged_damage": 2,
     "dispersion": 620,
     "durability": 6,
+    "blackpowder_tolerance": 96,
     "clip_size": 1,
     "reload": 600,
-    "valid_mod_locations": [ [ "accessories", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "flags": [ "NEVER_JAMS" ]
   },
   {
@@ -51,8 +67,8 @@
     "reload_noise_volume": 10,
     "name": "flintlock rifle",
     "description": "For once, something *good* came back from the dead.  This ancient design lacks the fire-rate of modern weapons, but packs as much punch as the best of 'em and rewards the skilled shooter with easily-crafted ammunition.",
-    "weight": 1950,
-    "volume": 10,
+    "weight": "1950 g",
+    "volume": "2500 ml",
     "price": 41000,
     "to_hit": -1,
     "bashing": 15,
@@ -65,9 +81,18 @@
     "ranged_damage": 10,
     "dispersion": 180,
     "durability": 6,
+    "blackpowder_tolerance": 96,
     "clip_size": 1,
     "reload": 1200,
-    "valid_mod_locations": [ [ "accessories", 1 ], [ "sling", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ]
+    ],
     "flags": [ "NEVER_JAMS", "DURABLE_MELEE" ]
   }
 ]

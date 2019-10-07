@@ -53,7 +53,7 @@
     "attitude": 8,
     "mission": 0,
     "chat": "TALK_DONE",
-    "faction": "wasteland_scavengers"
+    "faction": "no_faction"
   },
   {
     "type": "npc",
@@ -64,18 +64,30 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_NC_SURVIVOR_CHEF",
-    "faction": "wasteland_scavengers"
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "true_foodperson",
+    "//": "Foodperson mascot, except if you ask them Foodperson is a real hero and it's them!",
+    "name_unique": "Foodperson",
+    "class": "NC_TRUE_FOODPERSON",
+    "attitude": 7,
+    "mission": 7,
+    "chat": "TALK_TRUE_FOODPERSON",
+    "mission_offered": "MISSION_PROVE_YOUR_WORTH",
+    "faction": "no_faction"
   },
   {
     "type": "npc",
     "id": "cyborg_rescued",
-    "//": "A broken cyborg you saved.",
+    "//": "A prototype cyborg you saved.",
     "name_suffix": "Cyborg",
     "class": "NC_CYBORG",
     "attitude": 1,
     "mission": 0,
     "chat": "TALK_CYBORG_1",
-    "faction": "wasteland_scavengers"
+    "faction": "no_faction"
   },
   {
     "type": "npc",
@@ -87,7 +99,7 @@
     "mission": 7,
     "mission_offered": "MISSION_GET_CITY_COP_MOMENTO",
     "chat": "TALK_CITY_COP",
-    "faction": "wasteland_scavengers"
+    "faction": "no_faction"
   },
   {
     "type": "npc",
@@ -97,6 +109,7 @@
     "attitude": 1,
     "mission": 3,
     "mission_offered": "MISSION_JOIN_TRACKER",
-    "chat": "TALK_STRANGER_FRIENDLY"
+    "chat": "TALK_STRANGER_FRIENDLY",
+    "faction": "no_faction"
   }
 ]

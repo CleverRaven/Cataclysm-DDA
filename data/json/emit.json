@@ -4,21 +4,23 @@
     "type": "emit",
     "//": "Intermittent cigarette smoke (example: lit cigarette)",
     "field": "fd_cigsmoke",
-    "density": 2,
-    "chance": 50
+    "intensity": 2,
+    "chance": 2
   },
   {
     "id": "emit_joint_trail",
     "type": "emit",
     "//": "Intermittent joint smoke (example: lit cigarette)",
     "field": "fd_weedsmoke",
-    "chance": 50
+    "intensity": 3,
+    "chance": 2
   },
   {
     "id": "emit_smoke_blast",
     "type": "emit",
     "//": "Large blast of smoke (example: smoker zombie explosion)",
     "field": "fd_smoke",
+    "intensity": 3,
     "qty": 200
   },
   {
@@ -26,6 +28,7 @@
     "type": "emit",
     "//": "Small plume of thick smoke (example: muzzle smoke)",
     "field": "fd_smoke",
+    "intensity": 3,
     "qty": 6
   },
   {
@@ -33,13 +36,23 @@
     "type": "emit",
     "//": "Small plume of thick smoke (example: muzzle smoke)",
     "field": "fd_smoke",
+    "intensity": 3,
     "qty": 3
+  },
+  {
+    "id": "emit_smaller_smoke_plume",
+    "type": "emit",
+    "//": "Small plume of thick smoke (example: smallarms muzzle smoke)",
+    "field": "fd_smoke",
+    "qty": 1,
+    "chance": 30
   },
   {
     "id": "emit_smoke_stream",
     "type": "emit",
     "//": "Steady stream of thick smoke (example: smoke bomb)",
     "field": "fd_smoke",
+    "intensity": 3,
     "qty": 24
   },
   {
@@ -47,6 +60,7 @@
     "type": "emit",
     "//": "Steady stream of tear gas (example: tear gas canister)",
     "field": "fd_tear_gas",
+    "intensity": 3,
     "qty": 18
   },
   {
@@ -54,6 +68,7 @@
     "type": "emit",
     "//": "Large blast of toxic gas (example: bloated zombie explosion)",
     "field": "fd_toxic_gas",
+    "intensity": 3,
     "qty": 200
   },
   {
@@ -61,26 +76,66 @@
     "type": "emit",
     "//": "Slow infrequent leak of toxic gas (example: bloated zombie movement)",
     "field": "fd_toxic_gas",
+    "intensity": 3,
     "chance": 15
+  },
+  {
+    "id": "emit_tindalos_gas_leak",
+    "type": "emit",
+    "//": "Slow infrequent leak of tindalos gas (example: hound of tindalos movement)",
+    "field": "fd_tindalos_gas",
+    "intensity": 3,
+    "qty": 10,
+    "chance": 15
+  },
+  {
+    "id": "emit_toxic_cloud",
+    "type": "emit",
+    "//": "Small cloud of toxic gas emitted infrequently",
+    "field": "fd_toxic_gas",
+    "intensity": 3,
+    "chance": 2,
+    "qty": 10
+  },
+  {
+    "id": "emit_toxic_belch",
+    "type": "emit",
+    "//": "Large cloud of toxic gas emitted infrequently",
+    "field": "fd_toxic_gas",
+    "intensity": 3,
+    "chance": 1,
+    "qty": 25
   },
   {
     "id": "emit_acid_splash",
     "type": "emit",
     "//": "Small amount of strong acid - stacks, but weak on its own",
-    "field": "fd_acid"
+    "field": "fd_acid",
+    "intensity": 3
   },
   {
     "id": "emit_acid_drop",
     "type": "emit",
     "//": "Small amount of strong acid - will need more to melt anything",
     "field": "fd_acid",
+    "intensity": 3,
     "chance": 50
+  },
+  {
+    "id": "emit_shock_burst",
+    "type": "emit",
+    "//": "small cloud of lightning",
+    "field": "fd_electricity",
+    "intensity": 3,
+    "chance": 1,
+    "qty": 10
   },
   {
     "id": "emit_shock_cloud",
     "type": "emit",
     "//": "Thick cloud of lightning (example: incandescent husk)",
     "field": "fd_electricity",
+    "intensity": 3,
     "qty": 20
   },
   {
@@ -88,34 +143,155 @@
     "type": "emit",
     "//": "Large cloud of lightning (example: supercharged incandescent husk)",
     "field": "fd_electricity",
+    "intensity": 3,
     "qty": 40
   },
   {
     "id": "emit_cold_air2_stream",
     "type": "emit",
-    "//": "Medium cold air emitter",
     "field": "fd_cold_air2",
+    "intensity": 3,
     "qty": 50
   },
   {
     "id": "emit_cold_air2_blast",
     "type": "emit",
-    "//": "Large cold air emitter",
     "field": "fd_cold_air2",
+    "intensity": 3,
     "qty": 100
   },
   {
     "id": "emit_hot_air2_stream",
     "type": "emit",
-    "//": "Medium hot air emitter",
     "field": "fd_hot_air2",
+    "intensity": 3,
     "qty": 50
   },
   {
     "id": "emit_hot_air2_blast",
     "type": "emit",
-    "//": "Large hot air emitter",
     "field": "fd_hot_air2",
+    "intensity": 3,
     "qty": 100
+  },
+  {
+    "id": "emit_hot_air4_blast",
+    "type": "emit",
+    "field": "fd_hot_air4",
+    "//": "Makes the surrounding area extremely, uncomfortably hot.",
+    "intensity": 3,
+    "qty": 300
+  },
+  {
+    "id": "emit_heater_vehicle",
+    "type": "emit",
+    "field": "fd_hot_air3",
+    "intensity": 3,
+    "qty": 3,
+    "chance": 100
+  },
+  {
+    "id": "emit_cooler_vehicle",
+    "type": "emit",
+    "field": "fd_cold_air3",
+    "intensity": 3,
+    "qty": 3,
+    "chance": 100
+  },
+  {
+    "id": "emit_hot_air1_cbm",
+    "type": "emit",
+    "field": "fd_hot_air1",
+    "intensity": 3,
+    "qty": 1
+  },
+  {
+    "id": "emit_hot_air2_cbm",
+    "type": "emit",
+    "field": "fd_hot_air2",
+    "intensity": 3,
+    "qty": 1
+  },
+  {
+    "id": "emit_hot_air3_cbm",
+    "type": "emit",
+    "field": "fd_hot_air3",
+    "intensity": 3,
+    "qty": 1
+  },
+  {
+    "id": "emit_hot_air4_cbm",
+    "type": "emit",
+    "field": "fd_hot_air4",
+    "intensity": 3,
+    "qty": 1
+  },
+  {
+    "id": "emit_glimmer",
+    "type": "emit",
+    "field": "fd_dazzling",
+    "qty": 2,
+    "chance": 75
+  },
+  {
+    "id": "emit_fungicidal_stream",
+    "type": "emit",
+    "field": "fd_fungicidal_gas",
+    "intensity": 3,
+    "qty": 18
+  },
+  {
+    "id": "emit_insecticidal_stream",
+    "type": "emit",
+    "field": "fd_insecticidal_gas",
+    "intensity": 3,
+    "qty": 18
+  },
+  {
+    "id": "emit_small_fungicidal_stream",
+    "type": "emit",
+    "field": "fd_fungicidal_gas",
+    "intensity": 2,
+    "qty": 10
+  },
+  {
+    "id": "emit_small_insecticidal_stream",
+    "type": "emit",
+    "field": "fd_insecticidal_gas",
+    "intensity": 2,
+    "qty": 10
+  },
+  {
+    "id": "emit_fungal_haze_plume",
+    "type": "emit",
+    "field": "fd_fungal_haze",
+    "intensity": 3,
+    "qty": 3
+  },
+  {
+    "id": "emit_fungal_leak",
+    "type": "emit",
+    "field": "fd_fungal_haze",
+    "chance": 15
+  },
+  {
+    "id": "emit_fungal_blast",
+    "type": "emit",
+    "field": "fd_fungal_haze",
+    "qty": 200
+  },
+  {
+    "id": "emit_swamp_gas_leak",
+    "type": "emit",
+    "field": "fd_swamp_gas",
+    "intensity": 1,
+    "chance": 15
+  },
+  {
+    "id": "emit_fog_plume",
+    "type": "emit",
+    "field": "fd_fog",
+    "intensity": 2,
+    "qty": 200
   }
 ]

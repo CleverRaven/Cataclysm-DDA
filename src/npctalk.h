@@ -24,6 +24,8 @@ void buy_cow( npc & );
 void buy_chicken( npc & );
 void bionic_install( npc & );
 void bionic_remove( npc & );
+void dismount( npc & );
+void find_mount( npc & );
 
 void barber_beard( npc & );
 void barber_hair( npc & );
@@ -35,6 +37,15 @@ void buy_10_logs( npc & );
 void buy_100_logs( npc & );
 void start_trade( npc & );
 void sort_loot( npc & );
+void do_construction( npc & );
+void do_read( npc & );
+void do_chop_plank( npc & );
+void do_vehicle_deconstruct( npc & );
+void do_vehicle_repair( npc & );
+void do_chop_trees( npc & );
+void do_fishing( npc & );
+void do_farming( npc & );
+void do_butcher( npc & );
 void revert_activity( npc & );
 void goto_location( npc & );
 void assign_base( npc & );
@@ -75,7 +86,7 @@ void set_npc_pickup( npc &p );
 void npc_die( npc &p );
 void npc_thankful( npc &p );
 void clear_overrides( npc &p );
-}
+} // namespace talk_function
 
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill );
 int calc_skill_training_cost( const npc &p, const skill_id &skill );

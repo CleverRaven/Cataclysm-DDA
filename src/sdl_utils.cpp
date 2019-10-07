@@ -2,10 +2,32 @@
 
 #include "sdl_utils.h"
 
+#include <stddef.h>
+#include <array>
+
 #include "color.h"
 #include "color_loader.h"
 #include "cursesport.h"
 #include "sdltiles.h"
+
+color_pixel_function_map builtin_color_pixel_functions = {
+    { "color_pixel_none", nullptr },
+    { "color_pixel_darken", color_pixel_darken },
+    { "color_pixel_sepia", color_pixel_sepia },
+    { "color_pixel_grayscale", color_pixel_grayscale },
+    { "color_pixel_nightvision", color_pixel_nightvision },
+    { "color_pixel_overexposed", color_pixel_overexposed },
+};
+
+color_pixel_function_pointer get_color_pixel_function( const std::string &name )
+{
+    const auto iter = builtin_color_pixel_functions.find( name );
+    if( iter == builtin_color_pixel_functions.end() ) {
+        debugmsg( "no color pixel function with name %s", name );
+        return nullptr;
+    }
+    return iter->second;
+}
 
 SDL_Color curses_color_to_SDL( const nc_color &color )
 {
@@ -58,11 +80,27 @@ void render_fill_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
 {
     if( alt_rect_tex_enabled ) {
         SetTextureColorMod( alt_rect_tex, r, g, b );
-        RenderCopy( renderer, alt_rect_tex, NULL, &rect );
+        RenderCopy( renderer, alt_rect_tex, nullptr, &rect );
     } else {
         SetRenderDrawColor( renderer, r, g, b, 255 );
         RenderFillRect( renderer, &rect );
     }
+}
+
+SDL_Rect fit_rect_inside( const SDL_Rect &inner, const SDL_Rect &outer )
+{
+    const float inner_ratio = static_cast<float>( inner.w ) / inner.h;
+    const float outer_ratio = static_cast<float>( outer.w ) / outer.h;
+    const float factor = inner_ratio > outer_ratio
+                         ? static_cast<float>( outer.w ) / inner.w
+                         : static_cast<float>( outer.h ) / inner.h;
+
+    const int w = factor * inner.w;
+    const int h = factor * inner.h;
+    const int x = outer.x + ( outer.w - w ) / 2;
+    const int y = outer.y + ( outer.h - h ) / 2;
+
+    return SDL_Rect{ x, y, w, h };
 }
 
 #endif // SDL_TILES

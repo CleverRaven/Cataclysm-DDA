@@ -2,7 +2,7 @@
   {
     "id": "TALK_ALLY_TUTORIAL",
     "type": "talk_topic",
-    "dynamic_line": "I'm my own person, but I'm willing to follow your lead.  I can do a lot of things for you: I can fight, I can train you or you can train me, I can carry stuff, I can bandage your wounds, I can build faction camps, I can go places, I can guard things, I can use some bionics, I can even chit-chat with you or give you tips or talk about my background.  You can give me instructions in conversation or by radio or shout commands at me.\n  What do you want to know more about?",
+    "dynamic_line": "I'm my own person, but I'm willing to follow your lead.  I can do a lot of things for you: I can fight, I can train you or you can train me, I can carry stuff, I can bandage your wounds, I can build faction camps, I can do some other activites, I can ride horses, I can go places, I can guard things, I can use some bionics, I can even chit-chat with you or give you tips or talk about my background.  You can give me instructions in conversation or by radio or shout commands at me.\n  What do you want to know more about?",
     "responses": [
       { "text": "Forget I asked.", "topic": "TALK_FRIEND" },
       { "text": "Skip it, let's get going.", "topic": "TALK_DONE" },
@@ -14,6 +14,11 @@
       { "text": "Tell me about you carrying stuff.", "topic": "TALK_ALLY_TUTORIAL_MULE" },
       { "text": "You can perform first aid?", "topic": "TALK_ALLY_TUTORIAL_MEDIC" },
       { "text": "Tell me about faction camps.", "topic": "TALK_CAMP_TUTORIAL_INTRO" },
+      {
+        "text": "What's that about activities?  Like what, you can farm for me?",
+        "topic": "TALK_ALLY_TUTORIAL_ACTIVITIES"
+      },
+      { "text": "You can ride horses?", "topic": "TALK_ALLY_TUTORIAL_HORSES" },
       { "text": "What do you mean, you can go places?", "topic": "TALK_ALLY_TUTORIAL_MOVEMENT" },
       { "text": "What do you do as a guard?", "topic": "TALK_ALLY_TUTORIAL_GUARD" },
       { "text": "You can use bionics?  How does that work?", "topic": "TALK_ALLY_TUTORIAL_CBMS" },
@@ -84,8 +89,8 @@
       "and": [
         {
           "npc_has_trait": "PROF_MED",
-          "yes": "Hey, I'm a doctor!  I know how to treat trauma.  You give me some bandages or a bottle of disinfectant, I'm get you fixed when I see you hurting.",
-          "no": "Yeah, I can perform first aid.  You give me some bandages or a bottle of disinfectant, I'll treat your wounds as best I can."
+          "yes": "Hey, I'm a doctor!  I know how to treat trauma.  You give me some bandages or a bottle of antiseptic, I'm get you fixed when I see you hurting.",
+          "no": "Yeah, I can perform first aid.  You give me some bandages or a bottle of antiseptic, I'll treat your wounds as best I can."
         },
         "  But remember, I like you, but I like me more - so I'm going to use those items on myself first, then you, then any of your other friends."
       ]
@@ -93,14 +98,31 @@
     "responses": [ { "text": "Tell me how I give you medical supplies.", "topic": "TALK_ALLY_TUTORIAL_MULE" } ]
   },
   {
+    "id": "TALK_ALLY_TUTORIAL_ACTIVITIES",
+    "type": "talk_topic",
+    "dynamic_line": "I can help with some tasks if you show me where to work.\n  Use the zone manager (keybind 'Y') to set up sorting zones for your loot, or to draw blueprints for a building, or to define where  you want to plant some crops, or where you'd like some trees cut down, or where you want a vehicle dismantled.  Then tell me to sort stuff, or build stuff, or cut down trees, or dismantle a vehicle or do farmwork, and I'll go off and do my best to get what you want done.  If I need tools, you should leave them pretty close to where you want me to work - axes for logging, shovels and seeds and fertilizer for farming, wrenches and hacksaws or a toolbox to take apart a vehicle.  I can pretty much sort out our stuff without needing tools, but keep the piles of unsorted and sorted stuff kind of close together because I don't want to walk back and forth carrying junk too much.",
+    "responses": [
+      { "text": "Good to know.  Can you perform first aid?", "topic": "TALK_ALLY_TUTORIAL_MEDIC" },
+      { "text": "What about carrying stuff in general?", "topic": "TALK_ALLY_TUTORIAL_MULE" },
+      { "text": "What if I want you to build an organized camp?", "topic": "TALK_CAMP_TUTORIAL_INTRO" }
+    ]
+  },
+  {
     "id": "TALK_ALLY_TUTORIAL_MOVEMENT",
     "type": "talk_topic",
-    "dynamic_line": "If you call me by radio, you can tell me to come to you.  If you've got some basecamps set up, you can tell me to go to one of them.  I'll start walking, and when I get to where I'm going, I'll guard it.\n  Now depending on where I am and where I'm going, it may take me a while to get there.  I'll dodge any dangers on the way, don't worry about that, but if you're way the heck away from me and tell me to come, it may be a while until I get to you.",
+    "dynamic_line": "If you call me by radio, you can tell me to come to you.  If you've got some basecamps set up, you can tell me to go to one of them.  I'll start walking, and when I get to where I'm going, I'll guard it.\n  Now depending on where I am and where I'm going, it may take me a while to get there.  I'll dodge any dangers on the way, don't worry about that, but if you're way the heck away from me and tell me to come, it may be a while until I get to you.\n  I'll move faster if I'm horseback.",
     "responses": [
       { "text": "We can talk with radios?", "topic": "TALK_ALLY_TUTORIAL_RADIO" },
       { "text": "What do you do as a guard?", "topic": "TALK_ALLY_TUTORIAL_GUARD" },
-      { "text": "Tell me about faction camps.", "topic": "TALK_CAMP_TUTORIAL_INTRO" }
+      { "text": "Tell me about faction camps.", "topic": "TALK_CAMP_TUTORIAL_INTRO" },
+      { "text": "You can ride a horse?", "topic": "TALK_ALLY_TUTORIAL_HORSES" }
     ]
+  },
+  {
+    "id": "TALK_ALLY_TUTORIAL_HORSES",
+    "type": "talk_topic",
+    "dynamic_line": "If there's a friendly horse with a saddle nearby, you tell me to mount up, I'll go over and get on it.  You may need to feed a feral horse some cattlefodder to get it act tame and friendly, and e'x'amine it while you have a saddle in your inventory in order to put the saddle on.  You can also ride yourself, if you know how how.\n  You want me to get off a horse, you just tell me.  You can get off a horse with the vehicle control key (keybind '^').\n  While we're on horses, we'll just move normally, but a lot faster.  It's a good way to get places more quickly than we could on our own two feet.",
+    "responses": [ { "text": "You said something about being to go places.", "topic": "TALK_ALLY_TUTORIAL_MOVEMENT" } ]
   },
   {
     "id": "TALK_ALLY_TUTORIAL_GUARD",
@@ -111,7 +133,7 @@
   {
     "id": "TALK_ALLY_TUTORIAL_CBMS",
     "type": "talk_topic",
-    "dynamic_line": "Bionics are augmentation packages, right?  They come in these installable Compact Bionic Modules or CBMs, and I can use some CBMs - if you examine a CBM, it will tell you if I can use it.\n  Find a programmable surgical installer or autodoc, position me on the couch, and activate it, and you can install a suitable CBM to me - or if I think I'll do a better job, I'll do.  I'll take over installing CBMs into you if I'm better at it.\n  I can use almost all passive bionics and some active bionics.  If I have any active bionics, I'll try to use them sensibly, but if we're in danger, I'm going to activate anything that might give me an edge.  I'll use any weapon bionics if they're better than the weapons you gave me, but if you think I should reserve my bionic energy for my defensive and healing bionics, you can tell me how much to reserve.  I'll try to keep my bionic energy topped off, but if we're running low on supplies, you can tell me to stop recharging when I'm not full.\n  I'll tell you if I'm low on bionic energy and can't recharge, and what fuel I need.\n  Sothere are some internal atomic reactor bionics - I can use those, but I can only recharge them with plutonium slurry.  That stuff is radioactive, so do us both a favor and don't give me an internal reactor unless you really like glowing in the dark.",
+    "dynamic_line": "Bionics are augmentation packages, right?  They come in these installable Compact Bionic Modules or CBMs, and I can use some CBMs - if you examine a CBM, it will tell you if I can use it.\n  Find a programmable surgical installer or autodoc, position me on the couch, and activate it, and you can install a suitable CBM to me - or if I think I'll do a better job, I'll do.  I'll take over installing CBMs into you if I'm better at it.\n  I can use almost all passive bionics and some active bionics.  If I have any active bionics, I'll try to use them sensibly, but if we're in danger, I'm going to activate anything that might give me an edge.  I'll use any weapon bionics if they're better than the weapons you gave me, but if you think I should reserve my bionic energy for my defensive and healing bionics, you can tell me how much to reserve.  I'll try to keep my bionic energy topped off, but if we're running low on supplies, you can tell me to stop recharging when I'm not full.\n  I'll tell you if I'm low on bionic energy and can't recharge, and what fuel I need.",
     "responses": [ { "text": "Tell me how I give you fuel for your bionics.", "topic": "TALK_ALLY_TUTORIAL_MULE" } ]
   },
   {
@@ -142,8 +164,12 @@
   {
     "id": "TALK_ALLY_TUTORIAL_CHANGES",
     "type": "talk_topic",
-    "dynamic_line": "Well, this conversation is pretty new!  But there's been some other changes.\n  I've been able to install CBMs on you, and have passive bionics installed in me, for a while.  But now I can use some active bionics, and I can explain some details on how I use bionics.",
-    "responses": [ { "text": "You can use bionics?  How does that work?", "topic": "TALK_ALLY_TUTORIAL_CBMS" } ]
+    "dynamic_line": "Well, this conversation is pretty new!  But there's been some other changes.\n  I've been able to install CBMs on you, and have passive bionics installed in me, for a while.  But now I can use some active bionics, and I can explain some details on how I use bionics.\n  I can also ride horses, and you can give me orders to do things like farmwork, cutting trees, or even building houses from a blueprint.",
+    "responses": [
+      { "text": "You can use bionics?  How does that work?", "topic": "TALK_ALLY_TUTORIAL_CBMS" },
+      { "text": "You can ride horses?  Can I ride horses?", "topic": "TALK_ALLY_TUTORIAL_HORSES" },
+      { "text": "Tell me more about the activities you can do now.", "topic": "TALK_ALLY_TUTORIAL_ACTIVITIES" }
+    ]
   },
   {
     "id": [
@@ -153,6 +179,8 @@
       "TALK_ALLY_TUTORIAL_COMBAT",
       "TALK_ALLY_TUTORIAL_TRAINING",
       "TALK_ALLY_TUTORIAL_MULE",
+      "TALK_ALLY_TUTORIAL_ACTIVITIES",
+      "TALK_ALLY_TUTORIAL_HORSES",
       "TALK_ALLY_TUTORIAL_MEDIC",
       "TALK_ALLY_TUTORIAL_MOVEMENT",
       "TALK_ALLY_TUTORIAL_GUARD",

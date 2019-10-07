@@ -27,6 +27,21 @@
     ]
   },
   {
+    "id": "light_reading",
+    "type": "item_group",
+    "//": "for music store",
+    "items": [
+      [ "novel_coa", 10 ],
+      [ "child_book", 50 ],
+      [ "manual_dodge_kid", 25 ],
+      [ "tall_tales", 20 ],
+      [ "story_book", 4 ],
+      [ "novel_pulp", 16 ],
+      [ "fairy_tales", 20 ],
+      [ "mag_comic", 20 ]
+    ]
+  },
+  {
     "id": "boxing_books",
     "type": "item_group",
     "items": [
@@ -52,7 +67,10 @@
       [ "manual_ninjutsu", 100 ],
       [ "manual_pankration", 5 ],
       [ "manual_silat", 100 ],
-      [ "manual_taekwondo", 100 ]
+      [ "manual_taekwondo", 100 ],
+      [ "manual_wingchun", 100 ],
+      [ "manual_medievalpole", 10 ],
+      [ "manual_swordsmanship", 10 ]
     ]
   },
   {
@@ -289,6 +307,11 @@
     ]
   },
   {
+    "id": "ranch_homebooks",
+    "type": "item_group",
+    "items": [ [ "reference_firstaid2", 2 ], { "group": "homebooks", "prob": 98 } ]
+  },
+  {
     "type": "item_group",
     "id": "manuals",
     "items": [
@@ -353,6 +376,10 @@
       [ "manual_driving", 15 ],
       [ "manual_survival", 20 ],
       [ "dnd_handbook", 2 ],
+      [ "reference_cooking", 1 ],
+      [ "reference_fabrication1", 1 ],
+      [ "reference_firstaid1", 1 ],
+      [ "reference_firstaid2", 1 ],
       [ "survnote", 3 ]
     ]
   },
@@ -404,6 +431,10 @@
       [ "textbook_weapeast", 3 ],
       [ "textbook_armwest", 3 ],
       [ "textbook_armeast", 3 ],
+      [ "reference_cooking", 2 ],
+      [ "reference_fabrication1", 6 ],
+      [ "reference_firstaid1", 2 ],
+      [ "reference_firstaid2", 1 ],
       [ "survnote", 2 ]
     ]
   },
@@ -475,6 +506,10 @@
       [ "textbook_gaswarfare", 2 ],
       [ "manual_electronics", 5 ],
       [ "advanced_electronics", 6 ],
+      [ "reference_cooking", 2 ],
+      [ "reference_fabrication1", 2 ],
+      [ "reference_firstaid1", 2 ],
+      [ "reference_firstaid2", 2 ],
       [ "dnd_handbook", 15 ],
       [ "novel_romance", 30 ],
       [ "novel_spy", 32 ],
@@ -569,6 +604,9 @@
       [ "manual_niten", 1 ],
       [ "manual_sojutsu", 1 ],
       [ "manual_capoeira", 1 ],
+      [ "manual_wingchun", 3 ],
+      [ "manual_medievalpole", 3 ],
+      [ "manual_swordsmanship", 3 ],
       { "group": "rare_martial_arts_books", "prob": 6 }
     ]
   },
@@ -600,7 +638,9 @@
       [ "mag_unarmed", 20 ],
       [ "manual_brawl", 10 ],
       [ "mag_cutting", 5 ],
-      [ "textbook_weapeast", 1 ]
+      [ "textbook_weapeast", 1 ],
+      [ "manual_wingchun", 3 ],
+      [ "manual_medievalpole", 1 ]
     ]
   },
   {
@@ -632,7 +672,8 @@
       [ "recipe_medicalmut", 50 ],
       [ "recipe_serum", 10 ],
       [ "recipe_labchem", 100 ],
-      [ "recipe_augs", 100 ]
+      [ "recipe_augs", 100 ],
+      [ "reference_firstaid1", 15 ]
     ]
   },
   {
@@ -651,6 +692,16 @@
       [ "textbook_firstaid", 10 ],
       [ "mag_computer", 50 ]
     ]
+  },
+  {
+    "id": "record_weather",
+    "type": "item_group",
+    "items": [ [ "record_weather", 100 ] ]
+  },
+  {
+    "id": "isherwood_mission_reward_herbal",
+    "type": "item_group",
+    "items": [ [ "isherwood_herbal_remedies", 100 ] ]
   },
   {
     "id": "tailorbooks",

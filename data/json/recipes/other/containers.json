@@ -9,8 +9,7 @@
     "difficulty": 2,
     "time": "20 m",
     "autolearn": true,
-    "using": [ [ "cordage_short", 1 ], [ "glazing", 1 ] ],
-    "tools": [ [ [ "brick_kiln", 40 ], [ "kiln", 40 ] ] ],
+    "using": [ [ "cordage_short", 1 ], [ "glazing", 1 ], [ "earthenware_firing", 40 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 4 ] ], [ [ "leather", 2 ], [ "fur", 2 ] ] ]
   },
   {
@@ -23,8 +22,7 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "cordage_short", 1 ], [ "glazing", 1 ] ],
-    "tools": [ [ [ "brick_kiln", 60 ], [ "kiln", 60 ] ] ],
+    "using": [ [ "cordage_short", 1 ], [ "glazing", 1 ], [ "earthenware_firing", 60 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 2 ] ], [ [ "leather", 2 ], [ "fur", 2 ] ] ]
   },
   {
@@ -37,8 +35,7 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
-    "using": [ [ "cordage_short", 2 ], [ "glazing", 2 ] ],
-    "tools": [ [ [ "brick_kiln", 120 ], [ "kiln", 120 ] ] ],
+    "using": [ [ "cordage_short", 2 ], [ "glazing", 2 ], [ "earthenware_firing", 120 ] ],
     "components": [ [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "clay_lump", 10 ] ], [ [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
   {
@@ -51,8 +48,7 @@
     "difficulty": 2,
     "time": "80 m",
     "autolearn": true,
-    "using": [ [ "cordage_short", 2 ], [ "glazing", 3 ] ],
-    "tools": [ [ [ "brick_kiln", 160 ], [ "kiln", 160 ] ] ],
+    "using": [ [ "cordage_short", 2 ], [ "glazing", 3 ], [ "earthenware_firing", 160 ] ],
     "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "clay_lump", 20 ] ], [ [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
   {
@@ -65,8 +61,7 @@
     "difficulty": 2,
     "time": "25 m",
     "autolearn": true,
-    "using": [ [ "cordage_short", 2 ], [ "glazing", 1 ] ],
-    "tools": [ [ [ "brick_kiln", 50 ], [ "kiln", 50 ] ] ],
+    "using": [ [ "cordage_short", 2 ], [ "glazing", 1 ], [ "earthenware_firing", 50 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 6 ] ], [ [ "leather", 3 ], [ "fur", 3 ] ] ]
   },
   {
@@ -116,6 +111,24 @@
       [ [ "water", 8 ], [ "water_clean", 8 ] ],
       [ [ "stomach_large", 1 ], [ "hstomach_large", 1 ] ],
       [ [ "cordage_short", 3, "LIST" ], [ "filament", 150, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "canteen_wood",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_CONTAINERS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "adhesive", 1 ], [ "waterproofing", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_W", "level": 2 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [ [ "2x4", 2 ] ],
+      [ [ "wire", 1 ], [ "scrap", 2 ], [ "copper", 20 ] ],
+      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
     ]
   },
   {

@@ -1,0 +1,357 @@
+[
+  {
+    "type": "npc",
+    "id": "isherwood_claire",
+    "//": "Matriarch of the Isherwood family.",
+    "name_unique": "Claire Isherwood",
+    "gender": "female",
+    "class": "NC_ISHERWOOD_CLAIRE",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ISHERWOOD_CLAIRE",
+    "mission_offered": "MISSION_ISHERWOOD_CLAIRE_1",
+    "faction": "isherwood_family"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ISHERWOOD_CLAIRE",
+    "name": "Claire Isherwood",
+    "job_description": "I'm the matriarch of the Isherwood family",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "common": false,
+    "bonus_per": { "one_in": 4 },
+    "carry_override": "NC_ISHERWOOD_rifle",
+    "weapon_override": "NC_ISHERWOOD_archery",
+    "shopkeeper_item_group": "NC_ISHERWOOD_CLAIRE_misc",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "cooking", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 4, 8 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ISHERWOOD_CLAIRE_storage",
+    "items": [ [ "backpack_hiking", 100 ] ]
+  },
+  {
+    "id": "NC_ISHERWOOD_CLAIRE_gloves",
+    "type": "item_group",
+    "items": [ [ "gloves_leather", 45 ], [ "gloves_light", 20 ] ]
+  },
+  {
+    "id": "NC_ISHERWOOD_CLAIRE_pants",
+    "type": "item_group",
+    "items": [ [ "jeans", 50 ], [ "pants_cargo", 70 ], [ "leather_belt", 30 ] ]
+  },
+  {
+    "id": "NC_ISHERWOOD_CLAIRE_shoes",
+    "type": "item_group",
+    "items": [ [ "boots", 70 ], [ "knee_high_boots", 50 ], [ "boots_hiking", 20 ], [ "mocassins", 20 ] ]
+  },
+  {
+    "id": "NC_ISHERWOOD_CLAIRE_torso",
+    "type": "item_group",
+    "items": [ [ "tank_top", 50 ], [ "dress", 45 ], [ "jacket_light", 40 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ISHERWOOD_CLAIRE_hat",
+    "items": [ [ "null", 40 ], [ "cowboy_hat", 40 ], [ "straw_hat", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ISHERWOOD_CLAIRE_misc",
+    "items": [
+      [ "royal_jelly", 50 ],
+      [ "flavored_bonemeal_tablet", 55 ],
+      [ "bonemeal_tablet", 95 ],
+      [ "cattail_jelly", 95 ],
+      { "item": "thyme_oil", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "mugwort_oil", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "poppy_pain", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "poppy_sleep", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "poppysyrup", "prob": 80, "charges": 10, "container-item": "jar_glass_sealed" },
+      { "item": "bee_balm_tea", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "chamomile_tea", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "dandelion_tea", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "herbal_tea", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "pine_tea", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "tea_bark", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "hb_beer", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "fruit_wine", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "honey_bottled", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CLAIRE",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "Is that a U.S. Marshal's badge you're wearing?",
+      "no": { "u_male": true, "yes": "Hello, what brings you here?", "no": "Hi, what brings you here?" }
+    },
+    "responses": [
+      {
+        "text": "Yes, I'm a marshal.",
+        "topic": "TALK_LEAVE_NOW",
+        "opinion": { "trust": -20, "value": -20 },
+        "condition": { "u_is_wearing": "badge_marshal" }
+      },
+      {
+        "text": "...",
+        "topic": "TALK_LEAVE_NOW",
+        "opinion": { "trust": -20, "value": -20 },
+        "condition": { "u_is_wearing": "badge_marshal" }
+      },
+      {
+        "text": "Hi, nice farm you have here.",
+        "topic": "TALK_ISHERWOOD_CLAIRE_TALK1",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      },
+      {
+        "text": "Hi, Jack suggested I stop by and say hello.",
+        "topic": "TALK_ISHERWOOD_CLAIRE_TALK3",
+        "condition": {
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "u_has_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "Can I do anything for you?",
+        "topic": "TALK_MISSION_LIST",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      },
+      {
+        "text": "Let's trade.",
+        "effect": "start_trade",
+        "topic": "TALK_ISHERWOOD_CLAIRE",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      },
+      {
+        "text": "I'd better get going.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CLAIRE_TALK1",
+    "dynamic_line": "I live here with my husband, Jack.  He is working out in his shop.",
+    "responses": [
+      { "text": "You are lucky to have your family still together.", "topic": "TALK_ISHERWOOD_CLAIRE2" },
+      { "text": "Must be nice, to have the quiet place amid so much madness.", "topic": "TALK_CLAIRE_FARM" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CLAIRE2",
+    "dynamic_line": "You don't need as much luck if you are prepared and work together.  We've had our losses, my brother in law, Barry, was our best hunter but things are so different now...",
+    "responses": [
+      { "text": "What happened to Barry?", "topic": "TALK_BARRY" },
+      { "text": "A farm must be a pretty safe place these days.", "topic": "TALK_CLAIRE_FARM" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CLAIRE_TALK3",
+    "dynamic_line": "Well, nice to meet you. I imagine Jack was boasting about my herbal remedies, he's proud of what we've put together here.",
+    "responses": [
+      { "text": "He did mention you make remedies, are they effective?", "topic": "TALK_CLAIRE_MEDICINE" },
+      { "text": "Must be nice, to have the quiet place amid so much madness.", "topic": "TALK_CLAIRE_FARM" },
+      { "text": "I'd like to ask you something else...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CLAIRE_MEDICINE",
+    "dynamic_line": "I have always studied and made some natural remedies, but now they are more essential than ever.  Who knows the next time we'll see a trained doctor.  These remedies aren't always as effective, but they can do the job in a pinch.",
+    "responses": [
+      { "text": "I'd like to ask you something else...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_BARRY",
+    "dynamic_line": "Some of their cows were killed before we realized what was happening, Barry and Carlos went into the forest to find the predator but it was like nothing they'd ever seen.  Carlos may be willing to tell you more.",
+    "responses": [
+      {
+        "text": "I'd like to ask you something else...",
+        "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS",
+        "effect": { "u_add_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "I'd better get going.",
+        "topic": "TALK_DONE",
+        "effect": { "u_add_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CLAIRE_FARM",
+    "dynamic_line": "We've always tried to live a quiet life out here, I suppose we are doing better than most.",
+    "responses": [
+      { "text": "I'd like to ask you something else...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CLAIRE_HUSBAND",
+    "dynamic_line": "Jack and I have been together for 40 years.  He's been my anchor through all of this chaos.",
+    "responses": [
+      { "text": "I'd like to ask you something else...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CLAIRE_DAUGHTER",
+    "dynamic_line": "Jesse and her family live up at the horse farm. They may have some jobs for you.",
+    "responses": [
+      { "text": "I'd like to ask you something else...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CLAIRE_BROTHER",
+    "dynamic_line": "Eddie's dairy is at the end of the road.  He's may have some jobs for you if you are interested.",
+    "responses": [
+      { "text": "I'd like to ask you something else...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LEAVE_NOW",
+    "dynamic_line": "You should get off our land, you have no business here.",
+    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CLAIRE_TOPICS",
+    "dynamic_line": "Ask away.",
+    "responses": [
+      { "text": "Tell me about your husband, is he around?", "topic": "TALK_CLAIRE_HUSBAND" },
+      { "text": "Your daughter lives down the road?", "topic": "TALK_CLAIRE_DAUGHTER" },
+      { "text": "Where is your brother's place?", "topic": "TALK_CLAIRE_BROTHER" },
+      { "text": "A farm must be a pretty safe place these days.", "topic": "TALK_CLAIRE_FARM" },
+      { "text": "You are lucky to have your family still together.", "topic": "TALK_ISHERWOOD_CLAIRE2" },
+      { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_ISHERWOOD_CLAIRE" },
+      { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_ISHERWOOD_CLAIRE_1",
+    "type": "mission_definition",
+    "name": "Gather 50 dandelions",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 3,
+    "value": 20000,
+    "item": "raw_dandelion",
+    "count": 50,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "followup": "MISSION_ISHERWOOD_CLAIRE_2",
+    "end": {
+      "opinion": { "trust": 1, "value": 1 },
+      "effect": [
+        { "u_buy_item": "thyme_oil", "container": "jar_glass_sealed", "count": 2 },
+        { "u_buy_item": "poppy_pain", "container": "jar_glass_sealed", "count": 200 }
+      ]
+    },
+    "dialogue": {
+      "describe": "I could use some help foraging ingredients.",
+      "offer": "I could use some fresh dandelions for the next batch of wine.  Can you bring me 50 dandelions?",
+      "accepted": "Thank you, I'll put these to good use.",
+      "rejected": "Oh well.  Maybe some other time, thanks.",
+      "advice": "You can find them in the fields during the spring and summer months.",
+      "inquire": "How is the search going?",
+      "success": "Thanks.  Here's a small reward to show my appreciation for your help.",
+      "success_lie": "What good does this do us?",
+      "failure": "I wonder if the wildlife ate all the greens..."
+    }
+  },
+  {
+    "id": "MISSION_ISHERWOOD_CLAIRE_2",
+    "type": "mission_definition",
+    "name": "Find 20 bee balm seeds",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 3,
+    "value": 20000,
+    "item": "seed_bee_balm",
+    "count": 20,
+    "followup": "MISSION_ISHERWOOD_CLAIRE_3",
+    "end": {
+      "opinion": { "trust": 2, "value": 2 },
+      "effect": [
+        { "u_buy_item": "pine_tea", "container": "jar_glass_sealed", "count": 2 },
+        { "u_buy_item": "royal_jelly", "count": 1 },
+        { "u_buy_item": "bee_balm_tea", "container": "jar_glass_sealed", "count": 2 }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "I could use some seeds from the forest.",
+      "offer": "We could use some seeds for the next planting season.  Can you bring me 20 bee balm seeds?",
+      "accepted": "Thank you.  It's important to have a good stock before the flu season hits.",
+      "rejected": "Oh well.  Maybe some other time, thanks.",
+      "advice": "You should search through the forest, make sure to check in the underbrush for beebalm and then harvest its seeds.",
+      "inquire": "How is the search going?",
+      "success": "Wow, perfect.  Here are some of my own remedies and if those don't work try my other gift.",
+      "success_lie": "What good does this do us?",
+      "failure": "I'll have to find someone more at home in the forest..."
+    }
+  },
+  {
+    "id": "MISSION_ISHERWOOD_CLAIRE_3",
+    "type": "mission_definition",
+    "name": "Find and capture a cat",
+    "goal": "MGOAL_FIND_MONSTER",
+    "difficulty": 4,
+    "value": 100000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "start": {
+      "assign_mission_target": { "om_terrain": "cabin_isherwood", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 8 },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_cat", "pack_size": [ 3, 6 ], "x": 20, "y": 22, "target": true } ] },
+      "effect": [ { "u_buy_item": "chicken_cage", "count": 1 } ]
+    },
+    "end": {
+      "opinion": { "trust": 2, "value": 2 },
+      "effect": [
+        { "u_buy_item": "isherwood_herbal_remedies", "count": 1 },
+        { "u_add_var": "u_did_claire_missions", "type": "general", "context": "recruit", "value": "yes" }
+      ]
+    },
+    "dialogue": {
+      "describe": "I could use a barn cat to keep the mice down.",
+      "offer": "I saw some feral cats out by the old cabin.  Can you capture one for me?",
+      "accepted": "Thank you!  Please hurry back! Take this cage so you have a chance of capturing one.",
+      "rejected": "I did't want to use chemicals on these rats.",
+      "advice": "Take this pet carrier; if you can get close to a cat, you can put it inside.  If you're having problems, try befriending it with cat food.",
+      "inquire": "Have you found a cat?",
+      "success": "Thank you so much, I want you to have this copy of my natural remedy journal. I'll name this handsome fellow Joshua.",
+      "success_lie": "What?!  You're lying, I can tell!  Did you even bring back my cage?",
+      "failure": "Oh no!  I guess they are too nimble for you..."
+    }
+  }
+]

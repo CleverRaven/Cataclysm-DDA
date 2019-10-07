@@ -14,10 +14,11 @@
 #include "calendar.h"
 #include "character.h"
 #include "damage.h"
-#include "enums.h" // tripoint
 #include "string_id.h"
-#include "tuple_hash.h"
+#include "hash_utils.h"
+#include "translations.h"
 #include "type_id.h"
+#include "point.h"
 
 class nc_color;
 class JsonObject;
@@ -135,10 +136,22 @@ struct mutation_branch {
         float weight_capacity_modifier = 1.0f;
         float hearing_modifier = 1.0f;
         float noise_modifier = 1.0f;
+        float scent_modifier = 1.0f;
+        int bleed_resist = 0;
+
+        /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/
+        float fat_to_max_hp = 0.0f;
+        /**How fast does healthy tends toward healthy_mod*/
+        float healthy_rate = 1.0f;
+
+        /**maximum damage dealt by water every minute when wet. Can be negative and regen hit points.*/
+        int weakness_to_water = 0;
 
         // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
         float stealth_modifier = 0.0f;
 
+        // Speed lowers--or raises--for every X F (X C) degrees below or above 65 F (18.3 C)
+        float temperature_speed_modifier = 0.0f;
         // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
         float metabolism_modifier = 0.0f;
         // As above but for thirst.
@@ -156,16 +169,40 @@ struct mutation_branch {
         // Multiplier for sight range, defaulting to 1.
         float overmap_multiplier = 1.0f;
 
+        // Multiplier for map memory capacity, defaulting to 1.
+        float map_memory_capacity_multiplier = 1.0f;
+
+        // Multiplier for skill rust, defaulting to 1.
+        float skill_rust_multiplier = 1.0f;
+
         // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
         social_modifiers social_mods;
 
         /** The item, if any, spawned by the mutation */
         itype_id spawn_item;
 
+        /**Species ignoring character with the mutation*/
+        std::vector<species_id> ignored_by;
+
+        /**List of material required for food to be be edible*/
+        std::set<material_id> can_only_eat;
+
+        /**List of healing items allowed*/
+        std::set<itype_id> can_only_heal_with;
+        std::set<itype_id> can_heal_with;
+
+        /**List of allowed mutatrion category*/
+        std::set<std::string> allowed_category;
+
+        /**List of body parts locked out of bionics*/
+        std::set<body_part> no_cbm_on_bp;
+
         // amount of mana added or subtracted from max
         float mana_modifier;
         float mana_multiplier;
         float mana_regen_multiplier;
+        // spells learned and their associated level when gaining the mutation
+        std::map<spell_id, int> spells_learned;
     private:
         std::string raw_spawn_item_message;
     public:
@@ -202,14 +239,15 @@ struct mutation_branch {
         std::map<body_part, int> encumbrance_covered;
         // Body parts that now need OVERSIZE gear
         std::set<body_part> restricts_gear;
+        // Mutation stat mods
         /** Key pair is <active: bool, mod type: "STR"> */
-        std::unordered_map<std::pair<bool, std::string>, int> mods; // Mutation stat mods
+        std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> mods;
         std::map<body_part, resistances> armor;
         std::vector<matype_id>
         initial_ma_styles; // Martial art styles that can be chosen upon character generation
     private:
-        std::string raw_name;
-        std::string raw_desc;
+        translation raw_name;
+        translation raw_desc;
     public:
         std::string name() const;
         std::string desc() const;
@@ -310,7 +348,7 @@ struct mutation_branch {
          * can also load data from arrays of strings, where the strings are item or group ids.
          */
         static void load_trait_group( JsonArray &entries, const trait_group::Trait_group_tag &gid,
-                                      const bool is_collection );
+                                      bool is_collection );
 
         /**
          * Create a new trait group as specified by the given JSON object and register
@@ -402,6 +440,20 @@ std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids )
 std::vector<trait_id> get_mutations_in_type( const std::string &id );
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
 
+enum class mutagen_technique : int {
+    consumed_mutagen,
+    injected_mutagen,
+    consumed_purifier,
+    injected_purifier,
+    injected_smart_purifier,
+    num_mutagen_techniques // last
+};
+
+template<>
+struct enum_traits<mutagen_technique> {
+    static constexpr mutagen_technique last = mutagen_technique::num_mutagen_techniques;
+};
+
 enum class mutagen_rejection {
     accepted,
     rejected,
@@ -409,13 +461,13 @@ enum class mutagen_rejection {
 };
 
 struct mutagen_attempt {
-    mutagen_attempt( bool a, long c ) : allowed( a ), charges_used( c ) {}
+    mutagen_attempt( bool a, int c ) : allowed( a ), charges_used( c ) {}
     bool allowed;
-    long charges_used;
+    int charges_used;
 };
 
 mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,
-                                       const std::string &memorial_male, const std::string &memorial_female );
+                                       mutagen_technique technique );
 
 void test_crossing_threshold( player &p, const mutation_category_trait &m_category );
 

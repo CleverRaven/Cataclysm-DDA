@@ -1,0 +1,186 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_bathtub",
+    "name": "bathtub",
+    "symbol": "~",
+    "description": "You could lay in and take a soothing bath, if there were running water.  The plug is intact, so you could use it to store liquids.",
+    "color": "white",
+    "move_cost_mod": 2,
+    "coverage": 30,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
+    "max_volume": 800,
+    "examine_action": "keg",
+    "keg_capacity": 600,
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "porcelain breaking!",
+      "sound_fail": "whunk!",
+      "items": [
+        { "item": "cu_pipe", "prob": 50 },
+        { "item": "water_faucet", "prob": 50 },
+        { "item": "ceramic_shard", "count": [ 6, 18 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_shower",
+    "name": "shower",
+    "symbol": "~",
+    "description": "You would be able to clean yourself if water was running.",
+    "color": "white",
+    "move_cost_mod": 0,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 30,
+      "sound": "porcelain breaking!",
+      "sound_fail": "whunk!",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "items": [
+        { "item": "cu_pipe", "count": [ 0, 2 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] },
+        { "item": "ceramic_shard", "count": [ 2, 6 ] },
+        { "item": "glass_shard", "count": [ 8, 16 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sink",
+    "name": "sink",
+    "symbol": "&",
+    "description": "Emergency relief provider.  Water isn't running, so it's basically useless.",
+    "color": "white",
+    "move_cost_mod": 2,
+    "coverage": 60,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "porcelain breaking!",
+      "sound_fail": "whunk!",
+      "items": [
+        { "item": "cu_pipe", "prob": 50 },
+        { "item": "water_faucet", "prob": 50 },
+        { "item": "ceramic_shard", "count": [ 2, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_toilet",
+    "name": "toilet",
+    "symbol": "&",
+    "color": "white",
+    "description": "A porcelain throne.  Emergency water source, from the tank, and provider of relief.",
+    "move_cost_mod": 2,
+    "coverage": 30,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "MOUNTABLE", "LIQUIDCONT" ],
+    "examine_action": "toilet",
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "porcelain breaking!",
+      "sound_fail": "whunk!",
+      "items": [ { "item": "cu_pipe", "prob": 50 }, { "item": "ceramic_shard", "count": [ 2, 8 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_water_heater",
+    "name": "water heater",
+    "looks_like": "f_standing_tank",
+    "description": "An insulated metal tank that holds water, kept to a temperature by a small gas flame.",
+    "symbol": "0",
+    "bgcolor": "white",
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "required_str": -1,
+    "max_volume": 4000,
+    "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED" ],
+    "examine_action": "keg",
+    "keg_capacity": 240,
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": 1 },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "cu_pipe", "count": [ 2, 5 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "pilot_light", "count": 1 },
+        { "item": "thermostat", "count": 1 },
+        { "item": "water_faucet", "count": 1 },
+        { "item": "metal_tank", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal", "count": [ 2, 6 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 2 ] },
+        { "item": "cu_pipe", "count": [ 1, 4 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] },
+        { "item": "water_faucet", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_water_purifier",
+    "looks_like": "f_water_heater",
+    "name": "water purifier",
+    "description": "This removes ions dissolved in the water, making it pretty clean, if you care about that kind of thing.",
+    "symbol": "W",
+    "bgcolor": "blue",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 3, 6 ] },
+        { "item": "motor_small", "count": 1 },
+        { "item": "solder_wire", "charges": [ 1, 15 ] },
+        { "item": "cu_pipe", "count": [ 2, 5 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 15,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] },
+        { "item": "cu_pipe", "count": [ 1, 3 ] }
+      ]
+    }
+  }
+]

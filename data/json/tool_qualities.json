@@ -18,8 +18,23 @@
   },
   {
     "type": "tool_quality",
+    "id": "LEATHER_AWL",
+    "name": "awl"
+  },
+  {
+    "type": "tool_quality",
+    "id": "SEW_CURVED",
+    "name": "curved needle"
+  },
+  {
+    "type": "tool_quality",
     "id": "ANESTHESIA",
     "name": "anesthesia"
+  },
+  {
+    "type": "tool_quality",
+    "id": "FISHING",
+    "name": "fishing"
   },
   {
     "type": "tool_quality",
@@ -211,5 +226,30 @@
     "name": "chromatography",
     "//": "Think of this as 'fine separating'. Chromatography represents a number of precise separation techniques",
     "//": "useful in both analysis and purification."
+  },
+  {
+    "type": "tool_quality",
+    "id": "GRIND",
+    "name": "grinding"
+  },
+  {
+    "type": "tool_quality",
+    "id": "REAM",
+    "name": "reaming"
+  },
+  {
+    "type": "tool_quality",
+    "id": "FILE",
+    "name": "filing"
+  },
+  {
+    "type": "tool_quality",
+    "id": "VICE",
+    "name": "vicing"
+  },
+  {
+    "type": "tool_quality",
+    "id": "PRESSURIZATION",
+    "name": "pressurizing"
   }
 ]

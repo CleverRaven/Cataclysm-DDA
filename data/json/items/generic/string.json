@@ -5,7 +5,7 @@
     "category": "spare_parts",
     "name": "small string",
     "description": "A 6-inch long piece of cotton string.",
-    "weight": 6,
+    "weight": "6 g",
     "volume": "10ml",
     "price": 10,
     "material": "cotton",
@@ -27,7 +27,8 @@
     "type": "GENERIC",
     "name": "short rope",
     "description": "A six-foot long piece of rope.  Too small to be of much use.",
-    "proportional": { "weight": 6, "volume": 6, "price": 6 }
+    "proportional": { "weight": 6, "volume": 6, "price": 6 },
+    "extend": { "flags": [ "TIE_UP" ] }
   },
   {
     "id": "rope_30",
@@ -44,7 +45,7 @@
     "copy-from": "rope_30",
     "type": "GENERIC",
     "name": "vine",
-    "description": "A sturdy 30-foot long vine.  Could easily be used as a rope, but can't be disassembled. Strong enough to suspend a large corpse for butchering.",
+    "description": "A sturdy 30-foot long vine.  Could easily be used as a rope, but can't be disassembled.  Strong enough to suspend a large corpse for butchering.",
     "material": "veggy",
     "color": "light_green"
   },
@@ -74,9 +75,9 @@
     "symbol": "=",
     "description": "A rather green stick.  Very fibrous.",
     "fun": -100,
-    "health": -20,
-    "volume": 4,
+    "healthy": -20,
+    "volume": "1 L",
     "stack_size": 10,
-    "weight": 80
+    "weight": "80 g"
   }
 ]

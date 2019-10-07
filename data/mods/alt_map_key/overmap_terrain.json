@@ -1606,27 +1606,85 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "sewage_treatment",
-    "copy-from": "sewage_treatment",
-    "name": "sewage treatment",
+    "id": "sewage_treatment_0_0_0",
+    "copy-from": "sewage_treatment_0_0_0",
+    "name": "sewage treatment plant",
     "sym": "s",
     "color": "yellow"
   },
   {
     "type": "overmap_terrain",
-    "id": "sewage_treatment_hub",
-    "copy-from": "sewage_treatment_hub",
+    "id": "sewage_treatment_0_1_0",
+    "copy-from": "sewage_treatment_0_1_0",
+    "name": "sewage treatment plant",
+    "sym": "s",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_1_1_0",
+    "copy-from": "sewage_treatment_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_1_0_0",
+    "copy-from": "sewage_treatment_0_0_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_0_0_roof",
+    "copy-from": "sewage_treatment_0_0_roof",
+    "name": "sewage treatment plant roof",
+    "sym": "s",
+    "color": "i_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_1_0_roof",
+    "copy-from": "sewage_treatment_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_0_1_roof",
+    "copy-from": "sewage_treatment_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_1_1_roof",
+    "copy-from": "sewage_treatment_0_0_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_0_0_-1",
+    "copy-from": "sewage_treatment_0_0_-1",
     "name": "sewage treatment",
     "sym": "s",
     "color": "i_yellow"
   },
   {
     "type": "overmap_terrain",
-    "id": "sewage_treatment_under",
-    "copy-from": "sewage_treatment_under",
-    "name": "sewage treatment",
-    "sym": "s",
-    "color": "i_yellow"
+    "id": "sewage_treatment_1_0_-1",
+    "copy-from": "sewage_treatment_0_0_-1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_2_0_-1",
+    "copy-from": "sewage_treatment_0_0_-1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_0_1_-1",
+    "copy-from": "sewage_treatment_0_0_-1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_1_1_-1",
+    "copy-from": "sewage_treatment_0_0_-1"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewage_treatment_2_1_-1",
+    "copy-from": "sewage_treatment_0_0_-1"
   },
   {
     "type": "overmap_terrain",
