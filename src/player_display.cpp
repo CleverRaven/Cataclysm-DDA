@@ -1128,11 +1128,11 @@ void player::disp_info()
         if( bmi < character_weight_category::emaciated ) {
             effect_name.push_back( _( "Severely Malnourished" ) );
             starvation_text <<
-                            _( "Your body is severely weakened by starvation. You might die if you don't start eating regular meals!\n \n" );
+                            _( "Your body is severely weakened by starvation. You might die if you don't start eating regular meals!\n\n" );
         } else {
             effect_name.push_back( _( "Malnourished" ) );
             starvation_text <<
-                            _( "Your body is weakened by starvation. Only time and regular meals will help you recover.\n \n" );
+                            _( "Your body is weakened by starvation. Only time and regular meals will help you recover.\n\n" );
         }
 
         if( bmi < character_weight_category::underweight ) {

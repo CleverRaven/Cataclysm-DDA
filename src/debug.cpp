@@ -125,7 +125,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
 
     std::string formatted_report =
         string_format( // developer-facing error report. INTENTIONALLY UNTRANSLATED!
-            " DEBUG    : %s\n \n"
+            " DEBUG    : %s\n\n"
             " FUNCTION : %s\n"
             " FILE     : %s\n"
             " LINE     : %s\n",
@@ -141,7 +141,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
 #endif
 
     fold_and_print( catacurses::stdscr, point_zero, getmaxx( catacurses::stdscr ), c_light_red,
-                    "\n \n" // Looks nicer with some space
+                    "\n\n" // Looks nicer with some space
                     " %s\n" // translated user string: error notification
                     " -----------------------------------------------------------\n"
                     "%s"
