@@ -271,7 +271,7 @@
     "harvest": "stirge_death",
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE", "SWARMS" ]
   },
   {
     "id": "mon_shrieker",
@@ -297,15 +297,15 @@
     "harvest": "exempt",
     "special_attacks": [ [ "SHRIEK_ALERT", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "MELT" ],
-    "flags": [ "SEES", "NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE" ]
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE", "PACIFIST" ]
   },
   {
     "id": "mon_lemure",
     "type": "MONSTER",
     "name": "lemure",
     "description": "A lemure resembles a molten mass of flesh with a vaguely humanoid head and torso.",
-    "default_faction": "inferno",
+    "default_faction": "magical_beast",
     "bodytype": "blob",
     "species": [ "MAGICAL_BEAST" ],
     "diff": 2,
@@ -328,6 +328,6 @@
     "harvest": "exempt",
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "PATH_AVOID_FIRE" ]
   }
 ]
