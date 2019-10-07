@@ -50,7 +50,7 @@ static const std::map< activity_id, std::string> activity_names = {
     { activity_id( "ACT_CHURN" ), translate_marker( "Churning" ) },
     { activity_id( "ACT_FIELD_DRESS" ), translate_marker( "Fielddressing" ) },
     { activity_id( "ACT_SKIN" ), translate_marker( "Skinning" ) },
-    { activity_id( "ACT_QUARTER" ), translate_marker( "Quatering" ) },
+    { activity_id( "ACT_QUARTER" ), translate_marker( "Quartering" ) },
     { activity_id( "ACT_DISMEMBER" ), translate_marker( "Dismembering" ) },
     { activity_id( "ACT_DISSECT" ), translate_marker( "Dissecting" ) },
     { activity_id( "ACT_HACKSAW" ), translate_marker( "Hacksawing" ) },
