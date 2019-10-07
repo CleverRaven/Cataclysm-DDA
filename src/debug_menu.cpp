@@ -142,6 +142,7 @@ enum debug_menu_index {
     DEBUG_DISPLAY_SCENTS_LOCAL,
     DEBUG_DISPLAY_TEMP,
     DEBUG_DISPLAY_VISIBILITY,
+    DEBUG_DISPLAY_LIGHTING,
     DEBUG_DISPLAY_RADIATION,
     DEBUG_LEARN_SPELLS,
     DEBUG_LEVEL_SPELLS
@@ -200,6 +201,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_DISPLAY_SCENTS_LOCAL, true, 's', _( "Toggle display local scents" ) ) },
             { uilist_entry( DEBUG_DISPLAY_TEMP, true, 'T', _( "Toggle display temperature" ) ) },
             { uilist_entry( DEBUG_DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
+            { uilist_entry( DEBUG_DISPLAY_LIGHTING, true, 'l', _( "Toggle display lighting" ) ) },
             { uilist_entry( DEBUG_DISPLAY_RADIATION, true, 'R', _( "Toggle display radiation" ) ) },
             { uilist_entry( DEBUG_SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
             { uilist_entry( DEBUG_BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
@@ -1298,7 +1300,9 @@ void debug()
 
         case DEBUG_SHOW_SOUND: {
 #if defined(TILES)
-            const point offset = u.view_offset.xy() + point( POSX - u.posx(), POSY - u.posy() );
+            const point offset {
+                u.view_offset.xy() + point( POSX - u.posx(), POSY - u.posy() )
+            };
             g->draw_ter();
             auto sounds_to_draw = sounds::get_monster_sounds();
             for( const auto &sound : sounds_to_draw.first ) {
@@ -1323,56 +1327,20 @@ void debug()
             ui::omap::display_scents();
             break;
         case DEBUG_DISPLAY_SCENTS_LOCAL:
-            g->displaying_temperature = false;
-            g->displaying_visibility = false;
-            g->displaying_radiation = false;
-            g->displaying_scent = !g->displaying_scent;
+            g->display_toggle_overlay( ACTION_DISPLAY_SCENT );
             break;
         case DEBUG_DISPLAY_TEMP:
-            g->displaying_scent = false;
-            g->displaying_visibility = false;
-            g->displaying_radiation = false;
-            g->displaying_temperature = !g->displaying_temperature;
+            g->display_toggle_overlay( ACTION_DISPLAY_TEMPERATURE );
             break;
-        case DEBUG_DISPLAY_VISIBILITY: {
-            g->displaying_scent = false;
-            g->displaying_temperature = false;
-            g->displaying_radiation = false;
-            g->displaying_visibility = !g->displaying_visibility;
-            if( g->displaying_visibility ) {
-                std::vector< tripoint > locations;
-                uilist creature_menu;
-                int num_creatures = 0;
-                creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
-                locations.emplace_back( g->u.pos() ); // add player first.
-                for( const Creature &critter : g->all_creatures() ) {
-                    if( critter.is_player() ) {
-                        continue;
-                    }
-                    creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, critter.disp_name() );
-                    locations.emplace_back( critter.pos() );
-                }
-
-                pointmenu_cb callback( locations );
-                creature_menu.callback = &callback;
-                creature_menu.w_y = 0;
-                creature_menu.query();
-                if( creature_menu.ret >= 0 && static_cast<size_t>( creature_menu.ret ) < locations.size() ) {
-                    Creature *creature = g->critter_at<Creature>( locations[creature_menu.ret] );
-                    g->displaying_visibility_creature = creature;
-                }
-            } else {
-                g->displaying_visibility_creature = nullptr;
-            }
-        }
-        break;
-        case DEBUG_DISPLAY_RADIATION: {
-            g->displaying_scent = false;
-            g->displaying_temperature = false;
-            g->displaying_visibility = false;
-            g->displaying_radiation = !g->displaying_radiation;
-        }
-        break;
+        case DEBUG_DISPLAY_VISIBILITY:
+            g->display_toggle_overlay( ACTION_DISPLAY_VISIBILITY );
+            break;
+        case DEBUG_DISPLAY_LIGHTING:
+            g->display_toggle_overlay( ACTION_DISPLAY_LIGHTING );
+            break;
+        case DEBUG_DISPLAY_RADIATION:
+            g->display_toggle_overlay( ACTION_DISPLAY_RADIATION );
+            break;
         case DEBUG_CHANGE_TIME: {
             auto set_turn = [&]( const int initial, const time_duration factor, const char *const msg ) {
                 const auto text = string_input_popup()

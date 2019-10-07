@@ -266,10 +266,6 @@ game::game() :
     timed_events( *timed_event_manager_ptr ),
     uquit( QUIT_NO ),
     new_game( false ),
-    displaying_scent( false ),
-    displaying_temperature( false ),
-    displaying_visibility( false ),
-    displaying_radiation( false ),
     safe_mode( SAFE_MODE_ON ),
     pixel_minimap_option( 0 ),
     mostseen( 0 ),
@@ -2365,6 +2361,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "debug_scent" );
     ctxt.register_action( "debug_temp" );
     ctxt.register_action( "debug_visibility" );
+    ctxt.register_action( "debug_lighting" );
     ctxt.register_action( "debug_radiation" );
     ctxt.register_action( "debug_mode" );
     ctxt.register_action( "zoom_out" );
@@ -6666,6 +6663,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     ctxt.register_action( "debug_scent" );
     ctxt.register_action( "debug_temp" );
     ctxt.register_action( "debug_visibility" );
+    ctxt.register_action( "debug_lighting" );
     ctxt.register_action( "debug_radiation" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
@@ -6797,6 +6795,10 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
         } else if( action == "debug_temp" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_temperature();
+            }
+        } else if( action == "debug_lighting" ) {
+            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
+                display_lighting();
             }
         } else if( action == "debug_radiation" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
@@ -11108,13 +11110,34 @@ void game::perhaps_add_random_npc()
     load_npcs();
 }
 
+bool game::display_overlay_state( const action_id action )
+{
+    const auto it = displaying_overlays.find( action );
+    if( it == displaying_overlays.end() ) {
+        return false;
+    }
+
+    return displaying_overlays[action];
+}
+
+void game::display_toggle_overlay( const action_id action )
+{
+    const auto it = displaying_overlays.find( action );
+    if( it == displaying_overlays.end() ) {
+        return;
+    }
+
+    const bool action_flag = it->second;
+    std::for_each( displaying_overlays.begin(), displaying_overlays.end(), []( auto & p ) {
+        p.second = false;
+    } );
+    displaying_overlays[action] = !action_flag;
+}
+
 void game::display_scent()
 {
     if( use_tiles ) {
-        displaying_temperature = false;
-        displaying_visibility = false;
-        displaying_radiation = false;
-        displaying_scent = !displaying_scent;
+        display_toggle_overlay( ACTION_DISPLAY_SCENT );
     } else {
         int div;
         bool got_value = query_int( div, _( "Set the Scent Map sensitivity to (0 to cancel)?" ) );
@@ -11133,30 +11156,72 @@ void game::display_scent()
 void game::display_temperature()
 {
     if( use_tiles ) {
-        displaying_scent = false;
-        displaying_visibility = false;
-        displaying_radiation = false;
-        displaying_temperature = !displaying_temperature;
+        display_toggle_overlay( ACTION_DISPLAY_TEMPERATURE );
     }
 }
 
 void game::display_visibility()
 {
     if( use_tiles ) {
-        displaying_scent = false;
-        displaying_temperature = false;
-        displaying_radiation = false;
-        displaying_visibility = !displaying_visibility;
+        display_toggle_overlay( ACTION_DISPLAY_VISIBILITY );
+        if( display_overlay_state( ACTION_DISPLAY_VISIBILITY ) ) {
+            std::vector< tripoint > locations;
+            uilist creature_menu;
+            int num_creatures = 0;
+            creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
+            locations.emplace_back( g->u.pos() ); // add player first.
+            for( const Creature &critter : g->all_creatures() ) {
+                if( critter.is_player() ) {
+                    continue;
+                }
+                creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, critter.disp_name() );
+                locations.emplace_back( critter.pos() );
+            }
+
+            pointmenu_cb callback( locations );
+            creature_menu.callback = &callback;
+            creature_menu.w_y = 0;
+            creature_menu.query();
+            if( creature_menu.ret >= 0 && static_cast<size_t>( creature_menu.ret ) < locations.size() ) {
+                Creature *creature = critter_at<Creature>( locations[creature_menu.ret] );
+                displaying_visibility_creature = creature;
+            }
+        } else {
+            displaying_visibility_creature = nullptr;
+        }
+    }
+}
+
+void game::display_lighting()
+{
+    if( use_tiles ) {
+        display_toggle_overlay( ACTION_DISPLAY_LIGHTING );
+        if( !g->display_overlay_state( ACTION_DISPLAY_LIGHTING ) ) {
+            return;
+        }
+        uilist lighting_menu;
+        std::vector<std::string> lighting_menu_strings{
+            "Global lighting conditions"
+        };
+
+        int count = 0;
+        for( const auto &menu_str : lighting_menu_strings ) {
+            lighting_menu.addentry( count++, true, MENU_AUTOASSIGN, "%s", menu_str );
+        }
+
+        lighting_menu.w_y = 0;
+        lighting_menu.query();
+        if( ( lighting_menu.ret >= 0 ) &&
+            ( static_cast<size_t>( lighting_menu.ret ) < lighting_menu_strings.size() ) ) {
+            g->displaying_lighting_condition = lighting_menu.ret;
+        }
     }
 }
 
 void game::display_radiation()
 {
     if( use_tiles ) {
-        displaying_scent = false;
-        displaying_visibility = false;
-        displaying_temperature = false;
-        displaying_radiation = !displaying_radiation;
+        display_toggle_overlay( ACTION_DISPLAY_RADIATION );
     }
 }
 

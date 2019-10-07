@@ -1931,6 +1931,12 @@
   },
   {
     "type": "keybinding",
+    "name": "View Lighting Map",
+    "category": "DEFAULTMODE",
+    "id": "debug_lighting"
+  },
+  {
+    "type": "keybinding",
     "name": "View Radiation Map",
     "category": "DEFAULTMODE",
     "id": "debug_radiation"
