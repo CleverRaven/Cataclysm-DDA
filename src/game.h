@@ -979,7 +979,6 @@ class game
         Creature *displaying_visibility_creature;
         /** Type of lighting condition overlay to display */
         int displaying_lighting_condition = 0;
-        bool displaying_radiation;
 
         bool show_panel_adm;
         bool right_sidebar;
