@@ -506,7 +506,7 @@ static std::string debug_resolve_binary( const std::string &binary, std::ostream
     if( !path ) {
         // Should be impossible, but I want to avoid segfaults
         // in the crash handler.
-        out << "\tbacktrace: PATH not set\n";
+        out << "    backtrace: PATH not set\n";
         return binary;
     }
 
@@ -549,7 +549,7 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
         cmd << nm_variant << ' ' << binary << " 2>&1";
         FILE *nm = popen( cmd.str().c_str(), "re" );
         if( !nm ) {
-            out << "\tbacktrace: popen(nm) failed: " << strerror( errno ) << "\n";
+            out << "    backtrace: popen(nm) failed: " << strerror( errno ) << "\n";
             return cata::nullopt;
         }
 
@@ -587,7 +587,7 @@ void debug_write_backtrace( std::ostream &out )
     HANDLE proc = GetCurrentProcess();
     for( USHORT i = 0; i < num_bt; ++i ) {
         DWORD64 off;
-        out << "\n\t(";
+        out << "\n    (";
         if( SymFromAddr( proc, reinterpret_cast<DWORD64>( bt[i] ), &off, &sym ) ) {
             out << sym.Name << "+0x" << std::hex << off << std::dec;
         }
@@ -620,9 +620,9 @@ void debug_write_backtrace( std::ostream &out )
     int count = backtrace( tracePtrs, TRACE_SIZE );
     char **funcNames = backtrace_symbols( tracePtrs, count );
     for( int i = 0; i < count; ++i ) {
-        out << "\n\t" << funcNames[i];
+        out << "\n    " << funcNames[i];
     }
-    out << "\n\n\tAttempting to repeat stack trace using debug symbols...\n";
+    out << "\n\n    Attempting to repeat stack trace using debug symbols...\n";
     // Try to print the backtrace again, but this time using addr2line
     // to extract debug info and thus get a more detailed / useful
     // version.  If addr2line is not available this will just fail,
@@ -651,12 +651,12 @@ void debug_write_backtrace( std::ostream &out )
         cmd << " 2>&1";
         FILE *addr2line = popen( cmd.str().c_str(), "re" );
         if( addr2line == nullptr ) {
-            out << "\tbacktrace: popen(addr2line) failed\n";
+            out << "    backtrace: popen(addr2line) failed\n";
             return false;
         }
         char buf[1024];
         while( fgets( buf, sizeof( buf ), addr2line ) ) {
-            out.write( "\t", 1 );
+            out.write( "    ", 4 );
             // Strip leading directories for source file path
             char search_for[] = "/src/";
             auto buf_end = buf + strlen( buf );
@@ -672,7 +672,7 @@ void debug_write_backtrace( std::ostream &out )
         if( 0 != pclose( addr2line ) ) {
             // Most likely reason is that addr2line is not installed, so
             // in this case we give up and don't try any more frames.
-            out << "\tbacktrace: addr2line failed\n";
+            out << "    backtrace: addr2line failed\n";
             return false;
         }
         return true;
@@ -691,12 +691,12 @@ void debug_write_backtrace( std::ostream &out )
         const auto funcNameEnd = funcName + std::strlen( funcName );
         const auto binaryEnd = std::find( funcName, funcNameEnd, '(' );
         if( binaryEnd == funcNameEnd ) {
-            out << "\tbacktrace: Could not extract binary name from line\n";
+            out << "    backtrace: Could not extract binary name from line\n";
             continue;
         }
 
         if( !debug_is_safe_string( funcName, binaryEnd ) ) {
-            out << "\tbacktrace: Binary name not safe\n";
+            out << "    backtrace: Binary name not safe\n";
             continue;
         }
 

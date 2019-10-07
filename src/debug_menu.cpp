@@ -1395,7 +1395,7 @@ void debug()
                 };
 
                 uilist smenu;
-		static const auto years = [](const time_point &p) { return static_cast<int>( ( p - calendar::turn_zero ) / calendar::year_length() ); };
+                static const auto years = [](const time_point &p) { return static_cast<int>( ( p - calendar::turn_zero ) / calendar::year_length() ); };
                 do {
                     const int iSel = smenu.ret;
                     smenu.reset();
