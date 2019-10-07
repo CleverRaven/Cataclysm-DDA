@@ -1333,59 +1333,12 @@ void debug()
             case DEBUG_DISPLAY_TEMP:
                 g->display_toggle_overlay( ACTION_DISPLAY_TEMPERATURE );
                 break;
-            case DEBUG_DISPLAY_VISIBILITY: {
+            case DEBUG_DISPLAY_VISIBILITY:
                 g->display_toggle_overlay( ACTION_DISPLAY_VISIBILITY );
-                if( g->display_overlay_state( ACTION_DISPLAY_VISIBILITY ) ) {
-                    std::vector< tripoint > locations;
-                    uilist creature_menu;
-                    int num_creatures = 0;
-                    creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
-                    locations.emplace_back( g->u.pos() ); // add player first.
-                    for( const Creature &critter : g->all_creatures() ) {
-                        if( critter.is_player() ) {
-                            continue;
-                        }
-                        creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, critter.disp_name() );
-                        locations.emplace_back( critter.pos() );
-                    }
-
-                    pointmenu_cb callback( locations );
-                    creature_menu.callback = &callback;
-                    creature_menu.w_y = 0;
-                    creature_menu.query();
-                    if( creature_menu.ret >= 0 && static_cast<size_t>( creature_menu.ret ) < locations.size() ) {
-                        Creature *creature = g->critter_at<Creature>( locations[creature_menu.ret] );
-                        g->displaying_visibility_creature = creature;
-                    }
-                } else {
-                    g->displaying_visibility_creature = nullptr;
-                }
-            }
-            break;
-            case DEBUG_DISPLAY_LIGHTING: {
+                break;
+            case DEBUG_DISPLAY_LIGHTING:
                 g->display_toggle_overlay( ACTION_DISPLAY_LIGHTING );
-                if ( !g->display_overlay_state( ACTION_DISPLAY_LIGHTING ) ) {
-                    break;
-                }
-
-                uilist lighting_menu;
-                std::vector<std::string> lighting_menu_strings{
-                    "Global lighting conditions"
-                };
-
-                int count = 0;
-                for ( const auto& menu_str : lighting_menu_strings ) {
-                    lighting_menu.addentry( count++, true, MENU_AUTOASSIGN, "%s", menu_str );
-                }
-
-                lighting_menu.w_y = 0;
-                lighting_menu.query();
-                if ( ( lighting_menu.ret >= 0 ) &&
-                    ( static_cast<size_t>( lighting_menu.ret ) < lighting_menu_strings.size() ) ) {
-                    g->displaying_lighting_condition = lighting_menu.ret;
-                }
-            }
-            break;
+                break;
             case DEBUG_DISPLAY_RADIATION:
                 g->display_toggle_overlay( ACTION_DISPLAY_RADIATION );
                 break;
