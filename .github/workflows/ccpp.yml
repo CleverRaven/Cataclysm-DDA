@@ -20,6 +20,6 @@ jobs:
     - name: install dependencies
       run: sudo apt-get install libncursesw5-dev
     - name: make
-      run: make
+      run: make 'CXXFLAGS=-I/usr/include/ncursesw'
     - name: run tests
       run: make check
