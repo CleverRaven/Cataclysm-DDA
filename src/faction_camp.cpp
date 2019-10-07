@@ -1985,7 +1985,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
     int total_c = 0;
     for( const std::string &i : plant_names ) {
         if( total_c < 5 ) {
-            crops += "\t" + i + " \n";
+            crops += "    " + i + " \n";
             total_c++;
         } else if( total_c == 5 ) {
             crops += _( "+ more \n" );
