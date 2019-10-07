@@ -900,6 +900,7 @@ class game
             { ACTION_DISPLAY_TEMPERATURE, false },
             { ACTION_DISPLAY_VISIBILITY, false },
             { ACTION_DISPLAY_LIGHTING, false },
+            { ACTION_DISPLAY_RADIATION, false },
         };
         void display_scent();   // Displays the scent map
         void display_temperature();    // Displays temperature map
