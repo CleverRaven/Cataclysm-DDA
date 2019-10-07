@@ -1350,19 +1350,16 @@ void load_construction( JsonObject &jo )
     requirement_data::load_requirement( jo, req_id );
     con.requirements = req_id;
 
-    requirement_data requirements_ = *con.requirements;
     if( jo.has_string( "using" ) ) {
-        requirements_ = requirements_ + ( *requirement_id( jo.get_string( "using" ) ) * 1 );
+        con.reqs_using = { { requirement_id( jo.get_string( "using" ) ) , 1} };
     } else if( jo.has_array( "using" ) ) {
         auto arr = jo.get_array( "using" );
 
         while( arr.has_more() ) {
             auto cur = arr.next_array();
-            requirements_ = requirements_ + ( *requirement_id( cur.get_string( 0 ) ) * cur.get_int( 1 ) );
+            con.reqs_using.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
         }
     }
-
-    requirement_data::save_requirement( requirements_, req_id );
 
     con.pre_note = jo.get_string( "pre_note", "" );
     con.pre_terrain = jo.get_string( "pre_terrain", "" );
@@ -1567,6 +1564,13 @@ void finalize_constructions()
             debugmsg( "Invalid construction category (%s) defined for construction (%s)", con.category.str(),
                       con.description );
         }
+        requirement_data requirements_ = std::accumulate( con.reqs_using.begin(), con.reqs_using.end(), *con.requirements,
+            []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
+                return lhs + ( *rhs.first * rhs.second );
+            } );
+
+        requirement_data::save_requirement(requirements_, con.requirements);
+        con.reqs_using.clear();
     }
 
     constructions.erase( std::remove_if( constructions.begin(), constructions.end(),
