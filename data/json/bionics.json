@@ -11,7 +11,7 @@
     "id": "bio_ads",
     "type": "bionic",
     "name": "Active Defense System",
-    "description": "A thin forcefield surrounds your body, continually draining power.  Anything attempting to penetrate this field has a chance of being deflected at the cost of energy.  Bullets will be stopped more often than melee weapons and those in turn more often than massive objects.",
+    "description": "A thin forcefield surrounds your body, continually draining power.  Anything attempting to penetrate this field has a chance of being deflected at the cost of energy, reducing their ability to deal damage.  Bullets will be deflected more than melee weapons and those in turn more than massive objects.",
     "occupied_bodyparts": [ [ "TORSO", 10 ], [ "HEAD", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": 10,
@@ -137,7 +137,7 @@
     "type": "bionic",
     "name": "Cable Charger System",
     "capacity": 10,
-    "description": "You have a complex port surgically mounted above your hip.  While active, it will recharge bionic power when connected to a battery via jumper cable.",
+    "description": "You have a complex port surgically mounted above your hip.  While active, it will recharge bionic power when connected to a power source via jumper cable.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ]
   },
@@ -249,6 +249,7 @@
     "name": "Wired Reflexes",
     "description": "Your reaction time has been greatly enhanced with bionic nerve stimulators, giving you a +2 bonus to dexterity.",
     "occupied_bodyparts": [ [ "TORSO", 6 ], [ "ARM_L", 4 ], [ "ARM_R", 4 ], [ "LEG_L", 8 ], [ "LEG_R", 8 ] ],
+    "stat_bonus": [ [ "DEX", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -340,6 +341,7 @@
     "name": "Diamond Cornea",
     "description": "Your vision is greatly enhanced, giving you a +2 bonus to perception.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
+    "stat_bonus": [ [ "PER", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -518,6 +520,7 @@
     "name": "Cerebral Booster",
     "description": "Your brain has been enhanced with bionic coprocessors, giving you a +2 bonus to intelligence.",
     "occupied_bodyparts": [ [ "HEAD", 7 ] ],
+    "stat_bonus": [ [ "INT", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -923,6 +926,7 @@
     "name": "Muscle Augmentation",
     "description": "Your muscular system has been surgically enhanced with myomer fibers, giving you a +2 bonus to strength.",
     "occupied_bodyparts": [ [ "TORSO", 6 ], [ "ARM_L", 4 ], [ "ARM_R", 4 ], [ "LEG_L", 8 ], [ "LEG_R", 8 ] ],
+    "stat_bonus": [ [ "STR", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -1071,6 +1075,20 @@
     "description": "Nanotubes surgically embedded in the palm of your hand will pump any available fluid out of a dead body, cleanse it of impurities and convert it into drinkable water.  You must, however, have a container to store the water in.",
     "occupied_bodyparts": [ [ "ARM_R", 1 ], [ "HAND_R", 2 ] ],
     "act_cost": 50
+  },
+  {
+    "id": "bio_fuel_cell_gasoline",
+    "type": "bionic",
+    "name": "Gasoline Fuel Cell CBM",
+    "description": "A small gasoline fuel cell fixed to your scapula. Despite its limited energy output compared to other fuel cells, this device still produces a significant amount of heat dissipated through a heat exhaust protruding from your back.  A diffuse network of bio-plastic bladders has been meshed with your circulatory system and serves as a fuel tank.",
+    "occupied_bodyparts": [ [ "TORSO", 8 ] ],
+    "encumbrance": [ [ "TORSO", 5 ] ],
+    "fuel_options": [ "gasoline" ],
+    "fuel_capacity": 500,
+    "fuel_efficiency": 0.25,
+    "exothermic_power_gen": true,
+    "time": 1,
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_syringe",

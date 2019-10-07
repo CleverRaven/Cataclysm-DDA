@@ -90,6 +90,7 @@
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_ROBOFAC_INTERCOM_2",
     "dialogue": {
       "describe": "No, I said ... [*You hear a short, muffled conversation from across the intercom*]/nWell, it seems we do have a use for you.  It's dangerous and you are likely to die, but if you complete it we will allow you limited access to our resources.",
@@ -123,11 +124,17 @@
           "om_terrain": "robofachq_surface_b0",
           "om_special": "hub_01",
           "place_nested": [ { "chunks": [ "robofac_hq_surface_freemerchant_camp" ], "x": 4, "y": 0 } ]
+        },
+        {
+          "om_terrain": "robofachq_surface_entrance",
+          "om_special": "hub_01",
+          "place_nested": [ { "chunks": [ "robofac_hq_surface_merc_1" ], "x": 3, "y": 10 } ]
         }
       ],
       "effect": [ { "u_buy_item": "RobofacCoin", "count": 2 } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_ROBOFAC_INTERCOM_3",
     "dialogue": {
       "describe": "...",
@@ -163,6 +170,7 @@
     },
     "end": { "effect": [ { "u_buy_item": "RobofacCoin", "count": 4 } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "...",
       "offer": "Our facility once sourced advanced photonic circuitry from a nearby robotics manufacturer.  Their building suffered major damage during the portal storms, and collapsed almost entirely.  However, preliminary scouting reveals that the basement prototyping lab likely remains intact.\n\nthe intercom: We ask you to investigate the ruins, and if possible, retrieve a template for the fabrication of said photonic circuitry.",
@@ -302,7 +310,7 @@
     "dynamic_line": "Given the current context, we are willing to sell you a set of our protective gear: gas mask, suit and gear, at a considerable discount.  We will sell it for two of our coins.\n\nthe intercom: Hmm wait, we might not have your size...",
     "responses": [
       {
-        "text": "[ 2 Hub 01 Gold Coins ] Deal!",
+        "text": "[ 2 HGC ] Deal!",
         "condition": { "u_has_item": "RobofacCoin" },
         "effect": [
           { "u_sell_item": "RobofacCoin", "count": 2 },

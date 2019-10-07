@@ -4,9 +4,10 @@
     "type": "AMMO",
     "name": ".357 magnum FMJ",
     "description": "Jacketed .357 magnum ammunition.  The .357 magnum round is derived from the earlier .38 special, with a marginally longer case and generating greater pressure.",
-    "weight": 8,
+    "weight": "8 g",
     "volume": "250 ml",
-    "price": 4000,
+    "price": 140,
+    "price_postapoc": 4000,
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "light_gray",
@@ -28,6 +29,24 @@
     "name": ".357 magnum JHP",
     "description": "Jacketed hollow point .357 magnum ammunition.  The .357 magnum round is derived from the earlier .38 special, with a marginally longer case and generating greater pressure.",
     "relative": { "damage": 4, "pierce": -2 }
+  },
+  {
+    "id": "bp_357mag_fmj",
+    "copy-from": "357mag_fmj",
+    "type": "AMMO",
+    "name": ".357 Magnum FMJ blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_357mag_jhp",
+    "copy-from": "357mag_jhp",
+    "type": "AMMO",
+    "name": ".357 Magnum JHP blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
     "id": "reloaded_357mag_fmj",

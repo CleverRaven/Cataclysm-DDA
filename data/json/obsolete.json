@@ -245,6 +245,77 @@
     "obsolete": true
   },
   {
+    "id": "wheel_steerable",
+    "copy-from": "wheel",
+    "type": "vehicle_part",
+    "name": "wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+  },
+  {
+    "id": "wheel_slick_steerable",
+    "copy-from": "wheel_slick",
+    "type": "vehicle_part",
+    "name": "racing slick (steerable)",
+    "item": "wheel_slick",
+    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+  },
+  {
+    "id": "wheel_armor_steerable",
+    "copy-from": "wheel_armor",
+    "type": "vehicle_part",
+    "name": "armored wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+  },
+  {
+    "id": "wheel_bicycle_steerable",
+    "copy-from": "wheel_bicycle",
+    "type": "vehicle_part",
+    "name": "bicycle wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+  },
+  {
+    "id": "wheel_bicycle_or_steerable",
+    "copy-from": "wheel_bicycle_or",
+    "type": "vehicle_part",
+    "name": "off-road bicycle wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+  },
+  {
+    "id": "wheel_motorbike_steerable",
+    "copy-from": "wheel_motorbike",
+    "type": "vehicle_part",
+    "name": "motorbike wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+  },
+  {
+    "id": "wheel_motorbike_or_steerable",
+    "copy-from": "wheel_motorbike_or",
+    "type": "vehicle_part",
+    "name": "off-road motorbike wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+  },
+  {
+    "id": "wheel_small_steerable",
+    "copy-from": "wheel_small",
+    "type": "vehicle_part",
+    "name": "small wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+  },
+  {
+    "id": "wheel_wide_steerable",
+    "copy-from": "wheel_wide",
+    "type": "vehicle_part",
+    "name": "wide wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+  },
+  {
+    "id": "wheel_wide_or_steerable",
+    "copy-from": "wheel_wide_or",
+    "type": "vehicle_part",
+    "name": "off-road wide wheel (steerable)",
+    "extend": { "flags": [ "STEERABLE", "NOINSTALL" ] }
+  },
+  {
     "type": "mutation",
     "id": "INCONSPICUOUS",
     "name": "Inconspicuous",
@@ -252,5 +323,88 @@
     "description": "While sleeping or staying still, it is less likely that monsters will wander close to you.",
     "social_modifiers": { "lie": 2 },
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "SAVINGS",
+    "name": "Savings",
+    "points": 1,
+    "description": "You had some money stashed at the bank for a rainy day.  Now that the storm is raging, it's a last call to use it maybe?",
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "DEBT",
+    "name": "Debt",
+    "points": -1,
+    "description": "You needed money and had a big loan in a bank.  Good thing nobody will come to collect it now, right?  Right?",
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "MILLIONAIRE",
+    "name": "Millionaire",
+    "points": 3,
+    "description": "At the time of Cataclysm you were an owner of a fortune stashed in a bank.  Does that have any meaning now?",
+    "valid": false
+  },
+  {
+    "id": "metal_wheel",
+    "type": "vehicle_part",
+    "name": "metal wheel",
+    "item": "wheel_metal",
+    "location": "under",
+    "symbol": "|",
+    "broken_symbol": "x",
+    "durability": 180,
+    "description": "A strong metal wheel.",
+    "damage_modifier": 70,
+    "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] }, { "item": "steel_chunk", "count": [ 2, 3 ] } ],
+    "rolling_resistance": 0.375,
+    "wheel_type": "rigid",
+    "contact_area": 80,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
+    "damage_reduction": { "all": 66 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_bone",
+    "name": "bone plating",
+    "symbol": ")",
+    "color": "white",
+    "broken_symbol": ")",
+    "broken_color": "light_gray",
+    "durability": 120,
+    "item": "bone_plate",
+    "difficulty": 2,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [ { "item": "bone_tainted", "count": [ 10, 30 ] } ],
+    "damage_reduction": { "all": 18 }
+  },
+  {
+    "id": "washcloth",
+    "type": "TOOL",
+    "name": "washcloth",
+    "description": "A piece of cloth that can be used for cleaning impervious surfaces.",
+    "weight": "80 g",
+    "volume": "250 ml",
+    "price": 0,
+    "material": "cotton",
+    "symbol": ",",
+    "color": "white",
+    "use_action": "WASH_HARD_ITEMS"
+  },
+  {
+    "id": "fault_gun_clogged",
+    "type": "fault",
+    "name": "Dusty",
+    "description": "It's dusty. Has no effect - obsolete fault.",
+    "time": "1 s"
   }
 ]

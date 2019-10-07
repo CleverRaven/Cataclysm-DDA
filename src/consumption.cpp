@@ -242,8 +242,8 @@ std::pair<int, int> player::fun_for( const item &comest ) const
     }
 
     if( has_active_bionic( bio_taste_blocker ) &&
-        power_level > abs( comest.get_comestible()->fun ) &&
-        comest.get_comestible()->fun < 0 ) {
+        power_level > units::from_kilojoule( abs( comest.get_comestible()->fun ) ) &&
+        fun < 0 ) {
         fun = 0;
     }
 
@@ -536,6 +536,12 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
                 _( "The thought of eating that makes you feel sick." ) );
     }
 
+    for( const trait_id &mut : get_mutations() ) {
+        if( !food.made_of_any( mut.obj().can_only_eat ) && !mut.obj().can_only_eat.empty() ) {
+            return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION, _( "You can't eat this." ) );
+        }
+    }
+
     return ret_val<edible_rating>::make_success();
 }
 
@@ -635,12 +641,14 @@ bool player::eat( item &food, bool force )
         return false;
     }
 
+    int charges_used = 0;
     if( food.type->has_use() ) {
         if( !food.type->can_use( "DOGFOOD" ) &&
             !food.type->can_use( "CATFOOD" ) &&
             !food.type->can_use( "BIRDFOOD" ) &&
             !food.type->can_use( "CATTLEFODDER" ) ) {
-            if( food.type->invoke( *this, food, pos() ) <= 0 ) {
+            charges_used = food.type->invoke( *this, food, pos() );
+            if( charges_used <= 0 ) {
                 return false;
             }
         }
@@ -663,8 +671,6 @@ bool player::eat( item &food, bool force )
     if( hibernate &&
         ( get_hunger() > -60 && get_thirst() > -60 ) &&
         ( get_hunger() - nutr < -60 || get_thirst() - quench < -60 ) ) {
-        add_memorial_log( pgettext( "memorial_male", "Began preparing for hibernation." ),
-                          pgettext( "memorial_female", "Began preparing for hibernation." ) );
         add_msg_if_player(
             _( "You've begun stockpiling calories and liquid for hibernation.  You get the feeling that you should prepare for bed, just in case, but...you're hungry again, and you could eat a whole week's worth of food RIGHT NOW." ) );
     }
@@ -684,6 +690,10 @@ bool player::eat( item &food, bool force )
         add_msg_if_player( m_good, _( "Mmm, this %s tastes delicious..." ), food.tname() );
     }
     if( !consume_effects( food ) ) {
+        //Already consumed by using `food.type->invoke`?
+        if( charges_used > 0 ) {
+            food.mod_charges( -charges_used );
+        }
         return false;
     }
     food.mod_charges( -1 );
@@ -801,17 +811,17 @@ bool player::eat( item &food, bool force )
     }
 
     if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL" ) ) {
-        charge_power( rng( 50, 200 ) );
+        charge_power( units::from_kilojoule( rng( 50, 200 ) ) );
     }
     if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL_WEAK" ) ) {
-        charge_power( rng( 25, 100 ) );
+        charge_power( units::from_kilojoule( rng( 25, 100 ) ) );
     }
     if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL_STRONG" ) ) {
-        charge_power( rng( 75, 300 ) );
+        charge_power( units::from_kilojoule( rng( 75, 300 ) ) );
     }
 
     if( has_active_bionic( bio_taste_blocker ) ) {
-        charge_power( -abs( food.get_comestible()->fun ) );
+        charge_power( units::from_kilojoule( -abs( food.get_comestible()->fun ) ) );
     }
 
     if( food.has_flag( "CANNIBALISM" ) ) {
@@ -1097,16 +1107,9 @@ bool player::consume_effects( item &food )
         add_msg_if_player( m_mixed,
                            _( "You feel as though you're going to split open!  In a good way?" ) );
         mod_pain( 5 );
-        std::vector<tripoint> valid;
-        for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
-            if( g->is_empty( dest ) ) {
-                valid.push_back( dest );
-            }
-        }
         int numslime = 1;
-        for( int i = 0; i < numslime && !valid.empty(); i++ ) {
-            const tripoint target = random_entry_removed( valid );
-            if( monster *const slime = g->summon_mon( mon_player_blob, target ) ) {
+        for( int i = 0; i < numslime; i++ ) {
+            if( monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 ) ) {
                 slime->friendly = -1;
             }
         }
@@ -1171,7 +1174,8 @@ bool player::feed_battery_with( item &it )
     }
 
     const int energy = get_acquirable_energy( it, rechargeable_cbm::battery );
-    const int profitable_energy = std::min( energy, max_power_level - power_level );
+    const int profitable_energy = std::min( energy,
+                                            units::to_kilojoule( max_power_level - power_level ) );
 
     if( profitable_energy <= 0 ) {
         add_msg_player_or_npc( m_info,
@@ -1180,7 +1184,7 @@ bool player::feed_battery_with( item &it )
         return false;
     }
 
-    charge_power( it.charges );
+    charge_power( units::from_kilojoule( it.charges ) );
     it.charges -= profitable_energy;
 
     add_msg_player_or_npc( m_info,
@@ -1251,7 +1255,7 @@ bool player::can_feed_furnace_with( const item &it ) const
         return false;
     }
 
-    return it.typeId() != "corpse"; // TODO: Eliminate the hard-coded special case.
+    return !it.has_flag( "CORPSE" );
 }
 
 bool player::feed_furnace_with( item &it )
@@ -1264,8 +1268,8 @@ bool player::feed_furnace_with( item &it )
         return false;
     }
 
-    const int consumed_charges = std::min( it.charges, it.charges_per_volume( furnace_max_volume ) );
-    const int energy = get_acquirable_energy( it, rechargeable_cbm::furnace );
+    const int consumed_charges =  std::min( it.charges, it.charges_per_volume( furnace_max_volume ) );
+    const int energy =  get_acquirable_energy( it, rechargeable_cbm::furnace ) ;
 
     if( energy == 0 ) {
         add_msg_player_or_npc( m_info,
@@ -1278,7 +1282,8 @@ bool player::feed_furnace_with( item &it )
             _( "<npcname> digests a %s for energy, they're fully powered already, so the energy is wasted." ),
             it.tname() );
     } else {
-        const int profitable_energy = std::min( energy, max_power_level - power_level );
+        const int profitable_energy = std::min( energy,
+                                                units::to_kilojoule( max_power_level - power_level ) );
         if( it.count_by_charges() ) {
             add_msg_player_or_npc( m_info,
                                    ngettext( "You digest %d %s and recharge %d point of energy.",
@@ -1302,7 +1307,7 @@ bool player::feed_furnace_with( item &it )
                                            ), it.tname(), profitable_energy
                                  );
         }
-        charge_power( profitable_energy );
+        charge_power( units::from_kilojoule( profitable_energy ) );
     }
 
     it.charges -= consumed_charges;
@@ -1320,17 +1325,24 @@ bool player::fuel_bionic_with( item &it )
     const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
 
     const int loadable = std::min( it.charges, get_fuel_capacity( it.typeId() ) );
+    const std::string str_loaded  = get_value( it.typeId() );
+    int loaded = 0;
+    if( !str_loaded.empty() ) {
+        loaded = std::stoi( str_loaded );
+    }
 
-    const std::string loaded_charge = std::to_string( loadable );
+    const std::string new_charge = std::to_string( loadable + loaded );
 
     it.charges -= loadable;
-    set_value( it.typeId(), loaded_charge );// type and amount of fuel
+    set_value( it.typeId(), new_charge );// type and amount of fuel
     update_fuel_storage( it.typeId() );
     add_msg_player_or_npc( m_info,
-                           ngettext( "You load %i charge of %s in your %s.",
-                                     "You load %i charges of %s in your %s.", loadable ),
-                           ngettext( "<npcname> load %i charge of %s in their %s.",
-                                     "<npcname> load %i charges of %s in their %s.", loadable ), loadable, it.tname(), bio->name );
+                           //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
+                           ngettext( "You load %1$i charge of %2$s in your %3$s.",
+                                     "You load %1$i charges of %2$s in your %3$s.", loadable ),
+                           //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
+                           ngettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
+                                     "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, it.tname(), bio->name );
     mod_moves( -250 );
     return true;
 }
@@ -1398,7 +1410,7 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
         case rechargeable_cbm::other:
             const int to_consume = std::min( it.charges, std::numeric_limits<int>::max() );
             const int to_charge = std::min( static_cast<int>( it.fuel_energy() * to_consume ),
-                                            max_power_level - power_level );
+                                            units::to_kilojoule( max_power_level - power_level ) );
             return to_charge;
             break;
     }

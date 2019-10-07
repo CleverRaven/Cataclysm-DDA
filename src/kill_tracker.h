@@ -24,11 +24,11 @@ class kill_tracker : public event_subscriber
         // returns player's "kill xp" for monsters via STK
         int kill_xp() const;
 
-        void disp_kills() const;
+        std::string get_kills_text() const;
 
         void clear();
 
-        void notify( const event & ) override;
+        void notify( const cata::event & ) override;
 
         void serialize( JsonOut & ) const;
         void deserialize( JsonIn & );

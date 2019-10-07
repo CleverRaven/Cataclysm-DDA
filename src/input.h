@@ -39,9 +39,20 @@ static constexpr int KEY_HOME       =
 static constexpr int KEY_BACKSPACE  =
     0x107;    /* Backspace */                  //<---------not used
 static constexpr int KEY_DC         = 0x151;    /* Delete Character */
+static constexpr int KEY_F0         = 0x108;
 inline constexpr int KEY_F( const int n )
 {
-    return 0x108 + n;    /* F1, F2, etc*/
+    return KEY_F0 + n;    /* F1, F2, etc*/
+}
+static constexpr int F_KEY_NUM_BEG  = 0;
+static constexpr int F_KEY_NUM_END  = 63;
+inline constexpr int F_KEY_NUM( const int key )
+{
+    return key - KEY_F0;
+}
+inline constexpr bool IS_F_KEY( const int key )
+{
+    return key >= KEY_F( F_KEY_NUM_BEG ) && key <= KEY_F( F_KEY_NUM_END );
 }
 inline constexpr int KEY_NUM( const int n )
 {
@@ -558,6 +569,15 @@ class input_context
         std::string get_desc( const std::string &action_descriptor,
                               const std::string &text,
                               std::function<bool( const input_event & )> evt_filter =
+        []( const input_event & ) {
+            return true;
+        } ) const;
+
+        /**
+         * Equivalent to get_desc( act, get_action_name( act ), filter )
+         **/
+        std::string describe_key_and_name( const std::string &action_descriptor,
+                                           std::function<bool( const input_event & )> evt_filter =
         []( const input_event & ) {
             return true;
         } ) const;

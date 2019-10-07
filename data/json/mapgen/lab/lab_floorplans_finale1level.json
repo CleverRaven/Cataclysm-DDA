@@ -180,12 +180,14 @@
       "computers": {
         "6": {
           "name": "PE012 Storage",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 2,
           "options": [ { "name": "UNLOCK STORAGE", "action": "unlock", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
         },
         "7": {
           "name": "Prototype DARPA-713 AUTHORIZED PILOTS ONLY",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 2,
           "options": [ { "name": "UNLOCK STORAGE", "action": "unlock", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
@@ -363,7 +365,7 @@
         "-----------MM----------|"
       ],
       "palettes": [ "lab_palette" ],
-      "monster": { "7": { "monster": "mon_turret" } },
+      "monster": { "7": { "monster": "mon_turret_rifle" } },
       "place_monster": [
         { "monster": "mon_secubot", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 75, "repeat": 2 },
         { "monster": "mon_mech_combat", "x": 2, "y": 2, "chance": 33 }
@@ -389,6 +391,7 @@
       "computers": {
         "6": {
           "name": "PE019 \"Sculptor\" Secure Storage",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 2,
           "options": [ { "name": "UNLOCK STORAGE", "action": "release_disarm", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
@@ -413,6 +416,7 @@
       "computers": {
         "6": {
           "name": "PE050 \"Alpha\" Secure Storage",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 2,
           "options": [ { "name": "UNLOCK STORAGE", "action": "release_disarm", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
@@ -437,6 +441,7 @@
       "computers": {
         "6": {
           "name": "PE065 \"Chimera\" Secure Storage",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 2,
           "options": [ { "name": "UNLOCK STORAGE", "action": "release_disarm", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
@@ -461,6 +466,7 @@
       "computers": {
         "6": {
           "name": "PE070 \"Raptor\" Secure Storage",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 2,
           "options": [ { "name": "UNLOCK STORAGE", "action": "release_disarm", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]
@@ -485,6 +491,7 @@
       "computers": {
         "6": {
           "name": "PE023 \"Medical\" Secure Storage",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 2,
           "options": [ { "name": "UNLOCK STORAGE", "action": "release_disarm", "security": 4 } ],
           "failures": [ { "action": "damage" }, { "action": "secubots" } ]

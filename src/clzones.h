@@ -11,6 +11,7 @@
 #include <functional>
 #include <memory>
 #include <string>
+#include <set>
 
 #include "optional.h"
 #include "point.h"
@@ -23,6 +24,7 @@ class JsonObject;
 class item;
 class faction;
 class map;
+struct construction;
 
 using faction_id = string_id<faction>;
 const faction_id your_fac( "your_followers" );
@@ -157,6 +159,11 @@ class blueprint_options : public zone_options, public mark_option
         bool has_options() const override {
             return true;
         }
+
+        int get_final_construction(
+            const std::vector<construction> &list_constructions,
+            int idx,
+            std::set<int> &skip_index );
 
         bool query_at_creation() override;
         bool query() override;
@@ -400,12 +407,6 @@ class zone_manager
                 const faction_id &fac = your_fac ) const;
         std::unordered_set<tripoint> get_point_set_loot( const tripoint &where, int radius,
                 bool npc_search, const faction_id &fac = your_fac ) const;
-        void start_sort( const std::vector<tripoint> &src_sorted );
-        void end_sort();
-        bool is_sorting() const;
-        int get_num_processed( const tripoint &src ) const;
-        void increment_num_processed( const tripoint &src );
-        void decrement_num_processed( const tripoint &src );
 
         // 'direct' access to zone_manager::zones, giving direct access was nono
         std::vector<ref_zone_data> get_zones( const faction_id &fac = your_fac );

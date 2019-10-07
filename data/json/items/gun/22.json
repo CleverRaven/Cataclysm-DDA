@@ -6,7 +6,7 @@
     "name": "American-180",
     "name_plural": "American-180",
     "description": "The American-180 is a submachine gun developed in the 1960's that fires .22 LR, unusual for an SMG.  Though the round is low-powered, the high rate of fire and large magazine makes the 180 a formidable weapon.",
-    "weight": 1840,
+    "weight": "1840 g",
     "volume": "1250 ml",
     "price": 163000,
     "to_hit": -2,
@@ -19,6 +19,7 @@
     "ranged_damage": 4,
     "dispersion": 280,
     "durability": 6,
+    "min_cycle_recoil": 39,
     "burst": 20,
     "barrel_length": 1,
     "valid_mod_locations": [
@@ -35,6 +36,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "22", [ "a180mag" ] ] ]
   },
   {
@@ -44,7 +46,7 @@
     "name": "Marlin 39A",
     "name_plural": "Marlin 39A",
     "description": "The oldest and longest-produced shoulder firearm in the world.  Though it fires the weak .22 round, it is highly accurate and damaging, and has essentially no recoil.",
-    "weight": 2948,
+    "weight": "2948 g",
     "volume": "2500 ml",
     "price": 23000,
     "to_hit": -1,
@@ -57,6 +59,7 @@
     "ranged_damage": 5,
     "dispersion": 90,
     "durability": 8,
+    "blackpowder_tolerance": 56,
     "clip_size": 19,
     "magazines": [ [ "22", [ "marlin_tubeloader" ] ] ],
     "valid_mod_locations": [
@@ -73,6 +76,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE" ]
   },
   {
@@ -82,7 +86,7 @@
     "name": "Mossberg Brownie",
     "name_plural": "Mossberg Brownie",
     "description": "The first gun produced by O.F. Mossberg & Sons.  A small pocket pistol, marketed to trappers during the early 20th century.  Its four barrels can accept .22 Short and .22 LR cartridges.",
-    "weight": 130,
+    "weight": "130 g",
     "volume": "137ml",
     "price": 110000,
     "to_hit": -1,
@@ -93,6 +97,7 @@
     "ranged_damage": -2,
     "dispersion": 520,
     "durability": 6,
+    "blackpowder_tolerance": 96,
     "clip_size": 4,
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -104,6 +109,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -113,7 +119,7 @@
     "name": "pipe rifle: .22",
     "name_plural": "pipe rifles: .22",
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
-    "weight": 1953,
+    "weight": "1953 g",
     "volume": "1750 ml",
     "price": 10000,
     "to_hit": -1,
@@ -126,6 +132,7 @@
     "ranged_damage": 1,
     "dispersion": 550,
     "durability": 6,
+    "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
@@ -140,6 +147,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ]
   },
   {
@@ -148,7 +156,7 @@
     "reload_noise_volume": 10,
     "name": "RM360 rotary carbine",
     "description": "This unusual Rivtech carbine features five rotating barrels and a large capacity helical magazine.  Durable and easy to handle, it was designed to overcome the deficiencies of its low power .22LR cartridge by rapidly delivering a large number of projectiles.",
-    "weight": 1620,
+    "weight": "1620 g",
     "volume": "1 L",
     "price": 180000,
     "to_hit": -2,
@@ -161,6 +169,8 @@
     "ranged_damage": 3,
     "dispersion": 220,
     "durability": 9,
+    "blackpowder_tolerance": 24,
+    "min_cycle_recoil": 39,
     "burst": 20,
     "reload": 500,
     "valid_mod_locations": [
@@ -174,6 +184,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "22", [ "360_200_mag", "360_400_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
@@ -184,7 +195,7 @@
     "name": "Ruger 10/22",
     "name_plural": "Ruger 10/22",
     "description": "A combination of negligible recoil, high customization, and inexpensive ammunition made the Ruger 10/22 a popular choice among enthusiasts and small game hunters.  Even though it fires the weak .22 round, it's perfectly capable of killing.",
-    "weight": 2220,
+    "weight": "2220 g",
     "volume": "2500 ml",
     "price": 27000,
     "to_hit": -1,
@@ -197,6 +208,7 @@
     "ranged_damage": 4,
     "dispersion": 110,
     "durability": 8,
+    "min_cycle_recoil": 39,
     "barrel_length": 2,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -212,6 +224,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "22", [ "ruger1022mag", "ruger1022bigmag" ] ] ]
   },
@@ -232,7 +245,7 @@
     "name": "SIG Mosquito",
     "name_plural": "SIG Mosquito",
     "description": "A popular, small .22 LR pistol.  One of the many polymer frame pistols produced during the latter 20th-early 21st centuries; it has an underbarrel rail.",
-    "weight": 640,
+    "weight": "640 g",
     "volume": "250 ml",
     "price": 36000,
     "to_hit": -2,
@@ -245,6 +258,7 @@
     "ranged_damage": -1,
     "dispersion": 480,
     "durability": 8,
+    "min_cycle_recoil": 39,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -258,6 +272,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "22", [ "mosquitomag" ] ] ]
   },
@@ -268,7 +283,7 @@
     "name": "S&W 22A",
     "name_plural": "S&W 22A",
     "description": "A popular .22 pistol.",
-    "weight": 900,
+    "weight": "900 g",
     "volume": "500 ml",
     "price": 35000,
     "to_hit": -2,
@@ -278,6 +293,7 @@
     "ammo": "22",
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 39,
     "magazine_well": 1,
     "magazines": [ [ "22", [ "sw22mag" ] ] ]
   },
@@ -287,7 +303,7 @@
     "type": "GUN",
     "name": "Jennings J-22",
     "description": "One of the quintessential 'saturday night specials', the Jennings J-22 was very affordably priced with its injection molded zinc slide and frame.  Intended to fill the void left after small pocket pistols were banned from import, these were more commonly used by criminals unfazed by their glaring safety issues.",
-    "weight": 340,
+    "weight": "340 g",
     "volume": "123ml",
     "price": 7000,
     "to_hit": -3,
@@ -297,6 +313,8 @@
     "ammo": "22",
     "dispersion": 600,
     "durability": 5,
+    "min_cycle_recoil": 39,
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "22", [ "j22mag" ] ] ]
   },
   {
@@ -305,7 +323,7 @@
     "type": "GUN",
     "name": "Walther P22",
     "description": "The Walther P22 is a blowback operated semi-automatic pistol. It is about half the size of most Walthers. It is made mostly with plastic, with the slide and key components being made of die-cast zinc alloy",
-    "weight": 480,
+    "weight": "480 g",
     "volume": "263 ml",
     "price": 8500,
     "to_hit": -3,
@@ -315,6 +333,7 @@
     "ammo": "22",
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 39,
     "magazine_well": 1,
     "magazines": [ [ "22", [ "wp22mag" ] ] ]
   }

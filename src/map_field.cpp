@@ -18,6 +18,7 @@
 #include "calendar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
+#include "effect.h"
 #include "emit.h"
 #include "enums.h"
 #include "fire.h"
@@ -57,6 +58,7 @@
 #include "point.h"
 #include "scent_block.h"
 #include "mongroup.h"
+#include "teleport.h"
 
 const species_id FUNGUS( "FUNGUS" );
 const species_id INSECT( "INSECT" );
@@ -281,7 +283,6 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     // Then, spread to a nearby point.
     // If not possible (or randomly), try to spread up
     // Wind direction will block the field spreading into the wind.
-    spread.reserve( 8 );
     // Start at end_it + 1, then wrap around until all elements have been processed.
     for( size_t i = ( end_it + 1 ) % neighs.size(), count = 0 ;
          count != neighs.size();
@@ -296,7 +297,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     const maptile remove_tile = std::get<0>( maptiles );
     const maptile remove_tile2 = std::get<1>( maptiles );
     const maptile remove_tile3 = std::get<2>( maptiles );
-    if( !zlevels || one_in( spread.size() ) ) {
+    if( !spread.empty() && ( !zlevels || one_in( spread.size() ) ) ) {
         // Construct the destination from offset and p
         if( g->is_sheltered( p ) || windpower < 5 ) {
             gas_spread_to( cur, neighs[ random_entry( spread ) ] );
@@ -970,7 +971,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     curtype.obj().npc_complain_data;
                 const int chance = std::get<0>( npc_complain_data );
                 if( chance > 0 && one_in( chance ) ) {
-                    if( npc *const np = g->critter_at<npc>( p ) ) {
+                    if( npc *const np = g->critter_at<npc>( p, false ) ) {
                         np->complain_about( std::get<1>( npc_complain_data ),
                                             std::get<2>( npc_complain_data ),
                                             std::get<3>( npc_complain_data ) );
@@ -1082,7 +1083,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         cur.monster_spawn_radius() ), [this]( const tripoint & n ) {
                         return passable( n );
                         } ) ) {
-                            add_spawn( spawn_details.name, spawn_details.pack_size, point( spawn_point->x, spawn_point->y ) );
+                            add_spawn( spawn_details.name, spawn_details.pack_size, spawn_point->xy() );
                         }
                     }
                 }
@@ -1506,35 +1507,13 @@ void map::player_in_field( player &u )
             }
 
         }
-        if( ft == fd_smoke ) {
-            if( !inside ) {
-                // Get smoke disease from standing in smoke.
-                const int intensity = cur.get_field_intensity();
-                int cough_strength;
-                time_duration cough_duration = 0_turns;
-                // Thick smoke
-                if( intensity >= 3 ) {
-                    cough_strength = 4;
-                    cough_duration = 15_turns;
-                    // Smoke
-                } else if( intensity == 2 ) {
-                    cough_strength = 2;
-                    cough_duration = 7_turns;
-                    // Intensity 1, thin smoke
-                } else {
-                    cough_strength = 1;
-                    cough_duration = 2_turns;
-                }
-                u.add_env_effect( effect_smoke, bp_mouth, cough_strength, cough_duration );
-            }
-        }
         if( ft == fd_tear_gas ) {
             // Tear gas will both give you teargas disease and/or blind you.
             if( ( cur.get_field_intensity() > 1 || !one_in( 3 ) ) && ( !inside || one_in( 3 ) ) ) {
-                u.add_env_effect( effect_teargas, bp_mouth, 5, 2_minutes );
+                u.add_env_effect( effect_teargas, bp_mouth, 5, 20_seconds );
             }
             if( cur.get_field_intensity() > 1 && ( !inside || one_in( 3 ) ) ) {
-                u.add_env_effect( effect_blind, bp_eyes, cur.get_field_intensity() * 2, 1_minutes );
+                u.add_env_effect( effect_blind, bp_eyes, cur.get_field_intensity() * 2, 10_seconds );
             }
         }
         if( ft == fd_relax_gas ) {
@@ -1632,10 +1611,9 @@ void map::player_in_field( player &u )
         if( ft == fd_fatigue ) {
             // Teleports you... somewhere.
             if( rng( 0, 2 ) < cur.get_field_intensity() && u.is_player() ) {
-                // TODO: allow teleporting for npcs
                 add_msg( m_bad, _( "You're violently teleported!" ) );
                 u.hurtall( cur.get_field_intensity(), nullptr );
-                g->teleport();
+                teleport::teleport( u );
             }
         }
         // Why do these get removed???
@@ -1737,6 +1715,34 @@ void map::creature_in_field( Creature &critter )
         monster_in_field( *static_cast<monster *>( &critter ) );
     } else if( player *p = critter.as_player() ) {
         player_in_field( *p );
+    }
+
+    field &curfield = get_field( critter.pos() );
+    for( auto &field_entry_it : curfield ) {
+        field_entry &cur_field_entry = field_entry_it.second;
+        if( !cur_field_entry.is_field_alive() ) {
+            continue;
+        }
+        const field_type_id cur_field_id = cur_field_entry.get_field_type();
+        const effect field_fx = cur_field_entry.field_effect();
+        if( field_fx.is_null() ||
+            critter.is_immune_field( cur_field_id ) || field_fx.get_id().is_empty() ||
+            critter.is_immune_effect( field_fx.get_id() ) ) {
+            continue;
+        }
+        player *u = critter.as_player();
+        if( u && cur_field_entry.inside_immune() ) {
+            // If we are in a vehicle figure out if we are inside (reduces effects usually)
+            // and what part of the vehicle we need to deal with.
+            if( u->in_vehicle ) {
+                if( const optional_vpart_position vp = veh_at( u->pos() ) ) {
+                    if( vp->is_inside() ) {
+                        continue;
+                    }
+                }
+            }
+        }
+        critter.add_effect( field_fx );
     }
 }
 
@@ -1926,27 +1932,8 @@ void map::monster_in_field( monster &z )
         if( cur_field_type == fd_fatigue ) {
             if( rng( 0, 2 ) < cur.get_field_intensity() ) {
                 dam += cur.get_field_intensity();
-                int tries = 0;
-                tripoint newpos = z.pos();
-                do {
-                    newpos.x = rng( z.posx() - SEEX, z.posx() + SEEX );
-                    newpos.y = rng( z.posy() - SEEY, z.posy() + SEEY );
-                    tries++;
-                } while( impassable( newpos ) && tries != 10 );
-
-                if( tries == 10 ) {
-                    z.die_in_explosion( nullptr );
-                } else if( monster *const other = g->critter_at<monster>( newpos ) ) {
-                    if( g->u.sees( z ) ) {
-                        add_msg( _( "The %1$s teleports into a %2$s, killing them both!" ),
-                                 z.name(), other->name() );
-                    }
-                    other->die_in_explosion( &z );
-                } else {
-                    z.setpos( newpos );
-                }
+                teleport::teleport( z );
             }
-
         }
         if( cur_field_type == fd_incendiary ) {
             // TODO: MATERIALS Use fire resistance

@@ -180,7 +180,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     // use pre-cataclysm price as default if post-cataclysm price unspecified
-    if( obj.price_post < 0 ) {
+    if( obj.price_post < 0_cent ) {
         obj.price_post = obj.price;
     }
     // use base volume if integral volume unspecified
@@ -524,8 +524,8 @@ class iuse_function_wrapper : public iuse_actor
             iuse tmp;
             return ( tmp.*cpp_function )( &p, &it, a, pos );
         }
-        iuse_actor *clone() const override {
-            return new iuse_function_wrapper( *this );
+        std::unique_ptr<iuse_actor> clone() const override {
+            return std::make_unique<iuse_function_wrapper>( *this );
         }
 
         void load( JsonObject & ) override {}
@@ -543,13 +543,13 @@ class iuse_function_wrapper_with_info : public iuse_function_wrapper
         void info( const item &, std::vector<iteminfo> &info ) const override {
             info.emplace_back( "DESCRIPTION", _( info_string ) );
         }
-        iuse_actor *clone() const override {
-            return new iuse_function_wrapper_with_info( *this );
+        std::unique_ptr<iuse_actor> clone() const override {
+            return std::make_unique<iuse_function_wrapper_with_info>( *this );
         }
 };
 
 use_function::use_function( const std::string &type, const use_function_pointer f )
-    : use_function( new iuse_function_wrapper( type, f ) ) {}
+    : use_function( std::make_unique<iuse_function_wrapper>( type, f ) ) {}
 
 void Item_factory::add_iuse( const std::string &type, const use_function_pointer f )
 {
@@ -560,12 +560,13 @@ void Item_factory::add_iuse( const std::string &type, const use_function_pointer
                              const std::string &info )
 {
     iuse_function_list[ type ] =
-        use_function( new iuse_function_wrapper_with_info( type, f, info ) );
+        use_function( std::make_unique<iuse_function_wrapper_with_info>( type, f, info ) );
 }
 
-void Item_factory::add_actor( iuse_actor *ptr )
+void Item_factory::add_actor( std::unique_ptr<iuse_actor> ptr )
 {
-    iuse_function_list[ ptr->type ] = use_function( ptr );
+    std::string type = ptr->type;
+    iuse_function_list[ type ] = use_function( std::move( ptr ) );
 }
 
 void Item_factory::add_item_type( const itype &def )
@@ -762,6 +763,7 @@ void Item_factory::init()
     add_iuse( "UNFOLD_GENERIC", &iuse::unfold_generic );
     add_iuse( "UNPACK_ITEM", &iuse::unpack_item );
     add_iuse( "VACCINE", &iuse::vaccine );
+    add_iuse( "CALL_OF_TINDALOS", &iuse::call_of_tindalos );
     add_iuse( "BLOOD_DRAW", &iuse::blood_draw );
     add_iuse( "MIND_SPLICER", &iuse::mind_splicer );
     add_iuse( "VIBE", &iuse::vibe );
@@ -778,42 +780,42 @@ void Item_factory::init()
     add_iuse( "BREAK_STICK", &iuse::break_stick );
     add_iuse( "MAGNESIUM_TABLET", &iuse::magnesium_tablet );
 
-    add_actor( new ammobelt_actor() );
-    add_actor( new bandolier_actor() );
-    add_actor( new cauterize_actor() );
-    add_actor( new consume_drug_iuse() );
-    add_actor( new delayed_transform_iuse() );
-    add_actor( new enzlave_actor() );
-    add_actor( new explosion_iuse() );
-    add_actor( new firestarter_actor() );
-    add_actor( new fireweapon_off_actor() );
-    add_actor( new fireweapon_on_actor() );
-    add_actor( new heal_actor() );
-    add_actor( new holster_actor() );
-    add_actor( new inscribe_actor() );
-    add_actor( new iuse_transform() );
-    add_actor( new countdown_actor() );
-    add_actor( new manualnoise_actor() );
-    add_actor( new musical_instrument_actor() );
-    add_actor( new pick_lock_actor() );
-    add_actor( new deploy_furn_actor() );
-    add_actor( new place_monster_iuse() );
-    add_actor( new reveal_map_actor() );
-    add_actor( new salvage_actor() );
-    add_actor( new unfold_vehicle_iuse() );
-    add_actor( new ups_based_armor_actor() );
-    add_actor( new place_trap_actor() );
-    add_actor( new emit_actor() );
-    add_actor( new saw_barrel_actor() );
-    add_actor( new install_bionic_actor() );
-    add_actor( new detach_gunmods_actor() );
-    add_actor( new mutagen_actor() );
-    add_actor( new mutagen_iv_actor() );
-    add_actor( new deploy_tent_actor() );
-    add_actor( new learn_spell_actor() );
-    add_actor( new cast_spell_actor() );
-    add_actor( new weigh_self_actor() );
-    add_actor( new sew_advanced_actor() );
+    add_actor( std::make_unique<ammobelt_actor>() );
+    add_actor( std::make_unique<bandolier_actor>() );
+    add_actor( std::make_unique<cauterize_actor>() );
+    add_actor( std::make_unique<consume_drug_iuse>() );
+    add_actor( std::make_unique<delayed_transform_iuse>() );
+    add_actor( std::make_unique<enzlave_actor>() );
+    add_actor( std::make_unique<explosion_iuse>() );
+    add_actor( std::make_unique<firestarter_actor>() );
+    add_actor( std::make_unique<fireweapon_off_actor>() );
+    add_actor( std::make_unique<fireweapon_on_actor>() );
+    add_actor( std::make_unique<heal_actor>() );
+    add_actor( std::make_unique<holster_actor>() );
+    add_actor( std::make_unique<inscribe_actor>() );
+    add_actor( std::make_unique<iuse_transform>() );
+    add_actor( std::make_unique<countdown_actor>() );
+    add_actor( std::make_unique<manualnoise_actor>() );
+    add_actor( std::make_unique<musical_instrument_actor>() );
+    add_actor( std::make_unique<pick_lock_actor>() );
+    add_actor( std::make_unique<deploy_furn_actor>() );
+    add_actor( std::make_unique<place_monster_iuse>() );
+    add_actor( std::make_unique<reveal_map_actor>() );
+    add_actor( std::make_unique<salvage_actor>() );
+    add_actor( std::make_unique<unfold_vehicle_iuse>() );
+    add_actor( std::make_unique<ups_based_armor_actor>() );
+    add_actor( std::make_unique<place_trap_actor>() );
+    add_actor( std::make_unique<emit_actor>() );
+    add_actor( std::make_unique<saw_barrel_actor>() );
+    add_actor( std::make_unique<install_bionic_actor>() );
+    add_actor( std::make_unique<detach_gunmods_actor>() );
+    add_actor( std::make_unique<mutagen_actor>() );
+    add_actor( std::make_unique<mutagen_iv_actor>() );
+    add_actor( std::make_unique<deploy_tent_actor>() );
+    add_actor( std::make_unique<learn_spell_actor>() );
+    add_actor( std::make_unique<cast_spell_actor>() );
+    add_actor( std::make_unique<weigh_self_actor>() );
+    add_actor( std::make_unique<sew_advanced_actor>() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"] = std::make_unique<Item_group>( Item_group::G_COLLECTION, 100, 0,
@@ -862,7 +864,7 @@ void Item_factory::check_definitions() const
                 msg << "invalid stack_size " << type->stack_size << " on type using charges\n";
             }
         }
-        if( type->price < 0 ) {
+        if( type->price < 0_cent ) {
             msg << "negative price" << "\n";
         }
         if( type->damage_min() > 0 || type->damage_max() < 0 || type->damage_min() > type->damage_max() ) {
@@ -1201,7 +1203,7 @@ const itype *Item_factory::find_template( const itype_id &id ) const
         ( making_id.is_valid() && making_id.obj().is_blueprint() ) ) {
         itype *def = new itype();
         def->id = id;
-        def->name = def->name_plural = string_format( "DEBUG: %s", id.c_str() );
+        def->name = no_translation( string_format( "DEBUG: %s", id.c_str() ) );
         def->description = making_id.obj().description;
         m_runtimes[ id ].reset( def );
         return def;
@@ -1211,9 +1213,8 @@ const itype *Item_factory::find_template( const itype_id &id ) const
 
     itype *def = new itype();
     def->id = id;
-    def->name = string_format( "undefined-%ss", id.c_str() );
-    def->name_plural = string_format( "undefined-%s", id.c_str() );
-    def->description = string_format( "Missing item definition for %s.", id.c_str() );
+    def->name = no_translation( string_format( "undefined-%s", id.c_str() ) );
+    def->description = no_translation( string_format( "Missing item definition for %s.", id.c_str() ) );
 
     m_runtimes[ id ].reset( def );
     return def;
@@ -1431,7 +1432,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
         slot.ammo.insert( ammotype( jo.get_string( "ammo" ) ) );
     }
     assign( jo, "range", slot.range, strict );
-    if( jo.has_object( "ranged_damage" ) ) {
+    if( jo.has_object( "ranged_damage" ) || jo.has_array( "ranged_damage" ) ) {
         assign( jo, "ranged_damage", slot.damage, strict );
     } else {
         assign( jo, "ranged_damage", slot.legacy_damage, strict );
@@ -1454,7 +1455,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
     assign( jo, "default_mods", slot.default_mods, strict );
     assign( jo, "ups_charges", slot.ups_charges, strict, 0 );
     assign( jo, "blackpowder_tolerance", slot.blackpowder_tolerance, strict, 0 );
-    assign( jo, "min_cycle_recoil", slot.blackpowder_tolerance, strict, 0 );
+    assign( jo, "min_cycle_recoil", slot.min_cycle_recoil, strict, 0 );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
@@ -1501,6 +1502,7 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &s
     bool strict = src == "dda";
 
     assign( jo, "encumbrance", slot.encumber, strict, 0 );
+    assign( jo, "max_encumbrance", slot.max_encumber, strict, slot.encumber );
     assign( jo, "coverage", slot.coverage, strict, 0, 100 );
     assign( jo, "material_thickness", slot.thickness, strict, 0 );
     assign( jo, "environmental_protection", slot.env_resist, strict, 0 );
@@ -1508,15 +1510,10 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &s
     assign( jo, "warmth", slot.warmth, strict, 0 );
     assign( jo, "storage", slot.storage, strict, 0_ml );
     assign( jo, "weight_capacity_modifier", slot.weight_capacity_modifier );
+    assign( jo, "weight_capacity_bonus", slot.weight_capacity_bonus, strict, 0_gram );
     assign( jo, "power_armor", slot.power_armor, strict );
 
     assign_coverage_from_json( jo, "covers", slot.covers, slot.sided );
-
-    if( jo.has_string( "weight_capacity_bonus" ) ) {
-        slot.weight_capacity_bonus = read_from_json_string<units::mass>
-                                     ( *jo.get_raw( "weight_capacity_bonus" ), units::mass_units );
-    }
-
 }
 
 void Item_factory::load( islot_pet_armor &slot, JsonObject &jo, const std::string &src )
@@ -1577,6 +1574,11 @@ void Item_factory::load_tool( JsonObject &jo, const std::string &src )
         load_slot( def.tool, jo, src );
         load_basic_info( jo, def, src );
     }
+}
+
+void Item_factory::load( relic &slot, JsonObject &jo, const std::string & )
+{
+    slot.load( jo );
 }
 
 void Item_factory::load( islot_mod &slot, JsonObject &jo, const std::string &src )
@@ -1796,7 +1798,7 @@ void Item_factory::load( islot_seed &slot, JsonObject &jo, const std::string & )
 {
     assign( jo, "grow", slot.grow, false, 1_days );
     slot.fruit_div = jo.get_int( "fruit_div", 1 );
-    slot.plant_name = _( jo.get_string( "plant_name" ) );
+    jo.read( "plant_name", slot.plant_name );
     slot.fruit_id = jo.get_string( "fruit" );
     slot.spawn_seeds = jo.get_bool( "seeds", true );
     slot.byproducts = jo.get_string_array( "byproducts" );
@@ -1830,7 +1832,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     assign( jo, "consume_chance", slot.consume_chance );
     assign( jo, "consume_divisor", slot.consume_divisor );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
-    assign( jo, "ups_charges", slot.ups_charges );
+    assign( jo, "ups_charges_multiplier", slot.ups_charges_multiplier );
     if( jo.has_int( "time" ) ) {
         slot.install_time = jo.get_int( "time" );
     } else if( jo.has_string( "time" ) ) {
@@ -2038,8 +2040,8 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     assign( jo, "weight", def.weight, strict, 0_gram );
     assign( jo, "integral_weight", def.integral_weight, strict, 0_gram );
     assign( jo, "volume", def.volume );
-    assign( jo, "price", def.price );
-    assign( jo, "price_postapoc", def.price_post );
+    assign( jo, "price", def.price, false, 0_cent );
+    assign( jo, "price_postapoc", def.price_post, false, 0_cent );
     assign( jo, "stackable", def.stackable_, strict );
     assign( jo, "integral_volume", def.integral_volume );
     assign( jo, "bashing", def.melee[DT_BASH], strict, 0 );
@@ -2071,15 +2073,19 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
         def.damage_max_ = arr.get_int( 1 ) * itype::damage_scale;
     }
 
-    def.name = jo.get_string( "name" );
     if( jo.has_member( "name_plural" ) ) {
-        def.name_plural = jo.get_string( "name_plural" );
+        // legacy format
+        // NOLINTNEXTLINE(cata-json-translation-input)
+        def.name = pl_translation( jo.get_string( "name" ), jo.get_string( "name_plural" ) );
     } else {
-        def.name_plural = jo.get_string( "name" ) += "s";
+        def.name = translation( translation::plural_tag() );
+        if( !jo.read( "name", def.name ) ) {
+            jo.throw_error( "name unspecified for item type" );
+        }
     }
 
-    if( jo.has_string( "description" ) ) {
-        def.description = jo.get_string( "description" );
+    if( jo.has_member( "description" ) ) {
+        jo.read( "description", def.description );
     }
 
     if( jo.has_string( "symbol" ) ) {
@@ -2190,6 +2196,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     load_slot_optional( def.artifact, jo, "artifact_data", src );
     load_slot_optional( def.brewable, jo, "brewable", src );
     load_slot_optional( def.fuel, jo, "fuel", src );
+    load_slot_optional( def.relic_data, jo, "relic_data", src );
 
     // optional gunmod slot may also specify mod data
     load_slot_optional( def.gunmod, jo, "gunmod_data", src );
@@ -2503,6 +2510,7 @@ void Item_factory::add_entry( Item_group &ig, JsonObject &obj )
     Item_modifier modifier;
     bool use_modifier = false;
     use_modifier |= load_min_max( modifier.damage, obj, "damage" );
+    use_modifier |= load_min_max( modifier.dirt, obj, "dirt" );
     modifier.damage.first *= itype::damage_scale;
     modifier.damage.second *= itype::damage_scale;
     use_modifier |= load_min_max( modifier.charges, obj, "charges" );
@@ -2647,7 +2655,7 @@ std::pair<std::string, use_function> Item_factory::usage_from_object( JsonObject
     if( type == "repair_item" ) {
         type = obj.get_string( "item_action_type" );
         if( !has_iuse( type ) ) {
-            add_actor( new repair_item_actor( type ) );
+            add_actor( std::make_unique<repair_item_actor>( type ) );
             repair_actions.insert( type );
         }
     }

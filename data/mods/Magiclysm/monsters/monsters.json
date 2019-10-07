@@ -33,6 +33,44 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "SWARMS" ]
   },
   {
+    "id": "mon_black_pudding",
+    "type": "MONSTER",
+    "name": "black pudding",
+    "description": "Writhing, sticky, black sludge undulates across the ground.  A faint sizzling sound comes from the ground beneath it as it lurches toward you.",
+    "default_faction": "ooze",
+    "bodytype": "blob",
+    "symbol": "O",
+    "species": [ "BLOB" ],
+    "diff": 1,
+    "volume": "62500 ml",
+    "weight": 81500,
+    "color": "dark_gray",
+    "hp": 100,
+    "speed": 75,
+    "phase": "LIQUID",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_cut": 0,
+    "armor_bash": 12,
+    "armor_stab": 14,
+    "armor_acid": 15,
+    "harvest": "exempt",
+    "death_function": [ "MELT" ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_id": "bio_acidicspray",
+        "cooldown": 20,
+        "monster_message": "The black pudding burns you with acid!",
+        "spell_level": 0
+      }
+    ],
+    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
+  },
+  {
     "id": "mon_nothic",
     "name": "nothic",
     "description": "A baleful eye peers out from the darkness, its gleam hinting at a weird intelligence and unnerving malevolence.",
@@ -67,7 +105,7 @@
         "cooldown": 1,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 25, "armor_multiplier": 1.2 } ]
       },
-      { "type": "spell", "spell_id": "necrotic_gaze", "cooldown": 5 }
+      { "type": "spell", "spell_id": "necrotic_gaze", "cooldown": 5, "monster_message": "The nothic gazes at %3$s!" }
     ]
   },
   {
@@ -110,8 +148,7 @@
     "melee_skill": 6,
     "melee_dice": 4,
     "melee_dice_sides": 3,
-    "melee_bash": 20,
-    "melee_cut": 10,
+    "melee_damage": [ { "damage_type": "bash", "amount": 20 }, { "damage_type": "cut", "amount": 10 } ],
     "dodge": 2,
     "armor_bash": 32,
     "armor_cut": 30,

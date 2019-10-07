@@ -4,6 +4,8 @@
 #include <set>
 
 #include "debug.h"
+#include "event_bus.h"
+#include "game.h"
 #include "generic_factory.h"
 #include "int_id.h"
 #include "json.h"
@@ -111,6 +113,7 @@ void trap::load( JsonObject &jo, const std::string & )
     // TODO: Is there a generic_factory version of this?
     act = trap_function_from_string( jo.get_string( "action" ) );
 
+    optional( jo, was_loaded, "map_regen", map_regen, "none" );
     optional( jo, was_loaded, "benign", benign, false );
     optional( jo, was_loaded, "always_invisible", always_invisible, false );
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
@@ -172,6 +175,11 @@ std::string trap::name() const
     return _( name_ );
 }
 
+std::string trap::map_regen_target() const
+{
+    return map_regen;
+}
+
 void trap::reset()
 {
     funnel_traps.clear();
@@ -219,8 +227,14 @@ bool trap::can_see( const tripoint &pos, const player &p ) const
 
 void trap::trigger( const tripoint &pos, Creature *creature, item *item ) const
 {
-    if( ( creature != nullptr && !creature->is_hallucination() ) || item != nullptr ) {
-        act( pos, creature, item );
+    const bool is_real_creature = creature != nullptr && !creature->is_hallucination();
+    if( is_real_creature || item != nullptr ) {
+        bool triggered = act( pos, creature, item );
+        if( triggered && is_real_creature ) {
+            if( Character *ch = creature->as_character() ) {
+                g->events().send<event_type::character_triggers_trap>( ch->getID(), id );
+            }
+        }
     }
 }
 

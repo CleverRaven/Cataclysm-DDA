@@ -12,6 +12,7 @@
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
+#include "event_bus.h"
 #include "game.h"
 #include "input.h"
 #include "item_group.h"
@@ -478,9 +479,7 @@ int construction_menu( bool blueprint )
                                     col = c_green;
                                 }
 
-                                std::string color_s = "<color_" + string_from_color( col ) + ">";
-                                return string_format( "%s%s (%d)</color>", color_s,
-                                                      skill.first.obj().name(), skill.second );
+                                return colorize( string_format( "%s (%d)", skill.first.obj().name(), skill.second ), col );
                             }, enumeration_conjunction::none );
                         }
 
@@ -708,21 +707,13 @@ bool player_can_build( player &p, const inventory &inv, const std::string &desc 
     return false;
 }
 
-static bool character_has_skill_for( const Character &c, const construction &con )
-{
-    return std::all_of( con.required_skills.begin(), con.required_skills.end(),
-    [&]( const std::pair<skill_id, int> &pr ) {
-        return c.get_skill_level( pr.first ) >= pr.second;
-    } );
-}
-
 bool player_can_build( player &p, const inventory &inv, const construction &con )
 {
     if( p.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
 
-    if( !character_has_skill_for( p, con ) ) {
+    if( !p.meets_skill_requirements( con ) ) {
         return false;
     }
     return con.requirements->can_make_with_inventory( inv, is_crafting_component );
@@ -880,7 +871,7 @@ void complete_construction( player *p )
     // TODO NPCs watching other NPCs do stuff and learning from it
     if( p->is_player() ) {
         for( auto &elem : g->u.get_crafting_helpers() ) {
-            if( character_has_skill_for( *elem, built ) ) {
+            if( elem->meets_skill_requirements( built ) ) {
                 add_msg( m_info, _( "%s assists you with the work..." ), elem->name );
             } else {
                 //NPC near you isn't skilled enough to help
@@ -1029,10 +1020,6 @@ void construct::done_grave( const tripoint &p )
                     } else {
                         add_msg( m_neutral, _( "You bury remains of a human, whose name is lost in the Cataclysm." ) );
                     }
-                    g->u.add_memorial_log( pgettext( "memorial_male",
-                                                     string_format( "You buried unknown victim of the Cataclysm.", it.type_name() ).c_str() ),
-                                           pgettext( "memorial_female", string_format( "You buried unknown victim of The Cataclysm.",
-                                                     it.type_name() ).c_str() ) );
                 }
             } else {
                 if( g->u.has_trait( trait_SPIRITUAL ) ) {
@@ -1045,10 +1032,9 @@ void construct::done_grave( const tripoint &p )
                              _( "You bury remains of %s, who joined uncounted masses perished in the Cataclysm." ),
                              it.get_corpse_name() );
                 }
-                g->u.add_memorial_log( pgettext( "memorial_male", string_format( "You buried %s.",
-                                                 it.get_corpse_name() ).c_str() ),
-                                       pgettext( "memorial_female", string_format( "You buried %s.", it.get_corpse_name() ).c_str() ) );
             }
+            g->events().send<event_type::buries_corpse>(
+                g->u.getID(), it.get_mtype()->id, it.get_corpse_name() );
         }
     }
     if( g->u.has_quality( quality_id( "CUT" ) ) ) {
@@ -1190,8 +1176,7 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
             unroll_digging( dig ? 8 : 12 );
         } else {
             add_msg( m_warning, _( "You just tunneled into lava!" ) );
-            g->u.add_memorial_log( pgettext( "memorial_male", "Dug a shaft into lava." ),
-                                   pgettext( "memorial_female", "Dug a shaft into lava." ) );
+            g->events().send<event_type::digs_into_lava>();
             g->m.ter_set( p, t_hole );
         }
 
@@ -1512,7 +1497,7 @@ int construction::adjusted_time() const
     int assistants = 0;
 
     for( auto &elem : g->u.get_crafting_helpers() ) {
-        if( character_has_skill_for( *elem, *this ) ) {
+        if( elem->meets_skill_requirements( *this ) ) {
             assistants++;
         }
     }

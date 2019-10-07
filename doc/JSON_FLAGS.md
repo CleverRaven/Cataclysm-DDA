@@ -456,6 +456,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 - ```ACID``` when consumed using the BLECH function, penalties are reduced if acidproof.
 - ```CARNIVORE_OK``` Can be eaten by characters with the Carnivore mutation.
+- ```CANT_HEAL_EVERYONE``` This med can't be used by everyone, it require a special mutation. See `can_heal_with` in mutation.
 - ```EATEN_COLD``` Morale bonus for eating cold.
 - ```EATEN_HOT``` Morale bonus for eating hot.
 - ```EDIBLE_FROZEN``` Being frozen doesn't prevent eating it. No morale bonus.
@@ -631,7 +632,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 ### Flags
 
 - ```ANESTHESIA``` ... Item is considered anesthesia for the purpose of installing or uninstalling bionics.
-- ```BIONIC_NPC_USABLE``` Safe CBMs that NPCs can use without extensive NPC rewrites to utilize toggle CBMs.
+- ```BIONIC_NPC_USABLE``` ... Safe CBMs that NPCs can use without extensive NPC rewrites to utilize toggle CBMs.
+- ```CORPSE``` ... Flag used to spawn various human corpses during the mapgen.
 - ```DANGEROUS``` ... NPCs will not accept this item. Explosion iuse actor implies this flag. Implies "NPC_THROW_NOW".
 - ```DURABLE_MELEE``` ... Item is made to hit stuff and it does it well, so it's considered to be a lot tougher than other weapons made of the same materials.
 - ```FAKE_MILL``` ... Item is a fake item, to denote a partially milled product by @ref Item::process_fake_mill, where conditions for its removal are set.
@@ -646,7 +648,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```NO_PACKED``` ... This item is not protected against contamination and won't stay sterile.  Only applies to CBMs.
 - ```NO_PICKUP``` ... Character can not pickup anything while wielding this item (e.g. bionic claws).
 - ```NO_REPAIR``` ... Prevents repairing of this item even if otherwise suitable tools exist.
-- ```NO_SALVAGE``` Item cannot be broken down through a salvage process. Best used when something should not be able to be broken down (i.e. base components like leather patches).
+- ```NO_SALVAGE``` ... Item cannot be broken down through a salvage process. Best used when something should not be able to be broken down (i.e. base components like leather patches).
 - ```NO_STERILE``` ... This item is not sterile.  Only applies to CBMs.
 - ```NPC_ACTIVATE``` ... NPCs can activate this item as an alternative attack. Currently by throwing it right after activation. Implied by "BOMB".
 - ```NPC_ALT_ATTACK``` ... Shouldn't be set directly. Implied by "NPC_ACTIVATE" and "NPC_THROWN".
@@ -664,7 +666,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```TINDER``` ... This item can be used as tinder for lighting a fire with a REQUIRES_TINDER flagged firestarter.
 - ```TRADER_AVOID``` ... NPCs will not start with this item. Use this for active items (e.g. flashlight (on)), dangerous items (e.g. active bomb), fake item or unusual items (e.g. unique quest item).
 - ```UNBREAKABLE_MELEE``` ... Does never get damaged when used as melee weapon.
-- ```UNRECOVERABLE``` Cannot be recovered from a disassembly.
+- ```UNRECOVERABLE``` ... Cannot be recovered from a disassembly.
 
 
 ## Guns
@@ -919,6 +921,9 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```NOHEAD``` Headshots not allowed!
 - ```NO_BREATHE``` Creature can't drown and is unharmed by gas, smoke or poison.
 - ```NO_BREED``` Creature doesn't reproduce even though it has reproduction data - useful when using copy-from to make child versions of adult creatures
+- ```PAY_BOT``` Creature can be turned into a pet for a limited time in exchange of e-money.
+- ```PET_MOUNTABLE``` Creature can be ridden or attached to an harness.
+- ```PET_HARNESSABLE```Creature can be attached to an harness.
 - ```NULL``` Source use only.
 - ```PACIFIST``` That monster will never do melee attacks.
 - ```PARALYZE``` Attack may paralyze the player with venom.
@@ -1018,6 +1023,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```PARA_STING``` Shoot a paralyzing dart at the player.
 - ```PARROT``` Parrots the speech defined in `speech.json`, picks one of the lines randomly. "speaker" points to a monster id.
 - ```PARROT_AT_DANGER``` Performs the same function as PARROT, but only if the creature sees an angry monster from a hostile faction.
+- ```PAID_BOT```  For creature with PAY_BOT flag, removes the ally status when the pet effect runs out.
 - ```PHOTOGRAPH``` Photograph the player. Causes a robot attack?
 - ```PLANT``` Fungal spores take seed and grow into a fungaloid.
 - ```PULL_METAL_WEAPON``` Pull weapon that's made of iron or steel from the player's hand.
@@ -1106,7 +1112,31 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```SIDEWALK``` Has sidewalks on the sides adjacent to roads.
 - ```LAKE``` Consider this location to be a valid lake terrain for mapgen purposes.
 - ```LAKE_SHORE``` Consider this location to be a valid lake shore terrain for mapgen purposes.
-
+- ```SOURCE_FUEL``` For NPC AI, this location may contain fuel for looting.
+- ```SOURCE_FOOD``` For NPC AI, this location may contain food for looting.
+- ```SOURCE_FARMING``` For NPC AI, this location may contain useful farming supplies for looting.
+- ```SOURCE_FABRICATION``` For NPC AI, this location may contain fabrication tools and components for looting.
+- ```SOURCE_GUN``` For NPC AI, this location may contain guns for looting.
+- ```SOURCE_AMMO``` For NPC AI, this location may contain ammo for looting.
+- ```SOURCE_BOOKS``` For NPC AI, this location may contain books for looting.
+- ```SOURCE_WEAPON``` For NPC AI, this location may contain weapons for looting.
+- ```SOURCE_FORAGE``` For NPC AI, this location may contain plants to forage.
+- ```SOURCE_COOKING``` For NPC AI, this location may contain useful tools and ingredients to aid in cooking.
+- ```SOURCE_TAILORING``` For NPC AI, this location may contain useful tools for tailoring.
+- ```SOURCE_DRINK``` For NPC AI, this location may contain drink for looting.
+- ```SOURCE_VEHICLES``` For NPC AI, this location may contain vehicles/parts/vehicle tools, to loot.
+- ```SOURCE_ELECTRONICS``` For NPC AI, this location may contain useful electronics to loot.
+- ```SOURCE_CONSTRUCTION``` For NPC AI, this location may contain useful tools/components for construction.
+- ```SOURCE_CHEMISTRY``` For NPC AI, this location may contain useful chemistry tools/components.
+- ```SOURCE_CLOTHING``` For NPC AI, this location may contain useful clothing to loot.
+- ```SOURCE_SAFETY``` For NPC AI, this location may be safe/sheltered and a good place for a base.
+- ```SOURCE_ANIMALS``` For NPC AI, this location may contain useful animals for farming/riding.
+- ```SOURCE_MEDICINE``` For NPC AI, this location may contain useful medicines for looting.
+- ```SOURCE_LUXURY``` For NPC AI, this location may contain valuable/feel-good items to sell/keep.
+- ```SOURCE_PEOPLE``` For NPC AI, this location may have other survivors.
+- ```RISK_HIGH``` For NPC AI, this location has a high risk associated with it - labs/superstores etc.
+- ```RISK_LOW``` For NPC AI, this location is secluded and remote, and appears to be safe.
+- ```GENERIC_LOOT``` This is a place that may contain any of the above, but at a lower frequency - usually a house.
 
 ## Recipes
 
@@ -1186,11 +1216,12 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```CABLE_SPOOL``` This item is a cable spool and must be processed as such. It has an internal "state" variable which may be in the states "attach_first" or "pay_out_cable" -- in the latter case, set its charges to `max_charges - dist(here, point(vars["source_x"], vars["source_y"]))`. If this results in 0 or a negative number, set its state back to "attach_first".
 - ```CHARGEDIM``` If illuminated, light intensity fades with charge, starting at 20% charge left.
 - ```DIG_TOOL``` If wielded, digs thorough terrain like rock and walls, as player walks into them. If item also has ```POWERED``` flag, then it digs faster, but uses up the item's ammo as if activating it.
-- ```FIRESTARTER``` Item will start fire.
-- ```FIRE``` Counts as a fire for crafting purposes.
+- ```FIRESTARTER``` Item will start fire with some difficulty.
+- ```FIRE``` Item will start a fire immediately.
 - ```FISH_GOOD``` When used for fishing, it's a good tool (requires that the matching use_action has been set).
 - ```FISH_POOR``` When used for fishing, it's a poor tool (requires that the matching use_action has been set).
 - ```HAS_RECIPE``` Used by the E-Ink tablet to indicates it's currently showing a recipe.
+- ```IS_UPS``` Item is Unified Power Supply. Used in active item processing
 - ```LIGHT_[X]``` Illuminates the area with light intensity `[X]` where `[X]` is an intensity value. (e.x. `LIGHT_4` or `LIGHT_100`).
 - ```MC_MOBILE```, ```MC_RANDOM_STUFF```, ```MC_SCIENCE_STUFF```, ```MC_USED```, ```MC_HAS_DATA``` Memory card related flags, see `iuse.cpp`
 - ```NO_DROP``` Item should never exist on map tile as a discrete item (must be contained by another item)
@@ -1245,6 +1276,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```AISLE``` Player can move over this part with less speed penalty than normal.
 - ```ALTERNATOR``` Recharges batteries installed on the vehicle.
 - ```ANCHOR_POINT``` Allows secure seatbelt attachment.
+- ```ANIMAL_CTRL``` Can harness an animal, need HARNESS_bodytype flag to specify bodytype of animal.
 - ```ARMOR``` Protects the other vehicle parts it's installed over during collisions.
 - ```ATOMIC_LIGHT```
 - ```BATTERY_MOUNT```
@@ -1289,6 +1321,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```FRIDGE``` Can refrigerate items.
 - ```FUNNEL```
 - ```HALF_CIRCLE_LIGHT``` Projects a directed half-circular radius of light when turned on.
+- ```HARNESS_bodytype``` Replace bodytype with `any` to accept any type, or with the targeted type.
 - ```HORN``` Generates noise when used.
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part). The items of parts with this flag are automatically added as component to the vehicle start construction.
 - ```INTERNAL``` Must be mounted inside a cargo area.

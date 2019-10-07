@@ -32,6 +32,7 @@
 #include "sounds.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "wcwidth.h"
 #include "worldfactory.h"
 #include "color.h"
 #include "enums.h"
@@ -41,7 +42,7 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-static const bool halloween_theme = false;
+static const bool halloween_theme = true;
 
 void main_menu::on_move() const
 {
@@ -62,6 +63,32 @@ void main_menu::clear_error()
     errflag = false;
 }
 
+//CJK characters have a width of 2, etc
+static int utf8_width_notags( const char *s )
+{
+    int len = strlen( s );
+    const char *ptr = s;
+    int w = 0;
+    bool inside_tag = false;
+    while( len > 0 ) {
+        uint32_t ch = UTF8_getch( &ptr, &len );
+        if( ch == UNKNOWN_UNICODE ) {
+            continue;
+        }
+        if( ch == '<' ) {
+            inside_tag = true;
+        } else if( ch == '>' ) {
+            inside_tag = false;
+            continue;
+        }
+        if( inside_tag ) {
+            continue;
+        }
+        w += mk_wcwidth( ch );
+    }
+    return w;
+}
+
 void main_menu::print_menu_items( const catacurses::window &w_in,
                                   const std::vector<std::string> &vItems,
                                   size_t iSel, point offset, int spacing )
@@ -74,16 +101,15 @@ void main_menu::print_menu_items( const catacurses::window &w_in,
 
         std::string temp = shortcut_text( c_white, vItems[i] );
         if( iSel == i ) {
-            text += string_format( "[<color_%s>%s</color>]",
-                                   string_from_color( h_white ),
-                                   remove_color_tags( temp ) );
+            text += string_format( "[%s]", colorize( remove_color_tags( temp ), h_white ) );
         } else {
             text += string_format( "[%s]", temp );
         }
     }
 
-    if( utf8_width( remove_color_tags( text ) ) > getmaxx( w_in ) ) {
-        offset.y -= std::ceil( utf8_width( remove_color_tags( text ) ) / getmaxx( w_in ) );
+    int text_width = utf8_width_notags( text.c_str() );
+    if( text_width > getmaxx( w_in ) ) {
+        offset.y -= std::ceil( text_width / getmaxx( w_in ) );
     }
 
     fold_and_print( w_in, offset, getmaxx( w_in ), c_light_gray, text, ']' );
@@ -149,7 +175,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
 
     int menu_length = 0;
     for( size_t i = 0; i < vMenuItems.size(); ++i ) {
-        menu_length += utf8_width( vMenuItems[i], true ) + 2;
+        menu_length += utf8_width_notags( vMenuItems[i].c_str() ) + 2;
         if( !vMenuHotkeys[i].empty() ) {
             menu_length += utf8_width( vMenuHotkeys[i][0] );
         }
@@ -199,7 +225,7 @@ std::string main_menu::handle_input_timeout( input_context &ctxt )
 
 void main_menu::init_windows()
 {
-    if( LAST_TERMX == TERMX && LAST_TERMY == TERMY ) {
+    if( LAST_TERM == point( TERMX, TERMY ) ) {
         return;
     }
 
@@ -226,8 +252,7 @@ void main_menu::init_windows()
     // note: if iMenuOffset is changed,
     // please update MOTD and credits to indicate how long they can be.
 
-    LAST_TERMX = TERMX;
-    LAST_TERMY = TERMY;
+    LAST_TERM = point( TERMX, TERMY );
 }
 
 void main_menu::init_strings()

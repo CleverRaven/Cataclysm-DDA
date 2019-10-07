@@ -188,6 +188,18 @@
   },
   {
     "type": "keybinding",
+    "id": "SCROLL_UP",
+    "name": "Scroll up",
+    "bindings": [ { "input_method": "mouse", "key": "SCROLL_UP" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_DOWN",
+    "name": "Scroll down",
+    "bindings": [ { "input_method": "mouse", "key": "SCROLL_DOWN" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SELECT_ALL",
     "category": "PICKUP",
     "name": "Select all",
@@ -250,6 +262,27 @@
       { "input_method": "keyboard", "key": "RIGHT" },
       { "input_method": "gamepad", "key": "JOY_RIGHT" }
     ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ENABLE_MAPEXTRA_NOTE",
+    "category": "AUTO_NOTES",
+    "name": "Enable auto note for map extra",
+    "bindings": [ { "input_method": "keyboard", "key": "e" }, { "input_method": "keyboard", "key": "E" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SWITCH_AUTO_NOTE_OPTION",
+    "category": "AUTO_NOTES",
+    "name": "Toggle auto notes option",
+    "bindings": [ { "input_method": "keyboard", "key": "s" }, { "input_method": "keyboard", "key": "S" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DISABLE_MAPEXTRA_NOTE",
+    "category": "AUTO_NOTES",
+    "name": "Disable auto note for map extra",
+    "bindings": [ { "input_method": "keyboard", "key": "d" }, { "input_method": "keyboard", "key": "D" } ]
   },
   {
     "type": "keybinding",
@@ -1221,16 +1254,13 @@
   {
     "type": "keybinding",
     "id": "CONFIRM_QUIT",
-    "category": "EDITMAP_TERRAIN",
+    "category": "EDITMAP_FEATURE",
     "name": "Confirm & quit",
-    "bindings": [ { "input_method": "keyboard", "key": "g" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "CONFIRM_QUIT",
-    "category": "EDITMAP_TRAPS",
-    "name": "Confirm & quit",
-    "bindings": [ { "input_method": "keyboard", "key": "t" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "e" },
+      { "input_method": "keyboard", "key": "u" },
+      { "input_method": "keyboard", "key": "t" }
+    ]
   },
   {
     "type": "keybinding",
@@ -1243,7 +1273,7 @@
     "type": "keybinding",
     "id": "START",
     "category": "EDITMAP_SHAPE",
-    "name": "Select shape",
+    "name": "To start",
     "bindings": [ { "input_method": "keyboard", "key": "z" } ]
   },
   {
@@ -1283,8 +1313,15 @@
     "type": "keybinding",
     "id": "EDIT_TERRAIN",
     "category": "EDITMAP",
-    "name": "Edit terrain / furniture",
-    "bindings": [ { "input_method": "keyboard", "key": "g" } ]
+    "name": "Edit terrain",
+    "bindings": [ { "input_method": "keyboard", "key": "e" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EDIT_FURNITURE",
+    "category": "EDITMAP",
+    "name": "Edit furniture",
+    "bindings": [ { "input_method": "keyboard", "key": "r" } ]
   },
   {
     "type": "keybinding",
@@ -1511,6 +1548,12 @@
     "category": "DEFAULTMODE",
     "id": "look",
     "bindings": [ { "input_method": "keyboard", "key": ";" }, { "input_method": "keyboard", "key": "x" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "toggle_thief_mode",
+    "category": "DEFAULTMODE",
+    "name": "Toggle thief mode"
   },
   {
     "type": "keybinding",
@@ -1818,9 +1861,9 @@
   },
   {
     "type": "keybinding",
-    "name": "View Kills",
+    "name": "View Scores",
     "category": "DEFAULTMODE",
-    "id": "kills",
+    "id": "scores",
     "bindings": [ { "input_method": "keyboard", "key": ")" } ]
   },
   {
@@ -2061,6 +2104,12 @@
     "name": "Autopickup manager",
     "category": "DEFAULTMODE",
     "id": "open_autopickup"
+  },
+  {
+    "type": "keybinding",
+    "name": "Autonotes manager",
+    "category": "DEFAULTMODE",
+    "id": "open_autonotes"
   },
   {
     "type": "keybinding",
@@ -2727,6 +2776,38 @@
     "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
     "name": "Ignore further distractions and finish",
     "bindings": [ { "input_method": "keyboard", "key": "I" }, { "input_method": "keyboard", "key": "i" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "YES",
+    "category": "YES_NO_ALWAYS_NEVER",
+    "name": "Yes",
+    "bindings": [ { "input_method": "keyboard", "key": [ "Y" ] }, { "input_method": "keyboard", "key": [ "y" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NO",
+    "category": "YES_NO_ALWAYS_NEVER",
+    "name": "No",
+    "bindings": [
+      { "input_method": "keyboard", "key": [ "N" ] },
+      { "input_method": "keyboard", "key": [ "n" ] },
+      { "input_method": "keyboard", "key": [ "ESC" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ALWAYS",
+    "category": "YES_NO_ALWAYS_NEVER",
+    "name": "Always",
+    "bindings": [ { "input_method": "keyboard", "key": [ "A" ] }, { "input_method": "keyboard", "key": [ "a" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NEVER",
+    "category": "YES_NO_ALWAYS_NEVER",
+    "name": "Never",
+    "bindings": [ { "input_method": "keyboard", "key": [ "E" ] }, { "input_method": "keyboard", "key": [ "e" ] } ]
   },
   {
     "type": "keybinding",

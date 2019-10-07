@@ -211,6 +211,8 @@ enum action_id : int {
     ACTION_TOGGLE_SAFEMODE,
     /** Turn automatic triggering of safemode on/off */
     ACTION_TOGGLE_AUTOSAFE,
+    /** Toggle permanent attitude to stealing */
+    ACTION_TOGGLE_THIEF_MODE,
     /** Ignore the enemy that triggered safemode */
     ACTION_IGNORE_ENEMY,
     /** Whitelist the enemy that triggered safemode */
@@ -235,8 +237,8 @@ enum action_id : int {
     ACTION_SKY,
     /** Display missions screen */
     ACTION_MISSIONS,
-    /** Display kills list screen */
-    ACTION_KILLS,
+    /** Display scores screen */
+    ACTION_SCORES,
     /** Display factions screen */
     ACTION_FACTIONS,
     /** Display morale effects screen */
@@ -253,6 +255,8 @@ enum action_id : int {
     ACTION_OPTIONS,
     /** Open autopickup manager */
     ACTION_AUTOPICKUP,
+    /** Open autonotes manager */
+    ACTION_AUTONOTES,
     /** Open safemode manager */
     ACTION_SAFEMODE,
     /** Open color manager */
@@ -411,17 +415,6 @@ bool can_action_change_worldstate( action_id act );
 action_id action_from_key( char ch );
 
 /**
- * Request player input of adjacent tile on current z-level
- *
- * Asks the player to input desired direction of an adjacent tile, for example when executing
- * an examine or directional item drop.  This version of the function assumes that the requested
- * tile will be on the player's current z-level.
- *
- * @param[in] message Message used in assembling the prompt to the player
- */
-cata::optional<tripoint> choose_adjacent( const std::string &message );
-
-/**
  * Request player input of adjacent tile, possibly including vertical tiles
  *
  * Asks the player to input desired direction of an adjacent tile, for example when executing
@@ -431,35 +424,7 @@ cata::optional<tripoint> choose_adjacent( const std::string &message );
  * @param[in] message Message used in assembling the prompt to the player
  * @param[in] allow_vertical Allows player to select tiles above/below them if true
  */
-cata::optional<tripoint> choose_adjacent( const std::string &message, bool allow_vertical );
-
-/**
- * Request player input of a direction on current z-level
- *
- * Asks the player to input a desired direction.  This differs from @ref choose_adjacent in that
- * the selected direction is returned as an offset to the player's current position rather than
- * coordinate of a tile. This version of the function assumes the requested z-level is the same
- * as the player's current z-level.
- *
- * @param[in] message Message used in assembling the prompt to the player
- */
-cata::optional<tripoint> choose_direction( const std::string &message );
-
-/**
- * Request player input of adjacent tile on current z-level with highlighting
- *
- * Asks the player to input desired direction of an adjacent tile, for example when executing
- * an examine or directional item drop.  This version of the function assumes that the requested
- * tile will be on the player's current z-level.
- *
- * This function is identical to @ref choose_adjacent except that squares are highlighted for
- * the player to indicate valid squares for a given @ref action_id
- *
- * @param[in] message Message used in assembling the prompt to the player
- * @param[in] action_to_highlight An action ID to drive the highlighting output
- */
-cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        action_id action_to_highlight );
+cata::optional<tripoint> choose_adjacent( const std::string &message, bool allow_vertical = false );
 
 /**
  * Request player input of a direction, possibly including vertical component
@@ -472,7 +437,8 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
  * @param[in] message Message used in assembling the prompt to the player
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
-cata::optional<tripoint> choose_direction( const std::string &message, bool allow_vertical );
+cata::optional<tripoint> choose_direction( const std::string &message,
+        bool allow_vertical = false );
 
 /**
  * Request player input of adjacent tile with highlighting, possibly on different z-level
@@ -485,10 +451,11 @@ cata::optional<tripoint> choose_direction( const std::string &message, bool allo
  * the player to indicate valid squares for a given @ref action_id
  *
  * @param[in] message Message used in assembling the prompt to the player
- * @param[in] action_to_highlight An action ID to drive the highlighting output
+ * @param[in] action An action ID to drive the highlighting output
+ * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        action_id action_to_highlight, bool allow_vertical );
+        action_id action, bool allow_vertical = false );
 
 /**
  * Request player input of adjacent tile with highlighting, possibly on different z-level
@@ -502,11 +469,13 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
  * function.
  *
  * @param[in] message Message used in assembling the prompt to the player
- * @param[in] should_highlight A function that will be called to determine if a given location should be highlighted
+ * @param[in] allowed A function that will be called to determine if a given location is allowed for selection
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::function<bool( tripoint )> &should_highlight, bool allow_vertical );
+        const std::function<bool( const tripoint & )> &allowed,
+        bool allow_vertical = false,
+        bool auto_select_if_single = false );
 
 // (Press X (or Y)|Try) to Z
 std::string press_x( action_id act );
@@ -525,20 +494,18 @@ std::string press_x( action_id act, const std::string &act_desc );
  * that would generated that delta.  See @ref action_id for the list of available movement
  * commands that may be generated.
  *
- * The only valid values for the parameters of this function are -1, 0 and 1
+ * The only valid values for the coordinates of \p d are -1, 0 and 1
  *
  * @note: This function does not sanitize its inputs, which can result in some strange behavior:
- * 1. If dz is valid and non-zero, then dx and dy are ignored.
- * 2. If dz is invalid, it is treated as if it were zero.
- * 3. If dz is 0 or invalid, then any invalid dx or dy results in @ref ACTION_MOVE_NW
- * 4. If dz is 0 or invalid, then a dx == dy == 0 results in @ref ACTION_MOVE_NW
+ * 1. If d.z is valid and non-zero, then d.x and d.y are ignored.
+ * 2. If d.z is invalid, it is treated as if it were zero.
+ * 3. If d.z is 0 or invalid, then any invalid d.x or d.y results in @ref ACTION_MOVE_NW
+ * 4. If d.z is 0 or invalid, then a d.x == d.y == 0 results in @ref ACTION_MOVE_NW
  *
- * @param[in] dx X component of direction, should be -1, 0, or 1
- * @param[in] dy Y component of direction, should be -1, 0, or 1
- * @param[in] dz Z component of direction, should be -1, 0, or 1
+ * @param[in] d direction, each coordinate should be -1, 0, or 1
  * @returns ID of corresponding move action (usually... see note above)
  */
-action_id get_movement_direction_from_delta( int dx, int dy, int dz = 0 );
+action_id get_movement_direction_from_delta( const tripoint &d );
 
 // Helper function to convert movement direction to coordinate delta point
 point get_delta_from_movement_direction( action_id act );

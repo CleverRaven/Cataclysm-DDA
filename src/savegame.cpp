@@ -16,6 +16,7 @@
 #include "creature_tracker.h"
 #include "debug.h"
 #include "faction.h"
+#include "int_id.h"
 #include "io.h"
 #include "kill_tracker.h"
 #include "map.h"
@@ -29,13 +30,13 @@
 #include "overmap.h"
 #include "scent_map.h"
 #include "translations.h"
-#include "tuple_hash.h"
+#include "hash_utils.h"
 #include "basecamp.h"
 #include "json.h"
 #include "omdata.h"
 #include "overmap_types.h"
 #include "regional_settings.h"
-#include "int_id.h"
+#include "stats_tracker.h"
 #include "string_id.h"
 
 #if defined(__ANDROID__)
@@ -94,8 +95,9 @@ void game::serialize( std::ostream &fout )
     json.member( "active_monsters", *critter_tracker );
     json.member( "stair_monsters", coming_to_stairs );
 
-    // save killcounts.
+    // save stats.
     json.member( "kill_tracker", *kill_tracker_ptr );
+    json.member( "stats_tracker", *stats_tracker_ptr );
 
     json.member( "player", u );
     Messages::serialize( json );
@@ -236,6 +238,7 @@ void game::unserialize( std::istream &fin )
         }
 
         data.read( "player", u );
+        data.read( "stats_tracker", *stats_tracker_ptr );
         Messages::deserialize( data );
 
     } catch( const JsonError &jsonerr ) {
@@ -378,7 +381,6 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
     for( const auto &convert : needs_conversion ) {
         const tripoint pos = convert.first;
         const std::string old = convert.second;
-        oter_id &new_id = ter( pos );
 
         struct convert_nearby {
             int xoffset;
@@ -417,11 +419,11 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
 
         } else if( old == "subway_station" ) {
-            new_id = oter_id( "underground_sub_station" );
+            ter_set( pos, oter_id( "underground_sub_station" ) );
         } else if( old == "bridge_ew" ) {
-            new_id = oter_id( "bridge_east" );
+            ter_set( pos, oter_id( "bridge_east" ) );
         } else if( old == "bridge_ns" ) {
-            new_id = oter_id( "bridge_north" );
+            ter_set( pos, oter_id( "bridge_north" ) );
         } else if( old == "public_works_entrance" ) {
             const std::string base = "public_works_";
             const std::string other = "public_works";
@@ -500,7 +502,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             const std::string prison = "prison_";
             const std::string prison_1 = prison + "1_";
             if( old == "prison_b_entrance" ) {
-                new_id = oter_id( "prison_1_b_2_north" );
+                ter_set( pos, oter_id( "prison_1_b_2_north" ) );
             } else if( old == "prison_b" ) {
                 if( pos.z < 0 ) {
                     nearby.push_back( { -1, "prison_b_entrance",  1, "prison_b",          "prison_1_b_1_north" } );
@@ -563,7 +565,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             const std::string hospital = "hospital";
             const std::string hospital_entrance = "hospital_entrance";
             if( old == hospital_entrance ) {
-                new_id = oter_id( hospital + "_2_north" );
+                ter_set( pos, oter_id( hospital + "_2_north" ) );
             } else if( old == hospital ) {
                 nearby.push_back( { -1, hospital_entrance,  1, hospital,          hospital + "_1_north" } );
                 nearby.push_back( {  1, hospital_entrance,  1, hospital,          hospital + "_3_north" } );
@@ -576,7 +578,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             }
 
         } else if( old == "sewage_treatment" ) {
-            new_id = oter_id( "sewage_treatment_0_1_0_north" );
+            ter_set( pos, oter_id( "sewage_treatment_0_1_0_north" ) );
             convert_unrelated_adjacent_tiles.push_back( { tripoint_north, "sewage_treatment_0_0_0_north" } );
             convert_unrelated_adjacent_tiles.push_back( { tripoint_east, "sewage_treatment_1_1_0_north" } );
             convert_unrelated_adjacent_tiles.push_back( { tripoint_north_east, "sewage_treatment_1_0_0_north" } );
@@ -597,7 +599,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { 0,  base, -1, base, "empty_rock" } );
             nearby.push_back( { 1,  base, -1, base, "empty_rock" } );
         } else if( old == "sewage_treatment_hub" ) {
-            new_id = oter_id( "sewage_treatment_0_1_-1_north" );
+            ter_set( pos, oter_id( "sewage_treatment_0_1_-1_north" ) );
             convert_unrelated_adjacent_tiles.push_back( { tripoint( 2, 0, 0 ), "sewage_treatment_2_1_-1_north" } );
             convert_unrelated_adjacent_tiles.push_back( { tripoint( 2, -1, 0 ), "sewage_treatment_2_0_-1_north" } );
         } else if( old == "cathedral_1_entrance" ) {
@@ -717,19 +719,19 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             }
         } else if( old == "bunker" ) {
             if( pos.z < 0 ) {
-                new_id = oter_id( "bunker_basement" );
-            } else if( is_ot_match( "road", get_ter( pos + point_east ), ot_match_type::type ) ) {
-                new_id = oter_id( "bunker_west" );
-            } else if( is_ot_match( "road", get_ter( pos + point_west ), ot_match_type::type ) ) {
-                new_id = oter_id( "bunker_east" );
-            } else if( is_ot_match( "road", get_ter( pos + point_south ), ot_match_type::type ) ) {
-                new_id = oter_id( "bunker_north" );
+                ter_set( pos, oter_id( "bunker_basement" ) );
+            } else if( is_ot_match( "road", ter( pos + point_east ), ot_match_type::type ) ) {
+                ter_set( pos, oter_id( "bunker_west" ) );
+            } else if( is_ot_match( "road", ter( pos + point_west ), ot_match_type::type ) ) {
+                ter_set( pos, oter_id( "bunker_east" ) );
+            } else if( is_ot_match( "road", ter( pos + point_south ), ot_match_type::type ) ) {
+                ter_set( pos, oter_id( "bunker_north" ) );
             } else {
-                new_id = oter_id( "bunker_south" );
+                ter_set( pos, oter_id( "bunker_south" ) );
             }
 
         } else if( old == "farm" ) {
-            new_id = oter_id( "farm_2_north" );
+            ter_set( pos, oter_id( "farm_2_north" ) );
 
         } else if( old == "farm_field" ) {
             nearby.push_back( { -1, "farm",        1, "farm_field", "farm_1_north" } );
@@ -742,7 +744,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( {  2, "farm_field", -2, "farm_field", "farm_9_north" } );
         } else if( old.compare( 0, 7, "mansion" ) == 0 ) {
             if( old == "mansion_entrance" ) {
-                new_id = oter_id( "mansion_e1_north" );
+                ter_set( pos, oter_id( "mansion_e1_north" ) );
             } else if( old == "mansion" ) {
                 nearby.push_back( { -1, "mansion_entrance",  1, "mansion",          "mansion_c1_east" } );
                 nearby.push_back( {  1, "mansion_entrance",  1, "mansion",          "mansion_c3_north" } );
@@ -769,7 +771,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                    old.compare( 0, 11, "hdwr_large_" ) == 0 ||
                    old.compare( 0, 14, "loffice_tower_" ) == 0 ||
                    old.compare( 0, 17, "cemetery_4square_" ) == 0 ) {
-            new_id = oter_id( old + "_north" );
+            ter_set( pos, oter_id( old + "_north" ) );
 
         } else if( old == "hunter_shack" ||
                    old == "outpost" ||
@@ -786,7 +788,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                    old == "dairy_farm_NE" ||
                    old == "dairy_farm_SW" ||
                    old == "dairy_farm_SE" ) {
-            new_id = oter_id( old + "_north" );
+            ter_set( pos, oter_id( old + "_north" ) );
         }
 
         for( const auto &conv : nearby ) {
@@ -794,13 +796,13 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             const auto y_it = needs_conversion.find( pos + point( 0, conv.yoffset ) );
             if( x_it != needs_conversion.end() && x_it->second == conv.x_id &&
                 y_it != needs_conversion.end() && y_it->second == conv.y_id ) {
-                new_id = oter_id( conv.new_id );
+                ter_set( pos, oter_id( conv.new_id ) );
                 break;
             }
         }
 
         for( const std::pair<tripoint, std::string> &conv : convert_unrelated_adjacent_tiles ) {
-            ter( pos + conv.first ) = oter_id( conv.second );
+            ter_set( pos + conv.first, oter_id( conv.second ) );
         }
     }
 }
@@ -912,17 +914,22 @@ void overmap::unserialize( std::istream &fin )
                 }
                 cities.push_back( new_city );
             }
+        } else if( name == "connections_out" ) {
+            jsin.read( connections_out );
         } else if( name == "roads_out" ) {
+            // Legacy data, superceded by that stored in the "connections_out" member. A load and save
+            // cycle will migrate this to "connections_out".
+            std::vector<tripoint> &roads_out = connections_out[string_id<overmap_connection>( "local_road" )];
             jsin.start_array();
             while( !jsin.end_array() ) {
                 jsin.start_object();
-                city new_road;
+                tripoint new_road;
                 while( !jsin.end_object() ) {
                     std::string road_member_name = jsin.get_member_name();
                     if( road_member_name == "x" ) {
-                        jsin.read( new_road.pos.x );
+                        jsin.read( new_road.x );
                     } else if( road_member_name == "y" ) {
-                        jsin.read( new_road.pos.y );
+                        jsin.read( new_road.y );
                     }
                 }
                 roads_out.push_back( new_road );
@@ -1010,8 +1017,8 @@ void overmap::unserialize( std::istream &fin )
             while( !jsin.end_array() ) {
                 std::shared_ptr<npc> new_npc = std::make_shared<npc>();
                 new_npc->deserialize( jsin );
-                if( !new_npc->fac_id.str().empty() ) {
-                    new_npc->set_fac( new_npc->fac_id );
+                if( !new_npc->get_fac_id().str().empty() ) {
+                    new_npc->set_fac( new_npc->get_fac_id() );
                 }
                 npcs.push_back( new_npc );
             }
@@ -1352,15 +1359,7 @@ void overmap::serialize( std::ostream &fout ) const
     json.end_array();
     fout << std::endl;
 
-    json.member( "roads_out" );
-    json.start_array();
-    for( auto &i : roads_out ) {
-        json.start_object();
-        json.member( "x", i.pos.x );
-        json.member( "y", i.pos.y );
-        json.end_object();
-    }
-    json.end_array();
+    json.member( "connections_out", connections_out );
     fout << std::endl;
 
     json.member( "radios" );
@@ -1611,22 +1610,45 @@ void game::serialize_master( std::ostream &fout )
 
 void faction_manager::serialize( JsonOut &jsout ) const
 {
-    jsout.write( factions );
+    std::vector<faction> local_facs;
+    for( auto &elem : factions ) {
+        local_facs.push_back( elem.second );
+    }
+    jsout.write( local_facs );
 }
 
 void faction_manager::deserialize( JsonIn &jsin )
 {
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        faction add_fac;
-        jsin.read( add_fac );
-        faction *old_fac = get( add_fac.id );
-        if( old_fac ) {
-            *old_fac = add_fac;
-            // force a revalidation of add_fac
-            get( add_fac.id );
-        } else {
-            factions.emplace_back( add_fac );
+    if( jsin.test_object() ) {
+        // whoops - this recovers factions saved under the wrong format.
+        jsin.start_object();
+        while( !jsin.end_object() ) {
+            faction add_fac;
+            add_fac.id = faction_id( jsin.get_member_name() );
+            jsin.read( add_fac );
+            faction *old_fac = get( add_fac.id, false );
+            if( old_fac ) {
+                *old_fac = add_fac;
+                // force a revalidation of add_fac
+                get( add_fac.id, false );
+            } else {
+                factions[add_fac.id] = add_fac;
+            }
+        }
+    } else if( jsin.test_array() ) {
+        // how it should have been serialized.
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            faction add_fac;
+            jsin.read( add_fac );
+            faction *old_fac = get( add_fac.id, false );
+            if( old_fac ) {
+                *old_fac = add_fac;
+                // force a revalidation of add_fac
+                get( add_fac.id, false );
+            } else {
+                factions[add_fac.id] = add_fac;
+            }
         }
     }
 }
@@ -1637,9 +1659,10 @@ void Creature_tracker::deserialize( JsonIn &jsin )
     monsters_by_location.clear();
     jsin.start_array();
     while( !jsin.end_array() ) {
-        monster montmp;
-        jsin.read( montmp );
-        add( montmp );
+        // @todo would be nice if monster had a constructor using JsonIn or similar, so this could be one statement.
+        std::shared_ptr<monster> mptr = std::make_shared<monster>();
+        jsin.read( *mptr );
+        add( mptr );
     }
 }
 

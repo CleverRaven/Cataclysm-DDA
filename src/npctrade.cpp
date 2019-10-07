@@ -35,8 +35,8 @@
 const skill_id skill_barter( "barter" );
 
 void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver,
-                                  player &receiver, faction *fac,
-                                  std::list<item_location *> &from_map, bool npc_gives )
+                                  player &receiver, std::list<item_location *> &from_map,
+                                  bool npc_gives )
 {
     for( item_pricing &ip : stuff ) {
         if( !ip.selected ) {
@@ -49,7 +49,7 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
         }
 
         item gift = *ip.loc.get_item();
-        gift.set_owner( fac );
+        gift.set_owner( receiver );
         int charges = npc_gives ? ip.u_charges : ip.npc_charges;
         int count = npc_gives ? ip.u_has : ip.npc_has;
 
@@ -139,17 +139,23 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         np_p = dynamic_cast<npc *>( &seller );
     }
     npc &np = *np_p;
-    faction *fac = np.my_fac;
+    faction *fac = np.get_faction();
 
     double adjust = net_price_adjustment( buyer, seller );
 
-    const auto check_item = [fac, adjust, is_npc, &np, &result]( item_location && loc, int count = 1 ) {
+    const auto check_item = [fac, adjust, is_npc, &np, &result, &seller]( item_location &&
+    loc, int count = 1 ) {
         item *it_ptr = loc.get_item();
         if( it_ptr == nullptr || it_ptr->is_null() ) {
             return;
         }
-
         item &it = *it_ptr;
+
+        // Don't sell items we don't own.
+        if( !it.is_owned_by( seller ) ) {
+            return;
+        }
+
         const int market_price = it.price( true );
         int val = np.value( it, market_price );
         if( ( is_npc && np.wants_to_sell( it, val, market_price ) ) ||
@@ -168,7 +174,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         check_item( item_location( seller, &seller.weapon ), 1 );
     }
 
-    for( map_cursor &cursor : map_selector( seller.pos(), 1 ) ) {
+    for( map_cursor &cursor : map_selector( seller.pos(), PICKUP_RANGE ) ) {
         buy_helper( cursor, check_item );
     }
     for( vehicle_cursor &cursor : vehicle_selector( seller.pos(), 1 ) ) {
@@ -590,10 +596,8 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 
         std::list<item_location *> from_map;
 
-        npc_trading::transfer_items( trade_win.yours, g->u, np, np.my_fac, from_map, false );
-        npc_trading::transfer_items( trade_win.theirs, np, g->u,
-                                     g->faction_manager_ptr->get( faction_id( "your_followers" ) ),
-                                     from_map, true );
+        npc_trading::transfer_items( trade_win.yours, g->u, np, from_map, false );
+        npc_trading::transfer_items( trade_win.theirs, np, g->u, from_map, true );
 
         for( item_location *loc_ptr : from_map ) {
             loc_ptr->remove_item();

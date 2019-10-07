@@ -181,11 +181,10 @@ nc_color msgtype_to_color( game_message_type type, bool bOldMsg = false );
  * they have no such note, they probably don't handle color tags (which means they just print the
  * string as is).
  *
- * Note: use @ref string_from_color to convert a `nc_color` value to a string suitable for a
- * color tag:
+ * Note: use @ref colorize to add color tags to a string.
  * \code
  *    nc_color color = ...;
- *    text = "<color_" + string_from_color( color ) + ">some text</color>";
+ *    text = colorize( "some text", color );
  * \endcode
  *
  * One can use @ref utf8_width with the second parameter set to `true` to determine the printed
@@ -365,6 +364,7 @@ void draw_custom_border(
     nc_color FG = BORDER_COLOR, const point &pos = point_zero, int height = 0, int width = 0 );
 void draw_border( const catacurses::window &w, nc_color border_color = BORDER_COLOR,
                   const std::string &title = "", nc_color title_color = c_light_red );
+void draw_border_below_tabs( const catacurses::window &w, nc_color border_color = BORDER_COLOR );
 
 std::string word_rewrap( const std::string &ins, int width, uint32_t split = ' ' );
 std::vector<size_t> get_tag_positions( const std::string &s );
@@ -461,7 +461,7 @@ inline void popup_player_or_npc( player &p, const char *player_mes, const char *
     if( p.is_player() ) {
         popup( player_mes, std::forward<Args>( args )... );
     } else {
-        popup( npc_mes, p.disp_name(), std::forward<Args>( args )... );
+        popup( p.replace_with_npc_name( string_format( npc_mes, std::forward<Args>( args )... ) ) );
     }
 }
 
@@ -645,18 +645,18 @@ std::string enumerate_as_string( const _Container &values,
  * @return String containing enumerated elements in format: "a, b, c, ..., and z". Uses the Oxford comma.
  * @param first Iterator pointing to the first element.
  * @param last Iterator pointing to the last element.
- * @param pred Predicate that accepts an element and returns a representing string.
+ * @param string_for Function that accepts an element and returns a representing string.
  * May return an empty string to omit the element.
  * @param conj Choose how to separate the last elements.
  */
-template<typename _FIter, typename _Predicate>
-std::string enumerate_as_string( _FIter first, _FIter last, _Predicate pred,
+template<typename _FIter, typename F>
+std::string enumerate_as_string( _FIter first, _FIter last, F string_for,
                                  enumeration_conjunction conj = enumeration_conjunction::and_ )
 {
     std::vector<std::string> values;
     values.reserve( static_cast<size_t>( std::distance( first, last ) ) );
     for( _FIter iter = first; iter != last; ++iter ) {
-        const std::string str( pred( *iter ) );
+        const std::string str( string_for( *iter ) );
         if( !str.empty() ) {
             values.push_back( str );
         }
@@ -678,6 +678,66 @@ void draw_tab( const catacurses::window &w, int iOffsetX, const std::string &sTe
 void draw_subtab( const catacurses::window &w, int iOffsetX, const std::string &sText,
                   bool bSelected,
                   bool bDecorate = true, bool bDisabled = false );
+
+// Draws multiple tabs, with the titles specified in tab_texts.
+// Also draws the line beneath the tabs and corners at the ends.
+// The selected tab (specified by current_tab) is drawn differently.
+// In total, something like the following:
+//   ┌──────┐ ┌──────┐
+//   │ TAB1 │ │ TAB2 │
+// ┌─┴──────┴─┘      └───────────┐
+void draw_tabs( const catacurses::window &, const std::vector<std::string> &tab_texts,
+                size_t current_tab );
+// As above, but specify current tab by its label rather than position
+void draw_tabs( const catacurses::window &, const std::vector<std::string> &tab_texts,
+                const std::string &current_tab );
+
+// This overload of draw_tabs is intended for use when you track the current
+// tab via some other value (like an enum) linked to each tab.  Expected use
+// looks something like this:
+//
+// tab_mode current_tab = ...;
+// const std::vector<std::pair<tab_mode, std::string>> tabs = {
+//      { tab_mode::first_tab, _( "FIRST_TAB" ) },
+//      { tab_mode::second_tab, _( "SECOND_TAB" ) },
+// };
+// draw_tabs( w, tabs, current_tab );
+template<typename TabList, typename CurrentTab, typename = std::enable_if_t<
+             std::is_same<CurrentTab,
+                          std::remove_const_t<typename TabList::value_type::first_type>>::value>>
+void draw_tabs( const catacurses::window &w, const TabList &tab_list,
+                const CurrentTab &current_tab )
+{
+    std::vector<std::string> tab_text;
+    std::transform( tab_list.begin(), tab_list.end(), std::back_inserter( tab_text ),
+    []( const typename TabList::value_type & pair ) {
+        return pair.second;
+    } );
+    auto current_tab_it = std::find_if( tab_list.begin(), tab_list.end(),
+    [&current_tab]( const typename TabList::value_type & pair ) {
+        return pair.first == current_tab;
+    } );
+    assert( current_tab_it != tab_list.end() );
+    draw_tabs( w, tab_text, std::distance( tab_list.begin(), current_tab_it ) );
+}
+
+// Similar to the above, but where the order of tabs is specified separately
+// TabList is expected to be a map type.
+template<typename TabList, typename TabKeys, typename CurrentTab, typename = std::enable_if_t<
+             std::is_same<CurrentTab,
+                          std::remove_const_t<typename TabList::value_type::first_type>>::value>>
+void draw_tabs( const catacurses::window &w, const TabList &tab_list, const TabKeys &keys,
+                const CurrentTab &current_tab )
+{
+    std::vector<typename TabList::value_type> ordered_tab_list;
+    for( const auto &key : keys ) {
+        auto it = tab_list.find( key );
+        assert( it != tab_list.end() );
+        ordered_tab_list.push_back( *it );
+    }
+    draw_tabs( w, ordered_tab_list, current_tab );
+}
+
 // Legacy function, use class scrollbar instead!
 void draw_scrollbar( const catacurses::window &window, int iCurrentLine,
                      int iContentHeight, int iNumLines, const point &offset = point_zero,
@@ -717,6 +777,36 @@ class scrollbar
         bool scroll_to_last_v;
 };
 
+// A simple scrolling view onto some text.  Given a window, it will use the
+// leftmost column for the scrollbar and fill the rest with text.  When the
+// scrollbar is not needed it prints a vertical border in place of it, so the
+// expectation is that the given window will overlap the left edge of a
+// bordered window if one exists.
+// (Options to e.g. not print the border would be easy to add if needed).
+// Update the text with set_text (it will be wrapped for you).
+// scroll_up and scroll_down are expected to be called from handlers for the
+// keys used for that purpose.
+// Call draw when drawing related UI stuff.  draw calls werase/wrefresh for its
+// window internally.
+class scrolling_text_view
+{
+    public:
+        scrolling_text_view( catacurses::window &w ) : w_( w ) {}
+
+        void set_text( const std::string & );
+        void scroll_up();
+        void scroll_down();
+        void draw( const nc_color &base_color );
+    private:
+        int text_width();
+        int num_lines();
+        int max_offset();
+
+        catacurses::window &w_;
+        std::vector<std::string> text_;
+        int offset_ = 0;
+};
+
 class scrollingcombattext
 {
     public:
@@ -727,12 +817,10 @@ class scrollingcombattext
         class cSCT
         {
             private:
-                int iPosX;
-                int iPosY;
+                point pos;
                 direction oDir;
                 direction oUp, oUpRight, oRight, oDownRight, oDown, oDownLeft, oLeft, oUpLeft;
-                int iDirX;
-                int iDirY;
+                point dir;
                 int iStep;
                 int iStepOffset;
                 std::string sText;
@@ -743,7 +831,7 @@ class scrollingcombattext
                 bool iso_mode;
 
             public:
-                cSCT( int p_iPosX, int p_iPosY, direction p_oDir,
+                cSCT( const point &pos, direction p_oDir,
                       const std::string &p_sText, game_message_type p_gmt,
                       const std::string &p_sText2 = "", game_message_type p_gmt2 = m_neutral,
                       const std::string &p_sType = "" );
@@ -766,10 +854,10 @@ class scrollingcombattext
                     return oDir;
                 }
                 int getInitPosX() const {
-                    return iPosX;
+                    return pos.x;
                 }
                 int getInitPosY() const {
-                    return iPosY;
+                    return pos.y;
                 }
                 std::string getType() const {
                     return sType;
@@ -843,11 +931,11 @@ void refresh_display();
  * Assigns a custom color to each symbol.
  *
  * @param str String to colorize symbols in
- * @param func Function that accepts symbols (std::string::value_type) and returns colors.
+ * @param color_of Function that accepts symbols (std::string::value_type) and returns colors.
  * @return Colorized string.
  */
-template<typename Pred>
-std::string colorize_symbols( const std::string &str, Pred func )
+template<typename F>
+std::string colorize_symbols( const std::string &str, F color_of )
 {
     std::ostringstream res;
     nc_color prev_color = c_unset;
@@ -859,7 +947,7 @@ std::string colorize_symbols( const std::string &str, Pred func )
     };
 
     for( const auto &elem : str ) {
-        const nc_color new_color = func( elem );
+        const nc_color new_color = color_of( elem );
 
         if( prev_color != new_color ) {
             closing_tag();

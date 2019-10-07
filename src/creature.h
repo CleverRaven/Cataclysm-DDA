@@ -13,6 +13,7 @@
 #include "bodypart.h"
 #include "pimpl.h"
 #include "string_formatter.h"
+#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "debug.h"
@@ -22,13 +23,13 @@ enum game_message_type : int;
 class nc_color;
 class effect;
 class effects_map;
-class translation;
 
 namespace catacurses
 {
 class window;
 } // namespace catacurses
 class avatar;
+class Character;
 class field;
 class field_entry;
 class JsonObject;
@@ -87,6 +88,12 @@ class Creature
         }
         virtual bool is_monster() const {
             return false;
+        }
+        virtual Character *as_character() {
+            return nullptr;
+        }
+        virtual const Character *as_character() const {
+            return nullptr;
         }
         virtual player *as_player() {
             return nullptr;
@@ -149,7 +156,7 @@ class Creature
         /**
          * Creature Attitude as String and color
          */
-        static const std::pair<std::string, nc_color> &get_attitude_ui_data( Attitude att );
+        static const std::pair<translation, nc_color> &get_attitude_ui_data( Attitude att );
 
         /**
          * Attitude (of this creature) towards another creature. This might not be symmetric.
@@ -271,6 +278,8 @@ class Creature
         virtual bool is_on_ground() const = 0;
         virtual bool is_underwater() const = 0;
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
+        virtual bool in_species( const species_id & ) const;
+
         virtual bool has_weapon() const = 0;
         virtual bool is_hallucination() const = 0;
         // returns true if health is zero or otherwise should be dead
@@ -320,6 +329,7 @@ class Creature
         /** Processes move stopping effects. Returns false if movement is stopped. */
         virtual bool move_effects( bool attacking ) = 0;
 
+        void add_effect( const effect &eff, bool force = false, bool deferred = false );
         /** Adds or modifies an effect. If intensity is given it will set the effect intensity
             to the given value, or as close as max_intensity values permit. */
         virtual void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
@@ -329,14 +339,17 @@ class Creature
                              const time_duration &dur,
                              body_part bp = num_bp, bool permanent = false, int intensity = 1,
                              bool force = false );
-        /** Removes a listed effect, adding the removal memorial log if needed. bp = num_bp means to remove
-         *  all effects of a given type, targeted or untargeted. Returns true if anything was removed. */
+        /** Removes a listed effect. bp = num_bp means to remove all effects of
+         * a given type, targeted or untargeted. Returns true if anything was
+         * removed. */
         bool remove_effect( const efftype_id &eff_id, body_part bp = num_bp );
         /** Remove all effects. */
         void clear_effects();
         /** Check if creature has the matching effect. bp = num_bp means to check if the Creature has any effect
          *  of the matching type, targeted or untargeted. */
         bool has_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
+        /** Check if creature has any effect with the given flag. */
+        bool has_effect_with_flag( const std::string &flag, body_part bp = num_bp ) const;
         /** Return the effect that matches the given arguments exactly. */
         const effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
         effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp );
@@ -701,20 +714,6 @@ class Creature
                                           string_format( npc_speech, std::forward<Args>( args )... ) );
         }
 
-        virtual void add_memorial_log( const std::string &/*male_msg*/,
-                                       const std::string &/*female_msg*/ ) {}
-        template<typename ...Args>
-        void add_memorial_log( const char *const male_msg, const char *const female_msg, Args &&... args ) {
-            return add_memorial_log( string_format( male_msg, std::forward<Args>( args )... ),
-                                     string_format( female_msg, std::forward<Args>( args )... ) );
-        }
-        template<typename ...Args>
-        void add_memorial_log( const std::string &male_msg, const std::string &female_msg,
-                               Args &&... args ) {
-            return add_memorial_log( string_format( male_msg, std::forward<Args>( args )... ),
-                                     string_format( female_msg, std::forward<Args>( args )... ) );
-        }
-
         virtual std::string extended_description() const = 0;
 
         virtual nc_color symbol_color() const = 0;
@@ -777,7 +776,10 @@ class Creature
 
     public:
         body_part select_body_part( Creature *source, int hit_roll ) const;
-    protected:
+
+        static void load_hit_range( JsonObject & );
+        // Empirically determined by "synthetic_range_test" in tests/ranged_balance.cpp.
+        static std::vector <int> dispersion_for_even_chance_of_good_hit;
         /**
          * This function replaces the "<npcname>" substring with the @ref disp_name of this creature.
          *
@@ -785,6 +787,7 @@ class Creature
          *
          */
         std::string replace_with_npc_name( std::string input ) const;
+    protected:
         /**
          * These two functions are responsible for storing and loading the members
          * of this class to/from json data.

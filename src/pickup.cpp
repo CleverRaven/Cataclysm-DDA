@@ -52,6 +52,7 @@
 #include "map_selector.h"
 #include "pimpl.h"
 #include "point.h"
+#include "popup.h"
 
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
@@ -170,6 +171,51 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
     return static_cast<pickup_answer>( choice );
 }
 
+bool Pickup::query_thief()
+{
+    player &u = g->u;
+    bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
+    const auto allow_key = [force_uc]( const input_event & evt ) {
+        return !force_uc || evt.type != CATA_INPUT_KEYBOARD ||
+               // std::lower is undefined outside unsigned char range
+               evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
+    };
+    std::string answer = query_popup()
+                         .allow_cancel( false )
+                         .context( "YES_NO_ALWAYS_NEVER" )
+                         .message( "%s",
+                                   _( "Picking up this item will be considered stealing, continue?" ) )
+                         .option( "YES", allow_key ) // yes, steal all items in this location that is selected
+                         .option( "NO", allow_key ) // no, pick up only what is free
+                         .option( "ALWAYS", allow_key ) // Yes, steal all items and stop asking me this question
+                         .option( "NEVER", allow_key ) // no, only grab free item and never ask me again
+                         .cursor( 1 ) // default to the second option `NO`
+                         .query()
+                         .action; // retrieve the input action
+    if( answer == "YES" ) {
+        u.set_value( "THIEF_MODE", "THIEF_STEAL" );
+        u.set_value( "THIEF_MODE_KEEP", "NO" );
+        return true;
+    } else if( answer == "NO" ) {
+        u.set_value( "THIEF_MODE", "THIEF_HONEST" );
+        u.set_value( "THIEF_MODE_KEEP", "NO" );
+        return false;
+    } else if( answer == "ALWAYS" ) {
+        u.set_value( "THIEF_MODE", "THIEF_STEAL" );
+        u.set_value( "THIEF_MODE_KEEP", "YES" );
+        return true;
+    } else if( answer == "NEVER" ) {
+        u.set_value( "THIEF_MODE", "THIEF_HONEST" );
+        u.set_value( "THIEF_MODE_KEEP", "YES" );
+        return false;
+    } else {
+        // error
+        debugmsg( "Not a valid option [ %s ]", answer );
+        return false;
+    }
+    return false;
+}
+
 // Returns false if pickup caused a prompt and the player selected to cancel pickup
 bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offered_swap,
                   PickupMap &mapPickup, bool autopickup )
@@ -189,10 +235,14 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     item leftovers = newit;
 
     const auto wield_check = u.can_wield( newit );
-    if( newit.has_owner() &&
-        newit.get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
-        if( !query_yn( "Picking up this item will be considered stealing, continue?" ) ) {
-            return false;
+
+    if( !newit.is_owned_by( g->u, true ) ) {
+        // Has the player given input on if stealing is ok?
+        if( u.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
+            Pickup::query_thief();
+        }
+        if( u.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
+            return true; // Since we are honest, return no problem before picking up
         }
     }
     if( newit.invlet != '\0' &&
@@ -268,6 +318,9 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             if( wield_check.success() ) {
                 //using original item, possibly modifying it
                 picked_up = u.wield( it );
+                if( picked_up ) {
+                    it.charges = newit.charges;
+                }
                 if( u.weapon.invlet ) {
                     add_msg( m_info, _( "Wielding %c - %s" ), u.weapon.invlet,
                              u.weapon.display_name() );
@@ -797,12 +850,9 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     std::string item_name;
                     std::string stolen;
                     bool stealing = false;
-                    if( this_item.has_owner() ) {
-                        const faction *item_fac = this_item.get_owner();
-                        if( item_fac != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
-                            stolen = "<color_light_red>!</color>";
-                            stealing = true;
-                        }
+                    if( !this_item.is_owned_by( g->u, true ) ) {
+                        stolen = "<color_light_red>!</color>";
+                        stealing = true;
                     }
                     if( stacked_here[true_it].front()->is_money() ) {
                         //Count charges
@@ -823,14 +873,11 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                                 charges += ( *it )->charges;
                             }
                             if( stealing ) {
-                                //~ %s %s of %s ""!20 Cash Cards of $200" - ! added if stealing.
-                                item_name = string_format( _( "%s %s of %s" ), stolen,
-                                                           stacked_here[true_it].front()->display_money( getitem[true_it].count, charges ),
-                                                           format_money( charges_total ) );
+                                item_name = string_format( "%s %s", stolen,
+                                                           stacked_here[true_it].front()->display_money( getitem[true_it].count, charges_total, charges ) );
                             } else {
-                                item_name = string_format( _( "%s of %s" ),
-                                                           stacked_here[true_it].front()->display_money( getitem[true_it].count, charges ),
-                                                           format_money( charges_total ) );
+                                item_name = stacked_here[true_it].front()->display_money( getitem[true_it].count, charges_total,
+                                            charges );
                             }
                         }
                     } else {
@@ -1038,9 +1085,9 @@ int Pickup::cost_to_move_item( const Character &who, const item &it )
         // No free hand? That will cost you extra
         ret += 20;
     }
-
+    const int delta_weight = units::to_gram( it.weight() - who.weight_capacity() );
     // Is it too heavy? It'll take 10 moves per kg over limit
-    ret += std::max( 0, ( it.weight() - who.weight_capacity() ) / 100_gram );
+    ret += std::max( 0, delta_weight / 100 );
 
     // Keep it sane - it's not a long activity
     return std::min( 400, ret );

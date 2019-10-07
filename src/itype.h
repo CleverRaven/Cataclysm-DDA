@@ -18,6 +18,7 @@
 #include "iuse.h" // use_function
 #include "optional.h"
 #include "pldata.h" // add_type
+#include "relic.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -222,6 +223,10 @@ struct islot_armor {
      * How much this item encumbers the player.
      */
     int encumber = 0;
+    /**
+    * When storage is full, how much it encumbers the player.
+    */
+    int max_encumber = 0;
     /**
      * Percentage of the body part area that this item covers.
      * This determines how likely it is to hit the item instead of the player.
@@ -567,8 +572,8 @@ struct islot_gunmod : common_ranged_data {
     /** How many moves does this gunmod take to install? */
     int install_time = 0;
 
-    /** Increases base gun UPS consumption by this many charges per shot */
-    int ups_charges = 0;
+    /** Increases base gun UPS consumption by this many times per shot */
+    float ups_charges_multiplier = 1.0f;
 
     /** Firing modes added to or replacing those of the base gun */
     std::map<gun_mode_id, gun_modifier_data> mode_modifier;
@@ -721,9 +726,9 @@ struct islot_seed {
      */
     int fruit_div = 1;
     /**
-     * Name of the plant, already translated.
+     * Name of the plant.
      */
-    std::string plant_name;
+    translation plant_name;
     /**
      * Type id of the fruit item.
      */
@@ -780,6 +785,7 @@ struct itype {
         cata::optional<islot_ammo> ammo;
         cata::optional<islot_seed> seed;
         cata::optional<islot_artifact> artifact;
+        cata::optional<relic> relic_data;
         /*@}*/
 
     private:
@@ -797,10 +803,8 @@ struct itype {
         std::string id = "null"; /** unique string identifier for this type */
 
         // private because is should only be accessed through itype::nname!
-        // name and name_plural are not translated automatically
         // nname() is used for display purposes
-        std::string name = "none";        // Proper name, singular form, in American English.
-        std::string name_plural = "none"; // name, plural form, in American English.
+        translation name = no_translation( "none" );
 
         /** If set via JSON forces item category to this (preventing automatic assignment) */
         std::string category_force;
@@ -821,7 +825,7 @@ struct itype {
         std::string looks_like;
 
         std::string snippet_category;
-        std::string description; // Flavor text
+        translation description; // Flavor text
 
         // The container it comes in
         cata::optional<itype_id> default_container;
@@ -895,9 +899,9 @@ struct itype {
         int stack_size = 0;
 
         /** Value before cataclysm. Price given is for a default-sized stack. */
-        int price = 0;
+        units::money price = 0_cent;
         /** Value after cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
-        int price_post = -1;
+        units::money price_post = -1_cent;
 
         /**@}*/
         // If non-rigid volume (and if worn encumbrance) increases proportional to contents

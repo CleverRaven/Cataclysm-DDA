@@ -6,7 +6,7 @@
     "name": "2 Shot Special",
     "//": "It's hard to say just how big this is, although it's (very large) pistol sized. But it is a handmade weapon.",
     "description": "A crudely made double barrel pistol firing 38 special ammo.  Unfortunately, the name is less about the double barrels and more about the number of shots you'll get before it breaks down on you.",
-    "weight": 750,
+    "weight": "750 g",
     "volume": "1 L",
     "price": 2000,
     "to_hit": -1,
@@ -19,6 +19,7 @@
     "ranged_damage": -1,
     "dispersion": 620,
     "durability": 3,
+    "blackpowder_tolerance": 60,
     "clip_size": 2,
     "reload": 200,
     "valid_mod_locations": [
@@ -29,6 +30,7 @@
       [ "rail mount", 1 ],
       [ "stock mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ]
   },
   {
@@ -38,7 +40,7 @@
     "name": "COP .38",
     "name_plural": "COP .38",
     "description": "The COP .38 is a small, chubby derringer pistol that bears a slight resemblance to the Mossberg Brownie.  It has four barrels arranged in a square formation.",
-    "weight": 857,
+    "weight": "857 g",
     "volume": "399ml",
     "price": 120000,
     "to_hit": -1,
@@ -48,6 +50,7 @@
     "range": 3,
     "dispersion": 520,
     "durability": 6,
+    "blackpowder_tolerance": 96,
     "clip_size": 4,
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -59,6 +62,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -68,7 +72,7 @@
     "name": "pipe rifle: .38 Special",
     "name_plural": "pipe rifles: .38 Special",
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
-    "weight": 2114,
+    "weight": "2114 g",
     "volume": "2 L",
     "price": 10000,
     "to_hit": -1,
@@ -80,6 +84,7 @@
     "ranged_damage": 1,
     "dispersion": 550,
     "durability": 6,
+    "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
@@ -94,6 +99,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ]
   },
   {
@@ -103,7 +109,7 @@
     "name": "Ruger LCR .38",
     "name_plural": "Ruger LCR .38",
     "description": "A compact, double-action-only revolver designed for easy concealment, with a stainless steel cylinder and aluminum frame.",
-    "weight": 382,
+    "weight": "382 g",
     "volume": "250 ml",
     "price": 54500,
     "to_hit": -2,
@@ -115,6 +121,7 @@
     "ranged_damage": -2,
     "dispersion": 480,
     "durability": 10,
+    "blackpowder_tolerance": 56,
     "clip_size": 5,
     "magazines": [ [ "38", [ "38_speedloader5" ] ] ],
     "valid_mod_locations": [
@@ -136,7 +143,7 @@
     "name": "S&W 619",
     "name_plural": "S&W 619",
     "description": "A seven-round .38 revolver sold by Smith & Wesson.  It features a fixed rear sight and a reinforced frame.",
-    "weight": 1074,
+    "weight": "1074 g",
     "volume": "500 ml",
     "price": 62000,
     "to_hit": -2,
@@ -147,6 +154,7 @@
     "ammo": [ "357mag", "38" ],
     "dispersion": 320,
     "durability": 10,
+    "blackpowder_tolerance": 56,
     "clip_size": 7,
     "magazines": [ [ "38", [ "38_speedloader" ] ] ],
     "valid_mod_locations": [
@@ -168,7 +176,7 @@
     "name": "Taurus Pro .38",
     "name_plural": "Taurus Pro .38",
     "description": "A popular .38 pistol.  Designed with numerous safety features and built from high-quality, durable materials.",
-    "weight": 515,
+    "weight": "515 g",
     "volume": "500 ml",
     "price": 64000,
     "to_hit": -2,
@@ -180,6 +188,7 @@
     "skill": "pistol",
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 225,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -193,6 +202,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "38", [ "taurus38mag" ] ] ]
   }

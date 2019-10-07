@@ -20,9 +20,7 @@
 
 void game::list_missions()
 {
-    catacurses::window w_missions = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                    point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                                           TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
+    catacurses::window w_missions = new_centered_win( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH );
 
     enum class tab_mode : int {
         TAB_ACTIVE = 0,
@@ -72,29 +70,20 @@ void game::list_missions()
         const int bottom_of_page =
             std::min( top_of_page + entries_per_page - 1, static_cast<int>( umissions.size() ) - 1 );
 
-        for( int i = 1; i < FULL_SCREEN_WIDTH - 1; i++ ) {
-            mvwputch( w_missions, point( i, 2 ), BORDER_COLOR, LINE_OXOX );
-            mvwputch( w_missions, point( i, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR, LINE_OXOX );
-
-            if( i > 2 && i < FULL_SCREEN_HEIGHT - 1 ) {
-                mvwputch( w_missions, point( 30, i ), BORDER_COLOR, LINE_XOXO );
-                mvwputch( w_missions, point( FULL_SCREEN_WIDTH - 1, i ), BORDER_COLOR, LINE_XOXO );
-            }
+        for( int i = 3; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
+            mvwputch( w_missions, point( 30, i ), BORDER_COLOR, LINE_XOXO );
         }
 
-        draw_tab( w_missions, 7, _( "ACTIVE MISSIONS" ), tab == tab_mode::TAB_ACTIVE );
-        draw_tab( w_missions, 30, _( "COMPLETED MISSIONS" ), tab == tab_mode::TAB_COMPLETED );
-        draw_tab( w_missions, 56, _( "FAILED MISSIONS" ), tab == tab_mode::TAB_FAILED );
-
-        mvwputch( w_missions, point( 0, 2 ), BORDER_COLOR, LINE_OXXO ); // |^
-        mvwputch( w_missions, point( FULL_SCREEN_WIDTH - 1, 2 ), BORDER_COLOR, LINE_OOXX ); // ^|
-
-        mvwputch( w_missions, point( 0, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR, LINE_XXOO ); // |
-        mvwputch( w_missions, point( FULL_SCREEN_WIDTH - 1, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR,
-                  LINE_XOOX ); // _|
+        const std::vector<std::pair<tab_mode, std::string>> tabs = {
+            { tab_mode::TAB_ACTIVE, _( "ACTIVE MISSIONS" ) },
+            { tab_mode::TAB_COMPLETED, _( "COMPLETED MISSIONS" ) },
+            { tab_mode::TAB_FAILED, _( "FAILED MISSIONS" ) },
+        };
+        draw_tabs( w_missions, tabs, tab );
+        draw_border_below_tabs( w_missions );
 
         mvwputch( w_missions, point( 30, 2 ), BORDER_COLOR,
-                  tab == tab_mode::TAB_COMPLETED ? LINE_XOXX : LINE_XXXX ); // + || -|
+                  tab == tab_mode::TAB_COMPLETED ? ' ' : LINE_OXXX ); // ^|^
         mvwputch( w_missions, point( 30, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
 
         draw_scrollbar( w_missions, selection, entries_per_page, umissions.size(), point( 0, 3 ) );
@@ -123,10 +112,21 @@ void game::list_missions()
             y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, col,
                                  miss->name() + for_npc );
 
+            auto format_tokenized_description = []( const std::string description,
+            const std::vector<std::pair<int, std::string>> rewards ) {
+                std::string formatted_description = description;
+                for( const auto &reward : rewards ) {
+                    std::string token = "<reward_count:" + reward.second + ">";
+                    formatted_description = string_replace( formatted_description, token, string_format( "%d",
+                                                            reward.first ) );
+                }
+                return formatted_description;
+            };
+
             y++;
             if( !miss->get_description().empty() ) {
                 y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, c_white,
-                                     miss->get_description() );
+                                     format_tokenized_description( miss->get_description(), miss->get_likely_rewards() ) );
             }
             if( miss->has_deadline() ) {
                 const time_point deadline = miss->get_deadline();
@@ -157,11 +157,11 @@ void game::list_missions()
             }
         } else {
             static const std::map< tab_mode, std::string > nope = {
-                { tab_mode::TAB_ACTIVE, _( "You have no active missions!" ) },
-                { tab_mode::TAB_COMPLETED, _( "You haven't completed any missions!" ) },
-                { tab_mode::TAB_FAILED, _( "You haven't failed any missions!" ) }
+                { tab_mode::TAB_ACTIVE, translate_marker( "You have no active missions!" ) },
+                { tab_mode::TAB_COMPLETED, translate_marker( "You haven't completed any missions!" ) },
+                { tab_mode::TAB_FAILED, translate_marker( "You haven't failed any missions!" ) }
             };
-            mvwprintz( w_missions, point( 31, 4 ), c_light_red, nope.at( tab ) );
+            mvwprintz( w_missions, point( 31, 4 ), c_light_red, _( nope.at( tab ) ) );
         }
 
         wrefresh( w_missions );

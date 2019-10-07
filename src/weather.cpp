@@ -61,48 +61,46 @@ static bool is_player_outside()
 /**
  * Glare.
  * Causes glare effect to player's eyes if they are not wearing applicable eye protection.
+ * @param intensity Level of sun brighthess
  */
-
-void weather_effect::glare( bool snowglare )
+void weather_effect::glare( sun_intensity intensity )
 {
-    season_type season = season_of_year( calendar::turn );
-    if( is_player_outside() && g->is_in_sunlight( g->u.pos() ) && !g->u.in_sleep_state() &&
-        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() && !snowglare &&
-        !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
-        if( !g->u.has_effect( effect_glare ) ) {
-            if( g->u.has_trait( trait_CEPH_VISION ) ) {
-                g->u.add_env_effect( effect_glare, bp_eyes, 2, 4_turns );
-            } else {
-                g->u.add_env_effect( effect_glare, bp_eyes, 2, 2_turns );
-            }
-        } else {
-            if( g->u.has_trait( trait_CEPH_VISION ) ) {
-                g->u.add_env_effect( effect_glare, bp_eyes, 2, 2_turns );
-            } else {
-                g->u.add_env_effect( effect_glare, bp_eyes, 2, 1_turns );
-            }
-        }
+    //General prepequisites for glare
+    if( !is_player_outside() || !g->is_in_sunlight( g->u.pos() ) || g->u.in_sleep_state() ||
+        g->u.worn_with_flag( "SUN_GLASSES" ) ||
+        g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ||
+        g->u.is_blind() ) {
+        return;
     }
-    if( is_player_outside() && !g->u.in_sleep_state() && season == WINTER &&
-        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.is_blind() && snowglare &&
-        !g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ) {
-        if( !g->u.has_effect( effect_snow_glare ) ) {
-            if( g->u.has_trait( trait_CEPH_VISION ) ) {
-                g->u.add_env_effect( effect_snow_glare, bp_eyes, 2, 4_turns );
-            } else {
-                g->u.add_env_effect( effect_snow_glare, bp_eyes, 2, 2_turns );
-            }
-        } else {
-            if( g->u.has_trait( trait_CEPH_VISION ) ) {
-                g->u.add_env_effect( effect_snow_glare, bp_eyes, 2, 2_turns );
-            } else {
-                g->u.add_env_effect( effect_snow_glare, bp_eyes, 2, 1_turns );
-            }
+
+    time_duration dur = 0_turns;
+    const efftype_id *effect = nullptr;
+    season_type season = season_of_year( calendar::turn );
+    if( season == WINTER ) {
+        //Winter snow glare: for both clear & sunny weather
+        effect = &effect_snow_glare;
+        dur = g->u.has_effect( *effect ) ? 1_turns : 2_turns;
+    } else if( intensity == sun_intensity::high ) {
+        //Sun glare: only for bright sunny weather
+        effect = &effect_glare;
+        dur = g->u.has_effect( *effect ) ? 1_turns : 2_turns;
+    }
+    //apply final glare effect
+    if( dur > 0_turns && effect != nullptr ) {
+        //enhance/reduce by some traits
+        if( g->u.has_trait( trait_CEPH_VISION ) ) {
+            dur = dur * 2;
         }
+        g->u.add_env_effect( *effect, bp_eyes, 2, dur );
     }
 }
 
 ////// food vs weather
+
+int incident_sunlight( weather_type wtype, const time_point &t )
+{
+    return std::max<float>( 0.0f, sunlight( t, false ) + weather::light_modifier( wtype ) );
+}
 
 inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
                               const time_point &t, const time_duration &tick_size )
@@ -127,8 +125,17 @@ inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
     }
 
     // TODO: Change this sunlight "sampling" here into a proper interpolation
-    const float tick_sunlight = sunlight( t ) + weather::light_modifier( wtype );
-    data.sunlight += std::max<float>( 0.0f, to_turns<int>( tick_size ) * tick_sunlight );
+    const float tick_sunlight = incident_sunlight( wtype, t );
+    data.sunlight += tick_sunlight * to_turns<int>( tick_size );
+}
+
+weather_type current_weather( const tripoint &location, const time_point &t )
+{
+    const auto wgen = g->weather.get_cur_weather_gen();
+    if( g->weather.weather_override != WEATHER_NULL ) {
+        return g->weather.weather_override;
+    }
+    return wgen.get_weather_conditions( location, t, g->get_seed() );
 }
 
 ////// Funnels.
@@ -138,7 +145,6 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
     time_duration tick_size = 0_turns;
     weather_sum data;
 
-    const auto wgen = g->weather.get_cur_weather_gen();
     for( time_point t = start; t < end; t += tick_size ) {
         const time_duration diff = end - t;
         if( diff < 10_turns ) {
@@ -149,14 +155,8 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
             tick_size = 1_minutes;
         }
 
-        weather_type wtype;
-        if( g->weather.weather_override == WEATHER_NULL ) {
-            wtype = wgen.get_weather_conditions( location, t, g->get_seed() );
-        } else {
-            wtype = g->weather.weather_override;
-        }
+        weather_type wtype = current_weather( location, t );
         proc_weather_sum( wtype, data, t, tick_size );
-        w_point w = wgen.get_weather( location, t, g->get_seed() );
         data.wind_amount += get_local_windpower( g->weather.windspeed, overmap_buffer.ter( location ),
                             location,
                             g->weather.winddirection, false ) * to_turns<int>( tick_size );
@@ -399,12 +399,15 @@ static void generic_very_wet( bool acid )
     wet_player( 60 );
 }
 
-void weather_effect::none()      {}
+void weather_effect::none()
+{
+    glare( sun_intensity::normal );
+}
 void weather_effect::flurry()    {}
 
 void weather_effect::sunny()
 {
-    glare( false );
+    glare( sun_intensity::high );
 }
 
 /**
@@ -428,7 +431,6 @@ void weather_effect::very_wet()
 void weather_effect::snow()
 {
     wet_player( 10 );
-    glare( true );
 }
 
 void weather_effect::snowstorm()
@@ -592,7 +594,8 @@ std::string weather_forecast( const point &abs_sm_pos )
     const std::string city_name = cref ? cref.city->name : std::string( _( "middle of nowhere" ) );
     // Current time
     weather_report << string_format(
-                       _( "The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s. " ),
+                       //~ %1$s: time of day, %2$s: hour of day, %3$s: city name, %4$s: weather name, %5$s: temperature value
+                       _( "The current time is %1$s Eastern Standard Time.  At %2$s in %3$s, it was %4$s.  The temperature was %5$s. " ),
                        to_string_time_of_day( calendar::turn ), print_time_just_hour( calendar::turn ),
                        city_name,
                        weather::name( g->weather.weather ), print_temperature( g->weather.temperature )
@@ -978,6 +981,9 @@ void weather_manager::update_weather()
                   : weather_override;
         if( weather == WEATHER_SUNNY && is_night( calendar::turn ) ) {
             weather = WEATHER_CLEAR;
+        }
+        if( !g->u.has_artifact_with( AEP_BAD_WEATHER ) ) {
+            weather_override = WEATHER_NULL;
         }
         sfx::do_ambient();
         temperature = w.temperature;

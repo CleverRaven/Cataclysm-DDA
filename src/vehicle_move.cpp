@@ -39,6 +39,7 @@ static const std::string part_location_structure( "structure" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_animal( "animal" );
 
+const efftype_id effect_pet( "pet" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_harnessed( "harnessed" );
 const skill_id skill_driving( "driving" );
@@ -80,7 +81,7 @@ int vehicle::slowdown( int at_velocity ) const
 
     // slowdown due to air resistance is proportional to square of speed
     double f_total_drag = coeff_air_drag() * mps * mps;
-    if( is_floating ) {
+    if( is_watercraft() ) {
         // same with water resistance
         f_total_drag += coeff_water_drag() * mps * mps;
     } else if( !is_falling ) {
@@ -103,7 +104,7 @@ int vehicle::slowdown( int at_velocity ) const
         slowdown -= static_drag();
     }
 
-    return slowdown;
+    return std::max( 1, slowdown );
 }
 
 void vehicle::thrust( int thd )
@@ -118,20 +119,18 @@ void vehicle::thrust( int thd )
     bool pl_ctrl = player_in_control( g->u );
 
     // No need to change velocity if there are no wheels
-    if( is_floating ) {
-        if( !can_float() ) {
-            if( pl_ctrl ) {
-                add_msg( _( "The %s is too leaky!" ), name );
-            }
-            return;
+    if( in_water && can_float() ) {
+        // we're good
+    } else if( is_floating && !can_float() ) {
+        if( pl_ctrl ) {
+            add_msg( _( "The %s is too leaky!" ), name );
         }
-    } else {
-        if( !valid_wheel_config() ) {
-            if( pl_ctrl ) {
-                add_msg( _( "The %s doesn't have enough wheels to move!" ), name );
-            }
-            return;
+        return;
+    } else if( !valid_wheel_config() ) {
+        if( pl_ctrl ) {
+            add_msg( _( "The %s doesn't have enough wheels to move!" ), name );
         }
+        return;
     }
     // Accelerate (true) or brake (false)
     bool thrusting = true;
@@ -201,8 +200,6 @@ void vehicle::thrust( int thd )
 
         //make noise and consume fuel
         noise_and_smoke( load );
-        // HACK - vehicles don't move as far as they should in 6 seconds, so for movement ONLY
-        // consume fuel as though a turn were 1 second
         consume_fuel( load, 1 );
 
         //break the engines a bit, if going too fast.
@@ -851,10 +848,63 @@ void vehicle::handle_trap( const tripoint &p, int part )
     }
 }
 
-void vehicle::pldrive( int x, int y )
+void vehicle::autodrive( int x, int y )
+{
+    // for now, autodriving is only possible when pulled by an animal
+    for( size_t e = 0; e < parts.size(); e++ ) {
+        const vehicle_part &vp = parts[ e ];
+        if( vp.info().fuel_type == fuel_type_animal ) {
+            monster *mon = get_pet( e );
+            if( !mon || !mon->has_effect( effect_harnessed ) || !mon->has_effect( effect_pet ) ) {
+                is_following = false;
+            }
+        }
+    }
+    int turn_delta = 15 * x;
+    const float handling_diff = handling_difficulty();
+    if( turn_delta != 0 ) {
+        float eff = steering_effectiveness();
+        if( eff == -2 ) {
+            return;
+        }
+
+        if( eff < 0 ) {
+            return;
+        }
+
+        if( eff == 0 ) {
+            return;
+        }
+        turn( turn_delta );
+
+    }
+
+    if( y != 0 ) {
+        int thr_amount = 100 * ( abs( velocity ) < 2000 ? 4 : 5 );
+        if( cruise_on ) {
+            cruise_thrust( -y * thr_amount );
+        } else {
+            thrust( -y );
+        }
+    }
+
+    // TODO: Actually check if we're on land on water (or disable water-skidding)
+    if( skidding && valid_wheel_config() ) {
+        ///\EFFECT_DEX increases chance of regaining control of a vehicle
+
+        ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
+        if( handling_diff * rng( 1, 10 ) < 15 ) {
+            velocity = static_cast<int>( forward_velocity() );
+            skidding = false;
+            move.init( turn_dir );
+        }
+    }
+}
+
+void vehicle::pldrive( const point &p )
 {
     player &u = g->u;
-    int turn_delta = 15 * x;
+    int turn_delta = 15 * p.x;
     const float handling_diff = handling_difficulty();
     if( turn_delta != 0 ) {
         float eff = steering_effectiveness();
@@ -915,12 +965,12 @@ void vehicle::pldrive( int x, int y )
         u.moves -= std::max( cost, u.get_speed() / 3 + 1 );
     }
 
-    if( y != 0 ) {
+    if( p.y != 0 ) {
         int thr_amount = 100 * ( abs( velocity ) < 2000 ? 4 : 5 );
         if( cruise_on ) {
-            cruise_thrust( -y * thr_amount );
+            cruise_thrust( -p.y * thr_amount );
         } else {
-            thrust( -y );
+            thrust( -p.y );
             u.moves = std::min( u.moves, 0 );
         }
     }
@@ -1358,11 +1408,13 @@ void vehicle::check_falling_or_floating()
         // Dirty vehicle with no parts
         is_falling = false;
         is_floating = false;
+        in_water = false;
         return;
     }
 
     is_falling = g->m.has_zlevels();
 
+    size_t deep_water_tiles = 0;
     size_t water_tiles = 0;
     for( const tripoint &p : pts ) {
         if( is_falling ) {
@@ -1370,16 +1422,22 @@ void vehicle::check_falling_or_floating()
             is_falling &= g->m.has_flag_ter_or_furn( TFLAG_NO_FLOOR, p ) && ( p.z > -OVERMAP_DEPTH ) &&
                           !g->m.supports_above( below );
         }
-        water_tiles += g->m.has_flag( TFLAG_DEEP_WATER, p ) ? 1 : 0;
+        deep_water_tiles += g->m.has_flag( TFLAG_DEEP_WATER, p ) ? 1 : 0;
+        water_tiles += g->m.has_flag( TFLAG_SWIMMABLE, p ) ? 1 : 0;
     }
-    // floating if 2/3rds of the vehicle is in water
-    is_floating = 3 * water_tiles >= 2 * pts.size();
+    // floating if 2/3rds of the vehicle is in deep water
+    is_floating = 3 * deep_water_tiles >= 2 * pts.size();
+    // in_water if 1/2 of the vehicle is in water at all
+    in_water =  2 * water_tiles >= pts.size();
 }
 
 float map::vehicle_wheel_traction( const vehicle &veh ) const
 {
-    if( veh.is_in_water() ) {
+    if( veh.is_in_water( true ) ) {
         return veh.can_float() ? 1.0f : -1.0f;
+    }
+    if( veh.is_in_water() && veh.is_watercraft() && veh.can_float() ) {
+        return 1.0f;
     }
 
     const auto &wheel_indices = veh.wheelcache;

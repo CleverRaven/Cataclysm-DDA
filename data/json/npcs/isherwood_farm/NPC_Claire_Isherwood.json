@@ -188,10 +188,17 @@
     "type": "talk_topic",
     "id": "TALK_BARRY",
     "dynamic_line": "Some of their cows were killed before we realized what was happening, Barry and Carlos went into the forest to find the predator but it was like nothing they'd ever seen.  Carlos may be willing to tell you more.",
-    "effect": { "u_add_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" },
     "responses": [
-      { "text": "I'd like to ask you something else...", "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      {
+        "text": "I'd like to ask you something else...",
+        "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS",
+        "effect": { "u_add_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "I'd better get going.",
+        "topic": "TALK_DONE",
+        "effect": { "u_add_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
+      }
     ]
   },
   {
@@ -261,6 +268,7 @@
     "item": "raw_dandelion",
     "count": 50,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_ISHERWOOD_CLAIRE_2",
     "end": {
       "opinion": { "trust": 1, "value": 1 },
@@ -300,6 +308,7 @@
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "I could use some seeds from the forest.",
       "offer": "We could use some seeds for the next planting season.  Can you bring me 20 bee balm seeds?",
@@ -320,6 +329,7 @@
     "difficulty": 4,
     "value": 100000,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "start": {
       "assign_mission_target": { "om_terrain": "cabin_isherwood", "reveal_radius": 1, "random": true, "search_range": 20, "min_distance": 8 },
       "update_mapgen": { "place_monster": [ { "monster": "mon_cat", "pack_size": [ 3, 6 ], "x": 20, "y": 22, "target": true } ] },

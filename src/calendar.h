@@ -536,6 +536,10 @@ moon_phase get_moon_phase( const time_point &p );
 time_point sunrise( const time_point &p );
 /** Returns the current sunset time based on the time of year. */
 time_point sunset( const time_point &p );
+/** Returns the time it gets light based on sunrise */
+time_point daylight_time( const time_point &p );
+/** Returns the time it gets dark based on sunset */
+time_point night_time( const time_point &p );
 /** Returns whether it's currently after sunset + TWILIGHT_SECONDS or before sunrise - TWILIGHT_SECONDS. */
 bool is_night( const time_point &p );
 /** Returns true if it's currently after sunset and before sunset + TWILIGHT_SECONDS. */
@@ -546,8 +550,11 @@ bool is_sunrise_now( const time_point &p );
 double current_daylight_level( const time_point &p );
 /** How much light is provided in full daylight */
 double default_daylight_level();
-/** Returns the current sunlight or moonlight level through the preceding functions. */
-float sunlight( const time_point &p );
+/** Returns the current sunlight or moonlight level through the preceding functions.
+ *  By default, returns sunlight level for vision, with moonlight providing a measurable amount
+ *  of light.  with vision == false, returns sunlight for solar panel purposes, and moonlight
+ *  provides 0 light */
+float sunlight( const time_point &p, bool vision = true );
 
 enum class weekdays : int {
     SUNDAY = 0,

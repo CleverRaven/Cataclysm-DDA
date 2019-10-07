@@ -125,7 +125,7 @@
       [ "sunglasses", 15 ],
       [ "glasses_safety", 15 ],
       [ "goggles_ski", 5 ],
-      [ "chestrig", 20 ],
+      [ "tacvest", 20 ],
       [ "legrig", 15 ],
       [ "tool_belt", 15 ],
       [ "fanny", 5 ],
@@ -424,7 +424,12 @@
       "effect": [
         { "u_buy_item": "FMCNote", "count": 25 },
         { "u_add_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" }
-      ]
+      ],
+      "update_mapgen": {
+        "om_terrain": "evac_center_9",
+        "om_special": "evac_center",
+        "set": [ { "square": "terrain", "id": "t_floor", "x": 0, "y": 23, "x2": 1, "y2": 23 } ]
+      }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_2",
@@ -549,7 +554,15 @@
       "effect": [
         { "u_buy_item": "FMCNote", "count": 50 },
         { "u_add_var": "FMShopkeep_Mission3", "type": "mission", "context": "flag", "value": "yes" }
-      ]
+      ],
+      "update_mapgen": {
+        "om_terrain": "evac_center_8",
+        "om_special": "evac_center",
+        "set": [
+          { "point": "terrain", "id": "t_gates_mech_control_lab", "x": 17, "y": 1 },
+          { "point": "terrain", "id": "t_gates_mech_control_lab", "x": 17, "y": 3 }
+        ]
+      }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_4",
@@ -560,7 +573,7 @@
       "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
       "advice": "Just follow your map.",
       "inquire": "Do you have the prospectus?",
-      "success": "With this we'll be able to convince others to invest in the commune.  Thank you, here's your money.",
+      "success": "With this we'll be able to convince others to invest in the commune.  Thank you, here's your money.  We also managed to get a manual crank hooked up to the garage in the back, so feel free to make use of that - you've been a great help to us.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
     }

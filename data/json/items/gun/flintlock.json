@@ -34,7 +34,7 @@
     "reload_noise_volume": 10,
     "name": "flintlock pistol",
     "description": "A beautifully decorated flintlock pistol.  If using this doesn't makes you feel a pirate, nothing will.",
-    "weight": 753,
+    "weight": "753 g",
     "volume": "750 ml",
     "price": 35000,
     "to_hit": -1,
@@ -48,6 +48,7 @@
     "ranged_damage": 2,
     "dispersion": 620,
     "durability": 6,
+    "blackpowder_tolerance": 96,
     "clip_size": 1,
     "reload": 600,
     "valid_mod_locations": [
@@ -66,7 +67,7 @@
     "reload_noise_volume": 10,
     "name": "flintlock rifle",
     "description": "For once, something *good* came back from the dead.  This ancient design lacks the fire-rate of modern weapons, but packs as much punch as the best of 'em and rewards the skilled shooter with easily-crafted ammunition.",
-    "weight": 1950,
+    "weight": "1950 g",
     "volume": "2500 ml",
     "price": 41000,
     "to_hit": -1,
@@ -80,6 +81,7 @@
     "ranged_damage": 10,
     "dispersion": 180,
     "durability": 6,
+    "blackpowder_tolerance": 96,
     "clip_size": 1,
     "reload": 1200,
     "valid_mod_locations": [

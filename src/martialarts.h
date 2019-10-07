@@ -11,6 +11,7 @@
 #include "bonuses.h"
 #include "calendar.h"
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 #include "ui.h"
 #include "input.h"
@@ -30,6 +31,7 @@ struct ma_requirements {
     bool unarmed_allowed; // does this bonus work when unarmed?
     bool melee_allowed; // what about with a melee weapon?
     bool unarmed_weapons_allowed; // If unarmed, what about unarmed weapons?
+    bool wall_adjacent; // Does it only work near a wall?
 
     /** Minimum amount of given skill to trigger this bonus */
     std::map<skill_id, int> min_skill;
@@ -46,6 +48,7 @@ struct ma_requirements {
         unarmed_allowed = false;
         melee_allowed = false;
         unarmed_weapons_allowed = true;
+        wall_adjacent = false;
     }
 
     std::string get_description( bool buff = false ) const;
@@ -93,6 +96,7 @@ class ma_technique
         int stun_dur;
         int knockback_dist;
         float knockback_spread; // adding randomness to knockback, like tec_throw
+        bool powerful_knockback;
         std::string aoe; // corresponds to an aoe shape, defaults to just the target
         int knockback_follow; // player follows the knocked-back party into their former tile
 
@@ -109,6 +113,8 @@ class ma_technique
         // conditional
         bool downed_target; // only works on downed enemies
         bool stunned_target; // only works on stunned enemies
+        bool wall_adjacent; // only works near a wall
+        bool human_target;  // only works on humanoid enemies
 
         /** All kinds of bonuses by types to damage, hit etc. */
         bonus_container bonuses;
@@ -155,6 +161,7 @@ class ma_buff
         bool is_throw_immune() const;
         bool is_quiet() const;
         bool can_melee() const;
+        bool is_stealthy() const;
 
         // The ID of the effect that is used to store this buff
         efftype_id get_effect_id() const;
@@ -185,6 +192,7 @@ class ma_buff
         bool throw_immune; // are we immune to throws/grabs?
         bool strictly_unarmed; // can we use unarmed weapons?
         bool strictly_melee; // can we use it without weapons?
+        bool stealthy; // do we make less noise when moving?
 
         void load( JsonObject &jo, const std::string &src );
 };
@@ -200,6 +208,8 @@ class martialart
         void apply_static_buffs( player &u ) const;
 
         void apply_onmove_buffs( player &u ) const;
+
+        void apply_onpause_buffs( player &u ) const;
 
         void apply_onhit_buffs( player &u ) const;
 
@@ -230,8 +240,8 @@ class martialart
 
         matype_id id;
         bool was_loaded = false;
-        std::string name;
-        std::string description;
+        translation name;
+        translation description;
         std::vector<std::string> initiate;
         std::vector<std::pair<std::string, int>> autolearn_skills;
         skill_id primary_skill;
@@ -248,6 +258,7 @@ class martialart
         bool force_unarmed; // Don't use ANY weapon - punch or kick if needed
         std::vector<mabuff_id> static_buffs; // all buffs triggered by each condition
         std::vector<mabuff_id> onmove_buffs;
+        std::vector<mabuff_id> onpause_buffs;
         std::vector<mabuff_id> onhit_buffs;
         std::vector<mabuff_id> onattack_buffs;
         std::vector<mabuff_id> ondodge_buffs;

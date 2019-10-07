@@ -34,7 +34,7 @@
         ",,,,,,,          ,,,,,,,"
       ],
       "palettes": [ "factory" ],
-      "monster": { "t": { "monster": "mon_turret" }, "Z": { "monster": "mon_secubot" }, "z": { "monster": "mon_skitterbot" } },
+      "monster": { "t": { "monster": "mon_turret_rifle" }, "Z": { "monster": "mon_secubot" }, "z": { "monster": "mon_skitterbot" } },
       "mapping": { "H": { "item": { "item": "chem_zinc_powder", "count": 50 } } }
     }
   }

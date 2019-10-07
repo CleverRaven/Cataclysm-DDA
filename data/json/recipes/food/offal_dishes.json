@@ -94,7 +94,7 @@
     "components": [
       [ [ "liver", 3 ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
-      [ [ "milk", 1 ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
+      [ [ "milk_standard_raw", 1, "LIST" ], [ "con_milk", 1 ], [ "can_coconut", 1 ] ],
       [ [ "batter", 4, "LIST" ] ],
       [ [ "salt", 1 ] ],
       [ [ "seasoning_mild", 1, "LIST" ], [ "chilly-p", 1 ], [ "curry_powder", 1 ] ]
@@ -185,7 +185,7 @@
       [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ],
       [ [ "flour", 2 ] ],
       [ [ "salt", 3 ] ],
-      [ [ "milk", 2 ], [ "con_milk", 2 ], [ "can_coconut", 2 ] ]
+      [ [ "milk_standard_raw", 2, "LIST" ], [ "con_milk", 2 ], [ "can_coconut", 2 ] ]
     ]
   },
   {

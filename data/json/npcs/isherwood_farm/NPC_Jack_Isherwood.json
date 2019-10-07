@@ -240,7 +240,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_JACK_BROTHER",
-    "dynamic_line": "Eddie's dairy is at the end of the road.  It's just him and his son since Barry died to that thing in the woods, we tracked it down and burned the corpse.",
+    "dynamic_line": "Eddie's dairy is at the end of the road.  It's just him and his son since Barry was taken by that thing in the woods.",
     "effect": { "u_add_var": "u_learned_about_eddie", "type": "general", "context": "meeting", "value": "yes" },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
@@ -312,6 +312,7 @@
     "item": "jar_3l_glass",
     "count": 20,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "followup": "MISSION_ISHERWOOD_JACK_2",
     "end": {
       "opinion": { "trust": 1, "value": 1 },
@@ -348,6 +349,7 @@
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
     "dialogue": {
       "describe": "I do have some more scavenging for you.",
       "offer": "We could use some seeds for the next planting season.  Can you bring me 100 wheat seeds?  I'll give you some fresh produce.",

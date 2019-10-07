@@ -44,7 +44,41 @@ enum do_activity_reason : int {
     NEEDS_HARVESTING,       // For farming - tile is harvestable now.
     NEEDS_PLANTING,         // For farming - tile can be planted
     NEEDS_TILLING,          // For farming - tile can be tilled
-    BLOCKING_TILE           // Something has made it's way onto the tile, so the activity cannot proceed
+    BLOCKING_TILE,           // Something has made it's way onto the tile, so the activity cannot proceed
+    NEEDS_CHOPPING,         // There is wood there to be chopped
+    NEEDS_TREE_CHOPPING,    // There is a tree there that needs to be chopped
+    NEEDS_BIG_BUTCHERING,   // There is at least one corpse there to butcher, and it's a big one
+    NEEDS_BUTCHERING,       // THere is at least one corpse there to butcher, and theres no need for additional tools
+    ALREADY_WORKING,        // somebody is already working there
+    NEEDS_VEH_DECONST,       // There is a vehicle part there that we can deconstruct, given the right tools.
+    NEEDS_VEH_REPAIR,       // There is a vehicle part there that can be repaired, given the right tools.
+    NEEDS_FISHING           // This spot can be fished, if the right tool is present.
+};
+
+struct activity_reason_info {
+    do_activity_reason reason;          //reason for success or fail
+    bool can_do;                        //is it possible to do this
+    cata::optional<size_t> con_idx;     //construction index
+
+    activity_reason_info( do_activity_reason reason_, bool can_do_,
+                          cata::optional<size_t> con_idx_ = cata::optional<size_t>() ) :
+        reason( reason_ ),
+        can_do( can_do_ ),
+        con_idx( con_idx_ )
+    { }
+
+    static activity_reason_info ok( const do_activity_reason &reason_ ) {
+        return activity_reason_info( reason_, true );
+    }
+
+    static activity_reason_info build( const do_activity_reason &reason_, bool can_do_,
+                                       size_t con_idx_ ) {
+        return activity_reason_info( reason_, can_do_, con_idx_ );
+    }
+
+    static activity_reason_info fail( const do_activity_reason &reason_ ) {
+        return activity_reason_info( reason_, false );
+    }
 };
 
 int butcher_time_to_cut( const player &u, const item &corpse_item, butcher_type action );
@@ -75,6 +109,7 @@ void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &
 namespace activity_handlers
 {
 
+bool resume_for_multi_activities( player &p );
 /** activity_do_turn functions: */
 void burrow_do_turn( player_activity *act, player *p );
 void craft_do_turn( player_activity *act, player *p );
@@ -88,6 +123,7 @@ void churn_do_turn( player_activity *act, player *p );
 void start_fire_do_turn( player_activity *act, player *p );
 void vibe_do_turn( player_activity *act, player *p );
 void hand_crank_do_turn( player_activity *act, player *p );
+void multiple_chop_planks_do_turn( player_activity *act, player *p );
 void oxytorch_do_turn( player_activity *act, player *p );
 void aim_do_turn( player_activity *act, player *p );
 void pickup_do_turn( player_activity *act, player *p );
@@ -98,7 +134,12 @@ void consume_drink_menu_do_turn( player_activity *act, player *p );
 void consume_meds_menu_do_turn( player_activity *act, player *p );
 void move_items_do_turn( player_activity *act, player *p );
 void multiple_farm_do_turn( player_activity *act, player *p );
+void multiple_fish_do_turn( player_activity *act, player *p );
 void multiple_construction_do_turn( player_activity *act, player *p );
+void multiple_butcher_do_turn( player_activity *act, player *p );
+void vehicle_deconstruction_do_turn( player_activity *act, player *p );
+void vehicle_repair_do_turn( player_activity *act, player *p );
+void chop_trees_do_turn( player_activity *act, player *p );
 void fetch_do_turn( player_activity *act, player *p );
 void move_loot_do_turn( player_activity *act, player *p );
 void travel_do_turn( player_activity *act, player *p );
@@ -113,6 +154,7 @@ void butcher_do_turn( player_activity *act, player *p );
 void hacksaw_do_turn( player_activity *act, player *p );
 void chop_tree_do_turn( player_activity *act, player *p );
 void jackhammer_do_turn( player_activity *act, player *p );
+void find_mount_do_turn( player_activity *act, player *p );
 void tidy_up_do_turn( player_activity *act, player *p );
 void dig_do_turn( player_activity *act, player *p );
 void build_do_turn( player_activity *act, player *p );
@@ -143,6 +185,7 @@ void fish_finish( player_activity *act, player *p );
 void forage_finish( player_activity *act, player *p );
 void hotwire_finish( player_activity *act, player *p );
 void longsalvage_finish( player_activity *act, player *p );
+void pulp_finish( player_activity *act, player *p );
 void make_zlave_finish( player_activity *act, player *p );
 void pickaxe_finish( player_activity *act, player *p );
 void reload_finish( player_activity *act, player *p );
@@ -193,6 +236,8 @@ void hack_door_finish( player_activity *act, player *p );
 void hack_safe_finish( player_activity *act, player *p );
 void spellcasting_finish( player_activity *act, player *p );
 void study_spell_finish( player_activity *act, player *p );
+
+void try_sleep_query( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, player * )> >

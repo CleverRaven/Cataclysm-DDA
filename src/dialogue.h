@@ -59,7 +59,7 @@ struct talk_trial {
     /**
      * Returns a user-friendly representation of @ref type
      */
-    const std::string &name() const;
+    std::string name() const;
     std::vector<trial_mod> modifiers;
     operator bool() const {
         return type != TALK_TRIAL_NONE;
@@ -86,6 +86,7 @@ struct talk_topic {
 struct talk_effect_fun_t {
     private:
         std::function<void( const dialogue &d )> function;
+        std::vector<std::pair<int, std::string>> likely_rewards;
 
     public:
         talk_effect_fun_t() = default;
@@ -99,6 +100,7 @@ struct talk_effect_fun_t {
         void set_remove_trait( JsonObject jo, const std::string &member, bool is_npc = false );
         void set_add_var( JsonObject jo, const std::string &member, bool is_npc = false );
         void set_remove_var( JsonObject jo, const std::string &member, bool is_npc = false );
+        void set_adjust_var( JsonObject jo, const std::string &member, bool is_npc = false );
         void set_u_buy_item( const std::string &item_name, int cost, int count,
                              const std::string &container_name );
         void set_u_spend_cash( int amount );
@@ -121,6 +123,7 @@ struct talk_effect_fun_t {
         void set_bulk_trade_accept( bool is_trade, bool is_npc = false );
         void set_npc_gets_item( bool to_use );
         void set_add_mission( std::string mission_id );
+        const std::vector<std::pair<int, std::string>> &get_likely_rewards() const;
         void set_u_buy_monster( const std::string &monster_type_id, int cost, int count, bool pacified,
                                 const translation &name );
         void set_u_learn_recipe( const std::string &learned_recipe_id );

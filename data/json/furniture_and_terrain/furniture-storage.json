@@ -433,7 +433,7 @@
         { "item": "nail", "charges": [ 32, 40 ] }
       ]
     },
-    "max_volume": "1500 L",
+    "max_volume": 6000,
     "bash": {
       "str_min": 6,
       "str_max": 40,

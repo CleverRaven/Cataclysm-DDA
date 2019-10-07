@@ -469,7 +469,7 @@ effect effect::null_effect;
 
 bool effect::is_null() const
 {
-    return this == &null_effect;
+    return !eff_type;
 }
 
 std::string effect::disp_name() const
@@ -1294,8 +1294,14 @@ void load_effect_type( JsonObject &jo )
 
     new_etype.impairs_movement = hardcoded_movement_impairing.count( new_etype.id ) > 0;
 
-    effect_types[new_etype.id] = new_etype;
+    new_etype.flags = jo.get_tags( "flags" );
 
+    effect_types[new_etype.id] = new_etype;
+}
+
+bool effect::has_flag( const std::string &flag ) const
+{
+    return eff_type->flags.count( flag ) > 0;
 }
 
 void reset_effect_types()

@@ -332,53 +332,58 @@ void input_manager::add_gamepad_keycode_pair( int ch, const std::string &name )
     keyname_to_keycode[name] = ch;
 }
 
+constexpr int char_key_beg = ' ';
+constexpr int char_key_end = '~';
+
 void input_manager::init_keycode_mapping()
 {
     // Between space and tilde, all keys more or less map
     // to themselves(see ASCII table)
-    for( char c = ' '; c <= '~'; c++ ) {
+    for( char c = char_key_beg; c <= char_key_end; c++ ) {
         std::string name( 1, c );
         add_keycode_pair( c, name );
     }
 
-    add_keycode_pair( '\t',          "TAB" );
-    add_keycode_pair( KEY_BTAB,      "BACKTAB" );
-    add_keycode_pair( ' ',           "SPACE" );
-    add_keycode_pair( KEY_UP,        "UP" );
-    add_keycode_pair( KEY_DOWN,      "DOWN" );
-    add_keycode_pair( KEY_LEFT,      "LEFT" );
-    add_keycode_pair( KEY_RIGHT,     "RIGHT" );
-    add_keycode_pair( KEY_NPAGE,     "NPAGE" );
-    add_keycode_pair( KEY_PPAGE,     "PPAGE" );
-    add_keycode_pair( KEY_ESCAPE,    "ESC" );
-    add_keycode_pair( KEY_BACKSPACE, "BACKSPACE" );
-    add_keycode_pair( KEY_HOME,      "HOME" );
-    add_keycode_pair( KEY_BREAK,     "BREAK" );
-    add_keycode_pair( KEY_END,       "END" );
-    add_keycode_pair( '\n',          "RETURN" );
+    add_keycode_pair( '\t',          translate_marker_context( "key name", "TAB" ) );
+    add_keycode_pair( KEY_BTAB,      translate_marker_context( "key name", "BACKTAB" ) );
+    add_keycode_pair( ' ',           translate_marker_context( "key name", "SPACE" ) );
+    add_keycode_pair( KEY_UP,        translate_marker_context( "key name", "UP" ) );
+    add_keycode_pair( KEY_DOWN,      translate_marker_context( "key name", "DOWN" ) );
+    add_keycode_pair( KEY_LEFT,      translate_marker_context( "key name", "LEFT" ) );
+    add_keycode_pair( KEY_RIGHT,     translate_marker_context( "key name", "RIGHT" ) );
+    add_keycode_pair( KEY_NPAGE,     translate_marker_context( "key name", "NPAGE" ) );
+    add_keycode_pair( KEY_PPAGE,     translate_marker_context( "key name", "PPAGE" ) );
+    add_keycode_pair( KEY_ESCAPE,    translate_marker_context( "key name", "ESC" ) );
+    add_keycode_pair( KEY_BACKSPACE, translate_marker_context( "key name", "BACKSPACE" ) );
+    add_keycode_pair( KEY_HOME,      translate_marker_context( "key name", "HOME" ) );
+    add_keycode_pair( KEY_BREAK,     translate_marker_context( "key name", "BREAK" ) );
+    add_keycode_pair( KEY_END,       translate_marker_context( "key name", "END" ) );
+    add_keycode_pair( '\n',          translate_marker_context( "key name", "RETURN" ) );
 
     // function keys, as defined by ncurses
-    for( int i = 0; i <= 63; i++ ) {
+    for( int i = F_KEY_NUM_BEG; i <= F_KEY_NUM_END; i++ ) {
+        // not marked for translation here, but specially handled in get_keyname so
+        // it gets properly translated.
         add_keycode_pair( KEY_F( i ), string_format( "F%d", i ) );
     }
 
-    add_gamepad_keycode_pair( JOY_LEFT,      "JOY_LEFT" );
-    add_gamepad_keycode_pair( JOY_RIGHT,     "JOY_RIGHT" );
-    add_gamepad_keycode_pair( JOY_UP,        "JOY_UP" );
-    add_gamepad_keycode_pair( JOY_DOWN,      "JOY_DOWN" );
-    add_gamepad_keycode_pair( JOY_LEFTUP,    "JOY_LEFTUP" );
-    add_gamepad_keycode_pair( JOY_LEFTDOWN,  "JOY_LEFTDOWN" );
-    add_gamepad_keycode_pair( JOY_RIGHTUP,   "JOY_RIGHTUP" );
-    add_gamepad_keycode_pair( JOY_RIGHTDOWN, "JOY_RIGHTDOWN" );
+    add_gamepad_keycode_pair( JOY_LEFT,      translate_marker_context( "key name", "JOY_LEFT" ) );
+    add_gamepad_keycode_pair( JOY_RIGHT,     translate_marker_context( "key name", "JOY_RIGHT" ) );
+    add_gamepad_keycode_pair( JOY_UP,        translate_marker_context( "key name", "JOY_UP" ) );
+    add_gamepad_keycode_pair( JOY_DOWN,      translate_marker_context( "key name", "JOY_DOWN" ) );
+    add_gamepad_keycode_pair( JOY_LEFTUP,    translate_marker_context( "key name", "JOY_LEFTUP" ) );
+    add_gamepad_keycode_pair( JOY_LEFTDOWN,  translate_marker_context( "key name", "JOY_LEFTDOWN" ) );
+    add_gamepad_keycode_pair( JOY_RIGHTUP,   translate_marker_context( "key name", "JOY_RIGHTUP" ) );
+    add_gamepad_keycode_pair( JOY_RIGHTDOWN, translate_marker_context( "key name", "JOY_RIGHTDOWN" ) );
 
-    add_gamepad_keycode_pair( JOY_0,         "JOY_0" );
-    add_gamepad_keycode_pair( JOY_1,         "JOY_1" );
-    add_gamepad_keycode_pair( JOY_2,         "JOY_2" );
-    add_gamepad_keycode_pair( JOY_3,         "JOY_3" );
-    add_gamepad_keycode_pair( JOY_4,         "JOY_4" );
-    add_gamepad_keycode_pair( JOY_5,         "JOY_5" );
-    add_gamepad_keycode_pair( JOY_6,         "JOY_6" );
-    add_gamepad_keycode_pair( JOY_7,         "JOY_7" );
+    add_gamepad_keycode_pair( JOY_0,         translate_marker_context( "key name", "JOY_0" ) );
+    add_gamepad_keycode_pair( JOY_1,         translate_marker_context( "key name", "JOY_1" ) );
+    add_gamepad_keycode_pair( JOY_2,         translate_marker_context( "key name", "JOY_2" ) );
+    add_gamepad_keycode_pair( JOY_3,         translate_marker_context( "key name", "JOY_3" ) );
+    add_gamepad_keycode_pair( JOY_4,         translate_marker_context( "key name", "JOY_4" ) );
+    add_gamepad_keycode_pair( JOY_5,         translate_marker_context( "key name", "JOY_5" ) );
+    add_gamepad_keycode_pair( JOY_6,         translate_marker_context( "key name", "JOY_6" ) );
+    add_gamepad_keycode_pair( JOY_7,         translate_marker_context( "key name", "JOY_7" ) );
 
     keyname_to_keycode["MOUSE_LEFT"] = MOUSE_BUTTON_LEFT;
     keyname_to_keycode["MOUSE_RIGHT"] = MOUSE_BUTTON_RIGHT;
@@ -402,35 +407,51 @@ int input_manager::get_keycode( const std::string &name ) const
 
 std::string input_manager::get_keyname( int ch, input_event_t inp_type, bool portable ) const
 {
+    cata::optional<std::string> raw;
     if( inp_type == CATA_INPUT_KEYBOARD ) {
         const t_key_to_name_map::const_iterator a = keycode_to_keyname.find( ch );
         if( a != keycode_to_keyname.end() ) {
-            return a->second;
+            if( IS_F_KEY( ch ) ) {
+                // special case it since F<num> key names are generated using loop
+                // and not marked individually for translation
+                if( portable ) {
+                    return a->second;
+                } else {
+                    return string_format( pgettext( "function key name", "F%d" ), F_KEY_NUM( ch ) );
+                }
+            } else if( ch >= char_key_beg && ch <= char_key_end && ch != ' ' ) {
+                // character keys except space need no translation
+                return a->second;
+            }
+            raw = a->second;
         }
     } else if( inp_type == CATA_INPUT_MOUSE ) {
         if( ch == MOUSE_BUTTON_LEFT ) {
-            return "MOUSE_LEFT";
+            raw = translate_marker_context( "key name", "MOUSE_LEFT" );
         } else if( ch == MOUSE_BUTTON_RIGHT ) {
-            return "MOUSE_RIGHT";
+            raw = translate_marker_context( "key name", "MOUSE_RIGHT" );
         } else if( ch == SCROLLWHEEL_UP ) {
-            return "SCROLL_UP";
+            raw = translate_marker_context( "key name", "SCROLL_UP" );
         } else if( ch == SCROLLWHEEL_DOWN ) {
-            return "SCROLL_DOWN";
+            raw = translate_marker_context( "key name", "SCROLL_DOWN" );
         } else if( ch == MOUSE_MOVE ) {
-            return "MOUSE_MOVE";
+            raw = translate_marker_context( "key name", "MOUSE_MOVE" );
         }
     } else if( inp_type == CATA_INPUT_GAMEPAD ) {
         const t_key_to_name_map::const_iterator a = gamepad_keycode_to_keyname.find( ch );
         if( a != gamepad_keycode_to_keyname.end() ) {
-            return a->second;
+            raw = a->second;
         }
     } else {
-        return "UNKNOWN";
+        raw = translate_marker_context( "key name", "UNKNOWN" );
     }
-    if( portable ) {
-        return std::string( "UNKNOWN_" ) + int_to_str( ch );
+    if( !raw ) {
+        if( portable ) {
+            return std::string( "UNKNOWN_" ) + int_to_str( ch );
+        }
+        return string_format( _( "unknown key %ld" ), ch );
     }
-    return string_format( _( "unknown key %ld" ), ch );
+    return portable ? *raw : pgettext( "key name", raw->c_str() );
 }
 
 const std::vector<input_event> &input_manager::get_input_for_action( const std::string
@@ -769,8 +790,9 @@ std::string input_context::get_desc( const std::string &action_descriptor,
                                      const std::function<bool( const input_event & )> evt_filter ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
+        // \u00A0 is the non-breaking space
         //~ keybinding description for anykey
-        return string_format( pgettext( "keybinding", "[any] %s" ), text );
+        return string_format( pgettext( "keybinding", "[any]\u00A0%s" ), text );
     }
 
     const auto &events = inp_mngr.get_input_for_action( action_descriptor, category );
@@ -795,12 +817,18 @@ std::string input_context::get_desc( const std::string &action_descriptor,
 
     if( na ) {
         //~ keybinding description for unbound or disabled keys
-        return string_format( pgettext( "keybinding", "[n/a] %s" ), text );
+        return string_format( pgettext( "keybinding", "[n/a]\u00A0%s" ), text );
     } else {
         //~ keybinding description for bound keys
-        return string_format( pgettext( "keybinding", "[%s] %s" ),
+        return string_format( pgettext( "keybinding", "[%s]\u00A0%s" ),
                               get_desc( action_descriptor, 1, evt_filter ), text );
     }
+}
+
+std::string input_context::describe_key_and_name( const std::string &action_descriptor,
+        const std::function<bool( const input_event & )> evt_filter ) const
+{
+    return get_desc( action_descriptor, get_action_name( action_descriptor ), evt_filter );
 }
 
 const std::string &input_context::handle_input()
@@ -1004,13 +1032,9 @@ void input_context::display_menu()
     const size_t legwidth = width - 4 - BORDER_SPACE;
     // keybindings help
     std::ostringstream legend;
-    legend << "<color_" << string_from_color( unbound_key ) << ">" << _( "Unbound keys" ) <<
-           "</color>\n";
-    legend << "<color_" << string_from_color( local_key ) << ">" <<
-           _( "Keybinding active only on this screen" ) << "</color>\n";
-    legend << "<color_" << string_from_color( global_key ) << ">" << _( "Keybinding active globally" )
-           <<
-           "</color>\n";
+    legend << colorize( _( "Unbound keys" ), unbound_key ) << "\n";
+    legend << colorize( _( "Keybinding active only on this screen" ), local_key ) << "\n";
+    legend << colorize( _( "Keybinding active globally" ), global_key ) << "\n";
     legend << _( "Press - to remove keybinding\nPress + to add local keybinding\nPress = to add global keybinding\n" );
 
     std::vector<std::string> filtered_registered_actions = org_registered_actions;

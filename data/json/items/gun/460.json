@@ -8,6 +8,7 @@
     "price": 90000,
     "ammo": [ "460", "45" ],
     "magazines": [ [ "460", [ "lw12mag" ] ], [ "45", [ "lw12mag" ] ] ],
+    "min_cycle_recoil": 540,
     "relative": { "durability": -1 },
     "built_in_mods": [ "lead_holo_sight", "muzzle_brake", "lead_laser_sight" ]
   },
@@ -19,6 +20,7 @@
     "description": "After the success of their 9x19mm machine pistol, Leadworks LLC developed the L39B-45 from their .460 Rowland semi-autos, intending them to be used with .45ACP.  Because it shares most of its parts with the L39-460, this variant retains the ability to fire fearsome .460 Rowland, though users are strongly advised not to do so during automatic fire.  Comes with built in red dot, recoil compensator and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "ammo": [ "460", "45" ],
     "magazines": [ [ "460", [ "lw12mag" ] ], [ "45", [ "lw12mag" ] ] ],
+    "min_cycle_recoil": 540,
     "relative": { "durability": -1 },
     "built_in_mods": [ "lead_holo_sight", "muzzle_brake", "lead_laser_sight" ]
   },
@@ -30,7 +32,7 @@
     "name_plural": "L2031 Enforcer",
     "//": "Real-life Autorevolvers tended to vary between 6-7.5 inch barrels, so we'll err on the side of a +1 here.",
     "description": "An \"autorevolver\", this Leadworks LLC six-shooter combines the ease-of-action of a semi-auto with the ease-of-reloading and style of a revolver.  In addition to ubiquitous .45 ACP, the Enforcer also fires powerful .460 Rowland, offering .44 Magnum performance in a smaller package.  It achieved overnight stardom when it appeared in \"Treasure Trail\", a popular space-Western series.  Comes with built in holographic and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
-    "weight": 1370,
+    "weight": "1370 g",
     "volume": "500 ml",
     "price": 83000,
     "to_hit": -2,
@@ -42,6 +44,7 @@
     "ranged_damage": 1,
     "dispersion": 360,
     "durability": 8,
+    "blackpowder_tolerance": 56,
     "clip_size": 6,
     "magazines": [ [ "460", [ "460_speedloader6" ] ], [ "45", [ "460_speedloader6" ] ] ],
     "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
@@ -62,7 +65,7 @@
     "name_plural": "L1820 Long Ranger",
     "//": "If it's based off the Winchester 94, it's likely got a 20 inch barrel. For sanity's sake though, let's cap it at +4.",
     "description": "The Leadworks Long Ranger was designed to give Enforcer users (or anyone using .460/.45 caliber cartridges) a little extra reach while using the same ammunition.  Loaded with powerful .460 Rowland ammunition, this rifle offers a competitive replacement to the AR-15 in politically restrictive climates, but was met with disgust from lever action purists because of its synthetic furniture and built in holographic and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
-    "weight": 4175,
+    "weight": "4175 g",
     "volume": "3250 ml",
     "price": 90000,
     "to_hit": -1,
@@ -76,6 +79,7 @@
     "ranged_damage": 4,
     "dispersion": 180,
     "durability": 9,
+    "blackpowder_tolerance": 32,
     "clip_size": 12,
     "barrel_length": 2,
     "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
@@ -90,6 +94,7 @@
       [ "rail mount", 1 ],
       [ "stock mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE" ]
   }
 ]
