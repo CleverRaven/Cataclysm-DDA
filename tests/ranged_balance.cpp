@@ -350,7 +350,7 @@ static void range_test( const std::array<double, 5> &test_thresholds, bool write
             return a > 0 && b > 0 && std::abs( static_cast<float>( a - b ) / b ) < 0.15;
         } );
 
-        if( similar_to_previous_test_results == false ) {
+        if( !similar_to_previous_test_results ) {
             write_to_file( "./data/json/hit_range.json", [&]( std::ostream & fsa ) {
                 JsonOut j_out( fsa );
                 j_out.start_array();
