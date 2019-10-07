@@ -855,16 +855,12 @@ bool player::burn_fuel( int b, bool start )
             const item tmp_fuel( fuel );
             int temp = std::stoi( get_value( fuel ) );
             if( get_power_level() + units::from_kilojoule( tmp_fuel.fuel_energy() ) *bio.info().fuel_efficiency
-                >
-                get_max_power_level() ) {
-
+                > get_max_power_level() ) {
                 add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste fuel." ),
                                        _( "<npcname>'s %s turns off to not waste fuel." ), bio.info().name );
-
                 bio.powered = false;
                 deactivate_bionic( b, true );
                 return false;
-
             } else {
                 if( temp > 0 ) {
                     temp -= 1;
