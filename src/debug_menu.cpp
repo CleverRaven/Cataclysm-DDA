@@ -1389,7 +1389,6 @@ void debug()
             case DEBUG_DISPLAY_RADIATION:
                 g->display_toggle_overlay( ACTION_DISPLAY_RADIATION );
                 break;
-            break;
             case DEBUG_CHANGE_TIME: {
                 auto set_turn = [&]( const int initial, const time_duration factor, const char *const msg ) {
                     const auto text = string_input_popup()
