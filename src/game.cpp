@@ -6796,6 +6796,10 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_temperature();
             }
+        } else if( action == "debug_lighting" ) {
+            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
+                display_lighting();
+            }
         } else if( action == "debug_radiation" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_radiation();
