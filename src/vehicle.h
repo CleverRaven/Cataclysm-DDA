@@ -40,6 +40,7 @@ class Creature;
 class nc_color;
 class player;
 class npc;
+class map;
 class vehicle;
 class vehicle_part_range;
 class JsonIn;
@@ -331,6 +332,8 @@ struct vehicle_part {
 
         /** Current part damage in same units as item::damage. */
         int damage() const;
+        /** max damage of part base */
+        int max_damage() const;
 
         /** Current part damage level in same units as item::damage_level */
         int damage_level( int max ) const;
@@ -524,6 +527,8 @@ struct label : public point {
     std::string text;
 };
 
+class RemovePartHandler;
+
 /**
  * A vehicle as a whole with all its components.
  *
@@ -637,12 +642,12 @@ class vehicle
         units::volume total_folded_volume() const;
 
         // Vehicle fuel indicator (by fuel)
-        void print_fuel_indicator( const catacurses::window &w, int y, int x,
+        void print_fuel_indicator( const catacurses::window &w, const point &p,
                                    const itype_id &fuel_type,
                                    bool verbose = false, bool desc = false );
-        void print_fuel_indicator( const catacurses::window &w, int y, int x,
+        void print_fuel_indicator( const catacurses::window &w, const point &p,
                                    const itype_id &fuel_type,
-                                   std::map<itype_id, int> fuel_usages,
+                                   std::map<itype_id, float> fuel_usages,
                                    bool verbose = false, bool desc = false );
 
         // Calculate how long it takes to attempt to start an engine
@@ -720,9 +725,8 @@ class vehicle
         void init_state( int init_veh_fuel, int init_veh_status );
 
         // damages all parts of a vehicle by a random amount
-        void smash( float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
-                    float percent_of_parts_to_affect = 1.0f, point damage_origin = point_zero,
-                    float damage_size = 0 );
+        void smash( map &m, float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
+                    float percent_of_parts_to_affect = 1.0f, point damage_origin = point_zero, float damage_size = 0 );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
@@ -734,32 +738,40 @@ class vehicle
         void print_vparts_descs( const catacurses::window &win, int max_y, int width, int p,
                                  int &start_at, int &start_limit ) const;
         // owner functions
-        void set_old_owner( const faction *temp_owner ) {
+        bool is_owned_by( const Character &c, bool available_to_take = false ) const;
+        bool is_old_owner( const Character &c, bool available_to_take = false ) const;
+        std::string get_owner_name() const;
+        void set_old_owner( faction_id temp_owner ) {
             theft_time = calendar::turn;
             old_owner = temp_owner;
         }
         void remove_old_owner() {
             theft_time = cata::nullopt;
-            old_owner = nullptr;
+            old_owner = faction_id::NULL_ID();
         }
-        void set_owner( faction *new_owner ) {
+        void set_owner( faction_id new_owner ) {
             owner = new_owner;
         }
+        void set_owner( const Character &c );
         void remove_owner() {
-            owner = nullptr;
+            owner = faction_id::NULL_ID();
         }
-        const faction *get_owner() const {
+        faction_id get_owner() const {
             return owner;
         }
-        const faction *get_old_owner() const {
+        faction_id get_old_owner() const {
             return old_owner;
         }
         bool has_owner() const {
-            return owner;
+            return !owner.is_null();
+        }
+        bool has_old_owner() const {
+            return !old_owner.is_null();
         }
         bool handle_potential_theft( player &p, bool check_only = false, bool prompt = true );
         // project a tileray forward to predict obstacles
         std::set<point> immediate_path( int rotate = 0 );
+        void drive_to_local_target( const tripoint &autodrive_local_target, bool follow_protocol );
         void do_autodrive();
         /**
          *  Operate vehicle controls
@@ -774,7 +786,7 @@ class vehicle
         bool start_engine( int e );
 
         // Attempt to start the vehicle's active engines
-        void start_engines( bool take_control = false );
+        void start_engines( bool take_control = false, bool autodrive = false );
 
         // Engine backfire, making a loud noise
         void backfire( int e ) const;
@@ -803,6 +815,13 @@ class vehicle
         // merge a previously found single tile vehicle into this vehicle
         bool merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts );
 
+        /**
+         * @param handler A class that receives various callbacks, e.g. for placing items.
+         * This handler is different when called during mapgen (when items need to be placed
+         * on the temporary mapgen map), and when called during normal game play (when items
+         * go on the main map g->m).
+         */
+        bool remove_part( int p, RemovePartHandler &handler );
         bool remove_part( int p );
         void part_removal_cleanup();
 
@@ -947,7 +966,8 @@ class vehicle
 
         // returns indices of all parts in the given location slot
         std::vector<int> all_parts_at_location( const std::string &location ) const;
-
+        // shifts an index to next available of that type for NPC activities
+        int get_next_shifted_index( int original_index, player &p );
         // Given a part and a flag, returns the indices of all contiguously adjacent parts
         // with the same flag on the X and Y Axis
         std::vector<std::vector<int>> find_lines_of_parts( int part, const std::string &flag );
@@ -1007,6 +1027,7 @@ class vehicle
         // get monster on a boardable part at p
         monster *get_pet( int p ) const;
 
+        bool enclosed_at( const tripoint &pos ); // not const because it calls refresh_insides
         /**
          * Get the coordinates (in map squares) of this vehicle, it's the same
          * coordinate system that player::posx uses.
@@ -1067,16 +1088,27 @@ class vehicle
          */
         std::vector<vehicle_part *> lights( bool active = false );
 
-        // Calculate vehicle's total drain or production of electrical power, including nominal
-        // solar power.
-        int total_epower_w();
-        // Calculate vehicle's total drain or production of electrical power, optionally
-        // including nominal solar power.  Return engine power as engine_power
-        int total_epower_w( int &engine_epower, bool skip_solar = true );
-        // Calculate the total available power rating of all reactors
-        int total_reactor_epower_w() const;
-        // Produce and consume electrical power, with excess power stored or taken from
-        // batteries
+        void update_alternator_load();
+
+        // Total drain or production of electrical power from engines.
+        int total_engine_epower_w() const;
+        // Total production of electrical power from alternators.
+        int total_alternator_epower_w() const;
+        // Total power currently being produced by all solar panels.
+        int total_solar_epower_w() const;
+        // Total power currently being produced by all wind turbines.
+        int total_wind_epower_w() const;
+        // Total power currently being produced by all water wheels.
+        int total_water_wheel_epower_w() const;
+        // Total power drain accross all vehicle accessories.
+        int total_accessory_epower_w() const;
+        // Net power draw or drain on batteries.
+        int net_battery_charge_rate_w() const;
+        // Maximum available power available from all reactors. Power from
+        // reactors is only drawn when batteries are empty.
+        int max_reactor_epower_w() const;
+        // Produce and consume electrical power, with excess power stored or
+        // taken from batteries.
         void power_parts();
 
         /**
@@ -1280,12 +1312,16 @@ class vehicle
         // Process the trap beneath
         void handle_trap( const tripoint &p, int part );
 
+        void activate_animal_follow();
+        /**
+         * vehicle is driving itself
+         */
+        void autodrive( int x, int y );
         /**
          * Player is driving the vehicle
-         * @param x direction player is steering
-         * @param y direction player is steering
+         * @param p direction player is steering
          */
-        void pldrive( int x, int y );
+        void pldrive( const point &p );
 
         // stub for per-vpart limit
         units::volume max_volume( int part ) const;
@@ -1445,6 +1481,8 @@ class vehicle
         //scoop operation,pickups, battery drain, etc.
         void operate_scoop();
         void operate_reaper();
+        // for destorying any terrain around viehicle part. Automated mining tool.
+        void crash_terrain_around();
         void transform_terrain();
         void add_toggle_to_opts( std::vector<uilist_entry> &options,
                                  std::vector<std::function<void()>> &actions, const std::string &name, char key,
@@ -1516,12 +1554,12 @@ class vehicle
         bool is_wheel_state_correct_to_turn_on_rails( int wheels_on_rail, int wheel_count,
                 int turning_wheels_that_are_one_axis ) const;
         /**
-         * Update the submap coordinates smx, smy, and update the tracker info in the overmap
+         * Update the submap coordinates and update the tracker info in the overmap
          * (if enabled).
          * This should be called only when the vehicle has actually been moved, not when
          * the map is just shifted (in the later case simply set smx/smy directly).
          */
-        void set_submap_moved( int x, int y );
+        void set_submap_moved( const point &p );
         void use_autoclave( int p );
         void use_washing_machine( int p );
         void use_dishwasher( int p );
@@ -1545,9 +1583,9 @@ class vehicle
         void update_time( const time_point &update_to );
 
         // The faction that owns this vehicle.
-        const faction *owner = nullptr;
+        faction_id owner = faction_id::NULL_ID();
         // The faction that previously owned this vehicle
-        const faction *old_owner = nullptr;
+        faction_id old_owner = faction_id::NULL_ID();
 
     private:
         mutable double coefficient_air_resistance = 1;
@@ -1593,6 +1631,7 @@ class vehicle
         std::set<std::string> tags;        // Properties of the vehicle
         // After fuel consumption, this tracks the remainder of fuel < 1, and applies it the next time.
         std::map<itype_id, float> fuel_remainder;
+        std::map<itype_id, float> fuel_used_last_turn;
         std::unordered_multimap<point, zone_data> loot_zones;
         active_item_cache active_items;
 
@@ -1698,6 +1737,7 @@ class vehicle
 
     public:
         bool is_autodriving = false;
+        bool is_following = false;
         bool all_wheels_on_one_axis;
         // TODO: change these to a bitset + enum?
         // cruise control on/off

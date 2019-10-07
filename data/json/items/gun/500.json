@@ -17,6 +17,7 @@
     "ranged_damage": 2,
     "dispersion": 180,
     "durability": 8,
+    "blackpowder_tolerance": 32,
     "clip_size": 7,
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -51,6 +52,7 @@
     "ammo": "500",
     "dispersion": 280,
     "durability": 8,
+    "blackpowder_tolerance": 56,
     "clip_size": 5,
     "magazines": [ [ "500", [ "500_speedloader5" ] ] ],
     "valid_mod_locations": [

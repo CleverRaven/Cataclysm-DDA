@@ -30,13 +30,13 @@
       [
         "battery",
         [
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+          "light_minus_atomic_battery_cell"
         ]
       ]
     ],
@@ -54,7 +54,7 @@
     "proportional": { "weight": 0.73, "volume": 0.75, "price": 0.8 },
     "use_action": "RADIOCAR",
     "flags": [ "RADIO_CONTAINER" ],
-    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ],
+    "magazines": [ [ "battery", [ "light_minus_disposable_cell", "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ],
     "magazine_well": 0
   },
   {
@@ -103,13 +103,13 @@
       [
         "battery",
         [
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+          "light_minus_atomic_battery_cell"
         ]
       ]
     ],
@@ -146,13 +146,13 @@
       [
         "battery",
         [
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+          "light_minus_atomic_battery_cell"
         ]
       ]
     ],

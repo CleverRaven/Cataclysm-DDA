@@ -30,6 +30,7 @@
 #include "monfaction.h"
 #include "mongroup.h"
 #include "morale_types.h"
+#include "mutation.h"
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
@@ -137,6 +138,7 @@ const efftype_id effect_docile( "docile" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_emp( "emp" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_grabbing( "grabbing" );
 const efftype_id effect_harnessed( "harnessed" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
@@ -209,9 +211,7 @@ monster::monster()
     upgrades = false;
     upgrade_time = -1;
     last_updated = 0;
-    last_baby = 0;
     biosig_timer = -1;
-    last_biosig = 0;
 }
 
 monster::monster( const mtype_id &id ) : monster()
@@ -265,9 +265,9 @@ void monster::setpos( const tripoint &p )
     bool wandering = wander();
     g->update_zombie_pos( *this, p );
     position = p;
-    if( has_effect( effect_ridden ) && position != g->u.pos() ) {
+    if( has_effect( effect_ridden ) && mounted_player && mounted_player->pos() != pos() ) {
         add_msg( m_debug, "Ridden monster %s moved independently and dumped player", get_name() );
-        g->u.forced_dismount();
+        mounted_player->forced_dismount();
     }
     if( wandering ) {
         unset_dest();
@@ -616,6 +616,9 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 
     const auto hp_desc = hp_description( hp, type->hp );
     mvwprintz( w, point( column, vStart++ ), hp_desc.second, hp_desc.first );
+    if( has_effect( effect_ridden ) && mounted_player ) {
+        mvwprintz( w, point( column, vStart++ ), c_white, _( "Rider: %s" ), mounted_player->disp_name() );
+    }
 
     std::vector<std::string> lines = foldstring( type->get_description(), getmaxx( w ) - 1 - column );
     int numlines = lines.size();
@@ -1029,6 +1032,14 @@ monster_attitude monster::attitude( const Character *u ) const
                 }
             }
         }
+
+        for( const trait_id &mut : u->get_mutations() ) {
+            for( const species_id &spe : mut.obj().ignored_by ) {
+                if( type->in_species( spe ) ) {
+                    return MATT_IGNORE;
+                }
+            }
+        }
     }
 
     if( effective_morale < 0 ) {
@@ -1142,6 +1153,11 @@ bool monster::has_weapon() const
 bool monster::is_warm() const
 {
     return has_flag( MF_WARM );
+}
+
+bool monster::in_species( const species_id &spec ) const
+{
+    return type->in_species( spec );
 }
 
 bool monster::is_elec_immune() const
@@ -1290,26 +1306,30 @@ void monster::melee_attack( Creature &target, float accuracy )
         // Hallucinations always produce messages but never actually deal damage
         if( u_see_me ) {
             if( target.is_player() ) {
-                //~ 1$s is attacker name, 2$s is bodypart name in accusative.
                 sfx::play_variant_sound( "melee_attack", "monster_melee_hit",
                                          sfx::get_heard_volume( target.pos() ) );
                 sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
+                //~ 1$s is attacker name, 2$s is bodypart name in accusative.
                 add_msg( m_bad, _( "The %1$s hits your %2$s." ), name(),
                          body_part_name_accusative( bp_hit ) );
             } else if( target.is_npc() ) {
                 if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) && pos() == g->u.pos() ) {
-                    add_msg( m_good, _( "Your %s hits %s for %d damage!" ), name(), target.disp_name(), total_dealt );
+                    //~ %1$s: name of your mount, %2$s: target NPC name, %3$d: damage value
+                    add_msg( m_good, _( "Your %1$s hits %2$s for %3$d damage!" ), name(), target.disp_name(),
+                             total_dealt );
                 } else {
-                    //~ 1$s is attacker name, 2$s is target name, 3$s is bodypart name in accusative.
+                    //~ %1$s: attacker name, %2$s: target NPC name, %3$s: bodypart name in accusative
                     add_msg( _( "The %1$s hits %2$s %3$s." ), name(),
                              target.disp_name( true ),
                              body_part_name_accusative( bp_hit ) );
                 }
             } else {
                 if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) && pos() == g->u.pos() ) {
-                    add_msg( m_good, _( "Your %s hits %s for %d damage!" ), get_name(), target.disp_name(),
+                    //~ %1$s: name of your mount, %2$s: target creature name, %3$d: damage value
+                    add_msg( m_good, _( "Your %1$s hits %2$s for %3$d damage!" ), get_name(), target.disp_name(),
                              total_dealt );
                 } else {
+                    //~ %1$s: attacker name, %2$s: target creature name
                     add_msg( _( "The %1$s hits %2$s!" ), name(), target.disp_name() );
                 }
             }
@@ -1390,7 +1410,12 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     if( total_dealt > 6 && stab_cut > 0 && has_flag( MF_BLEED ) ) {
         // Maybe should only be if DT_CUT > 6... Balance question
-        target.add_effect( effect_bleed, 6_minutes, bp_hit );
+        if( target.is_player() || target.is_npc() ) {
+            target.as_character()->make_bleed( bp_hit, 6_minutes );
+        } else {
+            target.add_effect( effect_bleed, 6_minutes, bp_hit );
+        }
+
     }
 }
 
@@ -1973,7 +1998,15 @@ void monster::process_turn()
             local_attack_data.cooldown--;
         }
     }
-
+    // Persist grabs as long as there's an adjacent target.
+    if( has_effect( effect_grabbing ) ) {
+        for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
+            const player *const p = g->critter_at<player>( dest );
+            if( p && p->has_effect( effect_grabbed ) ) {
+                add_effect( effect_grabbing, 2_turns );
+            }
+        }
+    }
     // We update electrical fields here since they act every turn.
     if( has_flag( MF_ELECTRIC_FIELD ) ) {
         if( has_effect( effect_emp ) ) {
@@ -2046,7 +2079,9 @@ void monster::die( Creature *nkiller )
             item riding_saddle( "riding_saddle", 0 );
             g->m.add_item_or_charges( pos(), riding_saddle );
         }
-        g->u.forced_dismount();
+        if( mounted_player ) {
+            mounted_player->forced_dismount();
+        }
     }
     g->set_critter_died();
     dead = true;
@@ -2093,7 +2128,28 @@ void monster::die( Creature *nkiller )
     if( has_effect( effect_beartrap ) ) {
         add_item( item( "beartrap", 0 ) );
     }
-
+    if( has_effect( effect_grabbing ) ) {
+        remove_effect( effect_grabbing );
+        for( auto &player_pos : g->m.points_in_radius( pos(), 1, 0 ) ) {
+            player *p = g->critter_at<player>( player_pos );
+            if( !p || !p->has_effect( effect_grabbed ) ) {
+                continue;
+            }
+            bool grabbed = false;
+            for( auto &mon_pos : g->m.points_in_radius( player_pos, 1, 0 ) ) {
+                const monster *const mon = g->critter_at<monster>( mon_pos );
+                if( mon && mon->has_effect( effect_grabbing ) ) {
+                    grabbed = true;
+                    break;
+                }
+            }
+            if( !grabbed ) {
+                p->add_msg_player_or_npc( m_good, _( "The last enemy holding you collapses!" ),
+                                          _( "The last enemy holding <npcname> collapses!" ) );
+                p->remove_effect( effect_grabbed );
+            }
+        }
+    }
     if( !is_hallucination() ) {
         for( const auto &it : inv ) {
             g->m.add_item_or_charges( pos(), it );
@@ -2106,16 +2162,10 @@ void monster::die( Creature *nkiller )
         // submap coordinates.
         const tripoint abssub = ms_to_sm_copy( g->m.getabs( pos() ) );
         // Do it for overmap above/below too
-        for( int z = 1; z >= -1; --z ) {
-            for( int x = -HALF_MAPSIZE; x <= HALF_MAPSIZE; x++ ) {
-                for( int y = -HALF_MAPSIZE; y <= HALF_MAPSIZE; y++ ) {
-                    tripoint offset( x, y, z );
-                    std::vector<mongroup *> groups = overmap_buffer.groups_at( abssub + offset );
-                    for( auto &mgp : groups ) {
-                        if( MonsterGroupManager::IsMonsterInGroup( mgp->type, type->id ) ) {
-                            mgp->dying = true;
-                        }
-                    }
+        for( const tripoint &p : points_in_radius( abssub, HALF_MAPSIZE, 1 ) ) {
+            for( auto &mgp : overmap_buffer.groups_at( p ) ) {
+                if( MonsterGroupManager::IsMonsterInGroup( mgp->type, type->id ) ) {
+                    mgp->dying = true;
                 }
             }
         }
@@ -2721,13 +2771,15 @@ void monster::on_unload()
 
 void monster::on_load()
 {
-    // Possible TODO: Integrate monster upgrade
+    try_upgrade( false );
+    try_reproduce();
+    try_biosignature();
+
     const time_duration dt = calendar::turn - last_updated;
     last_updated = calendar::turn;
     if( dt <= 0_turns ) {
         return;
     }
-
     float regen = 0.0f;
     if( has_flag( MF_REGENERATES_50 ) ) {
         regen = 50.0f;

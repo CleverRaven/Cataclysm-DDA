@@ -12,6 +12,8 @@
 #include "damage.h"
 #include "debug.h"
 #include "effect.h"
+#include "game.h"
+#include "map.h"
 #include "generic_factory.h"
 #include "input.h"
 #include "itype.h"
@@ -77,6 +79,7 @@ void ma_requirements::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "unarmed_allowed", unarmed_allowed, false );
     optional( jo, was_loaded, "melee_allowed", melee_allowed, false );
     optional( jo, was_loaded, "unarmed_weapons_allowed", unarmed_weapons_allowed, true );
+    optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
 
     optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id> {} );
     optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<> {} );
@@ -108,6 +111,8 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
     optional( jo, was_loaded, "downed_target", downed_target, false );
     optional( jo, was_loaded, "stunned_target", stunned_target, false );
+    optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
+    optional( jo, was_loaded, "human_target", human_target, false );
 
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
@@ -124,6 +129,7 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "stun_dur", stun_dur, 0 );
     optional( jo, was_loaded, "knockback_dist", knockback_dist, 0 );
     optional( jo, was_loaded, "knockback_spread", knockback_spread, 0 );
+    optional( jo, was_loaded, "powerful_knockback", powerful_knockback, false );
     optional( jo, was_loaded, "knockback_follow", knockback_follow, 0 );
 
     optional( jo, was_loaded, "aoe", aoe, "" );
@@ -163,6 +169,7 @@ void ma_buff::load( JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "quiet", quiet, false );
     optional( jo, was_loaded, "throw_immune", throw_immune, false );
+    optional( jo, was_loaded, "stealthy", stealthy, false );
 
     reqs.load( jo, src );
     bonuses.load( jo );
@@ -222,6 +229,7 @@ void martialart::load( JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "static_buffs", static_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onmove_buffs", onmove_buffs, ma_buff_reader{} );
+    optional( jo, was_loaded, "onpause_buffs", onpause_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onhit_buffs", onhit_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onattack_buffs", onattack_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "ondodge_buffs", ondodge_buffs, ma_buff_reader{} );
@@ -409,6 +417,10 @@ bool ma_requirements::is_valid_player( const player &u ) const
         return false;
     }
 
+    if( wall_adjacent && !g->m.is_wall_adjacent( u.pos() ) ) {
+        return false;
+    }
+
     for( const auto &pr : min_skill ) {
         if( ( cqb ? 5 : u.get_skill_level( pr.first ) ) < pr.second ) {
             return false;
@@ -463,11 +475,24 @@ std::string ma_requirements::get_description( bool buff ) const
     if( unarmed_allowed && melee_allowed ) {
         dump << string_format( _( "* Can %s while <info>armed</info> or <info>unarmed</info>" ),
                                type ) << std::endl;
+        if( unarmed_weapons_allowed ) {
+            dump << string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
+                                   type ) << std::endl;
+        }
     } else if( unarmed_allowed ) {
         dump << string_format( _( "* Can <info>only</info> %s while <info>unarmed</info>" ),
                                type ) << std::endl;
+        if( unarmed_weapons_allowed ) {
+            dump << string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
+                                   type ) << std::endl;
+        }
     } else if( melee_allowed ) {
         dump << string_format( _( "* Can <info>only</info> %s while <info>armed</info>" ),
+                               type ) << std::endl;
+    }
+
+    if( wall_adjacent ) {
+        dump << string_format( _( "* Can %s while <info>near</info> to a <info>wall</info>" ),
                                type ) << std::endl;
     }
 
@@ -486,6 +511,7 @@ ma_technique::ma_technique()
     stun_dur = 0;
     knockback_dist = 0;
     knockback_spread = 0; // adding randomness to knockback, like tec_throw
+    powerful_knockback = false;
     knockback_follow = 0; // player follows the knocked-back party into their former tile
 
     // offensive
@@ -496,6 +522,8 @@ ma_technique::ma_technique()
     // conditional
     downed_target = false;    // only works on downed enemies
     stunned_target = false;   // only works on stunned enemies
+    wall_adjacent = false;    // only works near a wall
+    human_target = false;     // only works on humanoid enemies
 
     miss_recovery = false; // allows free recovery from misses, like tec_feint
     grab_break = false; // allows grab_breaks, like tec_break
@@ -585,6 +613,10 @@ bool ma_buff::is_quiet() const
 {
     return quiet;
 }
+bool ma_buff::is_stealthy() const
+{
+    return stealthy;
+}
 
 bool ma_buff::can_melee() const
 {
@@ -635,6 +667,10 @@ std::string ma_buff::get_description( bool passive ) const
         dump << _( "* Attacks will be completely <info>silent</info>" ) << std::endl;
     }
 
+    if( stealthy ) {
+        dump << _( "* Movement will make <info>less noise</info>" ) << std::endl;
+    }
+
     return dump.str();
 }
 
@@ -668,6 +704,11 @@ void martialart::apply_static_buffs( player &u ) const
 void martialart::apply_onmove_buffs( player &u ) const
 {
     simultaneous_add( u, onmove_buffs );
+}
+
+void martialart::apply_onpause_buffs( player &u ) const
+{
+    simultaneous_add( u, onpause_buffs );
 }
 
 void martialart::apply_onhit_buffs( player &u ) const
@@ -920,6 +961,10 @@ void player::ma_onmove_effects()
 {
     style_selected.obj().apply_onmove_buffs( *this );
 }
+void player::ma_onpause_effects()
+{
+    style_selected.obj().apply_onpause_buffs( *this );
+}
 void player::ma_onhit_effects()
 {
     style_selected.obj().apply_onhit_buffs( *this );
@@ -1070,6 +1115,12 @@ bool player::is_quiet() const
         return b.is_quiet();
     } );
 }
+bool player::is_stealthy() const
+{
+    return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
+        return b.is_stealthy();
+    } );
+}
 
 bool player::can_melee() const
 {
@@ -1171,6 +1222,14 @@ std::string ma_technique::get_description() const
 
     dump << reqs.get_description();
 
+    if( weighting > 1 ) {
+        dump << string_format( _( "* <info>Greater chance</info> to activate: <stat>+%s%%</stat>" ),
+                               ( 100 * ( weighting - 1 ) ) ) << std::endl;
+    } else if( weighting < -1 ) {
+        dump << string_format( _( "* <info>Lower chance</info> to activate: <stat>1/%s</stat>" ),
+                               abs( weighting ) ) << std::endl;
+    }
+
     if( crit_ok ) {
         dump << _( "* Can activate on a <info>normal</info> or a <info>crit</info> hit" ) << std::endl;
     } else if( crit_tec ) {
@@ -1181,12 +1240,24 @@ std::string ma_technique::get_description() const
         dump << _( "* Moves target <info>behind</info> you" ) << std::endl;
     }
 
+    if( wall_adjacent ) {
+        dump << _( "* Will only activate while <info>near</info> to a <info>wall</info>" ) << std::endl;
+    }
+
     if( downed_target ) {
         dump << _( "* Only works on a <info>downed</info> target" ) << std::endl;
     }
 
     if( stunned_target ) {
         dump << _( "* Only works on a <info>stunned</info> target" ) << std::endl;
+    }
+
+    if( human_target ) {
+        dump << _( "* Only works on a <info>humanoid</info> target" ) << std::endl;
+    }
+
+    if( powerful_knockback ) {
+        dump << _( "* Causes extra damage on <info>knockback collision</info>." ) << std::endl;
     }
 
     if( dodge_counter ) {
@@ -1261,8 +1332,16 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         if( ma.force_unarmed ) {
             buffer << _( "<bold>This style forces you to use unarmed strikes, even if wielding a weapon.</bold>" );
-            buffer << "--" << std::endl;
+            buffer << std::endl;
+        } else if( ma.allow_melee ) {
+            buffer << _( "<bold>This style can be used with all weapons.</bold>" );
+            buffer << std::endl;
+        } else if( ma.strictly_melee ) {
+            buffer << _( "<bold>This is an armed combat style.</bold>" );
+            buffer << std::endl;
         }
+
+        buffer << "--" << std::endl;
 
         if( ma.arm_block_with_bio_armor_arms || ma.arm_block != 99 ||
             ma.leg_block_with_bio_armor_legs || ma.leg_block != 99 ) {
@@ -1299,6 +1378,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         buff_desc( _( "Passive" ), ma.static_buffs, true );
         buff_desc( _( "Move" ), ma.onmove_buffs );
+        buff_desc( _( "Pause" ), ma.onpause_buffs );
         buff_desc( _( "Hit" ), ma.onhit_buffs );
         buff_desc( _( "Miss" ), ma.onmiss_buffs );
         buff_desc( _( "Attack" ), ma.onattack_buffs );
@@ -1348,7 +1428,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
             werase( w );
             fold_and_print_from( w, point( 2, 1 ), width, selected, c_light_gray, text );
-            draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), _( ma.name ) ) );
+            draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), ma.name ) );
             draw_scrollbar( w, selected, height, iLines, point_south, BORDER_COLOR, true );
             wrefresh( w );
             catacurses::refresh();

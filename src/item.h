@@ -22,6 +22,8 @@
 #include "flat_set.h"
 #include "io_tags.h"
 #include "item_location.h"
+#include "optional.h"
+#include "relic.h"
 #include "requirements.h"
 #include "safe_reference.h"
 #include "string_id.h"
@@ -56,6 +58,7 @@ struct itype;
 struct islot_comestible;
 
 using bodytype_id = std::string;
+using faction_id = string_id<faction>;
 struct islot_armor;
 struct use_function;
 class item_category;
@@ -76,7 +79,7 @@ class map;
 enum damage_type : int;
 enum clothing_mod_type : int;
 
-const std::string &rad_badge_color( int rad );
+std::string rad_badge_color( int rad );
 
 struct light_emission {
     unsigned short luminance;
@@ -322,7 +325,8 @@ class item : public visitable<item>
          */
         std::string tname( unsigned int quantity = 1, bool with_prefix = true,
                            unsigned int truncate = 0 ) const;
-        std::string display_money( unsigned int quantity, unsigned int amount ) const;
+        std::string display_money( unsigned int quantity, unsigned int total,
+                                   cata::optional<unsigned int> selected = cata::nullopt ) const;
         /**
          * Returns the item name and the charges or contained charges (if the item can have
          * charges at all). Calls @ref tname with given quantity and with_prefix being true.
@@ -1039,6 +1043,7 @@ class item : public visitable<item>
          * @param pos The location of the artifact (should be the player location if carried).
          */
         void process_artifact( player *carrier, const tripoint &pos );
+        void process_relic( Character *carrier );
 
         bool destroyed_at_zero_charges() const;
         // Most of the is_whatever() functions call the same function in our itype
@@ -1069,6 +1074,7 @@ class item : public visitable<item>
         bool is_tool() const;
         bool is_transformable() const;
         bool is_artifact() const;
+        bool is_relic() const;
         bool is_bucket() const;
         bool is_bucket_nonempty() const;
 
@@ -1890,8 +1896,11 @@ class item : public visitable<item>
         /** Puts the skill in context of the item */
         skill_id contextualize_skill( const skill_id &id ) const;
 
-        /* remove a monster from this item, optionally spawning the monster */
-        int release_monster( const tripoint &target, bool spawn = true );
+        /* Remove a monster from this item and spawn it.
+         * See @game::place_critter for meaning of @p target and @p pos.
+         * @return Whether the monster has been spawned (may fail if no space available).
+         */
+        bool release_monster( const tripoint &target, int radius = 0 );
         /* add the monster at target to this item, despawning it */
         int contain_monster( const tripoint &target );
 
@@ -1901,33 +1910,24 @@ class item : public visitable<item>
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );
         int get_gun_ups_drain() const;
-        inline void set_old_owner( const faction *temp_owner ) {
+        inline void set_old_owner( const faction_id temp_owner ) {
             old_owner = temp_owner;
         }
         inline void remove_old_owner() {
-            old_owner = nullptr;
+            old_owner = faction_id::NULL_ID();
         }
-        inline void set_owner( faction *new_owner ) {
+        inline void set_owner( const faction_id new_owner ) {
             owner = new_owner;
         }
+        void set_owner( const Character &c );
         inline void remove_owner() {
-            owner = nullptr;
+            owner = faction_id::NULL_ID();
         }
-        inline const faction *get_owner() const {
-            if( owner ) {
-                return owner;
-            }
-            return nullptr;
-        }
-        inline const faction *get_old_owner() const {
-            if( old_owner ) {
-                return old_owner;
-            }
-            return nullptr;
-        }
-        inline bool has_owner() const {
-            return owner;
-        }
+        faction_id get_owner() const;
+        faction_id get_old_owner() const;
+        bool is_owned_by( const Character &c, bool available_to_take = false ) const;
+        bool is_old_owner( const Character &c, bool available_to_take = false ) const;
+        std::string get_owner_name() const;
         int get_min_str() const;
 
         const cata::optional<islot_comestible> &get_comestible() const;
@@ -1973,6 +1973,8 @@ class item : public visitable<item>
         bool has_tools_to_continue() const;
         void set_cached_tool_selections( const std::vector<comp_selection<tool_comp>> &selections );
         const std::vector<comp_selection<tool_comp>> &get_cached_tool_selections() const;
+
+        std::vector<enchantment> get_enchantments() const;
 
     private:
         /**
@@ -2051,7 +2053,8 @@ class item : public visitable<item>
         // If the crafter has insufficient tools to continue to the next 5% progress step
         bool tools_to_continue = false;
         std::vector<comp_selection<tool_comp>> cached_tool_selections;
-
+        // any relic data specific to this item
+        cata::optional<relic> relic_data;
     public:
         int charges;
         units::energy energy;      // Amount of energy currently stored in a battery
@@ -2089,9 +2092,9 @@ class item : public visitable<item>
          */
         phase_id current_phase = static_cast<phase_id>( 0 );
         // The faction that owns this item.
-        const faction *owner = nullptr;
+        faction_id owner = faction_id::NULL_ID();
         // The faction that previously owned this item
-        const faction *old_owner = nullptr;
+        faction_id old_owner = faction_id::NULL_ID();
         int damage_ = 0;
         light_emission light = nolight;
 

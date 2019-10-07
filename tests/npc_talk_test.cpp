@@ -73,11 +73,16 @@ static void gen_response_lines( dialogue &d, size_t expected_count )
     REQUIRE( d.responses.size() == expected_count );
 }
 
+static std::string gen_dynamic_line( dialogue &d )
+{
+    std::string challenge = d.dynamic_line( d.topic_stack.back() );
+    return challenge;
+}
+
 static void change_om_type( const std::string &new_type )
 {
     const tripoint omt_pos = ms_to_omt_copy( g->m.getabs( g->u.pos() ) );
-    oter_id &omt_ref = overmap_buffer.ter( omt_pos );
-    omt_ref = oter_id( new_type );
+    overmap_buffer.ter_set( omt_pos, oter_id( new_type ) );
 }
 
 static npc &prep_test( dialogue &d )
@@ -105,6 +110,16 @@ TEST_CASE( "npc_talk_start", "[npc_talk]" )
     d.add_topic( "TALK_TEST_START" );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
+}
+
+TEST_CASE( "npc_talk_describe_mission", "[npc_talk]" )
+{
+    dialogue d;
+    prep_test( d );
+
+    d.add_topic( "TALK_DESCRIBE_MISSION" );
+    std::string d_line = gen_dynamic_line( d );
+    CHECK( d_line == "I'm looking for wounded to help." );
 }
 
 TEST_CASE( "npc_talk_stats", "[npc_talk]" )

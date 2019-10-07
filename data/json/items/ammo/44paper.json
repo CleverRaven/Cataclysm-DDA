@@ -6,7 +6,8 @@
     "description": "A paper cartridge containing a premeasured amount of black powder and a .44 projectile.  Used by the Colt M1860 Army.",
     "weight": "7 g",
     "volume": "250 ml",
-    "price": 5000,
+    "price": 350,
+    "price_postapoc": 5000,
     "material": [ "paper", "powder", "lead" ],
     "symbol": "=",
     "color": "white",
@@ -16,6 +17,6 @@
     "damage": 27,
     "dispersion": 70,
     "recoil": 580,
-    "effects": [ "COOKOFF", "MUZZLE_SMOKE" ]
+    "effects": [ "COOKOFF", "MUZZLE_SMOKE", "BLACKPOWDER" ]
   }
 ]

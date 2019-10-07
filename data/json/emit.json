@@ -5,7 +5,7 @@
     "//": "Intermittent cigarette smoke (example: lit cigarette)",
     "field": "fd_cigsmoke",
     "intensity": 2,
-    "chance": 20
+    "chance": 2
   },
   {
     "id": "emit_joint_trail",
@@ -13,7 +13,7 @@
     "//": "Intermittent joint smoke (example: lit cigarette)",
     "field": "fd_weedsmoke",
     "intensity": 3,
-    "chance": 20
+    "chance": 2
   },
   {
     "id": "emit_smoke_blast",
@@ -77,6 +77,15 @@
     "//": "Slow infrequent leak of toxic gas (example: bloated zombie movement)",
     "field": "fd_toxic_gas",
     "intensity": 3,
+    "chance": 15
+  },
+  {
+    "id": "emit_tindalos_gas_leak",
+    "type": "emit",
+    "//": "Slow infrequent leak of tindalos gas (example: hound of tindalos movement)",
+    "field": "fd_tindalos_gas",
+    "intensity": 3,
+    "qty": 10,
     "chance": 15
   },
   {
@@ -190,6 +199,34 @@
     "chance": 100
   },
   {
+    "id": "emit_hot_air1_cbm",
+    "type": "emit",
+    "field": "fd_hot_air1",
+    "intensity": 3,
+    "qty": 1
+  },
+  {
+    "id": "emit_hot_air2_cbm",
+    "type": "emit",
+    "field": "fd_hot_air2",
+    "intensity": 3,
+    "qty": 1
+  },
+  {
+    "id": "emit_hot_air3_cbm",
+    "type": "emit",
+    "field": "fd_hot_air3",
+    "intensity": 3,
+    "qty": 1
+  },
+  {
+    "id": "emit_hot_air4_cbm",
+    "type": "emit",
+    "field": "fd_hot_air4",
+    "intensity": 3,
+    "qty": 1
+  },
+  {
     "id": "emit_glimmer",
     "type": "emit",
     "field": "fd_dazzling",
@@ -241,6 +278,20 @@
     "id": "emit_fungal_blast",
     "type": "emit",
     "field": "fd_fungal_haze",
+    "qty": 200
+  },
+  {
+    "id": "emit_swamp_gas_leak",
+    "type": "emit",
+    "field": "fd_swamp_gas",
+    "intensity": 1,
+    "chance": 15
+  },
+  {
+    "id": "emit_fog_plume",
+    "type": "emit",
+    "field": "fd_fog",
+    "intensity": 2,
     "qty": 200
   }
 ]

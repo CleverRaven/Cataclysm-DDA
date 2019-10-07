@@ -211,6 +211,8 @@ class player : public Character
         bool is_npc() const override {
             return false;    // Overloaded for NPCs in npc.h
         }
+        bool can_mount( const monster &critter ) const;
+        void mount_creature( monster &z );
         /** Returns what color the player should be drawn as */
         nc_color basic_symbol_color() const override;
 
@@ -302,10 +304,6 @@ class player : public Character
          *  Defaults to true
          */
         bool purifiable( const trait_id &flag ) const;
-        /** Recalculates mutation_category_level[] values for the player */
-        void set_highest_cat_level();
-        /** Returns the highest mutation category */
-        std::string get_highest_category() const;
         /** Returns a dream's description selected randomly from the player's highest mutation category */
         std::string get_category_dream( const std::string &cat, int strength ) const;
 
@@ -363,7 +361,7 @@ class player : public Character
         /**Has enough anesthetic for surgery*/
         bool has_enough_anesth( const itype *cbm, player &patient );
         /** Adds the entered amount to the player's bionic power_level */
-        void charge_power( int amount );
+        void charge_power( units::energy amount );
         /** Generates and handles the UI for player interaction with installed bionics */
         void power_bionics();
         void power_mutations();
@@ -389,23 +387,6 @@ class player : public Character
         bionic *bionic_by_invlet( int ch );
         /** Returns player luminosity based on the brightest active item they are carrying */
         float active_light() const;
-
-        /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
-        bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const;
-        /** Picks a random valid mutation and gives it to the player, possibly removing/changing others along the way */
-        void mutate();
-        /** Picks a random valid mutation in a category and mutate_towards() it */
-        void mutate_category( const std::string &mut_cat );
-        /** Mutates toward one of the given mutations, upgrading or removing conflicts if necessary */
-        bool mutate_towards( std::vector<trait_id> muts, int num_tries = INT_MAX );
-        /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
-        bool mutate_towards( const trait_id &mut );
-        /** Removes a mutation, downgrading to the previous level if possible */
-        void remove_mutation( const trait_id &mut, bool silent = false );
-        /** Returns true if the player has the entered mutation child flag */
-        bool has_child_flag( const trait_id &flag ) const;
-        /** Removes the mutation's child flag from the player's list */
-        void remove_child_flag( const trait_id &flag );
 
         const tripoint &pos() const override;
         /** Returns the player's sight range */
@@ -480,6 +461,8 @@ class player : public Character
         void ma_static_effects();
         /** Fires all move-triggered martial arts events */
         void ma_onmove_effects();
+        /** Fires all pause-triggered martial arts events */
+        void ma_onpause_effects();
         /** Fires all hit-triggered martial arts events */
         void ma_onhit_effects();
         /** Fires all attack-triggered martial arts events */
@@ -532,6 +515,8 @@ class player : public Character
         float stability_roll() const override;
         /** Returns true if the player has quiet melee attacks */
         bool is_quiet() const;
+        /** Returns true if the player has stealthy movement */
+        bool is_stealthy() const;
         /** Returns true if the current martial art works with the player's current weapon */
         bool can_melee() const;
         /** Always returns false, since players can't dig currently */
@@ -596,7 +581,7 @@ class player : public Character
         dispersion_sources get_weapon_dispersion( const item &obj ) const;
 
         /** Returns true if a gun misfires, jams, or has other problems, else returns false */
-        bool handle_gun_damage( item &it, int shots_fired );
+        bool handle_gun_damage( item &it );
 
         /** Get maximum recoil penalty due to vehicle motion */
         double recoil_vehicle() const;
@@ -843,8 +828,6 @@ class player : public Character
 
         /** Drenches the player with water, saturation is the percent gotten wet */
         void drench( int saturation, const body_part_set &flags, bool ignore_waterproof );
-        /** Recalculates mutation drench protection for all bodyparts (ignored/good/neutral stats) */
-        void drench_mut_calc();
         /** Recalculates morale penalty/bonus from wetness based on mutations, equipment and temperature */
         void apply_wetness_morale( int temperature );
 
@@ -1576,8 +1559,6 @@ class player : public Character
 
         start_location_id start_location;
 
-        std::map<std::string, int> mutation_category_level;
-
         time_point next_climate_control_check;
         bool last_climate_control_ret;
         int tank_plut;
@@ -1599,14 +1580,6 @@ class player : public Character
         // Equalizes heat between body parts
         void temp_equalizer( body_part bp1, body_part bp2 );
 
-        // Drench cache
-        enum water_tolerance {
-            WT_IGNORED = 0,
-            WT_NEUTRAL,
-            WT_GOOD,
-            NUM_WATER_TOLERANCE
-        };
-        std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
         std::array<int, num_bp> drench_capacity;
         std::array<int, num_bp> body_wetness;
 
@@ -1812,9 +1785,6 @@ class player : public Character
         int temp_corrected_by_climate_control( int temperature ) const;
         /** Define blood loss (in percents) */
         int blood_loss( body_part bp ) const;
-        /** Recursively traverses the mutation's prerequisites and replacements, building up a map */
-        void build_mut_dependency_map( const trait_id &mut,
-                                       std::unordered_map<trait_id, int> &dependency_map, int distance );
 
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const trait_id &mutation );

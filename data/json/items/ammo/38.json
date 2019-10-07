@@ -14,7 +14,8 @@
     "description": ".38 Special ammunition with 130gr FMJ bullets.  The .38 Special round was extremely common among US police forces during the 20th century.",
     "weight": "8 g",
     "volume": "250 ml",
-    "price": 2200,
+    "price": 210,
+    "price_postapoc": 2200,
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -34,7 +35,8 @@
     "type": "AMMO",
     "name": ".38 Super",
     "description": ".38 Super ammunition with 90gr JHP bullets.  Designed in 1929, the .38 super cartridge was designed to penetrate body armor and vehicles.",
-    "price": 2700,
+    "price": 240,
+    "price_postapoc": 2700,
     "count": 20,
     "relative": { "damage": 5, "pierce": 4, "dispersion": -10 },
     "proportional": { "recoil": 1.5 }
@@ -67,13 +69,21 @@
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
+    "id": "bp_38_fmj",
+    "copy-from": "38_fmj",
+    "type": "AMMO",
+    "name": ".38 FMJ blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
     "id": "bp_38_special",
     "copy-from": "38_special",
     "type": "AMMO",
-    "name": "blackpowder .38 Special",
-    "description": "This .38 Special cartridge is loaded with a 200gr cast lead hollowpoint and 23gr of blackpowder.  While it's much slower than a regular .38, it has tremendous stopping power.",
-    "proportional": { "price": 0.6, "damage": 1.15, "dispersion": 1.3 },
-    "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE" ] },
+    "name": ".38 Special blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   }
 ]

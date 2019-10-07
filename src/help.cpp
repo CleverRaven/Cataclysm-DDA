@@ -73,12 +73,12 @@ std::string help::get_dir_grid()
         }
     };
 
-    std::string movement = "<LEFTUP_0>  <UP_0>  <RIGHTUP_0>   <LEFTUP_1>  <UP_1>  <RIGHTUP_1>\n"\
-                           " \\ | /     \\ | /\n"\
-                           "  \\|/       \\|/\n"\
-                           "<LEFT_0>--<pause_0>--<RIGHT_0>   <LEFT_1>--<pause_1>--<RIGHT_1>\n"\
-                           "  /|\\       /|\\\n"\
-                           " / | \\     / | \\\n"\
+    std::string movement = "<LEFTUP_0>  <UP_0>  <RIGHTUP_0>   <LEFTUP_1>  <UP_1>  <RIGHTUP_1>\n"
+                           " \\ | /     \\ | /\n"
+                           "  \\|/       \\|/\n"
+                           "<LEFT_0>--<pause_0>--<RIGHT_0>   <LEFT_1>--<pause_1>--<RIGHT_1>\n"
+                           "  /|\\       /|\\\n"
+                           " / | \\     / | \\\n"
                            "<LEFTDOWN_0>  <DOWN_0>  <RIGHTDOWN_0>   <LEFTDOWN_1>  <DOWN_1>  <RIGHTDOWN_1>";
 
     for( auto dir : movearray ) {
@@ -96,9 +96,9 @@ void help::draw_menu( const catacurses::window &win )
 {
     werase( win );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    int y = fold_and_print( win, point( 1, 0 ), getmaxx( win ) - 2, c_white, _( "\
-Please press one of the following for help on that topic:\n\
-Press ESC to return to the game." ) ) + 1;
+    int y = fold_and_print( win, point( 1, 0 ), getmaxx( win ) - 2, c_white,
+                            _( "Please press one of the following for help on that topic:\n"
+                               "Press ESC to return to the game." ) ) + 1;
 
     size_t half_size = help_texts.size() / 2 + 1;
     int second_column = divide_round_up( getmaxx( win ), 2 );
@@ -120,9 +120,8 @@ std::string help::get_note_colors()
     std::string text = _( "Note colors: " );
     for( const auto &color_pair : get_note_color_names() ) {
         // The color index is not translatable, but the name is.
-        text += string_format( "<color_%s>%s:%s</color>, ",
-                               string_from_color( get_note_color( color_pair.first ) ),
-                               color_pair.first, _( color_pair.second ) );
+        text += string_format( "%s:%s, ", colorize( color_pair.first, get_note_color( color_pair.first ) ),
+                               _( color_pair.second ) );
     }
 
     return text;

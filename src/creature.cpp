@@ -13,10 +13,12 @@
 #include "event_bus.h"
 #include "field.h"
 #include "game.h"
+#include "json.h"
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
+#include "map_iterator.h"
 #include "npc.h"
 #include "output.h"
 #include "projectile.h"
@@ -53,7 +55,6 @@ const efftype_id effect_riding( "riding" );
 const efftype_id effect_ridden( "ridden" );
 const efftype_id effect_tied( "tied" );
 const efftype_id effect_paralyzepoison( "paralyzepoison" );
-
 
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
@@ -292,14 +293,10 @@ bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
 static bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint &pos,
                               const int area )
 {
-    tripoint tmp = pos;
-    int &x = tmp.x;
-    int &y = tmp.y;
-    for( x = pos.x - area; x < pos.x + area; x++ ) {
-        for( y = pos.y - area; y < pos.y + area; y++ ) {
-            if( veh_area.count( tmp ) > 0 ) {
-                return true;
-            }
+    for( const tripoint &tmp : tripoint_range( pos - tripoint( area, area, 0 ),
+            pos + tripoint( area - 1, area - 1, 0 ) ) ) {
+        if( veh_area.count( tmp ) > 0 ) {
+            return true;
         }
     }
 
@@ -488,14 +485,15 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         return;
     }
     // If carrying a rider, there is a chance the hits may hit rider instead.
-    if( has_effect( effect_riding ) ) {
-        monster *mon = g->u.mounted_creature.get(); //only the player can ride a monster
-        // If carrying a rider, there is a chance the hits may hit rider instead.
-        // big mounts and small player = big shield for player.
-        if( mon->has_flag( MF_MECH_DEFENSIVE ) ||
-            !one_in( std::max( 2, mon->get_size() - g->u.get_size() ) ) ) {
-            mon->deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam );
-            return;
+    // melee attack will start off as targeted at mount
+    if( has_effect( effect_ridden ) ) {
+        monster *mons = dynamic_cast<monster *>( this );
+        if( mons && mons->mounted_player ) {
+            if( !mons->has_flag( MF_MECH_DEFENSIVE ) &&
+                one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
+                mons->mounted_player->deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam );
+                return;
+            }
         }
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
@@ -552,14 +550,14 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         return;
     }
     // If carrying a rider, there is a chance the hits may hit rider instead.
-    if( has_effect( effect_riding ) ) {
-        monster *mon = g->u.mounted_creature.get(); //only the player can ride a monster
-        // If carrying a rider, there is a chance the hits may hit rider instead.
-        // big mounts and small player = big shield for player.
-        if( mon->has_flag( MF_MECH_DEFENSIVE ) ||
-            !one_in( std::max( 2, mon->get_size() - g->u.get_size() ) ) ) {
-            mon->deal_projectile_attack( source, attack, print_messages );
-            return;
+    if( has_effect( effect_ridden ) ) {
+        monster *mons = dynamic_cast<monster *>( this );
+        if( mons && mons->mounted_player ) {
+            if( !mons->has_flag( MF_MECH_DEFENSIVE ) &&
+                one_in( std::max( 2, mons->get_size() - mons->mounted_player->get_size() ) ) ) {
+                mons->mounted_player->deal_projectile_attack( source, attack, print_messages );
+                return;
+            }
         }
     }
     const projectile &proj = attack.proj;
@@ -794,7 +792,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                     SCT.removeCreatureHP();
                 }
 
-                add_msg( m_good, _( "You hit %s for %d damage." ),
+                //~ %1$s: creature name, %2$d: damage value
+                add_msg( m_good, _( "You hit %1$s for %2$d damage." ),
                          disp_name(), dealt_dam.total_damage() );
             } else if( u_see_this ) {
                 //~ 1$ - shooter, 2$ - target
@@ -896,6 +895,11 @@ bool Creature::is_warm() const
     return true;
 }
 
+bool Creature::in_species( const species_id & ) const
+{
+    return false;
+}
+
 bool Creature::is_fake() const
 {
     return fake;
@@ -904,6 +908,12 @@ bool Creature::is_fake() const
 void Creature::set_fake( const bool fake_value )
 {
     fake = fake_value;
+}
+
+void Creature::add_effect( const effect &eff, bool force, bool deferred )
+{
+    add_effect( eff.get_id(), eff.get_duration(), eff.get_bp(), eff.is_permanent(), eff.get_intensity(),
+                force, deferred );
 }
 
 void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
@@ -915,7 +925,10 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
     }
     if( eff_id == efftype_id( "knockdown" ) && ( has_effect( effect_ridden ) ||
             has_effect( effect_riding ) ) ) {
-        g->u.forced_dismount();
+        monster *mons = dynamic_cast<monster *>( this );
+        if( mons && mons->mounted_player ) {
+            mons->mounted_player->forced_dismount();
+        }
     }
 
     if( !eff_id.is_valid() ) {
@@ -1096,6 +1109,18 @@ bool Creature::has_effect( const efftype_id &eff_id, body_part bp ) const
         }
         return false;
     }
+}
+
+bool Creature::has_effect_with_flag( const std::string &flag, body_part bp ) const
+{
+    for( auto &elem : *effects ) {
+        for( const std::pair<body_part, effect> &_it : elem.second ) {
+            if( bp == _it.first && _it.second.has_flag( flag ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 effect &Creature::get_effect( const efftype_id &eff_id, body_part bp )
@@ -1610,16 +1635,16 @@ std::string Creature::attitude_raw_string( Attitude att )
     }
 }
 
-const std::pair<std::string, nc_color> &Creature::get_attitude_ui_data( Attitude att )
+const std::pair<translation, nc_color> &Creature::get_attitude_ui_data( Attitude att )
 {
-    using pair_t = std::pair<std::string, nc_color>;
+    using pair_t = std::pair<translation, nc_color>;
     static const std::array<pair_t, 5> strings {
         {
-            pair_t {_( "Hostile" ), c_red},
-            pair_t {_( "Neutral" ), h_white},
-            pair_t {_( "Friendly" ), c_green},
-            pair_t {_( "Any" ), c_yellow},
-            pair_t {_( "BUG: Behavior unnamed. (Creature::get_attitude_ui_data)" ), h_red}
+            pair_t {to_translation( "Hostile" ), c_red},
+            pair_t {to_translation( "Neutral" ), h_white},
+            pair_t {to_translation( "Friendly" ), c_green},
+            pair_t {to_translation( "Any" ), c_yellow},
+            pair_t {to_translation( "BUG: Behavior unnamed. (Creature::get_attitude_ui_data)" ), h_red}
         }
     };
 
@@ -1702,4 +1727,21 @@ void Creature::add_msg_player_or_say( game_message_type type, const translation 
                                       const translation &npc ) const
 {
     return add_msg_player_or_say( type, pc.translated(), npc.translated() );
+}
+
+std::vector <int> Creature::dispersion_for_even_chance_of_good_hit = { {
+        1731, 859, 573, 421, 341, 286, 245, 214, 191, 175,
+        151, 143, 129, 118, 114, 107, 101, 94, 90, 78,
+        78, 78, 74, 71, 68, 66, 62, 61, 59, 57,
+        46, 46, 46, 46, 46, 46, 45, 45, 44, 42,
+        41, 41, 39, 39, 38, 37, 36, 35, 34, 34,
+        33, 33, 32, 30, 30, 30, 30, 29, 28
+    }
+};
+
+void Creature::load_hit_range( JsonObject &jo )
+{
+    if( jo.has_array( "even_good" ) ) {
+        jo.read( "even_good", dispersion_for_even_chance_of_good_hit );
+    }
 }

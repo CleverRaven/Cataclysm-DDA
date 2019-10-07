@@ -122,6 +122,14 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
         }
     }
 
+    if( effects.count( "PYROPHORIC" ) > 0 ) {
+        explosion_handler::explosion( p, 360, 0.8, true );
+        // Extreme heat near the center of the explosion
+        for( auto &pt : g->m.points_in_radius( p, 3, 0 ) ) {
+            g->m.add_field( pt, fd_fire, 2 );
+        }
+    }
+
     if( effects.count( "MININUKE_MOD" ) > 0 ) {
         explosion_handler::explosion( p, 72000000 );
         for( auto &pt : g->m.points_in_radius( p, 18, 0 ) ) {

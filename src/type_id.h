@@ -23,6 +23,9 @@ using efftype_id = string_id<effect_type>;
 class emit;
 using emit_id = string_id<emit>;
 
+class enchantment;
+using enchantment_id = string_id<enchantment>;
+
 class fault;
 using fault_id = string_id<fault>;
 
@@ -73,6 +76,9 @@ using mtype_id = string_id<mtype>;
 
 class npc_class;
 using npc_class_id = string_id<npc_class>;
+
+class faction;
+using faction_id = string_id<faction>;
 
 struct oter_t;
 using oter_id = int_id<oter_t>;

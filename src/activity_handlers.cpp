@@ -45,6 +45,7 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
+#include "npctalk.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "player.h"
@@ -111,6 +112,8 @@ const efftype_id effect_milked( "milked" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_under_op( "under_operation" );
 const efftype_id effect_pet( "pet" );
+const efftype_id effect_controlled( "controlled" );
+const efftype_id effect_saddled( "saddled" );
 
 using namespace activity_handlers;
 
@@ -138,6 +141,8 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_FETCH_REQUIRED" ), fetch_do_turn },
     { activity_id( "ACT_BUILD" ), build_do_turn },
     { activity_id( "ACT_EAT_MENU" ), eat_menu_do_turn },
+    { activity_id( "ACT_VEHICLE_DECONSTRUCTION" ), vehicle_deconstruction_do_turn },
+    { activity_id( "ACT_VEHICLE_REPAIR" ), vehicle_repair_do_turn },
     { activity_id( "ACT_MULTIPLE_CHOP_TREES" ), chop_trees_do_turn },
     { activity_id( "ACT_CONSUME_FOOD_MENU" ), consume_food_menu_do_turn },
     { activity_id( "ACT_CONSUME_DRINK_MENU" ), consume_drink_menu_do_turn },
@@ -167,6 +172,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_CHOP_PLANKS" ), chop_tree_do_turn },
     { activity_id( "ACT_TIDY_UP" ), tidy_up_do_turn },
     { activity_id( "ACT_JACKHAMMER" ), jackhammer_do_turn },
+    { activity_id( "ACT_FIND_MOUNT" ), find_mount_do_turn },
     { activity_id( "ACT_DIG" ), dig_do_turn },
     { activity_id( "ACT_DIG_CHANNEL" ), dig_channel_do_turn },
     { activity_id( "ACT_FILL_PIT" ), fill_pit_do_turn },
@@ -254,36 +260,26 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_STUDY_SPELL" ), study_spell_finish }
 };
 
-static void messages_in_process( const player_activity &act, const player &p )
+bool activity_handlers::resume_for_multi_activities( player &p )
 {
-    const time_duration act_time_left = time_duration::from_turns<int>( act.moves_left /
-                                        p.get_speed() );
-    if( act_time_left <= 90_minutes + 30_seconds && act_time_left > 90_minutes - 30_seconds ) {
-        p.add_msg_if_player( m_info, _( "You figure it'll take about an hour and a half at this rate." ) );
-        return;
+    if( !p.backlog.empty() ) {
+        player_activity &back_act = p.backlog.front();
+        if( back_act.is_multi_type() ) {
+            p.assign_activity( p.backlog.front().id() );
+            p.backlog.clear();
+            return true;
+        }
     }
-    if( act_time_left <= 60_minutes + 30_seconds && act_time_left > 60_minutes - 30_seconds ) {
-        p.add_msg_if_player( m_info, _( "About an hour left to go." ) );
-        return;
-    }
-    if( act_time_left <= 30_minutes + 30_seconds && act_time_left > 30_minutes - 30_seconds ) {
-        p.add_msg_if_player( m_info, _( "Shouldn't be more than half an hour or so now!" ) );
-        return;
-    }
-    if( act_time_left <= 10_minutes + 30_seconds && act_time_left > 10_minutes - 30_seconds ) {
-        p.add_msg_if_player( m_info, _( "Almost there! Ten more minutes of work and you'll be through." ) );
-        return;
-    }
+    return false;
 }
 
-void activity_handlers::burrow_do_turn( player_activity *act, player *p )
+void activity_handlers::burrow_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "activity", "burrow", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
-        //~ Sound of a Rat mutant burrowing!
         sounds::sound( act->placement, 10, sounds::sound_t::movement,
+                       //~ Sound of a Rat mutant burrowing!
                        _( "ScratchCrunchScrabbleScurry." ) );
-        messages_in_process( *act, *p );
     }
 }
 
@@ -924,7 +920,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 for( const fault_id &flt : entry.faults ) {
                     obj.faults.emplace( flt );
                 }
-                if( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
+                if( !p.backlog.empty() && p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
                     obj.set_var( "activity_var", p.name );
                 }
                 g->m.add_item_or_charges( p.pos(), obj );
@@ -943,7 +939,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
                 for( const fault_id &flt : entry.faults ) {
                     obj.faults.emplace( flt );
                 }
-                if( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
+                if( !p.backlog.empty() && p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
                     obj.set_var( "activity_var", p.name );
                 }
                 for( int i = 0; i != roll; ++i ) {
@@ -982,7 +978,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             ruined_parts.set_mtype( &mt );
             ruined_parts.set_item_temperature( 0.00001 * corpse_item->temperature );
             ruined_parts.set_rot( corpse_item->get_rot() );
-            if( p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
+            if( !p.backlog.empty() && p.backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
                 ruined_parts.set_var( "activity_var", p.name );
             }
             g->m.add_item_or_charges( p.pos(), ruined_parts );
@@ -1012,6 +1008,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // No targets means we are done
     if( act->targets.empty() ) {
         act->set_to_null();
+        resume_for_multi_activities( *p );
         return;
     }
 
@@ -1271,9 +1268,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     // Ready to move on to the next item, if there is one (for example if multibutchering)
     act->index = true;
     // if its mutli-tile butchering,then restart the backlog.
-    if( p->backlog.front().id() == activity_id( "ACT_MULTIPLE_BUTCHER" ) ) {
-        p->activity = player_activity();
-    }
+    resume_for_multi_activities( *p );
 }
 
 void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
@@ -1324,9 +1319,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                 break;
         }
 
-        static const auto volume_per_turn = units::from_liter( 4 );
-        const int charges_per_turn = std::max( 1, liquid.charges_per_volume( volume_per_turn ) );
-        liquid.charges = std::min( charges_per_turn, liquid.charges );
+        static const units::volume volume_per_second = units::from_liter( 4.0F / 6.0F );
+        const int charges_per_second = std::max( 1, liquid.charges_per_volume( volume_per_second ) );
+        liquid.charges = std::min( charges_per_second, liquid.charges );
         const int original_charges = liquid.charges;
         if( liquid.has_temperature() && liquid.specific_energy < 0 ) {
             liquid.set_item_temperature( std::max( temp_to_kelvin( g->weather.get_temperature( p->pos() ) ),
@@ -1552,8 +1547,9 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
 void activity_handlers::hotwire_finish( player_activity *act, player *p )
 {
     //Grab this now, in case the vehicle gets shifted
-    if( const optional_vpart_position vp = g->m.veh_at( tripoint( act->values[0], act->values[1],
-                                           p->posz() ) ) ) {
+    if( const optional_vpart_position vp = g->m.veh_at( g->m.getlocal( tripoint( act->values[0],
+                                           act->values[1],
+                                           p->posz() ) ) ) ) {
         vehicle *const veh = &vp->vehicle();
         const int mech_skill = act->values[2];
         if( mech_skill > static_cast<int>( rng( 1, 6 ) ) ) {
@@ -1678,14 +1674,13 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::pickaxe_do_turn( player_activity *act, player *p )
+void activity_handlers::pickaxe_do_turn( player_activity *act, player * )
 {
     const tripoint &pos = act->placement;
     sfx::play_activity_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
     if( calendar::once_every( 1_minutes ) ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
         sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK! CHNK! CHNK!" ) );
-        messages_in_process( *act, *p );
     }
 }
 
@@ -1790,6 +1785,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 return;
             }
         }
+        corpse.set_flag( "PULPED" );
     }
     // If we reach this, all corpses have been pulped, finish the activity
     act->moves_left = 0;
@@ -1971,9 +1967,10 @@ void activity_handlers::train_finish( player_activity *act, player *p )
 void activity_handlers::vehicle_finish( player_activity *act, player *p )
 {
     //Grab this now, in case the vehicle gets shifted
-    const optional_vpart_position vp = g->m.veh_at( tripoint( act->values[0], act->values[1],
-                                       p->posz() ) );
-    veh_interact::complete_vehicle();
+    const optional_vpart_position vp = g->m.veh_at( g->m.getlocal( tripoint( act->values[0],
+                                       act->values[1],
+                                       p->posz() ) ) );
+    veh_interact::complete_vehicle( *p );
     // complete_vehicle set activity type to NULL if the vehicle
     // was completely dismantled, otherwise the vehicle still exist and
     // is to be examined again.
@@ -1981,22 +1978,27 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
         return;
     }
     act->set_to_null();
-    if( act->values.size() < 7 ) {
-        dbg( D_ERROR ) << "game:process_activity: invalid ACT_VEHICLE values: "
-                       << act->values.size();
-        debugmsg( "process_activity invalid ACT_VEHICLE values:%d",
-                  act->values.size() );
-    } else {
-        if( vp ) {
-            g->m.invalidate_map_cache( g->get_levz() );
-            g->refresh_all();
-            // TODO: Z (and also where the activity is queued)
-            // Or not, because the vehicle coordinates are dropped anyway
-            g->exam_vehicle( vp->vehicle(), point( act->values[ 2 ], act->values[ 3 ] ) );
-            return;
+    if( !p->is_npc() ) {
+        if( act->values.size() < 7 ) {
+            dbg( D_ERROR ) << "game:process_activity: invalid ACT_VEHICLE values: "
+                           << act->values.size();
+            debugmsg( "process_activity invalid ACT_VEHICLE values:%d",
+                      act->values.size() );
         } else {
-            dbg( D_ERROR ) << "game:process_activity: ACT_VEHICLE: vehicle not found";
-            debugmsg( "process_activity ACT_VEHICLE: vehicle not found" );
+            if( vp ) {
+                g->m.invalidate_map_cache( g->get_levz() );
+                g->refresh_all();
+                // TODO: Z (and also where the activity is queued)
+                // Or not, because the vehicle coordinates are dropped anyway
+                if( resume_for_multi_activities( *p ) ) {
+                    return;
+                }
+                g->exam_vehicle( vp->vehicle(), point( act->values[ 2 ], act->values[ 3 ] ) );
+                return;
+            } else {
+                dbg( D_ERROR ) << "game:process_activity: ACT_VEHICLE: vehicle not found";
+                debugmsg( "process_activity ACT_VEHICLE: vehicle not found" );
+            }
         }
     }
 }
@@ -2488,6 +2490,9 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     p->invalidate_crafting_inventory();
 
     target->faults.erase( *f );
+    if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" ) {
+        target->set_var( "dirt", 0 );
+    }
     add_msg( m_good, _( "You successfully mended the %s." ), target->tname() );
 }
 
@@ -2782,7 +2787,7 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
     ( void )p;
     act->set_to_null();
     p->add_msg_if_player( m_info, _( "You finish fishing" ) );
-    if( p->backlog.front().id() == activity_id( "ACT_MULTIPLE_FISH" ) ) {
+    if( !p->backlog.empty() && p->backlog.front().id() == activity_id( "ACT_MULTIPLE_FISH" ) ) {
         p->backlog.clear();
         p->assign_activity( activity_id( "ACT_TIDY_UP" ) );
     }
@@ -2821,28 +2826,37 @@ void activity_handlers::butcher_do_turn( player_activity * /*act*/, player *p )
 
 void activity_handlers::read_do_turn( player_activity *act, player *p )
 {
-    if( !act->str_values.empty() && act->str_values[0] == "martial_art" && one_in( 3 ) ) {
-        if( act->values.empty() ) {
-            act->values.push_back( p->stamina );
+    if( p->is_player() ) {
+        if( !act->str_values.empty() && act->str_values[0] == "martial_art" && one_in( 3 ) ) {
+            if( act->values.empty() ) {
+                act->values.push_back( p->stamina );
+            }
+            p->stamina = act->values[0] - 1;
+            act->values[0] = p->stamina;
         }
-        p->stamina = act->values[0] - 1;
-        act->values[0] = p->stamina;
-    }
-    if( p->stamina < p->get_stamina_max() / 10 ) {
-        add_msg( m_info, _( "This training is exhausting.  Time to rest." ) );
-        act->set_to_null();
+        if( p->stamina < p->get_stamina_max() / 10 ) {
+            p->add_msg_if_player( m_info, _( "This training is exhausting.  Time to rest." ) );
+            act->set_to_null();
+        }
+    } else {
+        p->moves = 0;
     }
 }
 
 void activity_handlers::read_finish( player_activity *act, player *p )
 {
-    if( avatar *u = dynamic_cast<avatar *>( p ) ) {
-        u->do_read( *act->targets.front().get_item() );
+    if( p->is_npc() ) {
+        npc *guy = dynamic_cast<npc *>( p );
+        guy->finish_read( * act->targets.front().get_item() );
     } else {
-        act->set_to_null();
-    }
-    if( !act ) {
-        p->add_msg_if_player( m_info, _( "You finish reading." ) );
+        if( avatar *u = dynamic_cast<avatar *>( p ) ) {
+            u->do_read( *act->targets.front().get_item() );
+        } else {
+            act->set_to_null();
+        }
+        if( !act ) {
+            p->add_msg_if_player( m_info, _( "You finish reading." ) );
+        }
     }
 }
 
@@ -2858,6 +2872,49 @@ void activity_handlers::wait_weather_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
+void activity_handlers::find_mount_do_turn( player_activity *act, player *p )
+{
+    //npc only activity
+    if( p->is_player() ) {
+        act->set_to_null();
+        return;
+    }
+    npc &guy = dynamic_cast<npc &>( *p );
+    monster *mon = guy.chosen_mount.lock().get();
+    if( !mon ) {
+        act->set_to_null();
+        guy.revert_after_activity();
+        return;
+    }
+    if( rl_dist( guy.pos(), mon->pos() ) <= 1 ) {
+        if( mon->has_effect( effect_controlled ) ) {
+            mon->remove_effect( effect_controlled );
+        }
+        if( p->can_mount( *mon ) ) {
+            act->set_to_null();
+            guy.revert_after_activity();
+            guy.chosen_mount = std::weak_ptr<monster>();
+            p->mount_creature( *mon );
+        } else {
+            act->set_to_null();
+            guy.revert_after_activity();
+            return;
+        }
+    } else {
+        const std::vector<tripoint> route = route_adjacent( *p, guy.chosen_mount.lock().get()->pos() );
+        if( route.empty() ) {
+            act->set_to_null();
+            guy.revert_after_activity();
+            mon->remove_effect( effect_controlled );
+            return;
+        } else {
+            p->activity = player_activity();
+            mon->add_effect( effect_controlled, 40_turns );
+            p->set_destination( route, player_activity( activity_id( "ACT_FIND_MOUNT" ) ) );
+        }
+    }
+}
+
 void activity_handlers::wait_npc_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "%s finishes with you..." ), act->str_values[0] );
@@ -2868,7 +2925,11 @@ void activity_handlers::wait_stamina_do_turn( player_activity *act, player *p )
 {
     int stamina_threshold = p->get_stamina_max();
     if( !act->values.empty() ) {
-        stamina_threshold = act->values.front();
+        stamina_threshold = act->values[0];
+        // remember initial stamina, only for waiting-with-threshold
+        if( act->values.size() == 1 ) {
+            act->values.push_back( p->stamina );
+        }
     }
     if( p->stamina >= stamina_threshold ) {
         wait_stamina_finish( act, p );
@@ -2878,7 +2939,9 @@ void activity_handlers::wait_stamina_do_turn( player_activity *act, player *p )
 void activity_handlers::wait_stamina_finish( player_activity *act, player *p )
 {
     if( !act->values.empty() ) {
-        if( p->stamina < act->values.front() ) {
+        const int stamina_threshold = act->values[0];
+        const int stamina_initial = ( act->values.size() > 1 ) ? act->values[1] : p->stamina;
+        if( p->stamina < stamina_threshold && p->stamina <= stamina_initial ) {
             debugmsg( "Failed to wait until stamina threshold %d reached, only at %d. You may not be regaining stamina.",
                       act->values.front(), p->stamina );
         }
@@ -2902,9 +2965,38 @@ void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
         if( p->can_sleep() ) {
             act->set_to_null();
             p->fall_asleep();
+            p->remove_value( "sleep_query" );
         } else if( one_in( 1000 ) ) {
             p->add_msg_if_player( _( "You toss and turn..." ) );
         }
+        if( calendar::once_every( 30_minutes ) ) {
+            try_sleep_query( act, p );
+        }
+    }
+}
+
+void activity_handlers::try_sleep_query( player_activity *act, player *p )
+{
+    if( p->get_value( "sleep_query" ) == "false" ) {
+        return;
+    }
+    uilist sleep_query;
+    sleep_query.text = _( "You have trouble sleeping, keep trying?" );
+    sleep_query.addentry( 1, true, 'S', _( "Stop trying to fall asleep and get up." ) );
+    sleep_query.addentry( 2, true, 'c', _( "Continue trying to fall asleep." ) );
+    sleep_query.addentry( 3, true, 'C',
+                          _( "Continue trying to fall asleep and don't ask again." ) );
+    sleep_query.query();
+    switch( sleep_query.ret ) {
+        case 1:
+            act->set_to_null();
+            break;
+        case 3:
+            p->set_value( "sleep_query", "false" );
+            break;
+        case 2:
+        default:
+            break;
     }
 }
 
@@ -2963,7 +3055,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
             }
             if( act->values.size() > 4 ) {
                 for( size_t i = 4; i < act->values.size(); i++ ) {
-                    p->add_effect( effect_bleed, 1_turns, body_part( act->values[i] ), true, difficulty );
+                    p->make_bleed( body_part( act->values[i] ), 1_turns, difficulty, true );
                     p->apply_damage( nullptr, body_part( act->values[i] ), 20 * difficulty );
 
                     if( u_see ) {
@@ -2977,7 +3069,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                     }
                 }
             } else {
-                p->add_effect( effect_bleed, 1_turns, num_bp, true, difficulty );
+                p->make_bleed( num_bp, 1_turns, difficulty, true );
                 p->apply_damage( nullptr, num_bp, 20 * difficulty );
             }
         }
@@ -3125,16 +3217,12 @@ void activity_handlers::churn_finish( player_activity *act, player *p )
     // Go back to what we were doing before
     // could be player zone activity, or could be NPC multi-farming
     act->set_to_null();
-    if( !p->backlog.empty() ) {
-        p->activity = p->backlog.front();
-        p->backlog.pop_front();
-    }
+    resume_for_multi_activities( *p );
 }
 
 void activity_handlers::churn_do_turn( player_activity *act, player *p )
 {
     ( void )act;
-    ( void )p;
     p->set_moves( 0 );
 }
 
@@ -3214,6 +3302,16 @@ void activity_handlers::multiple_chop_planks_do_turn( player_activity *act, play
 }
 
 void activity_handlers::multiple_butcher_do_turn( player_activity *act, player *p )
+{
+    generic_multi_activity_handler( *act, *p );
+}
+
+void activity_handlers::vehicle_deconstruction_do_turn( player_activity *act, player *p )
+{
+    generic_multi_activity_handler( *act, *p );
+}
+
+void activity_handlers::vehicle_repair_do_turn( player_activity *act, player *p )
 {
     generic_multi_activity_handler( *act, *p );
 }
@@ -3362,13 +3460,12 @@ void activity_handlers::eat_menu_finish( player_activity *, player * )
     return;
 }
 
-void activity_handlers::hacksaw_do_turn( player_activity *act, player *p )
+void activity_handlers::hacksaw_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a metal sawing tool at work!
         sounds::sound( act->placement, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
-        messages_in_process( *act, *p );
     }
 }
 
@@ -3428,13 +3525,12 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::chop_tree_do_turn( player_activity *act, player *p )
+void activity_handlers::chop_tree_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "tool", "axe", sfx::get_heard_volume( g->m.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
         sounds::sound( g->m.getlocal( act->placement ), 15, sounds::sound_t::activity, _( "CHK!" ) );
-        messages_in_process( *act, *p );
     }
 }
 
@@ -3443,14 +3539,17 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     const tripoint &pos = g->m.getlocal( act->placement );
 
     tripoint direction;
-    if( p->is_player() ) {
-        while( true ) {
-            if( const cata::optional<tripoint> dir = choose_direction(
-                        _( "Select a direction for the tree to fall in." ) ) ) {
-                direction = *dir;
-                break;
+    if( !p->is_npc() ) {
+        if( p->backlog.empty() || ( !p->backlog.empty() &&
+                                    p->backlog.front().id() != activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ) ) {
+            while( true ) {
+                if( const cata::optional<tripoint> dir = choose_direction(
+                            _( "Select a direction for the tree to fall in." ) ) ) {
+                    direction = *dir;
+                    break;
+                }
+                // try again
             }
-            // try again
         }
     } else {
         for( const auto elem : g->m.points_in_radius( pos, 1 ) ) {
@@ -3487,6 +3586,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     sfx::play_variant_sound( "misc", "timber",
                              sfx::get_heard_volume( g->m.getlocal( act->placement ) ) );
     act->set_to_null();
+    resume_for_multi_activities( *p );
 }
 
 void activity_handlers::chop_logs_finish( player_activity *act, player *p )
@@ -3531,6 +3631,7 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
     p->add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act->set_to_null();
+    resume_for_multi_activities( *p );
 }
 
 void activity_handlers::chop_planks_finish( player_activity *act, player *p )
@@ -3554,15 +3655,15 @@ void activity_handlers::chop_planks_finish( player_activity *act, player *p )
         p->add_msg_if_player( m_bad, _( "You waste a lot of the wood." ) );
     }
     act->set_to_null();
+    resume_for_multi_activities( *p );
 }
 
-void activity_handlers::jackhammer_do_turn( player_activity *act, player *p )
+void activity_handlers::jackhammer_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "tool", "jackhammer", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a jackhammer at work!
         sounds::sound( act->placement, 15, sounds::sound_t::destructive_activity, _( "TATATATATATATAT!" ) );
-        messages_in_process( *act, *p );
     }
 }
 
@@ -3581,23 +3682,21 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::dig_do_turn( player_activity *act, player *p )
+void activity_handlers::dig_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
         sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
-        messages_in_process( *act, *p );
     }
 }
 
-void activity_handlers::dig_channel_do_turn( player_activity *act, player *p )
+void activity_handlers::dig_channel_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
         sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
-        messages_in_process( *act, *p );
     }
 }
 
@@ -3619,7 +3718,7 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
                 }
             };
 
-            g->summon_mon( random_entry( monids ), dump_loc );
+            g->place_critter_at( random_entry( monids ), dump_loc );
             g->m.furn_set( pos, f_coffin_o );
             p->add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
         } else {
@@ -3680,13 +3779,12 @@ void activity_handlers::dig_channel_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::fill_pit_do_turn( player_activity *act, player *p )
+void activity_handlers::fill_pit_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "tool", "shovel", 100 );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel filling a pit or mound at work!
         sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
-        messages_in_process( *act, *p );
     }
 }
 
@@ -4096,18 +4194,15 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
             }
             return;
         }
-        for( int dx = -1; dx <= 1; dx++ ) {
-            for( int dy = -1; dy <= 1; dy++ ) {
-                tripoint neighbor = tpt + point( dx, dy );
-                if( seen.find( neighbor ) != seen.end() ) {
-                    continue;
-                }
-                seen.insert( neighbor );
-                if( !overmap_buffer.ter( neighbor ).obj().is_wooded() ) {
-                    continue;
-                }
-                q.push( neighbor );
+        for( const tripoint &neighbor : points_in_radius( tpt, 1 ) ) {
+            if( seen.find( neighbor ) != seen.end() ) {
+                continue;
             }
+            seen.insert( neighbor );
+            if( !overmap_buffer.ter( neighbor ).obj().is_wooded() ) {
+                continue;
+            }
+            q.push( neighbor );
         }
         q.pop();
     }
@@ -4115,67 +4210,10 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
     act->set_to_null();
 }
 
-static hack_result try_hack( player &p )
-{
-    if( p.has_trait( trait_id( "ILLITERATE" ) ) ) {
-        add_msg( _( "You can't read anything on the screen." ) );
-        return HACK_UNABLE;
-    }
-    bool using_electrohack = p.has_charges( "electrohack", 25 ) &&
-                             query_yn( _( "Use electrohack?" ) );
-    bool using_fingerhack = !using_electrohack && p.has_bionic( bionic_id( "bio_fingerhack" ) ) &&
-                            p.power_level > 24 && query_yn( _( "Use fingerhack?" ) );
-
-    if( !( using_electrohack || using_fingerhack ) ) {
-        add_msg( _( "You need a hacking tool for that." ) );
-        return HACK_UNABLE;
-    }
-
-    ///\EFFECT_COMPUTER increases success chance of hacking
-    int player_computer_skill_level = p.get_skill_level( skill_id( "computer" ) );
-    int success = rng( player_computer_skill_level / 4 - 2, player_computer_skill_level * 2 );
-    success += rng( -3, 3 );
-    if( using_fingerhack ) {
-        p.charge_power( -25 );
-        success++;
-    }
-    if( using_electrohack ) {
-        p.use_charges( "electrohack", 25 );
-        success++;
-    }
-
-    // odds go up with int>8, down with int<8
-    // 4 int stat is worth 1 computer skill here
-    ///\EFFECT_INT increases success chance of hacking
-    success += rng( 0, static_cast<int>( ( p.int_cur - 8 ) / 2 ) );
-
-    if( success < 0 ) {
-        add_msg( _( "You cause a short circuit!" ) );
-        if( success <= -5 ) {
-            if( using_electrohack ) {
-                add_msg( m_bad, _( "Your electrohack is ruined!" ) );
-                p.use_amount( "electrohack", 1 );
-            } else {
-                add_msg( m_bad, _( "Your power is drained!" ) );
-                p.charge_power( -rng( 0, p.power_level ) );
-            }
-        }
-        return HACK_FAIL;
-    } else if( success < 6 ) {
-        add_msg( _( "Nothing happens." ) );
-        return HACK_NOTHING;
-    } else {
-        return HACK_SUCCESS;
-    }
-}
-
 void activity_handlers::hack_door_finish( player_activity *act, player *p )
 {
-    hack_result result = try_hack( *p );
-    if( result == HACK_UNABLE ) {
-        act->set_to_null();
-        return;
-    } else if( result == HACK_SUCCESS ) {
+    hack_result result = iexamine::hack_attempt( *p );
+    if( result == HACK_SUCCESS ) {
         add_msg( _( "You activate the panel!" ) );
         add_msg( m_good, _( "The nearby doors slide into the floor." ) );
         g->m.ter_set( act->placement, t_card_reader_broken );
@@ -4186,22 +4224,16 @@ void activity_handlers::hack_door_finish( player_activity *act, player *p )
         }
     }
 
-    p->practice( skill_id( "computer" ), 20 );
     act->set_to_null();
 }
 
 void activity_handlers::hack_safe_finish( player_activity *act, player *p )
 {
-    hack_result result = try_hack( *p );
-    if( result == HACK_UNABLE ) {
-        act->set_to_null();
-        return;
-    } else if( result == HACK_FAIL ) {
-        act->set_to_null();
-
+    hack_result result = iexamine::hack_attempt( *p );
+    if( result == HACK_FAIL ) {
         g->events().send<event_type::triggers_alarm>( p->getID() );
-        sounds::sound( p->pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
-                       "alarm" );
+        sounds::sound( p->pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true,
+                       "environment", "alarm" );
         if( act->placement.z > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
             g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
                                  p->global_sm_location() );
@@ -4211,7 +4243,6 @@ void activity_handlers::hack_safe_finish( player_activity *act, player *p )
         g->m.furn_set( act->placement, furn_str_id( "f_safe_o" ) );
     }
 
-    p->practice( skill_id( "computer" ), 20 );
     act->set_to_null();
 }
 
@@ -4267,7 +4298,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     target_handler th;
     tripoint target = p->pos();
     bool target_is_valid = false;
-    if( casting.range() > 0 && !casting.is_valid_target( target_none ) ) {
+    if( casting.range() > 0 && !casting.is_valid_target( target_none ) &&
+        !casting.has_flag( RANDOM_TARGET ) ) {
         do {
             std::vector<tripoint> trajectory = th.target_ui( casting, no_fail, no_mana );
             if( !trajectory.empty() ) {
@@ -4285,6 +4317,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 }
             }
         } while( !target_is_valid );
+    } else if( casting.has_flag( RANDOM_TARGET ) ) {
+        target = casting.random_valid_target( *p, p->pos() );
     }
 
     // no turning back now. it's all said and done.
@@ -4321,7 +4355,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 p->mod_stat( "stamina", -cost );
                 break;
             case bionic_energy:
-                p->power_level -= cost;
+                p->power_level -= units::from_kilojoule( cost );
                 break;
             case hp_energy:
                 blood_magic( p, cost );
@@ -4337,7 +4371,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     if( level_override == -1 ) {
         if( !casting.is_max_level() ) {
             // reap the reward
-            if( casting.get_level() == 0 ) {
+            int old_level = casting.get_level();
+            if( old_level == 0 ) {
                 casting.gain_level();
                 p->add_msg_if_player( m_good,
                                       _( "Something about how this spell works just clicked!  You gained a level!" ) );
@@ -4345,6 +4380,9 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 casting.gain_exp( exp_gained );
                 p->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
                                       casting.xp() );
+            }
+            if( casting.get_level() != old_level ) {
+                g->events().send<event_type::player_levels_spell>( casting.id(), casting.get_level() );
             }
         }
     }

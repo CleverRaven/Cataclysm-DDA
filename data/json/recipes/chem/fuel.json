@@ -55,8 +55,7 @@
     "book_learn": [ [ "textbook_biodiesel", 5 ] ],
     "batch_time_factors": [ 99, 1 ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "//": "this recipe could be done using fire, but at the moment fire requirement doesn't work properly for long time crafting",
-    "tools": [ [ [ "hotplate", 100 ], [ "toolset", 100 ] ] ],
+    "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
     "components": [
       [ [ "water_clean", 4 ], [ "water", 4 ] ],
       [ [ "chem_ethanol", 100 ], [ "chem_methanol", 100 ], [ "denat_alcohol", 100 ] ],

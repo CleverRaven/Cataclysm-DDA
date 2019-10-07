@@ -69,13 +69,13 @@
       [
         "battery",
         [
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+          "light_minus_atomic_battery_cell"
         ]
       ]
     ],
@@ -120,7 +120,7 @@
     "name": "active flare",
     "description": "This burning magnesium flare is producing light.  It will last for about a half hour before burning out.",
     "color": "white",
-    "turns_per_charge": 1,
+    "turns_per_charge": 6,
     "revert_to": "handflare_dead",
     "revert_msg": "The flare sputters out",
     "use_action": { "type": "firestarter", "moves": 50 },
@@ -154,13 +154,13 @@
       [
         "battery",
         [
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
           "light_plus_battery_cell",
           "light_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+          "light_minus_atomic_battery_cell"
         ]
       ]
     ],

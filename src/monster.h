@@ -198,6 +198,10 @@ class monster : public Creature
         void footsteps( const tripoint &p ); // noise made by movement
         void shove_vehicle( const tripoint &remote_destination,
                             const tripoint &nearby_destination ); // shove vehicles out of the way
+        // check if a monster at a position will drown and kill it if necessary
+        // returns true if the monster dies
+        // chance is the one_in( chance ) that the monster will drown
+        bool die_if_drowning( const tripoint &at_pos, int chance = 1 );
 
         tripoint scent_move();
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
@@ -270,6 +274,8 @@ class monster : public Creature
         bool is_underwater() const override;
         bool is_on_ground() const override;
         bool is_warm() const override;
+        bool in_species( const species_id &spec ) const override;
+
         bool has_weapon() const override;
         bool is_dead_state() const override; // check if we should be dead or not
         bool is_elec_immune() const override;
@@ -412,11 +418,12 @@ class monster : public Creature
                                     const std::string &npc_msg ) const override;
         void add_msg_player_or_npc( game_message_type type, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
-
         // TEMP VALUES
         tripoint wander_pos; // Wander destination - Just try to move in that direction
         int wandf;           // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
+        player *mounted_player = nullptr; // player that is mounting this creature
+        character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
         character_id dragged_foe_id; // id of character being dragged by the monster
         cata::optional<item> tied_item; // item used to tie the monster
         cata::optional<item> battery_item; // item to power mechs
@@ -478,15 +485,15 @@ class monster : public Creature
         void init_from_item( const item &itm );
 
         time_point last_updated = calendar::turn_zero;
-        int last_baby;
-        int last_biosig;
-
         /**
          * Do some cleanup and caching as monster is being unloaded from map.
          */
         void on_unload();
         /**
          * Retroactively update monster.
+         * Call this after a preexisting monster has been placed on map.
+         * Don't call for monsters that have been freshly created, it may cause
+         * the monster to upgrade itself into another monster type.
          */
         void on_load();
 

@@ -2,7 +2,6 @@
 
 #include <cstdlib>
 #include <algorithm>
-#include <sstream>
 #include <cstddef>
 
 #include "addiction.h"
@@ -375,7 +374,7 @@ static void draw_stats_tab( const catacurses::window &w_stats, const catacurses:
         curtab = action == "NEXT_TAB" ? curtab + 1 : 6;
     } else if( action == "QUIT" ) {
         done = true;
-    } else if( action == "CONFIRM" && line < 5 && get_option<bool>( "STATS_THROUGH_KILLS" ) &&
+    } else if( action == "CONFIRM" && line < 4 && get_option<bool>( "STATS_THROUGH_KILLS" ) &&
                you.is_player() ) {
         g->u.upgrade_stat_prompt( static_cast<Character::stat>( line ) );
     }
@@ -471,8 +470,7 @@ static void draw_traits_tab( const catacurses::window &w_traits, const catacurse
         const auto &mdata = traitslist[line].obj();
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta, string_format(
-                            "<color_%s>%s</color>: %s", string_from_color( mdata.get_display_color() ),
-                            mdata.name(), traitslist[line]->desc() ) );
+                            "%s: %s", colorize( mdata.name(), mdata.get_display_color() ), traitslist[line]->desc() ) );
     }
     wrefresh( w_traits );
     wrefresh( w_info );
@@ -513,7 +511,7 @@ static std::vector<bionic> draw_bionics_list( const catacurses::window &w_bionic
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
                     string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
-                                   you.power_level, you.max_power_level ) );
+                                   units::to_kilojoule( you.power_level ), units::to_kilojoule( you.max_power_level ) ) );
 
     std::map<std::string, int> bionic_counts;
     std::vector<bionic> bionics_unique;
@@ -1121,23 +1119,18 @@ void player::disp_info()
     if( get_perceived_pain() > 0 ) {
         effect_name.push_back( _( "Pain" ) );
         const auto ppen = get_pain_penalty();
-        std::stringstream pain_text;
-        if( ppen.strength > 0 ) {
-            pain_text << _( "Strength" ) << " -" << ppen.strength << "   ";
-        }
-        if( ppen.dexterity > 0 ) {
-            pain_text << _( "Dexterity" ) << " -" << ppen.dexterity << "   ";
-        }
-        if( ppen.intelligence > 0 ) {
-            pain_text << _( "Intelligence" ) << " -" << ppen.intelligence << "   ";
-        }
-        if( ppen.perception > 0 ) {
-            pain_text << _( "Perception" ) << " -" << ppen.perception << "   ";
-        }
-        if( ppen.speed > 0 ) {
-            pain_text << _( "Speed" ) << " -" << ppen.speed << "%   ";
-        }
-        effect_text.push_back( pain_text.str() );
+        std::string pain_text;
+        const auto add_if = [&]( const int amount, const char *const name ) {
+            if( amount > 0 ) {
+                pain_text += string_format( name, amount ) + "   ";
+            }
+        };
+        add_if( ppen.strength, _( "Strength -%d" ) );
+        add_if( ppen.dexterity, _( "Dexterity -%d" ) );
+        add_if( ppen.intelligence, _( "Intelligence -%d" ) );
+        add_if( ppen.perception, _( "Perception -%d" ) );
+        add_if( ppen.speed, _( "Speed -%d %%" ) );
+        effect_text.push_back( pain_text );
     }
 
     const float bmi = get_bmi();
@@ -1170,16 +1163,16 @@ void player::disp_info()
         ( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) &&
           g->weather.weather != WEATHER_SUNNY ) ) {
         effect_name.push_back( _( "In Sunlight" ) );
-        effect_text.push_back( _( "The sunlight irritates you.\n\
-Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" ) );
+        effect_text.push_back( _( "The sunlight irritates you.\n"
+                                  "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" ) );
     } else if( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) ) {
         effect_name.push_back( _( "In Sunlight" ) );
-        effect_text.push_back( _( "The sunlight irritates you badly.\n\
-Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" ) );
+        effect_text.push_back( _( "The sunlight irritates you badly.\n"
+                                  "Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" ) );
     } else if( has_trait( trait_id( "TROGLO3" ) ) && g->is_in_sunlight( pos() ) ) {
         effect_name.push_back( _( "In Sunlight" ) );
-        effect_text.push_back( _( "The sunlight irritates you terribly.\n\
-Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
+        effect_text.push_back( _( "The sunlight irritates you terribly.\n"
+                                  "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     }
 
     for( auto &elem : addictions ) {

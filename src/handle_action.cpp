@@ -45,6 +45,7 @@
 #include "popup.h"
 #include "ranged.h"
 #include "safemode_ui.h"
+#include "scores_ui.h"
 #include "sounds.h"
 #include "veh_type.h"
 #include "vehicle.h"
@@ -420,7 +421,7 @@ static void pldrive( int x, int y )
         }
     }
 
-    veh->pldrive( x, y );
+    veh->pldrive( point( x, y ) );
 }
 
 inline static void pldrive( point d )
@@ -923,7 +924,7 @@ static void sleep()
         }
 
         const auto &info = bio.info();
-        if( info.power_over_time > 0 ) {
+        if( info.power_over_time > 0_kJ ) {
             active.push_back( info.name.translated() );
         }
     }
@@ -1008,10 +1009,11 @@ static void loot()
         HarvestPlots = 32,
         ConstructPlots = 64,
         MultiFarmPlots = 128,
-    };
-
-    auto just_one = []( int flags ) {
-        return flags && !( flags & ( flags - 1 ) );
+        Multichoptrees = 256,
+        Multichopplanks = 512,
+        Multideconvehicle = 1024,
+        Multirepairvehicle = 2048,
+        MultiButchery = 4096
     };
 
     player &u = g->u;
@@ -1039,6 +1041,12 @@ static void loot()
     flags |= g->check_near_zone( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
                                  u.pos() ) ? ConstructPlots : 0;
 
+    flags |= g->check_near_zone( zone_type_id( "CHOP_TREES" ), u.pos() ) ? Multichoptrees : 0;
+    flags |= g->check_near_zone( zone_type_id( "LOOT_WOOD" ), u.pos() ) ? Multichopplanks : 0;
+    flags |= g->check_near_zone( zone_type_id( "VEHICLE_DECONSTRUCT" ),
+                                 u.pos() ) ? Multideconvehicle : 0;
+    flags |= g->check_near_zone( zone_type_id( "VEHICLE_REPAIR" ), u.pos() ) ? Multirepairvehicle : 0;
+    flags |= g->check_near_zone( zone_type_id( "LOOT_CORPSE" ), u.pos() ) ? MultiButchery : 0;
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
@@ -1047,50 +1055,68 @@ static void loot()
         return;
     }
 
-    if( !just_one( flags ) ) {
-        uilist menu;
-        menu.text = _( "Pick action:" );
-        menu.desc_enabled = true;
+    uilist menu;
+    menu.text = _( "Pick action:" );
+    menu.desc_enabled = true;
 
-        if( flags & SortLoot ) {
-            menu.addentry_desc( SortLoot, true, 'o', _( "Sort out my loot" ),
-                                _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones. Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
-        }
-
-        if( flags & TillPlots ) {
-            menu.addentry_desc( TillPlots, has_hoe, 't',
-                                has_hoe ? _( "Till farm plots" ) : _( "Till farm plots... you need a tool to dig with" ),
-                                _( "Tills nearby Farm: Plot zones." ) );
-        }
-
-        if( flags & PlantPlots ) {
-            menu.addentry_desc( PlantPlots, warm_enough_to_plant( g->u.pos() ) && has_seeds, 'p',
-                                !warm_enough_to_plant( g->u.pos() ) ? _( "Plant seeds... it is too cold for planting" ) :
-                                !has_seeds ? _( "Plant seeds... you don't have any" ) : _( "Plant seeds" ),
-                                _( "Plant seeds into nearby Farm: Plot zones. Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
-        }
-        if( flags & FertilizePlots ) {
-            menu.addentry_desc( FertilizePlots, has_fertilizer, 'f',
-                                !has_fertilizer ? _( "Fertilize plots... you don't have any fertilizer" ) : _( "Fertilize plots" ),
-                                _( "Fertilize any nearby Farm: Plot zones." ) );
-        }
-
-        if( flags & HarvestPlots ) {
-            menu.addentry_desc( HarvestPlots, true, 'h', _( "Harvest plots" ),
-                                _( "Harvest any full-grown plants from nearby Farm: Plot zones" ) );
-        }
-        if( flags & ConstructPlots ) {
-            menu.addentry_desc( ConstructPlots, true, 'c', _( "Construct Plots" ),
-                                _( "Work on any nearby Blueprint: construction zones" ) );
-        }
-        if( flags & MultiFarmPlots ) {
-            menu.addentry_desc( MultiFarmPlots, true, 'm', _( "Farm Plots" ),
-                                _( "till and plant on any nearby farm plots - auto-fetch seeds and tools" ) );
-        }
-
-        menu.query();
-        flags = ( menu.ret >= 0 ) ? menu.ret : None;
+    if( flags & SortLoot ) {
+        menu.addentry_desc( SortLoot, true, 'o', _( "Sort out my loot" ),
+                            _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones. Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
     }
+
+    if( flags & TillPlots ) {
+        menu.addentry_desc( TillPlots, has_hoe, 't',
+                            has_hoe ? _( "Till farm plots" ) : _( "Till farm plots... you need a tool to dig with" ),
+                            _( "Tills nearby Farm: Plot zones." ) );
+    }
+
+    if( flags & PlantPlots ) {
+        menu.addentry_desc( PlantPlots, warm_enough_to_plant( g->u.pos() ) && has_seeds, 'p',
+                            !warm_enough_to_plant( g->u.pos() ) ? _( "Plant seeds... it is too cold for planting" ) :
+                            !has_seeds ? _( "Plant seeds... you don't have any" ) : _( "Plant seeds" ),
+                            _( "Plant seeds into nearby Farm: Plot zones. Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
+    }
+    if( flags & FertilizePlots ) {
+        menu.addentry_desc( FertilizePlots, has_fertilizer, 'f',
+                            !has_fertilizer ? _( "Fertilize plots... you don't have any fertilizer" ) : _( "Fertilize plots" ),
+                            _( "Fertilize any nearby Farm: Plot zones." ) );
+    }
+
+    if( flags & HarvestPlots ) {
+        menu.addentry_desc( HarvestPlots, true, 'h', _( "Harvest plots" ),
+                            _( "Harvest any full-grown plants from nearby Farm: Plot zones." ) );
+    }
+    if( flags & ConstructPlots ) {
+        menu.addentry_desc( ConstructPlots, true, 'c', _( "Construct plots" ),
+                            _( "Work on any nearby Blueprint: construction zones." ) );
+    }
+    if( flags & MultiFarmPlots ) {
+        menu.addentry_desc( MultiFarmPlots, true, 'm', _( "Farm plots" ),
+                            _( "Till and plant on any nearby farm plots - auto-fetch seeds and tools." ) );
+    }
+    if( flags & Multichoptrees ) {
+        menu.addentry_desc( Multichoptrees, true, 'C', _( "Chop trees" ),
+                            _( "Chop down any trees in the designated zone - auto-fetch tools." ) );
+    }
+    if( flags & Multichopplanks ) {
+        menu.addentry_desc( Multichopplanks, true, 'P', _( "Chop planks" ),
+                            _( "Auto-chop logs in wood loot zones into planks - auto-fetch tools." ) );
+    }
+    if( flags & Multideconvehicle ) {
+        menu.addentry_desc( Multideconvehicle, true, 'v', _( "Deconstruct vehicle" ),
+                            _( "Auto-deconstruct vehicle in designated zone - auto-fetch tools." ) );
+    }
+    if( flags & Multirepairvehicle ) {
+        menu.addentry_desc( Multirepairvehicle, true, 'V', _( "Repair vehicle" ),
+                            _( "Auto-repair vehicle in designated zone - auto-fetch tools." ) );
+    }
+    if( flags & MultiButchery ) {
+        menu.addentry_desc( MultiButchery, true, 'B', _( "Butcher corpses" ),
+                            _( "Auto-butcher anything in corpse loot zones - auto-fetch tools." ) );
+    }
+
+    menu.query();
+    flags = ( menu.ret >= 0 ) ? menu.ret : None;
 
     switch( flags ) {
         case None:
@@ -1126,6 +1152,21 @@ static void loot()
             break;
         case MultiFarmPlots:
             u.assign_activity( activity_id( "ACT_MULTIPLE_FARM" ) );
+            break;
+        case Multichoptrees:
+            u.assign_activity( activity_id( "ACT_MULTIPLE_CHOP_TREES" ) );
+            break;
+        case Multichopplanks:
+            u.assign_activity( activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) );
+            break;
+        case Multideconvehicle:
+            u.assign_activity( activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) );
+            break;
+        case Multirepairvehicle:
+            u.assign_activity( activity_id( "ACT_VEHICLE_REPAIR" ) );
+            break;
+        case MultiButchery:
+            u.assign_activity( activity_id( "ACT_MULTIPLE_BUTCHER" ) );
             break;
         default:
             debugmsg( "Unsupported flag" );
@@ -1270,8 +1311,9 @@ static void fire()
         for( auto &w : u.worn ) {
             if( w.type->can_use( "holster" ) && !w.has_flag( "NO_QUICKDRAW" ) &&
                 !w.contents.empty() && w.contents.front().is_gun() ) {
-                // draw (first) gun contained in holster
-                options.push_back( string_format( _( "%s from %s (%d)" ),
+                //~ draw (first) gun contained in holster
+                //~ %1$s: weapon name, %2$s: container name, %3$d: remaining ammo count
+                options.push_back( string_format( pgettext( "holster", "%1$s from %2$s (%3$d)" ),
                                                   w.contents.front().tname(),
                                                   w.type_name(),
                                                   w.contents.front().ammo_remaining() ) );
@@ -2174,12 +2216,12 @@ bool game::handle_action()
                 list_missions();
                 break;
 
-            case ACTION_KILLS:
-                get_kill_tracker().disp_kills();
+            case ACTION_SCORES:
+                show_scores_ui( stats(), get_kill_tracker() );
                 break;
 
             case ACTION_FACTIONS:
-                new_faction_manager_ptr->display();
+                faction_manager_ptr->display();
                 break;
 
             case ACTION_MORALE:
@@ -2283,18 +2325,20 @@ bool game::handle_action()
                 break;
 
             case ACTION_TOGGLE_THIEF_MODE:
-                //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
                 if( g->u.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
                     u.set_value( "THIEF_MODE", "THIEF_HONEST" );
                     u.set_value( "THIEF_MODE_KEEP", "YES" );
+                    //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
                     add_msg( _( "You will not pick up other peoples belongings." ) );
                 } else if( g->u.get_value( "THIEF_MODE" ) == "THIEF_HONEST" ) {
                     u.set_value( "THIEF_MODE", "THIEF_STEAL" );
                     u.set_value( "THIEF_MODE_KEEP", "YES" );
+                    //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
                     add_msg( _( "You will pick up also those things that belong to others!" ) );
                 } else if( g->u.get_value( "THIEF_MODE" ) == "THIEF_STEAL" ) {
                     u.set_value( "THIEF_MODE", "THIEF_ASK" );
                     u.set_value( "THIEF_MODE_KEEP", "NO" );
+                    //~ Thief mode cycled between THIEF_ASK/THIEF_HONEST/THIEF_STEAL
                     add_msg( _( "You will be reminded not to steal." ) );
                 } else {
                     // ERROR

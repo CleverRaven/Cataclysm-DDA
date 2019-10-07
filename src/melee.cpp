@@ -75,6 +75,7 @@ const efftype_id effect_contacts( "contacts" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_drunk( "drunk" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_grabbing( "grabbing" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_lightsnare( "lightsnare" );
@@ -100,6 +101,8 @@ static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_SLIME_HANDS( "SLIME_HANDS" );
 static const trait_id trait_TALONS( "TALONS" );
 static const trait_id trait_THORNS( "THORNS" );
+
+const species_id HUMAN( "HUMAN" );
 
 void player_hit_message( player *attacker, const std::string &message,
                          Creature &t, int dam, bool crit = false );
@@ -731,17 +734,17 @@ float player::get_dodge() const
         ret /= 2;
     }
 
-    int zed_number = 0;
-    for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
-        const monster *const mon = g->critter_at<monster>( dest );
-        if( mon && ( mon->has_flag( MF_GRABS ) ||
-                     mon->type->has_special_attack( "GRAB" ) ) ) {
-            zed_number++;
+    if( has_effect( effect_grabbed ) ) {
+        int zed_number = 0;
+        for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
+            const monster *const mon = g->critter_at<monster>( dest );
+            if( mon && mon->has_effect( effect_grabbing ) ) {
+                zed_number++;
+            }
         }
-    }
-
-    if( has_effect( effect_grabbed ) && zed_number > 0 ) {
-        ret /= zed_number + 1;
+        if( zed_number > 0 ) {
+            ret /= zed_number + 1;
+        }
     }
 
     if( worn_with_flag( "ROLLER_INLINE" ) ||
@@ -1013,6 +1016,7 @@ matec_id player::pick_technique( Creature &t, const item &weap,
 
     bool downed = t.has_effect( effect_downed );
     bool stunned = t.has_effect( effect_stunned );
+    bool wall_adjacent = g->m.is_wall_adjacent( pos() );
 
     // first add non-aoe tecs
     for( auto &tec_id : all ) {
@@ -1025,6 +1029,11 @@ matec_id player::pick_technique( Creature &t, const item &weap,
 
         // skip defensive techniques
         if( tec.defensive ) {
+            continue;
+        }
+
+        // skip wall adjacent techniques if not next to a wall
+        if( tec.wall_adjacent && !wall_adjacent ) {
             continue;
         }
 
@@ -1067,6 +1076,10 @@ matec_id player::pick_technique( Creature &t, const item &weap,
             continue;
         }
 
+        // Don't apply humanoid-only techniques to non-humanoids
+        if( tec.human_target && !t.in_species( HUMAN ) ) {
+            continue;
+        }
         // if aoe, check if there are valid targets
         if( !tec.aoe.empty() && !valid_aoe_technique( t, tec ) ) {
             continue;
@@ -1300,7 +1313,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
         }
     }
 
-    if( technique.stun_dur > 0 ) {
+    if( technique.stun_dur > 0 && !technique.powerful_knockback ) {
         t.add_effect( effect_stunned, rng( 1_turns, time_duration::from_turns( technique.stun_dur ) ) );
     }
 
@@ -1309,9 +1322,15 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
         const int kb_offset_x = rng( -technique.knockback_spread, technique.knockback_spread );
         const int kb_offset_y = rng( -technique.knockback_spread, technique.knockback_spread );
         tripoint kb_point( posx() + kb_offset_x, posy() + kb_offset_y, posz() );
-        for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
-            t.knock_back_from( kb_point );
+
+        if( !technique.powerful_knockback ) {
+            for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
+                t.knock_back_from( kb_point );
+            }
+        } else {
+            g->knockback( pos(), t.pos(), technique.knockback_dist, technique.stun_dur, 1 );
         }
+
         // This technique makes the player follow into the tile the target was knocked from
         if( technique.knockback_follow > 0 ) {
             // Check if terrain there is safe then if a critter's still there - if clear, move player there
@@ -1376,7 +1395,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
         if( one_in( ( 1400 - ( get_int() * 50 ) ) / bionic_boost ) ) {
             ma_styles.push_back( style_selected );
             add_msg_if_player( m_good, _( "You have learned %s from extensive practice with the CQB Bionic." ),
-                               _( style_selected.obj().name ) );
+                               style_selected.obj().name );
         }
     }
 }
@@ -1642,9 +1661,9 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
 
     std::string target = t.disp_name();
 
-    if( has_active_bionic( bionic_id( "bio_shock" ) ) && power_level >= 2 &&
+    if( has_active_bionic( bionic_id( "bio_shock" ) ) && power_level >= 2_kJ &&
         ( !is_armed() || weapon.conductive() ) ) {
-        charge_power( -2 );
+        charge_power( -2_kJ );
         d.add_damage( DT_ELECTRIC, rng( 2, 10 ) );
 
         if( is_player() ) {
@@ -1655,7 +1674,7 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
     }
 
     if( has_active_bionic( bionic_id( "bio_heat_absorb" ) ) && !is_armed() && t.is_warm() ) {
-        charge_power( 3 );
+        charge_power( 3_kJ );
         d.add_damage( DT_COLD, 3 );
         if( is_player() ) {
             dump << string_format( _( "You drain %s's body heat." ), target ) << std::endl;
@@ -1861,38 +1880,66 @@ std::string melee_message( const ma_technique &tec, player &p, const dealt_damag
 
     // Three last values are for low damage
     static const std::array<std::string, 6> player_stab = {{
-            _( "You impale %s" ), _( "You gouge %s" ), _( "You run %s through" ),
-            _( "You puncture %s" ), _( "You pierce %s" ), _( "You poke %s" )
+            translate_marker( "You impale %s" ),
+            translate_marker( "You gouge %s" ),
+            translate_marker( "You run %s through" ),
+            translate_marker( "You puncture %s" ),
+            translate_marker( "You pierce %s" ),
+            translate_marker( "You poke %s" )
         }
     };
     static const std::array<std::string, 6> npc_stab = {{
-            _( "<npcname> impales %s" ), _( "<npcname> gouges %s" ), _( "<npcname> runs %s through" ),
-            _( "<npcname> punctures %s" ), _( "<npcname> pierces %s" ), _( "<npcname> pokes %s" )
+            translate_marker( "<npcname> impales %s" ),
+            translate_marker( "<npcname> gouges %s" ),
+            translate_marker( "<npcname> runs %s through" ),
+            translate_marker( "<npcname> punctures %s" ),
+            translate_marker( "<npcname> pierces %s" ),
+            translate_marker( "<npcname> pokes %s" )
         }
     };
     // First 5 are for high damage, next 2 for medium, then for low and then for v. low
     static const std::array<std::string, 9> player_cut = {{
-            _( "You gut %s" ), _( "You chop %s" ), _( "You slash %s" ),
-            _( "You mutilate %s" ), _( "You maim %s" ), _( "You stab %s" ),
-            _( "You slice %s" ), _( "You cut %s" ), _( "You nick %s" )
+            translate_marker( "You gut %s" ),
+            translate_marker( "You chop %s" ),
+            translate_marker( "You slash %s" ),
+            translate_marker( "You mutilate %s" ),
+            translate_marker( "You maim %s" ),
+            translate_marker( "You stab %s" ),
+            translate_marker( "You slice %s" ),
+            translate_marker( "You cut %s" ),
+            translate_marker( "You nick %s" )
         }
     };
     static const std::array<std::string, 9> npc_cut = {{
-            _( "<npcname> guts %s" ), _( "<npcname> chops %s" ), _( "<npcname> slashes %s" ),
-            _( "<npcname> mutilates %s" ), _( "<npcname> maims %s" ), _( "<npcname> stabs %s" ),
-            _( "<npcname> slices %s" ), _( "<npcname> cuts %s" ), _( "<npcname> nicks %s" )
+            translate_marker( "<npcname> guts %s" ),
+            translate_marker( "<npcname> chops %s" ),
+            translate_marker( "<npcname> slashes %s" ),
+            translate_marker( "<npcname> mutilates %s" ),
+            translate_marker( "<npcname> maims %s" ),
+            translate_marker( "<npcname> stabs %s" ),
+            translate_marker( "<npcname> slices %s" ),
+            translate_marker( "<npcname> cuts %s" ),
+            translate_marker( "<npcname> nicks %s" )
         }
     };
 
     // Three last values are for low damage
     static const std::array<std::string, 6> player_bash = {{
-            _( "You clobber %s" ), _( "You smash %s" ), _( "You thrash %s" ),
-            _( "You batter %s" ), _( "You whack %s" ), _( "You hit %s" )
+            translate_marker( "You clobber %s" ),
+            translate_marker( "You smash %s" ),
+            translate_marker( "You thrash %s" ),
+            translate_marker( "You batter %s" ),
+            translate_marker( "You whack %s" ),
+            translate_marker( "You hit %s" )
         }
     };
     static const std::array<std::string, 6> npc_bash = {{
-            _( "<npcname> clobbers %s" ), _( "<npcname> smashes %s" ), _( "<npcname> thrashes %s" ),
-            _( "<npcname> batters %s" ), _( "<npcname> whacks %s" ), _( "<npcname> hits %s" )
+            translate_marker( "<npcname> clobbers %s" ),
+            translate_marker( "<npcname> smashes %s" ),
+            translate_marker( "<npcname> thrashes %s" ),
+            translate_marker( "<npcname> batters %s" ),
+            translate_marker( "<npcname> whacks %s" ),
+            translate_marker( "<npcname> hits %s" )
         }
     };
 
@@ -1934,11 +1981,11 @@ std::string melee_message( const ma_technique &tec, player &p, const dealt_damag
     }
 
     if( dominant_type == DT_STAB ) {
-        return ( npc ? npc_stab[index] : player_stab[index] );
+        return npc ? _( npc_stab[index] ) : _( player_stab[index] );
     } else if( dominant_type == DT_CUT ) {
-        return ( npc ? npc_cut[index] : player_cut[index] );
+        return npc ? _( npc_cut[index] ) : _( player_cut[index] );
     } else if( dominant_type == DT_BASH ) {
-        return ( npc ? npc_bash[index] : player_bash[index] );
+        return npc ? _( npc_bash[index] ) : _( player_bash[index] );
     }
 
     return _( "The bugs attack %s" );
@@ -2159,8 +2206,10 @@ void player::disarm( npc &target )
         my_roll += dice( 3, get_skill_level( skill_unarmed ) );
 
         if( my_roll >= their_roll ) {
+            //~ %s: weapon name
             add_msg( _( "You grab at %s and pull with all your force!" ), it.tname() );
-            add_msg( _( "You forcefully take %s from %s!" ), it.tname(), target.name );
+            //~ %1$s: weapon name, %2$s: NPC name
+            add_msg( _( "You forcefully take %1$s from %2$s!" ), it.tname(), target.name );
             // wield() will deduce our moves, consider to deduce more/less moves for balance
             item rem_it = target.i_rem( &it );
             wield( rem_it );

@@ -102,6 +102,8 @@ class stomach_contents
         // how long has it been since i ate?
         // only really relevant for player::stomach
         time_duration time_since_ate() const;
+        // update last_ate to calendar::turn
+        void ate();
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &json );

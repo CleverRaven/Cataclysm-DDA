@@ -273,7 +273,7 @@
     "dispersion": 14,
     "loudness": 0,
     "count": 10,
-    "effects": [ "NEVER_MISFIRES" ]
+    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
   },
   {
     "type": "AMMO",
@@ -332,7 +332,7 @@
     "dispersion": 14,
     "loudness": 0,
     "count": 50,
-    "effects": [ "NEVER_MISFIRES" ]
+    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
   },
   {
     "type": "AMMO",
@@ -351,7 +351,7 @@
     "count": 500,
     "stack_size": 200,
     "loudness": 9,
-    "effects": [ "NOGIB", "NEVER_MISFIRES" ]
+    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON-FOULING" ]
   },
   {
     "type": "AMMO",
@@ -763,27 +763,6 @@
     "dispersion": 50,
     "recoil": 350,
     "effects": [ "COOKOFF", "TRAIL", "NEVER_MISFIRES", "FRAG" ]
-  },
-  {
-    "type": "AMMO",
-    "id": "m235tpa",
-    "price": 200000,
-    "//": "$500 per.  Cheap!",
-    "name": "M235 66mm TPA rocket",
-    "symbol": "=",
-    "color": "dark_gray",
-    "description": "66mm incendiary rockets used in the M202 FLASH rocket launcher.  Their warheads are filled with a thickened pyrophoric agent, which burns at 2200 degrees Fahrenheit.",
-    "material": [ "steel", "powder" ],
-    "volume": "2 L",
-    "weight": "1140 g",
-    "ammo_type": "m235",
-    "damage": 60,
-    "pierce": 10,
-    "range": 70,
-    "dispersion": 150,
-    "recoil": 150,
-    "count": 4,
-    "effects": [ "COOKOFF", "NAPALM_BIG", "TRAIL", "NEVER_MISFIRES" ]
   },
   {
     "type": "AMMO",

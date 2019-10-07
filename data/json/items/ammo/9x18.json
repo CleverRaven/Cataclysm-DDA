@@ -6,7 +6,8 @@
     "description": "9x18mm Makarov ammunition with 93gr steel core FMJ bullets.  The 9x18mm round was very common in the Eastern Bloc during the 20th century and remained in Russian military service into the 21st century.",
     "weight": "8 g",
     "volume": "250 ml",
-    "price": 2600,
+    "price": 100,
+    "price_postapoc": 2600,
     "material": [ "steel", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -27,7 +28,8 @@
     "type": "AMMO",
     "name": "9x18mm SP-7",
     "description": "9x18mm Makarov SP-7 ammunition.  The 9x18mm round was very common in the Eastern Bloc during the 20th century and remained in Russian military service into the 21st century.",
-    "price": 2900,
+    "price": 150,
+    "price_postapoc": 2900,
     "count": 25,
     "relative": { "range": 2, "damage": 4, "dispersion": -10 },
     "proportional": { "recoil": 1.1 }
@@ -38,8 +40,27 @@
     "type": "AMMO",
     "name": "9x18mm RG028",
     "description": "9x18mm Makarov RG028 ammunition.  The RG028 round uses bullets with a hardened steel core to improve armor penetration.",
-    "price": 3100,
+    "price": 200,
+    "price_postapoc": 3100,
     "relative": { "damage": -2, "pierce": 8 }
+  },
+  {
+    "id": "bp_9x18mm",
+    "copy-from": "9x18mm",
+    "type": "AMMO",
+    "name": "9x18mm blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_9x18mmfmj",
+    "copy-from": "9x18mmfmj",
+    "type": "AMMO",
+    "name": "9x18mm FMJ blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
     "id": "reloaded_9x18mm",

@@ -25,6 +25,14 @@
 #include "options.h"
 #endif
 
+catacurses::window new_centered_win( int nlines, int ncols )
+{
+    int height = std::min( nlines, TERMY );
+    int width = std::min( ncols, TERMX );
+    point pos( ( TERMX - width ) / 2, ( TERMY - height ) / 2 );
+    return catacurses::newwin( height, width, pos );
+}
+
 /**
 * \defgroup UI "The UI Menu."
 * @{
@@ -144,6 +152,7 @@ void uilist::init()
     allow_disabled = false;  // disallow selecting disabled options
     allow_anykey = false;    // do not return on unbound keys
     allow_cancel = true;     // allow cancelling with "QUIT" action
+    allow_additional = false; // do not return on unhandled additional actions
     hilight_full = true;     // render hilight_color background over the entire line (minus padding)
     hilight_disabled =
         false; // if false, hitting 'down' onto a disabled entry will advance downward to the first enabled entry
@@ -331,16 +340,11 @@ void uilist::setup()
             w_width = title.size() + 5;
         }
     }
+    const int max_desc_width = w_auto ? TERMX - 4 : w_width - 4;
 
     bool h_auto = ( w_height == -1 );
     if( h_auto ) {
         w_height = 4;
-    }
-
-    if( desc_enabled && !( w_auto && h_auto ) ) {
-        desc_enabled = false; // give up
-        debugmsg( "desc_enabled without w_auto and h_auto (h: %d, w: %d)", static_cast<int>( h_auto ),
-                  static_cast<int>( w_auto ) );
     }
 
     max_entry_len = 0;
@@ -376,10 +380,9 @@ void uilist::setup()
             }
         }
         if( desc_enabled ) {
-            const int min_width = std::min( TERMX, std::max( w_width, descwidth_final ) ) - 4;
-            const int max_width = TERMX - 4;
+            const int min_desc_width = std::min( max_desc_width, std::max( w_width, descwidth_final ) - 4 );
             int descwidth = find_minimum_fold_width( footer_text.empty() ? entries[i].desc : footer_text,
-                            desc_lines, min_width, max_width );
+                            desc_lines, min_desc_width, max_desc_width );
             descwidth += 4; // 2x border + 2x ' ' pad
             if( descwidth_final < descwidth ) {
                 descwidth_final = descwidth;
@@ -847,16 +850,14 @@ void uilist::query( bool loop, int timeout )
 #endif
 
     do {
-        const auto action = ctxt.handle_input( timeout );
+        ret_act = ctxt.handle_input( timeout );
         const auto event = ctxt.get_raw_input();
         keypress = event.get_first_input();
         const auto iter = keymap.find( keypress );
 
-        if( scrollby( scroll_amount_from_action( action ) ) ) {
+        if( scrollby( scroll_amount_from_action( ret_act ) ) ) {
             /* nothing */
-        } else if( action == "HELP_KEYBINDINGS" ) {
-            /* nothing, handled by input_context */
-        } else if( filtering && action == "FILTER" ) {
+        } else if( filtering && ret_act == "FILTER" ) {
             inputfilter();
         } else if( iter != keymap.end() ) {
             selected = iter->second;
@@ -865,20 +866,27 @@ void uilist::query( bool loop, int timeout )
             } else if( allow_disabled ) {
                 ret = entries[selected].retval; // disabled
             }
-        } else if( !fentries.empty() && action == "CONFIRM" ) {
+        } else if( !fentries.empty() && ret_act == "CONFIRM" ) {
             if( entries[ selected ].enabled ) {
                 ret = entries[ selected ].retval; // valid
             } else if( allow_disabled ) {
                 ret = entries[selected].retval; // disabled
             }
-        } else if( allow_cancel && action == "QUIT" ) {
+        } else if( allow_cancel && ret_act == "QUIT" ) {
             ret = UILIST_CANCEL;
-        } else if( action == "TIMEOUT" ) {
+        } else if( ret_act == "TIMEOUT" ) {
             ret = UILIST_TIMEOUT;
-        } else {
+        } else { // including HELP_KEYBINDINGS, in case the caller wants to refresh their contents
             bool unhandled = callback == nullptr || !callback->key( ctxt, event, selected, this );
             if( unhandled && allow_anykey ) {
                 ret = UILIST_UNBOUND;
+            } else if( unhandled && allow_additional ) {
+                for( const auto &it : additional_actions ) {
+                    if( it.first == ret_act ) {
+                        ret = UILIST_ADDITIONAL;
+                        break;
+                    }
+                }
             }
         }
 

@@ -17,6 +17,7 @@
 #include "calendar.h"
 #include "faction.h"
 #include "line.h"
+#include "lru_cache.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player.h"
@@ -106,6 +107,44 @@ enum class attitude_group : int {
     fearful, // Run
     friendly // Follow, defend, listen
 };
+
+// a job assigned to an NPC when they are stationed at a basecamp.
+// this governs what tasks they will periodically scan to do.
+// some duties arent implemented yet
+// but are more indications of what category that duty will fall under when it is implemented.
+enum npc_job : int {
+    NPCJOB_NULL = 0,   // a default job of no particular responsibility.
+    NPCJOB_COOKING,    // includes cooking crafts and butchery
+    NPCJOB_MENIAL,  // sorting items, cleaning, refilling furniture ( charcoal kilns etc )
+    NPCJOB_VEHICLES,  // deconstructing/repairing/constructing/refuelling vehicles
+    NPCJOB_CONSTRUCTING, // building stuff from blueprint zones
+    NPCJOB_CRAFTING, // crafting stuff generally.
+    NPCJOB_SECURITY,  // patrolling
+    NPCJOB_FARMING,   // tilling, planting, harvesting, fertilizing, making seeds
+    NPCJOB_LUMBERJACK, // chopping trees down, chopping logs into planks, other wood-related tasks
+    NPCJOB_HUSBANDRY, // feeding animals, shearing sheep, collecting eggs/milk, training animals
+    NPCJOB_HUNTING,  // hunting for meat ( this is currently handled by off-screen companion_mission )
+    NPCJOB_FORAGING, // foraging for edibles ( this is currently handled by off-screen companion_mission )
+    NPCJOB_END
+};
+
+static const std::map<npc_job, std::vector<activity_id>> job_duties = {
+    { NPCJOB_NULL, std::vector<activity_id>{ activity_id( activity_id::NULL_ID() ) } },
+    { NPCJOB_COOKING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CRAFT" ), activity_id( "ACT_MULTIPLE_BUTCHER" ) } },
+    { NPCJOB_MENIAL, std::vector<activity_id>{ activity_id( "ACT_MOVE_LOOT" ), activity_id( "ACT_TIDY_UP" ) } },
+    { NPCJOB_VEHICLES, std::vector<activity_id>{ activity_id( "ACT_VEHICLE_REPAIR" ), activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) } },
+    { NPCJOB_CONSTRUCTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) } },
+    { NPCJOB_CRAFTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CRAFT" ) } },
+    { NPCJOB_SECURITY, std::vector<activity_id>{ activity_id( activity_id::NULL_ID() ) } }, // no corresponding activities yet.
+    { NPCJOB_FARMING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_FARM" ) } },
+    { NPCJOB_LUMBERJACK, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CHOP_TREES" ), activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) } },
+    { NPCJOB_HUSBANDRY, std::vector<activity_id>{ activity_id( activity_id::NULL_ID() ) } }, // no corresponding activities yet.
+    { NPCJOB_HUNTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_FISH" ) } },
+    { NPCJOB_FORAGING, std::vector<activity_id>{ activity_id( activity_id::NULL_ID() ) } }, // no corresponding activities yet.
+};
+
+std::string npc_job_id( npc_job job );
+std::string npc_job_name( npc_job job );
 
 enum npc_mission : int {
     NPC_MISSION_NULL = 0, // Nothing in particular
@@ -210,6 +249,7 @@ enum combat_engagement {
     ENGAGE_WEAK,
     ENGAGE_HIT,
     ENGAGE_ALL,
+    ENGAGE_FREE_FIRE,
     ENGAGE_NO_MOVE
 };
 const std::unordered_map<std::string, combat_engagement> combat_engagement_strs = { {
@@ -218,6 +258,7 @@ const std::unordered_map<std::string, combat_engagement> combat_engagement_strs 
         { "ENGAGE_WEAK", ENGAGE_WEAK },
         { "ENGAGE_HIT", ENGAGE_HIT },
         { "ENGAGE_ALL", ENGAGE_ALL },
+        { "ENGAGE_FREE_FIRE", ENGAGE_FREE_FIRE },
         { "ENGAGE_NO_MOVE", ENGAGE_NO_MOVE }
     }
 };
@@ -493,6 +534,8 @@ struct npc_short_term_cache {
     std::vector<sphere> dangerous_explosives;
 
     std::map<direction, float> threat_map;
+    // Cache of locations the NPC has searched recently in npc::find_item()
+    lru_cache<tripoint, int> searched_tiles;
 };
 
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
@@ -726,19 +769,20 @@ class npc : public player
             return true;
         }
         void load_npc_template( const string_id<npc_template> &ident );
-
+        void npc_dismount();
+        std::weak_ptr<monster> chosen_mount;
         // Generating our stats, etc.
         void randomize( const npc_class_id &type = npc_class_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
+        void apply_ownership_to_inv();
         // Faction version number
         int get_faction_ver() const;
         void set_faction_ver( int new_version );
         bool has_faction_relationship( const player &p,
                                        npc_factions::relationship flag ) const;
-        void set_fac( const string_id<faction> &id );
+        void set_fac( const faction_id &id );
         faction *get_faction() const override;
-        string_id<faction> get_fac_id() const;
-        void clear_fac();
+        faction_id get_fac_id() const;
         /**
          * Set @ref submap_coords and @ref pos.
          * @param mx,my,mz are global submap coordinates.
@@ -838,6 +882,8 @@ class npc : public player
         /** Is enemy or will turn into one (can't be convinced not to attack). */
         bool guaranteed_hostile() const;
         Attitude attitude_to( const Creature &other ) const override;
+        /* player allies that become guaranteed hostile should mutiny first */
+        void mutiny();
 
         /** For mutant NPCs. Returns how monsters perceive said NPC. Doesn't imply NPC sees them the same. */
         mfaction_id get_monster_faction() const;
@@ -857,6 +903,11 @@ class npc : public player
         int value( const item &it ) const;
         int value( const item &it, int market_price ) const;
         bool wear_if_wanted( const item &it );
+        void start_read( item &chosen, player *pl );
+        void finish_read( item &book );
+        bool can_read( const item &book, std::vector<std::string> &fail_reasons );
+        int time_to_read( const item &book, const player &reader ) const;
+        void do_npc_read();
         void stow_item( item &it );
         bool wield( item &it ) override;
         bool adjust_worn();
@@ -1085,6 +1136,7 @@ class npc : public player
         bool saw_player_recently() const;
         /** Returns true if food was consumed, false otherwise. */
         bool consume_food();
+        bool consume_food_from_camp();
         int get_thirst() const override;
 
         // Movement on the overmap scale
@@ -1136,6 +1188,10 @@ class npc : public player
         void travel_overmap( const tripoint &pos );
         npc_attitude get_attitude() const;
         void set_attitude( npc_attitude new_attitude );
+        npc_job get_job() const;
+        void set_job( npc_job new_job );
+        bool has_job() const;
+        void remove_job();
         void set_mission( npc_mission new_mission );
         bool has_activity() const;
         npc_attitude get_previous_attitude();
@@ -1152,7 +1208,9 @@ class npc : public player
 
     private:
         npc_attitude attitude; // What we want to do to the player
+        npc_job job = NPCJOB_NULL; // what is our job at camp
         npc_attitude previous_attitude = NPCATT_NULL;
+        bool known_to_u = false; // Does the player know this NPC?
         /**
          * Global submap coordinates of the submap containing the npc.
          * Use global_*_location to get the global position.
@@ -1244,6 +1302,10 @@ class npc : public player
          */
         void npc_update_body();
 
+        bool get_known_to_u();
+
+        void set_known_to_u( bool known );
+
         /// Set up (start) a companion mission.
         void set_companion_mission( npc &p, const std::string &mission_id );
         void set_companion_mission( const tripoint &omt_pos, const std::string &role_id,
@@ -1292,6 +1354,14 @@ class npc_template
         npc_template() = default;
 
         npc guy;
+        translation name_unique;
+        translation name_suffix;
+        enum class gender {
+            random,
+            male,
+            female
+        };
+        gender gender_override;
 
         static void load( JsonObject &jsobj );
         static void reset();

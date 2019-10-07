@@ -7,6 +7,7 @@
 #include <memory>
 #include <set>
 
+#include "activity_handlers.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
@@ -52,6 +53,8 @@ struct itype;
 
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 
+const skill_id skill_survival( "survival" );
+
 const efftype_id effect_allow_sleep( "allow_sleep" );
 const efftype_id effect_asked_for_item( "asked_for_item" );
 const efftype_id effect_asked_personal_info( "asked_personal_info" );
@@ -65,6 +68,10 @@ const efftype_id effect_infected( "infected" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_pet( "pet" );
+const efftype_id effect_controlled( "controlled" );
+const efftype_id effect_riding( "riding" );
+const efftype_id effect_ridden( "ridden" );
+const efftype_id effect_saddled( "monster_saddled" );
 
 const mtype_id mon_horse( "mon_horse" );
 const mtype_id mon_cow( "mon_cow" );
@@ -175,17 +182,11 @@ void talk_function::buy_cow( npc &p )
 
 void spawn_animal( npc &p, const mtype_id &mon )
 {
-    std::vector<tripoint> valid;
-    for( const tripoint &candidate : g->m.points_in_radius( p.pos(), 1 ) ) {
-        if( g->is_empty( candidate ) ) {
-            valid.push_back( candidate );
-        }
-    }
-    if( !valid.empty() ) {
-        monster *mon_ptr = g->summon_mon( mon, random_entry( valid ) );
+    if( monster *const mon_ptr = g->place_critter_around( mon, p.pos(), 1 ) ) {
         mon_ptr->friendly = -1;
         mon_ptr->add_effect( effect_pet, 1_turns, num_bp, true );
     } else {
+        // @todo handle this gracefully (return the money, proper in-character message from npc)
         add_msg( m_debug, "No space to spawn purchased pet" );
     }
 }
@@ -209,6 +210,36 @@ void talk_function::do_construction( npc &p )
     p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
+void talk_function::do_read( npc &p )
+{
+    p.do_npc_read();
+}
+
+void talk_function::dismount( npc &p )
+{
+    p.npc_dismount();
+}
+
+void talk_function::find_mount( npc &p )
+{
+    // first find one nearby
+    for( monster &critter : g->all_monsters() ) {
+        if( p.can_mount( critter ) ) {
+            p.set_attitude( NPCATT_ACTIVITY );
+            // keep the horse still for some time, so that NPC can catch up to it nad mount it.
+            p.set_mission( NPC_MISSION_ACTIVITY );
+            p.assign_activity( activity_id( "ACT_FIND_MOUNT" ) );
+            p.chosen_mount = g->shared_from( critter );
+            // we found one, thats all we need.
+            return;
+        }
+    }
+    // if we got here and this was prompted by a renewal of the activity, and there are no valid monsters nearby, then cancel whole thing.
+    if( p.has_player_activity() ) {
+        p.revert_after_activity();
+    }
+}
+
 void talk_function::do_butcher( npc &p )
 {
     p.set_attitude( NPCATT_ACTIVITY );
@@ -220,6 +251,20 @@ void talk_function::do_chop_plank( npc &p )
 {
     p.set_attitude( NPCATT_ACTIVITY );
     p.assign_activity( activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
+void talk_function::do_vehicle_deconstruct( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
+void talk_function::do_vehicle_repair( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_VEHICLE_REPAIR" ) );
     p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
@@ -268,8 +313,9 @@ void talk_function::goto_location( npc &p )
         camps.push_back( temp_camp );
     }
     for( auto iter : camps ) {
-        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "%s at (%d, %d)" ), iter->camp_name(),
-                                 iter->camp_omt_pos().x, iter->camp_omt_pos().y );
+        //~ %1$s: camp name, %2$d and %3$d: coordinates
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, pgettext( "camp", "%1$s at (%2$d, %3$d)" ),
+                                 iter->camp_name(), iter->camp_omt_pos().x, iter->camp_omt_pos().y );
     }
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My current location" ) );
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
@@ -362,7 +408,8 @@ void talk_function::stop_guard( npc &p )
 
 void talk_function::wake_up( npc &p )
 {
-    p.rules.clear_flag( ally_rule::allow_sleep );
+    p.rules.clear_override( ally_rule::allow_sleep );
+    p.rules.enable_override( ally_rule::allow_sleep );
     p.remove_effect( effect_allow_sleep );
     p.remove_effect( effect_lying_down );
     p.remove_effect( effect_sleep );
@@ -484,7 +531,7 @@ void talk_function::give_equipment( npc &p )
     item it = *giving[chosen].loc.get_item();
     giving[chosen].loc.remove_item();
     popup( _( "%1$s gives you a %2$s" ), p.name, it.tname() );
-    it.set_owner( g->u.get_faction() );
+    it.set_owner( g->u );
     g->u.i_add( it );
     p.op_of_u.owed -= giving[chosen].price;
     p.add_effect( effect_asked_for_item, 3_hours );
@@ -726,7 +773,15 @@ void talk_function::leave( npc &p )
 {
     add_msg( _( "%s leaves." ), p.name );
     g->remove_npc_follower( p.getID() );
-    p.clear_fac();
+    std::string new_fac_id = "solo_";
+    new_fac_id += p.name;
+    // create a new "lone wolf" faction for this one NPC
+    faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( p.name,
+                            faction_id( new_fac_id ), faction_id( "no_faction" ) );
+    p.set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
+    if( new_solo_fac ) {
+        new_solo_fac->known_by_u = true;
+    }
     p.set_attitude( NPCATT_NULL );
 }
 
@@ -746,13 +801,11 @@ void talk_function::stranger_neutral( npc &p )
 void talk_function::drop_stolen_item( npc &p )
 {
     for( auto &elem : g->u.inv_dump() ) {
-        if( elem->get_old_owner() ) {
-            if( elem->get_old_owner() == p.get_faction() ) {
-                item to_drop = g->u.i_rem( elem );
-                to_drop.remove_old_owner();
-                to_drop.set_owner( p.get_faction() );
-                g->m.add_item_or_charges( g->u.pos(), to_drop );
-            }
+        if( elem->is_old_owner( p ) ) {
+            item to_drop = g->u.i_rem( elem );
+            to_drop.remove_old_owner();
+            to_drop.set_owner( p );
+            g->m.add_item_or_charges( g->u.pos(), to_drop );
         }
     }
     if( p.known_stolen_item ) {

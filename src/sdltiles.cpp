@@ -22,6 +22,7 @@
 #include <type_traits>
 #include <tuple>
 
+#include "platform_win.h"
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #   include <SDL2/SDL_image.h>
 #   include <SDL2/SDL_syswm.h>
@@ -380,7 +381,12 @@ static void WinCreate()
     SDL_GL_SetAttribute( SDL_GL_BLUE_SIZE, 5 );
 
     // Prevent mouse|touch input confusion
+#if defined(SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH)
     SDL_SetHint( SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH, "1" );
+#else
+    SDL_SetHint( SDL_HINT_MOUSE_TOUCH_EVENTS, "0" );
+    SDL_SetHint( SDL_HINT_TOUCH_MOUSE_EVENTS, "0" );
+#endif
 #endif
 
     ::window.reset( SDL_CreateWindow( version.c_str(),

@@ -325,6 +325,30 @@
     "valid": false
   },
   {
+    "type": "mutation",
+    "id": "SAVINGS",
+    "name": "Savings",
+    "points": 1,
+    "description": "You had some money stashed at the bank for a rainy day.  Now that the storm is raging, it's a last call to use it maybe?",
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "DEBT",
+    "name": "Debt",
+    "points": -1,
+    "description": "You needed money and had a big loan in a bank.  Good thing nobody will come to collect it now, right?  Right?",
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "MILLIONAIRE",
+    "name": "Millionaire",
+    "points": 3,
+    "description": "At the time of Cataclysm you were an owner of a fortune stashed in a bank.  Does that have any meaning now?",
+    "valid": false
+  },
+  {
     "id": "metal_wheel",
     "type": "vehicle_part",
     "name": "metal wheel",
@@ -346,5 +370,41 @@
     },
     "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
     "damage_reduction": { "all": 66 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "plating_bone",
+    "name": "bone plating",
+    "symbol": ")",
+    "color": "white",
+    "broken_symbol": ")",
+    "broken_color": "light_gray",
+    "durability": 120,
+    "item": "bone_plate",
+    "difficulty": 2,
+    "location": "armor",
+    "flags": [ "ARMOR" ],
+    "breaks_into": [ { "item": "bone_tainted", "count": [ 10, 30 ] } ],
+    "damage_reduction": { "all": 18 }
+  },
+  {
+    "id": "washcloth",
+    "type": "TOOL",
+    "name": "washcloth",
+    "description": "A piece of cloth that can be used for cleaning impervious surfaces.",
+    "weight": "80 g",
+    "volume": "250 ml",
+    "price": 0,
+    "material": "cotton",
+    "symbol": ",",
+    "color": "white",
+    "use_action": "WASH_HARD_ITEMS"
+  },
+  {
+    "id": "fault_gun_clogged",
+    "type": "fault",
+    "name": "Dusty",
+    "description": "It's dusty. Has no effect - obsolete fault.",
+    "time": "1 s"
   }
 ]

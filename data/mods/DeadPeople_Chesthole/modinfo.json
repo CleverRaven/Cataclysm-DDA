@@ -6,6 +6,7 @@
     "authors": [ "SomeDeadGuy" ],
     "description": "Changes interface indicators to Chesthole version.",
     "category": "graphical",
+    "obsolete": true,
     "dependencies": [ "dda" ]
   }
 ]

@@ -19,6 +19,7 @@
     "ranged_damage": -1,
     "dispersion": 620,
     "durability": 3,
+    "blackpowder_tolerance": 60,
     "clip_size": 2,
     "reload": 200,
     "valid_mod_locations": [
@@ -29,6 +30,7 @@
       [ "rail mount", 1 ],
       [ "stock mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ]
   },
   {
@@ -48,6 +50,7 @@
     "range": 3,
     "dispersion": 520,
     "durability": 6,
+    "blackpowder_tolerance": 96,
     "clip_size": 4,
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -59,6 +62,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -80,6 +84,7 @@
     "ranged_damage": 1,
     "dispersion": 550,
     "durability": 6,
+    "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
@@ -94,6 +99,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ]
   },
   {
@@ -115,6 +121,7 @@
     "ranged_damage": -2,
     "dispersion": 480,
     "durability": 10,
+    "blackpowder_tolerance": 56,
     "clip_size": 5,
     "magazines": [ [ "38", [ "38_speedloader5" ] ] ],
     "valid_mod_locations": [
@@ -147,6 +154,7 @@
     "ammo": [ "357mag", "38" ],
     "dispersion": 320,
     "durability": 10,
+    "blackpowder_tolerance": 56,
     "clip_size": 7,
     "magazines": [ [ "38", [ "38_speedloader" ] ] ],
     "valid_mod_locations": [
@@ -180,6 +188,7 @@
     "skill": "pistol",
     "dispersion": 480,
     "durability": 7,
+    "min_cycle_recoil": 225,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -193,6 +202,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "38", [ "taurus38mag" ] ] ]
   }

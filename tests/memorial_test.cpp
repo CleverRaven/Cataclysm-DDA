@@ -176,7 +176,7 @@ TEST_CASE( "memorials" )
         m, b, u_name + " was killed.\nLast words: last_words", false, "last_words" );
 
     check_memorial<event_type::game_start>(
-        m, b, u_name + " began their journey into the Cataclysm." );
+        m, b, u_name + " began their journey into the Cataclysm.", ch );
 
     check_memorial<event_type::installs_cbm>(
         m, b, "Installed bionic: Alarm System.", ch, cbm );
@@ -201,6 +201,9 @@ TEST_CASE( "memorials" )
 
     check_memorial<event_type::opens_temple>(
         m, b, "Opened a strange temple." );
+
+    check_memorial<event_type::player_levels_spell>(
+        m, b, "Gained a spell level on Pain.", spell_id( "pain_damage" ), 5 );
 
     check_memorial<event_type::releases_subspace_specimens>(
         m, b, "Released subspace specimens." );

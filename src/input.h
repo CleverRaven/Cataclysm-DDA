@@ -574,6 +574,15 @@ class input_context
         } ) const;
 
         /**
+         * Equivalent to get_desc( act, get_action_name( act ), filter )
+         **/
+        std::string describe_key_and_name( const std::string &action_descriptor,
+                                           std::function<bool( const input_event & )> evt_filter =
+        []( const input_event & ) {
+            return true;
+        } ) const;
+
+        /**
          * Handles input and returns the next action in the queue.
          *
          * This internally calls getch() or whatever other input method

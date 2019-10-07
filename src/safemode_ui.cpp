@@ -95,14 +95,16 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
     wrefresh( w_border );
 
     static const std::vector<std::string> hotkeys = {{
-            _( "<A>dd" ), _( "<R>emove" ), _( "<C>opy" ), _( "<M>ove" ),
-            _( "<E>nable" ), _( "<D>isable" ), _( "<T>est" )
+            translate_marker( "<A>dd" ), translate_marker( "<R>emove" ),
+            translate_marker( "<C>opy" ), translate_marker( "<M>ove" ),
+            translate_marker( "<E>nable" ), translate_marker( "<D>isable" ),
+            translate_marker( "<T>est" )
         }
     };
 
     int tmpx = 0;
     for( auto &hotkey : hotkeys ) {
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, hotkey ) + 2;
+        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( hotkey ) ) + 2;
     }
 
     tmpx = 0;
@@ -221,7 +223,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 };
 
                 draw_column( COLUMN_RULE, ( rule.rule.empty() ) ? _( "<empty rule>" ) : rule.rule );
-                draw_column( COLUMN_ATTITUDE, Creature::get_attitude_ui_data( rule.attitude ).first );
+                draw_column( COLUMN_ATTITUDE, Creature::get_attitude_ui_data( rule.attitude ).first.translated() );
                 draw_column( COLUMN_PROXIMITY, ( !rule.whitelist ) ? to_string( rule.proximity ) : "---" );
                 draw_column( COLUMN_WHITE_BLACKLIST, ( rule.whitelist ) ? _( "Whitelist" ) : _( "Blacklist" ) );
             }
@@ -290,7 +292,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
                 //remove old
                 temp_rules_from.erase( temp_rules_from.begin() + line );
-                line = temp_rules_from.size() - 1;
+                line = temp_rules_to.size() - 1;
                 tab = ( tab == GLOBAL_TAB ) ? CHARACTER_TAB : GLOBAL_TAB;
             }
         } else if( action == "CONFIRM" && !current_tab.empty() ) {

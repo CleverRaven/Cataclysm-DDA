@@ -790,8 +790,9 @@ std::string input_context::get_desc( const std::string &action_descriptor,
                                      const std::function<bool( const input_event & )> evt_filter ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
+        // \u00A0 is the non-breaking space
         //~ keybinding description for anykey
-        return string_format( pgettext( "keybinding", "[any] %s" ), text );
+        return string_format( pgettext( "keybinding", "[any]\u00A0%s" ), text );
     }
 
     const auto &events = inp_mngr.get_input_for_action( action_descriptor, category );
@@ -816,12 +817,18 @@ std::string input_context::get_desc( const std::string &action_descriptor,
 
     if( na ) {
         //~ keybinding description for unbound or disabled keys
-        return string_format( pgettext( "keybinding", "[n/a] %s" ), text );
+        return string_format( pgettext( "keybinding", "[n/a]\u00A0%s" ), text );
     } else {
         //~ keybinding description for bound keys
-        return string_format( pgettext( "keybinding", "[%s] %s" ),
+        return string_format( pgettext( "keybinding", "[%s]\u00A0%s" ),
                               get_desc( action_descriptor, 1, evt_filter ), text );
     }
+}
+
+std::string input_context::describe_key_and_name( const std::string &action_descriptor,
+        const std::function<bool( const input_event & )> evt_filter ) const
+{
+    return get_desc( action_descriptor, get_action_name( action_descriptor ), evt_filter );
 }
 
 const std::string &input_context::handle_input()
@@ -1025,13 +1032,9 @@ void input_context::display_menu()
     const size_t legwidth = width - 4 - BORDER_SPACE;
     // keybindings help
     std::ostringstream legend;
-    legend << "<color_" << string_from_color( unbound_key ) << ">" << _( "Unbound keys" ) <<
-           "</color>\n";
-    legend << "<color_" << string_from_color( local_key ) << ">" <<
-           _( "Keybinding active only on this screen" ) << "</color>\n";
-    legend << "<color_" << string_from_color( global_key ) << ">" << _( "Keybinding active globally" )
-           <<
-           "</color>\n";
+    legend << colorize( _( "Unbound keys" ), unbound_key ) << "\n";
+    legend << colorize( _( "Keybinding active only on this screen" ), local_key ) << "\n";
+    legend << colorize( _( "Keybinding active globally" ), global_key ) << "\n";
     legend << _( "Press - to remove keybinding\nPress + to add local keybinding\nPress = to add global keybinding\n" );
 
     std::vector<std::string> filtered_registered_actions = org_registered_actions;

@@ -131,6 +131,7 @@ advanced_inventory::~advanced_inventory()
         werase( left_window );
         werase( right_window );
         g->refresh_all();
+        g->u.check_item_encumbrance_flag();
     }
 }
 
@@ -352,12 +353,9 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         std::string item_name;
         std::string stolen_string;
         bool stolen = false;
-        if( it.has_owner() ) {
-            const faction *item_fac = it.get_owner();
-            if( item_fac != g->u.get_faction() ) {
-                stolen_string = "<color_light_red>!</color>";
-                stolen = true;
-            }
+        if( !it.is_owned_by( g->u, true ) ) {
+            stolen_string = "<color_light_red>!</color>";
+            stolen = true;
         }
         if( it.is_money() ) {
             //Count charges
@@ -1146,7 +1144,7 @@ void advanced_inventory::redraw_pane( side p )
     const int max_page = ( pane.items.size() + itemsPerPage - 1 ) / itemsPerPage;
     if( active && max_page > 1 ) {
         const int page = pane.index / itemsPerPage;
-        mvwprintz( w, point( 2, 4 ), c_light_blue, _( "[<] page %d of %d [>]" ), page + 1, max_page );
+        mvwprintz( w, point( 2, 4 ), c_light_blue, _( "[<] page %1$d of %2$d [>]" ), page + 1, max_page );
     }
 
     if( active ) {
@@ -2549,7 +2547,8 @@ void advanced_inventory::swap_panes()
     std::swap( panes[left], panes[right] );
     // Window pointer must be unchanged!
     std::swap( panes[left].window, panes[right].window );
-    // No recalculation needed, data has not changed
+    // Recalculation required for weight & volume
+    recalc = true;
     redraw = true;
 }
 

@@ -19,6 +19,7 @@
     "ranged_damage": 2,
     "dispersion": 120,
     "durability": 8,
+    "min_cycle_recoil": 270,
     "barrel_length": 2,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 15 ] ],
     "valid_mod_locations": [
@@ -34,6 +35,7 @@
       [ "underbarrel", 1 ],
       [ "rail mount", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "762x25", [ "ppshmag", "ppshdrum" ] ] ]
   },
   {
@@ -53,6 +55,7 @@
     "ammo": "762x25",
     "dispersion": 225,
     "durability": 7,
+    "min_cycle_recoil": 270,
     "magazine_well": 1,
     "magazines": [ [ "762x25", [ "tokarevmag" ] ] ]
   }

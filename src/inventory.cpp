@@ -391,13 +391,15 @@ static int count_charges_in_list( const itype *type, const map_stack &items )
     return 0;
 }
 
-void inventory::form_from_map( const tripoint &origin, int range, bool assign_invlet,
+void inventory::form_from_map( const tripoint &origin, int range, const player *pl,
+                               bool assign_invlet,
                                bool clear_path )
 {
-    form_from_map( g->m, origin, range, assign_invlet, clear_path );
+    form_from_map( g->m, origin, range, pl, assign_invlet, clear_path );
 }
 
-void inventory::form_from_map( map &m, const tripoint &origin, int range, bool assign_invlet,
+void inventory::form_from_map( map &m, const tripoint &origin, int range, const player *pl,
+                               bool assign_invlet,
                                bool clear_path )
 {
     // populate a grid of spots that can be reached
@@ -428,6 +430,11 @@ void inventory::form_from_map( map &m, const tripoint &origin, int range, bool a
         }
         if( m.accessible_items( p ) ) {
             for( auto &i : m.i_at( p ) ) {
+                // if its *the* player requesting this from from map inventory
+                // then dont allow items owned by another faction to be factored into recipe components etc.
+                if( pl && !i.is_owned_by( *pl, true ) ) {
+                    continue;
+                }
                 if( !i.made_of( LIQUID ) ) {
                     add_item( i, false, assign_invlet );
                 }
@@ -975,6 +982,21 @@ std::vector<item *> inventory::active_items()
         }
     }
     return ret;
+}
+
+enchantment inventory::get_active_enchantment_cache( const Character &owner ) const
+{
+    enchantment temp_cache;
+    for( const std::list<item> &elem : items ) {
+        for( const item &check_item : elem ) {
+            for( const enchantment &ench : check_item.get_enchantments() ) {
+                if( ench.is_active( owner, check_item ) ) {
+                    temp_cache.force_add( ench );
+                }
+            }
+        }
+    }
+    return temp_cache;
 }
 
 void inventory::assign_empty_invlet( item &it, const Character &p, const bool force )

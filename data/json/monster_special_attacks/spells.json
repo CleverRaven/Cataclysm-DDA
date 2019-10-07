@@ -30,6 +30,36 @@
     "effect_str": "STAMINA"
   },
   {
+    "id": "stamina_damage_mi-go_slaver_beam",
+    "type": "SPELL",
+    "name": "Tired",
+    "description": "decreases stamina.  Designed for mi-go slaver beam",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT" ],
+    "//": "Listed as a recover energy effect with a negative modifier that decreases with each level of the spell, which makes it cause damage instead.",
+    "min_damage": -500,
+    "max_damage": -5500,
+    "damage_increment": -500,
+    "max_level": 10,
+    "effect": "recover_energy",
+    "effect_str": "STAMINA"
+  },
+  {
+    "id": "pain_damage_mi-go_slaver_beam",
+    "type": "SPELL",
+    "name": "Pain",
+    "description": "Increases pain.  Designed for mi-go slaver beam",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT" ],
+    "//": "Listed as a recover energy effect with a negative modifier that decreases with each level of the spell, which makes it cause damage instead.",
+    "min_damage": -8,
+    "max_damage": -148,
+    "damage_increment": -14,
+    "max_level": 10,
+    "effect": "recover_energy",
+    "effect_str": "PAIN"
+  },
+  {
     "id": "mi-go_slaver_beam",
     "type": "SPELL",
     "name": "mi-go slaver beam",
@@ -37,15 +67,15 @@
     "valid_targets": [ "hostile" ],
     "effect": "projectile_attack",
     "effect_str": "dazed",
-    "extra_effects": [ { "id": "pain_damage" }, { "id": "stamina_damage" } ],
+    "extra_effects": [ { "id": "pain_damage_mi-go_slaver_beam" }, { "id": "stamina_damage_mi-go_slaver_beam" } ],
     "base_casting_time": 100,
     "max_level": 5,
     "min_range": 1,
     "max_range": 25,
     "range_increment": 5,
-    "min_duration": 1000,
-    "max_duration": 10000,
-    "duration_increment": 2000
+    "min_duration": 100,
+    "max_duration": 1000,
+    "duration_increment": 200
   },
   {
     "type": "SPELL",

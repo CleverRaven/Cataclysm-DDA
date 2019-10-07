@@ -70,9 +70,8 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
         } else if( id[0] != '#' ) {
             const action_id act = look_up_action( id );
             if( act == ACTION_NULL ) {
-                debugmsg( "\
-Warning! keymap.txt contains an unknown action, \"%s\"\n\
-Fix \"%s\" at your next chance!", id, FILENAMES["keymap"] );
+                debugmsg( "Warning! keymap.txt contains an unknown action, \"%s\"\n"
+                          "Fix \"%s\" at your next chance!", id, FILENAMES["keymap"] );
             } else {
                 while( !keymap_txt.eof() ) {
                     char ch;
@@ -81,10 +80,9 @@ Fix \"%s\" at your next chance!", id, FILENAMES["keymap"] );
                         break;
                     } else if( ch != ' ' || keymap_txt.peek() == '\n' ) {
                         if( kmap.find( ch ) != kmap.end() ) {
-                            debugmsg( "\
-Warning!  '%c' assigned twice in the keymap!\n\
-%s is being ignored.\n\
-Fix \"%s\" at your next chance!", ch, id, FILENAMES["keymap"] );
+                            debugmsg( "Warning!  '%c' assigned twice in the keymap!\n"
+                                      "%s is being ignored.\n"
+                                      "Fix \"%s\" at your next chance!", ch, id, FILENAMES["keymap"] );
                         } else {
                             kmap[ ch ] = act;
                         }
@@ -298,8 +296,8 @@ std::string action_ident( action_id act )
             return "missions";
         case ACTION_FACTIONS:
             return "factions";
-        case ACTION_KILLS:
-            return "kills";
+        case ACTION_SCORES:
+            return "scores";
         case ACTION_MORALE:
             return "morale";
         case ACTION_MESSAGES:
@@ -403,7 +401,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_MAP:
         case ACTION_SKY:
         case ACTION_MISSIONS:
-        case ACTION_KILLS:
+        case ACTION_SCORES:
         case ACTION_FACTIONS:
         case ACTION_MORALE:
         case ACTION_MESSAGES:
@@ -492,27 +490,27 @@ std::string press_x( action_id act, const std::string &key_bound_pre,
     return ctxt.press_x( action_ident( act ), key_bound_pre, key_bound_suf, key_unbound );
 }
 
-action_id get_movement_direction_from_delta( const int dx, const int dy, const int dz )
+action_id get_movement_direction_from_delta( const tripoint &d )
 {
-    if( dz == -1 ) {
+    if( d.z == -1 ) {
         return ACTION_MOVE_DOWN;
-    } else if( dz == 1 ) {
+    } else if( d.z == 1 ) {
         return ACTION_MOVE_UP;
     }
 
-    if( dx == 0 && dy == -1 ) {
+    if( d.xy() == point_north ) {
         return ACTION_MOVE_N;
-    } else if( dx == 1 && dy == -1 ) {
+    } else if( d.xy() == point_north_east ) {
         return ACTION_MOVE_NE;
-    } else if( dx == 1 && dy == 0 ) {
+    } else if( d.xy() == point_east ) {
         return ACTION_MOVE_E;
-    } else if( dx == 1 && dy == 1 ) {
+    } else if( d.xy() == point_south_east ) {
         return ACTION_MOVE_SE;
-    } else if( dx == 0 && dy == 1 ) {
+    } else if( d.xy() == point_south ) {
         return ACTION_MOVE_S;
-    } else if( dx == -1 && dy == 1 ) {
+    } else if( d.xy() == point_south_west ) {
         return ACTION_MOVE_SW;
-    } else if( dx == -1 && dy == 0 ) {
+    } else if( d.xy() == point_west ) {
         return ACTION_MOVE_W;
     } else {
         return ACTION_MOVE_NW;
@@ -868,7 +866,7 @@ action_id handle_action_menu()
         } else if( category == _( "Info" ) ) {
             REGISTER_ACTION( ACTION_PL_INFO );
             REGISTER_ACTION( ACTION_MISSIONS );
-            REGISTER_ACTION( ACTION_KILLS );
+            REGISTER_ACTION( ACTION_SCORES );
             REGISTER_ACTION( ACTION_FACTIONS );
             REGISTER_ACTION( ACTION_MORALE );
             REGISTER_ACTION( ACTION_MESSAGES );
@@ -897,7 +895,7 @@ action_id handle_action_menu()
 
         std::string title = _( "Actions" );
         if( category != "back" ) {
-            catgname = _( category );
+            catgname = category;
             capitalize_letter( catgname, 0 );
             title += ": " + catgname;
         }

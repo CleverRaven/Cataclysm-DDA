@@ -75,8 +75,11 @@ bool string_id<profession>::is_valid() const
 }
 
 profession::profession()
-    : _name_male( "null" ), _name_female( "null" ),
-      _description_male( "null" ), _description_female( "null" ), _point_cost( 0 )
+    : _name_male( no_translation( "null" ) ),
+      _name_female( no_translation( "null" ) ),
+      _description_male( no_translation( "null" ) ),
+      _description_female( no_translation( "null" ) ),
+      _point_cost( 0 )
 {
 }
 
@@ -146,14 +149,17 @@ void profession::load( JsonObject &jo, const std::string & )
     //If the "name" is an object then we have to deal with gender-specific titles,
     if( jo.has_object( "name" ) ) {
         JsonObject name_obj = jo.get_object( "name" );
-        _name_male = pgettext( "profession_male", name_obj.get_string( "male" ).c_str() );
-        _name_female = pgettext( "profession_female", name_obj.get_string( "female" ).c_str() );
+        // Specifying translation context here to avoid adding unnecessary json code for every profession
+        // NOLINTNEXTLINE(cata-json-translation-input)
+        _name_male = to_translation( "profession_male", name_obj.get_string( "male" ) );
+        // NOLINTNEXTLINE(cata-json-translation-input)
+        _name_female = to_translation( "profession_female", name_obj.get_string( "female" ) );
     } else if( jo.has_string( "name" ) ) {
         // Same profession names for male and female in English.
         // Still need to different names in other languages.
         const std::string name = jo.get_string( "name" );
-        _name_female = pgettext( "profession_female", name.c_str() );
-        _name_male = pgettext( "profession_male", name.c_str() );
+        _name_female = to_translation( "profession_female", name );
+        _name_male = to_translation( "profession_male", name );
     } else if( !was_loaded ) {
         jo.throw_error( "missing mandatory member \"name\"" );
     }
@@ -161,8 +167,8 @@ void profession::load( JsonObject &jo, const std::string & )
     if( !was_loaded || jo.has_member( "description" ) ) {
         const std::string desc = jo.get_string( "description" );
         // These also may differ depending on the language settings!
-        _description_male = pgettext( "prof_desc_male", desc.c_str() );
-        _description_female = pgettext( "prof_desc_female", desc.c_str() );
+        _description_male = to_translation( "prof_desc_male", desc );
+        _description_female = to_translation( "prof_desc_female", desc );
     }
     if( jo.has_array( "pets" ) ) {
         JsonArray array = jo.get_array( "pets" );
@@ -322,18 +328,18 @@ const string_id<profession> &profession::ident() const
 std::string profession::gender_appropriate_name( bool male ) const
 {
     if( male ) {
-        return _name_male;
+        return _name_male.translated();
     } else {
-        return _name_female;
+        return _name_female.translated();
     }
 }
 
 std::string profession::description( bool male ) const
 {
     if( male ) {
-        return _description_male;
+        return _description_male.translated();
     } else {
-        return _description_female;
+        return _description_female.translated();
     }
 }
 

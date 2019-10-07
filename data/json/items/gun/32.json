@@ -18,6 +18,7 @@
     "skill": "pistol",
     "dispersion": 480,
     "durability": 8,
+    "min_cycle_recoil": 135,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -31,6 +32,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "32", [ "sigp230mag" ] ] ]
   },
@@ -53,6 +55,7 @@
     "skill": "smg",
     "dispersion": 360,
     "durability": 6,
+    "min_cycle_recoil": 135,
     "burst": 14,
     "built_in_mods": [ "folding_stock" ],
     "valid_mod_locations": [
@@ -69,6 +72,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "32", [ "skorpion61mag" ] ] ]
   },
   {
@@ -90,6 +94,7 @@
     "skill": "pistol",
     "dispersion": 480,
     "durability": 8,
+    "min_cycle_recoil": 135,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -103,6 +108,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "32", [ "ppkmag" ] ] ]
   },
@@ -122,6 +128,7 @@
     "ammo": "32",
     "dispersion": 480,
     "durability": 8,
+    "min_cycle_recoil": 135,
     "magazines": [ [ "32", [ "kp32mag" ] ] ]
   }
 ]

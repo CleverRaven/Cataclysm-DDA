@@ -19,5 +19,35 @@
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 0, 2 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "black_dragon_lair",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "black_dragon_lair_z-0_NW_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "black_dragon_lair_z-0_NE_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "black_dragon_lair_z-0_SW_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "black_dragon_lair_z-0_SE_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "black_dragon_lair_z-1_NW_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "black_dragon_lair_z-1_NE_north" },
+      { "point": [ 0, 1, -1 ], "overmap": "black_dragon_lair_z-1_SW_north" },
+      { "point": [ 1, 1, -1 ], "overmap": "black_dragon_lair_z-1_SE_north" },
+      { "point": [ 0, 0, -2 ], "overmap": "black_dragon_lair_z-2_NW_north" },
+      { "point": [ 1, 0, -2 ], "overmap": "black_dragon_lair_z-2_NE_north" },
+      { "point": [ 0, 1, -2 ], "overmap": "black_dragon_lair_z-2_SW_north" },
+      { "point": [ 1, 1, -2 ], "overmap": "black_dragon_lair_z-2_SE_north" },
+      { "point": [ 0, 0, -3 ], "overmap": "black_dragon_lair_z-3_NW_north" },
+      { "point": [ 1, 0, -3 ], "overmap": "black_dragon_lair_z-3_NE_north" },
+      { "point": [ 0, 1, -3 ], "overmap": "black_dragon_lair_z-3_SW_north" },
+      { "point": [ 1, 1, -3 ], "overmap": "black_dragon_lair_z-3_SE_north" },
+      { "point": [ 0, 0, -4 ], "overmap": "black_dragon_lair_z-4_NW_north" },
+      { "point": [ 1, 0, -4 ], "overmap": "black_dragon_lair_z-4_NE_north" },
+      { "point": [ 0, 1, -4 ], "overmap": "black_dragon_lair_z-4_SW_north" },
+      { "point": [ 1, 1, -4 ], "overmap": "black_dragon_lair_z-4_SE_north" }
+    ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 0 ]
   }
 ]

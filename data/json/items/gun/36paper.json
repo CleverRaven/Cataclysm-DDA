@@ -1,7 +1,7 @@
 [
   {
     "id": "colt_navy",
-    "copy-from": "pistol_revolver",
+    "copy-from": "pistol_revolver_cap_ball",
     "type": "GUN",
     "name": "Colt M1861 Navy",
     "name_plural": "Colt M1861 Navy",
@@ -15,6 +15,7 @@
     "ammo": "36paper",
     "dispersion": 450,
     "durability": 7,
+    "blackpowder_tolerance": 96,
     "clip_size": 6,
     "proportional": { "reload": 2 }
   }

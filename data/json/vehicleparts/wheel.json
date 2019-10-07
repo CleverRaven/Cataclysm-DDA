@@ -32,7 +32,7 @@
   {
     "type": "vehicle_part",
     "id": "wheel_mount_medium",
-    "name": "hub assembly",
+    "name": "wheel hub assembly",
     "symbol": "-",
     "color": "light_gray",
     "location": "axle",
@@ -64,13 +64,13 @@
     "id": "wheel_mount_medium_steerable",
     "copy-from": "wheel_mount_medium",
     "type": "vehicle_part",
-    "name": "hub assembly (steerable)",
+    "name": "wheel hub assembly (steerable)",
     "extend": { "flags": [ "STEERABLE" ] }
   },
   {
     "type": "vehicle_part",
     "id": "wheel_mount_heavy",
-    "name": "heavy hub assembly",
+    "name": "heavy wheel hub assembly",
     "symbol": "-",
     "color": "light_gray",
     "location": "axle",
@@ -102,7 +102,7 @@
     "id": "wheel_mount_heavy_steerable",
     "copy-from": "wheel_mount_heavy",
     "type": "vehicle_part",
-    "name": "heavy hub assembly (steerable)",
+    "name": "heavy wheel hub assembly (steerable)",
     "extend": { "flags": [ "STEERABLE" ] }
   },
   {
@@ -281,7 +281,7 @@
     "type": "vehicle_part",
     "name": "off-road bicycle wheel",
     "item": "wheel_bicycle_or",
-    "wheel_area": 36,
+    "contact_area": 36,
     "wheel_type": "off-road"
   },
   {

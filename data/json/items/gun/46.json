@@ -17,6 +17,7 @@
     "skill": "smg",
     "dispersion": 260,
     "durability": 8,
+    "min_cycle_recoil": 81,
     "burst": 16,
     "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
@@ -32,6 +33,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "46", [ "hk46mag", "hk46bigmag" ] ] ]
   }
