@@ -5131,7 +5131,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
                     if( minutes_left > 60 ) {
                         pop << string_format( ngettext( "It will finish milling in about %d hour.",
                                                         "It will finish milling in about %d hours.",
-                                                        hours_left ), hours_left ) << "\n \n ";
+                                                        hours_left ), hours_left ) << "\n\n ";
                     } else if( minutes_left > 30 ) {
                         pop << _( "It will finish milling in less than an hour." );
                     } else {
@@ -5141,7 +5141,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
             } else {
                 pop << "<color_green>" << _( "There's a mill here." ) << "</color>" << "\n";
             }
-            pop << "<color_green>" << _( "You inspect its contents and find: " ) << "</color>" << "\n \n ";
+            pop << "<color_green>" << _( "You inspect its contents and find: " ) << "</color>" << "\n\n ";
             if( items_here.empty() ) {
                 pop << _( "... that it is empty." );
             } else {
@@ -5335,7 +5335,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                     if( minutes_left > 60 ) {
                         pop << string_format( ngettext( "It will finish smoking in about %d hour.",
                                                         "It will finish smoking in about %d hours.",
-                                                        hours_left ), hours_left ) << "\n \n ";
+                                                        hours_left ), hours_left ) << "\n\n ";
                     } else if( minutes_left > 30 ) {
                         pop << _( "It will finish smoking in less than an hour." ) << "\n ";
                     } else {
@@ -5346,7 +5346,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             } else {
                 pop << "<color_green>" << _( "There's a smoking rack here." ) << "</color>" << "\n";
             }
-            pop << "<color_green>" << _( "You inspect its contents and find: " ) << "</color>" << "\n \n ";
+            pop << "<color_green>" << _( "You inspect its contents and find: " ) << "</color>" << "\n\n ";
             if( items_here.empty() ) {
                 pop << _( "... that it is empty." );
             } else {

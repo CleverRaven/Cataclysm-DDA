@@ -410,7 +410,7 @@ static bool update_time_left( std::string &entry, const comp_list &npc_list )
                     _( " left]\n" );
         }
     }
-    entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+    entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
     return avail;
 }
 
@@ -424,7 +424,7 @@ static bool update_time_fixed( std::string &entry, const comp_list &npc_list,
                 to_string( duration ) + "]\n";
         avail |= elapsed >= duration;
     }
-    entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+    entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
     return avail;
 }
 
@@ -508,7 +508,7 @@ void talk_function::start_camp( npc &p )
         }
     }
     bool display = false;
-    std::string buffer = _( "Warning, you have selected a region with the following issues:\n \n" );
+    std::string buffer = _( "Warning, you have selected a region with the following issues:\n\n" );
     if( forests < 3 ) {
         display = true;
         buffer += _( "There are few forests.  Wood is your primary construction material.\n" );
@@ -668,7 +668,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_gathering" ];
         entry = string_format( _( "Notes: \n"
                                   "Send a companion to gather materials for the next camp "
-                                  "upgrade.\n \n"
+                                  "upgrade.\n\n"
                                   "Skill used: survival\n"
                                   "Difficulty: N/A \n"
                                   "Gathering Possibilities:\n"
@@ -694,20 +694,20 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                       "create them using the zone manager.\n"
                                       "Effects:\n"
                                       "> Increases your faction's food supply value which in turn is "
-                                      "used to pay laborers for their time\n \n"
+                                      "used to pay laborers for their time\n\n"
                                       "Must have enjoyability >= -6\n"
                                       "Perishable food liquidated at penalty depending on upgrades "
                                       "and rot time:\n"
                                       "> Rotten: 0%%\n"
                                       "> Rots in < 2 days: 60%%\n"
-                                      "> Rots in < 5 days: 80%%\n \n"
+                                      "> Rots in < 5 days: 80%%\n\n"
                                       "Total faction food stock: %d kcal\nor %d day's rations" ),
                                    camp_food_supply(), camp_food_supply( 0, true ) );
             mission_key.add( "Distribute Food", _( "Distribute Food" ), entry );
 
             entry = string_format( _( "Notes:\n"
                                       "Reset the zones that items are sorted to using the [ Menial "
-                                      "Labor ] mission.\n \n"
+                                      "Labor ] mission.\n\n"
                                       "Effects:\n"
                                       "> Assign sort zones using the zone manager.  You must have a "
                                       "camp food zone, an unsorted loot zone, and at least one loot "
@@ -724,13 +724,13 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         comp_list npc_list = get_mission_workers( "_faction_camp_firewood" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_firewood" ];
         entry = string_format( _( "Notes:\n"
-                                  "Send a companion to gather light brush and heavy sticks.\n \n"
+                                  "Send a companion to gather light brush and heavy sticks.\n\n"
                                   "Skill used: survival\n"
                                   "Difficulty: N/A \n"
                                   "Gathering Possibilities:\n"
                                   "> heavy sticks\n"
                                   "> withered plants\n"
-                                  "> splintered wood\n \n"
+                                  "> splintered wood\n\n"
                                   "Risk: Very Low\n"
                                   "Time: 3 Hours, Repeated\n"
                                   "Positions: %d/3\n" ), npc_list.size() );
@@ -750,7 +750,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_menial" ];
             entry = string_format( _( "Notes:\n"
                                       "Send a companion to do low level chores and sort "
-                                      "supplies.\n \n"
+                                      "supplies.\n\n"
                                       "Skill used: fabrication\n"
                                       "Difficulty: N/A \n"
                                       "Effects:\n"
@@ -777,7 +777,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                   "Your base has become large enough to support an expansion. "
                                   "Expansions open up new opportunities but can be expensive and "
                                   "time consuming.  Pick them carefully, only 8 can be built at "
-                                  "each camp.\n \n"
+                                  "each camp.\n\n"
                                   "Skill used: N/A \n"
                                   "Effects:\n"
                                   "> Choose any one of the available expansions.  Starting with a "
@@ -785,9 +785,9 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                   "companion missions and little is needed to get it going.  "
                                   "With minimal investment, a mechanic can be useful as a "
                                   "chop-shop to rapidly dismantle large vehicles, and a forge "
-                                  "provides the resources to make charcoal.  \n \n"
+                                  "provides the resources to make charcoal.  \n\n"
                                   "NOTE: Actions available through expansions are located in "
-                                  "separate tabs of the Camp Manager window.  \n \n"
+                                  "separate tabs of the Camp Manager window.  \n\n"
                                   "Risk: None\n"
                                   "Time: 3 Hours \n"
                                   "Positions: %d/1\n" ), npc_list.size() );
@@ -805,7 +805,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         comp_list npc_list = get_mission_workers( "_faction_camp_cut_log" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_cut_log" ];
         entry = string_format( _( "Notes:\n"
-                                  "Send a companion to a nearby forest to cut logs.\n \n"
+                                  "Send a companion to a nearby forest to cut logs.\n\n"
                                   "Skill used: fabrication\n"
                                   "Difficulty: 1 \n"
                                   "Effects:\n"
@@ -830,7 +830,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         comp_list npc_list = get_mission_workers( "_faction_camp_clearcut" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_clearcut" ];
         entry = string_format( _( "Notes:\n"
-                                  "Send a companion to a clear a nearby forest.\n \n"
+                                  "Send a companion to a clear a nearby forest.\n\n"
                                   "Skill used: fabrication\n"
                                   "Difficulty: 1 \n"
                                   "Effects:\n"
@@ -838,7 +838,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                   " will be cut down.\n"
                                   "> 0%% of total material will be brought back.\n"
                                   "> Forest should become a field tile.\n"
-                                  "> Useful for clearing land for another faction camp.\n \n"
+                                  "> Useful for clearing land for another faction camp.\n\n"
                                   "Risk: None\n"
                                   "Time: 6 Hour Base + Travel Time + Cutting Time\n"
                                   "Positions: %d/1\n" ), npc_list.size() );
@@ -857,13 +857,13 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_hide_site" ];
         entry = string_format( _( "Notes:\n"
                                   "Send a companion to build an improvised shelter and stock it "
-                                  "with equipment at a distant map location.\n \n"
+                                  "with equipment at a distant map location.\n\n"
                                   "Skill used: survival\n"
                                   "Difficulty: 3\n"
                                   "Effects:\n"
                                   "> Good for setting up resupply or contingency points.\n"
                                   "> Gear is left unattended and could be stolen.\n"
-                                  "> Time dependent on weight of equipment being sent forward.\n \n"
+                                  "> Time dependent on weight of equipment being sent forward.\n\n"
                                   "Risk: Medium\n"
                                   "Time: 6 Hour Construction + Travel\n"
                                   "Positions: %d/1\n" ), npc_list.size() );
@@ -881,7 +881,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         comp_list npc_list = get_mission_workers( "_faction_camp_hide_trans" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_hide_trans" ];
         entry = string_format( _( "Notes:\n"
-                                  "Push gear out to a hide site or bring gear back from one.\n \n"
+                                  "Push gear out to a hide site or bring gear back from one.\n\n"
                                   "Skill used: survival\n"
                                   "Difficulty: 1\n"
                                   "Effects:\n"
@@ -889,7 +889,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                   "shelter.\n"
                                   "> Gear is left unattended and could be stolen.\n"
                                   "> Time dependent on weight of equipment being sent forward or "
-                                  "back.\n \n"
+                                  "back.\n\n"
                                   "Risk: Medium\n"
                                   "Time: 1 Hour Base + Travel\n"
                                   "Positions: %d/1\n" ), npc_list.size() );
@@ -907,7 +907,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         comp_list npc_list = get_mission_workers( "_faction_camp_foraging" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_foraging" ];
         entry = string_format( _( "Notes:\n"
-                                  "Send a companion to forage for edible plants.\n \n"
+                                  "Send a companion to forage for edible plants.\n\n"
                                   "Skill used: survival\n"
                                   "Difficulty: N/A \n"
                                   "Foraging Possibilities:\n"
@@ -931,7 +931,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         comp_list npc_list = get_mission_workers( "_faction_camp_trapping" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_trapping" ];
         entry = string_format( _( "Notes:\n"
-                                  "Send a companion to set traps for small game.\n \n"
+                                  "Send a companion to set traps for small game.\n\n"
                                   "Skill used: trapping\n"
                                   "Difficulty: N/A \n"
                                   "Trapping Possibilities:\n"
@@ -954,7 +954,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         comp_list npc_list = get_mission_workers( "_faction_camp_hunting" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_hunting" ];
         entry = string_format( _( "Notes:\n"
-                                  "Send a companion to hunt large animals.\n \n"
+                                  "Send a companion to hunt large animals.\n\n"
                                   "Skill used: marksmanship\n"
                                   "Difficulty: N/A \n"
                                   "Hunting Possibilities:\n"
@@ -1010,13 +1010,13 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         entry = string_format( _( "Notes:\n"
                                   "Send a companion out into the great unknown.  High survival "
                                   "skills are needed to avoid combat but you should expect an "
-                                  "encounter or two.\n \n"
+                                  "encounter or two.\n\n"
                                   "Skill used: survival\n"
                                   "Difficulty: 3\n"
                                   "Effects:\n"
                                   "> Select checkpoints to customize path.\n"
                                   "> Reveals terrain around the path.\n"
-                                  "> Can bounce off hide sites to extend range.\n \n"
+                                  "> Can bounce off hide sites to extend range.\n\n"
                                   "Risk: High\n"
                                   "Time: Travel\n"
                                   "Positions: %d/3\n" ), npc_list.size() );
@@ -1037,14 +1037,14 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                   "Send a companion to purge the wasteland.  Their goal is to "
                                   "kill anything hostile they encounter and return when "
                                   "their wounds are too great or the odds are stacked against "
-                                  "them.\n \n"
+                                  "them.\n\n"
                                   "Skill used: survival\n"
                                   "Difficulty: 4\n"
                                   "Effects:\n"
                                   "> Pulls creatures encountered into combat instead of "
                                   "fleeing.\n"
                                   "> Select checkpoints to customize path.\n"
-                                  "> Can bounce off hide sites to extend range.\n \n"
+                                  "> Can bounce off hide sites to extend range.\n\n"
                                   "Risk: Very High\n"
                                   "Time: Travel\n"
                                   "Positions: %d/3\n" ), npc_list.size() );
@@ -1097,12 +1097,12 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_exp_chop_shop_" ];
             entry = _( "Notes:\n"
                        "Have a companion attempt to completely dissemble a vehicle into "
-                       "components.\n \n"
+                       "components.\n\n"
                        "Skill used: mechanics\n"
                        "Difficulty: 2 \n"
                        "Effects:\n"
                        "> Removed parts placed on the furniture in the garage.\n"
-                       "> Skill plays a huge role to determine what is salvaged.\n \n"
+                       "> Skill plays a huge role to determine what is salvaged.\n\n"
                        "Risk: None\n"
                        "Time: 5 days \n" );
             mission_key.add_start( dir_id + miss_info.miss_id, dir_abbr + miss_info.desc, dir, entry,
@@ -1149,14 +1149,14 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_exp_plow_" ];
             if( npc_list.empty() ) {
                 entry = _( "Notes:\n"
-                           "Plow any spaces that have reverted to dirt or grass.\n \n" ) +
+                           "Plow any spaces that have reverted to dirt or grass.\n\n" ) +
                         farm_description( omt_trg, plots, farm_ops::plow ) +
-                        _( "\n \n"
+                        _( "\n\n"
                            "Skill used: fabrication\n"
                            "Difficulty: N/A \n"
                            "Effects:\n"
                            "> Restores only the plots created in the last expansion upgrade.\n"
-                           "> Does not damage existing crops.\n \n"
+                           "> Does not damage existing crops.\n\n"
                            "Risk: None\n"
                            "Time: 5 Min / Plot \n"
                            "Positions: 0/1 \n" );
@@ -1176,15 +1176,15 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             if( npc_list.empty() ) {
                 entry = _( "Notes:\n"
                            "Plant designated seeds in the spaces that have already been "
-                           "tilled.\n \n" ) +
+                           "tilled.\n\n" ) +
                         farm_description( omt_trg, plots, farm_ops::plant ) +
-                        _( "\n \n"
+                        _( "\n\n"
                            "Skill used: survival\n"
                            "Difficulty: N/A \n"
                            "Effects:\n"
                            "> Choose which seed type or all of your seeds.\n"
                            "> Stops when out of seeds or planting locations.\n"
-                           "> Will plant in ALL dirt mounds in the expansion.\n \n"
+                           "> Will plant in ALL dirt mounds in the expansion.\n\n"
                            "Risk: None\n"
                            "Time: 1 Min / Plot \n"
                            "Positions: 0/1 \n" );
@@ -1203,13 +1203,13 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_exp_harvest_" ];
             if( npc_list.empty() ) {
                 entry = _( "Notes:\n"
-                           "Harvest any plants that are ripe and bring the produce back.\n \n" ) +
+                           "Harvest any plants that are ripe and bring the produce back.\n\n" ) +
                         farm_description( omt_trg, plots, farm_ops::harvest ) +
-                        _( "\n \n"
+                        _( "\n\n"
                            "Skill used: survival\n"
                            "Difficulty: N/A \n"
                            "Effects:\n"
-                           "> Will dump all harvesting products onto your location.\n \n"
+                           "> Will dump all harvesting products onto your location.\n\n"
                            "Risk: None\n"
                            "Time: 3 Min / Plot \n"
                            "Positions: 0/1 \n" );
@@ -2384,12 +2384,12 @@ void basecamp::recruit_return( const std::string &task, int score )
     int appeal = rng( -5, 3 ) + std::min( skill / 3, 3 );
     int food_desire = rng( 0, 5 );
     while( rec_m >= 0 ) {
-        std::string description = _( "NPC Overview:\n \n" );
-        description += string_format( _( "Name:  %20s\n \n" ), recruit->name );
+        std::string description = _( "NPC Overview:\n\n" );
+        description += string_format( _( "Name:  %20s\n\n" ), recruit->name );
         description += string_format( _( "Strength:        %10d\n" ), recruit->str_max );
         description += string_format( _( "Dexterity:       %10d\n" ), recruit->dex_max );
         description += string_format( _( "Intelligence:    %10d\n" ), recruit->int_max );
-        description += string_format( _( "Perception:      %10d\n \n" ), recruit->per_max );
+        description += string_format( _( "Perception:      %10d\n\n" ), recruit->per_max );
         description += _( "Top 3 Skills:\n" );
 
         const auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a,
@@ -2403,14 +2403,14 @@ void basecamp::recruit_return( const std::string &task, int score )
                                       recruit->get_skill_level( skillslist[0]->ident() ) );
         description += string_format( "%12s:          %4d\n", skillslist[1]->name(),
                                       recruit->get_skill_level( skillslist[1]->ident() ) );
-        description += string_format( "%12s:          %4d\n \n", skillslist[2]->name(),
+        description += string_format( "%12s:          %4d\n\n", skillslist[2]->name(),
                                       recruit->get_skill_level( skillslist[2]->ident() ) );
 
         description += _( "Asking for:\n" );
-        description += string_format( _( "> Food:     %10d days\n \n" ), food_desire );
-        description += string_format( _( "Faction Food:%9d days\n \n" ),
+        description += string_format( _( "> Food:     %10d days\n\n" ), food_desire );
+        description += string_format( _( "Faction Food:%9d days\n\n" ),
                                       camp_food_supply( 0, true ) );
-        description += string_format( _( "Recruit Chance: %10d%%\n \n" ),
+        description += string_format( _( "Recruit Chance: %10d%%\n\n" ),
                                       std::min( 100 * ( 10 + appeal ) / 20, 100 ) );
         description += _( "Select an option:" );
 
@@ -3233,7 +3233,7 @@ std::string camp_trip_description( const time_duration &total_time,
     entry += string_format( _( ">Working: %23s\n" ), to_string( working_time ) );
     entry += "----                   ----\n";
     entry += string_format( _( "Total:    %23s\n" ), to_string( total_time ) );
-    entry += string_format( _( "Food:     %15d (kcal)\n \n" ), need_food );
+    entry += string_format( _( "Food:     %15d (kcal)\n\n" ), need_food );
     return entry;
 }
 
@@ -3322,14 +3322,14 @@ std::string basecamp::recruit_description( int npc_count )
                                          "Recruiting additional followers is very dangerous and "
                                          "expensive.  The outcome is heavily dependent on the "
                                          "skill of the  companion you send and the appeal of your "
-                                         "base.\n \n"
+                                         "base.\n\n"
                                          "Skill used: speech\n"
                                          "Difficulty: 2 \n"
                                          "Base Score:                   +%3d%%\n"
                                          "> Expansion Bonus:            +%3d%%\n"
                                          "> Faction Bonus:              +%3d%%\n"
-                                         "> Special Bonus:              +%3d%%\n \n"
-                                         "Total: Skill                  +%3d%%\n \n"
+                                         "> Special Bonus:              +%3d%%\n\n"
+                                         "Total: Skill                  +%3d%%\n\n"
                                          "Risk: High\n"
                                          "Time: 4 Days\n"
                                          "Positions: %d/1\n" ), sbase, sexpansions, sfaction,
