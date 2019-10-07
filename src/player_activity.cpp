@@ -155,12 +155,12 @@ cata::optional<std::string> player_activity::get_progress_message() const
             type == activity_id( "ACT_CHOP_TREE" ) ||
             type == activity_id( "ACT_CHOP_LOGS" ) ||
             type == activity_id( "ACT_CHOP_PLANKS" )
-        ) {
+          ) {
             extra_info = string_format( "%d%%", percentage );
         }
     }
 
-    return string_format("%s%s", _( iter->second ), extra_info.empty() ? "…" : ": " + extra_info);
+    return string_format( "%s%s", _( iter->second ), extra_info.empty() ? "…" : ": " + extra_info );
 }
 
 void player_activity::do_turn( player &p )
