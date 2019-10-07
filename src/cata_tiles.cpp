@@ -1128,7 +1128,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 }
             }
 
-            if( g->displaying_radiation ) {
+            if( g->display_overlay_state( ACTION_DISPLAY_RADIATION ) ) {
                 const auto rad_override = radiation_override.find( pos );
                 const bool rad_overridden = rad_override != radiation_override.end();
                 if( rad_overridden || !invisible[0] ) {
