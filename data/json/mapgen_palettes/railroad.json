@@ -71,11 +71,11 @@
       "&": "f_trashcan"
     },
     "items": {
-      "!": { "item": "trash", "chance": 30, "repeat": [ 1, 1 ] },
-      "&": { "item": "trash", "chance": 30, "repeat": [ 1, 1 ] },
-      "d": { "item": "office", "chance": 30, "repeat": [ 1, 1 ] },
-      "C": { "item": "office", "chance": 30, "repeat": [ 1, 1 ] },
-      "l": { "item": "clothing_work_set", "chance": 30, "repeat": [ 1, 1 ] },
+      "!": { "item": "trash", "chance": 30 },
+      "&": { "item": "trash", "chance": 30 },
+      "d": { "item": "office", "chance": 30 },
+      "C": { "item": "office", "chance": 30 },
+      "l": { "item": "clothing_work_set", "chance": 30 },
       "b": [ { "item": "snacks", "chance": 10 }, { "item": "novels", "chance": 10 }, { "item": "alcohol", "chance": 5 } ],
       "B": [
         { "item": "magazines", "chance": 10 },
