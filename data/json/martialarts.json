@@ -1307,7 +1307,6 @@
         "name": "Elemental resistance",
         "description": "+Strength bash armor, +Dexterity acid armor, +Intelligence electricity armor, +Perception fire armor.",
         "unarmed_allowed": true,
-        "strictly_unarmed": true,
         "flat_bonuses": [
           [ "armor", "bash", "str", 1.0 ],
           [ "armor", "cut", "dex", 1.0 ],
@@ -1431,7 +1430,6 @@
         "name": "Chi-Sao Sensitivity",
         "description": "Perception increases dodging ability, +1 dodges per turn",
         "unarmed_allowed": true,
-        "strictly_unarmed": true,
         "flat_bonuses": [ [ "dodge", "per", 0.12 ] ],
         "bonus_dodges": 1
       }

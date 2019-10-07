@@ -159,22 +159,22 @@
         "     |P___=__=___y|_____"
       ],
       "palettes": [ "mall_palette_2" ],
-      "furniture": { "0": "f_shower" }
-    },
-    "items": {
-      "J": { "item": "elecsto_homapl", "chance": 10 },
-      "0": { "item": "beauty", "chance": 10 },
-      "P": [
-        { "item": "jackets", "chance": 20 },
-        { "item": "softdrugs", "chance": 20 },
-        { "item": "bags", "chance": 20 },
-        { "item": "winter", "chance": 20 }
-      ],
-      "u": [
-        { "item": "vending_food_items", "chance": 20, "repeat": [ 4, 10 ] },
-        { "item": "vending_drink_items", "chance": 30, "repeat": [ 6, 10 ] }
-      ],
-      "K": [ { "item": "vending_food_items", "chance": 20 }, { "item": "vending_drink_items", "chance": 20 } ]
+      "furniture": { "0": "f_shower" },
+      "items": {
+        "J": { "item": "elecsto_homapl", "chance": 10 },
+        "0": { "item": "beauty", "chance": 10 },
+        "P": [
+          { "item": "jackets", "chance": 20 },
+          { "item": "softdrugs", "chance": 20 },
+          { "item": "bags", "chance": 20 },
+          { "item": "winter", "chance": 20 }
+        ],
+        "u": [
+          { "item": "vending_food_items", "chance": 20, "repeat": [ 4, 10 ] },
+          { "item": "vending_drink_items", "chance": 30, "repeat": [ 6, 10 ] }
+        ],
+        "K": [ { "item": "vending_food_items", "chance": 20 }, { "item": "vending_drink_items", "chance": 20 } ]
+      }
     }
   },
   {

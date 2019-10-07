@@ -2239,8 +2239,10 @@
     "points": 1,
     "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "firstaid" } ],
     "items": {
-      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "adderall", "matches" ],
-      "entries": [ { "item": "condom", "contents_item": "dayquil" } ],
+      "both": {
+        "items": [ "striped_shirt", "striped_pants", "sneakers", "socks", "adderall", "matches" ],
+        "entries": [ { "item": "condom", "contents-item": "dayquil" } ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
@@ -2254,8 +2256,10 @@
     "points": 1,
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
-      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "gum" ],
-      "entries": [ { "group": "charged_cell_phone" } ],
+      "both": {
+        "items": [ "striped_shirt", "striped_pants", "sneakers", "socks", "gum" ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
@@ -2947,7 +2951,7 @@
         ],
         "entries": [
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "gasoline_cooker", "ammo_item": "gasoline", "charges": 500 },
+          { "item": "gasoline_cooker", "ammo-item": "gasoline", "charges": 500 },
           { "item": "XL_holster", "contents-group": "shotgun_d_roadwarrior" },
           { "item": "reloaded_shot_00", "charges": 18, "container-item": "bandolier_shotgun" },
           { "item": "light_battery_cell", "charges": 100, "container-item": "wearable_light" }
@@ -3103,13 +3107,13 @@
           "fur_rollmat",
           "fire_drill"
         ],
-        "male": [ "chestwrap_fur", "loincloth_fur" ],
-        "female": [ "bikini_top_fur", "hot_pants_fur" ],
         "entries": [
           { "item": "primitive_knife", "container-item": "sheath" },
           { "item": "arrow_wood", "charges": 20, "container-item": "quiver" }
         ]
-      }
+      },
+      "male": [ "chestwrap_fur", "loincloth_fur" ],
+      "female": [ "bikini_top_fur", "hot_pants_fur" ]
     }
   },
   {
@@ -3877,7 +3881,7 @@
           "soldering_iron",
           "matches"
         ],
-        "entries": [ { "group": "charged_cell_phone" }, { "item": "jacket_jean", "snippet_category": "patched" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "jacket_jean" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]

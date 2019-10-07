@@ -548,42 +548,36 @@
   {
     "type": "item_group",
     "id": "pants_male",
+    "subtype": "distribution",
     "entries": [
-      {
-        "distribution": [
-          [ "jeans", 90 ],
-          [ "pants_checkered", 5 ],
-          [ "shorts", 70 ],
-          [ "shorts_denim", 35 ],
-          [ "pants", 75 ],
-          [ "leather_belt", 30 ],
-          [ "pants_leather", 60 ],
-          [ "pants_cargo", 70 ],
-          [ "shorts_cargo", 50 ],
-          [ "under_armor_shorts", 20 ],
-          [ "postman_shorts", 5 ],
-          [ "kilt", 5 ]
-        ]
-      }
+      { "item": "jeans", "prob": 90 },
+      { "item": "pants_checkered", "prob": 5 },
+      { "item": "shorts", "prob": 70 },
+      { "item": "shorts_denim", "prob": 35 },
+      { "item": "pants", "prob": 75 },
+      { "item": "leather_belt", "prob": 30 },
+      { "item": "pants_leather", "prob": 60 },
+      { "item": "pants_cargo", "prob": 70 },
+      { "item": "shorts_cargo", "prob": 50 },
+      { "item": "under_armor_shorts", "prob": 20 },
+      { "item": "postman_shorts", "prob": 5 },
+      { "item": "kilt", "prob": 5 }
     ]
   },
   {
     "type": "item_group",
     "id": "pants_female",
+    "subtype": "distribution",
     "entries": [
-      {
-        "distribution": [
-          { "group": "pants_male" },
-          [ "skirt", 75 ],
-          [ "skirt_leather", 5 ],
-          [ "leggings", 15 ],
-          [ "dress", 70 ],
-          [ "sundress", 50 ],
-          [ "dress_wedding", 1 ],
-          [ "b_shorts", 15 ],
-          [ "nanoskirt", 10 ]
-        ]
-      }
+      { "group": "pants_male", "prob": 200 },
+      { "item": "skirt", "prob": 75 },
+      { "item": "skirt_leather", "prob": 5 },
+      { "item": "leggings", "prob": 15 },
+      { "item": "dress", "prob": 70 },
+      { "item": "sundress", "prob": 50 },
+      { "item": "dress_wedding", "prob": 1 },
+      { "item": "b_shorts", "prob": 15 },
+      { "item": "nanoskirt", "prob": 10 }
     ]
   }
 ]

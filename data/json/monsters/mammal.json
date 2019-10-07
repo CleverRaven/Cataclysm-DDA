@@ -1113,7 +1113,6 @@
     "name": "rottweiler",
     "//": "Rare, location specific only",
     "description": "A terrifying breed to face feral, Rottweilers are descended from Roman legion mastiffs.  It's robust, vicious, and quite capable of mauling a human to death.",
-    "size": "MEDIUM",
     "volume": "50000 ml",
     "weight": 50000,
     "hp": 42,

@@ -1038,7 +1038,7 @@
         "need_charges_msg": "The smartphone's charge is too low.",
         "type": "transform"
       },
-      { "revert_to": "smart_phone", "type": "CAMERA" },
+      "CAMERA",
       "MP3"
     ],
     "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
@@ -5539,7 +5539,6 @@
     "price": 162654,
     "to_hit": -6,
     "bashing": 10,
-    "contains": "2750 ml",
     "material": "steel",
     "symbol": "A",
     "color": "yellow",
@@ -6333,7 +6332,7 @@
     "cutting": 5,
     "flags": [ "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID", "USES_BIONIC_POWER" ],
     "max_charges": 1000,
-    "note": "Charges will exceed max charges since they're always equal to the player's bionic power, but this has no adverse effects.",
+    "//": "Charges will exceed max charges since they're always equal to the player's bionic power, but this has no adverse effects.",
     "charges_per_use": 1,
     "use_action": [
       "HAMMER",
@@ -7145,7 +7144,7 @@
     "turns_per_charge": 300,
     "revert_to": "hobo_stove",
     "use_action": [
-      { "type": "HOTPLATE", "moves": 60, "msg": "You heat up the food.", "menu_text": "Heat up food" },
+      "HOTPLATE",
       {
         "target": "hobo_stove",
         "msg": "The ember is extinguished.",

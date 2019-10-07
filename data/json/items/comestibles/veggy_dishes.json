@@ -614,7 +614,7 @@
     "flags": [ "EATEN_HOT" ],
     "fun": 2,
     "rot_spawn": "GROUP_ROTTING_PLANT",
-    "://:": "From Oregon Trail. Be prepared to lose it as soon as your wagon tips over."
+    "//": "From Oregon Trail. Be prepared to lose it as soon as your wagon tips over."
   },
   {
     "type": "COMESTIBLE",

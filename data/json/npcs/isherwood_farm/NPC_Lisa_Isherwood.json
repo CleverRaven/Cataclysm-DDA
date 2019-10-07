@@ -6,9 +6,6 @@
     "name_unique": "Lisa Isherwood",
     "gender": "female",
     "class": "NC_ISHERWOOD_LISA",
-    "worn_override": "NC_Isherwood_worn",
-    "carry_override": "NC_ISHERWOOD_rifle",
-    "weapon_override": "NC_ISHERWOOD_archery",
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_ISHERWOOD_LISA",
@@ -22,6 +19,9 @@
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
     "bonus_per": { "one_in": 4 },
+    "worn_override": "NC_Isherwood_worn",
+    "carry_override": "NC_ISHERWOOD_rifle",
+    "weapon_override": "NC_ISHERWOOD_archery",
     "skills": [
       {
         "skill": "ALL",
@@ -114,7 +114,7 @@
     "type": "talk_topic",
     "id": "TALK_LISA_CHRIS2",
     "dynamic_line": "Well he's supposed to be hunting, but since you've been talking to Luke, I bet he mentioned Chris wants to learn more about the end of the world.  Sometimes he'll take off for a few days and I end up patching him up so my parents don't know he left the property.",
-    "effect": { "u_add_var": "u_heard_about_lukefromlisa", "type": "general", "context": "meeting", "value": "yes" },
+    "speaker_effect": { "effect": { "u_add_var": "u_heard_about_lukefromlisa", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LISA_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

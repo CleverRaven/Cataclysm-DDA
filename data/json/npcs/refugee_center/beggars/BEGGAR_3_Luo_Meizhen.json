@@ -120,7 +120,7 @@
       {
         "condition": {
           "and": [
-            { "not": { "npc_has_effect": "apology_luo", "type": "general", "context": "conversation", "value": "yes" } },
+            { "not": { "npc_has_var": "apology_luo", "type": "general", "context": "conversation", "value": "yes" } },
             { "npc_has_var": "dont_insult_luo", "type": "general", "context": "conversation", "value": "yes" },
             { "not": { "npc_has_effect": "insulted_luo" } }
           ]
@@ -237,7 +237,7 @@
       {
         "condition": {
           "and": [
-            { "not": { "npc_has_effect": "apology_luo", "type": "general", "context": "conversation", "value": "yes" } },
+            { "not": { "npc_has_var": "apology_luo", "type": "general", "context": "conversation", "value": "yes" } },
             { "npc_has_var": "dont_insult_luo", "type": "general", "context": "conversation", "value": "yes" },
             { "not": { "npc_has_effect": "insulted_luo" } }
           ]
