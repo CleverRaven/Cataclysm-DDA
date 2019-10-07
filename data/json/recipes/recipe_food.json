@@ -4003,7 +4003,7 @@
       ],
       [ [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
       [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ],
-      [ [ "sauce_red", 1 ], [ "curry_powder", 4 ] ]
+      [ [ "curry_powder", 4 ] ]
     ]
   },
   {
@@ -4039,7 +4039,7 @@
         [ "dry_rice", 1 ]
       ],
       [ [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
-      [ [ "sauce_red", 1 ], [ "curry_powder", 4 ] ]
+      [ [ "curry_powder", 4 ] ]
     ]
   },
   {
@@ -4069,7 +4069,7 @@
       [ [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
       [ [ "meat_red", 1, "LIST" ], [ "dry_meat", 1 ], [ "can_chicken", 1 ] ],
       [ [ "can_beans", 1 ], [ "raw_beans", 1 ], [ "dry_beans", 1 ] ],
-      [ [ "sauce_red", 1 ], [ "chilly-p", 2 ], [ "chili_pepper", 1 ] ]
+      [ [ "chilly-p", 2 ], [ "chili_pepper", 1 ] ]
     ]
   },
   {
@@ -4099,7 +4099,7 @@
       [ [ "tomato", 1 ], [ "irradiated_tomato", 1 ], [ "can_tomato", 1 ] ],
       [ [ "human_flesh", 1 ], [ "dry_hflesh", 1 ], [ "rehydrated_hflesh", 1 ], [ "human_canned", 2 ] ],
       [ [ "can_beans", 1 ], [ "raw_beans", 1 ], [ "dry_beans", 1 ] ],
-      [ [ "sauce_red", 1 ], [ "chilly-p", 2 ], [ "chili_pepper", 1 ] ]
+      [ [ "chilly-p", 2 ], [ "chili_pepper", 1 ] ]
     ]
   },
   {
