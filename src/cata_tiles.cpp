@@ -1218,8 +1218,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 }
             }
 
-            if( !invisible[0] &&
-                apply_vision_effects( pos, g->m.get_visibility( ll, cache ) ) ) {
+            if( !invisible[0] && apply_vision_effects( pos, g->m.get_visibility( ll, cache ) ) ) {
 
                 const Creature *critter = g->critter_at( pos, true );
                 if( has_draw_override( pos ) || has_memory_at( pos ) ||
@@ -1228,7 +1227,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     invisible[0] = true;
                 } else {
                     continue;
-               }
+                }
             }
             for( int i = 0; i < 4; i++ ) {
                 const tripoint np = pos + neighborhood[i];
