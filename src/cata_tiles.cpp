@@ -1065,8 +1065,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     nv_goggles_activated = vision_cache[NV_GOGGLES];
 
     // check that the creature for which we'll draw the visibility map is still alive at that point
-    if( g->display_overlay_state( ACTION_DISPLAY_VISIBILITY ) &&
-        g->displaying_visibility_creature != nullptr )  {
+    if( g->display_overlay_state( ACTION_DISPLAY_VISIBILITY ) && g->displaying_visibility_creature ) {
         const Creature *creature = g->displaying_visibility_creature;
         const auto is_same_creature_predicate = [&creature]( const Creature & c ) {
             return creature == &c;
