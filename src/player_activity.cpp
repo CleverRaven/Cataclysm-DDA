@@ -70,7 +70,7 @@ static const std::map< activity_id, std::string> activity_names = {
     { activity_id( "ACT_FERTILIZE_PLOT" ), translate_marker( "Fertilizing plot" ) },
     { activity_id( "ACT_TRY_SLEEP" ), translate_marker( "Trying to sleep" ) },
     { activity_id( "ACT_OPERATION" ), translate_marker( "Operating" ) },
-    { activity_id( "ACT_ROBOT_CONTROL" ), translate_marker( "Controling robot" ) },
+    { activity_id( "ACT_ROBOT_CONTROL" ), translate_marker( "Controlling robot" ) },
     { activity_id( "ACT_TREE_COMMUNION" ), translate_marker( "Tree communion" ) },
     { activity_id( "ACT_STUDY_SPELL" ), translate_marker( "Studying spell" )},
     { activity_id( "ACT_READ" ), translate_marker( "Reading" )},
