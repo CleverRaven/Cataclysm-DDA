@@ -135,6 +135,7 @@ enum debug_menu_index {
     DEBUG_MAP_EXTRA,
     DEBUG_DISPLAY_NPC_PATH,
     DEBUG_PRINT_FACTION_INFO,
+    DEBUG_PRINT_NPC_MAGIC,
     DEBUG_QUIT_NOSAVE,
     DEBUG_TEST_WEATHER,
     DEBUG_SAVE_SCREENSHOT,
@@ -210,6 +211,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_CRASH_GAME, true, 'C', _( "Crash game (test crash handling)" ) ) },
             { uilist_entry( DEBUG_DISPLAY_NPC_PATH, true, 'n', _( "Toggle NPC pathfinding on map" ) ) },
             { uilist_entry( DEBUG_PRINT_FACTION_INFO, true, 'f', _( "Print faction info to console" ) ) },
+            { uilist_entry( DEBUG_PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
             { uilist_entry( DEBUG_TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
         };
         uilist_initializer.insert( uilist_initializer.begin(), debug_only_options.begin(),
@@ -1490,6 +1492,28 @@ void debug()
                 count++;
             }
             std::cout << "Player faction is " << g->u.get_faction()->id.str() << std::endl;
+            break;
+        }
+        case DEBUG_PRINT_NPC_MAGIC: {
+            for( npc &guy : g->all_npcs() ) {
+                std::vector<spell_id> spells = guy.magic.spells();
+                if( spells.empty() ) {
+                    std::cout << guy.disp_name() << " does not know any spells." << std::endl;
+                    continue;
+                }
+                std::cout << guy.disp_name() << "knows : ";
+                int counter = 1;
+                for( spell_id sp : spells ) {
+                    spell temp_spell = guy.magic.get_spell( sp );
+                    std::cout << temp_spell.name() << " ";
+                    if( counter < static_cast<int>( spells.size() ) ) {
+                        std::cout << "and ";
+                    } else {
+                        std::cout << "." << std::endl;
+                    }
+                    counter++;
+                }
+            }
             break;
         }
         case DEBUG_QUIT_NOSAVE:
