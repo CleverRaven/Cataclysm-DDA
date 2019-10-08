@@ -25,6 +25,7 @@
 #include "font_loader.h"
 #include "platform_win.h"
 #include "mmsystem.h"
+#include "wcwidth.h"
 
 //***********************************
 //Globals                           *
@@ -59,33 +60,38 @@ static int TERMINAL_HEIGHT;
 //Non-curses, Window functions      *
 //***********************************
 
-// declare this locally, because it's not generally cross-compatible in cursesport.h
+// Declare this locally, because it's not generally cross-compatible in cursesport.h
 LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, std::uint32_t Msg, WPARAM wParam, LPARAM lParam );
 
-std::wstring widen( const std::string &s )
+static std::wstring widen( const std::string &s )
 {
     if( s.empty() ) {
-        return std::wstring(); // MultiByteToWideChar can not handle this case
+        // MultiByteToWideChar can not handle this case
+        return std::wstring();
     }
     std::vector<wchar_t> buffer( s.length() );
     const int newlen = MultiByteToWideChar( CP_UTF8, 0, s.c_str(), s.length(),
                                             buffer.data(), buffer.size() );
-    // on failure, newlen is 0, returns an empty strings.
+    // On failure, newlen is 0, returns an empty strings.
     return std::wstring( buffer.data(), newlen );
 }
 
-//Registers, creates, and shows the Window!!
-bool WinCreate()
+// Registers, creates, and shows the Window!!
+static bool WinCreate()
 {
-    WindowINST = GetModuleHandle( 0 ); // Get current process handle
+    // Get current process handle
+    WindowINST = GetModuleHandle( 0 );
     std::string title = string_format( "Cataclysm: Dark Days Ahead - %s", getVersionString() );
 
     // Register window class
     WNDCLASSEXW WindowClassType   = WNDCLASSEXW();
     WindowClassType.cbSize        = sizeof( WNDCLASSEXW );
-    WindowClassType.lpfnWndProc   = ProcessMessages;//the procedure that gets msgs
-    WindowClassType.hInstance     = WindowINST;// hInstance
-    WindowClassType.hIcon         = LoadIcon( WindowINST, MAKEINTRESOURCE( 0 ) ); // Get first resource
+    // The procedure that gets msgs
+    WindowClassType.lpfnWndProc   = ProcessMessages;
+    // hInstance
+    WindowClassType.hInstance     = WindowINST;
+    // Get first resource
+    WindowClassType.hIcon         = LoadIcon( WindowINST, MAKEINTRESOURCE( 0 ) );
     WindowClassType.hIconSm       = LoadIcon( WindowINST, MAKEINTRESOURCE( 0 ) );
     WindowClassType.hCursor       = LoadCursor( NULL, IDC_ARROW );
     WindowClassType.lpszClassName = szWindowClass;
@@ -94,8 +100,9 @@ bool WinCreate()
     }
 
     // Adjust window size
+    // Basic window, show on creation
     uint32_t WndStyle = WS_CAPTION | WS_MINIMIZEBOX | WS_SIZEBOX | WS_MAXIMIZEBOX | WS_SYSMENU |
-                        WS_VISIBLE; // Basic window, show on creation
+                        WS_VISIBLE;
     RECT WndRect;
     WndRect.left   = WndRect.top = 0;
     WndRect.right  = WindowWidth;
@@ -119,10 +126,10 @@ bool WinCreate()
     }
 
     return true;
-};
+}
 
-//Unregisters, releases the DC if needed, and destroys the window.
-void WinDestroy()
+// Unregisters, releases the DC if needed, and destroys the window.
+static void WinDestroy()
 {
     if( ( WindowDC != NULL ) && ( ReleaseDC( WindowHandle, WindowDC ) == 0 ) ) {
         WindowDC = 0;
@@ -133,10 +140,10 @@ void WinDestroy()
     if( !( UnregisterClassW( szWindowClass, WindowINST ) ) ) {
         WindowINST = 0;
     }
-};
+}
 
-// creates a backbuffer to prevent flickering
-void create_backbuffer()
+// Creates a backbuffer to prevent flickering
+static void create_backbuffer()
 {
     if( WindowDC != NULL ) {
         ReleaseDC( WindowHandle, WindowDC );
@@ -157,7 +164,8 @@ void create_backbuffer()
     bmi.bmiHeader.biSizeImage    = WindowWidth * WindowHeight * 1;
     bmi.bmiHeader.biClrUsed      = color_loader<RGBQUAD>::COLOR_NAMES_COUNT; // Colors in the palette
     bmi.bmiHeader.biClrImportant = color_loader<RGBQUAD>::COLOR_NAMES_COUNT; // Colors in the palette
-    backbit = CreateDIBSection( 0, &bmi, DIB_RGB_COLORS, ( void ** ) &dcbits, NULL, 0 );
+    backbit = CreateDIBSection( 0, &bmi, DIB_RGB_COLORS, reinterpret_cast<void **>( &dcbits ), NULL,
+                                0 );
     DeleteObject( SelectObject( backbuffer, backbit ) ); //load the buffer into DC
 }
 
@@ -201,9 +209,9 @@ static void begin_alt_code()
     alt_buffer_len = 0;
 }
 
-void add_alt_code( char c )
+static void add_alt_code( char c )
 {
-    // not exactly how it works, but acceptable
+    // Not exactly how it works, but acceptable
     if( c >= '0' && c <= '9' ) {
         if( alt_buffer_len < ALT_BUFFER_SIZE - 1 ) {
             alt_buffer[alt_buffer_len] = c;
@@ -218,7 +226,7 @@ static int end_alt_code()
     return atoi( alt_buffer );
 }
 
-//This function processes any Windows messages we get. Keyboard, OnClose, etc
+// This function processes any Windows messages we get. Keyboard, OnClose, etc
 LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, unsigned int Msg,
                                   WPARAM wParam, LPARAM lParam )
 {
@@ -231,16 +239,19 @@ LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, unsigned int Msg,
                 case VK_TAB:
                     lastchar = ( shift_down ) ? KEY_BTAB : '\t';
                     break;
-                case VK_RETURN: //Reroute ENTER key for compatibility purposes
+                case VK_RETURN:
+                    // Reroute ENTER key for compatibility purposes
                     lastchar = 10;
                     break;
-                case VK_BACK: //Reroute BACKSPACE key for compatibility purposes
+                case VK_BACK:
+                    // Reroute BACKSPACE key for compatibility purposes
                     lastchar = 127;
                     break;
             }
             return 0;
 
-        case WM_KEYDOWN:                //Here we handle non-character input
+        case WM_KEYDOWN:
+            // Here we handle non-character input
             switch( wParam ) {
                 case VK_SHIFT:
                     shift_down = true;
@@ -307,7 +318,7 @@ LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, unsigned int Msg,
                     break;
                 default:
                     break;
-            };
+            }
             return 0;
 
         case WM_KEYUP:
@@ -329,7 +340,7 @@ LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, unsigned int Msg,
             return 0;
 
         case WM_SYSCHAR:
-            add_alt_code( ( char )wParam );
+            add_alt_code( static_cast<char>( wParam ) );
             return 0;
 
         case WM_SYSKEYDOWN:
@@ -355,7 +366,8 @@ LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, unsigned int Msg,
             break;
 
         case WM_ERASEBKGND:
-            return 1; // Don't erase background
+            // Don't erase background
+            return 1;
 
         case WM_PAINT:
             BitBlt( WindowDC, 0, 0, WindowWidth, WindowHeight, backbuffer, 0, 0, SRCCOPY );
@@ -363,8 +375,9 @@ LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, unsigned int Msg,
             return 0;
 
         case WM_DESTROY:
-            exit( 0 ); // A messy exit, but easy way to escape game loop
-    };
+            // A messy exit, but easy way to escape game loop
+            exit( 0 );
+    }
 
     return DefWindowProcW( hWnd, Msg, wParam, lParam );
 }
@@ -403,13 +416,13 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
     int drawx = 0;
     int drawy = 0;
     wchar_t tmp;
-    RECT update = {win->x * fontwidth, -1,
-                   ( win->x + win->width ) *fontwidth, -1
+    RECT update = {win->pos.x * fontwidth, -1,
+                   ( win->pos.x + win->width ) *fontwidth, -1
                   };
 
     for( j = 0; j < win->height; j++ ) {
         if( win->line[j].touched ) {
-            update.bottom = ( win->y + j + 1 ) * fontheight;
+            update.bottom = ( win->pos.y + j + 1 ) * fontheight;
             if( update.top == -1 ) {
                 update.top = update.bottom - fontheight;
             }
@@ -421,8 +434,8 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                 if( cell.ch.empty() ) {
                     continue; // second cell of a multi-cell character
                 }
-                drawx = ( ( win->x + i ) * fontwidth );
-                drawy = ( ( win->y + j ) * fontheight ); //-j;
+                drawx = ( ( win->pos.x + i ) * fontwidth );
+                drawy = ( ( win->pos.y + j ) * fontheight ); //-j;
                 if( drawx + fontwidth > WindowWidth || drawy + fontheight > WindowHeight ) {
                     // Outside of the display area, would not render anyway
                     continue;
@@ -454,7 +467,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                         ExtTextOutW( backbuffer, drawx, drawy, 0, NULL, utf16.c_str(), utf16.length(), NULL );
                     }
                 } else {
-                    switch( ( unsigned char )win->line[j].chars[i].ch[0] ) {
+                    switch( static_cast<unsigned char>( win->line[j].chars[i].ch[0] ) ) {
                         // box bottom/top side (horizontal line)
                         case LINE_OXOX_C:
                             HorzLineDIB( drawx, drawy + halfheight, drawx + fontwidth, 1, FG );
@@ -510,19 +523,20 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                             break;
                         default:
                             break;
-                    };//switch (tmp)
+                    }//switch (tmp)
                 }//(tmp < 0)
             }//for (i=0;i<win->width;i++)
         }
     }// for (j=0;j<win->height;j++)
-    win->draw = false;              //We drew the window, mark it as so
+    // We drew the window, mark it as so
+    win->draw = false;
     if( update.top != -1 ) {
         RedrawWindow( WindowHandle, &update, NULL, RDW_INVALIDATE | RDW_UPDATENOW );
     }
 }
 
-//Check for any window messages (keypress, paint, mousemove, etc)
-void CheckMessages()
+// Check for any window messages (keypress, paint, mousemove, etc)
+static void CheckMessages()
 {
     MSG msg;
     while( PeekMessage( &msg, 0, 0, 0, PM_REMOVE ) ) {
@@ -560,7 +574,7 @@ int get_terminal_height()
 //Pseudo-Curses Functions           *
 //***********************************
 
-//Basic Init, create the font, backbuffer, etc
+// Basic Init, create the font, backbuffer, etc
 void catacurses::init_interface()
 {
     lastchar = -1;
@@ -577,9 +591,12 @@ void catacurses::init_interface()
     WindowWidth = TERMINAL_WIDTH * fontwidth;
     WindowHeight = TERMINAL_HEIGHT * fontheight;
 
-    WinCreate();    //Create the actual window, register it, etc
-    timeBeginPeriod( 1 ); // Set Sleep resolution to 1ms
-    CheckMessages();    //Let the message queue handle setting up the window
+    // Create the actual window, register it, etc
+    WinCreate();
+    // Set Sleep resolution to 1ms
+    timeBeginPeriod( 1 );
+    // Let the message queue handle setting up the window
+    CheckMessages();
 
     create_backbuffer();
 
@@ -603,8 +620,10 @@ void catacurses::init_interface()
                         DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
                         PROOF_QUALITY, FF_MODERN, widen( fl.typeface ).c_str() );
 
-    SetBkMode( backbuffer, TRANSPARENT ); //Transparent font backgrounds
-    SelectObject( backbuffer, font ); //Load our font into the DC
+    // Transparent font backgrounds
+    SetBkMode( backbuffer, TRANSPARENT );
+    // Load our font into the DC
+    SelectObject( backbuffer, font );
 
     color_loader<RGBQUAD>().load( windowsPalette );
     if( SetDIBColorTable( backbuffer, 0, windowsPalette.size(), windowsPalette.data() ) == 0 ) {
@@ -612,17 +631,17 @@ void catacurses::init_interface()
     }
     init_colors();
 
-    stdscr = newwin( get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ), 0, 0 );
+    stdscr = newwin( get_option<int>( "TERMINAL_Y" ), get_option<int>( "TERMINAL_X" ), point_zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 
     initialized = true;
 }
 
 // A very accurate and responsive timer (NEVER use GetTickCount)
-uint64_t GetPerfCount()
+static uint64_t GetPerfCount()
 {
     uint64_t Count;
-    QueryPerformanceCounter( ( PLARGE_INTEGER )&Count );
+    QueryPerformanceCounter( reinterpret_cast<PLARGE_INTEGER>( &Count ) );
     return Count;
 }
 
@@ -632,7 +651,7 @@ input_event input_manager::get_input_event()
     // see, e.g., http://linux.die.net/man/3/getch
     // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
     uint64_t Frequency;
-    QueryPerformanceFrequency( ( PLARGE_INTEGER )&Frequency );
+    QueryPerformanceFrequency( reinterpret_cast<PLARGE_INTEGER>( &Frequency ) );
     wrefresh( catacurses::stdscr );
     InvalidateRect( WindowHandle, NULL, true );
     lastchar = ERR;
@@ -693,22 +712,27 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
     return cata::nullopt;
 }
 
-//Ends the terminal, destroy everything
+// Ends the terminal, destroy everything
 void catacurses::endwin()
 {
     DeleteObject( font );
     WinDestroy();
-    RemoveFontResourceExA( "data\\termfont", FR_PRIVATE, NULL ); //Unload it
+    // Unload it
+    RemoveFontResourceExA( "data\\termfont", FR_PRIVATE, NULL );
 }
 
 template<>
 RGBQUAD color_loader<RGBQUAD>::from_rgb( const int r, const int g, const int b )
 {
     RGBQUAD result;
-    result.rgbBlue = b;  //Blue
-    result.rgbGreen = g;  //Green
-    result.rgbRed = r;  //Red
-    result.rgbReserved = 0; //The Alpha, is not used, so just set it to 0
+    // Blue
+    result.rgbBlue = b;
+    // Green
+    result.rgbGreen = g;
+    // Red
+    result.rgbRed = r;
+    //The Alpha, is not used, so just set it to 0
+    result.rgbReserved = 0;
     return result;
 }
 
@@ -725,6 +749,11 @@ void cata_cursesport::handle_additional_window_clear( WINDOW * )
 int get_scaling_factor()
 {
     return 1;
+}
+
+HWND getWindowHandle()
+{
+    return WindowHandle;
 }
 
 #endif

@@ -1,0 +1,147 @@
+[
+  {
+    "type": "PET_ARMOR",
+    "id": "kevlar_armor_horse",
+    "symbol": "[",
+    "color": "yellow",
+    "name": "Kevlar-lined horse peto",
+    "description": "A heavy mattress-like armor of cloth, leather and thick linings of Kevlar, originally used as protection in bullfighting.  You could put this on a friendly horse.",
+    "price": 50000,
+    "price_postapoc": 5000,
+    "material": [ "kevlar" ],
+    "weight": "30000 g",
+    "volume": "150 L",
+    "bashing": 10,
+    "to_hit": -3,
+    "flags": [ "IS_PET_ARMOR", "NO_SALVAGE" ],
+    "material_thickness": 2,
+    "max_pet_vol": "1000000 ml",
+    "min_pet_vol": "380000 ml",
+    "pet_bodytype": "horse"
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "acidchitin_armor_horse",
+    "copy-from": "kevlar_armor_horse",
+    "color": "green",
+    "name": "biosilicified chitin horse body armor",
+    "description": "A makeshift assembly of criniere, peytral and croupiere made from biosilicified chitin fitted to a thin mesh.  You could put this on a friendly horse.",
+    "proportional": { "price": 1.67, "price_postapoc": 1.67, "weight": 1.15 },
+    "relative": { "environmental_protection": 7 },
+    "material": [ "acidchitin" ]
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "chitin_armor_horse",
+    "copy-from": "acidchitin_armor_horse",
+    "name": "chitin horse body armor",
+    "description": "A makeshift assembly of criniere, peytral and croupiere made from chitin fitted to a thin mesh.  You could put this on a friendly horse.",
+    "relative": { "price": -15000, "price_postapoc": -1500, "environmental_protection": -3 },
+    "material": [ "chitin" ]
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "chainmail_armor_horse",
+    "copy-from": "kevlar_armor_horse",
+    "color": "light_red",
+    "name": "chainmail horse coat",
+    "description": "A heavy covering of chainmail, suitably made for horses as protection.  You could put this on a friendly horse.",
+    "proportional": { "price": 0.83, "price_postapoc": 0.83, "weight": 1.3 },
+    "relative": { "material_thickness": -2 },
+    "material": [ "iron", "budget_steel" ]
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "leather_armor_horse",
+    "copy-from": "kevlar_armor_horse",
+    "color": "brown",
+    "name": "boiled leather horse barding with caparison",
+    "description": "A full barding for horses consisting of boiled leather and cloth undercovering.  This caparison is depicting a battle between a monstrous dragon and regal griffin.  You could put this on a friendly horse.",
+    "proportional": { "price": 0.58, "price_postapoc": 0.58, "weight": 0.5 },
+    "material": [ "cotton", "leather" ],
+    "snippet_category": [
+      {
+        "id": "battle",
+        "text": "A full barding for horses consisting of boiled leather and cloth undercovering.  This caparison is depicting a battle between a monstrous dragon and regal griffin.  You could put this on a friendly horse."
+      },
+      {
+        "id": "ancientdragon",
+        "text": "A full barding for horses consisting of boiled leather and cloth undercovering.  This caparison is depicting a red dragon breathing fire on cities.  You could put this on a friendly horse."
+      },
+      {
+        "id": "criticalbear",
+        "text": "A full barding for horses consisting of boiled leather and cloth undercovering.  This caparison is depicting a bear on its hind legs and forelegs outstretched in a menacing manner.  You could put this on a friendly horse."
+      },
+      {
+        "id": "orange",
+        "text": "A full barding for horses consisting of boiled leather and cloth undercovering.  This caparison is depicting an assortment of fruits and vegetables with a very large orange featured in the foreground.  You could put this on a friendly horse."
+      },
+      {
+        "id": "vulture",
+        "text": "A full barding for horses consisting of boiled leather and cloth undercovering.  This caparison is depicting a massive vulture perched on a mountain.  You could put this on a friendly horse."
+      },
+      {
+        "id": "direboar",
+        "text": "A full barding for horses consisting of boiled leather and cloth undercovering.  This caparison is depicting the mythical Erymanthian boar in various artistic forms.  You could put this on a friendly horse."
+      },
+      {
+        "id": "rycon",
+        "text": "A full barding for horses consisting of boiled leather and cloth undercovering.  This caparison seems to be sponsored by Rycon Construction, with a tag line of \"From down under to your home, we play all the roles from start to finish!\".  You could put this on a friendly horse."
+      },
+      {
+        "id": "coregentech",
+        "text": "A full barding for horses consisting of boiled leather and cloth undercovering.  This caparison seems to be sponsored by Core Generator Tech, with a tag line of \"Providing power solutions from culinary to graphic design, we have the magic touch for your problems!\".  You could put this on a friendly horse."
+      }
+    ]
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "leatherbone_armor_horse",
+    "copy-from": "leather_armor_horse",
+    "name": "boiled leather horse barding with bones",
+    "description": "Decorative bones affixed to leather horse barding to invoke fear in bandits and raiders and traders all!  You could put this on a friendly horse.",
+    "relative": { "price": 1500, "price_postapoc": 150, "weight": 500 },
+    "material": [ "bone", "leather" ]
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "rubber_armor_horse",
+    "copy-from": "kevlar_armor_horse",
+    "color": "dark_gray",
+    "name": "horse rain sheet",
+    "description": "A thin plastic covering adapted for horses to protect from acid rain and other caustic sources.  You could put this on a friendly horse.",
+    "proportional": { "price": 0.34, "price_postapoc": 0.34, "min_pet_vol": 0.6, "weight": 0.45 },
+    "relative": { "environmental_protection": 10, "material_thickness": -2 },
+    "material": [ "neoprene", "plastic" ]
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "superalloy_armor_horse",
+    "copy-from": "kevlar_armor_horse",
+    "color": "light_cyan",
+    "name": "superalloy crafted horse barding",
+    "description": "The latest fashion statement and protection for polo equestrians and ahistorical reenactor steeds alike, designed and manufactured by Land Dwarf Industries.  You could put this on a friendly horse.",
+    "proportional": { "price": 100, "price_postapoc": 100, "min_pet_vol": 0.72, "weight": 0.72 },
+    "relative": { "environmental_protection": 10, "storage": 32 },
+    "material": [ "superalloy" ]
+  },
+  {
+    "id": "saddlebag",
+    "type": "ARMOR",
+    "name": "saddle bags",
+    "description": "A pair of covered pouches laid across the back of a horse behind the saddle.",
+    "weight": "1000 g",
+    "volume": "7500 ml",
+    "price": 15000,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "color": "green",
+    "covers": [ "HANDS" ],
+    "coverage": 50,
+    "encumbrance": 30,
+    "storage": "30 L",
+    "warmth": 10,
+    "material_thickness": 2,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+  }
+]

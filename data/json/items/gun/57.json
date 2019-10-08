@@ -5,8 +5,8 @@
     "reload_noise_volume": 10,
     "name": "FN Five-Seven",
     "description": "Designed to work with FN's proprietary 5.7x28mm round, the Five-Seven is a lightweight pistol with a very high capacity, best used against armored opponents.",
-    "weight": 490,
-    "volume": 2,
+    "weight": "490 g",
+    "volume": "500 ml",
     "price": 124900,
     "to_hit": -2,
     "bashing": 6,
@@ -18,6 +18,7 @@
     "ranged_damage": -2,
     "dispersion": 440,
     "durability": 8,
+    "min_cycle_recoil": 81,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -31,7 +32,8 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 1,
-    "magazines": [ [ "57", [ "fn57mag" ] ], [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ] ]
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "magazines": [ [ "57", [ "fn57mag" ] ] ]
   },
   {
     "id": "fn_p90",
@@ -39,8 +41,8 @@
     "reload_noise_volume": 10,
     "name": "FN P90",
     "description": "The first in a new genre of guns, termed \"personal defense weapons.\"  FN designed the P90 to use their proprietary 5.7x28mm ammunition.  It is made for firing bursts manageably.",
-    "weight": 2300,
-    "volume": 6,
+    "weight": "2300 g",
+    "volume": "1500 ml",
     "price": 350000,
     "to_hit": -2,
     "bashing": 10,
@@ -51,6 +53,7 @@
     "skill": "smg",
     "dispersion": 260,
     "durability": 8,
+    "min_cycle_recoil": 81,
     "burst": 15,
     "valid_mod_locations": [
       [ "accessories", 3 ],
@@ -66,6 +69,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 2,
-    "magazines": [ [ "57", [ "fnp90mag" ] ], [ "22", [ "a180mag" ] ] ]
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "magazines": [ [ "57", [ "fnp90mag" ] ] ]
   }
 ]

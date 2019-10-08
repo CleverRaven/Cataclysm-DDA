@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "sees_player",
+    "name": "sees-player icon, +attitude",
+    "authors": [ "esotericist" ],
+    "description": "Adds attitude-tinted icon if a creature sees a player, and a tinted thought bubble otherwise. Designed for Live/Dead people tileset.",
+    "category": "graphical",
+    "obsolete": true,
+    "dependencies": [ "dda" ]
+  }
+]

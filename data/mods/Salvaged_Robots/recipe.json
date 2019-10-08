@@ -864,7 +864,7 @@
     "id_suffix": "repair",
     "copy-from": "bot_defbot_base",
     "components": [
-      [ [ "broken_defbot_disarmed", 1 ] ],
+      [ [ "broken_defbot_paladin", 1 ] ],
       [ [ "plut_cell", 4 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "processor", 2 ] ],

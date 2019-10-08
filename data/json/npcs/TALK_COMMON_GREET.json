@@ -5,7 +5,15 @@
     "responses": [
       { "text": "Another survivor!  We should travel together.", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "What are you doing?", "topic": "TALK_DESCRIBE_MISSION" },
-      { "text": "Care to trade?", "topic": "TALK_DONE", "effect": "start_trade" }
+      { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
+      {
+        "text": "Care to trade?",
+        "topic": "TRADE_HALLU",
+        "condition": { "npc_has_trait": "HALLUCINATION" },
+        "switch": true,
+        "default": false
+      },
+      { "text": "Care to trade?", "topic": "TALK_DONE", "effect": "start_trade", "switch": true, "default": false }
     ]
   },
   {

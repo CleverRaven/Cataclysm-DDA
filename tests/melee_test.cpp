@@ -56,7 +56,7 @@ inline std::string percent_string( const float f )
     return ss.str();
 }
 
-void check_near( float prob, const float expected, const float tolerance )
+static void check_near( float prob, const float expected, const float tolerance )
 {
     const float low = expected - tolerance;
     const float high = expected + tolerance;

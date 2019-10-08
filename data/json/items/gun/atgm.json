@@ -1,0 +1,27 @@
+[
+  {
+    "id": "atgm_launcher",
+    "copy-from": "gun_base",
+    "type": "GUN",
+    "name": "BGM-71F TOW",
+    "name_plural": "BGM-71F TOW",
+    "description": "A launcher for anti-tank guided missiles, capable of being deployed as a crew-served weapon or mounted on vehicles.  While fairly accurate, it isn't fire-and-forget.",
+    "weight": "93000 g",
+    "volume": "25 L",
+    "price": 8500000,
+    "to_hit": -6,
+    "bashing": 12,
+    "material": "steel",
+    "ammo": "atgm",
+    "skill": "launcher",
+    "range": 15,
+    "dispersion": 50,
+    "sight_dispersion": 10,
+    "durability": 9,
+    "clip_size": 1,
+    "reload": 600,
+    "loudness": 200,
+    "valid_mod_locations": [ [ "sling", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "flags": [ "MOUNTED_GUN", "NEVER_JAMS", "RELOAD_EJECT" ]
+  }
+]

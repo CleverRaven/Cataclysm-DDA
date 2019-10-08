@@ -5,16 +5,17 @@
 #include "game_constants.h"
 #include "overmap_noise.h"
 
-void export_raw_noise( const std::string &filename, const om_noise::om_noise_layer &noise )
+static void export_raw_noise( const std::string &filename, const om_noise::om_noise_layer &noise,
+                              int width, int height )
 {
     std::ofstream testfile;
     testfile.open( filename, std::ofstream::trunc );
     testfile << "P2" << std::endl;
-    testfile << "180 180" << std::endl;
+    testfile << width << " " << height << std::endl;
     testfile << "255" << std::endl;
 
-    for( int x = 0; x < OMAPX; x++ ) {
-        for( int y = 0; y < OMAPY; y++ ) {
+    for( int x = 0; x < width; x++ ) {
+        for( int y = 0; y < height; y++ ) {
             testfile << static_cast<int>( noise.noise_at( {x, y} ) * 255 ) << " ";
         }
         testfile << std::endl;
@@ -23,14 +24,46 @@ void export_raw_noise( const std::string &filename, const om_noise::om_noise_lay
     testfile.close();
 }
 
-TEST_CASE( "om_noise_layer_forest_raw_export", "[.]" )
+static void export_interpreted_noise(
+    const std::string &filename, const om_noise::om_noise_layer &noise, int width, int height,
+    float threshold )
 {
-    const om_noise::om_noise_layer_forest f( {0, 0}, 1920237457 );
-    export_raw_noise( "forest-map-raw.pgm", f );
+    std::ofstream testfile;
+    testfile.open( filename, std::ofstream::trunc );
+    testfile << "P2" << std::endl;
+    testfile << width << " " << height << std::endl;
+    testfile << "255" << std::endl;
+
+    for( int x = 0; x < width; x++ ) {
+        for( int y = 0; y < height; y++ ) {
+            if( noise.noise_at( {x, y} ) > threshold ) {
+                testfile << 255 << " ";
+            } else {
+                testfile << 0 << " ";
+            }
+        }
+        testfile << std::endl;
+    }
+
+    testfile.close();
 }
 
-TEST_CASE( "om_noise_layer_floodplain_raw_export", "[.]" )
+
+TEST_CASE( "om_noise_layer_forest_export", "[.]" )
 {
-    const om_noise::om_noise_layer_floodplain f( {0, 0}, 1920237457 );
-    export_raw_noise( "floodplain-map-raw.pgm", f );
+    const om_noise::om_noise_layer_forest f( point_zero, 1920237457 );
+    export_raw_noise( "forest-map-raw.pgm", f, OMAPX, OMAPY );
+}
+
+TEST_CASE( "om_noise_layer_floodplain_export", "[.]" )
+{
+    const om_noise::om_noise_layer_floodplain f( point_zero, 1920237457 );
+    export_raw_noise( "floodplain-map-raw.pgm", f, OMAPX, OMAPY );
+}
+
+TEST_CASE( "om_noise_layer_lake_export", "[.]" )
+{
+    const om_noise::om_noise_layer_lake f( point_zero, 1920237457 );
+    export_raw_noise( "lake-map-raw.pgm", f, OMAPX * 5, OMAPY * 5 );
+    export_interpreted_noise( "lake-map-interp.pgm", f, OMAPX * 5, OMAPY * 5, 0.25 );
 }

@@ -7,7 +7,7 @@
       "*": [ "t_dirt", "t_grass", "t_grass", "t_grass", "t_tree" ],
       "_": "t_sidewalk",
       ".": "t_floor",
-      "#": "t_wall",
+      "#": "t_wall_w",
       "-": "t_wall_glass",
       "|": "t_wall_glass",
       "+": "t_door_c",

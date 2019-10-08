@@ -84,7 +84,8 @@
       "u": "f_cupboard",
       "W": "f_canvas_wall",
       "w": "f_null",
-      "y": "f_smoking_rack"
+      "y": "f_smoking_rack",
+      "e": "f_arcfurnace_empty"
     }
   }
 ]

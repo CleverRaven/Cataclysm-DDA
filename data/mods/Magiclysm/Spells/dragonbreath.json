@@ -1,0 +1,24 @@
+[
+  {
+    "type": "SPELL",
+    "id": "dragon_breath_black",
+    "name": "Black Dragons' Breath",
+    "description": "Spews a line of acid from your mouth.",
+    "valid_targets": [ "hostile", "ally", "ground" ],
+    "damage_type": "acid",
+    "max_level": 40,
+    "min_damage": 6,
+    "max_damage": 240,
+    "damage_increment": 6,
+    "min_range": 8,
+    "max_range": 12,
+    "range_increment": 0.1,
+    "effect": "line_attack",
+    "field_id": "fd_acid",
+    "min_field_intensity": 1,
+    "max_field_intensity": 4,
+    "field_chance": 2,
+    "field_intensity_increment": 0.1,
+    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS" ]
+  }
+]

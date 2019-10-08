@@ -1,0 +1,139 @@
+[
+  {
+    "type": "npc",
+    "id": "isherwood_lisa",
+    "//": "Part of the Isherwood family.",
+    "name_unique": "Lisa Isherwood",
+    "gender": "female",
+    "class": "NC_ISHERWOOD_LISA",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ISHERWOOD_LISA",
+    "faction": "isherwood_family"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ISHERWOOD_LISA",
+    "name": "Lisa Isherwood",
+    "job_description": "Part of the Isherwood family",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "common": false,
+    "bonus_per": { "one_in": 4 },
+    "worn_override": "NC_Isherwood_worn",
+    "carry_override": "NC_ISHERWOOD_rifle",
+    "weapon_override": "NC_ISHERWOOD_archery",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 3, 5 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 2, 5 ] } }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_LISA",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "I see that badge, I think you need ot keep on walking, straight off this property.",
+      "no": { "u_male": true, "yes": "Hello, what brings you here?", "no": "Hi, what brings you here?" }
+    },
+    "responses": [
+      {
+        "text": "...",
+        "topic": "TALK_LEAVE_NOW",
+        "opinion": { "trust": -20, "value": -20 },
+        "condition": { "u_is_wearing": "badge_marshal" }
+      },
+      {
+        "text": "Hi, this is a nice farm, your family live here?",
+        "topic": "TALK_ISHERWOOD_LISA_TALK1",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      },
+      {
+        "text": "Hi, I'm looking for Jesse.",
+        "topic": "TALK_LISA_JESSE",
+        "condition": {
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "u_has_var": "u_learned_about_jesse", "type": "general", "context": "meeting", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "Hi, I'm looking for Chris.",
+        "topic": "TALK_LISA_CHRIS",
+        "condition": {
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "u_has_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "I'd better get going.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_LISA_TALK1",
+    "dynamic_line": "My family owns all the land around here, my parents are out in the barn and my other family is down he road.",
+    "responses": [
+      { "text": "Ok, I'll go find them.", "topic": "TALK_DONE" },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LISA_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LISA_JESSE",
+    "dynamic_line": "Mom is in her office, in the barn.  Be careful that you don't let our horses out.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LISA_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LISA_CHRIS",
+    "dynamic_line": "Chris is out hunting or something right now.",
+    "responses": [
+      { "text": "Oh, ok.", "topic": "TALK_DONE" },
+      { "text": "Or something?", "topic": "TALK_LISA_CHRIS2" },
+      { "text": "Nice talking to you, bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LISA_CHRIS2",
+    "dynamic_line": "Well he's supposed to be hunting, but since you've been talking to Luke, I bet he mentioned Chris wants to learn more about the end of the world.  Sometimes he'll take off for a few days and I end up patching him up so my parents don't know he left the property.",
+    "speaker_effect": { "effect": { "u_add_var": "u_heard_about_lukefromlisa", "type": "general", "context": "meeting", "value": "yes" } },
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LISA_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_LISA_TOPICS",
+    "dynamic_line": "Go on...",
+    "responses": [
+      { "text": "Hi, I'm looking for Jesse.", "topic": "TALK_LISA_JESSE" },
+      { "text": "Hi, I'm looking for Chris.", "topic": "TALK_LISA_CHRIS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LEAVE_NOW",
+    "dynamic_line": "You should get off my farm, I won't deal with a a government stooge.",
+    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+  }
+]

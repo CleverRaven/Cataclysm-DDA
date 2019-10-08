@@ -1,0 +1,33 @@
+[
+  {
+    "id": "mon_scorpion_giant",
+    "type": "MONSTER",
+    "name": "giant scorpion",
+    "description": "A menacing arachnid with a second set of pedipalps, clacking rabidly as an engorged stinger looms over its body.",
+    "default_faction": "scorpion",
+    "bodytype": "insect",
+    "species": [ "INSECT" ],
+    "volume": "62500 ml",
+    "weight": 81500,
+    "hp": 85,
+    "speed": 100,
+    "material": [ "iflesh" ],
+    "symbol": "s",
+    "color": "brown",
+    "aggression": 40,
+    "morale": 100,
+    "melee_skill": 6,
+    "melee_dice": 1,
+    "melee_dice_sides": 8,
+    "melee_cut": 6,
+    "dodge": 1,
+    "armor_bash": 4,
+    "armor_cut": 10,
+    "vision_day": 5,
+    "vision_night": 5,
+    "harvest": "arachnid",
+    "special_attacks": [ { "id": "impale" } ],
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "PARALYZEVENOM", "GRABS" ]
+  }
+]

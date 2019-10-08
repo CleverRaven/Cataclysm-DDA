@@ -1,0 +1,8 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lake_surface" ],
+    "object": { "fill_ter": "t_water_dp" }
+  }
+]

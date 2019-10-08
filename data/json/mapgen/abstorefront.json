@@ -55,13 +55,13 @@
         ],
         " ": "t_sidewalk",
         "+": "t_door_c",
-        "-": "t_wall",
+        "-": "t_wall_w",
         ".": "t_floor",
         "D": "t_door_locked",
         "x": "t_window_boarded",
         "4": "t_gutter_downspout",
         "<": "t_stairs_up",
-        "|": "t_wall"
+        "|": "t_wall_w"
       },
       "furniture": { "B": "f_rack", "c": "f_counter" },
       "items": { ".": { "item": "trash", "chance": 12 } },
@@ -185,7 +185,7 @@
         "_": "t_pavement",
         "~": "t_pavement_y",
         "+": "t_door_c",
-        "-": "t_wall",
+        "-": "t_wall_w",
         ".": "t_floor",
         "D": "t_door_locked",
         "x": "t_window_boarded",
@@ -194,7 +194,7 @@
         "R": "t_sidewalk",
         "4": "t_gutter_downspout",
         "<": "t_ladder_up",
-        "|": "t_wall"
+        "|": "t_wall_w"
       },
       "furniture": { "B": "f_rack", "R": "f_dumpster", "l": "f_locker", "b": "f_bench", "c": "f_counter" },
       "items": { ".": { "item": "trash", "chance": 15 } },

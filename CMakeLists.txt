@@ -1,5 +1,5 @@
 # Main project build script
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.1.4)
 
 PROJECT(CataclysmDDA)
 
@@ -7,6 +7,8 @@ SET(CMAKE_MODULE_PATH
     ${CMAKE_MODULE_PATH}
     ${CMAKE_SOURCE_DIR}/CMakeModules
 )
+
+SET(CMAKE_TLS_VERIFY ON)
 
 # Build options
 option(TILES        "Build graphical tileset version."						"OFF")
@@ -17,8 +19,11 @@ option(USE_HOME_DIR "Use user's home directory for save files."					"ON" )
 option(LOCALIZE     "Support for language localizations. Also enable UTF support."		"ON" )
 option(LANGUAGES    "Compile localization files for specified languages."			""   )
 option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."	"ON")
-option(GIT_BINARY   "Git binary name or path."							"")
-OPTION(PREFIX       "Location of Data & GFX directories"                                   "")
+option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy plugin" "OFF")
+set(CATA_CLANG_TIDY_INCLUDE_DIR "" CACHE STRING "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
+set(CATA_CHECK_CLANG_TIDY "" CACHE STRING "Path to check_clang_tidy.py for plugin tests")
+set(GIT_BINARY       "" CACHE STRING "Git binary name or path.")
+set(PREFIX           "" CACHE STRING "Location of Data & GFX directories")
 
 include(CTest)
 
@@ -33,7 +38,7 @@ MESSAGE("   \\     \\____ / __ \\_ |  |   / __ \\_\\  \\___ |  |__ \\___  | \\__
 MESSAGE("    \\______  /\(____  / |__|  \(____  / \\___  >|____/ / ____|/____  >|__|_|  /    ")
 MESSAGE("           \\/      \\/             \\/      \\/        \\/          \\/       \\/     ")
 MESSAGE("                               --= Dark Days Ahead =--")
-MESSAGE("\n * http://en.cataclysmdda.com/\n")
+MESSAGE("\n * https://cataclysmdda.org/\n")
 
 MESSAGE(STATUS "${PROJECT} build environment -- \n")
 
@@ -212,9 +217,19 @@ IF(MSVC)
 		add_definitions(-D_X86_)
 	endif()
 ELSE()
-	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wall -std=c++11")
-	SET(CMAKE_CXX_FLAGS_DEBUG "-Og -g -D_GLIBCXX_DEBUG")
+	SET(CATA_WARNINGS
+		"-Werror -Wall -Wextra \
+		-Wmissing-declarations \
+		-Wold-style-cast \
+		-Woverloaded-virtual \
+		-Wpedantic")
+	# Compact the whitespace in the warning string
+	string(REGEX REPLACE "[\t ]+" " " CATA_WARNINGS "${CATA_WARNINGS}")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS}")
+	SET(CMAKE_CXX_FLAGS_DEBUG "-Og -g")
 ENDIF()
+
+SET(CMAKE_CXX_STANDARD 14)
 
 # Force out-of-source build
 IF(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
@@ -333,6 +348,9 @@ if (NOT MSVC)
 	add_subdirectory(src/chkjson)
 endif()
 add_subdirectory(tests)
+if (CATA_CLANG_TIDY_PLUGIN)
+	add_subdirectory(tools/clang-tidy-plugin)
+endif()
 
 CONFIGURE_FILE(
 	"${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"

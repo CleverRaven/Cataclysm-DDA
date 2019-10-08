@@ -13,6 +13,12 @@
       "boosted_other": { "t_shrub_blueberry": 0.0001, "t_shrub": 4.9, "f_mutcactus_test": 50.0 },
       "boosted_other_percent": 20.0
     },
+    "overmap_lake_settings": {
+      "noise_threshold_lake": 0.25,
+      "lake_size_min": 20,
+      "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
+      "shore_extendable_overmap_terrain_aliases": [  ]
+    },
     "overmap_forest_settings": {
       "noise_threshold_forest": 0.6,
       "noise_threshold_forest_thick": 0.7,
@@ -92,7 +98,6 @@
       "trail_terrain": { "t_dirt": 1 }
     },
     "city": {
-      "type": "town",
       "shop_radius": 30,
       "shop_sigma": 50,
       "park_radius": 20,
@@ -210,6 +215,7 @@
     "type": "terrain",
     "id": "t_searth_test",
     "name": "scorched earth",
+    "description": "",
     "symbol": ".",
     "color": "light_gray",
     "move_cost": 2,
@@ -219,6 +225,7 @@
     "type": "furniture",
     "id": "f_mutcactus_test",
     "name": "mutated cactus",
+    "description": "",
     "symbol": "f",
     "color": "green",
     "move_cost_mod": 4,
@@ -228,7 +235,6 @@
   },
   {
     "type": "region_settings",
-    "id": "river",
-    "swamp_river_influence": 50
+    "id": "river"
   }
 ]

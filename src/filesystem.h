@@ -18,7 +18,7 @@ bool rename_file( const std::string &old_path, const std::string &new_path );
 namespace cata_files
 {
 const char *eol();
-}
+} // namespace cata_files
 
 //--------------------------------------------------------------------------------------------------
 /**
@@ -48,8 +48,16 @@ std::vector<std::string> get_directories_with( const std::vector<std::string> &p
         const std::string &root_path = "", bool recursive_search = false );
 
 std::vector<std::string> get_directories_with( const std::string &pattern,
-        const std::string &root_path = "", const bool recursive_search = false );
+        const std::string &root_path = "", bool recursive_search = false );
 
 bool copy_file( const std::string &source_path, const std::string &dest_path );
+
+/**
+ *  Replace invalid characters in a string with a default character; can be used to ensure that a file name is compliant with most file systems.
+ *  @param file_name Name of the file to check.
+ *  @return A string with all invalid characters replaced with the replacement character, if any change was made.
+ *  @note  The default replacement character is space (0x20) and the invalid characters are "\\/:?\"<>|".
+ */
+std::string ensure_valid_file_name( const std::string &file_name );
 
 #endif //CATA_FILE_SYSTEM_H

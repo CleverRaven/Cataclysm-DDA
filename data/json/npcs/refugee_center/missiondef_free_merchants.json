@@ -1,0 +1,13 @@
+[
+  {
+    "id": "MISSION_REACH_REFUGEE_CENTER",
+    "type": "mission_definition",
+    "name": "Reach Refugee Center",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 1,
+    "value": 0,
+    "start": "reveal_refugee_center",
+    "origins": [ "ORIGIN_COMPUTER" ],
+    "destination": "refctr_S3e"
+  }
+]

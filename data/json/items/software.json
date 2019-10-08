@@ -70,5 +70,24 @@
     "name_plural": "train data",
     "description": "Logistical data on subterranean train routes and schedules.",
     "price": 200
+  },
+  {
+    "id": "mind_scan_robofac",
+    "type": "GENERIC",
+    "name": "neural data",
+    "name_plural": "neural data",
+    "symbol": "#",
+    "container": "data_card",
+    "description": "Data stolen from a dead scientist memory banks.  Is the owner of these thoughts still hidden here, amidst the unreadable data; or are these just a collection of the precious moments of someone's life?\n\nWhatever the case, the idea of perpetually keeping a part of you within a metallic pill makes you feel uncomfortable.",
+    "flags": [ "NO_DROP" ]
+  },
+  {
+    "id": "software_electronics_reference",
+    "copy-from": "software",
+    "type": "GENERIC",
+    "name": "integrated circuit datasheet archives",
+    "name_plural": "misc software",
+    "description": "Huge archives of numerous IC circuit datasheets from several major manufacturers.  Probably valuable to the right person, as it would be hard to salvage and reuse these components without them.",
+    "price": 40000
   }
 ]

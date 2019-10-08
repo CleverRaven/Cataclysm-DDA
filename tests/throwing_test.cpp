@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
@@ -16,11 +17,11 @@
 #include "projectile.h"
 #include "test_statistics.h"
 #include "damage.h"
-#include "enums.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "material.h"
 #include "type_id.h"
+#include "point.h"
 
 TEST_CASE( "throwing distance test", "[throwing], [balance]" )
 {
@@ -44,7 +45,7 @@ struct throw_test_pstats {
     int per;
 };
 
-std::ostream &operator<<( std::ostream &stream, const throw_test_pstats &pstats )
+static std::ostream &operator<<( std::ostream &stream, const throw_test_pstats &pstats )
 {
     return( stream << "STR: " << pstats.str << " DEX: " << pstats.dex <<
             " PER: " << pstats.per << " SKL: " << pstats.skill_lvl );
@@ -82,11 +83,12 @@ constexpr int max_throw_test_iterations = 10000;
 
 // tighter thresholds here will increase accuracy but also increase average test
 // time since more samples are required to get a more accurate test
-void test_throwing_player_versus( player &p, const std::string &mon_id, const std::string &throw_id,
-                                  const int range, const throw_test_pstats &pstats,
-                                  const epsilon_threshold &hit_thresh, const epsilon_threshold &dmg_thresh,
-                                  const int min_throws = min_throw_test_iterations,
-                                  int max_throws = max_throw_test_iterations )
+static void test_throwing_player_versus(
+    player &p, const std::string &mon_id, const std::string &throw_id,
+    const int range, const throw_test_pstats &pstats,
+    const epsilon_threshold &hit_thresh, const epsilon_threshold &dmg_thresh,
+    const int min_throws = min_throw_test_iterations,
+    int max_throws = max_throw_test_iterations )
 {
     const tripoint monster_start = { 30 + range, 30, 0 };
     const tripoint player_start = { 30, 30, 0 };
@@ -151,11 +153,14 @@ void test_throwing_player_versus( player &p, const std::string &mon_id, const st
 // dump an extremely accurate population sample that can be used to tune a
 // broken test.
 // WARNING: these will take a long time likely
-void test_throwing_player_versus( player &p, const std::string &mon_id, const std::string &throw_id,
-                                  const int range, const throw_test_pstats &pstats )
+/*
+static void test_throwing_player_versus(
+    player &p, const std::string &mon_id, const std::string &throw_id, const int range,
+    const throw_test_pstats &pstats )
 {
     test_throwing_player_versus( p, mon_id, throw_id, range, pstats, { 0, 0 }, { 0, 0 }, 5000, 5000 );
 }
+*/
 
 constexpr throw_test_pstats lo_skill_base_stats = { 0, 8, 8, 8 };
 constexpr throw_test_pstats mid_skill_base_stats = { MAX_SKILL / 2, 8, 8, 8 };
@@ -228,9 +233,9 @@ TEST_CASE( "throwing_skill_impact_test", "[throwing],[balance]" )
     }
 }
 
-void test_player_kills_monster( player &p, const std::string &mon_id, const std::string &item_id,
-                                const int range, const int dist_thresh, const throw_test_pstats &pstats,
-                                const int iterations )
+static void test_player_kills_monster(
+    player &p, const std::string &mon_id, const std::string &item_id, const int range,
+    const int dist_thresh, const throw_test_pstats &pstats, const int iterations )
 {
     const tripoint monster_start = { 30 + range, 30, 0 };
     const tripoint player_start = { 30, 30, 0 };

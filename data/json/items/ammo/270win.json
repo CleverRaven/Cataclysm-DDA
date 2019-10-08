@@ -1,0 +1,43 @@
+[
+  {
+    "id": "270win_jsp",
+    "type": "AMMO",
+    "name": ".270 Winchester JSP",
+    "description": ".270 Winchester ammunition with 130gr soft point bullets.  The .270 round was not initially successful, but over a few decades it became one of the most popular rifle cartridges for hunting and silhouette shooting.  It is a powerful round capable of taking down large targets with ease.",
+    "weight": "20 g",
+    "volume": "250 ml",
+    "price": 170,
+    "price_postapoc": 1700,
+    "material": [ "brass", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 20,
+    "stack_size": 20,
+    "ammo_type": "270win",
+    "casing": "270win_casing",
+    "range": 65,
+    "damage": 64,
+    "pierce": 4,
+    "dispersion": 10,
+    "recoil": 3800,
+    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+  },
+  {
+    "id": "bp_270win_jsp",
+    "copy-from": "270win_jsp",
+    "type": "AMMO",
+    "name": ".270 Winchester JSP blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.7, "recoil": 0.7, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "reloaded_270win_jsp",
+    "copy-from": "270win_jsp",
+    "type": "AMMO",
+    "name": "reloaded .270 Winchester JSP",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  }
+]

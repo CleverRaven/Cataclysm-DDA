@@ -171,6 +171,12 @@
   },
   {
     "type": "start_location",
+    "ident": "lmoe_empty",
+    "name": "LMOE shelter",
+    "target": "lmoe_under_empty"
+  },
+  {
+    "type": "start_location",
     "ident": "forest",
     "name": "Middle of Nowhere",
     "target": "forest",
@@ -232,6 +238,12 @@
   },
   {
     "type": "start_location",
+    "ident": "fp_break_room",
+    "name": "Foodplace Break Room",
+    "target": "s_restaurant_foodplace_roof"
+  },
+  {
+    "type": "start_location",
     "ident": "school",
     "name": "School",
     "target": "school_1_5"
@@ -247,6 +259,12 @@
     "ident": "prison",
     "name": "Prison",
     "target": "prison_1_b_5"
+  },
+  {
+    "type": "start_location",
+    "ident": "alcatraz",
+    "name": "Island prison",
+    "target": "prison_alcatraz_3"
   },
   {
     "type": "start_location",
@@ -283,12 +301,6 @@
     "ident": "survivalist farm",
     "name": "farm",
     "target": "farm_2"
-  },
-  {
-    "type": "start_location",
-    "ident": "cabin_woods",
-    "name": "cabin in the woods",
-    "target": "cabin"
   },
   {
     "type": "start_location",
@@ -331,5 +343,47 @@
     "ident": "golfcourse_31",
     "name": "Golf course clubhouse",
     "target": "golfcourse_31"
+  },
+  {
+    "type": "start_location",
+    "ident": "apartments_con_tower_114",
+    "name": "Apartment Rooftop",
+    "target": "apartments_con_tower_114"
+  },
+  {
+    "type": "start_location",
+    "ident": "apartments_con_tower_014",
+    "name": "Apartment Rooftop",
+    "target": "apartments_con_tower_014"
+  },
+  {
+    "type": "start_location",
+    "ident": "apartments_con_tower_104",
+    "name": "Apartment Rooftop",
+    "target": "apartments_con_tower_104"
+  },
+  {
+    "type": "start_location",
+    "ident": "apartments_con_tower_004",
+    "name": "Apartment Rooftop",
+    "target": "apartments_con_tower_004"
+  },
+  {
+    "type": "start_location",
+    "ident": "horse_farm_13",
+    "name": "Horse Ranch",
+    "target": "horse_farm_13"
+  },
+  {
+    "type": "start_location",
+    "ident": "cabin_lake",
+    "name": "Lake Cabin",
+    "target": "cabin_lake"
+  },
+  {
+    "type": "start_location",
+    "ident": "lighthouse_ground",
+    "name": "Lighthouse Island",
+    "target": "lighthouse_ground"
   }
 ]

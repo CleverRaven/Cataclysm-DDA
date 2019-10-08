@@ -5,23 +5,32 @@
 #include <vector>
 #include <string>
 
-#include "enums.h"
+#include "point.h"
 #include "requirements.h"
 
 class inventory;
 class item;
 class player;
 class recipe;
+class JsonIn;
+class JsonOut;
+template<typename T> struct enum_traits;
 
 /**
 *   enum used by comp_selection to indicate where a component should be consumed from.
 */
 enum usage {
+    use_from_none = 0,
     use_from_map = 1,
     use_from_player = 2,
     use_from_both = 1 | 2,
-    use_from_none = 4,
-    cancel = 8 // FIXME: hacky.
+    cancel = 4, // FIXME: hacky.
+    num_usages
+};
+
+template<>
+struct enum_traits<usage> {
+    static constexpr usage last = usage::num_usages;
 };
 
 /**
@@ -35,6 +44,9 @@ struct comp_selection {
 
     /** provides a translated name for 'comp', suffixed with it's location e.g '(nearby)'. */
     std::string nname() const;
+
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
 };
 
 /**
@@ -48,7 +60,7 @@ class craft_command
         /** Instantiates an empty craft_command, which can't be executed. */
         craft_command() = default;
         craft_command( const recipe *to_make, int batch_size, bool is_long, player *crafter,
-                       const tripoint loc = tripoint_zero ) :
+                       const tripoint &loc = tripoint_zero ) :
             rec( to_make ), batch_size( batch_size ), longcraft( is_long ), crafter( crafter ), loc( loc ) {}
 
         /** Selects components to use for the craft, then assigns the crafting activity to 'crafter'. */

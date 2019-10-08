@@ -5,69 +5,26 @@
 #include <string>
 #include <iosfwd>
 #include <utility>
+#include <vector>
 
 class time_duration;
 class time_point;
 class JsonOut;
 class JsonIn;
-
-/**
- * Convert minutes to six-second turns
- *
- * @param n Time in minutes
- * @returns Time in six-second turns
- *
- */
-constexpr int MINUTES( int n )
-{
-    return n * 10;
-}
-
-/**
- * Convert hours to six-second turns
- *
- * @param n Time in hours
- * @returns Time in six-second turns
- */
-constexpr int HOURS( int n )
-{
-    return n * MINUTES( 60 );
-}
-
-/**
- * Convert days to six-second turns
- *
- * @param n Time in days
- * @returns Time in six-second turns
- */
-constexpr int DAYS( int n )
-{
-    return n * HOURS( 24 );
-}
-
-/**
- * Convert ticks to seconds.
- *
- * @param ticks number of ticks
- * @returns Time in seconds
- */
-constexpr int TICKS_TO_SECONDS( int ticks )
-{
-    return static_cast<int>( static_cast<float>( ticks ) / 16.67 );
-}
-
-/** How much light moon provides per lit-up quarter (Full-moon light is four times this value) */
-#define MOONLIGHT_PER_QUARTER 2.25
-
-/** How much light is provided in full daylight */
-#define DAYLIGHT_LEVEL 100
+template<typename T> struct enum_traits;
 
 /** Real world seasons */
 enum season_type {
     SPRING = 0,
     SUMMER = 1,
     AUTUMN = 2,
-    WINTER = 3
+    WINTER = 3,
+    NUM_SEASONS
+};
+
+template<>
+struct enum_traits<season_type> {
+    static constexpr season_type last = season_type::NUM_SEASONS;
 };
 
 /** Phases of the moon */
@@ -98,160 +55,78 @@ enum moon_phase {
  * Encapsulates the current time of day, date, and year.  Also tracks seasonal variation in day
  * length, the passing of the seasons themselves, and the phases of the moon.
  */
-class calendar
+namespace calendar
 {
-    private:
-        /**
-         *  This is the basic "quantum" unit of world time.  It is a six second interval,
-         *  so "seconds" value on the clock will always be a multiple of 6.
-         */
-        int turn_number;
+/**
+ * Predicate to handle rate-limiting. Returns `true` after every @p event_frequency duration.
+ */
+bool once_every( const time_duration &event_frequency );
 
-        /** Seconds portion of time */
-        int second;
+/**
+ * A number that represents the longest possible action.
+ *
+ * This number should be regarded as a number of turns, and can safely be converted to a
+ * number of seconds or moves (movement points) without integer overflow.  If used to
+ * represent a larger unit (hours/days/years), then this will result in integer overflow.
+ */
+extern const int INDEFINITELY_LONG;
 
-        /** Minutes portion of time */
-        int minute;
+/**
+ * The expected duration of the cataclysm
+ *
+ * Large duration that can be used to approximate infinite amounts of time.
+ *
+ * This number can't be safely converted to a number of moves without causing
+ * an integer overflow.
+ */
+extern const time_duration INDEFINITELY_LONG_DURATION;
 
-        /** Hours portion of time (using a 24-hour clock) */
-        int hour;
+/// @returns Whether the eternal season is enabled.
+bool eternal_season();
+void set_eternal_season( bool is_eternal_season );
 
-        /** Day of season */
-        int day;
+/** @returns Time in a year, (configured in current world settings) */
+time_duration year_length();
 
-        /** Current season */
-        season_type season;
+/** @returns Time of a season (configured in current world settings) */
+time_duration season_length();
+void set_season_length( int dur );
 
-        /** Current year, starts counting from 0 in default scenarios */
-        int year;
+/// @returns relative length of game season to real life season.
+float season_ratio();
 
-        /**
-         * Synchronize all variables to the turn_number
-         *
-         * Time is actually counted as a running total of turns since start of game.  This function
-         * calculates the current seconds/minutes/hour/day/season based on that counter value.
-         */
-        void sync();
+/**
+ * @returns ratio of actual season length (a world option) to default season length. This
+ * should be used to convert JSON values (that assume the default for the season length
+ * option) to actual in-game length.
+ */
+float season_from_default_ratio();
 
-    public:
-        /** Initializers */
-        /**
-         * Starts at turn count zero, (midnight of first day, year zero, spring time)
-         */
-        calendar();
-        calendar( const calendar &copy ) = default;
+/** Returns the translated name of the season (with first letter being uppercase). */
+std::string name_season( season_type s );
 
-        /** Construct calendar with specific starting time and day. */
-        calendar( int Minute, int Hour, int Day, season_type Season, int Year );
+extern time_point start_of_cataclysm;
+extern time_point turn;
+extern season_type initial_season;
 
-        /**
-         * Construct calendar with specific elapsed turns count.
-         * @param turn Turn count value for constructed calendar
-         */
-        calendar( int turn );
-
-        /**
-         * Accessor for current turn_number.
-         *
-         * @returns Current turn number.
-         */
-        operator int() const;
-
-        // Basic calendar operators. Usually modifies or checks the turn_number of the calendar
-        calendar &operator = ( const calendar &rhs ) = default;
-        calendar &operator = ( int rhs );
-        calendar &operator -=( const calendar &rhs );
-        calendar &operator -=( int rhs );
-        calendar &operator +=( const calendar &rhs );
-        calendar &operator +=( int rhs );
-        calendar  operator - ( const calendar &rhs ) const;
-        calendar  operator - ( int rhs ) const;
-        calendar  operator + ( const calendar &rhs ) const;
-        calendar  operator + ( int rhs ) const;
-        bool      operator ==( int rhs ) const;
-        bool      operator ==( const calendar &rhs ) const;
-
-        /** Increases turn_number by 1. (6 seconds) */
-        void increment();
-
-        // Sunlight and day/night calculations
-        /** Returns the current sunrise time based on the time of year. */
-        calendar sunrise() const;
-        /** Returns the current sunset time based on the time of year. */
-        calendar sunset() const;
-        /** Returns true if it's currently after sunset + TWILIGHT_SECONDS or before sunrise - TWILIGHT_SECONDS. */
-        bool is_night() const;
-        /** Returns the current seasonally-adjusted maximum daylight level */
-        double current_daylight_level() const;
-        /** Returns the current sunlight or moonlight level through the preceding functions. */
-        float sunlight() const;
-
-        /** Current year, with default game start as year 0 */
-        int years() const {
-            return year;
-        }
-
-        /**
-         * Predicate to handle rate-limiting. Returns `true` after every @p event_frequency duration.
-         */
-        static bool once_every( const time_duration &event_frequency );
-
-    public:
-        /**
-         * The expected duration of the cataclysm
-         *
-         * Large number that can be used to approximate infinite amounts of time.  Represents
-         * approximately 60 billion years (in six-second increments).
-         *
-         * This number should be regarded as a number of turns, and can safely be converted to a
-         * number of seconds or moves (movement points) without integer overflow.  If used to
-         * represent a larger unit (hours/days/years), then this will result in integer overflow.
-         */
-        static const int INDEFINITELY_LONG;
-        /// @returns Whether the eternal season is enabled.
-        static bool eternal_season();
-
-        /** @returns Time in a year, (configured in current world settings) */
-        static time_duration year_length();
-
-        /** @returns Time of a season (configured in current world settings) */
-        static time_duration season_length();
-
-        /// @returns relative length of game season to real life season.
-        static float season_ratio();
-
-        /** @returns Number of days elapsed in current year */
-        int day_of_year() const;
-        /**
-         * @returns ratio of actual season length (a world option) to default season length. This
-         * should be used to convert JSON values (that assume the default for the season length
-         * option) to actual in-game length.
-         */
-        static float season_from_default_ratio();
-
-        /** Returns the translated name of the season (with first letter being uppercase). */
-        static const std::string name_season( season_type s );
-
-        static   calendar start;
-        static   calendar turn;
-        static season_type initial_season;
-
-        /**
-         * A time point that is always before the current turn, even when the game has
-         * just started. This implies `before_time_starts < calendar::turn` is always
-         * true. It can be used to initialize `time_point` values that denote that last
-         * time a cache was update.
-         */
-        static const time_point before_time_starts;
-        /**
-         * Represents time point 0.
-         */
-        // TODO: flesh out the documentation
-        static const time_point time_of_cataclysm;
-};
+/**
+ * A time point that is always before the current turn, even when the game has
+ * just started. This implies `before_time_starts < calendar::turn` is always
+ * true. It can be used to initialize `time_point` values that denote that last
+ * time a cache was update.
+ */
+extern const time_point before_time_starts;
+/**
+ * Represents time point 0.
+ * TODO: flesh out the documentation
+ */
+extern const time_point turn_zero;
+} // namespace calendar
 
 template<typename T>
 constexpr T to_turns( const time_duration &duration );
+template<typename T>
+constexpr T to_seconds( const time_duration &duration );
 template<typename T>
 constexpr T to_minutes( const time_duration &duration );
 template<typename T>
@@ -267,15 +142,15 @@ template<typename T>
 constexpr T to_turn( const time_point &point );
 
 template<typename T>
-constexpr time_duration operator/( const time_duration &lhs, const T rhs );
+constexpr time_duration operator/( const time_duration &lhs, T rhs );
 template<typename T>
-inline time_duration &operator/=( time_duration &lhs, const T rhs );
+inline time_duration &operator/=( time_duration &lhs, T rhs );
 template<typename T>
-constexpr time_duration operator*( const time_duration &lhs, const T rhs );
+constexpr time_duration operator*( const time_duration &lhs, T rhs );
 template<typename T>
-constexpr time_duration operator*( const T lhs, const time_duration &rhs );
+constexpr time_duration operator*( T lhs, const time_duration &rhs );
 template<typename T>
-inline time_duration &operator*=( time_duration &lhs, const T rhs );
+inline time_duration &operator*=( time_duration &lhs, T rhs );
 
 /**
  * A duration defined as a number of specific time units.
@@ -308,12 +183,7 @@ class time_duration
         explicit constexpr time_duration( const int t ) : turns_( t ) { }
 
     public:
-        time_duration() = default;
-
-        /// Allows writing `time_duration d = 0;`
-        time_duration( const std::nullptr_t ) : turns_( 0 ) { }
-
-        static time_duration read_from_json_string( JsonIn &jsin );
+        time_duration() : turns_( 0 ) {}
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
@@ -323,7 +193,7 @@ class time_duration
          * units. Note that a duration is stored as integer number of turns, so
          * `from_minutes( 0.0001 )` will be stored as "0 turns".
          * The template type is used for the conversion from given time unit to turns, so
-         * `from_hours( 0.5 )` will yield "300 turns".
+         * `from_hours( 0.5 )` will yield "1800 turns".
          * Conversion of units greater than days (seasons) is not supported because they
          * depend on option settings ("season length").
          */
@@ -333,8 +203,12 @@ class time_duration
             return time_duration( t );
         }
         template<typename T>
+        static constexpr time_duration from_seconds( const T t ) {
+            return time_duration( t );
+        }
+        template<typename T>
         static constexpr time_duration from_minutes( const T m ) {
-            return from_turns( m * 10 );
+            return from_turns( m * 60 );
         }
         template<typename T>
         static constexpr time_duration from_hours( const T h ) {
@@ -362,20 +236,24 @@ class time_duration
             return duration.turns_;
         }
         template<typename T>
+        friend constexpr T to_seconds( const time_duration &duration ) {
+            return duration.turns_;
+        }
+        template<typename T>
         friend constexpr T to_minutes( const time_duration &duration ) {
-            return static_cast<T>( duration.turns_ ) / static_cast<T>( 10 );
+            return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 );
         }
         template<typename T>
         friend constexpr T to_hours( const time_duration &duration ) {
-            return static_cast<T>( duration.turns_ ) / static_cast<T>( 10 * 60 );
+            return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 * 60 );
         }
         template<typename T>
         friend constexpr T to_days( const time_duration &duration ) {
-            return static_cast<T>( duration.turns_ ) / static_cast<T>( 10 * 60 * 24 );
+            return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 * 60 * 24 );
         }
         template<typename T>
         friend constexpr T to_weeks( const time_duration &duration ) {
-            return static_cast<T>( duration.turns_ ) / static_cast<T>( 10 * 60 * 24 * 7 );
+            return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 * 60 * 24 * 7 );
         }
         template<typename T>
         friend constexpr T to_moves( const time_duration &duration ) {
@@ -447,6 +325,8 @@ class time_duration
 
         /// Returns a random duration in the range [low, hi].
         friend time_duration rng( time_duration lo, time_duration hi );
+
+        static const std::vector<std::pair<std::string, time_duration>> units;
 };
 
 /// @see x_in_y(int,int)
@@ -460,6 +340,10 @@ bool x_in_y( const time_duration &a, const time_duration &b );
 constexpr time_duration operator"" _turns( const unsigned long long int v )
 {
     return time_duration::from_turns( v );
+}
+constexpr time_duration operator"" _seconds( const unsigned long long int v )
+{
+    return time_duration::from_seconds( v );
 }
 constexpr time_duration operator"" _minutes( const unsigned long long int v )
 {
@@ -546,10 +430,6 @@ class time_point
         constexpr time_point( const int t ) : turn_( t ) { }
 
     public:
-        // TODO: replace usage of `calendar` with `time_point`, remove this constructor
-        time_point( const calendar &c ) : turn_( c ) { }
-        /// Allows writing `time_point p = 0;`
-        constexpr time_point( const std::nullptr_t ) : turn_( 0 ) { }
         // TODO: remove this, nobody should need it, one should use a constant `time_point`
         // (representing turn 0) and a `time_duration` instead.
         static constexpr time_point from_turn( const int t ) {
@@ -616,31 +496,31 @@ time_point inline &operator-=( time_point &lhs, const time_duration &rhs )
 
 inline time_duration time_past_midnight( const time_point &p )
 {
-    return ( p - calendar::time_of_cataclysm ) % 1_days;
+    return ( p - calendar::turn_zero ) % 1_days;
 }
 
 inline time_duration time_past_new_year( const time_point &p )
 {
-    return ( p - calendar::time_of_cataclysm ) % calendar::year_length();
+    return ( p - calendar::turn_zero ) % calendar::year_length();
 }
 
 template<typename T>
 inline T minute_of_hour( const time_point &p )
 {
-    return to_minutes<T>( ( p - calendar::time_of_cataclysm ) % 1_hours );
+    return to_minutes<T>( ( p - calendar::turn_zero ) % 1_hours );
 }
 
 template<typename T>
 inline T hour_of_day( const time_point &p )
 {
-    return to_hours<T>( ( p - calendar::time_of_cataclysm ) % 1_days );
+    return to_hours<T>( ( p - calendar::turn_zero ) % 1_days );
 }
 
 /// This uses the current season length.
 template<typename T>
 inline T day_of_season( const time_point &p )
 {
-    return to_days<T>( ( p - calendar::time_of_cataclysm ) % calendar::season_length() );
+    return to_days<T>( ( p - calendar::turn_zero ) % calendar::season_length() );
 }
 
 /// @returns The season of the of the given time point. Returns the same season for
@@ -652,6 +532,29 @@ std::string to_string( const time_point &p );
 std::string to_string_time_of_day( const time_point &p );
 /** Returns the current light level of the moon. */
 moon_phase get_moon_phase( const time_point &p );
+/** Returns the current sunrise time based on the time of year. */
+time_point sunrise( const time_point &p );
+/** Returns the current sunset time based on the time of year. */
+time_point sunset( const time_point &p );
+/** Returns the time it gets light based on sunrise */
+time_point daylight_time( const time_point &p );
+/** Returns the time it gets dark based on sunset */
+time_point night_time( const time_point &p );
+/** Returns whether it's currently after sunset + TWILIGHT_SECONDS or before sunrise - TWILIGHT_SECONDS. */
+bool is_night( const time_point &p );
+/** Returns true if it's currently after sunset and before sunset + TWILIGHT_SECONDS. */
+bool is_sunset_now( const time_point &p );
+/** Returns true if it's currently after sunrise and before sunrise + TWILIGHT_SECONDS. */
+bool is_sunrise_now( const time_point &p );
+/** Returns the current seasonally-adjusted maximum daylight level */
+double current_daylight_level( const time_point &p );
+/** How much light is provided in full daylight */
+double default_daylight_level();
+/** Returns the current sunlight or moonlight level through the preceding functions.
+ *  By default, returns sunlight level for vision, with moonlight providing a measurable amount
+ *  of light.  with vision == false, returns sunlight for solar panel purposes, and moonlight
+ *  provides 0 light */
+float sunlight( const time_point &p, bool vision = true );
 
 enum class weekdays : int {
     SUNDAY = 0,

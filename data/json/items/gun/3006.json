@@ -6,8 +6,8 @@
     "name": "Browning BLR",
     "name_plural": "Browning BLR",
     "description": "A highly accurate lever-action hunting rifle chambered for the powerful .30-06 round.  Notable for using a detachable magazine instead of a traditional tube.",
-    "weight": 3135,
-    "volume": 12,
+    "weight": "3135 g",
+    "volume": "3 L",
     "price": 85000,
     "to_hit": -1,
     "bashing": 12,
@@ -19,6 +19,7 @@
     "ranged_damage": -1,
     "dispersion": 90,
     "durability": 7,
+    "blackpowder_tolerance": 24,
     "barrel_length": 2,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -34,8 +35,9 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "magazine_well": 1,
-    "magazines": [ [ "3006", [ "blrmag" ] ], [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "3006", [ "blrmag" ] ] ]
   },
   {
     "id": "garand",
@@ -43,8 +45,8 @@
     "reload_noise_volume": 10,
     "name": "M1 Garand",
     "description": "A semi-automatic .30-06 battle rifle, developed to replace the M1903 Springfield.  It didn't completely supplant the older bolt-action until after World War II.",
-    "weight": 4280,
-    "volume": 10,
+    "weight": "4280 g",
+    "volume": "2500 ml",
     "price": 90000,
     "to_hit": -1,
     "bashing": 12,
@@ -55,6 +57,7 @@
     "skill": "rifle",
     "dispersion": 150,
     "durability": 8,
+    "min_cycle_recoil": 3420,
     "reload": 150,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -69,8 +72,9 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
-    "magazines": [ [ "3006", [ "garandclip" ] ], [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "3006", [ "garandclip" ] ] ]
   },
   {
     "id": "m1903",
@@ -78,8 +82,8 @@
     "type": "GUN",
     "name": "M1903 Springfield",
     "description": "A powerful military rifle chambered in .30-06, developed to replace the US Army's older Krag rifle.  Served as the main American rifle in World War I, was used alongside the M1 Garand in World War II, and was used as a sniper rifle as late as the Vietnam War.",
-    "weight": 4080,
-    "volume": 12,
+    "weight": "4080 g",
+    "volume": "3 L",
     "price": 80000,
     "to_hit": -1,
     "bashing": 12,
@@ -88,6 +92,7 @@
     "ammo": "3006",
     "dispersion": 120,
     "durability": 8,
+    "blackpowder_tolerance": 60,
     "clip_size": 5,
     "barrel_length": 1,
     "valid_mod_locations": [
@@ -98,7 +103,11 @@
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "sights", 1 ],
-      [ "sling", 1 ]
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "magazines": [ [ "3006", [ "3006_clip" ] ] ],
     "flags": [ "RELOAD_ONE" ]
@@ -109,8 +118,8 @@
     "reload_noise_volume": 10,
     "name": "Browning Automatic Rifle",
     "description": "Designed near the end of World War I, the BAR provided fire support for the US Army from World War II all the way to the Vietnam War.  Too much firepower to serve as a battle rifle, but not enough to be an ideal light machine gun, it still found a niche on the battlefield.",
-    "weight": 7050,
-    "volume": 10,
+    "weight": "7050 g",
+    "volume": "2500 ml",
     "price": 350000,
     "to_hit": -1,
     "bashing": 12,
@@ -121,6 +130,7 @@
     "skill": "rifle",
     "dispersion": 180,
     "durability": 8,
+    "min_cycle_recoil": 3420,
     "burst": 8,
     "barrel_length": 4,
     "valid_mod_locations": [
@@ -137,7 +147,8 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "3006", [ "m1918mag", "m1918bigmag" ] ], [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "magazines": [ [ "3006", [ "m1918mag", "m1918bigmag" ] ] ]
   },
   {
     "id": "remington_700",
@@ -146,8 +157,8 @@
     "name": "Remington 700",
     "name_plural": "Remington 700",
     "description": "A very popular and durable hunting or sniping rifle.  Popular among SWAT and US Marine snipers.  Highly damaging, but perhaps not as accurate as the competing Browning BLR.",
-    "weight": 4080,
-    "volume": 12,
+    "weight": "4080 g",
+    "volume": "3 L",
     "price": 87000,
     "to_hit": -1,
     "bashing": 12,
@@ -156,6 +167,7 @@
     "ammo": "3006",
     "dispersion": 90,
     "durability": 8,
+    "blackpowder_tolerance": 24,
     "clip_size": 4,
     "barrel_length": 3,
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
@@ -167,9 +179,9 @@
     "name": "pipe rifle: .30-06",
     "name_plural": "pipe rifles: .30-06",
     "//": "It's the same size as the others, but it's still a scrap weapon.",
-    "description": "A homemade rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.  This one is made to support more gun attachments.",
-    "weight": 4080,
-    "volume": 12,
+    "description": "A homemade rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
+    "weight": "4080 g",
+    "volume": "3 L",
     "price": 110000,
     "to_hit": -1,
     "bashing": 12,
@@ -181,11 +193,22 @@
     "ranged_damage": -2,
     "dispersion": 550,
     "durability": 6,
+    "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
     "barrel_length": 4,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "muzzle", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ]
   },
   {
@@ -204,8 +227,12 @@
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "sights", 1 ],
-      [ "sling", 1 ]
+      [ "sling", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
+    "blackpowder_tolerance": 60,
     "relative": { "durability": -3 },
     "proportional": { "reload": 4 }
   }

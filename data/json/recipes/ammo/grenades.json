@@ -7,14 +7,14 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "skills_required": [ "gun", 2 ],
-    "time": 3750,
+    "time": "3 m 45 s",
     "batch_time_factors": [ 50, 10 ],
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 4 ], [ "manual_shotgun", 6 ] ],
     "charges": 1,
     "using": [ [ "ammo_40mm", 1 ] ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "components": [ [ [ "gunpowder", 40 ] ], [ [ "combatnail", 25 ] ] ]
+    "components": [ [ [ "gunpowder", 30 ], [ "gunpowder_pistol", 30 ], [ "gunpowder_shotgun", 3 ] ], [ [ "combatnail", 25 ] ] ]
   },
   {
     "result": "40mm_shot",
@@ -24,12 +24,28 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "skills_required": [ "gun", 2 ],
-    "time": 3750,
+    "time": "3 m 45 s",
     "batch_time_factors": [ 50, 10 ],
     "reversible": true,
     "book_learn": [ [ "manual_launcher", 4 ], [ "manual_shotgun", 6 ] ],
     "charges": 1,
-    "using": [ [ "bullet_forming", 2 ], [ "ammo_40mm", 1 ], [ "ammo_bullet", 12 ] ],
-    "components": [ [ [ "gunpowder", 40 ] ] ]
+    "using": [ [ "shot_forming", 2 ], [ "ammo_40mm", 1 ], [ "ammo_bullet", 12 ] ],
+    "components": [ [ [ "gunpowder", 30 ], [ "gunpowder_pistol", 30 ], [ "gunpowder_shotgun", 30 ] ] ]
+  },
+  {
+    "result": "40mm_slug",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_GRENADES",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 2 ],
+    "time": "2 m 12 s",
+    "batch_time_factors": [ 50, 3 ],
+    "reversible": true,
+    "book_learn": [ [ "manual_launcher", 4 ], [ "manual_shotgun", 6 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 3 ], [ "ammo_40mm", 1 ], [ "ammo_bullet", 12 ] ],
+    "components": [ [ [ "gunpowder", 36 ], [ "gunpowder_pistol", 36 ], [ "gunpowder_shotgun", 2 ] ], [ [ "plastic_chunk", 1 ] ] ]
   }
 ]

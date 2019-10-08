@@ -16,9 +16,10 @@
     "category": "spare_parts",
     "name": "nail",
     "description": "A pin-shaped piece of iron, can be used to construct various things with a hammer.",
-    "weight": 4,
-    "volume": 1,
-    "price": 6000,
+    "weight": "4 g",
+    "volume": "250 ml",
+    "price": 1000,
+    "price_postapoc": 6000,
     "material": "iron",
     "symbol": "=",
     "color": "cyan",
@@ -28,6 +29,7 @@
     "range": 3,
     "damage": 4,
     "pierce": 3,
-    "dispersion": 120
+    "dispersion": 120,
+    "effects": [ "NON-FOULING" ]
   }
 ]

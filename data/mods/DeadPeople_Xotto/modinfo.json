@@ -1,11 +1,12 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "DP__XOTTO_INDICATORS",
+    "ident": "DP_XOTTO_INDICATORS",
     "name": "[DP_MOD] Indicators: Xotto",
     "authors": [ "SomeDeadGuy" ],
     "description": "Changes interface indicators to Xotto version.",
-    "category": "none",
+    "category": "graphical",
+    "obsolete": true,
     "dependencies": [ "dda" ]
   }
 ]

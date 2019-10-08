@@ -2,12 +2,14 @@
 #ifndef CREATURE_TRACKER_H
 #define CREATURE_TRACKER_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <memory>
 #include <unordered_map>
+#include <set>
 #include <vector>
 
-#include "enums.h"
+#include "point.h"
+#include "type_id.h"
 
 class monster;
 class JsonIn;
@@ -15,6 +17,26 @@ class JsonOut;
 
 class Creature_tracker
 {
+    private:
+        void add_to_faction_map( std::shared_ptr<monster> critter );
+
+        class weak_ptr_comparator
+        {
+            public:
+                bool operator()( const std::weak_ptr<monster> &lhs, const std::weak_ptr<monster> &rhs ) const {
+                    return lhs.lock().get() < rhs.lock().get();
+                }
+        };
+
+        std::unordered_map<mfaction_id, std::set<std::weak_ptr<monster>, weak_ptr_comparator>>
+                monster_faction_map_;
+
+        /**
+         * Creatures that get removed via @ref remove are stored here until the end of the turn.
+         * This keeps the objects valid and they can still be accessed instead of causing UB.
+         */
+        std::vector<std::shared_ptr<monster>> removed_;
+
     public:
         Creature_tracker();
         ~Creature_tracker();
@@ -33,8 +55,13 @@ class Creature_tracker
          */
         int temporary_id( const monster &critter ) const;
         std::shared_ptr<monster> from_temporary_id( int id );
-        /** Adds the given monster to the creature_tracker. Returns whether the operation was successful. */
-        bool add( monster &critter );
+        /**
+        * Adds the given monster to the tracker. @p critter must not be null.
+         * If the operation succeeded, the monster pointer is now managed by this tracker.
+         * @return Whether the operation was successful. It may fail if there is already
+         * another monster at the location of the new monster.
+         */
+        bool add( std::shared_ptr<monster> critter );
         size_t size() const;
         /** Updates the position of the given monster to the given point. Returns whether the operation
          *  was successful. */
@@ -56,6 +83,10 @@ class Creature_tracker
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );
+
+        const decltype( monster_faction_map_ ) &factions() const {
+            return monster_faction_map_;
+        }
 
     private:
         std::vector<std::shared_ptr<monster>> monsters_list;

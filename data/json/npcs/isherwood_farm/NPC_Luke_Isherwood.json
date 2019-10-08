@@ -1,0 +1,204 @@
+[
+  {
+    "type": "npc",
+    "id": "isherwood_luke",
+    "//": "Dairy farmer's son in the Isherwood family.",
+    "name_unique": "Luke Isherwood",
+    "gender": "male",
+    "class": "NC_ISHERWOOD_LUKE",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_ISHERWOOD_LUKE",
+    "mission_offered": "MISSION_ISHERWOOD_LUKE_1",
+    "faction": "isherwood_family"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ISHERWOOD_LUKE",
+    "name": "Luke Isherwood",
+    "job_description": "I'm a Eddie's son, part of the Isherwood family",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "common": false,
+    "bonus_per": { "one_in": 4 },
+    "worn_override": "NC_Isherwood_worn",
+    "carry_override": "NC_ISHERWOOD_rifle",
+    "weapon_override": "NC_ISHERWOOD_archery",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "survival", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 2, 7 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 4, 8 ] } }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_LUKE",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "I see that badge, you should leave before my father sees you.",
+      "no": { "u_male": true, "yes": "Hello.", "no": "Hello." }
+    },
+    "responses": [
+      {
+        "text": "...",
+        "topic": "TALK_LEAVE_NOW",
+        "opinion": { "trust": -20, "value": -20 },
+        "condition": { "u_is_wearing": "badge_marshal" }
+      },
+      {
+        "text": "Your dad said you were out here fixing up this place.",
+        "topic": "TALK_ISHERWOOD_LUKE_TALK1",
+        "condition": { "u_has_var": "u_met_Eddie_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      { "text": "Hey, What are you doing out here?", "topic": "TALK_ISHERWOOD_LUKE2" },
+      {
+        "text": "Can I do anything for you?",
+        "topic": "TALK_MISSION_LIST",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      },
+      {
+        "text": "I'd better get going.",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_is_wearing": "badge_marshal" } }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_LUKE_TALK1",
+    "dynamic_line": "Yeah, I work on it when I have the time.  I can't leave the farm too long, so I can't find some things I need.",
+    "responses": [
+      { "text": "What do you need?", "topic": "TALK_MISSION_LIST" },
+      {
+        "text": "Must be tough having the world fall apart when you had you future to look forward to.",
+        "topic": "TALK_ISHERWOOD_LUKE3"
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_LUKE2",
+    "dynamic_line": "I've been cleaning up this old building to make it into a workshop.  I want to put up a pottery kiln and forge. My dad doesn't want me leaving the farm to find some things, says it is too dangerous.",
+    "responses": [
+      { "text": "What do you need?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_LUKE3",
+    "dynamic_line": "I know all the grown ups worry about us, but I think we can adapt better than them in the long run.  Chris has some interesting thoughts on the matter.",
+    "responses": [
+      { "text": "Where can I find Chris?", "topic": "TALK_LUKE_CHRIS" },
+      { "text": "What sort of ideas does Chris have?", "topic": "TALK_LUKE_CHRIS2" },
+      { "text": "That is a good idea, what do you need?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "I'm not interested right now, I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LUKE_EDDIE",
+    "dynamic_line": "Things have been tough for my dad since Barry was captured.  He works till he falls asleep most nights..",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LUKE_CHRIS",
+    "dynamic_line": "Chris is a little older than me, he's up at the horse farm with his parents and sister, Lisa.",
+    "speaker_effect": { "effect": { "u_add_var": "u_heard_about_chris", "type": "general", "context": "meeting", "value": "yes" } },
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LUKE_CHRIS2",
+    "dynamic_line": "Well, he doesn't agree that what we're doing here will last.  He thinks things will only get worse.  It's tough to get the adults to listen though, much less agree with his solution.  You can go talk to him more about it if you want.",
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_LUKE_TOPICS" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_LEAVE_NOW",
+    "dynamic_line": "You won't find any help here.",
+    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_LUKE_TOPICS",
+    "dynamic_line": "Go on...",
+    "responses": [
+      {
+        "text": "Must be tough having the world fall apart when you had you future to look forward to.",
+        "topic": "TALK_ISHERWOOD_LUKE3"
+      },
+      { "text": "Tell me about your dad.", "topic": "TALK_LUKE_EDDIE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_ISHERWOOD_LUKE_1",
+    "type": "mission_definition",
+    "name": "Find The Art of Glassblowing book",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "glassblowing_book",
+    "count": 1,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_ISHERWOOD_LUKE_2",
+    "dialogue": {
+      "describe": "I need more knowledge to get the glass blowing started.",
+      "offer": "I could really use a book on glass blowing.  With the internet gone, I don't have any handy references.",
+      "accepted": "Fantasic, I'm not supposed to leave our land.",
+      "rejected": "Oh well, figured I'd have to do a lot of practice anyway.",
+      "advice": "A library, bookstore or a glass blower's studio should have one.",
+      "inquire": "Do you have the book?",
+      "success": "I appreciate it, this will make my life so much easier.",
+      "success_lie": "I don't see a book...?",
+      "failure": "At least you escaped with your life..."
+    }
+  },
+  {
+    "id": "MISSION_ISHERWOOD_LUKE_2",
+    "type": "mission_definition",
+    "name": "Find a copy of DIY Compendium",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 3,
+    "value": 20000,
+    "item": "textbook_fabrication",
+    "count": 1,
+    "end": {
+      "opinion": { "trust": 2, "value": 2 },
+      "effect": { "u_add_var": "u_did_luke_missions", "type": "general", "context": "recruit", "value": "yes" }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "I need more knowledge to get better pottery.",
+      "offer": "I could really use the book, DIY Compendium.  With the internet gone, I don't have any handy references.",
+      "accepted": "Fantasic, I'm not supposed to leave our land.",
+      "rejected": "Oh well, figured I'd have to do a lot of practice anyway.",
+      "advice": "A library, bookstore should have one, schools are another good idea.",
+      "inquire": "Do you have the book?",
+      "success": "I appreciate it, this will make my life so much easier.",
+      "success_lie": "I don't see a book...?",
+      "failure": "At least you escaped with your life..."
+    }
+  }
+]

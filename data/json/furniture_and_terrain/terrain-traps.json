@@ -1,0 +1,121 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_hole",
+    "name": "empty space",
+    "description": "This is empty space.",
+    "symbol": " ",
+    "color": "black",
+    "move_cost": 2,
+    "trap": "tr_ledge",
+    "flags": [ "TRANSPARENT", "NOITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_pit_shallow",
+    "name": "shallow pit",
+    "description": "A pit that could be dug even deeper or filled up.  Also useful as a starting foundation for some constructions.",
+    "symbol": "0",
+    "color": "yellow",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "DIGGABLE_CAN_DEEPEN" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_pit",
+    "name": "pit",
+    "description": "A steep hole that could seriously injure something if it fell in, potentially fatal if it was filled with sharp and dangerous things.  Deep enough for more advanced construction projects, and possibly to reach groundwater if constructed properly.",
+    "symbol": "0",
+    "color": "brown",
+    "move_cost": 10,
+    "trap": "tr_pit",
+    "flags": [ "TRANSPARENT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "examine_action": "pit"
+  },
+  {
+    "type": "terrain",
+    "id": "t_pit_corpsed",
+    "name": "corpse filled pit",
+    "description": "A giant trench full of corpses, maybe even a mass graveyard.  The bodies could be dug out but none of it looks remotely usable.",
+    "symbol": "#",
+    "color": "green",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "DIGGABLE" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "//": "left diggable to clean out corpses-KA101"
+  },
+  {
+    "type": "terrain",
+    "id": "t_pit_covered",
+    "name": "covered pit",
+    "description": "A deep pit with a two by four placed across it, looks sturdy enough to cross safely or the plank could be removed to turn it back into trap fall.",
+    "symbol": "#",
+    "color": "light_red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "ROAD" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "examine_action": "pit_covered"
+  },
+  {
+    "type": "terrain",
+    "id": "t_pit_spiked",
+    "name": "spiked pit",
+    "description": "A narrow trench full of very pointy things that would easily puncture a body.",
+    "symbol": "0",
+    "color": "light_red",
+    "move_cost": 10,
+    "trap": "tr_spike_pit",
+    "flags": [ "TRANSPARENT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "examine_action": "pit"
+  },
+  {
+    "type": "terrain",
+    "id": "t_pit_spiked_covered",
+    "name": "covered spiked pit",
+    "description": "Menacing with sharp spears along the bottom, this pit has a plank across it to allow someone or something to cross safely.  The two by four could be removed to revert it back into a trap.",
+    "symbol": "#",
+    "color": "light_red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "ROAD" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "examine_action": "pit_covered"
+  },
+  {
+    "type": "terrain",
+    "id": "t_pit_glass",
+    "name": "glass pit",
+    "description": "Looks like a ton of broken glass was dumped into this pit, maybe not fatal to fall in but wouldn't be pleasant to try to crawl out.",
+    "symbol": "0",
+    "color": "light_cyan",
+    "move_cost": 10,
+    "trap": "tr_glass_pit",
+    "flags": [ "TRANSPARENT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "examine_action": "pit"
+  },
+  {
+    "type": "terrain",
+    "id": "t_pit_glass_covered",
+    "name": "covered glass pit",
+    "description": "A two by four has been placed carefully to allow traversal over this ditch full of large glass shards.  The wooden board could be removed so it couldn't be safely crossed.",
+    "symbol": "#",
+    "color": "light_cyan",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "ROAD" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "examine_action": "pit_covered"
+  },
+  {
+    "type": "terrain",
+    "id": "t_slime",
+    "name": "slime",
+    "description": "A disgusting and slippery mess that could be used to stash things because who'd want to touch it?",
+    "symbol": "~",
+    "color": "green",
+    "move_cost": 6,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "PLACE_ITEM" ]
+  }
+]

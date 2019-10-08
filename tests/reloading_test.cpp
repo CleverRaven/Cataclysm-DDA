@@ -4,6 +4,7 @@
 #include <set>
 #include <string>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
@@ -15,6 +16,7 @@
 #include "inventory.h"
 #include "optional.h"
 #include "player_activity.h"
+#include "type_id.h"
 
 TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 {
@@ -88,10 +90,10 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     const item mag( "glockmag", 0, 0 );
     const cata::optional<islot_magazine> &magazine_type = mag.type->magazine;
     REQUIRE( magazine_type );
-    REQUIRE( ammo_type->type.count( magazine_type->type ) != 0 );
+    REQUIRE( magazine_type->type.count( ammo_type->type ) != 0 );
 
     item &gun = dummy.i_add( item( "glock_19", 0, item::default_charges_tag{} ) );
-    REQUIRE( ammo_type->type.count( gun.ammo_type() ) != 0 );
+    REQUIRE( gun.ammo_types().count( ammo_type->type ) != 0 );
 
     gun.put_in( mag );
 
@@ -121,7 +123,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     REQUIRE( gun.ammo_remaining() == gun.ammo_capacity() );
 }
 
-void reload_a_revolver( player &dummy, item &gun, item &ammo )
+static void reload_a_revolver( player &dummy, item &gun, item &ammo )
 {
     while( gun.ammo_remaining() < gun.ammo_capacity() ) {
         g->reload_weapon( false );
@@ -194,7 +196,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
         item &mag = dummy.i_add( item( "glockmag", 0, 0 ) );
         const cata::optional<islot_magazine> &magazine_type = mag.type->magazine;
         REQUIRE( magazine_type );
-        REQUIRE( ammo_type->type.count( magazine_type->type ) != 0 );
+        REQUIRE( magazine_type->type.count( ammo_type->type ) != 0 );
         REQUIRE( mag.ammo_remaining() == 0 );
 
         dummy.weapon = item( "glock_19", 0, 0 );
@@ -229,7 +231,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
             item &mag2 = dummy.i_add( item( "glockbigmag", 0, 0 ) );
             const cata::optional<islot_magazine> &magazine_type2 = mag2.type->magazine;
             REQUIRE( magazine_type2 );
-            REQUIRE( ammo_type->type.count( magazine_type2->type ) != 0 );
+            REQUIRE( magazine_type2->type.count( ammo_type->type ) != 0 );
             REQUIRE( mag2.ammo_remaining() == 0 );
 
             WHEN( "the player triggers auto reload" ) {

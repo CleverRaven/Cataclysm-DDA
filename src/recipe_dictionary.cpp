@@ -38,7 +38,7 @@ void delete_if( std::map<recipe_id, recipe> &data,
     }
 }
 
-}
+} // namespace
 
 static recipe null_recipe;
 static std::set<const recipe *> null_match;
@@ -101,10 +101,24 @@ std::vector<const recipe *> recipe_subset::favorite() const
     std::vector<const recipe *> res;
 
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
-        if( !*r ) {
+        if( !*r || r->obsolete ) {
             return false;
         }
         return uistate.favorite_recipes.find( r->ident() ) != uistate.favorite_recipes.end();
+    } );
+
+    return res;
+}
+
+std::vector<const recipe *> recipe_subset::hidden() const
+{
+    std::vector<const recipe *> res;
+
+    std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+        if( !*r || r->obsolete ) {
+            return false;
+        }
+        return uistate.hidden_recipes.find( r->ident() ) != uistate.hidden_recipes.end();
     } );
 
     return res;
@@ -117,7 +131,7 @@ std::vector<const recipe *> recipe_subset::recent() const
     for( auto rec_id = uistate.recent_recipes.rbegin(); rec_id != uistate.recent_recipes.rend();
          ++rec_id ) {
         std::find_if( recipes.begin(), recipes.end(), [&rec_id, &res]( const recipe * r ) {
-            if( !*r || *rec_id != r->ident() ) {
+            if( !*r || *rec_id != r->ident() || r->obsolete ) {
                 return false;
             }
 
@@ -134,7 +148,7 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
     std::vector<const recipe *> res;
 
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
-        if( !*r ) {
+        if( !*r || r->obsolete ) {
             return false;
         }
         switch( key ) {
@@ -208,6 +222,9 @@ std::vector<const recipe *> recipe_subset::search_result( const itype_id &item )
     std::vector<const recipe *> res;
 
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
+        if( r->obsolete ) {
+            return false;
+        }
         return item == r->result() ||
                ( r->has_byproducts() && r->byproducts.find( item ) != r->byproducts.end() );
     } );
@@ -247,10 +264,16 @@ std::vector<const recipe *> recipe_subset::in_category( const std::string &cat,
     auto iter = category.find( cat );
     if( iter != category.end() ) {
         if( subcat.empty() ) {
-            res.insert( res.begin(), iter->second.begin(), iter->second.end() );
+            std::copy_if( iter->second.begin(), iter->second.end(),
+            std::back_inserter( res ), [&]( const recipe * e ) {
+                return !e->obsolete;
+            } );
         } else {
             std::copy_if( iter->second.begin(), iter->second.end(),
             std::back_inserter( res ), [&subcat]( const recipe * e ) {
+                if( e->obsolete ) {
+                    return false;
+                }
                 return e->subcategory == subcat;
             } );
         }
@@ -291,9 +314,7 @@ recipe &recipe_dictionary::load( JsonObject &jo, const std::string &src,
 
     r.load( jo, src );
 
-    out[ r.ident() ] = std::move( r );
-
-    return out[ r.ident() ];
+    return out[ r.ident() ] = std::move( r );
 }
 
 size_t recipe_dictionary::size() const
@@ -318,8 +339,12 @@ void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
     }
     // remove any blacklisted or invalid recipes...
     delete_if( []( const recipe & elem ) {
-        if( elem.is_blacklisted() || elem.obsolete ) {
+        if( elem.is_blacklisted() ) {
             return true;
+        }
+
+        if( elem.obsolete ) {
+            return false;
         }
 
         const std::string error = elem.get_consistency_error();
@@ -347,6 +372,10 @@ void recipe_dictionary::finalize()
     for( auto &e : recipe_dict.recipes ) {
         auto &r = e.second;
 
+        if( r.obsolete ) {
+            continue;
+        }
+
         for( const auto &bk : r.booksets ) {
             const itype *booktype = item::find_type( bk.first );
             int req = bk.second > 0 ? bk.second : std::max( booktype->book->req, r.difficulty );
@@ -367,7 +396,7 @@ void recipe_dictionary::finalize()
 
         // books that don't already have an uncrafting recipe
         if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0_ml ) {
-            int pages = e->volume / units::from_milliliter( 12.5 );
+            int pages = e->volume / 12.5_ml;
             auto &bk = recipe_dict.uncraft[rid];
             bk.ident_ = rid;
             bk.result_ = id;
@@ -377,16 +406,20 @@ void recipe_dictionary::finalize()
         }
     }
 
-    // Cache auto-learn recipes
+    // Cache auto-learn recipes and blueprints
     for( const auto &e : recipe_dict.recipes ) {
         if( e.second.autolearn ) {
             recipe_dict.autolearn.insert( &e.second );
+        }
+        if( e.second.is_blueprint() ) {
+            recipe_dict.blueprints.insert( &e.second );
         }
     }
 }
 
 void recipe_dictionary::reset()
 {
+    recipe_dict.blueprints.clear();
     recipe_dict.autolearn.clear();
     recipe_dict.recipes.clear();
     recipe_dict.uncraft.clear();

@@ -8,5 +8,15 @@
     "starting_trait": true,
     "initial_ma_styles": [ "style_centipede", "style_venom_snake", "style_scorpion", "style_lizard", "style_toad" ],
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "MMA_MARTIAL_ARTS_PANZER",
+    "name": "Künstler",
+    "points": 3,
+    "description": "You have lingering memories of training to fight cyborgs and war machines in zero gravity using the obscure Panzer Kunst.",
+    "starting_trait": true,
+    "initial_ma_styles": [ "style_mma_panzer" ],
+    "valid": false
   }
 ]

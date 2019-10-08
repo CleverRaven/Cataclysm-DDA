@@ -1,0 +1,114 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_hydroponics",
+    "name": "hydroponics unit",
+    "description": "This is a self-contained hydroponics unit used to grow crops indoors.",
+    "symbol": "^",
+    "color": "light_blue",
+    "move_cost_mod": 1,
+    "light_emitted": 10,
+    "required_str": 12,
+    "looks_like": "f_planter",
+    "flags": [ "TRANSPARENT", "PLANTABLE", "FLAT", "MOUNTABLE" ],
+    "deconstruct": { "items": [ { "group": "hydrop_deconstruct_results" } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 14,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "group": "hydrop_bash_results" } ]
+    },
+    "plant_data": { "transform": "f_hydroponics_seed" },
+    "examine_action": "dirtmound"
+  },
+  {
+    "type": "furniture",
+    "id": "f_hydroponics_seed",
+    "name": "hydroponics unit with seed",
+    "description": "This is a self-contained hydroponics unit used to grow crops indoors. This one contains a planted seed",
+    "symbol": "^",
+    "color": "brown",
+    "looks_like": "f_plant_seed",
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEED" ],
+    "examine_action": "aggie_plant",
+    "copy-from": "f_hydroponics",
+    "plant_data": { "transform": "f_hydroponics_seedling", "base": "f_hydroponics" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hydroponics_seedling",
+    "name": "hydroponics unit with seedling",
+    "description": "This is a self-contained hydroponics unit used to grow crops indoors. This one contains a planted seedling",
+    "symbol": "^",
+    "color": "green",
+    "looks_like": "f_plant_seedling",
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEEDLING" ],
+    "examine_action": "aggie_plant",
+    "copy-from": "f_hydroponics_seed",
+    "plant_data": { "transform": "f_hydroponics_mature", "base": "f_hydroponics" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hydroponics_mature",
+    "name": "hydroponics unit with mature plant",
+    "description": "This is a self-contained hydroponics unit used to grow crops indoors. This one contains a mature plant.",
+    "symbol": "#",
+    "color": "green",
+    "looks_like": "f_plant_mature",
+    "move_cost_mod": 0,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE" ],
+    "examine_action": "aggie_plant",
+    "copy-from": "f_hydroponics_seed",
+    "plant_data": { "transform": "f_hydroponics_harvest", "base": "f_hydroponics" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hydroponics_harvest",
+    "name": "hydroponics unit with harvestable plant",
+    "description": "This is a self-contained hydroponics unit used to grow crops indoors. This one contains a mature plant that is ready for harvest.",
+    "symbol": "#",
+    "color": "light_green",
+    "looks_like": "f_plant_harvest",
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
+    "examine_action": "aggie_plant",
+    "copy-from": "f_hydroponics_mature",
+    "plant_data": { "transform": "f_hydroponics", "base": "f_hydroponics", "harvest_multiplier": 2.5 }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hydro_heater",
+    "name": "hydroponics heater",
+    "description": "This is a self-contained heater, used to warm hydroponics units.",
+    "symbol": "#",
+    "color": "light_blue",
+    "move_cost_mod": 1,
+    "required_str": 12,
+    "looks_like": "mountable_heater",
+    "flags": [ "TRANSPARENT", "FLAT", "MOUNTABLE", "EMITTER" ],
+    "emissions": [ "emit_hot_air2_blast" ],
+    "deconstruct": {
+      "items": [
+        { "item": "small_storage_battery" },
+        { "item": "element", "count": [ 10, 12 ] },
+        { "item": "cable", "count": [ 4, 6 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "power_supply", "count": [ 0, 1 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 14,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [
+        { "item": "small_storage_battery", "count": [ 0, 1 ] },
+        { "item": "element", "count": [ 4, 12 ] },
+        { "item": "cable", "count": [ 2, 6 ] },
+        { "item": "sheet_metal", "count": [ 1, 3 ] },
+        { "item": "scrap", "count": [ 3, 12 ] },
+        { "item": "power_supply", "count": [ 0, 1 ] }
+      ]
+    }
+  }
+]

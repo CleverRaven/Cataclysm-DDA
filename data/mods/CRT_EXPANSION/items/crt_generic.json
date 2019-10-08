@@ -1,0 +1,15 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "withered_bundle",
+    "category": "spare_parts",
+    "name": "withered plant bundle",
+    "description": "A bundle of plant matter",
+    "weight": 80,
+    "volume": 2,
+    "material": [ "paper" ],
+    "symbol": ";",
+    "color": "green",
+    "flags": [ "TRADER_AVOID" ]
+  }
+]

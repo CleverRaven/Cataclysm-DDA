@@ -5,7 +5,8 @@
     "name": "[DP_MOD] Indicators: REMIX",
     "authors": [ "SomeDeadGuy" ],
     "description": "Changes interface indicators to remix of Xotto, Chesthole and DeadPeople.",
-    "category": "none",
+    "category": "graphical",
+    "obsolete": true,
     "dependencies": [ "dda" ]
   }
 ]

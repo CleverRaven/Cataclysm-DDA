@@ -5,9 +5,10 @@
     "name": "Internal Combustion Fundamentals",
     "name_plural": "Internal Combustion Fundamentals",
     "description": "A college-level textbook that details the operation, maintenance, and repair of internal combustion engines.",
-    "weight": 1587,
-    "volume": 6,
+    "weight": "1587 g",
+    "volume": "1500 ml",
     "price": 5950,
+    "price_postapoc": 16000,
     "bashing": 4,
     "material": [ "paper" ],
     "symbol": "?",
@@ -16,7 +17,7 @@
     "required_level": 4,
     "max_level": 8,
     "intelligence": 6,
-    "time": 30,
+    "time": "30 m",
     "fun": -1
   },
   {
@@ -34,16 +35,17 @@
     "name": "Popular Mechanics",
     "name_plural": "Popular Mechanics",
     "description": "A magazine about mechanical innovations.  Full of entertaining articles and advertisements for esoteric gadgets.",
-    "weight": 70,
-    "volume": 1,
+    "weight": "70 g",
+    "volume": "250 ml",
     "price": 450,
+    "price_postapoc": 1900,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
     "skill": "mechanics",
     "max_level": 1,
     "intelligence": 5,
-    "time": 8,
+    "time": "8 m",
     "fun": 2
   },
   {
@@ -51,16 +53,27 @@
     "type": "BOOK",
     "name": "Under the Hood",
     "description": "An advanced mechanics manual, covering all sorts of topics.",
-    "weight": 454,
-    "volume": 3,
+    "weight": "454 g",
+    "volume": "750 ml",
     "price": 5500,
+    "price_postapoc": 23000,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
     "skill": "mechanics",
     "max_level": 3,
     "intelligence": 5,
-    "time": 18
+    "time": "18 m"
+  },
+  {
+    "id": "textbook_atomic_lab",
+    "type": "BOOK",
+    "copy-from": "recipe_lab_cvd",
+    "name": "lab journal-Curie",
+    "name_plural": "lab journals-Curie",
+    "description": "This lab notebook is filled with the collective discoveries and refinements of a research team dedicated to nuclear energy.  You don't think you're ready to start a second Cataclysm, but the general information provided might be useful...",
+    "skill": "mechanics",
+    "required_level": 6
   },
   {
     "id": "textbook_biodiesel",
@@ -68,9 +81,10 @@
     "name": "Biodiesel: Renewable Fuel Resource",
     "name_plural": "Biodiesel: Renewable Fuel Resource",
     "description": "A large textbook for college students about biodiesel.",
-    "weight": 1200,
-    "volume": 8,
+    "weight": "1200 g",
+    "volume": "2 L",
     "price": 1500,
+    "price_postapoc": 24000,
     "bashing": 4,
     "material": [ "paper" ],
     "symbol": "?",
@@ -79,7 +93,7 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 9,
-    "time": 30
+    "time": "30 m"
   },
   {
     "id": "textbook_mechanics",
@@ -87,9 +101,10 @@
     "name": "Mechanical Mastery",
     "name_plural": "Mechanical Mastery",
     "description": "An advanced guide on mechanics and welding, covering topics like \"Grinding off rust\" and \"Making cursive E's\".",
-    "weight": 1587,
-    "volume": 6,
+    "weight": "1587 g",
+    "volume": "1500 ml",
     "price": 4950,
+    "price_postapoc": 18000,
     "bashing": 4,
     "material": [ "paper" ],
     "symbol": "?",
@@ -98,7 +113,7 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 6,
-    "time": 30,
+    "time": "30 m",
     "fun": -1
   }
 ]

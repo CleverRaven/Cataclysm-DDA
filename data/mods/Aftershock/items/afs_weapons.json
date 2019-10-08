@@ -10,7 +10,7 @@
     "price_postapoc": 20000,
     "material": [ "superalloy", "diamond" ],
     "symbol": "[",
-    "color": "gray",
+    "color": "light_gray",
     "ammo": "battery",
     "charges_per_use": 1,
     "use_action": {
@@ -31,10 +31,13 @@
           "light_minus_battery_cell",
           "light_plus_battery_cell",
           "light_minus_atomic_battery_cell",
-          "light_atomic_battery_cell"
+          "light_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "afs_energy_saber_on",
@@ -61,18 +64,7 @@
       "target": "afs_energy_saber_off",
       "msg": "The blade dissipates into particles."
     },
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_atomic_battery_cell"
-        ]
-      ]
-    ]
+    "magazine_well": 1
   },
   {
     "id": "afs_hardlight_longbow",
@@ -122,11 +114,11 @@
   {
     "id": "afs_rolling_pin_barbed_wire",
     "type": "GENERIC",
-    "copy-from": "afs_rolling_pin",
+    "copy-from": "rolling_pin",
     "name": "barbed-wire rolling pin",
     "description": "Typically used to flatten dough, this rolling pin has been repurposed as a weapon, with barbed wire adding some extra power and weight to its swing.  It has some real heft to it; perfect for the bakers of the apocalypse.",
     "weight": 923,
-    "volume": 6,
+    "volume": "1500 ml",
     "price_postapoc": 1500,
     "material": [ "steel", "wood" ],
     "to_hit": 1,
@@ -162,5 +154,31 @@
     "clip_size": 1,
     "reload": 150,
     "flags": [ "NEVER_JAMS", "NO_UNWIELD", "TRADER_AVOID" ]
+  },
+  {
+    "id": "laser_rifle_cheap",
+    "type": "GUN",
+    "name": "shoddy laser rifle",
+    "description": "This is a cheap laser rifle made from common components.  Weak, but can be powered with rechargeable batteries.",
+    "weight": 8000,
+    "volume": 10,
+    "price": 40000,
+    "to_hit": -1,
+    "bashing": 8,
+    "material": [ "plastic", "copper" ],
+    "symbol": "(",
+    "color": "magenta",
+    "ammo": "battery",
+    "skill": "rifle",
+    "range": 10,
+    "ranged_damage": 20,
+    "dispersion": 150,
+    "durability": 10,
+    "loudness": 8,
+    "reload": 500,
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "ammo_effects": [ "LASER", "DRAW_AS_LINE" ],
+    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell" ] ] ],
+    "flags": [ "NEVER_JAMS", "FIRE_20" ]
   }
 ]

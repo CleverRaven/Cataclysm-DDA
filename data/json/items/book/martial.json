@@ -5,7 +5,8 @@
     "type": "GENERIC",
     "name": "The Spirit of Aikido",
     "name_plural": "The Spirit of Aikido",
-    "description": "A complete guide to Aikido."
+    "description": "A complete guide to Aikido.",
+    "book_data": { "martial_art": "style_aikido" }
   },
   {
     "id": "manual_boxing",
@@ -13,7 +14,8 @@
     "type": "GENERIC",
     "name": "Practical Pugilism",
     "name_plural": "Practical Pugilism",
-    "description": "A complete guide to boxing.  Let's get ready to rough-up some ruffians!"
+    "description": "A complete guide to boxing.  Let's get ready to rough-up some ruffians!",
+    "book_data": { "martial_art": "style_boxing" }
   },
   {
     "id": "manual_capoeira",
@@ -21,7 +23,8 @@
     "type": "GENERIC",
     "name": "Capoeira 100",
     "name_plural": "Capoeira 100",
-    "description": "A complete guide to Capoeira."
+    "description": "A complete guide to Capoeira.",
+    "book_data": { "martial_art": "style_capoeira" }
   },
   {
     "id": "manual_centipede",
@@ -29,7 +32,8 @@
     "type": "GENERIC",
     "name": "The Centipede Lu Feng",
     "name_plural": "The Centipede Lu Feng",
-    "description": "A complete guide to Centipede Kung Fu."
+    "description": "A complete guide to Centipede Kung Fu.",
+    "book_data": { "martial_art": "style_centipede" }
   },
   {
     "id": "manual_crane",
@@ -37,7 +41,8 @@
     "type": "GENERIC",
     "name": "The Red Crane",
     "name_plural": "The Red Crane",
-    "description": "A complete guide to Crane Kung Fu."
+    "description": "A complete guide to Crane Kung Fu.",
+    "book_data": { "martial_art": "style_crane" }
   },
   {
     "id": "manual_dragon",
@@ -45,7 +50,8 @@
     "type": "GENERIC",
     "name": "The Jade Dragon",
     "name_plural": "The Jade Dragon",
-    "description": "A complete guide to Dragon Kung Fu."
+    "description": "A complete guide to Dragon Kung Fu.",
+    "book_data": { "martial_art": "style_dragon" }
   },
   {
     "id": "manual_eskrima",
@@ -53,7 +59,8 @@
     "type": "GENERIC",
     "name": "Practical Eskrima",
     "name_plural": "Practical Eskrima",
-    "description": "A complete guide to Eskrima."
+    "description": "A complete guide to Eskrima.",
+    "book_data": { "martial_art": "style_eskrima" }
   },
   {
     "id": "manual_fencing",
@@ -61,7 +68,8 @@
     "type": "GENERIC",
     "name": "The Modern Swordsman",
     "name_plural": "The Modern Swordsman",
-    "description": "A complete guide to Fencing."
+    "description": "A complete guide to Fencing.",
+    "book_data": { "martial_art": "style_fencing" }
   },
   {
     "id": "manual_judo",
@@ -69,7 +77,8 @@
     "type": "GENERIC",
     "name": "Kodokan Judo",
     "name_plural": "Kodokan Judo",
-    "description": "A complete guide to Judo."
+    "description": "A complete guide to Judo.",
+    "book_data": { "martial_art": "style_judo" }
   },
   {
     "id": "manual_karate",
@@ -77,7 +86,8 @@
     "type": "GENERIC",
     "name": "The Shotokan Karate Handbook",
     "name_plural": "The Shotokan Karate Handbook",
-    "description": "A complete guide to Shotokan Karate."
+    "description": "A complete guide to Shotokan Karate.",
+    "book_data": { "martial_art": "style_karate" }
   },
   {
     "id": "manual_krav_maga",
@@ -85,7 +95,8 @@
     "type": "GENERIC",
     "name": "Complete Krav Maga",
     "name_plural": "Complete Krav Maga",
-    "description": "A complete guide to Krav Maga."
+    "description": "A complete guide to Krav Maga.",
+    "book_data": { "martial_art": "style_krav_maga" }
   },
   {
     "id": "manual_leopard",
@@ -93,7 +104,8 @@
     "type": "GENERIC",
     "name": "The Deaf Leopard",
     "name_plural": "The Deaf Leopard",
-    "description": "A complete guide to Leopard Kung Fu."
+    "description": "A complete guide to Leopard Kung Fu.",
+    "book_data": { "martial_art": "style_leopard" }
   },
   {
     "id": "manual_lizard",
@@ -101,7 +113,8 @@
     "type": "GENERIC",
     "name": "The Lizard Kuo Chui",
     "name_plural": "The Lizard Kuo Chui",
-    "description": "A complete guide to Lizard Kung Fu."
+    "description": "A complete guide to Lizard Kung Fu.",
+    "book_data": { "martial_art": "style_lizard" }
   },
   {
     "id": "manual_muay_thai",
@@ -109,7 +122,8 @@
     "type": "GENERIC",
     "name": "Ultimate Muay Thai",
     "name_plural": "Ultimate Muay Thai",
-    "description": "A complete guide to Muay Thai."
+    "description": "A complete guide to Muay Thai.",
+    "book_data": { "martial_art": "style_muay_thai" }
   },
   {
     "id": "manual_ninjutsu",
@@ -117,7 +131,8 @@
     "type": "GENERIC",
     "name": "Essence of Ninjutsu",
     "name_plural": "Essence of Ninjutsu",
-    "description": "A complete guide to Ninjutsu."
+    "description": "A complete guide to Ninjutsu.",
+    "book_data": { "martial_art": "style_ninjutsu" }
   },
   {
     "id": "manual_niten",
@@ -125,7 +140,17 @@
     "type": "GENERIC",
     "name": "The Book of Five Rings",
     "name_plural": "The Book of Five Rings",
-    "description": "A primer on Miyamoto Musashi's style of combat and philosophy, Niten Ichi-Ryu."
+    "description": "A primer on Miyamoto Musashi's style of combat and philosophy, Niten Ichi-Ryu.",
+    "book_data": { "martial_art": "style_niten" }
+  },
+  {
+    "id": "manual_pankration",
+    "copy-from": "book_martial",
+    "type": "GENERIC",
+    "name": "The Modern Pankratiast",
+    "name_plural": "The Modern Pankratiast",
+    "description": "A complete guide to Pankration.",
+    "book_data": { "martial_art": "style_pankration" }
   },
   {
     "id": "manual_scorpion",
@@ -133,7 +158,8 @@
     "type": "GENERIC",
     "name": "The Scorpion Sun Chien",
     "name_plural": "The Scorpion Sun Chien",
-    "description": "A complete guide to Scorpion Kung Fu."
+    "description": "A complete guide to Scorpion Kung Fu.",
+    "book_data": { "martial_art": "style_scorpion" }
   },
   {
     "id": "manual_silat",
@@ -141,7 +167,8 @@
     "type": "GENERIC",
     "name": "The Indonesian Warrior",
     "name_plural": "The Indonesian Warrior",
-    "description": "A complete guide to Pentjak Silat."
+    "description": "A complete guide to Pentjak Silat.",
+    "book_data": { "martial_art": "style_silat" }
   },
   {
     "id": "manual_snake",
@@ -149,7 +176,8 @@
     "type": "GENERIC",
     "name": "The Black Snake",
     "name_plural": "The Black Snake",
-    "description": "A complete guide to Snake Kung Fu."
+    "description": "A complete guide to Snake Kung Fu.",
+    "book_data": { "martial_art": "style_snake" }
   },
   {
     "id": "manual_taekwondo",
@@ -157,7 +185,8 @@
     "type": "GENERIC",
     "name": "Official Taekwondo Training Manual",
     "name_plural": "Official Taekwondo Training Manual",
-    "description": "A complete guide to Taekwondo."
+    "description": "A complete guide to Taekwondo.",
+    "book_data": { "martial_art": "style_taekwondo" }
   },
   {
     "id": "manual_tai_chi",
@@ -165,7 +194,8 @@
     "type": "GENERIC",
     "name": "Becoming One with the Tao",
     "name_plural": "Becoming One with the Tao",
-    "description": "A complete guide to T'ai Chi Ch'uan."
+    "description": "A complete guide to T'ai Chi Ch'uan.",
+    "book_data": { "martial_art": "style_tai_chi" }
   },
   {
     "id": "manual_tiger",
@@ -173,7 +203,8 @@
     "type": "GENERIC",
     "name": "The White Tiger",
     "name_plural": "The White Tiger",
-    "description": "A complete guide to Tiger Kung Fu."
+    "description": "A complete guide to Tiger Kung Fu.",
+    "book_data": { "martial_art": "style_tiger" }
   },
   {
     "id": "manual_toad",
@@ -181,7 +212,8 @@
     "type": "GENERIC",
     "name": "The Toad Lo Mang",
     "name_plural": "The Toad Lo Mang",
-    "description": "A complete guide to Toad Kung Fu."
+    "description": "A complete guide to Toad Kung Fu.",
+    "book_data": { "martial_art": "style_toad" }
   },
   {
     "id": "manual_venom_snake",
@@ -189,7 +221,8 @@
     "type": "GENERIC",
     "name": "The Viper Wei Pai",
     "name_plural": "The Viper Wei Pai",
-    "description": "A complete guide to Viper Kung Fu."
+    "description": "A complete guide to Viper Kung Fu.",
+    "book_data": { "martial_art": "style_venom_snake" }
   },
   {
     "id": "manual_zui_quan",
@@ -197,7 +230,8 @@
     "type": "GENERIC",
     "name": "Zui Quan and You",
     "name_plural": "Zui Quan and You",
-    "description": "A complete guide to Zui Quan."
+    "description": "A complete guide to Zui Quan.",
+    "book_data": { "martial_art": "style_zui_quan" }
   },
   {
     "id": "manual_sojutsu",
@@ -205,6 +239,34 @@
     "type": "GENERIC",
     "name": "The Way of the Spear",
     "name_plural": "The Way of the Spear",
-    "description": "A complete guide to Sōjutsu."
+    "description": "A complete guide to Sōjutsu.",
+    "book_data": { "martial_art": "style_sojutsu" }
+  },
+  {
+    "id": "manual_wingchun",
+    "copy-from": "book_martial",
+    "type": "GENERIC",
+    "name": "Beautiful Springtime",
+    "name_plural": "Beautiful Springtime",
+    "description": "A complete guide to Wing Chun Kung-fu.  Includes a section on butterfly swords and the use of long poles at the end.",
+    "book_data": { "martial_art": "style_wingchun" }
+  },
+  {
+    "id": "manual_medievalpole",
+    "copy-from": "book_martial",
+    "type": "GENERIC",
+    "name": "Fior Di Battaglia",
+    "name_plural": "Fior Di Battaglia",
+    "description": "A completely translated medieval guide teaching various techniques with polearms, there is a chapter about the many variations of common polearms... there are even pictures!",
+    "book_data": { "martial_art": "style_medievalpole" }
+  },
+  {
+    "id": "manual_swordsmanship",
+    "copy-from": "book_martial",
+    "type": "GENERIC",
+    "name": "Historic European Swordfighting",
+    "name_plural": "Historic European Swordfighting",
+    "description": "A complete guide to medieval swordsmanship.  Compares the German and Italian traditions for longsword and side sword, in and out of armor, with and without shield.",
+    "book_data": { "martial_art": "style_swordsmanship" }
   }
 ]

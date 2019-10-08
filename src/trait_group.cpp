@@ -1,12 +1,11 @@
 #include "trait_group.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <cassert>
 #include <sstream>
 #include <map>
 #include <utility>
-#include <type_traits>
 
 #include "debug.h"
 #include "json.h"
@@ -35,7 +34,7 @@ void trait_group::load_trait_group( JsonObject &jsobj, const Trait_group_tag &gi
 }
 
 // NOTE: This function is largely based on item_group::get_unique_group_id()
-Trait_group_tag get_unique_trait_group_id()
+static Trait_group_tag get_unique_trait_group_id()
 {
     // This is just a hint what id to use next. Overflow of it is defined and if the group
     // name is already used, we simply go the next id.
@@ -208,14 +207,12 @@ bool Trait_group_creator::has_trait( const trait_id &tid ) const
 
 void Trait_group::add_trait_entry( const trait_id &tid, int probability )
 {
-    std::unique_ptr<Trait_creation_data> ptr( new Single_trait_creator( tid, probability ) );
-    add_entry( ptr );
+    add_entry( std::make_unique<Single_trait_creator>( tid, probability ) );
 }
 
 void Trait_group::add_group_entry( const Trait_group_tag &gid, int probability )
 {
-    std::unique_ptr<Trait_creation_data> ptr( new Trait_group_creator( gid, probability ) );
-    add_entry( ptr );
+    add_entry( std::make_unique<Trait_group_creator>( gid, probability ) );
 }
 
 void Trait_group::check_consistency() const
@@ -269,7 +266,7 @@ Trait_list Trait_group_collection::create( RecursionList &rec ) const
     return result;
 }
 
-void Trait_group_collection::add_entry( std::unique_ptr<Trait_creation_data> &ptr )
+void Trait_group_collection::add_entry( std::unique_ptr<Trait_creation_data> ptr )
 {
     assert( ptr.get() != nullptr );
     if( ptr->probability <= 0 ) {
@@ -282,7 +279,7 @@ void Trait_group_collection::add_entry( std::unique_ptr<Trait_creation_data> &pt
     ptr.release();
 }
 
-void Trait_group_distribution::add_entry( std::unique_ptr<Trait_creation_data> &ptr )
+void Trait_group_distribution::add_entry( std::unique_ptr<Trait_creation_data> ptr )
 {
     assert( ptr.get() != nullptr );
     if( ptr->probability <= 0 ) {

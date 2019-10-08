@@ -1,0 +1,52 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_flower_marloss",
+    "name": "marloss flower",
+    "description": "This flower is like the other flowers taken by the mushrooms, but its bulb is colored a brilliant cyan color, and it emits an aroma both overwhelming and... delicious?",
+    "symbol": "f",
+    "color": "cyan",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FUNGUS", "TINY", "NOCOLLIDE" ],
+    "examine_action": "flower_marloss",
+    "bash": { "str_min": 2, "str_max": 6, "sound": "poof.", "sound_fail": "poof." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_flower_fungal",
+    "name": "fungal flower",
+    "description": "This flower has been overgrown by gray, sinewy tendrils of fungus, and the color has leached from its petals and stem.  It gently sways of its own volition.",
+    "symbol": "f",
+    "color": "dark_gray",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLOWER", "FUNGUS", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "examine_action": "fungus",
+    "bash": { "str_min": 2, "str_max": 6, "sound": "poof.", "sound_fail": "poof." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fungal_mass",
+    "name": "fungal mass",
+    "description": "Thick ropes of mycal matter have covered the ground here completely.  It's soft to the touch, but you sink into it, making moving across it difficult.",
+    "symbol": "O",
+    "bgcolor": "dark_gray",
+    "move_cost_mod": -10,
+    "required_str": -1,
+    "flags": [ "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE", "SHORT" ],
+    "bash": { "str_min": 6, "str_max": 30, "sound": "poof.", "sound_fail": "poof." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fungal_clump",
+    "name": "fungal clump",
+    "description": "Alien mold and stems mingle tightly here, creating a sort of fungal bush.",
+    "symbol": "#",
+    "bgcolor": "light_gray",
+    "move_cost_mod": 3,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE_ASH", "FUNGUS", "MOUNTABLE", "SHORT" ],
+    "bash": { "str_min": 6, "str_max": 20, "sound": "poof.", "sound_fail": "poof." }
+  }
+]

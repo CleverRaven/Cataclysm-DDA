@@ -2,7 +2,7 @@
   {
     "id": "TALK_ALLY_TUTORIAL",
     "type": "talk_topic",
-    "dynamic_line": "I'm my own person, but I'm willing to follow your lead.  I can do a lot of things for you: I can fight, I can train you or you can train me, I can carry stuff, I can bandage your wounds, I can build faction camps, I can go places, I can guard things, I can even chit-chat with you or talk about my background.  You can give me instructions in conversation or by radio or shout commands at me.\n  What do you want to know more about?",
+    "dynamic_line": "I'm my own person, but I'm willing to follow your lead.  I can do a lot of things for you: I can fight, I can train you or you can train me, I can carry stuff, I can bandage your wounds, I can build faction camps, I can do some other activites, I can ride horses, I can go places, I can guard things, I can use some bionics, I can even chit-chat with you or give you tips or talk about my background.  You can give me instructions in conversation or by radio or shout commands at me.\n  What do you want to know more about?",
     "responses": [
       { "text": "Forget I asked.", "topic": "TALK_FRIEND" },
       { "text": "Skip it, let's get going.", "topic": "TALK_DONE" },
@@ -11,13 +11,20 @@
       { "text": "How do shouted commands work?", "topic": "TALK_ALLY_TUTORIAL_SHOUTS" },
       { "text": "How does fighting work?", "topic": "TALK_ALLY_TUTORIAL_COMBAT" },
       { "text": "What's that about training?", "topic": "TALK_ALLY_TUTORIAL_TRAINING" },
-      { "text": "Tell me about you carrying stuff", "topic": "TALK_ALLY_TUTORIAL_MULE" },
+      { "text": "Tell me about you carrying stuff.", "topic": "TALK_ALLY_TUTORIAL_MULE" },
       { "text": "You can perform first aid?", "topic": "TALK_ALLY_TUTORIAL_MEDIC" },
       { "text": "Tell me about faction camps.", "topic": "TALK_CAMP_TUTORIAL_INTRO" },
+      {
+        "text": "What's that about activities?  Like what, you can farm for me?",
+        "topic": "TALK_ALLY_TUTORIAL_ACTIVITIES"
+      },
+      { "text": "You can ride horses?", "topic": "TALK_ALLY_TUTORIAL_HORSES" },
       { "text": "What do you mean, you can go places?", "topic": "TALK_ALLY_TUTORIAL_MOVEMENT" },
       { "text": "What do you do as a guard?", "topic": "TALK_ALLY_TUTORIAL_GUARD" },
+      { "text": "You can use bionics?  How does that work?", "topic": "TALK_ALLY_TUTORIAL_CBMS" },
       { "text": "What about chit-chatting and your background?", "topic": "TALK_ALLY_TUTORIAL_SOCIAL" },
-      { "text": "Anything else I should know?", "topic": "TALK_ALLY_TUTORIAL_MISC" }
+      { "text": "Anything else I should know?", "topic": "TALK_ALLY_TUTORIAL_MISC" },
+      { "text": "Any new abilities recently?", "topic": "TALK_ALLY_TUTORIAL_CHANGES" }
     ]
   },
   {
@@ -26,13 +33,7 @@
     "dynamic_line": "If we're next to each other, you can just bump into me and we'll start talking, right?  But if I'm farther away, you're going to have to shout a bit (use the 'C'hat command) for me to hear you.  You'll need to see me for us to have a conversation.  Or we can talk by radios if we both have them.\n  When we talk, you can give me instructions about how to fight or when to sleep or whatever.  I'll mostly do them, and you can ask me what my current instructions are.  Sometimes you'll give me two sets of instructions: a normal set, and an override for a specific situation.  I'll tell you which instructions are overriden.  You can set and clear overrides with shouted commands.",
     "responses": [
       { "text": "We can talk with radios?", "topic": "TALK_ALLY_TUTORIAL_RADIO" },
-      { "text": "How do shouted commands work?", "topic": "TALK_ALLY_TUTORIAL_SHOUTS" },
-      {
-        "text": "Thanks for the explanation.  I wanted to know more about something else.",
-        "topic": "TALK_ALLY_TUTORIAL"
-      },
-      { "text": "Thanks.  I have some things for you to do.", "topic": "TALK_FRIEND" },
-      { "text": "Skip it, let's get going.", "topic": "TALK_DONE" }
+      { "text": "How do shouted commands work?", "topic": "TALK_ALLY_TUTORIAL_SHOUTS" }
     ]
   },
   {
@@ -54,58 +55,32 @@
           "false": "Tell me about you coming here."
         },
         "topic": "TALK_ALLY_TUTORIAL_MOVEMENT"
-      },
-      {
-        "text": "Thanks for the explanation.  I wanted to know more about something else.",
-        "topic": "TALK_ALLY_TUTORIAL"
-      },
-      { "text": "Thanks.  I have some things for you to do.", "topic": "TALK_FRIEND" },
-      { "text": "Skip it, let's get going.", "topic": "TALK_DONE" }
+      }
     ]
   },
   {
     "id": "TALK_ALLY_TUTORIAL_SHOUTS",
     "type": "talk_topic",
     "dynamic_line": "Sometimes you need to give orders in a hurry.  You can use the 'C'hat command to shout a single specific order.  If I hear you, I'll do what you say, as will anyone else following you that hears it.\n  Some orders will override other instructions you've given me.  If you change my instructions when I've got an override command, I'll tell you which ones are overridden.  You can shout an order to clear any overrides, or talk to me and tell me to clear them.",
-    "responses": [
-      { "text": "Good to know.  What orders can I give?", "topic": "TALK_ALLY_TUTORIAL_COMMANDS" },
-      {
-        "text": "Thanks for the explanation.  I wanted to know more about something else.",
-        "topic": "TALK_ALLY_TUTORIAL"
-      },
-      { "text": "Thanks.  I have some things for you to do.", "topic": "TALK_FRIEND" },
-      { "text": "Skip it, let's get going.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "Good to know.  What orders can I give?", "topic": "TALK_ALLY_TUTORIAL_COMMANDS" } ]
   },
   {
     "id": "TALK_ALLY_TUTORIAL_COMBAT",
     "type": "talk_topic",
     "dynamic_line": "It's a dangerous world out there, right?  So we fight to survive.  I'm on your side, and I'll stick with you, but if I think the situation is too dangerous, I'll be honest, I'm going to run.\n  You can't tell me not to run, because I'm going to flee if things are bad, but you can tell me a safe place to retreat by using the zones manager (keybind 'Y').  I'll run toward the closest place you've designated - and you can set zones on vehicles, so if you've got a car, you could tell me to retreat there.\n  If I see you running but I think it's safe, I'll stay and fight, but you can tell me run with you and I'll stick by you as best I can.\n  You can give me some instructions on when I should attack, but I'll make my own decisions about who - I'll try to defend myself and you, but if you tell me to stay in one place I'll stay there.\n  I'll use guns and grenades if I have them, but you can tell me to not use grenades or not use loud weapons or to not use ranged weapons at all.  If I'm shooting, you can tell me how much to aim and whether to try to avoid shooting you or not.  I'm not so good at recognizing safe shots, so stay out of my line of fire no matter what.\n  I'll respect your rules for what types of weapons to use, but I'll choose what to use from my stuff.\n  You can also tell me to hold the line and fight at chokepoints, but I'm not great at recognizing them so I may go off to fight something elsewhere anyway.",
-    "responses": [
-      { "text": "Thanks for the explanation.  I wanted to know more about something else.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Thanks.  I have some things for you to do.", "topic": "TALK_FRIEND" },
-      { "text": "Skip it, let's get going.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "Can I give you orders quickly in combat?", "topic": "TALK_ALLY_TUTORIAL_SHOUTS" } ]
   },
   {
     "id": "TALK_ALLY_TUTORIAL_TRAINING",
     "type": "talk_topic",
     "dynamic_line": "If I'm better at a skill than you, I can help you improve.  But it's boring to teach a lot, so I'm not going to do it very often.  And I'm not going to do it when we're in danger or if I'm hungry or tired or if you're driving.\n  If we're someplace safe and you're reading a book that improves skills, I'll listen if I don't have that skill.  You can even read me books for skills that you already have.",
-    "responses": [
-      { "text": "Thanks for the explanation.  I wanted to know more about something else.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Thanks.  I have some things for you to do.", "topic": "TALK_FRIEND" },
-      { "text": "Skip it, let's get going.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "Instead of reading to you, can we just talk?", "topic": "TALK_ALLY_TUTORIAL_SOCIAL" } ]
   },
   {
     "id": "TALK_ALLY_TUTORIAL_MULE",
     "type": "talk_topic",
-    "dynamic_line": "You give me something to carry, I'll carry it.  But I only have so many pockets and I'm only so strong, so I'll drop stuff that's too big to carry.\n  I'll also wear stuff - I'll decide what I want to wear, but you can take stuff from me.  If I'm wearing something I shouldn't, you can bump into me and sort my armor to get me to take if off.\n  I don't like wearing a lot of gear, so if you give me a lot of bulky stuff and things that don't fit, I'm going to take them off and probably drop them.\n  Also, since we're friends, I'll give you anything I'm carrying, no questions asked.\n  Oh, yeah, if I'm hungry or thirsty and I'm carrying food, I'll eat it.  So you might want to watch what you give me, y'know?",
-    "responses": [
-      { "text": "Thanks for the explanation.  I wanted to know more about something else.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Thanks.  I have some things for you to do.", "topic": "TALK_FRIEND" },
-      { "text": "Skip it, let's get going.", "topic": "TALK_DONE" }
-    ]
+    "dynamic_line": "You give me something to carry, I'll carry it.  But I only have so many pockets and I'm only so strong, so I'll drop stuff that's too big to carry.\n  I'll also wear stuff - I'll decide what I want to wear, but you can take stuff from me.  If I'm wearing something I shouldn't, you can bump into me and sort my armor to get me to take if off.\n  I don't like wearing a lot of gear, so if you give me a lot of bulky stuff and things that don't fit, I'm going to take them off and probably drop them.\n  Also, since we're friends, I'll give you anything I'm carrying, no questions asked.\n  Oh, yeah, if I'm hungry or thirsty and I'm carrying food, I'll eat it.  Same if I need to recharge my bionics and I have some fuel.  So you might want to watch what you give me, y'know?",
+    "responses": [ { "text": "You can use bionics?  How does that work?", "topic": "TALK_ALLY_TUTORIAL_CBMS" } ]
   },
   {
     "id": "TALK_ALLY_TUTORIAL_MEDIC",
@@ -114,71 +89,64 @@
       "and": [
         {
           "npc_has_trait": "PROF_MED",
-          "yes": "Hey, I'm a doctor!  I know how to treat trauma.  You give me some bandages or a bottle of disinfectant, I'm get you fixed when I see you hurting.",
-          "no": "Yeah, I can perform first aid.  You give me some bandages or a bottle of disinfectant, I'll treat your wounds as best I can."
+          "yes": "Hey, I'm a doctor!  I know how to treat trauma.  You give me some bandages or a bottle of antiseptic, I'm get you fixed when I see you hurting.",
+          "no": "Yeah, I can perform first aid.  You give me some bandages or a bottle of antiseptic, I'll treat your wounds as best I can."
         },
         "  But remember, I like you, but I like me more - so I'm going to use those items on myself first, then you, then any of your other friends."
       ]
     },
+    "responses": [ { "text": "Tell me how I give you medical supplies.", "topic": "TALK_ALLY_TUTORIAL_MULE" } ]
+  },
+  {
+    "id": "TALK_ALLY_TUTORIAL_ACTIVITIES",
+    "type": "talk_topic",
+    "dynamic_line": "I can help with some tasks if you show me where to work.\n  Use the zone manager (keybind 'Y') to set up sorting zones for your loot, or to draw blueprints for a building, or to define where  you want to plant some crops, or where you'd like some trees cut down, or where you want a vehicle dismantled.  Then tell me to sort stuff, or build stuff, or cut down trees, or dismantle a vehicle or do farmwork, and I'll go off and do my best to get what you want done.  If I need tools, you should leave them pretty close to where you want me to work - axes for logging, shovels and seeds and fertilizer for farming, wrenches and hacksaws or a toolbox to take apart a vehicle.  I can pretty much sort out our stuff without needing tools, but keep the piles of unsorted and sorted stuff kind of close together because I don't want to walk back and forth carrying junk too much.",
     "responses": [
-      { "text": "Thanks for the explanation.  I wanted to know more about something else.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Thanks.  I have some things for you to do.", "topic": "TALK_FRIEND" },
-      { "text": "Skip it, let's get going.", "topic": "TALK_DONE" }
+      { "text": "Good to know.  Can you perform first aid?", "topic": "TALK_ALLY_TUTORIAL_MEDIC" },
+      { "text": "What about carrying stuff in general?", "topic": "TALK_ALLY_TUTORIAL_MULE" },
+      { "text": "What if I want you to build an organized camp?", "topic": "TALK_CAMP_TUTORIAL_INTRO" }
     ]
   },
   {
     "id": "TALK_ALLY_TUTORIAL_MOVEMENT",
     "type": "talk_topic",
-    "dynamic_line": "If you call me by radio, you can tell me to come to you.  If you've got some basecamps set up, you can tell me to go to one of them.  I'll start walking, and when I get to where I'm going, I'll guard it.\n  Now depending on where I am and where I'm going, it may take me a while to get there.  I'll dodge any dangers on the way, don't worry about that, but if you're way the heck away from me and tell me to come, it may be a while until I get to you.",
+    "dynamic_line": "If you call me by radio, you can tell me to come to you.  If you've got some basecamps set up, you can tell me to go to one of them.  I'll start walking, and when I get to where I'm going, I'll guard it.\n  Now depending on where I am and where I'm going, it may take me a while to get there.  I'll dodge any dangers on the way, don't worry about that, but if you're way the heck away from me and tell me to come, it may be a while until I get to you.\n  I'll move faster if I'm horseback.",
     "responses": [
       { "text": "We can talk with radios?", "topic": "TALK_ALLY_TUTORIAL_RADIO" },
       { "text": "What do you do as a guard?", "topic": "TALK_ALLY_TUTORIAL_GUARD" },
       { "text": "Tell me about faction camps.", "topic": "TALK_CAMP_TUTORIAL_INTRO" },
-      {
-        "text": "Thanks for the explanation.  I wanted to know more about something else.",
-        "topic": "TALK_ALLY_TUTORIAL"
-      },
-      { "text": "Thanks.  I have some things for you to do.", "topic": "TALK_FRIEND" },
-      { "text": "Skip it, let's get going.", "topic": "TALK_DONE" }
+      { "text": "You can ride a horse?", "topic": "TALK_ALLY_TUTORIAL_HORSES" }
     ]
+  },
+  {
+    "id": "TALK_ALLY_TUTORIAL_HORSES",
+    "type": "talk_topic",
+    "dynamic_line": "If there's a friendly horse with a saddle nearby, you tell me to mount up, I'll go over and get on it.  You may need to feed a feral horse some cattlefodder to get it act tame and friendly, and e'x'amine it while you have a saddle in your inventory in order to put the saddle on.  You can also ride yourself, if you know how how.\n  You want me to get off a horse, you just tell me.  You can get off a horse with the vehicle control key (keybind '^').\n  While we're on horses, we'll just move normally, but a lot faster.  It's a good way to get places more quickly than we could on our own two feet.",
+    "responses": [ { "text": "You said something about being to go places.", "topic": "TALK_ALLY_TUTORIAL_MOVEMENT" } ]
   },
   {
     "id": "TALK_ALLY_TUTORIAL_GUARD",
     "type": "talk_topic",
     "dynamic_line": "You tell me to guard, I'll stay where I am and guard it - unless I'm in a vehicle, in which case I'll stick with the vehicle.\n  I'm not a potted plant, though, so if I hear something dangerous happening, I'm going to go see what it is instead of getting jumped in the dark.  If you want me to stay put, tell me not to investigate noises - but if I get shot by some bandit because I can't see where he is and you don't want me to go looking, I won't be happy.\n  You can also use the zone manager (keybind 'Y') to set up no-investigate zone, so if there's some monsters behind a door that you know about, I can ignore them.  You can also set on an investigate-only zone, and I won't investigate noises coming from outside the zone.  The no-investigate zone takes precedence over the investigate-only, if there's a noise coming from some place in both zones.  And if you've got an investigate-only zone set anywhere, even if it's far away, I won't investigate noises coming from outside of it, so be careful with those zones.  Like I said, I don't want to get sniped by some bandit because you told me not to go looking for him - but I also don't want to go investigate something pounding at door only to find out it's some horrible monster you forgot to warn me about.",
-    "responses": [
-      { "text": "Just in case - how else can I tell you to stay put?", "topic": "TALK_ALLY_TUTORIAL_MISC" },
-      {
-        "text": "Thanks for the explanation.  I wanted to know more about something else.",
-        "topic": "TALK_ALLY_TUTORIAL"
-      },
-      { "text": "Thanks.  I have some things for you to do.", "topic": "TALK_FRIEND" },
-      { "text": "Skip it, let's get going.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "Just in case - how else can I tell you to stay put?", "topic": "TALK_ALLY_TUTORIAL_MISC" } ]
+  },
+  {
+    "id": "TALK_ALLY_TUTORIAL_CBMS",
+    "type": "talk_topic",
+    "dynamic_line": "Bionics are augmentation packages, right?  They come in these installable Compact Bionic Modules or CBMs, and I can use some CBMs - if you examine a CBM, it will tell you if I can use it.\n  Find a programmable surgical installer or autodoc, position me on the couch, and activate it, and you can install a suitable CBM to me - or if I think I'll do a better job, I'll do.  I'll take over installing CBMs into you if I'm better at it.\n  I can use almost all passive bionics and some active bionics.  If I have any active bionics, I'll try to use them sensibly, but if we're in danger, I'm going to activate anything that might give me an edge.  I'll use any weapon bionics if they're better than the weapons you gave me, but if you think I should reserve my bionic energy for my defensive and healing bionics, you can tell me how much to reserve.  I'll try to keep my bionic energy topped off, but if we're running low on supplies, you can tell me to stop recharging when I'm not full.\n  I'll tell you if I'm low on bionic energy and can't recharge, and what fuel I need.",
+    "responses": [ { "text": "Tell me how I give you fuel for your bionics.", "topic": "TALK_ALLY_TUTORIAL_MULE" } ]
   },
   {
     "id": "TALK_ALLY_TUTORIAL_SOCIAL",
     "type": "talk_topic",
-    "dynamic_line": "We can chit-chat, if you want.  People are social animals, right?  A little light conversation can do wonders for your mood.  But I don't want to be yapping all the time, so if we've chatted recently, I probably am not going to want to talk for a bit.\n  You can also ask me about my background.  I may not want to talk about it, though.",
-    "responses": [
-      { "text": "Thanks for the explanation.  I wanted to know more about something else.", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "Thanks.  I have some things for you to do.", "topic": "TALK_FRIEND" },
-      { "text": "Skip it, let's get going.", "topic": "TALK_DONE" }
-    ]
+    "dynamic_line": "We can chit-chat, if you want.  People are social animals, right?  A little light conversation can do wonders for your mood.  But I don't want to be yapping all the time, so if we've chatted recently, I probably am not going to want to talk for a bit.\n  You can also ask me about my background.  I may not want to talk about it, though.\n  You can also ask me for advice - I've heard things here and there that may help us survive, but I don't usually give advice relevant to the situation.\n  I can also train you, and you can read books to me in order to train me.",
+    "responses": [ { "text": "What's that about training?", "topic": "TALK_ALLY_TUTORIAL_TRAINING" } ]
   },
   {
     "id": "TALK_ALLY_TUTORIAL_MISC",
     "type": "talk_topic",
     "dynamic_line": "You can give me a bunch of instructions.  Talk to me about the miscellaneous rules, and I'll tell you what I'm doing and you can give a new instruction.  Sometimes you'll have shouted a command that overrides your other instructions, and I'll tell you which instructions are overridden.\n  I'm not a chatterbox, but I'll tell you when I see or hear danger or if I'm hurt or hungry or something.  You don't want me doing that, you just tell me.\n  Also, I'll pulp zombies if you'd like - I would prefer that.\n  If I hear something suspicious and can't see if, I'll go take a look, but you can tell me not to do that.\n  I'll open and close doors, or open them and leave them ajar, or not going through closed doors.  You just tell me what you want.\n  I can pick stuff up if want me to, and you can tell me what to pick up.  If I've got a bow or crossbow, please tell me to pick up the ammo - it's less fuss for both of us.\n  If you've got a vehicle, you can e'x'amine it and use the cre'w' command to assign me a seat.  That saves arguments about who needs to sit where.",
-    "responses": [
-      { "text": "How do shouted commands work?", "topic": "TALK_ALLY_TUTORIAL_SHOUTS" },
-      {
-        "text": "Thanks for the explanation.  I wanted to know more about something else.",
-        "topic": "TALK_ALLY_TUTORIAL"
-      },
-      { "text": "Thanks.  I have some things for you to do.", "topic": "TALK_FRIEND" },
-      { "text": "Skip it, let's get going.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "How do shouted commands work?", "topic": "TALK_ALLY_TUTORIAL_SHOUTS" } ]
   },
   {
     "id": "TALK_ALLY_TUTORIAL_COMMANDS",
@@ -190,11 +158,41 @@
       {
         "text": "Can I tell you to open and close doors or avoid sleep without shouting?",
         "topic": "TALK_ALLY_TUTORIAL_MISC"
-      },
-      {
-        "text": "Thanks for the explanation.  I wanted to know more about something else.",
-        "topic": "TALK_ALLY_TUTORIAL"
-      },
+      }
+    ]
+  },
+  {
+    "id": "TALK_ALLY_TUTORIAL_CHANGES",
+    "type": "talk_topic",
+    "dynamic_line": "Well, this conversation is pretty new!  But there's been some other changes.\n  I've been able to install CBMs on you, and have passive bionics installed in me, for a while.  But now I can use some active bionics, and I can explain some details on how I use bionics.\n  I can also ride horses, and you can give me orders to do things like farmwork, cutting trees, or even building houses from a blueprint.",
+    "responses": [
+      { "text": "You can use bionics?  How does that work?", "topic": "TALK_ALLY_TUTORIAL_CBMS" },
+      { "text": "You can ride horses?  Can I ride horses?", "topic": "TALK_ALLY_TUTORIAL_HORSES" },
+      { "text": "Tell me more about the activities you can do now.", "topic": "TALK_ALLY_TUTORIAL_ACTIVITIES" }
+    ]
+  },
+  {
+    "id": [
+      "TALK_ALLY_TUTORIAL_TALK",
+      "TALK_ALLY_TUTORIAL_RADIO",
+      "TALK_ALLY_TUTORIAL_SHOUTS",
+      "TALK_ALLY_TUTORIAL_COMBAT",
+      "TALK_ALLY_TUTORIAL_TRAINING",
+      "TALK_ALLY_TUTORIAL_MULE",
+      "TALK_ALLY_TUTORIAL_ACTIVITIES",
+      "TALK_ALLY_TUTORIAL_HORSES",
+      "TALK_ALLY_TUTORIAL_MEDIC",
+      "TALK_ALLY_TUTORIAL_MOVEMENT",
+      "TALK_ALLY_TUTORIAL_GUARD",
+      "TALK_ALLY_TUTORIAL_CBMS",
+      "TALK_ALLY_TUTORIAL_SOCIAL",
+      "TALK_ALLY_TUTORIAL_MISC",
+      "TALK_ALLY_TUTORIAL_COMMANDS",
+      "TALK_ALLY_TUTORIAL_CHANGES"
+    ],
+    "type": "talk_topic",
+    "responses": [
+      { "text": "Thanks for the explanation.  I wanted to know more about something else.", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "Thanks.  I have some things for you to do.", "topic": "TALK_FRIEND" },
       { "text": "Skip it, let's get going.", "topic": "TALK_DONE" }
     ]

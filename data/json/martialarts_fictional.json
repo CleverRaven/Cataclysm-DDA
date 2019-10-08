@@ -1,48 +1,179 @@
 [
   {
     "type": "martial_art",
+    "id": "style_biojutsu",
+    "name": "Bionic Combatives",
+    "description": "A modern combat style for the post-modern human.  Nicknamed \"Biojutsu\", Bionic Combatives combines integrated weaponry, armor and augments into an consolidated fighting discipline.",
+    "initiate": [
+      "BEGINNING BIONIC COMBATIVES PROGRAM. INITIATING COMBAT PROTOCOLS.",
+      "%s starts moving with swift robotic precision."
+    ],
+    "arm_block_with_bio_armor_arms": true,
+    "leg_block_with_bio_armor_legs": true,
+    "static_buffs": [
+      {
+        "id": "buff_biojutsu_static",
+        "name": "Biojutsu Stance",
+        "description": "void player::ApplyBiojutsuStatic() {\n    blocks_left += 2;\n    set_hit_bonus( get_hit_bonus() + 1 );\n}\n\n+2 Blocks attemps, +1 Accuracy.",
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "min_unarmed": 0,
+        "bonus_blocks": 2,
+        "flat_bonuses": [ [ "hit", 1.0 ] ]
+      }
+    ],
+    "onkill_buffs": [
+      {
+        "id": "buff_biojutsu_onkill",
+        "name": "Optimization",
+        "description": ">10 LOCATE TARGET\n>20 EXECUTE TARGET\n>30 GOTO 10\n\n+1 Accuracy, +2 all damage.\nLasts 3 turns.  Stacks 3 times.",
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "min_melee": 4,
+        "buff_duration": 3,
+        "max_stacks": 3,
+        "flat_bonuses": [ [ "damage", "bash", 2.0 ], [ "damage", "cut", 2.0 ], [ "damage", "stab", 2.0 ], [ "hit", 1.0 ] ]
+      }
+    ],
+    "techniques": [
+      "tec_biojutsu_counter",
+      "tec_biojutsu_disarm",
+      "tec_biojutsu_strike_unarmed",
+      "tec_biojutsu_strike_melee",
+      "tec_biojutsu_impale",
+      "tec_biojutsu_takedown",
+      "tec_biojutsu_wide"
+    ],
+    "weapons": [ "bio_claws_weapon", "bio_blade_weapon" ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_centipede",
     "name": "Centipede Kung Fu",
-    "description": "One of the Five Deadly Venoms.  Centipede Style uses an onslaught of rapid strikes.  Each attack you land increases your speed by 4.",
+    "description": "One of the Five Deadly Venoms, used by Zhang Yiaotian.  Centipede Style uses an onslaught of rapid strikes.  Each attack you land increases your attack speed.  Critical hits increase your damage further.",
+    "initiate": [ "You ready yourself to attack as fast as possible.", "%s assumes a centipede-like stance." ],
+    "learn_difficulty": 10,
     "arm_block": 3,
-    "leg_block": 99,
+    "leg_block": 4,
     "onhit_buffs": [
       {
-        "id": "centipede_hit_buff",
-        "name": "Hundred-Hitter",
-        "description": "+4 Atk Speed",
+        "id": "buff_centipede_onhit",
+        "name": "Centipede's Frenzy",
+        "description": "Your attacks are a blur of hands and legs that become faster as your strike your opponents without rest.\n\n-4 move cost.\nLasts 3 turns.  Stacks 4 times.",
+        "min_unarmed": 5,
         "unarmed_allowed": true,
-        "min_unarmed": 1,
         "buff_duration": 3,
-        "max_stacks": 8,
+        "max_stacks": 4,
         "flat_bonuses": [ [ "movecost", -4.0 ] ]
       }
     ],
-    "techniques": [ "tec_centipede_rapid" ]
+    "oncrit_buffs": [
+      {
+        "id": "buff_centipede_oncrit",
+        "name": "Centipede's Venom",
+        "description": "Your venom burns your opponents at the worst of times.\n\n+2 bashing damage.\nLasts 2 turns.",
+        "min_unarmed": 1,
+        "unarmed_allowed": true,
+        "buff_duration": 2,
+        "flat_bonuses": [ [ "damage", "bash", 2.0 ] ]
+      }
+    ],
+    "techniques": [ "tec_centipede_rapid", "tec_centipede_break", "tec_centipede_bite", "tec_centipede_disarm" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_lizard",
+    "name": "Lizard Kung Fu",
+    "description": "One of the Five Deadly Venoms, used by Meng Tianxia.  Lizard Style focuses on using walls to your advantage.  Standing near a wall provides a large bonus to Dodge skill and moving near a wall gives a large bonus to accuracy.  Stronger techniques are enabled when near a wall.",
+    "initiate": [ "You ready yourself to attack from any angle.", "%s assumes a lizard-like stance." ],
+    "learn_difficulty": 10,
+    "arm_block": 2,
+    "static_buffs": [
+      {
+        "id": "buff_lizard_static",
+        "name": "Lizard's Cunning",
+        "description": "By briefly scaling, leaping, or pushing off a nearby wall, you can avoid the worst of your opponents attacks.\n\n+3.0 Dodge skill when near a wall.\nEnables \"Lizard Tail\" and \"Lizard Wall Counter\" techniques when near a wall.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "wall_adjacent": true,
+        "flat_bonuses": [ [ "dodge", 3.0 ] ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "buff_lizard_onhit",
+        "name": "Lizard's Venom",
+        "description": "Your venom is a long lasting pain that your opponents will never forget.\n\n+2 bash damage.\nLasts 4 turns.",
+        "min_unarmed": 2,
+        "unarmed_allowed": true,
+        "buff_duration": 4,
+        "flat_bonuses": [ [ "damage", "bash", 2.0 ] ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_lizard_onmove",
+        "name": "Lizard's Leap",
+        "description": "By briefly scaling, leaping, or pushing off a nearby wall, can attack downward at unsuspecting opponents.\n\n+3 Accuracy when near a wall.\nLasts 3 turns.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "wall_adjacent": true,
+        "buff_duration": 3,
+        "flat_bonuses": [ [ "hit", 3.0 ] ]
+      }
+    ],
+    "techniques": [ "tec_lizard_strike", "tec_lizard_break", "tec_lizard_wallcounter", "tec_lizard_counter", "tec_lizard_tail" ]
   },
   {
     "type": "martial_art",
     "id": "style_scorpion",
     "name": "Scorpion Kung Fu",
-    "description": "One of the Five Deadly Venoms.  Scorpion Style is a mysterious art which uses pincer-like hands and a stinger kick.  Critical hits do massive damage and knock your target back.",
+    "description": "One of the Five Deadly Venoms, used by Gao Ji.  Scorpion Style is a mysterious art which uses pincer-like hands and a stinger kick.  Moving enables a stunning pincer attack.  Critical hits do massive damage and knock your opponent back along with anyone your opponent comes in contact with.",
+    "initiate": [ "You prepare to capture and sting your foes.", "%s assumes a scorpion-like stance." ],
+    "learn_difficulty": 10,
     "arm_block": 3,
-    "leg_block": 99,
     "static_buffs": [
       {
-        "id": "scorpion_static",
-        "name": "Scorpion Venom",
-        "description": "+2 bashing damage.",
+        "id": "buff_scorpion_static",
+        "name": "Scorpion's Venom",
+        "description": "Your venom is a constant threat that nothing can escape from.\n\n+2 bashing damage.",
+        "min_unarmed": 0,
         "unarmed_allowed": true,
         "flat_bonuses": [ [ "damage", "bash", 2.0 ] ]
       }
     ],
-    "techniques": [ "tec_scorpion_precise", "tec_scorpion_brutal" ]
+    "onattack_buffs": [
+      {
+        "id": "buff_scorpion_onattack",
+        "name": "Scorpion's Intimidation",
+        "description": "Nothing is scarier than an angry scropion.  Your attacks can keep others at bay.\n\n+1 Dodge attempts.\nLasts 1 turn.",
+        "min_unarmed": 1,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "bonus_dodges": 1
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_scorpion_onmove",
+        "name": "Scorpion's Charge",
+        "description": "Rush foward and catch your prey!\n\n+10% damage.\nEnables \"Pincer Strike\" technique.\nStacks 2 times.  Lasts 2 turns.",
+        "min_unarmed": 2,
+        "unarmed_allowed": true,
+        "buff_duration": 2,
+        "max_stacks": 2,
+        "mult_bonuses": [ [ "damage", "bash", 1.1 ], [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.1 ] ]
+      }
+    ],
+    "techniques": [ "tec_scorpion_roundhouse", "tec_scorpion_precise", "tec_scorpion_brutal" ]
   },
   {
     "type": "martial_art",
     "id": "style_toad",
     "name": "Toad Kung Fu",
     "description": "One of the Five Deadly Venoms.  Masters of Toad Style can focus themselves against all attacks.  You can meditate by pausing, giving you armor, though you will lose focus when you move.",
+    "initiate": [ "You pause for a moment and focus on your invincible body.", "%s assumes a toad-like stance." ],
+    "learn_difficulty": 10,
     "arm_block": 3,
     "leg_block": 99,
     "static_buffs": [
@@ -71,18 +202,11 @@
   },
   {
     "type": "martial_art",
-    "id": "style_lizard",
-    "name": "Lizard Kung Fu",
-    "description": "One of the Five Deadly Venoms.  Lizard Style focuses on using walls to your advantage.",
-    "arm_block": 2,
-    "leg_block": 99,
-    "techniques": [  ]
-  },
-  {
-    "type": "martial_art",
     "id": "style_venom_snake",
     "name": "Viper Kung Fu",
     "description": "A legacy of the Five Deadly Venoms.  Viper Style has a unique three-part combo, which initiates on a dodge, then counters with a stunning chop and the legendary Viper Strike.",
+    "initiate": [ "You prepare to strike your foes' weaknesses.", "%s assumes a viper-like stance." ],
+    "learn_difficulty": 10,
     "arm_block": 99,
     "leg_block": 99,
     "static_buffs": [
@@ -103,8 +227,7 @@
         "min_unarmed": 0,
         "buff_duration": 2,
         "max_stacks": 1,
-        "mult_bonuses": [ [ "damage", "bash", 1.5 ] ],
-        "stun_dur": 2
+        "mult_bonuses": [ [ "damage", "bash", 1.5 ] ]
       }
     ],
     "onhit_buffs": [
@@ -137,6 +260,142 @@
     "starting_trait": false,
     "initial_ma_styles": [ "style_centipede", "style_venom_snake", "style_scorpion", "style_lizard", "style_toad" ],
     "valid": false
+  },
+  {
+    "type": "technique",
+    "id": "tec_biojutsu_counter",
+    "name": "Biojutsu Counter",
+    "messages": [ "You block and counter-attack %s", "<npcname> blocks and counter-attacks %s" ],
+    "min_melee": 4,
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "block_counter": true,
+    "crit_ok": true,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_biojutsu_disarm",
+    "name": "Disarm",
+    "messages": [ "You effortlessly disarm and stun %s", "<npcname> effortlessly disarms and stuns %s" ],
+    "min_unarmed": 1,
+    "unarmed_allowed": true,
+    "weighting": 2,
+    "disarms": true,
+    "stun_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_biojutsu_strike_melee",
+    "name": "Measured Strike (melee)",
+    "messages": [ "You make an efficent strike against %s", "<npcname> makes an efficent strike against %s" ],
+    "min_melee": 0,
+    "melee_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.8 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_biojutsu_strike_unarmed",
+    "name": "Measured Strike (unarmed)",
+    "messages": [ "You make an efficent strike against %s", "<npcname> makes an efficent strike against %s" ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "unarmed_weapons_allowed": false,
+    "crit_ok": true,
+    "mult_bonuses": [ [ "movecost", 0.8 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_biojutsu_impale",
+    "name": "Biojutsu Impale",
+    "messages": [ "You brutally impale %s with your weapon", "<npcname> brutally impales %s with their weapon" ],
+    "min_melee": 3,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ], [ "damage", "stab", 1.5 ] ],
+    "stun_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_biojutsu_takedown",
+    "name": "Biojutsu Takedown",
+    "messages": [ "You kick and slam %s to the ground", "<npcname> kicks and slams %s to the ground" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "unarmed_weapons_allowed": false,
+    "weighting": 2,
+    "crit_ok": true,
+    "down_dur": 2
+  },
+  {
+    "type": "technique",
+    "id": "tec_biojutsu_wide",
+    "name": "Biojutsu Cleave",
+    "messages": [ "You quickly cleave through %s and those nearby", "<npcname> quickly cleaves through %s and those nearby" ],
+    "min_melee": 5,
+    "melee_allowed": true,
+    "weighting": 2,
+    "crit_tec": true,
+    "aoe": "wide"
+  },
+  {
+    "type": "technique",
+    "id": "tec_lizard_strike",
+    "name": "Lizard Strike",
+    "messages": [ "You spearhand strike %s", "<npcname> spearhand strikes %s" ],
+    "min_unarmed": 1,
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_lizard_tail",
+    "name": "Lizard Tail",
+    "messages": [ "You leap off a nearby wall and dropkick %s", "<npcname> leaps off a nearby wall and dropkicks %s" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "wall_adjacent": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_lizard_break",
+    "name": "Grab Break",
+    "messages": [ "The %s tries to grab you, but you outmaneuver it!", "The %s tries to grab <npcname>, but they outmaneuver it!" ],
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_lizard_wallcounter",
+    "name": "Lizard Wall Counter",
+    "messages": [ "You push off a nearby wall and strike down at %s", "<npcname> pushes off a nearby wall and strikes down at %s" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "dodge_counter": true,
+    "crit_ok": true,
+    "wall_adjacent": true,
+    "weighting": 2,
+    "knockback_dist": 1,
+    "knockback_spread": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 2.0 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_lizard_counter",
+    "name": "Lizard Counter",
+    "messages": [ "You duck away and strike back at %s", "<npcname> ducks away and strikes back at %s" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "dodge_counter": true,
+    "crit_ok": true,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ]
   },
   {
     "type": "technique",
@@ -186,24 +445,36 @@
   },
   {
     "type": "technique",
+    "id": "tec_scorpion_roundhouse",
+    "name": "Roundhouse Kick",
+    "messages": [ "You roundhouse kick %s", "<npcname> roundhouse kicks %s" ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
+  },
+  {
+    "type": "technique",
     "id": "tec_scorpion_brutal",
-    "name": "Stinger Strike",
+    "name": "Stinger Kick",
+    "min_unarmed": 5,
     "unarmed_allowed": true,
     "crit_tec": true,
-    "stun_dur": 3,
+    "stun_dur": 2,
     "knockback_dist": 3,
-    "mult_bonuses": [ [ "damage", "bash", 2 ] ],
+    "powerful_knockback": true,
+    "mult_bonuses": [ [ "damage", "bash", 2.0 ] ],
     "messages": [ "Your Stinger Kick sends %s flying", "<npcname>'s Stinger Kick sends %s flying" ]
   },
   {
     "type": "technique",
     "id": "tec_scorpion_precise",
-    "name": "Pincer Strike",
+    "name": "Pincer Fist",
+    "messages": [ "You stun %s with your Pincer Fist", "<npcname> jabs %s with a Pincer Fist" ],
     "min_unarmed": 4,
     "unarmed_allowed": true,
-    "mult_bonuses": [ [ "damage", "bash", 1.25 ] ],
-    "messages": [ "You punch %s with your Pincer Fist", "<npcname> jabs %s with a Pincer Fist" ],
-    "stun_dur": 2
+    "req_buffs": [ "buff_scorpion_onmove" ],
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.25 ] ]
   },
   {
     "type": "technique",
@@ -217,50 +488,41 @@
   },
   {
     "type": "technique",
-    "id": "tec_centipede_rapid",
-    "name": "Rapid Strike",
-    "min_unarmed": 2,
-    "unarmed_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ],
-    "messages": [ "You swiftly hit %s", "<npcname> swiftly hits %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_snake_rapid",
-    "name": "Snake Snap",
-    "min_unarmed": 2,
-    "unarmed_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ],
-    "messages": [ "You swiftly jab %s", "<npcname> swiftly jabs %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_snake_feint",
-    "name": "Snake Slide",
+    "id": "tec_centipede_break",
+    "name": "Grab Break",
+    "messages": [ "The %s tries to grab you, but you skitter free!", "The %s tries to grab <npcname>, but they skitter free!" ],
     "min_unarmed": 3,
     "unarmed_allowed": true,
     "defensive": true,
-    "miss_recovery": true,
-    "messages": [ "You make serpentine hand motions at %s", "<npcname> makes serpentine hand motions at %s" ]
+    "grab_break": true
   },
   {
     "type": "technique",
-    "id": "tec_snake_break",
-    "name": "Snake Slither",
-    "min_unarmed": 4,
+    "id": "tec_centipede_rapid",
+    "name": "Centipede Strike",
+    "messages": [ "You swiftly hit %s", "<npcname> swiftly hits %s" ],
+    "min_unarmed": 0,
     "unarmed_allowed": true,
-    "defensive": true,
-    "grab_break": true,
-    "messages": [ "You slither free", "<npcname> slithers free" ]
+    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ]
   },
   {
     "type": "technique",
-    "id": "tec_snake_precise",
-    "name": "Snake Strike",
-    "min_unarmed": 4,
+    "id": "tec_centipede_bite",
+    "name": "Centipede Bite",
+    "messages": [ "You palm strike %s with a painful Centipede Bite", "<npcname> palm strikes %s with a painful Centipede Bite" ],
+    "min_unarmed": 2,
     "unarmed_allowed": true,
     "crit_tec": true,
-    "messages": [ "You strike out at %s", "<npcname> strikes out at %s" ],
-    "stun_dur": 2
+    "down_dur": 1,
+    "mult_bonuses": [ [ "movecost", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_centipede_disarm",
+    "name": "Disarm",
+    "messages": [ "You disarm %s with lightning speed", "<npcname> disarms %s with lightning speed" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "disarms": true
   }
 ]

@@ -5,7 +5,8 @@
     "name": "[DP_MOD] Hide STATUS",
     "authors": [ "SomeDeadGuy" ],
     "description": "Hides STATUS graphics above character head.",
-    "category": "none",
+    "category": "graphical",
+    "obsolete": true,
     "dependencies": [ "dda" ]
   }
 ]

@@ -1,0 +1,51 @@
+[
+  {
+    "type": "technique",
+    "id": "mma_tec_panzer_counter",
+    "name": "Ausstoß",
+    "//": "Outer Thrust.",
+    "messages": [ "You redirect %s's attack against them", "<npcname> redirects %s's attack against them" ],
+    "min_unarmed": 4,
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "dodge_counter": true,
+    "crit_ok": true,
+    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 1.2 ], [ "damage", "cut", 1.2 ], [ "damage", "stab", 1.2 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_panzer_somersault",
+    "name": "Kumai Sharinraku",
+    "//": "No translation on wiki. It's a Somersault Kick.",
+    "messages": [ "You jump and somersault kick %s", "<npcname> jump and somersault kick %s" ],
+    "min_unarmed": 0,
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_panzer_precise",
+    "name": "Herzschlag",
+    "//": "Heart Strike.  Alita's signature attack.",
+    "messages": [ "You hit %s with a powerful vibro-punch", "<npcname> hits %s with a powerful vibro-punch" ],
+    "min_unarmed": 5,
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "flat_bonuses": [ [ "arpen", "bash", 10.0 ] ],
+    "mult_bonuses": [ [ "movecost", 1.2 ], [ "damage", "bash", 1.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "mma_tec_panzer_rapid",
+    "name": "Geschoss Schlag",
+    "//": "Missile Blow.",
+    "messages": [ "You launch a supersonic punch at %s", "<npcname> launches a supersonic punch at %s" ],
+    "min_unarmed": 2,
+    "melee_allowed": true,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ]
+  }
+]

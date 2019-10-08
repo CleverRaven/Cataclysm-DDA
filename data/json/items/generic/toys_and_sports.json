@@ -1,0 +1,126 @@
+[
+  {
+    "id": "talking_doll",
+    "type": "TOOL",
+    "name": "talking doll",
+    "description": "This is a talking doll, meant for children.  Fortunately it still works, and you could unload the batteries out of it.",
+    "weight": "907 g",
+    "volume": "750 ml",
+    "price": 2000,
+    "to_hit": -1,
+    "material": "plastic",
+    "symbol": "|",
+    "color": "pink",
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "turns_per_charge": 20,
+    "use_action": "DOLLCHAT",
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_minus_disposable_cell",
+          "light_disposable_cell",
+          "light_minus_battery_cell",
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1
+  },
+  {
+    "id": "creepy_doll",
+    "type": "TOOL",
+    "name": "talking doll",
+    "description": "This is a talking doll, meant for children.  Fortunately it still works, and you could unload the batteries out of it.",
+    "weight": "907 g",
+    "volume": "750 ml",
+    "price": 2000,
+    "to_hit": -1,
+    "material": "plastic",
+    "symbol": "|",
+    "color": "pink",
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "turns_per_charge": 20,
+    "use_action": "DOLLCHAT",
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_minus_disposable_cell",
+          "light_disposable_cell",
+          "light_minus_battery_cell",
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1
+  },
+  {
+    "type": "GENERIC",
+    "id": "baseball",
+    "symbol": "*",
+    "color": "white",
+    "name": "baseball",
+    "category": "other",
+    "description": "A baseball, good for throwing at enemies.  Getting hit with one of these hurts a lot more than you might think.",
+    "price": 1000,
+    "material": "leather",
+    "weight": "150 g",
+    "volume": "250 ml",
+    "bashing": 6,
+    "to_hit": 3
+  },
+  {
+    "type": "GENERIC",
+    "id": "football",
+    "symbol": "*",
+    "color": "brown",
+    "name": "football",
+    "category": "other",
+    "description": "An oval made of leather and string, it's easily thrown but does little damage.  You could take it apart into leather if you wanted.",
+    "price": 1000,
+    "material": "leather",
+    "weight": "400 g",
+    "volume": "750 ml",
+    "bashing": 4,
+    "to_hit": -1
+  },
+  {
+    "type": "GENERIC",
+    "id": "basketball",
+    "symbol": "*",
+    "color": "brown",
+    "name": "basketball",
+    "category": "other",
+    "description": "A high-quality indoor basketball.  You may throw it at zombies.",
+    "price": 1200,
+    "material": "leather",
+    "weight": "800 g",
+    "volume": "1 L",
+    "bashing": 6,
+    "to_hit": -1
+  },
+  {
+    "type": "GENERIC",
+    "id": "puck",
+    "symbol": "*",
+    "color": "dark_gray",
+    "name": "hockey puck",
+    "category": "other",
+    "description": "A heavy circular block of solid rubber, normally used for playing hockey.  You can throw it to cause some serious harm.",
+    "price": 1000,
+    "material": "plastic",
+    "weight": "170 g",
+    "volume": "250 ml",
+    "bashing": 7,
+    "to_hit": 2
+  }
+]

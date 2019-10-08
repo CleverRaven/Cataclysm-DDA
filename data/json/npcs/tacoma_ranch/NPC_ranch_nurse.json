@@ -1,0 +1,356 @@
+[
+  {
+    "type": "npc",
+    "id": "ranch_nurse_1",
+    "//": "Mission source for clinic.  Provides medical attention.",
+    "name_suffix": "Nurse",
+    "gender": "female",
+    "class": "NC_HUNTER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_RANCH_NURSE",
+    "mission_offered": "MISSION_RANCH_NURSE_1",
+    "faction": "tacoma_commune"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_NURSE",
+    "dynamic_line": "How can I help you?",
+    "responses": [
+      { "text": "What is your job here?", "topic": "TALK_RANCH_NURSE_JOB" },
+      { "text": "Do you need any help?", "topic": "TALK_RANCH_NURSE_HIRE" },
+      { "text": "I could use your medical assistance.", "topic": "TALK_RANCH_NURSE_AID" },
+      { "text": "I've got to go...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_NURSE_JOB",
+    "dynamic_line": "I was a practicing nurse so I've taken over the medical responsibilities of the outpost till we can locate a physician.",
+    "responses": [ { "text": "OK.", "topic": "TALK_RANCH_NURSE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_NURSE_HIRE",
+    "dynamic_line": "I'm willing to pay a premium for medical supplies that you might be able to scavenge up.  I also have a few miscellaneous jobs from time to time.",
+    "repeat_responses": {
+      "for_item": [
+        "1st_aid",
+        "antibiotics",
+        "aspirin",
+        "bandages",
+        "bfipowder",
+        "chem_hydrogen_peroxide",
+        "codeine",
+        "dayquil",
+        "disinfectant",
+        "flu_shot",
+        "morphine",
+        "nyquil",
+        "oxycodone",
+        "poppy_pain",
+        "poppysyrup",
+        "quikclot",
+        "thyme_oil",
+        "tramadol",
+        "vaccine_shot",
+        "weak_antibiotic",
+        "cattail_jelly"
+      ],
+      "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
+    },
+    "responses": [
+      { "text": "What kind of jobs do you have for me?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Not now.", "topic": "TALK_RANCH_NURSE" }
+    ]
+  },
+  {
+    "id": "TALK_RANCH_NURSE_AID",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "npc_has_effect": "currently_busy",
+      "yes": "Come back later, I need to take care of a few things first.",
+      "no": "I can take a look at you or your companions if you are injured."
+    },
+    "responses": [
+      {
+        "text": "[$200, 30m] I need you to patch me up.",
+        "topic": "TALK_RANCH_NURSE_AID_DONE",
+        "effect": [ "give_aid", { "u_spend_cash": 20000 } ],
+        "condition": { "npc_service": 20000 }
+      },
+      {
+        "text": "[$500, 1h] I need you to patch me up.",
+        "topic": "TALK_RANCH_NURSE_AID_DONE",
+        "effect": [ "give_all_aid", { "u_spend_cash": 50000 } ],
+        "condition": { "npc_service": 50000 }
+      },
+      { "text": "I should be fine.", "topic": "TALK_RANCH_NURSE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_NURSE_AID_DONE",
+    "dynamic_line": "That's the best I can do on short notice.",
+    "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_RANCH_NURSE_1",
+    "type": "mission_definition",
+    "name": "Collect 100 Aspirin",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "aspirin",
+    "count": 100,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_NURSE_2",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "I've got a handful of bandages and a few first aid kits to work with at the moment... in other words I'm completely unable to treat most serious medical emergencies.  I'm supposed to have priority on any medical supplies that the scavengers bring in but I imagine the black market for the stuff will prevent me from ever seeing it.  I could use your help getting a few bottles of aspirin to start with.",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Aspirin is pretty common in homes and convenience stores.",
+      "inquire": "Do you have the aspirin?",
+      "success": "We'll go through this pretty quickly but it does help.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_RANCH_NURSE_2",
+    "type": "mission_definition",
+    "name": "Collect 3 Hotplates",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "hotplate",
+    "count": 3,
+    "start": "ranch_nurse_1",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_NURSE_3",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "I was given a few bottles of bleach when I arrived but I need a number of hotplates to actually sterilize equipment.  I'm sure you can find them in any old house or appliance store.  Three should be enough for now.",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "It should be a fairly common item, don't know what else to say.",
+      "inquire": "Do you have the hotplates?",
+      "success": "Thank you for your assistance.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_RANCH_NURSE_3",
+    "type": "mission_definition",
+    "name": "Collect 200 Multivitamin Pills",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "vitamins",
+    "count": 200,
+    "start": "ranch_nurse_2",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_NURSE_4",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "Disease is spreading rapidly due to poor nutrition and there is little that I can do about it.  With food being scarce, people are willing to survive on whatever they can.  I need to start supplementing the outpost's diet with vitamins to prevent potential deaths indirectly attributable to nutrition.  I know it is a lot but if you could bring me 200 multivitamin pills I'd be able to treat the most vulnerable before they spread anything to the rest of us.",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "It should be a fairly common item, don't know what else to say.",
+      "inquire": "Do you have the vitamins?",
+      "success": "Thank you for your assistance.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_RANCH_NURSE_4",
+    "type": "mission_definition",
+    "name": "Make 4 Charcoal Purifiers",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "char_purifier",
+    "count": 4,
+    "start": "ranch_nurse_3",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_NURSE_5",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "Despite my recommendations, we continue to have travelers come in with illnesses I've been able to trace back to contaminated drinking water.  When boiling water isn't an option they need some form of charcoal water filter that they can use.  If you could build me four charcoal water filters I'll distribute them to groups as they pass through.",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "With some basic survival and crafting skills you should be able to make them with little effort.",
+      "inquire": "Do you have the charcoal water filters?",
+      "success": "Thank you for your assistance.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_RANCH_NURSE_5",
+    "type": "mission_definition",
+    "name": "Find a Chemistry Set",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "chemistry_set",
+    "start": "ranch_nurse_4",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_NURSE_6",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "I've been working on producing some of our own medical supplies but I'm going to need a chemistry set to get everything that I need in order.  Is there any way you could go through one of the school chemistry labs and steal me a chemistry set?",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "You might be able to find one in a pharmacy if you can't find a school.",
+      "inquire": "Do you have the chemistry set?",
+      "success": "Thank you for your assistance.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_RANCH_NURSE_6",
+    "type": "mission_definition",
+    "name": "Find 10 Filter Masks",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "mask_filter",
+    "count": 10,
+    "start": "ranch_nurse_5",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_NURSE_7",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "The number of airway infections that I've encountered in the past week has depleted my supply of masks.  Could you find me 10 filter masks?  I tend to only distribute them in severe cases so I'll be sure to make them last.",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "You may be able to make one if you had the right guide.",
+      "inquire": "Do you have the filter masks?",
+      "success": "Thank you for your assistance.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_RANCH_NURSE_7",
+    "type": "mission_definition",
+    "name": "Find 4 Pairs of Rubber Gloves",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "gloves_rubber",
+    "count": 4,
+    "start": "ranch_nurse_6",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_NURSE_8",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "The bodily fluids that I often have to clean up and the caustic chemicals I deal with have done a number on my current pair of gloves.  Could you find me four pairs of heavy rubber gloves?  That should be enough that I can task a few laborers with cleanup details in the event of an outbreak.",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "You should be able to find them in cleaning closets.",
+      "inquire": "Do you have the rubber gloves?",
+      "success": "Thank you for your assistance.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_RANCH_NURSE_8",
+    "type": "mission_definition",
+    "name": "Find 2 Scalpels",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "scalpel",
+    "count": 2,
+    "start": "ranch_nurse_7",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_NURSE_9",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "I heard that we may have a physician on his way here.  The workers have already begun expanding the clinic but I need you to locate a pair of scalpels to use in surgery when he arrives.  I'm sure you should be able to find them in a hospital or craft shop.",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Hospitals and crafting stores should have a few.",
+      "inquire": "Do you have the scalpels?",
+      "success": "Thank you for your assistance.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_RANCH_NURSE_9",
+    "type": "mission_definition",
+    "name": "Find Advanced Emergency Care",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "emergency_book",
+    "start": "ranch_nurse_8",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_NURSE_10",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "Have you heard of a book called the 'Guide to Advanced Emergency Care?'  I really need a copy.  The doctor is requesting a lot of supplies that I'm not familiar with but I believe I could make if I could get a copy of the book.",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Libraries are the only place I'd think to look.",
+      "inquire": "Do you have the Guide to Advanced Emergency Care?",
+      "success": "Thank you for your assistance.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_RANCH_NURSE_10",
+    "type": "mission_definition",
+    "name": "Find a Flu Shot",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "flu_shot",
+    "start": "ranch_nurse_9",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_NURSE_11",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "The doctor has some ideas on how to recreate a vaccination program for the common flu.  If you come across an unused flu shot please bring it to me.  We haven't had any fatalities from the flu yet but it is only a matter of time until one of the older or younger members of the outpost gets a bad case.",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Hospitals or clinics might have a few that haven't been used.",
+      "inquire": "Do you have the flu shot?",
+      "success": "Thank you for your assistance.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_RANCH_NURSE_11",
+    "type": "mission_definition",
+    "name": "Find 10 Syringes",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "syringe",
+    "count": 3,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_NULL",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "We are starting to isolate a few natural antibiotic serums but we don't have the supplies to administer the cocktails.  I need you to bring me 10 empty syringes to use.  I'll take care of cleaning them to prevent transferring infections.",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Hospitals or clinics might have a few sitting around.",
+      "inquire": "Do you have the empty syringes?",
+      "success": "Thank you for your assistance.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  }
+]

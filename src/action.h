@@ -103,8 +103,10 @@ enum action_id : int {
     ACTION_SMASH,
     /** Examine or pick up items from adjacent square */
     ACTION_EXAMINE,
-    /** Pick up items from current square */
+    /** Pick up items from current/adjacent squares */
     ACTION_PICKUP,
+    /** Pick up items from current square. Auto pickup if only one item */
+    ACTION_PICKUP_FEET,
     /** Grab or let go of an object */
     ACTION_GRAB,
     /** Haul pile of items, or let go of them */
@@ -143,8 +145,10 @@ enum action_id : int {
     ACTION_WEAR,
     /** Open the take-off clothing selection menu */
     ACTION_TAKE_OFF,
-    /** Open the consume item menu */
+    /** Open the default consume item menu */
     ACTION_EAT,
+    /** Open the custom consume item menu */
+    ACTION_OPEN_CONSUME,
     /** Open the read menu */
     ACTION_READ,
     /** Open the wield menu */
@@ -167,6 +171,8 @@ enum action_id : int {
     ACTION_FIRE_BURST,
     /** Change fire mode of the current weapon */
     ACTION_SELECT_FIRE_MODE,
+    /** Cast a spell (only if any spells are known) */
+    ACTION_CAST_SPELL,
     /** Open the drop-item menu */
     ACTION_DROP,
     /** Drop items in a given direction */
@@ -205,6 +211,8 @@ enum action_id : int {
     ACTION_TOGGLE_SAFEMODE,
     /** Turn automatic triggering of safemode on/off */
     ACTION_TOGGLE_AUTOSAFE,
+    /** Toggle permanent attitude to stealing */
+    ACTION_TOGGLE_THIEF_MODE,
     /** Ignore the enemy that triggered safemode */
     ACTION_IGNORE_ENEMY,
     /** Whitelist the enemy that triggered safemode */
@@ -229,8 +237,8 @@ enum action_id : int {
     ACTION_SKY,
     /** Display missions screen */
     ACTION_MISSIONS,
-    /** Display kills list screen */
-    ACTION_KILLS,
+    /** Display scores screen */
+    ACTION_SCORES,
     /** Display factions screen */
     ACTION_FACTIONS,
     /** Display morale effects screen */
@@ -247,6 +255,8 @@ enum action_id : int {
     ACTION_OPTIONS,
     /** Open autopickup manager */
     ACTION_AUTOPICKUP,
+    /** Open autonotes manager */
+    ACTION_AUTONOTES,
     /** Open safemode manager */
     ACTION_SAFEMODE,
     /** Open color manager */
@@ -289,6 +299,16 @@ enum action_id : int {
     ACTION_TOGGLE_AUTO_MINING,
     /** Turn auto foraging on/off */
     ACTION_TOGGLE_AUTO_FORAGING,
+    /** Turn auto pickup on/off */
+    ACTION_TOGGLE_AUTO_PICKUP,
+    /** Toggle temperature map */
+    ACTION_DISPLAY_TEMPERATURE,
+    /** Toggle visibility map */
+    ACTION_DISPLAY_VISIBILITY,
+    /** Toggle lighting conditions map */
+    ACTION_DISPLAY_LIGHTING,
+    /** Toggle radiation map */
+    ACTION_DISPLAY_RADIATION,
     /** Not an action, serves as count of enumerated actions */
     NUM_ACTIONS
     /**@}*/
@@ -330,9 +350,19 @@ void load_keyboard_settings( std::map<char, action_id> &keymap,
  * given action then the returned vector is simply left empty.
  *
  * @param act Action ID to lookup in keymap
+ * @param restrict_to_printable If `true` the function returns the bound keys only if they are printable. If `false`, all keys (whether they are printable or not) are returned.
  * @returns all keys (as characters) currently bound to a give action ID
  */
-std::vector<char> keys_bound_to( action_id act );
+std::vector<char> keys_bound_to( action_id act, bool restrict_to_printable = true );
+
+/**
+ * Get the key for an action, used in the action menu to give each action the hotkey it is bound to.
+ * @param action Action ID to lookup in keymap.
+ * @param restrict_to_printable If `true` the function returns the bound key only if it is printable. If `false`, any key (whether they it is printable or not) is returned.
+ * @returns the key code for the hotkey or -1 if no key is associated with the given action.
+ * @note We ignore bindings to '?' because that will already do something else in this menu (open the menu keybindings).
+ */
+int hotkey_for_action( action_id action, bool restrict_to_printable = true );
 
 /**
  * Lookup an action ID by its unique string identifier
@@ -373,7 +403,7 @@ std::string action_ident( action_id act );
  * @param act action ID to lookup in table
  * @returns true if action has potential to alter world state, otherwise returns false.
  */
-bool can_action_change_worldstate( const action_id act );
+bool can_action_change_worldstate( action_id act );
 
 /**
  * Lookup the action ID assigned to a given key.
@@ -387,17 +417,6 @@ bool can_action_change_worldstate( const action_id act );
 action_id action_from_key( char ch );
 
 /**
- * Request player input of adjacent tile on current z-level
- *
- * Asks the player to input desired direction of an adjacent tile, for example when executing
- * an examine or directional item drop.  This version of the function assumes that the requested
- * tile will be on the player's current z-level.
- *
- * @param[in] message Message used in assembling the prompt to the player
- */
-cata::optional<tripoint> choose_adjacent( const std::string &message );
-
-/**
  * Request player input of adjacent tile, possibly including vertical tiles
  *
  * Asks the player to input desired direction of an adjacent tile, for example when executing
@@ -407,35 +426,7 @@ cata::optional<tripoint> choose_adjacent( const std::string &message );
  * @param[in] message Message used in assembling the prompt to the player
  * @param[in] allow_vertical Allows player to select tiles above/below them if true
  */
-cata::optional<tripoint> choose_adjacent( const std::string &message, bool allow_vertical );
-
-/**
- * Request player input of a direction on current z-level
- *
- * Asks the player to input a desired direction.  This differs from @ref choose_adjacent in that
- * the selected direction is returned as an offset to the player's current position rather than
- * coordinate of a tile. This version of the function assumes the requested z-level is the same
- * as the player's current z-level.
- *
- * @param[in] message Message used in assembling the prompt to the player
- */
-cata::optional<tripoint> choose_direction( const std::string &message );
-
-/**
- * Request player input of adjacent tile on current z-level with highlighting
- *
- * Asks the player to input desired direction of an adjacent tile, for example when executing
- * an examine or directional item drop.  This version of the function assumes that the requested
- * tile will be on the player's current z-level.
- *
- * This function is identical to @ref choose_adjacent except that squares are highlighted for
- * the player to indicate valid squares for a given @ref action_id
- *
- * @param[in] message Message used in assembling the prompt to the player
- * @param[in] action_to_highlight An action ID to drive the highlighting output
- */
-cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        action_id action_to_highlight );
+cata::optional<tripoint> choose_adjacent( const std::string &message, bool allow_vertical = false );
 
 /**
  * Request player input of a direction, possibly including vertical component
@@ -448,7 +439,8 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
  * @param[in] message Message used in assembling the prompt to the player
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
-cata::optional<tripoint> choose_direction( const std::string &message, bool allow_vertical );
+cata::optional<tripoint> choose_direction( const std::string &message,
+        bool allow_vertical = false );
 
 /**
  * Request player input of adjacent tile with highlighting, possibly on different z-level
@@ -461,10 +453,11 @@ cata::optional<tripoint> choose_direction( const std::string &message, bool allo
  * the player to indicate valid squares for a given @ref action_id
  *
  * @param[in] message Message used in assembling the prompt to the player
- * @param[in] action_to_highlight An action ID to drive the highlighting output
+ * @param[in] action An action ID to drive the highlighting output
+ * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        action_id action_to_highlight, bool allow_vertical );
+        action_id action, bool allow_vertical = false );
 
 /**
  * Request player input of adjacent tile with highlighting, possibly on different z-level
@@ -478,11 +471,13 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
  * function.
  *
  * @param[in] message Message used in assembling the prompt to the player
- * @param[in] should_highlight A function that will be called to determine if a given location should be highlighted
+ * @param[in] allowed A function that will be called to determine if a given location is allowed for selection
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
-        const std::function<bool( tripoint )> &should_highlight, const bool allow_vertical );
+        const std::function<bool( const tripoint & )> &allowed,
+        bool allow_vertical = false,
+        bool auto_select_if_single = false );
 
 // (Press X (or Y)|Try) to Z
 std::string press_x( action_id act );
@@ -501,20 +496,18 @@ std::string press_x( action_id act, const std::string &act_desc );
  * that would generated that delta.  See @ref action_id for the list of available movement
  * commands that may be generated.
  *
- * The only valid values for the parameters of this function are -1, 0 and 1
+ * The only valid values for the coordinates of \p d are -1, 0 and 1
  *
  * @note: This function does not sanitize its inputs, which can result in some strange behavior:
- * 1. If dz is valid and non-zero, then dx and dy are ignored.
- * 2. If dz is invalid, it is treated as if it were zero.
- * 3. If dz is 0 or invalid, then any invalid dx or dy results in @ref ACTION_MOVE_NW
- * 4. If dz is 0 or invalid, then a dx == dy == 0 results in @ref ACTION_MOVE_NW
+ * 1. If d.z is valid and non-zero, then d.x and d.y are ignored.
+ * 2. If d.z is invalid, it is treated as if it were zero.
+ * 3. If d.z is 0 or invalid, then any invalid d.x or d.y results in @ref ACTION_MOVE_NW
+ * 4. If d.z is 0 or invalid, then a d.x == d.y == 0 results in @ref ACTION_MOVE_NW
  *
- * @param[in] dx X component of direction, should be -1, 0, or 1
- * @param[in] dy Y component of direction, should be -1, 0, or 1
- * @param[in] dz Z component of direction, should be -1, 0, or 1
+ * @param[in] d direction, each coordinate should be -1, 0, or 1
  * @returns ID of corresponding move action (usually... see note above)
  */
-action_id get_movement_direction_from_delta( const int dx, const int dy, const int dz = 0 );
+action_id get_movement_direction_from_delta( const tripoint &d );
 
 // Helper function to convert movement direction to coordinate delta point
 point get_delta_from_movement_direction( action_id act );

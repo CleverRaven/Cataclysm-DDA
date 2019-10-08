@@ -1,0 +1,50 @@
+[
+  {
+    "id": "p226_357sig",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": "SIG P226",
+    "description": "A SIG Sauer P226 chambered for .357 SIG.  The P226 is a DA/SA, short-recoil operated semi-automatic pistol.",
+    "weight": "800 g",
+    "volume": "500 ml",
+    "price": 50000,
+    "to_hit": -1,
+    "bashing": 8,
+    "material": [ "steel", "aluminum", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "357sig",
+    "dispersion": 480,
+    "durability": 7,
+    "magazine_well": 1,
+    "magazines": [ [ "357sig", [ "p226mag_15rd_357sig" ] ] ]
+  },
+  {
+    "id": "glock_31",
+    "copy-from": "glock_22",
+    "type": "GUN",
+    "name": "Glock 31",
+    "description": "A full size .357 SIG Glock pistol.  It is extremely similar to the Glock 22, and could be converted to fire .40 S&W by switching the barrel.",
+    "ammo": [ "357sig" ],
+    "magazines": [ [ "357sig", [ "glock40mag", "glock40bigmag" ] ] ]
+  },
+  {
+    "id": "p320_357sig",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": "SIG P320",
+    "description": "The P320 is a semi automatic, short recoil operated pistol.  This one is chambered for .357 SIG.",
+    "weight": "800 g",
+    "volume": "500 ml",
+    "price": 69000,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "plastic", "steel" ],
+    "color": "dark_gray",
+    "ammo": "357sig",
+    "dispersion": 480,
+    "durability": 6,
+    "magazine_well": 1,
+    "magazines": [ [ "357sig", [ "p320mag_14rd_357sig" ] ] ]
+  }
+]

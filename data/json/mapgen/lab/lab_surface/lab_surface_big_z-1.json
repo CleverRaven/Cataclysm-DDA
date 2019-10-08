@@ -191,7 +191,7 @@
       "items": {
         "d": { "item": "office", "chance": 60, "repeat": [ 2, 6 ] },
         "f": [
-          { "item": "fridge", "chance": 60, "repeat": [ 2, 10 ] },
+          { "item": "snacks", "chance": 60, "repeat": [ 2, 10 ] },
           { "item": "fridgesnacks", "chance": 60, "repeat": [ 2, 10 ] }
         ],
         "l": [

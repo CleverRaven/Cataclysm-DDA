@@ -2,8 +2,8 @@
 #ifndef OVERMAP_NOISE_H
 #define OVERMAP_NOISE_H
 
-#include "enums.h"
 #include "game_constants.h"
+#include "point.h"
 
 namespace om_noise
 {
@@ -47,7 +47,6 @@ class om_noise_layer
         float seed;
 };
 
-
 class om_noise_layer_forest : public om_noise_layer
 {
     public:
@@ -68,6 +67,16 @@ class om_noise_layer_floodplain : public om_noise_layer
         float noise_at( const point &local_omt_pos ) const override;
 };
 
-}
+class om_noise_layer_lake : public om_noise_layer
+{
+    public:
+        om_noise_layer_lake( const point &global_base_point, unsigned seed )
+            : om_noise_layer( global_base_point, seed ) {
+        }
+
+        float noise_at( const point &local_omt_pos ) const override;
+};
+
+} // namespace om_noise
 
 #endif

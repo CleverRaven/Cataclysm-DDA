@@ -7,7 +7,7 @@
       "_": "t_pavement",
       "!": "t_pavement",
       ".": "t_floor",
-      "#": "t_wall",
+      "#": "t_wall_w",
       "+": "t_door_c",
       "~": "t_door_locked",
       "/": "t_door_glass_c",

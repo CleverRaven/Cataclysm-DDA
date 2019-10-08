@@ -4,9 +4,9 @@
     "type": "uncraft",
     "skill_used": "gun",
     "difficulty": 5,
-    "time": 500,
+    "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "9x18mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 3 ] ] ],
+    "components": [ [ [ "lead", 2 ] ], [ [ "9x18mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_pistol", 3 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
@@ -14,9 +14,9 @@
     "type": "uncraft",
     "skill_used": "gun",
     "difficulty": 5,
-    "time": 500,
+    "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "9x18mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 5 ] ] ],
+    "components": [ [ [ "lead", 2 ] ], [ [ "9x18mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_pistol", 5 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {
@@ -24,13 +24,13 @@
     "type": "uncraft",
     "skill_used": "gun",
     "difficulty": 5,
-    "time": 500,
+    "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
       [ [ "lead", 2 ] ],
       [ [ "9x18mm_casing", 1 ] ],
       [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder", 3 ] ],
+      [ [ "gunpowder_pistol", 3 ] ],
       [ [ "copper", 2 ] ]
     ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]

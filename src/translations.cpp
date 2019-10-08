@@ -1,6 +1,7 @@
 #include "translations.h"
 
-#include <locale.h>
+#include <clocale>
+#include <array>
 
 #if defined(LOCALIZE) && defined(__STRICT_ANSI__)
 #undef __STRICT_ANSI__ // _putenv in minGW need that
@@ -20,8 +21,10 @@
 
 #include "json.h"
 #include "name.h"
+#include "output.h"
 #include "path_info.h"
 #include "cursesdef.h"
+#include "cata_utility.h"
 
 // Names depend on the language settings. They are loaded from different files
 // based on the currently used language. If that changes, we have to reload the
@@ -31,6 +34,8 @@ static void reload_names()
     Name::clear();
     Name::load_from_file( PATH_INFO::find_translated_file( "namesdir", ".json", "names" ) );
 }
+
+static bool sanity_checked_genders = false;
 
 #if defined(LOCALIZE)
 #include "options.h"
@@ -73,7 +78,7 @@ const char *pgettext( const char *context, const char *msgid )
 }
 
 const char *npgettext( const char *const context, const char *const msgid,
-                       const char *const msgid_plural, const unsigned long int n )
+                       const char *const msgid_plural, const unsigned long long n )
 {
     const std::string context_id = std::string( context ) + '\004' + msgid;
     const char *const msg_ctxt_id = context_id.c_str();
@@ -218,6 +223,8 @@ void set_language()
     textdomain( "cataclysm-dda" );
 
     reload_names();
+
+    sanity_checked_genders = false;
 }
 
 #if defined(MACOSX)
@@ -230,7 +237,7 @@ std::string getOSXSystemLang()
     }
 
     const char *lang_code_raw = CFStringGetCStringPtr(
-                                    ( CFStringRef )CFArrayGetValueAtIndex( langs, 0 ),
+                                    reinterpret_cast<CFStringRef>( CFArrayGetValueAtIndex( langs, 0 ) ),
                                     kCFStringEncodingUTF8 );
     if( !lang_code_raw ) {
         return "en_US";
@@ -284,24 +291,117 @@ void set_language()
 
 #endif // LOCALIZE
 
+static void sanity_check_genders( const std::vector<std::string> &language_genders )
+{
+    if( sanity_checked_genders ) {
+        return;
+    }
+    sanity_checked_genders = true;
+
+    constexpr std::array<const char *, 3> all_genders = {{"f", "m", "n"}};
+
+    for( const std::string &gender : language_genders ) {
+        if( find( all_genders.begin(), all_genders.end(), gender ) == all_genders.end() ) {
+            debugmsg( "Unexpected gender '%s' in grammatical gender list for "
+                      "this language", gender );
+        }
+    }
+}
+
+std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
+{
+    //~ Space-separated list of grammatical genders. Default should be first.
+    //~ Use short names and try to be consistent between languages as far as
+    //~ possible.  Current choices are m (male), f (female), n (neuter).
+    //~ As appropriate we might add e.g. a (animate) or c (common).
+    //~ New genders must be added to all_genders in lang/extract_json_strings.py
+    //~ and src/translations.cpp.
+    //~ The primary purpose of this is for NPC dialogue which might depend on
+    //~ gender.  Only add genders to the extent needed by such translations.
+    //~ They are likely only needed if they affect the first and second
+    //~ person.  For example, one gender suffices for English even though
+    //~ third person pronouns differ.
+    std::string language_genders_s = pgettext( "grammatical gender list", "n" );
+    std::vector<std::string> language_genders = string_split( language_genders_s, ' ' );
+
+    sanity_check_genders( language_genders );
+
+    if( language_genders.empty() ) {
+        language_genders.push_back( "n" );
+    }
+
+    std::vector<std::string> chosen_genders;
+    for( const auto &subject_genders : genders ) {
+        std::string chosen_gender = language_genders[0]; // default if no match
+        for( const std::string &gender : subject_genders.second ) {
+            if( std::find( language_genders.begin(), language_genders.end(), gender ) !=
+                language_genders.end() ) {
+                chosen_gender = gender;
+                break;
+            }
+        }
+        chosen_genders.push_back( subject_genders.first + ":" + chosen_gender );
+    }
+    std::string context = join( chosen_genders, " " );
+    return pgettext( context.c_str(), msg.c_str() );
+}
+
 translation::translation()
-    : ctxt( cata::nullopt )
+    : ctxt( cata::nullopt ), raw_pl( cata::nullopt ), needs_translation( false )
+{
+}
+
+translation::translation( const plural_tag )
+    : ctxt( cata::nullopt ), raw_pl( std::string() ), needs_translation( false )
 {
 }
 
 translation::translation( const std::string &ctxt, const std::string &raw )
-    : ctxt( ctxt ), raw( raw ), needs_translation( true )
+    : ctxt( ctxt ), raw( raw ), raw_pl( cata::nullopt ), needs_translation( true )
 {
 }
 
 translation::translation( const std::string &raw )
-    : ctxt( cata::nullopt ), raw( raw ), needs_translation( true )
+    : ctxt( cata::nullopt ), raw( raw ), raw_pl( cata::nullopt ), needs_translation( true )
+{
+}
+
+translation::translation( const std::string &raw, const std::string &raw_pl,
+                          const plural_tag )
+    : ctxt( cata::nullopt ), raw( raw ), raw_pl( raw_pl ), needs_translation( true )
+{
+}
+
+translation::translation( const std::string &ctxt, const std::string &raw,
+                          const std::string &raw_pl, const plural_tag )
+    : ctxt( ctxt ), raw( raw ), raw_pl( raw_pl ), needs_translation( true )
 {
 }
 
 translation::translation( const std::string &str, const no_translation_tag )
-    : ctxt( cata::nullopt ), raw( str )
+    : ctxt( cata::nullopt ), raw( str ), raw_pl( cata::nullopt ), needs_translation( false )
 {
+}
+
+translation translation::to_translation( const std::string &raw )
+{
+    return { raw };
+}
+
+translation translation::to_translation( const std::string &ctxt, const std::string &raw )
+{
+    return { ctxt, raw };
+}
+
+translation translation::pl_translation( const std::string &raw, const std::string &raw_pl )
+{
+    return { raw, raw_pl, plural_tag() };
+}
+
+translation translation::pl_translation( const std::string &ctxt, const std::string &raw,
+        const std::string &raw_pl )
+{
+    return { ctxt, raw, raw_pl, plural_tag() };
 }
 
 translation translation::no_translation( const std::string &str )
@@ -309,11 +409,29 @@ translation translation::no_translation( const std::string &str )
     return { str, no_translation_tag() };
 }
 
+void translation::make_plural()
+{
+    if( needs_translation ) {
+        // if plural form has not been enabled yet
+        if( !raw_pl ) {
+            // copy the singular string without appending "s" to preserve the original behavior
+            raw_pl = raw;
+        }
+    } else if( !raw_pl ) {
+        // just mark plural form as enabled
+        raw_pl = std::string();
+    }
+}
+
 void translation::deserialize( JsonIn &jsin )
 {
     if( jsin.test_string() ) {
         ctxt = cata::nullopt;
         raw = jsin.get_string();
+        // if plural form is enabled
+        if( raw_pl ) {
+            raw_pl = raw + "s";
+        }
         needs_translation = true;
     } else {
         JsonObject jsobj = jsin.get_object();
@@ -323,18 +441,36 @@ void translation::deserialize( JsonIn &jsin )
             ctxt = cata::nullopt;
         }
         raw = jsobj.get_string( "str" );
+        // if plural form is enabled
+        if( raw_pl ) {
+            if( jsobj.has_string( "str_pl" ) ) {
+                raw_pl = jsobj.get_string( "str_pl" );
+            } else {
+                raw_pl = raw + "s";
+            }
+        } else if( jsobj.has_string( "str_pl" ) ) {
+            jsobj.throw_error( "str_pl not supported here", "str_pl" );
+        }
         needs_translation = true;
     }
 }
 
-std::string translation::translated() const
+std::string translation::translated( const int num ) const
 {
     if( !needs_translation || raw.empty() ) {
         return raw;
     } else if( !ctxt ) {
-        return _( raw.c_str() );
+        if( !raw_pl ) {
+            return _( raw );
+        } else {
+            return ngettext( raw.c_str(), raw_pl->c_str(), num );
+        }
     } else {
-        return pgettext( ctxt->c_str(), raw.c_str() );
+        if( !raw_pl ) {
+            return pgettext( ctxt->c_str(), raw.c_str() );
+        } else {
+            return npgettext( ctxt->c_str(), raw.c_str(), raw_pl->c_str(), num );
+        }
     }
 }
 
@@ -343,14 +479,25 @@ bool translation::empty() const
     return raw.empty();
 }
 
-bool translation::operator<( const translation &that ) const
+bool translation::translated_lt( const translation &that ) const
 {
     return translated() < that.translated();
 }
 
-bool translation::operator==( const translation &that ) const
+bool translation::translated_eq( const translation &that ) const
 {
     return translated() == that.translated();
+}
+
+bool translation::translated_ne( const translation &that ) const
+{
+    return !translated_eq( that );
+}
+
+bool translation::operator==( const translation &that ) const
+{
+    return ctxt == that.ctxt && raw == that.raw && raw_pl == that.raw_pl &&
+           needs_translation == that.needs_translation;
 }
 
 bool translation::operator!=( const translation &that ) const
@@ -358,7 +505,48 @@ bool translation::operator!=( const translation &that ) const
     return !operator==( that );
 }
 
+translation to_translation( const std::string &raw )
+{
+    return translation::to_translation( raw );
+}
+
+translation to_translation( const std::string &ctxt, const std::string &raw )
+{
+    return translation::to_translation( ctxt, raw );
+}
+
+translation pl_translation( const std::string &raw, const std::string &raw_pl )
+{
+    return translation::pl_translation( raw, raw_pl );
+}
+
+translation pl_translation( const std::string &ctxt, const std::string &raw,
+                            const std::string &raw_pl )
+{
+    return translation::pl_translation( ctxt, raw, raw_pl );
+}
+
 translation no_translation( const std::string &str )
 {
     return translation::no_translation( str );
+}
+
+std::ostream &operator<<( std::ostream &out, const translation &t )
+{
+    return out << t.translated();
+}
+
+std::string operator+( const translation &lhs, const std::string &rhs )
+{
+    return lhs.translated() + rhs;
+}
+
+std::string operator+( const std::string &lhs, const translation &rhs )
+{
+    return lhs + rhs.translated();
+}
+
+std::string operator+( const translation &lhs, const translation &rhs )
+{
+    return lhs.translated() + rhs.translated();
 }

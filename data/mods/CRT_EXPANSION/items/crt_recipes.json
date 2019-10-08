@@ -1,0 +1,19 @@
+[
+  {
+    "result": "withered_bundle",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": 400,
+    "autolearn": true,
+    "components": [ [ [ "withered", 3 ] ] ]
+  },
+  {
+    "result": "withered_bundle",
+    "type": "uncraft",
+    "time": 300,
+    "components": [ [ [ "withered", 3 ] ] ]
+  }
+]

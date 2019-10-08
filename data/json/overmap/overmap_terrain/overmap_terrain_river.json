@@ -1,0 +1,80 @@
+[
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_river",
+    "copy-from": "generic_water",
+    "name": "river",
+    "sym": "R",
+    "color": "blue",
+    "see_cost": 1,
+    "flags": [ "RIVER", "NO_ROTATE", "SOURCE_DRINK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_river_bank",
+    "copy-from": "generic_river",
+    "name": "river bank",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_center",
+    "copy-from": "generic_river",
+    "mapgen": [ { "method": "builtin", "name": "river_center" } ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river",
+    "copy-from": "generic_river_bank",
+    "mapgen": [ { "method": "builtin", "name": "river_straight" } ],
+    "delete": { "flags": [ "NO_ROTATE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_c_not_ne",
+    "copy-from": "generic_river_bank",
+    "mapgen": [ { "method": "builtin", "name": "river_curved_not" } ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_c_not_nw",
+    "copy-from": "generic_river_bank",
+    "mapgen": [ { "method": "builtin", "name": "river_curved_not" } ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_c_not_se",
+    "copy-from": "generic_river_bank",
+    "mapgen": [ { "method": "builtin", "name": "river_curved_not" } ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_c_not_sw",
+    "copy-from": "generic_river_bank",
+    "mapgen": [ { "method": "builtin", "name": "river_curved_not" } ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_ne",
+    "copy-from": "generic_river_bank",
+    "mapgen": [ { "method": "builtin", "name": "river_curved" } ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_se",
+    "copy-from": "generic_river_bank",
+    "mapgen": [ { "method": "builtin", "name": "river_curved" } ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_sw",
+    "copy-from": "generic_river_bank",
+    "mapgen": [ { "method": "builtin", "name": "river_curved" } ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "river_nw",
+    "copy-from": "generic_river_bank",
+    "mapgen": [ { "method": "builtin", "name": "river_curved" } ]
+  }
+]

@@ -5,8 +5,8 @@
     "type": "GUN",
     "name": "Remington ACR",
     "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing .223 carbines.",
-    "weight": 3495,
-    "volume": 8,
+    "weight": "3495 g",
+    "volume": "2 L",
     "price": 234300,
     "to_hit": -1,
     "bashing": 12,
@@ -17,14 +17,11 @@
     "ranged_damage": -1,
     "dispersion": 150,
     "durability": 8,
+    "min_cycle_recoil": 1350,
     "burst": 11,
     "barrel_length": 1,
     "built_in_mods": [ "folding_stock" ],
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "ar15",
@@ -33,8 +30,8 @@
     "name": "AR-15",
     "//": "This is assumed to be the standard model matching the (currently not in-game) M16.",
     "description": "This ubiquitous rifle is the forefather of M16 rifle series.  It is lightweight and accurate, but will malfunction if not properly maintained.  This one is a semi automatic civilian version.",
-    "weight": 2815,
-    "volume": 8,
+    "weight": "2815 g",
+    "volume": "2 L",
     "price": 125000,
     "to_hit": -1,
     "bashing": 12,
@@ -44,21 +41,18 @@
     "ammo": "223",
     "dispersion": 150,
     "durability": 7,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "min_cycle_recoil": 1350,
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "h&k416a5",
     "copy-from": "rifle_auto",
     "type": "GUN",
-    "name": "H&K 416A5",
+    "name": "HK416 A5",
     "//": "*Current* milspec gear is now ridiculously overpriced, as seen with the M2010 IRL.",
     "description": "Designed to replace the M4A1, the Heckler and Koch 416A5 features most of the former's strengths, while being considerably more durable.",
-    "weight": 1920,
-    "volume": 7,
+    "weight": "1920 g",
+    "volume": "1750 ml",
     "price": 540000,
     "to_hit": -1,
     "bashing": 12,
@@ -69,12 +63,9 @@
     "ranged_damage": -2,
     "dispersion": 180,
     "durability": 8,
+    "min_cycle_recoil": 1350,
     "burst": 14,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "hk_g36",
@@ -82,8 +73,8 @@
     "type": "GUN",
     "name": "H&K G36",
     "description": "Designed as a replacement for the early H&K G3 battle rifle, the G36 is more accurate, and uses the much-lighter .223 round, allowing for a higher ammo capacity.",
-    "weight": 3270,
-    "volume": 10,
+    "weight": "3270 g",
+    "volume": "2500 ml",
     "price": 210000,
     "to_hit": -1,
     "bashing": 12,
@@ -93,12 +84,9 @@
     "ammo": "223",
     "dispersion": 150,
     "durability": 8,
+    "min_cycle_recoil": 1350,
     "burst": 13,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "l_bak_223",
@@ -108,8 +96,8 @@
     "name_plural": "L2037 Backups",
     "//": "Most real-life autorevolvers use 6-7.5 inch barrel, but this one's mentioned to be particularly massive.",
     "description": "The logical extension of Leadworks' autorevolver series, this massive 'sidearm' fires 5.56 NATO to share ammo with a soldier's rifle.  The muzzle flash and report of this 5-shot revolver are incredible, producing ballistics similar to .357 Magnum.  Similar to other Leadworks products it doesn't accept third-party modifications.",
-    "weight": 2370,
-    "volume": 3,
+    "weight": "2370 g",
+    "volume": "750 ml",
     "price": 267000,
     "to_hit": -2,
     "bashing": 7,
@@ -121,6 +109,7 @@
     "ranged_damage": -16,
     "dispersion": 380,
     "durability": 8,
+    "blackpowder_tolerance": 32,
     "loudness": 30,
     "clip_size": 5,
     "magazines": [ [ "223", [ "223_speedloader5" ] ] ],
@@ -134,8 +123,8 @@
     "name": "L523 platform",
     "//": "Current milspec, so Expensive.",
     "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The base mechanism could--theoretically--be used on its own, but such use is inadvisable and will void your warranty.  There's no real place to incorporate aftermarket modifications on this barren proto-weapon.",
-    "weight": 2500,
-    "volume": 6,
+    "weight": "2500 g",
+    "volume": "1500 ml",
     "price": 350000,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
@@ -144,8 +133,9 @@
     "ranged_damage": -1,
     "dispersion": 140,
     "durability": 3,
+    "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "sling", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "muzzle", 1 ], [ "sling", 1 ] ],
     "magazines": [ [ "223", [ "lw223mag", "lw223bigmag" ] ] ],
     "flags": [ "DISABLE_SIGHTS" ]
   },
@@ -163,6 +153,7 @@
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "brass catcher", 1 ],
+      [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "barrel", 1 ],
@@ -186,6 +177,7 @@
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "brass catcher", 1 ],
+      [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "barrel", 1 ],
@@ -208,6 +200,7 @@
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "brass catcher", 1 ],
+      [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "barrel", 1 ],
@@ -225,7 +218,15 @@
     "durability": 9,
     "relative": { "weight": 1200, "volume": 2 },
     "built_in_mods": [ "lead_acog_scope", "lead_red_dot_sight", "lead_grip", "lead_glm", "lead_stabilizer" ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "sights", 2 ], [ "sling", 1 ], [ "underbarrel", 2 ], [ "rail", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "brass catcher", 1 ],
+      [ "muzzle", 1 ],
+      [ "sights", 2 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 2 ],
+      [ "rail", 1 ]
+    ]
   },
   {
     "id": "m249",
@@ -233,8 +234,8 @@
     "type": "GUN",
     "name": "M249",
     "description": "The M249 is a mountable machine gun used by the US military and SWAT teams.  Quite inaccurate and difficult to control, the M249 is designed to fire many rounds very quickly.",
-    "weight": 6400,
-    "volume": 12,
+    "weight": "6400 g",
+    "volume": "3 L",
     "price": 750000,
     "to_hit": -1,
     "bashing": 12,
@@ -244,6 +245,7 @@
     "ammo": "223",
     "dispersion": 200,
     "durability": 7,
+    "min_cycle_recoil": 1350,
     "reload": 400,
     "modes": [ [ "DEFAULT", "auto", 12 ] ],
     "built_in_mods": [ "bipod" ],
@@ -260,7 +262,7 @@
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
-    "magazines": [ [ "223", [ "belt223", "stanag30", "stanag50", "survivor223mag" ] ], [ "308", [ "belt308" ] ] ]
+    "magazines": [ [ "223", [ "belt223", "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "m27iar",
@@ -268,13 +270,9 @@
     "type": "GUN",
     "name": "M27 IAR",
     "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
-    "weight": 3495,
+    "weight": "3495 g",
     "burst": 13,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ],
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ],
     "relative": { "ranged_damage": 1, "durability": 1 }
   },
   {
@@ -283,8 +281,8 @@
     "type": "GUN",
     "name": "M4A1",
     "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.",
-    "weight": 2520,
-    "volume": 7,
+    "weight": "2520 g",
+    "volume": "1750 ml",
     "price": 240000,
     "to_hit": -1,
     "bashing": 12,
@@ -295,12 +293,68 @@
     "ranged_damage": -2,
     "dispersion": 180,
     "durability": 6,
+    "min_cycle_recoil": 1350,
     "burst": 14,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+  },
+  {
+    "id": "m16a4",
+    "copy-from": "rifle_semi",
+    "type": "GUN",
+    "name": "M16A4",
+    "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.",
+    "weight": "2890 g",
+    "volume": "1750 ml",
+    "price": 240000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "223",
+    "dispersion": 150,
+    "durability": 7,
+    "min_cycle_recoil": 1350,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3rd burst", 3 ] ],
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+  },
+  {
+    "id": "rifle_223",
+    "copy-from": "gun_base",
+    "type": "GUN",
+    "name": "pipe rifle: .223",
+    "name_plural": "pipe rifles: .223",
+    "description": "A homemade rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
+    "weight": "4080 g",
+    "volume": "3 L",
+    "price": 110000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "wood" ],
+    "symbol": "(",
+    "color": "brown",
+    "ammo": "223",
+    "skill": "rifle",
+    "ranged_damage": -2,
+    "dispersion": 550,
+    "durability": 6,
+    "blackpowder_tolerance": 60,
+    "loudness": 25,
+    "clip_size": 1,
+    "reload": 200,
+    "barrel_length": 4,
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "muzzle", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "flags": [ "RELOAD_EJECT" ]
   },
   {
     "id": "ruger_mini",
@@ -308,8 +362,8 @@
     "type": "GUN",
     "name": "Ruger Mini-14",
     "description": "A small, lightweight semi-auto carbine designed for civilian and police use.  Its superb accuracy and low recoil makes it more suitable than full-auto rifles for some situations.",
-    "weight": 2800,
-    "volume": 8,
+    "weight": "2800 g",
+    "volume": "2 L",
     "price": 92100,
     "to_hit": -1,
     "bashing": 12,
@@ -320,6 +374,7 @@
     "ranged_damage": 1,
     "dispersion": 100,
     "durability": 8,
+    "min_cycle_recoil": 1350,
     "barrel_length": 2,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -329,7 +384,11 @@
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "sights", 1 ],
-      [ "sling", 1 ]
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "magazines": [ [ "223", [ "ruger5", "stanag10", "ruger30" ] ] ]
   },
@@ -339,8 +398,8 @@
     "type": "GUN",
     "name": "FN SCAR-L",
     "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight .223 round.",
-    "weight": 2960,
-    "volume": 9,
+    "weight": "2960 g",
+    "volume": "2250 ml",
     "price": 280000,
     "to_hit": -1,
     "bashing": 12,
@@ -351,12 +410,9 @@
     "ranged_damage": -2,
     "dispersion": 150,
     "durability": 8,
+    "min_cycle_recoil": 1350,
     "burst": 10,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "scarhmag", "scarhbigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "sig552",
@@ -364,8 +420,8 @@
     "type": "GUN",
     "name": "SIG 552",
     "description": "A compact selective fire automatic rifle designed for the Swiss military.  It features a three-round burst mode and an integrated folding stock.",
-    "weight": 3200,
-    "volume": 7,
+    "weight": "3200 g",
+    "volume": "1750 ml",
     "price": 320000,
     "to_hit": -1,
     "bashing": 10,
@@ -373,13 +429,10 @@
     "ammo": "223",
     "dispersion": 180,
     "durability": 9,
+    "min_cycle_recoil": 1350,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 12 ] ],
     "built_in_mods": [ "folding_stock" ],
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "steyr_aug",
@@ -387,8 +440,8 @@
     "type": "GUN",
     "name": "Steyr AUG",
     "description": "The Steyr AUG is an Austrian assault rifle that uses a bullpup design.  It is used in the armed forces and police forces of many nations, and enjoys low recoil and high accuracy.",
-    "weight": 3184,
-    "volume": 6,
+    "weight": "3184 g",
+    "volume": "1500 ml",
     "price": 490000,
     "to_hit": -1,
     "bashing": 12,
@@ -398,6 +451,7 @@
     "ammo": "223",
     "dispersion": 140,
     "durability": 8,
+    "min_cycle_recoil": 1350,
     "burst": 12,
     "built_in_mods": [ "grip" ],
     "valid_mod_locations": [
@@ -414,11 +468,7 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "surv_carbine_223",
@@ -426,9 +476,9 @@
     "type": "GUN",
     "name": "handmade carbine",
     "//": "It's smaller than an M4A1, plus it's a homemade firearm.",
-    "description": "A well-designed improvised carbine with a shortened barrel.  Accepting crude detachable magazines, this is one of the better homemade weapons.",
-    "weight": 1950,
-    "volume": 6,
+    "description": "A well-designed improvised carbine with a shortened barrel.  Accepting crude detachable magazines or STANAG magazines, this is one of the better homemade weapons.",
+    "weight": "1950 g",
+    "volume": "1500 ml",
     "price": 10000,
     "to_hit": -1,
     "bashing": 6,
@@ -439,6 +489,8 @@
     "ranged_damage": -4,
     "dispersion": 550,
     "durability": 6,
+    "min_cycle_recoil": 855,
+    "blackpowder_tolerance": 32,
     "loudness": 25,
     "reload": 200,
     "valid_mod_locations": [
@@ -448,8 +500,11 @@
       [ "muzzle", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      [ "underbarrel", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ]
     ],
-    "magazines": [ [ "223", [ "survivor223mag" ] ] ]
+    "magazines": [ [ "223", [ "survivor223mag", "stanag30", "stanag50" ] ] ]
   }
 ]

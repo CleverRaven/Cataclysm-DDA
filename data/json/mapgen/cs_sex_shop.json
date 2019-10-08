@@ -1,75 +1,11 @@
 [
   {
-    "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_SEXSHOP_A",
-    "default": "mon_zombie",
-    "monsters": [
-      { "monster": "mon_zombie_cop", "freq": 250, "cost_multiplier": 2 },
-      { "monster": "mon_zombie", "freq": 150, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_swimmer", "freq": 100, "cost_multiplier": 2 }
-    ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_ZOMBIE_SEXSHOP_B",
-    "default": "mon_zombie",
-    "monsters": [ { "monster": "mon_zombie_swimmer", "freq": 500, "cost_multiplier": 2 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ss_merch_1",
-    "items": [
-      [ "corset", 20 ],
-      [ "vibrator", 20 ],
-      [ "leather_cat_tail", 20 ],
-      [ "leather_cat_ears", 20 ],
-      [ "leather_collar", 20 ],
-      [ "bondage_mask", 20 ],
-      [ "bullwhip", 20 ],
-      [ "candle", 20 ]
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "ss_merch_2",
-    "items": [ [ "mag_porn", 50 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "ss_merch_3",
-    "items": [
-      [ "wolfsuit", 15 ],
-      [ "dinosuit", 15 ],
-      [ "bondage_suit", 10 ],
-      [ "chaps_leather", 10 ],
-      [ "hot_pants", 20 ],
-      [ "hot_pants_leather", 20 ],
-      [ "hot_pants_fur", 20 ]
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "backroom",
-    "items": [
-      [ "weed", 10 ],
-      [ "coke", 10 ],
-      [ "meth", 10 ],
-      [ "aspirin", 10 ],
-      [ "mag_porn", 10 ],
-      [ "purse", 10 ],
-      [ "hairpin", 5 ],
-      [ "syringe", 10 ],
-      [ "blanket", 20 ],
-      [ "candle", 20 ],
-      [ "pillow", 20 ]
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "cs_sex_shop" ],
     "weight": 1000,
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         "..y''''yoooy''''y''''y..",
         "..y''''yoooy''''y''''y..",
@@ -82,64 +18,59 @@
         "..|,,,,c,,,,,,,,,,,,,|..",
         "..|,cccc,,cccccccccc,|..",
         "..|,,,,,,,,,,,,,,,,,,|..",
-        "..|b,,tt,,cccccccccc,|..",
-        "..|b,,tt,,,,,,,,,,,,,|..",
-        "..|b,,tt,,cccccccccc,|..",
-        "..|b,,tt,,,,,,,,,,,,,|..",
-        "..|b,,tt,,,,,,,,,,bbb|..",
+        "..|b,____,cccccccccc,|..",
+        "..|b,_tt_,,,,,,,,,,,,|..",
+        "..|b,_tt_,cccccccccc,|..",
+        "..|b,_tt_,,,,,,,,,,,,|..",
+        "..|b,____,,,,,,,,,bbb|..",
         "..|b,,,,,,,,,,,,,,,,,|..",
         "..|bcccccccc,,,,,,bbb|..",
         "..|-------------x----|..",
-        "..|BBB,,sss,|,,,,,D,T|..",
-        "..|BBB,,,,,,x,|------|..",
-        "..|BBB,,sss,|,x,,,BBB|..",
-        "..-----------X|h,,BBB|..",
-        "..............--------.."
+        "..|B,B,,BBB,|,,,,,D,T|..",
+        "..|BB,,,,,,,x,|------|..",
+        "..|BBB,,CCC,|,x,,,,BB|..",
+        "..-----------X|hLLB,B|..",
+        "....4ooooooooo--------.."
       ],
       "terrain": {
-        ".": "t_grass",
+        ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
         ",": "t_floor",
-        "|": "t_wall",
-        "-": "t_wall",
+        "_": "t_carpet_green",
+        "t": "t_carpet_green",
+        "|": "t_wall_r",
+        "-": "t_wall_r",
         "X": "t_door_metal_pickable",
         "x": "t_door_locked_interior",
         "y": "t_pavement_y",
         "'": "t_pavement",
         "o": "t_sidewalk",
-        "C": "t_floor",
-        "c": "t_floor",
-        "b": "t_floor",
-        "t": "t_floor",
-        "B": "t_floor",
-        "T": "t_floor",
-        "s": "t_floor",
-        "D": "t_door_c_peep",
-        "h": "t_floor"
+        "4": "t_gutter_downspout",
+        "D": "t_door_c_peep"
       },
       "furniture": {
         "C": "f_rack",
         "c": "f_displaycase",
         "b": "f_bookcase",
         "t": "f_table",
-        "B": "f_bed",
+        "B": "f_cardboard_box",
         "T": "f_toilet",
         "s": "f_sofa",
+        "L": "f_locker",
         "h": "f_armchair"
       },
-      "toilets": { "T": { "x": 20, "y": 19 } },
+      "toilets": { "T": {  } },
       "items": {
-        "B": { "item": "backroom", "chance": 20 },
+        "B": [
+          { "item": "ss_merch_2", "chance": 20 },
+          { "item": "ss_merch_1", "chance": 20 },
+          { "item": "ss_merch_3", "chance": 20 }
+        ],
         "s": { "item": "backroom", "chance": 20 },
         "c": { "item": "ss_merch_1", "chance": 20 },
         "b": { "item": "ss_merch_2", "chance": 30 },
-        "t": { "item": "ss_merch_3", "chance": 10 }
+        "t": { "item": "ss_merch_3", "chance": 10 },
+        "L": { "item": "cleaning", "chance": 30 }
       },
-      "place_items": [
-        { "item": "bed", "chance": 70, "x": [ 3, 5 ], "y": [ 19, 21 ] },
-        { "item": "bed", "chance": 70, "x": [ 4, 5 ], "y": 20 },
-        { "item": "bed", "chance": 70, "x": [ 6, 8 ], "y": 20 },
-        { "item": "bed", "chance": 70, "x": [ 18, 20 ], "y": [ 21, 22 ] }
-      ],
       "add": [
         { "item": "roadmap", "x": 3, "y": 6, "chance": 5 },
         { "item": "roadmap", "x": 5, "y": 6, "chance": 5 },
@@ -158,6 +89,56 @@
         { "vehicle": "car", "x": 19, "y": 2, "rotation": 0, "chance": 10 }
       ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE_SEXSHOP_A", "x": 12, "y": 14 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "cs_sex_shop_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  |2222222222222222223  ",
+        "  |..................3  ",
+        "  |...............X..3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |..................3  ",
+        "  |................=.3  ",
+        "  |..................3  ",
+        "  |..............AA..3  ",
+        "  --5---------|......3  ",
+        "              -------3  "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_items": [ { "item": "roof_trash", "x": [ 4, 16 ], "y": [ 7, 20 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_4x4_utility", 40 ],
+            [ "roof_6x6_utility", 20 ]
+          ],
+          "x": [ 4, 13 ],
+          "y": [ 9, 12 ]
+        }
+      ]
     }
   }
 ]

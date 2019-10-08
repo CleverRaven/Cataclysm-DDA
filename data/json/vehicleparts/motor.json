@@ -6,7 +6,7 @@
     "item": "motor",
     "location": "engine_block",
     "description": "An electric motor.",
-    "noise_factor": 3,
+    "noise_factor": 5,
     "m2c": 90,
     "fuel_type": "battery",
     "symbol": "*",
@@ -54,7 +54,8 @@
       { "item": "cable", "charges": [ 3, 6 ] }
     ],
     "extend": { "flags": [ "TOOL_SCREWDRIVER", "FOLDABLE" ] },
-    "delete": { "flags": [ "TOOL_WRENCH" ] }
+    "delete": { "flags": [ "TOOL_WRENCH" ] },
+    "damage_reduction": { "all": 6 }
   },
   {
     "id": "engine_electric",
@@ -73,7 +74,8 @@
       { "item": "steel_chunk", "count": [ 3, 5 ] },
       { "item": "scrap", "count": [ 3, 5 ] },
       { "item": "cable", "charges": [ 10, 15 ] }
-    ]
+    ],
+    "damage_reduction": { "all": 32 }
   },
   {
     "id": "engine_electric_large",
@@ -91,7 +93,8 @@
       { "item": "steel_chunk", "count": [ 3, 5 ] },
       { "item": "scrap", "count": [ 3, 5 ] },
       { "item": "cable", "charges": [ 10, 15 ] }
-    ]
+    ],
+    "damage_reduction": { "all": 43 }
   },
   {
     "id": "engine_electric_enhanced",
@@ -109,7 +112,8 @@
       { "item": "steel_chunk", "count": [ 3, 5 ] },
       { "item": "scrap", "count": [ 3, 5 ] },
       { "item": "cable", "charges": [ 10, 15 ] }
-    ]
+    ],
+    "damage_reduction": { "all": 50 }
   },
   {
     "id": "engine_electric_super",
@@ -127,6 +131,7 @@
       { "item": "steel_chunk", "count": [ 6, 10 ] },
       { "item": "scrap", "count": [ 6, 10 ] },
       { "item": "cable", "charges": [ 20, 30 ] }
-    ]
+    ],
+    "damage_reduction": { "all": 60 }
   }
 ]

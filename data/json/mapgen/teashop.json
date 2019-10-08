@@ -42,7 +42,7 @@
         "&": "t_pavement",
         "+": "t_door_c",
         ",": "t_floor",
-        "-": "t_wall",
+        "-": "t_wall_w",
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "1": "t_grass",
         "2": "t_grass",
@@ -62,7 +62,7 @@
         "z": "t_shrub",
         "{": "t_floor",
         "4": "t_gutter_downspout",
-        "|": "t_wall"
+        "|": "t_wall_w"
       },
       "furniture": {
         "#": "f_counter",
@@ -314,8 +314,8 @@
       "furniture": { "c": "f_chair", "C": "f_chair", "t": "f_table", "T": "f_table", "S": "f_sink" },
       "toilets": { "U": {  } },
       "items": {
-        "T": { "item": "tea_dishes", "x": 11, "y": 6, "chance": 30, "repeat": [ 1, 2 ] },
-        "t": { "item": "tea_dishes", "x": 11, "y": 6, "chance": 30, "repeat": [ 1, 2 ] }
+        "T": { "item": "tea_dishes", "chance": 30, "repeat": [ 1, 2 ] },
+        "t": { "item": "tea_dishes", "chance": 30, "repeat": [ 1, 2 ] }
       }
     }
   },

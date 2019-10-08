@@ -1,0 +1,8 @@
+{
+  "type": "item_group",
+  "subtype": "collection",
+  "id": "mon_robofac_prototype_drops",
+  "entries": [
+    { "item": "robofac_test_data" }
+  ]
+}

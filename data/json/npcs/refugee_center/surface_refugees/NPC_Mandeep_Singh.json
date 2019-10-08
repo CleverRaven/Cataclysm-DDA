@@ -1,0 +1,145 @@
+[
+  {
+    "type": "npc",
+    "id": "refugee_MandeepSingh",
+    "name_unique": "Mandeep Singh",
+    "gender": "male",
+    "name_suffix": "refugee",
+    "class": "NC_REFUGEE_Mandeep",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_Mandeep_1",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_REFUGEE_Mandeep",
+    "name": "Refugee",
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "Mandeep is the father of a small family.  They've made it through this unscathed and have a lot of survivor's guilt as a result.",
+    "bonus_str": { "rng": [ -2, 2 ] },
+    "bonus_dex": { "rng": [ -2, 2 ] },
+    "bonus_int": { "rng": [ -2, 2 ] },
+    "bonus_per": { "rng": [ -2, 2 ] },
+    "worn_override": "REFUGEE_Mandeep_worn",
+    "carry_override": "REFUGEE_Mandeep_carried",
+    "weapon_override": "EMPTY_GROUP",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_SouthAsian" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "driving", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "computer", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 0, 2 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Mandeep_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "boxer_shorts" },
+      { "item": "socks" },
+      { "item": "sweatshirt" },
+      { "item": "pants" },
+      { "item": "turban" },
+      { "item": "sneakers" },
+      { "group": "REFUGEE_Mandeep_wield" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Mandeep_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "1st_aid" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Mandeep_wield",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "scimitar_inferior", "container-item": "scabbard", "prob": 3 },
+      { "item": "scimitar", "container-item": "scabbard", "prob": 1 },
+      { "item": "kirpan", "container-item": "sheath", "prob": 4 },
+      { "item": "kirpan_cheap", "container-item": "sheath", "prob": 2 }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [ "TALK_REFUGEE_Mandeep_2", "TALK_REFUGEE_Mandeep_Background", "TALK_REFUGEE_Mandeep_Situation" ],
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_REFUGEE_Mandeep_Background" },
+      { "text": "How are things here?", "topic": "TALK_REFUGEE_Mandeep_Situation" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mandeep_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_Mandeep_Singh",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": "Hello again.",
+      "no": { "u_male": true, "yes": "Hello sir.  I am Mandeep Singh.", "no": "Hello ma'am.  I am Mandeep Singh." }
+    },
+    "responses": [
+      {
+        "text": "Nice to meet you, Mandeep.",
+        "effect": { "u_add_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_REFUGEE_Mandeep_1_firstmeet"
+      },
+      {
+        "text": "Hi, Mandeep.  What's up?",
+        "topic": "TALK_REFUGEE_Mandeep_2",
+        "condition": { "u_has_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "Hi Mandeep, nice to meet you.  I gotta go though.",
+        "effect": { "u_add_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Hi Mandeep.  I can't stay to talk.",
+        "condition": { "u_has_var": "u_met_Mandeep_Singh", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mandeep_1_firstmeet",
+    "dynamic_line": "It is nice to meet you as well.  Can I help you with something?",
+    "responses": [
+      { "text": "I just had some questions.", "topic": "TALK_REFUGEE_Mandeep_2" },
+      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mandeep_2",
+    "dynamic_line": "I understand.  I don't know if I have many answers for you.",
+    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mandeep_Background",
+    "dynamic_line": "My story?  It is much the same as everyone's, I fear.  Loss and violence.  I have not lost as much as many; by the grace of the Lord I have still got my wife and son.  I could not be more grateful.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mandeep_Situation",
+    "dynamic_line": "It is hard for me to say.  No one is happy here.  I sense that some are frustrated that my family and I have escaped the end of the world apparently unscathed.  That, and perhaps some other things, have made it hard for us to make close friends here.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  }
+]

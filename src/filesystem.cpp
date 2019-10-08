@@ -2,7 +2,7 @@
 
 // FILE I/O
 #include <sys/stat.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <cerrno>
 #include <cstdio>
@@ -15,6 +15,7 @@
 #include <utility>
 
 #include "debug.h"
+#include "cata_utility.h"
 
 #if defined(_MSC_VER)
 #   include <direct.h>
@@ -27,18 +28,6 @@
 
 #if defined(_WIN32)
 #   include "platform_win.h"
-#endif
-
-//--------------------------------------------------------------------------------------------------
-// HACK: mingw only issue as of 14/01/2015
-// TODO: move elsewhere
-//--------------------------------------------------------------------------------------------------
-#if defined(__MINGW32__) || defined(__CYGWIN__)
-size_t strnlen( const char *const start, const size_t maxlen )
-{
-    const auto end = reinterpret_cast<const char *>( memchr( start, '\0', maxlen ) );
-    return ( end ) ? static_cast<size_t>( end - start ) : maxlen;
-}
 #endif
 
 namespace
@@ -65,7 +54,7 @@ bool do_mkdir( const std::string &path, const int mode )
 
 bool assure_dir_exist( const std::string &path )
 {
-    return dir_exist( path ) || do_mkdir( path, 0777 );
+    return do_mkdir( path, 0777 ) || ( errno == EEXIST && dir_exist( path ) );
 }
 
 bool dir_exist( const std::string &path )
@@ -260,15 +249,15 @@ bool is_special_dir( const dirent &entry )
 //--------------------------------------------------------------------------------------------------
 bool name_contains( const dirent &entry, const std::string &match, const bool at_end )
 {
-    const auto len_fname = strnlen( entry.d_name, sizeof_array( entry.d_name ) );
-    const auto len_match = match.length();
+    const size_t len_fname = strlen( entry.d_name );
+    const size_t len_match = match.length();
 
     if( len_match > len_fname ) {
         return false;
     }
 
-    const auto offset = at_end ? ( len_fname - len_match ) : 0;
-    return strstr( entry.d_name + offset, match.c_str() ) != 0;
+    const size_t offset = at_end ? ( len_fname - len_match ) : 0;
+    return strstr( entry.d_name + offset, match.c_str() ) != nullptr;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -409,10 +398,28 @@ std::vector<std::string> get_directories_with( const std::vector<std::string> &p
 bool copy_file( const std::string &source_path, const std::string &dest_path )
 {
     std::ifstream source_stream( source_path.c_str(), std::ifstream::in | std::ifstream::binary );
-    std::ofstream dest_stream( dest_path.c_str(), std::ofstream::out | std::ofstream::binary );
+    if( !source_stream ) {
+        return false;
+    }
+    return write_to_file( dest_path, [&]( std::ostream & dest_stream ) {
+        dest_stream << source_stream.rdbuf();
+    }, nullptr ) &&source_stream;
+}
 
-    dest_stream << source_stream.rdbuf();
-    dest_stream.close();
+std::string ensure_valid_file_name( const std::string &file_name )
+{
+    const char replacement_char = ' ';
+    const std::string invalid_chars = "\\/:?\"<>|";
 
-    return dest_stream && source_stream;
+    // do any replacement in the file name, if needed.
+    std::string new_file_name = file_name;
+    std::transform( new_file_name.begin(), new_file_name.end(),
+    new_file_name.begin(), [&]( const char c ) {
+        if( invalid_chars.find( c ) != std::string::npos ) {
+            return replacement_char;
+        }
+        return c;
+    } );
+
+    return new_file_name;
 }

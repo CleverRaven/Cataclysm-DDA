@@ -1,0 +1,140 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_fireplace",
+    "name": "fireplace",
+    "symbol": "#",
+    "description": "Ah.  The relaxation of sitting in front of a fire as the world around you crumbles.  Towards the End, you could also get this service on your television.",
+    "bgcolor": "white",
+    "move_cost_mod": 2,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MINEABLE" ],
+    "examine_action": "fireplace",
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "rock", "count": [ 15, 30 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_woodstove",
+    "name": "wood stove",
+    "symbol": "#",
+    "bgcolor": "red",
+    "description": "Wood stove for heating and cooking.  Much more efficient than an open flame.",
+    "move_cost_mod": 2,
+    "coverage": 60,
+    "required_str": 10,
+    "max_volume": 1000,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MOUNTABLE" ],
+    "examine_action": "fireplace",
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": [ 3, 6 ] }, { "item": "pipe", "prob": 50 } ]
+    },
+    "deconstruct": { "items": [ { "item": "metal_tank", "count": 1 }, { "item": "pipe", "count": 1 } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_brazier",
+    "name": "brazier",
+    "description": "A raised metal dish in which to safely burn things.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost_mod": 2,
+    "coverage": 35,
+    "required_str": 8,
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
+    "deployed_item": "brazier",
+    "examine_action": "fireplace",
+    "max_volume": 4000,
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 5, 15 ] },
+        { "item": "steel_chunk", "count": [ 2, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_55gal_firebarrel",
+    "name": "fire barrel (200L)",
+    "description": "A large metal barrel used to contain a fire.  It has multiple holes punched in its walls for air supply.  Fires set in a fire barrel will not spread to surrounding flammable objects.",
+    "symbol": "#",
+    "color": "red",
+    "looks_like": "55gal_drum",
+    "move_cost_mod": 2,
+    "coverage": 35,
+    "required_str": 8,
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
+    "deployed_item": "55gal_firebarrel",
+    "examine_action": "fireplace",
+    "max_volume": 4000,
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 8, 20 ] },
+        { "item": "sheet_metal_small", "count": [ 3, 10 ] },
+        { "item": "sheet_metal", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_30gal_firebarrel",
+    "name": "fire barrel (100L)",
+    "description": "A large metal barrel used to contain a fire.  It has multiple holes punched in its walls for air supply.  Fires set in a fire barrel will not spread to surrounding flammable objects.",
+    "symbol": "#",
+    "color": "red",
+    "looks_like": "30gal_drum",
+    "move_cost_mod": 2,
+    "coverage": 35,
+    "required_str": 8,
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
+    "deployed_item": "30gal_firebarrel",
+    "examine_action": "fireplace",
+    "max_volume": 4000,
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": [ 5, 15 ] }, { "item": "sheet_metal_small", "count": [ 1, 9 ] } ]
+    }
+  },
+  {
+    "id": "f_firering",
+    "type": "furniture",
+    "name": "fire ring",
+    "description": "A ring of stones to safely contain a fire.",
+    "symbol": "#",
+    "bgcolor": [ "white" ],
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "bash": {
+      "str_min": 15,
+      "str_max": 105,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "rock", "count": [ 5, 15 ] } ]
+    },
+    "deconstruct": { "items": [ { "item": "rock", "count": 20 } ] },
+    "flags": [ "TRANSPARENT", "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT" ],
+    "examine_action": "fireplace"
+  }
+]

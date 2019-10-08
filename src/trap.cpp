@@ -4,6 +4,8 @@
 #include <set>
 
 #include "debug.h"
+#include "event_bus.h"
+#include "game.h"
 #include "generic_factory.h"
 #include "int_id.h"
 #include "json.h"
@@ -15,16 +17,17 @@
 #include "translations.h"
 #include "assign.h"
 #include "bodypart.h"
-#include "enums.h"
 #include "item.h"
 #include "rng.h"
+#include "creature.h"
+#include "point.h"
 
 namespace
 {
 
 generic_factory<trap> trap_factory( "trap" );
 
-}
+} // namespace
 
 /** @relates string_id */
 template<>
@@ -106,19 +109,75 @@ void trap::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "visibility", visibility );
     mandatory( jo, was_loaded, "avoidance", avoidance );
     mandatory( jo, was_loaded, "difficulty", difficulty );
+    optional( jo, was_loaded, "trap_radius", trap_radius, 0 );
     // TODO: Is there a generic_factory version of this?
     act = trap_function_from_string( jo.get_string( "action" ) );
 
+    optional( jo, was_loaded, "map_regen", map_regen, "none" );
     optional( jo, was_loaded, "benign", benign, false );
+    optional( jo, was_loaded, "always_invisible", always_invisible, false );
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
+    optional( jo, was_loaded, "comfort", comfort, 0 );
+    optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
     assign( jo, "trigger_weight", trigger_weight );
-    optional( jo, was_loaded, "drops", components );
+    JsonArray ja = jo.get_array( "drops" );
+    while( ja.has_more() ) {
+        std::string item_type;
+        int quantity = 0;
+        int charges = 0;
+        if( ja.test_object() ) {
+            JsonObject jc = ja.next_object();
+            item_type = jc.get_string( "item" );
+            quantity = jc.get_int( "quantity", 1 );
+            charges = jc.get_int( "charges", 1 );
+        } else {
+            item_type = ja.next_string();
+            quantity = 1;
+            charges = 1;
+        }
+        if( !item_type.empty() && quantity > 0 && charges > 0 ) {
+            components.emplace_back( std::make_tuple( item_type, quantity, charges ) );
+        }
+    }
+    if( jo.has_object( "vehicle_data" ) ) {
+        JsonObject jv = jo.get_object( "vehicle_data" );
+        vehicle_data.remove_trap = jv.get_bool( "remove_trap", false );
+        vehicle_data.do_explosion = jv.get_bool( "do_explosion", false );
+        vehicle_data.is_falling = jv.get_bool( "is_falling", false );
+        vehicle_data.chance = jv.get_int( "chance", 100 );
+        vehicle_data.damage = jv.get_int( "damage", 0 );
+        vehicle_data.shrapnel = jv.get_int( "shrapnel", 0 );
+        vehicle_data.sound_volume = jv.get_int( "sound_volume", 0 );
+        jv.read( "sound", vehicle_data.sound );
+        vehicle_data.sound_type = jv.get_string( "sound_type", "" );
+        vehicle_data.sound_variant = jv.get_string( "sound_variant", "" );
+        vehicle_data.spawn_items.clear();
+        if( jv.has_array( "spawn_items" ) ) {
+            JsonArray ja = jv.get_array( "spawn_items" );
+            while( ja.has_more() ) {
+                if( ja.test_object() ) {
+                    JsonObject joitm = ja.next_object();
+                    vehicle_data.spawn_items.emplace_back( joitm.get_string( "id" ), joitm.get_float( "chance" ) );
+                } else {
+                    vehicle_data.spawn_items.emplace_back( ja.next_string(), 1.0 );
+                }
+            }
+        }
+        vehicle_data.set_trap = trap_str_id::NULL_ID();
+        if( jv.read( "set_trap", vehicle_data.set_trap ) ) {
+            vehicle_data.remove_trap = false;
+        }
+    }
 }
 
 std::string trap::name() const
 {
-    // trap names can be empty, those are special always invisible traps. See player::search_surroundings
-    return name_.empty() ? name_ : _( name_ );
+    return _( name_ );
+}
+
+std::string trap::map_regen_target() const
+{
+    return map_regen;
 }
 
 void trap::reset()
@@ -137,12 +196,12 @@ bool trap::detect_trap( const tripoint &pos, const player &p ) const
     //   noticing a buried landmine if standing right next to it.
     // Effective Perception...
     ///\EFFECT_PER increases chance of detecting a trap
-    return ( p.per_cur - ( p.encumb( bp_eyes ) / 10 ) ) +
+    return p.per_cur - p.encumb( bp_eyes ) / 10 +
            // ...small bonus from stimulants...
            ( p.stim > 10 ? rng( 1, 2 ) : 0 ) +
            // ...bonus from trap skill...
            ///\EFFECT_TRAPS increases chance of detecting a trap
-           ( p.get_skill_level( skill_traps ) * 2 ) +
+           p.get_skill_level( skill_traps ) * 2 +
            // ...luck, might be good, might be bad...
            rng( -4, 4 ) -
            // ...malus if we are tired...
@@ -166,9 +225,17 @@ bool trap::can_see( const tripoint &pos, const player &p ) const
     return visibility < 0 || p.knows_trap( pos );
 }
 
-void trap::trigger( const tripoint &pos, Creature *creature ) const
+void trap::trigger( const tripoint &pos, Creature *creature, item *item ) const
 {
-    act( creature, pos );
+    const bool is_real_creature = creature != nullptr && !creature->is_hallucination();
+    if( is_real_creature || item != nullptr ) {
+        bool triggered = act( pos, creature, item );
+        if( triggered && is_real_creature ) {
+            if( Character *ch = creature->as_character() ) {
+                g->events().send<event_type::character_triggers_trap>( ch->getID(), id );
+            }
+        }
+    }
 }
 
 bool trap::is_null() const
@@ -186,27 +253,16 @@ bool trap::is_funnel() const
     return !is_null() && funnel_radius_mm > 0;
 }
 
-bool trap::is_3x3_trap() const
-{
-    // TODO: make this a json flag, implement more 3x3 traps.
-    return id == trap_str_id( "tr_engine" );
-}
-
 void trap::on_disarmed( map &m, const tripoint &p ) const
 {
     for( auto &i : components ) {
-        m.spawn_item( p.x, p.y, i, 1, 1 );
+        const std::string &item_type = std::get<0>( i );
+        const int quantity = std::get<1>( i );
+        const int charges = std::get<2>( i );
+        m.spawn_item( p.xy(), item_type, quantity, charges );
     }
-    // TODO: make this a flag, or include it into the components.
-    if( id == trap_str_id( "tr_shotgun_1" ) || id == trap_str_id( "tr_shotgun_2" ) ) {
-        m.spawn_item( p.x, p.y, "shot_00", 1, 2 );
-    }
-    if( is_3x3_trap() ) {
-        for( const tripoint &dest : m.points_in_radius( p, 1 ) ) {
-            m.remove_trap( dest );
-        }
-    } else {
-        m.remove_trap( p );
+    for( const tripoint &dest : m.points_in_radius( p, trap_radius ) ) {
+        m.remove_trap( dest );
     }
 }
 
@@ -215,6 +271,7 @@ void trap::on_disarmed( map &m, const tripoint &p ) const
 trap_id
 tr_null,
 tr_bubblewrap,
+tr_glass,
 tr_cot,
 tr_funnel,
 tr_metal_funnel,
@@ -226,9 +283,11 @@ tr_beartrap,
 tr_beartrap_buried,
 tr_nailboard,
 tr_caltrops,
+tr_caltrops_glass,
 tr_tripwire,
 tr_crossbow,
 tr_shotgun_2,
+tr_shotgun_2_1,
 tr_shotgun_1,
 tr_engine,
 tr_blade,
@@ -257,8 +316,9 @@ void trap::check_consistency()
 {
     for( const auto &t : trap_factory.get_all() ) {
         for( auto &i : t.components ) {
-            if( !item::type_is_defined( i ) ) {
-                debugmsg( "trap %s has unknown item as component %s", t.id.c_str(), i.c_str() );
+            const std::string &item_type = std::get<0>( i );
+            if( !item::type_is_defined( item_type ) ) {
+                debugmsg( "trap %s has unknown item as component %s", t.id.c_str(), item_type.c_str() );
             }
         }
     }
@@ -279,6 +339,7 @@ void trap::finalize()
     };
     tr_null = trap_str_id::NULL_ID().id();
     tr_bubblewrap = trapfind( "tr_bubblewrap" );
+    tr_glass = trapfind( "tr_glass" );
     tr_cot = trapfind( "tr_cot" );
     tr_funnel = trapfind( "tr_funnel" );
     tr_metal_funnel = trapfind( "tr_metal_funnel" );
@@ -290,9 +351,11 @@ void trap::finalize()
     tr_beartrap_buried = trapfind( "tr_beartrap_buried" );
     tr_nailboard = trapfind( "tr_nailboard" );
     tr_caltrops = trapfind( "tr_caltrops" );
+    tr_caltrops_glass = trapfind( "tr_caltrops_glass" );
     tr_tripwire = trapfind( "tr_tripwire" );
     tr_crossbow = trapfind( "tr_crossbow" );
     tr_shotgun_2 = trapfind( "tr_shotgun_2" );
+    tr_shotgun_2_1 = trapfind( "tr_shotgun_2_1" );
     tr_shotgun_1 = trapfind( "tr_shotgun_1" );
     tr_engine = trapfind( "tr_engine" );
     tr_blade = trapfind( "tr_blade" );

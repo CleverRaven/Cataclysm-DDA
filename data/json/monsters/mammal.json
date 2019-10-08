@@ -283,7 +283,7 @@
     "death_drops": { "subtype": "collection", "groups": [ [ "cow", 25 ] ], "//": "25% chance of an item from group cow" },
     "death_function": [ "NORMAL" ],
     "harvest": "mammal_large_leather",
-    "upgrades": { "age_grow": 28, "into": "mon_cow" },
+    "upgrades": { "age_grow": 180, "into": "mon_cow" },
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ]
@@ -320,11 +320,22 @@
     "death_drops": { "subtype": "collection", "groups": [ [ "cow", 25 ] ], "//": "25% chance of an item from group cow" },
     "death_function": [ "NORMAL" ],
     "harvest": "mammal_large_leather",
-    "reproduction": { "baby_monster": "mon_cow_calf", "baby_count": 1, "baby_timer": 20 },
+    "reproduction": { "baby_monster": "mon_cow_calf", "baby_count": 1, "baby_timer": 343 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 1 },
     "special_attacks": [ [ "EAT_CROP", 40 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "PET_WONT_FOLLOW", "MILKABLE" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "PET_MOUNTABLE",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "PET_WONT_FOLLOW",
+      "MILKABLE"
+    ]
   },
   {
     "id": "mon_coyote",
@@ -489,12 +500,13 @@
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "special_attacks": [ [ "EAT_FOOD", 100 ] ],
+    "special_attacks": [ [ "EAT_FOOD", 100 ], [ "PARROT_AT_DANGER", 0 ] ],
     "flags": [
       "ANIMAL",
       "DOGFOOD",
       "GROUP_MORALE",
       "HEARS",
+      "PET_MOUNTABLE",
       "HIT_AND_RUN",
       "KEENNOSE",
       "PATH_AVOID_DANGER_1",
@@ -543,7 +555,18 @@
     "harvest": "mammal_small_leather",
     "reproduction": { "baby_monster": "mon_dog_bull_pup", "baby_count": 7, "baby_timer": 300 },
     "//": "7 puppies and 300-320 days per-litter for size medium canines",
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "PET_MOUNTABLE",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_bull_pup",
@@ -593,7 +616,18 @@
     "harvest": "mammal_small_leather",
     "reproduction": { "baby_monster": "mon_dog_pitbullmix_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "PET_MOUNTABLE",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_pitbullmix_pup",
@@ -650,6 +684,7 @@
       "DOGFOOD",
       "GROUP_MORALE",
       "HARDTOSHOOT",
+      "PET_MOUNTABLE",
       "HEARS",
       "HIT_AND_RUN",
       "KEENNOSE",
@@ -709,7 +744,19 @@
     "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ],
     "reproduction": { "baby_monster": "mon_dog_bcollie_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
-    "flags": [ "ANIMAL", "CLIMBS", "DOGFOOD", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "CLIMBS",
+      "DOGFOOD",
+      "PET_MOUNTABLE",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_bcollie_pup",
@@ -795,7 +842,19 @@
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 100 ] ],
-    "flags": [ "ANIMAL", "DOGFOOD", "GROUP_MORALE", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "SWARMS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "PET_MOUNTABLE",
+      "GROUP_MORALE",
+      "HEARS",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "SWARMS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_chihuahua",
@@ -886,6 +945,7 @@
       "DOGFOOD",
       "HARDTOSHOOT",
       "HEARS",
+      "PET_MOUNTABLE",
       "HIT_AND_RUN",
       "KEENNOSE",
       "PATH_AVOID_DANGER_1",
@@ -944,7 +1004,7 @@
     "special_attacks": [ [ "LUNGE", 5 ] ],
     "reproduction": { "baby_monster": "mon_dog_gshepherd_pup", "baby_count": 7, "baby_timer": 300 },
     "//": "1-7 puppies & 300-320 days per-litter for size medium canines",
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [ "ANIMAL", "DOGFOOD", "PET_MOUNTABLE", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
   {
     "id": "mon_dog_gshepherd_pup",
@@ -1000,7 +1060,18 @@
     "harvest": "mammal_fur",
     "reproduction": { "baby_monster": "mon_dog_gpyrenees_pup", "baby_count": 7, "baby_timer": 320 },
     "//": "1-7 puppies & 300-320 days per-litter for size medium canines",
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "PET_MOUNTABLE",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_gpyrenees_pup",
@@ -1042,7 +1113,6 @@
     "name": "rottweiler",
     "//": "Rare, location specific only",
     "description": "A terrifying breed to face feral, Rottweilers are descended from Roman legion mastiffs.  It's robust, vicious, and quite capable of mauling a human to death.",
-    "size": "MEDIUM",
     "volume": "50000 ml",
     "weight": 50000,
     "hp": 42,
@@ -1057,7 +1127,18 @@
     "special_attacks": [ [ "LUNGE", 5 ] ],
     "reproduction": { "baby_monster": "mon_dog_rottweiler_pup", "baby_count": 7, "baby_timer": 300 },
     "//": "1-7 puppies & 300-320 days per-litter for size medium canines",
-    "flags": [ "ANIMAL", "DOGFOOD", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "DOGFOOD",
+      "PET_MOUNTABLE",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_rottweiler_pup",
@@ -1110,7 +1191,19 @@
     "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ],
     "reproduction": { "baby_monster": "mon_dog_auscattle_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
-    "flags": [ "ANIMAL", "CLIMBS", "DOGFOOD", "HEARS", "HIT_AND_RUN", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
+    "flags": [
+      "ANIMAL",
+      "CLIMBS",
+      "DOGFOOD",
+      "PET_MOUNTABLE",
+      "HEARS",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "PATH_AVOID_DANGER_1",
+      "SEES",
+      "SMELLS",
+      "WARM"
+    ]
   },
   {
     "id": "mon_dog_auscattle_pup",
@@ -1273,7 +1366,7 @@
     "volume": "550000 ml",
     "weight": 550000,
     "hp": 90,
-    "speed": 210,
+    "speed": 300,
     "material": [ "flesh" ],
     "symbol": "H",
     "color": "brown",
@@ -1291,7 +1384,17 @@
     "harvest": "mammal_large_leather",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CATTLEFODDER", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "CATTLEFODDER",
+      "PET_WONT_FOLLOW",
+      "PET_MOUNTABLE",
+      "PATH_AVOID_DANGER_1",
+      "WARM"
+    ]
   },
   {
     "id": "mon_lemming",
@@ -1383,7 +1486,7 @@
     "harvest": "mammal_large_leather",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BLEED", "ATTACKMON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BLEED", "ATTACKMON" ]
   },
   {
     "id": "mon_muskrat",
@@ -1584,7 +1687,7 @@
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
   },
   {
     "id": "mon_rabbit",
@@ -1701,7 +1804,7 @@
     "type": "MONSTER",
     "name": "lamb",
     "name_plural": "lambs",
-    "description": "A timid, hooved grazing mammal, and one of the first animals ever domesticated. Its body is covered in a thick layer of wool, and the males have long, spiraling horns.",
+    "description": "A timid, hooved grazing mammal, and one of the first animals ever domesticated.  Its body is covered in a thick layer of wool, and the males have long, spiraling horns.",
     "default_faction": "herbivore",
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
@@ -1733,7 +1836,7 @@
     "type": "MONSTER",
     "name": "sheep",
     "name_plural": "sheep",
-    "description": "A timid, hooved grazing mammal, and one of the first animals ever domesticated. Its body is covered in a thick layer of wool, and the males have long, spiralling horns.",
+    "description": "A timid, hooved grazing mammal, and one of the first animals ever domesticated.  Its body is covered in a thick layer of wool, and the males have long, spiralling horns.",
     "default_faction": "herbivore",
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],

@@ -5,6 +5,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -41,6 +42,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -77,6 +79,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -113,6 +116,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -149,6 +153,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -185,6 +190,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -221,6 +227,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -257,6 +264,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -293,6 +301,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -329,6 +338,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -365,6 +375,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -401,6 +412,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -437,6 +449,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -473,6 +486,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -509,6 +523,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -545,6 +560,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -581,6 +597,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -617,6 +634,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -653,6 +671,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -689,6 +708,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -725,6 +745,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -761,6 +782,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -797,6 +819,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -833,6 +856,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -869,6 +893,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -905,6 +930,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -941,6 +967,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -977,6 +1004,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1013,6 +1041,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1049,6 +1078,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1085,6 +1115,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1121,6 +1152,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1157,6 +1189,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1193,6 +1226,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1229,6 +1263,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1265,6 +1300,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1301,6 +1337,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1337,6 +1374,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1373,6 +1411,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1409,6 +1448,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1445,6 +1485,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1481,6 +1522,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1517,6 +1559,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1553,6 +1596,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,U,,,,,,,,,,,",
@@ -1589,6 +1633,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1625,6 +1670,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1661,6 +1707,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1697,6 +1744,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,S,,,,,,,,,,,",
@@ -1733,6 +1781,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1769,6 +1818,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1805,6 +1855,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1841,6 +1892,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1877,6 +1929,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1913,6 +1966,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1949,6 +2003,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -1985,6 +2040,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2021,6 +2077,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2057,6 +2114,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2093,6 +2151,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2129,6 +2188,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2165,6 +2225,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2201,6 +2262,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2237,6 +2299,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2273,6 +2336,7 @@
     "method": "json",
     "weight": 250,
     "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -2294,6 +2358,117 @@
         ",,,,*'''''''''''*,_K_,,,",
         ",,,,**''''*''''**,___,,,",
         ",,,,$$,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,"
+      ],
+      "palettes": [ "acidia_camp_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "faction_base_livestock_0",
+    "method": "json",
+    "weight": 250,
+    "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "fill_ter": "t_grass",
+      "rows": [
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,"
+      ],
+      "palettes": [ "acidia_camp_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "faction_base_storehouse_0",
+    "method": "json",
+    "weight": 250,
+    "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "fill_ter": "t_grass",
+      "rows": [
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,"
+      ],
+      "palettes": [ "acidia_camp_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "faction_base_workshop_0",
+    "method": "json",
+    "weight": 250,
+    "object": {
+      "faction_owner": [ { "id": "your_followers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "fill_ter": "t_grass",
+      "rows": [
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
+        ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,",

@@ -8,6 +8,7 @@
 #include <memory>
 #include <utility>
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -19,7 +20,6 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
-#include "player.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -52,8 +52,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
     const int header_height = 4;
     const int content_height = FULL_SCREEN_HEIGHT - 2 - header_height;
 
-    const int offset_x = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    const int offset_y = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+    const int offset_x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+    const int offset_y = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
 
     enum Columns : int {
         COLUMN_RULE,
@@ -70,57 +70,64 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
     const int num_columns = column_pos.size();
 
-    catacurses::window w_help = catacurses::newwin( ( FULL_SCREEN_HEIGHT / 2 ) - 2,
-                                FULL_SCREEN_WIDTH * 3 / 4, 7 + offset_y + ( FULL_SCREEN_HEIGHT / 2 ) / 2, offset_x + 19 / 2 );
-    catacurses::window w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                  offset_y, offset_x );
-    catacurses::window w_header = catacurses::newwin( header_height, FULL_SCREEN_WIDTH - 2,
-                                  1 + offset_y, 1 + offset_x );
-    catacurses::window w = catacurses::newwin( content_height, FULL_SCREEN_WIDTH - 2,
-                           header_height + 1 + offset_y, 1 + offset_x );
+    catacurses::window w_help =
+        catacurses::newwin( FULL_SCREEN_HEIGHT / 2 - 2, FULL_SCREEN_WIDTH * 3 / 4,
+                            point( offset_x + 19 / 2, 7 + offset_y + FULL_SCREEN_HEIGHT / 2 / 2 ) );
+    catacurses::window w_border =
+        catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, point( offset_x, offset_y ) );
+    catacurses::window w_header =
+        catacurses::newwin( header_height, FULL_SCREEN_WIDTH - 2,
+                            point( 1 + offset_x, 1 + offset_y ) );
+    catacurses::window w =
+        catacurses::newwin( content_height, FULL_SCREEN_WIDTH - 2,
+                            point( 1 + offset_x, header_height + 1 + offset_y ) );
 
     draw_border( w_border, BORDER_COLOR, custom_name_in );
 
-    mvwputch( w_border, 3,  0, c_light_gray, LINE_XXXO ); // |-
-    mvwputch( w_border, 3, 79, c_light_gray, LINE_XOXX ); // -|
+    mvwputch( w_border, point( 0, 3 ), c_light_gray, LINE_XXXO ); // |-
+    mvwputch( w_border, point( 79, 3 ), c_light_gray, LINE_XOXX ); // -|
 
     for( auto &column : column_pos ) {
-        mvwputch( w_border, FULL_SCREEN_HEIGHT - 1, column.second + 1, c_light_gray,
-                  LINE_XXOX ); // _|_
+        // _|_
+        mvwputch( w_border, point( column.second + 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
     }
 
     wrefresh( w_border );
 
     static const std::vector<std::string> hotkeys = {{
-            _( "<A>dd" ), _( "<R>emove" ), _( "<C>opy" ), _( "<M>ove" ),
-            _( "<E>nable" ), _( "<D>isable" ), _( "<T>est" )
+            translate_marker( "<A>dd" ), translate_marker( "<R>emove" ),
+            translate_marker( "<C>opy" ), translate_marker( "<M>ove" ),
+            translate_marker( "<E>nable" ), translate_marker( "<D>isable" ),
+            translate_marker( "<T>est" )
         }
     };
 
     int tmpx = 0;
     for( auto &hotkey : hotkeys ) {
-        tmpx += shortcut_print( w_header, 0, tmpx, c_white, c_light_green, hotkey ) + 2;
+        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( hotkey ) ) + 2;
     }
 
     tmpx = 0;
-    tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_light_green, _( "<+-> Move up/down" ) ) + 2;
-    tmpx += shortcut_print( w_header, 1, tmpx, c_white, c_light_green, _( "<Enter>-Edit" ) ) + 2;
-    shortcut_print( w_header, 1, tmpx, c_white, c_light_green, _( "<Tab>-Switch Page" ) );
+    tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green,
+                            _( "<+-> Move up/down" ) ) + 2;
+    tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green,
+                            _( "<Enter>-Edit" ) ) + 2;
+    shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green, _( "<Tab>-Switch Page" ) );
 
     for( int i = 0; i < 78; i++ ) {
-        mvwputch( w_header, 2, i, c_light_gray, LINE_OXOX ); // Draw line under header
+        mvwputch( w_header, point( i, 2 ), c_light_gray, LINE_OXOX ); // Draw line under header
     }
 
     for( auto &pos : column_pos ) {
-        mvwputch( w_header, 2, pos.second, c_light_gray, LINE_OXXX );
-        mvwputch( w_header, 3, pos.second, c_light_gray, LINE_XOXO );
+        mvwputch( w_header, point( pos.second, 2 ), c_light_gray, LINE_OXXX );
+        mvwputch( w_header, point( pos.second, 3 ), c_light_gray, LINE_XOXO );
     }
 
-    mvwprintz( w_header, 3, 1, c_white, "#" );
-    mvwprintz( w_header, 3, column_pos[COLUMN_RULE] + 4, c_white, _( "Rules" ) );
-    mvwprintz( w_header, 3, column_pos[COLUMN_ATTITUDE] + 2, c_white, _( "Attitude" ) );
-    mvwprintz( w_header, 3, column_pos[COLUMN_PROXIMITY] + 2, c_white, _( "Dist" ) );
-    mvwprintz( w_header, 3, column_pos[COLUMN_WHITE_BLACKLIST] + 2, c_white, _( "B/W" ) );
+    mvwprintz( w_header, point( 1, 3 ), c_white, "#" );
+    mvwprintz( w_header, point( column_pos[COLUMN_RULE] + 4, 3 ), c_white, _( "Rules" ) );
+    mvwprintz( w_header, point( column_pos[COLUMN_ATTITUDE] + 2, 3 ), c_white, _( "Attitude" ) );
+    mvwprintz( w_header, point( column_pos[COLUMN_PROXIMITY] + 2, 3 ), c_white, _( "Dist" ) );
+    mvwprintz( w_header, point( column_pos[COLUMN_WHITE_BLACKLIST] + 2, 3 ), c_white, _( "B/W" ) );
 
     wrefresh( w_header );
 
@@ -153,30 +160,30 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
     while( true ) {
         int locx = 17;
-        locx += shortcut_print( w_header, 2, locx, c_white,
+        locx += shortcut_print( w_header, point( locx, 2 ), c_white,
                                 ( tab == GLOBAL_TAB ) ? hilite( c_white ) : c_white, _( "[<Global>]" ) ) + 1;
-        shortcut_print( w_header, 2, locx, c_white,
+        shortcut_print( w_header, point( locx, 2 ), c_white,
                         ( tab == CHARACTER_TAB ) ? hilite( c_white ) : c_white, _( "[<Character>]" ) );
 
         locx = 55;
-        mvwprintz( w_header, 0, locx, c_white, _( "Safe Mode enabled:" ) );
-        locx += shortcut_print( w_header, 1, locx,
+        mvwprintz( w_header, point( locx, 0 ), c_white, _( "Safe Mode enabled:" ) );
+        locx += shortcut_print( w_header, point( locx, 1 ),
                                 ( ( get_option<bool>( "SAFEMODE" ) ) ? c_light_green : c_light_red ), c_white,
                                 ( ( get_option<bool>( "SAFEMODE" ) ) ? _( "True" ) : _( "False" ) ) );
-        locx += shortcut_print( w_header, 1, locx, c_white, c_light_green, "  " );
-        locx += shortcut_print( w_header, 1, locx, c_white, c_light_green, _( "<S>witch" ) );
-        shortcut_print( w_header, 1, locx, c_white, c_light_green, "  " );
+        locx += shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, "  " );
+        locx += shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, _( "<S>witch" ) );
+        shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, "  " );
 
         wrefresh( w_header );
 
         // Clear the lines
         for( int i = 0; i < content_height; i++ ) {
             for( int j = 0; j < 79; j++ ) {
-                mvwputch( w, i, j, c_black, ' ' );
+                mvwputch( w, point( j, i ), c_black, ' ' );
             }
 
             for( auto &pos : column_pos ) {
-                mvwputch( w, i, pos.second, c_light_gray, LINE_XOXO );
+                mvwputch( w, point( pos.second, i ), c_light_gray, LINE_XOXO );
             }
         }
 
@@ -184,14 +191,14 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
         if( tab == CHARACTER_TAB && g->u.name.empty() ) {
             character_rules.clear();
-            mvwprintz( w, 8, 15, c_white, _( "Please load a character first to use this page!" ) );
+            mvwprintz( w, point( 15, 8 ), c_white, _( "Please load a character first to use this page!" ) );
         } else if( empty() ) {
-            mvwprintz( w, 8, 15, c_white, _( "Safe Mode manager currently inactive." ) );
-            mvwprintz( w, 9, 15, c_white, _( "Default rules are used. Add a rule to activate." ) );
-            mvwprintz( w, 10, 15, c_white, _( "Press ~ to add a default ruleset to get started." ) );
+            mvwprintz( w, point( 15, 8 ), c_white, _( "Safe Mode manager currently inactive." ) );
+            mvwprintz( w, point( 15, 9 ), c_white, _( "Default rules are used. Add a rule to activate." ) );
+            mvwprintz( w, point( 15, 10 ), c_white, _( "Press ~ to add a default ruleset to get started." ) );
         }
 
-        draw_scrollbar( w_border, line, content_height, current_tab.size(), 5 );
+        draw_scrollbar( w_border, line, content_height, current_tab.size(), point( 0, 5 ) );
         wrefresh( w_border );
 
         calcStartPos( start_pos, line, content_height, current_tab.size() );
@@ -205,18 +212,18 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
                 nc_color line_color = ( rule.active ) ? c_white : c_light_gray;
 
-                mvwprintz( w, i - start_pos, 1, line_color, "%d", i + 1 );
-                mvwprintz( w, i - start_pos, 5, c_yellow, ( line == i ) ? ">> " : "   " );
+                mvwprintz( w, point( 1, i - start_pos ), line_color, "%d", i + 1 );
+                mvwprintz( w, point( 5, i - start_pos ), c_yellow, ( line == i ) ? ">> " : "   " );
 
-                auto draw_column = [&]( Columns column_in, std::string text_in ) {
-                    mvwprintz( w, i - start_pos, column_pos[column_in] + 2,
+                auto draw_column = [&]( Columns column_in, const std::string & text_in ) {
+                    mvwprintz( w, point( column_pos[column_in] + 2, i - start_pos ),
                                ( line == i && column == column_in ) ? hilite( line_color ) : line_color,
                                text_in
                              );
                 };
 
                 draw_column( COLUMN_RULE, ( rule.rule.empty() ) ? _( "<empty rule>" ) : rule.rule );
-                draw_column( COLUMN_ATTITUDE, Creature::get_attitude_ui_data( rule.attitude ).first );
+                draw_column( COLUMN_ATTITUDE, Creature::get_attitude_ui_data( rule.attitude ).first.translated() );
                 draw_column( COLUMN_PROXIMITY, ( !rule.whitelist ) ? to_string( rule.proximity ) : "---" );
                 draw_column( COLUMN_WHITE_BLACKLIST, ( rule.whitelist ) ? _( "Whitelist" ) : _( "Blacklist" ) );
             }
@@ -285,13 +292,14 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
                 //remove old
                 temp_rules_from.erase( temp_rules_from.begin() + line );
-                line = temp_rules_from.size() - 1;
+                line = temp_rules_to.size() - 1;
                 tab = ( tab == GLOBAL_TAB ) ? CHARACTER_TAB : GLOBAL_TAB;
             }
         } else if( action == "CONFIRM" && !current_tab.empty() ) {
             changes_made = true;
             if( column == COLUMN_RULE ) {
-                fold_and_print( w_help, 1, 1, 999, c_white,
+                // NOLINTNEXTLINE(cata-use-named-point-constants)
+                fold_and_print( w_help, point( 1, 1 ), 999, c_white,
                                 _(
                                     "* is used as a Wildcard. A few Examples:\n"
                                     "\n"
@@ -426,8 +434,8 @@ void safemode::test_pattern( const int tab_in, const int row_in )
         }
     }
 
-    const int offset_x = 15 + ( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
-    const int offset_y = 5 + ( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 :
+    const int offset_x = 15 + ( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+    const int offset_y = 5 + ( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 :
                                0 );
 
     int start_pos = 0;
@@ -435,10 +443,10 @@ void safemode::test_pattern( const int tab_in, const int row_in )
     const int content_width = FULL_SCREEN_WIDTH - 30;
 
     const catacurses::window w_test_rule_border = catacurses::newwin( content_height + 2, content_width,
-            offset_y, offset_x );
+            point( offset_x, offset_y ) );
     const catacurses::window w_test_rule_content = catacurses::newwin( content_height,
             content_width - 2,
-            1 + offset_y, 1 + offset_x );
+            point( 1 + offset_x, 1 + offset_y ) );
 
     int nmatch = creature_list.size();
     const std::string buf = string_format( ngettext( "%1$d monster matches: %2$s",
@@ -460,7 +468,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
         // Clear the lines
         for( int i = 0; i < content_height; i++ ) {
             for( int j = 0; j < 79; j++ ) {
-                mvwputch( w_test_rule_content, i, j, c_black, ' ' );
+                mvwputch( w_test_rule_content, point( j, i ), c_black, ' ' );
             }
         }
 
@@ -472,8 +480,8 @@ void safemode::test_pattern( const int tab_in, const int row_in )
                 i < start_pos + std::min( content_height, static_cast<int>( creature_list.size() ) ) ) {
                 nc_color line_color = c_white;
 
-                mvwprintz( w_test_rule_content, i - start_pos, 0, line_color, "%d", i + 1 );
-                mvwprintz( w_test_rule_content, i - start_pos, 4, line_color, "" );
+                mvwprintz( w_test_rule_content, point( 0, i - start_pos ), line_color, "%d", i + 1 );
+                mvwprintz( w_test_rule_content, point( 4, i - start_pos ), line_color, "" );
 
                 wprintz( w_test_rule_content, c_yellow, ( line == i ) ? ">> " : "   " );
 

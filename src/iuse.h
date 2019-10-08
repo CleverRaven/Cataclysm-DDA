@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+#include "clone_ptr.h"
 #include "units.h"
 
 class item;
@@ -15,7 +16,7 @@ class monster;
 template<typename T> class ret_val;
 struct iteminfo;
 
-typedef std::string itype_id;
+using itype_id = std::string;
 struct tripoint;
 
 // iuse methods returning a bool indicating whether to consume a charge of the item being used.
@@ -69,7 +70,6 @@ class iuse
         int feedcattle( player *, item *, bool, const tripoint & );
         int feedbird( player *, item *, bool, const tripoint & );
         // TOOLS
-        int sew_advanced( player *, item *, bool, const tripoint & );
         int extinguisher( player *, item *, bool, const tripoint & );
         int hammer( player *, item *, bool, const tripoint & );
         int water_purifier( player *, item *, bool, const tripoint & );
@@ -105,6 +105,7 @@ class iuse
         int e_combatsaw_on( player *, item *, bool, const tripoint & );
         int jackhammer( player *, item *, bool, const tripoint & );
         int pickaxe( player *, item *, bool, const tripoint & );
+        int burrow( player *, item *, bool, const tripoint & );
         int geiger( player *, item *, bool, const tripoint & );
         int teleport( player *, item *, bool, const tripoint & );
         int can_goo( player *, item *, bool, const tripoint & );
@@ -132,13 +133,17 @@ class iuse
         int shocktonfa_on( player *, item *, bool, const tripoint & );
         int mp3( player *, item *, bool, const tripoint & );
         int mp3_on( player *, item *, bool, const tripoint & );
+        int rpgdie( player *, item *, bool, const tripoint & );
         int dive_tank( player *, item *, bool, const tripoint & );
         int gasmask( player *, item *, bool, const tripoint & );
         int portable_game( player *, item *, bool, const tripoint & );
         int vibe( player *, item *, bool, const tripoint & );
+        int hand_crank( player *, item *, bool, const tripoint & );
         int vortex( player *, item *, bool, const tripoint & );
         int dog_whistle( player *, item *, bool, const tripoint & );
+        int call_of_tindalos( player *, item *, bool, const tripoint & );
         int blood_draw( player *, item *, bool, const tripoint & );
+        int mind_splicer( player *, item *, bool, const tripoint & );
         static void cut_log_into_planks( player & );
         int lumber( player *, item *, bool, const tripoint & );
         int chop_tree( player *, item *, bool, const tripoint & );
@@ -172,6 +177,7 @@ class iuse
         int rm13armor_off( player *, item *, bool, const tripoint & );
         int rm13armor_on( player *, item *, bool, const tripoint & );
         int unpack_item( player *, item *, bool, const tripoint & );
+        int pack_cbm( player *p, item *it, bool, const tripoint & );
         int pack_item( player *, item *, bool, const tripoint & );
         int radglove( player *, item *, bool, const tripoint & );
         int robotcontrol( player *, item *, bool, const tripoint & );
@@ -180,12 +186,16 @@ class iuse
         int einktabletpc( player *, item *, bool, const tripoint & );
         int camera( player *, item *, bool, const tripoint & );
         int ehandcuffs( player *, item *, bool, const tripoint & );
+        int foodperson( player *, item *, bool, const tripoint & );
         int cable_attach( player *, item *, bool, const tripoint & );
         int shavekit( player *, item *, bool, const tripoint & );
         int hairkit( player *, item *, bool, const tripoint & );
         int weather_tool( player *, item *, bool, const tripoint & );
         int ladder( player *, item *, bool, const tripoint & );
-        int washclothes( player *, item *, bool, const tripoint & );
+        int wash_soft_items( player *, item *, bool, const tripoint & );
+        int wash_hard_items( player *, item *, bool, const tripoint & );
+        int wash_all_items( player *, item *, bool, const tripoint & );
+        int wash_items( player *p, bool soft_items, bool hard_items );
         int solarpack( player *, item *, bool, const tripoint & );
         int solarpack_off( player *, item *, bool, const tripoint & );
         int break_stick( player *, item *, bool, const tripoint & );
@@ -195,12 +205,16 @@ class iuse
         int magnesium_tablet( player *, item *, bool, const tripoint & );
         int coin_flip( player *, item *, bool, const tripoint & );
         int magic_8_ball( player *, item *, bool, const tripoint & );
+        int gobag_normal( player *, item *, bool, const tripoint & );
+        int gobag_personal( player *, item *, bool, const tripoint & );
 
         // MACGUFFINS
 
         int radiocar( player *, item *, bool, const tripoint & );
         int radiocaron( player *, item *, bool, const tripoint & );
         int radiocontrol( player *, item *, bool, const tripoint & );
+
+        int autoclave( player *, item *, bool, const tripoint & );
 
         int multicooker( player *, item *, bool, const tripoint & );
 
@@ -218,11 +232,15 @@ class iuse
 
         // Helper for listening to music, might deserve a better home, but not sure where.
         static void play_music( player &p, const tripoint &source, int volume, int max_morale );
+        static int towel_common( player *, item *, bool );
 
         // Helper for handling pesky wannabe-artists
-        static int handle_ground_graffiti( player &p, item *it, const std::string &prefix );
+        static int handle_ground_graffiti( player &p, item *it, const std::string &prefix,
+                                           const tripoint &where );
 
 };
+
+void remove_radio_mod( item &it, player &p );
 
 // Helper for clothes washing
 struct washing_requirements {
@@ -232,13 +250,12 @@ struct washing_requirements {
 };
 washing_requirements washing_requirements_for_volume( units::volume );
 
-typedef int ( iuse::*use_function_pointer )( player *, item *, bool, const tripoint & );
+using use_function_pointer = int ( iuse::* )( player *, item *, bool, const tripoint & );
 
 class iuse_actor
 {
-
     protected:
-        iuse_actor( const std::string &type, long cost = -1 ) : type( type ), cost( cost ) {}
+        iuse_actor( const std::string &type, int cost = -1 ) : type( type ), cost( cost ) {}
 
     public:
         /**
@@ -248,25 +265,25 @@ class iuse_actor
         const std::string type;
 
         /** Units of ammo required per invocation (or use value from base item if negative) */
-        long cost;
+        int cost;
 
         virtual ~iuse_actor() = default;
         virtual void load( JsonObject &jo ) = 0;
-        virtual long use( player &, item &, bool, const tripoint & ) const = 0;
+        virtual int use( player &, item &, bool, const tripoint & ) const = 0;
         virtual ret_val<bool> can_use( const player &, const item &, bool, const tripoint & ) const;
         virtual void info( const item &, std::vector<iteminfo> & ) const {}
         /**
          * Returns a deep copy of this object. Example implementation:
          * \code
          * class my_iuse_actor {
-         *     iuse_actor *clone() const override {
-         *         return new my_iuse_actor( *this );
+         *     std::unique_ptr<iuse_actor> clone() const override {
+         *         return std::make_unique<my_iuse_actor>( *this );
          *     }
          * };
          * \endcode
          * The returned value should behave like the original item and must have the same type.
          */
-        virtual iuse_actor *clone() const = 0;
+        virtual std::unique_ptr<iuse_actor> clone() const = 0;
         /**
          * Returns whether the actor is valid (exists in the generator).
          */
@@ -283,21 +300,21 @@ class iuse_actor
 
 struct use_function {
     protected:
-        std::unique_ptr<iuse_actor> actor;
+        cata::clone_ptr<iuse_actor> actor;
 
     public:
         use_function() = default;
         use_function( const std::string &type, use_function_pointer f );
-        use_function( iuse_actor *f ) : actor( f ) {}
-        use_function( use_function && ) = default;
-        use_function( const use_function &other );
+        use_function( std::unique_ptr<iuse_actor> f ) : actor( std::move( f ) ) {}
 
-        ~use_function() = default;
+        int call( player &, item &, bool, const tripoint & ) const;
+        ret_val<bool> can_call( const player &, const item &, bool t, const tripoint &pos ) const;
 
-        long call( player &, item &, bool, const tripoint & ) const;
-        ret_val<bool> can_call( const player &p, const item &it, bool t, const tripoint &pos ) const;
+        iuse_actor *get_actor_ptr() {
+            return actor.get();
+        }
 
-        iuse_actor *get_actor_ptr() const {
+        const iuse_actor *get_actor_ptr() const {
             return actor.get();
         }
 
@@ -311,10 +328,6 @@ struct use_function {
         std::string get_name() const;
         /** @return Used by @ref item::info to get description of the actor */
         void dump_info( const item &, std::vector<iteminfo> & ) const;
-
-        use_function &operator=( iuse_actor *f );
-        use_function &operator=( use_function && ) = default;
-        use_function &operator=( const use_function &other );
 };
 
 #endif

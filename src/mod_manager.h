@@ -2,7 +2,7 @@
 #ifndef MOD_MANAGER_H
 #define MOD_MANAGER_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <set>
 #include <string>
@@ -15,7 +15,7 @@
 
 struct WORLD;
 
-typedef WORLD *WORLDPTR;
+using WORLDPTR = WORLD *;
 class dependency_tree;
 class JsonObject;
 class mod_manager;
@@ -67,7 +67,7 @@ struct MOD_INFORMATION {
 class mod_manager
 {
     public:
-        typedef std::vector<mod_id> t_mod_list;
+        using t_mod_list = std::vector<mod_id>;
 
         mod_manager();
         ~mod_manager();
@@ -125,7 +125,7 @@ class mod_manager
          * @returns path of a file in the world folder that contains
          * the list of mods that should be loaded for this world.
          */
-        static std::string get_mods_list_file( const WORLDPTR world );
+        static std::string get_mods_list_file( WORLDPTR world );
         /**
          * Load all modinfo.json files (recursively) from the
          * given root.
@@ -169,7 +169,7 @@ class mod_manager
 class mod_ui
 {
     public:
-        mod_ui( mod_manager &modman );
+        mod_ui( mod_manager &mman );
 
         std::string get_information( const MOD_INFORMATION *mod );
         mod_manager &active_manager;
@@ -180,8 +180,8 @@ class mod_ui
         void try_rem( size_t selection, std::vector<mod_id> &active_list );
         void try_shift( char direction, size_t &selection, std::vector<mod_id> &active_list );
 
-        bool can_shift_up( long selection, const std::vector<mod_id> &active_list );
-        bool can_shift_down( long selection, const std::vector<mod_id> &active_list );
+        bool can_shift_up( size_t selection, const std::vector<mod_id> &active_list );
+        bool can_shift_down( size_t selection, const std::vector<mod_id> &active_list );
 };
 
 #endif

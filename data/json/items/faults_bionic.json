@@ -1,0 +1,11 @@
+[
+  {
+    "id": "fault_bionic_salvaged",
+    "type": "fault",
+    "name": "Already deployed",
+    "description": "This bionic needs to be reset to its factory state.",
+    "time": "45 m",
+    "skills": [ [ "mechanics", 3 ], [ "electronics", 2 ], [ "firstaid", 4 ] ],
+    "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ] }
+  }
+]

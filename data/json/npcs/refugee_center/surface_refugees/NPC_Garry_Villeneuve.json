@@ -1,0 +1,156 @@
+[
+  {
+    "type": "npc",
+    "id": "refugee_GarryVilleneuve",
+    "name_unique": "Garry Villeneuve",
+    "gender": "male",
+    "name_suffix": "refugee",
+    "class": "NC_REFUGEE_Garry",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_Garry_1",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_REFUGEE_Garry",
+    "name": "Refugee",
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "Garry is a Stan's older brother.  He's grateful he's made it to help support his brother, but he's very worried about Stan.",
+    "bonus_str": { "rng": [ 0, 4 ] },
+    "bonus_dex": { "rng": [ -1, 3 ] },
+    "bonus_int": { "rng": [ -1, 3 ] },
+    "bonus_per": { "rng": [ -2, 2 ] },
+    "worn_override": "REFUGEE_Garry_worn",
+    "carry_override": "REFUGEE_Garry_carried",
+    "weapon_override": "REFUGEE_Garry_wield",
+    "traits": [ { "trait": "MYOPIC" }, { "group": "Appearance_Germanic" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 3, 4 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 1, 2 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Garry_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "boxer_shorts" },
+      { "item": "socks" },
+      { "item": "longshirt" },
+      { "item": "long_knit_scarf_loose" },
+      { "item": "pants" },
+      { "item": "jacket_windbreaker" },
+      { "item": "hat_ball" },
+      { "item": "glasses_eye" },
+      { "item": "sneakers" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Garry_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "duct_tape" }, { "item": "superglue" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "REFUGEE_Garry_wield",
+    "subtype": "collection",
+    "entries": [ { "item": "hatchet" } ]
+  },
+  {
+    "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [
+      "TALK_REFUGEE_Garry_2",
+      "TALK_REFUGEE_Garry_Background",
+      "TALK_REFUGEE_Garry_Background_loss",
+      "TALK_REFUGEE_Garry_Situation"
+    ],
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_REFUGEE_Garry_Background" },
+      { "text": "How are things here?", "topic": "TALK_REFUGEE_Garry_Situation" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Garry_1",
+    "dynamic_line": {
+      "u_has_var": "u_met_Garry_Villeneuve",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
+      "yes": [ "Hello again.", "Well, hello.", "Good to see you again." ],
+      "no": "Hi.  Hi there.  I'm Garry, Garry Villeneuve."
+    },
+    "responses": [
+      {
+        "text": "Nice to meet you, Garry.",
+        "effect": { "u_add_var": "u_met_Garry_Villeneuve", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Garry_Villeneuve", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_REFUGEE_Garry_1_firstmeet"
+      },
+      {
+        "text": "Hi, Garry.  What's up?",
+        "topic": "TALK_REFUGEE_Garry_2",
+        "condition": { "u_has_var": "u_met_Garry_Villeneuve", "type": "general", "context": "meeting", "value": "yes" }
+      },
+      {
+        "text": "Hi Garry, nice to meet you.  I gotta go though.",
+        "effect": { "u_add_var": "u_met_Garry_Villeneuve", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Garry_Villeneuve", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Hi Garry.  I can't stay to talk.",
+        "condition": { "u_has_var": "u_met_Garry_Villeneuve", "type": "general", "context": "meeting", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Garry_1_firstmeet",
+    "dynamic_line": "Nice to meet you too.  Are you staying here, or something?",
+    "responses": [
+      { "text": "No, I'm a traveller.  What's up with you?", "topic": "TALK_REFUGEE_Garry_2" },
+      { "text": "Nope, in fact I'm leaving right now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Garry_2",
+    "dynamic_line": "Doing my best to keep going in the face of... everything.  Not getting far.",
+    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Garry_Background",
+    "dynamic_line": "Before the apocalypse I was an electrician.  Boris here is my brother-in-law, and we were a decent contractor team.  When the evacuations sounded, we left together with our... with our families.  We got stuck into a crowded evac shelter, then onto a crowded bus.  Then... everything went wrong.  The bus was attacked, destroyed.  Nearly everyone died.  A few of us made it back... not enough.",
+    "responses": [
+      { "text": "You lost someone...", "topic": "TALK_REFUGEE_Garry_Background_loss" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Garry_Background_loss",
+    "dynamic_line": "Yes.  My wife, Linda... thrown from the bus.  She didn't make it.  And... and my nephew, Ash, Boris and Stan's son.  We got him here, but there wasn't anything we could do.  Internal injuries.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Garry_Situation",
+    "dynamic_line": "It's tense here, but I don't know.  Stan, Boris and I have been pretty insular.  I guess we'd better get to know some of the others here eventually.  It feels it should be a temporary stop, but it's starting to look like we'll be here for the long term.  If we live that long.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  }
+]

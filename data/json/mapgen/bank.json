@@ -34,7 +34,7 @@
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt", "t_shrub" ],
-        "#": "t_wall",
+        "#": "t_wall_w",
         "$": "t_metal_floor",
         "%": [ "t_door_c", "t_door_c", "t_door_locked_interior" ],
         "*": [ "t_door_c", "t_door_c", "t_door_c", "t_door_locked_interior" ],
@@ -170,8 +170,8 @@
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "_": "t_metal_floor",
-        "|": [ "t_door_c", "t_wall", "t_wall", "t_wall", "t_wall", "t_wall", "t_wall", "t_wall", "t_wall" ],
-        "I": "t_wall",
+        "|": [ "t_door_c", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w" ],
+        "I": "t_wall_w",
         "#": "t_brick_wall",
         "$": "t_metal_floor",
         "%": [ "t_door_c", "t_door_c", "t_door_locked_interior" ],
@@ -221,6 +221,7 @@
       "computers": {
         "6": {
           "name": "High Security Consolidated Computerized Bank of the Treasury",
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!",
           "security": 4,
           "options": [ { "name": "Open Vault", "action": "unlock" } ],
           "failures": [ { "action": "alarm" }, { "action": "damage" }, { "action": "secubots" } ]

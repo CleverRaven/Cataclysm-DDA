@@ -6,6 +6,7 @@
 #include <string>
 #include <utility>
 
+#include "point.h"
 #include "string_formatter.h"
 
 class nc_color;
@@ -90,20 +91,20 @@ using attr_t = unsigned short;
 
 extern window stdscr;
 
-window newwin( int nlines, int ncols, int begin_y, int begin_x );
+window newwin( int nlines, int ncols, const point &begin );
 void wborder( const window &win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
               chtype bl, chtype br );
-void mvwhline( const window &win, int y, int x, chtype ch, int n );
-void mvwvline( const window &win, int y, int x, chtype ch, int n );
+void mvwhline( const window &win, const point &p, chtype ch, int n );
+void mvwvline( const window &win, const point &p, chtype ch, int n );
 void wrefresh( const window &win );
 void refresh();
 void wredrawln( const window &win, int beg_line, int num_lines );
-void mvwprintw( const window &win, int y, int x, const std::string &text );
+void mvwprintw( const window &win, const point &p, const std::string &text );
 template<typename ...Args>
-inline void mvwprintw( const window &win, const int y, const int x, const char *const fmt,
+inline void mvwprintw( const window &win, const point &p, const char *const fmt,
                        Args &&... args )
 {
-    return mvwprintw( win, y, x, string_format( fmt, std::forward<Args>( args )... ) );
+    return mvwprintw( win, p, string_format( fmt, std::forward<Args>( args )... ) );
 }
 
 void wprintw( const window &win, const std::string &text );
@@ -116,16 +117,16 @@ inline void wprintw( const window &win, const char *const fmt, Args &&... args )
 void resizeterm();
 void werase( const window &win );
 void init_pair( short pair, base_color f, base_color b );
-void wmove( const window &win, int y, int x );
+void wmove( const window &win, const point &p );
 void clear();
 void erase();
 void endwin();
-void mvwaddch( const window &win, int y, int x, const chtype ch );
+void mvwaddch( const window &win, const point &p, chtype ch );
 void wclear( const window &win );
 void curs_set( int visibility );
 void wattron( const window &win, const nc_color &attrs );
 void wattroff( const window &win, int attrs );
-void waddch( const window &win, const chtype ch );
+void waddch( const window &win, chtype ch );
 int getmaxy( const window &win );
 int getmaxx( const window &win );
 int getbegx( const window &win );

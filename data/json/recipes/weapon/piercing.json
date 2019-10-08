@@ -6,7 +6,7 @@
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": 60000,
+    "time": "60 m",
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
@@ -25,10 +25,57 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "skills_required": [ "melee", 1 ],
-    "time": 60000,
+    "time": "60 m",
     "autolearn": true,
     "using": [ [ "welding_standard", 2 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "pipe", 1 ] ] ]
+  },
+  {
+    "result": "grip_hook",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": 60000,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 2 ], [ "steel_tiny", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "spike", 1 ] ] ]
+  },
+  {
+    "result": "ji",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": 50000,
+    "book_learn": [ [ "textbook_armschina", 5 ] ],
+    "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "scrap_bronze", 4 ] ],
+      [ [ "stick_long", 1 ] ],
+      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
+    ]
+  },
+  {
+    "result": "spear_dory",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": 30000,
+    "book_learn": [ [ "textbook_weapwest", 4 ] ],
+    "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "scrap_bronze", 2 ] ],
+      [ [ "stick_long", 1 ] ],
+      [ [ "rag", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
+    ]
   }
 ]

@@ -1,0 +1,19 @@
+[
+  {
+    "type": "construction",
+    "description": "Build Translocator Gate",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 6 ], [ "spellcraft", 6 ] ],
+    "time": "360 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [
+      [ [ "wood_sheet", 2 ], [ "wood_panel", 4 ] ],
+      [ [ "2x4", 4 ] ],
+      [ [ "nail", 24 ] ],
+      [ [ "teleporter", 1 ] ],
+      [ [ "sheet", 2 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_magiclysm_translocator_gate"
+  }
+]

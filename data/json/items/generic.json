@@ -1,15 +1,18 @@
 [
   {
     "type": "GENERIC",
-    "id": "corpse",
-    "symbol": "%",
+    "//": "pseudo item, used as fuel type for engines that are animal-powered",
+    "id": "animal",
+    "symbol": "?",
     "color": "white",
-    "name": "corpse",
-    "description": "A dead body.",
-    "//": "most of the properties depend on the monster type and are created at runtime!",
+    "name": "animal",
+    "name_plural": "none",
+    "description": "seeing this is a bug",
+    "stackable": true,
     "price": 0,
     "volume": 0,
-    "flags": [ "NO_UNLOAD", "TRADER_AVOID" ]
+    "flags": [ "PSEUDO", "PERPETUAL" ],
+    "fuel": { "energy": 1 }
   },
   {
     "type": "GENERIC",
@@ -86,13 +89,27 @@
     "name": "file",
     "category": "books",
     "description": "Several documents with all kinds of information, customer data and charts kept together, pretty useless now though.",
-    "weight": 15,
+    "weight": "15 g",
     "to_hit": -3,
     "color": "white",
     "symbol": ",",
     "material": [ "paper" ],
-    "volume": 1,
+    "volume": "250 ml",
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "fp_loyalty_card",
+    "category": "other",
+    "symbol": "-",
+    "color": "pink",
+    "name": "foodplace loyalty card",
+    "description": "A bright pink loyalty card, all the points are stamped.  This would definitely prove your fidelity to Foodplace, if it still meant anything...",
+    "price": 0,
+    "material": "paper",
+    "flags": "TRADER_AVOID",
+    "weight": "3 g",
+    "volume": 0
   },
   {
     "type": "GENERIC",
@@ -100,10 +117,10 @@
     "symbol": "%",
     "color": "light_gray",
     "name": "withered plant",
-    "description": "A dead plant.  Good for starting fires.",
+    "description": "A dead plant.  Good for starting fires or making a pile of leaves to sleep on.",
     "material": "paper",
-    "weight": 20,
-    "volume": 1,
+    "weight": "20 g",
+    "volume": "250 ml",
     "to_hit": -2,
     "flags": [ "TRADER_AVOID" ]
   },
@@ -117,8 +134,8 @@
     "price": 1000,
     "material": [ "fur", "leather" ],
     "flags": [ "NO_SALVAGE" ],
-    "weight": 114,
-    "volume": 1,
+    "weight": "114 g",
+    "volume": "250 ml",
     "category": "spare_parts"
   },
   {
@@ -141,8 +158,8 @@
     "price": 2000,
     "material": [ "leather", "flesh" ],
     "flags": [ "NO_SALVAGE" ],
-    "weight": 100,
-    "volume": 1,
+    "weight": "100 g",
+    "volume": "250 ml",
     "category": "spare_parts",
     "to_hit": -1
   },
@@ -157,8 +174,8 @@
     "price": 2000,
     "material": [ "wool" ],
     "flags": [ "NO_SALVAGE" ],
-    "weight": 100,
-    "volume": 1,
+    "weight": "100 g",
+    "volume": "250 ml",
     "category": "spare_parts",
     "to_hit": -1
   },
@@ -175,8 +192,8 @@
     "price_postapoc": 200,
     "material": [ "nomex" ],
     "flags": [ "NO_SALVAGE" ],
-    "weight": 42,
-    "volume": 1
+    "weight": "42 g",
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -188,8 +205,8 @@
     "description": "A tube of strong glue.  Used in many crafting recipes.",
     "price": 1800,
     "material": "plastic",
-    "weight": 45,
-    "volume": 1,
+    "weight": "45 g",
+    "volume": "250 ml",
     "to_hit": -2,
     "flags": [ "UNRECOVERABLE" ]
   },
@@ -203,10 +220,10 @@
     "description": "Glue made from boiling animal bones.  The adhesive isn't strong enough for heavy duty usages, but it can be used as a varnish or holding together small items.",
     "price": 1800,
     "material": "bone",
-    "weight": 45,
-    "volume": 1,
+    "weight": "45 g",
+    "volume": "250 ml",
     "to_hit": -2,
-    "flags": [ "UNRECOVERABLE" ]
+    "flags": [ "UNRECOVERABLE", "NO_SALVAGE" ]
   },
   {
     "type": "GENERIC",
@@ -223,12 +240,12 @@
     "category": "spare_parts",
     "name": "steel chain",
     "description": "A heavy steel chain.  Useful as a weapon, or for crafting.  It has a chance to wrap around your target, allowing for a bonus unarmed attack.",
-    "weight": 3628,
+    "weight": "3628 g",
     "color": "dark_gray",
     "symbol": "/",
     "material": [ "steel" ],
     "techniques": [ "WRAP" ],
-    "volume": 4,
+    "volume": "1 L",
     "bashing": 12,
     "price": 8000
   },
@@ -243,10 +260,26 @@
     "description": "A piece of an insect's exoskeleton.  It is light and very durable.",
     "price": 0,
     "material": "chitin",
-    "weight": 89,
-    "volume": 1,
+    "weight": "89 g",
+    "volume": "250 ml",
     "bashing": 1,
     "to_hit": -2
+  },
+  {
+    "type": "GENERIC",
+    "id": "ceramicdisks",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "set of 100 ceramic disk",
+    "name_plural": "ceramic disks",
+    "description": "A set of small slightly elongated disks, made of high-grade ceramic. They remind you of scales",
+    "price": 0,
+    "material": "lightceramic",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "bashing": 1,
+    "to_hit": -3
   },
   {
     "type": "GENERIC",
@@ -266,8 +299,8 @@
     "name": "bundle of rags",
     "name_plural": "bundles of rags",
     "description": "Cotton rags, bundled tightly together for storage.  Disassemble to unpack.",
-    "weight": 800,
-    "volume": 3,
+    "weight": "800 g",
+    "volume": "750 ml",
     "price": 0,
     "material": "cotton",
     "symbol": ",",
@@ -280,8 +313,8 @@
     "name": "bundle of leather",
     "name_plural": "bundles of leather",
     "description": "Leather patches, bundled tightly together for storage.  Disassemble to unpack.",
-    "weight": 1000,
-    "volume": 4,
+    "weight": "1000 g",
+    "volume": "1 L",
     "price": 20000,
     "material": "leather",
     "symbol": ",",
@@ -294,8 +327,8 @@
     "name": "bundle of felt",
     "name_plural": "bundles of felt",
     "description": "Felt patches, bundled tightly together for storage.  Disassemble to unpack.",
-    "weight": 1000,
-    "volume": 4,
+    "weight": "1000 g",
+    "volume": "1 L",
     "price": 20000,
     "material": "wool",
     "symbol": ",",
@@ -310,8 +343,8 @@
     "description": "An unopened biollante flower, brilliant purple in color.  It may still have its sap-producing organ intact.",
     "price": 0,
     "material": "veggy",
-    "weight": 60,
-    "volume": 1,
+    "weight": "60 g",
+    "volume": "250 ml",
     "to_hit": -3
   },
   {
@@ -322,8 +355,8 @@
     "name": "empty canister",
     "description": "An empty canister, which may have once held tear gas or other substances.",
     "material": "steel",
-    "weight": 158,
-    "volume": 1,
+    "weight": "158 g",
+    "volume": "250 ml",
     "bashing": 2,
     "to_hit": -1,
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
@@ -339,8 +372,8 @@
     "price": 200000,
     "price_postapoc": 1000,
     "material": "stone",
-    "weight": 907,
-    "volume": 1,
+    "weight": "907 g",
+    "volume": "250 ml",
     "bashing": 6,
     "to_hit": -1,
     "qualities": [ [ "HAMMER", 1 ] ]
@@ -356,8 +389,8 @@
     "price": 20000,
     "price_postapoc": 1000,
     "material": "stone",
-    "weight": 493,
-    "volume": 1,
+    "weight": "493 g",
+    "volume": "250 ml",
     "bashing": 6,
     "to_hit": -1,
     "qualities": [ [ "HAMMER", 1 ] ]
@@ -372,7 +405,21 @@
     "price": 10000,
     "price_postapoc": 100,
     "material": "plastic",
-    "weight": 18,
+    "weight": "18 g",
+    "volume": 0,
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "data_card",
+    "symbol": ",",
+    "color": "white",
+    "name": "data card",
+    "description": "Some type of advanced data storage device.  Useful for storing very large amounts of information.",
+    "price": 10000,
+    "price_postapoc": 100,
+    "material": "plastic",
+    "weight": "18 g",
     "volume": 0,
     "to_hit": -3
   },
@@ -382,8 +429,8 @@
     "category": "other",
     "name": "golf tee",
     "description": "A pin shaped piece of wood meant for holding a golf ball slightly off the ground.",
-    "weight": 3,
-    "volume": 1,
+    "weight": "3 g",
+    "volume": "250 ml",
     "price": 1000,
     "material": "wood",
     "symbol": "-",
@@ -395,8 +442,8 @@
     "category": "other",
     "name": "golf ball",
     "description": "A small ball with round indentations on it.",
-    "weight": 50,
-    "volume": 1,
+    "weight": "50 g",
+    "volume": "250 ml",
     "price": 2000,
     "material": "plastic",
     "symbol": "*",
@@ -415,8 +462,8 @@
     "price": 3000,
     "price_postapoc": 0,
     "material": "plastic",
-    "weight": 170,
-    "volume": 1,
+    "weight": "170 g",
+    "volume": "250 ml",
     "bashing": 8,
     "to_hit": -3
   },
@@ -430,8 +477,8 @@
     "category": "other",
     "price": 30,
     "material": "ceramic",
-    "weight": 2000,
-    "volume": 10,
+    "weight": "2000 g",
+    "volume": "2500 ml",
     "bashing": 16,
     "to_hit": -2
   },
@@ -446,8 +493,8 @@
     "price": 10000,
     "price_postapoc": 100,
     "material": "gold",
-    "weight": 1500,
-    "volume": 1,
+    "weight": "1500 g",
+    "volume": "250 ml",
     "bashing": 9
   },
   {
@@ -461,8 +508,8 @@
     "price": 28000,
     "price_postapoc": 1000,
     "material": "steel",
-    "weight": 553,
-    "volume": 3,
+    "weight": "553 g",
+    "volume": "750 ml",
     "bashing": 6,
     "cutting": 8,
     "to_hit": -2,
@@ -479,8 +526,8 @@
     "price": 28000,
     "price_postapoc": 1000,
     "material": "steel",
-    "weight": 1000,
-    "volume": 6,
+    "weight": "1000 g",
+    "volume": "1500 ml",
     "bashing": 6,
     "cutting": 8,
     "to_hit": -2,
@@ -497,8 +544,8 @@
     "price": 20000,
     "price_postapoc": 1000,
     "material": "steel",
-    "weight": 349,
-    "volume": 1,
+    "weight": "349 g",
+    "volume": "250 ml",
     "cutting": 14,
     "flags": [ "HURT_WHEN_WIELDED" ],
     "to_hit": -4
@@ -513,7 +560,7 @@
     "category": "tools",
     "price": 5,
     "material": "steel",
-    "weight": 11,
+    "weight": "11 g",
     "volume": 0
   },
   {
@@ -527,8 +574,8 @@
     "price": 20000,
     "price_postapoc": 300,
     "material": "steel",
-    "weight": 151,
-    "volume": 2,
+    "weight": "151 g",
+    "volume": "500 ml",
     "to_hit": -2
   },
   {
@@ -541,9 +588,23 @@
     "price": 20000,
     "price_postapoc": 500,
     "material": "steel",
-    "weight": 302,
-    "volume": 2,
+    "weight": "302 g",
+    "volume": "500 ml",
     "to_hit": -2
+  },
+  {
+    "type": "GENERIC",
+    "id": "wire_mesh",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "steel mesh",
+    "description": "A mat of woven fine steel wire, useful for dryer lint traps and reusable coffee filter baskets.  You could put these on a window to keep mosquitoes and other bugs out, but chainlink fencing will do these days.",
+    "category": "spare_parts",
+    "weight": "318 g",
+    "volume": "500 ml",
+    "price": 700,
+    "bashing": 2,
+    "material": "steel"
   },
   {
     "type": "GENERIC",
@@ -556,8 +617,8 @@
     "price": 7500,
     "price_postapoc": 1000,
     "material": "steel",
-    "weight": 908,
-    "volume": 6,
+    "weight": "908 g",
+    "volume": "1500 ml",
     "bashing": 12,
     "to_hit": 2,
     "qualities": [ [ "HAMMER", 1 ] ]
@@ -575,43 +636,9 @@
     "price": 10000,
     "price_postapoc": 100,
     "material": "powder",
-    "weight": 2340,
-    "volume": 4,
+    "weight": "2340 g",
+    "volume": "1 L",
     "bashing": 4
-  },
-  {
-    "type": "GENERIC",
-    "id": "log",
-    "symbol": "/",
-    "color": "brown",
-    "name": "log",
-    "description": "A large log, cut from a tree.  (a)ctivate a wood axe or wood saw to cut it into planks.",
-    "category": "other",
-    "price": 10000,
-    "price_postapoc": 100,
-    "material": "wood",
-    "weight": 9071,
-    "volume": 40,
-    "bashing": 10,
-    "to_hit": -10,
-    "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "FIREWOOD" ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "splinter",
-    "symbol": "/",
-    "color": "brown",
-    "name": "splintered wood",
-    "description": "A splintered piece of wood, could be used as a skewer or for kindling.",
-    "category": "other",
-    "material": "wood",
-    "weight": 453,
-    "volume": 1,
-    "bashing": 4,
-    "to_hit": 1,
-    "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID", "FIREWOOD" ]
   },
   {
     "type": "GENERIC",
@@ -623,7 +650,7 @@
     "category": "other",
     "material": "bone",
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
-    "weight": 10,
+    "weight": "10 g",
     "volume": 0,
     "to_hit": -5,
     "qualities": [ [ "COOK", 1 ] ]
@@ -638,8 +665,8 @@
     "description": "A torch that has consumed all its fuel; it can be recrafted into another torch.",
     "category": "other",
     "material": "wood",
-    "weight": 751,
-    "volume": 3,
+    "weight": "751 g",
+    "volume": "750 ml",
     "bashing": 8,
     "to_hit": 3,
     "flags": [ "TRADER_AVOID" ]
@@ -655,8 +682,8 @@
     "description": "This is a spent magnesium flare.  It is essentially trash.",
     "material": "plastic",
     "flags": "TRADER_AVOID",
-    "weight": 39,
-    "volume": 1,
+    "weight": "39 g",
+    "volume": "250 ml",
     "to_hit": -1
   },
   {
@@ -670,8 +697,8 @@
     "price": 1000,
     "price_postapoc": 100,
     "material": "iron",
-    "weight": 3220,
-    "volume": 3
+    "weight": "3220 g",
+    "volume": "750 ml"
   },
   {
     "type": "GENERIC",
@@ -684,8 +711,8 @@
     "price": 5000,
     "price_postapoc": 500,
     "material": "steel",
-    "weight": 8440,
-    "volume": 20
+    "weight": "8440 g",
+    "volume": "5 L"
   },
   {
     "type": "GENERIC",
@@ -698,8 +725,8 @@
     "price": 10000,
     "price_postapoc": 500,
     "material": [ "steel", "iron" ],
-    "weight": 22680,
-    "volume": 25,
+    "weight": "22680 g",
+    "volume": "6250 ml",
     "bashing": 6,
     "to_hit": -4
   },
@@ -712,8 +739,8 @@
     "description": "A small tent, just big enough to fit a person comfortably.  This tent is broken and cannot be deployed.",
     "price": 6500,
     "material": [ "plastic", "aluminum" ],
-    "weight": 1133,
-    "volume": 10,
+    "weight": "1133 g",
+    "volume": "2500 ml",
     "bashing": 4,
     "to_hit": -3,
     "flags": [ "TRADER_AVOID" ]
@@ -727,8 +754,8 @@
     "description": "A family sized tent, very bulky but with plenty of space.  This tent is broken and can not be deployed.",
     "price": 10000,
     "material": [ "plastic", "aluminum" ],
-    "weight": 2266,
-    "volume": 40,
+    "weight": "2266 g",
+    "volume": "10 L",
     "bashing": 4,
     "to_hit": -3,
     "flags": [ "TRADER_AVOID" ]
@@ -744,8 +771,8 @@
     "price": 1000,
     "price_postapoc": 100,
     "material": "iron",
-    "weight": 226,
-    "volume": 1
+    "weight": "226 g",
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -758,8 +785,8 @@
     "price": 1000,
     "price_postapoc": 100,
     "material": "iron",
-    "weight": 226,
-    "volume": 1
+    "weight": "226 g",
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -770,8 +797,8 @@
     "description": "A large cathode ray tube television, full of delicious electronics.",
     "price": 0,
     "material": "plastic",
-    "weight": 22600,
-    "volume": 12,
+    "weight": "22600 g",
+    "volume": "3 L",
     "bashing": 5,
     "to_hit": -5
   },
@@ -786,7 +813,7 @@
     "price": 1000,
     "price_postapoc": 50,
     "material": [ "aluminum", "plastic" ],
-    "weight": 5,
+    "weight": "5 g",
     "volume": 0
   },
   {
@@ -798,8 +825,8 @@
     "description": "A small two slice toaster, not much use as anything but spare parts",
     "price": 1000,
     "material": [ "aluminum", "plastic" ],
-    "weight": 725,
-    "volume": 3
+    "weight": "725 g",
+    "volume": "750 ml"
   },
   {
     "type": "GENERIC",
@@ -810,8 +837,8 @@
     "description": "A home microwave, has probably seen its share of baked beans.  Good for scrap parts.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": 11339,
-    "volume": 12
+    "weight": "11339 g",
+    "volume": "3 L"
   },
   {
     "type": "GENERIC",
@@ -819,11 +846,13 @@
     "symbol": ",",
     "color": "dark_gray",
     "name": "laptop computer",
+    "category": "other",
     "description": "A broken laptop, basically a paperweight now.",
     "price": 1000,
     "material": [ "plastic", "aluminum" ],
-    "weight": 2721,
-    "volume": 3
+    "weight": "2721 g",
+    "volume": "750 ml",
+    "bashing": 6
   },
   {
     "type": "GENERIC",
@@ -835,12 +864,12 @@
     "description": "A broken eyebot.  Much less threatening now that it won't be calling for backup.  Could be gutted for parts.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": 31520,
-    "volume": 60,
+    "weight": "31520 g",
+    "volume": "15 L",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -852,12 +881,12 @@
     "description": "A broken skitterbot.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": 62650,
-    "volume": 120,
+    "weight": "62650 g",
+    "volume": "30 L",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -869,12 +898,12 @@
     "description": "A broken lab defense bot, with its casing broken and fluid drained.  Could be gutted for parts.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": 100000,
+    "weight": "100000 g",
     "volume": "65000 ml",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -887,12 +916,72 @@
     "price": 30000,
     "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": 140000,
-    "volume": 250,
+    "weight": "140000 g",
+    "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_nursebot",
+    "symbol": ",",
+    "color": "dark_gray",
+    "name": "broken nurse bot",
+    "category": "other",
+    "description": "A broken nurse bot.  Its smooth face staring vacantly into empty space.  Could be gutted for parts.",
+    "price": 30000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "140000 g",
+    "volume": "62500 ml",
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_grocerybot",
+    "symbol": ",",
+    "color": "dark_gray",
+    "name": "broken grocery bot",
+    "category": "other",
+    "description": "A broken grocery bot.  Its smiling face staring vacantly into empty space.  Could be gutted for parts.",
+    "price": 30000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "140000 g",
+    "volume": "62500 ml",
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_grocerybot_busted",
+    "symbol": ",",
+    "color": "dark_gray",
+    "name": "broken grocery bot",
+    "category": "other",
+    "description": "The body of a busted grocery bot.  Its tarnished face is still smiling.  Could be gutted for parts.",
+    "price": 30000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "140000 g",
+    "volume": "62500 ml",
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_nursebot_defective",
+    "name": "broken nurse bot",
+    "copy-from": "broken_nursebot"
   },
   {
     "type": "GENERIC",
@@ -905,8 +994,26 @@
     "price": 30000,
     "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": 140000,
-    "volume": 250,
+    "weight": "140000 g",
+    "volume": "62500 ml",
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_robofac_prototype",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken prototype robot",
+    "category": "other",
+    "description": "A broken prototype robot, well more broken than before.  Could be gutted for parts.",
+    "price": 30000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "140000 g",
+    "volume": "62500 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
@@ -923,12 +1030,12 @@
     "price": 20000,
     "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": 170200,
-    "volume": 250,
+    "weight": "170200 g",
+    "volume": "62500 ml",
     "bashing": 6,
     "cutting": 10,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -940,12 +1047,12 @@
     "description": "A broken tribot.  Now that its legs lie broken and immobile, the world seems a little less threatening.  Could be gutted for parts.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": 430000,
-    "volume": 750,
+    "weight": "430000 g",
+    "volume": "187500 ml",
     "bashing": 10,
     "cutting": 6,
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -957,12 +1064,57 @@
     "description": "A broken tank drone.  Still looks intimidating despite being permanently inoperative, possibly due to the sheer size and mass.  Could be gutted for parts.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": 1223850,
-    "volume": 3500,
+    "weight": "1223850 g",
+    "volume": "875 L",
     "bashing": 20,
     "cutting": 15,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_mech_recon",
+    "name": "broken recon mech",
+    "description": "This is a broken mech exoskeleton suit, it looks beyond repair.",
+    "weight": "700388 g",
+    "volume": "125 L",
+    "price": 1000,
+    "to_hit": -3,
+    "bashing": 7,
+    "material": [ "superalloy" ],
+    "symbol": ";",
+    "color": "light_green",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_mech_lifter",
+    "name": "broken mech lifter",
+    "description": "This is a broken mech exoskeleton suit, it looks beyond repair.",
+    "weight": "1280388 g",
+    "volume": "250 L",
+    "price": 1000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "superalloy" ],
+    "symbol": ";",
+    "color": "light_green",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_mech_combat",
+    "name": "broken combat mech",
+    "description": "This is a broken mech exoskeleton suit, it looks beyond repair.",
+    "weight": "1480388 g",
+    "volume": "250 L",
+    "price": 1000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "superalloy" ],
+    "symbol": ";",
+    "color": "light_green",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -974,12 +1126,12 @@
     "description": "A broken riot dispatch, with its mesh midsection filled with fried manhacks and its motor limp and still.  Could be gutted for parts.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": 100000,
+    "weight": "100000 g",
     "volume": "85000 ml",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -991,12 +1143,12 @@
     "description": "A broken military dispatch.  Though the scratched, disarmed manhacks visible in its belly are disarmed, their destructive potential still inspires a spark of fear, even now.  Could be gutted for parts.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": 100000,
+    "weight": "100000 g",
     "volume": "85000 ml",
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1008,12 +1160,12 @@
     "description": "A broken manhack.  Much less threatening now that it lies limp on solid ground.  Could be gutted for parts.",
     "price": 1000,
     "material": [ "aluminum", "plastic" ],
-    "weight": 5400,
-    "volume": 3,
+    "weight": "5400 g",
+    "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1026,12 +1178,12 @@
     "price": 9000,
     "price_postapoc": 1000,
     "material": [ "aluminum", "plastic" ],
-    "weight": 4480,
-    "volume": 3,
+    "weight": "4480 g",
+    "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1044,12 +1196,12 @@
     "price": 18000,
     "price_postapoc": 1000,
     "material": [ "aluminum", "plastic" ],
-    "weight": 25000,
-    "volume": 75,
+    "weight": "25000 g",
+    "volume": "18750 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1062,12 +1214,12 @@
     "price": 9000,
     "price_postapoc": 1000,
     "material": [ "aluminum", "plastic" ],
-    "weight": 5360,
-    "volume": 3,
+    "weight": "5360 g",
+    "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1080,12 +1232,12 @@
     "price": 9000,
     "price_postapoc": 1000,
     "material": [ "aluminum", "plastic" ],
-    "weight": 4700,
-    "volume": 3,
+    "weight": "4700 g",
+    "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1098,12 +1250,12 @@
     "price": 9000,
     "price_postapoc": 1000,
     "material": [ "aluminum", "plastic" ],
-    "weight": 4536,
-    "volume": 3,
+    "weight": "4536 g",
+    "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1116,12 +1268,12 @@
     "price": 9000,
     "price_postapoc": 1000,
     "material": [ "aluminum", "plastic" ],
-    "weight": 5870,
-    "volume": 3,
+    "weight": "5870 g",
+    "volume": "750 ml",
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1133,8 +1285,8 @@
     "description": "A central processor unit, useful in advanced electronics crafting.",
     "price": 12000,
     "material": [ "plastic" ],
-    "weight": 56,
-    "volume": 1,
+    "weight": "56 g",
+    "volume": "250 ml",
     "to_hit": -1
   },
   {
@@ -1147,8 +1299,8 @@
     "description": "A stick of memory.  Useful in advanced electronics crafting.",
     "price": 9000,
     "material": [ "plastic" ],
-    "weight": 30,
-    "volume": 1,
+    "weight": "30 g",
+    "volume": "250 ml",
     "to_hit": -1
   },
   {
@@ -1161,8 +1313,8 @@
     "description": "A power supply unit.  Useful in lots of electronics recipes.",
     "price": 17000,
     "material": [ "aluminum", "plastic" ],
-    "weight": 113,
-    "volume": 4,
+    "weight": "113 g",
+    "volume": "1 L",
     "bashing": 5,
     "to_hit": -1
   },
@@ -1176,8 +1328,8 @@
     "description": "A circuit designed to amplify the strength of a signal.  Useful in lots of electronics recipes.",
     "price": 20000,
     "material": [ "plastic" ],
-    "weight": 114,
-    "volume": 1,
+    "weight": "114 g",
+    "volume": "250 ml",
     "to_hit": -1
   },
   {
@@ -1190,8 +1342,8 @@
     "description": "A circuit designed to repeat a signal.  Useful for crafting communications equipment.",
     "price": 14000,
     "material": [ "aluminum", "plastic" ],
-    "weight": 480,
-    "volume": 1,
+    "weight": "480 g",
+    "volume": "250 ml",
     "to_hit": -1
   },
   {
@@ -1204,8 +1356,8 @@
     "description": "A module designed to receive many forms of signals.  Useful for crafting communications equipment.",
     "price": 13500,
     "material": [ "aluminum", "plastic" ],
-    "weight": 114,
-    "volume": 1,
+    "weight": "114 g",
+    "volume": "250 ml",
     "to_hit": -1
   },
   {
@@ -1218,8 +1370,8 @@
     "description": "A small backlit screen, used for displaying images.  Useful in some electronics recipes.",
     "price": 24000,
     "material": "plastic",
-    "weight": 500,
-    "volume": 1,
+    "weight": "500 g",
+    "volume": "250 ml",
     "to_hit": -4
   },
   {
@@ -1233,7 +1385,7 @@
     "description": "A high-quality lens, useful for focusing or diffusing light.  Might be useful for starting a fire.",
     "price": 120000,
     "material": "glass",
-    "weight": 340,
+    "weight": "30 g",
     "volume": 0,
     "to_hit": -3,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 30000, "need_sunlight": true },
@@ -1250,7 +1402,7 @@
     "description": "A small high-quality lens, useful for focusing or diffusing light.  Might be useful for crafting.",
     "price": 6000,
     "material": "glass",
-    "weight": 170,
+    "weight": "15 g",
     "volume": 0
   },
   {
@@ -1264,7 +1416,7 @@
     "description": "A pair of small darkened glass, like the one that sunglasses are made of.",
     "price": 1000,
     "material": "glass",
-    "weight": 340,
+    "weight": "30 g",
     "volume": 0,
     "to_hit": -3
   },
@@ -1278,8 +1430,8 @@
     "description": "Once a valuable bionic implant, it has not held up well under repeated use.  This object has been destroyed by excessive electric current and is now useless.",
     "price": 13500,
     "material": [ "steel", "plastic" ],
-    "weight": 317,
-    "volume": 10,
+    "weight": "317 g",
+    "volume": "2500 ml",
     "to_hit": -1,
     "flags": [ "TRADER_AVOID" ]
   },
@@ -1294,10 +1446,22 @@
     "price": 150000,
     "price_postapoc": 15000,
     "material": [ "steel", "plastic" ],
-    "weight": 317,
-    "volume": 1,
+    "weight": "317 g",
+    "volume": "250 ml",
     "to_hit": -1,
     "flags": [ "NANOFAB_TEMPLATE", "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "template_photonics",
+    "copy-from": "standard_template_construct",
+    "color": "yellow",
+    "name": "nanofabricator template (silicon photonics)",
+    "description": "A state-of-the-art optical storage system, containing the instruction set required for the fabrication of complex silicon photonic circuitry.  The data within was once clearly worth millions, but now, you are not sure if it's anything more than a fancy, high-tech paperweight.",
+    "price": 200000000,
+    "//": "actually worth millions",
+    "price_postapoc": 350,
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "type": "GENERIC",
@@ -1309,8 +1473,8 @@
     "description": "A simple thin aluminum shaft.  Useful in lots of electronics recipes.",
     "price": 8000,
     "material": "aluminum",
-    "weight": 68,
-    "volume": 1,
+    "weight": "68 g",
+    "volume": "250 ml",
     "to_hit": 2
   },
   {
@@ -1323,8 +1487,8 @@
     "description": "A very small electric motor like those used in RC cars.  Useful in lots of electronics recipes.",
     "price": 1000,
     "material": [ "steel", "plastic" ],
-    "weight": 110,
-    "volume": 1
+    "weight": "110 g",
+    "volume": "250 ml"
   },
   {
     "type": "GENERIC",
@@ -1336,7 +1500,7 @@
     "description": "A printed card that supports and electrically connects electronic components on a non-conductive substrate.",
     "price": 5000,
     "material": "plastic",
-    "weight": 26,
+    "weight": "26 g",
     "volume": 0,
     "to_hit": 2
   },
@@ -1350,7 +1514,7 @@
     "description": "A random collection of resistors, capacitors, and diodes which have been stripped from printed circuits.",
     "price": 3000,
     "material": "aluminum",
-    "weight": 14,
+    "weight": "14 g",
     "volume": 0,
     "to_hit": 2
   },
@@ -1364,8 +1528,8 @@
     "description": "A system designed to convert a radio station into an autonomous repeater.",
     "price": 25000,
     "material": [ "aluminum", "plastic" ],
-    "weight": 21000,
-    "volume": 8,
+    "weight": "21000 g",
+    "volume": "2 L",
     "bashing": 4,
     "to_hit": 1
   },
@@ -1379,8 +1543,8 @@
     "price": 1000,
     "price_postapoc": 100,
     "material": [ "aluminum", "plastic" ],
-    "weight": 2857,
-    "volume": 4
+    "weight": "2857 g",
+    "volume": "1 L"
   },
   {
     "type": "GENERIC",
@@ -1393,8 +1557,8 @@
     "price": 8000,
     "price_postapoc": 1000,
     "material": "ceramic",
-    "weight": 362,
-    "volume": 2,
+    "weight": "362 g",
+    "volume": "500 ml",
     "bashing": 4
   },
   {
@@ -1407,8 +1571,8 @@
     "description": "A filled fish bowl, the tag says 'to Ed' and the fish's name, 'Hoss'.  The fish appears to have tiny antlers.",
     "price": 100,
     "material": "glass",
-    "weight": 7042,
-    "volume": 4,
+    "weight": "7042 g",
+    "volume": "1 L",
     "to_hit": -6
   },
   {
@@ -1420,8 +1584,20 @@
     "description": "A large rag, drenched in blood.  It could be cleaned with boiling water.",
     "material": "cotton",
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
-    "weight": 80,
-    "volume": 1
+    "weight": "80 g",
+    "volume": "250 ml"
+  },
+  {
+    "id": "pipe_cleaner",
+    "type": "GENERIC",
+    "name": "pipe cleaner",
+    "description": "This is a tool designed to clean interior surface of pipes, bottles, and similar objects.  This one is thin enough to be used for cleaning firearm barrels from dirt and fouling.",
+    "weight": "50 g",
+    "volume": "250 ml",
+    "price": 500,
+    "material": [ "steel", "cotton" ],
+    "symbol": ";",
+    "color": "light_gray"
   },
   {
     "type": "GENERIC",
@@ -1433,8 +1609,8 @@
     "price": 1000,
     "price_postapoc": 0,
     "material": [ "plastic", "steel" ],
-    "weight": 725,
-    "volume": 1,
+    "weight": "725 g",
+    "volume": "250 ml",
     "bashing": 4,
     "to_hit": -3
   },
@@ -1450,8 +1626,8 @@
     "price": 200,
     "price_postapoc": 0,
     "material": "steel",
-    "weight": 50,
-    "volume": 1
+    "weight": "50 g",
+    "volume": "250 ml"
   },
   {
     "id": "l_HFPack",
@@ -1463,8 +1639,8 @@
     "category": "other",
     "description": "This not-so-little bundle of joy contains Leadworks, LLC's premier offerings: the Enforcer autorevolver (with holster) and Long Ranger rifle.  Maintenance kit, batteries for same, and a complimentary copy of the Gun Owner's Handbook are included.  The perfect investment for a new family starting out!  Disassemble to unpack and enjoy.",
     "price": 463500,
-    "weight": 8932,
-    "volume": 18,
+    "weight": "8932 g",
+    "volume": "4500 ml",
     "to_hit": -2,
     "material": [ "wood", "steel" ]
   },
@@ -1478,8 +1654,8 @@
     "category": "other",
     "description": "A beautiful wooden stock and hardware built to support common Mosin-Nagant actions.  With gunsmithing tools, some skill, and a few hours, you could take a 'tacti-cool' rifle and convert it to the classic Russian design.",
     "price": 12000,
-    "weight": 2000,
-    "volume": 11,
+    "weight": "2000 g",
+    "volume": "2750 ml",
     "to_hit": -2,
     "material": [ "wood", "steel" ]
   },
@@ -1493,8 +1669,8 @@
     "category": "spare_parts",
     "description": "A synthetic stock and hardware designed to accommodate common Mosin-Nagant actions.  With gunsmithing tools, some skill, and a few hours, you could give the classic Russian design modern furniture and customization capacity.",
     "price": 12000,
-    "weight": 2000,
-    "volume": 11,
+    "weight": "2000 g",
+    "volume": "2750 ml",
     "to_hit": -2,
     "material": [ "plastic", "steel" ]
   },
@@ -1508,8 +1684,8 @@
     "category": "spare_parts",
     "description": "All the parts necessary to convert an L523 to the Carbine configuration, Leadworks LLC's choice for close-quarters work.  In order to reconfigure an already-configured L523, you'll need to disassemble it to the base platform, then assemble with the parts you prefer.",
     "price": 170000,
-    "weight": 400,
-    "volume": 2,
+    "weight": "400 g",
+    "volume": "500 ml",
     "to_hit": -2,
     "material": [ "steel", "plastic" ]
   },
@@ -1523,8 +1699,8 @@
     "category": "spare_parts",
     "description": "All the parts necessary to convert an L523 to a Main Battle Rifle, a balanced weapon for all situations.  In order to reconfigure an already-configured L523, you'll need to disassemble it to the base platform, then assemble with the parts you prefer.",
     "price": 170000,
-    "weight": 700,
-    "volume": 3,
+    "weight": "700 g",
+    "volume": "750 ml",
     "to_hit": -2,
     "material": [ "steel", "plastic" ]
   },
@@ -1538,8 +1714,8 @@
     "category": "spare_parts",
     "description": "All the parts necessary to convert an L523 to a Designated Shootist Rifle, suitable for long-ranged work.  In order to reconfigure an already-configured L523, you'll need to disassemble it to the base platform, then assemble with the parts you prefer.",
     "price": 200000,
-    "weight": 1900,
-    "volume": 10,
+    "weight": "1900 g",
+    "volume": "2500 ml",
     "to_hit": -2,
     "material": [ "steel", "plastic" ]
   },
@@ -1553,8 +1729,8 @@
     "category": "spare_parts",
     "description": "All the parts necessary to convert an L523 to a light machine gun.  In order to reconfigure an already-configured L523, you'll need to disassemble it to the base platform, then assemble with the parts you prefer.",
     "price": 270000,
-    "weight": 2300,
-    "volume": 11,
+    "weight": "2300 g",
+    "volume": "2750 ml",
     "to_hit": -2,
     "material": [ "steel", "plastic" ]
   },
@@ -1569,7 +1745,7 @@
     "price_postapoc": 0,
     "material": "plastic",
     "flags": [ "MC_MOBILE", "MC_RANDOM_STUFF", "MC_MAY_BE_ENCRYPTED", "MC_TURN_USED" ],
-    "weight": 5,
+    "weight": "5 g",
     "volume": 0
   },
   {
@@ -1584,7 +1760,7 @@
     "price_postapoc": 0,
     "material": "plastic",
     "flags": [ "MC_MOBILE", "MC_USED" ],
-    "weight": 5,
+    "weight": "5 g",
     "volume": 0
   },
   {
@@ -1599,7 +1775,7 @@
     "price_postapoc": 0,
     "material": "plastic",
     "flags": [ "MC_MOBILE", "MC_ENCRYPTED", "MC_TURN_USED" ],
-    "weight": 5,
+    "weight": "5 g",
     "volume": 0
   },
   {
@@ -1614,39 +1790,8 @@
     "price_postapoc": 0,
     "material": "plastic",
     "flags": [ "MC_MOBILE", "MC_ENCRYPTED", "MC_TURN_USED", "MC_SCIENCE_STUFF" ],
-    "weight": 5,
+    "weight": "5 g",
     "volume": 0
-  },
-  {
-    "type": "GENERIC",
-    "id": "scrap_copper",
-    "symbol": ",",
-    "color": "light_gray",
-    "name": "scrap copper",
-    "name_plural": "scrap copper",
-    "category": "spare_parts",
-    "description": "A small chunk of copper, usable for crafting or repairs.",
-    "price": 1000,
-    "material": "copper",
-    "weight": 200,
-    "volume": 1,
-    "bashing": 1,
-    "to_hit": -2
-  },
-  {
-    "type": "GENERIC",
-    "id": "glass_shard",
-    "symbol": ",",
-    "color": "light_cyan",
-    "name": "glass shard",
-    "category": "other",
-    "description": "A broken shard of glass covered in sharp edges.  You could use it as a weapon, but you might want to wear gloves.",
-    "material": "glass",
-    "weight": 89,
-    "volume": 1,
-    "cutting": 6,
-    "flags": [ "HURT_WHEN_WIELDED", "HURT_WHEN_PULLED", "TRADER_AVOID" ],
-    "to_hit": -1
   },
   {
     "type": "GENERIC",
@@ -1657,58 +1802,10 @@
     "description": "A small hand mirror.",
     "price": 15000,
     "material": "glass",
-    "weight": 300,
-    "volume": 3,
+    "weight": "300 g",
+    "volume": "750 ml",
     "bashing": 2,
     "to_hit": -3
-  },
-  {
-    "type": "GENERIC",
-    "id": "glass_sheet",
-    "symbol": "]",
-    "color": "light_cyan",
-    "name": "sheet of glass",
-    "name_plural": "sheets of glass",
-    "description": "A large sheet of glass.  Easily shattered.  Useful for repairing windows.",
-    "category": "spare_parts",
-    "price": 5000,
-    "material": "glass",
-    "weight": 24176,
-    "volume": 50,
-    "bashing": 4,
-    "to_hit": -5
-  },
-  {
-    "type": "GENERIC",
-    "id": "reinforced_glass_sheet",
-    "symbol": "]",
-    "color": "light_blue",
-    "name": "sheet of reinforced glass",
-    "name_plural": "sheets of reinforced glass",
-    "description": "A large sheet of glass strengthened with steel wiring.",
-    "category": "spare_parts",
-    "price": 10000,
-    "material": [ "glass", "steel" ],
-    "weight": 40123,
-    "volume": 50,
-    "bashing": 6,
-    "to_hit": -6
-  },
-  {
-    "type": "GENERIC",
-    "id": "reinforced_glass_pane",
-    "symbol": "]",
-    "color": "light_blue",
-    "name": "pane of reinforced glass",
-    "name_plural": "panes of reinforced glass",
-    "description": "A small pane of glass strengthened with steel wiring.",
-    "category": "spare_parts",
-    "price": 5000,
-    "material": [ "glass", "steel" ],
-    "weight": 10040,
-    "volume": 12,
-    "bashing": 4,
-    "to_hit": -2
   },
   {
     "type": "GENERIC",
@@ -1721,8 +1818,8 @@
     "price": 20000,
     "material": "iron",
     "flags": [ "DURABLE_MELEE", "TRADER_AVOID" ],
-    "weight": 36287,
-    "volume": 12,
+    "weight": "36287 g",
+    "volume": "3 L",
     "bashing": 20,
     "to_hit": -5
   },
@@ -1734,8 +1831,8 @@
     "name": "pine bough",
     "description": "A branch from a pine tree, oozing sticky sap and bristling with prickly needles.",
     "material": "wood",
-    "weight": 220,
-    "volume": 2,
+    "weight": "220 g",
+    "volume": "500 ml",
     "to_hit": -2,
     "flags": [ "TRADER_AVOID", "FIREWOOD" ]
   },
@@ -1746,8 +1843,8 @@
     "color": "brown",
     "name": "pinecone",
     "description": "A spiny pod from a pine tree.  Dry seeds rattle around inside when you shake it.",
-    "weight": 90,
-    "volume": 1,
+    "weight": "90 g",
+    "volume": "250 ml",
     "to_hit": -2,
     "flags": [ "TRADER_AVOID" ]
   },
@@ -1756,12 +1853,12 @@
     "id": "poppy_flower",
     "name": "poppy flower",
     "description": "A poppy stalk with some petals.",
-    "weight": 40,
+    "weight": "40 g",
     "to_hit": -3,
     "color": "light_red",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -1769,7 +1866,7 @@
     "id": "poppy_bud",
     "name": "poppy bud",
     "description": "A poppy bud.  Contains some substances commonly produced by a mutated poppy flower.",
-    "weight": 30,
+    "weight": "30 g",
     "to_hit": -3,
     "color": "light_red",
     "symbol": ",",
@@ -1782,12 +1879,12 @@
     "id": "bluebell_flower",
     "name": "bluebell",
     "description": "A bluebell stalk with some petals.",
-    "weight": 40,
+    "weight": "40 g",
     "to_hit": -3,
     "color": "blue",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -1795,12 +1892,12 @@
     "id": "bluebell_bud",
     "name": "bluebell bud",
     "description": "A bluebell bud.  Contains some substances commonly produced by a bluebell flower.",
-    "weight": 30,
+    "weight": "30 g",
     "to_hit": -3,
     "color": "blue",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 200
   },
   {
@@ -1808,12 +1905,12 @@
     "id": "dahlia_flower",
     "name": "dahlia",
     "description": "A dahlia stalk with some petals.",
-    "weight": 40,
+    "weight": "40 g",
     "to_hit": -3,
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -1821,12 +1918,12 @@
     "id": "dahlia_bud",
     "name": "dahlia bud",
     "description": "A dahlia bud.  Contains some substances commonly produced by a dahlia.",
-    "weight": 30,
+    "weight": "30 g",
     "to_hit": -3,
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 200
   },
   {
@@ -1834,12 +1931,12 @@
     "id": "rose_flower",
     "name": "rose",
     "description": "A rose stalk with some petals.",
-    "weight": 40,
+    "weight": "40 g",
     "to_hit": -3,
     "color": "red",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -1847,12 +1944,12 @@
     "id": "rose_bud",
     "name": "rose bud",
     "description": "A rose bud.  Contains some substances commonly produced by a rose flower.",
-    "weight": 30,
+    "weight": "30 g",
     "to_hit": -3,
     "color": "red",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 200
   },
   {
@@ -1860,12 +1957,12 @@
     "id": "hydrangea_flower",
     "name": "hydrangea",
     "description": "A hydrangea stalk with some petals.",
-    "weight": 40,
+    "weight": "40 g",
     "to_hit": -3,
     "color": "light_blue",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -1873,12 +1970,12 @@
     "id": "hydrangea_bud",
     "name": "hydrangea bud",
     "description": "A hydrangea bud.  Contains some substances commonly produced by a hydrangea flower.",
-    "weight": 30,
+    "weight": "30 g",
     "to_hit": -3,
     "color": "light_blue",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 200
   },
   {
@@ -1886,12 +1983,12 @@
     "id": "tulip_flower",
     "name": "tulip",
     "description": "A tulip stalk with some petals.",
-    "weight": 40,
+    "weight": "40 g",
     "to_hit": -3,
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -1899,12 +1996,12 @@
     "id": "tulip_bud",
     "name": "tulip bud",
     "description": "A tulip bud.  Contains some substances commonly produced by a tulip flower.",
-    "weight": 30,
+    "weight": "30 g",
     "to_hit": -3,
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 200
   },
   {
@@ -1912,12 +2009,12 @@
     "id": "spurge_flower",
     "name": "spurge",
     "description": "A spurge stalk with some petals.",
-    "weight": 40,
+    "weight": "40 g",
     "to_hit": -3,
     "color": "light_green",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -1925,12 +2022,12 @@
     "id": "spurge_bud",
     "name": "spurge bud",
     "description": "A spurge bud.  Contains some substances commonly produced by a spurge flower.",
-    "weight": 30,
+    "weight": "30 g",
     "to_hit": -3,
     "color": "light_green",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 200
   },
   {
@@ -1938,12 +2035,12 @@
     "id": "black_eyed_susan_flower",
     "name": "black eyed susan",
     "description": "A black eyed susan stalk with some petals.",
-    "weight": 40,
+    "weight": "40 g",
     "to_hit": -3,
     "color": "yellow",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -1951,12 +2048,12 @@
     "id": "black_eyed_susan_bud",
     "name": "black eyed susan bud",
     "description": "A black eyed susan bud.  Contains some substances commonly produced by a black eyed susan flower.",
-    "weight": 30,
+    "weight": "30 g",
     "to_hit": -3,
     "color": "yellow",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 200
   },
   {
@@ -1964,12 +2061,12 @@
     "id": "lily_flower",
     "name": "lily",
     "description": "A lily stalk with some petals.",
-    "weight": 40,
+    "weight": "40 g",
     "to_hit": -3,
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -1977,12 +2074,12 @@
     "id": "lily_bud",
     "name": "lily bud",
     "description": "A lily bud.  Contains some substances commonly produced by a lily flower.",
-    "weight": 30,
+    "weight": "30 g",
     "to_hit": -3,
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 200
   },
   {
@@ -1990,12 +2087,12 @@
     "id": "lotus_flower",
     "name": "lotus",
     "description": "A lotus stalk with some petals.",
-    "weight": 40,
+    "weight": "40 g",
     "to_hit": -3,
     "color": "yellow",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -2003,12 +2100,12 @@
     "id": "lotus_bud",
     "name": "lotus bud",
     "description": "A lotus bud.  Contains some substances commonly produced by a lotus flower.",
-    "weight": 30,
+    "weight": "30 g",
     "to_hit": -3,
     "color": "yellow",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 200
   },
   {
@@ -2016,12 +2113,12 @@
     "id": "lilac_flower",
     "name": "lilac",
     "description": "A lilac stalk with some petals.",
-    "weight": 40,
+    "weight": "40 g",
     "to_hit": -3,
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -2029,12 +2126,12 @@
     "id": "lilac_bud",
     "name": "lilac bud",
     "description": "A lilac bud.  Contains some substances commonly produced by a lilac flower.",
-    "weight": 30,
+    "weight": "30 g",
     "to_hit": -3,
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 200
   },
   {
@@ -2042,12 +2139,25 @@
     "id": "sunflower",
     "name": "sunflower",
     "description": "The top of a sunflower, with yellow pedals and some seeds that have yet to be eaten by animals.",
-    "weight": 450,
+    "weight": "450 g",
     "to_hit": -2,
     "color": "yellow",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 6,
+    "volume": "1500 ml",
+    "price": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "chamomile",
+    "name": "handful of chamomile flowers",
+    "name_plural": "handfuls of chamomile flowers",
+    "description": "White chamomile flowers, used as a herbal remedy since the ancient times.",
+    "weight": "50 g",
+    "color": "white",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": "250 ml",
     "price": 0
   },
   {
@@ -2061,8 +2171,8 @@
     "description": "A fresh piece of clay.  Useful for some crafting recipes.",
     "price": 531,
     "material": "freshclay",
-    "weight": 530,
-    "volume": 1,
+    "weight": "530 g",
+    "volume": "250 ml",
     "to_hit": -4
   },
   {
@@ -2075,8 +2185,8 @@
     "description": "A fire hardened building block used in masonry construction.",
     "price": 2500,
     "material": [ "clay", "stone" ],
-    "weight": 969,
-    "volume": 2,
+    "weight": "969 g",
+    "volume": "500 ml",
     "bashing": 8,
     "to_hit": -2,
     "qualities": [ [ "HAMMER", 1 ] ]
@@ -2093,8 +2203,67 @@
     "container": "bag_canvas",
     "price": 5000,
     "material": "powder",
-    "weight": 2340,
-    "volume": 4,
+    "weight": "2340 g",
+    "volume": "1 L",
+    "bashing": 4
+  },
+  {
+    "type": "GENERIC",
+    "id": "soft_adobe_brick",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "brown",
+    "name": "soft adobe brick",
+    "name_plural": "soft adobe bricks",
+    "description": "A compacted mass of soil and natural fibers, still too wet to build with.  Load it onto a pallet and leave it to dry.",
+    "price": 0,
+    "material": "soil",
+    "weight": "1750 g",
+    "volume": "750 ml",
+    "bashing": 2,
+    "to_hit": -3,
+    "use_action": {
+      "target": "adobe_brick",
+      "msg": "You test the brick, and it seems solid enough to use.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 100800,
+      "not_ready_msg": "The brick is still too damp to bear weight.",
+      "//": "Should be about a week. Irl it's ten days, so make big batches."
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "adobe_brick",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "yellow",
+    "looks_like": "brick",
+    "name": "adobe brick",
+    "description": "A compacted mass of soil and natural fibers, baked dry enough to harden into a brick.",
+    "material": "soil",
+    "flags": "NONCONDUCTIVE",
+    "weight": "1500 g",
+    "volume": "750 ml",
+    "bashing": 10,
+    "to_hit": -2,
+    "price": 2000,
+    "qualities": [ [ "HAMMER", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "mortar_adobe",
+    "symbol": "%",
+    "color": "brown",
+    "name": "adobe mortar",
+    "name_plural": "adobe mortar",
+    "description": "A thick, pasty mud, low in sand content to reduce crumbling once dry.  Used to glue larger, heavier pieces of mud and clay together.",
+    "category": "spare_parts",
+    "container": "bag_canvas",
+    "price": 200,
+    "material": "soil",
+    "weight": "2340 g",
+    "volume": "1 L",
     "bashing": 4
   },
   {
@@ -2106,8 +2275,8 @@
     "description": "A sheet of tannin-rich bark from a tree, useful for tanning leather",
     "price": 0,
     "material": "wood",
-    "weight": 323,
-    "volume": 1,
+    "weight": "323 g",
+    "volume": "250 ml",
     "bashing": 4,
     "to_hit": 1
   },
@@ -2120,8 +2289,8 @@
     "description": "A sheet of tough, water-resistant bark taken from a birch tree.",
     "price": 0,
     "material": "wood",
-    "weight": 323,
-    "volume": 1,
+    "weight": "323 g",
+    "volume": "250 ml",
     "bashing": 4,
     "to_hit": 1
   },
@@ -2134,24 +2303,10 @@
     "description": "A sheet of bark taken from a willow tree.  Used in the production of aspirin.",
     "price": 0,
     "material": "wood",
-    "weight": 323,
-    "volume": 1,
+    "weight": "323 g",
+    "volume": "250 ml",
     "bashing": 4,
     "to_hit": 1
-  },
-  {
-    "type": "GENERIC",
-    "id": "peephole",
-    "symbol": ".",
-    "color": "yellow",
-    "name": "peephole",
-    "category": "spare_parts",
-    "description": "A metal cylinder with a small lens inside intended to be installed on a door.",
-    "price": 12000,
-    "material": [ "aluminum", "glass" ],
-    "weight": 5,
-    "volume": 1,
-    "to_hit": -3
   },
   {
     "type": "GENERIC",
@@ -2163,165 +2318,9 @@
     "price": 1000000,
     "price_postapoc": 100,
     "material": "diamond",
-    "weight": 120,
-    "volume": 1,
+    "weight": "120 g",
+    "volume": "250 ml",
     "to_hit": -5
-  },
-  {
-    "type": "AMMO",
-    "id": "r_paint",
-    "category": "other",
-    "price": 120,
-    "name": "red paint",
-    "name_plural": "red paint",
-    "symbol": "o",
-    "color": "red",
-    "description": "A can of red paint.",
-    "material": "steel",
-    "volume": 5,
-    "weight": 10,
-    "ammo_type": "NULL",
-    "count": 100
-  },
-  {
-    "type": "AMMO",
-    "id": "b_paint",
-    "category": "other",
-    "price": 120,
-    "name": "blue paint",
-    "name_plural": "blue paint",
-    "symbol": "o",
-    "color": "blue",
-    "description": "A can of blue paint.",
-    "material": "steel",
-    "volume": 5,
-    "weight": 10,
-    "ammo_type": "NULL",
-    "count": 100
-  },
-  {
-    "type": "AMMO",
-    "id": "w_paint",
-    "category": "other",
-    "price": 120,
-    "name": "white paint",
-    "name_plural": "white paint",
-    "symbol": "o",
-    "color": "white",
-    "description": "A can of white paint.",
-    "material": "steel",
-    "volume": 5,
-    "weight": 10,
-    "ammo_type": "NULL",
-    "count": 100
-  },
-  {
-    "type": "AMMO",
-    "id": "g_paint",
-    "category": "other",
-    "price": 120,
-    "name": "green paint",
-    "name_plural": "green paint",
-    "symbol": "o",
-    "color": "green",
-    "description": "A can of green paint.",
-    "material": "steel",
-    "volume": 5,
-    "weight": 10,
-    "ammo_type": "NULL",
-    "count": 100
-  },
-  {
-    "type": "AMMO",
-    "id": "p_paint",
-    "category": "other",
-    "price": 120,
-    "name": "purple paint",
-    "name_plural": "purple paint",
-    "symbol": "o",
-    "color": "magenta",
-    "description": "A can of purple paint.",
-    "material": "steel",
-    "volume": 5,
-    "weight": 10,
-    "ammo_type": "NULL",
-    "count": 100
-  },
-  {
-    "type": "AMMO",
-    "id": "y_paint",
-    "category": "other",
-    "price": 120,
-    "name": "yellow paint",
-    "name_plural": "yellow paint",
-    "symbol": "o",
-    "color": "yellow",
-    "description": "A can of yellow paint.",
-    "material": "steel",
-    "volume": 5,
-    "weight": 10,
-    "ammo_type": "NULL",
-    "count": 100
-  },
-  {
-    "type": "AMMO",
-    "id": "r_carpet",
-    "category": "other",
-    "price": 120,
-    "name": "red carpet",
-    "symbol": "}",
-    "color": "red",
-    "description": "A roll of red carpet.",
-    "material": "cotton",
-    "volume": 7,
-    "weight": 45,
-    "ammo_type": "NULL",
-    "count": 5
-  },
-  {
-    "type": "AMMO",
-    "id": "g_carpet",
-    "category": "other",
-    "price": 120,
-    "name": "green carpet",
-    "symbol": "}",
-    "color": "green",
-    "description": "A roll of green carpet.",
-    "material": "cotton",
-    "volume": 7,
-    "weight": 45,
-    "ammo_type": "NULL",
-    "count": 5
-  },
-  {
-    "type": "AMMO",
-    "id": "y_carpet",
-    "category": "other",
-    "price": 120,
-    "name": "yellow carpet",
-    "symbol": "}",
-    "color": "yellow",
-    "description": "A roll of yellow carpet.",
-    "material": "cotton",
-    "volume": 7,
-    "weight": 45,
-    "ammo_type": "NULL",
-    "count": 5
-  },
-  {
-    "type": "AMMO",
-    "id": "p_carpet",
-    "category": "other",
-    "price": 120,
-    "name": "purple carpet",
-    "symbol": "}",
-    "color": "magenta",
-    "description": "A roll of purple carpet.",
-    "material": "cotton",
-    "volume": 7,
-    "weight": 45,
-    "ammo_type": "NULL",
-    "count": 5
   },
   {
     "type": "GENERIC",
@@ -2331,11 +2330,11 @@
     "name": "cured hide",
     "name_plural": "cured hides",
     "description": "A rolled up animal hide which has been scraped of extraneous hair and flesh and treated to prevent decay.  It still requires tanning to become usable leather.",
-    "price": 2000,
+    "price": 200,
     "material": [ "flesh" ],
     "flags": [ "NO_SALVAGE" ],
-    "weight": 600,
-    "volume": 3,
+    "weight": "100 g",
+    "volume": "125 ml",
     "category": "spare_parts",
     "to_hit": -1
   },
@@ -2349,8 +2348,8 @@
     "description": "A folded sheet of leather made from carefully tanned animal hide.  Can be cut up or used as is.",
     "price": 5000,
     "material": [ "leather" ],
-    "weight": 600,
-    "volume": 6,
+    "weight": "600 g",
+    "volume": "1500 ml",
     "category": "spare_parts",
     "to_hit": -1
   },
@@ -2362,11 +2361,11 @@
     "name": "cured pelt",
     "name_plural": "cured pelts",
     "description": "A rolled up animal hide which has been scraped of extraneous hair and flesh and treated to prevent decay.  It still requires tanning to become usable fur.",
-    "price": 2000,
+    "price": 200,
     "material": [ "fur", "flesh" ],
     "flags": [ "NO_SALVAGE" ],
-    "weight": 684,
-    "volume": 4,
+    "weight": "114 g",
+    "volume": "170 ml",
     "category": "spare_parts",
     "to_hit": -1
   },
@@ -2380,8 +2379,8 @@
     "description": "A folded sheet of leather made from carefully tanned animal hide, with the fur still intact.  Can be cut up or used as is.",
     "price": 5000,
     "material": [ "fur" ],
-    "weight": 684,
-    "volume": 6,
+    "weight": "684 g",
+    "volume": "1500 ml",
     "category": "spare_parts",
     "to_hit": -1
   },
@@ -2396,8 +2395,8 @@
     "description": "A pile of dry grass.  Can be used to craft a straw bed if there is nothing else to sleep on.",
     "material": [ "paper" ],
     "flags": "TRADER_AVOID",
-    "weight": 20,
-    "volume": 1,
+    "weight": "20 g",
+    "volume": "250 ml",
     "to_hit": -2
   },
   {
@@ -2410,8 +2409,8 @@
     "description": "Old straw doll.  Represents a woman in a dress.",
     "price": 100,
     "material": [ "paper" ],
-    "weight": 80,
-    "volume": 2
+    "weight": "80 g",
+    "volume": "500 ml"
   },
   {
     "type": "GENERIC",
@@ -2422,8 +2421,8 @@
     "description": "A pillow to rest your head on when sleeping.",
     "price": 1000,
     "material": [ "cotton" ],
-    "weight": 514,
-    "volume": 4,
+    "weight": "514 g",
+    "volume": "1 L",
     "flags": [ "SLEEP_AID" ],
     "category": "other"
   },
@@ -2436,8 +2435,8 @@
     "description": "A big, body-sized pillow with a print of an anime character on the front and their scantily clad version on the back.",
     "price": 1500,
     "material": [ "cotton" ],
-    "weight": 774,
-    "volume": 7,
+    "weight": "774 g",
+    "volume": "1750 ml",
     "flags": [ "SLEEP_AID" ],
     "category": "other"
   },
@@ -2450,8 +2449,8 @@
     "description": "A fluffy pillow to rest your head on when sleeping.",
     "price": 1000,
     "material": [ "cotton" ],
-    "weight": 514,
-    "volume": 4,
+    "weight": "514 g",
+    "volume": "1 L",
     "flags": [ "SLEEP_AID" ],
     "category": "other"
   },
@@ -2464,8 +2463,8 @@
     "description": "An old and half rotten teddy bear.  Looks like this one commemorates the grave of the child who once owned it.",
     "price": 200,
     "material": [ "cotton" ],
-    "weight": 514,
-    "volume": 3,
+    "weight": "514 g",
+    "volume": "750 ml",
     "flags": [ "SLEEP_AID" ]
   },
   {
@@ -2473,13 +2472,31 @@
     "id": "money_bundle",
     "name": "money bundle",
     "description": "A bundle holding many 20 dollar bills, pretty useless now though.",
-    "weight": 20,
+    "weight": "20 g",
     "to_hit": -3,
     "color": "green",
     "symbol": ",",
     "material": [ "paper" ],
-    "volume": 1,
+    "volume": "250 ml",
     "price": 0
+  },
+  {
+    "id": "pouch_autoclave",
+    "type": "AMMO",
+    "ammo_type": "NULL",
+    "category": "other",
+    "name": "autoclave pouch",
+    "name_plural": "autoclave pouches",
+    "description": "This is a medical device that bears the approval of the FDA (Food and Drug Administration).  If used properly, these pouches can keep things sterile indefinitely.",
+    "weight": "2 g",
+    "volume": 0,
+    "price": 5,
+    "use_action": "PACK_CBM",
+    "to_hit": -1,
+    "material": [ "plastic", "paper" ],
+    "symbol": "]",
+    "count": 25,
+    "color": "light_gray"
   },
   {
     "type": "GENERIC",
@@ -2584,8 +2601,8 @@
     "description": "A psychoactive plant indigenous to Central Asia and the Indian subcontinent traditionally cultivated for its fiber, oil, for medicinal purposes, and for use as a recreational drug.  It requires further processing to be useful.",
     "price": 2000,
     "material": "veggy",
-    "weight": 420,
-    "volume": 4
+    "weight": "420 g",
+    "volume": "1 L"
   },
   {
     "type": "GENERIC",
@@ -2598,8 +2615,8 @@
     "looks_like": "wild_herbs",
     "price": 300,
     "material": "veggy",
-    "weight": 100,
-    "volume": 1
+    "weight": "100 g",
+    "volume": "250 ml"
   },
   {
     "id": "cash_card",
@@ -2612,7 +2629,7 @@
     "price_postapoc": 10,
     "material": "plastic",
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
-    "weight": 6,
+    "weight": "6 g",
     "volume": 0,
     "to_hit": -3,
     "max_charges": 200000000,
@@ -2659,6 +2676,20 @@
     "ammo": "money"
   },
   {
+    "id": "robofac_test_data",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "yellow",
+    "name": "prototype I/O recorder",
+    "description": "This small transparent card was attached to the prototype robot's CPU.  It might contain the data the intercom spoke of.",
+    "category": "other",
+    "price": 500,
+    "material": "plastic",
+    "weight": "6 g",
+    "volume": 0,
+    "to_hit": -3
+  },
+  {
     "id": "gasdiscount_silver",
     "type": "TOOL",
     "symbol": ",",
@@ -2669,7 +2700,7 @@
     "price": 500,
     "material": "plastic",
     "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_1" ],
-    "weight": 6,
+    "weight": "6 g",
     "volume": 0,
     "to_hit": -3
   },
@@ -2684,7 +2715,7 @@
     "price": 500,
     "material": "plastic",
     "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_2" ],
-    "weight": 6,
+    "weight": "6 g",
     "volume": 0,
     "to_hit": -3
   },
@@ -2699,7 +2730,7 @@
     "price": 500,
     "material": "plastic",
     "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_3" ],
-    "weight": 6,
+    "weight": "6 g",
     "volume": 0,
     "to_hit": -3
   },
@@ -2713,7 +2744,7 @@
     "price": 60000,
     "price_postapoc": 5000,
     "material": "plastic",
-    "weight": 6,
+    "weight": "6 g",
     "volume": 0,
     "to_hit": -3
   },
@@ -2727,7 +2758,7 @@
     "price": 120000,
     "price_postapoc": 10000,
     "material": "plastic",
-    "weight": 6,
+    "weight": "6 g",
     "volume": 0,
     "to_hit": -3
   },
@@ -2742,7 +2773,7 @@
     "price": 120000,
     "price_postapoc": 10000,
     "material": "plastic",
-    "weight": 6,
+    "weight": "6 g",
     "volume": 0,
     "to_hit": -3
   },
@@ -2756,8 +2787,8 @@
     "price": 1000,
     "material": "neoprene",
     "flags": [ "NO_SALVAGE" ],
-    "weight": 80,
-    "volume": 1,
+    "weight": "80 g",
+    "volume": "250 ml",
     "category": "spare_parts"
   },
   {
@@ -2769,8 +2800,8 @@
     "description": "A laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret.  Unusable as a weapon on its own without the necessary parts.",
     "price": 5000000,
     "material": [ "steel", "plastic" ],
-    "weight": 5000,
-    "volume": 3,
+    "weight": "5000 g",
+    "volume": "750 ml",
     "category": "spare_parts"
   },
   {
@@ -2781,8 +2812,8 @@
     "symbol": ",",
     "color": "white",
     "material": "glass",
-    "weight": 10,
-    "volume": 1,
+    "weight": "10 g",
+    "volume": "250 ml",
     "price": 500
   },
   {
@@ -2790,8 +2821,8 @@
     "type": "AMMO",
     "name": "shrapnel",
     "description": "A twisted shard of jagged metal.",
-    "weight": 5,
-    "volume": 1,
+    "weight": "5 g",
+    "volume": "250 ml",
     "price": 0,
     "stack_size": 50,
     "material": [ "steel" ],
@@ -2805,8 +2836,8 @@
     "category": "other",
     "name": "clay flower pot",
     "description": "A nice looking clay pot used for planting.",
-    "weight": 480,
-    "volume": 10,
+    "weight": "480 g",
+    "volume": "2500 ml",
     "price": 600,
     "bashing": 1,
     "material": "clay",
@@ -2819,8 +2850,8 @@
     "category": "other",
     "name": "plastic flower pot",
     "description": "A cheap plastic pot used for planting.",
-    "weight": 190,
-    "volume": 10,
+    "weight": "190 g",
+    "volume": "2500 ml",
     "price": 300,
     "bashing": 1,
     "material": "plastic",
@@ -2833,8 +2864,8 @@
     "category": "other",
     "name": "fluid preserved brain",
     "description": "This 3L jar contains a human brain preserved in a formaldehyde solution.",
-    "weight": 365,
-    "volume": 12,
+    "weight": "365 g",
+    "volume": "3 L",
     "price": 100,
     "to_hit": -1,
     "bashing": 5,
@@ -2849,8 +2880,8 @@
     "category": "spare_parts",
     "name": "evaporator coil",
     "description": "A set of long, snakelike tubes for evaporating refrigerant.",
-    "weight": 20000,
-    "volume": 8,
+    "weight": "20000 g",
+    "volume": "2 L",
     "price": 1000,
     "material": "steel",
     "symbol": "#",
@@ -2862,8 +2893,8 @@
     "category": "spare_parts",
     "name": "condensor coil",
     "description": "A compressor and a fan work together to cool down the refrigerant.",
-    "weight": 20000,
-    "volume": 8,
+    "weight": "20000 g",
+    "volume": "2 L",
     "price": 1000,
     "material": "steel",
     "symbol": "#",
@@ -2875,7 +2906,7 @@
     "name": "refrigerant tank",
     "name_plural": "refrigerant tanks",
     "description": "A small tank containing some sort of refrigerant often used in devices such as freezers.  Hermetically sealed to prevent evaporation - cannot be opened without prior connection to compatible valve.",
-    "weight": 410,
+    "weight": "410 g",
     "volume": "1L",
     "price": 3000,
     "to_hit": -4,
@@ -2894,8 +2925,8 @@
     "description": "An armor plating made of a very thick steel, specifically engineered for use in a bullet resistant vest.",
     "price": 10000,
     "material": "hardsteel",
-    "weight": 1500,
-    "volume": 2,
+    "weight": "1500 g",
+    "volume": "500 ml",
     "bashing": 6
   },
   {
@@ -2908,25 +2939,9 @@
     "description": "A steel armor plate, specifically engineered for use in a bullet resistant vest.",
     "price": 9000,
     "material": "steel",
-    "weight": 1000,
-    "volume": 2,
+    "weight": "1000 g",
+    "volume": "500 ml",
     "bashing": 5
-  },
-  {
-    "id": "condom",
-    "type": "GENERIC",
-    "category": "other",
-    "name": "condom",
-    "looks_like": "lens",
-    "description": "A gentleman's balloon.  A single use life preventer.  A thumbless latex mitten.   This could be used as a makeshift water container, but otherwise it's anyone's guess what it's for.",
-    "weight": 5,
-    "volume": "5ml",
-    "price": 200,
-    "material": "plastic",
-    "symbol": "*",
-    "color": "white",
-    "bashing": 5,
-    "to_hit": -3
   },
   {
     "type": "GENERIC",
@@ -2938,8 +2953,8 @@
     "description": "A small lock, with a set of keys still inserted.",
     "price": 500,
     "material": "steel",
-    "weight": 5,
-    "volume": 1,
+    "weight": "5 g",
+    "volume": "250 ml",
     "bashing": 1
   },
   {
@@ -2950,11 +2965,10 @@
     "name": "in progress craft",
     "description": "This is an in progress craft.",
     "price": 0,
-    "weight": 1,
-    "volume": 1,
-    "max_charges": 20,
+    "weight": "1 g",
+    "volume": "250 ml",
     "use_action": "CRAFT",
-    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ]
+    "flags": [ "NO_SALVAGE", "TRADER_AVOID", "CAN_HAVE_CHARGES" ]
   },
   {
     "type": "GENERIC",
@@ -2966,8 +2980,8 @@
     "description": "A bumper mounted rig for attaching and storing a spare tire on the back of a vehicle.  Combine it with a wheel to get a mountable piece.",
     "price": 3500,
     "material": "steel",
-    "weight": 5000,
-    "volume": 20,
+    "weight": "5000 g",
+    "volume": "5 L",
     "bashing": 8
   },
   {
@@ -2980,8 +2994,139 @@
     "name": "welding component kit",
     "description": "A set of components useful for constructing a full-featured welding station, complete with soldering capability.",
     "price": 9000,
-    "weight": 4500,
-    "volume": 12,
+    "weight": "4500 g",
+    "volume": "3 L",
     "bashing": 8
+  },
+  {
+    "type": "GENERIC",
+    "id": "amplifier_head",
+    "symbol": ";",
+    "color": "blue",
+    "name": "amplifier head",
+    "description": "An amplifier head.  Typically paired with a speaker cabinet for amplifying musical instruments.  Basically only good for spare parts now.",
+    "price": 25000,
+    "price_postapoc": 2000,
+    "material": [ "steel", "plastic", "wood" ],
+    "weight": "11339 g",
+    "volume": "3 L"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_turret",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken turret",
+    "category": "other",
+    "description": "A broken turret.  Much less threatening now that it's laid limp on solid ground.  Could be gutted for parts.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "62650 g",
+    "volume": "30 L",
+    "bashing": 4,
+    "cutting": 4,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_turret_rifle",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken M249 autonomous CROWS II",
+    "weight": "70000 g",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_crows_m240",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken M240 autonomous CROWS II",
+    "weight": "70000 g",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_turret_bmg",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken M2 autonomous CROWS II",
+    "weight": "100000 g",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_laserturret",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken laser turret",
+    "weight": "110000 g",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_secubot",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken secubot",
+    "category": "other",
+    "description": "A broken secubot, with its casing broken and fluid drained.  Could be gutted for parts.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "100000 g",
+    "volume": "65000 ml",
+    "bashing": 4,
+    "cutting": 4,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_talon_m202a1",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken M202A1 TALON",
+    "category": "other",
+    "description": "A broken TALON UGV, with its casing broken and fluid drained.  Could be gutted for parts.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": "100000 g",
+    "volume": "65000 ml",
+    "bashing": 4,
+    "cutting": 4,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "fire_brick",
+    "symbol": ",",
+    "color": "brown",
+    "name": "fire brick",
+    "category": "spare_parts",
+    "description": "A reinforced brick designed to withstand intense heat.",
+    "price": 2500,
+    "material": [ "clay", "stone" ],
+    "weight": "969 g",
+    "volume": "500 ml",
+    "bashing": 8,
+    "to_hit": -2,
+    "qualities": [ [ "HAMMER", 1 ] ]
+  },
+  {
+    "id": "survival_kit",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "survival kit",
+    "description": "A small box filled with tools and items to help you survive in case of an emergency.  Disassemble to get its content.",
+    "weight": 1612,
+    "volume": "1 L",
+    "price": 5000,
+    "material": "aluminum",
+    "symbol": "!",
+    "color": "green",
+    "use_action": "DISASSEMBLE",
+    "flags": [ "NO_REPAIR" ]
   }
 ]

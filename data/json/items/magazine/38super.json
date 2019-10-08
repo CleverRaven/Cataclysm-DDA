@@ -1,0 +1,18 @@
+[
+  {
+    "id": "m1911mag_10rd_38super",
+    "type": "MAGAZINE",
+    "name": "M1911 .38 Super magazine",
+    "description": "A compact single stack box magazine for the M1911.",
+    "weight": "80 g",
+    "volume": "250 ml",
+    "price": 3400,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "38super",
+    "capacity": 10,
+    "reliability": 8,
+    "flags": [ "MAG_COMPACT" ]
+  }
+]

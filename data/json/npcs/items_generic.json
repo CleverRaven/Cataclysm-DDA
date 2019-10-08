@@ -2,22 +2,26 @@
   {
     "type": "item_group",
     "id": "npc_underwear_bottom_male",
-    "groups": [ [ "male_underwear_bottom", 95 ], [ "null", 5 ] ]
+    "subtype": "collection",
+    "groups": [ [ "male_underwear_bottom", 95 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_underwear_bottom_female",
-    "groups": [ [ "female_underwear_bottom", 95 ], [ "null", 5 ] ]
+    "subtype": "collection",
+    "groups": [ [ "female_underwear_bottom", 95 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_underwear_top_male",
-    "groups": [ [ "male_underwear_top", 50 ], [ "null", 50 ] ]
+    "subtype": "collection",
+    "groups": [ [ "male_underwear_top", 50 ] ]
   },
   {
     "type": "item_group",
     "id": "npc_underwear_top_female",
-    "groups": [ [ "female_underwear_top", 95 ], [ "null", 5 ] ]
+    "subtype": "collection",
+    "groups": [ [ "female_underwear_top", 95 ] ]
   },
   {
     "type": "item_group",
@@ -236,13 +240,13 @@
     "id": "npc_extra",
     "items": [
       [ "null", 20 ],
-      [ "ring", 20 ],
+      [ "gold_ring", 20 ],
       [ "diamond_ring", 2 ],
       [ "copper_bracelet", 10 ],
       [ "gold_bracelet", 10 ],
       [ "silver_bracelet", 10 ],
-      [ "necklace", 5 ],
-      [ "locket", 5 ]
+      [ "silver_necklace", 5 ],
+      [ "silver_locket", 5 ]
     ]
   },
   {
@@ -315,6 +319,8 @@
   {
     "type": "item_group",
     "id": "npc_misc",
+    "ammo": 75,
+    "magazine": 50,
     "items": [
       [ "101_carpentry", 1 ],
       [ "1st_aid", 20 ],
@@ -368,7 +374,6 @@
       [ "belgian_ale", 3 ],
       [ "binoculars", 10 ],
       [ "biscuit", 3 ],
-      [ "bismuth", 3 ],
       [ "blackberries", 3 ],
       [ "blanket", 5 ],
       [ "bleach", 5 ],
@@ -414,7 +419,7 @@
       [ "canteen", 5 ],
       [ "carpentry_book", 1 ],
       [ "carrot", 3 ],
-      [ "catfood", 3 ],
+      { "item": "catfood", "prob": 3, "container-item": "can_food" },
       [ "cell_phone", 5 ],
       [ "smart_phone", 15 ],
       [ "ceramic_armor", 1 ],
@@ -492,7 +497,7 @@
       [ "diveknife", 1 ],
       [ "diving_watch", 1 ],
       [ "dog_whistle", 3 ],
-      [ "dogfood", 3 ],
+      { "item": "dogfood", "prob": 3, "container-item": "can_food" },
       [ "doublespeargun", 1 ],
       [ "drink_boozeberry", 1 ],
       [ "drink_rumcola", 1 ],
@@ -543,11 +548,12 @@
       [ "football", 1 ],
       [ "fork", 1 ],
       [ "fries", 1 ],
-      [ "frozen_burrito", 3 ],
+      [ "junk_burrito", 3 ],
       [ "frozen_dinner", 3 ],
       [ "fruit_leather", 3 ],
       [ "fruit_wine", 5 ],
       [ "fungicide", 3 ],
+      [ "insecticide", 3 ],
       [ "fun_survival", 5 ],
       [ "funnel", 3 ],
       [ "fur", 5 ],
@@ -691,7 +697,7 @@
       [ "lighter", 20 ],
       [ "lgpistol_primer", 3 ],
       [ "lgrifle_primer", 3 ],
-      [ "locket", 10 ],
+      [ "silver_locket", 10 ],
       [ "long_island", 3 ],
       [ "lsd", 3 ],
       [ "lunchmeat", 3 ],
@@ -821,7 +827,7 @@
       [ "nail", 3 ],
       [ "nailgun", 3 ],
       [ "neccowafers", 4 ],
-      [ "necklace", 5 ],
+      [ "silver_necklace", 5 ],
       [ "news_regional", 3 ],
       [ "nic_gum", 8 ],
       [ "nicotine_liquid", 6 ],
@@ -904,7 +910,13 @@
       [ "power_supply", 1 ],
       [ "press", 1 ],
       [ "processor", 1 ],
-      [ "protein_powder", 4 ],
+      {
+        "item": "protein_powder",
+        "prob": 1,
+        "container-item": "bottle_plastic_small",
+        "charges-min": 1,
+        "charges-max": 9
+      },
       [ "protein_shake", 1 ],
       [ "prozac", 3 ],
       [ "puck", 1 ],
@@ -940,7 +952,7 @@
       [ "restaurantmap", 5 ],
       [ "rhubarb", 1 ],
       [ "rifle_scope", 4 ],
-      [ "ring", 6 ],
+      [ "gold_ring", 6 ],
       [ "roadmap", 4 ],
       [ "rolling_paper", 3 ],
       [ "rollmat", 8 ],
@@ -1108,10 +1120,13 @@
       [ "welding_book", 2 ],
       [ "wheat", 3 ],
       [ "whiskey", 6 ],
+      [ "wine_barley", 12 ],
       [ "wine_cabernet", 3 ],
       [ "wine_chardonnay", 3 ],
+      [ "wine_marsala", 2 ],
       [ "wine_noir", 3 ],
       [ "wine_riesling", 3 ],
+      [ "wine_vermouth", 3 ],
       [ "wrapped_rad_badge", 2 ],
       [ "wrapper", 3 ],
       [ "wrench", 3 ],

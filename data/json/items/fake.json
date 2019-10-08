@@ -8,6 +8,21 @@
     "color": "red"
   },
   {
+    "id": "arcfurnace",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": "arc furnace"
+  },
+  {
+    "id": "fake_burrowing",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": "teeth and claws",
+    "flags": "TRADER_AVOID",
+    "use_action": [ "BURROW" ],
+    "qualities": [ [ "DIG", 3 ] ]
+  },
+  {
     "id": "toolset",
     "copy-from": "fake_item",
     "type": "TOOL",
@@ -63,8 +78,8 @@
     "description": "Item to test aep_clairvoyance_plus flag. If this spawns randomly, then it's a bug.",
     "price": 5000,
     "material": [ "steel" ],
-    "weight": 150,
-    "volume": 3,
+    "weight": "150 g",
+    "volume": "750 ml",
     "bashing": 1,
     "to_hit": -1,
     "artifact_data": { "effects_wielded": [ "AEP_CLAIRVOYANCE_PLUS" ] }
@@ -95,8 +110,8 @@
     "flags": [ "REACH_ATTACK" ],
     "skill": "archery",
     "ammo": "arrow",
-    "weight": 340,
-    "volume": 6,
+    "weight": "340 g",
+    "volume": "1500 ml",
     "bashing": 6,
     "ranged_damage": 3,
     "range": 5,
@@ -138,5 +153,19 @@
     "type": "TOOL",
     "name": "bionic firestarter",
     "flags": [ "FIRESTARTER" ]
+  },
+  {
+    "id": "migo_bio_gun",
+    "type": "GUN",
+    "copy-from": "fake_item",
+    "name": "mi-go bio-gun",
+    "description": "Fake gun that fires some sort of solidified organic matter at very high speed by unknown means of propulsion.",
+    "flags": [ "NEVER_JAMS" ],
+    "ammo_effects": [ "NEVER_MISFIRES" ],
+    "skill": "rifle",
+    "durability": 10,
+    "range": 100,
+    "dispersion": 1000,
+    "ranged_damage": { "damage_type": "stab", "amount": 30 }
   }
 ]

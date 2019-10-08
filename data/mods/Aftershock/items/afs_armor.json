@@ -42,27 +42,6 @@
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
-    "id": "afs_daypack",
-    "type": "ARMOR",
-    "name": "daypack",
-    "description": "An ultralight, bright red nylon backpack intended for one-day hiking trips.  Waterproof, slim, and spacious.",
-    "symbol": "[",
-    "color": "red",
-    "weight": 411,
-    "volume": 4,
-    "//": "REI Co-op 22-liter daypack costs $54.95, so ballpark to $50",
-    "price": 5000,
-    "price_postapoc": 10000,
-    "material": [ "plastic" ],
-    "covers": [ "TORSO" ],
-    "coverage": 50,
-    "material_thickness": 1,
-    "encumbrance": 10,
-    "storage": 80,
-    "flags": [ "BELTED", "ONLY_ONE", "OVERSIZE", "STURDY" ],
-    "looks_like": "backpack"
-  },
-  {
     "id": "afs_blatant_half_life_reference",
     "type": "ARMOR",
     "name": "hazardous environment suit",
@@ -133,10 +112,13 @@
           "light_minus_battery_cell",
           "light_plus_battery_cell",
           "light_minus_atomic_battery_cell",
-          "light_atomic_battery_cell"
+          "light_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "afs_hev_helmet_on",
@@ -148,19 +130,7 @@
     "turns_per_charge": 20,
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "The %s flicks off.", "target": "afs_hev_helmet" },
     "flags": [ "LIGHT_500", "WATERPROOF", "FLASH_PROTECTION", "ONLY_ONE", "STURDY" ],
-    "looks_like": "depowered_helmet",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_atomic_battery_cell"
-        ]
-      ]
-    ]
+    "looks_like": "depowered_helmet"
   },
   {
     "id": "afs_quilt",
@@ -193,27 +163,6 @@
     "warmth": 90
   },
   {
-    "id": "afs_ski_jacket",
-    "type": "ARMOR",
-    "name": "ski jacket",
-    "description": "An insulated, breathable hoodie made for alpine skiing.  Very warm, and with sizable pockets.",
-    "weight": 1105,
-    "volume": 20,
-    "price": 18000,
-    "material": [ "cotton", "plastic" ],
-    "symbol": "[",
-    "color": "light_blue",
-    "covers": [ "TORSO", "ARMS" ],
-    "coverage": 95,
-    "encumbrance": 14,
-    "storage": 12,
-    "warmth": 80,
-    "material_thickness": 5,
-    "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "OUTER" ],
-    "looks_like": "coat_winter"
-  },
-  {
     "id": "afs_survivor_belt",
     "copy-from": "survivor_belt",
     "type": "ARMOR",
@@ -234,44 +183,6 @@
     "copy-from": "survivor_belt",
     "type": "ARMOR",
     "name": "survivor utility belt (sheath)"
-  },
-  {
-    "id": "afs_welding_mask",
-    "type": "ARMOR",
-    "name": "welding mask",
-    "description": "A metal mask with a very dark visor, meant to protect the entire face during welding.  It also serves as good armor, but makes it hard to see.",
-    "weight": 4000,
-    "volume": 4,
-    "price": 1400,
-    "to_hit": -3,
-    "material": [ "steel" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "covers": [ "HEAD", "MOUTH", "EYES" ],
-    "coverage": 100,
-    "encumbrance": 30,
-    "material_thickness": 3,
-    "qualities": [ [ "GLARE", 3 ] ],
-    "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ]
-  },
-  {
-    "id": "afs_welding_mask_makeshift",
-    "type": "ARMOR",
-    "name": "makeshift welding mask",
-    "description": "A crude welding mask made from shaped metal, with dark cloth and tinted glass to protect the eyes.  It's extremely hard to see with, but with nothing else available, it can protect your sight while welding.",
-    "weight": 4000,
-    "volume": 4,
-    "price": 1400,
-    "to_hit": -3,
-    "material": [ "steel" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "covers": [ "MOUTH", "EYES" ],
-    "coverage": 100,
-    "encumbrance": 60,
-    "material_thickness": 2,
-    "qualities": [ [ "GLARE", 2 ] ],
-    "flags": [ "SUN_GLASSES", "FLASH_PROTECTION", "BLIND" ]
   },
   {
     "id": "afs_brigandine",

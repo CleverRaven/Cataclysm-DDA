@@ -12,6 +12,18 @@
   },
   {
     "type": "effect_type",
+    "id": "ridden",
+    "name": [ "Ridden" ],
+    "desc": [ "AI tag for when critter is being ridden. This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "harnessed",
+    "name": [ "Harnessed" ],
+    "desc": [ "AI tag for when critter is being harnessed by a vehicle. This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "docile",
     "name": [ "Docile Monster" ],
     "desc": [ "AI tag for when monsters are tamed.  This is a bug if you have it." ]
@@ -27,6 +39,18 @@
     "id": "run",
     "name": [ "Hit-and-run Running" ],
     "desc": [ "AI tag for when hit-and-run monsters run away.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "dragging",
+    "name": [ "Dragging" ],
+    "desc": [ "AI tag for when a monster is dragging you behind it.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "operating",
+    "name": [ "Operating" ],
+    "desc": [ "AI tag for when a monster is operating on you.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
@@ -155,6 +179,12 @@
   },
   {
     "type": "effect_type",
+    "id": "paid",
+    "name": [ "Paid" ],
+    "desc": [ "AI tag used for paid critters.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "pacified",
     "name": [ "Pacified" ],
     "desc": [ "AI tag used for pacified critters.  This is a bug if you have it." ]
@@ -170,6 +200,12 @@
     "id": "monster_armor",
     "name": [ "Has Armor" ],
     "desc": [ "AI tag used for critters wearing armor.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "monster_saddled",
+    "name": [ "Has Saddle" ],
+    "desc": [ "AI tag used for critters wearing a saddle.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
@@ -214,25 +250,40 @@
   },
   {
     "type": "effect_type",
+    "id": "assisted",
+    "name": [ "Assisted" ],
+    "desc": [ "You're receiving assistance to practice a surgery." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "got_checked",
+    "name": [ "Got a check-up" ],
+    "desc": [ "Your received a complete check-up and are now aware of the state of your health." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "heating_bionic",
+    "name": [ "Heated" ],
+    "max_intensity": 1000,
+    "desc": [ "At least one of your bionics is producing heat and warming you." ]
+  },
+  {
+    "type": "effect_type",
     "id": "winded",
     "name": [ "Winded" ],
     "desc": [ "You're short of breath.  Running and fighting will be difficult until you recover." ],
     "apply_message": "Your breath gives out!",
     "remove_message": "You catch your breath.",
     "rating": "bad",
+    "max_duration": "30 s",
     "base_mods": {
       "per_mod": [ -1 ],
       "dex_mod": [ -1 ],
-      "str_mod": [ -4, -1 ],
-      "speed_mod": [ -20 ],
+      "str_mod": [ -3 ],
+      "speed_mod": [ -30 ],
       "pain_min": [ 1 ],
-      "pain_chance": [ 1, 30 ],
-      "fatigue_min": [ 1 ],
-      "fatigue_chance": [ 1, 4 ],
-      "hunger_min": [ 1 ],
-      "hunger_chance": [ 1, 6 ],
-      "thirst_min": [ 1 ],
-      "thirst_chance": [ 1, 4 ]
+      "pain_chance": [ 1 ],
+      "pain_max_val": [ 20 ]
     }
   },
   {
@@ -266,6 +317,14 @@
   },
   {
     "type": "effect_type",
+    "id": "riding",
+    "name": [ "Riding" ],
+    "desc": [ "You are riding an animal." ],
+    "apply_message": "You mount your steed.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "onfire",
     "name": [ "On Fire" ],
     "desc": [ "Loss of health - Entire Body\nYour clothing and other equipment may be consumed by the flames." ],
@@ -274,8 +333,8 @@
     "apply_memorial_log": "Caught on fire.",
     "rating": "bad",
     "max_intensity": 3,
-    "int_dur_factor": 5,
-    "max_duration": 50,
+    "int_dur_factor": "5 s",
+    "max_duration": "50 s",
     "show_in_info": true
   },
   {
@@ -317,7 +376,7 @@
     "remove_message": "You can hear again!",
     "rating": "bad",
     "max_intensity": 3,
-    "int_dur_factor": 100,
+    "int_dur_factor": "100 s",
     "base_mods": { "pain_min": [ 1 ], "pain_chance": [ -50 ], "pain_chance_bot": [ 1000 ] },
     "scaling_mods": { "pain_max_val": [ 5 ], "pain_chance": [ 150 ] }
   },
@@ -431,7 +490,7 @@
     "max_intensity": 20,
     "resist_traits": [ "POISRESIST" ],
     "int_add_val": 1,
-    "int_decay_tick": 100,
+    "int_decay_tick": 600,
     "base_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -5, -3 ] },
     "scaling_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -5, -3 ] },
     "show_in_info": true
@@ -443,9 +502,9 @@
     "desc": [ "You feel nauseous.  Even a thought of food makes you feel sick." ],
     "remove_message": "You no longer feel nauseous.",
     "rating": "bad",
-    "int_dur_factor": 300,
+    "int_dur_factor": "5 m",
     "max_intensity": 3,
-    "max_duration": 900,
+    "max_duration": "15 m",
     "base_mods": { "vomit_chance": [ 60 ] }
   },
   {
@@ -481,7 +540,7 @@
     "name": [ "Laser-targeted" ],
     "desc": [ "A laser sight is targeting you!" ],
     "apply_message": "",
-    "max_duration": 5,
+    "max_duration": "5 s",
     "rating": "bad"
   },
   {
@@ -490,7 +549,7 @@
     "name": [ "" ],
     "desc": [ "" ],
     "apply_message": "",
-    "max_duration": 5,
+    "max_duration": "5 s",
     "rating": "bad"
   },
   {
@@ -502,7 +561,7 @@
     "rating": "bad",
     "miss_messages": [ [ "Your lungs burn from the smoke.", 1 ] ],
     "harmful_cough": true,
-    "max_duration": 600,
+    "max_duration": "10 m",
     "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "cough_chance": [ 10 ] },
     "show_in_info": true
   },
@@ -515,7 +574,7 @@
     "rating": "bad",
     "miss_messages": [ [ "Your eyes burn from the tear gas.", 2 ] ],
     "harmful_cough": true,
-    "max_duration": 1800,
+    "max_duration": "30 m",
     "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ], "per_mod": [ -5 ], "speed_mod": [ -10 ], "cough_chance": [ 5 ] },
     "show_in_info": true
   },
@@ -545,7 +604,7 @@
     "type": "effect_type",
     "id": "took_xanax",
     "dur_add_perc": 22,
-    "base_mods": { "stim_tick": [ 25 ], "stim_min": [ -1 ], "stim_min_val": [ -1 ] }
+    "base_mods": { "stim_tick": [ 150 ], "stim_min": [ -1 ], "stim_min_val": [ -1 ] }
   },
   {
     "type": "effect_type",
@@ -576,6 +635,20 @@
   },
   {
     "type": "effect_type",
+    "id": "took_thorazine"
+  },
+  {
+    "type": "effect_type",
+    "id": "took_thorazine_bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "took_thorazine_visible",
+    "name": [ "Took Thorazine" ],
+    "desc": [ "You took Thorazine some time ago and you might still be under its influence." ]
+  },
+  {
+    "type": "effect_type",
     "id": "no_sight",
     "name": [ "Poor sight" ],
     "desc": [ "You can't see very far from this spot." ],
@@ -585,26 +658,26 @@
   {
     "type": "effect_type",
     "id": "pkill1",
-    "max_duration": 240,
-    "base_mods": { "pkill_tick": [ 7 ], "pkill_min": [ 1 ], "pkill_max_val": [ 15 ] }
+    "max_duration": "4 m",
+    "base_mods": { "pkill_tick": [ 42 ], "pkill_min": [ 1 ], "pkill_max_val": [ 15 ] }
   },
   {
     "type": "effect_type",
     "id": "pkill2",
     "pkill_addict_reduces": true,
-    "base_mods": { "pkill_tick": [ 7 ], "pkill_min": [ 2 ] }
+    "base_mods": { "pkill_tick": [ 42 ], "pkill_min": [ 2 ] }
   },
   {
     "type": "effect_type",
     "id": "pkill3",
     "pkill_addict_reduces": true,
-    "base_mods": { "pkill_tick": [ 2 ], "pkill_min": [ 1 ] }
+    "base_mods": { "pkill_tick": [ 12 ], "pkill_min": [ 1 ] }
   },
   {
     "type": "effect_type",
     "id": "pkill_l",
     "pkill_addict_reduces": true,
-    "base_mods": { "pkill_max_val": [ 40 ], "pkill_tick": [ 20 ], "pkill_min": [ 1 ] }
+    "base_mods": { "pkill_max_val": [ 40 ], "pkill_tick": [ 120 ], "pkill_min": [ 1 ] }
   },
   {
     "type": "effect_type",
@@ -630,7 +703,7 @@
     "resist_traits": [ "INFRESIST" ],
     "main_parts_only": true,
     "rating": "bad",
-    "int_dur_factor": 1800,
+    "int_dur_factor": "30 m",
     "max_intensity": 2,
     "scaling_mods": {
       "dex_mod": [ -1, 0 ],
@@ -651,7 +724,7 @@
     "resist_traits": [ "INFRESIST" ],
     "main_parts_only": true,
     "rating": "bad",
-    "int_dur_factor": 4800,
+    "int_dur_factor": "8 h",
     "max_intensity": 3,
     "base_mods": {
       "pain_chance": [ 2, 1 ],
@@ -679,7 +752,7 @@
     "desc": [ "You are recovering from an infection." ],
     "rating": "bad",
     "max_intensity": 3,
-    "int_dur_factor": 19200,
+    "int_dur_factor": "320 m",
     "base_mods": {
       "pain_chance": [ 100 ],
       "pain_min": [ 1 ],
@@ -699,10 +772,10 @@
     "desc": [ "Your wounds are bandaged." ],
     "main_parts_only": true,
     "rating": "good",
-    "int_dur_factor": 3600,
+    "int_dur_factor": "6 h",
     "max_intensity": 16,
     "max_effective_intensity": 8,
-    "max_duration": 57600,
+    "max_duration": "4 d",
     "base_mods": { "healing_rate": [ 2 ], "healing_head": [ 50 ], "healing_torso": [ 150 ] },
     "scaling_mods": { "healing_rate": [ 2 ] }
   },
@@ -713,10 +786,10 @@
     "desc": [ "Your wounds are disinfected." ],
     "main_parts_only": true,
     "rating": "good",
-    "int_dur_factor": 3600,
+    "int_dur_factor": "6 h",
     "max_intensity": 16,
     "max_effective_intensity": 8,
-    "max_duration": 57600,
+    "max_duration": "4 d",
     "base_mods": { "healing_rate": [ 2 ], "healing_head": [ 50 ], "healing_torso": [ 150 ] },
     "scaling_mods": { "healing_rate": [ 2 ] }
   },
@@ -727,7 +800,7 @@
     "speed_name": "Spore covered",
     "desc": [ "You can feel the tiny spores sinking directly into your flesh." ],
     "max_intensity": 3,
-    "int_decay_tick": 120,
+    "int_decay_tick": 720,
     "int_add_val": 1,
     "main_parts_only": true,
     "base_mods": { "speed_mod": [ -7 ] },
@@ -807,7 +880,7 @@
   {
     "type": "effect_type",
     "id": "hallu",
-    "max_duration": 3600
+    "max_duration": "30 m"
   },
   {
     "type": "effect_type",
@@ -824,7 +897,7 @@
       "dex_mod": [ -0.5 ],
       "hurt_min": [ 1 ],
       "hurt_chance": [ 200 ],
-      "pkill_tick": [ 10 ],
+      "pkill_tick": [ 60 ],
       "pkill_min": [ 1 ],
       "pkill_max_val": [ 30 ],
       "stamina_chance": [ 2 ],
@@ -841,7 +914,7 @@
     "part_descs": true,
     "base_mods": {
       "speed_mod": [ -2 ],
-      "thirst_tick": [ 400 ],
+      "thirst_tick": [ 2400 ],
       "thirst_chance": [ 2 ],
       "pain_min": [ 1 ],
       "pain_chance": [ 2 ],
@@ -853,7 +926,7 @@
     "scaling_mods": {
       "speed_mod": [ -4 ],
       "thirst_min": [ 1 ],
-      "thirst_tick": [ -100 ],
+      "thirst_tick": [ -600 ],
       "pain_max_val": [ 10 ],
       "hurt_chance": [ 200 ],
       "stamina_min": [ -1 ]
@@ -935,9 +1008,9 @@
     "resist_effects": [ "took_flumed" ],
     "miss_messages": [ [ "You're too stuffed up to fight effectively.", 1 ] ],
     "base_mods": {
-      "thirst_tick": [ 300 ],
+      "thirst_tick": [ 1800 ],
       "thirst_min": [ 1 ],
-      "fatigue_tick": [ 50 ],
+      "fatigue_tick": [ 300 ],
       "fatigue_min": [ 1 ],
       "str_mod": [ -3, -1 ],
       "dex_mod": [ -1, 0 ],
@@ -959,9 +1032,9 @@
     "rating": "bad",
     "resist_effects": [ "took_flumed" ],
     "base_mods": {
-      "thirst_tick": [ 300 ],
+      "thirst_tick": [ 1800 ],
       "thirst_min": [ 1 ],
-      "fatigue_tick": [ 50 ],
+      "fatigue_tick": [ 300 ],
       "fatigue_min": [ 1 ],
       "str_mod": [ -4, -2 ],
       "dex_mod": [ -2, 0 ],
@@ -976,6 +1049,8 @@
   {
     "type": "effect_type",
     "id": "flushot",
+    "name": [ "Vaccinated" ],
+    "desc": [ "You have been vaccinated for the flu recently." ],
     "blocks_effects": [ "flu" ]
   },
   {
@@ -1026,7 +1101,7 @@
     "decay_messages": [ [ "The jet injector's chemicals wear off.  You feel AWFUL!", "bad" ] ],
     "rating": "good",
     "max_intensity": 2,
-    "int_dur_factor": 50,
+    "int_dur_factor": "50 s",
     "removes_effects": [ "infected", "bite", "bleed", "fungus", "dermatik", "winded" ],
     "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -2 ], "per_mod": [ -2 ], "int_mod": [ -1 ] },
     "scaling_mods": { "str_mod": [ 2 ], "dex_mod": [ 3 ], "per_mod": [ 3 ], "int_mod": [ 1 ] }
@@ -1040,7 +1115,7 @@
     "decay_messages": [ [ "The stimulant combo is wearing off.  You feel sluggish.", "bad" ] ],
     "rating": "good",
     "max_intensity": 2,
-    "int_dur_factor": 50,
+    "int_dur_factor": "50 s",
     "removes_effects": [ "winded" ],
     "base_mods": { "speed_mod": [ -5 ], "dex_mod": [ -2 ], "per_mod": [ -1 ], "int_mod": [ -2 ] },
     "scaling_mods": {
@@ -1063,7 +1138,7 @@
     "decay_messages": [ [ "Your adrenaline rush wears off.  You feel AWFUL!", "bad" ] ],
     "miss_messages": [ [ "Your comedown throws you off.", 1 ] ],
     "max_intensity": 2,
-    "int_dur_factor": 150,
+    "int_dur_factor": "150 s",
     "removes_effects": [ "winded" ],
     "base_mods": {
       "speed_mod": [ -10 ],
@@ -1073,7 +1148,14 @@
       "per_mod": [ -1 ],
       "stamina_min": [ -2 ]
     },
-    "scaling_mods": { "speed_mod": [ 30 ], "str_mod": [ 5 ], "dex_mod": [ 4 ], "int_mod": [ -7 ], "per_mod": [ 2 ], "stamina_min": [ 4 ] }
+    "scaling_mods": {
+      "speed_mod": [ 20 ],
+      "str_mod": [ 1.5 ],
+      "dex_mod": [ 1.5 ],
+      "int_mod": [ -2 ],
+      "per_mod": [ 0.5 ],
+      "stamina_min": [ 4 ]
+    }
   },
   {
     "type": "effect_type",
@@ -1087,7 +1169,7 @@
     "rating": "good",
     "decay_messages": [ [ "We require repose; our fibers are nearly spent...", "bad" ] ],
     "max_intensity": 2,
-    "int_dur_factor": 150,
+    "int_dur_factor": "150 s",
     "base_mods": {
       "speed_mod": [ -10 ],
       "str_mod": [ -2 ],
@@ -1103,7 +1185,7 @@
     "id": "meth",
     "name": [ "Meth comedown", "High on Meth" ],
     "max_intensity": 2,
-    "int_dur_factor": 200,
+    "int_dur_factor": "200 s",
     "base_mods": {
       "speed_mod": [ -20 ],
       "str_mod": [ -3 ],
@@ -1114,11 +1196,11 @@
       "stamina_min": [ -4 ]
     },
     "scaling_mods": {
-      "speed_mod": [ 30 ],
-      "str_mod": [ 4 ],
-      "dex_mod": [ 4 ],
-      "int_mod": [ 3 ],
-      "per_mod": [ 5 ],
+      "speed_mod": [ 15 ],
+      "str_mod": [ 1.5 ],
+      "dex_mod": [ 1 ],
+      "int_mod": [ 0.5 ],
+      "per_mod": [ 1 ],
       "fatigue_min": [ 1 ],
       "stamina_min": [ 8 ]
     }
@@ -1129,9 +1211,8 @@
     "name": [ "Nicotine" ],
     "desc": [ "You had a puff or two.", "You smoked too much." ],
     "max_intensity": 2,
-    "int_dur_factor": 600,
-    "base_mods": { "int_mod": [ 1 ], "per_mod": [ 1 ] },
-    "scaling_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "int_mod": [ -1 ], "per_mod": [ -1 ], "vomit_chance": [ 500 ] }
+    "int_dur_factor": "10 m",
+    "scaling_mods": { "vomit_chance": [ 500 ] }
   },
   {
     "type": "effect_type",
@@ -1150,7 +1231,7 @@
     "id": "weed_high",
     "apply_message": "You feel lightheaded.",
     "miss_messages": [ [ "That critter's jumping around like a jitterbug!  It needs to mellow out.", 1 ] ],
-    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "per_mod": [ -1 ] }
+    "base_mods": { "per_mod": [ -1 ] }
   },
   {
     "type": "effect_type",
@@ -1164,25 +1245,36 @@
   {
     "type": "effect_type",
     "id": "drunk",
-    "name": [ "Tipsy", "Drunk", "Trashed", "Wasted" ],
+    "name": [ "Tipsy", "Drunk", "Trashed", "Wasted", "Dead Drunk" ],
     "desc": [
       "You drank some alcohol.  You feel warm inside.",
       "You drank alcohol.  Party on!",
       "You drank lots of alcohol.  Are those white mice?",
-      "You drank unholy amounts of alcohol.  It's the end of the world, what do you care?"
+      "You drank unholy amounts of alcohol.  It's the end of the world, what do you care?",
+      "You embalmed yourself alive with so much alcohol, that even zombies will leave your dead body alone."
     ],
-    "max_intensity": 4,
+    "max_intensity": 5,
     "apply_message": "You feel lightheaded.",
-    "int_dur_factor": 1000,
+    "int_dur_factor": "100 m",
     "miss_messages": [ [ "You feel woozy.", 1 ] ],
-    "base_mods": { "str_mod": [ 1 ], "vomit_chance": [ -43 ], "sleep_chance": [ -1003 ], "sleep_min": [ 2500 ], "sleep_max": [ 3500 ] },
+    "base_mods": {
+      "vomit_chance": [ -43 ],
+      "sleep_chance": [ -1003 ],
+      "sleep_min": [ 2500 ],
+      "sleep_max": [ 3500 ],
+      "pkill_amount": [ 3 ],
+      "pkill_max_val": [ 3 ],
+      "pkill_min": [ 1 ],
+      "pkill_tick": [ 45 ]
+    },
     "scaling_mods": {
-      "str_mod": [ -0.67 ],
-      "per_mod": [ -1 ],
-      "dex_mod": [ -1 ],
-      "int_mod": [ -1.42 ],
+      "per_mod": [ -0.5 ],
+      "dex_mod": [ -0.5 ],
+      "int_mod": [ -0.75 ],
       "vomit_chance": [ 21 ],
-      "sleep_chance": [ 501 ]
+      "sleep_chance": [ 501 ],
+      "pkill_max_val": [ 10 ],
+      "pkill_tick": [ -10 ]
     }
   },
   {
@@ -1209,7 +1301,7 @@
     "apply_message": "You can't breathe... asthma attack!",
     "rating": "bad",
     "max_intensity": 6,
-    "int_dur_factor": 200,
+    "int_dur_factor": "200 s",
     "miss_messages": [ [ "You're winded.", 3 ] ],
     "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -3 ], "speed_mod": [ -20 ] },
     "scaling_mods": { "speed_mod": [ -40 ] }
@@ -1224,7 +1316,7 @@
     "type": "effect_type",
     "id": "valium",
     "removes_effects": [ "shakes" ],
-    "base_mods": { "stim_tick": [ 25 ], "stim_chance": [ 2 ], "stim_min": [ 1 ], "stim_min_val": [ -1 ] }
+    "base_mods": { "stim_tick": [ 150 ], "stim_chance": [ 2 ], "stim_min": [ 1 ], "stim_min_val": [ -1 ] }
   },
   {
     "type": "effect_type",
@@ -1259,7 +1351,7 @@
     "id": "bloodworms",
     "rating": "bad",
     "base_mods": {
-      "thirst_tick": [ 100 ],
+      "thirst_tick": [ 600 ],
       "thirst_min": [ 1 ],
       "h_mod_chance": [ 512 ],
       "h_mod_min": [ -10 ],
@@ -1297,12 +1389,21 @@
     "type": "effect_type",
     "id": "grabbed",
     "name": [ "Grabbed" ],
-    "desc": [ "You have been grabbed by an attack.\nYou are being held in place and cannot dodge, and blocking is very difficult." ],
+    "desc": [ "You have been grabbed by an attack.\nYou are being held in place, and dodging and blocking are very difficult." ],
     "rating": "bad",
-    "max_duration": 2,
+    "max_duration": "2 s",
     "max_intensity": 15,
     "base_mods": { "speed_mod": [ -15 ] },
     "scaling_mods": { "speed_mod": [ -5 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing",
+    "name": [ "Grabbing" ],
+    "desc": [ "Grabbing another creature and holding them in place." ],
+    "max_duration": "2 s",
+    "max_intensity": 15,
     "show_in_info": true
   },
   {
@@ -1320,7 +1421,7 @@
     "id": "lying_down",
     "apply_message": "You lie down to go to sleep...",
     "rating": "neutral",
-    "max_duration": 3000
+    "max_duration": "50 m"
   },
   {
     "type": "effect_type",
@@ -1336,6 +1437,12 @@
   },
   {
     "type": "effect_type",
+    "id": "under_operation",
+    "name": [ "Under operation" ],
+    "desc": [ "You are being operated on.  Try to stay still." ]
+  },
+  {
+    "type": "effect_type",
     "id": "alarm_clock"
   },
   {
@@ -1348,7 +1455,7 @@
     "desc": [ "You're playing an instrument.\nFocusing on playing music distracts you, slowing you down." ],
     "id": "playing_instrument",
     "rating": "neutral",
-    "max_duration": 2,
+    "max_duration": "2 s",
     "max_intensity": 100,
     "base_mods": { "speed_mod": [ -1 ] },
     "scaling_mods": { "speed_mod": [ -1 ] }
@@ -1365,9 +1472,9 @@
     "desc": [ "You're covered in acid!" ],
     "apply_message": "You're covered in acid!",
     "rating": "bad",
-    "max_duration": 30,
+    "max_duration": "30 s",
     "max_intensity": 5,
-    "int_dur_factor": 5,
+    "int_dur_factor": "5 s",
     "base_mods": { "hurt_min": [ 1 ], "hurt_chance": [ 1 ], "hurt_chance_bot": [ 10 ] },
     "scaling_mods": { "hurt_chance": [ 1 ] },
     "show_in_info": true
@@ -1379,7 +1486,7 @@
     "desc": [ "You've been zapped with electricity and are barely able to move!" ],
     "apply_message": "You're zapped!",
     "rating": "bad",
-    "max_duration": 2,
+    "max_duration": "2 s",
     "dur_add_perc": 20,
     "base_mods": { "speed_mod": [ -1000 ], "dex_mod": [ -100 ] },
     "show_in_info": true
@@ -1472,7 +1579,7 @@
     "id": "haslight",
     "name": [ "Lit up" ],
     "desc": [ "You are carrying a light and can't hide well." ],
-    "max_duration": 1,
+    "max_duration": "1 s",
     "rating": "bad"
   },
   {
@@ -1481,8 +1588,8 @@
     "name": [ "Started recovery", "Recovering", "Mostly recovered" ],
     "desc": [ "This damaged limb is slowly regaining its functions." ],
     "//": "Duration is 10 days, but the actual time taken is probabilistic.",
-    "max_duration": 144000,
-    "int_dur_factor": 36000,
+    "max_duration": "10 d",
+    "int_dur_factor": "60 h",
     "max_intensity": 3,
     "rating": "good"
   },
@@ -1494,7 +1601,7 @@
     "//": "This sounds weird. We need <bp_affected> tag or something",
     "apply_message": "Your limb breaks!",
     "remove_message": "The broken limb has mended.",
-    "max_duration": 2,
+    "max_duration": "2 s",
     "rating": "bad"
   },
   {
@@ -1502,7 +1609,7 @@
     "id": "milked",
     "name": [ "Milked" ],
     "desc": [ "The creature has been partially or fully milked." ],
-    "max_duration": 14400
+    "max_duration": "1 d"
   },
   {
     "type": "effect_type",
@@ -1510,7 +1617,7 @@
     "name": [ "Painkillers" ],
     "desc": [ "You are under the influence of analgesic substances to relieve pain, but they may numb you a bit." ],
     "max_intensity": 30,
-    "int_dur_factor": 10,
+    "int_dur_factor": "10 s",
     "scaling_mods": { "speed_mod": [ -1 ] }
   },
   {
@@ -1531,7 +1638,7 @@
       "I'm on top of the world, baby!"
     ],
     "max_intensity": 25,
-    "int_dur_factor": 10,
+    "int_dur_factor": "10 s",
     "scaling_mods": { "speed_mod": [ 0.42 ], "str_mod": [ 0.06 ], "dex_mod": [ 0.05 ], "int_mod": [ 0.084 ], "per_mod": [ 0.1 ] }
   },
   {
@@ -1552,7 +1659,7 @@
       "When will all your suffering end?"
     ],
     "max_intensity": 1000,
-    "int_dur_factor": 10,
+    "int_dur_factor": "10 s",
     "scaling_mods": { "speed_mod": [ -0.42 ], "str_mod": [ -0.06 ], "dex_mod": [ -0.05 ], "int_mod": [ -0.084 ], "per_mod": [ -0.1 ] },
     "miss_messages": [ [ "What's the point of fighting?", 1 ] ]
   },
@@ -1562,7 +1669,7 @@
     "name": [ "Irradiated" ],
     "desc": [ "You suffer symptoms of a radiation sickness that weakens your body." ],
     "max_intensity": 2000,
-    "int_dur_factor": 10,
+    "int_dur_factor": "10 s",
     "scaling_mods": { "speed_mod": [ -0.2 ], "str_mod": [ -0.125 ], "dex_mod": [ -0.09 ], "int_mod": [ -0.1 ], "per_mod": [ -0.083 ] },
     "miss_messages": [ [ "Radiation weakens you.", 1 ] ]
   },
@@ -1572,8 +1679,8 @@
     "name": [ "Stimulants" ],
     "desc": [ "You're very jittery and pumped up, probably from some stimulants." ],
     "max_intensity": 1000,
-    "int_dur_factor": 1,
-    "scaling_mods": { "speed_mod": [ 0.33 ], "dex_mod": [ 0.1 ], "int_mod": [ 0.16 ], "per_mod": [ 0.14 ] }
+    "int_dur_factor": "1 s",
+    "scaling_mods": { "speed_mod": [ 0.08 ], "per_mod": [ 0.04 ] }
   },
   {
     "type": "effect_type",
@@ -1581,8 +1688,8 @@
     "name": [ "Depressants" ],
     "desc": [ "You are under the influence of depressants, and in a bit of a daze." ],
     "max_intensity": 1000,
-    "int_dur_factor": 1,
-    "scaling_mods": { "speed_mod": [ -0.25 ], "dex_mod": [ -0.1 ], "int_mod": [ -0.16 ], "per_mod": [ -0.14 ] },
+    "int_dur_factor": "1 s",
+    "scaling_mods": { "speed_mod": [ -0.1 ], "dex_mod": [ -0.05 ] },
     "miss_messages": [ [ "You feel woozy.", 1 ] ]
   },
   {
@@ -1592,8 +1699,8 @@
     "desc": [ "You can't sit still as you feel your heart pounding out of your chest.  You probably overdosed on those stims." ],
     "max_intensity": 1000,
     "int_dur_factor": 1,
-    "base_mods": { "dex_mod": [ -1.88 ], "int_mod": [ -1.1 ], "per_mod": [ -1.25 ] },
-    "scaling_mods": { "speed_mod": [ -0.25 ], "dex_mod": [ -0.125 ], "int_mod": [ -0.0833 ], "per_mod": [ -0.071 ] },
+    "base_mods": { "dex_mod": [ -0.88 ], "per_mod": [ -0.25 ] },
+    "scaling_mods": { "speed_mod": [ -0.25 ], "per_mod": [ -0.071 ] },
     "miss_messages": [ [ "You shake with the excess stimulation.", 1 ] ]
   },
   {
@@ -1637,7 +1744,7 @@
     "id": "panacea",
     "name": [ "Panacea" ],
     "desc": [ "You feel incredible! You could take on the world!" ],
-    "max_duration": 10,
+    "max_duration": "10 s",
     "base_mods": { "speed_mod": [ 20 ], "str_mod": [ 2 ], "dex_mod": [ 2 ], "int_mod": [ 2 ], "per_mod": [ 2 ] }
   },
   {
@@ -1647,8 +1754,8 @@
     "desc": [ "You are under the effects of a stomach soother." ],
     "int_add_val": 1,
     "max_intensity": 3,
-    "base_mods": { "vomit_tick": [ 10 ], "health_chance": [ 1500 ], "health_min": [ 1 ] },
-    "scaling_mods": { "health_min": [ -1.5 ], "health_min_val": [ -2 ], "vomit_tick": [ 20 ] }
+    "base_mods": { "vomit_tick": [ 60 ], "health_chance": [ 1500 ], "health_min": [ 1 ] },
+    "scaling_mods": { "health_min": [ -1.5 ], "health_min_val": [ -2 ], "vomit_tick": [ 120 ] }
   },
   {
     "//": "This effect is a dummy effect for disabling certain things for a few turns after an electromagnetic pulse and does nothing on its own",
@@ -1656,7 +1763,7 @@
     "id": "emp",
     "name": [ "Discharge" ],
     "desc": [ "You've been recently affected by an electromagnetic pulse." ],
-    "max_duration": 30
+    "max_duration": "30 s"
   },
   {
     "type": "effect_type",

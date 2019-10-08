@@ -52,16 +52,16 @@ class JsonIn;
 class DynamicDataLoader
 {
     public:
-        typedef std::string type_string;
-        typedef std::map<type_string, std::function<void( JsonObject &, const std::string &, const std::string &, const std::string & )>>
-                t_type_function_map;
-        typedef std::vector<std::string> str_vec;
+        using type_string = std::string;
+        using t_type_function_map =
+            std::map<type_string, std::function<void( JsonObject &, const std::string &, const std::string &, const std::string & )>>;
+        using str_vec = std::vector<std::string>;
 
         /**
          * JSON data dependent upon as-yet unparsed definitions
          * first: JSON data, second: source identifier
          */
-        typedef std::list<std::pair<std::string, std::string>> deferred_json;
+        using deferred_json = std::list<std::pair<std::string, std::string>>;
 
     private:
         bool finalized = false;

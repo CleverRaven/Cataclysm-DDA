@@ -1,0 +1,15 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_FIELD_RESEARCHER_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "under_armor" },
+      { "item": "under_armor_shorts" },
+      { "item": "robofac_enviro_suit" },
+      { "item": "mask_gas" },
+      { "collection": [ { "group": "guns_pistol_milspec" }, { "item": "holster" } ], "prob": 50 },
+      { "item": "tacvest" }
+    ]
+  }
+]

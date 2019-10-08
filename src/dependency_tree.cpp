@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <set>
 #include <array>
-#include <iterator>
 #include <sstream>
 #include <utility>
 
@@ -150,6 +149,8 @@ std::vector<mod_id> dependency_node::get_dependencies_as_strings()
 
     std::vector<dependency_node *> as_nodes = get_dependencies_as_nodes();
 
+    ret.reserve( as_nodes.size() );
+
     for( auto &as_node : as_nodes ) {
         ret.push_back( ( as_node )->key );
     }
@@ -209,6 +210,8 @@ std::vector<mod_id> dependency_node::get_dependents_as_strings()
 
     std::vector<dependency_node *> as_nodes = get_dependents_as_nodes();
 
+    ret.reserve( as_nodes.size() );
+
     for( auto &as_node : as_nodes ) {
         ret.push_back( ( as_node )->key );
     }
@@ -257,9 +260,7 @@ std::vector<dependency_node *> dependency_node::get_dependents_as_nodes()
     return ret;
 }
 
-dependency_tree::dependency_tree()
-{
-}
+dependency_tree::dependency_tree() = default;
 
 void dependency_tree::init( std::map<mod_id, std::vector<mod_id> > key_dependency_map )
 {

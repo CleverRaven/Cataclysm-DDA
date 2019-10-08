@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <iterator>
 #include <memory>
-#include <sstream>
 
 #include "cata_utility.h"
 #include "debug.h"
@@ -63,6 +62,7 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories
         {"magical", translate_marker( "MAGICAL MODS" )},
         {"item_exclude", translate_marker( "ITEM EXCLUSION MODS" )},
         {"monster_exclude", translate_marker( "MONSTER EXCLUSION MODS" )},
+        {"graphical", translate_marker( "GRAPHICAL MODS" )},
         {"", translate_marker( "NO CATEGORY" )}
     };
 
@@ -298,12 +298,7 @@ bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
         return false;
     }
 
-    std::ostringstream number_stream;
     for( size_t i = 0; i < mods_to_copy.size(); ++i ) {
-        number_stream.str( std::string() );
-        number_stream.width( 5 );
-        number_stream.fill( '0' );
-        number_stream << ( i + 1 );
         const MOD_INFORMATION &mod = *mods_to_copy[i];
         size_t start_index = mod.path.size();
 
@@ -325,13 +320,12 @@ bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
         }
 
         // create needed directories
-        std::ostringstream cur_mod_dir;
-        cur_mod_dir << output_base_path << "/mod_" << number_stream.str();
+        const std::string cur_mod_dir = string_format( "%s/mod_%05d", output_base_path, i + 1 );
 
         std::queue<std::string> dir_to_make;
-        dir_to_make.push( cur_mod_dir.str() );
+        dir_to_make.push( cur_mod_dir );
         for( auto &input_dir : input_dirs ) {
-            dir_to_make.push( cur_mod_dir.str() + "/" + input_dir.substr( start_index ) );
+            dir_to_make.push( cur_mod_dir + "/" + input_dir.substr( start_index ) );
         }
 
         while( !dir_to_make.empty() ) {
@@ -346,7 +340,7 @@ bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
         // trim file paths from full length down to just /data forward
         for( auto &input_file : input_files ) {
             std::string output_path = input_file;
-            output_path = cur_mod_dir.str() + output_path.substr( start_index );
+            output_path = cur_mod_dir + output_path.substr( start_index );
             copy_file( input_file, output_path );
         }
     }

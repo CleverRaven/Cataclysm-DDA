@@ -26,28 +26,6 @@
   },
   {
     "type": "npc_class",
-    "id": "NC_EVAC_SHOPKEEP",
-    "name": "Merchant",
-    "job_description": "I'm a local shopkeeper.",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
-    "//": "This is a unique NPC who doesn't get randomly selected background traits",
-    "common": false,
-    "bonus_int": { "one_in": 4 },
-    "bonus_per": { "one_in": 4 },
-    "shopkeeper_item_group": "NC_EVAC_SHOPKEEP_misc",
-    "skills": [
-      {
-        "skill": "ALL",
-        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
-      },
-      { "skill": "mechanics", "bonus": { "one_in": 2 } },
-      { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
-      { "skill": "speech", "bonus": { "rng": [ 1, 3 ] } },
-      { "skill": "barter", "bonus": { "rng": [ 3, 5 ] } }
-    ]
-  },
-  {
-    "type": "npc_class",
     "id": "NC_SHOPKEEP",
     "name": "Shopkeep",
     "job_description": "I'm a local shopkeeper.",
@@ -129,6 +107,34 @@
       { "skill": "gun", "bonus": { "rng": [ 1, 3 ] } },
       { "skill": "pistol", "bonus": { "rng": [ 1, 3 ] } },
       { "skill": "rifle", "bonus": { "rng": [ 0, 2 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_MARLOSS_VOICE",
+    "name": "Marloss Voice",
+    "job_description": "I spread the Hymns so that peace and unity return to our world.",
+    "traits": [
+      { "group": "BG_survival_story_RURAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      [ "MARLOSS", 100 ],
+      [ "MARLOSS_BLUE", 40 ],
+      [ "MYCUS_FRIEND", 100 ],
+      [ "FLIMSY2", 100 ]
+    ],
+    "common": false,
+    "worn_override": "NC_VOICE_worn",
+    "carry_override": "NC_VOICE_carry",
+    "weapon_override": "NC_VOICE_weapon",
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 1, 3 ] } }
     ]
   },
   {
@@ -326,6 +332,17 @@
   },
   {
     "type": "npc_class",
+    "id": "NC_HALLU",
+    "name": "Real Person",
+    "job_description": "I'm just wandering, like a totally real and normal NP... Person!",
+    "traits": [ { "group": "BG_survival_story_UNIVERSAL" }, { "group": "NPC_starting_traits" }, [ "HALLUCINATION", 100 ] ],
+    "common": false,
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
     "id": "NC_SURVIVOR_CHEF",
     "name": "Chef",
     "job_description": "I'm a chef.",
@@ -343,6 +360,23 @@
   },
   {
     "type": "npc_class",
+    "id": "NC_TRUE_FOODPERSON",
+    "name": "Foodperson",
+    "job_description": "I AM FOODPERSON. AND I BRING SUSTENANCE!",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, [ "PROF_FOODP", 100 ] ],
+    "common": false,
+    "worn_override": "NC_TRUE_FOODPERSON_worn",
+    "weapon_override": "NC_TRUE_FOODPERSON_melee",
+    "bonus_str": { "rng": [ 0, 2 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } },
+      { "skill": "bashing", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 3, 6 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
     "id": "NC_CYBORG",
     "name": "Cyborg",
     "job_description": "Zzzzzt... I...I'm a Cy...BEEEEEP...borg.",
@@ -350,8 +384,9 @@
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }
     ],
+    "common": false,
     "worn_override": "NC_CYBORG_worn",
-    "carry_override": "EMPTY_GROUP",
+    "carry_override": "NC_CYBORG_carried",
     "weapon_override": "EMPTY_GROUP",
     "bionics": [
       { "id": "bio_ankles", "chance": 100 },

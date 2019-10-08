@@ -5,11 +5,12 @@
 #include <string>
 
 #include "calendar.h"
+#include "enum_traits.h"
 
 class JsonIn;
 class JsonOut;
 
-typedef std::string dis_type;
+using dis_type = std::string;
 
 enum character_type : int {
     PLTYPE_CUSTOM,
@@ -24,6 +25,12 @@ enum add_type : int {
     ADD_CAFFEINE, ADD_ALCOHOL, ADD_SLEEP, ADD_PKILLER, ADD_SPEED, ADD_CIG,
     ADD_COKE, ADD_CRACK, ADD_MUTAGEN, ADD_DIAZEPAM, ADD_MARLOSS_R, ADD_MARLOSS_B,
     ADD_MARLOSS_Y,
+    NUM_ADD_TYPES // last
+};
+
+template<>
+struct enum_traits<add_type> {
+    static constexpr add_type last = NUM_ADD_TYPES;
 };
 
 enum hp_part : int {
@@ -34,6 +41,11 @@ enum hp_part : int {
     hp_leg_l,
     hp_leg_r,
     num_hp_parts
+};
+
+template<>
+struct enum_traits<hp_part> {
+    static constexpr hp_part last = num_hp_parts;
 };
 
 class addiction

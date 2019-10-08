@@ -3,50 +3,47 @@
 #include <algorithm>
 #include <utility>
 
-#include "debug.h"
 #include "item.h"
+#include "safe_reference.h"
 
-void active_item_cache::remove( std::list<item>::iterator it, point location )
+void active_item_cache::remove( const item *it )
 {
-    const auto predicate = [&]( const item_reference & active_item ) {
-        return location == active_item.location && active_item.item_iterator == it;
-    };
-    // The iterator is expected to be in this list, as it was added that way in `add`.
-    // But the processing_speed may have changed, so if it's not in the expected container,
-    // remove it from all containers to ensure no stale iterator remains.
-    auto &expected = active_items[it->processing_speed()];
-    const auto iter = std::find_if( expected.begin(), expected.end(), predicate );
-    if( iter != expected.end() ) {
-        expected.erase( iter );
-    } else {
-        for( auto &e : active_items ) {
-            e.second.remove_if( predicate );
-        }
+    active_items[it->processing_speed()].remove_if( [it]( const item_reference & active_item ) {
+        item *const target = active_item.item_ref.get();
+        return !target || target == it;
+    } );
+    if( it->can_revive() ) {
+        special_items[ special_item_type::corpse ].remove_if( [it]( const item_reference & active_item ) {
+            item *const target = active_item.item_ref.get();
+            return !target || target == it;
+        } );
     }
-    if( active_item_set.erase( &*it ) == 0 ) {
-        // map erase returns number of elements erased
-        debugmsg( "The item isn't there!" );
+    if( it->get_use( "explosion" ) ) {
+        special_items[ special_item_type::explosive ].remove_if( [it]( const item_reference &
+        active_item ) {
+            item *const target = active_item.item_ref.get();
+            return !target || target == it;
+        } );
     }
 }
 
-void active_item_cache::add( std::list<item>::iterator it, point location )
+void active_item_cache::add( item &it, point location )
 {
-    if( has( it, location ) ) {
+    // If the item is alread in the cache for some reason, don't add a second reference
+    std::list<item_reference> &target_list = active_items[it.processing_speed()];
+    if( std::find_if( target_list.begin(),
+    target_list.end(), [&it]( const item_reference & active_item_ref ) {
+    return &it == active_item_ref.item_ref.get();
+    } ) != target_list.end() ) {
         return;
     }
-    active_items[it->processing_speed()].push_back( item_reference{ location, it, &*it } );
-    active_item_set[ &*it ] = false;
-}
-
-bool active_item_cache::has( std::list<item>::iterator it, point ) const
-{
-    return active_item_set.find( &*it ) != active_item_set.end();
-}
-
-bool active_item_cache::has( const item_reference &itm ) const
-{
-    const auto found = active_item_set.find( itm.item_id );
-    return found != active_item_set.end() && found->second;
+    if( it.can_revive() ) {
+        special_items[ special_item_type::corpse ].push_back( item_reference{ location, it.get_safe_reference() } );
+    }
+    if( it.get_use( "explosion" ) ) {
+        special_items[ special_item_type::explosive ].push_back( item_reference{ location, it.get_safe_reference() } );
+    }
+    target_list.push_back( item_reference{ location, it.get_safe_reference() } );
 }
 
 bool active_item_cache::empty() const
@@ -54,25 +51,53 @@ bool active_item_cache::empty() const
     return active_items.empty();
 }
 
-// get() only returns the first size() / processing_speed() elements of each list, rounded up.
-// It relies on the processing logic to remove and reinsert the items to they
-// move to the back of their respective lists (or to new lists).
-// Otherwise only the first n items will ever be processed.
-std::list<item_reference> active_item_cache::get()
+std::vector<item_reference> active_item_cache::get()
 {
-    std::list<item_reference> items_to_process;
-    for( auto &tuple : active_items ) {
-        // Rely on iteration logic to make sure the number is sane.
-        int num_to_process = tuple.second.size() / tuple.first;
-        for( auto &an_iter : tuple.second ) {
-            active_item_set[an_iter.item_id] = true;
-            items_to_process.push_back( an_iter );
-            if( --num_to_process < 0 ) {
-                break;
+    std::vector<item_reference> all_cached_items;
+    for( std::pair<const int, std::list<item_reference>> &kv : active_items ) {
+        for( std::list<item_reference>::iterator it = kv.second.begin(); it != kv.second.end(); ) {
+            if( it->item_ref ) {
+                all_cached_items.emplace_back( *it );
+                ++it;
+            } else {
+                it = kv.second.erase( it );
             }
         }
     }
+    return all_cached_items;
+}
+
+std::vector<item_reference> active_item_cache::get_for_processing()
+{
+    std::vector<item_reference> items_to_process;
+    for( std::pair<const int, std::list<item_reference>> &kv : active_items ) {
+        // Rely on iteration logic to make sure the number is sane.
+        int num_to_process = kv.second.size() / kv.first;
+        std::list<item_reference>::iterator it = kv.second.begin();
+        for( ; it != kv.second.end() && num_to_process >= 0; ) {
+            if( it->item_ref ) {
+                items_to_process.push_back( *it );
+                --num_to_process;
+                ++it;
+            } else {
+                // The item has been destroyed, so remove the reference from the cache
+                it = kv.second.erase( it );
+            }
+        }
+        // Rotate the returned items to the end of their list so that the items that weren't
+        // returned this time will be first in line on the next call
+        kv.second.splice( kv.second.end(), kv.second, kv.second.begin(), it );
+    }
     return items_to_process;
+}
+
+std::vector<item_reference> active_item_cache::get_special( special_item_type type )
+{
+    std::vector<item_reference> matching_items;
+    for( const item_reference &it : special_items[type] ) {
+        matching_items.push_back( it );
+    }
+    return matching_items;
 }
 
 void active_item_cache::subtract_locations( const point &delta )

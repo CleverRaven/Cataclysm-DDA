@@ -1,0 +1,34 @@
+[
+  {
+    "type": "npc",
+    "id": "ranch_crop_overseer",
+    "//": "Flavor",
+    "name_suffix": "Crop Overseer",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_RANCH_CROP_OVERSEER",
+    "faction": "tacoma_commune"
+  },
+  {
+    "id": "TALK_RANCH_CROP_OVERSEER",
+    "type": "talk_topic",
+    "dynamic_line": "I hope you are here to do business.",
+    "responses": [
+      { "text": "What are you doing here?", "topic": "TALK_RANCH_CROP_OVERSEER_JOB" },
+      {
+        "text": "I'm interested in investing in agriculture...",
+        "topic": "TALK_RANCH_CROP_OVERSEER",
+        "effect": { "companion_mission": "COMMUNE CROPS" }
+      },
+      { "text": "What do you need done?", "topic": "TALK_MISSION_LIST" },
+      { "text": "I've got to go...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_CROP_OVERSEER_JOB",
+    "dynamic_line": "My job is to manage our outpost's agricultural production.  I'm constantly searching for trade partners and investors to increase our capacity.  If you are interested I typically have tasks that I need assistance with.",
+    "responses": [ { "text": "I'll keep that in mind.", "topic": "TALK_RANCH_CROP_OVERSEER" } ]
+  }
+]

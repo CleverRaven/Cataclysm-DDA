@@ -1,0 +1,53 @@
+[
+  {
+    "type": "npc",
+    "id": "ranch_barber",
+    "//": "Provides hair cuts",
+    "name_suffix": "Barber",
+    "class": "NC_HUNTER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_RANCH_BARBER",
+    "faction": "tacoma_commune"
+  },
+  {
+    "id": "TALK_RANCH_BARBER",
+    "type": "talk_topic",
+    "dynamic_line": "Can I interest you in a trim?  It'll cost you 6 merch for a haircut or 3 for a beard trim.  I can do color and styling too.",
+    "responses": [
+      { "text": "What is your job here?", "topic": "TALK_RANCH_BARBER_JOB" },
+      { "text": "Do you need any help?", "topic": "TALK_RANCH_BARBER_HIRE" },
+      {
+        "text": "[$5] I'll have a shave",
+        "topic": "TALK_RANCH_BARBER_CUT",
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 3 } },
+        "effect": [ "buy_shave", { "u_sell_item": "FMCNote", "count": 3 }, "barber_beard" ]
+      },
+      {
+        "text": "[$10] I'll get a haircut",
+        "topic": "TALK_RANCH_BARBER_CUT",
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 6 } },
+        "effect": [ "buy_haircut", { "u_sell_item": "FMCNote", "count": 6 }, "barber_hair" ]
+      },
+      { "text": "Maybe another time...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_BARBER_JOB",
+    "dynamic_line": "What?  I'm a barber... I cut hair.  There's demand for cheap cuts and a shave out here.",
+    "responses": [ { "text": "Sorry.", "topic": "TALK_RANCH_BARBER" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_BARBER_HIRE",
+    "dynamic_line": "I can't imagine what I'd need your assistance with.",
+    "responses": [ { "text": "Fine.", "topic": "TALK_RANCH_BARBER" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_BARBER_CUT",
+    "dynamic_line": "Stand still while I get my clippers...",
+    "responses": [ { "text": "Thanks...", "topic": "TALK_DONE" } ]
+  }
+]

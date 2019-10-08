@@ -45,7 +45,7 @@
       "terrain": {
         " ": "t_floor",
         "+": "t_door_c",
-        "-": "t_wall",
+        "-": "t_wall_w",
         ".": "t_grass",
         "2": "t_window_boarded",
         "3": "t_door_locked",
@@ -55,7 +55,7 @@
         "W": "t_floor",
         "4": "t_gutter_downspout",
         "<": "t_stairs_up",
-        "|": "t_wall"
+        "|": "t_wall_w"
       },
       "furniture": { "9": "f_rack", ">": "f_counter", "G": "f_oven", "W": "f_water_heater" },
       "place_items": [

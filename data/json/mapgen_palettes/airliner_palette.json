@@ -1,0 +1,32 @@
+[
+  {
+    "type": "palette",
+    "id": "airliner_palette",
+    "terrain": {
+      " ": [ [ "t_grass", 40 ], [ "t_grass_long", 6 ], [ "t_dirt", 10 ] ],
+      "A": "t_open_air",
+      ",": "t_rock",
+      "d": "t_dirtmound",
+      "M": "t_wall_metal",
+      "m": "t_scrap_wall_halfway",
+      ".": "t_metal_floor",
+      "a": "t_metal_floor",
+      "c": "t_metal_floor",
+      "f": "t_metal_floor",
+      "l": "t_metal_floor",
+      "S": "t_metal_floor",
+      "T": "t_metal_floor",
+      "z": "t_metal_floor",
+      "Z": "t_metal_floor",
+      "+": "t_door_metal_c",
+      "D": "t_door_metal_locked",
+      "g": "t_reinforced_glass",
+      "s": "t_reinforced_glass_shutter",
+      "x": "t_console_broken",
+      ">": "t_slope_down",
+      "<": "t_slope_up"
+    },
+    "furniture": { "a": "f_seat_airplane", "c": "f_counter", "f": "f_fridge", "l": "f_locker", "S": "f_sink", "*": "f_wreckage" },
+    "toilets": { "T": {  } }
+  }
+]

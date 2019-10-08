@@ -1,0 +1,82 @@
+[
+  {
+    "type": "npc",
+    "id": "hub_security_head",
+    "//": "A cold ex-mercenary from a third world country you have never heard of before.  Third in charge after Melchior and Director Cohen. ",
+    "name_unique": "U. Rourke",
+    "name_suffix": "Head of Security",
+    "gender": "male",
+    "class": "NC_ROBOFAC_SECURITY_HEAD",
+    "attitude": 0,
+    "mission": 8,
+    "//": "He needs unique dialogue.  But for now he's just the boss enemy of Hub 01, if the player attmepts to invade the lab.",
+    "chat": "TALK_HUB_SECURITY",
+    "faction": "robofac"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ROBOFAC_SECURITY_HEAD",
+    "name": "Head of security",
+    "job_description": "I'm part of the Hub security team.",
+    "common": false,
+    "//": "Needs his own unique background.",
+    "traits": [
+      { "group": "BG_survival_story_POLICE" },
+      [ "TOUGH2", 100 ],
+      [ "PAINRESIST", 100 ],
+      [ "GOODCARDIO", 100 ],
+      { "group": "Appearance_demographics" }
+    ],
+    "bonus_str": { "rng": [ 2, 4 ] },
+    "bonus_int": { "rng": [ 1, 2 ] },
+    "bonus_per": { "rng": [ 2, 4 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -1 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "smg", "bonus": { "rng": [ 2, 6 ] } }
+    ],
+    "bionics": [
+      { "id": "bio_targeting", "chance": 100 },
+      { "id": "bio_memory", "chance": 100 },
+      { "id": "bio_armor_arms", "chance": 100 },
+      { "id": "bio_armor_legs", "chance": 100 },
+      { "id": "bio_hydraulics", "chance": 100 },
+      { "id": "bio_cqb", "chance": 100 },
+      { "id": "bio_metabolics", "chance": 100 },
+      { "id": "bio_str_enhancer", "chance": 100 },
+      { "id": "bio_blade", "chance": 100 },
+      { "id": "bio_power_storage", "chance": 100 },
+      { "id": "bio_torsionratchet", "chance": 100 }
+    ],
+    "carry_override": "NC_robofac_security_head_misc",
+    "worn_override": "NC_robofac_security_head_worn"
+  },
+  {
+    "type": "item_group",
+    "id": "NC_robofac_security_head_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "under_armor" },
+      { "item": "under_armor_shorts" },
+      { "item": "rm13_armor" },
+      { "item": "goggles_nv" },
+      { "item": "holster", "prob": 50 },
+      { "item": "tacvest" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_robofac_security_head_misc",
+    "subtype": "collection",
+    "entries": [
+      { "item": "EMPbomb" },
+      { "item": "needlegun", "charges": 100, "ammo-item": "5x50heavy" },
+      { "item": "goggles_nv" },
+      { "item": "flashbang", "count": 2 },
+      { "item": "plut_cell", "count": 5 },
+      { "item": "5x50_100_mag", "count": 2, "charges": 100, "ammo-item": "5x50heavy" },
+      { "item": "5x50heavy", "count": 8 }
+    ]
+  }
+]

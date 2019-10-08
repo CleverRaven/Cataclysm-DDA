@@ -11,6 +11,7 @@
 bool init_sound();
 void shutdown_sound();
 void play_music( const std::string &playlist );
+void stop_music();
 void update_music_volume();
 void load_soundset();
 

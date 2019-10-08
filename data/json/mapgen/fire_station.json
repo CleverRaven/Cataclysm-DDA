@@ -1,31 +1,11 @@
 [
   {
-    "id": "fireman_doc",
-    "type": "item_group",
-    "items": [
-      [ "textbook_fireman", 100 ],
-      [ "emergency_book", 100 ],
-      [ "manual_first_aid", 50 ],
-      [ "manual_swimming", 50 ],
-      [ "textbook_firstaid", 10 ],
-      [ "mag_computer", 50 ]
-    ]
-  },
-  {
-    "name": "GROUP_FIRE",
-    "type": "monstergroup",
-    "default": "mon_zombie_fireman",
-    "monsters": [
-      { "monster": "mon_zombie_fireman", "freq": 100, "cost_multiplier": 2, "pack_size": [ 3, 5 ] },
-      { "monster": "mon_zombie", "freq": 40, "cost_multiplier": 1 }
-    ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "fire_station" ],
-    "weight": 10000000,
+    "weight": 100,
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         "________________________",
         "--O--_,_______,_______,_",
@@ -50,34 +30,23 @@
         "|+|  |                 |",
         "|T|GS|  l l l   l l l  |",
         "|----------------------|",
-        "........................"
+        ".....................4.."
       ],
       "set": [ { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] } ],
       "terrain": {
         " ": "t_floor",
-        "#": "t_floor",
         "+": "t_door_c",
         ",": "t_pavement_y",
         "-": "t_brick_wall",
         ".": "t_grass",
-        ":": "t_floor",
-        "@": "t_floor",
-        "F": "t_floor",
-        "G": "t_floor",
         "L": "t_door_locked",
         "M": "t_door_metal_locked",
         "O": "t_window",
-        "S": "t_floor",
-        "T": "t_floor",
-        "^": "t_floor",
         "_": "t_pavement",
-        "c": "t_floor",
-        "l": "t_floor",
-        "r": "t_floor",
-        "t": "t_floor",
         "w": "t_gates_control_brick",
         "x": "t_console_broken",
-        "|": "t_brick_wall"
+        "|": "t_brick_wall",
+        "4": "t_gutter_downspout"
       },
       "furniture": {
         "#": "f_counter",
@@ -112,16 +81,65 @@
         { "item": "fireman_gear", "x": [ 20, 20 ], "y": [ 21, 21 ], "chance": 70 }
       ],
       "place_monsters": [ { "monster": "GROUP_FIRE", "x": [ 2, 21 ], "y": [ 9, 21 ], "chance": 1 } ],
-      "place_vehicles": [ { "vehicle": "fire_engine", "x": 12, "y": 13, "chance": 30, "rotation": 270 } ]
+      "place_vehicles": [ { "vehicle": "fire_engine", "x": 11, "y": 13, "chance": 30, "rotation": 270 } ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "fire_station" ],
-    "weight": 10000000,
+    "om_terrain": "fire_station_roof",
     "object": {
-      "fill_ter": "t_grass",
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "|2223                   ",
+        "|...3                   ",
+        "|...3                   ",
+        "|...3                   ",
+        "|...3                   ",
+        "|...3                   ",
+        "|...3                   ",
+        "|...32222222222222222223",
+        "|......................3",
+        "|......................3",
+        "|.o....................3",
+        "|.o....................3",
+        "|.o....................3",
+        "|......................3",
+        "|......................3",
+        "|......................3",
+        "|......o...o...........3",
+        "|......o...o...........3",
+        "|......o...o...........3",
+        "|......................3",
+        "|......................3",
+        "|--------------------5-3",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ],
+            [ "roof_4x4_utility", 40 ]
+          ],
+          "x": [ 4, 18 ],
+          "y": [ 10, 17 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "fire_station_1" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
       "rows": [
         "__PpppppppPpppppppP__s__",
         "_||+++++++|+++++++||_s__",
@@ -133,16 +151,16 @@
         "_|t.......t.......t|_s_S",
         "_|t.......t.......t|_s__",
         "_|t.......t.......t|_s_a",
-        "_|t.......t.......t|_s__",
+        "_|t.......t.......t|_s_4",
         "_|t.......t.......t||D||",
         "_|t.......t.......t|ff^|",
         "_|tttttttttttttttttDfff|",
         "_|rtrtrtttTTrrTTttt|f#Cw",
         "_||||||||D||||||D|||f#c|",
-        "___|ee|HHf{{{{{{fffdf#c|",
-        "___|tt|H#ffffffffffdfffw",
-        "___||d|H#ffffffff|||||||",
-        "___|&fffffc#cffff|bbgbb|",
+        "_ss|ee|HHf{{{{{{fffdf#c|",
+        "_s<|tt|H#ffffffffffdfffw",
+        "_ss||d|H#ffffffff|||||||",
+        "_ss|&fffffc#cffff|bbgbb|",
         "___||d|Fffc#cffffdfffffh",
         "___|it|&ojc#cfE5B|bbgbb|",
         "___|||||ww|w|ww|||||||||",
@@ -150,41 +168,29 @@
       ],
       "set": [ { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] } ],
       "terrain": {
-        "#": "t_floor",
-        "&": "t_floor",
+        "f": "t_floor",
         "+": "t_door_metal_locked",
         ".": "t_scrap_floor",
-        "5": "t_floor",
         "6": "t_gates_control_brick",
-        "B": "t_floor",
         "C": "t_console_broken",
         "D": "t_door_metal_c",
-        "E": "t_floor",
-        "F": "t_floor",
-        "H": "t_floor",
         "P": "t_pavement_y",
         "S": "t_shrub_rose",
         "T": "t_thconc_floor",
-        "^": "t_floor",
         "_": "t_grass",
         "a": "t_shrub_lilac",
-        "b": "t_floor",
-        "c": "t_floor",
         "d": "t_door_c",
         "e": "t_thconc_floor",
-        "f": "t_floor",
-        "g": "t_floor",
         "h": "t_curtains",
         "i": "t_thconc_floor",
-        "j": "t_floor",
-        "o": "t_floor",
         "p": "t_pavement",
         "r": "t_thconc_floor",
         "s": "t_sidewalk",
         "t": "t_thconc_floor",
         "w": "t_window_domestic",
-        "{": "t_floor",
-        "|": "t_brick_wall"
+        "|": "t_brick_wall",
+        "4": "t_gutter_downspout",
+        "<": "t_ladder_up"
       },
       "furniture": {
         "#": "f_table",
@@ -241,7 +247,70 @@
         { "vehicle": "fire_truck", "x": 5, "y": 5, "rotation": 270, "chance": 20 },
         { "vehicle": "fire_engine", "x": 14, "y": 5, "rotation": 270, "chance": 20 }
       ]
-    },
-    "flags": [ "SIDEWALK" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "fire_station_roof_1",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        " |222222222222222223    ",
+        " |.................3    ",
+        " |.................3    ",
+        " |.................3    ",
+        " |.................3    ",
+        " |.................3    ",
+        " |.................3    ",
+        " |.................3    ",
+        " |.................3    ",
+        " |.................3    ",
+        " |.................32225",
+        " |.....................3",
+        " |.....................3",
+        " |.....................3",
+        " |--...................3",
+        " ###...................3",
+        " #>#...................3",
+        " ###...................3",
+        "   |...................3",
+        "   |...................3",
+        "   |...................3",
+        "   |-------------------3",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ">": "t_ladder_down" },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ],
+            [ "roof_2x2_golf", 20 ],
+            [ "roof_3x3_wine", 30 ]
+          ],
+          "x": [ 6, 18 ],
+          "y": [ 17, 19 ]
+        },
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_4x4_party", 15 ],
+            [ "roof_4x4_holdout", 5 ],
+            [ "roof_4x4_utility", 40 ],
+            [ "roof_4x4_utility_1", 30 ],
+            [ "roof_6x6_survivor", 20 ],
+            [ "roof_6x6_utility", 20 ]
+          ],
+          "x": [ 3, 12 ],
+          "y": [ 3, 9 ]
+        }
+      ]
+    }
   }
 ]

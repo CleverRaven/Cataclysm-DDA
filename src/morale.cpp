@@ -1,6 +1,6 @@
 #include "morale.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <set>
 #include <cmath>
@@ -14,15 +14,12 @@
 #include "debug.h"
 #include "input.h"
 #include "item.h"
-#include "itype.h"
-#include "iuse_actor.h"
 #include "morale_types.h"
 #include "options.h"
 #include "output.h"
 #include "translations.h"
 #include "color.h"
 #include "enums.h"
-#include "iuse.h"
 
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_hot( "hot" );
@@ -105,7 +102,7 @@ static const morale_mult badtemper( 0.8, 1.2 );
 static const morale_mult prozac( 1.0, 0.25 );
 // The bad prozac effect reduces good morale by 75%.
 static const morale_mult prozac_bad( 0.25, 1.0 );
-}
+} // namespace morale_mults
 
 std::string player_morale::morale_point::get_name() const
 {
@@ -185,6 +182,15 @@ time_duration player_morale::morale_point::pick_time( const time_duration curren
     return ( remaining_time <= new_time && same_sign ) ? new_time : remaining_time;
 }
 
+void player_morale::morale_point::set_percent_contribution( double contribution )
+{
+    percent_contribution = contribution;
+}
+
+double player_morale::morale_point::get_percent_contribution()
+{
+    return percent_contribution;
+}
 void player_morale::morale_point::decay( const time_duration ticks )
 {
     if( ticks < 0_turns ) {
@@ -253,6 +259,8 @@ player_morale::player_morale() :
     mutations[trait_id( "ROOTS1" )]         = mutation_data( update_constrained );
     mutations[trait_id( "ROOTS2" )]        = mutation_data( update_constrained );
     mutations[trait_id( "ROOTS3" )]        = mutation_data( update_constrained );
+    mutations[trait_id( "LEAVES2" )]       = mutation_data( update_constrained );
+    mutations[trait_id( "LEAVES3" )]       = mutation_data( update_constrained );
     mutations[trait_id( "MASOCHIST" )]     = mutation_data( update_masochist );
     mutations[trait_id( "MASOCHIST_MED" )] = mutation_data( update_masochist );
     mutations[trait_id( "CENOBITE" )]      = mutation_data( update_masochist );
@@ -346,6 +354,59 @@ morale_mult player_morale::get_temper_mult() const
     return mult;
 }
 
+void player_morale::calculate_percentage()
+{
+    const morale_mult mult = get_temper_mult();
+
+    int sum_of_positive_squares = 0;
+    int sum_of_negative_squares = 0;
+
+    for( auto &m : points ) {
+        const int bonus = m.get_net_bonus( mult );
+        if( bonus > 0 ) {
+            sum_of_positive_squares += pow( bonus, 2 );
+        } else {
+            sum_of_negative_squares += pow( bonus, 2 );
+        }
+    }
+
+    for( auto &m : points ) {
+        const int bonus = m.get_net_bonus( mult );
+        if( bonus > 0 ) {
+            m.set_percent_contribution( ( pow( bonus, 2 ) / sum_of_positive_squares ) * 100 );
+        } else {
+            m.set_percent_contribution( ( pow( bonus, 2 ) / sum_of_negative_squares ) * 100 );
+        }
+    }
+}
+
+int player_morale::get_total_negative_value() const
+{
+    const morale_mult mult = get_temper_mult();
+    int sum = 0;
+    for( auto &m : points ) {
+        const int bonus = m.get_net_bonus( mult );
+        if( bonus < 0 ) {
+            sum += pow( bonus, 2 );
+        }
+    }
+    return sqrt( sum );
+}
+
+int player_morale::get_total_positive_value() const
+{
+    const morale_mult mult = get_temper_mult();
+    int sum = 0;
+    for( auto &m : points ) {
+        const int bonus = m.get_net_bonus( mult );
+        if( bonus > 0 ) {
+            sum += pow( bonus, 2 );
+        }
+
+    }
+    return sqrt( sum );
+}
+
 int player_morale::get_level() const
 {
     if( !level_is_valid ) {
@@ -390,17 +451,22 @@ void player_morale::decay( const time_duration ticks )
     invalidate();
 }
 
-void player_morale::display( double focus_gain )
+void player_morale::display( int focus_eq )
 {
-    const char *morale_gain_caption = _( "Total morale gain" );
-    const char *focus_gain_caption = _( "Focus gain per minute" );
+    /*calculates the percent contributions of the morale points,
+     * must be done before anything else in this method
+     */
+    calculate_percentage();
+
+    const char *morale_gain_caption = _( "Total morale:" );
+    const char *focus_equilibrium = _( "Focus trends towards:" );
     const char *points_is_empty = _( "Nothing affects your morale" );
 
-    int w_extra = 8;
+    int w_extra = 16;
 
     // Figure out how wide the source column needs to be.
     int source_column_width = std::max( utf8_width( morale_gain_caption ),
-                                        utf8_width( focus_gain_caption ) ) + w_extra;
+                                        utf8_width( focus_equilibrium ) ) + w_extra;
     if( points.empty() ) {
         source_column_width = std::max( utf8_width( points_is_empty ), source_column_width );
     } else {
@@ -414,21 +480,30 @@ void player_morale::display( double focus_gain )
     const int win_x = ( TERMX - win_w ) / 2;
     const int win_y = ( TERMY - win_h ) / 2;
 
-    catacurses::window w = catacurses::newwin( win_h, win_w, win_y, win_x );
-
-    const auto print_line = [ w ]( int y, const char *label, double value ) -> int {
+    catacurses::window w = catacurses::newwin( win_h, win_w, point( win_x, win_y ) );
+    //lambda function used to print almost everything to the window
+    const auto print_line = [ w ]( int y, const char *label, int value, bool isPercentage = false,
+    nc_color color_override = c_unset ) -> int {
         nc_color color;
-        if( value != 0.0 )
+        if( value != 0 )
         {
-            const int decimals = ( value - static_cast<int>( value ) != 0.0 ) ? 2 : 0;
-            color = ( value > 0.0 ) ? c_green : c_red;
-            mvwprintz( w, y, getmaxx( w ) - 8, color, "%+6.*f", decimals, value );
+            if( color_override == c_unset ) {
+                color = ( value > 0 ) ? c_green : c_light_red;
+            } else {
+                color = color_override;
+            }
+            if( isPercentage ) {
+                mvwprintz( w, point( getmaxx( w ) - 8, y ), color, "%d%%", value );
+            } else {
+                mvwprintz( w, point( getmaxx( w ) - 8, y ), color, "%+d", value );
+            }
+
         } else
         {
             color = c_dark_gray;
-            mvwprintz( w, y, getmaxx( w ) - 3, color, "-" );
+            mvwprintz( w, point( getmaxx( w ) - 3, y ), color, "-" );
         }
-        return fold_and_print_from( w, y, 2, getmaxx( w ) - 9, 0, color, label );
+        return fold_and_print_from( w, point( 2, y ), getmaxx( w ) - 9, 0, color, label );
     };
 
     int offset = 0;
@@ -437,47 +512,72 @@ void player_morale::display( double focus_gain )
 
     for( ;; ) {
 
+        //creates the window
         werase( w );
 
         draw_border( w );
 
-        mvwprintz( w, 1, 2, c_white, _( "Morale" ) );
+        mvwprintz( w, point( 2, 1 ), c_white, _( "Morale" ) );
 
-        mvwhline( w, 2, 0, LINE_XXXO, 1 );
-        mvwhline( w, 2, 1, 0, win_w - 2 );
-        mvwhline( w, 2, win_w - 1, LINE_XOXX, 1 );
+        mvwhline( w, point( 0, 2 ), LINE_XXXO, 1 );
+        mvwhline( w, point( 1, 2 ), 0, win_w - 2 );
+        mvwhline( w, point( win_w - 1, 2 ), LINE_XOXX, 1 );
 
-        mvwhline( w, win_h - 4, 0, LINE_XXXO, 1 );
-        mvwhline( w, win_h - 4, 1, 0, win_w - 2 );
-        mvwhline( w, win_h - 4, win_w - 1, LINE_XOXX, 1 );
+        mvwhline( w, point( 0, win_h - 4 ), LINE_XXXO, 1 );
+        mvwhline( w, point( 1, win_h - 4 ), 0, win_w - 2 );
+        mvwhline( w, point( win_w - 1, win_h - 4 ), LINE_XOXX, 1 );
 
         if( !points.empty() ) {
             const char *source_column = _( "Source" );
             const char *value_column = _( "Value" );
+            const char *total_positve_label = _( "Total positive morale" );
+            const char *total_negitive_label = _( "Total negative morale" );
 
-            mvwprintz( w, 3, 2, c_light_gray, source_column );
-            mvwprintz( w, 3, win_w - utf8_width( value_column ) - 2, c_light_gray, value_column );
+            mvwprintz( w, point( 2, 3 ), c_light_gray, source_column );
+            mvwprintz( w, point( win_w - utf8_width( value_column ) - 2, 3 ), c_light_gray, value_column );
 
             const morale_mult mult = get_temper_mult();
 
             int line = 0;
+            line += print_line( 4 + line, total_positve_label, get_total_positive_value(), false,
+                                c_light_green );
+            //prints out all the positive morale effects
             for( size_t i = offset; i < static_cast<size_t>( rows_total ); ++i ) {
-                const std::string name = points[i].get_name();
                 const int bonus = points[i].get_net_bonus( mult );
+                if( bonus > 0 ) {
+                    const std::string name = points[i].get_name();
+                    line += print_line( 4 + line, name.c_str(), points[i].get_percent_contribution(), true );
+                }
 
-                line += print_line( 4 + line, name.c_str(), bonus );
+                if( line >= rows_visible ) {
+                    break;  // This prevents overflowing (unlikely, but just in case)
+                }
+            }
+            line++; //adds a space in the GUI
+            //prints out all the negitve morale effects
+            line += print_line( 4 + line, total_negitive_label, -1 * get_total_negative_value(), false, c_red );
+
+            for( size_t i = offset; i < static_cast<size_t>( rows_total ); ++i ) {
+                const int bonus = points[i].get_net_bonus( mult );
+                if( bonus < 0 ) {
+                    const std::string name = points[i].get_name();
+                    line += print_line( 4 + line, name.c_str(), points[i].get_percent_contribution(), true,
+                                        c_light_red );
+                }
                 if( line >= rows_visible ) {
                     break;  // This prevents overflowing (unlikely, but just in case)
                 }
             }
         } else {
-            fold_and_print_from( w, 3, 2, win_w - 4, 0, c_dark_gray, points_is_empty );
+            fold_and_print_from( w, point( 2, 3 ), win_w - 4, 0, c_dark_gray, points_is_empty );
         }
 
         print_line( win_h - 3, morale_gain_caption, get_level() );
-        print_line( win_h - 2, focus_gain_caption, focus_gain );
+        //manual line as lambda will not do it properly here
+        mvwprintz( w, point( getmaxx( w ) - 8, win_h - 2 ), c_white, "%d", focus_eq );
+        fold_and_print_from( w, point( 2, win_h - 2 ), getmaxx( w ) - 9, 0, c_white, focus_equilibrium );
 
-        draw_scrollbar( w, offset, rows_visible, rows_total, 4, 0 );
+        draw_scrollbar( w, offset, rows_visible, rows_total, point( 0, 4 ) );
 
         wrefresh( w );
 
@@ -595,14 +695,10 @@ void player_morale::on_item_takeoff( const item &it )
     set_worn( it, false );
 }
 
-void player_morale::on_worn_item_transform( const item &it )
+void player_morale::on_worn_item_transform( const item &old_it, const item &new_it )
 {
-    item dummy = it;
-    dummy.convert( dynamic_cast<iuse_transform *>( item::find_type(
-                       it.typeId() )->get_use( "transform" )->get_actor_ptr() )->target );
-
-    set_worn( dummy, false );
-    set_worn( it, true );
+    set_worn( old_it, false );
+    set_worn( new_it, true );
 }
 
 void player_morale::on_worn_item_washed( const item &it )
@@ -781,7 +877,7 @@ void player_morale::update_bodytemp_penalty( const time_duration &ticks )
 
         if( max_pen != 0 )
         {
-            add( type, -2 * to_turns<int>( ticks ), -std::abs( max_pen ), 10_turns, 5_turns, true );
+            add( type, -2 * to_turns<int>( ticks ), -std::abs( max_pen ), 1_minutes, 30_seconds, true );
         }
     };
     apply_pen( MORALE_COLD, [ this ]( body_part bp ) {
@@ -806,6 +902,10 @@ void player_morale::update_constrained_penalty()
         has_mutation( trait_id( "ROOTS3" ) ) ) {
         pen += bp_pen( bp_foot_l, 5 );
         pen += bp_pen( bp_foot_r, 5 );
+    }
+    if( has_mutation( trait_id( "LEAVES2" ) ) || has_mutation( trait_id( "LEAVES3" ) ) ) {
+        pen += bp_pen( bp_arm_l, 5 );
+        pen += bp_pen( bp_arm_r, 5 );
     }
     set_permanent( MORALE_PERM_CONSTRAINED, -std::min( pen, 10 ) );
 }

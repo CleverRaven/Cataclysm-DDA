@@ -2,11 +2,12 @@
   {
     "type": "item_group",
     "id": "NC_CYBORG_worn",
-    "items": [ [ "subsuit_xl", 100 ] ]
+    "subtype": "collection",
+    "entries": [ { "item": "briefs" }, { "item": "footrags" }, { "item": "subsuit_xl" } ]
   },
   {
     "type": "item_group",
-    "id": "NC_CYBORG_feet",
-    "items": [ [ "footrags", 100 ] ]
+    "id": "NC_CYBORG_carried",
+    "items": [ [ "hat_noise_cancelling", 100 ] ]
   }
 ]

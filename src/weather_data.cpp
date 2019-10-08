@@ -1,14 +1,11 @@
 #include "weather.h" // IWYU pragma: associated
 
-#include <stddef.h>
+#include <cstddef>
 #include <array>
-#include <cmath>
 #include <map>
-#include <vector>
 #include <iterator>
 
 #include "color.h"
-#include "game_constants.h"
 #include "translations.h"
 
 /**
@@ -37,15 +34,19 @@ weather_animation_t get_weather_animation( weather_type const type )
 
     return {0.0f, c_white, '?'};
 }
-
-weather_datum const weather_data( weather_type const type )
+struct weather_result {
+    weather_datum datum;
+    bool is_valid;
+};
+static weather_result weather_data_internal( weather_type const type )
 {
     /**
      * Weather types data definition.
      * Name, color in UI, color and glyph on map, ranged penalty, sight penalty,
      * light modifier, sound attenuation, warn player?
-     * Note light modifier assumes baseline of DAYLIGHT_LEVEL at 60
+     * Note light modifier assumes baseline of default_daylight_level() at 60
      */
+    // @todo but it actually isn't 60, it's 100. Fix this comment or fix the value
     static const std::array<weather_datum, NUM_WEATHER_TYPES> data {{
             weather_datum {
                 "NULL Weather - BUG (weather_data.cpp:weather_data)", c_magenta, c_magenta_red,
@@ -104,12 +105,68 @@ weather_datum const weather_data( weather_type const type )
 
     const auto i = static_cast<size_t>( type );
     if( i < NUM_WEATHER_TYPES ) {
-        weather_datum localized = data[i];
-        localized.name = _( localized.name );
-        return localized;
+        return { data[i], i > 0 };
     }
 
-    return data[0];
+    return { data[0], false };
 }
+
+static weather_datum weather_data_interal_localized( weather_type const type )
+{
+    weather_result res = weather_data_internal( type );
+    if( res.is_valid ) {
+        res.datum.name = _( res.datum.name );
+    }
+    return res.datum;
+}
+
+weather_datum weather_data( weather_type const type )
+{
+    return weather_data_interal_localized( type );
+}
+
+namespace weather
+{
+std::string name( weather_type const type )
+{
+    return weather_data_interal_localized( type ).name;
+}
+nc_color color( weather_type const type )
+{
+    return weather_data_internal( type ).datum.color;
+}
+nc_color map_color( weather_type const type )
+{
+    return weather_data_internal( type ).datum.map_color;
+}
+char glyph( weather_type const type )
+{
+    return weather_data_internal( type ).datum.glyph;
+}
+int ranged_penalty( weather_type const type )
+{
+    return weather_data_internal( type ).datum.ranged_penalty;
+}
+float sight_penalty( weather_type const type )
+{
+    return weather_data_internal( type ).datum.sight_penalty;
+}
+int light_modifier( weather_type const type )
+{
+    return weather_data_internal( type ).datum.light_modifier;
+}
+int sound_attn( weather_type const type )
+{
+    return weather_data_internal( type ).datum.sound_attn;
+}
+bool dangerous( weather_type const type )
+{
+    return weather_data_internal( type ).datum.dangerous;
+}
+weather_effect_fn effect( weather_type const type )
+{
+    return weather_data_internal( type ).datum.effect;
+}
+} // namespace weather
 
 ///@}

@@ -5,6 +5,9 @@
 #include <string>
 #include <map>
 
+#include "translations.h"
+#include "type_id.h"
+
 class JsonObject;
 
 namespace recipe_group
@@ -14,8 +17,9 @@ void load( JsonObject &jo, const std::string &src );
 void check();
 void reset();
 
-std::map<std::string, std::string> get_recipes( std::string id );
-
-}
+std::map<recipe_id, translation> get_recipes_by_bldg( const std::string &bldg );
+std::map<recipe_id, translation> get_recipes_by_id( const std::string &id,
+        const std::string &om_terrain_id = "ANY" );
+} // namespace recipe_group
 
 #endif

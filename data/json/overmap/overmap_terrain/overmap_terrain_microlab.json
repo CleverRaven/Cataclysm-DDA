@@ -1,0 +1,66 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic",
+    "name": "science lab",
+    "sym": "L",
+    "color": "light_blue",
+    "spawns": { "group": "GROUP_MICROLAB", "population": [ 40, 45 ], "chance": 80 },
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_rock_border",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_edge",
+    "copy-from": "microlab_generic"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_surface_connector",
+    "copy-from": "microlab_generic"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_sub_station",
+    "name": "subway station?",
+    "sym": "S",
+    "color": "light_blue",
+    "spawns": { "group": "GROUP_LAB", "population": [ 12, 25 ], "chance": 80 },
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_sub_connector",
+    "copy-from": "microlab_sub_station"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_sub_entry",
+    "name": "science lab",
+    "sym": "L",
+    "copy-from": "microlab_sub_connector"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_surface",
+    "name": "lab",
+    "sym": "L",
+    "color": "blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_surface_roof",
+    "copy-from": "microlab_generic_surface"
+  }
+]

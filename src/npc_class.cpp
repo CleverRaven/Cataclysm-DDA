@@ -1,6 +1,6 @@
 #include "npc_class.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <list>
 #include <algorithm>
 #include <array>
@@ -17,7 +17,7 @@
 #include "trait_group.h"
 #include "json.h"
 
-static const std::array<npc_class_id, 18> legacy_ids = {{
+static const std::array<npc_class_id, 19> legacy_ids = {{
         npc_class_id( "NC_NONE" ),
         npc_class_id( "NC_EVAC_SHOPKEEP" ),  // Found in the Evacuation Center, unique, has more goods than he should be able to carry
         npc_class_id( "NC_SHOPKEEP" ),       // Found in towns.  Stays in his shop mostly.
@@ -35,7 +35,8 @@ static const std::array<npc_class_id, 18> legacy_ids = {{
         npc_class_id( "NC_HUNTER" ),         // Survivor type good with bow or rifle
         npc_class_id( "NC_SOLDIER" ),        // Well equipped and trained combatant, good with rifles and melee
         npc_class_id( "NC_BARTENDER" ),      // Stocks alcohol
-        npc_class_id( "NC_JUNK_SHOPKEEP" )   // Stocks wide range of items...
+        npc_class_id( "NC_JUNK_SHOPKEEP" ),   // Stocks wide range of items...
+        npc_class_id( "NC_HALLU" )           // Hallucinatory NPCs
     }
 };
 
@@ -57,6 +58,7 @@ npc_class_id NC_HUNTER( "NC_HUNTER" );
 npc_class_id NC_SOLDIER( "NC_SOLDIER" );
 npc_class_id NC_BARTENDER( "NC_BARTENDER" );
 npc_class_id NC_JUNK_SHOPKEEP( "NC_JUNK_SHOPKEEP" );
+npc_class_id NC_HALLU( "NC_HALLU" );
 
 generic_factory<npc_class> npc_class_factory( "npc_class" );
 
@@ -162,7 +164,7 @@ void npc_class::check_consistency()
     }
 }
 
-distribution load_distribution( JsonObject &jo )
+static distribution load_distribution( JsonObject &jo )
 {
     if( jo.has_float( "constant" ) ) {
         return distribution::constant( jo.get_float( "constant" ) );
@@ -210,7 +212,7 @@ distribution load_distribution( JsonObject &jo )
     return distribution();
 }
 
-distribution load_distribution( JsonObject &jo, const std::string &name )
+static distribution load_distribution( JsonObject &jo, const std::string &name )
 {
     if( !jo.has_member( name ) ) {
         return distribution();
@@ -231,8 +233,8 @@ distribution load_distribution( JsonObject &jo, const std::string &name )
 
 void npc_class::load( JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "name", name, translated_string_reader );
-    mandatory( jo, was_loaded, "job_description", job_description, translated_string_reader );
+    mandatory( jo, was_loaded, "name", name );
+    mandatory( jo, was_loaded, "job_description", job_description );
 
     optional( jo, was_loaded, "common", common, true );
     bonus_str = load_distribution( jo, "bonus_str" );
@@ -260,7 +262,8 @@ void npc_class::load( JsonObject &jo, const std::string & )
             mutation_category_trait::get_all();
         auto jo2 = jo.get_object( "mutation_rounds" );
         for( auto &mutation : jo2.get_member_names() ) {
-            const auto category_match = [&mutation]( std::pair<const std::string, mutation_category_trait> p ) {
+            const auto category_match = [&mutation]( const std::pair<const std::string, mutation_category_trait>
+            &p ) {
                 return p.second.id == mutation;
             };
             if( std::find_if( mutation_categories.begin(), mutation_categories.end(),
@@ -336,14 +339,14 @@ const npc_class_id &npc_class::random_common()
     return *random_entry( common_classes );
 }
 
-const std::string &npc_class::get_name() const
+std::string npc_class::get_name() const
 {
-    return name;
+    return name.translated();
 }
 
-const std::string &npc_class::get_job_description() const
+std::string npc_class::get_job_description() const
 {
-    return job_description;
+    return job_description.translated();
 }
 
 const Group_tag &npc_class::get_shopkeeper_items() const
@@ -459,8 +462,4 @@ distribution distribution::operator*( const distribution &other ) const
     } );
 }
 
-distribution &distribution::operator=( const distribution &other )
-{
-    generator_function = other.generator_function;
-    return *this;
-}
+distribution &distribution::operator=( const distribution &other ) = default;

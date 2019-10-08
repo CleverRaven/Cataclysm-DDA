@@ -33,7 +33,7 @@
  * (e.g. mapgen.cpp contains only messages for D_MAP_GEN, npcmove.cpp only D_NPC).
  * Those files contain a macro at top:
 @code
-#define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 @endcode
  * It allows to call the debug system and just supply the debug level, the debug
  * class is automatically inserted as it is the same for the whole file. Also this
@@ -50,6 +50,7 @@
 #include <vector>
 #include <string>
 #include <utility>
+#include <type_traits>
 
 #define STRING2(x) #x
 #define STRING(x) STRING2(x)
@@ -79,6 +80,34 @@ inline void realDebugmsg( const char *const filename, const char *const line,
                          std::forward<Args>( args )... ) );
 }
 
+/**
+ * Used to generate game report information.
+ */
+namespace game_info
+{
+/** Return the name of the current operating system.
+ */
+std::string operating_system();
+/** Return a detailed version of the operating system; e.g. "Ubuntu 18.04" or "(Windows) 10 1809".
+ */
+std::string operating_system_version();
+/** Return the "bitness" of the game (not necessarily of the operating system); either: 64-bit, 32-bit or Unknown.
+ */
+std::string bitness();
+/** Return the game version, as in the entry screen.
+ */
+std::string game_version();
+/** Return the underlying graphics version used by the game; either Tiles or Curses.
+*/
+std::string graphics_version();
+/** Return a list of the loaded mods, including the mod full name and its id name in brackets, e.g. "Dark Days Ahead [dda]".
+*/
+std::string mods_loaded();
+/** Generate a game report, including the information returned by all of the other functions.
+ */
+std::string game_report();
+} // namespace game_info
+
 // Enumerations                                                     {{{1
 // ---------------------------------------------------------------------
 
@@ -94,6 +123,12 @@ enum DebugLevel {
 
     DL_ALL = ( 1 << 5 ) - 1
 };
+
+inline DebugLevel operator|( DebugLevel l, DebugLevel r )
+{
+    return static_cast<DebugLevel>(
+               static_cast<std::underlying_type_t<DebugLevel>>( l ) | r );
+}
 
 /**
  * Debugging areas can be enabled for each of those areas separately.

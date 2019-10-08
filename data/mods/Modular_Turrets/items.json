@@ -23,10 +23,13 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_minus_atomic_battery_cell",
-          "light_atomic_battery_cell"
+          "light_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "abstract": "robopart_base",
@@ -258,7 +261,7 @@
     "id": "bot_turret",
     "type": "TOOL",
     "copy-from": "bot_turret_base",
-    "override": "true",
+    "override": true,
     "name": "inactive 9mm defense turret",
     "description": "An inactive 9mm defense turret.  Up to 100 standard 9mm rounds will be automatically loaded from your inventory into the turret upon activation.  Place the turret and it will ID you as friendly with its advanced IFF software.  Consult your safety manual in the event of a malfunction.",
     "color": "red",
@@ -349,7 +352,7 @@
     "id": "bot_rifleturret",
     "copy-from": "bot_turret_base",
     "type": "TOOL",
-    "override": "true",
+    "override": true,
     "name": "inactive 5.56mm military turret",
     "description": "An inactive 5.56mm military turret.  Up to 100 standard 5.56mm NATO rounds will be automatically loaded from your inventory into the turret upon activation.  Place the turret and it will ID you as friendly with its advanced IFF software.  Consult your safety manual in the event of a malfunction.",
     "color": "green",
@@ -512,7 +515,7 @@
     "id": "bot_laserturret",
     "type": "TOOL",
     "copy-from": "bot_turret_base",
-    "override": "true",
+    "override": true,
     "name": "inactive advanced laser turret",
     "description": "An inactive advanced laser turret.  Place the turret and it will ID you as friendly with its advanced IFF software.  Consult your safety manual in the event of a malfunction.",
     "color": "yellow",

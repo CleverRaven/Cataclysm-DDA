@@ -1,0 +1,103 @@
+[
+  {
+    "type": "mutation",
+    "id": "THRESH_WENDIGO",
+    "name": "Forest Guardian",
+    "points": 1,
+    "description": "The forests have longed for your help, and this last cry shook the world.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "NMELD",
+    "name": "Nature's Boon",
+    "points": 3,
+    "description": "Your very prescence is masked by nature itself. You are slightly harder to detect.",
+    "valid": false,
+    "purifiable": false,
+    "prereqs": [ "WEAKSCENT" ],
+    "threshreq": [ "THRESH_WENDIGO" ],
+    "category": [ "WENDIGO" ],
+    "stealth_modifier": 15
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMALEMPATH",
+    "name": "Animal Empathy",
+    "points": 1,
+    "description": "Peaceful animals will not run away from you, and even aggressive animals are less likely to attack.  This only applies to natural animals such as woodland creatures.",
+    "starting_trait": true,
+    "category": [ "BEAST", "ELFA", "VAMP", "WENDIGO" ],
+    "changes_to": [ "ANIMALEMPATH2" ],
+    "cancels": [ "ANIMALDISCORD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMALEMPATH2",
+    "name": "Animal Kinship",
+    "points": 2,
+    "description": "Something about your presence is calming to animals, and they will treat you with innate trust. This only applies to natural animals such as woodland creatures.",
+    "category": [ "ELFA", "VAMP", "WENDIGO" ],
+    "prereqs": [ "ANIMALEMPATH" ],
+    "cancels": [ "ANIMALDISCORD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SMELLY",
+    "name": "Strong Scent",
+    "points": -1,
+    "description": "Your scent is particularly strong.  It's not offensive to humans, but animals that track your scent will do so more easily.",
+    "starting_trait": true,
+    "changes_to": [ "SMELLY2" ],
+    "types": [ "SCENT" ],
+    "category": [ "FELINE", "LUPINE", "MOUSE", "WENDIGO" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PHEROMONE_MAMMAL",
+    "name": "Mammal Pheromones",
+    "points": 2,
+    "description": "Your body produces low-level pheromones which put mammals at ease.  They will be less likely to attack or flee from you.",
+    "prereqs": [ "SMELLY2" ],
+    "types": [ "SCENT" ],
+    "category": [ "BEAST", "CATTLE", "WENDIGO" ]
+  },
+  {
+    "type": "mutation",
+    "id": "REGEN",
+    "name": "Regeneration",
+    "points": 6,
+    "description": "Your flesh regenerates from wounds incredibly quickly.",
+    "types": [ "HEALING" ],
+    "prereqs": [ "FASTHEALER2" ],
+    "category": [ "SLIME", "TROGLOBITE", "WENDIGO" ],
+    "healing_awake": 2.0,
+    "healing_resting": 1.5
+  },
+  {
+    "type": "mutation",
+    "id": "SLASHERS",
+    "name": "Slashers",
+    "points": 5,
+    "visibility": 8,
+    "ugliness": 10,
+    "description": "Your torso has an extra set of appendages that have burst out of your back, they are tipped with massive bone blades at the end, and look like they can do some serious damage with the thick acid that they secrete.",
+    "valid": false,
+    "purifiable": false,
+    "threshreq": [ "THRESH_WENDIGO" ],
+    "category": [ "WENDIGO" ],
+    "social_modifiers": { "intimidate": 30 },
+    "attacks": [
+      {
+        "attack_text_u": "You tear into %s with your blades",
+        "attack_text_npc": "%1$s tears into %2$s with their blades",
+        "body_part": "TORSO",
+        "chance": 33,
+        "base_damage": { "damage_type": "cut", "amount": 10 },
+        "strength_damage": { "damage_type": "biological", "amount": 0.25 }
+      }
+    ]
+  }
+]

@@ -1,6 +1,6 @@
 #include "init.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <cassert>
 #include <fstream>
 #include <sstream> // for throwing errors
@@ -14,13 +14,16 @@
 #include "activity_type.h"
 #include "ammo.h"
 #include "anatomy.h"
+#include "behavior.h"
 #include "bionics.h"
 #include "construction.h"
 #include "crafting_gui.h"
+#include "creature.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "effect.h"
 #include "emit.h"
+#include "event_statistics.h"
 #include "faction.h"
 #include "fault.h"
 #include "filesystem.h"
@@ -32,10 +35,13 @@
 #include "json.h"
 #include "loading_ui.h"
 #include "mapdata.h"
+#include "map_extras.h"
 #include "mapgen.h"
 #include "martialarts.h"
 #include "material.h"
 #include "mission.h"
+#include "magic.h"
+#include "magic_ter_furn_transform.h"
 #include "mod_tileset.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -55,6 +61,7 @@
 #include "requirements.h"
 #include "rotatable_symbols.h"
 #include "scenario.h"
+#include "sdltiles.h"
 #include "skill.h"
 #include "skill_boost.h"
 #include "sounds.h"
@@ -71,10 +78,9 @@
 #include "bodypart.h"
 #include "translations.h"
 #include "type_id.h"
-
-#if defined(TILES)
-void load_tileset();
-#endif
+#include "construction_category.h"
+#include "overmap.h"
+#include "clothing_mod.h"
 
 DynamicDataLoader::DynamicDataLoader()
 {
@@ -131,7 +137,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
     }
 }
 
-void load_ignored_type( JsonObject &jo )
+static void load_ignored_type( JsonObject &jo )
 {
     // This does nothing!
     // This function is used for types that are to be ignored
@@ -181,6 +187,7 @@ void DynamicDataLoader::initialize()
     add( "EXTERNAL_OPTION", &load_external_option );
     add( "json_flag", &json_flag::load );
     add( "fault", &fault::load_fault );
+    add( "field_type", &field_types::load );
     add( "emit", &emit::load_emit );
     add( "activity_type", &activity_type::load );
     add( "vitamin", &vitamin::load_vitamin );
@@ -189,6 +196,7 @@ void DynamicDataLoader::initialize()
     add( "profession", &profession::load_profession );
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "skill", &Skill::load_skill );
+    add( "skill_display_type", &SkillDisplayType::load );
     add( "dream", &dream::load );
     add( "mutation_category", &mutation_category_trait::load );
     add( "mutation_type", &load_mutation_type );
@@ -203,6 +211,8 @@ void DynamicDataLoader::initialize()
     add( "scenario", &scenario::load_scenario );
     add( "start_location", &start_location::load_location );
     add( "skill_boost", &skill_boost::load_boost );
+    add( "enchantment", &enchantment::load_enchantment );
+    add( "hit_range", &Creature::load_hit_range );
 
     // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access
@@ -275,6 +285,9 @@ void DynamicDataLoader::initialize()
     add( "MAGAZINE", []( JsonObject & jo, const std::string & src ) {
         item_controller->load_magazine( jo, src );
     } );
+    add( "BATTERY", []( JsonObject & jo, const std::string & src ) {
+        item_controller->load_battery( jo, src );
+    } );
     add( "GENERIC", []( JsonObject & jo, const std::string & src ) {
         item_controller->load_generic( jo, src );
     } );
@@ -306,7 +319,9 @@ void DynamicDataLoader::initialize()
     add( "martial_art", &load_martial_art );
     add( "effect_type", &load_effect_type );
     add( "tutorial_messages", &load_tutorial_messages );
+    add( "obsolete_terrain", &overmap::load_obsolete_terrains );
     add( "overmap_terrain", &overmap_terrains::load );
+    add( "construction_category", &construction_categories::load );
     add( "construction", &load_construction );
     add( "mapgen", &load_mapgen );
     add( "overmap_land_use_code", &overmap_land_use_codes::load );
@@ -314,6 +329,7 @@ void DynamicDataLoader::initialize()
     add( "overmap_location", &overmap_locations::load );
     add( "overmap_special", &overmap_specials::load );
     add( "city_building", &city_buildings::load );
+    add( "map_extra", &MapExtras::load );
 
     add( "region_settings", &load_region_settings );
     add( "region_overlay", &load_region_overlay );
@@ -334,6 +350,7 @@ void DynamicDataLoader::initialize()
     add( "npc_class", &npc_class::load_npc_class );
     add( "talk_topic", &load_talk_topic );
     add( "epilogue", &epilogue::load_epilogue );
+    add( "behavior", &behavior::load_behavior );
 
     add( "MONSTER_FACTION", &monfactions::load_monster_faction );
 
@@ -358,6 +375,12 @@ void DynamicDataLoader::initialize()
     add( "body_part", &body_part_struct::load_bp );
     add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
+    add( "SPELL", &spell_type::load_spell );
+    add( "clothing_mod", &clothing_mods::load );
+    add( "ter_furn_transform", &ter_furn_transform::load_transform );
+    add( "event_transformation", &event_transformation::load_transformation );
+    add( "event_statistic", &event_statistic::load_statistic );
+    add( "score", &score::load_score );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -443,6 +466,7 @@ void DynamicDataLoader::unload_data()
     json_flag::reset();
     requirement_data::reset();
     vitamin::reset();
+    field_types::reset();
     emit::reset();
     activity_type::reset();
     fault::reset();
@@ -459,6 +483,7 @@ void DynamicDataLoader::unload_data()
     mutations_category.clear();
     mutation_category_trait::reset();
     mutation_branch::reset_all();
+    spell_type::reset_all();
     reset_bionics();
     clear_tutorial_messages();
     reset_furn_ter();
@@ -473,6 +498,7 @@ void DynamicDataLoader::unload_data()
     faction_template::reset();
     quality::reset();
     trap::reset();
+    construction_categories::reset();
     reset_constructions();
     overmap_terrains::reset();
     reset_region_settings();
@@ -485,6 +511,7 @@ void DynamicDataLoader::unload_data()
     overmap_specials::reset();
     ammunition_type::reset();
     unload_talk_topics();
+    behavior::reset();
     start_location::reset();
     scenario::reset();
     gates::reset();
@@ -495,6 +522,12 @@ void DynamicDataLoader::unload_data()
     npc_template::reset();
     anatomy::reset();
     reset_mod_tileset();
+    VehicleGroup::reset();
+    VehiclePlacement::reset();
+    VehicleSpawn::reset();
+    event_transformation::reset();
+    event_statistic::reset();
+    score::reset();
 
     // TODO:
     //    Name::clear();
@@ -516,6 +549,8 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
             { _( "Body parts" ), &body_part_struct::finalize_all },
+            { _( "Field types" ), &field_types::finalize_all },
+            { _( "Emissions" ), &emit::finalize },
             {
                 _( "Items" ), []()
                 {
@@ -547,12 +582,14 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             },
             { _( "Monster groups" ), &MonsterGroupManager::FinalizeMonsterGroups },
             { _( "Monster factions" ), &monfactions::finalize },
+            { _( "Factions" ), &npc_factions::finalize },
             { _( "Crafting recipes" ), &recipe_dictionary::finalize },
             { _( "Recipe groups" ), &recipe_group::check },
             { _( "Martial arts" ), &finialize_martial_arts },
             { _( "Constructions" ), &finalize_constructions },
             { _( "NPC classes" ), &npc_class::finalize_all },
             { _( "Missions" ), &mission_type::finalize },
+            { _( "Behaviors" ), &behavior::finalize },
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
 #if defined(TILES)
@@ -589,6 +626,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
                 }
             },
             { _( "Vitamins" ), &vitamin::check_consistency },
+            { _( "Field types" ), &field_types::check_consistency },
             { _( "Emissions" ), &emit::check_consistency },
             { _( "Activities" ), &activity_type::check_consistency },
             {
@@ -620,11 +658,13 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Overmap terrain" ), &overmap_terrains::check_consistency },
             { _( "Overmap locations" ), &overmap_locations::check_consistency },
             { _( "Overmap specials" ), &overmap_specials::check_consistency },
+            { _( "Map extras" ), &MapExtras::check_consistency },
             { _( "Ammunition types" ), &ammunition_type::check_consistency },
             { _( "Traps" ), &trap::check_consistency },
             { _( "Bionics" ), &check_bionics },
             { _( "Gates" ), &gates::check },
             { _( "NPC classes" ), &npc_class::check_consistency },
+            { _( "Behaviors" ), &behavior::check_consistency },
             { _( "Mission types" ), &mission_type::check_consistency },
             {
                 _( "Item actions" ), []()
@@ -635,7 +675,11 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Harvest lists" ), &harvest_list::check_consistency },
             { _( "NPC templates" ), &npc_template::check_consistency },
             { _( "Body parts" ), &body_part_struct::check_consistency },
-            { _( "Anatomies" ), &anatomy::check_consistency }
+            { _( "Anatomies" ), &anatomy::check_consistency },
+            { _( "Spells" ), &spell_type::check_consistency },
+            { _( "Transformations" ), &event_transformation::check_consistency },
+            { _( "Statistics" ), &event_statistic::check_consistency },
+            { _( "Scores" ), &score::check_consistency }
         }
     };
 

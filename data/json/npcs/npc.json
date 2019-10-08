@@ -1,372 +1,6 @@
 [
   {
     "type": "npc",
-    "id": "old_guard_rep",
-    "//": "Appears in the refugee center as a source of missions and info.  Faction critical.",
-    "//": "name_suffix is appended to the end of the npc's name.",
-    "//": "using 'name_unique' instead will set the guy's name as is.",
-    "name_suffix": "Representative",
-    "//": "Class is based on the enum in npc.h.  The important ones are 0=NC_NONE, 2=NC_SHOPKEEP,",
-    "//": "3=NC_HACKER, 4=NC_DOCTOR, 5=NC_TRADER, 6=NC_NINJA, 7=NC_COWBOY, 8=NC_SCIENTIST,",
-    "//": "9=NC_BOUNTY_HUNTER, 10=NC_THUG, 11=NC_SCAVENGER, 13=NC_HUNTER, 14=NC_SOLDIER.",
-    "class": "NC_COWBOY",
-    "//": "Attitude is based on the enum in npc.h.  The important ones are 0=NPCATT_NULL, 1=NPCATT_TALK",
-    "//": "3=NPCATT_FOLLOW, 7=NPCATT_DEFEND, 10=NPCATT_KILL, and 11=NPCATT_FLEE",
-    "attitude": 0,
-    "//": "Mission is based on the enum in npc.h.  The important ones are 0=NPC_MISSION_NUL, 3=NPC_MISSION_SHOPKEEP",
-    "//": "and 7=NPC_MISSION_GUARD",
-    "//": "8 = NPC_MISSION_GUARD_PATROL will actively investigate noises",
-    "mission": 7,
-    "chat": "TALK_OLD_GUARD_REP",
-    "faction": "old_guard",
-    "mission_offered": "MISSION_OLD_GUARD_REP_1"
-  },
-  {
-    "type": "npc",
-    "id": "old_guard_soldier",
-    "//": "Generic guard for the old guard.",
-    "name_suffix": "Soldier",
-    "class": "NC_SOLDIER",
-    "attitude": 0,
-    "mission": 8,
-    "chat": "TALK_OLD_GUARD_SOLDIER",
-    "faction": "old_guard"
-  },
-  {
-    "type": "npc",
-    "id": "science_rep",
-    "//": "Appears in the refugee center as a source of missions and info.  Faction critical.",
-    "name_suffix": "Doctor",
-    "class": "NC_DOCTOR",
-    "attitude": 0,
-    "//": "Possibly should change to NPC_MISSION_SHOPKEEP and sell medical supplies.",
-    "mission": 7,
-    "chat": "TALK_SCIENCE_REP",
-    "faction": "old_guard",
-    "mission_offered": "MISSION_SCIENCE_REP_1"
-  },
-  {
-    "type": "npc",
-    "id": "old_guard_necropolis_cpt",
-    "//": "Commander in Necropolis",
-    "name_suffix": "CPT",
-    "class": "NC_SOLDIER",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_OLD_GUARD_NEC_CPT",
-    "faction": "old_guard",
-    "mission_offered": "MISSION_OLD_GUARD_NEC_1"
-  },
-  {
-    "type": "npc",
-    "id": "old_guard_necropolis_commo",
-    "//": "In charge of outside communications in Necropolis",
-    "name_suffix": "SFC",
-    "class": "NC_SOLDIER",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_OLD_GUARD_NEC_COMMO",
-    "faction": "old_guard",
-    "mission_offered": "MISSION_OLD_GUARD_NEC_COMMO_1"
-  },
-  {
-    "type": "npc",
-    "id": "evac_merchant",
-    "//": "Appears in the refugee center as shopkeeper with missions.  Faction critical.",
-    "name_suffix": "Merchant",
-    "class": "NC_EVAC_SHOPKEEP",
-    "attitude": 0,
-    "mission": 3,
-    "chat": "TALK_EVAC_MERCHANT",
-    "mission_offered": "MISSION_FREE_MERCHANTS_EVAC_1",
-    "faction": "free_merchants"
-  },
-  {
-    "type": "npc",
-    "id": "evac_broker",
-    "//": "Appears in the refugee center as a bulk trader.  Promotes production of nonperishable food.",
-    "name_suffix": "Broker",
-    "class": "NC_BOUNTY_HUNTER",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_FREE_MERCHANT_STOCKS",
-    "faction": "free_merchants"
-  },
-  {
-    "type": "npc",
-    "id": "evac_guard1",
-    "//": "Appears in the refugee center as a guard with custom dialogue.",
-    "name_suffix": "Guard",
-    "class": "NC_BOUNTY_HUNTER",
-    "attitude": 0,
-    "mission": 8,
-    "chat": "TALK_EVAC_GUARD1",
-    "mission_offered": "MISSION_EVAC_SMOKER_GET_CIGARETTES",
-    "faction": "free_merchants"
-  },
-  {
-    "type": "npc",
-    "id": "evac_guard2",
-    "//": "Appears in the refugee center as a guard with custom dialogue.",
-    "name_suffix": "Guard",
-    "class": "NC_BOUNTY_HUNTER",
-    "attitude": 0,
-    "mission": 8,
-    "chat": "TALK_EVAC_GUARD2",
-    "faction": "free_merchants"
-  },
-  {
-    "type": "npc",
-    "id": "evac_guard3",
-    "//": "Appears in the refugee center as a guard with custom dialogue.",
-    "name_suffix": "Guard",
-    "class": "NC_BOUNTY_HUNTER",
-    "attitude": 0,
-    "mission": 8,
-    "chat": "TALK_EVAC_GUARD3",
-    "faction": "free_merchants"
-  },
-  {
-    "type": "npc",
-    "id": "guard",
-    "//": "A generic guard for the Free Merchants faction.",
-    "name_suffix": "Guard",
-    "class": "NC_BOUNTY_HUNTER",
-    "attitude": 0,
-    "mission": 8,
-    "chat": "TALK_GUARD",
-    "faction": "free_merchants"
-  },
-  {
-    "type": "npc",
-    "id": "hostile_guard",
-    "//": "A generic hostile guard for the Free Merchants faction.  For where the player shouldn't venture.'",
-    "name_suffix": "Guard",
-    "class": "NC_BOUNTY_HUNTER",
-    "attitude": 10,
-    "mission": 8,
-    "chat": "TALK_DONE",
-    "faction": "free_merchants"
-  },
-  {
-    "type": "npc",
-    "id": "ranch_foreman",
-    "//": "Appears at the ranch after you progress in the refugee center quests.  Faction critical.",
-    "name_suffix": "Foreman",
-    "class": "NC_BOUNTY_HUNTER",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_RANCH_FOREMAN",
-    "mission_offered": "MISSION_RANCH_FOREMAN_1",
-    "faction": "tacoma_commune"
-  },
-  {
-    "type": "npc",
-    "id": "ranch_construction_1",
-    "//": "Flavor",
-    "name_suffix": "Carpenter",
-    "class": "NC_HUNTER",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_RANCH_CONSTRUCTION_1",
-    "faction": "tacoma_commune"
-  },
-  {
-    "type": "npc",
-    "id": "ranch_construction_2",
-    "//": "Construction skill trainer",
-    "name_suffix": "Carpenter",
-    "class": "NC_THUG",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_RANCH_CONSTRUCTION_2",
-    "faction": "tacoma_commune"
-  },
-  {
-    "type": "npc",
-    "id": "ranch_woodcutter_1",
-    "//": "Can purchase wood",
-    "name_suffix": "Lumberjack",
-    "class": "NC_COWBOY",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_RANCH_WOODCUTTER",
-    "faction": "tacoma_commune"
-  },
-  {
-    "type": "npc",
-    "id": "ranch__woodcutter_2",
-    "//": "Flavor",
-    "name_suffix": "Woodworker",
-    "class": "NC_COWBOY",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_RANCH_WOODCUTTER_2",
-    "faction": "tacoma_commune"
-  },
-  {
-    "type": "npc",
-    "id": "ranch_crop_overseer",
-    "//": "Flavor",
-    "name_suffix": "Crop Overseer",
-    "class": "NC_BOUNTY_HUNTER",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_RANCH_CROP_OVERSEER",
-    "faction": "tacoma_commune"
-  },
-  {
-    "type": "npc",
-    "id": "ranch_farmer_1",
-    "//": "Flavor",
-    "name_suffix": "Farmer",
-    "class": "NC_THUG",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_RANCH_FARMER_1",
-    "faction": "tacoma_commune"
-  },
-  {
-    "type": "npc",
-    "id": "ranch_farmer_2",
-    "//": "Flavor",
-    "name_suffix": "Farmer",
-    "class": "NC_HUNTER",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_RANCH_FARMER_2",
-    "faction": "tacoma_commune"
-  },
-  {
-    "type": "npc",
-    "id": "ranch_ill_1",
-    "//": "Flavor",
-    "name_suffix": "Laborer",
-    "class": "NC_HUNTER",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_RANCH_ILL_1",
-    "faction": "tacoma_commune"
-  },
-  {
-    "type": "npc",
-    "id": "ranch_nurse_1",
-    "//": "Mission source for clinic.  Provides medical attention.",
-    "name_suffix": "Nurse",
-    "gender": "female",
-    "class": "NC_HUNTER",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_RANCH_NURSE",
-    "mission_offered": "MISSION_RANCH_NURSE_1",
-    "faction": "tacoma_commune"
-  },
-  {
-    "type": "npc",
-    "id": "ranch_doctor",
-    "//": "Provides advanced medical attention.",
-    "name_suffix": "Doctor",
-    "class": "NC_DOCTOR",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_RANCH_DOCTOR",
-    "faction": "tacoma_commune"
-  },
-  {
-    "type": "npc",
-    "id": "ranch_scrapper_1",
-    "//": "Flavor",
-    "name_suffix": "Scrapper",
-    "class": "NC_HUNTER",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_RANCH_SCRAPPER",
-    "faction": "tacoma_commune"
-  },
-  {
-    "type": "npc",
-    "id": "ranch_scavenger_1",
-    "//": "Mission source, shopkeep",
-    "name_suffix": "Scavenger Boss",
-    "class": "NC_JUNK_SHOPKEEP",
-    "attitude": 0,
-    "mission": 3,
-    "chat": "TALK_RANCH_SCAVENGER_1",
-    "mission_offered": "MISSION_RANCH_SCAVENGER_1",
-    "faction": "tacoma_commune"
-  },
-  {
-    "type": "npc",
-    "id": "ranch_bartender",
-    "//": "Mission source, shopkeep",
-    "name_suffix": "Bartender",
-    "class": "NC_BARTENDER",
-    "attitude": 0,
-    "mission": 3,
-    "chat": "TALK_RANCH_BARKEEP",
-    "mission_offered": "MISSION_RANCH_BARTENDER_1",
-    "faction": "tacoma_commune"
-  },
-  {
-    "type": "npc",
-    "id": "ranch_barber",
-    "//": "Provides hair cuts",
-    "name_suffix": "Barber",
-    "class": "NC_HUNTER",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_RANCH_BARBER",
-    "faction": "tacoma_commune"
-  },
-  {
-    "type": "npc",
-    "id": "commune_guard",
-    "//": "A generic guard for the Tacoma Commune faction.",
-    "name_suffix": "Guard",
-    "class": "NC_BOUNTY_HUNTER",
-    "attitude": 0,
-    "mission": 8,
-    "chat": "TALK_GUARD",
-    "faction": "tacoma_commune"
-  },
-  {
-    "type": "npc",
-    "id": "scavenger_hunter",
-    "//": "Appears in the refugee center as a trader.",
-    "name_suffix": "Hunter",
-    "class": "NC_HUNTER",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_EVAC_HUNTER",
-    "faction": "wasteland_scavengers"
-  },
-  {
-    "type": "npc",
-    "id": "scavenger_merc",
-    "//": "Appears in the refugee center as a partner for hire.",
-    "name_suffix": "Merc",
-    "class": "NC_SCAVENGER_MERC",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_SCAVENGER_MERC",
-    "faction": "wasteland_scavengers"
-  },
-  {
-    "type": "npc",
-    "id": "arsonist",
-    "//": "Appears in the refugee center as a unique trader and potential mission provider.",
-    "name_unique": "Makayla Sanchez",
-    "name_suffix": "Arsonist",
-    "//": "Gender is only referenced when the npc has a complete unique name",
-    "gender": "female",
-    "class": "NC_ARSONIST",
-    "attitude": 0,
-    "mission": 3,
-    "chat": "TALK_ARSONIST",
-    "faction": "wasteland_scavengers"
-  },
-  {
-    "type": "npc",
     "id": "thug",
     "//": "Generic melee focused guard for the Hell's Raiders faction.",
     "name_suffix": "Thug",
@@ -389,6 +23,17 @@
   },
   {
     "type": "npc",
+    "id": "marloss_voice",
+    "//": "Generic Marloss Priest who leads pilgrim bands.",
+    "name_suffix": "Marloss Voice",
+    "class": "NC_MARLOSS_VOICE",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_MARLOSS_VOICE",
+    "faction": "marloss"
+  },
+  {
+    "type": "npc",
     "id": "apis",
     "//": "Bee mutant or mutant bee (supposed to be ambiguous). Should be 'it', but we'll go with 'she' because it's a bee.",
     "name_unique": "Apis",
@@ -397,7 +42,7 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_DONE",
-    "faction": "hells_raiders"
+    "faction": "apis_hive"
   },
   {
     "type": "npc",
@@ -408,72 +53,7 @@
     "attitude": 8,
     "mission": 0,
     "chat": "TALK_DONE",
-    "faction": "wasteland_scavengers"
-  },
-  {
-    "type": "npc",
-    "id": "refugee_beggar1",
-    "//": "Hungry beggar in the refugee center.",
-    "name_unique": "Reena Sandhu",
-    "gender": "female",
-    "name_suffix": "beggar",
-    "class": "NC_BEGGAR_1",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_REFUGEE_BEGGAR_1",
-    "faction": "wasteland_scavengers"
-  },
-  {
-    "type": "npc",
-    "id": "refugee_beggar2",
-    "//": "Schizophrenic beggar in the refugee center.",
-    "name_unique": "Dino Dave",
-    "gender": "male",
-    "name_suffix": "beggar",
-    "class": "NC_BEGGAR_2",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_REFUGEE_BEGGAR_2",
-    "faction": "wasteland_scavengers"
-  },
-  {
-    "type": "npc",
-    "id": "refugee_beggar3",
-    "//": "Angry beggar in the refugee center.",
-    "name_unique": "Luo Meizhen",
-    "gender": "female",
-    "name_suffix": "beggar",
-    "class": "NC_BEGGAR_3",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_REFUGEE_BEGGAR_3",
-    "faction": "wasteland_scavengers"
-  },
-  {
-    "type": "npc",
-    "id": "refugee_beggar4",
-    "//": "Sickly beggar in the refugee center.",
-    "name_unique": "Brandon Garder",
-    "gender": "male",
-    "name_suffix": "beggar",
-    "class": "NC_BEGGAR_4",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_REFUGEE_BEGGAR_4",
-    "faction": "wasteland_scavengers"
-  },
-  {
-    "type": "npc",
-    "id": "refugee_beggar5",
-    "//": "Mutant beggar in the refugee center.",
-    "name_unique": "Yusuke Taylor",
-    "gender": "male",
-    "name_suffix": "beggar",
-    "class": "NC_BEGGAR_5",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_REFUGEE_BEGGAR_5",
-    "faction": "wasteland_scavengers"
+    "faction": "no_faction"
   },
   {
     "type": "npc",
@@ -484,18 +64,30 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_NC_SURVIVOR_CHEF",
-    "faction": "wasteland_scavengers"
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "true_foodperson",
+    "//": "Foodperson mascot, except if you ask them Foodperson is a real hero and it's them!",
+    "name_unique": "Foodperson",
+    "class": "NC_TRUE_FOODPERSON",
+    "attitude": 7,
+    "mission": 7,
+    "chat": "TALK_TRUE_FOODPERSON",
+    "mission_offered": "MISSION_PROVE_YOUR_WORTH",
+    "faction": "no_faction"
   },
   {
     "type": "npc",
     "id": "cyborg_rescued",
-    "//": "A broken cyborg you saved.",
+    "//": "A prototype cyborg you saved.",
     "name_suffix": "Cyborg",
     "class": "NC_CYBORG",
     "attitude": 1,
     "mission": 0,
     "chat": "TALK_CYBORG_1",
-    "faction": "wasteland_scavengers"
+    "faction": "no_faction"
   },
   {
     "type": "npc",
@@ -507,7 +99,7 @@
     "mission": 7,
     "mission_offered": "MISSION_GET_CITY_COP_MOMENTO",
     "chat": "TALK_CITY_COP",
-    "faction": "wasteland_scavengers"
+    "faction": "no_faction"
   },
   {
     "type": "npc",
@@ -517,6 +109,7 @@
     "attitude": 1,
     "mission": 3,
     "mission_offered": "MISSION_JOIN_TRACKER",
-    "chat": "TALK_STRANGER_FRIENDLY"
+    "chat": "TALK_STRANGER_FRIENDLY",
+    "faction": "no_faction"
   }
 ]

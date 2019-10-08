@@ -7,6 +7,7 @@
     "maintainers": [ "BorkBorkGoesTheCode" ],
     "description": "Adds more overlapping ammo types and more real-world firearms.",
     "category": "items",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   }
 ]

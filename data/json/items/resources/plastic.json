@@ -1,0 +1,30 @@
+[
+  {
+    "id": "plastic_chunk",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": "plastic chunk",
+    "description": "This is a piece of plastic.  It could be used to fabricate, repair, or reinforce plastic items.",
+    "weight": "70 g",
+    "volume": "250 ml",
+    "price": 0,
+    "material": "plastic",
+    "symbol": ",",
+    "color": "light_blue",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "plastic_sheet",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "plastic sheet",
+    "description": "This is a large sheet of heavy flexible plastic, the sort that might have been used for commercial wrapping or for weather-sealing a home.",
+    "weight": "1000 g",
+    "volume": "2 L",
+    "price": 0,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "light_blue",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_plastic_groundsheet" }
+  }
+]

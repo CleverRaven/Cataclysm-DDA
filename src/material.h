@@ -2,15 +2,14 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
-#include <stddef.h>
-#include <array>
+#include <cstddef>
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 #include <utility>
 
 #include "fire.h"
-#include "game_constants.h"
 #include "optional.h"
 #include "string_id.h"
 #include "type_id.h"
@@ -48,6 +47,7 @@ class material_type
         float _latent_heat = 334;
         int _freeze_point = 32; // Farenheit
         bool _edible = false;
+        bool _rotting = false;
         bool _soft = false;
         bool _reinforces = false;
 
@@ -57,7 +57,7 @@ class material_type
 
         std::map<vitamin_id, double> _vitamins;
 
-        std::array<mat_burn_data, MAX_FIELD_DENSITY> _burn_data;
+        std::vector<mat_burn_data> _burn_data;
 
         //Burn products defined in JSON as "burn_products": [ [ "X", float efficiency ], [ "Y", float efficiency ] ]
         mat_burn_products _burn_products;
@@ -99,6 +99,7 @@ class material_type
         int freeze_point() const;
         int density() const;
         bool edible() const;
+        bool rotting() const;
         bool soft() const;
         bool reinforces() const;
 
@@ -122,7 +123,8 @@ void reset();
 
 material_list get_all();
 material_list get_compactable();
+std::set<material_id> get_rotting();
 
-}
+} // namespace materials
 
 #endif

@@ -17,15 +17,17 @@
     "price": 1000,
     "to_hit": -1,
     "bashing": 1,
-    "material": "plastic",
+    "material": "steel",
     "symbol": ")",
     "color": "dark_gray",
     "contains": 10,
     "watertight": true,
-    "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "use_action": "HEAT_FOOD"
   },
   {
     "id": "afs_fridge",
+    "category": "veh_parts",
     "type": "GENERIC",
     "name": "vehicle refrigerator",
     "description": "A household refrigerator with impressive capacity.  Its power connection has been refurbished, and it can be mounted onto a vehicle to draw from its power.",
@@ -43,29 +45,12 @@
   },
   {
     "id": "afs_freezer",
+    "category": "veh_parts",
     "type": "GENERIC",
     "name": "vehicle freezer",
     "copy-from": "afs_fridge",
     "description": "This refurbished refrigerator has been stripped of much of its internal components and converted to run at a much lower temperature, causing it to serve as a freezer for more power.  Like its predecessor, it runs on vehicle power.",
     "color": "light_blue"
-  },
-  {
-    "id": "afs_rolling_pin",
-    "type": "GENERIC",
-    "name": "rolling pin",
-    "description": "A light wooden rolling pin used to flatten dough.",
-    "symbol": "[",
-    "color": "brown",
-    "weight": 472,
-    "volume": 4,
-    "price": 1500,
-    "price_postapoc": 500,
-    "material": [ "wood" ],
-    "to_hit": -1,
-    "bashing": 6,
-    "flags": [ "DURABLE_MELEE", "FIREWOOD" ],
-    "techniques": [ "RAPID" ],
-    "looks_like": "bat"
   },
   {
     "type": "GENERIC",
@@ -124,23 +109,33 @@
     "description": "Skillet, pot, hotplate, and chemistry set; everything you need to cook food and chemicals.  Includes proper fume vents and a separator, so you don't contaminate your food with toxic chemicals."
   },
   {
-    "id": "afs_large_storage_battery",
-    "type": "MAGAZINE",
-    "category": "veh_parts",
-    "name": "large storage battery",
-    "name_plural": "large storage batteries",
-    "description": "A huge lithium ion storage battery, weighing easily 600 pounds.  Holds a tremendous amount of energy.",
-    "weight": 300000,
-    "volume": 80,
-    "price": 400000,
-    "price_postapoc": 50000,
-    "to_hit": -2,
-    "bashing": 40,
-    "material": [ "plastic", "steel" ],
-    "symbol": ":",
-    "color": "light_cyan",
-    "ammo_type": "battery",
-    "capacity": 100000,
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ]
+    "id": "nuclear_waste",
+    "type": "GENERIC",
+    "name": "nuclear waste",
+    "description": "A small pellet of silvery metal, still warm to the touch.",
+    "weight": 30,
+    "volume": 1,
+    "price": 0,
+    "material": "iron",
+    "symbol": "*",
+    "color": "light_green",
+    "flags": [ "RADIOACTIVE", "LEAK_ALWAYS" ]
+  },
+  {
+    "id": "nuclear_fuel",
+    "copy-from": "nuclear_waste",
+    "type": "GENERIC",
+    "name": "nuclear fuel pellet",
+    "description": "A small pellet of fissile material.  Handle carefully."
+  },
+  {
+    "id": "hazardous_waste_drum",
+    "copy-from": "55gal_drum",
+    "type": "CONTAINER",
+    "name": "hazardous waste drum",
+    "description": "A yellow drum meant for the storage of hazardous substances.",
+    "material": [ "steel", "lead" ],
+    "symbol": "0",
+    "color": "yellow"
   }
 ]

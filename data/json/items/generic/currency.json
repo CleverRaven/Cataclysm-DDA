@@ -4,12 +4,28 @@
     "id": "FMCNote",
     "name": "Merch",
     "description": "The Free Merchant Certified Note, also known by names such as a 'c-note' or 'merch', is a currency based on old American bills.  Fifty dollar bills and larger are printed with a promissory note signed by the treasurer of the Free Merchants, along with a complex design.  The note explains that this can be exchanged for food, water, and other services through the Free Merchants in the Refugee Center.",
-    "price": 10,
-    "weight": 1,
+    "price": 5000,
+    "price_postapoc": 320,
+    "//": "$50 bills have substantial pre-Cataclysm value, but are worth 1 meat jerky",
+    "weight": "1 g",
     "to_hit": -3,
     "color": "white",
     "symbol": "$",
-    "material": [ "paper" ],
+    "material": [ "paper" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "RobofacCoin",
+    "name": "Hub 01 Gold Coin",
+    "description": "This is a small but surprisingly heavy gold coin.  One side is etched with circuitry and the other side reads 'Hub 01 exchange currency'.",
+    "price": 90000,
+    "price_postapoc": 5000,
+    "//": "Low carat gold alloy for hardness, but it's still the best part of an ounce of gold.  Yes, the weight is correct for the volume.",
+    "weight": "28 g",
+    "to_hit": -3,
+    "color": "brown",
+    "symbol": "$",
+    "material": [ "gold" ],
     "volume": "2ml"
   },
   {
@@ -18,11 +34,24 @@
     "name": "FlatCoin",
     "description": "This is a coin that has been flattened in a novelty coin flattening machine.  The machine has been somewhat crudely altered so that the design - which appears to once have been Mickey Mouse - is overlayed with a handwritten emblem of a book.  There is some text that faintly reads 'Campus Exchange Token'.",
     "price": 5,
-    "weight": 2,
+    "price_postapoc": 320,
+    "weight": "18 g",
     "to_hit": -3,
     "color": "brown",
     "symbol": "$",
-    "material": [ "copper" ],
-    "volume": "2ml"
+    "material": [ "copper" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "signed_chit",
+    "name": "chit",
+    "description": "This is a slip of paper signed by the issuer.",
+    "price": 5,
+    "price_postapoc": 320,
+    "weight": "1 g",
+    "to_hit": -3,
+    "color": "white",
+    "symbol": "$",
+    "material": [ "paper" ]
   }
 ]

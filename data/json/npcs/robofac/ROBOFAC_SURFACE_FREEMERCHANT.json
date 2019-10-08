@@ -1,0 +1,114 @@
+[
+  {
+    "type": "npc",
+    "id": "roabofac_free_merchant",
+    "//": "A free merchant caravanner that temporarily supplies the hq with foodstuff.",
+    "name_suffix": "Free Merchant",
+    "class": "NC_ROBOFAC_FREE_MERCHANT",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_ROBOFAC_FREE_MERCHANT",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ROBOFAC_FREE_MERCHANT",
+    "name": "Caravaneer",
+    "job_description": "I'm the owner of a trade caravan.",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "//": "This is a unique NPC who doesn't get randomly selected background traits",
+    "common": false,
+    "bonus_int": { "one_in": 4 },
+    "bonus_per": { "one_in": 4 },
+    "shopkeeper_item_group": "NC_ROBOFAC_FREE_MERCHANT_misc",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "mechanics", "bonus": { "one_in": 2 } },
+      { "skill": "computer", "bonus": { "one_in": 2 } },
+      { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "barter", "bonus": { "rng": [ 3, 5 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_FREE_MERCHANT_storage",
+    "items": [ [ "duffelbag", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_FREE_MERCHANT_coat",
+    "items": [ [ "trenchcoat", 80 ], [ "vest", 60 ] ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "NC_ROBOFAC_FREE_MERCHANT_misc",
+    "items": [
+      { "item": "RobofacCoin", "count-min": 5, "count-max": 30, "prob": 90 },
+      { "item": "jerky", "count-min": 10, "count-max": 25, "prob": 100 },
+      { "item": "tallow", "count-min": 10, "count-max": 25, "prob": 100 },
+      { "item": "pemmican", "count-min": 10, "count-max": 25, "prob": 100 },
+      { "item": "dry_meat", "count-min": 10, "count-max": 25, "prob": 100 },
+      { "item": "dry_fish", "count-min": 10, "count-max": 25, "prob": 100 },
+      { "item": "dry_veggy", "count-min": 10, "count-max": 25, "prob": 100 },
+      { "item": "dry_fruit", "count-min": 10, "count-max": 25, "prob": 100 },
+      { "item": "trenchcoat", "prob": 25 },
+      { "item": "trenchcoat_leather", "prob": 20 },
+      { "item": "trenchcoat_fur", "prob": 10 },
+      { "item": "jacket_leather", "prob": 25 },
+      { "item": "jacket_jean", "prob": 15 },
+      { "item": "jacket_flannel", "prob": 15 },
+      { "item": "pants_cargo", "prob": 40 },
+      { "item": "shorts_cargo", "prob": 25 },
+      { "item": "pants_leather", "prob": 15 },
+      { "item": "gloves_fingerless", "prob": 30 },
+      { "item": "gloves_fur", "prob": 5 },
+      { "item": "gloves_leather", "prob": 35 },
+      { "item": "boots", "prob": 20 },
+      { "item": "boots_hiking", "prob": 30 },
+      { "item": "hood_rain", "prob": 15 },
+      { "item": "runner_bag", "prob": 20 },
+      { "item": "sunglasses", "prob": 15 },
+      { "item": "goggles_ski", "prob": 5 },
+      { "item": "wristwatch", "prob": 30 },
+      { "item": "bandana", "prob": 20 },
+      { "item": "scarf", "prob": 15 },
+      { "item": "fungicide", "prob": 20 },
+      { "item": "insecticide", "prob": 20 },
+      { "item": "antifungal", "prob": 20 },
+      { "item": "antiparasitic", "prob": 20 }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_FREE_MERCHANT",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": [
+        "Still plenty of outlaws in the roads, perhaps you should tend to your job, marshal...",
+        "You see anything you want, marshal?",
+        "Oh, a U.S. marshal, how quaint."
+      ],
+      "no": [ "Welcome...", "Here to trade, I hope?", "Safe travels, scavenger." ]
+    },
+    "responses": [
+      { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_ROBOFAC_FREE_MERCHANT" },
+      { "text": "What are you doing here?", "topic": "TALK_ROBOFAC_FREE_MERCHANT_DOING" },
+      { "text": "Well, bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_FREE_MERCHANT_DOING",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "I keep to my own business, and you keep to yours, marshal.  Seems like a fair deal?",
+      "no": "We have been supplying this lab here with food from a few hunting and farming communities nearby.  The roads are though and dangerous, but it makes good money, and beats scavenging the cities for scraps."
+    },
+    "responses": [ { "text": "Keep safe, then.", "topic": "TALK_ROBOFAC_FREE_MERCHANT" } ]
+  }
+]

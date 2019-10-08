@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
-#include "enums.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -19,9 +19,10 @@
 #include "creature.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "point.h"
 
-void check_lethality( const std::string &explosive_id, const int range, float lethality,
-                      float margin )
+static void check_lethality( const std::string &explosive_id, const int range, float lethality,
+                             float margin )
 {
     const epsilon_threshold target_lethality{ lethality, margin };
     int num_survivors = 0;
@@ -59,7 +60,7 @@ void check_lethality( const std::string &explosive_id, const int range, float le
             total_hp += survivor->get_hp();
             deaths.add( false );
         }
-        if( survivors.size() > 0 ) {
+        if( !survivors.empty() ) {
             survivor_stats << std::endl;
         }
         for( int i = survivors.size(); i < num_subjects_this_time; ++i ) {
@@ -77,7 +78,7 @@ void check_lethality( const std::string &explosive_id, const int range, float le
     CHECK( deaths.avg() == Approx( lethality ).margin( margin ) );
 }
 
-std::vector<int> get_part_hp( vehicle *veh )
+static std::vector<int> get_part_hp( vehicle *veh )
 {
     std::vector<int> part_hp;
     part_hp.reserve( veh->parts.size() );
@@ -87,8 +88,8 @@ std::vector<int> get_part_hp( vehicle *veh )
     return part_hp;
 }
 
-void check_vehicle_damage( const std::string &explosive_id, const std::string &vehicle_id,
-                           const int range )
+static void check_vehicle_damage( const std::string &explosive_id, const std::string &vehicle_id,
+                                  const int range )
 {
     // Clear map
     clear_map_and_put_player_underground();
@@ -111,7 +112,7 @@ void check_vehicle_damage( const std::string &explosive_id, const std::string &v
 
     // We don't expect any destroyed parts.
     REQUIRE( before_hp.size() == after_hp.size() );
-    for( unsigned int i = 0; i < before_hp.size(); ++i ) {
+    for( size_t i = 0; i < before_hp.size(); ++i ) {
         INFO( target_vehicle->parts[ i ].name() );
         if( target_vehicle->parts[ i ].info().get_id() == "windshield" ||
             target_vehicle->parts[ i ].info().get_id() == "headlight" ) {

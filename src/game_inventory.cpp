@@ -1,7 +1,8 @@
 #include "game_inventory.h"
 
-#include <limits.h>
-#include <stddef.h>
+#include <math.h>
+#include <climits>
+#include <cstddef>
 #include <functional>
 #include <bitset>
 #include <map>
@@ -9,8 +10,11 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <algorithm>
 
+#include "avatar.h"
 #include "game.h"
+#include "bionics.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "itype.h"
@@ -41,11 +45,22 @@
 #include "translations.h"
 #include "units.h"
 #include "type_id.h"
+#include "point.h"
+
+const efftype_id effect_assisted( "assisted" );
+
+const skill_id skill_computer( "computer" );
+const skill_id skill_electronics( "electronics" );
+const skill_id skill_firstaid( "firstaid" );
+
+static const trait_id trait_NOPAIN( "NOPAIN" );
+static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
 class Character;
 
-typedef std::function<bool( const item & )> item_filter;
-typedef std::function<bool( const item_location & )> item_location_filter;
+using item_filter = std::function<bool ( const item & )>;
+using item_location_filter = std::function<bool ( const item_location & )>;
 
 namespace
 {
@@ -70,7 +85,7 @@ std::string highlight_good_bad_none( int value )
     return string_format( "<color_yellow>%d</color>", value );
 }
 
-}
+} // namespace
 
 inventory_filter_preset::inventory_filter_preset( const item_location_filter &filter )
     : filter( filter )
@@ -81,7 +96,7 @@ bool inventory_filter_preset::is_shown( const item_location &location ) const
     return filter( location );
 }
 
-item_location_filter convert_filter( const item_filter &filter )
+static item_location_filter convert_filter( const item_filter &filter )
 {
     return [ &filter ]( const item_location & loc ) {
         return filter( *loc );
@@ -102,7 +117,13 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
     std::pair<size_t, size_t> init_pair;
     bool init_selection = false;
 
-    if( u.has_activity( activity_id( "ACT_EAT_MENU" ) ) && u.activity.values.size() >= 2 ) {
+    const std::vector<activity_id> consuming {
+        activity_id( "ACT_EAT_MENU" ),
+        activity_id( "ACT_CONSUME_FOOD_MENU" ),
+        activity_id( "ACT_CONSUME_DRINK_MENU" ),
+        activity_id( "ACT_CONSUME_MEDS_MENU" ) };
+
+    if( u.has_activity( consuming ) && u.activity.values.size() >= 2 ) {
         init_pair.first = u.activity.values[0];
         init_pair.second = u.activity.values[1];
         init_selection = true;
@@ -136,7 +157,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
             continue;
         }
 
-        if( u.has_activity( activity_id( "ACT_EAT_MENU" ) ) ) {
+        if( u.has_activity( consuming ) ) {
             u.activity.values.clear();
             init_pair = inv_s.get_selection_position();
             u.activity.values.push_back( init_pair.first );
@@ -148,24 +169,24 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
     } while( true );
 }
 
-void game_menus::inv::common( player &p )
+void game_menus::inv::common( avatar &you )
 {
     // Return to inventory menu on those inputs
     static const std::set<int> loop_options = { { '\0', '=', 'f' } };
 
-    inventory_pick_selector inv_s( p );
+    inventory_pick_selector inv_s( you );
 
     inv_s.set_title( _( "Inventory" ) );
     inv_s.set_hint( string_format(
                         _( "Item hotkeys assigned: <color_light_gray>%d</color>/<color_light_gray>%d</color>" ),
-                        p.allocated_invlets().size(), inv_chars.size() ) );
+                        you.allocated_invlets().count(), inv_chars.size() ) );
 
     int res = 0;
 
     do {
-        p.inv.restack( p );
+        you.inv.restack( you );
         inv_s.clear_items();
-        inv_s.add_character_items( p );
+        inv_s.add_character_items( you );
         inv_s.update();
 
         const item_location &location = inv_s.execute();
@@ -180,7 +201,7 @@ void game_menus::inv::common( player &p )
         }
 
         g->refresh_all();
-        res = g->inventory_item_menu( p.get_item_position( location.get_item() ) );
+        res = g->inventory_item_menu( you.get_item_position( location.get_item() ) );
         g->refresh_all();
 
     } while( loop_options.count( res ) != 0 );
@@ -316,9 +337,9 @@ class take_off_inventory_preset: public armor_inventory_preset
         }
 };
 
-item_location game_menus::inv::take_off( player &p )
+item_location game_menus::inv::take_off( avatar &you )
 {
-    return inv_internal( p, take_off_inventory_preset( p, "color_red" ), _( "Take off item" ), 1,
+    return inv_internal( you, take_off_inventory_preset( you, "color_red" ), _( "Take off item" ), 1,
                          _( "You don't wear anything." ) );
 }
 
@@ -329,7 +350,7 @@ item_location game::inv_map_splice( item_filter filter, const std::string &title
                          title, radius, none_message );
 }
 
-item_location game_menus::inv::container_for( player &p, const item &liquid, int radius )
+item_location game_menus::inv::container_for( avatar &you, const item &liquid, int radius )
 {
     const auto filter = [ &liquid ]( const item_location & location ) {
         if( location.where() == item_location::type::character ) {
@@ -345,7 +366,7 @@ item_location game_menus::inv::container_for( player &p, const item &liquid, int
         return location->get_remaining_capacity_for_liquid( liquid, allow_buckets ) > 0;
     };
 
-    return inv_internal( p, inventory_filter_preset( filter ),
+    return inv_internal( you, inventory_filter_preset( filter ),
                          string_format( _( "Container for %s" ), liquid.display_name( liquid.charges ) ), radius,
                          string_format( _( "You don't have a suitable container for carrying %s." ),
                                         liquid.tname() ) );
@@ -360,7 +381,7 @@ class pickup_inventory_preset : public inventory_selector_preset
             if( !p.has_item( *loc ) ) {
                 if( loc->made_of_from_type( LIQUID ) ) {
                     return _( "Can't pick up spilt liquids" );
-                } else if( !p.can_pickVolume( *loc ) ) {
+                } else if( !p.can_pickVolume( *loc ) && p.is_armed() ) {
                     return _( "Too big to pick up" );
                 } else if( !p.can_pickWeight( *loc ) ) {
                     return _( "Too heavy to pick up" );
@@ -419,7 +440,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
 
     private:
         const player &p;
-        const inventory inv;
+        const inventory &inv;
 };
 
 item_location game_menus::inv::disassemble( player &p )
@@ -432,10 +453,10 @@ item_location game_menus::inv::disassemble( player &p )
 class comestible_inventory_preset : public inventory_selector_preset
 {
     public:
-        comestible_inventory_preset( const player &p ) : inventory_selector_preset(), p( p ) {
+        comestible_inventory_preset( const player &p ) : p( p ) {
 
             append_cell( [ &p, this ]( const item_location & loc ) {
-                return good_bad_none( p.kcal_for( get_comestible_item( loc ) ) );
+                return good_bad_none( p.kcal_for( get_consumable_item( loc ) ) );
             }, _( "CALORIES" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
@@ -443,11 +464,11 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "QUENCH" ) );
 
             append_cell( [ &p, this ]( const item_location & loc ) {
-                const item &it = get_comestible_item( loc );
+                const item &it = get_consumable_item( loc );
                 if( it.has_flag( "MUSHY" ) ) {
-                    return highlight_good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
+                    return highlight_good_bad_none( p.fun_for( get_consumable_item( loc ) ).first );
                 } else {
-                    return good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
+                    return good_bad_none( p.fun_for( get_consumable_item( loc ) ).first );
                 }
             }, _( "JOY" ) );
 
@@ -475,7 +496,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 if( g->u.can_estimate_rot() ) {
                     const islot_comestible item = get_edible_comestible( loc );
                     if( item.spoils > 0_turns ) {
-                        if( !get_comestible_item( loc ).rotten() ) {
+                        if( !get_consumable_item( loc ).rotten() ) {
                             return get_time_left_rounded( loc );
                         }
                     }
@@ -487,7 +508,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             append_cell( [ this, &p ]( const item_location & loc ) {
                 std::string cbm_name;
 
-                switch( p.get_cbm_rechargeable_with( get_comestible_item( loc ) ) ) {
+                switch( p.get_cbm_rechargeable_with( get_consumable_item( loc ) ) ) {
                     case rechargeable_cbm::none:
                         break;
                     case rechargeable_cbm::battery:
@@ -499,6 +520,13 @@ class comestible_inventory_preset : public inventory_selector_preset
                     case rechargeable_cbm::furnace:
                         cbm_name = _( "Furnace" );
                         break;
+                    case rechargeable_cbm::other:
+                        std::vector<bionic_id> bids = p.get_bionic_fueled_with( get_consumable_item( loc ) );
+                        if( !bids.empty() ) {
+                            bionic_id bid = p.get_most_efficient_bionic( bids );
+                            cbm_name = bid->name.translated();
+                        }
+                        break;
                 }
 
                 if( !cbm_name.empty() ) {
@@ -509,7 +537,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "CBM" ) );
 
             append_cell( [ this, &p ]( const item_location & loc ) {
-                return good_bad_none( p.get_acquirable_energy( get_comestible_item( loc ) ) );
+                return good_bad_none( p.get_acquirable_energy( get_consumable_item( loc ) ) );
             }, _( "ENERGY" ) );
         }
 
@@ -518,11 +546,18 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
+            const item &med = !( *loc ).is_container_empty() && ( *loc ).get_contained().is_medication() &&
+                              ( *loc ).get_contained().type->has_use() ? ( *loc ).get_contained() : *loc;
+
             if( loc->made_of_from_type( LIQUID ) && !g->m.has_flag( "LIQUIDCONT", loc.position() ) ) {
                 return _( "Can't drink spilt liquids" );
             }
 
-            const auto &it = get_comestible_item( loc );
+            if( med.is_medication() && !p.can_use_heal_item( med ) ) {
+                return _( "Your biology is not compatible with that item." );
+            }
+
+            const auto &it = get_consumable_item( loc );
             const auto res = p.can_eat( it );
             const auto cbm = p.get_cbm_rechargeable_with( it );
 
@@ -530,46 +565,50 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return res.str();
             } else if( cbm == rechargeable_cbm::battery && p.power_level >= p.max_power_level ) {
                 return _( "You're fully charged" );
+            } else if( cbm == rechargeable_cbm::other && ( p.get_fuel_capacity( it.typeId() ) <= 0 ) ) {
+                return string_format( _( "No space to store more %s" ), it.tname() );
             }
 
             return inventory_selector_preset::get_denial( loc );
         }
 
         bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
-            const auto &a = get_comestible_item( lhs.location );
-            const auto &b = get_comestible_item( rhs.location );
+            time_duration time_a = get_time_left( lhs.any_item() );
+            time_duration time_b = get_time_left( rhs.any_item() );
+            int order_a = get_order( lhs.any_item(), time_a );
+            int order_b = get_order( rhs.any_item(), time_b );
 
-            const int freshness = rate_freshness( a, *lhs.location ) - rate_freshness( b, *rhs.location );
-            if( freshness != 0 ) {
-                return freshness > 0;
-            }
-
-            return inventory_selector_preset::sort_compare( lhs, rhs );
+            return order_a < order_b
+                   || ( order_a == order_b && time_a < time_b )
+                   || ( order_a == order_b && time_a == time_b &&
+                        inventory_selector_preset::sort_compare( lhs, rhs ) );
         }
 
     protected:
-        int rate_freshness( const item &it, const item &container ) const {
-            if( p.will_eat( it ).value() == edible_rating::ROTTEN ) {
-                return -1;
-            } else if( !container.type->container || !container.type->container->preserves ) {
-                if( it.is_fresh() ) {
+        int get_order( const item_location &loc, const time_duration time ) const {
+            if( time > 0_turns && !( loc->type->container && loc->type->container->preserves ) ) {
+                return 0;
+            } else if( get_consumable_item( loc ).rotten() ) {
+                if( p.has_trait( trait_SAPROPHAGE ) || p.has_trait( trait_SAPROVORE ) ) {
                     return 1;
-                } else if( it.is_going_bad() ) {
-                    return 3;
-                } else if( it.goes_bad() ) {
-                    return 2;
+                } else {
+                    return 4;
                 }
+            } else if( time == 0_turns ) {
+                return 3;
+            } else {
+                return 2;
             }
-
-            return 0;
         }
 
-        const item &get_comestible_item( const item_location &loc ) const {
-            return p.get_comestible_from( const_cast<item &>( *loc ) );
+        // WARNING: this can return consumables which are not necessarily possessing
+        // the comestible type. please dereference responsibly.
+        const item &get_consumable_item( const item_location &loc ) const {
+            return p.get_consumable_from( const_cast<item &>( *loc ) );
         }
 
         const islot_comestible &get_edible_comestible( const item_location &loc ) const {
-            return get_edible_comestible( get_comestible_item( loc ) );
+            return get_edible_comestible( get_consumable_item( loc ) );
         }
 
         const islot_comestible &get_edible_comestible( const item &it ) const {
@@ -581,27 +620,36 @@ class comestible_inventory_preset : public inventory_selector_preset
             return dummy;
         }
 
-        std::string get_time_left_rounded( const item_location &loc ) {
-            const item &it = get_comestible_item( loc );
-            const double relative_rot = it.get_relative_rot();
+        time_duration get_time_left( const item_location &loc ) const {
+            time_duration time_left = 0_turns;
             const time_duration shelf_life = get_edible_comestible( loc ).spoils;
-            time_duration time_left = shelf_life - shelf_life * relative_rot;
+            if( shelf_life > 0_turns ) {
+                const item &it = get_consumable_item( loc );
+                const double relative_rot = it.get_relative_rot();
+                time_left = shelf_life - shelf_life * relative_rot;
 
-            // Correct for an estimate that exceeds shelf life -- this happens especially with
-            // fresh items.
-            if( time_left > shelf_life ) {
-                time_left = shelf_life;
+                // Correct for an estimate that exceeds shelf life -- this happens especially with
+                // fresh items.
+                if( time_left > shelf_life ) {
+                    time_left = shelf_life;
+                }
             }
 
+            return time_left;
+        }
+
+        std::string get_time_left_rounded( const item_location &loc ) const {
+            const item &it = get_consumable_item( loc );
             if( it.is_going_bad() ) {
                 return _( "soon!" );
             }
 
+            time_duration time_left = get_time_left( loc );
             return to_string_approx( time_left );
         }
 
         std::string get_freshness( const item_location &loc ) {
-            const item &it = get_comestible_item( loc );
+            const item &it = get_consumable_item( loc );
             const double rot_progress = it.get_relative_rot();
             if( it.is_fresh() ) {
                 return _( "fresh" );
@@ -624,11 +672,89 @@ class comestible_inventory_preset : public inventory_selector_preset
         const player &p;
 };
 
+static std::string get_consume_needs_hint( player &p )
+{
+    auto hint = std::string();
+    auto desc = p.get_hunger_description();
+    hint.append( string_format( "%s %s", _( "Food :" ), colorize( desc.first, desc.second ) ) );
+    hint.append( string_format( " %s ", LINE_XOXO_S ) );
+    desc = p.get_thirst_description();
+    hint.append( string_format( "%s %s", _( "Drink:" ), colorize( desc.first, desc.second ) ) );
+    hint.append( string_format( " %s ", LINE_XOXO_S ) );
+    desc = p.get_pain_description();
+    hint.append( string_format( "%s %s", _( "Pain :" ), colorize( desc.first, desc.second ) ) );
+    return hint;
+}
+
 item_location game_menus::inv::consume( player &p )
 {
+    if( !g->u.has_activity( activity_id( "ACT_EAT_MENU" ) ) ) {
+        g->u.assign_activity( activity_id( "ACT_EAT_MENU" ) );
+    }
+
     return inv_internal( p, comestible_inventory_preset( p ),
                          _( "Consume item" ), 1,
-                         _( "You have nothing to consume." ) );
+                         _( "You have nothing to consume." ),
+                         get_consume_needs_hint( p ) );
+}
+
+class comestible_filtered_inventory_preset : public comestible_inventory_preset
+{
+    public:
+        comestible_filtered_inventory_preset( const player &p, bool( *predicate )( const item &it ) ) :
+            comestible_inventory_preset( p ), predicate( predicate ) {}
+
+        bool is_shown( const item_location &loc ) const override {
+            return comestible_inventory_preset::is_shown( loc ) &&
+                   predicate( get_consumable_item( loc ) );
+        }
+
+    private:
+        bool( *predicate )( const item &it );
+};
+
+item_location game_menus::inv::consume_food( player &p )
+{
+    if( !g->u.has_activity( activity_id( "ACT_CONSUME_FOOD_MENU" ) ) ) {
+        g->u.assign_activity( activity_id( "ACT_CONSUME_FOOD_MENU" ) );
+    }
+
+    return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
+        return ( it.is_comestible() && it.get_comestible()->comesttype == "FOOD" ) ||
+               it.has_flag( "USE_EAT_VERB" );
+    } ),
+    _( "Consume food" ), 1,
+    _( "You have no food to consume." ),
+    get_consume_needs_hint( p ) );
+}
+
+item_location game_menus::inv::consume_drink( player &p )
+{
+    if( !g->u.has_activity( activity_id( "ACT_CONSUME_DRINK_MENU" ) ) ) {
+        g->u.assign_activity( activity_id( "ACT_CONSUME_DRINK_MENU" ) );
+    }
+
+    return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
+        return it.is_comestible() && it.get_comestible()->comesttype == "DRINK" &&
+               !it.has_flag( "USE_EAT_VERB" );
+    } ),
+    _( "Consume drink" ), 1,
+    _( "You have no drink to consume." ),
+    get_consume_needs_hint( p ) );
+}
+
+item_location game_menus::inv::consume_meds( player &p )
+{
+    if( !g->u.has_activity( activity_id( "ACT_CONSUME_MEDS_MENU" ) ) ) {
+        g->u.assign_activity( activity_id( "ACT_CONSUME_MEDS_MENU" ) );
+    }
+
+    return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
+        return it.is_medication();
+    } ),
+    _( "Consume medication" ), 1,
+    _( "You have no medication to consume." ),
+    get_consume_needs_hint( p ) );
 }
 
 class activatable_inventory_preset : public pickup_inventory_preset
@@ -664,6 +790,10 @@ class activatable_inventory_preset : public pickup_inventory_preset
                 }
             }
 
+            if( it.is_medication() && !p.can_use_heal_item( it ) ) {
+                return _( "Your biology is not compatible with that item." );
+            }
+
             if( !p.has_enough_charges( it, false ) ) {
                 return string_format(
                            ngettext( "Needs at least %d charge",
@@ -695,9 +825,9 @@ class activatable_inventory_preset : public pickup_inventory_preset
         const player &p;
 };
 
-item_location game_menus::inv::use( player &p )
+item_location game_menus::inv::use( avatar &you )
 {
-    return inv_internal( p, activatable_inventory_preset( p ),
+    return inv_internal( you, activatable_inventory_preset( you ),
                          _( "Use item" ), 1,
                          _( "You don't have any items you can use." ) );
 }
@@ -745,8 +875,8 @@ class gunmod_inventory_preset : public inventory_selector_preset
         }
 
         bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
-            const auto a = get_odds( lhs.location );
-            const auto b = get_odds( rhs.location );
+            const auto a = get_odds( lhs.any_item() );
+            const auto b = get_odds( rhs.any_item() );
 
             if( a.first > b.first || ( a.first == b.first && a.second < b.second ) ) {
                 return true;
@@ -777,24 +907,28 @@ class read_inventory_preset: public pickup_inventory_preset
 {
     public:
         read_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
-            static const std::string unknown( _( "<color_dark_gray>?</color>" ) );
-            static const std::string martial_arts( _( "martial arts" ) );
+            const std::string unknown = _( "<color_dark_gray>?</color>" );
 
-            append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
+            append_cell( [ this, &p, unknown ]( const item_location & loc ) -> std::string {
                 if( loc->type->can_use( "MA_MANUAL" ) ) {
-                    return martial_arts;
+                    return _( "martial arts" );
                 }
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
                 const auto &book = get_book( loc );
-                if( book.skill && p.get_skill_level_object( book.skill ).can_train() ) {
-                    return string_format( _( "%s to %d" ), book.skill->name(), book.level );
+                if( book.skill ) {
+                    const SkillLevel &skill = p.get_skill_level_object( book.skill );
+                    if( skill.can_train() ) {
+                        //~ %1$s: book skill name, %2$d: book skill level, %3$d: player skill level
+                        return string_format( pgettext( "skill", "%1$s to %2$d (%3$d)" ), book.skill->name(), book.level,
+                                              skill.level() );
+                    }
                 }
                 return std::string();
-            }, _( "TRAINS" ), unknown );
+            }, _( "TRAINS (CURRENT)" ), unknown );
 
-            append_cell( [ this ]( const item_location & loc ) -> std::string {
+            append_cell( [ this, unknown ]( const item_location & loc ) -> std::string {
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
@@ -803,25 +937,31 @@ class read_inventory_preset: public pickup_inventory_preset
 
                 return unlearned > 0 ? to_string( unlearned ) : std::string();
             }, _( "RECIPES" ), unknown );
-
-            append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
+            append_cell( [ this, &p, unknown ]( const item_location & loc ) -> std::string {
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
                 return good_bad_none( p.book_fun_for( *loc, p ) );
             }, _( "FUN" ), unknown );
 
-            append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
+            append_cell( [ this, &p, unknown ]( const item_location & loc ) -> std::string {
                 if( !is_known( loc ) ) {
                     return unknown;
                 }
                 std::vector<std::string> dummy;
-                const player *reader = p.get_book_reader( *loc, dummy );
+
+                // This is terrible and needs to be removed asap when this entire file is refactored
+                // to use the new avatar class
+                const avatar *u = dynamic_cast<const avatar *>( &p );
+                if( !u ) {
+                    return std::string();
+                }
+                const player *reader = u->get_book_reader( *loc, dummy );
                 if( reader == nullptr ) {
                     return std::string();  // Just to make sure
                 }
                 // Actual reading time (in turns). Can be penalized.
-                const int actual_turns = p.time_to_read( *loc, *reader ) / to_moves<int>( 1_turns );
+                const int actual_turns = u->time_to_read( *loc, *reader ) / to_moves<int>( 1_turns );
                 // Theoretical reading time (in turns) based on the reader speed. Free of penalties.
                 const int normal_turns = get_book( loc ).time * reader->read_speed() / to_moves<int>( 1_turns );
                 const std::string duration = to_string_approx( time_duration::from_turns( actual_turns ), false );
@@ -839,8 +979,15 @@ class read_inventory_preset: public pickup_inventory_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
+            // This is terrible and needs to be removed asap when this entire file is refactored
+            // to use the new avatar class
+            const avatar *u = dynamic_cast<const avatar *>( &p );
+            if( !u ) {
+                return std::string();
+            }
+
             std::vector<std::string> denials;
-            if( p.get_book_reader( *loc, denials ) == nullptr && !denials.empty() ) {
+            if( u->get_book_reader( *loc, denials ) == nullptr && !denials.empty() ) {
                 return denials.front();
             }
             return pickup_inventory_preset::get_denial( loc );
@@ -855,11 +1002,11 @@ class read_inventory_preset: public pickup_inventory_preset
                     return true;
                 }
 
-                if( !is_known( e.location ) ) {
+                if( !is_known( e.any_item() ) ) {
                     return false;
                 }
 
-                const auto &book = get_book( e.location );
+                const auto &book = get_book( e.any_item() );
                 if( book.skill && p.get_skill_level_object( book.skill ).can_train() ) {
                     return lcmatch( book.skill->name(), filter );
                 }
@@ -868,13 +1015,47 @@ class read_inventory_preset: public pickup_inventory_preset
             };
         }
 
+        bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
+            const bool base_sort = inventory_selector_preset::sort_compare( lhs, rhs );
+
+            const bool known_a = is_known( lhs.any_item() );
+            const bool known_b = is_known( rhs.any_item() );
+
+            if( !known_a || !known_b ) {
+                return ( !known_a && !known_b ) ? base_sort : !known_a;
+            }
+
+            const auto &book_a = get_book( lhs.any_item() );
+            const auto &book_b = get_book( rhs.any_item() );
+
+            if( !book_a.skill && !book_b.skill ) {
+                return ( book_a.fun == book_b.fun ) ? base_sort : book_a.fun > book_b.fun;
+            } else if( !book_a.skill || !book_a.skill ) {
+                return static_cast<bool>( book_a.skill );
+            }
+
+            const bool train_a = p.get_skill_level( book_a.skill ) < book_a.level;
+            const bool train_b = p.get_skill_level( book_b.skill ) < book_b.level;
+
+            if( !train_a || !train_b ) {
+                return ( !train_a && !train_b ) ? base_sort : train_a;
+            }
+
+            return base_sort;
+        }
+
     private:
         const islot_book &get_book( const item_location &loc ) const {
             return *loc->type->book;
         }
 
         bool is_known( const item_location &loc ) const {
-            return p.has_identified( loc->typeId() );
+            // This is terrible and needs to be removed asap when this entire file is refactored
+            // to use the new avatar class
+            if( const avatar *u = dynamic_cast<const avatar *>( &p ) ) {
+                return u->has_identified( loc->typeId() );
+            }
+            return false;
         }
 
         int get_known_recipes( const islot_book &book ) const {
@@ -890,17 +1071,17 @@ class read_inventory_preset: public pickup_inventory_preset
         const player &p;
 };
 
-item_location game_menus::inv::read( player &p )
+item_location game_menus::inv::read( player &pl )
 {
-    return inv_internal( p, read_inventory_preset( p ),
-                         _( "Read" ), 1,
-                         _( "You have nothing to read." ) );
+    const std::string msg = pl.is_player() ? _( "You have nothing to read." ) :
+                            string_format( _( "%s has nothing to read." ), pl.disp_name() );
+    return inv_internal( pl, read_inventory_preset( pl ), _( "Read" ), 1, msg );
 }
 
 class steal_inventory_preset : public pickup_inventory_preset
 {
     public:
-        steal_inventory_preset( const player &p, const player &victim ) :
+        steal_inventory_preset( const avatar &p, const player &victim ) :
             pickup_inventory_preset( p ), victim( victim ) {}
 
         bool is_shown( const item_location &loc ) const override {
@@ -911,9 +1092,9 @@ class steal_inventory_preset : public pickup_inventory_preset
         const player &victim;
 };
 
-item_location game_menus::inv::steal( player &p, player &victim )
+item_location game_menus::inv::steal( avatar &you, player &victim )
 {
-    return inv_internal( victim, steal_inventory_preset( p, victim ),
+    return inv_internal( victim, steal_inventory_preset( you, victim ),
                          string_format( _( "Steal from %s" ), victim.name ), -1,
                          string_format( _( "%s's inventory is empty." ), victim.name ) );
 }
@@ -1003,9 +1184,9 @@ class weapon_inventory_preset: public inventory_selector_preset
         const player &p;
 };
 
-item_location game_menus::inv::wield( player &p )
+item_location game_menus::inv::wield( avatar &you )
 {
-    return inv_internal( p, weapon_inventory_preset( p ), _( "Wield item" ), 1,
+    return inv_internal( you, weapon_inventory_preset( you ), _( "Wield item" ), 1,
                          _( "You have nothing to wield." ) );
 }
 
@@ -1080,7 +1261,7 @@ class salvage_inventory_preset: public inventory_selector_preset
 {
     public:
         salvage_inventory_preset( const salvage_actor *actor ) :
-            inventory_selector_preset(), actor( actor ) {
+            actor( actor ) {
 
             append_cell( [ actor ]( const item_location & loc ) {
                 return to_string_clipped( time_duration::from_turns( actor->time_to_cut_up(
@@ -1107,7 +1288,7 @@ class repair_inventory_preset: public inventory_selector_preset
 {
     public:
         repair_inventory_preset( const repair_item_actor *actor, const item *main_tool ) :
-            inventory_selector_preset(), actor( actor ), main_tool( main_tool ) {
+            actor( actor ), main_tool( main_tool ) {
         }
 
         bool is_shown( const item_location &loc ) const override {
@@ -1251,13 +1432,19 @@ void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset
 void game_menus::inv::reassign_letter( player &p, item &it )
 {
     while( true ) {
-        const long invlet = popup_getkey(
-                                _( "Enter new letter (press SPACE for none, ESCAPE to cancel)." ) );
+        const int invlet = popup_getkey(
+                               _( "Enter new letter. Press SPACE to clear a manually assigned letter, ESCAPE to cancel." ) );
 
         if( invlet == KEY_ESCAPE ) {
             break;
         } else if( invlet == ' ' ) {
             p.reassign_item( it, 0 );
+            const std::string auto_setting = get_option<std::string>( "AUTO_INV_ASSIGN" );
+            if( auto_setting == "enabled" || ( auto_setting == "favorites" && it.is_favorite ) ) {
+                popup_getkey(
+                    _( "Note: The Auto Inventory Letters setting might still reassign a letter to this item.\n"
+                       "If this is undesired, you may wish to change the setting in Options." ) );
+            }
             break;
         } else if( inv_chars.valid( invlet ) ) {
             p.reassign_item( it, invlet );
@@ -1304,4 +1491,493 @@ void game_menus::inv::swap_letters( player &p )
         reassign_letter( p, *loc );
         g->refresh_all();
     }
+}
+
+static item_location autodoc_internal( player &u, player &patient,
+                                       const inventory_selector_preset &preset,
+                                       int radius, bool uninstall = false, bool surgeon = false )
+{
+    inventory_pick_selector inv_s( u, preset );
+    std::string hint;
+    int drug_count = 0;
+
+    if( !surgeon ) {//surgeon use their own anesthetic, player just need money
+        if( patient.has_trait( trait_NOPAIN ) ) {
+            hint = _( "<color_yellow>Patient has Deadened nerves.  Anesthesia unneeded.</color>" );
+        } else if( patient.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
+            hint = _( "<color_yellow>Patient has Sensory Dulling CBM installed.  Anesthesia unneeded.</color>" );
+        } else {
+            const inventory &crafting_inv = u.crafting_inventory();
+            std::vector<const item *> a_filter = crafting_inv.items_with( []( const item & it ) {
+                return it.has_quality( quality_id( "ANESTHESIA" ) );
+            } );
+            std::vector<const item *> b_filter = crafting_inv.items_with( []( const item & it ) {
+                return it.has_flag( "ANESTHESIA" ); // legacy
+            } );
+            for( const item *anesthesia_item : a_filter ) {
+                if( anesthesia_item->ammo_remaining() >= 1 ) {
+                    drug_count += anesthesia_item->ammo_remaining();
+                }
+            }
+
+            if( !b_filter.empty() ) {
+                hint = string_format( _( "<color_yellow>Available kit: %i</color>" ), b_filter.size() );// legacy
+            } else {
+                hint = string_format( _( "<color_yellow>Available anesthetic: %i mL</color>" ), drug_count );
+            }
+
+        }
+    } else {
+        hint = string_format( _( "<color_yellow>Money available: %s</color>" ), format_money( u.cash ) );
+    }
+
+    if( uninstall ) {
+        inv_s.set_title( string_format( _( "Bionic removal patient: %s" ), patient.get_name() ) );
+    } else {
+        inv_s.set_title( string_format( _( "Bionic installation patient: %s" ), patient.get_name() ) );
+    }
+
+    inv_s.set_hint( hint );
+    inv_s.set_display_stats( false );
+
+    std::pair<size_t, size_t> init_pair;
+    bool init_selection = false;
+
+    do {
+        u.inv.restack( u );
+
+        inv_s.clear_items();
+        inv_s.add_character_items( u );
+        inv_s.add_nearby_items( radius );
+
+        if( init_selection ) {
+            inv_s.update();
+            inv_s.select_position( init_pair );
+            init_selection = false;
+        }
+
+        if( inv_s.empty() ) {
+            popup( _( "You don't have any bionics to install." ), PF_GET_KEY );
+            return item_location();
+        }
+
+        item_location location = inv_s.execute();
+
+        if( inv_s.keep_open ) {
+            inv_s.keep_open = false;
+            continue;
+        }
+
+        return location;
+
+    } while( true );
+}
+
+// Menu used by autodoc when installing a bionic
+class bionic_install_preset: public inventory_selector_preset
+{
+    public:
+        bionic_install_preset( player &pl, player &patient ) :
+            p( pl ), pa( patient ) {
+            append_cell( [ this ]( const item_location & loc ) {
+                return get_failure_chance( loc ) ;
+            }, _( "FAILURE CHANCE" ) );
+
+            append_cell( [ this ]( const item_location & loc ) {
+                return get_operation_duration( loc ) ;
+            }, _( "OPERATION DURATION" ) );
+
+            append_cell( [this]( const item_location & loc ) {
+                return get_anesth_amount( loc );
+            }, _( "ANESTHETIC REQUIRED" ) );
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_bionic();
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            const item *it = loc.get_item();
+            const itype *itemtype = it->type;
+            const bionic_id &bid = itemtype->bionic->id;
+
+            if( it->has_flag( "FILTHY" ) ) {
+                return _( "/!\\ CBM is highly contaminated. /!\\" );
+            } else if( it->has_flag( "NO_STERILE" ) ) {
+                return _( "/!\\ CBM is not sterile. /!\\" ) ;
+            } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
+                return _( "CBM already deployed.  Please reset to factory state." );
+            } else if( pa.has_bionic( bid ) ) {
+                return _( "CBM already installed" );
+            } else if( !pa.can_install_cbm_on_bp( get_occupied_bodyparts( bid ) ) ) {
+                return _( "CBM not compatible with patient's body." );
+            } else if( bid->upgraded_bionic &&
+                       !pa.has_bionic( bid->upgraded_bionic ) &&
+                       it->is_upgrade() ) {
+                return _( "No base version installed" );
+            } else if( std::any_of( bid->available_upgrades.begin(),
+                                    bid->available_upgrades.end(),
+                                    std::bind( &player::has_bionic, &pa,
+                                               std::placeholders::_1 ) ) ) {
+                return _( "Superior version installed" );
+            } else if( pa.is_npc() && !bid->npc_usable ) {
+                return _( "CBM not compatible with patient" );
+            } else if( units::energy_max - pa.max_power_level < bid->capacity ) {
+                return _( "Max power capacity already reached" );
+            } else if( !p.has_enough_anesth( itemtype, pa ) ) {
+                const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
+                const int duration = loc.get_item()->type->bionic->difficulty * 2;
+                const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+                                                    duration * weight;
+                return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
+            }
+
+            return std::string();
+        }
+
+    protected:
+        player &p;
+        player &pa;
+
+    private:
+        // Returns a formatted string of how long the operation will take.
+        std::string get_operation_duration( const item_location &loc ) {
+            const int difficulty = loc.get_item()->type->bionic->difficulty;
+            // 20 minutes per bionic difficulty.
+            return to_string( time_duration::from_minutes( difficulty * 20 ) );
+        }
+
+        // Failure chance for bionic install. Combines multiple other functions together.
+        std::string get_failure_chance( const item_location &loc ) {
+
+            const int difficulty = loc.get_item()->type->bionic->difficulty;
+            int chance_of_failure = 100;
+            player &installer = p;
+            const int assist_bonus = installer.get_effect_int( effect_assisted );
+
+            const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
+                                       skill_computer,
+                                       skill_electronics,
+                                       -1 );
+
+            if( ( get_option < bool > ( "SAFE_AUTODOC" ) ) ||
+                g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+                chance_of_failure = 0;
+            } else {
+                float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
+                                                   ( 4.0 * difficulty ) );
+                chance_of_failure = 100 - static_cast<int>( ( 100 * skill_difficulty_parameter ) /
+                                    ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+            }
+
+            return string_format( _( "%i%%" ), chance_of_failure );
+        }
+
+        std::string get_anesth_amount( const item_location &loc ) {
+
+            const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
+            const int duration = loc.get_item()->type->bionic->difficulty * 2;
+            const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+                                                duration * weight;
+
+            std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
+                return it.has_flag( "ANESTHESIA" ); // legacy
+            } );
+
+            if( !b_filter.empty() ) {
+                return  _( "kit available" );// legacy
+            } else {
+                return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
+            }
+        }
+};
+
+// Menu used by surgeon when installing a bionic
+class bionic_install_surgeon_preset : public inventory_selector_preset
+{
+    public:
+        bionic_install_surgeon_preset( player &pl, player &patient ) :
+            p( pl ), pa( patient ) {
+            append_cell( [this]( const item_location & loc ) {
+                return get_failure_chance( loc );
+            }, _( "FAILURE CHANCE" ) );
+
+            append_cell( [this]( const item_location & loc ) {
+                return get_operation_duration( loc );
+            }, _( "OPERATION DURATION" ) );
+
+            append_cell( [this]( const item_location & loc ) {
+                return get_money_amount( loc );
+            }, _( "PRICE" ) );
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_bionic();
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            const item *it = loc.get_item();
+            const itype *itemtype = it->type;
+            const bionic_id &bid = itemtype->bionic->id;
+
+            if( it->has_flag( "FILTHY" ) ) {
+                return _( "CBM is filthy." );
+            } else if( it->has_flag( "NO_STERILE" ) ) {
+                return _( "CBM is not sterile." );
+            } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
+                return _( "CBM is already deployed." );
+            } else if( pa.has_bionic( bid ) ) {
+                return _( "CBM is already installed." );
+            } else if( bid->upgraded_bionic &&
+                       !pa.has_bionic( bid->upgraded_bionic ) &&
+                       it->is_upgrade() ) {
+                return _( "No base version installed." );
+            } else if( std::any_of( bid->available_upgrades.begin(),
+                                    bid->available_upgrades.end(),
+                                    std::bind( &player::has_bionic, &pa,
+                                               std::placeholders::_1 ) ) ) {
+                return _( "Superior version installed." );
+            } else if( pa.is_npc() && !bid->npc_usable ) {
+                return _( "CBM is not compatible with patient." );
+            } else if( it->price( true ) * 2 > p.cash ) {
+                return format_money( it->price( true ) * 2 );
+            }
+
+            return std::string();
+        }
+
+    protected:
+        player &p;
+        player &pa;
+
+    private:
+        // Returns a formatted string of how long the operation will take.
+        std::string get_operation_duration( const item_location &loc ) {
+            const int difficulty = loc.get_item()->type->bionic->difficulty;
+            // 20 minutes per bionic difficulty.
+            return to_string( time_duration::from_minutes( difficulty * 20 ) );
+        }
+
+        // Failure chance for bionic install. Combines multiple other functions together.
+        std::string get_failure_chance( const item_location &loc ) {
+
+            const int difficulty = loc.get_item()->type->bionic->difficulty;
+            int chance_of_failure = 100;
+            player &installer = p;
+            const int assist_bonus = installer.get_effect_int( effect_assisted );
+
+            const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
+                                       skill_computer,
+                                       skill_electronics,
+                                       20 );//override player's skills with surgeon skill
+
+            if( ( get_option < bool >( "SAFE_AUTODOC" ) ) ||
+                g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+                chance_of_failure = 0;
+            } else {
+                float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
+                                                   ( 4.0 * difficulty ) );
+                chance_of_failure = 100 - static_cast<int>( ( 100 * skill_difficulty_parameter ) /
+                                    ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+            }
+
+            return string_format( _( "%i%%" ), chance_of_failure );
+        }
+
+        std::string get_money_amount( const item_location &loc ) {
+            return format_money( loc.get_item()->price( true ) * 2 );
+        }
+};
+
+item_location game_menus::inv::install_bionic( player &p, player &patient, bool surgeon )
+{
+    if( surgeon ) {
+        return autodoc_internal( p, patient, bionic_install_surgeon_preset( p, patient ), 5, false,
+                                 surgeon );
+    } else {
+        return autodoc_internal( p, patient, bionic_install_preset( p, patient ), 5 );
+    }
+
+}
+// Menu used by autodoc when uninstalling a bionic
+class bionic_uninstall_preset : public inventory_selector_preset
+{
+    public:
+        bionic_uninstall_preset( player &pl, player &patient ) :
+            p( pl ), pa( patient ) {
+            append_cell( [this]( const item_location & loc ) {
+                return get_failure_chance( loc );
+            }, _( "FAILURE CHANCE" ) );
+
+            append_cell( [this]( const item_location & loc ) {
+                return get_operation_duration( loc );
+            }, _( "OPERATION DURATION" ) );
+
+            append_cell( [this]( const item_location & loc ) {
+                return get_anesth_amount( loc );
+            }, _( "ANESTHETIC REQUIRED" ) );
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->has_flag( "IN_CBM" );
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            const itype *itemtype = loc.get_item()->type;
+
+            if( !p.has_enough_anesth( itemtype, pa ) ) {
+                const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
+                const int duration = loc.get_item()->type->bionic->difficulty * 2;
+                const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+                                                    duration * weight;
+                return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
+            }
+
+            return std::string();
+        }
+
+    protected:
+        player &p;
+        player &pa;
+
+    private:
+        // Returns a formatted string of how long the operation will take.
+        std::string get_operation_duration( const item_location &loc ) {
+            const int difficulty = loc.get_item()->type->bionic->difficulty;
+            // 20 minutes per bionic difficulty.
+            return to_string( time_duration::from_minutes( difficulty * 20 ) );
+        }
+
+        // Failure chance for bionic uninstall. Combines multiple other functions together.
+        std::string get_failure_chance( const item_location &loc ) {
+
+            // Uninstall difficulty gets a +2
+            const int difficulty = loc.get_item()->type->bionic->difficulty + 2;
+            int chance_of_failure = 100;
+            player &installer = p;
+            const int assist_bonus = installer.get_effect_int( effect_assisted );
+
+            const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
+                                       skill_computer,
+                                       skill_electronics,
+                                       -1 );
+
+            if( ( get_option < bool >( "SAFE_AUTODOC" ) ) ||
+                g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+                chance_of_failure = 0;
+            } else {
+                float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
+                                                   ( 4.0 * difficulty ) );
+                chance_of_failure = 100 - static_cast<int>( ( 100 * skill_difficulty_parameter ) /
+                                    ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+            }
+
+            return string_format( _( "%i%%" ), chance_of_failure );
+        }
+
+        std::string get_anesth_amount( const item_location &loc ) {
+
+            const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
+            const int duration = loc.get_item()->type->bionic->difficulty * 2;
+            const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
+                                                duration * weight;
+
+            std::vector<const item *> b_filter = p.crafting_inventory().items_with( []( const item & it ) {
+                return it.has_flag( "ANESTHESIA" ); // legacy
+            } );
+
+            if( !b_filter.empty() ) {
+                return  _( "kit available" ); // legacy
+            } else {
+                return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
+            }
+        }
+};
+
+item_location game_menus::inv::uninstall_bionic( player &p, player &patient )
+{
+    return autodoc_internal( p, patient, bionic_uninstall_preset( p, patient ), 0, true );
+}
+
+// Menu used by autoclave when sterilizing a bionic
+class bionic_sterilize_preset : public inventory_selector_preset
+{
+    public:
+        bionic_sterilize_preset( player &pl ) :
+            p( pl ) {
+
+            append_cell( []( const item_location & ) {
+                return to_string( 90_minutes );
+            }, _( "CYCLE DURATION" ) );
+
+            append_cell( []( const item_location & ) {
+                return pgettext( "volume of water", "2 L" );
+            }, _( "WATER REQUIRED" ) );
+        }
+
+        bool is_shown( const item_location &loc ) const override {
+            return loc->has_flag( "NO_STERILE" ) && loc->is_bionic();
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            auto reqs = *requirement_id( "autoclave_item" );
+
+            if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
+                return pgettext( "volume of water", "2 L" );
+            }
+
+            if( loc.get_item()->has_flag( "FILTHY" ) ) {
+                return  _( "CBM is filthy.  Wash it first." );
+            }
+            return std::string();
+        }
+
+    protected:
+        player &p;
+};
+
+static item_location autoclave_internal( player &u,
+        const inventory_selector_preset &preset,
+        int radius )
+{
+    inventory_pick_selector inv_s( u, preset );
+    inv_s.set_title( _( "Sterilization" ) );
+    inv_s.set_hint( _( "<color_yellow>Select one CBM to sterilize</color>" ) );
+    inv_s.set_display_stats( false );
+
+    std::pair<size_t, size_t> init_pair;
+    bool init_selection = false;
+    do {
+        u.inv.restack( u );
+
+        inv_s.clear_items();
+        inv_s.add_character_items( u );
+        inv_s.add_nearby_items( radius );
+
+        if( init_selection ) {
+            inv_s.update();
+            inv_s.select_position( init_pair );
+            init_selection = false;
+        }
+
+        if( inv_s.empty() ) {
+            popup( _( "You don't have any CBM to sterilize." ), PF_GET_KEY );
+            return item_location();
+        }
+
+        item_location location = inv_s.execute();
+
+        if( inv_s.keep_open ) {
+            inv_s.keep_open = false;
+            continue;
+        }
+
+        return location;
+
+    } while( true );
+
+}
+item_location game_menus::inv::sterilize_cbm( player &p )
+{
+    return autoclave_internal( p, bionic_sterilize_preset( p ), 6 );
 }

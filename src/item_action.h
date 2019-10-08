@@ -13,9 +13,9 @@ class player;
 class item;
 class JsonObject;
 
-typedef std::string item_action_id;
-typedef std::map< item_action_id, item * > item_action_map;
-typedef std::map< item_action_id, item_action > action_map;
+using item_action_id = std::string;
+using item_action_map = std::map< item_action_id, item * >;
+using action_map = std::map< item_action_id, item_action >;
 
 class item_action
 {

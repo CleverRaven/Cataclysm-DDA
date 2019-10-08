@@ -1,20 +1,6 @@
 [
   {
     "type": "trap",
-    "id": "tr_raincatcher",
-    "name": "raincatcher",
-    "color": "blue",
-    "symbol": "V",
-    "visibility": -1,
-    "avoidance": 0,
-    "difficulty": 99,
-    "action": "none",
-    "drops": [ "tarp" ],
-    "benign": true,
-    "funnel_radius": 342
-  },
-  {
-    "type": "trap",
     "id": "tr_light_snare",
     "name": "light snare trap",
     "color": "brown",

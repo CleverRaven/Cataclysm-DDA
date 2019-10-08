@@ -1,0 +1,140 @@
+[
+  {
+    "type": "npc",
+    "id": "ranch_scavenger_1",
+    "//": "Mission source, shopkeep",
+    "name_suffix": "Scavenger Boss",
+    "class": "NC_JUNK_SHOPKEEP",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_RANCH_SCAVENGER_1",
+    "mission_offered": "MISSION_RANCH_SCAVENGER_1",
+    "faction": "tacoma_commune"
+  },
+  {
+    "id": "TALK_RANCH_SCAVENGER_1",
+    "type": "talk_topic",
+    "dynamic_line": "Welcome to the junk shop.",
+    "responses": [
+      { "text": "What is your job here?", "topic": "TALK_RANCH_SCAVENGER_1_JOB" },
+      { "text": "Do you need any help?", "topic": "TALK_RANCH_SCAVENGER_1_HIRE" },
+      { "text": "Let's see what you've managed to find.", "topic": "TALK_RANCH_SCAVENGER_1", "effect": "start_trade" },
+      { "text": "I've got to go...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_SCAVENGER_1_JOB",
+    "dynamic_line": "I organize scavenging runs to bring in supplies that we can't produce ourselves.  I try and provide incentives to get migrants to join one of the teams... its dangerous work but keeps our outpost alive.  Selling anything we can't use helps keep us afloat with the traders.  If you wanted to drop off a companion or two to assist in one of the runs, I'd appreciate it.",
+    "responses": [ { "text": "I'll think about it.", "topic": "TALK_RANCH_SCAVENGER_1" } ]
+  },
+  {
+    "id": "TALK_RANCH_SCAVENGER_1_HIRE",
+    "type": "talk_topic",
+    "dynamic_line": "Are you interested in the scavenging runs or one of the other tasks that I might have for you?",
+    "responses": [
+      {
+        "text": "Tell me more about the scavenging runs.",
+        "topic": "TALK_RANCH_SCAVENGER_1",
+        "effect": { "companion_mission": "SCAVENGER" }
+      },
+      { "text": "What kind of tasks do you have for me?", "topic": "TALK_MISSION_LIST" },
+      { "text": "No, thanks.", "topic": "TALK_RANCH_SCAVENGER_1" }
+    ]
+  },
+  {
+    "id": "MISSION_RANCH_SCAVENGER_1",
+    "type": "mission_definition",
+    "name": "Make 12 Knife Spears",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "spear_knife",
+    "count": 12,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_SCAVENGER_2",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "I can usually use additional survival gear to kit-out the new recruits.  The most basic weapon that everyone gets is the knife spear... it provides a good mix of range, power, and ease of use when engaging the more common monsters.  Could you make me a dozen of them?  I may need more later but that should help the first few teams.",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "You should be able to make them with the most basic of skills.",
+      "inquire": "Do you have the knife spears?",
+      "success": "Thank you for the delivery.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_RANCH_SCAVENGER_2",
+    "type": "mission_definition",
+    "name": "Make 5 Wearable Flashlights",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "wearable_light",
+    "count": 5,
+    "start": "ranch_scavenger_1",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_SCAVENGER_3",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "Night is the ideal time for my team to go on raids but they are going to need better light sources to speed up their missions.  Could you craft a set of five headlamps for them?  Keeping both hands free greatly helps during combat.",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "You should be able to make them with the most basic of skills.",
+      "inquire": "Do you have the wearable flashlights?",
+      "success": "Thank you for the delivery.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_RANCH_SCAVENGER_3",
+    "type": "mission_definition",
+    "name": "Make 3 Leather Body Armor",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "armor_larmor",
+    "count": 3,
+    "start": "ranch_scavenger_2",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_SCAVENGER_4",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "Clothing that can withstand the wear and tear of climbing through windows and fighting back wild animals is in high demand.  The best that we have been able to field is leather body armor but it is difficult to make with our limited resources.  Could you craft us three pairs of leather body armor?  The life-expectancy of my scavengers would drastically increase if you did.",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Finding the leather might be easier in town rather than making it yourself.",
+      "inquire": "Do you have the leather armor?",
+      "success": "Thank you for the delivery.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  },
+  {
+    "id": "MISSION_RANCH_SCAVENGER_4",
+    "type": "mission_definition",
+    "name": "Make 12 Molotov Cocktails",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "value": 50000,
+    "item": "molotov",
+    "count": 12,
+    "start": "ranch_scavenger_3",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_RANCH_SCAVENGER_4",
+    "dialogue": {
+      "describe": "We need help...",
+      "offer": "When outnumbered or forced to pull back my scavengers have been taught to throw Molotov cocktails to keep monsters from chasing them.  We go through one or two on every mission so we can always use a few more.  Would you be willing to make us a dozen?  I'm willing to pay you what I can for your assistance. ",
+      "accepted": "I'm counting on you.",
+      "rejected": "Come back when you get a chance.  We need skilled survivors.",
+      "advice": "Alcohol or lamp oil is probably easier to refine rather than find in large quantities.",
+      "inquire": "Do you have the Molotov cocktails?",
+      "success": "Thank you for the delivery.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways..."
+    }
+  }
+]

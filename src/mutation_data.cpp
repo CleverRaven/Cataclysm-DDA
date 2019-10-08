@@ -1,8 +1,8 @@
 #include "mutation.h" // IWYU pragma: associated
 
 #include <map>
+#include <memory>
 #include <set>
-#include <sstream>
 #include <vector>
 #include <array>
 #include <stdexcept>
@@ -10,14 +10,14 @@
 #include "bodypart.h"
 #include "color.h"
 #include "debug.h"
-#include "enums.h" // tripoint
 #include "json.h"
 #include "trait_group.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "generic_factory.h"
 
-typedef std::map<trait_group::Trait_group_tag, std::shared_ptr<Trait_group>> TraitGroupMap;
-typedef std::set<trait_id> TraitSet;
+using TraitGroupMap = std::map<trait_group::Trait_group_tag, std::shared_ptr<Trait_group>>;
+using TraitSet = std::set<trait_id>;
 
 TraitSet trait_blacklist;
 TraitGroupMap trait_groups;
@@ -25,7 +25,7 @@ TraitGroupMap trait_groups;
 namespace
 {
 generic_factory<mutation_branch> trait_factory( "trait" );
-}
+} // namespace
 
 std::vector<dream> dreams;
 std::map<std::string, std::vector<trait_id> > mutations_category;
@@ -49,8 +49,9 @@ bool string_id<Trait_group>::is_valid() const
     return trait_groups.count( *this );
 }
 
-static void extract_mod( JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int> &data,
-                         const std::string &mod_type, bool active, std::string type_key )
+static void extract_mod(
+    JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> &data,
+    const std::string &mod_type, bool active, const std::string &type_key )
 {
     int val = j.get_int( mod_type, 0 );
     if( val != 0 ) {
@@ -58,8 +59,9 @@ static void extract_mod( JsonObject &j, std::unordered_map<std::pair<bool, std::
     }
 }
 
-static void load_mutation_mods( JsonObject &jsobj, const std::string &member,
-                                std::unordered_map<std::pair<bool, std::string>, int> &mods )
+static void load_mutation_mods(
+    JsonObject &jsobj, const std::string &member,
+    std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> &mods )
 {
     if( jsobj.has_object( member ) ) {
         JsonObject j = jsobj.get_object( member );
@@ -101,6 +103,8 @@ void mutation_category_trait::load( JsonObject &jsobj )
     new_category.iv_sound = jsobj.get_bool( "iv_sound", false );
     new_category.raw_iv_sound_message = jsobj.get_string( "iv_sound_message",
                                         translate_marker( "You inject yoursel-arRGH!" ) );
+    new_category.raw_iv_sound_id = jsobj.get_string( "iv_sound_id", "shout" );
+    new_category.raw_iv_sound_variant = jsobj.get_string( "iv_sound_variant", "default" );
     new_category.iv_noise = jsobj.get_int( "iv_noise", 0 );
     new_category.iv_sleep = jsobj.get_bool( "iv_sleep", false );
     new_category.raw_iv_sleep_message = jsobj.get_string( "iv_sleep_message",
@@ -134,6 +138,16 @@ std::string mutation_category_trait::iv_message() const
 std::string mutation_category_trait::iv_sound_message() const
 {
     return _( raw_iv_sound_message );
+}
+
+std::string mutation_category_trait::iv_sound_id() const
+{
+    return _( raw_iv_sound_id );
+}
+
+std::string mutation_category_trait::iv_sound_variant() const
+{
+    return _( raw_iv_sound_variant );
 }
 
 std::string mutation_category_trait::iv_sleep_message() const
@@ -248,8 +262,8 @@ void mutation_branch::load_trait( JsonObject &jo, const std::string &src )
 void mutation_branch::load( JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "id", id );
-    mandatory( jo, was_loaded, "name", raw_name, translated_string_reader );
-    mandatory( jo, was_loaded, "description", raw_desc, translated_string_reader );
+    mandatory( jo, was_loaded, "name", raw_name );
+    mandatory( jo, was_loaded, "description", raw_desc );
     mandatory( jo, was_loaded, "points", points );
 
     optional( jo, was_loaded, "visibility", visibility, 0 );
@@ -331,6 +345,7 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0f );
     optional( jo, was_loaded, "hearing_modifier", hearing_modifier, 1.0f );
     optional( jo, was_loaded, "noise_modifier", noise_modifier, 1.0f );
+    optional( jo, was_loaded, "temperature_speed_modifier", temperature_speed_modifier, 0.0f );
     optional( jo, was_loaded, "metabolism_modifier", metabolism_modifier, 0.0f );
     optional( jo, was_loaded, "thirst_modifier", thirst_modifier, 0.0f );
     optional( jo, was_loaded, "fatigue_modifier", fatigue_modifier, 0.0f );
@@ -338,6 +353,23 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "stamina_regen_modifier", stamina_regen_modifier, 0.0f );
     optional( jo, was_loaded, "overmap_sight", overmap_sight, 0.0f );
     optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, 1.0f );
+    optional( jo, was_loaded, "map_memory_capacity_multiplier", map_memory_capacity_multiplier, 1.0f );
+    optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, 1.0f );
+    optional( jo, was_loaded, "scent_modifier", scent_modifier, 1.0f );
+    optional( jo, was_loaded, "bleed_resist", bleed_resist, 0 );
+    optional( jo, was_loaded, "healthy_rate", healthy_rate, 1.0f );
+    optional( jo, was_loaded, "fat_to_max_hp", fat_to_max_hp, 0.0f );
+    optional( jo, was_loaded, "weakness_to_water", weakness_to_water, 0 );
+    optional( jo, was_loaded, "ignored_by", ignored_by );
+    optional( jo, was_loaded, "can_only_eat", can_only_eat );
+    optional( jo, was_loaded, "can_only_heal_with", can_only_heal_with );
+    optional( jo, was_loaded, "can_heal_with", can_heal_with );
+
+    optional( jo, was_loaded, "allowed_category", allowed_category );
+
+    optional( jo, was_loaded, "mana_modifier", mana_modifier, 0 );
+    optional( jo, was_loaded, "mana_multiplier", mana_multiplier, 1.0f );
+    optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, 1.0f );
 
     if( jo.has_object( "social_modifiers" ) ) {
         JsonObject sm = jo.get_object( "social_modifiers" );
@@ -357,11 +389,24 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "types", types );
 
+    JsonArray jsar = jo.get_array( "no_cbm_on_bp" );
+    while( jsar.has_more() ) {
+        std::string s = jsar.next_string();
+        no_cbm_on_bp.emplace( get_body_part_token( s ) );
+    }
+
     auto jsarr = jo.get_array( "category" );
     while( jsarr.has_more() ) {
         std::string s = jsarr.next_string();
         category.push_back( s );
         mutations_category[s].push_back( trait_id( id ) );
+    }
+
+    jsarr = jo.get_array( "spells_learned" );
+    while( jsarr.has_more() ) {
+        JsonArray ja = jsarr.next_array();
+        const spell_id sp( ja.next_string() );
+        spells_learned.emplace( sp, ja.next_int() );
     }
 
     jsarr = jo.get_array( "wet_protection" );
@@ -441,12 +486,12 @@ std::string mutation_branch::ranged_mutation_message() const
 
 std::string mutation_branch::name() const
 {
-    return _( raw_name );
+    return raw_name.translated();
 }
 
 std::string mutation_branch::desc() const
 {
-    return _( raw_desc );
+    return raw_desc.translated();
 }
 
 static void check_consistency( const std::vector<trait_id> &mvec, const trait_id &mid,
@@ -582,7 +627,8 @@ void mutation_branch::load_trait_group( JsonObject &jsobj )
     load_trait_group( jsobj, group_id, subtype );
 }
 
-Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid, bool is_collection )
+static Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid,
+        bool is_collection )
 {
     // NOTE: If the gid is already in the map, emplace will just return an iterator to it
     auto found = ( is_collection
@@ -591,18 +637,16 @@ Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid, bool 
     // Evidently, making the collection/distribution separation better has made the code for this check worse.
     if( is_collection ) {
         if( dynamic_cast<Trait_group_distribution *>( found->second.get() ) ) {
-            std::ostringstream buf;
-            buf << "item group \"" << gid.c_str() << "\" already defined with type \"distribution\"";
-            throw std::runtime_error( buf.str() );
+            throw std::runtime_error( string_format(
+                                          R"("mutation group "%s" already defined with type "distribution")", gid.str() ) );
         }
     } else {
         if( dynamic_cast<Trait_group_collection *>( found->second.get() ) ) {
-            std::ostringstream buf;
-            buf << "item group \"" << gid.c_str() << "\" already defined with type \"collection\"";
-            throw std::runtime_error( buf.str() );
+            throw std::runtime_error( string_format(
+                                          R"("mutation group "%s" already defined with type "collection")", gid.str() ) );
         }
     }
-    return *( found->second );
+    return *found->second;
 }
 
 void mutation_branch::load_trait_group( JsonArray &entries, const trait_group::Trait_group_tag &gid,
@@ -616,9 +660,7 @@ void mutation_branch::load_trait_group( JsonArray &entries, const trait_group::T
             JsonArray subarr = entries.next_array();
 
             trait_id id( subarr.get_string( 0 ) );
-            std::unique_ptr<Trait_creation_data> ptr(
-                new Single_trait_creator( id, subarr.get_int( 1 ) ) );
-            tg.add_entry( ptr );
+            tg.add_entry( std::make_unique<Single_trait_creator>( id, subarr.get_int( 1 ) ) );
             // Otherwise load new format {"trait": ... } or {"group": ...}
         } else {
             JsonObject subobj = entries.next_object();
@@ -634,7 +676,7 @@ void mutation_branch::load_trait_group( JsonObject &jsobj, const trait_group::Tr
         jsobj.throw_error( "unknown trait group type", "subtype" );
     }
 
-    Trait_group &tg = make_group_or_throw( gid, ( subtype == "collection" || subtype == "old" ) );
+    Trait_group &tg = make_group_or_throw( gid, subtype == "collection" || subtype == "old" );
 
     // TODO: (sm) Looks like this makes the new code backwards-compatible with the old format. Great if so!
     if( subtype == "old" ) {
@@ -691,10 +733,10 @@ void mutation_branch::add_entry( Trait_group &tg, JsonObject &obj )
     JsonArray jarr;
 
     if( obj.has_member( "collection" ) ) {
-        ptr.reset( new Trait_group_collection( probability ) );
+        ptr = std::make_unique<Trait_group_collection>( probability );
         jarr = obj.get_array( "collection" );
     } else if( obj.has_member( "distribution" ) ) {
-        ptr.reset( new Trait_group_distribution( probability ) );
+        ptr = std::make_unique<Trait_group_distribution>( probability );
         jarr = obj.get_array( "distribution" );
     }
 
@@ -704,29 +746,30 @@ void mutation_branch::add_entry( Trait_group &tg, JsonObject &obj )
             JsonObject job2 = jarr.next_object();
             add_entry( tg2, job2 );
         }
-        tg.add_entry( ptr );
+        tg.add_entry( std::move( ptr ) );
         return;
     }
 
     if( obj.has_member( "trait" ) ) {
         trait_id id( obj.get_string( "trait" ) );
-        ptr.reset( new Single_trait_creator( id, probability ) );
+        ptr = std::make_unique<Single_trait_creator>( id, probability );
     } else if( obj.has_member( "group" ) ) {
-        ptr.reset( new Trait_group_creator( trait_group::Trait_group_tag( obj.get_string( "group" ) ),
-                                            probability ) );
+        ptr = std::make_unique<Trait_group_creator>( trait_group::Trait_group_tag(
+                    obj.get_string( "group" ) ),
+                probability );
     }
 
     if( !ptr ) {
         return;
     }
 
-    tg.add_entry( ptr );
+    tg.add_entry( std::move( ptr ) );
 }
 
 std::shared_ptr<Trait_group> mutation_branch::get_group( const trait_group::Trait_group_tag &gid )
 {
     auto found = trait_groups.find( gid );
-    return ( found != trait_groups.end() ) ? found->second : nullptr;
+    return found != trait_groups.end() ? found->second : nullptr;
 }
 
 std::vector<trait_group::Trait_group_tag> mutation_branch::get_all_group_names()

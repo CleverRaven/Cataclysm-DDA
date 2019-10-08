@@ -1,13 +1,14 @@
 #include "ballistics.h"
 
-#include <math.h>
-#include <stddef.h>
+#include <cmath>
+#include <cstddef>
 #include <algorithm>
 #include <list>
 #include <memory>
 #include <set>
 #include <vector>
 
+#include "avatar.h"
 #include "creature.h"
 #include "dispersion.h"
 #include "explosion.h"
@@ -17,7 +18,6 @@
 #include "messages.h"
 #include "monster.h"
 #include "options.h"
-#include "player.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
@@ -32,6 +32,7 @@
 #include "translations.h"
 #include "units.h"
 #include "type_id.h"
+#include "point.h"
 
 const efftype_id effect_bounced( "bounced" );
 
@@ -57,7 +58,22 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
         // TODO: Non-glass breaking
         // TODO: Wine glass breaking vs. entire sheet of glass breaking
-        sounds::sound( pt, 16, sounds::sound_t::combat, _( "glass breaking!" ) );
+        sounds::sound( pt, 16, sounds::sound_t::combat, _( "glass breaking!" ), false, "bullet_hit",
+                       "hit_glass" );
+        return;
+    }
+
+    if( effects.count( "BURST" ) ) {
+        // Drop the contents, not the thrown item
+        if( g->u.sees( pt ) ) {
+            add_msg( _( "The %s bursts!" ), drop_item.tname() );
+        }
+
+        for( const item &i : drop_item.contents ) {
+            g->m.add_item_or_charges( pt, i );
+        }
+
+        //TODO: Sound
         return;
     }
 
@@ -67,9 +83,9 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     monster *mon = dynamic_cast<monster *>( attack.hit_critter );
 
     // We can only embed in monsters
-    bool embed = mon != nullptr && !mon->is_dead_state();
+    bool mon_there = mon != nullptr && !mon->is_dead_state();
     // And if we actually want to embed
-    embed = embed && effects.count( "NO_EMBED" ) == 0;
+    bool embed = mon_there && effects.count( "NO_EMBED" ) == 0 && effects.count( "TANGLE" ) == 0;
     // Don't embed in small creatures
     if( embed ) {
         const m_size critter_size = mon->get_size();
@@ -92,6 +108,14 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
     } else {
         bool do_drop = true;
+        // monsters that are able to be tied up will store the item another way
+        // see monexamine.cpp tie_or_untie()
+        // if they arent friendly they will try and break out of the net/bolas/lassoo
+        // players and NPCs just get the downed effect, and item is dropped.
+        // TODO: storing the item on player until they recover from downed
+        if( effects.count( "TANGLE" ) && mon_there ) {
+            do_drop = false;
+        }
         if( effects.count( "ACT_ON_RANGED_HIT" ) ) {
             // Don't drop if it exploded
             do_drop = !dropped_item.process( nullptr, attack.end_point, true );
@@ -103,13 +127,13 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 
         if( effects.count( "HEAVY_HIT" ) ) {
             if( g->m.has_flag( "LIQUID", pt ) ) {
-                sounds::sound( pt, 10, sounds::sound_t::combat, _( "splash!" ) );
+                sounds::sound( pt, 10, sounds::sound_t::combat, _( "splash!" ), false, "bullet_hit", "hit_water" );
             } else {
-                sounds::sound( pt, 8, sounds::sound_t::combat, _( "thud." ) );
+                sounds::sound( pt, 8, sounds::sound_t::combat, _( "thud." ), false, "bullet_hit", "hit_wall" );
             }
             const trap &tr = g->m.tr_at( pt );
             if( tr.triggered_by_item( dropped_item ) ) {
-                tr.trigger( pt, nullptr );
+                tr.trigger( pt, nullptr, &dropped_item );
             }
         }
     }
@@ -254,7 +278,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     trajectory.insert( trajectory.begin(), source ); // Add the first point to the trajectory
 
-    static emit_id muzzle_smoke( "emit_smoke_plume" );
+    static emit_id muzzle_smoke( "emit_smaller_smoke_plume" );
     if( proj_effects.count( "MUZZLE_SMOKE" ) ) {
         g->m.emit_field( trajectory.front(), muzzle_smoke );
     }
@@ -398,7 +422,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     apply_ammo_effects( tp, proj.proj_effects );
     const auto &expl = proj.get_custom_explosion();
     if( expl.power > 0.0f ) {
-        g->explosion( tp, proj.get_custom_explosion() );
+        explosion_handler::explosion( tp, proj.get_custom_explosion() );
     }
 
     // TODO: Move this outside now that we have hit point in return values?

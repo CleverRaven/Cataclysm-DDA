@@ -11,7 +11,7 @@
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "difficulty": 4,
-    "time": 40000,
+    "time": "40 m",
     "components": [
       [ [ "drivebelt", 2 ] ],
       [ [ "filter_air", 1 ] ],
@@ -30,7 +30,7 @@
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "difficulty": 4,
-    "time": 40000,
+    "time": "40 m",
     "components": [
       [ [ "drivebelt", 2 ] ],
       [ [ "filter_air", 1 ] ],
@@ -49,7 +49,7 @@
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "difficulty": 4,
-    "time": 40000,
+    "time": "40 m",
     "components": [
       [ [ "drivebelt", 2 ] ],
       [ [ "filter_air", 1 ] ],
@@ -68,7 +68,7 @@
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "difficulty": 4,
-    "time": 50000,
+    "time": "50 m",
     "components": [
       [ [ "drivebelt", 2 ] ],
       [ [ "filter_air", 1 ] ],
@@ -89,7 +89,7 @@
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "difficulty": 4,
-    "time": 40000,
+    "time": "40 m",
     "components": [
       [ [ "drivebelt", 2 ] ],
       [ [ "filter_air", 1 ] ],
@@ -108,7 +108,7 @@
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "difficulty": 4,
-    "time": 40000,
+    "time": "40 m",
     "components": [
       [ [ "drivebelt", 2 ] ],
       [ [ "filter_air", 1 ] ],
@@ -127,7 +127,7 @@
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "difficulty": 4,
-    "time": 50000,
+    "time": "50 m",
     "components": [
       [ [ "drivebelt", 2 ] ],
       [ [ "filter_air", 1 ] ],
@@ -148,7 +148,7 @@
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "difficulty": 4,
-    "time": 40000,
+    "time": "40 m",
     "components": [
       [ [ "drivebelt", 2 ] ],
       [ [ "filter_air", 1 ] ],
@@ -167,7 +167,7 @@
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "difficulty": 4,
-    "time": 50000,
+    "time": "50 m",
     "components": [
       [ [ "drivebelt", 2 ] ],
       [ [ "filter_air", 1 ] ],
@@ -188,7 +188,7 @@
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "difficulty": 4,
-    "time": 40000,
+    "time": "40 m",
     "components": [
       [ [ "drivebelt", 2 ] ],
       [ [ "filter_air", 1 ] ],
@@ -207,7 +207,7 @@
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "difficulty": 4,
-    "time": 50000,
+    "time": "50 m",
     "components": [
       [ [ "drivebelt", 2 ] ],
       [ [ "filter_air", 1 ] ],

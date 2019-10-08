@@ -219,7 +219,7 @@
     "rolling_resistance": 6,
     "wheel_type": "treads",
     "contact_area": 900,
-    "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED", "NO_JACK" ]
+    "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED" ]
   },
   {
     "id": "tread2",
@@ -244,7 +244,7 @@
     "rolling_resistance": 5,
     "wheel_type": "treads",
     "contact_area": 2500,
-    "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED", "NO_JACK" ]
+    "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED" ]
   },
   {
     "id": "tread3",
@@ -269,7 +269,7 @@
     "rolling_resistance": 5,
     "wheel_type": "treads",
     "contact_area": 3600,
-    "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED", "NO_JACK" ]
+    "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED" ]
   },
   {
     "id": "turretframe",

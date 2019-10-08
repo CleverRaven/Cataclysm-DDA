@@ -6,8 +6,8 @@
     "name": "blunderbuss",
     "name_plural": "blunderbusses",
     "description": "A homemade version of a crude precursor to the shotgun.  Able to fire just about anything you put down the barrel, but it will degrade pretty quick.",
-    "weight": 8267,
-    "volume": 12,
+    "weight": "8267 g",
+    "volume": "3 L",
     "price": 15000,
     "to_hit": -1,
     "bashing": 12,
@@ -21,6 +21,13 @@
     "loudness": 200,
     "clip_size": 1,
     "reload": 300,
-    "valid_mod_locations": [ [ "sling", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   }
 ]

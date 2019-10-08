@@ -48,12 +48,12 @@
   {
     "type": "overmap_location",
     "id": "subterranean",
-    "terrains": [ "cavern", "empty_rock", "hellmouth", "rift", "rock", "slimepit", "sewer" ]
+    "terrains": [ "cavern", "empty_rock", "rock", "slimepit", "sewer" ]
   },
   {
     "type": "overmap_location",
     "id": "subterranean_subway",
-    "terrains": [ "cavern", "empty_rock", "hellmouth", "rift", "rock", "slimepit", "subway" ]
+    "terrains": [ "cavern", "empty_rock", "rock", "slimepit", "subway" ]
   },
   {
     "type": "overmap_location",
@@ -84,5 +84,15 @@
     "type": "overmap_location",
     "id": "railroad_level_crossing_allowed",
     "terrains": [ "hiway_ns", "hiway_ew", "road" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "lake_surface",
+    "terrains": [ "lake_surface" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "lake_shore",
+    "terrains": [ "lake_shore" ]
   }
 ]

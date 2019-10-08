@@ -2,8 +2,8 @@
 #ifndef ADVANCED_INV_H
 #define ADVANCED_INV_H
 
-#include <ctype.h>
-#include <stddef.h>
+#include <cctype>
+#include <cstddef>
 #include <array>
 #include <functional>
 #include <list>
@@ -12,7 +12,7 @@
 #include <vector>
 
 #include "cursesdef.h"
-#include "enums.h"
+#include "point.h"
 #include "units.h"
 
 class uilist;
@@ -74,8 +74,7 @@ struct advanced_inv_listitem;
 struct advanced_inv_area {
     const aim_location id;
     // Used for the small overview 3x3 grid
-    int hscreenx = 0;
-    int hscreeny = 0;
+    point hscreen = point_zero;
     // relative (to the player) position of the map point
     tripoint off;
     /** Long name, displayed, translated */
@@ -101,11 +100,11 @@ struct advanced_inv_area {
     int max_size;
 
     advanced_inv_area( aim_location id ) : id( id ) {}
-    advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off, std::string name,
-                       std::string shortname ) : id( id ), hscreenx( hscreenx ),
-        hscreeny( hscreeny ), off( off ), name( name ), shortname( shortname ), pos( 0, 0, 0 ),
-        canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0_ml ), weight( 0_gram ),
-        max_size( 0 ) {
+    advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off,
+                       const std::string &name, const std::string &shortname ) : id( id ),
+        hscreen( hscreenx, hscreeny ), off( off ), name( name ), shortname( shortname ),
+        canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0_ml ),
+        weight( 0_gram ), max_size( 0 ) {
     }
 
     void init();
@@ -127,7 +126,7 @@ struct advanced_inv_area {
         if( id > AIM_DRAGGED || id < AIM_SOUTHWEST ) {
             return false;
         }
-        return ( veh != nullptr && vstor >= 0 );
+        return veh != nullptr && vstor >= 0;
     }
 };
 
@@ -140,7 +139,7 @@ class item_category;
  * Most members are used only for sorting.
  */
 struct advanced_inv_listitem {
-    typedef std::string itype_id;
+    using itype_id = std::string;
     /**
      * Index of the item in the itemstack.
      */
@@ -333,6 +332,18 @@ class advanced_inventory
         ~advanced_inventory();
 
         void display();
+
+        /**
+         * Converts from screen relative location to game-space relative location
+         * for control rotation in isometric mode.
+        */
+        static aim_location screen_relative_location( aim_location area );
+
+        static char get_location_key( aim_location area );
+
+        advanced_inv_area &get_one_square( const aim_location &loc ) {
+            return squares[loc];
+        }
     private:
         /**
          * Refers to the two panes, used as index into @ref panes.
@@ -456,18 +467,9 @@ class advanced_inventory
          *      a valid item count to be moved.
          */
         bool query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
-                            const std::string &action, long &amount );
+                            const std::string &action, int &amount );
 
-        void menu_square( uilist &menu );
-
-        static char get_location_key( aim_location area );
         static char get_direction_key( aim_location area );
-
-        /**
-         * Converts from screen relative location to game-space relative location
-         * for control rotation in isometric mode.
-        */
-        static aim_location screen_relative_location( aim_location area );
 };
 
 #endif

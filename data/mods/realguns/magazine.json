@@ -1,13 +1,5 @@
 [
   {
-    "id": "40_speedloader6",
-    "copy-from": "40_speedloader6",
-    "type": "MAGAZINE",
-    "name": "10mm 6-round speedloader",
-    "description": "This speedloader can hold 6 rounds of .40 or 10mm Auto and quickly reload a compatible revolver.",
-    "ammo_type": "10mm_auto"
-  },
-  {
     "id": "af2011a1mag",
     "type": "MAGAZINE",
     "name": "AF2011A1 magazine",
@@ -19,7 +11,7 @@
     "material": [ "plastic", "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "38_super",
+    "ammo_type": "38super",
     "capacity": 16,
     "reliability": 7,
     "flags": [ "MAG_COMPACT" ]
@@ -30,42 +22,7 @@
     "type": "MAGAZINE",
     "name": "M1991A1 .38 Super magazine",
     "description": "A 9-round magazine for the M1991A1 .38 Super pistol.",
-    "ammo_type": "38_super",
+    "ammo_type": "38super",
     "capacity": 9
-  },
-  {
-    "id": "saiga10mag_410",
-    "copy-from": "saiga10mag",
-    "type": "MAGAZINE",
-    "name": "Saiga-410 box magazine",
-    "description": "A removable plastic magazine for the Saiga-410 shotgun.  Holds 10 rounds of .410 bore shotshells.",
-    "weight": 180,
-    "ammo_type": "410"
-  },
-  {
-    "id": "saiga30mag_410",
-    "copy-from": "saiga30mag",
-    "type": "MAGAZINE",
-    "name": "Saiga-410 drum magazine",
-    "description": "A removable plastic magazine for the Saiga-410 shotgun.  Holds 30 rounds of .410 bore shotshells.",
-    "weight": 400,
-    "volume": 3,
-    "ammo_type": "410"
-  },
-  {
-    "id": "357_mag_speedloader",
-    "copy-from": "38_speedloader",
-    "type": "MAGAZINE",
-    "name": ".357 Magnum speedloader",
-    "description": "This speedloader can hold 7 rounds of .357 Magnum and quickly reload a compatible revolver.",
-    "ammo_type": "357_mag"
-  },
-  {
-    "id": "38_speedloader",
-    "copy-from": "38_speedloader",
-    "type": "MAGAZINE",
-    "name": ".38 Special speedloader",
-    "description": "This speedloader can hold 6 rounds of .38 Special and quickly reload a compatible revolver.",
-    "capacity": 6
   }
 ]

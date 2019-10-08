@@ -5,7 +5,8 @@
     "name": "[DP_MOD] Indicators: Chesthole",
     "authors": [ "SomeDeadGuy" ],
     "description": "Changes interface indicators to Chesthole version.",
-    "category": "none",
+    "category": "graphical",
+    "obsolete": true,
     "dependencies": [ "dda" ]
   }
 ]

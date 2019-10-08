@@ -1899,13 +1899,7 @@
             "rotates":false
         },
         {
-            "id":"tr_shotgun_2",
-			"fg":1403,
-			"bg":191,
-            "rotates":false
-        },
-        {
-            "id":"tr_shotgun_1",
+            "id": [ "tr_shotgun_2", "tr_shotgun_2_1", "tr_shotgun_1" ],
 			"fg":1403,
 			"bg":191,
             "rotates":false
@@ -7052,14 +7046,14 @@
          "multitile" : false
       },
       {
-         "id" : "ring",
+         "id" : "gold_ring",
          "fg" : 828,
          "bg" : 193,
          "rotates" : false,
          "multitile" : false
       },
       {
-         "id" : "necklace",
+         "id" : "silver_necklace",
          "fg" : 829,
          "bg" : 193,
          "rotates" : false,
@@ -10954,13 +10948,6 @@
       {
          "id" : "fn57",
          "fg" : 1400,
-         "bg" : 193,
-         "rotates" : false,
-         "multitile" : false
-      },
-      {
-         "id" : "hk_ucp",
-         "fg" : 1401,
          "bg" : 193,
          "rotates" : false,
          "multitile" : false

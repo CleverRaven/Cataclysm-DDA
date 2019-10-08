@@ -18,6 +18,7 @@
 #include "iuse.h" // use_function
 #include "optional.h"
 #include "pldata.h" // add_type
+#include "relic.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -27,14 +28,13 @@ class item_category;
 class Item_factory;
 class player;
 class item;
+struct tripoint;
 
 enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;
 enum art_effect_passive : int;
-typedef std::string itype_id;
-
-enum field_id : int;
+using itype_id = std::string;
 
 class gun_modifier_data
 {
@@ -89,18 +89,21 @@ class gunmod_location
 };
 
 struct islot_tool {
-    ammotype ammo_id = ammotype::NULL_ID();
+    std::set<ammotype> ammo_id;
 
     cata::optional<itype_id> revert_to;
     std::string revert_msg;
 
     std::string subtype;
 
-    long max_charges = 0;
-    long def_charges = 0;
-    std::vector<long> rand_charges;
-    unsigned char charges_per_use = 0;
-    unsigned char turns_per_charge = 0;
+    int max_charges = 0;
+    int def_charges = 0;
+    int charge_factor = 1;
+    int charges_per_use = 0;
+    int turns_per_charge = 0;
+    int power_draw = 0;
+
+    std::vector<int> rand_charges;
 };
 
 struct islot_comestible {
@@ -111,7 +114,7 @@ struct islot_comestible {
     std::string tool = "null";
 
     /** Defaults # of charges (drugs, loaf of bread? etc) */
-    long def_charges = 1;
+    int def_charges = 1;
 
     /** effect on character thirst (may be negative) */
     int quench = 0;
@@ -221,6 +224,10 @@ struct islot_armor {
      */
     int encumber = 0;
     /**
+    * When storage is full, how much it encumbers the player.
+    */
+    int max_encumber = 0;
+    /**
      * Percentage of the body part area that this item covers.
      * This determines how likely it is to hit the item instead of the player.
      */
@@ -245,6 +252,14 @@ struct islot_armor {
      * How much storage this items provides when worn.
      */
     units::volume storage = 0_ml;
+    /**
+    * Factor modifiying weight capacity
+    */
+    float weight_capacity_modifier = 1.0;
+    /**
+    * Bonus to weight capacity
+    */
+    units::mass weight_capacity_bonus = 0_gram;
     /**
      * Whether this is a power armor item.
      */
@@ -292,6 +307,10 @@ struct islot_book {
      */
     skill_id skill = skill_id::NULL_ID();
     /**
+     * Which martial art it teaches.  Can be @ref matype_id::NULL_ID.
+     */
+    matype_id martial_art = matype_id::NULL_ID();
+    /**
      * The skill level the book provides.
      */
     int level = 0;
@@ -308,7 +327,7 @@ struct islot_book {
      */
     int intel = 0;
     /**
-     * How long, in 10-turns (aka minutes), it takes to read.
+     * How long in minutes it takes to read.
      * "To read" means getting 1 skill point, not all of them.
      */
     int time = 0;
@@ -343,7 +362,7 @@ struct islot_book {
             return hidden;
         }
     };
-    typedef std::set<recipe_with_description_t> recipe_list_t;
+    using recipe_list_t = std::set<recipe_with_description_t>;
     recipe_list_t recipes;
 };
 
@@ -352,7 +371,7 @@ struct islot_mod {
     std::set<ammotype> acceptable_ammo;
 
     /** If set modifies parent ammo to this type */
-    ammotype ammo_modifier = ammotype::NULL_ID();
+    std::set<ammotype> ammo_modifier;
 
     /** If non-empty replaces the compatible magazines for the parent item */
     std::map< ammotype, std::set<itype_id> > magazine_adaptor;
@@ -396,10 +415,6 @@ struct islot_engine {
     public:
         /** for combustion engines the displacement (cc) */
         int displacement = 0;
-
-    private:
-        /** What faults (if any) can occur */
-        std::set<fault_id> faults;
 };
 
 struct islot_wheel {
@@ -437,7 +452,7 @@ struct islot_gun : common_ranged_data {
     /**
      * What type of ammo this gun uses.
      */
-    ammotype ammo = ammotype::NULL_ID();
+    std::set<ammotype> ammo;
     /**
      * Gun durability, affects gun being damaged during shooting.
      */
@@ -469,6 +484,14 @@ struct islot_gun : common_ranged_data {
      * If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all.
      */
     int ups_charges = 0;
+    /**
+     * One in X chance for gun to require major cleanup after firing blackpowder shot.
+     */
+    int blackpowder_tolerance = 8;
+    /**
+     * Minimum ammo recoil for gun to be able to fire more than once per attack.
+     */
+    int min_cycle_recoil = 0;
     /**
      * Length of gun barrel, if positive allows sawing down of the barrel
      */
@@ -549,8 +572,8 @@ struct islot_gunmod : common_ranged_data {
     /** How many moves does this gunmod take to install? */
     int install_time = 0;
 
-    /** Increases base gun UPS consumption by this many charges per shot */
-    int ups_charges = 0;
+    /** Increases base gun UPS consumption by this many times per shot */
+    float ups_charges_multiplier = 1.0f;
 
     /** Firing modes added to or replacing those of the base gun */
     std::map<gun_mode_id, gun_modifier_data> mode_modifier;
@@ -581,7 +604,7 @@ struct islot_gunmod : common_ranged_data {
 
 struct islot_magazine {
     /** What type of ammo this magazine can be loaded with */
-    ammotype type = ammotype::NULL_ID();
+    std::set<ammotype> type;
 
     /** Capacity of magazine (in equivalent units to ammo charges) */
     int capacity = 0;
@@ -608,11 +631,16 @@ struct islot_magazine {
     bool protects_contents = false;
 };
 
+struct islot_battery {
+    /** Maximum energy the battery can store */
+    units::energy max_capacity;
+};
+
 struct islot_ammo : common_ranged_data {
     /**
      * Ammo type, basically the "form" of the ammo that fits into the gun/tool.
      */
-    std::set<ammotype> type;
+    ammotype type;
     /**
      * Type id of casings, if any.
      */
@@ -631,7 +659,7 @@ struct islot_ammo : common_ranged_data {
     /**
      * Default charges.
      */
-    long def_charges = 1;
+    int def_charges = 1;
 
     /**
      * TODO: document me.
@@ -698,9 +726,9 @@ struct islot_seed {
      */
     int fruit_div = 1;
     /**
-     * Name of the plant, already translated.
+     * Name of the plant.
      */
-    std::string plant_name;
+    translation plant_name;
     /**
      * Type id of the fruit item.
      */
@@ -752,20 +780,31 @@ struct itype {
         cata::optional<islot_gun> gun;
         cata::optional<islot_gunmod> gunmod;
         cata::optional<islot_magazine> magazine;
+        cata::optional<islot_battery> battery;
         cata::optional<islot_bionic> bionic;
         cata::optional<islot_ammo> ammo;
         cata::optional<islot_seed> seed;
         cata::optional<islot_artifact> artifact;
+        cata::optional<relic> relic_data;
         /*@}*/
+
+    private:
+        /** Can item be combined with other identical items? */
+        bool stackable_ = false;
+
+        /** Minimum and maximum amount of damage to an item (state of maximum repair). */
+        // @todo create and use a MinMax class or similar to put both values into one object.
+        /// @{
+        int damage_min_ = -1000;
+        int damage_max_ = +4000;
+        /// @}
 
     protected:
         std::string id = "null"; /** unique string identifier for this type */
 
         // private because is should only be accessed through itype::nname!
-        // name and name_plural are not translated automatically
         // nname() is used for display purposes
-        std::string name = "none";        // Proper name, singular form, in American English.
-        std::string name_plural = "none"; // name, plural form, in American English.
+        translation name = no_translation( "none" );
 
         /** If set via JSON forces item category to this (preventing automatic assignment) */
         std::string category_force;
@@ -775,11 +814,18 @@ struct itype {
             melee.fill( 0 );
         }
 
+        int damage_min() const {
+            return count_by_charges() ? 0 : damage_min_;
+        }
+        int damage_max() const {
+            return count_by_charges() ? 0 : damage_max_;
+        }
+
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
         std::string looks_like;
 
         std::string snippet_category;
-        std::string description; // Flavor text
+        translation description; // Flavor text
 
         // The container it comes in
         cata::optional<itype_id> default_container;
@@ -817,9 +863,6 @@ struct itype {
         // Should the item explode when lit on fire
         bool explode_in_fire = false;
 
-        /** Can item be combined with other identical items? */
-        bool stackable = false;
-
         /** Is item destroyed after the countdown action is run? */
         bool countdown_destroy = false;
 
@@ -837,10 +880,12 @@ struct itype {
 
         /** Weight of item ( or each stack member ) */
         units::mass weight = 0_gram;
+        /** Weight difference with the part it replaces for mods */
+        units::mass integral_weight = -1_gram;
 
         /**
          * Space occupied by items of this type
-         * CAUTION: value given is for a default-sized stack. Avoid using where @ref stackable items may be encountered; see @ref item::volume instead.
+         * CAUTION: value given is for a default-sized stack. Avoid using where @ref count_by_charges items may be encountered; see @ref item::volume instead.
          * To determine how many of an item can fit in a given space, use @ref charges_per_volume.
          */
         units::volume volume = 0_ml;
@@ -848,20 +893,19 @@ struct itype {
          * Space consumed when integrated as part of another item (defaults to volume)
          * CAUTION: value given is for a default-sized stack. Avoid using this. In general, see @ref item::volume instead.
          */
-        units::volume integral_volume = units::from_milliliter( -1 );
+        units::volume integral_volume = -1_ml;
 
-        /** Number of items per above volume for @ref stackable items */
+        /** Number of items per above volume for @ref count_by_charges items */
         int stack_size = 0;
 
         /** Value before cataclysm. Price given is for a default-sized stack. */
-        int price = 0;
+        units::money price = 0_cent;
         /** Value after cataclysm, dependent upon practical usages. Price given is for a default-sized stack. */
-        int price_post = -1;
+        units::money price_post = -1_cent;
 
         /**@}*/
-
-        bool rigid =
-            true; // If non-rigid volume (and if worn encumbrance) increases proportional to contents
+        // If non-rigid volume (and if worn encumbrance) increases proportional to contents
+        bool rigid = true;
 
         /** Damage output in melee for zero or more damage types */
         std::array<int, NUM_DT> melee;
@@ -877,12 +921,13 @@ struct itype {
         std::string sym;
         nc_color color = c_white; // Color on the map (color.h)
 
-        int damage_min = -1000; /** Minimum amount of damage to an item (state of maximum repair) */
-        int damage_max =  4000; /** Maximum amount of damage to an item (state before destroyed) */
         static constexpr int damage_scale = 1000; /** Damage scale compared to the old float damage value */
 
         /** What items can be used to repair this item? @see Item_factory::finalize */
         std::set<itype_id> repair;
+
+        /** What faults (if any) can occur */
+        std::set<fault_id> faults;
 
         /** Magazine types (if any) for each ammo type that can be used to reload this item */
         std::map< ammotype, std::set<itype_id> > magazines;
@@ -933,7 +978,7 @@ struct itype {
         }
 
         bool count_by_charges() const {
-            return stackable;
+            return stackable_ || ammo.has_value() || comestible.has_value();
         }
 
         int charges_default() const {
@@ -944,14 +989,19 @@ struct itype {
             } else if( ammo ) {
                 return ammo->def_charges;
             }
-            return stackable ? 1 : 0;
+            return count_by_charges() ? 1 : 0;
         }
 
         int charges_to_use() const {
             if( tool ) {
-                return tool->charges_per_use;
+                return static_cast<int>( tool->charges_per_use );
             }
             return 1;
+        }
+
+        // for tools that sub another tool, but use a different ratio of charges
+        int charge_factor() const {
+            return tool ? tool->charge_factor : 1;
         }
 
         int maximum_charges() const {
@@ -960,21 +1010,22 @@ struct itype {
             }
             return 1;
         }
+        bool can_have_charges() const;
 
         /**
          * Number of (charges of) this type of item that fit into the given volume.
          * May return 0 if not even one charge fits into the volume.
          */
-        long charges_per_volume( const units::volume &vol ) const;
+        int charges_per_volume( const units::volume &vol ) const;
 
         bool has_use() const;
         bool can_use( const std::string &iuse_name ) const;
         const use_function *get_use( const std::string &iuse_name ) const;
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
-        long invoke( player &p, item &it, const tripoint &pos ) const; // Picks first method or returns 0
-        long invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const;
-        long tick( player &p, item &it, const tripoint &pos ) const;
+        int invoke( player &p, item &it, const tripoint &pos ) const; // Picks first method or returns 0
+        int invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const;
+        int tick( player &p, item &it, const tripoint &pos ) const;
 
         virtual ~itype() = default;
 };

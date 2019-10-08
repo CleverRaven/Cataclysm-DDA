@@ -8,7 +8,7 @@
     "difficulty": 4,
     "time": 3000,
     "reversible": true,
-    "book_learn": [ [ "recipe_caseless", 8 ], [ "recipe_lab_cvd", 3 ] ],
+    "book_learn": [ [ "recipe_caseless", 8 ], [ "textbook_atomic_lab", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 5 ] ],
@@ -28,7 +28,7 @@
     "difficulty": 3,
     "time": 20000,
     "reversible": true,
-    "book_learn": [ [ "recipe_caseless", 6 ], [ "recipe_lab_cvd", 3 ] ],
+    "book_learn": [ [ "recipe_caseless", 6 ], [ "textbook_atomic_lab", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 1 ] ],
@@ -47,7 +47,7 @@
     "difficulty": 3,
     "time": 30000,
     "reversible": true,
-    "book_learn": [ [ "recipe_caseless", 6 ], [ "recipe_lab_cvd", 3 ] ],
+    "book_learn": [ [ "recipe_caseless", 6 ], [ "textbook_atomic_lab", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "plastic_chunk", 2 ] ],
@@ -197,5 +197,19 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "sweetbread", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "vinegar", 1 ] ], [ [ "salt", 2 ] ] ]
+  },
+  {
+    "result": "recharge_station",
+    "type": "recipe",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": 50000,
+    "reversible": true,
+    "autolearn": [ [ "electronics", 2 ] ],
+    "using": [ [ "soldering_standard", 35 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "power_supply", 2 ] ], [ [ "processor", 2 ] ], [ [ "scrap", 5 ] ], [ [ "cable", 8 ] ] ]
   }
 ]

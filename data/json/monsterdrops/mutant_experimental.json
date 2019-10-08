@@ -1,0 +1,14 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_mutant_experimental_death_drops",
+    "entries": [ { "item": "subsuit_xl", "damage": [ 2, 3 ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_mutant_evolved_death_drops",
+    "entries": [ { "item": "rag", "damage": [ 1, 4 ], "count": [ 1, 4 ] }, { "item": "pants", "damage": [ 2, 3 ] } ]
+  }
+]

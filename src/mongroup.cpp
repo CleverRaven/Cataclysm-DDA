@@ -86,7 +86,7 @@ const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup
         const time_duration replace_time = groupptr->monster_group_time *
                                            get_option<float>( "MONSTER_UPGRADE_FACTOR" );
         while( groupptr->replace_monster_group &&
-               calendar::turn - time_point( calendar::start ) > replace_time ) {
+               calendar::turn - time_point( calendar::start_of_cataclysm ) > replace_time ) {
             groupptr = &groupptr->new_monster_group.obj();
         }
     }
@@ -104,17 +104,17 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
 
     bool monster_found = false;
     // Loop invariant values
-    const time_point sunset = calendar::turn.sunset();
-    const time_point sunrise = calendar::turn.sunrise();
+    const time_point sunset = ::sunset( calendar::turn );
+    const time_point sunrise = ::sunrise( calendar::turn );
     const season_type season = season_of_year( calendar::turn );
     // Step through spawn definitions from the monster group until one is found or
     for( auto it = group.monsters.begin(); it != group.monsters.end() && !monster_found; ++it ) {
         // There's a lot of conditions to work through to see if this spawn definition is valid
         bool valid_entry = true;
         //Insure that the time is not before the spawn first appears or after it stops appearing
-        valid_entry = valid_entry && ( calendar::time_of_cataclysm + it->starts < calendar::turn );
+        valid_entry = valid_entry && ( calendar::start_of_cataclysm + it->starts < calendar::turn );
         valid_entry = valid_entry && ( it->lasts_forever() ||
-                                       calendar::time_of_cataclysm + it->ends > calendar::turn );
+                                       calendar::start_of_cataclysm + it->ends > calendar::turn );
 
         std::vector<std::pair<time_point, time_point> > valid_times_of_day;
         bool season_limited = false;
@@ -261,13 +261,10 @@ const MonsterGroup &MonsterGroupManager::GetMonsterGroup( const mongroup_id &gro
     }
 }
 
-// see item_factory.cpp
-extern void add_to_set( std::set<std::string> &s, JsonObject &json, const std::string &name );
-
 void MonsterGroupManager::LoadMonsterBlacklist( JsonObject &jo )
 {
-    add_to_set( monster_blacklist, jo, "monsters" );
-    add_to_set( monster_categories_blacklist, jo, "categories" );
+    add_array_to_set( monster_blacklist, jo, "monsters" );
+    add_array_to_set( monster_categories_blacklist, jo, "categories" );
 }
 
 void MonsterGroupManager::LoadMonsterWhitelist( JsonObject &jo )
@@ -275,8 +272,8 @@ void MonsterGroupManager::LoadMonsterWhitelist( JsonObject &jo )
     if( jo.has_string( "mode" ) && jo.get_string( "mode" ) == "EXCLUSIVE" ) {
         monster_whitelist_is_exclusive = true;
     }
-    add_to_set( monster_whitelist, jo, "monsters" );
-    add_to_set( monster_categories_whitelist, jo, "categories" );
+    add_array_to_set( monster_whitelist, jo, "monsters" );
+    add_array_to_set( monster_categories_whitelist, jo, "categories" );
 }
 
 bool MonsterGroupManager::monster_is_blacklisted( const mtype_id &m )
@@ -313,26 +310,6 @@ void MonsterGroupManager::FinalizeMonsterGroups()
     for( auto &mtid : monster_blacklist ) {
         if( !mtype_id( mtid ).is_valid() ) {
             debugmsg( "monster on blacklist %s does not exist", mtid.c_str() );
-        }
-    }
-    // If we have the classic zombies option, remove non-conforming monsters
-    if( get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
-        for( auto &elem : monsterGroupMap ) {
-            MonsterGroup &mg = elem.second;
-            for( FreqDef::iterator c = mg.monsters.begin(); c != mg.monsters.end(); ) {
-                // Test mon
-                const mtype &mt = c->name.obj();
-
-                if( !( mt.in_category( "CLASSIC" ) || mt.in_category( "WILDLIFE" ) ) ) {
-                    c = mg.monsters.erase( c );
-                } else {
-                    ++c;
-                }
-            }
-            const mtype &mt = mg.defaultMonster.obj();
-            if( !( mt.in_category( "CLASSIC" ) || mt.in_category( "WILDLIFE" ) ) ) {
-                mg.defaultMonster = mtype_id::NULL_ID();
-            }
         }
     }
     // Further, remove all blacklisted monsters

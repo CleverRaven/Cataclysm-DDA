@@ -8,9 +8,17 @@
       { "text": "Tell me how faction camps have changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       {
         "text": "I want you to build a camp here.",
+        "topic": "TALK_HALLU_CAMP",
+        "condition": { "npc_has_trait": "HALLUCINATION" },
+        "switch": true
+      },
+      {
+        "text": "I want you to build a camp here.",
         "topic": "TALK_DONE",
         "effect": "start_camp",
-        "condition": { "u_at_om_location": "field" }
+        "condition": { "npc_at_om_location": "FACTION_CAMP_START" },
+        "switch": true,
+        "default": true
       },
       {
         "text": "Show me what needs to be done at the camp.",
@@ -64,7 +72,7 @@
   {
     "id": "TALK_CAMP_TUTORIAL_SETUP",
     "type": "talk_topic",
-    "dynamic_line": "For your first camp, pick a site that has fields in the 8 adjacent tiles and lots of forests around it.  Forests are your primary source of construction materials in the early game while fields can be used for farming.  You don't have to be too picky, you can build as many camps as you want.  You need a friendly NPC to perform tasks at the camp.",
+    "dynamic_line": "For your first camp, pick a site that has fields in the 8 adjacent tiles and lots of forests around it.  Forests are your primary source of construction materials in the early game while fields can be used for farming.  You don't have to be too picky, you can build as many camps as you want.  You need a friendly NPC to perform tasks at the camp. \nAlthough you can build a camp from scratch in a field, you can also take over some other buildings.  If you talk to a friendly NPC about faction camps and the NPC is standing in a building that can be used as a basecamp, you'll get the option to build a camp in that building.",
     "responses": [
       { "text": "Go on.", "topic": "TALK_CAMP_TUTORIAL_UPGRADES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
@@ -101,7 +109,7 @@
   {
     "id": "TALK_CAMP_TUTORIAL_CHANGES",
     "type": "talk_topic",
-    "dynamic_line": "\n1.  Faction camps used to require a second NPC to act as overseer and camp manager, but that's been replaced by the bulletin board and two-way radio. \n2.  It used to be impossible to upgrade faction camps if there was a vehicle, even a cart, on the same map.  You can now upgrade camps even if there is a vehicle on the map, as long as the upgrade doesn't change the area under the vehicle. \n3.  Faction camps used to upgrade by completely redrawing the map.  Damage to the camp would be replaced when the camp was upgraded.  Now upgrades only change the actual area being upgraded, and you will have to repair damage to the camp yourself.",
+    "dynamic_line": "\n1.  Faction camps used to require a second NPC to act as overseer and camp manager, but that's been replaced by the bulletin board and two-way radio.\n2.  It used to be impossible to upgrade faction camps if there was a vehicle, even a cart, on the same map.  You can now upgrade camps even if there is a vehicle on the map, as long as the upgrade doesn't change the area under the vehicle.\n3.  Faction camps used to upgrade by completely redrawing the map.  Damage to the camp would be replaced when the camp was upgraded.  Now upgrades only change the actual area being upgraded, and you will have to repair damage to the camp yourself.\n4.  There used to be a single path for upgrading the main camp.  Now, after you have completed the first tent, you will have many options for your next upgrade, and you can have different companions working on different upgrades of the main camp at the same time.\n5.  Friendly NPCs who are near a camp will feed themselves from the camp's food stores, and if the camp has a well, they'll use it to quench their thirst.\n6.  You can now set up faction camps in select buildings.  The list of available buildings is constantly growing, so you'll have to experiment.",
     "responses": [
       { "text": "Thanks, let's go back to talking about camps.", "topic": "TALK_NONE" },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
@@ -121,5 +129,11 @@
       },
       { "text": "See you around.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "id": "TALK_HALLU_CAMP",
+    "type": "talk_topic",
+    "dynamic_line": "<hallu_dont_camp>",
+    "responses": [ { "text": "Fair enough.", "topic": "TALK_NONE" } ]
   }
 ]

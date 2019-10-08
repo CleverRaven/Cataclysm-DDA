@@ -1,6 +1,6 @@
 #include "monfaction.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <queue>
 #include <vector>
 #include <map>
@@ -91,7 +91,7 @@ mfaction_id monfactions::get_or_add_faction( const mfaction_str_id &id )
     return found->second;
 }
 
-void apply_base_faction( mfaction_id base, mfaction_id faction_id )
+static void apply_base_faction( mfaction_id base, mfaction_id faction_id )
 {
     for( const auto &pair : base.obj().attitude_map ) {
         // Fill in values set in base faction, but not in derived one
@@ -203,14 +203,8 @@ void monfactions::finalize()
     faction_list.shrink_to_fit(); // Save a couple of bytes
 }
 
-// Non-const monfaction reference
-monfaction &get_faction( const mfaction_str_id &id )
-{
-    return faction_list[id.id()];
-}
-
 // Ensures all those factions exist
-void prealloc( const std::set< std::string > &facs )
+static void prealloc( const std::set< std::string > &facs )
 {
     for( const auto &f : facs ) {
         monfactions::get_or_add_faction( mfaction_str_id( f ) );

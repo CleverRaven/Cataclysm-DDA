@@ -71,7 +71,7 @@
         "x": "t_console_broken",
         "z": "t_shrub",
         "{": "t_door_glass_c",
-        "|": "t_wall",
+        "|": "t_wall_b",
         "<": "t_stairs_up",
         "4": "t_gutter_downspout",
         "T": "t_tree_coffee"
@@ -223,7 +223,7 @@
         "%": "t_wall_glass",
         "+": "t_door_glass_c",
         ",": "t_pavement_y",
-        "-": "t_wall",
+        "-": "t_wall_b",
         ".": "t_floor",
         "5": "t_wall_glass",
         "=": "t_linoleum_white",
@@ -243,7 +243,7 @@
         "s": "t_sidewalk",
         "x": "t_console_broken",
         "4": "t_gutter_downspout",
-        "|": "t_wall"
+        "|": "t_wall_b"
       },
       "furniture": {
         "&": "f_trashcan",
@@ -430,7 +430,7 @@
         "{": "t_floor",
         "4": "t_gutter_downspout",
         "<": "t_ladder_up",
-        "|": "t_wall"
+        "|": "t_wall_b"
       }
     },
     "om_terrain": "s_restaurant_coffee_2",

@@ -7,7 +7,6 @@
 #include <string>
 
 #include "string_id.h"
-#include "int_id.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -17,8 +16,8 @@ class Trait_group;
 namespace trait_group
 {
 
-typedef string_id<Trait_group> Trait_group_tag;
-typedef std::vector<trait_id> Trait_list;
+using Trait_group_tag = string_id<Trait_group>;
+using Trait_list = std::vector<trait_id>;
 
 /**
  * Returns a randomized list of traits from the given trait group.
@@ -61,7 +60,7 @@ Trait_group_tag load_trait_group( JsonIn &stream, const std::string &default_sub
  */
 void debug_spawn();
 
-}
+} // namespace trait_group
 
 /**
  * Base interface for trait generation.
@@ -70,7 +69,7 @@ void debug_spawn();
 class Trait_creation_data
 {
     public:
-        typedef std::vector<trait_group::Trait_group_tag> RecursionList;
+        using RecursionList = std::vector<trait_group::Trait_group_tag>;
 
         Trait_creation_data( int _probability ) : probability( _probability ) {}
         virtual ~Trait_creation_data() = default;
@@ -146,7 +145,7 @@ class Trait_group_creator : public Trait_creation_data
 class Trait_group : public Trait_creation_data
 {
     public:
-        typedef std::vector<std::unique_ptr<Trait_creation_data>> CreatorList;
+        using CreatorList = std::vector<std::unique_ptr<Trait_creation_data> >;
 
         Trait_group( int probability );
         ~Trait_group() override = default;
@@ -159,7 +158,7 @@ class Trait_group : public Trait_creation_data
          * @ref mutation_branch::add_entry, @ref add_trait_entry or @ref add_group_entry). Its purpose
          * is to add a Single_trait_creator or Trait_group_creator to @ref creators.
          */
-        virtual void add_entry( std::unique_ptr<Trait_creation_data> &ptr ) = 0;
+        virtual void add_entry( std::unique_ptr<Trait_creation_data> ptr ) = 0;
 
         void check_consistency() const override;
         bool remove_trait( const trait_id &tid ) override;
@@ -183,7 +182,7 @@ class Trait_group_collection : public Trait_group
         ~Trait_group_collection() override = default;
 
         trait_group::Trait_list create( RecursionList &rec ) const override;
-        void add_entry( std::unique_ptr<Trait_creation_data> &ptr ) override;
+        void add_entry( std::unique_ptr<Trait_creation_data> ptr ) override;
 };
 
 /**
@@ -199,7 +198,7 @@ class Trait_group_distribution : public Trait_group
         ~Trait_group_distribution() override = default;
 
         trait_group::Trait_list create( RecursionList &rec ) const override;
-        void add_entry( std::unique_ptr<Trait_creation_data> &ptr ) override;
+        void add_entry( std::unique_ptr<Trait_creation_data> ptr ) override;
 };
 
 #endif

@@ -1,5 +1,6 @@
 #include "projectile.h"
 
+#include <memory>
 #include <utility>
 
 #include "explosion.h"
@@ -9,7 +10,6 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "rng.h"
-#include "game_constants.h"
 
 projectile::projectile() :
     speed( 0 ), range( 0 ), drop( nullptr ), custom_explosion( nullptr )
@@ -21,7 +21,7 @@ projectile::projectile( projectile && ) = default;
 
 projectile::projectile( const projectile &other )
 {
-    ( *this ) = other;
+    *this = other;
 }
 
 projectile &projectile::operator=( const projectile &other )
@@ -51,7 +51,7 @@ void projectile::set_drop( const item &it )
     if( it.is_null() ) {
         unset_drop();
     } else {
-        drop.reset( new item( it ) );
+        drop = std::make_unique<item>( it );
     }
 }
 
@@ -60,7 +60,7 @@ void projectile::set_drop( item &&it )
     if( it.is_null() ) {
         unset_drop();
     } else {
-        drop.reset( new item( std::move( it ) ) );
+        drop = std::make_unique<item>( std::move( it ) );
     }
 }
 
@@ -81,7 +81,7 @@ const explosion_data &projectile::get_custom_explosion() const
 
 void projectile::set_custom_explosion( const explosion_data &ex )
 {
-    custom_explosion.reset( new explosion_data( ex ) );
+    custom_explosion = std::make_unique<explosion_data>( ex );
 }
 
 void projectile::unset_custom_explosion()
@@ -93,21 +93,21 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
 {
     if( effects.count( "EXPLOSIVE_SMALL" ) > 0 ) {
         // TODO: double-check if this is sensible.
-        g->explosion( p, 360, 0.4 );
+        explosion_handler::explosion( p, 360, 0.4 );
     }
 
     if( effects.count( "EXPLOSIVE" ) > 0 ) {
         // TODO: double-check if this is sensible.
-        g->explosion( p, 360 );
+        explosion_handler::explosion( p, 360 );
     }
 
     if( effects.count( "FRAG" ) > 0 ) {
         // Same as a standard thrown frag grenade.
-        g->explosion( p, 185, 0.8, false, 212, 0.05 );
+        explosion_handler::explosion( p, 185, 0.8, false, 212, 0.05 );
     }
 
     if( effects.count( "NAPALM" ) > 0 ) {
-        g->explosion( p, 60, 0.7, true );
+        explosion_handler::explosion( p, 60, 0.7, true );
         // More intense fire near the center
         for( auto &pt : g->m.points_in_radius( p, 1, 0 ) ) {
             g->m.add_field( pt, fd_fire, 1 );
@@ -115,15 +115,23 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
     }
 
     if( effects.count( "NAPALM_BIG" ) > 0 ) {
-        g->explosion( p, 360, 0.8, true );
+        explosion_handler::explosion( p, 360, 0.8, true );
         // More intense fire near the center
         for( auto &pt : g->m.points_in_radius( p, 3, 0 ) ) {
             g->m.add_field( pt, fd_fire, 1 );
         }
     }
 
+    if( effects.count( "PYROPHORIC" ) > 0 ) {
+        explosion_handler::explosion( p, 360, 0.8, true );
+        // Extreme heat near the center of the explosion
+        for( auto &pt : g->m.points_in_radius( p, 3, 0 ) ) {
+            g->m.add_field( pt, fd_fire, 2 );
+        }
+    }
+
     if( effects.count( "MININUKE_MOD" ) > 0 ) {
-        g->explosion( p, 72000000 );
+        explosion_handler::explosion( p, 72000000 );
         for( auto &pt : g->m.points_in_radius( p, 18, 0 ) ) {
             if( g->m.sees( p, pt, 3 ) &&
                 g->m.passable( pt ) ) {
@@ -140,12 +148,12 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
 
     if( effects.count( "EXPLOSIVE_BIG" ) > 0 ) {
         // TODO: double-check if this is sensible.
-        g->explosion( p, 600 );
+        explosion_handler::explosion( p, 600 );
     }
 
     if( effects.count( "EXPLOSIVE_HUGE" ) > 0 ) {
         // TODO: double-check if this is sensible.
-        g->explosion( p, 1200 );
+        explosion_handler::explosion( p, 1200 );
     }
 
     if( effects.count( "TOXICGAS" ) > 0 ) {
@@ -158,23 +166,28 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
             g->m.add_field( pt, fd_fungicidal_gas, 3 );
         }
     }
+    if( effects.count( "GAS_INSECTICIDAL" ) > 0 ) {
+        for( auto &pt : g->m.points_in_radius( p, 1, 0 ) ) {
+            g->m.add_field( pt, fd_insecticidal_gas, 3 );
+        }
+    }
     if( effects.count( "SMOKE" ) > 0 ) {
         for( auto &pt : g->m.points_in_radius( p, 1, 0 ) ) {
-            g->m.add_field( pt, fd_smoke, MAX_FIELD_DENSITY );
+            g->m.add_field( pt, fd_smoke, 3 );
         }
     }
     if( effects.count( "SMOKE_BIG" ) > 0 ) {
         for( auto &pt : g->m.points_in_radius( p, 6, 0 ) ) {
-            g->m.add_field( pt, fd_smoke, MAX_FIELD_DENSITY );
+            g->m.add_field( pt, fd_smoke, 3 );
         }
     }
 
     if( effects.count( "FLASHBANG" ) ) {
-        g->flashbang( p );
+        explosion_handler::flashbang( p );
     }
 
     if( effects.count( "EMP" ) ) {
-        g->emp_blast( p );
+        explosion_handler::emp_blast( p );
     }
 
     if( effects.count( "NO_BOOM" ) == 0 && effects.count( "FLAME" ) > 0 ) {

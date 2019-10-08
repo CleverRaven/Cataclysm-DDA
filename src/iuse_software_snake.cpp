@@ -1,6 +1,6 @@
 #include "iuse_software_snake.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <string>
 #include <vector>
@@ -20,7 +20,7 @@ snake_game::snake_game() = default;
 
 void snake_game::print_score( const catacurses::window &w_snake, int iScore )
 {
-    mvwprintz( w_snake, 0, 5, c_white, string_format( _( "Score: %d" ), iScore ) );
+    mvwprintz( w_snake, point( 5, 0 ), c_white, string_format( _( "Score: %d" ), iScore ) );
 }
 
 void snake_game::print_header( const catacurses::window &w_snake, bool show_shortcut )
@@ -28,7 +28,7 @@ void snake_game::print_header( const catacurses::window &w_snake, bool show_shor
     draw_border( w_snake, BORDER_COLOR, _( "S N A K E" ), c_white );
     if( show_shortcut ) {
         std::string shortcut = _( "<q>uit" );
-        shortcut_print( w_snake, 0, FULL_SCREEN_WIDTH - utf8_width( shortcut ) - 2,
+        shortcut_print( w_snake, point( FULL_SCREEN_WIDTH - utf8_width( shortcut ) - 2, 0 ),
                         c_white, c_light_green, shortcut );
     }
 }
@@ -42,37 +42,37 @@ void snake_game::snake_over( const catacurses::window &w_snake, int iScore )
     size_t body_length = 3;
     for( size_t i = 1; i <= body_length; i++ ) {
         for( size_t j = 0; j <= 1; j++ ) {
-            mvwprintz( w_snake, i, 4 + j * 65, c_green, "|   |" );
+            mvwprintz( w_snake, point( 4 + j * 65, i ), c_green, "|   |" );
         }
     }
 
     // Head of dead snake
-    mvwprintz( w_snake, body_length + 1, 3, c_green, "(     )" );
-    mvwprintz( w_snake, body_length + 1, 4, c_dark_gray, "x   x" );
-    mvwprintz( w_snake, body_length + 2, 3, c_green, " \\___/ " );
-    mvwputch( w_snake, body_length + 3, 6, c_red, '|' );
-    mvwputch( w_snake, body_length + 4, 6, c_red, '^' );
+    mvwprintz( w_snake, point( 3, body_length + 1 ), c_green, "(     )" );
+    mvwprintz( w_snake, point( 4, body_length + 1 ), c_dark_gray, "x   x" );
+    mvwprintz( w_snake, point( 3, body_length + 2 ), c_green, " \\___/ " );
+    mvwputch( w_snake, point( 6, body_length + 3 ), c_red, '|' );
+    mvwputch( w_snake, point( 6, body_length + 4 ), c_red, '^' );
 
     // Tail of dead snake
-    mvwprintz( w_snake, body_length + 1, 70, c_green, "\\ /" );
-    mvwputch( w_snake, body_length + 2, 71, c_green, 'v' );
+    mvwprintz( w_snake, point( 70, body_length + 1 ), c_green, "\\ /" );
+    mvwputch( w_snake, point( 71, body_length + 2 ), c_green, 'v' );
 
     std::vector<std::string> game_over_text;
-    game_over_text.push_back( "  ________    _____      _____   ___________       " );
-    game_over_text.push_back( " /  _____/   /  _  \\    /     \\  \\_   _____/    " );
-    game_over_text.push_back( "/   \\  ___  /  /_\\  \\  /  \\ /  \\  |    __)_   " );
-    game_over_text.push_back( "\\    \\_\\  \\/    |    \\/    Y    \\ |        \\" );
-    game_over_text.push_back( " \\______  /\\____|__  /\\____|__  //_______  /    " );
-    game_over_text.push_back( "        \\/         \\/         \\/         \\/    " );
-    game_over_text.push_back( " ________ ____   _________________________         " );
-    game_over_text.push_back( " \\_____  \\\\   \\ /   /\\_   _____/\\______   \\ " );
-    game_over_text.push_back( "  /   |   \\\\   Y   /  |    __)_  |       _/      " );
-    game_over_text.push_back( " /    |    \\\\     /   |        \\ |    |   \\    " );
-    game_over_text.push_back( " \\_______  / \\___/   /_______  / |____|_  /      " );
-    game_over_text.push_back( "         \\/                  \\/         \\/      " );
+    game_over_text.push_back( R"(  ________    _____      _____   ___________)" );
+    game_over_text.push_back( R"( /  _____/   /  _  \    /     \  \_   _____/)" );
+    game_over_text.push_back( R"(/   \  ___  /  /_\  \  /  \ /  \  |    __)_ )" );
+    game_over_text.push_back( R"(\    \_\  \/    |    \/    Y    \ |        \)" );
+    game_over_text.push_back( R"( \______  /\____|__  /\____|__  //_______  /)" );
+    game_over_text.push_back( R"(        \/         \/         \/         \/ )" );
+    game_over_text.push_back( R"( ________ ____   _________________________  )" );
+    game_over_text.push_back( R"( \_____  \\   \ /   /\_   _____/\______   \ )" );
+    game_over_text.push_back( R"(  /   |   \\   Y   /  |    __)_  |       _/ )" );
+    game_over_text.push_back( R"( /    |    \\     /   |        \ |    |   \ )" );
+    game_over_text.push_back( R"( \_______  / \___/   /_______  / |____|_  / )" );
+    game_over_text.push_back( R"(         \/                  \/         \/  )" );
 
     for( size_t i = 0; i < game_over_text.size(); i++ ) {
-        mvwprintz( w_snake, i + 3, 17, c_light_red, game_over_text[i] );
+        mvwprintz( w_snake, point( 17, i + 3 ), c_light_red, game_over_text[i] );
     }
 
     center_print( w_snake, 17, c_yellow, string_format( _( "TOTAL SCORE: %d" ), iScore ) );
@@ -86,18 +86,18 @@ int snake_game::start_game()
     std::vector<std::pair<int, int> > vSnakeBody;
     std::map<int, std::map<int, bool> > mSnakeBody;
 
-    int iOffsetX = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    int iOffsetY = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+    int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+    int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
 
     catacurses::window w_snake = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                 iOffsetY, iOffsetX );
+                                 point( iOffsetX, iOffsetY ) );
     print_header( w_snake );
 
     //Snake start position
     vSnakeBody.push_back( std::make_pair( FULL_SCREEN_HEIGHT / 2, FULL_SCREEN_WIDTH / 2 ) );
     mSnakeBody[FULL_SCREEN_HEIGHT / 2][FULL_SCREEN_WIDTH / 2] = true;
-    mvwputch( w_snake, vSnakeBody[vSnakeBody.size() - 1].first,
-              vSnakeBody.back().second, c_white, '#' );
+    mvwputch( w_snake, point( vSnakeBody.back().second, vSnakeBody[vSnakeBody.size() - 1].first ),
+              c_white, '#' );
 
     //Snake start direction
     int iDirY = 0;
@@ -178,15 +178,15 @@ int snake_game::start_game()
         //Check if we are longer than our max size
         if( vSnakeBody.size() > iSnakeBody ) {
             mSnakeBody[vSnakeBody[0].first][vSnakeBody[0].second] = false;
-            mvwputch( w_snake, vSnakeBody[0].first, vSnakeBody[0].second, c_black, ' ' );
+            mvwputch( w_snake, point( vSnakeBody[0].second, vSnakeBody[0].first ), c_black, ' ' );
             vSnakeBody.erase( vSnakeBody.begin(), vSnakeBody.begin() + 1 );
         }
 
         //Draw Snake
-        mvwputch( w_snake, vSnakeBody[vSnakeBody.size() - 1].first,
-                  vSnakeBody[vSnakeBody.size() - 1].second, c_white, '#' );
-        mvwputch( w_snake, vSnakeBody[vSnakeBody.size() - 2].first,
-                  vSnakeBody[vSnakeBody.size() - 2].second, c_light_gray, '#' );
+        mvwputch( w_snake, point( vSnakeBody[vSnakeBody.size() - 1].second,
+                                  vSnakeBody[vSnakeBody.size() - 1].first ), c_white, '#' );
+        mvwputch( w_snake, point( vSnakeBody[vSnakeBody.size() - 2].second,
+                                  vSnakeBody[vSnakeBody.size() - 2].first ), c_light_gray, '#' );
 
         //On full length add a fruit
         if( iFruitPosX == 0 && iFruitPosY == 0 ) {
@@ -195,7 +195,7 @@ int snake_game::start_game()
                 iFruitPosX = rng( 1, FULL_SCREEN_WIDTH - 2 );
             } while( mSnakeBody[iFruitPosY][iFruitPosX] );
 
-            mvwputch( w_snake, iFruitPosY, iFruitPosX, c_light_red, '*' );
+            mvwputch( w_snake, point( iFruitPosX, iFruitPosY ), c_light_red, '*' );
         }
 
         wrefresh( w_snake );

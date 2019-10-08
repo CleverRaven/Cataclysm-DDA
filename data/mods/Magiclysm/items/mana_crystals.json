@@ -1,0 +1,42 @@
+[
+  {
+    "type": "ammunition_type",
+    "id": "crystallized_mana",
+    "name": "crystallized mana",
+    "default": "crystallized_mana"
+  },
+  {
+    "type": "AMMO",
+    "id": "crystallized_mana",
+    "category": "spare_parts",
+    "price": 1000,
+    "name": "crystallized mana",
+    "name_plural": "crystallized mana",
+    "symbol": "=",
+    "color": "yellow",
+    "description": "Some crystallized mana. This can be reloaded into rechargable mana crystals, but can never be unloaded.",
+    "flags": "TRADER_AVOID",
+    "volume": "100 ml",
+    "ammo_type": "crystallized_mana",
+    "count": 100,
+    "looks_like": "battery",
+    "fuel": { "energy": 1 }
+  },
+  {
+    "id": "small_mana_crystal",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
+    "name": "small mana crystal",
+    "name_plural": "small mana crystals",
+    "description": "This is a small mana crystal specifically designed to be attached to wand tips.",
+    "weight": 5,
+    "volume": 1,
+    "price": 1500,
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": "crystallized_mana",
+    "capacity": 50,
+    "looks_like": "battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
+  }
+]

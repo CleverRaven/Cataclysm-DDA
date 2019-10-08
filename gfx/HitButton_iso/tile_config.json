@@ -41,6 +41,14 @@
           "fg": 6
         },
         {
+          "id": ["overlay_male_run", "overlay_female_run" ],
+          "fg": 2501
+        },
+        {
+          "id": ["overlay_male_crouch", "overlay_female_crouch" ],
+          "fg": 2502
+        },
+        {
           "id": ["unknown", "null", "t_null", "tr_null", "f_null", "fd_null", "vp_null", "apparatus", "bio_blade_weapon", "bio_blaster_gun", "bio_claws_weapon", "bio_eye_optic", "bio_laser_gun", "bio_lightning", "pseuso_bio_picklock", "software_blood_data", "software_hacking", "software_math", "software_medical", "software_useless", "testflames", "toolset", "generic_no_ammo", "cvd_machine", "muscle", "vp_pointer_fake_ammo", "vp_pseuso_bio_picklock", "vp_null", "vp_tracker", "vp_aisle_lights", "vp_roof_cloth", "vp_roof", "vp_hdroof", "vp_engine_1cyl", "vp_engine_vtwin", "vp_engine_inline4", "vp_engine_v6", "vp_engine_v8", "vp_engine_v12", "vp_diesel_engine_v6", "vp_diesel_engine_v8", "vp_diesel_engine_i6", "vp_engine_electric", "vp_engine_electric_enhanced", "vp_engine_electric_large", "vp_engine_electric_small", "vp_engine_plasma", "vp_foot_pedals", "vp_hand_rims", "vp_gas_tank_small", "vp_gas_tank", "vp_napalm_tank", "vp_gas_tank_little", "vp_diesel_tank_small", "vp_diesel_tank", "vp_diesel_tank_little", "vp_small_storage_battery", "vp_medium_storage_battery", "vp_storage_battery_mount", "vp_storage_battery_removable", "vp_storage_battery", "vp_minireactor", "vp_hydrogen_tank", "vp_water_tank_small", "vp_water_tank_little", "vp_water_tank", "vp_water_dirty_tank_small", "vp_water_dirty_tank_little", "vp_water_dirty_tank", "vp_water_tank_barrel", "vp_controls", "vp_controls_electronic", "vp_muffler", "vp_seatbelt", "vp_vehicle_alarm", "vp_seatbelt_heavyduty", "vp_v_curtain", "vp_aisle_curtain", "vp_water_faucet", "vp_plating_wood", "vp_plating_steel", "vp_plating_superalloy", "vp_plating_spiked", "vp_plating_hard", "vp_plating_military", "vp_headlight", "vp_headlight_reinforced", "vp_horn_bicycle", "vp_horn_car", "vp_horn_big", "vp_beeper", "vp_battery_motorbike", "vp_battery_car", "vp_alternator_motorbike", "vp_alternator_car", "vp_alternator_truck", "vp_generator_7500w", "vp_inboard_mirror", "vp_stereo", "vp_engine_1cyl_small", "vp_jumper_cable", "vp_jumper_cable_heavy", "vp_jumper_cable_debug", "vp_roof_wood", "vp_plating_chitin", "vp_plating_bone", "vp_metal_wheel", "vp_mounted_rm614", "vp_mounted_rm298", "vp_door_motor", "vp_drive_by_wire_controls", "vp_cam_control", "vp_atomic_lamp", "vp_atomic_light", "vp_vehicle_clock", "fake_UPS", "fire", "money", "pointer_fake_ammo" ],
           "//": "pseudo-items / stuff that shouldn't exist go here.",
           "///": "also includes many vehicle parts which exist on undrawn layers of vehicles",
@@ -1239,7 +1247,10 @@
         },
         {
           "id": ["mon_zombie_biter" ],
-          "fg": 257
+          "fg": [
+            { "weight":1, "sprite":257},
+            { "weight":1, "sprite":2490}
+          ]
         },
         {
           "id": ["mon_zombie_brute" ],
@@ -1419,7 +1430,10 @@
         },
         {
           "id": ["mon_skeleton" ],
-          "fg": 302
+          "fg": [
+            { "weight":1, "sprite":302},
+            { "weight":1, "sprite":2486}
+          ]
         },
         {
           "id": ["mon_dog_skeleton" ],
@@ -2887,7 +2901,7 @@
           "bg": 907
         },
         {
-          "id": ["t_tree_birch_season_winter" ],
+          "id": ["t_tree_birch_season_winter", "t_tree_dead" ],
           "fg": 907
         },
         {
@@ -3994,11 +4008,11 @@
           "fg": 1317
         },
         {
-          "id": ["bra", "undershirt", "camisole", "waistcoat", "tshirt", "tshirt_text", "postman_shirt", "flag_shirt", "polo_shirt", "army_top", "tank_top", "bikini_top", "chestwrap", "sleeveless_trenchcoat", "vest", "chestrig", "ragpouch", "skinny_tie", "makeshift_sling", "technician_shirt_blue", "technician_shirt_ltblue", "technician_shirt_gray", "linuxtshirt", "halter_top", "makeshift_knapsack", "sports_bra", "under_armor", "bookplate" ],
+          "id": ["bra", "undershirt", "camisole", "waistcoat", "tshirt", "tshirt_text", "postman_shirt", "flag_shirt", "polo_shirt", "army_top", "tank_top", "bikini_top", "chestwrap", "sleeveless_trenchcoat", "vest", "chestrig", "ragpouch", "tie_skinny", "makeshift_sling", "technician_shirt_blue", "technician_shirt_ltblue", "technician_shirt_gray", "linuxtshirt", "halter_top", "makeshift_knapsack", "sports_bra", "under_armor", "bookplate" ],
           "fg": 1318
         },
         {
-          "id": ["overlay_worn_bra", "overlay_worn_undershirt", "overlay_worn_camisole", "overlay_worn_waistcoat", "overlay_worn_tshirt", "overlay_worn_tshirt_text", "overlay_worn_postman_shirt", "overlay_worn_flag_shirt", "overlay_worn_polo_shirt", "overlay_worn_army_top", "overlay_worn_tank_top", "overlay_worn_bikini_top", "overlay_worn_chestwrap", "overlay_worn_sleeveless_trenchcoat", "overlay_worn_vest", "overlay_worn_chestrig", "overlay_worn_ragpouch", "overlay_worn_skinny_tie", "overlay_worn_makeshift_sling", "overlay_worn_technician_shirt_blue", "overlay_worn_technician_shirt_ltblue", "overlay_worn_technician_shirt_gray", "overlay_worn_linuxtshirt", "overlay_worn_halter_top", "overlay_worn_makeshift_knapsack", "overlay_worn_sports_bra", "overlay_worn_under_armor", "bookplate" ],
+          "id": ["overlay_worn_bra", "overlay_worn_undershirt", "overlay_worn_camisole", "overlay_worn_waistcoat", "overlay_worn_tshirt", "overlay_worn_tshirt_text", "overlay_worn_postman_shirt", "overlay_worn_flag_shirt", "overlay_worn_polo_shirt", "overlay_worn_army_top", "overlay_worn_tank_top", "overlay_worn_bikini_top", "overlay_worn_chestwrap", "overlay_worn_sleeveless_trenchcoat", "overlay_worn_vest", "overlay_worn_chestrig", "overlay_worn_ragpouch", "overlay_worn_tie_skinny", "overlay_worn_makeshift_sling", "overlay_worn_technician_shirt_blue", "overlay_worn_technician_shirt_ltblue", "overlay_worn_technician_shirt_gray", "overlay_worn_linuxtshirt", "overlay_worn_halter_top", "overlay_worn_makeshift_knapsack", "overlay_worn_sports_bra", "overlay_worn_under_armor", "bookplate" ],
           "fg": 1319
         },
         {
@@ -4642,7 +4656,7 @@
           "fg": 1479
         },
         {
-          "id": ["copper_ear", "copper_bracelet", "holy_symbol", "ring", "diamond_ring", "gold_ear", "gold_bracelet", "badge_detective", "gold_dental_grill", "diamond_dental_grill" ],
+          "id": ["copper_ear", "copper_bracelet", "holy_symbol", "gold_ring", "diamond_ring", "gold_ear", "gold_bracelet", "badge_detective", "gold_dental_grill", "diamond_dental_grill" ],
           "fg": 1480
         },
         {
@@ -4650,7 +4664,7 @@
           "fg": 1481
         },
         {
-          "id": ["silver_ear", "necklace", "locket", "silver_bracelet", "badge_deputy", "badge_swat", "badge_cybercop", "badge_marshal", "tieclip", "collarpin", "pearl_collar", "brooch" ],
+          "id": ["silver_ear", "silver_necklace", "silver_locket", "silver_bracelet", "badge_deputy", "badge_swat", "badge_cybercop", "badge_marshal", "tieclip", "collarpin", "pearl_collar", "jade_brooch" ],
           "fg": 1482
         },
         {
@@ -4975,7 +4989,7 @@
           "fg": 1562
         },
         {
-          "id": ["photo_album", "priest_diary", "visions_solitude", "holybook_bible1", "holybook_bible2", "holybook_bible3", "holybook_quran", "holybook_hadith", "holybook_tanakh", "holybook_talmud", "holybook_vedas", "holybook_upanishads", "holybook_tripitaka", "holybook_sutras", "holybook_granth", "holybook_mormon", "holybook_kojiki", "holybook_pastafarian", "holybook_slack", "holybook_kallisti", "holybook_scientology" ],
+          "id": ["photo_album", "priest_diary", "visions_solitude", "holybook_bible1", "holybook_bible2", "holybook_bible3", "holybook_quran", "holybook_hadith", "holybook_tanakh", "holybook_talmud", "holybook_vedas", "holybook_upanishads", "holybook_tripitaka", "holybook_sutras", "holybook_granth", "holybook_mormon", "holybook_kojiki", "holybook_pastafarian", "holybook_slack", "holybook_kallisti", "holybook_scientology", "holybook_havamal" ],
           "//": "INSPIRATIONAL books",
           "fg": 1563
         },
@@ -5075,11 +5089,11 @@
           "fg": 1585
         },
         {
-          "id": ["rm228", "ruger_lcr_22", "sig_mosquito", "sw_22", "moss_brownie", "l_bak_223", "walther_ppk", "sig_p230", "colt_navy", "ruger_lcr_38", "sw_619", "taurus_38", "cop_38", "2_shot_special", "sig_40", "glock_22", "sw_610", "surv_six_shooter", "ruger_redhawk", "sw629", "deagle_44", "lemat_revolver", "colt_army", "usp_45", "surv_hand_cannon", "m1911", "l_sp_45", "l_mp_45", "l_enforcer_45", "testgun", "TANK", "raging_bull", "hk_ucp", "sw_500", "fn57", "needlepistol", "tokarev", "rm99_pistol", "rm103a_pistol", "glock_19", "usp_9mm", "l_sp_9mm", "l_mp_9mm", "l_lookout_9mm", "m9", "makarov", "pistol_flintlock", "minispeargun", "cerberus_laser", "coilgun", "ashot", "flaregun", "v29", "v29_cheap" ],
+          "id": ["rm228", "ruger_lcr_22", "sig_mosquito", "sw_22", "moss_brownie", "l_bak_223", "walther_ppk", "sig_p230", "colt_navy", "ruger_lcr_38", "sw_619", "taurus_38", "cop_38", "2_shot_special", "sig_40", "glock_22", "sw_610", "surv_six_shooter", "ruger_redhawk", "sw629", "deagle_44", "lemat_revolver", "colt_army", "usp_45", "surv_hand_cannon", "m1911", "l_sp_45", "l_mp_45", "l_enforcer_45", "testgun", "TANK", "raging_bull", "sw_500", "fn57", "needlepistol", "tokarev", "rm99_pistol", "rm103a_pistol", "glock_19", "usp_9mm", "l_sp_9mm", "l_mp_9mm", "l_lookout_9mm", "m9", "makarov", "pistol_flintlock", "minispeargun", "cerberus_laser", "coilgun", "ashot", "flaregun", "v29", "v29_cheap", "rugerlcp" ],
           "fg": 1586
         },
         {
-          "id": ["overlay_wielded_rm228", "overlay_wielded_ruger_lcr_22", "overlay_wielded_sig_mosquito", "overlay_wielded_sw_22", "overlay_wielded_moss_brownie", "overlay_wielded_l_bak_223", "overlay_wielded_walther_ppk", "overlay_wielded_sig_p230", "overlay_wielded_colt_navy", "overlay_wielded_ruger_lcr_38", "overlay_wielded_sw_619", "overlay_wielded_taurus_38", "overlay_wielded_cop_38", "overlay_wielded_2_shot_special", "overlay_wielded_sig_40", "overlay_wielded_glock_22", "overlay_wielded_sw_610", "overlay_wielded_surv_six_shooter", "overlay_wielded_ruger_redhawk", "overlay_wielded_sw629", "overlay_wielded_deagle_44", "overlay_wielded_lemat_revolver", "overlay_wielded_colt_army", "overlay_wielded_usp_45", "overlay_wielded_surv_hand_cannon", "overlay_wielded_m1911", "overlay_wielded_l_sp_45", "overlay_wielded_l_mp_45", "overlay_wielded_l_enforcer_45", "overlay_wielded_testgun", "overlay_wielded_raging_bull", "overlay_wielded_hk_ucp", "overlay_wielded_sw_500", "overlay_wielded_fn57", "overlay_wielded_needlepistol", "overlay_wielded_tokarev", "overlay_wielded_rm99_pistol", "overlay_wielded_rm103a_pistol", "overlay_wielded_glock_19", "overlay_wielded_usp_9mm", "overlay_wielded_l_sp_9mm", "overlay_wielded_l_mp_9mm", "overlay_wielded_l_lookout_9mm", "overlay_wielded_m9", "overlay_wielded_makarov", "overlay_wielded_pistol_flintlock", "overlay_wielded_minispeargun", "overlay_wielded_cerberus_laser", "overlay_wielded_coilgun", "overlay_wielded_ashot", "overlay_wielded_flaregun", "overlay_wielded_v29", "overlay_wielded_v29_cheap" ],
+          "id": ["overlay_wielded_rm228", "overlay_wielded_ruger_lcr_22", "overlay_wielded_sig_mosquito", "overlay_wielded_sw_22", "overlay_wielded_moss_brownie", "overlay_wielded_l_bak_223", "overlay_wielded_walther_ppk", "overlay_wielded_sig_p230", "overlay_wielded_colt_navy", "overlay_wielded_ruger_lcr_38", "overlay_wielded_sw_619", "overlay_wielded_taurus_38", "overlay_wielded_cop_38", "overlay_wielded_2_shot_special", "overlay_wielded_sig_40", "overlay_wielded_glock_22", "overlay_wielded_sw_610", "overlay_wielded_surv_six_shooter", "overlay_wielded_ruger_redhawk", "overlay_wielded_sw629", "overlay_wielded_deagle_44", "overlay_wielded_lemat_revolver", "overlay_wielded_colt_army", "overlay_wielded_usp_45", "overlay_wielded_surv_hand_cannon", "overlay_wielded_m1911", "overlay_wielded_l_sp_45", "overlay_wielded_l_mp_45", "overlay_wielded_l_enforcer_45", "overlay_wielded_testgun", "overlay_wielded_raging_bull", "overlay_wielded_sw_500", "overlay_wielded_fn57", "overlay_wielded_needlepistol", "overlay_wielded_tokarev", "overlay_wielded_rm99_pistol", "overlay_wielded_rm103a_pistol", "overlay_wielded_glock_19", "overlay_wielded_usp_9mm", "overlay_wielded_l_sp_9mm", "overlay_wielded_l_mp_9mm", "overlay_wielded_l_lookout_9mm", "overlay_wielded_m9", "overlay_wielded_makarov", "overlay_wielded_pistol_flintlock", "overlay_wielded_minispeargun", "overlay_wielded_cerberus_laser", "overlay_wielded_coilgun", "overlay_wielded_ashot", "overlay_wielded_flaregun", "overlay_wielded_v29", "overlay_wielded_v29_cheap", "overlay_wielded_rugerlcp" ],
           "fg": 1587
         },
         {
@@ -5099,7 +5113,7 @@
           "fg": 1591
         },
         {
-          "id": ["rm20", "rm120c", "pipe_combination_gun", "blunderbuss", "shotgun_sawn", "shotgun_s", "shotgun_d", "remington_870", "mossberg_500", "ksg", "m1014", "saiga_12", "l_def_12", "revolver_shotgun", "pipe_shotgun", "pipe_double_shotgun", "pipe_shotgunsawn", "bigun", "abzats", "shotgun_trap", "tr_shotgun_1", "tr_shotgun_2" ],
+          "id": ["rm20", "rm120c", "pipe_combination_gun", "blunderbuss", "shotgun_sawn", "shotgun_s", "shotgun_d", "remington_870", "mossberg_500", "ksg", "m1014", "saiga_12", "l_def_12", "revolver_shotgun", "pipe_shotgun", "pipe_double_shotgun", "pipe_shotgunsawn", "bigun", "abzats", "shotgun_trap", "tr_shotgun_1", "tr_shotgun_2", "tr_shotgun_2_1" ],
           "fg": 1592
         },
         {
@@ -5971,7 +5985,7 @@
           "fg": 1809
         },
         {
-          "id": ["fur_rollmat", "tr_fur_rollmat" ],
+          "id": ["fur_rollmat", "tr_fur_rollmat", "leather_tarp" ],
           "fg": 1810
         },
         {
@@ -6338,7 +6352,7 @@
           "fg": 1907
         },
         {
-          "id": ["gunpowder", "incendiary", "lead", "small_charcoal", "fungal_seeds", "pepper", "material_cement", "material_limestone", "material_quicklime", "material_sand", "coal", "chem_black_powder" ],
+          "id": ["gunpowder", "incendiary", "lead", "small_charcoal", "fungal_seeds", "pepper", "material_cement", "material_limestone", "material_quicklime", "material_sand", "coal", "chem_black_powder", "ash" ],
           "//": "powder dark gray/black",
           "fg": 1908
         },
@@ -6348,7 +6362,7 @@
           "fg": 1909
         },
         {
-          "id": ["silver_small", "bismuth", "tin", "seed_cabbage", "sauerkraut_onions", "starch", "tallow_tainted", "mannwurstgravy", "sausagegravy", "can_sardine", "can_tuna", "can_clams", "oatmeal", "dry_beans", "beans_cooked", "rice_cooked", "beansnrice", "oatmeal_cooked", "oatmeal_deluxe", "heroin", "morphine", "quikclot", "material_rocksalt", "material_shrd_limestone", "silver" ],
+          "id": ["silver_small", "bismuth", "tin", "seed_cabbage", "sauerkraut_onions", "tallow_tainted", "mannwurstgravy", "sausagegravy", "can_sardine", "can_tuna", "can_clams", "oatmeal", "dry_beans", "beans_cooked", "rice_cooked", "beansnrice", "oatmeal_cooked", "oatmeal_deluxe", "quikclot", "material_rocksalt", "material_shrd_limestone", "silver" ],
           "//": "powder light gray",
           "fg": 1910
         },
@@ -6378,7 +6392,7 @@
           "fg": 1915
         },
         {
-          "id": ["oxy_powder", "lye_powder", "jihelucake", "cake2", "cake3", "candycigarette", "tallow", "lard", "cooked_cattail_stalk", "can_chowder", "wax", "flour", "dry_rice", "sugar", "salt", "yeast", "meal_bone", "meal_bone_tainted", "milk_powder", "coke", "crack", "bfipowder", "protein_powder", "hflesh_powder", "sushi_rice", "sashimi", "sugar_fried", "bee_balm", "popcorn", "popcorn2", "popcorn3", "chem_aluminium_powder", "chem_zinc_powder", "chem_carbide", "chem_ammonium_nitrate", "chem_saltpetre", "chem_aluminium_sulphate" ],
+          "id": ["oxy_powder", "lye_powder", "jihelucake", "cake2", "cake3", "candycigarette", "tallow", "lard", "cooked_cattail_stalk", "can_chowder", "wax", "flour", "dry_rice", "sugar", "salt", "yeast", "meal_bone", "meal_bone_tainted", "milk_powder", "coke", "crack", "bfipowder", "protein_powder", "hflesh_powder", "sushi_rice", "sashimi", "sugar_fried", "bee_balm", "popcorn", "popcorn2", "popcorn3", "chem_aluminium_powder", "chem_zinc_powder", "chem_carbide", "chem_ammonium_nitrate", "chem_saltpetre", "chem_aluminium_sulphate",  "starch", "heroin", "morphine" ],
           "//": "powder white",
           "fg": 1916
         },
@@ -8519,6 +8533,165 @@
         {
           "id": ["mon_zombie_waif" ],
           "fg": 2474
+        },
+        {
+          "id": ["f_rack_coat" ],
+          "fg": 2480
+        },
+        {
+          "id": ["mon_afs_headless_horror" ],
+          "fg": 2481
+        },
+        {
+          "id": ["mon_gas_zombie" ],
+          "fg": 2482
+        },
+        {
+          "id": ["mon_skeleton_hulk" ],
+          "fg": 2483
+        },
+        {
+          "id": [
+            "5x50_100_mag", "5x50_50_mag", "8x40_100_mag", "8x40_10_mag", "8x40_250_mag", "8x40_25_mag", "8x40_500_mag", "8x40_50_mag", "calicomag", "glockbigmag", "glockmag", "glock17_17", "glock17_22", "lw21mag", "m9bigmag", "m9mag", "mp5bigmag", "mp5mag", "stenmag", "survivor9mm_mag", "tec9mag", "usp9mag", "uzimag", "kpf9mag", "makarovmag", "skorpion82mag", "hk_g80mag", "20x66_10_mag", "20x66_20_mag", "20x66_40_mag", "360_200_mag", "360_400_mag", "a180mag", "mosquitomag", "ruger1022bigmag", "ruger1022mag", "smg_22_mag", "sw22mag", "j22mag", "ppkmag", "sigp230mag", "skorpion61mag", "kp32mag", "smg_38_mag", "taurus38mag", "glock40bigmag", "glock40mag", "sig40mag", "smg_40_mag", "deaglemag", "m1911bigmag", "m1911mag", "mac10mag", "smg_45_mag", "tdi_mag", "thompson_bigmag", "thompson_mag", "ump45mag", "usp45mag", "hk46bigmag", "hk46mag", "m107a1mag", "fn57mag", "fnp90mag", "lw223bigmag", "lw223mag", "ruger5", "stanag10", "ruger30", "stanag30", "survivor223mag", "m2010mag", "falbigmag", "falmag", "g3bigmag", "g3mag", "m14mag", "m14smallmag", "scarhbigmag", "scarhmag", "hk417mag_20rd", "hk417mag_10rd", "ar10mag_20rd", "p226mag_15rd_357sig", "kp3atmag", "fn1910mag", "rugerlcpmag", "mac11mag", "lw12mag", "ak74mag", "rpk74mag", "762x39_clip", "akmbigmag", "akmmag", "762R_clip", "ppshmag", "tokarevmag", "3006_clip", "blrmag", "garandclip", "m1918bigmag", "m1918mag", "nailmag", "saiga10mag", "saiga30mag"
+          ],
+          "fg": 2484
+        },
+        {
+          "id": [
+            "glock_drum_50rd", "glock_drum_100rd", "thompson_drum", "stanag50", "ppshdrum"
+          ],
+          "fg": 2485
+        },
+        {
+          "id": ["mon_zombie_thorny"],
+          "fg": 2487
+        },
+        {
+          "id": ["f_leather_tarp"],
+          "fg": 2488
+        },
+        {
+          "id": ["t_stump"],
+          "fg": 2489
+        },
+        {
+          "id": ["mon_zombie_mancroc"],
+          "fg": [
+            { "weight":1, "sprite":2491},
+            { "weight":1, "sprite":2492},
+            { "weight":1, "sprite":2493}
+          ]
+        },
+        {
+          "id": ["mon_afs_headless_zombie"],
+          "fg": 2494
+        },
+        {
+          "id": ["f_mailbox"],
+          "fg": 2495
+        },
+        {
+          "id": ["t_railroad_rubble"],
+          "fg": 2498
+        },
+        {
+          "id": ["t_grass_long"],
+          "fg": 2499
+        },
+        {
+          "id": ["t_grass_tall"],
+          "fg": 2500
+        },
+        {
+          "id": ["mon_zombie_brainless"],
+          "fg": 2503
+        },
+        {
+          "id": ["t_window_bars" ],
+          "multitile": true,
+          "height_3d": 2,
+          "fg": [ 2496, 2497 ]
+        },
+        {
+          "id": ["foodperson_mask"],
+          "fg": 2504
+        },
+        {
+          "id": ["overlay_worn_foodperson_mask"],
+          "fg": 2505
+        },
+        {
+          "id": ["overlay_worn_foodperson_mask_on"],
+          "fg": 2506
+        },
+        {
+          "id": ["cape_fp"],
+          "fg": 2507
+        },
+        {
+          "id": ["overlay_worn_cape_fp"],
+          "fg": 2508
+        },
+        {
+          "id": ["t_gutter_west", "t_gutter_east", "t_gutter_north", "t_gutter_south" ],
+          "bg": [ 2509 , 2510 ],
+          "multitile": true,
+          "height_3d": 0,
+          "additional_tiles": [
+            {
+              "id": "corner",
+              "bg": [ 2511 , 2512 , 2513 , 2514 ]
+            },
+            {
+              "id": "t_connection",
+              "bg": [ 2515 , 2516 , 2517 , 2518 ]
+            },
+            {
+              "id": "center",
+              "bg": 2519
+            }
+          ]
+        },
+        {
+          "id": [ "t_gutter_drop" ],
+          "fg": 2520,
+          "bg": [ 2509 , 2510 ],
+          "multitile": true,
+          "height_3d": 0,
+          "additional_tiles": [
+            {
+              "id": "corner",
+              "bg": [ 2511 , 2512 , 2513 , 2514 ]
+            },
+            {
+              "id": "t_connection",
+              "bg": [ 2515 , 2516 , 2517 , 2518 ]
+            },
+            {
+              "id": "center",
+              "bg": 2519
+            }
+          ]
+        },
+        {
+          "id": ["f_cellphone_booster"],
+          "fg": 2521
+        },
+        {
+          "id": ["f_roof_turbine_vent"],
+          "fg": 2522
+        },
+        {
+          "id": ["f_solar_unit"],
+          "fg": 2523
+        },
+        {
+          "id": ["hinge"],
+          "fg": 2524
+        },
+        {
+          "id": ["t_gutter_downspout"],
+          "fg": 2525
         },
         {
           "id": ["highlight_item" ],

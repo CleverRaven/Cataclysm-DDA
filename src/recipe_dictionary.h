@@ -2,7 +2,7 @@
 #ifndef RECIPE_DICTIONARY_H
 #define RECIPE_DICTIONARY_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <functional>
 #include <map>
@@ -17,7 +17,7 @@ class JsonIn;
 class JsonOut;
 class JsonObject;
 
-typedef std::string itype_id;
+using itype_id = std::string;
 
 class recipe_dictionary
 {
@@ -28,6 +28,11 @@ class recipe_dictionary
         /** Returns all recipes that can be automatically learned */
         const std::set<const recipe *> &all_autolearn() const {
             return autolearn;
+        }
+
+        /** Returns all blueprints */
+        const std::set<const recipe *> &all_blueprints() const {
+            return blueprints;
         }
 
         size_t size() const;
@@ -57,6 +62,7 @@ class recipe_dictionary
         std::map<recipe_id, recipe> recipes;
         std::map<recipe_id, recipe> uncraft;
         std::set<const recipe *> autolearn;
+        std::set<const recipe *> blueprints;
 
         static void finalize_internal( std::map<recipe_id, recipe> &obj );
 };
@@ -132,11 +138,14 @@ class recipe_subset
         /** Find recently used recipes */
         std::vector<const recipe *> recent() const;
 
+        /** Find hidden recipes */
+        std::vector<const recipe *> hidden() const;
+
         /** Find recipes matching query (left anchored partial matches are supported) */
         std::vector<const recipe *> search( const std::string &txt,
-                                            const search_type key = search_type::name ) const;
+                                            search_type key = search_type::name ) const;
         /** Find recipes matching query and return a new recipe_subset */
-        recipe_subset reduce( const std::string &txt, const search_type key = search_type::name ) const;
+        recipe_subset reduce( const std::string &txt, search_type key = search_type::name ) const;
         /** Set intersection between recipe_subsets */
         recipe_subset intersection( const recipe_subset &subset ) const;
         /** Set difference between recipe_subsets */

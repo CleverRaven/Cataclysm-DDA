@@ -102,6 +102,8 @@ class stomach_contents
         // how long has it been since i ate?
         // only really relevant for player::stomach
         time_duration time_since_ate() const;
+        // update last_ate to calendar::turn
+        void ate();
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &json );
@@ -136,11 +138,11 @@ class stomach_contents
         // absorbs a single vitamin.
         // does not add it to player vitamins yet
         // returns true if vitamins are absorbed
-        bool absorb_vitamin( vitamin_id vit, int amount );
+        bool absorb_vitamin( const vitamin_id &vit, int amount );
         // absorbs a single vitamin
         // does not add it to player vitamins yet
         // returns true if vitamins are absorbed
-        bool absorb_vitamin( std::pair<vitamin_id, int> vit );
+        bool absorb_vitamin( const std::pair<vitamin_id, int> &vit );
         // absorbs multiple vitamins
         // does not add it to player vitamins yet
         // returns true if any vitamins are absorbed

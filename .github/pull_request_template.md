@@ -1,6 +1,8 @@
 <!--
 ### How to use
 Leave the headings unless they don't apply to your PR, replace commented out text (surrounded with <!–– and ––>) with text describing your PR.
+NOTE: Please grant permission for repository maintainers to edit your PR.
+It is EXTREMELY common for PRs to be held up due to trivial changes being requested and the author being unavailable to make them.
 -->
 
 #### Summary

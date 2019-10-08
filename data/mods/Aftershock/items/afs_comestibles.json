@@ -1,13 +1,5 @@
 [
   {
-    "type": "COMESTIBLE",
-    "id": "afs_cake",
-    "name": "plain cake",
-    "copy-from": "jihelucake",
-    "description": "A modest chocolate cake with no icing added.  Nothing special, but some of the best you can get nowadays.  Besides, cake is cake!",
-    "fun": 15
-  },
-  {
     "id": "afs_calorie_pill",
     "type": "COMESTIBLE",
     "name": "nutriment",
@@ -61,26 +53,6 @@
     "fun": -5
   },
   {
-    "id": "afs_fried_donut_holes",
-    "type": "COMESTIBLE",
-    "name": "fried donut holes",
-    "name_plural": "fried donut holes",
-    "weight": 226,
-    "color": "yellow",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "calories": 60,
-    "quench": -1,
-    "healthy": -1,
-    "description": "These balls of dough have been cut into shape, covered with sugar, and cooked to a crisp.  A staple of fairgrounds everywhere.",
-    "price": 100,
-    "volume": 1,
-    "charges": 4,
-    "flags": [ "EATEN_HOT" ],
-    "looks_like": "bread",
-    "fun": 4
-  },
-  {
     "id": "afs_sundew",
     "type": "COMESTIBLE",
     "name": "sundew",
@@ -110,8 +82,8 @@
       "type": "consume_drug",
       "activation_message": "Your vision sharpens and your eyes widen as the sungel slams your senses.",
       "effects": [
-        { "id": "pkill3", "duration": 20 },
-        { "id": "pkill2", "duration": 200 },
+        { "id": "pkill3", "duration": 120 },
+        { "id": "pkill2", "duration": 1200 },
         { "id": "cough_suppress", "duration": 1000 }
       ]
     }
@@ -130,8 +102,8 @@
       "type": "consume_drug",
       "activation_message": "You go limp and collapse as the sunesthesia knocks you senseless.",
       "effects": [
-        { "id": "pkill3", "duration": 80 },
-        { "id": "pkill2", "duration": 200 },
+        { "id": "pkill3", "duration": 480 },
+        { "id": "pkill2", "duration": 1200 },
         { "id": "cough_suppress", "duration": 1000 },
         { "id": "downed", "duration": 1 }
       ]

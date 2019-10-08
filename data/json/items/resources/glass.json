@@ -1,0 +1,79 @@
+[
+  {
+    "type": "TOOL",
+    "id": "glass_shard",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": "glass shard",
+    "category": "other",
+    "description": "A broken shard of glass covered in sharp edges.  You could use it as a weapon, but you might want to wear gloves.",
+    "material": "glass",
+    "weight": "75 g",
+    "volume": "30 ml",
+    "cutting": 6,
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_glass",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You carefully place the shards on the ground, ready to be cracked by something passing by."
+    },
+    "flags": [ "HURT_WHEN_WIELDED", "HURT_WHEN_PULLED", "TRADER_AVOID" ],
+    "to_hit": -1
+  },
+  {
+    "type": "GENERIC",
+    "id": "glass_sheet",
+    "symbol": "]",
+    "color": "light_cyan",
+    "name": "sheet of glass",
+    "name_plural": "sheets of glass",
+    "description": "A large sheet of glass.  Easily shattered.  Useful for repairing windows.",
+    "category": "spare_parts",
+    "price": 5000,
+    "material": "glass",
+    "weight": "24176 g",
+    "volume": "12500 ml",
+    "bashing": 4,
+    "to_hit": -5,
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_glass",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You break the pane and place the shards on the ground, ready to be cracked by something passing by."
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "reinforced_glass_sheet",
+    "symbol": "]",
+    "color": "light_blue",
+    "name": "sheet of reinforced glass",
+    "name_plural": "sheets of reinforced glass",
+    "description": "A large sheet of glass strengthened with steel wiring.",
+    "category": "spare_parts",
+    "price": 10000,
+    "material": [ "glass", "steel" ],
+    "weight": "40123 g",
+    "volume": "12500 ml",
+    "bashing": 6,
+    "to_hit": -6
+  },
+  {
+    "type": "GENERIC",
+    "id": "reinforced_glass_pane",
+    "symbol": "]",
+    "color": "light_blue",
+    "name": "pane of reinforced glass",
+    "name_plural": "panes of reinforced glass",
+    "description": "A small pane of glass strengthened with steel wiring.",
+    "category": "spare_parts",
+    "price": 5000,
+    "material": [ "glass", "steel" ],
+    "weight": "10040 g",
+    "volume": "3 L",
+    "bashing": 4,
+    "to_hit": -2
+  }
+]

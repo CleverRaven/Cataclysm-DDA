@@ -21,7 +21,21 @@
     "avoidance": 8,
     "difficulty": 0,
     "action": "bubble",
-    "drops": [ "bubblewrap" ]
+    "drops": [ "bubblewrap" ],
+    "vehicle_data": { "sound_volume": 18, "sound": "Pop!" }
+  },
+  {
+    "type": "trap",
+    "id": "tr_glass",
+    "name": "glass shards",
+    "color": "light_cyan",
+    "symbol": "_",
+    "visibility": 6,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "glass",
+    "drops": [ "glass_shard" ],
+    "vehicle_data": { "sound_volume": 10, "sound": "Crunch!" }
   },
   {
     "type": "trap",
@@ -32,6 +46,8 @@
     "visibility": -1,
     "avoidance": 0,
     "difficulty": 0,
+    "comfort": 4,
+    "floor_bedding_warmth": -500,
     "action": "cot",
     "drops": [ "cot" ],
     "benign": true
@@ -73,6 +89,8 @@
     "visibility": -1,
     "avoidance": 0,
     "difficulty": 0,
+    "comfort": 4,
+    "floor_bedding_warmth": -1000,
     "action": "none",
     "drops": [ "rollmat" ],
     "benign": true
@@ -86,8 +104,36 @@
     "visibility": -1,
     "avoidance": 0,
     "difficulty": 0,
+    "comfort": 4,
+    "floor_bedding_warmth": -1000,
     "action": "none",
     "drops": [ "fur_rollmat" ],
+    "benign": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_microlab_shifting_hall",
+    "name": "microlab shifting hall",
+    "color": "brown",
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "microlab_shifting_hall",
+    "benign": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_microlab_shifting_hall_2",
+    "name": "microlab shifting hall",
+    "color": "brown",
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "microlab_shifting_hall_2",
     "benign": true
   },
   {
@@ -101,7 +147,16 @@
     "avoidance": 7,
     "difficulty": 3,
     "action": "beartrap",
-    "drops": [ "beartrap" ]
+    "drops": [ "beartrap" ],
+    "vehicle_data": {
+      "damage": 300,
+      "sound_volume": 8,
+      "sound": "SNAP!",
+      "sound_type": "trap",
+      "sound_variant": "bear_trap",
+      "remove_trap": true,
+      "spawn_items": [ "beartrap" ]
+    }
   },
   {
     "type": "trap",
@@ -114,7 +169,16 @@
     "avoidance": 8,
     "difficulty": 4,
     "action": "beartrap",
-    "drops": [ "beartrap" ]
+    "drops": [ "beartrap" ],
+    "vehicle_data": {
+      "damage": 300,
+      "sound_volume": 8,
+      "sound": "SNAP!",
+      "sound_type": "trap",
+      "sound_variant": "bear_trap",
+      "remove_trap": true,
+      "spawn_items": [ "beartrap" ]
+    }
   },
   {
     "type": "trap",
@@ -126,7 +190,8 @@
     "avoidance": 6,
     "difficulty": 0,
     "action": "board",
-    "drops": [ "board_trap" ]
+    "drops": [ "board_trap" ],
+    "vehicle_data": { "damage": 300 }
   },
   {
     "type": "trap",
@@ -138,7 +203,21 @@
     "avoidance": 6,
     "difficulty": 0,
     "action": "caltrops",
-    "drops": [ "caltrops" ]
+    "drops": [ "caltrops" ],
+    "vehicle_data": { "damage": 300 }
+  },
+  {
+    "type": "trap",
+    "id": "tr_caltrops_glass",
+    "name": "glass caltrops",
+    "color": "dark_gray",
+    "symbol": "_",
+    "visibility": 6,
+    "avoidance": 6,
+    "difficulty": 0,
+    "action": "caltrops_glass",
+    "drops": [ "caltrops_glass" ],
+    "vehicle_data": { "damage": 300 }
   },
   {
     "type": "trap",
@@ -163,7 +242,17 @@
     "avoidance": 4,
     "difficulty": 5,
     "action": "crossbow",
-    "drops": [ "string_36", "crossbow", "bolt_steel" ]
+    "drops": [ "string_36", "crossbow", "bolt_steel" ],
+    "vehicle_data": {
+      "chance": 30,
+      "damage": 300,
+      "sound_volume": 1,
+      "sound": "Clank!",
+      "sound_type": "fire_gun",
+      "sound_variant": "crossbow",
+      "remove_trap": true,
+      "spawn_items": [ "crossbow", "string_6", { "id": "bolt_steel", "chance": 0.9 } ]
+    }
   },
   {
     "type": "trap",
@@ -176,7 +265,39 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "drops": [ "string_36", "shotgun_d" ]
+    "drops": [ "string_36", "shotgun_d", { "item": "shot_00", "quantity": 2, "charges": 1 } ],
+    "vehicle_data": {
+      "chance": 70,
+      "damage": 300,
+      "sound_volume": 60,
+      "sound": "Bang!",
+      "sound_type": "fire_gun",
+      "sound_variant": "shotgun_d",
+      "set_trap": "tr_shotgun_2_1"
+    }
+  },
+  {
+    "type": "trap",
+    "id": "tr_shotgun_2_1",
+    "trigger_weight": 200,
+    "name": "shotgun trap",
+    "color": "red",
+    "symbol": "^",
+    "visibility": 4,
+    "avoidance": 5,
+    "difficulty": 6,
+    "action": "shotgun",
+    "drops": [ "string_36", "shotgun_d", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
+    "vehicle_data": {
+      "chance": 70,
+      "damage": 300,
+      "sound_volume": 60,
+      "sound": "Bang!",
+      "sound_type": "fire_gun",
+      "sound_variant": "shotgun_d",
+      "remove_trap": true,
+      "spawn_items": [ "shotgun_d", "string_6" ]
+    }
   },
   {
     "type": "trap",
@@ -189,7 +310,17 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "drops": [ "string_36", "shotgun_s" ]
+    "drops": [ "string_36", "shotgun_s", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
+    "vehicle_data": {
+      "chance": 70,
+      "damage": 300,
+      "sound_volume": 60,
+      "sound": "Bang!",
+      "sound_type": "fire_gun",
+      "sound_variant": "shotgun_s",
+      "remove_trap": true,
+      "spawn_items": [ "shotgun_s", "string_6" ]
+    }
   },
   {
     "type": "trap",
@@ -201,6 +332,7 @@
     "visibility": 0,
     "avoidance": 0,
     "difficulty": 2,
+    "trap_radius": 1,
     "action": "none",
     "drops": [ "motor", "blade", "blade", "string_36" ]
   },
@@ -213,7 +345,8 @@
     "visibility": 0,
     "avoidance": 4,
     "difficulty": 99,
-    "action": "blade"
+    "action": "blade",
+    "vehicle_data": { "damage": 300, "sound_volume": 1, "sound": "Swinnng!", "sound_type": "smash_success", "sound_variant": "hit_vehicle" }
   },
   {
     "type": "trap",
@@ -226,7 +359,8 @@
     "avoidance": 14,
     "difficulty": 10,
     "action": "landmine",
-    "drops": [ "landmine" ]
+    "drops": [ "landmine" ],
+    "vehicle_data": { "do_explosion": true, "damage": 1000, "shrapnel": 8, "sound_volume": 10 }
   },
   {
     "type": "trap",
@@ -239,7 +373,8 @@
     "avoidance": 14,
     "difficulty": 10,
     "action": "landmine",
-    "drops": [ "landmine" ]
+    "drops": [ "landmine" ],
+    "vehicle_data": { "do_explosion": true, "damage": 1000, "shrapnel": 8, "sound_volume": 10 }
   },
   {
     "type": "trap",
@@ -274,7 +409,8 @@
     "visibility": 2,
     "avoidance": 20,
     "difficulty": 99,
-    "action": "dissector"
+    "action": "dissector",
+    "vehicle_data": { "damage": 500, "sound_volume": 10, "sound": "BRZZZAP!", "sound_type": "trap", "sound_variant": "dissector" }
   },
   {
     "type": "trap",
@@ -285,7 +421,8 @@
     "visibility": 10,
     "avoidance": 14,
     "difficulty": 99,
-    "action": "sinkhole"
+    "action": "sinkhole",
+    "vehicle_data": { "damage": 500 }
   },
   {
     "type": "trap",
@@ -296,7 +433,8 @@
     "visibility": 0,
     "avoidance": 8,
     "difficulty": 99,
-    "action": "pit"
+    "action": "pit",
+    "vehicle_data": { "damage": 500 }
   },
   {
     "type": "trap",
@@ -307,7 +445,8 @@
     "visibility": 0,
     "avoidance": 8,
     "difficulty": 99,
-    "action": "pit_spikes"
+    "action": "pit_spikes",
+    "vehicle_data": { "damage": 500 }
   },
   {
     "type": "trap",
@@ -318,7 +457,8 @@
     "visibility": 0,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "lava"
+    "action": "lava",
+    "vehicle_data": { "damage": 500 }
   },
   {
     "type": "trap",
@@ -340,7 +480,8 @@
     "visibility": 0,
     "avoidance": 99999,
     "difficulty": 99,
-    "action": "ledge"
+    "action": "ledge",
+    "vehicle_data": { "is_falling": true }
   },
   {
     "type": "trap",
@@ -353,7 +494,8 @@
     "avoidance": 4,
     "difficulty": 7,
     "action": "boobytrap",
-    "drops": [ "boobytrap" ]
+    "drops": [ "boobytrap" ],
+    "vehicle_data": { "do_explosion": true, "damage": 1000, "shrapnel": 12, "sound_volume": 18 }
   },
   {
     "type": "trap",
@@ -375,7 +517,8 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "temple_toggle"
+    "action": "temple_toggle",
+    "always_invisible": true
   },
   {
     "type": "trap",
@@ -386,7 +529,8 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "glow"
+    "action": "glow",
+    "always_invisible": true
   },
   {
     "type": "trap",
@@ -397,7 +541,8 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "hum"
+    "action": "hum",
+    "always_invisible": true
   },
   {
     "type": "trap",
@@ -408,7 +553,8 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "shadow"
+    "action": "shadow",
+    "always_invisible": true
   },
   {
     "type": "trap",
@@ -419,7 +565,8 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "drain"
+    "action": "drain",
+    "always_invisible": true
   },
   {
     "type": "trap",
@@ -430,7 +577,8 @@
     "visibility": 99,
     "avoidance": 99,
     "difficulty": 99,
-    "action": "snake"
+    "action": "snake",
+    "always_invisible": true
   },
   {
     "type": "trap",
@@ -441,7 +589,8 @@
     "visibility": 0,
     "avoidance": 8,
     "difficulty": 99,
-    "action": "pit_glass"
+    "action": "pit_glass",
+    "vehicle_data": { "damage": 500 }
   },
   {
     "type": "trap",
@@ -456,6 +605,33 @@
     "drops": [ "leather_funnel" ],
     "benign": true,
     "funnel_radius": 200
+  },
+  {
+    "type": "trap",
+    "id": "tr_birchbark_funnel",
+    "name": "birchbark funnel",
+    "color": "white",
+    "symbol": "v",
+    "visibility": -1,
+    "avoidance": 0,
+    "difficulty": 0,
+    "action": "none",
+    "drops": [ "birchbark_funnel" ],
+    "benign": true,
+    "funnel_radius": 200
+  },
+  {
+    "type": "trap",
+    "id": "tr_downspout_funnel",
+    "name": "downspout funnel",
+    "color": "brown",
+    "symbol": "v",
+    "visibility": 999,
+    "avoidance": 0,
+    "difficulty": 0,
+    "action": "none",
+    "benign": true,
+    "funnel_radius": 1200
   },
   {
     "type": "trap",
@@ -494,5 +670,31 @@
     "difficulty": 0,
     "action": "none",
     "benign": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_unfinished_construction",
+    "name": "unfinished construction",
+    "color": "white",
+    "symbol": "U",
+    "visibility": -1,
+    "avoidance": 0,
+    "difficulty": 0,
+    "action": "none",
+    "benign": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_raincatcher",
+    "name": "raincatcher",
+    "color": "blue",
+    "symbol": "V",
+    "visibility": -1,
+    "avoidance": 0,
+    "difficulty": 0,
+    "action": "none",
+    "drops": [ "tarp_raincatcher" ],
+    "benign": true,
+    "funnel_radius": 342
   }
 ]

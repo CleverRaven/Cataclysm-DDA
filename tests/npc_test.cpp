@@ -4,7 +4,9 @@
 #include <set>
 #include <utility>
 #include <vector>
+#include <sstream>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "common_types.h"
 #include "faction.h"
@@ -15,33 +17,31 @@
 #include "npc.h"
 #include "npc_class.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "text_snippets.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "vpart_reference.h" // IWYU pragma: keep
 #include "calendar.h"
-#include "creature.h"
-#include "enums.h"
-#include "game_constants.h"
 #include "line.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "point.h"
 
-void on_load_test( npc &who, const time_duration &from, const time_duration &to )
+class Creature;
+
+static void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {
-    calendar::turn = to_turn<int>( calendar::time_of_cataclysm + from );
+    calendar::turn = to_turn<int>( calendar::turn_zero + from );
     who.on_unload();
-    calendar::turn = to_turn<int>( calendar::time_of_cataclysm + to );
+    calendar::turn = to_turn<int>( calendar::turn_zero + to );
     who.on_load();
 }
 
-void test_needs( const npc &who, const numeric_interval<int> &hunger,
-                 const numeric_interval<int> &thirst,
-                 const numeric_interval<int> &fatigue )
+static void test_needs( const npc &who, const numeric_interval<int> &hunger,
+                        const numeric_interval<int> &thirst,
+                        const numeric_interval<int> &fatigue )
 {
     CHECK( who.get_hunger() <= hunger.max );
     CHECK( who.get_hunger() >= hunger.min );
@@ -51,7 +51,7 @@ void test_needs( const npc &who, const numeric_interval<int> &hunger,
     CHECK( who.get_fatigue() >= fatigue.min );
 }
 
-npc create_model()
+static npc create_model()
 {
     npc model_npc;
     model_npc.normalize();
@@ -69,7 +69,7 @@ npc create_model()
     return model_npc;
 }
 
-std::string get_list_of_npcs( const std::string &title )
+static std::string get_list_of_npcs( const std::string &title )
 {
 
     std::ostringstream npc_list;
@@ -138,8 +138,8 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
         const int five_min_ticks = 2;
         on_load_test( on_load_npc, 0_turns, 5_minutes * five_min_ticks );
         for( time_duration turn = 0_turns; turn < 5_minutes * five_min_ticks; turn += 1_turns ) {
-            iterated_npc.update_body( calendar::time_of_cataclysm + turn,
-                                      calendar::time_of_cataclysm + turn + 1_turns );
+            iterated_npc.update_body( calendar::turn_zero + turn,
+                                      calendar::turn_zero + turn + 1_turns );
         }
 
         const int margin = 2;
@@ -156,8 +156,8 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
         const auto five_min_ticks = 6_hours / 5_minutes;
         on_load_test( on_load_npc, 0_turns, 5_minutes * five_min_ticks );
         for( time_duration turn = 0_turns; turn < 5_minutes * five_min_ticks; turn += 1_turns ) {
-            iterated_npc.update_body( calendar::time_of_cataclysm + turn,
-                                      calendar::time_of_cataclysm + turn + 1_turns );
+            iterated_npc.update_body( calendar::turn_zero + turn,
+                                      calendar::turn_zero + turn + 1_turns );
         }
 
         const int margin = 10;
@@ -172,15 +172,16 @@ TEST_CASE( "on_load-similar-to-per-turn", "[.]" )
 TEST_CASE( "snippet-tag-test" )
 {
     // Actually used tags
-    static const std::set<std::string> npc_talk_tags = {{
+    static const std::set<std::string> npc_talk_tags = {
+        {
             "<name_b>", "<thirsty>", "<swear!>",
             "<sad>", "<greet>", "<no>",
             "<im_leaving_you>", "<ill_kill_you>", "<ill_die>",
             "<wait>", "<no_faction>", "<name_g>",
             "<keep_up>", "<yawn>", "<very>",
-            "<okay>", "<catch_up>", "<really>",
+            "<okay>", "<really>",
             "<let_me_pass>", "<done_mugging>", "<happy>",
-            "<drop_weapon>", "<swear>", "<lets_talk>",
+            "<drop_it>", "<swear>", "<lets_talk>",
             "<hands_up>", "<move>", "<hungry>",
             "<fuck_you>",
         }
@@ -188,22 +189,12 @@ TEST_CASE( "snippet-tag-test" )
 
     for( const auto &tag : npc_talk_tags ) {
         const auto ids = SNIPPET.all_ids_from_category( tag );
-        std::set<std::string> valid_snippets;
-        for( int id : ids ) {
-            const auto &snip = SNIPPET.get( id );
-            valid_snippets.insert( snip );
-        }
+        CHECK( !ids.empty() );
 
-        // We want to get all the snippets in the category
-        std::set<std::string> found_snippets;
-        // Brute force random snippets to see if they are all in their category
         for( size_t i = 0; i < ids.size() * 100; i++ ) {
-            const auto &roll = SNIPPET.random_from_category( tag );
-            CHECK( valid_snippets.count( roll ) > 0 );
-            found_snippets.insert( roll );
+            const auto snip = SNIPPET.random_from_category( tag );
+            CHECK( !snip.empty() );
         }
-
-        CHECK( found_snippets == valid_snippets );
     }
 
     // Special tags, those should have empty replacements
@@ -336,7 +327,7 @@ TEST_CASE( "npc-movement" )
             if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
                 || type == 'B' || type == 'C' ) {
 
-                g->m.add_field( p, fd_acid, MAX_FIELD_DENSITY );
+                g->m.add_field( p, fd_acid, 3 );
             }
             // spawn rubbles
             if( type == 'R' ) {
@@ -348,8 +339,8 @@ TEST_CASE( "npc-movement" )
             if( type == 'V' || type == 'W' || type == 'M' ) {
                 vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p, 270, 0, 0 );
                 REQUIRE( veh != nullptr );
-                veh->install_part( point( 0, 0 ), vpart_frame_vertical );
-                veh->install_part( point( 0, 0 ), vpart_seat );
+                veh->install_part( point_zero, vpart_frame_vertical );
+                veh->install_part( point_zero, vpart_seat );
                 g->m.add_vehicle_to_cache( veh );
             }
             // spawn npcs
@@ -357,8 +348,11 @@ TEST_CASE( "npc-movement" )
                 || type == 'B' || type == 'C' ) {
 
                 std::shared_ptr<npc> guy = std::make_shared<npc>();
-                guy->normalize();
-                guy->randomize();
+                do {
+                    guy->normalize();
+                    guy->randomize();
+                    // Repeat until we get an NPC vulnerable to acid
+                } while( guy->is_immune_field( fd_acid ) );
                 guy->spawn_at_precise( {g->get_levx(), g->get_levy()}, p );
                 // Set the shopkeep mission; this means that
                 // the NPC deems themselves to be guarding and stops them
@@ -426,7 +420,7 @@ TEST_CASE( "npc-movement" )
 TEST_CASE( "npc_can_target_player" )
 {
     // Set to daytime for visibiliity
-    calendar::turn = HOURS( 12 );
+    calendar::turn = calendar::turn_zero + 12_hours;
 
     g->faction_manager_ptr->create_if_needed();
 
@@ -437,7 +431,7 @@ TEST_CASE( "npc_can_target_player" )
 
     const auto spawn_npc = []( const int x, const int y, const std::string & npc_class ) {
         const string_id<npc_template> test_guy( npc_class );
-        const int model_id = g->m.place_npc( 10, 10, test_guy, true );
+        const character_id model_id = g->m.place_npc( point( 10, 10 ), test_guy, true );
         g->load_npcs();
 
         npc *guy = g->find_npc( model_id );

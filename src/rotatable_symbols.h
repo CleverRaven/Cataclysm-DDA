@@ -2,7 +2,7 @@
 #ifndef ROTATABLE_SYMBOLS_H
 #define ROTATABLE_SYMBOLS_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 
 class JsonObject;
@@ -19,6 +19,6 @@ void reset();
 
 uint32_t get( const uint32_t &symbol, int n );
 
-}
+} // namespace rotatable_symbols
 
 #endif // ROTATABLE_SYMBOLS_H

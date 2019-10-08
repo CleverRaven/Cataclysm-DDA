@@ -10,20 +10,21 @@
 #include "catch/catch.hpp"
 #include "line.h" // For rl_dist.
 #include "map.h"
+#include "rng.h"
 #include "shadowcasting.h"
-#include "enums.h"
 #include "game_constants.h"
 #include "lightmap.h"
+#include "point.h"
 
 // Constants setting the ratio of set to unset tiles.
 constexpr unsigned int NUMERATOR = 1;
 constexpr unsigned int DENOMINATOR = 10;
 
-void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
-                   const float ( &input_array )[MAPSIZE * SEEX][MAPSIZE * SEEY],
-                   const int xx, const int xy, const int yx, const int yy,
-                   const int offsetX, const int offsetY, const int offsetDistance,
-                   const int row = 1, float start = 1.0f, const float end = 0.0f )
+static void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
+                          const float ( &input_array )[MAPSIZE * SEEX][MAPSIZE * SEEY],
+                          const int xx, const int xy, const int yx, const int yy,
+                          const int offsetX, const int offsetY, const int offsetDistance,
+                          const int row = 1, float start = 1.0f, const float end = 0.0f )
 {
 
     float newStart = 0.0f;
@@ -32,8 +33,7 @@ void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
         return;
     }
     bool blocked = false;
-    static constexpr tripoint origin( 0, 0, 0 );
-    tripoint delta( 0, 0, 0 );
+    tripoint delta;
     for( int distance = row; distance <= radius && !blocked; distance++ ) {
         delta.y = -distance;
         for( delta.x = -distance; delta.x <= 0; delta.x++ ) {
@@ -49,7 +49,7 @@ void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
             }
 
             //check if it's within the visible area and mark visible if so
-            if( rl_dist( origin, delta ) <= radius ) {
+            if( rl_dist( tripoint_zero, delta ) <= radius ) {
                 output_cache[currentX][currentY] = LIGHT_TRANSPARENCY_CLEAR;
             }
 
@@ -79,15 +79,16 @@ void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
 /*
  * This is checking whether bresenham visibility checks match shadowcasting (they don't).
  */
-bool bresenham_visibility_check( const int offsetX, const int offsetY, const int x, const int y,
-                                 const float ( &transparency_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY] )
+static bool bresenham_visibility_check(
+    const int offsetX, const int offsetY, const int x, const int y,
+    const float ( &transparency_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY] )
 {
     if( offsetX == x && offsetY == y ) {
         return true;
     }
     bool visible = true;
     const int junk = 0;
-    bresenham( x, y, offsetX, offsetY, junk,
+    bresenham( point( x, y ), point( offsetX, offsetY ), junk,
     [&transparency_cache, &visible]( const point & new_point ) {
         if( transparency_cache[new_point.x][new_point.y] <=
             LIGHT_TRANSPARENCY_SOLID ) {
@@ -99,17 +100,15 @@ bool bresenham_visibility_check( const int offsetX, const int offsetY, const int
     return visible;
 }
 
-void randomly_fill_transparency(
+static void randomly_fill_transparency(
     float ( &transparency_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
     const unsigned int numerator = NUMERATOR, const unsigned int denominator = DENOMINATOR )
 {
     // Construct a rng that produces integers in a range selected to provide the probability
     // we want, i.e. if we want 1/4 tiles to be set, produce numbers in the range 0-3,
     // with 0 indicating the bit is set.
-    const unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::default_random_engine generator( seed );
     std::uniform_int_distribution<unsigned int> distribution( 0, denominator );
-    auto rng = std::bind( distribution, generator );
+    auto rng = std::bind( distribution, rng_get_engine() );
 
     // Initialize the transparency value of each square to a random value.
     for( auto &inner : transparency_cache ) {
@@ -123,12 +122,12 @@ void randomly_fill_transparency(
     }
 }
 
-bool is_nonzero( const float x )
+static bool is_nonzero( const float x )
 {
     return x != 0;
 }
 
-bool is_nonzero( four_quadrants x )
+static bool is_nonzero( const four_quadrants &x )
 {
     return is_nonzero( x.max() );
 }
@@ -217,7 +216,7 @@ void print_grid_comparison( const int offsetX, const int offsetY,
     }
 }
 
-void shadowcasting_runoff( const int iterations, const bool test_bresenham = false )
+static void shadowcasting_runoff( const int iterations, const bool test_bresenham = false )
 {
     float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
     float seen_squares_experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
@@ -251,16 +250,18 @@ void shadowcasting_runoff( const int iterations, const bool test_bresenham = fal
     for( int i = 0; i < iterations; i++ ) {
         // Then the current algorithm.
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-            seen_squares_experiment, transparency_cache, offsetX, offsetY );
+            seen_squares_experiment, transparency_cache, point( offsetX, offsetY ) );
     }
     const auto end2 = std::chrono::high_resolution_clock::now();
 
     if( iterations > 1 ) {
-        const long diff1 = std::chrono::duration_cast<std::chrono::microseconds>( end1 - start1 ).count();
-        const long diff2 = std::chrono::duration_cast<std::chrono::microseconds>( end2 - start2 ).count();
-        printf( "oldCastLight() executed %d times in %ld microseconds.\n",
+        const long long diff1 = std::chrono::duration_cast<std::chrono::microseconds>
+                                ( end1 - start1 ).count();
+        const long long diff2 = std::chrono::duration_cast<std::chrono::microseconds>
+                                ( end2 - start2 ).count();
+        printf( "oldCastLight() executed %d times in %lld microseconds.\n",
                 iterations, diff1 );
-        printf( "castLight() executed %d times in %ld microseconds.\n",
+        printf( "castLight() executed %d times in %lld microseconds.\n",
                 iterations, diff2 );
     }
 
@@ -284,7 +285,8 @@ void shadowcasting_runoff( const int iterations, const bool test_bresenham = fal
     REQUIRE( passed );
 }
 
-void shadowcasting_float_quad( const int iterations, const unsigned int denominator = DENOMINATOR )
+static void shadowcasting_float_quad(
+    const int iterations, const unsigned int denominator = DENOMINATOR )
 {
     float lit_squares_float[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
     four_quadrants lit_squares_quad[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{}};
@@ -301,7 +303,7 @@ void shadowcasting_float_quad( const int iterations, const unsigned int denomina
     for( int i = 0; i < iterations; i++ ) {
         castLightAll<float, four_quadrants, sight_calc, sight_check, update_light_quadrants,
                      accumulate_transparency>(
-                         lit_squares_quad, transparency_cache, offsetX, offsetY );
+                         lit_squares_quad, transparency_cache, point( offsetX, offsetY ) );
     }
     const auto end1 = std::chrono::high_resolution_clock::now();
 
@@ -310,18 +312,20 @@ void shadowcasting_float_quad( const int iterations, const unsigned int denomina
         // Then the current algorithm.
         castLightAll<float, float, sight_calc, sight_check, update_light,
                      accumulate_transparency>(
-                         lit_squares_float, transparency_cache, offsetX, offsetY );
+                         lit_squares_float, transparency_cache, point( offsetX, offsetY ) );
     }
     const auto end2 = std::chrono::high_resolution_clock::now();
 
     if( iterations > 1 ) {
-        const long diff1 = std::chrono::duration_cast<std::chrono::microseconds>( end1 - start1 ).count();
-        const long diff2 = std::chrono::duration_cast<std::chrono::microseconds>( end2 - start2 ).count();
+        const long long diff1 = std::chrono::duration_cast<std::chrono::microseconds>
+                                ( end1 - start1 ).count();
+        const long long diff2 = std::chrono::duration_cast<std::chrono::microseconds>
+                                ( end2 - start2 ).count();
         printf( "castLight on four_quadrants (denominator %u) "
-                "executed %d times in %ld microseconds.\n",
+                "executed %d times in %lld microseconds.\n",
                 denominator, iterations, diff1 );
         printf( "castLight on floats (denominator %u) "
-                "executed %d times in %ld microseconds.\n",
+                "executed %d times in %lld microseconds.\n",
                 denominator, iterations, diff2 );
     }
 
@@ -335,7 +339,7 @@ void shadowcasting_float_quad( const int iterations, const unsigned int denomina
     REQUIRE( passed );
 }
 
-void shadowcasting_3d_2d( const int iterations )
+static void shadowcasting_3d_2d( const int iterations )
 {
     float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
     float seen_squares_experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
@@ -354,7 +358,7 @@ void shadowcasting_3d_2d( const int iterations )
     for( int i = 0; i < iterations; i++ ) {
         // First the control algorithm.
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-            seen_squares_control, transparency_cache, offsetX, offsetY );
+            seen_squares_control, transparency_cache, point( offsetX, offsetY ) );
     }
     const auto end1 = std::chrono::high_resolution_clock::now();
 
@@ -378,11 +382,13 @@ void shadowcasting_3d_2d( const int iterations )
     const auto end2 = std::chrono::high_resolution_clock::now();
 
     if( iterations > 1 ) {
-        const long diff1 = std::chrono::duration_cast<std::chrono::microseconds>( end1 - start1 ).count();
-        const long diff2 = std::chrono::duration_cast<std::chrono::microseconds>( end2 - start2 ).count();
-        printf( "castLight() executed %d times in %ld microseconds.\n",
+        const long long diff1 =
+            std::chrono::duration_cast<std::chrono::microseconds>( end1 - start1 ).count();
+        const long long diff2 =
+            std::chrono::duration_cast<std::chrono::microseconds>( end2 - start2 ).count();
+        printf( "castLight() executed %d times in %lld microseconds.\n",
                 iterations, diff1 );
-        printf( "cast_zlight() executed %d times in %ld microseconds.\n",
+        printf( "cast_zlight() executed %d times in %lld microseconds.\n",
                 iterations, diff2 );
         printf( "new/old execution time ratio: %.02f.\n", static_cast<double>( diff2 ) / diff1 );
     }
@@ -413,7 +419,7 @@ struct grid_overlay {
     float default_value;
 
     // origin_offset is specified as the coordinates of the "camera" within the overlay.
-    grid_overlay( const point origin_offset, const float default_value ) {
+    grid_overlay( const point &origin_offset, const float default_value ) {
         this->offset = ORIGIN - origin_offset;
         this->default_value = default_value;
     }
@@ -455,7 +461,7 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
     }
 
     castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-        seen_squares, transparency_cache, ORIGIN.x, ORIGIN.y );
+        seen_squares, transparency_cache, ORIGIN );
 
     // Compares the whole grid, but out-of-bounds compares will de-facto pass.
     for( int y = 0; y < expected_result.height(); ++y ) {
@@ -539,6 +545,7 @@ TEST_CASE( "shadowcasting_pillar_behavior_cardinally_adjacent", "[shadowcasting]
 
 TEST_CASE( "shadowcasting_pillar_behavior_2_1_diagonal_gap", "[shadowcasting]" )
 {
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
     grid_overlay test_case( { 1, 1 }, LIGHT_TRANSPARENCY_CLEAR );
     test_case.data = {
         {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T},
@@ -552,6 +559,7 @@ TEST_CASE( "shadowcasting_pillar_behavior_2_1_diagonal_gap", "[shadowcasting]" )
         {T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T}
     };
 
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
     grid_overlay expected_results( { 1, 1 }, LIGHT_TRANSPARENCY_CLEAR );
     expected_results.data = {
         {V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V, V},

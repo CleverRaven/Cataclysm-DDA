@@ -9,7 +9,7 @@
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
       { "text": "Want to travel with me?", "topic": "TALK_SUGGEST_FOLLOW", "condition": { "not": "npc_following" } },
       { "text": "Let's trade items.", "topic": "TALK_NONE", "effect": "start_trade" },
-      { "text": "I can't leave the shelter without equipment.", "topic": "TALK_SHARE_EQUIPMENT" },
+      { "text": "Want to share some useful items with me?", "topic": "TALK_SHARE_EQUIPMENT" },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
     ]
   },
@@ -65,7 +65,6 @@
   {
     "id": "TALK_SUGGEST_FOLLOW",
     "type": "talk_topic",
-    "category": "CATEGORY_FOLLOW",
     "dynamic_line": {
       "npc_has_effect": "infection",
       "no": {
@@ -129,14 +128,12 @@
   {
     "id": "TALK_AGREE_FOLLOW",
     "type": "talk_topic",
-    "category": "CATEGORY_FOLLOW",
     "dynamic_line": "You got it, I'm with you!",
     "responses": [ { "text": "Awesome!", "topic": "TALK_FRIEND" }, { "text": "Okay, let's go!", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_DENY_FOLLOW",
     "type": "talk_topic",
-    "category": "CATEGORY_FOLLOW",
     "dynamic_line": "Yeah... I don't think so.",
     "responses": [ { "text": "Oh, okay.", "topic": "TALK_DONE" } ]
   },
@@ -184,7 +181,6 @@
   {
     "id": "TALK_DESCRIBE_MISSION",
     "type": "talk_topic",
-    "category": "CATEGORY_MISSION",
     "responses": [ { "text": "I see.", "topic": "TALK_NONE" }, { "text": "Bye.", "topic": "TALK_DONE" } ]
   },
   {
@@ -280,7 +276,6 @@
   {
     "id": "TALK_SHARE_EQUIPMENT",
     "type": "talk_topic",
-    "category": "CATEGORY_EQUIP",
     "dynamic_line": {
       "npc_has_effect": "infected",
       "yes": "You just asked me for stuff; ask later.",
@@ -298,7 +293,7 @@
         "opinion": { "value": -1 }
       },
       {
-        "text": "Because I'm you're friend!",
+        "text": "Because I'm your friend!",
         "switch": true,
         "default": true,
         "trial": { "type": "PERSUADE", "difficulty": 10, "mod": [ [ "TRUST", 1 ], [ "VALUE", 3 ], [ "ALTRUISM", 2 ] ] },
@@ -356,7 +351,6 @@
   {
     "id": "TALK_GIVE_EQUIPMENT",
     "type": "talk_topic",
-    "category": "CATEGORY_EQUIP",
     "dynamic_line": "Okay, here you go.",
     "responses": [
       { "text": "Thank you!", "topic": "TALK_NONE" },
@@ -365,9 +359,66 @@
     ]
   },
   {
+    "id": "TALK_STOLE_ITEM",
+    "type": "talk_topic",
+    "dynamic_line": "You picked up something that does not belong to you...",
+    "responses": [
+      {
+        "text": "Okay, okay, this is all a misunderstanding.  Sorry, I'll drop it now.",
+        "topic": "TALK_DONE",
+        "effect": "drop_stolen_item",
+        "condition": "u_has_stolen_item"
+      },
+      {
+        "text": "No, I'm keeping it. Try and take it off me, I dare you.",
+        "condition": "u_has_stolen_item",
+        "trial": { "type": "INTIMIDATE", "difficulty": 30, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] },
+        "success": { "topic": "TALK_KEEPING_ITEM", "effect": { "u_faction_rep": -2 } },
+        "failure": { "topic": "TALK_DONE", "effect": [ "hostile", { "u_faction_rep": -75 } ] }
+      },
+      {
+        "text": "Look, I really need this. Please let me have it.",
+        "condition": "u_has_stolen_item",
+        "trial": { "type": "PERSUADE", "difficulty": 20, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ] ] },
+        "success": { "topic": "TALK_ALLOW_KEEP_ITEM", "effect": { "u_faction_rep": -1 } },
+        "failure": { "topic": "TALK_DISALLOW_KEEP_ITEM", "opinion": { "trust": -3, "anger": 2 }, "effect": { "u_faction_rep": -15 } }
+      },
+      {
+        "text": "What, this? It's not the same one, you are mistaken.",
+        "condition": "u_has_stolen_item",
+        "trial": { "type": "LIE", "difficulty": 25, "mod": [ [ "TRUST", 3 ] ] },
+        "success": { "topic": "TALK_DONE", "effect": "remove_stolen_status" },
+        "failure": { "topic": "TALK_DISALLOW_KEEP_ITEM", "opinion": { "trust": -3, "value": -1, "anger": 2 } }
+      },
+      {
+        "text": "I'm sorry. Look, I already dropped it, okay?",
+        "topic": "TALK_DONE",
+        "effect": [ "remove_stolen_status", { "u_faction_rep": -5 } ],
+        "condition": { "not": "u_has_stolen_item" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_DISALLOW_KEEP_ITEM",
+    "type": "talk_topic",
+    "dynamic_line": "Don't try and talk yourself out of this, drop it now.",
+    "responses": [ { "text": "Okay, I'm dropping it...", "effect": "drop_stolen_item", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "TALK_ALLOW_KEEP_ITEM",
+    "type": "talk_topic",
+    "dynamic_line": "Just this once, you can keep it. Don't tell anyone else.",
+    "responses": [ { "text": "Thanks.", "topic": "TALK_DONE", "effect": "remove_stolen_status" } ]
+  },
+  {
+    "id": "TALK_KEEPING_ITEM",
+    "type": "talk_topic",
+    "dynamic_line": "Right... I don't want any trouble.",
+    "responses": [ { "text": "Smart choice.", "topic": "TALK_DONE", "effect": "remove_stolen_status" } ]
+  },
+  {
     "id": "TALK_DENY_EQUIPMENT",
     "type": "talk_topic",
-    "category": "CATEGORY_EQUIP",
     "dynamic_line": [ "<no>, and if you ask again, <ill_kill_you>!", "<no><punc> <fuck_you>!" ],
     "responses": [
       { "text": "Okay, okay, sorry.", "topic": "TALK_NONE" },

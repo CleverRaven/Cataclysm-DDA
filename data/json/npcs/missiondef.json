@@ -1,26 +1,5 @@
 [
   {
-    "id": "MISSION_BOOK",
-    "type": "mission_definition",
-    "name": "Find a Book",
-    "goal": "MGOAL_FIND_ANY_ITEM",
-    "difficulty": 2,
-    "value": 800,
-    "start": "place_book",
-    "origins": [ "ORIGIN_NULL" ],
-    "dialogue": {
-      "describe": "Wanna help me out?",
-      "offer": "Get me a book.",
-      "accepted": "Thanks.",
-      "rejected": "Well, I'll find someone else to do it for me.",
-      "advice": "Try a library.",
-      "inquire": "Got that book for me?",
-      "success": "Thanks!",
-      "success_lie": "OK, then hand it over.",
-      "failure": "Shit happens."
-    }
-  },
-  {
     "id": "MISSION_EXPLORE_SARCOPHAGUS",
     "type": "mission_definition",
     "name": "Follow Sarcophagus Team",
@@ -540,18 +519,7 @@
     "goal": "MGOAL_NULL",
     "difficulty": 0,
     "value": 0,
-    "place": "never",
-    "dialogue": {
-      "describe": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "offer": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "accepted": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "rejected": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "advice": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "inquire": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "success": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "success_lie": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "failure": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
-    }
+    "place": "never"
   },
   {
     "id": "MISSION_REACH_FARM_HOUSE",
@@ -563,7 +531,7 @@
     "start": { "effect": "follow" },
     "end": { "effect": "leave" },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "destination": "farm",
+    "destination": "farm_2",
     "dialogue": {
       "describe": "I just need a place to start over...",
       "offer": "I've accepted that everyone I used to know is dead... one way or another.  I really wish I could have done something to save my brother but he was one of the first to go.  I'd like to start over, just rebuild at one of the farms in the countryside.  Can you help me secure one?",
@@ -607,18 +575,7 @@
     "difficulty": 1,
     "value": 0,
     "start": "find_safety",
-    "origins": [ "ORIGIN_NULL" ],
-    "dialogue": {
-      "describe": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "offer": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "accepted": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "rejected": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "advice": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "inquire": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "success": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "success_lie": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "failure": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
-    }
+    "origins": [ "ORIGIN_NULL" ]
   },
   {
     "id": "MISSION_RECOVER_PRIEST_DIARY",
@@ -691,28 +648,6 @@
     }
   },
   {
-    "id": "MISSION_EVAC_SMOKER_GET_CIGARETTES",
-    "type": "mission_definition",
-    "name": "Find 100 Cigarettes",
-    "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 2,
-    "value": 800,
-    "item": "cig",
-    "count": 100,
-    "origins": [ "ORIGIN_SECONDARY" ],
-    "dialogue": {
-      "describe": "Come on man, I just need a smoke.",
-      "offer": "With all that's been going on, it's been more and more difficult to find a smoke.  My stash has been running low for a while now.  Think you could help me out here?  A few packs is all I need.",
-      "accepted": "Thanks, it's great to see someone willing to help a guy out.",
-      "rejected": "Well, I'll find someone else to do it for me.",
-      "advice": "Plenty of smokers in towns.  Gotta be some left over cigs in some of them houses.",
-      "inquire": "Got the smokes?",
-      "success": "Thanks! I'll be sure to put in a good word for you around the center.",
-      "success_lie": "OK, then hand it over.",
-      "failure": "Shit happens."
-    }
-  },
-  {
     "id": "MISSION_GET_CITY_COP_MOMENTO",
     "type": "mission_definition",
     "name": "Break into armory to retrieve family photo",
@@ -720,13 +655,13 @@
     "difficulty": 2,
     "value": 800,
     "item": "family_photo",
-    "origins": [ "ORIGIN_ANY_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I need you to get my family photo from the armory safe.",
       "offer": "I left the only photo I have from my family in the armory. I don't have the code, can you get in?",
       "accepted": "Thanks, it's great to see someone willing to help a out.",
       "rejected": "Well, I'll find someone else to do it for me, real shame with all those guns locked up too...",
-      "advice": "You look like a resourcful sort, maybe you can hack it or something.",
+      "advice": "You look like a resourceful sort, maybe you can hack it or something.",
       "inquire": "Got the photo?  Should've been in my gun safe.",
       "success": "Thanks!  I'll be sure to put in a good word for you around town.",
       "success_lie": "OK, then hand it over.",
@@ -742,5 +677,98 @@
     "value": 0,
     "origins": [ "ORIGIN_GAME_START" ],
     "item": "antibiotics"
+  },
+  {
+    "id": "MISSION_PROVE_YOUR_WORTH",
+    "type": "mission_definition",
+    "name": "Prove your worth to Foodperson",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "fp_loyalty_card",
+    "count": 10,
+    "difficulty": 1,
+    "value": 0,
+    "end": {
+      "effect": [
+        { "npc_add_var": "npc_foodperson_impressed", "type": "dialogue", "context": "foodperson", "value": "yes" },
+        { "u_buy_item": "badge_foodkid" }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Prove your dedication to Foodplace.",
+      "offer": "Show me the proof of your loyalty to the great Foodplace, and I'll consider you worthy of my friendship.  Ten loyalty cards should be enough, I'm sure you already have much more than that waiting for you at home, right?",
+      "accepted": "That's the spirit!  Good luck kid.",
+      "rejected": "That's alright not everyone is cutout for this.",
+      "advice": "Those are very precious, people would probably keep them on their person or in bank vaults.  And definitely not throw them in the trash!",
+      "inquire": "How is it going?  Do you have them?",
+      "success": "YES!  I knew you could do it!  You proved your worth and I'm proud to call you a friend.",
+      "success_lie": "Well...  where are they?",
+      "failure": "I'm so disappointed in you kid..."
+    }
+  },
+  {
+    "id": "MISSION_PROVE_YOU_ARE_A_SURVIVOR",
+    "type": "mission_definition",
+    "name": "Prove You're A Survivor",
+    "description": "Prove you're a survivor by surviving for 10 days after the cataclysm, and then returning to the person who gave you this mission.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "days_since_cataclysm": 10 },
+    "difficulty": 1,
+    "value": 0,
+    "origins": [ "ORIGIN_OPENER_NPC" ],
+    "end": { "effect": "follow" },
+    "dialogue": {
+      "describe": "It's hard to tell who actually has the skills to survive these days...",
+      "offer": "It's hard surviving out here on our own, and we'd probably have a better chance working together.  Problem is, I don't really know you and what you're capable of.  You might have what it takes, or you might not.  Either way, I'm going to need some proof.  Come back in a few days and I'll gladly follow you.  It's basically a win-win for me: either you come back and I'll know you've got what it takes, or you don't and I'll know that I was right not to follow you.",
+      "accepted": "I'll see you then...or I won't, and then I'll know I made the right decision.",
+      "rejected": "Ya, it was a long shot I admit.",
+      "advice": "Don't die. If you're asking me for advice, that doesn't bode well for you.",
+      "inquire": "Well, you're not dead...yet.",
+      "success": "I'll be honest, I wasn't really expecting to see you again. A promise is a promise, I'll follow you now!",
+      "success_lie": "I know time is relative and all that.",
+      "failure": "I'm not quite sure how you failed to survive AND are talking to me."
+    }
+  },
+  {
+    "id": "MISSION_LEARN_ABOUT_CATTAIL_JELLY",
+    "type": "mission_definition",
+    "name": "Gather cattail stalks to create cattail jelly",
+    "description": "Gather <color_light_blue>80 cattail stalks</color> from the swamp and bring them back to <color_light_red>learn how to craft cattail jelly</color>.  Raise your <color_light_blue>survival skill to at least 1</color> by harvesting cattail stalks.  <color_light_blue>Bring back the provided bag</color> as well.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {
+      "and": [
+        { "u_has_item": "duffelbag" },
+        { "u_has_items": { "item": "cattail_stalk", "count": 80 } },
+        { "u_has_skill": { "skill": "survival", "level": 1 } }
+      ]
+    },
+    "difficulty": 1,
+    "value": 0,
+    "has_generic_rewards": false,
+    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
+    "start": {
+      "effect": [ { "u_buy_item": "duffelbag" } ],
+      "assign_mission_target": { "om_terrain": "forest_water", "reveal_radius": 3 }
+    },
+    "end": {
+      "effect": [
+        { "u_sell_item": "duffelbag" },
+        { "u_sell_item": "cattail_stalk", "count": 80 },
+        { "npc_consume_item": "cattail_stalk", "count": 80 },
+        { "u_learn_recipe": "cattail_jelly" },
+        { "u_buy_item": "cattail_jelly", "container": "bag_zipper", "count": 7 }
+      ]
+    },
+    "dialogue": {
+      "describe": "Medical services are a little sparse following <the_cataclysm>, but people have been surviving using their wits and the bounty of Mother Nature for a long time.  Care to learn a little?",
+      "offer": "Did you know that cattails are a source of a jelly that works as an antiseptic and analgesic?  Something like that is likely to be mighty helpful out here.  I want you to take this bag, head to the nearest swamp, collect 80 cattail stalks, and bring them back here.  In exchange, I'll show you how to harvest the jelly.",
+      "accepted": "Great!  This bag should be big enough to hold all of the stalks we'll need.  Don't forget to bring it back.",
+      "rejected": "Your loss.",
+      "advice": "The cattails grow in the fresh water in swamps.  You can't miss them.",
+      "inquire": "Got those cattail stalks yet?  Don't forget to bring back my bag and improve your survival skill to at least 1 as well.",
+      "success": "Great!  Hand them over and I'll show you how this works.",
+      "success_lie": "OK, then hand them over.",
+      "failure": "Well, that's a shame."
+    }
   }
 ]

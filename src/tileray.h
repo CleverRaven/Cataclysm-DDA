@@ -2,6 +2,8 @@
 #ifndef TILERAY_H
 #define TILERAY_H
 
+#include "point.h"
+
 // Class for calculating tile coordinates
 // of a point that moves along the ray with given
 // direction (dir) or delta tile coordinates (dx, dy).
@@ -23,33 +25,32 @@
 class tileray
 {
     private:
-        int deltax;     // ray delta x
-        int deltay;     // ray delta y
+        point delta;    // ray delta
         int leftover;   // counter to shift coordinates
-        int ax;         // absolute value of deltax
-        int ay;         // absolute value of deltay
+        point abs_d;    // absolute value of delta
         int direction;  // ray direction
-        int last_dx;    // dx of last advance
-        int last_dy;    // dy of last advance
+        point last_d;   // delta of last advance
         int steps;      // how many steps we advanced so far
         bool infinite;  // ray is infinite (end will always return true)
     public:
         tileray();
-        tileray( int adx, int ady );
+        tileray( const point &ad );
         tileray( int adir );
 
-        void init( int adx, int ady );  // init ray with dx,dy
-        void init( int adir );          // init ray with direction
+        void init( const point &ad );  // init ray with ad
+        void init( int adir );         // init ray with direction
 
         int dx() const;       // return dx of last advance (-1 to 1)
         int dy() const;       // return dy of last advance (-1 to 1)
         int dir() const;      // return direction of ray (degrees)
         int dir4() const;     // return 4-sided direction (0 = east, 1 = south, 2 = west, 3 = north)
         int dir8() const;     // return 8-sided direction (0 = east, 1 = southeast, 2 = south ...)
-        long dir_symbol( long sym )
-        const; // convert certain symbols from north-facing variant into current dir facing
-        int ortho_dx( int od ) const; // return dx for point at "od" distance in orthogonal direction
-        int ortho_dy( int od ) const; // return dy for point at "od" distance in orthogonal direction
+        // convert certain symbols from north-facing variant into current dir facing
+        int dir_symbol( int sym ) const;
+        // return dx for point at "od" distance in orthogonal direction
+        int ortho_dx( int od ) const;
+        // return dy for point at "od" distance in orthogonal direction
+        int ortho_dy( int od ) const;
         bool mostly_vertical() const;  // return if ray is mostly vertical
 
         void advance( int num = 1 ); // move to the next tile (calculate last dx, dy)

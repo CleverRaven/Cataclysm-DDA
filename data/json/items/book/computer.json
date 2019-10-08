@@ -4,9 +4,10 @@
     "type": "BOOK",
     "name": "SICP",
     "description": "A classic text, \"The Structure and Interpretation of Computer Programs.\" Written with examples in LISP, but applicable to any language.",
-    "weight": 1587,
-    "volume": 6,
+    "weight": "1587 g",
+    "volume": "1500 ml",
     "price": 7800,
+    "price_postapoc": 2500,
     "bashing": 6,
     "material": [ "paper" ],
     "symbol": "?",
@@ -15,7 +16,7 @@
     "required_level": 5,
     "max_level": 8,
     "intelligence": 13,
-    "time": 50,
+    "time": "50 m",
     "fun": -1
   },
   {
@@ -24,9 +25,10 @@
     "name": "Computer Science 301",
     "name_plural": "Computer Science 301",
     "description": "A college textbook on computer science.",
-    "weight": 1587,
-    "volume": 7,
+    "weight": "1587 g",
+    "volume": "1750 ml",
     "price": 7900,
+    "price_postapoc": 5000,
     "bashing": 5,
     "material": [ "paper" ],
     "symbol": "?",
@@ -35,7 +37,7 @@
     "required_level": 3,
     "max_level": 5,
     "intelligence": 11,
-    "time": 35,
+    "time": "35 m",
     "fun": -2
   },
   {
@@ -44,16 +46,17 @@
     "name": "How to Browse the Web",
     "name_plural": "How to Browse the Web",
     "description": "Very beginner-level information about computers.",
-    "weight": 454,
-    "volume": 3,
+    "weight": "454 g",
+    "volume": "750 ml",
     "price": 1700,
+    "price_postapoc": 500,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
     "skill": "computer",
     "max_level": 2,
     "intelligence": 5,
-    "time": 15
+    "time": "15 m"
   },
   {
     "id": "mag_computer",
@@ -61,16 +64,17 @@
     "name": "Computer World",
     "name_plural": "Computer World",
     "description": "An informative magazine all about computers, both hardware and software.",
-    "weight": 80,
-    "volume": 1,
+    "weight": "80 g",
+    "volume": "250 ml",
     "price": 450,
+    "price_postapoc": 5000,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
     "skill": "computer",
     "max_level": 1,
     "intelligence": 5,
-    "time": 8
+    "time": "8 m"
   },
   {
     "id": "manual_computers",
@@ -79,16 +83,17 @@
     "name_plural": "Computer Science 101",
     "//": "College-level textbooks are Cheap at $60.",
     "description": "An entry-level textbook about computers.",
-    "weight": 462,
-    "volume": 3,
+    "weight": "462 g",
+    "volume": "750 ml",
     "price": 5500,
+    "price_postapoc": 5000,
     "material": [ "paper" ],
     "symbol": "?",
     "color": "green",
     "skill": "computer",
     "max_level": 3,
     "intelligence": 5,
-    "time": 15
+    "time": "15 m"
   },
   {
     "id": "textbook_computer",
@@ -96,9 +101,10 @@
     "name": "Principles of Advanced Programming",
     "name_plural": "Principles of Advanced Programming",
     "description": "A heavy textbook dedicated to advanced-level software design, written for several different programming languages.",
-    "weight": 2206,
-    "volume": 7,
+    "weight": "2206 g",
+    "volume": "1750 ml",
     "price": 8500,
+    "price_postapoc": 10500,
     "bashing": 5,
     "material": [ "paper" ],
     "symbol": "?",
@@ -107,7 +113,7 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 11,
-    "time": 35,
+    "time": "35 m",
     "fun": -2
   }
 ]

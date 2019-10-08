@@ -51,7 +51,7 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_FLAGS_SIDED,
     iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR,
     iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT,
-    iteminfo_parts::DESCRIPTION_IRRIDATION,
+    iteminfo_parts::DESCRIPTION_IRRADIATION,
     iteminfo_parts::DESCRIPTION_RECHARGE_UPSMODDED,
     iteminfo_parts::DESCRIPTION_RECHARGE_NORELOAD,
     iteminfo_parts::DESCRIPTION_RECHARGE_UPSCAPABLE,
@@ -84,5 +84,5 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_FLAGS_SIDED,
     iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR,
     iteminfo_parts::DESCRIPTION_FLAGS_POWERARMOR_RADIATIONHINT,
-    iteminfo_parts::DESCRIPTION_IRRIDATION
+    iteminfo_parts::DESCRIPTION_IRRADIATION
 } );

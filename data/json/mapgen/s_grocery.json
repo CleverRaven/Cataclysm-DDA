@@ -37,7 +37,7 @@
         "%": "t_console_broken",
         "*": "t_floor",
         "+": "t_door_c",
-        "-": "t_wall",
+        "-": "t_wall_w",
         "7": "t_linoleum_white",
         "=": "t_wall_glass",
         "A": "t_atm",
@@ -60,7 +60,7 @@
         "t": "t_linoleum_white",
         "w": "t_chainfence_v",
         "4": "t_gutter_downspout",
-        "|": "t_wall"
+        "|": "t_wall_w"
       },
       "furniture": {
         "#": "f_counter",
@@ -118,7 +118,11 @@
         { "vehicle": "shopping_cart", "x": 7, "y": 3, "chance": 10 },
         { "vehicle": "shopping_cart", "x": 8, "y": 3, "chance": 10 },
         { "vehicle": "shopping_cart", "x": 9, "y": 3, "chance": 10 },
-        { "vehicle": "shopping_cart", "x": [ 4, 21 ], "y": 13, "chance": 15 }
+        { "vehicle": "shopping_cart", "x": [ 4, 21 ], "y": 13, "chance": 15 },
+        { "vehicle": "grocery_cart", "x": [ 19, 22 ], "y": 3, "chance": 10, "repeat": [ 1, 3 ], "rotation": 90 }
+      ],
+      "place_monster": [
+        { "monster": [ "mon_grocerybot", "mon_grocerybot_busted" ], "x": [ 19, 22 ], "y": 2, "chance": 15, "repeat": [ 1, 3 ] }
       ]
     }
   },
@@ -211,11 +215,11 @@
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "+": "t_door_c",
-        "-": "t_wall",
+        "-": "t_wall_w",
         ".": "t_floor",
         ":": "t_window",
         "4": "t_gutter_downspout",
-        "|": "t_wall"
+        "|": "t_wall_w"
       },
       "furniture": { "#": "f_counter", "&": "f_glass_fridge", "{": "f_rack", "b": "f_stool", "S": "f_sink", "L": "f_locker" },
       "toilets": { "T": {  } },

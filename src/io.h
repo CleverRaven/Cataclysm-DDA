@@ -2,6 +2,7 @@
 #ifndef CATA_IO_H
 #define CATA_IO_H
 
+#include <functional>
 #include <string>
 #include <type_traits>
 
@@ -121,7 +122,7 @@ namespace detail
 
 template<class T, class R = void>
 struct enable_if_type {
-    typedef R type;
+    using type = R;
 };
 
 /**
@@ -412,7 +413,7 @@ class JsonObjectOutputArchive
                  const std::function<std::string( const T & )> &save, bool required = false ) {
             if( pointer == nullptr ) {
                 if( required ) {
-                    throw JsonError( ( "a required member is null: " ) + name );
+                    throw JsonError( "a required member is null: " + name );
                 }
                 return false;
             }

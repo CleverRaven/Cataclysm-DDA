@@ -9,6 +9,7 @@
 #include <vector>
 #include <set>
 
+#include "enums.h"
 #include "mapdata.h"
 #include "omdata.h"
 #include "weather_gen.h"
@@ -188,6 +189,23 @@ struct overmap_forest_settings {
     overmap_forest_settings() = default;
 };
 
+struct shore_extendable_overmap_terrain_alias {
+    std::string overmap_terrain;
+    ot_match_type match_type;
+    oter_str_id alias;
+};
+
+struct overmap_lake_settings {
+    double noise_threshold_lake = 0.25;
+    int lake_size_min = 20;
+    std::vector<std::string> unfinalized_shore_extendable_overmap_terrain;
+    std::vector<oter_id> shore_extendable_overmap_terrain;
+    std::vector<shore_extendable_overmap_terrain_alias> shore_extendable_overmap_terrain_aliases;
+
+    void finalize();
+    overmap_lake_settings() = default;
+};
+
 struct map_extras {
     unsigned int chance;
     weighted_int_list<std::string> values;
@@ -203,7 +221,7 @@ struct map_extras {
 struct regional_settings {
     std::string id;           //
     oter_str_id default_oter; // 'field'
-
+    double river_scale;
     weighted_int_list<ter_id> default_groundcover; // ie, 'grass_or_dirt'
     std::shared_ptr<weighted_int_list<ter_str_id>> default_groundcover_str;
 
@@ -214,6 +232,7 @@ struct regional_settings {
     weather_generator weather;
     overmap_feature_flag_settings overmap_feature_flag;
     overmap_forest_settings overmap_forest;
+    overmap_lake_settings overmap_lake;
 
     std::unordered_map<std::string, map_extras> region_extras;
 
@@ -223,8 +242,8 @@ struct regional_settings {
     void finalize();
 };
 
-typedef std::unordered_map<std::string, regional_settings> t_regional_settings_map;
-typedef t_regional_settings_map::const_iterator t_regional_settings_map_citr;
+using t_regional_settings_map = std::unordered_map<std::string, regional_settings>;
+using t_regional_settings_map_citr = t_regional_settings_map::const_iterator;
 extern t_regional_settings_map region_settings_map;
 
 void load_region_settings( JsonObject &jo );

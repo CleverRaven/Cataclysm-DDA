@@ -7,6 +7,7 @@ as follows:
 |             Section             |                             Description                             |
 | ------------------------------- | ------------------------------------------------------------------- |
 | `field_coverage`                | Defines the flora that cover the `field` overmap terrain.           |
+| `overmap_lake_settings`         | Defines parameters for generating lakes in the region.              |
 | `overmap_forest_settings`       | Defines parameters for generating forests and swamps in the region. |
 | `forest_mapgen_settings`        | Defines flora (and "stuff") that cover the `forest` terrain types.  |
 | `forest_trail_settings`         | Defines the overmap and local structure of forest trails.           |
@@ -75,6 +76,37 @@ cover the `field` overmap terrain.
 			"f_dandelion": 6.6
 		},
 		"boosted_other_percent": 50.0
+	}
+}
+```
+
+## Overmap Lake Settings
+
+The **overmap_lake_settings** section defines the attributes used in generating lakes on the
+overmap. The actual placement of these features is determined globally across all overmaps so that
+the edges of the features align, and these parameters are mostly about how those global features
+are interpreted. 
+
+### Fields
+
+|                 Identifier                 |                                 Description                                 |
+| ------------------------------------------ | --------------------------------------------------------------------------- |
+| `noise_threshold_lake`                     | [0, 1], x > value spawns a `lake_surface` or `lake_shore`.                  |
+| `lake_size_min`                            | Minimum size of the lake in overmap terrains for it to actually spawn.      |
+| `shore_extendable_overmap_terrain`         | List of overmap terrains that can be extended to the shore if adjacent.     |
+| `shore_extendable_overmap_terrain_aliases` | Overmap terrains to treat as different overmap terrain for extending shore. |
+
+### Example
+
+```json
+{
+	"overmap_lake_settings": {
+		"noise_threshold_lake": 0.25,
+		"lake_size_min": 20,
+		"shore_extendable_overmap_terrain": ["forest_thick", "forest_water", "field"],
+		"shore_extendable_overmap_terrain_aliases": [
+			{ "om_terrain": "forest", "om_terrain_match_type": "TYPE", "alias": "forest_thick" }
+		]
 	}
 }
 ```

@@ -42,7 +42,7 @@
         "6": "t_card_military",
         ">": "t_stairs_down",
         "D": "t_door_metal_locked",
-        "I": "t_reinforced_glass",
+        "I": "t_ballistic_glass",
         "M": "t_wall_metal",
         "|": "t_chainfence_v"
       },
@@ -67,45 +67,45 @@
       "rows": [
         "########################",
         "#MMMMMMMMMMMMMMMMMMMMMM#",
-        "#M       6    6       M#",
+        "#Mrrrrrrr6    6rrrrrrrM#",
         "#M       +    +       M#",
         "#M       |    |       M#",
         "#M       |    |       M#",
         "#M       |    |       M#",
-        "#M       M    M       M#",
+        "#MrrrrrrrM    MrrrrrrrM#",
         "#MMMMMMMMM    MMMMMMMMM#",
-        "#M       6    6       M#",
+        "#Mrrrrrrr6    6rrrrrrrM#",
         "#M       +    +       M#",
         "#M       |    |       M#",
         "#M       |    |       M#",
         "#M       |    |       M#",
-        "#M       M    M       M#",
+        "#MrrrrrrrM    MrrrrrrrM#",
         "#MMMMMMMMM    MMMMMMMMM#",
-        "#M       6    6       M#",
+        "#Mrrrrrrr6    6rrrrrrrM#",
         "#M       +    +       M#",
         "#M       |    |       M#",
         "#M       |    |       M#",
         "#M       |    |       M#",
-        "#M       M << M       M#",
+        "#MrrrrrrrM << MrrrrrrrM#",
         "#MMMMMMMMMMMMMMMMMMMMMM#",
         "########################"
       ],
       "terrain": {
         " ": "t_floor",
+        "r": "t_floor",
         "#": "t_rock",
         "+": "t_door_metal_locked",
         "6": "t_card_military",
         "<": "t_stairs_up",
         "M": "t_wall_metal",
-        "|": "t_reinforced_glass"
+        "|": "t_ballistic_glass"
       },
-      "place_items": [
-        { "item": "bunker_basement_loot", "x": [ 2, 8 ], "y": [ 2, 7 ], "chance": 80, "repeat": [ 1, 5 ] },
-        { "item": "bunker_basement_loot", "x": [ 2, 8 ], "y": [ 9, 14 ], "chance": 80, "repeat": [ 1, 5 ] },
-        { "item": "bunker_basement_loot", "x": [ 2, 8 ], "y": [ 16, 21 ], "chance": 80, "repeat": [ 1, 5 ] },
-        { "item": "bunker_basement_loot", "x": [ 15, 21 ], "y": [ 2, 7 ], "chance": 80, "repeat": [ 1, 5 ] },
-        { "item": "bunker_basement_loot", "x": [ 15, 21 ], "y": [ 9, 14 ], "chance": 80, "repeat": [ 1, 5 ] },
-        { "item": "bunker_basement_loot", "x": [ 15, 21 ], "y": [ 16, 21 ], "chance": 80, "repeat": [ 1, 5 ] }
+      "furniture": { "r": "f_rack" },
+      "items": { "r": { "item": "bunker_basement_loot", "chance": 15, "repeat": [ 1, 5 ] } },
+      "place_monster": [
+        { "monster": "mon_mech_combat", "x": 5, "y": 5, "chance": 2 },
+        { "monster": "mon_mech_lifter", "x": 6, "y": 6, "chance": 5 },
+        { "monster": "mon_mech_recon", "x": 7, "y": 6, "chance": 3 }
       ]
     }
   },
@@ -302,6 +302,7 @@
       { "group": "bots", "prob": 1 },
       { "group": "guns_launcher_milspec", "prob": 1 },
       { "group": "guns_rifle_milspec", "prob": 2 },
+      { "group": "energy_weapon_armory", "prob": 1 },
       { "group": "mags_milspec", "prob": 1 },
       { "group": "ammo_milspec", "prob": 3 },
       { "group": "grenades", "prob": 1 },
@@ -337,8 +338,8 @@
     "items": [
       { "item": "m1911", "charges": 6, "ammo-item": "45_acp" },
       { "item": "45_casing", "charges-min": 1, "charges-max": 1 },
-      { "item": "corpse" },
-      { "group": "underwear" }
+      { "group": "underwear" },
+      { "item": "corpse" }
     ]
   },
   {

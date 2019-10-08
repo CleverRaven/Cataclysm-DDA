@@ -1,7 +1,66 @@
 [
   {
     "type": "snippet",
+    "category": "<no_to_thorazine>",
+    "//": "Hallucinatory NPCs say these things to discourage the avatar from taking thorazine and ending the hallucination.",
+    "text": [
+      "I hate thorazine!",
+      "Arg thorazine, don't touch it!",
+      "Thorazine is bad for you, you know.",
+      "Thorazine is poison.",
+      "You don't need thorazine, it's limiting you.",
+      "Thorazine... That's what 'they' use to keep you tame.",
+      "Don't. This thorazine seriously clouds your mind. You need to stay sharp."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<yes_to_lsd>",
+    "//": "Hallucinatry NPCs say these things to encourage the avatar to extend the hallucination",
+    "text": [
+      "Pink tablets! I love those!",
+      "Hey there's some pink tablets, take some!",
+      "Look, some LSD, let's play cataclysm: fun times ahead!",
+      "Say yes to LSD, say yes to Fun!",
+      "Perfect, those pink tablets will keep us going, take some!",
+      "You know what would make all this more bearable? Pink Tablets!",
+      "An odd pink tablet from the ground? I don't see why not!",
+      "Finally, something to take the edge off."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<hallu_dont_trade>",
+    "//": "Hallucinations can't trade, obviously.",
+    "text": [
+      "No thanks, I'm good.",
+      "I don't want to trade with you.",
+      "I have the best stuff. And I'm keeping it!",
+      "No trading, that's my rule.",
+      "I'm not interested.",
+      "How about no?",
+      "I'm sorry <name_g>. I'm afraid I can't do that.",
+      "Wish I could, <name_g>."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<hallu_dont_camp>",
+    "//": "Hallucinations can't build basecamps.",
+    "text": [
+      "No thanks, I really don't feel like it.",
+      "Well, I would, but I don't want to right now.",
+      "I have better things to do.",
+      "I'll pass, it's too much work.",
+      "Who put you in charge of what I do?",
+      "Great idea! Call me when you find SOMEONE ELSE to do it.",
+      "Not exactly the settlin' type."
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<name_b>",
+    "//": "generic negative/hostile pronouns",
     "text": [
       "<swear> <name_b>",
       "asshat",
@@ -50,12 +109,18 @@
       "fuckwad",
       "jerk",
       "motherfucker",
-      "shithead"
+      "shithead",
+      "fuck-trumpet",
+      "pillock",
+      "bellend",
+      "<name_b>-looking <name_b>",
+      "oxygen-wasting <name_b>"
     ]
   },
   {
     "type": "snippet",
     "category": "<thirsty>",
+    "//": "NPC complaint when thirsty",
     "text": [
       "<ill_die> if I won't get some water soon.",
       "Can you get me some water, <name_g>?",
@@ -72,21 +137,26 @@
       "I <really> need to get some water.",
       "<ill_die> if I don't drink something.",
       "Water... Is there an oasis nearby?",
-      "Did you know that lack of water kills faster than lack of rest?"
+      "Did you know that lack of water kills faster than lack of rest?",
+      "I'd kill for a sip of water right now."
     ]
   },
   {
     "type": "snippet",
     "category": "<noticedbooze>",
+    "//": "Used when chit-chatting while the avatar has a beer",
     "text": [
       "Yeah sure, can't help but notice you got beer with you!  Let's crack a cold one and chat, <name_g>, how goes it?",
       "Oh definitely, how about one of those beers I see on you?  What's up anyway?",
-      "Yeah you share those beers I see you hoarding and then we chat all you like!  Only joking, what's up <name_g>?"
+      "Yeah you share those beers I see you hoarding and then we chat all you like!  Only joking, what's up <name_g>?",
+      "Hey <name_g>, I bet a chat would be all the sweeter with a nice, cold beer in hand. How's it going?",
+      "While we chat, what say you we open a beer and just... pretend the world isn't ending, just for a while?"
     ]
   },
   {
     "type": "snippet",
     "category": "<neutralchitchat>",
+    "//": "General chit chat messages",
     "text": [
       "Hey, sure thing, <name_g>, I need a break anyway, how are you?",
       "Yeah OK, <name_g>, how's it going?",
@@ -98,12 +168,16 @@
       "Alright, you got something to get off your chest?",
       "Always ready for a good chat!  But why, you OK?",
       "OK <name_g>, we should get to know each other, how are you coping?",
-      "Definitely, I'm game.  How you holding up?"
+      "Definitely, I'm game.  How you holding up?",
+      "Good idea <name_g>. Let's forget the world for a while. How you doin'?",
+      "Ah, what the heck. How's life been treating you?",
+      "Sure. So, how about that weather ey?"
     ]
   },
   {
     "type": "snippet",
     "category": "<swear!>",
+    "//": "Swears and curses used to emphasize unpleasant events",
     "text": [
       "darn",
       "fuck",
@@ -118,17 +192,36 @@
       "<swear><punc> <swear!>",
       "<very> <swear!>",
       "son of an ass",
-      "Oh sugar!"
+      "Oh sugar!",
+      "bloody hell",
+      "fuck's sake",
+      "bollocks",
+      "goodness"
     ]
   },
   {
     "type": "snippet",
     "category": "<sad>",
-    "text": [ "sad", "bummed", "depressed", "pissed", "unhappy", "<very> <sad>", "dejected", "down", "glum" ]
+    "//": "Generic terms for being sad.",
+    "text": [
+      "sad",
+      "bummed",
+      "depressed",
+      "unhappy",
+      "<very> <sad>",
+      "dejected",
+      "down",
+      "glum",
+      "blue",
+      "dismal",
+      "sorrowful",
+      "despondent"
+    ]
   },
   {
     "type": "snippet",
     "category": "<greet>",
+    "//": "Friendly or neutral greetings.",
     "text": [
       "Hey <name_g>.",
       "Greetings <name_g>.",
@@ -139,12 +232,16 @@
       "What's up, <name_g>?",
       "You okay, <name_g>?",
       "Hello, <name_g>.",
-      "Hi <name_g>"
+      "Hi <name_g>",
+      "Well met!",
+      "Howdy.",
+      "<name_g>."
     ]
   },
   {
     "type": "snippet",
     "category": "<no>",
+    "//": "Generally emphatic negative responses to a request or command",
     "text": [
       "never",
       "no",
@@ -161,24 +258,31 @@
       "no way in hell",
       "nuh uh",
       "nope",
-      "fat chance"
+      "fat chance",
+      "bananope",
+      "when hell freezes over"
     ]
   },
   {
     "type": "snippet",
     "category": "<im_leaving_you>",
+    "//": "The NPC says these things when leaving the avatar's faction, generally because the NPC no longer likes the avatar.",
     "text": [
       "Goodbye, <name_b>!",
       "I'm leaving.",
       "So long, <name_b>!",
       "Hasta luego, <name_g>!",
       "I'm outta here!",
-      "Bye bye, <name_b>!"
+      "Bye bye, <name_b>!",
+      "See you later, alligator.",
+      "Our paths must part, for now at least.",
+      "There's something I gotta do on my own. Sorry."
     ]
   },
   {
     "type": "snippet",
     "category": "<ill_kill_you>",
+    "//": "The NPC is announcing a target, and all the phrases are followed by an NPC or monsters' name.",
     "text": [
       "consider yourself dead",
       "I'll destroy you",
@@ -194,12 +298,21 @@
       "you're a dead man",
       "you'll taste my <mywp>",
       "you're <swear> dead",
-      "<name_b>, <ill_kill_you>"
+      "<name_b>, <ill_kill_you>",
+      "only one of us is leaving here alive,",
+      "prepare thyself for punishment,",
+      "make peace with your gods,",
+      "if you worship any gods, now is a good time to start praying",
+      "your life is now forfeit,",
+      "when I'm through with you, there won't be enough left to identify",
+      "I'm gonna beat you so bad, even the people who look like you will hurt",
+      "come closer, I can't beat the shit out of you from a distance"
     ]
   },
   {
     "type": "snippet",
     "category": "<ill_die>",
+    "//": "A snippet use in the context of another complaint, like \"I'll die without your help\"",
     "text": [
       "I'm not gonna last much longer",
       "I'll be dead soon",
@@ -211,12 +324,17 @@
       "I'm done for",
       "I won't last much longer",
       "my days are <really> numbered",
-      "<name_g>, I'm sorry"
+      "<name_g>, I'm sorry",
+      "didn't think it would end like this.",
+      "so, this is how it ends, huh?",
+      "I don't wanna go",
+      "bury me somewhere nice, if I don't make it"
     ]
   },
   {
     "type": "snippet",
     "category": "<wait>",
+    "//": "The NPC says these things when the player has moved out of sight and the NPCs wants to catch up.",
     "text": [
       "Can you wait?",
       "Hey, where are you?",
@@ -229,12 +347,14 @@
       "<name_g>, where are you?",
       "Hey <name_g><punc> Wait for me!",
       "Where are you?!",
-      "Hey, I'm over here!"
+      "Hey, I'm over here!",
+      "Hold up a second, will ya?"
     ]
   },
   {
     "type": "snippet",
     "category": "<no_faction>",
+    "//": "These would be used if we had a way to ask NPCs what there faction was, and the NPC didn't have one.",
     "text": [
       "I'm unaffiliated.",
       "I don't run with a crew.",
@@ -245,36 +365,37 @@
       "I'm a free agent, more money that way.",
       "I prefer to work uninhibited by that kind of connection.",
       "I haven't found one that's good enough for me.",
-      "I don't belong to a faction, <name_g>."
+      "I don't belong to a faction, <name_g>.",
+      "I'm currently not under any contract. Why, you hiring?"
     ]
   },
   {
     "type": "snippet",
     "category": "<name_g>",
+    "//": "Friendly name pro-nouns and references",
     "text": [
       "amigo",
       "comrade",
-      "fellow",
+      "my good fellow",
       "lad",
       "mate",
-      "nomad",
+      "my fellow nomad",
       "partner",
-      "stranger",
-      "survivor",
+      "fellow survivor",
       "friend",
-      "pilgrim",
-      "traveler",
+      "fellow traveler",
       "pal",
       "fella",
-      "you",
-      "dude",
+      "my dude",
       "buddy",
-      "man"
+      "chum",
+      "bruv"
     ]
   },
   {
     "type": "snippet",
     "category": "<keep_up>",
+    "//": "Said when the NPC is leading and the player has lagged by more than 12 tiles for more than 10 turns.",
     "text": [
       "Catch up!",
       "Get over here!",
@@ -289,7 +410,6 @@
       "Stay with me, <name_g>!",
       "Catch up, <name_g>!",
       "Keep up!",
-      "Come on, <catch_up>!",
       "Keep it moving!",
       "Stay with me!",
       "Keep close!",
@@ -300,6 +420,7 @@
   {
     "type": "snippet",
     "category": "<yawn>",
+    "//": "Complaint when the NPC wants to sleep but overrides or rules prevent them from sleeping.",
     "text": [
       "I can barely keep my eyes open.",
       "When we sleepin'?",
@@ -312,24 +433,30 @@
       "I <really> need to rest.",
       "<ill_die> if we don't stop for a moment.",
       "Did you know that lack of rest kills faster than lack of food?",
-      "I'll just go to sleep, <okay>?"
+      "I'll just go to sleep, <okay>?",
+      "I just...gotta close my eyes for a bit, okay?",
+      "Can't remember the last time I had a proper kip.",
+      "I can't keep going for long <name_g>. I need some rest, bad."
     ]
   },
   {
     "type": "snippet",
     "category": "<warn_sleep>",
+    "//": "Complaint when the NPC is actually going off to bed.",
     "text": [
       "I'm going to sleep now.",
       "I'm off to bed.  Wake me if you need me.",
       "I'm going to sleep over there.",
       "Time for bed!  See you in the morning.",
       "There's a bed calling my name, and I'm going to it.",
-      "Good night!  Wake me if you need me."
+      "Good night!  Wake me if you need me.",
+      "Calling it a night for now. You get some rest too, okay?"
     ]
   },
   {
     "type": "snippet",
     "category": "<very>",
+    "//": "Generic terms of emphasis",
     "text": [
       "extremely",
       "greatly",
@@ -346,42 +473,27 @@
       "uber",
       "ultra",
       "so <very>",
-      "<very> <very>"
+      "<very> <very>",
+      "severely",
+      "extraordinarily",
+      "unusually",
+      "tremendously",
+      "vastly",
+      "palpably",
+      "inordinately",
+      "staggeringly"
     ]
   },
   {
     "type": "snippet",
     "category": "<okay>",
-    "text": [ "fine", "okay", "get it", "you dig", "dig", "got it", "you see", "see, <name_g>", "alright", "that clear" ]
-  },
-  {
-    "type": "snippet",
-    "category": "<catch_up>",
-    "text": [
-      "Catch up!",
-      "Get over here!",
-      "Get over here, <name_g>!",
-      "Keep close, <name_g>!",
-      "Keep it moving, <name_g>!",
-      "Keep up, <name_g>!",
-      "Let's keep going, <name_g>!",
-      "Over here!",
-      "Over here, <name_g>!",
-      "Stay close, <name_g>!",
-      "Stay with me, <name_g>!",
-      "Catch up, <name_g>!",
-      "Keep up!",
-      "Come on, <catch_up>!",
-      "Keep it moving!",
-      "Stay with me!",
-      "Keep close!",
-      "Stay close!",
-      "Let's keep going!"
-    ]
+    "//": "General terms of acknowledgement for an order",
+    "text": [ "fine", "okay", "get it", "you dig", "dig", "got it", "you see", "see, <name_g>", "alright", "that clear", "capiche" ]
   },
   {
     "type": "snippet",
     "category": "<really>",
+    "//": "Generic terms of emphasis",
     "text": [
       "really",
       "seriously",
@@ -399,6 +511,7 @@
   {
     "type": "snippet",
     "category": "<let_me_pass>",
+    "//": "Said when an NPC needs to move past another character",
     "text": [
       "Excuse me, let me pass.",
       "Hey <name_g>, can I get through?",
@@ -410,12 +523,14 @@
       "Move your <swear> ass, <name_b>!",
       "Out of my way, <name_b>!",
       "Move it, <name_g>!",
-      "You need to move, <name_g>, <okay>?"
+      "You need to move, <name_g>, <okay>?",
+      "Coming through!"
     ]
   },
   {
     "type": "snippet",
     "category": "<done_mugging>",
+    "//": "Said when a hostile NPC completes mugging the player",
     "text": [
       "Thanks for the cash, <name_b>!",
       "So long, <name_b>!",
@@ -426,7 +541,29 @@
       "Hasta luego, <name_g>!",
       "I'm outta here! <done_mugging>",
       "Bye bye, <name_b>!",
-      "Thanks, <name_g>!"
+      "Thanks, <name_g>!",
+      "Pleasure doing business with you.",
+      "Now beat it, you <name_b>.",
+      "Good haul. See you around<punc>"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<witnessed_thievery>",
+    "//": "Warning from non-hostile NPCs when the player steals something.",
+    "text": [
+      "Hey! I <swear> saw you take that <name_b>! Drop it. Now.",
+      "You best be dropping what you just picked up right now <name_b>.",
+      "I've got eyes, you <swear> <name_b> thief!",
+      "Hey! That belongs to us! Drop it.",
+      "<swear>, I've seen a <swear> thief!",
+      "I saw that! Drop what you just stole!",
+      "Thieves will not last long around me <name_g>, please drop that.",
+      "Consider this a warning <name_b>, thieves will not be tolerated, drop it.",
+      "You think I'm <swear> blind <name_b>? Don't touch our stuff.",
+      "You have one chance to put it back.",
+      "Return the stolen goods. You have to the count of three to comply.",
+      "You're not leaving here with stolen goods, <name_g>."
     ]
   },
   {
@@ -444,12 +581,15 @@
       "<very> <happy>",
       "tickled pink",
       "delighted",
-      "pumped"
+      "pumped",
+      "joyful",
+      "merry"
     ]
   },
   {
     "type": "snippet",
     "category": "<drop_it>",
+    "//": "General warning to put a weapon down, either in preparation for a mugging or by an scared NPC as part of a request to establish trust with the avatar.",
     "text": [
       "Drop your <swear> weapon!",
       "Okay <name_b>, drop your weapon!",
@@ -460,17 +600,33 @@
       "Put down the <yrwp>!",
       "Drop your <swear> weapon, <name_b>!",
       "Put down your <yrwp>!",
-      "Alright, drop the <yrwp>!"
+      "Alright, drop the <yrwp>!",
+      "Please put down your weapon. I'll give you to the count of three. One...",
+      "Let's take it easy now, okay? Put the weapon down."
     ]
   },
   {
     "type": "snippet",
     "category": "<swear>",
-    "text": [ "fucking", "goddamn", "motherfucking", "freaking", "damn", "<swear> <swear>", "fuckin'", "god damn", "mafuckin'" ]
+    "text": [
+      "fucking",
+      "goddamn",
+      "motherfucking",
+      "freaking",
+      "damn",
+      "<swear> <swear>",
+      "fuckin'",
+      "god damn",
+      "mafuckin'",
+      "bloody",
+      "god-forsaken",
+      "cursed"
+    ]
   },
   {
     "type": "snippet",
     "category": "<lets_talk>",
+    "//": "NPCs shout these things while approaching the avatar for the first time",
     "text": [
       "Wait up, let's talk!",
       "Hey, I <really> want to talk to you!",
@@ -481,12 +637,14 @@
       "<name_g>!  Wait up!",
       "Wait up, <okay>?",
       "Let's talk, <name_g>!",
-      "Look, <name_g><punc> let's talk!"
+      "Look, <name_g><punc> let's talk!",
+      "Hey, what's the rush? Let's chat a tad."
     ]
   },
   {
     "type": "snippet",
     "category": "<hands_up>",
+    "//": "Mostly hostile NPCs say these things in preparation for mugging an unarmed avatar.",
     "text": [
       "Put your <swear> hands up!",
       "Put your hands up, <name_b>!",
@@ -497,12 +655,16 @@
       "Hands where I can see them!",
       "Okay <name_b>, hands up!",
       "Okay <name_b><punc> hands up!",
-      "Hands in the air, <name_b>!"
+      "Hands in the air, <name_b>!",
+      "Hands up, no sudden movements and we're gravy, okay?",
+      "Take it easy and put your hands up now, <name_g>.",
+      "Why don't you put your hands up for me <name_g>."
     ]
   },
   {
     "type": "snippet",
     "category": "<move>",
+    "//": "Generic orders to move,mostly used as part of firing warnings.",
     "text": [
       "Move",
       "Move your ass",
@@ -513,12 +675,14 @@
       "Move your <swear> ass",
       "Get out of my way, <name_b>,",
       "Move to the side",
-      "Get out of my line of fire"
+      "Get out of my line of fire",
+      "Move, move, move"
     ]
   },
   {
     "type": "snippet",
     "category": "<hungry>",
+    "//": "Complaint when the NPC is hungry and wants food.",
     "text": [
       "I almost want to eat my <mywp> now.",
       "When we eatin'?",
@@ -531,12 +695,15 @@
       "I <really> need to eat something.",
       "<ill_die> if I don't get some food.",
       "Consider this idea: you give me food and I eat it.",
-      "Did you know that lack of food kills faster than chain smoking?"
+      "Did you know that lack of food kills faster than chain smoking?",
+      "Can't remember the last time I got a proper meal.",
+      "I could eat a horse."
     ]
   },
   {
     "type": "snippet",
     "category": "<fuck_you>",
+    "//": "Extremely negative response to a request or command.",
     "text": [
       "fuck you",
       "fuck off",
@@ -544,12 +711,18 @@
       "<fuck_you>, <name_b>",
       "<fuck_you>, <swear> <name_b>",
       "<name_b>",
-      "<swear> <name_b>"
+      "<swear> <name_b>",
+      "you can fuck right off, you <name_b>",
+      "I've had enough of you, begone.",
+      "you're a poster child for abortions",
+      "how the fuck you've survived this far is beyond me, you <swear> <swear> <name_b>",
+      "you're the reason the gene pool needs a lifeguard"
     ]
   },
   {
     "type": "snippet",
     "category": "<cramped_vehicle>",
+    "//": "NPC complaint if a HUGE NPC is taking pain from being inside a vehicle.  Key points are that the NPC is HUGE and they're in a confined vehicle, along with some hints on how to resolve it.",
     "text": [
       "Can I get out and walk?  This vehicle is too small.",
       "How about we make the next vehicle a convertible?",
@@ -557,28 +730,33 @@
       "I'm not a contortionist!",
       "I can't fit in your tiny human vehicle.",
       "This sucks.  I'm too big.",
-      "I don't like being a mutant crammed into your tiny little vehicle."
+      "I don't like being a mutant crammed into your tiny little vehicle.",
+      "Getting awfully cramped in here.",
+      "I don't think this vehicle was designed for someone like me."
     ]
   },
   {
     "type": "snippet",
     "category": "<fire_in_the_hole_h>",
+    "//": "Hostile NPC warning about a live explosive in the vicinity.",
     "text": [
       "<swear!> Fire in the hole!",
       "<swear!> Get cover!",
-      "Marines!  We are <swear> leaving!",
       "Hit the <swear> dirt!",
       "This <swear> shit is gonna blow!",
       "I'm standing way too close to this <swear> firecracker.",
       "I <really> need to get some distance.",
       "I <really> need to get some <swear> distance.",
       "<swear!> I'm getting my ass out of here!",
-      "Fire in the <swear> hole, motherfuckers!"
+      "Fire in the <swear> hole, motherfuckers!",
+      "Heads up, <name_b>.",
+      "Watch out for shrapnel!"
     ]
   },
   {
     "type": "snippet",
     "category": "<fire_in_the_hole>",
+    "//": "Friendly NPC warning about a live explosive in the vicinity.",
     "text": [
       "Fire in the hole!",
       "Get cover!",
@@ -587,26 +765,33 @@
       "This <swear> shit is gonna blow!",
       "I'm standing way too close to this <swear> firecracker.",
       "I <really> need to get some distance.",
-      "I'm getting my ass out of here!  You'd better do the same, <name_g>!",
-      "Fire in the hole, motherfuckers!"
+      "Fire in the hole, motherfuckers!",
+      "Bombs away!",
+      "Shrapnel, incoming! Watch it!",
+      "Making some noise!",
+      "Hit the deck!"
     ]
   },
   {
     "type": "snippet",
     "category": "<monster_warning_h>",
-    "//": "Hostile NPCs are foul-mouthed",
+    "//": "Hostile NPCs are foul-mouthed.  This is a warning about a dangerous monster, and the code always follows it with the name of the monster.",
     "text": [
       "Fuck me!  A <swear>",
       "Watch out for that",
       "Watch out!  I see a",
       "<swear!>, a",
       "<swear!>, I'm doomed!  There's a <swear> <swear>",
-      "<swear!>, here comes a <swear>"
+      "<swear!>, here comes a <swear>",
+      "Incoming!",
+      "Prepare yourself! We have a",
+      "<swear>"
     ]
   },
   {
     "type": "snippet",
     "category": "<monster_warning>",
+    "//": "This is a warning about a dangerous monster, and the code always follows it with the name of the monster.",
     "text": [
       "Look out for that",
       "Hey!  Over there!  I see a",
@@ -617,12 +802,14 @@
       "Hey, <name_g>!  <monster_warning>",
       "<swear!>, a",
       "Look out!  A",
-      "<swear!>, here comes a <swear>"
+      "<swear!>, here comes a <swear>",
+      "Keep an eye on that"
     ]
   },
   {
     "type": "snippet",
     "category": "<general_danger>",
+    "//": "NPC complaint when the threat level increases from very low to dangerous.",
     "text": [
       "Look sharp!  Things are heating up.",
       "Hostiles inbound.",
@@ -633,13 +820,17 @@
       "Who's there?",
       "Hello?",
       "Look alive!",
-      "<general_danger_h>"
+      "<general_danger_h>",
+      "Fight or flight?",
+      "Weapons hot!",
+      "Lock and load!",
+      "We've got incoming!"
     ]
   },
   {
     "type": "snippet",
     "category": "<general_danger_h>",
-    "//": "Some lines deliberately copied from mi-go text",
+    "//": "Hostile, swear-filled NPC complaint when the threat level increases from very low to dangerous.  Some lines deliberately copied from mi-go text.",
     "text": [
       "<swear> look sharp!  Things are <swear> heating up.",
       "<swear!>  Hostiles <swear> inbound.",
@@ -667,6 +858,7 @@
   {
     "type": "snippet",
     "category": "<its_safe>",
+    "//": "NPC complaint when the danger level drops from significant to very low, so things are 'safe'",
     "text": [
       "Looks like that's over.",
       "<name_g>, <its_safe>",
@@ -680,12 +872,20 @@
       "How do we get out of here?",
       "Is that the last of them?",
       "I'd kill for a coke.",
-      "<greet>"
+      "Weapons check everyone. There may be more.",
+      "That's that, then.",
+      "That's the last of them for now.",
+      "Clearing the world, one <name_b> at a time",
+      "Well, that got the blood pumping.",
+      "We're clear, but stay frosty.",
+      "<swear> beautiful work.",
+      "Getting really good at this."
     ]
   },
   {
     "type": "snippet",
     "category": "<its_safe_h>",
+    "//": "Hostile NPC complaint when the danger level drops from significant to very low, so things are 'safe'",
     "text": [
       "<swear!>  What a <shitty> day.",
       "<swear!>  I win again!",
@@ -707,6 +907,7 @@
   {
     "type": "snippet",
     "category": "<kill_npc>",
+    "//": "Friendly NPC complaint that they're attacking a particular hostile NPC.  The code always appends the name of NPC, so you get 'I can take on Tonza'.",
     "text": [
       "Time for you to die,",
       "This bullet is for you,",
@@ -714,12 +915,18 @@
       "Hey, <name_g>!  I've got",
       "<name_g>!  Watch my back while I kill",
       "I'm your huckleberry,",
-      "Sorry, but you have to do down,"
+      "Sorry, but you have to go down,",
+      "End of the line,",
+      "You have it coming",
+      "Let's dance,",
+      "You and me,",
+      "I will kill you to death, "
     ]
   },
   {
     "type": "snippet",
     "category": "<kill_npc_h>",
+    "//": "Hostile NPC complaint that they're attacking a particular friendly NPC.  The code always appends the name of NPC, so you get 'Time to die, Tonza'.",
     "text": [
       "<swear!>!  I'm gonna <swear> kill you,",
       "Watch you bleed out,",
@@ -732,6 +939,7 @@
   {
     "type": "snippet",
     "category": "<kill_player_h>",
+    "//": "Hostile NPC complaint that they're attacking the avatar.  Could use more variety.",
     "text": [
       "<ill_kill_you>!",
       "I'ma cut those fuckin' tentacles off, bitch!",
@@ -746,6 +954,7 @@
   {
     "type": "snippet",
     "category": "<heal_self>",
+    "//": "NPC complaint that they are wounded but have medical equipment and are stopping to heal themselves.",
     "text": [
       "I think I need to see a doctor.  I'm patching myself up.",
       "Please, I don't want to die.  Let these bandages work!",
@@ -753,39 +962,52 @@
       "That cut looks bad, I'm going to fix it.",
       "I hope these bandages work.",
       "I think I need to see a doctor.  They're all dead, I hope these work.",
-      "Please, I don't want to die.  C'mon, bandages!"
+      "Please, I don't want to die.  C'mon, bandages!",
+      "Wait a spell, patching myself up!",
+      "Applying first aid!",
+      "These bandages ain't much, but they will do for now.",
+      "Hold up, gotta plug this hole in me.",
+      "Watch my back while I stitch my arm back on <name_g>.",
+      "Gotta bandage this or I'll bleed out. Give me a sec.",
+      "I ain't got time to ble-wait, that's a lot of blood. Give me a second while I patch this."
     ]
   },
   {
     "type": "snippet",
     "category": "<speech_warning>",
-    "text": [ "Quiet down over there!", "Did you hear someone talking?", "Who said that?", "Who's there?" ]
+    "//": "NPC complaint that they heard an unknown voice.  This goes off a lot and could use more variety.",
+    "text": [ "Quiet down over there!", "Did you hear someone talking?", "Who said that?", "Who's there?", "Who goes there?" ]
   },
   {
     "type": "snippet",
     "category": "<combat_noise_warning>",
+    "//": "NPC complaint that they heard combat noises that they can't see.",
     "text": [
       "That sounds bad.",
       "Be alert, something is up!",
       "Did you hear that?",
       "What's that noise?",
-      "Is something over there?"
+      "Is something over there?",
+      "What was that?"
     ]
   },
   {
     "type": "snippet",
     "category": "<movement_noise_warning>",
+    "//": "NPC complaint that they heard movement that they can't see.  The code appends an description of the movement, so you get 'I could swear I heard hooves clopping'.  Could use more variety.",
     "text": [
       "I hear something moving - sounded like",
       "What's that sound?  I heard",
       "What's there?  I heard",
       "Did you hear that?  Sounded like",
-      "What is making that sound?  I can hear the"
+      "What is making that sound?  I can hear the",
+      "I could swear I heard"
     ]
   },
   {
     "type": "snippet",
     "category": "<acknowledged>",
+    "//": "Generic acknowledgement of a command.  Comes up a lot and could use more variety.",
     "text": [
       "Got it!",
       "I'm on it.",
@@ -796,12 +1018,19 @@
       "Okay.",
       "Will do.",
       "No problem.",
-      "Can do."
+      "Can do.",
+      "Affirmative.",
+      "Roger that.",
+      "Capiche.",
+      "You got it.",
+      "Aye aye.",
+      "Aye."
     ]
   },
   {
     "type": "snippet",
     "category": "<weed_smoke>",
+    "//": "Complaint when the NPC is near the avatar who is smoking marijuana.",
     "text": [
       "Whew... smells like skunk!",
       "Man, that smells like some good shit!",
@@ -812,44 +1041,134 @@
       "What do I smell?  Well, I guess it's legal now.",
       "Mmm, that weed smells good.",
       "Man, I can smell the weed, can I have some?",
-      "Are you sure it's a good idea to smoke that now?"
+      "Are you sure it's a good idea to smoke that now?",
+      "Is that the devil's lettuce I smell?"
     ]
   },
   {
     "type": "snippet",
     "category": "<meth_smoke>",
+    "//": "Complaint when the NPC is near the avatar who is smoking meth.",
     "text": [
       "I don't know... should you really be smoking that stuff?",
       "<name_g>, that's going to ruin your nose.",
       "Man, that stinks.  Put it out!",
       "You're going to kill yourself smoking that stuff, <name_g>.",
       "Oh, wow, that smell... Can I have some?",
-      "Are you sure it's a good idea to smoke that now?"
+      "Are you sure it's a good idea to smoke that now?",
+      "I smell heresy.",
+      "Seriously? You're smoking that?",
+      "Well that's one way to guarantee the zombies don't kill you.",
+      "Come on <name_g>, you're better than this."
     ]
   },
   {
     "type": "snippet",
     "category": "<crack_smoke>",
+    "//": "Complaint when the NPC is near the avatar who is smoking crack.",
     "text": [ "Ew, smells like burning rubber!", "Ugh, that smells rancid!", "<meth_smoke>" ]
   },
   {
     "type": "snippet",
+    "category": "<need_batteries>",
+    "//": "NPC complaint when they are low on CBM power and have a battery charger system.  Additional versions should continue to specify that the NPC needs batteries and they need them to recharge their power CBMs.",
+    "text": [
+      "I need some batteries to power my CBMs.",
+      "I can't recharge my CBMs without some batteries.",
+      "Hey, <name_g>, can I get some batteries here?  I need to recharge.",
+      "Internal batteries running low. How many batteries can you spare right now?",
+      "I can do a lot more for you if you pass me a couple batteries to recharge.",
+      "All these implants I got are going to turn to useless scrap real soon if I don't get some batteries to recharge."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<need_booze>",
+    "//": "NPC complaint when they are low on CBM power and have an ethanol burner system.  Additional versions should continue to specify that the NPC needs alcohol and they need them to recharge their power CBMs.",
+    "text": [
+      "Pass me a beer, I need to power my ethanol burner.",
+      "Ethanol burners!  The power source that's fun to recharge.  Get me a drink, please!",
+      "Waiter!  I need a refill, my ethanol burner is running out of charge!",
+      "I require ethanol-based drinks for my internal power supply. Anything on you?",
+      "Got any alcohol to spare? Need to recharge my drives. Mead, if you have any.",
+      "This ethanol-burning power supply is the best implant I ever got. Speaking of which, got some booze to top me off?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<need_junk>",
+    "//": "NPC complaint when they are low on CBM power and have an internal furnace.  Additional versions should continue to specify that the NPC needs junk (withered plants, paper, or wood) and they need them to recharge their power CBMs.",
+    "text": [
+      "I need some junk to power my internal furnace.",
+      "I can't recharge my CBMs without some firewood for my internal furnace.",
+      "Hey, <name_g>, can I get some waste paper or withered plants?  I need to recharge."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<need_fuel>",
+    "//": "NPC complaint when they are low on CBM power and have a fueled bionic.  Additional versions should continue to specify that the NPC needs fuel and they need it to recharge their power CBMs.",
+    "text": [
+      "I need some fuel to power my bionics.",
+      "I can't recharge my CBMs without some fuel.",
+      "Hey, <name_g>, can I get some fuel?  I need to recharge."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<need_radioactives>",
+    "//": "NPC complaint when they are low on CBM power and have an internal reactor.  Additional versions should continue to specify that the NPC needs radioactive slurry and they need it to recharge their power CBMs.  Also, mostly obsolete since internal reactors got removed.",
+    "text": [
+      "I can't believe I'm saying this, but I need radioactive plutonium slurry for my internal reactor.",
+      "I can't use my internal reactor to recharge my CBMs without some plutonium slurry.",
+      "Hey, <name_g>, pass me some plutonium slurry if you have any, I need to refuel my internal reactor.",
+      "Beta radiation can be blocked by clothing, but is really dangerous if you ingest it.  So can I have some plutonium slurry to power my reactor and give me cancer?",
+      "I need some radioactive slurry to power my reactor.  Or a less dangerous power source, that would be even better!",
+      "Please, <name_g>, get me some radioactive slurry to fuel my internal reactor.  Or get me another way to recharge my CBMs!",
+      "I can't use my internal reactor to recharge my CBMs without some plutonium slurry.  Which wouldn't be a problem if I had anything else that would recharge my CBMs!",
+      "I sure could use a highly radioactive slurry shake for my power supply right now."
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<BGSS_intro_question>",
+    "//": "avatar response to an NPC that opens up their history.",
     "text": [
       "Tell me about how you survived the cataclysm.",
       "How did you survive the cataclysm?",
-      "What was the cataclysm like for you?"
+      "What was the cataclysm like for you?",
+      "How did you make it through the initial chaos?",
+      "Tell me how you survived the initial wave of the Cataclysm.",
+      "Was it rough surviving thus far?"
     ]
   },
   {
     "type": "snippet",
     "category": "<done_conversation_section>",
-    "text": [ "Let's talk about something else.", "Let's change the subject.", "I'd like to ask you about something else." ]
+    "//": "Avatar response to an NPC that can be used for TALK_NONE responses.  Could be used in a lot more dialouges.  Could also use a lot more variety.",
+    "text": [
+      "Let's talk about something else.",
+      "Let's change the subject.",
+      "I'd like to ask you about something else.",
+      "Moving on...",
+      "Anyway..."
+    ]
   },
   {
     "type": "snippet",
     "category": "<end_talking>",
-    "text": [ "We should probably get going.", "We'd better get moving.", "Let's head out." ]
+    "//": "Avatar response indicated that the conversation is over via TALK_DONE.  Could be used in a lot more dialouges.  Could also use a lot more variety.",
+    "text": [
+      "We should probably get going.",
+      "We'd better get moving.",
+      "Let's head out.",
+      "Time's a-wasting. Let's head out.",
+      "Come on. We got stuff to do.",
+      "Let's hit the road.",
+      "We'll pick this up another time. Let's go.",
+      "Let's put a pin in this chat for now.",
+      "Talk to you later."
+    ]
   },
   {
     "type": "snippet",
@@ -865,23 +1184,35 @@
       "terrible",
       "horrible",
       "miserable",
-      "fucked-up"
+      "fucked-up",
+      "deplorable"
     ]
   },
   {
     "type": "snippet",
     "category": "<dumb>",
-    "text": [ "stupid", "idiotic", "dumb", "dumb-ass", "moronic", "mickey mouse", "shit-for-brains" ]
+    "text": [ "stupid", "idiotic", "dumb", "dumb-ass", "moronic", "mickey mouse", "shit-for-brains", "imbecilic" ]
   },
   {
     "type": "snippet",
     "category": "<zombie>",
-    "text": [ "zombie", "Z", "shambler", "goo-puker", "walker", "walking corpse", "<swear> <zombie>", "undead", "living dead" ]
+    "text": [
+      "zombie",
+      "Z",
+      "shambler",
+      "goo-puker",
+      "walker",
+      "walking corpse",
+      "<swear> <zombie>",
+      "undead",
+      "a living corpse",
+      "zed"
+    ]
   },
   {
     "type": "snippet",
     "category": "<zombies>",
-    "text": [ "zombies", "Z", "Z's", "undead", "<swear> <zombies>", "living dead" ]
+    "text": [ "zombies", "Z", "Z's", "undead", "<swear> <zombies>", "living dead", "zeds" ]
   },
   {
     "type": "snippet",
@@ -896,7 +1227,10 @@
       "<swear> <monster>",
       "unbelievable <swear> thing",
       "walking nightmare",
-      "thing right out of a scary movie"
+      "thing right out of a scary movie",
+      "<swear> thing",
+      "whatever-the-fuck that is",
+      "eldritch horror"
     ]
   },
   {
@@ -907,6 +1241,7 @@
   {
     "type": "snippet",
     "category": "<run_away>",
+    "//": "NPC complaint when the NPC intends to run away from overhwelming threats.",
     "text": [
       "They'll kill us!  Run away!",
       "We're going to die!  Fall back!",
@@ -920,31 +1255,223 @@
       "Please, I don't want to die.",
       "Me go, you stay.",
       "Not that way!  Go left!",
-      "<move>!"
+      "<move>!",
+      "Retreat! Retreat!",
+      "Book it!",
+      "Leg it!",
+      "Thank fuck for all the cardio!"
     ]
   },
   {
     "type": "snippet",
     "category": "<cant_flee>",
+    "//": "NPC complaint when they would like to run, but have no legal movement options and must fight.",
     "text": [
       "I can't outrun it!  I'm going to kill it!",
       "<swear>!  Die, you <name_b>!  I want to live!",
-      "My feet failed me!  Arms don't fail me!"
+      "My feet failed me!  Arms, don't fail me!",
+      "If I die, I'm taking you all with me!"
     ]
   },
   {
     "type": "snippet",
     "category": "<fire_bad>",
+    "//": "NPC complaint when there is an uncontrolled fire in the vicinity and the NPC wants to run away.  Could use more variety.",
     "text": [
       "Call the fire department!  Wait, they're dead!  Run away!",
       "This place is on fire.  I'm leaving.",
       "Put the fire out!  Put it out!",
-      "Fire bad! <move>!"
+      "Fire bad! <move>!",
+      "Fire, fire, FIRE!",
+      "Get an extinguisher!",
+      "Danger hot!"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<follower_mutiny>",
+    "//": "NPC shout when the NPC is leaving your_followers because the NPC hates you due to abuse.  Always followed by 'adios, motherfucker!'  Could use more variety.",
+    "text": [
+      "I've done so much for you, and you can't even keep me fed!",
+      "You are the worst person in the world!",
+      "Why are you such a horrible leader?",
+      "I trusted you, and you can't even provide food!",
+      "I don't have to take this abuse from you, there are plenty of people to abuse me!",
+      "You said you would keep me safe, and you haven't!",
+      "There's only a couple hundred people left in the world, and I relied on the dumbest one!",
+      "You're a monster!",
+      "You call this safe?  You're crazy and incompetent!",
+      "That was the last straw!  I'm not following your orders anymore!"
     ]
   },
   {
     "type": "snippet",
     "category": "<granny_name_g>",
     "text": [ "child", "my child", "dear", "my dear", "friend", "survivor" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_use_guns_true_text>",
+    "text": "<mypronoun> will use ranged weapons."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_use_guns_false_text>",
+    "text": "<mypronoun> will not use ranged weapons."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_use_grenades_true_text>",
+    "text": "<mypronoun> will use grenades."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_use_grenades_false_text>",
+    "text": "<mypronoun> will not use grenades."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_use_silent_true_text>",
+    "text": "<mypronoun> will only use silenced ranged weapons."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_use_silent_false_text>",
+    "text": "<mypronoun> will use any ranged weapons."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_avoid_friendly_fire_true_text>",
+    "text": "<mypronoun> will avoid shooting if allies are in the line of fire."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_avoid_friendly_fire_false_text>",
+    "text": "<mypronoun> will shoot even if allies are in the line of fire."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_allow_pick_up_true_text>",
+    "text": "* will pick up items."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_allow_pick_up_true_list_text>",
+    "text": "* will only pick up items from the whitelist."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_allow_pick_up_false_text>",
+    "text": "* will not pick up items."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_allow_bash_true_text>",
+    "text": "<mypronoun> will bash down obstacles."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_allow_bash_false_text>",
+    "text": "<mypronoun> will not bash down obstacles."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_allow_sleep_true_text>",
+    "text": "<mypronoun> will sleep when tired."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_allow_sleep_false_text>",
+    "text": "<mypronoun> will stay awake as long as possible."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_allow_complain_true_text>",
+    "text": "<mypronoun> will complain about wounds and needs."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_allow_complain_false_text>",
+    "text": "<mypronoun> will only complain in an emergency."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_allow_pulp_true_text>",
+    "text": "<mypronoun> will smash nearby zombie corpses."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_allow_pulp_false_text>",
+    "text": "<mypronoun> will leave zombie corpses intact."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_close_doors_true_text>",
+    "text": "<mypronoun> will close doors after passing through."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_close_doors_false_text>",
+    "text": "<mypronoun> will not close doors."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_follow_close_true_text>",
+    "text": "<mypronoun> will follow you closely even when threatened."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_follow_close_false_text>",
+    "text": "<mypronoun> will move freely as needed."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_follow_distance_2_true_text>",
+    "text": "<mypronoun> will follow you at about two paces."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_follow_distance_2_false_text>",
+    "text": "<mypronoun> will follow you at about four paces."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_avoid_doors_true_text>",
+    "text": "<mypronoun> will not go places that require opening a door."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_avoid_doors_false_text>",
+    "text": "<mypronoun> will open doors to reach a destination."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_hold_the_line_true_text>",
+    "text": "<mypronoun> will hold the line by not moving into doorways or obstructions adjacent to you."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_hold_the_line_false_text>",
+    "text": "<mypronoun> will move freely to attack enemies."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_ignore_noise_true_text>",
+    "text": "<mypronoun> will not investigate noises."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_ignore_noise_false_text>",
+    "text": "<mypronoun> will investigate noises from unseen places."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_forbid_engage_true_text>",
+    "text": "<mypronoun> will not engage enemies if avoidable."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_forbid_engage_false_text>",
+    "text": "<mypronoun> will follow normal engagement rules."
   }
 ]

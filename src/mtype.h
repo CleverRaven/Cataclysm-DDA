@@ -8,11 +8,13 @@
 #include <string>
 
 #include "color.h"
+#include "optional.h"
 #include "damage.h"
 #include "enum_bitset.h"
 #include "enums.h"
 #include "mattack_common.h"
 #include "pathfinding.h"
+#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -22,7 +24,6 @@ template <typename E> struct enum_traits;
 struct dealt_projectile_attack;
 struct species_type;
 
-enum field_id : int;
 enum body_part : int;
 enum m_size : int;
 
@@ -33,7 +34,7 @@ using bodytype_id = std::string;
 class JsonArray;
 class JsonObject;
 
-typedef std::string itype_id;
+using itype_id = std::string;
 
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
@@ -108,12 +109,18 @@ enum m_flag : int {
     MF_BONES,               // May produce bones and sinews when butchered; if combined with POISON flag, tainted bones, if combined with HUMAN, human bones
     MF_FAT,                 // May produce fat when butchered; if combined with POISON flag, tainted fat
     MF_IMMOBILE,            // Doesn't move (e.g. turrets)
+    MF_RIDEABLE_MECH,       // A rideable mech that is immobile until ridden.
+    MF_MILITARY_MECH,        // A rideable mech that was designed for military work.
+    MF_MECH_RECON_VISION,   // This mech gives you IR night-vision.
+    MF_MECH_DEFENSIVE,      // This mech gives you thorough protection.
     MF_HIT_AND_RUN,         // Flee for several turns after a melee attack
     MF_GUILT,               // You feel guilty for killing it
+    MF_PAY_BOT,             // You can pay this bot to be your friend for a time
     MF_HUMAN,               // It's a live human, as long as it's alive
     MF_NO_BREATHE,          // Creature can't drown and is unharmed by gas, smoke, or poison
     MF_REGENERATES_50,      // Monster regenerates very quickly over time
     MF_REGENERATES_10,      // Monster regenerates quickly over time
+    MF_REGENERATES_1,       // Monster regenerates slowly over time
     MF_REGENERATES_IN_DARK, // Monster regenerates very quickly in poorly lit tiles
     MF_FLAMMABLE,           // Monster catches fire, burns, and spreads fire to nearby objects
     MF_REVIVES,             // Monster corpse will revive after a short period of time
@@ -140,6 +147,7 @@ enum m_flag : int {
     MF_GROUP_MORALE,        // Monsters that are more courageous when near friends
     MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
     MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
+    MF_PACIFIST,            // Monsters that will never use melee attack, useful for having them use grab without attacking the player
     MF_PUSH_MON,            // Monsters that can push creatures out of their way
     MF_PUSH_VEH,            // Monsters that can push vehicles out of their way
     MF_NIGHT_INVISIBILITY,  // Monsters that are invisible in poor light conditions
@@ -147,11 +155,16 @@ enum m_flag : int {
     MF_NO_NECRO,            // This monster can't be revived by necros. It will still rise on its own.
     MF_AVOID_DANGER_1,      // This monster will path around some dangers instead of through them.
     MF_AVOID_DANGER_2,      // This monster will path around most dangers instead of through them.
+    MF_AVOID_FIRE,          // This monster will path around heat-related dangers instead of through them.
+    MF_AVOID_FALL,          // This monster will path around cliffs instead of off of them.
     MF_PRIORITIZE_TARGETS,  // This monster will prioritize targets depending on their danger levels
     MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
     MF_CATFOOD,             // This monster will become friendly when fed cat food.
     MF_CATTLEFODDER,        // This monster will become friendly when fed cattle fodder.
     MF_BIRDFOOD,            // This monster will become friendly when fed bird food.
+    MF_CANPLAY,             // This monster can be played with if it's a pet.
+    MF_PET_MOUNTABLE,       // This monster can be mounted and ridden when tamed.
+    MF_PET_HARNESSABLE,     // This monster can be harnessed when tamed.
     MF_DOGFOOD,             // This monster will become friendly when fed dog food.
     MF_MILKABLE,            // This monster is milkable.
     MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
@@ -161,6 +174,8 @@ enum m_flag : int {
     MF_ELECTRIC_FIELD,      // This monster is surrounded by an electrical field that ignites flammable liquids near it
     MF_LOUDMOVES,           // This monster makes move noises as if ~2 sizes louder, even if flying.
     MF_CAN_OPEN_DOORS,      // This monster can open doors.
+    MF_STUN_IMMUNE,         // This monster is immune to the stun effect
+    MF_DROPS_AMMO,          // This monster drops ammo. Check to make sure starting_ammo paramter is present for this monster type!
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -187,9 +202,8 @@ struct mon_effect_data {
 struct mtype {
     private:
         friend class MonsterGenerator;
-        std::string name;
-        std::string name_plural;
-        std::string description;
+        translation name;
+        translation description;
 
         std::set< const species_type * > species_ptrs;
 
@@ -203,8 +217,8 @@ struct mtype {
         void remove_special_attacks( JsonObject &jo, const std::string &member_name,
                                      const std::string &src );
 
-        void add_special_attack( JsonArray jarr, const std::string &src );
-        void add_special_attack( JsonObject jo, const std::string &src );
+        void add_special_attack( JsonArray inner, const std::string &src );
+        void add_special_attack( JsonObject obj, const std::string &src );
 
     public:
         mtype_id id;
@@ -244,6 +258,8 @@ struct mtype {
         int melee_dice = 0;     /** number of dice of bonus bashing damage on melee hit */
         int melee_sides = 0;    /** number of sides those dice have */
 
+        int grab_strength = 1;    /**intensity of the effect_grabbed applied*/
+
         int sk_dodge = 0;       /** dodge skill */
 
         /** If unset (-1) then values are calculated automatically from other properties */
@@ -280,14 +296,14 @@ struct mtype {
         mtype_id burn_into;
 
         // Monster reproduction variables
-        int baby_timer;
+        cata::optional<time_duration> baby_timer;
         int baby_count;
         mtype_id baby_monster;
         itype_id baby_egg;
         std::vector<std::string> baby_flags;
 
         // Monster biosignature variables
-        int biosig_timer;
+        cata::optional<time_duration> biosig_timer;
         itype_id biosig_item;
 
         // Monster's ability to destroy terrain and vehicles
@@ -314,6 +330,18 @@ struct mtype {
          * of this type (if it's friendly).
          */
         itype_id revert_to_itype;
+        /**
+         * If this monster is a rideable mech with built-in weapons, this is the weapons id
+         */
+        itype_id mech_weapon;
+        /**
+         * If this monster is a rideable mech it needs a power source battery type
+         */
+        itype_id mech_battery;
+        /**
+         * If this monster is a rideable mech with enhanced strength, this is the strength it gives to the player
+         */
+        int mech_str_bonus = 0;
 
         /** Emission sources that cycle each turn the monster remains alive */
         std::set<emit_id> emit_fields;
@@ -334,13 +362,14 @@ struct mtype {
         bool in_species( const species_id &spec ) const;
         bool in_species( const species_type &spec ) const;
         //Used for corpses.
-        field_id bloodType() const;
-        field_id gibType() const;
+        field_type_id bloodType() const;
+        field_type_id gibType() const;
         // The item id of the meat items that are produced by this monster (or "null")
         // if there is no matching item type. e.g. "veggy" for plant monsters.
         itype_id get_meat_itype() const;
         int get_meat_chunks_count() const;
         std::string get_description() const;
+        std::string get_footsteps() const;
 
         // Historically located in monstergenerator.cpp
         void load( JsonObject &jo, const std::string &src );

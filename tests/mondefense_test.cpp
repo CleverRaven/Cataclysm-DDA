@@ -7,8 +7,8 @@
 #include "creature.h"
 #include "type_id.h"
 
-void test_zapback( Creature &attacker, const bool expect_damage,
-                   const dealt_projectile_attack *proj = nullptr )
+static void test_zapback( Creature &attacker, const bool expect_damage,
+                          const dealt_projectile_attack *proj = nullptr )
 {
     monster defender( mtype_id( "mon_zombie_electric" ) );
     int prev_hp = attacker.get_hp();
@@ -91,7 +91,7 @@ TEST_CASE( "zapback_npc_electricity_immune", "[mondefense]" )
     standard_npc attacker( "Attacker" );
     attacker.add_bionic( bionic_id( "bio_power_storage" ) );
     attacker.add_bionic( bionic_id( "bio_faraday" ) );
-    attacker.charge_power( 100 );
+    attacker.charge_power( 100_kJ );
     // Don't forget to turn it on...
     test_zapback( attacker, true );
     // Wow this is a raw index?

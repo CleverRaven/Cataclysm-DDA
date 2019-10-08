@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "sees_player_hitbutton",
+    "name": "sees-player icon, HitButton_iso",
+    "authors": [ "esotericist", "AnthonBerg" ],
+    "description": "Adds indicator icon if a creature sees the player. Designed for the HitButton isometric tileset.",
+    "category": "graphical",
+    "dependencies": [ "dda" ]
+  }
+]

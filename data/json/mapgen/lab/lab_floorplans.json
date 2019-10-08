@@ -488,7 +488,7 @@
         "r": { "items": [ { "item": "mine_equipment", "chance": 30 } ] },
         "c": { "items": [ { "item": "chem_lab", "chance": 30 } ] }
       },
-      "place_monster": [ { "monster": "mon_turret", "x": 11, "y": 9, "chance": 20 } ],
+      "place_monster": [ { "monster": "mon_turret_rifle", "x": 11, "y": 9, "chance": 20 } ],
       "place_nested": [
         { "chunks": [ "lab_spawn_9x9_crossdoors" ], "x": 6, "y": 11 },
         { "chunks": [ "lab_spawn_7x7_wall_nw" ], "x": 12, "y": 2 },
@@ -570,12 +570,13 @@
         { "monster": [ "mon_broken_cyborg", "mon_zombie_electric" ], "x": [ 14, 16 ], "y": [ 1, 4 ], "chance": 90 },
         { "monster": [ "mon_broken_cyborg", "mon_prototype_cyborg" ], "x": [ 14, 16 ], "y": [ 6, 9 ], "chance": 90 },
         { "monster": [ "mon_broken_cyborg", "mon_prototype_cyborg" ], "x": [ 21, 22 ], "y": [ 1, 4 ], "chance": 90 },
-        { "monster": [ "mon_broken_cyborg", "mon_prototype_cyborg" ], "x": [ 21, 22 ], "y": [ 6, 9 ], "chance": 90 }
+        { "monster": [ "mon_broken_cyborg", "mon_prototype_cyborg" ], "x": [ 21, 22 ], "y": [ 6, 9 ], "chance": 90 },
+        { "monster": [ "mon_nursebot", "mon_nursebot_defective" ], "x": [ 11, 13 ], "y": [ 13, 14 ], "chance": 50 }
       ]
     }
   },
   {
-    "//": "medical wing, bonesetting + centrifuge, monster in bonesetting room",
+    "//": "medical wing, autodoc + centrifuge, monster in autodoc room",
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lab_4side" ],
@@ -606,11 +607,17 @@
         "...ht|.......|         |",
         "bb...+.......|         |",
         "bb...+.......|         |",
-        ".7..l|.......|         |",
-        "....l|.......----------|"
+        "....l|.......|         |",
+        "87..l|.......----------|"
       ],
       "palettes": [ "lab_palette" ],
-      "terrain": { "C": "t_centrifuge", "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ], "7": "t_console" },
+      "terrain": {
+        "C": "t_centrifuge",
+        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
+        "7": "t_floor",
+        "8": "t_floor"
+      },
+      "furniture": { "7": "f_autodoc", "8": "f_autodoc_couch" },
       "items": {
         "b": { "item": "hospital_bed", "chance": 33 },
         "l": { "item": "surgery", "chance": 50 },
@@ -621,11 +628,6 @@
           "name": "Centrifuge",
           "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
           "failures": [ { "action": "destroy_blood" } ]
-        },
-        "7": {
-          "name": "Bonesetting Treatment",
-          "options": [ { "name": "Bonesetting Treatment", "action": "bonesetting" } ],
-          "failures": [ { "action": "alarm" } ]
         }
       },
       "place_monster": [

@@ -19,12 +19,10 @@
       [ "kittel", 1 ],
       [ "kufi", 1 ],
       [ "kippah", 1 ],
-      [ "locket", 10 ],
+      { "group": "rings_and_things", "prob": 20 },
       [ "long_glove_white", 1 ],
-      [ "necklace", 1 ],
       [ "photo_album", 15 ],
       [ "ref_lighter", 5 ],
-      [ "ring", 10 ],
       [ "roadmap", 3 ],
       [ "spray_can", 5 ],
       [ "story_book", 5 ],
@@ -415,7 +413,8 @@
         { "item": "church", "x": [ 14, 18 ], "y": [ 5, 14 ], "chance": 65 },
         { "item": "church", "x": [ 11, 12 ], "y": [ 5, 6 ], "chance": 65 },
         { "item": "jackets", "x": [ 12 ], "y": [ 14 ], "chance": 50 }
-      ]
+      ],
+      "place_npcs": [ { "chance": 7, "class": "SEER_Brigitte_LaCroix", "x": 18, "y": 6 } ]
     }
   }
 ]

@@ -1,9 +1,8 @@
-#include "calendar.h"
-
 #pragma once
 #ifndef GAME_CONSTANTS_H
 #define GAME_CONSTANTS_H
 
+#include "calendar.h"
 #include "units.h"
 
 // Fixed window sizes
@@ -97,7 +96,7 @@ constexpr int freezer = 23; // -5 Celsius
 
 /** Temperature in which water freezes in Fahrenheit  */
 constexpr int freezing = 32; // 0 Celsius
-}
+} // namespace temperatures
 
 // Shelf life of corpse. This should be kept same as raw flesh.
 constexpr time_duration CORPSE_ROT_TIME = 24_hours;
@@ -107,9 +106,6 @@ constexpr time_duration CORPSE_ROT_TIME = 24_hours;
 
 /** Cap JACK requirements to support arbitrarily large vehicles */
 #define JACK_LIMIT 8500_kilogram // 8500kg ( 8.5 metric tonnes )
-
-/** Maximum density of a map field */
-#define MAX_FIELD_DENSITY 3
 
 /** Slowest speed at which a gun can be aimed */
 #define MAX_AIM_COST 10
@@ -147,11 +143,34 @@ constexpr double accuracy_grazing  = 1.0;
 /** New England base spring temperature = 65F/18C rounded to int */
 #define SPRING_TEMPERATURE 65
 
-/** Character's base weight in units::mass */
-constexpr units::mass CHARACTER_WEIGHT = 81500_gram;
-
 /** Used to limit the random seed during noise calculation. A large value flattens the noise generator to zero.
     Windows has a rand limit of 32768, other operating systems can have higher limits. */
 constexpr int SIMPLEX_NOISE_RANDOM_SEED_LIMIT = 32768;
+
+// activity levels, used for BMR
+// these levels are normally used over the length of
+// days to weeks in order to calculate your total BMR
+// but we are making it more granular to be able to have
+// variable activity levels.
+// as such, when determining your activity level
+// in the json, think about what it would be if you
+// did this activity for a longer period of time.
+constexpr float NO_EXERCISE = 1.2f;
+constexpr float LIGHT_EXERCISE = 1.375f;
+constexpr float MODERATE_EXERCISE = 1.55f;
+constexpr float ACTIVE_EXERCISE = 1.725f;
+constexpr float EXTRA_EXERCISE = 1.9f;
+
+// these are the lower bounds of each of the weight classes
+namespace character_weight_category
+{
+constexpr float emaciated = 14.0f;
+constexpr float underweight = 16.0f;
+constexpr float normal = 18.5f;
+constexpr float overweight = 25.0f;
+constexpr float obese = 30.0f;
+constexpr float very_obese = 35.0f;
+constexpr float morbidly_obese = 40.0f;
+} // namespace character_weight_category
 
 #endif

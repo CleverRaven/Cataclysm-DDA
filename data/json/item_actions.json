@@ -11,7 +11,7 @@
   },
   {
     "type": "item_action",
-    "id": "SEW_ADVANCED",
+    "id": "sew_advanced",
     "name": "Modify Clothing"
   },
   {
@@ -53,6 +53,16 @@
     "type": "item_action",
     "id": "PICKAXE",
     "name": "Dig through rock"
+  },
+  {
+    "type": "item_action",
+    "id": "PACK_CBM",
+    "name": "Pack CBM in pouch"
+  },
+  {
+    "type": "item_action",
+    "id": "BURROW",
+    "name": "Burrow through rock"
   },
   {
     "type": "item_action",
@@ -98,6 +108,11 @@
     "type": "item_action",
     "id": "DIRECTIONAL_HOLOGRAM",
     "name": "Create a moving hologram"
+  },
+  {
+    "type": "item_action",
+    "id": "MIND_SPLICER",
+    "name": "Extract data from memory banks"
   },
   {
     "type": "item_action",
@@ -196,6 +211,16 @@
   },
   {
     "type": "item_action",
+    "id": "learn_spell",
+    "name": "Learn spell"
+  },
+  {
+    "type": "item_action",
+    "id": "cast_spell",
+    "name": "Cast spell"
+  },
+  {
+    "type": "item_action",
     "id": "holster",
     "name": "Use holster"
   },
@@ -258,6 +283,11 @@
     "type": "item_action",
     "id": "ATOMIC_CAFF",
     "name": "Drink"
+  },
+  {
+    "type": "item_action",
+    "id": "AUTOCLAVE",
+    "name": "Sterilize"
   },
   {
     "type": "item_action",
@@ -411,6 +441,11 @@
   },
   {
     "type": "item_action",
+    "id": "CALL_OF_TINDALOS",
+    "name": "Blow"
+  },
+  {
+    "type": "item_action",
     "id": "DOLLCHAT",
     "name": "Make it talk"
   },
@@ -493,6 +528,11 @@
     "type": "item_action",
     "id": "FLU_VACCINE",
     "name": "Inject"
+  },
+  {
+    "type": "item_action",
+    "id": "FOODPERSON",
+    "name": "Activate"
   },
   {
     "type": "item_action",
@@ -607,12 +647,17 @@
   {
     "type": "item_action",
     "id": "MP3",
-    "name": "Turn on"
+    "name": "Play music"
   },
   {
     "type": "item_action",
     "id": "MP3_ON",
-    "name": "Turn off"
+    "name": "Turn off music"
+  },
+  {
+    "type": "item_action",
+    "id": "RPGDIE",
+    "name": "Roll die"
   },
   {
     "type": "item_action",
@@ -881,6 +926,11 @@
   },
   {
     "type": "item_action",
+    "id": "HAND_CRANK",
+    "name": "Recharge a battery"
+  },
+  {
+    "type": "item_action",
     "id": "VIBE",
     "name": "Well, you know"
   },
@@ -891,8 +941,18 @@
   },
   {
     "type": "item_action",
-    "id": "WASHCLOTHES",
-    "name": "Wash clothes"
+    "id": "WASH_SOFT_ITEMS",
+    "name": "Wash soft items"
+  },
+  {
+    "type": "item_action",
+    "id": "WASH_HARD_ITEMS",
+    "name": "Wash hard items"
+  },
+  {
+    "type": "item_action",
+    "id": "WASH_ALL_ITEMS",
+    "name": "Wash items"
   },
   {
     "type": "item_action",
@@ -1031,7 +1091,22 @@
   },
   {
     "type": "item_action",
+    "id": "weigh_self",
+    "name": "Use Scale"
+  },
+  {
+    "type": "item_action",
     "id": "CRAFT",
     "name": "Work on craft"
+  },
+  {
+    "type": "item_action",
+    "id": "GOBAG_NORMAL",
+    "name": "Get contents"
+  },
+  {
+    "type": "item_action",
+    "id": "GOBAG_PERSONAL",
+    "name": "Get contents"
   }
 ]

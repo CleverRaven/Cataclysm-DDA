@@ -60,7 +60,7 @@
         "+": "t_door_c",
         "M": "t_door_metal_pickable",
         "i": "t_door_locked_interior",
-        "-": "t_wall",
+        "-": "t_wall_w",
         ".": "t_floor",
         "<": "t_stairs_up",
         "=": "t_chainfence_h",

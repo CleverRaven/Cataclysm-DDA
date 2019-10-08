@@ -188,6 +188,18 @@
   },
   {
     "type": "keybinding",
+    "id": "SCROLL_UP",
+    "name": "Scroll up",
+    "bindings": [ { "input_method": "mouse", "key": "SCROLL_UP" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_DOWN",
+    "name": "Scroll down",
+    "bindings": [ { "input_method": "mouse", "key": "SCROLL_DOWN" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SELECT_ALL",
     "category": "PICKUP",
     "name": "Select all",
@@ -250,6 +262,27 @@
       { "input_method": "keyboard", "key": "RIGHT" },
       { "input_method": "gamepad", "key": "JOY_RIGHT" }
     ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ENABLE_MAPEXTRA_NOTE",
+    "category": "AUTO_NOTES",
+    "name": "Enable auto note for map extra",
+    "bindings": [ { "input_method": "keyboard", "key": "e" }, { "input_method": "keyboard", "key": "E" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SWITCH_AUTO_NOTE_OPTION",
+    "category": "AUTO_NOTES",
+    "name": "Toggle auto notes option",
+    "bindings": [ { "input_method": "keyboard", "key": "s" }, { "input_method": "keyboard", "key": "S" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DISABLE_MAPEXTRA_NOTE",
+    "category": "AUTO_NOTES",
+    "name": "Disable auto note for map extra",
+    "bindings": [ { "input_method": "keyboard", "key": "d" }, { "input_method": "keyboard", "key": "D" } ]
   },
   {
     "type": "keybinding",
@@ -674,8 +707,22 @@
     "id": "QUIT",
     "category": "WORLDGEN_CONFIRM_DIALOG",
     "name": "Exit worldgen screen",
-    "comment": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the world name entry feature of this dialog",
+    "//": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the world name entry feature of this dialog",
     "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DELETE_NOTE",
+    "category": "OVERMAP_NOTES",
+    "name": "Delete Note",
+    "bindings": [ { "input_method": "keyboard", "key": "D" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EDIT_NOTE",
+    "category": "OVERMAP_NOTES",
+    "name": "Edit Note",
+    "bindings": [ { "input_method": "keyboard", "key": "E" } ]
   },
   {
     "type": "keybinding",
@@ -721,6 +768,13 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_MAP_NOTES",
+    "category": "OVERMAP",
+    "name": "Toggle Map Notes",
+    "bindings": [ { "input_method": "keyboard", "key": "G" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_CITY_LABELS",
     "category": "OVERMAP",
     "name": "Toggle City Labels",
@@ -763,6 +817,13 @@
   },
   {
     "type": "keybinding",
+    "name": "View Missions",
+    "category": "OVERMAP",
+    "id": "MISSIONS",
+    "bindings": [ { "input_method": "keyboard", "key": "M" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ROTATE",
     "category": "OVERMAP_EDITOR",
     "name": "Rotate",
@@ -785,6 +846,12 @@
       { "input_method": "keyboard", "key": "SPACE" },
       { "input_method": "gamepad", "key": "JOY_3" }
     ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CHOOSE_DESTINATION",
+    "name": "Choose destination",
+    "bindings": [ { "input_method": "keyboard", "key": "W" } ]
   },
   {
     "type": "keybinding",
@@ -993,7 +1060,7 @@
     "id": "QUIT",
     "category": "NEW_CHAR_DESCRIPTION",
     "name": "Exit new character screen",
-    "comment": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the character name entry feature of this dialog",
+    "//": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the character name entry feature of this dialog",
     "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
   },
   {
@@ -1187,16 +1254,13 @@
   {
     "type": "keybinding",
     "id": "CONFIRM_QUIT",
-    "category": "EDITMAP_TERRAIN",
+    "category": "EDITMAP_FEATURE",
     "name": "Confirm & quit",
-    "bindings": [ { "input_method": "keyboard", "key": "g" } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "CONFIRM_QUIT",
-    "category": "EDITMAP_TRAPS",
-    "name": "Confirm & quit",
-    "bindings": [ { "input_method": "keyboard", "key": "t" } ]
+    "bindings": [
+      { "input_method": "keyboard", "key": "e" },
+      { "input_method": "keyboard", "key": "u" },
+      { "input_method": "keyboard", "key": "t" }
+    ]
   },
   {
     "type": "keybinding",
@@ -1209,7 +1273,7 @@
     "type": "keybinding",
     "id": "START",
     "category": "EDITMAP_SHAPE",
-    "name": "Select shape",
+    "name": "To start",
     "bindings": [ { "input_method": "keyboard", "key": "z" } ]
   },
   {
@@ -1249,8 +1313,15 @@
     "type": "keybinding",
     "id": "EDIT_TERRAIN",
     "category": "EDITMAP",
-    "name": "Edit terrain / furniture",
-    "bindings": [ { "input_method": "keyboard", "key": "g" } ]
+    "name": "Edit terrain",
+    "bindings": [ { "input_method": "keyboard", "key": "e" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EDIT_FURNITURE",
+    "category": "EDITMAP",
+    "name": "Edit furniture",
+    "bindings": [ { "input_method": "keyboard", "key": "r" } ]
   },
   {
     "type": "keybinding",
@@ -1425,10 +1496,16 @@
   },
   {
     "type": "keybinding",
-    "name": "Pick up Item(s)",
+    "name": "Pick up Nearby Item(s)",
     "category": "DEFAULTMODE",
     "id": "pickup",
-    "bindings": [ { "input_method": "keyboard", "key": "," }, { "input_method": "keyboard", "key": "g" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "g" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Pickup Item(s) at Player Feet",
+    "category": "DEFAULTMODE",
+    "id": "pickup_feet"
   },
   {
     "type": "keybinding",
@@ -1471,6 +1548,12 @@
     "category": "DEFAULTMODE",
     "id": "look",
     "bindings": [ { "input_method": "keyboard", "key": ";" }, { "input_method": "keyboard", "key": "x" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "toggle_thief_mode",
+    "category": "DEFAULTMODE",
+    "name": "Toggle thief mode"
   },
   {
     "type": "keybinding",
@@ -1551,6 +1634,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Consume Item Menu",
+    "category": "DEFAULTMODE",
+    "id": "open_consume"
+  },
+  {
+    "type": "keybinding",
     "name": "Read",
     "category": "DEFAULTMODE",
     "id": "read",
@@ -1574,8 +1663,7 @@
     "type": "keybinding",
     "name": "Reload Wielded Item",
     "category": "DEFAULTMODE",
-    "id": "reload_weapon",
-    "bindings": [ { "input_method": "keyboard", "key": "r" } ]
+    "id": "reload_weapon"
   },
   {
     "type": "keybinding",
@@ -1700,8 +1788,7 @@
     "type": "keybinding",
     "name": "Toggle Auto Travel Mode",
     "category": "DEFAULTMODE",
-    "id": "auto_travel_mode",
-    "bindings": [ { "input_method": "keyboard", "key": "" } ]
+    "id": "auto_travel_mode"
   },
   {
     "type": "keybinding",
@@ -1774,9 +1861,9 @@
   },
   {
     "type": "keybinding",
-    "name": "View Kills",
+    "name": "View Scores",
     "category": "DEFAULTMODE",
-    "id": "kills",
+    "id": "scores",
     "bindings": [ { "input_method": "keyboard", "key": ")" } ]
   },
   {
@@ -1803,14 +1890,12 @@
   {
     "type": "keybinding",
     "name": "Zoom In",
-    "category": "DEFAULTMODE",
     "id": "zoom_in",
     "bindings": [ { "input_method": "keyboard", "key": "z" } ]
   },
   {
     "type": "keybinding",
     "name": "Zoom Out",
-    "category": "DEFAULTMODE",
     "id": "zoom_out",
     "bindings": [ { "input_method": "keyboard", "key": "Z" } ]
   },
@@ -1831,6 +1916,30 @@
     "name": "View Scentmap",
     "category": "DEFAULTMODE",
     "id": "debug_scent"
+  },
+  {
+    "type": "keybinding",
+    "name": "View Temperature Map",
+    "category": "DEFAULTMODE",
+    "id": "debug_temp"
+  },
+  {
+    "type": "keybinding",
+    "name": "View Visibility Map",
+    "category": "DEFAULTMODE",
+    "id": "debug_visibility"
+  },
+  {
+    "type": "keybinding",
+    "name": "View Lighting Map",
+    "category": "DEFAULTMODE",
+    "id": "debug_lighting"
+  },
+  {
+    "type": "keybinding",
+    "name": "View Radiation Map",
+    "category": "DEFAULTMODE",
+    "id": "debug_radiation"
   },
   {
     "type": "keybinding",
@@ -1862,7 +1971,8 @@
     "type": "keybinding",
     "name": "Reload Item",
     "category": "DEFAULTMODE",
-    "id": "reload_item"
+    "id": "reload_item",
+    "bindings": [ { "input_method": "keyboard", "key": "r" } ]
   },
   {
     "type": "keybinding",
@@ -1893,6 +2003,12 @@
     "name": "Toggle Auto Foraging",
     "category": "DEFAULTMODE",
     "id": "toggle_auto_foraging"
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Auto Pickup",
+    "category": "DEFAULTMODE",
+    "id": "toggle_auto_pickup"
   },
   {
     "type": "keybinding",
@@ -1997,6 +2113,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Autonotes manager",
+    "category": "DEFAULTMODE",
+    "id": "open_autonotes"
+  },
+  {
+    "type": "keybinding",
     "name": "Safe Mode manager",
     "category": "DEFAULTMODE",
     "id": "open_safemode"
@@ -2043,6 +2165,12 @@
     "name": "Movement Mode Menu",
     "category": "DEFAULTMODE",
     "id": "open_movement"
+  },
+  {
+    "type": "keybinding",
+    "id": "cast_spell",
+    "name": "Spellcasting",
+    "category": "DEFAULTMODE"
   },
   {
     "type": "keybinding",
@@ -2120,20 +2248,6 @@
   },
   {
     "type": "keybinding",
-    "name": "Zoom In",
-    "category": "LOOK",
-    "id": "zoom_in",
-    "bindings": [ { "input_method": "keyboard", "key": "z" } ]
-  },
-  {
-    "type": "keybinding",
-    "name": "Zoom Out",
-    "category": "LOOK",
-    "id": "zoom_out",
-    "bindings": [ { "input_method": "keyboard", "key": "Z" } ]
-  },
-  {
-    "type": "keybinding",
     "id": "REASSIGN",
     "category": "BIONICS",
     "name": "Reassign invlet",
@@ -2195,7 +2309,7 @@
     "id": "QUIT",
     "category": "HELP_KEYBINDINGS",
     "name": "Exit this keybinding screen",
-    "comment": "separate entry, because the global entry also has 'q', 'Q' and space listed, which conflicts with the search text input",
+    "//": "separate entry, because the global entry also has 'q', 'Q' and space listed, which conflicts with the search text input",
     "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
   },
   {
@@ -2668,6 +2782,38 @@
     "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
     "name": "Ignore further distractions and finish",
     "bindings": [ { "input_method": "keyboard", "key": "I" }, { "input_method": "keyboard", "key": "i" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "YES",
+    "category": "YES_NO_ALWAYS_NEVER",
+    "name": "Yes",
+    "bindings": [ { "input_method": "keyboard", "key": [ "Y" ] }, { "input_method": "keyboard", "key": [ "y" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NO",
+    "category": "YES_NO_ALWAYS_NEVER",
+    "name": "No",
+    "bindings": [
+      { "input_method": "keyboard", "key": [ "N" ] },
+      { "input_method": "keyboard", "key": [ "n" ] },
+      { "input_method": "keyboard", "key": [ "ESC" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ALWAYS",
+    "category": "YES_NO_ALWAYS_NEVER",
+    "name": "Always",
+    "bindings": [ { "input_method": "keyboard", "key": [ "A" ] }, { "input_method": "keyboard", "key": [ "a" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NEVER",
+    "category": "YES_NO_ALWAYS_NEVER",
+    "name": "Never",
+    "bindings": [ { "input_method": "keyboard", "key": [ "E" ] }, { "input_method": "keyboard", "key": [ "e" ] } ]
   },
   {
     "type": "keybinding",

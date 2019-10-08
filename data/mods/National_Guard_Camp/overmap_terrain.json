@@ -2907,106 +2907,6 @@
   {
     "color": "dark_gray",
     "extras": "none",
-    "id": "national_guard_camp_b1_1",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_2",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_3",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_4",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_5",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_6",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_7",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_8",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_9",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_10",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
     "id": "national_guard_camp_b1_11",
     "mondensity": 2,
     "name": "solid rock",
@@ -3098,56 +2998,6 @@
     "color": "dark_gray",
     "extras": "none",
     "id": "national_guard_camp_b1_20",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_21",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_22",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_23",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_24",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_25",
     "mondensity": 2,
     "name": "solid rock",
     "see_cost": 99,
@@ -3322,46 +3172,6 @@
     "name": "Military Complex",
     "see_cost": 99,
     "sym": "M",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_43",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_44",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_45",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_46",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
     "type": "overmap_terrain"
   },
   {
@@ -3565,26 +3375,6 @@
     "type": "overmap_terrain"
   },
   {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_67",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_68",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
     "color": "c_black_green",
     "extras": "none",
     "id": "national_guard_camp_b1_69",
@@ -3782,26 +3572,6 @@
     "name": "cavern",
     "see_cost": 99,
     "sym": "0",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_89",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_90",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
     "type": "overmap_terrain"
   },
   {
@@ -4005,26 +3775,6 @@
     "type": "overmap_terrain"
   },
   {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_111",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_112",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
     "color": "c_black_green",
     "extras": "none",
     "id": "national_guard_camp_b1_113",
@@ -4225,26 +3975,6 @@
     "type": "overmap_terrain"
   },
   {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_133",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_134",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
     "color": "c_black_green",
     "extras": "none",
     "id": "national_guard_camp_b1_135",
@@ -4432,36 +4162,6 @@
     "name": "microbiology lab",
     "see_cost": 99,
     "sym": "L",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_154",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_155",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_156",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
     "type": "overmap_terrain"
   },
   {
@@ -4656,16 +4356,6 @@
   {
     "color": "dark_gray",
     "extras": "none",
-    "id": "national_guard_camp_b1_176",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
     "id": "national_guard_camp_b1_177",
     "mondensity": 2,
     "name": "solid rock",
@@ -4814,86 +4504,6 @@
     "type": "overmap_terrain"
   },
   {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_192",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_193",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_194",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_195",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_196",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_197",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_198",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_199",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
     "color": "light_blue",
     "extras": "none",
     "id": "national_guard_camp_b1_200",
@@ -4937,166 +4547,6 @@
     "color": "dark_gray",
     "extras": "none",
     "id": "national_guard_camp_b1_204",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_205",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_206",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_207",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_208",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_209",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_210",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_211",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_212",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_213",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_214",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_215",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_216",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_217",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_218",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_219",
-    "mondensity": 2,
-    "name": "solid rock",
-    "see_cost": 99,
-    "sym": "%",
-    "type": "overmap_terrain"
-  },
-  {
-    "color": "dark_gray",
-    "extras": "none",
-    "id": "national_guard_camp_b1_220",
     "mondensity": 2,
     "name": "solid rock",
     "see_cost": 99,

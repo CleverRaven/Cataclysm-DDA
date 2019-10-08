@@ -1,0 +1,223 @@
+[
+  {
+    "type": "npc",
+    "id": "evac_broker",
+    "//": "Appears in the refugee center as a bulk trader.  Promotes production of nonperishable food.",
+    "name_suffix": "Broker",
+    "class": "NC_SCAVENGER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_FREE_MERCHANT_STOCKS",
+    "faction": "free_merchants",
+    "mission_offered": "MISSION_BROKER_1"
+  },
+  {
+    "//": "table of contents - these options will appear in the listed dialogue topics",
+    "id": [
+      "TALK_FREE_MERCHANT_STOCKS",
+      "TALK_FREE_MERCHANT_STOCKS_NEW",
+      "TALK_FREE_MERCHANT_STOCKS_ALL",
+      "TALK_FREE_MERCHANT_STOCKS_BACKGROUND",
+      "TALK_FREE_MERCHANT_STOCKS_FMCN",
+      "TALK_FREE_MERCHANT_STOCKS_REFUGEES",
+      "TALK_FREE_MERCHANT_STOCKS_BEGGARS",
+      "TALK_FREE_MERCHANT_STOCKS_SEALED1",
+      "TALK_FREE_MERCHANT_STOCKS_SEALED2",
+      "TALK_FREE_MERCHANT_STOCKS_RANCH"
+    ],
+    "type": "talk_topic",
+    "responses": [
+      { "text": "I'm here to deliver some food supplies.", "topic": "TALK_FREE_MERCHANT_STOCKS_DELIVER" },
+      {
+        "text": "Are you able to buy some canning supplies?",
+        "topic": "TALK_FREE_MERCHANT_STOCKS_JARS",
+        "condition": { "u_has_var": "FMBroker_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+      },
+      {
+        "text": "I was told you had work for me?",
+        "topic": "TALK_MISSION_LIST",
+        "condition": { "u_has_var": "FMShopkeep_Mission5", "type": "mission", "context": "flag", "value": "yes" }
+      },
+      { "text": "Who are you?", "topic": "TALK_FREE_MERCHANT_STOCKS_NEW" },
+      {
+        "text": "What's the deal with this written-on paper money you guys use?",
+        "topic": "TALK_FREE_MERCHANT_STOCKS_FMCN"
+      },
+      { "text": "The refugees stuck up here seem a bit disgruntled.", "topic": "TALK_FREE_MERCHANT_STOCKS_REFUGEES" },
+      { "text": "Do you know about those beggars in the lobby?", "topic": "TALK_FREE_MERCHANT_STOCKS_BEGGARS" },
+      {
+        "text": "What's the deal with the closed-off areas of the building?",
+        "topic": "TALK_FREE_MERCHANT_STOCKS_SEALED1",
+        "condition": { "not": { "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" } }
+      },
+      {
+        "text": "What are you going to do with that back bay area now that I've cleaned it out for you?",
+        "topic": "TALK_FREE_MERCHANT_STOCKS_SEALED2",
+        "condition": { "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+      },
+      {
+        "text": "Tell me more about that ranch of yours.",
+        "condition": { "u_has_var": "tacoma_started", "type": "knowledge", "context": "flag", "value": "yes" },
+        "topic": "TALK_FREE_MERCHANT_STOCKS_RANCH"
+      },
+      { "text": "What were you saying before that?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.  Bye!", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANT_STOCKS",
+    "type": "talk_topic",
+    "dynamic_line": "What can I help you with?"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_STOCKS_DELIVER",
+    "dynamic_line": "Excellent.  What've you brought us?",
+    "repeat_responses": {
+      "for_item": [
+        "jerky",
+        "meat_smoked",
+        "fish_smoked",
+        "dry_veggy",
+        "dry_fruit",
+        "cooking_oil",
+        "cooking_oil2",
+        "cornmeal",
+        "flour",
+        "fruit_wine",
+        "beer",
+        "sugar",
+        "salt",
+        "vinegar"
+      ],
+      "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
+    },
+    "responses": [
+      { "text": "That's all for now.  Can we discuss something else?", "topic": "TALK_NONE" },
+      { "text": "That's all for now.  I'd best get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_STOCKS_JARS",
+    "dynamic_line": "Yes, I can buy 500 mL or 3 L glass jars at the moment.",
+    "repeat_responses": {
+      "for_item": [ "jar_glass", "jar_3l_glass" ],
+      "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
+    },
+    "responses": [
+      { "text": "That's all for now.  Can we discuss something else?", "topic": "TALK_NONE" },
+      { "text": "That's all for now.  I'd best get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_STOCKS_NEW",
+    "dynamic_line": {
+      "gendered_line": "I oversee the food stocks for the center.  There was significant looting during the panic when we first arrived so most of our food was carried away.  I manage what we have left and do everything I can to increase our supplies.  We've got a few growing sources of fresh meats and vegetables, so I prioritize non-perishable food, such as cornmeal, jerky, and fruit wine.",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [
+      { "text": "Why cornmeal, jerky, and fruit wine?", "topic": "TALK_FREE_MERCHANT_STOCKS_WHY" },
+      {
+        "text": "Okay, but I meant \"who are you\", like, \"what's your story?\"",
+        "topic": "TALK_FREE_MERCHANT_STOCKS_BACKGROUND"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_STOCKS_WHY",
+    "dynamic_line": "All three are easy to locally produce in significant quantities and are non-perishable.  We have a local farmer or two and a few hunter types that have been making attempts to provide us with the nutritious supplies.  We do always need more suppliers though.  This stuff is rather cheap in bulk, so I can pay a premium for any you have on you.  Canned food and other edibles are handled by the merchant in the front in trade.",
+    "responses": [
+      { "text": "Are you looking to buy anything else?", "topic": "TALK_FREE_MERCHANT_STOCKS_ALL" },
+      { "text": "Very well... let's talk about something else.", "topic": "TALK_FREE_MERCHANT_STOCKS" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_STOCKS_BACKGROUND",
+    "dynamic_line": "I'm sorry, but I'm not here to make friends, I've got a job to do."
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_STOCKS_ALL",
+    "dynamic_line": "I'm actually accepting a number of different foodstuffs: beer, sugar, flour, smoked meat, smoked fish, dried fruit and vegetables, cooking oil, preservatives like salt and vinegar; and as mentioned before, jerky, cornmeal, and fruit wine."
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_STOCKS_FMCN",
+    "dynamic_line": "We call them \"Free Merchant Certified Notes\".  We started signing money almost as soon as we got here as a way of showing it represented actual goods and services we had to trade.  Within a few days we'd organized the system, and now it's been evolving into a form of cash.  Internally they're traded for labor and services in exchange for food rations and other trade goods, but we've been using them with suppliers we regularly trade with as well, those that have faith in us."
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_STOCKS_REFUGEES",
+    "dynamic_line": "Yeah, it's a tough situation.  When we started out here nobody was really in charge, and we let more in than we really had capacity to feed and support.  When the dust settled and we'd established a little order, there were still all these people upstairs waiting for a place to live, and no space.  We've set up a little space for them, but it's not ideal."
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_STOCKS_BEGGARS",
+    "dynamic_line": {
+      "u_has_var": "beggars_recruited",
+      "type": "general",
+      "context": "recruit",
+      "value": "yes",
+      "yes": "I do.  I don't know what you did to convince them to move out, but our supply chain and I both thank you.  I hope it wasn't too unseemly.",
+      "no": "Even once we got things sorted out, there weren't enough beds for everyone, and definitely not enough supplies. These are harsh times.  We're doing what we can for those folks... at least they've got shelter."
+    }
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_STOCKS_SEALED1",
+    "dynamic_line": "Well, there's the downstairs section, we can't fit more people down there so it's out of bounds.  Then there's the second bay that we were using as a staging area at first.  Things went... wrong.  I hear the shopkeeper is offering a reward to clear it out, if you're feeling suicidal.",
+    "responses": [ { "text": "What went wrong with your staging area?", "topic": "TALK_FREE_MERCHANT_STOCKS_SEALED1wrong" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_STOCKS_SEALED1wrong",
+    "dynamic_line": "We didn't have great organization when we first arrived. A few of the earliest arrivals set up a triage and sorting system, with the sick and infirm getting set aside to wait. It's cruel, but we could see there was only space for so many, and we didn't know what was causing people to turn into zombies at the time, so we were trying to quarantine out infection.  A couple folks died in there, and it escalated.  One of the first people here, Jacob, had taken charge of the whole thing.  When the triage area had to be evacuated he stayed behind to make sure everyone who could get out got out.  It was a hell of a loss.",
+    "speaker_effect": [
+      { "effect": { "u_add_var": "told_about_FM_evacuation", "type": "general", "context": "conversation", "value": "yes" } }
+    ],
+    "responses": [ { "text": "Thanks, can I ask you something else?", "topic": "TALK_FREE_MERCHANT_STOCKS" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_STOCKS_SEALED2",
+    "dynamic_line": "Thank you for that.  We don't have any immediate plans for the area.  Once it's cleaned up I suppose we'll let the people living up here decide what to do with it."
+  },
+  {
+    "id": "TALK_FREE_MERCHANT_STOCKS_RANCH",
+    "type": "talk_topic",
+    "dynamic_line": "I'm so glad we've got that up and running.  One of the people evacuated here had a connection to a functioning ranch, and we got him and a crew out there as quickly as we were able.  We're hoping they'll be able to supply us in enough foodstuffs to make this place self-sufficient and even to trade with other communities as they arise."
+  },
+  {
+    "id": "MISSION_BROKER_1",
+    "type": "mission_definition",
+    "name": "In a Pickle Pt. 2",
+    "description": "Deliver 50 large three-liter jars in exchange for <reward_count:FMCNote> certified notes.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 3,
+    "value": 20000,
+    "item": "jar_3l_glass",
+    "count": 50,
+    "end": {
+      "effect": [
+        { "u_buy_item": "FMCNote", "count": 25 },
+        { "u_add_var": "FMBroker_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "I do have some work for you.",
+      "offer": "You heard right.  When you brought in those canning jars, it got us thinking about expanding our food storage from dehydrated to include cans.  We could use some larger jars though for big stock items.  Can you bring me 50 large three liter jars?  I'll pay you a Certified Note per two.",
+      "accepted": "Thank you.  Once we get a cottage industry set up with some of our inhabitants, I'll be able to start buying these from you and other scavengers in smaller lots.  This should be enough to test out our equipment.",
+      "rejected": "Oh well.  I'll see if I can find another supplier, thanks.",
+      "advice": "Grocery stores, house kitchens, there's plenty of places to look.",
+      "inquire": "How is the search going?",
+      "success": "Wow, that's a lot more jars than it sounded on paper.  Thanks.  Here's your payment.",
+      "success_lie": "What good does this do us?",
+      "failure": "I wonder where all the jars went..."
+    }
+  }
+]
