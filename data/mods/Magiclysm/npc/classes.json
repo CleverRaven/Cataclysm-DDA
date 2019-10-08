@@ -1,0 +1,9 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_MAGE",
+    "name": "Mage",
+    "job_description": "I'm a wandering practitioner of the arcane arts.",
+    "traits": [ { "trait": "KELVINIST" }, { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
+  }
+]
