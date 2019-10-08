@@ -1451,7 +1451,6 @@ void advanced_inventory::display()
     ctxt.register_action( "ITEMS_WORN" );
     ctxt.register_action( "ITEMS_AROUND" );
     ctxt.register_action( "ITEMS_DRAGGED_CONTAINER" );
-    ctxt.register_action( "ITEMS_CONTAINER" );
 
     ctxt.register_action( "ITEMS_DEFAULT" );
     ctxt.register_action( "SAVE_DEFAULT" );

@@ -2622,10 +2622,10 @@
   },
   {
     "type": "keybinding",
-    "id": "ITEMS_CONTAINER",
+    "id": "ITEMS_DRAGGED_CONTAINER",
     "category": "ADVANCED_INVENTORY",
-    "name": "Select items in container",
-    "bindings": [ { "input_method": "keyboard", "key": "c" }, { "input_method": "keyboard", "key": "C" } ]
+    "name": "Select items in dragged container",
+    "bindings": [ { "input_method": "keyboard", "key": "d" }, { "input_method": "keyboard", "key": "D" } ]
   },
   {
     "type": "keybinding",
