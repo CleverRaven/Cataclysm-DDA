@@ -1335,8 +1335,8 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
         if( technique.knockback_follow ) {
             const optional_vpart_position vp0 = g->m.veh_at( pos() );
             vehicle *const veh0 = veh_pointer_or_null( vp0 );
-            bool to_swimmable= g->m.has_flag( "SWIMMABLE", prev_pos );
-            bool to_deepwater= g->m.has_flag( TFLAG_DEEP_WATER, prev_pos );
+            bool to_swimmable = g->m.has_flag( "SWIMMABLE", prev_pos );
+            bool to_deepwater = g->m.has_flag( TFLAG_DEEP_WATER, prev_pos );
 
             // Check if it's possible to move to the new tile
             bool move_issue =
