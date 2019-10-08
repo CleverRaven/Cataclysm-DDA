@@ -1341,7 +1341,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
             // Check if it's possible to move to the new tile
             bool move_issue =
                 g->is_dangerous_tile( prev_pos ) || // Tile contains fire, etc
-                ( toSwimmable && toDeepWater ) || // Dive into deep water
+                ( to_swimmable && to_deepwater ) || // Dive into deep water
                 is_mounted() ||
                 ( veh0 != nullptr && abs( veh0->velocity ) > 100 ) || // Diving from moving vehicle
                 ( veh0 != nullptr && veh0->player_in_control( g->u ) ) || // Player is driving
