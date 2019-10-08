@@ -328,6 +328,6 @@
     "harvest": "exempt",
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "MELT" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "PATH_AVOID_FIRE", "REGENERATES_1" ]
   }
 ]
