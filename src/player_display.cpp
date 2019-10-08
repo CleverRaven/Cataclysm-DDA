@@ -1079,10 +1079,10 @@ static void draw_initial_windows( const catacurses::window &w_stats,
 
     int runcost = you.run_cost( 100 );
     nc_color col = ( runcost <= 100 ? c_green : c_red );
-    mvwprintz( w_speed, point( runcost >= 100 ? 21 : ( runcost < 10 ? 23 : 22 ), 1 ), col,
+    mvwprintz( w_speed, point( 21 + ( runcost >= 100 ? 0 : ( runcost < 10 ? 2 : 1 ) ), 1 ), col,
                "%d", runcost );
     col = ( newmoves >= 100 ? c_green : c_red );
-    mvwprintz( w_speed, point( newmoves >= 100 ? 21 : ( newmoves < 10 ? 23 : 22 ), 2 ), col,
+    mvwprintz( w_speed, point( 21 + ( newmoves >= 100 ? 0 : ( newmoves < 10 ? 2 : 1 ) ), 2 ), col,
                "%d", newmoves );
     wrefresh( w_speed );
 }
