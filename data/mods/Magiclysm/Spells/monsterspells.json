@@ -1,0 +1,20 @@
+[
+  {
+    "id": "blood_suck",
+    "type": "SPELL",
+    "name": "Blood Suck",
+    "description": "Sucks blood from one foe.",
+    "valid_targets": [ "hostile" ],
+    "damage_type": "stab",
+    "min_damage": 5,
+    "max_damage": 10,
+    "damage_increment": 1,
+    "max_level": 5,
+    "min_range": 1,
+    "max_range": 2,
+    "range_increment": 0.20,
+    "effect": "target_attack",
+    "effect_str": "drain_blood",
+    "flags": [ "NO_HANDS", "NO_LEGS" ]
+  }
+]
