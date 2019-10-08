@@ -4148,7 +4148,7 @@ void map::draw_lab( mapgendata &dat )
                         furn_set( point( SEEX, SEEY ), f_table );
                         if( loot_variant <= 67 ) {
                             spawn_item( point( SEEX, SEEY - 1 ), "UPS_off" );
-                            spawn_item( point( SEEX, SEEY - 1 ), "battery", dice( 4, 3 ) );
+                            spawn_item( point( SEEX, SEEY - 1 ), "heavy_battery_cell" );
                             spawn_item( point( SEEX - 1, SEEY ), "v29" );
                             spawn_item( point( SEEX - 1, SEEY ), "laser_rifle", dice( 1, 0 ) );
                             spawn_item( point( SEEX, SEEY ), "plasma_gun" );
