@@ -22,9 +22,11 @@
 #include "game.h"
 #include "game_constants.h"
 #include "itype.h"
+#include "material.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
+#include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
@@ -51,6 +53,14 @@
 #include "stomach.h"
 #include "ui.h"
 
+static const bionic_id bio_ads( "bio_ads" );
+static const bionic_id bio_armor_arms( "bio_armor_arms" );
+static const bionic_id bio_armor_eyes( "bio_armor_eyes" );
+static const bionic_id bio_armor_head( "bio_armor_head" );
+static const bionic_id bio_armor_legs( "bio_armor_legs" );
+static const bionic_id bio_armor_torso( "bio_armor_torso" );
+static const bionic_id bio_carbon( "bio_carbon" );
+
 const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_beartrap( "beartrap" );
@@ -75,6 +85,7 @@ const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_nausea( "nausea" );
 const efftype_id effect_no_sight( "no_sight" );
+const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_pkill1( "pkill1" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_pkill3( "pkill3" );
@@ -99,6 +110,8 @@ static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
+static const trait_id trait_HOLLOW_BONES( "HOLLOW_BONES" );
+static const trait_id trait_LIGHT_BONES( "LIGHT_BONES" );
 static const trait_id trait_MEMBRANE( "MEMBRANE" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_NIGHTVISION2( "NIGHTVISION2" );
@@ -4169,3 +4182,232 @@ double Character::calculate_by_enchantment( double modify, enchantment::mod valu
     }
     return modify;
 }
+
+void Character::passive_absorb_hit( body_part bp, damage_unit &du ) const
+{
+    // >0 check because some mutations provide negative armor
+    // Thin skin check goes before subdermal armor plates because SUBdermal
+    if( du.amount > 0.0f ) {
+        // Horrible hack warning!
+        // Get rid of this as soon as CUT and STAB are split
+        if( du.type == DT_STAB ) {
+            damage_unit du_copy = du;
+            du_copy.type = DT_CUT;
+            du.amount -= mutation_armor( bp, du_copy );
+        } else {
+            du.amount -= mutation_armor( bp, du );
+        }
+    }
+    du.amount -= bionic_armor_bonus( bp, du.type ); //Check for passive armor bionics
+    du.amount -= mabuff_armor_bonus( du.type );
+    du.amount = std::max( 0.0f, du.amount );
+}
+
+static void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
+{
+    if( who.is_avatar() ) {
+        g->memorial().add(
+            //~ %s is armor name
+            pgettext( "memorial_male", "Worn %s was completely destroyed." ),
+            pgettext( "memorial_female", "Worn %s was completely destroyed." ),
+            pre_damage_name );
+    }
+    who.add_msg_player_or_npc( m_bad, _( "Your %s is completely destroyed!" ),
+                               _( "<npcname>'s %s is completely destroyed!" ),
+                               pre_damage_name );
+}
+
+void Character::absorb_hit( body_part bp, damage_instance &dam )
+{
+    std::list<item> worn_remains;
+    bool armor_destroyed = false;
+
+    for( auto &elem : dam.damage_units ) {
+        if( elem.amount < 0 ) {
+            // Prevents 0 damage hits (like from hallucinations) from ripping armor
+            elem.amount = 0;
+            continue;
+        }
+
+        // The bio_ads CBM absorbs damage before hitting armor
+        if( has_active_bionic( bio_ads ) ) {
+            if( elem.amount > 0 && get_power_level() > 24_kJ ) {
+                if( elem.type == DT_BASH ) {
+                    elem.amount -= rng( 1, 8 );
+                } else if( elem.type == DT_CUT ) {
+                    elem.amount -= rng( 1, 4 );
+                } else if( elem.type == DT_STAB ) {
+                    elem.amount -= rng( 1, 2 );
+                }
+                mod_power_level( -25_kJ );
+            }
+            if( elem.amount < 0 ) {
+                elem.amount = 0;
+            }
+        }
+
+        // Only the outermost armor can be set on fire
+        bool outermost = true;
+        // The worn vector has the innermost item first, so
+        // iterate reverse to damage the outermost (last in worn vector) first.
+        for( auto iter = worn.rbegin(); iter != worn.rend(); ) {
+            item &armor = *iter;
+
+            if( !armor.covers( bp ) ) {
+                ++iter;
+                continue;
+            }
+
+            const std::string pre_damage_name = armor.tname();
+            bool destroy = false;
+
+            // Heat damage can set armor on fire
+            // Even though it doesn't cause direct physical damage to it
+            if( outermost && elem.type == DT_HEAT && elem.amount >= 1.0f ) {
+                // TODO: Different fire intensity values based on damage
+                fire_data frd{ 2 };
+                destroy = armor.burn( frd );
+                int fuel = roll_remainder( frd.fuel_produced );
+                if( fuel > 0 ) {
+                    add_effect( effect_onfire, time_duration::from_turns( fuel + 1 ), bp, false, 0, false, true );
+                }
+            }
+
+            if( !destroy ) {
+                destroy = armor_absorb( elem, armor );
+            }
+
+            if( destroy ) {
+                if( g->u.sees( *this ) ) {
+                    SCT.add( point( posx(), posy() ), NORTH, remove_color_tags( pre_damage_name ),
+                             m_neutral, _( "destroyed" ), m_info );
+                }
+                destroyed_armor_msg( *this, pre_damage_name );
+                armor_destroyed = true;
+                armor.on_takeoff( *this );
+                worn_remains.insert( worn_remains.end(), armor.contents.begin(), armor.contents.end() );
+                // decltype is the type name of the iterator, note that reverse_iterator::base returns the
+                // iterator to the next element, not the one the revers_iterator points to.
+                // http://stackoverflow.com/questions/1830158/how-to-call-erase-with-a-reverse-iterator
+                iter = decltype( iter )( worn.erase( --( iter.base() ) ) );
+            } else {
+                ++iter;
+                outermost = false;
+            }
+        }
+
+        passive_absorb_hit( bp, elem );
+
+        if( elem.type == DT_BASH ) {
+            if( has_trait( trait_LIGHT_BONES ) ) {
+                elem.amount *= 1.4;
+            }
+            if( has_trait( trait_HOLLOW_BONES ) ) {
+                elem.amount *= 1.8;
+            }
+        }
+
+        elem.amount = std::max( elem.amount, 0.0f );
+    }
+    for( item &remain : worn_remains ) {
+        g->m.add_item_or_charges( pos(), remain );
+    }
+    if( armor_destroyed ) {
+        drop_invalid_inventory();
+    }
+}
+
+bool Character::armor_absorb( damage_unit &du, item &armor )
+{
+    if( rng( 1, 100 ) > armor.get_coverage() ) {
+        return false;
+    }
+
+    // TODO: add some check for power armor
+    armor.mitigate_damage( du );
+
+    // We want armor's own resistance to this type, not the resistance it grants
+    const int armors_own_resist = armor.damage_resist( du.type, true );
+    if( armors_own_resist > 1000 ) {
+        // This is some weird type that doesn't damage armors
+        return false;
+    }
+
+    // Scale chance of article taking damage based on the number of parts it covers.
+    // This represents large articles being able to take more punishment
+    // before becoming ineffective or being destroyed.
+    const int num_parts_covered = armor.get_covered_body_parts().count();
+    if( !one_in( num_parts_covered ) ) {
+        return false;
+    }
+
+    // Don't damage armor as much when bypassed by armor piercing
+    // Most armor piercing damage comes from bypassing armor, not forcing through
+    const int raw_dmg = du.amount;
+    if( raw_dmg > armors_own_resist ) {
+        // If damage is above armor value, the chance to avoid armor damage is
+        // 50% + 50% * 1/dmg
+        if( one_in( raw_dmg ) || one_in( 2 ) ) {
+            return false;
+        }
+    } else {
+        // Sturdy items and power armors never take chip damage.
+        // Other armors have 0.5% of getting damaged from hits below their armor value.
+        if( armor.has_flag( "STURDY" ) || armor.is_power_armor() || !one_in( 200 ) ) {
+            return false;
+        }
+    }
+
+    auto &material = armor.get_random_material();
+    std::string damage_verb = ( du.type == DT_BASH ) ? material.bash_dmg_verb() :
+                              material.cut_dmg_verb();
+
+    const std::string pre_damage_name = armor.tname();
+    const std::string pre_damage_adj = armor.get_base_material().dmg_adj( armor.damage_level( 4 ) );
+
+    // add "further" if the damage adjective and verb are the same
+    std::string format_string = ( pre_damage_adj == damage_verb ) ?
+                                _( "Your %1$s is %2$s further!" ) : _( "Your %1$s is %2$s!" );
+    add_msg_if_player( m_bad, format_string, pre_damage_name, damage_verb );
+    //item is damaged
+    if( is_player() ) {
+        SCT.add( point( posx(), posy() ), NORTH, remove_color_tags( pre_damage_name ), m_neutral,
+                 damage_verb,
+                 m_info );
+    }
+
+    return armor.mod_damage( armor.has_flag( "FRAGILE" ) ?
+                             rng( 2 * itype::damage_scale, 3 * itype::damage_scale ) : itype::damage_scale, du.type );
+}
+
+float Character::bionic_armor_bonus( body_part bp, damage_type dt ) const
+{
+    float result = 0.0f;
+    // We only check the passive bionics
+    if( has_bionic( bio_carbon ) ) {
+        if( dt == DT_BASH ) {
+            result += 2;
+        } else if( dt == DT_CUT || dt == DT_STAB ) {
+            result += 4;
+        }
+    }
+    // All the other bionic armors reduce bash/cut/stab by 3
+    // Map body parts to a set of bionics that protect it
+    // TODO: JSONize passive bionic armor instead of hardcoding it
+    static const std::map< body_part, bionic_id > armor_bionics = {
+        { bp_head, { bio_armor_head } },
+        { bp_arm_l, { bio_armor_arms } },
+        { bp_arm_r, { bio_armor_arms } },
+        { bp_torso, { bio_armor_torso } },
+        { bp_leg_l, { bio_armor_legs } },
+        { bp_leg_r, { bio_armor_legs } },
+        { bp_eyes, { bio_armor_eyes } }
+    };
+    auto iter = armor_bionics.find( bp );
+    if( iter != armor_bionics.end() && has_bionic( iter->second ) &&
+        ( dt == DT_BASH || dt == DT_CUT || dt == DT_STAB ) ) {
+        result += 3;
+    }
+    return result;
+}
+
