@@ -13,7 +13,7 @@
     "min_range": 1,
     "max_range": 2,
     "range_increment": 0.20,
-    "effect": "target_attack",
+    "effect": "projectile_attack",
     "extra_effects": [ { "id": "light_healing", "hit_self": true } ],
     "flags": [ "NO_HANDS", "NO_LEGS" ]
   }
