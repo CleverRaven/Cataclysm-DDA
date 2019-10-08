@@ -96,7 +96,11 @@ const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
 const zone_type_id z_loot_ignore( "LOOT_IGNORE" );
 const zone_type_id z_camp_food( "CAMP_FOOD" );
 
-using mass_volume = std::pair<units::mass, units::volume>;
+struct mass_volume {
+    units::mass wgt;
+    units::volume vol;
+    int count;
+};
 
 namespace base_camps
 {
@@ -375,9 +379,9 @@ std::vector<tripoint> om_companion_path( const tripoint &start, int range_start 
  * @param trips how many trips back and forth the NPC will make
  */
 time_duration companion_travel_time_calc( const tripoint &omt_pos, const tripoint &omt_tgt,
-        time_duration work, int trips = 1 );
+        time_duration work, int trips = 1, int haulage = 0 );
 time_duration companion_travel_time_calc( const std::vector<tripoint> &journey, time_duration work,
-        int trips = 1 );
+        int trips = 1, int haulauge = 0 );
 /// Determines how many round trips a given NPC @ref comp will take to move all of the
 /// items @ref itms
 int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp = nullptr );
@@ -1559,19 +1563,12 @@ void basecamp::start_cut_logs()
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
         //Very roughly what the player does + 6 hours for prep, clean up, breaks
         time_duration chop_time = 6_hours + 1_hours * tree_est + 7_minutes * tree_young_est;
-        //Generous to believe the NPC can move ~ 2 logs or ~8 heavy sticks (3 per young tree?)
-        //per trip, each way is 1 trip
-        //20 young trees => ~60 sticks which can be carried 8 at a time, so 8 round trips or
-        //16 trips total
-        //This all needs to be in an om_carry_weight_over_distance function eventually...
-        int trips = tree_est + tree_young_est * 3  / 4;
-        //Always have to come back so no odd number of trips
-        trips += trips & 1 ? 1 : 0;
+        int haul_items = 2 * tree_est + 3 * tree_young_est;
         time_duration travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes,
-                                    trips );
+                                    2, haul_items );
         time_duration work_time = travel_time + chop_time;
         if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( work_time,
-                       chop_time, travel_time, dist, trips, time_to_food( work_time ) ) ) ) {
+                       chop_time, travel_time, dist, 2, time_to_food( work_time ) ) ) ) {
             return;
         }
         g->draw_ter();
@@ -1579,16 +1576,12 @@ void basecamp::start_cut_logs()
         npc_ptr comp = start_mission( "_faction_camp_cut_log", work_time, true,
                                       _( "departs to cut logs..." ), false, {}, "fabrication", 2 );
         if( comp != nullptr ) {
-            units::mass carry_m = comp->weight_capacity() - comp->weight_carried();
-            // everyone gets at least a makeshift sling of storage
-            units::volume carry_v = comp->volume_capacity() - comp->volume_carried() +
-                                    item( itype_id( "makeshift_sling" ) ).get_storage();
             om_cutdown_trees_logs( forest, 50 );
             om_harvest_ter( *comp, forest, ter_id( "t_tree_young" ), 50 );
             mass_volume harvest = om_harvest_itm( comp, forest, 95 );
             // recalculate trips based on actual load and capacity
-            trips = om_carry_weight_to_trips( harvest.first, harvest.second, carry_m, carry_v );
-            travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, trips );
+            travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, 2,
+                          harvest.count );
             work_time = travel_time + chop_time;
             comp->companion_mission_time_ret = calendar::turn + work_time;
             //If we cleared a forest...
@@ -1658,9 +1651,10 @@ void basecamp::start_setup_hide_site()
                                                    _( "Do you wish to give your companion "
                                                            "additional items?" ) );
             int trips = om_carry_weight_to_trips( losing_equipment );
+            int haulage = trips <= 2 ? 0 : losing_equipment.size();
             time_duration build_time = 6_hours;
             time_duration travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes,
-                                        trips );
+                                        2, haulage );
             time_duration work_time = travel_time + build_time;
             if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( work_time,
                            build_time, travel_time, dist, trips, time_to_food( work_time ) ) ) ) {
@@ -1671,7 +1665,8 @@ void basecamp::start_setup_hide_site()
                                           "survival", 3 );
             if( comp != nullptr ) {
                 trips = om_carry_weight_to_trips( losing_equipment, comp );
-                work_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, trips ) +
+                haulage = trips <= 2 ? 0 : losing_equipment.size();
+                work_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, 2, haulage ) +
                             build_time;
                 comp->companion_mission_time_ret = calendar::turn + work_time;
                 om_set_hide_site( *comp, forest, losing_equipment );
@@ -1715,9 +1710,11 @@ void basecamp::start_relay_hide_site()
             //Only get charged the greater trips since return is free for both
             int trips = std::max( om_carry_weight_to_trips( gaining_equipment ),
                                   om_carry_weight_to_trips( losing_equipment ) );
+            int haulage = trips <= 2 ? 0 : std::max( gaining_equipment.size(),
+                          losing_equipment.size() );
             time_duration build_time = 6_hours;
             time_duration travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes,
-                                        trips );
+                                        trips, haulage );
             time_duration work_time = travel_time + build_time;
             if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( work_time, build_time,
                            travel_time, dist, trips, time_to_food( work_time ) ) ) ) {
@@ -1731,8 +1728,10 @@ void basecamp::start_relay_hide_site()
                 // recalculate trips based on actual load
                 trips = std::max( om_carry_weight_to_trips( gaining_equipment, comp ),
                                   om_carry_weight_to_trips( losing_equipment, comp ) );
-                work_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, trips ) +
-                            build_time;
+                int haulage = trips <= 2 ? 0 : std::max( gaining_equipment.size(),
+                              losing_equipment.size() );
+                work_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, trips,
+                                                        haulage ) + build_time;
                 comp->companion_mission_time_ret = calendar::turn + work_time;
                 om_set_hide_site( *comp, forest, losing_equipment, gaining_equipment );
             }
@@ -2895,18 +2894,22 @@ mass_volume om_harvest_itm( npc_ptr comp, const tripoint &omt_tgt, int chance, b
     units::volume harvested_v = 0_ml;
     units::mass total_m = 0_gram;
     units::volume total_v = 0_ml;
+    int total_num = 0;
+    int harvested_num = 0;
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z );
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
         for( const item &i : target_bay.i_at( p ) ) {
             total_m += i.weight( true );
             total_v += i.volume( true );
+            total_num += 1;
             if( take && x_in_y( chance, 100 ) ) {
                 if( comp ) {
                     comp->companion_mission_inv.push_back( i );
                 }
                 harvested_m += i.weight( true );
                 harvested_v += i.volume( true );
+                harvested_num += 1;
             }
         }
         if( take ) {
@@ -2914,9 +2917,15 @@ mass_volume om_harvest_itm( npc_ptr comp, const tripoint &omt_tgt, int chance, b
         }
     }
     target_bay.save();
-    mass_volume results = { total_m, total_v };
+    mass_volume results;
     if( take ) {
-        results = { harvested_m, harvested_v };
+        results.wgt = harvested_m;
+        results.vol = harvested_v;
+        results.count = harvested_num;
+    } else {
+        results.wgt = total_m;
+        results.vol = total_v;
+        results.count = total_num;
     }
     return results;
 }
@@ -3073,36 +3082,36 @@ bool om_set_hide_site( npc &comp, const tripoint &omt_tgt,
 
 // path and travel time
 time_duration companion_travel_time_calc( const tripoint &omt_pos,
-        const tripoint &omt_tgt, time_duration work,
-        int trips )
+        const tripoint &omt_tgt, time_duration work, int trips, int haulage )
 {
     std::vector<tripoint> journey = line_to( omt_pos, omt_tgt );
-    return companion_travel_time_calc( journey, work, trips );
+    return companion_travel_time_calc( journey, work, trips, haulage );
 }
 
 time_duration companion_travel_time_calc( const std::vector<tripoint> &journey,
-        time_duration work, int trips )
+        time_duration work, int trips, int haulage )
 {
     int one_way = 0;
     for( auto &om : journey ) {
         const oter_id &omt_ref = overmap_buffer.ter( om );
         std::string om_id = omt_ref.id().c_str();
-        //Player walks 1 om is roughly 2.5 min
+        //Player walks 1 om is roughly 30 seconds
         if( om_id == "field" ) {
-            one_way += 3;
+            one_way += 30 + 30 * haulage;
         } else if( om_id == "forest" ) {
-            one_way += 4;
+            one_way += 40 + 30 * haulage;
         } else if( om_id == "forest_thick" ) {
-            one_way += 5;
+            one_way += 50 + 30 * haulage;
         } else if( om_id == "forest_water" ) {
-            one_way += 6;
+            one_way += 60 + 30 * haulage;
         } else if( is_river( omt_ref ) ) {
-            one_way += 20;
+            // hauling stuff over a river is slow, because you have to portage most items
+            one_way += 200 + 40 * haulage;
         } else {
-            one_way += 4;
+            one_way += 40 + 30 * haulage;
         }
     }
-    return work + one_way * trips * 1_minutes;
+    return work + one_way * trips * 1_seconds;
 }
 
 int om_carry_weight_to_trips( units::mass mass, units::volume volume,
