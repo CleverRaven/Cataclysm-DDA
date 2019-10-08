@@ -598,5 +598,18 @@
       "explosion": { "power": 120 }
     },
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "bluebell_flower",
+    "name": "bluebell",
+    "description": "A bluebell stalk with some petals.",
+    "weight": "40 g",
+    "to_hit": -3,
+    "color": "blue",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": "250 ml",
+    "price": 0
   }
 ]
