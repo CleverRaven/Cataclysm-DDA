@@ -9934,7 +9934,7 @@ static void destroyed_armor_msg( Character &who, const std::string &pre_damage_n
                                pre_damage_name );
 }
 
-bool player::armor_absorb( damage_unit &du, item &armor )
+bool Character::armor_absorb( damage_unit &du, item &armor )
 {
     if( rng( 1, 100 ) > armor.get_coverage() ) {
         return false;
@@ -9997,7 +9997,7 @@ bool player::armor_absorb( damage_unit &du, item &armor )
                              rng( 2 * itype::damage_scale, 3 * itype::damage_scale ) : itype::damage_scale, du.type );
 }
 
-float player::bionic_armor_bonus( body_part bp, damage_type dt ) const
+float Character::bionic_armor_bonus( body_part bp, damage_type dt ) const
 {
     float result = 0.0f;
     // We only check the passive bionics
@@ -10028,7 +10028,7 @@ float player::bionic_armor_bonus( body_part bp, damage_type dt ) const
     return result;
 }
 
-void player::passive_absorb_hit( body_part bp, damage_unit &du ) const
+void Character::passive_absorb_hit( body_part bp, damage_unit &du ) const
 {
     // >0 check because some mutations provide negative armor
     // Thin skin check goes before subdermal armor plates because SUBdermal
@@ -10048,7 +10048,7 @@ void player::passive_absorb_hit( body_part bp, damage_unit &du ) const
     du.amount = std::max( 0.0f, du.amount );
 }
 
-void player::absorb_hit( body_part bp, damage_instance &dam )
+void Character::absorb_hit( body_part bp, damage_instance &dam )
 {
     std::list<item> worn_remains;
     bool armor_destroyed = false;
