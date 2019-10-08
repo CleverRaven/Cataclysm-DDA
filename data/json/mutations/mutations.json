@@ -6400,7 +6400,7 @@
     "id": "WAYFARER",
     "name": "Wayfarer",
     "points": -8,
-    "description": "Whether from personal choice or childhood trauma, vehicle manipulation is off-limits to you, even if your life depended on it. Walking is your only mode of travel.",
+    "description": "Whether from personal choice or childhood trauma, vehicle manipulation is off-limits to you, even if your life depended on it.  Walking is your only mode of travel.",
     "starting_trait": true,
     "valid": false
   }
