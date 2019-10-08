@@ -1903,6 +1903,11 @@
   },
   {
     "type": "recipe",
+    "result": "tool_black_powder_bomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "tool_rdx_sand_bomb",
     "obsolete": true
   }
