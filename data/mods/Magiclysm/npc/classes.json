@@ -5,6 +5,6 @@
     "name": "Mage",
     "job_description": "I'm a wandering practitioner of the arcane arts.",
     "traits": [ { "trait": "STORMSHAPER" }, { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
-    "spells": [ { "id": "lightning_bolt", "level": 1 }, { "id": "windrun", "level": 1 } ]
+    "spells": [ { "id": "lightning_bolt", "level": 6 }, { "id": "windrun", "level": 6 } ]
   }
 ]
