@@ -4222,7 +4222,7 @@ void Character::absorb_hit( body_part bp, damage_instance &dam )
     std::list<item> worn_remains;
     bool armor_destroyed = false;
 
-    for( auto &elem : dam.damage_units ) {
+    for( damage_unit &elem : dam.damage_units ) {
         if( elem.amount < 0 ) {
             // Prevents 0 damage hits (like from hallucinations) from ripping armor
             elem.amount = 0;
@@ -4358,7 +4358,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor )
         }
     }
 
-    auto &material = armor.get_random_material();
+    const material_type &material = armor.get_random_material();
     std::string damage_verb = ( du.type == DT_BASH ) ? material.bash_dmg_verb() :
                               material.cut_dmg_verb();
 
