@@ -96,7 +96,11 @@ const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
 const zone_type_id z_loot_ignore( "LOOT_IGNORE" );
 const zone_type_id z_camp_food( "CAMP_FOOD" );
 
-using mass_volume = std::pair<units::mass, units::volume>;
+struct mass_volume {
+    units::mass wgt;
+    units::volume vol;
+    int count;
+};
 
 namespace base_camps
 {
@@ -116,19 +120,22 @@ recipe_id select_camp_option( const std::map<recipe_id, translation> &pos_option
 std::map<std::string, miss_data> miss_info = {{
         {
             "_faction_upgrade_camp", {
-                "Upgrade Camp", to_translation( "Upgrade camp" ), to_translation( "Working to expand your camp!\n" ),
+                "Upgrade Camp", to_translation( "Upgrade camp" ),
+                to_translation( "Working to expand your camp!\n" ),
                 "Recover Ally from Upgrading", to_translation( "Recover Ally from Upgrading" )
             }
         },
         {
             "_faction_camp_crafting_", {
-                "Craft Item", to_translation( "Craft Item" ), to_translation( "Busy crafting!\n" ),
+                "Craft Item", to_translation( "Craft Item" ),
+                to_translation( "Busy crafting!\n" ),
                 " (Finish) Crafting", to_translation( " (Finish) Crafting" )
             }
         },
         {
             "travelling", {
-                "Travelling", to_translation( "Travelling" ), to_translation( "Busy travelling!\n" ),
+                "Travelling", to_translation( "Travelling" ),
+                to_translation( "Busy travelling!\n" ),
                 "Recall ally from travelling", to_translation( "Recall ally from travelling" )
             }
         },
@@ -141,37 +148,43 @@ std::map<std::string, miss_data> miss_info = {{
         },
         {
             "_faction_camp_firewood", {
-                "Collect Firewood", to_translation( "Collect Firewood" ), to_translation( "Searching for firewood.\n" ),
+                "Collect Firewood", to_translation( "Collect Firewood" ),
+                to_translation( "Searching for firewood.\n" ),
                 "Recover Firewood Gatherers", to_translation( "Recover Firewood Gatherers" )
             }
         },
         {
             "_faction_camp_menial", {
-                "Menial Labor", to_translation( "Menial Labor" ), to_translation( "Performing menial labor...\n" ),
+                "Menial Labor", to_translation( "Menial Labor" ),
+                to_translation( "Performing menial labor...\n" ),
                 "Recover Menial Laborer", to_translation( "Recover Menial Laborer" )
             }
         },
         {
             "_faction_camp_expansion", {
-                "Expand Base", to_translation( "Expand Base" ), to_translation( "Surveying for expansion...\n" ),
+                "Expand Base", to_translation( "Expand Base" ),
+                to_translation( "Surveying for expansion...\n" ),
                 "Recover Surveyor", to_translation( "Recover Surveyor" )
             }
         },
         {
             "_faction_camp_cut_log", {
-                "Cut Logs", to_translation( "Cut Logs" ), to_translation( "Cutting logs in the woods...\n" ),
+                "Cut Logs", to_translation( "Cut Logs" ),
+                to_translation( "Cutting logs in the woods...\n" ),
                 "Recover Log Cutter", to_translation( "Recover Log Cutter" )
             }
         },
         {
             "_faction_camp_clearcut", {
-                "Clearcut", to_translation( "Clear a forest" ), to_translation( "Clearing a forest...\n" ),
+                "Clearcut", to_translation( "Clear a forest" ),
+                to_translation( "Clearing a forest...\n" ),
                 "Recover Clearcutter", to_translation( "Recover Clearcutter" )
             }
         },
         {
             "_faction_camp_hide_site", {
-                "Setup Hide Site", to_translation( "Setup Hide Site" ), to_translation( "Setting up a hide site...\n" ),
+                "Setup Hide Site", to_translation( "Setup Hide Site" ),
+                to_translation( "Setting up a hide site...\n" ),
                 "Recover Hide Setup", to_translation( "Recover Hide Setup" )
             }
         },
@@ -184,19 +197,22 @@ std::map<std::string, miss_data> miss_info = {{
         },
         {
             "_faction_camp_foraging", {
-                "Camp Forage", to_translation( "Forage for plants" ), to_translation( "Foraging for edible plants.\n" ),
+                "Camp Forage", to_translation( "Forage for plants" ),
+                to_translation( "Foraging for edible plants.\n" ),
                 "Recover Foragers", to_translation( "Recover Foragers" )
             }
         },
         {
             "_faction_camp_trapping", {
-                "Trap Small Game", to_translation( "Trap Small Game" ), to_translation( "Trapping Small Game.\n" ),
+                "Trap Small Game", to_translation( "Trap Small Game" ),
+                to_translation( "Trapping Small Game.\n" ),
                 "Recover Trappers", to_translation( "Recover Trappers" )
             }
         },
         {
             "_faction_camp_hunting", {
-                "Hunt Large Animals", to_translation( "Hunt Large Animals" ), to_translation( "Hunting large animals.\n" ),
+                "Hunt Large Animals", to_translation( "Hunt Large Animals" ),
+                to_translation( "Hunting large animals.\n" ),
                 "Recover Hunter", to_translation( "Recover Hunter" )
             }
         },
@@ -209,19 +225,22 @@ std::map<std::string, miss_data> miss_info = {{
         },
         {
             "_faction_camp_recruit_0", {
-                "Recruit Companions", to_translation( "Recruit Companions" ), to_translation( "Searching for recruits.\n" ),
+                "Recruit Companions", to_translation( "Recruit Companions" ),
+                to_translation( "Searching for recruits.\n" ),
                 "Recover Recruiter", to_translation( "Recover Recruiter" )
             }
         },
         {
             "_faction_camp_scout_0", {
-                "Scout Mission", to_translation( "Scout Mission" ), to_translation( "Scouting the region.\n" ),
+                "Scout Mission", to_translation( "Scout Mission" ),
+                to_translation( "Scouting the region.\n" ),
                 "Recover Scout", to_translation( "Recover Scout" )
             }
         },
         {
             "_faction_camp_combat_0", {
-                "Combat Patrol", to_translation( "Combat Patrol" ), to_translation( "Patrolling the region.\n" ),
+                "Combat Patrol", to_translation( "Combat Patrol" ),
+                to_translation( "Patrolling the region.\n" ),
                 "Recover Combat Patrol", to_translation( "Recover Combat Patrol" )
             }
         },
@@ -234,13 +253,15 @@ std::map<std::string, miss_data> miss_info = {{
         },
         {
             "_faction_exp_chop_shop_", {
-                " Chop Shop", to_translation( " Chop Shop" ), to_translation( "Working at the chop shop...\n" ),
+                " Chop Shop", to_translation( " Chop Shop" ),
+                to_translation( "Working at the chop shop...\n" ),
                 " (Finish) Chop Shop", to_translation( " (Finish) Chop Shop" )
             }
         },
         {
             "_faction_exp_kitchen_cooking_", {
-                " Kitchen Cooking", to_translation( " Kitchen Cooking" ), to_translation( "Working in your kitchen!\n" ),
+                " Kitchen Cooking", to_translation( " Kitchen Cooking" ),
+                to_translation( "Working in your kitchen!\n" ),
                 " (Finish) Cooking", to_translation( " (Finish) Cooking" )
             }
         },
@@ -253,13 +274,15 @@ std::map<std::string, miss_data> miss_info = {{
         },
         {
             "_faction_exp_plow_", {
-                " Plow Fields", to_translation( " Plow Fields" ), to_translation( "Working to plow your fields!\n" ),
+                " Plow Fields", to_translation( " Plow Fields" ),
+                to_translation( "Working to plow your fields!\n" ),
                 " (Finish) Plow Fields", to_translation( " (Finish) Plow fields" )
             }
         },
         {
             "_faction_exp_plant_", {
-                " Plant Fields", to_translation( " Plant Fields" ), to_translation( "Working to plant your fields!\n" ),
+                " Plant Fields", to_translation( " Plant Fields" ),
+                to_translation( "Working to plant your fields!\n" ),
                 " (Finish) Plant Fields", to_translation( " (Finish) Plant Fields" )
             }
         },
@@ -272,7 +295,8 @@ std::map<std::string, miss_data> miss_info = {{
         },
         {
             "_faction_exp_farm_crafting_", {
-                " Farm Crafting", to_translation( " Farm Crafting" ), to_translation( "Working on your farm!\n" ),
+                " Farm Crafting", to_translation( " Farm Crafting" ),
+                to_translation( "Working on your farm!\n" ),
                 " (Finish) Crafting", to_translation( " (Finish) Crafting" )
             }
         }
@@ -355,9 +379,9 @@ std::vector<tripoint> om_companion_path( const tripoint &start, int range_start 
  * @param trips how many trips back and forth the NPC will make
  */
 time_duration companion_travel_time_calc( const tripoint &omt_pos, const tripoint &omt_tgt,
-        time_duration work, int trips = 1 );
+        time_duration work, int trips = 1, int haulage = 0 );
 time_duration companion_travel_time_calc( const std::vector<tripoint> &journey, time_duration work,
-        int trips = 1 );
+        int trips = 1, int haulauge = 0 );
 /// Determines how many round trips a given NPC @ref comp will take to move all of the
 /// items @ref itms
 int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp = nullptr );
@@ -627,8 +651,8 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_upgrade_camp" ];
         entry = miss_info.action.translated();
         bool avail = update_time_left( entry, npc_list );
-        mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(), cata::nullopt,
-                                entry, avail );
+        mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                cata::nullopt, entry, avail );
     }
 
     for( const basecamp_upgrade &upgrade : available_upgrades( base_dir ) ) {
@@ -677,27 +701,27 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                   "Time: 3 Hours, Repeated\n"
                                   "Positions: %d/3\n" ), gathering_description( gather_bldg ),
                                npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt, entry,
-                               npc_list.size() < 3 );
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+                               entry, npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = miss_info.action.translated();
             bool avail = update_time_fixed( entry, npc_list, 3_hours );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(), cata::nullopt,
-                                    entry, avail );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    cata::nullopt, entry, avail );
         }
         if( !by_radio ) {
             entry = string_format( _( "Notes:\n"
-                                      "Distribute food to your follower and fill you larders.  Place "
-                                      "the food you wish to distribute in the camp food zone.  You "
-                                      "must have a camp food zone, an unsorted loot zone, and at "
-                                      "least one loot destination zone or you will be prompted to "
-                                      "create them using the zone manager.\n"
+                                      "Distribute food to your follower and fill you larders.  "
+                                      "Place the food you wish to distribute in the camp food "
+                                      "zone.  You must have a camp food zone, an unsorted loot "
+                                      "zone, and at least one loot destination zone or you will "
+                                      "be prompted to create them using the zone manager.\n"
                                       "Effects:\n"
-                                      "> Increases your faction's food supply value which in turn is "
-                                      "used to pay laborers for their time\n\n"
+                                      "> Increases your faction's food supply value which in "
+                                      "turn is used to pay laborers for their time\n\n"
                                       "Must have enjoyability >= -6\n"
-                                      "Perishable food liquidated at penalty depending on upgrades "
-                                      "and rot time:\n"
+                                      "Perishable food liquidated at penalty depending on "
+                                      "upgrades and rot time:\n"
                                       "> Rotten: 0%%\n"
                                       "> Rots in < 2 days: 60%%\n"
                                       "> Rots in < 5 days: 80%%\n\n"
@@ -706,16 +730,17 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             mission_key.add( "Distribute Food", _( "Distribute Food" ), entry );
 
             entry = string_format( _( "Notes:\n"
-                                      "Reset the zones that items are sorted to using the [ Menial "
-                                      "Labor ] mission.\n\n"
+                                      "Reset the zones that items are sorted to using the "
+                                      "[ Menial Labor ] mission.\n\n"
                                       "Effects:\n"
-                                      "> Assign sort zones using the zone manager.  You must have a "
-                                      "camp food zone, an unsorted loot zone, and at least one loot "
-                                      "destination zone.\n"
-                                      "> Only items that are in the unsorted loot zone and not in "
-                                      "any other zone will be sorted.\n"
-                                      "Items that do not have a loot destination zone will be sorted "
-                                      "using the normal rules for automatic zone sorting." ) );
+                                      "> Assign sort zones using the zone manager.  You must "
+                                      "have a camp food zone, an unsorted loot zone, and at "
+                                      "least one loot destination zone.\n"
+                                      "> Only items that are in the unsorted loot zone and not "
+                                      "in any other zone will be sorted.\n"
+                                      "Items that do not have a loot destination zone will be "
+                                      "sorted using the normal rules for automatic zone "
+                                      "sorting." ) );
             mission_key.add( "Reset Sort Points", _( "Reset Sort Points" ), entry );
         }
     }
@@ -734,13 +759,13 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                   "Risk: Very Low\n"
                                   "Time: 3 Hours, Repeated\n"
                                   "Positions: %d/3\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt, entry,
-                               npc_list.size() < 3 );
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+                               entry, npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = miss_info.action.translated();
             bool avail = update_time_fixed( entry, npc_list, 3_hours );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(), cata::nullopt,
-                                    entry, avail );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    cata::nullopt, entry, avail );
         }
     }
 
@@ -759,13 +784,13 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                       "\n\nRisk: None\n"
                                       "Time: 3 Hours\n"
                                       "Positions: %d/1\n" ), npc_list.size() );
-            mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt, entry,
-                                   npc_list.empty() );
+            mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+                                   entry, npc_list.empty() );
             if( !npc_list.empty() ) {
                 entry = miss_info.action.translated();
                 bool avail = update_time_left( entry, npc_list );
-                mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(), cata::nullopt,
-                                        entry, avail );
+                mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                        cata::nullopt, entry, avail );
             }
         }
     }
@@ -780,8 +805,8 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                   "each camp.\n\n"
                                   "Skill used: N/A \n"
                                   "Effects:\n"
-                                  "> Choose any one of the available expansions.  Starting with a "
-                                  "farm is always a solid choice since food is used to support "
+                                  "> Choose any one of the available expansions.  Starting with "
+                                  "a farm is always a solid choice since food is used to support "
                                   "companion missions and little is needed to get it going.  "
                                   "With minimal investment, a mechanic can be useful as a "
                                   "chop-shop to rapidly dismantle large vehicles, and a forge "
@@ -791,13 +816,13 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                   "Risk: None\n"
                                   "Time: 3 Hours \n"
                                   "Positions: %d/1\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt, entry,
-                               npc_list.empty() );
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+                               entry, npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = miss_info.action.translated();
             bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(), cata::nullopt,
-                                    entry, avail );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    cata::nullopt, entry, avail );
         }
     }
 
@@ -809,20 +834,21 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                   "Skill used: fabrication\n"
                                   "Difficulty: 1 \n"
                                   "Effects:\n"
-                                  "> 50%% of trees/trunks at the forest position will be cut down.\n"
+                                  "> 50%% of trees/trunks at the forest position will be "
+                                  "cut down.\n"
                                   "> 100%% of total material will be brought back.\n"
                                   "> Repeatable with diminishing returns.\n"
                                   "> Will eventually turn forests into fields.\n"
                                   "Risk: None\n"
                                   "Time: 6 Hour Base + Travel Time + Cutting Time\n"
                                   "Positions: %d/1\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt, entry,
-                               npc_list.empty() );
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+                               entry, npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = miss_info.action.translated();
             bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(), cata::nullopt,
-                                    entry, avail );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    cata::nullopt, entry, avail );
         }
     }
 
@@ -842,13 +868,13 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                   "Risk: None\n"
                                   "Time: 6 Hour Base + Travel Time + Cutting Time\n"
                                   "Positions: %d/1\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt, entry,
-                               npc_list.empty() );
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+                               entry, npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = miss_info.action.translated();
             bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(), cata::nullopt,
-                                    entry, avail );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    cata::nullopt, entry, avail );
         }
     }
 
@@ -867,13 +893,13 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                   "Risk: Medium\n"
                                   "Time: 6 Hour Construction + Travel\n"
                                   "Positions: %d/1\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt, entry,
-                               npc_list.empty() );
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+                               entry, npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = miss_info.action.translated();
             bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(), cata::nullopt,
-                                    entry, avail );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    cata::nullopt, entry, avail );
         }
     }
 
@@ -898,8 +924,8 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         if( !npc_list.empty() ) {
             entry = miss_info.action.translated();
             bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(), cata::nullopt,
-                                    entry, avail );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    cata::nullopt, entry, avail );
         }
     }
 
@@ -917,13 +943,13 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                   "Risk: Very Low\n"
                                   "Time: 4 Hours, Repeated\n"
                                   "Positions: %d/3\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt, entry,
-                               npc_list.size() < 3 );
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+                               entry, npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = miss_info.action.translated();
             bool avail = update_time_fixed( entry, npc_list, 4_hours );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(), cata::nullopt,
-                                    entry, avail );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    cata::nullopt, entry, avail );
         }
     }
 
@@ -940,13 +966,13 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                   "Risk: Low\n"
                                   "Time: 6 Hours, Repeated\n"
                                   "Positions: %d/2\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt, entry,
-                               npc_list.size() < 2 );
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+                               entry, npc_list.size() < 2 );
         if( !npc_list.empty() ) {
             entry = miss_info.action.translated();
             bool avail = update_time_fixed( entry, npc_list, 6_hours );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(), cata::nullopt,
-                                    entry, avail );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    cata::nullopt, entry, avail );
         }
     }
 
@@ -963,13 +989,13 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                   "Risk: Medium\n"
                                   "Time: 6 Hours, Repeated\n"
                                   "Positions: %d/1\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt, entry,
-                               npc_list.empty() );
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+                               entry, npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = miss_info.action.translated();
             bool avail = update_time_fixed( entry, npc_list, 6_hours );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(), cata::nullopt,
-                                    entry, avail );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    cata::nullopt, entry, avail );
         }
     }
 
@@ -977,16 +1003,16 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         comp_list npc_list = get_mission_workers( "_faction_camp_om_fortifications" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_om_fortifications" ];
         entry = om_upgrade_description( "faction_wall_level_N_0" );
-        mission_key.add_start( "Construct Map Fort", _( "Construct Map Fortifications" ), cata::nullopt,
-                               entry, npc_list.empty() );
+        mission_key.add_start( "Construct Map Fort", _( "Construct Map Fortifications" ),
+                               cata::nullopt, entry, npc_list.empty() );
         entry = om_upgrade_description( "faction_wall_level_N_1" );
         mission_key.add_start( "Construct Trench", _( "Construct Spiked Trench" ), cata::nullopt, entry,
                                npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = miss_info.action.translated();
             bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(), cata::nullopt,
-                                    entry, avail );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    cata::nullopt, entry, avail );
         }
     }
 
@@ -999,8 +1025,8 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         if( !npc_list.empty() ) {
             entry = miss_info.action.translated();
             bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(), cata::nullopt,
-                                    entry, avail );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    cata::nullopt, entry, avail );
         }
     }
 
@@ -1020,13 +1046,13 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                   "Risk: High\n"
                                   "Time: Travel\n"
                                   "Positions: %d/3\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt, entry,
-                               npc_list.size() < 3 );
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+                               entry, npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = miss_info.action.translated();
             bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(), cata::nullopt,
-                                    entry, avail );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    cata::nullopt, entry, avail );
         }
     }
 
@@ -1048,8 +1074,8 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                   "Risk: Very High\n"
                                   "Time: Travel\n"
                                   "Positions: %d/3\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt, entry,
-                               npc_list.size() < 3 );
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+                               entry, npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = miss_info.action.translated();
             bool avail = update_time_left( entry, npc_list );
@@ -1077,7 +1103,8 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
 
         for( const basecamp_upgrade &upgrade : available_upgrades( dir ) ) {
             const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_upgrade_exp_" ];
-            comp_list npc_list = get_mission_workers( upgrade.bldg + "_faction_upgrade_exp_" + dir_id );
+            comp_list npc_list = get_mission_workers( upgrade.bldg + "_faction_upgrade_exp_" +
+                                 dir_id );
             if( npc_list.empty() ) {
                 entry = om_upgrade_description( upgrade.bldg );
                 mission_key.add_start( dir_id + miss_info.miss_id + upgrade.bldg,
@@ -1087,8 +1114,8 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                 entry = miss_info.action.translated();
                 bool avail = update_time_left( entry, npc_list );
                 mission_key.add_return( "Recover Ally, " + dir_id + " Expansion" + upgrade.bldg,
-                                        _( "Recover Ally, " ) + dir_abbr + _( " Expansion" ) + " " +
-                                        upgrade.name, dir, entry, avail );
+                                        _( "Recover Ally, " ) + dir_abbr + _( " Expansion" ) +
+                                        " " + upgrade.name, dir, entry, avail );
             }
         }
 
@@ -1110,8 +1137,8 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             if( !npc_list.empty() ) {
                 entry = miss_info.action.translated();
                 bool avail = update_time_left( entry, npc_list );
-                mission_key.add_return( dir_id + miss_info.ret_miss_id, dir_abbr + miss_info.ret_desc, dir,
-                                        entry, avail );
+                mission_key.add_return( dir_id + miss_info.ret_miss_id,
+                                        dir_abbr + miss_info.ret_desc, dir, entry, avail );
             }
         }
 
@@ -1124,8 +1151,8 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             } else {
                 entry = miss_info.action.translated();
                 bool avail = update_time_left( entry, npc_list );
-                mission_key.add_return( dir_id + miss_info.ret_miss_id, dir_abbr + miss_info.ret_desc, dir,
-                                        entry, avail );
+                mission_key.add_return( dir_id + miss_info.ret_miss_id,
+                                        dir_abbr + miss_info.ret_desc, dir, entry, avail );
             }
         }
 
@@ -1138,8 +1165,8 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             } else {
                 entry = miss_info.action.translated();
                 bool avail = update_time_left( entry, npc_list );
-                mission_key.add_return( dir_id + miss_info.ret_miss_id, dir_abbr + miss_info.ret_desc, dir,
-                                        entry, avail );
+                mission_key.add_return( dir_id + miss_info.ret_miss_id,
+                                        dir_abbr + miss_info.ret_desc, dir, entry, avail );
             }
         }
 
@@ -1165,8 +1192,8 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             } else {
                 entry = miss_info.action.translated();
                 bool avail = update_time_left( entry, npc_list );
-                mission_key.add_return( dir_id + miss_info.ret_miss_id, dir_abbr + miss_info.ret_desc, dir,
-                                        entry, avail );
+                mission_key.add_return( dir_id + miss_info.ret_miss_id,
+                                        dir_abbr + miss_info.ret_desc, dir, entry, avail );
             }
         }
         if( has_provides( "farming", dir ) ) {
@@ -1188,13 +1215,14 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                            "Risk: None\n"
                            "Time: 1 Min / Plot \n"
                            "Positions: 0/1 \n" );
-                mission_key.add_start( dir_id + miss_info.miss_id, dir_abbr + miss_info.desc, dir, entry,
+                mission_key.add_start( dir_id + miss_info.miss_id,
+                                       dir_abbr + miss_info.desc, dir, entry,
                                        plots > 0 && warm_enough_to_plant( omt_trg ) );
             } else {
                 entry = miss_info.action.translated();
                 bool avail = update_time_left( entry, npc_list );
-                mission_key.add_return( dir_id + miss_info.ret_miss_id, dir_abbr + miss_info.ret_desc, dir,
-                                        entry, avail );
+                mission_key.add_return( dir_id + miss_info.ret_miss_id,
+                                        dir_abbr + miss_info.ret_desc, dir, entry, avail );
             }
         }
         if( has_provides( "farming", dir ) ) {
@@ -1213,13 +1241,14 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                            "Risk: None\n"
                            "Time: 3 Min / Plot \n"
                            "Positions: 0/1 \n" );
-                mission_key.add_start( dir_id + miss_info.miss_id, dir_abbr + miss_info.desc, dir, entry,
+                mission_key.add_start( dir_id + miss_info.miss_id,
+                                       dir_abbr + miss_info.desc, dir, entry,
                                        plots > 0 );
             } else {
                 entry = miss_info.action.translated();
                 bool avail = update_time_left( entry, npc_list );
-                mission_key.add_return( dir_id + miss_info.ret_miss_id, dir_abbr + miss_info.ret_desc, dir,
-                                        entry, avail );
+                mission_key.add_return( dir_id + miss_info.ret_miss_id,
+                                        dir_abbr + miss_info.ret_desc, dir, entry, avail );
             }
         }
 
@@ -1231,8 +1260,8 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             } else {
                 entry = miss_info.action.translated();
                 bool avail = update_time_left( entry, npc_list );
-                mission_key.add_return( dir_id + miss_info.ret_miss_id, dir_abbr + miss_info.ret_desc, dir,
-                                        entry, avail );
+                mission_key.add_return( dir_id + miss_info.ret_miss_id,
+                                        dir_abbr + miss_info.ret_desc, dir, entry, avail );
             }
         }
     }
@@ -1384,7 +1413,8 @@ bool basecamp::handle_mission( const std::string &miss_id, const cata::optional<
             const tripoint omt_trg = expansions[dir].pos;
             if( miss_id.substr( 0, 18 + miss_dir_id.size() ) == miss_dir_id + " Expansion Upgrade" ) {
                 const std::string bldg = miss_id.substr( 18 + miss_dir_id.size() );
-                start_upgrade( bldg, dir, bldg + "_faction_upgrade_exp_" + miss_dir_id, by_radio );
+                start_upgrade( bldg, dir, bldg + "_faction_upgrade_exp_" + miss_dir_id,
+                               by_radio );
             } else if( miss_id == "Recover Ally, " + miss_dir_id + " Expansion" ) {
                 upgrade_return( dir, "_faction_upgrade_exp_" + miss_dir_id );
             } else {
@@ -1415,7 +1445,8 @@ bool basecamp::handle_mission( const std::string &miss_id, const cata::optional<
             start_crafting( miss_id, *miss_dir, "SMITH", "_faction_exp_blacksmith_crafting_",
                             by_radio );
             if( miss_id == miss_dir_id + " (Finish) Smithing" ) {
-                const std::string msg = _( "returns from your blacksmith shop with something..." );
+                const std::string msg = _( "returns from your blacksmith shop with "
+                                           "something..." );
                 mission_return( "_faction_exp_blacksmith_crafting_" + miss_dir_id, 1_minutes,
                                 true, msg, "fabrication", 2 );
             }
@@ -1466,8 +1497,9 @@ npc_ptr basecamp::start_mission( const std::string &miss_id, time_duration durat
         popup( _( "You don't have enough food stored to feed your companion." ) );
         return nullptr;
     }
-    npc_ptr comp = talk_function::individual_mission( omt_pos, base_camps::id, desc, miss_id, false,
-                   equipment, skill_tested, skill_level );
+    npc_ptr comp = talk_function::individual_mission( omt_pos, base_camps::id, desc, miss_id,
+                   false, equipment, skill_tested,
+                   skill_level );
     if( comp != nullptr ) {
         comp->companion_mission_time_ret = calendar::turn + duration;
         if( must_feed ) {
@@ -1526,23 +1558,17 @@ void basecamp::start_cut_logs()
         standard_npc sample_npc( "Temp" );
         sample_npc.set_fake( true );
         int tree_est = om_cutdown_trees_est( forest, 50 );
-        int tree_young_est = om_harvest_ter_est( sample_npc, forest, ter_id( "t_tree_young" ), 50 );
+        int tree_young_est = om_harvest_ter_est( sample_npc, forest,
+                             ter_id( "t_tree_young" ), 50 );
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
         //Very roughly what the player does + 6 hours for prep, clean up, breaks
         time_duration chop_time = 6_hours + 1_hours * tree_est + 7_minutes * tree_young_est;
-        //Generous to believe the NPC can move ~ 2 logs or ~8 heavy sticks (3 per young tree?)
-        //per trip, each way is 1 trip
-        //20 young trees => ~60 sticks which can be carried 8 at a time, so 8 round trips or
-        //16 trips total
-        //This all needs to be in an om_carry_weight_over_distance function eventually...
-        int trips = tree_est + tree_young_est * 3  / 4;
-        //Always have to come back so no odd number of trips
-        trips += trips & 1 ? 1 : 0;
+        int haul_items = 2 * tree_est + 3 * tree_young_est;
         time_duration travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes,
-                                    trips );
+                                    2, haul_items );
         time_duration work_time = travel_time + chop_time;
         if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( work_time,
-                       chop_time, travel_time, dist, trips, time_to_food( work_time ) ) ) ) {
+                       chop_time, travel_time, dist, 2, time_to_food( work_time ) ) ) ) {
             return;
         }
         g->draw_ter();
@@ -1550,16 +1576,12 @@ void basecamp::start_cut_logs()
         npc_ptr comp = start_mission( "_faction_camp_cut_log", work_time, true,
                                       _( "departs to cut logs..." ), false, {}, "fabrication", 2 );
         if( comp != nullptr ) {
-            units::mass carry_m = comp->weight_capacity() - comp->weight_carried();
-            // everyone gets at least a makeshift sling of storage
-            units::volume carry_v = comp->volume_capacity() - comp->volume_carried() +
-                                    item( itype_id( "makeshift_sling" ) ).get_storage();
             om_cutdown_trees_logs( forest, 50 );
             om_harvest_ter( *comp, forest, ter_id( "t_tree_young" ), 50 );
             mass_volume harvest = om_harvest_itm( comp, forest, 95 );
             // recalculate trips based on actual load and capacity
-            trips = om_carry_weight_to_trips( harvest.first, harvest.second, carry_m, carry_v );
-            travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, trips );
+            travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, 2,
+                          harvest.count );
             work_time = travel_time + chop_time;
             comp->companion_mission_time_ret = calendar::turn + work_time;
             //If we cleared a forest...
@@ -1583,7 +1605,8 @@ void basecamp::start_clearcut()
         standard_npc sample_npc( "Temp" );
         sample_npc.set_fake( true );
         int tree_est = om_cutdown_trees_est( forest, 95 );
-        int tree_young_est = om_harvest_ter_est( sample_npc, forest, ter_id( "t_tree_young" ), 95 );
+        int tree_young_est = om_harvest_ter_est( sample_npc, forest,
+                             ter_id( "t_tree_young" ), 95 );
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
         //Very roughly what the player does + 6 hours for prep, clean up, breaks
         time_duration chop_time = 6_hours + 1_hours * tree_est + 7_minutes * tree_young_est;
@@ -1615,7 +1638,8 @@ void basecamp::start_setup_hide_site()
                                                 "field"
                                               };
     popup( _( "Forests, swamps, and fields are valid hide site locations." ) );
-    tripoint forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, true, omt_pos, true );
+    tripoint forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, true,
+                                      omt_pos, true );
     if( forest != tripoint( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
         inventory tgt_inv = g->u.inv;
@@ -1624,11 +1648,13 @@ void basecamp::start_setup_hide_site()
         } );
         if( !pos_inv.empty() ) {
             std::vector<item *> losing_equipment = give_equipment( pos_inv,
-                                                   _( "Do you wish to give your companion additional items?" ) );
+                                                   _( "Do you wish to give your companion "
+                                                           "additional items?" ) );
             int trips = om_carry_weight_to_trips( losing_equipment );
+            int haulage = trips <= 2 ? 0 : losing_equipment.size();
             time_duration build_time = 6_hours;
             time_duration travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes,
-                                        trips );
+                                        2, haulage );
             time_duration work_time = travel_time + build_time;
             if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( work_time,
                            build_time, travel_time, dist, trips, time_to_food( work_time ) ) ) ) {
@@ -1639,7 +1665,8 @@ void basecamp::start_setup_hide_site()
                                           "survival", 3 );
             if( comp != nullptr ) {
                 trips = om_carry_weight_to_trips( losing_equipment, comp );
-                work_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, trips ) +
+                haulage = trips <= 2 ? 0 : losing_equipment.size();
+                work_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, 2, haulage ) +
                             build_time;
                 comp->companion_mission_time_ret = calendar::turn + work_time;
                 om_set_hide_site( *comp, forest, losing_equipment );
@@ -1654,7 +1681,8 @@ void basecamp::start_relay_hide_site()
 {
     std::vector<std::string> hide_locations = { "faction_hide_site_0" };
     popup( _( "You must select an existing hide site." ) );
-    tripoint forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, true, omt_pos, true );
+    tripoint forest = om_target_tile( omt_pos, 10, 90, hide_locations, true, true,
+                                      omt_pos, true );
     if( forest != tripoint( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
         inventory tgt_inv = g->u.inv;
@@ -1664,7 +1692,8 @@ void basecamp::start_relay_hide_site()
         std::vector<item *> losing_equipment;
         if( !pos_inv.empty() ) {
             losing_equipment = give_equipment( pos_inv,
-                                               _( "Do you wish to give your companion additional items?" ) );
+                                               _( "Do you wish to give your companion "
+                                                  "additional items?" ) );
         }
         //Check items in improvised shelters at hide site
         tinymap target_bay;
@@ -1681,9 +1710,11 @@ void basecamp::start_relay_hide_site()
             //Only get charged the greater trips since return is free for both
             int trips = std::max( om_carry_weight_to_trips( gaining_equipment ),
                                   om_carry_weight_to_trips( losing_equipment ) );
+            int haulage = trips <= 2 ? 0 : std::max( gaining_equipment.size(),
+                          losing_equipment.size() );
             time_duration build_time = 6_hours;
             time_duration travel_time = companion_travel_time_calc( forest, omt_pos, 0_minutes,
-                                        trips );
+                                        trips, haulage );
             time_duration work_time = travel_time + build_time;
             if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( work_time, build_time,
                            travel_time, dist, trips, time_to_food( work_time ) ) ) ) {
@@ -1697,8 +1728,10 @@ void basecamp::start_relay_hide_site()
                 // recalculate trips based on actual load
                 trips = std::max( om_carry_weight_to_trips( gaining_equipment, comp ),
                                   om_carry_weight_to_trips( losing_equipment, comp ) );
-                work_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, trips ) +
-                            build_time;
+                int haulage = trips <= 2 ? 0 : std::max( gaining_equipment.size(),
+                              losing_equipment.size() );
+                work_time = companion_travel_time_calc( forest, omt_pos, 0_minutes, trips,
+                                                        haulage ) + build_time;
                 comp->companion_mission_time_ret = calendar::turn + work_time;
                 om_set_hide_site( *comp, forest, losing_equipment, gaining_equipment );
             }
@@ -1828,7 +1861,8 @@ void basecamp::start_combat_mission( const std::string &miss )
 // and then search for the mission id without direction prefix in the recipes
 // if there's a match, the player has selected a crafting mission
 void basecamp::start_crafting( const std::string &cur_id, const point &cur_dir,
-                               const std::string &type, const std::string &miss_id, bool by_radio )
+                               const std::string &type, const std::string &miss_id,
+                               bool by_radio )
 {
     const std::string cur_dir_id = base_camps::all_directions.at( cur_dir ).id;
     const std::map<recipe_id, translation> &recipes = recipe_deck( type );
@@ -1861,8 +1895,9 @@ void basecamp::start_crafting( const std::string &cur_id, const point &cur_dir,
             return;
         }
         time_duration work_days = base_camps::to_workdays( making.batch_duration( batch_size ) );
-        npc_ptr comp = start_mission( miss_id + cur_dir_id, work_days, true, _( "begins to work..." ),
-                                      false, {}, making.skill_used.str(), making.difficulty );
+        npc_ptr comp = start_mission( miss_id + cur_dir_id, work_days, true,
+                                      _( "begins to work..." ), false, {},
+                                      making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
             consume_components( making, batch_size, by_radio );
             for( const item &results : making.create_results( batch_size ) ) {
@@ -2115,7 +2150,8 @@ bool basecamp::start_garage_chop( const point &dir, const tripoint &omt_tgt )
 }
 
 // camp faction companion mission recovery functions
-npc_ptr basecamp::companion_choose_return( const std::string &miss_id, time_duration min_duration )
+npc_ptr basecamp::companion_choose_return( const std::string &miss_id,
+        time_duration min_duration )
 {
     return talk_function::companion_choose_return( omt_pos, base_camps::id, miss_id,
             calendar::turn - min_duration );
@@ -2299,7 +2335,8 @@ bool basecamp::gathering_return( const std::string &task, time_duration min_time
     if( task == "_faction_camp_trapping" || task == "_faction_camp_hunting" ) {
         hunting_results( skill, task, checks_per_cycle * mission_time / min_time, 30, by_radio );
     } else {
-        search_results( skill, itemlist, checks_per_cycle * mission_time / min_time, 15, by_radio );
+        search_results( skill, itemlist, checks_per_cycle * mission_time / min_time, 15,
+                        by_radio );
     }
 
     return true;
@@ -2351,7 +2388,8 @@ void basecamp::fortifications_return()
 
 void basecamp::recruit_return( const std::string &task, int score )
 {
-    const std::string msg = _( "returns from searching for recruits with a bit more experience..." );
+    const std::string msg = _( "returns from searching for recruits with "
+                               "a bit more experience..." );
     npc_ptr comp = mission_return( task, 4_days, true, msg, "recruiting", 2 );
     if( comp == nullptr ) {
         return;
@@ -2856,18 +2894,22 @@ mass_volume om_harvest_itm( npc_ptr comp, const tripoint &omt_tgt, int chance, b
     units::volume harvested_v = 0_ml;
     units::mass total_m = 0_gram;
     units::volume total_v = 0_ml;
+    int total_num = 0;
+    int harvested_num = 0;
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z );
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
         for( const item &i : target_bay.i_at( p ) ) {
             total_m += i.weight( true );
             total_v += i.volume( true );
+            total_num += 1;
             if( take && x_in_y( chance, 100 ) ) {
                 if( comp ) {
                     comp->companion_mission_inv.push_back( i );
                 }
                 harvested_m += i.weight( true );
                 harvested_v += i.volume( true );
+                harvested_num += 1;
             }
         }
         if( take ) {
@@ -2875,9 +2917,15 @@ mass_volume om_harvest_itm( npc_ptr comp, const tripoint &omt_tgt, int chance, b
         }
     }
     target_bay.save();
-    mass_volume results = { total_m, total_v };
+    mass_volume results;
     if( take ) {
-        results = { harvested_m, harvested_v };
+        results.wgt = harvested_m;
+        results.vol = harvested_v;
+        results.count = harvested_num;
+    } else {
+        results.wgt = total_m;
+        results.vol = total_v;
+        results.count = total_num;
     }
     return results;
 }
@@ -3034,36 +3082,36 @@ bool om_set_hide_site( npc &comp, const tripoint &omt_tgt,
 
 // path and travel time
 time_duration companion_travel_time_calc( const tripoint &omt_pos,
-        const tripoint &omt_tgt, time_duration work,
-        int trips )
+        const tripoint &omt_tgt, time_duration work, int trips, int haulage )
 {
     std::vector<tripoint> journey = line_to( omt_pos, omt_tgt );
-    return companion_travel_time_calc( journey, work, trips );
+    return companion_travel_time_calc( journey, work, trips, haulage );
 }
 
 time_duration companion_travel_time_calc( const std::vector<tripoint> &journey,
-        time_duration work, int trips )
+        time_duration work, int trips, int haulage )
 {
     int one_way = 0;
     for( auto &om : journey ) {
         const oter_id &omt_ref = overmap_buffer.ter( om );
         std::string om_id = omt_ref.id().c_str();
-        //Player walks 1 om is roughly 2.5 min
+        //Player walks 1 om is roughly 30 seconds
         if( om_id == "field" ) {
-            one_way += 3;
+            one_way += 30 + 30 * haulage;
         } else if( om_id == "forest" ) {
-            one_way += 4;
+            one_way += 40 + 30 * haulage;
         } else if( om_id == "forest_thick" ) {
-            one_way += 5;
+            one_way += 50 + 30 * haulage;
         } else if( om_id == "forest_water" ) {
-            one_way += 6;
+            one_way += 60 + 30 * haulage;
         } else if( is_river( omt_ref ) ) {
-            one_way += 20;
+            // hauling stuff over a river is slow, because you have to portage most items
+            one_way += 200 + 40 * haulage;
         } else {
-            one_way += 4;
+            one_way += 40 + 30 * haulage;
         }
     }
-    return work + one_way * trips * 1_minutes;
+    return work + one_way * trips * 1_seconds;
 }
 
 int om_carry_weight_to_trips( units::mass mass, units::volume volume,
@@ -3321,8 +3369,8 @@ std::string basecamp::recruit_description( int npc_count )
     std::string desc = string_format( _( "Notes:\n"
                                          "Recruiting additional followers is very dangerous and "
                                          "expensive.  The outcome is heavily dependent on the "
-                                         "skill of the  companion you send and the appeal of your "
-                                         "base.\n\n"
+                                         "skill of the  companion you send and the appeal of "
+                                         "your base.\n\n"
                                          "Skill used: speech\n"
                                          "Difficulty: 2 \n"
                                          "Base Score:                   +%3d%%\n"
@@ -3599,8 +3647,8 @@ bool survive_random_encounter( npc &comp, std::string &situation, int favor, int
         talk_function::companion_skill_trainer( comp, "gathering", 10_minutes, 10 - favor );
     } else if( skill_2 + favor > rng( 0, 10 ) ) {
         popup( _( "Another survivor approaches %s asking for directions." ), comp.name );
-        popup( _( "Fearful that he may be an agent of some hostile faction, %s doesn't mention the camp." ),
-               comp.name );
+        popup( _( "Fearful that he may be an agent of some hostile faction, "
+                  "%s doesn't mention the camp." ), comp.name );
         popup( _( "The two part on friendly terms and the survivor isn't seen again." ) );
         talk_function::companion_skill_trainer( comp, "recruiting", 10_minutes, 10 - favor );
     } else {
@@ -3615,13 +3663,13 @@ bool survive_random_encounter( npc &comp, std::string &situation, int favor, int
         if( skill * rng( 8, 12 ) > ( monsters * rng( 8, 12 ) ) ) {
             if( one_in( 2 ) ) {
                 popup( _( "The bull moose charged %s from the tree line..." ), comp.name );
-                popup( _( "Despite being caught off guard %s was able to run away until the moose gave up pursuit." ),
-                       comp.name );
+                popup( _( "Despite being caught off guard %s was able to run away until the "
+                          "moose gave up pursuit." ), comp.name );
             } else {
-                popup( _( "The jabberwock grabbed %s by the arm from behind and began to scream." ),
-                       comp.name );
-                popup( _( "Terrified, %s spun around and delivered a massive kick to the creature's torso..." ),
-                       comp.name );
+                popup( _( "The jabberwock grabbed %s by the arm from behind and "
+                          "began to scream." ), comp.name );
+                popup( _( "Terrified, %s spun around and delivered a massive kick "
+                          "to the creature's torso..." ), comp.name );
                 popup( _( "Collapsing into a pile of gore, %s walked away unscathed..." ),
                        comp.name );
                 popup( _( "(Sounds like bullshit, you wonder what really happened.)" ) );
@@ -3629,8 +3677,8 @@ bool survive_random_encounter( npc &comp, std::string &situation, int favor, int
             talk_function::companion_skill_trainer( comp, "combat", 10_minutes, 10 - favor );
         } else {
             if( one_in( 2 ) ) {
-                popup( _( "%s turned to find the hideous black eyes of a giant wasp staring back from only a few feet away..." ),
-                       comp.name );
+                popup( _( "%s turned to find the hideous black eyes of a giant wasp "
+                          "staring back from only a few feet away..." ), comp.name );
                 popup( _( "The screams were terrifying, there was nothing anyone could do." ) );
             } else {
                 popup( _( "Pieces of %s were found strewn across a few bushes." ), comp.name );
