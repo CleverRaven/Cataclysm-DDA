@@ -939,6 +939,56 @@ bionic_id Character::get_most_efficient_bionic( const std::vector<bionic_id> &bi
     return bio;
 }
 
+units::energy Character::get_power_level() const
+{
+    return power_level;
+}
+
+units::energy Character::get_max_power_level() const
+{
+    return max_power_level;
+}
+
+void Character::set_power_level( units::energy npower )
+{
+    power_level = std::min( npower, max_power_level );
+}
+
+void Character::set_max_power_level( units::energy npower_max )
+{
+    max_power_level = npower_max;
+}
+
+void Character::mod_power_level( units::energy npower )
+{
+    power_level = clamp( power_level + npower, 0_kJ, max_power_level );
+}
+
+void Character::mod_max_power_level( units::energy npower_max )
+{
+    max_power_level += npower_max;
+}
+
+bool Character::is_max_power() const
+{
+    return power_level >= max_power_level;
+}
+
+bool Character::has_power() const
+{
+    return power_level > 0_kJ;
+}
+
+bool Character::has_max_power() const
+{
+    return max_power_level > 0_kJ;
+}
+
+bool Character::enough_power_for( const bionic_id &bid ) const
+{
+    return power_level >= bid->power_activate;
+}
+
 std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) const
 {
     std::vector<itype_id> stored_fuels;
