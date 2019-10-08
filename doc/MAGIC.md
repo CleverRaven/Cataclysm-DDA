@@ -109,6 +109,8 @@ Any aoe will manifest as a circular area centered on the target, and will only d
 
 * "morale" - gives a morale effect to all npcs or avatar within aoe, with value damage(). decay_start is duration() / 10.
 
+* "charm_monster" - charms a monster that has less hp than damage() for approximately duration()
+
 * "mutate" - mutates the target(s). if effect_str is defined, mutates toward that category instead of picking at random. the "MUTATE_TRAIT" flag allows effect_str to be a specific trait instead of a category. damage() / 100 is the percent chance the mutation will be successful (a value of 10000 represents 100.00%)
 
 * "bash" - bashes the terrain at the target. uses damage() as the strength of the bash.
