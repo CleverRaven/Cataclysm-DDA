@@ -8333,11 +8333,15 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
     }
 
     if( choice == 0 ) {
-        it->active = true;
-        g->setremoteveh( veh );
-        p->add_msg_if_player( m_good, _( "You take control of the vehicle." ) );
-        if( !veh->engine_on ) {
-            veh->start_engines();
+        if ( g->u.has_trait( trait_id( "WAYFARER" ) ) ) {
+            add_msg( m_info, _( "Despite using a controller, you still refuse to take control of this vehicle." ) );
+        } else {
+            it->active = true;
+            g->setremoteveh( veh );
+            p->add_msg_if_player( m_good, _( "You take control of the vehicle." ) );
+            if( !veh->engine_on ) {
+                veh->start_engines();
+            }
         }
     } else if( choice == 1 ) {
         const auto rctrl_parts = veh->get_avail_parts( "REMOTE_CONTROLS" );
