@@ -5860,8 +5860,7 @@
       [ "smokebomb", 50 ],
       [ "dynamite", 50 ],
       [ "mininuke", 5 ],
-      [ "c4", 50 ],
-      [ "tool_black_powder_bomb", 10 ]
+      [ "c4", 50 ]
     ]
   },
   {
