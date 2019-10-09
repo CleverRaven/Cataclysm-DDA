@@ -1660,6 +1660,21 @@
   },
   {
     "type": "recipe",
+    "result": "steel_armor",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "12 m",
+    "reversible": true,
+    "//": "sawing it down doesn't teach anything useful",
+    "autolearn": true,
+    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "components": [ [ [ "steel_lump", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "spiked_plate",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",

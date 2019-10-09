@@ -140,7 +140,8 @@ npc_ptr companion_choose( const std::string &skill_tested = "", int skill_level 
 npc_ptr companion_choose_return( const npc &p, const std::string &mission_id,
                                  const time_point &deadline );
 npc_ptr companion_choose_return( const tripoint &omt_pos, const std::string &role_id,
-                                 const std::string &mission_id, const time_point &deadline );
+                                 const std::string &mission_id, const time_point &deadline,
+                                 bool by_mission = true );
 
 //Return NPC to your party
 void companion_return( npc &comp );

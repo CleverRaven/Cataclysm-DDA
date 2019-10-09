@@ -204,6 +204,7 @@ int main( int argc, char *argv[] )
             fout << out.str();
             fout.close();
             std::cout << filename << " needs to be linted" << std::endl;
+            std::cout << "Please read doc/JSON_STYLE.md" << std::endl;
             exit( EXIT_FAILURE );
         }
     }

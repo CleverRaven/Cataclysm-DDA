@@ -1567,11 +1567,7 @@ bool game::do_turn()
             catacurses::refresh();
             refresh_display();
         }
-    }
-
-    player_was_sleeping = player_is_sleeping;
-
-    if( calendar::once_every( 1_minutes ) ) {
+    } else if( calendar::once_every( 1_minutes ) ) {
         if( const cata::optional<std::string> progress = u.activity.get_progress_message() ) {
             query_popup()
             .wait_message( "%s", *progress )
@@ -1579,6 +1575,8 @@ bool game::do_turn()
             .show();
         }
     }
+
+    player_was_sleeping = player_is_sleeping;
 
     u.update_bodytemp();
     u.update_body_wetness( *weather.weather_precise );
@@ -8943,7 +8941,29 @@ bool game::disable_robot( const tripoint &p )
     return false;
 }
 
+bool game::is_dangerous_tile( const tripoint &dest_loc ) const
+{
+    return !( get_dangerous_tile( dest_loc ).empty() );
+}
+
 bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
+{
+    std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
+
+    if( !harmful_stuff.empty() &&
+        !query_yn( _( "Really step into %s?" ), enumerate_as_string( harmful_stuff ) ) ) {
+        return false;
+    }
+    if( !harmful_stuff.empty() && u.is_mounted() &&
+        m.tr_at( dest_loc ).loadid == tr_ledge ) {
+        add_msg( m_warning, _( "Your %s refuses to move over that ledge!" ),
+                 u.mounted_creature->get_name() );
+        return false;
+    }
+    return true;
+}
+
+std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) const
 {
     std::vector<std::string> harmful_stuff;
     const auto fields_here = m.field_at( u.pos() );
@@ -8988,17 +9008,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
 
     }
 
-    if( !harmful_stuff.empty() &&
-        !query_yn( _( "Really step into %s?" ), enumerate_as_string( harmful_stuff ) ) ) {
-        return false;
-    }
-    if( !harmful_stuff.empty() && u.is_mounted() &&
-        m.tr_at( dest_loc ).loadid == tr_ledge ) {
-        add_msg( m_warning, _( "Your %s refuses to move over that ledge!" ),
-                 u.mounted_creature->get_name() );
-        return false;
-    }
-    return true;
+    return harmful_stuff;
 }
 
 bool game::walk_move( const tripoint &dest_loc )
