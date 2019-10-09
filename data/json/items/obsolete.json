@@ -598,5 +598,72 @@
       "explosion": { "power": 120 }
     },
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "tool_black_powder_bomb",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "black gunpowder bomb",
+    "description": "This is a tin can filled to the brim with black gunpowder and with a bit of fuse sticking out of it.",
+    "//": "40g of tin can and 250ml/412g of gunpowder",
+    "weight": "452 g",
+    "volume": "250 ml",
+    "price": 2500,
+    "to_hit": -2,
+    "material": [ "steel", "plastic" ],
+    "symbol": "*",
+    "color": "red",
+    "explode_in_fire": true,
+    "explosion": { "power": 88, "shrapnel": { "casing_mass": 3, "fragment_mass": 0.12 } },
+    "use_action": {
+      "target": "tool_black_powder_bomb_act",
+      "msg": "You light the fuse on the black gunpowder bomb.  Throw it before it blows in your face!",
+      "target_charges": 3,
+      "active": true,
+      "need_fire": 1,
+      "menu_text": "Light fuse",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+  },
+  {
+    "id": "tool_black_powder_bomb_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "active black gunpowder bomb",
+    "description": "This is a tin can filled to the brim with black gunpowder and with a lit fuse stuck inside of it.",
+    "weight": "452 g",
+    "volume": "500 ml",
+    "price": 0,
+    "to_hit": -2,
+    "material": [ "steel", "plastic" ],
+    "symbol": "*",
+    "color": "light_red",
+    "initial_charges": 3,
+    "max_charges": 3,
+    "turns_per_charge": 1,
+    "explode_in_fire": true,
+    "explosion": { "power": 88, "shrapnel": { "casing_mass": 3, "fragment_mass": 0.12 } },
+    "use_action": {
+      "type": "explosion",
+      "sound_volume": 0,
+      "sound_msg": "Kshhh.",
+      "no_deactivate_msg": "You've already lit the fuse - throw it!",
+      "explosion": { "power": 88, "shrapnel": { "casing_mass": 3, "fragment_mass": 0.12 } }
+    },
+    "flags": [ "BOMB", "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "bluebell_flower",
+    "name": "bluebell",
+    "description": "A bluebell stalk with some petals.",
+    "weight": "40 g",
+    "to_hit": -3,
+    "color": "blue",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": "250 ml",
+    "price": 0
   }
 ]

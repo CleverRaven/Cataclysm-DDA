@@ -4190,10 +4190,10 @@ void game::monmove()
 
         if( !critter.is_dead() &&
             u.has_active_bionic( bionic_id( "bio_alarm" ) ) &&
-            u.power_level >= 25_kJ &&
+            u.get_power_level() >= 25_kJ &&
             rl_dist( u.pos(), critter.pos() ) <= 5 &&
             !critter.is_hallucination() ) {
-            u.charge_power( -25_kJ );
+            u.mod_power_level( -25_kJ );
             add_msg( m_warning, _( "Your motion alarm goes off!" ) );
             cancel_activity_or_ignore_query( distraction_type::motion_alarm,
                                              _( "Your motion alarm goes off!" ) );
@@ -6622,7 +6622,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     bool bNewWindow = false;
     if( !w_info ) {
         int panel_width = panel_manager::get_manager().get_current_layout().begin()->get_width();
-        int height = TERMY;
+        int height = pixel_minimap_option ? TERMY - getmaxy( w_pixel_minimap ) : TERMY;
 
         // If particularly small, base height on panel width irrespective of other elements.
         // Value here is attempting to get a square-ish result assuming 1x2 proportioned font.
@@ -6670,6 +6670,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
+    ctxt.register_action( "toggle_pixel_minimap" );
 
     const int old_levz = get_levz();
     const int min_levz = std::max( old_levz - fov_3d_z_range, -OVERMAP_DEPTH );
@@ -6699,8 +6700,13 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 std::string fast_scroll_text = string_format( _( "%s - %s" ),
                                                ctxt.get_desc( "TOGGLE_FAST_SCROLL" ),
                                                ctxt.get_action_name( "TOGGLE_FAST_SCROLL" ) );
-                center_print( w_info, getmaxy( w_info ) - 1, fast_scroll ? c_light_green : c_green,
-                              fast_scroll_text );
+                std::string pixel_minimap_text = string_format( _( "%s - %s" ),
+                                                 ctxt.get_desc( "toggle_pixel_minimap" ),
+                                                 ctxt.get_action_name( "toggle_pixel_minimap" ) );
+                mvwprintz( w_info, point( 1, getmaxy( w_info ) - 1 ), fast_scroll ? c_light_green : c_green,
+                           fast_scroll_text );
+                mvwprintz( w_info, point( utf8_width( fast_scroll_text ) + 3, getmaxy( w_info ) - 1 ),
+                           pixel_minimap_option ? c_light_green : c_green, pixel_minimap_text );
 
                 int first_line = 1;
                 const int last_line = getmaxy( w_info ) - 2;
@@ -6758,6 +6764,12 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             list_items_monsters();
         } else if( action == "TOGGLE_FAST_SCROLL" ) {
             fast_scroll = !fast_scroll;
+        } else if( action == "toggle_pixel_minimap" ) {
+            toggle_pixel_minimap();
+
+            int panel_width = panel_manager::get_manager().get_current_layout().begin()->get_width();
+            int height = pixel_minimap_option ? TERMY - getmaxy( w_pixel_minimap ) : TERMY;
+            w_info = catacurses::newwin( height, panel_width, point( TERMX - panel_width, 0 ) );
         } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
             if( !allow_zlev_move ) {
                 continue;
@@ -9637,7 +9649,8 @@ void game::place_player_overmap( const tripoint &om_dest )
 
 bool game::phasing_move( const tripoint &dest_loc )
 {
-    if( !u.has_active_bionic( bionic_id( "bio_probability_travel" ) ) || u.power_level < 250_kJ ) {
+    if( !u.has_active_bionic( bionic_id( "bio_probability_travel" ) ) ||
+        u.get_power_level() < 250_kJ ) {
         return false;
     }
 
@@ -9657,15 +9670,15 @@ bool game::phasing_move( const tripoint &dest_loc )
         //add 1 to tunnel distance for each impassable tile in the line
         tunneldist += 1;
         if( tunneldist * 250_kJ >
-            u.power_level ) { //oops, not enough energy! Tunneling costs 250 bionic power per impassable tile
+            u.get_power_level() ) { //oops, not enough energy! Tunneling costs 250 bionic power per impassable tile
             add_msg( _( "You try to quantum tunnel through the barrier but are reflected! Try again with more energy!" ) );
-            u.charge_power( -250_kJ );
+            u.mod_power_level( -250_kJ );
             return false;
         }
 
         if( tunneldist > 24 ) {
             add_msg( m_info, _( "It's too dangerous to tunnel that far!" ) );
-            u.charge_power( -250_kJ );
+            u.mod_power_level( -250_kJ );
             return false;
         }
 
@@ -9679,7 +9692,8 @@ bool game::phasing_move( const tripoint &dest_loc )
         }
 
         add_msg( _( "You quantum tunnel through the %d-tile wide barrier!" ), tunneldist );
-        u.charge_power( -( tunneldist * 250_kJ ) ); //tunneling costs 250 bionic power per impassable tile
+        //tunneling costs 250 bionic power per impassable tile
+        u.mod_power_level( -( tunneldist * 250_kJ ) );
         u.moves -= 100; //tunneling costs 100 moves
         u.setpos( dest );
 
@@ -9892,29 +9906,29 @@ void game::on_move_effects()
         const item muscle( "muscle" );
         if( one_in( 8 ) ) {// active power gen
             if( u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-                u.charge_power( 1_kJ );
+                u.mod_power_level( 1_kJ );
             }
             for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
                 if( u.has_active_bionic( bid ) ) {
-                    u.charge_power( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
+                    u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
                 }
             }
         }
         if( one_in( 160 ) ) {//  passive power gen
             if( u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-                u.charge_power( 1_kJ );
+                u.mod_power_level( 1_kJ );
             }
             for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
                 if( u.has_bionic( bid ) ) {
-                    u.charge_power( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
+                    u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
                 }
             }
         }
         if( u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
             if( u.movement_mode_is( PMM_RUN ) ) {
-                u.charge_power( -20_kJ );
+                u.mod_power_level( -20_kJ );
             } else {
-                u.charge_power( -10_kJ );
+                u.mod_power_level( -10_kJ );
             }
         }
     }

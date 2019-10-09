@@ -1621,16 +1621,16 @@ bool npc::wants_to_recharge_cbm()
     for( const bionic_id bid : get_fueled_bionics() ) {
         for( const itype_id fid : bid->fuel_opts ) {
             return get_fuel_available( bid ).empty() || ( !get_fuel_available( bid ).empty() &&
-                    power_level < ( max_power_level * static_cast<int>( rules.cbm_recharge ) / 100 ) &&
+                    get_power_level() < ( get_max_power_level() * static_cast<int>( rules.cbm_recharge ) / 100 ) &&
                     !use_bionic_by_id( bid ) );
         }
     }
-    return power_level < ( max_power_level * static_cast<int>( rules.cbm_recharge ) / 100 );
+    return get_power_level() < ( get_max_power_level() * static_cast<int>( rules.cbm_recharge ) / 100 );
 }
 
 bool npc::can_use_offensive_cbm() const
 {
-    return power_level > ( max_power_level * static_cast<int>( rules.cbm_reserve ) / 100 );
+    return get_power_level() > ( get_max_power_level() * static_cast<int>( rules.cbm_reserve ) / 100 );
 }
 
 bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
@@ -1656,7 +1656,7 @@ bool npc::recharge_cbm()
 {
     // non-allied NPCs don't consume resources to recharge
     if( !is_player_ally() ) {
-        charge_power( max_power_level );
+        mod_power_level( get_max_power_level() );
         return true;
     }
 

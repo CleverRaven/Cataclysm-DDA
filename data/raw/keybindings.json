@@ -1955,8 +1955,7 @@
   },
   {
     "type": "keybinding",
-    "name": "Toggle Pixel Minimap",
-    "category": "DEFAULTMODE",
+    "name": "Toggle Minimap",
     "id": "toggle_pixel_minimap",
     "bindings": [ { "input_method": "keyboard", "key": "N" } ]
   },

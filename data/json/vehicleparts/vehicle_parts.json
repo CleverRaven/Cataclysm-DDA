@@ -1737,7 +1737,7 @@
     "item": "solar_panel",
     "difficulty": 4,
     "location": "on_roof",
-    "flags": [ "SOLAR_PANEL", "TOOL_WRENCH" ],
+    "flags": [ "SOLAR_PANEL", "TOOL_WRENCH", "NO_REPAIR" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 2, 4 ] },
