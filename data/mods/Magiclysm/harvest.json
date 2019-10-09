@@ -234,5 +234,35 @@
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.001 },
       { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.01 }
     ]
-  }
+  },
+  {
+    "id": "stirge",
+    "//": "mainly arachnid drops with leather and proboscis",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.33 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
+      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.01 }
+    ]
+  },
+  {
+    "id": "shrieker",
+    "//": "mainly fungaloid drops with scream mushroom.",
+    "type": "harvest",
+    "entries": [
+      { "drop": "veggy", "type": "flesh", "mass_ratio": 0.4 },
+      { "drop": "plant_sac", "type": "offal", "mass_ratio": 0.2 },
+      { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.1 }
+    ]
+  },
+  {
+    "id": "lemure",
+    "//": "nothing much aside from big pile of meat and maybe demon blood in future. But for now, tainted will do.",
+    "type": "harvest",
+    "entries": [
+      { "drop": "tainted_blood", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.4 },
+    ]
+  },
 ]
