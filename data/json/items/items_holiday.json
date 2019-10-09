@@ -18,7 +18,7 @@
   "revert_to": "can_food_unsealed",
   "use_action": {
     "target": "plastic_jack_o_lantern",
-    "msg": "You light the candle in the Jack O' Lantern.",
+    "msg": "You light the candle in the jack o'lantern.",
     "active": true,
     "need_fire": 1,
     "menu_text": "Light",
