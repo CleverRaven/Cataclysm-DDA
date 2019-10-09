@@ -586,6 +586,9 @@ else
   else
     NCURSES_PREFIX = ncurses
   endif
+  ifdef OSXCROSS
+    NCURSES_PREFIX = ncurses
+  endif
   # ONLY when not cross-compiling, check for pkg-config or ncurses5-config
   # When doing a cross-compile, we can't rely on the host machine's -configs
   ifeq ($(CROSS),)
@@ -613,8 +616,8 @@ else
       endif
 
       ifdef OSXCROSS
-        LDFLAGS += -L$(LIBSDIR)/ncurses/lib
-        CXXFLAGS += -I$(LIBSDIR)/ncurses/include
+        LDFLAGS += -L$(LIBSDIR)/$(NCURSES_PREFIX)/lib
+        CXXFLAGS += -I$(LIBSDIR)/$(NCURSES_PREFIX)/include
       endif # OSXCROSS
     endif # HAVE_NCURSES5CONFIG
   endif # HAVE_PKGCONFIG
