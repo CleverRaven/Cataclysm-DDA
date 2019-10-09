@@ -17,7 +17,7 @@
     "charges_per_use": 1,
     "revert_to": "plastic_jack_o_lantern",
     "use_action": {
-      "target": "plastic_jack_o_lantern",
+      "target": "plastic_jack_o_lantern_lit",
       "msg": "You light the candle in the jack o'lantern.",
       "active": true,
       "need_fire": 1,
@@ -28,7 +28,7 @@
     "type": "TOOL",
     "name": "spooky jack o'lantern",
     "name_plural": "jack o'lanterns",
-    "description": "There is a thick candle.  It doesn't provide very much light, but it can burn for quite a long time.  This candle is lit. The face shifts.",
+    "description": "There is a thick candle inside the pumpkin face.  It doesn't provide very much light, but it can burn for quite a long time.  This candle is lit. The face shifts.",
     "weight": "113 g",
     "volume": "3964 ml",
     "price": 0,
@@ -42,10 +42,10 @@
     "charges_per_use": 1,
     "turns_per_charge": 1350,
     "use_action": {
-      "target": "plastic_jack_o_lantern_lit",
+      "target": "plastic_jack_o_lantern",
       "msg": "The candle winks out inside the lantern.",
       "menu_text": "Extinguish",
-      "type": "transform"
+      "revert_to": "plastic_jack_o_lantern"
     },
     "flags": [ "LIGHT_6", "WATER_EXTINGUISH", "TRADER_AVOID" ]
   }
