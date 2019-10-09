@@ -8943,7 +8943,29 @@ bool game::disable_robot( const tripoint &p )
     return false;
 }
 
+bool game::is_dangerous_tile( const tripoint &dest_loc ) const
+{
+    return !( get_dangerous_tile( dest_loc ).empty() );
+}
+
 bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
+{
+    std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
+
+    if( !harmful_stuff.empty() &&
+        !query_yn( _( "Really step into %s?" ), enumerate_as_string( harmful_stuff ) ) ) {
+        return false;
+    }
+    if( !harmful_stuff.empty() && u.is_mounted() &&
+        m.tr_at( dest_loc ).loadid == tr_ledge ) {
+        add_msg( m_warning, _( "Your %s refuses to move over that ledge!" ),
+                 u.mounted_creature->get_name() );
+        return false;
+    }
+    return true;
+}
+
+std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) const
 {
     std::vector<std::string> harmful_stuff;
     const auto fields_here = m.field_at( u.pos() );
@@ -8988,17 +9010,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
 
     }
 
-    if( !harmful_stuff.empty() &&
-        !query_yn( _( "Really step into %s?" ), enumerate_as_string( harmful_stuff ) ) ) {
-        return false;
-    }
-    if( !harmful_stuff.empty() && u.is_mounted() &&
-        m.tr_at( dest_loc ).loadid == tr_ledge ) {
-        add_msg( m_warning, _( "Your %s refuses to move over that ledge!" ),
-                 u.mounted_creature->get_name() );
-        return false;
-    }
-    return true;
+    return harmful_stuff;
 }
 
 bool game::walk_move( const tripoint &dest_loc )

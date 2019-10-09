@@ -130,7 +130,7 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "knockback_dist", knockback_dist, 0 );
     optional( jo, was_loaded, "knockback_spread", knockback_spread, 0 );
     optional( jo, was_loaded, "powerful_knockback", powerful_knockback, false );
-    optional( jo, was_loaded, "knockback_follow", knockback_follow, 0 );
+    optional( jo, was_loaded, "knockback_follow", knockback_follow, false );
 
     optional( jo, was_loaded, "aoe", aoe, "" );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
@@ -512,7 +512,7 @@ ma_technique::ma_technique()
     knockback_dist = 0;
     knockback_spread = 0; // adding randomness to knockback, like tec_throw
     powerful_knockback = false;
-    knockback_follow = 0; // player follows the knocked-back party into their former tile
+    knockback_follow = false; // player follows the knocked-back party into their former tile
 
     // offensive
     disarms = false; // like tec_disarm

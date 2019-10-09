@@ -795,6 +795,8 @@ class game
         void mon_info( const catacurses::window &,
                        int hor_padding = 0 ); // Prints a list of nearby monsters
         void cleanup_dead();     // Delete any dead NPCs/monsters
+        bool is_dangerous_tile( const tripoint &dest_loc ) const;
+        std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc ) const;
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
     private:
         void wield();
