@@ -1876,19 +1876,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "bluebell_flower",
-    "name": "bluebell",
-    "description": "A bluebell stalk with some petals.",
-    "weight": "40 g",
-    "to_hit": -3,
-    "color": "blue",
-    "symbol": ",",
-    "material": [ "veggy" ],
-    "volume": "250 ml",
-    "price": 0
-  },
-  {
-    "type": "GENERIC",
     "id": "bluebell_bud",
     "name": "bluebell bud",
     "description": "A bluebell bud.  Contains some substances commonly produced by a bluebell flower.",
