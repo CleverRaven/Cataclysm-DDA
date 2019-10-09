@@ -9,7 +9,7 @@
     "requirements": {
       "qualities": [ { "id": "SCREW", "level": 1 } ],
       "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-      "components": [ [ [ "gasoline", 20 ], [ "diesel", 20 ], [ "chem_ethanol", 20 ], [ "denat_alcohol", 20 ] ] ]
+      "components": [ [ [ "gasoline", 10 ], [ "diesel", 10 ], [ "chem_ethanol", 10 ], [ "denat_alcohol", 10 ] ] ]
     }
   },
   {
@@ -31,7 +31,7 @@
     "requirements": {
       "qualities": [ { "id": "SCREW", "level": 1 } ],
       "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-      "components": [ [ [ "gasoline", 20 ], [ "diesel", 20 ], [ "chem_ethanol", 20 ], [ "denat_alcohol", 20 ] ] ]
+      "components": [ [ [ "gasoline", 10 ], [ "diesel", 10 ], [ "chem_ethanol", 10 ], [ "denat_alcohol", 10 ] ] ]
     }
   },
   {
