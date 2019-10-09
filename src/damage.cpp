@@ -237,6 +237,11 @@ static const std::map<std::string, damage_type> dt_map = {
     { translate_marker_context( "damage type", "electric" ), DT_ELECTRIC }
 };
 
+std::map<std::string, damage_type> get_dt_map()
+{
+    return dt_map;
+}
+
 damage_type dt_by_name( const std::string &name )
 {
     const auto &iter = dt_map.find( name );

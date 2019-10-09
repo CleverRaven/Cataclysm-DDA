@@ -84,16 +84,24 @@ void ma_requirements::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id> {} );
     optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<> {} );
 
-    // TODO: De-hardcode the skills and damage types here
-    add_if_exists( jo, min_skill, was_loaded, "min_melee", skill_melee );
-    add_if_exists( jo, min_skill, was_loaded, "min_unarmed", skill_unarmed );
-    add_if_exists( jo, min_skill, was_loaded, "min_bashing", skill_bashing );
-    add_if_exists( jo, min_skill, was_loaded, "min_cutting", skill_cutting );
-    add_if_exists( jo, min_skill, was_loaded, "min_stabbing", skill_stabbing );
+    // Minimum skill level attributes
+    for( const auto &s : Skill::skills ) {
+        std::string skill_name = s.ident().str();
+        std::string attribute_name = string_format( _( "min_%s" ), skill_name );
 
-    add_if_exists( jo, min_damage, was_loaded, "min_bashing_damage", DT_BASH );
-    add_if_exists( jo, min_damage, was_loaded, "min_cutting_damage", DT_CUT );
-    add_if_exists( jo, min_damage, was_loaded, "min_stabbing_damage", DT_STAB );
+        add_if_exists( jo, min_skill, was_loaded, attribute_name, s.ident() );
+    }
+
+
+    // Minimum damage type attributes
+    std::map<std::string, damage_type> dt_map = get_dt_map();
+    auto iter = dt_map.cbegin();
+    while( iter != dt_map.cend() ) {
+        std::string attribute_name = string_format( _( "min_%s_damage" ), iter->first );
+
+        add_if_exists( jo, min_damage, was_loaded, attribute_name, iter->second );
+        iter++;
+    }
 }
 
 void ma_technique::load( JsonObject &jo, const std::string &src )
