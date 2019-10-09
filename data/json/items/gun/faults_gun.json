@@ -44,7 +44,7 @@
     "requirements": {
       "qualities": [ { "id": "SCREW", "level": 1 } ],
       "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-      "components": [ [ [ "lamp_oil", 20 ], [ "cooking_oil", 2 ], [ "cooking_oil2", 2 ] ] ]
+      "components": [ [ [ "lamp_oil", 1 ], [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ] ]
     }
   }
 ]
