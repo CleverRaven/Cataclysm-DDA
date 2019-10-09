@@ -66,7 +66,7 @@
     "type": "COMESTIBLE",
     "copy-from": "mushroom",
     "name": "scream mushroom",
-    "description": "The mushrooms harvested from dead shrieker. Could be used in potions.",
+    "description": "The mushrooms harvested from a dead shrieker.  Could be used in potions.",
     "price": 1400,
   }
 ]
