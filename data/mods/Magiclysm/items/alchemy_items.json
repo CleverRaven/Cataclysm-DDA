@@ -190,6 +190,7 @@
     "symbol": ",",
     "color": "red",
     "name": "stirge proboscis",
+    "name_plural": "stirge proboscises",
     "description": "A long sucking appartus harvested from stirge's corpse.  Makes a poor melee weapon.",
     "weight": "100 g",
     "to_hit": -1,
