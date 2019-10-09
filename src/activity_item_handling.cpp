@@ -668,6 +668,15 @@ void activity_on_turn_pickup()
         return;
     }
 
+    // If the player moves while picking up (ie: in a moving vehicle) cancel the activity, only populate coords when grabbing from the ground
+    if( g->u.activity.coords.size() > 0 && g->u.activity.coords.at( 0 ) != g->u.pos() ) {
+        g->u.cancel_activity();
+        if( g->u.is_player() ) {
+            g->u.add_msg_if_player( _( "Moving cancelled auto-pickup." ) );
+        }
+        return;
+    }
+
     // Auto_resume implies autopickup.
     const bool autopickup = g->u.activity.auto_resume;
 
