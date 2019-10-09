@@ -182,5 +182,20 @@
     "charges": 1,
     "phase": "liquid",
     "freezing_point": -100
+  },
+  {
+    "id": "stirge_proboscis",
+    "type": "GENERIC",
+    "copy-from": "wasp sting"
+    "symbol": ",",
+    "color": "red",
+    "name": "stirge proboscis",
+    "description": "A long sucking appartus harvested from stirge's corpse.  Makes a poor melee weapon.",
+    "weight": "100 g",
+    "to_hit": -1,
+    "material": [ "flesh" ],
+    "volume": "100 ml",
+    "cutting": 7,
+    "price": 2000
   }
 ]
