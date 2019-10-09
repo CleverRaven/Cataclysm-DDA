@@ -9,7 +9,7 @@
     "requirements": {
       "qualities": [ { "id": "SCREW", "level": 1 } ],
       "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-      "components": [ [ [ "gasoline", 70 ], [ "diesel", 70 ], [ "chem_ethanol", 70 ], [ "denat_alcohol", 70 ] ] ]
+      "components": [ [ [ "gasoline", 20 ], [ "diesel", 20 ], [ "chem_ethanol", 20 ], [ "denat_alcohol", 20 ] ] ]
     }
   },
   {
@@ -31,7 +31,7 @@
     "requirements": {
       "qualities": [ { "id": "SCREW", "level": 1 } ],
       "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-      "components": [ [ [ "gasoline", 70 ], [ "diesel", 70 ], [ "chem_ethanol", 70 ], [ "denat_alcohol", 70 ] ] ]
+      "components": [ [ [ "gasoline", 20 ], [ "diesel", 20 ], [ "chem_ethanol", 20 ], [ "denat_alcohol", 20 ] ] ]
     }
   },
   {
@@ -44,7 +44,7 @@
     "requirements": {
       "qualities": [ { "id": "SCREW", "level": 1 } ],
       "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
-      "components": [ [ [ "lamp_oil", 70 ], [ "cooking_oil", 5 ], [ "cooking_oil2", 5 ] ] ]
+      "components": [ [ [ "lamp_oil", 20 ], [ "cooking_oil", 2 ], [ "cooking_oil2", 2 ] ] ]
     }
   }
 ]

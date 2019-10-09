@@ -254,7 +254,7 @@ bool player::handle_gun_damage( item &it )
         if( curammo_effects.count( "BLACKPOWDER" ) ||
             it.has_fault( fault_gun_unlubricated ) ) {
             if( ( ( it.ammo_data()->ammo->recoil < firing->min_cycle_recoil ) ||
-                  ( it.has_fault( fault_gun_unlubricated ) && one_in( 2 ) ) ) &&
+                  ( it.has_fault( fault_gun_unlubricated ) && one_in( 16 ) ) ) &&
                 it.faults_potential().count( fault_gun_chamber_spent ) ) {
                 add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
                                        _( "<npcname>'s %s fails to cycle!" ),
