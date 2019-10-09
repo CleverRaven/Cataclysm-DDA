@@ -2179,7 +2179,7 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
     catacurses::window w_gender =
         catacurses::newwin( 2, 33, point( getbegx( w ) + 46, getbegy( w ) + 5 ) );
     catacurses::window w_location =
-        catacurses::newwin( 1, 76, point( getbegx( w ) + 2, getbegy( w ) + 7 ) );
+        catacurses::newwin( 1, TERMX - 3, point( getbegx( w ) + 2, getbegy( w ) + 7 ) );
     catacurses::window w_stats =
         catacurses::newwin( 6, 20, point( getbegx( w ) + 2, getbegy( w ) + 9 ) );
     catacurses::window w_traits =
