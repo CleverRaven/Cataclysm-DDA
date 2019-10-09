@@ -1916,6 +1916,12 @@ nc_color player::basic_symbol_color() const
         has_active_optcloak() || has_trait( trait_DEBUG_CLOAK ) ) {
         return c_dark_gray;
     }
+    if( move_mode == PMM_RUN ) {
+        return c_yellow;
+    }
+    if( move_mode == PMM_CROUCH ) {
+        return c_light_gray;
+    }
     return c_white;
 }
 
