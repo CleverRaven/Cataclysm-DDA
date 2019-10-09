@@ -17,7 +17,6 @@
 #include "translations.h"
 #include "material.h"
 #include "type_id.h"
-#include "string_id.h"
 
 class mission;
 struct dialogue;
@@ -308,7 +307,7 @@ struct dialogue {
         * talked about magic spell to the given one.
         */
         talk_response &add_response( const std::string &text, const std::string &r,
-                                    const spell_id &sp, bool first = false );
+                                     const spell_id &sp, bool first = false );
         /**
          * Add a simple response that switches the topic to the new one and sets the currently
          * talked about martial art style to the given one.

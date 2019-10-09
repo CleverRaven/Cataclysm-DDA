@@ -31,7 +31,6 @@
 #include "itype.h"
 #include "json.h"
 #include "line.h"
-#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapgen_functions.h"
@@ -73,7 +72,6 @@
 #include "player_activity.h"
 #include "player.h"
 #include "point.h"
-#include "string_id.h"
 
 class basecamp;
 
@@ -171,7 +169,7 @@ int npc::calc_spell_training_cost( const bool knows, int difficulty, int level )
         return 0;
     }
     int ret = ( 100 * std::max( 1, difficulty ) * std::max( 1, level ) );
-    if( !knows ){
+    if( !knows ) {
         ret = ret * 2;
     }
     return ret;
@@ -700,7 +698,9 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     }
 
     for( auto &mission : chatbin.missions_assigned ) {
+        add_msg( "chatbin mission assignd" );
         if( mission->get_assigned_player_id() == g->u.getID() ) {
+            add_msg( "assign to player - mission " );
             d.missions_assigned.push_back( mission );
         }
     }
@@ -915,7 +915,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         std::vector<spell_id> spells = p->magic.spells();
         std::vector<spell_id> teachable_spells;
         for( spell_id &sp : spells ) {
-            if( g->u.magic.can_learn_spell( g->u, sp ) ){
+            if( g->u.magic.can_learn_spell( g->u, sp ) ) {
                 teachable_spells.push_back( sp );
             }
         }
@@ -1140,7 +1140,8 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
     return result;
 }
 
-talk_response &dialogue::add_response( const std::string &text, const std::string &r, const spell_id &sp, const bool first )
+talk_response &dialogue::add_response( const std::string &text, const std::string &r,
+                                       const spell_id &sp, const bool first )
 {
     talk_response &result = add_response( text, r, first );
     result.spell = sp;
@@ -1199,7 +1200,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             }
         }
     } else if( topic == "TALK_TRAIN" ) {
-        add_msg( "talk train is the topic");
+        add_msg( "talk train is the topic" );
         if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) ) {
             player_activity &backlog = g->u.backlog.front();
             std::stringstream resume;
@@ -1209,7 +1210,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             // could have the same ident!
             if( !skillt.is_valid() ) {
                 auto &style = matype_id( backlog.name ).obj();
-                if( !style.id.is_valid() ){
+                if( !style.id.is_valid() ) {
                     const spell_id &sp_id = spell_id( backlog.name );
                     spell &temp_spell = p->magic.get_spell( sp_id );
                     resume << temp_spell.name();
@@ -1229,7 +1230,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         std::vector<spell_id> teachable_spells;
         for( spell_id &sp : spells ) {
             const spell &temp_spell = p->magic.get_spell( sp );
-            if( g->u.magic.can_learn_spell( g->u, sp ) ){
+            if( g->u.magic.can_learn_spell( g->u, sp ) ) {
                 const spell &player_spell = g->u.magic.get_spell( sp );
                 if( player_spell.is_max_level() || player_spell.get_level() >= temp_spell.get_level() ) {
                     continue;
@@ -1237,8 +1238,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 teachable_spells.push_back( sp );
             }
         }
-        if( teachable_spells.empty() ){
-            add_msg( "teachable = empty ");
+        if( teachable_spells.empty() ) {
+            add_msg( "teachable = empty " );
         }
         if( trainable.empty() && styles.empty() && teachable_spells.empty() ) {
             add_response_none( _( "Oh, okay." ) );
@@ -1247,14 +1248,17 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         for( spell_id &sp : teachable_spells ) {
             spell &temp_spell = p->magic.get_spell( sp );
             const bool knows = g->u.magic.knows_spell( sp );
-            const int cost = p->calc_spell_training_cost( knows, temp_spell.get_difficulty(), temp_spell.get_level() );
+            const int cost = p->calc_spell_training_cost( knows, temp_spell.get_difficulty(),
+                             temp_spell.get_level() );
             std::string text;
-            if( knows ){
-                text = string_format( cost > 0 ? _( "%s: variable exp gain (cost $%d)" ) : _( "%s: variable exp gain" ), temp_spell.name(), cost / 100 );
+            if( knows ) {
+                text = string_format( cost > 0 ? _( "%s: variable exp gain (cost $%d)" ) :
+                                      _( "%s: variable exp gain" ), temp_spell.name(), cost / 100 );
             } else {
-                text = string_format( cost > 0 ? _( "%s: teaching spell knowledge (cost $%d)" ) : _( "%s: teaching spell knowledge"), temp_spell.name(), cost / 100 );
+                text = string_format( cost > 0 ? _( "%s: teaching spell knowledge (cost $%d)" ) :
+                                      _( "%s: teaching spell knowledge" ), temp_spell.name(), cost / 100 );
             }
-            add_msg( "got to add_response for spells");
+            add_msg( "got to add_response for spells" );
             add_response( text, "TALK_TRAIN_START", sp );
         }
         for( auto &style_id : styles ) {
@@ -1756,15 +1760,21 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         beta->chatbin.style = chosen.style;
         beta->chatbin.skill = skill_id::NULL_ID();
         beta->chatbin.spell = spell_id();
-    } else {
-        beta->chatbin.spell = chosen.spell;
-        beta->chatbin.skill = skill_id::NULL_ID();
+    } else if( chosen.spell != spell_id() ) {
         beta->chatbin.style = matype_id::NULL_ID();
+        beta->chatbin.skill = skill_id::NULL_ID();
+        beta->chatbin.spell = chosen.spell;
     }
-
+    add_msg( "talk trial = %s", chosen.trial.name() );
     const bool success = chosen.trial.roll( *this );
+    if( success ) {
+        add_msg( "talk trial success" );
+    } else {
+        add_msg( "talk trial failure" );
+    }
     const auto &effects = success ? chosen.success : chosen.failure;
-
+    talk_topic test_top = effects.apply( *this );
+    add_msg( "after opt return - %s", test_top.id );
     return effects.apply( *this );
 }
 

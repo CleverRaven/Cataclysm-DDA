@@ -1959,9 +1959,9 @@ void activity_handlers::train_finish( player_activity *act, player *p )
     }
 
     const spell_id &sp_id = spell_id( act->name );
-    if( sp_id.is_valid() ){
+    if( sp_id.is_valid() ) {
         const bool knows = g->u.magic.knows_spell( sp_id );
-        if( knows ){
+        if( knows ) {
             spell &studying = p->magic.get_spell( sp_id );
             const int expert_multiplier = act->values.empty() ? 0 : act->values[0];
             const int xp = roll_remainder( studying.exp_modifier( *p ) * expert_multiplier );

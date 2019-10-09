@@ -39,7 +39,6 @@
 #include "game_inventory.h"
 #include "item.h"
 #include "item_location.h"
-#include "magic.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player.h"
@@ -894,8 +893,8 @@ void talk_function::start_training( npc &p )
         cost = calc_ma_style_training_cost( p, style );
         time = calc_ma_style_training_time( p, style );
         name = p.chatbin.style.str();
-    // already checked if can learn this spell in npctalk.cpp
-    } else if( p.chatbin.spell.is_valid() ){
+        // already checked if can learn this spell in npctalk.cpp
+    } else if( p.chatbin.spell.is_valid() ) {
         spell &temp_spell = p.magic.get_spell( sp_id );
         const bool knows = g->u.magic.knows_spell( sp_id );
         cost = p.calc_spell_training_cost( knows, temp_spell.get_difficulty(), temp_spell.get_level() );
@@ -905,10 +904,10 @@ void talk_function::start_training( npc &p )
         // if this is a known spell, then there is a set time to gain some exp.
         // if player doesnt know this spell, then the NPC will teach all of it
         // which takes as long as it takes.
-        if( knows ){
+        if( knows ) {
             time = 1_hours;
         } else {
-            time = time_duration::from_seconds(g->u.magic.time_to_learn_spell( g->u, sp_id ) / 2 );
+            time = time_duration::from_seconds( g->u.magic.time_to_learn_spell( g->u, sp_id ) / 2 );
         }
     } else {
         debugmsg( "start_training with no valid skill or style set" );
@@ -921,8 +920,9 @@ void talk_function::start_training( npc &p )
     } else if( !npc_trading::pay_npc( p, cost ) ) {
         return;
     }
-    player_activity act = player_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ), p.getID().get_value(), 0, name );
-    if( expert_multiplier > 0 ){
+    player_activity act = player_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ),
+                                           p.getID().get_value(), 0, name );
+    if( expert_multiplier > 0 ) {
         act.values.push_back( expert_multiplier );
     }
 
