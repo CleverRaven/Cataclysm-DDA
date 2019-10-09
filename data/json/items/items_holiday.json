@@ -24,8 +24,8 @@
       "menu_text": "Light",
       "type": "transform"
     }
-    },
-{
+  },
+  {
     "id": "plastic_jack_o_lantern_lit",
     "type": "TOOL",
     "name": "spooky jack o'lantern",
