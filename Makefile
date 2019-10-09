@@ -589,12 +589,14 @@ else
   # ONLY when not cross-compiling, check for pkg-config or ncurses5-config
   # When doing a cross-compile, we can't rely on the host machine's -configs
   ifeq ($(CROSS),)
-    ifneq ($(shell pkg-config --libs $(NCURSES_PREFIX) 2>/dev/null),)
-      HAVE_PKGCONFIG = 1
-    endif
-    ifneq ($(shell which $(NCURSES_PREFIX)5-config 2>/dev/null),)
-      HAVE_NCURSES5CONFIG = 1
-    endif
+      ifeq ($(OSXCROSS),)
+        ifneq ($(shell pkg-config --libs $(NCURSES_PREFIX) 2>/dev/null),)
+          HAVE_PKGCONFIG = 1
+        endif
+        ifneq ($(shell which $(NCURSES_PREFIX)5-config 2>/dev/null),)
+          HAVE_NCURSES5CONFIG = 1
+        endif
+      endif
   endif
 
   # Link to ncurses if we're using a non-tiles, Linux build
