@@ -1781,7 +1781,7 @@ bool player::digging() const
 
 bool player::is_on_ground() const
 {
-    return get_working_leg_count() >= 2 || has_effect( effect_downed );
+    return get_working_leg_count() < 2 || has_effect( effect_downed );
 }
 
 bool player::is_elec_immune() const
