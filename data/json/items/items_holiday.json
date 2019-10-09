@@ -26,7 +26,7 @@
   },
   "id": "plastic_jack_o_lantern_lit",
   "type": "TOOL",
-  "name": "spooky Jack o' lantern",
+  "name": "spooky jack o'lantern",
   "name_plural": "candles",
   "description": "There is a thick candle.  It doesn't provide very much light, but it can burn for quite a long time.  This candle is lit. The face shifts.",
   "weight": "113 g",
