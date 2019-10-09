@@ -186,7 +186,7 @@
   {
     "id": "stirge_proboscis",
     "type": "GENERIC",
-    "copy-from": "wasp sting"
+    "copy-from": "wasp sting",
     "symbol": ",",
     "color": "red",
     "name": "stirge proboscis",
