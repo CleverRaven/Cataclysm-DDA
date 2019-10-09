@@ -593,9 +593,9 @@ int ma_buff::speed_bonus( const player &u ) const
 {
     return bonuses.get_flat( u, AFFECTED_SPEED );
 }
-int ma_buff::armor_bonus( const player &u, damage_type dt ) const
+int ma_buff::armor_bonus( const Character &guy, damage_type dt ) const
 {
-    return bonuses.get_flat( u, AFFECTED_ARMOR, dt );
+    return bonuses.get_flat( guy, AFFECTED_ARMOR, dt );
 }
 float ma_buff::damage_bonus( const player &u, damage_type dt ) const
 {
@@ -1058,7 +1058,7 @@ int player::mabuff_speed_bonus() const
     } );
     return ret;
 }
-int player::mabuff_armor_bonus( damage_type type ) const
+int Character::mabuff_armor_bonus( damage_type type ) const
 {
     int ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff & b, const effect & d ) {

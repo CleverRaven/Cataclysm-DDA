@@ -148,7 +148,7 @@ class ma_buff
         int block_bonus( const player &u ) const;
 
         // returns the armor bonus for various armor stats (equivalent to armor)
-        int armor_bonus( const player &u, damage_type dt ) const;
+        int armor_bonus( const Character &guy, damage_type dt ) const;
 
         // returns the stat bonus for the various damage stats (for rolls)
         float damage_bonus( const player &u, damage_type dt ) const;
