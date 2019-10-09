@@ -43,6 +43,7 @@ class enchantment
             INTELLIGENCE,
             SPEED,
             ATTACK_COST,
+            ATTACK_SPEED, // affects attack speed of item even if it's not the one you're wielding
             MOVE_COST,
             METABOLISM,
             MAX_MANA,
@@ -110,6 +111,10 @@ class enchantment
 
         // this enchantment has a valid condition and is in the right location
         bool is_active( const Character &guy, const item &parent ) const;
+
+        // this enchantment is active when wielded.
+        // shows total conditional values, so only use this when Character is not available
+        bool active_wield() const;
 
         // modifies character stats, or does other passive effects
         void activate_passive( Character &guy ) const;

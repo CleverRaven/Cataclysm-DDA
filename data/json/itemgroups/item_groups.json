@@ -493,7 +493,13 @@
       [ "cornmeal", 40 ],
       [ "powder_eggs", 20 ],
       [ "granola", 5 ],
-      [ "protein_powder", 15 ],
+      {
+        "item": "protein_powder",
+        "prob": 12,
+        "container-item": "bottle_plastic_small",
+        "charges-min": 1,
+        "charges-max": 9
+      },
       [ "dry_meat", 10 ],
       [ "dry_fish", 10 ],
       [ "dry_veggy", 10 ],
@@ -1722,7 +1728,13 @@
       [ "nyquil", 70 ],
       [ "disinfectant", 35 ],
       [ "vaccine_shot", 10 ],
-      [ "protein_powder", 15 ],
+      {
+        "item": "protein_powder",
+        "prob": 12,
+        "container-item": "bottle_plastic_small",
+        "charges-min": 1,
+        "charges-max": 9
+      },
       [ "caff_gum", 10 ],
       [ "oxygen_tank", 20 ],
       [ "smoxygen_tank", 5 ],
@@ -1840,7 +1852,13 @@
       [ "milk_powder", 20 ],
       [ "cornmeal", 30 ],
       [ "powder_eggs", 20 ],
-      [ "protein_powder", 15 ],
+      {
+        "item": "protein_powder",
+        "prob": 12,
+        "container-item": "bottle_plastic_small",
+        "charges-min": 1,
+        "charges-max": 9
+      },
       [ "dry_meat", 10 ],
       [ "dry_fish", 10 ],
       [ "dry_veggy", 10 ],
@@ -2116,7 +2134,13 @@
       [ "roller_blades", 20 ],
       [ "rollerskates", 10 ],
       [ "manual_throw", 12 ],
-      [ "protein_powder", 15 ],
+      {
+        "item": "protein_powder",
+        "prob": 12,
+        "container-item": "bottle_plastic_small",
+        "charges-min": 1,
+        "charges-max": 9
+      },
       [ "airhorn", 40 ],
       [ "whistle", 10 ],
       [ "boots_hiking", 10 ],
@@ -2484,7 +2508,13 @@
       [ "boots_hiking", 10 ],
       [ "runner_bag", 5 ],
       [ "pur_tablets", 5 ],
-      [ "protein_powder", 15 ],
+      {
+        "item": "protein_powder",
+        "prob": 12,
+        "container-item": "bottle_plastic_small",
+        "charges-min": 1,
+        "charges-max": 9
+      },
       [ "protein_shake", 15 ],
       [ "knife_trench", 7 ],
       [ "sm_extinguisher", 10 ],
@@ -3193,6 +3223,12 @@
       [ "haori", 1 ],
       [ "hakama", 2 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "allclothes_damaged",
+    "subtype": "distribution",
+    "items": [ { "group": "allclothes", "damage": [ 3, 4 ] } ]
   },
   {
     "type": "item_group",
@@ -4057,6 +4093,8 @@
       [ "knitting_needles", 10 ],
       [ "survnote", 1 ],
       [ "holy_symbol", 80 ],
+      [ "bead_bracelet", 3 ],
+      [ "bead_necklace", 3 ],
       [ "cassock", 40 ],
       [ "thawb", 10 ],
       [ "kufi", 10 ],
@@ -5822,8 +5860,7 @@
       [ "smokebomb", 50 ],
       [ "dynamite", 50 ],
       [ "mininuke", 5 ],
-      [ "c4", 50 ],
-      [ "tool_black_powder_bomb", 10 ]
+      [ "c4", 50 ]
     ]
   },
   {

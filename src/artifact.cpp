@@ -652,22 +652,19 @@ it_artifact_armor::it_artifact_armor( JsonObject &jo )
 
 void it_artifact_tool::create_name( const std::string &type )
 {
-    name = artifact_name( type );
-    name_plural = name;
+    name = no_translation( artifact_name( type ) );
 }
 
 void it_artifact_tool::create_name( const std::string &property_name,
                                     const std::string &shape_name )
 {
-    name = string_format( pgettext( "artifact name (property, shape)", "%1$s %2$s" ),
-                          property_name, shape_name );
-    name_plural = name;
+    name = no_translation( string_format( pgettext( "artifact name (property, shape)", "%1$s %2$s" ),
+                                          property_name, shape_name ) );
 }
 
 void it_artifact_armor::create_name( const std::string &type )
 {
-    name = artifact_name( type );
-    name_plural = name;
+    name = no_translation( artifact_name( type ) );
 }
 
 std::string new_artifact()
@@ -1133,7 +1130,7 @@ void load_artifacts( const std::string &path )
 void it_artifact_tool::deserialize( JsonObject &jo )
 {
     id = jo.get_string( "id" );
-    name = jo.get_string( "name" );
+    name = no_translation( jo.get_string( "name" ) );
     description = no_translation( jo.get_string( "description" ) );
     if( jo.has_int( "sym" ) ) {
         sym = std::string( 1, jo.get_int( "sym" ) );
@@ -1248,7 +1245,7 @@ void it_artifact_tool::deserialize( JsonObject &jo )
 void it_artifact_armor::deserialize( JsonObject &jo )
 {
     id = jo.get_string( "id" );
-    name = jo.get_string( "name" );
+    name = no_translation( jo.get_string( "name" ) );
     description = no_translation( jo.get_string( "description" ) );
     if( jo.has_int( "sym" ) ) {
         sym = std::string( 1, jo.get_int( "sym" ) );
@@ -1341,9 +1338,9 @@ void it_artifact_tool::serialize( JsonOut &json ) const
 
     // generic data
     json.member( "id", id );
-    json.member( "name", name );
-    // Artifact descriptions are always constructed using `no_translation`,
+    // Artifact names and descriptions are always constructed using `no_translation`,
     // so `translated()` here only retrieves the underlying string
+    json.member( "name", name.translated() );
     json.member( "description", description.translated() );
     json.member( "sym", sym );
     json.member( "color", color );
@@ -1397,9 +1394,9 @@ void it_artifact_armor::serialize( JsonOut &json ) const
 
     // generic data
     json.member( "id", id );
-    json.member( "name", name );
-    // Artifact descriptions are always constructed using `no_translation`,
+    // Artifact names and descriptions are always constructed using `no_translation`,
     // so `translated()` here only retrieves the underlying string
+    json.member( "name", name.translated() );
     json.member( "description", description.translated() );
     json.member( "sym", sym );
     json.member( "color", color );

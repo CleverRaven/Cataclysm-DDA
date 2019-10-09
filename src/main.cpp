@@ -735,7 +735,7 @@ void printHelpMessage( const arg_handler *first_pass_arguments,
         }
         printf( "\n" );
         if( handler->documentation ) {
-            printf( "\t%s\n", handler->documentation );
+            printf( "    %s\n", handler->documentation );
         }
     }
 }

@@ -114,6 +114,7 @@ const efftype_id effect_weed_high( "weed_high" );
 const material_id mat_leather( "leather" );
 const material_id mat_kevlar( "kevlar" );
 
+const fault_id fault_gun_dirt( "fault_gun_dirt" );
 const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 
 const trait_id trait_small2( "SMALL2" );
@@ -2915,20 +2916,25 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         std::map<std::string, std::string>::const_iterator item_note = item_vars.find( "item_note" );
-        std::map<std::string, std::string>::const_iterator item_note_type =
-            item_vars.find( "item_note_type" );
+        std::map<std::string, std::string>::const_iterator item_note_tool =
+            item_vars.find( "item_note_tool" );
 
         if( item_note != item_vars.end() && parts->test( iteminfo_parts::DESCRIPTION_NOTES ) ) {
             insert_separation_line();
             std::string ntext;
-            if( item_note_type != item_vars.end() ) {
-                //~ %1$s: gerund (e.g. carved), %2$s: item name
-                ntext += string_format( pgettext( "carving", "%1$s on the %2$s is: " ),
-                                        item_note_type->second.c_str(), tname() );
+            const use_function *use_func = item_note_tool != item_vars.end() ?
+                                           item_controller->find_template( item_note_tool->second )->get_use( "inscribe" ) : nullptr;
+            const inscribe_actor *use_actor = use_func ?
+                                              dynamic_cast<const inscribe_actor *>( use_func->get_actor_ptr() ) : nullptr;
+            if( use_actor ) {
+                //~ %1$s: gerund (e.g. carved), %2$s: item name, %3$s: inscription text
+                ntext = string_format( pgettext( "carving", "%1$s on the %2$s is: %3$s" ),
+                                       use_actor->gerund, tname(), item_note->second );
             } else {
-                ntext += _( "Note: " );
+                //~ %1$s: inscription text
+                ntext = string_format( pgettext( "carving", "Note: %1$s" ), item_note->second );
             }
-            info.push_back( iteminfo( "DESCRIPTION", ntext + item_note->second ) );
+            info.push_back( iteminfo( "DESCRIPTION", ntext ) );
         }
 
         // describe contents
@@ -3429,7 +3435,35 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 {
     std::stringstream ret;
 
+    int dirt_level = get_var( "dirt", 0 ) / 2000;
+    std::string dirt_symbol;
     // TODO: MATERIALS put this in json
+
+    // these symbols are unicode square characeters of different heights, representing a rough
+    // estimation of fouling in a gun. This appears instead of "faulty"
+    // since most guns will have some level of fouling in them, and usually it is not a big deal.
+    switch( dirt_level ) {
+        case 0:
+            dirt_symbol = "";
+            break;
+        case 1:
+            dirt_symbol = "<color_white>\u2581</color>";
+            break;
+        case 2:
+            dirt_symbol = "<color_light_gray>\u2583</color>";
+            break;
+        case 3:
+            dirt_symbol = "<color_light_gray>\u2585</color>";
+            break;
+        case 4:
+            dirt_symbol = "<color_dark_gray>\u2587</color>";
+            break;
+        case 5:
+            dirt_symbol = "<color_brown>\u2588</color>";
+            break;
+        default:
+            dirt_symbol = "";
+    }
     std::string damtext;
 
     // for portions of string that have <color_ etc in them, this aims to truncate the whole string correctly
@@ -3443,7 +3477,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
     if( !faults.empty() ) {
-        damtext.insert( 0, _( "faulty " ) );
+        if( ( item::has_fault( fault_gun_blackpowder ) || item::has_fault( fault_gun_dirt ) ) &&
+            faults.size() == 1 ) {
+            damtext.insert( 0, dirt_symbol );
+        } else {
+            damtext.insert( 0, _( "faulty " ) + dirt_symbol );
+        }
     }
 
     std::string vehtext;
@@ -4025,6 +4064,8 @@ int item::lift_strength() const
 int item::attack_time() const
 {
     int ret = 65 + volume() / 62.5_ml + weight() / 60_gram;
+    ret = calculate_by_enchantment_wield( ret, enchantment::mod::ITEM_ATTACK_SPEED,
+                                          true );
     return ret;
 }
 
@@ -4607,7 +4648,6 @@ int item::get_encumber_when_containing(
             encumber += contents_volume / 250_ml;
         }
     }
-
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
     if( has_flag( "FIT" ) && has_flag( "VARSIZE" ) ) {
@@ -5711,6 +5751,44 @@ std::vector<enchantment> item::get_enchantments() const
     return relic_data->get_enchantments();
 }
 
+double item::calculate_by_enchantment( const Character &owner, double modify,
+                                       enchantment::mod value, bool round_value ) const
+{
+    double add_value = 0.0;
+    double mult_value = 1.0;
+    for( const enchantment &ench : get_enchantments() ) {
+        if( ench.is_active( owner, *this ) ) {
+            add_value += ench.get_value_add( value );
+            mult_value += ench.get_value_multiply( value );
+        }
+    }
+    modify += add_value;
+    modify *= mult_value;
+    if( round_value ) {
+        modify = round( modify );
+    }
+    return modify;
+}
+
+double item::calculate_by_enchantment_wield( double modify, enchantment::mod value,
+        bool round_value ) const
+{
+    double add_value = 0.0;
+    double mult_value = 1.0;
+    for( const enchantment &ench : get_enchantments() ) {
+        if( ench.active_wield() ) {
+            add_value += ench.get_value_add( value );
+            mult_value += ench.get_value_multiply( value );
+        }
+    }
+    modify += add_value;
+    modify *= mult_value;
+    if( round_value ) {
+        modify = round( modify );
+    }
+    return modify;
+}
+
 bool item::can_contain( const item &it ) const
 {
     // TODO: Volume check
@@ -6102,7 +6180,7 @@ int item::ammo_remaining() const
     if( is_tool() || is_gun() ) {
         // includes auxiliary gunmods
         if( has_flag( "USES_BIONIC_POWER" ) ) {
-            int power = g->u.power_level;
+            int power = units::to_kilojoule( g->u.get_power_level() );
             return power;
         }
         return charges;
@@ -6233,8 +6311,8 @@ int item::ammo_consume( int qty, const tripoint &pos )
     } else if( is_tool() || is_gun() ) {
         qty = std::min( qty, charges );
         if( has_flag( "USES_BIONIC_POWER" ) ) {
-            charges = g->u.power_level;
-            g->u.charge_power( -qty );
+            charges = units::to_kilojoule( g->u.get_power_level() );
+            g->u.mod_power_level( units::from_kilojoule( -qty ) );
         }
         charges -= qty;
         if( charges == 0 ) {

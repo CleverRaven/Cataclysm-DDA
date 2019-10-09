@@ -618,10 +618,16 @@ void overmapbuffer::set_seen( const tripoint &p, bool seen )
     om_loc.om->seen( om_loc.local ) = seen;
 }
 
-oter_id &overmapbuffer::ter( const tripoint &p )
+const oter_id &overmapbuffer::ter( const tripoint &p )
 {
     const overmap_with_local_coords om_loc = get_om_global( p );
     return om_loc.om->ter( om_loc.local );
+}
+
+void overmapbuffer::ter_set( const tripoint &p, const oter_id &id )
+{
+    const overmap_with_local_coords om_loc = get_om_global( p );
+    return om_loc.om->ter_set( om_loc.local, id );
 }
 
 bool overmapbuffer::reveal( const point &center, int radius, int z )
@@ -1306,11 +1312,13 @@ void overmapbuffer::spawn_monster( const tripoint &p )
         assert( ms.x >= 0 && ms.x < SEEX );
         assert( ms.y >= 0 && ms.y < SEEX );
         ms += sm_to_ms_copy( p.xy() );
-        // The monster position must be local to the main map when added via game::add_zombie
+        // The monster position must be local to the main map when added to the game
         const tripoint local = tripoint( g->m.getlocal( ms ), p.z );
         assert( g->m.inbounds( local ) );
-        this_monster.spawn( local );
-        g->add_zombie( this_monster );
+        monster *const placed = g->place_critter_at( std::make_shared<monster>( this_monster ), local );
+        if( placed ) {
+            placed->on_load();
+        }
     } );
     om.monster_map.erase( current_submap_loc );
 }

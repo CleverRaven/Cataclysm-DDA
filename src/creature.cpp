@@ -13,6 +13,7 @@
 #include "event_bus.h"
 #include "field.h"
 #include "game.h"
+#include "json.h"
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
@@ -54,7 +55,6 @@ const efftype_id effect_riding( "riding" );
 const efftype_id effect_ridden( "ridden" );
 const efftype_id effect_tied( "tied" );
 const efftype_id effect_paralyzepoison( "paralyzepoison" );
-
 
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
@@ -895,6 +895,11 @@ bool Creature::is_warm() const
     return true;
 }
 
+bool Creature::in_species( const species_id & ) const
+{
+    return false;
+}
+
 bool Creature::is_fake() const
 {
     return fake;
@@ -903,6 +908,12 @@ bool Creature::is_fake() const
 void Creature::set_fake( const bool fake_value )
 {
     fake = fake_value;
+}
+
+void Creature::add_effect( const effect &eff, bool force, bool deferred )
+{
+    add_effect( eff.get_id(), eff.get_duration(), eff.get_bp(), eff.is_permanent(), eff.get_intensity(),
+                force, deferred );
 }
 
 void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
@@ -1718,4 +1729,21 @@ void Creature::add_msg_player_or_say( game_message_type type, const translation 
                                       const translation &npc ) const
 {
     return add_msg_player_or_say( type, pc.translated(), npc.translated() );
+}
+
+std::vector <int> Creature::dispersion_for_even_chance_of_good_hit = { {
+        1731, 859, 573, 421, 341, 286, 245, 214, 191, 175,
+        151, 143, 129, 118, 114, 107, 101, 94, 90, 78,
+        78, 78, 74, 71, 68, 66, 62, 61, 59, 57,
+        46, 46, 46, 46, 46, 46, 45, 45, 44, 42,
+        41, 41, 39, 39, 38, 37, 36, 35, 34, 34,
+        33, 33, 32, 30, 30, 30, 30, 29, 28
+    }
+};
+
+void Creature::load_hit_range( JsonObject &jo )
+{
+    if( jo.has_array( "even_good" ) ) {
+        jo.read( "even_good", dispersion_for_even_chance_of_good_hit );
+    }
 }

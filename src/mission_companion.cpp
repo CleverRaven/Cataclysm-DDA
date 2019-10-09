@@ -147,7 +147,7 @@ void talk_function::companion_mission( npc &p )
 
 void talk_function::scavenger_patrol( mission_data &mission_key, npc &p )
 {
-    std::string entry = _( "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \n"
+    std::string entry = _( "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n\n"
                            "Assigning one of your allies to patrol the surrounding wilderness "
                            "and isolated buildings presents the opportunity to build survival "
                            "skills while engaging in relatively safe combat against isolated "
@@ -155,19 +155,19 @@ void talk_function::scavenger_patrol( mission_data &mission_key, npc &p )
     mission_key.add( "Assign Scavenging Patrol", _( "Assign Scavenging Patrol" ), entry );
     std::vector<npc_ptr> npc_list = companion_list( p, "_scavenging_patrol" );
     if( !npc_list.empty() ) {
-        entry = _( "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \nPatrol Roster:\n" );
+        entry = _( "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n\nPatrol Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
                     elem->companion_mission_time ) ) + _( " hours] \n" );
         }
-        entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+        entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Retrieve Scavenging Patrol", _( "Retrieve Scavenging Patrol" ), entry );
     }
 }
 
 void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
 {
-    std::string entry = _( "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \n"
+    std::string entry = _( "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n\n"
                            "Scavenging raids target formerly populated areas to loot as many "
                            "valuable items as possible before being surrounded by the undead.  "
                            "Combat is to be expected and assistance from the rest of the party "
@@ -176,13 +176,13 @@ void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
     mission_key.add( "Assign Scavenging Raid", _( "Assign Scavenging Raid" ), entry );
     std::vector<npc_ptr> npc_list = companion_list( p, "_scavenging_raid" );
     if( !npc_list.empty() ) {
-        entry = _( "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \n"
+        entry = _( "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n\n"
                    "Raid Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
                     elem->companion_mission_time ) ) + _( " hours] \n" );
         }
-        entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+        entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Retrieve Scavenging Raid", _( "Retrieve Scavenging Raid" ), entry );
     }
 }
@@ -192,15 +192,15 @@ void talk_function::commune_menial( mission_data &mission_key, npc &p )
     mission_key.add( "Assign Ally to Menial Labor", _( "Assign Ally to Menial Labor" ) );
     std::vector<npc_ptr> npc_list = companion_list( p, "_labor" );
     if( !npc_list.empty() ) {
-        std::string entry = _( "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
+        std::string entry = _( "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n\n"
                                "Assigning one of your allies to menial labor is a safe way to teach "
                                "them basic skills and build reputation with the outpost.  Don't expect "
-                               "much of a reward though.\n \nLabor Roster:\n" );
+                               "much of a reward though.\n\nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
                     elem->companion_mission_time ) ) + _( " hours] \n" );
         }
-        entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+        entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Recover Ally from Menial Labor", _( "Recover Ally from Menial Labor" ),
                          entry );
     }
@@ -208,19 +208,19 @@ void talk_function::commune_menial( mission_data &mission_key, npc &p )
 
 void talk_function::commune_carpentry( mission_data &mission_key, npc &p )
 {
-    std::string entry = _( "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
+    std::string entry = _( "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n\n"
                            "Carpentry work requires more skill than menial labor while offering "
                            "modestly improved pay.  It is unlikely that your companions will face "
                            "combat but there are hazards working on makeshift buildings." );
     mission_key.add( "Assign Ally to Carpentry Work", _( "Assign Ally to Carpentry Work" ), entry );
     std::vector<npc_ptr>  npc_list = companion_list( p, "_carpenter" );
     if( !npc_list.empty() ) {
-        entry = _( "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n" );
+        entry = _( "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n\nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
                     elem->companion_mission_time ) ) + _( " hours] \n" );
         }
-        entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+        entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Recover Ally from Carpentry Work",
                          _( "Recover Ally from Carpentry Work" ), entry );
     }
@@ -229,7 +229,7 @@ void talk_function::commune_carpentry( mission_data &mission_key, npc &p )
 void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
 {
     if( !p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) ) {
-        std::string entry = _( "Cost: $1000\n \n \n"
+        std::string entry = _( "Cost: $1000\n\n\n"
                                "                .........\n"
                                "                .........\n"
                                "                .........\n"
@@ -238,7 +238,7 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
                                "                .........\n"
                                "                ..#....**\n"
                                "                ..#Ov..**\n"
-                               "                ...O|....\n \n"
+                               "                ...O|....\n\n"
                                "We're willing to let you purchase a field at a substantial "
                                "discount to use for your own agricultural enterprises.  We'll "
                                "plow it for you  so you know exactly what is yours... after you "
@@ -248,7 +248,7 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
         mission_key.add( "Purchase East Field", _( "Purchase East Field" ), entry );
     }
     if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) && !p.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ) {
-        std::string entry = _( "Cost: $5500\n \n"
+        std::string entry = _( "Cost: $5500\n\n"
                                "\n              ........."
                                "\n              ........."
                                "\n              ........."
@@ -257,7 +257,7 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
                                "\n              ........."
                                "\n              ..#....**"
                                "\n              ..#Ov..**"
-                               "\n              ...O|....\n \n"
+                               "\n              ...O|....\n\n"
                                "Protecting your field with a sturdy picket fence will keep most "
                                "wildlife from nibbling your crops apart.  You can expect yields to "
                                "increase." );
@@ -265,7 +265,7 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
     }
 
     if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) ) {
-        std::string entry = _( "Cost: $3.00/plot\n \n"
+        std::string entry = _( "Cost: $3.00/plot\n\n"
                                "\n              ........."
                                "\n              ........."
                                "\n              ........."
@@ -274,12 +274,12 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
                                "\n              ........."
                                "\n              ..#....**"
                                "\n              ..#Ov..**"
-                               "\n              ...O|....\n \n"
+                               "\n              ...O|....\n\n"
                                "We'll plant the field with your choice of crop if you are willing "
                                "to finance it.  When the crop is ready to harvest you can have us "
                                "liquidate it or harvest it for you." );
         mission_key.add( "Plant East Field", _( "Plant East Field" ), entry );
-        entry = _( "Cost: $2.00/plot\n \n"
+        entry = _( "Cost: $2.00/plot\n\n"
                    "\n              ........."
                    "\n              ........."
                    "\n              ........."
@@ -288,7 +288,7 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
                    "\n              ........."
                    "\n              ..#....**"
                    "\n              ..#Ov..**"
-                   "\n              ...O|....\n \n"
+                   "\n              ...O|....\n\n"
                    "You can either have us liquidate the crop and give you the cash or pay us to "
                    "harvest it for you." );
         mission_key.add( "Harvest East Field", _( "Harvest East Field" ), entry );
@@ -297,7 +297,7 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
 
 void talk_function::commune_forage( mission_data &mission_key, npc &p )
 {
-    std::string entry = _( "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n \n"
+    std::string entry = _( "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n\n"
                            "Foraging for food involves dispatching a companion to search the "
                            "surrounding wilderness for wild edibles.  Combat will be avoided but "
                            "encounters with wild animals are to be expected.  The low pay is "
@@ -307,24 +307,24 @@ void talk_function::commune_forage( mission_data &mission_key, npc &p )
                      entry );
     std::vector<npc_ptr> npc_list = companion_list( p, "_forage" );
     if( !npc_list.empty() ) {
-        entry = _( "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n \nLabor Roster:\n" );
+        entry = _( "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n\nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
                     elem->companion_mission_time ) ) + _( " hours] \n" );
         }
-        entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+        entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Recover Ally from Foraging", _( "Recover Ally from Foraging" ), entry );
     }
 }
 
 void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
 {
-    std::string entry = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
+    std::string entry = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n\n"
                            "Adding companions to the caravan team increases the likelihood of "
                            "success.  By nature, caravans are extremely tempting targets for "
                            "raiders or hostile groups so only a strong party is recommended.  The "
                            "rewards are significant for those participating but are even more "
-                           "important for the factions that profit.\n \n"
+                           "important for the factions that profit.\n\n"
                            "The commune is sending food to the Free Merchants in the Refugee "
                            "Center as part of a tax and in exchange for skilled labor." );
     mission_key.add( "Caravan Commune-Refugee Center", _( "Caravan Commune-Refugee Center" ),
@@ -332,8 +332,8 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
     std::vector<npc_ptr> npc_list = companion_list( p, "_commune_refugee_caravan" );
     std::vector<npc_ptr> npc_list_aux;
     if( !npc_list.empty() ) {
-        entry = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
-                   " \nRoster:\n" );
+        entry = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n\n"
+                   "\nRoster:\n" );
         for( auto &elem : npc_list ) {
             if( elem->companion_mission_time == calendar::before_time_starts ) {
                 entry = entry + "  " + elem->name + _( " [READY] \n" );
@@ -346,20 +346,20 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
             }
         }
         if( !npc_list_aux.empty() ) {
-            std::string entry_aux = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
-                                       " \nRoster:\n" );
+            std::string entry_aux = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n\n"
+                                       "\nRoster:\n" );
             for( auto &elem : npc_list_aux ) {
                 if( elem->companion_mission_time == calendar::before_time_starts ) {
                     entry_aux = entry_aux + "  " + elem->name + _( " [READY] \n" );
                 }
             }
-            entry_aux = entry_aux + _( "\n \n"
+            entry_aux = entry_aux + _( "\n\n"
                                        "The caravan will contain two or three additional members "
                                        "from the commune, are you ready to depart?" );
             mission_key.add( "Begin Commune-Refugee Center Run",
                              _( "Begin Commune-Refugee Center Run" ), entry );
         }
-        entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+        entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Recover Commune-Refugee Center", _( "Recover Commune-Refugee Center" ),
                          entry );
     }
@@ -1998,13 +1998,14 @@ npc_ptr talk_function::companion_choose_return( const npc &p, const std::string 
 npc_ptr talk_function::companion_choose_return( const tripoint &omt_pos,
         const std::string &role_id,
         const std::string &mission_id,
-        const time_point &deadline )
+        const time_point &deadline,
+        const bool by_mission )
 {
     std::vector<npc_ptr> available;
     for( npc_ptr &guy : overmap_buffer.get_companion_mission_npcs() ) {
         npc_companion_mission c_mission = guy->get_companion_mission();
         if( c_mission.position != omt_pos ||
-            c_mission.mission_id != mission_id || c_mission.role_id != role_id ) {
+            ( by_mission && c_mission.mission_id != mission_id ) || c_mission.role_id != role_id ) {
             continue;
         }
         if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
@@ -2104,7 +2105,7 @@ void talk_function::loot_building( const tripoint &site )
         }
     }
     bay.save();
-    overmap_buffer.ter( site ) = oter_id( "looted_building" );
+    overmap_buffer.ter_set( site, oter_id( "looted_building" ) );
 }
 
 void mission_data::add( const std::string &id, const std::string &name_display,

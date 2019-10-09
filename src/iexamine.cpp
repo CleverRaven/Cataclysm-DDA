@@ -1249,7 +1249,8 @@ void iexamine::locked_object( player &p, const tripoint &examp )
         return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
     } );
 
-    p.add_msg_if_player( _( "You attempt to pry open the %s using your %s..." ),
+    //~ %1$s: terrain/furniture name, %2$s: prying tool name
+    p.add_msg_if_player( _( "You attempt to pry open the %1$s using your %2$s..." ),
                          g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ), prying_items[0]->tname() );
 
     // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
@@ -1304,17 +1305,8 @@ void iexamine::pedestal_wyrm( player &p, const tripoint &examp )
     g->events().send<event_type::awakes_dark_wyrms>();
     int num_wyrms = rng( 1, 4 );
     for( int i = 0; i < num_wyrms; i++ ) {
-        int tries = 0;
-        tripoint monp = examp;
-        do {
-            monp.x = rng( 0, MAPSIZE_X );
-            monp.y = rng( 0, MAPSIZE_Y );
-            tries++;
-        } while( tries < 10 && !g->is_empty( monp ) &&
-                 rl_dist( p.pos(), monp ) <= 2 );
-        if( tries < 10 ) {
-            g->m.ter_set( monp, t_rock_floor );
-            g->summon_mon( mon_dark_wyrm, monp );
+        if( monster *const mon = g->place_critter_around( mon_dark_wyrm, p.pos(), 2 ) ) {
+            g->m.ter_set( mon->pos(), t_rock_floor );
         }
     }
     add_msg( _( "The pedestal sinks into the ground..." ) );
@@ -1776,10 +1768,10 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
     g->m.furn_set( examp, f_egg_sacke );
     int monster_count = 0;
     if( one_in( 2 ) ) {
-        const std::vector<tripoint> pts = closest_tripoints_first( 1, examp );
-        for( const auto &pt : pts ) {
-            if( g->is_empty( pt ) && one_in( 3 ) ) {
-                g->summon_mon( montype, pt );
+        for( const tripoint &p : closest_tripoints_first( 1, examp ) ) {
+            if( !one_in( 3 ) ) {
+                continue;
+            } else if( g->place_critter_at( montype, p ) ) {
                 monster_count++;
             }
         }
@@ -2027,7 +2019,7 @@ void iexamine::harvest_plant( player &p, const tripoint &examp, bool from_activi
         } else if( ( p.has_trait( trait_M_DEFENDER ) ) || ( ( p.has_trait( trait_M_SPORES ) ||
                    p.has_trait( trait_M_FERTILE ) ) &&
                    one_in( 2 ) ) ) {
-            g->summon_mon( mon_fungal_blossom, examp );
+            g->place_critter_at( mon_fungal_blossom, examp );
             add_msg( m_info, _( "The seed blooms forth!  We have brought true beauty to this world." ) );
         } else if( ( p.has_trait( trait_THRESH_MYCUS ) ) || one_in( 4 ) ) {
             g->m.furn_set( examp, f_flower_marloss );
@@ -2585,7 +2577,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
 
     const bool has_firestarter = !firestarters.empty();
     const bool has_bionic_firestarter = p.has_bionic( bionic_id( "bio_lighter" ) ) &&
-                                        p.power_level >= bionic_id( "bio_lighter" )->power_activate;
+                                        p.enough_power_for( bionic_id( "bio_lighter" ) );
 
     auto firequenchers = p.items_with( []( const item & it ) {
         return it.damage_melee( DT_BASH );
@@ -2635,7 +2627,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
         }
         case 2: {
             if( g->m.add_field( examp, fd_fire, 1 ) ) {
-                p.charge_power( -bionic_id( "bio_lighter" )->power_activate );
+                p.mod_power_level( -bionic_id( "bio_lighter" )->power_activate );
                 p.mod_moves( -to_moves<int>( 1_seconds ) );
             } else {
                 p.add_msg_if_player( m_info, _( "You can't light a fire there." ) );
@@ -3952,7 +3944,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     int pricePerUnit = getGasPricePerLiter( discount );
 
     bool can_hack = ( !p.has_trait( trait_ILLITERATE ) && ( ( p.has_charges( "electrohack", 25 ) ) ||
-                      ( p.has_bionic( bionic_id( "bio_fingerhack" ) ) && p.power_level > 24 ) ) );
+                      ( p.has_bionic( bionic_id( "bio_fingerhack" ) ) && p.get_power_level() > 24_kJ ) ) );
 
     uilist amenu;
     amenu.selected = 1;
@@ -5139,7 +5131,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
                     if( minutes_left > 60 ) {
                         pop << string_format( ngettext( "It will finish milling in about %d hour.",
                                                         "It will finish milling in about %d hours.",
-                                                        hours_left ), hours_left ) << "\n \n ";
+                                                        hours_left ), hours_left ) << "\n\n ";
                     } else if( minutes_left > 30 ) {
                         pop << _( "It will finish milling in less than an hour." );
                     } else {
@@ -5149,7 +5141,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
             } else {
                 pop << "<color_green>" << _( "There's a mill here." ) << "</color>" << "\n";
             }
-            pop << "<color_green>" << _( "You inspect its contents and find: " ) << "</color>" << "\n \n ";
+            pop << "<color_green>" << _( "You inspect its contents and find: " ) << "</color>" << "\n\n ";
             if( items_here.empty() ) {
                 pop << _( "... that it is empty." );
             } else {
@@ -5343,7 +5335,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                     if( minutes_left > 60 ) {
                         pop << string_format( ngettext( "It will finish smoking in about %d hour.",
                                                         "It will finish smoking in about %d hours.",
-                                                        hours_left ), hours_left ) << "\n \n ";
+                                                        hours_left ), hours_left ) << "\n\n ";
                     } else if( minutes_left > 30 ) {
                         pop << _( "It will finish smoking in less than an hour." ) << "\n ";
                     } else {
@@ -5354,7 +5346,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             } else {
                 pop << "<color_green>" << _( "There's a smoking rack here." ) << "</color>" << "\n";
             }
-            pop << "<color_green>" << _( "You inspect its contents and find: " ) << "</color>" << "\n \n ";
+            pop << "<color_green>" << _( "You inspect its contents and find: " ) << "</color>" << "\n\n ";
             if( items_here.empty() ) {
                 pop << _( "... that it is empty." );
             } else {
@@ -5694,7 +5686,7 @@ hack_result iexamine::hack_attempt( player &p )
     bool using_electrohack = p.has_charges( "electrohack", 25 ) &&
                              query_yn( _( "Use electrohack?" ) );
     bool using_fingerhack = !using_electrohack && p.has_bionic( bionic_id( "bio_fingerhack" ) ) &&
-                            p.power_level > 24 && query_yn( _( "Use fingerhack?" ) );
+                            p.get_power_level() > 24_kJ && query_yn( _( "Use fingerhack?" ) );
 
     if( !( using_electrohack || using_fingerhack ) ) {
         return HACK_UNABLE;
@@ -5703,7 +5695,7 @@ hack_result iexamine::hack_attempt( player &p )
     p.moves -= to_moves<int>( 5_minutes );
     p.practice( skill_computer, 20 );
     if( using_fingerhack ) {
-        p.charge_power( -25 );
+        p.mod_power_level( -25_kJ );
     } else {
         p.use_charges( "electrohack", 25 );
     }
@@ -5715,7 +5707,7 @@ hack_result iexamine::hack_attempt( player &p )
     if( success < 0 ) {
         add_msg( _( "You cause a short circuit!" ) );
         if( using_fingerhack ) {
-            p.charge_power( -25 );
+            p.mod_power_level( -25_kJ );
         } else {
             p.use_charges( "electrohack", 25 );
         }
@@ -5726,7 +5718,8 @@ hack_result iexamine::hack_attempt( player &p )
                 p.use_amount( "electrohack", 1 );
             } else {
                 add_msg( m_bad, _( "Your power is drained!" ) );
-                p.charge_power( -rng( 25, p.power_level ) );
+                p.mod_power_level( units::from_kilojoule( -rng( 25,
+                                   units::to_kilojoule( p.get_power_level() ) ) ) );
             }
         }
         return HACK_FAIL;

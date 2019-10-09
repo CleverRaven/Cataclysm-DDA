@@ -100,6 +100,8 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::RANDOM_AOE: return "RANDOM_AOE";
         case spell_flag::RANDOM_DAMAGE: return "RANDOM_DAMAGE";
         case spell_flag::RANDOM_DURATION: return "RANDOM_DURATION";
+        case spell_flag::RANDOM_TARGET: return "RANDOM_TARGET";
+        case spell_flag::MUTATE_TRAIT: return "MUTATE_TRAIT";
         case spell_flag::WONDER: return "WONDER";
         case spell_flag::LAST: break;
     }
@@ -209,9 +211,16 @@ void spell_type::load( JsonObject &jo, const std::string & )
         { "area_push", spell_effect::area_push },
         { "timed_event", spell_effect::timed_event },
         { "ter_transform", spell_effect::transform_blast },
+        { "noise", spell_effect::noise },
         { "vomit", spell_effect::vomit },
         { "explosion", spell_effect::explosion },
         { "flashbang", spell_effect::flashbang },
+        { "mod_moves", spell_effect::mod_moves },
+        { "map", spell_effect::map },
+        { "morale", spell_effect::morale },
+        { "charm_monster", spell_effect::charm_monster },
+        { "mutate", spell_effect::mutate },
+        { "bash", spell_effect::bash },
         { "none", spell_effect::none }
     };
 
@@ -219,6 +228,12 @@ void spell_type::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "message", message, to_translation( "You cast %s!" ) );
+    optional( jo, was_loaded, "sound_description", sound_description,
+              to_translation( "an explosion" ) );
+    optional( jo, was_loaded, "sound_type", sound_type, sounds::sound_t::combat );
+    optional( jo, was_loaded, "sound_ambient", sound_ambient, false );
+    optional( jo, was_loaded, "sound_id", sound_id, "" );
+    optional( jo, was_loaded, "sound_variant", sound_variant, "default" );
     mandatory( jo, was_loaded, "effect", effect_name );
     const auto found_effect = effect_map.find( effect_name );
     if( found_effect == effect_map.cend() ) {
@@ -615,7 +630,7 @@ bool spell::can_cast( const player &p ) const
             return false;
         }
         case bionic_energy:
-            return p.power_level >= energy_cost( p );
+            return p.get_power_level() >= units::from_kilojoule( energy_cost( p ) );
         case fatigue_energy:
             return p.get_fatigue() < EXHAUSTED;
         case none_energy:
@@ -790,7 +805,7 @@ std::string spell::energy_cur_string( const player &p ) const
         return _( "infinite" );
     }
     if( energy_source() == bionic_energy ) {
-        return colorize( to_string( p.power_level ), c_light_blue );
+        return colorize( to_string( units::to_kilojoule( p.get_power_level() ) ), c_light_blue );
     }
     if( energy_source() == mana_energy ) {
         return colorize( to_string( p.magic.available_mana() ), c_light_blue );
@@ -847,8 +862,14 @@ void spell::make_sound( const tripoint &target ) const
         if( has_flag( spell_flag::LOUD ) ) {
             loudness += 1 + damage() / 3;
         }
-        sounds::sound( target, loudness, sounds::sound_t::combat, _( "an explosion" ), false );
+        make_sound( target, loudness );
     }
+}
+
+void spell::make_sound( const tripoint &target, int loudness ) const
+{
+    sounds::sound( target, loudness, type->sound_type, type->sound_description.translated(),
+                   type->sound_ambient, type->sound_id, type->sound_variant );
 }
 
 std::string spell::effect() const
@@ -1088,15 +1109,24 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
             }
             const int rand_spell = rng( 0, type->additional_spells.size() - 1 );
             spell sp = ( iter + rand_spell )->get_spell( get_level() );
+            const bool _self = ( iter + rand_spell )->self;
 
             // This spell flag makes it so the message of the spell that's cast using this spell will be sent.
             // if a message is added to the casting spell, it will be sent as well.
             source.add_msg_if_player( sp.message() );
 
-            if( ( iter + rand_spell )->self ) {
-                sp.cast_all_effects( source, source.pos() );
+            if( sp.has_flag( RANDOM_TARGET ) ) {
+                if( _self ) {
+                    sp.cast_all_effects( source, sp.random_valid_target( source, source.pos() ) );
+                } else {
+                    sp.cast_all_effects( source, sp.random_valid_target( source, target ) );
+                }
             } else {
-                sp.cast_all_effects( source, target );
+                if( _self ) {
+                    sp.cast_all_effects( source, source.pos() );
+                } else {
+                    sp.cast_all_effects( source, target );
+                }
             }
         }
     } else {
@@ -1104,14 +1134,37 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
         cast_spell_effect( source, target );
         for( const fake_spell &extra_spell : type->additional_spells ) {
             spell sp = extra_spell.get_spell( get_level() );
-
-            if( extra_spell.self ) {
-                sp.cast_all_effects( source, source.pos() );
+            if( sp.has_flag( RANDOM_TARGET ) ) {
+                if( extra_spell.self ) {
+                    sp.cast_all_effects( source, sp.random_valid_target( source, source.pos() ) );
+                } else {
+                    sp.cast_all_effects( source, sp.random_valid_target( source, target ) );
+                }
             } else {
-                sp.cast_all_effects( source, target );
+                if( extra_spell.self ) {
+                    sp.cast_all_effects( source, source.pos() );
+                } else {
+                    sp.cast_all_effects( source, target );
+                }
             }
         }
     }
+}
+
+tripoint spell::random_valid_target( const Creature &caster, const tripoint &caster_pos ) const
+{
+    const std::set<tripoint> area = spell_effect::spell_effect_blast( *this, caster_pos, caster_pos,
+                                    range(), false );
+    std::set<tripoint> valid_area;
+    for( const tripoint &target : area ) {
+        if( is_valid_target( caster, target ) ) {
+            valid_area.emplace( target );
+        }
+    }
+    size_t rand_i = rng( 0, valid_area.size() - 1 );
+    auto iter = valid_area.begin();
+    std::advance( iter, rand_i );
+    return *iter;
 }
 
 // player
@@ -1298,8 +1351,10 @@ void known_magic::mod_mana( const player &p, int add_mana )
 int known_magic::max_mana( const player &p ) const
 {
     const float int_bonus = ( ( 0.2f + p.get_int() * 0.1f ) - 1.0f ) * mana_base;
-    return std::max( 0.0f, ( ( mana_base + int_bonus ) * p.mutation_value( "mana_multiplier" ) ) +
-                     p.mutation_value( "mana_modifier" ) - p.power_level );
+    const float unaugmented_mana = std::max( 0.0f,
+                                   ( ( mana_base + int_bonus ) * p.mutation_value( "mana_multiplier" ) ) +
+                                   p.mutation_value( "mana_modifier" ) - units::to_kilojoule( p.get_power_level() ) );
+    return p.calculate_by_enchantment( unaugmented_mana, enchantment::mod::MAX_MANA, true );
 }
 
 void known_magic::update_mana( const player &p, float turns )
@@ -1307,7 +1362,8 @@ void known_magic::update_mana( const player &p, float turns )
     // mana should replenish in 8 hours.
     const float full_replenish = to_turns<float>( 8_hours );
     const float ratio = turns / full_replenish;
-    mod_mana( p, floor( ratio * max_mana( p ) * p.mutation_value( "mana_regen_multiplier" ) ) );
+    mod_mana( p, floor( ratio * p.calculate_by_enchantment( max_mana( p ) *
+                        p.mutation_value( "mana_regen_multiplier" ), enchantment::mod::REGEN_MANA ) ) );
 }
 
 std::vector<spell_id> known_magic::spells() const
@@ -1327,7 +1383,7 @@ bool known_magic::has_enough_energy( const player &p, spell &sp ) const
         case mana_energy:
             return available_mana() >= cost;
         case bionic_energy:
-            return p.power_level >= cost;
+            return p.get_power_level() >= units::from_kilojoule( cost );
         case stamina_energy:
             return p.stamina >= cost;
         case hp_energy:

@@ -172,6 +172,8 @@ struct level_cache {
     std::map< tripoint, std::pair<vehicle *, int> > veh_cached_parts;
     std::set<vehicle *> vehicle_list;
     std::set<vehicle *> zone_vehicles;
+
+    int max_populated_zlev;
 };
 
 /**
@@ -838,7 +840,7 @@ class map
         /** Causes a collapse at p, such as from destroying a wall */
         void collapse_at( const tripoint &p, bool silent );
         /** Tries to smash the items at the given tripoint. Used by the explosion code */
-        void smash_items( const tripoint &p, int power );
+        void smash_items( const tripoint &p, int power, const std::string &cause_message );
         /**
          * Returns a pair where first is whether anything was smashed and second is if it was destroyed.
          *
@@ -1515,6 +1517,8 @@ class map
          */
         void setsubmap( size_t grididx, submap *smap );
     private:
+        // Caclulate the greatest populated zlevel in the loaded submaps and save in the level cache.
+        void calc_max_populated_zlev();
         /**
          * Internal versions of public functions to avoid checking same variables multiple times.
          * They lack safety checks, because their callers already do those.

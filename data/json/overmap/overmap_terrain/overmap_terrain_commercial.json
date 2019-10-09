@@ -5,7 +5,7 @@
     "name": "gas station",
     "copy-from": "generic_city_building",
     "color": "light_blue",
-    "flag": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ]
+    "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ]
   },
   {
     "type": "overmap_terrain",
@@ -13,7 +13,7 @@
     "name": "gas station",
     "copy-from": "generic_city_building",
     "color": "light_blue",
-    "flag": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ]
+    "flags": [ "SOURCE_FUEL", "SOURCE_VEHICLES" ]
   },
   {
     "type": "overmap_terrain",
@@ -28,7 +28,7 @@
     "name": "pharmacy",
     "copy-from": "generic_city_building",
     "color": "light_red",
-    "flag": [ "SOURCE_MEDICINE" ]
+    "flags": [ "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
@@ -43,7 +43,7 @@
     "name": "pharmacy",
     "copy-from": "generic_city_building",
     "color": "light_red",
-    "flag": [ "SOURCE_MEDICINE" ]
+    "flags": [ "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
@@ -58,7 +58,7 @@
     "name": "doctor's office",
     "copy-from": "generic_city_building",
     "color": "i_light_red",
-    "flag": [ "SOURCE_MEDICINE" ]
+    "flags": [ "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
@@ -73,7 +73,7 @@
     "name": "doctor's office",
     "copy-from": "generic_city_building",
     "color": "i_light_red",
-    "flag": [ "SOURCE_MEDICINE" ]
+    "flags": [ "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
@@ -88,7 +88,7 @@
     "name": "doctor's office",
     "copy-from": "generic_city_building",
     "color": "i_light_red",
-    "flag": [ "SOURCE_MEDICINE" ]
+    "flags": [ "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
@@ -375,7 +375,7 @@
     "name": "grocery store",
     "copy-from": "generic_city_building",
     "color": "green",
-    "flag": [ "SOURCE_FOOD", "SOURCE_DRINK" ]
+    "flags": [ "SOURCE_FOOD", "SOURCE_DRINK" ]
   },
   {
     "type": "overmap_terrain",
@@ -390,7 +390,7 @@
     "name": "grocery store",
     "copy-from": "generic_city_building",
     "color": "green",
-    "flag": [ "SOURCE_FOOD", "SOURCE_DRINK" ]
+    "flags": [ "SOURCE_FOOD", "SOURCE_DRINK" ]
   },
   {
     "type": "overmap_terrain",

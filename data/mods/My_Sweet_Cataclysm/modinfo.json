@@ -4,7 +4,7 @@
     "ident": "my_sweet_cataclysm",
     "name": "My Sweet Cataclysm",
     "authors": [ "Fris0uman" ],
-    "description": "Cataclysm is nice, but what if you could sweeten it a bit? What about walking through this world as a human shaped piece of sugar with your pet necco waffer?",
+    "description": "Cataclysm is nice, but what if you could sweeten it a bit? What about walking through this world as a human shaped piece of sugar with your pet necco wafer?",
     "category": "misc_additions",
     "dependencies": [ "dda" ]
   }

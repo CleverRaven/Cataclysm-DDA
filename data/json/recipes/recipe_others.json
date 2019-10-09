@@ -1652,11 +1652,26 @@
     "difficulty": 4,
     "time": "12 m",
     "reversible": true,
-    "note": "sawing it down doesn't teach anything useful",
+    "//": "sawing it down doesn't teach anything useful",
     "autolearn": true,
     "qualities": [ { "id": "GLARE", "level": 2 } ],
     "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
     "components": [ [ [ "steel_lump", 8 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "steel_armor",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "12 m",
+    "reversible": true,
+    "//": "sawing it down doesn't teach anything useful",
+    "autolearn": true,
+    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "components": [ [ [ "steel_lump", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -1679,7 +1694,7 @@
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "note": "hardened metal tools require high fabrication, so +1 diff here",
+    "//": "hardened metal tools require high fabrication, so +1 diff here",
     "time": "12 m",
     "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "adv_chemistry", 6 ], [ "welding_book", 5 ] ],
@@ -2387,7 +2402,7 @@
     "difficulty": 4,
     "time": "45 m",
     "reversible": true,
-    "note": "melting the chisel back down seems unlikely to teach anything useful",
+    "//": "melting the chisel back down seems unlikely to teach anything useful",
     "autolearn": true,
     "book_learn": [
       [ "textbook_fabrication", 3 ],
@@ -2595,7 +2610,7 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 6,
-    "note": "not so much the engineering as hardening the edge",
+    "//": "not so much the engineering as hardening the edge",
     "time": "6 h 20 m",
     "autolearn": true,
     "using": [ [ "forging_standard", 15 ], [ "steel_standard", 2 ] ],
@@ -3523,7 +3538,7 @@
     "result_mult": 15,
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
-    "components": [ [ [ "milk", 15 ] ], [ [ "bleach", 1 ], [ "vinegar", 4 ] ] ]
+    "components": [ [ [ "milk_standard_raw", 15, "LIST" ] ], [ [ "bleach", 1 ], [ "vinegar", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -3792,12 +3807,12 @@
     "skill_used": "survival",
     "skills_required": [ "cooking", 1 ],
     "difficulty": 1,
-    "time": "30 m",
+    "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ],
-      [ [ "raw_leather", 50 ], [ "raw_tainted_leather", 50 ], [ "raw_hleather", 50 ] ]
+      [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ],
+      [ [ "raw_leather", 1 ], [ "raw_tainted_leather", 1 ], [ "raw_hleather", 1 ] ]
     ]
   },
   {
@@ -3808,7 +3823,7 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
     "difficulty": 1,
-    "time": "20 m",
+    "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "cured_pelt", 1 ] ] ]
@@ -3836,7 +3851,7 @@
       [ [ "tanbark", 1 ], [ "acorns", 2 ], [ "hops", 2 ], [ "pine_bough", 6 ] ],
       [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ],
       [ [ "tallow", 1 ], [ "tallow_tainted", 1 ], [ "lard", 1 ] ],
-      [ [ "cured_hide", 1 ] ]
+      [ [ "cured_hide", 6 ] ]
     ]
   },
   {
@@ -3847,10 +3862,10 @@
     "skill_used": "survival",
     "skills_required": [ "cooking", 1 ],
     "difficulty": 1,
-    "time": "30 m",
+    "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ], [ [ "raw_fur", 50 ], [ "raw_tainted_fur", 50 ] ] ]
+    "components": [ [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ], [ [ "raw_fur", 1 ], [ "raw_tainted_fur", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3875,7 +3890,7 @@
       [ [ "tanbark", 1 ], [ "acorns", 2 ], [ "hops", 2 ], [ "pine_bough", 6 ] ],
       [ [ "salt_water", 2 ], [ "saline", 10 ], [ "salt", 10 ] ],
       [ [ "tallow", 1 ], [ "tallow_tainted", 1 ], [ "lard", 1 ] ],
-      [ [ "cured_pelt", 1 ] ]
+      [ [ "cured_pelt", 6 ] ]
     ]
   },
   {
@@ -3897,7 +3912,7 @@
       { "id": "CONTAIN", "level": 1 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "water_clean", 2 ], [ "water", 2 ] ], [ [ "lye_powder", 10 ], [ "aspirin", 10 ] ], [ [ "cured_hide", 1 ] ] ]
+    "components": [ [ [ "water_clean", 2 ], [ "water", 2 ] ], [ [ "lye_powder", 10 ], [ "aspirin", 10 ] ], [ [ "cured_hide", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -3918,7 +3933,7 @@
       { "id": "CONTAIN", "level": 1 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "water_clean", 2 ], [ "water", 2 ] ], [ [ "lye_powder", 10 ], [ "aspirin", 10 ] ], [ [ "cured_pelt", 1 ] ] ]
+    "components": [ [ [ "water_clean", 2 ], [ "water", 2 ] ], [ [ "lye_powder", 10 ], [ "aspirin", 10 ] ], [ [ "cured_pelt", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -4407,7 +4422,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
-    "skill_required": [ "tailor", 1 ],
+    "skills_required": [ "tailor", 1 ],
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
@@ -4422,7 +4437,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
-    "skill_required": [ "tailor", 1 ],
+    "skills_required": [ "tailor", 1 ],
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
@@ -4437,7 +4452,7 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
-    "skill_required": [ "tailor", 1 ],
+    "skills_required": [ "tailor", 1 ],
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,

@@ -924,7 +924,7 @@ static void sleep()
         }
 
         const auto &info = bio.info();
-        if( info.power_over_time > 0 ) {
+        if( info.power_over_time > 0_kJ ) {
             active.push_back( info.name.translated() );
         }
     }
@@ -2383,6 +2383,13 @@ bool game::handle_action()
                     break;    //don't do anything when sharing and not debugger
                 }
                 display_visibility();
+                break;
+
+            case ACTION_DISPLAY_LIGHTING:
+                if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
+                    break;    //don't do anything when sharing and not debugger
+                }
+                display_lighting();
                 break;
 
             case ACTION_DISPLAY_RADIATION:

@@ -156,11 +156,11 @@ class effect
         effect( const effect & ) = default;
         effect &operator=( const effect & ) = default;
 
-        /** Dummy effect returned when getting an effect that doesn't exist. */
-        static effect null_effect;
-
-        /** Compares pointers of this effect with the dummy above. */
+        /** Returns true if the effect is the result of `effect()`, ie. an effect that doesn't exist. */
         bool is_null() const;
+
+        /** Dummy used for "reference to effect()" */
+        static effect null_effect;
 
         /** Returns the name displayed in the player status window. */
         std::string disp_name() const;

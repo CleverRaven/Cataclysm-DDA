@@ -257,7 +257,7 @@ static void do_blast( const tripoint &p, const float power,
             continue;
         }
 
-        g->m.smash_items( pt, force );
+        g->m.smash_items( pt, force, _( "force of the explosion" ) );
 
         if( fire ) {
             int intensity = ( force > 50.0f ) + ( force > 100.0f );
@@ -708,10 +708,11 @@ void emp_blast( const tripoint &p )
         }
     }
     if( g->u.posx() == x && g->u.posy() == y ) {
-        if( g->u.power_level > 0 ) {
+        if( g->u.get_power_level() > 0_kJ ) {
             add_msg( m_bad, _( "The EMP blast drains your power." ) );
-            int max_drain = ( g->u.power_level > 1000 ? 1000 : g->u.power_level );
-            g->u.charge_power( -rng( 1 + max_drain / 3, max_drain ) );
+            int max_drain = ( g->u.get_power_level() > 1000_kJ ? 1000 : units::to_kilojoule(
+                                  g->u.get_power_level() ) );
+            g->u.mod_power_level( units::from_kilojoule( -rng( 1 + max_drain / 3, max_drain ) ) );
         }
         // TODO: More effects?
         //e-handcuffs effects
@@ -736,7 +737,6 @@ void resonance_cascade( const tripoint &p )
 {
     const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p, g->u.pos() ) );
     MonsterGroupResult spawn_details;
-    monster invader;
     if( maxglow > 0_turns ) {
         const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - 5 * trig_dist( p,
                                                 g->u.pos() ) ) );
@@ -798,8 +798,7 @@ void resonance_cascade( const tripoint &p )
                 case 14:
                 case 15:
                     spawn_details = MonsterGroupManager::GetResultFromGroup( mongroup_id( "GROUP_NETHER" ) );
-                    invader = monster( spawn_details.name, dest );
-                    g->add_zombie( invader );
+                    g->place_critter_at( spawn_details.name, dest );
                     break;
                 case 16:
                 case 17:
@@ -838,7 +837,7 @@ void nuke( const tripoint &p )
         }
     }
     tmpmap.save();
-    overmap_buffer.ter( p_surface ) = oter_id( "crater" );
+    overmap_buffer.ter_set( p_surface, oter_id( "crater" ) );
     // Kill any npcs on that omap location.
     for( const auto &npc : overmap_buffer.get_npcs_near_omt( p_surface, 0 ) ) {
         npc->marked_for_death = true;

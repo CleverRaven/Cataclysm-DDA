@@ -200,13 +200,6 @@ bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound 
 
 hp_part most_damaged_hp_part( const Character &c );
 
-// Used in npc::drop_items()
-struct ratio_index {
-    double ratio;
-    int index;
-    ratio_index( double R, int I ) : ratio( R ), index( I ) {}
-};
-
 bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b )
 {
     if( sound_a.type != sound_b.type ) {
@@ -996,10 +989,9 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_drop_items:
-            /*
-              drop_items(weight_carried() - weight_capacity(),
-                            volume_carried() - volume_capacity());
-            */
+            /* NPCs cant choose this action anymore, but at least it works */
+            drop_items( weight_carried() - weight_capacity(),
+                        volume_carried() - volume_capacity() );
             move_pause();
             break;
 
@@ -1629,16 +1621,16 @@ bool npc::wants_to_recharge_cbm()
     for( const bionic_id bid : get_fueled_bionics() ) {
         for( const itype_id fid : bid->fuel_opts ) {
             return get_fuel_available( bid ).empty() || ( !get_fuel_available( bid ).empty() &&
-                    power_level < ( max_power_level * static_cast<int>( rules.cbm_recharge ) / 100 ) &&
+                    get_power_level() < ( get_max_power_level() * static_cast<int>( rules.cbm_recharge ) / 100 ) &&
                     !use_bionic_by_id( bid ) );
         }
     }
-    return power_level < ( max_power_level * static_cast<int>( rules.cbm_recharge ) / 100 );
+    return get_power_level() < ( get_max_power_level() * static_cast<int>( rules.cbm_recharge ) / 100 );
 }
 
 bool npc::can_use_offensive_cbm() const
 {
-    return power_level > ( max_power_level * static_cast<int>( rules.cbm_reserve ) / 100 );
+    return get_power_level() > ( get_max_power_level() * static_cast<int>( rules.cbm_reserve ) / 100 );
 }
 
 bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
@@ -1664,7 +1656,7 @@ bool npc::recharge_cbm()
 {
     // non-allied NPCs don't consume resources to recharge
     if( !is_player_ally() ) {
-        charge_power( max_power_level );
+        mod_power_level( get_max_power_level() );
         return true;
     }
 
@@ -2344,6 +2336,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
                 mounted_creature->facing = facing;
                 mounted_creature->process_triggers();
                 g->m.creature_in_field( *mounted_creature );
+                g->m.creature_on_trap( *mounted_creature );
             }
         }
         if( g->m.has_flag( "UNSTABLE", pos() ) ) {
@@ -2943,15 +2936,23 @@ std::list<item> npc::pick_up_item_vehicle( vehicle &veh, int part_index )
     return npc_pickup_from_stack( *this, stack );
 }
 
-void npc::drop_items( int weight, int volume )
-{
-    add_msg( m_debug, "%s is dropping items-%d,%d (%d items, wgt %d/%d, vol %d/%d)",
-             name, weight, volume, inv.size(), to_gram( weight_carried() ),
-             to_gram( weight_capacity() ), volume_carried() / units::legacy_volume_factor,
-             volume_capacity() / units::legacy_volume_factor );
+// Used in npc::drop_items()
+struct ratio_index {
+    double ratio;
+    int index;
+    ratio_index( double R, int I ) : ratio( R ), index( I ) {}
+};
 
-    int weight_dropped = 0;
-    int volume_dropped = 0;
+void npc::drop_items( units::mass drop_weight, units::volume drop_volume, int min_val )
+{
+    add_msg( m_debug, "%s is dropping items-%3.2f kg, %3.2f L (%d items, wgt %3.2f/%3.2f kg, "
+             "vol %3.2f/%3.2f L)",
+             name, units::to_kilogram( drop_weight ), units::to_liter( drop_volume ), inv.size(),
+             units::to_kilogram( weight_carried() ), units::to_kilogram( weight_capacity() ),
+             units::to_liter( volume_carried() ), units::to_liter( volume_capacity() ) );
+
+    units::mass weight_dropped = units::from_gram( 0 );
+    units::volume volume_dropped = units::from_liter( 0 );
     std::vector<ratio_index> rWgt, rVol; // Weight/Volume to value ratios
 
     // First fill our ratio vectors, so we know which things to drop first
@@ -2960,12 +2961,12 @@ void npc::drop_items( int weight, int volume )
         item &it = slice[i]->front();
         double wgt_ratio = 0.0;
         double vol_ratio = 0.0;
-        if( value( it ) == 0 ) {
+        if( value( it ) == 0 || value( it ) <= min_val ) {
             wgt_ratio = 99999;
             vol_ratio = 99999;
         } else {
             wgt_ratio = units::to_gram<double>( it.weight() ) / value( it );
-            vol_ratio = it.volume() * 1.0 / units::legacy_volume_factor / value( it );
+            vol_ratio = units::to_liter( it.volume() / value( it ) );
         }
         bool added_wgt = false;
         bool added_vol = false;
@@ -2992,11 +2993,13 @@ void npc::drop_items( int weight, int volume )
     std::stringstream item_name; // For description below
     int num_items_dropped = 0; // For description below
     // Now, drop items, starting from the top of each list
-    while( weight_dropped < weight || volume_dropped < volume ) {
+    while( weight_dropped < drop_weight || volume_dropped < drop_volume ) {
         // weight and volume may be passed as 0 or a negative value, to indicate that
         // decreasing that variable is not important.
-        int dWeight = ( weight <= 0 ? -1 : weight - weight_dropped );
-        int dVolume = ( volume <= 0 ? -1 : volume - volume_dropped );
+        int dWeight = units::to_gram<int>( drop_weight ) <= 0 ? -1 :
+                      units::to_gram<int>( drop_weight - weight_dropped ) / 250;
+        int dVolume = units::to_milliliter<int>( drop_volume ) <= 0 ? -1 :
+                      units::to_milliliter<int>( drop_volume - volume_dropped ) / 250;
         int index;
         // Which is more important, weight or volume?
         if( dWeight > dVolume ) {
@@ -3022,8 +3025,8 @@ void npc::drop_items( int weight, int volume )
                 }
             }
         }
-        weight_dropped += slice[index]->front().weight() / 1_gram;
-        volume_dropped += slice[index]->front().volume() / units::legacy_volume_factor;
+        weight_dropped += slice[index]->front().weight();
+        volume_dropped += slice[index]->front().volume();
         item dropped = i_rem( index );
         num_items_dropped++;
         if( num_items_dropped == 1 ) {

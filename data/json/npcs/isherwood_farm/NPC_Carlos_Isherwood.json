@@ -6,9 +6,6 @@
     "name_unique": "Carlos Isherwood",
     "gender": "male",
     "class": "NC_ISHERWOOD_CARLOS",
-    "worn_override": "NC_Isherwood_worn",
-    "carry_override": "NC_ISHERWOOD_rifle",
-    "weapon_override": "NC_ISHERWOOD_archery",
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_ISHERWOOD_CARLOS",
@@ -23,6 +20,9 @@
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
     "bonus_per": { "one_in": 4 },
+    "worn_override": "NC_Isherwood_worn",
+    "carry_override": "NC_ISHERWOOD_rifle",
+    "weapon_override": "NC_ISHERWOOD_archery",
     "skills": [
       {
         "skill": "ALL",
@@ -61,7 +61,7 @@
       {
         "text": "Hi, looks like you are building a forage setup.",
         "topic": "TALK_ISHERWOOD_CARLOS_TALK1",
-        "speaker_effect": { "effect": { "u_add_var": "u_met_carlos_isherwood", "type": "general", "context": "meeting", "value": "yes" } }
+        "effect": { "u_add_var": "u_met_carlos_isherwood", "type": "general", "context": "meeting", "value": "yes" }
       },
       {
         "text": "Hi, Jack and Claire suggested I come talk to you about a job.",

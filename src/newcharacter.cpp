@@ -626,7 +626,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         add_bionic( bio );
     }
     // Adjust current energy level to maximum
-    power_level = max_power_level;
+    set_power_level( get_max_power_level() );
 
     for( auto &t : get_base_traits() ) {
         std::vector<matype_id> styles;
@@ -1739,9 +1739,9 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
             } );
 
             if( elem.first == currentSkill->name() ) {
-                rec_disp = "\n \n" + colorize( rec_temp, c_brown ) + rec_disp;
+                rec_disp = "\n\n" + colorize( rec_temp, c_brown ) + rec_disp;
             } else {
-                rec_disp += "\n \n" + colorize( "[" + elem.first + "]\n" + rec_temp, c_light_gray );
+                rec_disp += "\n\n" + colorize( "[" + elem.first + "]\n" + rec_temp, c_light_gray );
             }
         }
 

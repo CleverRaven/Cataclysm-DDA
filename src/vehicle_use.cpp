@@ -220,28 +220,50 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
     auto add_toggle = [&]( const std::string & name, char key, const std::string & flag ) {
         add_toggle_to_opts( options, actions, name, key, flag );
     };
-    add_toggle( _( "reactor" ), keybind( "TOGGLE_REACTOR" ), "REACTOR" );
-    add_toggle( _( "headlights" ), keybind( "TOGGLE_HEADLIGHT" ), "CONE_LIGHT" );
-    add_toggle( _( "wide angle headlights" ), keybind( "TOGGLE_WIDE_HEADLIGHT" ), "WIDE_CONE_LIGHT" );
-    add_toggle( _( "directed overhead lights" ), keybind( "TOGGLE_HALF_OVERHEAD_LIGHT" ),
-                "HALF_CIRCLE_LIGHT" );
-    add_toggle( _( "overhead lights" ), keybind( "TOGGLE_OVERHEAD_LIGHT" ), "CIRCLE_LIGHT" );
-    add_toggle( _( "aisle lights" ), keybind( "TOGGLE_AISLE_LIGHT" ), "AISLE_LIGHT" );
-    add_toggle( _( "dome lights" ), keybind( "TOGGLE_DOME_LIGHT" ), "DOME_LIGHT" );
-    add_toggle( _( "atomic lights" ), keybind( "TOGGLE_ATOMIC_LIGHT" ), "ATOMIC_LIGHT" );
-    add_toggle( _( "stereo" ), keybind( "TOGGLE_STEREO" ), "STEREO" );
-    add_toggle( _( "chimes" ), keybind( "TOGGLE_CHIMES" ), "CHIMES" );
-    add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
-    add_toggle( _( "freezer" ), keybind( "TOGGLE_FREEZER" ), "FREEZER" );
-    add_toggle( _( "space heater" ), keybind( "TOGGLE_SPACE_HEATER" ), "SPACE_HEATER" );
-    add_toggle( _( "cooler" ), keybind( "TOGGLE_COOLER" ), "COOLER" );
-    add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
-    add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
-    add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
-    add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
-    add_toggle( _( "rockwheel" ), keybind( "TOGGLE_PLOW" ), "ROCKWHEEL" );
-    add_toggle( _( "scoop" ), keybind( "TOGGLE_SCOOP" ), "SCOOP" );
-    add_toggle( _( "water purifier" ), keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
+    add_toggle( pgettext( "electronics menu option", "reactor" ),
+                keybind( "TOGGLE_REACTOR" ), "REACTOR" );
+    add_toggle( pgettext( "electronics menu option", "headlights" ),
+                keybind( "TOGGLE_HEADLIGHT" ), "CONE_LIGHT" );
+    add_toggle( pgettext( "electronics menu option", "wide angle headlights" ),
+                keybind( "TOGGLE_WIDE_HEADLIGHT" ), "WIDE_CONE_LIGHT" );
+    add_toggle( pgettext( "electronics menu option", "directed overhead lights" ),
+                keybind( "TOGGLE_HALF_OVERHEAD_LIGHT" ), "HALF_CIRCLE_LIGHT" );
+    add_toggle( pgettext( "electronics menu option", "overhead lights" ),
+                keybind( "TOGGLE_OVERHEAD_LIGHT" ), "CIRCLE_LIGHT" );
+    add_toggle( pgettext( "electronics menu option", "aisle lights" ),
+                keybind( "TOGGLE_AISLE_LIGHT" ), "AISLE_LIGHT" );
+    add_toggle( pgettext( "electronics menu option", "dome lights" ),
+                keybind( "TOGGLE_DOME_LIGHT" ), "DOME_LIGHT" );
+    add_toggle( pgettext( "electronics menu option", "atomic lights" ),
+                keybind( "TOGGLE_ATOMIC_LIGHT" ), "ATOMIC_LIGHT" );
+    add_toggle( pgettext( "electronics menu option", "stereo" ),
+                keybind( "TOGGLE_STEREO" ), "STEREO" );
+    add_toggle( pgettext( "electronics menu option", "chimes" ),
+                keybind( "TOGGLE_CHIMES" ), "CHIMES" );
+    add_toggle( pgettext( "electronics menu option", "fridge" ),
+                keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
+    add_toggle( pgettext( "electronics menu option", "freezer" ),
+                keybind( "TOGGLE_FREEZER" ), "FREEZER" );
+    add_toggle( pgettext( "electronics menu option", "space heater" ),
+                keybind( "TOGGLE_SPACE_HEATER" ), "SPACE_HEATER" );
+    add_toggle( pgettext( "electronics menu option", "cooler" ),
+                keybind( "TOGGLE_COOLER" ), "COOLER" );
+    add_toggle( pgettext( "electronics menu option", "recharger" ),
+                keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
+    add_toggle( pgettext( "electronics menu option", "plow" ),
+                keybind( "TOGGLE_PLOW" ), "PLOW" );
+    add_toggle( pgettext( "electronics menu option", "reaper" ),
+                keybind( "TOGGLE_REAPER" ), "REAPER" );
+    add_toggle( pgettext( "electronics menu option", "planter" ),
+                keybind( "TOGGLE_PLANTER" ), "PLANTER" );
+    add_toggle( pgettext( "electronics menu option", "rockwheel" ),
+                keybind( "TOGGLE_PLOW" ), "ROCKWHEEL" );
+    add_toggle( pgettext( "electronics menu option", "roadheader" ),
+                keybind( "TOGGLE_PLOW" ), "ROADHEAD" );
+    add_toggle( pgettext( "electronics menu option", "scoop" ),
+                keybind( "TOGGLE_SCOOP" ), "SCOOP" );
+    add_toggle( pgettext( "electronics menu option", "water purifier" ),
+                keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
 
     if( has_part( "DOOR_MOTOR" ) ) {
         options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
@@ -1089,6 +1111,39 @@ void vehicle::play_chimes()
     for( const vpart_reference &vp : get_enabled_parts( "CHIMES" ) ) {
         sounds::sound( vp.pos(), 40, sounds::sound_t::music,
                        _( "a simple melody blaring from the loudspeakers." ), false, "vehicle", "chimes" );
+    }
+}
+
+void vehicle::crash_terrain_around()
+{
+    if( total_power_w() <= 0 ) {
+        return;
+    }
+    for( const vpart_reference &vp : get_enabled_parts( "CRASH_TERRAIN_AROUND" ) ) {
+        tripoint crush_target( 0, 0, -OVERMAP_LAYERS );
+        const tripoint start_pos = vp.pos();
+        const transform_terrain_data &ttd = vp.info().transform_terrain;
+        for( size_t i = 0; i < eight_horizontal_neighbors.size() &&
+             !g->m.inbounds_z( crush_target.z ); i++ ) {
+            tripoint cur_pos = start_pos + eight_horizontal_neighbors.at( i );
+            bool busy_pos = false;
+            for( const vpart_reference &vp_tmp : get_all_parts() ) {
+                busy_pos |= vp_tmp.pos() == cur_pos;
+            }
+            for( const std::string &flag : ttd.pre_flags ) {
+                if( g->m.has_flag( flag, cur_pos ) && !busy_pos ) {
+                    crush_target = cur_pos;
+                    break;
+                }
+            }
+        }
+        if( g->m.inbounds_z( crush_target.z ) ) { //target chosen
+            velocity = 0;
+            cruise_velocity = 0;
+            g->m.destroy( crush_target );
+            sounds::sound( crush_target, 500, sounds::sound_t::combat, _( "Clanggggg!" ), false,
+                           "smash_success", "hit_vehicle" );
+        }
     }
 }
 

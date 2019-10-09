@@ -48,6 +48,7 @@
     "ranged_damage": 2,
     "dispersion": 620,
     "durability": 6,
+    "blackpowder_tolerance": 96,
     "clip_size": 1,
     "reload": 600,
     "valid_mod_locations": [
@@ -80,6 +81,7 @@
     "ranged_damage": 10,
     "dispersion": 180,
     "durability": 6,
+    "blackpowder_tolerance": 96,
     "clip_size": 1,
     "reload": 1200,
     "valid_mod_locations": [

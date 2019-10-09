@@ -1,0 +1,882 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_forge",
+    "name": "forge",
+    "description": "Metalworking station typically used in combination with an anvil.",
+    "symbol": "^",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "crafting_pseudo_item": "char_forge",
+    "flags": [ "TRANSPARENT", "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "char_forge", "count": 1 } ] },
+    "examine_action": "reload_furniture",
+    "bash": {
+      "str_min": 4,
+      "str_max": 8,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "char_forge", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_anvil",
+    "name": "anvil",
+    "description": "Used in metalworking.",
+    "symbol": "^",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 16,
+    "crafting_pseudo_item": "anvil",
+    "deconstruct": { "items": [ { "item": "anvil", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
+    "bash": { "str_min": 4, "str_max": 8, "sound": "crunch!", "sound_fail": "whump.", "items": [ { "item": "anvil", "count": 1 } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_still",
+    "name": "still",
+    "description": "An essential component for brewing and chemistry that allows for refining liquid mixtures.",
+    "symbol": "^",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "crafting_pseudo_item": "still",
+    "deconstruct": { "items": [ { "item": "still", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
+    "bash": { "str_min": 4, "str_max": 8, "sound": "crunch!", "sound_fail": "whump.", "items": [ { "item": "still", "count": 1 } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_kiln_empty",
+    "name": "charcoal kiln",
+    "description": "A rock kiln designed to burn wood and organic material into charcoal in absence of oxygen.",
+    "symbol": "U",
+    "color": "brown",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "examine_action": "kiln_empty",
+    "max_volume": 500,
+    "crafting_pseudo_item": "char_kiln",
+    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "deconstruct": { "items": [ { "item": "rock", "count": [ 35, 40 ] } ] },
+    "bash": {
+      "str_min": 25,
+      "str_max": 180,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "rock", "count": [ 15, 30 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_kiln_full",
+    "name": "filled charcoal kiln",
+    "description": "A rock kiln designed to burn wood and organic material into charcoal in absence of oxygen.",
+    "symbol": "U",
+    "color": "brown_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "examine_action": "kiln_full",
+    "flags": [ "NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "deconstruct": { "items": [ { "item": "rock", "count": [ 30, 30 ] } ] },
+    "bash": {
+      "str_min": 25,
+      "str_max": 180,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "rock", "count": [ 15, 30 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_kiln_metal_empty",
+    "name": "metal charcoal kiln",
+    "description": "A metal kiln designed to burn wood and organic material into charcoal in absence of oxygen.",
+    "symbol": "U",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "examine_action": "kiln_empty",
+    "max_volume": 500,
+    "crafting_pseudo_item": "char_kiln",
+    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
+    "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "pipe", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_kiln_metal_full",
+    "name": "filled metal charcoal kiln",
+    "description": "A metal kiln designed to burn wood and organic material into charcoal in absence of oxygen.",
+    "symbol": "U",
+    "color": "blue_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "examine_action": "kiln_full",
+    "flags": [ "NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM" ],
+    "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "pipe", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_arcfurnace_empty",
+    "name": "arc furnace",
+    "description": "An arc furnace designed to burn a powdery mix of coke and limestone to create calcium carbide.",
+    "symbol": "U",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "examine_action": "arcfurnace_empty",
+    "max_volume": 800,
+    "crafting_pseudo_item": "arcfurnace",
+    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
+    "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "pipe", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_arcfurnace_full",
+    "name": "filled arc furnace",
+    "description": "An arc furnace designed to burn a powdery mix of coke and limestone to create calcium carbide.",
+    "symbol": "U",
+    "color": "blue_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "examine_action": "arcfurnace_full",
+    "flags": [ "NOITEM", "SEALED", "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM" ],
+    "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "pipe", "count": [ 0, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_smoking_rack",
+    "name": "smoking rack",
+    "description": "A special rack designed to smoke food for better preservation and taste.",
+    "symbol": "=",
+    "bgcolor": "brown",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "crafting_pseudo_item": "char_smoker",
+    "examine_action": "smoker_options",
+    "deconstruct": { "items": [ { "item": "rock", "count": 8 }, { "item": "stick", "count": [ 16, 16 ] } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "rock", "count": 8 }, { "item": "stick", "count": [ 8, 12 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_smoking_rack_active",
+    "name": "active smoking rack",
+    "description": "A special rack designed to smoke food for better preservation and taste.  It is lit and smoking.",
+    "symbol": "=",
+    "bgcolor": "brown",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "crafting_pseudo_item": "char_smoker",
+    "examine_action": "smoker_options",
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "rock", "count": 8 }, { "item": "stick", "count": [ 8, 12 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_metal_smoking_rack",
+    "name": "metal smoking rack",
+    "description": "A special rack designed to smoke food for better preservation and taste.",
+    "symbol": "=",
+    "bgcolor": "light_gray",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "deployed_item": "metal_smoking_rack",
+    "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "crafting_pseudo_item": "char_smoker",
+    "examine_action": "smoker_options",
+    "deconstruct": { "items": [ { "item": "metal_smoking_rack", "count": 1 } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": 4 }, { "item": "pipe", "count": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_metal_smoking_rack_active",
+    "name": "active metal smoking rack",
+    "description": "A special rack designed to smoke food for better preservation and taste.",
+    "symbol": "=",
+    "bgcolor": "light_gray",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "deployed_item": "metal_smoking_rack",
+    "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "crafting_pseudo_item": "char_smoker",
+    "examine_action": "smoker_options",
+    "deconstruct": { "items": [ { "item": "metal_smoking_rack", "count": 1 } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": 4 }, { "item": "pipe", "count": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_forge_rock",
+    "name": "rock forge",
+    "description": "Metalworking station made of rock, typically used in combination with an anvil.",
+    "symbol": "^",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "crafting_pseudo_item": "char_forge",
+    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "deconstruct": { "items": [ { "item": "rock", "count": 40 } ] },
+    "examine_action": "reload_furniture",
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "crash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "rock", "count": [ 20, 30 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_clay_kiln",
+    "name": "clay kiln",
+    "description": "A kiln designed to bake clay pottery and bricks.",
+    "symbol": "^",
+    "color": "light_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "crafting_pseudo_item": "brick_kiln",
+    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "deconstruct": { "items": [ { "item": "rock", "count": 40 } ] },
+    "examine_action": "reload_furniture",
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "rock", "count": [ 20, 30 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ladder",
+    "name": "stepladder",
+    "description": "A short, foldable ladder.  Can help you climb to a rooftop, or maybe slow something down.",
+    "symbol": "H",
+    "color": "brown",
+    "move_cost_mod": 3,
+    "required_str": 6,
+    "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE" ],
+    "examine_action": "deployed_furniture",
+    "deployed_item": "stepladder",
+    "bash": {
+      "str_min": 6,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 4, 10 ] },
+        { "item": "nail", "charges": [ 10, 30 ] },
+        { "item": "splinter", "count": [ 5, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_arc_furnace",
+    "name": "electric arc furnace",
+    "looks_like": "t_machinery_heavy",
+    "description": "Not the kind of furnace you'd heat your house with, this is a device for heating things to extreme temperatures as part of industrial fabrication processes.",
+    "symbol": "0",
+    "color": "white_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "steel_plate", "count": [ 1, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "sheet_metal", "count": [ 4, 6 ] },
+        { "item": "element", "count": [ 10, 25 ] },
+        { "item": "scrap", "count": [ 12, 16 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_drill_press",
+    "name": "drill press",
+    "looks_like": "t_machinery_light",
+    "description": "A powerful drill mounted on a slide that lets it drop precisely down.  Useful in all kinds of projects from industrial fabrication to home woodworking.",
+    "symbol": "7",
+    "color": "yellow_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 10,
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "spike", "count": 1 },
+        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_tablesaw",
+    "name": "tablesaw",
+    "looks_like": "t_machinery_light",
+    "description": "A rotating saw blade set into a large flat table, for making straight measured cuts.  One of the key tools in a carpenter's arsenal.",
+    "symbol": "7",
+    "color": "yellow_red",
+    "move_cost_mod": 8,
+    "coverage": 40,
+    "required_str": 10,
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
+    "//": "some day this should be something you can activate to take down and get an item version of.  That day is not today.",
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "circsaw_blade", "count": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_mitresaw",
+    "name": "mitre saw",
+    "looks_like": "t_machinery_light",
+    "description": "A circular saw blade on an arm that can slide and rotate in several directions, this is a staple tool for nearly any carpentry.",
+    "symbol": "7",
+    "color": "yellow_cyan",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 10,
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT" ],
+    "//": "some day this should be something you can activate to take down and get an item version of.  That day is not today.",
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "pipe", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "circsaw_blade", "count": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bandsaw",
+    "name": "bandsaw",
+    "looks_like": "t_machinery_light",
+    "description": "A ribbonlike sawblade runs in a single direction in this tool, allowing precise cuts at almost any angle.",
+    "symbol": "7",
+    "color": "yellow_cyan",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 10,
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "wire", "count": [ 1, 2 ] },
+        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_router",
+    "name": "router table",
+    "looks_like": "t_machinery_light",
+    "description": "This table has an inset router, a rotating motor with an exchangeable blade head for cutting specific profiles and grooves and stuff.",
+    "symbol": "7",
+    "color": "yellow_green",
+    "move_cost_mod": 8,
+    "coverage": 35,
+    "required_str": 14,
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "spike", "count": [ 2, 3 ] },
+        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_planer",
+    "name": "planer",
+    "looks_like": "t_machinery_light",
+    "description": "A hefty tool that will take in a board and cut it smooth and flat to a specific width.  Particularly great if working with raw lumber stock, but also good just for shaving wood down to size.",
+    "symbol": "7",
+    "color": "yellow_white",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 12,
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "blade", "count": [ 2, 3 ] },
+        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_jointer",
+    "name": "jointer",
+    "looks_like": "t_machinery_light",
+    "description": "A table-shaped tool with a rotating blade that will cut down, smooth out, and square off a board to make it very smooth and nice indeed.",
+    "symbol": "7",
+    "color": "yellow_magenta",
+    "move_cost_mod": 8,
+    "coverage": 40,
+    "required_str": 14,
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "blade", "count": [ 2, 3 ] },
+        { "item": "plastic_chunk", "count": [ 4, 14 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hydraulic_press",
+    "name": "hydraulic press",
+    "looks_like": "t_machinery_light",
+    "description": "If you really want to squash something a lot, this would be exactly the right industrial tool for you.  If, you know, it had power.",
+    "symbol": "9",
+    "color": "black_red",
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "required_str": 16,
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] },
+        { "item": "steel_plate", "count": [ 1, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 2, 4 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "steel_plate", "count": [ 2, 4 ] },
+        { "item": "pipe", "count": [ 2, 4 ] },
+        { "item": "chain", "count": [ 0, 1 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_heavy_lathe",
+    "name": "power lathe",
+    "looks_like": "t_machinery_light",
+    "description": "An industrial-grade lathe, for turning chunks of metal and other hard things into round chunks of metal and other hard things.",
+    "symbol": "4",
+    "color": "cyan_red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": 16,
+    "flags": [ "BLOCKSDOOR" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "cable", "charges": [ 0, 4 ] },
+        { "item": "scrap", "count": [ 12, 20 ] },
+        { "item": "steel_chunk", "count": [ 2, 4 ] },
+        { "item": "steel_lump", "count": [ 1, 2 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": [ 4, 6 ] },
+        { "item": "steel_lump", "count": [ 2, 4 ] },
+        { "item": "scrap", "count": [ 12, 16 ] },
+        { "item": "pipe", "count": [ 0, 4 ] },
+        { "item": "motor_small", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_air_compressor",
+    "name": "air compressor",
+    "looks_like": "f_standing_tank",
+    "description": "This durable tank is topped with a motor that will cram as much air into the tank as possible.",
+    "symbol": "8",
+    "color": "black_yellow",
+    "move_cost_mod": -1,
+    "coverage": 80,
+    "required_str": 12,
+    "flags": [ "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 3, 6 ] },
+        { "item": "motor", "count": 1 },
+        { "item": "metal_tank", "count": 1 },
+        { "item": "plastic_chunk", "count": [ 4, 6 ] },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "hose", "count": [ 0, 1 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fvat_empty",
+    "name": "fermenting vat",
+    "description": "A sealable vat for fermenting vinegar and various alcoholic brews.",
+    "symbol": "O",
+    "color": "brown",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "flags": [ "NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "DONT_REMOVE_ROTTEN" ],
+    "examine_action": "fvat_empty",
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": 14 },
+        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "water_faucet", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 4, 10 ] },
+        { "item": "scrap", "count": [ 5, 10 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 3,
+      "str_max": 45,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 4, 8 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "water_faucet", "prob": 50 },
+        { "item": "sheet_metal_small", "count": [ 2, 6 ] },
+        { "item": "scrap", "count": [ 5, 10 ] },
+        { "item": "splinter", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fvat_full",
+    "name": "filled fermenting vat",
+    "description": "A sealable vat for fermenting vinegar and various alcoholic brews.",
+    "symbol": "O",
+    "color": "brown_cyan",
+    "move_cost_mod": -1,
+    "required_str": -1,
+    "flags": [ "NOITEM", "SEALED", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "DONT_REMOVE_ROTTEN" ],
+    "examine_action": "fvat_full",
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": 14 },
+        { "item": "nail", "charges": [ 6, 12 ] },
+        { "item": "water_faucet", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 4, 10 ] },
+        { "item": "scrap", "count": [ 5, 10 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 4, 8 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "water_faucet", "prob": 50 },
+        { "item": "sheet_metal_small", "count": [ 2, 6 ] },
+        { "item": "scrap", "count": [ 5, 10 ] },
+        { "item": "splinter", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_butcher_rack",
+    "name": "butchering rack",
+    "description": "Butchering rack designed to hang a carcass in the air.",
+    "symbol": "^",
+    "bgcolor": "brown",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [
+      "PLACE_ITEM",
+      "TRANSPARENT",
+      "FLAMABLE_ASH",
+      "MOUNTABLE",
+      "ALLOW_FIELD_EFFECT",
+      "EASY_DECONSTRUCT",
+      "BUTCHER_EQ",
+      "ORGANIC"
+    ],
+    "deconstruct": { "items": [ { "item": "stick_long", "count": 6 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "stick_long", "count": [ 1, 6 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_metal_butcher_rack",
+    "name": "metal butchering rack",
+    "description": "Metal butchering rack designed to hang a carcass in the air.  It can be deconstructed and folded for easy transportation.",
+    "symbol": "^",
+    "bgcolor": "light_gray",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "deployed_item": "metal_butcher_rack",
+    "examine_action": "deployed_furniture",
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "MOUNTABLE", "ALLOW_FIELD_EFFECT", "BUTCHER_EQ" ],
+    "deconstruct": { "items": [ { "item": "metal_butcher_rack", "count": 1 } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": [ 1, 3 ] }, { "item": "pipe", "count": [ 1, 3 ] } ]
+    }
+  }
+]

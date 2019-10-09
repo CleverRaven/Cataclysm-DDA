@@ -180,9 +180,39 @@
     "type": "field_type",
     "legacy_enum_id": 12,
     "intensity_levels": [
-      { "name": "thin smoke", "sym": "8", "dangerous": true, "translucency": 1 },
-      { "name": "smoke", "color": "light_gray", "transparent": false, "translucency": 10 },
-      { "name": "thick smoke", "color": "dark_gray", "translucency": 0 }
+      {
+        "name": "thin smoke",
+        "sym": "8",
+        "dangerous": true,
+        "translucency": 1,
+        "effect_id": "smoke",
+        "effect_body_part": "MOUTH",
+        "effect_intensity": 1,
+        "effect_min_duration": "2 seconds",
+        "effect_max_duration": "2 seconds",
+        "inside_immune": true
+      },
+      {
+        "name": "smoke",
+        "color": "light_gray",
+        "transparent": false,
+        "translucency": 10,
+        "effect_id": "smoke",
+        "effect_body_part": "MOUTH",
+        "effect_intensity": 2,
+        "effect_min_duration": "7 seconds",
+        "effect_max_duration": "7 seconds"
+      },
+      {
+        "name": "thick smoke",
+        "color": "dark_gray",
+        "translucency": 0,
+        "effect_id": "smoke",
+        "effect_body_part": "MOUTH",
+        "effect_intensity": 4,
+        "effect_min_duration": "15 seconds",
+        "effect_max_duration": "15 seconds"
+      }
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 12,

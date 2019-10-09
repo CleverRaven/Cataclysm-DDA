@@ -389,7 +389,7 @@
     "id": "mon_fish_pike",
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
-    "name": "pike",
+    "name": { "ctxt": "fish", "str": "pike" },
     "aggression": 10,
     "melee_skill": 3,
     "melee_dice_sides": 6,
@@ -412,7 +412,7 @@
     "melee_skill": 3,
     "melee_dice_sides": 6,
     "melee_cut": 3,
-    "loos_like": "mon_fish_pike",
+    "looks_like": "mon_fish_pike",
     "description": "A Muskellunge.  Closely related to pike, it shares the same aggression and sharp teeth."
   },
   {

@@ -37,6 +37,18 @@
     ]
   },
   {
+    "id": "milk_standard",
+    "type": "requirement",
+    "//": "Pasteurized milk, including reconstituted",
+    "components": [ [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_UHT", 1 ] ] ]
+  },
+  {
+    "id": "milk_standard_raw",
+    "type": "requirement",
+    "//": "Equivalent to milk_standard, with addition of raw milk for recipes using a heat source to kill microbes",
+    "components": [ [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_UHT", 1 ], [ "milk_raw", 1 ] ] ]
+  },
+  {
     "id": "hard_liquor",
     "type": "requirement",
     "//": "Hard liquor - necessarily comestible and high proof, not necessarily high quality.",

@@ -18,6 +18,7 @@ misc-*,\
 modernize-*,\
 performance-*,\
 readability-*,\
+-cata-text-style,\
 -bugprone-misplaced-widening-cast,\
 -bugprone-narrowing-conversions,\
 -bugprone-unused-return-value,\
@@ -61,5 +62,7 @@ FormatStyle:     none
 CheckOptions:
   - key: readability-uppercase-literal-suffix.NewSuffixes
     value: 'L;UL;LL;ULL'
+  - key: cata-text-style.EscapeUnicode
+    value: 0
 
 # vim:tw=0

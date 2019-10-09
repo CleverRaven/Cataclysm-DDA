@@ -118,6 +118,8 @@
     "description": "A place to sit, or sleep if you're desperate.",
     "size": 100,
     "item": "seat",
+    "floor_bedding_warmth": 200,
+    "comfort": 2,
     "difficulty": 1,
     "location": "center",
     "flags": [ "SEAT", "BOARDABLE", "CARGO", "BELTABLE", "TOOL_WRENCH" ],
@@ -146,6 +148,8 @@
     "item": "seat",
     "difficulty": 2,
     "size": 25,
+    "floor_bedding_warmth": 250,
+    "comfort": 3,
     "location": "center",
     "flags": [ "BED", "SEAT", "BOARDABLE", "BELTABLE", "CARGO", "TOOL_WRENCH" ],
     "breaks_into": "ig_vp_seat",
@@ -271,6 +275,8 @@
     "durability": 80,
     "description": "A padded wedge that you straddle, like a bicycle or motorcycle.",
     "folded_volume": 5,
+    "comfort": 1,
+    "floor_bedding_warmth": 200,
     "item": "saddle",
     "location": "center",
     "requirements": {
@@ -316,6 +322,8 @@
     "description": "A small but comfortable bed.",
     "size": 200,
     "item": "seat",
+    "comfort": 4,
+    "floor_bedding_warmth": 300,
     "difficulty": 1,
     "location": "center",
     "flags": [ "BED", "BOARDABLE", "CARGO", "MOUNTABLE" ],
@@ -902,7 +910,7 @@
     "broken_color": "light_blue",
     "damage_modifier": 80,
     "durability": 100,
-    "description": "A small washing machine.  With detergent or soap, water, and some electrical power, you could clean a lot of clothes.  'e'xamine the tile with the washing machine to use it.",
+    "description": "A small washing machine.  With detergent, water, and some electrical power, you could clean a lot of clothes.  'e'xamine the tile with the washing machine to use it.",
     "epower": -400,
     "size": 160,
     "item": "washing_machine",
@@ -927,7 +935,7 @@
     "broken_color": "light_blue",
     "damage_modifier": 80,
     "durability": 100,
-    "description": "A small dishwasher.  With detergent or soap, water, and some electrical power, you could clean your dishes...  Or something more useful like a CBM dripping with zombie gore.  'e'xamine the tile with the dishwasher to use it.",
+    "description": "A small dishwasher.  With detergent, water, and some electrical power, you could clean your dishes...  Or something more useful like a CBM dripping with zombie gore.  'e'xamine the tile with the dishwasher to use it.",
     "epower": -400,
     "size": 160,
     "item": "dishwasher",
@@ -1310,7 +1318,7 @@
     "folded_volume": 3,
     "flags": [ "MOUNTABLE", "FOLDABLE", "BOARDABLE", "CARGO" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ],
-    "damage_reduction": { "smash": 10 }
+    "damage_reduction": { "bash": 10 }
   },
   {
     "type": "vehicle_part",
@@ -1328,7 +1336,7 @@
     "folded_volume": 3,
     "flags": [ "FLOATS", "VARIABLE_SIZE", "FOLDABLE" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ],
-    "damage_reduction": { "smash": 10 }
+    "damage_reduction": { "bash": 10 }
   },
   {
     "type": "vehicle_part",
@@ -1729,7 +1737,7 @@
     "item": "solar_panel",
     "difficulty": 4,
     "location": "on_roof",
-    "flags": [ "SOLAR_PANEL", "TOOL_WRENCH" ],
+    "flags": [ "SOLAR_PANEL", "TOOL_WRENCH", "NO_REPAIR" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 2, 4 ] },

@@ -360,8 +360,6 @@ class player : public Character
                                         float adjusted_skill );
         /**Has enough anesthetic for surgery*/
         bool has_enough_anesth( const itype *cbm, player &patient );
-        /** Adds the entered amount to the player's bionic power_level */
-        void charge_power( int amount );
         /** Generates and handles the UI for player interaction with installed bionics */
         void power_bionics();
         void power_mutations();
@@ -499,8 +497,6 @@ class player : public Character
         int mabuff_block_bonus() const;
         /** Returns the speed bonus from martial arts buffs */
         int mabuff_speed_bonus() const;
-        /** Returns the armor bonus against given type from martial arts buffs */
-        int mabuff_armor_bonus( damage_type type ) const;
         /** Returns the damage multiplier to given type from martial arts buffs */
         float mabuff_damage_mult( damage_type type ) const;
         /** Returns the flat damage bonus to given type from martial arts buffs, applied after the multiplier */
@@ -614,25 +610,6 @@ class player : public Character
 
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
         bool block_hit( Creature *source, body_part &bp_hit, damage_instance &dam ) override;
-        /**
-         * Reduces and mutates du, prints messages about armor taking damage.
-         * @return true if the armor was completely destroyed (and the item must be deleted).
-         */
-        bool armor_absorb( damage_unit &du, item &armor );
-        /**
-         * Check for passive bionics that provide armor, and returns the armor bonus
-         * This is called from player::passive_absorb_hit
-         */
-        float bionic_armor_bonus( body_part bp, damage_type dt ) const;
-        /**
-         * Check for relevant passive, non-clothing that can absorb damage, and reduce by specified
-         * damage unit.  Only flat bonuses are checked here.  Multiplicative ones are checked in
-         * @ref player::absorb_hit.  The damage amount will never be reduced to less than 0.
-         * This is called from @ref player::absorb_hit
-         */
-        void passive_absorb_hit( body_part bp, damage_unit &du ) const;
-        /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
-        void absorb_hit( body_part bp, damage_instance &dam ) override;
         /** Called after the player has successfully dodged an attack */
         void on_dodge( Creature *source, float difficulty ) override;
         /** Handles special defenses from an attack that hit us (source can be null) */

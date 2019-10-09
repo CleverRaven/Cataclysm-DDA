@@ -466,27 +466,16 @@ void player::activate_mutation( const trait_id &mut )
         invoke_item( &burrowing_item );
         return;  // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
-        std::vector<tripoint> valid;
-        for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
-            if( g->is_empty( dest ) ) {
-                valid.push_back( dest );
-            }
-        }
-        // Oops, no room to divide!
-        if( valid.empty() ) {
+        monster *const slime = g->place_critter_around( mtype_id( "mon_player_blob" ), pos(), 1 );
+        if( !slime ) {
+            // Oops, no room to divide!
             add_msg_if_player( m_bad, _( "You focus, but are too hemmed in to birth a new slimespring!" ) );
             tdata.powered = false;
             return;
         }
         add_msg_if_player( m_good,
                            _( "You focus, and with a pleasant splitting feeling, birth a new slimespring!" ) );
-        int numslime = 1;
-        for( int i = 0; i < numslime && !valid.empty(); i++ ) {
-            const tripoint target = random_entry_removed( valid );
-            if( monster *const slime = g->summon_mon( mtype_id( "mon_player_blob" ), target ) ) {
-                slime->friendly = -1;
-            }
-        }
+        slime->friendly = -1;
         if( one_in( 3 ) ) {
             //~ Usual enthusiastic slimespring small voices! :D
             add_msg_if_player( m_good, _( "wow! you look just like me! we should look out for each other!" ) );
@@ -558,7 +547,7 @@ void player::activate_mutation( const trait_id &mut )
             return;
         }
     } else if( mut == trait_DEBUG_BIONIC_POWER ) {
-        max_power_level += 100;
+        mod_max_power_level( 100_kJ );
         add_msg_if_player( m_good, _( "Bionic power storage increased by 100." ) );
         tdata.powered = false;
         return;

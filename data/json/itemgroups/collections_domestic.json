@@ -35,6 +35,7 @@
       [ "ceramic_bowl", 50 ],
       [ "ceramic_cup", 20 ],
       [ "ceramic_mug", 20 ],
+      [ "wine_glass", 20 ],
       [ "plastic_plate", 50 ],
       [ "tumbler_plastic", 50 ],
       [ "bowl_pewter", 25 ],

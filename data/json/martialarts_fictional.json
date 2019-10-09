@@ -128,21 +128,44 @@
     "type": "martial_art",
     "id": "style_scorpion",
     "name": "Scorpion Kung Fu",
-    "description": "One of the Five Deadly Venoms.  Scorpion Style is a mysterious art which uses pincer-like hands and a stinger kick.  Critical hits do massive damage and knock your target back.",
+    "description": "One of the Five Deadly Venoms, used by Gao Ji.  Scorpion Style is a mysterious art which uses pincer-like hands and a stinger kick.  Moving enables a stunning pincer attack.  Critical hits do massive damage and knock your opponent back along with anyone your opponent comes in contact with.",
     "initiate": [ "You prepare to capture and sting your foes.", "%s assumes a scorpion-like stance." ],
     "learn_difficulty": 10,
     "arm_block": 3,
-    "leg_block": 99,
     "static_buffs": [
       {
-        "id": "scorpion_static",
-        "name": "Scorpion Venom",
-        "description": "+2 bashing damage.",
+        "id": "buff_scorpion_static",
+        "name": "Scorpion's Venom",
+        "description": "Your venom is a constant threat that nothing can escape from.\n\n+2 bashing damage.",
+        "min_unarmed": 0,
         "unarmed_allowed": true,
         "flat_bonuses": [ [ "damage", "bash", 2.0 ] ]
       }
     ],
-    "techniques": [ "tec_scorpion_precise", "tec_scorpion_brutal" ]
+    "onattack_buffs": [
+      {
+        "id": "buff_scorpion_onattack",
+        "name": "Scorpion's Intimidation",
+        "description": "Nothing is scarier than an angry scropion.  Your attacks can keep others at bay.\n\n+1 Dodge attempts.\nLasts 1 turn.",
+        "min_unarmed": 1,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "bonus_dodges": 1
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_scorpion_onmove",
+        "name": "Scorpion's Charge",
+        "description": "Rush foward and catch your prey!\n\n+10% damage.\nEnables \"Pincer Strike\" technique.\nStacks 2 times.  Lasts 2 turns.",
+        "min_unarmed": 2,
+        "unarmed_allowed": true,
+        "buff_duration": 2,
+        "max_stacks": 2,
+        "mult_bonuses": [ [ "damage", "bash", 1.1 ], [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.1 ] ]
+      }
+    ],
+    "techniques": [ "tec_scorpion_roundhouse", "tec_scorpion_precise", "tec_scorpion_brutal" ]
   },
   {
     "type": "martial_art",
@@ -204,8 +227,7 @@
         "min_unarmed": 0,
         "buff_duration": 2,
         "max_stacks": 1,
-        "mult_bonuses": [ [ "damage", "bash", 1.5 ] ],
-        "stun_dur": 2
+        "mult_bonuses": [ [ "damage", "bash", 1.5 ] ]
       }
     ],
     "onhit_buffs": [
@@ -423,24 +445,36 @@
   },
   {
     "type": "technique",
+    "id": "tec_scorpion_roundhouse",
+    "name": "Roundhouse Kick",
+    "messages": [ "You roundhouse kick %s", "<npcname> roundhouse kicks %s" ],
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
+  },
+  {
+    "type": "technique",
     "id": "tec_scorpion_brutal",
-    "name": "Stinger Strike",
+    "name": "Stinger Kick",
+    "min_unarmed": 5,
     "unarmed_allowed": true,
     "crit_tec": true,
-    "stun_dur": 3,
+    "stun_dur": 2,
     "knockback_dist": 3,
-    "mult_bonuses": [ [ "damage", "bash", 2 ] ],
+    "powerful_knockback": true,
+    "mult_bonuses": [ [ "damage", "bash", 2.0 ] ],
     "messages": [ "Your Stinger Kick sends %s flying", "<npcname>'s Stinger Kick sends %s flying" ]
   },
   {
     "type": "technique",
     "id": "tec_scorpion_precise",
-    "name": "Pincer Strike",
+    "name": "Pincer Fist",
+    "messages": [ "You stun %s with your Pincer Fist", "<npcname> jabs %s with a Pincer Fist" ],
     "min_unarmed": 4,
     "unarmed_allowed": true,
-    "mult_bonuses": [ [ "damage", "bash", 1.25 ] ],
-    "messages": [ "You punch %s with your Pincer Fist", "<npcname> jabs %s with a Pincer Fist" ],
-    "stun_dur": 2
+    "req_buffs": [ "buff_scorpion_onmove" ],
+    "stun_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 1.25 ] ]
   },
   {
     "type": "technique",
