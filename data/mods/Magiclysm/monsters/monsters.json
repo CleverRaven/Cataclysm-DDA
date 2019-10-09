@@ -268,7 +268,7 @@
     "dodge": 4,
     "vision_day": 20,
     "vision_night": 20,
-    "harvest": "stirge_death",
+    "harvest": "stirge",
     "special_attacks": [ [ "blood_suck", 3 ] ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
@@ -295,7 +295,7 @@
     "dodge": 0,
     "vision_day": 10,
     "vision_night": 10,
-    "harvest": "exempt",
+    "harvest": "shrieker",
     "special_attacks": [ [ "SHRIEK_ALERT", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
@@ -326,9 +326,9 @@
     "dodge": 2,
     "vision_day": 40,
     "vision_night": 40,
-    "harvest": "exempt",
+    "harvest": "lemure",
     "anger_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "MELT" ],
+    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "PATH_AVOID_FIRE", "REGENERATES_1", "REVIVES" ]
   }
 ]
