@@ -2,7 +2,7 @@
 {
   "id": "plastic_jack_o_lantern",
   "type": "TOOL",
-  "name": "jack'o lantern",
+  "name": "Jack'o lantern",
   "description": "This is a plastic lantern that is painted to look like a pumpkin with a face. It has a candle inside it, that can be replaced when burnt down. It doesn't provide very much light, but it can burn for quite a long time.  You'll need a lighter or matches to light it.",
   "weight": "113 g",
   "volume": "3964 ml",
@@ -26,7 +26,7 @@
   },
   "id": "plastic_jack_o_lantern_lit",
   "type": "TOOL",
-  "name": "spooky jack o' lantern",
+  "name": "spooky Jack o' lantern",
   "name_plural": "candles",
   "description": "There is a thick candle.  It doesn't provide very much light, but it can burn for quite a long time.  This candle is lit. The face shifts",
   "weight": "113 g",
