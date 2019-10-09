@@ -61,7 +61,7 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
 
 cata::optional<std::string> player_activity::get_progress_message() const
 {
-    if( get_verb().empty() ) {
+    if( type == activity_id( "ACT_NULL" ) || get_verb().empty() ) {
         return cata::optional<std::string>();
     }
 
