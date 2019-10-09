@@ -1009,7 +1009,7 @@
     "power_draw": 500,
     "revert_to": "cell_phone",
     "use_action": { "target": "cell_phone", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "LIGHT_15", "CHARGEDIM", "TRADER_AVOID" ]
+    "flags": [ "WATCH", "LIGHT_15", "CHARGEDIM", "TRADER_AVOID" ]
   },
   {
     "id": "smart_phone",
@@ -1053,7 +1053,7 @@
     "power_draw": 300,
     "revert_to": "smart_phone",
     "use_action": "MP3_ON",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "WATCH", "TRADER_AVOID" ],
     "magazine_well": 1
   },
   {
@@ -1070,7 +1070,7 @@
       "menu_text": "Turn off flashlight",
       "type": "transform"
     },
-    "flags": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ]
+    "flags": [ "WATCH", "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ]
   },
   {
     "id": "chainsaw_off",
@@ -5698,7 +5698,7 @@
         "type": "sew_advanced",
         "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin", "plastic", "kevlar_rigid" ],
         "skill": "tailor",
-        "clothing_mods": [ "leather_padded", "kevlar_padded", "furred", "wooled" ]
+        "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ]

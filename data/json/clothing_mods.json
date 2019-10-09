@@ -14,6 +14,19 @@
   },
   {
     "type": "clothing_mod",
+    "id": "steel_padded",
+    "flag": "steel_padded",
+    "item": "steel_armor",
+    "implement_prompt": "Pad with steel",
+    "destroy_prompt": "Destroy steel padding",
+    "mod_value": [
+      { "type": "bash", "value": 1, "proportion": [ "thickness", "coverage" ] },
+      { "type": "cut", "value": 1, "proportion": [ "thickness", "coverage" ] },
+      { "type": "encumbrance", "value": 2, "round_up": true, "proportion": [ "thickness", "coverage" ] }
+    ]
+  },
+  {
+    "type": "clothing_mod",
     "id": "kevlar_padded",
     "flag": "kevlar_padded",
     "item": "kevlar_plate",
