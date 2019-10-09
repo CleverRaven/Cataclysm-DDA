@@ -15,7 +15,7 @@
     "initial_charges": 100,
     "max_charges": 100,
     "charges_per_use": 1,
-    "revert_to": "can_food_unsealed",
+    "revert_to": "plastic_jack_o_lantern",
     "use_action": {
       "target": "plastic_jack_o_lantern",
       "msg": "You light the candle in the jack o'lantern.",
@@ -27,7 +27,7 @@
     "id": "plastic_jack_o_lantern_lit",
     "type": "TOOL",
     "name": "spooky jack o'lantern",
-    "name_plural": "candles",
+    "name_plural": "jack o'lanterns",
     "description": "There is a thick candle.  It doesn't provide very much light, but it can burn for quite a long time.  This candle is lit. The face shifts.",
     "weight": "113 g",
     "volume": "3964 ml",
@@ -43,7 +43,7 @@
     "turns_per_charge": 1350,
     "use_action": {
       "target": "plastic_jack_o_lantern_lit",
-      "msg": "The candle winks out.",
+      "msg": "The candle winks out inside the lantern.",
       "menu_text": "Extinguish",
       "type": "transform"
     },
