@@ -89,6 +89,14 @@ namespace io
             case enchantment::mod::SOCIAL_LIE: return "SOCIAL_LIE";
             case enchantment::mod::SOCIAL_PERSUADE: return "SOCIAL_PERSUADE";
             case enchantment::mod::SOCIAL_INTIMIDATE: return "SOCIAL_INTIMIDATE";
+            case enchantment::mod::ARMOR_ACID: return "ARMOR_ACID";
+            case enchantment::mod::ARMOR_BASH: return "ARMOR_BASH";
+            case enchantment::mod::ARMOR_BIO: return "ARMOR_BIO";
+            case enchantment::mod::ARMOR_COLD: return "ARMOR_COLD";
+            case enchantment::mod::ARMOR_CUT: return "ARMOR_CUT";
+            case enchantment::mod::ARMOR_ELEC: return "ARMOR_ELEC";
+            case enchantment::mod::ARMOR_HEAT: return "ARMOR_HEAT";
+            case enchantment::mod::ARMOR_STAB: return "ARMOR_STAB";
             case enchantment::mod::ITEM_DAMAGE_BASH: return "ITEM_DAMAGE_BASH";
             case enchantment::mod::ITEM_DAMAGE_CUT: return "ITEM_DAMAGE_CUT";
             case enchantment::mod::ITEM_DAMAGE_STAB: return "ITEM_DAMAGE_STAB";
