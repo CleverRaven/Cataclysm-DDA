@@ -265,7 +265,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "tainted_blood", "type": "flesh", "mass_ratio": 0.1 },
-      { "drop": "meat", "type": "flesh", "mass_ratio": 0.4 },
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.4 }
     ]
-  },
+  }
 ]
