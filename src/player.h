@@ -398,7 +398,7 @@ class player : public Character
         /** Returns the distance the player can see through walls */
         int  clairvoyance() const;
         /** Returns true if the player has some form of impaired sight */
-        bool sight_impaired() const;        
+        bool sight_impaired() const;
         /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
         bool handle_melee_wear( item &shield, float wear_multiplier = 1.0f );
         /** True if unarmed or wielding a weapon with the UNARMED_WEAPON flag */
