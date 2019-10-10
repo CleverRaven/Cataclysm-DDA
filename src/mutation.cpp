@@ -478,7 +478,8 @@ void player::activate_mutation( const trait_id &mut )
         slime->friendly = -1;
         if( one_in( 3 ) ) {
             //~ Usual enthusiastic slimespring small voices! :D
-            add_msg_if_player( m_good, _( "wow!  you look just like me!  we should look out for each other!" ) );
+            add_msg_if_player( m_good,
+                               _( "wow!  you look just like me!  we should look out for each other!" ) );
         } else if( one_in( 2 ) ) {
             //~ Usual enthusiastic slimespring small voices! :D
             add_msg_if_player( m_good, _( "come on, big me, let's go!" ) );

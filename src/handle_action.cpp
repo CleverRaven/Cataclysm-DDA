@@ -972,9 +972,9 @@ static void sleep()
         bool can_hibernate = u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE );
 
         as_m.reset();
-        as_m.text = can_hibernate ?
-                    _( "You're engorged to hibernate.  The alarm would only attract attention.  Set an alarm anyway?" ) :
-                    _( "You have an alarm clock.  Set an alarm?" );
+        as_m.text = can_hibernate
+                    ? _( "You're engorged to hibernate.  The alarm would only attract attention.  Set an alarm anyway?" )
+                    : _( "You have an alarm clock.  Set an alarm?" );
 
         as_m.entries.emplace_back( 0, true,
                                    get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
