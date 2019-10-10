@@ -3,9 +3,9 @@
     "type": "MOD_INFO",
     "ident": "magiclysm",
     "name": "Magiclysm",
-    "authors": [ "KorGgenT", "Aptronym" ],
+    "authors": [ "KorGgenT", "Aptronym", "LaVeyanFiend" ],
     "maintainer": [ "KorGgenT" ],
-    "description": "Cataclysm but with magic spells!",
+    "description": "Cataclysm but with fantasy elements, such as magic spells, items, and monsters!  Don't forget to bind a spellcasting key!",
     "category": "content",
     "dependencies": [ "dda" ]
   },
