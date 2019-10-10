@@ -3167,7 +3167,7 @@ bool Character::is_immune_field( const field_type_id fid ) const
             return true;
         }
     }
-    bool immune_by_body_part_resistance = false;
+    bool immune_by_body_part_resistance = !ft.immunity_data_body_part_env_resistance.empty();
     for( const std::pair<body_part, int> &fide : ft.immunity_data_body_part_env_resistance ) {
         immune_by_body_part_resistance = immune_by_body_part_resistance &&
                                          get_env_resist( fide.first ) >= fide.second;
