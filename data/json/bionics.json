@@ -924,7 +924,7 @@
     "id": "bio_storage",
     "type": "bionic",
     "name": "Internal Storage",
-    "description": "A bioplastic bladder has been surgically implanted inside your abdominal cavity. It has an external opening with a lid, serving as a storage space. You may carry an extra 2 liters of volume.",
+    "description": "A bioplastic bladder has been surgically implanted inside your abdominal cavity.  It has an external opening with a lid, serving as a storage space.  You may carry an extra 2 liters of volume.",
     "occupied_bodyparts": [ [ "TORSO", 32 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
