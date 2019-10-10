@@ -3,6 +3,7 @@
 #define DAMAGE_H
 
 #include <array>
+#include <map>
 #include <vector>
 #include <string>
 
