@@ -3436,7 +3436,7 @@ int player::impact( const int force, const tripoint &p )
     } else if( is_player() && shock_absorbers ) {
         add_msg( m_bad, _( "You are slammed against %s!" ),
                  target_name, total_dealt );
-        add_msg( m_good, _( "...but your shock absorbers negate the damage!" ) );
+        add_msg( m_good, _( "... but your shock absorbers negate the damage!" ) );
     } else if( slam ) {
         // Only print this line if it is a slam and not a landing
         // Non-players should only get this one: player doesn't know how much damage was dealt
@@ -3878,7 +3878,7 @@ void player::check_needs_extremes()
         if( calendar::once_every( 60_minutes ) ) {
             if( sleep_deprivation < SLEEP_DEPRIVATION_MINOR ) {
                 add_msg_if_player( m_warning,
-                                   _( "Your mind feels tired. It's been a while since you've slept well." ) );
+                                   _( "Your mind feels tired.  It's been a while since you've slept well." ) );
                 mod_fatigue( 1 );
             } else if( sleep_deprivation < SLEEP_DEPRIVATION_SERIOUS ) {
                 add_msg_if_player( m_bad,
@@ -3890,7 +3890,7 @@ void player::check_needs_extremes()
                 }
             } else if( sleep_deprivation < SLEEP_DEPRIVATION_MAJOR ) {
                 add_msg_if_player( m_bad,
-                                   _( "Your mind feels weary, and you dread every wakeful minute that passes. You crave sleep, and feel like you're about to collapse." ) );
+                                   _( "Your mind feels weary, and you dread every wakeful minute that passes.  You crave sleep, and feel like you're about to collapse." ) );
                 mod_fatigue( 10 );
 
                 if( one_in( 5 ) ) {
@@ -3898,7 +3898,7 @@ void player::check_needs_extremes()
                 }
             } else if( sleep_deprivation < SLEEP_DEPRIVATION_MASSIVE ) {
                 add_msg_if_player( m_bad,
-                                   _( "You haven't slept decently for so long that your whole body is screaming for mercy. It's a miracle that you're still awake, but it just feels like a curse now." ) );
+                                   _( "You haven't slept decently for so long that your whole body is screaming for mercy.  It's a miracle that you're still awake, but it just feels like a curse now." ) );
                 mod_fatigue( 40 );
 
                 mod_healthy_mod( -5, 0 );
@@ -7750,7 +7750,7 @@ bool player::pick_style() // Style selection menu
     ctxt.register_action( "SHOW_DESCRIPTION" );
 
     uilist kmenu;
-    kmenu.text = string_format( _( "Select a style. (press %s for more info)" ),
+    kmenu.text = string_format( _( "Select a style.  (press %s for more info)" ),
                                 ctxt.get_desc( "SHOW_DESCRIPTION" ) );
     ma_style_callback callback( static_cast<size_t>( STYLE_OFFSET ), selectable_styles );
     kmenu.callback = &callback;
@@ -8195,7 +8195,7 @@ player::wear_item( const item &to_wear, bool interactive )
             if( to_wear.covers( bp ) && encumb( bp ) >= 40 ) {
                 add_msg_if_player( m_warning,
                                    bp == bp_eyes ?
-                                   _( "Your %s are very encumbered! %s" ) : _( "Your %s is very encumbered! %s" ),
+                                   _( "Your %s are very encumbered!  %s" ) : _( "Your %s is very encumbered!  %s" ),
                                    body_part_name( bp ), encumb_text( bp ) );
             }
         }
@@ -8204,11 +8204,11 @@ player::wear_item( const item &to_wear, bool interactive )
         }
         if( supertinymouse && !to_wear.has_flag( "UNDERSIZE" ) ) {
             add_msg_if_player( m_warning,
-                               _( "This %s is too big to wear comfortably! Maybe it could be refitted..." ),
+                               _( "This %s is too big to wear comfortably!  Maybe it could be refitted..." ),
                                to_wear.tname() );
         } else if( to_wear.has_flag( "UNDERSIZE" ) ) {
             add_msg_if_player( m_warning,
-                               _( "This %s is too small to wear comfortably! Maybe it could be refitted..." ),
+                               _( "This %s is too small to wear comfortably!  Maybe it could be refitted..." ),
                                to_wear.tname() );
         }
     } else {
@@ -9287,7 +9287,7 @@ void player::try_to_sleep( const time_duration &dur )
             add_msg_if_player( m_bad, _( "It's impossible to sleep in this wheeled pot!" ) );
         } else if( furn_at_pos != f_null ) {
             add_msg_if_player( m_bad,
-                               _( "The humans' furniture blocks your roots. You can't get comfortable." ) );
+                               _( "The humans' furniture blocks your roots.  You can't get comfortable." ) );
         } else { // Floor problems
             add_msg_if_player( m_bad, _( "Your roots scrabble ineffectively at the unyielding surface." ) );
         }

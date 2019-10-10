@@ -139,7 +139,7 @@ void weed_msg( player &p )
                     p.add_msg_if_player( _( "Oh, sometimes the early-mid-late-early-morning." ) );
                 }
                 if( smarts > 2 ) {
-                    p.add_msg_if_player( _( "...But never at dusk." ) );
+                    p.add_msg_if_player( _( "... But never at dusk." ) );
                 }
                 return;
             case 5:

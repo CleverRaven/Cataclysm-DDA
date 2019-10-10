@@ -553,7 +553,7 @@ void talk_function::start_camp( npc &p )
         display = true;
         buffer += _( "There are few fields.  Farming may be difficult.\n" );
     }
-    if( display && !query_yn( _( "%s \nAre you sure you wish to continue? " ), buffer ) ) {
+    if( display && !query_yn( _( "%s\nAre you sure you wish to continue?" ), buffer ) ) {
         return;
     }
     const recipe &making = camp_type.obj();
@@ -698,7 +698,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
     if( has_provides( "gathering" ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_gathering" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_gathering" ];
-        entry = string_format( _( "Notes: \n"
+        entry = string_format( _( "Notes:\n"
                                   "Send a companion to gather materials for the next camp "
                                   "upgrade.\n\n"
                                   "Skill used: survival\n"
@@ -815,7 +815,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         comp_list npc_list = get_mission_workers( "_faction_camp_expansion" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_expansion" ];
         entry = string_format( _( "Notes:\n"
-                                  "Your base has become large enough to support an expansion. "
+                                  "Your base has become large enough to support an expansion.  "
                                   "Expansions open up new opportunities but can be expensive and "
                                   "time consuming.  Pick them carefully, only 8 can be built at "
                                   "each camp.\n\n"
@@ -826,9 +826,9 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                   "companion missions and little is needed to get it going.  "
                                   "With minimal investment, a mechanic can be useful as a "
                                   "chop-shop to rapidly dismantle large vehicles, and a forge "
-                                  "provides the resources to make charcoal.  \n\n"
+                                  "provides the resources to make charcoal.\n\n"
                                   "NOTE: Actions available through expansions are located in "
-                                  "separate tabs of the Camp Manager window.  \n\n"
+                                  "separate tabs of the Camp Manager window.\n\n"
                                   "Risk: None\n"
                                   "Time: 3 Hours \n"
                                   "Positions: %d/1\n" ), npc_list.size() );
@@ -2745,7 +2745,7 @@ bool basecamp::survey_return()
 
 bool basecamp::farm_return( const std::string &task, const tripoint &omt_tgt, farm_ops op )
 {
-    const std::string msg = _( "returns from working your fields... " );
+    const std::string msg = _( "returns from working your fields..." );
     npc_ptr comp = companion_choose_return( task, 15_minutes );
     if( comp == nullptr ) {
         return false;

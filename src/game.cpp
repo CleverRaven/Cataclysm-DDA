@@ -1203,7 +1203,7 @@ bool game::cleanup_at_end()
                 tmpmessage += "\n  ";
                 tmpmessage += character;
             }
-            popup( _( "World retained. Characters remaining:%s" ), tmpmessage );
+            popup( _( "World retained.  Characters remaining:%s" ), tmpmessage );
         }
         if( gamemode ) {
             gamemode = std::make_unique<special_game>(); // null gamemode or something..
@@ -4146,10 +4146,10 @@ void game::monmove()
         // Critters in impassable tiles get pushed away, unless it's not impassable for them
         if( !critter.is_dead() && m.impassable( critter.pos() ) && !critter.can_move_to( critter.pos() ) ) {
             dbg( D_ERROR ) << "game:monmove: " << critter.name()
-                           << " can't move to its location! (" << critter.posx()
+                           << " can't move to its location!  (" << critter.posx()
                            << ":" << critter.posy() << ":" << critter.posz() << "), "
                            << m.tername( critter.pos() );
-            add_msg( m_debug, "%s can't move to its location! (%d,%d,%d), %s", critter.name(),
+            add_msg( m_debug, "%s can't move to its location!  (%d,%d,%d), %s", critter.name(),
                      critter.posx(), critter.posy(), critter.posz(), m.tername( critter.pos() ) );
             bool okay = false;
             for( const tripoint &dest : m.points_in_radius( critter.pos(), 3 ) ) {
@@ -5390,17 +5390,17 @@ bool game::npc_menu( npc &who )
         who.sort_armor();
         u.mod_moves( -100 );
     } else if( choice == attack ) {
-        if( who.is_enemy() || query_yn( _( "You may be attacked! Proceed?" ) ) ) {
+        if( who.is_enemy() || query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
             u.melee_attack( who, true );
             // fighting is hard work!
             u.increase_activity_level( EXTRA_EXERCISE );
             who.on_attacked( u );
         }
     } else if( choice == disarm ) {
-        if( who.is_enemy() || query_yn( _( "You may be attacked! Proceed?" ) ) ) {
+        if( who.is_enemy() || query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
             u.disarm( who );
         }
-    } else if( choice == steal && query_yn( _( "You may be attacked! Proceed?" ) ) ) {
+    } else if( choice == steal && query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
         u.steal( who );
     }
 
@@ -5936,7 +5936,7 @@ void game::print_vehicle_info( const vehicle *veh, int veh_part, const catacurse
                                const int column, int &line, const int last_line )
 {
     if( veh ) {
-        mvwprintw( w_look, point( column, ++line ), _( "There is a %s there. Parts:" ), veh->name );
+        mvwprintw( w_look, point( column, ++line ), _( "There is a %s there.  Parts:" ), veh->name );
         line = veh->print_part_list( w_look, ++line, last_line, getmaxx( w_look ), veh_part );
     }
 }
@@ -5998,7 +5998,7 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
 
             if( it.second > 1 ) {
                 trim_and_print( w_look, point( column, ++line ), max_width, c_white,
-                                pgettext( "%s is the name of the item. %d is the quantity of that item.", "%s [%d]" ),
+                                pgettext( "%s is the name of the item.  %d is the quantity of that item.", "%s [%d]" ),
                                 it.first.c_str(), it.second );
             } else {
                 trim_and_print( w_look, point( column, ++line ), max_width, c_white, it.first );
@@ -8217,7 +8217,7 @@ void game::butcher()
 
     Creature *hostile_critter = is_hostile_very_close();
     if( hostile_critter != nullptr ) {
-        if( !query_yn( _( "You see %s nearby! Start butchering anyway?" ),
+        if( !query_yn( _( "You see %s nearby!  Start butchering anyway?" ),
                        hostile_critter->disp_name() ) ) {
             return;
         }
@@ -8868,7 +8868,7 @@ bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
 
     const std::string msg_safe_mode = press_x( ACTION_TOGGLE_SAFEMODE );
     add_msg( game_message_params{ m_warning, gmf_bypass_cooldown },
-             _( "Spotted %1$s--safe mode is on! (%2$s to turn it off, %3$s to ignore monster%4$s)" ),
+             _( "Spotted %1$s--safe mode is on!  (%2$s to turn it off, %3$s to ignore monster%4$s)" ),
              spotted_creature_name, msg_safe_mode, msg_ignore, whitelist );
     safe_mode_warning_logged = true;
     return false;
@@ -9681,7 +9681,7 @@ bool game::phasing_move( const tripoint &dest_loc )
         tunneldist += 1;
         if( tunneldist * 250_kJ >
             u.get_power_level() ) { //oops, not enough energy! Tunneling costs 250 bionic power per impassable tile
-            add_msg( _( "You try to quantum tunnel through the barrier but are reflected! Try again with more energy!" ) );
+            add_msg( _( "You try to quantum tunnel through the barrier but are reflected!  Try again with more energy!" ) );
             u.mod_power_level( -250_kJ );
             return false;
         }
@@ -10152,7 +10152,7 @@ void game::vertical_move( int movez, bool force )
     bool slippedpast = false;
     if( !m.has_zlevels() && !coming_to_stairs.empty() && !force ) {
         // TODO: Allow travel if zombie couldn't reach stairs, but spawn him when we go up.
-        add_msg( m_warning, _( "You try to use the stairs. Suddenly you are blocked by a %s!" ),
+        add_msg( m_warning, _( "You try to use the stairs.  Suddenly you are blocked by a %s!" ),
                  coming_to_stairs[0].name() );
         // Roll.
         ///\EFFECT_DEX increases chance of moving past monsters on stairs
@@ -10542,7 +10542,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
     }
 
     if( u.has_trait( trait_id( "WEB_RAPPEL" ) ) ) {
-        if( query_yn( _( "There is a sheer drop halfway down. Web-descend?" ) ) ) {
+        if( query_yn( _( "There is a sheer drop halfway down.  Web-descend?" ) ) ) {
             rope_ladder = true;
             if( ( rng( 4, 8 ) ) < u.get_skill_level( skill_dodge ) ) {
                 add_msg( _( "You attach a web and dive down headfirst, flipping upright and landing on your feet." ) );
@@ -10575,14 +10575,14 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
             return cata::nullopt;
         }
     } else if( u.has_amount( "grapnel", 1 ) ) {
-        if( query_yn( _( "There is a sheer drop halfway down. Climb your grappling hook down?" ) ) ) {
+        if( query_yn( _( "There is a sheer drop halfway down.  Climb your grappling hook down?" ) ) ) {
             rope_ladder = true;
             u.use_amount( "grapnel", 1 );
         } else {
             return cata::nullopt;
         }
     } else if( u.has_amount( "rope_30", 1 ) ) {
-        if( query_yn( _( "There is a sheer drop halfway down. Climb your rope down?" ) ) ) {
+        if( query_yn( _( "There is a sheer drop halfway down.  Climb your rope down?" ) ) ) {
             rope_ladder = true;
             u.use_amount( "rope_30", 1 );
         } else {
@@ -10973,7 +10973,7 @@ void game::update_stair_monsters()
                 }
             }
             add_msg( m_warning,
-                     _( "The %s tried to push you back but failed! It attacks you!" ),
+                     _( "The %s tried to push you back but failed!  It attacks you!" ),
                      critter.name() );
             critter.melee_attack( u );
             u.moves -= 50;
@@ -11317,19 +11317,19 @@ void intro()
         werase( tmp );
         if( maxy < minHeight && maxx < minWidth ) {
             fold_and_print( tmp, point_zero, maxx, c_white,
-                            _( "Whoa! Your terminal is tiny! This game requires a minimum terminal size of "
-                               "%dx%d to work properly. %dx%d just won't do. Maybe a smaller font would help?" ),
+                            _( "Whoa!  Your terminal is tiny!  This game requires a minimum terminal size of "
+                               "%dx%d to work properly.  %dx%d just won't do.  Maybe a smaller font would help?" ),
                             minWidth, minHeight, maxx, maxy );
         } else if( maxx < minWidth ) {
             fold_and_print( tmp, point_zero, maxx, c_white,
-                            _( "Oh! Hey, look at that. Your terminal is just a little too narrow. This game "
-                               "requires a minimum terminal size of %dx%d to function. It just won't work "
-                               "with only %dx%d. Can you stretch it out sideways a bit?" ),
+                            _( "Oh!  Hey, look at that.  Your terminal is just a little too narrow.  This game "
+                               "requires a minimum terminal size of %dx%d to function.  It just won't work "
+                               "with only %dx%d.  Can you stretch it out sideways a bit?" ),
                             minWidth, minHeight, maxx, maxy );
         } else {
             fold_and_print( tmp, point_zero, maxx, c_white,
-                            _( "Woah, woah, we're just a little short on space here. The game requires a "
-                               "minimum terminal size of %dx%d to run. %dx%d isn't quite enough! Can you "
+                            _( "Woah, woah, we're just a little short on space here.  The game requires a "
+                               "minimum terminal size of %dx%d to run.  %dx%d isn't quite enough!  Can you "
                                "make the terminal just a smidgen taller?" ),
                             minWidth, minHeight, maxx, maxy );
         }
@@ -11848,7 +11848,7 @@ void game::add_artifact_messages( const std::vector<art_effect_passive> &effects
     }
 
     if( net_speed != 0 ) {
-        add_msg( m_info, _( "Speed %s%d! " ), ( net_speed > 0 ? "+" : "" ), net_speed );
+        add_msg( m_info, _( "Speed %s%d!" ), ( net_speed > 0 ? "+" : "" ), net_speed );
     }
 }
 

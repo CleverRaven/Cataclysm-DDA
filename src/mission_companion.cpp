@@ -241,7 +241,7 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
                                "                ...O|....\n\n"
                                "We're willing to let you purchase a field at a substantial "
                                "discount to use for your own agricultural enterprises.  We'll "
-                               "plow it for you  so you know exactly what is yours... after you "
+                               "plow it for you so you know exactly what is yours... after you "
                                "have a field you can hire workers to plant or harvest crops for "
                                "you.  If the crop is something we have a demand for, we'll be "
                                "willing to liquidate it." );
@@ -1221,7 +1221,7 @@ bool talk_function::scavenging_patrol_return( npc &p )
                           " undead!" ), monsters );
                 experience += rng( 2, 10 );
             } else {
-                popup( _( "Unfortunately they were overpowered by the undead... I'm sorry." ) );
+                popup( _( "Unfortunately they were overpowered by the undead...  I'm sorry." ) );
                 overmap_buffer.remove_npc( comp->getID() );
                 return false;
             }
@@ -1270,7 +1270,7 @@ bool talk_function::scavenging_raid_return( npc &p )
                           "undead!" ), monsters );
                 experience += rng( 2, 10 );
             } else {
-                popup( _( "Unfortunately they were overpowered by the undead... I'm sorry." ) );
+                popup( _( "Unfortunately they were overpowered by the undead...  I'm sorry." ) );
                 overmap_buffer.remove_npc( comp->getID() );
                 return false;
             }

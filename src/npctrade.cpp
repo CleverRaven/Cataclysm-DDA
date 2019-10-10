@@ -476,7 +476,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                 } else if( calc_npc_owes_you( np ) < your_balance ) {
                     // NPC is happy with the trade, but isn't willing to remember the whole debt.
                     const bool trade_ok = query_yn(
-                                              _( "I'm never going to be able to pay you back for all that. The most I'm willing to owe you is %s.\n\nContinue with trade?" ),
+                                              _( "I'm never going to be able to pay you back for all that.  The most I'm willing to owe you is %s.\n\nContinue with trade?" ),
                                               format_money( np.max_willing_to_owe() )
                                           );
 
@@ -485,7 +485,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                         ch = ' ';
                     }
                 } else {
-                    if( ! query_yn( _( "Looks like a deal! Accept this trade?" ) ) ) {
+                    if( ! query_yn( _( "Looks like a deal!  Accept this trade?" ) ) ) {
                         update = true;
                         ch = ' ';
                     }

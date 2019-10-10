@@ -186,7 +186,7 @@ void computer::use()
             case 'Y':
                 if( !hack_attempt( g->u ) ) {
                     if( failures.empty() ) {
-                        query_any( _( "Maximum login attempts exceeded. Press any key..." ) );
+                        query_any( _( "Maximum login attempts exceeded.  Press any key..." ) );
                         shutdown_terminal();
                         return;
                     }
@@ -427,7 +427,7 @@ void computer::activate_function( computer_action action )
         case COMPACT_TOLL:
             sounds::sound( g->u.pos(), 120, sounds::sound_t::music,
                            //~ the sound of a church bell ringing
-                           _( "Bohm... Bohm... Bohm..." ), true, "environment", "church_bells" );
+                           _( "Bohm...  Bohm...  Bohm..." ), true, "environment", "church_bells" );
             break;
 
         case COMPACT_SAMPLE:
@@ -549,12 +549,12 @@ void computer::activate_function( computer_action action )
             print_text( "%s", log );
             // One's an anomaly
             if( alerts == 0 ) {
-                query_any( _( "Local data-access error logged, alerting helpdesk. Press any key..." ) );
+                query_any( _( "Local data-access error logged, alerting helpdesk.  Press any key..." ) );
                 alerts ++;
             } else {
                 // Two's a trend.
                 query_any(
-                    _( "Warning: anomalous archive-access activity detected at this node. Press any key..." ) );
+                    _( "Warning: anomalous archive-access activity detected at this node.  Press any key..." ) );
                 alerts ++;
             }
         }
@@ -565,10 +565,10 @@ void computer::activate_function( computer_action action )
             sfx::fade_audio_channel( sfx::channel::radio, 100 );
             sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, sfx::channel::radio,
                                              2000 );
-            print_text( "Accessing archive. Playing audio recording nr %d.\n%s", rng( 1, 9999 ),
+            print_text( "Accessing archive.  Playing audio recording nr %d.\n%s", rng( 1, 9999 ),
                         SNIPPET.random_from_category( "radio_archive" ) );
             if( one_in( 3 ) ) {
-                query_any( _( "Warning: resticted data access. Attempt logged. Press any key..." ) );
+                query_any( _( "Warning: resticted data access.  Attempt logged.  Press any key..." ) );
                 alerts ++;
             } else {
                 query_any( _( "Press any key..." ) );
@@ -881,12 +881,12 @@ void computer::activate_function( computer_action action )
                         const item &blood = items.only_item().contents.front();
                         const mtype *mt = blood.get_mtype();
                         if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
-                            print_line( _( "Result:  Human blood, no pathogens found." ) );
+                            print_line( _( "Result: Human blood, no pathogens found." ) );
                         } else if( mt->in_species( ZOMBIE ) ) {
                             if( mt->in_species( HUMAN ) ) {
-                                print_line( _( "Result:  Human blood.  Unknown pathogen found." ) );
+                                print_line( _( "Result: Human blood.  Unknown pathogen found." ) );
                             } else {
-                                print_line( _( "Result:  Unknown blood type.  Unknown pathogen found." ) );
+                                print_line( _( "Result: Unknown blood type.  Unknown pathogen found." ) );
                             }
                             print_line( _( "Pathogen bonded to erythrocytes and leukocytes." ) );
                             if( query_bool( _( "Download data?" ) ) ) {
@@ -925,11 +925,11 @@ void computer::activate_function( computer_action action )
                         print_error( _( "ERROR: Memory bank is empty." ) );
                     } else { // Success!
                         if( items.only_item().typeId() == "black_box" ) {
-                            print_line( _( "Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n" ) );
+                            print_line( _( "Memory Bank: Military Hexron Encryption\nPrinting Transcript\n" ) );
                             item transcript( "black_box_transcript", calendar::turn );
                             g->m.add_item_or_charges( point( g->u.posx(), g->u.posy() ), transcript );
                         } else {
-                            print_line( _( "Memory Bank:  Unencrypted\nNothing of interest.\n" ) );
+                            print_line( _( "Memory Bank: Unencrypted\nNothing of interest.\n" ) );
                         }
                     }
                 }
@@ -940,7 +940,7 @@ void computer::activate_function( computer_action action )
         case COMPACT_DISCONNECT:
             reset_terminal();
             print_line( _( "\n"
-                           "ERROR:  NETWORK DISCONNECT \n"
+                           "ERROR: NETWORK DISCONNECT \n"
                            "UNABLE TO REACH NETWORK ROUTER OR PROXY.  PLEASE CONTACT YOUR\n"
                            "SYSTEM ADMINISTRATOR TO RESOLVE THIS ISSUE.\n"
                            "  \n" ) );
@@ -948,15 +948,15 @@ void computer::activate_function( computer_action action )
             break;
 
         case COMPACT_EMERG_MESS:
-            print_line( _( "GREETINGS CITIZEN. A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n"
-                           "EMERGENCY HAS BEEN DECLARED. EMERGENCY PERSONNEL WILL BE AIDING YOU \n"
-                           "SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n"
+            print_line( _( "GREETINGS CITIZEN.  A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n"
+                           "EMERGENCY HAS BEEN DECLARED.  EMERGENCY PERSONNEL WILL BE AIDING YOU \n"
+                           "SHORTLY.  TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW.\n"
                            "\n"
-                           "1. DO NOT PANIC. \n"
-                           "2. REMAIN INSIDE THE BUILDING. \n"
-                           "3. SEEK SHELTER IN THE BASEMENT. \n"
-                           "4. USE PROVIDED GAS MASKS. \n"
-                           "5. AWAIT FURTHER INSTRUCTIONS. \n"
+                           "1. DO NOT PANIC.\n"
+                           "2. REMAIN INSIDE THE BUILDING.\n"
+                           "3. SEEK SHELTER IN THE BASEMENT.\n"
+                           "4. USE PROVIDED GAS MASKS.\n"
+                           "5. AWAIT FURTHER INSTRUCTIONS.\n"
                            "\n"
                            "  \n" ) );
             query_any( _( "Press any key to continue..." ) );
@@ -969,11 +969,11 @@ void computer::activate_function( computer_action action )
             break;
 
         case COMPACT_TOWER_UNRESPONSIVE:
-            print_line( _( "  WARNING, RADIO TOWER IS UNRESPONSIVE. \n"
+            print_line( _( "  WARNING, RADIO TOWER IS UNRESPONSIVE.\n"
                            "  \n"
-                           "  BACKUP POWER INSUFFICIENT TO MEET BROADCASTING REQUIREMENTS. \n"
+                           "  BACKUP POWER INSUFFICIENT TO MEET BROADCASTING REQUIREMENTS.\n"
                            "  IN THE EVENT OF AN EMERGENCY, CONTACT LOCAL NATIONAL GUARD \n"
-                           "  UNITS TO RECEIVE PRIORITY WHEN GENERATORS ARE BEING DEPLOYED. \n"
+                           "  UNITS TO RECEIVE PRIORITY WHEN GENERATORS ARE BEING DEPLOYED.\n"
                            "  \n"
                            "  \n" ) );
             query_any( _( "Press any key to continue..." ) );
@@ -1095,9 +1095,9 @@ void computer::activate_function( computer_action action )
                                 explosion_handler::explosion( dest, 40 );
                                 reset_terminal();
                                 print_error( _( "WARNING [409]: Primary sensors offline!" ) );
-                                print_error( _( "  >> Initialize secondary sensors:  Geiger profiling..." ) );
+                                print_error( _( "  >> Initialize secondary sensors: Geiger profiling..." ) );
                                 print_error( _( "  >> Radiation spike detected!\n" ) );
-                                print_error( _( "WARNING [912]: Catastrophic malfunction!  Contamination detected! " ) );
+                                print_error( _( "WARNING [912]: Catastrophic malfunction!  Contamination detected!" ) );
                                 print_error( _( "EMERGENCY PROCEDURE [1]:  Evacuate.  Evacuate.  Evacuate.\n" ) );
                                 sounds::sound( g->u.pos(), 30, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
                                                "alarm" );
@@ -1140,7 +1140,7 @@ void computer::activate_function( computer_action action )
             }
             if( !platform_exists ) {
                 print_error(
-                    _( "CRITICAL ERROR... RADIATION PLATFORM UNRESPONSIVE.  COMPLY TO PROCEDURE RP_M_01_rev.03." ) );
+                    _( "CRITICAL ERROR...  RADIATION PLATFORM UNRESPONSIVE.  COMPLY TO PROCEDURE RP_M_01_rev.03." ) );
             }
             if( !error ) {
                 query_any( _( "Press any key..." ) );
@@ -1263,9 +1263,9 @@ void computer::activate_function( computer_action action )
                     g->m.translate_radius( t_rad_platform, t_concrete, 8.0, g->u.pos(), true );
                     remove_option( COMPACT_IRRADIATOR );
                     remove_option( COMPACT_EXTRACT_RAD_SOURCE );
-                    query_any( _( "Extraction sequence complete... Press any key." ) );
+                    query_any( _( "Extraction sequence complete...  Press any key." ) );
                 } else {
-                    query_any( _( "ERROR!  Radiation platform unresponsive... Press any key." ) );
+                    query_any( _( "ERROR!  Radiation platform unresponsive...  Press any key." ) );
                 }
             }
             break;
@@ -1290,14 +1290,14 @@ void computer::activate_function( computer_action action )
                 print_error( _( "Fuse reseted." ) );
                 print_error( _( "Ground re-enabled." ) );
             } else {
-                print_line( _( "Internal power lines status: 85%% OFFLINE. Reason: DAMAGED." ) );
+                print_line( _( "Internal power lines status: 85%% OFFLINE.  Reason: DAMAGED." ) );
             }
             print_line(
-                _( "External power lines status: 100%% OFFLINE. Reason: NO EXTERNAL POWER DETECTED." ) );
+                _( "External power lines status: 100%% OFFLINE.  Reason: NO EXTERNAL POWER DETECTED." ) );
             if( has_generator ) {
                 print_line( _( "Backup power status: STANDBY MODE." ) );
             } else {
-                print_error( _( "Backup power status: OFFLINE. Reason: UNKNOWN" ) );
+                print_error( _( "Backup power status: OFFLINE.  Reason: UNKNOWN" ) );
             }
             query_any( _( "Press any key..." ) );
             break;
@@ -1495,7 +1495,7 @@ void computer::remove_option( computer_action const action )
 
 void computer::mark_refugee_center()
 {
-    print_line( _( "SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT ... " ) );
+    print_line( _( "SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT ..." ) );
 
     const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
     tripoint mission_target;
@@ -1521,9 +1521,9 @@ void computer::mark_refugee_center()
     }
 
     //~555-0164 is a fake phone number in the US, please replace it with a number that will not cause issues in your locale if possible.
-    print_line( _( "\nREFUGEE CENTER FOUND! LOCATION: %d %s\n\n"
+    print_line( _( "\nREFUGEE CENTER FOUND!  LOCATION: %d %s\n\n"
                    "IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT \n"
-                   "THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE. \n"
+                   "THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE.\n"
                    "THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND  \n"
                    "4PM AT 555-0164.                                              \n"
                    "\n"

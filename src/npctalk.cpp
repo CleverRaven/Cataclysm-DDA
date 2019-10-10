@@ -842,7 +842,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 
     } else if( topic == "TALK_DEAF_ANGRY" ) {
         return string_format(
-                   _( "&You are deaf and can't talk. When you don't respond, %s becomes angry!" ),
+                   _( "&You are deaf and can't talk.  When you don't respond, %s becomes angry!" ),
                    beta->name );
     }
     if( topic == "TALK_SEDATED" ) {
@@ -863,7 +863,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     };
     if( mission_topics.count( topic ) > 0 ) {
         if( p->chatbin.mission_selected == nullptr ) {
-            return "mission_selected == nullptr; BUG! (npctalk.cpp:dynamic_line)";
+            return "mission_selected == nullptr; BUG!  (npctalk.cpp:dynamic_line)";
         }
         mission *miss = p->chatbin.mission_selected;
         const auto &type = miss->get_type();
@@ -1664,9 +1664,9 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         okay = true;
         std::set<dialogue_consequence> consequences = responses[ch].get_consequences( *this );
         if( consequences.count( dialogue_consequence::hostile ) > 0 ) {
-            okay = query_yn( _( "You may be attacked! Proceed?" ) );
+            okay = query_yn( _( "You may be attacked!  Proceed?" ) );
         } else if( consequences.count( dialogue_consequence::helpless ) > 0 ) {
-            okay = query_yn( _( "You'll be helpless! Proceed?" ) );
+            okay = query_yn( _( "You'll be helpless!  Proceed?" ) );
         }
     } while( !okay );
     d_win.add_history_separator();
@@ -3244,7 +3244,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
                 reason += string_format( _( "I can only store %s %s more." ),
                                          format_volume( free_space ), volume_units_long() );
             } else {
-                reason += _( "...or to store anything else for that matter." );
+                reason += _( "... or to store anything else for that matter." );
             }
         }
         if( !p.can_pickWeight( given ) ) {

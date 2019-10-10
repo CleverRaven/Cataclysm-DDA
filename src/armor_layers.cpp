@@ -522,7 +522,7 @@ void player::sort_armor()
         wprintz( w_sort_cat, c_white, _( "Sort Armor" ) );
         wprintz( w_sort_cat, c_yellow, "  << %s >>", armor_cat[tabindex] );
         right_print( w_sort_cat, 0, 0, c_white, string_format(
-                         _( "Press %s for help. Press %s to change keybindings." ),
+                         _( "Press %s for help.  Press %s to change keybindings." ),
                          ctxt.get_desc( "USAGE_HELP" ),
                          ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
 
