@@ -1998,13 +1998,14 @@ npc_ptr talk_function::companion_choose_return( const npc &p, const std::string 
 npc_ptr talk_function::companion_choose_return( const tripoint &omt_pos,
         const std::string &role_id,
         const std::string &mission_id,
-        const time_point &deadline )
+        const time_point &deadline,
+        const bool by_mission )
 {
     std::vector<npc_ptr> available;
     for( npc_ptr &guy : overmap_buffer.get_companion_mission_npcs() ) {
         npc_companion_mission c_mission = guy->get_companion_mission();
         if( c_mission.position != omt_pos ||
-            c_mission.mission_id != mission_id || c_mission.role_id != role_id ) {
+            ( by_mission && c_mission.mission_id != mission_id ) || c_mission.role_id != role_id ) {
             continue;
         }
         if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {

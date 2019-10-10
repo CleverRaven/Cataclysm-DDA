@@ -1460,7 +1460,7 @@
     "unarmed_allowed": true,
     "knockback_dist": 1,
     "knockback_spread": 1,
-    "knockback_follow": 1,
+    "knockback_follow": true,
     "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ],
     "messages": [ "You chain strike %s", "<npcname> chain strikes %s" ],
     "description": "50% moves, 66% damage, knockback and follow"

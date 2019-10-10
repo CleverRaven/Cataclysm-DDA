@@ -126,6 +126,13 @@ std::map<std::string, miss_data> miss_info = {{
             }
         },
         {
+            "_faction_camp_recall", {
+                "Emergency Recall", to_translation( "Emergency Recall" ),
+                to_translation( "Lost in the ether!\n" ),
+                "Emergency Recall", to_translation( "Emergency Recall" )
+            }
+        },
+        {
             "_faction_camp_crafting_", {
                 "Craft Item", to_translation( "Craft Item" ),
                 to_translation( "Busy crafting!\n" ),
@@ -1265,6 +1272,22 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             }
         }
     }
+
+    if( !camp_workers.empty() ) {
+        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_recall" ];
+        entry = string_format( _( "Notes:\n"
+                                  "Cancel a current mission and force the immediate return of a "
+                                  "companion.  No work will be done on the mission and all "
+                                  "resources used on the mission will be lost.\n\n"
+                                  "WARNING: All resources used on the mission will be lost and "
+                                  "no work will be done.  Only use this mission to recover a "
+                                  "companion who cannot otherwise be recovered.\n\n"
+                                  "Companions must be on missions for at least 24 hours before "
+                                  "emergency recall becomes available." ) );
+        bool avail = update_time_fixed( entry, camp_workers, 24_hours );
+        mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                cata::nullopt, entry, avail );
+    }
 }
 
 bool basecamp::handle_mission( const std::string &miss_id, const cata::optional<point> miss_dir,
@@ -1478,6 +1501,10 @@ bool basecamp::handle_mission( const std::string &miss_id, const cata::optional<
             }
             break;
         }
+    }
+
+    if( miss_id == "Emergency Recall" ) {
+        emergency_recall();
     }
 
     g->draw_ter();
@@ -2156,8 +2183,8 @@ npc_ptr basecamp::companion_choose_return( const std::string &miss_id,
     return talk_function::companion_choose_return( omt_pos, base_camps::id, miss_id,
             calendar::turn - min_duration );
 }
-void basecamp::finish_return( npc &comp, bool fixed_time, const std::string &return_msg,
-                              const std::string &skill, int difficulty )
+void basecamp::finish_return( npc &comp, const bool fixed_time, const std::string &return_msg,
+                              const std::string &skill, int difficulty, const bool cancel )
 {
     popup( "%s %s", comp.name, return_msg );
     // this is the time the mission was expected to take, or did take for fixed time missions
@@ -2166,7 +2193,9 @@ void basecamp::finish_return( npc &comp, bool fixed_time, const std::string &ret
     if( !fixed_time ) {
         mission_time = calendar::turn - comp.companion_mission_time;
     }
-    talk_function::companion_skill_trainer( comp, skill, mission_time, difficulty );
+    if( !cancel ) {
+        talk_function::companion_skill_trainer( comp, skill, mission_time, difficulty );
+    }
 
     // companions subtracted food when they started the mission, but didn't mod their hunger for
     // that food.  so add it back in.
@@ -2181,10 +2210,12 @@ void basecamp::finish_return( npc &comp, bool fixed_time, const std::string &ret
     comp.companion_mission_time = calendar::before_time_starts;
     comp.companion_mission_time_ret = calendar::before_time_starts;
     bool by_radio = g->u.global_omt_location() != comp.global_omt_location();
-    for( size_t i = 0; i < comp.companion_mission_inv.size(); i++ ) {
-        for( const auto &it : comp.companion_mission_inv.const_stack( i ) ) {
-            if( !it.count_by_charges() || it.charges > 0 ) {
-                place_results( it, by_radio );
+    if( !cancel ) {
+        for( size_t i = 0; i < comp.companion_mission_inv.size(); i++ ) {
+            for( const auto &it : comp.companion_mission_inv.const_stack( i ) ) {
+                if( !it.count_by_charges() || it.charges > 0 ) {
+                    place_results( it, by_radio );
+                }
             }
         }
     }
@@ -2213,6 +2244,18 @@ npc_ptr basecamp::mission_return( const std::string &miss_id, time_duration min_
         finish_return( *comp, fixed_time, return_msg, skill, difficulty );
     }
     return comp;
+}
+
+npc_ptr basecamp::emergency_recall()
+{
+    npc_ptr comp = talk_function::companion_choose_return( omt_pos, base_camps::id, "",
+                   calendar::turn - 24_hours, false );
+    if( comp != nullptr ) {
+        const std::string return_msg = _( "responds to the emergency recall..." );
+        finish_return( *comp, false, return_msg, "menial", 0, true );
+    }
+    return comp;
+
 }
 
 bool basecamp::upgrade_return( const point &dir, const std::string &miss )
