@@ -321,7 +321,7 @@
     "symbol": "!",
     "color": "red",
     "flags": [ "NO_INGEST" ],
-    "use_action": { "type": "consume_drug", "move_cost": 100, "effects": [ { "id": "sleep", "duration": 1000 } ], "used_up_item": "rag" }
+    "use_action": { "type": "consume_drug", "moves": 100, "effects": [ { "id": "sleep", "duration": 1000 } ], "used_up_item": "rag" }
   },
   {
     "id": "codeine",
@@ -1390,9 +1390,9 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take some heartburn medicine.",
-      "effects": [ { "id": "tummy_tablet", "duration": 6400 } ],
-      "flags": [ "USE_ON_NPC", "NPC_SAFE" ]
-    }
+      "effects": [ { "id": "tummy_tablet", "duration": 6400 } ]
+    },
+    "flags": [ "NPC_SAFE" ]
   },
   {
     "id": "panacea",

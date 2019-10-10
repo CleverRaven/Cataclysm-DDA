@@ -146,7 +146,6 @@ static const std::map<npc_job, std::vector<activity_id>> job_duties = {
 std::string npc_job_id( npc_job job );
 std::string npc_job_name( npc_job job );
 
-
 enum npc_mission : int {
     NPC_MISSION_NULL = 0, // Nothing in particular
     NPC_MISSION_LEGACY_1,
@@ -1108,8 +1107,8 @@ class npc : public player
         void find_item();
         // Move to, or grab, our targeted item
         void pick_up_item();
-        // Drop wgt and vol
-        void drop_items( int weight, int volume );
+        // Drop wgt and vol, including all items with less value than min_val
+        void drop_items( units::mass drop_weight, units::volume drop_volume, int min_val = 0 );
         /** Picks up items and returns a list of them. */
         std::list<item> pick_up_item_map( const tripoint &where );
         std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );

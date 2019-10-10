@@ -548,7 +548,7 @@ const inventory &player::crafting_inventory( const tripoint &src_pos, int radius
         if( ( !bio_data.activated || bio.powered ) &&
             !bio_data.fake_item.empty() ) {
             cached_crafting_inventory += item( bio.info().fake_item,
-                                               calendar::turn, units::to_kilojoule( power_level ) );
+                                               calendar::turn, units::to_kilojoule( get_power_level() ) );
         }
     }
     if( has_trait( trait_BURROW ) ) {
@@ -769,7 +769,9 @@ void player::start_craft( craft_command &command, const tripoint &loc )
 
     // Crafting without a workbench
     if( target == tripoint_zero ) {
-        if( !is_armed() ) {
+        if( !has_two_arms() ) {
+            craft_in_world = set_item_map_or_vehicle( *this, pos(), craft );
+        } else if( !is_armed() ) {
             if( cata::optional<item_location> it_loc = wield_craft( *this, craft ) ) {
                 craft_in_world = *it_loc;
             }  else {

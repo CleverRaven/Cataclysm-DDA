@@ -220,29 +220,50 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
     auto add_toggle = [&]( const std::string & name, char key, const std::string & flag ) {
         add_toggle_to_opts( options, actions, name, key, flag );
     };
-    add_toggle( _( "reactor" ), keybind( "TOGGLE_REACTOR" ), "REACTOR" );
-    add_toggle( _( "headlights" ), keybind( "TOGGLE_HEADLIGHT" ), "CONE_LIGHT" );
-    add_toggle( _( "wide angle headlights" ), keybind( "TOGGLE_WIDE_HEADLIGHT" ), "WIDE_CONE_LIGHT" );
-    add_toggle( _( "directed overhead lights" ), keybind( "TOGGLE_HALF_OVERHEAD_LIGHT" ),
-                "HALF_CIRCLE_LIGHT" );
-    add_toggle( _( "overhead lights" ), keybind( "TOGGLE_OVERHEAD_LIGHT" ), "CIRCLE_LIGHT" );
-    add_toggle( _( "aisle lights" ), keybind( "TOGGLE_AISLE_LIGHT" ), "AISLE_LIGHT" );
-    add_toggle( _( "dome lights" ), keybind( "TOGGLE_DOME_LIGHT" ), "DOME_LIGHT" );
-    add_toggle( _( "atomic lights" ), keybind( "TOGGLE_ATOMIC_LIGHT" ), "ATOMIC_LIGHT" );
-    add_toggle( _( "stereo" ), keybind( "TOGGLE_STEREO" ), "STEREO" );
-    add_toggle( _( "chimes" ), keybind( "TOGGLE_CHIMES" ), "CHIMES" );
-    add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
-    add_toggle( _( "freezer" ), keybind( "TOGGLE_FREEZER" ), "FREEZER" );
-    add_toggle( _( "space heater" ), keybind( "TOGGLE_SPACE_HEATER" ), "SPACE_HEATER" );
-    add_toggle( _( "cooler" ), keybind( "TOGGLE_COOLER" ), "COOLER" );
-    add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
-    add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
-    add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
-    add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
-    add_toggle( _( "rockwheel" ), keybind( "TOGGLE_PLOW" ), "ROCKWHEEL" );
-    add_toggle( _( "rockhead" ), keybind( "TOGGLE_PLOW" ), "ROADHEAD" );
-    add_toggle( _( "scoop" ), keybind( "TOGGLE_SCOOP" ), "SCOOP" );
-    add_toggle( _( "water purifier" ), keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
+    add_toggle( pgettext( "electronics menu option", "reactor" ),
+                keybind( "TOGGLE_REACTOR" ), "REACTOR" );
+    add_toggle( pgettext( "electronics menu option", "headlights" ),
+                keybind( "TOGGLE_HEADLIGHT" ), "CONE_LIGHT" );
+    add_toggle( pgettext( "electronics menu option", "wide angle headlights" ),
+                keybind( "TOGGLE_WIDE_HEADLIGHT" ), "WIDE_CONE_LIGHT" );
+    add_toggle( pgettext( "electronics menu option", "directed overhead lights" ),
+                keybind( "TOGGLE_HALF_OVERHEAD_LIGHT" ), "HALF_CIRCLE_LIGHT" );
+    add_toggle( pgettext( "electronics menu option", "overhead lights" ),
+                keybind( "TOGGLE_OVERHEAD_LIGHT" ), "CIRCLE_LIGHT" );
+    add_toggle( pgettext( "electronics menu option", "aisle lights" ),
+                keybind( "TOGGLE_AISLE_LIGHT" ), "AISLE_LIGHT" );
+    add_toggle( pgettext( "electronics menu option", "dome lights" ),
+                keybind( "TOGGLE_DOME_LIGHT" ), "DOME_LIGHT" );
+    add_toggle( pgettext( "electronics menu option", "atomic lights" ),
+                keybind( "TOGGLE_ATOMIC_LIGHT" ), "ATOMIC_LIGHT" );
+    add_toggle( pgettext( "electronics menu option", "stereo" ),
+                keybind( "TOGGLE_STEREO" ), "STEREO" );
+    add_toggle( pgettext( "electronics menu option", "chimes" ),
+                keybind( "TOGGLE_CHIMES" ), "CHIMES" );
+    add_toggle( pgettext( "electronics menu option", "fridge" ),
+                keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
+    add_toggle( pgettext( "electronics menu option", "freezer" ),
+                keybind( "TOGGLE_FREEZER" ), "FREEZER" );
+    add_toggle( pgettext( "electronics menu option", "space heater" ),
+                keybind( "TOGGLE_SPACE_HEATER" ), "SPACE_HEATER" );
+    add_toggle( pgettext( "electronics menu option", "cooler" ),
+                keybind( "TOGGLE_COOLER" ), "COOLER" );
+    add_toggle( pgettext( "electronics menu option", "recharger" ),
+                keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
+    add_toggle( pgettext( "electronics menu option", "plow" ),
+                keybind( "TOGGLE_PLOW" ), "PLOW" );
+    add_toggle( pgettext( "electronics menu option", "reaper" ),
+                keybind( "TOGGLE_REAPER" ), "REAPER" );
+    add_toggle( pgettext( "electronics menu option", "planter" ),
+                keybind( "TOGGLE_PLANTER" ), "PLANTER" );
+    add_toggle( pgettext( "electronics menu option", "rockwheel" ),
+                keybind( "TOGGLE_PLOW" ), "ROCKWHEEL" );
+    add_toggle( pgettext( "electronics menu option", "roadheader" ),
+                keybind( "TOGGLE_PLOW" ), "ROADHEAD" );
+    add_toggle( pgettext( "electronics menu option", "scoop" ),
+                keybind( "TOGGLE_SCOOP" ), "SCOOP" );
+    add_toggle( pgettext( "electronics menu option", "water purifier" ),
+                keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
 
     if( has_part( "DOOR_MOTOR" ) ) {
         options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
@@ -833,12 +854,10 @@ bool vehicle::start_engine( const int e )
     if( out_of_fuel ) {
         if( einfo.fuel_type == fuel_type_muscle ) {
             // Muscle engines cannot start with broken limbs
-            if( einfo.has_flag( "MUSCLE_ARMS" ) && ( g->u.hp_cur[hp_arm_l] == 0 ||
-                    g->u.hp_cur[hp_arm_r] == 0 ) ) {
+            if( einfo.has_flag( "MUSCLE_ARMS" ) && ( g->u.get_working_arm_count() >= 2 ) ) {
                 add_msg( _( "You cannot use %s with a broken arm." ), eng.name() );
                 return false;
-            } else if( einfo.has_flag( "MUSCLE_LEGS" ) && ( g->u.hp_cur[hp_leg_l] == 0 ||
-                       g->u.hp_cur[hp_leg_r] == 0 ) ) {
+            } else if( einfo.has_flag( "MUSCLE_LEGS" ) && ( g->u.get_working_leg_count() >= 2 ) ) {
                 add_msg( _( "You cannot use %s with a broken leg." ), eng.name() );
                 return false;
             }
@@ -1125,7 +1144,6 @@ void vehicle::crash_terrain_around()
         }
     }
 }
-
 
 void vehicle::transform_terrain()
 {

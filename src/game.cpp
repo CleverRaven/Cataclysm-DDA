@@ -266,10 +266,6 @@ game::game() :
     timed_events( *timed_event_manager_ptr ),
     uquit( QUIT_NO ),
     new_game( false ),
-    displaying_scent( false ),
-    displaying_temperature( false ),
-    displaying_visibility( false ),
-    displaying_radiation( false ),
     safe_mode( SAFE_MODE_ON ),
     pixel_minimap_option( 0 ),
     mostseen( 0 ),
@@ -1571,20 +1567,16 @@ bool game::do_turn()
             catacurses::refresh();
             refresh_display();
         }
-    }
-
-    player_was_sleeping = player_is_sleeping;
-
-    if( calendar::once_every( 1_minutes ) && u.has_activity( activity_id( "ACT_CRAFT" ) ) ) {
-        item *craft = u.activity.targets.front().get_item();
-
-        if( craft ) {
+    } else if( calendar::once_every( 1_minutes ) ) {
+        if( const cata::optional<std::string> progress = u.activity.get_progress_message() ) {
             query_popup()
-            .wait_message( _( "Crafting: %s" ), craft->tname() )
+            .wait_message( "%s", *progress )
             .on_top( true )
             .show();
         }
     }
+
+    player_was_sleeping = player_is_sleeping;
 
     u.update_bodytemp();
     u.update_body_wetness( *weather.weather_precise );
@@ -2367,6 +2359,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "debug_scent" );
     ctxt.register_action( "debug_temp" );
     ctxt.register_action( "debug_visibility" );
+    ctxt.register_action( "debug_lighting" );
     ctxt.register_action( "debug_radiation" );
     ctxt.register_action( "debug_mode" );
     ctxt.register_action( "zoom_out" );
@@ -4195,10 +4188,10 @@ void game::monmove()
 
         if( !critter.is_dead() &&
             u.has_active_bionic( bionic_id( "bio_alarm" ) ) &&
-            u.power_level >= 25_kJ &&
+            u.get_power_level() >= 25_kJ &&
             rl_dist( u.pos(), critter.pos() ) <= 5 &&
             !critter.is_hallucination() ) {
-            u.charge_power( -25_kJ );
+            u.mod_power_level( -25_kJ );
             add_msg( m_warning, _( "Your motion alarm goes off!" ) );
             cancel_activity_or_ignore_query( distraction_type::motion_alarm,
                                              _( "Your motion alarm goes off!" ) );
@@ -6627,7 +6620,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     bool bNewWindow = false;
     if( !w_info ) {
         int panel_width = panel_manager::get_manager().get_current_layout().begin()->get_width();
-        int height = TERMY;
+        int height = pixel_minimap_option ? TERMY - getmaxy( w_pixel_minimap ) : TERMY;
 
         // If particularly small, base height on panel width irrespective of other elements.
         // Value here is attempting to get a square-ish result assuming 1x2 proportioned font.
@@ -6668,12 +6661,14 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     ctxt.register_action( "debug_scent" );
     ctxt.register_action( "debug_temp" );
     ctxt.register_action( "debug_visibility" );
+    ctxt.register_action( "debug_lighting" );
     ctxt.register_action( "debug_radiation" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
+    ctxt.register_action( "toggle_pixel_minimap" );
 
     const int old_levz = get_levz();
     const int min_levz = std::max( old_levz - fov_3d_z_range, -OVERMAP_DEPTH );
@@ -6703,8 +6698,13 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 std::string fast_scroll_text = string_format( _( "%s - %s" ),
                                                ctxt.get_desc( "TOGGLE_FAST_SCROLL" ),
                                                ctxt.get_action_name( "TOGGLE_FAST_SCROLL" ) );
-                center_print( w_info, getmaxy( w_info ) - 1, fast_scroll ? c_light_green : c_green,
-                              fast_scroll_text );
+                std::string pixel_minimap_text = string_format( _( "%s - %s" ),
+                                                 ctxt.get_desc( "toggle_pixel_minimap" ),
+                                                 ctxt.get_action_name( "toggle_pixel_minimap" ) );
+                mvwprintz( w_info, point( 1, getmaxy( w_info ) - 1 ), fast_scroll ? c_light_green : c_green,
+                           fast_scroll_text );
+                mvwprintz( w_info, point( utf8_width( fast_scroll_text ) + 3, getmaxy( w_info ) - 1 ),
+                           pixel_minimap_option ? c_light_green : c_green, pixel_minimap_text );
 
                 int first_line = 1;
                 const int last_line = getmaxy( w_info ) - 2;
@@ -6762,6 +6762,12 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             list_items_monsters();
         } else if( action == "TOGGLE_FAST_SCROLL" ) {
             fast_scroll = !fast_scroll;
+        } else if( action == "toggle_pixel_minimap" ) {
+            toggle_pixel_minimap();
+
+            int panel_width = panel_manager::get_manager().get_current_layout().begin()->get_width();
+            int height = pixel_minimap_option ? TERMY - getmaxy( w_pixel_minimap ) : TERMY;
+            w_info = catacurses::newwin( height, panel_width, point( TERMX - panel_width, 0 ) );
         } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
             if( !allow_zlev_move ) {
                 continue;
@@ -6799,6 +6805,10 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
         } else if( action == "debug_temp" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_temperature();
+            }
+        } else if( action == "debug_lighting" ) {
+            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
+                display_lighting();
             }
         } else if( action == "debug_radiation" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
@@ -8482,11 +8492,6 @@ void game::reload( int pos, bool prompt )
 void game::reload( item_location &loc, bool prompt, bool empty )
 {
     item *it = loc.get_item();
-    bool use_loc = true;
-    if( !it->has_flag( "ALLOWS_REMOTE_USE" ) ) {
-        it = &u.i_at( loc.obtain( u ) );
-        use_loc = false;
-    }
 
     // bows etc do not need to reload. select favorite ammo for them instead
     if( it->has_flag( "RELOAD_AND_SHOOT" ) ) {
@@ -8499,11 +8504,6 @@ void game::reload( item_location &loc, bool prompt, bool empty )
             u.ammo_location = opt.ammo;
         }
         return;
-    }
-
-    // for holsters and ammo pouches try to reload any contained item
-    if( it->type->can_use( "holster" ) && !it->contents.empty() ) {
-        it = &it->contents.front();
     }
 
     switch( u.rate_action_reload( *it ) ) {
@@ -8536,6 +8536,19 @@ void game::reload( item_location &loc, bool prompt, bool empty )
             break;
     }
 
+
+
+    bool use_loc = true;
+    if( !it->has_flag( "ALLOWS_REMOTE_USE" ) ) {
+        it = &u.i_at( loc.obtain( u ) );
+        use_loc = false;
+    }
+
+    // for holsters and ammo pouches try to reload any contained item
+    if( it->type->can_use( "holster" ) && !it->contents.empty() ) {
+        it = &it->contents.front();
+    }
+
     // for bandoliers we currently defer to iuse_actor methods
     if( it->is_bandolier() ) {
         auto ptr = dynamic_cast<const bandolier_actor *>
@@ -8548,10 +8561,9 @@ void game::reload( item_location &loc, bool prompt, bool empty )
                               item::reload_option( &u, it, it, u.ammo_location ) :
                               u.select_ammo( *it, prompt, empty );
 
-    if( opt.ammo.get_item() != nullptr && opt.ammo.get_item()->is_frozen_liquid() ) {
-        if( !u.crush_frozen_liquid( opt.ammo ) ) {
-            return;
-        }
+    if( opt.ammo.get_item() == nullptr || ( opt.ammo.get_item()->is_frozen_liquid() &&
+                                            !u.crush_frozen_liquid( opt.ammo ) ) ) {
+        return;
     }
 
     if( opt ) {
@@ -8929,7 +8941,29 @@ bool game::disable_robot( const tripoint &p )
     return false;
 }
 
+bool game::is_dangerous_tile( const tripoint &dest_loc ) const
+{
+    return !( get_dangerous_tile( dest_loc ).empty() );
+}
+
 bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
+{
+    std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
+
+    if( !harmful_stuff.empty() &&
+        !query_yn( _( "Really step into %s?" ), enumerate_as_string( harmful_stuff ) ) ) {
+        return false;
+    }
+    if( !harmful_stuff.empty() && u.is_mounted() &&
+        m.tr_at( dest_loc ).loadid == tr_ledge ) {
+        add_msg( m_warning, _( "Your %s refuses to move over that ledge!" ),
+                 u.mounted_creature->get_name() );
+        return false;
+    }
+    return true;
+}
+
+std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) const
 {
     std::vector<std::string> harmful_stuff;
     const auto fields_here = m.field_at( u.pos() );
@@ -8974,17 +9008,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
 
     }
 
-    if( !harmful_stuff.empty() &&
-        !query_yn( _( "Really step into %s?" ), enumerate_as_string( harmful_stuff ) ) ) {
-        return false;
-    }
-    if( !harmful_stuff.empty() && u.is_mounted() &&
-        m.tr_at( dest_loc ).loadid == tr_ledge ) {
-        add_msg( m_warning, _( "Your %s refuses to move over that ledge!" ),
-                 u.mounted_creature->get_name() );
-        return false;
-    }
-    return true;
+    return harmful_stuff;
 }
 
 bool game::walk_move( const tripoint &dest_loc )
@@ -9635,7 +9659,8 @@ void game::place_player_overmap( const tripoint &om_dest )
 
 bool game::phasing_move( const tripoint &dest_loc )
 {
-    if( !u.has_active_bionic( bionic_id( "bio_probability_travel" ) ) || u.power_level < 250_kJ ) {
+    if( !u.has_active_bionic( bionic_id( "bio_probability_travel" ) ) ||
+        u.get_power_level() < 250_kJ ) {
         return false;
     }
 
@@ -9655,15 +9680,15 @@ bool game::phasing_move( const tripoint &dest_loc )
         //add 1 to tunnel distance for each impassable tile in the line
         tunneldist += 1;
         if( tunneldist * 250_kJ >
-            u.power_level ) { //oops, not enough energy! Tunneling costs 250 bionic power per impassable tile
+            u.get_power_level() ) { //oops, not enough energy! Tunneling costs 250 bionic power per impassable tile
             add_msg( _( "You try to quantum tunnel through the barrier but are reflected! Try again with more energy!" ) );
-            u.charge_power( -250_kJ );
+            u.mod_power_level( -250_kJ );
             return false;
         }
 
         if( tunneldist > 24 ) {
             add_msg( m_info, _( "It's too dangerous to tunnel that far!" ) );
-            u.charge_power( -250_kJ );
+            u.mod_power_level( -250_kJ );
             return false;
         }
 
@@ -9677,7 +9702,8 @@ bool game::phasing_move( const tripoint &dest_loc )
         }
 
         add_msg( _( "You quantum tunnel through the %d-tile wide barrier!" ), tunneldist );
-        u.charge_power( -( tunneldist * 250_kJ ) ); //tunneling costs 250 bionic power per impassable tile
+        //tunneling costs 250 bionic power per impassable tile
+        u.mod_power_level( -( tunneldist * 250_kJ ) );
         u.moves -= 100; //tunneling costs 100 moves
         u.setpos( dest );
 
@@ -9890,29 +9916,29 @@ void game::on_move_effects()
         const item muscle( "muscle" );
         if( one_in( 8 ) ) {// active power gen
             if( u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-                u.charge_power( 1_kJ );
+                u.mod_power_level( 1_kJ );
             }
             for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
                 if( u.has_active_bionic( bid ) ) {
-                    u.charge_power( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
+                    u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
                 }
             }
         }
         if( one_in( 160 ) ) {//  passive power gen
             if( u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-                u.charge_power( 1_kJ );
+                u.mod_power_level( 1_kJ );
             }
             for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
                 if( u.has_bionic( bid ) ) {
-                    u.charge_power( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
+                    u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
                 }
             }
         }
         if( u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
             if( u.movement_mode_is( PMM_RUN ) ) {
-                u.charge_power( -20_kJ );
+                u.mod_power_level( -20_kJ );
             } else {
-                u.charge_power( -10_kJ );
+                u.mod_power_level( -10_kJ );
             }
         }
     }
@@ -11108,13 +11134,34 @@ void game::perhaps_add_random_npc()
     load_npcs();
 }
 
+bool game::display_overlay_state( const action_id action )
+{
+    const auto it = displaying_overlays.find( action );
+    if( it == displaying_overlays.end() ) {
+        return false;
+    }
+
+    return displaying_overlays[action];
+}
+
+void game::display_toggle_overlay( const action_id action )
+{
+    const auto it = displaying_overlays.find( action );
+    if( it == displaying_overlays.end() ) {
+        return;
+    }
+
+    const bool action_flag = it->second;
+    std::for_each( displaying_overlays.begin(), displaying_overlays.end(), []( auto & p ) {
+        p.second = false;
+    } );
+    displaying_overlays[action] = !action_flag;
+}
+
 void game::display_scent()
 {
     if( use_tiles ) {
-        displaying_temperature = false;
-        displaying_visibility = false;
-        displaying_radiation = false;
-        displaying_scent = !displaying_scent;
+        display_toggle_overlay( ACTION_DISPLAY_SCENT );
     } else {
         int div;
         bool got_value = query_int( div, _( "Set the Scent Map sensitivity to (0 to cancel)?" ) );
@@ -11133,30 +11180,72 @@ void game::display_scent()
 void game::display_temperature()
 {
     if( use_tiles ) {
-        displaying_scent = false;
-        displaying_visibility = false;
-        displaying_radiation = false;
-        displaying_temperature = !displaying_temperature;
+        display_toggle_overlay( ACTION_DISPLAY_TEMPERATURE );
     }
 }
 
 void game::display_visibility()
 {
     if( use_tiles ) {
-        displaying_scent = false;
-        displaying_temperature = false;
-        displaying_radiation = false;
-        displaying_visibility = !displaying_visibility;
+        display_toggle_overlay( ACTION_DISPLAY_VISIBILITY );
+        if( display_overlay_state( ACTION_DISPLAY_VISIBILITY ) ) {
+            std::vector< tripoint > locations;
+            uilist creature_menu;
+            int num_creatures = 0;
+            creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
+            locations.emplace_back( g->u.pos() ); // add player first.
+            for( const Creature &critter : g->all_creatures() ) {
+                if( critter.is_player() ) {
+                    continue;
+                }
+                creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, critter.disp_name() );
+                locations.emplace_back( critter.pos() );
+            }
+
+            pointmenu_cb callback( locations );
+            creature_menu.callback = &callback;
+            creature_menu.w_y = 0;
+            creature_menu.query();
+            if( creature_menu.ret >= 0 && static_cast<size_t>( creature_menu.ret ) < locations.size() ) {
+                Creature *creature = critter_at<Creature>( locations[creature_menu.ret] );
+                displaying_visibility_creature = creature;
+            }
+        } else {
+            displaying_visibility_creature = nullptr;
+        }
+    }
+}
+
+void game::display_lighting()
+{
+    if( use_tiles ) {
+        display_toggle_overlay( ACTION_DISPLAY_LIGHTING );
+        if( !g->display_overlay_state( ACTION_DISPLAY_LIGHTING ) ) {
+            return;
+        }
+        uilist lighting_menu;
+        std::vector<std::string> lighting_menu_strings{
+            "Global lighting conditions"
+        };
+
+        int count = 0;
+        for( const auto &menu_str : lighting_menu_strings ) {
+            lighting_menu.addentry( count++, true, MENU_AUTOASSIGN, "%s", menu_str );
+        }
+
+        lighting_menu.w_y = 0;
+        lighting_menu.query();
+        if( ( lighting_menu.ret >= 0 ) &&
+            ( static_cast<size_t>( lighting_menu.ret ) < lighting_menu_strings.size() ) ) {
+            g->displaying_lighting_condition = lighting_menu.ret;
+        }
     }
 }
 
 void game::display_radiation()
 {
     if( use_tiles ) {
-        displaying_scent = false;
-        displaying_visibility = false;
-        displaying_temperature = false;
-        displaying_radiation = !displaying_radiation;
+        display_toggle_overlay( ACTION_DISPLAY_RADIATION );
     }
 }
 

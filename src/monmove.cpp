@@ -1612,7 +1612,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
             if( critter_recur->is_hallucination() ) {
                 critter_recur->die( nullptr );
             }
-        } else {
+        } else if( !critter->has_flag( MF_IMMOBILE ) ) {
             critter->setpos( dest );
             move_to( p );
             moves -= movecost_attacker;

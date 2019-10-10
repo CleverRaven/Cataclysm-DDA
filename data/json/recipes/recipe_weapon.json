@@ -1142,7 +1142,6 @@
   {
     "type": "recipe",
     "result": "launcher_simple",
-    "note": "standalone_weapon",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "mechanics",
@@ -1157,7 +1156,7 @@
   {
     "type": "recipe",
     "result": "pipe_launcher40mm",
-    "note": "underbarrel_mount",
+    "//": "underbarrel mount",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "mechanics",

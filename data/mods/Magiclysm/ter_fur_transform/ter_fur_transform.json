@@ -84,5 +84,10 @@
     "id": "fungicide",
     "terrain": [ { "result": "t_dirt_barren", "valid_flags": [ "FUNGUS" ], "message": "The fungus here dies back." } ],
     "furniture": [ { "result": "f_null", "valid_flags": [ "FUNGUS" ], "message": "The fungus here dies back." } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "lava_bomb",
+    "terrain": [ { "result": "t_lava", "valid_flags": [ "DIGGABLE" ] } ]
   }
 ]
