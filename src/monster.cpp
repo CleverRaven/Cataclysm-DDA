@@ -2250,8 +2250,27 @@ void monster::drop_items_on_death()
     if( type->death_drops.empty() ) {
         return;
     }
-    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(),
-                         calendar::start_of_cataclysm );
+    auto dropped = g->m.put_items_from_loc( type->death_drops, pos(),
+                                            calendar::start_of_cataclysm );
+
+    // This block removes some items, according to item spawn scaling factor
+    const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
+    if( spawn_rate < 1 ) {
+        // Temporary vector, to remember which items were kept
+        std::vector<item *> remaining;
+        for( item *const it : dropped ) {
+            if( rng_float( 0, 1 ) > spawn_rate ) {
+                g->m.i_rem( pos(), it );
+            } else {
+                remaining.push_back( it );
+            }
+        }
+        // If there aren't any items left, there's nothing left to do
+        if( remaining.size() == 0 ) {
+            return;
+        }
+        dropped = remaining;
+    }
 
     if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
         for( const auto &it : dropped ) {
