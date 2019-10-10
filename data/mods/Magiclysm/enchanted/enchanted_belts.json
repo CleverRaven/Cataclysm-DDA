@@ -53,7 +53,7 @@
     "copy-from": "mbelt_leather",
     "id": "mbelt_pockets",
     "name": "Girdle of Pockets",
-    "description": "A wide girdle that fits around your waist, coverd in numerous small pouches that hold a lot more than they should.",
+    "description": "A wide girdle that fits around your waist, coverd in numerous small pouches that hold a lot more than they should, and the weight of their contents is greatly reduced.",
     "coverage": 10,
     "encumbrance": 5,
     "weight_capacity_bonus": "10 kg",
@@ -67,7 +67,6 @@
     "description": "A wide girdle that fits around your waist, you can sheath or holster any weapon into it in the blink of an eye, and it seemingly stores them somewhere else.",
     "coverage": 10,
     "encumbrance": 3,
-    "storage": "10 L",
     "weight_capacity_bonus": "10 kg",
     "use_action": {
       "type": "holster",
@@ -95,6 +94,93 @@
         "unarmed"
       ],
       "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD", "BELT_CLIP", "SHEATH_SPEAR" ]
+    }
+  },
+  {
+    "type": "ARMOR",
+    "id": "mbelt_technomancer_toolbelt",
+    "name": "technomancer's toolbelt",
+    "name_plural": "technomancer's toolbelts",
+    "weight": "2000 g",
+    "color": "brown",
+    "covers": [ "TORSO" ],
+    "storage": "1 L",
+    "symbol": "[",
+    "description": "A custom-built leather utility belt covered with straps and pouches containing many useful hand tools and a sheath to carry a smaller blade.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
+    "price": 500000,
+    "material": [ "leather", "steel" ],
+    "volume": "4 L",
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ],
+    "coverage": 10,
+    "encumbrance": 4,
+    "material_thickness": 4,
+    "use_action": [
+      {
+        "type": "holster",
+        "holster_prompt": "Sheath blade",
+        "holster_msg": "You sheath your %s",
+        "draw_cost": 3,
+        "min_volume": "250 ml",
+        "max_volume": "1 L",
+        "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
+      },
+      "CROWBAR"
+    ],
+    "qualities": [
+      [ "HAMMER", 3 ],
+      [ "PRY", 1 ],
+      [ "SAW_M", 2 ],
+      [ "SAW_W", 2 ],
+      [ "WRENCH", 2 ],
+      [ "AXE", 1 ],
+      [ "SCREW", 1 ],
+      [ "HAMMER_FINE", 1 ],
+      [ "SAW_M_FINE", 1 ],
+      [ "WRENCH_FINE", 1 ],
+      [ "SCREW_FINE", 1 ]
+    ]
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "copy-from": "mbelt_leather",
+    "id": "mbelt_iron_whip",
+    "name": "Belt of The Iron Whip",
+    "name_plural": "Belts of the Iron Whip",
+    "volume": "1 L",
+    "material": [ "steel" ],
+    "description": "A braided but flexible belt seemingly made of metal.  You can activate it to transform it into a whip and flay your enemies.",
+    "material_thickness": 4,
+    "flags": [ "STURDY" ],
+    "use_action": {
+      "type": "transform",
+      "target": "mwhip_iron",
+      "active": true,
+      "moves": 20,
+      "msg": "You grab the belt and it uncoils to become a flexible metal whip in your hand!"
+    }
+  },
+  {
+    "id": "mwhip_iron",
+    "type": "GENERIC",
+    "category": "weapons",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "The Iron Whip",
+    "description": "A long braided flexible steel bullwhip that narrows into a sharp blade at the end.  Easily capable of slicing and dicing anything that comes at you.  It transforms back into a belt.",
+    "weight": "2154 g",
+    "volume": "2 L",
+    "price": 350000,
+    "material": [ "steel" ],
+    "flags": [ "REACH_ATTACK", "REACH3", "WHIP", "UNBREAKABLE_MELEE" ],
+    "techniques": [ "WBLOCK_1", "SWEEP", "WHIP_DISARM", "WRAP" ],
+    "cutting": 16,
+    "bashing": 8,
+    "use_action": {
+      "type": "transform",
+      "target": "mbelt_iron_whip",
+      "active": false,
+      "moves": 20,
+      "msg": "You loop the whip in your hand and it coils back into a belt form in an instant."
     }
   }
 ]

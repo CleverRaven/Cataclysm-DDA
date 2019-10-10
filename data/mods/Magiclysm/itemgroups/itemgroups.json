@@ -64,7 +64,7 @@
   {
     "id": "coffee_display_2",
     "type": "item_group",
-    "item": [ [ "mana_potion_lesser", 10 ] ]
+    "items": [ [ "mana_potion_lesser", 10 ] ]
   },
   {
     "type": "item_group",
@@ -211,6 +211,304 @@
       { "group": "remains_human_generic", "prob": 5, "count-min": 1, "count-max": 2 },
       { "group": "archery_ammo", "prob": 2, "count-min": 1, "count-max": 4 },
       { "group": "medieval", "prob": 1, "count-min": 1, "count-max": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_wands_common",
+    "items": [
+      [ "wand_magic_missile_minor", 10 ],
+      [ "wand_cone_cold_minor", 10 ],
+      [ "wand_hoaryblast_minor", 10 ],
+      [ "wand_fireball_minor", 10 ],
+      [ "wand_mana_beam_minor", 10 ],
+      [ "wand_point_flare_minor", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_wands_good",
+    "items": [
+      [ "wand_magic_missile_lesser", 10 ],
+      [ "wand_cone_cold_lesser", 10 ],
+      [ "wand_hoaryblast_lesser", 10 ],
+      [ "wand_fireball_lesser", 10 ],
+      [ "wand_mana_beam_lesser", 10 ],
+      [ "wand_point_flare_lesser", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_wands_excellent",
+    "items": [
+      [ "wand_magic_missile_greater", 10 ],
+      [ "wand_cone_cold_greater", 10 ],
+      [ "wand_hoaryblast_greater", 10 ],
+      [ "wand_fireball_greater", 10 ],
+      [ "wand_mana_beam_greater", 10 ],
+      [ "wand_point_flare_greater", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_rings_common",
+    "items": [
+      [ "mring_protection_2", 10 ],
+      [ "mring_blades_lesser", 10 ],
+      [ "mring_dexterity_1", 10 ],
+      [ "mring_intelligence_1", 10 ],
+      [ "mring_perception_1", 10 ],
+      [ "mring_strength_1", 10 ],
+      [ "mring_speed_3", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_rings_good",
+    "items": [
+      [ "mring_protection_4", 10 ],
+      [ "mring_dexterity_2", 10 ],
+      [ "mring_intelligence_2", 10 ],
+      [ "mring_perception_2", 10 ],
+      [ "mring_strength_2", 10 ],
+      [ "mring_speed_5", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_rings_excellent",
+    "items": [
+      [ "mring_protection_6", 10 ],
+      [ "mring_dexterity_3", 10 ],
+      [ "mring_intelligence_3", 10 ],
+      [ "mring_perception_3", 10 ],
+      [ "mring_strength_3", 10 ],
+      [ "mring_speed_7", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_rings_superior",
+    "items": [
+      [ "mring_protection_8", 10 ],
+      [ "mring_dexterity_4", 10 ],
+      [ "mring_intelligence_4", 10 ],
+      [ "mring_perception_4", 10 ],
+      [ "mring_strength_4", 10 ],
+      [ "mring_speed_10", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_misc_common",
+    "items": [
+      [ "heat_cube", 10 ],
+      [ "mkey_opening", 10 ],
+      [ "mtorch_everburning", 10 ],
+      [ "mflask_hip_whiskey", 10 ],
+      [ "mtailors_kit", 10 ],
+      [ "mspider_box", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_belts_common",
+    "items": [ [ "mbelt_pockets", 10 ], [ "mbelt_technomancer_toolbelt", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_belts_good",
+    "items": [ [ "mbelt_weaponry", 10 ], [ "mbelt_iron_whip", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_belts_excellent",
+    "items": [ [ "mbelt_haste", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_belts_superior",
+    "items": [ [ "mbelt_thor", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_boots_common",
+    "items": [ [ "mboots_silence", 10 ], [ "mboots_grounding", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_boots_good",
+    "items": [ [ "mboots_sevenleague", 10 ], [ "mboots_grounding", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_boots_excellent",
+    "items": [ [ "mboots_haste", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_bracer_good",
+    "items": [ [ "mbracer_defense_lesser", 20 ], [ "mbracer_lightning_lesser", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_bracer_excellent",
+    "items": [ [ "mbracer_defense_greater", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_bracer_superior",
+    "items": [ [ "mbracer_lightning_greater", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_masks_good",
+    "items": [ [ "mmask_vision", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_masks_excellent",
+    "items": [ [ "mmask_disappearance", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_unarmed_common",
+    "items": [ [ "cestus_plus_one", 20 ], [ "cestus_plus_two", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_unarmed_good",
+    "items": [ [ "flaming_fist_plus_one", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_unarmed_excellent",
+    "items": [ [ "flaming_fist_plus_two", 10 ], [ "gauntlet_pounding", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_tokens_common",
+    "items": [
+      [ "mtoken_longsword", 20 ],
+      [ "mtoken_arming_sword", 20 ],
+      [ "mtoken_broadsword", 20 ],
+      [ "mtoken_battleaxe", 20 ],
+      [ "mtoken_pike", 20 ],
+      [ "mtoken_mace", 20 ],
+      [ "mtoken_q_staff", 20 ],
+      [ "mtoken_hammer", 20 ],
+      [ "mtoken_screwdriver", 20 ],
+      [ "mtoken_toolbox", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_melee_common",
+    "items": [
+      [ "cudgel_plus_one", 10 ],
+      [ "q_staff_plus_one", 10 ],
+      [ "i_staff_plus_one", 10 ],
+      [ "longsword_plus_one", 10 ],
+      [ "sledge_plus_one", 10 ],
+      [ "warhammer_plus_one", 10 ],
+      [ "bat_plus_one", 10 ],
+      [ "bat_metal_plus_one", 10 ],
+      [ "spear_steel_plus_one", 10 ],
+      [ "qiang_plus_one", 10 ],
+      [ "halberd_plus_one", 10 ],
+      [ "glaive_plus_one", 10 ],
+      [ "naginata_plus_one", 10 ],
+      [ "mace_plus_one", 10 ],
+      [ "morningstar_plus_one", 10 ],
+      [ "jian_plus_one", 10 ],
+      [ "scimitar_plus_one", 10 ],
+      [ "estoc_plus_one", 10 ],
+      [ "arming_sword_plus_one", 10 ],
+      [ "broadsword_plus_one", 10 ],
+      [ "battleaxe_plus_one", 10 ],
+      [ "cavalry_sabre_plus_one", 10 ],
+      [ "cutlass_plus_one", 10 ],
+      [ "crowbar_plus_one", 10 ],
+      [ "fire_ax_plus_one", 10 ],
+      [ "katana_plus_one", 10 ],
+      [ "knife_combat", 10 ],
+      [ "knife_hunting_plus_one", 10 ],
+      [ "knife_rambo_plus_one", 10 ],
+      [ "knife_trench_plus_one", 10 ],
+      [ "kris_plus_one", 10 ],
+      [ "kukri_plus_one", 10 ],
+      [ "nodachi_plus_one", 10 ],
+      [ "pickaxe_plus_one", 10 ],
+      [ "pike_plus_one", 10 ],
+      [ "rapier_plus_one", 10 ],
+      [ "tanto_plus_one", 10 ],
+      [ "wakizashi_plus_one", 10 ],
+      [ "zweihander_plus_one", 10 ],
+      [ "khopesh_plus_one", 10 ],
+      [ "sword_xiphos_plus_one", 10 ],
+      [ "dao_plus_one", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_melee_good",
+    "items": [
+      [ "cudgel_plus_two", 10 ],
+      [ "q_staff_plus_two", 10 ],
+      [ "i_staff_plus_two", 10 ],
+      [ "longsword_plus_two", 10 ],
+      [ "sledge_plus_two", 10 ],
+      [ "warhammer_plus_two", 10 ],
+      [ "bat_plus_two", 10 ],
+      [ "bat_metal_plus_two", 10 ],
+      [ "spear_steel_plus_two", 10 ],
+      [ "qiang_plus_two", 10 ],
+      [ "halberd_plus_two", 10 ],
+      [ "glaive_plus_two", 10 ],
+      [ "naginata_plus_two", 10 ],
+      [ "mace_plus_two", 10 ],
+      [ "morningstar_plus_two", 10 ],
+      [ "jian_plus_two", 10 ],
+      [ "scimitar_plus_two", 10 ],
+      [ "estoc_plus_two", 10 ],
+      [ "arming_sword_plus_two", 10 ],
+      [ "broadsword_plus_two", 10 ],
+      [ "battleaxe_plus_two", 10 ],
+      [ "cavalry_sabre_plus_two", 10 ],
+      [ "cutlass_plus_two", 10 ],
+      [ "crowbar_plus_two", 10 ],
+      [ "fire_ax_plus_two", 10 ],
+      [ "katana_plus_two", 10 ],
+      [ "knife_combat", 10 ],
+      [ "knife_hunting_plus_two", 10 ],
+      [ "knife_rambo_plus_two", 10 ],
+      [ "knife_trench_plus_two", 10 ],
+      [ "kris_plus_two", 10 ],
+      [ "kukri_plus_two", 10 ],
+      [ "nodachi_plus_two", 10 ],
+      [ "pickaxe_plus_two", 10 ],
+      [ "pike_plus_two", 10 ],
+      [ "rapier_plus_two", 10 ],
+      [ "tanto_plus_two", 10 ],
+      [ "wakizashi_plus_two", 10 ],
+      [ "zweihander_plus_two", 10 ],
+      [ "khopesh_plus_two", 10 ],
+      [ "sword_xiphos_plus_two", 10 ],
+      [ "dao_plus_two", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "magic_common",
+    "//": "Stuff you would find in any magical location.",
+    "items": [
+      { "group": "magic_rings_common", "prob": 25 },
+      { "group": "magic_wands_common", "prob": 30 },
+      { "group": "magic_misc_common", "prob": 25, "count-min": 1, "count-max": 2 },
+      { "group": "magic_belts_common", "prob": 20 },
+      { "group": "magic_melee_common", "prob": 20 },
+      { "group": "magic_unarmed_common", "prob": 10 },
+      { "group": "magic_tokens_common", "prob": 30, "count-min": 1, "count-max": 2 }
     ]
   }
 ]

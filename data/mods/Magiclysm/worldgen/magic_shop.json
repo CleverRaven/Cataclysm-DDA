@@ -112,7 +112,7 @@
         "y": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
         "B": { "item": "magic_shop_books", "chance": 20, "repeat": [ 1, 2 ] },
         "K": { "item": "magic_shop_clothes", "chance": 20, "repeat": [ 1, 2 ] },
-        "H": { "item": "magic_shop_wands", "chance": 20, "repeat": [ 1, 2 ] },
+        "H": { "item": "magic_common", "chance": 50, "repeat": [ 1, 2 ] },
         "P": { "item": "magic_shop_potions", "chance": 20, "repeat": [ 1, 2 ] },
         "t": { "item": "magic_shop_books", "chance": 20, "repeat": [ 1, 2 ] },
         "S": { "item": "softdrugs", "chance": 20, "repeat": [ 1, 2 ] }

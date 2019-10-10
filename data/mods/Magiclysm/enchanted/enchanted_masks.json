@@ -5,7 +5,7 @@
     "category": "armor",
     "name": "magic mask",
     "description": "A generic magic mask.",
-    "weight": "342 g",
+    "weight": "442 g",
     "volume": "750 ml",
     "price": 200000,
     "to_hit": -3,
@@ -27,23 +27,10 @@
     "plural": "masks of disappearance",
     "description": "A mask with no facial features at all, just eye and mouth holes, upon activation it makes everything ignore your presence for a while.",
     "copy-from": "mmask",
-    "initial_charges": 10,
-    "max_charges": 10,
-    "charges_per_use": 5,
+    "initial_charges": 12,
+    "max_charges": 12,
+    "charges_per_use": 12,
     "use_action": { "type": "cast_spell", "spell_id": "invisibility", "no_fail": true, "level": 15, "need_worn": true },
-    "artifact_data": { "charge_type": "ARTC_TIME" }
-  },
-  {
-    "type": "TOOL_ARMOR",
-    "id": "mmask_berserking",
-    "name": "mask of berserking",
-    "plural": "masks of berserking",
-    "description": "A mask that looks just like the person holding it, except the expression is full of rage.  Upon activation it fills the wearer with rage, making them stronger and tougher, but much less capable of rational thought.",
-    "copy-from": "mmask",
-    "initial_charges": 10,
-    "max_charges": 10,
-    "charges_per_use": 5,
-    "use_action": { "type": "cast_spell", "spell_id": "berserker_rage", "no_fail": true, "level": 1, "need_worn": true },
     "artifact_data": { "charge_type": "ARTC_TIME" }
   },
   {
@@ -56,10 +43,11 @@
     "covers": [ "EYES" ],
     "coverage": 100,
     "encumbrance": 5,
-    "artifact_data": { "charge_type": "ARTC_TIME" },
-    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT" ],
+    "environmental_protection": 6,
+    "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "ZOOM" ],
+    "qualities": [ [ "GLARE", 2 ] ],
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "multiply": 0.5 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "multiply": 0.25 } ] } ]
     }
   }
 ]

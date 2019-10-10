@@ -4,7 +4,7 @@
     "type": "TOOL_ARMOR",
     "name": "copper magic ring",
     "description": "A generic copper magic ring.",
-    "weight": "45 g",
+    "weight": "4 g",
     "volume": 0,
     "price": 5000,
     "material": [ "copper" ],
@@ -20,7 +20,7 @@
     "type": "TOOL_ARMOR",
     "name": "magic ring",
     "description": "A generic silver magic ring.",
-    "weight": "5.4 g",
+    "weight": "5 g",
     "volume": 0,
     "price": 5000,
     "material": [ "silver" ],
@@ -52,7 +52,7 @@
     "type": "TOOL_ARMOR",
     "name": "magic ring",
     "description": "A generic platinum magic ring.",
-    "weight": "11.7 g",
+    "weight": "11 g",
     "volume": 0,
     "price": 5000,
     "material": [ "platinum" ],
@@ -96,7 +96,7 @@
   },
   {
     "copy-from": "mring_copper",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "id": "mring_strength_1",
     "name": "ring of strength +1",
     "name_plural": "minor rings of strength +1",
@@ -105,7 +105,7 @@
   },
   {
     "copy-from": "mring_silver",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "id": "mring_strength_2",
     "name": "ring of strength +2",
     "name_plural": "rings of strength +2",
@@ -114,7 +114,7 @@
   },
   {
     "copy-from": "mring_gold",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "id": "mring_strength_3",
     "name": "ring of strength +3",
     "name_plural": "rings of strength +3",
@@ -123,7 +123,7 @@
   },
   {
     "copy-from": "mring_platinum",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "id": "mring_strength_4",
     "name": "ring of strength +4",
     "name_plural": "rings of strength +4",
@@ -132,7 +132,7 @@
   },
   {
     "copy-from": "mring_copper",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "id": "mring_dexterity_1",
     "name": "ring of dexterity +1",
     "name_plural": "rings of dexterity +1",
@@ -141,7 +141,7 @@
   },
   {
     "copy-from": "mring_silver",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "id": "mring_dexterity_2",
     "name": "ring of dexterity +2",
     "name_plural": "rings of dexterity +2",
@@ -150,7 +150,7 @@
   },
   {
     "copy-from": "mring_gold",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "id": "mring_dexterity_3",
     "name": "ring of dexterity +3",
     "name_plural": "rings of dexterity +3",
@@ -159,7 +159,7 @@
   },
   {
     "copy-from": "mring_platinum",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "id": "mring_dexterity_4",
     "name": "ring of dexterity +4",
     "name_plural": "rings of dexterity +4",
@@ -168,7 +168,7 @@
   },
   {
     "copy-from": "mring_copper",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "id": "mring_intelligence_1",
     "name": "ring of intelligence +1",
     "name_plural": "rings of intelligence +1",
@@ -177,7 +177,7 @@
   },
   {
     "copy-from": "mring_silver",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "id": "mring_intelligence_2",
     "name": "ring of intelligence +2",
     "name_plural": "rings of intelligence +2",
@@ -186,7 +186,7 @@
   },
   {
     "copy-from": "mring_gold",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "id": "mring_intelligence_3",
     "name": "ring of intelligence +3",
     "name_plural": "rings of intelligence +3",
@@ -195,7 +195,7 @@
   },
   {
     "copy-from": "mring_platinum",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "id": "mring_intelligence_4",
     "name": "ring of intelligence +4",
     "name_plural": "rings of intelligence +4",
@@ -204,7 +204,7 @@
   },
   {
     "copy-from": "mring_copper",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "id": "mring_perception_1",
     "name": "ring of perception +1",
     "name_plural": "rings of perception +1",
@@ -213,7 +213,7 @@
   },
   {
     "copy-from": "mring_silver",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "id": "mring_perception_2",
     "name": "ring of perception +2",
     "name_plural": "rings of perception +2",
@@ -222,7 +222,7 @@
   },
   {
     "copy-from": "mring_gold",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "id": "mring_perception_3",
     "name": "ring of perception +3",
     "name_plural": "rings of perception +3",
@@ -231,7 +231,7 @@
   },
   {
     "copy-from": "mring_platinum",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "id": "mring_perception_4",
     "name": "ring of perception +4",
     "name_plural": "rings of perception +4",
@@ -240,7 +240,7 @@
   },
   {
     "copy-from": "mring_copper",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "id": "mring_speed_3",
     "name": "ring of speed +3",
     "name_plural": "rings of speed +3",
@@ -249,7 +249,7 @@
   },
   {
     "copy-from": "mring_silver",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "id": "mring_speed_5",
     "name": "ring of speed +5",
     "name_plural": "rings of speed +5",
@@ -258,7 +258,7 @@
   },
   {
     "copy-from": "mring_gold",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "id": "mring_speed_7",
     "name": "ring of speed +7",
     "name_plural": "rings of speed +7",
@@ -267,11 +267,79 @@
   },
   {
     "copy-from": "mring_platinum",
-    "type": "GENERIC",
+    "type": "TOOL_ARMOR",
     "id": "mring_speed_10",
     "name": "ring of speed +10",
     "name_plural": "rings of speed +10",
     "description": "A platinum ring that makes you a little stronger when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 10 } ] } ] }
+  },
+  {
+    "copy-from": "mring_copper",
+    "type": "TOOL_ARMOR",
+    "id": "mring_protection_2",
+    "name": "ring of protection +2",
+    "name_plural": "rings of protection +2",
+    "description": "A copper ring that makes you a little stronger when you wear it.",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "ARMOR_CUT", "add": -2 }, { "value": "ARMOR_BASH", "add": -2 }, { "value": "ARMOR_STAB", "add": -2 } ]
+        }
+      ]
+    }
+  },
+  {
+    "copy-from": "mring_silver",
+    "type": "TOOL_ARMOR",
+    "id": "mring_protection_4",
+    "name": "ring of protection +4",
+    "name_plural": "rings of protection +4",
+    "description": "A silver ring that makes you a little stronger when you wear it.",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "ARMOR_CUT", "add": -4 }, { "value": "ARMOR_BASH", "add": -4 }, { "value": "ARMOR_STAB", "add": -4 } ]
+        }
+      ]
+    }
+  },
+  {
+    "copy-from": "mring_gold",
+    "type": "TOOL_ARMOR",
+    "id": "mring_protection_6",
+    "name": "ring of protection +6",
+    "name_plural": "rings of protection +6",
+    "description": "A golden ring that makes you a little stronger when you wear it.",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "ARMOR_CUT", "add": -6 }, { "value": "ARMOR_BASH", "add": -6 }, { "value": "ARMOR_STAB", "add": -6 } ]
+        }
+      ]
+    }
+  },
+  {
+    "copy-from": "mring_platinum",
+    "type": "TOOL_ARMOR",
+    "id": "mring_protection_8",
+    "name": "ring of protection +8",
+    "name_plural": "rings of protection +8",
+    "description": "A platinum ring that makes you a little stronger when you wear it.",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "ARMOR_CUT", "add": -8 }, { "value": "ARMOR_BASH", "add": -8 }, { "value": "ARMOR_STAB", "add": -8 } ]
+        }
+      ]
+    }
   }
 ]
