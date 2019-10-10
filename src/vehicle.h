@@ -136,6 +136,29 @@ class vehicle_stack : public item_stack
         units::volume max_volume() const override;
 };
 
+class towing_data
+{
+    private:
+        vehicle *towing;
+        vehicle *towed_by;
+    public:
+        towing_data( vehicle *towed_veh = nullptr, vehicle *tower_veh = nullptr ) :
+            towing( towed_veh ), towed_by( tower_veh ) {}
+        vehicle *get_towed_by() const {
+            return towed_by;
+        }
+        bool set_towing( vehicle *tower_veh, vehicle *towed_veh );
+        vehicle *get_towed() const {
+            return towing;
+        }
+        void clear_towing() {
+            towing = nullptr;
+            towed_by = nullptr;
+        }
+        // temp variable used for saving/loading
+        tripoint other_towing_point;
+};
+
 struct bounding_box {
     point p1;
     point p2;
@@ -749,6 +772,16 @@ class vehicle
         // Vehicle parts descriptions - descriptions for all the parts on a single tile
         void print_vparts_descs( const catacurses::window &win, int max_y, int width, int p,
                                  int &start_at, int &start_limit ) const;
+        // towing functions
+        void invalidate_towing( bool first_vehicle = false );
+        void do_towing_move();
+        bool tow_cable_too_far() const;
+        bool no_towing_slack() const;
+        bool is_towing() const;
+        bool has_tow_attached() const;
+        int get_tow_part() const;
+        bool is_external_part( const tripoint &part_pt) const;
+        bool is_towed() const;
         // owner functions
         bool is_owned_by( const Character &c, bool available_to_take = false ) const;
         bool is_old_owner( const Character &c, bool available_to_take = false ) const;
@@ -1765,6 +1798,7 @@ class vehicle
         bounding_box rail_wheel_bounding_box;
         point front_left;
         point front_right;
+        towing_data tow_data;
         // points used for rotation of mount precalc values
         std::array<point, 2> pivot_anchor;
         // frame direction

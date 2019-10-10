@@ -1704,8 +1704,8 @@ void game::process_activity()
 
 void game::autopilot_vehicles()
 {
-    for( auto &veh : m.get_vehicles() ) {
-        auto &v = veh.v;
+    for( wrapped_vehicle &veh : m.get_vehicles() ) {
+        vehicle *&v = veh.v;
         if( v->is_following ) {
             v->drive_to_local_target( g->m.getabs( u.pos() ), true );
         } else if( v->is_patrolling ) {
@@ -1917,6 +1917,21 @@ static void update_faction_api( npc *guy )
     if( guy->get_faction_ver() < 2 ) {
         guy->set_fac( your_followers );
         guy->set_faction_ver( 2 );
+    }
+}
+
+void game::validate_linked_vehicles()
+{
+    for( auto &veh : m.get_vehicles() ) {
+        vehicle *v = veh.v;
+        if( v->tow_data.other_towing_point != tripoint_zero ) {
+            vehicle *other_v = veh_pointer_or_null( m.veh_at( v->tow_data.other_towing_point ) );
+            if( other_v ) {
+                // the other vehicle is towing us.
+                v->tow_data.set_towing( other_v, v );
+                v->tow_data.other_towing_point = tripoint_zero;
+            }
+        }
     }
 }
 
@@ -2771,6 +2786,7 @@ void game::load( const save_t &name )
     validate_npc_followers();
     validate_mounted_npcs();
     validate_camps();
+    validate_linked_vehicles();
     update_map( u );
     for( auto &e : u.inv_dump() ) {
         e->set_owner( g->u );

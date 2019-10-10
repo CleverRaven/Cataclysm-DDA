@@ -746,6 +746,28 @@ std::set<point> vehicle::immediate_path( int rotate )
     return points_to_check;
 }
 
+static int get_turn_from_angle( const double angle, const tripoint &vehpos, const tripoint &target, bool reverse = false )
+{
+    if( angle > 10.0 && angle <= 45.0 ) {
+        return reverse ? -4 : 1;
+    } else if( angle > 45.0 && angle <= 90.0 ) {
+        return reverse ? -3 : 3;
+    } else if( angle > 90.0 && angle < 180.0 ) {
+        return reverse ? -1 : 4;
+    } else if( angle < -10.0 && angle >= -45.0 ) {
+        return reverse ? 1 : -1;
+    } else if( angle < -45.0 && angle >= -90.0 ) {
+        return reverse ? 3 : -3;
+    } else if( angle < -90.0 && angle > -180.0 ) {
+        return reverse ? 4 : -4;
+        // edge case of being exactly on the button for the target.
+        // just keep driving, the next path point will be picked up.
+    } else if( ( angle == 180 || angle == -180 ) && vehpos == target ) {
+        return 0;
+    }
+    return 0;
+}
+
 void vehicle::stop_autodriving()
 {
     if( !is_autodriving && !is_patrolling && !is_following ) {
@@ -779,7 +801,6 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     // Check the tileray in the direction we need to head towards.
     std::set<point> points_to_check = immediate_path( angle );
     bool stop = false;
-
     for( const point &pt_elem : points_to_check ) {
         point elem = g->m.getlocal( pt_elem );
         if( stop ) {
@@ -832,24 +853,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
         stop_autodriving();
         return;
     }
-    int turn_x = 0;
-    if( angle > 10.0 && angle <= 45.0 ) {
-        turn_x = 1;
-    } else if( angle > 45.0 && angle <= 90.0 ) {
-        turn_x = 3;
-    } else if( angle > 90.0 && angle < 180.0 ) {
-        turn_x = 4;
-    } else if( angle < -10.0 && angle >= -45.0 ) {
-        turn_x = -1;
-    } else if( angle < -45.0 && angle >= -90.0 ) {
-        turn_x = -3;
-    } else if( angle < -90.0 && angle > -180.0 ) {
-        turn_x = -4;
-        // edge case of being exactly on the button for the target.
-        // just keep driving, the next path point will be picked up.
-    } else if( ( angle == 180 || angle == -180 ) && vehpos == target ) {
-        turn_x = 0;
-    }
+    int turn_x = get_turn_from_angle( angle, vehpos, target );
     int accel_y = 0;
     // best to cruise around at a safe velocity or 40mph, whichever is lowest
     // accelerate when it dosnt need to turn.
@@ -882,8 +886,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
             accel_y = 1;
         }
     }
-    follow_protocol ||
-    is_patrolling ? autodrive( turn_x, accel_y ) : pldrive( point( turn_x, accel_y ) );
+    follow_protocol || is_patrolling ? autodrive( turn_x, accel_y ) : pldrive( point( turn_x, accel_y ) );
 }
 
 double vehicle::get_angle_from_targ( const tripoint &targ )
@@ -1688,7 +1691,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
         // the mount point on the old vehicle (carry_veh) that will be destroyed
         point old_mount;
     };
-
+    invalidate_towing( true );
     // By structs, we mean all the parts of the carry vehicle that are at the structure location
     // of the vehicle (i.e. frames)
     std::vector<int> carry_veh_structs = carry_veh->all_parts_at_location( part_location_structure );
@@ -2294,6 +2297,16 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
                 passenger = get_passenger( mov_part );
                 if( passenger ) {
                     passengers.push_back( passenger );
+                }
+            }
+            // if this part is a towing part, transfer the tow_data to the new vehicle.
+            if( part_flag( mov_part, "TOW_CABLE" ) ) {
+                if( is_towed() ) {
+                    tow_data.get_towed_by()->tow_data.set_towing( tow_data.get_towed_by(), new_vehicle );
+                    tow_data.clear_towing();
+                } else if( is_towing() ) {
+                    tow_data.get_towed()->tow_data.set_towing( new_vehicle, tow_data.get_towed() );
+                    tow_data.clear_towing();
                 }
             }
             // transfer the vehicle_part to the new vehicle
@@ -3412,7 +3425,14 @@ int vehicle::ground_acceleration( const bool fueled, int at_vel_in_vmi ) const
     }
     int target_vmiph = std::max( at_vel_in_vmi, std::max( 1000, max_velocity( fueled ) / 4 ) );
     int cmps = vmiph_to_cmps( target_vmiph );
-    int engine_power_ratio = total_power_w( fueled ) / to_kilogram( total_mass() );
+    double weight = to_kilogram( total_mass() );
+    if( is_towing() ) {
+        vehicle *other_veh = tow_data.get_towed();
+        if( other_veh ) {
+            weight = weight + to_kilogram( other_veh->total_mass() );
+        }
+    }
+    int engine_power_ratio = total_power_w( fueled ) / weight;
     int accel_at_vel = 100 * 100 * engine_power_ratio / cmps;
     add_msg( m_debug, "%s: accel at %d vimph is %d", name, target_vmiph,
              cmps_to_vmiph( accel_at_vel ) );
@@ -3427,7 +3447,14 @@ int vehicle::water_acceleration( const bool fueled, int at_vel_in_vmi ) const
     int target_vmiph = std::max( at_vel_in_vmi, std::max( 1000,
                                  max_water_velocity( fueled ) / 4 ) );
     int cmps = vmiph_to_cmps( target_vmiph );
-    int engine_power_ratio = total_power_w( fueled ) / to_kilogram( total_mass() );
+    double weight = to_kilogram( total_mass() );
+    if( is_towing() ) {
+        vehicle *other_veh = tow_data.get_towed();
+        if( other_veh ) {
+            weight = weight + to_kilogram( other_veh->total_mass() );
+        }
+    }
+    int engine_power_ratio = total_power_w( fueled ) / weight;
     int accel_at_vel = 100 * 100 * engine_power_ratio / cmps;
     add_msg( m_debug, "%s: water accel at %d vimph is %d", name, target_vmiph,
              cmps_to_vmiph( accel_at_vel ) );
@@ -5489,6 +5516,286 @@ void vehicle::refresh_pivot() const
     }
 }
 
+static int get_side_from_angle( double angle )
+{
+    if( angle < 45 && angle > -45 ){
+        return 0;
+        std::cout << "get side = 2" << std::endl;
+    } else if( angle >= 45 && angle <= 135 ){
+        return 1;
+        std::cout << "get side = 2" << std::endl;
+    } else if( angle > 135 && angle > -135 ){
+        std::cout << "get side = 2" << std::endl;
+        return 2;
+    }
+    std::cout << "get side fallthrough " << std::endl;
+    return 3;
+}
+
+void vehicle::do_towing_move()
+{
+    std::cout << "do towing move" << std::endl;
+    if( !no_towing_slack() || velocity <= 0 ) {
+        return;
+    }
+    bool invalidate = false;
+    if( !tow_data.get_towed() ){
+        debugmsg( "tried to do towing move, but no towed vehicle!");
+        invalidate = true;
+    }
+    const int tow_index = get_tow_part();
+    if( tow_index == -1 ){
+        debugmsg( "tried to do towing move, but no tow part");
+        invalidate = true;
+    }
+    vehicle *towed_veh = tow_data.get_towed();
+    if( !towed_veh ){
+        debugmsg( "tried to do towing move, but towed vehicle dosnt exist.");
+        invalidate = true;
+    }
+    const int other_tow_index = towed_veh->get_tow_part();
+    if( other_tow_index == -1 ){
+        debugmsg( "tried to do towing move but towed vehicle has no towing part" );
+        invalidate = true;
+    }
+    if( invalidate ){
+        invalidate_towing();
+        vehicle_part *part = &parts[part_with_feature( tow_index, "TOW_CABLE", true )];
+        item drop = part->properties_to_item();
+        g->m.add_item_or_charges( global_part_pos3( *part ), drop );
+        return;
+    }
+    // first find out where on the vehicle the towing point is.
+    // if its on the front or back, then the vehicle can steer into the tow.
+    // if its on the side then it skids
+    // then get the pulling angle of the pulling vehicle
+    const tripoint tower_tow_point = g->m.getabs( global_part_pos3(tow_index) );
+    const tripoint towed_tow_point = g->m.getabs( towed_veh->global_part_pos3( other_tow_index) );
+    double tow_point_angle = towed_veh->get_angle_from_targ( towed_tow_point );
+    // 0 = towed from front , 1 = dragged from right side , 2 = towed from rear
+    // 3 = dragged from left side
+    int tow_point_side = get_side_from_angle( tow_point_angle );
+    // same as above, but where the pulling vehicle is pulling from
+    double towing_veh_angle = towed_veh->get_angle_from_targ( tower_tow_point );
+    //int pulled_from = get_side_from_angle( towing_veh_angle );
+    int accel_y;
+    tripoint vehpos = g->m.getabs( towed_veh->global_pos3() );
+    int turn_x = get_turn_from_angle( towing_veh_angle, vehpos, tower_tow_point, tow_point_side == 2 );
+    if( rl_dist( towed_tow_point, tower_tow_point ) < 6 ) {
+        accel_y = 1;
+    }
+    if( towed_veh->velocity <= velocity && rl_dist( towed_tow_point, tower_tow_point ) >= 4 ) {
+        accel_y = -1;
+    }
+    if( rl_dist( towed_tow_point, tower_tow_point ) >= 8 ) {
+        towed_veh->velocity = velocity * 1.8;
+    } else {
+        towed_veh->velocity = velocity;
+    }
+    std::cout << "accel_y =  " << std::to_string( accel_y ) << std::endl;
+    std::cout << "turn x = " << std::to_string( turn_x ) << std::endl;
+    std::cout << "pulled angle = " << std::to_string( towing_veh_angle ) << std::endl;
+    std::cout << "tow point angle = " << std::to_string( tow_point_angle ) << std::endl;
+    if( tow_point_side == 0 ){
+        towed_veh->autodrive( turn_x, accel_y );
+    } else if( tow_point_side == 1 || tow_point_side == 3 ){
+        towed_veh->skidding = true;
+        tileray skid_ray;
+        skid_ray.init( towing_veh_angle );
+        std::cout << "skid sidewsays" << std::endl;
+        g->m.move_vehicle( *towed_veh, g->m.getlocal( tower_tow_point ), skid_ray );
+    } else {
+        std::cout << "pull reverse" << std::endl;
+        towed_veh->autodrive( turn_x,  );
+    }
+}
+
+bool vehicle::is_external_part( const tripoint &part_pt ) const
+{
+    for( const tripoint &elem : g->m.points_in_radius( part_pt, 1 ) ){
+        const optional_vpart_position vp = g->m.veh_at( elem );
+        if( !vp ){
+            return true;
+        }
+        if( vp && &vp->vehicle() != this ){
+            return true;
+        }
+    }
+    return false;
+}
+
+bool vehicle::is_towing() const
+{
+    bool ret = false;
+    if( !tow_data.get_towed() ) {
+        return ret;
+    } else {
+        if( !tow_data.get_towed()->tow_data.get_towed_by() ) {
+            debugmsg( "vehicle %s is towing, but the towed vehicle has no tower defined", name );
+            return ret;
+        }
+        ret = true;
+    }
+    return ret;
+}
+
+bool vehicle::is_towed() const
+{
+    bool ret = false;
+    if( !tow_data.get_towed_by() ) {
+        return ret;
+    } else {
+        if( !tow_data.get_towed_by()->tow_data.get_towed() ) {
+            debugmsg( "vehicle %s is marked as towed, but the tower vehicle has no towed defined", name );
+            return ret;
+        }
+        ret = true;
+    }
+    return ret;
+}
+
+int vehicle::get_tow_part() const
+{
+    for( const vpart_reference &vp : get_all_parts() ) {
+        const size_t p = vp.part_index();
+        if( vp.part().removed ) {
+            continue;
+        }
+
+        if( part_with_feature( p, "TOW_CABLE", true ) >= 0 && vp.part().is_available() ) {
+            return p;
+        }
+    }
+    return -1;
+}
+
+bool vehicle::has_tow_attached() const
+{
+    bool ret = false;
+    for( const vpart_reference &vp : get_all_parts() ) {
+        const size_t p = vp.part_index();
+        if( vp.part().removed ) {
+            continue;
+        }
+
+        if( part_with_feature( p, "TOW_CABLE", true ) >= 0 && vp.part().is_available() ) {
+            ret = true;
+            break;
+        }
+    }
+    return ret;
+}
+
+bool towing_data::set_towing( vehicle *tower_veh, vehicle *towed_veh )
+{
+    if( !towed_veh || !tower_veh ) {
+        return false;
+    }
+    towed_veh->tow_data.towed_by = tower_veh;
+    tower_veh->tow_data.towing = towed_veh;
+    return true;
+}
+
+void vehicle::invalidate_towing( bool first_vehicle )
+{
+    if( !is_towing() && !is_towed() ) {
+        return;
+    }
+    vehicle *other_veh = nullptr;
+    if( is_towing() ) {
+        other_veh = tow_data.get_towed();
+    } else if( is_towed() ) {
+        other_veh = tow_data.get_towed_by();
+    }
+    if( other_veh && first_vehicle ) {
+        other_veh->invalidate_towing();
+    }
+    for( const vpart_reference &vp : get_all_parts() ) {
+        const size_t p = vp.part_index();
+        if( vp.part().removed ) {
+            continue;
+        }
+
+        if( part_with_feature( p, "TOW_CABLE", true ) >= 0 ) {
+            if( first_vehicle ) {
+                vehicle_part *part = &parts[part_with_feature( p, "TOW_CABLE", true )];
+                item drop = part->properties_to_item();
+                g->m.add_item_or_charges( global_part_pos3( *part ), drop );
+            }
+            remove_part( part_with_feature( p, "TOW_CABLE", true ) );
+            break;
+        }
+    }
+    tow_data.clear_towing();
+}
+
+// to be called on the towed vehicle
+bool vehicle::tow_cable_too_far() const
+{
+    if( !tow_data.get_towed_by() ) {
+        debugmsg( "checking tow cable length on a vehicle that has no towing vehicle" );
+        return false;
+    }
+    tripoint towing_point;
+    tripoint towed_point;
+    int index = get_tow_part();
+    if( index == -1 ) {
+        debugmsg( "towing data exists but no towing part" );
+        return false;
+    }
+    towing_point = g->m.getabs( global_part_pos3( index ) );
+    if( !tow_data.get_towed_by()->tow_data.get_towed() ) {
+        debugmsg( "vehicle %s has data for a towing vehicle, but that towing vehicle does not have %s listed as towed",
+                  disp_name(), disp_name() );
+        return false;
+    }
+    int other_index = tow_data.get_towed_by()->get_tow_part();
+    if( other_index == -1 ) {
+        debugmsg( "towing data exists but no towing part" );
+        return false;
+    }
+    towed_point = g->m.getabs( tow_data.get_towed_by()->global_part_pos3( other_index ) );
+    if( towing_point == tripoint_zero || towed_point == tripoint_zero ) {
+        debugmsg( "towing data exists but no towing part" );
+        return false;
+    }
+    return rl_dist( towing_point, towed_point ) >= 25;
+}
+
+// the towing cable only starts pulling at a certain distance between the vehicles
+// to be called on the towing vehicle
+bool vehicle::no_towing_slack() const
+{
+    if( !tow_data.get_towed() ) {
+        return false;
+    }
+    tripoint towing_point;
+    tripoint towed_point;
+    int index = get_tow_part();
+    if( index == -1 ) {
+        debugmsg( "towing data exists but no towing part" );
+        return false;
+    }
+    towing_point = g->m.getabs( global_part_pos3( index ) );
+    if( !tow_data.get_towed()->tow_data.get_towed_by() ) {
+        debugmsg( "vehicle %s has data for a towed vehicle, but that towed vehicle does not have %s listed as tower",
+                  disp_name(), disp_name() );
+        return false;
+    }
+    int other_index = tow_data.get_towed()->get_tow_part();
+    if( other_index == -1 ) {
+        debugmsg( "towing data exists but no towing part" );
+        return false;
+    }
+    towed_point = g->m.getabs( tow_data.get_towed()->global_part_pos3( other_index ) );
+    if( towing_point == tripoint_zero || towed_point == tripoint_zero ) {
+        debugmsg( "towing data exists but no towing part" );
+        return false;
+    }
+    return rl_dist( towing_point, towed_point ) >= 4;
+
+}
+
 void vehicle::remove_remote_part( int part_num )
 {
     auto veh = find_vehicle( parts[part_num].target.second );
@@ -5918,7 +6225,11 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
         if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
             mon->remove_effect( effect_harnessed );
         }
-        remove_part( p );
+        if( part_flag( p, "TOW_CABLE" ) ) {
+            invalidate_towing();
+        } else {
+            remove_part( p );
+        }
     }
 
     return std::max( dres, 0 );

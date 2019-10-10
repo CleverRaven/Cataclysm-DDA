@@ -2711,7 +2711,6 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "theft_time", theft_time );
 
     data.read( "parts", parts );
-
     // we persist the pivot anchor so that if the rules for finding
     // the pivot change, existing vehicles do not shift around.
     // Loading vehicles that predate the pivot logic is a special
@@ -2793,7 +2792,7 @@ void vehicle::deserialize( JsonIn &jsin )
         sdata.read( "zone", zd );
         loot_zones.emplace( p, zd );
     }
-
+    data.read( "other_tow_point", tow_data.other_towing_point );
     // Note that it's possible for a vehicle to be loaded midway
     // through a turn if the player is driving REALLY fast and their
     // own vehicle motion takes them in range. An undefined value for
@@ -2817,6 +2816,7 @@ void vehicle::deserialize( JsonIn &jsin )
             }
         }
     };
+
     set_legacy_state( "stereo_on", "STEREO" );
     set_legacy_state( "chimes_on", "CHIMES" );
     set_legacy_state( "fridge_on", "FRIDGE" );
@@ -2864,6 +2864,15 @@ void vehicle::serialize( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
+    tripoint other_tow_temp_point;
+    if( is_towed() ) {
+        vehicle *tower = tow_data.get_towed_by();
+        if( tower ) {
+            other_tow_temp_point = tower->global_part_pos3( tower->get_tow_part() );
+        }
+    }
+    json.member( "other_tow_point", other_tow_temp_point );
+
     json.member( "is_locked", is_locked );
     json.member( "is_alarm_on", is_alarm_on );
     json.member( "camera_on", camera_on );

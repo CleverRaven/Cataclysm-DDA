@@ -97,6 +97,12 @@ int vehicle::slowdown( int at_velocity ) const
     double accel_slowdown = f_total_drag / to_kilogram( total_mass() );
     // converting m/s^2 to vmiph/s
     int slowdown = mps_to_vmiph( accel_slowdown );
+    if( is_towing() ) {
+        vehicle *other_veh = tow_data.get_towed();
+        if( other_veh ) {
+            slowdown += other_veh->slowdown( at_velocity );
+        }
+    }
     if( slowdown < 0 ) {
         debugmsg( "vehicle %s has negative drag slowdown %d\n", name, slowdown );
     }
@@ -875,12 +881,14 @@ bool vehicle::has_harnessed_animal() const
 void vehicle::autodrive( int x, int y )
 {
     // for now, autodriving is only possible when pulled by an animal
-    for( size_t e = 0; e < parts.size(); e++ ) {
-        const vehicle_part &vp = parts[ e ];
-        if( vp.info().fuel_type == fuel_type_animal ) {
-            monster *mon = get_pet( e );
-            if( !mon || !mon->has_effect( effect_harnessed ) || !mon->has_effect( effect_pet ) ) {
-                is_following = false;
+    if( !is_towed() ) {
+        for( size_t e = 0; e < parts.size(); e++ ) {
+            const vehicle_part &vp = parts[ e ];
+            if( vp.info().fuel_type == fuel_type_animal ) {
+                monster *mon = get_pet( e );
+                if( !mon || !mon->has_effect( effect_harnessed ) || !mon->has_effect( effect_pet ) ) {
+                    is_following = false;
+                }
             }
         }
     }
@@ -902,7 +910,6 @@ void vehicle::autodrive( int x, int y )
         turn( turn_delta );
 
     }
-
     if( y != 0 ) {
         int thr_amount = 100 * ( abs( velocity ) < 2000 ? 4 : 5 );
         if( cruise_on ) {
@@ -911,7 +918,6 @@ void vehicle::autodrive( int x, int y )
             thrust( -y );
         }
     }
-
     // TODO: Actually check if we're on land on water (or disable water-skidding)
     if( skidding && valid_wheel_config() ) {
         ///\EFFECT_DEX increases chance of regaining control of a vehicle

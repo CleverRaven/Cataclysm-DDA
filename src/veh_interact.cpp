@@ -3074,6 +3074,9 @@ void veh_interact::complete_vehicle( player &p )
             if( veh->part_flag( vehicle_part, "POWER_TRANSFER" ) ) {
                 veh->remove_remote_part( vehicle_part );
             }
+            if( veh->part_flag( vehicle_part, "TOW_CABLE" ) ) {
+                veh->invalidate_towing( true );
+            }
 
             bool broken = veh->parts[ vehicle_part ].is_broken();
 
