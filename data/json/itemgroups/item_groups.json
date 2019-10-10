@@ -4183,6 +4183,7 @@
       [ "silver_locket", 4 ],
       [ "silver_ring", 10 ],
       [ "silver_ear", 10 ],
+      [ "bead_ear", 10 ],
       [ "jade_brooch", 2 ],
       [ "diamond", 1 ],
       [ "manual_dodge", 1 ],
@@ -4507,6 +4508,7 @@
       [ "silver_necklace", 14 ],
       [ "gold_ear", 12 ],
       [ "silver_ear", 14 ],
+      [ "bead_ear", 14 ],
       [ "platinum_ear", 1 ],
       [ "platinum_bracelet", 1 ],
       [ "gold_bracelet", 8 ],
@@ -8644,6 +8646,7 @@
       [ "diamond_dental_grill", 5 ],
       [ "jade_brooch", 30 ],
       [ "tieclip", 35 ],
+      [ "bead_ear", 35 ],
       [ "pearl_collar", 30 ],
       [ "holy_symbol", 20 ]
     ]
@@ -9418,6 +9421,7 @@
       [ "straw_hat", 80 ],
       [ "straw_fedora", 80 ],
       [ "silver_ear", 20 ],
+      [ "bead_ear", 20 ],
       [ "silver_necklace", 20 ],
       [ "silver_bracelet", 20 ],
       [ "silver_locket", 20 ],
