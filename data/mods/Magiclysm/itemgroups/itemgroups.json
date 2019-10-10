@@ -397,7 +397,8 @@
       [ "mtoken_mace", 20 ],
       [ "mtoken_q_staff", 20 ],
       [ "mtoken_hammer", 20 ],
-      [ "mtoken_screwdriver", 20 ],
+      [ "mtoken_screwdriver_set", 20 ],
+      [ "mtoken_crowbar", 5 ],
       [ "mtoken_toolbox", 5 ]
     ]
   },
