@@ -771,7 +771,8 @@ class vehicle
         bool handle_potential_theft( player &p, bool check_only = false, bool prompt = true );
         // project a tileray forward to predict obstacles
         std::set<point> immediate_path( int rotate = 0 );
-        void drive_to_local_target( const tripoint &autodrive_local_target, bool follow_protocol );
+        void autopilot_patrol();
+        void drive_to_local_target( const tripoint target, bool follow_protocol );
         void do_autodrive();
         /**
          *  Operate vehicle controls
@@ -784,7 +785,8 @@ class vehicle
 
         // Attempt to start an engine
         bool start_engine( int e );
-
+        // stop all engines
+        void stop_engines();
         // Attempt to start the vehicle's active engines
         void start_engines( bool take_control = false, bool autodrive = false );
 
@@ -1477,6 +1479,8 @@ class vehicle
         void play_chimes();
         void operate_planter();
         std::string tracking_toggle_string();
+        void toggle_autopilot();
+        void enable_patrol();
         void toggle_tracking();
         //scoop operation,pickups, battery drain, etc.
         void operate_scoop();
@@ -1738,6 +1742,7 @@ class vehicle
     public:
         bool is_autodriving = false;
         bool is_following = false;
+        bool is_patrolling = false;
         bool all_wheels_on_one_axis;
         // TODO: change these to a bitset + enum?
         // cruise control on/off
@@ -1751,6 +1756,7 @@ class vehicle
         // vehicle has alarm on
         bool is_alarm_on = false;
         bool camera_on = false;
+        bool autopilot_on = false;
         // skidding mode
         bool skidding = false;
         // has bloody or smoking parts

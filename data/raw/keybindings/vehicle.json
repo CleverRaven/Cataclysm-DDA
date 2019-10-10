@@ -35,11 +35,18 @@
     "bindings": [ { "input_method": "keyboard", "key": "n" } ]
   },
   {
+    "id": "AUTOPILOT_PATROL",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle autopilot patrol",
+    "bindings": [ { "input_method": "keyboard", "key": "U" } ]
+  },
+  {
     "id": "TOGGLE_AISLE_LIGHT",
     "type": "keybinding",
     "category": "VEHICLE",
     "name": "Toggle aisle lights",
-    "bindings": [ { "input_method": "keyboard", "key": "a" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "L" } ]
   },
   {
     "id": "TOGGLE_ALARM",
@@ -54,6 +61,13 @@
     "category": "VEHICLE",
     "name": "Toggle atomic lights",
     "bindings": [ { "input_method": "keyboard", "key": "A" } ]
+  },
+  {
+    "id": "TOGGLE_AUTOPILOT",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle autopiot",
+    "bindings": [ { "input_method": "keyboard", "key": "a" } ]
   },
   {
     "id": "TOGGLE_CAMERA",

@@ -1497,7 +1497,7 @@ bool game::do_turn()
     m.build_floor_caches();
 
     m.process_falling();
-    following_vehicles();
+    autopilot_vehicles();
     m.vehmove();
 
     // Process power and fuel consumption for all vehicles, including off-map ones.
@@ -1635,12 +1635,14 @@ void game::process_activity()
     }
 }
 
-void game::following_vehicles()
+void game::autopilot_vehicles()
 {
     for( auto &veh : m.get_vehicles() ) {
         auto &v = veh.v;
         if( v->is_following ) {
-            v->drive_to_local_target( u.pos(), true );
+            v->drive_to_local_target( g->m.getabs( u.pos() ), true );
+        } else if( v->is_patrolling ) {
+            v->autopilot_patrol();
         }
     }
 }
@@ -5295,6 +5297,7 @@ void game::control_vehicle()
             u.clear_memorized_tile( m.getabs( target ) );
         }
         veh->is_following = false;
+        veh->is_patrolling = false;
     }
 }
 
