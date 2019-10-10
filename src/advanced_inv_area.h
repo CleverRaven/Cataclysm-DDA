@@ -38,7 +38,7 @@ enum aim_location {
     AIM_AROUND_END = AIM_NORTHEAST
 };
 
-struct advanced_inv_listitem;
+class advanced_inv_listitem;
 
 /**
  * Defines the source of item stacks.
