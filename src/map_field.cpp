@@ -633,7 +633,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     fire_there->set_field_intensity( new_intensity );
                                     // A raging fire below us can support us for a while
                                     // Otherwise decay and decay fast
-                                    if( new_intensity < 3 || one_in( 10 ) ) {
+                                    if( fire_there->get_field_intensity() < 3 || one_in( 10 ) ) {
                                         cur.set_field_intensity( cur.get_field_intensity() - 1 );
                                     }
                                 }
