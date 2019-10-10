@@ -64,7 +64,7 @@
   {
     "id": "coffee_display_2",
     "type": "item_group",
-    "item": [ [ "mana_potion_lesser", 10 ] ]
+    "items": [ [ "mana_potion_lesser", 10 ] ]
   },
   {
     "type": "item_group",

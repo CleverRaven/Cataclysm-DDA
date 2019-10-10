@@ -400,6 +400,29 @@ class Character : public Creature, public visitable<Character>
          * that encumbrance may have changed and require recalculating.
          */
         void check_item_encumbrance_flag();
+
+
+        /**
+         * Check for relevant passive, non-clothing that can absorb damage, and reduce by specified
+         * damage unit.  Only flat bonuses are checked here.  Multiplicative ones are checked in
+         * @ref player::absorb_hit.  The damage amount will never be reduced to less than 0.
+         * This is called from @ref player::absorb_hit
+         */
+        void passive_absorb_hit( body_part bp, damage_unit &du ) const;
+        /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
+        void absorb_hit( body_part bp, damage_instance &dam ) override;
+        /**
+         * Reduces and mutates du, prints messages about armor taking damage.
+         * @return true if the armor was completely destroyed (and the item must be deleted).
+         */
+        bool armor_absorb( damage_unit &du, item &armor );
+        /**
+         * Check for passive bionics that provide armor, and returns the armor bonus
+         * This is called from player::passive_absorb_hit
+         */
+        float bionic_armor_bonus( body_part bp, damage_type dt ) const;
+        /** Returns the armor bonus against given type from martial arts buffs */
+        int mabuff_armor_bonus( damage_type type ) const;
         // --------------- Mutation Stuff ---------------
         // In newcharacter.cpp
         /** Returns the id of a random starting trait that costs >= 0 points */
@@ -578,6 +601,17 @@ class Character : public Creature, public visitable<Character>
         int get_mod_stat_from_bionic( const Character::stat &Stat ) const;
         // route for overmap-scale travelling
         std::vector<tripoint> omt_path;
+
+        units::energy get_power_level() const;
+        units::energy get_max_power_level() const;
+        void mod_power_level( units::energy npower );
+        void mod_max_power_level( units::energy npower_max );
+        void set_power_level( units::energy npower );
+        void set_max_power_level( units::energy npower_max );
+        bool is_max_power() const;
+        bool has_power() const;
+        bool has_max_power() const;
+        bool enough_power_for( const bionic_id &bid ) const;
         // --------------- Generic Item Stuff ---------------
 
         struct has_mission_item_filter {
@@ -930,8 +964,6 @@ class Character : public Creature, public visitable<Character>
         stomach_contents stomach;
         stomach_contents guts;
 
-        units::energy power_level;
-        units::energy max_power_level;
         int oxygen;
         int stamina;
         int radiation;
@@ -1089,6 +1121,9 @@ class Character : public Creature, public visitable<Character>
 
         // A unique ID number, assigned by the game class. Values should never be reused.
         character_id id;
+
+        units::energy power_level;
+        units::energy max_power_level;
 
         /** Needs (hunger, starvation, thirst, fatigue, etc.) */
         int stored_calories;

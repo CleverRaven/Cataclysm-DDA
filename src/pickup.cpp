@@ -509,6 +509,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             g->u.activity.targets.emplace_back( vehicle_cursor( *veh, cargo_part ), &*here.front() );
         } else {
             g->u.activity.targets.emplace_back( map_cursor( p ), &*here.front() );
+            g->u.activity.coords.push_back( g->u.pos() );
         }
         // auto-pickup means pick up all.
         g->u.activity.values.push_back( 0 );
@@ -990,6 +991,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
     // At this point we've selected our items, register an activity to pick them up.
     g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
+    g->u.activity.coords.push_back( g->u.pos() );
     if( min == -1 ) {
         // Auto pickup will need to auto resume since there can be several of them on the stack.
         g->u.activity.auto_resume = true;

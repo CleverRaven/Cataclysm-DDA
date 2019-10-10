@@ -480,8 +480,8 @@ player::player() :
     per_max = 8;
     dodges_left = 1;
     blocks_left = 1;
-    power_level = 0_kJ;
-    max_power_level = 0_kJ;
+    set_power_level( 0_kJ );
+    set_max_power_level( 0_kJ );
     stamina = 10000; //Temporary value for stamina. It will be reset later from external json option.
     stim = 0;
     pkill = 0;
@@ -584,14 +584,14 @@ void player::process_turn()
     // Didn't just pick something up
     last_item = itype_id( "null" );
 
-    if( has_active_bionic( bio_metabolics ) && power_level < max_power_level &&
+    if( has_active_bionic( bio_metabolics ) && !is_max_power() &&
         0.8f < get_kcal_percent() && calendar::once_every( 3_turns ) ) {
         // Efficiency is approximately 25%, power output is ~60W
         mod_stored_kcal( -1 );
-        charge_power( 1_kJ );
+        mod_power_level( 1_kJ );
     }
     if( has_trait( trait_DEBUG_BIONIC_POWER ) ) {
-        charge_power( max_power_level );
+        mod_power_level( get_max_power_level() );
     }
 
     visit_items( [this]( item * e ) {
@@ -1916,6 +1916,12 @@ nc_color player::basic_symbol_color() const
         has_active_optcloak() || has_trait( trait_DEBUG_CLOAK ) ) {
         return c_dark_gray;
     }
+    if( move_mode == PMM_RUN ) {
+        return c_yellow;
+    }
+    if( move_mode == PMM_CROUCH ) {
+        return c_light_gray;
+    }
     return c_white;
 }
 
@@ -2131,11 +2137,6 @@ bool player::has_active_optcloak() const
         }
     }
     return false;
-}
-
-void player::charge_power( units::energy amount )
-{
-    power_level = clamp( power_level + amount, 0_kJ, max_power_level );
 }
 
 /*
@@ -2709,7 +2710,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
     }
 
     bool u_see = g->u.sees( *this );
-    if( has_active_bionic( bionic_id( "bio_ods" ) ) && power_level > 5_kJ ) {
+    if( has_active_bionic( bionic_id( "bio_ods" ) ) && get_power_level() > 5_kJ ) {
         if( is_player() ) {
             add_msg( m_good, _( "Your offensive defense system shocks %s in mid-attack!" ),
                      source->disp_name() );
@@ -2719,7 +2720,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
                      source->disp_name() );
         }
         int shock = rng( 1, 4 );
-        charge_power( units::from_kilojoule( -shock ) );
+        mod_power_level( units::from_kilojoule( -shock ) );
         damage_instance ods_shock_damage;
         ods_shock_damage.add_damage( DT_ELECTRIC, shock * 5 );
         // Should hit body part used for attack
@@ -4130,7 +4131,7 @@ void player::update_needs( int rate_multiplier )
 
     if( g->is_in_sunlight( pos() ) ) {
         if( has_bionic( bn_bio_solar ) ) {
-            charge_power( units::from_kilojoule( rate_multiplier * 25 ) );
+            mod_power_level( units::from_kilojoule( rate_multiplier * 25 ) );
         }
     }
 
@@ -4240,8 +4241,8 @@ void player::update_stamina( int turns )
     }
 
     const int max_stam = get_stamina_max();
-    if( power_level >= 3_kJ && has_active_bionic( bio_gills ) ) {
-        int bonus = std::min<int>( units::to_kilojoule( power_level ) / 3,
+    if( get_power_level() >= 3_kJ && has_active_bionic( bio_gills ) ) {
+        int bonus = std::min<int>( units::to_kilojoule( get_power_level() ) / 3,
                                    max_stam - stamina - stamina_recovery * turns );
         // so the effective recovery is up to 5x default
         bonus = std::min( bonus, 4 * static_cast<int>
@@ -4250,7 +4251,7 @@ void player::update_stamina( int turns )
             stamina_recovery += bonus;
             bonus /= 10;
             bonus = std::max( bonus, 1 );
-            charge_power( units::from_kilojoule( -bonus ) );
+            mod_power_level( units::from_kilojoule( -bonus ) );
         }
     }
 
@@ -4818,9 +4819,9 @@ void player::suffer()
             oxygen += 12;
         }
         if( oxygen <= 5 ) {
-            if( has_bionic( bio_gills ) && power_level >= 25_kJ ) {
+            if( has_bionic( bio_gills ) && get_power_level() >= 25_kJ ) {
                 oxygen += 5;
-                charge_power( -25_kJ );
+                mod_power_level( -25_kJ );
             } else {
                 add_msg_if_player( m_bad, _( "You're drowning!" ) );
                 apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
@@ -5039,7 +5040,8 @@ void player::suffer()
 
                     std::string i_name_w = weapon.has_var( "item_label" ) ?
                                            weapon.get_var( "item_label" ) :
-                                           _( "Your " ) + weapon.type_name();
+                                           //~ %1$s: weapon name
+                                           string_format( _( "Your %1$s" ), weapon.type_name() );
 
                     std::vector<std::weak_ptr<monster>> mons = g->all_monsters().items;
 
@@ -5127,7 +5129,8 @@ void player::suffer()
                     if( !weapon.is_null() ) {
                         std::string i_name_w = weapon.has_var( "item_label" ) ?
                                                weapon.get_var( "item_label" ) :
-                                               "your " + weapon.type_name();
+                                               //~ %1$s: weapon name
+                                               string_format( _( "your %1$s" ), weapon.type_name() );
 
                         std::string snip = SNIPPET.random_from_category( "schizo_weapon_drop" );
                         std::string str = string_format( snip, i_name_w );
@@ -5193,7 +5196,7 @@ void player::suffer()
                 ( has_effect( effect_sleep ) ? 10 : 1 ) ) ) {
         bool auto_use = has_charges( "inhaler", 1 ) || has_charges( "oxygen_tank", 1 ) ||
                         has_charges( "smoxygen_tank", 1 );
-        bool oxygenator = has_bionic( bio_gills ) && power_level >= 3_kJ;
+        bool oxygenator = has_bionic( bio_gills ) && get_power_level() >= 3_kJ;
         if( underwater ) {
             oxygen = oxygen / 2;
             auto_use = false;
@@ -5211,7 +5214,7 @@ void player::suffer()
                               map_inv.has_charges( "smoxygen_tank", 1 );
             // check if character has an oxygenator first
             if( oxygenator ) {
-                charge_power( -3_kJ );
+                mod_power_level( -3_kJ );
                 add_msg_if_player( m_info, _( "You use your Oxygenator to clear it up, "
                                               "then go back to sleep." ) );
             } else if( auto_use ) {
@@ -5525,7 +5528,7 @@ void player::suffer()
                             !has_morale( MORALE_PYROMANIA_STARTFIRE );
     if( has_trait( trait_PYROMANIA ) && needs_fire && !in_sleep_state() &&
         calendar::once_every( 2_hours ) ) {
-        add_morale( MORALE_PYROMANIA_NOFIRE, -1, -30, 24_hours, 24_hours );
+        add_morale( MORALE_PYROMANIA_NOFIRE, -1, -30, 24_hours, 24_hours, true );
         if( calendar::once_every( 4_hours ) ) {
             std::string smokin_hot_fiyah = SNIPPET.random_from_category( "pyromania_withdrawal" );
             add_msg_if_player( m_bad, _( smokin_hot_fiyah ) );
@@ -5692,10 +5695,10 @@ void player::suffer()
                     apply_damage( nullptr, bp_torso, 1 );
                     mod_pain( 1 );
                     add_msg_if_player( m_bad, _( "Your chest burns as your power systems overload!" ) );
-                    charge_power( 50_kJ );
+                    mod_power_level( 50_kJ );
                     power_gen -= 60; // ten units of power lost due to short-circuiting into you
                 }
-                charge_power( units::from_kilojoule( power_gen ) );
+                mod_power_level( units::from_kilojoule( power_gen ) );
             }
         } else {
             slow_rad += ( ( ( reactor_plut * 0.4 ) + ( tank_plut * 0.4 ) ) * 100 );
@@ -5710,12 +5713,12 @@ void player::suffer()
     }
 
     // Negative bionics effects
-    if( has_bionic( bio_dis_shock ) && power_level > 9_kJ && one_turn_in( 2_hours ) &&
+    if( has_bionic( bio_dis_shock ) && get_power_level() > 9_kJ && one_turn_in( 2_hours ) &&
         !has_effect( effect_narcosis ) ) {
         add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
         mod_pain( 1 );
         moves -= 150;
-        charge_power( -10_kJ );
+        mod_power_level( -10_kJ );
 
         if( weapon.typeId() == "e_handcuffs" && weapon.charges > 0 ) {
             weapon.charges -= rng( 1, 3 ) * 50;
@@ -5734,9 +5737,9 @@ void player::suffer()
         sfx::play_variant_sound( "bionics", "acid_discharge", 100 );
         sfx::do_player_death_hurt( g->u, false );
     }
-    if( has_bionic( bio_drain ) && power_level > 24_kJ && one_turn_in( 1_hours ) ) {
+    if( has_bionic( bio_drain ) && get_power_level() > 24_kJ && one_turn_in( 1_hours ) ) {
         add_msg_if_player( m_bad, _( "Your batteries discharge slightly." ) );
-        charge_power( -25_kJ );
+        mod_power_level( -25_kJ );
         sfx::play_variant_sound( "bionics", "elec_crackle_low", 100 );
     }
     if( has_bionic( bio_noise ) && one_turn_in( 50_minutes ) &&
@@ -5751,8 +5754,8 @@ void player::suffer()
         }
         sounds::sound( pos(), 60, sounds::sound_t::movement, _( "Crackle!" ) ); //sfx above
     }
-    if( has_bionic( bio_power_weakness ) && max_power_level > 0_kJ &&
-        power_level >= max_power_level * .75 ) {
+    if( has_bionic( bio_power_weakness ) && has_max_power() &&
+        get_power_level() >= get_max_power_level() * .75 ) {
         mod_str_bonus( -3 );
     }
     if( has_bionic( bio_trip ) && one_turn_in( 50_minutes ) &&
@@ -5771,9 +5774,9 @@ void player::suffer()
         add_effect( effect_downed, 1_turns, num_bp, false, 0, true );
         sfx::play_variant_sound( "bionics", "elec_crackle_high", 100 );
     }
-    if( has_bionic( bio_shakes ) && power_level > 24_kJ && one_turn_in( 2_hours ) ) {
+    if( has_bionic( bio_shakes ) && get_power_level() > 24_kJ && one_turn_in( 2_hours ) ) {
         add_msg_if_player( m_bad, _( "Your bionics short-circuit, causing you to tremble and shiver." ) );
-        charge_power( -25_kJ );
+        mod_power_level( -25_kJ );
         add_effect( effect_shakes, 5_minutes );
         sfx::play_variant_sound( "bionics", "elec_crackle_med", 100 );
     }
@@ -5790,10 +5793,10 @@ void player::suffer()
         add_effect( effect_formication, 10_minutes, bp );
     }
     if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) && one_turn_in( 50_minutes ) &&
-        power_level > 1_kJ ) {
+        get_power_level() > 1_kJ ) {
         add_msg_if_player( m_bad, _( "Your malfunctioning bionic starts to glow!" ) );
         add_effect( effect_glowy_led, 5_minutes );
-        charge_power( -1_kJ );
+        mod_power_level( -1_kJ );
     }
 
     // Artifact effects
@@ -6531,7 +6534,7 @@ void player::process_active_items()
         }
     }
     if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
-        ch_UPS += units::to_kilojoule( power_level );
+        ch_UPS += units::to_kilojoule( get_power_level() );
     }
     int ch_UPS_used = 0;
     if( cloak != nullptr ) {
@@ -6556,7 +6559,7 @@ void player::process_active_items()
     // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
     if( power_armor != nullptr ) {
         const int power_cost = 4;
-        bool bio_powered = can_interface_armor() && power_level > 0_kJ;
+        bool bio_powered = can_interface_armor() && has_power();
         // Bionic power costs are handled elsewhere.
         if( !bio_powered ) {
             if( ch_UPS >= power_cost ) {
@@ -6727,11 +6730,11 @@ bool player::has_fire( const int quantity ) const
                 return true;
             }
         }
-    } else if( has_active_bionic( bio_tools ) && power_level > quantity * 5_kJ ) {
+    } else if( has_active_bionic( bio_tools ) && get_power_level() > quantity * 5_kJ ) {
         return true;
-    } else if( has_bionic( bio_lighter ) && power_level > quantity * 5_kJ ) {
+    } else if( has_bionic( bio_lighter ) && get_power_level() > quantity * 5_kJ ) {
         return true;
-    } else if( has_bionic( bio_laser ) && power_level > quantity * 5_kJ ) {
+    } else if( has_bionic( bio_laser ) && get_power_level() > quantity * 5_kJ ) {
         return true;
     } else if( is_npc() ) {
         // A hack to make NPCs use their Molotovs
@@ -6761,14 +6764,14 @@ void player::use_fire( const int quantity )
                 return;
             }
         }
-    } else if( has_active_bionic( bio_tools ) && power_level > quantity * 5_kJ ) {
-        charge_power( -quantity * 5_kJ );
+    } else if( has_active_bionic( bio_tools ) && get_power_level() > quantity * 5_kJ ) {
+        mod_power_level( -quantity * 5_kJ );
         return;
-    } else if( has_bionic( bio_lighter ) && power_level > quantity * 5_kJ ) {
-        charge_power( -quantity * 5_kJ );
+    } else if( has_bionic( bio_lighter ) && get_power_level() > quantity * 5_kJ ) {
+        mod_power_level( -quantity * 5_kJ );
         return;
-    } else if( has_bionic( bio_laser ) && power_level > quantity * 5_kJ ) {
-        charge_power( -quantity * 5_kJ );
+    } else if( has_bionic( bio_laser ) && get_power_level() > quantity * 5_kJ ) {
+        mod_power_level( -quantity * 5_kJ );
         return;
     }
 }
@@ -6782,7 +6785,7 @@ std::list<item> player::use_charges( const itype_id &what, int qty,
         return res;
 
     } else if( what == "toolset" ) {
-        charge_power( units::from_kilojoule( -qty ) );
+        mod_power_level( units::from_kilojoule( -qty ) );
         return res;
 
     } else if( what == "fire" ) {
@@ -6798,9 +6801,9 @@ std::list<item> player::use_charges( const itype_id &what, int qty,
             qty -= std::min( qty, power_drain );
             return res;
         }
-        if( power_level > 0_kJ && has_active_bionic( bio_ups ) ) {
-            int bio = std::min( units::to_kilojoule( power_level ), qty );
-            charge_power( units::from_kilojoule( -bio ) );
+        if( has_power() && has_active_bionic( bio_ups ) ) {
+            int bio = std::min( units::to_kilojoule( get_power_level() ), qty );
+            mod_power_level( units::from_kilojoule( -bio ) );
             qty -= std::min( qty, bio );
         }
 
@@ -7079,7 +7082,7 @@ bool player::consume( int target_position )
             }
             if( drop_it ) {
                 add_msg( _( "You drop the empty %s." ), target.tname() );
-                g->m.add_item_or_charges( pos(), inv.remove_item( &target ) );
+                put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, { inv.remove_item( &target ) } );
             } else {
                 int quantity = inv.const_stack( inv.position_by_item( &target ) ).size();
                 char letter = target.invlet ? target.invlet : ' ';
@@ -7871,7 +7874,7 @@ bool player::dispose_item( item_location &&obj, const std::string &prompt )
 
     opts.emplace_back( dispose_option {
         _( "Drop item" ), true, '2', 0, [this, &obj] {
-            g->m.add_item_or_charges( pos(), *obj );
+            put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, { *obj } );
             obj.remove_item();
             return true;
         }
@@ -9379,8 +9382,8 @@ void player::try_to_sleep( const time_duration &dur )
     }
     add_msg_if_player( _( "You start trying to fall asleep." ) );
     if( has_active_bionic( bio_soporific ) ) {
-        bio_soporific_powered_at_last_sleep_check = power_level > 0_kJ;
-        if( power_level > 0_kJ ) {
+        bio_soporific_powered_at_last_sleep_check = has_power();
+        if( bio_soporific_powered_at_last_sleep_check ) {
             // The actual bonus is applied in sleep_spot( p ).
             add_msg_if_player( m_good, _( "Your soporific inducer starts working its magic." ) );
         } else {
@@ -9589,12 +9592,12 @@ bool player::can_sleep()
     bool result = sleepy > 0;
 
     if( has_active_bionic( bio_soporific ) ) {
-        if( bio_soporific_powered_at_last_sleep_check && power_level == 0_kJ ) {
+        if( bio_soporific_powered_at_last_sleep_check && !has_power() ) {
             add_msg_if_player( m_bad, _( "Your soporific inducer runs out of power!" ) );
-        } else if( !bio_soporific_powered_at_last_sleep_check && power_level > 0_kJ ) {
+        } else if( !bio_soporific_powered_at_last_sleep_check && has_power() ) {
             add_msg_if_player( m_good, _( "Your soporific inducer starts back up." ) );
         }
-        bio_soporific_powered_at_last_sleep_check = power_level > 0_kJ;
+        bio_soporific_powered_at_last_sleep_check = has_power();
     }
 
     return result;
@@ -9921,234 +9924,6 @@ int player::get_armor_acid( body_part bp ) const
 int player::get_armor_fire( body_part bp ) const
 {
     return get_armor_type( DT_HEAT, bp );
-}
-
-static void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
-{
-    if( who.is_avatar() ) {
-        g->memorial().add(
-            //~ %s is armor name
-            pgettext( "memorial_male", "Worn %s was completely destroyed." ),
-            pgettext( "memorial_female", "Worn %s was completely destroyed." ),
-            pre_damage_name );
-    }
-    who.add_msg_player_or_npc( m_bad, _( "Your %s is completely destroyed!" ),
-                               _( "<npcname>'s %s is completely destroyed!" ),
-                               pre_damage_name );
-}
-
-bool player::armor_absorb( damage_unit &du, item &armor )
-{
-    if( rng( 1, 100 ) > armor.get_coverage() ) {
-        return false;
-    }
-
-    // TODO: add some check for power armor
-    armor.mitigate_damage( du );
-
-    // We want armor's own resistance to this type, not the resistance it grants
-    const int armors_own_resist = armor.damage_resist( du.type, true );
-    if( armors_own_resist > 1000 ) {
-        // This is some weird type that doesn't damage armors
-        return false;
-    }
-
-    // Scale chance of article taking damage based on the number of parts it covers.
-    // This represents large articles being able to take more punishment
-    // before becoming ineffective or being destroyed.
-    const int num_parts_covered = armor.get_covered_body_parts().count();
-    if( !one_in( num_parts_covered ) ) {
-        return false;
-    }
-
-    // Don't damage armor as much when bypassed by armor piercing
-    // Most armor piercing damage comes from bypassing armor, not forcing through
-    const int raw_dmg = du.amount;
-    if( raw_dmg > armors_own_resist ) {
-        // If damage is above armor value, the chance to avoid armor damage is
-        // 50% + 50% * 1/dmg
-        if( one_in( raw_dmg ) || one_in( 2 ) ) {
-            return false;
-        }
-    } else {
-        // Sturdy items and power armors never take chip damage.
-        // Other armors have 0.5% of getting damaged from hits below their armor value.
-        if( armor.has_flag( "STURDY" ) || armor.is_power_armor() || !one_in( 200 ) ) {
-            return false;
-        }
-    }
-
-    auto &material = armor.get_random_material();
-    std::string damage_verb = ( du.type == DT_BASH ) ? material.bash_dmg_verb() :
-                              material.cut_dmg_verb();
-
-    const std::string pre_damage_name = armor.tname();
-    const std::string pre_damage_adj = armor.get_base_material().dmg_adj( armor.damage_level( 4 ) );
-
-    // add "further" if the damage adjective and verb are the same
-    std::string format_string = ( pre_damage_adj == damage_verb ) ?
-                                _( "Your %1$s is %2$s further!" ) : _( "Your %1$s is %2$s!" );
-    add_msg_if_player( m_bad, format_string, pre_damage_name, damage_verb );
-    //item is damaged
-    if( is_player() ) {
-        SCT.add( point( posx(), posy() ), NORTH, remove_color_tags( pre_damage_name ), m_neutral,
-                 damage_verb,
-                 m_info );
-    }
-
-    return armor.mod_damage( armor.has_flag( "FRAGILE" ) ?
-                             rng( 2 * itype::damage_scale, 3 * itype::damage_scale ) : itype::damage_scale, du.type );
-}
-
-float player::bionic_armor_bonus( body_part bp, damage_type dt ) const
-{
-    float result = 0.0f;
-    // We only check the passive bionics
-    if( has_bionic( bio_carbon ) ) {
-        if( dt == DT_BASH ) {
-            result += 2;
-        } else if( dt == DT_CUT || dt == DT_STAB ) {
-            result += 4;
-        }
-    }
-    // All the other bionic armors reduce bash/cut/stab by 3
-    // Map body parts to a set of bionics that protect it
-    // TODO: JSONize passive bionic armor instead of hardcoding it
-    static const std::map< body_part, bionic_id > armor_bionics = {
-        { bp_head, { bio_armor_head } },
-        { bp_arm_l, { bio_armor_arms } },
-        { bp_arm_r, { bio_armor_arms } },
-        { bp_torso, { bio_armor_torso } },
-        { bp_leg_l, { bio_armor_legs } },
-        { bp_leg_r, { bio_armor_legs } },
-        { bp_eyes, { bio_armor_eyes } }
-    };
-    auto iter = armor_bionics.find( bp );
-    if( iter != armor_bionics.end() && has_bionic( iter->second ) &&
-        ( dt == DT_BASH || dt == DT_CUT || dt == DT_STAB ) ) {
-        result += 3;
-    }
-    return result;
-}
-
-void player::passive_absorb_hit( body_part bp, damage_unit &du ) const
-{
-    // >0 check because some mutations provide negative armor
-    // Thin skin check goes before subdermal armor plates because SUBdermal
-    if( du.amount > 0.0f ) {
-        // Horrible hack warning!
-        // Get rid of this as soon as CUT and STAB are split
-        if( du.type == DT_STAB ) {
-            damage_unit du_copy = du;
-            du_copy.type = DT_CUT;
-            du.amount -= mutation_armor( bp, du_copy );
-        } else {
-            du.amount -= mutation_armor( bp, du );
-        }
-    }
-    du.amount -= bionic_armor_bonus( bp, du.type ); //Check for passive armor bionics
-    du.amount -= mabuff_armor_bonus( du.type );
-    du.amount = std::max( 0.0f, du.amount );
-}
-
-void player::absorb_hit( body_part bp, damage_instance &dam )
-{
-    std::list<item> worn_remains;
-    bool armor_destroyed = false;
-
-    for( auto &elem : dam.damage_units ) {
-        if( elem.amount < 0 ) {
-            // Prevents 0 damage hits (like from hallucinations) from ripping armor
-            elem.amount = 0;
-            continue;
-        }
-
-        // The bio_ads CBM absorbs damage before hitting armor
-        if( has_active_bionic( bio_ads ) ) {
-            if( elem.amount > 0 && power_level > 24_kJ ) {
-                if( elem.type == DT_BASH ) {
-                    elem.amount -= rng( 1, 8 );
-                } else if( elem.type == DT_CUT ) {
-                    elem.amount -= rng( 1, 4 );
-                } else if( elem.type == DT_STAB ) {
-                    elem.amount -= rng( 1, 2 );
-                }
-                charge_power( -25_kJ );
-            }
-            if( elem.amount < 0 ) {
-                elem.amount = 0;
-            }
-        }
-
-        // Only the outermost armor can be set on fire
-        bool outermost = true;
-        // The worn vector has the innermost item first, so
-        // iterate reverse to damage the outermost (last in worn vector) first.
-        for( auto iter = worn.rbegin(); iter != worn.rend(); ) {
-            item &armor = *iter;
-
-            if( !armor.covers( bp ) ) {
-                ++iter;
-                continue;
-            }
-
-            const std::string pre_damage_name = armor.tname();
-            bool destroy = false;
-
-            // Heat damage can set armor on fire
-            // Even though it doesn't cause direct physical damage to it
-            if( outermost && elem.type == DT_HEAT && elem.amount >= 1.0f ) {
-                // TODO: Different fire intensity values based on damage
-                fire_data frd{ 2 };
-                destroy = armor.burn( frd );
-                int fuel = roll_remainder( frd.fuel_produced );
-                if( fuel > 0 ) {
-                    add_effect( effect_onfire, time_duration::from_turns( fuel + 1 ), bp, false, 0, false, true );
-                }
-            }
-
-            if( !destroy ) {
-                destroy = armor_absorb( elem, armor );
-            }
-
-            if( destroy ) {
-                if( g->u.sees( *this ) ) {
-                    SCT.add( point( posx(), posy() ), NORTH, remove_color_tags( pre_damage_name ),
-                             m_neutral, _( "destroyed" ), m_info );
-                }
-                destroyed_armor_msg( *this, pre_damage_name );
-                armor_destroyed = true;
-                armor.on_takeoff( *this );
-                worn_remains.insert( worn_remains.end(), armor.contents.begin(), armor.contents.end() );
-                // decltype is the type name of the iterator, note that reverse_iterator::base returns the
-                // iterator to the next element, not the one the revers_iterator points to.
-                // http://stackoverflow.com/questions/1830158/how-to-call-erase-with-a-reverse-iterator
-                iter = decltype( iter )( worn.erase( --( iter.base() ) ) );
-            } else {
-                ++iter;
-                outermost = false;
-            }
-        }
-
-        passive_absorb_hit( bp, elem );
-
-        if( elem.type == DT_BASH ) {
-            if( has_trait( trait_LIGHT_BONES ) ) {
-                elem.amount *= 1.4;
-            }
-            if( has_trait( trait_HOLLOW_BONES ) ) {
-                elem.amount *= 1.8;
-            }
-        }
-
-        elem.amount = std::max( elem.amount, 0.0f );
-    }
-    for( item &remain : worn_remains ) {
-        g->m.add_item_or_charges( pos(), remain );
-    }
-    if( armor_destroyed ) {
-        drop_invalid_inventory();
-    }
 }
 
 int player::get_env_resist( body_part bp ) const
@@ -10672,11 +10447,11 @@ bool player::uncanny_dodge()
 {
     bool is_u = this == &g->u;
     bool seen = g->u.sees( *this );
-    if( this->power_level < 74_kJ || !this->has_active_bionic( bio_uncanny_dodge ) ) {
+    if( this->get_power_level() < 74_kJ || !this->has_active_bionic( bio_uncanny_dodge ) ) {
         return false;
     }
     tripoint adjacent = adjacent_tile();
-    charge_power( -75_kJ );
+    mod_power_level( -75_kJ );
     if( adjacent.x != posx() || adjacent.y != posy() ) {
         position.x = adjacent.x;
         position.y = adjacent.y;
@@ -11848,12 +11623,12 @@ void player::do_skill_rust()
             continue;
         }
 
-        const bool charged_bio_mem = power_level > 25_kJ && has_active_bionic( bio_memory );
+        const bool charged_bio_mem = get_power_level() > 25_kJ && has_active_bionic( bio_memory );
         const int oldSkillLevel = skill_level_obj.level();
         if( skill_level_obj.rust( charged_bio_mem ) ) {
             add_msg_if_player( m_warning,
                                _( "Your knowledge of %s begins to fade, but your memory banks retain it!" ), aSkill.name() );
-            charge_power( -25_kJ );
+            mod_power_level( -25_kJ );
         }
         const int newSkill = skill_level_obj.level();
         if( newSkill < oldSkillLevel ) {

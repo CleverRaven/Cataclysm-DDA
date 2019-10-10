@@ -58,7 +58,7 @@
         "L": "f_locker",
         "h": "f_armchair"
       },
-      "toilets": { "T": { "x": 20, "y": 19 } },
+      "toilets": { "T": {  } },
       "items": {
         "B": [
           { "item": "ss_merch_2", "chance": 20 },

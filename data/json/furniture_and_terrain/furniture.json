@@ -1354,7 +1354,6 @@
       "str_max": 1,
       "sound": "paf!",
       "sound_fail": "poof.",
-      "ter_set": "t_floor",
       "items": [ { "item": "pillow", "count": 19 }, { "item": "blanket", "count": 3 } ]
     }
   },

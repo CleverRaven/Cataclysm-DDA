@@ -114,15 +114,15 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
     return result;
 }
 
-void Single_item_creator::check_consistency() const
+void Single_item_creator::check_consistency( const std::string &context ) const
 {
     if( type == S_ITEM ) {
         if( !item::type_is_defined( id ) ) {
-            debugmsg( "item id %s is unknown", id.c_str() );
+            debugmsg( "item id %s is unknown (in %s)", id, context );
         }
     } else if( type == S_ITEM_GROUP ) {
         if( !item_group::group_is_defined( id ) ) {
-            debugmsg( "item group id %s is unknown", id.c_str() );
+            debugmsg( "item group id %s is unknown (in %s)", id, context );
         }
     } else if( type == S_NONE ) {
         // this is okay, it will be ignored
@@ -130,7 +130,7 @@ void Single_item_creator::check_consistency() const
         debugmsg( "Unknown type of Single_item_creator: %d", static_cast<int>( type ) );
     }
     if( modifier ) {
-        modifier->check_consistency();
+        modifier->check_consistency( context );
     }
 }
 
@@ -301,13 +301,13 @@ void Item_modifier::modify( item &new_item ) const
     }
 }
 
-void Item_modifier::check_consistency() const
+void Item_modifier::check_consistency( const std::string &context ) const
 {
     if( ammo != nullptr ) {
-        ammo->check_consistency();
+        ammo->check_consistency( "ammo of " + context );
     }
     if( container != nullptr ) {
-        container->check_consistency();
+        container->check_consistency( "container of " + context );
     }
     if( with_ammo < 0 || with_ammo > 100 ) {
         debugmsg( "Item modifier's ammo chance %d is out of range", with_ammo );
@@ -432,10 +432,10 @@ item Item_group::create_single( const time_point &birthday, RecursionList &rec )
     return item( null_item_id, birthday );
 }
 
-void Item_group::check_consistency() const
+void Item_group::check_consistency( const std::string &context ) const
 {
     for( const auto &elem : items ) {
-        ( elem )->check_consistency();
+        ( elem )->check_consistency( "item in " + context );
     }
 }
 

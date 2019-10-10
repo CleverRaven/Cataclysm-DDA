@@ -506,7 +506,9 @@ void flashbang( const spell &sp, Creature &caster, const tripoint &target );
 void mod_moves( const spell &sp, Creature &caster, const tripoint &target );
 void map( const spell &sp, Creature &caster, const tripoint & );
 void morale( const spell &sp, Creature &caster, const tripoint &target );
+void charm_monster( const spell &sp, Creature &caster, const tripoint &target );
 void mutate( const spell &sp, Creature &caster, const tripoint &target );
+void bash( const spell &sp, Creature &caster, const tripoint &target );
 void none( const spell &sp, Creature &, const tripoint &target );
 } // namespace spell_effect
 

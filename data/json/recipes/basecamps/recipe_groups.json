@@ -5,7 +5,8 @@
     "building_type": "NONE",
     "recipes": [
       { "id": "faction_base_modular_hub_field_0", "description": "Field Camp", "om_terrains": [ "field" ] },
-      { "id": "faction_base_firestation_0", "description": "Firestation Base", "om_terrains": [ "fire_station" ] }
+      { "id": "faction_base_firestation_0", "description": "Firestation Base", "om_terrains": [ "fire_station" ] },
+      { "id": "faction_base_shelter_0", "description": "Evac Shelter Base", "om_terrains": [ "shelter" ] }
     ]
   },
   {
@@ -15,7 +16,7 @@
     "recipes": [
       { "id": "faction_base_farm_0", "description": "Farm", "om_terrains": [ "field" ] },
       { "id": "faction_base_garage_0", "description": "Garage", "om_terrains": [ "field" ] },
-      { "id": "faction_base_kitchen_0", "description": "Kitchen", "om_terrains": [ "field" ] },
+      { "id": "faction_base_canteen_0", "description": "Kitchen", "om_terrains": [ "field" ] },
       { "id": "faction_base_livestock_0", "description": "Livestock Area", "om_terrains": [ "field" ] },
       { "id": "faction_base_storehouse_0", "description": "Central Storage Building", "om_terrains": [ "field" ] },
       { "id": "faction_base_workshop_0", "description": "Fabrication workshop", "om_terrains": [ "field" ] }
@@ -71,7 +72,8 @@
       { "id": "pemmican", "description": " Cook: Pemmican" },
       { "id": "veggy_aspic", "description": " Cook: Veggy Aspic" },
       { "id": "meat_canned_jarred", "description": " Cook: Meat, Canned" },
-      { "id": "meat_aspic", "description": " Cook: Meat Aspic" }
+      { "id": "meat_aspic", "description": " Cook: Meat Aspic" },
+      { "id": "kompot", "description": " Cook: Kompot" }
     ]
   },
   {

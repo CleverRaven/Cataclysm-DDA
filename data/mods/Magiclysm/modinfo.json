@@ -4,7 +4,7 @@
     "ident": "magiclysm",
     "name": "Magiclysm",
     "authors": [ "KorGgenT", "Aptronym" ],
-    "maintainer": [ "KorGgenT" ],
+    "maintainers": [ "KorGgenT" ],
     "description": "Cataclysm but with magic spells!",
     "category": "content",
     "dependencies": [ "dda" ]

@@ -222,7 +222,6 @@
     "nested_mapgen_id": "lab_room_7x7_wall_nw",
     "object": {
       "mapgensize": [ 8, 8 ],
-      "fill_ter": "t_thconc_floor",
       "rows": [
         "....C...",
         "-LLL-LLL",

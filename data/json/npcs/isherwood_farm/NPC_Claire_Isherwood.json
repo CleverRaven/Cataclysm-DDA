@@ -8,8 +8,6 @@
     "class": "NC_ISHERWOOD_CLAIRE",
     "attitude": 0,
     "mission": 7,
-    "carry_override": "NC_ISHERWOOD_rifle",
-    "weapon_override": "NC_ISHERWOOD_archery",
     "chat": "TALK_ISHERWOOD_CLAIRE",
     "mission_offered": "MISSION_ISHERWOOD_CLAIRE_1",
     "faction": "isherwood_family"
@@ -22,6 +20,8 @@
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
     "bonus_per": { "one_in": 4 },
+    "carry_override": "NC_ISHERWOOD_rifle",
+    "weapon_override": "NC_ISHERWOOD_archery",
     "shopkeeper_item_group": "NC_ISHERWOOD_CLAIRE_misc",
     "skills": [
       {

@@ -1975,6 +1975,11 @@ class item : public visitable<item>
         const std::vector<comp_selection<tool_comp>> &get_cached_tool_selections() const;
 
         std::vector<enchantment> get_enchantments() const;
+        double calculate_by_enchantment( const Character &owner, double modify, enchantment::mod value,
+                                         bool round_value = false ) const;
+        // calculates the enchantment value as if this item were wielded.
+        double calculate_by_enchantment_wield( double modify, enchantment::mod value,
+                                               bool round_value = false ) const;
 
     private:
         /**
