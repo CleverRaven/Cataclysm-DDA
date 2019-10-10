@@ -3,7 +3,7 @@
     "id": "reloaded_shot_bird",
     "copy-from": "shot_bird",
     "type": "AMMO",
-    "name": "reloaded birdshot",
+    "name": "birdshot (reloaded)",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -12,7 +12,7 @@
     "id": "reloaded_shot_dragon",
     "copy-from": "shot_dragon",
     "type": "AMMO",
-    "name": "reloaded dragon's breath shell",
+    "name": "dragon's breath shell (reloaded)",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -21,7 +21,7 @@
     "id": "reloaded_shot_00",
     "copy-from": "shot_00",
     "type": "AMMO",
-    "name": "reloaded 00 shot",
+    "name": "00 shot (reloaded)",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -30,7 +30,7 @@
     "id": "reloaded_shot_flechette",
     "copy-from": "shot_flechette",
     "type": "AMMO",
-    "name": "reloaded flechette shell",
+    "name": "flechette shell (reloaded)",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -39,7 +39,7 @@
     "id": "reloaded_shot_slug",
     "copy-from": "shot_slug",
     "type": "AMMO",
-    "name": "reloaded shotgun slug",
+    "name": "shotgun slug (reloaded)",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -48,7 +48,7 @@
     "id": "bp_shot_bird",
     "copy-from": "shot_bird",
     "type": "AMMO",
-    "name": "blackpowder birdshot",
+    "name": "birdshot (reloaded, blackpowder)",
     "proportional": { "price": 0.6, "damage": 0.8, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -57,7 +57,7 @@
     "id": "bp_shot_dragon",
     "copy-from": "shot_dragon",
     "type": "AMMO",
-    "name": "blackpowder dragon's breath shell",
+    "name": "dragon's breath shell (reloaded, blackpowder)",
     "proportional": { "price": 0.6, "damage": 0.8, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -66,7 +66,7 @@
     "id": "bp_shot_00",
     "copy-from": "shot_00",
     "type": "AMMO",
-    "name": "blackpowder 00 shot",
+    "name": "00 shot (reloaded, blackpowder)",
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
@@ -74,7 +74,7 @@
     "id": "bp_shot_flechette",
     "copy-from": "shot_flechette",
     "type": "AMMO",
-    "name": "blackpowder flechette shell",
+    "name": "flechette shell (reloaded, blackpowder)",
     "proportional": { "price": 0.6, "damage": 0.8, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -83,7 +83,7 @@
     "id": "bp_shot_slug",
     "copy-from": "shot_slug",
     "type": "AMMO",
-    "name": "blackpowder shotgun slug",
+    "name": "shotgun slug (reloaded, blackpowder)",
     "proportional": { "price": 0.6, "damage": 0.8, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -173,7 +173,7 @@
     "id": "shot_scrap",
     "copy-from": "shot_00",
     "type": "AMMO",
-    "name": "makeshift shotgun shot",
+    "name": "00 shot (scrap loaded, blackpowder)",
     "description": "A shotgun shell filled with whatever was lying around.  They are more damaging than birdshot, but fairly inaccurate.",
     "proportional": { "price": 0.4, "damage": 0.6, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -183,7 +183,7 @@
     "id": "bp_shot_scrap",
     "copy-from": "shot_scrap",
     "type": "AMMO",
-    "name": "makeshift shotgun shot (black powder)",
+    "name": "00 shot (scrap loaded, blackpowder)",
     "proportional": { "price": 0.6, "damage": 0.8 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }

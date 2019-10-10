@@ -26,7 +26,7 @@
     "id": "reloaded_45colt_jhp",
     "copy-from": "45colt_jhp",
     "type": "AMMO",
-    "name": "reloaded .45 Colt JHP",
+    "name": ".45 Colt JHP (reloaded)",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }

@@ -45,7 +45,7 @@
     "id": "reloaded_38_fmj",
     "copy-from": "38_fmj",
     "type": "AMMO",
-    "name": "reloaded .38 FMJ",
+    "name": ".38 FMJ (reloaded)",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -54,7 +54,7 @@
     "id": "reloaded_38_special",
     "copy-from": "38_special",
     "type": "AMMO",
-    "name": "reloaded .38 Special",
+    "name": ".38 Special (reloaded)",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -63,7 +63,7 @@
     "id": "reloaded_38_super",
     "copy-from": "38_super",
     "type": "AMMO",
-    "name": "reloaded .38 Super",
+    "name": ".38 Super (reloaded)",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -72,7 +72,7 @@
     "id": "bp_38_fmj",
     "copy-from": "38_fmj",
     "type": "AMMO",
-    "name": ".38 FMJ blackpowder",
+    "name": ".38 FMJ (reloaded, blackpowder)",
     "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -81,7 +81,7 @@
     "id": "bp_38_special",
     "copy-from": "38_special",
     "type": "AMMO",
-    "name": ".38 Special blackpowder",
+    "name": ".38 Special (reloaded, blackpowder)",
     "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }

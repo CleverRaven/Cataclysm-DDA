@@ -37,7 +37,7 @@
     "id": "bp_300blk",
     "copy-from": "300blk",
     "type": "AMMO",
-    "name": ".300 AAC Blackout blackpowder",
+    "name": ".300 AAC Blackout (reloaded, blackpowder)",
     "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -46,7 +46,7 @@
     "id": "reloaded_300blk",
     "copy-from": "300blk",
     "type": "AMMO",
-    "name": "reloaded .300 AAC Blackout",
+    "name": ".300 AAC Blackout (reloaded)",
     "description": ".300 AAC Blackout is an intermediate cartridge that achieves ballistics similar to the 7.62x39 but allows use on the AR-15 platform.  The round is necked-up from the 5.56mm NATO, but feeds from a STANAG magazine.  It requires a specific barrel, so will not work in a standard M4 or similar carbine.  This one has been hand-reloaded.",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },

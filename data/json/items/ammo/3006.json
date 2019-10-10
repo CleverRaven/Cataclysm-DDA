@@ -42,7 +42,7 @@
     "id": "bp_3006",
     "copy-from": "3006",
     "type": "AMMO",
-    "name": ".30-06 Springfield blackpowder",
+    "name": ".30-06 Springfield (reloaded, blackpowder)",
     "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -51,7 +51,7 @@
     "id": "bp_3006_incendiary",
     "copy-from": "3006_incendiary",
     "type": "AMMO",
-    "name": ".30-06 Springfield tracer blackpowder",
+    "name": ".30-06 Springfield tracer (reloaded, blackpowder)",
     "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -60,7 +60,7 @@
     "id": "bp_3006fmj",
     "copy-from": "bp_3006",
     "type": "AMMO",
-    "name": ".30-06 Springfield M2 AP blackpowder",
+    "name": ".30-06 Springfield M2 AP (reloaded, blackpowder)",
     "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -69,7 +69,7 @@
     "id": "reloaded_3006",
     "copy-from": "3006",
     "type": "AMMO",
-    "name": "reloaded .30-06 Springfield",
+    "name": ".30-06 Springfield (reloaded)",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -78,7 +78,7 @@
     "id": "reloaded_3006_incendiary",
     "copy-from": "3006_incendiary",
     "type": "AMMO",
-    "name": "reloaded .30-06 incendiary",
+    "name": ".30-06 incendiary (reloaded)",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -87,7 +87,7 @@
     "id": "reloaded_3006fmj",
     "copy-from": "3006fmj",
     "type": "AMMO",
-    "name": "reloaded .30-06 M2 AP",
+    "name": ".30-06 M2 AP (reloaded)",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }

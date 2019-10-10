@@ -34,7 +34,7 @@
     "id": "reloaded_357sig_fmj",
     "copy-from": "357sig_fmj",
     "type": "AMMO",
-    "name": "reloaded .357 SIG FMJ",
+    "name": ".357 SIG FMJ (reloaded)",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -43,7 +43,7 @@
     "id": "reloaded_357sig_jhp",
     "copy-from": "357sig_jhp",
     "type": "AMMO",
-    "name": "reloaded .357 SIG JHP",
+    "name": ".357 SIG JHP (reloaded)",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
