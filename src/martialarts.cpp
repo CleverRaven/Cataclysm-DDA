@@ -97,7 +97,7 @@ void ma_requirements::load( JsonObject &jo, const std::string & )
     std::map<std::string, damage_type> dt_map = get_dt_map();
     auto iter = dt_map.cbegin();
     while( iter != dt_map.cend() ) {
-        std::string attribute_name = string_format( _( "min_%s_damage" ), iter->first );
+        std::string attribute_name = string_format( "min_%s_damage", iter->first );
 
         add_if_exists( jo, min_damage, was_loaded, attribute_name, iter->second );
         iter++;
