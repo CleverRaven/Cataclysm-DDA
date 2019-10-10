@@ -66,6 +66,7 @@
   {
     "id": "drugs_soldier",
     "type": "item_group",
+    "subtype": "distribution",
     "//": "Healing items appropriate for soldiers and other paramilitary forces",
     "entries": [
       { "item": "1st_aid", "prob": 50 },

@@ -92,7 +92,7 @@
           ]
         },
         "text": "I am you but from an alternate reality.",
-        "trial": { "type": "LIE", "difficulty": 10, "opinion": { "trust": 1, "value": 1 } },
+        "trial": { "type": "LIE", "difficulty": 10, "mod": { "trust": 1, "value": 1 } },
         "success": { "topic": "TALK_FOODPERSON_MULTIVERSE", "opinion": { "trust": 2, "value": 2 } },
         "failure": { "topic": "TALK_FOODPERSON_ONLYONE", "opinion": { "trust": -5, "value": -5 } }
       },

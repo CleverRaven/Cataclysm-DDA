@@ -14,6 +14,7 @@
 #include "enums.h"
 #include "mattack_common.h"
 #include "pathfinding.h"
+#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -201,9 +202,8 @@ struct mon_effect_data {
 struct mtype {
     private:
         friend class MonsterGenerator;
-        std::string name;
-        std::string name_plural;
-        std::string description;
+        translation name;
+        translation description;
 
         std::set< const species_type * > species_ptrs;
 

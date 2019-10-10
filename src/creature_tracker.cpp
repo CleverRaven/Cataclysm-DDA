@@ -89,7 +89,6 @@ bool Creature_tracker::add( std::shared_ptr<monster> critter_ptr )
     return true;
 }
 
-
 void Creature_tracker::add_to_faction_map( std::shared_ptr<monster> critter_ptr )
 {
     assert( critter_ptr );

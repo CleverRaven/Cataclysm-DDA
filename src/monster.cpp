@@ -1155,6 +1155,11 @@ bool monster::is_warm() const
     return has_flag( MF_WARM );
 }
 
+bool monster::in_species( const species_id &spec ) const
+{
+    return type->in_species( spec );
+}
+
 bool monster::is_elec_immune() const
 {
     return is_immune_damage( DT_ELECTRIC );

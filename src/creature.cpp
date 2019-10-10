@@ -56,7 +56,6 @@ const efftype_id effect_ridden( "ridden" );
 const efftype_id effect_tied( "tied" );
 const efftype_id effect_paralyzepoison( "paralyzepoison" );
 
-
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
     {"LARGE", MS_LARGE}, {"HUGE", MS_HUGE}
@@ -894,6 +893,11 @@ void Creature::deal_damage_handle_type( const damage_unit &du, body_part bp, int
 bool Creature::is_warm() const
 {
     return true;
+}
+
+bool Creature::in_species( const species_id & ) const
+{
+    return false;
 }
 
 bool Creature::is_fake() const

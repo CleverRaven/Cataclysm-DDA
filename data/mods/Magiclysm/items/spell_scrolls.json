@@ -617,5 +617,13 @@
     "name": "Scroll of Purification Seed",
     "description": "You summon a gift of the earth which will purify water. Greater levels yield greater numbers of seeds.",
     "use_action": { "type": "learn_spell", "spells": [ "purify_seed" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_lava_bomb",
+    "name": "Scroll of Lava Bomb",
+    "description": "You tear up the ground beneath you to fire a lava bomb: a globe of lava surrounded by hot, solid rock.  It shatters upon impact, spraying shards of rock and lava everywhere.",
+    "use_action": { "type": "learn_spell", "spell": [ "lava_bomb" ] }
   }
 ]
