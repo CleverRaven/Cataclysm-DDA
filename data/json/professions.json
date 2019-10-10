@@ -1451,7 +1451,7 @@
     "name": "Bionic Thief",
     "description": "You have done many high profile heists, but your gains mean nothing in this world.  All you have left are the tools of your trade and your impeccable style.",
     "points": 4,
-    "CBMs": [ "bio_batteries", "bio_lockpick", "bio_fingerhack", "bio_power_storage_mkII" ],
+    "CBMs": [ "bio_batteries", "bio_lockpick", "bio_fingerhack", "bio_storage", "bio_power_storage_mkII" ],
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "smg" } ],
     "items": {
       "both": {

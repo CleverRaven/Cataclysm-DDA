@@ -369,15 +369,6 @@
     "difficulty": 4
   },
   {
-    "id": "bio_storage",
-    "copy-from": "bionic_general_npc_usable",
-    "type": "BIONIC_ITEM",
-    "name": "Internal Storage CBM",
-    "description": "Space inside your chest cavity has been converted into a storage area.  You may carry an extra 2 liters of volume.",
-    "price": 400000,
-    "difficulty": 7
-  },
-  {
     "id": "flamethrower_simple",
     "copy-from": "flamethrower_base",
     "type": "GUN",

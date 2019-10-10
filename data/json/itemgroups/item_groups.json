@@ -5682,6 +5682,7 @@
       [ "bio_fuel_cell_gasoline", 10 ],
       [ "bio_tools", 10 ],
       [ "bio_ups", 10 ],
+      [ "bio_storage", 10 ],
       [ "bio_flashlight", 10 ],
       [ "bio_tattoo_led", 10 ],
       [ "bio_lighter", 10 ],
@@ -5773,6 +5774,7 @@
     "items": [
       [ "bio_power_storage", 10 ],
       [ "bio_tools", 10 ],
+      [ "bio_storage", 10 ],
       [ "bio_flashlight", 10 ],
       [ "bio_fuel_cell_gasoline", 10 ],
       [ "bio_tattoo_led", 10 ],
@@ -6375,6 +6377,7 @@
       [ "flashlight", 40 ],
       [ "water_purifier", 5 ],
       [ "bio_tools", 10 ],
+      [ "bio_storage", 10 ],
       [ "bio_flashlight", 10 ],
       [ "bio_lighter", 10 ],
       [ "bio_magnet", 10 ],

@@ -746,6 +746,15 @@
     "difficulty": 5
   },
   {
+    "id": "bio_storage",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": "Internal Storage CBM",
+    "description": "A bioplastic bladder, implanted inside your abdominal cavity.  You may carry an extra 2 liters of volume.",
+    "price": 400000,
+    "difficulty": 7
+  },
+  {
     "id": "bio_shockwave",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
