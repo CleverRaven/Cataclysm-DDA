@@ -15,7 +15,7 @@
     "initial_charges": 100,
     "max_charges": 100,
     "charges_per_use": 1,
-    "revert_to": "plastic_jack_o_lantern",
+    "ammo": [ "candles" ],
     "use_action": {
       "target": "plastic_jack_o_lantern_lit",
       "msg": "You light the candle in the jack o'lantern.",
