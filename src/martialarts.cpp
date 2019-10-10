@@ -87,7 +87,7 @@ void ma_requirements::load( JsonObject &jo, const std::string & )
     // Minimum skill level attributes
     for( const auto &s : Skill::skills ) {
         std::string skill_name = s.ident().str();
-        std::string attribute_name = string_format( _( "min_%s" ), skill_name );
+        std::string attribute_name = string_format( "min_%s", skill_name );
 
         add_if_exists( jo, min_skill, was_loaded, attribute_name, s.ident() );
     }
