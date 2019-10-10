@@ -229,12 +229,12 @@ std::string bonus_container::get_description() const
         for( const auto &sf : boni.second ) {
             if( sf.stat ) {
                 //~ %1$s: bonus name, %2$d: bonus percentage, %3$s: stat name
-                dump << string_format( "* %1$s: <stat>%2$d%%</stat> of %3$s", type,
-                                       static_cast<int>( sf.scale * 100 ), string_from_scaling_stat( sf.stat ) );
+                dump << string_format( pgettext( "martial art bonus", "* %1$s: <stat>%2$d%%</stat> of %3$s" ),
+                                       type, static_cast<int>( sf.scale * 100 ), string_from_scaling_stat( sf.stat ) );
             } else {
                 //~ %1$s: bonus name, %2$d: bonus percentage
-                dump << string_format( "* %1$s: <stat>%2$d%%</stat>", type,
-                                       static_cast<int>( sf.scale * 100 ) );
+                dump << string_format( pgettext( "martial art bonus", "* %1$s: <stat>%2$d%%</stat>" ),
+                                       type, static_cast<int>( sf.scale * 100 ) );
             }
             dump << std::endl;
         }
@@ -252,12 +252,12 @@ std::string bonus_container::get_description() const
         for( const auto &sf : boni.second ) {
             if( sf.stat ) {
                 //~ %1$s: bonus name, %2$+d: bonus percentage, %3$s: stat name
-                dump << string_format( "* %1$s: <stat>%2$+d%%</stat> of %3$s", type,
-                                       static_cast<int>( sf.scale * 100 ), string_from_scaling_stat( sf.stat ) );
+                dump << string_format( pgettext( "martial art bonus", "* %1$s: <stat>%2$+d%%</stat> of %3$s" ),
+                                       type, static_cast<int>( sf.scale * 100 ), string_from_scaling_stat( sf.stat ) );
             } else {
                 //~ %1$s: bonus name, %2$+d: bonus value
-                dump << string_format( "* %1$s: <stat>%2$+d</stat>", type,
-                                       static_cast<int>( sf.scale ) );
+                dump << string_format( pgettext( "martial art bonus", "* %1$s: <stat>%2$+d</stat>" ),
+                                       type, static_cast<int>( sf.scale ) );
             }
             dump << std::endl;
         }

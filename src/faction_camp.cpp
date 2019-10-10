@@ -388,7 +388,7 @@ std::vector<tripoint> om_companion_path( const tripoint &start, int range_start 
 time_duration companion_travel_time_calc( const tripoint &omt_pos, const tripoint &omt_tgt,
         time_duration work, int trips = 1, int haulage = 0 );
 time_duration companion_travel_time_calc( const std::vector<tripoint> &journey, time_duration work,
-        int trips = 1, int haulauge = 0 );
+        int trips = 1, int haulage = 0 );
 /// Determines how many round trips a given NPC @ref comp will take to move all of the
 /// items @ref itms
 int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp = nullptr );
