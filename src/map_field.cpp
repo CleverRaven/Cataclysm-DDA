@@ -648,7 +648,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         // Nothing to burn = fire should be dying out faster
                         // Drain more power from big fires, so that they stop raging over nothing
                         // Except for fires on stoves and fireplaces, those are made to keep the fire alive
-                        cur.set_field_age( cur.get_field_age() + 10_seconds * cur.get_field_intensity() );
+                        cur.mod_field_age( 10_seconds * cur.get_field_intensity() );
                     }
 
                     // Below we will access our nearest 8 neighbors, so let's cache them now
@@ -785,7 +785,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             dst_ter.has_flag( TFLAG_FLAMMABLE_HARD ) ) {
                             field_entry *nearfire = dst.find_field( fd_fire );
                             if( nearfire != nullptr ) {
-                                nearfire->set_field_age( nearfire->get_field_age() - 2_minutes );
+                                nearfire->mod_field_age( -2_turns );
                             } else {
                                 dst.add_field( fd_fire, 1, 0_turns );
                             }
