@@ -162,6 +162,33 @@
     "components": [ [ [ "meat", 1 ], [ "meat_scrap", 10 ] ] ]
   },
   {
+    "type": "recipe",
+    "result": "dry_mutant_meat",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "18 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "mutant_meat", 1 ], [ "mutant_meat_scrap", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "dry_mutant_meat",
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "mutant_meat", 1 ], [ "mutant_meat_scrap", 10 ] ] ]
+  },
+  {
     "result": "dry_meat_tainted",
     "type": "recipe",
     "category": "CC_FOOD",

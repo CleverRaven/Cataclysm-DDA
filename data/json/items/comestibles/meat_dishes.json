@@ -975,6 +975,16 @@
     "flags": [ "EDIBLE_FROZEN" ]
   },
   {
+    "id": "dry_mutant_meat",
+    "type": "COMESTIBLE",
+    "name": "dehydrated mutant meat",
+    "copy-from": "dry_meat",
+    "description": "Dehydrated meat flakes, sourced from a mutated creature.  With proper storage, this dried food will remain edible for an incredibly long time.  It still tastes strange.",
+    "proportional": { "price": 0.2 },
+    "fun": -2,
+    "healthy": -10
+  },
+  {
     "type": "COMESTIBLE",
     "id": "rehydrated_meat",
     "name": "rehydrated meat",

@@ -427,6 +427,21 @@
   },
   {
     "type": "recipe",
+    "result": "mutant_meat_smoked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "1 h",
+    "charges": 1,
+    "autolearn": true,
+    "batch_time_factors": [ 83, 3 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "char_smoker", 15 ] ] ],
+    "components": [ [ [ "mutant_meat", 1 ], [ "mutant_meat_scrap", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "fish_smoked",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_MEAT",
@@ -2033,6 +2048,31 @@
         [ "chem_saltpetre", 1 ]
       ],
       [ [ "meat", 1 ], [ "meat_scrap", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "mutant_jerky",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "1 h",
+    "charges": 1,
+    "autolearn": true,
+    "batch_time_factors": [ 83, 5 ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [
+      [
+        [ "salt_water", 1 ],
+        [ "saline", 1 ],
+        [ "salt", 1 ],
+        [ "soysauce", 1 ],
+        [ "seasoning_salt", 1 ],
+        [ "pepper", 2 ],
+        [ "chem_saltpetre", 1 ]
+      ],
+      [ [ "mutant_meat", 1 ], [ "mutant_meat_scrap", 10 ] ]
     ]
   },
   {

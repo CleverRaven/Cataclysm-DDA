@@ -110,6 +110,35 @@
     "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "vitB", 0 ] ]
   },
   {
+    "id": "mutant_meat",
+    "copy-from": "meat",
+    "type": "COMESTIBLE",
+    "name": "chunk of mutant meat",
+    "name_plural": "chunks of mutant meat",
+    "description": "Meat from a heavily mutated animal.  It looks and smells... mostly normal.  It will probably be safe to eat, if you cook it.",
+    "looks_like": "meat",
+    "proportional": { "price": 0.2 },
+    "healthy": -15,
+    "fun": -15,
+    "cooks_like": "mutant_meat_cooked",
+    "vitamins": [ [ "vitC", 13 ], [ "calcium", 2 ], [ "iron", 53 ], [ "vitB", 778 ] ],
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "mutant_meat_smoked"
+  },
+  {
+    "id": "mutant_meat_scrap",
+    "copy-from": "meat_scrap",
+    "type": "COMESTIBLE",
+    "name": "scrap of mutant meat",
+    "name_plural": "scraps of mutant meat",
+    "description": "A tiny scrap of meat from a heavily mutated animal.  It's not much, and it smells a bit odd, but it's probably safe to eat if cooked.",
+    "looks_like": "meat_scrap",
+    "cooks_like": "mutant_meat_scrap_cooked",
+    "proportional": { "price": 0.2 },
+    "healthy": -2,
+    "fun": -2
+  },
+  {
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
     "id": "ruined_chunks",
@@ -155,6 +184,29 @@
     "healthy": 0,
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "calories": 51
+  },
+  {
+    "id": "mutant_meat_cooked",
+    "copy-from": "meat_cooked",
+    "type": "COMESTIBLE",
+    "name": "cooked meat",
+    "description": "This is a cooked chunk of meat from a mutated animal.  It's filling, but it looks and smells...  a bit odd.",
+    "looks_like": "meat_cooked",
+    "proportional": { "price": 0.2 },
+    "healthy": -10,
+    "fun": -2
+  },
+  {
+    "id": "mutant_meat_scrap_cooked",
+    "copy-from": "meat_scrap_cooked",
+    "type": "COMESTIBLE",
+    "name": "cooked scrap of meat",
+    "name_plural": "cooked scraps of meat",
+    "description": "A tiny scrap of meat from a heavily mutated animal.  It's not much, and it smells a bit odd, but it's probably safe to eat.",
+    "looks_like": "meat_scrap_cooked",
+    "proportional": { "price": 0.2 },
+    "healthy": -1,
+    "fun": -1
   },
   {
     "id": "offal",
@@ -258,6 +310,18 @@
     "proportional": { "price": 0.64 }
   },
   {
+    "id": "mutant_jerky",
+    "copy-from": "jerky",
+    "type": "COMESTIBLE",
+    "name": "mutant jerky",
+    "name_plural": "mutant jerky",
+    "description": "Salty dried meat from some mutated creature that lasts for a long time, but will make you thirsty.  It doesn't look or taste quite right.",
+    "looks_like": "jerky",
+    "healthy": -10,
+    "fun": -1,
+    "proportional": { "price": 0.2 }
+  },
+  {
     "id": "salted_fish",
     "copy-from": "fish",
     "type": "COMESTIBLE",
@@ -308,6 +372,17 @@
     "fun": 5,
     "flags": [ "EATEN_HOT", "SMOKED", "SMOKABLE" ],
     "smoking_result": "dry_meat"
+  },
+  {
+    "id": "mutant_meat_smoked",
+    "copy-from": "meat_smoked",
+    "type": "COMESTIBLE",
+    "name": "smoked mutant meat",
+    "description": "Meat that has been heavily smoked for preservation.  The weird taste and color have been mostly covered up by the smoke.  It could be further smoked to dehydrate it completely.",
+    "fun": 0,
+    "healthy": -10,
+    "proportional": { "price": 0.2 },
+    "smoking_result": "dry_mutant_meat"
   },
   {
     "id": "fish_smoked",
