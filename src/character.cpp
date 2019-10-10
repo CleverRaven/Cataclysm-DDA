@@ -431,6 +431,64 @@ bool Character::is_mounted() const
     return has_effect( effect_riding ) && mounted_creature;
 }
 
+/** Returns true if the character has two functioning arms */
+bool Character::has_two_arms() const
+{
+    return get_working_arm_count() >= 2;
+}
+
+// working is defined here as not disabled which means arms can be not broken
+// and still not count if they have low enough hitpoints
+int Character::get_working_arm_count() const
+{
+    if( has_active_mutation( trait_id( "SHELL2" ) ) ) {
+        return 0;
+    }
+
+    int limb_count = 0;
+    if( !is_limb_disabled( hp_arm_l ) ) {
+        limb_count++;
+    }
+    if( !is_limb_disabled( hp_arm_r ) ) {
+        limb_count++;
+    }
+    if( has_bionic( bionic_id( "bio_blaster" ) ) && limb_count > 0 ) {
+        limb_count--;
+    }
+
+    return limb_count;
+}
+
+// working is defined here as not broken
+int Character::get_working_leg_count() const
+{
+    int limb_count = 0;
+    if( !is_limb_broken( hp_leg_l ) ) {
+        limb_count++;
+    }
+    if( !is_limb_broken( hp_leg_r ) ) {
+        limb_count++;
+    }
+    return limb_count;
+}
+
+bool Character::is_limb_hindered( hp_part limb ) const
+{
+    return hp_cur[limb] < hp_max[limb] * .40;
+}
+
+bool Character::is_limb_disabled( hp_part limb ) const
+{
+    return hp_cur[limb] <= hp_max[limb] * .125;
+}
+
+// this is the source of truth on if a limb is broken so all code to determine
+// if a limb is broken should point here to make any future changes to breaking easier
+bool Character::is_limb_broken( hp_part limb ) const
+{
+    return hp_cur[limb] == 0;
+}
+
 bool Character::move_effects( bool attacking )
 {
     if( has_effect( effect_downed ) ) {

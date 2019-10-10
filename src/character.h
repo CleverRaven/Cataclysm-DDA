@@ -452,6 +452,19 @@ class Character : public Creature, public visitable<Character>
         static body_part hp_to_bp( hp_part hpart );
 
         bool is_mounted() const;
+
+        /** Returns true if the player has two functioning arms */
+        bool has_two_arms() const;
+        /** Returns the number of functioning arms */
+        int get_working_arm_count() const;
+        /** Returns the number of functioning legs */
+        int get_working_leg_count() const;
+        /** Returns true if the limb is disabled */
+        bool is_limb_disabled( hp_part limb ) const;
+        /** Returns true if the limb is hindered(40% or less hp) */
+        bool is_limb_hindered( hp_part limb ) const;
+        /** Returns true if the limb is broken */
+        bool is_limb_broken( hp_part limb ) const;
         /**
          * Displays menu with body part hp, optionally with hp estimation after healing.
          * Returns selected part.

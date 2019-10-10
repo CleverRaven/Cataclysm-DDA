@@ -912,7 +912,7 @@ bool player::can_leg_block() const
                             skill_id( "unarmed" ) );
 
     // Success conditions.
-    if( hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_r] > 0 ) {
+    if( get_working_leg_count() >= 1 ) {
         if( unarmed_skill >= ma.leg_block ) {
             return true;
         } else if( ma.leg_block_with_bio_armor_legs && has_bionic( bionic_id( "bio_armor_legs" ) ) ) {
@@ -931,7 +931,7 @@ bool player::can_arm_block() const
                             skill_id( "unarmed" ) );
 
     // Success conditions.
-    if( hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_r] > 0 ) {
+    if( !is_limb_broken( hp_arm_l ) || !is_limb_broken( hp_arm_r ) ) {
         if( unarmed_skill >= ma.arm_block ) {
             return true;
         } else if( ma.arm_block_with_bio_armor_arms && has_bionic( bionic_id( "bio_armor_arms" ) ) ) {
