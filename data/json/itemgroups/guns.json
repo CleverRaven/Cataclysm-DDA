@@ -292,8 +292,12 @@
     "id": "guns_shotgun_common",
     "//": "Shotguns commonly owned by citizens and found in many locations.",
     "items": [
-      { "item": "mossberg_500", "prob": 50, "charges-min": 0, "charges-max": 8 },
-      { "item": "remington_870", "prob": 100, "charges-min": 0, "charges-max": 6 },
+      { "item": "mossberg_500", "prob": 33, "charges-min": 0, "charges-max": 8 },
+      { "item": "remington_870", "prob": 35, "charges-min": 0, "charges-max": 6 },
+      { "item": "mossberg_500_security", "prob": 17, "charges-min": 0, "charges-max": 8 },
+      { "item": "remington_870_express", "prob": 18, "charges-min": 0, "charges-max": 6 },
+      { "item": "browning_a5", "prob": 14, "charges-min": 0, "charges-max": 6 },
+      { "item": "mossberg_930", "prob": 15, "charges-min": 0, "charges-max": 6 },
       { "item": "shotgun_d", "prob": 30, "charges-min": 0, "charges-max": 2 },
       { "item": "shotgun_s", "prob": 30 }
     ]
@@ -301,23 +305,27 @@
   {
     "type": "item_group",
     "id": "guns_shotgun_rare",
-    "//": "Less common shotguns including those only used by police/paramilitary forces.",
+    "//": "Uncommon or rare shotguns in civilian posession.",
     "items": [
       { "item": "ksg", "prob": 50, "charges-min": 0, "charges-max": 7 },
-      { "item": "m1014", "prob": 80, "charges-min": 0, "charges-max": 8 },
-      { "item": "rm120c", "prob": 30, "charges-min": 0, "charges-max": 5 },
-      { "item": "rm228", "prob": 30, "charges-min": 0, "charges-max": 10 },
-      { "item": "l_def_12", "prob": 20, "charges-min": 0, "charges-max": 8 },
-      { "item": "saiga_12", "prob": 50, "charges-min": 0, "charges-max": 10 },
-      { "item": "saiga_410", "prob": 40, "charges-min": 0, "charges-max": 10 }
+      { "item": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
+      { "item": "tavor_12", "prob": 5, "charges-min": 0, "charges-max": 16 },
+      { "item": "SPAS_12", "prob": 2, "charges-min": 0, "charges-max": 9 },
+      { "item": "winchester_1887", "prob": 10, "charges-min": 0, "charges-max": 7 },
+      { "item": "winchester_1897", "prob": 7, "charges-min": 0, "charges-max": 6 },
+      { "item": "rm120c", "prob": 5, "charges-min": 0, "charges-max": 5 },
+      { "item": "rm228", "prob": 5, "charges-min": 0, "charges-max": 10 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_shotgun_milspec",
-    "//": "Military specification shotguns only ever found at military sites.",
+    "//": "Military shotguns currently in service.",
     "items": [
       { "item": "rm20", "prob": 20, "charges-min": 0, "charges-max": 20 },
+      { "item": "remington_870_express", "prob": 50, "charges-min": 0, "charges-max": 6 },
+      { "item": "remington_870_breacher", "prob": 20, "charges-min": 0, "charges-max": 6 },
+      { "item": "remington_590", "prob": 50, "charges-min": 0, "charges-max": 6 },
       { "item": "m1014", "prob": 100, "charges-min": 0, "charges-max": 8 }
     ]
   },
@@ -325,7 +333,12 @@
     "type": "item_group",
     "id": "guns_shotgun_obscure",
     "//": "Imported or otherwise very obscure shotguns.",
-    "items": [  ]
+    "items": [
+    { "item": "saiga_12", "prob": 50, "charges-min": 0, "charges-max": 10 },
+    { "item": "streetsweeper", "prob": 4, "charges-min": 0, "charges-max": 10 },
+    { "item": "USAS_12", "prob": 1, "charges-min": 0, "charges-max": 10 },
+    { "item": "saiga_410", "prob": 40, "charges-min": 0, "charges-max": 10 }
+    ]
   },
   {
     "type": "item_group",
@@ -491,6 +504,7 @@
       { "item": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
       { "item": "m4a1", "prob": 35, "charges-min": 0, "charges-max": 30 },
       { "item": "as50", "prob": 5, "charges-min": 0, "charges-max": 10 },
+      { "item": "USAS_12", "prob": 1, "charges-min": 0, "charges-max": 10 },
       { "item": "hk417_13", "prob": 30, "charges-min": 0, "charges-max": 20 }
     ]
   },

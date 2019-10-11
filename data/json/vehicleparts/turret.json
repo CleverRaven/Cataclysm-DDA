@@ -192,15 +192,15 @@
     }
   },
   {
-    "id": "mounted_abzats",
+    "id": "mounted_bigun",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": "mounted automatic shotgun",
-    "item": "abzats",
+    "name": "mounted gatling shotgun",
+    "item": "bigun",
     "color": "green",
     "broken_color": "green",
     "difficulty": 3,
-    "breaks_into": [ { "item": "abzats", "prob": 50 } ],
+    "breaks_into": [ { "item": "bigun", "prob": 50 } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ], [ "shotgun", 1 ] ], "time": 10000 },
       "removal": { "skills": [ [ "mechanics", 1 ] ] }

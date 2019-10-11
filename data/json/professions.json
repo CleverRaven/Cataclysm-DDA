@@ -1254,7 +1254,7 @@
         "entries": [
           { "group": "charged_cell_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "shotgun_d", "ammo-item": "shot_00", "charges": 2, "contents-item": "shoulder_strap" },
+          { "item": "remington_870", "ammo-item": "shot_00", "charges": 5, "contents-item": "shoulder_strap" },
           { "item": "shot_00", "charges": 18, "container-item": "bandolier_shotgun" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]

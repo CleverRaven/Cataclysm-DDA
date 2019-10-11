@@ -713,5 +713,15 @@
     "id": "tool_black_powder_bomb",
     "type": "MIGRATION",
     "replace": "can_bomb"
+  },
+  {
+    "id": "surv_levershotgun",
+    "type": "MIGRATION",
+    "replace": "winchester_1887"
+  },
+  {
+    "id": "l_def_12",
+    "type": "MIGRATION",
+    "replace": "tavor12"
   }
 ]
