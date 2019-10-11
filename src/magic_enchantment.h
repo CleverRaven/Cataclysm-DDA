@@ -132,6 +132,11 @@ class enchantment
         bool was_loaded;
 
         void serialize( JsonOut &jsout ) const;
+
+        // casts all the hit_you_effects on the target
+        void cast_hit_you( Character &caster, const tripoint &target ) const;
+        // casts all the hit_me_effects on self
+        void cast_hit_me( Character &caster ) const;
     private:
         // values that add to the base value
         std::map<mod, int> values_add;
