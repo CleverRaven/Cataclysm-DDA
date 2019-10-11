@@ -288,18 +288,18 @@
     "price": 53800,
     "barrel_length": 0,
     "valid_mod_locations": [
-        [ "accessories", 4 ],
-        [ "barrel", 1 ],
-        [ "bore", 1 ],
-        [ "brass catcher", 1 ],
-        [ "grip mount", 1 ],
-        [ "mechanism", 4 ],
-        [ "rail mount", 1 ],
-        [ "sights", 1 ],
-        [ "sling", 1 ],
-        [ "stock", 1 ],
-        [ "underbarrel mount", 1 ]
-      ]
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 4 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "remington_870_express",
