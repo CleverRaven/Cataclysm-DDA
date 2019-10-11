@@ -334,10 +334,10 @@
     "id": "guns_shotgun_obscure",
     "//": "Imported or otherwise very obscure shotguns.",
     "items": [
-    { "item": "saiga_12", "prob": 50, "charges-min": 0, "charges-max": 10 },
-    { "item": "streetsweeper", "prob": 4, "charges-min": 0, "charges-max": 12 },
-    { "item": "USAS_12", "prob": 1, "charges-min": 0, "charges-max": 10 },
-    { "item": "saiga_410", "prob": 40, "charges-min": 0, "charges-max": 10 }
+      { "item": "saiga_12", "prob": 50, "charges-min": 0, "charges-max": 10 },
+      { "item": "streetsweeper", "prob": 4, "charges-min": 0, "charges-max": 12 },
+      { "item": "USAS_12", "prob": 1, "charges-min": 0, "charges-max": 10 },
+      { "item": "saiga_410", "prob": 40, "charges-min": 0, "charges-max": 10 }
     ]
   },
   {
