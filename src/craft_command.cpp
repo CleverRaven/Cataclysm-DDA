@@ -261,6 +261,11 @@ item craft_command::create_in_progress_craft()
     return new_craft;
 }
 
+skill_id craft_command::get_skill_id()
+{
+    return rec->skill_used;
+}
+
 std::vector<comp_selection<item_comp>> craft_command::check_item_components_missing(
                                         const inventory &map_inv ) const
 {
