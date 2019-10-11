@@ -6,15 +6,12 @@
     "subcategory": "CSC_CHEM_MUTAGEN",
     "skill_used": "cooking",
     "skills_required": [ "firstaid", 5 ],
-    "difficulty": 10,
+    "difficulty": 9,
     "time": "55 m",
-    "book_learn": [ [ "ancient_tome_notes", 9 ] ],
-    "using": [ [ "mutagen_production_standard", 50 ] ],
-    "components": [
-      [ [ "mutagen_lizard", 2 ], [ "iv_mutagen_lizard", 1 ] ],
-      [ [ "purifier", 2 ], [ "iv_purifier", 1 ] ],
-      [ [ "mutagen_raptor", 2 ], [ "iv_mutagen_raptor", 1 ] ]
-    ],
+    "batch_time_factors": [ 80, 20 ],
+    "book_learn": [ [ "black_dragons", 9 ] ],
+    "using": [ [ "mutagen_production_standard", 25 ] ],
+    "components": [ [ [ "dragon_essence", 1 ] ], [ [ "dragon_black_scale", 2 ] ] ],
     "flags": [ "SECRET" ]
   },
   {
@@ -29,106 +26,7 @@
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "bdragon_ancient_tome", 9 ] ],
     "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_bdragon", 2 ] ], [ [ "iv_purifier", 1 ] ] ],
-    "flags": [ "SECRET" ]
-  },
-  {
-    "type": "recipe",
-    "result": "mutagen_bldragon",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_MUTAGEN",
-    "skill_used": "cooking",
-    "skills_required": [ "firstaid", 5 ],
-    "difficulty": 10,
-    "time": "55 m",
-    "book_learn": [ [ "ancient_tome_notes", 9 ] ],
-    "using": [ [ "mutagen_production_standard", 50 ] ],
-    "components": [
-      [ [ "mutagen_lizard", 2 ], [ "iv_mutagen_lizard", 1 ] ],
-      [ [ "purifier", 2 ], [ "iv_purifier", 1 ] ],
-      [ [ "mutagen_raptor", 2 ], [ "iv_mutagen_raptor", 1 ] ]
-    ],
-    "flags": [ "SECRET" ]
-  },
-  {
-    "type": "recipe",
-    "result": "iv_mutagen_bldragon",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_MUTAGEN",
-    "skill_used": "cooking",
-    "skills_required": [ "firstaid", 8 ],
-    "difficulty": 10,
-    "time": "2 h",
-    "batch_time_factors": [ 20, 5 ],
-    "book_learn": [ [ "bldragon_ancient_tome", 9 ] ],
-    "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_bldragon", 2 ] ], [ [ "iv_purifier", 1 ] ] ],
-    "flags": [ "SECRET" ]
-  },
-  {
-    "type": "recipe",
-    "result": "mutagen_rdragon",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_MUTAGEN",
-    "skill_used": "cooking",
-    "skills_required": [ "firstaid", 5 ],
-    "difficulty": 10,
-    "time": "55 m",
-    "book_learn": [ [ "ancient_tome_notes", 9 ] ],
-    "using": [ [ "mutagen_production_standard", 50 ] ],
-    "components": [
-      [ [ "mutagen_lizard", 2 ], [ "iv_mutagen_lizard", 1 ] ],
-      [ [ "purifier", 2 ], [ "iv_purifier", 1 ] ],
-      [ [ "mutagen_raptor", 2 ], [ "iv_mutagen_raptor", 1 ] ]
-    ],
-    "flags": [ "SECRET" ]
-  },
-  {
-    "type": "recipe",
-    "result": "iv_mutagen_rdragon",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_MUTAGEN",
-    "skill_used": "cooking",
-    "skills_required": [ "firstaid", 8 ],
-    "difficulty": 10,
-    "time": "2 h",
-    "batch_time_factors": [ 20, 5 ],
-    "book_learn": [ [ "rdragon_ancient_tome", 9 ] ],
-    "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_rdragon", 2 ] ], [ [ "iv_purifier", 1 ] ] ],
-    "flags": [ "SECRET" ]
-  },
-  {
-    "type": "recipe",
-    "result": "mutagen_wdragon",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_MUTAGEN",
-    "skill_used": "cooking",
-    "skills_required": [ "firstaid", 5 ],
-    "difficulty": 10,
-    "time": "55 m",
-    "book_learn": [ [ "ancient_tome_notes", 9 ] ],
-    "using": [ [ "mutagen_production_standard", 50 ] ],
-    "components": [
-      [ [ "mutagen_lizard", 2 ], [ "iv_mutagen_lizard", 1 ] ],
-      [ [ "purifier", 2 ], [ "iv_purifier", 1 ] ],
-      [ [ "mutagen_raptor", 2 ], [ "iv_mutagen_raptor", 1 ] ]
-    ],
-    "flags": [ "SECRET" ]
-  },
-  {
-    "type": "recipe",
-    "result": "iv_mutagen_wdragon",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_MUTAGEN",
-    "skill_used": "cooking",
-    "skills_required": [ "firstaid", 8 ],
-    "difficulty": 10,
-    "time": "2 h",
-    "batch_time_factors": [ 20, 5 ],
-    "book_learn": [ [ "wdragon_ancient_tome", 9 ] ],
-    "using": [ [ "serum_production_standard", 37 ] ],
-    "components": [ [ [ "mutagen_wdragon", 2 ] ], [ [ "iv_purifier", 1 ] ] ],
+    "components": [ [ [ "mutagen_bdragon", 2 ] ], [ [ "dragon_heart_black", 1 ] ] ],
     "flags": [ "SECRET" ]
   }
 ]

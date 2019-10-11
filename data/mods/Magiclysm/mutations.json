@@ -371,7 +371,7 @@
       "chance": 40,
       "base_damage": { "damage_type": "cut", "amount": 15 }
     },
-    "passive_mods": { "str_mod": 1, "dex_mod": 1 }
+    "passive_mods": { "str_mod": 1, "dex_mod": -1 }
   },
   {
     "type": "mutation",
@@ -410,11 +410,11 @@
     "attacks": {
       "attack_text_u": "You smash %s with your tail",
       "attack_text_npc": "%1$s smashes %2$s with their tail",
-      "chance": 40,
-      "base_damage": { "damage_type": "bash", "amount": 15 }
+      "chance": 25,
+      "base_damage": { "damage_type": "bash", "amount": 20 }
     },
-    "dodge_modifier": 2,
-    "passive_mods": { "str_mod": 1, "dex_mod": 1 }
+    "dodge_modifier": 1,
+    "passive_mods": { "str_mod": 1 }
   },
   {
     "type": "mutation",
@@ -691,36 +691,36 @@
   },
   {
     "type": "mutation",
-    "id": "DEX_UP_2",
-    "name": "Very Dextrous",
+    "id": "INT_UP",
+    "name": "Smart",
+    "points": 1,
+    "description": "You are a little smarter.  Intelligence + 1",
+    "changes_to": [ "INT_UP_2", "INT_ALPHA", "INT_SLIME" ],
+    "category": [ "SLIME", "ALPHA", "BDRAGON", "RDRAGON", "BLDRAGON", "WDRAGON" ],
+    "passive_mods": { "int_mod": 1 }
+  },
+  {
+    "type": "mutation",
+    "id": "INT_UP_2",
+    "name": "Very Smart",
     "points": 2,
-    "description": "You are nimbler.  Dexterity + 2",
-    "prereqs": [ "DEX_UP" ],
-    "changes_to": [ "DEX_UP_3" ],
-    "category": [ "LIZARD", "SPIDER", "CHIMERA", "RAPTOR", "MOUSE", "BDRAGON", "RDRAGON", "BLDRAGON", "WDRAGON" ],
-    "passive_mods": { "dex_mod": 2 }
+    "description": "You are smarter.  Intelligence + 2",
+    "prereqs": [ "INT_UP" ],
+    "changes_to": [ "INT_UP_3" ],
+    "passive_mods": { "int_mod": 2 }
   },
   {
     "type": "mutation",
-    "id": "DEX_UP_3",
-    "name": "Extremely Dextrous",
+    "id": "INT_UP_3",
+    "name": "Extremely Smart",
     "points": 3,
-    "description": "You are nimble and quick.  Dexterity + 4",
-    "prereqs": [ "DEX_UP_2" ],
-    "changes_to": [ "DEX_UP_4" ],
-    "category": [ "BIRD", "ELFA", "FELINE", "BDRAGON", "RDRAGON", "BLDRAGON", "WDRAGON" ],
-    "passive_mods": { "dex_mod": 4 }
-  },
-  {
-    "type": "mutation",
-    "id": "DEX_UP_4",
-    "name": "Insanely Dextrous",
-    "points": 4,
-    "description": "You are much nimbler than before.  Dexterity + 7",
-    "prereqs": [ "DEX_UP_3" ],
-    "threshreq": [ "THRESH_CEPHALOPOD", "THRESH_FISH", "THRESH_BDRAGON", "THRESH_RDRAGON", "THRESH_BLDRAGON", "THRESH_WDRAGON" ],
-    "category": [ "CEPHALOPOD", "FISH", "BDRAGON", "RDRAGON", "BLDRAGON", "WDRAGON" ],
-    "passive_mods": { "dex_mod": 7 }
+    "visibility": 1,
+    "ugliness": 1,
+    "description": "You are much smarter, and your skull bulges slightly.  Intelligence + 4",
+    "prereqs": [ "INT_UP_2" ],
+    "changes_to": [ "INT_UP_4" ],
+    "category": [ "ELFA", "BDRAGON", "RDRAGON", "BLDRAGON", "WDRAGON" ],
+    "passive_mods": { "int_mod": 4 }
   },
   {
     "type": "mutation",
@@ -760,7 +760,7 @@
     "points": 1,
     "visibility": 10,
     "ugliness": -5,
-    "description": "You have grown large, dextrous wings that help you move more quickly and can be used to bash your enemies",
+    "description": "You have grown large, scaled wings that help protect your torso and head and can be used to bash your enemies",
     "purifiable": false,
     "encumbrance_always": [ [ "TORSO", 10 ] ],
     "types": [ "WINGS" ],
@@ -771,9 +771,10 @@
     "attacks": {
       "attack_text_u": "You smash %s with your wings",
       "attack_text_npc": "%1$s smashes %2$s with their wings",
-      "chance": 40,
+      "chance": 30,
       "base_damage": { "damage_type": "bash", "amount": 20 }
-    }
+    },
+	"armor": [ { "parts": [ "TORSO", "HEAD" ], "cut": 5, "bash": 5, "stab": 5 } ]
   },
   {
     "type": "mutation",
@@ -914,6 +915,12 @@
     "restricts_gear": [ "FOOT_L", "FOOT_R" ],
     "destroys_gear": true,
     "armor": [ { "parts": [ "FOOT_L", "FOOT_R", "LEG_L", "LEG_R" ], "bash": 5, "cut": 5, "stab": 5 } ],
+	"encumbrance_always": [ 
+	  [ "FOOT_L", 5 ],
+	  [ "FOOT_R", 5 ],
+	  [ "LEG_L", 5 ],
+	  [ "LEG_R", 5 ]
+	],
     "attacks": {
       "attack_text_u": "You kick %s with your claws",
       "attack_text_npc": "%1$s kicks %2$s with their claws",
@@ -984,60 +991,36 @@
     "id": "ACID_BREATH",
     "name": "Acid Breath",
     "points": 3,
-    "description": "You now spit acid on command, rather than vomit.",
+    "description": "You can now spit acid unlocking the Acid Breath spell.",
     "prereqs": [ "VOMITOUS", "BDRAGON_FANGS" ],
-    "threshreq": [ "THRESH_BDRAGON" ],
-    "attacks": {
-      "attack_text_u": "You breath acid on %s",
-      "attack_text_npc": "%1$s breathes acid on %2$s",
-      "chance": 30,
-      "base_damage": { "damage_type": "acid", "amount": 15 }
-    }
+    "threshreq": [ "THRESH_BDRAGON" ]
   },
   {
     "type": "mutation",
     "id": "LIGHTNING_BREATH",
     "name": "Lightning Breath",
     "points": 3,
-    "description": "You now spit Lightning on command, rather than vomit.",
+    "description": "You can now spit Lightning unlocking the Lightning Breath spell.",
     "prereqs": [ "VOMITOUS", "BLDRAGON_FANGS" ],
-    "threshreq": [ "THRESH_BLDRAGON" ],
-    "attacks": {
-      "attack_text_u": "You breath lightning on %s",
-      "attack_text_npc": "%1$s breathes lightning on %2$s",
-      "chance": 30,
-      "base_damage": { "damage_type": "electric", "amount": 15 }
-    }
+    "threshreq": [ "THRESH_BLDRAGON" ]
   },
   {
     "type": "mutation",
     "id": "FIRE_BREATH",
     "name": "Fire Breath",
     "points": 3,
-    "description": "You now spit fire on command, rather than vomit.",
+    "description": "You can now spit fire unlocking the Fire Breath spell.",
     "prereqs": [ "VOMITOUS", "RDRAGON_FANGS" ],
-    "threshreq": [ "THRESH_RDRAGON" ],
-    "attacks": {
-      "attack_text_u": "You breath fire on %s",
-      "attack_text_npc": "%1$s breathes fire on %2$s",
-      "chance": 30,
-      "base_damage": { "damage_type": "heat", "amount": 15 }
-    }
+    "threshreq": [ "THRESH_RDRAGON" ]
   },
   {
     "type": "mutation",
     "id": "FROST_BREATH",
     "name": "Frost Breath",
     "points": 3,
-    "description": "You now spit frost on command, rather than vomit.",
+    "description": "You can now spit frost unlocking the Frost Breath spell.",
     "prereqs": [ "VOMITOUS", "WDRAGON_FANGS" ],
-    "threshreq": [ "THRESH_WDRAGON" ],
-    "attacks": {
-      "attack_text_u": "You breath frost on %s",
-      "attack_text_npc": "%1$s breathes frost on %2$s",
-      "chance": 30,
-      "base_damage": { "damage_type": "cold", "amount": 15 }
-    }
+    "threshreq": [ "THRESH_WDRAGON" ]
   },
   {
     "type": "mutation",
@@ -1076,7 +1059,7 @@
       "attack_text_u": "You stab %s with your white dragon horns",
       "attack_text_npc": "%1$s stabs %2$s with their white dragon horns",
       "chance": 22,
-      "base_damage": [ { "damage_type": "stab", "amount": 24 }, { "damage_type": "cold", "amount": 10 } ]
+      "base_damage": [ { "damage_type": "stab", "amount": 15 }, { "damage_type": "cold", "amount": 10 } ]
     }
   },
   {
@@ -1094,10 +1077,10 @@
     "category": [ "BLDRAGON" ],
     "allow_soft_gear": true,
     "attacks": {
-      "attack_text_u": "You stab %s with your white dragon horns",
-      "attack_text_npc": "%1$s stabs %2$s with their white dragon horns",
+      "attack_text_u": "You stab %s with your blue dragon horns",
+      "attack_text_npc": "%1$s stabs %2$s with their blue dragon horns",
       "chance": 22,
-      "base_damage": [ { "damage_type": "stab", "amount": 24 }, { "damage_type": "electric", "amount": 10 } ]
+      "base_damage": [ { "damage_type": "stab", "amount": 15 }, { "damage_type": "electric", "amount": 10 } ]
     }
   },
   {
@@ -1115,10 +1098,10 @@
     "category": [ "BDRAGON" ],
     "allow_soft_gear": true,
     "attacks": {
-      "attack_text_u": "You stab %s with your white dragon horns",
-      "attack_text_npc": "%1$s stabs %2$s with their white dragon horns",
+      "attack_text_u": "You stab %s with your black dragon horns",
+      "attack_text_npc": "%1$s stabs %2$s with their black dragon horns",
       "chance": 22,
-      "base_damage": [ { "damage_type": "stab", "amount": 24 }, { "damage_type": "acid", "amount": 10 } ]
+      "base_damage": [ { "damage_type": "stab", "amount": 15 }, { "damage_type": "acid", "amount": 10 } ]
     }
   },
   {
@@ -1136,10 +1119,10 @@
     "category": [ "RDRAGON" ],
     "allow_soft_gear": true,
     "attacks": {
-      "attack_text_u": "You stab %s with your white dragon horns",
-      "attack_text_npc": "%1$s stabs %2$s with their white dragon horns",
+      "attack_text_u": "You stab %s with your red dragon horns",
+      "attack_text_npc": "%1$s stabs %2$s with their red dragon horns",
       "chance": 22,
-      "base_damage": [ { "damage_type": "stab", "amount": 24 }, { "damage_type": "heat", "amount": 10 } ]
+      "base_damage": [ { "damage_type": "stab", "amount": 15 }, { "damage_type": "heat", "amount": 10 } ]
     }
   }
 ]
