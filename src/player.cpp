@@ -10069,7 +10069,7 @@ int player::adjust_for_focus( int amount ) const
     return roll_remainder( tmp );
 }
 
-void player::practice( const skill_id &id, int amount, int cap )
+void player::practice( const skill_id &id, int amount, int cap, bool suppress_warning )
 {
     SkillLevel &level = get_skill_level_object( id );
     const Skill &skill = id.obj();
@@ -10121,13 +10121,10 @@ void player::practice( const skill_id &id, int amount, int cap )
 
     if( amount > 0 && get_skill_level( id ) > cap ) { //blunt grinding cap implementation for crafting
         amount = 0;
-        if( is_player() && one_in( 5 ) ) { //remind the player intermittently that no skill gain takes place
-            int curLevel = get_skill_level( id );
-            add_msg( m_info, _( "This task is too simple to train your %s beyond %d." ),
-                     skill_name, curLevel );
+        if( !suppress_warning ) {
+            handle_skill_warning( id, false );
         }
     }
-
     if( amount > 0 && level.isTraining() ) {
         int oldLevel = get_skill_level( id );
         get_skill_level_object( id ).train( amount );
@@ -10152,6 +10149,21 @@ void player::practice( const skill_id &id, int amount, int cap )
     }
 
     get_skill_level_object( id ).practice();
+}
+
+void player::handle_skill_warning( const skill_id &id, bool force_warning )
+{
+    //remind the player intermittently that no skill gain takes place
+    if( is_player() && ( force_warning || one_in( 5 ) ) ) {
+        SkillLevel &level = get_skill_level_object( id );
+
+        const Skill &skill = id.obj();
+        std::string skill_name = skill.name();
+        int curLevel = level.level();
+
+        add_msg( m_info, _( "This task is too simple to train your %s beyond %d." ),
+                 skill_name, curLevel );
+    }
 }
 
 int player::exceeds_recipe_requirements( const recipe &rec ) const
