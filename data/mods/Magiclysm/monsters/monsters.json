@@ -269,7 +269,7 @@
     "vision_day": 20,
     "vision_night": 20,
     "harvest": "stirge",
-    "special_attacks": [ [ "blood_suck", 3 ] ],
+    "special_attacks": [ { "type": "spell", "spell_id": "blood_suck", "spell_level": 3, "cooldown": 3 } ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE", "SWARMS" ]
