@@ -46,16 +46,12 @@
     "dispersion": 855,
     "durability": 8,
     "burst": 6,
-    "clip_size": 6,
     "reload": 200,
     "valid_mod_locations": [
       [ "accessories", 4 ],
-      [ "grip", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "rail mount", 1 ]
     ],
     "magazines": [ [ "shot", [ "shotbelt_20" ] ] ],
     "flags": [ "MOUNTED_GUN" ]
