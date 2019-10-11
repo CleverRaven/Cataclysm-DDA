@@ -893,6 +893,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": "510 m",
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
     "components": [ [ [ "stick", 3 ] ] ]
   },
@@ -907,6 +908,7 @@
     "autolearn": false,
     "never_learn": true,
     "time": "1530 m",
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "pointy_stick", 68 ] ] ]
   },
@@ -921,7 +923,7 @@
     "never_learn": true,
     "construction_blueprint": "faction_base_field_camp_blacksmith_0",
     "blueprint_name": "Blacksmithy survey",
-    "blueprint_requires": [ { "id": "faction_base_field_camp_blacksmith_1" } ],
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
     "time": "180 m"
   },
   {
