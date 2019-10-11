@@ -1,0 +1,86 @@
+[
+  {
+    "id": "mboots_sevenleague",
+    "type": "ARMOR",
+    "copy-from": "boots_hiking",
+    "name": "seven league boots",
+    "name_plural": "pairs of seven league boots",
+    "looks-like": "boots_hiking",
+    "description": "Rugged yet extremely comfortable and well fitting boots of worn leather and steel, they look like they've seen a lot of use and will likely see a lot more.  They make your movement a lot less work.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -30 } ] } ] },
+    "encumbrance": 8,
+    "warmth": 30,
+    "material_thickness": 3,
+    "environmental_protection": 3,
+    "flags": [ "WATERPROOF", "STURDY" ]
+  },
+  {
+    "id": "mboots_haste",
+    "type": "ARMOR",
+    "copy-from": "boots_hiking",
+    "name": "boots of haste",
+    "name_plural": "pairs of boots of haste",
+    "looks-like": "boots_hiking",
+    "description": "Rugged yet extremely comfortable and well fitting boots of worn leather and steel, they look like they've seen a lot of use and will likely see a lot more.  They make your movement a lot less work.",
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -20 } ] },
+        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 10 } ] }
+      ]
+    },
+    "encumbrance": 8,
+    "warmth": 30,
+    "material_thickness": 3,
+    "environmental_protection": 3,
+    "flags": [ "WATERPROOF", "STURDY" ]
+  },
+  {
+    "id": "mboots_escape",
+    "type": "ARMOR",
+    "copy-from": "boots_hiking",
+    "name": "escape boots",
+    "name_plural": "escape boots",
+    "looks-like": "boots_hiking",
+    "description": "Rugged yet extremely comfortable and well fitting boots of worn leather and steel, these boots can be activated once a day to escape from nasty situations, teleporting you a good distance in a random direction.",
+    "initial_charges": 24,
+    "charges": 24,
+    "max_charges": 24,
+    "charges_per_use": 24,
+    "artifact_data": { "charge_type": "ARTC_TIME" },
+    "use_action": { "type": "cast_spell", "spell_id": "magus_escape", "no_fail": true, "level": 10, "need_worn": true },
+    "encumbrance": 8,
+    "warmth": 30,
+    "material_thickness": 3,
+    "environmental_protection": 3,
+    "flags": [ "WATERPROOF", "STURDY" ]
+  },
+  {
+    "id": "mboots_silence",
+    "type": "ARMOR",
+    "copy-from": "boots_hiking",
+    "name": "boots of the silent walker",
+    "name_plural": "pairs of boots of the silent walker",
+    "looks-like": "boots_hiking",
+    "description": "Rugged yet extremely comfortable and well fitting boots of worn leather and steel, they look like they've seen a lot of use and will likely see a lot more.  They make your movement very quiet.",
+    "encumbrance": 8,
+    "warmth": 30,
+    "material_thickness": 3,
+    "environmental_protection": 3,
+    "flags": [ "WATERPROOF", "STURDY" ],
+    "artifact_data": { "effects_worn": [ "AEP_STEALTH" ] }
+  },
+  {
+    "id": "mboots_grounding",
+    "type": "ARMOR",
+    "copy-from": "boots_hiking",
+    "name": "boots of grounding",
+    "name_plural": "pairs of boots of grounding",
+    "looks-like": "boots_hiking",
+    "description": "Rugged yet extremely comfortable and well fitting boots of leather with small engraved runes seemingly filled with rubber.  When worn, you are immune to damage from electricity.",
+    "encumbrance": 8,
+    "warmth": 30,
+    "material_thickness": 3,
+    "environmental_protection": 3,
+    "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
+  }
+]
