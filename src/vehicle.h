@@ -772,7 +772,7 @@ class vehicle
         // project a tileray forward to predict obstacles
         std::set<point> immediate_path( int rotate = 0 );
         void autopilot_patrol();
-        void drive_to_local_target( const tripoint target, bool follow_protocol );
+        void drive_to_local_target( tripoint target, bool follow_protocol );
         void do_autodrive();
         /**
          *  Operate vehicle controls
