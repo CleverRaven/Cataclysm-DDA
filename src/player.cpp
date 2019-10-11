@@ -2793,6 +2793,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
             add_effect( effect_downed, 2_turns );
         }
     }
+    Character::on_hit( source, bp_hit, 0.0f, proj );
 }
 
 int player::get_lift_assist() const

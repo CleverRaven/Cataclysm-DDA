@@ -401,6 +401,11 @@ class Character : public Creature, public visitable<Character>
          */
         void check_item_encumbrance_flag();
 
+        // any side effects that might happen when the Character is hit
+        void on_hit( Creature *source, body_part /*bp_hit*/,
+                     float /*difficulty*/, dealt_projectile_attack const *const /*proj*/ ) override;
+        // any side effects that might happen when the Character hits a Creature
+        void did_hit( Creature &target );
 
         /**
          * Check for relevant passive, non-clothing that can absorb damage, and reduce by specified

@@ -381,3 +381,17 @@ void enchantment::activate_passive( Character &guy ) const
     guy.mod_speed_bonus( get_value_add( mod::SPEED ) );
     guy.mod_speed_bonus( mult_bonus( mod::SPEED, guy.get_speed_base() ) );
 }
+
+void enchantment::cast_hit_you( Character &caster, const tripoint &target ) const
+{
+    for( const fake_spell &sp : hit_you_effect ) {
+        sp.get_spell( sp.level ).cast_all_effects( caster, target );
+    }
+}
+
+void enchantment::cast_hit_me( Character &caster ) const
+{
+    for( const fake_spell &sp : hit_me_effect ) {
+        sp.get_spell( sp.level ).cast_all_effects( caster, caster.pos() );
+    }
+}
