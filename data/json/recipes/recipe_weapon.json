@@ -1870,7 +1870,7 @@
     "difficulty": 7,
     "time": "3 h",
     "autolearn": true,
-    "using": [ [ "welding_standard", 20 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 25 ] ],
     "qualities": [
       { "id": "SAW_M", "level": 1 },
       { "id": "SAW_M_FINE", "level": 1 },
@@ -1881,8 +1881,13 @@
       [ [ "xlframe", 1 ] ],
       [ [ "foot_crank", 1 ] ],
       [ [ "spring", 1 ] ],
+      [ [ "sheet_metal_small", 12 ] ],
       [ [ "pipe", 6 ] ],
-      [ [ "duct_tape", 100 ] ],
+      [ [ "chain", 1 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "cable", 4 ] ],
+      [ [ "spring", 6 ] ],
       [ [ "scrap", 2 ] ]
     ]
   },
@@ -3071,35 +3076,6 @@
       [ [ "small_lcd_screen", 1 ] ],
       [ [ "battery_ups", 1 ] ],
       [ [ "small_storage_battery", 2 ], [ "UPS_off", 2 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "abzats",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "mechanics", 6 ], [ "gun", 4 ] ],
-    "difficulty": 6,
-    "time": "3 h",
-    "autolearn": true,
-    "qualities": [
-      { "id": "SAW_M", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "HAMMER", "level": 2 },
-      { "id": "GLARE", "level": 2 }
-    ],
-    "tools": [
-      [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ],
-      [ [ "small_repairkit", 150 ], [ "large_repairkit", 30 ] ]
-    ],
-    "components": [
-      [ [ "m2browning", 1 ] ],
-      [ [ "2x4", 1 ] ],
-      [ [ "pipe", 1 ] ],
-      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
     ]
   },
   {

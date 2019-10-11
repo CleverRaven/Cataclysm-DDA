@@ -226,10 +226,11 @@
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
       "dispersion_modifier": 10,
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
+      "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
     },
-    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "flags": [ "PUMP_RAIL_COMPATIBLE" ]
   },
   {
     "id": "masterkey",
