@@ -1327,6 +1327,7 @@
     "min_melee": 1,
     "melee_allowed": true,
     "block_counter": true,
+    "crit_ok": true,
     "knockback_dist": 1,
     "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ]
   },
