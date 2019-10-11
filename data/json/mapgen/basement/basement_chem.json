@@ -5,7 +5,7 @@
     "om_terrain": [ "basement" ],
     "weight": 250,
     "object": {
-	"rotation": [ 0, 3 ],
+    "rotation": [ 0, 3 ],
       "fill_ter": "t_rock",
       "rows": [
         "                        ",
@@ -128,7 +128,7 @@
         "c": "t_linoleum_gray",
         "U": "t_linoleum_gray",
         "X": "t_linoleum_gray",
-        "W": "t_linoleum_gray",		
+        "W": "t_linoleum_gray",
         "E": "t_linoleum_gray",
         "i": "t_linoleum_gray",
         "&": "t_linoleum_gray",
