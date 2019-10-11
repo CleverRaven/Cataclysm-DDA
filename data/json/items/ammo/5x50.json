@@ -38,7 +38,7 @@
     "id": "reloaded_5x50dart",
     "copy-from": "5x50dart",
     "type": "AMMO",
-    "name": "5x50mm flechette (reloaded)",
+    "name": "5x50mm flechette, reloaded",
     "description": "Designed to defeat modern body armor, the Rivtech 5x50mm flechette round features a biodegradable sabot and a single, fin-stabilized penetrator.  This one has been hand-reloaded.",
     "effects": [ "COOKOFF", "RECYCLED" ],
     "relative": { "range": -15, "dispersion": 40 },

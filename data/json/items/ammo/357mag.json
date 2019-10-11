@@ -34,7 +34,7 @@
     "id": "bp_357mag_fmj",
     "copy-from": "357mag_fmj",
     "type": "AMMO",
-    "name": ".357 Magnum FMJ (reloaded, blackpowder)",
+    "name": ".357 Magnum FMJ, blackpowder",
     "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -43,7 +43,7 @@
     "id": "bp_357mag_jhp",
     "copy-from": "357mag_jhp",
     "type": "AMMO",
-    "name": ".357 Magnum JHP (reloaded, blackpowder)",
+    "name": ".357 Magnum JHP, blackpowder",
     "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -52,16 +52,16 @@
     "id": "reloaded_357mag_fmj",
     "copy-from": "357mag_fmj",
     "type": "AMMO",
-    "name": ".357 Magnum FMJ (reloaded)",
-    "name_plural": ".357 Magnum FMJ (reloaded)",
+    "name": ".357 Magnum FMJ, reloaded",
+    "name_plural": ".357 Magnum FMJ, reloaded",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1, "recoil": 0.9 }
   },
   {
     "id": "reloaded_357mag_jhp",
     "copy-from": "357mag_jhp",
     "type": "AMMO",
-    "name": ".357 Magnum JHP (reloaded)",
-    "name_plural": ".357 Magnum JHP (reloaded)",
+    "name": ".357 Magnum JHP, reloaded",
+    "name_plural": ".357 Magnum JHP, reloaded",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1, "recoil": 0.9 }
   }
 ]

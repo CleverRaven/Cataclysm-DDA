@@ -21,7 +21,7 @@
     "id": "bp_460_fmj",
     "copy-from": "460_fmj",
     "type": "AMMO",
-    "name": ".460 Rowland FMJ (reloaded, blackpowder)",
+    "name": ".460 Rowland FMJ, blackpowder",
     "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -30,7 +30,7 @@
     "id": "bp_460_rowland",
     "copy-from": "460_rowland",
     "type": "AMMO",
-    "name": ".460 Rowland (reloaded, blackpowder)",
+    "name": ".460 Rowland, blackpowder",
     "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -39,7 +39,7 @@
     "id": "reloaded_460_fmj",
     "copy-from": "460_fmj",
     "type": "AMMO",
-    "name": ".460 Rowland FMJ (reloaded)",
+    "name": ".460 Rowland FMJ, reloaded",
     "description": "A brass-jacketed variant of the .460 Rowland round.  This increases penetration slightly at the cost of reduced damage from expansion.",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -49,7 +49,7 @@
     "id": "reloaded_460_rowland",
     "copy-from": "460_rowland",
     "type": "AMMO",
-    "name": ".460 Rowland (reloaded)",
+    "name": ".460 Rowland, reloaded",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }

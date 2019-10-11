@@ -26,7 +26,7 @@
     "id": "bp_300_winmag",
     "copy-from": "300_winmag",
     "type": "AMMO",
-    "name": ".300 Winchester Magnum (reloaded, blackpowder)",
+    "name": ".300 Winchester Magnum, blackpowder",
     "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
@@ -35,7 +35,7 @@
     "id": "reloaded_300_winmag",
     "copy-from": "300_winmag",
     "type": "AMMO",
-    "name": ".300 Winchester Magnum (reloaded)",
+    "name": ".300 Winchester Magnum, reloaded",
     "description": "The .300 Winchester Magnum is extremely versatile and has been adopted by many shooting disciplines.  The cartridge has found use by hunters, military units, and law enforcement departments.  This one has been hand-reloaded.",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
