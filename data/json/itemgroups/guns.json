@@ -305,7 +305,7 @@
   {
     "type": "item_group",
     "id": "guns_shotgun_rare",
-    "//": "Uncommon or rare shotguns in civilian posession.",
+    "//": "Uncommon or rare shotguns in civilian possession.",
     "items": [
       { "item": "ksg", "prob": 50, "charges-min": 0, "charges-max": 7 },
       { "item": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
