@@ -88,6 +88,6 @@
       "7": { "item": "office_paper", "chance": 30 }
     },
     "toilets": { "t": {  } },
-    "vendingmachines": { "D": { "itemgroup": "vending_drink" }, "V": { "itemgroup": "vending_food" } }
+    "vendingmachines": { "D": { "item_group": "vending_drink" }, "V": { "item_group": "vending_food" } }
   }
 ]

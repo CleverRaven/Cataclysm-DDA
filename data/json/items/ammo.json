@@ -15,7 +15,6 @@
     "volume": "250 ml",
     "//": "Setting battery volume to 0 causes weirdness in vehicle tests.  Please don't do that.",
     "ammo_type": "battery",
-    "reload_time": 1,
     "count": 100,
     "//2": "1 battery is 1 kJ of energy. 40 batteries is an alkaline C-cell.",
     "fuel": { "energy": 1 }

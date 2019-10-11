@@ -3226,6 +3226,12 @@
   },
   {
     "type": "item_group",
+    "id": "allclothes_damaged",
+    "subtype": "distribution",
+    "items": [ { "group": "allclothes", "damage": [ 3, 4 ] } ]
+  },
+  {
+    "type": "item_group",
     "id": "traveler",
     "items": [
       [ "daypack", 20 ],
@@ -5854,8 +5860,7 @@
       [ "smokebomb", 50 ],
       [ "dynamite", 50 ],
       [ "mininuke", 5 ],
-      [ "c4", 50 ],
-      [ "tool_black_powder_bomb", 10 ]
+      [ "c4", 50 ]
     ]
   },
   {
@@ -7462,6 +7467,7 @@
       [ "geiger_off", 8 ],
       [ "rad_monitor", 2 ],
       [ "teleporter", 10 ],
+      [ "RTG_coffee", 2 ],
       [ "canister_goo", 8 ],
       [ "EMPbomb", 2 ],
       [ "pheromone", 1 ],

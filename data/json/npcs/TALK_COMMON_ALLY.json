@@ -780,6 +780,7 @@
     "type": "talk_topic",
     "dynamic_line": { "npc_has_activity": "I'm currently <current_activity>.", "no": "I'm not doing much currently." },
     "responses": [
+      { "text": "I meant what are your goals?", "topic": "TALK_DESCRIBE_MISSION" },
       { "text": "Carry on.", "topic": "TALK_DONE" },
       {
         "text": "Please stop your current activity.",

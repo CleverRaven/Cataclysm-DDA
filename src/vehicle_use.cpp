@@ -258,7 +258,7 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
                 keybind( "TOGGLE_PLANTER" ), "PLANTER" );
     add_toggle( pgettext( "electronics menu option", "rockwheel" ),
                 keybind( "TOGGLE_PLOW" ), "ROCKWHEEL" );
-    add_toggle( pgettext( "electronics menu option", "rockhead" ),
+    add_toggle( pgettext( "electronics menu option", "roadheader" ),
                 keybind( "TOGGLE_PLOW" ), "ROADHEAD" );
     add_toggle( pgettext( "electronics menu option", "scoop" ),
                 keybind( "TOGGLE_SCOOP" ), "SCOOP" );
@@ -854,12 +854,10 @@ bool vehicle::start_engine( const int e )
     if( out_of_fuel ) {
         if( einfo.fuel_type == fuel_type_muscle ) {
             // Muscle engines cannot start with broken limbs
-            if( einfo.has_flag( "MUSCLE_ARMS" ) && ( g->u.hp_cur[hp_arm_l] == 0 ||
-                    g->u.hp_cur[hp_arm_r] == 0 ) ) {
+            if( einfo.has_flag( "MUSCLE_ARMS" ) && ( g->u.get_working_arm_count() >= 2 ) ) {
                 add_msg( _( "You cannot use %s with a broken arm." ), eng.name() );
                 return false;
-            } else if( einfo.has_flag( "MUSCLE_LEGS" ) && ( g->u.hp_cur[hp_leg_l] == 0 ||
-                       g->u.hp_cur[hp_leg_r] == 0 ) ) {
+            } else if( einfo.has_flag( "MUSCLE_LEGS" ) && ( g->u.get_working_leg_count() >= 2 ) ) {
                 add_msg( _( "You cannot use %s with a broken leg." ), eng.name() );
                 return false;
             }

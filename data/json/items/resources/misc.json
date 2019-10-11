@@ -47,5 +47,23 @@
     "symbol": "0",
     "color": "white",
     "use_action": { "type": "deploy_furn", "furn_type": "f_feather_mattress" }
+  },
+  {
+    "id": "fuse",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": "fuse",
+    "name_plural": "fuse",
+    "description": "A piece of fuse, long enough to give you enough time to get away from most explosions.",
+    "weight": "6 g",
+    "volume": "80 ml",
+    "price": 500,
+    "container": "bag_plastic",
+    "material": [ "cotton" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "count": 50,
+    "ammo_type": "components",
+    "effects": [ "COOKOFF" ]
   }
 ]

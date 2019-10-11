@@ -75,7 +75,7 @@
     "type": "talk_topic",
     "id": "TALK_RANCH_FOREMAN_Nunez",
     "dynamic_line": "we're still in early stages of getting set up, but we're not overly flush for hands, that's for sure.  If they're willing to put in a hard day's work, we can get them busy.",
-    "speaker_effect": { "u_add_var": { "u_add_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_2" } },
+    "speaker_effect": { "effect": { "u_add_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_2" } },
     "responses": [ { "text": "I'll tell them that, but they seemed good for a bit of hard labor.", "topic": "TALK_RANCH_FOREMAN" } ]
   },
   {
