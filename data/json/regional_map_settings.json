@@ -687,6 +687,7 @@
         "s_electronics_1": 400,
         "pawn": 300,
         "pawn_1": 300,
+        "pawn_pf": 50,
         "mil_surplus": 200,
         "mil_surplus_1": 200,
         "mil_surplus_2": 200,
