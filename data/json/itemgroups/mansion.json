@@ -983,6 +983,7 @@
       [ "gold_ear", 10 ],
       [ "bone_tainted", 5 ],
       [ "silver_ear", 5 ],
+      [ "bead_ear", 5 ],
       [ "platinum_ear", 1 ],
       { "group": "corpse_mansion", "prob": 5 },
       { "group": "neckties", "prob": 1 }
