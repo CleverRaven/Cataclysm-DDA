@@ -47,12 +47,7 @@
     "durability": 8,
     "burst": 6,
     "reload": 200,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "rail mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "rail mount", 1 ] ],
     "magazines": [ [ "shot", [ "shotbelt_20" ] ] ],
     "flags": [ "MOUNTED_GUN" ]
   },
@@ -591,7 +586,6 @@
     "volume": "2564 ml",
     "looks_like": "remington_870_express",
     "price": 850000,
-    "to_hit": 0,
     "bashing": 11,
     "material": [ "steel", "wood" ],
     "ranged_damage": 2,

@@ -325,7 +325,7 @@
       { "item": "rm20", "prob": 20, "charges-min": 0, "charges-max": 20 },
       { "item": "remington_870_express", "prob": 50, "charges-min": 0, "charges-max": 6 },
       { "item": "remington_870_breacher", "prob": 20, "charges-min": 0, "charges-max": 4 },
-      { "item": "remington_590", "prob": 50, "charges-min": 0, "charges-max": 9 },
+      { "item": "mossberg_590", "prob": 50, "charges-min": 0, "charges-max": 9 },
       { "item": "m1014", "prob": 100, "charges-min": 0, "charges-max": 8 }
     ]
   },
@@ -349,8 +349,7 @@
       { "item": "bigun", "prob": 10, "charges-min": 0, "charges-max": 6 },
       { "item": "pipe_double_shotgun", "prob": 70, "charges-min": 0, "charges-max": 2 },
       { "item": "pipe_shotgun", "prob": 100 },
-      { "item": "revolver_shotgun", "prob": 30, "charges-min": 0, "charges-max": 6 },
-      { "item": "surv_levershotgun", "prob": 40, "charges-min": 0, "charges-max": 8 }
+      { "item": "revolver_shotgun", "prob": 30, "charges-min": 0, "charges-max": 6 }
     ]
   },
   {

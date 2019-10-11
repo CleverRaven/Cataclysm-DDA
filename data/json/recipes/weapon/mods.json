@@ -1,5 +1,19 @@
 [
   {
+    "result": "arredondo_chute",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "skills_required": [ [ "gun", 2 ] ],
+    "time": "30 m",
+    "book_learn": [ [ "mag_guns", 4 ], [ "mag_pistol", 4 ], [ "mag_shotgun", 4 ], [ "mag_rifle", 4 ] ],
+    "using": [ [ "soldering_standard", 15 ] ],
+    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [ [ [ "scrap", 4 ] ], [ [ "sheet_metal_small", 4 ] ] ]
+  },
+  {
     "result": "improve_sights",
     "type": "recipe",
     "category": "CC_WEAPON",
