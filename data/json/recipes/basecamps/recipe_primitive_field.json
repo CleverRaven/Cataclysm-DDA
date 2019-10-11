@@ -921,6 +921,7 @@
     "never_learn": true,
     "construction_blueprint": "faction_base_field_camp_blacksmith_0",
     "blueprint_name": "Blacksmithy survey",
+    "blueprint_requires": [ { "id": "faction_base_field_camp_blacksmith_1" } ],
     "time": "180 m"
   },
   {
