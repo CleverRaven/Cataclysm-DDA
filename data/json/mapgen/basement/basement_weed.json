@@ -1,55 +1,100 @@
 [
   {
+    "id": "weed_farm",
+    "type": "item_group",
+    "items": [
+      { "item": "weed", "prob": 70, "count-min": 0, "count-max": 4 },
+      { "item": "seed_weed", "prob": 60 },
+      { "item": "cannabis", "prob": 50 },
+      { "item": "withered", "prob": 70 }
+    ]
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "basement" ],
-    "weight": 500,
+    "weight": 250,
     "object": {
+	"rotation": [ 0, 3 ],
       "fill_ter": "t_rock",
-      "rotation": [ 0, 3 ],
       "rows": [
-        "|----------------------|",
-        "|c....................c|",
-        "|c.ddd..ddd..ddd..ddd.c|",
-        "|c.ddd..ddd..ddd..ddd.c|",
-        "|c.ddd..ddd..ddd..ddd.c|",
-        "|c....................c|",
-        "|c.ddd..ddd..ddd..ddd.c|",
-        "|c.ddd..ddd..ddd..ddd.c|",
-        "|c.ddd..ddd..ddd..ddd.c|",
-        "|c....................c|",
-        "|c.ddd..ddd..ddd..ddd.c|",
-        "|c.ddd..ddd..ddd..ddd.c|",
-        "|c.ddd..ddd..ddd..ddd.c|",
-        "|c....................c|",
-        "|c....................c|",
-        "|......................|",
-        "|.........|++|.........|",
-        "|.........|..|.........|",
-        "|.........|<<|.........|",
-        "------------------------",
+        "                        ",
+        "                        ",
+        "       |||||||||        ",
+        "       |R__Gccc|        ",
+        "       |R____hc|        ",
+        "       |R_____R|        ",
+        "   ||||||||+||||||||    ",
+        "   |QQQQQQ,,,QQQQQQ|    ",
+        "   |T,,,,,,,,,,,,,T|    ",
+        "   |QQQQQQT,TQQQQQQ|    ",
+        "   |A,,,,,,,,,,,,,A|    ",
+        "   |QQQQQQ,,,QQQQQQ|    ",
+        "   ||||||||++|||||||    ",
+        "   |C_____+__XXX|       ",
+        "   |C_U|WH|__XXX|       ",
+        "   ||||||||__||||       ",
+        "          |++|          ",
+        "          |..|          ",
+        "          |<<|          ",
+        "          ||||          ",
         "                        ",
         "                        ",
         "                        ",
         "                        "
       ],
       "terrain": {
-        "+": "t_door_c",
-        "-": "t_wall",
-        ".": "t_rock_floor",
+        "|": "t_wall",
         "<": "t_stairs_up",
-        "c": "t_rock_floor",
-        "d": "t_dirt",
-        "|": "t_wall"
+        "+": "t_door_c",
+        ".": "t_floor",
+        "_": "t_linoleum_gray",
+        "C": "t_linoleum_gray",
+        "X": "t_linoleum_gray",
+        "W": "t_linoleum_gray",
+        "G": "t_linoleum_gray",
+        "R": "t_linoleum_gray",
+        "H": "t_linoleum_gray",
+        "c": "t_linoleum_gray",
+        "h": "t_linoleum_gray",
+        "U": "t_linoleum_gray",
+        ",": "t_linoleum_white",
+        "A": "t_linoleum_white",
+        "Q": "t_linoleum_white",
+        "T": "t_linoleum_white"
       },
-      "furniture": { "c": "f_counter" },
-      "place_loot": [
-        { "item": "seed_weed", "x": [ 3, 20 ], "y": [ 2, 12 ], "chance": 96, "repeat": [ 1, 10 ] },
-        { "item": "weed", "x": [ 3, 20 ], "y": [ 2, 12 ], "chance": 80, "repeat": [ 1, 10 ] },
-        { "group": "stoner", "x": 1, "y": [ 1, 14 ], "chance": 10, "repeat": [ 1, 10 ] },
-        { "group": "stoner", "x": 22, "y": [ 1, 14 ], "chance": 10, "repeat": [ 1, 10 ] }
-      ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 23 ], "y": [ 1, 19 ], "chance": 2 } ]
+      "liquids": { "H": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
+      "sealed_item": { "Q": { "item": { "item": "seed_weed" }, "furniture": "f_planter_mature" } },
+      "furniture": {
+        "T": "f_workbench",
+        "G": "f_glass_cabinet",
+        "c": "f_table",
+        "h": "f_chair",
+        "R": "f_rack",
+        "A": "f_air_filter",
+        "C": "f_air_conditioner",
+        "H": "f_water_heater",
+        "W": [ "f_water_purifier", "f_home_furnace" ],
+        "X": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ],
+        "U": "f_utility_shelf"
+      },
+      "items": {
+        "T": [ { "item": "supplies_farming", "chance": 70 }, { "item": "weed_farm", "chance": 50 } ],
+        "R": [ { "item": "weed_farm", "chance": 70 } ],
+        "c": [
+          { "item": "stoner", "chance": 70 },
+          { "item": "office_breakroom", "chance": 30 },
+          { "item": "homeguns", "chance": 5 }
+        ],
+        "G": [ { "item": "office_paper", "chance": 40 }, { "item": "dollar_books", "chance": 40 } ],
+        "U": [ { "item": "home_hw", "chance": 50 } ],
+        "X": [
+          { "item": "supplies_farming", "chance": 50 },
+          { "item": "cleaning", "chance": 50 },
+          { "item": "chem_home", "chance": 50 }
+        ]
+      },
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 6, 23 ], "y": [ 6, 12 ] } ]
     }
   }
 ]
