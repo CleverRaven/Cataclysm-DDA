@@ -34,6 +34,7 @@
       [ "pistol_bayonet", 10 ],
       [ "pistol_scope", 10 ],
       [ "pistol_stock", 10 ],
+      [ "arredondo_chute", 20 ],
       [ "rail_laser_sight", 40 ],
       [ "red_dot_sight", 70 ],
       [ "recoil_stock", 60 ],

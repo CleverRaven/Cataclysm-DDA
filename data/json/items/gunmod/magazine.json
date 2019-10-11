@@ -32,7 +32,16 @@
     "symbol": ":",
     "color": "green",
     "location": "magazine",
-    "mod_targets": [ "m1014", "mossberg_500", "remington_870" ],
+    "mod_targets": [
+      "m1014",
+      "mossberg_930",
+      "mossberg_500",
+      "mossberg_500_security",
+      "mossberg_590",
+      "remington_870",
+      "remington_870_express",
+      "remington_870_breacher"
+    ],
     "acceptable_ammo": [ "shot" ],
     "install_time": "8 m",
     "magazine_adaptor": [ [ "shot", [ "shot_speedloader6", "shot_speedloader8" ] ] ],

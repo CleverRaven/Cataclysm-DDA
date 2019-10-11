@@ -273,6 +273,8 @@
     "items": [
       [ "saiga10mag", 50 ],
       [ "saiga30mag", 10 ],
+      [ "USAS10mag", 20 ],
+      [ "USAS20mag", 5 ],
       [ "saiga410mag_10rd", 30 ],
       [ "saiga410mag_30rd", 10 ],
       [ "shot_speedloader6", 15 ],
