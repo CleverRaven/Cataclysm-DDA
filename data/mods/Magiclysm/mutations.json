@@ -774,7 +774,7 @@
       "chance": 30,
       "base_damage": { "damage_type": "bash", "amount": 20 }
     },
-	"armor": [ { "parts": [ "TORSO", "HEAD" ], "cut": 5, "bash": 5, "stab": 5 } ]
+    "armor": [ { "parts": [ "TORSO", "HEAD" ], "cut": 5, "bash": 5, "stab": 5 } ]
   },
   {
     "type": "mutation",
@@ -915,12 +915,7 @@
     "restricts_gear": [ "FOOT_L", "FOOT_R" ],
     "destroys_gear": true,
     "armor": [ { "parts": [ "FOOT_L", "FOOT_R", "LEG_L", "LEG_R" ], "bash": 5, "cut": 5, "stab": 5 } ],
-	"encumbrance_always": [ 
-	  [ "FOOT_L", 5 ],
-	  [ "FOOT_R", 5 ],
-	  [ "LEG_L", 5 ],
-	  [ "LEG_R", 5 ]
-	],
+    "encumbrance_always": [ [ "FOOT_L", 5 ], [ "FOOT_R", 5 ], [ "LEG_L", 5 ], [ "LEG_R", 5 ] ],
     "attacks": {
       "attack_text_u": "You kick %s with your claws",
       "attack_text_npc": "%1$s kicks %2$s with their claws",
