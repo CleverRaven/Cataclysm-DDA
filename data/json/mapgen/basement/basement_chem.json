@@ -5,7 +5,7 @@
     "om_terrain": [ "basement" ],
     "weight": 250,
     "object": {
-    "rotation": [ 0, 3 ],
+      "rotation": [ 0, 3 ],
       "fill_ter": "t_rock",
       "rows": [
         "                        ",
@@ -92,6 +92,7 @@
     "om_terrain": [ "basement" ],
     "weight": 200,
     "object": {
+      "rotation": [ 0, 3 ],
       "fill_ter": "t_rock",
       "rows": [
         "                        ",
