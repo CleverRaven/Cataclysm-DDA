@@ -566,7 +566,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
     check_dead_state();
     did_hit( t );
     if( t.as_character() ) {
-        dealt_projectile_attack &dp = dealt_projectile_attack();
+        dealt_projectile_attack dp = dealt_projectile_attack();
         t.as_character()->on_hit( this, body_part::num_bp, 0.0f, &dp );
     }
     return;
