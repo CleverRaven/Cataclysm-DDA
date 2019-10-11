@@ -2250,18 +2250,16 @@ void monster::drop_items_on_death()
     if( type->death_drops.empty() ) {
         return;
     }
-    auto dropped = g->m.put_items_from_loc( type->death_drops, pos(),
-                                            calendar::start_of_cataclysm );
+
+    std::vector<item> items = item_group::items_from( type->death_drops, calendar::start_of_cataclysm );
 
     // This block removes some items, according to item spawn scaling factor
     const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
     if( spawn_rate < 1 ) {
-        // Temporary vector, to remember which items were kept
-        std::vector<item *> remaining;
-        for( item *const it : dropped ) {
-            if( rng_float( 0, 1 ) > spawn_rate ) {
-                g->m.i_rem( pos(), it );
-            } else {
+        // Temporary vector, to remember which items will be dropped
+        std::vector<item> remaining;
+        for( item it : items ) {
+            if( rng_float( 0, 1 ) < spawn_rate ) {
                 remaining.push_back( it );
             }
         }
@@ -2269,8 +2267,10 @@ void monster::drop_items_on_death()
         if( remaining.size() == 0 ) {
             return;
         }
-        dropped = remaining;
+        items = remaining;
     }
+
+    const auto dropped = g->m.spawn_items( pos(), items );
 
     if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
         for( const auto &it : dropped ) {
