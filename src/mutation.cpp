@@ -477,8 +477,8 @@ void player::activate_mutation( const trait_id &mut )
                            _( "You focus, and with a pleasant splitting feeling, birth a new slimespring!" ) );
         slime->friendly = -1;
         if( one_in( 3 ) ) {
-            //~ Usual enthusiastic slimespring small voices! :D
             add_msg_if_player( m_good,
+                               //~ Usual enthusiastic slimespring small voices! :D
                                _( "wow!  you look just like me!  we should look out for each other!" ) );
         } else if( one_in( 2 ) ) {
             //~ Usual enthusiastic slimespring small voices! :D
