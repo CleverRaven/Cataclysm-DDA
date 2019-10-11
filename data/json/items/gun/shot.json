@@ -46,6 +46,7 @@
     "dispersion": 855,
     "durability": 8,
     "burst": 6,
+    "ups_charges": 1,
     "reload": 200,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "rail mount", 1 ] ],
     "magazines": [ [ "shot", [ "shotbelt_20" ] ] ],
