@@ -178,7 +178,8 @@
     "volume": "2737 ml",
     "default_mods": [ "sights_mount", "underbarrel_mount" ],
     "price": 70000,
-    "barrel_length": 0
+    "barrel_length": 0,
+    "clip_size": 9
   },
   {
     "id": "mossberg_930",
@@ -280,7 +281,7 @@
     "skill": "pistol",
     "//": "todo:update max supported range to 300MOA or find alt. soln.",
     "sight_dispersion": 1000,
-    "clip_size": 3,
+    "clip_size": 4,
     "handling_modifier": -6,
     "default_mods": [ "sights_mount" ],
     "price": 53800,
@@ -493,7 +494,7 @@
     "material": [ "steel", "wood" ],
     "dispersion": 320,
     "durability": 6,
-    "clip_size": 15,
+    "clip_size": 16,
     "sight_dispersion": 1000,
     "ranged_damage": 1,
     "valid_mod_locations": [
