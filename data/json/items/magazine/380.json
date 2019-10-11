@@ -94,5 +94,21 @@
     "capacity": 10,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "taurusspectrummag",
+    "type": "MAGAZINE",
+    "name": "Taurus Spectrum magazine",
+    "description": "A compact, 6-round steel box magazine for use with the Taurus Spectrum.",
+    "weight": "65 g",
+    "volume": "74 ml",
+    "price": 3400,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "380",
+    "capacity": 6,
+    "reliability": 8,
+    "flags": [ "MAG_COMPACT" ]
   }
 ]

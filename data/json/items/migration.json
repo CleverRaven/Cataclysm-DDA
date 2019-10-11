@@ -713,5 +713,15 @@
     "id": "tool_black_powder_bomb",
     "type": "MIGRATION",
     "replace": "can_bomb"
+  },
+  {
+    "id": "taurus_38",
+    "type": "MIGRATION",
+    "replace": "taurusspectrum"
+  },
+  {
+    "id": "taurus38mag",
+    "type": "MIGRATION",
+    "replace": "taurusspectrummag"
   }
 ]
