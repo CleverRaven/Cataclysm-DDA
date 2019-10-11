@@ -610,6 +610,13 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     // Now we're gonna handle traps we're standing on (if we're still moving).
     if( !vertical && can_move ) {
         const auto wheel_indices = veh.wheelcache; // Don't use a reference here, it causes a crash.
+
+        // Values to deal with crushing items.
+        // The math needs to be floating-point to work, so the values might as well be.
+        const float vehicle_grounded_wheel_area = static_cast<int>( vehicle_wheel_traction( veh, true ) );
+        const float weight_to_damage_factor = 0.05; // Nobody likes a magic number.
+        const float vehicle_mass_kg = to_kilogram( veh.total_mass() );
+
         for( auto &w : wheel_indices ) {
             const tripoint wheel_p = veh.global_part_pos3( w );
             if( one_in( 2 ) && displace_water( wheel_p ) ) {
@@ -619,9 +626,16 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
 
             veh.handle_trap( wheel_p, w );
             if( !has_flag( "SEALED", wheel_p ) ) {
-                // TODO: Make this value depend on the wheel
+                const float wheel_area =  veh.parts[ w ].wheel_area();
+
+                // Damage is calculated based on the weight of the vehicle,
+                // The area of it's wheels, and the area of the wheel running over the items.
+                // This number is multiplied by weight_to_damage_factor to get reasonable results, damage-wise.
+                const int wheel_damage = static_cast<int>( ( ( wheel_area / vehicle_grounded_wheel_area ) *
+                                         vehicle_mass_kg ) * weight_to_damage_factor );
+
                 //~ %1$s: vehicle name
-                smash_items( wheel_p, 5, string_format( _( "weight of %1$s" ), veh.disp_name() ) );
+                smash_items( wheel_p, wheel_damage, string_format( _( "weight of %1$s" ), veh.disp_name() ) );
             }
         }
     }

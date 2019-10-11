@@ -1354,9 +1354,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
         }
 
-        if( food_item->get_comestible()->fun != 0 && parts->test( iteminfo_parts::FOOD_JOY ) ) {
-            info.push_back( iteminfo( "FOOD", _( "Enjoyability: " ),
-                                      g->u.fun_for( *food_item ).first ) );
+        const std::pair<int, int> fun_for_food_item = g->u.fun_for( *food_item );
+        if( fun_for_food_item.first != 0 && parts->test( iteminfo_parts::FOOD_JOY ) ) {
+            info.push_back( iteminfo( "FOOD", _( "Enjoyability: " ), fun_for_food_item.first ) );
         }
 
         if( parts->test( iteminfo_parts::FOOD_PORTIONS ) ) {
