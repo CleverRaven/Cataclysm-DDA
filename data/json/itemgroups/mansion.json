@@ -691,6 +691,7 @@
       [ "rollerskates", 10 ],
       [ "longbow", 5 ],
       [ "compbow", 1 ],
+      [ "hybridbow", 1 ],
       [ "compositebow", 3 ],
       [ "shortbow", 5 ],
       [ "recurbow", 2 ],
