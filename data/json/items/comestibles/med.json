@@ -56,7 +56,7 @@
     "comestible_type": "MED",
     "name": "antibiotics",
     "name_plural": "antibiotics",
-    "description": "A prescription-strength antibacterial medication designed to prevent or stop the spread of infection.  It's the quickest and most reliable way to cure any infections you might have.  One dose lasts twelve hours.",
+    "description": "A strong antibacterial medication designed to prevent or stop the spread of infection.  It's the safest way to cure any infections you might have.  One dose lasts twelve hours.",
     "weight": "1 g",
     "volume": "250 ml",
     "price": 9000,
@@ -1454,6 +1454,6 @@
     "color": "white",
     "healthy": -10,
     "flags": "NPC_SAFE",
-    "use_action": { "type": "ANTIBIOTIC", }
+    "use_action": { "type": "STRONG_ANTIBIOTIC", }
   }
 ]
