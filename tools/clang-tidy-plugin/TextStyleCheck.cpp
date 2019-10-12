@@ -44,7 +44,7 @@ void TextStyleCheck::registerMatchers( MatchFinder *Finder )
                     callExpr(
                         callee(
                             functionDecl(
-                                hasName( "formatted_set_simple" )
+                                hasAnyName( "formatted_set_simple", "ter_bind", "furn_bind" )
                             )
                         )
                     )
