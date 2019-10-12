@@ -18,13 +18,14 @@ relic_data is a replacement of the previous artifact_data on items.  It is an ob
             "spell_effects": [
               { "id": "AEA_ADRENALINE" }
             ]
+          }
         ]
       }
     }
   ],
   "active_effects": [
     { "id": "AEA_DIM" }
-  ]
+  ],
   "moves": 200,
   "charges_per_activation": 2
 }
