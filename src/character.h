@@ -470,6 +470,18 @@ class Character : public Creature, public visitable<Character>
         bool is_limb_hindered( hp_part limb ) const;
         /** Returns true if the limb is broken */
         bool is_limb_broken( hp_part limb ) const;
+        /** Hurts all body parts for dam, no armor reduction */
+        void hurtall( int dam, Creature *source, bool disturb = true );
+        /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
+        int hitall( int dam, int vary, Creature *source );
+        /** Handles effects that happen when the player is damaged and aware of the fact. */
+        void on_hurt( Creature *source, bool disturb = true );
+        /** Heals a body_part for dam */
+        void heal( body_part healed, int dam );
+        /** Heals an hp_part for dam */
+        void heal( hp_part healed, int dam );
+        /** Heals all body parts for dam */
+        void healall( int dam );
         /**
          * Displays menu with body part hp, optionally with hp estimation after healing.
          * Returns selected part.

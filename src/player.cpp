@@ -2812,7 +2812,7 @@ int player::get_num_crafting_helpers( int max ) const
     return std::min( max, static_cast<int>( helpers.size() ) );
 }
 
-void player::on_hurt( Creature *source, bool disturb /*= true*/ )
+void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
 {
     if( has_trait( trait_ADRENALINE ) && !has_effect( effect_adrenaline ) &&
         ( hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15 ) ) {
@@ -3195,7 +3195,7 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
     }
 }
 
-void player::heal( body_part healed, int dam )
+void Character::heal( body_part healed, int dam )
 {
     hp_part healpart;
     switch( healed ) {
@@ -3242,7 +3242,7 @@ void player::heal( body_part healed, int dam )
     heal( healpart, dam );
 }
 
-void player::heal( hp_part healed, int dam )
+void Character::heal( hp_part healed, int dam )
 {
     if( hp_cur[healed] > 0 ) {
         int effective_heal = std::min( dam, hp_max[healed] - hp_cur[healed] );
@@ -3251,7 +3251,7 @@ void player::heal( hp_part healed, int dam )
     }
 }
 
-void player::healall( int dam )
+void Character::healall( int dam )
 {
     for( int healed_part = 0; healed_part < num_hp_parts; healed_part++ ) {
         heal( static_cast<hp_part>( healed_part ), dam );
@@ -3259,7 +3259,7 @@ void player::healall( int dam )
     }
 }
 
-void player::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
+void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
 {
     if( is_dead_state() || has_trait( trait_DEBUG_NODMG ) || dam <= 0 ) {
         return;
@@ -3278,7 +3278,7 @@ void player::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
     on_hurt( source, disturb );
 }
 
-int player::hitall( int dam, int vary, Creature *source )
+int Character::hitall( int dam, int vary, Creature *source )
 {
     int damage_taken = 0;
     for( int i = 0; i < num_hp_parts; i++ ) {
