@@ -5,7 +5,7 @@
     "type": "GENERIC",
     "category": "other",
     "weight": "8 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 25000,
     "material": [ "silver" ],
     "symbol": "o",
