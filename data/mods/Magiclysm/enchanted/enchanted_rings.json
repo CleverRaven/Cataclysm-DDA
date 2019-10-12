@@ -41,7 +41,7 @@
     "price": 5000,
     "material": [ "gold" ],
     "symbol": "[",
-    "color": "light_gray",
+    "color": "yellow",
     "covers": [ "HAND_EITHER" ],
     "coverage": 0,
     "warmth": 0,
