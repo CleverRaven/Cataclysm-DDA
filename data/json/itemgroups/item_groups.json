@@ -9637,7 +9637,7 @@
       { "item": "cell_phone", "prob": 35, "charges-min": 0, "charges-max": 15 },
       [ "e_scrap", 55 ],
       [ "amplifier", 25 ],
-      [ "smart_lamp", 5 ].
+      [ "smart_lamp", 5 ],
       [ "reading_light", 10 ]
     ]
   },
