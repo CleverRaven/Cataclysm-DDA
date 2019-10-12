@@ -158,7 +158,7 @@ void talk_function::scavenger_patrol( mission_data &mission_key, npc &p )
         entry = _( "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n\nPatrol Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
-                    elem->companion_mission_time ) ) + _( " hours] \n" );
+                    elem->companion_mission_time ) ) + _( " hours]\n" );
         }
         entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Retrieve Scavenging Patrol", _( "Retrieve Scavenging Patrol" ), entry );
@@ -180,7 +180,7 @@ void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
                    "Raid Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
-                    elem->companion_mission_time ) ) + _( " hours] \n" );
+                    elem->companion_mission_time ) ) + _( " hours]\n" );
         }
         entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Retrieve Scavenging Raid", _( "Retrieve Scavenging Raid" ), entry );
@@ -198,7 +198,7 @@ void talk_function::commune_menial( mission_data &mission_key, npc &p )
                                "much of a reward though.\n\nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
-                    elem->companion_mission_time ) ) + _( " hours] \n" );
+                    elem->companion_mission_time ) ) + _( " hours]\n" );
         }
         entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Recover Ally from Menial Labor", _( "Recover Ally from Menial Labor" ),
@@ -218,7 +218,7 @@ void talk_function::commune_carpentry( mission_data &mission_key, npc &p )
         entry = _( "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n\nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
-                    elem->companion_mission_time ) ) + _( " hours] \n" );
+                    elem->companion_mission_time ) ) + _( " hours]\n" );
         }
         entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Recover Ally from Carpentry Work",
@@ -310,7 +310,7 @@ void talk_function::commune_forage( mission_data &mission_key, npc &p )
         entry = _( "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n\nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
-                    elem->companion_mission_time ) ) + _( " hours] \n" );
+                    elem->companion_mission_time ) ) + _( " hours]\n" );
         }
         entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Recover Ally from Foraging", _( "Recover Ally from Foraging" ), entry );
@@ -336,13 +336,13 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
                    "\nRoster:\n" );
         for( auto &elem : npc_list ) {
             if( elem->companion_mission_time == calendar::before_time_starts ) {
-                entry = entry + "  " + elem->name + _( " [READY] \n" );
+                entry = entry + "  " + elem->name + _( " [READY]\n" );
                 npc_list_aux.push_back( elem );
             } else if( calendar::turn >= elem->companion_mission_time ) {
-                entry = entry + "  " + elem->name + _( " [COMPLETE] \n" );
+                entry = entry + "  " + elem->name + _( " [COMPLETE]\n" );
             } else {
                 entry = entry + "  " + elem->name + " [" + to_string( abs( to_hours<int>
-                        ( calendar::turn - elem->companion_mission_time ) ) ) + _( " Hours] \n" );
+                        ( calendar::turn - elem->companion_mission_time ) ) ) + _( " Hours]\n" );
             }
         }
         if( !npc_list_aux.empty() ) {
@@ -350,7 +350,7 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
                                        "\nRoster:\n" );
             for( auto &elem : npc_list_aux ) {
                 if( elem->companion_mission_time == calendar::before_time_starts ) {
-                    entry_aux = entry_aux + "  " + elem->name + _( " [READY] \n" );
+                    entry_aux = entry_aux + "  " + elem->name + _( " [READY]\n" );
                 }
             }
             entry_aux = entry_aux + _( "\n\n"

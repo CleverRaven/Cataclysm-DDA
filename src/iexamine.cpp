@@ -4307,7 +4307,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 popup( _( "Patient is dead.  Please remove corpse to proceed.  Exiting." ) );
                 return;
             } else if( cyborg.typeId() == "bot_broken_cyborg" || cyborg.typeId() == "corpse" ) {
-                popup( _( "ERROR Bionic Level Assessement : FULL CYBORG.  Autodoc Mk. XI can't opperate.  Please move patient to appropriate facility.  Exiting." ) );
+                popup( _( "ERROR Bionic Level Assessement: FULL CYBORG.  Autodoc Mk. XI can't opperate.  Please move patient to appropriate facility.  Exiting." ) );
                 return;
             }
 
@@ -5156,7 +5156,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
                         continue;
                     }
                     pop << "-> " << item::nname( it.typeId(), it.charges );
-                    pop << " (" << std::to_string( it.charges ) << ") \n ";
+                    pop << " (" << std::to_string( it.charges ) << ")\n ";
                 }
             }
             popup( pop.str(), PF_NONE );
@@ -5360,7 +5360,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                         continue;
                     }
                     pop << "-> " << item::nname( it.typeId(), it.charges );
-                    pop << " (" << std::to_string( it.charges ) << ") \n ";
+                    pop << " (" << std::to_string( it.charges ) << ")\n ";
                 }
             }
             popup( pop.str(), PF_NONE );

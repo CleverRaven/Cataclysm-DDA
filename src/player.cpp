@@ -10766,7 +10766,7 @@ void player::mount_creature( monster &z )
     tripoint pnt = z.pos();
     std::shared_ptr<monster> mons = g->shared_from( z );
     if( mons == nullptr ) {
-        add_msg( m_debug, "mount_creature() : monster not found in critter_tracker" );
+        add_msg( m_debug, "mount_creature(): monster not found in critter_tracker" );
         return;
     }
     add_effect( effect_riding, 1_turns, num_bp, true );

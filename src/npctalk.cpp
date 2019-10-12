@@ -385,7 +385,7 @@ void game::chat()
     if( !available.empty() ) {
         nmenu.addentry( NPC_CHAT_TALK, true, 't', available_count == 1 ?
                         string_format( _( "Talk to %s" ), available.front()->name ) :
-                        _( "Talk to ..." )
+                        _( "Talk to..." )
                       );
     }
     nmenu.addentry( NPC_CHAT_YELL, true, 'a', _( "Yell" ) );
@@ -2478,7 +2478,7 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
         const std::string recipe_id = jo.get_string( "u_learn_recipe" );
         subeffect_fun.set_u_learn_recipe( recipe_id );
     } else {
-        jo.throw_error( "invalid sub effect syntax :" + jo.str() );
+        jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }
     set_effect( subeffect_fun );
 }

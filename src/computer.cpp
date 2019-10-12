@@ -940,7 +940,7 @@ void computer::activate_function( computer_action action )
         case COMPACT_DISCONNECT:
             reset_terminal();
             print_line( _( "\n"
-                           "ERROR: NETWORK DISCONNECT \n"
+                           "ERROR: NETWORK DISCONNECT\n"
                            "UNABLE TO REACH NETWORK ROUTER OR PROXY.  PLEASE CONTACT YOUR\n"
                            "SYSTEM ADMINISTRATOR TO RESOLVE THIS ISSUE.\n"
                            "  \n" ) );
@@ -948,8 +948,8 @@ void computer::activate_function( computer_action action )
             break;
 
         case COMPACT_EMERG_MESS:
-            print_line( _( "GREETINGS CITIZEN.  A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n"
-                           "EMERGENCY HAS BEEN DECLARED.  EMERGENCY PERSONNEL WILL BE AIDING YOU \n"
+            print_line( _( "GREETINGS CITIZEN.  A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF\n"
+                           "EMERGENCY HAS BEEN DECLARED.  EMERGENCY PERSONNEL WILL BE AIDING YOU\n"
                            "SHORTLY.  TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW.\n"
                            "\n"
                            "1. DO NOT PANIC.\n"
@@ -972,7 +972,7 @@ void computer::activate_function( computer_action action )
             print_line( _( "  WARNING, RADIO TOWER IS UNRESPONSIVE.\n"
                            "  \n"
                            "  BACKUP POWER INSUFFICIENT TO MEET BROADCASTING REQUIREMENTS.\n"
-                           "  IN THE EVENT OF AN EMERGENCY, CONTACT LOCAL NATIONAL GUARD \n"
+                           "  IN THE EVENT OF AN EMERGENCY, CONTACT LOCAL NATIONAL GUARD\n"
                            "  UNITS TO RECEIVE PRIORITY WHEN GENERATORS ARE BEING DEPLOYED.\n"
                            "  \n"
                            "  \n" ) );
@@ -1495,7 +1495,7 @@ void computer::remove_option( computer_action const action )
 
 void computer::mark_refugee_center()
 {
-    print_line( _( "SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT ..." ) );
+    print_line( _( "SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT..." ) );
 
     const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
     tripoint mission_target;
@@ -1522,10 +1522,10 @@ void computer::mark_refugee_center()
 
     //~555-0164 is a fake phone number in the US, please replace it with a number that will not cause issues in your locale if possible.
     print_line( _( "\nREFUGEE CENTER FOUND!  LOCATION: %d %s\n\n"
-                   "IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT \n"
+                   "IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT\n"
                    "THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE.\n"
-                   "THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND  \n"
-                   "4PM AT 555-0164.                                              \n"
+                   "THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND\n"
+                   "4PM AT 555-0164.\n"
                    "\n"
                    "IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n"
                    "TO WRITE US A LETTER PLEASE SEND IT TO...\n" ), rl_dist( g->u.pos(), mission_target ),
