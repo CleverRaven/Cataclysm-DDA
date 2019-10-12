@@ -1759,6 +1759,7 @@
       [ "thorazine", 7 ],
       [ "prozac", 10 ],
       [ "antibiotics", 25 ],
+      [ "strong_antibiotic", 5 ],
       [ "antifungal", 2 ],
       [ "antiparasitic", 3 ],
       [ "survnote", 1 ],
@@ -3566,6 +3567,8 @@
       [ "jar_3l_glass", 15 ],
       [ "magnifying_glass", 5 ],
       [ "chem_hydrogen_peroxide", 5 ],
+      [ "strong_antibiotic", 1 ],
+      [ "antibiotics", 5 ],
       [ "weak_antibiotic", 15 ]
     ]
   },
