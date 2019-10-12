@@ -9109,7 +9109,12 @@ bool game::walk_move( const tripoint &dest_loc )
         modifier = -m.furn( dest_loc ).obj().movecost;
     }
 
-    const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier );
+    int multiplier = 1;
+    if( u.is_on_ground() ) {
+        multiplier *= 3;
+    }
+
+    const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier ) * multiplier;
     if( grabbed_move( dest_loc - u.pos() ) ) {
         return true;
     } else if( mcost == 0 ) {
@@ -9944,7 +9949,7 @@ void game::on_move_effects()
     }
 
     if( u.movement_mode_is( PMM_RUN ) ) {
-        if( u.stamina <= 0 ) {
+        if( !u.can_run() ) {
             u.toggle_run_mode();
         }
         if( u.stamina < u.get_stamina_max() / 5 && one_in( u.stamina ) ) {

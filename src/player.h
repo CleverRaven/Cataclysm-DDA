@@ -450,6 +450,7 @@ class player : public Character
         void cycle_move_mode(); // Cycles to the next move mode.
         void reset_move_mode(); // Resets to walking.
         void toggle_run_mode(); // Toggles running on/off.
+        bool can_run(); // source of truth of whether a player can run
         void toggle_crouch_mode(); // Toggles crouching on/off.
 
         // martialarts.cpp

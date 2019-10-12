@@ -1589,17 +1589,7 @@ int player::run_cost( int base_cost, bool diag ) const
                     75; // Mycal characters are faster on their home territory, even through things like shrubs
             }
         }
-        if( is_limb_broken( hp_leg_l ) ) {
-            movecost += 50;
-        } else if( is_limb_hindered( hp_leg_l ) ) {
-            movecost += 25;
-        }
 
-        if( is_limb_broken( hp_leg_r ) ) {
-            movecost += 50;
-        } else if( is_limb_hindered( hp_leg_r ) ) {
-            movecost += 25;
-        }
         movecost *= Character::mutation_value( "movecost_modifier" );
         if( flatground ) {
             movecost *= Character::mutation_value( "movecost_flatground_modifier" );
@@ -2452,7 +2442,7 @@ void player::set_movement_mode( const player_movemode new_mode )
             break;
         }
         case PMM_RUN: {
-            if( stamina > 0 && !has_effect( effect_winded ) ) {
+            if( can_run() ) {
                 if( is_hauling() ) {
                     stop_hauling();
                 }
@@ -2469,9 +2459,12 @@ void player::set_movement_mode( const player_movemode new_mode )
                 if( is_mounted() ) {
                     // mounts dont currently have stamina, but may do in future.
                     add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
+                } else if( get_working_leg_count() < 2 ) {
+                    add_msg( m_bad, _( "You need two functional legs to run." ) );
                 } else {
                     add_msg( m_bad, _( "You're too tired to run." ) );
                 }
+                return;
             }
             break;
         }
@@ -2508,6 +2501,11 @@ void player::toggle_run_mode()
     }
 }
 
+bool player::can_run()
+{
+    return stamina > 0 && !has_effect( effect_winded ) && get_working_leg_count() >= 2;
+}
+
 void player::toggle_crouch_mode()
 {
     if( move_mode == PMM_CROUCH ) {
@@ -2529,6 +2527,11 @@ void player::cycle_move_mode()
     unsigned char as_uchar = static_cast<unsigned char>( move_mode );
     as_uchar = ( as_uchar + 1 + PMM_COUNT ) % PMM_COUNT;
     set_movement_mode( static_cast<player_movemode>( as_uchar ) );
+    if( !movement_mode_is( static_cast<player_movemode>( as_uchar ) ) ) {
+        as_uchar = ( as_uchar + 1 + PMM_COUNT ) % PMM_COUNT;
+        set_movement_mode( static_cast<player_movemode>( as_uchar ) );
+    }
+
 }
 
 void player::search_surroundings()
