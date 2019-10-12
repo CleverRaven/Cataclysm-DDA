@@ -9,7 +9,7 @@
     "price": 5000,
     "material": [ "copper" ],
     "symbol": "[",
-    "color": "light_gray",
+    "color": "light_red",
     "covers": [ "HAND_EITHER" ],
     "coverage": 0,
     "warmth": 0,
