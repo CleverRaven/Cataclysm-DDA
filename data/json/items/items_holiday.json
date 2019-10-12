@@ -16,7 +16,8 @@
     "max_charges": 100,
     "charges_per_use": 1,
     "ammo": [ "candles" ],
-    "use_action": { "target": "plastic_jack_o_lantern_lit",
+    "use_action": {
+      "target": "plastic_jack_o_lantern_lit",
       "msg": "You light the candle in the jack o'lantern.",
       "active": true,
       "need_fire": 1,
@@ -42,7 +43,8 @@
     "max_charges": 100,
     "charges_per_use": 1,
     "turns_per_charge": 1350,
-    "use_action": { "target": "plastic_jack_o_lantern",
+    "use_action": {
+      "target": "plastic_jack_o_lantern",
       "msg": "The candle winks out inside the lantern.",
       "menu_text": "Extinguish",
       "revert_to": "plastic_jack_o_lantern"
