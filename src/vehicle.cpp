@@ -5299,7 +5299,7 @@ void vehicle::refresh()
         mount_min.y = 0;
         mount_max.x = 0;
         mount_max.y = 0;
-        rail_wheel_bounding_box.p1 = point( 0, 0 );
+        rail_wheel_bounding_box.p1 = point_zero;
         rail_wheel_bounding_box.p2 = point( 0, 0 );
     }
 
