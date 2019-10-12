@@ -1099,7 +1099,20 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 }
             }
 
+            //If item is crafted neither from poor-fit nor from perfect-fit components, and it can be refitted, the result is refitted by default
+            if( newit.has_flag( "VARSIZE" ) ) {
+                newit.item_tags.insert( "FIT" );
+            }
+
             for( auto &component : used ) {
+                //If item is crafted from poor-fit components, the result is poorly fitted too
+                if( component.has_flag( "VARSIZE" ) ) {
+                    newit.unset_flag( "FIT" );
+                }
+                //If item is crafted from perfect-fit components, the result is perfectly fitted too
+                if( component.has_flag( "FIT" ) ) {
+                    newit.item_tags.insert( "FIT" );
+                }
                 if( component.has_flag( "HIDDEN_HALLU" ) ) {
                     newit.item_tags.insert( "HIDDEN_HALLU" );
                 }
