@@ -1437,5 +1437,23 @@
       "move_cost": 100,
       "effects": [ { "id": "pkill1", "duration": 720 } ]
     }
+  },
+  {
+    "id": "strong_antibiotic",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": "trioxycycline",
+    "name_plural": "trioxycyclines",
+    "description": "A prescription-strength antibacterial medication designed to prevent or stop the spread of infection.  It contains nearly toxic levels of antibiotics, but can treat any infections you may encounter.  One dose lasts twelve hours.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "price": 9000,
+    "charges": 5,
+    "stack_size": 200,
+    "symbol": "!",
+    "color": "white",
+    "healthy": -10,
+    "flags": "NPC_SAFE",
+    "use_action": { "type": "ANTIBIOTIC", }
   }
 ]
