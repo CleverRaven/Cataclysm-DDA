@@ -5295,9 +5295,6 @@ void vehicle::refresh()
     rail_wheel_bounding_box.p2 = point( railwheel_xmax, railwheel_ymax );
 
     if( !refresh_done ) {
-        mount_min.x = 0;
-        mount_min.y = 0;
-        mount_max.x = 0;
         mount_min = mount_max = point_zero;
         rail_wheel_bounding_box.p1 = point_zero;
         rail_wheel_bounding_box.p2 = point_zero;
