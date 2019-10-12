@@ -4141,7 +4141,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
             return; // Do not do the other effects if the robot died
         }
         if( one_in( 3 ) ) {
-            p->add_msg_if_player( _( "... and turns friendly!" ) );
+            p->add_msg_if_player( _( "...and turns friendly!" ) );
             if( one_in( 3 ) ) { //did the robot became friendly permanently?
                 z->friendly = -1; //it did
             } else {
@@ -4149,7 +4149,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
             }
         }
     } else {
-        p->add_msg_if_player( _( "... but the robot refuses to acknowledge you as an ally!" ) );
+        p->add_msg_if_player( _( "...but the robot refuses to acknowledge you as an ally!" ) );
     }
     p->practice( skill_id( "computer" ), 10 );
 }
@@ -4438,7 +4438,7 @@ void activity_handlers::mind_splicer_finish( player_activity *act, player *p )
         return;
     }
     item &data_card = *act->targets[0];
-    p->add_msg_if_player( m_info, _( "... you finally find the memory banks." ) );
+    p->add_msg_if_player( m_info, _( "...you finally find the memory banks." ) );
     p->add_msg_if_player( m_info, _( "The kit makes a copy of the data inside the bionic." ) );
     data_card.contents.clear();
     data_card.put_in( item( "mind_scan_robofac" ) );

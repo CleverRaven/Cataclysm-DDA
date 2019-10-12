@@ -115,7 +115,7 @@ void weed_msg( player &p )
             case 2: // Simpsons
                 p.add_msg_if_player( _( "They call them fingers, but I never see them fing." ) );
                 if( smarts > 2 && one_in( 2 ) ) {
-                    p.add_msg_if_player( _( "... oh, there they go." ) );
+                    p.add_msg_if_player( _( "...oh, there they go." ) );
                 }
                 return;
             case 3: // Bill Hicks
@@ -139,7 +139,7 @@ void weed_msg( player &p )
                     p.add_msg_if_player( _( "Oh, sometimes the early-mid-late-early-morning." ) );
                 }
                 if( smarts > 2 ) {
-                    p.add_msg_if_player( _( "... But never at dusk." ) );
+                    p.add_msg_if_player( _( "...But never at dusk." ) );
                 }
                 return;
             case 5:

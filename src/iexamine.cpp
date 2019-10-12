@@ -5146,7 +5146,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
             }
             pop << "<color_green>" << _( "You inspect its contents and find: " ) << "</color>" << "\n\n ";
             if( items_here.empty() ) {
-                pop << _( "... that it is empty." );
+                pop << _( "...that it is empty." );
             } else {
                 for( const item &it : items_here ) {
                     if( it.typeId() == "fake_milling_item" ) {
@@ -5351,7 +5351,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             }
             pop << "<color_green>" << _( "You inspect its contents and find: " ) << "</color>" << "\n\n ";
             if( items_here.empty() ) {
-                pop << _( "... that it is empty." );
+                pop << _( "...that it is empty." );
             } else {
                 for( const item &it : items_here ) {
                     if( it.typeId() == "fake_smoke_plume" ) {

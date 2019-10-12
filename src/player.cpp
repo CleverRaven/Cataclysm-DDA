@@ -3436,7 +3436,7 @@ int player::impact( const int force, const tripoint &p )
     } else if( is_player() && shock_absorbers ) {
         add_msg( m_bad, _( "You are slammed against %s!" ),
                  target_name, total_dealt );
-        add_msg( m_good, _( "... but your shock absorbers negate the damage!" ) );
+        add_msg( m_good, _( "...but your shock absorbers negate the damage!" ) );
     } else if( slam ) {
         // Only print this line if it is a slam and not a landing
         // Non-players should only get this one: player doesn't know how much damage was dealt

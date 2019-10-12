@@ -925,7 +925,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
                 if( num_lines > window_height ) {
                     // The description didn't fit in the window, so provide a
                     // hint for how to see the whole thing
-                    std::string message = string_format( _( "... %s = View full description " ),
+                    std::string message = string_format( _( "...%s = View full description " ),
                                                          ctxt.get_desc( "VIEW_MOD_DESCRIPTION" ) );
                     nc_color color = c_green;
                     print_colored_text( w_description, point( window_width - utf8_width( message ), window_height - 1 ),

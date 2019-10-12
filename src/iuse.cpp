@@ -3898,11 +3898,11 @@ int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
 
     if( g->u.sees( *p ) ) {
         if( converts == 0 ) {
-            add_msg( _( "... but nothing happens." ) );
+            add_msg( _( "...but nothing happens." ) );
         } else if( converts == 1 ) {
-            add_msg( m_good, _( "... and a nearby zombie becomes passive!" ) );
+            add_msg( m_good, _( "...and a nearby zombie becomes passive!" ) );
         } else {
-            add_msg( m_good, _( "... and several nearby zombies become passive!" ) );
+            add_msg( m_good, _( "...and several nearby zombies become passive!" ) );
         }
     }
     return it->type->charges_to_use();
@@ -4577,12 +4577,12 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
         it->put_in( acid );
         if( one_in( 3 ) ) {
             if( it->inc_damage( DT_ACID ) ) {
-                p->add_msg_if_player( m_info, _( "... but acidic blood melts the %s, destroying it!" ),
+                p->add_msg_if_player( m_info, _( "...but acidic blood melts the %s, destroying it!" ),
                                       it->tname() );
                 p->i_rem( it );
                 return 0;
             }
-            p->add_msg_if_player( m_info, _( "... but acidic blood damages the %s!" ), it->tname() );
+            p->add_msg_if_player( m_info, _( "...but acidic blood damages the %s!" ), it->tname() );
         }
         return it->type->charges_to_use();
     }

@@ -213,7 +213,7 @@ std::string robot_finds_kitten::getmessage( int idx )
         _( "Empty jewelboxes litter the landscape." ),
         _( "It's the astounding meta-object." ),
         _( "Ed McMahon stands here, lost in thought.  Seeing you, he bellows, \"YES SIR!\"" ),
-        _( "... thingy???" ),
+        _( "...thingy???" ),
         _( "It's 1000 secrets the government doesn't want you to know!" ),
         _( "The letters O and R." ),
         _( "A magical... magic thing." ),

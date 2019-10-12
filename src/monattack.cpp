@@ -3111,7 +3111,7 @@ bool mattack::photograph( monster *z )
     z->moves -= 150;
     add_msg( m_warning, _( "The %s takes your picture!" ), z->name() );
     // TODO: Make the player known to the faction
-    std::string cname = _( "... database connection lost!" ) ;
+    std::string cname = _( "...database connection lost!" ) ;
     if( one_in( 6 ) ) {
         cname = Name::generate( g->u.male );
     } else if( one_in( 3 ) ) {

@@ -3244,7 +3244,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
                 reason += string_format( _( "I can only store %s %s more." ),
                                          format_volume( free_space ), volume_units_long() );
             } else {
-                reason += _( "... or to store anything else for that matter." );
+                reason += _( "...or to store anything else for that matter." );
             }
         }
         if( !p.can_pickWeight( given ) ) {
