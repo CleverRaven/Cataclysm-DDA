@@ -173,7 +173,7 @@
     "id": "mring_intelligence_3",
     "name": "ring of intelligence +3",
     "name_plural": "rings of intelligence +3",
-    "description": "A golden ring that makes you a enlighteningly more intelligent when you wear it.",
+    "description": "A golden ring that makes you surprisingly more intelligent when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 3 } ] } ] }
   },
   {
