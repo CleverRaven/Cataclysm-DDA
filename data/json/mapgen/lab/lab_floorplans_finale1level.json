@@ -139,6 +139,63 @@
     }
   },
   {
+    "//": "portal room",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_finale_1level" ],
+    "weight": 5000,
+    "object": {
+      "rotation": [ 0, 3 ],
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        ".....,...g.....xxxxxxxxx",
+        "-r..r,..ig.YY...........",
+        "-r..r,..tg.....dd..tt...",
+        "-rY.r,..tg.....xh..tt.Y.",
+        "-rY.r,.. G.....d...tt.Y.",
+        "-R..r,...G.........tt...",
+        "-....,..tg..............",
+        "---l,,..tg.....d........",
+        "..-l....tggGGggdh.......",
+        "..-lll...G,,,,gd........",
+        "..-----g-ggGGgg-gggGg-+-",
+        "..-,,,,xgY,,,,Y-....l-..",
+        "..-,,,hxg,,,,,,-dDd.l-..",
+        "..-,,,,xg,,,,,,-.h..l-..",
+        "-+--+----,,,,,,-------+-",
+        "C....-CCC,,,,,,CCC-....C",
+        "C....g,,,,,,,,,,,,gx...C",
+        "C....g,,,,CQQC,,,,gC...C",
+        "C....-Y,,,,,,,,,,Y-C...C",
+        "-+-------GggggG-------+-",
+        "-......................-",
+        "-......................-",
+        "-CCCCxxxxx....xCCxxCCCx-",
+        ".......................-"
+      ],
+      "palettes": [ "lab_palette", "lab_loot_research" ],
+      "furniture": { "R": "f_rack", "D": "f_desk" },
+      "fields": { "Q": { "field": "fd_fatigue", "intensity": 3 } },
+      "terrain": { "C": "t_machinery_electronic", "r": "t_metal_floor", "Y": "t_thconc_floor_olight", "p": "t_metal_floor" },
+      "mapping": {
+        "R": { "item": [ { "item": "dimensional_anchor" }, { "item": "phase_immersion_suit" } ] },
+        "D": {
+          "item": [
+            { "item": "sample_t_substrate" },
+            { "item": "log_immersion27" },
+            { "item": "HAADF_t_substrate" },
+            { "item": "report_t_substrate" }
+          ]
+        }
+      },
+      "place_monster": [
+        { "monster": "mon_hound_tindalos", "x": [ 7, 8 ], "y": [ 17, 18 ], "chance": 90 },
+        { "monster": "mon_hound_tindalos", "x": [ 16, 17 ], "y": [ 17, 18 ], "chance": 90 },
+        { "monster": "mon_mech_lifter", "x": 2, "y": 2, "chance": 50 }
+      ]
+    }
+  },
+  {
     "//": "mutagen tank, ~75% chance normal mutagen, ~25% flavored mutagen",
     "type": "mapgen",
     "method": "json",

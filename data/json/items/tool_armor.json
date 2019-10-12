@@ -654,22 +654,22 @@
     "name": "5-point anchor",
     "looks_like": "chestguard_hard",
     "description": "A featureless, disc-shaped device mounted on a harness.  The words \"X.E.D.R.A\" and \"5-point anchor\" are inscribed on its front and back.",
-",
     "price": 150000,
     "material": [ "ceramic", "kevlar" ],
     "weight": "1250 g",
     "volume": "4500 ml",
     "ammo": "plutonium",
     "max_charges": 1000,
+    "initial_charges": 1000,
     "use_action": {
       "type": "transform",
-      "msg": "The %s LED light flickers on.  But nothing else seems to happen.",
+      "msg": "A LED light in the %s LED flickers on.",
       "target": "dimensional_anchor_on",
       "active": true,
       "need_charges": 1,
-      "need_charges_msg": "Less than nothing happens. It seems like this device needs power."
+      "need_charges_msg": "It seems like this device needs power."
     },
-    "covers": ["TORSO" ],
+    "covers": [ "TORSO" ],
     "warmth": 10,
     "coverage": 50,
     "encumbrance": 2,
@@ -686,9 +686,13 @@
     "description": "The harness' shoulder mounted LED glows with a soft green hue.  Theres no further indication of anything happening.",
     "turns_per_charge": 100,
     "revert_to": "dimensional_anchor",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s LED light flickers off.", "target": "dimensional_anchor" },
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "The %s LED light flickers off.",
+      "target": "dimensional_anchor"
+    },
     "covers": [ "TORSO" ],
-    "warmth": 10,
     "flags": [ "DIMENSIONAL_ANCHOR" ]
   },
   {
@@ -706,7 +710,8 @@
     "volume": "4500 ml",
     "storage": "8 L",
     "ammo": "plutonium",
-    "max_charges": 250,
+    "max_charges": 2500,
+    "initial_charges": 1000,
     "use_action": {
       "type": "transform",
       "msg": "Initiating \nRunning suit integrity diagnostics....\nAll systems operational.",
@@ -715,13 +720,25 @@
       "need_charges": 1,
       "need_charges_msg": "Warning: Operating on minimal power.  Protection compromised."
     },
-    "covers": ["TORSO" ],
+    "covers": [ "TORSO" ],
     "warmth": 30,
     "environmental_protection": 10,
     "coverage": 100,
     "material_thickness": 2,
     "encumbrance": 20,
-    "flags": [ "RAD_PROOF", "STURDY", "WATERPROOF", "HYGROMETER", "THERMOMETER", "SUPER_FANCY", "RAINPROOF", "WATCH", "ALARMCLOCK", "SWIM_GOGGLES", "SUN_GLASSES" ]
+    "flags": [
+      "RAD_PROOF",
+      "STURDY",
+      "WATERPROOF",
+      "HYGROMETER",
+      "THERMOMETER",
+      "SUPER_FANCY",
+      "RAINPROOF",
+      "WATCH",
+      "ALARMCLOCK",
+      "SWIM_GOGGLES",
+      "SUN_GLASSES"
+    ]
   },
   {
     "id": "phase_immersion_suit_on",
@@ -745,15 +762,14 @@
       "SWIM_GOGGLES",
       "SUN_GLASSES",
       "ELECTRIC_IMMUNE",
-      "PARTIAL_DEAF"
-      "THERMOMETER",
+      "PARTIAL_DEAF",
       "GAS_PROOF",
       "TRADER_AVOID",
       "PSYSHIELD_PARTIAL",
-      "GNV_EFFECT"
-      "CLIMATE_CONTROL",
-      ]
-  }, 
+      "GNV_EFFECT",
+      "CLIMATE_CONTROL"
+    ]
+  },
   {
     "id": "rebreather",
     "type": "TOOL_ARMOR",

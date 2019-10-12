@@ -113,5 +113,19 @@
     "base_casting_time": 3,
     "effect": "summon",
     "effect_str": "mon_zombie_gasbag_impaler"
+  },
+  {
+    "id": "telefrag_attack",
+    "type": "SPELL",
+    "name": "Tired",
+    "description": "Violently teleport within another creature, killing it in the process.",
+    "valid_targets": [ "none" ],
+    "flags": [ "UNSAFE_TELEPORT" ],
+    "//": "Listed as a recover energy effect with a negative modifier that decreases with each level of the spell, which makes it cause damage instead.",
+    "min_range": 2,
+    "max_range": 8,
+    "damage_increment": -2000,
+    "max_level": 10,
+    "effect": "teleport_random"
   }
 ]

@@ -99,6 +99,28 @@
   },
   {
     "type": "GENERIC",
+    "id": "log_immersion27",
+    "copy-from": "file",
+    "name": "INCIDENT REPORT: IMMERSION-27A",
+    "description": "A white piece of paper, with the logo of XEDRA printed on its upper left corner. It seems to be an internal report of some kind.",
+    "snippet_category": "log_immersion27"
+  },
+  {
+    "type": "GENERIC",
+    "id": "report_t_substrate",
+    "copy-from": "log_immersion27",
+    "name": "MATERIAL: T-SUBSTRATE",
+    "snippet_category": "t-substrate"
+  },
+  {
+    "type": "GENERIC",
+    "id": "HAADF_t_substrate",
+    "copy-from": "log_immersion27",
+    "name": "HAADF MICROGRAPH: T-SUBSTRATE",
+    "snippet_category": "HAADF_t-substrate"
+  },
+  {
+    "type": "GENERIC",
     "id": "fp_loyalty_card",
     "category": "other",
     "symbol": "-",
@@ -333,6 +355,21 @@
     "material": "wool",
     "symbol": ",",
     "color": "white"
+  },
+  {
+    "type": "GENERIC",
+    "id": "sample_t_substrate",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "t-substrate sample",
+    "description": "An acrylic cube cast around a small black crystal.  Its tepid to the touch.",
+    "price": 0,
+    "material": "stone",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "bashing": 1,
+    "to_hit": -3
   },
   {
     "type": "GENERIC",
