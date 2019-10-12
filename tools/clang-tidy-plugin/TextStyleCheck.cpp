@@ -128,7 +128,7 @@ void TextStyleCheck::check( const MatchFinder::MatchResult &Result )
         { U"\r\n",   U"",   { false,                     }, {  true, R"(\n)",  R"(\n)",     "carriage return", "new line" } },
         { U"\u2026", U"",   {  true, 0, 1, 1, 3, 2, 2, 2 }, { false,                                                      } },
         { U".",      U"",   {  true, 0, 3, 1, 3, 2, 0, 2 }, { false,                                                      } },
-        { U";",      U"",   {  true, 0, 1, 1, 3, 2, 2, 2 }, { false,                                                      } },
+        { U";",      U"",   {  true, 0, 1, 1, 2, 1, 1, 1 }, { false,                                                      } },
         { U"!",      U"!?", {  true, 0, 1, 1, 3, 2, 2, 2 }, { false,                                                      } },
         { U"?",      U"!?", {  true, 0, 1, 1, 3, 2, 2, 2 }, { false,                                                      } },
         { U":",      U"",   {  true, 0, 1, 1, 1, 1, 0, 1 }, { false,                                                      } },
