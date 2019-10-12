@@ -62,7 +62,6 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
             return false;
         } else if( poor_player && ( poor_player->worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
                                     poor_player->has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) ) {
-            debugmsg( "ERROR: 3." );
             poor_player->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
             return false;
         } else {

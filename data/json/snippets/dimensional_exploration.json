@@ -3,7 +3,7 @@
     "type": "snippet",
     "category": "log_immersion27",
     "text": [
-      "\nIMMERSION LOG: 27A\n\nINCIDENT REPORT:\n\nSUMMARY:\nUnforeseen EM interference source forced the team to remain in-phase between prime and sub-scape 27.  Expedition members reported observing a spheroid-entity ('PE-01') moving beneath the typically opaque t-substrate.  Interference readings and expedition testimony implies the PE-01 was a potent EM radiation source, and the origin of the interference.  After 30 min, PE-01 receded and the expedition was aborted in accordance of procedure EMER-12.  The expedition team suffered no injuries, physical or mental, during the incident. \n\nIt's become clear we have greatly underestimated the risk posed by phase immersions.  Engineering has be tasked with designing a new, improved protection suite, and has shown promising advances.  Updated emergency procedures are in-progress.\n\nRefer to file EXO-I-271 for full report."
+      "\nIMMERSION LOG: 27A\n\nINCIDENT REPORT:\n\nSUMMARY:\nUnforeseen EM interference source forced the team to remain in-phase between prime and sub-scape 27.  Expedition members reported observing a spheroid-entity ('PE-01') moving beneath the typically opaque t-substrate.  Interference readings and expedition testimony implies the PE-01 was a potent EM radiation source, and the origin of the interference.  After 30 min, PE-01 receded and the expedition was aborted in accordance of procedure EMER-12.  The expedition team suffered no injuries, physical or mental, during the incident. \n\nIt's become clear we have greatly underestimated the risk posed by phase immersions.  Engineering has been tasked with designing a new, improved protection suite, and has shown promising advances.  Updated emergency procedures are in-progress.\n\nRefer to file EXO-I-271 for full report."
     ]
   },
   {
@@ -17,7 +17,7 @@
     "type": "snippet",
     "category": "HAADF_t-substrate",
     "text": [
-      "\nANALISIS OF TRANSPLANAR MATERIALS \n\nT-SUBSTRATE\nHAADF MICROGRAPH:\nAn atomic-scale photograph shows only a completely smooth red surface.  In the lower left corner the phrase 'Not made of atoms?!' is scrawled with a blue pen.\n\n Refer to file EXO-M-312 for full report."
+      "\nANALISIS OF TRANSPLANAR MATERIALS \n\nT-SUBSTRATE\n\nHAADF MICROGRAPH:\nAn atomic-scale photograph shows only a completely smooth red surface.  In the lower left corner the phrase 'Not made of atoms?!' is scrawled with a blue pen.\n\nRefer to file EXO-M-312 for full report."
     ]
   }
 ]

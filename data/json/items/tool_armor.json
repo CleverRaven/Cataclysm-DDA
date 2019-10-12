@@ -752,7 +752,6 @@
     "revert_to": "phase_immersion_suit",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Suit shutting down.", "target": "phase_immersion_suit" },
     "covers": [ "TORSO" ],
-    "warmth": 30,
     "environmental_protection": 80,
     "flags": [
       "VARSIZE",
