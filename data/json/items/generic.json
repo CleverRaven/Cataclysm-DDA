@@ -102,7 +102,7 @@
     "id": "log_immersion27",
     "copy-from": "file",
     "name": "INCIDENT REPORT: IMMERSION-27A",
-    "description": "A white piece of paper, with the logo of XEDRA printed on its upper left corner. It seems to be an internal report of some kind.",
+    "description": "A white piece of paper, with the logo of XEDRA printed on its upper left corner.  It seems to be an internal report of some kind.",
     "snippet_category": "log_immersion27"
   },
   {
@@ -363,7 +363,7 @@
     "symbol": ",",
     "color": "light_gray",
     "name": "t-substrate sample",
-    "description": "An acrylic cube cast around a small black crystal.  Its tepid to the touch.",
+    "description": "An acrylic cube cast around a small black crystal.  It's tepid to the touch.",
     "price": 0,
     "material": "stone",
     "weight": "100 g",

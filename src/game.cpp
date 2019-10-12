@@ -9681,8 +9681,8 @@ bool game::phasing_move( const tripoint &dest_loc )
         tunneldist += 1;
         //Being dimensionally anchored prevents quantum shenanigans.
         if( u.worn_with_flag( "DIMENSIONAL_ANCHOR" ) || u.has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) {
-            u.add_msg_if_player( m_info, _( "You are repeled by the barrier!" ) );
-            u.charge_power( -250_kJ ); //cost of tunneling one tile.
+            u.add_msg_if_player( m_info, _( "You are repelled by the barrier!" ) );
+            u.mod_power_level( -250_kJ ); //cost of tunneling one tile.
             return false;
         }
         if( tunneldist * 250_kJ >

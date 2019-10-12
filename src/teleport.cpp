@@ -23,10 +23,10 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     int tries = 0;
     tripoint origin = critter.pos();
     tripoint new_pos;
-    //The teleportee is dimensionally anchored so nothinng happens
+    //The teleportee is dimensionally anchored so nothing happens
     if( p && ( p->worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
                p->has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) ) {
-        p->add_msg_if_player( m_warning, _( "You feel a strange, innwards force." ) );
+        p->add_msg_if_player( m_warning, _( "You feel a strange, inwards force." ) );
         return false;
     }
     do {
