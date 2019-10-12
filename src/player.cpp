@@ -2812,33 +2812,6 @@ int player::get_num_crafting_helpers( int max ) const
     return std::min( max, static_cast<int>( helpers.size() ) );
 }
 
-void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
-{
-    if( has_trait( trait_ADRENALINE ) && !has_effect( effect_adrenaline ) &&
-        ( hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15 ) ) {
-        add_effect( effect_adrenaline, 20_minutes );
-    }
-
-    if( disturb ) {
-        if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
-            wake_up();
-        }
-        if( !is_npc() && !has_effect( effect_narcosis ) ) {
-            if( source != nullptr ) {
-                g->cancel_activity_or_ignore_query( distraction_type::attacked,
-                                                    string_format( _( "You were attacked by %s!" ),
-                                                            source->disp_name() ) );
-            } else {
-                g->cancel_activity_or_ignore_query( distraction_type::attacked, _( "You were hurt!" ) );
-            }
-        }
-    }
-
-    if( is_dead_state() ) {
-        set_killer( source );
-    }
-}
-
 bool player::immune_to( body_part bp, damage_unit dam ) const
 {
     if( has_trait( trait_DEBUG_NODMG ) || is_immune_damage( dam.type ) ) {
@@ -3193,102 +3166,6 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
             remove_med -= reduce_healing_effect( effect_disinfected, remove_med, hurt );
         }
     }
-}
-
-void Character::heal( body_part healed, int dam )
-{
-    hp_part healpart;
-    switch( healed ) {
-        case bp_eyes: // Fall through to head damage
-        case bp_mouth: // Fall through to head damage
-        case bp_head:
-            healpart = hp_head;
-            break;
-        case bp_torso:
-            healpart = hp_torso;
-            break;
-        case bp_hand_l:
-            // Shouldn't happen, but fall through to arms
-            debugmsg( "Heal against hands!" );
-        /* fallthrough */
-        case bp_arm_l:
-            healpart = hp_arm_l;
-            break;
-        case bp_hand_r:
-            // Shouldn't happen, but fall through to arms
-            debugmsg( "Heal against hands!" );
-        /* fallthrough */
-        case bp_arm_r:
-            healpart = hp_arm_r;
-            break;
-        case bp_foot_l:
-            // Shouldn't happen, but fall through to legs
-            debugmsg( "Heal against feet!" );
-        /* fallthrough */
-        case bp_leg_l:
-            healpart = hp_leg_l;
-            break;
-        case bp_foot_r:
-            // Shouldn't happen, but fall through to legs
-            debugmsg( "Heal against feet!" );
-        /* fallthrough */
-        case bp_leg_r:
-            healpart = hp_leg_r;
-            break;
-        default:
-            debugmsg( "Wacky body part healed!" );
-            healpart = hp_torso;
-    }
-    heal( healpart, dam );
-}
-
-void Character::heal( hp_part healed, int dam )
-{
-    if( hp_cur[healed] > 0 ) {
-        int effective_heal = std::min( dam, hp_max[healed] - hp_cur[healed] );
-        hp_cur[healed] += effective_heal;
-        g->events().send<event_type::character_heals_damage>( getID(), effective_heal );
-    }
-}
-
-void Character::healall( int dam )
-{
-    for( int healed_part = 0; healed_part < num_hp_parts; healed_part++ ) {
-        heal( static_cast<hp_part>( healed_part ), dam );
-        healed_bp( healed_part, dam );
-    }
-}
-
-void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
-{
-    if( is_dead_state() || has_trait( trait_DEBUG_NODMG ) || dam <= 0 ) {
-        return;
-    }
-
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const hp_part bp = static_cast<hp_part>( i );
-        // Don't use apply_damage here or it will annoy the player with 6 queries
-        const int dam_to_bodypart = std::min( dam, hp_cur[bp] );
-        hp_cur[bp] -= dam_to_bodypart;
-        g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
-    }
-
-    // Low pain: damage is spread all over the body, so not as painful as 6 hits in one part
-    mod_pain( dam );
-    on_hurt( source, disturb );
-}
-
-int Character::hitall( int dam, int vary, Creature *source )
-{
-    int damage_taken = 0;
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
-        int ddam = vary ? dam * rng( 100 - vary, 100 ) / 100 : dam;
-        int cut = 0;
-        auto damage = damage_instance::physical( ddam, cut, 0 );
-        damage_taken += deal_damage( source, bp, damage ).total_damage();
-    }
-    return damage_taken;
 }
 
 float player::fall_damage_mod() const
