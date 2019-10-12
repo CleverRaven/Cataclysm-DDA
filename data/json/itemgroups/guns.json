@@ -15,7 +15,7 @@
       { "item": "sw_22", "prob": 15, "charges-min": 0, "charges-max": 10 },
       { "item": "sw_610", "prob": 20, "charges-min": 0, "charges-max": 6 },
       { "item": "sw_619", "prob": 25, "charges-min": 0, "charges-max": 7 },
-      { "item": "taurusspectrum", "prob": 10, "charges-min": 0, "charges-max": 6 },
+      { "item": "taurusspectrum", "prob": 15, "charges-min": 0, "charges-max": 6 },
       { "item": "p226_357sig", "prob": 20, "charges-min": 0, "charges-max": 15 },
       { "item": "p320_357sig", "prob": 10, "charges-min": 0, "charges-max": 14 },
       { "item": "kp32", "prob": 10, "charges-min": 0, "charges-max": 7 },
