@@ -613,8 +613,6 @@ class player : public Character
         /** Handles special defenses from an attack that hit us (source can be null) */
         void on_hit( Creature *source, body_part bp_hit = num_bp,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
-        /** Handles effects that happen when the player is damaged and aware of the fact. */
-        void on_hurt( Creature *source, bool disturb = true );
 
         /** Returns the bonus bashing damage the player deals based on their stats */
         float bonus_damage( bool random ) const;
@@ -750,16 +748,6 @@ class player : public Character
         void set_painkiller( int npkill );
         /** Returns intensity of painkillers  */
         int get_painkiller() const;
-        /** Heals a body_part for dam */
-        void heal( body_part healed, int dam );
-        /** Heals an hp_part for dam */
-        void heal( hp_part healed, int dam );
-        /** Heals all body parts for dam */
-        void healall( int dam );
-        /** Hurts all body parts for dam, no armor reduction */
-        void hurtall( int dam, Creature *source, bool disturb = true );
-        /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
-        int hitall( int dam, int vary, Creature *source );
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint &to ) override;
 
