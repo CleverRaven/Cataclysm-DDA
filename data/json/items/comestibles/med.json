@@ -1454,6 +1454,6 @@
     "color": "white",
     "healthy": -10,
     "flags": "NPC_SAFE",
-    "use_action": { "type": "STRONG_ANTIBIOTIC", }
+    "use_action": { "type": "STRONG_ANTIBIOTIC" }
   }
 ]
