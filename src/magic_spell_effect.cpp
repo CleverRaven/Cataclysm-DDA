@@ -45,6 +45,19 @@
 #include "timed_event.h"
 #include "teleport.h"
 
+static void visit_spell_effect( const spell &sp, Creature &owner, const tripoint &target,
+    std::function<std::set<tripoint>( const spell &, const tripoint &, const tripoint &, int, bool )> spell_area,
+                                std::function<bool( const spell &, Creature &, const tripoint & )> cast )
+{
+    const std::set<tripoint> area = spell_area( sp, owner.pos(), target, sp.aoe(),
+                                    sp.has_flag( spell_flag::IGNORE_WALLS ) );
+    for( const tripoint &potential_target : area ) {
+        if( cast( sp, owner, potential_target ) ) {
+            sp.make_sound( potential_target );
+        }
+    }
+}
+
 void spell_effect::teleport_random( const spell &sp, Creature &caster, const tripoint & )
 {
     bool safe = !sp.has_flag( spell_flag::UNSAFE_TELEPORT );
@@ -688,13 +701,14 @@ void spell_effect::transform_blast( const spell &sp, Creature &caster,
                                     const tripoint &target )
 {
     ter_furn_transform_id transform( sp.effect_data() );
-    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), true );
-    for( const tripoint &location : area ) {
+    visit_spell_effect( sp, caster, target, spell_effect::spell_effect_blast,
+    [transform]( const spell & sp, Creature & caster, const tripoint & potential_target ) {
         if( one_in( sp.damage() ) ) {
-            transform->transform( location );
-            transform->add_all_messages( caster, location );
+            transform->transform( potential_target );
+            transform->add_all_messages( caster, potential_target );
+            return true;
         }
-    }
+    } );
 }
 
 void spell_effect::noise( const spell &sp, Creature &, const tripoint &target )
@@ -704,18 +718,15 @@ void spell_effect::noise( const spell &sp, Creature &, const tripoint &target )
 
 void spell_effect::vomit( const spell &sp, Creature &caster, const tripoint &target )
 {
-    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), true );
-    for( const tripoint &potential_target : area ) {
-        if( !sp.is_valid_target( caster, potential_target ) ) {
-            continue;
-        }
+    visit_spell_effect( sp, caster, target, spell_effect::spell_effect_blast,
+    []( const spell & sp, Creature & caster, const tripoint & potential_target ) {
         Character *const ch = g->critter_at<Character>( potential_target );
         if( !ch ) {
-            continue;
+            return false;
         }
-        sp.make_sound( target );
         ch->vomit();
-    }
+        return true;
+    } );
 }
 
 void spell_effect::explosion( const spell &sp, Creature &, const tripoint &target )
@@ -731,18 +742,15 @@ void spell_effect::flashbang( const spell &sp, Creature &caster, const tripoint 
 
 void spell_effect::mod_moves( const spell &sp, Creature &caster, const tripoint &target )
 {
-    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), false );
-    for( const tripoint &potential_target : area ) {
-        if( !sp.is_valid_target( caster, potential_target ) ) {
-            continue;
-        }
+    visit_spell_effect( sp, caster, target, spell_effect::spell_effect_blast,
+    []( const spell & sp, Creature & caster, const tripoint & potential_target ) {
         Creature *critter = g->critter_at<Creature>( potential_target );
         if( !critter ) {
-            continue;
+            return false;
         }
-        sp.make_sound( potential_target );
         critter->moves += sp.damage();
-    }
+        return true;
+    } );
 }
 
 void spell_effect::map( const spell &sp, Creature &caster, const tripoint & )
@@ -758,7 +766,6 @@ void spell_effect::map( const spell &sp, Creature &caster, const tripoint & )
 
 void spell_effect::morale( const spell &sp, Creature &caster, const tripoint &target )
 {
-    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), false );
     if( sp.effect_data().empty() ) {
         debugmsg( "ERROR: %s must have a valid morale_type as effect_str. None specified.",
                   sp.id().c_str() );
@@ -769,52 +776,46 @@ void spell_effect::morale( const spell &sp, Creature &caster, const tripoint &ta
                   sp.effect_data() );
         return;
     }
-    for( const tripoint &potential_target : area ) {
+    visit_spell_effect( sp, caster, target, spell_effect::spell_effect_blast,
+    []( const spell & sp, Creature & caster, const tripoint & potential_target ) {
         player *player_target;
-        if( !( sp.is_valid_target( caster, potential_target ) &&
-               ( player_target = g->critter_at<player>( potential_target ) ) ) ) {
-            continue;
+        if( !( player_target = g->critter_at<player>( potential_target ) ) ) {
+            return false;
         }
         player_target->add_morale( morale_type( sp.effect_data() ), sp.damage(), 0, sp.duration_turns(),
                                    sp.duration_turns() / 10, false );
-        sp.make_sound( potential_target );
-    }
+        return true;
+    } );
 }
 
 void spell_effect::charm_monster( const spell &sp, Creature &caster, const tripoint &target )
 {
-    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), false );
-    for( const tripoint &potential_target : area ) {
-        if( !sp.is_valid_target( caster, potential_target ) ) {
-            continue;
-        }
+    visit_spell_effect( sp, caster, target, spell_effect::spell_effect_blast,
+    []( const spell & sp, Creature & caster, const tripoint & potential_target ) {
         monster *mon = g->critter_at<monster>( potential_target );
         if( !mon ) {
-            continue;
+            return false;
         }
-        sp.make_sound( potential_target );
         if( mon->friendly == 0 && mon->get_hp() <= sp.damage() ) {
             mon->unset_dest();
             mon->friendly += sp.duration() / 100;
         }
-    }
+        return true;
+    } );
 }
 
 void spell_effect::mutate( const spell &sp, Creature &caster, const tripoint &target )
 {
-    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), false );
-    for( const tripoint &potential_target : area ) {
-        if( !sp.is_valid_target( caster, potential_target ) ) {
-            continue;
-        }
+    visit_spell_effect( sp, caster, target, spell_effect::spell_effect_blast,
+    []( const spell & sp, Creature & caster, const tripoint & potential_target ) {
         Character *guy = g->critter_at<Character>( potential_target );
         if( !guy ) {
-            continue;
+            return false;
         }
         // 10000 represents 100.00% to increase granularity without swapping everything to a float
         if( sp.damage() >= rng( 0, 10000 ) ) {
             // chance failure! but keep trying for other targets
-            continue;
+            return true;
         }
         if( sp.effect_data().empty() ) {
             guy->mutate();
@@ -825,18 +826,16 @@ void spell_effect::mutate( const spell &sp, Creature &caster, const tripoint &ta
                 guy->mutate_category( sp.effect_data() );
             }
         }
-        sp.make_sound( potential_target );
-    }
+        return true;
+    } );
 }
 
 void spell_effect::bash( const spell &sp, Creature &caster, const tripoint &target )
 {
-    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), false );
-    for( const tripoint &potential_target : area ) {
-        if( !sp.is_valid_target( caster, potential_target ) ) {
-            continue;
-        }
-        // the bash already makes noise, so no need for spell::make_sound()
+    visit_spell_effect( sp, caster, target, spell_effect::spell_effect_blast,
+    []( const spell & sp, Creature & caster, const tripoint & potential_target ) {
         g->m.bash( potential_target, sp.damage(), sp.has_flag( spell_flag::SILENT ) );
-    }
+        // the bash already makes noise, so no need for spell::make_sound()
+        return false;
+    } );
 }
