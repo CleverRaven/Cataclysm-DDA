@@ -103,4 +103,10 @@ static void bar()
     foo( "Three?! Two!?  One!!" );
     // CHECK-MESSAGES: [[@LINE-1]]:18: warning: insufficient spaces at this location.  2 required, but only 1 found.
     // CHECK-FIXES: foo( "Three?!  Two!?  One!!" );
+    foo( "\u2026 foo." );
+    // CHECK-MESSAGES: [[@LINE-1]]:17: warning: undesired spaces after a punctuation that starts a string.
+    // CHECK-FIXES: foo( "\u2026foo." );
+    foo( "foo.\n\u2026  bar." );
+    // CHECK-MESSAGES: [[@LINE-1]]:23: warning: undesired spaces after a punctuation that starts a line.
+    // CHECK-FIXES: foo( "foo.\n\u2026bar." );
 }
