@@ -1032,7 +1032,13 @@ void Character::set_max_power_level( units::energy npower_max )
 
 void Character::mod_power_level( units::energy npower )
 {
-    power_level = clamp( power_level + npower, 0_kJ, max_power_level );
+    int new_power = units::to_millijoule( power_level ) + units::to_millijoule( npower );
+    // An integer overflow has occurred - the sum of two positive things (power_level is always positive)
+    // cannot be negative, so if it is, we know integer overflow has occured
+    if( npower >= 0_mJ && new_power < 0 ) {
+        new_power = units::to_millijoule( max_power_level );
+    }
+    power_level = clamp( units::from_millijoule( new_power ), 0_kJ, max_power_level );
 }
 
 void Character::mod_max_power_level( units::energy npower_max )
