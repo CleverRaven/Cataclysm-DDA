@@ -610,6 +610,13 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     // Now we're gonna handle traps we're standing on (if we're still moving).
     if( !vertical && can_move ) {
         const auto wheel_indices = veh.wheelcache; // Don't use a reference here, it causes a crash.
+
+        // Values to deal with crushing items.
+        // The math needs to be floating-point to work, so the values might as well be.
+        const float vehicle_grounded_wheel_area = static_cast<int>( vehicle_wheel_traction( veh, true ) );
+        const float weight_to_damage_factor = 0.05; // Nobody likes a magic number.
+        const float vehicle_mass_kg = to_kilogram( veh.total_mass() );
+
         for( auto &w : wheel_indices ) {
             const tripoint wheel_p = veh.global_part_pos3( w );
             if( one_in( 2 ) && displace_water( wheel_p ) ) {
@@ -619,8 +626,16 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
 
             veh.handle_trap( wheel_p, w );
             if( !has_flag( "SEALED", wheel_p ) ) {
-                // TODO: Make this value depend on the wheel
-                smash_items( wheel_p, 5 );
+                const float wheel_area =  veh.parts[ w ].wheel_area();
+
+                // Damage is calculated based on the weight of the vehicle,
+                // The area of it's wheels, and the area of the wheel running over the items.
+                // This number is multiplied by weight_to_damage_factor to get reasonable results, damage-wise.
+                const int wheel_damage = static_cast<int>( ( ( wheel_area / vehicle_grounded_wheel_area ) *
+                                         vehicle_mass_kg ) * weight_to_damage_factor );
+
+                //~ %1$s: vehicle name
+                smash_items( wheel_p, wheel_damage, string_format( _( "weight of %1$s" ), veh.disp_name() ) );
             }
         }
     }
@@ -2932,11 +2947,16 @@ void map::collapse_at( const tripoint &p, const bool silent )
     }
 }
 
-void map::smash_items( const tripoint &p, const int power )
+void map::smash_items( const tripoint &p, const int power, const std::string &cause_message )
 {
     if( !has_items( p ) ) {
         return;
     }
+
+    // Keep track of how many items have been damaged, and what the first one is
+    bool item_was_damaged = false;
+    int items_damaged = 0;
+    std::string damaged_item_name;
 
     std::vector<item> contents;
     auto items = i_at( p );
@@ -2981,6 +3001,8 @@ void map::smash_items( const tripoint &p, const int power )
                    i->charges > 0 ) {
                 i->charges--;
                 damage_chance -= material_factor;
+                // We can't increment items_damaged directly because a single item can be damaged more than once
+                item_was_damaged = true;
             }
         } else {
             const field_type_id type_blood = i->is_corpse() ? i->get_mtype()->bloodType() : fd_null;
@@ -2990,8 +3012,22 @@ void map::smash_items( const tripoint &p, const int power )
                 i->inc_damage( DT_BASH );
                 add_splash( type_blood, p, 1, damage_chance );
                 damage_chance -= material_factor;
+                item_was_damaged = true;
             }
         }
+
+        // If an item was damaged, increment the counter and set it as most recently damaged.
+        if( item_was_damaged ) {
+
+            // If this is the first item to be damaged, store its name in damaged_item_name.
+            if( items_damaged == 0 ) {
+                damaged_item_name = i->tname();
+            }
+            // Increment the counter, and reset the flag.
+            items_damaged++;
+            item_was_damaged = false;
+        }
+
         // Remove them if they were damaged too much
         if( i->damage() == i->max_damage() || ( by_charges && i->charges == 0 ) ) {
             // But save the contents, except for irremovable gunmods
@@ -3005,6 +3041,14 @@ void map::smash_items( const tripoint &p, const int power )
         } else {
             i++;
         }
+    }
+
+    // Let the player know that the item was damaged if they can see it.
+    if( items_damaged > 1 && g->u.sees( p ) ) {
+        add_msg( m_bad, _( "The %s damages several items!" ), cause_message );
+    } else if( items_damaged == 1 && g->u.sees( p ) )  {
+        //~ %1$s: the cause of damage, %2$s: damaged item name
+        add_msg( m_bad, _( "The %1$s damages the %2$s!" ), cause_message, damaged_item_name );
     }
 
     for( const item &it : contents ) {
@@ -3772,7 +3816,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 
     // Now, smash items on that tile.
     // dam / 3, because bullets aren't all that good at destroying items...
-    smash_items( p, dam / 3 );
+    smash_items( p, dam / 3, _( "flying projectile" ) );
 }
 
 bool map::hit_with_acid( const tripoint &p )
@@ -7968,10 +8012,20 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         do_vehicle_caching( z );
     }
 
-    // The tile player is standing on should always be transparent
     const tripoint &p = g->u.pos();
-    if( ( has_furn( p ) && !furn( p ).obj().transparent ) || !ter( p ).obj().transparent ) {
-        get_cache( p.z ).transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_CLEAR;
+    bool is_crouching = g->u.movement_mode_is( PMM_CROUCH );
+    for( const tripoint &loc : points_in_radius( p, 1 ) ) {
+        if( loc == p ) {
+            // The tile player is standing on should always be transparent
+            if( ( has_furn( p ) && !furn( p ).obj().transparent ) || !ter( p ).obj().transparent ) {
+                get_cache( p.z ).transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_CLEAR;
+            }
+        } else if( is_crouching && coverage( loc ) >= 30 ) {
+            // If we're crouching behind an obstacle, we can't see past it.
+            get_cache( loc.z ).transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
+            get_cache( loc.z ).transparency_cache_dirty = true;
+            seen_cache_dirty = true;
+        }
     }
 
     if( seen_cache_dirty ) {

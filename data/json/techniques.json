@@ -1237,6 +1237,50 @@
   },
   {
     "type": "technique",
+    "id": "tec_silat_hamstring",
+    "name": "Hamstring",
+    "messages": [ "You ground %s with a low blow", "<npcname> grounds %s with a low blow" ],
+    "min_melee": 2,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "down_dur": 2
+  },
+  {
+    "type": "technique",
+    "id": "tec_silat_precise",
+    "name": "Vicious Precision",
+    "messages": [ "You viciously wound %s", "<npcname> viciously wounds %s" ],
+    "min_melee": 3,
+    "melee_allowed": true,
+    "crit_ok": true,
+    "downed_target": true,
+    "weighting": 2,
+    "mult_bonuses": [ [ "damage", "bash", 1.33 ], [ "damage", "cut", 1.33 ], [ "damage", "stab", 1.33 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_silat_dirty",
+    "name": "Dirty Hit",
+    "messages": [ "You hit %s with a dirty blow", "<npcname> delivers a dirty blow to %s" ],
+    "min_melee": 4,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 2
+  },
+  {
+    "type": "technique",
+    "id": "tec_silat_brutal",
+    "name": "Silat Brutality",
+    "messages": [ "You brutally tear into %s", "<npcname> brutally tears into %s" ],
+    "min_melee": 5,
+    "melee_allowed": true,
+    "crit_ok": true,
+    "stunned_target": true,
+    "weighting": 2,
+    "mult_bonuses": [ [ "damage", "bash", 1.33 ], [ "damage", "cut", 1.33 ], [ "damage", "stab", 1.33 ] ]
+  },
+  {
+    "type": "technique",
     "id": "tec_taichi_disarm",
     "name": "disarm",
     "min_unarmed": 3,
@@ -1303,48 +1347,6 @@
     "crit_ok": true,
     "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 1.25 ] ],
     "messages": [ "You lurch, and your wild swing hits %s", "<npcname> lurches, and hits %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_silat_hamstring",
-    "name": "hamstring",
-    "min_melee": 2,
-    "melee_allowed": true,
-    "crit_tec": true,
-    "down_dur": 3,
-    "messages": [ "You ground %s with a low blow", "<npcname> grounds %s with a low blow" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_silat_precise",
-    "name": "Vicious Precision",
-    "min_melee": 4,
-    "melee_allowed": true,
-    "crit_tec": true,
-    "mult_bonuses": [ [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ], [ "damage", "stab", 1.5 ] ],
-    "messages": [ "You viciously wound %s", "<npcname> viciously wounds %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_silat_brutal",
-    "name": "Silat Brutality",
-    "min_melee": 3,
-    "melee_allowed": true,
-    "crit_tec": true,
-    "stun_dur": 1,
-    "knockback_dist": 1,
-    "messages": [ "You send %s reeling backwards", "<npcname> sends %s reeling" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_silat_dirty",
-    "name": "Dirty Hit",
-    "min_melee": 1,
-    "melee_allowed": true,
-    "crit_tec": true,
-    "stun_dur": 2,
-    "req_buffs": [ "silat_dodge_buff" ],
-    "messages": [ "You hit %s with a dirty blow", "<npcname> delivers a dirty blow to %s" ]
   },
   {
     "type": "technique",
@@ -1458,7 +1460,7 @@
     "unarmed_allowed": true,
     "knockback_dist": 1,
     "knockback_spread": 1,
-    "knockback_follow": 1,
+    "knockback_follow": true,
     "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ],
     "messages": [ "You chain strike %s", "<npcname> chain strikes %s" ],
     "description": "50% moves, 66% damage, knockback and follow"
@@ -1479,7 +1481,6 @@
     "name": "ask the way",
     "min_unarmed": 2,
     "unarmed_allowed": true,
-    "strictly_unarmed": true,
     "defensive": true,
     "miss_recovery": true,
     "messages": [ "You miss but keep striking at %s", "<npcname> misses but keeps striking at %s" ]

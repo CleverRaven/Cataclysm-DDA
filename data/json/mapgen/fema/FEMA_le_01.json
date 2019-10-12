@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "FEMA_le",
-    "comment": "left edge",
+    "//": "left edge",
     "weight": 250,
     "method": "json",
     "object": {

@@ -664,7 +664,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
                 if( !( you.has_charges( "UPS_off", ups_drain ) ||
                        you.has_charges( "adv_UPS_off", adv_ups_drain ) ||
                        ( you.has_active_bionic( bionic_id( "bio_ups" ) ) &&
-                         you.power_level >= units::from_kilojoule( ups_drain ) ) ) ) {
+                         you.get_power_level() >= units::from_kilojoule( ups_drain ) ) ) ) {
                     add_msg( m_info,
                              _( "You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!" ),
                              ups_drain, adv_ups_drain );
@@ -798,7 +798,7 @@ bool avatar_action::fire( avatar &you, map &m )
     }
 
     if( shots && args.power_cost ) {
-        you.charge_power( units::from_kilojoule( -args.power_cost ) * shots );
+        you.mod_power_level( units::from_kilojoule( -args.power_cost ) * shots );
     }
     g->reenter_fullscreen();
     return shots != 0;
