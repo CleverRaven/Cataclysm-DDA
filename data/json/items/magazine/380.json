@@ -96,7 +96,7 @@
     "flags": [ "MAG_COMPACT" ]
   },
   {
-    "id": "taurusspectrummag",
+    "id": "taurus_spectrum_mag",
     "type": "MAGAZINE",
     "name": "Taurus Spectrum magazine",
     "description": "A compact, 6-round steel box magazine for use with the Taurus Spectrum.",

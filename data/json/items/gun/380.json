@@ -88,7 +88,6 @@
     "id": "taurus_spectrum",
     "copy-from": "pistol_backup",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": "Taurus Spectrum",
     "name_plural": "Taurus Spectrum",
     "description": "A .380 subcompact pistol.  Designed for concealed carry and built from high-quality, durable materials.",
@@ -101,11 +100,10 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "380",
-    "skill": "pistol",
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 225,
     "magazine_well": 1,
-    "magazines": [ [ "380", [ "taurusspectrummag" ] ] ]
+    "magazines": [ [ "380", [ "taurus_spectrum_mag" ] ] ]
   }
 ]

@@ -717,11 +717,11 @@
   {
     "id": "taurus_38",
     "type": "MIGRATION",
-    "replace": "taurusspectrum"
+    "replace": "taurus_spectrum"
   },
   {
     "id": "taurus38mag",
     "type": "MIGRATION",
-    "replace": "taurusspectrummag"
+    "replace": "taurus_spectrum_mag"
   }
 ]
