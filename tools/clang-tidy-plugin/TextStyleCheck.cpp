@@ -112,6 +112,8 @@ void TextStyleCheck::check( const MatchFinder::MatchResult &Result )
             size_t fix_start_max = 0;
             // remove unnecessary spaces after a symbol that starts a line (after '\n')
             size_t fix_line_start_max = 0;
+            // remove unnecessary spaces before the symbol
+            size_t fix_before_max = 0;
         } spaces;
         struct {
             bool yes;
@@ -125,21 +127,21 @@ void TextStyleCheck::check( const MatchFinder::MatchResult &Result )
     // and search for them in this order.
     // *INDENT-OFF*
     static const std::array<punctuation, 13> punctuations = {{
-        // symbol,follow,    spaces,                           replace,
-        //                    check,  len, num spc,  end,start     yes,   string,     escaped,  symbol desc,      replc desc
-        { U"...",    U"",   {  true, 0, 1, 0, 0, 0, 2, 2, 2, 2 }, {  true, "\u2026", R"(\u2026)", "three dots",      "ellipsis" } },
-        { U"::",     U"",   { false,                           }, { false,                                                      } },
-        { U"\r\n",   U"",   { false,                           }, {  true, R"(\n)",  R"(\n)",     "carriage return", "new line" } },
-        { U"\u2026", U"",   {  true, 0, 1, 1, 3, 2, 2, 2, 2, 2 }, { false,                                                      } },
-        { U".",      U"",   {  true, 0, 3, 1, 3, 2, 0, 2, 0, 0 }, { false,                                                      } },
-        { U";",      U"",   {  true, 0, 1, 1, 2, 1, 1, 1, 0, 0 }, { false,                                                      } },
-        { U"!",      U"!?", {  true, 0, 1, 1, 3, 2, 2, 2, 0, 0 }, { false,                                                      } },
-        { U"?",      U"!?", {  true, 0, 1, 1, 3, 2, 2, 2, 0, 0 }, { false,                                                      } },
-        { U":",      U"",   {  true, 0, 1, 1, 1, 1, 0, 1, 0, 0 }, { false,                                                      } },
-        { U",",      U"",   {  true, 0, 1, 1, 2, 1, 0, 1, 0, 0 }, { false,                                                      } },
-        { U"\r",     U"",   { false,                           }, {  true, R"(\n)",  R"(\n)",     "carriage return", "new line" } },
-        { U"\n",     U"",   {  true, 0, 0, 0, 0, 0, 1, 1, 0, 0 }, { false,                                                      } },
-        { U"\t",     U"",   { false,                           }, {  true, "    ",   "    ",      "tab",             "spaces"   } },
+        // symbol,follow,    spaces,                                 replace,
+        //                    check,  len, num spc,  end,start,before    yes,   string,     escaped,  symbol desc,      replc desc
+        { U"...",    U"",   {  true, 0, 1, 0, 0, 0, 2, 2, 2, 2, 1 }, {  true, "\u2026", R"(\u2026)", "three dots",      "ellipsis" } },
+        { U"::",     U"",   { false,                              }, { false,                                                      } },
+        { U"\r\n",   U"",   { false,                              }, {  true, R"(\n)",  R"(\n)",     "carriage return", "new line" } },
+        { U"\u2026", U"",   {  true, 0, 1, 1, 3, 2, 2, 2, 2, 2, 1 }, { false,                                                      } },
+        { U".",      U"",   {  true, 0, 3, 1, 3, 2, 0, 2, 0, 0, 1 }, { false,                                                      } },
+        { U";",      U"",   {  true, 0, 1, 1, 2, 1, 1, 1, 0, 0, 1 }, { false,                                                      } },
+        { U"!",      U"!?", {  true, 0, 1, 1, 3, 2, 2, 2, 0, 0, 1 }, { false,                                                      } },
+        { U"?",      U"!?", {  true, 0, 1, 1, 3, 2, 2, 2, 0, 0, 1 }, { false,                                                      } },
+        { U":",      U"",   {  true, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1 }, { false,                                                      } },
+        { U",",      U"",   {  true, 0, 1, 1, 2, 1, 0, 1, 0, 0, 1 }, { false,                                                      } },
+        { U"\r",     U"",   { false,                              }, {  true, R"(\n)",  R"(\n)",     "carriage return", "new line" } },
+        { U"\n",     U"",   {  true, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1 }, { false,                                                      } },
+        { U"\t",     U"",   { false,                              }, {  true, "    ",   "    ",      "tab",             "spaces"   } },
     }};
     // *INDENT-ON*
 
@@ -185,6 +187,22 @@ void TextStyleCheck::check( const MatchFinder::MatchResult &Result )
             }
         }
         if( punc->spaces.check && text_length >= punc->spaces.min_string_length ) {
+            size_t spacesbefore = 0;
+            auto itspacebefore = itpunc;
+            for( ; itspacebefore > beg; --itspacebefore, ++spacesbefore ) {
+                const uint32_t ch = *( itspacebefore - 1 );
+                if( ch != U' ' ) {
+                    break;
+                }
+            }
+            if( spacesbefore > 0 && spacesbefore <= punc->spaces.fix_before_max ) {
+                const CharSourceRange range = CharSourceRange::getCharRange(
+                                                  location( itspacebefore ), location( itpunc ) );
+                auto diags = diag( location( itpunc ), "unnecessary spaces before this location." );
+                if( fixit ) {
+                    diags << FixItHint::CreateRemoval( range );
+                }
+            }
             size_t wordlen = 0;
             for( auto itword = itpunc; itword > beg; --itword, ++wordlen ) {
                 const uint32_t ch = *( itword - 1 );
