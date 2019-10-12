@@ -643,12 +643,12 @@ void player::process_turn()
     }
 
     // We can dodge again! Assuming we can actually move...
-    if( !in_sleep_state() ) {
-        blocks_left = get_num_blocks();
-        dodges_left = get_num_dodges();
-    } else {
+    if( in_sleep_state() ) {
         blocks_left = 0;
         dodges_left = 0;
+    } else if( moves > 0 ) {
+        blocks_left = get_num_blocks();
+        dodges_left = get_num_dodges();
     }
 
     // auto-learning. This is here because skill-increases happens all over the place:
