@@ -178,8 +178,12 @@ class TilesheetData(object):
                 in_list.append(self.null_image)
             else:
                 vips_image = Vips.Image.pngload(png_pathname)
-                if not vips_image.hasalpha():
-                    vips_image = vips_image.addalpha()
+                try:
+                    if not vips_image.hasalpha():
+                        vips_image = vips_image.addalpha()
+                except Vips.Error:
+                    pass
+
                 if vips_image.width != self.width or vips_image.height != self.height:
                     size_msg = "{} is {}x{}, sheet sprites are {}x{}."
                     print(size_msg.format(png_pathname, vips_image.width, vips_image.height,
