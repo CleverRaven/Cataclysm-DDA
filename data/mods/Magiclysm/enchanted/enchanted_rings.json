@@ -9,7 +9,7 @@
     "price": 5000,
     "material": [ "copper" ],
     "symbol": "[",
-    "color": "light_gray",
+    "color": "light_red",
     "covers": [ "HAND_EITHER" ],
     "coverage": 0,
     "warmth": 0,
@@ -41,7 +41,7 @@
     "price": 5000,
     "material": [ "gold" ],
     "symbol": "[",
-    "color": "light_gray",
+    "color": "yellow",
     "covers": [ "HAND_EITHER" ],
     "coverage": 0,
     "warmth": 0,
@@ -173,7 +173,7 @@
     "id": "mring_intelligence_3",
     "name": "ring of intelligence +3",
     "name_plural": "rings of intelligence +3",
-    "description": "A golden ring that makes you a enlighteningly more intelligent when you wear it.",
+    "description": "A golden ring that makes you surprisingly more intelligent when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 3 } ] } ] }
   },
   {
@@ -254,7 +254,7 @@
     "id": "mring_speed_10",
     "name": "ring of speed +10",
     "name_plural": "rings of speed +10",
-    "description": "A platinum ring that makes you much quicker when you wear it.",
+    "description": "A platinum ring that makes you much faster when you wear it.",
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 10 } ] } ] }
   },
   {
