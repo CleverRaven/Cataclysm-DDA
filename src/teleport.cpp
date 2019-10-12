@@ -24,8 +24,9 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     tripoint origin = critter.pos();
     tripoint new_pos;
     //The teleportee is dimensionally anchored so nothinng happens
-    if ( p && (p->worn_with_flag("DIMENSIONAL_ANCHOR") || p->has_effect_with_flag("DIMENSIONAL_ANCHOR")) ) {
-        p->add_msg_if_player(m_warning, _("You feel a strange, innwards force."));
+    if( p && ( p->worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
+               p->has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) ) {
+        p->add_msg_if_player( m_warning, _( "You feel a strange, innwards force." ) );
         return false;
     }
     do {
@@ -52,16 +53,17 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
 
     }
     //handles telefragging other creatures
-    if ( Creature *const poor_soul = g->critter_at<Creature>( new_pos ) ) {
-        player *const poor_player = dynamic_cast<player *>(poor_soul);
-        if ( safe ) {
-            if ( c_is_u ) {
+    if( Creature *const poor_soul = g->critter_at<Creature>( new_pos ) ) {
+        player *const poor_player = dynamic_cast<player *>( poor_soul );
+        if( safe ) {
+            if( c_is_u ) {
                 add_msg( m_bad, _( "You cannot teleport safely." ) );
             }
             return false;
-        } else if (poor_player && (poor_player->worn_with_flag("DIMENSIONAL_ANCHOR") || poor_player->has_effect_with_flag("DIMENSIONAL_ANCHOR"))) {
-            debugmsg("ERROR: 3.");
-            poor_player->add_msg_if_player(m_warning, _("You feel disjointed."));
+        } else if( poor_player && ( poor_player->worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
+                                    poor_player->has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) ) {
+            debugmsg( "ERROR: 3." );
+            poor_player->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
             return false;
         } else {
             const bool poor_soul_is_u = ( poor_soul == &g->u );
