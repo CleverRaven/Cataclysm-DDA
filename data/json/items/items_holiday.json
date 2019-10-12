@@ -44,6 +44,7 @@
     "charges_per_use": 1,
     "turns_per_charge": 1350,
     "use_action": {
+      "type": "transform",
       "target": "plastic_jack_o_lantern",
       "msg": "The candle winks out inside the lantern.",
       "menu_text": "Extinguish",
