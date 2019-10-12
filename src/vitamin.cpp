@@ -51,7 +51,7 @@ void vitamin::load_vitamin( JsonObject &jo )
 
     vit.id_ = vitamin_id( jo.get_string( "id" ) );
     jo.read( "name", vit.name_ );
-    vit.deficiency_ = efftype_id( jo.get_string( "deficiency" ) );
+    vit.deficiency_ = efftype_id( jo.get_string( "deficiency", "null" ) );
     vit.excess_ = efftype_id( jo.get_string( "excess", "null" ) );
     vit.min_ = jo.get_int( "min" );
     vit.max_ = jo.get_int( "max", 0 );
@@ -82,7 +82,7 @@ const std::map<vitamin_id, vitamin> &vitamin::all()
 void vitamin::check_consistency()
 {
     for( const auto &v : vitamins_all ) {
-        if( !v.second.deficiency_.is_valid() ) {
+        if( !( v.second.deficiency_.is_null() || v.second.deficiency_.is_valid() ) ) {
             debugmsg( "vitamin %s has unknown deficiency %s", v.second.id_.c_str(),
                       v.second.deficiency_.c_str() );
         }
