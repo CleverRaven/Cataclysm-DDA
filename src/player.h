@@ -304,10 +304,6 @@ class player : public Character
          *  Defaults to true
          */
         bool purifiable( const trait_id &flag ) const;
-        /** Recalculates mutation_category_level[] values for the player */
-        void set_highest_cat_level();
-        /** Returns the highest mutation category */
-        std::string get_highest_category() const;
         /** Returns a dream's description selected randomly from the player's highest mutation category */
         std::string get_category_dream( const std::string &cat, int strength ) const;
 
@@ -364,8 +360,6 @@ class player : public Character
                                         float adjusted_skill );
         /**Has enough anesthetic for surgery*/
         bool has_enough_anesth( const itype *cbm, player &patient );
-        /** Adds the entered amount to the player's bionic power_level */
-        void charge_power( int amount );
         /** Generates and handles the UI for player interaction with installed bionics */
         void power_bionics();
         void power_mutations();
@@ -392,23 +386,6 @@ class player : public Character
         /** Returns player luminosity based on the brightest active item they are carrying */
         float active_light() const;
 
-        /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
-        bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const;
-        /** Picks a random valid mutation and gives it to the player, possibly removing/changing others along the way */
-        void mutate();
-        /** Picks a random valid mutation in a category and mutate_towards() it */
-        void mutate_category( const std::string &mut_cat );
-        /** Mutates toward one of the given mutations, upgrading or removing conflicts if necessary */
-        bool mutate_towards( std::vector<trait_id> muts, int num_tries = INT_MAX );
-        /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
-        bool mutate_towards( const trait_id &mut );
-        /** Removes a mutation, downgrading to the previous level if possible */
-        void remove_mutation( const trait_id &mut, bool silent = false );
-        /** Returns true if the player has the entered mutation child flag */
-        bool has_child_flag( const trait_id &flag ) const;
-        /** Removes the mutation's child flag from the player's list */
-        void remove_child_flag( const trait_id &flag );
-
         const tripoint &pos() const override;
         /** Returns the player's sight range */
         int sight_range( int light_level ) const override;
@@ -422,8 +399,6 @@ class player : public Character
         int  clairvoyance() const;
         /** Returns true if the player has some form of impaired sight */
         bool sight_impaired() const;
-        /** Returns true if the player has two functioning arms */
-        bool has_two_arms() const;
         /** Calculates melee weapon wear-and-tear through use, returns true if item is destroyed. */
         bool handle_melee_wear( item &shield, float wear_multiplier = 1.0f );
         /** True if unarmed or wielding a weapon with the UNARMED_WEAPON flag */
@@ -482,6 +457,8 @@ class player : public Character
         void ma_static_effects();
         /** Fires all move-triggered martial arts events */
         void ma_onmove_effects();
+        /** Fires all pause-triggered martial arts events */
+        void ma_onpause_effects();
         /** Fires all hit-triggered martial arts events */
         void ma_onhit_effects();
         /** Fires all attack-triggered martial arts events */
@@ -518,8 +495,6 @@ class player : public Character
         int mabuff_block_bonus() const;
         /** Returns the speed bonus from martial arts buffs */
         int mabuff_speed_bonus() const;
-        /** Returns the armor bonus against given type from martial arts buffs */
-        int mabuff_armor_bonus( damage_type type ) const;
         /** Returns the damage multiplier to given type from martial arts buffs */
         float mabuff_damage_mult( damage_type type ) const;
         /** Returns the flat damage bonus to given type from martial arts buffs, applied after the multiplier */
@@ -633,25 +608,6 @@ class player : public Character
 
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
         bool block_hit( Creature *source, body_part &bp_hit, damage_instance &dam ) override;
-        /**
-         * Reduces and mutates du, prints messages about armor taking damage.
-         * @return true if the armor was completely destroyed (and the item must be deleted).
-         */
-        bool armor_absorb( damage_unit &du, item &armor );
-        /**
-         * Check for passive bionics that provide armor, and returns the armor bonus
-         * This is called from player::passive_absorb_hit
-         */
-        float bionic_armor_bonus( body_part bp, damage_type dt ) const;
-        /**
-         * Check for relevant passive, non-clothing that can absorb damage, and reduce by specified
-         * damage unit.  Only flat bonuses are checked here.  Multiplicative ones are checked in
-         * @ref player::absorb_hit.  The damage amount will never be reduced to less than 0.
-         * This is called from @ref player::absorb_hit
-         */
-        void passive_absorb_hit( body_part bp, damage_unit &du ) const;
-        /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
-        void absorb_hit( body_part bp, damage_instance &dam ) override;
         /** Called after the player has successfully dodged an attack */
         void on_dodge( Creature *source, float difficulty ) override;
         /** Handles special defenses from an attack that hit us (source can be null) */
@@ -847,8 +803,6 @@ class player : public Character
 
         /** Drenches the player with water, saturation is the percent gotten wet */
         void drench( int saturation, const body_part_set &flags, bool ignore_waterproof );
-        /** Recalculates mutation drench protection for all bodyparts (ignored/good/neutral stats) */
-        void drench_mut_calc();
         /** Recalculates morale penalty/bonus from wetness based on mutations, equipment and temperature */
         void apply_wetness_morale( int temperature );
 
@@ -1240,8 +1194,10 @@ class player : public Character
         static int thirst_speed_penalty( int thirst );
 
         int adjust_for_focus( int amount ) const;
-        void practice( const skill_id &id, int amount, int cap = 99 );
-
+        /** This handles giving xp for a skill */
+        void practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
+        /** This handles warning the player that there current activity will not give them xp */
+        void handle_skill_warning( const skill_id &id, bool force_warning = false );
         /** Legacy activity assignment, should not be used where resuming is important. */
         void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
                               int index = -1, int pos = INT_MIN,
@@ -1575,13 +1531,10 @@ class player : public Character
         player_activity activity;
         std::list<player_activity> backlog;
         cata::optional<tripoint> destination_point;
-        int activity_vehicle_part_index = -1;
         int volume;
         const profession *prof;
 
         start_location_id start_location;
-
-        std::map<std::string, int> mutation_category_level;
 
         time_point next_climate_control_check;
         bool last_climate_control_ret;
@@ -1604,14 +1557,6 @@ class player : public Character
         // Equalizes heat between body parts
         void temp_equalizer( body_part bp1, body_part bp2 );
 
-        // Drench cache
-        enum water_tolerance {
-            WT_IGNORED = 0,
-            WT_NEUTRAL,
-            WT_GOOD,
-            NUM_WATER_TOLERANCE
-        };
-        std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
         std::array<int, num_bp> drench_capacity;
         std::array<int, num_bp> body_wetness;
 
@@ -1817,9 +1762,6 @@ class player : public Character
         int temp_corrected_by_climate_control( int temperature ) const;
         /** Define blood loss (in percents) */
         int blood_loss( body_part bp ) const;
-        /** Recursively traverses the mutation's prerequisites and replacements, building up a map */
-        void build_mut_dependency_map( const trait_id &mut,
-                                       std::unordered_map<trait_id, int> &dependency_map, int distance );
 
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const trait_id &mutation );

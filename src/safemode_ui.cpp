@@ -292,7 +292,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
                 //remove old
                 temp_rules_from.erase( temp_rules_from.begin() + line );
-                line = temp_rules_from.size() - 1;
+                line = temp_rules_to.size() - 1;
                 tab = ( tab == GLOBAL_TAB ) ? CHARACTER_TAB : GLOBAL_TAB;
             }
         } else if( action == "CONFIRM" && !current_tab.empty() ) {

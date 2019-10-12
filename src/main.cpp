@@ -123,7 +123,8 @@ void printHelpMessage( const arg_handler *first_pass_arguments, size_t num_first
 }  // namespace
 
 #if defined(USE_WINMAIN)
-int APIENTRY WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
+int APIENTRY WinMain( HINSTANCE /* hInstance */, HINSTANCE /* hPrevInstance */,
+                      LPSTR /* lpCmdLine */, int /* nCmdShow */ )
 {
     int argc = __argc;
     char **argv = __argv;
@@ -734,7 +735,7 @@ void printHelpMessage( const arg_handler *first_pass_arguments,
         }
         printf( "\n" );
         if( handler->documentation ) {
-            printf( "\t%s\n", handler->documentation );
+            printf( "    %s\n", handler->documentation );
         }
     }
 }

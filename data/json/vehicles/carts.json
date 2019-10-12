@@ -97,8 +97,8 @@
       { "x": -1, "y": 1, "parts": [ "wheel_mount_light", "wheel_small" ] }
     ],
     "items": [
-      { "x": -1, "y": 0, "chance": 25, "repeat": 2, "item_groups": [ "golf_cart" ] },
-      { "x": -1, "y": 1, "chance": 25, "repeat": 2, "item_groups": [ "golf_cart" ] }
+      { "x": -1, "y": 0, "chance": 25, "//repeat": 2, "item_groups": [ "golf_cart" ] },
+      { "x": -1, "y": 1, "chance": 25, "//repeat": 2, "item_groups": [ "golf_cart" ] }
     ]
   },
   {
@@ -135,8 +135,8 @@
       { "x": -1, "y": 1, "parts": [ "wheel_mount_light", "wheel_small" ] }
     ],
     "items": [
-      { "x": -1, "y": 0, "chance": 20, "repeat": 2, "item_groups": [ "golf_cart" ] },
-      { "x": -1, "y": 1, "chance": 20, "repeat": 2, "item_groups": [ "golf_cart" ] },
+      { "x": -1, "y": 0, "chance": 20, "//repeat": 2, "item_groups": [ "golf_cart" ] },
+      { "x": -1, "y": 1, "chance": 20, "//repeat": 2, "item_groups": [ "golf_cart" ] },
       { "x": 0, "y": 0, "chance": 20, "item_groups": [ "golf_cart" ] },
       { "x": 0, "y": 1, "chance": 20, "item_groups": [ "golf_cart" ] }
     ]

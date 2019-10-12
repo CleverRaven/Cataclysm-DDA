@@ -135,7 +135,8 @@ class overmapbuffer
          * Uses global overmap terrain coordinates, creates the
          * overmap if needed.
          */
-        oter_id &ter( const tripoint &p );
+        const oter_id &ter( const tripoint &p );
+        void ter_set( const tripoint &p, const oter_id &id );
         /**
          * Uses global overmap terrain coordinates.
          */

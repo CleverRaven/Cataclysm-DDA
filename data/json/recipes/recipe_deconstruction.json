@@ -2764,13 +2764,6 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "leaf_spring",
-    "type": "uncraft",
-    "time": "3 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_lump", 4 ] ] ]
-  },
-  {
     "result": "styrofoam_cup",
     "type": "uncraft",
     "time": "6 s",
@@ -3008,13 +3001,6 @@
       [ [ "e_scrap", 3 ] ],
       [ [ "RAM", 1 ] ]
     ]
-  },
-  {
-    "result": "camp_chair",
-    "type": "uncraft",
-    "time": "5 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "steel_chunk", 2 ] ] ]
   },
   {
     "result": "platinum_hairpin",

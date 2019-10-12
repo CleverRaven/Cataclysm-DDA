@@ -931,130 +931,128 @@
   },
   {
     "type": "martial_art",
-    "id": "style_tai_chi",
-    "name": "Tai Chi",
-    "description": "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
-    "initiate": [ "You settle into a gentle stance and prepare to defend yourself.", "%s settles into a gentle stance." ],
-    "learn_difficulty": 4,
-    "arm_block": 1,
-    "leg_block": 99,
+    "id": "style_niten",
+    "name": "Niten Ichi-Ryu",
+    "description": "Niten Ichi-Ryu is an ancient school of combat, transmitting a style of classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi.  Perception increases damage and reduces blocked damage.  Moving and attacking reduces dodging and damage until you pause.  Pausing for a moment increases Dodge skill.",
+    "initiate": [ "You clear your mind as you prepare yourself for combat.", "%s relaxes and prepares for combat." ],
+    "learn_difficulty": 8,
+    "primary_skill": "cutting",
+    "strictly_melee": true,
     "static_buffs": [
       {
-        "id": "tai_chi_block",
-        "name": "Tai Chi",
-        "unarmed_allowed": true,
-        "min_unarmed": 0,
-        "buff_duration": 2,
-        "flat_bonuses": [ [ "block", "per", 1.0 ] ],
-        "description": "+1 Block.  Perception decreases damage when blocking.",
-        "bonus_blocks": 1
+        "id": "buff_niten_static",
+        "name": "Niten Ichi-Ryu Stance",
+        "description": "Cautious watchful eyes\nmeasure and display your skill.\nPractice makes perfect.\n\nBash and Cut damage increased by 50%% of Perception, blocked damage reduced by 100%% of Perception.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "flat_bonuses": [ [ "arpen", "cut", "per", 0.5 ], [ "arpen", "bash", "per", 0.5 ], [ "block", "per", 1.0 ] ]
       }
     ],
-    "techniques": [ "tec_taichi_disarm", "tec_taichi_precise" ]
+    "onmove_buffs": [
+      {
+        "id": "buff_niten_onmove",
+        "name": "Waning Moon",
+        "description": "Blackened like darkness,\nnightmares approach from all sides.\nFlee at any cost!\n\n-5.0 Dodge skill.\nLasts 1 turn.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "flat_bonuses": [ [ "dodge", -5.0 ] ]
+      }
+    ],
+    "onattack_buffs": [
+      {
+        "id": "buff_niten_onattack",
+        "name": "Falling Leaf",
+        "description": "A sharp sword cuts true.\nAlthough, all things fade with time.\nRestraint hones your skills.\n\n-1.0 Dodge skill, -1 bash damage, -1 cut damage.\nLasts 1 turn. Stacks 5 times.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 5,
+        "flat_bonuses": [ [ "dodge", -1.0 ], [ "damage", "cut", -1.0 ], [ "damage", "bash", -1.0 ] ]
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "buff_niten_ondodge",
+        "name": "Moonlight",
+        "description": "Luck be the light,\non a dark and cloudy night\nas the moon shines down\n\nEnables \"In-One Timing\".\nLasts 1 turn.",
+        "min_melee": 5,
+        "melee_allowed": true,
+        "buff_duration": 1
+      }
+    ],
+    "onpause_buffs": [
+      {
+        "id": "buff_niten_onpause",
+        "name": "Stillness",
+        "description": "The eye of the storm,\na fleeting moment of peace,\ngone without a trace.\n\n+2 Accuracy, Dodge skill increased by 50%% of Perception.\nLasts 2 turns.",
+        "min_melee": 0,
+        "melee_allowed": true,
+        "buff_duration": 2,
+        "flat_bonuses": [ [ "hit", 2.0 ], [ "dodge", "per", 0.5 ] ]
+      }
+    ],
+    "techniques": [ "niten_water_cut", "niten_red_leaf", "niten_stone_cut", "niten_timing_attack", "niten_feint" ],
+    "weapons": [
+      "bokken",
+      "bokken_inferior",
+      "bokken_fake",
+      "firekatana_off",
+      "firekatana_on",
+      "katana",
+      "katana_inferior",
+      "katana_fake",
+      "nodachi",
+      "nodachi_inferior",
+      "nodachi_fake",
+      "sword_nail",
+      "sword_crude",
+      "sword_wood",
+      "wakizashi",
+      "wakizashi_inferior",
+      "wakizashi_fake"
+    ]
   },
   {
     "type": "martial_art",
     "id": "style_pankration",
     "name": "Pankration",
-    "description": "An ancient Greek martial art, combining boxing and wrestling techniques to create a brutal sport, though modern revival of the art is less of no-holds-barred in nature.",
+    "description": "An ancient Greek martial art once used by the Spartans.  It combines boxing and wrestling techniques to create a brutal sport, though modern revival of the art is less of no-holds-barred in nature.",
     "initiate": [ "You crouch slightly and prepare to rush forward.", "%s crouches slightly, ready to rush forward." ],
     "learn_difficulty": 3,
     "arm_block": 2,
     "leg_block": 4,
     "ondodge_buffs": [
       {
-        "id": "pankration_counter",
+        "id": "buff_pankration_ondodge",
         "name": "Counter Chance",
-        "description": "The enemy has presented an opening in their defense.",
-        "min_unarmed": 4,
+        "description": "The enemy has presented an opening in their defense.\n+10%% bash damage.  Enables \"Close Combat\" buff.\nLasts 1 turn.",
+        "min_unarmed": 1,
         "unarmed_allowed": true,
-        "max_stacks": 1,
-        "buff_duration": 2,
+        "buff_duration": 1,
         "mult_bonuses": [ [ "damage", "bash", 1.1 ] ]
       }
     ],
     "onhit_buffs": [
       {
-        "id": "pankration_grappling",
-        "name": "Grappling",
-        "description": "I have you now!",
+        "id": "buff_pankration_oncrit",
+        "name": "Close Combat",
+        "description": "You got your opponent right where you want them!\n\n+20%% bash damage.\nLasts 1 turn.",
+        "min_unarmed": 4,
         "unarmed_allowed": true,
-        "min_unarmed": 5,
-        "req_buffs": [ "pankration_counter" ],
-        "buff_duration": 2,
-        "max_stacks": 1,
+        "req_buffs": [ "buff_pankration_ondodge" ],
+        "buff_duration": 1,
         "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
       }
     ],
     "techniques": [
+      "tec_pankration_cross",
       "tec_pankration_kick",
       "tec_pankration_break",
-      "tec_pankration_counter",
-      "tec_pankration_disarm",
-      "tec_pankration_throw",
-      "tec_pankration_chokehold"
+      "tec_pankration_grabknee",
+      "tec_pankration_grabdisarm",
+      "tec_pankration_grabthrow"
     ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_taekwondo",
-    "name": "Taekwondo",
-    "description": "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century.  Focused on kicks and so it does not benefit from wielded weapons.  It also includes strength training; your blocks absorb extra damage the stronger you are.",
-    "initiate": [ "You adopt a narrow fighting stance.", "You adopts a narrow fighting stance." ],
-    "learn_difficulty": 5,
-    "arm_block": 2,
-    "leg_block": 3,
-    "force_unarmed": true,
-    "static_buffs": [
-      {
-        "id": "taekwondo_static",
-        "name": "Taekwondo",
-        "unarmed_allowed": true,
-        "flat_bonuses": [ [ "block", "str", 0.5 ] ],
-        "description": "Strength decreases damage when blocking."
-      }
-    ],
-    "techniques": [ "tec_taekwondo_precise", "tec_taekwondo_push", "tec_taekwondo_sweep" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_zui_quan",
-    "name": "Zui Quan",
-    "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy, giving you a passive dodge bonus based on your intelligence.  The turn after you attack, you may dodge any number of attacks with no penalty, and successfully dodging an attack gives you bonus damage and to-hit based on your intelligence.",
-    "initiate": [ "You begin to sway to and fro with a confident swagger.", "%s stumbles as if pretending to be drunk." ],
-    "learn_difficulty": 8,
-    "arm_block": 99,
-    "leg_block": 99,
-    "static_buffs": [
-      {
-        "id": "zuiquan_static",
-        "name": "Zui Quan",
-        "description": "Intelligence increases dodging ability",
-        "unarmed_allowed": true,
-        "flat_bonuses": [ [ "dodge", "int", 0.12 ] ]
-      }
-    ],
-    "onattack_buffs": [
-      {
-        "id": "zuiquan_attack_buff",
-        "name": "Drunken Dodging",
-        "description": "Unlimited dodges after attacking",
-        "buff_duration": 4,
-        "unarmed_allowed": true,
-        "bonus_dodges": 100
-      }
-    ],
-    "ondodge_buffs": [
-      {
-        "id": "zuiquan_dodge_buff",
-        "name": "Counter Strike",
-        "description": "Extra damage and to-hit after successful dodge",
-        "unarmed_allowed": true,
-        "max_stacks": 2,
-        "flat_bonuses": [ [ "damage", "bash", "int", 0.5 ], [ "hit", "int", 0.2 ] ]
-      }
-    ],
-    "techniques": [ "tec_zuiquan_feint", "tec_zuiquan_counter" ]
   },
   {
     "type": "martial_art",
@@ -1064,35 +1062,43 @@
     "initiate": [ "You give a salute of respect as you prepare to combat.", "%s gives a combat salute." ],
     "learn_difficulty": 7,
     "primary_skill": "cutting",
-    "arm_block": 99,
-    "leg_block": 99,
     "strictly_melee": true,
     "static_buffs": [
       {
-        "id": "silat_buff",
+        "id": "buff_silat_static",
         "name": "Silat Stance",
-        "description": "+1 dodge",
-        "unarmed_allowed": true,
+        "description": "You try to stay loose as possible when fighting to have more chances to dodge.\n\n+1 Dodge attempts.",
+        "min_melee": 0,
         "melee_allowed": true,
         "bonus_dodges": 1
       }
     ],
     "ondodge_buffs": [
       {
-        "id": "silat_dodge_buff",
-        "name": "Silat Counter",
-        "description": "Extra to-hit after successful dodge",
-        "unarmed_allowed": true,
+        "id": "buff_silat_ondodge",
+        "name": "Silat Appraisal",
+        "description": "Each time you dodge an attack, you learn a bit more about your opponents' fighting style.  This allows you to make more precise attacks against them.\n\nAccuracy increased by 15%% of Dexterirty.\nLasts 2 turns.  Stacks 3 times.",
+        "min_melee": 1,
         "melee_allowed": true,
-        "buff_duration": 3,
-        "max_stacks": 4,
-        "flat_bonuses": [ [ "hit", "dex", 0.4 ] ]
+        "buff_duration": 2,
+        "max_stacks": 3,
+        "flat_bonuses": [ [ "hit", "dex", 0.15 ] ]
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_silat_onmove",
+        "name": "Silat Evasion",
+        "description": "You stay low as you move, making it harder for enemies to pin you down.\n\n+1 Dodge attempts.\nLasts 2 turn.",
+        "min_melee": 1,
+        "melee_allowed": true,
+        "buff_duration": 2,
+        "bonus_dodges": 1
       }
     ],
     "techniques": [ "tec_silat_hamstring", "tec_silat_precise", "tec_silat_brutal", "tec_silat_dirty" ],
     "weapons": [
       "baton-extended",
-      "bio_blade_weapon",
       "bowling_pin",
       "cudgel",
       "diveknife",
@@ -1161,77 +1167,119 @@
   },
   {
     "type": "martial_art",
-    "id": "style_niten",
-    "name": "Niten Ichi-Ryu",
-    "description": "Niten Ichi-Ryu is an ancient school of combat, transmitting a style of classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi.",
-    "initiate": [ "You clear your mind as you prepare yourself for combat.", "%s relaxes and prepares for combat." ],
-    "learn_difficulty": 8,
-    "primary_skill": "cutting",
-    "arm_block": 99,
-    "leg_block": 99,
-    "strictly_melee": true,
+    "id": "style_snake",
+    "name": "Snake Kung Fu",
+    "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Perception determines your Accuracy, rather than Dexterity.  Standing still will increases your accuracy and damage of your next attack.",
+    "initiate": [ "You adopt a fluid stance, ready to strike like a snake.", "%s assumes a snake-like stance." ],
+    "learn_difficulty": 10,
+    "arm_block": 2,
     "static_buffs": [
       {
-        "id": "niten_stationary_buff",
-        "name": "Niten Ichi-Ryu",
-        "description": "Perception increases dodging and damage.",
-        "min_melee": 2,
-        "flat_bonuses": [ [ "damage", "cut", "per", 0.5 ], [ "damage", "bash", "per", 0.5 ], [ "dodge", "per", 0.5 ] ]
+        "id": "buff_snake_static",
+        "name": "Snake's Sight",
+        "description": "You are patient and know where to hit your opponent for the best results.\n\nPerception increases Accuracy instead of Dexterity.  Accuracy increased by 25%% of Perception but decreased by 25%% of Dexterity.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "hit", "per", 0.25 ], [ "hit", "dex", -0.25 ] ]
       }
     ],
-    "onmove_buffs": [
+    "onpause_buffs": [
       {
-        "id": "niten_move_buff",
-        "name": "Blocking",
-        "description": "You forgo dodging on the move, but gain more blocks.",
-        "min_melee": 2,
-        "max_stacks": 1,
-        "buff_duration": 2,
-        "flat_bonuses": [ [ "dodge", -10.0 ] ],
-        "bonus_dodges": -1,
-        "bonus_blocks": 2
+        "id": "buff_snake_onpause",
+        "name": "Snake's Coil",
+        "description": "Every snake wait for the perfect moment to strike.  Aim as your opponents approve and attack their weakness without mercy!\n\n+1 Accuracy, gain armor penetration equal to 50%% of Perceptions.\nLasts 1 turn.  Stacks 3 times.",
+        "min_unarmed": 1,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 3,
+        "flat_bonuses": [ [ "hit", 1.0 ], [ "arpen", "bash", "per", 0.5 ], [ "arpen", "cut", "per", 0.5 ], [ "arpen", "stab", "per", 0.5 ] ]
       }
     ],
-    "onhit_buffs": [
+    "techniques": [ "tec_snake_rapid", "tec_snake_feint", "tec_snake_break", "tec_snake_precise" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_tai_chi",
+    "name": "Tai Chi",
+    "description": "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
+    "initiate": [ "You settle into a gentle stance and prepare to defend yourself.", "%s settles into a gentle stance." ],
+    "learn_difficulty": 4,
+    "arm_block": 1,
+    "leg_block": 99,
+    "static_buffs": [
       {
-        "id": "niten_hit_buff",
-        "name": "Blocking",
-        "description": "You forgo dodging on the offensive, but gain more blocks.",
-        "min_melee": 2,
-        "max_stacks": 1,
+        "id": "tai_chi_block",
+        "name": "Tai Chi",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
         "buff_duration": 2,
-        "flat_bonuses": [ [ "dodge", -10.0 ] ],
-        "bonus_dodges": -1,
-        "bonus_blocks": 2
+        "flat_bonuses": [ [ "block", "per", 1.0 ] ],
+        "description": "+1 Block.  Perception decreases damage when blocking.",
+        "bonus_blocks": 1
+      }
+    ],
+    "techniques": [ "tec_taichi_disarm", "tec_taichi_precise" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_taekwondo",
+    "name": "Taekwondo",
+    "description": "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century.  Focused on kicks and so it does not benefit from wielded weapons.  It also includes strength training; your blocks absorb extra damage the stronger you are.",
+    "initiate": [ "You adopt a narrow fighting stance.", "You adopts a narrow fighting stance." ],
+    "learn_difficulty": 5,
+    "arm_block": 2,
+    "leg_block": 3,
+    "force_unarmed": true,
+    "static_buffs": [
+      {
+        "id": "taekwondo_static",
+        "name": "Taekwondo",
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "block", "str", 0.5 ] ],
+        "description": "Strength decreases damage when blocking."
+      }
+    ],
+    "techniques": [ "tec_taekwondo_precise", "tec_taekwondo_push", "tec_taekwondo_sweep" ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_zui_quan",
+    "name": "Zui Quan",
+    "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy, giving you a passive dodge bonus based on your intelligence.  The turn after you attack, you may dodge any number of attacks with no penalty, and successfully dodging an attack gives you bonus damage and to-hit based on your intelligence.",
+    "initiate": [ "You begin to sway to and fro with a confident swagger.", "%s stumbles as if pretending to be drunk." ],
+    "learn_difficulty": 8,
+    "arm_block": 99,
+    "leg_block": 99,
+    "static_buffs": [
+      {
+        "id": "zuiquan_static",
+        "name": "Zui Quan",
+        "description": "Intelligence increases dodging ability",
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "dodge", "int", 0.12 ] ]
+      }
+    ],
+    "onattack_buffs": [
+      {
+        "id": "zuiquan_attack_buff",
+        "name": "Drunken Dodging",
+        "description": "Unlimited dodges after attacking",
+        "buff_duration": 4,
+        "unarmed_allowed": true,
+        "bonus_dodges": 100
       }
     ],
     "ondodge_buffs": [
       {
-        "id": "niten_set-up",
-        "name": "In-One Timing Set-Up",
-        "description": "You found a gap in the enemy's defense!",
-        "min_melee": 4,
-        "buff_duration": 2,
-        "max_stacks": 1
+        "id": "zuiquan_dodge_buff",
+        "name": "Counter Strike",
+        "description": "Extra damage and to-hit after successful dodge",
+        "unarmed_allowed": true,
+        "max_stacks": 2,
+        "flat_bonuses": [ [ "damage", "bash", "int", 0.5 ], [ "hit", "int", 0.2 ] ]
       }
     ],
-    "techniques": [ "niten_water_cut", "niten_red_leaf", "niten_stone_cut", "niten_timing_attack", "niten_feint" ],
-    "weapons": [
-      "katana",
-      "katana_inferior",
-      "katana_fake",
-      "firekatana_off",
-      "firekatana_on",
-      "bokken",
-      "bokken_inferior",
-      "bokken_fake",
-      "wakizashi",
-      "wakizashi_inferior",
-      "wakizashi_fake",
-      "nodachi",
-      "nodachi_inferior",
-      "nodachi_fake"
-    ]
+    "techniques": [ "tec_zuiquan_feint", "tec_zuiquan_counter" ]
   },
   {
     "type": "martial_art",
@@ -1267,26 +1315,6 @@
   },
   {
     "type": "martial_art",
-    "id": "style_snake",
-    "name": "Snake Kung Fu",
-    "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Your Perception improves your damage.",
-    "initiate": [ "You adopt a fluid stance, ready to strike like a snake.", "%s assumes a snake-like stance." ],
-    "learn_difficulty": 10,
-    "arm_block": 99,
-    "leg_block": 99,
-    "static_buffs": [
-      {
-        "id": "snake_static",
-        "name": "Snake Sight",
-        "description": "Perception provides a bonus to damage.",
-        "unarmed_allowed": true,
-        "flat_bonuses": [ [ "damage", "bash", "per", 0.8 ] ]
-      }
-    ],
-    "techniques": [ "tec_snake_rapid", "tec_snake_feint", "tec_snake_break", "tec_snake_precise" ]
-  },
-  {
-    "type": "martial_art",
     "id": "style_debug",
     "name": "Debug Mastery",
     "description": "A secret martial art used only by developers and cheaters.",
@@ -1299,7 +1327,6 @@
         "name": "Elemental resistance",
         "description": "+Strength bash armor, +Dexterity acid armor, +Intelligence electricity armor, +Perception fire armor.",
         "unarmed_allowed": true,
-        "strictly_unarmed": true,
         "flat_bonuses": [
           [ "armor", "bash", "str", 1.0 ],
           [ "armor", "cut", "dex", 1.0 ],
@@ -1423,7 +1450,6 @@
         "name": "Chi-Sao Sensitivity",
         "description": "Perception increases dodging ability, +1 dodges per turn",
         "unarmed_allowed": true,
-        "strictly_unarmed": true,
         "flat_bonuses": [ [ "dodge", "per", 0.12 ] ],
         "bonus_dodges": 1
       }

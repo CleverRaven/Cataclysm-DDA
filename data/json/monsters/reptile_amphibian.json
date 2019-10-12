@@ -116,7 +116,7 @@
     "type": "MONSTER",
     "name": "giant rattlesnake",
     "description": "A mutated timber rattlesnake, about three times as large as the norm.  While it isn't big enough to regard humans as potential prey, it is more aggressive and dangerous compared to a normal rattler.",
-    "default_faction": "small_animal",
+    "default_faction": "animal",
     "bodytype": "snake",
     "categories": [ "WILDLIFE" ],
     "species": [ "REPTILE" ],

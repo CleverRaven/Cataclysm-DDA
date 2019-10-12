@@ -123,6 +123,11 @@ int vehicle_part::damage() const
     return base.damage();
 }
 
+int vehicle_part::max_damage() const
+{
+    return base.max_damage();
+}
+
 int vehicle_part::damage_level( int max ) const
 {
     return base.damage_level( max );

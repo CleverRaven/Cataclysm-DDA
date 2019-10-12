@@ -29,7 +29,7 @@ void JsonTranslationInputCheck::registerMatchers( MatchFinder *Finder )
                                                     hasAnyName( "_", "gettext", "pgettext", "ngettext", "npgettext" )
                                             ).bind( "translationFunc" ),
                                             functionDecl(
-                                                    hasName( "to_translation" )
+                                                    hasAnyName( "to_translation", "pl_translation" )
                                             ) ) ) )
                           // no_translation is ok, it's used to load generated names such as artifact names
                         ).bind( "translationCall" ) )
@@ -59,8 +59,7 @@ void JsonTranslationInputCheck::check( const MatchFinder::MatchResult &Result )
             diag(
                 translationCall->getBeginLoc(),
                 "read translation directly instead of constructing it from "
-                "json strings to enable specifying translation contexts and "
-                "ensure consistent format in json."
+                "json strings to ensure consistent format in json."
             );
             diag(
                 jsonInputCall->getBeginLoc(),

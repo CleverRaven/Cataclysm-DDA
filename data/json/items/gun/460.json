@@ -94,7 +94,7 @@
       [ "rail mount", 1 ],
       [ "stock mount", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE" ]
   }
 ]

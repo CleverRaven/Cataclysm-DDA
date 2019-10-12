@@ -36,6 +36,7 @@
 #include "type_id.h"
 #include "units.h"
 #include "point.h"
+#include "magic_enchantment.h"
 
 struct pathfinding_settings;
 class item_location;
@@ -184,6 +185,8 @@ class Character : public Creature, public visitable<Character>
         field_type_id bloodType() const override;
         field_type_id gibType() const override;
         bool is_warm() const override;
+        bool in_species( const species_id &spec ) const override;
+
         const std::string &symbol() const override;
 
         enum stat {
@@ -284,6 +287,9 @@ class Character : public Creature, public visitable<Character>
         virtual void set_sleep_deprivation( int nsleep_deprivation );
 
         void mod_stat( const std::string &stat, float modifier ) override;
+
+        /**Get bonus to max_hp from excess stored fat*/
+        int get_fat_to_hp() const;
 
         /** Returns either "you" or the player's name */
         std::string disp_name( bool possessive = false ) const override;
@@ -394,6 +400,34 @@ class Character : public Creature, public visitable<Character>
          * that encumbrance may have changed and require recalculating.
          */
         void check_item_encumbrance_flag();
+
+        // any side effects that might happen when the Character is hit
+        void on_hit( Creature *source, body_part /*bp_hit*/,
+                     float /*difficulty*/, dealt_projectile_attack const * /*proj*/ ) override;
+        // any side effects that might happen when the Character hits a Creature
+        void did_hit( Creature &target );
+
+        /**
+         * Check for relevant passive, non-clothing that can absorb damage, and reduce by specified
+         * damage unit.  Only flat bonuses are checked here.  Multiplicative ones are checked in
+         * @ref player::absorb_hit.  The damage amount will never be reduced to less than 0.
+         * This is called from @ref player::absorb_hit
+         */
+        void passive_absorb_hit( body_part bp, damage_unit &du ) const;
+        /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
+        void absorb_hit( body_part bp, damage_instance &dam ) override;
+        /**
+         * Reduces and mutates du, prints messages about armor taking damage.
+         * @return true if the armor was completely destroyed (and the item must be deleted).
+         */
+        bool armor_absorb( damage_unit &du, item &armor );
+        /**
+         * Check for passive bionics that provide armor, and returns the armor bonus
+         * This is called from player::passive_absorb_hit
+         */
+        float bionic_armor_bonus( body_part bp, damage_type dt ) const;
+        /** Returns the armor bonus against given type from martial arts buffs */
+        int mabuff_armor_bonus( damage_type type ) const;
         // --------------- Mutation Stuff ---------------
         // In newcharacter.cpp
         /** Returns the id of a random starting trait that costs >= 0 points */
@@ -423,6 +457,19 @@ class Character : public Creature, public visitable<Character>
         static body_part hp_to_bp( hp_part hpart );
 
         bool is_mounted() const;
+
+        /** Returns true if the player has two functioning arms */
+        bool has_two_arms() const;
+        /** Returns the number of functioning arms */
+        int get_working_arm_count() const;
+        /** Returns the number of functioning legs */
+        int get_working_leg_count() const;
+        /** Returns true if the limb is disabled */
+        bool is_limb_disabled( hp_part limb ) const;
+        /** Returns true if the limb is hindered(40% or less hp) */
+        bool is_limb_hindered( hp_part limb ) const;
+        /** Returns true if the limb is broken */
+        bool is_limb_broken( hp_part limb ) const;
         /**
          * Displays menu with body part hp, optionally with hp estimation after healing.
          * Returns selected part.
@@ -450,6 +497,13 @@ class Character : public Creature, public visitable<Character>
         bool made_of( const material_id &m ) const override;
         bool made_of_any( const std::set<material_id> &ms ) const override;
 
+        // Drench cache
+        enum water_tolerance {
+            WT_IGNORED = 0,
+            WT_NEUTRAL,
+            WT_GOOD,
+            NUM_WATER_TOLERANCE
+        };
     private:
         /** Retrieves a stat mod of a mutation. */
         int get_mod( const trait_id &mut, const std::string &arg ) const;
@@ -476,13 +530,58 @@ class Character : public Creature, public visitable<Character>
          * is added to existing work items. */
         void item_encumb( std::array<encumbrance_data, num_bp> &vals,
                           const item &new_item ) const;
+
+        std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
     public:
+        // recalculates enchantment cache by iterating through all held, worn, and wielded items
+        void recalculate_enchantment_cache();
+        // gets add and mult value from enchantment cache
+        double calculate_by_enchantment( double modify, enchantment::mod value,
+                                         bool round_output = false ) const;
         /** Handles things like destruction of armor, etc. */
         void mutation_effect( const trait_id &mut );
         /** Handles what happens when you lose a mutation. */
         void mutation_loss_effect( const trait_id &mut );
 
         bool has_active_mutation( const trait_id &b ) const;
+        /** Picks a random valid mutation and gives it to the Character, possibly removing/changing others along the way */
+        void mutate();
+        /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
+        bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const;
+        /** Picks a random valid mutation in a category and mutate_towards() it */
+        void mutate_category( const std::string &mut_cat );
+        /** Mutates toward one of the given mutations, upgrading or removing conflicts if necessary */
+        bool mutate_towards( std::vector<trait_id> muts, int num_tries = INT_MAX );
+        /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
+        bool mutate_towards( const trait_id &mut );
+        /** Removes a mutation, downgrading to the previous level if possible */
+        void remove_mutation( const trait_id &mut, bool silent = false );
+        /** Returns true if the player has the entered mutation child flag */
+        bool has_child_flag( const trait_id &flag ) const;
+        /** Removes the mutation's child flag from the player's list */
+        void remove_child_flag( const trait_id &flag );
+        /** Recalculates mutation_category_level[] values for the player */
+        void set_highest_cat_level();
+        /** Returns the highest mutation category */
+        std::string get_highest_category() const;
+        /** Recalculates mutation drench protection for all bodyparts (ignored/good/neutral stats) */
+        void drench_mut_calc();
+        /** Recursively traverses the mutation's prerequisites and replacements, building up a map */
+        void build_mut_dependency_map( const trait_id &mut,
+                                       std::unordered_map<trait_id, int> &dependency_map, int distance );
+
+        /**
+        * Returns true if this category of mutation is allowed.
+        */
+        bool is_category_allowed( const std::vector<std::string> &category ) const;
+        bool is_category_allowed( const std::string &category ) const;
+
+        bool is_weak_to_water() const;
+
+        /**Check for mutation disallowing the use of an healing item*/
+        bool can_use_heal_item( const item &med ) const;
+
+        bool can_install_cbm_on_bp( const std::vector<body_part> &bps ) const;
 
         /**
          * Returns resistances on a body part provided by mutations
@@ -520,6 +619,17 @@ class Character : public Creature, public visitable<Character>
         int get_mod_stat_from_bionic( const Character::stat &Stat ) const;
         // route for overmap-scale travelling
         std::vector<tripoint> omt_path;
+
+        units::energy get_power_level() const;
+        units::energy get_max_power_level() const;
+        void mod_power_level( units::energy npower );
+        void mod_max_power_level( units::energy npower_max );
+        void set_power_level( units::energy npower );
+        void set_max_power_level( units::energy npower_max );
+        bool is_max_power() const;
+        bool has_power() const;
+        bool has_max_power() const;
+        bool enough_power_for( const bionic_id &bid ) const;
         // --------------- Generic Item Stuff ---------------
 
         struct has_mission_item_filter {
@@ -776,6 +886,10 @@ class Character : public Creature, public visitable<Character>
             }
         }
 
+        void make_bleed( body_part bp, time_duration duration, int intensity = 1,
+                         bool permanent = false,
+                         bool force = false, bool defferred = false );
+
         /** Calls Creature::normalize()
          *  nulls out the player's weapon
          *  Should only be called through player::normalize(), not on it's own!
@@ -868,8 +982,6 @@ class Character : public Creature, public visitable<Character>
         stomach_contents stomach;
         stomach_contents guts;
 
-        int power_level;
-        int max_power_level;
         int oxygen;
         int stamina;
         int radiation;
@@ -877,6 +989,8 @@ class Character : public Creature, public visitable<Character>
         std::shared_ptr<monster> mounted_creature;
         // for loading NPC mounts
         int mounted_creature_id;
+        // for vehicle work
+        int activity_vehicle_part_index = -1;
 
         void initialize_stomach_contents();
 
@@ -935,6 +1049,8 @@ class Character : public Creature, public visitable<Character>
 
         // the amount healed per bodypart per day
         std::array<int, num_hp_parts> healed_total;
+
+        std::map<std::string, int> mutation_category_level;
     protected:
         Character();
         Character( Character && );
@@ -1013,12 +1129,19 @@ class Character : public Creature, public visitable<Character>
         // 2 - allies are in your_followers faction; NPCATT_FOLLOW is follower but not an ally
         // 0 - allies may be in your_followers faction; NPCATT_FOLLOW is an ally (legacy)
         int faction_api_version = 2;  // faction API versioning
-        string_id<faction> fac_id; // A temp variable used to inform the game which faction to link
+        faction_id fac_id; // A temp variable used to inform the game which faction to link
         faction *my_fac = nullptr;
 
     private:
+        // a cache of all active enchantment values.
+        // is recalculated every turn in Character::recalculate_enchantment_cache
+        enchantment enchantment_cache;
+
         // A unique ID number, assigned by the game class. Values should never be reused.
         character_id id;
+
+        units::energy power_level;
+        units::energy max_power_level;
 
         /** Needs (hunger, starvation, thirst, fatigue, etc.) */
         int stored_calories;

@@ -15,6 +15,7 @@
 #include "line.h"
 #include "map.h"
 #include "messages.h"
+#include "map_iterator.h"
 #include "output.h"
 #include "panels.h"
 #include "string_input_popup.h"
@@ -58,14 +59,10 @@ static cata::optional<tripoint> find_valid_teleporters_omt( const tripoint &omt_
     // an OMT is SEEX * SEEY in size
     const tripoint sm_pt = omt_to_sm_copy( omt_pt );
     tinymap checker;
-    const int z_level = omt_pt.z;
     checker.load( sm_pt, true );
-
-    for( int x = 0; x < SEEX * 2; x++ ) {
-        for( int y = 0; y < SEEY * 2; y++ ) {
-            if( checker.has_flag_furn( "TRANSLOCATOR", tripoint( x, y, z_level ) ) ) {
-                return tripoint( checker.getabs( point( x, y ) ), z_level );
-            }
+    for( const tripoint &p : checker.points_on_zlevel() ) {
+        if( checker.has_flag_furn( "TRANSLOCATOR", p ) ) {
+            return checker.getabs( p );
         }
     }
     return cata::nullopt;

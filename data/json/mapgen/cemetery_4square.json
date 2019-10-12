@@ -413,7 +413,8 @@
         { "item": "church", "x": [ 14, 18 ], "y": [ 5, 14 ], "chance": 65 },
         { "item": "church", "x": [ 11, 12 ], "y": [ 5, 6 ], "chance": 65 },
         { "item": "jackets", "x": [ 12 ], "y": [ 14 ], "chance": 50 }
-      ]
+      ],
+      "place_npcs": [ { "chance": 7, "class": "SEER_Brigitte_LaCroix", "x": 18, "y": 6 } ]
     }
   }
 ]

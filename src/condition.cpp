@@ -304,12 +304,11 @@ void conditional_t<T>::set_has_bionics( JsonObject &jo, const std::string &membe
             actor = dynamic_cast<player *>( d.beta );
         }
         if( bionics_id == "ANY" ) {
-            return actor->num_bionics() > 0 || actor->max_power_level > 0;
+            return actor->num_bionics() > 0 || actor->has_max_power();
         }
         return actor->has_bionic( bionic_id( bionics_id ) );
     };
 }
-
 
 template<class T>
 void conditional_t<T>::set_has_effect( JsonObject &jo, const std::string &member, bool is_npc )
@@ -359,7 +358,7 @@ void conditional_t<T>::set_at_om_location( JsonObject &jo, const std::string &me
             actor = dynamic_cast<player *>( d.beta );
         }
         const tripoint omt_pos = actor->global_omt_location();
-        oter_id &omt_ref = overmap_buffer.ter( omt_pos );
+        const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
 
         if( location == "FACTION_CAMP_ANY" ) {
             cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
@@ -370,9 +369,6 @@ void conditional_t<T>::set_at_om_location( JsonObject &jo, const std::string &me
             const std::string &omt_str = omt_ref.id().c_str();
             return omt_str.find( "faction_base_camp" ) != std::string::npos;
         } else if( location == "FACTION_CAMP_START" ) {
-            const tripoint omt_pos = actor->global_omt_location();
-            oter_id &omt_ref = overmap_buffer.ter( omt_pos );
-
             return !recipe_group::get_recipes_by_id( "all_faction_base_types",
                     omt_ref.id().c_str() ).empty();
         } else {
@@ -394,7 +390,6 @@ void conditional_t<T>::set_has_var( JsonObject &jo, const std::string &member, b
         return actor->get_value( var_name ) == value;
     };
 }
-
 
 template<class T>
 void conditional_t<T>::set_compare_var( JsonObject &jo, const std::string &member, bool is_npc )
@@ -779,10 +774,8 @@ void conditional_t<T>::set_has_stolen_item( bool is_npc )
         npc &p = *d.beta;
         bool found_in_inv = false;
         for( auto &elem : actor->inv_dump() ) {
-            if( elem->get_old_owner() ) {
-                if( elem->get_old_owner() == p.get_faction() ) {
-                    found_in_inv = true;
-                }
+            if( elem->is_old_owner( p, true ) ) {
+                found_in_inv = true;
             }
         }
         return found_in_inv;

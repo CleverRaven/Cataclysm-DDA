@@ -67,6 +67,7 @@
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 static const std::string ITEM_HIGHLIGHT( "highlight_item" );
+static const std::string ZOMBIE_REVIVAL_INDICATOR( "zombie_revival_indicator" );
 
 static const std::array<std::string, 8> multitile_keys = {{
         "center",
@@ -977,9 +978,11 @@ void tileset_loader::load_tile_spritelists( JsonObject &entry,
 struct tile_render_info {
     const tripoint pos;
     int height_3d = 0; // accumulator for 3d tallness of sprites rendered here so far
+    lit_level ll;
     bool invisible[5];
-    tile_render_info( const tripoint &pos, const int height_3d, const bool ( &invisible )[5] )
-        : pos( pos ), height_3d( height_3d ) {
+    tile_render_info( const tripoint &pos, const int height_3d, const lit_level ll,
+                      const bool ( &invisible )[5] )
+        : pos( pos ), height_3d( height_3d ), ll( ll ) {
         std::copy( invisible, invisible + 5, this->invisible );
     }
 };
@@ -1063,7 +1066,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     nv_goggles_activated = vision_cache[NV_GOGGLES];
 
     // check that the creature for which we'll draw the visibility map is still alive at that point
-    if( g->displaying_visibility && g->displaying_visibility_creature != nullptr )  {
+    if( g->display_overlay_state( ACTION_DISPLAY_VISIBILITY ) && g->displaying_visibility_creature ) {
         const Creature *creature = g->displaying_visibility_creature;
         const auto is_same_creature_predicate = [&creature]( const Creature & c ) {
             return creature == &c;
@@ -1097,20 +1100,27 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             const int &x = pos.x;
             const int &y = pos.y;
 
+            lit_level ll;
             bool invisible[5]; // invisible to normal eyes
             invisible[0] = false;
 
             if( y < min_visible_y || y > max_visible_y || x < min_visible_x || x > max_visible_x ) {
-                if( has_draw_override( pos ) || has_memory_at( pos ) ) {
+                if( has_memory_at( pos ) ) {
+                    ll = LL_MEMORIZED;
+                    invisible[0] = true;
+                } else if( has_draw_override( pos ) ) {
+                    ll = LL_DARK;
                     invisible[0] = true;
                 } else {
                     apply_vision_effects( pos, offscreen_type );
                     continue;
                 }
+            } else {
+                ll = ch.visibility_cache[x][y];
             }
 
             // Add scent value to the overlay_strings list for every visible tile when displaying scent
-            if( g->displaying_scent && !invisible[0] ) {
+            if( g->display_overlay_state( ACTION_DISPLAY_SCENT ) && !invisible[0] ) {
                 const int scent_value = g->scent.get( pos );
                 if( scent_value > 0 ) {
                     overlay_strings.emplace( player_to_screen( point( x, y ) ) + point( tile_width / 2, 0 ),
@@ -1119,7 +1129,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 }
             }
 
-            if( g->displaying_radiation ) {
+            if( g->display_overlay_state( ACTION_DISPLAY_RADIATION ) ) {
                 const auto rad_override = radiation_override.find( pos );
                 const bool rad_overridden = rad_override != radiation_override.end();
                 if( rad_overridden || !invisible[0] ) {
@@ -1136,7 +1146,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             }
 
             // Add temperature value to the overlay_strings list for every visible tile when displaying temperature
-            if( g->displaying_temperature && !invisible[0] ) {
+            if( g->display_overlay_state( ACTION_DISPLAY_TEMPERATURE ) && !invisible[0] ) {
                 int temp_value = g->weather.get_temperature( pos );
                 int ctemp = temp_to_celsius( temp_value );
                 short color;
@@ -1165,8 +1175,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                                                  NORTH ) );
             }
 
-            if( g->displaying_visibility && g->displaying_visibility_creature &&
-                !invisible[0] ) {
+            if( g->display_overlay_state( ACTION_DISPLAY_VISIBILITY ) &&
+                g->displaying_visibility_creature && !invisible[0] ) {
                 const bool visibility = g->displaying_visibility_creature->sees( pos );
 
                 // color overlay.
@@ -1182,8 +1192,34 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     formatted_text( visibility_str, catacurses::black, NORTH ) );
             }
 
-            if( !invisible[0] &&
-                apply_vision_effects( pos, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
+            if( g->display_overlay_state( ACTION_DISPLAY_LIGHTING ) ) {
+                static std::vector<SDL_Color> lighting_colors;
+                if( g->displaying_lighting_condition == 0 ) {
+                    if( lighting_colors.empty() ) {
+                        SDL_Color white = { 255, 255, 255, 255 };
+                        SDL_Color blue = { 0, 0, 255, 255 };
+                        lighting_colors = color_linear_interpolate( white, blue, 9 );
+                    }
+
+                    // note: lighting will be constrained in the [1.0, 11.0] range.
+                    float lighting = std::max( 1.0, LIGHT_AMBIENT_LIT - g->m.ambient_light_at( {x, y, center.z} ) +
+                                               1.0 );
+
+                    auto tile_pos = player_to_screen( point( x, y ) );
+
+                    // color overlay
+                    auto color = lighting_colors[static_cast<int>( lighting ) - 1];
+                    color.a = 100;
+                    color_blocks.first = SDL_BLENDMODE_BLEND;
+                    color_blocks.second.emplace( tile_pos, color );
+
+                    // string overlay
+                    overlay_strings.emplace( tile_pos + point( tile_width / 4, tile_height / 4 ),
+                                             formatted_text( string_format( "%.1f", lighting ), catacurses::black, NORTH ) );
+                }
+            }
+
+            if( !invisible[0] && apply_vision_effects( pos, g->m.get_visibility( ll, cache ) ) ) {
 
                 const Creature *critter = g->critter_at( pos, true );
                 if( has_draw_override( pos ) || has_memory_at( pos ) ||
@@ -1204,23 +1240,23 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             int height_3d = 0;
 
             // light level is now used for choosing between grayscale filter and normal lit tiles.
-            draw_terrain( pos, ch.visibility_cache[x][y], height_3d, invisible );
+            draw_terrain( pos, ll, height_3d, invisible );
 
-            draw_points.emplace_back( pos, height_3d, invisible );
+            draw_points.emplace_back( pos, height_3d, ll, invisible );
         }
-        const std::array<decltype( &cata_tiles::draw_furniture ), 10> drawing_layers = {{
+        const std::array<decltype( &cata_tiles::draw_furniture ), 11> drawing_layers = {{
                 &cata_tiles::draw_furniture, &cata_tiles::draw_graffiti, &cata_tiles::draw_trap,
                 &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart,
                 &cata_tiles::draw_vpart_below, &cata_tiles::draw_critter_at_below,
                 &cata_tiles::draw_terrain_below, &cata_tiles::draw_critter_at,
-                &cata_tiles::draw_zone_mark
+                &cata_tiles::draw_zone_mark, &cata_tiles::draw_zombie_revival_indicators
             }
         };
         // for each of the drawing layers in order, back to front ...
         for( auto f : drawing_layers ) {
             // ... draw all the points we drew terrain for, in the same order
             for( auto &p : draw_points ) {
-                ( this->*f )( p.pos, ch.visibility_cache[p.pos.x][p.pos.y], p.height_3d, p.invisible );
+                ( this->*f )( p.pos, p.ll, p.height_3d, p.invisible );
             }
         }
         // display number of monsters to spawn in mapgen preview
@@ -2141,7 +2177,6 @@ bool cata_tiles::draw_terrain( const tripoint &p, const lit_level ll, int &heigh
     return false;
 }
 
-
 bool cata_tiles::has_memory_at( const tripoint &p ) const
 {
     if( g->u.should_show_map_memory() ) {
@@ -2745,6 +2780,21 @@ bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d
         }
     }
 
+    return false;
+}
+
+bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_level /*ll*/,
+        int &/*height_3d*/, const bool ( &invisible )[5] )
+{
+    if( tileset_ptr->find_tile_type( ZOMBIE_REVIVAL_INDICATOR ) && !invisible[0] &&
+        item_override.find( pos ) == item_override.end() && g->m.could_see_items( pos, g->u ) ) {
+        for( auto &i : g->m.i_at( pos ) ) {
+            if( i.can_revive() ) {
+                return draw_from_id_string( ZOMBIE_REVIVAL_INDICATOR, C_NONE, empty_string, pos, 0, 0, LL_LIT,
+                                            false );
+            }
+        }
+    }
     return false;
 }
 

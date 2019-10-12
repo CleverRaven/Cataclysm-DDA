@@ -3,9 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room1",
-    "weight": 100,
     "object": {
-      "fill_ter": "t_floor_resin",
       "mapgensize": [ 7, 7 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -25,9 +23,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room2",
-    "weight": 100,
     "object": {
-      "fill_ter": "t_floor_resin",
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -48,9 +44,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room3",
-    "weight": 100,
     "object": {
-      "fill_ter": "t_floor_resin",
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -72,9 +66,7 @@
     "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room4",
     "//": "Observation room with zombies",
-    "weight": 100,
     "object": {
-      "fill_ter": "t_floor_resin",
       "mapgensize": [ 7, 7 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -105,9 +97,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room5",
-    "weight": 100,
     "object": {
-      "fill_ter": "t_floor_resin",
       "mapgensize": [ 7, 7 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -128,9 +118,7 @@
     "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room6",
     "//": "Mi-go surgical suite",
-    "weight": 100,
     "object": {
-      "fill_ter": "t_floor_resin",
       "mapgensize": [ 18, 18 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -155,13 +143,13 @@
       ],
       "palettes": [ "mi-go_palette" ],
       "npcs": {
-        "1": { "class": "mi-go_prisoner", "chance": 20 },
-        "2": { "class": "mi-go_prisoner", "chance": 20 },
-        "3": { "class": "mi-go_prisoner", "chance": 20 },
-        "4": { "class": "mi-go_prisoner", "chance": 20 },
-        "5": { "class": "apis", "chance": 20 },
-        "6": { "class": "mi-go_prisoner", "chance": 20 },
-        "7": { "class": "mi-go_prisoner", "chance": 20 }
+        "1": { "class": "mi-go_prisoner" },
+        "2": { "class": "mi-go_prisoner" },
+        "3": { "class": "mi-go_prisoner" },
+        "4": { "class": "mi-go_prisoner" },
+        "5": { "class": "apis" },
+        "6": { "class": "mi-go_prisoner" },
+        "7": { "class": "mi-go_prisoner" }
       },
       "place_monsters": [
         { "monster": "GROUP_MI-GO_BASE_CAPTORS", "x": [ 2, 12 ], "y": [ 5, 10 ], "density": 0.02, "repeat": [ 2, 3 ] },
@@ -173,9 +161,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room7",
-    "weight": 100,
     "object": {
-      "fill_ter": "t_floor_resin",
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -197,9 +183,7 @@
     "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room8",
     "//": "Menagerie",
-    "weight": 100,
     "object": {
-      "fill_ter": "t_floor_resin",
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -227,9 +211,7 @@
     "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room9",
     "//": "Storage room, left side",
-    "weight": 100,
     "object": {
-      "fill_ter": "t_floor_resin",
       "mapgensize": [ 9, 9 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -252,9 +234,7 @@
     "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room9a",
     "//": "Storage room, right side, split across map boundaries",
-    "weight": 100,
     "object": {
-      "fill_ter": "t_floor_resin",
       "mapgensize": [ 9, 9 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -277,9 +257,7 @@
     "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room10",
     "//": "Left entry",
-    "weight": 100,
     "object": {
-      "fill_ter": "t_floor_resin",
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -297,9 +275,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room11",
-    "weight": 100,
     "object": {
-      "fill_ter": "t_floor_resin",
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -320,9 +296,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room12",
-    "weight": 100,
     "object": {
-      "fill_ter": "t_floor_resin",
       "mapgensize": [ 10, 10 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -345,9 +319,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room13",
-    "weight": 100,
     "object": {
-      "fill_ter": "t_floor_resin",
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -368,9 +340,7 @@
     "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room14",
     "//": "Large monster holding cell",
-    "weight": 100,
     "object": {
-      "fill_ter": "t_floor_resin",
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -390,9 +360,7 @@
     "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room15",
     "//": "Roomfull of zaps",
-    "weight": 100,
     "object": {
-      "fill_ter": "t_floor_resin",
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -413,9 +381,7 @@
     "method": "json",
     "nested_mapgen_id": "mi-go_encampment1_room16",
     "//": "Right side entrance",
-    "weight": 100,
     "object": {
-      "fill_ter": "t_floor_resin",
       "mapgensize": [ 5, 5 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -433,9 +399,7 @@
     "method": "json",
     "nested_mapgen_id": "mi-go_scout_tower_cells",
     "//": "Mi-go surgical suite and prisoner cells for upper z levels",
-    "weight": 100,
     "object": {
-      "fill_ter": "t_floor_resin",
       "mapgensize": [ 18, 18 ],
       "rotation": [ 0, 3 ],
       "rows": [
@@ -460,12 +424,12 @@
       ],
       "palettes": [ "mi-go_palette" ],
       "npcs": {
-        "1": { "class": "mi-go_prisoner", "chance": 20 },
-        "2": { "class": "mi-go_prisoner", "chance": 20 },
-        "3": { "class": "mi-go_prisoner", "chance": 20 },
-        "4": { "class": "mi-go_prisoner", "chance": 20 },
-        "6": { "class": "mi-go_prisoner", "chance": 20 },
-        "7": { "class": "mi-go_prisoner", "chance": 20 }
+        "1": { "class": "mi-go_prisoner" },
+        "2": { "class": "mi-go_prisoner" },
+        "3": { "class": "mi-go_prisoner" },
+        "4": { "class": "mi-go_prisoner" },
+        "6": { "class": "mi-go_prisoner" },
+        "7": { "class": "mi-go_prisoner" }
       }
     }
   }

@@ -353,12 +353,9 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         std::string item_name;
         std::string stolen_string;
         bool stolen = false;
-        if( it.has_owner() ) {
-            const faction *item_fac = it.get_owner();
-            if( item_fac != g->u.get_faction() ) {
-                stolen_string = "<color_light_red>!</color>";
-                stolen = true;
-            }
+        if( !it.is_owned_by( g->u, true ) ) {
+            stolen_string = "<color_light_red>!</color>";
+            stolen = true;
         }
         if( it.is_money() ) {
             //Count charges
@@ -1357,6 +1354,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
     } else {
         if( dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ) {
             g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
+            g->u.activity.coords.push_back( g->u.pos() );
         } else { // Vehicle and map destinations are handled the same.
 
             // Check first if the destination area still have enough room for moving all.
@@ -1732,6 +1730,7 @@ void advanced_inventory::display()
 
                 if( destarea == AIM_INVENTORY ) {
                     g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
+                    g->u.activity.coords.push_back( g->u.pos() );
                 } else if( destarea == AIM_WORN ) {
                     g->u.assign_activity( activity_id( "ACT_WEAR" ) );
                 } else { // Vehicle and map destinations are handled similarly.
@@ -2550,7 +2549,8 @@ void advanced_inventory::swap_panes()
     std::swap( panes[left], panes[right] );
     // Window pointer must be unchanged!
     std::swap( panes[left].window, panes[right].window );
-    // No recalculation needed, data has not changed
+    // Recalculation required for weight & volume
+    recalc = true;
     redraw = true;
 }
 

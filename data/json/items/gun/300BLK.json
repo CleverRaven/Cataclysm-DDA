@@ -17,6 +17,7 @@
     "ranged_damage": -1,
     "dispersion": 150,
     "durability": 8,
+    "min_cycle_recoil": 1700,
     "burst": 11,
     "barrel_length": 1,
     "built_in_mods": [ "folding_stock" ],
@@ -39,6 +40,7 @@
     "ammo": "300blk",
     "dispersion": 140,
     "durability": 8,
+    "min_cycle_recoil": 1700,
     "built_in_mods": [ "grip" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -74,6 +76,7 @@
     "ammo": "223",
     "dispersion": 150,
     "durability": 7,
+    "min_cycle_recoil": 1350,
     "default_mods": [ "retool_ar15_300blk" ],
     "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   }

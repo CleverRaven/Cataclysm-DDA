@@ -270,13 +270,13 @@ void user_interface::show()
                 fold_and_print( w_help, point( 1, 1 ), 999, c_white,
                                 _(
                                     "* is used as a Wildcard. A few Examples:\n"
-                                    " \n"
+                                    "\n"
                                     "wooden arrow    matches the itemname exactly\n"
                                     "wooden ar*      matches items beginning with wood ar\n"
                                     "*rrow           matches items ending with rrow\n"
                                     "*avy fle*fi*arrow     multiple * are allowed\n"
                                     "heAVY*woOD*arrOW      case insensitive search\n"
-                                    " \n"
+                                    "\n"
                                     "Pickup based on item materials:\n"
                                     "m:kevlar        matches items made of kevlar\n"
                                     "M:copper        matches items made purely of copper\n"

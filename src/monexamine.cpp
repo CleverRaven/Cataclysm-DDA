@@ -479,6 +479,8 @@ void monexamine::attach_bag_to( monster &z )
              it.display_name(), pet_name );
     g->u.i_rem( pos );
     z.add_effect( effect_has_bag, 1_turns, num_bp, true );
+    // Update encumbrance in case we were wearing it
+    g->u.flag_encumbrance();
     g->u.moves -= 200;
 }
 

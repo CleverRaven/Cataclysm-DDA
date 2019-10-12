@@ -325,6 +325,30 @@
     "valid": false
   },
   {
+    "type": "mutation",
+    "id": "SAVINGS",
+    "name": "Savings",
+    "points": 1,
+    "description": "You had some money stashed at the bank for a rainy day.  Now that the storm is raging, it's a last call to use it maybe?",
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "DEBT",
+    "name": "Debt",
+    "points": -1,
+    "description": "You needed money and had a big loan in a bank.  Good thing nobody will come to collect it now, right?  Right?",
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "MILLIONAIRE",
+    "name": "Millionaire",
+    "points": 3,
+    "description": "At the time of Cataclysm you were an owner of a fortune stashed in a bank.  Does that have any meaning now?",
+    "valid": false
+  },
+  {
     "id": "metal_wheel",
     "type": "vehicle_part",
     "name": "metal wheel",
@@ -375,5 +399,12 @@
     "symbol": ",",
     "color": "white",
     "use_action": "WASH_HARD_ITEMS"
+  },
+  {
+    "id": "fault_gun_clogged",
+    "type": "fault",
+    "name": "Dusty",
+    "description": "It's dusty. Has no effect - obsolete fault.",
+    "time": "1 s"
   }
 ]

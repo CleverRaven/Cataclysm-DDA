@@ -410,7 +410,6 @@
       "Stay with me, <name_g>!",
       "Catch up, <name_g>!",
       "Keep up!",
-      "Come on, <catch_up>!",
       "Keep it moving!",
       "Stay with me!",
       "Keep close!",
@@ -1008,7 +1007,7 @@
   {
     "type": "snippet",
     "category": "<acknowledged>",
-    "\\": "Generic acknowledgement of a command.  Comes up a lot and could use more variety.",
+    "//": "Generic acknowledgement of a command.  Comes up a lot and could use more variety.",
     "text": [
       "Got it!",
       "I'm on it.",
@@ -1031,7 +1030,7 @@
   {
     "type": "snippet",
     "category": "<weed_smoke>",
-    "\\": "Complaint when the NPC is near the avatar who is smoking marijuana.",
+    "//": "Complaint when the NPC is near the avatar who is smoking marijuana.",
     "text": [
       "Whew... smells like skunk!",
       "Man, that smells like some good shit!",
@@ -1049,7 +1048,7 @@
   {
     "type": "snippet",
     "category": "<meth_smoke>",
-    "\\": "Complaint when the NPC is near the avatar who is smoking meth.",
+    "//": "Complaint when the NPC is near the avatar who is smoking meth.",
     "text": [
       "I don't know... should you really be smoking that stuff?",
       "<name_g>, that's going to ruin your nose.",
@@ -1066,7 +1065,7 @@
   {
     "type": "snippet",
     "category": "<crack_smoke>",
-    "\\": "Complaint when the NPC is near the avatar who is smoking crack.",
+    "//": "Complaint when the NPC is near the avatar who is smoking crack.",
     "text": [ "Ew, smells like burning rubber!", "Ugh, that smells rancid!", "<meth_smoke>" ]
   },
   {

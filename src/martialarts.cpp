@@ -112,6 +112,7 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "downed_target", downed_target, false );
     optional( jo, was_loaded, "stunned_target", stunned_target, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
+    optional( jo, was_loaded, "human_target", human_target, false );
 
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
@@ -128,7 +129,8 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "stun_dur", stun_dur, 0 );
     optional( jo, was_loaded, "knockback_dist", knockback_dist, 0 );
     optional( jo, was_loaded, "knockback_spread", knockback_spread, 0 );
-    optional( jo, was_loaded, "knockback_follow", knockback_follow, 0 );
+    optional( jo, was_loaded, "powerful_knockback", powerful_knockback, false );
+    optional( jo, was_loaded, "knockback_follow", knockback_follow, false );
 
     optional( jo, was_loaded, "aoe", aoe, "" );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
@@ -227,6 +229,7 @@ void martialart::load( JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "static_buffs", static_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onmove_buffs", onmove_buffs, ma_buff_reader{} );
+    optional( jo, was_loaded, "onpause_buffs", onpause_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onhit_buffs", onhit_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onattack_buffs", onattack_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "ondodge_buffs", ondodge_buffs, ma_buff_reader{} );
@@ -472,9 +475,17 @@ std::string ma_requirements::get_description( bool buff ) const
     if( unarmed_allowed && melee_allowed ) {
         dump << string_format( _( "* Can %s while <info>armed</info> or <info>unarmed</info>" ),
                                type ) << std::endl;
+        if( unarmed_weapons_allowed ) {
+            dump << string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
+                                   type ) << std::endl;
+        }
     } else if( unarmed_allowed ) {
         dump << string_format( _( "* Can <info>only</info> %s while <info>unarmed</info>" ),
                                type ) << std::endl;
+        if( unarmed_weapons_allowed ) {
+            dump << string_format( _( "* Can %s while using <info>any unarmed weapon</info>" ),
+                                   type ) << std::endl;
+        }
     } else if( melee_allowed ) {
         dump << string_format( _( "* Can <info>only</info> %s while <info>armed</info>" ),
                                type ) << std::endl;
@@ -500,7 +511,8 @@ ma_technique::ma_technique()
     stun_dur = 0;
     knockback_dist = 0;
     knockback_spread = 0; // adding randomness to knockback, like tec_throw
-    knockback_follow = 0; // player follows the knocked-back party into their former tile
+    powerful_knockback = false;
+    knockback_follow = false; // player follows the knocked-back party into their former tile
 
     // offensive
     disarms = false; // like tec_disarm
@@ -511,6 +523,7 @@ ma_technique::ma_technique()
     downed_target = false;    // only works on downed enemies
     stunned_target = false;   // only works on stunned enemies
     wall_adjacent = false;    // only works near a wall
+    human_target = false;     // only works on humanoid enemies
 
     miss_recovery = false; // allows free recovery from misses, like tec_feint
     grab_break = false; // allows grab_breaks, like tec_break
@@ -580,9 +593,9 @@ int ma_buff::speed_bonus( const player &u ) const
 {
     return bonuses.get_flat( u, AFFECTED_SPEED );
 }
-int ma_buff::armor_bonus( const player &u, damage_type dt ) const
+int ma_buff::armor_bonus( const Character &guy, damage_type dt ) const
 {
-    return bonuses.get_flat( u, AFFECTED_ARMOR, dt );
+    return bonuses.get_flat( guy, AFFECTED_ARMOR, dt );
 }
 float ma_buff::damage_bonus( const player &u, damage_type dt ) const
 {
@@ -691,6 +704,11 @@ void martialart::apply_static_buffs( player &u ) const
 void martialart::apply_onmove_buffs( player &u ) const
 {
     simultaneous_add( u, onmove_buffs );
+}
+
+void martialart::apply_onpause_buffs( player &u ) const
+{
+    simultaneous_add( u, onpause_buffs );
 }
 
 void martialart::apply_onhit_buffs( player &u ) const
@@ -894,7 +912,7 @@ bool player::can_leg_block() const
                             skill_id( "unarmed" ) );
 
     // Success conditions.
-    if( hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_r] > 0 ) {
+    if( get_working_leg_count() >= 1 ) {
         if( unarmed_skill >= ma.leg_block ) {
             return true;
         } else if( ma.leg_block_with_bio_armor_legs && has_bionic( bionic_id( "bio_armor_legs" ) ) ) {
@@ -913,7 +931,7 @@ bool player::can_arm_block() const
                             skill_id( "unarmed" ) );
 
     // Success conditions.
-    if( hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_r] > 0 ) {
+    if( !is_limb_broken( hp_arm_l ) || !is_limb_broken( hp_arm_r ) ) {
         if( unarmed_skill >= ma.arm_block ) {
             return true;
         } else if( ma.arm_block_with_bio_armor_arms && has_bionic( bionic_id( "bio_armor_arms" ) ) ) {
@@ -942,6 +960,10 @@ void player::ma_static_effects()
 void player::ma_onmove_effects()
 {
     style_selected.obj().apply_onmove_buffs( *this );
+}
+void player::ma_onpause_effects()
+{
+    style_selected.obj().apply_onpause_buffs( *this );
 }
 void player::ma_onhit_effects()
 {
@@ -1036,7 +1058,7 @@ int player::mabuff_speed_bonus() const
     } );
     return ret;
 }
-int player::mabuff_armor_bonus( damage_type type ) const
+int Character::mabuff_armor_bonus( damage_type type ) const
 {
     int ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff & b, const effect & d ) {
@@ -1200,6 +1222,14 @@ std::string ma_technique::get_description() const
 
     dump << reqs.get_description();
 
+    if( weighting > 1 ) {
+        dump << string_format( _( "* <info>Greater chance</info> to activate: <stat>+%s%%</stat>" ),
+                               ( 100 * ( weighting - 1 ) ) ) << std::endl;
+    } else if( weighting < -1 ) {
+        dump << string_format( _( "* <info>Lower chance</info> to activate: <stat>1/%s</stat>" ),
+                               abs( weighting ) ) << std::endl;
+    }
+
     if( crit_ok ) {
         dump << _( "* Can activate on a <info>normal</info> or a <info>crit</info> hit" ) << std::endl;
     } else if( crit_tec ) {
@@ -1220,6 +1250,14 @@ std::string ma_technique::get_description() const
 
     if( stunned_target ) {
         dump << _( "* Only works on a <info>stunned</info> target" ) << std::endl;
+    }
+
+    if( human_target ) {
+        dump << _( "* Only works on a <info>humanoid</info> target" ) << std::endl;
+    }
+
+    if( powerful_knockback ) {
+        dump << _( "* Causes extra damage on <info>knockback collision</info>." ) << std::endl;
     }
 
     if( dodge_counter ) {
@@ -1294,8 +1332,16 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         if( ma.force_unarmed ) {
             buffer << _( "<bold>This style forces you to use unarmed strikes, even if wielding a weapon.</bold>" );
-            buffer << "--" << std::endl;
+            buffer << std::endl;
+        } else if( ma.allow_melee ) {
+            buffer << _( "<bold>This style can be used with all weapons.</bold>" );
+            buffer << std::endl;
+        } else if( ma.strictly_melee ) {
+            buffer << _( "<bold>This is an armed combat style.</bold>" );
+            buffer << std::endl;
         }
+
+        buffer << "--" << std::endl;
 
         if( ma.arm_block_with_bio_armor_arms || ma.arm_block != 99 ||
             ma.leg_block_with_bio_armor_legs || ma.leg_block != 99 ) {
@@ -1332,6 +1378,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         buff_desc( _( "Passive" ), ma.static_buffs, true );
         buff_desc( _( "Move" ), ma.onmove_buffs );
+        buff_desc( _( "Pause" ), ma.onpause_buffs );
         buff_desc( _( "Hit" ), ma.onhit_buffs );
         buff_desc( _( "Miss" ), ma.onmiss_buffs );
         buff_desc( _( "Attack" ), ma.onattack_buffs );

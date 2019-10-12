@@ -9,7 +9,6 @@
 #include "messages.h"
 #include "point.h"
 
-
 const efftype_id effect_teleglow( "teleglow" );
 
 bool teleport::teleport( Creature &critter, int min_distance, int max_distance, bool safe,
@@ -20,11 +19,11 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
         return false;
     }
 
-    const bool c_is_u = &critter == &g->u;
     player *const p = critter.as_player();
+    const bool c_is_u = p != nullptr && p == &g->u;
     int tries = 0;
     tripoint origin = critter.pos();
-    tripoint new_pos = tripoint_zero;
+    tripoint new_pos;
     do {
         int rangle = rng( 0, 360 );
         int rdistance = rng( min_distance, max_distance );

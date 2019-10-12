@@ -214,6 +214,9 @@ const efftype_id effect_took_flumed( "took_flumed" );
 const efftype_id effect_took_prozac( "took_prozac" );
 const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 const efftype_id effect_took_prozac_visible( "took_prozac_visible" );
+const efftype_id effect_took_thorazine( "took_thorazine" );
+const efftype_id effect_took_thorazine_bad( "took_thorazine_bad" );
+const efftype_id effect_took_thorazine_visible( "took_thorazine_visible" );
 const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_took_xanax_visible( "took_xanax_visible" );
 const efftype_id effect_valium( "valium" );
@@ -620,7 +623,7 @@ int iuse::fungicide( player *p, item *it, bool, const tripoint & )
                         critter.die( p ); // counts as kill by player
                     }
                 } else {
-                    g->summon_mon( mon_spore, dest );
+                    g->place_critter_at( mon_spore, dest );
                 }
                 spore_count--;
             }
@@ -858,6 +861,11 @@ int iuse::meditate( player *p, item *it, bool t, const tripoint & )
 
 int iuse::thorazine( player *p, item *it, bool, const tripoint & )
 {
+    if( p->has_effect( effect_took_thorazine ) ) {
+        p->remove_effect( effect_took_thorazine );
+        p->mod_fatigue( 15 );
+    }
+    p->add_effect( effect_took_thorazine, 12_hours );
     p->mod_fatigue( 5 );
     p->remove_effect( effect_hallu );
     p->remove_effect( effect_visuals );
@@ -868,9 +876,11 @@ int iuse::thorazine( player *p, item *it, bool, const tripoint & )
     if( one_in( 50 ) ) { // adverse reaction
         p->add_msg_if_player( m_bad, _( "You feel completely exhausted." ) );
         p->mod_fatigue( 15 );
+        p->add_effect( effect_took_thorazine_bad, p->get_effect_dur( effect_took_thorazine ) );
     } else {
         p->add_msg_if_player( m_warning, _( "You feel a bit wobbly." ) );
     }
+    p->add_effect( effect_took_prozac_visible, rng( 9_hours, 15_hours ) );
     return it->type->charges_to_use();
 }
 
@@ -1172,7 +1182,7 @@ static void spawn_spores( const player &p )
             continue;
         }
         if( one_in( 10 + 5 * dist ) && one_in( spores_spawned * 2 ) ) {
-            if( monster *const spore = g->summon_mon( mon_spore, dest ) ) {
+            if( monster *const spore = g->place_critter_at( mon_spore, dest ) ) {
                 spore->friendly = -1;
                 spores_spawned++;
             }
@@ -1671,7 +1681,7 @@ static bool good_fishing_spot( tripoint pos )
     std::unordered_set<tripoint> fishable_locations = g->get_fishable_locations( 60, pos );
     std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
     // isolated little body of water with no definite fish population
-    oter_id &cur_omt = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( pos ) ) );
+    const oter_id &cur_omt = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( pos ) ) );
     std::string om_id = cur_omt.id().c_str();
     if( fishables.empty() && !g->m.has_flag( "CURRENT", pos ) &&
         om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() && !cur_omt->is_lake_shore() ) {
@@ -3464,7 +3474,7 @@ int iuse::can_goo( player *p, item *it, bool, const tripoint & )
         if( g->u.sees( goop ) ) {
             add_msg( _( "Living black goo emerges from the canister!" ) );
         }
-        if( monster *const goo = g->summon_mon( mon_blob, goop ) ) {
+        if( monster *const goo = g->place_critter_at( mon_blob, goop ) ) {
             goo->friendly = -1;
         }
     }
@@ -4087,14 +4097,7 @@ static std::string get_music_description()
     // of snippets {a, b, c}, but only a 50% chance
     // Actual chance = 24.5% of being selected
     if( one_in( 2 ) ) {
-        const std::string &from_a = SNIPPET.random_from_category( "musicgenre_a" );
-        const std::string &from_b = SNIPPET.random_from_category( "musicgenre_b" );
-        const std::string &from_c = SNIPPET.random_from_category( "musicgenre_c" );
-
-        // Require all to be non-empty
-        if( !( from_a.empty() || from_b.empty() || from_c.empty() ) ) {
-            return from_a + from_b + from_c;
-        }
+        return SNIPPET.random_from_category( "music_description" );
     }
 
     return _( "a sweet guitar solo!" );
@@ -4463,31 +4466,30 @@ int iuse::vibe( player *p, item *it, bool, const tripoint & )
 
 int iuse::vortex( player *p, item *it, bool, const tripoint & )
 {
-    std::vector<tripoint> spawn;
-    auto empty_add = [&]( int x, int y ) {
-        tripoint pt( x, y, p->posz() );
-        if( g->is_empty( pt ) ) {
-            spawn.push_back( pt );
-        }
-    };
+    std::vector<point> spawn;
     for( int i = -3; i <= 3; i++ ) {
-        empty_add( p->posx() - 3, p->posy() + i );
-        empty_add( p->posx() + 3, p->posy() + i );
-        empty_add( p->posx() + i, p->posy() - 3 );
-        empty_add( p->posx() + i, p->posy() + 3 );
-    }
-    if( spawn.empty() ) {
-        p->add_msg_if_player( m_warning, _( "Air swirls around you for a moment." ) );
-        return it->convert( "spiral_stone" ).type->charges_to_use();
+        spawn.emplace_back( -3, i );
+        spawn.emplace_back( +3, i );
+        spawn.emplace_back( i, -3 );
+        spawn.emplace_back( i, +3 );
     }
 
-    p->add_msg_if_player( m_warning, _( "Air swirls all over..." ) );
-    p->moves -= to_moves<int>( 1_seconds );
-    it->convert( "spiral_stone" );
-    monster mvortex( mon_vortex, random_entry( spawn ) );
-    mvortex.friendly = -1;
-    g->add_zombie( mvortex );
-    return it->type->charges_to_use();
+    while( !spawn.empty() ) {
+        const tripoint offset( random_entry_removed( spawn ), 0 );
+        monster *const mon = g->place_critter_at( mon_vortex, offset + p->pos() );
+        if( !mon ) {
+            continue;
+        }
+        p->add_msg_if_player( m_warning, _( "Air swirls all over..." ) );
+        p->moves -= to_moves<int>( 1_seconds );
+        it->convert( "spiral_stone" );
+        mon->friendly = -1;
+        return it->type->charges_to_use();
+    }
+
+    // Only reachable when no monster has been spawned.
+    p->add_msg_if_player( m_warning, _( "Air swirls around you for a moment." ) );
+    return it->convert( "spiral_stone" ).type->charges_to_use();
 }
 
 int iuse::dog_whistle( player *p, item *it, bool, const tripoint & )
@@ -5242,13 +5244,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                 int roll = rng( 1, 10 );
                 mtype_id bug = mtype_id::NULL_ID();
                 int num = 0;
-                std::vector<tripoint> empty;
-                for( const tripoint &dest : g->m.points_in_radius( p->pos(), 1 ) ) {
-                    if( g->is_empty( dest ) ) {
-                        empty.push_back( dest );
-                    }
-                }
-                if( empty.empty() || roll <= 4 ) {
+                if( roll <= 4 ) {
                     p->add_msg_if_player( m_warning, _( "Flies buzz around you." ) );
                 } else if( roll <= 7 ) {
                     p->add_msg_if_player( m_warning, _( "Giant flies appear!" ) );
@@ -5264,9 +5260,8 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                     num = rng( 1, 2 );
                 }
                 if( bug ) {
-                    for( int j = 0; j < num && !empty.empty(); j++ ) {
-                        const tripoint spawnp = random_entry_removed( empty );
-                        if( monster *const b = g->summon_mon( bug, spawnp ) ) {
+                    for( int j = 0; j < num; j++ ) {
+                        if( monster *const b = g->place_critter_around( bug, p->pos(), 1 ) ) {
                             b->friendly = -1;
                             b->add_effect( effect_pet, 1_turns, num_bp, true );
                         }
@@ -5377,9 +5372,8 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                 int num_shadows = rng( 4, 8 );
                 int num_spawned = 0;
                 for( int j = 0; j < num_shadows; j++ ) {
-                    int tries = 0;
-                    tripoint monp = p->pos();
-                    do {
+                    for( int tries = 0; tries < 10; ++tries ) {
+                        tripoint monp = p->pos();
                         if( one_in( 2 ) ) {
                             monp.x = rng( p->posx() - 5, p->posx() + 5 );
                             monp.y = ( one_in( 2 ) ? p->posy() - 5 : p->posy() + 5 );
@@ -5387,12 +5381,13 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                             monp.x = ( one_in( 2 ) ? p->posx() - 5 : p->posx() + 5 );
                             monp.y = rng( p->posy() - 5, p->posy() + 5 );
                         }
-                    } while( tries < 5 && !g->is_empty( monp ) &&
-                             !g->m.sees( monp, p->pos(), 10 ) );
-                    if( tries < 5 ) { // TODO: tries increment is missing, so this expression is always true
-                        if( monster *const  spawned = g->summon_mon( mon_shadow, monp ) ) {
+                        if( !g->m.sees( monp, p->pos(), 10 ) ) {
+                            continue;
+                        }
+                        if( monster *const  spawned = g->place_critter_at( mon_shadow, monp ) ) {
                             num_spawned++;
                             spawned->reset_special_rng( "DISAPPEAR" );
+                            break;
                         }
                     }
                 }
@@ -5433,43 +5428,42 @@ int iuse::spray_can( player *p, item *it, bool, const tripoint & )
 }
 
 int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix,
-                                  const tripoint &pt )
+                                  const tripoint &where )
 {
-    std::string message = string_input_popup()
-                          .title( prefix + " " + _( "(To delete, input one '.')" ) )
+    string_input_popup popup;
+    std::string message = popup
+                          .title( prefix + " " + _( "(To delete, clear the text and confirm)" ) )
+                          .text( g->m.has_graffiti_at( where ) ? g->m.graffiti_at( where ) : std::string() )
                           .identifier( "graffiti" )
                           .query_string();
-
-    if( message.empty() ) {
+    if( popup.canceled() ) {
         return 0;
-    } else {
-        const auto where = pt != p.pos() ? pt : p.pos();
-        bool grave = g->m.ter( where ) == t_grave_new;
-        int move_cost;
-        if( message == "." ) {
-            if( g->m.has_graffiti_at( where ) ) {
-                move_cost = 3 * g->m.graffiti_at( where ).length();
-                g->m.delete_graffiti( where );
-                if( grave ) {
-                    p.add_msg_if_player( m_info, _( "You blur the inscription on the grave." ) );
-                } else {
-                    p.add_msg_if_player( m_info, _( "You manage to get rid of the message on the ground." ) );
-                }
+    }
+
+    bool grave = g->m.ter( where ) == t_grave_new;
+    int move_cost;
+    if( message.empty() ) {
+        if( g->m.has_graffiti_at( where ) ) {
+            move_cost = 3 * g->m.graffiti_at( where ).length();
+            g->m.delete_graffiti( where );
+            if( grave ) {
+                p.add_msg_if_player( m_info, _( "You blur the inscription on the grave." ) );
             } else {
-                add_msg( _( "There isn't anything to erase here." ) );
-                return 0;
+                p.add_msg_if_player( m_info, _( "You manage to get rid of the message on the ground." ) );
             }
         } else {
-            g->m.set_graffiti( where, message );
-            if( grave ) {
-                p.add_msg_if_player( m_info, _( "You carve an inscription on the grave." ) );
-            } else {
-                p.add_msg_if_player( m_info, _( "You write a message on the ground." ) );
-            }
-            move_cost = 2 * message.length();
+            return 0;
         }
-        p.moves -= move_cost;
+    } else {
+        g->m.set_graffiti( where, message );
+        if( grave ) {
+            p.add_msg_if_player( m_info, _( "You carve an inscription on the grave." ) );
+        } else {
+            p.add_msg_if_player( m_info, _( "You write a message on the ground." ) );
+        }
+        move_cost = 2 * message.length();
     }
+    p.moves -= move_cost;
     if( it != nullptr ) {
         return it->type->charges_to_use();
     } else {
@@ -5532,10 +5526,10 @@ int iuse::heat_food( player *p, item *it, bool, const tripoint & )
 {
     if( g->m.has_nearby_fire( p->pos() ) ) {
         heat_item( *p );
-    } else if( p->has_active_bionic( bionic_id( "bio_tools" ) ) && p->power_level > 10 &&
+    } else if( p->has_active_bionic( bionic_id( "bio_tools" ) ) && p->get_power_level() > 10_kJ &&
                query_yn( _( "There is no fire around, use your integrated toolset instead?" ) ) ) {
         if( heat_item( *p ) ) {
-            p->charge_power( -10 );
+            p->mod_power_level( -10_kJ );
         }
     } else {
         p->add_msg_if_player( m_info, _( "You need to be next to fire to heat something up with the %s." ),
@@ -5694,7 +5688,7 @@ int iuse::unfold_generic( player *p, item *it, bool, const tripoint & )
     } else {
         unfold_msg = _( unfold_msg );
     }
-    veh->set_owner( g->u.get_faction() );
+    veh->set_owner( *p );
     p->add_msg_if_player( m_neutral, unfold_msg, veh->name );
 
     p->moves -= it->get_var( "moves", to_turns<int>( 5_seconds ) );
@@ -7897,8 +7891,9 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
         }
 
         if( p->has_item( *it ) ) {
-            if( p->has_active_bionic( bionic_id( "bio_shock" ) ) && p->power_level >= 2 && one_in( 5 ) ) {
-                p->charge_power( -2 );
+            if( p->has_active_bionic( bionic_id( "bio_shock" ) ) && p->get_power_level() >= 2_kJ &&
+                one_in( 5 ) ) {
+                p->mod_power_level( -2_kJ );
 
                 it->item_tags.erase( "NO_UNWIELD" );
                 it->ammo_unset();
@@ -8389,24 +8384,17 @@ static bool multicooker_hallu( player &p )
             return true;
 
         case 6:
-            for( const tripoint &pt : g->m.points_in_radius( p.pos(), 1 ) ) {
-                if( g->is_empty( pt ) ) {
-                    points.push_back( pt );
-                }
-            }
-
             if( !one_in( 5 ) ) {
                 add_msg( m_warning, _( "The multi-cooker runs away!" ) );
-                const tripoint random_point = random_entry( points );
-                if( monster *const m = g->summon_mon( mon_hallu_multicooker, random_point ) ) {
+                if( monster *const m = g->place_critter_around( mon_hallu_multicooker, p.pos(), 1 ) ) {
                     m->hallucination = true;
                     m->add_effect( effect_run, 1_turns, num_bp, true );
                 }
             } else {
                 p.add_msg_if_player( m_info, _( "You're surrounded by aggressive multi-cookers!" ) );
 
-                for( auto &point : points ) {
-                    if( monster *const m = g->summon_mon( mon_hallu_multicooker, point ) ) {
+                for( const tripoint &pn : g->m.points_in_radius( p.pos(), 1 ) ) {
+                    if( monster *const m = g->place_critter_at( mon_hallu_multicooker, pn ) ) {
                         m->hallucination = true;
                     }
                 }
@@ -8717,7 +8705,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                     mealtime = meal->time * 2 ;
                 }
 
-                const int all_charges = charges_to_start + mealtime / ( it->type->tool->turns_per_charge * 100 );
+                const int all_charges = charges_to_start + mealtime / ( it->type->tool->power_draw / 10000 );
 
                 if( it->ammo_remaining() < all_charges ) {
 
@@ -9157,11 +9145,11 @@ int iuse::directional_hologram( player *p, item *it, bool, const tripoint &pos )
     }
     const tripoint posp = *posp_;
 
-    if( !g->is_empty( posp ) ) {
+    monster *const hologram = g->place_critter_at( mon_hologram, posp );
+    if( !hologram ) {
         p->add_msg_if_player( m_info, _( "Can't create a hologram there." ) );
         return 0;
     }
-    monster *const hologram = g->summon_mon( mon_hologram, posp );
     tripoint target = pos;
     target.x = p->posx() + 2 * SEEX * ( posp.x - p->posx() );
     target.y = p->posy() + 2 * SEEY * ( posp.y - p->posy() );
@@ -9185,24 +9173,23 @@ int iuse::capture_monster_veh( player *p, item *it, bool, const tripoint &pos )
     return 0;
 }
 
-int item::release_monster( const tripoint &target, bool spawn )
+bool item::release_monster( const tripoint &target, const int radius )
 {
-    monster new_monster;
+    std::shared_ptr<monster> new_monster = std::make_shared<monster>();
     try {
-        ::deserialize( new_monster, get_var( "contained_json", "" ) );
+        ::deserialize( *new_monster, get_var( "contained_json", "" ) );
     } catch( const std::exception &e ) {
         debugmsg( _( "Error restoring monster: %s" ), e.what() );
-        return 0;
+        return false;
     }
-    if( spawn ) {
-        new_monster.spawn( target );
-        g->add_zombie( new_monster );
+    if( !g->place_critter_around( new_monster, target, radius ) ) {
+        return false;
     }
     erase_var( "contained_name" );
     erase_var( "contained_json" );
     erase_var( "name" );
     erase_var( "weight" );
-    return 0;
+    return true;
 }
 
 // didn't want to drag the monster:: definition into item.h, so just reacquire the monster
@@ -9250,40 +9237,31 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
     if( it->has_var( "contained_name" ) ) {
-        tripoint target;
-        if( g->is_empty( pos ) ) {
+        if( it->release_monster( pos ) ) {
             // It's been activated somewhere where there isn't a player or monster, good.
-            target = pos;
-        } else {
-            if( it->has_flag( "PLACE_RANDOMLY" ) ) {
-                std::vector<tripoint> valid;
-                for( const tripoint &dest : g->m.points_in_radius( p->pos(), 1 ) ) {
-                    if( g->is_empty( dest ) ) {
-                        valid.push_back( dest );
-                    }
-                }
-                if( valid.empty() ) {
-                    p->add_msg_if_player( _( "There is no place to put the %s." ),
-                                          it->get_var( "contained_name", "" ) );
-                    return 0;
-                }
-                target = random_entry( valid );
-            } else {
-                const std::string query = string_format( _( "Place the %s where?" ),
-                                          it->get_var( "contained_name", "" ) );
-                if( const cata::optional<tripoint> pos_ = choose_adjacent( query ) ) {
-                    target = *pos_;
-                } else {
-                    return 0;
-                }
-                if( !g->is_empty( target ) ) {
-                    p->add_msg_if_player( m_info, _( "You cannot place the %s there!" ),
-                                          it->get_var( "contained_name", "" ) );
-                    return 0;
-                }
-            }
+            return 1;
         }
-        return it->release_monster( target );
+        if( it->has_flag( "PLACE_RANDOMLY" ) ) {
+            if( it->release_monster( p->pos(), 1 ) ) {
+                return 1;
+            }
+            p->add_msg_if_player( _( "There is no place to put the %s." ),
+                                  it->get_var( "contained_name", "" ) );
+            return 0;
+        } else {
+            const std::string query = string_format( _( "Place the %s where?" ),
+                                      it->get_var( "contained_name", "" ) );
+            const cata::optional<tripoint> pos_ = choose_adjacent( query );
+            if( !pos_ ) {
+                return 0;
+            }
+            if( it->release_monster( *pos_ ) ) {
+                return 1;
+            }
+            p->add_msg_if_player( m_info, _( "You cannot place the %s there!" ),
+                                  it->get_var( "contained_name", "" ) );
+            return 0;
+        }
     } else {
         const std::string query = string_format( _( "Capture what with the %s?" ), it->tname() );
         const cata::optional<tripoint> target_ = choose_adjacent( query );

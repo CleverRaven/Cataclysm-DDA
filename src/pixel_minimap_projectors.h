@@ -6,7 +6,6 @@
 #include "point.h"
 #include "sdl_wrappers.h"
 
-
 class pixel_minimap_projector
 {
     public:
@@ -19,7 +18,6 @@ class pixel_minimap_projector
 
         virtual SDL_Rect get_chunk_rect( const point &p, const point &tiles_count ) const = 0;
 };
-
 
 class pixel_minimap_ortho_projector : public pixel_minimap_projector
 {
@@ -37,7 +35,6 @@ class pixel_minimap_ortho_projector : public pixel_minimap_projector
     private:
         point tile_size;
 };
-
 
 class pixel_minimap_iso_projector : public pixel_minimap_projector
 {

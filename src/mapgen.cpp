@@ -117,7 +117,12 @@ void map::generate( const tripoint &p, const time_point &when )
     //  because other submaps won't be touched.
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            setsubmap( get_nonant( { gridx, gridy } ), new submap() );
+            const size_t grid_pos = get_nonant( { gridx, gridy, p.z } );
+            if( getsubmap( grid_pos ) ) {
+                debugmsg( "Submap already exists at (%d, %d, %d)", gridx, gridy, p.z );
+                continue;
+            }
+            setsubmap( grid_pos, new submap() );
             // TODO: memory leak if the code below throws before the submaps get stored/deleted!
         }
     }
@@ -189,10 +194,13 @@ void map::generate( const tripoint &p, const time_point &when )
         for( int j = 0; j < my_MAPSIZE; j++ ) {
             dbg( D_INFO ) << "map::generate: submap (" << i << "," << j << ")";
 
+            const tripoint pos( i, j, p.z );
             if( i <= 1 && j <= 1 ) {
-                saven( tripoint( i, j, p.z ) );
+                saven( pos );
             } else {
-                delete get_submap_at_grid( { i, j, p.z } );
+                const size_t grid_pos = get_nonant( pos );
+                delete getsubmap( grid_pos );
+                setsubmap( grid_pos, nullptr );
             }
         }
     }
@@ -1008,7 +1016,7 @@ class jmapgen_liquid_item : public jmapgen_piece
             , liquid( jsi.get_string( "liquid" ) )
             , chance( jsi, "chance", 1, 1 ) {
             if( !item::type_is_defined( itype_id( liquid ) ) ) {
-                set_mapgen_defer( jsi, "liquid", "no such item type" );
+                set_mapgen_defer( jsi, "liquid", "no such item type '" + liquid + "'" );
             }
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
@@ -1037,7 +1045,7 @@ class jmapgen_item_group : public jmapgen_piece
             group_id( jsi.get_string( "item" ) )
             , chance( jsi, "chance", 1, 1 ) {
             if( !item_group::group_is_defined( group_id ) ) {
-                set_mapgen_defer( jsi, "item", "no such item type" );
+                set_mapgen_defer( jsi, "item", "no such item group '" + group_id + "'" );
             }
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
         }
@@ -1067,7 +1075,7 @@ class jmapgen_loot : public jmapgen_piece
                 set_mapgen_defer( jsi, "group", "no such item group" );
             }
             if( !name.empty() && !item::type_is_defined( name ) ) {
-                set_mapgen_defer( jsi, "item", "no such item type" );
+                set_mapgen_defer( jsi, "item", "no such item type '" + name + "'" );
             }
 
             // All the probabilities are 100 because we do the roll in @ref apply.
@@ -4140,7 +4148,7 @@ void map::draw_lab( mapgendata &dat )
                         furn_set( point( SEEX, SEEY ), f_table );
                         if( loot_variant <= 67 ) {
                             spawn_item( point( SEEX, SEEY - 1 ), "UPS_off" );
-                            spawn_item( point( SEEX, SEEY - 1 ), "battery", dice( 4, 3 ) );
+                            spawn_item( point( SEEX, SEEY - 1 ), "heavy_battery_cell" );
                             spawn_item( point( SEEX - 1, SEEY ), "v29" );
                             spawn_item( point( SEEX - 1, SEEY ), "laser_rifle", dice( 1, 0 ) );
                             spawn_item( point( SEEX, SEEY ), "plasma_gun" );
@@ -6579,17 +6587,16 @@ character_id map::place_npc( const point &p, const string_id<npc_template> &type
 void map::apply_faction_ownership( const point &p1, const point &p2,
                                    const faction_id id )
 {
-    faction *fac = g->faction_manager_ptr->get( id );
     for( const tripoint &p : points_in_rectangle( tripoint( p1, abs_sub.z ), tripoint( p2,
             abs_sub.z ) ) ) {
         auto items = i_at( p.xy() );
         for( item &elem : items ) {
-            elem.set_owner( fac );
+            elem.set_owner( id );
         }
         vehicle *source_veh = veh_pointer_or_null( veh_at( p ) );
         if( source_veh ) {
             if( !source_veh->has_owner() ) {
-                source_veh->set_owner( fac );
+                source_veh->set_owner( id );
             }
         }
     }

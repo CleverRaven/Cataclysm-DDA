@@ -491,7 +491,7 @@
     "see_cost": 5,
     "extras": "field",
     "mondensity": 2,
-    "flag": [ "SOURCE_GUN", "SOURCE_AMMO" ]
+    "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",
@@ -512,7 +512,7 @@
     "see_cost": 5,
     "extras": "field",
     "mondensity": 2,
-    "flag": [ "SOURCE_GUN", "SOURCE_AMMO" ]
+    "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",

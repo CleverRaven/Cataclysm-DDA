@@ -610,6 +610,13 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     // Now we're gonna handle traps we're standing on (if we're still moving).
     if( !vertical && can_move ) {
         const auto wheel_indices = veh.wheelcache; // Don't use a reference here, it causes a crash.
+
+        // Values to deal with crushing items.
+        // The math needs to be floating-point to work, so the values might as well be.
+        const float vehicle_grounded_wheel_area = static_cast<int>( vehicle_wheel_traction( veh, true ) );
+        const float weight_to_damage_factor = 0.05; // Nobody likes a magic number.
+        const float vehicle_mass_kg = to_kilogram( veh.total_mass() );
+
         for( auto &w : wheel_indices ) {
             const tripoint wheel_p = veh.global_part_pos3( w );
             if( one_in( 2 ) && displace_water( wheel_p ) ) {
@@ -619,8 +626,16 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
 
             veh.handle_trap( wheel_p, w );
             if( !has_flag( "SEALED", wheel_p ) ) {
-                // TODO: Make this value depend on the wheel
-                smash_items( wheel_p, 5 );
+                const float wheel_area =  veh.parts[ w ].wheel_area();
+
+                // Damage is calculated based on the weight of the vehicle,
+                // The area of it's wheels, and the area of the wheel running over the items.
+                // This number is multiplied by weight_to_damage_factor to get reasonable results, damage-wise.
+                const int wheel_damage = static_cast<int>( ( ( wheel_area / vehicle_grounded_wheel_area ) *
+                                         vehicle_mass_kg ) * weight_to_damage_factor );
+
+                //~ %1$s: vehicle name
+                smash_items( wheel_p, wheel_damage, string_format( _( "weight of %1$s" ), veh.disp_name() ) );
             }
         }
     }
@@ -1289,6 +1304,13 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
     if( g->u.get_grab_type() == OBJECT_FURNITURE && g->u.grab_point == p && new_t.move_str_req < 0 ) {
         add_msg( _( "The %s you were grabbing is destroyed!" ), old_t.name() );
         g->u.grab( OBJECT_NONE );
+    }
+    // If a creature was crushed under a rubble -> free it
+    if( old_id == f_rubble && new_furniture == f_null ) {
+        Creature *c = g->critter_at( p );
+        if( c ) {
+            c->remove_effect( effect_crushed );
+        }
     }
     if( new_t.has_flag( "EMITTER" ) ) {
         field_furn_locs.push_back( p );
@@ -2790,11 +2812,9 @@ void map::decay_fields_and_scent( const time_duration &amount )
 point map::random_outdoor_tile()
 {
     std::vector<point> options;
-    for( int x = 0; x < SEEX * my_MAPSIZE; x++ ) {
-        for( int y = 0; y < SEEY * my_MAPSIZE; y++ ) {
-            if( is_outside( point( x, y ) ) ) {
-                options.push_back( point( x, y ) );
-            }
+    for( const tripoint &p : points_on_zlevel() ) {
+        if( is_outside( p.xy() ) ) {
+            options.push_back( p.xy() );
         }
     }
     return random_entry( options, point_north_west );
@@ -2927,11 +2947,16 @@ void map::collapse_at( const tripoint &p, const bool silent )
     }
 }
 
-void map::smash_items( const tripoint &p, const int power )
+void map::smash_items( const tripoint &p, const int power, const std::string &cause_message )
 {
     if( !has_items( p ) ) {
         return;
     }
+
+    // Keep track of how many items have been damaged, and what the first one is
+    bool item_was_damaged = false;
+    int items_damaged = 0;
+    std::string damaged_item_name;
 
     std::vector<item> contents;
     auto items = i_at( p );
@@ -2976,6 +3001,8 @@ void map::smash_items( const tripoint &p, const int power )
                    i->charges > 0 ) {
                 i->charges--;
                 damage_chance -= material_factor;
+                // We can't increment items_damaged directly because a single item can be damaged more than once
+                item_was_damaged = true;
             }
         } else {
             const field_type_id type_blood = i->is_corpse() ? i->get_mtype()->bloodType() : fd_null;
@@ -2985,8 +3012,22 @@ void map::smash_items( const tripoint &p, const int power )
                 i->inc_damage( DT_BASH );
                 add_splash( type_blood, p, 1, damage_chance );
                 damage_chance -= material_factor;
+                item_was_damaged = true;
             }
         }
+
+        // If an item was damaged, increment the counter and set it as most recently damaged.
+        if( item_was_damaged ) {
+
+            // If this is the first item to be damaged, store its name in damaged_item_name.
+            if( items_damaged == 0 ) {
+                damaged_item_name = i->tname();
+            }
+            // Increment the counter, and reset the flag.
+            items_damaged++;
+            item_was_damaged = false;
+        }
+
         // Remove them if they were damaged too much
         if( i->damage() == i->max_damage() || ( by_charges && i->charges == 0 ) ) {
             // But save the contents, except for irremovable gunmods
@@ -3000,6 +3041,14 @@ void map::smash_items( const tripoint &p, const int power )
         } else {
             i++;
         }
+    }
+
+    // Let the player know that the item was damaged if they can see it.
+    if( items_damaged > 1 && g->u.sees( p ) ) {
+        add_msg( m_bad, _( "The %s damages several items!" ), cause_message );
+    } else if( items_damaged == 1 && g->u.sees( p ) )  {
+        //~ %1$s: the cause of damage, %2$s: damaged item name
+        add_msg( m_bad, _( "The %1$s damages the %2$s!" ), cause_message, damaged_item_name );
     }
 
     for( const item &it : contents ) {
@@ -3760,13 +3809,14 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         proj.impact.mult_damage( dam / static_cast<double>( initial_damage ) );
     }
 
-    // Now, destroy items on that tile.
-    if( ( move_cost( p ) == 2 && !hit_items ) || !inbounds( p ) ) {
-        return; // Items on floor-type spaces won't be shot up.
+    //Projectiles with NO_ITEM_DAMAGE flag won't damage items at all
+    if( !hit_items || !inbounds( p ) ) {
+        return;
     }
 
+    // Now, smash items on that tile.
     // dam / 3, because bullets aren't all that good at destroying items...
-    smash_items( p, dam / 3 );
+    smash_items( p, dam / 3, _( "flying projectile" ) );
 }
 
 bool map::hit_with_acid( const tripoint &p )
@@ -3880,15 +3930,9 @@ void map::translate( const ter_id &from, const ter_id &to )
                   from.obj().name() );
         return;
     }
-
-    tripoint p( 0, 0, abs_sub.z );
-    int &x = p.x;
-    int &y = p.y;
-    for( x = 0; x < SEEX * my_MAPSIZE; x++ ) {
-        for( y = 0; y < SEEY * my_MAPSIZE; y++ ) {
-            if( ter( p ) == from ) {
-                ter_set( p, to );
-            }
+    for( const tripoint &p : points_on_zlevel() ) {
+        if( ter( p ) == from ) {
+            ter_set( p, to );
         }
     }
 }
@@ -3902,25 +3946,18 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi, co
         return;
     }
 
-    const int uX = p.x;
-    const int uY = p.y;
-    tripoint t( 0, 0, abs_sub.z );
-    int &x = t.x;
-    int &y = t.y;
-    for( x = 0; x < SEEX * my_MAPSIZE; x++ ) {
-        for( y = 0; y < SEEY * my_MAPSIZE; y++ ) {
-            float radiX = sqrt( static_cast<float>( ( uX - x ) * ( uX - x ) + ( uY - y ) * ( uY - y ) ) );
-            if( ter( t ) == from ) {
-                // within distance, and either no submap limitation or same overmap coords.
-                if( radiX <= radi && ( !same_submap ||
-                                       ms_to_omt_copy( getabs( point( x, y ) ) ) == ms_to_omt_copy( getabs( point( uX, uY ) ) ) ) ) {
-                    ter_set( t, to );
-                }
-            } else if( toggle_between && ter( t ) == to ) {
-                if( radiX <= radi && ( !same_submap ||
-                                       ms_to_omt_copy( getabs( point( x, y ) ) ) == ms_to_omt_copy( getabs( point( uX, uY ) ) ) ) ) {
-                    ter_set( t, from );
-                }
+    const tripoint abs_omt_p = ms_to_omt_copy( getabs( p ) );
+    for( const tripoint &t : points_on_zlevel() ) {
+        const tripoint abs_omt_t = ms_to_omt_copy( getabs( t ) );
+        const float radiX = trig_dist( p, t );
+        if( ter( t ) == from ) {
+            // within distance, and either no submap limitation or same overmap coords.
+            if( radiX <= radi && ( !same_submap || abs_omt_t == abs_omt_p ) ) {
+                ter_set( t, to );
+            }
+        } else if( toggle_between && ter( t ) == to ) {
+            if( radiX <= radi && ( !same_submap || abs_omt_t == abs_omt_p ) ) {
+                ter_set( t, from );
             }
         }
     }
@@ -4327,10 +4364,17 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 
     } else if( overflow ) {
         // ...otherwise try to overflow to adjacent tiles (if permitted)
-        auto tiles = closest_tripoints_first( 2, pos );
+        const int max_dist = 2;
+        auto tiles = closest_tripoints_first( max_dist, pos );
         tiles.erase( tiles.begin() ); // we already tried this position
-        for( const auto &e : tiles ) {
+        const int max_path_length = 4 * max_dist;
+        const pathfinding_settings setting( 0, max_dist, max_path_length, 0, false, true, false, false );
+        for( const tripoint &e : tiles ) {
             if( !inbounds( e ) ) {
+                continue;
+            }
+            //must be a path to the target tile
+            if( route( pos, e, setting ).empty() ) {
                 continue;
             }
             if( obj.made_of( LIQUID ) || !obj.has_flag( "DROP_ACTION_ONLY_IF_LIQUID" ) ) {
@@ -6705,6 +6749,9 @@ void map::shift( const point &sp )
             support_cache_dirty.insert( pt + point( -sp.x * SEEX, -sp.y * SEEY ) );
         }
     }
+    if( zlevels ) {
+        calc_max_populated_zlev();
+    }
 }
 
 void map::vertical_shift( const int newz )
@@ -7475,7 +7522,6 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
             if( !tmp.can_move_to( p ) ) {
                 continue; // target can not contain the monster
             }
-            tmp.spawn( p );
             if( group.horde ) {
                 // Give monster a random point near horde's expected destination
                 const tripoint rand_dest = horde_target +
@@ -7486,7 +7532,10 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
                          tmp.wander_pos.x, tmp.wander_pos.y, tmp.wander_pos.z );
             }
 
-            g->add_zombie( tmp );
+            monster *const placed = g->place_critter_at( std::make_shared<monster>( tmp ), p );
+            if( placed ) {
+                placed->on_load();
+            }
             break;
         }
     }
@@ -7527,8 +7576,10 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             };
 
             const auto place_it = [&]( const tripoint & p ) {
-                tmp.spawn( p );
-                g->add_zombie( tmp );
+                monster *const placed = g->place_critter_at( std::make_shared<monster>( tmp ), p );
+                if( placed ) {
+                    placed->on_load();
+                }
             };
 
             // First check out defined spawn location for a valid placement, and if that doesn't work
@@ -7961,10 +8012,20 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         do_vehicle_caching( z );
     }
 
-    // The tile player is standing on should always be transparent
     const tripoint &p = g->u.pos();
-    if( ( has_furn( p ) && !furn( p ).obj().transparent ) || !ter( p ).obj().transparent ) {
-        get_cache( p.z ).transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_CLEAR;
+    bool is_crouching = g->u.movement_mode_is( PMM_CROUCH );
+    for( const tripoint &loc : points_in_radius( p, 1 ) ) {
+        if( loc == p ) {
+            // The tile player is standing on should always be transparent
+            if( ( has_furn( p ) && !furn( p ).obj().transparent ) || !ter( p ).obj().transparent ) {
+                get_cache( p.z ).transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_CLEAR;
+            }
+        } else if( is_crouching && coverage( loc ) >= 30 ) {
+            // If we're crouching behind an obstacle, we can't see past it.
+            get_cache( loc.z ).transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
+            get_cache( loc.z ).transparency_cache_dirty = true;
+            seen_cache_dirty = true;
+        }
     }
 
     if( seen_cache_dirty ) {
@@ -8440,6 +8501,21 @@ tripoint_range map::points_in_radius( const tripoint &center, size_t radius, siz
     return tripoint_range( tripoint( minx, miny, minz ), tripoint( maxx, maxy, maxz ) );
 }
 
+tripoint_range map::points_on_zlevel( const int z ) const
+{
+    if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
+        // @todo need a default constructor that creates an empty range.
+        return tripoint_range( tripoint_zero, tripoint_zero - tripoint_above );
+    }
+    return tripoint_range( tripoint( 0, 0, z ), tripoint( SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1,
+                           z ) );
+}
+
+tripoint_range map::points_on_zlevel() const
+{
+    return points_on_zlevel( abs_sub.z );
+}
+
 std::list<item_location> map::get_active_items_in_radius( const tripoint &center, int radius ) const
 {
     return get_active_items_in_radius( center, radius, special_item_type::none );
@@ -8550,6 +8626,7 @@ level_cache::level_cache()
     std::fill_n( &visibility_cache[0][0], map_dimensions, LL_DARK );
     veh_in_active_range = false;
     std::fill_n( &veh_exists_at[0][0], map_dimensions, false );
+    max_populated_zlev = OVERMAP_HEIGHT;
 }
 
 pathfinding_cache::pathfinding_cache()
@@ -8597,6 +8674,9 @@ void map::update_pathfinding_cache( int zlev ) const
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             const auto cur_submap = get_submap_at_grid( { smx, smy, zlev } );
+            if( !cur_submap ) {
+                return;
+            }
 
             tripoint p( 0, 0, zlev );
 
@@ -8716,4 +8796,31 @@ bool map::is_cornerfloor( const tripoint &p ) const
         }
     }
     return false;
+}
+
+void map::calc_max_populated_zlev()
+{
+    // We'll assume ground level is populated
+    int max_z = 0;
+
+    for( int sz = 1; sz <= OVERMAP_HEIGHT; sz++ ) {
+        bool level_done = false;
+        for( int sx = 0; sx < my_MAPSIZE; sx++ ) {
+            for( int sy = 0; sy < my_MAPSIZE; sy++ ) {
+                const submap *sm = get_submap_at_grid( tripoint( sx, sy, sz ) );
+                if( !sm->is_uniform ) {
+                    max_z = sz;
+                    level_done = true;
+                    break;
+                }
+            }
+            if( level_done ) {
+                break;
+            }
+        }
+    }
+    // This will be the same for every zlevel in the cache, so just put it in all of them
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        get_cache( z ).max_populated_zlev = max_z;
+    }
 }

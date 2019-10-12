@@ -308,7 +308,10 @@ void iuse_transform::finalize( const itype_id & )
 
 void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
 {
-    const item dummy( target, calendar::turn, std::max( ammo_qty, 1 ) );
+    item dummy( target, calendar::turn, std::max( ammo_qty, 1 ) );
+    if( it.has_flag( "FIT" ) ) {
+        dummy.item_tags.insert( "FIT" );
+    }
     dump.emplace_back( "TOOL", string_format( _( "<bold>Turns into</bold>: %s" ),
                        dummy.tname() ) );
     if( countdown > 0 ) {
@@ -542,7 +545,7 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool, const tripoint & ) cons
         p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );
         return 0;
     }
-    veh->set_owner( g->u.get_faction() );
+    veh->set_owner( p );
 
     // Mark the vehicle as foldable.
     veh->tags.insert( "convertible" );
@@ -778,35 +781,29 @@ void place_monster_iuse::load( JsonObject &obj )
 
 int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
 {
-    monster newmon( mtypeid );
-    tripoint target;
+    std::shared_ptr<monster> newmon_ptr = std::make_shared<monster>( mtypeid );
+    monster &newmon = *newmon_ptr;
+    newmon.init_from_item( it );
     if( place_randomly ) {
-        std::vector<tripoint> valid;
-        for( const tripoint &dest : g->m.points_in_radius( p.pos(), 1 ) ) {
-            if( g->is_empty( dest ) ) {
-                valid.push_back( dest );
-            }
-        }
-        if( valid.empty() ) { // No valid points!
+        // place_critter_around returns the same pointer as its parameter (or null)
+        if( !g->place_critter_around( newmon_ptr, p.pos(), 1 ) ) {
             p.add_msg_if_player( m_info, _( "There is no adjacent square to release the %s in!" ),
                                  newmon.name() );
             return 0;
         }
-        target = random_entry( valid );
     } else {
         const std::string query = string_format( _( "Place the %s where?" ), newmon.name() );
-        if( const cata::optional<tripoint> pnt_ = choose_adjacent( query ) ) {
-            target = *pnt_;
-        } else {
+        const cata::optional<tripoint> pnt_ = choose_adjacent( query );
+        if( !pnt_ ) {
             return 0;
         }
-        if( !g->is_empty( target ) ) {
+        // place_critter_at returns the same pointer as its parameter (or null)
+        if( !g->place_critter_at( newmon_ptr, *pnt_ ) ) {
             p.add_msg_if_player( m_info, _( "You cannot place a %s there." ), newmon.name() );
             return 0;
         }
     }
     p.moves -= moves;
-    newmon.spawn( target );
     if( !newmon.has_flag( MF_INTERIOR_AMMO ) ) {
         for( auto &amdef : newmon.ammo ) {
             item ammo_item( amdef.first, 0 );
@@ -829,7 +826,6 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
             amdef.second = ammo_item.charges;
         }
     }
-    newmon.init_from_item( it );
     int skill_offset = 0;
     if( skill1 ) {
         skill_offset += p.get_skill_level( skill1 ) / 2;
@@ -858,7 +854,6 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
     if( newmon.type->id == mtype_id( "mon_laserturret" ) && !g->is_in_sunlight( newmon.pos() ) ) {
         p.add_msg_if_player( _( "A flashing LED on the laser turret appears to indicate low light." ) );
     }
-    g->add_zombie( newmon, true );
     return 1;
 }
 
@@ -876,7 +871,7 @@ void ups_based_armor_actor::load( JsonObject &obj )
 
 static bool has_powersource( const item &i, const player &p )
 {
-    if( i.is_power_armor() && p.can_interface_armor() && p.power_level > 0 ) {
+    if( i.is_power_armor() && p.can_interface_armor() && p.has_power() ) {
         return true;
     }
     return p.has_charges( "UPS", 1 );
@@ -1605,7 +1600,7 @@ std::unique_ptr<iuse_actor> inscribe_actor::clone() const
     return std::make_unique<inscribe_actor>( *this );
 }
 
-bool inscribe_actor::item_inscription( item &cut ) const
+bool inscribe_actor::item_inscription( item &tool, item &cut ) const
 {
     if( !cut.made_of( SOLID ) ) {
         add_msg( m_info, _( "You can't inscribe an item that isn't solid!" ) );
@@ -1613,7 +1608,7 @@ bool inscribe_actor::item_inscription( item &cut ) const
     }
 
     if( material_restricted && !cut.made_of_any( material_whitelist ) ) {
-        std::string lower_verb = _( verb );
+        std::string lower_verb = verb.translated();
         std::transform( lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower );
         add_msg( m_info, _( "You can't %1$s %2$s because of the material it is made of." ),
                  lower_verb, cut.display_name() );
@@ -1626,36 +1621,36 @@ bool inscribe_actor::item_inscription( item &cut ) const
     };
 
     uilist menu;
-    menu.text = string_format( _( "%s meaning?" ), _( verb ) );
+    menu.text = string_format( _( "%s meaning?" ), verb );
     menu.addentry( INSCRIPTION_LABEL, true, -1, _( "It's a label" ) );
     menu.addentry( INSCRIPTION_NOTE, true, -1, _( "It's a note" ) );
     menu.query();
 
     std::string carving;
-    std::string carving_type;
+    std::string carving_tool;
     switch( menu.ret ) {
         case INSCRIPTION_LABEL:
             carving = "item_label";
-            carving_type = "item_label_type";
+            carving_tool = "item_label_tool";
             break;
         case INSCRIPTION_NOTE:
             carving = "item_note";
-            carving_type = "item_note_type";
+            carving_tool = "item_note_tool";
             break;
         default:
             return false;
     }
 
     const bool hasnote = cut.has_var( carving );
-    std::string messageprefix = string_format( hasnote ? _( "(To delete, input one '.')\n" ) : "" ) +
+    std::string messageprefix = ( hasnote ? _( "(To delete, clear the text and confirm)\n" ) : "" ) +
                                 //~ %1$s: gerund (e.g. carved), %2$s: item name
                                 string_format( pgettext( "carving", "%1$s on the %2$s is: " ),
-                                        _( gerund ), cut.type_name() );
+                                        gerund, cut.type_name() );
 
     string_input_popup popup;
-    popup.title( string_format( _( "%s what?" ), _( verb ) ) )
+    popup.title( string_format( _( "%s what?" ), verb ) )
     .width( 64 )
-    .text( hasnote ? cut.get_var( carving ) : "" )
+    .text( hasnote ? cut.get_var( carving ) : std::string() )
     .description( messageprefix )
     .identifier( "inscribe_item" )
     .max_length( 128 )
@@ -1664,12 +1659,12 @@ bool inscribe_actor::item_inscription( item &cut ) const
         return false;
     }
     const std::string message = popup.text();
-    if( hasnote && message == "." ) {
+    if( message.empty() ) {
         cut.erase_var( carving );
-        cut.erase_var( carving_type );
+        cut.erase_var( carving_tool );
     } else {
         cut.set_var( carving, message );
-        cut.set_var( carving_type, _( gerund ) );
+        cut.set_var( carving_tool, tool.typeId() );
     }
 
     return true;
@@ -1684,7 +1679,7 @@ int inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
     int choice = INT_MAX;
     if( on_terrain && on_items ) {
         uilist imenu;
-        imenu.text = string_format( _( "%s on what?" ), _( verb ) );
+        imenu.text = string_format( _( "%s on what?" ), verb );
         imenu.addentry( 0, true, MENU_AUTOASSIGN, _( "The ground" ) );
         imenu.addentry( 1, true, MENU_AUTOASSIGN, _( "An item" ) );
         imenu.query();
@@ -1700,14 +1695,22 @@ int inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
     }
 
     if( choice == 0 ) {
-        return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), _( verb ) ), p.pos() );
+        return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), verb ), p.pos() );
     }
 
     int pos = g->inv_for_all( _( "Inscribe which item?" ) );
     item &cut = p.i_at( pos );
+    if( cut.is_null() ) {
+        p.add_msg_if_player( m_info, _( "Never mind." ) );
+        return 0;
+    }
+    if( &cut == &it ) {
+        p.add_msg_if_player( _( "You try to bend your %s, but fail." ), it.tname() );
+        return 0;
+    }
     // inscribe_item returns false if the action fails or is canceled somehow.
 
-    if( item_inscription( cut ) ) {
+    if( item_inscription( it, cut ) ) {
         return cost >= 0 ? cost : it.ammo_required();
     }
 
@@ -3658,7 +3661,7 @@ static hp_part pick_part_to_heal(
             return healed_part;
         }
 
-        if( patient.hp_cur[healed_part] == 0 ) {
+        if( patient.is_limb_broken( healed_part ) ) {
             if( healed_part == hp_arm_l || healed_part == hp_arm_r ) {
                 add_msg( m_info, _( "That arm is broken.  It needs surgical attention or a splint." ) );
             } else if( healed_part == hp_leg_l || healed_part == hp_leg_r ) {
@@ -3682,6 +3685,13 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
     const int head_bonus = get_heal_value( healer, hp_head );
     const int limb_power = get_heal_value( healer, hp_arm_l );
     const int torso_bonus = get_heal_value( healer, hp_torso );
+
+    if( !patient.can_use_heal_item( it ) ) {
+        patient.add_msg_player_or_npc( m_bad,
+                                       _( "Your biology is not compatible with that item." ),
+                                       _( "<npcname>'s biology is not compatible with that item." ) );
+        return num_hp_parts; // canceled
+    }
 
     if( healer.is_npc() ) {
         // NPCs heal whatever has sustained the most damaged that they can heal but never
@@ -4065,15 +4075,25 @@ ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bo
     if( !it.is_bionic() ) {
         return ret_val<bool>::make_failure();
     }
+    const bionic_id &bid = it.type->bionic->id;
     if( p.is_mounted() ) {
         return ret_val<bool>::make_failure( _( "You can't install bionics while mounted." ) );
     }
     if( !get_option<bool>( "MANUAL_BIONIC_INSTALLATION" ) &&
         !p.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
         return ret_val<bool>::make_failure( _( "You can't self-install bionics." ) );
+    } else if( !p.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+        if( it.has_flag( "FILTHY" ) ) {
+            return ret_val<bool>::make_failure( _( "You can't install a filthy CBM!" ) );
+        } else if( it.has_flag( "NO_STERILE" ) ) {
+            return ret_val<bool>::make_failure( _( "This CBM is not sterile, you can't install it." ) );
+        } else if( it.has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
+            return ret_val<bool>::make_failure(
+                       _( "This CBM is already deployed.  You need to reset it to factory state." ) );
+        } else if( units::energy_max - p.get_max_power_level() < bid->capacity ) {
+            return ret_val<bool>::make_failure( _( "Max power capacity already reached" ) );
+        }
     }
-
-    const bionic_id &bid = it.type->bionic->id;
 
     if( p.has_bionic( bid ) ) {
         return ret_val<bool>::make_failure( _( "You have already installed this bionic." ) );
