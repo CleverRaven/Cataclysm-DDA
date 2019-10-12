@@ -18,33 +18,5 @@
     "magazine_adaptor": [ [ "9mm", [ "lw21mag" ] ], [ "460", [ "lw12mag" ] ], [ "223", [ "lw223mag", "lw223bigmag" ] ] ],
     "min_skills": [ [ "weapon", 4 ], [ "mechanics", 3 ] ],
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
-  },
-  {
-    "id": "arredondo_chute",
-    "type": "GUNMOD",
-    "name": "speedloader chute",
-    "description": "A metal ramp that is installed near a shotgun's feeding port to index speedloader tubes.",
-    "weight": "135 g",
-    "volume": "149 ml",
-    "integral_volume": "149 ml",
-    "price": 15700,
-    "material": "aluminum",
-    "symbol": ":",
-    "color": "green",
-    "location": "magazine",
-    "mod_targets": [
-      "m1014",
-      "mossberg_930",
-      "mossberg_500",
-      "mossberg_500_security",
-      "mossberg_590",
-      "remington_870",
-      "remington_870_express",
-      "remington_870_breacher"
-    ],
-    "acceptable_ammo": [ "shot" ],
-    "install_time": "8 m",
-    "magazine_adaptor": [ [ "shot", [ "shot_speedloader6", "shot_speedloader8" ] ] ],
-    "min_skills": [ [ "weapon", 2 ], [ "mechanics", 1 ] ]
   }
 ]

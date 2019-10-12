@@ -1,0 +1,21 @@
+[
+  {
+    "id": "arredondo_chute",
+    "type": "GUNMOD",
+    "name": "speedloader chute",
+    "description": "A metal ramp that is installed near a shotgun's feeding port to index speedloader tubes.",
+    "weight": "135 g",
+    "volume": "149 ml",
+    "integral_volume": "149 ml",
+    "price": 15700,
+    "material": "aluminum",
+    "symbol": ":",
+    "color": "green",
+    "location": "loading port",
+    "mod_targets": [ "pistol", "shotgun" ],
+    "acceptable_ammo": [ "shot" ],
+    "install_time": "8 m",
+    "magazine_adaptor": [ [ "shot", [ "shot_speedloader6", "shot_speedloader8" ] ] ],
+    "min_skills": [ [ "weapon", 2 ], [ "mechanics", 1 ] ]
+  }
+]

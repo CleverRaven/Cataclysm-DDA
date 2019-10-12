@@ -297,6 +297,7 @@
       { "item": "mossberg_500_security", "prob": 17, "charges-min": 0, "charges-max": 6 },
       { "item": "remington_870_express", "prob": 18, "charges-min": 0, "charges-max": 6 },
       { "item": "browning_a5", "prob": 14, "charges-min": 0, "charges-max": 5 },
+      { "item": "remington_1100", "prob": 17, "charges-min": 0, "charges-max": 10 },
       { "item": "mossberg_930", "prob": 15, "charges-min": 0, "charges-max": 6 },
       { "item": "shotgun_d", "prob": 30, "charges-min": 0, "charges-max": 2 },
       { "item": "shotgun_s", "prob": 30 }
