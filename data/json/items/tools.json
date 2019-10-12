@@ -332,7 +332,13 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "light_green",
-    "use_action": { "target": "atomic_lamp", "msg": "You open the lamp's cover.", "menu_text": "Open cover", "type": "transform" },
+    "use_action": {
+      "target": "atomic_lamp",
+      "active": true,
+      "msg": "You open the lamp's cover.",
+      "menu_text": "Open cover",
+      "type": "transform"
+    },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -372,7 +378,13 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "light_green",
-    "use_action": { "target": "atomic_light", "msg": "You open the nightlight's cover.", "menu_text": "Open cover", "type": "transform" },
+    "use_action": {
+      "target": "atomic_light",
+      "active": true,
+      "msg": "You open the nightlight's cover.",
+      "menu_text": "Open cover",
+      "type": "transform"
+    },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -5217,6 +5229,7 @@
     "max_charges": 50,
     "use_action": {
       "type": "fireweapon_off",
+      "active": true,
       "target_id": "shishkebab_on",
       "moves": 10,
       "noise": 10,

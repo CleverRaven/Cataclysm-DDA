@@ -208,6 +208,11 @@ WORLDPTR worldfactory::make_new_world( special_game_id special_type )
 void worldfactory::set_active_world( WORLDPTR world )
 {
     world_generator->active_world = world;
+    if( world ) {
+        get_options().set_world_options( &world->WORLD_OPTIONS );
+    } else {
+        get_options().set_world_options( nullptr );
+    }
 }
 
 bool WORLD::save( const bool is_conversion ) const
@@ -538,6 +543,7 @@ void worldfactory::remove_world( const std::string &worldname )
     if( it != all_worlds.end() ) {
         WORLDPTR wptr = it->second.get();
         if( active_world == wptr ) {
+            get_options().set_world_options( nullptr );
             active_world = nullptr;
         }
         all_worlds.erase( it );
@@ -576,8 +582,9 @@ std::string worldfactory::pick_random_name()
 
 int worldfactory::show_worldgen_tab_options( const catacurses::window &/*win*/, WORLDPTR world )
 {
-    get_options().world_options = &world->WORLD_OPTIONS;
+    get_options().set_world_options( &world->WORLD_OPTIONS );
     const std::string action = get_options().show( false, true );
+    get_options().set_world_options( nullptr );
     if( action == "PREV_TAB" ) {
         return -1;
 

@@ -17,6 +17,20 @@
     "flags": [ "ANESTHESIA" ]
   },
   {
+    "type": "GENERIC",
+    "id": "leaf_spring",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "leaf spring",
+    "category": "spare_parts",
+    "description": "A large, heavy-duty leaf spring.  Probably from some car or truck, and looks an awful lot like a bow.  You can barely bend it...",
+    "price": 5000,
+    "price_postapoc": 500,
+    "material": "steel",
+    "weight": "8440 g",
+    "volume": "5 L"
+  },
+  {
     "id": "barrel_big",
     "type": "GUNMOD",
     "name": "barrel extension",

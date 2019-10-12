@@ -1589,15 +1589,15 @@ int player::run_cost( int base_cost, bool diag ) const
                     75; // Mycal characters are faster on their home territory, even through things like shrubs
             }
         }
-        if( hp_cur[hp_leg_l] == 0 ) {
+        if( is_limb_broken( hp_leg_l ) ) {
             movecost += 50;
-        } else if( hp_cur[hp_leg_l] < hp_max[hp_leg_l] * .40 ) {
+        } else if( is_limb_hindered( hp_leg_l ) ) {
             movecost += 25;
         }
 
-        if( hp_cur[hp_leg_r] == 0 ) {
+        if( is_limb_broken( hp_leg_r ) ) {
             movecost += 50;
-        } else if( hp_cur[hp_leg_r] < hp_max[hp_leg_r] * .40 ) {
+        } else if( is_limb_hindered( hp_leg_r ) ) {
             movecost += 25;
         }
         movecost *= Character::mutation_value( "movecost_modifier" );
@@ -1781,7 +1781,7 @@ bool player::digging() const
 
 bool player::is_on_ground() const
 {
-    return hp_cur[hp_leg_l] == 0 || hp_cur[hp_leg_r] == 0 || has_effect( effect_downed );
+    return get_working_leg_count() < 2 || has_effect( effect_downed );
 }
 
 bool player::is_elec_immune() const
@@ -2305,14 +2305,6 @@ bool player::sight_impaired() const
              has_trait( trait_PER_SLIME ) );
 }
 
-bool player::has_two_arms() const
-{
-    // If you've got a blaster arm, low hp arm, or you're inside a shell then you don't have two
-    // arms to use.
-    return !( ( has_bionic( bio_blaster ) || hp_cur[hp_arm_l] < hp_max[hp_arm_l] * 0.125 ||
-                hp_cur[hp_arm_r] < hp_max[hp_arm_r] * 0.125 ) || has_active_mutation( trait_id( "SHELL2" ) ) );
-}
-
 bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
 {
     /** @EFFECT_DEX increases chance to avoid traps */
@@ -2801,6 +2793,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
             add_effect( effect_downed, 2_turns );
         }
     }
+    Character::on_hit( source, bp_hit, 0.0f, proj );
 }
 
 int player::get_lift_assist() const
@@ -5528,7 +5521,7 @@ void player::suffer()
                             !has_morale( MORALE_PYROMANIA_STARTFIRE );
     if( has_trait( trait_PYROMANIA ) && needs_fire && !in_sleep_state() &&
         calendar::once_every( 2_hours ) ) {
-        add_morale( MORALE_PYROMANIA_NOFIRE, -1, -30, 24_hours, 24_hours );
+        add_morale( MORALE_PYROMANIA_NOFIRE, -1, -30, 24_hours, 24_hours, true );
         if( calendar::once_every( 4_hours ) ) {
             std::string smokin_hot_fiyah = SNIPPET.random_from_category( "pyromania_withdrawal" );
             add_msg_if_player( m_bad, _( smokin_hot_fiyah ) );
@@ -10076,7 +10069,7 @@ int player::adjust_for_focus( int amount ) const
     return roll_remainder( tmp );
 }
 
-void player::practice( const skill_id &id, int amount, int cap )
+void player::practice( const skill_id &id, int amount, int cap, bool suppress_warning )
 {
     SkillLevel &level = get_skill_level_object( id );
     const Skill &skill = id.obj();
@@ -10128,13 +10121,10 @@ void player::practice( const skill_id &id, int amount, int cap )
 
     if( amount > 0 && get_skill_level( id ) > cap ) { //blunt grinding cap implementation for crafting
         amount = 0;
-        if( is_player() && one_in( 5 ) ) { //remind the player intermittently that no skill gain takes place
-            int curLevel = get_skill_level( id );
-            add_msg( m_info, _( "This task is too simple to train your %s beyond %d." ),
-                     skill_name, curLevel );
+        if( !suppress_warning ) {
+            handle_skill_warning( id, false );
         }
     }
-
     if( amount > 0 && level.isTraining() ) {
         int oldLevel = get_skill_level( id );
         get_skill_level_object( id ).train( amount );
@@ -10159,6 +10149,21 @@ void player::practice( const skill_id &id, int amount, int cap )
     }
 
     get_skill_level_object( id ).practice();
+}
+
+void player::handle_skill_warning( const skill_id &id, bool force_warning )
+{
+    //remind the player intermittently that no skill gain takes place
+    if( is_player() && ( force_warning || one_in( 5 ) ) ) {
+        SkillLevel &level = get_skill_level_object( id );
+
+        const Skill &skill = id.obj();
+        std::string skill_name = skill.name();
+        int curLevel = level.level();
+
+        add_msg( m_info, _( "This task is too simple to train your %s beyond %d." ),
+                 skill_name, curLevel );
+    }
 }
 
 int player::exceeds_recipe_requirements( const recipe &rec ) const

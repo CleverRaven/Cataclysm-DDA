@@ -431,6 +431,64 @@ bool Character::is_mounted() const
     return has_effect( effect_riding ) && mounted_creature;
 }
 
+/** Returns true if the character has two functioning arms */
+bool Character::has_two_arms() const
+{
+    return get_working_arm_count() >= 2;
+}
+
+// working is defined here as not disabled which means arms can be not broken
+// and still not count if they have low enough hitpoints
+int Character::get_working_arm_count() const
+{
+    if( has_active_mutation( trait_id( "SHELL2" ) ) ) {
+        return 0;
+    }
+
+    int limb_count = 0;
+    if( !is_limb_disabled( hp_arm_l ) ) {
+        limb_count++;
+    }
+    if( !is_limb_disabled( hp_arm_r ) ) {
+        limb_count++;
+    }
+    if( has_bionic( bionic_id( "bio_blaster" ) ) && limb_count > 0 ) {
+        limb_count--;
+    }
+
+    return limb_count;
+}
+
+// working is defined here as not broken
+int Character::get_working_leg_count() const
+{
+    int limb_count = 0;
+    if( !is_limb_broken( hp_leg_l ) ) {
+        limb_count++;
+    }
+    if( !is_limb_broken( hp_leg_r ) ) {
+        limb_count++;
+    }
+    return limb_count;
+}
+
+bool Character::is_limb_hindered( hp_part limb ) const
+{
+    return hp_cur[limb] < hp_max[limb] * .40;
+}
+
+bool Character::is_limb_disabled( hp_part limb ) const
+{
+    return hp_cur[limb] <= hp_max[limb] * .125;
+}
+
+// this is the source of truth on if a limb is broken so all code to determine
+// if a limb is broken should point here to make any future changes to breaking easier
+bool Character::is_limb_broken( hp_part limb ) const
+{
+    return hp_cur[limb] == 0;
+}
+
 bool Character::move_effects( bool attacking )
 {
     if( has_effect( effect_downed ) ) {
@@ -3109,7 +3167,7 @@ bool Character::is_immune_field( const field_type_id fid ) const
             return true;
         }
     }
-    bool immune_by_body_part_resistance = false;
+    bool immune_by_body_part_resistance = !ft.immunity_data_body_part_env_resistance.empty();
     for( const std::pair<body_part, int> &fide : ft.immunity_data_body_part_env_resistance ) {
         immune_by_body_part_resistance = immune_by_body_part_resistance &&
                                          get_env_resist( fide.first ) >= fide.second;
@@ -4217,6 +4275,74 @@ static void destroyed_armor_msg( Character &who, const std::string &pre_damage_n
                                pre_damage_name );
 }
 
+static void item_armor_enchantment_adjust( Character &guy, damage_unit &du, item &armor )
+{
+    switch( du.type ) {
+        case DT_ACID:
+            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_ACID );
+            break;
+        case DT_BASH:
+            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_BASH );
+            break;
+        case DT_BIOLOGICAL:
+            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_BIO );
+            break;
+        case DT_COLD:
+            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_COLD );
+            break;
+        case DT_CUT:
+            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_CUT );
+            break;
+        case DT_ELECTRIC:
+            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_ELEC );
+            break;
+        case DT_HEAT:
+            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_HEAT );
+            break;
+        case DT_STAB:
+            du.amount = armor.calculate_by_enchantment( guy, du.amount, enchantment::mod::ITEM_ARMOR_STAB );
+            break;
+        default:
+            return;
+    }
+    du.amount = std::max( 0.0f, du.amount );
+}
+
+// adjusts damage unit depending on type by enchantments.
+// the ITEM_ enchantments only affect the damage resistance for that one item, while the others affect all of them
+static void armor_enchantment_adjust( Character &guy, damage_unit &du )
+{
+    switch( du.type ) {
+        case DT_ACID:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_ACID );
+            break;
+        case DT_BASH:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_BASH );
+            break;
+        case DT_BIOLOGICAL:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_BIO );
+            break;
+        case DT_COLD:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_COLD );
+            break;
+        case DT_CUT:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_CUT );
+            break;
+        case DT_ELECTRIC:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_ELEC );
+            break;
+        case DT_HEAT:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_HEAT );
+            break;
+        case DT_STAB:
+            du.amount = guy.calculate_by_enchantment( du.amount, enchantment::mod::ARMOR_STAB );
+            break;
+        default:
+            return;
+    }
+    du.amount = std::max( 0.0f, du.amount );
+}
+
 void Character::absorb_hit( body_part bp, damage_instance &dam )
 {
     std::list<item> worn_remains;
@@ -4246,6 +4372,8 @@ void Character::absorb_hit( body_part bp, damage_instance &dam )
             }
         }
 
+        armor_enchantment_adjust( *this, elem );
+
         // Only the outermost armor can be set on fire
         bool outermost = true;
         // The worn vector has the innermost item first, so
@@ -4261,6 +4389,7 @@ void Character::absorb_hit( body_part bp, damage_instance &dam )
             const std::string pre_damage_name = armor.tname();
             bool destroy = false;
 
+            item_armor_enchantment_adjust( *this, elem, armor );
             // Heat damage can set armor on fire
             // Even though it doesn't cause direct physical damage to it
             if( outermost && elem.type == DT_HEAT && elem.amount >= 1.0f ) {
@@ -4411,3 +4540,13 @@ float Character::bionic_armor_bonus( body_part bp, damage_type dt ) const
     return result;
 }
 
+void Character::did_hit( Creature &target )
+{
+    enchantment_cache.cast_hit_you( *this, target.pos() );
+}
+
+void Character::on_hit( Creature * /*source*/, body_part /*bp_hit*/,
+                        float /*difficulty*/, dealt_projectile_attack const *const /*proj*/ )
+{
+    enchantment_cache.cast_hit_me( *this );
+}

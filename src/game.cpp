@@ -1567,11 +1567,7 @@ bool game::do_turn()
             catacurses::refresh();
             refresh_display();
         }
-    }
-
-    player_was_sleeping = player_is_sleeping;
-
-    if( calendar::once_every( 1_minutes ) ) {
+    } else if( calendar::once_every( 1_minutes ) ) {
         if( const cata::optional<std::string> progress = u.activity.get_progress_message() ) {
             query_popup()
             .wait_message( "%s", *progress )
@@ -1579,6 +1575,8 @@ bool game::do_turn()
             .show();
         }
     }
+
+    player_was_sleeping = player_is_sleeping;
 
     u.update_bodytemp();
     u.update_body_wetness( *weather.weather_precise );

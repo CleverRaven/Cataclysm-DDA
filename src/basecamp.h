@@ -258,6 +258,7 @@ class basecamp
                             bool by_radio );
         std::string om_upgrade_description( const std::string &bldg, bool trunc = false ) const;
         void start_menial_labor();
+        void job_assignment_ui();
         void start_crafting( const std::string &cur_id, const point &cur_dir,
                              const std::string &type, const std::string &miss_id,
                              bool by_radio = false );
