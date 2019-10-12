@@ -390,5 +390,14 @@
     "color": "light_green",
     "see_cost": 2,
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_w_1",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
   }
 ]

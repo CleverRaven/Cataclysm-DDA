@@ -582,6 +582,7 @@
       "park_sigma": 80,
       "house_basement_chance": 5,
       "houses": {
+        "house_w_1": 40,
         "house_two_story_basement": 1,
         "house": 1000,
         "house_prepper": 30,
