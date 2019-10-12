@@ -100,9 +100,6 @@ static void bar()
     foo( "Three? Two?  One?" );
     // CHECK-MESSAGES: [[@LINE-1]]:17: warning: insufficient spaces at this location.  2 required, but only 1 found.
     // CHECK-FIXES: foo( "Three?  Two?  One?" );
-    foo( "Three\u2026 Two\u2026  One\u2026" );
-    // CHECK-MESSAGES: [[@LINE-1]]:22: warning: insufficient spaces at this location.  2 required, but only 1 found.
-    // CHECK-FIXES: foo( "Three\u2026  Two\u2026  One\u2026" );
     foo( "Three?! Two!?  One!!" );
     // CHECK-MESSAGES: [[@LINE-1]]:18: warning: insufficient spaces at this location.  2 required, but only 1 found.
     // CHECK-FIXES: foo( "Three?!  Two!?  One!!" );

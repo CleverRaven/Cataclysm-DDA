@@ -123,7 +123,7 @@ void TextStyleCheck::check( const MatchFinder::MatchResult &Result )
     static const std::array<punctuation, 13> punctuations = {{
         // symbol,follow,    spaces,                        replace,
         //                    check,  len, num spc,  end        yes,   string,     escaped,  symbol desc,      replc desc
-        { U"...",    U"",   {  true, 0, 1, 1, 3, 2, 2, 2 }, {  true, "\u2026", R"(\u2026)", "three dots",      "ellipsis" } },
+        { U"...",    U"",   {  true, 0, 1, 0, 0, 0, 2, 2 }, {  true, "\u2026", R"(\u2026)", "three dots",      "ellipsis" } },
         { U"::",     U"",   { false,                     }, { false,                                                      } },
         { U"\r\n",   U"",   { false,                     }, {  true, R"(\n)",  R"(\n)",     "carriage return", "new line" } },
         { U"\u2026", U"",   {  true, 0, 1, 1, 3, 2, 2, 2 }, { false,                                                      } },
