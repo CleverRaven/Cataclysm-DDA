@@ -1353,6 +1353,47 @@
   },
   {
     "type": "technique",
+    "id": "tec_taekwondo_disarm",
+    "name": "Snatch Weapon",
+    "messages": [ "You snatch %s's weapon", "<npcname> snatches %s's weapon" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "strictly_unarmed": true,
+    "weighting": 2,
+    "take_weapon": true,
+    "mult_bonuses": [ [ "damage", "bash", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_taekwondo_precise",
+    "name": "Axe-kick",
+    "messages": [ "You raise your heel and axe-kick %s", "<npcname> raises their heel and axe-kicks %s" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 2
+  },
+  {
+    "type": "technique",
+    "id": "tec_taekwondo_push",
+    "name": "Side Kick",
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "messages": [ "You turn slightly and side-kick %s", "<npcname> turns slightly and side-kicks %s" ],
+    "knockback_dist": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_taekwondo_sweep",
+    "name": "Sweep Kick",
+    "messages": [ "You crouch low and sweep-kick %s", "<npcname> crouches low and sweep-kicks %s" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "down_dur": 1
+  },
+  {
+    "type": "technique",
     "id": "tec_taichi_disarm",
     "name": "disarm",
     "min_unarmed": 3,
@@ -1369,35 +1410,6 @@
     "crit_tec": true,
     "stun_dur": 2,
     "messages": [ "You strike %s", "<npcname> strikes %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_taekwondo_precise",
-    "name": "axe-kick",
-    "min_unarmed": 2,
-    "unarmed_allowed": true,
-    "crit_tec": true,
-    "stun_dur": 2,
-    "messages": [ "You axe-kick %s", "<npcname> axe-kicks %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_taekwondo_push",
-    "name": "side kick",
-    "min_unarmed": 3,
-    "unarmed_allowed": true,
-    "messages": [ "You side-kick %s", "<npcname> side-kicks %s" ],
-    "stun_dur": 1,
-    "knockback_dist": 1
-  },
-  {
-    "type": "technique",
-    "id": "tec_taekwondo_sweep",
-    "name": "sweep kick",
-    "min_unarmed": 4,
-    "unarmed_allowed": true,
-    "messages": [ "You sweep-kick %s", "<npcname> sweep-kicks %s" ],
-    "down_dur": 2
   },
   {
     "type": "technique",
