@@ -155,6 +155,7 @@
     "type": "item_group",
     "items": [
       { "group": "potions_common", "prob": 20 },
+      { "group": "magic_weapons_loot_1", "prob": 15 },
       { "group": "magic_shop_wands", "prob": 35 },
       { "group": "magic_shop_books", "prob": 15 }
     ]
