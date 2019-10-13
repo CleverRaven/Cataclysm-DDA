@@ -1013,8 +1013,11 @@ void npc::execute_action( npc_action action )
 
         case npc_drop_items:
             /* NPCs cant choose this action anymore, but at least it works */
-            drop_items( weight_carried() - weight_capacity(),
-                        volume_carried() - volume_capacity() );
+            drop_invalid_inventory();
+            /* drop_items is still broken
+             * drop_items( weight_carried() - weight_capacity(),
+             *             volume_carried() - volume_capacity() );
+             */
             move_pause();
             break;
 
@@ -2966,8 +2969,12 @@ struct ratio_index {
     ratio_index( double R, int I ) : ratio( R ), index( I ) {}
 };
 
+/* As of October 2019, this is buggy, do not use!! */
 void npc::drop_items( units::mass drop_weight, units::volume drop_volume, int min_val )
 {
+    /* Remove this when someone debugs it back to functionality */
+    return;
+
     add_msg( m_debug, "%s is dropping items-%3.2f kg, %3.2f L (%d items, wgt %3.2f/%3.2f kg, "
              "vol %3.2f/%3.2f L)",
              name, units::to_kilogram( drop_weight ), units::to_liter( drop_volume ), inv.size(),
