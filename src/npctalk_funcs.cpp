@@ -596,7 +596,7 @@ static void generic_barber( const std::string &mut_type )
     }
     hair_menu.text = menu_text;
     int index = 0;
-    hair_menu.addentry( index, true, 'q', _( "Actually... I've changed my mind." ) );
+    hair_menu.addentry( index, true, 'q', _( "Actually...  I've changed my mind." ) );
     std::vector<trait_id> hair_muts = get_mutations_in_type( mut_type );
     trait_id cur_hair;
     for( auto elem : hair_muts ) {
