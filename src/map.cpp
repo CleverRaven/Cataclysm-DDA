@@ -2940,7 +2940,7 @@ void map::collapse_at( const tripoint &p, const bool silent )
         if( has_flag( "COLLAPSES", t ) && one_in( collapse_check( t ) ) ) {
             destroy( t, silent );
             // We only check for rubble spread if it doesn't already collapse to prevent double crushing
-        } else if( t.z > p.z && has_flag("FLAT", t) ) {
+        } else if( t.z > p.z && has_flag( "FLAT", t ) ) {
             destroy( t );
         } else if( has_flag( "FLAT", t ) && one_in( 8 ) ) {
             crush( t );
