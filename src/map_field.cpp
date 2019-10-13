@@ -254,9 +254,9 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
 
     const int scent_neutralize = ft_id->get_intensity_level( current_intensity ).scent_neutralization;
 
-    if ( scent_neutralize > 0 ) {
+    if( scent_neutralize > 0 ) {
         // modify scents by neutralization value (minus)
-        for ( const tripoint &tmp : points_in_radius( p, 1 ) ) {
+        for( const tripoint &tmp : points_in_radius( p, 1 ) ) {
             sblk.apply_gas( tmp, scent_neutralize );
         }
     }
