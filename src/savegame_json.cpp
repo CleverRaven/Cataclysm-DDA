@@ -512,8 +512,8 @@ void Character::load( JsonObject &data )
     }
 
     // Bionic power should not be negative!
-    if( power_level < 0_kJ ) {
-        power_level = 0_kJ;
+    if( power_level < 0_mJ ) {
+        power_level = 0_mJ;
     }
 }
 
@@ -577,7 +577,13 @@ void Character::store( JsonOut &json ) const
     json.end_object();
 
     // npc; unimplemented
-    json.member( "power_level", units::to_kilojoule( power_level ) );
+    if( power_level < 1_J ) {
+        json.member( "power_level", to_string( units::to_millijoule( power_level ) ) + " mJ" );
+    } else if( power_level < 1_kJ ) {
+        json.member( "power_level", to_string( units::to_joule( power_level ) ) + " J" );
+    } else {
+        json.member( "power_level", units::to_kilojoule( power_level ) );
+    }
     json.member( "max_power_level", units::to_kilojoule( max_power_level ) );
 }
 
