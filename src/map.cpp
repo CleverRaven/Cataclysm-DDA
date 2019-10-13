@@ -2933,13 +2933,15 @@ void map::collapse_at( const tripoint &p, const bool silent )
     destroy( p, silent );
     crush( p );
     make_rubble( p );
-    for( const tripoint &t : points_in_radius( p, 1 ) ) {
-        if( p == t ) {
+    for( const tripoint &t : points_in_radius( p, 1, 1 ) ) {
+        if( p == t || ( t.z < p.z && has_flag( "SUPPORTS_ROOF", p ) ) ) {
             continue;
         }
         if( has_flag( "COLLAPSES", t ) && one_in( collapse_check( t ) ) ) {
             destroy( t, silent );
             // We only check for rubble spread if it doesn't already collapse to prevent double crushing
+        } else if( t.z > p.z && has_flag( "FLAT", t ) ) {
+            destroy( t );
         } else if( has_flag( "FLAT", t ) && one_in( 8 ) ) {
             crush( t );
             make_rubble( t );
@@ -3682,17 +3684,22 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         }
     } else if( terrain == t_wall_glass  ||
                terrain == t_wall_glass_alarm ||
-               terrain == t_door_glass_c ) {
+               terrain == t_door_glass_c ||
+               terrain == t_laminated_glass ) {
         if( ammo_effects.count( "LASER" ) ) {
             dam -= rng( 0, 5 );
         } else {
             dam -= rng( 1, 8 );
             if( dam > 0 ) {
-                break_glass( p, 16 );
-                ter_set( p, t_floor );
+                if( terrain != t_laminated_glass || one_in( 40 ) ) {
+                    break_glass( p, 16 );
+                    ter_set( p, t_floor );
+                }
             }
         }
-    } else if( terrain == t_reinforced_glass || terrain == t_reinforced_door_glass_c ) {
+    } else if( terrain == t_ballistic_glass || terrain == t_reinforced_glass ||
+               terrain == t_reinforced_door_glass_c
+               || terrain == t_reinforced_glass_shutter || terrain ==  t_reinforced_glass_shutter_open ) {
         // reinforced glass stops most bullets
         // laser beams are attenuated
         if( ammo_effects.count( "LASER" ) ) {
@@ -3701,10 +3708,10 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
             //Greatly weakens power of bullets
             dam -= 40;
             if( dam <= 0 && g->u.sees( p ) ) {
-                if( terrain == t_reinforced_glass ) {
-                    add_msg( _( "The shot is stopped by the reinforced glass wall!" ) );
-                } else {
+                if( terrain == t_reinforced_door_glass_c ) {
                     add_msg( _( "The shot is stopped by the reinforced glass door!" ) );
+                } else {
+                    add_msg( _( "The shot is stopped by the reinforced glass wall!" ) );
                 }
             } else if( dam >= 40 ) {
                 //high powered bullets penetrate the glass, but only extremely strong
