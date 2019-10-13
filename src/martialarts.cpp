@@ -31,12 +31,6 @@
 #include "enums.h"
 #include "optional.h"
 
-const skill_id skill_melee( "melee" );
-const skill_id skill_bashing( "bashing" );
-const skill_id skill_cutting( "cutting" );
-const skill_id skill_stabbing( "stabbing" );
-const skill_id skill_unarmed( "unarmed" );
-
 namespace
 {
 generic_factory<ma_technique> ma_techniques( "martial art technique" );
@@ -73,6 +67,40 @@ void add_if_exists( JsonObject &jo, Container &cont, bool was_loaded,
         mandatory( jo, was_loaded, json_key, cont[id] );
     }
 }
+class ma_skill_reader : public generic_typed_reader<ma_skill_reader>
+{
+    public:
+        std::pair<skill_id, int> get_next( JsonIn &jin ) const {
+            JsonObject jo = jin.get_object();
+            return std::pair<skill_id, int>( skill_id( jo.get_string( "name" ) ), jo.get_int( "level" ) );
+        }
+        template<typename C>
+        void erase_next( JsonIn &jin, C &container ) const {
+            const skill_id id = skill_id( jin.get_string() );
+            reader_detail::handler<C>().erase_if( container, [&id]( const std::pair<skill_id, int> &e ) {
+                return e.first == id;
+            } );
+        }
+};
+
+class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_reader>
+{
+    public:
+        std::map<std::string, damage_type> dt_map = get_dt_map();
+
+        std::pair<damage_type, int> get_next( JsonIn &jin ) const {
+            JsonObject jo = jin.get_object();
+            const damage_type dt = dt_map.find( jo.get_string( "type" ) )->second;
+            return std::pair<damage_type, int>( dt, jo.get_int( "min" ) );
+        }
+        template<typename C>
+        void erase_next( JsonIn &jin, C &container ) const {
+            damage_type id = dt_map.find( jin.get_string() )->second;
+            reader_detail::handler<C>().erase_if( container, [&id]( const std::pair<damage_type, int> &e ) {
+                return e.first == id;
+            } );
+        }
+};
 
 void ma_requirements::load( JsonObject &jo, const std::string & )
 {
@@ -84,24 +112,8 @@ void ma_requirements::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id> {} );
     optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<> {} );
 
-    // Minimum skill level attributes
-    for( const auto &s : Skill::skills ) {
-        std::string skill_name = s.ident().str();
-        std::string attribute_name = string_format( "min_%s", skill_name );
-
-        add_if_exists( jo, min_skill, was_loaded, attribute_name, s.ident() );
-    }
-
-
-    // Minimum damage type attributes
-    std::map<std::string, damage_type> dt_map = get_dt_map();
-    auto iter = dt_map.cbegin();
-    while( iter != dt_map.cend() ) {
-        std::string attribute_name = string_format( "min_%s_damage", iter->first );
-
-        add_if_exists( jo, min_damage, was_loaded, attribute_name, iter->second );
-        iter++;
-    }
+    optional( jo, was_loaded, "skill_requirements", min_skill, ma_skill_reader {} );
+    optional( jo, was_loaded, "weapon_damage_requirements", min_damage, ma_weapon_damage_reader {} );
 }
 
 void ma_technique::load( JsonObject &jo, const std::string &src )
@@ -877,7 +889,7 @@ bool player::can_grab_break() const
     ma_technique tec = get_grab_break_tec();
     bool cqb = has_active_bionic( bionic_id( "bio_cqb" ) );
 
-    std::map<skill_id, int> min_skill = tec.reqs.min_skill;
+    std::vector<std::pair<skill_id, int>> min_skill = tec.reqs.min_skill;
 
     // Failure conditions.
     for( const auto &pr : min_skill ) {
@@ -899,7 +911,7 @@ bool player::can_miss_recovery( const item &weap ) const
     ma_technique tec = get_miss_recovery_tec( weap );
     bool cqb = has_active_bionic( bionic_id( "bio_cqb" ) );
 
-    std::map<skill_id, int> min_skill = tec.reqs.min_skill;
+    std::vector<std::pair<skill_id, int>> min_skill = tec.reqs.min_skill;
 
     // Failure conditions.
     for( const auto &pr : min_skill ) {
