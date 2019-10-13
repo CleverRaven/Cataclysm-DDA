@@ -10,7 +10,7 @@
     "price_postapoc": 500000,
     "material": "steel",
     "weight": "500 g",
-    "volume": "250 ml",
+    "volume": "450 ml",
     "bashing": 8,
     "to_hit": -1,
     "qualities": [ [ "HAMMER", 1 ] ],
@@ -133,35 +133,29 @@
   {
     "id": "mtailors_kit",
     "type": "TOOL",
+	"copy-from": "tailors_kit",
     "name": "enchanted tailor's kit",
     "description": "This is a high quality, engraved steel kit with a variety of needles, some plastic spools for thread, some small scissors, even a small heating element for melting and joining plastic.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.  It also contains one of those magic spiders that constantly, if slowly, makes new thread.",
-    "weight": "200 g",
-    "volume": "500 ml",
     "price": 100000,
-    "to_hit": -2,
     "material": [ "steel" ],
-    "symbol": ";",
-    "color": "red",
-    "ammo": "thread",
-    "sub": "sewing_kit",
     "initial_charges": 500,
     "max_charges": 1000,
     "charges_per_use": 1,
     "artifact_data": { "charge_type": "ARTC_TIME" },
-    "qualities": [ [ "SEW", 2 ], [ "KNIT", 2 ], [ "CUT", 2 ] ],
+    "sub": "sewing_kit",
     "use_action": [
       {
         "type": "repair_item",
         "item_action_type": "repair_fabric",
-        "materials": [ "cotton", "leather", "wool", "fur", "nomex", "neoprene" ],
+        "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin" ],
         "skill": "tailor",
         "tool_quality": 1,
         "cost_scaling": 0.1,
-        "move_cost": 600
+        "move_cost": 500
       },
       {
         "type": "sew_advanced",
-        "materials": [ "cotton", "leather", "fur", "nomex", "plastic", "kevlar", "wool" ],
+        "materials": [ "cotton", "leather", "wool", "fur", "faux_fur", "nomex", "kevlar", "neoprene", "gutskin", "plastic", "kevlar_rigid" ],
         "skill": "tailor",
         "clothing_mods": [ "leather_padded", "kevlar_padded", "furred", "wooled" ]
       }
