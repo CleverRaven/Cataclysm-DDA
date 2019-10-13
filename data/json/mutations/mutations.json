@@ -6422,5 +6422,14 @@
     "description": "Spending any amount of time in familiar places makes you miserable.  Must.  Keep.  Moving.",
     "prereqs": [ "NOMAD2" ],
     "category": [ "CHIMERA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "WAYFARER",
+    "name": "Wayfarer",
+    "points": -8,
+    "description": "Whether from personal choice or childhood trauma, travelling with vehicles is off-limits to you, even if your life depended on it.",
+    "starting_trait": true,
+    "valid": false
   }
 ]

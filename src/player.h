@@ -442,7 +442,7 @@ class player : public Character
 
         Attitude attitude_to( const Creature &other ) const override;
 
-        void pause(); // '.' command; pauses & reduces recoil
+        void pause(); // '.' command; pauses & resets recoil
 
         void set_movement_mode( player_movemode mode );
         bool movement_mode_is( player_movemode mode ) const;
@@ -613,8 +613,6 @@ class player : public Character
         /** Handles special defenses from an attack that hit us (source can be null) */
         void on_hit( Creature *source, body_part bp_hit = num_bp,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
-        /** Handles effects that happen when the player is damaged and aware of the fact. */
-        void on_hurt( Creature *source, bool disturb = true );
 
         /** Returns the bonus bashing damage the player deals based on their stats */
         float bonus_damage( bool random ) const;
@@ -750,16 +748,6 @@ class player : public Character
         void set_painkiller( int npkill );
         /** Returns intensity of painkillers  */
         int get_painkiller() const;
-        /** Heals a body_part for dam */
-        void heal( body_part healed, int dam );
-        /** Heals an hp_part for dam */
-        void heal( hp_part healed, int dam );
-        /** Heals all body parts for dam */
-        void healall( int dam );
-        /** Hurts all body parts for dam, no armor reduction */
-        void hurtall( int dam, Creature *source, bool disturb = true );
-        /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
-        int hitall( int dam, int vary, Creature *source );
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint &to ) override;
 
@@ -808,6 +796,8 @@ class player : public Character
 
         /** used for drinking from hands, returns how many charges were consumed */
         int drink_from_hands( item &water );
+        /** Check whether player can consume this very item */
+        bool can_consume_as_is( const item &it ) const;
         /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
         bool consume( int target_position );
         /** Used for eating a particular item that doesn't need to be in inventory.
@@ -1194,8 +1184,10 @@ class player : public Character
         static int thirst_speed_penalty( int thirst );
 
         int adjust_for_focus( int amount ) const;
-        void practice( const skill_id &id, int amount, int cap = 99 );
-
+        /** This handles giving xp for a skill */
+        void practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
+        /** This handles warning the player that there current activity will not give them xp */
+        void handle_skill_warning( const skill_id &id, bool force_warning = false );
         /** Legacy activity assignment, should not be used where resuming is important. */
         void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
                               int index = -1, int pos = INT_MIN,
@@ -1779,8 +1771,6 @@ class player : public Character
         bool feed_reactor_with( item &it );
         bool feed_furnace_with( item &it );
         bool fuel_bionic_with( item &it );
-        /** Check whether player can consume this very item */
-        bool can_consume_as_is( const item &it ) const;
         /**
          * Consumes an item as medication.
          * @param target Item consumed. Must be a medication or a container of medication.

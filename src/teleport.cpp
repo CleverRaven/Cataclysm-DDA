@@ -18,12 +18,17 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
         debugmsg( "ERROR: Function teleport::teleport called with invalid arguments." );
         return false;
     }
-
     player *const p = critter.as_player();
     const bool c_is_u = p != nullptr && p == &g->u;
     int tries = 0;
     tripoint origin = critter.pos();
     tripoint new_pos;
+    //The teleportee is dimensionally anchored so nothing happens
+    if( p && ( p->worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
+               p->has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) ) {
+        p->add_msg_if_player( m_warning, _( "You feel a strange, inwards force." ) );
+        return false;
+    }
     do {
         int rangle = rng( 0, 360 );
         int rdistance = rng( min_distance, max_distance );
@@ -49,16 +54,21 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     }
     //handles telefragging other creatures
     if( Creature *const poor_soul = g->critter_at<Creature>( new_pos ) ) {
+        player *const poor_player = dynamic_cast<player *>( poor_soul );
         if( safe ) {
             if( c_is_u ) {
                 add_msg( m_bad, _( "You cannot teleport safely." ) );
             }
             return false;
+        } else if( poor_player && ( poor_player->worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
+                                    poor_player->has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) ) {
+            poor_player->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
+            return false;
         } else {
             const bool poor_soul_is_u = ( poor_soul == &g->u );
             if( poor_soul_is_u ) {
                 add_msg( m_bad, _( "..." ) );
-                add_msg( m_bad, _( "You exlpode into thousands of fragments." ) );
+                add_msg( m_bad, _( "You explode into thousands of fragments." ) );
             }
             if( p ) {
                 p->add_msg_player_or_npc( m_warning,

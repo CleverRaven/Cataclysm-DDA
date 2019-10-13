@@ -332,7 +332,13 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "light_green",
-    "use_action": { "target": "atomic_lamp", "msg": "You open the lamp's cover.", "menu_text": "Open cover", "type": "transform" },
+    "use_action": {
+      "target": "atomic_lamp",
+      "active": true,
+      "msg": "You open the lamp's cover.",
+      "menu_text": "Open cover",
+      "type": "transform"
+    },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -372,7 +378,13 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "light_green",
-    "use_action": { "target": "atomic_light", "msg": "You open the nightlight's cover.", "menu_text": "Open cover", "type": "transform" },
+    "use_action": {
+      "target": "atomic_light",
+      "active": true,
+      "msg": "You open the nightlight's cover.",
+      "menu_text": "Open cover",
+      "type": "transform"
+    },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -1053,7 +1065,7 @@
     "power_draw": 300,
     "revert_to": "smart_phone",
     "use_action": "MP3_ON",
-    "flags": [ "WATCH", "TRADER_AVOID" ],
+    "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
     "magazine_well": 1
   },
   {
@@ -1070,7 +1082,7 @@
       "menu_text": "Turn off flashlight",
       "type": "transform"
     },
-    "flags": [ "WATCH", "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ]
+    "flags": [ "WATCH", "LIGHT_20", "CHARGEDIM", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "chainsaw_off",
@@ -3990,7 +4002,9 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_disposable_cell",
+          "light_minus_disposable_cell"
         ]
       ]
     ],
@@ -5217,6 +5231,7 @@
     "max_charges": 50,
     "use_action": {
       "type": "fireweapon_off",
+      "active": true,
       "target_id": "shishkebab_on",
       "moves": 10,
       "noise": 10,

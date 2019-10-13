@@ -1354,9 +1354,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
         }
 
-        if( food_item->get_comestible()->fun != 0 && parts->test( iteminfo_parts::FOOD_JOY ) ) {
-            info.push_back( iteminfo( "FOOD", _( "Enjoyability: " ),
-                                      g->u.fun_for( *food_item ).first ) );
+        const std::pair<int, int> fun_for_food_item = g->u.fun_for( *food_item );
+        if( fun_for_food_item.first != 0 && parts->test( iteminfo_parts::FOOD_JOY ) ) {
+            info.push_back( iteminfo( "FOOD", _( "Enjoyability: " ), fun_for_food_item.first ) );
         }
 
         if( parts->test( iteminfo_parts::FOOD_PORTIONS ) ) {
@@ -7039,6 +7039,13 @@ float item::simulate_burn( fire_data &frd ) const
         burn_added = 1;
     }
 
+    if( count_by_charges() ) {
+        int stack_burnt = rng( type->stack_size / 2, type->stack_size );
+        time_added *= stack_burnt;
+        smoke_added *= stack_burnt;
+        burn_added *= stack_burnt;
+    }
+
     frd.fuel_produced += time_added;
     frd.smoke_produced += smoke_added;
     return burn_added;
@@ -7053,10 +7060,17 @@ bool item::burn( fire_data &frd )
     }
 
     if( count_by_charges() ) {
-        burn_added *= rng( type->stack_size / 2, type->stack_size );
-        charges -= roll_remainder( burn_added );
+        if( type->volume == 0_ml ) {
+            charges = 0;
+        } else {
+            charges -= roll_remainder( burn_added * units::legacy_volume_factor * type->stack_size /
+                                       ( 3.0 * type->volume ) );
+        }
+
         if( charges <= 0 ) {
             return true;
+        } else {
+            return false;
         }
     }
 

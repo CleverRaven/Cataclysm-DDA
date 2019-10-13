@@ -457,7 +457,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
         if( big_corpse ) {
             if( has_rope && !has_tree_nearby && !b_rack_present ) {
                 u.add_msg_if_player( m_info,
-                                     _( "You need to suspend this corpse to butcher it. While you have a rope to lift the corpse, there is no tree nearby to hang it from." ) );
+                                     _( "You need to suspend this corpse to butcher it.  While you have a rope to lift the corpse, there is no tree nearby to hang it from." ) );
                 act.targets.pop_back();
                 return;
             }
@@ -469,7 +469,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
             }
             if( !has_table_nearby ) {
                 u.add_msg_if_player( m_info,
-                                     _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface. A leather tarp spread out on the ground could suffice." ) );
+                                     _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface.  A leather tarp spread out on the ground could suffice." ) );
                 act.targets.pop_back();
                 return;
             }
@@ -1680,7 +1680,7 @@ void activity_handlers::pickaxe_do_turn( player_activity *act, player * )
     sfx::play_activity_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
     if( calendar::once_every( 1_minutes ) ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
-        sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK! CHNK! CHNK!" ) );
+        sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK!  CHNK!  CHNK!" ) );
     }
 }
 
@@ -1885,7 +1885,9 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
         return;
     }
 
-    p->consume_charges( it, it.type->charges_to_use() );
+    if( it.type->can_have_charges() ) {
+        p->consume_charges( it, it.type->charges_to_use() );
+    }
     p->practice( skill_survival, act->index, 5 );
 
     firestarter_actor::resolve_firestarter_use( *p, act->placement );
@@ -4086,7 +4088,7 @@ void activity_handlers::robot_control_do_turn( player_activity *act, player *p )
     const std::shared_ptr<monster> z = act->monsters[0].lock();
 
     if( !z || !iuse::robotcontrol_can_target( p, *z ) ) {
-        p->add_msg_if_player( _( "Target lost. IFF override failed." ) );
+        p->add_msg_if_player( _( "Target lost.  IFF override failed." ) );
         act->set_to_null();
         return;
     }
@@ -4110,7 +4112,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
     act->monsters.clear();
 
     if( !z || !iuse::robotcontrol_can_target( p, *z ) ) {
-        p->add_msg_if_player( _( "Target lost. IFF override failed." ) );
+        p->add_msg_if_player( _( "Target lost.  IFF override failed." ) );
         return;
     }
 

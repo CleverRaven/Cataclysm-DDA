@@ -53,6 +53,7 @@
 #include "material.h"
 #include "type_id.h"
 #include "point.h"
+#include "projectile.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "mapdata.h"
@@ -563,6 +564,11 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
     ma_onattack_effects(); // trigger martial arts on-attack effects
     // some things (shattering weapons) can harm the attacking creature.
     check_dead_state();
+    did_hit( t );
+    if( t.as_character() ) {
+        dealt_projectile_attack dp = dealt_projectile_attack();
+        t.as_character()->on_hit( this, body_part::num_bp, 0.0f, &dp );
+    }
     return;
 }
 
@@ -2027,7 +2033,7 @@ void player_hit_message( player *attacker, const std::string &message,
             msg = string_format( _( "%s. Critical!" ), message );
         } else {
             //~ someone hits something for %d damage (critical)
-            msg = string_format( _( "%s for %d damage. Critical!" ), message, dam );
+            msg = string_format( _( "%s for %d damage.  Critical!" ), message, dam );
         }
         sSCTmod = _( "Critical!" );
         gmtSCTcolor = m_critical;

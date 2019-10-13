@@ -2129,7 +2129,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
 
                 // check if we found path to source / adjacent tile
                 if( route.empty() ) {
-                    add_msg( m_info, _( "%s can't reach the source tile. Try to sort out loot without a cart." ),
+                    add_msg( m_info, _( "%s can't reach the source tile.  Try to sort out loot without a cart." ),
                              p.disp_name() );
                     continue;
                 }
@@ -2822,13 +2822,8 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
         if( !contained && fire_age < -40_minutes && fd.fuel_produced > 1.0f && !it.made_of( LIQUID ) ) {
             // Too much - we don't want a firestorm!
             // Move item back to refueling pile
-            // Note: this handles messages (they're the generic "you drop x")
-            drop_on_map( p, item_drop_reason::deliberate, { it }, *refuel_spot );
-
-            const int distance = std::max( rl_dist( *best_fire, *refuel_spot ), 1 );
-            p.mod_moves( -Pickup::cost_to_move_item( p, it ) * distance );
-
-            g->m.i_rem( *best_fire, &it );
+            // Note: move_item() handles messages (they're the generic "you drop x")
+            move_item( p, it, 0, *best_fire, *refuel_spot, nullptr, -1 );
             return;
         }
     }
@@ -2849,13 +2844,9 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
         float last_fuel = fd.fuel_produced;
         it.simulate_burn( fd );
         if( fd.fuel_produced > last_fuel ) {
-            // Note: this handles messages (they're the generic "you drop x")
-            drop_on_map( p, item_drop_reason::deliberate, { it }, *best_fire );
-
-            const int distance = std::max( rl_dist( *refuel_spot, *best_fire ), 1 );
-            p.mod_moves( -Pickup::cost_to_move_item( p, it ) * distance );
-
-            g->m.i_rem( *refuel_spot, &it );
+            int quantity = std::max( 1, std::min( it.charges, it.charges_per_volume( 250_ml ) ) );
+            // Note: move_item() handles messages (they're the generic "you drop x")
+            move_item( p, it, quantity, *refuel_spot, *best_fire, nullptr, -1 );
             return;
         }
     }

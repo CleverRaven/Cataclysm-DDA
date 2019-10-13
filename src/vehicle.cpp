@@ -2028,7 +2028,7 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
             // We can't be sure to which vehicle it really belongs to, so it will be detached from the vehicle.
             // We can at least inform the player that there's something wrong.
             add_msg( m_warning,
-                     _( "A part of the vehicle ('%s') has no containing vehicle's name. It will be detached from the %s vehicle." ),
+                     _( "A part of the vehicle ('%s') has no containing vehicle's name.  It will be detached from the %s vehicle." ),
                      parts[carried_part].name(),  new_vehicle->name );
 
             // check if any other parts at the same location have a valid carry name so we can still have a valid mount location.
@@ -5188,6 +5188,8 @@ void vehicle::refresh()
     int railwheel_xmax = INT_MIN;
     int railwheel_ymax = INT_MIN;
 
+    bool refresh_done = false;
+
     // Main loop over all vehicle parts.
     for( const vpart_reference &vp : get_all_parts() ) {
         const size_t p = vp.part_index();
@@ -5195,6 +5197,7 @@ void vehicle::refresh()
         if( vp.part().removed ) {
             continue;
         }
+        refresh_done = true;
 
         // Build map of point -> all parts in that point
         const point pt = vp.mount();
@@ -5290,6 +5293,12 @@ void vehicle::refresh()
 
     rail_wheel_bounding_box.p1 = point( railwheel_xmin, railwheel_ymin );
     rail_wheel_bounding_box.p2 = point( railwheel_xmax, railwheel_ymax );
+
+    if( !refresh_done ) {
+        mount_min = mount_max = point_zero;
+        rail_wheel_bounding_box.p1 = point_zero;
+        rail_wheel_bounding_box.p2 = point_zero;
+    }
 
     // NB: using the _old_ pivot point, don't recalc here, we only do that when moving!
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
