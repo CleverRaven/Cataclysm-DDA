@@ -162,11 +162,11 @@ int character_mutations::get_mod( const trait_id &mut, const std::string &arg ) 
 void Character::apply_mods( const trait_id &mut, bool add_remove )
 {
     int sign = add_remove ? 1 : -1;
-    int str_change = get_mod( mut, "STR" );
+    int str_change = mutations.get_mod( mut, "STR" );
     str_max += sign * str_change;
-    per_max += sign * get_mod( mut, "PER" );
-    dex_max += sign * get_mod( mut, "DEX" );
-    int_max += sign * get_mod( mut, "INT" );
+    per_max += sign * mutations.get_mod( mut, "PER" );
+    dex_max += sign * mutations.get_mod( mut, "DEX" );
+    int_max += sign * mutations.get_mod( mut, "INT" );
 
     if( str_change != 0 ) {
         recalc_hp();
@@ -362,8 +362,8 @@ bool character_mutations::is_category_allowed( const std::string &category ) con
 
 bool Character::is_weak_to_water() const
 {
-    for( const auto &mut : my_mutations ) {
-        if( mut.first.obj().weakness_to_water > 0 ) {
+    for( const trait_id &mut : mutations.get_mutations() ) {
+        if( mut.obj().weakness_to_water > 0 ) {
             return true;
         }
     }
@@ -377,11 +377,11 @@ bool Character::can_use_heal_item( const item &med ) const
     bool can_use = false;
     bool got_restriction = false;
 
-    for( const trait_id &mut : get_mutations() ) {
-        if( !mut.obj().can_only_heal_with.empty() ) {
+    for( const trait_id &mut : mutations.get_mutations() ) {
+        if( !mut->can_only_heal_with.empty() ) {
             got_restriction = true;
         }
-        if( mut.obj().can_only_heal_with.count( heal_id ) ) {
+        if( mut->can_only_heal_with.count( heal_id ) ) {
             can_use = true;
             break;
         }
@@ -391,8 +391,8 @@ bool Character::can_use_heal_item( const item &med ) const
     }
 
     if( !can_use ) {
-        for( const trait_id &mut : get_mutations() ) {
-            if( mut.obj().can_heal_with.count( heal_id ) ) {
+        for( const trait_id &mut : mutations.get_mutations() ) {
+            if( mut->can_heal_with.count( heal_id ) ) {
                 can_use = true;
                 break;
             }
@@ -405,9 +405,9 @@ bool Character::can_use_heal_item( const item &med ) const
 bool Character::can_install_cbm_on_bp( const std::vector<body_part> &bps ) const
 {
     bool can_install = true;
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : mutations.get_mutations() ) {
         for( const body_part bp : bps ) {
-            if( mut.obj().no_cbm_on_bp.count( bp ) ) {
+            if( mut->no_cbm_on_bp.count( bp ) ) {
                 can_install = false;
                 break;
             }
@@ -529,7 +529,7 @@ void player::activate_mutation( const trait_id &mut )
             return;
         }
 
-        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
+        if( mutations.has_trait( trait_ROOTS2 ) || mutationshas_trait( trait_ROOTS3 ) ) {
             add_msg_if_player( _( "You reach out to the trees with your roots." ) );
         } else {
             add_msg_if_player(
