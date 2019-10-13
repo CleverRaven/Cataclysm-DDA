@@ -109,6 +109,7 @@
       [ "cudgel_plus_two", 8 ],
       [ "q_staff_plus_two", 8 ],
       [ "i_staff_plus_two", 6 ],
+      [ "springstaff-extended", 2 ],
       [ "longsword_plus_two", 2 ],
       [ "sledge_plus_two", 2 ],
       [ "warhammer_plus_two", 2 ],
