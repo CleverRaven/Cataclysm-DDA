@@ -93,6 +93,7 @@ const efftype_id effect_riding( "riding" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 const efftype_id effect_webbed( "webbed" );
+const efftype_id effect_winded( "winded" );
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_throw( "throw" );
@@ -482,6 +483,11 @@ bool Character::is_limb_disabled( hp_part limb ) const
 bool Character::is_limb_broken( hp_part limb ) const
 {
     return hp_cur[limb] == 0;
+}
+
+bool Character::can_run()
+{
+    return stamina > 0 && !has_effect( effect_winded ) && get_working_leg_count() >= 2;
 }
 
 bool Character::move_effects( bool attacking )

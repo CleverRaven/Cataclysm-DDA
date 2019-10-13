@@ -463,6 +463,8 @@ class Character : public Creature, public visitable<Character>
         bool is_limb_disabled( hp_part limb ) const;
         /** Returns true if the limb is broken */
         bool is_limb_broken( hp_part limb ) const;
+        /** source of truth of whether a player can run */
+        bool can_run(); 
         /**
          * Displays menu with body part hp, optionally with hp estimation after healing.
          * Returns selected part.
