@@ -370,9 +370,6 @@ class Creature
         /** Processes through all the effects on the Creature. */
         virtual void process_effects();
 
-        /** Returns true if the player has the entered trait, returns false for non-humans */
-        virtual bool has_trait( const trait_id &flag ) const;
-
         // not-quite-stats, maybe group these with stats later
         virtual void mod_pain( int npain );
         virtual void mod_pain_noresist( int npain );

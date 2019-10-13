@@ -1205,12 +1205,6 @@ bool Creature::resists_effect( const effect &e )
     return false;
 }
 
-bool Creature::has_trait( const trait_id &flag ) const
-{
-    ( void )flag;
-    return false;
-}
-
 // Methods for setting/getting misc key/value pairs.
 void Creature::set_value( const std::string &key, const std::string &value )
 {
