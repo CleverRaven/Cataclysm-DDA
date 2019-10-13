@@ -234,7 +234,7 @@
     "subcategory": "CSC_ENCHANTED_WEAPONS",
     "skill_used": "mechanics",
     "difficulty": 4,
-    "skills_required": [ [ "spellcraft", 4 ], [ "bashing", 2 ], [ "shotgun", 2 ], [ "unarmed", 2 ] ],
+    "skills_required": [ [ "spellcraft", 4 ], [ "bashing", 2 ], [ "shotgun", 2 ] ],
     "time": "4 h 30 m",
     "book_learn": [ [ "techno_basic", 4 ] ],
     "qualities": [
