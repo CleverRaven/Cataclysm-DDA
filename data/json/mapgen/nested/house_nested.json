@@ -765,7 +765,7 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "C ",
-        "RH"
+        "R "
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": { "R": [ { "item": "homebooks", "chance": 30 } ] }
@@ -1121,6 +1121,49 @@
       ],
       "palettes": [ "house_w_nest_palette" ],
       "items": { "E": [ { "item": "bed", "chance": 30 } ], "L": [ { "item": "bedroom", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "greenhouse_6x6_herbal",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "      ",
+        "BBCBB ",
+        "D4R4Dc",
+        "B5R2Bc",
+        "D2R3Dc",
+        "BBCBB "
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ],
+      "place_items": [
+        { "item": "farming_tools", "x": 2, "y": [ 2, 4 ], "chance": 25, "repeat": [ 1, 3 ] },
+        { "item": "farming_seeds", "x": 2, "y": [ 2, 4 ], "chance": 25, "repeat": [ 1, 3 ] },
+        { "item": "flower_pots", "x": 5, "y": [ 2, 4 ], "chance": 55, "repeat": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "a nested map for lawns",
+    "nested_mapgen_id": "pond_6x6",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "    N ",
+        "  Kk  ",
+        "kKkKK ",
+        "NKKK  ",
+        "  Kcc ",
+        "   cZ "
+      ],
+      "palettes": [ "house_w_nest_garden_palette" ]
     }
   }
 ]
