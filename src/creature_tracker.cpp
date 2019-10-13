@@ -51,7 +51,7 @@ std::shared_ptr<monster> Creature_tracker::from_temporary_id( const int id )
     }
 }
 
-bool Creature_tracker::add( std::shared_ptr<monster> critter_ptr )
+bool Creature_tracker::add( const std::shared_ptr<monster> &critter_ptr )
 {
     assert( critter_ptr );
     monster &critter = *critter_ptr;
@@ -89,7 +89,7 @@ bool Creature_tracker::add( std::shared_ptr<monster> critter_ptr )
     return true;
 }
 
-void Creature_tracker::add_to_faction_map( std::shared_ptr<monster> critter_ptr )
+void Creature_tracker::add_to_faction_map( const std::shared_ptr<monster> &critter_ptr )
 {
     assert( critter_ptr );
     monster &critter = *critter_ptr;

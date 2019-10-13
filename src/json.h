@@ -786,8 +786,8 @@ class JsonObject
         bool has_member( const std::string &name ); // true iff named member exists
         std::set<std::string> get_member_names();
         std::string str(); // copy object json as string
-        [[noreturn]] void throw_error( std::string err );
-        [[noreturn]] void throw_error( std::string err, const std::string &name );
+        [[noreturn]] void throw_error( const std::string &err );
+        [[noreturn]] void throw_error( const std::string &err, const std::string &name );
         // seek to a value and return a pointer to the JsonIn (member must exist)
         JsonIn *get_raw( const std::string &name );
 
@@ -960,8 +960,8 @@ class JsonArray
         size_t size() const;
         bool empty();
         std::string str(); // copy array json as string
-        void throw_error( std::string err );
-        void throw_error( std::string err, int idx );
+        void throw_error( const std::string &err );
+        void throw_error( const std::string &err, const int &idx );
 
         // iterative access
         bool next_bool();

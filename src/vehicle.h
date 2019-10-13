@@ -522,7 +522,7 @@ class turret_data
 struct label : public point {
     label() = default;
     label( const point &p ) : point( p ) {}
-    label( const point &p, std::string text ) : point( p ), text( std::move( text ) ) {}
+    label( const point &p, const std::string &text ) : point( p ), text( std::move( text ) ) {}
 
     std::string text;
 };

@@ -226,29 +226,16 @@ class zone_data
         std::shared_ptr<zone_options> options;
 
     public:
-        zone_data() {
-            type = zone_type_id( "" );
-            invert = false;
-            enabled = false;
-            is_vehicle = false;
-            start = tripoint_zero;
-            end = tripoint_zero;
-            options = nullptr;
+        zone_data() : type( zone_type_id( "" ) ), invert( false ), enabled( false ), is_vehicle( false ),
+            start( tripoint_zero ), end( tripoint_zero ), options( nullptr ) {
         }
 
         zone_data( const std::string &_name, const zone_type_id &_type, const faction_id &_faction,
                    bool _invert, const bool _enabled,
                    const tripoint &_start, const tripoint &_end,
-                   std::shared_ptr<zone_options> _options = nullptr ) {
-            name = _name;
-            type = _type;
-            faction = _faction;
-            invert = _invert;
-            enabled = _enabled;
-            is_vehicle = false;
-            start = _start;
-            end = _end;
-
+                   const std::shared_ptr<zone_options> &_options = nullptr ) : name( _name ), type( _type ),
+            faction( _faction ), invert( _invert ), enabled( _enabled ),
+            is_vehicle( false ), start( _start ), end( _end ) {
             // ensure that suplied options is of correct class
             if( _options == nullptr || !zone_options::is_valid( type, *_options ) ) {
                 options = zone_options::create( type );

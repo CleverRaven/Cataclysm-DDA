@@ -92,14 +92,9 @@ JsonObject::JsonObject( JsonIn &j )
     final_separator = jsin->get_ate_separator();
 }
 
-JsonObject::JsonObject( const JsonObject &jo )
-{
-    jsin = jo.jsin;
-    start = jo.start;
-    positions = jo.positions;
-    end = jo.end;
-    final_separator = jo.final_separator;
-}
+JsonObject::JsonObject( const JsonObject &jo ) : positions( jo.positions ), start( jo.start ),
+    end( jo.end ), final_separator( jo.final_separator ), jsin( jo.jsin )
+{}
 
 JsonObject &JsonObject::operator=( const JsonObject &jo ) = default;
 
@@ -166,18 +161,18 @@ std::string JsonObject::str()
     }
 }
 
-void JsonObject::throw_error( std::string err, const std::string &name )
+void JsonObject::throw_error( const std::string &err, const std::string &name )
 {
     jsin->seek( verify_position( name, false ) );
     jsin->error( err );
 }
 
-void JsonArray::throw_error( std::string err )
+void JsonArray::throw_error( const std::string &err )
 {
     jsin->error( err );
 }
 
-void JsonArray::throw_error( std::string err, int idx )
+void JsonArray::throw_error( const std::string &err, const int &idx )
 {
     if( idx >= 0 && size_t( idx ) < positions.size() ) {
         jsin->seek( positions[idx] );
@@ -185,7 +180,7 @@ void JsonArray::throw_error( std::string err, int idx )
     jsin->error( err );
 }
 
-void JsonObject::throw_error( std::string err )
+void JsonObject::throw_error( const std::string &err )
 {
     jsin->error( err );
 }
@@ -390,15 +385,9 @@ JsonArray::JsonArray( JsonIn &j )
     final_separator = jsin->get_ate_separator();
 }
 
-JsonArray::JsonArray( const JsonArray &ja )
-{
-    jsin = ja.jsin;
-    start = ja.start;
-    index = 0;
-    positions = ja.positions;
-    end = ja.end;
-    final_separator = ja.final_separator;
-}
+JsonArray::JsonArray( const JsonArray &ja ) : positions( ja.positions ), start( ja.start ),
+    index( 0 ), end( ja.end ), final_separator( ja.final_separator ), jsin( ja.jsin )
+{}
 
 JsonArray &JsonArray::operator=( const JsonArray &ja )
 {

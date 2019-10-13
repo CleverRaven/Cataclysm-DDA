@@ -870,7 +870,7 @@ class colony : private element_allocator_type
 
         void destroy_all_data() noexcept {
             // Amusingly enough, these changes from && to logical & actually do make a significant difference in debug mode
-            if( ( total_number_of_elements != 0 ) & !( std::is_trivially_destructible<element_type>::value ) ) {
+            if( ( total_number_of_elements != 0 ) & !std::is_trivially_destructible<element_type>::value ) {
                 total_number_of_elements = 0; // to avoid double-destruction
 
                 while( true ) {

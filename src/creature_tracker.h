@@ -18,7 +18,7 @@ class JsonOut;
 class Creature_tracker
 {
     private:
-        void add_to_faction_map( std::shared_ptr<monster> critter );
+        void add_to_faction_map( const std::shared_ptr<monster> &critter );
 
         class weak_ptr_comparator
         {
@@ -61,7 +61,7 @@ class Creature_tracker
          * @return Whether the operation was successful. It may fail if there is already
          * another monster at the location of the new monster.
          */
-        bool add( std::shared_ptr<monster> critter );
+        bool add( const std::shared_ptr<monster> &critter );
         size_t size() const;
         /** Updates the position of the given monster to the given point. Returns whether the operation
          *  was successful. */

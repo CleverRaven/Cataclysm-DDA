@@ -541,7 +541,7 @@ class inventory_selector
             return get_active_column().get_selected();
         }
 
-        void select_position( std::pair<size_t, size_t> position ) {
+        void select_position( std::pair<size_t, size_t> &position ) {
             set_active_column( position.first );
             get_active_column().select( position.second, scroll_direction::BACKWARD );
         }

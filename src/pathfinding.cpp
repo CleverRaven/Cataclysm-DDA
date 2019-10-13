@@ -168,9 +168,9 @@ bool is_disjoint( const Set1 &set1, const Set2 &set2 )
             return false;
         }
         if( *it1 < *it2 ) {
-            it1++;
+            ++it1;
         } else {
-            it2++;
+            ++it2;
         }
     }
 

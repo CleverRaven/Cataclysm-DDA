@@ -25,12 +25,8 @@ struct npc_favor {
     itype_id item_id;
     skill_id skill;
 
-    npc_favor() {
-        type = FAVOR_NULL;
-        value = 0;
-        item_id = "null";
-        skill = skill_id::NULL_ID();
-    }
+    npc_favor() : type( FAVOR_NULL ), value( 0 ), item_id( "null" ), skill( skill_id::NULL_ID() )
+    {}
 
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );

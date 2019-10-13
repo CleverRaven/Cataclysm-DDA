@@ -66,7 +66,7 @@ template <typename W, typename T> struct weighted_list {
          * This will call the given callback function once for every object in the weighted list.
          * @param func The callback function.
          */
-        void apply( std::function<void( const T & )> func ) const {
+        void apply( std::function<void( const T & )> &func ) const {
             for( auto &itr : objects ) {
                 func( itr.obj );
             }
@@ -77,7 +77,7 @@ template <typename W, typename T> struct weighted_list {
          * This is the non-const version.
          * @param func The callback function.
          */
-        void apply( std::function<void( T & )> func ) {
+        void apply( std::function<void( T & )> &func ) {
             for( auto &itr : objects ) {
                 func( itr.obj );
             }

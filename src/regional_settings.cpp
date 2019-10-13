@@ -46,8 +46,8 @@ static void load_forest_biome_component(
         JsonObject feature_types_jo = jo.get_object( "types" );
         std::set<std::string> keys = feature_types_jo.get_member_names();
         for( const auto &key : keys ) {
-            int weight = 0;
             if( key != "//" ) {
+                int weight = 0;
                 if( feature_types_jo.read( key, weight ) ) {
                     forest_biome_component.unfinalized_types[key] = weight;
                 }
@@ -77,8 +77,8 @@ static void load_forest_biome_terrain_dependent_furniture( JsonObject &jo,
         JsonObject feature_types_jo = jo.get_object( "furniture" );
         std::set<std::string> keys = feature_types_jo.get_member_names();
         for( const auto &key : keys ) {
-            int weight = 0;
             if( key != "//" ) {
+                int weight = 0;
                 if( feature_types_jo.read( key, weight ) ) {
                     forest_biome_terrain_dependent_furniture.unfinalized_furniture[key] = weight;
                 }
@@ -132,8 +132,8 @@ static void load_forest_biome( JsonObject &jo, forest_biome &forest_biome, const
         JsonObject groundcover_jo = jo.get_object( "groundcover" );
         std::set<std::string> keys = groundcover_jo.get_member_names();
         for( const auto &key : keys ) {
-            int weight = 0;
             if( key != "//" ) {
+                int weight = 0;
                 if( groundcover_jo.read( key, weight ) ) {
                     forest_biome.unfinalized_groundcover[key] = weight;
                 }
@@ -228,8 +228,8 @@ static void load_forest_trail_settings( JsonObject &jo,
             JsonObject trail_terrain_jo = forest_trail_settings_jo.get_object( "trail_terrain" );
             std::set<std::string> keys = trail_terrain_jo.get_member_names();
             for( const auto &key : keys ) {
-                int weight = 0;
                 if( key != "//" ) {
+                    int weight = 0;
                     if( trail_terrain_jo.read( key, weight ) ) {
                         forest_trail_settings.unfinalized_trail_terrain[key] = weight;
                     }

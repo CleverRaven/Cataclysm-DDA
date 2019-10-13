@@ -422,7 +422,7 @@ class input_context
         bool allow_text_entry;
 
         void register_manual_key( manual_key mk );
-        void register_manual_key( int key, const std::string text = "" );
+        void register_manual_key( int key, const std::string &text = "" );
 
         std::string get_action_name_for_manual_key( int key ) {
             for( const auto &manual_key : registered_manual_keys ) {

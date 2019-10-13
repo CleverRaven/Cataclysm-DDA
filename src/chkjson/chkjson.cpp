@@ -139,7 +139,7 @@ static void load_json_dir( const std::string &dirname )
         get_files_from_path( ".json", dirname, true, true );
     // iterate over each file
     std::vector<std::string>::iterator it;
-    for( it = dir.begin(); it != dir.end(); it++ ) {
+    for( it = dir.begin(); it != dir.end(); ++it ) {
         // open the file as a stream
         std::ifstream infile( it->c_str(), std::ifstream::in | std::ifstream::binary );
         // and stuff it into ram
