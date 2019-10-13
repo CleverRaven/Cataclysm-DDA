@@ -790,8 +790,17 @@ static std::pair<nc_color, std::string> power_stat( const avatar &u )
         } else if( u.get_power_level() >= u.get_max_power_level() / 4 ) {
             c_pwr = c_red;
         }
-        s_pwr = to_string( units::to_kilojoule( u.get_power_level() ) ) +
-                pgettext( "energy unit: kilojoule", "kJ" );
+
+        if( u.get_power_level() < 1_J ) {
+            s_pwr = to_string( units::to_millijoule( u.get_power_level() ) ) +
+                    pgettext( "energy unit: millijoule", "mJ" );
+        } else if( u.get_power_level() < 1_kJ ) {
+            s_pwr = to_string( units::to_joule( u.get_power_level() ) ) +
+                    pgettext( "energy unit: joule", "J" );
+        } else {
+            s_pwr = to_string( units::to_kilojoule( u.get_power_level() ) ) +
+                    pgettext( "energy unit: kilojoule", "kJ" );
+        }
     }
     return std::make_pair( c_pwr, s_pwr );
 }
