@@ -944,19 +944,31 @@ void avatar::vomit()
 void avatar::disp_morale()
 {
     int equilibrium = calc_focus_equilibrium();
+
+    int fatigue_penalty = 0;
     if( get_fatigue() >= MASSIVE_FATIGUE && ( focus_pool > 20 || equilibrium > 20 ) ) {
+        fatigue_penalty = equilibrium - 20;
         equilibrium = 20;
     } else if( get_fatigue() >= EXHAUSTED && ( focus_pool > 40 || equilibrium > 40 ) ) {
+        fatigue_penalty = equilibrium - 40;
         equilibrium = 40;
     } else if( get_fatigue() >= DEAD_TIRED && ( focus_pool > 60 || equilibrium > 60 ) ) {
+        fatigue_penalty = equilibrium - 60;
         equilibrium = 60;
     } else if( get_fatigue() >= TIRED && ( focus_pool > 80 || equilibrium > 80 ) ) {
+        fatigue_penalty = equilibrium - 80;
         equilibrium = 80;
     }
-    morale->display( equilibrium );
+
+    int pain_penalty = 0;
+    if( get_perceived_pain() && !has_trait( trait_CENOBITE ) ) {
+        pain_penalty = calc_focus_equilibrium( true ) - equilibrium - fatigue_penalty;
+    }
+
+    morale->display( equilibrium, pain_penalty, fatigue_penalty );
 }
 
-int avatar::calc_focus_equilibrium() const
+int avatar::calc_focus_equilibrium( bool ignore_pain ) const
 {
     int focus_equilibrium = 100;
 
@@ -975,7 +987,7 @@ int avatar::calc_focus_equilibrium() const
     int eff_morale = get_morale_level();
     // Factor in perceived pain, since it's harder to rest your mind while your body hurts.
     // Cenobites don't mind, though
-    if( !has_trait( trait_CENOBITE ) ) {
+    if( !ignore_pain && !has_trait( trait_CENOBITE ) ) {
         eff_morale = eff_morale - get_perceived_pain();
     }
 
@@ -988,7 +1000,7 @@ int avatar::calc_focus_equilibrium() const
     } else {
         /* Above 50 morale, we apply strong diminishing returns.
         * Each block of 50 takes twice as many morale points as the previous one:
-        * 50 focus at 50 morale (as before)
+        * 150 focus at 50 morale (as before)
         * 200 focus at 150 morale (100 more morale)
         * 250 focus at 350 morale (200 more morale)
         * ...
