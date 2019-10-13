@@ -9679,6 +9679,12 @@ bool game::phasing_move( const tripoint &dest_loc )
            ( critter_at( dest ) != nullptr && tunneldist > 0 ) ) {
         //add 1 to tunnel distance for each impassable tile in the line
         tunneldist += 1;
+        //Being dimensionally anchored prevents quantum shenanigans.
+        if( u.worn_with_flag( "DIMENSIONAL_ANCHOR" ) || u.has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) {
+            u.add_msg_if_player( m_info, _( "You are repelled by the barrier!" ) );
+            u.mod_power_level( -250_kJ ); //cost of tunneling one tile.
+            return false;
+        }
         if( tunneldist * 250_kJ >
             u.get_power_level() ) { //oops, not enough energy! Tunneling costs 250 bionic power per impassable tile
             add_msg( _( "You try to quantum tunnel through the barrier but are reflected! Try again with more energy!" ) );
