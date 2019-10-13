@@ -542,8 +542,8 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                         your_balance -= delta_price;
                     }
                     if( ip.loc.where() == item_location::type::character ) {
-                        volume_left -= ip.vol * change_amount;
-                        weight_left -= ip.weight * change_amount;
+                        volume_left += ip.vol * change_amount;
+                        weight_left += ip.weight * change_amount;
                     }
                 }
                 ch = 0;
@@ -588,8 +588,9 @@ void trading_window::update_npc_owed( npc &np )
 bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 {
     np.shop_restock();
-    np.drop_items( np.weight_carried() - np.weight_capacity(),
-                   np.volume_carried() - np.volume_capacity() );
+    //np.drop_items( np.weight_carried() - np.weight_capacity(),
+    //               np.volume_carried() - np.volume_capacity() );
+    np.drop_invalid_inventory();
 
     trading_window trade_win;
     trade_win.setup_win( np );
