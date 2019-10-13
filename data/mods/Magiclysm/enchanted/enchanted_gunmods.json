@@ -2,9 +2,9 @@
   {
     "id": "magic_suppressor",
     "type": "GUNMOD",
-    "name": "`Silent Winds` suppressor",
+    "name": "'Silent Winds' suppressor",
     "//": "Combination of the best stats of the homemade & solvent trap suppressors & volume reduction to half",
-    "description": "A localized silence spell in this tube quiets gunshots going through to hearing-safe levels. ",
+    "description": "Rather than using purely wipe media, an additional localized silence spell in this tube quiets gunshots going through to hearing-safe levels.",
     "weight": "804 g",
     "volume": "375 ml",
     "price": 77000,
