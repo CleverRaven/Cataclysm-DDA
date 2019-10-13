@@ -2947,7 +2947,6 @@ void map::collapse_at( const tripoint &p, const bool silent )
             make_rubble( t );
         }
     }
-
 }
 
 void map::smash_items( const tripoint &p, const int power, const std::string &cause_message )
