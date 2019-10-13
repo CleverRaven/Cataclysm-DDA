@@ -1019,7 +1019,6 @@
     "fuel_options": [ "muscle" ],
     "fuel_efficiency": 0.125,
     "passive_fuel_efficiency": 0.00625,
-    "time": 1,
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_TOGGLED" ]
   },
   {
