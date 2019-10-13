@@ -2501,6 +2501,11 @@ void player::toggle_run_mode()
     }
 }
 
+bool player::can_run()
+{
+    return stamina > 0 && !has_effect( effect_winded ) && get_working_leg_count() >= 2;
+}
+
 void player::toggle_crouch_mode()
 {
     if( move_mode == PMM_CROUCH ) {

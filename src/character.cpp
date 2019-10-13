@@ -93,7 +93,6 @@ const efftype_id effect_riding( "riding" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 const efftype_id effect_webbed( "webbed" );
-const efftype_id effect_winded( "winded" );
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_throw( "throw" );
@@ -476,11 +475,6 @@ int Character::get_working_leg_count() const
 bool Character::is_limb_disabled( hp_part limb ) const
 {
     return hp_cur[limb] <= hp_max[limb] * .125;
-}
-
-bool Character::can_run() const
-{
-    return (stamina > 0 && !has_effect( effect_winded ) && get_working_leg_count() >= 2);
 }
 
 // this is the source of truth on if a limb is broken so all code to determine
