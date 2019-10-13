@@ -38,9 +38,11 @@ int vitamin::severity( int qty ) const
             return i + 1;
         }
     }
-    // TODO: implement distinct severity levels for vitamin excesses
-    if( qty > 96 ) {
-        return -1;
+    for( int i = 0; i != static_cast<int>( disease_excess_.size() ); ++i ) {
+        if( ( qty >= disease_excess_[ i ].first && qty <= disease_excess_[ i ].second ) ||
+            ( qty <= disease_excess_[ i ].first && qty >= disease_excess_[ i ].second ) ) {
+            return -i - 1;
+        }
     }
     return 0;
 }
@@ -65,6 +67,12 @@ void vitamin::load_vitamin( JsonObject &jo )
     while( def.has_more() ) {
         JsonArray e = def.next_array();
         vit.disease_.emplace_back( e.get_int( 0 ), e.get_int( 1 ) );
+    }
+
+    auto exc = jo.get_array( "disease_excess" );
+    while( exc.has_more() ) {
+        auto e = exc.next_array();
+        vit.disease_excess_.emplace_back( e.get_int( 0 ), e.get_int( 1 ) );
     }
 
     if( vitamins_all.find( vit.id_ ) != vitamins_all.end() ) {
