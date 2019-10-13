@@ -18,20 +18,6 @@
     "magazine_well": 1
   },
   {
-    "abstract": "chan_wand",
-    "name": "Channel Wand",
-    "type": "TOOL",
-    "weight": 230,
-    "volume": 2,
-    "price": 10000,
-    "bashing": 3,
-    "to_hit": 1,
-    "material": [ "wood" ],
-    "symbol": "|",
-    "color": "brown",
-    "flags": [ "BELT_CLIP", "NONCONDUCTIVE", "USE_PLAYER_ENERGY" ]
-  },
-  {
     "abstract": "disp_wand",
     "name": "Disposable Wand",
     "type": "TOOL",
