@@ -4269,15 +4269,15 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
         const item muscle( "muscle" );
         for( const bionic_id &bid : g->u.get_bionic_fueled_with( muscle ) ) {
             if( g->u.has_active_bionic( bid ) ) { // active power gen
-                if( one_in( 1000 / load ) ) { // more pedaling = more power
-                    g->u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
-                }
+                // more pedaling = more power
+                g->u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency *
+                                      ( load / 1000 ) );
                 mod += eff_load / 5;
+            } else { // passive power gen
+                g->u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->passive_fuel_efficiency *
+                                      ( load / 1000 ) );
+                mod += eff_load / 10;
             }
-            if( one_in( 1000 / load ) && one_in( 20 ) ) { // passive power gen
-                g->u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
-            }
-            mod += eff_load / 10;
         }
         // decreased stamina burn scalable with load
         if( g->u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
