@@ -442,7 +442,7 @@ class player : public Character
 
         Attitude attitude_to( const Creature &other ) const override;
 
-        void pause(); // '.' command; pauses & reduces recoil
+        void pause(); // '.' command; pauses & resets recoil
 
         void set_movement_mode( player_movemode mode );
         bool movement_mode_is( player_movemode mode ) const;
