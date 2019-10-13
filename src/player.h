@@ -1489,27 +1489,7 @@ class player : public Character
         tripoint global_omt_location() const;
 
         // ---------------VALUES-----------------
-        inline int posx() const override {
-            return position.x;
-        }
-        inline int posy() const override {
-            return position.y;
-        }
-        inline int posz() const override {
-            return position.z;
-        }
-        inline void setx( int x ) {
-            setpos( tripoint( x, position.y, position.z ) );
-        }
-        inline void sety( int y ) {
-            setpos( tripoint( position.x, y, position.z ) );
-        }
-        inline void setz( int z ) {
-            setpos( tripoint( position.xy(), z ) );
-        }
-        inline void setpos( const tripoint &p ) override {
-            position = p;
-        }
+
         tripoint view_offset;
         // Means player sit inside vehicle on the tile he is now
         bool in_vehicle;
@@ -1708,8 +1688,6 @@ class player : public Character
         known_magic magic;
 
     protected:
-        // The player's position on the local map.
-        tripoint position;
 
         trap_map known_traps;
 
