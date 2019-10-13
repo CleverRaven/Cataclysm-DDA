@@ -252,7 +252,8 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     const int current_intensity = cur.get_field_intensity();
     const field_type_id ft_id = cur.get_field_type();
 
-    const int scent_neutralize = ft_id->get_intensity_level( current_intensity - 1 ).scent_neutralization;
+    const int scent_neutralize = ft_id->get_intensity_level( current_intensity -
+                                 1 ).scent_neutralization;
 
     if( scent_neutralize > 0 ) {
         // modify scents by neutralization value (minus)
