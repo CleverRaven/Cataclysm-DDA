@@ -9244,11 +9244,11 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
     if( it->has_var( "contained_name" ) ) {
         if( it->release_monster( pos ) ) {
             // It's been activated somewhere where there isn't a player or monster, good.
-            return 1;
+            return 0;
         }
         if( it->has_flag( "PLACE_RANDOMLY" ) ) {
             if( it->release_monster( p->pos(), 1 ) ) {
-                return 1;
+                return 0;
             }
             p->add_msg_if_player( _( "There is no place to put the %s." ),
                                   it->get_var( "contained_name", "" ) );
@@ -9261,7 +9261,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
                 return 0;
             }
             if( it->release_monster( *pos_ ) ) {
-                return 1;
+                return 0;
             }
             p->add_msg_if_player( m_info, _( "You cannot place the %s there!" ),
                                   it->get_var( "contained_name", "" ) );
