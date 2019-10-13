@@ -502,10 +502,10 @@ bool avatar::create( character_type type, const std::string &tempname )
                 result = set_profession( w, *this, points, result );
                 break;
             case 3:
-                result = set_traits( w, *this, points );
+                result = set_stats( w, *this, points );
                 break;
             case 4:
-                result = set_stats( w, *this, points );
+                result = set_traits( w, *this, points );
                 break;
             case 5:
                 result = set_skills( w, *this, points );
@@ -666,8 +666,8 @@ static void draw_character_tabs( const catacurses::window &w, const std::string 
         _( "POINTS" ),
         _( "SCENARIO" ),
         _( "PROFESSION" ),
-        _( "TRAITS" ),
         _( "STATS" ),
+        _( "TRAITS" ),
         _( "SKILLS" ),
         _( "DESCRIPTION" ),
     };
