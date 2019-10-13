@@ -221,7 +221,7 @@ std::string bonus_container::get_description() const
         std::string type = string_from_affected_stat( boni.first.get_stat() );
 
         if( needs_damage_type( boni.first.get_stat() ) ) {
-            // %1$s: damage type, %2$s: damage-related bonus name
+            //~ %1$s: damage type, %2$s: damage-related bonus name
             type = string_format( pgettext( "type of damage", "%1$s %2$s" ),
                                   name_by_dt( boni.first.get_damage_type() ), type );
         }
@@ -244,7 +244,7 @@ std::string bonus_container::get_description() const
         std::string type = string_from_affected_stat( boni.first.get_stat() );
 
         if( needs_damage_type( boni.first.get_stat() ) ) {
-            // %1$s: damage type, %2$s: damage-related bonus name
+            //~ %1$s: damage type, %2$s: damage-related bonus name
             type = string_format( pgettext( "type of damage", "%1$s %2$s" ),
                                   name_by_dt( boni.first.get_damage_type() ), type );
         }

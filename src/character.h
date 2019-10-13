@@ -401,6 +401,11 @@ class Character : public Creature, public visitable<Character>
          */
         void check_item_encumbrance_flag();
 
+        // any side effects that might happen when the Character is hit
+        void on_hit( Creature *source, body_part /*bp_hit*/,
+                     float /*difficulty*/, dealt_projectile_attack const * /*proj*/ ) override;
+        // any side effects that might happen when the Character hits a Creature
+        void did_hit( Creature &target );
 
         /**
          * Check for relevant passive, non-clothing that can absorb damage, and reduce by specified
@@ -465,6 +470,18 @@ class Character : public Creature, public visitable<Character>
         bool is_limb_broken( hp_part limb ) const;
         /** source of truth of whether a Character can run */
         bool can_run();
+        /** Hurts all body parts for dam, no armor reduction */
+        void hurtall( int dam, Creature *source, bool disturb = true );
+        /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
+        int hitall( int dam, int vary, Creature *source );
+        /** Handles effects that happen when the player is damaged and aware of the fact. */
+        void on_hurt( Creature *source, bool disturb = true );
+        /** Heals a body_part for dam */
+        void heal( body_part healed, int dam );
+        /** Heals an hp_part for dam */
+        void heal( hp_part healed, int dam );
+        /** Heals all body parts for dam */
+        void healall( int dam );
         /**
          * Displays menu with body part hp, optionally with hp estimation after healing.
          * Returns selected part.

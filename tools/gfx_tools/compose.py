@@ -49,8 +49,11 @@ def write_to_json(pathname, data):
             json.dump(data, fp)
         except ValueError:
             fp.write(json.dumps(data))
-    cmd = ["./tools/format/json_formatter.cgi", pathname]
-    subprocess.call(cmd)
+
+    json_formatter = "./tools/format/json_formatter.cgi"
+    if os.path.isfile(json_formatter):
+        cmd = [json_formatter, pathname]
+        subprocess.call(cmd)
 
 
 def find_or_make_dir(pathname):
@@ -176,13 +179,13 @@ class TilesheetData(object):
             else:
                 vips_image = Vips.Image.pngload(png_pathname)
                 if not vips_image.hasalpha():
-￼                    vips_image = vips_image.addalpha()
+                    vips_image = vips_image.addalpha()
                 if vips_image.width != self.width or vips_image.height != self.height:
-                     size_msg = "{} is {}x{}, sheet sprites are {}x{}."
-                     print(size_msg.format(png_pngname, vips_image.width, vips_image.height,
-                                           self.width, self.height))
-                     print("sprites in the {} tilesheet may be resized.".format(self.ts_name))
-                     print("All sprites in a tileshett directory should have the same dimensions.")
+                    size_msg = "{} is {}x{}, sheet sprites are {}x{}."
+                    print(size_msg.format(png_pathname, vips_image.width, vips_image.height,
+                                          self.width, self.height))
+                    print("sprites in the {} tilesheet may be resized.".format(self.ts_name))
+                    print("All sprites in a tilesheet directory should have the same dimensions.")
                 in_list.append(vips_image)
         for i in range(0, spacer):
             in_list.append(self.null_image)
@@ -211,7 +214,12 @@ class TilesheetData(object):
                         tmp_merged_pngs += merged
                 elif filename.endswith(".json"):
                     with open(filepath, "r") as fp:
-                        tile_entry = json.load(fp)
+                        try:
+                            tile_entry = json.load(fp)
+                        except:
+                            print("error loading {}".format(filepath))
+                            raise
+
                         self.tile_entries.append(tile_entry)
         if self.row_pngs:
             merged = self.merge_row(refs)

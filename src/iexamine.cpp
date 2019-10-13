@@ -2902,11 +2902,14 @@ void iexamine::keg( player &p, const tripoint &examp )
     const auto keg_name = g->m.name( examp );
     units::volume keg_cap = get_keg_capacity( examp );
 
+    const bool has_container_with_liquid = map_cursor( examp ).has_item_with( []( const item & it ) {
+        return !it.is_container_empty() && it.can_unload_liquid();
+    } );
     const bool liquid_present = map_cursor( examp ).has_item_with( []( const item & it ) {
         return it.made_of_from_type( LIQUID );
     } );
 
-    if( !liquid_present ) {
+    if( !liquid_present || has_container_with_liquid ) {
         add_msg( m_info, _( "It is empty." ) );
         // Get list of all drinks
         auto drinks_inv = p.items_with( []( const item & it ) {
