@@ -133,7 +133,7 @@
   {
     "id": "mtailors_kit",
     "type": "TOOL",
-	"copy-from": "tailors_kit",
+    "copy-from": "tailors_kit",
     "name": "enchanted tailor's kit",
     "description": "This is a high quality, engraved steel kit with a variety of needles, some plastic spools for thread, some small scissors, even a small heating element for melting and joining plastic.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.  It also contains one of those magic spiders that constantly, if slowly, makes new thread.",
     "price": 100000,
