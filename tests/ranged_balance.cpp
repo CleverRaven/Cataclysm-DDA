@@ -1,11 +1,7 @@
 #include <array>
 #include <list>
-#include <mutex>
 #include <ostream>
-#include <utility>
 #include <string>
-#include <thread>
-#include <type_traits>
 #include <vector>
 
 #include "catch/catch.hpp"
@@ -48,9 +44,6 @@ class Threshold
         double _chance;
 };
 
-std::mutex mtx;
-firing_statistics feed_me( Z99_99 );
-int last_sample_size = 0;
 
 template < class T >
 std::ostream &operator <<( std::ostream &os, const std::vector<T> &v )
@@ -120,68 +113,30 @@ static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel
 
 std::array<double, 5> accuracy_levels = {{ accuracy_grazing, accuracy_standard, accuracy_goodhit, accuracy_critical, accuracy_headshot }};
 
-static void thread_test( firing_statistics &firing_stats, const dispersion_sources &dispersion,
-                         const int range, const Threshold &threshold, const int sample_size )
-{
-    for( size_t i = 0; i < sample_size; i++ ) {
-        const projectile_attack_aim aim = projectile_attack_roll( dispersion, range, 0.5 );
-        firing_stats.add( aim.missed_by < threshold.accuracy() );
-    }
-    mtx.lock();
-    feed_me.add( firing_stats );
-    mtx.unlock();
-}
-
 
 static firing_statistics firing_test( const dispersion_sources &dispersion,
                                       const int range, const Threshold &threshold )
 {
-    const unsigned int max_threads = std::thread::hardware_concurrency();
-    const int sample_size = last_sample_size / ( max_threads * 10 );
     firing_statistics firing_stats( Z99_99 );
     bool threshold_within_confidence_interval = false;
     do {
-        threshold_within_confidence_interval = false;
         // On each trip through the loop, grab a sample attack roll and add its results to
         // the stat object.  Keep sampling until our calculated confidence interval doesn't overlap
         // any thresholds we care about.  This is a mechanism to limit the number of samples
         // we have to accumulate before we declare that the true average is
         // either above or below the threshold.
-        if( last_sample_size > 50000 && max_threads != 0 ) {
-            std::vector<firing_statistics > stat_vector;
-            for( size_t i = 0; i < max_threads; i++ ) {
-                stat_vector.emplace_back( Z99_99 );
-            }
-            //Create multiple threads that calculate firing stats simultaneously
-            std::vector<std::thread> thread_vector;
-            for( size_t i = 0; i < max_threads; i++ ) {
-                thread_vector.emplace_back( &thread_test, std::ref( stat_vector[ i ] ), dispersion, range,
-                                            threshold, sample_size );
-            }
-            for( size_t i = 0; i < max_threads; i++ ) {
-                if( thread_vector[ i ].joinable() ) {
-                    thread_vector[ i ].join();
-                    firing_stats.add( stat_vector[ i ] );
-                } else {
-                    WARN( "Thread: " << thread_vector[ i ].get_id() << " is not joinable." );
-                }
-            }
-        } else {
             const projectile_attack_aim aim = projectile_attack_roll( dispersion, range, 0.5 );
+            threshold_within_confidence_interval = false;
             firing_stats.add( aim.missed_by < threshold.accuracy() );
             if( firing_stats.n() < 100 ) {
                 threshold_within_confidence_interval = true;
             }
-        }
         const double error = firing_stats.margin_of_error();
         const double avg = firing_stats.avg();
-        //WARN( "Margin of error: "<< error );
-        //WARN( avg+error<< ">"<<threshold.chance()<<">"<<avg-error );
         if( avg + error > threshold.chance() && avg - error < threshold.chance() ) {
             threshold_within_confidence_interval = true;
         }
     } while( threshold_within_confidence_interval && firing_stats.n() < 10000000 );
-    last_sample_size = firing_stats.n();
     return firing_stats;
 }
 
@@ -217,7 +172,9 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
 {
     {
         const dispersion_sources dispersion = get_dispersion( shooter, 0 );
-        std::vector<firing_statistics> minimum_stats = firing_test( dispersion, min_quickdraw_range, { Threshold( accuracy_grazing, 0.2 ), Threshold( accuracy_standard, 0.1 ) } );
+        std::vector<firing_statistics> minimum_stats = firing_test( dispersion, min_quickdraw_range, 
+                                                                    { Threshold( accuracy_grazing, 0.2 ),
+                                                                      Threshold( accuracy_standard, 0.1 ) } );
         INFO( dispersion );
         INFO( "Range: " << min_quickdraw_range );
         INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
@@ -231,8 +188,7 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
     }
     {
         const dispersion_sources dispersion = get_dispersion( shooter, 300 );
-        firing_statistics good_stats = firing_test( dispersion, min_good_range, Threshold( accuracy_goodhit,
-                                       0.5 ) );
+        firing_statistics good_stats = firing_test( dispersion, min_good_range, Threshold( accuracy_goodhit, 0.5 ) );
         INFO( dispersion );
         INFO( "Range: " << min_good_range );
         INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
@@ -243,8 +199,7 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
     }
     {
         const dispersion_sources dispersion = get_dispersion( shooter, 500 );
-        firing_statistics good_stats = firing_test( dispersion, max_good_range, Threshold( accuracy_goodhit,
-                                       0.1 ) );
+        firing_statistics good_stats = firing_test( dispersion, max_good_range, Threshold( accuracy_goodhit, 0.1 ) );
         INFO( dispersion );
         INFO( "Range: " << max_good_range );
         INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
