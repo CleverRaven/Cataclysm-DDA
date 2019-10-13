@@ -245,6 +245,7 @@
       { "id": "SCREW_FINE", "level": 1 },
       { "id": "MANA_INFUSE", "level": 1 }
     ],
+    "tools": [ [ "rune_technomancer", -1 ], [ "rune_technomancer_weapon", -1 ] ],
     "byproducts": [ [ "splinter", 4 ] ],
     "//": "Splinters from stock",
     "components": [ [ [ "leather", 4 ] ], [ [ "pipe_double_shotgun", 1 ], [ "shotgun_d", 1 ] ], [ [ "scrap", 8 ] ] ]
