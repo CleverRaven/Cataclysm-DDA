@@ -168,8 +168,12 @@
         { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
         { "item": "mechanics", "chance": 10, "repeat": [ 1, 2 ] }
       ],
+      "j": [
+        { "item": "softdrugs", "chance": 45, "repeat": [ 1, 3 ] },
+        { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
+        { "item": "harddrugs", "chance": 5 }
+      ],
       "T": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
-      "j": { "item": "softdrugs", "chance": 10, "repeat": [ 1, 2 ] },
       "n": { "item": "SUS_kitchen_sink", "chance": 10, "repeat": [ 1, 2 ] },
       "i": { "item": "oven", "chance": 25, "repeat": [ 1, 2 ] },
       "l": { "item": "fridge", "chance": 30, "repeat": [ 1, 2 ] },
