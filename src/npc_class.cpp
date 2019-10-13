@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <array>
 #include <iterator>
+#include <iostream>
 #include <set>
 #include <utility>
 
@@ -257,6 +258,7 @@ void npc_class::load( JsonObject &jo, const std::string & )
             JsonObject subobj = array.next_object();
             int level = subobj.get_int( "level" );
             spell_id sp = spell_id( subobj.get_string( "id" ) );
+            std::cout << "starting spells - " << sp.str() << std::endl;
             _starting_spells.emplace( sp, level );
         }
     }

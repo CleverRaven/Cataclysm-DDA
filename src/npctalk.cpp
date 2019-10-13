@@ -10,6 +10,7 @@
 #include <array>
 #include <iterator>
 #include <list>
+#include <iostream>
 #include <map>
 #include <memory>
 #include <unordered_map>
@@ -698,9 +699,7 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     }
 
     for( auto &mission : chatbin.missions_assigned ) {
-        add_msg( "chatbin mission assignd" );
         if( mission->get_assigned_player_id() == g->u.getID() ) {
-            add_msg( "assign to player - mission " );
             d.missions_assigned.push_back( mission );
         }
     }
@@ -798,7 +797,6 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
     do {
         d_win.print_header( name );
         const talk_topic next = d.opt( d_win, d.topic_stack.back() );
-        add_msg( "talk topic = %s", next.id );
         if( next.id == "TALK_NONE" ) {
             int cat = topic_category( d.topic_stack.back() );
             do {
@@ -1200,7 +1198,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             }
         }
     } else if( topic == "TALK_TRAIN" ) {
-        add_msg( "talk train is the topic" );
         if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) ) {
             player_activity &backlog = g->u.backlog.front();
             std::stringstream resume;
@@ -1228,7 +1225,9 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         std::vector<skill_id> trainable = p->skills_offered_to( g->u );
         std::vector<spell_id> spells = p->magic.spells();
         std::vector<spell_id> teachable_spells;
+        std::cout << "before spell loop" << std::endl;
         for( spell_id &sp : spells ) {
+            std::cout << "spell to teach - " << sp.str() << std::endl;
             const spell &temp_spell = p->magic.get_spell( sp );
             if( g->u.magic.can_learn_spell( g->u, sp ) ) {
                 const spell &player_spell = g->u.magic.get_spell( sp );
@@ -1238,9 +1237,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 teachable_spells.push_back( sp );
             }
         }
-        if( teachable_spells.empty() ) {
-            add_msg( "teachable = empty " );
-        }
+        std::cout << "after spell loop " << std::endl;
         if( trainable.empty() && styles.empty() && teachable_spells.empty() ) {
             add_response_none( _( "Oh, okay." ) );
             return;
@@ -1258,7 +1255,6 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 text = string_format( cost > 0 ? _( "%s: teaching spell knowledge (cost $%d)" ) :
                                       _( "%s: teaching spell knowledge" ), temp_spell.name(), cost / 100 );
             }
-            add_msg( "got to add_response for spells" );
             add_response( text, "TALK_TRAIN_START", sp );
         }
         for( auto &style_id : styles ) {
@@ -1668,7 +1664,6 @@ const talk_topic &special_talk( char ch )
 
 talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
 {
-    add_msg( "in opt - topic = %s", topic.id );
     bool text_only = d_win.text_only;
     std::string challenge = dynamic_line( topic );
     gen_responses( topic );
@@ -1765,16 +1760,8 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         beta->chatbin.skill = skill_id::NULL_ID();
         beta->chatbin.spell = chosen.spell;
     }
-    add_msg( "talk trial = %s", chosen.trial.name() );
     const bool success = chosen.trial.roll( *this );
-    if( success ) {
-        add_msg( "talk trial success" );
-    } else {
-        add_msg( "talk trial failure" );
-    }
     const auto &effects = success ? chosen.success : chosen.failure;
-    talk_topic test_top = effects.apply( *this );
-    add_msg( "after opt return - %s", test_top.id );
     return effects.apply( *this );
 }
 

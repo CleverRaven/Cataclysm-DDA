@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <algorithm>
 #include <functional>
+#include <iostream>
 #include <limits>
 #include <sstream>
 
@@ -437,6 +438,7 @@ void npc::randomize( const npc_class_id &type )
     }
     // Add spells for magiclysm mod
     for( const auto &spell_pair : type->_starting_spells ) {
+        std::cout << "new npc, learn spell " << spell_pair.first.str() << std::endl;
         this->magic.learn_spell( spell_pair.first, *this, true );
         spell &sp = this->magic.get_spell( spell_pair.first );
         while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
