@@ -1401,7 +1401,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
     }
 
     //AOE attacks, feel free to skip over this lump
-    if( technique.aoe.length() > 0 ) {
+    if( !technique.aoe.empty() ) {
         // Remember out moves and stamina
         // We don't want to consume them for every attack!
         const int temp_moves = moves;
