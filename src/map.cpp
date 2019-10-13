@@ -3697,8 +3697,9 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                 }
             }
         }
-    } else if( terrain == t_ballistic_glass || terrain == t_reinforced_glass || terrain == t_reinforced_door_glass_c
-        || terrain == t_reinforced_glass_shutter|| terrain ==  t_reinforced_glass_shutter_open ) {
+    } else if( terrain == t_ballistic_glass || terrain == t_reinforced_glass ||
+               terrain == t_reinforced_door_glass_c
+               || terrain == t_reinforced_glass_shutter || terrain ==  t_reinforced_glass_shutter_open ) {
         // reinforced glass stops most bullets
         // laser beams are attenuated
         if( ammo_effects.count( "LASER" ) ) {
