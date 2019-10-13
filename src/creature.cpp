@@ -1644,7 +1644,7 @@ const std::pair<translation, nc_color> &Creature::get_attitude_ui_data( Attitude
             pair_t {to_translation( "Neutral" ), h_white},
             pair_t {to_translation( "Friendly" ), c_green},
             pair_t {to_translation( "Any" ), c_yellow},
-            pair_t {to_translation( "BUG: Behavior unnamed. (Creature::get_attitude_ui_data)" ), h_red}
+            pair_t {to_translation( "BUG: Behavior unnamed.  (Creature::get_attitude_ui_data)" ), h_red}
         }
     };
 

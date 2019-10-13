@@ -1427,7 +1427,7 @@ void map::player_in_field( player &u )
         if( ft == fd_sludge ) {
             // Sludge is on the ground, but you are above the ground when boarded on a vehicle
             if( !u.in_vehicle ) {
-                u.add_msg_if_player( m_bad, _( "The sludge is thick and sticky. You struggle to pull free." ) );
+                u.add_msg_if_player( m_bad, _( "The sludge is thick and sticky.  You struggle to pull free." ) );
                 u.moves -= cur.get_field_intensity() * 300;
                 cur.set_field_intensity( 0 );
             }

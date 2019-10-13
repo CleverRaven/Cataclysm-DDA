@@ -2028,7 +2028,7 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
             // We can't be sure to which vehicle it really belongs to, so it will be detached from the vehicle.
             // We can at least inform the player that there's something wrong.
             add_msg( m_warning,
-                     _( "A part of the vehicle ('%s') has no containing vehicle's name. It will be detached from the %s vehicle." ),
+                     _( "A part of the vehicle ('%s') has no containing vehicle's name.  It will be detached from the %s vehicle." ),
                      parts[carried_part].name(),  new_vehicle->name );
 
             // check if any other parts at the same location have a valid carry name so we can still have a valid mount location.

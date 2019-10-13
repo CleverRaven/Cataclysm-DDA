@@ -1433,7 +1433,7 @@ void game_menus::inv::reassign_letter( player &p, item &it )
 {
     while( true ) {
         const int invlet = popup_getkey(
-                               _( "Enter new letter. Press SPACE to clear a manually assigned letter, ESCAPE to cancel." ) );
+                               _( "Enter new letter.  Press SPACE to clear a manually assigned letter, ESCAPE to cancel." ) );
 
         if( invlet == KEY_ESCAPE ) {
             break;
