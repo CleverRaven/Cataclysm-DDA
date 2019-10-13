@@ -91,9 +91,7 @@
     "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
     "reload": 200,
     "barrel_length": 2,
-    "valid_mod_locations": [
-      [ "mechanism", 1 ]
-    ],
+    "valid_mod_locations": [ [ "mechanism", 1 ] ],
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NEVER_JAMS", "RELOAD_EJECT", "RELOAD_ONE" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   },

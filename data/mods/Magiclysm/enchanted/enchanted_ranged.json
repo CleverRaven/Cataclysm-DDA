@@ -1,5 +1,5 @@
 [
- {
+  {
     "id": "rune_druid_weapon",
     "type": "GUN",
     "symbol": "(",
@@ -98,11 +98,9 @@
     "ammo": "shot",
     "reload": 200,
     "barrel_length": 2,
-    "valid_mod_locations": [
-      [ "mechanism", 1 ]
-    ],
+    "valid_mod_locations": [ [ "mechanism", 1 ] ],
     "reload_noise": "chuk chuk.",
-    "flags": [ "RELOAD_ONE", "PUMP_ACTION", "DURABLE_MELEE" , "SHEATH_SWORD" ],
+    "flags": [ "RELOAD_ONE", "PUMP_ACTION", "DURABLE_MELEE", "SHEATH_SWORD" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ]
   }
 ]

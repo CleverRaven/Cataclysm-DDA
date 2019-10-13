@@ -888,7 +888,14 @@
     "material": [ "steel", "plastic" ],
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
-    "use_action": { "menu_text": "Extend to staff", "type": "transform", "target": "springstaff-extended", "msg": "You snap open your springstaff into staff mode.", "moves": 50, "need_wielding": true },
+    "use_action": {
+      "menu_text": "Extend to staff",
+      "type": "transform",
+      "target": "springstaff-extended",
+      "msg": "You snap open your springstaff into staff mode.",
+      "moves": 50,
+      "need_wielding": true
+    },
     "volume": "750 ml",
     "bashing": 12,
     "price": 34000
@@ -907,7 +914,14 @@
     "material": [ "steel", "plastic" ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ],
-    "use_action": { "menu_text": "Retract to baton", "type": "transform", "target": "springstaff-retracted", "msg": "You collapse your springstaff into baton mode.", "moves": 200, "need_wielding": true },
+    "use_action": {
+      "menu_text": "Retract to baton",
+      "type": "transform",
+      "target": "springstaff-retracted",
+      "msg": "You collapse your springstaff into baton mode.",
+      "moves": 200,
+      "need_wielding": true
+    },
     "volume": "3 L",
     "bashing": 19,
     "price": 34000

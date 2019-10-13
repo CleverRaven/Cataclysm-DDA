@@ -25,7 +25,10 @@
     "book_learn": [ [ "techno_basic", 5 ] ],
     "using": [ [ "soldering_standard", 20 ], [ "surface_heat", 20 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "CHEM", "level": 2 }, { "id": "MANA_INFUSE", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "rune_alchemist", -1 ], [ "rune_technomancer", -1 ], [ "rune_technomancer_weapon", -1 ] ] ],
+    "tools": [
+      [ [ "mold_plastic", -1 ] ],
+      [ [ "rune_alchemist", -1 ], [ "rune_technomancer", -1 ], [ "rune_technomancer_weapon", -1 ] ]
+    ],
     "components": [
       [ [ "plastic_chunk", 2 ] ],
       [ [ "amplifier", 1 ] ],
