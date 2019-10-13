@@ -17,5 +17,24 @@
     "skill": "fabrication",
     "price": 30000,
     "required_level": 8
+  },
+  {
+    "type": "BOOK",
+    "id": "book_mythological",
+    "name": "The Weapons of Asgard and Beyond",
+    "name_plural": "The Weapons of Asgard and Beyond",
+    "max_level": 10,
+    "description": "This book is about creating replicas of the weapons used by the Norse Gods, such as the well-known Mjölnir, and Gungnir.  It is very well illustrated with lots of pictures and norse text, no doubt an enchantment.",
+    "weight": 654,
+    "color": "light_blue",
+    "intelligence": 9,
+    "symbol": "?",
+    "material": [ "paper" ],
+    "volume": 5,
+    "time": 60,
+    "fun": 0,
+    "skill": "fabrication",
+    "price": 30000,
+    "required_level": 8
   }
 ]

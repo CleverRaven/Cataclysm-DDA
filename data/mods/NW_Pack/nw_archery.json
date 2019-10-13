@@ -13,5 +13,20 @@
     "ranged_damage": 18,
     "range": 19,
     "dispersion": 110
+  },
+  {
+    "id": "ichaival",
+    "copy-from": "reflexrecurvebow",
+    "type": "GUN",
+    "name": "Ichaival",
+    "description": "Ichaival, the bow of Odin. Rumored to fire 10 arrows with every pull of the string.  It has gold and silver ornaments on it, as well as an ornate Raven.",
+    "price": 160000,
+    "material": [ "wood", "gold", "glowing_metal" ],
+    "weight": 740,
+    "volume": 7,
+    "bashing": 14,
+    "ranged_damage": 35,
+    "range": 20,
+    "dispersion": 110
   }
 ]
