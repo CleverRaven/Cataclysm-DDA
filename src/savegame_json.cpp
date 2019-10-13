@@ -1370,7 +1370,7 @@ void npc::load( JsonObject &data )
     }
     data.read( "known_to_u", known_to_u );
     data.read( "personality", personality );
-
+    data.read( "magic", magic );
     if( !data.read( "submap_coords", submap_coords ) ) {
         // Old submap coordinates are for the point (0, 0, 0) on local map
         // New ones are for submap that contains pos
@@ -1600,7 +1600,7 @@ void npc::store( JsonOut &json ) const
     json.member( "guardz", guard_pos.z );
     json.member( "current_activity_id", current_activity_id.str() );
     json.member( "pulp_location", pulp_location );
-
+    json.member( "magic", magic );
     json.member( "mission", mission ); // TODO: stringid
     json.member( "job", static_cast<int>( job ) );
     json.member( "previous_mission", previous_mission );

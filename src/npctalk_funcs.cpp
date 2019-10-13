@@ -884,7 +884,7 @@ void talk_function::start_training( npc &p )
     const skill_id &skill = p.chatbin.skill;
     const matype_id &style = p.chatbin.style;
     const spell_id &sp_id = p.chatbin.spell;
-    int expert_multiplier = 0;
+    int expert_multiplier = 1;
     if( skill.is_valid() && g->u.get_skill_level( skill ) < p.get_skill_level( skill ) ) {
         cost = calc_skill_training_cost( p, skill );
         time = calc_skill_training_time( p, skill );
@@ -898,8 +898,8 @@ void talk_function::start_training( npc &p )
         spell &temp_spell = p.magic.get_spell( sp_id );
         const bool knows = g->u.magic.knows_spell( sp_id );
         cost = p.calc_spell_training_cost( knows, temp_spell.get_difficulty(), temp_spell.get_level() );
-        name = temp_spell.name();
-        expert_multiplier = temp_spell.get_level() - g->u.magic.get_spell( sp_id ).get_level();
+        name = temp_spell.id().str();
+        expert_multiplier = knows ? temp_spell.get_level() - g->u.magic.get_spell( sp_id ).get_level() : 1;
         // quicker to learn with instruction as opposed to books.
         // if this is a known spell, then there is a set time to gain some exp.
         // if player doesnt know this spell, then the NPC will teach all of it
@@ -920,12 +920,9 @@ void talk_function::start_training( npc &p )
     } else if( !npc_trading::pay_npc( p, cost ) ) {
         return;
     }
-    player_activity act = player_activity( activity_id( "ACT_TRAIN" ), to_moves<int>( time ),
+    player_activity act = player_activity( activity_id( "ACT_TRAIN" ), to_turns<int>( time ),
                                            p.getID().get_value(), 0, name );
-    if( expert_multiplier > 0 ) {
-        act.values.push_back( expert_multiplier );
-    }
-
+    act.values.push_back( expert_multiplier );
     g->u.assign_activity( act );
     p.add_effect( effect_asked_to_train, 6_hours );
 }

@@ -10,7 +10,6 @@
 #include <array>
 #include <iterator>
 #include <list>
-#include <iostream>
 #include <map>
 #include <memory>
 #include <unordered_map>
@@ -1198,7 +1197,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             }
         }
     } else if( topic == "TALK_TRAIN" ) {
-        if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) ) {
+        if( !g->u.backlog.empty() && g->u.backlog.front().id() == activity_id( "ACT_TRAIN" ) &&
+            g->u.backlog.front().index == p->getID().get_value() ) {
             player_activity &backlog = g->u.backlog.front();
             std::stringstream resume;
             resume << _( "Yes, let's resume training " );
@@ -1206,13 +1206,16 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             // TODO: This is potentially dangerous. A skill and a martial art
             // could have the same ident!
             if( !skillt.is_valid() ) {
-                auto &style = matype_id( backlog.name ).obj();
-                if( !style.id.is_valid() ) {
+                auto styleid = matype_id( backlog.name );
+                if( !styleid.is_valid() ) {
                     const spell_id &sp_id = spell_id( backlog.name );
-                    spell &temp_spell = p->magic.get_spell( sp_id );
-                    resume << temp_spell.name();
-                    add_response( resume.str(), "TALK_TRAIN_START", sp_id );
+                    if( p->magic.knows_spell( sp_id ) ) {
+                        spell &temp_spell = p->magic.get_spell( sp_id );
+                        resume << temp_spell.name();
+                        add_response( resume.str(), "TALK_TRAIN_START", sp_id );
+                    }
                 } else {
+                    auto style = styleid.obj();
                     resume << style.name;
                     add_response( resume.str(), "TALK_TRAIN_START", style );
                 }
@@ -1225,19 +1228,18 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         std::vector<skill_id> trainable = p->skills_offered_to( g->u );
         std::vector<spell_id> spells = p->magic.spells();
         std::vector<spell_id> teachable_spells;
-        std::cout << "before spell loop" << std::endl;
         for( spell_id &sp : spells ) {
-            std::cout << "spell to teach - " << sp.str() << std::endl;
             const spell &temp_spell = p->magic.get_spell( sp );
             if( g->u.magic.can_learn_spell( g->u, sp ) ) {
-                const spell &player_spell = g->u.magic.get_spell( sp );
-                if( player_spell.is_max_level() || player_spell.get_level() >= temp_spell.get_level() ) {
-                    continue;
+                if( g->u.magic.knows_spell( sp ) ) {
+                    const spell &player_spell = g->u.magic.get_spell( sp );
+                    if( player_spell.is_max_level() || player_spell.get_level() >= temp_spell.get_level() ) {
+                        continue;
+                    }
                 }
                 teachable_spells.push_back( sp );
             }
         }
-        std::cout << "after spell loop " << std::endl;
         if( trainable.empty() && styles.empty() && teachable_spells.empty() ) {
             add_response_none( _( "Oh, okay." ) );
             return;

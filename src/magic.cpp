@@ -4,6 +4,7 @@
 #include <set>
 #include <algorithm>
 #include <array>
+#include <iostream>
 #include <memory>
 #include <tuple>
 #include <utility>
@@ -1285,6 +1286,7 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
     }
     if( force || can_learn_spell( p, sp->id ) ) {
         spellbook.emplace( sp->id, temp_spell );
+        std::cout << "force learned " << sp->name << std::endl;
         p.add_msg_if_player( m_good, _( "You learned %s!" ), sp->name );
     } else {
         p.add_msg_if_player( m_bad, _( "You can't learn this spell." ) );
@@ -1321,6 +1323,7 @@ spell &known_magic::get_spell( const spell_id &sp )
         debugmsg( "ERROR: Tried to get unknown spell" );
     }
     spell &temp_spell = spellbook[ sp ];
+    std::cout << "get_spell() " << sp.str() << std::endl;
     return temp_spell;
 }
 

@@ -445,6 +445,9 @@ void npc::randomize( const npc_class_id &type )
             sp.gain_level();
         }
     }
+    for( const auto &elem : magic.spells() ) {
+        std::cout << "after teaching new NPC stuff " << elem.str() << std::endl;
+    }
 }
 
 void npc::randomize_from_faction( faction *fac )

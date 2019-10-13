@@ -1957,7 +1957,6 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         g->events().send<event_type::learns_martial_art>( p->getID(), ma_id );
         p->add_martialart( mastyle.id );
     }
-
     const spell_id &sp_id = spell_id( act->name );
     if( sp_id.is_valid() ) {
         const bool knows = g->u.magic.knows_spell( sp_id );
@@ -1968,8 +1967,14 @@ void activity_handlers::train_finish( player_activity *act, player *p )
             studying.gain_exp( xp );
         } else {
             p->magic.learn_spell( act->name, *p );
-            const spell &temp_spell = p->magic.get_spell( sp_id );
-            add_msg( m_good, _( "You learn %s." ), temp_spell.name() );
+            // you can decline to learn this spell , as it may lock you out of other magic.
+            if( p->magic.knows_spell( sp_id ) ) {
+                const spell &temp_spell = p->magic.get_spell( sp_id );
+                add_msg( m_good, _( "You learn %s." ), temp_spell.name() );
+            } else {
+                act->set_to_null();
+                return;
+            }
         }
     } else {
         debugmsg( "train_finish without a valid skill or style or spell name" );
