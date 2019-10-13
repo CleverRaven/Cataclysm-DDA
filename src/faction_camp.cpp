@@ -21,6 +21,7 @@
 #include "editmap.h"
 #include "game.h"
 #include "iexamine.h"
+#include "input.h"
 #include "item_group.h"
 #include "itype.h"
 #include "line.h"
@@ -388,7 +389,7 @@ std::vector<tripoint> om_companion_path( const tripoint &start, int range_start 
 time_duration companion_travel_time_calc( const tripoint &omt_pos, const tripoint &omt_tgt,
         time_duration work, int trips = 1, int haulage = 0 );
 time_duration companion_travel_time_calc( const std::vector<tripoint> &journey, time_duration work,
-        int trips = 1, int haulauge = 0 );
+        int trips = 1, int haulage = 0 );
 /// Determines how many round trips a given NPC @ref comp will take to move all of the
 /// items @ref itms
 int om_carry_weight_to_trips( const std::vector<item *> &itms, npc_ptr comp = nullptr );
@@ -749,6 +750,15 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                       "sorted using the normal rules for automatic zone "
                                       "sorting." ) );
             mission_key.add( "Reset Sort Points", _( "Reset Sort Points" ), entry );
+            validate_assignees();
+            std::vector<npc_ptr> npc_list = get_npcs_assigned();
+            entry = string_format( _( "Notes:\n"
+                                      "Assign repeating job duties to NPCs stationed here.\n"
+                                      "Difficulty: N/A \n"
+                                      "Effects:\n"
+                                      "\n\nRisk: None\n"
+                                      "Time: Ongoing" ) );
+            mission_key.add( "Assign Jobs", _( "Assign Jobs" ), entry );
         }
     }
 
@@ -775,7 +785,6 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                     cata::nullopt, entry, avail );
         }
     }
-
     if( has_provides( "sorting" ) ) {
         if( !by_radio ) {
             comp_list npc_list = get_mission_workers( "_faction_camp_menial" );
@@ -1335,6 +1344,10 @@ bool basecamp::handle_mission( const std::string &miss_id, const cata::optional<
         menial_return();
     }
 
+    if( miss_id == "Assign Jobs" ) {
+        job_assignment_ui();
+    }
+
     if( miss_id == "Cut Logs" ) {
         start_cut_logs();
     } else if( miss_id == "Recover Log Cutter" ) {
@@ -1556,6 +1569,103 @@ void basecamp::start_upgrade( const std::string &bldg, const point &dir,
     } else {
         popup( _( "You don't have the materials for the upgrade." ) );
     }
+}
+
+void basecamp::job_assignment_ui()
+{
+    int term_x = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+    int term_y = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
+
+    catacurses::window w_jobs = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                point( term_y, term_x ) );
+    const int entries_per_page = FULL_SCREEN_HEIGHT - 4;
+    size_t selection = 0;
+    input_context ctxt( "FACTION MANAGER" );
+    ctxt.register_cardinal();
+    ctxt.register_updown();
+    ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "QUIT" );
+    while( true ) {
+        werase( w_jobs );
+        // create a list of npcs stationed at this camp
+        std::vector<npc *> stationed_npcs;
+        for( const auto elem : get_npcs_assigned() ) {
+            if( elem ) {
+                stationed_npcs.push_back( elem.get() );
+            }
+        }
+        npc *cur_npc = nullptr;
+        // entries_per_page * page number
+        const size_t top_of_page = entries_per_page * ( selection / entries_per_page );
+        if( !stationed_npcs.empty() ) {
+            cur_npc = stationed_npcs[selection];
+        }
+
+        for( int i = 0; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
+            mvwputch( w_jobs, point( 45, i ), BORDER_COLOR, LINE_XOXO );
+        }
+        draw_border( w_jobs );
+        const nc_color col = c_white;
+        const std::string no_npcs = _( "There are no npcs stationed here" );
+        if( !stationed_npcs.empty() ) {
+            draw_scrollbar( w_jobs, selection, entries_per_page, stationed_npcs.size(),
+                            point( 0, 3 ) );
+            for( size_t i = top_of_page; i < stationed_npcs.size(); i++ ) {
+                const int y = i - top_of_page + 3;
+                trim_and_print( w_jobs, point( 1, y ), 43, selection == i ? hilite( col ) : col,
+                                stationed_npcs[i]->disp_name() );
+            }
+            if( selection < stationed_npcs.size() ) {
+                std::string job_description;
+                if( cur_npc && cur_npc->has_job() ) {
+                    // get the current NPCs job
+                    job_description = npc_job_name( cur_npc->get_job() );
+                } else {
+                    job_description = _( "No particular job" );
+                }
+                mvwprintz( w_jobs, point( 46, 3 ), c_light_gray, job_description );
+            } else {
+                mvwprintz( w_jobs, point( 46, 4 ), c_light_red, no_npcs );
+            }
+        } else {
+            mvwprintz( w_jobs, point( 46, 4 ), c_light_red, no_npcs );
+        }
+        mvwprintz( w_jobs, point( 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray,
+                   _( "Press %s to change this workers job." ), ctxt.get_desc( "CONFIRM" ) );
+        wrefresh( w_jobs );
+        const std::string action = ctxt.handle_input();
+        if( action == "DOWN" ) {
+            selection++;
+            if( selection >= stationed_npcs.size() ) {
+                selection = 0;
+            }
+        } else if( action == "UP" ) {
+            if( selection == 0 ) {
+                selection = stationed_npcs.empty() ? 0 : stationed_npcs.size() - 1;
+            } else {
+                selection--;
+            }
+        } else if( action == "CONFIRM" ) {
+            if( !stationed_npcs.empty() ) {
+                uilist smenu;
+                smenu.text = _( "Assign which job?" );
+                int count = 0;
+                for( const auto &entry : all_jobs() ) {
+                    smenu.addentry( count++, true, MENU_AUTOASSIGN, entry );
+                }
+
+                smenu.query();
+                if( smenu.ret >= 0 ) {
+                    cur_npc->set_job( static_cast<npc_job>( smenu.ret ) );
+                }
+            }
+        } else if( action == "QUIT" ) {
+            break;
+        }
+    }
+
+    g->refresh_all();
 }
 
 void basecamp::start_menial_labor()

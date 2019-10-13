@@ -2902,11 +2902,14 @@ void iexamine::keg( player &p, const tripoint &examp )
     const auto keg_name = g->m.name( examp );
     units::volume keg_cap = get_keg_capacity( examp );
 
+    const bool has_container_with_liquid = map_cursor( examp ).has_item_with( []( const item & it ) {
+        return !it.is_container_empty() && it.can_unload_liquid();
+    } );
     const bool liquid_present = map_cursor( examp ).has_item_with( []( const item & it ) {
         return it.made_of_from_type( LIQUID );
     } );
 
-    if( !liquid_present ) {
+    if( !liquid_present || has_container_with_liquid ) {
         add_msg( m_info, _( "It is empty." ) );
         // Get list of all drinks
         auto drinks_inv = p.items_with( []( const item & it ) {
@@ -4497,7 +4500,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         case BONESETTING: {
             int broken_limbs_count = 0;
             for( int i = 0; i < num_hp_parts; i++ ) {
-                const bool broken = patient.get_hp( static_cast<hp_part>( i ) ) <= 0;
+                const bool broken = patient.is_limb_broken( static_cast<hp_part>( i ) );
                 body_part part = player::hp_to_bp( static_cast<hp_part>( i ) );
                 effect &existing_effect = patient.get_effect( effect_mending, part );
                 // Skip part if not broken or already healed 50%

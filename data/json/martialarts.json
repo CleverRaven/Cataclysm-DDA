@@ -1145,6 +1145,38 @@
   },
   {
     "type": "martial_art",
+    "id": "style_snake",
+    "name": "Snake Kung Fu",
+    "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Perception determines your Accuracy, rather than Dexterity.  Standing still will increases your accuracy and damage of your next attack.",
+    "initiate": [ "You adopt a fluid stance, ready to strike like a snake.", "%s assumes a snake-like stance." ],
+    "learn_difficulty": 10,
+    "arm_block": 2,
+    "static_buffs": [
+      {
+        "id": "buff_snake_static",
+        "name": "Snake's Sight",
+        "description": "You are patient and know where to hit your opponent for the best results.\n\nPerception increases Accuracy instead of Dexterity.  Accuracy increased by 25%% of Perception but decreased by 25%% of Dexterity.",
+        "min_unarmed": 0,
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "hit", "per", 0.25 ], [ "hit", "dex", -0.25 ] ]
+      }
+    ],
+    "onpause_buffs": [
+      {
+        "id": "buff_snake_onpause",
+        "name": "Snake's Coil",
+        "description": "Every snake wait for the perfect moment to strike.  Aim as your opponents approve and attack their weakness without mercy!\n\n+1 Accuracy, gain armor penetration equal to 50%% of Perceptions.\nLasts 1 turn.  Stacks 3 times.",
+        "min_unarmed": 1,
+        "unarmed_allowed": true,
+        "buff_duration": 1,
+        "max_stacks": 3,
+        "flat_bonuses": [ [ "hit", 1.0 ], [ "arpen", "bash", "per", 0.5 ], [ "arpen", "cut", "per", 0.5 ], [ "arpen", "stab", "per", 0.5 ] ]
+      }
+    ],
+    "techniques": [ "tec_snake_rapid", "tec_snake_feint", "tec_snake_break", "tec_snake_precise" ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_tai_chi",
     "name": "Tai Chi",
     "description": "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
@@ -1257,26 +1289,6 @@
       }
     ],
     "techniques": [ "tec_tiger_grab" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_snake",
-    "name": "Snake Kung Fu",
-    "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Your Perception improves your damage.",
-    "initiate": [ "You adopt a fluid stance, ready to strike like a snake.", "%s assumes a snake-like stance." ],
-    "learn_difficulty": 10,
-    "arm_block": 99,
-    "leg_block": 99,
-    "static_buffs": [
-      {
-        "id": "snake_static",
-        "name": "Snake Sight",
-        "description": "Perception provides a bonus to damage.",
-        "unarmed_allowed": true,
-        "flat_bonuses": [ [ "damage", "bash", "per", 0.8 ] ]
-      }
-    ],
-    "techniques": [ "tec_snake_rapid", "tec_snake_feint", "tec_snake_break", "tec_snake_precise" ]
   },
   {
     "type": "martial_art",

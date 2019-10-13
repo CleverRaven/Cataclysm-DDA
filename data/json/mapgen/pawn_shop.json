@@ -289,7 +289,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "pawn_pf" ],
-    "weight": 1,
+    "weight": 50,
     "object": {
       "rows": [
         ".`''''`''''`''''`''''`..",
@@ -370,7 +370,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "pawn_pf_under" ],
-    "weight": 1,
     "object": {
       "rows": [
         "........................",
