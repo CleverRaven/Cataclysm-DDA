@@ -421,7 +421,7 @@
     "id": "bio_glowy",
     "type": "bionic",
     "name": "Glowy Thing",
-    "description": "You don't think that capacitor is *meant* to glow, but it does, and usually at bad times.  A malfunctioning bionic randomly turns on and off, causing you to glow and making you visible in the dark without improving how much you can see in the slighest.",
+    "description": "You don't think that capacitor is *meant* to glow, but it does, and usually at bad times.  A malfunctioning bionic randomly turns on and off, causing you to glow and making you visible in the dark without improving how much you can see in the slightest.",
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
