@@ -1321,6 +1321,38 @@
   },
   {
     "type": "technique",
+    "id": "tec_sojutsu_push",
+    "name": "Push",
+    "messages": [ "You push %s away", "<npcname> pushes %s away" ],
+    "min_melee": 1,
+    "melee_allowed": true,
+    "block_counter": true,
+    "crit_ok": true,
+    "knockback_dist": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_sojutsu_shove",
+    "name": "Shove",
+    "messages": [ "You shove %s back", "<npcname> shoves %s back" ],
+    "min_melee": 2,
+    "melee_allowed": true,
+    "knockback_dist": 1,
+    "mult_bonuses": [ [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_sojutsu_trip",
+    "name": "Trip",
+    "messages": [ "You deftly trip %s", "<npcname> deftly trips %s" ],
+    "min_melee": 3,
+    "melee_allowed": true,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ]
+  },
+  {
+    "type": "technique",
     "id": "tec_taichi_disarm",
     "name": "disarm",
     "min_unarmed": 3,
@@ -1419,39 +1451,6 @@
     "flat_bonuses": [ [ "arpen", "bash", 10 ], [ "arpen", "bash", "per", 1 ] ],
     "crit_tec": true,
     "messages": [ "You phase-strike %s", "<npcname> phase-strikes %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_sojutsu_push",
-    "name": "Push",
-    "min_melee": 1,
-    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ],
-    "melee_allowed": true,
-    "block_counter": true,
-    "crit_ok": true,
-    "knockback_dist": 1,
-    "messages": [ "You push %s away", "<npcname> pushes %s away" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_sojutsu_trip",
-    "name": "Trip",
-    "min_melee": 2,
-    "melee_allowed": true,
-    "down_dur": 2,
-    "messages": [ "You deftly trip %s", "<npcname> deftly trips %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_sojutsu_skewer",
-    "name": "Skewer",
-    "min_melee": 4,
-    "mult_bonuses": [ [ "damage", "bash", 0.0 ], [ "damage", "cut", 1.5 ], [ "damage", "stab", 1.5 ] ],
-    "melee_allowed": true,
-    "crit_tec": true,
-    "knockback_dist": 1,
-    "stun_dur": 2,
-    "messages": [ "You brutally skewer %s", "<npcname> brutally skewers %s" ]
   },
   {
     "type": "technique",
