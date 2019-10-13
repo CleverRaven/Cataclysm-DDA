@@ -226,5 +226,27 @@
       [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_tainted", 2 ] ],
       [ [ "needle_bone", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "shotcestus",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "mechanics",
+    "difficulty": 4,
+    "skills_required": [ [ "spellcraft", 4 ], [ "bashing", 2 ], [ "shotgun", 2 ], [ "unarmed", 2 ] ],
+    "time": "4 h 30 m",
+    "book_learn": [ [ "techno_basic", 4 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "CUT_FINE", "level": 1 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 1 }
+    ],
+    "byproducts": [ [ "splinter", 4 ] ],
+    "//": "Splinters from stock",
+    "components": [ [ [ "leather", 4 ] ], [ [ "pipe_double_shotgun", 1 ], [ "shotgun_d", 1 ] ], [ [ "scrap", 8 ] ] ]
   }
 ]
