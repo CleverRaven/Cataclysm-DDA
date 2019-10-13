@@ -125,12 +125,12 @@ static firing_statistics firing_test( const dispersion_sources &dispersion,
         // any thresholds we care about.  This is a mechanism to limit the number of samples
         // we have to accumulate before we declare that the true average is
         // either above or below the threshold.
-            const projectile_attack_aim aim = projectile_attack_roll( dispersion, range, 0.5 );
-            threshold_within_confidence_interval = false;
-            firing_stats.add( aim.missed_by < threshold.accuracy() );
-            if( firing_stats.n() < 100 ) {
-                threshold_within_confidence_interval = true;
-            }
+        const projectile_attack_aim aim = projectile_attack_roll( dispersion, range, 0.5 );
+        threshold_within_confidence_interval = false;
+        firing_stats.add( aim.missed_by < threshold.accuracy() );
+        if( firing_stats.n() < 100 ) {
+            threshold_within_confidence_interval = true;
+        }
         const double error = firing_stats.margin_of_error();
         const double avg = firing_stats.avg();
         if( avg + error > threshold.chance() && avg - error < threshold.chance() ) {
@@ -172,9 +172,10 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
 {
     {
         const dispersion_sources dispersion = get_dispersion( shooter, 0 );
-        std::vector<firing_statistics> minimum_stats = firing_test( dispersion, min_quickdraw_range, 
-                                                                    { Threshold( accuracy_grazing, 0.2 ),
-                                                                      Threshold( accuracy_standard, 0.1 ) } );
+        std::vector<firing_statistics> minimum_stats = firing_test( dispersion, min_quickdraw_range, {
+            Threshold( accuracy_grazing, 0.2 ),
+            Threshold( accuracy_standard, 0.1 )
+        } );
         INFO( dispersion );
         INFO( "Range: " << min_quickdraw_range );
         INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
@@ -188,7 +189,8 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
     }
     {
         const dispersion_sources dispersion = get_dispersion( shooter, 300 );
-        firing_statistics good_stats = firing_test( dispersion, min_good_range, Threshold( accuracy_goodhit, 0.5 ) );
+        firing_statistics good_stats = firing_test( dispersion, min_good_range, Threshold( accuracy_goodhit,
+                                       0.5 ) );
         INFO( dispersion );
         INFO( "Range: " << min_good_range );
         INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
@@ -199,7 +201,8 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
     }
     {
         const dispersion_sources dispersion = get_dispersion( shooter, 500 );
-        firing_statistics good_stats = firing_test( dispersion, max_good_range, Threshold( accuracy_goodhit, 0.1 ) );
+        firing_statistics good_stats = firing_test( dispersion, max_good_range, Threshold( accuracy_goodhit,
+                                       0.1 ) );
         INFO( dispersion );
         INFO( "Range: " << max_good_range );
         INFO( "Max aim speed: " << shooter.aim_per_move( shooter.weapon, MAX_RECOIL ) );
