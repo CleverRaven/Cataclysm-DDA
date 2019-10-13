@@ -1654,25 +1654,50 @@ void vehicle::use_bike_rack( int part )
     }
 
     // check if we're storing a vehicle on this rack
-    std::vector<int> carried_parts;
-    std::vector<int> carry_rack;
+    std::vector<std::vector<int>> carried_vehicles;
+    std::vector<std::vector<int>> carrying_racks;
     bool found_vehicle = false;
-    for( const auto &rack_parts : racks_parts ) {
-        for( auto rack_part : rack_parts ) {
+    bool full_rack = true;
+    for( const std::vector<int> &rack_parts : racks_parts ) {
+        std::vector<int> carried_parts;
+        std::vector<int> carry_rack;
+        size_t carry_size = 0;
+        std::string cur_vehicle;
+
+        const auto add_vehicle = []( std::vector<int> &carried_parts,
+                                     std::vector<std::vector<int>> &carried_vehicles,
+                                     std::vector<int> &carry_rack,
+        std::vector<std::vector<int>> &carrying_racks ) {
+            if( !carry_rack.empty() ) {
+                carrying_racks.emplace_back( carry_rack );
+                carried_vehicles.emplace_back( carried_parts );
+                carry_rack.clear();
+                carried_parts.clear();
+            }
+        };
+
+        for( const int &rack_part : rack_parts ) {
             // skip parts that aren't carrying anything
             if( !parts[ rack_part ].has_flag( vehicle_part::carrying_flag ) ) {
+                add_vehicle( carried_parts, carried_vehicles, carry_rack, carrying_racks );
+                cur_vehicle.clear();
                 continue;
             }
-            for( int i = 0; i < 4; i++ ) {
-                point near_loc = parts[ rack_part ].mount + vehicles::cardinal_d[ i ];
+            for( const point &mount_dir : vehicles::cardinal_d ) {
+                point near_loc = parts[ rack_part ].mount + mount_dir;
                 std::vector<int> near_parts = parts_at_relative( near_loc, true );
                 if( near_parts.empty() ) {
                     continue;
                 }
                 if( parts[ near_parts[ 0 ] ].has_flag( vehicle_part::carried_flag ) ) {
+                    carry_size += 1;
                     found_vehicle = true;
                     // found a carried vehicle part
-                    for( auto carried_part : near_parts ) {
+                    if( parts[ near_parts[ 0 ] ].carried_name() != cur_vehicle ) {
+                        add_vehicle( carried_parts, carried_vehicles, carry_rack, carrying_racks );
+                        cur_vehicle = parts[ near_parts[ 0 ] ].carried_name();
+                    }
+                    for( const int &carried_part : near_parts ) {
                         carried_parts.push_back( carried_part );
                     }
                     carry_rack.push_back( rack_part );
@@ -1681,15 +1706,27 @@ void vehicle::use_bike_rack( int part )
                 }
             }
         }
-        if( found_vehicle ) {
-            break;
-        }
+
+        add_vehicle( carried_parts, carried_vehicles, carry_rack, carrying_racks );
+        full_rack &= carry_size == rack_parts.size();
     }
+    int unload_carried = full_rack ? 0 : -1;
     bool success = false;
-    if( found_vehicle ) {
-        success = remove_carried_vehicle( carried_parts );
+    if( found_vehicle && !full_rack ) {
+        uilist rack_menu;
+        rack_menu.addentry( 0, true, '0', _( "Load a vehicle on the rack" ) );
+        for( size_t i = 0; i < carried_vehicles.size(); i++ ) {
+            rack_menu.addentry( i + 1, true, '1' + i,
+                                string_format( _( "Remove the %s from the rack" ),
+                                               parts[ carried_vehicles[i].front() ].carried_name() ) );
+        }
+        rack_menu.query();
+        unload_carried = rack_menu.ret - 1;
+    }
+    if( unload_carried > -1 ) {
+        success = remove_carried_vehicle( carried_vehicles[unload_carried] );
         if( success ) {
-            for( auto rack_part : carry_rack ) {
+            for( const int &rack_part : carrying_racks[unload_carried] ) {
                 parts[ rack_part ].remove_flag( vehicle_part::carrying_flag );
             }
         }

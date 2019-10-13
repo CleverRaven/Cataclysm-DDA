@@ -317,6 +317,8 @@ struct vehicle_part {
         /** Can a player or NPC use this part as a seat? */
         bool is_seat() const;
 
+        /* if this is a carried part, what is the name of the carried vehicle */
+        std::string carried_name() const;
         /*@}*/
 
     public:
