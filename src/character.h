@@ -19,6 +19,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "character_id.h"
+#include "character_mutations.h"
 #include "creature.h"
 #include "game_constants.h"
 #include "inventory.h"
@@ -461,22 +462,6 @@ class Character : public Creature, public visitable<Character>
         /** Returns the id of a random starting trait that costs < 0 points */
         trait_id random_bad_trait();
 
-        // In mutation.cpp
-        /** Returns true if the player has the entered trait */
-        bool has_trait( const trait_id &b ) const override;
-        /** Returns true if the player has the entered starting trait */
-        bool has_base_trait( const trait_id &b ) const;
-        /** Returns true if player has a trait with a flag */
-        bool has_trait_flag( const std::string &b ) const;
-        /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
-        trait_id trait_by_invlet( int ch ) const;
-
-        /** Toggles a trait on the player and in their mutation list */
-        void toggle_trait( const trait_id &flag );
-        /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
-        void set_mutation( const trait_id &flag );
-        void unset_mutation( const trait_id &flag );
-
         /** Converts a body_part to an hp_part */
         static hp_part bp_to_hp( body_part bp );
         /** Converts an hp_part to a body_part */
@@ -570,8 +555,6 @@ class Character : public Creature, public visitable<Character>
             position = p;
         }
     private:
-        /** Retrieves a stat mod of a mutation. */
-        int get_mod( const trait_id &mut, const std::string &arg ) const;
         /** Applies skill-based boosts to stats **/
         void apply_skill_boost();
     protected:
@@ -603,43 +586,6 @@ class Character : public Creature, public visitable<Character>
         // gets add and mult value from enchantment cache
         double calculate_by_enchantment( double modify, enchantment::mod value,
                                          bool round_output = false ) const;
-        /** Handles things like destruction of armor, etc. */
-        void mutation_effect( const trait_id &mut );
-        /** Handles what happens when you lose a mutation. */
-        void mutation_loss_effect( const trait_id &mut );
-
-        bool has_active_mutation( const trait_id &b ) const;
-        /** Picks a random valid mutation and gives it to the Character, possibly removing/changing others along the way */
-        void mutate();
-        /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
-        bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const;
-        /** Picks a random valid mutation in a category and mutate_towards() it */
-        void mutate_category( const std::string &mut_cat );
-        /** Mutates toward one of the given mutations, upgrading or removing conflicts if necessary */
-        bool mutate_towards( std::vector<trait_id> muts, int num_tries = INT_MAX );
-        /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
-        bool mutate_towards( const trait_id &mut );
-        /** Removes a mutation, downgrading to the previous level if possible */
-        void remove_mutation( const trait_id &mut, bool silent = false );
-        /** Returns true if the player has the entered mutation child flag */
-        bool has_child_flag( const trait_id &flag ) const;
-        /** Removes the mutation's child flag from the player's list */
-        void remove_child_flag( const trait_id &flag );
-        /** Recalculates mutation_category_level[] values for the player */
-        void set_highest_cat_level();
-        /** Returns the highest mutation category */
-        std::string get_highest_category() const;
-        /** Recalculates mutation drench protection for all bodyparts (ignored/good/neutral stats) */
-        void drench_mut_calc();
-        /** Recursively traverses the mutation's prerequisites and replacements, building up a map */
-        void build_mut_dependency_map( const trait_id &mut,
-                                       std::unordered_map<trait_id, int> &dependency_map, int distance );
-
-        /**
-        * Returns true if this category of mutation is allowed.
-        */
-        bool is_category_allowed( const std::vector<std::string> &category ) const;
-        bool is_category_allowed( const std::string &category ) const;
 
         bool is_weak_to_water() const;
 
@@ -647,14 +593,6 @@ class Character : public Creature, public visitable<Character>
         bool can_use_heal_item( const item &med ) const;
 
         bool can_install_cbm_on_bp( const std::vector<body_part> &bps ) const;
-
-        /**
-         * Returns resistances on a body part provided by mutations
-         */
-        // TODO: Cache this, it's kinda expensive to compute
-        resistances mutation_armor( body_part bp ) const;
-        float mutation_armor( body_part bp, damage_type dt ) const;
-        float mutation_armor( body_part bp, const damage_unit &du ) const;
 
         // --------------- Bionic Stuff ---------------
         std::vector<bionic_id> get_bionics() const;
@@ -1011,17 +949,6 @@ class Character : public Creature, public visitable<Character>
          */
         float healing_rate_medicine( float at_rest_quality, body_part bp ) const;
 
-        /**
-         * Goes over all mutations, gets min and max of a value with given name
-         * @return min( 0, lowest ) + max( 0, highest )
-         */
-        float mutation_value( const std::string &val ) const;
-
-        /**
-         * Goes over all mutations, returning the sum of the social modifiers
-         */
-        social_modifiers get_mutation_social_mods() const;
-
         /** Color's character's tile's background */
         nc_color symbol_color() const override;
 
@@ -1031,15 +958,9 @@ class Character : public Creature, public visitable<Character>
         void empty_skills();
         /** Returns a random name from NAMES_* */
         void pick_name( bool bUseDefault = false );
-        /** Get the idents of all base traits. */
-        std::vector<trait_id> get_base_traits() const;
-        /** Get the idents of all traits/mutations. */
-        std::vector<trait_id> get_mutations( bool include_hidden = true ) const;
         const std::bitset<NUM_VISION_MODES> &get_vision_modes() const {
             return vision_mode_cache;
         }
-        /** Empties the trait list */
-        void empty_traits();
         /**
          * Adds mandatory scenario and profession traits unless you already have them
          * And if you do already have them, refunds the points for the trait
@@ -1159,8 +1080,6 @@ class Character : public Creature, public visitable<Character>
         // the amount healed per bodypart per day
         std::array<int, num_hp_parts> healed_total;
 
-        std::map<std::string, int> mutation_category_level;
-
         void spores();
         void blossoms();
 
@@ -1201,24 +1120,15 @@ class Character : public Creature, public visitable<Character>
         double footwear_factor() const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
         bool is_wearing_shoes( const side &which_side = side::BOTH ) const;
+
+        character_mutations mutations;
+
+        void spores();
+        void blossoms();
     protected:
         Character();
         Character( Character && );
         Character &operator=( Character && );
-        struct trait_data {
-            /** Whether the mutation is activated. */
-            bool powered = false;
-            /** Key to select the mutation in the UI. */
-            char key = ' ';
-            /**
-             * Time (in turns) until the mutation increase hunger/thirst/fatigue according
-             * to its cost (@ref mutation_branch::cost). When those costs have been paid, this
-             * is reset to @ref mutation_branch::cooldown.
-             */
-            int charge = 0;
-            void serialize( JsonOut &json ) const;
-            void deserialize( JsonIn &jsin );
-        };
 
         // The player's position on the local map.
         tripoint position;
@@ -1241,22 +1151,6 @@ class Character : public Creature, public visitable<Character>
 
         std::array<encumbrance_data, num_bp> encumbrance_cache;
         mutable std::map<std::string, double> cached_info;
-
-        /**
-         * Traits / mutations of the character. Key is the mutation id (it's also a valid
-         * key into @ref mutation_data), the value describes the status of the mutation.
-         * If there is not entry for a mutation, the character does not have it. If the map
-         * contains the entry, the character has the mutation.
-         */
-        std::unordered_map<trait_id, trait_data> my_mutations;
-        /**
-         * Contains mutation ids of the base traits.
-         */
-        std::unordered_set<trait_id> my_traits;
-        /**
-         * Pointers to mutation branches in @ref my_mutations.
-         */
-        std::vector<const mutation_branch *> cached_mutations;
 
         void store( JsonOut &json ) const;
         void load( JsonObject &data );

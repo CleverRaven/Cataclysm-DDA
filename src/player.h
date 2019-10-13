@@ -201,8 +201,6 @@ class player : public Character
         /** Returns what color the player should be drawn as */
         nc_color basic_symbol_color() const override;
 
-        /** Returns an enumeration of visible mutations with colors */
-        std::string visible_mutations( int visibility_cap ) const;
         std::vector<std::string> short_description_parts() const;
         std::string short_description() const;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
@@ -266,22 +264,6 @@ class player : public Character
         /** Returns if the player has hibernation mutation and is asleep and well fed */
         bool is_hibernating() const;
 
-        /** Returns true if the player has a conflicting trait to the entered trait
-         *  Uses has_opposite_trait(), has_lower_trait(), and has_higher_trait() to determine conflicts.
-         */
-        bool has_conflicting_trait( const trait_id &flag ) const;
-        /** Returns true if the player has a trait which cancels the entered trait */
-        bool has_opposite_trait( const trait_id &flag ) const;
-        /** Returns true if the player has a trait which upgrades into the entered trait */
-        bool has_lower_trait( const trait_id &flag ) const;
-        /** Returns true if the player has a trait which is an upgrade of the entered trait */
-        bool has_higher_trait( const trait_id &flag ) const;
-        /** Returns true if the player has a trait that shares a type with the entered trait */
-        bool has_same_type_trait( const trait_id &flag ) const;
-        /** Returns true if the entered trait may be purified away
-         *  Defaults to true
-         */
-        bool purifiable( const trait_id &flag ) const;
         /** Returns a dream's description selected randomly from the player's highest mutation category */
         std::string get_category_dream( const std::string &cat, int strength ) const;
 
@@ -338,7 +320,6 @@ class player : public Character
         bool has_enough_anesth( const itype *cbm, player &patient );
         /** Generates and handles the UI for player interaction with installed bionics */
         void power_bionics();
-        void power_mutations();
         /** Handles bionic activation effects of the entered bionic, returns if anything activated */
         bool activate_bionic( int b, bool eff_only = false );
         /** Handles bionic deactivation effects of the entered bionic, returns if anything deactivated */
@@ -624,8 +605,6 @@ class player : public Character
         /** Performs special attacks and their effects (poisonous, stinger, etc.) */
         void perform_special_attacks( Creature &t );
 
-        /** Returns a vector of valid mutation attacks */
-        std::vector<special_attack> mutation_attacks( Creature &t ) const;
         /** Handles combat effects, returns a string of any valid combat effect messages */
         std::string melee_special_effects( Creature &t, damage_instance &d, item &weap );
         /** Returns Creature::get_dodge_base modified by the player's skill level */
@@ -1611,10 +1590,6 @@ class player : public Character
         static int floor_item_warmth( const tripoint &pos );
         /** Final warmth from the floor **/
         int floor_warmth( const tripoint &pos ) const;
-        /** Correction factor of the body temperature due to traits and mutations **/
-        int bodytemp_modifier_traits( bool overheated ) const;
-        /** Correction factor of the body temperature due to traits and mutations for player lying on the floor **/
-        int bodytemp_modifier_traits_floor() const;
         /** Value of the body temperature corrected by climate control **/
         int temp_corrected_by_climate_control( int temperature ) const;
         /** Define blood loss (in percents) */

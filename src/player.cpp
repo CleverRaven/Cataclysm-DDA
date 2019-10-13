@@ -1391,7 +1391,7 @@ int player::floor_warmth( const tripoint &pos ) const
     return ( item_warmth + bedding_warmth + floor_mut_warmth );
 }
 
-int player::bodytemp_modifier_traits( bool overheated ) const
+int character_mutations::bodytemp_modifier_traits( bool overheated ) const
 {
     int mod = 0;
     for( auto &iter : my_mutations ) {
@@ -1401,7 +1401,7 @@ int player::bodytemp_modifier_traits( bool overheated ) const
     return mod;
 }
 
-int player::bodytemp_modifier_traits_floor() const
+int character_mutations::bodytemp_modifier_traits_floor() const
 {
     int mod = 0;
     for( auto &iter : my_mutations ) {
@@ -1960,13 +1960,13 @@ time_duration player::estimate_effect_dur( const skill_id &relevant_skill,
     return estimate;
 }
 
-bool player::has_conflicting_trait( const trait_id &flag ) const
+bool character_mutations::has_conflicting_trait( const trait_id &flag ) const
 {
     return ( has_opposite_trait( flag ) || has_lower_trait( flag ) || has_higher_trait( flag ) ||
              has_same_type_trait( flag ) );
 }
 
-bool player::has_opposite_trait( const trait_id &flag ) const
+bool character_mutations::has_opposite_trait( const trait_id &flag ) const
 {
     for( auto &i : flag->cancels ) {
         if( has_trait( i ) ) {
@@ -1976,7 +1976,7 @@ bool player::has_opposite_trait( const trait_id &flag ) const
     return false;
 }
 
-bool player::has_lower_trait( const trait_id &flag ) const
+bool character_mutations::has_lower_trait( const trait_id &flag ) const
 {
     for( auto &i : flag->prereqs ) {
         if( has_trait( i ) || has_lower_trait( i ) ) {
@@ -1986,7 +1986,7 @@ bool player::has_lower_trait( const trait_id &flag ) const
     return false;
 }
 
-bool player::has_higher_trait( const trait_id &flag ) const
+bool character_mutations::has_higher_trait( const trait_id &flag ) const
 {
     for( auto &i : flag->replacements ) {
         if( has_trait( i ) || has_higher_trait( i ) ) {
@@ -1996,7 +1996,7 @@ bool player::has_higher_trait( const trait_id &flag ) const
     return false;
 }
 
-bool player::has_same_type_trait( const trait_id &flag ) const
+bool character_mutations::has_same_type_trait( const trait_id &flag ) const
 {
     for( auto &i : get_mutations_in_types( flag->types ) ) {
         if( has_trait( i ) && flag != i ) {
@@ -2006,7 +2006,17 @@ bool player::has_same_type_trait( const trait_id &flag ) const
     return false;
 }
 
-bool player::purifiable( const trait_id &flag ) const
+bool character_mutations::crossed_threshold() const
+{
+    for( auto &mut : my_mutations ) {
+        if( mut.first->threshold ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool character_mutations::purifiable( const trait_id &flag ) const
 {
     return flag->purifiable;
 }
@@ -10376,7 +10386,7 @@ float player::hearing_ability() const
     return volume_multiplier;
 }
 
-std::string player::visible_mutations( const int visibility_cap ) const
+std::string character_mutations::visible_mutations( const int visibility_cap ) const
 {
     const std::string trait_str = enumerate_as_string( my_mutations.begin(), my_mutations.end(),
     [visibility_cap ]( const std::pair<trait_id, trait_data> &pr ) -> std::string {

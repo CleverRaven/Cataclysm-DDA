@@ -2484,12 +2484,12 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
     } while( true );
 }
 
-std::vector<trait_id> Character::get_base_traits() const
+std::vector<trait_id> character_mutations::get_base_traits() const
 {
     return std::vector<trait_id>( my_traits.begin(), my_traits.end() );
 }
 
-std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
+std::vector<trait_id> character_mutations::get_mutations( bool include_hidden ) const
 {
     std::vector<trait_id> result;
     for( auto &t : my_mutations ) {
@@ -2500,7 +2500,7 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
     return result;
 }
 
-void Character::empty_traits()
+void character_mutations::empty_traits()
 {
     for( auto &mut : my_mutations ) {
         on_mutation_loss( mut.first );

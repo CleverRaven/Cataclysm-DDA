@@ -9,6 +9,7 @@
 #include "event_bus.h"
 #include "field.h"
 #include "game.h"
+#include "character_mutations.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
@@ -77,12 +78,12 @@ std::string enum_to_string<mutagen_technique>( mutagen_technique data )
 
 } // namespace io
 
-bool Character::has_trait( const trait_id &b ) const
+bool character_mutations::has_trait( const trait_id &b ) const
 {
     return my_mutations.count( b ) > 0;
 }
 
-bool Character::has_trait_flag( const std::string &b ) const
+bool character_mutations::has_trait_flag( const std::string &b ) const
 {
     // UGLY, SLOW, should be cached as my_mutation_flags or something
     for( const auto &mut : my_mutations ) {
@@ -95,13 +96,13 @@ bool Character::has_trait_flag( const std::string &b ) const
     return false;
 }
 
-bool Character::has_base_trait( const trait_id &b ) const
+bool character_mutations::has_base_trait( const trait_id &b ) const
 {
     // Look only at base traits
     return my_traits.find( b ) != my_traits.end();
 }
 
-void Character::toggle_trait( const trait_id &flag )
+void character_mutations::toggle_trait( const trait_id &flag )
 {
     const auto titer = my_traits.find( flag );
     if( titer == my_traits.end() ) {
@@ -119,7 +120,7 @@ void Character::toggle_trait( const trait_id &flag )
     }
 }
 
-void Character::set_mutation( const trait_id &flag )
+void character_mutations::set_mutation( const trait_id &flag )
 {
     const auto iter = my_mutations.find( flag );
     if( iter == my_mutations.end() ) {
@@ -132,7 +133,7 @@ void Character::set_mutation( const trait_id &flag )
     reset_encumbrance();
 }
 
-void Character::unset_mutation( const trait_id &flag )
+void character_mutations::unset_mutation( const trait_id &flag )
 {
     const auto iter = my_mutations.find( flag );
     if( iter != my_mutations.end() ) {
@@ -147,7 +148,7 @@ void Character::unset_mutation( const trait_id &flag )
     reset_encumbrance();
 }
 
-int Character::get_mod( const trait_id &mut, const std::string &arg ) const
+int character_mutations::get_mod( const trait_id &mut, const std::string &arg ) const
 {
     auto &mod_data = mut->mods;
     int ret = 0;
@@ -198,7 +199,7 @@ const resistances &mutation_branch::damage_resistance( body_part bp ) const
     return iter->second;
 }
 
-void Character::mutation_effect( const trait_id &mut )
+void character_mutations::mutation_effect( const trait_id &mut )
 {
     if( mut == "GLASSJAW" ) {
         recalc_hp();
@@ -270,7 +271,7 @@ void Character::mutation_effect( const trait_id &mut )
     on_mutation_gain( mut );
 }
 
-void Character::mutation_loss_effect( const trait_id &mut )
+void character_mutations::mutation_loss_effect( const trait_id &mut )
 {
     if( mut == "GLASSJAW" ) {
         recalc_hp();
@@ -312,13 +313,13 @@ void Character::mutation_loss_effect( const trait_id &mut )
     on_mutation_loss( mut );
 }
 
-bool Character::has_active_mutation( const trait_id &b ) const
+bool character_mutations::has_active_mutation( const trait_id &b ) const
 {
     const auto iter = my_mutations.find( b );
     return iter != my_mutations.end() && iter->second.powered;
 }
 
-bool Character::is_category_allowed( const std::vector<std::string> &category ) const
+bool character_mutations::is_category_allowed( const std::vector<std::string> &category ) const
 {
     bool allowed = false;
     bool restricted = false;
@@ -341,7 +342,7 @@ bool Character::is_category_allowed( const std::vector<std::string> &category ) 
 
 }
 
-bool Character::is_category_allowed( const std::string &category ) const
+bool character_mutations::is_category_allowed( const std::string &category ) const
 {
     bool allowed = false;
     bool restricted = false;
@@ -577,7 +578,7 @@ void player::deactivate_mutation( const trait_id &mut )
     recalc_sight_limits();
 }
 
-trait_id Character::trait_by_invlet( const int ch ) const
+trait_id character_mutations::trait_by_invlet( const int ch ) const
 {
     for( auto &mut : my_mutations ) {
         if( mut.second.key == ch ) {
@@ -587,7 +588,8 @@ trait_id Character::trait_by_invlet( const int ch ) const
     return trait_id::NULL_ID();
 }
 
-bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const
+bool character_mutations::mutation_ok( const trait_id &mutation, bool force_good,
+                                       bool force_bad ) const
 {
     if( !is_category_allowed( mutation->category ) ) {
         return false;
@@ -613,7 +615,7 @@ bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool for
     return true;
 }
 
-void Character::mutate()
+void character_mutations::mutate()
 {
     bool force_bad = one_in( 3 );
     bool force_good = false;
@@ -770,7 +772,7 @@ void Character::mutate()
     }
 }
 
-void Character::mutate_category( const std::string &cat )
+void character_mutations::mutate_category( const std::string &cat )
 {
     // Hacky ID comparison is better than separate hardcoded branch used before
     // TODO: Turn it into the null id
@@ -819,7 +821,7 @@ static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
     return ret;
 }
 
-bool Character::mutate_towards( std::vector<trait_id> muts, int num_tries )
+bool character_mutations::mutate_towards( std::vector<trait_id> muts, int num_tries )
 {
     while( !muts.empty() && num_tries > 0 ) {
         int i = rng( 0, muts.size() - 1 );
@@ -835,7 +837,7 @@ bool Character::mutate_towards( std::vector<trait_id> muts, int num_tries )
     return false;
 }
 
-bool Character::mutate_towards( const trait_id &mut )
+bool character_mutations::mutate_towards( const trait_id &mut )
 {
     if( has_child_flag( mut ) ) {
         remove_child_flag( mut );
@@ -1067,7 +1069,7 @@ bool Character::mutate_towards( const trait_id &mut )
     return true;
 }
 
-void Character::remove_mutation( const trait_id &mut, bool silent )
+void character_mutations::remove_mutation( const trait_id &mut, bool silent )
 {
     const auto &mdata = mut.obj();
     // Check if there's a prerequisite we should shrink back into
@@ -1219,7 +1221,7 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
     drench_mut_calc();
 }
 
-bool Character::has_child_flag( const trait_id &flag ) const
+bool character_mutations::has_child_flag( const trait_id &flag ) const
 {
     for( const trait_id &elem : flag->replacements ) {
         const trait_id &tmp = elem;
@@ -1230,7 +1232,7 @@ bool Character::has_child_flag( const trait_id &flag ) const
     return false;
 }
 
-void Character::remove_child_flag( const trait_id &flag )
+void character_mutations::remove_child_flag( const trait_id &flag )
 {
     for( auto &elem : flag->replacements ) {
         const trait_id &tmp = elem;
