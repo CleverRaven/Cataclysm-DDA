@@ -10,7 +10,7 @@
     "time": "2 m 36 s",
     "book_learn": [ [ "techno_basic", 4 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "filter_liquid", 1 ], [ "muffler", 1 ] ], [ [ "pipe", 1 ] ], [ [ "scrap", 2 ] ], [ [ "wisp_dust", 1 ] ] ]
+    "components": [ [ [ "filter_liquid", 1 ], [ "muffler", 1 ] ], [ [ "pipe", 1 ] ], [ [ "scrap", 2 ] ], [ [ "glow_dust", 1 ] ] ]
   },
   {
     "type": "recipe",
