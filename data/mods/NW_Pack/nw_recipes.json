@@ -67,7 +67,7 @@
     "using": [ [ "forging_standard", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "warhammer", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "silver_small", 2 ] ], [ [ "rebar", 1 ] ], [ [ "glowing_metal_lump", 2 ] ] ]
+    "components": [ [ [ "warhammer", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "silver_small", 2 ] ], [ [ "rebar", 1 ] ], [ [ "orichalcum_lump", 2 ] ] ]
   },
    {
     "type": "recipe",
@@ -81,7 +81,7 @@
     "using": [ [ "forging_standard", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "spear_steel", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "silver_small", 2 ] ], [ [ "glowing_metal_lump", 2 ] ] ]
+    "components": [ [ [ "spear_steel", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "silver_small", 2 ] ], [ [ "orichalcum_lump", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -95,7 +95,7 @@
     "using": [ [ "forging_standard", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "jian", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "glowing_metal_lump", 2 ] ] ]
+    "components": [ [ [ "jian", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "orichalcum_lump", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -109,7 +109,7 @@
     "using": [ [ "forging_standard", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "reflexrecurvebow", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "glowing_metal_lump", 1 ] ] ]
+    "components": [ [ [ "reflexrecurvebow", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "orichalcum_lump", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -123,6 +123,6 @@
     "using": [ [ "forging_standard", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "i_staff", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "glowing_metal_lump", 1 ] ] ]
+    "components": [ [ [ "i_staff", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "orichalcum_lump", 1 ] ] ]
   }
 ]

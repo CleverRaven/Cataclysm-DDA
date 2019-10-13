@@ -1075,8 +1075,8 @@
   },
   {
     "type": "material",
-    "ident": "glowing_metal",
-    "name": "Glowing Metal",
+    "ident": "orichalcum_metal",
+    "name": "Orichalcum",
     "density": 30,
     "bash_resist": 6,
     "specific_heat_liquid": 0.82,
@@ -1092,7 +1092,7 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "burn_products": [ [ "scrap", 1 ] ],
-    "compact_into": [ "glowing_metal_lump", "glowing_metal_sliver" ]
+    "compact_into": [ "orichalcum_lump", "orichalcum_sliver" ]
   },
   {
     "type": "material",

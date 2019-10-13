@@ -123,10 +123,10 @@
     "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
   },
   {
-    "id": "glowing_metal_standard",
+    "id": "orichalcum_metal_standard",
     "type": "requirement",
     "//": "Materials for use when forging items from glowing metal",
-    "components": [ [ [ "glowing_metal_lump", 1 ], [ "glowing_metal_sliver", 2 ] ] ]
+    "components": [ [ [ "orichalcum_lump", 1 ], [ "orichalcum_sliver", 2 ] ] ]
   },
   {
     "id": "waterproofing",
