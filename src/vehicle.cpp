@@ -4267,26 +4267,14 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
         base_burn = std::max( eff_load / 3, base_burn );
         //charge bionics when using muscle engine
         const item muscle( "muscle" );
-        if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-            if( one_in( 1000 / load ) ) { // more pedaling = more power
-                g->u.mod_power_level( 1_kJ );
-            }
-            mod += eff_load / 5;
-        }
-        if( g->u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-            if( one_in( 1000 / load ) && one_in( 20 ) ) { // intentional double chance check
-                g->u.mod_power_level( 1_kJ );
-            }
-            mod += eff_load / 10;
-        }
         for( const bionic_id &bid : g->u.get_bionic_fueled_with( muscle ) ) {
-            if( g->u.has_active_bionic( bid ) ) {
+            if( g->u.has_active_bionic( bid ) ) { // active power gen
                 if( one_in( 1000 / load ) ) { // more pedaling = more power
                     g->u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
                 }
                 mod += eff_load / 5;
             }
-            if( one_in( 1000 / load ) && one_in( 20 ) ) { // intentional double chance check
+            if( one_in( 1000 / load ) && one_in( 20 ) ) { // passive power gen
                 g->u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
             }
             mod += eff_load / 10;

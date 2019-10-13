@@ -9923,9 +9923,6 @@ void game::on_move_effects()
     if( !u.is_mounted() ) {
         const item muscle( "muscle" );
         if( one_in( 8 ) ) {// active power gen
-            if( u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-                u.mod_power_level( 1_kJ );
-            }
             for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
                 if( u.has_active_bionic( bid ) ) {
                     u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
@@ -9933,9 +9930,6 @@ void game::on_move_effects()
             }
         }
         if( one_in( 160 ) ) {//  passive power gen
-            if( u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-                u.mod_power_level( 1_kJ );
-            }
             for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
                 if( u.has_bionic( bid ) ) {
                     u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
