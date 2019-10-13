@@ -166,7 +166,6 @@
     "type": "GENERIC",
     "id": "mtoken_crowbar",
     "name": "crowbar token",
-    "name_plural": "crowbar tokens",
     "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a crowbar.",
     "use_action": {
       "type": "transform",
