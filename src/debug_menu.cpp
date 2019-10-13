@@ -1290,9 +1290,40 @@ void debug()
 
         // Damage Self
         case DEBUG_DAMAGE_SELF: {
+            uilist smenu;
+            smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), u.hp_cur[hp_torso] );
+            smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), u.hp_cur[hp_head] );
+            smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), u.hp_cur[hp_arm_l] );
+            smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), u.hp_cur[hp_arm_r] );
+            smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), u.hp_cur[hp_leg_l] );
+            smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), u.hp_cur[hp_leg_r] );
+            smenu.query();
+            body_part part;
             int dbg_damage;
-            if( query_int( dbg_damage, _( "Damage self for how much? hp: %d" ), u.hp_cur[hp_torso] ) ) {
-                u.hp_cur[hp_torso] -= dbg_damage;
+            switch( smenu.ret ) {
+                case 0:
+                    part = bp_torso;
+                    break;
+                case 1:
+                    part = bp_head;
+                    break;
+                case 2:
+                    part = bp_arm_l;
+                    break;
+                case 3:
+                    part = bp_arm_r;
+                    break;
+                case 4:
+                    part = bp_leg_l;
+                    break;
+                case 5:
+                    part = bp_leg_r;
+                    break;
+                default:
+                    break;
+            }
+            if( query_int( dbg_damage, _( "Damage self for how much? hp: %d" ), part ) ) {
+                u.apply_damage( nullptr, part, dbg_damage );
                 u.die( nullptr );
             }
         }
