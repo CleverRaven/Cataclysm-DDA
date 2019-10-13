@@ -125,7 +125,11 @@ std::string item_comp::to_string( const int batch, const int avail ) const
     const int c = std::abs( count ) * batch;
     const auto type_ptr = item::find_type( type );
     if( type_ptr->count_by_charges() ) {
-        if( avail > 0 ) {
+        if (avail == INT32_MAX) {
+            return string_format( npgettext( "requirement", "%2$d %1$s of infinite", "%2$d %1$s of infinite", c ),
+                                  type_ptr->nname( c ), c );
+        }
+        else if( avail > 0 ) {
             //~ %1$s: item name, %2$d: charge requirement, %3%d: available charges
             return string_format( npgettext( "requirement", "%1$s (%2$d of %3$d)", "%1$s (%2$d of %3$d)", c ),
                                   type_ptr->nname( 1 ), c, avail );
@@ -135,9 +139,13 @@ std::string item_comp::to_string( const int batch, const int avail ) const
                                   type_ptr->nname( 1 ), c );
         }
     } else {
-        if( avail > 0 ) {
+        if (avail == INT32_MAX) {
+            return string_format( npgettext( "requirement", "%2$d %1$s of infinite", "%2$d %1$s of infinite", c ),
+                                  type_ptr->nname( c ), c );
+        }
+        else if( avail > 0 ) {
             //~ %1$s: item name, %2$d: required count, %3%d: available count
-            return string_format( npgettext( "requirement", "%2$d %1$s of %3$d", "%2$d %1$s of %3$d", c ),
+            return string_format( npgettext( "requirement", "%2$d %1$s of %3$d", "%2$d %1$s you know it of %3$d", c ),
                                   type_ptr->nname( c ), c, avail );
         } else {
             //~ %1$s: item name, %2$d: required count
