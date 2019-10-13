@@ -24,7 +24,7 @@
     "name": "A Beginner's Guide to Alchemy",
     "description": "A paperback tome for the art of liquid magic, alcohol not included.",
     "weight": 1000,
-    "volume": 3,
+    "volume": "750 ml",
     "price": 7900,
     "bashing": 5,
     "material": [ "paper" ],
@@ -43,7 +43,7 @@
     "name": "A Soulbinder's Guide to Necromancy",
     "description": "A paperback tome for the art of binding undead creatures' souls to dolls, along with emulating their healing factor.",
     "weight": 1000,
-    "volume": 3,
+    "volume": "750 ml",
     "price": 7900,
     "bashing": 5,
     "material": [ "paper" ],
@@ -56,5 +56,25 @@
     "intelligence": 9,
     "time": "20 m",
     "fun": -2
+  },
+  {
+    "id": "techno_basic",
+    "type": "BOOK",
+    "name": "Magitek Illustrated",
+    "description": "A paperback tome for the art of combining modern technology with magic. There is a disclaimer for mechanically unusual designs on the back.",
+    "weight": "1 kg",
+    "volume": "750 ml",
+    "price": 7900,
+    "bashing": 5,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "black",
+    "looks_like": "manual_gun",
+    "skill": "mechanics",
+    "required_level": 3,
+    "max_level": 5,
+    "intelligence": 9,
+    "time": "20 m",
+    "fun": 1
   }
 ]
