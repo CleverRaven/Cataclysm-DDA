@@ -4525,11 +4525,8 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
 
     // We need extra thread to lose it on bad rolls
     const int thread_needed = mod.volume() / 125_ml + 10;
-    // Returns true if the item already has the mod or if we have enough materials and thread to add it
-    const auto can_add_mod = [&]( const std::string & new_mod, const itype_id & mat_item ) {
-        return mod.item_tags.count( new_mod ) > 0 ||
-               ( it.charges >= thread_needed && has_enough[mat_item] );
-    };
+
+    const auto valid_mods = mod.find_armor_data()->valid_mods;
 
     const auto get_compare_color = [&]( const int before, const int after,
     const bool higher_is_better ) {
@@ -4548,24 +4545,41 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     };
 
     uilist tmenu;
-    // TODO: Tell how much thread will we use
-    if( it.charges >= thread_needed ) {
-        tmenu.text = _( "How do you want to modify it?" );
-    } else {
-        tmenu.text = _( "Not enough thread to modify. Which modification do you want to remove?" );
-    }
+    tmenu.text = _( "How do you want to modify it?" );
 
     int index = 0;
     for( auto cm : clothing_mods ) {
         auto obj = cm.obj();
         item temp_item = modded_copy( mod, obj.flag );
         temp_item.update_clothing_mod_val();
-        bool enab = can_add_mod( obj.flag, obj.item_string );
+
+        bool enab = false;
         std::string prompt;
         if( mod.item_tags.count( obj.flag ) == 0 ) {
-            prompt = string_format( "%s (%d %s)", obj.implement_prompt, items_needed,
-                                    item::nname( obj.item_string, items_needed ) );
+            // Mod not already present, check if modification is possible
+            if( it.charges < thread_needed ) {
+                prompt = string_format( "Can't %s (need %d thread loaded)", obj.implement_prompt, thread_needed );
+                prompt[6] = std::tolower( prompt[6] );
+            } else if( !has_enough[obj.item_string] ) {
+                prompt = string_format( "Can't %s (need %d %s)", obj.implement_prompt, items_needed,
+                                        item::nname( obj.item_string, items_needed ) );
+                prompt[6] = std::tolower( prompt[6] );
+            } else if( obj.restricted &&
+                       std::find( valid_mods.begin(), valid_mods.end(), obj.flag ) == valid_mods.end() ) {
+                prompt = string_format( "Can't %s (incompatible with %s)",
+                                        obj.implement_prompt, mod.tname( 1, false ) );
+                prompt[6] = std::tolower( prompt[6] );
+            } else {
+                // Modification is possible
+                enab = true;
+                prompt = string_format( "%s (%d %s and %d thread)", obj.implement_prompt, items_needed,
+                                        item::nname( obj.item_string, items_needed ), thread_needed );
+                prompt[0] = std::toupper( prompt[0] );
+            }
+
         } else {
+            // Mod already present, give option to destroy
+            enab = true;
             prompt = obj.destroy_prompt;
         }
         std::ostringstream desc;
