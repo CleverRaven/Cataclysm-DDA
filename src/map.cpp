@@ -3814,9 +3814,21 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         return;
     }
 
+    // Make sure the message is sensible for the ammo effects. Lasers aren't projectiles.
+    std::string damage_message;
+    if( ammo_effects.count( "LASER" ) ) {
+        damage_message = _( "laser beam" );
+    } else if( ammo_effects.count( "LIGHTNING" ) ) {
+        damage_message = _( "bolt of electricity" );
+    } else if( ammo_effects.count( "PLASMA" ) ) {
+        damage_message = _( "bolt of plasma" );
+    } else {
+        damage_message = _( "flying projectile" );
+    }
+
     // Now, smash items on that tile.
     // dam / 3, because bullets aren't all that good at destroying items...
-    smash_items( p, dam / 3, _( "flying projectile" ) );
+    smash_items( p, dam / 3, damage_message );
 }
 
 bool map::hit_with_acid( const tripoint &p )
