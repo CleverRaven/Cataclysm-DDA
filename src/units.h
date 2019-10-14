@@ -488,6 +488,20 @@ inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag
     return o << v.value() << tag_type{};
 }
 
+inline const std::string display( const units::energy v )
+{
+    const int kj = units::to_kilojoule( v );
+    const int j = units::to_joule( v );
+    if( kj >= 1 && float( j ) / kj == 1000 ) { // at least 1 kJ and there is no fraction
+        return string_format( "%d kJ", kj );
+    }
+    const int mj = units::to_millijoule( v );
+    if( j >= 1 && float( mj ) / j  == 1000 ) { // at least 1 J and there is no fraction
+        return string_format( "%d J", j );
+    }
+    return string_format( "%d mJ", mj );
+}
+
 } // namespace units
 
 // Implicitly converted to volume, which has int as value_type!
