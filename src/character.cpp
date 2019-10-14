@@ -4684,6 +4684,16 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
     }
 }
 
+bool Character::crossed_threshold() const
+{
+    for( const std::pair<trait_id, Character::trait_data> &mut : my_mutations ) {
+        if( mut.first->threshold ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void Character::spores()
 {
     fungal_effects fe( *g, g->m );
