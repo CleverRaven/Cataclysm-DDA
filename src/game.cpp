@@ -10161,6 +10161,11 @@ void game::vertical_move( int movez, bool force )
             }
         }
     }
+
+    if( !u.move_effects( false ) ) {
+        return;
+    }
+
     // Check if there are monsters are using the stairs.
     bool slippedpast = false;
     if( !m.has_zlevels() && !coming_to_stairs.empty() && !force ) {
