@@ -2,7 +2,7 @@
   {
     "id": "black_dragons",
     "type": "BOOK",
-    "name": "Black Dragons: Swamp Ruins",
+    "name": { "str": "Black Dragons: Swamp Ruins", "str_pl": "copies of Black Dragons: Swamp Ruins" },
     "description": "This book details black dragons: The most evil of dragons, who live in ruins generally in swamps.  Immune to acid and breathe acid.  The book also details how to prepare its hide and craft various armors that make use of some of its acid resistance.",
     "weight": "1 kg",
     "volume": "750 ml",
@@ -21,7 +21,7 @@
   {
     "id": "alchemy_basic",
     "type": "BOOK",
-    "name": "A Beginner's Guide to Alchemy",
+    "name": { "str": "A Beginner's Guide to Alchemy", "str_pl": "copies of A Beginner's Guide to Alchemy" },
     "description": "A paperback tome for the art of liquid magic, alcohol not included.",
     "weight": "1 kg",
     "volume": "750 ml",
@@ -40,7 +40,7 @@
   {
     "id": "necro_basic",
     "type": "BOOK",
-    "name": "A Soulbinder's Guide to Necromancy",
+    "name": { "str": "A Soulbinder's Guide to Necromancy", "str_pl": "copies of A Soulbinder's Guide to Necromancy" },
     "description": "A paperback tome for the art of binding undead creatures' souls to dolls, along with emulating their healing factor.",
     "weight": "1 kg",
     "volume": "750 ml",
@@ -60,8 +60,8 @@
   {
     "id": "techno_basic",
     "type": "BOOK",
-    "name": "Magitek Illustrated",
-    "description": "A paperback tome for the art of combining modern technology with magic. There is a disclaimer for mechanically unusual designs on the back.",
+    "name": { "str": "Magitek Illustrated", "str_pl": "copies of Magitek Illustrated" },
+    "description": "A paperback tome for the art of combining modern technology with magic.  There is a disclaimer for mechanically unusual designs on the back.",
     "weight": "1 kg",
     "volume": "750 ml",
     "price": 7900,
