@@ -162,6 +162,8 @@ class avatar : public player
         int kill_xp() const;
 
         faction *get_faction() const override;
+        // Set in npc::talk_to_you for use in further NPC interactions
+        bool dialogue_by_radio = false;
 
     private:
         map_memory player_map_memory;

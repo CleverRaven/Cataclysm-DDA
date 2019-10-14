@@ -598,10 +598,7 @@ void talk_function::basecamp_mission( npc &p )
         return;
     }
     basecamp *bcp = *temp_camp;
-    bool by_radio = false;
-    if( rl_dist( g->u.global_omt_location(), omt_pos ) > 2 ) {
-        by_radio = true;
-    }
+    bool by_radio = g->u.dialogue_by_radio;
     if( bcp->get_dumping_spot() == tripoint_zero ) {
         auto &mgr = zone_manager::get_manager();
         if( g->m.check_vehicle_zones( g->get_levz() ) ) {
@@ -620,6 +617,7 @@ void talk_function::basecamp_mission( npc &p )
         }
         bcp->set_dumping_spot( g->m.getabs( src_loc ) );
     }
+    by_radio = g->u.dialogue_by_radio;
     bcp->get_available_missions( mission_key, by_radio );
     if( display_and_choose_opts( mission_key, omt_pos, base_camps::id, title ) ) {
         bcp->handle_mission( mission_key.cur_key.id, mission_key.cur_key.dir, by_radio );
@@ -642,60 +640,20 @@ void basecamp::add_available_recipes( mission_data &mission_key, const point &di
     }
 }
 
-void basecamp::get_available_missions( mission_data &mission_key, bool by_radio )
+void basecamp::get_available_missions_by_dir( mission_data &mission_key,
+        cata::optional<point> input_dir )
 {
     std::string entry;
-
-    const point &base_dir = base_camps::base_dir;
-    const std::string base_dir_id = base_camps::all_directions.at( base_dir ).id;
-    const std::string base_dir_abbr = base_camps::all_directions
-                                      .at( base_dir ).bracket_abbr.translated();
-    reset_camp_resources( by_radio );
     std::string gather_bldg = "null";
 
-    // return legacy workers
-    comp_list npc_list = get_mission_workers( "_faction_upgrade_camp" );
-    if( !npc_list.empty() ) {
-        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_upgrade_camp" ];
-        entry = miss_info.action.translated();
-        bool avail = update_time_left( entry, npc_list );
-        mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
-                                cata::nullopt, entry, avail );
-    }
+    const point &base_dir = base_camps::base_dir;
+    const point dir = !input_dir ? base_camps::direction_from_id( base_camps::all_directions.at(
+                          base_dir ).id ) : *input_dir;
+    const std::string dir_id = base_camps::all_directions.at( dir ).id;
+    const std::string dir_abbr = base_camps::all_directions.at( dir ).bracket_abbr.translated();
+    const tripoint omt_trg = omt_pos + dir;
 
-    for( const basecamp_upgrade &upgrade : available_upgrades( base_dir ) ) {
-        gather_bldg = upgrade.bldg;
-        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_upgrade_camp" ];
-        comp_list npc_list = get_mission_workers( upgrade.bldg + "_faction_upgrade_camp" );
-        if( npc_list.empty() && !upgrade.in_progress ) {
-            entry = om_upgrade_description( upgrade.bldg );
-            mission_key.add_start( miss_info.miss_id + upgrade.bldg,
-                                   miss_info.desc + " " + upgrade.name, cata::nullopt, entry, upgrade.avail );
-        } else if( !npc_list.empty() && upgrade.in_progress ) {
-            entry = miss_info.action.translated();
-            bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_info.ret_miss_id + upgrade.bldg,
-                                    miss_info.ret_desc + " " + upgrade.name, cata::nullopt, entry, avail );
-        }
-    }
-
-    // this used to be optional, but now it isn't.  Keep it at the same scope
-    {
-        comp_list npc_list = get_mission_workers( "_faction_camp_crafting_" + base_dir_id );
-        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_crafting_" ];
-        //This handles all crafting by the base, regardless of level
-        if( npc_list.empty() ) {
-            std::map<recipe_id, translation> craft_recipes = recipe_deck( base_dir );
-            add_available_recipes( mission_key, base_dir, craft_recipes );
-        } else {
-            entry = miss_info.action.translated();
-            bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( base_dir_id + miss_info.ret_miss_id,
-                                    base_dir_abbr + miss_info.ret_desc, base_dir, entry, avail );
-        }
-    }
-
-    if( has_provides( "gathering" ) ) {
+    if( has_provides( "gathering", dir ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_gathering" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_gathering" ];
         entry = string_format( _( "Notes:\n"
@@ -709,60 +667,16 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                   "Time: 3 Hours, Repeated\n"
                                   "Positions: %d/3\n" ), gathering_description( gather_bldg ),
                                npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), dir,
                                entry, npc_list.size() < 3 );
         if( !npc_list.empty() ) {
             entry = miss_info.action.translated();
             bool avail = update_time_fixed( entry, npc_list, 3_hours );
             mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
-                                    cata::nullopt, entry, avail );
-        }
-        if( !by_radio ) {
-            entry = string_format( _( "Notes:\n"
-                                      "Distribute food to your follower and fill you larders.  "
-                                      "Place the food you wish to distribute in the camp food "
-                                      "zone.  You must have a camp food zone, an unsorted loot "
-                                      "zone, and at least one loot destination zone or you will "
-                                      "be prompted to create them using the zone manager.\n"
-                                      "Effects:\n"
-                                      "> Increases your faction's food supply value which in "
-                                      "turn is used to pay laborers for their time\n\n"
-                                      "Must have enjoyability >= -6\n"
-                                      "Perishable food liquidated at penalty depending on "
-                                      "upgrades and rot time:\n"
-                                      "> Rotten: 0%%\n"
-                                      "> Rots in < 2 days: 60%%\n"
-                                      "> Rots in < 5 days: 80%%\n\n"
-                                      "Total faction food stock: %d kcal\nor %d day's rations" ),
-                                   camp_food_supply(), camp_food_supply( 0, true ) );
-            mission_key.add( "Distribute Food", _( "Distribute Food" ), entry );
-
-            entry = string_format( _( "Notes:\n"
-                                      "Reset the zones that items are sorted to using the "
-                                      "[ Menial Labor ] mission.\n\n"
-                                      "Effects:\n"
-                                      "> Assign sort zones using the zone manager.  You must "
-                                      "have a camp food zone, an unsorted loot zone, and at "
-                                      "least one loot destination zone.\n"
-                                      "> Only items that are in the unsorted loot zone and not "
-                                      "in any other zone will be sorted.\n"
-                                      "Items that do not have a loot destination zone will be "
-                                      "sorted using the normal rules for automatic zone "
-                                      "sorting." ) );
-            mission_key.add( "Reset Sort Points", _( "Reset Sort Points" ), entry );
-            validate_assignees();
-            std::vector<npc_ptr> npc_list = get_npcs_assigned();
-            entry = string_format( _( "Notes:\n"
-                                      "Assign repeating job duties to NPCs stationed here.\n"
-                                      "Difficulty: N/A\n"
-                                      "Effects:\n"
-                                      "\n\nRisk: None\n"
-                                      "Time: Ongoing" ) );
-            mission_key.add( "Assign Jobs", _( "Assign Jobs" ), entry );
+                                    dir, entry, avail );
         }
     }
-
-    if( has_provides( "firewood" ) ) {
+    if( has_provides( "firewood", dir ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_firewood" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_firewood" ];
         entry = string_format( _( "Notes:\n"
@@ -785,32 +699,490 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                     cata::nullopt, entry, avail );
         }
     }
-    if( has_provides( "sorting" ) ) {
-        if( !by_radio ) {
-            comp_list npc_list = get_mission_workers( "_faction_camp_menial" );
-            const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_menial" ];
-            entry = string_format( _( "Notes:\n"
-                                      "Send a companion to do low level chores and sort "
-                                      "supplies.\n\n"
-                                      "Skill used: fabrication\n"
-                                      "Difficulty: N/A\n"
-                                      "Effects:\n"
-                                      "> Material left in the unsorted loot zone will be sorted "
-                                      "into a defined loot zone."
-                                      "\n\nRisk: None\n"
-                                      "Time: 3 Hours\n"
-                                      "Positions: %d/1\n" ), npc_list.size() );
-            mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
-                                   entry, npc_list.empty() );
-            if( !npc_list.empty() ) {
-                entry = miss_info.action.translated();
-                bool avail = update_time_left( entry, npc_list );
-                mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
-                                        cata::nullopt, entry, avail );
-            }
+    if( has_provides( "sorting", dir ) ) {
+        comp_list npc_list = get_mission_workers( "_faction_camp_menial" );
+        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_menial" ];
+        entry = string_format( _( "Notes:\n"
+                                  "Send a companion to do low level chores and sort "
+                                  "supplies.\n\n"
+                                  "Skill used: fabrication\n"
+                                  "Difficulty: N/A\n"
+                                  "Effects:\n"
+                                  "> Material left in the unsorted loot zone will be sorted "
+                                  "into a defined loot zone."
+                                  "\n\nRisk: None\n"
+                                  "Time: 3 Hours\n"
+                                  "Positions: %d/1\n" ), npc_list.size() );
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+                               entry, npc_list.empty() );
+        if( !npc_list.empty() ) {
+            entry = miss_info.action.translated();
+            bool avail = update_time_left( entry, npc_list );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    cata::nullopt, entry, avail );
         }
     }
 
+    if( has_provides( "logging", dir ) ) {
+        comp_list npc_list = get_mission_workers( "_faction_camp_cut_log" );
+        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_cut_log" ];
+        entry = string_format( _( "Notes:\n"
+                                  "Send a companion to a nearby forest to cut logs.\n\n"
+                                  "Skill used: fabrication\n"
+                                  "Difficulty: 1\n"
+                                  "Effects:\n"
+                                  "> 50%% of trees/trunks at the forest position will be "
+                                  "cut down.\n"
+                                  "> 100%% of total material will be brought back.\n"
+                                  "> Repeatable with diminishing returns.\n"
+                                  "> Will eventually turn forests into fields.\n"
+                                  "Risk: None\n"
+                                  "Time: 6 Hour Base + Travel Time + Cutting Time\n"
+                                  "Positions: %d/1\n" ), npc_list.size() );
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+                               entry, npc_list.empty() );
+        if( !npc_list.empty() ) {
+            entry = miss_info.action.translated();
+            bool avail = update_time_left( entry, npc_list );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    cata::nullopt, entry, avail );
+        }
+    }
+
+    if( has_provides( "logging", dir ) ) {
+        comp_list npc_list = get_mission_workers( "_faction_camp_clearcut" );
+        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_clearcut" ];
+        entry = string_format( _( "Notes:\n"
+                                  "Send a companion to a clear a nearby forest.\n\n"
+                                  "Skill used: fabrication\n"
+                                  "Difficulty: 1\n"
+                                  "Effects:\n"
+                                  "> 95%% of trees/trunks at the forest position"
+                                  " will be cut down.\n"
+                                  "> 0%% of total material will be brought back.\n"
+                                  "> Forest should become a field tile.\n"
+                                  "> Useful for clearing land for another faction camp.\n\n"
+                                  "Risk: None\n"
+                                  "Time: 6 Hour Base + Travel Time + Cutting Time\n"
+                                  "Positions: %d/1\n" ), npc_list.size() );
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+                               entry, npc_list.empty() );
+        if( !npc_list.empty() ) {
+            entry = miss_info.action.translated();
+            bool avail = update_time_left( entry, npc_list );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    cata::nullopt, entry, avail );
+        }
+    }
+
+    if( has_provides( "relaying", dir ) ) {
+        comp_list npc_list = get_mission_workers( "_faction_camp_hide_site" );
+        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_hide_site" ];
+        entry = string_format( _( "Notes:\n"
+                                  "Send a companion to build an improvised shelter and stock it "
+                                  "with equipment at a distant map location.\n\n"
+                                  "Skill used: survival\n"
+                                  "Difficulty: 3\n"
+                                  "Effects:\n"
+                                  "> Good for setting up resupply or contingency points.\n"
+                                  "> Gear is left unattended and could be stolen.\n"
+                                  "> Time dependent on weight of equipment being sent forward.\n\n"
+                                  "Risk: Medium\n"
+                                  "Time: 6 Hour Construction + Travel\n"
+                                  "Positions: %d/1\n" ), npc_list.size() );
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+                               entry, npc_list.empty() );
+        if( !npc_list.empty() ) {
+            entry = miss_info.action.translated();
+            bool avail = update_time_left( entry, npc_list );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    cata::nullopt, entry, avail );
+        }
+    }
+
+    if( has_provides( "relaying", dir ) ) {
+        comp_list npc_list = get_mission_workers( "_faction_camp_hide_trans" );
+        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_hide_trans" ];
+        entry = string_format( _( "Notes:\n"
+                                  "Push gear out to a hide site or bring gear back from one.\n\n"
+                                  "Skill used: survival\n"
+                                  "Difficulty: 1\n"
+                                  "Effects:\n"
+                                  "> Good for returning equipment you left in the hide site "
+                                  "shelter.\n"
+                                  "> Gear is left unattended and could be stolen.\n"
+                                  "> Time dependent on weight of equipment being sent forward or "
+                                  "back.\n\n"
+                                  "Risk: Medium\n"
+                                  "Time: 1 Hour Base + Travel\n"
+                                  "Positions: %d/1\n" ), npc_list.size() );
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt, entry,
+                               npc_list.empty() );
+        if( !npc_list.empty() ) {
+            entry = miss_info.action.translated();
+            bool avail = update_time_left( entry, npc_list );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    cata::nullopt, entry, avail );
+        }
+    }
+
+    if( has_provides( "foraging", dir ) ) {
+        comp_list npc_list = get_mission_workers( "_faction_camp_foraging" );
+        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_foraging" ];
+        entry = string_format( _( "Notes:\n"
+                                  "Send a companion to forage for edible plants.\n\n"
+                                  "Skill used: survival\n"
+                                  "Difficulty: N/A\n"
+                                  "Foraging Possibilities:\n"
+                                  "> wild vegetables\n"
+                                  "> fruits and nuts depending on season\n"
+                                  "May produce less food than consumed!\n"
+                                  "Risk: Very Low\n"
+                                  "Time: 4 Hours, Repeated\n"
+                                  "Positions: %d/3\n" ), npc_list.size() );
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), dir,
+                               entry, npc_list.size() < 3 );
+        if( !npc_list.empty() ) {
+            entry = miss_info.action.translated();
+            bool avail = update_time_fixed( entry, npc_list, 4_hours );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    dir, entry, avail );
+        }
+    }
+
+    if( has_provides( "trapping", dir ) ) {
+        comp_list npc_list = get_mission_workers( "_faction_camp_trapping" );
+        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_trapping" ];
+        entry = string_format( _( "Notes:\n"
+                                  "Send a companion to set traps for small game.\n\n"
+                                  "Skill used: trapping\n"
+                                  "Difficulty: N/A\n"
+                                  "Trapping Possibilities:\n"
+                                  "> small and tiny animal corpses\n"
+                                  "May produce less food than consumed!\n"
+                                  "Risk: Low\n"
+                                  "Time: 6 Hours, Repeated\n"
+                                  "Positions: %d/2\n" ), npc_list.size() );
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), dir,
+                               entry, npc_list.size() < 2 );
+        if( !npc_list.empty() ) {
+            entry = miss_info.action.translated();
+            bool avail = update_time_fixed( entry, npc_list, 6_hours );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    dir, entry, avail );
+        }
+    }
+
+    if( has_provides( "hunting", dir ) ) {
+        comp_list npc_list = get_mission_workers( "_faction_camp_hunting" );
+        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_hunting" ];
+        entry = string_format( _( "Notes:\n"
+                                  "Send a companion to hunt large animals.\n\n"
+                                  "Skill used: marksmanship\n"
+                                  "Difficulty: N/A\n"
+                                  "Hunting Possibilities:\n"
+                                  "> small, medium, or large animal corpses\n"
+                                  "May produce less food than consumed!\n"
+                                  "Risk: Medium\n"
+                                  "Time: 6 Hours, Repeated\n"
+                                  "Positions: %d/1\n" ), npc_list.size() );
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), dir,
+                               entry, npc_list.empty() );
+        if( !npc_list.empty() ) {
+            entry = miss_info.action.translated();
+            bool avail = update_time_fixed( entry, npc_list, 6_hours );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    dir, entry, avail );
+        }
+    }
+
+    if( has_provides( "walls", dir ) ) {
+        comp_list npc_list = get_mission_workers( "_faction_camp_om_fortifications" );
+        const base_camps::miss_data &miss_info =
+            base_camps::miss_info[ "_faction_camp_om_fortifications" ];
+        entry = om_upgrade_description( "faction_wall_level_N_0" );
+        mission_key.add_start( "Construct Map Fort", _( "Construct Map Fortifications" ),
+                               dir, entry, npc_list.empty() );
+        entry = om_upgrade_description( "faction_wall_level_N_1" );
+        mission_key.add_start( "Construct Trench", _( "Construct Spiked Trench" ), dir, entry,
+                               npc_list.empty() );
+        if( !npc_list.empty() ) {
+            entry = miss_info.action.translated();
+            bool avail = update_time_left( entry, npc_list );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    cata::nullopt, entry, avail );
+        }
+    }
+
+    if( has_provides( "recruiting", dir ) ) {
+        comp_list npc_list = get_mission_workers( "_faction_camp_recruit_0" );
+        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_recruit_0" ];
+        entry = recruit_description( npc_list.size() );
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), dir, entry,
+                               npc_list.empty() );
+        if( !npc_list.empty() ) {
+            entry = miss_info.action.translated();
+            bool avail = update_time_left( entry, npc_list );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    cata::nullopt, entry, avail );
+        }
+    }
+
+    if( has_provides( "scouting", dir ) ) {
+        comp_list npc_list = get_mission_workers( "_faction_camp_scout_0" );
+        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_scout_0" ];
+        entry = string_format( _( "Notes:\n"
+                                  "Send a companion out into the great unknown.  High survival "
+                                  "skills are needed to avoid combat but you should expect an "
+                                  "encounter or two.\n\n"
+                                  "Skill used: survival\n"
+                                  "Difficulty: 3\n"
+                                  "Effects:\n"
+                                  "> Select checkpoints to customize path.\n"
+                                  "> Reveals terrain around the path.\n"
+                                  "> Can bounce off hide sites to extend range.\n\n"
+                                  "Risk: High\n"
+                                  "Time: Travel\n"
+                                  "Positions: %d/3\n" ), npc_list.size() );
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), dir,
+                               entry, npc_list.size() < 3 );
+        if( !npc_list.empty() ) {
+            entry = miss_info.action.translated();
+            bool avail = update_time_left( entry, npc_list );
+            mission_key.add_return( miss_info.ret_miss_id,  miss_info.ret_desc.translated(),
+                                    cata::nullopt, entry, avail );
+        }
+    }
+
+    if( has_provides( "patrolling", dir ) ) {
+        comp_list npc_list = get_mission_workers( "_faction_camp_combat_0" );
+        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_combat_0" ];
+        entry = string_format( _( "Notes:\n"
+                                  "Send a companion to purge the wasteland.  Their goal is to "
+                                  "kill anything hostile they encounter and return when "
+                                  "their wounds are too great or the odds are stacked against "
+                                  "them.\n\n"
+                                  "Skill used: survival\n"
+                                  "Difficulty: 4\n"
+                                  "Effects:\n"
+                                  "> Pulls creatures encountered into combat instead of "
+                                  "fleeing.\n"
+                                  "> Select checkpoints to customize path.\n"
+                                  "> Can bounce off hide sites to extend range.\n\n"
+                                  "Risk: Very High\n"
+                                  "Time: Travel\n"
+                                  "Positions: %d/3\n" ), npc_list.size() );
+        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
+                               entry, npc_list.size() < 3 );
+        if( !npc_list.empty() ) {
+            entry = miss_info.action.translated();
+            bool avail = update_time_left( entry, npc_list );
+            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                    cata::nullopt, entry, avail );
+        }
+    }
+
+    if( has_provides( "dismantling", dir ) ) {
+        comp_list npc_list = get_mission_workers( "_faction_exp_chop_shop_" + dir_id );
+        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_exp_chop_shop_" ];
+        entry = _( "Notes:\n"
+                   "Have a companion attempt to completely dissemble a vehicle into "
+                   "components.\n\n"
+                   "Skill used: mechanics\n"
+                   "Difficulty: 2 \n"
+                   "Effects:\n"
+                   "> Removed parts placed on the furniture in the garage.\n"
+                   "> Skill plays a huge role to determine what is salvaged.\n\n"
+                   "Risk: None\n"
+                   "Time: 5 days \n" );
+        mission_key.add_start( dir_id + miss_info.miss_id, dir_abbr + miss_info.desc, dir, entry,
+                               npc_list.empty() );
+        if( !npc_list.empty() ) {
+            entry = miss_info.action.translated();
+            bool avail = update_time_left( entry, npc_list );
+            mission_key.add_return( dir_id + miss_info.ret_miss_id,
+                                    dir_abbr + miss_info.ret_desc, dir, entry, avail );
+        }
+    }
+
+    std::map<recipe_id, translation> craft_recipes = recipe_deck( dir );
+    if( has_provides( "kitchen", dir ) ) {
+        comp_list npc_list = get_mission_workers( "_faction_exp_kitchen_cooking_" + dir_id );
+        const base_camps::miss_data &miss_info =
+            base_camps::miss_info[ "_faction_exp_kitchen_cooking_" ];
+        if( npc_list.empty() ) {
+            add_available_recipes( mission_key, dir, craft_recipes );
+        } else {
+            entry = miss_info.action.translated();
+            bool avail = update_time_left( entry, npc_list );
+            mission_key.add_return( dir_id + miss_info.ret_miss_id,
+                                    dir_abbr + miss_info.ret_desc, dir, entry, avail );
+        }
+    }
+
+    if( has_provides( "blacksmith", dir ) ) {
+        comp_list npc_list = get_mission_workers( "_faction_exp_blacksmith_crafting_" + dir_id );
+        const base_camps::miss_data &miss_info =
+            base_camps::miss_info[ "_faction_exp_blacksmith_crafting_" ];
+        if( npc_list.empty() ) {
+            add_available_recipes( mission_key, dir, craft_recipes );
+        } else {
+            entry = miss_info.action.translated();
+            bool avail = update_time_left( entry, npc_list );
+            mission_key.add_return( dir_id + miss_info.ret_miss_id,
+                                    dir_abbr + miss_info.ret_desc, dir, entry, avail );
+        }
+    }
+
+    if( has_provides( "farming", dir ) ) {
+        size_t plots = 0;
+        comp_list npc_list = get_mission_workers( "_faction_exp_plow_" + dir_id );
+        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_exp_plow_" ];
+        if( npc_list.empty() ) {
+            entry = _( "Notes:\n"
+                       "Plow any spaces that have reverted to dirt or grass.\n\n" ) +
+                    farm_description( omt_trg, plots, farm_ops::plow ) +
+                    _( "\n\n"
+                       "Skill used: fabrication\n"
+                       "Difficulty: N/A \n"
+                       "Effects:\n"
+                       "> Restores only the plots created in the last expansion upgrade.\n"
+                       "> Does not damage existing crops.\n\n"
+                       "Risk: None\n"
+                       "Time: 5 Min / Plot \n"
+                       "Positions: 0/1 \n" );
+            mission_key.add_start( dir_id + miss_info.miss_id, dir_abbr + miss_info.desc, dir,
+                                   entry, plots > 0 );
+        } else {
+            entry = miss_info.action.translated();
+            bool avail = update_time_left( entry, npc_list );
+            mission_key.add_return( dir_id + miss_info.ret_miss_id,
+                                    dir_abbr + miss_info.ret_desc, dir, entry, avail );
+        }
+    }
+    if( has_provides( "farming", dir ) ) {
+        size_t plots = 0;
+        comp_list npc_list = get_mission_workers( "_faction_exp_plant_" + dir_id );
+        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_exp_plant_" ];
+        if( npc_list.empty() ) {
+            entry = _( "Notes:\n"
+                       "Plant designated seeds in the spaces that have already been "
+                       "tilled.\n\n" ) +
+                    farm_description( omt_trg, plots, farm_ops::plant ) +
+                    _( "\n\n"
+                       "Skill used: survival\n"
+                       "Difficulty: N/A \n"
+                       "Effects:\n"
+                       "> Choose which seed type or all of your seeds.\n"
+                       "> Stops when out of seeds or planting locations.\n"
+                       "> Will plant in ALL dirt mounds in the expansion.\n\n"
+                       "Risk: None\n"
+                       "Time: 1 Min / Plot \n"
+                       "Positions: 0/1 \n" );
+            mission_key.add_start( dir_id + miss_info.miss_id,
+                                   dir_abbr + miss_info.desc, dir, entry,
+                                   plots > 0 && warm_enough_to_plant( omt_trg ) );
+        } else {
+            entry = miss_info.action.translated();
+            bool avail = update_time_left( entry, npc_list );
+            mission_key.add_return( dir_id + miss_info.ret_miss_id,
+                                    dir_abbr + miss_info.ret_desc, dir, entry, avail );
+        }
+    }
+    if( has_provides( "farming", dir ) ) {
+        size_t plots = 0;
+        comp_list npc_list = get_mission_workers( "_faction_exp_harvest_" + dir_id );
+        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_exp_harvest_" ];
+        if( npc_list.empty() ) {
+            entry = _( "Notes:\n"
+                       "Harvest any plants that are ripe and bring the produce back.\n\n" ) +
+                    farm_description( omt_trg, plots, farm_ops::harvest ) +
+                    _( "\n\n"
+                       "Skill used: survival\n"
+                       "Difficulty: N/A \n"
+                       "Effects:\n"
+                       "> Will dump all harvesting products onto your location.\n\n"
+                       "Risk: None\n"
+                       "Time: 3 Min / Plot \n"
+                       "Positions: 0/1 \n" );
+            mission_key.add_start( dir_id + miss_info.miss_id,
+                                   dir_abbr + miss_info.desc, dir, entry,
+                                   plots > 0 );
+        } else {
+            entry = miss_info.action.translated();
+            bool avail = update_time_left( entry, npc_list );
+            mission_key.add_return( dir_id + miss_info.ret_miss_id,
+                                    dir_abbr + miss_info.ret_desc, dir, entry, avail );
+        }
+    }
+
+    if( has_provides( "reseeding", dir ) ) {
+        comp_list npc_list = get_mission_workers( "_faction_exp_farm_crafting_" + dir_id );
+        const base_camps::miss_data &miss_info =
+            base_camps::miss_info[ "_faction_exp_farm_crafting_" ];
+        if( npc_list.empty() ) {
+            add_available_recipes( mission_key, dir, craft_recipes );
+        } else {
+            entry = miss_info.action.translated();
+            bool avail = update_time_left( entry, npc_list );
+            mission_key.add_return( dir_id + miss_info.ret_miss_id,
+                                    dir_abbr + miss_info.ret_desc, dir, entry, avail );
+        }
+    }
+}
+
+void basecamp::get_available_missions( mission_data &mission_key, bool by_radio )
+{
+    std::string entry;
+
+    const point &base_dir = base_camps::base_dir;
+    const std::string base_dir_id = base_camps::all_directions.at( base_dir ).id;
+    const std::string base_dir_abbr = base_camps::all_directions
+                                      .at( base_dir ).bracket_abbr.translated();
+    reset_camp_resources( by_radio );
+    std::string gather_bldg = "null";
+
+    // Handling for the central tile
+    // return legacy workers
+    comp_list legacy_npc_list = get_mission_workers( "_faction_upgrade_camp" );
+    if( !legacy_npc_list.empty() ) {
+        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_upgrade_camp" ];
+        entry = miss_info.action.translated();
+        bool avail = update_time_left( entry, legacy_npc_list );
+        mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
+                                cata::nullopt, entry, avail );
+    }
+    for( const basecamp_upgrade &upgrade : available_upgrades( base_dir ) ) {
+        gather_bldg = upgrade.bldg;
+        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_upgrade_camp" ];
+        comp_list npc_list = get_mission_workers( upgrade.bldg + "_faction_upgrade_camp" );
+        if( npc_list.empty() && !upgrade.in_progress ) {
+            entry = om_upgrade_description( upgrade.bldg );
+            mission_key.add_start( miss_info.miss_id + upgrade.bldg,
+                                   miss_info.desc + " " + upgrade.name, cata::nullopt, entry,
+                                   upgrade.avail );
+        } else if( !npc_list.empty() && upgrade.in_progress ) {
+            entry = miss_info.action.translated();
+            bool avail = update_time_left( entry, npc_list );
+            mission_key.add_return( miss_info.ret_miss_id + upgrade.bldg,
+                                    miss_info.ret_desc + " " + upgrade.name, cata::nullopt, entry,
+                                    avail );
+        }
+    }
+
+    comp_list npc_list = get_mission_workers( "_faction_camp_crafting_" + base_dir_id );
+    const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_crafting_" ];
+    //This handles all crafting by the base, regardless of level
+    if( npc_list.empty() ) {
+        std::map<recipe_id, translation> craft_recipes = recipe_deck( base_dir );
+        add_available_recipes( mission_key, base_dir, craft_recipes );
+    } else {
+        entry = miss_info.action.translated();
+        bool avail = update_time_left( entry, npc_list );
+        mission_key.add_return( base_dir_id + miss_info.ret_miss_id,
+                                base_dir_abbr + miss_info.ret_desc, base_dir, entry, avail );
+    }
+    // Missions that belong exclusively to the central tile
     if( can_expand() ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_expansion" );
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_expansion" ];
@@ -842,267 +1214,54 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         }
     }
 
-    if( has_provides( "logging" ) ) {
-        comp_list npc_list = get_mission_workers( "_faction_camp_cut_log" );
-        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_cut_log" ];
+    if( !by_radio ) {
         entry = string_format( _( "Notes:\n"
-                                  "Send a companion to a nearby forest to cut logs.\n\n"
-                                  "Skill used: fabrication\n"
-                                  "Difficulty: 1\n"
+                                  "Distribute food to your follower and fill you larders.  "
+                                  "Place the food you wish to distribute in the camp food "
+                                  "zone.  You must have a camp food zone, an unsorted loot "
+                                  "zone, and at least one loot destination zone or you will "
+                                  "be prompted to create them using the zone manager.\n"
                                   "Effects:\n"
-                                  "> 50%% of trees/trunks at the forest position will be "
-                                  "cut down.\n"
-                                  "> 100%% of total material will be brought back.\n"
-                                  "> Repeatable with diminishing returns.\n"
-                                  "> Will eventually turn forests into fields.\n"
-                                  "Risk: None\n"
-                                  "Time: 6 Hour Base + Travel Time + Cutting Time\n"
-                                  "Positions: %d/1\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
-                               entry, npc_list.empty() );
-        if( !npc_list.empty() ) {
-            entry = miss_info.action.translated();
-            bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
-                                    cata::nullopt, entry, avail );
-        }
-    }
+                                  "> Increases your faction's food supply value which in "
+                                  "turn is used to pay laborers for their time\n\n"
+                                  "Must have enjoyability >= -6\n"
+                                  "Perishable food liquidated at penalty depending on "
+                                  "upgrades and rot time:\n"
+                                  "> Rotten: 0%%\n"
+                                  "> Rots in < 2 days: 60%%\n"
+                                  "> Rots in < 5 days: 80%%\n\n"
+                                  "Total faction food stock: %d kcal\nor %d day's rations" ),
+                               camp_food_supply(), camp_food_supply( 0, true ) );
+        mission_key.add( "Distribute Food", _( "Distribute Food" ), entry );
 
-    if( has_provides( "logging" ) ) {
-        comp_list npc_list = get_mission_workers( "_faction_camp_clearcut" );
-        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_clearcut" ];
         entry = string_format( _( "Notes:\n"
-                                  "Send a companion to a clear a nearby forest.\n\n"
-                                  "Skill used: fabrication\n"
-                                  "Difficulty: 1\n"
+                                  "Reset the zones that items are sorted to using the "
+                                  "[ Menial Labor ] mission.\n\n"
                                   "Effects:\n"
-                                  "> 95%% of trees/trunks at the forest position"
-                                  " will be cut down.\n"
-                                  "> 0%% of total material will be brought back.\n"
-                                  "> Forest should become a field tile.\n"
-                                  "> Useful for clearing land for another faction camp.\n\n"
-                                  "Risk: None\n"
-                                  "Time: 6 Hour Base + Travel Time + Cutting Time\n"
-                                  "Positions: %d/1\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
-                               entry, npc_list.empty() );
-        if( !npc_list.empty() ) {
-            entry = miss_info.action.translated();
-            bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
-                                    cata::nullopt, entry, avail );
-        }
-    }
-
-    if( has_provides( "relaying" ) ) {
-        comp_list npc_list = get_mission_workers( "_faction_camp_hide_site" );
-        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_hide_site" ];
+                                  "> Assign sort zones using the zone manager.  You must "
+                                  "have a camp food zone, an unsorted loot zone, and at "
+                                  "least one loot destination zone.\n"
+                                  "> Only items that are in the unsorted loot zone and not "
+                                  "in any other zone will be sorted.\n"
+                                  "Items that do not have a loot destination zone will be "
+                                  "sorted using the normal rules for automatic zone "
+                                  "sorting." ) );
+        mission_key.add( "Reset Sort Points", _( "Reset Sort Points" ), entry );
+        validate_assignees();
+        std::vector<npc_ptr> npc_list = get_npcs_assigned();
         entry = string_format( _( "Notes:\n"
-                                  "Send a companion to build an improvised shelter and stock it "
-                                  "with equipment at a distant map location.\n\n"
-                                  "Skill used: survival\n"
-                                  "Difficulty: 3\n"
-                                  "Effects:\n"
-                                  "> Good for setting up resupply or contingency points.\n"
-                                  "> Gear is left unattended and could be stolen.\n"
-                                  "> Time dependent on weight of equipment being sent forward.\n\n"
-                                  "Risk: Medium\n"
-                                  "Time: 6 Hour Construction + Travel\n"
-                                  "Positions: %d/1\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
-                               entry, npc_list.empty() );
-        if( !npc_list.empty() ) {
-            entry = miss_info.action.translated();
-            bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
-                                    cata::nullopt, entry, avail );
-        }
-    }
-
-    if( has_provides( "relaying" ) ) {
-        comp_list npc_list = get_mission_workers( "_faction_camp_hide_trans" );
-        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_hide_trans" ];
-        entry = string_format( _( "Notes:\n"
-                                  "Push gear out to a hide site or bring gear back from one.\n\n"
-                                  "Skill used: survival\n"
-                                  "Difficulty: 1\n"
-                                  "Effects:\n"
-                                  "> Good for returning equipment you left in the hide site "
-                                  "shelter.\n"
-                                  "> Gear is left unattended and could be stolen.\n"
-                                  "> Time dependent on weight of equipment being sent forward or "
-                                  "back.\n\n"
-                                  "Risk: Medium\n"
-                                  "Time: 1 Hour Base + Travel\n"
-                                  "Positions: %d/1\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt, entry,
-                               npc_list.empty() );
-        if( !npc_list.empty() ) {
-            entry = miss_info.action.translated();
-            bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
-                                    cata::nullopt, entry, avail );
-        }
-    }
-
-    if( has_provides( "foraging" ) ) {
-        comp_list npc_list = get_mission_workers( "_faction_camp_foraging" );
-        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_foraging" ];
-        entry = string_format( _( "Notes:\n"
-                                  "Send a companion to forage for edible plants.\n\n"
-                                  "Skill used: survival\n"
+                                  "Assign repeating job duties to NPCs stationed here.\n"
                                   "Difficulty: N/A\n"
-                                  "Foraging Possibilities:\n"
-                                  "> wild vegetables\n"
-                                  "> fruits and nuts depending on season\n"
-                                  "May produce less food than consumed!\n"
-                                  "Risk: Very Low\n"
-                                  "Time: 4 Hours, Repeated\n"
-                                  "Positions: %d/3\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
-                               entry, npc_list.size() < 3 );
-        if( !npc_list.empty() ) {
-            entry = miss_info.action.translated();
-            bool avail = update_time_fixed( entry, npc_list, 4_hours );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
-                                    cata::nullopt, entry, avail );
-        }
-    }
-
-    if( has_provides( "trapping" ) ) {
-        comp_list npc_list = get_mission_workers( "_faction_camp_trapping" );
-        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_trapping" ];
-        entry = string_format( _( "Notes:\n"
-                                  "Send a companion to set traps for small game.\n\n"
-                                  "Skill used: trapping\n"
-                                  "Difficulty: N/A\n"
-                                  "Trapping Possibilities:\n"
-                                  "> small and tiny animal corpses\n"
-                                  "May produce less food than consumed!\n"
-                                  "Risk: Low\n"
-                                  "Time: 6 Hours, Repeated\n"
-                                  "Positions: %d/2\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
-                               entry, npc_list.size() < 2 );
-        if( !npc_list.empty() ) {
-            entry = miss_info.action.translated();
-            bool avail = update_time_fixed( entry, npc_list, 6_hours );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
-                                    cata::nullopt, entry, avail );
-        }
-    }
-
-    if( has_provides( "hunting" ) ) {
-        comp_list npc_list = get_mission_workers( "_faction_camp_hunting" );
-        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_hunting" ];
-        entry = string_format( _( "Notes:\n"
-                                  "Send a companion to hunt large animals.\n\n"
-                                  "Skill used: marksmanship\n"
-                                  "Difficulty: N/A\n"
-                                  "Hunting Possibilities:\n"
-                                  "> small, medium, or large animal corpses\n"
-                                  "May produce less food than consumed!\n"
-                                  "Risk: Medium\n"
-                                  "Time: 6 Hours, Repeated\n"
-                                  "Positions: %d/1\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
-                               entry, npc_list.empty() );
-        if( !npc_list.empty() ) {
-            entry = miss_info.action.translated();
-            bool avail = update_time_fixed( entry, npc_list, 6_hours );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
-                                    cata::nullopt, entry, avail );
-        }
-    }
-
-    if( has_provides( "walls" ) ) {
-        comp_list npc_list = get_mission_workers( "_faction_camp_om_fortifications" );
-        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_om_fortifications" ];
-        entry = om_upgrade_description( "faction_wall_level_N_0" );
-        mission_key.add_start( "Construct Map Fort", _( "Construct Map Fortifications" ),
-                               cata::nullopt, entry, npc_list.empty() );
-        entry = om_upgrade_description( "faction_wall_level_N_1" );
-        mission_key.add_start( "Construct Trench", _( "Construct Spiked Trench" ), cata::nullopt, entry,
-                               npc_list.empty() );
-        if( !npc_list.empty() ) {
-            entry = miss_info.action.translated();
-            bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
-                                    cata::nullopt, entry, avail );
-        }
-    }
-
-    if( has_provides( "recruiting" ) ) {
-        comp_list npc_list = get_mission_workers( "_faction_camp_recruit_0" );
-        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_recruit_0" ];
-        entry = recruit_description( npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt, entry,
-                               npc_list.empty() );
-        if( !npc_list.empty() ) {
-            entry = miss_info.action.translated();
-            bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
-                                    cata::nullopt, entry, avail );
-        }
-    }
-
-    if( has_provides( "scouting" ) ) {
-        comp_list npc_list = get_mission_workers( "_faction_camp_scout_0" );
-        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_scout_0" ];
-        entry = string_format( _( "Notes:\n"
-                                  "Send a companion out into the great unknown.  High survival "
-                                  "skills are needed to avoid combat but you should expect an "
-                                  "encounter or two.\n\n"
-                                  "Skill used: survival\n"
-                                  "Difficulty: 3\n"
                                   "Effects:\n"
-                                  "> Select checkpoints to customize path.\n"
-                                  "> Reveals terrain around the path.\n"
-                                  "> Can bounce off hide sites to extend range.\n\n"
-                                  "Risk: High\n"
-                                  "Time: Travel\n"
-                                  "Positions: %d/3\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
-                               entry, npc_list.size() < 3 );
-        if( !npc_list.empty() ) {
-            entry = miss_info.action.translated();
-            bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(),
-                                    cata::nullopt, entry, avail );
-        }
+                                  "\n\nRisk: None\n"
+                                  "Time: Ongoing" ) );
+        mission_key.add( "Assign Jobs", _( "Assign Jobs" ), entry );
     }
+    // Missions assigned to the central tile that could be done by an expansion
+    get_available_missions_by_dir( mission_key, cata::nullopt );
 
-    if( has_provides( "patrolling" ) ) {
-        comp_list npc_list = get_mission_workers( "_faction_camp_combat_0" );
-        const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_combat_0" ];
-        entry = string_format( _( "Notes:\n"
-                                  "Send a companion to purge the wasteland.  Their goal is to "
-                                  "kill anything hostile they encounter and return when "
-                                  "their wounds are too great or the odds are stacked against "
-                                  "them.\n\n"
-                                  "Skill used: survival\n"
-                                  "Difficulty: 4\n"
-                                  "Effects:\n"
-                                  "> Pulls creatures encountered into combat instead of "
-                                  "fleeing.\n"
-                                  "> Select checkpoints to customize path.\n"
-                                  "> Can bounce off hide sites to extend range.\n\n"
-                                  "Risk: Very High\n"
-                                  "Time: Travel\n"
-                                  "Positions: %d/3\n" ), npc_list.size() );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc.translated(), cata::nullopt,
-                               entry, npc_list.size() < 3 );
-        if( !npc_list.empty() ) {
-            entry = miss_info.action.translated();
-            bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc.translated(), cata::nullopt,
-                                    entry, avail );
-        }
-    }
-
-    //This starts all of the expansion missions
+    // Loop over expansions
     for( const point &dir : directions ) {
-        const tripoint omt_trg = omt_pos + dir;
         const std::string &dir_id = base_camps::all_directions.at( dir ).id;
         const std::string &dir_abbr = base_camps::all_directions.at( dir ).bracket_abbr.translated();
 
@@ -1116,7 +1275,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                     _( "Recover Ally, " ) + dir_abbr + _( " Expansion" ), dir,
                                     entry, avail );
         }
-
+        // Generate upgrade missions for expansions
         for( const basecamp_upgrade &upgrade : available_upgrades( dir ) ) {
             const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_upgrade_exp_" ];
             comp_list npc_list = get_mission_workers( upgrade.bldg + "_faction_upgrade_exp_" +
@@ -1134,152 +1293,10 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                         " " + upgrade.name, dir, entry, avail );
             }
         }
-
-        if( has_provides( "dismantling", dir ) ) {
-            comp_list npc_list = get_mission_workers( "_faction_exp_chop_shop_" + dir_id );
-            const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_exp_chop_shop_" ];
-            entry = _( "Notes:\n"
-                       "Have a companion attempt to completely dissemble a vehicle into "
-                       "components.\n\n"
-                       "Skill used: mechanics\n"
-                       "Difficulty: 2\n"
-                       "Effects:\n"
-                       "> Removed parts placed on the furniture in the garage.\n"
-                       "> Skill plays a huge role to determine what is salvaged.\n\n"
-                       "Risk: None\n"
-                       "Time: 5 days\n" );
-            mission_key.add_start( dir_id + miss_info.miss_id, dir_abbr + miss_info.desc, dir, entry,
-                                   npc_list.empty() );
-            if( !npc_list.empty() ) {
-                entry = miss_info.action.translated();
-                bool avail = update_time_left( entry, npc_list );
-                mission_key.add_return( dir_id + miss_info.ret_miss_id,
-                                        dir_abbr + miss_info.ret_desc, dir, entry, avail );
-            }
-        }
-
-        std::map<recipe_id, translation> craft_recipes = recipe_deck( dir );
-        if( has_provides( "kitchen", dir ) ) {
-            comp_list npc_list = get_mission_workers( "_faction_exp_kitchen_cooking_" + dir_id );
-            const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_exp_kitchen_cooking_" ];
-            if( npc_list.empty() ) {
-                add_available_recipes( mission_key, dir, craft_recipes );
-            } else {
-                entry = miss_info.action.translated();
-                bool avail = update_time_left( entry, npc_list );
-                mission_key.add_return( dir_id + miss_info.ret_miss_id,
-                                        dir_abbr + miss_info.ret_desc, dir, entry, avail );
-            }
-        }
-
-        if( has_provides( "blacksmith", dir ) ) {
-            comp_list npc_list = get_mission_workers( "_faction_exp_blacksmith_crafting_" + dir_id );
-            const base_camps::miss_data &miss_info =
-                base_camps::miss_info[ "_faction_exp_blacksmith_crafting_" ];
-            if( npc_list.empty() ) {
-                add_available_recipes( mission_key, dir, craft_recipes );
-            } else {
-                entry = miss_info.action.translated();
-                bool avail = update_time_left( entry, npc_list );
-                mission_key.add_return( dir_id + miss_info.ret_miss_id,
-                                        dir_abbr + miss_info.ret_desc, dir, entry, avail );
-            }
-        }
-
-        if( has_provides( "farming", dir ) ) {
-            size_t plots = 0;
-            comp_list npc_list = get_mission_workers( "_faction_exp_plow_" + dir_id );
-            const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_exp_plow_" ];
-            if( npc_list.empty() ) {
-                entry = _( "Notes:\n"
-                           "Plow any spaces that have reverted to dirt or grass.\n\n" ) +
-                        farm_description( omt_trg, plots, farm_ops::plow ) +
-                        _( "\n\n"
-                           "Skill used: fabrication\n"
-                           "Difficulty: N/A\n"
-                           "Effects:\n"
-                           "> Restores only the plots created in the last expansion upgrade.\n"
-                           "> Does not damage existing crops.\n\n"
-                           "Risk: None\n"
-                           "Time: 5 Min / Plot\n"
-                           "Positions: 0/1\n" );
-                mission_key.add_start( dir_id + miss_info.miss_id, dir_abbr + miss_info.desc, dir, entry,
-                                       plots > 0 );
-            } else {
-                entry = miss_info.action.translated();
-                bool avail = update_time_left( entry, npc_list );
-                mission_key.add_return( dir_id + miss_info.ret_miss_id,
-                                        dir_abbr + miss_info.ret_desc, dir, entry, avail );
-            }
-        }
-        if( has_provides( "farming", dir ) ) {
-            size_t plots = 0;
-            comp_list npc_list = get_mission_workers( "_faction_exp_plant_" + dir_id );
-            const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_exp_plant_" ];
-            if( npc_list.empty() ) {
-                entry = _( "Notes:\n"
-                           "Plant designated seeds in the spaces that have already been "
-                           "tilled.\n\n" ) +
-                        farm_description( omt_trg, plots, farm_ops::plant ) +
-                        _( "\n\n"
-                           "Skill used: survival\n"
-                           "Difficulty: N/A\n"
-                           "Effects:\n"
-                           "> Choose which seed type or all of your seeds.\n"
-                           "> Stops when out of seeds or planting locations.\n"
-                           "> Will plant in ALL dirt mounds in the expansion.\n\n"
-                           "Risk: None\n"
-                           "Time: 1 Min / Plot\n"
-                           "Positions: 0/1\n" );
-                mission_key.add_start( dir_id + miss_info.miss_id,
-                                       dir_abbr + miss_info.desc, dir, entry,
-                                       plots > 0 && warm_enough_to_plant( omt_trg ) );
-            } else {
-                entry = miss_info.action.translated();
-                bool avail = update_time_left( entry, npc_list );
-                mission_key.add_return( dir_id + miss_info.ret_miss_id,
-                                        dir_abbr + miss_info.ret_desc, dir, entry, avail );
-            }
-        }
-        if( has_provides( "farming", dir ) ) {
-            size_t plots = 0;
-            comp_list npc_list = get_mission_workers( "_faction_exp_harvest_" + dir_id );
-            const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_exp_harvest_" ];
-            if( npc_list.empty() ) {
-                entry = _( "Notes:\n"
-                           "Harvest any plants that are ripe and bring the produce back.\n\n" ) +
-                        farm_description( omt_trg, plots, farm_ops::harvest ) +
-                        _( "\n\n"
-                           "Skill used: survival\n"
-                           "Difficulty: N/A\n"
-                           "Effects:\n"
-                           "> Will dump all harvesting products onto your location.\n\n"
-                           "Risk: None\n"
-                           "Time: 3 Min / Plot\n"
-                           "Positions: 0/1\n" );
-                mission_key.add_start( dir_id + miss_info.miss_id,
-                                       dir_abbr + miss_info.desc, dir, entry,
-                                       plots > 0 );
-            } else {
-                entry = miss_info.action.translated();
-                bool avail = update_time_left( entry, npc_list );
-                mission_key.add_return( dir_id + miss_info.ret_miss_id,
-                                        dir_abbr + miss_info.ret_desc, dir, entry, avail );
-            }
-        }
-
-        if( has_provides( "reseeding", dir ) ) {
-            comp_list npc_list = get_mission_workers( "_faction_exp_farm_crafting_" + dir_id );
-            const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_exp_farm_crafting_" ];
-            if( npc_list.empty() ) {
-                add_available_recipes( mission_key, dir, craft_recipes );
-            } else {
-                entry = miss_info.action.translated();
-                bool avail = update_time_left( entry, npc_list );
-                mission_key.add_return( dir_id + miss_info.ret_miss_id,
-                                        dir_abbr + miss_info.ret_desc, dir, entry, avail );
-            }
-        }
+        // Get missions for the expansion
+        cata::optional<point> cur_dir = base_camps::direction_from_id( base_camps::all_directions.at(
+                                            dir ).id );
+        get_available_missions_by_dir( mission_key, cur_dir );
     }
 
     if( !camp_workers.empty() ) {

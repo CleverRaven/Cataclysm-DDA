@@ -136,6 +136,7 @@ class basecamp
         std::vector<point> directions;
         std::vector<tripoint> fortifications;
         std::string name;
+        bool by_radio;
         void faction_display( const catacurses::window &fac_w, int width ) const;
 
         //change name of camp
@@ -241,6 +242,7 @@ class basecamp
 
         // main mission description collection
         void get_available_missions( mission_data &mission_key, bool by_radio = false );
+        void get_available_missions_by_dir( mission_data &mission_key, cata::optional<point> input_dir );
         // available companion list manipulation
         void reset_camp_workers();
         comp_list get_mission_workers( const std::string &mission_id, bool contains = false );
