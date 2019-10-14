@@ -1339,7 +1339,7 @@ mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,
     return mutagen_attempt( true, 0 );
 }
 
-void test_crossing_threshold( player &p, const mutation_category_trait &m_category )
+void test_crossing_threshold( Character &p, const mutation_category_trait &m_category )
 {
     // Threshold-check.  You only get to cross once!
     if( p.crossed_threshold() ) {
