@@ -141,7 +141,6 @@ std::string item_comp::to_string( const int batch, const int avail ) const
                                   type_ptr->nname( 1 ), c );
         }
     } else {
-        //~ %1$s: item name, %2$d: charge requirement
         if( avail == std::numeric_limits<int>::max() ) {
             return string_format( npgettext( "requirement", "%2$d %1$s of infinite", "%2$d %1$s of infinite",
                                              c ),
