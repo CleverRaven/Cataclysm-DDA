@@ -1184,7 +1184,7 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
     }
 
     std::sort( targets.begin(), targets.end(), [&]( const Creature * lhs, const Creature * rhs ) {
-        return rl_dist( lhs->pos(), pc.pos() ) < rl_dist( rhs->pos(), pc.pos() );
+        return rl_dist_exact( lhs->pos(), pc.pos() ) < rl_dist_exact( rhs->pos(), pc.pos() );
     } );
 
     // TODO: last_target should be member of target_handler
