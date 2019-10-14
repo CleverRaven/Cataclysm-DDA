@@ -77,10 +77,10 @@ computer_option::computer_option( const std::string &N, computer_action A, int S
 {
 }
 
-computer::computer( const std::string &new_name, int new_security ): name( new_name )
+computer::computer( const std::string &new_name, int new_security )
+    : name( new_name ), mission_id( -1 ), security( new_security ),
+      access_denied( _( "ERROR!  Access denied!" ) )
 {
-    security = new_security;
-    mission_id = -1;
 }
 
 computer::computer( const computer &rhs )
@@ -94,6 +94,7 @@ computer &computer::operator=( const computer &rhs )
 {
     security = rhs.security;
     name = rhs.name;
+    access_denied = rhs.access_denied;
     mission_id = rhs.mission_id;
     options = rhs.options;
     failures = rhs.failures;
@@ -126,6 +127,11 @@ void computer::add_failure( const computer_failure &failure )
 void computer::add_failure( computer_failure_type failure )
 {
     add_failure( computer_failure( failure ) );
+}
+
+void computer::set_access_denied_msg( const std::string &new_msg )
+{
+    access_denied = new_msg;
 }
 
 void computer::shutdown_terminal()
@@ -163,7 +169,7 @@ void computer::use()
             reset_terminal();
             return;
         }
-        print_error( _( "ERROR!  Access denied!" ) );
+        print_error( access_denied.c_str() );
         switch( query_ynq( _( "Bypass security?" ) ) ) {
             case 'q':
             case 'Q':
@@ -180,7 +186,7 @@ void computer::use()
             case 'Y':
                 if( !hack_attempt( g->u ) ) {
                     if( failures.empty() ) {
-                        query_any( _( "Maximum login attempts exceeded. Press any key..." ) );
+                        query_any( _( "Maximum login attempts exceeded.  Press any key..." ) );
                         shutdown_terminal();
                         return;
                     }
@@ -306,6 +312,8 @@ std::string computer::save_data() const
         data << static_cast<int>( elem.type ) << ' ';
     }
 
+    data << string_replace( access_denied, " ", "_" ) << ' ';
+
     return data.str();
 }
 
@@ -343,6 +351,16 @@ void computer::load_data( const std::string &data )
         int tmpfail;
         dump >> tmpfail;
         add_failure( static_cast<computer_failure_type>( tmpfail ) );
+    }
+
+    std::string tmp_access_denied;
+    dump >> tmp_access_denied;
+
+    // For backwards compatibility, only set the access denied message if it
+    // isn't empty. This is to avoid the message becoming blank when people
+    // load old saves.
+    if( !tmp_access_denied.empty() ) {
+        access_denied = string_replace( tmp_access_denied, "_", " " );
     }
 }
 
@@ -407,44 +425,40 @@ void computer::activate_function( computer_action action )
 
         //Toll is required for the church computer/mechanism to function
         case COMPACT_TOLL:
-            //~ the sound of a church bell ringing
             sounds::sound( g->u.pos(), 120, sounds::sound_t::music,
-                           _( "Bohm... Bohm... Bohm..." ), true, "environment", "church_bells" );
+                           //~ the sound of a church bell ringing
+                           _( "Bohm...  Bohm...  Bohm..." ), true, "environment", "church_bells" );
             break;
 
         case COMPACT_SAMPLE:
             g->u.moves -= 30;
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( point( x, y ) ) == t_sewage_pump ) {
-                        for( int x1 = x - 1; x1 <= x + 1; x1++ ) {
-                            for( int y1 = y - 1; y1 <= y + 1; y1++ ) {
-                                if( g->m.furn( point( x1, y1 ) ) == f_counter ) {
-                                    bool found_item = false;
-                                    item sewage( "sewage", calendar::turn );
-                                    auto candidates = g->m.i_at( point( x1, y1 ) );
-                                    for( auto &candidate : candidates ) {
-                                        int capa = candidate.get_remaining_capacity_for_liquid( sewage );
-                                        if( capa <= 0 ) {
-                                            continue;
-                                        }
-                                        item &elem = candidate;
-                                        capa = std::min( sewage.charges, capa );
-                                        if( elem.contents.empty() ) {
-                                            elem.put_in( sewage );
-                                            elem.contents.front().charges = capa;
-                                        } else {
-                                            elem.contents.front().charges += capa;
-                                        }
-                                        found_item = true;
-                                        break;
-                                    }
-                                    if( !found_item ) {
-                                        g->m.add_item_or_charges( point( x1, y1 ), sewage );
-                                    }
-                                }
-                            }
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                if( g->m.ter( p ) != t_sewage_pump ) {
+                    continue;
+                }
+                for( const tripoint &n : g->m.points_in_radius( p, 1 ) ) {
+                    if( g->m.furn( n ) != f_counter ) {
+                        continue;
+                    }
+                    bool found_item = false;
+                    item sewage( "sewage", calendar::turn );
+                    for( item &elem : g->m.i_at( n ) ) {
+                        int capa = elem.get_remaining_capacity_for_liquid( sewage );
+                        if( capa <= 0 ) {
+                            continue;
                         }
+                        capa = std::min( sewage.charges, capa );
+                        if( elem.contents.empty() ) {
+                            elem.put_in( sewage );
+                            elem.contents.front().charges = capa;
+                        } else {
+                            elem.contents.front().charges += capa;
+                        }
+                        found_item = true;
+                        break;
+                    }
+                    if( !found_item ) {
+                        g->m.add_item_or_charges( n, sewage );
                     }
                 }
             }
@@ -471,17 +485,16 @@ void computer::activate_function( computer_action action )
 
         case COMPACT_TERMINATE:
             g->events().send<event_type::terminates_subspace_specimens>();
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    tripoint p( x, y, g->u.posz() );
-                    monster *const mon = g->critter_at<monster>( p );
-                    if( mon &&
-                        ( ( g->m.ter( point( x, y - 1 ) ) == t_reinforced_glass &&
-                            g->m.ter( point( x, y + 1 ) ) == t_concrete_wall ) ||
-                          ( g->m.ter( point( x, y + 1 ) ) == t_reinforced_glass &&
-                            g->m.ter( point( x, y - 1 ) ) == t_concrete_wall ) ) ) {
-                        mon->die( &g->u );
-                    }
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                monster *const mon = g->critter_at<monster>( p );
+                if( !mon ) {
+                    continue;
+                }
+                if( ( g->m.ter( p + tripoint_north ) == t_reinforced_glass &&
+                      g->m.ter( p + tripoint_south ) == t_concrete_wall ) ||
+                    ( g->m.ter( p + tripoint_south ) == t_reinforced_glass &&
+                      g->m.ter( p + tripoint_north ) == t_concrete_wall ) ) {
+                    mon->die( &g->u );
                 }
             }
             query_any( _( "Subjects terminated.  Press any key..." ) );
@@ -489,28 +502,18 @@ void computer::activate_function( computer_action action )
 
         case COMPACT_PORTAL: {
             g->events().send<event_type::opens_portal>();
-            tripoint tmp = g->u.pos();
-            int &i = tmp.x;
-            int &j = tmp.y;
-            for( i = 0; i < MAPSIZE_X; i++ ) {
-                for( j = 0; j < MAPSIZE_Y; j++ ) {
-                    int numtowers = 0;
-                    tripoint tmp2 = tmp;
-                    int &xt = tmp2.x;
-                    int &yt = tmp2.y;
-                    for( xt = i - 2; xt <= i + 2; xt++ ) {
-                        for( yt = j - 2; yt <= j + 2; yt++ ) {
-                            if( g->m.ter( tmp2 ) == t_radio_tower ) {
-                                numtowers++;
-                            }
-                        }
+            for( const tripoint &tmp : g->m.points_on_zlevel() ) {
+                int numtowers = 0;
+                for( const tripoint &tmp2 : g->m.points_in_radius( tmp, 2 ) ) {
+                    if( g->m.ter( tmp2 ) == t_radio_tower ) {
+                        numtowers++;
                     }
-                    if( numtowers >= 4 ) {
-                        if( g->m.tr_at( tmp ).id == trap_str_id( "tr_portal" ) ) {
-                            g->m.remove_trap( tmp );
-                        } else {
-                            g->m.trap_set( tmp, tr_portal );
-                        }
+                }
+                if( numtowers >= 4 ) {
+                    if( g->m.tr_at( tmp ).id == trap_str_id( "tr_portal" ) ) {
+                        g->m.remove_trap( tmp );
+                    } else {
+                        g->m.trap_set( tmp, tr_portal );
                     }
                 }
             }
@@ -546,12 +549,12 @@ void computer::activate_function( computer_action action )
             print_text( "%s", log );
             // One's an anomaly
             if( alerts == 0 ) {
-                query_any( _( "Local data-access error logged, alerting helpdesk. Press any key..." ) );
+                query_any( _( "Local data-access error logged, alerting helpdesk.  Press any key..." ) );
                 alerts ++;
             } else {
                 // Two's a trend.
                 query_any(
-                    _( "Warning: anomalous archive-access activity detected at this node. Press any key..." ) );
+                    _( "Warning: anomalous archive-access activity detected at this node.  Press any key..." ) );
                 alerts ++;
             }
         }
@@ -562,10 +565,10 @@ void computer::activate_function( computer_action action )
             sfx::fade_audio_channel( sfx::channel::radio, 100 );
             sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, sfx::channel::radio,
                                              2000 );
-            print_text( "Accessing archive. Playing audio recording nr %d.\n%s", rng( 1, 9999 ),
+            print_text( "Accessing archive.  Playing audio recording nr %d.\n%s", rng( 1, 9999 ),
                         SNIPPET.random_from_category( "radio_archive" ) );
             if( one_in( 3 ) ) {
-                query_any( _( "Warning: resticted data access. Attempt logged. Press any key..." ) );
+                query_any( _( "Warning: resticted data access.  Attempt logged.  Press any key..." ) );
                 alerts ++;
             } else {
                 query_any( _( "Press any key..." ) );
@@ -643,18 +646,15 @@ void computer::activate_function( computer_action action )
             g->refresh_all();
 
             //Put some smoke gas and explosions at the nuke location.
-            for( int i = g->u.posx() + 8; i < g->u.posx() + 15; i++ ) {
-                for( int j = g->u.posy() + 3; j < g->u.posy() + 12; j++ ) {
-                    if( !one_in( 4 ) ) {
-                        tripoint dest( i + rng( -2, 2 ), j + rng( -2, 2 ), g->u.posz() );
-                        g->m.add_field( dest, fd_smoke, rng( 1, 9 ) );
-                    }
+            const tripoint nuke_location = { g->u.pos() - point( 12, 0 ) };
+            for( const auto &loc : g->m.points_in_radius( nuke_location, 5, 0 ) ) {
+                if( one_in( 4 ) ) {
+                    g->m.add_field( loc, fd_smoke, rng( 1, 9 ) );
                 }
             }
 
-            explosion_handler::explosion( tripoint( g->u.posx() + 10, g->u.posx() + 21, g->get_levz() ), 200,
-                                          0.7,
-                                          true ); //Only explode once. But make it large.
+            //Only explode once. But make it large.
+            explosion_handler::explosion( nuke_location, 2000, 0.7, true );
 
             //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
             // For each level between here and the surface, remove the missile
@@ -672,17 +672,14 @@ void computer::activate_function( computer_action action )
 
             const oter_id oter = overmap_buffer.ter( target );
             g->events().send<event_type::launches_nuke>( oter );
-            for( int x = target.x - 2; x <= target.x + 2; x++ ) {
-                for( int y = target.y - 2; y <= target.y + 2; y++ ) {
-                    // give it a nice rounded shape
-                    if( !( x == ( target.x - 2 ) && ( y == ( target.y - 2 ) ) ) &&
-                        !( x == ( target.x - 2 ) && ( y == ( target.y + 2 ) ) ) &&
-                        !( x == ( target.x + 2 ) && ( y == ( target.y - 2 ) ) ) &&
-                        !( x == ( target.x + 2 ) && ( y == ( target.y + 2 ) ) ) ) {
-                        // TODO: Z
-                        explosion_handler::nuke( tripoint( x, y, 0 ) );
-                    }
-
+            for( const tripoint &p : g->m.points_in_radius( target, 2 ) ) {
+                // give it a nice rounded shape
+                if( !( p.x == target.x - 2 && p.y == target.y - 2 ) &&
+                    !( p.x == target.x - 2 && p.y == target.y + 2 ) &&
+                    !( p.x == target.x + 2 && p.y == target.y - 2 ) &&
+                    !( p.x == target.x + 2 && p.y == target.y + 2 ) ) {
+                    // TODO: other Z-levels.
+                    explosion_handler::nuke( tripoint( p.xy(), 0 ) );
                 }
             }
 
@@ -707,15 +704,13 @@ void computer::activate_function( computer_action action )
             g->u.moves -= 30;
             std::vector<std::string> names;
             int more = 0;
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    for( auto &elem : g->m.i_at( point( x, y ) ) ) {
-                        if( elem.is_bionic() ) {
-                            if( static_cast<int>( names.size() ) < TERMY - 8 ) {
-                                names.push_back( elem.tname() );
-                            } else {
-                                more++;
-                            }
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                for( item &elem : g->m.i_at( p ) ) {
+                    if( elem.is_bionic() ) {
+                        if( static_cast<int>( names.size() ) < TERMY - 8 ) {
+                            names.push_back( elem.tname() );
+                        } else {
+                            more++;
                         }
                     }
                 }
@@ -740,11 +735,9 @@ void computer::activate_function( computer_action action )
         break;
 
         case COMPACT_ELEVATOR_ON:
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( point( x, y ) ) == t_elevator_control_off ) {
-                        g->m.ter_set( point( x, y ), t_elevator_control );
-                    }
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                if( g->m.ter( p ) == t_elevator_control_off ) {
+                    g->m.ter_set( p, t_elevator_control );
                 }
             }
             query_any( _( "Elevator activated.  Press any key..." ) );
@@ -790,9 +783,8 @@ void computer::activate_function( computer_action action )
             }
             g->u.moves -= 30;
             reset_terminal();
-            print_line( _( "\
-SITE %d%d%d\n\
-PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
+            print_line( _( "SITE %d%d%d\n"
+                           "PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
                         g->get_levx(), g->get_levy(), abs( g->get_levz() ) );
             print_text( "%s", SNIPPET.get( SNIPPET.assign( "amigara4" ) ) );
             print_gibberish_line();
@@ -889,12 +881,12 @@ PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
                         const item &blood = items.only_item().contents.front();
                         const mtype *mt = blood.get_mtype();
                         if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
-                            print_line( _( "Result:  Human blood, no pathogens found." ) );
+                            print_line( _( "Result: Human blood, no pathogens found." ) );
                         } else if( mt->in_species( ZOMBIE ) ) {
                             if( mt->in_species( HUMAN ) ) {
-                                print_line( _( "Result:  Human blood.  Unknown pathogen found." ) );
+                                print_line( _( "Result: Human blood.  Unknown pathogen found." ) );
                             } else {
-                                print_line( _( "Result:  Unknown blood type.  Unknown pathogen found." ) );
+                                print_line( _( "Result: Unknown blood type.  Unknown pathogen found." ) );
                             }
                             print_line( _( "Pathogen bonded to erythrocytes and leukocytes." ) );
                             if( query_bool( _( "Download data?" ) ) ) {
@@ -933,11 +925,11 @@ PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
                         print_error( _( "ERROR: Memory bank is empty." ) );
                     } else { // Success!
                         if( items.only_item().typeId() == "black_box" ) {
-                            print_line( _( "Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n" ) );
+                            print_line( _( "Memory Bank: Military Hexron Encryption\nPrinting Transcript\n" ) );
                             item transcript( "black_box_transcript", calendar::turn );
                             g->m.add_item_or_charges( point( g->u.posx(), g->u.posy() ), transcript );
                         } else {
-                            print_line( _( "Memory Bank:  Unencrypted\nNothing of interest.\n" ) );
+                            print_line( _( "Memory Bank: Unencrypted\nNothing of interest.\n" ) );
                         }
                     }
                 }
@@ -947,27 +939,26 @@ PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
 
         case COMPACT_DISCONNECT:
             reset_terminal();
-            print_line( _( "\n\
-ERROR:  NETWORK DISCONNECT \n\
-UNABLE TO REACH NETWORK ROUTER OR PROXY.  PLEASE CONTACT YOUR\n\
-SYSTEM ADMINISTRATOR TO RESOLVE THIS ISSUE.\n\
-  \n" ) );
+            print_line( _( "\n"
+                           "ERROR: NETWORK DISCONNECT\n"
+                           "UNABLE TO REACH NETWORK ROUTER OR PROXY.  PLEASE CONTACT YOUR\n"
+                           "SYSTEM ADMINISTRATOR TO RESOLVE THIS ISSUE.\n"
+                           "  \n" ) );
             query_any( _( "Press any key to continue..." ) );
             break;
 
         case COMPACT_EMERG_MESS:
-            print_line( _( "\
-GREETINGS CITIZEN. A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n\
-EMERGENCY HAS BEEN DECLARED. EMERGENCY PERSONNEL WILL BE AIDING YOU \n\
-SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
-\n\
-1. DO NOT PANIC. \n\
-2. REMAIN INSIDE THE BUILDING. \n\
-3. SEEK SHELTER IN THE BASEMENT. \n\
-4. USE PROVIDED GAS MASKS. \n\
-5. AWAIT FURTHER INSTRUCTIONS. \n\
-\n\
-  \n" ) );
+            print_line( _( "GREETINGS CITIZEN.  A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF\n"
+                           "EMERGENCY HAS BEEN DECLARED.  EMERGENCY PERSONNEL WILL BE AIDING YOU\n"
+                           "SHORTLY.  TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW.\n"
+                           "\n"
+                           "1. DO NOT PANIC.\n"
+                           "2. REMAIN INSIDE THE BUILDING.\n"
+                           "3. SEEK SHELTER IN THE BASEMENT.\n"
+                           "4. USE PROVIDED GAS MASKS.\n"
+                           "5. AWAIT FURTHER INSTRUCTIONS.\n"
+                           "\n"
+                           "  \n" ) );
             query_any( _( "Press any key to continue..." ) );
             break;
 
@@ -978,203 +969,64 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
             break;
 
         case COMPACT_TOWER_UNRESPONSIVE:
-            print_line( _( "\
-  WARNING, RADIO TOWER IS UNRESPONSIVE. \n\
-  \n\
-  BACKUP POWER INSUFFICIENT TO MEET BROADCASTING REQUIREMENTS. \n\
-  IN THE EVENT OF AN EMERGENCY, CONTACT LOCAL NATIONAL GUARD \n\
-  UNITS TO RECEIVE PRIORITY WHEN GENERATORS ARE BEING DEPLOYED. \n\
-  \n\
-  \n" ) );
+            print_line( _( "  WARNING, RADIO TOWER IS UNRESPONSIVE.\n"
+                           "  \n"
+                           "  BACKUP POWER INSUFFICIENT TO MEET BROADCASTING REQUIREMENTS.\n"
+                           "  IN THE EVENT OF AN EMERGENCY, CONTACT LOCAL NATIONAL GUARD\n"
+                           "  UNITS TO RECEIVE PRIORITY WHEN GENERATORS ARE BEING DEPLOYED.\n"
+                           "  \n"
+                           "  \n" ) );
             query_any( _( "Press any key to continue..." ) );
             break;
 
         case COMPACT_SR1_MESS:
             reset_terminal();
-            print_line( _( "\n\
-  Subj: Security Reminder\n\
-  To: all SRCF staff\n\
-  From: Constantine Dvorak, Undersecretary of Nuclear Security\n\
-  \n\
-      I want to remind everyone on staff: Do not open or examine\n\
-  containers above your security-clearance.  If you have some\n\
-  question about safety protocols or shipping procedures, please\n\
-  contact your SRCF administrator or on-site military officer.\n\
-  When in doubt, assume all containers are Class-A Biohazards\n\
-  and highly toxic. Take full precautions!\n\
-  \n" ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "sr1_mess" ) ) );
             query_any( _( "Press any key to continue..." ) );
             break;
 
         case COMPACT_SR2_MESS:
             reset_terminal();
-            print_line( _( "\n\
-  Subj: Security Reminder\n\
-  To: all SRCF staff\n\
-  From: Constantine Dvorak, Undersecretary of Nuclear Security\n\
-  \n\
-  From today onward medical wastes are not to be stored anywhere\n\
-  near radioactive materials.  All containers are to be\n\
-  re-arranged according to these new regulations.  If your\n\
-  facility currently has these containers stored in close\n\
-  proximity, you are to work with armed guards on duty at all\n\
-  times. Report any unusual activity to your SRCF administrator\n\
-  at once.\n\
-  " ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "sr2_mess" ) ) );
             query_any( _( "Press any key to continue..." ) );
             break;
 
         case COMPACT_SR3_MESS:
             reset_terminal();
-            print_line( _( "\n\
-  Subj: Security Reminder\n\
-  To: all SRCF staff\n\
-  From: Constantine Dvorak, Undersecretary of Nuclear Security\n\
-  \n\
-  Worker health and safety is our number one concern!  As such,\n\
-  we are instituting weekly health examinations for all SRCF\n\
-  employees.  Report any unusual symptoms or physical changes\n\
-  to your SRCF administrator at once.\n\
-  " ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "sr3_mess" ) ) );
             query_any( _( "Press any key to continue..." ) );
             break;
 
         case COMPACT_SR4_MESS:
             reset_terminal();
-            print_line( _( "\n\
-  Subj: Security Reminder\n\
-  To: all SRCF staff\n\
-  From:  Constantine Dvorak, Undersecretary of Nuclear Security\n\
-  \n\
-  All compromised facilities will remain under lock down until\n\
-  further notice.  Anyone who has seen or come in direct contact\n\
-  with the creatures is to report to the home office for a full\n\
-  medical evaluation and security debriefing.\n\
-  " ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "sr4_mess" ) ) );
             query_any( _( "Press any key to continue..." ) );
             break;
 
         case COMPACT_SRCF_1_MESS:
             reset_terminal();
-            print_line( _( "\n\
-  Subj: EPA: Report All Potential Containment Breaches 3873643\n\
-  To: all SRCF staff\n\
-  From:  Robert Shane, Director of the EPA\n\
-  \n\
-  All hazardous waste dumps and sarcophagi must submit three\n\
-  samples from each operational leache system to the following\n\
-  addresses:\n\
-  \n\
-  CDC Bioterrorism Lab \n\
-  Building 10\n\
-  Corporate Square Boulevard\n\
-  Atlanta, GA 30329\n\
-  \n\
-  EPA Region 8 Laboratory\n\
-  16194 W. 45th Drive\n\
-  Golden, Colorado 80403\n\
-  \n\
-  These samples must be accurate and any attempts to cover\n\
-  incompetencies will result in charges of Federal Corruption\n\
-  and potentially Treason.\n" ) );
-            query_any( _( "Press any key to continue..." ) );
-            reset_terminal();
-            print_line( _( "Director of the EPA,\n\
-  Robert Shane\n\
-  \n" ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_1_mess" ) ) );
             query_any( _( "Press any key to continue..." ) );
             break;
 
         case COMPACT_SRCF_2_MESS:
             reset_terminal();
-            print_line( _( " Subj: SRCF: Internal Memo, EPA [2918024]\n\
-  To: all SRCF admin staff\n\
-  From:  Constantine Dvorak, Undersecretary of Nuclear Security\n\
-  \n\
-  Director Grimes has released a new series of accusations that\n\
-  will soon be investigated by a Congressional committee.  Below\n\
-  is the message that he sent me.\n\
-  \n\
-  --------------------------------------------------------------\n\
-  Subj: Congressional Investigations\n\
-  To: Constantine Dvorak, Undersecretary of Nuclear Safety\n\
-  From: Robert Shane, director of the EPA\n\
-  \n\
-      The EPA has opposed the Security-Restricted Containment\n\
-  Facility (SRCF) project from its inception.  We were horrified\n\
-  that these facilities would be constructed so close to populated\n\
-  areas, and only agreed to sign-off on the project if we were\n\
-  allowed to freely examine and monitor the sarcophagi.  But that\n\
-  has not happened.  Since then, the DoE has employed any and all\n\
-  means to keep EPA agents from visiting the SRCFs, using military\n\
-  secrecy, emergency powers, and inter-departmental gag orders to\n" ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_2_1_mess" ) ) );
             query_any( _( "Press any key to continue..." ) );
             reset_terminal();
-            print_line( _( " surround the project with an impenetrable thicket of red tape.\n\
-  \n\
-      Although our agents have not been allowed inside, our atmospheric\n\
-  testers in nearby communities have detected high levels of toxins\n\
-  and radiation, and we've found dozens of potentially dangerous\n\
-  unidentified compounds in the ground water.  We now have\n\
-  conclusive evidence that the SRCFs are a threat to the public\n\
-  safety.  We are taking these data to state representatives and\n\
-  petitioning for a full Congressional inquiry.  They should be\n\
-  able to force open your secret vaults, and the world will see\n\
-  what you've been hiding.\n\
-  \n\
-  If you had any hand in this outbreak I hope you rot in hell.\n\
-  \n\
-  Director of the EPA,\n\
-  Robert Shane\n\
-  \n" ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_2_2_mess" ) ) );
             query_any( _( "Press any key to continue..." ) );
             break;
 
         case COMPACT_SRCF_3_MESS:
             reset_terminal();
-            print_line( _( " Subj: CDC: Internal Memo, Standby [2918115]\n\
-  To: all SRCF staff\n\
-  From:  Ellen Grimes, Director of the CDC\n\
-  \n\
-      Your site along with many others has been found to be\n\
-  contaminated with what we will now refer to as [redacted].\n\
-  It is vital that you standby for further orders.  We are\n\
-  currently awaiting the President to decide our course of\n\
-  action in this national crisis.  You will proceed with fail-\n\
-  safe procedures and rig the sarcophagus with C-4 as outlined\n\
-  in Publication 4423.  We will send you orders to either detonate\n\
-  and seal the sarcophagus or remove the charges.  It is of the\n\
-  utmost importance that the facility be sealed immediately when\n\
-  the orders are given.  We have been alerted by Homeland Security\n\
-  that there are potential terrorist suspects that are being\n\
-  detained in connection with the recent national crisis.\n\
-  \n\
-  Director of the CDC,\n\
-  Ellen Grimes\n\
-  \n" ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_3_mess" ) ) );
             query_any( _( "Press any key to continue..." ) );
             break;
 
         case COMPACT_SRCF_SEAL_ORDER:
             reset_terminal();
-            print_line( _( " Subj: USARMY: SEAL SRCF [987167]\n\
-  To: all SRCF staff\n\
-  From:  Major General Cornelius, U.S. Army\n\
-  \n\
-    As a general warning to all civilian staff: the 10th Mountain\n\
-  Division has been assigned to oversee the sealing of the SRCF\n\
-  facilities.  By direct order, all non-essential staff must vacate\n\
-  at the earliest possible opportunity to prevent potential\n\
-  contamination.  Low yield tactical nuclear demolition charges\n\
-  will be deployed in the lower tunnels to ensure that recovery\n\
-  of hazardous material is impossible.  The Army Corps of Engineers\n\
-  will then dump concrete over the rubble so that we can redeploy \n\
-  the 10th Mountain into the greater Boston area.\n\
-  \n\
-  Cornelius,\n\
-  Major General, U.S. Army\n\
-  Commander of the 10th Mountain Division\n\
-  \n" ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "scrf_seal_order" ) ) );
             query_any( _( "Press any key to continue..." ) );
             break;
 
@@ -1184,24 +1036,20 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
             print_line( _( "Backup Generator Power Failing" ) );
             print_line( _( "Evacuate Immediately" ) );
             add_msg( m_warning, _( "Evacuate Immediately!" ) );
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    tripoint p( x, y, g->get_levz() );
-                    if( g->m.ter( point( x, y ) ) == t_elevator || g->m.ter( point( x, y ) ) == t_vat ) {
-                        g->m.make_rubble( p, f_rubble_rock, true );
-                        explosion_handler::explosion( p, 40, 0.7, true );
-                    }
-                    if( g->m.ter( point( x, y ) ) == t_wall_glass ) {
-                        g->m.make_rubble( p, f_rubble_rock, true );
-                    }
-                    if( g->m.ter( point( x, y ) ) == t_sewage_pipe || g->m.ter( point( x, y ) ) == t_sewage ||
-                        g->m.ter( point( x, y ) ) == t_grate ) {
-                        g->m.make_rubble( p, f_rubble_rock, true );
-                    }
-                    if( g->m.ter( point( x, y ) ) == t_sewage_pump ) {
-                        g->m.make_rubble( p, f_rubble_rock, true );
-                        explosion_handler::explosion( p, 50, 0.7, true );
-                    }
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                if( g->m.ter( p ) == t_elevator || g->m.ter( p ) == t_vat ) {
+                    g->m.make_rubble( p, f_rubble_rock, true );
+                    explosion_handler::explosion( p, 40, 0.7, true );
+                }
+                if( g->m.ter( p ) == t_wall_glass ) {
+                    g->m.make_rubble( p, f_rubble_rock, true );
+                }
+                if( g->m.ter( p ) == t_sewage_pipe || g->m.ter( p ) == t_sewage || g->m.ter( p ) == t_grate ) {
+                    g->m.make_rubble( p, f_rubble_rock, true );
+                }
+                if( g->m.ter( p ) == t_sewage_pump ) {
+                    g->m.make_rubble( p, f_rubble_rock, true );
+                    explosion_handler::explosion( p, 50, 0.7, true );
                 }
             }
             options.clear(); // Disable the terminal.
@@ -1216,12 +1064,9 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                 reset_terminal();
                 print_line(
                     _( "\nPower:         Backup Only\nRadiation Level:  Very Dangerous\nOperational:   Overridden\n\n" ) );
-                for( int x = 0; x < MAPSIZE_X; x++ ) {
-                    for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                        if( g->m.ter( point( x, y ) ) == t_elevator_control_off ) {
-                            g->m.ter_set( point( x, y ), t_elevator_control );
-
-                        }
+                for( const tripoint &p : g->m.points_on_zlevel() ) {
+                    if( g->m.ter( p ) == t_elevator_control_off ) {
+                        g->m.ter_set( p, t_elevator_control );
                     }
                 }
             }
@@ -1250,9 +1095,9 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                                 explosion_handler::explosion( dest, 40 );
                                 reset_terminal();
                                 print_error( _( "WARNING [409]: Primary sensors offline!" ) );
-                                print_error( _( "  >> Initialize secondary sensors:  Geiger profiling..." ) );
+                                print_error( _( "  >> Initialize secondary sensors: Geiger profiling..." ) );
                                 print_error( _( "  >> Radiation spike detected!\n" ) );
-                                print_error( _( "WARNING [912]: Catastrophic malfunction!  Contamination detected! " ) );
+                                print_error( _( "WARNING [912]: Catastrophic malfunction!  Contamination detected!" ) );
                                 print_error( _( "EMERGENCY PROCEDURE [1]:  Evacuate.  Evacuate.  Evacuate.\n" ) );
                                 sounds::sound( g->u.pos(), 30, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
                                                "alarm" );
@@ -1295,7 +1140,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
             }
             if( !platform_exists ) {
                 print_error(
-                    _( "CRITICAL ERROR... RADIATION PLATFORM UNRESPONSIVE.  COMPLY TO PROCEDURE RP_M_01_rev.03." ) );
+                    _( "CRITICAL ERROR...  RADIATION PLATFORM UNRESPONSIVE.  COMPLY TO PROCEDURE RP_M_01_rev.03." ) );
             }
             if( !error ) {
                 query_any( _( "Press any key..." ) );
@@ -1418,9 +1263,9 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                     g->m.translate_radius( t_rad_platform, t_concrete, 8.0, g->u.pos(), true );
                     remove_option( COMPACT_IRRADIATOR );
                     remove_option( COMPACT_EXTRACT_RAD_SOURCE );
-                    query_any( _( "Extraction sequence complete... Press any key." ) );
+                    query_any( _( "Extraction sequence complete...  Press any key." ) );
                 } else {
-                    query_any( _( "ERROR!  Radiation platform unresponsive... Press any key." ) );
+                    query_any( _( "ERROR!  Radiation platform unresponsive...  Press any key." ) );
                 }
             }
             break;
@@ -1445,14 +1290,14 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                 print_error( _( "Fuse reseted." ) );
                 print_error( _( "Ground re-enabled." ) );
             } else {
-                print_line( _( "Internal power lines status: 85%% OFFLINE. Reason: DAMAGED." ) );
+                print_line( _( "Internal power lines status: 85%% OFFLINE.  Reason: DAMAGED." ) );
             }
             print_line(
-                _( "External power lines status: 100%% OFFLINE. Reason: NO EXTERNAL POWER DETECTED." ) );
+                _( "External power lines status: 100%% OFFLINE.  Reason: NO EXTERNAL POWER DETECTED." ) );
             if( has_generator ) {
                 print_line( _( "Backup power status: STANDBY MODE." ) );
             } else {
-                print_error( _( "Backup power status: OFFLINE. Reason: UNKNOWN" ) );
+                print_error( _( "Backup power status: OFFLINE.  Reason: UNKNOWN" ) );
             }
             query_any( _( "Press any key..." ) );
             break;
@@ -1488,12 +1333,10 @@ void computer::activate_failure( computer_failure_type fail )
             if( found_tile ) {
                 break;
             }
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.has_flag( "CONSOLE", point( x, y ) ) ) {
-                        g->m.ter_set( point( x, y ), t_console_broken );
-                        add_msg( m_bad, _( "The console shuts down." ) );
-                    }
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                if( g->m.has_flag( "CONSOLE", p ) ) {
+                    g->m.ter_set( p, t_console_broken );
+                    add_msg( m_bad, _( "The console shuts down." ) );
                 }
             }
             break;
@@ -1510,17 +1353,10 @@ void computer::activate_failure( computer_failure_type fail )
 
         case COMPFAIL_MANHACKS: {
             int num_robots = rng( 4, 8 );
+            const tripoint_range range = g->m.points_in_radius( g->u.pos(), 3 );
             for( int i = 0; i < num_robots; i++ ) {
-                tripoint mp( 0, 0, g->u.posz() );
-                int tries = 0;
-                do {
-                    mp.x = rng( g->u.posx() - 3, g->u.posx() + 3 );
-                    mp.y = rng( g->u.posy() - 3, g->u.posy() + 3 );
-                    tries++;
-                } while( !g->is_empty( mp ) && tries < 10 );
-                if( tries != 10 ) {
+                if( g->place_critter_within( mon_manhack, range ) ) {
                     add_msg( m_warning, _( "Manhacks drop from compartments in the ceiling." ) );
-                    g->summon_mon( mon_manhack, mp );
                 }
             }
         }
@@ -1528,17 +1364,10 @@ void computer::activate_failure( computer_failure_type fail )
 
         case COMPFAIL_SECUBOTS: {
             int num_robots = 1;
+            const tripoint_range range = g->m.points_in_radius( g->u.pos(), 3 );
             for( int i = 0; i < num_robots; i++ ) {
-                tripoint mp( 0, 0, g->u.posz() );
-                int tries = 0;
-                do {
-                    mp.x = rng( g->u.posx() - 3, g->u.posx() + 3 );
-                    mp.y = rng( g->u.posy() - 3, g->u.posy() + 3 );
-                    tries++;
-                } while( !g->is_empty( mp ) && tries < 10 );
-                if( tries != 10 ) {
+                if( g->place_critter_within( mon_secubot, range ) ) {
                     add_msg( m_warning, _( "Secubots emerge from compartments in the floor." ) );
-                    g->summon_mon( mon_secubot, mp );
                 }
             }
         }
@@ -1556,47 +1385,39 @@ void computer::activate_failure( computer_failure_type fail )
 
         case COMPFAIL_PUMP_EXPLODE:
             add_msg( m_warning, _( "The pump explodes!" ) );
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( point( x, y ) ) == t_sewage_pump ) {
-                        tripoint p( x, y, g->get_levz() );
-                        g->m.make_rubble( p );
-                        explosion_handler::explosion( p, 10 );
-                    }
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                if( g->m.ter( p ) == t_sewage_pump ) {
+                    g->m.make_rubble( p );
+                    explosion_handler::explosion( p, 10 );
                 }
             }
             break;
 
         case COMPFAIL_PUMP_LEAK:
             add_msg( m_warning, _( "Sewage leaks!" ) );
-            for( int x = 0; x < MAPSIZE_X; x++ ) {
-                for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                    if( g->m.ter( point( x, y ) ) == t_sewage_pump ) {
-                        point p( x, y );
-                        int leak_size = rng( 4, 10 );
-                        for( int i = 0; i < leak_size; i++ ) {
-                            std::vector<point> next_move;
-                            if( g->m.passable( p + point_north ) ) {
-                                next_move.push_back( p + point_north );
-                            }
-                            if( g->m.passable( p + point_east ) ) {
-                                next_move.push_back( p + point_east );
-                            }
-                            if( g->m.passable( p + point_south ) ) {
-                                next_move.push_back( p + point_south );
-                            }
-                            if( g->m.passable( p + point_west ) ) {
-                                next_move.push_back( p + point_west );
-                            }
-
-                            if( next_move.empty() ) {
-                                i = leak_size;
-                            } else {
-                                p = random_entry( next_move );
-                                g->m.ter_set( p, t_sewage );
-                            }
-                        }
+            for( const tripoint &p : g->m.points_on_zlevel() ) {
+                if( g->m.ter( p ) != t_sewage_pump ) {
+                    continue;
+                }
+                const int leak_size = rng( 4, 10 );
+                for( int i = 0; i < leak_size; i++ ) {
+                    std::vector<tripoint> next_move;
+                    if( g->m.passable( p + point_north ) ) {
+                        next_move.push_back( p + point_north );
                     }
+                    if( g->m.passable( p + point_east ) ) {
+                        next_move.push_back( p + point_east );
+                    }
+                    if( g->m.passable( p + point_south ) ) {
+                        next_move.push_back( p + point_south );
+                    }
+                    if( g->m.passable( p + point_west ) ) {
+                        next_move.push_back( p + point_west );
+                    }
+                    if( next_move.empty() ) {
+                        break;
+                    }
+                    g->m.ter_set( random_entry( next_move ), t_sewage );
                 }
             }
             break;
@@ -1639,22 +1460,20 @@ void computer::activate_failure( computer_failure_type fail )
 
         case COMPFAIL_DESTROY_DATA:
             print_error( _( "ERROR: ACCESSING DATA MALFUNCTION" ) );
-            for( int x = 0; x < SEEX * 2; x++ ) {
-                for( int y = 0; y < SEEY * 2; y++ ) {
-                    if( g->m.ter( point( x, y ) ) == t_floor_blue ) {
-                        map_stack items = g->m.i_at( point( x, y ) );
-                        if( items.empty() ) {
-                            print_error( _( "ERROR: Please place memory bank in scan area." ) );
-                        } else if( items.size() > 1 ) {
-                            print_error( _( "ERROR: Please only scan one item at a time." ) );
-                        } else if( items.only_item().typeId() != "usb_drive" ) {
-                            print_error( _( "ERROR: Memory bank destroyed or not present." ) );
-                        } else if( items.only_item().contents.empty() ) {
-                            print_error( _( "ERROR: Memory bank is empty." ) );
-                        } else {
-                            print_error( _( "ERROR: Data bank destroyed." ) );
-                            g->m.i_clear( point( x, y ) );
-                        }
+            for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 24 ) ) {
+                if( g->m.ter( p ) == t_floor_blue ) {
+                    map_stack items = g->m.i_at( p );
+                    if( items.empty() ) {
+                        print_error( _( "ERROR: Please place memory bank in scan area." ) );
+                    } else if( items.size() > 1 ) {
+                        print_error( _( "ERROR: Please only scan one item at a time." ) );
+                    } else if( items.only_item().typeId() != "usb_drive" ) {
+                        print_error( _( "ERROR: Memory bank destroyed or not present." ) );
+                    } else if( items.only_item().contents.empty() ) {
+                        print_error( _( "ERROR: Memory bank is empty." ) );
+                    } else {
+                        print_error( _( "ERROR: Data bank destroyed." ) );
+                        g->m.i_clear( p );
                     }
                 }
             }
@@ -1676,8 +1495,7 @@ void computer::remove_option( computer_action const action )
 
 void computer::mark_refugee_center()
 {
-    print_line( _( "\
-SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT ... " ) );
+    print_line( _( "SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT..." ) );
 
     const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
     tripoint mission_target;
@@ -1703,15 +1521,14 @@ SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT ... " ) );
     }
 
     //~555-0164 is a fake phone number in the US, please replace it with a number that will not cause issues in your locale if possible.
-    print_line( _( "\
-\nREFUGEE CENTER FOUND! LOCATION: %d %s\n\n\
-IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT \n\
-THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE. \n\
-THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND  \n\
-4PM AT 555-0164.                                              \n\
-\n\
-IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n\
-TO WRITE US A LETTER PLEASE SEND IT TO...\n" ), rl_dist( g->u.pos(), mission_target ),
+    print_line( _( "\nREFUGEE CENTER FOUND!  LOCATION: %d %s\n\n"
+                   "IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT\n"
+                   "THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE.\n"
+                   "THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND\n"
+                   "4PM AT 555-0164.\n"
+                   "\n"
+                   "IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n"
+                   "TO WRITE US A LETTER PLEASE SEND IT TO...\n" ), rl_dist( g->u.pos(), mission_target ),
                 direction_name_short( direction_from( g->u.pos(), mission_target ) ) );
 
     query_any( _( "Press any key to continue..." ) );

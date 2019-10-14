@@ -15,7 +15,6 @@
     "volume": "250 ml",
     "//": "Setting battery volume to 0 causes weirdness in vehicle tests.  Please don't do that.",
     "ammo_type": "battery",
-    "reload_time": 1,
     "count": 100,
     "//2": "1 battery is 1 kJ of energy. 40 batteries is an alkaline C-cell.",
     "fuel": { "energy": 1 }
@@ -28,7 +27,7 @@
     "name": "betavoltaic cell",
     "symbol": "=",
     "color": "green",
-    "description": "Harness the power of radiation in your own home!  This looks similar to a D-cell battery, but actually contains folded layers of radioactive material inside.  It can produce electricity for several years at a steady voltage... but it's barely enough to power a small LED, and these batteries were worth hundreds of dollars.  Mostly they're a good way to brag to your neighbours that you have a nuclear power source in your house.",
+    "description": "Harness the power of radiation in your own home!  This looks similar to a D-cell battery, but actually contains folded layers of radioactive material inside.  It can produce electricity for several years at a steady voltage... but it's barely enough to power a small LED, and these batteries were worth hundreds of dollars.  Mostly they're a good way to brag to your neighbors that you have a nuclear power source in your house.",
     "material": [ "steel", "plastic", "lead" ],
     "flags": [ "LEAK_DAM", "RADIOACTIVE" ],
     "volume": "250 ml",
@@ -42,7 +41,7 @@
     "name": "radioisotope thermoelectric generator",
     "symbol": "=",
     "color": "green",
-    "description": "Did your neighbours brag about their cool beta-decay powered nightlights?  Do them one better!  The CuppaTech 4 radioisotope thermoelectric generator is a three kilogram chunk of metal - mostly lead - with a slug of curium-244 encased within.  It is capable of generating somewhere between 100-150 Watts of thermal energy, although its electrical generation capacity is minimal at only 2 Watts.  Careful!  Curium is great at making heat, and also releases deadly gamma radiation.  Keep away from cellular life forms.",
+    "description": "Did your neighbors brag about their cool beta-decay powered nightlights?  Do them one better!  The CuppaTech 4 radioisotope thermoelectric generator is a three kilogram chunk of metal - mostly lead - with a slug of curium-244 encased within.  It is capable of generating somewhere between 100-150 Watts of thermal energy, although its electrical generation capacity is minimal at only 2 Watts.  Careful!  Curium is great at making heat, and also releases deadly gamma radiation.  Keep away from cellular life forms.",
     "material": [ "steel", "lead" ],
     "flags": [ "LEAK_DAM", "RADIOACTIVE" ],
     "volume": "500 ml",
@@ -273,7 +272,7 @@
     "dispersion": 14,
     "loudness": 0,
     "count": 10,
-    "effects": [ "NEVER_MISFIRES" ]
+    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
   },
   {
     "type": "AMMO",
@@ -332,7 +331,7 @@
     "dispersion": 14,
     "loudness": 0,
     "count": 50,
-    "effects": [ "NEVER_MISFIRES" ]
+    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ]
   },
   {
     "type": "AMMO",
@@ -351,7 +350,7 @@
     "count": 500,
     "stack_size": 200,
     "loudness": 9,
-    "effects": [ "NOGIB", "NEVER_MISFIRES" ]
+    "effects": [ "NOGIB", "NEVER_MISFIRES", "NON-FOULING" ]
   },
   {
     "type": "AMMO",
@@ -763,27 +762,6 @@
     "dispersion": 50,
     "recoil": 350,
     "effects": [ "COOKOFF", "TRAIL", "NEVER_MISFIRES", "FRAG" ]
-  },
-  {
-    "type": "AMMO",
-    "id": "m235tpa",
-    "price": 200000,
-    "//": "$500 per.  Cheap!",
-    "name": "M235 66mm TPA rocket",
-    "symbol": "=",
-    "color": "dark_gray",
-    "description": "66mm incendiary rockets used in the M202 FLASH rocket launcher.  Their warheads are filled with a thickened pyrophoric agent, which burns at 2200 degrees Fahrenheit.",
-    "material": [ "steel", "powder" ],
-    "volume": "2 L",
-    "weight": "1140 g",
-    "ammo_type": "m235",
-    "damage": 60,
-    "pierce": 10,
-    "range": 70,
-    "dispersion": 150,
-    "recoil": 150,
-    "count": 4,
-    "effects": [ "COOKOFF", "NAPALM_BIG", "TRAIL", "NEVER_MISFIRES" ]
   },
   {
     "type": "AMMO",

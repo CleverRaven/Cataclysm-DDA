@@ -77,9 +77,10 @@
     "id": "grip",
     "type": "GUNMOD",
     "name": "forward grip",
+    "//": "Daniel Defense Tornado",
     "description": "A grip placed forward on the barrel allows for greater control.  Not as effective as a bipod but usable under all conditions.",
-    "weight": "113 g",
-    "volume": "250 ml",
+    "weight": "68 g",
+    "volume": "119 ml",
     "price": 6000,
     "material": [ "steel", "plastic" ],
     "symbol": ":",
@@ -157,25 +158,25 @@
     "id": "lemat_revolver_shotgun",
     "type": "GUNMOD",
     "name": "LeMat revolver shotgun",
-    "description": "The integrated underbarrel shotgun of a modified LeMat revolver which holds a single shot.  It's irremovable.",
-    "weight": "500 g",
-    "volume": 0,
-    "price": 95000,
+    "description": "The Lemat revolver is unique in that its cylinder axis pin is also a fully functional 20ga percussion-primed smoothbore barrel.  It's irremovable.",
+    "volume": "250 ml",
+    "integral_volume": 0,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "pistol" ],
     "gun_data": {
-      "ammo": "shot",
+      "ammo": "shotpaper",
       "skill": "shotgun",
       "range": -2,
-      "ranged_damage": 2,
+      "ranged_damage": -12,
       "dispersion": 600,
       "durability": 10,
+      "reload": 150,
       "clip_size": 1
     },
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "NO_UNLOAD", "IRREMOVABLE" ]
   },
   {
     "id": "m203",
@@ -225,9 +226,9 @@
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
       "dispersion_modifier": 10,
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
-      "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
+    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "qualities": [ [ "COOK", 1 ] ]
   },
   {

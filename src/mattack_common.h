@@ -5,6 +5,8 @@
 #include <memory>
 #include <string>
 
+#include "clone_ptr.h"
+
 class JsonObject;
 class monster;
 
@@ -27,7 +29,7 @@ class mattack_actor
 
         virtual ~mattack_actor() = default;
         virtual bool call( monster & ) const = 0;
-        virtual mattack_actor *clone() const = 0;
+        virtual std::unique_ptr<mattack_actor> clone() const = 0;
         virtual void load_internal( JsonObject &jo, const std::string &src ) = 0;
 };
 
@@ -35,22 +37,11 @@ struct mtype_special_attack {
     protected:
         // TODO: Remove friend
         friend struct mtype;
-        std::unique_ptr<mattack_actor> actor;
+        cata::clone_ptr<mattack_actor> actor;
 
     public:
         mtype_special_attack( const mattack_id &id, mon_action_attack f );
-        mtype_special_attack( mattack_actor *f ) : actor( f ) { }
-        mtype_special_attack( mtype_special_attack && ) = default;
-        mtype_special_attack( const mtype_special_attack &other ) :
-            mtype_special_attack( other.actor->clone() ) { }
-
-        ~mtype_special_attack() = default;
-
-        mtype_special_attack &operator=( mtype_special_attack && ) = default;
-        mtype_special_attack &operator=( const mtype_special_attack &other ) {
-            actor.reset( other.actor->clone() );
-            return *this;
-        }
+        mtype_special_attack( std::unique_ptr<mattack_actor> f ) : actor( std::move( f ) ) { }
 
         const mattack_actor &operator*() const {
             return *actor;

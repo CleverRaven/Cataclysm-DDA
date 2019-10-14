@@ -33,7 +33,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": 2,
     "magazines": [ [ "45", [ "tdi_mag" ] ] ]
   },
@@ -72,7 +72,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "45", [ "ump45mag" ] ] ]
   },
   {
@@ -145,7 +145,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "45", [ "mac10mag" ] ] ]
   },
@@ -184,7 +184,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ]
   },
   {
@@ -285,7 +285,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "45", [ "thompson_mag", "thompson_bigmag", "thompson_drum" ] ] ]
   },
   {

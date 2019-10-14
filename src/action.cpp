@@ -70,9 +70,8 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
         } else if( id[0] != '#' ) {
             const action_id act = look_up_action( id );
             if( act == ACTION_NULL ) {
-                debugmsg( "\
-Warning! keymap.txt contains an unknown action, \"%s\"\n\
-Fix \"%s\" at your next chance!", id, FILENAMES["keymap"] );
+                debugmsg( "Warning! keymap.txt contains an unknown action, \"%s\"\n"
+                          "Fix \"%s\" at your next chance!", id, FILENAMES["keymap"] );
             } else {
                 while( !keymap_txt.eof() ) {
                     char ch;
@@ -81,10 +80,9 @@ Fix \"%s\" at your next chance!", id, FILENAMES["keymap"] );
                         break;
                     } else if( ch != ' ' || keymap_txt.peek() == '\n' ) {
                         if( kmap.find( ch ) != kmap.end() ) {
-                            debugmsg( "\
-Warning!  '%c' assigned twice in the keymap!\n\
-%s is being ignored.\n\
-Fix \"%s\" at your next chance!", ch, id, FILENAMES["keymap"] );
+                            debugmsg( "Warning!  '%c' assigned twice in the keymap!\n"
+                                      "%s is being ignored.\n"
+                                      "Fix \"%s\" at your next chance!", ch, id, FILENAMES["keymap"] );
                         } else {
                             kmap[ ch ] = act;
                         }
@@ -298,8 +296,8 @@ std::string action_ident( action_id act )
             return "missions";
         case ACTION_FACTIONS:
             return "factions";
-        case ACTION_KILLS:
-            return "kills";
+        case ACTION_SCORES:
+            return "scores";
         case ACTION_MORALE:
             return "morale";
         case ACTION_MESSAGES:
@@ -314,6 +312,8 @@ std::string action_ident( action_id act )
             return "debug_temp";
         case ACTION_DISPLAY_VISIBILITY:
             return "debug_visibility";
+        case ACTION_DISPLAY_LIGHTING:
+            return "debug_lighting";
         case ACTION_DISPLAY_RADIATION:
             return "debug_radiation";
         case ACTION_TOGGLE_DEBUG_MODE:
@@ -403,7 +403,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_MAP:
         case ACTION_SKY:
         case ACTION_MISSIONS:
-        case ACTION_KILLS:
+        case ACTION_SCORES:
         case ACTION_FACTIONS:
         case ACTION_MORALE:
         case ACTION_MESSAGES:
@@ -422,6 +422,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_DISPLAY_SCENT:
         case ACTION_DISPLAY_TEMPERATURE:
         case ACTION_DISPLAY_VISIBILITY:
+        case ACTION_DISPLAY_LIGHTING:
         case ACTION_DISPLAY_RADIATION:
         case ACTION_ZOOM_OUT:
         case ACTION_ZOOM_IN:
@@ -821,6 +822,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );
             REGISTER_ACTION( ACTION_DISPLAY_TEMPERATURE );
             REGISTER_ACTION( ACTION_DISPLAY_VISIBILITY );
+            REGISTER_ACTION( ACTION_DISPLAY_LIGHTING );
             REGISTER_ACTION( ACTION_DISPLAY_RADIATION );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );
         } else if( category == _( "Interact" ) ) {
@@ -868,7 +870,7 @@ action_id handle_action_menu()
         } else if( category == _( "Info" ) ) {
             REGISTER_ACTION( ACTION_PL_INFO );
             REGISTER_ACTION( ACTION_MISSIONS );
-            REGISTER_ACTION( ACTION_KILLS );
+            REGISTER_ACTION( ACTION_SCORES );
             REGISTER_ACTION( ACTION_FACTIONS );
             REGISTER_ACTION( ACTION_MORALE );
             REGISTER_ACTION( ACTION_MESSAGES );
@@ -897,7 +899,7 @@ action_id handle_action_menu()
 
         std::string title = _( "Actions" );
         if( category != "back" ) {
-            catgname = _( category );
+            catgname = category;
             capitalize_letter( catgname, 0 );
             title += ": " + catgname;
         }

@@ -130,7 +130,7 @@
     "description": "This staggering soldier wears a burnt gasmask, now fused to its face.  Through the melted, bile-encrusted ruination of the mask comes some sort of hardened fleshy proboscis, with steaming corrosive fluid leaking from the end.",
     "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
-    "difficulty": 20,
+    "diff": 20,
     "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "vision_day": 10, "vision_night": 10 },
     "delete": { "flags": [ "BLEED" ] },
     "extend": {
@@ -160,7 +160,7 @@
     "description": "This zombie wears what appears to have once been a soldier's uniform and armor, now a series of cracked and melted plates that have fused to its skin and thickened hide.  Its face and arms blister with strange mutated tubes that pulse and drip with acid.",
     "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
-    "difficulty": 20,
+    "diff": 20,
     "relative": { "hp": 40, "speed": -10, "melee_skill": 2, "armor_bash": 5 },
     "delete": { "flags": [ "BLEED" ] },
     "extend": {
@@ -362,6 +362,7 @@
     "vision_night": 3,
     "luminance": 8,
     "harvest": "zombie",
+    "starting_ammo": { "pressurized_tank": 1000 },
     "death_drops": { "subtype": "collection", "groups": [ [ "mon_zombie_soldier_death_drops", 100 ], [ "mon_zombie_flamer", 100 ] ] },
     "death_function": [ "FIREBALL" ],
     "burn_into": "mon_zombie_scorched",

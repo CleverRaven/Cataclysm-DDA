@@ -97,7 +97,8 @@
     "name": "toxic waste dump",
     "sym": "D",
     "color": "pink",
-    "see_cost": 2
+    "see_cost": 2,
+    "flags": [ "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -105,7 +106,8 @@
     "name": "hazardous waste sarcophagus",
     "sym": "X",
     "color": "pink",
-    "see_cost": 5
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -121,7 +123,8 @@
     "name": "hazardous waste sarcophagus",
     "sym": "X",
     "color": "pink",
-    "see_cost": 5
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",
@@ -216,7 +219,8 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "dump",
     "sym": "D",
-    "color": "i_brown"
+    "color": "i_brown",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
   },
   {
     "type": "overmap_terrain",
@@ -224,7 +228,8 @@
     "copy-from": "generic_city_building",
     "name": "recycle center",
     "sym": "R",
-    "color": "i_green"
+    "color": "i_green",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
   },
   {
     "type": "overmap_terrain",
@@ -240,7 +245,8 @@
     "copy-from": "generic_city_building",
     "name": "recycle center",
     "sym": "R",
-    "color": "i_green"
+    "color": "i_green",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
   },
   {
     "type": "overmap_terrain",
@@ -256,7 +262,8 @@
     "copy-from": "generic_city_building",
     "name": "recycle center",
     "sym": "R",
-    "color": "i_green"
+    "color": "i_green",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
   },
   {
     "type": "overmap_terrain",
@@ -280,7 +287,8 @@
     "copy-from": "generic_city_building",
     "name": "junkyard",
     "sym": "J",
-    "color": "i_brown"
+    "color": "i_brown",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
   },
   {
     "type": "overmap_terrain",
@@ -288,7 +296,8 @@
     "copy-from": "generic_city_building",
     "name": "junkyard",
     "sym": "J",
-    "color": "i_brown"
+    "color": "i_brown",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
   },
   {
     "type": "overmap_terrain",
@@ -296,7 +305,8 @@
     "copy-from": "generic_city_building",
     "name": "junkyard",
     "sym": "J",
-    "color": "i_brown"
+    "color": "i_brown",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
   },
   {
     "type": "overmap_terrain",
@@ -304,7 +314,8 @@
     "copy-from": "generic_city_building",
     "name": "junkyard",
     "sym": "J",
-    "color": "i_brown"
+    "color": "i_brown",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
   },
   {
     "type": "overmap_terrain",
@@ -312,7 +323,8 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "regional dump",
     "sym": "d",
-    "color": "i_brown"
+    "color": "i_brown",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
   },
   {
     "type": "overmap_terrain",
@@ -400,7 +412,8 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "small scrap yard",
     "sym": "s",
-    "color": "red"
+    "color": "red",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
   },
   {
     "type": "overmap_terrain",
@@ -416,7 +429,8 @@
     "copy-from": "generic_city_building",
     "name": "small dump",
     "sym": "d",
-    "color": "i_brown"
+    "color": "i_brown",
+    "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION", "SOURCE_VEHICLES" ]
   },
   {
     "type": "overmap_terrain",

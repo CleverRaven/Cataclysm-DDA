@@ -72,7 +72,7 @@ moon_phase get_moon_phase( const time_point &p )
 time_point sunrise( const time_point &p )
 {
     static_assert( static_cast<int>( SPRING ) == 0,
-                   "Expected spring to be the first season. If not, code below will use wrong index into array" );
+                   "Expected spring to be the first season.  If not, code below will use wrong index into array" );
 
     static const std::array<int, 4> start_hours = { { sunrise_equinox, sunrise_summer, sunrise_equinox, sunrise_winter, } };
     const size_t season = static_cast<size_t>( season_of_year( p ) );
@@ -92,7 +92,7 @@ time_point sunrise( const time_point &p )
 time_point sunset( const time_point &p )
 {
     static_assert( static_cast<int>( SPRING ) == 0,
-                   "Expected spring to be the first season. If not, code below will use wrong index into array" );
+                   "Expected spring to be the first season.  If not, code below will use wrong index into array" );
 
     static const std::array<int, 4> start_hours = { { sunset_equinox, sunset_summer, sunset_equinox, sunset_winter, } };
     const size_t season = static_cast<size_t>( season_of_year( p ) );
@@ -173,7 +173,7 @@ double current_daylight_level( const time_point &p )
     return modifier * default_daylight_level();
 }
 
-float sunlight( const time_point &p )
+float sunlight( const time_point &p, const bool vision )
 {
     const time_duration now = time_past_midnight( p );
     const time_duration sunrise = time_past_midnight( ::sunrise( p ) );
@@ -186,7 +186,8 @@ float sunlight( const time_point &p )
         current_phase = static_cast<int>( MOON_PHASE_MAX ) - current_phase;
     }
 
-    const int moonlight = 1 + static_cast<int>( current_phase * moonlight_per_quarter );
+    const int moonlight = vision ? 1 + static_cast<int>( current_phase * moonlight_per_quarter ) :
+                          0;
 
     if( now > sunset + twilight_duration || now < sunrise ) { // Night
         return moonlight;
@@ -453,7 +454,7 @@ float calendar::season_ratio()
 
 float calendar::season_from_default_ratio()
 {
-    static const int default_season_length = 14;
+    static const int default_season_length = 91;
     return to_days<float>( season_length() ) / default_season_length;
 }
 

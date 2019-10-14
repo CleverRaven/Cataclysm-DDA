@@ -120,7 +120,7 @@
       {
         "condition": {
           "and": [
-            { "not": { "npc_has_effect": "apology_luo", "type": "general", "context": "conversation", "value": "yes" } },
+            { "not": { "npc_has_var": "apology_luo", "type": "general", "context": "conversation", "value": "yes" } },
             { "npc_has_var": "dont_insult_luo", "type": "general", "context": "conversation", "value": "yes" },
             { "not": { "npc_has_effect": "insulted_luo" } }
           ]
@@ -162,16 +162,8 @@
     "id": "TALK_REFUGEE_BEGGAR_3_GIVE_FOOD",
     "dynamic_line": "Actually yeah, I'm always hungry these days.  I don't like taking handouts, but I wouldn't say no.",
     "responses": [
-      {
-        "text": "Actually can I ask you something else?",
-        "topic": "TALK_NONE",
-        "opinion": { "trust": [ -1, 0 ], "value": [ -1, 0 ] }
-      },
-      {
-        "text": "I'm sorry, I was wrong.  I can't help you.",
-        "topic": "TALK_DONE",
-        "opinion": { "trust": [ -1, 0 ], "value": [ -1, 0 ] }
-      }
+      { "text": "Actually can I ask you something else?", "topic": "TALK_NONE" },
+      { "text": "I'm sorry, I was wrong.  I can't help you.", "topic": "TALK_DONE" }
     ],
     "repeat_responses": [
       {
@@ -179,7 +171,7 @@
         "response": {
           "text": "Here, you can have this <topic_item>.",
           "topic": "TALK_REFUGEE_BEGGAR_3_GAVE_FOOD",
-          "opinion": { "trust": [ 0, 1 ], "value": [ 0, 2 ], "fear": [ -1, 0 ], "anger": [ -1, 0 ], "owed": 1 }
+          "opinion": { "trust": 1, "value": 1, "fear": -1, "anger": -1, "owed": 1 }
         }
       }
     ]
@@ -245,7 +237,7 @@
       {
         "condition": {
           "and": [
-            { "not": { "npc_has_effect": "apology_luo", "type": "general", "context": "conversation", "value": "yes" } },
+            { "not": { "npc_has_var": "apology_luo", "type": "general", "context": "conversation", "value": "yes" } },
             { "npc_has_var": "dont_insult_luo", "type": "general", "context": "conversation", "value": "yes" },
             { "not": { "npc_has_effect": "insulted_luo" } }
           ]

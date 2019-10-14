@@ -192,11 +192,13 @@ static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
             reqs.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
         }
 
-    } else {
-        const requirement_id req_id( string_format( "inline_%s_%s", key.c_str(), id.c_str() ) );
-        requirement_data::load_requirement( src, req_id );
-        reqs = { { req_id, 1 } };
     }
+
+    // Construct a requirement to capture "components", "qualities", and
+    // "tools" that might be listed.
+    const requirement_id req_id( string_format( "inline_%s_%s", key.c_str(), id.c_str() ) );
+    requirement_data::load_requirement( src, req_id );
+    reqs.emplace_back( req_id, 1 );
 }
 
 /**
@@ -336,6 +338,10 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
     assign( jo, "cargo_weight_modifier", def.cargo_weight_modifier );
     assign( jo, "flags", def.flags );
     assign( jo, "description", def.description );
+
+    assign( jo, "comfort", def.comfort );
+    assign( jo, "floor_bedding_warmth", def.floor_bedding_warmth );
+    assign( jo, "bonus_fire_warmth_feet", def.bonus_fire_warmth_feet );
 
     if( jo.has_member( "transform_terrain" ) ) {
         JsonObject jttd = jo.get_object( "transform_terrain" );
@@ -514,18 +520,21 @@ void vpart_info::check()
             if( part.has_flag( "TOOL_WRENCH" ) || part.has_flag( "WHEEL" ) ) {
                 part.install_reqs = { { requirement_id( "vehicle_bolt" ), 1 } };
                 part.removal_reqs = { { requirement_id( "vehicle_bolt" ), 1 } };
-                part.repair_reqs  = { { requirement_id( "welding_standard" ), 5 } };
-
+                if( !part.has_flag( "NO_REPAIR" ) ) {
+                    part.repair_reqs  = { { requirement_id( "welding_standard" ), 5 } };
+                }
             } else if( part.has_flag( "TOOL_SCREWDRIVER" ) ) {
                 part.install_reqs = { { requirement_id( "vehicle_screw" ), 1 } };
                 part.removal_reqs = { { requirement_id( "vehicle_screw" ), 1 } };
-                part.repair_reqs  = { { requirement_id( "adhesive" ), 1 } };
-
+                if( !part.has_flag( "NO_REPAIR" ) ) {
+                    part.repair_reqs  = { { requirement_id( "adhesive" ), 1 } };
+                }
             } else if( part.has_flag( "NAILABLE" ) ) {
                 part.install_reqs = { { requirement_id( "vehicle_nail_install" ), 1 } };
                 part.removal_reqs = { { requirement_id( "vehicle_nail_removal" ), 1 } };
-                part.repair_reqs  = { { requirement_id( "adhesive" ), 2 } };
-
+                if( !part.has_flag( "NO_REPAIR" ) ) {
+                    part.repair_reqs  = { { requirement_id( "adhesive" ), 2 } };
+                }
             } else if( part.has_flag( "TOOL_NONE" ) ) {
                 // no-op
 
@@ -666,6 +675,10 @@ void vpart_info::check()
                 }
             }
         }
+        if( part.has_flag( "WHEEL" ) && !base_item_type.wheel ) {
+            debugmsg( "vehicle part %s has the WHEEL flag, but base item %s is not a wheel. THIS WILL CRASH!",
+                      part.id.c_str(), part.item );
+        }
         for( auto &q : part.qualities ) {
             if( !q.first.is_valid() ) {
                 debugmsg( "vehicle part %s has undefined tool quality %s", part.id.c_str(), q.first.c_str() );
@@ -712,12 +725,12 @@ std::string vpart_info::name() const
     }
 }
 
-int vpart_info::format_description( std::ostringstream &msg, const std::string &format_color,
+int vpart_info::format_description( std::ostringstream &msg, const nc_color &format_color,
                                     int width ) const
 {
     int lines = 1;
     msg << _( "<color_white>Description</color>\n" );
-    msg << "> " << format_color;
+    msg << "> " << "<color_" << string_from_color( format_color ) << ">";
 
     std::ostringstream long_descrip;
     if( ! description.empty() ) {
@@ -764,8 +777,8 @@ int vpart_info::format_description( std::ostringstream &msg, const std::string &
     const quality_id quality_jack( "JACK" );
     const quality_id quality_lift( "LIFT" );
     for( const auto &qual : qualities ) {
-        msg << "> " << format_color << string_format( _( "Has level %1$d %2$s quality" ),
-                qual.second, qual.first.obj().name );
+        msg << "> " << "<color_" << string_from_color( format_color ) << ">" << string_format(
+                _( "Has level %1$d %2$s quality" ), qual.second, qual.first.obj().name );
         if( qual.first == quality_jack || qual.first == quality_lift ) {
             msg << string_format( _( " and is rated at %1$d %2$s" ),
                                   static_cast<int>( convert_weight( qual.second * TOOL_LIFT_FACTOR ) ),

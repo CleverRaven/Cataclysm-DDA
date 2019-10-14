@@ -7,6 +7,8 @@
 #include <vector>
 
 #include "calendar.h"
+#include "optional.h"
+#include "point.h"
 #include "type_id.h"
 
 class npc;
@@ -24,7 +26,7 @@ using comp_list = std::vector<npc_ptr>;
 struct mission_entry {
     std::string id;
     std::string name_display;
-    std::string dir;
+    cata::optional<point> dir;
     std::string text;
     bool priority;
     bool possible;
@@ -48,11 +50,11 @@ class mission_data
         void add( const std::string &id, const std::string &name_display = "",
                   const std::string &text = "" );
         void add_start( const std::string &id, const std::string &name_display,
-                        const std::string &dir, const std::string &text, bool possible = true );
+                        cata::optional<point> dir, const std::string &text, bool possible = true );
         void add_return( const std::string &id, const std::string &name_display,
-                         const std::string &dir, const std::string &text, bool possible = true );
+                         cata::optional<point> dir, const std::string &text, bool possible = true );
         void add( const std::string &id, const std::string &name_display,
-                  const std::string &dir, const std::string &text,
+                  cata::optional<point> dir, const std::string &text,
                   bool priority = false, bool possible = true );
 };
 
@@ -138,7 +140,8 @@ npc_ptr companion_choose( const std::string &skill_tested = "", int skill_level 
 npc_ptr companion_choose_return( const npc &p, const std::string &mission_id,
                                  const time_point &deadline );
 npc_ptr companion_choose_return( const tripoint &omt_pos, const std::string &role_id,
-                                 const std::string &mission_id, const time_point &deadline );
+                                 const std::string &mission_id, const time_point &deadline,
+                                 bool by_mission = true );
 
 //Return NPC to your party
 void companion_return( npc &comp );

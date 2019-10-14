@@ -116,7 +116,12 @@
       "noise_threshold_lake": 0.25,
       "lake_size_min": 20,
       "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
-      "shore_extendable_overmap_terrain_aliases": [  ]
+      "shore_extendable_overmap_terrain_aliases": [
+        { "om_terrain": "island_forest", "om_terrain_match_type": "TYPE", "alias": "forest" },
+        { "om_terrain": "island_forest_thick", "om_terrain_match_type": "TYPE", "alias": "forest_thick" },
+        { "om_terrain": "island_forest_water", "om_terrain_match_type": "TYPE", "alias": "forest_water" },
+        { "om_terrain": "island_field", "om_terrain_match_type": "TYPE", "alias": "field" }
+      ]
     },
     "overmap_forest_settings": {
       "noise_threshold_forest": 0.2,
@@ -176,6 +181,7 @@
             "clear_types": false,
             "types": {
               "t_underbrush": 30,
+              "t_fern": 9,
               "t_shrub": 5,
               "t_shrub_blueberry": 1,
               "t_shrub_strawberry": 1,
@@ -267,6 +273,7 @@
             "clear_types": false,
             "types": {
               "t_underbrush": 30,
+              "t_fern": 9,
               "t_shrub": 5,
               "t_shrub_blueberry": 1,
               "t_shrub_strawberry": 1,
@@ -569,18 +576,22 @@
       }
     },
     "city": {
-      "type": "town",
       "shop_radius": 30,
       "shop_sigma": 50,
       "park_radius": 20,
       "park_sigma": 80,
       "house_basement_chance": 5,
       "houses": {
+        "house_w_1": 40,
         "house_two_story_basement": 1,
         "house": 1000,
-        "house_prepper": 30,
+        "house_prepper": 20,
         "house_base": 333,
-        "duplex": 50,
+        "duplex": 40,
+        "house_w_2": 40,
+        "house_w_3": 40,
+        "house_w_4": 40,
+        "house_w_5": 40,
         "emptyresidentiallot": 20,
         "apartments_con_new": 10,
         "apartments_mod_new": 10,
@@ -681,6 +692,7 @@
         "s_electronics_1": 400,
         "pawn": 300,
         "pawn_1": 300,
+        "pawn_pf": 50,
         "mil_surplus": 200,
         "mil_surplus_1": 200,
         "mil_surplus_2": 200,

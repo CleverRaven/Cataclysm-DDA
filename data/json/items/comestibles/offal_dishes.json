@@ -102,7 +102,7 @@
     "spoils_in": "1 days",
     "volume": "250 ml",
     "weight": "70 g",
-    "flag": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT" ],
     "calories": 130
   },
   {
@@ -122,7 +122,7 @@
     "spoils_in": "1 days",
     "volume": "250 ml",
     "weight": "70 g",
-    "flag": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT" ],
     "calories": 310
   },
   {
@@ -161,7 +161,7 @@
     "spoils_in": "1 days",
     "volume": "250 ml",
     "weight": "250 g",
-    "flag": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT" ],
     "calories": 285,
     "charges": 3,
     "vitamins": [ [ "vitA", 1 ], [ "vitB", 144 ], [ "vitC", 6 ], [ "iron", 13 ], [ "calcium", 1 ] ]
@@ -183,7 +183,7 @@
     "volume": "250 ml",
     "weight": "180 g",
     "charges": 3,
-    "flag": [ "EATEN_HOT" ],
+    "flags": [ "EATEN_HOT" ],
     "calories": 301,
     "vitamins": [ [ "vitA", 5 ], [ "vitB", 104 ], [ "vitC", 1 ], [ "iron", 6 ], [ "calcium", 1 ] ]
   },

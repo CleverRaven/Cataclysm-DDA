@@ -11,6 +11,7 @@
 
 #include "string_id.h"
 #include "pldata.h"
+#include "translations.h"
 #include "type_id.h"
 
 template<typename T>
@@ -49,10 +50,10 @@ class profession
         string_id<profession> id;
         bool was_loaded = false;
 
-        std::string _name_male;
-        std::string _name_female;
-        std::string _description_male;
-        std::string _description_female;
+        translation _name_male;
+        translation _name_female;
+        translation _description_male;
+        translation _description_female;
         signed int _point_cost;
 
         // TODO: In professions.json, replace lists of itypes (legacy) with item groups

@@ -23,6 +23,18 @@
   },
   {
     "type": "terrain",
+    "id": "t_mud",
+    "name": "mud",
+    "description": "An area of wet, slick mud.",
+    "symbol": ".",
+    "color": "brown",
+    "looks_like": "t_dirt",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
     "id": "t_clay",
     "name": "clay",
     "description": "A field full of malleable clay, suitable for kiln firing if it was extracted properly.",
@@ -270,11 +282,14 @@
     "color": "white",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT", "ROAD" ],
-    "ter_set": "t_null",
-    "str_min": 50,
-    "str_max": 400,
-    "str_min_supported": 100,
-    "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+    }
   },
   {
     "type": "terrain",

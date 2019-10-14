@@ -4,27 +4,30 @@
     "id": "s_electronicstore",
     "name": "electronics store",
     "copy-from": "generic_city_building",
-    "color": "yellow"
+    "color": "yellow",
+    "land_use_code": "commercial"
   },
   {
     "type": "overmap_terrain",
     "id": "s_electronicstore_2ndfloor",
     "name": "electronics store",
     "copy-from": "s_electronicstore",
-    "color": "yellow"
+    "land_use_code": "residential_multi"
   },
   {
     "type": "overmap_terrain",
     "id": "s_gunstore",
     "name": "gun store",
     "copy-from": "generic_city_building",
-    "color": "red"
+    "color": "red",
+    "land_use_code": "commercial"
   },
   {
     "type": "overmap_terrain",
     "id": "s_gunstore_2ndfloor",
     "name": "gun store",
-    "copy-from": "s_gunstore"
+    "copy-from": "s_gunstore",
+    "land_use_code": "residential_high"
   },
   {
     "type": "overmap_terrain",
@@ -38,7 +41,8 @@
     "name": "diner",
     "copy-from": "generic_city_building",
     "sym": "d",
-    "color": "green"
+    "color": "green",
+    "land_use_code": "commercial"
   },
   {
     "type": "overmap_terrain",
@@ -58,7 +62,8 @@
     "name": "apartment",
     "copy-from": "generic_city_building",
     "sym": "A",
-    "color": "light_green"
+    "color": "light_green",
+    "land_use_code": "residential_multi"
   },
   {
     "type": "overmap_terrain",
@@ -78,7 +83,8 @@
     "name": "apartment",
     "copy-from": "generic_city_building",
     "sym": "A",
-    "color": "light_green"
+    "color": "light_green",
+    "land_use_code": "residential_multi"
   },
   {
     "type": "overmap_terrain",
@@ -98,7 +104,8 @@
     "name": "dealership",
     "copy-from": "generic_city_building",
     "sym": "0",
-    "color": "blue"
+    "color": "blue",
+    "land_use_code": "commercial"
   },
   {
     "type": "overmap_terrain",
@@ -112,7 +119,8 @@
     "name": "outdoorsman's store",
     "copy-from": "generic_city_building",
     "sym": "o",
-    "color": "brown"
+    "color": "brown",
+    "land_use_code": "commercial"
   },
   {
     "type": "overmap_terrain",
@@ -126,7 +134,8 @@
     "name": "gaming store",
     "copy-from": "generic_city_building",
     "sym": "g",
-    "color": "cyan"
+    "color": "cyan",
+    "land_use_code": "commercial"
   },
   {
     "type": "overmap_terrain",
@@ -143,7 +152,8 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "transportation"
   },
   {
     "type": "overmap_terrain",
@@ -154,7 +164,8 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "transportation"
   },
   {
     "type": "overmap_terrain",
@@ -165,7 +176,8 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "transportation"
   },
   {
     "type": "overmap_terrain",
@@ -176,7 +188,8 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "transportation"
   },
   {
     "type": "overmap_terrain",
@@ -187,7 +200,8 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "transportation"
   },
   {
     "type": "overmap_terrain",
@@ -198,7 +212,8 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "transportation"
   },
   {
     "type": "overmap_terrain",
@@ -209,7 +224,8 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "transportation"
   },
   {
     "type": "overmap_terrain",
@@ -220,7 +236,8 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "transportation"
   },
   {
     "type": "overmap_terrain",
@@ -231,7 +248,8 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "transportation"
   },
   {
     "type": "overmap_terrain",
@@ -242,7 +260,8 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "transportation"
   },
   {
     "type": "overmap_terrain",
@@ -253,7 +272,8 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "transportation"
   },
   {
     "type": "overmap_terrain",
@@ -263,7 +283,8 @@
     "color": "dark_gray",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "land_use_code": "industrial"
   },
   {
     "type": "overmap_terrain",
@@ -273,7 +294,8 @@
     "color": "dark_gray",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "land_use_code": "industrial"
   },
   {
     "type": "overmap_terrain",
@@ -283,7 +305,8 @@
     "color": "light_blue",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "land_use_code": "industrial"
   },
   {
     "type": "overmap_terrain",
@@ -293,7 +316,8 @@
     "color": "light_blue",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "land_use_code": "industrial"
   },
   {
     "type": "overmap_terrain",
@@ -303,7 +327,8 @@
     "color": "light_blue",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "land_use_code": "industrial"
   },
   {
     "type": "overmap_terrain",
@@ -313,7 +338,8 @@
     "color": "light_blue",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "land_use_code": "industrial"
   },
   {
     "type": "overmap_terrain",
@@ -323,7 +349,8 @@
     "color": "light_blue",
     "see_cost": 5,
     "extras": "build",
-    "mondensity": 2
+    "mondensity": 2,
+    "land_use_code": "commercial"
   },
   {
     "type": "overmap_terrain",
@@ -334,7 +361,8 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "commercial"
   },
   {
     "type": "overmap_terrain",

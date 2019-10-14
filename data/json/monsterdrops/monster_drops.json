@@ -202,7 +202,7 @@
     "subtype": "collection",
     "id": "mon_zombie_grenadier",
     "entries": [
-      { "item": "chestrig", "damage": [ 1, 4 ] },
+      { "item": "tacvest", "damage": [ 1, 4 ] },
       { "item": "bot_grenade_hack", "count": [ 0, 3 ] },
       { "item": "bot_flashbang_hack", "prob": 50 },
       { "item": "bot_gasbomb_hack", "prob": 50 }
@@ -213,7 +213,7 @@
     "subtype": "collection",
     "id": "mon_zombie_grenadier_elite",
     "entries": [
-      { "item": "chestrig", "damage": [ 1, 4 ] },
+      { "item": "tacvest", "damage": [ 1, 4 ] },
       { "item": "molle_pack", "damage": [ 1, 4 ] },
       { "item": "bot_grenade_hack", "count": [ 0, 4 ] },
       { "item": "bot_flashbang_hack", "count": [ 1, 2 ], "prob": 50 },
@@ -333,18 +333,18 @@
       { "group": "survivorzed_extra", "damage": [ 1, 4 ] },
       {
         "distribution": [
-          { "group": "survivorzed_suits", "prob": 25 },
+          { "group": "survivorzed_suits", "prob": 25, "damage": [ 1, 4 ] },
           {
-            "collection": [ { "group": "survivorzed_tops", "prob": 25 }, { "group": "survivorzed_bottoms", "prob": 25 } ],
+            "collection": [
+              { "group": "survivorzed_tops", "prob": 25, "damage": [ 1, 4 ] },
+              { "group": "survivorzed_bottoms", "prob": 25, "damage": [ 1, 4 ] }
+            ],
             "prob": 75
           }
-        ],
-        "damage": [ 1, 4 ]
+        ]
       },
       {
-        "//": "1/3 chance of underware, 2/3 chance of loincloth",
-        "distribution": [ { "group": "underwear" }, { "group": "loincloth" }, { "group": "loincloth" } ],
-        "damage": [ 1, 4 ]
+        "distribution": [ { "group": "underwear", "prob": 1, "damage": [ 1, 4 ] }, { "group": "loincloth", "prob": 2, "damage": [ 1, 4 ] } ]
       },
       {
         "distribution": [
@@ -402,7 +402,7 @@
     "id": "mon_zombie_flamer",
     "ammo": 50,
     "magazine": 100,
-    "entries": [ { "item": "flamethrower", "charges-min": 100, "charges-max": 1500 } ]
+    "entries": [ { "item": "flamethrower", "charges-min": 0, "charges-max": 500 } ]
   },
   {
     "type": "item_group",

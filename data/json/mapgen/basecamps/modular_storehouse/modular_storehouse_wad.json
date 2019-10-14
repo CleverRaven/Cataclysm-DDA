@@ -1,0 +1,265 @@
+[
+  {
+    "type": "palette",
+    "id": "fbms_wad_palette",
+    "terrain": {
+      ".": "t_floor_primitive",
+      "b": "t_grass",
+      "t": "t_floor_primitive",
+      "l": "t_floor_primitive",
+      "B": "t_floor_primitive",
+      "d": "t_door_makeshift_c",
+      "o": "t_wall_wattle_half",
+      "w": "t_wall_wattle",
+      ";": "t_floor_primitive"
+    },
+    "furniture": { "b": "f_bench", "t": "f_table", "x": "f_brazier", "U": "f_birdbath", "l": "f_locker", "B": "f_bookcase" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_room0_wad",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "  wwww",
+        "  ...w",
+        "  ...w",
+        "  ...w",
+        "  ...w",
+        "  wwww"
+      ],
+      "palettes": [ "fbms_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_room0_wad_east",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_room0_wad" ], "x": 15, "y": 9 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_room1_wad",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wwww  ",
+        "w...  ",
+        "w...  ",
+        "w...  ",
+        "w...  ",
+        "wwww  "
+      ],
+      "palettes": [ "fbms_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_room1_wad_west",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_room1_wad" ], "x": 3, "y": 9 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_room2_wad",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "   wow",
+        "   w..",
+        "   w.."
+      ],
+      "palettes": [ "fbms_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_room2_wad_northwest",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_room2_wad" ], "x": 3, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_room3_wad",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "   w..",
+        "   w..",
+        "   wow",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "fbms_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_room3_wad_southwest",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_room3_wad" ], "x": 3, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_room4_wad",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "wow   ",
+        "..w   ",
+        "..w   "
+      ],
+      "palettes": [ "fbms_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_room4_wad_northeast",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_room4_wad" ], "x": 15, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_room5_wad",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "..w   ",
+        "..w   ",
+        "wow   ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "fbms_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_room5_wad_southeast",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_room5_wad" ], "x": 15, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_room6_wad",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "......",
+        "......",
+        "woddow",
+        " .... ",
+        " .... ",
+        "w....w"
+      ],
+      "palettes": [ "fbms_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_room6_wad_south",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_room6_wad" ], "x": 9, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_room7_wad",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "w....w",
+        " .... ",
+        " .... ",
+        "woddow",
+        "......",
+        "......"
+      ],
+      "palettes": [ "fbms_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_room7_wad_north",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_room7_wad" ], "x": 9, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_room8_wad",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "......",
+        "......",
+        "......",
+        "......",
+        "......",
+        "......"
+      ],
+      "palettes": [ "fbms_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_room9_wad",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "    ..",
+        "    ..",
+        "    ..",
+        "    ..",
+        "    ..",
+        "    .."
+      ],
+      "palettes": [ "fbms_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_room10_wad",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "..    ",
+        "..    ",
+        "..    ",
+        "..    ",
+        "..    ",
+        "..    "
+      ],
+      "palettes": [ "fbms_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_room8_wad_center",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbms_room9_wad" ], "x": 3, "y": 9 },
+        { "chunks": [ "fbms_room10_wad" ], "x": 15, "y": 9 },
+        { "chunks": [ "fbms_room8_wad" ], "x": 9, "y": 9 }
+      ]
+    }
+  }
+]

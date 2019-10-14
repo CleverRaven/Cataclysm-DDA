@@ -76,6 +76,7 @@
       { "monster": "mon_skitterbot", "freq": 1, "cost_multiplier": 0, "pack_size": [ 8, 12 ] },
       { "monster": "mon_turret_rifle", "freq": 85, "cost_multiplier": 0 },
       { "monster": "mon_secubot", "freq": 1, "cost_multiplier": 10 },
+      { "monster": "mon_talon_m202a1", "freq": 1, "cost_multiplier": 15 },
       { "monster": "mon_zombie_bio_op", "freq": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_armored", "freq": 5, "cost_multiplier": 8 },
       { "monster": "mon_zombie_electric", "freq": 50, "cost_multiplier": 3 },

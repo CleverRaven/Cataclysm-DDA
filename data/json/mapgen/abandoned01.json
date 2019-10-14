@@ -37,7 +37,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      [ "chestrig", 20 ],
+      [ "tacvest", 20 ],
       [ "jacket_light", 30 ],
       [ "jacket_leather", 30 ],
       [ "jacket_evac", 30 ],

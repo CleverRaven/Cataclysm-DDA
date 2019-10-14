@@ -2,6 +2,7 @@
   {
     "type": "item_group",
     "id": "default_vending_machine",
+    "subtype": "collection",
     "entries": [ { "group": "vending_drink", "prob": 50 }, { "group": "vending_drink", "prob": 50 } ]
   },
   {

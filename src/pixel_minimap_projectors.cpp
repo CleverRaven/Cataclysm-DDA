@@ -4,7 +4,6 @@
 
 #include "game_constants.h"
 
-
 pixel_minimap_ortho_projector::pixel_minimap_ortho_projector(
     const point &total_tiles_count,
     const SDL_Rect &max_screen_rect,
@@ -48,7 +47,6 @@ point pixel_minimap_ortho_projector::get_tile_pos( const point &p,
 {
     return { p.x * tile_size.x, p.y * tile_size.y };
 }
-
 
 pixel_minimap_iso_projector::pixel_minimap_iso_projector(
     const point &total_tiles_count,

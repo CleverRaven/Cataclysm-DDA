@@ -123,7 +123,8 @@ void printHelpMessage( const arg_handler *first_pass_arguments, size_t num_first
 }  // namespace
 
 #if defined(USE_WINMAIN)
-int APIENTRY WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
+int APIENTRY WinMain( HINSTANCE /* hInstance */, HINSTANCE /* hPrevInstance */,
+                      LPSTR /* lpCmdLine */, int /* nCmdShow */ )
 {
     int argc = __argc;
     char **argv = __argv;
@@ -538,7 +539,7 @@ int main( int argc, char *argv[] )
     }
 
     if( !dir_exist( FILENAMES["datadir"] ) ) {
-        printf( "Fatal: Can't find directory \"%s\"\nPlease ensure the current working directory is correct. Perhaps you meant to start \"cataclysm-launcher\"?\n",
+        printf( "Fatal: Can't find directory \"%s\"\nPlease ensure the current working directory is correct.  Perhaps you meant to start \"cataclysm-launcher\"?\n",
                 FILENAMES["datadir"].c_str() );
         exit( 1 );
     }
@@ -734,7 +735,7 @@ void printHelpMessage( const arg_handler *first_pass_arguments,
         }
         printf( "\n" );
         if( handler->documentation ) {
-            printf( "\t%s\n", handler->documentation );
+            printf( "    %s\n", handler->documentation );
         }
     }
 }
@@ -744,7 +745,7 @@ void exit_handler( int s )
 {
     const int old_timeout = inp_mngr.get_timeout();
     inp_mngr.reset_timeout();
-    if( s != 2 || query_yn( _( "Really Quit? All unsaved changes will be lost." ) ) ) {
+    if( s != 2 || query_yn( _( "Really Quit?  All unsaved changes will be lost." ) ) ) {
         catacurses::erase(); // Clear screen
 
         deinitDebug();

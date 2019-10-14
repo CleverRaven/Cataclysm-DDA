@@ -307,6 +307,7 @@
     "difficulty": 2,
     "charges": 1,
     "time": "18 m",
+    "batch_time_factors": [ 67, 5 ],
     "autolearn": true,
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "milk", 1 ] ] ]
@@ -321,6 +322,7 @@
     "difficulty": 2,
     "charges": 1,
     "time": "20 m",
+    "batch_time_factors": [ 67, 5 ],
     "autolearn": true,
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "milk", 1 ] ] ]
@@ -361,6 +363,7 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 4,
+    "charges": 3,
     "time": "12 m",
     "batch_time_factors": [ 83, 3 ],
     "autolearn": true,
@@ -376,6 +379,7 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 4,
+    "charges": 3,
     "time": "9 m",
     "batch_time_factors": [ 83, 3 ],
     "autolearn": true,

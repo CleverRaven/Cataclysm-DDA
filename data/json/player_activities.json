@@ -30,7 +30,8 @@
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
     "verb": "constructing",
-    "based_on": "neither"
+    "based_on": "neither",
+    "multi_activity": true
   },
   {
     "id": "ACT_TIDY_UP",
@@ -44,28 +45,50 @@
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
     "verb": "deconstructing a vehicle",
-    "based_on": "neither"
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true
+  },
+  {
+    "id": "ACT_VEHICLE_REPAIR",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "repairing a vehicle",
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true
   },
   {
     "id": "ACT_MULTIPLE_CHOP_PLANKS",
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",
     "verb": "chopping logs",
-    "based_on": "neither"
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true
   },
   {
     "id": "ACT_MULTIPLE_BUTCHER",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
     "verb": "butchering",
-    "based_on": "neither"
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true
   },
   {
     "id": "ACT_MULTIPLE_CHOP_TREES",
     "type": "activity_type",
     "activity_level": "EXTRA_EXERCISE",
     "verb": "chopping trees",
-    "based_on": "neither"
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true
   },
   {
     "id": "ACT_MULTIPLE_FISH",
@@ -179,7 +202,7 @@
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
     "based_on": "neither",
-    "refuel_fires": "true",
+    "refuel_fires": true,
     "verb": "constructing"
   },
   {
@@ -333,9 +356,7 @@
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
     "verb": "sorting out the loot",
-    "suspendable": false,
-    "based_on": "neither",
-    "no_resume": true
+    "based_on": "neither"
   },
   {
     "id": "ACT_TILL_PLOT",
@@ -362,7 +383,8 @@
     "verb": "farming",
     "suspendable": false,
     "based_on": "neither",
-    "no_resume": true
+    "no_resume": true,
+    "multi_activity": true
   },
   {
     "id": "ACT_PLANT_PLOT",
