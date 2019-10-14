@@ -132,6 +132,8 @@ class basecamp
         inline const std::string &camp_name() const {
             return name;
         }
+        void set_by_radio( bool access_by_radio );
+
         std::string board_name() const;
         std::vector<point> directions;
         std::vector<tripoint> fortifications;
@@ -186,12 +188,11 @@ class basecamp
         // from a building
         std::map<recipe_id, translation> recipe_deck( const std::string &bldg ) const;
         int recipe_batch_max( const recipe &making ) const;
-        void form_crafting_inventory( bool by_radio = false );
+        void form_crafting_inventory();
         void form_crafting_inventory( map &target_map );
         std::list<item> use_charges( const itype_id &fake_id, int &quantity );
-        void consume_components( const recipe &making, int batch_size, bool by_radio = false );
-        void consume_components( map &target_map, const recipe &making, int batch_size,
-                                 bool by_radio = false );
+        void consume_components( const recipe &making, int batch_size = false );
+        void consume_components( map &target_map, const recipe &making, int batch_size );
         std::string get_gatherlist() const;
         /**
          * spawn items or corpses based on search attempts
@@ -201,8 +202,7 @@ class basecamp
          * @param difficulty a random number from 0 to difficulty is created for each attempt, and
          * if skill is higher, an item or corpse is spawned
          */
-        void search_results( int skill, const Group_tag &group_id, int attempts, int difficulty,
-                             bool by_radio = false );
+        void search_results( int skill, const Group_tag &group_id, int attempts, int difficulty );
         /**
          * spawn items or corpses based on search attempts
          * @param skill skill level of the search
@@ -212,8 +212,7 @@ class basecamp
          * @param difficulty a random number from 0 to difficulty is created for each attempt, and
          * if skill is higher, an item or corpse is spawned
          */
-        void hunting_results( int skill, const std::string &task, int attempts, int difficulty,
-                              bool by_radio = false );
+        void hunting_results( int skill, const std::string &task, int attempts, int difficulty );
         inline const tripoint &get_dumping_spot() const {
             return dumping_spot;
         }
@@ -221,7 +220,7 @@ class basecamp
         inline void set_dumping_spot( const tripoint &spot ) {
             dumping_spot = spot;
         }
-        void place_results( item result, bool by_radio );
+        void place_results( item result );
 
         // mission description functions
         void add_available_recipes( mission_data &mission_key, const point &dir,
@@ -240,13 +239,13 @@ class basecamp
         std::string craft_description( const recipe_id &itm );
 
         // main mission description collection
-        void get_available_missions( mission_data &mission_key, bool by_radio = false );
+        void get_available_missions( mission_data &mission_key );
+        void get_available_missions_by_dir( mission_data &mission_key, const point &dir );
         // available companion list manipulation
         void reset_camp_workers();
         comp_list get_mission_workers( const std::string &mission_id, bool contains = false );
         // main mission start/return dispatch function
-        bool handle_mission( const std::string &miss_id, cata::optional<point> miss_dir,
-                             bool by_radio = false );
+        bool handle_mission( const std::string &miss_id, cata::optional<point> opt_miss_dir );
 
         // mission start functions
         /// generic mission start function that wraps individual mission
@@ -258,14 +257,12 @@ class basecamp
                                bool must_feed, const std::string &desc, bool group,
                                const std::vector<item *> &equipment,
                                const std::map<skill_id, int> &required_skills = {} );
-        void start_upgrade( const std::string &bldg, const point &dir, const std::string &key,
-                            bool by_radio );
+        void start_upgrade( const std::string &bldg, const point &dir, const std::string &key );
         std::string om_upgrade_description( const std::string &bldg, bool trunc = false ) const;
         void start_menial_labor();
         void job_assignment_ui();
         void start_crafting( const std::string &cur_id, const point &cur_dir,
-                             const std::string &type, const std::string &miss_id,
-                             bool by_radio = false );
+                             const std::string &type, const std::string &miss_id );
 
         /// Called when a companion is sent to cut logs
         void start_cut_logs();
@@ -273,7 +270,7 @@ class basecamp
         void start_setup_hide_site();
         void start_relay_hide_site();
         /// Called when a compansion is sent to start fortifications
-        void start_fortifications( std::string &bldg_exp, bool by_radio );
+        void start_fortifications( std::string &bldg_exp );
         void start_combat_mission( const std::string &miss );
         /// Called when a companion starts a chop shop @ref task mission
         bool start_garage_chop( const point &dir, const tripoint &omt_tgt );
@@ -306,8 +303,7 @@ class basecamp
         bool survey_return();
         bool menial_return();
         /// Called when a companion completes a gathering @ref task mission
-        bool gathering_return( const std::string &task, time_duration min_time,
-                               bool by_radio = false );
+        bool gathering_return( const std::string &task, time_duration min_time );
         void recruit_return( const std::string &task, int score );
         /**
         * Perform any mix of the three farm tasks.
@@ -327,7 +323,7 @@ class basecamp
         void load_data( const std::string &data );
     private:
         // lazy re-evaluation of available camp resources
-        void reset_camp_resources( bool by_radio = false );
+        void reset_camp_resources();
         void add_resource( const itype_id &camp_resource );
         bool resources_updated = false;
         // omt pos
@@ -344,6 +340,7 @@ class basecamp
         std::vector<basecamp_resource> resources;
         static const int range = 20;
         inventory _inv;
+        bool by_radio;
 };
 
 #endif
