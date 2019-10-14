@@ -442,7 +442,7 @@ class player : public Character
 
         Attitude attitude_to( const Creature &other ) const override;
 
-        void pause(); // '.' command; pauses & reduces recoil
+        void pause(); // '.' command; pauses & resets recoil
 
         void set_movement_mode( player_movemode mode );
         bool movement_mode_is( player_movemode mode ) const;
@@ -796,6 +796,8 @@ class player : public Character
 
         /** used for drinking from hands, returns how many charges were consumed */
         int drink_from_hands( item &water );
+        /** Check whether player can consume this very item */
+        bool can_consume_as_is( const item &it ) const;
         /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
         bool consume( int target_position );
         /** Used for eating a particular item that doesn't need to be in inventory.
@@ -1769,8 +1771,6 @@ class player : public Character
         bool feed_reactor_with( item &it );
         bool feed_furnace_with( item &it );
         bool fuel_bionic_with( item &it );
-        /** Check whether player can consume this very item */
-        bool can_consume_as_is( const item &it ) const;
         /**
          * Consumes an item as medication.
          * @param target Item consumed. Must be a medication or a container of medication.

@@ -455,7 +455,7 @@ std::string direction_name_impl( const direction dir, const bool short_name )
         result[CENTER]         = pair_t {translate_marker( "CE   " ), translate_marker( "center" )};
         result[BELOWCENTER]    = pair_t {translate_marker( "DN_CE" ), translate_marker( "below" )};
 
-        result[size] = pair_t {"BUG. (line.cpp:direction_name)", "BUG. (line.cpp:direction_name)"};
+        result[size] = pair_t {"BUG.  (line.cpp:direction_name)", "BUG.  (line.cpp:direction_name)"};
         return result;
     }();
 

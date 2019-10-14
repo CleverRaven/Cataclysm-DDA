@@ -1036,7 +1036,13 @@ void Character::set_max_power_level( units::energy npower_max )
 
 void Character::mod_power_level( units::energy npower )
 {
-    power_level = clamp( power_level + npower, 0_kJ, max_power_level );
+    int new_power = units::to_millijoule( power_level ) + units::to_millijoule( npower );
+    // An integer overflow has occurred - the sum of two positive things (power_level is always positive)
+    // cannot be negative, so if it is, we know integer overflow has occured
+    if( npower >= 0_mJ && new_power < 0 ) {
+        new_power = units::to_millijoule( max_power_level );
+    }
+    power_level = clamp( units::from_millijoule( new_power ), 0_kJ, max_power_level );
 }
 
 void Character::mod_max_power_level( units::energy npower_max )
@@ -2966,7 +2972,7 @@ hp_part Character::body_window( const std::string &menu_header,
         msg << colorize( aligned_name, all_state_col ) << " " << hp_str( current_hp, maximal_hp );
 
         if( limb_is_broken ) {
-            desc << colorize( _( "It is broken. It needs a splint or surgical attention." ), c_red ) << "\n";
+            desc << colorize( _( "It is broken.  It needs a splint or surgical attention." ), c_red ) << "\n";
         }
 
         // BLEEDING block
@@ -3010,7 +3016,7 @@ hp_part Character::body_window( const std::string &menu_header,
         if( infected ) {
             desc << colorize( string_format( "%s: ", get_effect( effect_infected,
                                              e.bp ).get_speed_name() ), c_red );
-            desc << colorize( _( "It has a deep wound that looks infected. Antibiotics might be required." ),
+            desc << colorize( _( "It has a deep wound that looks infected.  Antibiotics might be required." ),
                               c_red ) << "\n";
             if( infect > 0 ) {
                 desc << colorize( string_format( _( "Chance to heal infection: %d %%" ),

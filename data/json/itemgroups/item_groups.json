@@ -174,6 +174,7 @@
       [ "v2_combustion", 10 ],
       [ "i4_combustion", 10 ],
       [ "v6_combustion", 10 ],
+      [ "v6_diesel", 10 ],
       [ "v8_combustion", 10 ],
       [ "1cyl_combustion_small", 10 ],
       [ "steam_triple_small", 1 ],
