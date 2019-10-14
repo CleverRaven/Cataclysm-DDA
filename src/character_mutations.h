@@ -46,27 +46,27 @@ class character_mutations
         float mutation_armor( body_part bp, damage_type dt ) const;
         float mutation_armor( body_part bp, const damage_unit &du ) const;
         /** Handles things like destruction of armor, etc. */
-        void mutation_effect( const trait_id &mut );
+        void mutation_effect( Character &owner, const trait_id &mut );
         /** Handles what happens when you lose a mutation. */
-        void mutation_loss_effect( const trait_id &mut );
+        void mutation_loss_effect( Character &owner, const trait_id &mut );
 
         bool has_active_mutation( const trait_id &b ) const;
         /** Picks a random valid mutation and gives it to the Character, possibly removing/changing others along the way */
-        void mutate();
+        void mutate( Character &owner );
         /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
         bool mutation_ok( const trait_id &mutation, bool force_good, bool force_bad ) const;
         /** Picks a random valid mutation in a category and mutate_towards() it */
-        void mutate_category( const std::string &mut_cat );
+        void mutate_category( Character &owner, const std::string &mut_cat );
         /** Mutates toward one of the given mutations, upgrading or removing conflicts if necessary */
-        bool mutate_towards( std::vector<trait_id> muts, int num_tries = INT_MAX );
+        bool mutate_towards( Character &owner, std::vector<trait_id> muts, int num_tries = INT_MAX );
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
-        bool mutate_towards( const trait_id &mut );
+        bool mutate_towards( Character &owner, const trait_id &mut );
         /** Removes a mutation, downgrading to the previous level if possible */
-        void remove_mutation( const trait_id &mut, bool silent = false );
+        void remove_mutation( Character &owner, const trait_id &mut, bool silent = false );
         /** Returns true if the player has the entered mutation child flag */
         bool has_child_flag( const trait_id &flag ) const;
         /** Removes the mutation's child flag from the player's list */
-        void remove_child_flag( const trait_id &flag );
+        void remove_child_flag( Character &owner, const trait_id &flag );
         /** Recalculates mutation_category_level[] values for the player */
         void set_highest_cat_level();
         /** Returns the highest mutation category */
@@ -94,10 +94,10 @@ class character_mutations
         trait_id trait_by_invlet( int ch ) const;
 
         /** Toggles a trait on the player and in their mutation list */
-        void toggle_trait( const trait_id &flag );
+        void toggle_trait( Character &owner, const trait_id &flag );
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
-        void set_mutation( const trait_id &flag );
-        void unset_mutation( const trait_id &flag );
+        void set_mutation( Character &owner, const trait_id &flag );
+        void unset_mutation( Character &owner, const trait_id &flag );
         /** Returns true if the player has a conflicting trait to the entered trait
          *  Uses has_opposite_trait(), has_lower_trait(), and has_higher_trait() to determine conflicts.
          */

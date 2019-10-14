@@ -1555,6 +1555,8 @@ class player : public Character
         // magic mod
         known_magic magic;
 
+        // Trigger and disable mutations that can be so toggled.
+        void activate_mutation( const trait_id &mutation );
     protected:
 
         trap_map known_traps;
@@ -1564,7 +1566,6 @@ class player : public Character
 
         /** Processes human-specific effects of an effect. */
         void process_one_effect( effect &it, bool is_new ) override;
-
     private:
 
         /** Check if an area-of-effect technique has valid targets */
@@ -1595,9 +1596,6 @@ class player : public Character
         /** Define blood loss (in percents) */
         int blood_loss( body_part bp ) const;
 
-        // Trigger and disable mutations that can be so toggled.
-        void activate_mutation( const trait_id &mutation );
-        void deactivate_mutation( const trait_id &mut );
         bool has_fire( int quantity ) const;
         void use_fire( int quantity );
 

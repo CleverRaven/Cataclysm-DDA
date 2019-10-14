@@ -558,9 +558,8 @@ class Character : public Creature, public visitable<Character>
         /** Applies skill-based boosts to stats **/
         void apply_skill_boost();
     protected:
-        /** Applies stat mods to character. */
-        void apply_mods( const trait_id &mut, bool add_remove );
 
+        void deactivate_mutation( const trait_id &mut );
         /** Recalculate encumbrance for all body parts. */
         std::array<encumbrance_data, num_bp> calc_encumbrance() const;
         /** Recalculate encumbrance for all body parts as if `new_item` was also worn. */
@@ -581,6 +580,8 @@ class Character : public Creature, public visitable<Character>
 
         std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
     public:
+        /** Applies stat mods to character. */
+        void apply_mods( const trait_id &mut, bool add_remove );
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
         void recalculate_enchantment_cache();
         // gets add and mult value from enchantment cache
@@ -1056,9 +1057,9 @@ class Character : public Creature, public visitable<Character>
     protected:
         void on_stat_change( const std::string &, int ) override {}
         void on_damage_of_type( int adjusted_damage, damage_type type, body_part bp ) override;
+    public:
         virtual void on_mutation_gain( const trait_id & ) {}
         virtual void on_mutation_loss( const trait_id & ) {}
-    public:
         virtual void on_item_wear( const item & ) {}
         virtual void on_item_takeoff( const item & ) {}
         virtual void on_worn_item_washed( const item & ) {}
