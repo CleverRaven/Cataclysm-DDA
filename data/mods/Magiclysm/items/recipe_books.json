@@ -76,5 +76,23 @@
     "intelligence": 9,
     "time": "20 m",
     "fun": 1
+  },
+  {
+    "id": "book_mythological",
+    "type": "BOOK",
+    "name": { "str": "The Weapons of Asgard and Beyond", "str_pl": "The Weapons of Asgard and Beyond" },
+    "max_level": 10,
+    "description": "An ornate book which appears to be written in Norse runes. Based on the detailed illustrations, it appears to contain information about crafting numerous weapons used by various Gods.",
+    "weight": 654,
+    "color": "light_blue",
+    "intelligence": 9,
+    "symbol": "?",
+    "material": [ "paper" ],
+    "volume": 5,
+    "time": 60,
+    "fun": 0,
+    "skill": "fabrication",
+    "price": 30000,
+    "required_level": 8
   }
 ]

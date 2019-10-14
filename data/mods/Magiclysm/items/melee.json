@@ -1,0 +1,56 @@
+[
+  {
+    "id": "mjolnir",
+    "copy-from": "warhammer",
+    "type": "GENERIC",
+    "name": "Mjölnir",
+    "description": "Mjölnir, the legendary hammer of Thor.  It is rumored to be able to level mountains with a single blow.  You feel the power of Asgard coursing through the hammer.",
+    "weight": 1731,
+    "color": "light_gray",
+    "material": [ "orichalcum_metal", "wood", "gold" ],
+    "techniques": [ "WBLOCK_2", "BRUTAL" ],
+    "volume": 15,
+    "bashing": 45,
+    "price": 200000
+  },
+  {
+    "id": "gungnir",
+    "copy-from": "spear_steel",
+    "type": "GENERIC",
+    "name": "Gungnir",
+    "description": "Gungnir, the spear of Odin.  It is rumored to be the perfect spear, perfectly hitting any target regardless of the wielder's strength or skill.  If feels like Odin's protecting you.",
+    "weight": 1854,
+    "material": [ "orichalcum_metal", "wood", "gold" ],
+    "techniques": [ "WBLOCK_1", "IMPALE", "SWEEP" ],
+    "volume": 13,
+    "bashing": 10,
+    "cutting": 35,
+    "price": 200000
+  },
+  {
+	"id": "gram",
+	"copy-from": "jian",
+	"type": "GENERIC",
+	"name": "Gram",
+	"description": "Gram, the sword of Sigurd.  It is rumored to be the sword that slayed the legendary dragon, Fafnir.  Once said to have cleaved Regin's anvil in half, the edge is impeccable.",
+	"weight": 1132,
+	"material": [ "orichalcum_metal", "steel", "leather" ],
+	"techniques": [ "WBLOCK_2", "PRECISE", "VORPAL" ],
+	"volume": 10,
+	"cutting": 45,
+	"price": 200000
+  },
+  {
+    "id": "laevateinn",
+    "copy-from": "i_staff",
+    "type": "GENERIC",
+	"name": "Laevateinn",
+    "description": "Laevateinn, the staff of Loki.  Said to have been plucked from the gates of Hel by Loki.  Imbued with a mysterious magic, the magic of the trickster god himself.",
+    "price": 160000,
+    "material": [ "steel", "gold", "orichalcum_metal" ],
+    "techniques": [ "WBLOCK_2", "SPIN", "RAPID", "SWEEP" ],
+    "weight": 1860,
+    "bashing": 20,
+    "cutting": 35
+  }
+]

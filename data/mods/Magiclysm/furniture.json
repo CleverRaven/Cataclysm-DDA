@@ -21,5 +21,34 @@
     "required_str": -1,
     "flags": [ "ALLOW_FIELD_EFFECT" ],
     "description": "This is a rough magic circle, carved into the ground and decorated with blood, candles, and other small knick-knacks."
+  },
+  {
+    "type": "furniture",
+    "id": "f_glow_boulder",
+    "looks_like": "f_boulder_large",
+    "name": "large glowing boulder",
+    "description": "Something about this doesn't look right.",
+    "symbol": "O",
+    "color": "dark_green",
+    "move_cost_mod": -1,
+    "coverage": 65,
+    "required_str": 32,
+    "flags": [ "NOITEM", "MINEABLE", "BASHABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 64,
+      "str_max": 160,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [
+        { "item": "rock", "count": [ 10, 22 ] },
+        { "item": "sharp_rock", "count": [ 3, 7 ] },
+        { "item": "material_limestone", "charges": [ 2, 5 ], "prob": 30 },
+        { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 },
+        { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 1 },
+        { "item": "material_zincite", "count": [ 0, 5 ], "prob": 2 },
+        { "item": "orichalcum_lump", "count": [ 0, 5 ], "prob": 5 },
+        { "item": "orichalcum_sliver", "count": [ 1, 6 ], "prob": 20 }
+      ]
+    }
   }
 ]

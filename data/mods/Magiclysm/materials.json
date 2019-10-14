@@ -38,5 +38,26 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped"
+  },
+  {
+    "type": "material",
+    "ident": "orichalcum_metal",
+    "name": "Orichalcum",
+    "density": 40,
+    "bash_resist": 13,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 273,
+    "cut_resist": 20,
+    "acid_resist": 7,
+    "fire_resist": 3,
+    "elec_resist": 0,
+    "chip_resist": 40,
+    "repaired_with": "scrap",
+    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched",
+    "burn_products": [ [ "scrap", 1 ] ],
+    "compact_into": [ "orichalcum_lump", "orichalcum_sliver" ]
   }
 ]
