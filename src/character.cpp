@@ -19,6 +19,7 @@
 #include "effect.h"
 #include "event_bus.h"
 #include "field.h"
+#include "fungal_effects.h"
 #include "game.h"
 #include "game_constants.h"
 #include "itype.h"
@@ -4680,5 +4681,27 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
 
     if( is_dead_state() ) {
         set_killer( source );
+    }
+}
+
+void Character::spores()
+{
+    fungal_effects fe( *g, g->m );
+    //~spore-release sound
+    sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
+    for( const tripoint &sporep : g->m.points_in_radius( pos(), 1 ) ) {
+        if( sporep == pos() ) {
+            continue;
+        }
+        fe.fungalize( sporep, this, 0.25 );
+    }
+}
+
+void Character::blossoms()
+{
+    // Player blossoms are shorter-ranged, but you can fire much more frequently if you like.
+    sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
+    for( const tripoint &tmp : g->m.points_in_radius( pos(), 2 ) ) {
+        g->m.add_field( tmp, fd_fungal_haze, rng( 1, 2 ) );
     }
 }
