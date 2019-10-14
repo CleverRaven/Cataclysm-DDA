@@ -25,7 +25,7 @@
     "stack_size": 10,
     "ammo_type": "50",
     "casing": "50_casing",
-    "range": 40,
+    "range": 110,
     "damage": 131,
     "pierce": 28,
     "dispersion": 30,

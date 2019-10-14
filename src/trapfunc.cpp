@@ -698,22 +698,43 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
         return false;
     }
     monster *z = dynamic_cast<monster *>( c );
-    if( z != nullptr && z->type->in_species( ROBOT ) ) {
-        //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
-        sounds::sound( p, 4, sounds::sound_t::speech,
-                       _( "BEEPBOOP! Please remove non-organic object." ), false, "speech",
-                       "robot" ); //Dissector error sound.
-        c->add_msg_player_or_npc( m_bad, _( "The dissector lights up, and shuts down." ),
-                                  _( "The dissector lights up, and shuts down." ) );
-        return false;
+    if( z != nullptr ) {
+        if( z->type->in_species( ROBOT ) ) {
+            //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
+            sounds::sound( p, 4, sounds::sound_t::speech,
+                           _( "BEEPBOOP!  Please remove non-organic object." ), false, "speech",
+                           "robot" ); //Dissector error sound.
+            c->add_msg_player_or_npc( m_bad, _( "The dissector lights up, and shuts down." ),
+                                      _( "The dissector lights up, and shuts down." ) );
+            return false;
+        }
+        // distribute damage amongst player and horse
+        if( z->has_effect( effect_ridden ) && z->mounted_player ) {
+            player *pl = z->mounted_player;
+            pl->deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
+            pl->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, 20 ) );
+            pl->deal_damage( nullptr, bp_arm_r, damage_instance( DT_CUT, 12 ) );
+            pl->deal_damage( nullptr, bp_arm_l, damage_instance( DT_CUT, 12 ) );
+            pl->deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, 10 ) );
+            pl->deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, 10 ) );
+            pl->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
+            pl->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
+            pl->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 10 ) );
+            pl->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
+            if( g->u.sees( p ) ) {
+                pl->add_msg_player_or_npc( m_bad, _( "Electrical beams emit from the floor and slice your flesh!" ),
+                                           _( "Electrical beams emit from the floor and slice <npcname>s flesh!" ) );
+            }
+            pl->check_dead_state();
+        }
     }
 
     //~ the sound of a dissector dissecting
     sounds::sound( p, 10, sounds::sound_t::combat, _( "BRZZZAP!" ), false, "trap", "dissector" );
-
     if( c != nullptr ) {
-        c->add_msg_player_or_npc( m_bad, _( "Electrical beams emit from the floor and slice your flesh!" ),
-                                  _( "Electrical beams emit from the floor and slice <npcname>s flesh!" ) );
+        if( g->u.sees( p ) ) {
+            add_msg( m_bad, _( "Electrical beams emit from the floor and slice the %s!" ), c->get_name() );
+        }
         c->deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
         c->deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, 20 ) );
         c->deal_damage( nullptr, bp_arm_r, damage_instance( DT_CUT, 12 ) );
@@ -724,23 +745,6 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
         c->deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
         c->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 10 ) );
         c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
-        c->check_dead_state();
-    }
-    if( c != nullptr ) {
-        if( c->has_effect( effect_ridden ) ) {
-            g->u.deal_damage( nullptr, bp_head, damage_instance( DT_CUT, 15 ) );
-            g->u.deal_damage( nullptr, bp_torso, damage_instance( DT_CUT, 20 ) );
-            g->u.deal_damage( nullptr, bp_arm_r, damage_instance( DT_CUT, 12 ) );
-            g->u.deal_damage( nullptr, bp_arm_l, damage_instance( DT_CUT, 12 ) );
-            g->u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, 10 ) );
-            g->u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, 10 ) );
-            g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
-            g->u.deal_damage( nullptr, bp_leg_r, damage_instance( DT_CUT, 12 ) );
-            g->u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 10 ) );
-            g->u.deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, 10 ) );
-            add_msg( m_bad, _( "Electrical beams emit from the floor and slice your %s!" ), c->get_name() );
-            g->u.check_dead_state();
-        }
     }
     c->check_dead_state();
     return true;
@@ -1424,7 +1428,6 @@ bool trapfunc::snake( const tripoint &p, Creature *, item * )
     }
     return true;
 }
-
 
 /**
  * Takes the name of a trap function and returns a function pointer to it.

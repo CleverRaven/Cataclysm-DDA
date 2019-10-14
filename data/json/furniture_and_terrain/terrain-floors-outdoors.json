@@ -282,11 +282,14 @@
     "color": "white",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT", "ROAD" ],
-    "ter_set": "t_null",
-    "str_min": 50,
-    "str_max": 400,
-    "str_min_supported": 100,
-    "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+    "bash": {
+      "sound": "thump",
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+    }
   },
   {
     "type": "terrain",

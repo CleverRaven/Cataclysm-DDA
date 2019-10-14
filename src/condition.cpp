@@ -304,12 +304,11 @@ void conditional_t<T>::set_has_bionics( JsonObject &jo, const std::string &membe
             actor = dynamic_cast<player *>( d.beta );
         }
         if( bionics_id == "ANY" ) {
-            return actor->num_bionics() > 0 || actor->max_power_level > 0_kJ;
+            return actor->num_bionics() > 0 || actor->has_max_power();
         }
         return actor->has_bionic( bionic_id( bionics_id ) );
     };
 }
-
 
 template<class T>
 void conditional_t<T>::set_has_effect( JsonObject &jo, const std::string &member, bool is_npc )
@@ -391,7 +390,6 @@ void conditional_t<T>::set_has_var( JsonObject &jo, const std::string &member, b
         return actor->get_value( var_name ) == value;
     };
 }
-
 
 template<class T>
 void conditional_t<T>::set_compare_var( JsonObject &jo, const std::string &member, bool is_npc )

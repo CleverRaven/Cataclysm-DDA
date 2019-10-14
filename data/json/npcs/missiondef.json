@@ -1,26 +1,5 @@
 [
   {
-    "id": "MISSION_BOOK",
-    "type": "mission_definition",
-    "name": "Find a Book",
-    "goal": "MGOAL_FIND_ANY_ITEM",
-    "difficulty": 2,
-    "value": 800,
-    "start": "place_book",
-    "origins": [ "ORIGIN_NULL" ],
-    "dialogue": {
-      "describe": "Wanna help me out?",
-      "offer": "Get me a book.",
-      "accepted": "Thanks.",
-      "rejected": "Well, I'll find someone else to do it for me.",
-      "advice": "Try a library.",
-      "inquire": "Got that book for me?",
-      "success": "Thanks!",
-      "success_lie": "OK, then hand it over.",
-      "failure": "Shit happens."
-    }
-  },
-  {
     "id": "MISSION_EXPLORE_SARCOPHAGUS",
     "type": "mission_definition",
     "name": "Follow Sarcophagus Team",
@@ -540,18 +519,7 @@
     "goal": "MGOAL_NULL",
     "difficulty": 0,
     "value": 0,
-    "place": "never",
-    "dialogue": {
-      "describe": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "offer": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "accepted": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "rejected": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "advice": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "inquire": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "success": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "success_lie": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "failure": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
-    }
+    "place": "never"
   },
   {
     "id": "MISSION_REACH_FARM_HOUSE",
@@ -607,18 +575,7 @@
     "difficulty": 1,
     "value": 0,
     "start": "find_safety",
-    "origins": [ "ORIGIN_NULL" ],
-    "dialogue": {
-      "describe": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "offer": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "accepted": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "rejected": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "advice": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "inquire": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "success": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "success_lie": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG",
-      "failure": "YOU SHOULDN'T BE SEEING THIS, THIS IS A BUG"
-    }
+    "origins": [ "ORIGIN_NULL" ]
   },
   {
     "id": "MISSION_RECOVER_PRIEST_DIARY",

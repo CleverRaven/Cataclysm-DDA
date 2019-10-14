@@ -117,7 +117,7 @@
     "field_id": "fd_cold_air2",
     "min_field_intensity": 0,
     "max_field_intensity": 4,
-    "intensity_increment": 0.5,
+    "field_intensity_increment": 0.5,
     "damage_type": "cold"
   },
   {

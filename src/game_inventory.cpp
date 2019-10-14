@@ -563,7 +563,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             if( !res.success() && cbm == rechargeable_cbm::none ) {
                 return res.str();
-            } else if( cbm == rechargeable_cbm::battery && p.power_level >= p.max_power_level ) {
+            } else if( cbm == rechargeable_cbm::battery && p.is_max_power() ) {
                 return _( "You're fully charged" );
             } else if( cbm == rechargeable_cbm::other && ( p.get_fuel_capacity( it.typeId() ) <= 0 ) ) {
                 return string_format( _( "No space to store more %s" ), it.tname() );
@@ -1433,7 +1433,7 @@ void game_menus::inv::reassign_letter( player &p, item &it )
 {
     while( true ) {
         const int invlet = popup_getkey(
-                               _( "Enter new letter. Press SPACE to clear a manually assigned letter, ESCAPE to cancel." ) );
+                               _( "Enter new letter.  Press SPACE to clear a manually assigned letter, ESCAPE to cancel." ) );
 
         if( invlet == KEY_ESCAPE ) {
             break;
@@ -1622,6 +1622,8 @@ class bionic_install_preset: public inventory_selector_preset
                 return _( "Superior version installed" );
             } else if( pa.is_npc() && !bid->npc_usable ) {
                 return _( "CBM not compatible with patient" );
+            } else if( units::energy_max - pa.get_max_power_level() < bid->capacity ) {
+                return _( "Max power capacity already reached" );
             } else if( !p.has_enough_anesth( itemtype, pa ) ) {
                 const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
                 const int duration = loc.get_item()->type->bionic->difficulty * 2;

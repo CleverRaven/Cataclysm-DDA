@@ -13,12 +13,14 @@
     "material": [ "superalloy" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "HANDS", "ARMS" ],
-    "coverage": 100,
-    "encumbrance": 0,
-    "warmth": 20,
-    "material_thickness": 4,
-    "environmental_protection": 10,
+    "armor_data": {
+      "covers": [ "HANDS", "ARMS" ],
+      "coverage": 100,
+      "encumbrance": 0,
+      "warmth": 20,
+      "material_thickness": 4,
+      "environmental_protection": 10
+    },
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "VARSIZE", "STURDY", "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
     "techniques": [ "WBLOCK_3" ]
@@ -158,7 +160,7 @@
     ],
     "volume": 5,
     "bashing": 30,
-    "electric": 15,
+    "//electric": 15,
     "price": 0,
     "qualities": [ [ "HAMMER", 1 ] ]
   },
@@ -193,7 +195,7 @@
     "volume": 1,
     "weight": 1,
     "bashing": 10,
-    "electric": 15,
+    "//electric": 15,
     "flags": [
       "UNARMED_WEAPON",
       "UNBREAKABLE_MELEE",
@@ -229,7 +231,6 @@
       "MAGIC_FOCUS"
     ],
     "cutting": 30,
-    "pierce": 6,
     "category": "weapons"
   },
   {
@@ -275,7 +276,6 @@
     "volume": 10,
     "bashing": 16,
     "cutting": 36,
-    "pierce": 8,
     "to_hit": 2
   },
   {
@@ -328,7 +328,6 @@
     "symbol": "!",
     "description": "A magical seed that can be squeezed to release purifying dust, which can then be used to purify up to a gallon of water",
     "volume": 1,
-    "stack_size": 100,
     "flags": [ "TRADER_AVOID" ]
   },
   {

@@ -43,6 +43,7 @@ class enchantment
             INTELLIGENCE,
             SPEED,
             ATTACK_COST,
+            ATTACK_SPEED, // affects attack speed of item even if it's not the one you're wielding
             MOVE_COST,
             METABOLISM,
             MAX_MANA,
@@ -68,6 +69,14 @@ class enchantment
             SOCIAL_LIE,
             SOCIAL_PERSUADE,
             SOCIAL_INTIMIDATE,
+            ARMOR_BASH,
+            ARMOR_CUT,
+            ARMOR_STAB,
+            ARMOR_HEAT,
+            ARMOR_COLD,
+            ARMOR_ELEC,
+            ARMOR_ACID,
+            ARMOR_BIO,
             // effects for the item that has the enchantment
             ITEM_DAMAGE_BASH,
             ITEM_DAMAGE_CUT,
@@ -111,6 +120,10 @@ class enchantment
         // this enchantment has a valid condition and is in the right location
         bool is_active( const Character &guy, const item &parent ) const;
 
+        // this enchantment is active when wielded.
+        // shows total conditional values, so only use this when Character is not available
+        bool active_wield() const;
+
         // modifies character stats, or does other passive effects
         void activate_passive( Character &guy ) const;
 
@@ -119,6 +132,11 @@ class enchantment
         bool was_loaded;
 
         void serialize( JsonOut &jsout ) const;
+
+        // casts all the hit_you_effects on the target
+        void cast_hit_you( Character &caster, const tripoint &target ) const;
+        // casts all the hit_me_effects on self
+        void cast_hit_me( Character &caster ) const;
     private:
         // values that add to the base value
         std::map<mod, int> values_add;

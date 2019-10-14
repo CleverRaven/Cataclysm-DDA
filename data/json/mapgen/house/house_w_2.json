@@ -1,0 +1,69 @@
+{
+  "type": "mapgen",
+  "method": "json",
+  "om_terrain": "house_w_2",
+  "object": {
+    "fill_ter": "t_floor",
+    "rows": [
+      "........G.sss...........",
+      "...CsssCssssssCsssC.....",
+      "...ssssssssssssssss.....",
+      "..||o|o|||+|||o||o||....",
+      "..|1    |  a|5  6  |....",
+      "..|     |  I|      |....",
+      "..|     |  I|      |....",
+      "..|     +  ||||  |||....",
+      "..||+||||          |....",
+      "..|O O| +      7   o....",
+      "..|||||||  8       o....",
+      "..|4               |....",
+      "..o     |  |||||||||....",
+      "..|     |  y| tT|.......",
+      "..o     |   +  To.......",
+      "..|     |   |j  |.......",
+      "..||+|||||+||||+|.......",
+      "..|J   K|2    |w|.......",
+      "..|J L K|     |||.......",
+      "..on L i|     |O|.......",
+      "..|J   K|     + |.......",
+      "..|lJJ a|     |O|.......",
+      "..||o|+|||o||||||.......",
+      "...ssssss..............."
+    ],
+    "palettes": [ "house_w_foundation_palette" ],
+    "nested": {
+      "1": { "chunks": [ [ "bedroom_4x4_adult_1_N", 20 ] ] },
+      "2": {
+        "chunks": [
+          [ "bedroom_5x5_adult_S_1", 50 ],
+          [ "bedroom_5x5_adult_W_1", 50 ],
+          [ "bedroom_5x5_adult_N_2", 50 ],
+          [ "bedroom_5x5_adult_S_2", 50 ],
+          [ "bedroom_5x5_adult_E_2", 50 ],
+          [ "bedroom_5x5_adult_W_2", 50 ]
+        ]
+      },
+      "4": { "chunks": [ [ "diningroom_5x5_N_S", 50 ], [ "diningroom_5x5_E_W", 50 ] ] },
+      "5": {
+        "chunks": [
+          [ "bonus_room_2x2_1", 50 ],
+          [ "bonus_room_2x2_2", 50 ],
+          [ "bonus_room_2x2_4_W", 50 ],
+          [ "bonus_room_3x3_1", 50 ],
+          [ "bonus_room_3x3_2", 50 ]
+        ]
+      },
+      "6": {
+        "chunks": [
+          [ "bonus_room_3x3_4", 50 ],
+          [ "bonus_room_3x3_N_6", 50 ],
+          [ "bonus_room_3x3_E_6", 50 ],
+          [ "bonus_room_3x3_N_8", 50 ],
+          [ "bonus_room_3x3_E_8", 50 ]
+        ]
+      },
+      "7": { "chunks": [ [ "bonus_room_3x3_5", 50 ] ] },
+      "8": { "chunks": [ [ "bonus_room_2x2_1", 50 ], [ "bonus_room_2x2_2", 50 ] ] }
+    }
+  }
+}

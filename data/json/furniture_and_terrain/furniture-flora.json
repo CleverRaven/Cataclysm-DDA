@@ -1,0 +1,283 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_mutpoppy",
+    "name": "mutated poppy flower",
+    "description": "These strange flowers have appeared in the wake of the Cataclysm, and their buds can be used for medicinal purposes, like the seeds of the mundane poppy they're named after.  The dirt around them gently churns as their roots writhe beneath the soil, and it's surrounded by an overwhelming floral smell that makes you feel sleepy.",
+    "symbol": "f",
+    "color": "light_red",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "flower_poppy",
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_dandelion",
+    "name": "dandelion",
+    "description": "A common weed with a yellow flower.  Produces seeds that get carried on the wind by thin, gray filaments.",
+    "symbol": "f",
+    "color": "yellow",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "raw_dandelion", "base_num": [ 1, 4 ] } ] } ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chamomile",
+    "name": "chamomile",
+    "description": "Ahh, soothing chamomile tea.",
+    "symbol": "f",
+    "color": "white",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn",
+    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "entries": [ { "drop": "chamomile", "base_num": [ 1, 2 ] } ] } ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_flower_tulip",
+    "name": "tulip",
+    "description": "A bright, colorful flower with petals forming a small cup at its top.",
+    "symbol": "f",
+    "looks_like": "f_mutpoppy",
+    "color": "magenta",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
+      }
+    ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_flower_spurge",
+    "name": "spurge flower",
+    "description": "A yellow-green flower that grows in densely packed bushes.",
+    "symbol": "f",
+    "looks_like": "f_dandelion",
+    "color": "light_green",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
+      }
+    ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cattails",
+    "name": "cattails",
+    "description": "This useful plant is available all year round.  Many parts of the plant are edible.",
+    "symbol": "i",
+    "color": "brown",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "examine_action": "harvest_furn",
+    "harvest_by_season": [
+      { "seasons": [ "winter" ], "entries": [ { "drop": "cattail_rhizome" } ] },
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "cattail_rhizome" }, { "drop": "cattail_stalk", "base_num": [ 1, 4 ] } ]
+      }
+    ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_black_eyed_susan",
+    "name": "black eyed susan",
+    "description": "A yellow flower that has a dark ball in the middle.  Sometimes known as an oxe-eye daisy.",
+    "looks_like": "f_dandelion",
+    "symbol": "f",
+    "color": "yellow",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
+      }
+    ],
+    "//": "Add flower and bud spawns once useful.",
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_lily",
+    "name": "lily",
+    "description": "A pretty flower that comes in a variety of colors.",
+    "looks_like": "f_flower_tulip",
+    "symbol": "f",
+    "color": "magenta",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
+      }
+    ],
+    "//": "Add flower and bud spawns once useful.",
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_lotus",
+    "name": "lotus",
+    "description": "A lovely flower that grows on the surface of bodies of freshwater.  Traditionally connected with many Eastern cultures.",
+    "looks_like": "f_lily",
+    "symbol": "f",
+    "color": "yellow",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "ORGANIC" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
+      }
+    ],
+    "//": "Add flower and bud spawns once useful.",
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sunflower",
+    "name": "sunflower",
+    "description": "A tall, wide-headed flower with a large dark center.  Produces many nutritious seeds.",
+    "looks_like": "f_dandelion",
+    "symbol": "f",
+    "color": "yellow",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "sunflower" } ] } ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_lilypad",
+    "name": "lilypad",
+    "description": "These lilypads don't look they'd support the weight of the things you've heard croaking in the swamp.",
+    "symbol": "f",
+    "color": "green",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn",
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] } ] } ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bluebell",
+    "name": "bluebell",
+    "description": "A common bluebell flower.  Pretty.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
+      }
+    ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_dahlia",
+    "name": "dahlia",
+    "description": "A puffy flower with many tightly layered petals.",
+    "symbol": "f",
+    "color": "magenta",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "flower_dahlia",
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chicory",
+    "name": "chicory",
+    "description": "A blue flower imported from Europe, also known as a Cornflower.",
+    "symbol": "f",
+    "color": "cyan",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "chicory_raw", "base_num": [ 1, 2 ] } ] } ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_datura",
+    "name": "datura",
+    "description": "A pretty moonflower.",
+    "symbol": "*",
+    "color": "light_green",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "datura_seed", "base_num": [ 2, 6 ] }, { "drop": "withered", "base_num": [ 1, 2 ] } ]
+      }
+    ],
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_leaves_pile",
+    "name": "pile of leaves",
+    "symbol": "#",
+    "description": "A sizable pile of leaves.  You could sleep on it if you don't care about comfort or warmth.",
+    "color": "brown",
+    "move_cost_mod": 3,
+    "coverage": 35,
+    "comfort": 1,
+    "floor_bedding_warmth": 50,
+    "required_str": -1,
+    "deconstruct": { "items": [ { "item": "withered", "count": 50 } ] },
+    "max_volume": 4000,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "withered", "count": [ 45, 50 ] } ]
+    }
+  }
+]

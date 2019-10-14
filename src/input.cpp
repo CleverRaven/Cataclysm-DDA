@@ -1089,7 +1089,7 @@ void input_context::display_menu()
             } else {
                 col = global_key;
             }
-            mvwprintz( w_help, point( 4, i + 10 ), col, "%s: ", get_action_name( action_id ) );
+            mvwprintz( w_help, point( 4, i + 10 ), col, "%s:", get_action_name( action_id ) );
             mvwprintz( w_help, point( 52, i + 10 ), col, "%s", get_desc( action_id ) );
         }
 

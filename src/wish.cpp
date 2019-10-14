@@ -502,7 +502,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
     uilist wmenu;
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;
-    wmenu.pad_right = TERMX / 2 > 40 ? TERMX - 40 : TERMX / 2;
+    wmenu.pad_right = std::max( TERMX / 2, TERMX - 50 );
     wmenu.selected = uistate.wishitem_selected;
     wish_item_callback cb( opts );
     wmenu.callback = &cb;
@@ -558,7 +558,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
                 }
                 if( amount > 0 ) {
                     input_context ctxt( wmenu.input_category );
-                    cb.msg = string_format( _( "Wish granted. Wish for more or hit [%s] to quit." ),
+                    cb.msg = string_format( _( "Wish granted.  Wish for more or hit [%s] to quit." ),
                                             ctxt.get_desc( "QUIT" ) );
                 }
             }

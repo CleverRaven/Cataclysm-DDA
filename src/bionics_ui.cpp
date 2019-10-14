@@ -69,7 +69,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     }
     const int pwr_str_pos = right_print( window, 0, 1, c_white,
                                          string_format( _( "Bionic Power: <color_light_blue>%i</color>/<color_light_blue>%i</color>" ),
-                                                 units::to_kilojoule( p->power_level ), units::to_kilojoule( p->max_power_level ) ) );
+                                                 units::to_kilojoule( p->get_power_level() ), units::to_kilojoule( p->get_max_power_level() ) ) );
     std::string desc;
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
@@ -541,7 +541,7 @@ void player::power_bionics()
                 continue;
             }
             redraw = true;
-            const int newch = popup_getkey( _( "%s; enter new letter. Space to clear. Esc to cancel." ),
+            const int newch = popup_getkey( _( "%s; enter new letter.  Space to clear.  Esc to cancel." ),
                                             tmp->id->name );
             wrefresh( wBio );
             if( newch == ch || newch == KEY_ESCAPE ) {
@@ -552,7 +552,7 @@ void player::power_bionics()
                 continue;
             }
             if( !bionic_chars.valid( newch ) ) {
-                popup( _( "Invalid bionic letter. Only those characters are valid:\n\n%s" ),
+                popup( _( "Invalid bionic letter.  Only those characters are valid:\n\n%s" ),
                        bionic_chars.get_allowed_chars() );
                 continue;
             }

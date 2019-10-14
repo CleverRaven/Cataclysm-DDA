@@ -16,7 +16,7 @@
     "calories": 150,
     "quench": 30,
     "fun": 20,
-    "health": -1,
+    "healthy": -1,
     "price": 250,
     "material": "milk",
     "phase": "liquid",
@@ -33,7 +33,7 @@
     "description": "A milkshake made by freezing a premade mix.  Tastes better due to how much sugar is in it, but is bad for your health.",
     "calories": 175,
     "fun": 23,
-    "health": -3,
+    "healthy": -3,
     "price": 275,
     "material": [ "milk", "junk" ],
     "primary_material": "milk"
@@ -48,7 +48,7 @@
     "calories": 265,
     "quench": 40,
     "fun": 25,
-    "health": -6,
+    "healthy": -6,
     "price": 400,
     "material": [ "milk", "junk" ],
     "primary_material": "milk"

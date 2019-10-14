@@ -96,8 +96,9 @@ class ma_technique
         int stun_dur;
         int knockback_dist;
         float knockback_spread; // adding randomness to knockback, like tec_throw
+        bool powerful_knockback;
         std::string aoe; // corresponds to an aoe shape, defaults to just the target
-        int knockback_follow; // player follows the knocked-back party into their former tile
+        bool knockback_follow; // player follows the knocked-back party into their former tile
 
         // offensive
         bool disarms; // like tec_disarm
@@ -147,7 +148,7 @@ class ma_buff
         int block_bonus( const player &u ) const;
 
         // returns the armor bonus for various armor stats (equivalent to armor)
-        int armor_bonus( const player &u, damage_type dt ) const;
+        int armor_bonus( const Character &guy, damage_type dt ) const;
 
         // returns the stat bonus for the various damage stats (for rolls)
         float damage_bonus( const player &u, damage_type dt ) const;

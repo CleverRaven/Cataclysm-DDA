@@ -53,6 +53,10 @@
 #include "material.h"
 #include "type_id.h"
 #include "point.h"
+#include "projectile.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "mapdata.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_memory( "bio_memory" );
@@ -101,6 +105,8 @@ static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_SLIME_HANDS( "SLIME_HANDS" );
 static const trait_id trait_TALONS( "TALONS" );
 static const trait_id trait_THORNS( "THORNS" );
+
+static const efftype_id effect_amigara( "amigara" );
 
 const species_id HUMAN( "HUMAN" );
 
@@ -558,6 +564,11 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
     ma_onattack_effects(); // trigger martial arts on-attack effects
     // some things (shattering weapons) can harm the attacking creature.
     check_dead_state();
+    did_hit( t );
+    if( t.as_character() ) {
+        dealt_projectile_attack dp = dealt_projectile_attack();
+        t.as_character()->on_hit( this, body_part::num_bp, 0.0f, &dp );
+    }
     return;
 }
 
@@ -1017,7 +1028,6 @@ matec_id player::pick_technique( Creature &t, const item &weap,
     bool downed = t.has_effect( effect_downed );
     bool stunned = t.has_effect( effect_stunned );
     bool wall_adjacent = g->m.is_wall_adjacent( pos() );
-    bool is_humanoid = t.is_player() || ( static_cast <monster *>( &t )->type->in_species( HUMAN ) );
 
     // first add non-aoe tecs
     for( auto &tec_id : all ) {
@@ -1032,7 +1042,6 @@ matec_id player::pick_technique( Creature &t, const item &weap,
         if( tec.defensive ) {
             continue;
         }
-
 
         // skip wall adjacent techniques if not next to a wall
         if( tec.wall_adjacent && !wall_adjacent ) {
@@ -1079,7 +1088,7 @@ matec_id player::pick_technique( Creature &t, const item &weap,
         }
 
         // Don't apply humanoid-only techniques to non-humanoids
-        if( tec.human_target && !is_humanoid ) {
+        if( tec.human_target && !t.in_species( HUMAN ) ) {
             continue;
         }
         // if aoe, check if there are valid targets
@@ -1315,11 +1324,11 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
         }
     }
 
-    if( technique.stun_dur > 0 ) {
+    if( technique.stun_dur > 0 && !technique.powerful_knockback ) {
         t.add_effect( effect_stunned, rng( 1_turns, time_duration::from_turns( technique.stun_dur ) ) );
     }
 
-    if( technique.knockback_dist > 0 ) {
+    if( technique.knockback_dist ) {
         const tripoint prev_pos = t.pos(); // track target startpoint for knockback_follow
         const int kb_offset_x = rng( -technique.knockback_spread, technique.knockback_spread );
         const int kb_offset_y = rng( -technique.knockback_spread, technique.knockback_spread );
@@ -1328,13 +1337,25 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
             t.knock_back_from( kb_point );
         }
         // This technique makes the player follow into the tile the target was knocked from
-        if( technique.knockback_follow > 0 ) {
-            // Check if terrain there is safe then if a critter's still there - if clear, move player there
-            if( !g->prompt_dangerous_tile( prev_pos ) ) {
-                return;
-            } else {
+        if( technique.knockback_follow ) {
+            const optional_vpart_position vp0 = g->m.veh_at( pos() );
+            vehicle *const veh0 = veh_pointer_or_null( vp0 );
+            bool to_swimmable = g->m.has_flag( "SWIMMABLE", prev_pos );
+            bool to_deepwater = g->m.has_flag( TFLAG_DEEP_WATER, prev_pos );
+
+            // Check if it's possible to move to the new tile
+            bool move_issue =
+                g->is_dangerous_tile( prev_pos ) || // Tile contains fire, etc
+                ( to_swimmable && to_deepwater ) || // Dive into deep water
+                is_mounted() ||
+                ( veh0 != nullptr && abs( veh0->velocity ) > 100 ) || // Diving from moving vehicle
+                ( veh0 != nullptr && veh0->player_in_control( g->u ) ) || // Player is driving
+                has_effect( effect_amigara );
+
+            if( !move_issue ) {
                 if( t.pos() != prev_pos ) {
                     g->place_player( prev_pos );
+                    g->on_move_effects();
                 }
             }
         }
@@ -1657,9 +1678,9 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
 
     std::string target = t.disp_name();
 
-    if( has_active_bionic( bionic_id( "bio_shock" ) ) && power_level >= 2_kJ &&
+    if( has_active_bionic( bionic_id( "bio_shock" ) ) && get_power_level() >= 2_kJ &&
         ( !is_armed() || weapon.conductive() ) ) {
-        charge_power( -2_kJ );
+        mod_power_level( -2_kJ );
         d.add_damage( DT_ELECTRIC, rng( 2, 10 ) );
 
         if( is_player() ) {
@@ -1670,7 +1691,7 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
     }
 
     if( has_active_bionic( bionic_id( "bio_heat_absorb" ) ) && !is_armed() && t.is_warm() ) {
-        charge_power( 3_kJ );
+        mod_power_level( 3_kJ );
         d.add_damage( DT_COLD, 3 );
         if( is_player() ) {
             dump << string_format( _( "You drain %s's body heat." ), target ) << std::endl;
@@ -2012,7 +2033,7 @@ void player_hit_message( player *attacker, const std::string &message,
             msg = string_format( _( "%s. Critical!" ), message );
         } else {
             //~ someone hits something for %d damage (critical)
-            msg = string_format( _( "%s for %d damage. Critical!" ), message, dam );
+            msg = string_format( _( "%s for %d damage.  Critical!" ), message, dam );
         }
         sSCTmod = _( "Critical!" );
         gmtSCTcolor = m_critical;
@@ -2073,6 +2094,8 @@ int player::attack_speed( const item &weap ) const
     move_cost *= stamina_penalty;
     move_cost += skill_cost;
     move_cost -= dexbonus;
+
+    move_cost = calculate_by_enchantment( move_cost, enchantment::mod::ATTACK_SPEED, true );
     // Martial arts last. Flat has to be after mult, because comments say so.
     move_cost *= ma_mult;
     move_cost += ma_move_cost;

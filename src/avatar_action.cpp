@@ -238,7 +238,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
         if( critter.friendly == 0 &&
             !critter.has_effect( effect_pet ) ) {
             if( you.has_destination() ) {
-                add_msg( m_warning, _( "Monster in the way. Auto-move canceled." ) );
+                add_msg( m_warning, _( "Monster in the way.  Auto-move canceled." ) );
                 add_msg( m_info, _( "Click directly on monster to attack." ) );
                 you.clear_destination();
                 return false;
@@ -503,7 +503,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     }
     if( you.oxygen <= 5 && you.is_underwater() ) {
         if( movecost < 500 ) {
-            popup( _( "You need to breathe! (%s to surface.)" ), press_x( ACTION_MOVE_UP ) );
+            popup( _( "You need to breathe!  (%s to surface.)" ), press_x( ACTION_MOVE_UP ) );
         } else {
             popup( _( "You need to breathe but you can't swim!  Get to dry land, quick!" ) );
         }
@@ -561,7 +561,7 @@ void avatar_action::autoattack( avatar &you, map &m )
     int reach = you.weapon.reach_range( you );
     auto critters = you.get_hostile_creatures( reach );
     if( critters.empty() ) {
-        add_msg( m_info, _( "No hostile creature in reach. Waiting a turn." ) );
+        add_msg( m_info, _( "No hostile creature in reach.  Waiting a turn." ) );
         if( g->check_safe_mode_allowed() ) {
             you.pause();
         }
@@ -664,7 +664,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
                 if( !( you.has_charges( "UPS_off", ups_drain ) ||
                        you.has_charges( "adv_UPS_off", adv_ups_drain ) ||
                        ( you.has_active_bionic( bionic_id( "bio_ups" ) ) &&
-                         you.power_level >= units::from_kilojoule( ups_drain ) ) ) ) {
+                         you.get_power_level() >= units::from_kilojoule( ups_drain ) ) ) ) {
                     add_msg( m_info,
                              _( "You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!" ),
                              ups_drain, adv_ups_drain );
@@ -684,7 +684,7 @@ bool avatar_action::fire_check( avatar &you, const map &m, const targeting_data 
             bool t_mountable = m.has_flag_ter_or_furn( "MOUNTABLE", you.pos() );
             if( !t_mountable && !v_mountable ) {
                 add_msg( m_info,
-                         _( "You must stand near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc." ) );
+                         _( "You must stand near acceptable terrain or furniture to use this weapon.  A table, a mound of dirt, a broken window, etc." ) );
                 return false;
             }
         }
@@ -798,7 +798,7 @@ bool avatar_action::fire( avatar &you, map &m )
     }
 
     if( shots && args.power_cost ) {
-        you.charge_power( units::from_kilojoule( -args.power_cost ) * shots );
+        you.mod_power_level( units::from_kilojoule( -args.power_cost ) * shots );
     }
     g->reenter_fullscreen();
     return shots != 0;

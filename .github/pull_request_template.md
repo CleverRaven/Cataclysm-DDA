@@ -50,6 +50,12 @@ The easier you make your solution to understand, the faster it can get merged.
 A clear and concise description of any alternative solutions or features you've considered.
 -->
 
+#### Testing
+<!--
+Describe what steps you took to test that this PR resolved the bug or added the feature, and what tests you performed to make sure it didn't cause any regressions.
+Also include testing suggestions for reviewers and maintainers.
+-->
+
 #### Additional context
 <!--
 Add any other context (such as mock-ups, proof of concepts or screenshots) about the feature or bugfix here.

@@ -2116,6 +2116,10 @@ void item::io( Archive &archive )
         }
     }
 
+    // Remove stored translated gerund in favor of storing the inscription tool type
+    item_vars.erase( "item_label_type" );
+    item_vars.erase( "item_note_type" );
+
     current_phase = static_cast<phase_id>( cur_phase );
     // override phase if frozen, needed for legacy save
     if( item_tags.count( "FROZEN" ) && current_phase == LIQUID ) {

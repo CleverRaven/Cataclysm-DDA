@@ -16,6 +16,7 @@
 #include <chrono>
 #include <unordered_set>
 
+#include "action.h"
 #include "calendar.h"
 #include "character_id.h"
 #include "cursesdef.h"
@@ -794,6 +795,8 @@ class game
         void mon_info( const catacurses::window &,
                        int hor_padding = 0 ); // Prints a list of nearby monsters
         void cleanup_dead();     // Delete any dead NPCs/monsters
+        bool is_dangerous_tile( const tripoint &dest_loc ) const;
+        std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc ) const;
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
     private:
         void wield();
@@ -892,10 +895,19 @@ class game
         void disp_faction_ends();   // Display the faction endings
         void disp_NPC_epilogues();  // Display NPC endings
 
-        // Debug functions
+        /* Debug functions */
+        // overlays flags (on / off)
+        std::map<action_id, bool> displaying_overlays{
+            { ACTION_DISPLAY_SCENT, false },
+            { ACTION_DISPLAY_TEMPERATURE, false },
+            { ACTION_DISPLAY_VISIBILITY, false },
+            { ACTION_DISPLAY_LIGHTING, false },
+            { ACTION_DISPLAY_RADIATION, false },
+        };
         void display_scent();   // Displays the scent map
         void display_temperature();    // Displays temperature map
         void display_visibility(); // Displays visibility map
+        void display_lighting(); // Displays lighting conditions heat map
         void display_radiation(); // Displays radiation map
 
         Creature *is_hostile_within( int distance );
@@ -960,12 +972,16 @@ class game
         point driving_view_offset;
 
         bool debug_pathfinding = false; // show NPC pathfinding on overmap ui
-        bool displaying_scent;
-        bool displaying_temperature;
-        bool displaying_visibility;
+
+        /* tile overlays */
+        // Toggle all other overlays off and flip the given overlay on/off.
+        void display_toggle_overlay( action_id );
+        // Get the state of an overlay (on/off).
+        bool display_overlay_state( action_id );
         /** Creature for which to display the visibility map */
         Creature *displaying_visibility_creature;
-        bool displaying_radiation;
+        /** Type of lighting condition overlay to display */
+        int displaying_lighting_condition = 0;
 
         bool show_panel_adm;
         bool right_sidebar;

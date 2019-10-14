@@ -11,6 +11,7 @@
     "material": [ "glass" ],
     "volume": "3 L",
     "bashing": 1,
+    "flags": [ "NO_REPAIR" ],
     "category": "veh_parts",
     "price": 90000
   },
