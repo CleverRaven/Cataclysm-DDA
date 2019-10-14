@@ -265,7 +265,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     const skill_id &skill = type->skill;
     const int skill_level = get_skill_level( skill );
     if( skill && skill_level < type->req && has_identified( book.typeId() ) ) {
-        reasons.push_back( string_format( _( "%s %d needed to understand. You have %d" ),
+        reasons.push_back( string_format( _( "%s %d needed to understand.  You have %d" ),
                                           skill.obj().name(), type->req, skill_level ) );
         return nullptr;
     }
@@ -301,7 +301,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
                                               elem->disp_name() ) );
         } else if( skill && elem->get_skill_level( skill ) < type->req &&
                    has_identified( book.typeId() ) ) {
-            reasons.push_back( string_format( _( "%s %d needed to understand. %s has %d" ),
+            reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
                                               skill.obj().name(), type->req, elem->disp_name(), elem->get_skill_level( skill ) ) );
         } else if( elem->has_trait( trait_HYPEROPIC ) && !elem->worn_with_flag( "FIX_FARSIGHT" ) &&
                    !elem->has_effect( effect_contacts ) ) {
@@ -595,7 +595,7 @@ bool avatar::read( int inventory_position, const bool continuous )
 
     if( std::min( fine_detail_vision_mod(), reader->fine_detail_vision_mod() ) > 1.0 ) {
         add_msg( m_warning,
-                 _( "It's difficult for %s to see fine details right now. Reading will take longer than usual." ),
+                 _( "It's difficult for %s to see fine details right now.  Reading will take longer than usual." ),
                  reader->disp_name() );
     }
 
@@ -605,7 +605,7 @@ bool avatar::read( int inventory_position, const bool continuous )
     const player *complex_player = reader->get_int() < intelligence ? reader : this;
     if( complex_penalty && !continuous ) {
         add_msg( m_warning,
-                 _( "This book is too complex for %s to easily understand. It will take longer to read." ),
+                 _( "This book is too complex for %s to easily understand.  It will take longer to read." ),
                  complex_player->disp_name() );
     }
 
@@ -798,7 +798,7 @@ void avatar::do_read( item &book )
                     continuous = true;
                 }
                 if( learner->is_player() ) {
-                    add_msg( m_info, _( "You learn a little about %s! (%d%%)" ), skill_name, skill_level.exercise() );
+                    add_msg( m_info, _( "You learn a little about %s!  (%d%%)" ), skill_name, skill_level.exercise() );
                 } else {
                     little_learned.insert( learner->disp_name() );
                 }
@@ -1064,7 +1064,7 @@ void avatar::update_mental_focus()
     if( activity.id() == activity_id( "ACT_READ" ) ) {
         const item *book = activity.targets[0].get_item();
         if( get_item_position( book ) == INT_MIN || !book->is_book() ) {
-            add_msg_if_player( m_bad, _( "You lost your book! You stop reading." ) );
+            add_msg_if_player( m_bad, _( "You lost your book!  You stop reading." ) );
             activity.set_to_null();
         }
     }
@@ -1330,7 +1330,7 @@ void avatar::upgrade_stat_prompt( const Character::stat &stat )
             return;
     }
 
-    if( query_yn( _( "Are you sure you want to raise %s? %d points available." ), stat_string,
+    if( query_yn( _( "Are you sure you want to raise %s?  %d points available." ), stat_string,
                   free_points ) ) {
         switch( stat ) {
             case STRENGTH:
