@@ -51,6 +51,7 @@
       [ "glass_plate", 20 ],
       [ "glass_bowl", 20 ],
       [ "ceramic_plate", 10 ],
+      [ "wine_glass", 10 ],
       [ "ceramic_bowl", 10 ],
       [ "ceramic_cup", 10 ]
     ]
@@ -118,7 +119,7 @@
       { "item": "pants_army" },
       { "item": "tshirt", "count": 3 },
       { "item": "under_armor" },
-      { "item": "chestrig" },
+      { "item": "tacvest" },
       { "item": "coat_rain" },
       { "item": "hood_rain" },
       { "item": "long_underpants" },

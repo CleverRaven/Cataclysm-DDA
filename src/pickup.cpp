@@ -236,8 +236,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
 
     const auto wield_check = u.can_wield( newit );
 
-    if( newit.has_owner() &&
-        newit.get_owner() != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
+    if( !newit.is_owned_by( g->u, true ) ) {
         // Has the player given input on if stealing is ok?
         if( u.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
             Pickup::query_thief();
@@ -319,6 +318,9 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             if( wield_check.success() ) {
                 //using original item, possibly modifying it
                 picked_up = u.wield( it );
+                if( picked_up ) {
+                    it.charges = newit.charges;
+                }
                 if( u.weapon.invlet ) {
                     add_msg( m_info, _( "Wielding %c - %s" ), u.weapon.invlet,
                              u.weapon.display_name() );
@@ -507,6 +509,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             g->u.activity.targets.emplace_back( vehicle_cursor( *veh, cargo_part ), &*here.front() );
         } else {
             g->u.activity.targets.emplace_back( map_cursor( p ), &*here.front() );
+            g->u.activity.coords.push_back( g->u.pos() );
         }
         // auto-pickup means pick up all.
         g->u.activity.values.push_back( 0 );
@@ -848,12 +851,9 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     std::string item_name;
                     std::string stolen;
                     bool stealing = false;
-                    if( this_item.has_owner() ) {
-                        const faction *item_fac = this_item.get_owner();
-                        if( item_fac != g->u.get_faction() ) {
-                            stolen = "<color_light_red>!</color>";
-                            stealing = true;
-                        }
+                    if( !this_item.is_owned_by( g->u, true ) ) {
+                        stolen = "<color_light_red>!</color>";
+                        stealing = true;
                     }
                     if( stacked_here[true_it].front()->is_money() ) {
                         //Count charges
@@ -874,14 +874,11 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                                 charges += ( *it )->charges;
                             }
                             if( stealing ) {
-                                //~ %s %s of %s ""!20 Cash Cards of $200" - ! added if stealing.
-                                item_name = string_format( _( "%s %s of %s" ), stolen,
-                                                           stacked_here[true_it].front()->display_money( getitem[true_it].count, charges ),
-                                                           format_money( charges_total ) );
+                                item_name = string_format( "%s %s", stolen,
+                                                           stacked_here[true_it].front()->display_money( getitem[true_it].count, charges_total, charges ) );
                             } else {
-                                item_name = string_format( _( "%s of %s" ),
-                                                           stacked_here[true_it].front()->display_money( getitem[true_it].count, charges ),
-                                                           format_money( charges_total ) );
+                                item_name = stacked_here[true_it].front()->display_money( getitem[true_it].count, charges_total,
+                                            charges );
                             }
                         }
                     } else {
@@ -994,6 +991,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
     // At this point we've selected our items, register an activity to pick them up.
     g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
+    g->u.activity.coords.push_back( g->u.pos() );
     if( min == -1 ) {
         // Auto pickup will need to auto resume since there can be several of them on the stack.
         g->u.activity.auto_resume = true;

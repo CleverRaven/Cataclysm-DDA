@@ -703,5 +703,15 @@
     "id": "smg_22_mag",
     "type": "MIGRATION",
     "replace": "survivor9mm_mag"
+  },
+  {
+    "id": "magbandolier",
+    "type": "MIGRATION",
+    "replace": "chestrig"
+  },
+  {
+    "id": "tool_black_powder_bomb",
+    "type": "MIGRATION",
+    "replace": "can_bomb"
   }
 ]

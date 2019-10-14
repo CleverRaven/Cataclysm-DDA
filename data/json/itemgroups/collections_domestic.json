@@ -4,7 +4,7 @@
     "//": "Mundane household items that might be found in or around a shower or bath.",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "rag", 40 ], [ "towel", 30 ], [ "soap", 10 ] ]
+    "items": [ [ "rag", 40 ], [ "towel", 30 ], [ "soap", 10 ], [ "bathroom_scale", 20 ] ]
   },
   {
     "id": "kitchen_counters",
@@ -35,6 +35,7 @@
       [ "ceramic_bowl", 50 ],
       [ "ceramic_cup", 20 ],
       [ "ceramic_mug", 20 ],
+      [ "wine_glass", 20 ],
       [ "plastic_plate", 50 ],
       [ "tumbler_plastic", 50 ],
       [ "bowl_pewter", 25 ],
@@ -155,6 +156,7 @@
       [ "thermometer", 3 ],
       [ "hygrometer", 3 ],
       [ "barometer", 3 ],
+      [ "smart_lamp", 3 ],
       { "collection": [ { "item": "charcoal", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ], "prob": 30 },
       {
         "collection": [ { "item": "denat_alcohol", "prob": 70 }, { "item": "popcan_stove", "prob": 100 } ],

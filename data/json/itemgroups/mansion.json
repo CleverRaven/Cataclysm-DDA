@@ -9,52 +9,97 @@
     "id": "cm_maid",
     "type": "item_group",
     "subtype": "collection",
-    "items": [
+    "entries": [
       { "group": "cleaning", "prob": 40 },
-      { "group": "female_underwear", "prob": 30, "damage": [ 0, 4 ] },
+      { "group": "female_underwear", "prob": 90, "damage": [ 0, 4 ] },
       { "group": "shoes_maid", "prob": 30, "damage": [ 0, 4 ] },
       { "item": "maid_hat", "prob": 50, "damage": [ 0, 4 ] },
       { "item": "maid_dress", "prob": 100, "damage": [ 0, 4 ] },
-      [ "corpse", 100 ]
+      { "group": "corpse_female" }
     ]
   },
   {
     "id": "cm_butler",
     "type": "item_group",
     "subtype": "collection",
-    "items": [
+    "entries": [
       { "group": "gear_butler", "prob": 40 },
       { "item": "socks", "prob": 30, "damage": [ 0, 4 ] },
-      { "group": "male_underwear", "prob": 30, "damage": [ 0, 4 ] },
+      { "group": "male_underwear", "prob": 90, "damage": [ 0, 4 ] },
       { "item": "dress_shoes", "prob": 30, "damage": [ 0, 4 ] },
       { "item": "dress_shirt", "prob": 50, "damage": [ 0, 4 ] },
       { "item": "suit", "prob": 100, "damage": [ 0, 4 ] },
-      [ "corpse", 100 ]
+      { "group": "corpse_male" }
     ]
   },
   {
     "id": "cm_fancy",
     "type": "item_group",
     "subtype": "collection",
-    "items": [
+    "entries": [
       { "group": "jewelry_front", "prob": 40 },
       { "group": "mansion_guns", "prob": 40 },
       { "group": "shoestore_shoes", "prob": 30, "damage": [ 0, 4 ] },
       { "group": "suits", "prob": 90, "damage": [ 0, 4 ] },
-      [ "corpse", 100 ]
+      {
+        "distribution": [
+          { "collection": [ { "group": "male_underwear", "prob": 90, "damage": [ 0, 4 ] }, { "group": "corpse_male" } ] },
+          {
+            "collection": [ { "group": "female_underwear", "prob": 90, "damage": [ 0, 4 ] }, { "group": "corpse_female" } ]
+          }
+        ]
+      }
     ]
   },
   {
     "id": "everyday_corpse",
     "type": "item_group",
     "subtype": "collection",
-    "items": [
+    "entries": [
       { "group": "everyday_gear", "prob": 40 },
-      { "group": "underwear", "prob": 30, "damage": [ 0, 4 ] },
       { "group": "shoes", "prob": 30, "damage": [ 0, 4 ] },
-      { "group": "pants", "prob": 60, "damage": [ 0, 4 ] },
       { "group": "shirts", "prob": 60, "damage": [ 0, 4 ] },
-      [ "corpse", 100 ]
+      { "group": "jackets", "prob": 20, "damage": [ 0, 4 ] },
+      { "group": "common_gloves", "prob": 20, "damage": [ 0, 4 ] },
+      { "group": "hatstore_hats", "prob": 20, "damage": [ 0, 4 ] },
+      { "group": "hatstore_accessories", "prob": 20, "damage": [ 0, 4 ] },
+      { "group": "clothing_glasses", "prob": 20, "damage": [ 0, 4 ] },
+      { "group": "jewelry_accessories", "prob": 15 },
+      {
+        "distribution": [
+          { "item": "wristwatch", "prob": 15 },
+          { "item": "pocketwatch", "prob": 5 },
+          { "item": "gold_watch", "prob": 5, "damage": [ 1, 4 ] },
+          { "item": "diving_watch", "prob": 10, "damage": [ 1, 4 ] },
+          { "item": "sf_watch", "prob": 5, "damage": [ 1, 4 ] }
+        ],
+        "prob": 20
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "group": "male_underwear", "prob": 90, "damage": [ 0, 4 ] },
+              { "group": "pants_male", "prob": 60, "damage": [ 0, 4 ] },
+              { "group": "corpse_male" }
+            ]
+          },
+          {
+            "collection": [
+              { "group": "female_underwear", "prob": 90, "damage": [ 0, 4 ] },
+              { "group": "pants_female", "prob": 60, "damage": [ 0, 4 ] },
+              { "group": "corpse_female" }
+            ]
+          },
+          {
+            "collection": [
+              { "group": "underwear", "prob": 90, "damage": [ 0, 4 ] },
+              { "group": "pants", "prob": 60, "damage": [ 0, 4 ] },
+              { "group": "corpse_child" }
+            ]
+          }
+        ]
+      }
     ]
   },
   {
@@ -646,6 +691,7 @@
       [ "rollerskates", 10 ],
       [ "longbow", 5 ],
       [ "compbow", 1 ],
+      [ "hybridbow", 1 ],
       [ "compositebow", 3 ],
       [ "shortbow", 5 ],
       [ "recurbow", 2 ],
@@ -842,6 +888,7 @@
     "subtype": "distribution",
     "items": [
       { "group": "softdrugs", "prob": 90 },
+      [ "bathroom_scale", 10 ],
       [ "string_6", 50 ],
       [ "wrapper", 50 ],
       [ "paper", 50 ],
@@ -937,6 +984,7 @@
       [ "gold_ear", 10 ],
       [ "bone_tainted", 5 ],
       [ "silver_ear", 5 ],
+      [ "bead_ear", 5 ],
       [ "platinum_ear", 1 ],
       { "group": "corpse_mansion", "prob": 5 },
       { "group": "neckties", "prob": 1 }

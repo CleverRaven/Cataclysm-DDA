@@ -262,11 +262,9 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
     for( size_t i = start_at; i < pl.size(); i++ ) {
         const vehicle_part &vp = parts[ pl [ i ] ];
         std::ostringstream possible_msg;
-        std::string name_color = string_format( "<color_%1$s>",
-                                                string_from_color( vp.is_broken() ? c_dark_gray : c_light_green ) );
-        possible_msg << name_color << vp.name() << "</color>\n";
-        std::string desc_color = string_format( "<color_%1$s>",
-                                                string_from_color( vp.is_broken() ? c_dark_gray : c_light_gray ) );
+        const nc_color name_color = vp.is_broken() ? c_dark_gray : c_light_green;
+        possible_msg << colorize( vp.name(), name_color ) << "\n";
+        const nc_color desc_color = vp.is_broken() ? c_dark_gray : c_light_gray;
         // -4 = -2 for left & right padding + -2 for "> "
         int new_lines = 2 + vp.info().format_description( possible_msg, desc_color, width - 4 );
         if( vp.has_flag( vehicle_part::carrying_flag ) ) {
@@ -356,11 +354,10 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
     int yofs = 0;
     int max_gauge = ( isHorizontal ? 12 : 5 ) + start_index;
     int max_size = std::min( static_cast<int>( fuels.size() ), max_gauge );
-    std::map<itype_id, int> fuel_usages = fuel_usage();
 
     for( int i = start_index; i < max_size; i++ ) {
         const itype_id &f = fuels[i];
-        print_fuel_indicator( win, point( x, y + yofs ), f, fuel_usages, verbose, desc );
+        print_fuel_indicator( win, point( x, y + yofs ), f, fuel_used_last_turn, verbose, desc );
         yofs++;
     }
 
@@ -383,13 +380,13 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, int y, int x
 void vehicle::print_fuel_indicator( const catacurses::window &win, const point &p,
                                     const itype_id &fuel_type, bool verbose, bool desc )
 {
-    std::map<itype_id, int> fuel_usages;
+    std::map<itype_id, float> fuel_usages;
     print_fuel_indicator( win, p, fuel_type, fuel_usages, verbose, desc );
 }
 
 void vehicle::print_fuel_indicator( const catacurses::window &win, const point &p,
                                     const itype_id &fuel_type,
-                                    std::map<itype_id, int> fuel_usages,
+                                    std::map<itype_id, float> fuel_usages,
                                     bool verbose, bool desc )
 {
     const char fsyms[5] = { 'E', '\\', '|', '/', 'F' };
@@ -421,7 +418,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
             units = _( "mL" );
         }
         if( fuel_type == itype_id( "battery" ) ) {
-            rate += power_to_energy_bat( total_epower_w() + total_reactor_epower_w(), 1_hours );
+            rate += power_to_energy_bat( net_battery_charge_rate_w(), 1_hours );
             units = _( "kJ" );
         }
         if( rate != 0 ) {

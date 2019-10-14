@@ -37,6 +37,7 @@
     "id": "down_mattress",
     "type": "GENERIC",
     "category": "spare_parts",
+
     "name": "down mattress",
     "name_plural": "down mattresses",
     "description": "This is a single, or twin, sized down filled mattress.",
@@ -46,6 +47,7 @@
     "material": [ "cotton" ],
     "symbol": "0",
     "color": "white",
+
     "use_action": { "type": "deploy_furn", "furn_type": "f_feather_mattress" }
   }
 ]

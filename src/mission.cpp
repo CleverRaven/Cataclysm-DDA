@@ -57,7 +57,7 @@ mission mission_type::create( const character_id npc_id ) const
 
 std::string mission_type::tname() const
 {
-    return _( name );
+    return name.translated();
 }
 
 static std::unordered_map<int, mission> world_missions;
@@ -519,7 +519,7 @@ time_point mission::get_deadline() const
 
 std::string mission::get_description() const
 {
-    return _( type->description );
+    return type->description.translated();
 }
 
 bool mission::has_target() const
@@ -700,18 +700,6 @@ mission::mission()
     bad_fac_id = -1;
     step = 0;
     player_id = character_id();
-}
-
-mission_type::mission_type( mission_type_id ID, const std::string &NAME, mission_goal GOAL, int DIF,
-                            int VAL,
-                            bool URGENT,
-                            std::function<bool( const tripoint & )> PLACE,
-                            std::function<void( mission * )> START,
-                            std::function<void( mission * )> END,
-                            std::function<void( mission * )> FAIL ) :
-    id( ID ), name( NAME ), goal( GOAL ), difficulty( DIF ), value( VAL ),
-    urgent( URGENT ), place( PLACE ), start( START ), end( END ), fail( FAIL )
-{
 }
 
 namespace io

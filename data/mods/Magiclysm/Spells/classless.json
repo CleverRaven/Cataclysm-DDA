@@ -132,7 +132,7 @@
     "valid_targets": [ "self" ],
     "effect": "target_attack",
     "effect_str": "protect_env",
-    "affected_body_parts": [ "HEAD", "TORSO", "MOUTH", "EYES", "ARM_L", "ARM_R", "HAND_R", "HAND_L", "LEG_L", "FOOT_L", "FOOT_R" ],
+    "affected_body_parts": [ "HEAD", "TORSO", "MOUTH", "EYES", "ARM_L", "ARM_R", "HAND_R", "HAND_L", "LEG_L", "LEG_R", "FOOT_L", "FOOT_R" ],
     "energy_source": "MANA",
     "difficulty": 1,
     "max_level": 20,

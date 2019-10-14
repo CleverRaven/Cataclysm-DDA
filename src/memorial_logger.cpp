@@ -6,6 +6,7 @@
 #include "avatar.h"
 #include "bionics.h"
 #include "effect.h"
+#include "event_statistics.h"
 #include "filesystem.h"
 #include "game.h"
 #include "get_version.h"
@@ -149,7 +150,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
 
     const std::string locdesc = overmap_buffer.get_description_at( u.global_sm_location() );
     //~ First parameter is a pronoun ("He"/"She"), second parameter is a description
-    // that designates the location relative to its surroundings.
+    //~ that designates the location relative to its surroundings.
     const std::string kill_place = string_format( _( "%1$s was killed in a %2$s." ),
                                    pronoun, locdesc );
 
@@ -286,7 +287,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
     }
     file << string_format(
              _( "Bionic Power: <color_light_blue>%d</color>/<color_light_blue>%d</color>" ),
-             u.power_level, u.max_power_level ) << eol;
+             units::to_kilojoule( u.get_power_level() ), units::to_kilojoule( u.get_max_power_level() ) ) << eol;
     file << eol;
 
     //Equipment
@@ -328,18 +329,11 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
     file << eol;
 
     //Lifetime stats
-    file << _( "Lifetime Stats" ) << eol;
-    cata::event::data_type not_mounted = { { "mount", cata_variant( mtype_id() ) } };
-    int moves = g->stats().count( event_type::avatar_moves, not_mounted );
-    cata::event::data_type is_u = { { "character", cata_variant( u.getID() ) } };
-    int damage_taken = g->stats().total( event_type::character_takes_damage, "damage", is_u );
-    int damage_healed = g->stats().total( event_type::character_heals_damage, "damage", is_u );
-    int headshots = g->stats().count( event_type::character_gets_headshot, is_u );
+    file << _( "Lifetime Stats and Scores" ) << eol;
 
-    file << indent << string_format( _( "Distance walked: %d squares" ), moves ) << eol;
-    file << indent << string_format( _( "Damage taken: %d damage" ), damage_taken ) << eol;
-    file << indent << string_format( _( "Damage healed: %d damage" ), damage_healed ) << eol;
-    file << indent << string_format( _( "Headshots: %d" ), headshots ) << eol;
+    for( const score *scr : g->stats().valid_scores() ) {
+        file << indent << scr->description( g->stats() ) << eol;
+    }
     file << eol;
 
     //History
@@ -830,10 +824,11 @@ void memorial_logger::notify( const cata::event &e )
                 skill_id skill = e.get<skill_id>( "skill" );
                 int new_level = e.get<int>( "new_level" );
                 if( new_level % 4 == 0 ) {
-                    //~ %d is skill level %s is skill name
                     add( pgettext( "memorial_male",
+                                   //~ %d is skill level %s is skill name
                                    "Reached skill level %1$d in %2$s." ),
                          pgettext( "memorial_female",
+                                   //~ %d is skill level %s is skill name
                                    "Reached skill level %1$d in %2$s." ),
                          new_level, skill->name() );
                 }
@@ -932,6 +927,13 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::opens_temple: {
             add( pgettext( "memorial_male", "Opened a strange temple." ),
                  pgettext( "memorial_female", "Opened a strange temple." ) );
+            break;
+        }
+        case event_type::player_levels_spell: {
+            std::string spell_name = e.get<spell_id>( "spell" )->name.translated();
+            add( pgettext( "memorial_male", "Gained a spell level on %s." ),
+                 pgettext( "memorial_female", "Gained a spell level on %s." ),
+                 spell_name );
             break;
         }
         case event_type::releases_subspace_specimens: {

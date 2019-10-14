@@ -47,8 +47,7 @@
   {
     "id": "mon_dragonfly",
     "type": "MONSTER",
-    "name": "dragonfly",
-    "name_plural": "dragonflies",
+    "name": { "str": "dragonfly", "str_pl": "dragonflies" },
     "description": "A thin-bodied insectoid predator with a large wingspan and big compound eyes.",
     "default_faction": "vermin",
     "species": [ "INSECT" ],

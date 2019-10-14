@@ -21,6 +21,14 @@
   {
     "type": "GENERIC",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_invisibility",
+    "name": "Scroll of Invisibility",
+    "description": "The light can not interact with you unless you want it to. Become invisible!",
+    "use_action": { "type": "learn_spell", "spells": [ "invisibility" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_smite",
     "name": "Scroll of Smite",
     "description": "Evil has become pervasive throughout the world.  Let your power be the light that shines in the darkness!",
@@ -488,7 +496,7 @@
     "id": "spell_scroll_windrun",
     "name": "Scroll of Windrunning",
     "description": "A magical wind pushes you forward as you move, easing your movements and increasing speed.",
-    "use_action": { "type": "learn_spell", "spells": [ "windstrike" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "windrun" ] }
   },
   {
     "type": "GENERIC",
@@ -609,5 +617,13 @@
     "name": "Scroll of Purification Seed",
     "description": "You summon a gift of the earth which will purify water. Greater levels yield greater numbers of seeds.",
     "use_action": { "type": "learn_spell", "spells": [ "purify_seed" ] }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_lava_bomb",
+    "name": "Scroll of Lava Bomb",
+    "description": "You tear up the ground beneath you to fire a lava bomb: a globe of lava surrounded by hot, solid rock.  It shatters upon impact, spraying shards of rock and lava everywhere.",
+    "use_action": { "type": "learn_spell", "spell": [ "lava_bomb" ] }
   }
 ]

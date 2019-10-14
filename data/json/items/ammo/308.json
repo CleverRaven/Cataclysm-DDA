@@ -6,7 +6,8 @@
     "description": ".308 Winchester ammunition with 168gr hollow point bullets.  The .308 round is one of the most popular hunting cartridges in the world due to its accuracy and power.",
     "weight": "18 g",
     "volume": "250 ml",
-    "price": 2200,
+    "price": 180,
+    "price_postapoc": 2200,
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -39,6 +40,33 @@
     "name": "7.62x51mm NATO tracer",
     "description": "This ammunition is a one-in-five mix of M80 and M62 tracer rounds to help keep the weapon they are fired from on target.",
     "extend": { "effects": [ "INCENDIARY" ] }
+  },
+  {
+    "id": "bp_308",
+    "copy-from": "308",
+    "type": "AMMO",
+    "name": ".308 Winchester blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_762_51",
+    "copy-from": "762_51",
+    "type": "AMMO",
+    "name": "7.62x51mm blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "bp_762_51_incendiary",
+    "copy-from": "762_51_incendiary",
+    "type": "AMMO",
+    "name": "7.62x51mm tracer blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
     "id": "reloaded_308",

@@ -6,9 +6,6 @@
     "name_unique": "Jesse Isherwood",
     "gender": "female",
     "class": "NC_ISHERWOOD_JESSE",
-    "worn_override": "NC_Isherwood_worn",
-    "carry_override": "NC_ISHERWOOD_rifle",
-    "weapon_override": "NC_ISHERWOOD_archery",
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_ISHERWOOD_JESSE",
@@ -23,6 +20,9 @@
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
     "bonus_per": { "one_in": 4 },
+    "worn_override": "NC_Isherwood_worn",
+    "carry_override": "NC_ISHERWOOD_rifle",
+    "weapon_override": "NC_ISHERWOOD_archery",
     "skills": [
       {
         "skill": "ALL",
@@ -130,7 +130,7 @@
         "topic": "TALK_JESSE_CHRIS"
       },
       { "text": "What needs killing?", "topic": "TALK_MISSION_LIST" },
-      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_Jesse_TOPICS" },
+      { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JESSE_TOPICS" },
       { "text": "I'm not interested right now, I'd better get going.", "topic": "TALK_DONE" }
     ]
   },

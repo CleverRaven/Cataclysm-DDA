@@ -80,9 +80,7 @@ JsonObject::JsonObject( JsonIn &j )
     while( !jsin->end_object() ) {
         std::string n = jsin->get_member_name();
         int p = jsin->tell();
-        // FIXME: Fix corrupted bionic power data loading (see #31627). Temporary.
-        if( n != "//" && n != "comment" && n != "power_level" && n != "max_power_level" &&
-            positions.count( n ) > 0 ) {
+        if( n != "//" && n != "comment" && positions.count( n ) > 0 ) {
             // members with name "//" or "comment" are used for comments and
             // should be ignored anyway.
             j.error( "duplicate entry in json object" );
@@ -1093,7 +1091,7 @@ bool JsonIn::get_bool()
             error( err.str(), -5 );
         }
     }
-    err << "not a boolean value! expected 't' or 'f' but got '" << ch << "'";
+    err << "not a boolean value!  expected 't' or 'f' but got '" << ch << "'";
     error( err.str(), -1 );
     throw JsonError( "warnings are silly" );
 }
@@ -1219,123 +1217,123 @@ bool JsonIn::test_object()
 
 /* non-fatal value setting by reference */
 
-bool JsonIn::read( bool &b )
+bool JsonIn::read( bool &b, bool throw_on_error )
 {
     if( !test_bool() ) {
-        return false;
+        return error_or_false( throw_on_error, "Expected bool" );
     }
     b = get_bool();
     return true;
 }
 
-bool JsonIn::read( char &c )
+bool JsonIn::read( char &c, bool throw_on_error )
 {
     if( !test_number() ) {
-        return false;
+        return error_or_false( throw_on_error, "Expected number" );
     }
     c = get_int();
     return true;
 }
 
-bool JsonIn::read( signed char &c )
+bool JsonIn::read( signed char &c, bool throw_on_error )
 {
     if( !test_number() ) {
-        return false;
-    }
-    // TODO: test for overflow
-    c = get_int();
-    return true;
-}
-
-bool JsonIn::read( unsigned char &c )
-{
-    if( !test_number() ) {
-        return false;
+        return error_or_false( throw_on_error, "Expected number" );
     }
     // TODO: test for overflow
     c = get_int();
     return true;
 }
 
-bool JsonIn::read( short unsigned int &s )
+bool JsonIn::read( unsigned char &c, bool throw_on_error )
 {
     if( !test_number() ) {
-        return false;
+        return error_or_false( throw_on_error, "Expected number" );
+    }
+    // TODO: test for overflow
+    c = get_int();
+    return true;
+}
+
+bool JsonIn::read( short unsigned int &s, bool throw_on_error )
+{
+    if( !test_number() ) {
+        return error_or_false( throw_on_error, "Expected number" );
     }
     // TODO: test for overflow
     s = get_int();
     return true;
 }
 
-bool JsonIn::read( short int &s )
+bool JsonIn::read( short int &s, bool throw_on_error )
 {
     if( !test_number() ) {
-        return false;
+        return error_or_false( throw_on_error, "Expected number" );
     }
     // TODO: test for overflow
     s = get_int();
     return true;
 }
 
-bool JsonIn::read( int &i )
+bool JsonIn::read( int &i, bool throw_on_error )
 {
     if( !test_number() ) {
-        return false;
+        return error_or_false( throw_on_error, "Expected number" );
     }
     i = get_int();
     return true;
 }
 
-bool JsonIn::read( std::int64_t &i )
+bool JsonIn::read( std::int64_t &i, bool throw_on_error )
 {
     if( !test_number() ) {
-        return false;
+        return error_or_false( throw_on_error, "Expected number" );
     }
     i = get_int64();
     return true;
 }
 
-bool JsonIn::read( unsigned int &u )
+bool JsonIn::read( unsigned int &u, bool throw_on_error )
 {
     if( !test_number() ) {
-        return false;
+        return error_or_false( throw_on_error, "Expected number" );
     }
     u = get_int();
     return true;
 }
 
-bool JsonIn::read( float &f )
+bool JsonIn::read( float &f, bool throw_on_error )
 {
     if( !test_number() ) {
-        return false;
+        return error_or_false( throw_on_error, "Expected number" );
     }
     f = get_float();
     return true;
 }
 
-bool JsonIn::read( double &d )
+bool JsonIn::read( double &d, bool throw_on_error )
 {
     if( !test_number() ) {
-        return false;
+        return error_or_false( throw_on_error, "Expected number" );
     }
     d = get_float();
     return true;
 }
 
-bool JsonIn::read( std::string &s )
+bool JsonIn::read( std::string &s, bool throw_on_error )
 {
     if( !test_string() ) {
-        return false;
+        return error_or_false( throw_on_error, "Expected string" );
     }
     s = get_string();
     return true;
 }
 
 template<size_t N>
-bool JsonIn::read( std::bitset<N> &b )
+bool JsonIn::read( std::bitset<N> &b, bool throw_on_error )
 {
     if( !test_bitset() ) {
-        return false;
+        return error_or_false( throw_on_error, "Expected bitset" );
     }
     std::string tmp_string = get_string();
     if( tmp_string.length() > N ) {
@@ -1346,7 +1344,7 @@ bool JsonIn::read( std::bitset<N> &b )
     return true;
 }
 
-bool JsonIn::read( JsonDeserializer &j )
+bool JsonIn::read( JsonDeserializer &j, bool throw_on_error )
 {
     // can't know what type of json object it will deserialize from,
     // so just try to deserialize, catching any error.
@@ -1355,6 +1353,9 @@ bool JsonIn::read( JsonDeserializer &j )
         j.deserialize( *this );
         return true;
     } catch( const JsonError & ) {
+        if( throw_on_error ) {
+            throw;
+        }
         return false;
     }
 }
@@ -1455,6 +1456,14 @@ void JsonIn::error( const std::string &message, int offset )
         }
     }
     throw JsonError( err.str() );
+}
+
+bool JsonIn::error_or_false( bool throw_, const std::string &message, int offset )
+{
+    if( throw_ ) {
+        error( message, offset );
+    }
+    return false;
 }
 
 void JsonIn::rewind( int max_lines, int max_chars )
@@ -1739,4 +1748,4 @@ std::ostream &operator<<( std::ostream &stream, const JsonError &err )
 // Currently only bitsets of size 12 are loaded / stored, if you need other sizes, either explicitly
 // instantiate them here, or move the templated read/write functions into the header.
 template void JsonOut::write<12>( const std::bitset<12> & );
-template bool JsonIn::read<12>( std::bitset<12> & );
+template bool JsonIn::read<12>( std::bitset<12> &, bool throw_on_error );

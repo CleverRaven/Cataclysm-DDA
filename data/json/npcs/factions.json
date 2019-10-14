@@ -26,6 +26,31 @@
   },
   {
     "type": "faction",
+    "id": "amf",
+    "name": "AMF",
+    "likes_u": -60,
+    "respects_u": -60,
+    "known_by_u": false,
+    "size": 1,
+    "power": 100,
+    "food_supply": 0,
+    "wealth": 0,
+    "relations": {
+      "your_followers": { "kill on sight": true, "knows your voice": true },
+      "amf": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      }
+    },
+    "description": "The survivors who formerly entrusted you with their well-being, but have now mutinied because of your abuse and incompetence.  They will kill you if they can."
+  },
+  {
+    "type": "faction",
     "id": "robofac",
     "name": "Hub 01",
     "likes_u": -200,
@@ -49,6 +74,32 @@
       "marloss": { "kill on sight": true }
     },
     "description": "The surviving staff of Hub 01, a pre-cataclysm research lab.  They rarely leave their lab, if at all, and rely on their robots and advanced technology to survive."
+  },
+  {
+    "type": "faction",
+    "id": "robofac_auxiliaries",
+    "name": "Hub 01 Ancillia",
+    "likes_u": 15,
+    "respects_u": 15,
+    "known_by_u": false,
+    "size": 70,
+    "power": 100,
+    "food_supply": 115200,
+    "wealth": 75000,
+    "currency": "RobofacCoin",
+    "relations": {
+      "robofac": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "marloss": { "kill on sight": true }
+    },
+    "description": "A loose association of skilled wastelanders, traders, mercenaries and scouts.  All working on behalf of Hub 01, for their own reasons."
   },
   {
     "type": "faction",
@@ -271,10 +322,11 @@
     "likes_u": 0,
     "respects_u": 0,
     "known_by_u": false,
-    "size": 100,
-    "power": 100,
-    "food_supply": 172800,
-    "wealth": 2500000,
+    "size": 1,
+    "power": 1,
+    "food_supply": 1,
+    "lone_wolf_faction": true,
+    "wealth": 1,
     "relations": {
       "lobby_beggars": { "knows your voice": true },
       "free_merchants": { "knows your voice": true },
@@ -325,9 +377,9 @@
         "defends your space": true,
         "knows your voice": true
       },
-      "free_merchants": { "kill_on_sight": true },
-      "old_guard": { "kill_on_sight": true },
-      "your_followers": { "kill_on_sight": true }
+      "free_merchants": { "kill on sight": true },
+      "old_guard": { "kill on sight": true },
+      "your_followers": { "kill on sight": true }
     },
     "description": "The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat."
   },
@@ -352,9 +404,9 @@
         "defends your space": true,
         "knows your voice": true
       },
-      "free_merchants": { "kill_on_sight": true },
-      "old_guard": { "kill_on_sight": true },
-      "your_followers": { "kill_on_sight": true }
+      "free_merchants": { "kill on sight": true },
+      "old_guard": { "kill on sight": true },
+      "your_followers": { "kill on sight": true }
     },
     "description": "Mutant bees who hate everyone."
   },

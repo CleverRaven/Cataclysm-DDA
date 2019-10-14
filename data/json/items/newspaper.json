@@ -166,5 +166,21 @@
     "material": "paper",
     "weight": "1 g",
     "volume": 0
+  },
+  {
+    "type": "GENERIC",
+    "id": "death_note",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": "note",
+    "snippet_category": "death_note",
+    "description": "A scrap of paper.  Something's written on it, scrawled in bad handwriting.",
+    "price": 0,
+    "looks_like": "survnote",
+    "material": "paper",
+    "flags": "TRADER_AVOID",
+    "weight": "3 g",
+    "volume": 0
   }
 ]
