@@ -37,7 +37,6 @@
     "id": "down_mattress",
     "type": "GENERIC",
     "category": "spare_parts",
-
     "name": "down mattress",
     "name_plural": "down mattresses",
     "description": "This is a single, or twin, sized down filled mattress.",
