@@ -256,7 +256,7 @@ void npc_class::load( JsonObject &jo, const std::string & )
         while( array.has_more() ) {
             JsonObject subobj = array.next_object();
             const int level = subobj.get_int( "level" );
-            spell_id sp = spell_id( subobj.get_string( "id" ) );
+            const spell_id sp = spell_id( subobj.get_string( "id" ) );
             _starting_spells.emplace( sp, level );
         }
     }
