@@ -1414,8 +1414,13 @@ void vehicle::use_autoclave( int p )
 {
     auto items = get_items( p );
     static const std::string filthy( "FILTHY" );
+    static const std::string no_packed( "NO_PACKED" );
     bool filthy_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
         return i.has_flag( filthy );
+    } );
+
+    bool unpacked_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
+        return i.has_flag( no_packed );
     } );
 
     bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
@@ -1427,8 +1432,7 @@ void vehicle::use_autoclave( int p )
         add_msg( m_bad,
                  _( "You turn the autoclave off before it's finished the program, and open its door." ) );
     } else if( items.empty() ) {
-        add_msg( m_bad,
-                 _( "The autoclave is empty, there's no point in starting it." ) );
+        add_msg( m_bad, _( "The autoclave is empty, there's no point in starting it." ) );
     } else if( fuel_left( "water" ) < 8 && fuel_left( "water_clean" ) < 8 ) {
         add_msg( m_bad, _( "You need 8 charges of water in tanks of the %s for the autoclave to run." ),
                  name );
@@ -1436,8 +1440,9 @@ void vehicle::use_autoclave( int p )
         add_msg( m_bad,
                  _( "You need to remove all filthy items from the autoclave to start the sterilizing cycle." ) );
     } else if( !cbms ) {
-        add_msg( m_bad,
-                 _( "Only CBMs can be sterilized in an autoclave." ) );
+        add_msg( m_bad, _( "Only CBMs can be sterilized in an autoclave." ) );
+    } else if( unpacked_items ) {
+        add_msg( m_bad, _( "You should put your CBMs in autoclave pouches to keep them sterile." ) );
     } else {
         parts[p].enabled = true;
         for( auto &n : items ) {
