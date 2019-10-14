@@ -126,9 +126,11 @@ std::string item_comp::to_string( const int batch, const int avail ) const
     const auto type_ptr = item::find_type( type );
     if( type_ptr->count_by_charges() ) {
         if( avail == 2147483647/* int32 max */ ) {
-            return string_format( npgettext( "requirement", "%2$d %1$s of infinite", "%2$d %1$s of infinite",
+            //~ %1$s: item name, %2$d: charge requirement
+            return string_format( npgettext( "requirement", "%1$s (%2$d of infinite)",
+                                             "%1$s (%2$d of infinite)",
                                              c ),
-                                  type_ptr->nname( c ), c );
+                                  type_ptr->nname( 1 ), c );
         } else if( avail > 0 ) {
             //~ %1$s: item name, %2$d: charge requirement, %3%d: available charges
             return string_format( npgettext( "requirement", "%1$s (%2$d of %3$d)", "%1$s (%2$d of %3$d)", c ),
@@ -139,6 +141,7 @@ std::string item_comp::to_string( const int batch, const int avail ) const
                                   type_ptr->nname( 1 ), c );
         }
     } else {
+        //~ %1$s: item name, %2$d: charge requirement
         if( avail == 2147483647/* int32 max */ ) {
             return string_format( npgettext( "requirement", "%2$d %1$s of infinite", "%2$d %1$s of infinite",
                                              c ),
