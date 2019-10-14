@@ -4601,7 +4601,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                                          format_volume( before ), volume_units_abbr(), format_volume( after ),
                                          volume_units_abbr() ), get_volume_compare_color( before, after, true ) );
 
-        tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, prompt.c_str(), desc.str() );
+        tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, prompt, desc.str() );
     }
     tmenu.textwidth = 80;
     tmenu.desc_enabled = true;
