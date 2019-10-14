@@ -1735,9 +1735,6 @@ class player : public Character
 
         std::set<tripoint> camps;
 
-        // magic mod
-        known_magic magic;
-
     protected:
         // The player's position on the local map.
         tripoint position;

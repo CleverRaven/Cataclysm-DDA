@@ -1,9 +1,9 @@
 [
   {
     "type": "npc_class",
-    "id": "NC_MAGE",
-    "name": "Mage",
-    "job_description": "I'm a wandering practitioner of the arcane arts.",
+    "id": "NC_MAGE_TEST",
+    "name": "Mage Test",
+    "job_description": "I'm a wandering debug tester for the arcane arts.",
     "traits": [
       { "trait": "STORMSHAPER" },
       { "group": "BG_survival_story_EVACUEE" },

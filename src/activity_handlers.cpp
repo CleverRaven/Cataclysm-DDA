@@ -1969,8 +1969,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
             p->magic.learn_spell( act->name, *p );
             // you can decline to learn this spell , as it may lock you out of other magic.
             if( p->magic.knows_spell( sp_id ) ) {
-                const spell &temp_spell = p->magic.get_spell( sp_id );
-                add_msg( m_good, _( "You learn %s." ), temp_spell.name() );
+                add_msg( m_good, _( "You learn %s." ), sp_id->name.translated() );
             } else {
                 act->set_to_null();
                 return;

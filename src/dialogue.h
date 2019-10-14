@@ -208,7 +208,7 @@ struct talk_response {
     mission *mission_selected = nullptr;
     skill_id skill = skill_id::NULL_ID();
     matype_id style = matype_id::NULL_ID();
-    spell_id spell = spell_id();
+    spell_id dialogue_spell = spell_id();
 
     talk_effect_t success;
     talk_effect_t failure;

@@ -1496,16 +1496,15 @@ void debug()
         }
         case DEBUG_PRINT_NPC_MAGIC: {
             for( npc &guy : g->all_npcs() ) {
-                std::vector<spell_id> spells = guy.magic.spells();
+                const std::vector<spell_id> spells = guy.magic.spells();
                 if( spells.empty() ) {
                     std::cout << guy.disp_name() << " does not know any spells." << std::endl;
                     continue;
                 }
                 std::cout << guy.disp_name() << "knows : ";
                 int counter = 1;
-                for( spell_id sp : spells ) {
-                    spell temp_spell = guy.magic.get_spell( sp );
-                    std::cout << temp_spell.name() << " ";
+                for( const spell_id sp : spells ) {
+                    std::cout << sp->name.translated() << " ";
                     if( counter < static_cast<int>( spells.size() ) ) {
                         std::cout << "and ";
                     } else {

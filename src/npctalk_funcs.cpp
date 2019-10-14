@@ -883,7 +883,7 @@ void talk_function::start_training( npc &p )
     std::string name;
     const skill_id &skill = p.chatbin.skill;
     const matype_id &style = p.chatbin.style;
-    const spell_id &sp_id = p.chatbin.spell;
+    const spell_id &sp_id = p.chatbin.dialogue_spell;
     int expert_multiplier = 1;
     if( skill.is_valid() && g->u.get_skill_level( skill ) < p.get_skill_level( skill ) ) {
         cost = calc_skill_training_cost( p, skill );
@@ -894,7 +894,7 @@ void talk_function::start_training( npc &p )
         time = calc_ma_style_training_time( p, style );
         name = p.chatbin.style.str();
         // already checked if can learn this spell in npctalk.cpp
-    } else if( p.chatbin.spell.is_valid() ) {
+    } else if( p.chatbin.dialogue_spell.is_valid() ) {
         spell &temp_spell = p.magic.get_spell( sp_id );
         const bool knows = g->u.magic.knows_spell( sp_id );
         cost = p.calc_spell_training_cost( knows, temp_spell.get_difficulty(), temp_spell.get_level() );
