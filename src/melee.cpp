@@ -1375,7 +1375,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
                 _( "<npcname> disarms %s and takes their weapon!" ),
                 p->name );
         }
-        item &it = p->remove_weapon();
+        item it = p->remove_weapon();
         wield( it );
     }
 
