@@ -4236,7 +4236,7 @@
     "components": [
       [ [ "leather", 1 ], [ "fur", 1 ] ],
       [ [ "rag", 1 ] ],
-      [ [ "razor_blade", 1 ] ],
+      [ [ "razor_shaving", 1 ] ],
       [ [ "mirror", 1 ] ],
       [ [ "plastic_chunk", 1 ], [ "skewer_bone", 4 ], [ "splinter", 4 ] ]
     ]
@@ -4681,5 +4681,18 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "hinge", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "razor_shaving",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": "30 s",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "razor_blade", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   }
 ]

@@ -1,0 +1,225 @@
+[
+    {
+        "id": "base_toiletries",
+        "name": "generic grooming",
+        "type": "GENERIC",
+        "description": "generic item template",
+        "symbol": "+",
+        "color": "blue",
+        "price": 200,
+        "price_postapoc": 0,
+        "weight": 100,
+        "volume": "50 ml",
+        "material": "plastic",
+        "bashing": 1,
+        "cutting": 0,
+        "to_hit": -1
+    },
+    
+    {
+        "id": "soap_holder",
+        "name": "soap dish",
+        "name_plural": "soap_dishes",
+        "type": "GENERIC",
+        "description": "A shallow dish for holding a bar of soap. It has ridges to help drain water away from the dish. Not the most exciting of items.",
+        "copy_from": "base_toiletries"
+    },
+    
+    {
+        
+        "id": "razor_shaving",
+        "name": "shaving razor",
+        "type": "GENERIC",
+        "description": "A razor blade on a comfortable handle. Much easier to shave with than a loose razor.",
+        "copy_from": "base_toiletries",
+        "price": 800,
+        "price_postapoc": 1200,
+        "//": "the end of the world doesn't mean everyone is okay with having ZZ Top beards. disposable razors are a hot commodity. The razor also loses the Cutting 1 quality. Don't ask how we confirmed this.",
+        "weight": 110,
+        "material": [ "plastic", "steel" ],
+        "cutting": 2
+        
+    },
+    
+    {
+        "id": "toothbrush_plain",
+        "name": "toothbrush",
+        "name_plural": "toothbrushes",
+        "type": "GENERIC",
+        "description": "A plastic brush with soft bristles for cleaning your teeth.",
+        "copy_from": "base_toiletries",
+        "snippet_category": [
+            { "id": "tbrush1", "text": "It has a cheap, blocky handle and is likely meant to be disposable." },
+            { "id": "tbrush2", "text": "It has an ergonomic silicone grip. Luxurious!" },
+            { "id": "tbrush3", "text": "The blue and white pattern on the handle implies cleanliness." },
+            { "id": "tbrush4", "text": "This one is meant for kids, and has a wide-eyed cartoon pony on the handle." },
+            { "id": "tbrush5", "text": "This one is meant for kids, and has a grinning red racecar on the handle." }
+        ]
+    },
+    
+    {
+        "id": "hairbrush",
+        "name": "hairbrush",
+        "name_plural": "hairbrushes",
+        "type": "GENERIC",
+        "description": "An instrument of hair torture.",
+        "copy_from": "base_toiletries",
+        "snippet_category": [
+            { "id:": "hbrush1", "text": "There are round safety tips on the bristles."},
+            { "id:": "hbrush2", "text": "The handle has a faux-wood design."},
+            { "id:": "hbrush3", "text": "The shiny crome design makes it look modern."},
+            { "id:": "hbrush4", "text": "The cartoon whale on the handle seems friendly enough."}
+        ]
+    },
+    
+    {
+        "id": "curler_hair",
+        "name": "hair curler",
+        "type": "GENERIC",
+        "description": "a soft plastic cylinder you can wrap a lock of your hair around to curl it.",
+        "copy_from": "base_toiletries",
+        "symbol": ",",
+        "weight": 20,
+        "volume": "25 ml",
+        "container": "box_small"
+    },
+    
+    {
+        "id": "string_floss",
+        "name": "dental floss",
+        "name_plural": "rolls of dental floss",
+        "type": "GENERIC",
+        "description": "Twenty five yards of finely waxed thread wound up inside a plastic container. Perfect for picking bits of smoked meat out of your teeth. Disassemble to use the thread for something else.",
+        "copy_from": "base_toiletries",
+        "symbol": "~",
+        "material": [ "plastic", "cotton" ]
+    },
+    
+    {
+        "id": "comb_pocket",
+        "name:": "comb",
+        "type": "GENERIC",
+        "description": "A grooming tool with teeth for straightening your hair.",
+        "copy_from": "base_toiletries",
+        "snippet_category": [
+            { "id": "pcomb1", "text": "Somehow, a few teeth have already broken off the end."},
+            { "id": "pcomb2", "text": "This one is narrow, black and austere."},
+            { "id": "pcomb3", "text": "Its tortiseshell pattern makes it seem antique."},
+            { "id": "pcomb4", "text": "This one folds on a hinge, in case you want to look like a greaser."}
+        ]
+    },
+    
+    {
+        "id": "plunger_toilet",
+        "name": "toilet plunger",
+        "type": "GENERIC",
+        "description": "A rubber-tipped tool for unclogging pipes, or a club for an immature survivor.",
+        "symbol": "p",
+        "color": "red",
+        "price": 800,
+        "price_postapoc": 50,
+        "weight": 590,
+        "volume": "2100 ml",
+        "//": "the volume is pretty bulky, but this is an old fashioned model.",
+        "material": [ "wood", "plastic" ],
+        "bashing": 5,
+        "cutting": 0,
+        "to_hit": -1
+    },
+    
+    {
+        "id": "plunger_futuristic",
+        "name": "professional plunger",
+        "type": "GENERIC",
+        "description": "This hollow plastic toilet plunger's bell compresses like an accordion. It is efficient at its intended purpouse, and complete rubbish as a weapon.",
+        "symbol": "p",
+        "color": "black",
+        "price": 1590,
+        "price_postapoc": 10,
+        "weight": 680,
+        "volume": "2400 ml",
+        "material": "plastic",
+        "bashing": 2,
+        "cutting": 0,
+        "to_hit": -1
+    },
+    
+    {
+        "id": "toilet_paper",
+        "name": "toilet paper",
+        "name_plural": "rolls of toilet paper",
+        "type": "GENERIC",
+        "description": "A luxurious remnant of civilization.",
+        "symbol": "~",
+        "color": "white",
+        "container": "box_medium",
+        "price": 89,
+        "price_postapoc": 180,
+        "weight": 227,
+        "volume": 1,
+        "material": "paper",
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": -2,
+        "snippet_category": [
+            { "id:": "tpaper1", "text": "Imagine the thinnest, most disposable paper you could possibly make. Now imagine something thinner than that."},
+            { "id:": "tpaper2", "text": "This roll is two-ply and quilted, for vandalizing houses more comfortably than ever."},
+            { "id:": "tpaper3", "text": "This brand is designed to dissolve completely in water!"},
+            { "id:": "tpaper4", "text": "Images of your least favorite politician are printed on each individual sheet."},
+            { "id:": "tpaper5", "text": "The splinters of unprocessed wood visible in this one make it seem less luxurious, though."}
+        ] 
+    },
+    
+    { 
+        "id": "hair_dryer",
+        "name": "hair dryer",
+        "type": "GENERIC",
+        "description": "This tool dries your hair by pushing air through a coil of hot wires. Without a funtioning power grid, it is a plastic paper weight.",
+        "symbol": "(",
+        "color": "black",
+        "price": 2100,
+        "price_postapoc": 0,
+        "weight": 680,
+        "volume": 2,
+        "material": [ "plastic", "steel" ],
+        "bashing": 3,
+        "cutting": 0,
+        "to-hit": 0  
+    },
+    
+    { 
+        "id": "curling_iron",
+        "name": "curling iron",
+        "type": "GENERIC",
+        "description": "A wand made of heat-resistant ceramics. When plugged into an outlet, it is hot enough to shape your hair into curls. Too bad the power's out.",
+        "symbol": "/",
+        "color": "orange",
+        "price": 2500,
+        "price_postapoc": 0,
+        "weight": 590,
+        "volume": 1,
+        "material": [ "ceramic", "steel" ],
+        "bashing": 3,
+        "cutting": 0,
+        "to-hit": 1
+    },
+    
+    {
+        "id": "brush_toilet",
+        "name": "toilet brush",
+        "name_plural": "toilet brushes",
+        "type": "GENERIC",
+        "description": "Zombies cannot be intimidated or humiliated, so this stiff brush is only useful for scouring toilet bowls.",
+        "symbol": "p",
+        "color": "white",
+        "price": 1700,
+        "price_postapoc": 0,
+        "weight": 160,
+        "volume": 2,
+        "material": [ "steel", "plastic" ],
+        "bashing": 3,
+        "cutting": 0,
+        "to_hit": 1
+    }
+    
+]

@@ -3057,5 +3057,49 @@
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "platinum_small", 2 ] ] ]
+  },
+  {
+    "result": "razor_shaving",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": "1 s",
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "razor_blade", 1 ] ] ]
+  },
+  {
+    "result": "hair_dryer",
+    "type": "uncraft",
+    "skill_used": "mechanics",
+    "difficulty": 1,
+    "time": "1 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "motor_micro", 1 ] ], [ [ "cable", 1 ] ], [ [ "wire", 1 ] ] ]
+  },
+  {
+    "result": "curling_iron",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "1 m",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "element", 1 ] ], [ [ "ceramic_shard", 1 ] ], [ [ "scrap", 1 ] ], [ [ "cable", 1 ] ] ]
+  },
+  {
+    "result": "string_floss",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": "6 s",
+    "//": "just unspool the floss, no need to make a big production out of it.",
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "thread", 25 ] ] ]
+  },
+  {
+    "result": "plunger_toilet",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": "6 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "splinter", 1 ] ] ]
   }
 ]
