@@ -198,6 +198,7 @@
       [ "arrow_metal", 25 ],
       [ "bolt_steel", 10 ],
       [ "laser_sight", 15 ],
+      [ "tele_sight", 20 ],
       [ "rail_laser_sight", 10 ],
       [ "rifle_scope", 20 ],
       [ "pistol_scope", 10 ],
