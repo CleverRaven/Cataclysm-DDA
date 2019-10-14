@@ -125,7 +125,7 @@ std::string item_comp::to_string( const int batch, const int avail ) const
     const int c = std::abs( count ) * batch;
     const auto type_ptr = item::find_type( type );
     if( type_ptr->count_by_charges() ) {
-        if( avail == std::numeric_limits<int>::max() ) {
+        if( avail == item::INFINITE_CHARGES ) {
             //~ %1$s: item name, %2$d: charge requirement
             return string_format( npgettext( "requirement", "%1$s (%2$d of infinite)",
                                              "%1$s (%2$d of infinite)",
