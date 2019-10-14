@@ -1632,9 +1632,6 @@ class player : public Character
          */
         std::vector<std::string> get_overlay_ids() const;
 
-        void spores();
-        void blossoms();
-
         /**
          * Called when a mutation is gained
          */

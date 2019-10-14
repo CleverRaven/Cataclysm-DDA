@@ -1063,6 +1063,9 @@ class Character : public Creature, public visitable<Character>
         std::array<int, num_hp_parts> healed_total;
 
         std::map<std::string, int> mutation_category_level;
+
+        void spores();
+        void blossoms();
     protected:
         Character();
         Character( Character && );

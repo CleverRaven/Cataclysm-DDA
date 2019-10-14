@@ -11260,7 +11260,7 @@ std::vector<std::string> player::get_overlay_ids() const
     return rval;
 }
 
-void player::spores()
+void Character::spores()
 {
     fungal_effects fe( *g, g->m );
     //~spore-release sound
@@ -11273,7 +11273,7 @@ void player::spores()
     }
 }
 
-void player::blossoms()
+void Character::blossoms()
 {
     // Player blossoms are shorter-ranged, but you can fire much more frequently if you like.
     sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
