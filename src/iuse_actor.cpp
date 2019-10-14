@@ -4558,21 +4558,26 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         if( mod.item_tags.count( obj.flag ) == 0 ) {
             // Mod not already present, check if modification is possible
             if( it.charges < thread_needed ) {
-                prompt = string_format( "Can't %s (need %d thread loaded)", obj.implement_prompt, thread_needed );
+                //~ %1$s: modification desc, %2$d: number of thread needed
+                prompt = string_format( _( "Can't %1$s (need %2$d thread loaded)" ),
+                                        obj.implement_prompt, thread_needed );
                 prompt[6] = std::tolower( prompt[6] );
             } else if( !has_enough[obj.item_string] ) {
-                prompt = string_format( "Can't %s (need %d %s)", obj.implement_prompt, items_needed,
+                //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed
+                prompt = string_format( _( "Can't %1$s (need %2$d %3$s)" ), obj.implement_prompt, items_needed,
                                         item::nname( obj.item_string, items_needed ) );
                 prompt[6] = std::tolower( prompt[6] );
             } else if( obj.restricted &&
                        std::find( valid_mods.begin(), valid_mods.end(), obj.flag ) == valid_mods.end() ) {
-                prompt = string_format( "Can't %s (incompatible with %s)",
+                //~ %1$s: modification desc, %2$s: mod name
+                prompt = string_format( _( "Can't %1$s (incompatible with %2$s)" ),
                                         obj.implement_prompt, mod.tname( 1, false ) );
                 prompt[6] = std::tolower( prompt[6] );
             } else {
                 // Modification is possible
                 enab = true;
-                prompt = string_format( "%s (%d %s and %d thread)", obj.implement_prompt, items_needed,
+                //~ %1$s: modification desc, %2$d: number of items needed, %3$s: items needed, %4$s: number of thread needed
+                prompt = string_format( _( "%1$s (%2$d %3$s and %4$d thread)" ), obj.implement_prompt, items_needed,
                                         item::nname( obj.item_string, items_needed ), thread_needed );
                 prompt[0] = std::toupper( prompt[0] );
             }
@@ -4580,7 +4585,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         } else {
             // Mod already present, give option to destroy
             enab = true;
-            prompt = obj.destroy_prompt;
+            prompt = _( obj.destroy_prompt );
         }
         std::ostringstream desc;
         desc << format_desc_string( _( "Bash" ), mod.bash_resist(), temp_item.bash_resist(), true );
@@ -4596,7 +4601,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                                          format_volume( before ), volume_units_abbr(), format_volume( after ),
                                          volume_units_abbr() ), get_volume_compare_color( before, after, true ) );
 
-        tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, _( prompt.c_str() ), desc.str() );
+        tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, prompt.c_str(), desc.str() );
     }
     tmenu.textwidth = 80;
     tmenu.desc_enabled = true;
