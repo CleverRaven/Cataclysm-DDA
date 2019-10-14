@@ -1210,7 +1210,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 if( !styleid.is_valid() ) {
                     const spell_id &sp_id = spell_id( backlog.name );
                     if( p->magic.knows_spell( sp_id ) ) {
-                        spell &temp_spell = p->magic.get_spell( sp_id );
+                        const spell &temp_spell = p->magic.get_spell( sp_id );
                         resume << temp_spell.name();
                         add_response( resume.str(), "TALK_TRAIN_START", sp_id );
                     }
