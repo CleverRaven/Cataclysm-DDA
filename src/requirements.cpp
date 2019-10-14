@@ -125,7 +125,7 @@ std::string item_comp::to_string( const int batch, const int avail ) const
     const int c = std::abs( count ) * batch;
     const auto type_ptr = item::find_type( type );
     if( type_ptr->count_by_charges() ) {
-        if( avail == INT32_MAX ) {
+        if( avail == 2147483647/* int32 max */ ) {
             return string_format( npgettext( "requirement", "%2$d %1$s of infinite", "%2$d %1$s of infinite",
                                              c ),
                                   type_ptr->nname( c ), c );
@@ -139,7 +139,7 @@ std::string item_comp::to_string( const int batch, const int avail ) const
                                   type_ptr->nname( 1 ), c );
         }
     } else {
-        if( avail == INT32_MAX ) {
+        if( avail == 2147483647/* int32 max */ ) {
             return string_format( npgettext( "requirement", "%2$d %1$s of infinite", "%2$d %1$s of infinite",
                                              c ),
                                   type_ptr->nname( c ), c );
