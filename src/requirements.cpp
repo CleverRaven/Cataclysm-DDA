@@ -142,6 +142,7 @@ std::string item_comp::to_string( const int batch, const int avail ) const
         }
     } else {
         if( avail == std::numeric_limits<int>::max() ) {
+            //~ %1$s: item name, %2$d: required count
             return string_format( npgettext( "requirement", "%2$d %1$s of infinite", "%2$d %1$s of infinite",
                                              c ),
                                   type_ptr->nname( c ), c );
