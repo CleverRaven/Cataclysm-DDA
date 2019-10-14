@@ -255,7 +255,7 @@ Adds new faction camp expansion option, livestock area.
 Gender-specific clothing on corpses.
 Adds new faction expansion: storage house, includes: stone, log, wood panel, scrap metal and wattle/daub palettes.
 Add Grocery bot to carry your groceries.
-Add blackpowder loads for some cartridges
+Add blackpowder loads for some cartridges.
 Adds some islands for lakes.
 Expand randomly-generated music descriptions.
 
@@ -578,7 +578,7 @@ Move player armor functions to Character scope.
 ## Build:
 Npctalk: add a python dialogue validator.
 Update homebrew install instructions.
-Adds Flatpak build recipe/
+Adds Flatpak build recipe.
 Clarify the compiling directions for Visual Studio.
 Enable github bot that automates closing stale issues.
 Add cygwin to COMPILING.md, also add short descriptions of each option.
@@ -588,13 +588,13 @@ Allow building with Clang using MinGW-w64 libs.
 Check translator comments with clang-tidy.
 
 ## I18N and A11Y:
-Use translation markers to increase performance
-Make the translation for field name display
-Automatically switch IME mode between text input and raw input on Windows
-Correctly extract npc dialogue lines for translation
-Allow translation of non-character key names
-Add position marker to some format strings
-Support plural strings in the translation class
+Use translation markers to increase performance.
+Make the translation for field name display.
+Automatically switch IME mode between text input and raw input on Windows.
+Correctly extract npc dialogue lines for translation.
+Allow translation of non-character key names.
+Add position marker to some format strings.
+Support plural strings in the translation class.
 
 # 0.D (Danny)
 
