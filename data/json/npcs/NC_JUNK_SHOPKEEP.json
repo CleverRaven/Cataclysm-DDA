@@ -144,6 +144,7 @@
       [ "rifle_scope", 20 ],
       [ "pistol_scope", 10 ],
       [ "improve_sights", 20 ],
+      [ "tele_sight", 15 ],
       [ "combatsaw_off", 5 ],
       [ "firemachete_off", 5 ],
       [ "shishkebab_off", 5 ],
