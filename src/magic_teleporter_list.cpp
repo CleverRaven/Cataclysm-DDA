@@ -68,7 +68,7 @@ static cata::optional<tripoint> find_valid_teleporters_omt( const tripoint &omt_
     return cata::nullopt;
 }
 
-bool teleporter_list::place_avatar_overmap( avatar &, const tripoint &omt_pt ) const
+bool teleporter_list::place_avatar_overmap( avatar &you, const tripoint &omt_pt ) const
 {
     tinymap omt_dest( 2, true );
     tripoint sm_dest = omt_to_sm_copy( omt_pt );
@@ -78,6 +78,7 @@ bool teleporter_list::place_avatar_overmap( avatar &, const tripoint &omt_pt ) c
         return false;
     }
     tripoint local_dest = omt_dest.getlocal( *global_dest ) + point( 60, 60 );
+    you.add_effect( efftype_id( "ignore_fall_damage" ), 1_seconds, num_bp, false, 0, true );
     g->place_player_overmap( omt_pt );
     g->place_player( local_dest );
     return true;
