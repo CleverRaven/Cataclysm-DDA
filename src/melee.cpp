@@ -1379,8 +1379,8 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
             add_msg_if_npc( _( "<npcname> disarms you and takes your weapon!" ) );
         } else {
             add_msg_player_or_npc( _( "You disarm %s and take their weapon!" ),
-                _( "<npcname> disarms %s and takes their weapon!" ),
-                p->name );
+                                   _( "<npcname> disarms %s and takes their weapon!" ),
+                                   p->name );
         }
         item it = p->remove_weapon();
         wield( it );
