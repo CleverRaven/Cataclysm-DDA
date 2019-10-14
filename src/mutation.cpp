@@ -419,7 +419,7 @@ bool Character::can_install_cbm_on_bp( const std::vector<body_part> &bps ) const
 void player::activate_mutation( const trait_id &mut )
 {
     const mutation_branch &mdata = mut.obj();
-    auto &tdata = my_mutations[mut];
+    const character_mutations::trait_data &tdata = mutations.get_trait_data( mut );
     int cost = mdata.cost;
     // Preserve the fake weapon used to initiate ranged mutation firing
     static item mut_ranged( weapon );
