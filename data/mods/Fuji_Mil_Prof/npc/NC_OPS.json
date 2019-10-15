@@ -1,199 +1,155 @@
 [
   {
-    "type" : "item_group",
-    "id" : "NC_OPS_pants_male",
-    "items":[
-      ["pants_army", 20],
-      ["pants_cargo", 50],
-      ["jeans", 30],
-      ["shorts_cargo", 20]
+    "type": "item_group",
+    "id": "NC_OPS_pants_male",
+    "items": [ [ "pants_army", 20 ], [ "pants_cargo", 50 ], [ "jeans", 30 ], [ "shorts_cargo", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_pants_female",
+    "items": [ [ "pants_army", 20 ], [ "pants_cargo", 50 ], [ "jeans", 30 ], [ "shorts_cargo", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_shirt_male",
+    "items": [
+      [ "tshirt", 20 ],
+      [ "polo_shirt", 20 ],
+      [ "dress_shirt", 20 ],
+      [ "tank_top", 20 ],
+      [ "longshirt", 20 ],
+      [ "hoodie", 40 ],
+      [ "sweatshirt", 40 ]
     ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_OPS_pants_female",
-    "items":[
-      ["pants_army", 20],
-      ["pants_cargo", 50],
-      ["jeans", 30],
-      ["shorts_cargo", 20]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_shirt_female",
+    "items": [
+      [ "tshirt", 20 ],
+      [ "polo_shirt", 20 ],
+      [ "dress_shirt", 20 ],
+      [ "tank_top", 20 ],
+      [ "longshirt", 20 ],
+      [ "hoodie", 40 ],
+      [ "sweatshirt", 40 ]
     ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_OPS_shirt_male",
-    "items":[
-      ["tshirt", 20],
-      ["polo_shirt", 20],
-      ["dress_shirt", 20],
-      ["tank_top", 20],
-      ["longshirt", 20],
-      ["hoodie", 40],
-      ["sweatshirt", 40]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_gloves",
+    "items": [ [ "null", 50 ], [ "gloves_tactical", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_coat",
+    "items": [
+      [ "null", 60 ],
+      [ "jacket_army", 40 ],
+      [ "cloak", 20 ],
+      [ "modularveststeel", 10 ],
+      [ "modularvestceramic", 40 ],
+      [ "kevlar", 20 ],
+      [ "chestrig", 30 ]
     ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_OPS_shirt_female",
-    "items":[
-      ["tshirt", 20],
-      ["polo_shirt", 20],
-      ["dress_shirt", 20],
-      ["tank_top", 20],
-      ["longshirt", 20],
-      ["hoodie", 40],
-      ["sweatshirt", 40]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_shoes",
+    "items": [ [ "boots_combat", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_masks",
+    "items": [ [ "null", 60 ], [ "keffiyeh", 30 ], [ "mask_gas", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_eyes",
+    "items": [ [ "null", 40 ], [ "glasses_bal", 50 ], [ "sunglasses", 20 ], [ "fancy_sunglasses", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_hat",
+    "items": [ [ "null", 20 ], [ "hat_ball", 50 ], [ "tac_helmet", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_extra",
+    "items": [ [ "null", 30 ], [ "rucksack", 70 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_bashing",
+    "items": [
+      [ "hammer", 20 ],
+      [ "wrench", 20 ],
+      [ "hammer_sledge", 20 ],
+      [ "pipe", 20 ],
+      [ "baton-extended", 20 ],
+      [ "crowbar", 20 ]
     ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_OPS_gloves",
-    "items":[
-      ["null", 50],
-      ["gloves_tactical", 50]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_cutting",
+    "items": [
+      [ "knife_butcher", 20 ],
+      [ "hatchet", 20 ],
+      [ "knife_combat", 20 ],
+      [ "machete", 20 ],
+      [ "knife_combat", 20 ],
+      [ "diveknife", 20 ]
     ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_OPS_coat",
-    "items":[
-      ["null", 60],
-      ["jacket_army", 40],
-      ["cloak", 20],
-      ["modularveststeel", 10],
-      ["modularvestceramic", 40],
-      ["kevlar", 20],
-      ["chestrig", 30]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_OPS_shoes",
-    "items":[
-      ["boots_combat", 100]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_OPS_masks",
-    "items":[
-      ["null", 60],
-      ["keffiyeh", 30],
-      ["mask_gas", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_OPS_eyes",
-    "items":[
-      ["null", 40],
-      ["glasses_bal", 50],
-      ["sunglasses", 20],
-      ["fancy_sunglasses", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_OPS_hat",
-    "items":[
-      ["null", 20],
-      ["hat_ball", 50],
-      ["tac_helmet", 50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_OPS_extra",
-    "items":[
-      ["null", 30],
-      ["rucksack", 70]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_OPS_bashing",
-    "items":[
-      ["hammer", 20],
-      ["wrench", 20],
-      ["hammer_sledge", 20],
-      ["pipe", 20],
-      ["baton-extended", 20],
-      ["crowbar", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_OPS_cutting",
-    "items":[
-      ["knife_butcher", 20],
-      ["hatchet", 20],
-      ["knife_combat", 20],
-      ["machete", 20],
-      ["knife_combat", 20],
-      ["diveknife", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_OPS_stabbing",
-    "items":[
-      ["spear_knife", 50],
-      ["spear_steel", 10],
-      ["spear_forked", 10],
-      ["spear_rebar", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_OPS_throw",
-    "items":[
-      ["throwing_knife", 50],
-      ["throwing_axe", 50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_OPS_archery",
-    "items":[
-      ["crossbow", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_OPS_pistols",
-    "items":[
-      ["m1911", 70],
-      ["fn57", 50],
-      ["m9", 30]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_OPS_shotgun",
-    "items":[
-      ["mossberg_500", 25],
-      ["remington_870", 25]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_OPS_smg",
-    "items":[
-      ["hk_mp5", 50],
-      ["hk_mp7", 30]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_OPS_rifle",
-    "items":[
-      ["m4a1", 50],
-      ["m14ebr", 35],
-      ["m249", 20],
-      ["h&k416a5", 50],
-      ["M24", 35]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_OPS_launcher",
-    "items":[
-      ["mgl", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_OPS_weapon_random",
-    "items":[
-      ["q_staff", 100]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_OPS_misc",
-    "items":[
-        ["grenade", 40],
-        ["ref_lighter", 30],
-        ["lighter", 30],
-        ["matches", 30]
-    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_stabbing",
+    "items": [ [ "spear_knife", 50 ], [ "spear_steel", 10 ], [ "spear_forked", 10 ], [ "spear_rebar", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_throw",
+    "items": [ [ "throwing_knife", 50 ], [ "throwing_axe", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_archery",
+    "items": [ [ "crossbow", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_pistols",
+    "items": [ [ "m1911", 70 ], [ "fn57", 50 ], [ "m9", 30 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_shotgun",
+    "items": [ [ "mossberg_500", 25 ], [ "remington_870", 25 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_smg",
+    "items": [ [ "hk_mp5", 50 ], [ "hk_mp7", 30 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_rifle",
+    "items": [ [ "m4a1", 50 ], [ "m14ebr", 35 ], [ "m249", 20 ], [ "h&k416a5", 50 ], [ "M24", 35 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_launcher",
+    "items": [ [ "mgl", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_weapon_random",
+    "items": [ [ "q_staff", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_OPS_misc",
+    "items": [ [ "grenade", 40 ], [ "ref_lighter", 30 ], [ "lighter", 30 ], [ "matches", 30 ] ]
   }
 ]
