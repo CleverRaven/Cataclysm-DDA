@@ -3115,11 +3115,11 @@ nc_color item::color_in_inventory() const
         ret = c_red;
     } else if( is_filthy() || item_tags.count( "DIRTY" ) ) {
         ret = c_brown;
-    } else if( is_bionic() && !has_flag( "NO_STERILE" ) ) {
-        if( !has_flag( "NO_PACKED" ) ) {
+    } else if( is_bionic() ) {
+        if( !u.has_bionic( type->bionic->id ) ) {
+            ret = u.bionic_installation_issues( type->bionic->id ).empty() ? c_green : c_red;
+        } else if( !has_flag( "NO_STERILE" ) ) {
             ret = c_dark_gray;
-        } else {
-            ret = c_cyan;
         }
     } else if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage() > 0 ) {
         ret = c_light_green;
@@ -3241,10 +3241,6 @@ nc_color item::color_in_inventory() const
             }
         } else {
             ret = c_red; // Book hasn't been identified yet: red
-        }
-    } else if( is_bionic() ) {
-        if( !u.has_bionic( type->bionic->id ) ) {
-            ret = u.bionic_installation_issues( type->bionic->id ).empty() ? c_green : c_red;
         }
     }
     return ret;
