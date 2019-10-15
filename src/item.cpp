@@ -7067,11 +7067,7 @@ bool item::burn( fire_data &frd )
                                        ( 3.0 * type->volume ) );
         }
 
-        if( charges <= 0 ) {
-            return true;
-        } else {
-            return false;
-        }
+        return charges <= 0;
     }
 
     if( is_corpse() ) {
