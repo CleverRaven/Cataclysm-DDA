@@ -29,7 +29,7 @@
     "name": "large glowing boulder",
     "description": "Something about this doesn't look right.",
     "symbol": "O",
-    "color": "dark_green",
+    "color": "green",
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": 32,
