@@ -157,20 +157,6 @@ struct needs_rates {
     float kcal = 0.0f;
 };
 
-enum player_movemode : unsigned char {
-    PMM_WALK = 0,
-    PMM_RUN = 1,
-    PMM_CROUCH = 2,
-    PMM_COUNT
-};
-
-static const std::array< std::string, PMM_COUNT > player_movemode_str = { {
-        "walk",
-        "run",
-        "crouch"
-    }
-};
-
 class player : public Character
 {
     public:
@@ -211,8 +197,7 @@ class player : public Character
         bool is_npc() const override {
             return false;    // Overloaded for NPCs in npc.h
         }
-        bool can_mount( const monster &critter ) const;
-        void mount_creature( monster &z );
+
         /** Returns what color the player should be drawn as */
         nc_color basic_symbol_color() const override;
 
@@ -313,8 +298,6 @@ class player : public Character
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthetic kits or NOPAIN mutation */
         void introduce_into_anesthesia( const time_duration &duration, player &installer,
                                         bool needs_anesthesia );
-        /** Returns true if the player is wearing an active optical cloak */
-        bool has_active_optcloak() const;
         /** Adds a bionic to my_bionics[] */
         void add_bionic( const bionic_id &b );
         /** Removes a bionic from my_bionics[] */
@@ -443,14 +426,6 @@ class player : public Character
         Attitude attitude_to( const Creature &other ) const override;
 
         void pause(); // '.' command; pauses & resets recoil
-
-        void set_movement_mode( player_movemode mode );
-        bool movement_mode_is( player_movemode mode ) const;
-
-        void cycle_move_mode(); // Cycles to the next move mode.
-        void reset_move_mode(); // Resets to walking.
-        void toggle_run_mode(); // Toggles running on/off.
-        void toggle_crouch_mode(); // Toggles crouching on/off.
 
         // martialarts.cpp
         /** Fires all non-triggered martial arts events */
@@ -961,12 +936,6 @@ class player : public Character
         bool can_estimate_rot() const;
 
         bool is_wielding( const item &target ) const;
-        /**
-         * Removes currently wielded item (if any) and replaces it with the target item.
-         * @param target replacement item to wield or null item to remove existing weapon without replacing it
-         * @return whether both removal and replacement were successful (they are performed atomically)
-         */
-        virtual bool wield( item &target );
         bool unwield();
 
         /** Creates the UI and handles player input for picking martial arts styles */
@@ -1466,8 +1435,6 @@ class player : public Character
         action_id get_next_auto_move_direction();
         bool defer_move( const tripoint &next );
         void shift_destination( const point &shift );
-        void forced_dismount();
-        void dismount();
 
         // Hauling items on the ground
         void start_hauling();
@@ -1562,14 +1529,11 @@ class player : public Character
         bool is_hallucination() const override;
         void environmental_revert_effect();
 
-        bool is_invisible() const;
         bool is_deaf() const;
         // Checks whether a player can hear a sound at a given volume and location.
         bool can_hear( const tripoint &source, int volume ) const;
         // Returns a multiplier indicating the keenness of a player's hearing.
         float hearing_ability() const;
-        int visibility( bool check_color = false,
-                        int stillness = 0 ) const; // just checks is_invisible for the moment
 
         m_size get_size() const override;
         int get_hp( hp_part bp ) const override;
@@ -1757,9 +1721,6 @@ class player : public Character
 
         int pkill;
 
-    protected:
-        // TODO: move this to avatar
-        player_movemode move_mode;
     private:
 
         std::vector<tripoint> auto_move_route;

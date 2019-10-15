@@ -386,7 +386,7 @@ void monexamine::attach_or_remove_saddle( monster &z )
     }
 }
 
-bool player::can_mount( const monster &critter ) const
+bool Character::can_mount( const monster &critter ) const
 {
     const auto &avoid = get_path_avoid();
     auto route = g->m.route( pos(), critter.pos(), get_pathfinding_settings(), avoid );
