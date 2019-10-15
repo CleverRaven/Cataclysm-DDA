@@ -5,22 +5,40 @@
     "name": "Operator Recon",
     "description": "The only easy day was yesterday.",
     "points": 4,
-    "skills": [ { "level": 2, "name": "survival" }, { "level": 2, "name": "gun" }, { "level": 2, "name": "rifle" }, { "level": 1, "name": "melee" } ],
+    "skills": [
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "rifle" },
+      { "level": 1, "name": "melee" }
+    ],
     "items": {
       "both": {
-        "items": [ "tac_helmet", "keffiyeh", "sweatshirt", "pants_cargo", "longshirt", "rucksack", "glasses_bal", "dump_pouch", "socks", "boots_combat", "gloves_tactical", "diving_watch" ],
+        "items": [
+          "tac_helmet",
+          "keffiyeh",
+          "sweatshirt",
+          "pants_cargo",
+          "longshirt",
+          "rucksack",
+          "glasses_bal",
+          "dump_pouch",
+          "socks",
+          "boots_combat",
+          "gloves_tactical",
+          "diving_watch"
+        ],
         "entries": [
-          { 
-            "item": "acr_300blk", 
-            "ammo-item": "300blk_ss", 
-            "charges": 30, 
-            "contents-item": [ "shoulder_strap", "acog_scope", "grip", "suppressor" ] 
+          {
+            "item": "acr_300blk",
+            "ammo-item": "300blk_ss",
+            "charges": 30,
+            "contents-item": [ "shoulder_strap", "acog_scope", "grip", "suppressor" ]
           },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "modularvestceramic", "contents-group": "army_mags_300blk" },
           { "item": "knife_rambo", "container-item": "scabbard" },
           { "item": "holster", "contents-group": "holster_supp_MEU" },
-		      { "item": "legpouch_large", "contents-group": "army_mags_1911" }
+          { "item": "legpouch_large", "contents-group": "army_mags_1911" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -36,19 +54,26 @@
     "skills": [ { "level": 2, "name": "survival" }, { "level": 4, "name": "gun" }, { "level": 4, "name": "rifle" } ],
     "items": {
       "both": {
-        "items": [ "hat_cotton", "jacket_army", "pants_army", "longshirt", "rucksack", "knee_pads", "elbow_pads", "socks", "boots_combat", "gloves_tactical", "cloak" ],
+        "items": [
+          "hat_cotton",
+          "jacket_army",
+          "pants_army",
+          "longshirt",
+          "rucksack",
+          "knee_pads",
+          "elbow_pads",
+          "socks",
+          "boots_combat",
+          "gloves_tactical",
+          "cloak"
+        ],
         "entries": [
-          { 
-            "item": "M24", 
-            "ammo-item": "762_51", 
-            "charges": 20, 
-            "contents-item": [ "shoulder_strap", "bipod", "suppressor" ] 
-          },
+          { "item": "M24", "ammo-item": "762_51", "charges": 20, "contents-item": [ "shoulder_strap", "bipod", "suppressor" ] },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "chestrig", "contents-group": "army_mags_m14" },
           { "item": "knife_combat", "container-item": "sheath" },
-		      { "item": "holster", "contents-group": "holster_supp_MEU" },
-		      { "item": "legpouch_large", "contents-group": "army_mags_1911" }
+          { "item": "holster", "contents-group": "holster_supp_MEU" },
+          { "item": "legpouch_large", "contents-group": "army_mags_1911" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -61,22 +86,43 @@
     "name": "Operator Hacker",
     "description": "You insist you're not a hacker, you're an 'Electronic Warfare Specialist'",
     "points": 5,
-    "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "gun" }, { "level": 1, "name": "smg" }, { "level": 4, "name": "electronics" }, { "level": 4, "name": "computer" } ],
+    "skills": [
+      { "level": 1, "name": "survival" },
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "smg" },
+      { "level": 4, "name": "electronics" },
+      { "level": 4, "name": "computer" }
+    ],
     "items": {
       "both": {
-        "items": [ "hat_ball", "scarf", "hoodie", "pants_cargo", "longshirt", "kevlar", "mbag", "glasses_bal", "dump_pouch", "socks", "boots_combat", "gloves_tactical", "multitool", "diving_watch" ],
+        "items": [
+          "hat_ball",
+          "scarf",
+          "hoodie",
+          "pants_cargo",
+          "longshirt",
+          "kevlar",
+          "mbag",
+          "glasses_bal",
+          "dump_pouch",
+          "socks",
+          "boots_combat",
+          "gloves_tactical",
+          "multitool",
+          "diving_watch"
+        ],
         "entries": [
-          { 
-            "item": "hk_mp7", 
-            "ammo-item": "46mm", 
-            "charges": 20, 
-            "contents-item": [ "shoulder_strap", "holo_sight", "suppressor" ] 
+          {
+            "item": "hk_mp7",
+            "ammo-item": "46mm",
+            "charges": 20,
+            "contents-item": [ "shoulder_strap", "holo_sight", "suppressor" ]
           },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "chestrig", "contents-group": "army_mags_mp7" },
           { "item": "knife_combat", "container-item": "sheath" },
-		      { "item": "holster", "contents-group": "holster_supp_MEU" },
-		      { "item": "legpouch_large", "contents-group": "army_mags_1911" }
+          { "item": "holster", "contents-group": "holster_supp_MEU" },
+          { "item": "legpouch_large", "contents-group": "army_mags_1911" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -89,10 +135,28 @@
     "name": "Operator Undercover",
     "description": "You've been tailing your target for months and now he's a zombie. So much for that lead.",
     "points": 3,
-    "skills": [ { "level": 1, "name": "survival" }, { "level": 2, "name": "gun" }, { "level": 2, "name": "pistol" }, { "level": 6, "name": "speech" } ],
+    "skills": [
+      { "level": 1, "name": "survival" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 6, "name": "speech" }
+    ],
     "items": {
       "both": {
-        "items": [ "scarf", "dress_shirt", "jeans", "longshirt", "kevlar", "mbag", "fancy_sunglasses", "socks", "lowtops", "pockknife", "diving_watch", "smart_phone" ],
+        "items": [
+          "scarf",
+          "dress_shirt",
+          "jeans",
+          "longshirt",
+          "kevlar",
+          "mbag",
+          "fancy_sunglasses",
+          "socks",
+          "lowtops",
+          "pockknife",
+          "diving_watch",
+          "smart_phone"
+        ],
         "entries": [
           { "item": "holster", "contents-group": "holster_supp_57" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -109,21 +173,21 @@
     "name": "Operator CBRN",
     "description": "Chemical weapons? Check. Biological outbreak? Check. Nuclear war? Check. Sounds like the perfect job for you!",
     "points": 5,
-    "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "gun" }, { "level": 1, "name": "smg" }, { "level": 4, "name": "cooking" } ],
+    "skills": [
+      { "level": 1, "name": "survival" },
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "smg" },
+      { "level": 4, "name": "cooking" }
+    ],
     "items": {
       "both": {
         "items": [ "anbc_suit", "pants_cargo", "longshirt", "dump_pouch", "socks", "gloves_rubber", "diving_watch" ],
         "entries": [
-          { 
-            "item": "hk_mp5", 
-            "ammo-item": "9mm", 
-            "charges": 30, 
-            "contents-item": [ "shoulder_strap", "suppressor" ]
-          },
+          { "item": "hk_mp5", "ammo-item": "9mm", "charges": 30, "contents-item": [ "shoulder_strap", "suppressor" ] },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "modularvestkevlar", "contents-group": "army_mags_mp5" },
-		      { "item": "holster", "contents-group": "holster_supp_MEU" },
-		      { "item": "legpouch_large", "contents-group": "army_mags_1911" }
+          { "item": "holster", "contents-group": "holster_supp_MEU" },
+          { "item": "legpouch_large", "contents-group": "army_mags_1911" }
         ]
       },
       "male": [ "boxer_shorts" ],
