@@ -962,7 +962,6 @@ bool vehicle::is_alternator_on( const int a ) const
 
     return std::any_of( engines.begin(), engines.end(), [this, &alt]( int idx ) {
         auto &eng = parts [ idx ];
-        //is_engine_on checks that the engine is set to do work
         //engine_fuel_left checks that it actually CAN do work
         return eng.is_available() && eng.enabled && fuel_left( eng.fuel_current() ) && eng.mount == alt.mount &&
                !eng.faults().count( fault_belt );
