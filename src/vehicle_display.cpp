@@ -144,7 +144,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
     int y = y1;
     for( size_t i = 0; i < pl.size(); i++ ) {
         if( y >= max_y ) {
-            mvwprintz( win, point( 1, y ), c_yellow, _( "More parts here..." ) );
+            mvwprintz( win, point( 1, y ), c_yellow, _( "More parts here…" ) );
             ++y;
             break;
         }
@@ -256,7 +256,7 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
      */
     start_at = std::max( 0, std::min( start_at, start_limit ) );
     if( start_at ) {
-        msg << "<color_yellow>" << "<  " << _( "More parts here..." ) << "</color>\n";
+        msg << "<color_yellow>" << "<  " << _( "More parts here…" ) << "</color>\n";
         lines += 1;
     }
     for( size_t i = start_at; i < pl.size(); i++ ) {
@@ -284,7 +284,7 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
             lines += new_lines;
             start_limit = start_at;
         } else {
-            msg << "<color_yellow>" << _( "More parts here..." ) << "  >" << "</color>\n";
+            msg << "<color_yellow>" << _( "More parts here…" ) << "  >" << "</color>\n";
             start_limit = i;
             break;
         }

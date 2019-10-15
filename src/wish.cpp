@@ -579,7 +579,7 @@ void debug_menu::wishskill( player *p )
     uilist skmenu;
     skmenu.text = _( "Select a skill to modify" );
     skmenu.allow_anykey = true;
-    skmenu.addentry( 0, true, '1', _( "Modify all skills..." ) );
+    skmenu.addentry( 0, true, '1', _( "Modify all skills…" ) );
 
     std::vector<int> origskills;
     origskills.reserve( Skill::skills.size() );

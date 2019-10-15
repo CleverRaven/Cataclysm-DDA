@@ -1459,7 +1459,7 @@ void overmap::generate( const overmap *north, const overmap *east,
                         const overmap *south, const overmap *west,
                         overmap_special_batch &enabled_specials )
 {
-    dbg( D_INFO ) << "overmap::generate start...";
+    dbg( D_INFO ) << "overmap::generate start…";
 
     populate_connections_out_from_neighbors( north, east, south, west );
 

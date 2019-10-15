@@ -473,7 +473,7 @@ void vehicle::smash_security_system()
             if( parts[ c ].removed || parts[ c ].is_broken() ) {
                 g->u.controlling_vehicle = false;
                 is_alarm_on = false;
-                add_msg( _( "You destroy the controls..." ) );
+                add_msg( _( "You destroy the controls…" ) );
             } else {
                 add_msg( _( "You damage the controls." ) );
             }

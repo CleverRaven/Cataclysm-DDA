@@ -672,7 +672,7 @@ bool player::eat( item &food, bool force )
         ( get_hunger() > -60 && get_thirst() > -60 ) &&
         ( get_hunger() - nutr < -60 || get_thirst() - quench < -60 ) ) {
         add_msg_if_player(
-            _( "You've begun stockpiling calories and liquid for hibernation.  You get the feeling that you should prepare for bed, just in case, but... you're hungry again, and you could eat a whole week's worth of food RIGHT NOW." ) );
+            _( "You've begun stockpiling calories and liquid for hibernation.  You get the feeling that you should prepare for bed, just in case, but… you're hungry again, and you could eat a whole week's worth of food RIGHT NOW." ) );
     }
 
     const bool will_vomit = stomach.stomach_remaining() < food.volume() &&
@@ -681,13 +681,13 @@ bool player::eat( item &food, bool force )
                                 stomach.capacity() );
     const bool saprophage = has_trait( trait_id( "SAPROPHAGE" ) );
     if( spoiled && !saprophage ) {
-        add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good..." ), food.tname() );
+        add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good…" ), food.tname() );
         if( !has_trait( trait_id( "SAPROVORE" ) ) && !has_trait( trait_id( "EATDEAD" ) ) &&
             ( !has_bionic( bio_digestion ) || one_in( 3 ) ) ) {
             add_effect( effect_foodpoison, rng( 6_minutes, ( nutr + 1 ) * 6_minutes ) );
         }
     } else if( spoiled && saprophage ) {
-        add_msg_if_player( m_good, _( "Mmm, this %s tastes delicious..." ), food.tname() );
+        add_msg_if_player( m_good, _( "Mmm, this %s tastes delicious…" ), food.tname() );
     }
     if( !consume_effects( food ) ) {
         //Already consumed by using `food.type->invoke`?
@@ -759,7 +759,7 @@ bool player::eat( item &food, bool force )
         if( ( has_trait( trait_id( "SCHIZOPHRENIC" ) ) || has_artifact_with( AEP_SCHIZO ) ) &&
             one_in( 50 ) && !spoiled && food.goes_bad() && is_player() ) {
 
-            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good..." ), food.tname() );
+            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
             add_msg( _( "You drink your %s (rotten)." ), food.tname() );
         } else {
             add_msg_player_or_npc( _( "You drink your %s." ), _( "<npcname> drinks a %s." ),
@@ -769,7 +769,7 @@ bool player::eat( item &food, bool force )
         if( ( has_trait( trait_id( "SCHIZOPHRENIC" ) ) || has_artifact_with( AEP_SCHIZO ) ) &&
             one_in( 50 ) && !spoiled && food.goes_bad() && is_player() ) {
 
-            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good..." ), food.tname() );
+            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
             add_msg( _( "You eat your %s (rotten)." ), food.tname() );
         } else {
             add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
@@ -895,7 +895,7 @@ bool player::eat( item &food, bool force )
             if( !one_in( 100 ) ) {
                 add_msg_if_player( m_good, _( "When life's got you down, there's always sugar." ) );
             } else {
-                add_msg_if_player( m_good, _( "They may do what they must... you've already won." ) );
+                add_msg_if_player( m_good, _( "They may do what they must… you've already won." ) );
             }
             add_morale( MORALE_SWEETTOOTH, 10, 50, 1_hours, 50_minutes );
         }
@@ -984,14 +984,14 @@ void player::modify_stimulation( const islot_comestible &comest )
                                                 _( "A powerful sense of dread comes over you." ),
                                                 _( "Your skin starts crawling." ),
                                                 _( "They're coming to get you." ),
-                                                _( "This might've been a bad idea..." ),
+                                                _( "This might've been a bad idea…" ),
                                                 _( "You've really done it this time, haven't you?" ),
-                                                _( "You have to stay vigilant.  They're always watching..." ),
+                                                _( "You have to stay vigilant.  They're always watching…" ),
                                                 _( "mistake mistake mistake mistake mistake" ),
                                                 _( "Just gotta stay calm, and you'll make it through this." ),
                                                 _( "You're starting to feel very jumpy." ),
                                                 _( "Something is twitching at the edge of your vision." ),
-                                                _( "They know what you've done..." ),
+                                                _( "They know what you've done…" ),
                                                 _( "You're feeling even more paranoid than usual." ) };
         add_msg_if_player( m_bad, random_entry_ref( stimboost_msg ) );
     }
@@ -1085,14 +1085,14 @@ bool player::consume_effects( item &food )
 
         if( ( nutr > 0 && get_hunger() < -400 ) || ( comest.quench > 0 && get_thirst() < -400 ) ) {
             add_msg_if_player(
-                _( "Mmm.  You can still fit some more in... but maybe you should get comfortable and sleep." ) );
+                _( "Mmm.  You can still fit some more in… but maybe you should get comfortable and sleep." ) );
             if( !one_in( 3 ) ) {
                 //Third check, this one at 66%
                 mod_fatigue( nutr );
             }
         }
         if( ( nutr > 0 && get_hunger() < -600 ) || ( comest.quench > 0 && get_thirst() < -600 ) ) {
-            add_msg_if_player( _( "That filled a hole!  Time for bed..." ) );
+            add_msg_if_player( _( "That filled a hole!  Time for bed…" ) );
             // At this point, you're done.  Schlaf gut.
             mod_fatigue( nutr );
         }

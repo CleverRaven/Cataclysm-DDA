@@ -917,7 +917,7 @@ bool Character::mutate_towards( const trait_id &mut )
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
     // and aren't categorized. This can happen if someone makes a threshold mutation into a prerequisite.
     if( threshold ) {
-        add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free..." ) );
+        add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free…" ) );
         return false;
     }
     if( profession ) {
@@ -933,7 +933,7 @@ bool Character::mutate_towards( const trait_id &mut )
 
     // No crossing The Threshold by simply not having it
     if( !has_threshreq && !threshreq.empty() ) {
-        add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free..." ) );
+        add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free…" ) );
         return false;
     }
 
@@ -1375,7 +1375,7 @@ void test_crossing_threshold( player &p, const mutation_category_trait &m_catego
         int breacher = breach_power + booster;
         if( x_in_y( breacher, total ) ) {
             p.add_msg_if_player( m_good,
-                                 _( "Something strains mightily for a moment... and then... you're... FREE!" ) );
+                                 _( "Something strains mightily for a moment… and then… you're… FREE!" ) );
             p.set_mutation( mutation_thresh );
             g->events().send<event_type::crosses_mutation_threshold>( p.getID(), m_category.id );
             // Manually removing Carnivore, since it tends to creep in
@@ -1396,7 +1396,7 @@ void test_crossing_threshold( player &p, const mutation_category_trait &m_catego
         p.add_effect( effect_stunned, rng( 3_turns, 5_turns ) );
     } else if( breach_power > 80 ) {
         p.add_msg_if_player( m_bad,
-                             _( "Your head throbs with memories of your life, before all this..." ) );
+                             _( "Your head throbs with memories of your life, before all this…" ) );
         p.mod_pain_noresist( 6 );
         p.add_effect( effect_stunned, rng( 2_turns, 4_turns ) );
     } else if( breach_power > 60 ) {

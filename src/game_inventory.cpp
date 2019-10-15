@@ -815,7 +815,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
             if( uses.size() == 1 ) {
                 return uses.begin()->second.get_name();
             } else if( uses.size() > 1 ) {
-                return _( "..." );
+                return _( "…" );
             }
 
             return std::string();

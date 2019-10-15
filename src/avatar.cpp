@@ -392,7 +392,7 @@ bool avatar::read( int inventory_position, const bool continuous )
     if( !has_identified( it.typeId() ) ) {
         if( reader != this ) {
             add_msg( m_info, fail_messages[0] );
-            add_msg( m_info, _( "%s reads aloud..." ), reader->disp_name() );
+            add_msg( m_info, _( "%s reads aloud…" ), reader->disp_name() );
         }
         assign_activity( act );
         return true;
@@ -553,9 +553,9 @@ bool avatar::read( int inventory_position, const bool continuous )
     if( !continuous || activity.position != act.position ) {
         if( reader != this ) {
             add_msg( m_info, fail_messages[0] );
-            add_msg( m_info, _( "%s reads aloud..." ), reader->disp_name() );
+            add_msg( m_info, _( "%s reads aloud…" ), reader->disp_name() );
         } else if( !learners.empty() || !fun_learners.empty() ) {
-            add_msg( m_info, _( "You read aloud..." ) );
+            add_msg( m_info, _( "You read aloud…" ) );
         }
     }
 
@@ -839,7 +839,7 @@ void avatar::do_read( item &book )
         add_msg( m_info, _( "Rereading the %s isn't as much fun for %s." ),
                  book.type_name(), names );
         if( out_of_chapters.front() == disp_name() && one_in( 6 ) ) {
-            add_msg( m_info, _( "Maybe you should find something new to read..." ) );
+            add_msg( m_info, _( "Maybe you should find something new to read…" ) );
         }
     }
 
@@ -916,9 +916,9 @@ void avatar::wake_up()
         }
         if( has_effect( effect_slept_through_alarm ) ) {
             if( has_bionic( bio_watch ) ) {
-                add_msg( m_warning, _( "It looks like you've slept through your internal alarm..." ) );
+                add_msg( m_warning, _( "It looks like you've slept through your internal alarm…" ) );
             } else {
-                add_msg( m_warning, _( "It looks like you've slept through the alarm..." ) );
+                add_msg( m_warning, _( "It looks like you've slept through the alarm…" ) );
             }
         }
     }
