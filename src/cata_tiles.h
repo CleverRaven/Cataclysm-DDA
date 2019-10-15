@@ -359,7 +359,8 @@ class cata_tiles
                              const bool ( &invisible )[5] );
         bool draw_zombie_revival_indicators( const tripoint &pos, lit_level ll, int &height_3d,
                                              const bool ( &invisible )[5] );
-        void draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll, int &height_3d );
+        void draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
+                                        int &height_3d );
 
         bool draw_item_highlight( const tripoint &pos );
 

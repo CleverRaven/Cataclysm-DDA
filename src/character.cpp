@@ -36,6 +36,7 @@
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
+#include "overlay_ordering.h"
 #include "pathfinding.h"
 #include "player.h"
 #include "skill.h"
@@ -2017,6 +2018,54 @@ bool Character::worn_with_flag( const std::string &flag, body_part bp ) const
     return std::any_of( worn.begin(), worn.end(), [&flag, bp]( const item & it ) {
         return it.has_flag( flag ) && ( bp == num_bp || it.covers( bp ) );
     } );
+}
+
+std::vector<std::string> Character::get_overlay_ids() const
+{
+    std::vector<std::string> rval;
+    std::multimap<int, std::string> mutation_sorting;
+    int order;
+    std::string overlay_id;
+
+    // first get effects
+    for( const auto &eff_pr : *effects ) {
+        rval.push_back( "effect_" + eff_pr.first.str() );
+    }
+
+    // then get mutations
+    for( const auto &mut : my_mutations ) {
+        overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
+        order = get_overlay_order_of_mutation( overlay_id );
+        mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
+    }
+
+    // then get bionics
+    for( const bionic &bio : *my_bionics ) {
+        overlay_id = ( bio.powered ? "active_" : "" ) + bio.id.str();
+        order = get_overlay_order_of_mutation( overlay_id );
+        mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
+    }
+
+    for( auto &mutorder : mutation_sorting ) {
+        rval.push_back( "mutation_" + mutorder.second );
+    }
+
+    // next clothing
+    // TODO: worry about correct order of clothing overlays
+    for( const item &worn_item : worn ) {
+        rval.push_back( "worn_" + worn_item.typeId() );
+    }
+
+    // last weapon
+    // TODO: might there be clothing that covers the weapon?
+    if( is_armed() ) {
+        rval.push_back( "wielded_" + weapon.typeId() );
+    }
+
+    if( move_mode != CMM_WALK ) {
+        rval.push_back( character_movemode_str[ move_mode ] );
+    }
+    return rval;
 }
 
 const SkillLevelMap &Character::get_all_skills() const

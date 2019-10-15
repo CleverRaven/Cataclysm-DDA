@@ -1567,15 +1567,6 @@ class player : public Character
         // TODO: make protected and move into Character
         void do_skill_rust();
 
-        // drawing related stuff
-        /**
-         * Returns a list of the IDs of overlays on this character,
-         * sorted from "lowest" to "highest".
-         *
-         * Only required for rendering.
-         */
-        std::vector<std::string> get_overlay_ids() const;
-
         /**
          * Called when a mutation is gained
          */
