@@ -116,6 +116,7 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "defensive", defensive, false );
     optional( jo, was_loaded, "disarms", disarms, false );
+    optional( jo, was_loaded, "take_weapon", take_weapon, false );
     optional( jo, was_loaded, "side_switch", side_switch, false );
     optional( jo, was_loaded, "dummy", dummy, false );
     optional( jo, was_loaded, "dodge_counter", dodge_counter, false );
@@ -516,6 +517,7 @@ ma_technique::ma_technique()
 
     // offensive
     disarms = false; // like tec_disarm
+    take_weapon = false; // disarms and equips weapon if hands are free
     dodge_counter = false; // like tec_grab
     block_counter = false; // like tec_counter
 
@@ -1308,6 +1310,11 @@ std::string ma_technique::get_description() const
 
     if( disarms ) {
         dump << _( "* Will <info>disarm</info> the target" ) << std::endl;
+    }
+    
+    if( take_weapon ) {
+        dump << _( "* Will <info>disarm</info> the target and <info>take their weapon</info>" ) <<
+             std::endl;
     }
 
     return dump.str();

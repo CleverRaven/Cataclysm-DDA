@@ -1087,6 +1087,10 @@ matec_id player::pick_technique( Creature &t, const item &weap,
             continue;
         }
 
+        if( ( tec.take_weapon && ( has_weapon() || !t.has_weapon() ) ) ) {
+            continue;
+        }
+
         // Don't apply humanoid-only techniques to non-humanoids
         if( tec.human_target && !t.in_species( HUMAN ) ) {
             continue;
@@ -1362,6 +1366,19 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
     }
 
     player *p = dynamic_cast<player *>( &t );
+
+    if( technique.take_weapon && !has_weapon() && p != nullptr && p->is_armed() ) {
+        if( p->is_player() ) {
+            add_msg_if_npc( _( "<npcname> disarms you and takes your weapon!" ) );
+        } else {
+            add_msg_player_or_npc( _( "You disarm %s and take their weapon!" ),
+                                   _( "<npcname> disarms %s and takes their weapon!" ),
+                                   p->name );
+        }
+        item it = p->remove_weapon();
+        wield( it );
+    }
+
     if( technique.disarms && p != nullptr && p->is_armed() ) {
         g->m.add_item_or_charges( p->pos(), p->remove_weapon() );
         if( p->is_player() ) {
