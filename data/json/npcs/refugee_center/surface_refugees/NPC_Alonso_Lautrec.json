@@ -87,8 +87,9 @@
       "value": "yes",
       "yes": "Hello again, gorgeous",
       "no": {
-        "u_male": "Oh my, it's good to see such a strong and handsome fellow around here.  They call me Alonso.",
-        "u_female": "Oh my, you're a beautiful lady, so nice to see you.  They call me Alonso."
+        "u_male": true,
+        "yes": "Oh my, it's good to see such a strong and handsome fellow around here.  They call me Alonso.",
+        "no": "Oh my, you're a beautiful lady, so nice to see you.  They call me Alonso."
       }
     },
     "responses": [
@@ -161,8 +162,9 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_CalledOut1",
     "dynamic_line": {
-      "u_male": "Aw man, why you gotta be like that?  I'm just tryin' to get an air of mystery okay?  Nobody wants to be with a slutty guy from Brooklyn, but Alonso the mysterious is another story.",
-      "u_female": "Aw come on, why you gotta be like that?  I'm just tryin' to get an air of mystery okay?  Nobody wants to be with a slutty guy from Brooklyn, but Alonso the mysterious is another story."
+      "u_male": true,
+      "yes": "Aw man, why you gotta be like that?  I'm just tryin' to get an air of mystery okay?  Nobody wants to be with a slutty guy from Brooklyn, but Alonso the mysterious is another story.",
+      "no": "Aw come on, why you gotta be like that?  I'm just tryin' to get an air of mystery okay?  Nobody wants to be with a slutty guy from Brooklyn, but Alonso the mysterious is another story."
     },
     "responses": [
       { "text": "And how is that working out for you?", "topic": "TALK_REFUGEE_Alonso_CalledOut2" },

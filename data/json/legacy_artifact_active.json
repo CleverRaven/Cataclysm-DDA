@@ -509,6 +509,22 @@
   },
   {
     "type": "SPELL",
+    "id": "AEA_ENTRANCE",
+    "name": "Artifact Entrance",
+    "description": "Entrances surrounding monsters",
+    "effect": "charm_monster",
+    "message": "",
+    "min_damage": 0,
+    "max_damage": 600,
+    "min_duration": 500,
+    "max_duration": 5000,
+    "min_aoe": 8,
+    "max_aoe": 8,
+    "valid_targets": [ "self", "hostile" ],
+    "flags": [ "RANDOM_DAMAGE", "RANDOM_DURATION" ]
+  },
+  {
+    "type": "SPELL",
     "id": "AEA_SCREAM",
     "name": "Artifact Scream",
     "description": "An ethereal scream",
@@ -523,5 +539,34 @@
     "max_damage": 40,
     "valid_targets": [ "self" ],
     "extra_effects": [ { "id": "AEA_SCREAM_morale" } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "AEA_PULSE_bash_terrain",
+    "name": "Bash Terrain",
+    "description": "Damages the terrain",
+    "valid_targets": [ "self", "ally", "hostile", "ground" ],
+    "effect": "bash",
+    "min_damage": 40,
+    "max_damage": 40,
+    "min_aoe": 2,
+    "max_aoe": 2
+  },
+  {
+    "type": "SPELL",
+    "id": "AEA_PULSE",
+    "name": "Artifact Pulse",
+    "description": "Damages the terrain",
+    "message": "",
+    "sound_description": "The earth shakes!",
+    "sound_id": "misc",
+    "sound_variant": "earthquake",
+    "sound_ambient": true,
+    "sound_type": "combat",
+    "valid_targets": [ "self" ],
+    "min_damage": 30,
+    "max_damage": 30,
+    "effect": "noise",
+    "extra_effects": [ { "id": "AEA_PULSE_bash_terrain" }, { "id": "AEA_PULSE_bash_terrain" }, { "id": "AEA_PULSE_bash_terrain" } ]
   }
 ]

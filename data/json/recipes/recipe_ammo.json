@@ -432,7 +432,7 @@
     "time": "7 m",
     "reversible": true,
     "decomp_learn": 6,
-    "note": "you just take the warhead off or put it on, rather than making the warhead",
+    "//": "you just take the warhead off or put it on, rather than making the warhead",
     "book_learn": [ [ "recipe_arrows", 6 ], [ "textbook_anarch", 4 ], [ "recipe_bullets", 7 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [

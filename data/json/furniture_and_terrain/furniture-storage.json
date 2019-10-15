@@ -28,6 +28,35 @@
   },
   {
     "type": "furniture",
+    "id": "f_entertainment_center",
+    "name": "entertainment center",
+    "symbol": "{",
+    "description": "Stores audio visual equipment, books and collectible.",
+    "color": "brown",
+    "looks_like": "f_bookcase",
+    "move_cost_mod": -1,
+    "coverage": 80,
+    "required_str": 10,
+    "flags": [ "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 14 }, { "item": "wood_panel", "count": 2 }, { "item": "nail", "charges": [ 12, 20 ] } ]
+    },
+    "max_volume": 8000,
+    "bash": {
+      "str_min": 6,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 2, 12 ] },
+        { "item": "nail", "charges": [ 4, 20 ] },
+        { "item": "splinter", "count": [ 6, 10 ] },
+        { "item": "wood_panel", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_coffin_c",
     "name": "coffin",
     "description": "Holds the bodies of the countless killed in the Cataclysm.",

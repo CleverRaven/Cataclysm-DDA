@@ -932,7 +932,7 @@ static void invalidate_framebuffer( std::vector<curseline> &framebuffer, int x, 
 
 static void invalidate_framebuffer( std::vector<curseline> &framebuffer )
 {
-    for( auto &i : framebuffer ) {
+    for( curseline &i : framebuffer ) {
         std::fill_n( i.chars.begin(), i.chars.size(), cursecell( "" ) );
     }
 }
@@ -3144,7 +3144,7 @@ static bool ends_with( const std::string &text, const std::string &suffix )
 static void font_folder_list( std::ostream &fout, const std::string &path,
                               std::set<std::string> &bitmap_fonts )
 {
-    for( const auto &f : get_files_from_path( "", path, true, false ) ) {
+    for( const std::string &f : get_files_from_path( "", path, true, false ) ) {
         TTF_Font_Ptr fnt( TTF_OpenFont( f.c_str(), 12 ) );
         if( !fnt ) {
             continue;

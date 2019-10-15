@@ -98,7 +98,6 @@ ignorable = {
     "uncraft",
     "vehicle_group",
     "vehicle_placement",
-    "enchantment"
 }
 
 # these objects can have their strings automatically extracted.
@@ -990,6 +989,9 @@ def extract(item, infilename):
         wrote = True
     if "sound" in item:
         writestr(outfile, item["sound"], **kwargs)
+        wrote = True
+    if "sound_description" in item:
+        writestr(outfile, item["sound_description"], comment="description for the sound of spell '{}'".format(name), **kwargs)
         wrote = True
     if "snippet_category" in item and type(item["snippet_category"]) is list:
         # snippet_category is either a simple string (the category ident)

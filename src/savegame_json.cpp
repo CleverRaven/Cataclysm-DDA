@@ -365,6 +365,13 @@ void Character::load( JsonObject &data )
 {
     Creature::load( data );
 
+    if( !data.read( "posx", position.x ) ) {  // uh-oh.
+        debugmsg( "BAD PLAYER/NPC JSON: no 'posx'?" );
+    }
+    data.read( "posy", position.y );
+    if( !data.read( "posz", position.z ) && g != nullptr ) {
+        position.z = g->get_levz();
+    }
     // stats
     data.read( "str_cur", str_cur );
     data.read( "str_max", str_max );
@@ -524,6 +531,12 @@ void Character::store( JsonOut &json ) const
 {
     Creature::store( json );
 
+    // assumes already in Character object
+    // positional data
+    json.member( "posx", position.x );
+    json.member( "posy", position.y );
+    json.member( "posz", position.z );
+
     // stat
     json.member( "str_cur", str_cur );
     json.member( "str_max", str_max );
@@ -590,12 +603,6 @@ void Character::store( JsonOut &json ) const
 void player::store( JsonOut &json ) const
 {
     Character::store( json );
-
-    // assumes already in player object
-    // positional data
-    json.member( "posx", position.x );
-    json.member( "posy", position.y );
-    json.member( "posz", position.z );
 
     // energy
     json.member( "stim", stim );
@@ -705,13 +712,6 @@ void player::load( JsonObject &data )
     JsonArray parray;
     character_id tmpid;
 
-    if( !data.read( "posx", position.x ) ) { // uh-oh.
-        debugmsg( "BAD PLAYER/NPC JSON: no 'posx'?" );
-    }
-    data.read( "posy", position.y );
-    if( !data.read( "posz", position.z ) && g != nullptr ) {
-        position.z = g->get_levz();
-    }
     data.read( "stim", stim );
     data.read( "pkill", pkill );
     data.read( "tank_plut", tank_plut );
@@ -2115,6 +2115,10 @@ void item::io( Archive &archive )
             }
         }
     }
+
+    // Remove stored translated gerund in favor of storing the inscription tool type
+    item_vars.erase( "item_label_type" );
+    item_vars.erase( "item_note_type" );
 
     current_phase = static_cast<phase_id>( cur_phase );
     // override phase if frozen, needed for legacy save

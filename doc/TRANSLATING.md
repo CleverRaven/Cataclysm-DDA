@@ -310,6 +310,7 @@ correctly extracted for translation.
 | Recipe group recipe descriptions
 | Item names (plural supported) and descriptions
 | Recipe descriptions
+| Inscribe use action verbs/gerunds
 | Monster names (plural supported) and descriptions
 
 ### Recommendations

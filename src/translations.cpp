@@ -347,12 +347,12 @@ std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
 }
 
 translation::translation()
-    : ctxt( cata::nullopt ), raw(), raw_pl( cata::nullopt ), needs_translation( false )
+    : ctxt( cata::nullopt ), raw_pl( cata::nullopt ), needs_translation( false )
 {
 }
 
 translation::translation( const plural_tag )
-    : ctxt( cata::nullopt ), raw(), raw_pl( std::string() ), needs_translation( false )
+    : ctxt( cata::nullopt ), raw_pl( std::string() ), needs_translation( false )
 {
 }
 

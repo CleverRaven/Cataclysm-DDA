@@ -227,8 +227,7 @@
         "min_unarmed": 0,
         "buff_duration": 2,
         "max_stacks": 1,
-        "mult_bonuses": [ [ "damage", "bash", 1.5 ] ],
-        "stun_dur": 2
+        "mult_bonuses": [ [ "damage", "bash", 1.5 ] ]
       }
     ],
     "onhit_buffs": [

@@ -128,23 +128,20 @@ enum npc_job : int {
     NPCJOB_END
 };
 
-static const std::map<npc_job, std::vector<activity_id>> job_duties = {
+std::vector<std::string> all_jobs();
+std::string npc_job_id( npc_job job );
+std::string npc_job_name( npc_job job );
+
+static std::map<npc_job, std::vector<activity_id>> job_duties = {
     { NPCJOB_NULL, std::vector<activity_id>{ activity_id( activity_id::NULL_ID() ) } },
-    { NPCJOB_COOKING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CRAFT" ), activity_id( "ACT_MULTIPLE_BUTCHER" ) } },
+    { NPCJOB_COOKING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_BUTCHER" ) } },
     { NPCJOB_MENIAL, std::vector<activity_id>{ activity_id( "ACT_MOVE_LOOT" ), activity_id( "ACT_TIDY_UP" ) } },
     { NPCJOB_VEHICLES, std::vector<activity_id>{ activity_id( "ACT_VEHICLE_REPAIR" ), activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) } },
     { NPCJOB_CONSTRUCTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) } },
-    { NPCJOB_CRAFTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CRAFT" ) } },
-    { NPCJOB_SECURITY, std::vector<activity_id>{ activity_id( activity_id::NULL_ID() ) } }, // no corresponding activities yet.
     { NPCJOB_FARMING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_FARM" ) } },
     { NPCJOB_LUMBERJACK, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_CHOP_TREES" ), activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) } },
-    { NPCJOB_HUSBANDRY, std::vector<activity_id>{ activity_id( activity_id::NULL_ID() ) } }, // no corresponding activities yet.
     { NPCJOB_HUNTING, std::vector<activity_id>{ activity_id( "ACT_MULTIPLE_FISH" ) } },
-    { NPCJOB_FORAGING, std::vector<activity_id>{ activity_id( activity_id::NULL_ID() ) } }, // no corresponding activities yet.
 };
-
-std::string npc_job_id( npc_job job );
-std::string npc_job_name( npc_job job );
 
 enum npc_mission : int {
     NPC_MISSION_NULL = 0, // Nothing in particular
@@ -160,6 +157,7 @@ enum npc_mission : int {
     NPC_MISSION_GUARD_PATROL, // Assigns a non-allied NPC to guard and investigate
     NPC_MISSION_ACTIVITY, // Perform a player_activity until it is complete
     NPC_MISSION_TRAVELLING,
+    NPC_MISSION_ASSIGNED_CAMP, // this npc is assigned to a camp.
 };
 
 struct npc_companion_mission {
@@ -1107,8 +1105,8 @@ class npc : public player
         void find_item();
         // Move to, or grab, our targeted item
         void pick_up_item();
-        // Drop wgt and vol
-        void drop_items( int weight, int volume );
+        // Drop wgt and vol, including all items with less value than min_val
+        void drop_items( units::mass drop_weight, units::volume drop_volume, int min_val = 0 );
         /** Picks up items and returns a list of them. */
         std::list<item> pick_up_item_map( const tripoint &where );
         std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );
