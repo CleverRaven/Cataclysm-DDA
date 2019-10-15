@@ -962,7 +962,9 @@ bool vehicle::is_alternator_on( const int a ) const
 
     return std::any_of( engines.begin(), engines.end(), [this, &alt]( int idx ) {
         auto &eng = parts [ idx ];
-        return eng.enabled && eng.is_available() && eng.mount == alt.mount &&
+        //is_engine_on checks that the engine is set to do work
+        //engine_fuel_left checks that it actually CAN do work
+        return eng.is_available() && eng.enabled && engine_fuel_left( idx ) && eng.mount == alt.mount &&
                !eng.faults().count( fault_belt );
     } );
 }
@@ -1004,6 +1006,13 @@ const vpart_info &vehicle::part_info( int index, bool include_removed ) const
 int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
 {
     const vehicle_part &vp = parts[ index ];
+
+    //Vehicle is stationary and engine is electric
+    //Still creates power while coasting?
+    if( vp.info().fuel_type == fuel_type_battery && !is_moving() ) {
+        return 0;
+    }
+
     int pwr = vp.info().power;
     if( part_flag( index, VPFLAG_ENGINE ) ) {
         if( pwr == 0 ) {
@@ -4754,7 +4763,7 @@ void vehicle::idle( bool on_map )
         if( engine_on && g->u.sees( global_pos3() ) &&
             ( has_engine_type_not( fuel_type_muscle, true ) && has_engine_type_not( fuel_type_animal, true ) &&
               has_engine_type_not( fuel_type_wind, true ) ) ) {
-            add_msg( _( "The %s's engine dies!" ), name );
+            add_msg( _( "The %s's engine shuts off!" ), name );
         }
         engine_on = false;
     }
