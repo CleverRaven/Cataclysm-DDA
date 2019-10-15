@@ -1768,6 +1768,12 @@ int player::swim_speed() const
     if( underwater && ret < 500 ) {
         ret -= 50;
     }
+
+    // Running movement mode while swimming means faster swim speed
+    if( move_mode == PMM_RUN) {
+        ret -= 100;
+    }
+
     if( ret < 30 ) {
         ret = 30;
     }
