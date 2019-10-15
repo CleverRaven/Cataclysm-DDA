@@ -4438,7 +4438,9 @@ item &map::add_item( const tripoint &p, item new_item )
 
     if( new_item.has_flag( "ACT_IN_FIRE" ) && get_field( p, fd_fire ) != nullptr ) {
         if( new_item.has_flag( "BOMB" ) && new_item.is_transformable() ) {
-            new_item.convert( new_item.typeId() + "_act" );
+            //Convert a bomb item into its transformable version, e.g. incendiary grenade -> active incendiary grenade
+            new_item.convert( item::find_type( dynamic_cast<const iuse_transform *>( item::find_type(
+                                                   new_item.typeId() )->get_use( "transform" )->get_actor_ptr() )->target )->get_id() );
         }
         new_item.active = true;
     }
