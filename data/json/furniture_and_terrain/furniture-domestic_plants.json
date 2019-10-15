@@ -80,7 +80,7 @@
     "color": "light_green",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST", "THIN_OBSTACLE" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." },
     "plant_data": { "transform": "f_null", "base": "f_null" }
@@ -94,7 +94,7 @@
     "color": "green",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE" ],
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE", "THIN_OBSTACLE" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 3, "str_max": 8, "sound": "crunch.", "sound_fail": "whish." },
     "plant_data": { "transform": "f_plant_harvest", "base": "f_null" }
@@ -108,7 +108,7 @@
     "color": "brown",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEED" ],
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEED", "THIN_OBSTACLE" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 1, "str_max": 5, "sound": "crunch.", "sound_fail": "whish." },
     "plant_data": { "transform": "f_plant_seedling", "base": "f_null" }
@@ -122,7 +122,7 @@
     "color": "green",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEEDLING" ],
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEEDLING", "THIN_OBSTACLE" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." },
     "plant_data": { "transform": "f_plant_mature", "base": "f_null" }
