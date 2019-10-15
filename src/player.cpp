@@ -1764,6 +1764,16 @@ int player::swim_speed() const
     if( underwater && ret < 500 ) {
         ret -= 50;
     }
+
+    // Running movement mode while swimming means faster swim style, like crawlstroke
+    if( move_mode == PMM_RUN ) {
+        ret -= 80;
+    }
+    // Crouching movement mode while swimming means slower swim style, like breaststroke
+    if( move_mode == PMM_CROUCH ) {
+        ret += 50;
+    }
+
     if( ret < 30 ) {
         ret = 30;
     }
