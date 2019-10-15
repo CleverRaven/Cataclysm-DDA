@@ -1311,7 +1311,7 @@ std::string ma_technique::get_description() const
     if( disarms ) {
         dump << _( "* Will <info>disarm</info> the target" ) << std::endl;
     }
-    
+
     if( take_weapon ) {
         dump << _( "* Will <info>disarm</info> the target and <info>take their weapon</info>" ) <<
              std::endl;
