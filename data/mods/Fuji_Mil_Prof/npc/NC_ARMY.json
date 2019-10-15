@@ -1,0 +1,187 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "NC_ARMY_pants_male",
+    "items":[
+      ["pants_army", 90],
+      ["pants_cargo", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_ARMY_pants_female",
+    "items":[
+      ["pants_army", 90],
+      ["pants_cargo", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_ARMY_shirt_male",
+    "items":[
+      ["tshirt", 20],
+      ["polo_shirt", 20],
+      ["dress_shirt", 20],
+      ["tank_top", 20],
+      ["longshirt", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_ARMY_shirt_female",
+    "items":[
+      ["tshirt", 20],
+      ["polo_shirt", 20],
+      ["dress_shirt", 20],
+      ["tank_top", 20],
+      ["longshirt", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_ARMY_gloves",
+    "items":[
+      ["null", 50],
+      ["gloves_tactical", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_ARMY_coat",
+    "items":[
+      ["null", 60],
+      ["jacket_army", 40],
+      ["modularveststeel", 10],
+      ["modularvestceramic", 40],
+      ["kevlar", 20],
+      ["chestrig", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_ARMY_shoes",
+    "items":[
+      ["boots_combat", 100]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_ARMY_masks",
+    "items":[
+      ["null", 60],
+      ["keffiyeh", 30],
+      ["mask_gas", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_ARMY_eyes",
+    "items":[
+      ["null", 40],
+      ["glasses_bal", 50],
+      ["sunglasses", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_ARMY_hat",
+    "items":[
+      ["null", 40],
+      ["hat_ball", 10],
+      ["tac_helmet", 30],
+      ["helmet_army", 10],
+      ["hat_boonie", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_ARMY_extra",
+    "items":[
+      ["null", 30],
+      ["rucksack", 70]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_ARMY_bashing",
+    "items":[
+      ["hammer", 20],
+      ["wrench", 20],
+      ["hammer_sledge", 20],
+      ["pipe", 20],
+      ["baton-extended", 20],
+      ["crowbar", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_ARMY_cutting",
+    "items":[
+      ["knife_butcher", 20],
+      ["hatchet", 20],
+      ["knife_combat", 20],
+      ["machete", 20],
+      ["knife_combat", 20],
+      ["diveknife", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_ARMY_stabbing",
+    "items":[
+      ["spear_knife", 50],
+      ["spear_steel", 10],
+      ["spear_forked", 10],
+      ["spear_rebar", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_ARMY_throw",
+    "items":[
+      ["throwing_knife", 50],
+      ["throwing_axe", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_ARMY_archery",
+    "items":[
+      ["crossbow", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_ARMY_pistols",
+    "items":[
+      ["m1911", 30],
+      ["m9", 70]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_ARMY_shotgun",
+    "items":[
+      ["mossberg_500", 25],
+      ["remington_870", 25]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_ARMY_smg",
+    "items":[
+      ["hk_mp5", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_ARMY_rifle",
+    "items":[
+      ["m4a1", 50],
+      ["m14ebr", 35],
+      ["m249", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_ARMY_launcher",
+    "items":[
+      ["mgl", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_ARMY_weapon_random",
+    "items":[
+      ["q_staff", 100]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "NC_ARMY_misc",
+    "items":[
+        ["grenade", 40],
+        ["ref_lighter", 30],
+        ["lighter", 30],
+        ["matches", 30]
+    ]
+  }
+]

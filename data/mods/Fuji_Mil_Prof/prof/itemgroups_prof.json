@@ -1,0 +1,44 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "holster_supp_MEU",
+    "entries": [ { "item": "m1911_MEU", "ammo-item": "45_acp", "charges": 7, "contents-item": [ "suppressor" ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_1911",
+    "entries": [ { "item": "m1911mag", "ammo-item": "45_acp", "charges": 7 }, { "item": "m1911mag", "ammo-item": "45_acp", "charges": 7 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_300blk",
+    "entries": [ { "item": "stanag30", "ammo-item": "300blk_ss", "charges": 30 }, { "item": "stanag30", "ammo-item": "300blk_ss", "charges": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_mp7",
+    "entries": [ { "item": "hk46mag", "ammo-item": "46mm", "charges": 20 }, { "item": "hk46mag", "ammo-item": "46mm", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "holster_supp_57",
+    "entries": [ { "item": "fn57", "ammo-item": "57mm", "charges": 20, "contents-item": [ "suppressor" ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_57",
+    "entries": [ { "item": "fn57mag", "ammo-item": "57mm", "charges": 20 }, { "item": "fn57mag", "ammo-item": "57mm", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "army_mags_m14",
+    "entries": [ { "item": "m14mag", "ammo-item": "762_51", "charges": 20 }, { "item": "m14mag", "ammo-item": "762_51", "charges": 20 } ]
+  }
+]
