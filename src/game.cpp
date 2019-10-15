@@ -869,6 +869,14 @@ void game::load_npcs()
     // uses submap coordinates
     std::vector<std::shared_ptr<npc>> just_added;
     for( const auto &temp : overmap_buffer.get_npcs_near_player( radius ) ) {
+        const character_id &id = temp->getID();
+        const auto found = std::find_if( active_npc.begin(), active_npc.end(),
+        [id]( const std::shared_ptr<npc> &n ) {
+            return n->getID() == id;
+        } );
+        if( found != active_npc.end() ) {
+            continue;
+        }
         if( temp->is_active() ) {
             continue;
         }
