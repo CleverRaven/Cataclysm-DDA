@@ -1006,13 +1006,6 @@ const vpart_info &vehicle::part_info( int index, bool include_removed ) const
 int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
 {
     const vehicle_part &vp = parts[ index ];
-
-    //Vehicle is stationary and engine is electric
-    //Still creates power while coasting?
-    if( vp.info().fuel_type == fuel_type_battery && !is_moving() ) {
-        return 0;
-    }
-
     int pwr = vp.info().power;
     if( part_flag( index, VPFLAG_ENGINE ) ) {
         if( pwr == 0 ) {
@@ -4453,7 +4446,7 @@ void vehicle::update_alternator_load()
     if( engine_on ) {
         int engine_vpower = 0;
         for( size_t e = 0; e < engines.size(); ++e ) {
-            if( is_engine_on( e ) ) {
+            if( is_engine_on( e ) && parts[engines[e]].info().has_flag( "E_ALTERNATOR" ) ) {
                 engine_vpower += part_vpower_w( engines[e] );
             }
         }
@@ -4763,7 +4756,7 @@ void vehicle::idle( bool on_map )
         if( engine_on && g->u.sees( global_pos3() ) &&
             ( has_engine_type_not( fuel_type_muscle, true ) && has_engine_type_not( fuel_type_animal, true ) &&
               has_engine_type_not( fuel_type_wind, true ) ) ) {
-            add_msg( _( "The %s's engine shuts off!" ), name );
+            add_msg( _( "The %s's engine dies!" ), name );
         }
         engine_on = false;
     }
