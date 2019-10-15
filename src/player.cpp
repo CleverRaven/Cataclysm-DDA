@@ -2699,7 +2699,7 @@ void player::on_dodge( Creature *source, float difficulty )
         matec_id tec = pick_technique( *source, used_weapon(), false, true, false );
 
         if( tec != tec_none && !is_dead_state() ) {
-            if( stamina < get_stamina_max() / 4 ) {
+            if( stamina < get_stamina_max() / 3 ) {
                 add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
             } else {
                 melee_attack( *source, false, tec );
