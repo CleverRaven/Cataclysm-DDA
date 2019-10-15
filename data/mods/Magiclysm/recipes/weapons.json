@@ -313,7 +313,7 @@
   },
   {
     "type": "recipe",
-    "result": "arrow_orichalcum",
+    "result": "arrow_odin",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_ARROWS",
     "skill_used": "fabrication",
