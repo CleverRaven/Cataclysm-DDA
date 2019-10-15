@@ -1591,7 +1591,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
                    _( "Spd " ) + to_string( u.get_speed() ) );
         nc_color move_color = u.movement_mode_is( PMM_WALK ) ? c_white : move_mode_color( u );
         std::string move_string = to_string( u.movecounter ) + " " + move_mode_string( u );
-        mvwprintz( w, point( 26 + move_string.length(), 5 ), move_color, move_string );
+        mvwprintz( w, point( 29, 5 ), move_color, move_string );
     }
 
     // temperature
