@@ -44,7 +44,7 @@
     "name_plural": "chunks of sulfur",
     "symbol": "*",
     "color": "yellow",
-    "description": "A large chunk of pure sulfur.  Break it up to use it.",
+    "description": "A chunk of pure sulfur.  Break it up to use it.",
     "material": "powder",
     "volume": "250 ml",
     "weight": "500 g",
