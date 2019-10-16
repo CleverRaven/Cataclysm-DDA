@@ -1330,7 +1330,7 @@ static mutagen_rejection try_reject_mutagen( Character &p, const item &it, bool 
     return mutagen_rejection::accepted;
 }
 
-mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,
+mutagen_attempt mutagen_common_checks( Character &p, const item &it, bool strong,
                                        const mutagen_technique technique )
 {
     g->events().send<event_type::administers_mutagen>( p.getID(), technique );
