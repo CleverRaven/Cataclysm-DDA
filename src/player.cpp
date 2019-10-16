@@ -5264,14 +5264,14 @@ void player::suffer()
 
     if( mutations.has_trait( trait_UNSTABLE ) && !mutations.has_trait( trait_CHAOTIC_BAD ) &&
         one_turn_in( 48_hours ) ) {
-        mutations.mutate();
+        mutations.mutate( *this );
     }
     if( ( mutations.has_trait( trait_CHAOTIC ) || mutations.has_trait( trait_CHAOTIC_BAD ) ) &&
         one_turn_in( 12_hours ) ) {
-        mutations.mutate();
+        mutations.mutate( *this );
     }
     if( has_artifact_with( AEP_MUTAGENIC ) && one_turn_in( 48_hours ) ) {
-        mutations.mutate();
+        mutations.mutate( *this );
     }
     if( has_artifact_with( AEP_FORCE_TELEPORT ) && one_turn_in( 1_hours ) ) {
         teleport::teleport( *this );
@@ -5355,7 +5355,7 @@ void player::suffer()
             radiation = 2000;
         }
         if( get_option<bool>( "RAD_MUTATION" ) && rng( 100, 10000 ) < radiation ) {
-            mutations.mutate();
+            mutations.mutate( *this );
             radiation -= 50;
         } else if( radiation > 50 && rng( 1, 3000 ) < radiation && ( stomach.contains() > 0_ml ||
                    radiation_increasing || !in_sleep_state() ) ) {
