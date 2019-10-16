@@ -1213,9 +1213,23 @@ float ma_technique::armor_penetration( const player &u, damage_type type ) const
 std::string ma_technique::get_description() const
 {
     std::stringstream dump;
+    std::string type;
 
-    dump << string_format( _( "<bold>Type:</bold> %s" ),
-                           defensive ? _( "defensive" ) : _( "offensive" ) ) << std::endl;
+    if( block_counter ) {
+        type = _( "Block Counter" );
+    } else if( dodge_counter ) {
+        type = _( "Dodge Counter" );
+    } else if( miss_recovery ) {
+        type = _( "Miss Recovery" );
+    } else if( grab_break ) {
+        type = _( "Grab Break" );
+    } else if( defensive ) {
+        type = _( "Defensive" );
+    } else {
+        type = _( "Offensive" );
+    }
+
+    dump << string_format( _( "<bold>Type:</bold> %s" ), type ) << std::endl;
 
     std::string temp = bonuses.get_description();
     if( !temp.empty() ) {

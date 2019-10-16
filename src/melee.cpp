@@ -374,12 +374,15 @@ static void melee_train( player &p, int lo, int hi, const item &weap )
     int bash = weap.damage_melee( DT_BASH ) + ( weap.is_null() ? 1 : 0 );
 
     float total = std::max( cut + stab + bash, 1 );
-    p.practice( skill_cutting,  ceil( cut  / total * rng( lo, hi ) ), hi );
-    p.practice( skill_stabbing, ceil( stab / total * rng( lo, hi ) ), hi );
 
-    // Unarmed skill scaled bashing damage and so scales with bashing damage
-    p.practice( weap.is_unarmed_weapon() ? skill_unarmed : skill_bashing,
-                ceil( bash / total * rng( lo, hi ) ), hi );
+    // Unarmed may deal cut, stab, and bash damage depending on the weapon
+    if( weap.is_unarmed_weapon() ) {
+        p.practice( skill_unarmed, ceil( 1 * rng( lo, hi ) ), hi );
+    } else {
+        p.practice( skill_cutting,  ceil( cut  / total * rng( lo, hi ) ), hi );
+        p.practice( skill_stabbing, ceil( stab / total * rng( lo, hi ) ), hi );
+        p.practice( skill_bashing, ceil( bash / total * rng( lo, hi ) ), hi );
+    }
 }
 
 void player::melee_attack( Creature &t, bool allow_special )
@@ -1635,8 +1638,12 @@ bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &da
     // Check if we have any block counters
     matec_id tec = pick_technique( *source, shield, false, false, true );
 
-    if( tec != tec_none ) {
-        melee_attack( *source, false, tec );
+    if( tec != tec_none && !is_dead_state() ) {
+        if( stamina < get_stamina_max() / 3 ) {
+            add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
+        } else {
+            melee_attack( *source, false, tec );
+        }
     }
 
     return true;

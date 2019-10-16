@@ -153,7 +153,8 @@
       "C": "t_column",
       "^": "t_gutter_downspout",
       ",": "t_linoleum_white",
-      ";": "t_linoleum_gray"
+      ";": "t_linoleum_gray",
+      "M": [ "t_shrub_lilac", "t_shrub_hydrangea", "t_shrub_rose" ]
     },
     "toilets": { "t": {  } },
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
@@ -224,8 +225,8 @@
       "J": "t_water_pump",
       "K": "t_water_sh",
       "k": "t_water_sh",
-      "L": "t_water_pool",
-      "M": "t_water_pool_shallow",
+      "L": "t_water_pool_outdoors",
+      "M": "t_water_pool_shallow_outdoors",
       "N": [ "t_shrub_lilac", "t_shrub_hydrangea", "t_shrub_rose" ],
       "O": [
         "t_shrub_grape",
@@ -238,6 +239,7 @@
       "P": "t_dirtmound",
       "Q": "t_dirt",
       "R": "t_dirtfloor",
+      "S": "t_trunk",
       "Z": [
         "t_tree_blackjack",
         "t_tree_walnut",

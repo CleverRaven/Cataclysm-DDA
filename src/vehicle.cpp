@@ -719,9 +719,9 @@ void vehicle::drive_to_local_target( const tripoint &autodrive_local_target, boo
     // when following player, take distance to player into account.
     // we really want to avoid running the player over.
     int safe_player_follow_speed = 400;
-    if( g->u.movement_mode_is( PMM_RUN ) ) {
+    if( g->u.movement_mode_is( CMM_RUN ) ) {
         safe_player_follow_speed = 800;
-    } else if( g->u.movement_mode_is( PMM_CROUCH ) ) {
+    } else if( g->u.movement_mode_is( CMM_CROUCH ) ) {
         safe_player_follow_speed = 200;
     }
     if( follow_protocol ) {
@@ -1372,6 +1372,20 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
             if( part_info( elem ).has_flag( "WHEEL_MOUNT_HEAVY" ) ) {
+                anchor_found = true;
+                break;
+            }
+        }
+        if( !anchor_found ) {
+            return false;
+        }
+    }
+
+    //Turret controls must be installed on a turret
+    if( part.has_flag( "TURRET_CONTROLS" ) ) {
+        bool anchor_found = false;
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "TURRET" ) ) {
                 anchor_found = true;
                 break;
             }
@@ -5287,6 +5301,9 @@ void vehicle::refresh()
         if( camera_on && vpi.has_flag( "CAMERA" ) ) {
             vp.part().enabled = true;
         } else if( !camera_on && vpi.has_flag( "CAMERA" ) ) {
+            vp.part().enabled = false;
+        }
+        if( vpi.has_flag( "TURRET" ) && !has_part( global_part_pos3( vp.part() ), "TURRET_CONTROLS" ) ) {
             vp.part().enabled = false;
         }
     }
