@@ -1884,6 +1884,7 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
         if( used_seed.front().has_var( "activity_var" ) ) {
             used_seed.front().erase_var( "activity_var" );
         }
+        used_seed.front().set_flag( "HIDDEN_ITEM" );
         g->m.add_item_or_charges( examp, used_seed.front() );
         if( g->m.has_flag_furn( "PLANTABLE", examp ) ) {
             g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
