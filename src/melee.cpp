@@ -483,9 +483,9 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
             technique_id = tec_none;
         }
 
-        //if you are on the ground or have two broken arms you aren't doing any martial arts
+        // if you have two broken arms you aren't doing any martial arts
         // and your hits are not going to hurt very much
-        if (is_on_ground() || get_working_arm_count() < 1) {
+        if (get_working_arm_count() < 1) {
             technique_id = tec_none;
             d.mult_damage(.1);
         }

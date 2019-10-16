@@ -1589,7 +1589,13 @@ int player::run_cost( int base_cost, bool diag ) const
                     75; // Mycal characters are faster on their home territory, even through things like shrubs
             }
         }
+        if( is_limb_hindered( hp_leg_l ) ) {
+            movecost += 25;
+        }
 
+        if( is_limb_hindered( hp_leg_r ) ) {
+            movecost += 25;
+        }
         movecost *= Character::mutation_value( "movecost_modifier" );
         if( flatground ) {
             movecost *= Character::mutation_value( "movecost_flatground_modifier" );

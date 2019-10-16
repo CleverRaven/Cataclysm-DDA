@@ -476,6 +476,11 @@ int Character::get_working_leg_count() const
     return limb_count;
 }
 
+bool Character::is_limb_hindered( hp_part limb ) const
+{
+    return hp_cur[limb] < hp_max[limb] * .40;
+}
+
 bool Character::is_limb_disabled( hp_part limb ) const
 {
     return hp_cur[limb] <= hp_max[limb] * .125;
