@@ -305,6 +305,8 @@ enum action_id : int {
     ACTION_DISPLAY_TEMPERATURE,
     /** Toggle visibility map */
     ACTION_DISPLAY_VISIBILITY,
+    /** Toggle lighting conditions map */
+    ACTION_DISPLAY_LIGHTING,
     /** Toggle radiation map */
     ACTION_DISPLAY_RADIATION,
     /** Not an action, serves as count of enumerated actions */

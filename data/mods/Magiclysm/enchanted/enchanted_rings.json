@@ -1,0 +1,328 @@
+[
+  {
+    "abstract": "mring_copper",
+    "type": "TOOL_ARMOR",
+    "name": "copper magic ring",
+    "description": "A generic copper magic ring.",
+    "weight": "4 g",
+    "volume": 0,
+    "price": 5000,
+    "material": [ "copper" ],
+    "symbol": "[",
+    "color": "light_red",
+    "covers": [ "HAND_EITHER" ],
+    "coverage": 0,
+    "warmth": 0,
+    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
+  },
+  {
+    "abstract": "mring_silver",
+    "type": "TOOL_ARMOR",
+    "name": "magic ring",
+    "description": "A generic silver magic ring.",
+    "weight": "5 g",
+    "volume": 0,
+    "price": 5000,
+    "material": [ "silver" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "HAND_EITHER" ],
+    "coverage": 0,
+    "warmth": 0,
+    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
+  },
+  {
+    "abstract": "mring_gold",
+    "type": "TOOL_ARMOR",
+    "name": "magic ring",
+    "description": "A generic gold magic ring.",
+    "weight": "9 g",
+    "volume": 0,
+    "price": 5000,
+    "material": [ "gold" ],
+    "symbol": "[",
+    "color": "yellow",
+    "covers": [ "HAND_EITHER" ],
+    "coverage": 0,
+    "warmth": 0,
+    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
+  },
+  {
+    "abstract": "mring_platinum",
+    "type": "TOOL_ARMOR",
+    "name": "magic ring",
+    "description": "A generic platinum magic ring.",
+    "weight": "11 g",
+    "volume": 0,
+    "price": 5000,
+    "material": [ "platinum" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "HAND_EITHER" ],
+    "coverage": 0,
+    "warmth": 0,
+    "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
+  },
+  {
+    "copy-from": "mring_silver",
+    "type": "TOOL_ARMOR",
+    "id": "mring_blades_lesser",
+    "name": "ring of blades",
+    "name_plural": "rings of blades",
+    "description": "An ornate silver ring engraved with daggers that conjures a near perfect throwing knife into your hand on activation.",
+    "use_action": { "type": "cast_spell", "spell_id": "conj_throwing_blade1", "no_fail": true, "level": 1, "need_worn": true },
+    "initial_charges": 5,
+    "charges": 5,
+    "max_charges": 5,
+    "charges_per_use": 1,
+    "artifact_data": { "charge_type": "ARTC_TIME" }
+  },
+  {
+    "copy-from": "mring_copper",
+    "type": "TOOL_ARMOR",
+    "id": "mring_strength_1",
+    "name": "ring of strength +1",
+    "name_plural": "minor rings of strength +1",
+    "description": "A copper ring that makes you a little stronger when you wear it.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 1 } ] } ] }
+  },
+  {
+    "copy-from": "mring_silver",
+    "type": "TOOL_ARMOR",
+    "id": "mring_strength_2",
+    "name": "ring of strength +2",
+    "name_plural": "rings of strength +2",
+    "description": "A silver ring that makes you a good bit stronger when you wear it.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] } ] }
+  },
+  {
+    "copy-from": "mring_gold",
+    "type": "TOOL_ARMOR",
+    "id": "mring_strength_3",
+    "name": "ring of strength +3",
+    "name_plural": "rings of strength +3",
+    "description": "A golden ring that makes you surprisingly stronger when you wear it.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 3 } ] } ] }
+  },
+  {
+    "copy-from": "mring_platinum",
+    "type": "TOOL_ARMOR",
+    "id": "mring_strength_4",
+    "name": "ring of strength +4",
+    "name_plural": "rings of strength +4",
+    "description": "A platinum ring that makes you much stronger when you wear it.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 4 } ] } ] }
+  },
+  {
+    "copy-from": "mring_copper",
+    "type": "TOOL_ARMOR",
+    "id": "mring_dexterity_1",
+    "name": "ring of dexterity +1",
+    "name_plural": "rings of dexterity +1",
+    "description": "A copper ring that makes you a little more agile when you wear it.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 1 } ] } ] }
+  },
+  {
+    "copy-from": "mring_silver",
+    "type": "TOOL_ARMOR",
+    "id": "mring_dexterity_2",
+    "name": "ring of dexterity +2",
+    "name_plural": "rings of dexterity +2",
+    "description": "A silver ring that makes you a good bit more agile when you wear it.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 2 } ] } ] }
+  },
+  {
+    "copy-from": "mring_gold",
+    "type": "TOOL_ARMOR",
+    "id": "mring_dexterity_3",
+    "name": "ring of dexterity +3",
+    "name_plural": "rings of dexterity +3",
+    "description": "A golden ring that makes you surprisingly more agile when you wear it.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 3 } ] } ] }
+  },
+  {
+    "copy-from": "mring_platinum",
+    "type": "TOOL_ARMOR",
+    "id": "mring_dexterity_4",
+    "name": "ring of dexterity +4",
+    "name_plural": "rings of dexterity +4",
+    "description": "A platinum ring that makes you much more agile when you wear it.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 4 } ] } ] }
+  },
+  {
+    "copy-from": "mring_copper",
+    "type": "TOOL_ARMOR",
+    "id": "mring_intelligence_1",
+    "name": "ring of intelligence +1",
+    "name_plural": "rings of intelligence +1",
+    "description": "A copper ring that makes you a little more intelligent when you wear it.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 1 } ] } ] }
+  },
+  {
+    "copy-from": "mring_silver",
+    "type": "TOOL_ARMOR",
+    "id": "mring_intelligence_2",
+    "name": "ring of intelligence +2",
+    "name_plural": "rings of intelligence +2",
+    "description": "A silver ring that makes you a good bit more intelligent when you wear it.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ] }
+  },
+  {
+    "copy-from": "mring_gold",
+    "type": "TOOL_ARMOR",
+    "id": "mring_intelligence_3",
+    "name": "ring of intelligence +3",
+    "name_plural": "rings of intelligence +3",
+    "description": "A golden ring that makes you surprisingly more intelligent when you wear it.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 3 } ] } ] }
+  },
+  {
+    "copy-from": "mring_platinum",
+    "type": "TOOL_ARMOR",
+    "id": "mring_intelligence_4",
+    "name": "ring of intelligence +4",
+    "name_plural": "rings of intelligence +4",
+    "description": "A platinum ring that makes you much more intelligent when you wear it.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 4 } ] } ] }
+  },
+  {
+    "copy-from": "mring_copper",
+    "type": "TOOL_ARMOR",
+    "id": "mring_perception_1",
+    "name": "ring of perception +1",
+    "name_plural": "rings of perception +1",
+    "description": "A copper ring that makes you a little more perceptive when you wear it.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 1 } ] } ] }
+  },
+  {
+    "copy-from": "mring_silver",
+    "type": "TOOL_ARMOR",
+    "id": "mring_perception_2",
+    "name": "ring of perception +2",
+    "name_plural": "rings of perception +2",
+    "description": "A silver ring that makes you a good bit more perceptive when you wear it.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 2 } ] } ] }
+  },
+  {
+    "copy-from": "mring_gold",
+    "type": "TOOL_ARMOR",
+    "id": "mring_perception_3",
+    "name": "ring of perception +3",
+    "name_plural": "rings of perception +3",
+    "description": "A golden ring that makes you eye-openingly more perceptive when you wear it.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 3 } ] } ] }
+  },
+  {
+    "copy-from": "mring_platinum",
+    "type": "TOOL_ARMOR",
+    "id": "mring_perception_4",
+    "name": "ring of perception +4",
+    "name_plural": "rings of perception +4",
+    "description": "A platinum ring that makes you much more perceptive when you wear it.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 4 } ] } ] }
+  },
+  {
+    "copy-from": "mring_copper",
+    "type": "TOOL_ARMOR",
+    "id": "mring_speed_3",
+    "name": "ring of speed +3",
+    "name_plural": "rings of speed +3",
+    "description": "A copper ring that makes you a little faster when you wear it.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 3 } ] } ] }
+  },
+  {
+    "copy-from": "mring_silver",
+    "type": "TOOL_ARMOR",
+    "id": "mring_speed_5",
+    "name": "ring of speed +5",
+    "name_plural": "rings of speed +5",
+    "description": "A silver ring that makes you a good bit faster when you wear it.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 5 } ] } ] }
+  },
+  {
+    "copy-from": "mring_gold",
+    "type": "TOOL_ARMOR",
+    "id": "mring_speed_7",
+    "name": "ring of speed +7",
+    "name_plural": "rings of speed +7",
+    "description": "A golden ring that makes you quite hasty when you wear it.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 7 } ] } ] }
+  },
+  {
+    "copy-from": "mring_platinum",
+    "type": "TOOL_ARMOR",
+    "id": "mring_speed_10",
+    "name": "ring of speed +10",
+    "name_plural": "rings of speed +10",
+    "description": "A platinum ring that makes you much faster when you wear it.",
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 10 } ] } ] }
+  },
+  {
+    "copy-from": "mring_copper",
+    "type": "TOOL_ARMOR",
+    "id": "mring_protection_2",
+    "name": "ring of protection +2",
+    "name_plural": "rings of protection +2",
+    "description": "A copper ring that reduces some of the force of damage you take when you wear it.",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "ARMOR_CUT", "add": -2 }, { "value": "ARMOR_BASH", "add": -2 }, { "value": "ARMOR_STAB", "add": -2 } ]
+        }
+      ]
+    }
+  },
+  {
+    "copy-from": "mring_silver",
+    "type": "TOOL_ARMOR",
+    "id": "mring_protection_4",
+    "name": "ring of protection +4",
+    "name_plural": "rings of protection +4",
+    "description": "A silver ring that appreciably reduces some of the force of damage you take when you wear it.",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "ARMOR_CUT", "add": -4 }, { "value": "ARMOR_BASH", "add": -4 }, { "value": "ARMOR_STAB", "add": -4 } ]
+        }
+      ]
+    }
+  },
+  {
+    "copy-from": "mring_gold",
+    "type": "TOOL_ARMOR",
+    "id": "mring_protection_6",
+    "name": "ring of protection +6",
+    "name_plural": "rings of protection +6",
+    "description": "A golden ring that greatly reduces some of the force of damage you take when you wear it.",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "ARMOR_CUT", "add": -6 }, { "value": "ARMOR_BASH", "add": -6 }, { "value": "ARMOR_STAB", "add": -6 } ]
+        }
+      ]
+    }
+  },
+  {
+    "copy-from": "mring_platinum",
+    "type": "TOOL_ARMOR",
+    "id": "mring_protection_8",
+    "name": "ring of protection +8",
+    "name_plural": "rings of protection +8",
+    "description": "A platinum ring that vastly reduces some of the force of damage you take when you wear it.",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "ARMOR_CUT", "add": -8 }, { "value": "ARMOR_BASH", "add": -8 }, { "value": "ARMOR_STAB", "add": -8 } ]
+        }
+      ]
+    }
+  }
+]

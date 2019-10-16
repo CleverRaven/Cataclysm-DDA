@@ -67,6 +67,7 @@ class player_activity
         bool is_null() const {
             return type.is_null();
         }
+        bool is_multi_type() const;
         /** This replaces the former usage `act.type = ACT_NULL` */
         void set_to_null();
 
@@ -83,6 +84,12 @@ class player_activity
 
         int get_value( size_t index, int def = 0 ) const;
         std::string get_str_value( size_t index, const std::string &def = "" ) const;
+
+        /**
+         * Helper that returns an activity specific progress message.
+         */
+        cata::optional<std::string> get_progress_message() const;
+
         /**
          * If this returns true, the action can be continued without
          * starting from scratch again (see player::backlog). This is only

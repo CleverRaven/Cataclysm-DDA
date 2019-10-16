@@ -118,7 +118,11 @@
         { "vehicle": "shopping_cart", "x": 7, "y": 3, "chance": 10 },
         { "vehicle": "shopping_cart", "x": 8, "y": 3, "chance": 10 },
         { "vehicle": "shopping_cart", "x": 9, "y": 3, "chance": 10 },
-        { "vehicle": "shopping_cart", "x": [ 4, 21 ], "y": 13, "chance": 15 }
+        { "vehicle": "shopping_cart", "x": [ 4, 21 ], "y": 13, "chance": 15 },
+        { "vehicle": "grocery_cart", "x": [ 19, 22 ], "y": 3, "chance": 10, "repeat": [ 1, 3 ], "rotation": 90 }
+      ],
+      "place_monster": [
+        { "monster": [ "mon_grocerybot", "mon_grocerybot_busted" ], "x": [ 19, 22 ], "y": 2, "chance": 15, "repeat": [ 1, 3 ] }
       ]
     }
   },

@@ -456,7 +456,7 @@
     "difficulty": 2,
     "time": "5 m",
     "autolearn": true,
-    "note": "'stick the blob globs in a can and seal it' does not seem hugely challenging",
+    "//": "'stick the blob globs in a can and seal it' does not seem hugely challenging",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "canister_empty", 1 ] ], [ [ "slime_scrap", 10 ] ] ]
   },
@@ -950,6 +950,16 @@
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "hotplate", 50 ], [ "toolset", 50 ] ] ],
     "components": [ [ [ "oxy_powder", 200 ] ], [ [ "ammonia", 2 ], [ "lye_powder", 200 ] ], [ [ "charcoal", 25 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "chem_match_head_powder",
+    "category": "CC_CHEM",
+    "subcategory": "CC_CHEM_OTHER",
+    "skill_used": "fabrication",
+    "time": "8 m",
+    "autolearn": true,
+    "tools": [ [ [ "matches", 20 ] ], [ [ "mortar_pestle", -1 ] ] ]
   },
   {
     "type": "recipe",

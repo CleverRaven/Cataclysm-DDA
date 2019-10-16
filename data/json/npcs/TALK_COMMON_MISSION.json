@@ -29,7 +29,6 @@
   {
     "id": [ "TALK_MISSION_DESCRIBE_URGENT", "TALK_MISSION_DESCRIBE" ],
     "type": "talk_topic",
-    "category": "CATEGORY_MISSION",
     "responses": [
       { "text": "What's the matter?", "topic": "TALK_MISSION_OFFER" },
       { "text": "I don't care.", "topic": "TALK_MISSION_REJECTED" }
@@ -38,7 +37,6 @@
   {
     "id": "TALK_MISSION_LIST",
     "type": "talk_topic",
-    "category": "CATEGORY_MISSION",
     "dynamic_line": {
       "has_no_available_mission": {
         "has_no_assigned_mission": "I don't have any jobs for you.",
@@ -73,7 +71,6 @@
   {
     "id": "TALK_MISSION_LIST_ASSIGNED",
     "type": "talk_topic",
-    "category": "CATEGORY_MISSION",
     "dynamic_line": {
       "has_no_assigned_mission": "You're not working on anything for me now.",
       "no": { "has_many_assigned_missions": "Which job?", "no": "What about it?" }
@@ -83,7 +80,6 @@
   {
     "id": "TALK_MISSION_OFFER",
     "type": "talk_topic",
-    "category": "CATEGORY_MISSION",
     "responses": [
       { "text": "I'll do it!", "topic": "TALK_MISSION_ACCEPTED", "effect": "assign_mission" },
       { "text": "Not interested.", "topic": "TALK_MISSION_REJECTED" }
@@ -92,7 +88,6 @@
   {
     "id": "TALK_MISSION_ACCEPTED",
     "type": "talk_topic",
-    "category": "CATEGORY_MISSION",
     "responses": [
       { "text": "Not a problem.", "topic": "TALK_NONE" },
       { "text": "Got any advice?", "topic": "TALK_MISSION_ADVICE" },
@@ -103,19 +98,16 @@
   {
     "id": "TALK_MISSION_ADVICE",
     "type": "talk_topic",
-    "category": "CATEGORY_MISSION",
     "responses": [ { "text": "Sounds good, thanks.", "topic": "TALK_NONE" }, { "text": "Sounds good.  Bye!", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_MISSION_REJECTED",
     "type": "talk_topic",
-    "category": "CATEGORY_MISSION",
     "responses": [ { "text": "I'm sorry.", "topic": "TALK_NONE" }, { "text": "Whatever.  Bye.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_MISSION_INQUIRE",
     "type": "talk_topic",
-    "category": "CATEGORY_MISSION",
     "responses": [
       {
         "text": "I'm sorry... I failed.",
@@ -268,7 +260,6 @@
   {
     "id": "TALK_MISSION_SUCCESS",
     "type": "talk_topic",
-    "category": "CATEGORY_MISSION",
     "responses": [
       {
         "text": "Glad to help.  I need no payment.",
@@ -318,19 +309,16 @@
   {
     "id": "TALK_MISSION_SUCCESS_LIE",
     "type": "talk_topic",
-    "category": "CATEGORY_MISSION",
     "responses": [ { "text": "Well, um, sorry.", "topic": "TALK_NONE", "effect": "clear_mission" } ]
   },
   {
     "id": "TALK_MISSION_FAILURE",
     "type": "talk_topic",
-    "category": "CATEGORY_MISSION",
     "responses": [ { "text": "I'm sorry.  I did what I could.", "topic": "TALK_NONE", "effect": "clear_mission" } ]
   },
   {
     "id": "TALK_MISSION_REWARD",
     "type": "talk_topic",
-    "category": "CATEGORY_MISSION",
     "dynamic_line": "Sure, here you go!",
     "responses": [
       { "text": "Thank you.", "topic": "TALK_NONE", "effect": "clear_mission" },

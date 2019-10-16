@@ -19,8 +19,8 @@
 static void clear_bionics( player &p )
 {
     p.my_bionics->clear();
-    p.power_level = 0;
-    p.max_power_level = 0;
+    p.set_power_level( 0_kJ );
+    p.set_max_power_level( 0_kJ );
 }
 
 static void give_and_activate( player &p, bionic_id const &bioid )
@@ -93,13 +93,13 @@ TEST_CASE( "bionics", "[bionics] [item]" )
 
     // Could be a SECTION, but prerequisite for many tests.
     INFO( "no power capacity at first" );
-    CHECK( dummy.max_power_level == 0 );
+    CHECK( !dummy.has_max_power() );
 
     dummy.add_bionic( bionic_id( "bio_power_storage" ) );
 
     INFO( "adding Power Storage CBM only increases capacity" );
-    CHECK( dummy.power_level == 0 );
-    REQUIRE( dummy.max_power_level > 0 );
+    CHECK( !dummy.has_power() );
+    REQUIRE( dummy.has_max_power() );
 
     SECTION( "bio_advreactor" ) {
         give_and_activate( dummy, bionic_id( "bio_advreactor" ) );

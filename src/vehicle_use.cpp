@@ -220,28 +220,50 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
     auto add_toggle = [&]( const std::string & name, char key, const std::string & flag ) {
         add_toggle_to_opts( options, actions, name, key, flag );
     };
-    add_toggle( _( "reactor" ), keybind( "TOGGLE_REACTOR" ), "REACTOR" );
-    add_toggle( _( "headlights" ), keybind( "TOGGLE_HEADLIGHT" ), "CONE_LIGHT" );
-    add_toggle( _( "wide angle headlights" ), keybind( "TOGGLE_WIDE_HEADLIGHT" ), "WIDE_CONE_LIGHT" );
-    add_toggle( _( "directed overhead lights" ), keybind( "TOGGLE_HALF_OVERHEAD_LIGHT" ),
-                "HALF_CIRCLE_LIGHT" );
-    add_toggle( _( "overhead lights" ), keybind( "TOGGLE_OVERHEAD_LIGHT" ), "CIRCLE_LIGHT" );
-    add_toggle( _( "aisle lights" ), keybind( "TOGGLE_AISLE_LIGHT" ), "AISLE_LIGHT" );
-    add_toggle( _( "dome lights" ), keybind( "TOGGLE_DOME_LIGHT" ), "DOME_LIGHT" );
-    add_toggle( _( "atomic lights" ), keybind( "TOGGLE_ATOMIC_LIGHT" ), "ATOMIC_LIGHT" );
-    add_toggle( _( "stereo" ), keybind( "TOGGLE_STEREO" ), "STEREO" );
-    add_toggle( _( "chimes" ), keybind( "TOGGLE_CHIMES" ), "CHIMES" );
-    add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
-    add_toggle( _( "freezer" ), keybind( "TOGGLE_FREEZER" ), "FREEZER" );
-    add_toggle( _( "space heater" ), keybind( "TOGGLE_SPACE_HEATER" ), "SPACE_HEATER" );
-    add_toggle( _( "cooler" ), keybind( "TOGGLE_COOLER" ), "COOLER" );
-    add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
-    add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
-    add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
-    add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
-    add_toggle( _( "rockwheel" ), keybind( "TOGGLE_PLOW" ), "ROCKWHEEL" );
-    add_toggle( _( "scoop" ), keybind( "TOGGLE_SCOOP" ), "SCOOP" );
-    add_toggle( _( "water purifier" ), keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
+    add_toggle( pgettext( "electronics menu option", "reactor" ),
+                keybind( "TOGGLE_REACTOR" ), "REACTOR" );
+    add_toggle( pgettext( "electronics menu option", "headlights" ),
+                keybind( "TOGGLE_HEADLIGHT" ), "CONE_LIGHT" );
+    add_toggle( pgettext( "electronics menu option", "wide angle headlights" ),
+                keybind( "TOGGLE_WIDE_HEADLIGHT" ), "WIDE_CONE_LIGHT" );
+    add_toggle( pgettext( "electronics menu option", "directed overhead lights" ),
+                keybind( "TOGGLE_HALF_OVERHEAD_LIGHT" ), "HALF_CIRCLE_LIGHT" );
+    add_toggle( pgettext( "electronics menu option", "overhead lights" ),
+                keybind( "TOGGLE_OVERHEAD_LIGHT" ), "CIRCLE_LIGHT" );
+    add_toggle( pgettext( "electronics menu option", "aisle lights" ),
+                keybind( "TOGGLE_AISLE_LIGHT" ), "AISLE_LIGHT" );
+    add_toggle( pgettext( "electronics menu option", "dome lights" ),
+                keybind( "TOGGLE_DOME_LIGHT" ), "DOME_LIGHT" );
+    add_toggle( pgettext( "electronics menu option", "atomic lights" ),
+                keybind( "TOGGLE_ATOMIC_LIGHT" ), "ATOMIC_LIGHT" );
+    add_toggle( pgettext( "electronics menu option", "stereo" ),
+                keybind( "TOGGLE_STEREO" ), "STEREO" );
+    add_toggle( pgettext( "electronics menu option", "chimes" ),
+                keybind( "TOGGLE_CHIMES" ), "CHIMES" );
+    add_toggle( pgettext( "electronics menu option", "fridge" ),
+                keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
+    add_toggle( pgettext( "electronics menu option", "freezer" ),
+                keybind( "TOGGLE_FREEZER" ), "FREEZER" );
+    add_toggle( pgettext( "electronics menu option", "space heater" ),
+                keybind( "TOGGLE_SPACE_HEATER" ), "SPACE_HEATER" );
+    add_toggle( pgettext( "electronics menu option", "cooler" ),
+                keybind( "TOGGLE_COOLER" ), "COOLER" );
+    add_toggle( pgettext( "electronics menu option", "recharger" ),
+                keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
+    add_toggle( pgettext( "electronics menu option", "plow" ),
+                keybind( "TOGGLE_PLOW" ), "PLOW" );
+    add_toggle( pgettext( "electronics menu option", "reaper" ),
+                keybind( "TOGGLE_REAPER" ), "REAPER" );
+    add_toggle( pgettext( "electronics menu option", "planter" ),
+                keybind( "TOGGLE_PLANTER" ), "PLANTER" );
+    add_toggle( pgettext( "electronics menu option", "rockwheel" ),
+                keybind( "TOGGLE_PLOW" ), "ROCKWHEEL" );
+    add_toggle( pgettext( "electronics menu option", "roadheader" ),
+                keybind( "TOGGLE_PLOW" ), "ROADHEAD" );
+    add_toggle( pgettext( "electronics menu option", "scoop" ),
+                keybind( "TOGGLE_SCOOP" ), "SCOOP" );
+    add_toggle( pgettext( "electronics menu option", "water purifier" ),
+                keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
 
     if( has_part( "DOOR_MOTOR" ) ) {
         options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
@@ -832,12 +854,10 @@ bool vehicle::start_engine( const int e )
     if( out_of_fuel ) {
         if( einfo.fuel_type == fuel_type_muscle ) {
             // Muscle engines cannot start with broken limbs
-            if( einfo.has_flag( "MUSCLE_ARMS" ) && ( g->u.hp_cur[hp_arm_l] == 0 ||
-                    g->u.hp_cur[hp_arm_r] == 0 ) ) {
+            if( einfo.has_flag( "MUSCLE_ARMS" ) && ( g->u.get_working_arm_count() < 2 ) ) {
                 add_msg( _( "You cannot use %s with a broken arm." ), eng.name() );
                 return false;
-            } else if( einfo.has_flag( "MUSCLE_LEGS" ) && ( g->u.hp_cur[hp_leg_l] == 0 ||
-                       g->u.hp_cur[hp_leg_r] == 0 ) ) {
+            } else if( einfo.has_flag( "MUSCLE_LEGS" ) && ( g->u.get_working_leg_count() < 2 ) ) {
                 add_msg( _( "You cannot use %s with a broken leg." ), eng.name() );
                 return false;
             }
@@ -1029,7 +1049,7 @@ void vehicle::reload_seeds( const tripoint &pos )
     if( seed_index > 0 && seed_index < static_cast<int>( seed_entries.size() ) ) {
         const int count = std::get<2>( seed_entries[seed_index] );
         int amount = 0;
-        const std::string popupmsg = string_format( _( "Move how many? [Have %d] (0 to cancel)" ), count );
+        const std::string popupmsg = string_format( _( "Move how many?  [Have %d] (0 to cancel)" ), count );
 
         amount = string_input_popup()
                  .title( popupmsg )
@@ -1089,6 +1109,39 @@ void vehicle::play_chimes()
     for( const vpart_reference &vp : get_enabled_parts( "CHIMES" ) ) {
         sounds::sound( vp.pos(), 40, sounds::sound_t::music,
                        _( "a simple melody blaring from the loudspeakers." ), false, "vehicle", "chimes" );
+    }
+}
+
+void vehicle::crash_terrain_around()
+{
+    if( total_power_w() <= 0 ) {
+        return;
+    }
+    for( const vpart_reference &vp : get_enabled_parts( "CRASH_TERRAIN_AROUND" ) ) {
+        tripoint crush_target( 0, 0, -OVERMAP_LAYERS );
+        const tripoint start_pos = vp.pos();
+        const transform_terrain_data &ttd = vp.info().transform_terrain;
+        for( size_t i = 0; i < eight_horizontal_neighbors.size() &&
+             !g->m.inbounds_z( crush_target.z ); i++ ) {
+            tripoint cur_pos = start_pos + eight_horizontal_neighbors.at( i );
+            bool busy_pos = false;
+            for( const vpart_reference &vp_tmp : get_all_parts() ) {
+                busy_pos |= vp_tmp.pos() == cur_pos;
+            }
+            for( const std::string &flag : ttd.pre_flags ) {
+                if( g->m.has_flag( flag, cur_pos ) && !busy_pos ) {
+                    crush_target = cur_pos;
+                    break;
+                }
+            }
+        }
+        if( g->m.inbounds_z( crush_target.z ) ) { //target chosen
+            velocity = 0;
+            cruise_velocity = 0;
+            g->m.destroy( crush_target );
+            sounds::sound( crush_target, 500, sounds::sound_t::combat, _( "Clanggggg!" ), false,
+                           "smash_success", "hit_vehicle" );
+        }
     }
 }
 
@@ -1361,8 +1414,13 @@ void vehicle::use_autoclave( int p )
 {
     auto items = get_items( p );
     static const std::string filthy( "FILTHY" );
+    static const std::string no_packed( "NO_PACKED" );
     bool filthy_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
         return i.has_flag( filthy );
+    } );
+
+    bool unpacked_items = std::any_of( items.begin(), items.end(), []( const item & i ) {
+        return i.has_flag( no_packed );
     } );
 
     bool cbms = std::all_of( items.begin(), items.end(), []( const item & i ) {
@@ -1374,8 +1432,7 @@ void vehicle::use_autoclave( int p )
         add_msg( m_bad,
                  _( "You turn the autoclave off before it's finished the program, and open its door." ) );
     } else if( items.empty() ) {
-        add_msg( m_bad,
-                 _( "The autoclave is empty, there's no point in starting it." ) );
+        add_msg( m_bad, _( "The autoclave is empty, there's no point in starting it." ) );
     } else if( fuel_left( "water" ) < 8 && fuel_left( "water_clean" ) < 8 ) {
         add_msg( m_bad, _( "You need 8 charges of water in tanks of the %s for the autoclave to run." ),
                  name );
@@ -1383,8 +1440,9 @@ void vehicle::use_autoclave( int p )
         add_msg( m_bad,
                  _( "You need to remove all filthy items from the autoclave to start the sterilizing cycle." ) );
     } else if( !cbms ) {
-        add_msg( m_bad,
-                 _( "Only CBMs can be sterilized in an autoclave." ) );
+        add_msg( m_bad, _( "Only CBMs can be sterilized in an autoclave." ) );
+    } else if( unpacked_items ) {
+        add_msg( m_bad, _( "You should put your CBMs in autoclave pouches to keep them sterile." ) );
     } else {
         parts[p].enabled = true;
         for( auto &n : items ) {
@@ -1542,7 +1600,8 @@ void vehicle::use_harness( int part, const tripoint &pos )
             return false;
         }
         monster &f = *mon_ptr;
-        return ( f.friendly != 0 && f.has_flag( MF_PET_MOUNTABLE ) );
+        return ( f.friendly != 0 && ( f.has_flag( MF_PET_MOUNTABLE ) ||
+                                      f.has_flag( MF_PET_HARNESSABLE ) ) );
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -1558,17 +1617,22 @@ void vehicle::use_harness( int part, const tripoint &pos )
         return;
     }
     monster &m = *mon_ptr;
+    std::string Harness_Bodytype = "HARNESS_" + m.type->bodytype;
     if( m.friendly == 0 ) {
         add_msg( m_info, _( "This creature is not friendly!" ) );
         return;
-    } else if( !m.has_flag( MF_PET_MOUNTABLE ) ) {
+    } else if( !m.has_flag( MF_PET_MOUNTABLE ) && !m.has_flag( MF_PET_HARNESSABLE ) ) {
         add_msg( m_info, _( "This creature cannot be harnessed." ) );
+        return;
+    } else if( !part_flag( part, Harness_Bodytype ) && !part_flag( part, "HARNESS_any" ) ) {
+        add_msg( m_info, _( "The harness is not adapted for this creature morphology." ) );
         return;
     }
 
     m.add_effect( effect_harnessed, 1_turns, num_bp, true );
     m.setpos( pos );
-    add_msg( m_info, _( "You harness your %s to the %s." ), m.get_name(), name );
+    //~ %1$s: monster name, %2$s: vehicle name
+    add_msg( m_info, _( "You harness your %1$s to %2$s." ), m.get_name(), disp_name() );
     if( m.has_effect( effect_tied ) ) {
         add_msg( m_info, _( "You untie your %s." ), m.get_name() );
         m.remove_effect( effect_tied );
@@ -1736,7 +1800,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( curtain_part >= 0 && curtain_closed ) {
         selectmenu.addentry( PEEK_CURTAIN, true, 'p', _( "Peek through the closed curtains" ) );
     }
-    if( ( has_kitchen || has_chemlab ) && fuel_left( "battery" ) > 0 ) {
+    if( ( has_kitchen || has_chemlab ) && fuel_left( "battery", true ) > 0 ) {
         selectmenu.addentry( USE_HOTPLATE, true, 'h', _( "Use the hotplate" ) );
     }
     if( has_faucet && fuel_left( "water_clean" ) > 0 ) {
@@ -1746,11 +1810,12 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     if( has_towel ) {
         selectmenu.addentry( USE_TOWEL, true, 't', _( "Use a towel" ) );
     }
-    if( has_weldrig && fuel_left( "battery" ) > 0 ) {
-        selectmenu.addentry( USE_WELDER, true, 'w', _( "Use the welding rig?" ) );
+    if( has_weldrig && fuel_left( "battery", true ) > 0 ) {
+        selectmenu.addentry( USE_WELDER, true, 'w', _( "Use the welding rig" ) );
     }
     if( has_purify ) {
-        bool can_purify = fuel_left( "battery" ) >= item::find_type( "water_purifier" )->charges_to_use();
+        bool can_purify = fuel_left( "battery", true ) >=
+                          item::find_type( "water_purifier" )->charges_to_use();
         selectmenu.addentry( USE_PURIFIER, can_purify,
                              'p', _( "Purify water in carried container" ) );
         selectmenu.addentry( PURIFY_TANK, can_purify && fuel_left( "water" ),
@@ -1788,7 +1853,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     }
     auto veh_tool = [&]( const itype_id & obj ) {
         item pseudo( obj );
-        if( fuel_left( "battery" ) < pseudo.ammo_required() ) {
+        if( fuel_left( "battery", true ) < pseudo.ammo_required() ) {
             return false;
         }
         auto capacity = pseudo.ammo_capacity( true );
@@ -1878,7 +1943,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             auto &tank = veh_interact::select_part( *this, sel, title );
             if( tank ) {
                 double cost = item::find_type( "water_purifier" )->charges_to_use();
-                if( fuel_left( "battery" ) < tank.ammo_remaining() * cost ) {
+                if( fuel_left( "battery", true ) < tank.ammo_remaining() * cost ) {
                     //~ $1 - vehicle name, $2 - part name
                     add_msg( m_bad, _( "Insufficient power to purify the contents of the %1$s's %2$s" ),
                              name, tank.name() );

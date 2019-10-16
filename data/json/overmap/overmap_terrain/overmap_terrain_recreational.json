@@ -7,7 +7,7 @@
     "color": "blue",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "SOURCE_DRINK" ]
   },
   {
     "type": "overmap_terrain",
@@ -17,7 +17,7 @@
     "color": "blue",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "SOURCE_DRINK" ]
   },
   {
     "type": "overmap_terrain",
@@ -27,7 +27,7 @@
     "color": "blue",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "SOURCE_DRINK" ]
   },
   {
     "type": "overmap_terrain",
@@ -47,7 +47,7 @@
     "color": "blue",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "SOURCE_DRINK" ]
   },
   {
     "type": "overmap_terrain",
@@ -67,7 +67,7 @@
     "color": "blue",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "SOURCE_DRINK" ]
   },
   {
     "type": "overmap_terrain",
@@ -87,7 +87,7 @@
     "color": "blue",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "SOURCE_DRINK" ]
   },
   {
     "type": "overmap_terrain",
@@ -107,7 +107,7 @@
     "color": "blue",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "SOURCE_DRINK" ]
   },
   {
     "type": "overmap_terrain",
@@ -117,7 +117,7 @@
     "color": "blue",
     "see_cost": 2,
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "SOURCE_DRINK" ]
   },
   {
     "type": "overmap_terrain",
@@ -417,7 +417,8 @@
     "color": "yellow",
     "see_cost": 5,
     "extras": "field",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "SOURCE_FARMING" ]
   },
   {
     "type": "overmap_terrain",
@@ -438,7 +439,7 @@
     "see_cost": 5,
     "extras": "field",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "SOURCE_FARMING" ]
   },
   {
     "type": "overmap_terrain",
@@ -459,7 +460,7 @@
     "see_cost": 5,
     "extras": "field",
     "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "flags": [ "SIDEWALK", "SOURCE_FARMING" ]
   },
   {
     "type": "overmap_terrain",
@@ -489,7 +490,8 @@
     "color": "red",
     "see_cost": 5,
     "extras": "field",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",
@@ -509,7 +511,8 @@
     "color": "red",
     "see_cost": 5,
     "extras": "field",
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "SOURCE_GUN", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",
@@ -1213,7 +1216,8 @@
     "name": "museum",
     "copy-from": "generic_city_building",
     "sym": "M",
-    "color": "white"
+    "color": "white",
+    "flags": [ "SOURCE_LUXURY" ]
   },
   {
     "type": "overmap_terrain",

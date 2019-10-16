@@ -182,17 +182,11 @@ void talk_function::buy_cow( npc &p )
 
 void spawn_animal( npc &p, const mtype_id &mon )
 {
-    std::vector<tripoint> valid;
-    for( const tripoint &candidate : g->m.points_in_radius( p.pos(), 1 ) ) {
-        if( g->is_empty( candidate ) ) {
-            valid.push_back( candidate );
-        }
-    }
-    if( !valid.empty() ) {
-        monster *mon_ptr = g->summon_mon( mon, random_entry( valid ) );
+    if( monster *const mon_ptr = g->place_critter_around( mon, p.pos(), 1 ) ) {
         mon_ptr->friendly = -1;
         mon_ptr->add_effect( effect_pet, 1_turns, num_bp, true );
     } else {
+        // @todo handle this gracefully (return the money, proper in-character message from npc)
         add_msg( m_debug, "No space to spawn purchased pet" );
     }
 }
@@ -214,6 +208,11 @@ void talk_function::do_construction( npc &p )
     p.set_attitude( NPCATT_ACTIVITY );
     p.assign_activity( activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) );
     p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
+void talk_function::do_read( npc &p )
+{
+    p.do_npc_read();
 }
 
 void talk_function::dismount( npc &p )
@@ -262,6 +261,13 @@ void talk_function::do_vehicle_deconstruct( npc &p )
     p.set_mission( NPC_MISSION_ACTIVITY );
 }
 
+void talk_function::do_vehicle_repair( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_VEHICLE_REPAIR" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
 void talk_function::do_chop_trees( npc &p )
 {
     p.set_attitude( NPCATT_ACTIVITY );
@@ -307,8 +313,9 @@ void talk_function::goto_location( npc &p )
         camps.push_back( temp_camp );
     }
     for( auto iter : camps ) {
-        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "%s at (%d, %d)" ), iter->camp_name(),
-                                 iter->camp_omt_pos().x, iter->camp_omt_pos().y );
+        //~ %1$s: camp name, %2$d and %3$d: coordinates
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, pgettext( "camp", "%1$s at (%2$d, %3$d)" ),
+                                 iter->camp_name(), iter->camp_omt_pos().x, iter->camp_omt_pos().y );
     }
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My current location" ) );
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
@@ -356,39 +363,43 @@ void talk_function::assign_guard( npc &p )
     p.set_mission( NPC_MISSION_GUARD_ALLY );
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.set_omt_destination();
+}
+
+void talk_function::assign_camp( npc &p )
+{
     cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
+        p.set_attitude( NPCATT_NULL );
+        p.set_mission( NPC_MISSION_ASSIGNED_CAMP );
         temp_camp->validate_assignees();
-        if( p.rules.has_flag( ally_rule::ignore_noise ) ) {
-            //~ %1$s is the NPC's translated name, %2$s is the translated faction camp name
-            add_msg( _( "%1$s is assigned to %2$s" ), p.disp_name(), temp_camp->camp_name() );
-        } else {
-            //~ %1$s is the NPC's translated name, %2$s is the translated faction camp name
-            add_msg( _( "%1$s is assigned to guard %2$s" ), p.disp_name(), temp_camp->camp_name() );
+        add_msg( _( "%1$s is assigned to %2$s" ), p.disp_name(), temp_camp->camp_name() );
+        if( p.has_player_activity() ) {
+            p.revert_after_activity();
         }
-    } else {
-        if( p.rules.has_flag( ally_rule::ignore_noise ) ) {
-            //~ %1$s is the NPC's translated name, %2$s is the pronoun for the NPC's gender
-            add_msg( _( "%1$s will wait for you where %2$s is." ), p.disp_name(),
-                     p.male ? _( "he" ) : _( "she" ) );
-        } else {
-            add_msg( _( "%s is posted as a guard." ), p.disp_name() );
+
+        if( p.is_travelling() ) {
+            if( p.has_companion_mission() ) {
+                p.reset_companion_mission();
+            }
         }
+        p.chatbin.first_topic = "TALK_FRIEND_GUARD";
+        p.set_omt_destination();
+        temp_camp->job_assignment_ui();
     }
 }
 
 void talk_function::stop_guard( npc &p )
 {
-    if( p.mission != NPC_MISSION_GUARD_ALLY ) {
+    if( p.mission != NPC_MISSION_GUARD_ALLY && p.mission != NPC_MISSION_ASSIGNED_CAMP ) {
         p.set_attitude( NPCATT_NULL );
         p.set_mission( NPC_MISSION_NULL );
         return;
     }
-
     p.set_attitude( NPCATT_FOLLOW );
     add_msg( _( "%s begins to follow you." ), p.name );
     p.set_mission( NPC_MISSION_NULL );
+    p.set_job( static_cast<npc_job>( 0 ) );
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
     p.guard_pos = npc::no_goal_point;
@@ -524,7 +535,7 @@ void talk_function::give_equipment( npc &p )
     item it = *giving[chosen].loc.get_item();
     giving[chosen].loc.remove_item();
     popup( _( "%1$s gives you a %2$s" ), p.name, it.tname() );
-    it.set_owner( g->u.get_faction() );
+    it.set_owner( g->u );
     g->u.i_add( it );
     p.op_of_u.owed -= giving[chosen].price;
     p.add_effect( effect_asked_for_item, 3_hours );
@@ -585,7 +596,7 @@ static void generic_barber( const std::string &mut_type )
     }
     hair_menu.text = menu_text;
     int index = 0;
-    hair_menu.addentry( index, true, 'q', _( "Actually... I've changed my mind." ) );
+    hair_menu.addentry( index, true, 'q', _( "Actually...  I've changed my mind." ) );
     std::vector<trait_id> hair_muts = get_mutations_in_type( mut_type );
     trait_id cur_hair;
     for( auto elem : hair_muts ) {
@@ -766,7 +777,15 @@ void talk_function::leave( npc &p )
 {
     add_msg( _( "%s leaves." ), p.name );
     g->remove_npc_follower( p.getID() );
-    p.clear_fac();
+    std::string new_fac_id = "solo_";
+    new_fac_id += p.name;
+    // create a new "lone wolf" faction for this one NPC
+    faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( p.name,
+                            faction_id( new_fac_id ), faction_id( "no_faction" ) );
+    p.set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
+    if( new_solo_fac ) {
+        new_solo_fac->known_by_u = true;
+    }
     p.set_attitude( NPCATT_NULL );
 }
 
@@ -786,13 +805,11 @@ void talk_function::stranger_neutral( npc &p )
 void talk_function::drop_stolen_item( npc &p )
 {
     for( auto &elem : g->u.inv_dump() ) {
-        if( elem->get_old_owner() ) {
-            if( elem->get_old_owner() == p.get_faction() ) {
-                item to_drop = g->u.i_rem( elem );
-                to_drop.remove_old_owner();
-                to_drop.set_owner( p.get_faction() );
-                g->m.add_item_or_charges( g->u.pos(), to_drop );
-            }
+        if( elem->is_old_owner( p ) ) {
+            item to_drop = g->u.i_rem( elem );
+            to_drop.remove_old_owner();
+            to_drop.set_owner( p );
+            g->m.add_item_or_charges( g->u.pos(), to_drop );
         }
     }
     if( p.known_stolen_item ) {

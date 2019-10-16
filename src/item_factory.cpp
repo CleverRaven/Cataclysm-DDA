@@ -180,7 +180,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
 
     // use pre-cataclysm price as default if post-cataclysm price unspecified
-    if( obj.price_post < 0 ) {
+    if( obj.price_post < 0_cent ) {
         obj.price_post = obj.price;
     }
     // use base volume if integral volume unspecified
@@ -864,7 +864,7 @@ void Item_factory::check_definitions() const
                 msg << "invalid stack_size " << type->stack_size << " on type using charges\n";
             }
         }
-        if( type->price < 0 ) {
+        if( type->price < 0_cent ) {
             msg << "negative price" << "\n";
         }
         if( type->damage_min() > 0 || type->damage_max() < 0 || type->damage_min() > type->damage_max() ) {
@@ -1105,7 +1105,7 @@ void Item_factory::check_definitions() const
                     msg << "Magazine \"" << magazine << "\" specified for \""
                         << ammo_variety.first.str() << "\" is not a magazine\n";
                 } else if( !mag_ptr->magazine->type.count( ammo_variety.first ) ) {
-                    msg << "magazine \"" << magazine << "\" does not take compatible ammo \n";
+                    msg << "magazine \"" << magazine << "\" does not take compatible ammo\n";
                 } else if( mag_ptr->item_tags.count( "SPEEDLOADER" ) &&
                            mag_ptr->magazine->capacity != type->gun->clip ) {
                     msg << "Speedloader " << magazine << " capacity ("
@@ -1178,7 +1178,7 @@ void Item_factory::check_definitions() const
         }
     }
     for( const auto &elem : m_template_groups ) {
-        elem.second->check_consistency();
+        elem.second->check_consistency( elem.first );
     }
 }
 
@@ -1203,7 +1203,7 @@ const itype *Item_factory::find_template( const itype_id &id ) const
         ( making_id.is_valid() && making_id.obj().is_blueprint() ) ) {
         itype *def = new itype();
         def->id = id;
-        def->name = def->name_plural = string_format( "DEBUG: %s", id.c_str() );
+        def->name = no_translation( string_format( "DEBUG: %s", id.c_str() ) );
         def->description = making_id.obj().description;
         m_runtimes[ id ].reset( def );
         return def;
@@ -1213,8 +1213,7 @@ const itype *Item_factory::find_template( const itype_id &id ) const
 
     itype *def = new itype();
     def->id = id;
-    def->name = string_format( "undefined-%ss", id.c_str() );
-    def->name_plural = string_format( "undefined-%s", id.c_str() );
+    def->name = no_translation( string_format( "undefined-%s", id.c_str() ) );
     def->description = no_translation( string_format( "Missing item definition for %s.", id.c_str() ) );
 
     m_runtimes[ id ].reset( def );
@@ -1556,7 +1555,7 @@ void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &sr
     if( jo.has_array( "rand_charges" ) ) {
         JsonArray jarr = jo.get_array( "rand_charges" );
         if( jo.has_member( "initial_charges" ) ) {
-            jarr.throw_error( "You can have a fixed initial amount of charges, or randomized. Not both." );
+            jarr.throw_error( "You can have a fixed initial amount of charges, or randomized.  Not both." );
         }
         while( jarr.has_more() ) {
             slot.rand_charges.push_back( jarr.next_int() );
@@ -1833,7 +1832,7 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     assign( jo, "consume_chance", slot.consume_chance );
     assign( jo, "consume_divisor", slot.consume_divisor );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
-    assign( jo, "ups_charges", slot.ups_charges );
+    assign( jo, "ups_charges_multiplier", slot.ups_charges_multiplier );
     if( jo.has_int( "time" ) ) {
         slot.install_time = jo.get_int( "time" );
     } else if( jo.has_string( "time" ) ) {
@@ -2041,8 +2040,8 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     assign( jo, "weight", def.weight, strict, 0_gram );
     assign( jo, "integral_weight", def.integral_weight, strict, 0_gram );
     assign( jo, "volume", def.volume );
-    assign( jo, "price", def.price );
-    assign( jo, "price_postapoc", def.price_post );
+    assign( jo, "price", def.price, false, 0_cent );
+    assign( jo, "price_postapoc", def.price_post, false, 0_cent );
     assign( jo, "stackable", def.stackable_, strict );
     assign( jo, "integral_volume", def.integral_volume );
     assign( jo, "bashing", def.melee[DT_BASH], strict, 0 );
@@ -2074,14 +2073,18 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
         def.damage_max_ = arr.get_int( 1 ) * itype::damage_scale;
     }
 
-    def.name = jo.get_string( "name" );
     if( jo.has_member( "name_plural" ) ) {
-        def.name_plural = jo.get_string( "name_plural" );
+        // legacy format
+        // NOLINTNEXTLINE(cata-json-translation-input)
+        def.name = pl_translation( jo.get_string( "name" ), jo.get_string( "name_plural" ) );
     } else {
-        def.name_plural = jo.get_string( "name" ) += "s";
+        def.name = translation( translation::plural_tag() );
+        if( !jo.read( "name", def.name ) ) {
+            jo.throw_error( "name unspecified for item type" );
+        }
     }
 
-    if( jo.has_string( "description" ) ) {
+    if( jo.has_member( "description" ) ) {
         jo.read( "description", def.description );
     }
 
@@ -2412,7 +2415,7 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObje
     get_array( gname, true );
 
     if( obj.has_member( name ) ) {
-        obj.throw_error( string_format( "This has been a TODO: since 2014. Use '%s' and/or '%s' instead.",
+        obj.throw_error( string_format( "This has been a TODO: since 2014.  Use '%s' and/or '%s' instead.",
                                         iname, gname ) );
         return false; // TODO: !
     }
@@ -2507,6 +2510,7 @@ void Item_factory::add_entry( Item_group &ig, JsonObject &obj )
     Item_modifier modifier;
     bool use_modifier = false;
     use_modifier |= load_min_max( modifier.damage, obj, "damage" );
+    use_modifier |= load_min_max( modifier.dirt, obj, "dirt" );
     modifier.damage.first *= itype::damage_scale;
     modifier.damage.second *= itype::damage_scale;
     use_modifier |= load_min_max( modifier.charges, obj, "charges" );

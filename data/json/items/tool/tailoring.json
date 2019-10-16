@@ -1,0 +1,33 @@
+[
+  {
+    "id": "awl_bone",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": "bone sewing awl",
+    "description": "This is a crude sharpened bone awl; those were used for leatherworking before metal was discovered.  It can also serve as an improvised stabbing weapon, but will break quickly.",
+    "weight": "200 g",
+    "volume": "250 ml",
+    "price": 300,
+    "to_hit": -1,
+    "bashing": 2,
+    "cutting": 5,
+    "material": "bone",
+    "symbol": ";",
+    "color": "yellow",
+    "qualities": [ [ "LEATHER_AWL", 1 ] ],
+    "flags": [ "SPEAR", "BELT_CLIP", "FRAGILE_MELEE" ]
+  },
+  {
+    "id": "awl_steel",
+    "copy-from": "awl_bone",
+    "type": "GENERIC",
+    "name": "steel sewing awl",
+    "description": "This is a steel awl with a wooden grip, usually used for leatherworking.  It can also serve as an improvised stabbing weapon, but will break quickly.",
+    "weight": "170 g",
+    "price": 450,
+    "cutting": 10,
+    "material": [ "steel", "wood" ],
+    "delete": { "qualities": [ [ "LEATHER_AWL", 1 ] ] },
+    "extend": { "qualities": [ [ "LEATHER_AWL", 2 ] ] }
+  }
+]

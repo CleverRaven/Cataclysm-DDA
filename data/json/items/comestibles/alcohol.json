@@ -1061,7 +1061,7 @@
     "calories": 79,
     "description": "Only the finest whiskey straight from the bung.",
     "price": 300,
-    "price_note": "Priced by the 100 liter barrel, this is multiplied by 400 to achieve the final cost.",
+    "//": "Priced by the 100 liter barrel, this is multiplied by 400 to achieve the final cost.",
     "material": "alcohol",
     "volume": "250 ml",
     "flags": [ "EATEN_COLD" ],

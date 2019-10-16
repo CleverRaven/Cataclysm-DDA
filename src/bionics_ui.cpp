@@ -69,7 +69,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     }
     const int pwr_str_pos = right_print( window, 0, 1, c_white,
                                          string_format( _( "Bionic Power: <color_light_blue>%i</color>/<color_light_blue>%i</color>" ),
-                                                 p->power_level, p->max_power_level ) );
+                                                 units::to_kilojoule( p->get_power_level() ), units::to_kilojoule( p->get_max_power_level() ) ) );
     std::string desc;
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
@@ -90,16 +90,18 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
     const bionic_data &bio_data = bio.id.obj();
     std::vector<std::string> properties;
 
-    if( bio_data.power_activate > 0 ) {
-        properties.push_back( string_format( _( "%d PU act" ), bio_data.power_activate ) );
+    if( bio_data.power_activate > 0_kJ ) {
+        properties.push_back( string_format( _( "%d kJ act" ),
+                                             units::to_kilojoule( bio_data.power_activate ) ) );
     }
-    if( bio_data.power_deactivate > 0 ) {
-        properties.push_back( string_format( _( "%d PU deact" ), bio_data.power_deactivate ) );
+    if( bio_data.power_deactivate > 0_kJ ) {
+        properties.push_back( string_format( _( "%d kJ deact" ),
+                                             units::to_kilojoule( bio_data.power_deactivate ) ) );
     }
-    if( bio_data.charge_time > 0 && bio_data.power_over_time > 0 ) {
+    if( bio_data.charge_time > 0 && bio_data.power_over_time > 0_kJ ) {
         properties.push_back( bio_data.charge_time == 1
-                              ? string_format( _( "%d PU/turn" ), bio_data.power_over_time )
-                              : string_format( _( "%d PU/%d turns" ), bio_data.power_over_time,
+                              ? string_format( _( "%d kJ/turn" ), units::to_kilojoule( bio_data.power_over_time ) )
+                              : string_format( _( "%d kJ/%d turns" ), units::to_kilojoule( bio_data.power_over_time ),
                                                bio_data.charge_time ) );
     }
     if( bio_data.toggled ) {
@@ -539,7 +541,7 @@ void player::power_bionics()
                 continue;
             }
             redraw = true;
-            const int newch = popup_getkey( _( "%s; enter new letter. Space to clear. Esc to cancel." ),
+            const int newch = popup_getkey( _( "%s; enter new letter.  Space to clear.  Esc to cancel." ),
                                             tmp->id->name );
             wrefresh( wBio );
             if( newch == ch || newch == KEY_ESCAPE ) {
@@ -550,7 +552,7 @@ void player::power_bionics()
                 continue;
             }
             if( !bionic_chars.valid( newch ) ) {
-                popup( _( "Invalid bionic letter. Only those characters are valid:\n\n%s" ),
+                popup( _( "Invalid bionic letter.  Only those characters are valid:\n\n%s" ),
                        bionic_chars.get_allowed_chars() );
                 continue;
             }

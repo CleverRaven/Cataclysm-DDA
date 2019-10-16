@@ -18,6 +18,7 @@
 #include "bionics.h"
 #include "construction.h"
 #include "crafting_gui.h"
+#include "creature.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "effect.h"
@@ -211,6 +212,7 @@ void DynamicDataLoader::initialize()
     add( "start_location", &start_location::load_location );
     add( "skill_boost", &skill_boost::load_boost );
     add( "enchantment", &enchantment::load_enchantment );
+    add( "hit_range", &Creature::load_hit_range );
 
     // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access

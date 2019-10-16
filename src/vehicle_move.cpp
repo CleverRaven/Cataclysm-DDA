@@ -39,6 +39,7 @@ static const std::string part_location_structure( "structure" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_animal( "animal" );
 
+const efftype_id effect_pet( "pet" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_harnessed( "harnessed" );
 const skill_id skill_driving( "driving" );
@@ -854,7 +855,7 @@ void vehicle::autodrive( int x, int y )
         const vehicle_part &vp = parts[ e ];
         if( vp.info().fuel_type == fuel_type_animal ) {
             monster *mon = get_pet( e );
-            if( !mon || !mon->has_effect( effect_harnessed ) ) {
+            if( !mon || !mon->has_effect( effect_harnessed ) || !mon->has_effect( effect_pet ) ) {
                 is_following = false;
             }
         }
@@ -1242,7 +1243,7 @@ vehicle *vehicle::act_on_map()
 {
     const tripoint pt = global_pos3();
     if( !g->m.inbounds( pt ) ) {
-        dbg( D_INFO ) << "stopping out-of-map vehicle. (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z <<
+        dbg( D_INFO ) << "stopping out-of-map vehicle.  (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z <<
                       ")";
         stop( false );
         of_turn = 0;
@@ -1430,7 +1431,8 @@ void vehicle::check_falling_or_floating()
     in_water =  2 * water_tiles >= pts.size();
 }
 
-float map::vehicle_wheel_traction( const vehicle &veh ) const
+float map::vehicle_wheel_traction( const vehicle &veh,
+                                   const bool ignore_movement_modifiers /*=false*/ ) const
 {
     if( veh.is_in_water( true ) ) {
         return veh.can_float() ? 1.0f : -1.0f;
@@ -1476,6 +1478,12 @@ float map::vehicle_wheel_traction( const vehicle &veh ) const
                 break;
             }
         }
+
+        // Ignore the movement modifier if needed.
+        if( ignore_movement_modifiers ) {
+            move_mod = 2;
+        }
+
         traction_wheel_area += 2.0 * wheel_area / move_mod;
     }
 

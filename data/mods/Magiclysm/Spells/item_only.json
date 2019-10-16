@@ -3,7 +3,7 @@
     "id": "twisted_restore",
     "type": "SPELL",
     "name": "Twisted Restoration",
-    "\\": "Used for potion of Twisted Restoration, not castable",
+    "//": "Used for potion of Twisted Restoration, not castable",
     "description": "This spell overclocks your heart, generating new flesh and muscle. It is unwise to use this in immediate danger, and may be fatal if done in critical condition.",
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
@@ -31,7 +31,7 @@
     "id": "twisted_restore_improved",
     "type": "SPELL",
     "name": "Improved Twisted Restoration",
-    "\\": "Used for Animist-exclusive potion, not castable",
+    "//": "Used for Animist-exclusive potion, not castable",
     "description": "This spell overclocks your heart, generating new flesh and muscle. It is unwise to use this in immediate danger, and may be fatal if done in critical condition. Improved brewing mitigates the strain of the spell.",
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS" ],
@@ -47,5 +47,22 @@
     "base_casting_time": 12000,
     "base_energy_cost": 2,
     "extra_effects": [ { "id": "light_healing" }, { "id": "pain_damage" }, { "id": "stamina_damage" }, { "id": "stamina_damage" } ]
+  },
+  {
+    "id": "conj_throwing_blade1",
+    "type": "SPELL",
+    "name": "Conjure Throwing Blade I",
+    "description": "conjures 3 throwing knives",
+    "valid_targets": [ "self" ],
+    "effect": "spawn_item",
+    "effect_str": "throwing_knife",
+    "message": "You activate your ring and three throwing knives appear, ready to throw!",
+    "spell_class": "NONE",
+    "max_level": 1,
+    "min_damage": 3,
+    "max_damage": 3,
+    "min_duration": 1500,
+    "max_duration": 1500,
+    "base_casting_time": 20
   }
 ]
