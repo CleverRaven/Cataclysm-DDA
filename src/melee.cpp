@@ -469,7 +469,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
         const bool seen = g->u.sees( t );
         // Start of attacks.
         damage_instance d;
-        roll_all_damage( critical_hit, d, false, cur_weapon );        
+        roll_all_damage( critical_hit, d, false, cur_weapon );
 
         const bool has_force_technique = !force_technique.str().empty();
 
@@ -485,9 +485,9 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
 
         // if you have two broken arms you aren't doing any martial arts
         // and your hits are not going to hurt very much
-        if (get_working_arm_count() < 1) {
+        if( get_working_arm_count() < 1 ) {
             technique_id = tec_none;
-            d.mult_damage(.1);
+            d.mult_damage( .1 );
         }
 
         const ma_technique &technique = technique_id.obj();
