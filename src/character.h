@@ -401,6 +401,11 @@ class Character : public Creature, public visitable<Character>
          */
         void check_item_encumbrance_flag();
 
+        // any side effects that might happen when the Character is hit
+        void on_hit( Creature *source, body_part /*bp_hit*/,
+                     float /*difficulty*/, dealt_projectile_attack const * /*proj*/ ) override;
+        // any side effects that might happen when the Character hits a Creature
+        void did_hit( Creature &target );
 
         /**
          * Check for relevant passive, non-clothing that can absorb damage, and reduce by specified
@@ -465,6 +470,18 @@ class Character : public Creature, public visitable<Character>
         bool is_limb_hindered( hp_part limb ) const;
         /** Returns true if the limb is broken */
         bool is_limb_broken( hp_part limb ) const;
+        /** Hurts all body parts for dam, no armor reduction */
+        void hurtall( int dam, Creature *source, bool disturb = true );
+        /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
+        int hitall( int dam, int vary, Creature *source );
+        /** Handles effects that happen when the player is damaged and aware of the fact. */
+        void on_hurt( Creature *source, bool disturb = true );
+        /** Heals a body_part for dam */
+        void heal( body_part healed, int dam );
+        /** Heals an hp_part for dam */
+        void heal( hp_part healed, int dam );
+        /** Heals all body parts for dam */
+        void healall( int dam );
         /**
          * Displays menu with body part hp, optionally with hp estimation after healing.
          * Returns selected part.
@@ -499,6 +516,27 @@ class Character : public Creature, public visitable<Character>
             WT_GOOD,
             NUM_WATER_TOLERANCE
         };
+        inline int posx() const override {
+            return position.x;
+        }
+        inline int posy() const override {
+            return position.y;
+        }
+        inline int posz() const override {
+            return position.z;
+        }
+        inline void setx( int x ) {
+            setpos( tripoint( x, position.y, position.z ) );
+        }
+        inline void sety( int y ) {
+            setpos( tripoint( position.x, y, position.z ) );
+        }
+        inline void setz( int z ) {
+            setpos( tripoint( position.xy(), z ) );
+        }
+        inline void setpos( const tripoint &p ) override {
+            position = p;
+        }
     private:
         /** Retrieves a stat mod of a mutation. */
         int get_mod( const trait_id &mut, const std::string &arg ) const;
@@ -1046,6 +1084,9 @@ class Character : public Creature, public visitable<Character>
         std::array<int, num_hp_parts> healed_total;
 
         std::map<std::string, int> mutation_category_level;
+
+        void spores();
+        void blossoms();
     protected:
         Character();
         Character( Character && );
@@ -1064,6 +1105,9 @@ class Character : public Creature, public visitable<Character>
             void serialize( JsonOut &json ) const;
             void deserialize( JsonIn &jsin );
         };
+
+        // The player's position on the local map.
+        tripoint position;
 
         /** Bonuses to stats, calculated each turn */
         int str_bonus;

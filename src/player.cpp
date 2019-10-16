@@ -643,12 +643,12 @@ void player::process_turn()
     }
 
     // We can dodge again! Assuming we can actually move...
-    if( !in_sleep_state() ) {
-        blocks_left = get_num_blocks();
-        dodges_left = get_num_dodges();
-    } else {
+    if( in_sleep_state() ) {
         blocks_left = 0;
         dodges_left = 0;
+    } else if( moves > 0 ) {
+        blocks_left = get_num_blocks();
+        dodges_left = get_num_dodges();
     }
 
     // auto-learning. This is here because skill-increases happens all over the place:
@@ -1768,6 +1768,16 @@ int player::swim_speed() const
     if( underwater && ret < 500 ) {
         ret -= 50;
     }
+
+    // Running movement mode while swimming means faster swim style, like crawlstroke
+    if( move_mode == PMM_RUN ) {
+        ret -= 80;
+    }
+    // Crouching movement mode while swimming means slower swim style, like breaststroke
+    if( move_mode == PMM_CROUCH ) {
+        ret += 50;
+    }
+
     if( ret < 30 ) {
         ret = 30;
     }
@@ -2793,6 +2803,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
             add_effect( effect_downed, 2_turns );
         }
     }
+    Character::on_hit( source, bp_hit, 0.0f, proj );
 }
 
 int player::get_lift_assist() const
@@ -2809,33 +2820,6 @@ int player::get_num_crafting_helpers( int max ) const
 {
     std::vector<npc *> helpers = g->u.get_crafting_helpers();
     return std::min( max, static_cast<int>( helpers.size() ) );
-}
-
-void player::on_hurt( Creature *source, bool disturb /*= true*/ )
-{
-    if( has_trait( trait_ADRENALINE ) && !has_effect( effect_adrenaline ) &&
-        ( hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15 ) ) {
-        add_effect( effect_adrenaline, 20_minutes );
-    }
-
-    if( disturb ) {
-        if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
-            wake_up();
-        }
-        if( !is_npc() && !has_effect( effect_narcosis ) ) {
-            if( source != nullptr ) {
-                g->cancel_activity_or_ignore_query( distraction_type::attacked,
-                                                    string_format( _( "You were attacked by %s!" ),
-                                                            source->disp_name() ) );
-            } else {
-                g->cancel_activity_or_ignore_query( distraction_type::attacked, _( "You were hurt!" ) );
-            }
-        }
-    }
-
-    if( is_dead_state() ) {
-        set_killer( source );
-    }
 }
 
 bool player::immune_to( body_part bp, damage_unit dam ) const
@@ -3192,102 +3176,6 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
             remove_med -= reduce_healing_effect( effect_disinfected, remove_med, hurt );
         }
     }
-}
-
-void player::heal( body_part healed, int dam )
-{
-    hp_part healpart;
-    switch( healed ) {
-        case bp_eyes: // Fall through to head damage
-        case bp_mouth: // Fall through to head damage
-        case bp_head:
-            healpart = hp_head;
-            break;
-        case bp_torso:
-            healpart = hp_torso;
-            break;
-        case bp_hand_l:
-            // Shouldn't happen, but fall through to arms
-            debugmsg( "Heal against hands!" );
-        /* fallthrough */
-        case bp_arm_l:
-            healpart = hp_arm_l;
-            break;
-        case bp_hand_r:
-            // Shouldn't happen, but fall through to arms
-            debugmsg( "Heal against hands!" );
-        /* fallthrough */
-        case bp_arm_r:
-            healpart = hp_arm_r;
-            break;
-        case bp_foot_l:
-            // Shouldn't happen, but fall through to legs
-            debugmsg( "Heal against feet!" );
-        /* fallthrough */
-        case bp_leg_l:
-            healpart = hp_leg_l;
-            break;
-        case bp_foot_r:
-            // Shouldn't happen, but fall through to legs
-            debugmsg( "Heal against feet!" );
-        /* fallthrough */
-        case bp_leg_r:
-            healpart = hp_leg_r;
-            break;
-        default:
-            debugmsg( "Wacky body part healed!" );
-            healpart = hp_torso;
-    }
-    heal( healpart, dam );
-}
-
-void player::heal( hp_part healed, int dam )
-{
-    if( hp_cur[healed] > 0 ) {
-        int effective_heal = std::min( dam, hp_max[healed] - hp_cur[healed] );
-        hp_cur[healed] += effective_heal;
-        g->events().send<event_type::character_heals_damage>( getID(), effective_heal );
-    }
-}
-
-void player::healall( int dam )
-{
-    for( int healed_part = 0; healed_part < num_hp_parts; healed_part++ ) {
-        heal( static_cast<hp_part>( healed_part ), dam );
-        healed_bp( healed_part, dam );
-    }
-}
-
-void player::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
-{
-    if( is_dead_state() || has_trait( trait_DEBUG_NODMG ) || dam <= 0 ) {
-        return;
-    }
-
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const hp_part bp = static_cast<hp_part>( i );
-        // Don't use apply_damage here or it will annoy the player with 6 queries
-        const int dam_to_bodypart = std::min( dam, hp_cur[bp] );
-        hp_cur[bp] -= dam_to_bodypart;
-        g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
-    }
-
-    // Low pain: damage is spread all over the body, so not as painful as 6 hits in one part
-    mod_pain( dam );
-    on_hurt( source, disturb );
-}
-
-int player::hitall( int dam, int vary, Creature *source )
-{
-    int damage_taken = 0;
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
-        int ddam = vary ? dam * rng( 100 - vary, 100 ) / 100 : dam;
-        int cut = 0;
-        auto damage = damage_instance::physical( ddam, cut, 0 );
-        damage_taken += deal_damage( source, bp, damage ).total_damage();
-    }
-    return damage_taken;
 }
 
 float player::fall_damage_mod() const
@@ -3877,7 +3765,7 @@ void player::check_needs_extremes()
         if( calendar::once_every( 60_minutes ) ) {
             if( sleep_deprivation < SLEEP_DEPRIVATION_MINOR ) {
                 add_msg_if_player( m_warning,
-                                   _( "Your mind feels tired. It's been a while since you've slept well." ) );
+                                   _( "Your mind feels tired.  It's been a while since you've slept well." ) );
                 mod_fatigue( 1 );
             } else if( sleep_deprivation < SLEEP_DEPRIVATION_SERIOUS ) {
                 add_msg_if_player( m_bad,
@@ -3889,7 +3777,7 @@ void player::check_needs_extremes()
                 }
             } else if( sleep_deprivation < SLEEP_DEPRIVATION_MAJOR ) {
                 add_msg_if_player( m_bad,
-                                   _( "Your mind feels weary, and you dread every wakeful minute that passes. You crave sleep, and feel like you're about to collapse." ) );
+                                   _( "Your mind feels weary, and you dread every wakeful minute that passes.  You crave sleep, and feel like you're about to collapse." ) );
                 mod_fatigue( 10 );
 
                 if( one_in( 5 ) ) {
@@ -3897,7 +3785,7 @@ void player::check_needs_extremes()
                 }
             } else if( sleep_deprivation < SLEEP_DEPRIVATION_MASSIVE ) {
                 add_msg_if_player( m_bad,
-                                   _( "You haven't slept decently for so long that your whole body is screaming for mercy. It's a miracle that you're still awake, but it just feels like a curse now." ) );
+                                   _( "You haven't slept decently for so long that your whole body is screaming for mercy.  It's a miracle that you're still awake, but it just feels like a curse now." ) );
                 mod_fatigue( 40 );
 
                 mod_healthy_mod( -5, 0 );
@@ -7749,7 +7637,7 @@ bool player::pick_style() // Style selection menu
     ctxt.register_action( "SHOW_DESCRIPTION" );
 
     uilist kmenu;
-    kmenu.text = string_format( _( "Select a style. (press %s for more info)" ),
+    kmenu.text = string_format( _( "Select a style.  (press %s for more info)" ),
                                 ctxt.get_desc( "SHOW_DESCRIPTION" ) );
     ma_style_callback callback( static_cast<size_t>( STYLE_OFFSET ), selectable_styles );
     kmenu.callback = &callback;
@@ -8194,7 +8082,7 @@ player::wear_item( const item &to_wear, bool interactive )
             if( to_wear.covers( bp ) && encumb( bp ) >= 40 ) {
                 add_msg_if_player( m_warning,
                                    bp == bp_eyes ?
-                                   _( "Your %s are very encumbered! %s" ) : _( "Your %s is very encumbered! %s" ),
+                                   _( "Your %s are very encumbered!  %s" ) : _( "Your %s is very encumbered!  %s" ),
                                    body_part_name( bp ), encumb_text( bp ) );
             }
         }
@@ -8203,11 +8091,11 @@ player::wear_item( const item &to_wear, bool interactive )
         }
         if( supertinymouse && !to_wear.has_flag( "UNDERSIZE" ) ) {
             add_msg_if_player( m_warning,
-                               _( "This %s is too big to wear comfortably! Maybe it could be refitted..." ),
+                               _( "This %s is too big to wear comfortably!  Maybe it could be refitted..." ),
                                to_wear.tname() );
         } else if( to_wear.has_flag( "UNDERSIZE" ) ) {
             add_msg_if_player( m_warning,
-                               _( "This %s is too small to wear comfortably! Maybe it could be refitted..." ),
+                               _( "This %s is too small to wear comfortably!  Maybe it could be refitted..." ),
                                to_wear.tname() );
         }
     } else {
@@ -9286,7 +9174,7 @@ void player::try_to_sleep( const time_duration &dur )
             add_msg_if_player( m_bad, _( "It's impossible to sleep in this wheeled pot!" ) );
         } else if( furn_at_pos != f_null ) {
             add_msg_if_player( m_bad,
-                               _( "The humans' furniture blocks your roots. You can't get comfortable." ) );
+                               _( "The humans' furniture blocks your roots.  You can't get comfortable." ) );
         } else { // Floor problems
             add_msg_if_player( m_bad, _( "Your roots scrabble ineffectively at the unyielding surface." ) );
         }
@@ -10068,7 +9956,7 @@ int player::adjust_for_focus( int amount ) const
     return roll_remainder( tmp );
 }
 
-void player::practice( const skill_id &id, int amount, int cap )
+void player::practice( const skill_id &id, int amount, int cap, bool suppress_warning )
 {
     SkillLevel &level = get_skill_level_object( id );
     const Skill &skill = id.obj();
@@ -10120,13 +10008,10 @@ void player::practice( const skill_id &id, int amount, int cap )
 
     if( amount > 0 && get_skill_level( id ) > cap ) { //blunt grinding cap implementation for crafting
         amount = 0;
-        if( is_player() && one_in( 5 ) ) { //remind the player intermittently that no skill gain takes place
-            int curLevel = get_skill_level( id );
-            add_msg( m_info, _( "This task is too simple to train your %s beyond %d." ),
-                     skill_name, curLevel );
+        if( !suppress_warning ) {
+            handle_skill_warning( id, false );
         }
     }
-
     if( amount > 0 && level.isTraining() ) {
         int oldLevel = get_skill_level( id );
         get_skill_level_object( id ).train( amount );
@@ -10151,6 +10036,21 @@ void player::practice( const skill_id &id, int amount, int cap )
     }
 
     get_skill_level_object( id ).practice();
+}
+
+void player::handle_skill_warning( const skill_id &id, bool force_warning )
+{
+    //remind the player intermittently that no skill gain takes place
+    if( is_player() && ( force_warning || one_in( 5 ) ) ) {
+        SkillLevel &level = get_skill_level_object( id );
+
+        const Skill &skill = id.obj();
+        std::string skill_name = skill.name();
+        int curLevel = level.level();
+
+        add_msg( m_info, _( "This task is too simple to train your %s beyond %d." ),
+                 skill_name, curLevel );
+    }
 }
 
 int player::exceeds_recipe_requirements( const recipe &rec ) const
@@ -10753,7 +10653,7 @@ void player::mount_creature( monster &z )
     tripoint pnt = z.pos();
     std::shared_ptr<monster> mons = g->shared_from( z );
     if( mons == nullptr ) {
-        add_msg( m_debug, "mount_creature() : monster not found in critter_tracker" );
+        add_msg( m_debug, "mount_creature(): monster not found in critter_tracker" );
         return;
     }
     add_effect( effect_riding, 1_turns, num_bp, true );
@@ -11368,28 +11268,6 @@ std::vector<std::string> player::get_overlay_ids() const
         rval.push_back( player_movemode_str[ move_mode ] );
     }
     return rval;
-}
-
-void player::spores()
-{
-    fungal_effects fe( *g, g->m );
-    //~spore-release sound
-    sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
-    for( const tripoint &sporep : g->m.points_in_radius( pos(), 1 ) ) {
-        if( sporep == pos() ) {
-            continue;
-        }
-        fe.fungalize( sporep, this, 0.25 );
-    }
-}
-
-void player::blossoms()
-{
-    // Player blossoms are shorter-ranged, but you can fire much more frequently if you like.
-    sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
-    for( const tripoint &tmp : g->m.points_in_radius( pos(), 2 ) ) {
-        g->m.add_field( tmp, fd_fungal_haze, rng( 1, 2 ) );
-    }
 }
 
 float player::power_rating() const

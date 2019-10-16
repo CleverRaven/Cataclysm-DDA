@@ -136,6 +136,8 @@ void field_type::load( JsonObject &jo, const std::string & )
                   fallback_intensity_level.field_effect.bp );
         optional( jao, was_loaded, "inside_immune", intensity_level.field_effect.inside_immune,
                   fallback_intensity_level.field_effect.inside_immune );
+        optional( jao, was_loaded, "scent_neutralization", intensity_level.scent_neutralization,
+                  fallback_intensity_level.scent_neutralization );
         intensity_levels.emplace_back( intensity_level );
     }
 

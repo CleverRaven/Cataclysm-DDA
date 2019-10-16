@@ -402,7 +402,7 @@ static void pldrive( int x, int y )
         remote = false;
     }
     if( !veh ) {
-        dbg( D_ERROR ) << "game::pldrive: can't find vehicle! Drive mode is now off.";
+        dbg( D_ERROR ) << "game::pldrive: can't find vehicle!  Drive mode is now off.";
         debugmsg( "game::pldrive error: can't find vehicle! Drive mode is now off." );
         u.in_vehicle = false;
         return;
@@ -410,13 +410,13 @@ static void pldrive( int x, int y )
     if( !remote ) {
         int pctr = veh->part_with_feature( part, "CONTROLS", true );
         if( pctr < 0 ) {
-            add_msg( m_info, _( "You can't drive the vehicle from here. You need controls!" ) );
+            add_msg( m_info, _( "You can't drive the vehicle from here.  You need controls!" ) );
             u.controlling_vehicle = false;
             return;
         }
     } else {
         if( empty( veh->get_avail_parts( "REMOTE_CONTROLS" ) ) ) {
-            add_msg( m_info, _( "Can't drive this vehicle remotely. It has no working controls." ) );
+            add_msg( m_info, _( "Can't drive this vehicle remotely.  It has no working controls." ) );
             return;
         }
     }
@@ -737,8 +737,8 @@ static int try_set_alarm()
     const bool already_set = g->u.has_effect( effect_alarm_clock );
 
     as_m.text = already_set ?
-                _( "You already have an alarm set. What do you want to do?" ) :
-                _( "You have an alarm clock. What do you want to do?" );
+                _( "You already have an alarm set.  What do you want to do?" ) :
+                _( "You have an alarm clock.  What do you want to do?" );
 
     as_m.entries.emplace_back( 0, true, 'w', already_set ?
                                _( "Keep the alarm and wait a while" ) :
@@ -972,9 +972,9 @@ static void sleep()
         bool can_hibernate = u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE );
 
         as_m.reset();
-        as_m.text = can_hibernate ?
-                    _( "You're engorged to hibernate. The alarm would only attract attention. Set an alarm anyway?" ) :
-                    _( "You have an alarm clock. Set an alarm?" );
+        as_m.text = can_hibernate
+                    ? _( "You're engorged to hibernate.  The alarm would only attract attention.  Set an alarm anyway?" )
+                    : _( "You have an alarm clock.  Set an alarm?" );
 
         as_m.entries.emplace_back( 0, true,
                                    get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
@@ -1061,7 +1061,7 @@ static void loot()
 
     if( flags & SortLoot ) {
         menu.addentry_desc( SortLoot, true, 'o', _( "Sort out my loot" ),
-                            _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones. Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
+                            _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
     }
 
     if( flags & TillPlots ) {
@@ -1074,7 +1074,7 @@ static void loot()
         menu.addentry_desc( PlantPlots, warm_enough_to_plant( g->u.pos() ) && has_seeds, 'p',
                             !warm_enough_to_plant( g->u.pos() ) ? _( "Plant seeds... it is too cold for planting" ) :
                             !has_seeds ? _( "Plant seeds... you don't have any" ) : _( "Plant seeds" ),
-                            _( "Plant seeds into nearby Farm: Plot zones. Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
+                            _( "Plant seeds into nearby Farm: Plot zones.  Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
     }
     if( flags & FertilizePlots ) {
         menu.addentry_desc( FertilizePlots, has_fertilizer, 'f',
@@ -2098,6 +2098,8 @@ bool game::handle_action()
             case ACTION_CONTROL_VEHICLE:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't operate a vehicle while you're in your shell." ) );
+                } else if( u.has_trait( trait_id( "WAYFARER" ) ) ) {
+                    add_msg( m_info, _( "You refuse to take control of this vehicle." ) );
                 } else if( u.is_mounted() ) {
                     u.dismount();
                 } else {
@@ -2119,7 +2121,7 @@ bool game::handle_action()
                     turnssincelastmon = 0;
                     set_safe_mode( SAFE_MODE_OFF );
                     add_msg( m_info, get_option<bool>( "AUTOSAFEMODE" )
-                             ? _( "Safe mode OFF! (Auto safe mode still enabled!)" ) : _( "Safe mode OFF!" ) );
+                             ? _( "Safe mode OFF!  (Auto safe mode still enabled!)" ) : _( "Safe mode OFF!" ) );
                 }
                 if( u.has_effect( effect_laserlocked ) ) {
                     u.remove_effect( effect_laserlocked );

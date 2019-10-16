@@ -53,6 +53,7 @@
 #include "material.h"
 #include "type_id.h"
 #include "point.h"
+#include "projectile.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "mapdata.h"
@@ -563,6 +564,11 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
     ma_onattack_effects(); // trigger martial arts on-attack effects
     // some things (shattering weapons) can harm the attacking creature.
     check_dead_state();
+    did_hit( t );
+    if( t.as_character() ) {
+        dealt_projectile_attack dp = dealt_projectile_attack();
+        t.as_character()->on_hit( this, body_part::num_bp, 0.0f, &dp );
+    }
     return;
 }
 
@@ -1081,6 +1087,10 @@ matec_id player::pick_technique( Creature &t, const item &weap,
             continue;
         }
 
+        if( ( tec.take_weapon && ( has_weapon() || !t.has_weapon() ) ) ) {
+            continue;
+        }
+
         // Don't apply humanoid-only techniques to non-humanoids
         if( tec.human_target && !t.in_species( HUMAN ) ) {
             continue;
@@ -1356,6 +1366,19 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
     }
 
     player *p = dynamic_cast<player *>( &t );
+
+    if( technique.take_weapon && !has_weapon() && p != nullptr && p->is_armed() ) {
+        if( p->is_player() ) {
+            add_msg_if_npc( _( "<npcname> disarms you and takes your weapon!" ) );
+        } else {
+            add_msg_player_or_npc( _( "You disarm %s and take their weapon!" ),
+                                   _( "<npcname> disarms %s and takes their weapon!" ),
+                                   p->name );
+        }
+        item it = p->remove_weapon();
+        wield( it );
+    }
+
     if( technique.disarms && p != nullptr && p->is_armed() ) {
         g->m.add_item_or_charges( p->pos(), p->remove_weapon() );
         if( p->is_player() ) {
@@ -2027,7 +2050,7 @@ void player_hit_message( player *attacker, const std::string &message,
             msg = string_format( _( "%s. Critical!" ), message );
         } else {
             //~ someone hits something for %d damage (critical)
-            msg = string_format( _( "%s for %d damage. Critical!" ), message, dam );
+            msg = string_format( _( "%s for %d damage.  Critical!" ), message, dam );
         }
         sSCTmod = _( "Critical!" );
         gmtSCTcolor = m_critical;

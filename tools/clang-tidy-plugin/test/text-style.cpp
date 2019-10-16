@@ -95,15 +95,24 @@ static void bar()
     // CHECK-MESSAGES: [[@LINE-1]]:17: warning: insufficient spaces at this location.  2 required, but only 1 found.
     // CHECK-FIXES: foo( "Three!  Two!  One!" );
     foo( "Three; Two;  One;" );
-    // CHECK-MESSAGES: [[@LINE-1]]:17: warning: insufficient spaces at this location.  2 required, but only 1 found.
-    // CHECK-FIXES: foo( "Three;  Two;  One;" );
+    // CHECK-MESSAGES: [[@LINE-1]]:22: warning: excessive spaces at this location.  1 required, but 2 found.
+    // CHECK-FIXES: foo( "Three; Two; One;" );
     foo( "Three? Two?  One?" );
     // CHECK-MESSAGES: [[@LINE-1]]:17: warning: insufficient spaces at this location.  2 required, but only 1 found.
     // CHECK-FIXES: foo( "Three?  Two?  One?" );
-    foo( "Three\u2026 Two\u2026  One\u2026" );
-    // CHECK-MESSAGES: [[@LINE-1]]:22: warning: insufficient spaces at this location.  2 required, but only 1 found.
-    // CHECK-FIXES: foo( "Three\u2026  Two\u2026  One\u2026" );
     foo( "Three?! Two!?  One!!" );
     // CHECK-MESSAGES: [[@LINE-1]]:18: warning: insufficient spaces at this location.  2 required, but only 1 found.
     // CHECK-FIXES: foo( "Three?!  Two!?  One!!" );
+    foo( "\u2026 foo." );
+    // CHECK-MESSAGES: [[@LINE-1]]:17: warning: undesired spaces after a punctuation that starts a string.
+    // CHECK-FIXES: foo( "\u2026foo." );
+    foo( "foo.\n\u2026  bar." );
+    // CHECK-MESSAGES: [[@LINE-1]]:23: warning: undesired spaces after a punctuation that starts a line.
+    // CHECK-FIXES: foo( "foo.\n\u2026bar." );
+    foo( "foo : bar" );
+    // CHECK-MESSAGES: [[@LINE-1]]:15: warning: unnecessary spaces before this location.
+    // CHECK-FIXES: foo( "foo: bar" );
+    foo( "foo \nbar" );
+    // CHECK-MESSAGES: [[@LINE-1]]:15: warning: unnecessary spaces before this location.
+    // CHECK-FIXES: foo( "foo\nbar" );
 }

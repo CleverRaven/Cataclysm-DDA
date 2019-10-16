@@ -269,7 +269,7 @@ void user_interface::show()
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
                 fold_and_print( w_help, point( 1, 1 ), 999, c_white,
                                 _(
-                                    "* is used as a Wildcard. A few Examples:\n"
+                                    "* is used as a Wildcard.  A few Examples:\n"
                                     "\n"
                                     "wooden arrow    matches the itemname exactly\n"
                                     "wooden ar*      matches items beginning with wood ar\n"
@@ -496,7 +496,7 @@ void player_settings::add_rule( const item *it )
     create_rule( it );
 
     if( !get_option<bool>( "AUTO_PICKUP" ) &&
-        query_yn( _( "Autopickup is not enabled in the options. Enable it now?" ) ) ) {
+        query_yn( _( "Autopickup is not enabled in the options.  Enable it now?" ) ) ) {
         get_options().get_option( "AUTO_PICKUP" ).setNext();
         get_options().save();
     }
