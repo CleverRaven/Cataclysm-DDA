@@ -1250,7 +1250,7 @@ void character_mutations::remove_child_flag( Character &owner, const trait_id &f
     }
 }
 
-static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool strong )
+static mutagen_rejection try_reject_mutagen( Character &p, const item &it, bool strong )
 {
     if( p.mutations.has_trait( trait_MUTAGEN_AVOID ) ) {
         p.add_msg_if_player( m_warning,
@@ -1271,8 +1271,8 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
 
     if( p.mutations.has_trait( trait_THRESH_MYCUS ) ) {
         p.add_msg_if_player( m_info, _( "This is a contaminant.  We reject it from the Mycus." ) );
-        if( p.has_trait( trait_M_SPORES ) || p.has_trait( trait_M_FERTILE ) ||
-            p.has_trait( trait_M_BLOSSOMS ) || p.has_trait( trait_M_BLOOM ) ) {
+        if( p.mutations.has_trait( trait_M_SPORES ) || p.mutations.has_trait( trait_M_FERTILE ) ||
+            p.mutations.has_trait( trait_M_BLOSSOMS ) || p.mutations.has_trait( trait_M_BLOOM ) ) {
             p.add_msg_if_player( m_good, _( "We decontaminate it with spores." ) );
             g->m.ter_set( p.pos(), t_fungus );
             if( p.is_avatar() ) {
@@ -1288,7 +1288,7 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
         }
     }
 
-    if( p.has_trait( trait_THRESH_MARLOSS ) ) {
+    if( p.mutations.has_trait( trait_THRESH_MARLOSS ) ) {
         p.add_msg_player_or_npc( m_warning,
                                  _( "The %s sears your insides white-hot, and you collapse to the ground!" ),
                                  _( "<npcname> writhes in agony and collapses to the ground!" ),
@@ -1299,10 +1299,10 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
         p.hurtall( rng( 20, 35 ) + ( strong ? 10 : 0 ), nullptr );
         // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
         p.fall_asleep( 5_hours - 1_minutes * ( p.int_cur + ( strong ? 100 : 0 ) ) );
-        p.set_mutation( trait_MUTAGEN_AVOID );
+        p.mutations.set_mutation( p, trait_MUTAGEN_AVOID );
         // Injected mutagen purges marloss, ingested doesn't
         if( strong ) {
-            p.unset_mutation( trait_THRESH_MARLOSS );
+            p.mutations.unset_mutation( p, trait_THRESH_MARLOSS );
             p.add_msg_if_player( m_warning,
                                  _( "It was probably that marloss -- how did you know to call it \"marloss\" anyway?" ) );
             p.add_msg_if_player( m_warning, _( "Best to stay clear of that alien crap in future." ) );
