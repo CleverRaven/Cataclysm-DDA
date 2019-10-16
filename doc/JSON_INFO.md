@@ -380,6 +380,7 @@ This section describes each json file and their contents. Each json has their ow
 | exothermic_power_gen     | (_optional_) If true this bionic emits heat when producing power. (default: `false`)
 | power_gen_emission       | (_optional_) `emit_id` of the field emitted by this bionic when it produces energy. Emit_ids are defined in `emit.json`.
 | stat_bonus               | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
+| display_type             | (_optional_) Determines the tab in the Bionics menu. Must be equal to one of `"ident"` in bionicsDisplayType.json. If not set, the code will try to infer the tab from other parameters.
 
 ```C++
 {
@@ -397,7 +398,8 @@ This section describes each json file and their contents. Each json has their ow
     "encumbrance"  : [ [ "TORSO", 10 ], [ "ARM_L", 10 ], [ "ARM_R", 10 ], [ "LEG_L", 10 ], [ "LEG_R", 10 ], [ "FOOT_L", 10 ], [ "FOOT_R", 10 ] ],
     "description"  : "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries. Use 'E' to consume batteries.",
     "canceled_mutations": ["HYPEROPIC"],
-    "included_bionics": ["bio_blindfold"]
+    "included_bionics": ["bio_blindfold"],
+    "display_type": "display_internal"
 },
 {
     "id": "bio_purifier",
@@ -412,6 +414,22 @@ This section describes each json file and their contents. Each json has their ow
 
 Bionics effects are defined in the code and new effects cannot be created through JSON alone.
 When adding a new bionic, if it's not included with another one, you must also add the corresponding CBM item in `data/json/items/bionics.json`. Even for a faulty bionic.
+
+### bionicsDisplayType
+
+Represents a tab in the Bionics menu
+
+| Identifier    | Description
+|---            |---
+| ident         | Unique ID.
+| display_string| User will see this as a tab name.
+| hide_columns  | (_optional_) only display the name column and hide all others. (default: `false`)
+
+```JSON
+"type": "bionics_display_type",  
+"ident": "display_weapon",
+"display_string": "Weapons",
+"hide_columns": true
 
 ### Dreams
 
