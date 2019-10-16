@@ -2514,6 +2514,15 @@ void vehicle::deserialize( JsonIn &jsin )
 
     for( const vpart_reference &vp : get_any_parts( "TURRET" ) ) {
         install_part( vp.mount(), vpart_id( "turret_mount" ), false );
+
+        //Forcibly set turrets' targeting mode to manual if no turret control unit is present on turret's tile on loading save
+        if( !has_part( global_part_pos3( vp.part() ), "TURRET_CONTROLS" ) ) {
+            vp.part().enabled = false;
+        }
+        //Set turret control unit's state equal to turret's targeting mode on loading save
+        for( const vpart_reference &turret_part : get_any_parts( "TURRET_CONTROLS" ) ) {
+            turret_part.part().enabled = vp.part().enabled;
+        }
     }
 
     // Add vehicle mounts to cars that are missing them.
