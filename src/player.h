@@ -296,10 +296,6 @@ class player : public Character
         bool has_higher_trait( const trait_id &flag ) const;
         /** Returns true if the player has a trait that shares a type with the entered trait */
         bool has_same_type_trait( const trait_id &flag ) const;
-        /** Returns true if the player has crossed a mutation threshold
-         *  Player can only cross one mutation threshold.
-         */
-        bool crossed_threshold() const;
         /** Returns true if the entered trait may be purified away
          *  Defaults to true
          */
