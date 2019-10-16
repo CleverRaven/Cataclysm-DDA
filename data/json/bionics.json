@@ -82,7 +82,6 @@
     "id": "bio_batteries",
     "type": "bionic",
     "name": "Battery System",
-    "capacity": 10,
     "description": "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to drain charge from a battery.  Can be toggled on and off at will.",
     "occupied_bodyparts": [ [ "TORSO", 25 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
@@ -136,7 +135,6 @@
     "id": "bio_cable",
     "type": "bionic",
     "name": "Cable Charger System",
-    "capacity": 10,
     "description": "You have a complex port surgically mounted above your hip.  While active, it will recharge bionic power when connected to a power source via jumper cable.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ]
@@ -421,7 +419,7 @@
     "id": "bio_glowy",
     "type": "bionic",
     "name": "Glowy Thing",
-    "description": "You don't think that capacitor is *meant* to glow, but it does, and usually at bad times.  A malfunctioning bionic randomly turns on and off, causing you to glow and making you visible in the dark without improving how much you can see in the slighest.",
+    "description": "You don't think that capacitor is *meant* to glow, but it does, and usually at bad times.  A malfunctioning bionic randomly turns on and off, causing you to glow and making you visible in the dark without improving how much you can see in the slightest.",
     "flags": [ "BIONIC_FAULTY" ]
   },
   {

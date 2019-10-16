@@ -1105,7 +1105,7 @@ void Item_factory::check_definitions() const
                     msg << "Magazine \"" << magazine << "\" specified for \""
                         << ammo_variety.first.str() << "\" is not a magazine\n";
                 } else if( !mag_ptr->magazine->type.count( ammo_variety.first ) ) {
-                    msg << "magazine \"" << magazine << "\" does not take compatible ammo \n";
+                    msg << "magazine \"" << magazine << "\" does not take compatible ammo\n";
                 } else if( mag_ptr->item_tags.count( "SPEEDLOADER" ) &&
                            mag_ptr->magazine->capacity != type->gun->clip ) {
                     msg << "Speedloader " << magazine << " capacity ("
@@ -1555,7 +1555,7 @@ void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &sr
     if( jo.has_array( "rand_charges" ) ) {
         JsonArray jarr = jo.get_array( "rand_charges" );
         if( jo.has_member( "initial_charges" ) ) {
-            jarr.throw_error( "You can have a fixed initial amount of charges, or randomized. Not both." );
+            jarr.throw_error( "You can have a fixed initial amount of charges, or randomized.  Not both." );
         }
         while( jarr.has_more() ) {
             slot.rand_charges.push_back( jarr.next_int() );
@@ -2415,7 +2415,7 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObje
     get_array( gname, true );
 
     if( obj.has_member( name ) ) {
-        obj.throw_error( string_format( "This has been a TODO: since 2014. Use '%s' and/or '%s' instead.",
+        obj.throw_error( string_format( "This has been a TODO: since 2014.  Use '%s' and/or '%s' instead.",
                                         iname, gname ) );
         return false; // TODO: !
     }

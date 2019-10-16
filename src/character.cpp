@@ -19,9 +19,11 @@
 #include "effect.h"
 #include "event_bus.h"
 #include "field.h"
+#include "fungal_effects.h"
 #include "game.h"
 #include "game_constants.h"
 #include "itype.h"
+#include "npc.h"
 #include "material.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -34,6 +36,7 @@
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
+#include "overlay_ordering.h"
 #include "pathfinding.h"
 #include "player.h"
 #include "skill.h"
@@ -61,6 +64,7 @@ static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_armor_torso( "bio_armor_torso" );
 static const bionic_id bio_carbon( "bio_carbon" );
 
+const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_beartrap( "beartrap" );
@@ -69,6 +73,7 @@ const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_contacts( "contacts" );
+const efftype_id effect_controlled( "controlled" );
 const efftype_id effect_crushed( "crushed" );
 const efftype_id effect_darkness( "darkness" );
 const efftype_id effect_disinfected( "disinfected" );
@@ -77,6 +82,7 @@ const efftype_id effect_drunk( "drunk" );
 const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_grabbing( "grabbing" );
+const efftype_id effect_harnessed( "harnessed" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_in_pit( "in_pit" );
@@ -89,19 +95,24 @@ const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_pkill1( "pkill1" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_pkill3( "pkill3" );
+const efftype_id effect_ridden( "ridden" );
 const efftype_id effect_riding( "riding" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
+const efftype_id effect_tied( "tied" );
 const efftype_id effect_webbed( "webbed" );
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_throw( "throw" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
+static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
 static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
+static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
+static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_DISORGANIZED( "DISORGANIZED" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
@@ -171,6 +182,8 @@ Character::Character() :
     name.clear();
 
     *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, false, true, false };
+
+    move_mode = CMM_WALK;
 }
 // *INDENT-ON*
 
@@ -426,9 +439,185 @@ double Character::aim_per_move( const item &gun, double recoil ) const
     return std::min( aim_speed, recoil - limit );
 }
 
+void Character::mount_creature( monster &z )
+{
+    tripoint pnt = z.pos();
+    std::shared_ptr<monster> mons = g->shared_from( z );
+    if( mons == nullptr ) {
+        add_msg( m_debug, "mount_creature(): monster not found in critter_tracker" );
+        return;
+    }
+    add_effect( effect_riding, 1_turns, num_bp, true );
+    z.add_effect( effect_ridden, 1_turns, num_bp, true );
+    if( z.has_effect( effect_tied ) ) {
+        z.remove_effect( effect_tied );
+        if( z.tied_item ) {
+            i_add( *z.tied_item );
+            z.tied_item = cata::nullopt;
+        }
+    }
+    z.mounted_player_id = getID();
+    if( z.has_effect( effect_harnessed ) ) {
+        z.remove_effect( effect_harnessed );
+        add_msg_if_player( m_info, _( "You remove the %s's harness." ), z.get_name() );
+    }
+    mounted_creature = mons;
+    mons->mounted_player = this;
+    if( is_avatar() ) {
+        if( g->u.is_hauling() ) {
+            g->u.stop_hauling();
+        }
+        if( g->u.get_grab_type() != OBJECT_NONE ) {
+            add_msg( m_warning, _( "You let go of the grabbed object." ) );
+            g->u.grab( OBJECT_NONE );
+        }
+        g->place_player( pnt );
+    } else {
+        npc &guy = dynamic_cast<npc &>( *this );
+        guy.setpos( pnt );
+    }
+    z.facing = facing;
+    add_msg_if_player( m_good, _( "You climb on the %s." ), z.get_name() );
+    if( z.has_flag( MF_RIDEABLE_MECH ) ) {
+        if( !z.type->mech_weapon.empty() ) {
+            item mechwep = item( z.type->mech_weapon );
+            wield( mechwep );
+        }
+        add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
+    }
+    // some rideable mechs have night-vision
+    recalc_sight_limits();
+    mod_moves( -100 );
+}
+
 bool Character::is_mounted() const
 {
     return has_effect( effect_riding ) && mounted_creature;
+}
+
+void Character::forced_dismount()
+{
+    remove_effect( effect_riding );
+    bool mech = false;
+    if( mounted_creature ) {
+        auto mon = mounted_creature.get();
+        if( mon->has_flag( MF_RIDEABLE_MECH ) && !mon->type->mech_weapon.empty() ) {
+            mech = true;
+            remove_item( weapon );
+        }
+        mon->mounted_player_id = character_id();
+        mon->remove_effect( effect_ridden );
+        mon->add_effect( effect_controlled, 5_turns );
+        mounted_creature = nullptr;
+        mon->mounted_player = nullptr;
+    }
+    std::vector<tripoint> valid;
+    for( const tripoint &jk : g->m.points_in_radius( pos(), 1 ) ) {
+        if( g->is_empty( jk ) ) {
+            valid.push_back( jk );
+        }
+    }
+    if( !valid.empty() ) {
+        setpos( random_entry( valid ) );
+        if( mech ) {
+            add_msg_player_or_npc( m_bad, _( "You are ejected from your mech!" ),
+                                   _( "<npcname> is ejected from their mech!" ) );
+        } else {
+            add_msg_player_or_npc( m_bad, _( "You fall off your mount!" ),
+                                   _( "<npcname> falls off their mount!" ) );
+        }
+        const int dodge = get_dodge();
+        const int damage = std::max( 0, rng( 1, 20 ) - rng( dodge, dodge * 2 ) );
+        body_part hit = num_bp;
+        switch( rng( 1, 10 ) ) {
+            case  1:
+                if( one_in( 2 ) ) {
+                    hit = bp_foot_l;
+                } else {
+                    hit = bp_foot_r;
+                }
+                break;
+            case  2:
+            case  3:
+            case  4:
+                if( one_in( 2 ) ) {
+                    hit = bp_leg_l;
+                } else {
+                    hit = bp_leg_r;
+                }
+                break;
+            case  5:
+            case  6:
+            case  7:
+                if( one_in( 2 ) ) {
+                    hit = bp_arm_l;
+                } else {
+                    hit = bp_arm_r;
+                }
+                break;
+            case  8:
+            case  9:
+                hit = bp_torso;
+                break;
+            case 10:
+                hit = bp_head;
+                break;
+        }
+        if( damage > 0 ) {
+            add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
+            deal_damage( nullptr, hit, damage_instance( DT_BASH, damage ) );
+            if( is_avatar() ) {
+                g->memorial().add(
+                    pgettext( "memorial_male", "Fell off a mount." ),
+                    pgettext( "memorial_female", "Fell off a mount." ) );
+            }
+            check_dead_state();
+        }
+        add_effect( effect_downed, 5_turns, num_bp, true );
+    } else {
+        add_msg( m_debug, "Forced_dismount could not find a square to deposit player" );
+    }
+    if( is_avatar() ) {
+        if( g->u.get_grab_type() != OBJECT_NONE ) {
+            add_msg( m_warning, _( "You let go of the grabbed object." ) );
+            g->u.grab( OBJECT_NONE );
+        }
+        set_movement_mode( CMM_WALK );
+        g->update_map( g->u );
+    }
+    moves -= 150;
+}
+
+void Character::dismount()
+{
+    if( !is_mounted() ) {
+        add_msg( m_debug, "dismount called when not riding" );
+        return;
+    }
+    if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Dismount where?" ) ) ) {
+        if( !g->is_empty( *pnt ) ) {
+            add_msg( m_warning, _( "You cannot dismount there!" ) );
+            return;
+        }
+        remove_effect( effect_riding );
+        monster *critter = mounted_creature.get();
+        critter->mounted_player_id = character_id();
+        if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.empty() ) {
+            remove_item( g->u.weapon );
+        }
+        if( is_avatar() && g->u.get_grab_type() != OBJECT_NONE ) {
+            add_msg( m_warning, _( "You let go of the grabbed object." ) );
+            g->u.grab( OBJECT_NONE );
+        }
+        critter->remove_effect( effect_ridden );
+        critter->add_effect( effect_controlled, 5_turns );
+        mounted_creature = nullptr;
+        critter->mounted_player = nullptr;
+        setpos( *pnt );
+        g->refresh_all();
+        mod_moves( -100 );
+        set_movement_mode( CMM_WALK );
+    }
 }
 
 /** Returns true if the character has two functioning arms */
@@ -704,6 +893,11 @@ bool Character::move_effects( bool attacking )
         }
     }
     return true;
+}
+
+bool Character::movement_mode_is( const character_movemode mode ) const
+{
+    return move_mode == mode;
 }
 
 void Character::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
@@ -1032,7 +1226,13 @@ void Character::set_max_power_level( units::energy npower_max )
 
 void Character::mod_power_level( units::energy npower )
 {
-    power_level = clamp( power_level + npower, 0_kJ, max_power_level );
+    int new_power = units::to_millijoule( power_level ) + units::to_millijoule( npower );
+    // An integer overflow has occurred - the sum of two positive things (power_level is always positive)
+    // cannot be negative, so if it is, we know integer overflow has occured
+    if( npower >= 0_mJ && new_power < 0 ) {
+        new_power = units::to_millijoule( max_power_level );
+    }
+    power_level = clamp( units::from_millijoule( new_power ), 0_kJ, max_power_level );
 }
 
 void Character::mod_max_power_level( units::energy npower_max )
@@ -1820,6 +2020,54 @@ bool Character::worn_with_flag( const std::string &flag, body_part bp ) const
     } );
 }
 
+std::vector<std::string> Character::get_overlay_ids() const
+{
+    std::vector<std::string> rval;
+    std::multimap<int, std::string> mutation_sorting;
+    int order;
+    std::string overlay_id;
+
+    // first get effects
+    for( const auto &eff_pr : *effects ) {
+        rval.push_back( "effect_" + eff_pr.first.str() );
+    }
+
+    // then get mutations
+    for( const auto &mut : my_mutations ) {
+        overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
+        order = get_overlay_order_of_mutation( overlay_id );
+        mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
+    }
+
+    // then get bionics
+    for( const bionic &bio : *my_bionics ) {
+        overlay_id = ( bio.powered ? "active_" : "" ) + bio.id.str();
+        order = get_overlay_order_of_mutation( overlay_id );
+        mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
+    }
+
+    for( auto &mutorder : mutation_sorting ) {
+        rval.push_back( "mutation_" + mutorder.second );
+    }
+
+    // next clothing
+    // TODO: worry about correct order of clothing overlays
+    for( const item &worn_item : worn ) {
+        rval.push_back( "worn_" + worn_item.typeId() );
+    }
+
+    // last weapon
+    // TODO: might there be clothing that covers the weapon?
+    if( is_armed() ) {
+        rval.push_back( "wielded_" + weapon.typeId() );
+    }
+
+    if( move_mode != CMM_WALK ) {
+        rval.push_back( character_movemode_str[ move_mode ] );
+    }
+    return rval;
+}
+
 const SkillLevelMap &Character::get_all_skills() const
 {
     return *_skills;
@@ -2175,6 +2423,16 @@ bool Character::is_wearing_active_power_armor() const
 {
     for( const auto &w : worn ) {
         if( w.is_power_armor() && w.active ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::is_wearing_active_optcloak() const
+{
+    for( auto &w : worn ) {
+        if( w.active && w.has_flag( "ACTIVE_CLOAKING" ) ) {
             return true;
         }
     }
@@ -2962,7 +3220,7 @@ hp_part Character::body_window( const std::string &menu_header,
         msg << colorize( aligned_name, all_state_col ) << " " << hp_str( current_hp, maximal_hp );
 
         if( limb_is_broken ) {
-            desc << colorize( _( "It is broken. It needs a splint or surgical attention." ), c_red ) << "\n";
+            desc << colorize( _( "It is broken.  It needs a splint or surgical attention." ), c_red ) << "\n";
         }
 
         // BLEEDING block
@@ -3006,7 +3264,7 @@ hp_part Character::body_window( const std::string &menu_header,
         if( infected ) {
             desc << colorize( string_format( "%s: ", get_effect( effect_infected,
                                              e.bp ).get_speed_name() ), c_red );
-            desc << colorize( _( "It has a deep wound that looks infected. Antibiotics might be required." ),
+            desc << colorize( _( "It has a deep wound that looks infected.  Antibiotics might be required." ),
                               c_red ) << "\n";
             if( infect > 0 ) {
                 desc << colorize( string_format( _( "Chance to heal infection: %d %%" ),
@@ -3259,6 +3517,32 @@ bool Character::is_blind() const
     return ( worn_with_flag( "BLIND" ) ||
              has_effect( effect_blind ) ||
              has_active_bionic( bionic_id( "bio_blindfold" ) ) );
+}
+
+bool Character::is_invisible() const
+{
+    static const bionic_id str_bio_cloak( "bio_cloak" ); // This function used in monster::plan_moves
+    static const bionic_id str_bio_night( "bio_night" );
+    return (
+               has_effect_with_flag( "EFFECT_INVISIBLE" ) ||
+               has_active_bionic( str_bio_cloak ) ||
+               has_active_bionic( str_bio_night ) ||
+               is_wearing_active_optcloak() ||
+               has_trait( trait_DEBUG_CLOAK ) ||
+               has_artifact_with( AEP_INVISIBLE )
+           );
+}
+
+int Character::visibility( bool, int ) const
+{
+    // 0-100 %
+    if( is_invisible() ) {
+        return 0;
+    }
+    // TODO:
+    // if ( dark_clothing() && light check ...
+    int stealth_modifier = std::floor( mutation_value( "stealth_modifier" ) );
+    return clamp( 100 - stealth_modifier, 40, 160 );
 }
 
 bool Character::pour_into( item &container, item &liquid )
@@ -4549,4 +4833,159 @@ void Character::on_hit( Creature * /*source*/, body_part /*bp_hit*/,
                         float /*difficulty*/, dealt_projectile_attack const *const /*proj*/ )
 {
     enchantment_cache.cast_hit_me( *this );
+}
+
+void Character::heal( body_part healed, int dam )
+{
+    hp_part healpart;
+    switch( healed ) {
+        case bp_eyes: // Fall through to head damage
+        case bp_mouth: // Fall through to head damage
+        case bp_head:
+            healpart = hp_head;
+            break;
+        case bp_torso:
+            healpart = hp_torso;
+            break;
+        case bp_hand_l:
+            // Shouldn't happen, but fall through to arms
+            debugmsg( "Heal against hands!" );
+        /* fallthrough */
+        case bp_arm_l:
+            healpart = hp_arm_l;
+            break;
+        case bp_hand_r:
+            // Shouldn't happen, but fall through to arms
+            debugmsg( "Heal against hands!" );
+        /* fallthrough */
+        case bp_arm_r:
+            healpart = hp_arm_r;
+            break;
+        case bp_foot_l:
+            // Shouldn't happen, but fall through to legs
+            debugmsg( "Heal against feet!" );
+        /* fallthrough */
+        case bp_leg_l:
+            healpart = hp_leg_l;
+            break;
+        case bp_foot_r:
+            // Shouldn't happen, but fall through to legs
+            debugmsg( "Heal against feet!" );
+        /* fallthrough */
+        case bp_leg_r:
+            healpart = hp_leg_r;
+            break;
+        default:
+            debugmsg( "Wacky body part healed!" );
+            healpart = hp_torso;
+    }
+    heal( healpart, dam );
+}
+
+void Character::heal( hp_part healed, int dam )
+{
+    if( hp_cur[healed] > 0 ) {
+        int effective_heal = std::min( dam, hp_max[healed] - hp_cur[healed] );
+        hp_cur[healed] += effective_heal;
+        g->events().send<event_type::character_heals_damage>( getID(), effective_heal );
+    }
+}
+
+void Character::healall( int dam )
+{
+    for( int healed_part = 0; healed_part < num_hp_parts; healed_part++ ) {
+        heal( static_cast<hp_part>( healed_part ), dam );
+        healed_bp( healed_part, dam );
+    }
+}
+
+void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
+{
+    if( is_dead_state() || has_trait( trait_DEBUG_NODMG ) || dam <= 0 ) {
+        return;
+    }
+
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        const hp_part bp = static_cast<hp_part>( i );
+        // Don't use apply_damage here or it will annoy the player with 6 queries
+        const int dam_to_bodypart = std::min( dam, hp_cur[bp] );
+        hp_cur[bp] -= dam_to_bodypart;
+        g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+    }
+
+    // Low pain: damage is spread all over the body, so not as painful as 6 hits in one part
+    mod_pain( dam );
+    on_hurt( source, disturb );
+}
+
+int Character::hitall( int dam, int vary, Creature *source )
+{
+    int damage_taken = 0;
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        const body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
+        int ddam = vary ? dam * rng( 100 - vary, 100 ) / 100 : dam;
+        int cut = 0;
+        auto damage = damage_instance::physical( ddam, cut, 0 );
+        damage_taken += deal_damage( source, bp, damage ).total_damage();
+    }
+    return damage_taken;
+}
+
+void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
+{
+    if( has_trait( trait_ADRENALINE ) && !has_effect( effect_adrenaline ) &&
+        ( hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15 ) ) {
+        add_effect( effect_adrenaline, 20_minutes );
+    }
+
+    if( disturb ) {
+        if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
+            wake_up();
+        }
+        if( !is_npc() && !has_effect( effect_narcosis ) ) {
+            if( source != nullptr ) {
+                g->cancel_activity_or_ignore_query( distraction_type::attacked,
+                                                    string_format( _( "You were attacked by %s!" ),
+                                                            source->disp_name() ) );
+            } else {
+                g->cancel_activity_or_ignore_query( distraction_type::attacked, _( "You were hurt!" ) );
+            }
+        }
+    }
+
+    if( is_dead_state() ) {
+        set_killer( source );
+    }
+}
+
+bool Character::crossed_threshold() const
+{
+    for( const std::pair<trait_id, Character::trait_data> &mut : my_mutations ) {
+        if( mut.first->threshold ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void Character::spores()
+{
+    fungal_effects fe( *g, g->m );
+    //~spore-release sound
+    sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
+    for( const tripoint &sporep : g->m.points_in_radius( pos(), 1 ) ) {
+        if( sporep == pos() ) {
+            continue;
+        }
+        fe.fungalize( sporep, this, 0.25 );
+    }
+}
+
+void Character::blossoms()
+{
+    // Player blossoms are shorter-ranged, but you can fire much more frequently if you like.
+    sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
+    for( const tripoint &tmp : g->m.points_in_radius( pos(), 2 ) ) {
+        g->m.add_field( tmp, fd_fungal_haze, rng( 1, 2 ) );
+    }
 }

@@ -1,0 +1,674 @@
+[
+  {
+    "id": "f_tatami",
+    "type": "furniture",
+    "name": "tatami mat",
+    "description": "A tatami is a type of mat used as a flooring material in traditional Japanese-style rooms.",
+    "symbol": "#",
+    "color": [ "brown" ],
+    "move_cost_mod": 0,
+    "comfort": 2,
+    "floor_bedding_warmth": -1500,
+    "max_volume": 4000,
+    "required_str": 7,
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "crunch.",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "straw_pile", "count": [ 5, 8 ] },
+        { "item": "rag", "count": [ 2, 4 ] },
+        { "item": "string_36", "count": [ 1, 2 ] }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_pillow_fort",
+    "name": "pillow fort",
+    "symbol": "^",
+    "description": "A comfy place to hide from the world.  Not very defensible, though.",
+    "color": "white",
+    "move_cost_mod": 3,
+    "coverage": 90,
+    "comfort": 4,
+    "floor_bedding_warmth": 1000,
+    "required_str": -1,
+    "deconstruct": { "items": [ { "item": "pillow", "count": 19 }, { "item": "blanket", "count": 3 } ] },
+    "max_volume": 4000,
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE_ASH",
+      "PLACE_ITEM",
+      "ORGANIC",
+      "REDUCE_SCENT",
+      "EASY_DECONSTRUCT",
+      "BASHABLE",
+      "HIDE_PLACE",
+      "NO_SIGHT"
+    ],
+    "bash": {
+      "str_min": 1,
+      "str_max": 1,
+      "sound": "paf!",
+      "sound_fail": "poof.",
+      "items": [ { "item": "pillow", "count": 19 }, { "item": "blanket", "count": 3 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cardboard_fort",
+    "name": "cardboard fort",
+    "symbol": "^",
+    "description": "A fort built by tipping a cardboard box on its side, lining it with blankets, and partly weather sealing it with a plastic sheet.",
+    "color": "brown",
+    "move_cost_mod": 3,
+    "coverage": 95,
+    "comfort": 4,
+    "floor_bedding_warmth": 700,
+    "required_str": 3,
+    "deconstruct": {
+      "items": [
+        { "item": "box_large", "count": 1 },
+        { "item": "plastic_sheet", "count": 1 },
+        { "item": "blanket", "count": 2 },
+        { "item": "pillow", "count": 4 }
+      ]
+    },
+    "max_volume": 4000,
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE_ASH",
+      "PLACE_ITEM",
+      "ORGANIC",
+      "REDUCE_SCENT",
+      "EASY_DECONSTRUCT",
+      "BASHABLE",
+      "HIDE_PLACE",
+      "NO_SIGHT",
+      "BLOCK_WIND"
+    ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 15,
+      "sound": "crumple!",
+      "sound_fail": "thud.",
+      "items": [ { "item": "paper", "count": [ 50, 100 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cardboard_wall",
+    "name": "cardboard wall",
+    "symbol": "#",
+    "bgcolor": "brown",
+    "move_cost_mod": -1,
+    "coverage": 100,
+    "description": "This is a pile of cardboard boxes that have been filled with rags and junk and stacked together like bricks to form a wall.",
+    "required_str": -1,
+    "flags": [ "NOITEM", "BLOCKSDOOR", "FLAMMABLE_ASH", "ORGANIC", "EASY_DECONSTRUCT", "BLOCK_WIND" ],
+    "deconstruct": {
+      "items": [
+        { "item": "box_large", "count": 1 },
+        { "item": "box_medium", "count": 2 },
+        { "item": "box_small", "count": 4 },
+        { "item": "rag", "count": 50 },
+        { "item": "paper", "count": 50 },
+        { "item": "plastic_chunk", "count": 20 },
+        { "item": "plastic_sheet", "count": 2 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "crash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "box_large", "count": [ 0, 1 ] },
+        { "item": "box_medium", "count": [ 0, 2 ] },
+        { "item": "box_small", "count": [ 0, 4 ] },
+        { "item": "rag", "count": [ 20, 50 ] },
+        { "item": "paper", "count": [ 50, 150 ] },
+        { "item": "plastic_chunk", "count": [ 5, 20 ] },
+        { "item": "plastic_sheet", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_beaded_door",
+    "name": "beaded curtain",
+    "description": "This beaded curtain could be pulled aside.",
+    "symbol": "+",
+    "color": "pink",
+    "looks_like": "f_canvas_door",
+    "move_cost_mod": 6,
+    "coverage": 90,
+    "required_str": -1,
+    "flags": [ "NOITEM", "DOOR", "PERMEABLE", "FLAMMABLE_ASH", "MOUNTABLE" ],
+    "open": "f_beaded_door_o",
+    "deconstruct": {
+      "items": [ { "item": "stick_long", "count": 1 }, { "item": "string_36", "count": 20 }, { "item": "wooden_bead", "count": 2000 } ]
+    },
+    "bash": {
+      "str_min": 1,
+      "str_max": 1,
+      "sound": "clickity clack...clack...clack",
+      "sound_fail": "clickity clack...clack",
+      "sound_vol": 15,
+      "items": [
+        { "item": "string_36", "count": [ 3, 15 ] },
+        { "item": "stick_long", "count": 1 },
+        { "item": "wooden_bead", "count": [ 200, 500 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_beaded_door_o",
+    "name": "open beaded curtain",
+    "description": "This beaded curtain has been pulled aside.",
+    "symbol": ".",
+    "color": "pink",
+    "looks_like": "f_canvas_door_o",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT" ],
+    "close": "f_beaded_door",
+    "deconstruct": {
+      "items": [ { "item": "stick_long", "count": 1 }, { "item": "string_36", "count": 20 }, { "item": "wooden_bead", "count": 2000 } ]
+    },
+    "bash": {
+      "str_min": 1,
+      "str_max": 1,
+      "sound": "clickity clack...clack...clack!",
+      "sound_fail": "clickity clack...clack",
+      "sound_vol": 15,
+      "items": [
+        { "item": "string_36", "count": [ 3, 15 ] },
+        { "item": "stick_long", "count": 1 },
+        { "item": "wooden_bead", "count": [ 200, 500 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_canvas_floor",
+    "name": "canvas floor",
+    "description": "Flooring made out of stretched, waterproof cloth.  Helps keep the dirt out of the tent.",
+    "symbol": "#",
+    "color": "white",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_canvas_wall",
+    "name": "canvas wall",
+    "description": "A wall made of stretched, waterproof cloth.",
+    "symbol": "#",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 95,
+    "required_str": -1,
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 1,
+      "str_max": 8,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 8,
+      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_large_canvas_wall",
+    "name": "canvas wall",
+    "description": "A wall made of stretched, heavy-duty, waterproof cloth.",
+    "symbol": "#",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 95,
+    "required_str": -1,
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 1,
+      "str_max": 8,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 8,
+      "collapse_radius": 2,
+      "tent_centers": [ "f_center_groundsheet" ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_canvas_door",
+    "name": "canvas flap",
+    "description": "This canvas flap door could be pulled aside.",
+    "symbol": "+",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 95,
+    "required_str": -1,
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR", "BLOCK_WIND" ],
+    "open": "f_canvas_door_o",
+    "bash": {
+      "str_min": 1,
+      "str_max": 8,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 8,
+      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_canvas_door_o",
+    "name": "open canvas flap",
+    "description": "This canvas flap door has been pulled aside.",
+    "symbol": ".",
+    "color": "blue",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "close": "f_canvas_door",
+    "bash": {
+      "str_min": 1,
+      "str_max": 8,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 8,
+      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet", "f_center_groundsheet" ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_large_canvas_door",
+    "name": "canvas flap",
+    "description": "This heavy canvas flap door could be pulled aside.",
+    "symbol": "+",
+    "color": "blue",
+    "move_cost_mod": -1,
+    "coverage": 95,
+    "required_str": -1,
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "DOOR", "BLOCK_WIND" ],
+    "open": "f_large_canvas_door_o",
+    "bash": {
+      "str_min": 1,
+      "str_max": 8,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 8,
+      "collapse_radius": 2,
+      "tent_centers": [ "f_center_groundsheet" ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_large_canvas_door_o",
+    "name": "open canvas flap",
+    "description": "This heavy canvas flap door has been pulled aside.",
+    "symbol": ".",
+    "color": "blue",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "close": "f_large_canvas_door",
+    "bash": {
+      "str_min": 1,
+      "str_max": 8,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 8,
+      "collapse_radius": 2,
+      "tent_centers": [ "f_center_groundsheet" ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_groundsheet",
+    "name": "groundsheet",
+    "description": "This plastic groundsheet could keep you dry.",
+    "symbol": ";",
+    "color": "green",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE" ],
+    "examine_action": "portable_structure",
+    "deployed_item": "tent_kit",
+    "bash": {
+      "str_min": 1,
+      "str_max": 8,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 8,
+      "items": [ { "item": "broketent" } ],
+      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_large_groundsheet",
+    "name": "groundsheet",
+    "description": "This large plastic groundsheet could keep you dry.",
+    "symbol": ";",
+    "color": "green",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE" ],
+    "bash": {
+      "str_min": 1,
+      "str_max": 8,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 8,
+      "collapse_radius": 2,
+      "tent_centers": [ "f_center_groundsheet" ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_center_groundsheet",
+    "name": "groundsheet",
+    "description": "This plastic groundsheet could keep you dry.",
+    "symbol": ";",
+    "color": "green",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE" ],
+    "examine_action": "portable_structure",
+    "deployed_item": "large_tent_kit",
+    "bash": {
+      "str_min": 1,
+      "str_max": 8,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 8,
+      "collapse_radius": 2,
+      "items": [ { "item": "largebroketent" } ],
+      "tent_centers": [ "f_center_groundsheet" ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_fema_groundsheet",
+    "name": "groundsheet",
+    "description": "This plastic government-issue groundsheet could keep you dry, but was made by the lowest bidder.",
+    "symbol": ";",
+    "color": "green",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "INDOORS", "ORGANIC", "NOCOLLIDE" ],
+    "bash": {
+      "str_min": 1,
+      "str_max": 8,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 8,
+      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_skin_wall",
+    "name": "animalskin wall",
+    "symbol": "#",
+    "description": "Wall made out of animal skin.  Either an amazing or horrifying sight.",
+    "color": "brown",
+    "move_cost_mod": -1,
+    "coverage": 95,
+    "required_str": -1,
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 1,
+      "str_max": 8,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 8,
+      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_skin_door",
+    "name": "animalskin flap",
+    "description": "This animal skin flap could be pulled aside.",
+    "symbol": "+",
+    "color": "white",
+    "move_cost_mod": -1,
+    "coverage": 95,
+    "required_str": -1,
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "BLOCK_WIND" ],
+    "open": "f_skin_door_o",
+    "bash": {
+      "str_min": 1,
+      "str_max": 8,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 8,
+      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_skin_door_o",
+    "name": "open animalskin flap",
+    "description": "This animal skin flap has been pulled aside.",
+    "symbol": ".",
+    "color": "white",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT" ],
+    "close": "f_skin_door",
+    "bash": {
+      "str_min": 1,
+      "str_max": 8,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 8,
+      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_skin_groundsheet",
+    "name": "animalskin floor",
+    "description": "This animal skin groundsheet could keep you dry.",
+    "symbol": ";",
+    "color": "brown",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "INDOORS", "NOCOLLIDE" ],
+    "examine_action": "portable_structure",
+    "deployed_item": "shelter_kit",
+    "bash": {
+      "str_min": 1,
+      "str_max": 8,
+      "sound": "rrrrip!",
+      "sound_fail": "slap!",
+      "sound_vol": 8,
+      "items": [ { "item": "damaged_shelter_kit" } ],
+      "tent_centers": [ "f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet" ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_rubble",
+    "name": "pile of rubble",
+    "symbol": "^",
+    "description": "Pile of various metals, bricks, and other building materials.  You could clear it with a shovel.",
+    "color": "light_gray",
+    "move_cost_mod": 6,
+    "max_volume": 3000,
+    "required_str": -1,
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "TINY",
+      "RUBBLE"
+    ],
+    "examine_action": "rubble"
+  },
+  {
+    "type": "furniture",
+    "id": "f_rubble_rock",
+    "name": "pile of rocky rubble",
+    "description": "Pile of rocks.  Useless?",
+    "symbol": "^",
+    "color": "dark_gray",
+    "move_cost_mod": 6,
+    "max_volume": 3000,
+    "required_str": -1,
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "SHORT",
+      "RUBBLE"
+    ],
+    "examine_action": "rubble"
+  },
+  {
+    "type": "furniture",
+    "id": "f_rubble_landfill",
+    "name": "pile of trashy rubble",
+    "description": "Trash topped with dirt and grass, it smells gross, but another man's trash...",
+    "symbol": "#",
+    "color": "green",
+    "move_cost_mod": 8,
+    "max_volume": 3000,
+    "required_str": -1,
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "SHORT",
+      "RUBBLE"
+    ],
+    "examine_action": "rubble"
+  },
+  {
+    "type": "furniture",
+    "id": "f_wreckage",
+    "name": "metal wreckage",
+    "description": "Pile of various bent and twisted metals.",
+    "symbol": "#",
+    "color": "cyan",
+    "move_cost_mod": 6,
+    "max_volume": 3000,
+    "required_str": -1,
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "SHARP",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "SHORT",
+      "RUBBLE"
+    ],
+    "examine_action": "rubble"
+  },
+  {
+    "type": "furniture",
+    "id": "f_ash",
+    "name": "pile of ash",
+    "symbol": "#",
+    "description": "Some ash, from wood or possibly bodies.",
+    "color": "light_gray",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "NOCOLLIDE", "CONTAINER", "SEALED", "PLACE_ITEM", "RUBBLE" ],
+    "examine_action": "rubble"
+  },
+  {
+    "type": "furniture",
+    "id": "f_boulder_small",
+    "name": "small boulder",
+    "description": "Blocking your path.  Should be easy to move.  It can be used as a primitive anvil.",
+    "symbol": "o",
+    "color": "dark_gray",
+    "move_cost_mod": 3,
+    "coverage": 30,
+    "required_str": 10,
+    "crafting_pseudo_item": "boulder_anvil",
+    "flags": [ "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "TINY" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 1, 6 ] }, { "item": "sharp_rock", "count": [ 0, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_boulder_medium",
+    "name": "medium boulder",
+    "description": "Blocking your path.  It'll be a struggle to move.  It can be used as a primitive anvil.",
+    "symbol": "0",
+    "color": "dark_gray",
+    "move_cost_mod": 6,
+    "coverage": 45,
+    "required_str": 16,
+    "crafting_pseudo_item": "boulder_anvil",
+    "flags": [ "NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "MOUNTABLE", "SHORT", "BASHABLE" ],
+    "bash": {
+      "str_min": 32,
+      "str_max": 80,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 5, 11 ] }, { "item": "sharp_rock", "count": [ 1, 4 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_boulder_large",
+    "name": "large boulder",
+    "description": "Now how are you going to move this?",
+    "symbol": "O",
+    "color": "dark_gray",
+    "move_cost_mod": -1,
+    "coverage": 65,
+    "required_str": 32,
+    "flags": [ "NOITEM", "MINEABLE", "BASHABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 64,
+      "str_max": 160,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [
+        { "item": "rock", "count": [ 10, 22 ] },
+        { "item": "sharp_rock", "count": [ 3, 7 ] },
+        { "item": "material_limestone", "charges": [ 2, 5 ], "prob": 30 },
+        { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 },
+        { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 1 },
+        { "item": "material_zincite", "count": [ 0, 5 ], "prob": 2 }
+      ]
+    }
+  }
+]

@@ -1013,8 +1013,11 @@ void npc::execute_action( npc_action action )
 
         case npc_drop_items:
             /* NPCs cant choose this action anymore, but at least it works */
-            drop_items( weight_carried() - weight_capacity(),
-                        volume_carried() - volume_capacity() );
+            drop_invalid_inventory();
+            /* drop_items is still broken
+             * drop_items( weight_carried() - weight_capacity(),
+             *             volume_carried() - volume_capacity() );
+             */
             move_pause();
             break;
 
@@ -2297,7 +2300,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
         moves -= 100;
         moved = true;
-    } else if( g->m.passable( p ) ) {
+    } else if( g->m.passable( p ) && !g->m.has_flag( "DOOR", p ) ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         if( is_mounted() ) {
             const double base_moves = run_cost( g->m.combined_movecost( pos(), p ),
@@ -2966,8 +2969,12 @@ struct ratio_index {
     ratio_index( double R, int I ) : ratio( R ), index( I ) {}
 };
 
+/* As of October 2019, this is buggy, do not use!! */
 void npc::drop_items( units::mass drop_weight, units::volume drop_volume, int min_val )
 {
+    /* Remove this when someone debugs it back to functionality */
+    return;
+
     add_msg( m_debug, "%s is dropping items-%3.2f kg, %3.2f L (%d items, wgt %3.2f/%3.2f kg, "
              "vol %3.2f/%3.2f L)",
              name, units::to_kilogram( drop_weight ), units::to_liter( drop_volume ), inv.size(),
@@ -3862,7 +3869,7 @@ void npc::reach_omt_destination()
                 if( g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) &&
                     has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
                     add_msg( m_info, _( "From your two-way radio you hear %s reporting in, "
-                                        " 'I've arrived, boss!'" ), disp_name() );
+                                        "'I've arrived, boss!'" ), disp_name() );
                 }
             }
         } else {
@@ -4370,4 +4377,9 @@ bool npc::adjust_worn()
     }
 
     return false;
+}
+
+void npc::set_movement_mode( character_movemode new_mode )
+{
+    move_mode = new_mode;
 }

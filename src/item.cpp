@@ -3115,11 +3115,11 @@ nc_color item::color_in_inventory() const
         ret = c_red;
     } else if( is_filthy() || item_tags.count( "DIRTY" ) ) {
         ret = c_brown;
-    } else if( is_bionic() && !has_flag( "NO_STERILE" ) ) {
-        if( !has_flag( "NO_PACKED" ) ) {
+    } else if( is_bionic() ) {
+        if( !u.has_bionic( type->bionic->id ) ) {
+            ret = u.bionic_installation_issues( type->bionic->id ).empty() ? c_green : c_red;
+        } else if( !has_flag( "NO_STERILE" ) ) {
             ret = c_dark_gray;
-        } else {
-            ret = c_cyan;
         }
     } else if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage() > 0 ) {
         ret = c_light_green;
@@ -3241,10 +3241,6 @@ nc_color item::color_in_inventory() const
             }
         } else {
             ret = c_red; // Book hasn't been identified yet: red
-        }
-    } else if( is_bionic() ) {
-        if( !u.has_bionic( type->bionic->id ) ) {
-            ret = u.bionic_installation_issues( type->bionic->id ).empty() ? c_green : c_red;
         }
     }
     return ret;
@@ -7039,6 +7035,13 @@ float item::simulate_burn( fire_data &frd ) const
         burn_added = 1;
     }
 
+    if( count_by_charges() ) {
+        int stack_burnt = rng( type->stack_size / 2, type->stack_size );
+        time_added *= stack_burnt;
+        smoke_added *= stack_burnt;
+        burn_added *= stack_burnt;
+    }
+
     frd.fuel_produced += time_added;
     frd.smoke_produced += smoke_added;
     return burn_added;
@@ -7053,11 +7056,14 @@ bool item::burn( fire_data &frd )
     }
 
     if( count_by_charges() ) {
-        burn_added *= rng( type->stack_size / 2, type->stack_size );
-        charges -= roll_remainder( burn_added );
-        if( charges <= 0 ) {
-            return true;
+        if( type->volume == 0_ml ) {
+            charges = 0;
+        } else {
+            charges -= roll_remainder( burn_added * units::legacy_volume_factor * type->stack_size /
+                                       ( 3.0 * type->volume ) );
         }
+
+        return charges <= 0;
     }
 
     if( is_corpse() ) {

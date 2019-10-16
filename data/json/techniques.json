@@ -1321,6 +1321,79 @@
   },
   {
     "type": "technique",
+    "id": "tec_sojutsu_push",
+    "name": "Push",
+    "messages": [ "You push %s away", "<npcname> pushes %s away" ],
+    "min_melee": 1,
+    "melee_allowed": true,
+    "block_counter": true,
+    "crit_ok": true,
+    "knockback_dist": 1,
+    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_sojutsu_shove",
+    "name": "Shove",
+    "messages": [ "You shove %s back", "<npcname> shoves %s back" ],
+    "min_melee": 2,
+    "melee_allowed": true,
+    "knockback_dist": 1,
+    "mult_bonuses": [ [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_sojutsu_trip",
+    "name": "Trip",
+    "messages": [ "You deftly trip %s", "<npcname> deftly trips %s" ],
+    "min_melee": 3,
+    "melee_allowed": true,
+    "down_dur": 1,
+    "mult_bonuses": [ [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_taekwondo_disarm",
+    "name": "Snatch Weapon",
+    "messages": [ "You snatch %s's weapon", "<npcname> snatches %s's weapon" ],
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "strictly_unarmed": true,
+    "weighting": 2,
+    "take_weapon": true,
+    "mult_bonuses": [ [ "damage", "bash", 0.5 ] ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_taekwondo_precise",
+    "name": "Axe-kick",
+    "messages": [ "You raise your heel and axe-kick %s", "<npcname> raises their heel and axe-kicks %s" ],
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 2
+  },
+  {
+    "type": "technique",
+    "id": "tec_taekwondo_push",
+    "name": "Side Kick",
+    "min_unarmed": 0,
+    "unarmed_allowed": true,
+    "messages": [ "You turn slightly and side-kick %s", "<npcname> turns slightly and side-kicks %s" ],
+    "knockback_dist": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_taekwondo_sweep",
+    "name": "Sweep Kick",
+    "messages": [ "You crouch low and sweep-kick %s", "<npcname> crouches low and sweep-kicks %s" ],
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "crit_ok": true,
+    "down_dur": 1
+  },
+  {
+    "type": "technique",
     "id": "tec_taichi_disarm",
     "name": "disarm",
     "min_unarmed": 3,
@@ -1337,35 +1410,6 @@
     "crit_tec": true,
     "stun_dur": 2,
     "messages": [ "You strike %s", "<npcname> strikes %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_taekwondo_precise",
-    "name": "axe-kick",
-    "min_unarmed": 2,
-    "unarmed_allowed": true,
-    "crit_tec": true,
-    "stun_dur": 2,
-    "messages": [ "You axe-kick %s", "<npcname> axe-kicks %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_taekwondo_push",
-    "name": "side kick",
-    "min_unarmed": 3,
-    "unarmed_allowed": true,
-    "messages": [ "You side-kick %s", "<npcname> side-kicks %s" ],
-    "stun_dur": 1,
-    "knockback_dist": 1
-  },
-  {
-    "type": "technique",
-    "id": "tec_taekwondo_sweep",
-    "name": "sweep kick",
-    "min_unarmed": 4,
-    "unarmed_allowed": true,
-    "messages": [ "You sweep-kick %s", "<npcname> sweep-kicks %s" ],
-    "down_dur": 2
   },
   {
     "type": "technique",
@@ -1419,39 +1463,6 @@
     "flat_bonuses": [ [ "arpen", "bash", 10 ], [ "arpen", "bash", "per", 1 ] ],
     "crit_tec": true,
     "messages": [ "You phase-strike %s", "<npcname> phase-strikes %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_sojutsu_push",
-    "name": "Push",
-    "min_melee": 1,
-    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 0.5 ], [ "damage", "cut", 0.5 ], [ "damage", "stab", 0.5 ] ],
-    "melee_allowed": true,
-    "block_counter": true,
-    "crit_ok": true,
-    "knockback_dist": 1,
-    "messages": [ "You push %s away", "<npcname> pushes %s away" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_sojutsu_trip",
-    "name": "Trip",
-    "min_melee": 2,
-    "melee_allowed": true,
-    "down_dur": 2,
-    "messages": [ "You deftly trip %s", "<npcname> deftly trips %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_sojutsu_skewer",
-    "name": "Skewer",
-    "min_melee": 4,
-    "mult_bonuses": [ [ "damage", "bash", 0.0 ], [ "damage", "cut", 1.5 ], [ "damage", "stab", 1.5 ] ],
-    "melee_allowed": true,
-    "crit_tec": true,
-    "knockback_dist": 1,
-    "stun_dur": 2,
-    "messages": [ "You brutally skewer %s", "<npcname> brutally skewers %s" ]
   },
   {
     "type": "technique",

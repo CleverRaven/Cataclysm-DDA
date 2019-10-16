@@ -116,7 +116,7 @@
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
       "yes": "Is that a U.S. Marshal's badge you're wearing?",
-      "no": { "u_male": true, "yes": "Hello travler, what brings you here?", "no": "Hello traveler, what brings you here?" }
+      "no": { "u_male": true, "yes": "Hello traveler, what brings you here?", "no": "Hello traveler, what brings you here?" }
     },
     "responses": [
       {
@@ -188,7 +188,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_JACK2",
-    "dynamic_line": "We've had our losses... now we stay close to home, preparing for trouble.  We've always taken disaster prepardness seriously, but we didn't expect anything like this though.",
+    "dynamic_line": "We've had our losses... now we stay close to home, preparing for trouble.  We've always taken disaster preparedness seriously, but we didn't expect anything like this though.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -250,7 +250,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LEAVE_NOW",
-    "dynamic_line": "You should get off my land, the governemnt proved its incompetence with this catastrophe.",
+    "dynamic_line": "You should get off my land, the government proved its incompetence with this catastrophe.",
     "responses": [ { "text": "...", "topic": "TALK_DONE" } ]
   },
   {

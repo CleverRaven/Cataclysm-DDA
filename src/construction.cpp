@@ -1171,7 +1171,7 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
     g->u.mod_fatigue( 10 + mine_penalty + no_mut_penalty );
 
     if( tmpmap.ter( local_tmp ) == t_lava ) {
-        if( !( query_yn( _( "The rock feels much warmer than normal. Proceed?" ) ) ) ) {
+        if( !( query_yn( _( "The rock feels much warmer than normal.  Proceed?" ) ) ) ) {
             g->m.ter_set( p, t_pit ); // You dug down a bit before detecting the problem
             unroll_digging( dig ? 8 : 12 );
         } else {

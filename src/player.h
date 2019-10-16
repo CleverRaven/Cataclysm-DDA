@@ -157,20 +157,6 @@ struct needs_rates {
     float kcal = 0.0f;
 };
 
-enum player_movemode : unsigned char {
-    PMM_WALK = 0,
-    PMM_RUN = 1,
-    PMM_CROUCH = 2,
-    PMM_COUNT
-};
-
-static const std::array< std::string, PMM_COUNT > player_movemode_str = { {
-        "walk",
-        "run",
-        "crouch"
-    }
-};
-
 class player : public Character
 {
     public:
@@ -211,8 +197,7 @@ class player : public Character
         bool is_npc() const override {
             return false;    // Overloaded for NPCs in npc.h
         }
-        bool can_mount( const monster &critter ) const;
-        void mount_creature( monster &z );
+
         /** Returns what color the player should be drawn as */
         nc_color basic_symbol_color() const override;
 
@@ -296,10 +281,6 @@ class player : public Character
         bool has_higher_trait( const trait_id &flag ) const;
         /** Returns true if the player has a trait that shares a type with the entered trait */
         bool has_same_type_trait( const trait_id &flag ) const;
-        /** Returns true if the player has crossed a mutation threshold
-         *  Player can only cross one mutation threshold.
-         */
-        bool crossed_threshold() const;
         /** Returns true if the entered trait may be purified away
          *  Defaults to true
          */
@@ -313,8 +294,6 @@ class player : public Character
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthetic kits or NOPAIN mutation */
         void introduce_into_anesthesia( const time_duration &duration, player &installer,
                                         bool needs_anesthesia );
-        /** Returns true if the player is wearing an active optical cloak */
-        bool has_active_optcloak() const;
         /** Adds a bionic to my_bionics[] */
         void add_bionic( const bionic_id &b );
         /** Removes a bionic from my_bionics[] */
@@ -442,15 +421,7 @@ class player : public Character
 
         Attitude attitude_to( const Creature &other ) const override;
 
-        void pause(); // '.' command; pauses & reduces recoil
-
-        void set_movement_mode( player_movemode mode );
-        bool movement_mode_is( player_movemode mode ) const;
-
-        void cycle_move_mode(); // Cycles to the next move mode.
-        void reset_move_mode(); // Resets to walking.
-        void toggle_run_mode(); // Toggles running on/off.
-        void toggle_crouch_mode(); // Toggles crouching on/off.
+        void pause(); // '.' command; pauses & resets recoil
 
         // martialarts.cpp
         /** Fires all non-triggered martial arts events */
@@ -613,8 +584,6 @@ class player : public Character
         /** Handles special defenses from an attack that hit us (source can be null) */
         void on_hit( Creature *source, body_part bp_hit = num_bp,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
-        /** Handles effects that happen when the player is damaged and aware of the fact. */
-        void on_hurt( Creature *source, bool disturb = true );
 
         /** Returns the bonus bashing damage the player deals based on their stats */
         float bonus_damage( bool random ) const;
@@ -750,16 +719,6 @@ class player : public Character
         void set_painkiller( int npkill );
         /** Returns intensity of painkillers  */
         int get_painkiller() const;
-        /** Heals a body_part for dam */
-        void heal( body_part healed, int dam );
-        /** Heals an hp_part for dam */
-        void heal( hp_part healed, int dam );
-        /** Heals all body parts for dam */
-        void healall( int dam );
-        /** Hurts all body parts for dam, no armor reduction */
-        void hurtall( int dam, Creature *source, bool disturb = true );
-        /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
-        int hitall( int dam, int vary, Creature *source );
         /** Knocks the player to a specified tile */
         void knock_back_to( const tripoint &to ) override;
 
@@ -808,6 +767,8 @@ class player : public Character
 
         /** used for drinking from hands, returns how many charges were consumed */
         int drink_from_hands( item &water );
+        /** Check whether player can consume this very item */
+        bool can_consume_as_is( const item &it ) const;
         /** Used for eating object at pos, returns true if object is removed from inventory (last charge was consumed) */
         bool consume( int target_position );
         /** Used for eating a particular item that doesn't need to be in inventory.
@@ -971,12 +932,6 @@ class player : public Character
         bool can_estimate_rot() const;
 
         bool is_wielding( const item &target ) const;
-        /**
-         * Removes currently wielded item (if any) and replaces it with the target item.
-         * @param target replacement item to wield or null item to remove existing weapon without replacing it
-         * @return whether both removal and replacement were successful (they are performed atomically)
-         */
-        virtual bool wield( item &target );
         bool unwield();
 
         /** Creates the UI and handles player input for picking martial arts styles */
@@ -1476,8 +1431,6 @@ class player : public Character
         action_id get_next_auto_move_direction();
         bool defer_move( const tripoint &next );
         void shift_destination( const point &shift );
-        void forced_dismount();
-        void dismount();
 
         // Hauling items on the ground
         void start_hauling();
@@ -1499,27 +1452,7 @@ class player : public Character
         tripoint global_omt_location() const;
 
         // ---------------VALUES-----------------
-        inline int posx() const override {
-            return position.x;
-        }
-        inline int posy() const override {
-            return position.y;
-        }
-        inline int posz() const override {
-            return position.z;
-        }
-        inline void setx( int x ) {
-            setpos( tripoint( x, position.y, position.z ) );
-        }
-        inline void sety( int y ) {
-            setpos( tripoint( position.x, y, position.z ) );
-        }
-        inline void setz( int z ) {
-            setpos( tripoint( position.xy(), z ) );
-        }
-        inline void setpos( const tripoint &p ) override {
-            position = p;
-        }
+
         tripoint view_offset;
         // Means player sit inside vehicle on the tile he is now
         bool in_vehicle;
@@ -1592,14 +1525,11 @@ class player : public Character
         bool is_hallucination() const override;
         void environmental_revert_effect();
 
-        bool is_invisible() const;
         bool is_deaf() const;
         // Checks whether a player can hear a sound at a given volume and location.
         bool can_hear( const tripoint &source, int volume ) const;
         // Returns a multiplier indicating the keenness of a player's hearing.
         float hearing_ability() const;
-        int visibility( bool check_color = false,
-                        int stillness = 0 ) const; // just checks is_invisible for the moment
 
         m_size get_size() const override;
         int get_hp( hp_part bp ) const override;
@@ -1632,18 +1562,6 @@ class player : public Character
 
         // TODO: make protected and move into Character
         void do_skill_rust();
-
-        // drawing related stuff
-        /**
-         * Returns a list of the IDs of overlays on this character,
-         * sorted from "lowest" to "highest".
-         *
-         * Only required for rendering.
-         */
-        std::vector<std::string> get_overlay_ids() const;
-
-        void spores();
-        void blossoms();
 
         /**
          * Called when a mutation is gained
@@ -1718,8 +1636,6 @@ class player : public Character
         known_magic magic;
 
     protected:
-        // The player's position on the local map.
-        tripoint position;
 
         trap_map known_traps;
 
@@ -1781,8 +1697,6 @@ class player : public Character
         bool feed_reactor_with( item &it );
         bool feed_furnace_with( item &it );
         bool fuel_bionic_with( item &it );
-        /** Check whether player can consume this very item */
-        bool can_consume_as_is( const item &it ) const;
         /**
          * Consumes an item as medication.
          * @param target Item consumed. Must be a medication or a container of medication.
@@ -1794,9 +1708,6 @@ class player : public Character
 
         int pkill;
 
-    protected:
-        // TODO: move this to avatar
-        player_movemode move_mode;
     private:
 
         std::vector<tripoint> auto_move_route;
