@@ -79,6 +79,7 @@ const efftype_id effect_sleep_deprived( "sleep_deprived" );
 const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 const efftype_id effect_stim( "stim" );
 const efftype_id effect_stim_overdose( "stim_overdose" );
+const efftype_id effect_winded( "winded" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
@@ -265,7 +266,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     const skill_id &skill = type->skill;
     const int skill_level = get_skill_level( skill );
     if( skill && skill_level < type->req && has_identified( book.typeId() ) ) {
-        reasons.push_back( string_format( _( "%s %d needed to understand. You have %d" ),
+        reasons.push_back( string_format( _( "%s %d needed to understand.  You have %d" ),
                                           skill.obj().name(), type->req, skill_level ) );
         return nullptr;
     }
@@ -301,7 +302,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
                                               elem->disp_name() ) );
         } else if( skill && elem->get_skill_level( skill ) < type->req &&
                    has_identified( book.typeId() ) ) {
-            reasons.push_back( string_format( _( "%s %d needed to understand. %s has %d" ),
+            reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
                                               skill.obj().name(), type->req, elem->disp_name(), elem->get_skill_level( skill ) ) );
         } else if( elem->has_trait( trait_HYPEROPIC ) && !elem->worn_with_flag( "FIX_FARSIGHT" ) &&
                    !elem->has_effect( effect_contacts ) ) {
@@ -595,7 +596,7 @@ bool avatar::read( int inventory_position, const bool continuous )
 
     if( std::min( fine_detail_vision_mod(), reader->fine_detail_vision_mod() ) > 1.0 ) {
         add_msg( m_warning,
-                 _( "It's difficult for %s to see fine details right now. Reading will take longer than usual." ),
+                 _( "It's difficult for %s to see fine details right now.  Reading will take longer than usual." ),
                  reader->disp_name() );
     }
 
@@ -605,7 +606,7 @@ bool avatar::read( int inventory_position, const bool continuous )
     const player *complex_player = reader->get_int() < intelligence ? reader : this;
     if( complex_penalty && !continuous ) {
         add_msg( m_warning,
-                 _( "This book is too complex for %s to easily understand. It will take longer to read." ),
+                 _( "This book is too complex for %s to easily understand.  It will take longer to read." ),
                  complex_player->disp_name() );
     }
 
@@ -798,7 +799,7 @@ void avatar::do_read( item &book )
                     continuous = true;
                 }
                 if( learner->is_player() ) {
-                    add_msg( m_info, _( "You learn a little about %s! (%d%%)" ), skill_name, skill_level.exercise() );
+                    add_msg( m_info, _( "You learn a little about %s!  (%d%%)" ), skill_name, skill_level.exercise() );
                 } else {
                     little_learned.insert( learner->disp_name() );
                 }
@@ -1064,7 +1065,7 @@ void avatar::update_mental_focus()
     if( activity.id() == activity_id( "ACT_READ" ) ) {
         const item *book = activity.targets[0].get_item();
         if( get_item_position( book ) == INT_MIN || !book->is_book() ) {
-            add_msg_if_player( m_bad, _( "You lost your book! You stop reading." ) );
+            add_msg_if_player( m_bad, _( "You lost your book!  You stop reading." ) );
             activity.set_to_null();
         }
     }
@@ -1330,7 +1331,7 @@ void avatar::upgrade_stat_prompt( const Character::stat &stat )
             return;
     }
 
-    if( query_yn( _( "Are you sure you want to raise %s? %d points available." ), stat_string,
+    if( query_yn( _( "Are you sure you want to raise %s?  %d points available." ), stat_string,
                   free_points ) ) {
         switch( stat ) {
             case STRENGTH:
@@ -1355,4 +1356,155 @@ void avatar::upgrade_stat_prompt( const Character::stat &stat )
 faction *avatar::get_faction() const
 {
     return g->faction_manager_ptr->get( faction_id( "your_followers" ) );
+}
+
+void avatar::set_movement_mode( character_movemode new_mode )
+{
+    switch( new_mode ) {
+        case CMM_WALK: {
+            if( is_mounted() ) {
+                if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+                    add_msg( _( "You set your mech's leg power to a loping fast walk." ) );
+                } else {
+                    add_msg( _( "You nudge your steed into a steady trot." ) );
+                }
+            } else {
+                add_msg( _( "You start walking." ) );
+            }
+            break;
+        }
+        case CMM_RUN: {
+            if( stamina > 0 && !has_effect( effect_winded ) ) {
+                if( is_hauling() ) {
+                    stop_hauling();
+                }
+                if( is_mounted() ) {
+                    if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+                        add_msg( _( "You set the power of your mech's leg servos to maximum." ) );
+                    } else {
+                        add_msg( _( "You spur your steed into a gallop." ) );
+                    }
+                } else {
+                    add_msg( _( "You start running." ) );
+                }
+            } else {
+                if( is_mounted() ) {
+                    // mounts dont currently have stamina, but may do in future.
+                    add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
+                } else {
+                    add_msg( m_bad, _( "You're too tired to run." ) );
+                }
+            }
+            break;
+        }
+        case CMM_CROUCH: {
+            if( is_mounted() ) {
+                if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+                    add_msg( _( "You reduce the power of your mech's leg servos to minimum." ) );
+                } else {
+                    add_msg( _( "You slow your steed to a walk." ) );
+                }
+            } else {
+                add_msg( _( "You start crouching." ) );
+            }
+            break;
+        }
+        default: {
+            return;
+        }
+    }
+    move_mode = new_mode;
+}
+
+void avatar::toggle_run_mode()
+{
+    if( move_mode == CMM_RUN ) {
+        set_movement_mode( CMM_WALK );
+    } else {
+        set_movement_mode( CMM_RUN );
+    }
+}
+
+void avatar::toggle_crouch_mode()
+{
+    if( move_mode == CMM_CROUCH ) {
+        set_movement_mode( CMM_WALK );
+    } else {
+        set_movement_mode( CMM_CROUCH );
+    }
+}
+
+void avatar::reset_move_mode()
+{
+    if( move_mode != CMM_WALK ) {
+        set_movement_mode( CMM_WALK );
+    }
+}
+
+void avatar::cycle_move_mode()
+{
+    unsigned char as_uchar = static_cast<unsigned char>( move_mode );
+    as_uchar = ( as_uchar + 1 + CMM_COUNT ) % CMM_COUNT;
+    set_movement_mode( static_cast<character_movemode>( as_uchar ) );
+}
+
+bool avatar::wield( item &target )
+{
+    if( is_wielding( target ) ) {
+        return true;
+    }
+
+    if( !can_wield( target ).success() ) {
+        return false;
+    }
+
+    if( !unwield() ) {
+        return false;
+    }
+    cached_info.erase( "weapon_value" );
+    if( target.is_null() ) {
+        return true;
+    }
+
+    // Query whether to draw an item from a holster when attempting to wield the holster
+    if( target.get_use( "holster" ) && !target.contents.empty() ) {
+        //~ %1$s: weapon name, %2$s: holster name
+        if( query_yn( pgettext( "holster", "Draw %1$s from %2$s?" ), target.get_contained().tname(),
+                      target.tname() ) ) {
+            invoke_item( &target );
+            return false;
+        }
+    }
+
+    // Wielding from inventory is relatively slow and does not improve with increasing weapon skill.
+    // Worn items (including guns with shoulder straps) are faster but still slower
+    // than a skilled player with a holster.
+    // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
+
+    bool worn = is_worn( target );
+    int mv = item_handling_cost( target, true,
+                                 worn ? INVENTORY_HANDLING_PENALTY / 2 : INVENTORY_HANDLING_PENALTY );
+
+    if( worn ) {
+        target.on_takeoff( *this );
+    }
+
+    add_msg( m_debug, "wielding took %d moves", mv );
+    moves -= mv;
+
+    if( has_item( target ) ) {
+        weapon = i_rem( &target );
+    } else {
+        weapon = target;
+    }
+
+    last_item = weapon.typeId();
+    recoil = MAX_RECOIL;
+
+    weapon.on_wield( *this, mv );
+
+    inv.update_invlet( weapon );
+    inv.update_cache_with_item( weapon );
+
+    return true;
 }

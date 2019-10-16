@@ -87,7 +87,7 @@
     "item": "directed_floodlight",
     "copy-from": "floodlight",
     "looks_like": "floodlight",
-    "description": "A very bright, directed light that illuminates a half-circular area outside the vehicle when turned on.   During installation, you can choose what direction to point the light.",
+    "description": "A very bright, directed light that illuminates a half-circular area outside the vehicle when turned on.  During installation, you can choose what direction to point the light.",
     "//": "8000lm 100W LED floodlight",
     "epower": -100,
     "flags": [ "HALF_CIRCLE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]

@@ -136,7 +136,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "metal_bat_plus_two",
+    "id": "bat_metal_plus_two",
     "copy-from": "bat_metal",
     "looks_like": "bat_metal",
     "name": "aluminum bat +2",

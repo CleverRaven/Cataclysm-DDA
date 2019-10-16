@@ -74,6 +74,20 @@ enum vision_modes {
     NUM_VISION_MODES
 };
 
+enum character_movemode : unsigned char {
+    CMM_WALK = 0,
+    CMM_RUN = 1,
+    CMM_CROUCH = 2,
+    CMM_COUNT
+};
+
+static const std::array< std::string, CMM_COUNT > character_movemode_str = { {
+        "walk",
+        "run",
+        "crouch"
+    }
+};
+
 enum fatigue_levels {
     TIRED = 191,
     DEAD_TIRED = 383,
@@ -354,9 +368,15 @@ class Character : public Creature, public visitable<Character>
         bool is_wearing_power_armor( bool *hasHelmet = nullptr ) const;
         /** Returns true if the character is wearing active power */
         bool is_wearing_active_power_armor() const;
+        /** Returns true if the player is wearing an active optical cloak */
+        bool is_wearing_active_optcloak() const;
 
         /** Returns true if the player isn't able to see */
         bool is_blind() const;
+
+        bool is_invisible() const;
+        /** Checks is_invisible() as well as other factors */
+        int visibility( bool check_color = false, int stillness = 0 ) const;
 
         /** Bitset of all the body parts covered only with items with `flag` (or nothing) */
         body_part_set exclusive_flag_coverage( const std::string &flag ) const;
@@ -364,6 +384,11 @@ class Character : public Creature, public visitable<Character>
         /** Processes effects which may prevent the Character from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
         bool move_effects( bool attacking ) override;
+        /** Check against the character's current movement mode */
+        bool movement_mode_is( character_movemode mode ) const;
+
+        virtual void set_movement_mode( character_movemode mode ) = 0;
+
         /** Performs any Character-specific modifications to the arguments before passing to Creature::add_effect(). */
         void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
                          bool permanent = false,
@@ -400,6 +425,34 @@ class Character : public Creature, public visitable<Character>
          * that encumbrance may have changed and require recalculating.
          */
         void check_item_encumbrance_flag();
+
+        // any side effects that might happen when the Character is hit
+        void on_hit( Creature *source, body_part /*bp_hit*/,
+                     float /*difficulty*/, dealt_projectile_attack const * /*proj*/ ) override;
+        // any side effects that might happen when the Character hits a Creature
+        void did_hit( Creature &target );
+
+        /**
+         * Check for relevant passive, non-clothing that can absorb damage, and reduce by specified
+         * damage unit.  Only flat bonuses are checked here.  Multiplicative ones are checked in
+         * @ref player::absorb_hit.  The damage amount will never be reduced to less than 0.
+         * This is called from @ref player::absorb_hit
+         */
+        void passive_absorb_hit( body_part bp, damage_unit &du ) const;
+        /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
+        void absorb_hit( body_part bp, damage_instance &dam ) override;
+        /**
+         * Reduces and mutates du, prints messages about armor taking damage.
+         * @return true if the armor was completely destroyed (and the item must be deleted).
+         */
+        bool armor_absorb( damage_unit &du, item &armor );
+        /**
+         * Check for passive bionics that provide armor, and returns the armor bonus
+         * This is called from player::passive_absorb_hit
+         */
+        float bionic_armor_bonus( body_part bp, damage_type dt ) const;
+        /** Returns the armor bonus against given type from martial arts buffs */
+        int mabuff_armor_bonus( damage_type type ) const;
         // --------------- Mutation Stuff ---------------
         // In newcharacter.cpp
         /** Returns the id of a random starting trait that costs >= 0 points */
@@ -428,7 +481,36 @@ class Character : public Creature, public visitable<Character>
         /** Converts an hp_part to a body_part */
         static body_part hp_to_bp( hp_part hpart );
 
+        bool can_mount( const monster &critter ) const;
+        void mount_creature( monster &z );
         bool is_mounted() const;
+        void dismount();
+        void forced_dismount();
+
+        /** Returns true if the player has two functioning arms */
+        bool has_two_arms() const;
+        /** Returns the number of functioning arms */
+        int get_working_arm_count() const;
+        /** Returns the number of functioning legs */
+        int get_working_leg_count() const;
+        /** Returns true if the limb is disabled */
+        bool is_limb_disabled( hp_part limb ) const;
+        /** Returns true if the limb is hindered(40% or less hp) */
+        bool is_limb_hindered( hp_part limb ) const;
+        /** Returns true if the limb is broken */
+        bool is_limb_broken( hp_part limb ) const;
+        /** Hurts all body parts for dam, no armor reduction */
+        void hurtall( int dam, Creature *source, bool disturb = true );
+        /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */
+        int hitall( int dam, int vary, Creature *source );
+        /** Handles effects that happen when the player is damaged and aware of the fact. */
+        void on_hurt( Creature *source, bool disturb = true );
+        /** Heals a body_part for dam */
+        void heal( body_part healed, int dam );
+        /** Heals an hp_part for dam */
+        void heal( hp_part healed, int dam );
+        /** Heals all body parts for dam */
+        void healall( int dam );
         /**
          * Displays menu with body part hp, optionally with hp estimation after healing.
          * Returns selected part.
@@ -463,6 +545,27 @@ class Character : public Creature, public visitable<Character>
             WT_GOOD,
             NUM_WATER_TOLERANCE
         };
+        inline int posx() const override {
+            return position.x;
+        }
+        inline int posy() const override {
+            return position.y;
+        }
+        inline int posz() const override {
+            return position.z;
+        }
+        inline void setx( int x ) {
+            setpos( tripoint( x, position.y, position.z ) );
+        }
+        inline void sety( int y ) {
+            setpos( tripoint( position.x, y, position.z ) );
+        }
+        inline void setz( int z ) {
+            setpos( tripoint( position.xy(), z ) );
+        }
+        inline void setpos( const tripoint &p ) override {
+            position = p;
+        }
     private:
         /** Retrieves a stat mod of a mutation. */
         int get_mod( const trait_id &mut, const std::string &arg ) const;
@@ -798,6 +901,13 @@ class Character : public Creature, public visitable<Character>
          */
         bool is_armed() const;
 
+        /**
+         * Removes currently wielded item (if any) and replaces it with the target item.
+         * @param target replacement item to wield or null item to remove existing weapon without replacing it
+         * @return whether both removal and replacement were successful (they are performed atomically)
+         */
+        virtual bool wield( item &target ) = 0;
+
         void drop_invalid_inventory();
 
         virtual bool has_artifact_with( art_effect_passive effect ) const;
@@ -809,6 +919,16 @@ class Character : public Creature, public visitable<Character>
         bool is_wearing_on_bp( const itype_id &it, body_part bp ) const;
         /** Returns true if the player is wearing an item with the given flag. */
         bool worn_with_flag( const std::string &flag, body_part bp = num_bp ) const;
+
+
+        // drawing related stuff
+        /**
+         * Returns a list of the IDs of overlays on this character,
+         * sorted from "lowest" to "highest".
+         *
+         * Only required for rendering.
+         */
+        std::vector<std::string> get_overlay_ids() const;
 
         // --------------- Skill Stuff ---------------
         int get_skill_level( const skill_id &ident ) const;
@@ -925,6 +1045,10 @@ class Character : public Creature, public visitable<Character>
          */
         void add_traits();
         void add_traits( points_left &points );
+        /** Returns true if the player has crossed a mutation threshold
+         *  Player can only cross one mutation threshold.
+         */
+        bool crossed_threshold() const;
 
         // --------------- Values ---------------
         std::string name;
@@ -1012,6 +1136,9 @@ class Character : public Creature, public visitable<Character>
         std::array<int, num_hp_parts> healed_total;
 
         std::map<std::string, int> mutation_category_level;
+
+        void spores();
+        void blossoms();
     protected:
         Character();
         Character( Character && );
@@ -1030,6 +1157,9 @@ class Character : public Creature, public visitable<Character>
             void serialize( JsonOut &json ) const;
             void deserialize( JsonIn &jsin );
         };
+
+        // The player's position on the local map.
+        tripoint position;
 
         /** Bonuses to stats, calculated each turn */
         int str_bonus;
@@ -1092,6 +1222,8 @@ class Character : public Creature, public visitable<Character>
         int faction_api_version = 2;  // faction API versioning
         faction_id fac_id; // A temp variable used to inform the game which faction to link
         faction *my_fac = nullptr;
+
+        character_movemode move_mode;
 
     private:
         // a cache of all active enchantment values.

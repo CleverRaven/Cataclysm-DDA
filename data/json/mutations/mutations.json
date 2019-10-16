@@ -623,7 +623,7 @@
     "id": "MARTIAL_ARTS5",
     "name": "Melee Weapon Training",
     "points": 3,
-    "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Fior Di Battaglia,  Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
+    "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
     "starting_trait": true,
     "initial_ma_styles": [
       "style_eskrima",
@@ -6075,7 +6075,25 @@
     "points": 0,
     "description": "You were shaping up to be a pretty decent student of the martial arts before the Cataclysm struck.  Time to see just how good you really are.",
     "valid": false,
-    "initial_ma_styles": [ "style_karate", "style_judo", "style_muay_thai", "style_tai_chi", "style_taekwondo" ],
+    "initial_ma_styles": [
+      "style_aikido",
+      "style_capoeira",
+      "style_crane",
+      "style_dragon",
+      "style_judo",
+      "style_karate",
+      "style_krav_maga",
+      "style_leopard",
+      "style_muay_thai",
+      "style_ninjutsu",
+      "style_pankration",
+      "style_snake",
+      "style_taekwondo",
+      "style_tai_chi",
+      "style_tiger",
+      "style_wingchun",
+      "style_zui_quan"
+    ],
     "purifiable": false,
     "profession": true
   },
@@ -6086,13 +6104,23 @@
     "points": 0,
     "description": "You were competitive at national levels, and had considered teaching your art.  Defending against the entire town may still be a challenge, though.",
     "initial_ma_styles": [
-      "style_karate",
-      "style_judo",
       "style_aikido",
-      "style_tai_chi",
+      "style_capoeira",
+      "style_crane",
+      "style_dragon",
+      "style_judo",
+      "style_karate",
+      "style_krav_maga",
+      "style_leopard",
+      "style_muay_thai",
+      "style_ninjutsu",
+      "style_pankration",
+      "style_snake",
       "style_taekwondo",
-      "style_zui_quan",
-      "style_muay_thai"
+      "style_tai_chi",
+      "style_tiger",
+      "style_wingchun",
+      "style_zui_quan"
     ],
     "valid": false,
     "purifiable": false,
@@ -6394,5 +6422,14 @@
     "description": "Spending any amount of time in familiar places makes you miserable.  Must.  Keep.  Moving.",
     "prereqs": [ "NOMAD2" ],
     "category": [ "CHIMERA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "WAYFARER",
+    "name": "Wayfarer",
+    "points": -8,
+    "description": "Whether from personal choice or childhood trauma, travelling with vehicles is off-limits to you, even if your life depended on it.",
+    "starting_trait": true,
+    "valid": false
   }
 ]
