@@ -999,6 +999,10 @@ class Character : public Creature, public visitable<Character>
          */
         void add_traits();
         void add_traits( points_left &points );
+        /** Returns true if the player has crossed a mutation threshold
+         *  Player can only cross one mutation threshold.
+         */
+        bool crossed_threshold() const;
 
         // --------------- Values ---------------
         std::string name;

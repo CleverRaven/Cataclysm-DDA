@@ -2012,16 +2012,6 @@ bool player::has_same_type_trait( const trait_id &flag ) const
     return false;
 }
 
-bool player::crossed_threshold() const
-{
-    for( auto &mut : my_mutations ) {
-        if( mut.first->threshold ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool player::purifiable( const trait_id &flag ) const
 {
     return flag->purifiable;
