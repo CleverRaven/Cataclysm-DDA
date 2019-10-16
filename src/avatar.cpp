@@ -1450,7 +1450,7 @@ void avatar::cycle_move_mode()
     as_uchar = ( as_uchar + 1 + CMM_COUNT ) % CMM_COUNT;
     set_movement_mode( static_cast<character_movemode>( as_uchar ) );
     // if a movemode is disabled then just cycle to the next one
-     if( !movement_mode_is( static_cast<character_movemode>( as_uchar ) ) ) {
+    if( !movement_mode_is( static_cast<character_movemode>( as_uchar ) ) ) {
         as_uchar = ( as_uchar + 1 + CMM_COUNT ) % CMM_COUNT;
         set_movement_mode( static_cast<character_movemode>( as_uchar ) );
     }
