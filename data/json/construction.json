@@ -1578,7 +1578,7 @@
     "components": [
       [ [ "2x4", 12 ] ],
       [ [ "nail", 10 ] ],
-      [ [ "mattress", ] 1, [ "down_mattress", 1 ] ] ] ],
+      [ [ "mattress",  1 ], [ "down_mattress", 1 ] ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_bed"
   },
