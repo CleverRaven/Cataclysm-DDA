@@ -719,9 +719,9 @@ void vehicle::drive_to_local_target( const tripoint &autodrive_local_target, boo
     // when following player, take distance to player into account.
     // we really want to avoid running the player over.
     int safe_player_follow_speed = 400;
-    if( g->u.movement_mode_is( PMM_RUN ) ) {
+    if( g->u.movement_mode_is( CMM_RUN ) ) {
         safe_player_follow_speed = 800;
-    } else if( g->u.movement_mode_is( PMM_CROUCH ) ) {
+    } else if( g->u.movement_mode_is( CMM_CROUCH ) ) {
         safe_player_follow_speed = 200;
     }
     if( follow_protocol ) {

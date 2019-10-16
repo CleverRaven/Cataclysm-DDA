@@ -58,7 +58,6 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
-#include "overlay_ordering.h"
 #include "overmapbuffer.h"
 #include "pickup.h"
 #include "profession.h"
@@ -128,7 +127,6 @@ const efftype_id effect_cig( "cig" );
 const efftype_id effect_cold( "cold" );
 const efftype_id effect_common_cold( "common_cold" );
 const efftype_id effect_contacts( "contacts" );
-const efftype_id effect_controlled( "controlled" );
 const efftype_id effect_corroding( "corroding" );
 const efftype_id effect_cough_suppress( "cough_suppress" );
 const efftype_id effect_darkness( "darkness" );
@@ -176,7 +174,6 @@ const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_recover( "recover" );
 const efftype_id effect_riding( "riding" );
-const efftype_id effect_ridden( "ridden" );
 const efftype_id effect_sad( "sad" );
 const efftype_id effect_shakes( "shakes" );
 const efftype_id effect_sleep( "sleep" );
@@ -195,9 +192,7 @@ const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_magnesium_supplements( "magnesium" );
-const efftype_id effect_harnessed( "harnessed" );
 const efftype_id effect_pet( "pet" );
-const efftype_id effect_tied( "tied" );
 
 const matype_id style_none( "style_none" );
 const matype_id style_kicks( "style_kicks" );
@@ -504,7 +499,6 @@ player::player() :
     controlling_vehicle = false;
     grab_point = tripoint_zero;
     hauling = false;
-    move_mode = PMM_WALK;
     style_selected = style_none;
     keep_hands_free = false;
     focus_pool = 100;
@@ -1608,7 +1602,7 @@ int player::run_cost( int base_cost, bool diag ) const
             movecost *= .9f;
         }
         if( has_active_bionic( bio_jointservo ) ) {
-            if( move_mode == PMM_RUN ) {
+            if( move_mode == CMM_RUN ) {
                 movecost *= 0.85f;
             } else {
                 movecost *= 0.95f;
@@ -1671,11 +1665,11 @@ int player::run_cost( int base_cost, bool diag ) const
         // Both walk and run speed drop to half their maximums as stamina approaches 0.
         // Convert stamina to a float first to allow for decimal place carrying
         float stamina_modifier = ( static_cast<float>( stamina ) / get_stamina_max() + 1 ) / 2;
-        if( move_mode == PMM_RUN && stamina > 0 ) {
+        if( move_mode == CMM_RUN && stamina > 0 ) {
             // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
             stamina_modifier *= 2.0;
         }
-        if( move_mode == PMM_CROUCH ) {
+        if( move_mode == CMM_CROUCH ) {
             stamina_modifier *= 0.5;
         }
 
@@ -1770,11 +1764,11 @@ int player::swim_speed() const
     }
 
     // Running movement mode while swimming means faster swim style, like crawlstroke
-    if( move_mode == PMM_RUN ) {
+    if( move_mode == CMM_RUN ) {
         ret -= 80;
     }
     // Crouching movement mode while swimming means slower swim style, like breaststroke
-    if( move_mode == PMM_CROUCH ) {
+    if( move_mode == CMM_CROUCH ) {
         ret += 50;
     }
 
@@ -1923,13 +1917,13 @@ nc_color player::basic_symbol_color() const
         return c_blue;
     }
     if( has_active_bionic( bio_cloak ) || has_artifact_with( AEP_INVISIBLE ) ||
-        has_active_optcloak() || has_trait( trait_DEBUG_CLOAK ) ) {
+        is_wearing_active_optcloak() || has_trait( trait_DEBUG_CLOAK ) ) {
         return c_dark_gray;
     }
-    if( move_mode == PMM_RUN ) {
+    if( move_mode == CMM_RUN ) {
         return c_yellow;
     }
-    if( move_mode == PMM_CROUCH ) {
+    if( move_mode == CMM_CROUCH ) {
         return c_light_gray;
     }
     return c_white;
@@ -2127,16 +2121,6 @@ std::list<item *> player::get_artifact_items()
         }
     }
     return art_items;
-}
-
-bool player::has_active_optcloak() const
-{
-    for( auto &w : worn ) {
-        if( w.active && w.has_flag( "ACTIVE_CLOAKING" ) ) {
-            return true;
-        }
-    }
-    return false;
 }
 
 /*
@@ -2434,101 +2418,6 @@ void player::pause()
     }
 
     search_surroundings();
-}
-
-void player::set_movement_mode( const player_movemode new_mode )
-{
-    switch( new_mode ) {
-        case PMM_WALK: {
-            if( is_mounted() ) {
-                if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-                    add_msg( _( "You set your mech's leg power to a loping fast walk." ) );
-                } else {
-                    add_msg( _( "You nudge your steed into a steady trot." ) );
-                }
-            } else {
-                add_msg( _( "You start walking." ) );
-            }
-            break;
-        }
-        case PMM_RUN: {
-            if( stamina > 0 && !has_effect( effect_winded ) ) {
-                if( is_hauling() ) {
-                    stop_hauling();
-                }
-                if( is_mounted() ) {
-                    if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-                        add_msg( _( "You set the power of your mech's leg servos to maximum." ) );
-                    } else {
-                        add_msg( _( "You spur your steed into a gallop." ) );
-                    }
-                } else {
-                    add_msg( _( "You start running." ) );
-                }
-            } else {
-                if( is_mounted() ) {
-                    // mounts dont currently have stamina, but may do in future.
-                    add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
-                } else {
-                    add_msg( m_bad, _( "You're too tired to run." ) );
-                }
-            }
-            break;
-        }
-        case PMM_CROUCH: {
-            if( is_mounted() ) {
-                if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-                    add_msg( _( "You reduce the power of your mech's leg servos to minimum." ) );
-                } else {
-                    add_msg( _( "You slow your steed to a walk." ) );
-                }
-            } else {
-                add_msg( _( "You start crouching." ) );
-            }
-            break;
-        }
-        default: {
-            return;
-        }
-    }
-    move_mode = new_mode;
-}
-
-bool player::movement_mode_is( const player_movemode mode ) const
-{
-    return move_mode == mode;
-}
-
-void player::toggle_run_mode()
-{
-    if( move_mode == PMM_RUN ) {
-        set_movement_mode( PMM_WALK );
-    } else {
-        set_movement_mode( PMM_RUN );
-    }
-}
-
-void player::toggle_crouch_mode()
-{
-    if( move_mode == PMM_CROUCH ) {
-        set_movement_mode( PMM_WALK );
-    } else {
-        set_movement_mode( PMM_CROUCH );
-    }
-}
-
-void player::reset_move_mode()
-{
-    if( move_mode != PMM_WALK ) {
-        set_movement_mode( PMM_WALK );
-    }
-}
-
-void player::cycle_move_mode()
-{
-    unsigned char as_uchar = static_cast<unsigned char>( move_mode );
-    as_uchar = ( as_uchar + 1 + PMM_COUNT ) % PMM_COUNT;
-    set_movement_mode( static_cast<player_movemode>( as_uchar ) );
 }
 
 void player::search_surroundings()
@@ -7527,67 +7416,6 @@ bool player::is_wielding( const item &target ) const
     return &weapon == &target;
 }
 
-bool player::wield( item &target )
-{
-    if( is_wielding( target ) ) {
-        return true;
-    }
-
-    if( !can_wield( target ).success() ) {
-        return false;
-    }
-
-    if( !unwield() ) {
-        return false;
-    }
-    cached_info.erase( "weapon_value" );
-    if( target.is_null() ) {
-        return true;
-    }
-
-    // Query whether to draw an item from a holster when attempting to wield the holster
-    if( target.get_use( "holster" ) && !target.contents.empty() ) {
-        //~ %1$s: weapon name, %2$s: holster name
-        if( query_yn( pgettext( "holster", "Draw %1$s from %2$s?" ), target.get_contained().tname(),
-                      target.tname() ) ) {
-            invoke_item( &target );
-            return false;
-        }
-    }
-
-    // Wielding from inventory is relatively slow and does not improve with increasing weapon skill.
-    // Worn items (including guns with shoulder straps) are faster but still slower
-    // than a skilled player with a holster.
-    // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
-
-    bool worn = is_worn( target );
-    int mv = item_handling_cost( target, true,
-                                 worn ? INVENTORY_HANDLING_PENALTY / 2 : INVENTORY_HANDLING_PENALTY );
-
-    if( worn ) {
-        target.on_takeoff( *this );
-    }
-
-    add_msg( m_debug, "wielding took %d moves", mv );
-    moves -= mv;
-
-    if( has_item( target ) ) {
-        weapon = i_rem( &target );
-    } else {
-        weapon = target;
-    }
-
-    last_item = weapon.typeId();
-    recoil = MAX_RECOIL;
-
-    weapon.on_wield( *this, mv );
-
-    inv.update_invlet( weapon );
-    inv.update_cache_with_item( weapon );
-
-    return true;
-}
-
 bool player::unwield()
 {
     if( weapon.is_null() ) {
@@ -10396,32 +10224,6 @@ void player::environmental_revert_effect()
     reset_encumbrance();
 }
 
-bool player::is_invisible() const
-{
-    static const bionic_id str_bio_cloak( "bio_cloak" ); // This function used in monster::plan_moves
-    static const bionic_id str_bio_night( "bio_night" );
-    return (
-               has_effect_with_flag( "EFFECT_INVISIBLE" ) ||
-               has_active_bionic( str_bio_cloak ) ||
-               has_active_bionic( str_bio_night ) ||
-               has_active_optcloak() ||
-               has_trait( trait_DEBUG_CLOAK ) ||
-               has_artifact_with( AEP_INVISIBLE )
-           );
-}
-
-int player::visibility( bool, int ) const
-{
-    // 0-100 %
-    if( is_invisible() ) {
-        return 0;
-    }
-    // TODO:
-    // if ( dark_clothing() && light check ...
-    int stealth_modifier = std::floor( mutation_value( "stealth_modifier" ) );
-    return clamp( 100 - stealth_modifier, 40, 160 );
-}
-
 void player::set_destination( const std::vector<tripoint> &route,
                               const player_activity &destination_activity )
 {
@@ -10626,7 +10428,7 @@ void player::burn_move_stamina( int moves )
         }
     }
     burn_ratio += overburden_percentage;
-    if( move_mode == PMM_RUN ) {
+    if( move_mode == CMM_RUN ) {
         burn_ratio = burn_ratio * 7;
     }
     mod_stat( "stamina", -( ( moves * burn_ratio ) / 100.0 ) );
@@ -10640,182 +10442,6 @@ void player::burn_move_stamina( int moves )
         if( ( ( current_weight - max_weight ) / 800_gram > get_pain() && get_pain() < 100 ) ) {
             mod_pain( 1 );
         }
-    }
-}
-
-void player::mount_creature( monster &z )
-{
-    tripoint pnt = z.pos();
-    std::shared_ptr<monster> mons = g->shared_from( z );
-    if( mons == nullptr ) {
-        add_msg( m_debug, "mount_creature(): monster not found in critter_tracker" );
-        return;
-    }
-    add_effect( effect_riding, 1_turns, num_bp, true );
-    z.add_effect( effect_ridden, 1_turns, num_bp, true );
-    if( z.has_effect( effect_tied ) ) {
-        z.remove_effect( effect_tied );
-        if( z.tied_item ) {
-            i_add( *z.tied_item );
-            z.tied_item = cata::nullopt;
-        }
-    }
-    z.mounted_player_id = getID();
-    if( z.has_effect( effect_harnessed ) ) {
-        z.remove_effect( effect_harnessed );
-        add_msg_if_player( m_info, _( "You remove the %s's harness." ), z.get_name() );
-    }
-    mounted_creature = mons;
-    mons->mounted_player = this;
-    if( is_hauling() ) {
-        stop_hauling();
-    }
-    if( is_player() ) {
-        if( g->u.get_grab_type() != OBJECT_NONE ) {
-            add_msg( m_warning, _( "You let go of the grabbed object." ) );
-            g->u.grab( OBJECT_NONE );
-        }
-        g->place_player( pnt );
-    } else {
-        npc &guy = dynamic_cast<npc &>( *this );
-        guy.setpos( pnt );
-    }
-    z.facing = facing;
-    add_msg_if_player( m_good, _( "You climb on the %s." ), z.get_name() );
-    if( z.has_flag( MF_RIDEABLE_MECH ) ) {
-        if( !z.type->mech_weapon.empty() ) {
-            item mechwep = item( z.type->mech_weapon );
-            wield( mechwep );
-        }
-        add_msg_if_player( m_good, _( "You hear your %s whir to life." ), z.get_name() );
-    }
-    // some rideable mechs have night-vision
-    recalc_sight_limits();
-    mod_moves( -100 );
-}
-
-void player::forced_dismount()
-{
-    remove_effect( effect_riding );
-    bool mech = false;
-    if( mounted_creature ) {
-        auto mon = mounted_creature.get();
-        if( mon->has_flag( MF_RIDEABLE_MECH ) && !mon->type->mech_weapon.empty() ) {
-            mech = true;
-            remove_item( weapon );
-        }
-        mon->mounted_player_id = character_id();
-        mon->remove_effect( effect_ridden );
-        mon->add_effect( effect_controlled, 5_turns );
-        mounted_creature = nullptr;
-        mon->mounted_player = nullptr;
-    }
-    std::vector<tripoint> valid;
-    for( const tripoint &jk : g->m.points_in_radius( pos(), 1 ) ) {
-        if( g->is_empty( jk ) ) {
-            valid.push_back( jk );
-        }
-    }
-    if( !valid.empty() ) {
-        setpos( random_entry( valid ) );
-        if( mech ) {
-            add_msg_player_or_npc( m_bad, _( "You are ejected from your mech!" ),
-                                   _( "<npcname> is ejected from their mech!" ) );
-        } else {
-            add_msg_player_or_npc( m_bad, _( "You fall off your mount!" ),
-                                   _( "<npcname> falls off their mount!" ) );
-        }
-        const int dodge = get_dodge();
-        const int damage = std::max( 0, rng( 1, 20 ) - rng( dodge, dodge * 2 ) );
-        body_part hit = num_bp;
-        switch( rng( 1, 10 ) ) {
-            case  1:
-                if( one_in( 2 ) ) {
-                    hit = bp_foot_l;
-                } else {
-                    hit = bp_foot_r;
-                }
-                break;
-            case  2:
-            case  3:
-            case  4:
-                if( one_in( 2 ) ) {
-                    hit = bp_leg_l;
-                } else {
-                    hit = bp_leg_r;
-                }
-                break;
-            case  5:
-            case  6:
-            case  7:
-                if( one_in( 2 ) ) {
-                    hit = bp_arm_l;
-                } else {
-                    hit = bp_arm_r;
-                }
-                break;
-            case  8:
-            case  9:
-                hit = bp_torso;
-                break;
-            case 10:
-                hit = bp_head;
-                break;
-        }
-        if( damage > 0 ) {
-            add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
-            deal_damage( nullptr, hit, damage_instance( DT_BASH, damage ) );
-            if( is_avatar() ) {
-                g->memorial().add(
-                    pgettext( "memorial_male", "Fell off a mount." ),
-                    pgettext( "memorial_female", "Fell off a mount." ) );
-            }
-            check_dead_state();
-        }
-        add_effect( effect_downed, 5_turns, num_bp, true );
-    } else {
-        add_msg( m_debug, "Forced_dismount could not find a square to deposit player" );
-    }
-    if( is_player() ) {
-        if( g->u.get_grab_type() != OBJECT_NONE ) {
-            add_msg( m_warning, _( "You let go of the grabbed object." ) );
-            g->u.grab( OBJECT_NONE );
-        }
-        set_movement_mode( PMM_WALK );
-        g->update_map( g->u );
-    }
-    moves -= 150;
-}
-
-void player::dismount()
-{
-    if( !is_mounted() ) {
-        add_msg( m_debug, "dismount called when not riding" );
-        return;
-    }
-    if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Dismount where?" ) ) ) {
-        if( !g->is_empty( *pnt ) ) {
-            add_msg( m_warning, _( "You cannot dismount there!" ) );
-            return;
-        }
-        remove_effect( effect_riding );
-        monster *critter = mounted_creature.get();
-        critter->mounted_player_id = character_id();
-        if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.empty() ) {
-            remove_item( g->u.weapon );
-        }
-        if( g->u.get_grab_type() != OBJECT_NONE ) {
-            add_msg( m_warning, _( "You let go of the grabbed object." ) );
-            g->u.grab( OBJECT_NONE );
-        }
-        critter->remove_effect( effect_ridden );
-        critter->add_effect( effect_controlled, 5_turns );
-        mounted_creature = nullptr;
-        critter->mounted_player = nullptr;
-        setpos( *pnt );
-        g->refresh_all();
-        mod_moves( -100 );
-        set_movement_mode( PMM_WALK );
     }
 }
 
@@ -11217,54 +10843,6 @@ bool player::sees_with_infrared( const Creature &critter ) const
     return g->m.sees( pos(), critter.pos(), sight_range( current_daylight_level( calendar::turn ) ) );
 }
 
-std::vector<std::string> player::get_overlay_ids() const
-{
-    std::vector<std::string> rval;
-    std::multimap<int, std::string> mutation_sorting;
-    int order;
-    std::string overlay_id;
-
-    // first get effects
-    for( const auto &eff_pr : *effects ) {
-        rval.push_back( "effect_" + eff_pr.first.str() );
-    }
-
-    // then get mutations
-    for( const auto &mut : my_mutations ) {
-        overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
-        order = get_overlay_order_of_mutation( overlay_id );
-        mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
-    }
-
-    // then get bionics
-    for( const bionic &bio : *my_bionics ) {
-        overlay_id = ( bio.powered ? "active_" : "" ) + bio.id.str();
-        order = get_overlay_order_of_mutation( overlay_id );
-        mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
-    }
-
-    for( auto &mutorder : mutation_sorting ) {
-        rval.push_back( "mutation_" + mutorder.second );
-    }
-
-    // next clothing
-    // TODO: worry about correct order of clothing overlays
-    for( const item &worn_item : worn ) {
-        rval.push_back( "worn_" + worn_item.typeId() );
-    }
-
-    // last weapon
-    // TODO: might there be clothing that covers the weapon?
-    if( is_armed() ) {
-        rval.push_back( "wielded_" + weapon.typeId() );
-    }
-
-    if( move_mode != PMM_WALK ) {
-        rval.push_back( player_movemode_str[ move_mode ] );
-    }
-    return rval;
-}
-
 float player::power_rating() const
 {
     int dmg = std::max( { weapon.damage_melee( DT_BASH ),
@@ -11295,7 +10873,7 @@ float player::speed_rating() const
     float ret = get_speed() / 100.0f;
     ret *= 100.0f / run_cost( 100, false );
     // Adjustment for player being able to run, but not doing so at the moment
-    if( move_mode != PMM_RUN ) {
+    if( move_mode != CMM_RUN ) {
         ret *= 1.0f + ( static_cast<float>( stamina ) / static_cast<float>( get_stamina_max() ) );
     }
     return ret;
