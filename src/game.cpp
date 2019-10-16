@@ -9144,11 +9144,11 @@ bool game::walk_move( const tripoint &dest_loc )
         const double base_moves = u.run_cost( mcost, diag ) * 100.0 / crit->get_speed();
         const double encumb_moves = u.get_weight() / 4800.0_gram;
         u.moves -= static_cast<int>( ceil( base_moves + encumb_moves ) );
-        if( u.movement_mode_is( PMM_WALK ) ) {
+        if( u.movement_mode_is( CMM_WALK ) ) {
             crit->use_mech_power( -2 );
-        } else if( u.movement_mode_is( PMM_CROUCH ) ) {
+        } else if( u.movement_mode_is( CMM_CROUCH ) ) {
             crit->use_mech_power( -1 );
-        } else if( u.movement_mode_is( PMM_RUN ) ) {
+        } else if( u.movement_mode_is( CMM_RUN ) ) {
             crit->use_mech_power( -3 );
         }
     } else {
@@ -9218,9 +9218,9 @@ bool game::walk_move( const tripoint &dest_loc )
             } else if( u.has_bionic( bionic_id( "bio_ankles" ) ) ) {
                 volume = 12;
             }
-            if( u.movement_mode_is( PMM_RUN ) ) {
+            if( u.movement_mode_is( CMM_RUN ) ) {
                 volume *= 1.5;
-            } else if( u.movement_mode_is( PMM_CROUCH ) ) {
+            } else if( u.movement_mode_is( CMM_CROUCH ) ) {
                 volume /= 2;
             }
             if( u.is_mounted() ) {
@@ -9956,7 +9956,7 @@ void game::on_move_effects()
             }
         }
         if( u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
-            if( u.movement_mode_is( PMM_RUN ) ) {
+            if( u.movement_mode_is( CMM_RUN ) ) {
                 u.mod_power_level( -20_kJ );
             } else {
                 u.mod_power_level( -10_kJ );
@@ -9966,6 +9966,8 @@ void game::on_move_effects()
 
     if( u.movement_mode_is( PMM_RUN ) ) {
         if( !u.can_run() ) {
+    if( u.movement_mode_is( CMM_RUN ) ) {
+        if( u.stamina <= 0 ) {
             u.toggle_run_mode();
         }
         if( u.stamina < u.get_stamina_max() / 5 && one_in( u.stamina ) ) {
@@ -10391,11 +10393,11 @@ void game::vertical_move( int movez, bool force )
         monster *crit = u.mounted_creature.get();
         if( crit->has_flag( MF_RIDEABLE_MECH ) ) {
             crit->use_mech_power( -1 );
-            if( u.movement_mode_is( PMM_WALK ) ) {
+            if( u.movement_mode_is( CMM_WALK ) ) {
                 crit->use_mech_power( -2 );
-            } else if( u.movement_mode_is( PMM_CROUCH ) ) {
+            } else if( u.movement_mode_is( CMM_CROUCH ) ) {
                 crit->use_mech_power( -1 );
-            } else if( u.movement_mode_is( PMM_RUN ) ) {
+            } else if( u.movement_mode_is( CMM_RUN ) ) {
                 crit->use_mech_power( -3 );
             }
         }
