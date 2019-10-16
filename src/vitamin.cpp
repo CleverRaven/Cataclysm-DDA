@@ -61,9 +61,9 @@ void vitamin::load_vitamin( JsonObject &jo )
         jo.throw_error( "vitamin consumption rate cannot be negative", "rate" );
     }
 
-    auto def = jo.get_array( "disease" );
+    JsonArray def = jo.get_array( "disease" );
     while( def.has_more() ) {
-        auto e = def.next_array();
+        JsonArray e = def.next_array();
         vit.disease_.emplace_back( e.get_int( 0 ), e.get_int( 1 ) );
     }
 

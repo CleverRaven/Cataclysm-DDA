@@ -365,6 +365,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "house_w_2_roof",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "house_w_3",
     "name": "house",
     "copy-from": "generic_city_building",
@@ -435,5 +443,13 @@
     "color": "light_green",
     "see_cost": 2,
     "flags": [ "SIDEWALK", "GENERIC_LOOT" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_w_1_roof",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2
   }
 ]

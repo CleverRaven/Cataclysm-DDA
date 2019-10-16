@@ -984,9 +984,9 @@ static void draw_stats( avatar &u, const catacurses::window &w )
 
 static nc_color move_mode_color( avatar &u )
 {
-    if( u.movement_mode_is( PMM_RUN ) ) {
+    if( u.movement_mode_is( CMM_RUN ) ) {
         return c_red;
-    } else if( u.movement_mode_is( PMM_CROUCH ) ) {
+    } else if( u.movement_mode_is( CMM_CROUCH ) ) {
         return c_light_blue;
     } else {
         return c_light_gray;
@@ -995,9 +995,9 @@ static nc_color move_mode_color( avatar &u )
 
 static std::string move_mode_string( avatar &u )
 {
-    if( u.movement_mode_is( PMM_RUN ) ) {
+    if( u.movement_mode_is( CMM_RUN ) ) {
         return pgettext( "movement-type", "R" );
-    } else if( u.movement_mode_is( PMM_CROUCH ) ) {
+    } else if( u.movement_mode_is( CMM_CROUCH ) ) {
         return pgettext( "movement-type", "C" );
     } else {
         return pgettext( "movement-type", "W" );
@@ -1589,9 +1589,9 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     if( !u.in_vehicle ) {
         mvwprintz( w, point( 21, 5 ), u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + to_string( u.get_speed() ) );
-        nc_color move_color = u.movement_mode_is( PMM_WALK ) ? c_white : move_mode_color( u );
+        nc_color move_color = u.movement_mode_is( CMM_WALK ) ? c_white : move_mode_color( u );
         std::string move_string = to_string( u.movecounter ) + " " + move_mode_string( u );
-        mvwprintz( w, point( 26 + move_string.length(), 5 ), move_color, move_string );
+        mvwprintz( w, point( 29, 5 ), move_color, move_string );
     }
 
     // temperature
