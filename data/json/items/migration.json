@@ -723,5 +723,10 @@
     "id": "l_def_12",
     "type": "MIGRATION",
     "replace": "tavor_12"
+  },
+  {
+    "id": "abzats",
+    "type": "MIGRATION",
+    "replace": "tavor_12"
   }
 ]
