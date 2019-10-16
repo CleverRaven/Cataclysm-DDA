@@ -913,7 +913,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         std::vector<spell_id> teachable_spells;
         for( const spell_id &sp : spells ) {
             if( g->u.magic.can_learn_spell( g->u, sp ) ) {
-                teachable_spells.push_back( sp );
+                teachable_spells.emplace_back( sp );
             }
         }
         if( trainable.empty() && styles.empty() && teachable_spells.empty() ) {
@@ -1236,7 +1236,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                         continue;
                     }
                 }
-                teachable_spells.push_back( sp );
+                teachable_spells.emplace_back( sp );
             }
         }
         if( trainable.empty() && styles.empty() && teachable_spells.empty() ) {
@@ -1250,7 +1250,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                              temp_spell.get_level() );
             std::string text;
             if( knows ) {
-                text = string_format( _( "%s: variable exp gain (cost %s)" ), temp_spell.name(),
+                text = string_format( _( "%s: 1 hour lesson (cost %s)" ), temp_spell.name(),
                                       format_money( cost ) );
             } else {
                 text = string_format( _( "%s: teaching spell knowledge (cost %s)" ), temp_spell.name(),

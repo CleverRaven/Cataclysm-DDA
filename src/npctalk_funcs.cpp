@@ -895,7 +895,7 @@ void talk_function::start_training( npc &p )
         name = p.chatbin.style.str();
         // already checked if can learn this spell in npctalk.cpp
     } else if( p.chatbin.dialogue_spell.is_valid() ) {
-        spell &temp_spell = p.magic.get_spell( sp_id );
+        const spell &temp_spell = p.magic.get_spell( sp_id );
         const bool knows = g->u.magic.knows_spell( sp_id );
         cost = p.calc_spell_training_cost( knows, temp_spell.get_difficulty(), temp_spell.get_level() );
         name = temp_spell.id().str();
@@ -920,7 +920,7 @@ void talk_function::start_training( npc &p )
     } else if( !npc_trading::pay_npc( p, cost ) ) {
         return;
     }
-    player_activity act = player_activity( activity_id( "ACT_TRAIN" ), to_turns<int>( time ),
+    player_activity act = player_activity( activity_id( "ACT_TRAIN" ), to_turns<int>( time ) * 100,
                                            p.getID().get_value(), 0, name );
     act.values.push_back( expert_multiplier );
     g->u.assign_activity( act );
