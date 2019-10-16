@@ -1779,10 +1779,10 @@
       "bio_targeting",
       "bio_climate",
       "bio_evap",
-      "bio_lighter",
+      "bio_eye_optic",
       "bio_power_storage_mkII",
       "bio_torsionratchet",
-      "bio_taste_blocker"
+      "bio_lighter"
     ],
     "skills": [
       { "level": 5, "name": "gun" },
