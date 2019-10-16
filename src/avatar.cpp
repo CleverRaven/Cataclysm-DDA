@@ -1374,7 +1374,7 @@ void avatar::set_movement_mode( character_movemode new_mode )
             break;
         }
         case CMM_RUN: {
-            if( stamina > 0 && !has_effect( effect_winded ) ) {
+            if( can_run() ) {
                 if( is_hauling() ) {
                     stop_hauling();
                 }
@@ -1391,9 +1391,12 @@ void avatar::set_movement_mode( character_movemode new_mode )
                 if( is_mounted() ) {
                     // mounts dont currently have stamina, but may do in future.
                     add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
+                } else if( get_working_leg_count() < 2 ) {
+                    add_msg( m_bad, _( "You need two functional legs to run." ) );
                 } else {
                     add_msg( m_bad, _( "You're too tired to run." ) );
                 }
+                return;
             }
             break;
         }
@@ -1446,6 +1449,11 @@ void avatar::cycle_move_mode()
     unsigned char as_uchar = static_cast<unsigned char>( move_mode );
     as_uchar = ( as_uchar + 1 + CMM_COUNT ) % CMM_COUNT;
     set_movement_mode( static_cast<character_movemode>( as_uchar ) );
+    // if a movemode is disabled then just cycle to the next one
+     if( !movement_mode_is( static_cast<character_movemode>( as_uchar ) ) ) {
+        as_uchar = ( as_uchar + 1 + CMM_COUNT ) % CMM_COUNT;
+        set_movement_mode( static_cast<character_movemode>( as_uchar ) );
+    }
 }
 
 bool avatar::wield( item &target )
