@@ -165,16 +165,21 @@ struct bionic {
     void deserialize( JsonIn &jsin );
 };
 
+// represents a tab in the Bionics menu
 class BionicsDisplayType
 {
         friend class string_id<BionicsDisplayType>;
+        // internal id
         bionics_displayType_id _ident;
+        // string displayed to user
         translation _display_string;
+        // will only disply name if set to true. Useful for passive bionics.
         bool _hide_columns;
     public:
         static std::vector<BionicsDisplayType> displayTypes;
         static void load( JsonObject &jsobj );
         static void reset();
+        //if bionic doesn't have "display_type" filed in .json, use this to infer it from other parameters
         static bionics_displayType_id infer_type( const bionic_data &b );
 
         BionicsDisplayType();
