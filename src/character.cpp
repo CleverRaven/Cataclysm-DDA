@@ -3542,7 +3542,7 @@ bool Character::is_invisible() const
                has_active_bionic( str_bio_cloak ) ||
                has_active_bionic( str_bio_night ) ||
                is_wearing_active_optcloak() ||
-               has_trait( trait_DEBUG_CLOAK ) ||
+               mutations.has_trait( trait_DEBUG_CLOAK ) ||
                has_artifact_with( AEP_INVISIBLE )
            );
 }
@@ -3555,7 +3555,7 @@ int Character::visibility( bool, int ) const
     }
     // TODO:
     // if ( dark_clothing() && light check ...
-    int stealth_modifier = std::floor( mutation_value( "stealth_modifier" ) );
+    int stealth_modifier = std::floor( mutations.mutation_value( "stealth_modifier" ) );
     return clamp( 100 - stealth_modifier, 40, 160 );
 }
 
@@ -4550,9 +4550,9 @@ void Character::passive_absorb_hit( body_part bp, damage_unit &du ) const
         if( du.type == DT_STAB ) {
             damage_unit du_copy = du;
             du_copy.type = DT_CUT;
-            du.amount -= mutation_armor( bp, du_copy );
+            du.amount -= mutations.mutation_armor( bp, du_copy );
         } else {
-            du.amount -= mutation_armor( bp, du );
+            du.amount -= mutations.mutation_armor( bp, du );
         }
     }
     du.amount -= bionic_armor_bonus( bp, du.type ); //Check for passive armor bionics
@@ -4975,8 +4975,8 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
 
 bool Character::crossed_threshold() const
 {
-    for( const std::pair<trait_id, Character::trait_data> &mut : my_mutations ) {
-        if( mut.first->threshold ) {
+    for( const trait_id &mut : mutations.get_mutations() ) {
+        if( mut->threshold ) {
             return true;
         }
     }
