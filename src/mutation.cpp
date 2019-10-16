@@ -249,17 +249,17 @@ void character_mutations::mutation_effect( Character &owner, const trait_id &mut
         }
         if( branch.destroys_gear ) {
             owner.add_msg_player_or_npc( m_bad,
-                                   _( "Your %s is destroyed!" ),
-                                   _( "<npcname>'s %s is destroyed!" ),
-                                   armor.tname() );
+                                         _( "Your %s is destroyed!" ),
+                                         _( "<npcname>'s %s is destroyed!" ),
+                                         armor.tname() );
             for( item &remain : armor.contents ) {
                 g->m.add_item_or_charges( owner.pos(), remain );
             }
         } else {
             owner.add_msg_player_or_npc( m_bad,
-                                   _( "Your %s is pushed off!" ),
-                                   _( "<npcname>'s %s is pushed off!" ),
-                                   armor.tname() );
+                                         _( "Your %s is pushed off!" ),
+                                         _( "<npcname>'s %s is pushed off!" ),
+                                         armor.tname() );
             g->m.add_item_or_charges( owner.pos(), armor );
         }
         return true;
@@ -822,7 +822,8 @@ static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
     return ret;
 }
 
-bool character_mutations::mutate_towards( Character &owner, std::vector<trait_id> muts, int num_tries )
+bool character_mutations::mutate_towards( Character &owner, std::vector<trait_id> muts,
+        int num_tries )
 {
     while( !muts.empty() && num_tries > 0 ) {
         int i = rng( 0, muts.size() - 1 );
@@ -920,7 +921,8 @@ bool character_mutations::mutate_towards( Character &owner, const trait_id &mut 
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
     // and aren't categorized. This can happen if someone makes a threshold mutation into a prerequisite.
     if( threshold ) {
-        owner.add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free..." ) );
+        owner.add_msg_if_player(
+            _( "You feel something straining deep inside you, yearning to be free..." ) );
         return false;
     }
     if( profession ) {
@@ -936,7 +938,8 @@ bool character_mutations::mutate_towards( Character &owner, const trait_id &mut 
 
     // No crossing The Threshold by simply not having it
     if( !has_threshreq && !threshreq.empty() ) {
-        owner.add_msg_if_player( _( "You feel something straining deep inside you, yearning to be free..." ) );
+        owner.add_msg_if_player(
+            _( "You feel something straining deep inside you, yearning to be free..." ) );
         return false;
     }
 
@@ -991,9 +994,9 @@ bool character_mutations::mutate_towards( Character &owner, const trait_id &mut 
         // TODO: In case invisible mutation turns into visible or vice versa
         //  print only the visible mutation appearing/disappearing
         owner.add_msg_player_or_npc( rating,
-                               _( "Your %1$s mutation turns into %2$s!" ),
-                               _( "<npcname>'s %1$s mutation turns into %2$s!" ),
-                               replace_mdata.name(), mdata.name() );
+                                     _( "Your %1$s mutation turns into %2$s!" ),
+                                     _( "<npcname>'s %1$s mutation turns into %2$s!" ),
+                                     replace_mdata.name(), mdata.name() );
 
         g->events().send<event_type::evolves_mutation>( owner.getID(), replace_mdata.id, mdata.id );
         unset_mutation( owner, replacing );
@@ -1013,9 +1016,9 @@ bool character_mutations::mutate_towards( Character &owner, const trait_id &mut 
             rating = m_neutral;
         }
         owner.add_msg_player_or_npc( rating,
-                               _( "Your %1$s mutation turns into %2$s!" ),
-                               _( "<npcname>'s %1$s mutation turns into %2$s!" ),
-                               replace_mdata.name(), mdata.name() );
+                                     _( "Your %1$s mutation turns into %2$s!" ),
+                                     _( "<npcname>'s %1$s mutation turns into %2$s!" ),
+                                     replace_mdata.name(), mdata.name() );
         g->events().send<event_type::evolves_mutation>( owner.getID(), replace_mdata.id, mdata.id );
         unset_mutation( owner, replacing2 );
         mutation_loss_effect( owner, replacing2 );
@@ -1037,9 +1040,9 @@ bool character_mutations::mutate_towards( Character &owner, const trait_id &mut 
         }
         // If this new mutation cancels a base trait, remove it and add the mutation at the same time
         owner.add_msg_player_or_npc( rating,
-                               _( "Your innate %1$s trait turns into %2$s!" ),
-                               _( "<npcname>'s innate %1$s trait turns into %2$s!" ),
-                               cancel_mdata.name(), mdata.name() );
+                                     _( "Your innate %1$s trait turns into %2$s!" ),
+                                     _( "<npcname>'s innate %1$s trait turns into %2$s!" ),
+                                     cancel_mdata.name(), mdata.name() );
         g->events().send<event_type::evolves_mutation>( owner.getID(), cancel_mdata.id, mdata.id );
         unset_mutation( owner, i );
         mutation_loss_effect( owner, i );
@@ -1058,9 +1061,9 @@ bool character_mutations::mutate_towards( Character &owner, const trait_id &mut 
         }
         // TODO: Limit to visible mutations
         owner.add_msg_player_or_npc( rating,
-                               _( "You gain a mutation called %s!" ),
-                               _( "<npcname> gains a mutation called %s!" ),
-                               mdata.name() );
+                                     _( "You gain a mutation called %s!" ),
+                                     _( "<npcname> gains a mutation called %s!" ),
+                                     mdata.name() );
         g->events().send<event_type::gains_mutation>( owner.getID(), mdata.id );
         mutation_effect( owner, mut );
     }
@@ -1168,9 +1171,9 @@ void character_mutations::remove_mutation( Character &owner, const trait_id &mut
         }
         if( !silent ) {
             owner.add_msg_player_or_npc( rating,
-                                   _( "Your %1$s mutation turns into %2$s." ),
-                                   _( "<npcname>'s %1$s mutation turns into %2$s." ),
-                                   mdata.name(), replace_mdata.name() );
+                                         _( "Your %1$s mutation turns into %2$s." ),
+                                         _( "<npcname>'s %1$s mutation turns into %2$s." ),
+                                         mdata.name(), replace_mdata.name() );
         }
         set_mutation( owner, replacing );
         mutation_loss_effect( owner, mut );
@@ -1190,9 +1193,9 @@ void character_mutations::remove_mutation( Character &owner, const trait_id &mut
         }
         if( !silent ) {
             owner.add_msg_player_or_npc( rating,
-                                   _( "Your %1$s mutation turns into %2$s." ),
-                                   _( "<npcname>'s %1$s mutation turns into %2$s." ),
-                                   mdata.name(), replace_mdata.name() );
+                                         _( "Your %1$s mutation turns into %2$s." ),
+                                         _( "<npcname>'s %1$s mutation turns into %2$s." ),
+                                         mdata.name(), replace_mdata.name() );
         }
         set_mutation( owner, replacing2 );
         mutation_loss_effect( owner, mut );
@@ -1211,9 +1214,9 @@ void character_mutations::remove_mutation( Character &owner, const trait_id &mut
         }
         if( !silent ) {
             owner.add_msg_player_or_npc( rating,
-                                   _( "You lose your %s mutation." ),
-                                   _( "<npcname> loses their %s mutation." ),
-                                   mdata.name() );
+                                         _( "You lose your %s mutation." ),
+                                         _( "<npcname> loses their %s mutation." ),
+                                         mdata.name() );
         }
         mutation_loss_effect( owner, mut );
     }
