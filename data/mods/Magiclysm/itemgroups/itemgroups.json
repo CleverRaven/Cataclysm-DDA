@@ -59,12 +59,12 @@
   {
     "type": "item_group",
     "id": "displays",
-    "items": [ [ "mana_potion_lesser", 50 ] ]
+    "items": [ [ "mana_potion_lesser", 50 ], [ "magi_staff_minor", 5 ], [ "wizard_hat", 5 ] ]
   },
   {
     "id": "coffee_display_2",
     "type": "item_group",
-    "item": [ [ "mana_potion_lesser", 10 ] ]
+    "items": [ [ "mana_potion_lesser", 10 ] ]
   },
   {
     "type": "item_group",

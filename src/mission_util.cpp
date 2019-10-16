@@ -13,6 +13,7 @@
 #include "game.h"
 #include "mapgen_functions.h"
 #include "messages.h"
+#include "map_iterator.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "overmap.h"
@@ -111,20 +112,11 @@ tripoint mission_util::reveal_om_ter( const std::string &omter, int reveal_rad, 
  */
 static tripoint random_house_in_city( const city_reference &cref )
 {
-    const auto city_center_omt = sm_to_omt_copy( cref.abs_sm_pos );
-    const auto size = cref.city->size;
-    const int z = cref.abs_sm_pos.z;
+    const tripoint city_center_omt = sm_to_omt_copy( cref.abs_sm_pos );
     std::vector<tripoint> valid;
-    int startx = city_center_omt.x - size;
-    int endx   = city_center_omt.x + size;
-    int starty = city_center_omt.y - size;
-    int endy   = city_center_omt.y + size;
-    for( int x = startx; x <= endx; x++ ) {
-        for( int y = starty; y <= endy; y++ ) {
-            tripoint p( x, y, z );
-            if( overmap_buffer.check_ot( "house", ot_match_type::type, p ) ) {
-                valid.push_back( p );
-            }
+    for( const tripoint &p : points_in_radius( city_center_omt, cref.city->size ) ) {
+        if( overmap_buffer.check_ot( "house", ot_match_type::type, p ) ) {
+            valid.push_back( p );
         }
     }
     return random_entry( valid, city_center_omt ); // center of the city is a good fallback
@@ -221,7 +213,7 @@ static cata::optional<tripoint> find_or_create_om_terrain( const tripoint &origi
             // We found a match, so set this position (which was our replacement terrain)
             // to our desired mission terrain.
             if( target_pos != overmap::invalid_tripoint ) {
-                overmap_buffer.ter( target_pos ) = oter_id( params.overmap_terrain );
+                overmap_buffer.ter_set( target_pos, oter_id( params.overmap_terrain ) );
             }
         }
     }

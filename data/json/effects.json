@@ -179,6 +179,12 @@
   },
   {
     "type": "effect_type",
+    "id": "paid",
+    "name": [ "Paid" ],
+    "desc": [ "AI tag used for paid critters.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "pacified",
     "name": [ "Pacified" ],
     "desc": [ "AI tag used for pacified critters.  This is a bug if you have it." ]
@@ -253,6 +259,13 @@
     "id": "got_checked",
     "name": [ "Got a check-up" ],
     "desc": [ "Your received a complete check-up and are now aware of the state of your health." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "heating_bionic",
+    "name": [ "Heated" ],
+    "max_intensity": 1000,
+    "desc": [ "At least one of your bionics is producing heat and warming you." ]
   },
   {
     "type": "effect_type",
@@ -619,6 +632,20 @@
     "name": [ "Stuck in Pit" ],
     "desc": [ "You're stuck in a pit.  Sight distance is limited and you have to climb out." ],
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "took_thorazine"
+  },
+  {
+    "type": "effect_type",
+    "id": "took_thorazine_bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "took_thorazine_visible",
+    "name": [ "Took Thorazine" ],
+    "desc": [ "You took Thorazine some time ago and you might still be under its influence." ]
   },
   {
     "type": "effect_type",
@@ -1753,5 +1780,11 @@
   {
     "type": "effect_type",
     "id": "has_prospectus"
+  },
+  {
+    "type": "effect_type",
+    "id": "ignore_fall_damage",
+    "//": "Used for translocation via teleporter_list as a way to avoid fall damage by teleporting Z levels",
+    "flags": [ "EFFECT_FEATHER_FALL" ]
   }
 ]

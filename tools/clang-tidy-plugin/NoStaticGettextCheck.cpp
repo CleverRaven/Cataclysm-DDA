@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "NoStaticGettextCheck.h"
 
 #include "clang/ASTMatchers/ASTMatchFinder.h"
@@ -14,7 +12,7 @@ namespace tidy
 namespace cata
 {
 
-void NoStaticGettext::registerMatchers( MatchFinder *Finder )
+void NoStaticGettextCheck::registerMatchers( MatchFinder *Finder )
 {
     Finder->addMatcher(
         callExpr(
@@ -25,7 +23,7 @@ void NoStaticGettext::registerMatchers( MatchFinder *Finder )
     );
 }
 
-void NoStaticGettext::check( const MatchFinder::MatchResult &Result )
+void NoStaticGettextCheck::check( const MatchFinder::MatchResult &Result )
 {
     const CallExpr *gettextCall =
         Result.Nodes.getNodeAs<CallExpr>( "gettextCall" );
@@ -36,7 +34,7 @@ void NoStaticGettext::check( const MatchFinder::MatchResult &Result )
         gettextCall->getBeginLoc(),
         "Gettext calls in static variable initialization will cause text to be "
         "untranslated (global static) or not updated when switching language "
-        "(local static). Consider using translation objects (to_translation()) "
+        "(local static). Consider using translation objects (to_translation() or pl_translation()) "
         "or translate_marker(), and translate the text on demand "
         "(with translation::translated() or gettext calls outside static vars)"
     );

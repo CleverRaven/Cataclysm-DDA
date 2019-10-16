@@ -106,15 +106,15 @@ void print_columnns( bionic *bio, bool is_selected, bool name_only, const catacu
                 }
                 break;
                 case    column_act_cost:
-                    if( bio_data.power_activate > 0 ) {
-                        print_str = string_format( "%d", bio_data.power_activate );
+                    if( bio_data.power_activate > 0_kJ ) {
+                        print_str = string_format( "%d", units::to_kilojoule( bio_data.power_activate ) );
                     }
                     break;
                 case    column_turn_cost:
-                    if( bio_data.charge_time > 0 && bio_data.power_over_time > 0 ) {
+                    if( bio_data.charge_time > 0 && bio_data.power_over_time > 0_kJ ) {
                         print_str = bio_data.charge_time == 1
-                                    ? string_format( "%d", bio_data.power_over_time )
-                                    : string_format( "%d /%d", bio_data.power_over_time,
+                                    ? string_format( "%d", units::to_kilojoule( bio_data.power_over_time ) )
+                                    : string_format( "%d /%d", units::to_kilojoule( bio_data.power_over_time ),
                                                      bio_data.charge_time );
                     }
                     break;
@@ -397,7 +397,7 @@ void player::power_bionics()
             nc_color col = c_white;
             print_colored_text( wBio, point_east, col, col,
                                 string_format( _( "< Bionic Power: <color_light_blue>%i</color>/<color_light_blue>%i</color> >" ),
-                                               power_level, max_power_level ) );
+                                               units::to_kilojoule( get_power_level() ), units::to_kilojoule( get_max_power_level() ) ) );
             std::string help_str = string_format( _( "< [%s] Columns Info >" ), ctxt.get_desc( "USAGE_HELP" ) );
             mvwprintz( wBio, point( WIDTH - 1 - utf8_width( help_str ), 0 ), c_white, help_str );
 

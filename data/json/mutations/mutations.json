@@ -623,7 +623,7 @@
     "id": "MARTIAL_ARTS5",
     "name": "Melee Weapon Training",
     "points": 3,
-    "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Fior Di Battaglia,  Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
+    "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
     "starting_trait": true,
     "initial_ma_styles": [
       "style_eskrima",
@@ -655,39 +655,6 @@
     "starting_trait": true,
     "cancels": [ "TRUTHTELLER" ],
     "social_modifiers": { "lie": 40 }
-  },
-  {
-    "type": "mutation",
-    "id": "SAVINGS",
-    "name": "Savings",
-    "points": 1,
-    "description": "You had some money stashed at the bank for a rainy day.  Now that the storm is raging, it's a last call to use it maybe?",
-    "starting_trait": true,
-    "purifiable": false,
-    "valid": false,
-    "cancels": [ "DEBT", "MILLIONAIRE" ]
-  },
-  {
-    "type": "mutation",
-    "id": "DEBT",
-    "name": "Debt",
-    "points": -1,
-    "description": "You needed money and had a big loan in a bank.  Good thing nobody will come to collect it now, right?  Right?",
-    "starting_trait": true,
-    "purifiable": false,
-    "valid": false,
-    "cancels": [ "SAVINGS", "MILLIONAIRE" ]
-  },
-  {
-    "type": "mutation",
-    "id": "MILLIONAIRE",
-    "name": "Millionaire",
-    "points": 3,
-    "description": "At the time of Cataclysm you were an owner of a fortune stashed in a bank.  Does that have any meaning now?",
-    "valid": false,
-    "purifiable": false,
-    "starting_trait": true,
-    "cancels": [ "DEBT", "SAVINGS" ]
   },
   {
     "type": "mutation",
@@ -1130,7 +1097,7 @@
     "type": "mutation",
     "id": "SCHIZOPHRENIC",
     "name": "Schizophrenic",
-    "points": -2,
+    "points": -3,
     "description": "You will periodically suffer from delusions, ranging from minor effects to full visual hallucinations.  Some of these effects may be controlled through the use of Thorazine.",
     "starting_trait": true,
     "valid": false,
@@ -5215,8 +5182,10 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 5,
-    "//~": "The idea is that you, for lack of a better term, plant yourself.  Crafting and digging don't count because they presume a certain amount of movement during the task.  The handheld game does count.",
-    "description": "It's about time you started developing a root system.  When reading, fishing, waiting, or otherwise being stationary for a while on diggable terrain, you'll extract nutrients and water from the soil.",
+    "description": {
+      "//~": "The idea is that you, for lack of a better term, plant yourself.  Crafting and digging don't count because they presume a certain amount of movement during the task.  The handheld game does count.",
+      "str": "It's about time you started developing a root system.  When reading, fishing, waiting, or otherwise being stationary for a while on diggable terrain, you'll extract nutrients and water from the soil."
+    },
     "types": [ "LEGS" ],
     "prereqs": [ "ROOTS1" ],
     "threshreq": [ "THRESH_PLANT" ],
@@ -6106,7 +6075,25 @@
     "points": 0,
     "description": "You were shaping up to be a pretty decent student of the martial arts before the Cataclysm struck.  Time to see just how good you really are.",
     "valid": false,
-    "initial_ma_styles": [ "style_karate", "style_judo", "style_muay_thai", "style_tai_chi", "style_taekwondo" ],
+    "initial_ma_styles": [
+      "style_aikido",
+      "style_capoeira",
+      "style_crane",
+      "style_dragon",
+      "style_judo",
+      "style_karate",
+      "style_krav_maga",
+      "style_leopard",
+      "style_muay_thai",
+      "style_ninjutsu",
+      "style_pankration",
+      "style_snake",
+      "style_taekwondo",
+      "style_tai_chi",
+      "style_tiger",
+      "style_wingchun",
+      "style_zui_quan"
+    ],
     "purifiable": false,
     "profession": true
   },
@@ -6117,13 +6104,23 @@
     "points": 0,
     "description": "You were competitive at national levels, and had considered teaching your art.  Defending against the entire town may still be a challenge, though.",
     "initial_ma_styles": [
-      "style_karate",
-      "style_judo",
       "style_aikido",
-      "style_tai_chi",
+      "style_capoeira",
+      "style_crane",
+      "style_dragon",
+      "style_judo",
+      "style_karate",
+      "style_krav_maga",
+      "style_leopard",
+      "style_muay_thai",
+      "style_ninjutsu",
+      "style_pankration",
+      "style_snake",
       "style_taekwondo",
-      "style_zui_quan",
-      "style_muay_thai"
+      "style_tai_chi",
+      "style_tiger",
+      "style_wingchun",
+      "style_zui_quan"
     ],
     "valid": false,
     "purifiable": false,
@@ -6254,7 +6251,7 @@
   {
     "type": "mutation",
     "id": "DEBUG_NIGHTVISION",
-    "name": "Debug Vision",
+    "name": "Debug Night Vision",
     "points": 99,
     "valid": false,
     "description": "You can clearly see that this is for dev purposes only.",
@@ -6425,5 +6422,14 @@
     "description": "Spending any amount of time in familiar places makes you miserable.  Must.  Keep.  Moving.",
     "prereqs": [ "NOMAD2" ],
     "category": [ "CHIMERA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "WAYFARER",
+    "name": "Wayfarer",
+    "points": -8,
+    "description": "Whether from personal choice or childhood trauma, travelling with vehicles is off-limits to you, even if your life depended on it.",
+    "starting_trait": true,
+    "valid": false
   }
 ]

@@ -199,7 +199,7 @@
   },
   {
     "type": "item_group",
-    "comment": "There are no more upgrades for the camp but you shouldn't be punished for that.",
+    "//": "There are no more upgrades for the camp but you shouldn't be punished for that.",
     "id": "gathering_faction_base_camp_20",
     "items": [
       [ "2x4", 10 ],

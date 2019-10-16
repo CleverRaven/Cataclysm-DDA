@@ -77,6 +77,9 @@ using mtype_id = string_id<mtype>;
 class npc_class;
 using npc_class_id = string_id<npc_class>;
 
+class faction;
+using faction_id = string_id<faction>;
+
 struct oter_t;
 using oter_id = int_id<oter_t>;
 using oter_str_id = string_id<oter_t>;

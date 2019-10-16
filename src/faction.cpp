@@ -124,6 +124,13 @@ void faction::remove_member( const character_id &guy_id )
         }
     }
     if( members.empty() ) {
+        for( const faction_template &elem : npc_factions::all_templates ) {
+            // This is a templated base faction - dont delete it, just leave it as zero members for now.
+            // Only want to delete dynamically created factions.
+            if( elem.id == id ) {
+                return;
+            }
+        }
         g->faction_manager_ptr->remove_faction( id );
     }
 }
@@ -371,14 +378,17 @@ faction *faction_manager::add_new_faction( const std::string &name_new, const fa
             fac.name = name_new;
             fac.id = id_new;
             factions[fac.id] = fac;
+            return &factions[fac.id];
         }
     }
-    faction *ret = get( id_new );
-    return ret ? ret : nullptr;
+    return nullptr;
 }
 
-faction *faction_manager::get( const faction_id &id )
+faction *faction_manager::get( const faction_id &id, const bool complain )
 {
+    if( id.is_null() ) {
+        return get( faction_id( "no_faction" ) );
+    }
     for( auto &elem : factions ) {
         if( elem.first == id ) {
             if( !elem.second.validated ) {
@@ -403,16 +413,19 @@ faction *faction_manager::get( const faction_id &id )
         }
     }
     for( const faction_template &elem : npc_factions::all_templates ) {
+        // id isnt already in factions map, so load in the template.
         if( elem.id == id ) {
             factions[elem.id] = elem;
             if( !factions.empty() ) {
-                factions.rbegin()->second.validated = true;
+                factions[elem.id].validated = true;
             }
-            return &factions.rbegin()->second;
+            return &factions[elem.id];
         }
     }
-
-    debugmsg( "Requested non-existing faction '%s'", id.str() );
+    // Sometimes we add new IDs to the map, sometimes we want to check if its already there.
+    if( complain ) {
+        debugmsg( "Requested non-existing faction '%s'", id.str() );
+    }
     return nullptr;
 }
 
@@ -425,16 +438,16 @@ void basecamp::faction_display( const catacurses::window &fac_w, const int width
     std::string direction = direction_name( direction_from( player_abspos, camp_pos ) );
     mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Press enter to rename this camp" ) );
     if( direction != "center" ) {
-        mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Direction : to the " ) + direction );
+        mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Direction: to the " ) + direction );
     }
-    mvwprintz( fac_w, point( width, ++y ), col, _( "Location : (%d, %d)" ), camp_pos.x, camp_pos.y );
+    mvwprintz( fac_w, point( width, ++y ), col, _( "Location: (%d, %d)" ), camp_pos.x, camp_pos.y );
     faction *yours = g->u.get_faction();
-    std::string food_text = string_format( _( "Food Supply : %s %d calories" ),
+    std::string food_text = string_format( _( "Food Supply: %s %d calories" ),
                                            yours->food_supply_text(), yours->food_supply );
     nc_color food_col = yours->food_supply_color();
     mvwprintz( fac_w, point( width, ++y ), food_col, food_text );
     std::string bldg = next_upgrade( base_camps::base_dir, 1 );
-    std::string bldg_full = _( "Next Upgrade : " ) + bldg;
+    std::string bldg_full = _( "Next Upgrade: " ) + bldg;
     mvwprintz( fac_w, point( width, ++y ), col, bldg_full );
     std::string requirements = om_upgrade_description( bldg, true );
     fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, requirements );
@@ -445,7 +458,7 @@ void faction::faction_display( const catacurses::window &fac_w, const int width 
     int y = 2;
     mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Attitude to you:           %s" ),
                fac_ranking_text( likes_u ) );
-    fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_light_gray, desc );
+    fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_light_gray, _( desc ) );
 }
 
 int npc::faction_display( const catacurses::window &fac_w, const int width ) const
@@ -466,14 +479,14 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
             cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( dest->xy() );
             if( temp_camp ) {
                 dest_camp = *temp_camp;
-                dest_string = _( "travelling to : " ) + dest_camp->camp_name();
+                dest_string = _( "travelling to: " ) + dest_camp->camp_name();
             } else {
-                dest_string = string_format( _( "travelling to : (%d, %d)" ), dest->x, dest->y );
+                dest_string = string_format( _( "travelling to: (%d, %d)" ), dest->x, dest->y );
             }
-            mission_string = _( "Current Mission : " ) + dest_string;
+            mission_string = _( "Current Mission: " ) + dest_string;
         } else {
             npc_companion_mission c_mission = get_companion_mission();
-            mission_string = _( "Current Mission : " ) +
+            mission_string = _( "Current Mission: " ) +
                              get_mission_action_string( c_mission.mission_id );
         }
     }
@@ -490,15 +503,15 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     }
     std::string direction = direction_name( direction_from( player_abspos, guy_abspos ) );
     if( direction != "center" ) {
-        mvwprintz( fac_w, point( width, ++y ), col, _( "Direction : to the " ) + direction );
+        mvwprintz( fac_w, point( width, ++y ), col, _( "Direction: to the " ) + direction );
     } else {
-        mvwprintz( fac_w, point( width, ++y ), col, _( "Direction : Nearby" ) );
+        mvwprintz( fac_w, point( width, ++y ), col, _( "Direction: Nearby" ) );
     }
     if( is_stationed ) {
-        mvwprintz( fac_w, point( width, ++y ), col, _( "Location : (%d, %d), at camp: %s" ), guy_abspos.x,
+        mvwprintz( fac_w, point( width, ++y ), col, _( "Location: (%d, %d), at camp: %s" ), guy_abspos.x,
                    guy_abspos.y, stationed_at->camp_name() );
     } else {
-        mvwprintz( fac_w, point( width, ++y ), col, _( "Location : (%d, %d)" ), guy_abspos.x,
+        mvwprintz( fac_w, point( width, ++y ), col, _( "Location: (%d, %d)" ), guy_abspos.x,
                    guy_abspos.y );
     }
     std::string can_see;
@@ -558,7 +571,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     }
     mvwprintz( fac_w, point( width, ++y ), see_color, "%s", can_see );
     nc_color status_col = col;
-    std::string current_status = _( "Status : " );
+    std::string current_status = _( "Status: " );
     if( current_target() != nullptr ) {
         current_status += _( "In Combat!" );
         status_col = c_light_red;
@@ -574,21 +587,26 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
         current_status += _( "Guarding" );
     }
     mvwprintz( fac_w, point( width, ++y ), status_col, current_status );
+    if( is_stationed ) {
+        std::string current_job = _( "Basecamp job: " );
+        current_job += npc_job_name( job );
+        mvwprintz( fac_w, point( width, ++y ), col, current_job );
+    }
 
     const std::pair <std::string, nc_color> condition = hp_description();
-    mvwprintz( fac_w, point( width, ++y ), condition.second, _( "Condition : " ) + condition.first );
+    mvwprintz( fac_w, point( width, ++y ), condition.second, _( "Condition: " ) + condition.first );
     const std::pair <std::string, nc_color> hunger_pair = get_hunger_description();
     const std::pair <std::string, nc_color> thirst_pair = get_thirst_description();
     const std::pair <std::string, nc_color> fatigue_pair = get_fatigue_description();
     const std::string nominal = pgettext( "needs", "Nominal" );
     mvwprintz( fac_w, point( width, ++y ), hunger_pair.second,
-               _( "Hunger : " ) + ( hunger_pair.first.empty() ? nominal : hunger_pair.first ) );
+               _( "Hunger: " ) + ( hunger_pair.first.empty() ? nominal : hunger_pair.first ) );
     mvwprintz( fac_w, point( width, ++y ), thirst_pair.second,
-               _( "Thirst : " ) + ( thirst_pair.first.empty() ? nominal : thirst_pair.first ) );
+               _( "Thirst: " ) + ( thirst_pair.first.empty() ? nominal : thirst_pair.first ) );
     mvwprintz( fac_w, point( width, ++y ), fatigue_pair.second,
-               _( "Fatigue : " ) + ( fatigue_pair.first.empty() ? nominal : fatigue_pair.first ) );
+               _( "Fatigue: " ) + ( fatigue_pair.first.empty() ? nominal : fatigue_pair.first ) );
     int lines = fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_white,
-                                _( "Wielding : " ) + weapon.tname() );
+                                _( "Wielding: " ) + weapon.tname() );
     y += lines;
 
     const auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {
@@ -600,14 +618,14 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     std::vector<std::string> skill_strs;
     for( size_t i = 0; i < skillslist.size() && count < 3; i++ ) {
         if( !skillslist[ i ]->is_combat_skill() ) {
-            std::string skill_str = string_format( "%s : %d", skillslist[i]->name(),
+            std::string skill_str = string_format( "%s: %d", skillslist[i]->name(),
                                                    get_skill_level( skillslist[i]->ident() ) );
             skill_strs.push_back( skill_str );
             count += 1;
         }
     }
-    std::string best_three_noncombat = _( "Best other skills : " );
-    std::string best_skill_text = string_format( _( "Best combat skill : %s : %d" ),
+    std::string best_three_noncombat = _( "Best other skills: " );
+    std::string best_skill_text = string_format( _( "Best combat skill: %s: %d" ),
                                   best_skill().obj().name(), best_skill_level() );
     mvwprintz( fac_w, point( width, ++y ), col, best_skill_text );
     mvwprintz( fac_w, point( width, ++y ), col, best_three_noncombat + skill_strs[0] );
@@ -694,11 +712,12 @@ void faction_manager::display() const
             if( !camps.empty() ) {
                 camp = camps[selection];
             }
+            active_vec_size = camps.size();
         } else if( tab == tab_mode::TAB_OTHERFACTIONS ) {
             if( !valfac.empty() ) {
                 cur_fac = valfac[selection];
-                active_vec_size = valfac.size();
             }
+            active_vec_size = valfac.size();
         }
 
         for( int i = 3; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
@@ -776,7 +795,7 @@ void faction_manager::display() const
                     for( size_t i = top_of_page; i < active_vec_size; i++ ) {
                         const int y = i - top_of_page + 3;
                         trim_and_print( w_missions, point( 1, y ), 28, selection == i ? hilite( col ) : col,
-                                        valfac[i]->name );
+                                        _( valfac[i]->name ) );
                     }
                     if( selection < valfac.size() ) {
                         assert( cur_fac ); // To appease static analysis

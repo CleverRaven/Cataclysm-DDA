@@ -116,7 +116,6 @@ SkillDisplayType::SkillDisplayType( const skill_displayType_id &ident,
 {
 }
 
-
 void SkillDisplayType::load( JsonObject &jsobj )
 {
     skill_displayType_id ident = skill_displayType_id( jsobj.get_string( "ident" ) );

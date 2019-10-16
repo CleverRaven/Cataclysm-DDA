@@ -3,7 +3,6 @@
 #include <map>
 #include <memory>
 #include <set>
-#include <sstream>
 #include <vector>
 #include <array>
 #include <stdexcept>
@@ -13,6 +12,7 @@
 #include "debug.h"
 #include "json.h"
 #include "trait_group.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "generic_factory.h"
 
@@ -355,6 +355,17 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, 1.0f );
     optional( jo, was_loaded, "map_memory_capacity_multiplier", map_memory_capacity_multiplier, 1.0f );
     optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, 1.0f );
+    optional( jo, was_loaded, "scent_modifier", scent_modifier, 1.0f );
+    optional( jo, was_loaded, "bleed_resist", bleed_resist, 0 );
+    optional( jo, was_loaded, "healthy_rate", healthy_rate, 1.0f );
+    optional( jo, was_loaded, "fat_to_max_hp", fat_to_max_hp, 0.0f );
+    optional( jo, was_loaded, "weakness_to_water", weakness_to_water, 0 );
+    optional( jo, was_loaded, "ignored_by", ignored_by );
+    optional( jo, was_loaded, "can_only_eat", can_only_eat );
+    optional( jo, was_loaded, "can_only_heal_with", can_only_heal_with );
+    optional( jo, was_loaded, "can_heal_with", can_heal_with );
+
+    optional( jo, was_loaded, "allowed_category", allowed_category );
 
     optional( jo, was_loaded, "mana_modifier", mana_modifier, 0 );
     optional( jo, was_loaded, "mana_multiplier", mana_multiplier, 1.0f );
@@ -377,6 +388,12 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "leads_to", additions );
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "types", types );
+
+    JsonArray jsar = jo.get_array( "no_cbm_on_bp" );
+    while( jsar.has_more() ) {
+        std::string s = jsar.next_string();
+        no_cbm_on_bp.emplace( get_body_part_token( s ) );
+    }
 
     auto jsarr = jo.get_array( "category" );
     while( jsarr.has_more() ) {
@@ -620,15 +637,13 @@ static Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid
     // Evidently, making the collection/distribution separation better has made the code for this check worse.
     if( is_collection ) {
         if( dynamic_cast<Trait_group_distribution *>( found->second.get() ) ) {
-            std::ostringstream buf;
-            buf << "item group \"" << gid.c_str() << R"(" already defined with type "distribution")";
-            throw std::runtime_error( buf.str() );
+            throw std::runtime_error( string_format(
+                                          R"("mutation group "%s" already defined with type "distribution")", gid.str() ) );
         }
     } else {
         if( dynamic_cast<Trait_group_collection *>( found->second.get() ) ) {
-            std::ostringstream buf;
-            buf << "item group \"" << gid.c_str() << R"(" already defined with type "collection")";
-            throw std::runtime_error( buf.str() );
+            throw std::runtime_error( string_format(
+                                          R"("mutation group "%s" already defined with type "collection")", gid.str() ) );
         }
     }
     return *found->second;

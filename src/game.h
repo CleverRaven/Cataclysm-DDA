@@ -16,6 +16,7 @@
 #include <chrono>
 #include <unordered_set>
 
+#include "action.h"
 #include "calendar.h"
 #include "character_id.h"
 #include "cursesdef.h"
@@ -44,6 +45,7 @@ extern std::unique_ptr<game> g;
 extern bool trigdist;
 extern bool use_tiles;
 extern bool fov_3d;
+extern int fov_3d_z_range;
 extern bool tile_iso;
 
 extern const int core_version;
@@ -87,6 +89,7 @@ class avatar;
 class event_bus;
 class kill_tracker;
 class map;
+class tripoint_range;
 class memorial_logger;
 class faction_manager;
 class npc;
@@ -266,13 +269,36 @@ class game
         std::shared_ptr<T> shared_from( const T &critter );
 
         /**
-         * Summons a brand new monster at the current time. Returns the summoned monster.
-         * Returns a `nullptr` if the monster could not be created.
+         * Adds critters to the reality bubble, creating them if necessary.
+         * Functions taking a @p id parameter will construct a monster based on that id,
+         * (with default properties).
+         * Functions taking a @p mon parameter will use the supplied monster instance instead
+         * (which must not be null).
+         * Note: the monster will not be upgraded by these functions, it is placed as is.
+         *
+         * @ref place_critter_at will place the creature exactly at the given point.
+         *
+         * @ref place_critter_around will place the creature around
+         * the center @p p within the given @p radius (radius 0 means only the center point is used).
+         * The chosen point will be as close to the center as possible.
+         *
+         * @ref place_critter_within will place the creature at a random point within
+         * that given range. (All points within have equal probability.)
+         *
+         * @return All functions return null if the creature could not be placed (usually because
+         * the target is not suitable for it: may be a solid wall, or air, or already occupied
+         * by some creature).
+         * If the creature has been placed, it returns a pointer to it (which is the same as
+         * the one contained in @p mon).
          */
-        monster *summon_mon( const mtype_id &id, const tripoint &p );
-        /** Calls the creature_tracker add function. Returns true if successful. */
-        bool add_zombie( monster &critter );
-        bool add_zombie( monster &critter, bool pin_upgrade );
+        /** @{ */
+        monster *place_critter_at( const mtype_id &id, const tripoint &p );
+        monster *place_critter_at( std::shared_ptr<monster> mon, const tripoint &p );
+        monster *place_critter_around( const mtype_id &id, const tripoint &center, int radius );
+        monster *place_critter_around( std::shared_ptr<monster> mon, const tripoint &center, int radius );
+        monster *place_critter_within( const mtype_id &id, const tripoint_range &range );
+        monster *place_critter_within( std::shared_ptr<monster> mon, const tripoint_range &range );
+        /** @} */
         /**
          * Returns the approximate number of creatures in the reality bubble.
          * Because of performance restrictions it may return a slightly incorrect
@@ -454,8 +480,6 @@ class game
         void validate_camps();
         /** process vehicles that are following the player */
         void following_vehicles();
-        /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
-        void teleport( player *p = nullptr, bool add_teleglow = true );
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
         void catch_a_monster( monster *fish, const tripoint &pos, player *p,
                               const time_duration &catch_duration );
@@ -771,6 +795,8 @@ class game
         void mon_info( const catacurses::window &,
                        int hor_padding = 0 ); // Prints a list of nearby monsters
         void cleanup_dead();     // Delete any dead NPCs/monsters
+        bool is_dangerous_tile( const tripoint &dest_loc ) const;
+        std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc ) const;
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
     private:
         void wield();
@@ -869,10 +895,19 @@ class game
         void disp_faction_ends();   // Display the faction endings
         void disp_NPC_epilogues();  // Display NPC endings
 
-        // Debug functions
+        /* Debug functions */
+        // overlays flags (on / off)
+        std::map<action_id, bool> displaying_overlays{
+            { ACTION_DISPLAY_SCENT, false },
+            { ACTION_DISPLAY_TEMPERATURE, false },
+            { ACTION_DISPLAY_VISIBILITY, false },
+            { ACTION_DISPLAY_LIGHTING, false },
+            { ACTION_DISPLAY_RADIATION, false },
+        };
         void display_scent();   // Displays the scent map
         void display_temperature();    // Displays temperature map
         void display_visibility(); // Displays visibility map
+        void display_lighting(); // Displays lighting conditions heat map
         void display_radiation(); // Displays radiation map
 
         Creature *is_hostile_within( int distance );
@@ -892,6 +927,7 @@ class game
         pimpl<stats_tracker> stats_tracker_ptr;
         pimpl<kill_tracker> kill_tracker_ptr;
         pimpl<memorial_logger> memorial_logger_ptr;
+        pimpl<spell_events> spell_events_ptr;
 
     public:
         /** Make map a reference here, to avoid map.h in game.h */
@@ -903,6 +939,7 @@ class game
         event_bus &events();
         stats_tracker &stats();
         memorial_logger &memorial();
+        spell_events &spell_events_subscriber();
 
         pimpl<Creature_tracker> critter_tracker;
         pimpl<faction_manager> faction_manager_ptr;
@@ -935,12 +972,16 @@ class game
         point driving_view_offset;
 
         bool debug_pathfinding = false; // show NPC pathfinding on overmap ui
-        bool displaying_scent;
-        bool displaying_temperature;
-        bool displaying_visibility;
+
+        /* tile overlays */
+        // Toggle all other overlays off and flip the given overlay on/off.
+        void display_toggle_overlay( action_id );
+        // Get the state of an overlay (on/off).
+        bool display_overlay_state( action_id );
         /** Creature for which to display the visibility map */
         Creature *displaying_visibility_creature;
-        bool displaying_radiation;
+        /** Type of lighting condition overlay to display */
+        int displaying_lighting_condition = 0;
 
         bool show_panel_adm;
         bool right_sidebar;
@@ -970,7 +1011,7 @@ class game
         bool safe_mode_warning_logged;
         bool bVMonsterLookFire;
         character_id next_npc_id;
-        std::vector<std::shared_ptr<npc>> active_npc;
+        std::list<std::shared_ptr<npc>> active_npc;
         int next_mission_id;
         std::set<character_id> follower_ids; // Keep track of follower NPC IDs
         int moves_since_last_save;

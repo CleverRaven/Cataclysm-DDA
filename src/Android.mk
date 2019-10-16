@@ -1,17 +1,23 @@
-LOCAL_PATH := $(call my-dir)
+LOCAL_PATH :
+    = $( call my - dir )
 
-include $(CLEAR_VARS)
+      include $( CLEAR_VARS )
 
-LOCAL_MODULE := main
+      LOCAL_MODULE :
+      = main
 
-SDL_PATH := ../SDL2
+        SDL_PATH :
+        = .. / SDL2
 
-LOCAL_C_INCLUDES := $(LOCAL_PATH)/$(SDL_PATH)/include
+          LOCAL_C_INCLUDES :
+          = $( LOCAL_PATH ) / $( SDL_PATH ) / include
 
-LOCAL_CPP_FEATURES := exceptions rtti
+            LOCAL_CPP_FEATURES :
+            = exceptions rtti
 
 # Add your application source files here...
-FILE_LIST := $(wildcard $(LOCAL_PATH)/*.cpp)
+              FILE_LIST :
+              = $( wildcard $( LOCAL_PATH )/*.cpp)
 LOCAL_SRC_FILES := $(FILE_LIST:$(LOCAL_PATH)/%=%)
 
 LOCAL_SHARED_LIBRARIES := libhidapi SDL2 SDL2_mixer SDL2_image SDL2_ttf libintl-lite mpg123

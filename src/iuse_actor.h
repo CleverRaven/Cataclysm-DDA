@@ -17,6 +17,7 @@
 #include "iuse.h"
 #include "ret_val.h"
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "optional.h"
@@ -49,7 +50,7 @@ class iuse_transform : public iuse_actor
 {
     public:
         /** displayed if player sees transformation with %s replaced by item name */
-        std::string msg_transform;
+        translation msg_transform;
 
         /** type of the resulting item */
         std::string target;
@@ -75,6 +76,9 @@ class iuse_transform : public iuse_actor
         /**does the item requires to be worn to be activable*/
         bool need_worn = false;
 
+        /**does the item requires to be wielded to be activable*/
+        bool need_wielding = false;
+
         /** subtracted from @ref Creature::moves when transformation is successful */
         int moves = 0;
 
@@ -82,18 +86,18 @@ class iuse_transform : public iuse_actor
         int need_fire = 0;
 
         /** displayed if item is in player possession with %s replaced by item name */
-        std::string need_fire_msg;
+        translation need_fire_msg;
 
         /** minimum charges (if any) required for transformation */
         int need_charges = 0;
 
         /** displayed if item is in player possession with %s replaced by item name */
-        std::string need_charges_msg;
+        translation need_charges_msg;
 
         /** Tool qualities needed, e.g. "fine bolt turning 1". **/
         std::map<quality_id, int> qualities_needed;
 
-        std::string menu_text;
+        translation menu_text;
 
         iuse_transform( const std::string &type = "transform" ) : iuse_actor( type ) {}
 
@@ -501,10 +505,10 @@ class inscribe_actor : public iuse_actor
         };
 
         // How will the inscription be described
-        std::string verb = "Carve";
-        std::string gerund = "Carved";
+        translation verb = to_translation( "Carve" );
+        translation gerund = to_translation( "Carved" );
 
-        bool item_inscription( item &cut ) const;
+        bool item_inscription( item &tool, item &cut ) const;
 
         inscribe_actor( const std::string &type = "inscribe" ) : iuse_actor( type ) {}
 
@@ -693,12 +697,16 @@ class cast_spell_actor : public iuse_actor
         // the spell this item casts when used.
         spell_id item_spell;
         int spell_level;
+        /**does the item requires to be worn to be activable*/
+        bool need_worn = false;
+        /**does the item requires to be wielded to be activable*/
+        bool need_wielding = false;
 
         cast_spell_actor( const std::string &type = "cast_spell" ) : iuse_actor( type ) {}
 
         ~cast_spell_actor() override = default;
         void load( JsonObject &obj ) override;
-        int use( player &p, item &itm, bool, const tripoint & ) const override;
+        int use( player &p, item &it, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
@@ -1095,7 +1103,7 @@ class weigh_self_actor : public iuse_actor
 
         ~weigh_self_actor() override = default;
         void load( JsonObject &jo ) override;
-        int use( player &p, item &itm, bool, const tripoint & ) const override;
+        int use( player &p, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 };

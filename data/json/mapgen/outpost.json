@@ -3,8 +3,8 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "outpost" ],
+    "weight": 100,
     "object": {
-      "weight": 100,
       "rows": [
         "|----------++----------|",
         "|x         xx         x|",
@@ -123,8 +123,8 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "outpost" ],
+    "weight": 100,
     "object": {
-      "weight": 100,
       "rows": [
         "|----------++----------|",
         "|x         xx         x|",

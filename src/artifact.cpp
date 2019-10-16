@@ -10,6 +10,7 @@
 #include <unordered_map>
 #include <vector>
 
+#include "assign.h"
 #include "cata_utility.h"
 #include "item_factory.h"
 #include "json.h"
@@ -615,7 +616,7 @@ it_artifact_tool::it_artifact_tool()
     tool.emplace();
     artifact.emplace();
     id = item_controller->create_artifact_id();
-    price = 0;
+    price = 0_cent;
     tool->charges_per_use = 1;
     artifact->charge_type = ARTC_NULL;
     artifact->charge_req = ACR_NULL;
@@ -639,7 +640,7 @@ it_artifact_armor::it_artifact_armor()
     armor.emplace();
     artifact.emplace();
     id = item_controller->create_artifact_id();
-    price = 0;
+    price = 0_cent;
 }
 
 it_artifact_armor::it_artifact_armor( JsonObject &jo )
@@ -651,22 +652,19 @@ it_artifact_armor::it_artifact_armor( JsonObject &jo )
 
 void it_artifact_tool::create_name( const std::string &type )
 {
-    name = artifact_name( type );
-    name_plural = name;
+    name = no_translation( artifact_name( type ) );
 }
 
 void it_artifact_tool::create_name( const std::string &property_name,
                                     const std::string &shape_name )
 {
-    name = string_format( pgettext( "artifact name (property, shape)", "%1$s %2$s" ),
-                          property_name, shape_name );
-    name_plural = name;
+    name = no_translation( string_format( pgettext( "artifact name (property, shape)", "%1$s %2$s" ),
+                                          property_name, shape_name ) );
 }
 
 void it_artifact_armor::create_name( const std::string &type )
 {
-    name = artifact_name( type );
-    name_plural = name;
+    name = no_translation( artifact_name( type ) );
 }
 
 std::string new_artifact()
@@ -1132,7 +1130,7 @@ void load_artifacts( const std::string &path )
 void it_artifact_tool::deserialize( JsonObject &jo )
 {
     id = jo.get_string( "id" );
-    name = jo.get_string( "name" );
+    name = no_translation( jo.get_string( "name" ) );
     description = no_translation( jo.get_string( "description" ) );
     if( jo.has_int( "sym" ) ) {
         sym = std::string( 1, jo.get_int( "sym" ) );
@@ -1140,7 +1138,7 @@ void it_artifact_tool::deserialize( JsonObject &jo )
         sym = jo.get_string( "sym" );
     }
     jo.read( "color", color );
-    price = jo.get_int( "price" );
+    assign( jo, "price", price, false, 0_cent );
     // LEGACY: Since it seems artifacts get serialized out to disk, and they're
     // dynamic, we need to allow for them to be read from disk for, oh, I guess
     // quite some time. Loading and saving once will write things out as a JSON
@@ -1247,7 +1245,7 @@ void it_artifact_tool::deserialize( JsonObject &jo )
 void it_artifact_armor::deserialize( JsonObject &jo )
 {
     id = jo.get_string( "id" );
-    name = jo.get_string( "name" );
+    name = no_translation( jo.get_string( "name" ) );
     description = no_translation( jo.get_string( "description" ) );
     if( jo.has_int( "sym" ) ) {
         sym = std::string( 1, jo.get_int( "sym" ) );
@@ -1255,7 +1253,7 @@ void it_artifact_armor::deserialize( JsonObject &jo )
         sym = jo.get_string( "sym" );
     }
     jo.read( "color", color );
-    price = jo.get_int( "price" );
+    assign( jo, "price", price, false, 0_cent );
     // LEGACY: Since it seems artifacts get serialized out to disk, and they're
     // dynamic, we need to allow for them to be read from disk for, oh, I guess
     // quite some time. Loading and saving once will write things out as a JSON
@@ -1283,7 +1281,8 @@ void it_artifact_armor::deserialize( JsonObject &jo )
 
     jo.read( "covers", armor->covers );
     armor->encumber = jo.get_int( "encumber" );
-    armor->max_encumber = jo.get_int( "max_encumber" );
+    // Old saves don't have max_encumber, so set it to base encumbrance value
+    armor->max_encumber = jo.get_int( "max_encumber", armor->encumber );
     armor->coverage = jo.get_int( "coverage" );
     armor->thickness = jo.get_int( "material_thickness" );
     armor->env_resist = jo.get_int( "env_resist" );
@@ -1339,13 +1338,13 @@ void it_artifact_tool::serialize( JsonOut &json ) const
 
     // generic data
     json.member( "id", id );
-    json.member( "name", name );
-    // Artifact descriptions are always constructed using `no_translation`,
+    // Artifact names and descriptions are always constructed using `no_translation`,
     // so `translated()` here only retrieves the underlying string
+    json.member( "name", name.translated() );
     json.member( "description", description.translated() );
     json.member( "sym", sym );
     json.member( "color", color );
-    json.member( "price", price );
+    json.member( "price", units::to_cent( price ) );
     json.member( "materials" );
     json.start_array();
     for( const material_id &mat : materials ) {
@@ -1395,13 +1394,13 @@ void it_artifact_armor::serialize( JsonOut &json ) const
 
     // generic data
     json.member( "id", id );
-    json.member( "name", name );
-    // Artifact descriptions are always constructed using `no_translation`,
+    // Artifact names and descriptions are always constructed using `no_translation`,
     // so `translated()` here only retrieves the underlying string
+    json.member( "name", name.translated() );
     json.member( "description", description.translated() );
     json.member( "sym", sym );
     json.member( "color", color );
-    json.member( "price", price );
+    json.member( "price", units::to_cent( price ) );
     json.member( "materials" );
     json.start_array();
     for( const material_id &mat : materials ) {

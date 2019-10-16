@@ -192,7 +192,7 @@ void map::build_sunlight_cache( int zlev )
     }
     // If uppermost level, just apply weather illumination since there's no opportunity
     // for light to be blocked.
-    if( zlev == OVERMAP_HEIGHT ) {
+    if( zlev == std::min( map_cache.max_populated_zlev + 1, OVERMAP_HEIGHT ) ) {
         for( auto &lm_col : lm ) {
             for( four_quadrants &lm_entry : lm_col ) {
                 lm_entry.fill( outside_light_level );
@@ -274,7 +274,10 @@ void map::generate_lightmap( const int zlev )
 
     const float natural_light = g->natural_light_level( zlev );
     const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
-    const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
+    // Start at the topmost populated zlevel to avoid unnecessary raycasting
+    // Plus one zlevel to prevent clipping inside structures
+    const int maxz = zlevels ? std::min( map_cache.max_populated_zlev + 1, OVERMAP_HEIGHT ) : zlev;
+
     // Iterate top to bottom because sunlight cache needs to construct in that order.
     for( int z = maxz; z >= minz; z-- ) {
         build_sunlight_cache( z );
@@ -445,7 +448,7 @@ void map::generate_lightmap( const int zlev )
 
     if( g->u.has_active_bionic( bionic_id( "bio_night" ) ) ) {
         for( const tripoint &p : points_in_rectangle( cache_start, cache_end ) ) {
-            if( rl_dist( p, g->u.pos() ) < 15 ) {
+            if( rl_dist( p, g->u.pos() ) < 2 ) {
                 lm[p.x][p.y].fill( LIGHT_AMBIENT_MINIMAL );
             }
         }
@@ -708,7 +711,7 @@ void cast_zlight_segment(
         T current_transparency = 0.0f;
 
         // TODO: Precalculate min/max delta.z based on start/end and distance
-        for( delta.z = 0; delta.z <= distance; delta.z++ ) {
+        for( delta.z = 0; delta.z <= std::min( fov_3d_z_range, distance ); delta.z++ ) {
             float trailing_edge_major = ( delta.z - 0.5f ) / ( delta.y + 0.5f );
             float leading_edge_major = ( delta.z + 0.5f ) / ( delta.y - 0.5f );
             current.z = offset.z + delta.x * 00 + delta.y * 00 + delta.z * zz;

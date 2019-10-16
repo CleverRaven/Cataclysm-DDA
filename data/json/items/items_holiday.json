@@ -1,0 +1,54 @@
+[
+  {
+    "id": "plastic_jack_o_lantern",
+    "type": "TOOL",
+    "name": "jack o'lantern",
+    "description": "This is a plastic lantern that is painted to look like a pumpkin with a face.  It has a candle inside it, that can be replaced when burnt down.  It doesn't provide very much light, but it can burn for quite a long time.  You'll need a lighter or matches to light it.",
+    "weight": "113 g",
+    "volume": "3964 ml",
+    "price": 100,
+    "to_hit": -2,
+    "material": "plastic",
+    "symbol": "0",
+    "color": "yellow",
+    "looks_like": "pumpkin",
+    "initial_charges": 100,
+    "max_charges": 100,
+    "charges_per_use": 1,
+    "ammo": [ "battery" ],
+    "use_action": {
+      "target": "plastic_jack_o_lantern_lit",
+      "msg": "You light the candle in the jack o'lantern.",
+      "active": true,
+      "menu_text": "Light",
+      "type": "transform"
+    }
+  },
+  {
+    "id": "plastic_jack_o_lantern_lit",
+    "type": "TOOL",
+    "name": "spooky jack o'lantern",
+    "name_plural": "jack o'lanterns",
+    "description": "There is a thick LED candle inside the pumpkin face.  It doesn't provide very much light, but it can burn for quite a long time.  This candle is lit. The face shifts.",
+    "weight": "113 g",
+    "volume": "3964 ml",
+    "price": 0,
+    "to_hit": -2,
+    "material": "plastic",
+    "symbol": "0",
+    "looks_like": "pumpkin",
+    "color": "yellow",
+    "initial_charges": 100,
+    "max_charges": 100,
+    "charges_per_use": 1,
+    "turns_per_charge": 1350,
+    "use_action": {
+      "type": "transform",
+      "target": "plastic_jack_o_lantern",
+      "msg": "The candle winks out inside the lantern.",
+      "menu_text": "Extinguish",
+      "revert_to": "plastic_jack_o_lantern"
+    },
+    "flags": [ "LIGHT_6", "TRADER_AVOID" ]
+  }
+]

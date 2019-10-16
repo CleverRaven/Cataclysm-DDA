@@ -96,7 +96,7 @@ class wish_mutate_callback: public uilist_callback
             if( !mdata.prereqs.empty() ) {
                 line2++;
                 mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Prereqs:" ) );
-                for( auto &j : mdata.prereqs ) {
+                for( const trait_id &j : mdata.prereqs ) {
                     mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
                                mutation_branch::get_name( j ) );
                     line2++;
@@ -106,7 +106,7 @@ class wish_mutate_callback: public uilist_callback
             if( !mdata.prereqs2.empty() ) {
                 line2++;
                 mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Prereqs, 2d:" ) );
-                for( auto &j : mdata.prereqs2 ) {
+                for( const trait_id &j : mdata.prereqs2 ) {
                     mvwprintz( menu->window, point( startx + 15, line2 ), mcolor( j ),
                                mutation_branch::get_name( j ) );
                     line2++;
@@ -116,7 +116,7 @@ class wish_mutate_callback: public uilist_callback
             if( !mdata.threshreq.empty() ) {
                 line2++;
                 mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Thresholds required:" ) );
-                for( auto &j : mdata.threshreq ) {
+                for( const trait_id &j : mdata.threshreq ) {
                     mvwprintz( menu->window, point( startx + 21, line2 ), mcolor( j ),
                                mutation_branch::get_name( j ) );
                     line2++;
@@ -126,7 +126,7 @@ class wish_mutate_callback: public uilist_callback
             if( !mdata.cancels.empty() ) {
                 line2++;
                 mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Cancels:" ) );
-                for( auto &j : mdata.cancels ) {
+                for( const trait_id &j : mdata.cancels ) {
                     mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
                                mutation_branch::get_name( j ) );
                     line2++;
@@ -136,7 +136,7 @@ class wish_mutate_callback: public uilist_callback
             if( !mdata.replacements.empty() ) {
                 line2++;
                 mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Becomes:" ) );
-                for( auto &j : mdata.replacements ) {
+                for( const trait_id &j : mdata.replacements ) {
                     mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
                                mutation_branch::get_name( j ) );
                     line2++;
@@ -390,7 +390,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
     wmenu.callback = &cb;
 
     int i = 0;
-    for( const auto &montype : MonsterGenerator::generator().get_all_mtypes() ) {
+    for( const mtype &montype : MonsterGenerator::generator().get_all_mtypes() ) {
         wmenu.addentry( i, true, 0, montype.nname() );
         wmenu.entries[i].extratxt.txt = montype.sym;
         wmenu.entries[i].extratxt.color = montype.color;
@@ -402,26 +402,28 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
     do {
         wmenu.query();
         if( wmenu.ret >= 0 ) {
-            monster mon = monster( mtypes[ wmenu.ret ]->id );
-            if( cb.friendly ) {
-                mon.friendly = -1;
-            }
-            if( cb.hallucination ) {
-                mon.hallucination = true;
-            }
+            const mtype_id &mon_type = mtypes[ wmenu.ret ]->id;
             if( cata::optional<tripoint> spawn = p ? p : g->look_around() ) {
-                const std::vector<tripoint> spawn_points = closest_tripoints_first( cb.group, *spawn );
                 int num_spawned = 0;
-                for( const tripoint &spawn_point : spawn_points ) {
-                    if( g->critter_at( spawn_point ) == nullptr ) {
-                        ++num_spawned;
-                        mon.spawn( spawn_point );
-                        g->add_zombie( mon, true );
+                for( const tripoint &p : closest_tripoints_first( cb.group, *spawn ) ) {
+                    monster *const mon = g->place_critter_at( mon_type, p );
+                    if( !mon ) {
+                        continue;
                     }
+                    if( cb.friendly ) {
+                        mon->friendly = -1;
+                    }
+                    if( cb.hallucination ) {
+                        mon->hallucination = true;
+                    }
+                    ++num_spawned;
                 }
                 input_context ctxt( wmenu.input_category );
-                cb.msg = string_format( _( "Spawned %d/%d monsters, choose another or [%s] to quit." ),
-                                        num_spawned, static_cast<int>( spawn_points.size() ), ctxt.get_desc( "QUIT" ) );
+                cb.msg = string_format( _( "Spawned %d monsters, choose another or [%s] to quit." ),
+                                        num_spawned, ctxt.get_desc( "QUIT" ) );
+                if( num_spawned == 0 ) {
+                    cb.msg += _( "\nTarget location is not suitable for placing this kind of monster.  Choose a different target or [i]ncrease the groups size." );
+                }
                 uistate.wishmonster_selected = wmenu.selected;
                 wmenu.redraw();
             }
@@ -500,7 +502,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
     uilist wmenu;
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;
-    wmenu.pad_right = TERMX / 2 > 40 ? TERMX - 40 : TERMX / 2;
+    wmenu.pad_right = std::max( TERMX / 2, TERMX - 50 );
     wmenu.selected = uistate.wishitem_selected;
     wish_item_callback cb( opts );
     wmenu.callback = &cb;
@@ -556,7 +558,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
                 }
                 if( amount > 0 ) {
                     input_context ctxt( wmenu.input_category );
-                    cb.msg = string_format( _( "Wish granted. Wish for more or hit [%s] to quit." ),
+                    cb.msg = string_format( _( "Wish granted.  Wish for more or hit [%s] to quit." ),
                                             ctxt.get_desc( "QUIT" ) );
                 }
             }

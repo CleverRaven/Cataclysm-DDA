@@ -188,8 +188,8 @@ class overmap
          */
         std::vector<point> find_terrain( const std::string &term, int zlevel );
 
-        oter_id &ter( const tripoint &p );
-        oter_id get_ter( const tripoint &p ) const;
+        void ter_set( const tripoint &p, const oter_id &id );
+        const oter_id &ter( const tripoint &p ) const;
         bool &seen( const tripoint &p );
         bool seen( const tripoint &p ) const;
         bool &explored( const tripoint &p );
@@ -461,4 +461,19 @@ bool is_ot_match( const std::string &name, const oter_id &oter,
 */
 om_special_sectors get_sectors( int sector_width );
 
+/**
+* Returns the string of oter without any directional suffix
+*/
+std::string oter_no_dir( const oter_id &oter );
+
+/**
+* Return 0, 1, 2, 3 respectively if the suffix is _north, _west, _south, _east
+* Return 0 if theres' no suffix
+*/
+int oter_get_rotation( const oter_id &oter );
+
+/**
+* Return the directional suffix or "" if there isn't one.
+*/
+std::string oter_get_rotation_string( const oter_id &oter );
 #endif
