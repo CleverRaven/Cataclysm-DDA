@@ -185,7 +185,7 @@
     "id": "tele_sight",
     "type": "GUNMOD",
     "name": "telescopic sight",
-    "description": "A simple telescopic sight, essentially a small telescope with crosshairs.  Increases weight but improves accuracy.",
+    "description": "A simple hand-crafted telescopic sight, essentially a small telescope with crosshairs. Not as good as the ones made before the cataclysm.  Increases weight but improves accuracy.",
     "weight": "300 g",
     "volume": "250 ml",
     "price": 30000,
