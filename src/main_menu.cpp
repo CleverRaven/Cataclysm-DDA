@@ -42,7 +42,7 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-static const bool halloween_theme = false;
+static const bool halloween_theme = true;
 
 void main_menu::on_move() const
 {
@@ -101,9 +101,7 @@ void main_menu::print_menu_items( const catacurses::window &w_in,
 
         std::string temp = shortcut_text( c_white, vItems[i] );
         if( iSel == i ) {
-            text += string_format( "[<color_%s>%s</color>]",
-                                   string_from_color( h_white ),
-                                   remove_color_tags( temp ) );
+            text += string_format( "[%s]", colorize( remove_color_tags( temp ), h_white ) );
         } else {
             text += string_format( "[%s]", temp );
         }
@@ -227,7 +225,7 @@ std::string main_menu::handle_input_timeout( input_context &ctxt )
 
 void main_menu::init_windows()
 {
-    if( LAST_TERMX == TERMX && LAST_TERMY == TERMY ) {
+    if( LAST_TERM == point( TERMX, TERMY ) ) {
         return;
     }
 
@@ -254,8 +252,7 @@ void main_menu::init_windows()
     // note: if iMenuOffset is changed,
     // please update MOTD and credits to indicate how long they can be.
 
-    LAST_TERMX = TERMX;
-    LAST_TERMY = TERMY;
+    LAST_TERM = point( TERMX, TERMY );
 }
 
 void main_menu::init_strings()
@@ -403,22 +400,22 @@ bool main_menu::opening_screen()
     print_menu( w_open, 0, menu_offset );
 
     if( !assure_dir_exist( FILENAMES["config_dir"] ) ) {
-        popup( _( "Unable to make config directory. Check permissions." ) );
+        popup( _( "Unable to make config directory.  Check permissions." ) );
         return false;
     }
 
     if( !assure_dir_exist( FILENAMES["savedir"] ) ) {
-        popup( _( "Unable to make save directory. Check permissions." ) );
+        popup( _( "Unable to make save directory.  Check permissions." ) );
         return false;
     }
 
     if( !assure_dir_exist( FILENAMES["templatedir"] ) ) {
-        popup( _( "Unable to make templates directory. Check permissions." ) );
+        popup( _( "Unable to make templates directory.  Check permissions." ) );
         return false;
     }
 
     if( !assure_dir_exist( FILENAMES["user_sound"] ) ) {
-        popup( _( "Unable to make sound directory. Check permissions." ) );
+        popup( _( "Unable to make sound directory.  Check permissions." ) );
         return false;
     }
 
@@ -671,7 +668,7 @@ bool main_menu::new_character_tab()
     vSubItems.push_back( pgettext( "Main Menu|New Game", "<P|p>reset Character" ) );
     vSubItems.push_back( pgettext( "Main Menu|New Game", "<R|r>andom Character" ) );
     if( !MAP_SHARING::isSharing() ) { // "Play Now" function doesn't play well together with shared maps
-        vSubItems.push_back( pgettext( "Main Menu|New Game", "Play Now! (<F|f>ixed Scenario)" ) );
+        vSubItems.push_back( pgettext( "Main Menu|New Game", "Play Now!  (<F|f>ixed Scenario)" ) );
         vSubItems.push_back( pgettext( "Main Menu|New Game", "Play <N|n>ow!" ) );
     }
     std::vector<std::vector<std::string>> vNewGameHotkeys;

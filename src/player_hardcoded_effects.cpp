@@ -7,6 +7,7 @@
 #include "effect.h"
 #include "event_bus.h"
 #include "fungal_effects.h"
+#include "field_type.h"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -23,6 +24,7 @@
 #include "enums.h"
 #include "mtype.h"
 #include "stomach.h"
+#include "teleport.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -159,19 +161,19 @@ static void eff_fun_fungus( player &u, effect &it )
                 }
                 // We're fucked
             } else if( one_in( 36000 + bonus * 120 ) ) {
-                if( u.hp_cur[hp_arm_l] <= 0 || u.hp_cur[hp_arm_r] <= 0 ) {
-                    if( u.hp_cur[hp_arm_l] <= 0 && u.hp_cur[hp_arm_r] <= 0 ) {
+                if( u.is_limb_broken( hp_arm_l ) || u.is_limb_broken( hp_arm_r ) ) {
+                    if( u.is_limb_broken( hp_arm_l ) && u.is_limb_broken( hp_arm_r ) ) {
                         u.add_msg_player_or_npc( m_bad,
-                                                 _( "The flesh on your broken arms bulges. Fungus stalks burst through!" ),
-                                                 _( "<npcname>'s broken arms bulge. Fungus stalks burst out of the bulges!" ) );
+                                                 _( "The flesh on your broken arms bulges.  Fungus stalks burst through!" ),
+                                                 _( "<npcname>'s broken arms bulge.  Fungus stalks burst out of the bulges!" ) );
                     } else {
                         u.add_msg_player_or_npc( m_bad,
-                                                 _( "The flesh on your broken and unbroken arms bulge. Fungus stalks burst through!" ),
-                                                 _( "<npcname>'s arms bulge. Fungus stalks burst out of the bulges!" ) );
+                                                 _( "The flesh on your broken and unbroken arms bulge.  Fungus stalks burst through!" ),
+                                                 _( "<npcname>'s arms bulge.  Fungus stalks burst out of the bulges!" ) );
                     }
                 } else {
-                    u.add_msg_player_or_npc( m_bad, _( "Your hands bulge. Fungus stalks burst through the bulge!" ),
-                                             _( "<npcname>'s hands bulge. Fungus stalks burst through the bulge!" ) );
+                    u.add_msg_player_or_npc( m_bad, _( "Your hands bulge.  Fungus stalks burst through the bulge!" ),
+                                             _( "<npcname>'s hands bulge.  Fungus stalks burst through the bulge!" ) );
                 }
                 u.apply_damage( nullptr, bp_arm_l, 999 );
                 u.apply_damage( nullptr, bp_arm_r, 999 );
@@ -251,21 +253,21 @@ static void eff_fun_hallu( player &u, effect &it )
         }
         if( u.is_npc() && one_in( 1200 ) ) {
             static const std::array<std::string, 4> npc_hallu = {{
-                    _( "\"I think it's starting to kick in.\"" ),
-                    _( "\"Oh God, what's happening?\"" ),
-                    _( "\"Of course... it's all fractals!\"" ),
-                    _( "\"Huh?  What was that?\"" )
+                    translate_marker( "\"I think it's starting to kick in.\"" ),
+                    translate_marker( "\"Oh God, what's happening?\"" ),
+                    translate_marker( "\"Of course... it's all fractals!\"" ),
+                    translate_marker( "\"Huh?  What was that?\"" )
                 }
             };
 
-            const std::string &npc_text = random_entry_ref( npc_hallu );
             ///\EFFECT_STR_NPC increases volume of hallucination sounds (NEGATIVE)
 
             ///\EFFECT_INT_NPC decreases volume of hallucination sounds
             int loudness = 20 + u.str_cur - u.int_cur;
             loudness = ( loudness > 5 ? loudness : 5 );
             loudness = ( loudness < 30 ? loudness : 30 );
-            sounds::sound( u.pos(), loudness, sounds::sound_t::speech, npc_text, false, "speech",
+            sounds::sound( u.pos(), loudness, sounds::sound_t::speech, _( random_entry_ref( npc_hallu ) ),
+                           false, "speech",
                            loudness < 15 ? ( u.male ? "NPC_m" : "NPC_f" ) : ( u.male ? "NPC_m_loud" : "NPC_f_loud" ) );
         }
     } else if( dur == peakTime ) {
@@ -480,19 +482,11 @@ void player::hardcoded_effects( effect &it )
             add_msg_player_or_npc( m_bad,
                                    _( "Your flesh crawls; insects tear through the flesh and begin to emerge!" ),
                                    _( "Insects begin to emerge from <npcname>'s skin!" ) );
-            for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
-                if( num_insects == 0 ) {
-                    break;
-                } else if( pos() == dest ) {
-                    continue;
-                }
-                if( !g->critter_at( dest ) ) {
-                    if( monster *const grub = g->summon_mon( mon_dermatik_larva, dest ) ) {
-                        if( one_in( 3 ) ) {
-                            grub->friendly = -1;
-                        }
+            for( ; num_insects > 0; num_insects-- ) {
+                if( monster *const grub = g->place_critter_around( mon_dermatik_larva, pos(), 1 ) ) {
+                    if( one_in( 3 ) ) {
+                        grub->friendly = -1;
                     }
-                    num_insects--;
                 }
             }
             g->events().send<event_type::dermatik_eggs_hatch>( getID() );
@@ -568,7 +562,7 @@ void player::hardcoded_effects( effect &it )
                 }
                 MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
                                                        mongroup_id( "GROUP_NETHER" ) );
-                g->summon_mon( spawn_details.name, dest );
+                g->place_critter_at( spawn_details.name, dest );
                 if( g->u.sees( dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
                                                         _( "A monster appears nearby!" ) );
@@ -615,9 +609,23 @@ void player::hardcoded_effects( effect &it )
                 if( !is_npc() ) {
                     add_msg( _( "Glowing lights surround you, and you teleport." ) );
                 }
-                g->teleport();
+                teleport::teleport( *this );
                 g->events().send<event_type::teleglow_teleports>( getID() );
                 if( one_in( 10 ) ) {
+                    // Set ourselves up for removal
+                    it.set_duration( 0_turns );
+                }
+            }
+            if( one_in( 7200 - ( dur - 360_minutes ) / 4_turns ) ) {
+                add_msg_if_player( m_bad, _( "You are beset with a vision of a prowling beast." ) );
+                for( const tripoint &dest : g->m.points_in_radius( pos(), 6 ) ) {
+                    if( g->m.is_cornerfloor( dest ) ) {
+                        g->m.add_field( dest, fd_tindalos_rift, 3 );
+                        add_msg_if_player( m_info, _( "Your surroundings are permeated with a foul scent." ) );
+                        break;
+                    }
+                }
+                if( one_in( 2 ) ) {
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
                 }
@@ -654,7 +662,7 @@ void player::hardcoded_effects( effect &it )
                     }
                     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
                                                            mongroup_id( "GROUP_NETHER" ) );
-                    g->summon_mon( spawn_details.name, dest );
+                    g->place_critter_at( spawn_details.name, dest );
                     if( g->u.sees( dest ) ) {
                         g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted,
                                                             _( "A monster appears nearby!" ) );
@@ -1272,7 +1280,7 @@ void player::hardcoded_effects( effect &it )
                                    "alarm_clock" );
                     const std::string alarm = _( "Your alarm is going off." );
                     g->cancel_activity_or_ignore_query( distraction_type::noise, alarm );
-                    add_msg( "Your alarm went off." );
+                    add_msg( _( "Your alarm went off." ) );
                 }
             }
         }

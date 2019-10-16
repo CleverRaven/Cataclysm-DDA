@@ -2,6 +2,7 @@
 
 #include <set>
 
+#include "bodypart.h"
 #include "debug.h"
 #include "enums.h"
 #include "generic_factory.h"
@@ -123,6 +124,20 @@ void field_type::load( JsonObject &jo, const std::string & )
                   fallback_intensity_level.translucency );
         optional( jao, was_loaded, "convection_temperature_mod", intensity_level.convection_temperature_mod,
                   fallback_intensity_level.convection_temperature_mod );
+        optional( jao, was_loaded, "effect_id", intensity_level.field_effect.id,
+                  fallback_intensity_level.field_effect.id );
+        optional( jao, was_loaded, "effect_min_duration", intensity_level.field_effect.min_duration,
+                  fallback_intensity_level.field_effect.min_duration );
+        optional( jao, was_loaded, "effect_max_duration", intensity_level.field_effect.max_duration,
+                  fallback_intensity_level.field_effect.max_duration );
+        optional( jao, was_loaded, "effect_intensity", intensity_level.field_effect.intensity,
+                  fallback_intensity_level.field_effect.intensity );
+        optional( jao, was_loaded, "effect_body_part", intensity_level.field_effect.bp,
+                  fallback_intensity_level.field_effect.bp );
+        optional( jao, was_loaded, "inside_immune", intensity_level.field_effect.inside_immune,
+                  fallback_intensity_level.field_effect.inside_immune );
+        optional( jao, was_loaded, "scent_neutralization", intensity_level.scent_neutralization,
+                  fallback_intensity_level.scent_neutralization );
         intensity_levels.emplace_back( intensity_level );
     }
 
@@ -275,7 +290,8 @@ field_type_id fd_null,
               fd_hot_air4,
               fd_fungicidal_gas,
               fd_insecticidal_gas,
-              fd_smoke_vent
+              fd_smoke_vent,
+              fd_tindalos_rift
               ;
 
 void field_types::set_field_type_ids()
@@ -332,6 +348,8 @@ void field_types::set_field_type_ids()
     fd_fungicidal_gas = field_type_id( "fd_fungicidal_gas" );
     fd_insecticidal_gas = field_type_id( "fd_insecticidal_gas" );
     fd_smoke_vent = field_type_id( "fd_smoke_vent" );
+    fd_tindalos_rift = field_type_id( "fd_tindalos_rift" );
+
 }
 
 field_type field_types::get_field_type_by_legacy_enum( int legacy_enum_id )

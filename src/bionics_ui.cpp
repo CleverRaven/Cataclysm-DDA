@@ -69,7 +69,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
     }
     const int pwr_str_pos = right_print( window, 0, 1, c_white,
                                          string_format( _( "Bionic Power: <color_light_blue>%i</color>/<color_light_blue>%i</color>" ),
-                                                 p->power_level, p->max_power_level ) );
+                                                 units::to_kilojoule( p->get_power_level() ), units::to_kilojoule( p->get_max_power_level() ) ) );
     std::string desc;
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
@@ -90,16 +90,18 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
     const bionic_data &bio_data = bio.id.obj();
     std::vector<std::string> properties;
 
-    if( bio_data.power_activate > 0 ) {
-        properties.push_back( string_format( _( "%d PU act" ), bio_data.power_activate ) );
+    if( bio_data.power_activate > 0_kJ ) {
+        properties.push_back( string_format( _( "%d kJ act" ),
+                                             units::to_kilojoule( bio_data.power_activate ) ) );
     }
-    if( bio_data.power_deactivate > 0 ) {
-        properties.push_back( string_format( _( "%d PU deact" ), bio_data.power_deactivate ) );
+    if( bio_data.power_deactivate > 0_kJ ) {
+        properties.push_back( string_format( _( "%d kJ deact" ),
+                                             units::to_kilojoule( bio_data.power_deactivate ) ) );
     }
-    if( bio_data.charge_time > 0 && bio_data.power_over_time > 0 ) {
+    if( bio_data.charge_time > 0 && bio_data.power_over_time > 0_kJ ) {
         properties.push_back( bio_data.charge_time == 1
-                              ? string_format( _( "%d PU/turn" ), bio_data.power_over_time )
-                              : string_format( _( "%d PU/%d turns" ), bio_data.power_over_time,
+                              ? string_format( _( "%d kJ/turn" ), units::to_kilojoule( bio_data.power_over_time ) )
+                              : string_format( _( "%d kJ/%d turns" ), units::to_kilojoule( bio_data.power_over_time ),
                                                bio_data.charge_time ) );
     }
     if( bio_data.toggled ) {
@@ -129,16 +131,21 @@ static void draw_bionics_tabs( const catacurses::window &win, const size_t activ
 {
     werase( win );
 
-    const int width = getmaxx( win );
-    mvwhline( win, point( 0, 2 ), LINE_OXOX, width );
+    const std::vector<std::pair<bionic_tab_mode, std::string>> tabs = {
+        { bionic_tab_mode::TAB_ACTIVE, string_format( _( "ACTIVE (%i)" ), active_num ) },
+        { bionic_tab_mode::TAB_PASSIVE, string_format( _( "PASSIVE (%i)" ), passive_num ) },
+    };
+    draw_tabs( win, tabs, current_mode );
 
-    const std::string active_tab_name = string_format( _( "ACTIVE (%i)" ), active_num );
-    const std::string passive_tab_name = string_format( _( "PASSIVE (%i)" ), passive_num );
-    const int tab_step = 3;
-    int tab_x = 1;
-    draw_tab( win, tab_x, active_tab_name, current_mode == TAB_ACTIVE );
-    tab_x += tab_step + utf8_width( active_tab_name );
-    draw_tab( win, tab_x, passive_tab_name, current_mode == TAB_PASSIVE );
+    // Draw symbols to connect additional lines to border
+    int width = getmaxx( win );
+    int height = getmaxy( win );
+    for( int i = 0; i < height - 1; ++i ) {
+        mvwputch( win, point( 0, i ), BORDER_COLOR, LINE_XOXO ); // |
+        mvwputch( win, point( width - 1, i ), BORDER_COLOR, LINE_XOXO ); // |
+    }
+    mvwputch( win, point( 0, height - 1 ), BORDER_COLOR, LINE_XXXO ); // |-
+    mvwputch( win, point( width - 1, height - 1 ), BORDER_COLOR, LINE_XOXX ); // -|
 
     wrefresh( win );
 }
@@ -349,8 +356,8 @@ void player::power_bionics()
 
     const int TAB_START_Y = TITLE_START_Y + 2;
     //w_tabs is the tab bar for passive and active bionic groups
-    catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, WIDTH - 2, point( START_X + 1,
-                                TAB_START_Y ) );
+    catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, WIDTH,
+                                point( START_X, TAB_START_Y ) );
 
     int scroll_position = 0;
     int cursor = 0;
@@ -408,9 +415,6 @@ void player::power_bionics()
 
             werase( wBio );
             draw_border( wBio, BORDER_COLOR, _( " BIONICS " ) );
-            // Draw symbols to connect additional lines to border
-            mvwputch( wBio, point( 0, HEADER_LINE_Y - 1 ), BORDER_COLOR, LINE_XXXO ); // |-
-            mvwputch( wBio, point( WIDTH - 1, HEADER_LINE_Y - 1 ), BORDER_COLOR, LINE_XOXX ); // -|
 
             int max_width = 0;
             std::vector<std::string>bps;
@@ -481,6 +485,7 @@ void player::power_bionics()
         }
         wrefresh( wBio );
         draw_bionics_tabs( w_tabs, active.size(), passive.size(), tab_mode );
+
         draw_bionics_titlebar( w_title, this, menu_mode );
         if( menu_mode == EXAMINING && !current_bionic_list->empty() ) {
             draw_description( w_description, *( *current_bionic_list )[cursor] );
@@ -536,7 +541,7 @@ void player::power_bionics()
                 continue;
             }
             redraw = true;
-            const int newch = popup_getkey( _( "%s; enter new letter. Space to clear. Esc to cancel." ),
+            const int newch = popup_getkey( _( "%s; enter new letter.  Space to clear.  Esc to cancel." ),
                                             tmp->id->name );
             wrefresh( wBio );
             if( newch == ch || newch == KEY_ESCAPE ) {
@@ -547,7 +552,7 @@ void player::power_bionics()
                 continue;
             }
             if( !bionic_chars.valid( newch ) ) {
-                popup( _( "Invalid bionic letter. Only those characters are valid:\n\n%s" ),
+                popup( _( "Invalid bionic letter.  Only those characters are valid:\n\n%s" ),
                        bionic_chars.get_allowed_chars() );
                 continue;
             }

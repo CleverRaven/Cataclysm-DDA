@@ -32,7 +32,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "32", [ "sigp230mag" ] ] ]
   },
@@ -72,7 +72,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazines": [ [ "32", [ "skorpion61mag" ] ] ]
   },
   {
@@ -108,7 +108,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "magazine_well": 1,
     "magazines": [ [ "32", [ "ppkmag" ] ] ]
   },
@@ -117,7 +117,7 @@
     "copy-from": "pistol_backup",
     "type": "GUN",
     "name": "Kel-Tec P32",
-    "description": "One of Kel-tec's oldest designs, the P32 is a popular option for deep concealment and backup usage.   Despite its extreme light weight and small size, its .32 ACP chambering makes for good handling and recoil control.",
+    "description": "One of Kel-tec's oldest designs, the P32 is a popular option for deep concealment and backup usage.  Despite its extreme light weight and small size, its .32 ACP chambering makes for good handling and recoil control.",
     "weight": "186 g",
     "volume": "186ml",
     "price": 14000,

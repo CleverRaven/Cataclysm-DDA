@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <cassert>
 #include <cstdlib>
-#include <sstream>
 #include <iterator>
 #include <list>
 #include <map>
@@ -23,6 +22,7 @@
 #include "npc.h"
 #include "optional.h"
 #include "overmap.h"
+#include "map_iterator.h"
 #include "overmap_connection.h"
 #include "overmap_types.h"
 #include "string_formatter.h"
@@ -62,21 +62,12 @@ int camp_reference::get_distance_from_bounds() const
 
 std::string overmapbuffer::terrain_filename( const point &p )
 {
-    std::ostringstream filename;
-
-    filename << g->get_world_base_save_path() << "/";
-    filename << "o." << p.x << "." << p.y;
-
-    return filename.str();
+    return string_format( "%s/o.%d.%d", g->get_world_base_save_path(), p.x, p.y );
 }
 
 std::string overmapbuffer::player_filename( const point &p )
 {
-    std::ostringstream filename;
-
-    filename << g->get_player_base_save_path() << ".seen." << p.x << "." << p.y;
-
-    return filename.str();
+    return string_format( "%s.seen.%d.%d", g->get_player_base_save_path(), p.x, p.y );
 }
 
 overmap &overmapbuffer::get( const point &p )
@@ -627,10 +618,16 @@ void overmapbuffer::set_seen( const tripoint &p, bool seen )
     om_loc.om->seen( om_loc.local ) = seen;
 }
 
-oter_id &overmapbuffer::ter( const tripoint &p )
+const oter_id &overmapbuffer::ter( const tripoint &p )
 {
     const overmap_with_local_coords om_loc = get_om_global( p );
     return om_loc.om->ter( om_loc.local );
+}
+
+void overmapbuffer::ter_set( const tripoint &p, const oter_id &id )
+{
+    const overmap_with_local_coords om_loc = get_om_global( p );
+    return om_loc.om->ter_set( om_loc.local, id );
 }
 
 bool overmapbuffer::reveal( const point &center, int radius, int z )
@@ -944,15 +941,12 @@ std::vector<tripoint> overmapbuffer::find_all( const tripoint &origin,
     // dist == 0 means search a whole overmap diameter.
     const int dist = params.search_range ? params.search_range : OMAPX;
     const int min_distance = std::max( 0, params.min_distance );
-    for( int x = -dist; x <= dist; x++ ) {
-        for( int y = -dist; y <= dist; y++ ) {
-            if( abs( x ) < min_distance && abs( y ) < min_distance ) {
-                continue;
-            }
-            const tripoint search_loc( origin + point( x, y ) );
-            if( is_findable_location( search_loc, params ) ) {
-                result.push_back( search_loc );
-            }
+    for( const tripoint &search_loc : points_in_radius( origin, dist ) ) {
+        if( square_dist( origin, search_loc ) < min_distance ) {
+            continue;
+        }
+        if( is_findable_location( search_loc, params ) ) {
+            result.push_back( search_loc );
         }
     }
     return result;
@@ -1009,7 +1003,7 @@ void overmapbuffer::insert_npc( const std::shared_ptr<npc> &who )
     get( npc_om_pos ).insert_npc( who );
 }
 
-std::shared_ptr<npc> overmapbuffer::remove_npc( const character_id id )
+std::shared_ptr<npc> overmapbuffer::remove_npc( const character_id &id )
 {
     for( auto &it : overmaps ) {
         if( const auto p = it.second->erase_npc( id ) ) {
@@ -1269,29 +1263,29 @@ std::string overmapbuffer::get_description_at( const tripoint &where )
     const int sm_dist = closest_cref.distance;
 
     //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-    std::string format_string = "%1$s %2$s from %3$s";
+    std::string format_string = pgettext( "terrain description", "%1$s %2$s from %3$s" );
     if( sm_dist <= 3 * sm_size / 4 ) {
         if( sm_size >= 16 ) {
             // The city is big enough to be split in districts.
             if( sm_dist <= sm_size / 4 ) {
                 //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-                format_string = _( "%1$s in central %3$s" );
+                format_string = pgettext( "terrain description", "%1$s in central %3$s" );
             } else {
                 //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-                format_string = _( "%1$s in %2$s %3$s" );
+                format_string = pgettext( "terrain description", "%1$s in %2$s %3$s" );
             }
         } else {
             //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-            format_string = _( "%1$s in %3$s" );
+            format_string = pgettext( "terrain description", "%1$s in %3$s" );
         }
     } else if( sm_dist <= sm_size ) {
         if( sm_size >= 8 ) {
             // The city is big enough to have outskirts.
             //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-            format_string = _( "%1$s on the %2$s outskirts of %3$s" );
+            format_string = pgettext( "terrain description", "%1$s on the %2$s outskirts of %3$s" );
         } else {
             //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-            format_string = _( "%1$s in %3$s" );
+            format_string = pgettext( "terrain description", "%1$s in %3$s" );
         }
     }
 
@@ -1318,11 +1312,13 @@ void overmapbuffer::spawn_monster( const tripoint &p )
         assert( ms.x >= 0 && ms.x < SEEX );
         assert( ms.y >= 0 && ms.y < SEEX );
         ms += sm_to_ms_copy( p.xy() );
-        // The monster position must be local to the main map when added via game::add_zombie
+        // The monster position must be local to the main map when added to the game
         const tripoint local = tripoint( g->m.getlocal( ms ), p.z );
         assert( g->m.inbounds( local ) );
-        this_monster.spawn( local );
-        g->add_zombie( this_monster );
+        monster *const placed = g->place_critter_at( std::make_shared<monster>( this_monster ), local );
+        if( placed ) {
+            placed->on_load();
+        }
     } );
     om.monster_map.erase( current_submap_loc );
 }

@@ -1,7 +1,7 @@
 [
   {
     "type": "region_overlay",
-    "id": "magiclysm_buildings_overlay",
+    "//id": "magiclysm_buildings_overlay",
     "regions": [ "all" ],
     "city": { "shops": { "magic_shop": 100, "used_bookstore": 225 }, "basements": { "magic_basement": 50 } }
   }

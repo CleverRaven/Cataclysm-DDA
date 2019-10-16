@@ -13,10 +13,12 @@
 #include "event_bus.h"
 #include "field.h"
 #include "game.h"
+#include "json.h"
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
+#include "map_iterator.h"
 #include "npc.h"
 #include "output.h"
 #include "projectile.h"
@@ -53,7 +55,6 @@ const efftype_id effect_riding( "riding" );
 const efftype_id effect_ridden( "ridden" );
 const efftype_id effect_tied( "tied" );
 const efftype_id effect_paralyzepoison( "paralyzepoison" );
-
 
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
@@ -196,15 +197,15 @@ bool Creature::sees( const Creature &critter ) const
     }
 
     // This check is ridiculously expensive so defer it to after everything else.
-    auto visible = []( const player * p ) {
-        return p == nullptr || !p->is_invisible();
+    auto visible = []( const Character * ch ) {
+        return ch == nullptr || !ch->is_invisible();
     };
 
-    const player *p = critter.as_player();
+    const Character *ch = critter.as_character();
     const int wanted_range = rl_dist( pos(), critter.pos() );
     if( wanted_range <= 1 &&
         ( posz() == critter.posz() || g->m.valid_move( pos(), critter.pos(), false, true ) ) ) {
-        return visible( p );
+        return visible( ch );
     } else if( ( wanted_range > 1 && critter.digging() ) ||
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && g->m.light_at( critter.pos() ) <= LL_LOW ) ||
                ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos() ) ) ||
@@ -213,14 +214,14 @@ bool Creature::sees( const Creature &critter ) const
                     abs( posz() - critter.posz() ) <= 1 ) ) ) {
         return false;
     }
-    if( p != nullptr ) {
-        if( p->movement_mode_is( PMM_CROUCH ) ) {
+    if( ch != nullptr ) {
+        if( ch->movement_mode_is( CMM_CROUCH ) ) {
             const int coverage = g->m.obstacle_coverage( pos(), critter.pos() );
             if( coverage < 30 ) {
-                return sees( critter.pos(), critter.is_player() ) && visible( p );
+                return sees( critter.pos(), critter.is_avatar() ) && visible( ch );
             }
             float size_modifier = 1.0;
-            switch( p->get_size() ) {
+            switch( ch->get_size() ) {
                 case MS_TINY:
                     size_modifier = 2.0;
                     break;
@@ -238,15 +239,15 @@ bool Creature::sees( const Creature &critter ) const
             }
             const int vision_modifier = 30 - 0.5 * coverage * size_modifier;
             if( vision_modifier > 1 ) {
-                return sees( critter.pos(), critter.is_player(), vision_modifier ) && visible( p );
+                return sees( critter.pos(), critter.is_avatar(), vision_modifier ) && visible( ch );
             }
             return false;
         }
     }
-    return sees( critter.pos(), p != nullptr ) && visible( p );
+    return sees( critter.pos(), ch != nullptr ) && visible( ch );
 }
 
-bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
+bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
 {
     if( !fov_3d && posz() != t.z ) {
         return false;
@@ -273,7 +274,7 @@ bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
         if( range_mod > 0 ) {
             range = std::min( range, range_mod );
         }
-        if( is_player ) {
+        if( is_avatar ) {
             // Special case monster -> player visibility, forcing it to be symmetric with player vision.
             const float player_visibility_factor = g->u.visibility() / 100.0f;
             int adj_range = std::floor( range * player_visibility_factor );
@@ -292,14 +293,10 @@ bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
 static bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint &pos,
                               const int area )
 {
-    tripoint tmp = pos;
-    int &x = tmp.x;
-    int &y = tmp.y;
-    for( x = pos.x - area; x < pos.x + area; x++ ) {
-        for( y = pos.y - area; y < pos.y + area; y++ ) {
-            if( veh_area.count( tmp ) > 0 ) {
-                return true;
-            }
+    for( const tripoint &tmp : tripoint_range( pos - tripoint( area, area, 0 ),
+            pos + tripoint( area - 1, area - 1, 0 ) ) ) {
+        if( veh_area.count( tmp ) > 0 ) {
+            return true;
         }
     }
 
@@ -795,7 +792,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                     SCT.removeCreatureHP();
                 }
 
-                add_msg( m_good, _( "You hit %s for %d damage." ),
+                //~ %1$s: creature name, %2$d: damage value
+                add_msg( m_good, _( "You hit %1$s for %2$d damage." ),
                          disp_name(), dealt_dam.total_damage() );
             } else if( u_see_this ) {
                 //~ 1$ - shooter, 2$ - target
@@ -897,6 +895,11 @@ bool Creature::is_warm() const
     return true;
 }
 
+bool Creature::in_species( const species_id & ) const
+{
+    return false;
+}
+
 bool Creature::is_fake() const
 {
     return fake;
@@ -905,6 +908,12 @@ bool Creature::is_fake() const
 void Creature::set_fake( const bool fake_value )
 {
     fake = fake_value;
+}
+
+void Creature::add_effect( const effect &eff, bool force, bool deferred )
+{
+    add_effect( eff.get_id(), eff.get_duration(), eff.get_bp(), eff.is_permanent(), eff.get_intensity(),
+                force, deferred );
 }
 
 void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, body_part bp,
@@ -1626,16 +1635,16 @@ std::string Creature::attitude_raw_string( Attitude att )
     }
 }
 
-const std::pair<std::string, nc_color> &Creature::get_attitude_ui_data( Attitude att )
+const std::pair<translation, nc_color> &Creature::get_attitude_ui_data( Attitude att )
 {
-    using pair_t = std::pair<std::string, nc_color>;
+    using pair_t = std::pair<translation, nc_color>;
     static const std::array<pair_t, 5> strings {
         {
-            pair_t {_( "Hostile" ), c_red},
-            pair_t {_( "Neutral" ), h_white},
-            pair_t {_( "Friendly" ), c_green},
-            pair_t {_( "Any" ), c_yellow},
-            pair_t {_( "BUG: Behavior unnamed. (Creature::get_attitude_ui_data)" ), h_red}
+            pair_t {to_translation( "Hostile" ), c_red},
+            pair_t {to_translation( "Neutral" ), h_white},
+            pair_t {to_translation( "Friendly" ), c_green},
+            pair_t {to_translation( "Any" ), c_yellow},
+            pair_t {to_translation( "BUG: Behavior unnamed.  (Creature::get_attitude_ui_data)" ), h_red}
         }
     };
 
@@ -1718,4 +1727,21 @@ void Creature::add_msg_player_or_say( game_message_type type, const translation 
                                       const translation &npc ) const
 {
     return add_msg_player_or_say( type, pc.translated(), npc.translated() );
+}
+
+std::vector <int> Creature::dispersion_for_even_chance_of_good_hit = { {
+        1731, 859, 573, 421, 341, 286, 245, 214, 191, 175,
+        151, 143, 129, 118, 114, 107, 101, 94, 90, 78,
+        78, 78, 74, 71, 68, 66, 62, 61, 59, 57,
+        46, 46, 46, 46, 46, 46, 45, 45, 44, 42,
+        41, 41, 39, 39, 38, 37, 36, 35, 34, 34,
+        33, 33, 32, 30, 30, 30, 30, 29, 28
+    }
+};
+
+void Creature::load_hit_range( JsonObject &jo )
+{
+    if( jo.has_array( "even_good" ) ) {
+        jo.read( "even_good", dispersion_for_even_chance_of_good_hit );
+    }
 }

@@ -153,15 +153,17 @@
         "........................"
       ],
       "palettes": [ "mil_surplus" ],
-      "items": { "R": { "item": "mil_armor", "chance": 50 } },
-      "%": { "item": "softdrugs", "chance": 30 },
-      "@": [
-        { "item": "mil_armor", "chance": 40 },
-        { "item": "mil_armor_pants", "chance": 100 },
-        { "item": "mil_armor_torso", "chance": 100 },
-        { "item": "mil_armor_helmet", "chance": 10 },
-        { "item": "shoestore_shoes", "chance": 20 }
-      ],
+      "items": {
+        "R": { "item": "mil_armor", "chance": 50 },
+        "%": { "item": "softdrugs", "chance": 30 },
+        "@": [
+          { "item": "mil_armor", "chance": 40 },
+          { "item": "mil_armor_pants", "chance": 100 },
+          { "item": "mil_armor_torso", "chance": 100 },
+          { "item": "mil_armor_helmet", "chance": 10 },
+          { "item": "shoestore_shoes", "chance": 20 }
+        ]
+      },
       "place_loot": [
         { "group": "mil_armor", "x": 8, "y": [ 7, 11 ], "chance": 70 },
         { "group": "mil_armor", "x": 11, "y": [ 7, 11 ], "chance": 70 },

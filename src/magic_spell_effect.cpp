@@ -27,10 +27,12 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "monster.h"
+#include "overmapbuffer.h"
 #include "player.h"
 #include "projectile.h"
 #include "type_id.h"
 #include "bodypart.h"
+#include "map_iterator.h"
 #include "damage.h"
 #include "debug.h"
 #include "explosion.h"
@@ -40,41 +42,19 @@
 #include "ret_val.h"
 #include "rng.h"
 #include "translations.h"
-
-static tripoint random_point( int min_distance, int max_distance, const tripoint &player_pos )
-{
-    const int angle = rng( 0, 360 );
-    const int dist = rng( min_distance, max_distance );
-    const int x = round( dist * cos( angle ) );
-    const int y = round( dist * sin( angle ) );
-    return player_pos + point( x, y );
-}
+#include "timed_event.h"
+#include "teleport.h"
 
 void spell_effect::teleport_random( const spell &sp, Creature &caster, const tripoint & )
 {
+    bool safe = !sp.has_flag( spell_flag::UNSAFE_TELEPORT );
     const int min_distance = sp.range();
     const int max_distance = sp.range() + sp.aoe();
     if( min_distance > max_distance || min_distance < 0 || max_distance < 0 ) {
         debugmsg( "ERROR: Teleport argument(s) invalid" );
         return;
     }
-    const tripoint player_pos = caster.pos();
-    tripoint target;
-    // limit the loop just in case it's impossble to find a valid point in the range
-    int tries = 0;
-    do {
-        target = random_point( min_distance, max_distance, player_pos );
-        tries++;
-    } while( g->m.impassable( target ) && tries < 20 );
-    if( tries == 20 ) {
-        add_msg( m_bad, _( "Unable to find a valid target for teleport." ) );
-        return;
-    }
-    // TODO: make this spell work for non players
-    if( caster.is_player() ) {
-        sp.make_sound( caster.pos() );
-        g->place_player( target );
-    }
+    teleport::teleport( caster, min_distance, max_distance, safe, false );
 }
 
 void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint & )
@@ -125,12 +105,9 @@ std::set<tripoint> spell_effect::spell_effect_blast( const spell &, const tripoi
 {
     std::set<tripoint> targets;
     // TODO: Make this breadth-first
-    for( int x = target.x - aoe_radius; x <= target.x + aoe_radius; x++ ) {
-        for( int y = target.y - aoe_radius; y <= target.y + aoe_radius; y++ ) {
-            const tripoint potential_target( x, y, target.z );
-            if( in_spell_aoe( target, potential_target, aoe_radius, ignore_walls ) ) {
-                targets.emplace( potential_target );
-            }
+    for( const tripoint &potential_target : g->m.points_in_radius( target, aoe_radius ) ) {
+        if( in_spell_aoe( target, potential_target, aoe_radius, ignore_walls ) ) {
+            targets.emplace( potential_target );
         }
     }
     return targets;
@@ -310,6 +287,7 @@ static void damage_targets( const spell &sp, const Creature &caster,
         }
 
         projectile bolt;
+        bolt.speed = 10000;
         bolt.impact = sp.get_damage_instance();
         bolt.proj_effects.emplace( "magic" );
 
@@ -596,7 +574,7 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
         p->mod_fatigue( -healing );
     } else if( energy_source == "BIONIC" ) {
         if( healing > 0 ) {
-            p->power_level = std::min( p->max_power_level, p->power_level + healing );
+            p->mod_power_level( units::from_kilojoule( healing ) );
         } else {
             p->mod_stat( "stamina", healing );
         }
@@ -609,6 +587,33 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
         debugmsg( "Invalid effect_str %s for spell %s", energy_source, sp.name() );
     }
     sp.make_sound( caster.pos() );
+}
+
+void spell_effect::timed_event( const spell &sp, Creature &caster, const tripoint & )
+{
+    const std::map<std::string, timed_event_type> timed_event_map{
+        { "help", timed_event_type::TIMED_EVENT_HELP },
+        { "wanted", timed_event_type::TIMED_EVENT_WANTED },
+        { "robot_attack", timed_event_type::TIMED_EVENT_ROBOT_ATTACK },
+        { "spawn_wyrms", timed_event_type::TIMED_EVENT_SPAWN_WYRMS },
+        { "amigara", timed_event_type::TIMED_EVENT_AMIGARA },
+        { "roots_die", timed_event_type::TIMED_EVENT_ROOTS_DIE },
+        { "temple_open", timed_event_type::TIMED_EVENT_TEMPLE_OPEN },
+        { "temple_flood", timed_event_type::TIMED_EVENT_TEMPLE_FLOOD },
+        { "temple_spawn", timed_event_type::TIMED_EVENT_TEMPLE_SPAWN },
+        { "dim", timed_event_type::TIMED_EVENT_DIM },
+        { "artifact_light", timed_event_type::TIMED_EVENT_ARTIFACT_LIGHT }
+    };
+
+    timed_event_type spell_event = timed_event_type::TIMED_EVENT_NULL;
+
+    const auto iter = timed_event_map.find( sp.effect_data() );
+    if( iter != timed_event_map.cend() ) {
+        spell_event = iter->second;
+    }
+
+    sp.make_sound( caster.pos() );
+    g->timed_events.add( spell_event, calendar::turn + sp.duration_turns() );
 }
 
 static bool is_summon_friendly( const spell &sp )
@@ -624,12 +629,12 @@ static bool is_summon_friendly( const spell &sp )
 static bool add_summoned_mon( const mtype_id &id, const tripoint &pos, const time_duration &time,
                               const spell &sp )
 {
-    if( g->critter_at( pos ) ) {
-        // add_zombie doesn't check if there's a critter at the location already
+    monster *const mon_ptr = g->place_critter_at( id, pos );
+    if( !mon_ptr ) {
         return false;
     }
     const bool permanent = sp.has_flag( spell_flag::PERMANENT );
-    monster spawned_mon( id, pos );
+    monster &spawned_mon = *mon_ptr;
     if( is_summon_friendly( sp ) ) {
         spawned_mon.friendly = INT_MAX;
     } else {
@@ -639,7 +644,7 @@ static bool add_summoned_mon( const mtype_id &id, const tripoint &pos, const tim
         spawned_mon.set_summon_time( time );
     }
     spawned_mon.no_extra_death_drops = true;
-    return g->add_zombie( spawned_mon );
+    return true;
 }
 
 void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
@@ -689,5 +694,149 @@ void spell_effect::transform_blast( const spell &sp, Creature &caster,
             transform->transform( location );
             transform->add_all_messages( caster, location );
         }
+    }
+}
+
+void spell_effect::noise( const spell &sp, Creature &, const tripoint &target )
+{
+    sp.make_sound( target, sp.damage() );
+}
+
+void spell_effect::vomit( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), true );
+    for( const tripoint &potential_target : area ) {
+        if( !sp.is_valid_target( caster, potential_target ) ) {
+            continue;
+        }
+        Character *const ch = g->critter_at<Character>( potential_target );
+        if( !ch ) {
+            continue;
+        }
+        sp.make_sound( target );
+        ch->vomit();
+    }
+}
+
+void spell_effect::explosion( const spell &sp, Creature &, const tripoint &target )
+{
+    explosion_handler::explosion( target, sp.damage(), sp.aoe() / 10.0, true );
+}
+
+void spell_effect::flashbang( const spell &sp, Creature &caster, const tripoint &target )
+{
+    explosion_handler::flashbang( target, caster.is_avatar() &&
+                                  !sp.is_valid_target( valid_target::target_self ) );
+}
+
+void spell_effect::mod_moves( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), false );
+    for( const tripoint &potential_target : area ) {
+        if( !sp.is_valid_target( caster, potential_target ) ) {
+            continue;
+        }
+        Creature *critter = g->critter_at<Creature>( potential_target );
+        if( !critter ) {
+            continue;
+        }
+        sp.make_sound( potential_target );
+        critter->moves += sp.damage();
+    }
+}
+
+void spell_effect::map( const spell &sp, Creature &caster, const tripoint & )
+{
+    const avatar *you = caster.as_avatar();
+    if( !you ) {
+        // revealing the map only makes sense for the avatar
+        return;
+    }
+    const tripoint center = you->global_omt_location();
+    overmap_buffer.reveal( center.xy(), sp.aoe(), center.z );
+}
+
+void spell_effect::morale( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), false );
+    if( sp.effect_data().empty() ) {
+        debugmsg( "ERROR: %s must have a valid morale_type as effect_str. None specified.",
+                  sp.id().c_str() );
+        return;
+    }
+    if( !morale_type( sp.effect_data() ).is_valid() ) {
+        debugmsg( "ERROR: %s must have a valid morale_type as effect_str. %s is invalid.", sp.id().c_str(),
+                  sp.effect_data() );
+        return;
+    }
+    for( const tripoint &potential_target : area ) {
+        player *player_target;
+        if( !( sp.is_valid_target( caster, potential_target ) &&
+               ( player_target = g->critter_at<player>( potential_target ) ) ) ) {
+            continue;
+        }
+        player_target->add_morale( morale_type( sp.effect_data() ), sp.damage(), 0, sp.duration_turns(),
+                                   sp.duration_turns() / 10, false );
+        sp.make_sound( potential_target );
+    }
+}
+
+void spell_effect::charm_monster( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), false );
+    for( const tripoint &potential_target : area ) {
+        if( !sp.is_valid_target( caster, potential_target ) ) {
+            continue;
+        }
+        monster *mon = g->critter_at<monster>( potential_target );
+        if( !mon ) {
+            continue;
+        }
+        sp.make_sound( potential_target );
+        if( mon->friendly == 0 && mon->get_hp() <= sp.damage() ) {
+            mon->unset_dest();
+            mon->friendly += sp.duration() / 100;
+        }
+    }
+}
+
+void spell_effect::mutate( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), false );
+    for( const tripoint &potential_target : area ) {
+        if( !sp.is_valid_target( caster, potential_target ) ) {
+            continue;
+        }
+        Character *guy = g->critter_at<Character>( potential_target );
+        if( !guy ) {
+            continue;
+        }
+        // 10000 represents 100.00% to increase granularity without swapping everything to a float
+        if( sp.damage() >= rng( 0, 10000 ) ) {
+            // chance failure! but keep trying for other targets
+            continue;
+        }
+        if( sp.effect_data().empty() ) {
+            guy->mutate();
+        } else {
+            if( sp.has_flag( spell_flag::MUTATE_TRAIT ) ) {
+                guy->mutate_towards( trait_id( sp.effect_data() ) );
+            } else {
+                guy->mutate_category( sp.effect_data() );
+            }
+        }
+        sp.make_sound( potential_target );
+    }
+}
+
+void spell_effect::bash( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const std::set<tripoint> area = spell_effect_blast( sp, caster.pos(), target, sp.aoe(), false );
+    for( const tripoint &potential_target : area ) {
+        if( !sp.is_valid_target( caster, potential_target ) ) {
+            continue;
+        }
+        // the bash already makes noise, so no need for spell::make_sound()
+        g->m.bash( potential_target, sp.damage(), sp.has_flag( spell_flag::SILENT ) );
     }
 }

@@ -596,7 +596,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
                 print_colored_text(
                     w_data, point( xpos, ypos++ ), col, col,
-                    string_format( _( "Dark craftable? <color_cyan>%s</color>" ),
+                    string_format( _( "Dark craftable?  <color_cyan>%s</color>" ),
                                    current[line]->has_flag( "BLIND_EASY" ) ? _( "Easy" ) :
                                    current[line]->has_flag( "BLIND_HARD" ) ? _( "Hard" ) :
                                    _( "Impossible" ) ) );
@@ -743,7 +743,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             std::string description =
                 _( "The default is to search result names.  Some single-character prefixes "
-                   "can be used with a colon (:) to search in other ways. Additional filters "
+                   "can be used with a colon (:) to search in other ways.  Additional filters "
                    "are separated by commas (,).\n"
                    "\n"
                    "<color_white>Examples:</color>\n" );
@@ -996,24 +996,10 @@ static void draw_can_craft_indicator( const catacurses::window &w, const int mar
 static void draw_recipe_tabs( const catacurses::window &w, const std::string &tab, TAB_MODE mode )
 {
     werase( w );
-    int width = getmaxx( w );
-    for( int i = 0; i < width; i++ ) {
-        mvwputch( w, point( i, 2 ), BORDER_COLOR, LINE_OXOX );
-    }
-
-    mvwputch( w, point( 0, 2 ), BORDER_COLOR, LINE_OXXO ); // |^
-    mvwputch( w, point( width - 1, 2 ), BORDER_COLOR, LINE_OOXX ); // ^|
 
     switch( mode ) {
         case NORMAL: {
-            // Draw the tabs on each other
-            int pos_x = 2;
-            // Step between tabs, two for tabs border
-            int tab_step = 3;
-            for( const auto &tt : craft_cat_list ) {
-                draw_tab( w, pos_x, normalized_names[tt], tab == tt );
-                pos_x += utf8_width( normalized_names[tt] ) + tab_step;
-            }
+            draw_tabs( w, normalized_names, craft_cat_list, tab );
             break;
         }
         case FILTERED:

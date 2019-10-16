@@ -377,10 +377,6 @@ item recipe::create_result() const
         newit.charges *= result_mult;
     }
 
-    if( newit.has_flag( "VARSIZE" ) ) {
-        newit.item_tags.insert( "FIT" );
-    }
-
     if( contained ) {
         newit = newit.in_container( container );
     }
@@ -539,7 +535,7 @@ const std::string &recipe::get_blueprint() const
     return blueprint;
 }
 
-const std::string &recipe::blueprint_name() const
+const translation &recipe::blueprint_name() const
 {
     return bp_name;
 }

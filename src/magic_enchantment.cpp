@@ -63,6 +63,7 @@ namespace io
             case enchantment::mod::INTELLIGENCE: return "INTELLIGENCE";
             case enchantment::mod::SPEED: return "SPEED";
             case enchantment::mod::ATTACK_COST: return "ATTACK_COST";
+            case enchantment::mod::ATTACK_SPEED: return "ATTACK_SPEED";
             case enchantment::mod::MOVE_COST: return "MOVE_COST";
             case enchantment::mod::METABOLISM: return "METABOLISM";
             case enchantment::mod::MAX_MANA: return "MAX_MANA";
@@ -88,6 +89,14 @@ namespace io
             case enchantment::mod::SOCIAL_LIE: return "SOCIAL_LIE";
             case enchantment::mod::SOCIAL_PERSUADE: return "SOCIAL_PERSUADE";
             case enchantment::mod::SOCIAL_INTIMIDATE: return "SOCIAL_INTIMIDATE";
+            case enchantment::mod::ARMOR_ACID: return "ARMOR_ACID";
+            case enchantment::mod::ARMOR_BASH: return "ARMOR_BASH";
+            case enchantment::mod::ARMOR_BIO: return "ARMOR_BIO";
+            case enchantment::mod::ARMOR_COLD: return "ARMOR_COLD";
+            case enchantment::mod::ARMOR_CUT: return "ARMOR_CUT";
+            case enchantment::mod::ARMOR_ELEC: return "ARMOR_ELEC";
+            case enchantment::mod::ARMOR_HEAT: return "ARMOR_HEAT";
+            case enchantment::mod::ARMOR_STAB: return "ARMOR_STAB";
             case enchantment::mod::ITEM_DAMAGE_BASH: return "ITEM_DAMAGE_BASH";
             case enchantment::mod::ITEM_DAMAGE_CUT: return "ITEM_DAMAGE_CUT";
             case enchantment::mod::ITEM_DAMAGE_STAB: return "ITEM_DAMAGE_STAB";
@@ -170,6 +179,11 @@ bool enchantment::is_active( const Character &guy, const item &parent ) const
         return g->m.is_divable( guy.pos() );
     }
     return false;
+}
+
+bool enchantment::active_wield() const
+{
+    return active_conditions.first == has::HELD || active_conditions.first == has::WIELD;
 }
 
 void enchantment::add_activation( const time_duration &dur, const fake_spell &fake )
@@ -300,6 +314,12 @@ bool enchantment::add( const enchantment &rhs )
     if( !stacks_with( rhs ) ) {
         return false;
     }
+    force_add( rhs );
+    return true;
+}
+
+void enchantment::force_add( const enchantment &rhs )
+{
     for( const std::pair<mod, int> &pair_values : rhs.values_add ) {
         values_add[pair_values.first] += pair_values.second;
     }
@@ -319,7 +339,6 @@ bool enchantment::add( const enchantment &rhs )
             intermittent_activation[act_pair.first].emplace_back( fake );
         }
     }
-    return true;
 }
 
 int enchantment::get_value_add( const mod value ) const
@@ -358,4 +377,21 @@ void enchantment::activate_passive( Character &guy ) const
 
     guy.mod_int_bonus( get_value_add( mod::INTELLIGENCE ) );
     guy.mod_int_bonus( mult_bonus( mod::INTELLIGENCE, guy.get_int_base() ) );
+
+    guy.mod_speed_bonus( get_value_add( mod::SPEED ) );
+    guy.mod_speed_bonus( mult_bonus( mod::SPEED, guy.get_speed_base() ) );
+}
+
+void enchantment::cast_hit_you( Character &caster, const tripoint &target ) const
+{
+    for( const fake_spell &sp : hit_you_effect ) {
+        sp.get_spell( sp.level ).cast_all_effects( caster, target );
+    }
+}
+
+void enchantment::cast_hit_me( Character &caster ) const
+{
+    for( const fake_spell &sp : hit_me_effect ) {
+        sp.get_spell( sp.level ).cast_all_effects( caster, caster.pos() );
+    }
 }

@@ -145,6 +145,7 @@
         { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "sheet_metal", "count": [ 2, 6 ] },
         { "item": "element", "count": [ 2, 3 ] },
+        { "item": "wire_mesh", "count": 1 },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "motor_small", "charges": 1 },
         { "item": "cu_pipe", "count": [ 1, 3 ] }
@@ -175,7 +176,6 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 10,
-    "insulation": 3,
     "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE" ],
     "deconstruct": {
       "items": [
@@ -221,7 +221,6 @@
     "move_cost_mod": -1,
     "coverage": 90,
     "required_str": 10,
-    "insulation": 2,
     "flags": [ "PLACE_ITEM", "BLOCKSDOOR" ],
     "deconstruct": {
       "items": [
@@ -351,7 +350,6 @@
     "move_cost_mod": 2,
     "coverage": 60,
     "required_str": 10,
-    "insulation": 6,
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE" ],
     "examine_action": "fireplace",
     "deconstruct": {
@@ -379,6 +377,234 @@
         { "item": "element", "count": [ 1, 3 ] },
         { "item": "cable", "charges": [ 1, 3 ] },
         { "item": "pilot_light", "count": 1 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bellows",
+    "name": "blacksmith bellows",
+    "symbol": "#",
+    "description": "Used for delivering air to increase the combustion and heat output of a forge.  Doesn't look like it's working, although it still has parts.",
+    "color": "dark_gray",
+    "looks_like": "t_machinery_old",
+    "move_cost_mod": 2,
+    "coverage": 60,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "tanned_hide", "count": [ 1, 2 ] },
+        { "item": "2x4", "count": [ 2, 4 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "wire", "count": [ 1, 4 ] }
+      ]
+    },
+    "max_volume": 160,
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "leather", "count": [ 1, 4 ] },
+        { "item": "2x4", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 0, 6 ] },
+        { "item": "wire", "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_drophammer",
+    "name": "blacksmith drop hammer",
+    "symbol": "#",
+    "description": "Used for fast production of metal items.  Doesn't look like it's working, although it still has parts.",
+    "color": "white",
+    "looks_like": "t_machinery_old",
+    "move_cost_mod": 2,
+    "coverage": 60,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT" ],
+    "deconstruct": {
+      "items": [
+        { "item": "metal_tank", "count": [ 1, 2 ] },
+        { "item": "water_faucet", "count": 2 },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "chain", "count": [ 2, 4 ] },
+        { "item": "anvil", "count": 1 },
+        { "item": "pipe", "count": [ 1, 3 ] }
+      ]
+    },
+    "max_volume": 160,
+    "bash": {
+      "str_min": 12,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "water_faucet", "count": [ 1, 2 ] },
+        { "item": "anvil", "count": 1 },
+        { "item": "chain", "count": [ 1, 3 ] },
+        { "item": "scrap", "count": [ 10, 20 ] },
+        { "item": "pipe", "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_shredder",
+    "name": "document shredder",
+    "description": "It's not all about hiding government secrets, sometimes you just want to stop identity theft.",
+    "symbol": "H",
+    "bgcolor": "white",
+    "move_cost_mod": 5,
+    "required_str": 6,
+    "looks_like": "f_filing_cabinet",
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "steel_lump", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 2, 4 ] },
+        { "item": "pipe", "count": [ 1, 4 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "motor", "count": 1 },
+        { "item": "solder_wire", "charges": [ 1, 15 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 7 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "pipe", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "e_scrap", "count": [ 5, 10 ] },
+        { "item": "plastic_chunk", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_server",
+    "looks_like": "f_utility_shelf",
+    "name": "server stack",
+    "description": "This is a big pile of computers.  They're all turned off.",
+    "symbol": ":",
+    "color": "blue_white",
+    "move_cost_mod": -1,
+    "coverage": 90,
+    "required_str": 8,
+    "flags": [ "BLOCKSDOOR" ],
+    "deconstruct": {
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": [ 2, 12 ] },
+        { "item": "pipe", "count": [ 4, 8 ] },
+        { "item": "laptop", "count": [ 2, 4 ] },
+        { "item": "cable", "charges": [ 5, 10 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 16,
+      "str_max": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "plastic_chunk", "count": [ 1, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 1, 4 ] },
+        { "item": "pipe", "count": 1 },
+        { "item": "e_scrap", "count": [ 20, 50 ] },
+        { "item": "cable", "charges": [ 2, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_satellite",
+    "name": "large satellite dish",
+    "looks_like": "t_radio_tower",
+    "description": "Somewhere up there, there are still satellites, orbiting and doing their thing, sending signals down to an Earth that is no longer listening.",
+    "symbol": ")",
+    "color": "white_green",
+    "move_cost_mod": -1,
+    "coverage": 70,
+    "required_str": -1,
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 6, 12 ] },
+        { "item": "rebar", "count": [ 6, 12 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "steel_lump", "count": [ 4, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 8, 10 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "motor", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 1, 10 ] },
+        { "item": "rebar", "count": [ 1, 10 ] },
+        { "item": "scrap", "count": [ 6, 16 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "steel_lump", "count": [ 0, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+        { "item": "sheet_metal", "count": [ 1, 2 ] },
+        { "item": "cable", "charges": [ 1, 15 ] },
+        { "item": "scrap_copper", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_solar_unit",
+    "name": "mounted solar panel",
+    "description": "A mounted solar panel.",
+    "symbol": "#",
+    "color": "yellow",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "BASHABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": 3 },
+        { "item": "pipe", "count": 4 },
+        { "item": "2x4", "count": 4 },
+        { "item": "solar_panel", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "sound": "whack!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solar_cell", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "amplifier", "prob": 50 },
+        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "power_supply", "prob": 50 },
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": 3 }
       ]
     }
   }

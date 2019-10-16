@@ -246,7 +246,7 @@ void player::power_mutations()
                 continue;
             }
             if( !mutation_chars.valid( newch ) ) {
-                popup( _( "Invalid mutation letter. Only those characters are valid:\n\n%s" ),
+                popup( _( "Invalid mutation letter.  Only those characters are valid:\n\n%s" ),
                        mutation_chars.get_allowed_chars() );
                 continue;
             }
@@ -306,10 +306,9 @@ void player::power_mutations()
                         continue;
                     }
                 } else {
-                    popup( _( "\
-You cannot activate %s!  To read a description of \
-%s, press '!', then '%c'." ), mut_data.name(), mut_data.name(),
-                           my_mutations[mut_id].key );
+                    popup( _( "You cannot activate %s!  To read a description of "
+                              "%s, press '!', then '%c'." ),
+                           mut_data.name(), mut_data.name(), my_mutations[mut_id].key );
                     redraw = true;
                 }
             }

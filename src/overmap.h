@@ -188,8 +188,8 @@ class overmap
          */
         std::vector<point> find_terrain( const std::string &term, int zlevel );
 
-        oter_id &ter( const tripoint &p );
-        oter_id get_ter( const tripoint &p ) const;
+        void ter_set( const tripoint &p, const oter_id &id );
+        const oter_id &ter( const tripoint &p ) const;
         bool &seen( const tripoint &p );
         bool seen( const tripoint &p ) const;
         bool &explored( const tripoint &p );
@@ -270,7 +270,7 @@ class overmap
         std::map<int, om_vehicle> vehicles;
         std::vector<basecamp> camps;
         std::vector<city> cities;
-        std::vector<city> roads_out;
+        std::map<string_id<overmap_connection>, std::vector<tripoint>> connections_out;
         cata::optional<basecamp *> find_camp( const point &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( std::shared_ptr<npc> who );
@@ -357,6 +357,9 @@ class overmap
 
         void place_roads( const overmap *north, const overmap *east, const overmap *south,
                           const overmap *west );
+
+        void populate_connections_out_from_neighbors( const overmap *north, const overmap *east,
+                const overmap *south, const overmap *west );
 
         // City Building
         overmap_special_id pick_random_building_to_place( int town_dist ) const;
@@ -458,4 +461,19 @@ bool is_ot_match( const std::string &name, const oter_id &oter,
 */
 om_special_sectors get_sectors( int sector_width );
 
+/**
+* Returns the string of oter without any directional suffix
+*/
+std::string oter_no_dir( const oter_id &oter );
+
+/**
+* Return 0, 1, 2, 3 respectively if the suffix is _north, _west, _south, _east
+* Return 0 if theres' no suffix
+*/
+int oter_get_rotation( const oter_id &oter );
+
+/**
+* Return the directional suffix or "" if there isn't one.
+*/
+std::string oter_get_rotation_string( const oter_id &oter );
 #endif

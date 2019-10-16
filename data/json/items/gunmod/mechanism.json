@@ -14,7 +14,7 @@
     "color": "dark_gray",
     "location": "mechanism",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "launcher" ],
-    "install_time": "30 m",
+    "//install_time": "30 m",
     "dispersion_modifier": -1,
     "min_skills": [ [ "weapon", 4 ], [ "mechanics", 3 ], [ "gun", 2 ] ]
   },
@@ -34,9 +34,9 @@
     "location": "mechanism",
     "mod_targets": [ "ar15" ],
     "//": "Install time short since it drops in, hinging open the AR being all the 'skill' necessary. Precision drop marginal since it'd change how semi and FA trigger pulls feel.",
-    "install_time": "5 m",
+    "//install_time": "5 m",
     "dispersion_modifier": 10,
-    "durability_modifier": -1,
+    "//durability_modifier": -1,
     "mode_modifier": [ [ "AUTO", "auto", 13 ] ],
     "min_skills": [ [ "rifle", 2 ] ]
   },
@@ -55,11 +55,11 @@
     "location": "mechanism",
     "mod_targets": [ "ar15" ],
     "//": "Sort of long install time. Gotta grind down the carrier trip to SP1-ish length. Unfortunately, since you're sort of guessing how long that is, the AR's timing with this installed will be borked.(disco might be disengaged at non-ideal times).",
-    "install_time": "25 m",
+    "//install_time": "25 m",
     "dispersion_modifier": 40,
     "consume_chance": 300,
     "consume_divisor": 110,
-    "durability_modifier": -3,
+    "//durability_modifier": -3,
     "mode_modifier": [ [ "DEFAULT", "auto", 14 ] ],
     "min_skills": [ [ "mechanics", 2 ], [ "rifle", 3 ] ],
     "flags": [ "INSTALL_DIFFICULT", "CONSUMABLE" ]
@@ -78,7 +78,7 @@
     "color": "dark_gray",
     "location": "mechanism",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "launcher" ],
-    "install_time": "10 m",
+    "//install_time": "10 m",
     "min_skills": [ [ "weapon", 2 ] ],
     "flags": [ "WATERPROOF_GUN" ]
   }

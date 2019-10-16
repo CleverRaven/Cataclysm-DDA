@@ -31,12 +31,11 @@
     "description": "A commercial quality swinging door made of wood that allows passage behind counters.",
     "symbol": "+",
     "color": "blue",
-    "move_cost": 3,
     "move_cost_mod": 2,
     "required_str": 4,
     "coverage": 60,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "ORGANIC" ],
-    "connects_to": "COUNTER",
+    "//connects_to": "COUNTER",
     "open": "f_counter_gate_o",
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": 10 } ] },
     "bash": {
@@ -54,10 +53,9 @@
     "description": "A commercial quality swinging door made of wood that allows passage behind counters.",
     "symbol": ".",
     "color": "blue",
-    "move_cost": 2,
     "move_cost_mod": 2,
     "required_str": 4,
-    "connects_to": "COUNTER",
+    "//connects_to": "COUNTER",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ROAD", "ORGANIC" ],
     "close": "f_counter_gate_c",
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": 10 } ] },
@@ -98,6 +96,41 @@
     },
     "examine_action": "workbench",
     "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_workbench",
+    "name": "workbench",
+    "description": "A sturdy workbench built out of metal.  It is perfect for crafting large and heavy things.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "looks_like": "f_lab_bench",
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [
+        { "item": "pipe", "count": [ 6, 8 ] },
+        { "item": "sheet_metal", "count": 2 },
+        { "item": "sheet_metal_small", "count": [ 2, 4 ] }
+      ]
+    },
+    "max_volume": 4000,
+    "bash": {
+      "str_min": 35,
+      "str_max": 80,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "pipe", "count": [ 4, 6 ] },
+        { "item": "sheet_metal", "count": [ 0, 1 ] },
+        { "item": "sheet_metal_small", "count": [ 12, 24 ] },
+        { "item": "steel_chunk", "count": [ 4, 8 ] },
+        { "item": "scrap", "count": [ 12, 24 ] }
+      ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 1.2, "mass": 500000, "volume": "200L" }
   },
   {
     "type": "furniture",
@@ -176,6 +209,7 @@
     "coverage": 40,
     "required_str": -1,
     "deployed_item": "tourist_table",
+    "looks_like": "f_table",
     "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
     "deconstruct": { "items": [ { "item": "tourist_table", "count": 1 } ] },
     "bash": {
@@ -221,5 +255,36 @@
     },
     "examine_action": "workbench",
     "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_coffee_table",
+    "name": "table",
+    "description": "a low table for livingrooms.",
+    "symbol": "#",
+    "color": "red",
+    "looks_like": "f_table",
+    "move_cost_mod": 2,
+    "coverage": 50,
+    "required_str": 5,
+    "max_volume": 4000,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 2 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 8 ] } ]
+    },
+    "bash": {
+      "str_min": 10,
+      "str_max": 50,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 1, 2 ] },
+        { "item": "wood_panel", "count": [ 0, 1 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "splinter", "count": 1 }
+      ]
+    },
+    "examine_action": "workbench",
+    "workbench": { "multiplier": 0.85, "mass": 200000, "volume": "75L" }
   }
 ]

@@ -189,7 +189,8 @@
     "copy-from": "bp_shot_00",
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "time": 4000,
-    "tools": [ [ [ "press_dowel", -1 ] ] ]
+    "tools": [ [ [ "press_dowel", -1 ] ] ],
+    "components": [ [ [ "chem_black_powder", 6 ] ] ]
   },
   {
     "result": "bp_shot_bird",
@@ -198,7 +199,8 @@
     "copy-from": "bp_shot_bird",
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "time": 4000,
-    "tools": [ [ [ "press_dowel", -1 ] ] ]
+    "tools": [ [ [ "press_dowel", -1 ] ] ],
+    "components": [ [ [ "chem_black_powder", 3 ] ] ]
   },
   {
     "result": "bp_shot_dragon",
@@ -207,7 +209,8 @@
     "copy-from": "bp_shot_dragon",
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "time": 4000,
-    "tools": [ [ [ "press_dowel", -1 ] ] ]
+    "tools": [ [ [ "press_dowel", -1 ] ] ],
+    "components": [ [ [ "chem_black_powder", 3 ] ], [ [ "magnesium", 5 ] ] ]
   },
   {
     "result": "bp_shot_slug",
@@ -216,7 +219,13 @@
     "copy-from": "bp_shot_slug",
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "time": 4000,
-    "tools": [ [ [ "press_dowel", -1 ] ] ]
+    "using": [ [ "ammo_bullet", 20 ], [ "ammo_shot", 1 ] ],
+    "tools": [
+      [ [ "press_dowel", -1 ] ],
+      [ [ "pipe", -1 ], [ "cu_pipe", -1 ], [ "material_sand", -1 ], [ "material_soil", -1 ], [ "clay_lump", -1 ] ],
+      [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ]
+    ],
+    "components": [ [ [ "chem_black_powder", 6 ] ] ]
   },
   {
     "result": "bp_shot_scrap",
@@ -225,7 +234,23 @@
     "copy-from": "bp_shot_scrap",
     "book_learn": [ [ "survival_book", 1 ], [ "mag_survival", 1 ] ],
     "time": 4000,
-    "tools": [ [ [ "press_dowel", -1 ] ] ]
+    "tools": [ [ [ "press_dowel", -1 ] ] ],
+    "components": [
+      [ [ "chem_black_powder", 6 ] ],
+      [
+        [ "scrap", 1 ],
+        [ "nail", 10 ],
+        [ "bb", 20 ],
+        [ "solder_wire", 10 ],
+        [ "platinum_small", 4 ],
+        [ "gold_small", 4 ],
+        [ "bearing", 5 ],
+        [ "lead", 7 ],
+        [ "silver_small", 7 ],
+        [ "lead", 7 ],
+        [ "shrapnel", 4 ]
+      ]
+    ]
   },
   {
     "result": "shot_scrap",
@@ -306,5 +331,78 @@
     "using": [ [ "ammo_shot", 1 ] ],
     "tools": [ [ [ "press", -1 ] ] ],
     "components": [ [ [ "incendiary", 25 ] ] ]
+  },
+  {
+    "result": "shot_paper_00",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "gun", 1 ],
+    "time": "1 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "manual_shotgun", 3 ], [ "recipe_bullets", 2 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "ammo_bullet", 8 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "chem_black_powder", 5 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
+  },
+  {
+    "result": "shot_paper_slug",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "gun", 1 ],
+    "time": "1 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "manual_shotgun", 3 ], [ "recipe_bullets", 2 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "ammo_bullet", 16 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "chem_black_powder", 5 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
+  },
+  {
+    "result": "shot_paper_dragon",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "gun", 1 ],
+    "time": "1 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "manual_shotgun", 3 ], [ "recipe_bullets", 2 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "ammo_bullet", 16 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "chem_black_powder", 4 ] ],
+      [ [ "magnesium", 4 ] ],
+      [ [ "shotgun_primer", 1 ] ],
+      [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ]
+    ]
+  },
+  {
+    "result": "shot_paper_bird",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_SHOT",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "gun", 1 ],
+    "time": "1 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "manual_shotgun", 3 ], [ "recipe_bullets", 2 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "ammo_bullet", 8 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "chem_black_powder", 5 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
   }
 ]

@@ -7,6 +7,7 @@
     "weight": "160 g",
     "volume": "25ml",
     "price": 1000,
+    "price_postapoc": 1000,
     "to_hit": -1,
     "bashing": 5,
     "cutting": 1,
@@ -19,7 +20,7 @@
     "damage": 70,
     "pierce": 25,
     "dispersion": 150,
-    "effects": [ "RECYCLED" ]
+    "effects": [ "RECYCLED", "NON-FOULING" ]
   },
   {
     "id": "steel_rail",
@@ -29,12 +30,13 @@
     "description": "A short piece of steel which has been forged true and sharpened on one end.  Could be used as a projectile by a sufficiently powerful electromagnetic weapon.",
     "volume": "20ml",
     "price": 1500,
+    "price_postapoc": 1500,
     "bashing": 4,
     "cutting": 2,
     "material": [ "steel" ],
     "color": "light_gray",
     "dispersion": 0,
-    "effects": [ "NEVER_MISFIRES" ],
+    "effects": [ "NEVER_MISFIRES", "NON-FOULING" ],
     "relative": { "range": 10, "damage": -5, "pierce": 15 }
   }
 ]

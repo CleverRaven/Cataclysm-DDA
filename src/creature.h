@@ -13,6 +13,7 @@
 #include "bodypart.h"
 #include "pimpl.h"
 #include "string_formatter.h"
+#include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "debug.h"
@@ -22,7 +23,6 @@ enum game_message_type : int;
 class nc_color;
 class effect;
 class effects_map;
-class translation;
 
 namespace catacurses
 {
@@ -156,7 +156,7 @@ class Creature
         /**
          * Creature Attitude as String and color
          */
-        static const std::pair<std::string, nc_color> &get_attitude_ui_data( Attitude att );
+        static const std::pair<translation, nc_color> &get_attitude_ui_data( Attitude att );
 
         /**
          * Attitude (of this creature) towards another creature. This might not be symmetric.
@@ -180,7 +180,7 @@ class Creature
          */
         /*@{*/
         virtual bool sees( const Creature &critter ) const;
-        virtual bool sees( const tripoint &t, bool is_player = false, int range_mod = 0 ) const;
+        virtual bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const;
         /*@}*/
 
         /**
@@ -278,6 +278,8 @@ class Creature
         virtual bool is_on_ground() const = 0;
         virtual bool is_underwater() const = 0;
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
+        virtual bool in_species( const species_id & ) const;
+
         virtual bool has_weapon() const = 0;
         virtual bool is_hallucination() const = 0;
         // returns true if health is zero or otherwise should be dead
@@ -327,6 +329,7 @@ class Creature
         /** Processes move stopping effects. Returns false if movement is stopped. */
         virtual bool move_effects( bool attacking ) = 0;
 
+        void add_effect( const effect &eff, bool force = false, bool deferred = false );
         /** Adds or modifies an effect. If intensity is given it will set the effect intensity
             to the given value, or as close as max_intensity values permit. */
         virtual void add_effect( const efftype_id &eff_id, time_duration dur, body_part bp = num_bp,
@@ -773,7 +776,10 @@ class Creature
 
     public:
         body_part select_body_part( Creature *source, int hit_roll ) const;
-    protected:
+
+        static void load_hit_range( JsonObject & );
+        // Empirically determined by "synthetic_range_test" in tests/ranged_balance.cpp.
+        static std::vector <int> dispersion_for_even_chance_of_good_hit;
         /**
          * This function replaces the "<npcname>" substring with the @ref disp_name of this creature.
          *
@@ -781,6 +787,7 @@ class Creature
          *
          */
         std::string replace_with_npc_name( std::string input ) const;
+    protected:
         /**
          * These two functions are responsible for storing and loading the members
          * of this class to/from json data.

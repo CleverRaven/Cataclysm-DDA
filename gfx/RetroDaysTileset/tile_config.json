@@ -2954,7 +2954,16 @@
         { "id": [ "irradiated_broccoli", "cannabis", "broccoli" ], "fg": 1031, "rotates": false },
         { "id": [ "hops", "celery", "irradiated_celery" ], "fg": 1032, "rotates": false },
         {
-          "id": [ "dahlia_root", "dahlia_baked", "cattail_rhizome", "hickory_root", "seed_hops" ],
+          "id": [
+            "dahlia_root",
+            "dahlia_baked",
+            "cattail_rhizome",
+            "hickory_root",
+            "seed_hops",
+            "salsify_raw",
+            "salsify_baked",
+            "chicory_raw"
+          ],
           "fg": 1033,
           "rotates": false
         },
@@ -3102,7 +3111,7 @@
         { "id": "dayquil", "fg": 1114, "rotates": false },
         { "id": "panacea", "fg": 1115, "rotates": false },
         { "id": [ "advanced_ecig", "antenna" ], "fg": 1116, "rotates": false },
-        { "id": [ "skinny_tie", "ecig" ], "fg": 1117, "rotates": false },
+        { "id": [ "tie_skinny", "tie_necktie", "tie_clipon", "ecig" ], "fg": 1117, "rotates": false },
         { "id": "dr_stem_cell", "fg": 1118, "rotates": false },
         { "id": "permanent_marker", "fg": 1119, "rotates": false },
         { "id": [ "berserker_drug", "adrenaline_injector" ], "fg": 1120, "rotates": false },
@@ -7701,7 +7710,96 @@
         { "id": "t_door_green_b", "fg": 2984, "rotates": false },
         { "id": "t_door_white_o", "fg": 2985, "rotates": false },
         { "id": "t_door_white_c", "fg": 2986, "rotates": false },
-        { "id": "t_door_white_b", "fg": 2987, "rotates": false }
+        { "id": "t_door_white_b", "fg": 2987, "rotates": false },
+        { "id": "sponge", "fg": 2988, "rotates": false },
+        { "id": "wash_kit", "fg": 2989, "rotates": false },
+        { "id": "pouch_autoclave", "fg": 2990, "rotates": false },
+        { "id": "f_alien_tendril", "fg": 2991, "rotates": false },
+        {
+          "id": "t_wall_resin",
+          "fg": 227,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            { "id": "center", "fg": 2993 },
+            { "id": "corner", "fg": 2994 },
+            { "id": "edge", "fg": 2995 },
+            { "id": "end_piece", "fg": 2996 },
+            { "id": "t_connection", "fg": 2997 },
+            { "id": "unconnected", "fg": 2992 }
+          ]
+        },
+        { "id": "t_resin_hole_c", "fg": 2998, "rotates": false },
+        { "id": "t_resin_hole_o", "fg": 2999, "rotates": false },
+        { "id": "t_resin_hole", "fg": 3000, "rotates": false },
+        { "id": "t_floor_resin", "fg": 3001, "rotates": false },
+        {
+          "id": "t_wall_resin_cage",
+          "fg": 227,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            { "id": "center", "fg": 3003 },
+            { "id": "corner", "fg": 3004 },
+            { "id": "edge", "fg": 3005 },
+            { "id": "end_piece", "fg": 3006 },
+            { "id": "t_connection", "fg": 3007 },
+            { "id": "unconnected", "fg": 3003 }
+          ]
+        },
+        { "id": "f_alien_pod_organ", "fg": 3008, "rotates": false },
+        { "id": "f_alien_pod", "fg": 3009, "rotates": false },
+        { "id": "f_alien_pod_resin", "fg": 3010, "rotates": false },
+        { "id": "f_alien_anemone", "fg": 3011, "rotates": false },
+        { "id": "f_alien_scar", "fg": 3012, "rotates": false },
+        { "id": "f_alien_gasper", "fg": 3013, "rotates": false },
+        { "id": "f_alien_zapper", "fg": 3014, "rotates": false },
+        {
+          "id": "f_alien_table",
+          "fg": 227,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            { "id": "center", "fg": 3016 },
+            { "id": "corner", "fg": 3017 },
+            { "id": "edge", "fg": 3018 },
+            { "id": "end_piece", "fg": 3019 },
+            { "id": "t_connection", "fg": 3020 },
+            { "id": "unconnected", "fg": 3015 }
+          ]
+        },
+        { "id": "tie_bow", "fg": 3021, "rotates": false },
+        { "id": "backpack_hiking", "fg": 3022, "rotates": false },
+        { "id": "backpack_tactical_large", "fg": 3023, "rotates": false },
+        { "id": "backpack_giant", "fg": 3024, "rotates": false },
+        { "id": "petpack", "fg": 3025, "rotates": false },
+        { "id": "bigback", "fg": 3026, "rotates": false },
+        { "id": "travelpack", "fg": 3027, "rotates": false },
+        { "id": "guitar_electric", "fg": 3028, "rotates": false },
+        { "id": "fp_loyalty_card", "fg": 3029, "rotates": false },
+        {
+          "id": [ "wheel_mount_heavy", "vp_wheel_mount_heavy", "vp_wheel_mount_heavy_steerable" ],
+          "fg": 3030,
+          "rotates": false
+        },
+        {
+          "id": [ "wheel_mount_medium", "vp_wheel_mount_medium", "vp_wheel_mount_medium_steerable" ],
+          "fg": 3031,
+          "rotates": false
+        },
+        {
+          "id": [ "wheel_mount_light", "vp_wheel_mount_light", "vp_wheel_mount_light_steerable" ],
+          "fg": 3032,
+          "rotates": false
+        },
+        { "id": "t_tree_juniper", "fg": 3033, "rotates": false },
+        { "id": "t_tree_juniper_season_winter", "fg": 3034, "rotates": false },
+        { "id": "t_tree_juniper_harvested", "fg": 3035, "rotates": false },
+        { "id": "hinge", "fg": 3036, "rotates": false },
+        { "id": "wood_sheet", "fg": 3037, "rotates": false },
+        { "id": "wood_panel", "fg": 3038, "rotates": false },
+        { "id": "condom", "fg": 3039, "rotates": false },
+        { "id": "zombie_revival_indicator", "fg": 3040 }
       ]
     },
     {
@@ -7711,20 +7809,20 @@
       "sprite_offset_x": -5,
       "sprite_offset_y": -10,
       "tiles": [
-        { "id": "mon_dragon_dummy", "fg": 2992, "rotates": false },
-        { "id": "mon_tyrannosaurus", "fg": 2993, "rotates": false },
-        { "id": "mon_triceratops", "fg": 2994, "rotates": false },
-        { "id": "mon_fungaloid_queen", "fg": 2995 },
-        { "id": "mon_fungaloid_seeder", "fg": 2996 },
-        { "id": "mon_fungaloid_tower", "fg": 2997 },
-        { "id": "mon_skeleton_hulk", "fg": 2998, "rotates": false },
-        { "id": "mon_zombie_kevlar_2", "fg": 2999, "rotates": false },
-        { "id": "mon_zombie_hulk_pk", "fg": 3000, "rotates": false },
-        { "id": "mon_zombie_hulk", "fg": 3000, "rotates": false },
-        { "id": "overlay_mutation_THRESH_URSINE", "fg": 3001 },
-        { "id": "overlay_mutation_THRESH_CATTLE", "fg": 3002 },
-        { "id": "overlay_male_mutation_THRESH_CATTLE", "fg": 3003 },
-        { "id": "overlay_mutation_THRESH_LIZARD", "fg": 3004 }
+        { "id": "mon_dragon_dummy", "fg": 3056, "rotates": false },
+        { "id": "mon_tyrannosaurus", "fg": 3057, "rotates": false },
+        { "id": "mon_triceratops", "fg": 3058, "rotates": false },
+        { "id": "mon_fungaloid_queen", "fg": 3059 },
+        { "id": "mon_fungaloid_seeder", "fg": 3060 },
+        { "id": "mon_fungaloid_tower", "fg": 3061 },
+        { "id": "mon_skeleton_hulk", "fg": 3062, "rotates": false },
+        { "id": "mon_zombie_kevlar_2", "fg": 3063, "rotates": false },
+        { "id": "mon_zombie_hulk_pk", "fg": 3064, "rotates": false },
+        { "id": "mon_zombie_hulk", "fg": 3064, "rotates": false },
+        { "id": "overlay_mutation_THRESH_URSINE", "fg": 3065 },
+        { "id": "overlay_mutation_THRESH_CATTLE", "fg": 3066 },
+        { "id": "overlay_male_mutation_THRESH_CATTLE", "fg": 3067 },
+        { "id": "overlay_mutation_THRESH_LIZARD", "fg": 3068 }
       ]
     },
     {

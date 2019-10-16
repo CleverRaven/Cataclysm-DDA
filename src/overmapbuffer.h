@@ -135,7 +135,8 @@ class overmapbuffer
          * Uses global overmap terrain coordinates, creates the
          * overmap if needed.
          */
-        oter_id &ter( const tripoint &p );
+        const oter_id &ter( const tripoint &p );
+        void ter_set( const tripoint &p, const oter_id &id );
         /**
          * Uses global overmap terrain coordinates.
          */
@@ -254,7 +255,7 @@ class overmapbuffer
          * Find npc by id and if found, erase it from the npc list
          * and return it ( or return nullptr if not found ).
          */
-        std::shared_ptr<npc> remove_npc( character_id id );
+        std::shared_ptr<npc> remove_npc( const character_id &id );
         /**
          * Adds the npc to an overmap ( based on the npcs current location )
          * and stores it there. The overmap takes ownership of the pointer.

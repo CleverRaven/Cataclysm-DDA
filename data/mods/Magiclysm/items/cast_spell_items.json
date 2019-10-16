@@ -16,7 +16,7 @@
     "container": "flask_glass",
     "color": "light_blue",
     "comestible_type": "DRINK",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "phase": "liquid",
     "price": 2500,
     "freezing_point": 40
@@ -53,7 +53,7 @@
     "container": "flask_glass",
     "color": "yellow",
     "comestible_type": "DRINK",
-    "flags": [ "EATEN_COLD" ],
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE" ],
     "phase": "liquid",
     "price": 3000,
     "freezing_point": 40
@@ -97,14 +97,14 @@
     "color": "pink",
     "stack_size": 1,
     "spoils_in": "4 days",
-    "flags": [ "TRADER_AVOID", "INEDIBLE" ]
+    "flags": [ "TRADER_AVOID", "INEDIBLE", "NUTRIENT_OVERRIDE" ]
   },
   {
     "id": "animist_doll_skeleton",
     "name": "ossified voodoo doll",
     "description": "A remarkably accurate effigy of an undead human covered with bone, including pieces of organs. Necromantic magic delays immediate rot, but it won't last forever. Piercing it with the attached needle could compel it to serve you.",
     "use_action": { "type": "cast_spell", "spell_id": "summon_skeleton", "no_fail": true, "level": 10 },
-    "type": "TOOL",
+    "type": "COMESTIBLE",
     "category": "weapons",
     "copy-from": "animist_doll_zombie"
   },
@@ -113,7 +113,7 @@
     "name": "cougar voodoo doll",
     "description": "A remarkably accurate effigy of an undead cougar, complete with fur, bones, and organs. Necromantic magic delays immediate rot, but it won't last forever. Piercing it with the attached needle could compel it to serve you.",
     "use_action": { "type": "cast_spell", "spell_id": "summon_decayed_pouncer", "no_fail": true, "level": 13 },
-    "type": "TOOL",
+    "type": "COMESTIBLE",
     "category": "weapons",
     "material": [ "fur", "flesh", "bone" ],
     "copy-from": "animist_doll_skeleton"

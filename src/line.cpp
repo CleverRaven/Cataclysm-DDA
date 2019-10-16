@@ -267,6 +267,14 @@ int rl_dist( const tripoint &loc1, const tripoint &loc2 )
     return square_dist( loc1, loc2 );
 }
 
+float rl_dist_exact( const tripoint &loc1, const tripoint &loc2 )
+{
+    if( trigdist ) {
+        return trig_dist( loc1, loc2 );
+    }
+    return square_dist( loc1, loc2 );
+}
+
 int manhattan_dist( const point &loc1, const point &loc2 )
 {
     const point d = abs( loc1 - loc2 );
@@ -455,7 +463,7 @@ std::string direction_name_impl( const direction dir, const bool short_name )
         result[CENTER]         = pair_t {translate_marker( "CE   " ), translate_marker( "center" )};
         result[BELOWCENTER]    = pair_t {translate_marker( "DN_CE" ), translate_marker( "below" )};
 
-        result[size] = pair_t {"BUG. (line.cpp:direction_name)", "BUG. (line.cpp:direction_name)"};
+        result[size] = pair_t {"BUG.  (line.cpp:direction_name)", "BUG.  (line.cpp:direction_name)"};
         return result;
     }();
 
@@ -731,8 +739,13 @@ rl_vec3d rl_vec3d::operator/( const float rhs ) const
     return ret;
 }
 
-void calc_ray_end( const int angle, const int range, const tripoint &p, tripoint &out )
+void calc_ray_end( int angle, const int range, const tripoint &p, tripoint &out )
 {
+    // forces input angle to be between 0 and 360, calculated from actual input
+    angle %= 360;
+    if( angle < 0 ) {
+        angle += 360;
+    }
     const double rad = DEGREES( angle );
     out.z = p.z;
     if( trigdist ) {

@@ -94,7 +94,8 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 22,
-    "reliability": 8
+    "reliability": 8,
+    "flags": [ "MAG_COMPACT" ]
   },
   {
     "id": "glock_drum_50rd",

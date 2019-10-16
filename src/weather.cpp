@@ -97,6 +97,11 @@ void weather_effect::glare( sun_intensity intensity )
 
 ////// food vs weather
 
+int incident_sunlight( weather_type wtype, const time_point &t )
+{
+    return std::max<float>( 0.0f, sunlight( t, false ) + weather::light_modifier( wtype ) );
+}
+
 inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
                               const time_point &t, const time_duration &tick_size )
 {
@@ -120,8 +125,17 @@ inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
     }
 
     // TODO: Change this sunlight "sampling" here into a proper interpolation
-    const float tick_sunlight = sunlight( t ) + weather::light_modifier( wtype );
-    data.sunlight += std::max<float>( 0.0f, to_turns<int>( tick_size ) * tick_sunlight );
+    const float tick_sunlight = incident_sunlight( wtype, t );
+    data.sunlight += tick_sunlight * to_turns<int>( tick_size );
+}
+
+weather_type current_weather( const tripoint &location, const time_point &t )
+{
+    const auto wgen = g->weather.get_cur_weather_gen();
+    if( g->weather.weather_override != WEATHER_NULL ) {
+        return g->weather.weather_override;
+    }
+    return wgen.get_weather_conditions( location, t, g->get_seed() );
 }
 
 ////// Funnels.
@@ -131,7 +145,6 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
     time_duration tick_size = 0_turns;
     weather_sum data;
 
-    const auto wgen = g->weather.get_cur_weather_gen();
     for( time_point t = start; t < end; t += tick_size ) {
         const time_duration diff = end - t;
         if( diff < 10_turns ) {
@@ -142,14 +155,8 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
             tick_size = 1_minutes;
         }
 
-        weather_type wtype;
-        if( g->weather.weather_override == WEATHER_NULL ) {
-            wtype = wgen.get_weather_conditions( location, t, g->get_seed() );
-        } else {
-            wtype = g->weather.weather_override;
-        }
+        weather_type wtype = current_weather( location, t );
         proc_weather_sum( wtype, data, t, tick_size );
-        w_point w = wgen.get_weather( location, t, g->get_seed() );
         data.wind_amount += get_local_windpower( g->weather.windspeed, overmap_buffer.ter( location ),
                             location,
                             g->weather.winddirection, false ) * to_turns<int>( tick_size );
@@ -169,7 +176,7 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point 
 
     // bday == last fill check
     it.set_birthday( end );
-    auto data = sum_conditions( start, end, pos );
+    weather_sum data = sum_conditions( start, end, pos );
 
     // Technically 0.0 division is OK, but it will be cleaner without it
     if( data.rain_amount > 0 ) {
@@ -298,15 +305,15 @@ static void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr 
 {
     const double turns_per_charge = tr.funnel_turns_per_charge( rain_depth_mm_per_hour );
     // Give each funnel on the map a chance to collect the rain.
-    const auto &funnel_locs = g->m.trap_locations( tr.loadid );
-    for( auto loc : funnel_locs ) {
+    const std::vector<tripoint> &funnel_locs = g->m.trap_locations( tr.loadid );
+    for( const tripoint &loc : funnel_locs ) {
         units::volume maxcontains = 0_ml;
         if( one_in( turns_per_charge ) ) { // FIXME:
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
             // container here which is either empty or contains some mixture of
             // impure water and acid.
-            auto items = g->m.i_at( loc );
+            map_stack items = g->m.i_at( loc );
             auto container = items.end();
             for( auto candidate_container = items.begin(); candidate_container != items.end();
                  ++candidate_container ) {
@@ -587,7 +594,8 @@ std::string weather_forecast( const point &abs_sm_pos )
     const std::string city_name = cref ? cref.city->name : std::string( _( "middle of nowhere" ) );
     // Current time
     weather_report << string_format(
-                       _( "The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s. " ),
+                       //~ %1$s: time of day, %2$s: hour of day, %3$s: city name, %4$s: weather name, %5$s: temperature value
+                       _( "The current time is %1$s Eastern Standard Time.  At %2$s in %3$s, it was %4$s.  The temperature was %5$s. " ),
                        to_string_time_of_day( calendar::turn ), print_time_just_hour( calendar::turn ),
                        city_name,
                        weather::name( g->weather.weather ), print_temperature( g->weather.temperature )
@@ -973,6 +981,9 @@ void weather_manager::update_weather()
                   : weather_override;
         if( weather == WEATHER_SUNNY && is_night( calendar::turn ) ) {
             weather = WEATHER_CLEAR;
+        }
+        if( !g->u.has_artifact_with( AEP_BAD_WEATHER ) ) {
+            weather_override = WEATHER_NULL;
         }
         sfx::do_ambient();
         temperature = w.temperature;

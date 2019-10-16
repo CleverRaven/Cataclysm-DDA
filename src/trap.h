@@ -59,6 +59,7 @@ bool temple_toggle( const tripoint &p, Creature *c, item *i );
 bool glow( const tripoint &p, Creature *c, item *i );
 bool hum( const tripoint &p, Creature *c, item *i );
 bool shadow( const tripoint &p, Creature *c, item *i );
+bool map_regen( const tripoint &p, Creature *c, item *i );
 bool drain( const tripoint &p, Creature *c, item *i );
 bool snake( const tripoint &p, Creature *c, item *i );
 } // namespace trapfunc
@@ -99,6 +100,7 @@ struct trap {
         int trap_radius = 0;// 0 to ??, trap radius
         bool benign = false;
         bool always_invisible = false;
+        std::string map_regen; // a valid overmap id, for map_regen action traps
         trap_function act;
         std::string name_;
         /**
@@ -125,6 +127,9 @@ struct trap {
         int get_visibility() const {
             return visibility;
         }
+
+        std::string  map_regen_target() const;
+
         /**
          * Whether triggering the trap can be avoid (if greater than 0) and if so, this is
          * compared to dodge skill (with some adjustments). Smaller values means it's easier

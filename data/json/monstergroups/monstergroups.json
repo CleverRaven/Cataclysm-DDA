@@ -4254,6 +4254,7 @@
       { "monster": "mon_skitterbot", "freq": 145, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
       { "monster": "mon_skitterbot", "freq": 1, "cost_multiplier": 0, "pack_size": [ 8, 12 ] },
       { "monster": "mon_secubot", "freq": 5, "cost_multiplier": 10 },
+      { "monster": "mon_talon_m202a1", "freq": 3, "cost_multiplier": 10 },
       { "monster": "mon_zombie_hazmat", "freq": 100, "cost_multiplier": 0 },
       { "monster": "mon_zombie_bio_op", "freq": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_armored", "freq": 5, "cost_multiplier": 5 },
@@ -4357,6 +4358,7 @@
     "monsters": [
       { "monster": "mon_skitterbot", "freq": 220, "cost_multiplier": 0 },
       { "monster": "mon_secubot", "freq": 150, "cost_multiplier": 0 },
+      { "monster": "mon_talon_m202a1", "freq": 75, "cost_multiplier": 0 },
       { "monster": "mon_copbot", "freq": 0, "cost_multiplier": 0 },
       { "monster": "mon_molebot", "freq": 40, "cost_multiplier": 0 },
       { "monster": "mon_tripod", "freq": 110, "cost_multiplier": 0 },
@@ -4499,6 +4501,7 @@
       { "monster": "mon_zombie_soldier", "freq": 35, "cost_multiplier": 1 },
       { "monster": "mon_dispatch", "freq": 10, "cost_multiplier": 50 },
       { "monster": "mon_dispatch_military", "freq": 5, "cost_multiplier": 80 },
+      { "monster": "mon_talon_m202a1", "freq": 15, "cost_multiplier": 50 },
       { "monster": "mon_zombie_flamer", "freq": 10, "cost_multiplier": 50 },
       { "monster": "mon_zombie_military_pilot", "freq": 0, "cost_multiplier": 1 }
     ]
@@ -5190,6 +5193,30 @@
       { "monster": "mon_zombie_electric", "freq": 10, "cost_multiplier": 5 },
       { "monster": "mon_zombie_survivor", "freq": 1, "cost_multiplier": 25 },
       { "monster": "mon_beekeeper", "freq": 1, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_technician", "freq": 1, "cost_multiplier": 12 },
+      { "monster": "mon_zombie_runner", "freq": 20, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_zombie_brainless", "freq": 55, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_STEEL_MILL",
+    "default": "mon_null",
+    "//": "Steel mill monster spawns.",
+    "monsters": [
+      { "monster": "mon_zombie", "freq": 1, "cost_multiplier": 7, "pack_size": [ 5, 10 ] },
+      { "monster": "mon_zombie", "freq": 1, "cost_multiplier": 13, "pack_size": [ 15, 20 ] },
+      { "monster": "mon_zombie", "freq": 1, "cost_multiplier": 20, "pack_size": [ 25, 30 ] },
+      { "monster": "mon_zombie", "freq": 75, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_fat", "freq": 75, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_fat", "freq": 3, "cost_multiplier": 7, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_zombie_tough", "freq": 75, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_rot", "freq": 50, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_crawler", "freq": 25, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_soldier", "freq": 10, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_hazmat", "freq": 10, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_electric", "freq": 10, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_survivor", "freq": 1, "cost_multiplier": 25 },
       { "monster": "mon_zombie_technician", "freq": 1, "cost_multiplier": 12 },
       { "monster": "mon_zombie_runner", "freq": 20, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
       { "monster": "mon_zombie_brainless", "freq": 55, "cost_multiplier": 1 }

@@ -5,13 +5,13 @@
     "name": "Adrenaline Pump",
     "description": "A stimulator system has been surgically implanted alongside your adrenal glands, allowing you to trigger your body's adrenaline response at the cost of some bionic power.",
     "occupied_bodyparts": [ [ "TORSO", 6 ] ],
-    "act_cost": 50
+    "act_cost": "5 J"
   },
   {
     "id": "bio_ads",
     "type": "bionic",
     "name": "Active Defense System",
-    "description": "A thin forcefield surrounds your body, continually draining power.  Anything attempting to penetrate this field has a chance of being deflected at the cost of energy.  Bullets will be stopped more often than melee weapons and those in turn more often than massive objects.",
+    "description": "A thin forcefield surrounds your body, continually draining power.  Anything attempting to penetrate this field has a chance of being deflected at the cost of energy, reducing their ability to deal damage.  Bullets will be deflected more than melee weapons and those in turn more than massive objects.",
     "occupied_bodyparts": [ [ "TORSO", 10 ], [ "HEAD", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": 10,
@@ -25,9 +25,9 @@
     "description": "A motion-detecting alarm system will notice almost all movement within a fifteen-foot radius, and will silently alert you.  This is very useful during sleep, or if you suspect a cloaked pursuer.",
     "occupied_bodyparts": [ [ "TORSO", 2 ], [ "HEAD", 1 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
-    "act_cost": 1,
-    "react_cost": 1,
-    "time": 600
+    "act_cost": "1 J",
+    "react_cost": "1 J",
+    "time": 1
   },
   {
     "id": "bio_ankles",
@@ -82,7 +82,6 @@
     "id": "bio_batteries",
     "type": "bionic",
     "name": "Battery System",
-    "capacity": 10,
     "description": "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to drain charge from a battery.  Can be toggled on and off at will.",
     "occupied_bodyparts": [ [ "TORSO", 25 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
@@ -93,7 +92,7 @@
     "name": "Monomolecular Blade",
     "description": "A deadly foot-long blade made of advanced material now resides inside your forearm, capable of being extended through the back of your wrist at the cost of a small amount of power.  Though exceptionally sharp, it will prevent you from holding anything else while extended.",
     "occupied_bodyparts": [ [ "ARM_R", 5 ], [ "HAND_R", 2 ] ],
-    "act_cost": 200,
+    "act_cost": "50 J",
     "fake_item": "bio_blade_weapon",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
   },
@@ -104,7 +103,7 @@
     "description": "Concealed in your left arm is a single shot 12 gauge shotgun.  Activate the bionic to fire and reload the shotgun.",
     "occupied_bodyparts": [ [ "ARM_L", 15 ] ],
     "encumbrance": [ [ "ARM_L", 5 ] ],
-    "act_cost": 5,
+    "act_cost": "50 J",
     "fake_item": "bio_shotgun_gun",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ]
   },
@@ -122,7 +121,7 @@
     "name": "Blood Analysis",
     "description": "Small sensors have been surgically implanted in your heart, allowing you to analyze your blood.  This will detect many illnesses, drugs, and other conditions.",
     "occupied_bodyparts": [ [ "TORSO", 5 ] ],
-    "act_cost": 25
+    "act_cost": "100 J"
   },
   {
     "id": "bio_blood_filter",
@@ -130,13 +129,12 @@
     "name": "Blood Filter",
     "description": "A filtration system in your heart allows you to actively filter out chemical impurities, primarily drugs.  It will have limited impact on viruses.  Note that it is not a targeted filter; ALL drugs in your system will be affected.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
-    "act_cost": 75
+    "act_cost": "600 J"
   },
   {
     "id": "bio_cable",
     "type": "bionic",
     "name": "Cable Charger System",
-    "capacity": 10,
     "description": "You have a complex port surgically mounted above your hip.  While active, it will recharge bionic power when connected to a power source via jumper cable.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ]
@@ -166,7 +164,7 @@
     "name": "Chain Lightning",
     "description": "Your body is equipped with a chain lightning generator, allowing you to emit a blast of lightning at a target, leaving a trail of lightning in its wake, jumping to additional targets within 4 tiles of the previous target.",
     "occupied_bodyparts": [ [ "TORSO", 16 ], [ "ARM_L", 4 ], [ "ARM_R", 4 ] ],
-    "act_cost": 125,
+    "act_cost": "100 kJ",
     "fake_item": "bio_lightning",
     "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
   },
@@ -176,7 +174,7 @@
     "name": "Bionic Claws",
     "description": "Vicious claws have been surgically installed inside your fingers, allowing you to extend and retract them at the cost of a small amount of power.  These do considerable cutting damage, but prevent you from holding anything else while extended.",
     "occupied_bodyparts": [ [ "HAND_L", 5 ], [ "HAND_R", 5 ] ],
-    "act_cost": 100,
+    "act_cost": "25 J",
     "fake_item": "bio_claws_weapon",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
   },
@@ -197,9 +195,9 @@
       [ "FOOT_L", 1 ],
       [ "FOOT_R", 1 ]
     ],
-    "act_cost": 1,
-    "react_cost": 1,
-    "time": 24,
+    "act_cost": "100 J",
+    "react_cost": "100 J",
+    "time": 1,
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
@@ -219,8 +217,8 @@
       [ "FOOT_L", 1 ],
       [ "FOOT_R", 1 ]
     ],
-    "act_cost": 50,
-    "react_cost": 50,
+    "act_cost": "30 kJ",
+    "react_cost": "30 kJ",
     "time": 1,
     "flags": [ "BIONIC_TOGGLED" ]
   },
@@ -230,8 +228,8 @@
     "name": "Close Quarters Battle",
     "description": "Bionic processors and databanks, loaded with martial arts combat programs, are surgically integrated into your nervous system.  Whilst active, the CQB module will improve your hand to hand combat skills, but prevents you from improving them through combat experience.",
     "occupied_bodyparts": [ [ "HEAD", 4 ] ],
-    "act_cost": 1,
-    "react_cost": 1,
+    "act_cost": "20 J",
+    "react_cost": "20 J",
     "time": 1,
     "flags": [ "BIONIC_TOGGLED" ]
   },
@@ -249,6 +247,7 @@
     "name": "Wired Reflexes",
     "description": "Your reaction time has been greatly enhanced with bionic nerve stimulators, giving you a +2 bonus to dexterity.",
     "occupied_bodyparts": [ [ "TORSO", 6 ], [ "ARM_L", 4 ], [ "ARM_R", 4 ], [ "LEG_L", 8 ], [ "LEG_R", 8 ] ],
+    "stat_bonus": [ [ "DEX", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -306,7 +305,7 @@
     "name": "Directional EMP",
     "description": "Surgically mounted in the palm of your hand are small parabolic EMP field generators.  You may use power to fire a wide, but short-ranged blast which will disable electronics and robots.",
     "occupied_bodyparts": [ [ "ARM_R", 1 ], [ "HAND_R", 2 ] ],
-    "act_cost": 100
+    "act_cost": "50 kJ"
   },
   {
     "type": "bionic",
@@ -314,7 +313,7 @@
     "name": "EMP Projector",
     "description": "A ranged EMP generator system is implanted on the palm of your right hand and arm.  The system fires precise, single-target pulses that require time to aim.  Extremely effective against electronic targets but mostly useless otherwise.",
     "occupied_bodyparts": [ [ "ARM_R", 10 ], [ "HAND_R", 5 ] ],
-    "act_cost": 20,
+    "act_cost": "50 kJ",
     "fake_item": "bio_emp_gun",
     "flags": [ "BIONIC_GUN" ]
   },
@@ -332,7 +331,7 @@
     "name": "Aero-Evaporator",
     "description": "This unit draws moisture from the surrounding air, which then is poured from a fingertip in the form of water.  It may fail in very dry environments.",
     "occupied_bodyparts": [ [ "TORSO", 5 ], [ "HAND_R", 1 ] ],
-    "act_cost": 200
+    "act_cost": "720 kJ"
   },
   {
     "id": "bio_eye_enhancer",
@@ -340,6 +339,7 @@
     "name": "Diamond Cornea",
     "description": "Your vision is greatly enhanced, giving you a +2 bonus to perception.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
+    "stat_bonus": [ [ "PER", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -375,9 +375,9 @@
       [ "FOOT_R", 1 ]
     ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "act_cost": 1,
-    "react_cost": 1,
-    "time": 2
+    "act_cost": "5 J",
+    "react_cost": "5 J",
+    "time": 1
   },
   {
     "id": "bio_fingerhack",
@@ -392,7 +392,7 @@
     "name": "Flashbang Generator",
     "description": "Light emitting diodes surgically integrated into your skin can release a flash comparable to a flashbang grenade, blinding nearby enemies.  Speakers integrated into your body mimic the loud sound, deafening those nearby.",
     "occupied_bodyparts": [ [ "TORSO", 20 ], [ "ARM_L", 2 ], [ "ARM_R", 2 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
-    "act_cost": 125
+    "act_cost": "10 kJ"
   },
   {
     "id": "bio_flashlight",
@@ -400,9 +400,9 @@
     "name": "Cranial Flashlight",
     "description": "Surgically mounted between your eyes is a small but powerful LED flashlight.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
-    "act_cost": 1,
-    "react_cost": 1,
-    "time": 150,
+    "act_cost": "3 J",
+    "react_cost": "3 J",
+    "time": 1,
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
@@ -410,16 +410,16 @@
     "type": "bionic",
     "name": "LED Tattoo",
     "description": "A small LED display just beneath your dermal layer can be illuminated on command to show patterns of your choice at dim or bright luminosity.  It doesn't provide enough light to comfortably read or craft, but it can suffice if you have nothing else.",
-    "act_cost": 1,
-    "react_cost": 1,
-    "time": 300,
+    "act_cost": "1 J",
+    "react_cost": "1 J",
+    "time": 1,
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_glowy",
     "type": "bionic",
     "name": "Glowy Thing",
-    "description": "You don't think that capacitor is *meant* to glow, but it does, and usually at bad times.  A malfunctioning bionic randomly turns on and off, causing you to glow and making you visible in the dark without improving how much you can see in the slighest.",
+    "description": "You don't think that capacitor is *meant* to glow, but it does, and usually at bad times.  A malfunctioning bionic randomly turns on and off, causing you to glow and making you visible in the dark without improving how much you can see in the slightest.",
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
@@ -428,7 +428,7 @@
     "name": "Integrated Dosimeter",
     "description": "Small radiation sensors have been surgically implanted throughout your body, allowing you to analyze your level of absorbed radiation.  They will also alert you whenever exposed to environmental radiation.",
     "occupied_bodyparts": [ [ "TORSO", 2 ], [ "HEAD", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 1 ], [ "LEG_R", 1 ] ],
-    "act_cost": 25
+    "act_cost": "100 J"
   },
   {
     "id": "bio_gills",
@@ -445,8 +445,8 @@
     "description": "Your feet are equipped with precision sonar equipment, allowing you to detect the movements of creatures below the ground, buried traps, and unstable terrain.",
     "occupied_bodyparts": [ [ "FOOT_L", 3 ], [ "FOOT_R", 3 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "act_cost": 5,
-    "react_cost": 1,
+    "act_cost": "200 J",
+    "react_cost": "200 J",
     "time": 1
   },
   {
@@ -486,8 +486,8 @@
       [ "FOOT_R", 1 ]
     ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "act_cost": 4,
-    "react_cost": 4,
+    "act_cost": "1 kJ",
+    "react_cost": "1 kJ",
     "time": 1
   },
   {
@@ -497,8 +497,8 @@
     "description": "While activated, your muscles will be greatly enhanced, increasing your strength by 20.",
     "occupied_bodyparts": [ [ "TORSO", 4 ], [ "ARM_L", 8 ], [ "ARM_R", 8 ], [ "LEG_L", 14 ], [ "LEG_R", 14 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "act_cost": 17,
-    "react_cost": 17,
+    "act_cost": "10 kJ",
+    "react_cost": "10 kJ",
     "time": 1
   },
   {
@@ -508,8 +508,8 @@
     "description": "Your range of vision extends into the infrared, allowing you to see warm-blooded creatures in the dark or through smoke.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "act_cost": 5,
-    "react_cost": 1,
+    "act_cost": "5 J",
+    "react_cost": "5 J",
     "time": 1
   },
   {
@@ -518,6 +518,7 @@
     "name": "Cerebral Booster",
     "description": "Your brain has been enhanced with bionic coprocessors, giving you a +2 bonus to intelligence.",
     "occupied_bodyparts": [ [ "HEAD", 7 ] ],
+    "stat_bonus": [ [ "INT", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -534,7 +535,7 @@
     "name": "Finger-Mounted Laser",
     "description": "One of your fingers has a small high-powered laser surgically embedded in it.  This long range weapon is not incredibly damaging, but is very accurate, and has the potential to start fires.",
     "occupied_bodyparts": [ [ "HAND_R", 1 ] ],
-    "act_cost": 50,
+    "act_cost": "30 kJ",
     "fake_item": "bio_laser_gun",
     "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
   },
@@ -553,9 +554,9 @@
     "description": "You are equipped with bionic stimulators which augment your haematopoiesis system, allowing you to accelerate white blood cell production using bionic power.  It is supposed to run continuously and may cause unpleasant side effects when turned off.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY", "BIONIC_NPC_USABLE" ],
-    "act_cost": 10,
-    "react_cost": 1,
-    "time": 3600
+    "act_cost": "5 J",
+    "react_cost": "5 J",
+    "time": 1
   },
   {
     "id": "bio_lighter",
@@ -572,7 +573,7 @@
     "name": "Fingerpick",
     "description": "One of your fingers has an electronic lockpick surgically embedded in it.  This automatic system will quickly unlock all but the most advanced key locks without any skill required on the part of the user.",
     "occupied_bodyparts": [ [ "HAND_R", 2 ] ],
-    "act_cost": 25
+    "act_cost": "50 J"
   },
   {
     "id": "bio_magnet",
@@ -580,7 +581,7 @@
     "name": "Electromagnetic Unit",
     "description": "Surgically embedded in your right hand is a powerful electromagnet, allowing you to indiscriminately pull all nearby magnetic objects towards you.  Unlucky bystanders might be injured or killed by flying objects.",
     "occupied_bodyparts": [ [ "HAND_R", 3 ] ],
-    "act_cost": 50
+    "act_cost": "10 kJ"
   },
   {
     "id": "bio_membrane",
@@ -597,9 +598,9 @@
     "description": "Your memory has been enhanced with small quantum storage drives.  While active, you learn - both through reading and practice - more quickly.  Additionally, you can't forget skills you've already learned, and the layout of terrain you've explored will remain in your memory for an incredibly long time.",
     "occupied_bodyparts": [ [ "HEAD", 3 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
-    "act_cost": 10,
-    "react_cost": 1,
-    "time": 600
+    "act_cost": "2 J",
+    "react_cost": "2 J",
+    "time": 1
   },
   {
     "id": "bio_metabolics",
@@ -615,7 +616,7 @@
     "name": "Weather Reader",
     "description": "A multitude of scientific instruments and sensors collect environmental data.  The data is compiled and presented as a simple readout of the current weather.  It also passively tells you the local air temperature.",
     "occupied_bodyparts": [ [ "TORSO", 1 ], [ "HEAD", 1 ] ],
-    "act_cost": 10
+    "act_cost": "10 J"
   },
   {
     "id": "bio_nanobots",
@@ -632,8 +633,8 @@
     "description": "When active, this bionic eliminates all light within a 15 tile radius through destructive interference.",
     "occupied_bodyparts": [ [ "TORSO", 16 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "act_cost": 15,
-    "react_cost": 15,
+    "act_cost": "9 kJ",
+    "react_cost": "9 kJ",
     "time": 1
   },
   {
@@ -643,9 +644,9 @@
     "description": "When active, this bionic will amplify existing light, allowing you to see in the dark.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "act_cost": 1,
-    "react_cost": 1,
-    "time": 10000
+    "act_cost": "10 J",
+    "react_cost": "10 J",
+    "time": 1
   },
   {
     "id": "bio_noise",
@@ -671,8 +672,8 @@
     "description": "A thin forcefield surrounds your body, continually draining power.  This field does not deflect attacks, but rather delivers a strong shock, damaging unarmed attackers and those with a conductive weapon.",
     "occupied_bodyparts": [ [ "TORSO", 10 ], [ "HEAD", 1 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "act_cost": 10,
-    "react_cost": 10,
+    "act_cost": "10 kJ",
+    "react_cost": "10 kJ",
     "time": 1
   },
   {
@@ -743,8 +744,8 @@
     "description": "Increases your body's wavelength, allowing you to quantum tunnel through walls, reappearing on the other side.  Power drain in standby is minimal, but each tile tunneled through costs 250 bionic power.",
     "occupied_bodyparts": [ [ "TORSO", 20 ], [ "ARM_L", 2 ], [ "ARM_R", 2 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ], [ "FOOT_L", 1 ], [ "FOOT_R", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "act_cost": 1,
-    "react_cost": 1,
+    "act_cost": "3 J",
+    "react_cost": "3 J",
     "time": 1
   },
   {
@@ -763,7 +764,7 @@
     "description": "A system of advanced piezomechanical blood filters have been surgically implanted throughout your body, allowing you to purge yourself of absorbed radiation at the cost of some bionic power.",
     "occupied_bodyparts": [ [ "TORSO", 5 ], [ "ARM_L", 1 ], [ "ARM_R", 1 ], [ "LEG_L", 2 ], [ "LEG_R", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ],
-    "act_cost": 50
+    "act_cost": "4500 J"
   },
   {
     "id": "bio_railgun",
@@ -829,9 +830,9 @@
     "description": "While this system is powered, you're able to visually sense your own scent, making it possible for you to recognize your surroundings even in complete darkness.",
     "occupied_bodyparts": [ [ "HEAD", 3 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "act_cost": 1,
-    "react_cost": 1,
-    "time": 6
+    "act_cost": "2 J",
+    "react_cost": "2 J",
+    "time": 1
   },
   {
     "id": "bio_shakes",
@@ -923,6 +924,7 @@
     "name": "Muscle Augmentation",
     "description": "Your muscular system has been surgically enhanced with myomer fibers, giving you a +2 bonus to strength.",
     "occupied_bodyparts": [ [ "TORSO", 6 ], [ "ARM_L", 4 ], [ "ARM_R", 4 ], [ "LEG_L", 8 ], [ "LEG_R", 8 ] ],
+    "stat_bonus": [ [ "STR", 2 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -1037,9 +1039,9 @@
     "description": "Your nervous system has been augmented with bionic processors, allowing you to dodge attacks beyond normal human capability, including bullets.",
     "occupied_bodyparts": [ [ "TORSO", 12 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "LEG_L", 5 ], [ "LEG_R", 5 ], [ "FOOT_L", 1 ], [ "FOOT_R", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
-    "act_cost": 1,
-    "react_cost": 1,
-    "time": 10
+    "act_cost": "6 J",
+    "react_cost": "6 J",
+    "time": 1
   },
   {
     "id": "bio_ups",
@@ -1070,7 +1072,7 @@
     "name": "Water Extraction Unit",
     "description": "Nanotubes surgically embedded in the palm of your hand will pump any available fluid out of a dead body, cleanse it of impurities and convert it into drinkable water.  You must, however, have a container to store the water in.",
     "occupied_bodyparts": [ [ "ARM_R", 1 ], [ "HAND_R", 2 ] ],
-    "act_cost": 50
+    "act_cost": "20 kJ"
   },
   {
     "id": "bio_fuel_cell_gasoline",
@@ -1082,8 +1084,9 @@
     "fuel_options": [ "gasoline" ],
     "fuel_capacity": 500,
     "fuel_efficiency": 0.25,
+    "exothermic_power_gen": true,
     "time": 1,
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_syringe",

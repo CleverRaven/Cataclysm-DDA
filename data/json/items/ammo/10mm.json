@@ -6,7 +6,8 @@
     "description": "A jacketed 10mm Auto round.  The 10mm Auto cartridge is a rather powerful handgun round and the progenitor to the more popular .40 S&W.",
     "weight": "9 g",
     "volume": "250 ml",
-    "price": 2800,
+    "price": 400,
+    "price_postapoc": 2800,
     "material": [ "brass", "powder" ],
     "symbol": "=",
     "color": "yellow",
@@ -20,6 +21,15 @@
     "dispersion": 50,
     "recoil": 750,
     "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "bp_10mm_fmj",
+    "copy-from": "10mm_fmj",
+    "type": "AMMO",
+    "name": "10mm Auto FMJ blackpowder",
+    "proportional": { "price": 0.3, "damage": 0.76, "recoil": 0.76, "pierce": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
     "id": "reloaded_10mm_fmj",

@@ -57,11 +57,11 @@
     "broken_symbol": "#",
     "broken_color": "light_gray",
     "difficulty": 2,
-    "durability": 160,
+    "durability": 80,
     "description": "A metal wall with a storage locker.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "size": 250,
     "flags": [ "OBSTACLE", "OPAQUE", "CARGO", "COVERED", "FULL_BOARD", "NO_ROOF_NEEDED" ],
-    "damage_reduction": { "all": 34 }
+    "damage_reduction": { "all": 28 }
   },
   {
     "abstract": "hdstowboard",

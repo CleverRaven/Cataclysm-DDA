@@ -200,13 +200,6 @@ bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound 
 
 hp_part most_damaged_hp_part( const Character &c );
 
-// Used in npc::drop_items()
-struct ratio_index {
-    double ratio;
-    int index;
-    ratio_index( double R, int I ) : ratio( R ), index( I ) {}
-};
-
 bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b )
 {
     if( sound_a.type != sound_b.type ) {
@@ -711,6 +704,9 @@ void npc::move()
 
     //faction opinion determines if it should consider you hostile
     if( !is_enemy() && guaranteed_hostile() && sees( g->u ) ) {
+        if( is_player_ally() ) {
+            mutiny();
+        }
         add_msg( m_debug, "NPC %s turning hostile because is guaranteed_hostile()", name );
         if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
             set_attitude( NPCATT_FLEE_TEMP );    // We don't want to take u on!
@@ -836,6 +832,29 @@ void npc::move()
             if( is_ally( g->u ) ) {
                 attitude = NPCATT_FOLLOW;
                 mission = NPC_MISSION_NULL;
+            }
+        }
+        if( mission == NPC_MISSION_ASSIGNED_CAMP ) {
+            bool found_job = false;
+            if( has_job() && calendar::once_every( 30_minutes ) ) {
+                if( job_duties.find( job ) != job_duties.end() ) {
+                    const std::vector<activity_id> jobs_to_rotate = job_duties[job];
+                    if( !jobs_to_rotate.empty() ) {
+                        assign_activity( random_entry( jobs_to_rotate ) );
+                        set_mission( NPC_MISSION_ACTIVITY );
+                        set_attitude( NPCATT_ACTIVITY );
+                        action = npc_player_activity;
+                        found_job = true;
+                    } else {
+                        debugmsg( "NPC is assigned to a job, but the job: %s has no duties", npc_job_id( job ) );
+                        set_mission( NPC_MISSION_GUARD_ALLY );
+                        set_attitude( NPCATT_NULL );
+                    }
+                }
+            }
+            if( !found_job ) {
+                action = npc_pause;
+                goal = global_omt_location();
             }
         }
         if( is_stationary( true ) ) {
@@ -993,10 +1012,12 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_drop_items:
-            /*
-              drop_items(weight_carried() - weight_capacity(),
-                            volume_carried() - volume_capacity());
-            */
+            /* NPCs cant choose this action anymore, but at least it works */
+            drop_invalid_inventory();
+            /* drop_items is still broken
+             * drop_items( weight_carried() - weight_capacity(),
+             *             volume_carried() - volume_capacity() );
+             */
             move_pause();
             break;
 
@@ -1297,7 +1318,7 @@ npc_action npc::method_of_attack()
             return m.melee() || m.flags.count( "NPC_AVOID" ) ||
                    !m->ammo_sufficient( m.qty ) || !can_use( *m.target ) ||
                    m->get_gun_ups_drain() > ups_charges ||
-                   ( danger <= ( ( m.qty == 1 ) ? 0.0 : 0.5 ) && !emergency() ) ||
+                   ( ( danger <= ( m.qty == 1 ? 3.0 : 15.0 ) ) && !emergency() ) ||
                    ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
                      !m.target->is_silent() );
 
@@ -1622,12 +1643,20 @@ bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 
 bool npc::wants_to_recharge_cbm()
 {
-    return power_level < ( max_power_level * static_cast<int>( rules.cbm_recharge ) / 100 );
+
+    for( const bionic_id bid : get_fueled_bionics() ) {
+        for( const itype_id fid : bid->fuel_opts ) {
+            return get_fuel_available( bid ).empty() || ( !get_fuel_available( bid ).empty() &&
+                    get_power_level() < ( get_max_power_level() * static_cast<int>( rules.cbm_recharge ) / 100 ) &&
+                    !use_bionic_by_id( bid ) );
+        }
+    }
+    return get_power_level() < ( get_max_power_level() * static_cast<int>( rules.cbm_recharge ) / 100 );
 }
 
 bool npc::can_use_offensive_cbm() const
 {
-    return power_level > ( max_power_level * static_cast<int>( rules.cbm_reserve ) / 100 );
+    return get_power_level() > ( get_max_power_level() * static_cast<int>( rules.cbm_reserve ) / 100 );
 }
 
 bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
@@ -1653,12 +1682,33 @@ bool npc::recharge_cbm()
 {
     // non-allied NPCs don't consume resources to recharge
     if( !is_player_ally() ) {
-        charge_power( max_power_level );
+        mod_power_level( get_max_power_level() );
         return true;
     }
 
     use_bionic_by_id( bio_torsionratchet );
     use_bionic_by_id( bio_metabolics );
+
+    for( bionic_id bid : get_fueled_bionics() ) {
+        if( !get_fuel_available( bid ).empty() ) {
+            use_bionic_by_id( bid );
+            return true;
+        } else {
+            const std::function<bool( const item & )> fuel_filter = [bid]( const item & it ) {
+                for( const itype_id fid : bid->fuel_opts ) {
+                    return it.typeId() == fid;
+                }
+                return false;
+            };
+
+            if( consume_cbm_items( fuel_filter ) ) {
+                use_bionic_by_id( bid );
+                return true;
+            } else {
+                complain_about( "need_fuel", 3_hours, "<need_fuel>", false );
+            }
+        }
+    }
 
     if( use_bionic_by_id( bio_furnace ) ) {
         const std::function<bool( const item & )> furnace_filter = []( const item & it ) {
@@ -1762,6 +1812,9 @@ npc_action npc::address_needs( float danger )
     // Extreme thirst or hunger, bypass safety check.
     if( get_thirst() > 80 ||
         get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.75 ) {
+        if( consume_food_from_camp() ) {
+            return npc_noop;
+        }
         if( consume_food() ) {
             return npc_noop;
         }
@@ -1779,6 +1832,9 @@ npc_action npc::address_needs( float danger )
 
     if( get_thirst() > 40 ||
         get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.95 ) {
+        if( consume_food_from_camp() ) {
+            return npc_noop;
+        }
         if( consume_food() ) {
             return npc_noop;
         }
@@ -1893,7 +1949,7 @@ npc_action npc::long_term_goal_action()
 {
     add_msg( m_debug, "long_term_goal_action()" );
 
-    if( mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER ) {
+    if( mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER || is_player_ally() ) {
         return npc_pause;    // Shopkeepers just stay put.
     }
 
@@ -2244,7 +2300,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
         moves -= 100;
         moved = true;
-    } else if( g->m.passable( p ) ) {
+    } else if( g->m.passable( p ) && !g->m.has_flag( "DOOR", p ) ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         if( is_mounted() ) {
             const double base_moves = run_cost( g->m.combined_movecost( pos(), p ),
@@ -2306,6 +2362,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
                 mounted_creature->facing = facing;
                 mounted_creature->process_triggers();
                 g->m.creature_in_field( *mounted_creature );
+                g->m.creature_on_trap( *mounted_creature );
             }
         }
         if( g->m.has_flag( "UNSTABLE", pos() ) ) {
@@ -2577,7 +2634,6 @@ void npc::find_item()
     }
 
     if( is_player_ally() && !rules.has_flag( ally_rule::allow_pick_up ) ) {
-
         // Grabbing stuff not allowed by our "owner"
         return;
     }
@@ -2619,14 +2675,10 @@ void npc::find_item()
             followers.push_back( npc_to_add );
         }
         for( auto &elem : followers ) {
-            if( it.has_owner() && it.get_owner() != my_fac && ( elem->sees( this->pos() ) ||
-                    elem->sees( wanted_item_pos ) ) ) {
+            if( !it.is_owned_by( *this, true ) && ( g->u.sees( this->pos() ) || g->u.sees( wanted_item_pos ) ||
+                                                    elem->sees( this->pos() ) || elem->sees( wanted_item_pos ) ) ) {
                 return;
             }
-        }
-        if( it.has_owner() && it.get_owner() != my_fac && ( g->u.sees( this->pos() ) ||
-                g->u.sees( wanted_item_pos ) ) ) {
-            return;
         }
         if( whitelisting && !item_whitelisted( it ) ) {
             return;
@@ -2670,34 +2722,63 @@ void npc::find_item()
             continue;
         }
 
+        const tripoint abs_p = global_square_location() - pos() + p;
+        const int prev_num_items = ai_cache.searched_tiles.get( abs_p, -1 );
+        // Prefetch the number of items present so we can bail out if we already checked here.
+        const map_stack m_stack = g->m.i_at( p );
+        int num_items = m_stack.size();
+        const optional_vpart_position vp = g->m.veh_at( p );
+        if( vp ) {
+            const cata::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
+            if( cargo ) {
+                vehicle_stack v_stack = cargo->vehicle().get_items( cargo->part_index() );
+                num_items += v_stack.size();
+            }
+        }
+        if( prev_num_items == num_items ) {
+            continue;
+        }
+        auto cache_tile = [this, &abs_p, num_items, &wanted]() {
+            if( wanted == nullptr ) {
+                ai_cache.searched_tiles.insert( 1000, abs_p, num_items );
+            }
+        };
+        bool can_see = false;
         if( g->m.sees_some_items( p, *this ) && sees( p ) ) {
-            for( const item &it : g->m.i_at( p ) ) {
+            can_see = true;
+            for( const item &it : m_stack ) {
                 consider_item( it, p );
             }
         }
 
-        // Allow terrain check without sight, because it would cost more CPU than it is worth
-        consider_terrain( p );
+        // Not cached because it gets checked once and isn't expected to change.
+        if( can_see || sees( p ) ) {
+            can_see = true;
+            consider_terrain( p );
+        }
 
-        const optional_vpart_position vp = g->m.veh_at( p );
-        if( !vp || vp->vehicle().is_moving() || !sees( p ) ) {
+        if( !vp || vp->vehicle().is_moving() || !( can_see || sees( p ) ) ) {
+            cache_tile();
             continue;
         }
         const cata::optional<vpart_reference> cargo = vp.part_with_feature( VPFLAG_CARGO, true );
         static const std::string locked_string( "LOCKED" );
         // TODO: Let player know what parts are safe from NPC thieves
         if( !cargo || cargo->has_feature( locked_string ) ) {
+            cache_tile();
             continue;
         }
 
         static const std::string cargo_locking_string( "CARGO_LOCKING" );
         if( vp.part_with_feature( cargo_locking_string, true ) ) {
+            cache_tile();
             continue;
         }
 
         for( const item &it : cargo->vehicle().get_items( cargo->part_index() ) ) {
             consider_item( it, p );
         }
+        cache_tile();
     }
 
     if( wanted != nullptr ) {
@@ -2881,15 +2962,27 @@ std::list<item> npc::pick_up_item_vehicle( vehicle &veh, int part_index )
     return npc_pickup_from_stack( *this, stack );
 }
 
-void npc::drop_items( int weight, int volume )
-{
-    add_msg( m_debug, "%s is dropping items-%d,%d (%d items, wgt %d/%d, vol %d/%d)",
-             name, weight, volume, inv.size(), to_gram( weight_carried() ),
-             to_gram( weight_capacity() ), volume_carried() / units::legacy_volume_factor,
-             volume_capacity() / units::legacy_volume_factor );
+// Used in npc::drop_items()
+struct ratio_index {
+    double ratio;
+    int index;
+    ratio_index( double R, int I ) : ratio( R ), index( I ) {}
+};
 
-    int weight_dropped = 0;
-    int volume_dropped = 0;
+/* As of October 2019, this is buggy, do not use!! */
+void npc::drop_items( units::mass drop_weight, units::volume drop_volume, int min_val )
+{
+    /* Remove this when someone debugs it back to functionality */
+    return;
+
+    add_msg( m_debug, "%s is dropping items-%3.2f kg, %3.2f L (%d items, wgt %3.2f/%3.2f kg, "
+             "vol %3.2f/%3.2f L)",
+             name, units::to_kilogram( drop_weight ), units::to_liter( drop_volume ), inv.size(),
+             units::to_kilogram( weight_carried() ), units::to_kilogram( weight_capacity() ),
+             units::to_liter( volume_carried() ), units::to_liter( volume_capacity() ) );
+
+    units::mass weight_dropped = units::from_gram( 0 );
+    units::volume volume_dropped = units::from_liter( 0 );
     std::vector<ratio_index> rWgt, rVol; // Weight/Volume to value ratios
 
     // First fill our ratio vectors, so we know which things to drop first
@@ -2898,12 +2991,12 @@ void npc::drop_items( int weight, int volume )
         item &it = slice[i]->front();
         double wgt_ratio = 0.0;
         double vol_ratio = 0.0;
-        if( value( it ) == 0 ) {
+        if( value( it ) == 0 || value( it ) <= min_val ) {
             wgt_ratio = 99999;
             vol_ratio = 99999;
         } else {
             wgt_ratio = units::to_gram<double>( it.weight() ) / value( it );
-            vol_ratio = it.volume() * 1.0 / units::legacy_volume_factor / value( it );
+            vol_ratio = units::to_liter( it.volume() / value( it ) );
         }
         bool added_wgt = false;
         bool added_vol = false;
@@ -2930,11 +3023,13 @@ void npc::drop_items( int weight, int volume )
     std::stringstream item_name; // For description below
     int num_items_dropped = 0; // For description below
     // Now, drop items, starting from the top of each list
-    while( weight_dropped < weight || volume_dropped < volume ) {
+    while( weight_dropped < drop_weight || volume_dropped < drop_volume ) {
         // weight and volume may be passed as 0 or a negative value, to indicate that
         // decreasing that variable is not important.
-        int dWeight = ( weight <= 0 ? -1 : weight - weight_dropped );
-        int dVolume = ( volume <= 0 ? -1 : volume - volume_dropped );
+        int dWeight = units::to_gram<int>( drop_weight ) <= 0 ? -1 :
+                      units::to_gram<int>( drop_weight - weight_dropped ) / 250;
+        int dVolume = units::to_milliliter<int>( drop_volume ) <= 0 ? -1 :
+                      units::to_milliliter<int>( drop_volume - volume_dropped ) / 250;
         int index;
         // Which is more important, weight or volume?
         if( dWeight > dVolume ) {
@@ -2960,8 +3055,8 @@ void npc::drop_items( int weight, int volume )
                 }
             }
         }
-        weight_dropped += slice[index]->front().weight() / 1_gram;
-        volume_dropped += slice[index]->front().volume() / units::legacy_volume_factor;
+        weight_dropped += slice[index]->front().weight();
+        volume_dropped += slice[index]->front().volume();
         item dropped = i_rem( index );
         num_items_dropped++;
         if( num_items_dropped == 1 ) {
@@ -3558,6 +3653,40 @@ static float rate_food( const item &it, int want_nutr, int want_quench )
     return weight;
 }
 
+bool npc::consume_food_from_camp()
+{
+    if( !is_player_ally() ) {
+        return false;
+    }
+    cata::optional<basecamp *> potential_bc;
+    for( const tripoint &camp_pos : g->u.camps ) {
+        if( rl_dist( camp_pos, global_omt_location() ) < 3 ) {
+            potential_bc = overmap_buffer.find_camp( camp_pos.xy() );
+            if( potential_bc ) {
+                break;
+            }
+        }
+    }
+    if( !potential_bc ) {
+        return false;
+    }
+    basecamp *bcp = *potential_bc;
+    if( get_thirst() > 40 && bcp->has_water() ) {
+        set_thirst( 0 );
+        return true;
+    }
+    faction *yours = g->u.get_faction();
+    int camp_kcals = std::min( std::max( 0, 19 * get_healthy_kcal() / 20 - get_stored_kcal() -
+                                         stomach.get_calories() ), yours->food_supply );
+    if( camp_kcals > 0 ) {
+        mod_hunger( -camp_kcals );
+        mod_stored_kcal( camp_kcals );
+        yours->food_supply -= camp_kcals;
+        return true;
+    }
+    return false;
+}
+
 bool npc::consume_food()
 {
     float best_weight = 0.0f;
@@ -3740,7 +3869,7 @@ void npc::reach_omt_destination()
                 if( g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) &&
                     has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
                     add_msg( m_info, _( "From your two-way radio you hear %s reporting in, "
-                                        " 'I've arrived, boss!'" ), disp_name() );
+                                        "'I've arrived, boss!'" ), disp_name() );
                 }
             }
         } else {
@@ -4248,4 +4377,9 @@ bool npc::adjust_worn()
     }
 
     return false;
+}
+
+void npc::set_movement_mode( character_movemode new_mode )
+{
+    move_mode = new_mode;
 }

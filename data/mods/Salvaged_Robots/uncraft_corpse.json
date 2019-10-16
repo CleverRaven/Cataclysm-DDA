@@ -11,7 +11,7 @@
   {
     "result": "broken_light_hack",
     "type": "uncraft",
-    "override": "true",
+    "override": true,
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
@@ -29,7 +29,7 @@
   {
     "result": "broken_distract_hack",
     "type": "uncraft",
-    "override": "true",
+    "override": true,
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
@@ -47,7 +47,7 @@
   {
     "result": "broken_arson_hack",
     "type": "uncraft",
-    "override": "true",
+    "override": true,
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,
@@ -65,7 +65,7 @@
   {
     "result": "broken_spore_hack",
     "type": "uncraft",
-    "override": "true",
+    "override": true,
     "skill_used": "electronics",
     "difficulty": 4,
     "time": 2000,

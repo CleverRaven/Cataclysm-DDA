@@ -410,7 +410,6 @@
       "Stay with me, <name_g>!",
       "Catch up, <name_g>!",
       "Keep up!",
-      "Come on, <catch_up>!",
       "Keep it moving!",
       "Stay with me!",
       "Keep close!",
@@ -1008,7 +1007,7 @@
   {
     "type": "snippet",
     "category": "<acknowledged>",
-    "\\": "Generic acknowledgement of a command.  Comes up a lot and could use more variety.",
+    "//": "Generic acknowledgement of a command.  Comes up a lot and could use more variety.",
     "text": [
       "Got it!",
       "I'm on it.",
@@ -1031,7 +1030,7 @@
   {
     "type": "snippet",
     "category": "<weed_smoke>",
-    "\\": "Complaint when the NPC is near the avatar who is smoking marijuana.",
+    "//": "Complaint when the NPC is near the avatar who is smoking marijuana.",
     "text": [
       "Whew... smells like skunk!",
       "Man, that smells like some good shit!",
@@ -1049,7 +1048,7 @@
   {
     "type": "snippet",
     "category": "<meth_smoke>",
-    "\\": "Complaint when the NPC is near the avatar who is smoking meth.",
+    "//": "Complaint when the NPC is near the avatar who is smoking meth.",
     "text": [
       "I don't know... should you really be smoking that stuff?",
       "<name_g>, that's going to ruin your nose.",
@@ -1066,7 +1065,7 @@
   {
     "type": "snippet",
     "category": "<crack_smoke>",
-    "\\": "Complaint when the NPC is near the avatar who is smoking crack.",
+    "//": "Complaint when the NPC is near the avatar who is smoking crack.",
     "text": [ "Ew, smells like burning rubber!", "Ugh, that smells rancid!", "<meth_smoke>" ]
   },
   {
@@ -1103,6 +1102,16 @@
       "I need some junk to power my internal furnace.",
       "I can't recharge my CBMs without some firewood for my internal furnace.",
       "Hey, <name_g>, can I get some waste paper or withered plants?  I need to recharge."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<need_fuel>",
+    "//": "NPC complaint when they are low on CBM power and have a fueled bionic.  Additional versions should continue to specify that the NPC needs fuel and they need it to recharge their power CBMs.",
+    "text": [
+      "I need some fuel to power my bionics.",
+      "I can't recharge my CBMs without some fuel.",
+      "Hey, <name_g>, can I get some fuel?  I need to recharge."
     ]
   },
   {
@@ -1276,6 +1285,23 @@
       "Fire, fire, FIRE!",
       "Get an extinguisher!",
       "Danger hot!"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<follower_mutiny>",
+    "//": "NPC shout when the NPC is leaving your_followers because the NPC hates you due to abuse.  Always followed by 'adios, motherfucker!'  Could use more variety.",
+    "text": [
+      "I've done so much for you, and you can't even keep me fed!",
+      "You are the worst person in the world!",
+      "Why are you such a horrible leader?",
+      "I trusted you, and you can't even provide food!",
+      "I don't have to take this abuse from you, there are plenty of people to abuse me!",
+      "You said you would keep me safe, and you haven't!",
+      "There's only a couple hundred people left in the world, and I relied on the dumbest one!",
+      "You're a monster!",
+      "You call this safe?  You're crazy and incompetent!",
+      "That was the last straw!  I'm not following your orders anymore!"
     ]
   },
   {

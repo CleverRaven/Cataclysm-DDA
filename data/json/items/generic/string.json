@@ -75,7 +75,7 @@
     "symbol": "=",
     "description": "A rather green stick.  Very fibrous.",
     "fun": -100,
-    "health": -20,
+    "healthy": -20,
     "volume": "1 L",
     "stack_size": 10,
     "weight": "80 g"

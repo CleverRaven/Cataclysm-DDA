@@ -23,6 +23,7 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "mtype.h"
+#include "map_iterator.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "rng.h"
@@ -81,6 +82,7 @@ const skill_id skill_swimming( "swimming" );
 static const trait_id trait_NPC_CONSTRUCTION_LEV_1( "NPC_CONSTRUCTION_LEV_1" );
 static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
 static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
+const efftype_id effect_riding( "riding" );
 
 struct comp_rank {
     int industry;
@@ -90,7 +92,7 @@ struct comp_rank {
 
 mission_data::mission_data()
 {
-    for( int tab_num = TAB_MAIN; tab_num != TAB_NW + 3; tab_num++ ) {
+    for( int tab_num = base_camps::TAB_MAIN; tab_num != base_camps::TAB_NW + 3; tab_num++ ) {
         std::vector<mission_entry> k;
         entries.push_back( k );
     }
@@ -145,7 +147,7 @@ void talk_function::companion_mission( npc &p )
 
 void talk_function::scavenger_patrol( mission_data &mission_key, npc &p )
 {
-    std::string entry = _( "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \n"
+    std::string entry = _( "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n\n"
                            "Assigning one of your allies to patrol the surrounding wilderness "
                            "and isolated buildings presents the opportunity to build survival "
                            "skills while engaging in relatively safe combat against isolated "
@@ -153,19 +155,19 @@ void talk_function::scavenger_patrol( mission_data &mission_key, npc &p )
     mission_key.add( "Assign Scavenging Patrol", _( "Assign Scavenging Patrol" ), entry );
     std::vector<npc_ptr> npc_list = companion_list( p, "_scavenging_patrol" );
     if( !npc_list.empty() ) {
-        entry = _( "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \nPatrol Roster:\n" );
+        entry = _( "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n\nPatrol Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
-                    elem->companion_mission_time ) ) + _( " hours] \n" );
+                    elem->companion_mission_time ) ) + _( " hours]\n" );
         }
-        entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+        entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Retrieve Scavenging Patrol", _( "Retrieve Scavenging Patrol" ), entry );
     }
 }
 
 void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
 {
-    std::string entry = _( "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \n"
+    std::string entry = _( "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n\n"
                            "Scavenging raids target formerly populated areas to loot as many "
                            "valuable items as possible before being surrounded by the undead.  "
                            "Combat is to be expected and assistance from the rest of the party "
@@ -174,13 +176,13 @@ void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
     mission_key.add( "Assign Scavenging Raid", _( "Assign Scavenging Raid" ), entry );
     std::vector<npc_ptr> npc_list = companion_list( p, "_scavenging_raid" );
     if( !npc_list.empty() ) {
-        entry = _( "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \n"
+        entry = _( "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n\n"
                    "Raid Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
-                    elem->companion_mission_time ) ) + _( " hours] \n" );
+                    elem->companion_mission_time ) ) + _( " hours]\n" );
         }
-        entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+        entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Retrieve Scavenging Raid", _( "Retrieve Scavenging Raid" ), entry );
     }
 }
@@ -190,15 +192,15 @@ void talk_function::commune_menial( mission_data &mission_key, npc &p )
     mission_key.add( "Assign Ally to Menial Labor", _( "Assign Ally to Menial Labor" ) );
     std::vector<npc_ptr> npc_list = companion_list( p, "_labor" );
     if( !npc_list.empty() ) {
-        std::string entry = _( "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
+        std::string entry = _( "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n\n"
                                "Assigning one of your allies to menial labor is a safe way to teach "
                                "them basic skills and build reputation with the outpost.  Don't expect "
-                               "much of a reward though.\n \nLabor Roster:\n" );
+                               "much of a reward though.\n\nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
-                    elem->companion_mission_time ) ) + _( " hours] \n" );
+                    elem->companion_mission_time ) ) + _( " hours]\n" );
         }
-        entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+        entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Recover Ally from Menial Labor", _( "Recover Ally from Menial Labor" ),
                          entry );
     }
@@ -206,19 +208,19 @@ void talk_function::commune_menial( mission_data &mission_key, npc &p )
 
 void talk_function::commune_carpentry( mission_data &mission_key, npc &p )
 {
-    std::string entry = _( "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
+    std::string entry = _( "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n\n"
                            "Carpentry work requires more skill than menial labor while offering "
                            "modestly improved pay.  It is unlikely that your companions will face "
                            "combat but there are hazards working on makeshift buildings." );
     mission_key.add( "Assign Ally to Carpentry Work", _( "Assign Ally to Carpentry Work" ), entry );
     std::vector<npc_ptr>  npc_list = companion_list( p, "_carpenter" );
     if( !npc_list.empty() ) {
-        entry = _( "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n" );
+        entry = _( "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n\nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
-                    elem->companion_mission_time ) ) + _( " hours] \n" );
+                    elem->companion_mission_time ) ) + _( " hours]\n" );
         }
-        entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+        entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Recover Ally from Carpentry Work",
                          _( "Recover Ally from Carpentry Work" ), entry );
     }
@@ -227,7 +229,7 @@ void talk_function::commune_carpentry( mission_data &mission_key, npc &p )
 void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
 {
     if( !p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) ) {
-        std::string entry = _( "Cost: $1000\n \n \n"
+        std::string entry = _( "Cost: $1000\n\n\n"
                                "                .........\n"
                                "                .........\n"
                                "                .........\n"
@@ -236,17 +238,17 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
                                "                .........\n"
                                "                ..#....**\n"
                                "                ..#Ov..**\n"
-                               "                ...O|....\n \n"
+                               "                ...O|....\n\n"
                                "We're willing to let you purchase a field at a substantial "
                                "discount to use for your own agricultural enterprises.  We'll "
-                               "plow it for you  so you know exactly what is yours... after you "
+                               "plow it for you so you know exactly what is yours... after you "
                                "have a field you can hire workers to plant or harvest crops for "
                                "you.  If the crop is something we have a demand for, we'll be "
                                "willing to liquidate it." );
         mission_key.add( "Purchase East Field", _( "Purchase East Field" ), entry );
     }
     if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) && !p.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ) {
-        std::string entry = _( "Cost: $5500\n \n"
+        std::string entry = _( "Cost: $5500\n\n"
                                "\n              ........."
                                "\n              ........."
                                "\n              ........."
@@ -255,7 +257,7 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
                                "\n              ........."
                                "\n              ..#....**"
                                "\n              ..#Ov..**"
-                               "\n              ...O|....\n \n"
+                               "\n              ...O|....\n\n"
                                "Protecting your field with a sturdy picket fence will keep most "
                                "wildlife from nibbling your crops apart.  You can expect yields to "
                                "increase." );
@@ -263,7 +265,7 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
     }
 
     if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) ) {
-        std::string entry = _( "Cost: $3.00/plot\n \n"
+        std::string entry = _( "Cost: $3.00/plot\n\n"
                                "\n              ........."
                                "\n              ........."
                                "\n              ........."
@@ -272,12 +274,12 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
                                "\n              ........."
                                "\n              ..#....**"
                                "\n              ..#Ov..**"
-                               "\n              ...O|....\n \n"
+                               "\n              ...O|....\n\n"
                                "We'll plant the field with your choice of crop if you are willing "
                                "to finance it.  When the crop is ready to harvest you can have us "
                                "liquidate it or harvest it for you." );
         mission_key.add( "Plant East Field", _( "Plant East Field" ), entry );
-        entry = _( "Cost: $2.00/plot\n \n"
+        entry = _( "Cost: $2.00/plot\n\n"
                    "\n              ........."
                    "\n              ........."
                    "\n              ........."
@@ -286,7 +288,7 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
                    "\n              ........."
                    "\n              ..#....**"
                    "\n              ..#Ov..**"
-                   "\n              ...O|....\n \n"
+                   "\n              ...O|....\n\n"
                    "You can either have us liquidate the crop and give you the cash or pay us to "
                    "harvest it for you." );
         mission_key.add( "Harvest East Field", _( "Harvest East Field" ), entry );
@@ -295,7 +297,7 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
 
 void talk_function::commune_forage( mission_data &mission_key, npc &p )
 {
-    std::string entry = _( "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n \n"
+    std::string entry = _( "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n\n"
                            "Foraging for food involves dispatching a companion to search the "
                            "surrounding wilderness for wild edibles.  Combat will be avoided but "
                            "encounters with wild animals are to be expected.  The low pay is "
@@ -305,24 +307,24 @@ void talk_function::commune_forage( mission_data &mission_key, npc &p )
                      entry );
     std::vector<npc_ptr> npc_list = companion_list( p, "_forage" );
     if( !npc_list.empty() ) {
-        entry = _( "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n \nLabor Roster:\n" );
+        entry = _( "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n\nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
-                    elem->companion_mission_time ) ) + _( " hours] \n" );
+                    elem->companion_mission_time ) ) + _( " hours]\n" );
         }
-        entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+        entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Recover Ally from Foraging", _( "Recover Ally from Foraging" ), entry );
     }
 }
 
 void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
 {
-    std::string entry = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
+    std::string entry = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n\n"
                            "Adding companions to the caravan team increases the likelihood of "
                            "success.  By nature, caravans are extremely tempting targets for "
                            "raiders or hostile groups so only a strong party is recommended.  The "
                            "rewards are significant for those participating but are even more "
-                           "important for the factions that profit.\n \n"
+                           "important for the factions that profit.\n\n"
                            "The commune is sending food to the Free Merchants in the Refugee "
                            "Center as part of a tax and in exchange for skilled labor." );
     mission_key.add( "Caravan Commune-Refugee Center", _( "Caravan Commune-Refugee Center" ),
@@ -330,34 +332,34 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
     std::vector<npc_ptr> npc_list = companion_list( p, "_commune_refugee_caravan" );
     std::vector<npc_ptr> npc_list_aux;
     if( !npc_list.empty() ) {
-        entry = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
-                   " \nRoster:\n" );
+        entry = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n\n"
+                   "\nRoster:\n" );
         for( auto &elem : npc_list ) {
             if( elem->companion_mission_time == calendar::before_time_starts ) {
-                entry = entry + "  " + elem->name + _( " [READY] \n" );
+                entry = entry + "  " + elem->name + _( " [READY]\n" );
                 npc_list_aux.push_back( elem );
             } else if( calendar::turn >= elem->companion_mission_time ) {
-                entry = entry + "  " + elem->name + _( " [COMPLETE] \n" );
+                entry = entry + "  " + elem->name + _( " [COMPLETE]\n" );
             } else {
                 entry = entry + "  " + elem->name + " [" + to_string( abs( to_hours<int>
-                        ( calendar::turn - elem->companion_mission_time ) ) ) + _( " Hours] \n" );
+                        ( calendar::turn - elem->companion_mission_time ) ) ) + _( " Hours]\n" );
             }
         }
         if( !npc_list_aux.empty() ) {
-            std::string entry_aux = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
-                                       " \nRoster:\n" );
+            std::string entry_aux = _( "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n\n"
+                                       "\nRoster:\n" );
             for( auto &elem : npc_list_aux ) {
                 if( elem->companion_mission_time == calendar::before_time_starts ) {
-                    entry_aux = entry_aux + "  " + elem->name + _( " [READY] \n" );
+                    entry_aux = entry_aux + "  " + elem->name + _( " [READY]\n" );
                 }
             }
-            entry_aux = entry_aux + _( "\n \n"
+            entry_aux = entry_aux + _( "\n\n"
                                        "The caravan will contain two or three additional members "
                                        "from the commune, are you ready to depart?" );
             mission_key.add( "Begin Commune-Refugee Center Run",
                              _( "Begin Commune-Refugee Center Run" ), entry );
         }
-        entry = entry + _( "\n \nDo you wish to bring your allies back into your party?" );
+        entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Recover Commune-Refugee Center", _( "Recover Commune-Refugee Center" ),
                          entry );
     }
@@ -376,7 +378,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         TITLE_TAB_HEIGHT = 1;
     }
 
-    camp_tab_mode tab_mode = TAB_MAIN;
+    base_camps::tab_mode tab_mode = base_camps::TAB_MAIN;
 
     size_t part_y = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
     size_t part_x = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
@@ -388,7 +390,8 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
     catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, maxx, point( part_x, part_y ) );
 
     size_t sel = 0;
-    int offset = 0;
+    int name_offset = 0;
+    size_t folded_names_lines = 0;
     bool redraw = true;
 
     // The following are for managing the right pane scrollbar.
@@ -397,6 +400,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
     size_t info_width = maxx - 1 - MAX_FAC_NAME_SIZE;
     size_t end_line = 0;
     nc_color col = c_white;
+    std::vector<std::string> name_text;
     std::vector<std::string> mission_text;
 
     catacurses::window w_info = catacurses::newwin( info_height, info_width,
@@ -450,45 +454,69 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             mvwprintz( w_list, point( 1, 1 ), c_white, name_mission_tabs( omt_pos, role_id, title,
                        tab_mode ) );
 
-            calcStartPos( offset, sel, info_height, cur_key_list.size() );
+            std::vector<std::vector<std::string>> folded_names;
+            for( const auto &cur_key_entry : cur_key_list ) {
+                std::vector<std::string> f_name = foldstring( cur_key_entry.name_display, part_x + 5, ' ' );
+                folded_names_lines += f_name.size();
+                folded_names.emplace_back( f_name );
+            }
 
-            for( size_t i = 0; i < info_height && ( i + offset ) < cur_key_list.size(); i++ ) {
-                size_t  current = i + offset;
+            calcStartPos( name_offset, sel, info_height, folded_names_lines );
+
+            size_t list_line = 2;
+            for( size_t current = name_offset; list_line < info_height &&
+                 current < cur_key_list.size(); current++ ) {
                 nc_color col = ( current == sel ? h_white : c_white );
                 //highlight important missions
                 for( const auto &k : mission_key.entries[0] ) {
                     if( cur_key_list[current].id == k.id ) {
                         col = ( current == sel ? h_white : c_yellow );
+                        break;
                     }
                 }
                 //dull uncraftable items
                 for( const auto &k : mission_key.entries[10] ) {
                     if( cur_key_list[current].id == k.id ) {
                         col = ( current == sel ? h_white : c_dark_gray );
+                        break;
                     }
                 }
-                mvwprintz( w_list, point( 1, i + 2 ), col, "  %s", cur_key_list[current].name_display );
+                std::vector<std::string> &name_text = folded_names[current];
+                for( size_t name_line = 0; name_line < name_text.size(); name_line++ ) {
+                    print_colored_text( w_list, point( name_line ? 5 : 1, list_line ),
+                                        col, col, name_text[name_line] );
+                    list_line += 1;
+                }
             }
 
-            draw_scrollbar( w_list, sel, info_height + 1, cur_key_list.size(), point_south );
+            if( cur_key_list.size() > info_height + 1 ) {
+                scrollbar()
+                .offset_x( 0 )
+                .offset_y( 1 )
+                .content_size( folded_names_lines )
+                .viewport_pos( sel )
+                .viewport_size( info_height + 1 )
+                .apply( w_list );
+            }
             wrefresh( w_list );
             werase( w_info );
 
             // Fold mission text, store it for scrolling
             mission_text = foldstring( mission_key.cur_key.text, info_width - 2, ' ' );
-            if( info_offset > mission_text.size() - info_height ) {
+            if( info_height >= mission_text.size() ) {
+                info_offset = 0;
+            } else if( info_offset + info_height > mission_text.size() ) {
                 info_offset = mission_text.size() - info_height;
             }
-            if( mission_text.size() < info_height ) {
-                info_offset = 0;
+            if( mission_text.size() > info_height ) {
+                scrollbar()
+                .offset_x( info_width - 1 )
+                .offset_y( 0 )
+                .content_size( mission_text.size() )
+                .viewport_pos( info_offset )
+                .viewport_size( info_height )
+                .apply( w_info );
             }
-            scrollbar()
-            .offset_x( info_width - 1 )
-            .offset_y( 0 )
-            .content_size( mission_text.size() )
-            .viewport_pos( info_offset )
-            .viewport_size( info_height )
-            .apply( w_info );
             end_line = std::min( info_height, mission_text.size() - info_offset );
 
             // Display the current subset of the mission text.
@@ -508,7 +536,6 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         }
         const std::string action = ctxt.handle_input();
         if( action == "DOWN" ) {
-            mvwprintz( w_list, point( 1, sel + 2 ), c_white, "-%s", mission_key.cur_key.id );
             if( sel == cur_key_list.size() - 1 ) {
                 sel = 0;    // Wrap around
             } else {
@@ -517,7 +544,6 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             info_offset = 0;
             redraw = true;
         } else if( action == "UP" ) {
-            mvwprintz( w_list, point( 1, sel + 2 ), c_white, "-%s", mission_key.cur_key.id );
             if( sel == 0 ) {
                 sel = cur_key_list.size() - 1;    // Wrap around
             } else {
@@ -536,32 +562,32 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         } else if( action == "NEXT_TAB" && role_id == "FACTION_CAMP" ) {
             redraw = true;
             sel = 0;
-            offset = 0;
+            name_offset = 0;
             info_offset = 0;
 
             do {
-                if( tab_mode == TAB_NW ) {
-                    tab_mode = TAB_MAIN;
+                if( tab_mode == base_camps::TAB_NW ) {
+                    tab_mode = base_camps::TAB_MAIN;
                     reset_cur_key_list();
                 } else {
-                    tab_mode = static_cast<camp_tab_mode>( tab_mode + 1 );
+                    tab_mode = static_cast<base_camps::tab_mode>( tab_mode + 1 );
                     cur_key_list = mission_key.entries[tab_mode + 1];
                 }
             } while( cur_key_list.empty() );
         } else if( action == "PREV_TAB" && role_id == "FACTION_CAMP" ) {
             redraw = true;
             sel = 0;
-            offset = 0;
+            name_offset = 0;
             info_offset = 0;
 
             do {
-                if( tab_mode == TAB_MAIN ) {
-                    tab_mode = TAB_NW;
+                if( tab_mode == base_camps::TAB_MAIN ) {
+                    tab_mode = base_camps::TAB_NW;
                 } else {
-                    tab_mode = static_cast<camp_tab_mode>( tab_mode - 1 );
+                    tab_mode = static_cast<base_camps::tab_mode>( tab_mode - 1 );
                 }
 
-                if( tab_mode == TAB_MAIN ) {
+                if( tab_mode == base_camps::TAB_MAIN ) {
                     reset_cur_key_list();
                 } else {
                     cur_key_list = mission_key.entries[tab_mode + 1];
@@ -670,7 +696,9 @@ npc_ptr talk_function::individual_mission( const tripoint &omt_pos,
         return comp;
     }
     // make sure, for now, that NPCs dismount their horse before going on a mission.
-    comp->npc_dismount();
+    if( comp->has_effect( effect_riding ) ) {
+        comp->npc_dismount();
+    }
     //Ensure we have someone to give equipment to before we lose it
     for( auto i : equipment ) {
         comp->companion_mission_inv.add_item( *i );
@@ -979,11 +1007,9 @@ void talk_function::field_plant( npc &p, const std::string &place )
                           false );
     tinymap bay;
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
-    for( int x = 0; x < SEEX * 2 - 1; x++ ) {
-        for( int y = 0; y < SEEY * 2 - 1; y++ ) {
-            if( bay.ter( point( x, y ) ) == t_dirtmound ) {
-                empty_plots++;
-            }
+    for( const tripoint &p : bay.points_on_zlevel() ) {
+        if( bay.ter( p ) == t_dirtmound ) {
+            empty_plots++;
         }
     }
 
@@ -1008,20 +1034,18 @@ void talk_function::field_plant( npc &p, const std::string &place )
     }
 
     //Plant the actual seeds
-    for( int x = 0; x < SEEX * 2 - 1; x++ ) {
-        for( int y = 0; y < SEEY * 2 - 1; y++ ) {
-            if( bay.ter( point( x, y ) ) == t_dirtmound && limiting_number > 0 ) {
-                std::list<item> used_seed;
-                if( item::count_by_charges( seed_id ) ) {
-                    used_seed = g->u.use_charges( seed_id, 1 );
-                } else {
-                    used_seed = g->u.use_amount( seed_id, 1 );
-                }
-                used_seed.front().set_age( 0_turns );
-                bay.add_item_or_charges( point( x, y ), used_seed.front() );
-                bay.set( point( x, y ), t_dirt, f_plant_seed );
-                limiting_number--;
+    for( const tripoint &p : bay.points_on_zlevel() ) {
+        if( bay.ter( p ) == t_dirtmound && limiting_number > 0 ) {
+            std::list<item> used_seed;
+            if( item::count_by_charges( seed_id ) ) {
+                used_seed = g->u.use_charges( seed_id, 1 );
+            } else {
+                used_seed = g->u.use_amount( seed_id, 1 );
             }
+            used_seed.front().set_age( 0_turns );
+            bay.add_item_or_charges( p, used_seed.front() );
+            bay.set( p, t_dirt, f_plant_seed );
+            limiting_number--;
         }
     }
     bay.draw_square_ter( t_fence, point( 4, 3 ), point( 16, 3 ) );
@@ -1041,30 +1065,27 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     std::vector<itype_id> plant_types;
     std::vector<std::string> plant_names;
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
-    for( int x = 0; x < SEEX * 2 - 1; x++ ) {
-        for( int y = 0; y < SEEY * 2 - 1; y++ ) {
-            if( bay.furn( point( x, y ) ) == furn_str_id( "f_plant_harvest" ) &&
-                !bay.i_at( point( x, y ) ).empty() ) {
-                // Can't use item_stack::only_item() since there might be fertilizer
-                map_stack items = bay.i_at( point( x, y ) );
-                map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                    return it.is_seed();
-                } );
+    for( const tripoint &p : bay.points_on_zlevel() ) {
+        map_stack items = bay.i_at( p );
+        if( bay.furn( p ) == furn_str_id( "f_plant_harvest" ) && !items.empty() ) {
+            // Can't use item_stack::only_item() since there might be fertilizer
+            map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
+                return it.is_seed();
+            } );
 
-                if( seed != items.end() ) {
-                    const islot_seed &seed_data = *seed->type->seed;
-                    tmp = item( seed_data.fruit_id, calendar::turn );
-                    bool check = false;
-                    for( const std::string &elem : plant_names ) {
-                        if( elem == tmp.type_name( 3 ) ) {
-                            check = true;
-                        }
+            if( seed != items.end() ) {
+                const islot_seed &seed_data = *seed->type->seed;
+                tmp = item( seed_data.fruit_id, calendar::turn );
+                bool check = false;
+                for( const std::string &elem : plant_names ) {
+                    if( elem == tmp.type_name( 3 ) ) {
+                        check = true;
                     }
-                    if( !check ) {
-                        plant_types.push_back( tmp.typeId() );
-                        plant_names.push_back( tmp.type_name( 3 ) );
-                        seed_types.push_back( seed->typeId() );
-                    }
+                }
+                if( !check ) {
+                    plant_types.push_back( tmp.typeId() );
+                    plant_names.push_back( tmp.type_name( 3 ) );
+                    seed_types.push_back( seed->typeId() );
                 }
             }
         }
@@ -1090,32 +1111,30 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         skillLevel += 2;
     }
 
-    for( int x = 0; x < SEEX * 2 - 1; x++ ) {
-        for( int y = 0; y < SEEY * 2 - 1; y++ ) {
-            if( bay.furn( point( x, y ) ) == furn_str_id( "f_plant_harvest" ) ) {
-                // Can't use item_stack::only_item() since there might be fertilizer
-                map_stack items = bay.i_at( point( x, y ) );
-                map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
-                    return it.is_seed();
-                } );
+    for( const tripoint &p : bay.points_on_zlevel() ) {
+        if( bay.furn( p ) == furn_str_id( "f_plant_harvest" ) ) {
+            // Can't use item_stack::only_item() since there might be fertilizer
+            map_stack items = bay.i_at( p );
+            map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
+                return it.is_seed();
+            } );
 
-                if( seed != items.end() ) {
-                    const islot_seed &seed_data = *seed->type->seed;
-                    tmp = item( seed_data.fruit_id, calendar::turn );
-                    if( tmp.typeId() == plant_types[plant_index] ) {
-                        number_plots++;
-                        bay.i_clear( point( x, y ) );
-                        bay.furn_set( point( x, y ), f_null );
-                        bay.ter_set( point( x, y ), t_dirtmound );
-                        int plantCount = rng( skillLevel / 2, skillLevel );
-                        if( plantCount >= 9 ) {
-                            plantCount = 9;
-                        } else if( plantCount <= 0 ) {
-                            plantCount = 1;
-                        }
-                        number_plants += plantCount;
-                        number_seeds += std::max( 1, rng( plantCount / 4, plantCount / 2 ) );
+            if( seed != items.end() ) {
+                const islot_seed &seed_data = *seed->type->seed;
+                tmp = item( seed_data.fruit_id, calendar::turn );
+                if( tmp.typeId() == plant_types[plant_index] ) {
+                    number_plots++;
+                    bay.i_clear( p );
+                    bay.furn_set( p, f_null );
+                    bay.ter_set( p, t_dirtmound );
+                    int plantCount = rng( skillLevel / 2, skillLevel );
+                    if( plantCount >= 9 ) {
+                        plantCount = 9;
+                    } else if( plantCount <= 0 ) {
+                        plantCount = 1;
                     }
+                    number_plants += plantCount;
+                    number_seeds += std::max( 1, rng( plantCount / 4, plantCount / 2 ) );
                 }
             }
         }
@@ -1202,7 +1221,7 @@ bool talk_function::scavenging_patrol_return( npc &p )
                           " undead!" ), monsters );
                 experience += rng( 2, 10 );
             } else {
-                popup( _( "Unfortunately they were overpowered by the undead... I'm sorry." ) );
+                popup( _( "Unfortunately they were overpowered by the undead...  I'm sorry." ) );
                 overmap_buffer.remove_npc( comp->getID() );
                 return false;
             }
@@ -1251,7 +1270,7 @@ bool talk_function::scavenging_raid_return( npc &p )
                           "undead!" ), monsters );
                 experience += rng( 2, 10 );
             } else {
-                popup( _( "Unfortunately they were overpowered by the undead... I'm sorry." ) );
+                popup( _( "Unfortunately they were overpowered by the undead...  I'm sorry." ) );
                 overmap_buffer.remove_npc( comp->getID() );
                 return false;
             }
@@ -1979,13 +1998,14 @@ npc_ptr talk_function::companion_choose_return( const npc &p, const std::string 
 npc_ptr talk_function::companion_choose_return( const tripoint &omt_pos,
         const std::string &role_id,
         const std::string &mission_id,
-        const time_point &deadline )
+        const time_point &deadline,
+        const bool by_mission )
 {
     std::vector<npc_ptr> available;
     for( npc_ptr &guy : overmap_buffer.get_companion_mission_npcs() ) {
         npc_companion_mission c_mission = guy->get_companion_mission();
         if( c_mission.position != omt_pos ||
-            c_mission.mission_id != mission_id || c_mission.role_id != role_id ) {
+            ( by_mission && c_mission.mission_id != mission_id ) || c_mission.role_id != role_id ) {
             continue;
         }
         if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
@@ -2024,96 +2044,87 @@ npc_ptr talk_function::companion_choose_return( const tripoint &omt_pos,
 void talk_function::loot_building( const tripoint &site )
 {
     tinymap bay;
-    tripoint p;
     bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
-    for( int x = 0; x < SEEX * 2 - 1; x++ ) {
-        for( int y = 0; y < SEEY * 2 - 1; y++ ) {
-            p.x = x;
-            p.y = y;
-            p.z = site.z;
-            ter_id t = bay.ter( point( x, y ) );
-            //Open all the doors, doesn't need to be exhaustive
-            if( t == t_door_c || t == t_door_c_peep || t == t_door_b
-                || t == t_door_boarded || t == t_door_boarded_damaged
-                || t == t_rdoor_boarded || t == t_rdoor_boarded_damaged
-                || t == t_door_boarded_peep || t == t_door_boarded_damaged_peep ) {
-                bay.ter_set( point( x, y ), t_door_o );
-            } else if( t == t_door_locked || t == t_door_locked_peep
-                       || t == t_door_locked_alarm ) {
-                const map_bash_info &bash = bay.ter( point( x, y ) ).obj().bash;
-                bay.ter_set( point( x, y ), bash.ter_set );
-                bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-            } else if( t == t_door_metal_c || t == t_door_metal_locked
-                       || t == t_door_metal_pickable ) {
-                bay.ter_set( point( x, y ), t_door_metal_o );
-            } else if( t == t_door_glass_c ) {
-                bay.ter_set( point( x, y ), t_door_glass_o );
-            } else if( t == t_wall && one_in( 25 ) ) {
-                const map_bash_info &bash = bay.ter( point( x, y ) ).obj().bash;
-                bay.ter_set( point( x, y ), bash.ter_set );
-                bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-                bay.collapse_at( p, false );
-            }
-            //Smash easily breakable stuff
-            else if( ( t == t_window || t == t_window_taped || t == t_window_domestic ||
-                       t == t_window_boarded_noglass || t == t_window_domestic_taped ||
-                       t == t_window_alarm_taped || t == t_window_boarded ||
-                       t == t_curtains || t == t_window_alarm ||
-                       t == t_window_no_curtains || t == t_window_no_curtains_taped )
-                     && one_in( 4 ) ) {
-                const map_bash_info &bash = bay.ter( point( x, y ) ).obj().bash;
-                bay.ter_set( point( x, y ), bash.ter_set );
-                bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-            } else if( ( t == t_wall_glass || t == t_wall_glass_alarm ) && one_in( 3 ) ) {
-                const map_bash_info &bash = bay.ter( point( x, y ) ).obj().bash;
-                bay.ter_set( point( x, y ), bash.ter_set );
-                bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-            } else if( bay.has_furn( point( x, y ) ) && bay.furn( point( x, y ) ).obj().bash.str_max != -1 &&
-                       one_in( 10 ) ) {
-                const map_bash_info &bash = bay.furn( point( x, y ) ).obj().bash;
-                bay.furn_set( point( x, y ), bash.furn_set );
-                bay.delete_signage( p );
-                bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-            }
-            //Kill zombies!  Only works against pre-spawned enemies at the moment...
-            Creature *critter = g->critter_at( p );
-            if( critter != nullptr ) {
-                critter->die( nullptr );
-            }
-            //Hoover up tasty items!
-            map_stack items = bay.i_at( p );
-            for( map_stack::iterator it = items.begin(); it != items.end(); ) {
-                if( ( ( it->is_food() || it->is_food_container() ) && !one_in( 8 ) ) ||
-                    ( it->made_of( LIQUID ) && !one_in( 8 ) ) ||
-                    ( it->price( true ) > 1000 && !one_in( 4 ) ) || one_in( 5 ) ) {
-                    it = items.erase( it );
-                } else {
-                    ++it;
-                }
+    for( const tripoint &p : bay.points_on_zlevel() ) {
+        const ter_id t = bay.ter( p );
+        //Open all the doors, doesn't need to be exhaustive
+        if( t == t_door_c || t == t_door_c_peep || t == t_door_b
+            || t == t_door_boarded || t == t_door_boarded_damaged
+            || t == t_rdoor_boarded || t == t_rdoor_boarded_damaged
+            || t == t_door_boarded_peep || t == t_door_boarded_damaged_peep ) {
+            bay.ter_set( p, t_door_o );
+        } else if( t == t_door_locked || t == t_door_locked_peep || t == t_door_locked_alarm ) {
+            const map_bash_info &bash = bay.ter( p ).obj().bash;
+            bay.ter_set( p, bash.ter_set );
+            bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
+        } else if( t == t_door_metal_c || t == t_door_metal_locked || t == t_door_metal_pickable ) {
+            bay.ter_set( p, t_door_metal_o );
+        } else if( t == t_door_glass_c ) {
+            bay.ter_set( p, t_door_glass_o );
+        } else if( t == t_wall && one_in( 25 ) ) {
+            const map_bash_info &bash = bay.ter( p ).obj().bash;
+            bay.ter_set( p, bash.ter_set );
+            bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
+            bay.collapse_at( p, false );
+        }
+        //Smash easily breakable stuff
+        else if( ( t == t_window || t == t_window_taped || t == t_window_domestic ||
+                   t == t_window_boarded_noglass || t == t_window_domestic_taped ||
+                   t == t_window_alarm_taped || t == t_window_boarded ||
+                   t == t_curtains || t == t_window_alarm ||
+                   t == t_window_no_curtains || t == t_window_no_curtains_taped )
+                 && one_in( 4 ) ) {
+            const map_bash_info &bash = bay.ter( p ).obj().bash;
+            bay.ter_set( p, bash.ter_set );
+            bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
+        } else if( ( t == t_wall_glass || t == t_wall_glass_alarm ) && one_in( 3 ) ) {
+            const map_bash_info &bash = bay.ter( p ).obj().bash;
+            bay.ter_set( p, bash.ter_set );
+            bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
+        } else if( bay.has_furn( p ) && bay.furn( p ).obj().bash.str_max != -1 && one_in( 10 ) ) {
+            const map_bash_info &bash = bay.furn( p ).obj().bash;
+            bay.furn_set( p, bash.furn_set );
+            bay.delete_signage( p );
+            bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
+        }
+        //Kill zombies!  Only works against pre-spawned enemies at the moment...
+        Creature *critter = g->critter_at( p );
+        if( critter != nullptr ) {
+            critter->die( nullptr );
+        }
+        //Hoover up tasty items!
+        map_stack items = bay.i_at( p );
+        for( map_stack::iterator it = items.begin(); it != items.end(); ) {
+            if( ( ( it->is_food() || it->is_food_container() ) && !one_in( 8 ) ) ||
+                ( it->made_of( LIQUID ) && !one_in( 8 ) ) ||
+                ( it->price( true ) > 1000 && !one_in( 4 ) ) || one_in( 5 ) ) {
+                it = items.erase( it );
+            } else {
+                ++it;
             }
         }
     }
     bay.save();
-    overmap_buffer.ter( site ) = oter_id( "looted_building" );
+    overmap_buffer.ter_set( site, oter_id( "looted_building" ) );
 }
 
 void mission_data::add( const std::string &id, const std::string &name_display,
                         const std::string &text )
 {
-    add( id, name_display, "", text, false, true );
+    add( id, name_display, cata::nullopt, text, false, true );
 }
 void mission_data::add_return( const std::string &id, const std::string &name_display,
-                               const std::string &dir, const std::string &text, bool possible )
+                               const cata::optional<point> dir, const std::string &text, bool possible )
 {
     add( id, name_display, dir, text, true, possible );
 }
 void mission_data::add_start( const std::string &id, const std::string &name_display,
-                              const std::string &dir, const std::string &text, bool possible )
+                              const cata::optional<point> dir, const std::string &text, bool possible )
 {
     add( id, name_display, dir, text, false, possible );
 }
 void mission_data::add( const std::string &id, const std::string &name_display,
-                        const std::string &dir, const std::string &text,
+                        const cata::optional<point> dir, const std::string &text,
                         bool priority, bool possible )
 {
     mission_entry miss;
@@ -2134,24 +2145,7 @@ void mission_data::add( const std::string &id, const std::string &name_display,
     if( !possible ) {
         entries[10].push_back( miss );
     }
-    if( dir.empty() || dir == "[B]" ) {
-        entries[1].push_back( miss );
-    }
-    if( dir == "[N]" ) {
-        entries[2].push_back( miss );
-    } else if( dir == "[NE]" ) {
-        entries[3].push_back( miss );
-    } else if( dir == "[E]" ) {
-        entries[4].push_back( miss );
-    } else if( dir == "[SE]" ) {
-        entries[5].push_back( miss );
-    } else if( dir == "[S]" ) {
-        entries[6].push_back( miss );
-    } else if( dir == "[SW]" ) {
-        entries[7].push_back( miss );
-    } else if( dir == "[W]" ) {
-        entries[8].push_back( miss );
-    } else if( dir == "[NW]" ) {
-        entries[9].push_back( miss );
-    }
+    const point direction = dir ? *dir : base_camps::base_dir;
+    const int tab_order = base_camps::all_directions.at( direction ).tab_order;
+    entries[tab_order + 1].emplace_back( miss );
 }
