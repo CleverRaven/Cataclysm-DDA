@@ -4275,7 +4275,7 @@
     "id": "oxygen_cylinder",
     "type": "TOOL",
     "name": "oxygen cylinder",
-    "description": "A large steel cylinder used for storing pressurized gas. It is marked with a faded, but legible O2 symbol.",
+    "description": "A large steel cylinder used for storing pressurized gas.  It is marked with a faded, but legible O2 symbol.",
     "weight": "12888 g",
     "volume": "2500 ml",
     "price": 13400,
