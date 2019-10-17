@@ -18,6 +18,7 @@
 #include "calendar.h"
 #include "craft_command.h"
 #include "debug.h"
+#include "flag.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "handle_liquid.h"
@@ -1113,11 +1114,19 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 if( component.has_flag( "FIT" ) ) {
                     newit.item_tags.insert( "FIT" );
                 }
-                if( component.has_flag( "HIDDEN_HALLU" ) ) {
-                    newit.item_tags.insert( "HIDDEN_HALLU" );
+                if ( !newit.has_flag( "NO_CRAFT_INHERIT" ) ) {
+                    for ( const std::string &f : component.item_tags ) {
+                        if( json_flag::get( f ).craft_inherit() ) {
+                            newit.set_flag( f );
+                        }
+                    }
+                    for ( const std::string &f : component.type->item_tags ) {
+                        if( json_flag::get( f ).craft_inherit() ) {
+                            newit.set_flag( f );
+                        }
+                    }
                 }
                 if( component.has_flag( "HIDDEN_POISON" ) ) {
-                    newit.item_tags.insert( "HIDDEN_POISON" );
                     newit.poison = component.poison;
                 }
             }
