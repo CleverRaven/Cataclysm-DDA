@@ -3206,7 +3206,7 @@ int player::impact( const int force, const tripoint &p )
     } else if( is_player() && shock_absorbers ) {
         add_msg( m_bad, _( "You are slammed against %s!" ),
                  target_name, total_dealt );
-        add_msg( m_good, _( "...but your shock absorbers negate the damage!" ) );
+        add_msg( m_good, _( "…but your shock absorbers negate the damage!" ) );
     } else if( slam ) {
         // Only print this line if it is a slam and not a landing
         // Non-players should only get this one: player doesn't know how much damage was dealt
@@ -3526,17 +3526,17 @@ void player::check_needs_extremes()
                 std::string message;
                 if( stomach.contains() <= stomach.capacity() / 4 ) {
                     if( get_kcal_percent() < 0.1f ) {
-                        message = _( "Food..." );
+                        message = _( "Food…" );
                     } else if( get_kcal_percent() < 0.25f ) {
                         message = _( "Due to insufficient nutrition, your body is suffering from starvation." );
                     } else if( get_kcal_percent() < 0.5f ) {
-                        message = _( "Despite having something in your stomach, you still feel like you haven't eaten in days..." );
+                        message = _( "Despite having something in your stomach, you still feel like you haven't eaten in days…" );
                     } else if( get_kcal_percent() < 0.8f ) {
-                        message = _( "Your stomach feels so empty..." );
+                        message = _( "Your stomach feels so empty…" );
                     }
                 } else {
                     if( get_kcal_percent() < 0.1f ) {
-                        message = _( "Food..." );
+                        message = _( "Food…" );
                     } else if( get_kcal_percent() < 0.25f ) {
                         message = _( "You are EMACIATED!" );
                     } else if( get_kcal_percent() < 0.5f ) {
@@ -3558,11 +3558,11 @@ void player::check_needs_extremes()
             g->events().send<event_type::dies_of_thirst>( getID() );
             hp_cur[hp_torso] = 0;
         } else if( get_thirst() >= 1000 && calendar::once_every( 30_minutes ) ) {
-            add_msg_if_player( m_warning, _( "Even your eyes feel dry..." ) );
+            add_msg_if_player( m_warning, _( "Even your eyes feel dry…" ) );
         } else if( get_thirst() >= 800 && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "You are THIRSTY!" ) );
         } else if( calendar::once_every( 30_minutes ) ) {
-            add_msg_if_player( m_warning, _( "Your mouth feels so dry..." ) );
+            add_msg_if_player( m_warning, _( "Your mouth feels so dry…" ) );
         }
     }
 
@@ -3574,7 +3574,7 @@ void player::check_needs_extremes()
             mod_fatigue( -10 );
             fall_asleep();
         } else if( get_fatigue() >= 800 && calendar::once_every( 30_minutes ) ) {
-            add_msg_if_player( m_warning, _( "Anywhere would be a good place to sleep..." ) );
+            add_msg_if_player( m_warning, _( "Anywhere would be a good place to sleep…" ) );
         } else if( calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "You feel like you haven't slept in days." ) );
         }
@@ -4829,7 +4829,7 @@ void player::suffer()
                 }
                 // Numbness
                 if( !done_effect && one_turn_in( 4_hours ) ) {
-                    add_msg( m_bad, _( "You suddenly feel so numb..." ) );
+                    add_msg( m_bad, _( "You suddenly feel so numb…" ) );
                     mod_painkiller( 25 );
                     done_effect = true;
                 }
@@ -5233,7 +5233,7 @@ void player::suffer()
         // Yes, you can be blind and hallucinate at the same time.
         // Your post-human biology is truly remarkable.
         if( one_turn_in( 30_minutes ) && !( has_effect( effect_visuals ) ) ) {
-            add_msg_if_player( m_bad, _( "Your visual centers must be acting up..." ) );
+            add_msg_if_player( m_bad, _( "Your visual centers must be acting up…" ) );
             add_effect( effect_visuals, rng( 36_minutes, 72_minutes ) );
         }
     }
@@ -5565,7 +5565,7 @@ void player::suffer()
     }
     if( stim > 75 ) {
         if( !one_turn_in( 2_minutes ) && !has_effect( effect_nausea ) ) {
-            add_msg( _( "You feel nauseous..." ) );
+            add_msg( _( "You feel nauseous…" ) );
             add_effect( effect_nausea, 5_minutes );
         }
     }
@@ -5598,7 +5598,7 @@ void player::suffer()
     }
     if( stim < -60 || pkill > 130 ) {
         if( calendar::once_every( 10_minutes ) ) {
-            add_msg( m_warning, _( "You feel tired..." ) );
+            add_msg( m_warning, _( "You feel tired…" ) );
             mod_fatigue( rng( 1, 2 ) );
         }
     }
@@ -7876,11 +7876,11 @@ player::wear_item( const item &to_wear, bool interactive )
         }
         if( supertinymouse && !to_wear.has_flag( "UNDERSIZE" ) ) {
             add_msg_if_player( m_warning,
-                               _( "This %s is too big to wear comfortably!  Maybe it could be refitted..." ),
+                               _( "This %s is too big to wear comfortably!  Maybe it could be refitted…" ),
                                to_wear.tname() );
         } else if( to_wear.has_flag( "UNDERSIZE" ) ) {
             add_msg_if_player( m_warning,
-                               _( "This %s is too small to wear comfortably!  Maybe it could be refitted..." ),
+                               _( "This %s is too small to wear comfortably!  Maybe it could be refitted…" ),
                                to_wear.tname() );
         }
     } else {
@@ -8984,7 +8984,7 @@ void player::try_to_sleep( const time_duration &dur )
             // At this point, it's kinda weird, but surprisingly comfy...
             if( web >= 3 ) {
                 add_msg_if_player( m_good,
-                                   _( "These thick webs support your weight, and are strangely comfortable..." ) );
+                                   _( "These thick webs support your weight, and are strangely comfortable…" ) );
                 websleeping = true;
             } else if( web > 0 ) {
                 add_msg_if_player( m_info,
@@ -9010,10 +9010,10 @@ void player::try_to_sleep( const time_duration &dur )
     if( has_trait( trait_WATERSLEEP ) ) {
         if( underwater ) {
             add_msg_if_player( m_good,
-                               _( "You lay beneath the waves' embrace, gazing up through the water's surface..." ) );
+                               _( "You lay beneath the waves' embrace, gazing up through the water's surface…" ) );
             watersleep = true;
         } else if( g->m.has_flag_ter( "SWIMMABLE", pos() ) ) {
-            add_msg_if_player( m_good, _( "You settle into the water and begin to drowse..." ) );
+            add_msg_if_player( m_good, _( "You settle into the water and begin to drowse…" ) );
             watersleep = true;
         }
     }
@@ -10084,7 +10084,7 @@ bool player::uncanny_dodge()
         if( is_u ) {
             add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
         } else if( seen ) {
-            add_msg( _( "%s dodges... so fast!" ), this->disp_name() );
+            add_msg( _( "%s dodges… so fast!" ), this->disp_name() );
 
         }
         return true;

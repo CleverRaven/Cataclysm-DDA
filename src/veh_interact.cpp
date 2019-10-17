@@ -963,10 +963,10 @@ bool veh_interact::do_install( std::string &msg )
             if( can_install ) {
                 switch( reason ) {
                     case LOW_MORALE:
-                        msg = _( "Your morale is too low to construct..." );
+                        msg = _( "Your morale is too low to construct…" );
                         return false;
                     case LOW_LIGHT:
-                        msg = _( "It's too dark to see what you are doing..." );
+                        msg = _( "It's too dark to see what you are doing…" );
                         return false;
                     case MOVING_VEHICLE:
                         msg = _( "You can't install parts while driving." );
@@ -1075,10 +1075,10 @@ bool veh_interact::do_repair( std::string &msg )
     auto can_repair = [&msg, &reason]() {
         switch( reason ) {
             case LOW_MORALE:
-                msg = _( "Your morale is too low to repair..." );
+                msg = _( "Your morale is too low to repair…" );
                 return false;
             case LOW_LIGHT:
-                msg = _( "It's too dark to see what you are doing..." );
+                msg = _( "It's too dark to see what you are doing…" );
                 return false;
             case MOVING_VEHICLE:
                 msg = _( "You can't repair stuff while driving." );
@@ -1141,7 +1141,7 @@ bool veh_interact::do_repair( std::string &msg )
             sel_vpart_info = &vp;
             const std::vector<npc *> helpers = g->u.get_crafting_helpers();
             for( const npc *np : helpers ) {
-                add_msg( m_info, _( "%s helps with this task..." ), np->name );
+                add_msg( m_info, _( "%s helps with this task…" ), np->name );
             }
             sel_cmd = 'r';
             break;
@@ -1166,10 +1166,10 @@ bool veh_interact::do_mend( std::string &msg )
 {
     switch( cant_do( 'm' ) ) {
         case LOW_MORALE:
-            msg = _( "Your morale is too low to mend..." );
+            msg = _( "Your morale is too low to mend…" );
             return false;
         case LOW_LIGHT:
-            msg = _( "It's too dark to see what you are doing..." );
+            msg = _( "It's too dark to see what you are doing…" );
             return false;
         case INVALID_TARGET:
             msg = _( "No faulty parts require mending." );
@@ -1734,10 +1734,10 @@ bool veh_interact::do_remove( std::string &msg )
         if( can_remove && ( action == "REMOVE" || action == "CONFIRM" ) ) {
             switch( reason ) {
                 case LOW_MORALE:
-                    msg = _( "Your morale is too low to construct..." );
+                    msg = _( "Your morale is too low to construct…" );
                     return false;
                 case LOW_LIGHT:
-                    msg = _( "It's too dark to see what you are doing..." );
+                    msg = _( "It's too dark to see what you are doing…" );
                     return false;
                 case NOT_FREE:
                     msg = _( "You cannot remove that part while something is attached to it." );
@@ -1750,7 +1750,7 @@ bool veh_interact::do_remove( std::string &msg )
             }
             const std::vector<npc *> helpers = g->u.get_crafting_helpers();
             for( const npc *np : helpers ) {
-                add_msg( m_info, _( "%s helps with this task..." ), np->name );
+                add_msg( m_info, _( "%s helps with this task…" ), np->name );
             }
             sel_cmd = 'o';
             break;

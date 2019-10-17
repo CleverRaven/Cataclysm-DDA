@@ -1905,7 +1905,7 @@ npc_action npc::address_player()
 
     if( attitude == NPCATT_MUG && sees( g->u ) ) {
         if( one_in( 3 ) ) {
-            say( _( "Don't move a <swear> muscle..." ) );
+            say( _( "Don't move a <swear> muscle…" ) );
         }
         return npc_mug_player;
     }
@@ -4249,7 +4249,7 @@ bool npc::complain()
         body_part bp = bp_affected( *this, effect_infected );
         const auto &eff = get_effect( effect_infected, bp );
         int intensity = eff.get_intensity();
-        const std::string speech = string_format( _( "My %s wound is infected..." ),
+        const std::string speech = string_format( _( "My %s wound is infected…" ),
                                    body_part_name( bp ) );
         if( complain_about( infected_string, time_duration::from_hours( 4 - intensity ), speech,
                             intensity >= 3 ) ) {
@@ -4278,7 +4278,7 @@ bool npc::complain()
     // Radiation every 10 minutes
     if( radiation > 90 ) {
         activate_bionic_by_id( bio_radscrubber );
-        std::string speech = _( "I'm suffering from radiation sickness..." );
+        std::string speech = _( "I'm suffering from radiation sickness…" );
         if( complain_about( radiation_string, 10_minutes, speech, radiation > 150 ) ) {
             return true;
         }

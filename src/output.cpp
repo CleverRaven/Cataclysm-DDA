@@ -355,7 +355,7 @@ void multipage( const catacurses::window &w, const std::vector<std::string> &tex
                 ( text.size() ) ? 1 : 0 ) ) {
             // Next page
             i--;
-            center_print( w, height - 1, c_light_gray, _( "Press any key for more..." ) );
+            center_print( w, height - 1, c_light_gray, _( "Press any key for more…" ) );
             wrefresh( w );
             catacurses::refresh();
             inp_mngr.wait_for_any_key();

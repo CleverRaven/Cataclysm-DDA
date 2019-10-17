@@ -628,7 +628,7 @@ void game::reenter_fullscreen()
  */
 void game::setup()
 {
-    popup_status( _( "Please wait while the world data loads..." ), _( "Loading core data" ) );
+    popup_status( _( "Please wait while the world data loads…" ), _( "Loading core data" ) );
     loading_ui ui( true );
     load_core_data( ui );
 
@@ -1568,7 +1568,7 @@ bool game::do_turn()
 
         if( calendar::once_every( 1_minutes ) ) {
             query_popup()
-            .wait_message( "%s", _( "Wait till you wake up..." ) )
+            .wait_message( "%s", _( "Wait till you wake up…" ) )
             .on_top( true )
             .show();
 
@@ -2545,7 +2545,7 @@ bool game::is_game_over()
         if( get_option<std::string>( "DEATHCAM" ) == "always" ) {
             uquit = QUIT_WATCH;
         } else if( get_option<std::string>( "DEATHCAM" ) == "ask" ) {
-            uquit = query_yn( _( "Watch the last moments of your life...?" ) ) ?
+            uquit = query_yn( _( "Watch the last moments of your life…?" ) ) ?
                     QUIT_WATCH : QUIT_DIED;
         } else if( get_option<std::string>( "DEATHCAM" ) == "never" ) {
             uquit = QUIT_DIED;
@@ -3037,21 +3037,21 @@ void game::disp_faction_ends()
     for( const auto &elem : faction_manager_ptr->all() ) {
         if( elem.second.known_by_u ) {
             if( elem.second.name == "Your Followers" ) {
-                data.emplace_back( _( "       You are forgotten among the billions lost in the cataclysm..." ) );
+                data.emplace_back( _( "       You are forgotten among the billions lost in the cataclysm…" ) );
                 display_table( w, "", 1, data );
             } else if( elem.second.name == "The Old Guard" && elem.second.power != 100 ) {
                 if( elem.second.power < 150 ) {
                     data.emplace_back(
                         _( "    Locked in an endless battle, the Old Guard was forced to consolidate their "
                            "resources in a handful of fortified bases along the coast.  Without the men "
-                           "or material to rebuild, the soldiers that remained lost all hope..." ) );
+                           "or material to rebuild, the soldiers that remained lost all hope…" ) );
                 } else {
                     data.emplace_back( _( "    The steadfastness of individual survivors after the cataclysm impressed "
                                           "the tattered remains of the once glorious union.  Spurred on by small "
                                           "successes, a number of operations to re-secure facilities met with limited "
                                           "success.  Forced to eventually consolidate to large bases, the Old Guard left "
                                           "these facilities in the hands of the few survivors that remained.  As the "
-                                          "years past, little materialized from the hopes of rebuilding civilization..." ) );
+                                          "years past, little materialized from the hopes of rebuilding civilization…" ) );
                 }
                 display_table( w, _( "The Old Guard" ), 1, data );
             } else if( elem.second.name == "The Free Merchants" && elem.second.power != 100 ) {
@@ -3059,13 +3059,13 @@ void game::disp_faction_ends()
                     data.emplace_back( _( "    Life in the refugee shelter deteriorated as food shortages and disease "
                                           "destroyed any hope of maintaining a civilized enclave.  The merchants and "
                                           "craftsmen dispersed to found new colonies but most became victims of "
-                                          "marauding bandits.  Those who survived never found a place to call home..." ) );
+                                          "marauding bandits.  Those who survived never found a place to call home…" ) );
                 } else {
                     data.emplace_back( _( "    The Free Merchants struggled for years to keep themselves fed but their "
                                           "once profitable trade routes were plundered by bandits and thugs.  In squalor "
                                           "and filth the first generations born after the cataclysm are told stories of "
                                           "the old days when food was abundant and the children were allowed to play in "
-                                          "the sun..." ) );
+                                          "the sun…" ) );
                 }
                 display_table( w, _( "The Free Merchants" ), 1, data );
             } else if( elem.second.name == "The Tacoma Commune" && elem.second.power != 100 ) {
@@ -3089,7 +3089,7 @@ void game::disp_faction_ends()
                         _( "    The lone bands of survivors who wandered the now alien world dwindled in "
                            "number through the years.  Unable to compete with the growing number of "
                            "monstrosities that had adapted to live in their world, those who did survive "
-                           "lived in dejected poverty and hopelessness..." ) );
+                           "lived in dejected poverty and hopelessness…" ) );
                 } else {
                     data.emplace_back(
                         _( "    The scavengers who flourished in the opening days of the cataclysm found "
@@ -3097,7 +3097,7 @@ void game::disp_faction_ends()
                            "old world.  Enormous hordes made cities impossible to enter while new "
                            "eldritch horrors appeared mysteriously near old research labs.  But on the "
                            "fringes of where civilization once ended, bands of hunter-gatherers began to "
-                           "adopt agrarian lifestyles in fortified enclaves..." ) );
+                           "adopt agrarian lifestyles in fortified enclaves…" ) );
                 }
                 display_table( w, _( "The Wasteland Scavengers" ), 1, data );
             } else if( elem.second.name == "Hell's Raiders" && elem.second.power != 100 ) {
@@ -3114,7 +3114,7 @@ void game::disp_faction_ends()
                                           "brought the warlords abundant territory and slaves but little in the way of "
                                           "stability.  Within weeks, infighting led to civil war as tribes vied for "
                                           "leadership of the faction.  When only one warlord finally secured control, "
-                                          "there was nothing left to fight for... just endless cities full of the dead." ) );
+                                          "there was nothing left to fight for… just endless cities full of the dead." ) );
                 }
                 display_table( w, _( "Hell's Raiders" ), 1, data );
             }
@@ -6000,7 +6000,7 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
         const int max_width = getmaxx( w_look ) - column - 1;
         for( const auto &it : item_names ) {
             if( line >= last_line - 2 ) {
-                mvwprintz( w_look, point( column, ++line ), c_yellow, _( "More items here..." ) );
+                mvwprintz( w_look, point( column, ++line ), c_yellow, _( "More items here…" ) );
                 break;
             }
 
@@ -8332,7 +8332,7 @@ void game::butcher()
     }
     const auto helpers = u.get_crafting_helpers();
     for( const npc *np : helpers ) {
-        add_msg( m_info, _( "%s helps with this task..." ), np->name );
+        add_msg( m_info, _( "%s helps with this task…" ), np->name );
         break;
     }
     switch( butcher_select ) {
@@ -10582,7 +10582,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
     } else if( u.has_trait( trait_VINES2 ) || u.has_trait( trait_VINES3 ) ) {
         if( query_yn( _( "There is a sheer drop halfway down.  Use your vines to descend?" ) ) ) {
             if( u.has_trait( trait_VINES2 ) ) {
-                if( query_yn( _( "Detach a vine?  It'll hurt, but you'll be able to climb back up..." ) ) ) {
+                if( query_yn( _( "Detach a vine?  It'll hurt, but you'll be able to climb back up…" ) ) ) {
                     rope_ladder = true;
                     add_msg( m_bad, _( "You descend on your vines, though leaving a part of you behind stings." ) );
                     u.mod_pain( 5 );
@@ -11808,7 +11808,7 @@ void game::add_artifact_messages( const std::vector<art_effect_passive> &effects
                 break;
 
             case AEP_EVIL:
-                add_msg( m_warning, _( "You feel an evil presence..." ) );
+                add_msg( m_warning, _( "You feel an evil presence…" ) );
                 break;
 
             case AEP_SCHIZO:
@@ -11824,7 +11824,7 @@ void game::add_artifact_messages( const std::vector<art_effect_passive> &effects
                 break;
 
             case AEP_ATTENTION:
-                add_msg( m_warning, _( "You feel an otherworldly attention upon you..." ) );
+                add_msg( m_warning, _( "You feel an otherworldly attention upon you…" ) );
                 break;
 
             case AEP_FORCE_TELEPORT:

@@ -1275,7 +1275,7 @@ int player::bionics_pl_skill( const skill_id &most_important_skill, const skill_
     // People trained in bionics gain an additional advantage towards using it
     if( has_trait( trait_PROF_AUTODOC ) ) {
         pl_skill += 7;
-        add_msg( m_neutral, _( "A lifetime of augmentation has taught %s a thing or two..." ),
+        add_msg( m_neutral, _( "A lifetime of augmentation has taught %s a thing or two…" ),
                  disp_name() );
     }
     return pl_skill;

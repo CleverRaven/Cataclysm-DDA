@@ -464,7 +464,7 @@ void talk_function::bionic_remove( npc &p )
 {
     bionic_collection all_bio = *g->u.my_bionics;
     if( all_bio.empty() ) {
-        popup( _( "You don't have any bionics installed..." ) );
+        popup( _( "You don't have any bionics installed…" ) );
         return;
     }
 
@@ -489,7 +489,7 @@ void talk_function::bionic_remove( npc &p )
                                bionic_names );
     // Did we cancel?
     if( bionic_index < 0 ) {
-        popup( _( "You decide to hold off..." ) );
+        popup( _( "You decide to hold off…" ) );
         return;
     }
 
@@ -500,7 +500,7 @@ void talk_function::bionic_remove( npc &p )
         price = 50000;
     }
     if( price > g->u.cash ) {
-        popup( _( "You can't afford the procedure..." ) );
+        popup( _( "You can't afford the procedure…" ) );
         return;
     }
 
@@ -596,7 +596,7 @@ static void generic_barber( const std::string &mut_type )
     }
     hair_menu.text = menu_text;
     int index = 0;
-    hair_menu.addentry( index, true, 'q', _( "Actually...  I've changed my mind." ) );
+    hair_menu.addentry( index, true, 'q', _( "Actually…  I've changed my mind." ) );
     std::vector<trait_id> hair_muts = get_mutations_in_type( mut_type );
     trait_id cur_hair;
     for( auto elem : hair_muts ) {
@@ -635,7 +635,7 @@ void talk_function::buy_haircut( npc &p )
     const int moves = to_moves<int>( 20_minutes );
     g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), moves );
     g->u.activity.str_values.push_back( p.name );
-    add_msg( m_good, _( "%s gives you a decent haircut..." ), p.name );
+    add_msg( m_good, _( "%s gives you a decent haircut…" ), p.name );
 }
 
 void talk_function::buy_shave( npc &p )
@@ -644,13 +644,13 @@ void talk_function::buy_shave( npc &p )
     const int moves = to_moves<int>( 5_minutes );
     g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), moves );
     g->u.activity.str_values.push_back( p.name );
-    add_msg( m_good, _( "%s gives you a decent shave..." ), p.name );
+    add_msg( m_good, _( "%s gives you a decent shave…" ), p.name );
 }
 
 void talk_function::morale_chat( npc &p )
 {
     g->u.add_morale( MORALE_CHAT, rng( 3, 10 ), 10, 200_minutes, 5_minutes / 2 );
-    add_msg( m_good, _( "That was a pleasant conversation with %s..." ), p.disp_name() );
+    add_msg( m_good, _( "That was a pleasant conversation with %s…" ), p.disp_name() );
 }
 
 void talk_function::morale_chat_activity( npc &p )
@@ -685,7 +685,7 @@ void talk_function::buy_10_logs( npc &p )
     bay.save();
 
     p.add_effect( effect_currently_busy, 1_days );
-    add_msg( m_good, _( "%s drops the logs off in the garage..." ), p.name );
+    add_msg( m_good, _( "%s drops the logs off in the garage…" ), p.name );
 }
 
 void talk_function::buy_100_logs( npc &p )
@@ -711,7 +711,7 @@ void talk_function::buy_100_logs( npc &p )
     bay.save();
 
     p.add_effect( effect_currently_busy, 7_days );
-    add_msg( m_good, _( "%s drops the logs off in the garage..." ), p.name );
+    add_msg( m_good, _( "%s drops the logs off in the garage…" ), p.name );
 }
 
 void talk_function::follow( npc &p )

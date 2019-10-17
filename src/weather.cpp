@@ -497,7 +497,7 @@ void weather_effect::light_acid()
                 if( g->u.is_wearing_power_armor( &has_helmet ) && ( has_helmet || !one_in( 4 ) ) ) {
                     add_msg( _( "Your power armor protects you from the acidic drizzle." ) );
                 } else {
-                    add_msg( m_warning, _( "The acid rain stings, but is mostly harmless for now..." ) );
+                    add_msg( m_warning, _( "The acid rain stings, but is mostly harmless for now…" ) );
                     if( one_in( 10 ) && ( g->u.get_pain() < 10 ) ) {
                         g->u.mod_pain( 1 );
                     }
@@ -646,7 +646,7 @@ std::string weather_forecast( const point &abs_sm_pos )
             day = to_string( day_of_week( c ) );
         }
         weather_report << string_format(
-                           _( "%s... %s. Highs of %s. Lows of %s. " ),
+                           _( "%s… %s. Highs of %s. Lows of %s. " ),
                            day, weather::name( forecast ),
                            print_temperature( high ), print_temperature( low )
                        );
