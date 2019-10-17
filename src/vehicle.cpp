@@ -962,8 +962,9 @@ bool vehicle::is_alternator_on( const int a ) const
 
     return std::any_of( engines.begin(), engines.end(), [this, &alt]( int idx ) {
         auto &eng = parts [ idx ];
-        return eng.enabled && eng.is_available() && eng.mount == alt.mount &&
-               !eng.faults().count( fault_belt );
+        //fuel_left checks that the engine can produce power to be absorbed
+        return eng.is_available() && eng.enabled && fuel_left( eng.fuel_current() ) &&
+               eng.mount == alt.mount && !eng.faults().count( fault_belt );
     } );
 }
 
@@ -4458,7 +4459,7 @@ void vehicle::update_alternator_load()
     if( engine_on ) {
         int engine_vpower = 0;
         for( size_t e = 0; e < engines.size(); ++e ) {
-            if( is_engine_on( e ) ) {
+            if( is_engine_on( e ) && parts[engines[e]].info().has_flag( "E_ALTERNATOR" ) ) {
                 engine_vpower += part_vpower_w( engines[e] );
             }
         }
