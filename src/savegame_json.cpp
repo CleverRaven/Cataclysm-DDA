@@ -395,6 +395,14 @@ void Character::load( JsonObject &data )
     data.read( "stored_calories", stored_calories );
     data.read( "radiation", radiation );
     data.read( "oxygen", oxygen );
+
+    JsonObject vits = data.get_object( "vitamin_levels" );
+    for( const std::pair<vitamin_id, vitamin> &v : vitamin::all() ) {
+        int lvl = vits.get_int( v.first.str(), 0 );
+        lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
+        vitamin_levels[v.first] = lvl;
+    }
+
     // npc activity on vehicles.
     data.read( "activity_vehicle_part_index", activity_vehicle_part_index );
     // health
@@ -575,6 +583,7 @@ void Character::store( JsonOut &json ) const
     json.member( "stored_calories", stored_calories );
     json.member( "radiation", radiation );
     json.member( "stamina", stamina );
+    json.member( "vitamin_levels", vitamin_levels );
 
     // breathing
     json.member( "underwater", underwater );
@@ -896,8 +905,6 @@ void avatar::store( JsonOut &json ) const
     // Player only, books they have read at least once.
     json.member( "items_identified", items_identified );
 
-    json.member( "vitamin_levels", vitamin_levels );
-
     json.member( "stomach", stomach );
     json.member( "guts", guts );
 
@@ -1021,13 +1028,6 @@ void avatar::load( JsonObject &data )
 
     items_identified.clear();
     data.read( "items_identified", items_identified );
-
-    auto vits = data.get_object( "vitamin_levels" );
-    for( const auto &v : vitamin::all() ) {
-        int lvl = vits.get_int( v.first.str(), 0 );
-        lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
-        vitamin_levels[ v.first ] = lvl;
-    }
 
     data.read( "stomach", stomach );
     data.read( "guts", guts );
