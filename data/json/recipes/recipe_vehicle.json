@@ -410,8 +410,9 @@
       [ [ "targeting_module", 1 ] ],
       [ [ "ai_module", 1 ] ],
       [ [ "gun_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
       [ [ "cable", 10 ] ],
-      [ [ "omnicamera", 1 ] ],
+      [ [ "camera", 1 ], [ "camera_pro", 1 ], [ "omnicamera", 1 ], [ "sensor_module", 1 ] ],
       [ [ "robot_controls", 1 ] ]
     ]
   }
