@@ -526,8 +526,9 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
     // applies to all butchery actions
     const bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( HUMAN ) &&
                           !corpse.in_species( ZOMBIE ) );
-    if( is_human && !( u.has_trait_flag( "CANNIBAL" ) || u.has_trait_flag( "PSYCHOPATH" ) ||
-                       u.has_trait_flag( "SAPIOVORE" ) ) ) {
+    if( is_human && !( u.mutations.has_trait_flag( "CANNIBAL" ) ||
+                       u.mutations.has_trait_flag( "PSYCHOPATH" ) ||
+                       u.mutations.has_trait_flag( "SAPIOVORE" ) ) ) {
 
         if( u.is_player() ) {
             if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {
@@ -1696,7 +1697,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
         // Betcha wish you'd opted for the J-Hammer ;P
         p->mod_stored_nutr( 15 - ( helpersize * 3 ) );
         p->mod_thirst( 15 - ( helpersize * 3 ) );
-        if( p->has_trait( trait_id( "STOCKY_TROGLO" ) ) ) {
+        if( p->mutations.has_trait( trait_id( "STOCKY_TROGLO" ) ) ) {
             p->mod_fatigue( 20 - ( helpersize  * 3 ) ); // Yep, dwarves can dig longer before tiring
         } else {
             p->mod_fatigue( 30 - ( helpersize  * 3 ) );
@@ -4161,7 +4162,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
     if( act->values.front() > 0 ) {
         act->values.front() -= 1;
         if( act->values.front() == 0 ) {
-            if( p->has_trait( trait_id( "SPIRITUAL" ) ) ) {
+            if( p->mutations.has_trait( trait_id( "SPIRITUAL" ) ) ) {
                 p->add_msg_if_player( m_good, _( "The ancient tree spirits answer your call." ) );
             } else {
                 p->add_msg_if_player( m_good, _( "Your communion with the trees has begun." ) );
@@ -4185,7 +4186,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
     while( !q.empty() ) {
         tripoint tpt = q.front();
         if( overmap_buffer.reveal( tpt, 3, filter ) ) {
-            if( p->has_trait( trait_id( "SPIRITUAL" ) ) ) {
+            if( p->mutations.has_trait( trait_id( "SPIRITUAL" ) ) ) {
                 p->add_morale( MORALE_TREE_COMMUNION, 2, 30, 8_hours, 6_hours );
             } else {
                 p->add_morale( MORALE_TREE_COMMUNION, 1, 15, 2_hours, 1_hours );
