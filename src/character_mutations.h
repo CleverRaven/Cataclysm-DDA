@@ -154,6 +154,8 @@ class character_mutations
         // gets modifiable trait data
         trait_data &get_trait_data( const trait_id &mut );
         trait_data get_trait_data( const trait_id &mut ) const;
+
+        int get_cat_level( const std::string &category ) const;
     private:
         /**
          * Traits / mutations of the character. Key is the mutation id (it's also a valid
