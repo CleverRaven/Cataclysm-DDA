@@ -283,8 +283,8 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     int num_btraits = 0;
     int tries = 0;
     add_traits( points ); // adds mandatory profession/scenario traits.
-    for( const auto &mut : my_mutations ) {
-        const mutation_branch &mut_info = mut.first.obj();
+    for( const trait_id &mut : mutations.get_mutations() ) {
+        const mutation_branch &mut_info = mut.obj();
         if( mut_info.profession ) {
             continue;
         }
@@ -308,11 +308,11 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
             do {
                 rn = random_bad_trait();
                 tries++;
-            } while( ( has_trait( rn ) || num_btraits - rn->points > max_trait_points ) &&
+            } while( ( mutations.has_trait( rn ) || num_btraits - rn->points > max_trait_points ) &&
                      tries < 5 );
 
-            if( tries < 5 && !has_conflicting_trait( rn ) ) {
-                toggle_trait( rn );
+            if( tries < 5 && !mutations.has_conflicting_trait( rn ) ) {
+                mutations.toggle_trait( *this, rn );
                 points.trait_points -= rn->points;
                 num_btraits -= rn->points;
             }
@@ -360,9 +360,9 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                 if( allow_traits ) {
                     rn = random_good_trait();
                     auto &mdata = rn.obj();
-                    if( !has_trait( rn ) && points.trait_points_left() >= mdata.points &&
-                        num_gtraits + mdata.points <= max_trait_points && !has_conflicting_trait( rn ) ) {
-                        toggle_trait( rn );
+                    if( !mutations.has_trait( rn ) && points.trait_points_left() >= mdata.points &&
+                        num_gtraits + mdata.points <= max_trait_points && !mutations.has_conflicting_trait( rn ) ) {
+                        mutations.toggle_trait( *this, rn );
                         points.trait_points -= mdata.points;
                         num_gtraits += mdata.points;
                     }
@@ -550,10 +550,10 @@ bool avatar::create( character_type type, const std::string &tempname )
         hp_cur[i] = hp_max[i];
     }
 
-    if( has_trait( trait_id( "SMELLY" ) ) ) {
+    if( mutations.has_trait( trait_id( "SMELLY" ) ) ) {
         scent = 800;
     }
-    if( has_trait( trait_id( "WEAKSCENT" ) ) ) {
+    if( mutations.has_trait( trait_id( "WEAKSCENT" ) ) ) {
         scent = 300;
     }
 
@@ -568,13 +568,13 @@ bool avatar::create( character_type type, const std::string &tempname )
     // setup staring bank money
     cash = rng( -200000, 200000 );
 
-    if( has_trait( trait_id( "XS" ) ) ) {
+    if( mutations.has_trait( trait_id( "XS" ) ) ) {
         set_stored_kcal( 10000 );
-        toggle_trait( trait_id( "XS" ) );
+        mutations.toggle_trait( *this, trait_id( "XS" ) );
     }
-    if( has_trait( trait_id( "XXXL" ) ) ) {
+    if( mutations.has_trait( trait_id( "XXXL" ) ) ) {
         set_stored_kcal( 125000 );
-        toggle_trait( trait_id( "XXXL" ) );
+        mutations.toggle_trait( *this, trait_id( "XXXL" ) );
     }
 
     // Learn recipes
@@ -587,7 +587,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     for( mtype_id elem : prof->pets() ) {
         starting_pets.push_back( elem );
     }
-    std::list<item> prof_items = prof->items( male, get_mutations() );
+    std::list<item> prof_items = prof->items( male, mutations.get_mutations() );
 
     for( item &it : prof_items ) {
         if( it.has_flag( "WET" ) ) {
@@ -628,7 +628,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     // Adjust current energy level to maximum
     set_power_level( get_max_power_level() );
 
-    for( auto &t : get_base_traits() ) {
+    for( const trait_id &t : mutations.get_base_traits() ) {
         std::vector<matype_id> styles;
         for( auto &s : t->initial_ma_styles ) {
             if( !has_martialart( s ) ) {
@@ -645,10 +645,10 @@ bool avatar::create( character_type type, const std::string &tempname )
     }
 
     // Activate some mutations right from the start.
-    for( const trait_id &mut : get_mutations() ) {
-        const auto &branch = mut.obj();
+    for( const trait_id &mut : mutations.get_mutations() ) {
+        const mutation_branch &branch = mut.obj();
         if( branch.starts_active ) {
-            my_mutations[mut].powered = true;
+            mutations.get_trait_data( mut ).powered = true;
         }
     }
 
@@ -1046,13 +1046,13 @@ tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &p
             if( traits_iter.points > 0 ) {
                 vStartingTraits[0].push_back( traits_iter.id );
 
-                if( u.has_trait( traits_iter.id ) ) {
+                if( u.mutations.has_trait( traits_iter.id ) ) {
                     num_good += traits_iter.points;
                 }
             } else if( traits_iter.points < 0 ) {
                 vStartingTraits[1].push_back( traits_iter.id );
 
-                if( u.has_trait( traits_iter.id ) ) {
+                if( u.mutations.has_trait( traits_iter.id ) ) {
                     num_bad += traits_iter.points;
                 }
             } else {
@@ -1164,23 +1164,23 @@ tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &p
                     cLine = col_off_act;
                     if( cur_line_y == i ) {
                         cLine = hi_off;
-                        if( u.has_conflicting_trait( cur_trait ) ) {
+                        if( u.mutations.has_conflicting_trait( cur_trait ) ) {
                             cLine = hilite( c_dark_gray );
-                        } else if( u.has_trait( cur_trait ) ) {
+                        } else if( u.mutations.has_trait( cur_trait ) ) {
                             cLine = hi_on;
                         }
                     } else {
-                        if( u.has_conflicting_trait( cur_trait ) || g->scen->is_forbidden_trait( cur_trait ) ) {
+                        if( u.mutations.has_conflicting_trait( cur_trait ) || g->scen->is_forbidden_trait( cur_trait ) ) {
                             cLine = c_dark_gray;
 
-                        } else if( u.has_trait( cur_trait ) ) {
+                        } else if( u.mutations.has_trait( cur_trait ) ) {
                             cLine = col_on_act;
                         }
                     }
-                } else if( u.has_trait( cur_trait ) ) {
+                } else if( u.mutations.has_trait( cur_trait ) ) {
                     cLine = col_on_pas;
 
-                } else if( u.has_conflicting_trait( cur_trait ) || g->scen->is_forbidden_trait( cur_trait ) ) {
+                } else if( u.mutations.has_conflicting_trait( cur_trait ) || g->scen->is_forbidden_trait( cur_trait ) ) {
                     cLine = c_light_gray;
                 }
 
@@ -1225,7 +1225,7 @@ tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &p
             int inc_type = 0;
             const trait_id cur_trait = vStartingTraits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
             const mutation_branch &mdata = cur_trait.obj();
-            if( u.has_trait( cur_trait ) ) {
+            if( u.mutations.has_trait( cur_trait ) ) {
 
                 inc_type = -1;
 
@@ -1238,7 +1238,7 @@ tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &p
                     popup( _( "Your profession of %s prevents you from removing this trait." ),
                            u.prof->gender_appropriate_name( u.male ) );
                 }
-            } else if( u.has_conflicting_trait( cur_trait ) ) {
+            } else if( u.mutations.has_conflicting_trait( cur_trait ) ) {
                 popup( _( "You already picked a conflicting trait!" ) );
             } else if( g->scen->is_forbidden_trait( cur_trait ) ) {
                 popup( _( "The scenario you picked prevents you from taking this trait!" ) );
@@ -1260,7 +1260,7 @@ tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &p
 
             //inc_type is either -1 or 1, so we can just multiply by it to invert
             if( inc_type != 0 ) {
-                u.toggle_trait( cur_trait );
+                u.mutations.toggle_trait( u, cur_trait );
                 points.trait_points -= mdata.points * inc_type;
                 if( iCurWorkingPage == 0 ) {
                     num_good += mdata.points * inc_type;
@@ -1481,7 +1481,7 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
         }
 
         // Profession items
-        const auto prof_items = sorted_profs[cur_id]->items( u.male, u.get_mutations() );
+        const auto prof_items = sorted_profs[cur_id]->items( u.male, u.mutations.get_mutations() );
         buffer << colorize( _( "Profession items:" ), c_light_blue ) << "\n";
         if( prof_items.empty() ) {
             buffer << pgettext( "set_profession_item", "None" ) << "\n";
@@ -1603,7 +1603,7 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
         } else if( action == "CONFIRM" ) {
             // Remove traits from the previous profession
             for( const trait_id &old_trait : u.prof->get_locked_traits() ) {
-                u.toggle_trait( old_trait );
+                u.mutations.toggle_trait( u, old_trait );
             }
             u.prof = &sorted_profs[cur_id].obj();
             // Add traits for the new profession (and perhaps scenario, if, for example,
@@ -2272,12 +2272,12 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             wrefresh( w_stats );
 
             mvwprintz( w_traits, point_zero, COL_HEADER, _( "Traits: " ) );
-            std::vector<trait_id> current_traits = you.get_base_traits();
+            const std::vector<trait_id> current_traits = you.mutations.get_base_traits();
             if( current_traits.empty() ) {
                 wprintz( w_traits, c_light_red, _( "None!" ) );
             } else {
                 for( size_t i = 0; i < current_traits.size(); i++ ) {
-                    const auto current_trait = current_traits[i];
+                    const trait_id current_trait = current_traits[i];
                     trim_and_print( w_traits, point( 0, i + 1 ), getmaxx( w_traits ) - 1,
                                     current_trait->get_display_color(), current_trait->name() );
                 }
@@ -2527,15 +2527,15 @@ void Character::add_traits( points_left &points )
 {
     // TODO: get rid of using g->u here, use `this` instead
     for( const trait_id &tr : g->u.prof->get_locked_traits() ) {
-        if( !has_trait( tr ) ) {
-            toggle_trait( tr );
+        if( !mutations.has_trait( tr ) ) {
+            mutations.toggle_trait( *this, tr );
         } else {
             points.trait_points += tr->points;
         }
     }
     for( const trait_id &tr : g->scen->get_locked_traits() ) {
-        if( !has_trait( tr ) ) {
-            toggle_trait( tr );
+        if( !mutations.has_trait( tr ) ) {
+            mutations.toggle_trait( *this, tr );
         }
     }
 }
@@ -2685,9 +2685,9 @@ void reset_scenario( avatar &u, const scenario *scen )
     u.per_max = 8;
     g->scen = scen;
     u.prof = &default_prof.obj();
-    for( auto &t : u.get_mutations() ) {
+    for( const trait_id &t : u.mutations.get_mutations() ) {
         if( t.obj().hp_modifier != 0 ) {
-            u.toggle_trait( t );
+            u.mutations.toggle_trait( u, t );
         }
     }
     u.empty_traits();
