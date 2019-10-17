@@ -96,7 +96,7 @@ class wish_mutate_callback: public uilist_callback
             if( !mdata.prereqs.empty() ) {
                 line2++;
                 mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Prereqs:" ) );
-                for( const trait_id &j : mdata.prereqs ) {
+                for( auto &j : mdata.prereqs ) {
                     mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
                                mutation_branch::get_name( j ) );
                     line2++;
@@ -106,7 +106,7 @@ class wish_mutate_callback: public uilist_callback
             if( !mdata.prereqs2.empty() ) {
                 line2++;
                 mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Prereqs, 2d:" ) );
-                for( const trait_id &j : mdata.prereqs2 ) {
+                for( auto &j : mdata.prereqs2 ) {
                     mvwprintz( menu->window, point( startx + 15, line2 ), mcolor( j ),
                                mutation_branch::get_name( j ) );
                     line2++;
@@ -116,7 +116,7 @@ class wish_mutate_callback: public uilist_callback
             if( !mdata.threshreq.empty() ) {
                 line2++;
                 mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Thresholds required:" ) );
-                for( const trait_id &j : mdata.threshreq ) {
+                for( auto &j : mdata.threshreq ) {
                     mvwprintz( menu->window, point( startx + 21, line2 ), mcolor( j ),
                                mutation_branch::get_name( j ) );
                     line2++;
@@ -126,7 +126,7 @@ class wish_mutate_callback: public uilist_callback
             if( !mdata.cancels.empty() ) {
                 line2++;
                 mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Cancels:" ) );
-                for( const trait_id &j : mdata.cancels ) {
+                for( auto &j : mdata.cancels ) {
                     mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
                                mutation_branch::get_name( j ) );
                     line2++;
@@ -136,7 +136,7 @@ class wish_mutate_callback: public uilist_callback
             if( !mdata.replacements.empty() ) {
                 line2++;
                 mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Becomes:" ) );
-                for( const trait_id &j : mdata.replacements ) {
+                for( auto &j : mdata.replacements ) {
                     mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
                                mutation_branch::get_name( j ) );
                     line2++;
@@ -390,7 +390,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
     wmenu.callback = &cb;
 
     int i = 0;
-    for( const mtype &montype : MonsterGenerator::generator().get_all_mtypes() ) {
+    for( const auto &montype : MonsterGenerator::generator().get_all_mtypes() ) {
         wmenu.addentry( i, true, 0, montype.nname() );
         wmenu.entries[i].extratxt.txt = montype.sym;
         wmenu.entries[i].extratxt.color = montype.color;
@@ -502,7 +502,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
     uilist wmenu;
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;
-    wmenu.pad_right = std::max( TERMX / 2, TERMX - 50 );
+    wmenu.pad_right = TERMX / 2 > 40 ? TERMX - 40 : TERMX / 2;
     wmenu.selected = uistate.wishitem_selected;
     wish_item_callback cb( opts );
     wmenu.callback = &cb;
@@ -558,7 +558,7 @@ void debug_menu::wishitem( player *p, int x, int y, int z )
                 }
                 if( amount > 0 ) {
                     input_context ctxt( wmenu.input_category );
-                    cb.msg = string_format( _( "Wish granted.  Wish for more or hit [%s] to quit." ),
+                    cb.msg = string_format( _( "Wish granted. Wish for more or hit [%s] to quit." ),
                                             ctxt.get_desc( "QUIT" ) );
                 }
             }

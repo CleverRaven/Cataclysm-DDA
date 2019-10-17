@@ -16,10 +16,10 @@
     "recipes": [
       { "id": "faction_base_farm_0", "description": "Farm", "om_terrains": [ "field" ] },
       { "id": "faction_base_garage_0", "description": "Garage", "om_terrains": [ "field" ] },
-      { "id": "faction_base_canteen_0", "description": "Canteen", "om_terrains": [ "field" ] },
+      { "id": "faction_base_kitchen_0", "description": "Kitchen", "om_terrains": [ "field" ] },
       { "id": "faction_base_livestock_0", "description": "Livestock Area", "om_terrains": [ "field" ] },
       { "id": "faction_base_storehouse_0", "description": "Central Storage Building", "om_terrains": [ "field" ] },
-      { "id": "faction_base_workshop_0", "description": "Fabrication Workshop", "om_terrains": [ "field" ] }
+      { "id": "faction_base_workshop_0", "description": "Fabrication workshop", "om_terrains": [ "field" ] }
     ]
   },
   {
@@ -72,8 +72,7 @@
       { "id": "pemmican", "description": " Cook: Pemmican" },
       { "id": "veggy_aspic", "description": " Cook: Veggy Aspic" },
       { "id": "meat_canned_jarred", "description": " Cook: Meat, Canned" },
-      { "id": "meat_aspic", "description": " Cook: Meat Aspic" },
-      { "id": "kompot", "description": " Cook: Kompot" }
+      { "id": "meat_aspic", "description": " Cook: Meat Aspic" }
     ]
   },
   {

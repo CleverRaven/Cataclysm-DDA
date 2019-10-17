@@ -137,6 +137,7 @@
       [ "bondage_mask", 1 ],
       [ "thermos", 25 ],
       [ "antenna", 18 ],
+      [ "battery", 50 ],
       [ "screwdriver", 40 ],
       [ "RAM", 22 ],
       [ "mp3", 18 ],

@@ -834,29 +834,6 @@ void npc::move()
                 mission = NPC_MISSION_NULL;
             }
         }
-        if( mission == NPC_MISSION_ASSIGNED_CAMP ) {
-            bool found_job = false;
-            if( has_job() && calendar::once_every( 30_minutes ) ) {
-                if( job_duties.find( job ) != job_duties.end() ) {
-                    const std::vector<activity_id> jobs_to_rotate = job_duties[job];
-                    if( !jobs_to_rotate.empty() ) {
-                        assign_activity( random_entry( jobs_to_rotate ) );
-                        set_mission( NPC_MISSION_ACTIVITY );
-                        set_attitude( NPCATT_ACTIVITY );
-                        action = npc_player_activity;
-                        found_job = true;
-                    } else {
-                        debugmsg( "NPC is assigned to a job, but the job: %s has no duties", npc_job_id( job ) );
-                        set_mission( NPC_MISSION_GUARD_ALLY );
-                        set_attitude( NPCATT_NULL );
-                    }
-                }
-            }
-            if( !found_job ) {
-                action = npc_pause;
-                goal = global_omt_location();
-            }
-        }
         if( is_stationary( true ) ) {
             // if we're in a vehicle, stay in the vehicle
             if( in_vehicle ) {
@@ -1013,11 +990,8 @@ void npc::execute_action( npc_action action )
 
         case npc_drop_items:
             /* NPCs cant choose this action anymore, but at least it works */
-            drop_invalid_inventory();
-            /* drop_items is still broken
-             * drop_items( weight_carried() - weight_capacity(),
-             *             volume_carried() - volume_capacity() );
-             */
+            drop_items( weight_carried() - weight_capacity(),
+                        volume_carried() - volume_capacity() );
             move_pause();
             break;
 
@@ -1949,7 +1923,7 @@ npc_action npc::long_term_goal_action()
 {
     add_msg( m_debug, "long_term_goal_action()" );
 
-    if( mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER || is_player_ally() ) {
+    if( mission == NPC_MISSION_SHOPKEEP || mission == NPC_MISSION_SHELTER ) {
         return npc_pause;    // Shopkeepers just stay put.
     }
 
@@ -2300,7 +2274,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
         moves -= 100;
         moved = true;
-    } else if( g->m.passable( p ) && !g->m.has_flag( "DOOR", p ) ) {
+    } else if( g->m.passable( p ) ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         if( is_mounted() ) {
             const double base_moves = run_cost( g->m.combined_movecost( pos(), p ),
@@ -2969,12 +2943,8 @@ struct ratio_index {
     ratio_index( double R, int I ) : ratio( R ), index( I ) {}
 };
 
-/* As of October 2019, this is buggy, do not use!! */
 void npc::drop_items( units::mass drop_weight, units::volume drop_volume, int min_val )
 {
-    /* Remove this when someone debugs it back to functionality */
-    return;
-
     add_msg( m_debug, "%s is dropping items-%3.2f kg, %3.2f L (%d items, wgt %3.2f/%3.2f kg, "
              "vol %3.2f/%3.2f L)",
              name, units::to_kilogram( drop_weight ), units::to_liter( drop_volume ), inv.size(),
@@ -3869,7 +3839,7 @@ void npc::reach_omt_destination()
                 if( g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) &&
                     has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
                     add_msg( m_info, _( "From your two-way radio you hear %s reporting in, "
-                                        "'I've arrived, boss!'" ), disp_name() );
+                                        " 'I've arrived, boss!'" ), disp_name() );
                 }
             }
         } else {
@@ -4377,9 +4347,4 @@ bool npc::adjust_worn()
     }
 
     return false;
-}
-
-void npc::set_movement_mode( character_movemode new_mode )
-{
-    move_mode = new_mode;
 }

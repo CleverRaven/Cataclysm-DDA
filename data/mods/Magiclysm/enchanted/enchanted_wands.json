@@ -134,32 +134,32 @@
   },
   {
     "type": "TOOL",
-    "id": "wand_hoaryblast_minor",
-    "name": "minor wand of hoary blast",
-    "name_plural": "minor wands of hoary blast",
+    "id": "wand_iceball_minor",
+    "name": "minor wand of iceball",
+    "name_plural": "minor wands of iceball",
     "copy-from": "spell_wand",
-    "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts hoary blast.",
-    "use_action": { "type": "cast_spell", "spell_id": "hoary_blast", "no_fail": true, "level": 5, "need_wielding": true }
+    "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts iceball.",
+    "use_action": { "type": "cast_spell", "spell_id": "iceball", "no_fail": true, "level": 5, "need_wielding": true }
   },
   {
     "type": "TOOL",
-    "id": "wand_hoaryblast_lesser",
-    "name": "lesser wand of hoary blast",
-    "name_plural": "lesser wands of hoary blast",
+    "id": "wand_iceball_lesser",
+    "name": "lesser wand of iceball",
+    "name_plural": "lesser wands of iceball",
     "copy-from": "spell_wand",
     "price": 20000,
-    "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts hoary blast.",
-    "use_action": { "type": "cast_spell", "spell_id": "hoary_blast", "no_fail": true, "level": 10, "need_wielding": true }
+    "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts iceball.",
+    "use_action": { "type": "cast_spell", "spell_id": "iceball", "no_fail": true, "level": 10, "need_wielding": true }
   },
   {
     "type": "TOOL",
-    "id": "wand_hoaryblast_greater",
-    "name": "greater wand of hoary blast",
-    "name_plural": "greater wands of hoary blast",
+    "id": "wand_iceball_greater",
+    "name": "greater wand of iceball",
+    "name_plural": "greater wands of iceball",
     "copy-from": "spell_wand",
     "price": 30000,
-    "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts hoary blast.",
-    "use_action": { "type": "cast_spell", "spell_id": "hoary_blast", "no_fail": true, "level": 15, "need_wielding": true }
+    "description": "A slender wooden wand with a mana crystal socket at the base that casts a spell when activated.  This wand casts iceball.",
+    "use_action": { "type": "cast_spell", "spell_id": "iceball", "no_fail": true, "level": 15, "need_wielding": true }
   },
   {
     "type": "TOOL",

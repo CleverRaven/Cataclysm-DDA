@@ -318,7 +318,7 @@ int minesweeper_game::start_game()
 
                     wrefresh( w_minesweeper );
 
-                    popup_top( _( "Boom, you're dead!  Better luck next time." ) );
+                    popup_top( _( "Boom, you're dead! Better luck next time." ) );
                     action = "QUIT";
 
                 } else if( mLevelReveal[iPlayerY][iPlayerX] == unknown ) {

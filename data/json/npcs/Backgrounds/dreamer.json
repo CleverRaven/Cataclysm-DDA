@@ -2,7 +2,7 @@
   {
     "id": "BGSS_DREAMER_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "OK, this is gonna sound crazy but I, like, I knew this was going to happen.  Like, before it did.  You can even ask my psychic except, like, I think she's dead now.  I told her about my dreams a week before the world ended.  Serious!",
+    "dynamic_line": "OK, this is gonna sound crazy but I, like, I knew this was going to happen.  Like, before it did.   You can even ask my psychic except, like, I think she's dead now.  I told her about my dreams a week before the world ended.  Serious!",
     "responses": [
       { "text": "What were your dreams?", "topic": "BGSS_DREAMER_STORY2" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },

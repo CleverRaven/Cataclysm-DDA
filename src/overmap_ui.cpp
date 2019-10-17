@@ -406,7 +406,7 @@ static point draw_notes( const tripoint &origin )
             nmenu.addentry_desc( string_format( _( "[%s] %s" ), colorize( note_symbol, note_color ),
                                                 note_text ),
                                  string_format(
-                                     _( "<color_red>LEVEL %i, %d'%d, %d'%d</color>: %s (Distance: <color_white>%d</color>)" ),
+                                     _( "<color_red>LEVEL %i, %d'%d, %d'%d</color> : %s (Distance: <color_white>%d</color>)" ),
                                      origin.z, p_om.x, p_omt.x, p_om.y, p_omt.y, location_desc, distance_player ) );
             nmenu.entries[row].ctxt = string_format(
                                           _( "<color_light_gray>Distance: </color><color_white>%d</color>" ), distance_player );

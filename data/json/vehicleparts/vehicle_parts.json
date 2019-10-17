@@ -3100,31 +3100,5 @@
     "flags": [ "TURRET_MOUNT" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "damage_reduction": { "all": 54 }
-  },
-  {
-    "type": "vehicle_part",
-    "id": "controls_turret",
-    "name": "turret control unit",
-    "symbol": "$",
-    "color": "yellow",
-    "broken_symbol": "$",
-    "broken_color": "red",
-    "damage_modifier": 10,
-    "durability": 50,
-    "epower": -250,
-    "item": "turret_controls",
-    "description": "A set of motor, camera, and an AI unit which allows for tracking targets, friend-or-foe identification, and firing the connected turret in full automatic mode.  When installed over the turret, it will enable auto targeting mode for said turret.",
-    "folded_volume": 3,
-    "flags": [ "ENABLED_DRAINS_EPOWER", "TURRET_CONTROLS", "UNMOUNT_ON_DAMAGE" ],
-    "requirements": {
-      "install": {
-        "time": 120000,
-        "skills": [ [ "mechanics", 3 ], [ "electronics", 3 ] ],
-        "qualities": [ { "id": "SCREW", "level": 1 } ]
-      },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": 8000, "using": [ [ "adhesive", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
-    },
-    "breaks_into": "ig_vp_device"
   }
 ]

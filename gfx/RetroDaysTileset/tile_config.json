@@ -7798,8 +7798,7 @@
         { "id": "hinge", "fg": 3036, "rotates": false },
         { "id": "wood_sheet", "fg": 3037, "rotates": false },
         { "id": "wood_panel", "fg": 3038, "rotates": false },
-        { "id": "condom", "fg": 3039, "rotates": false },
-        { "id": "zombie_revival_indicator", "fg": 3040 }
+        { "id": "condom", "fg": 3039, "rotates": false }
       ]
     },
     {
@@ -7809,20 +7808,20 @@
       "sprite_offset_x": -5,
       "sprite_offset_y": -10,
       "tiles": [
-        { "id": "mon_dragon_dummy", "fg": 3056, "rotates": false },
-        { "id": "mon_tyrannosaurus", "fg": 3057, "rotates": false },
-        { "id": "mon_triceratops", "fg": 3058, "rotates": false },
-        { "id": "mon_fungaloid_queen", "fg": 3059 },
-        { "id": "mon_fungaloid_seeder", "fg": 3060 },
-        { "id": "mon_fungaloid_tower", "fg": 3061 },
-        { "id": "mon_skeleton_hulk", "fg": 3062, "rotates": false },
-        { "id": "mon_zombie_kevlar_2", "fg": 3063, "rotates": false },
-        { "id": "mon_zombie_hulk_pk", "fg": 3064, "rotates": false },
-        { "id": "mon_zombie_hulk", "fg": 3064, "rotates": false },
-        { "id": "overlay_mutation_THRESH_URSINE", "fg": 3065 },
-        { "id": "overlay_mutation_THRESH_CATTLE", "fg": 3066 },
-        { "id": "overlay_male_mutation_THRESH_CATTLE", "fg": 3067 },
-        { "id": "overlay_mutation_THRESH_LIZARD", "fg": 3068 }
+        { "id": "mon_dragon_dummy", "fg": 3040, "rotates": false },
+        { "id": "mon_tyrannosaurus", "fg": 3041, "rotates": false },
+        { "id": "mon_triceratops", "fg": 3042, "rotates": false },
+        { "id": "mon_fungaloid_queen", "fg": 3043 },
+        { "id": "mon_fungaloid_seeder", "fg": 3044 },
+        { "id": "mon_fungaloid_tower", "fg": 3045 },
+        { "id": "mon_skeleton_hulk", "fg": 3046, "rotates": false },
+        { "id": "mon_zombie_kevlar_2", "fg": 3047, "rotates": false },
+        { "id": "mon_zombie_hulk_pk", "fg": 3048, "rotates": false },
+        { "id": "mon_zombie_hulk", "fg": 3048, "rotates": false },
+        { "id": "overlay_mutation_THRESH_URSINE", "fg": 3049 },
+        { "id": "overlay_mutation_THRESH_CATTLE", "fg": 3050 },
+        { "id": "overlay_male_mutation_THRESH_CATTLE", "fg": 3051 },
+        { "id": "overlay_mutation_THRESH_LIZARD", "fg": 3052 }
       ]
     },
     {

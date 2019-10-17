@@ -80,14 +80,14 @@ static void deserialize( foo &bar, JsonIn &jin )
 {
     JsonObject jo = jin.get_object();
     bar.name = _( jo.get_string( "name" ) );
-    // CHECK-MESSAGES: [[@LINE-1]]:16: warning: immediately translating a value read from json causes translation updating issues.  Consider reading into a translation object instead.
+    // CHECK-MESSAGES: [[@LINE-1]]:16: warning: immediately translating a value read from json causes translation updating issues. Consider reading into a translation object instead.
     // CHECK-MESSAGES: [[@LINE-2]]:19: note: value read from json
 
     JsonArray ja = jo.get_array( "double_name" );
     bar.double_name = std::string( _( ja.next_string() ) ) + pgettext( "blah",
-                      // CHECK-MESSAGES: [[@LINE-1]]:36: warning: immediately translating a value read from json causes translation updating issues.  Consider reading into a translation object instead.
+                      // CHECK-MESSAGES: [[@LINE-1]]:36: warning: immediately translating a value read from json causes translation updating issues. Consider reading into a translation object instead.
                       // CHECK-MESSAGES: [[@LINE-2]]:39: note: value read from json
-                      // CHECK-MESSAGES: [[@LINE-3]]:62: warning: immediately translating a value read from json causes translation updating issues.  Consider reading into a translation object instead.
+                      // CHECK-MESSAGES: [[@LINE-3]]:62: warning: immediately translating a value read from json causes translation updating issues. Consider reading into a translation object instead.
                       std::string( ja.next_string() ) );
     // CHECK-MESSAGES: [[@LINE-1]]:36: note: value read from json
 

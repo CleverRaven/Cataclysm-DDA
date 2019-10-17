@@ -180,7 +180,7 @@ class Creature
          */
         /*@{*/
         virtual bool sees( const Creature &critter ) const;
-        virtual bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const;
+        virtual bool sees( const tripoint &t, bool is_player = false, int range_mod = 0 ) const;
         /*@}*/
 
         /**

@@ -1091,7 +1091,7 @@ bool JsonIn::get_bool()
             error( err.str(), -5 );
         }
     }
-    err << "not a boolean value!  expected 't' or 'f' but got '" << ch << "'";
+    err << "not a boolean value! expected 't' or 'f' but got '" << ch << "'";
     error( err.str(), -1 );
     throw JsonError( "warnings are silly" );
 }

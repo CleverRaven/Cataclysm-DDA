@@ -154,7 +154,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
 #if defined(TILES)
                     " %s\n" // translated user string: copy
 #endif // TILES
-                    , _( "An error has occurred!  Written below is the error report:" ),
+                    , _( "An error has occurred! Written below is the error report:" ),
                     formatted_report,
 #if defined(BACKTRACE)
                     backtrace_instructions,
@@ -358,7 +358,7 @@ void DebugFile::init( DebugOutput output_mode, const std::string &filename )
             if( rename_failed ) {
                 DebugLog( D_ERROR, DC_ALL ) << "Moving the previous log file to "
                                             << oldfile << " failed.\n"
-                                            << "Check the file permissions.  This "
+                                            << "Check the file permissions. This "
                                             "program will continue to use the "
                                             "previous log file.";
             }

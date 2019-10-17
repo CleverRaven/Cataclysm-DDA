@@ -307,7 +307,6 @@
     "difficulty": 2,
     "charges": 1,
     "time": "18 m",
-    "batch_time_factors": [ 67, 5 ],
     "autolearn": true,
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "milk", 1 ] ] ]
@@ -322,7 +321,6 @@
     "difficulty": 2,
     "charges": 1,
     "time": "20 m",
-    "batch_time_factors": [ 67, 5 ],
     "autolearn": true,
     "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "milk", 1 ] ] ]

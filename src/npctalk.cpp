@@ -397,7 +397,7 @@ void game::chat()
     if( !available.empty() ) {
         nmenu.addentry( NPC_CHAT_TALK, true, 't', available_count == 1 ?
                         string_format( _( "Talk to %s" ), available.front()->name ) :
-                        _( "Talk to..." )
+                        _( "Talk to ..." )
                       );
     }
     nmenu.addentry( NPC_CHAT_YELL, true, 'a', _( "Yell" ) );
@@ -854,7 +854,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
 
     } else if( topic == "TALK_DEAF_ANGRY" ) {
         return string_format(
-                   _( "&You are deaf and can't talk.  When you don't respond, %s becomes angry!" ),
+                   _( "&You are deaf and can't talk. When you don't respond, %s becomes angry!" ),
                    beta->name );
     }
     if( topic == "TALK_SEDATED" ) {
@@ -875,7 +875,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     };
     if( mission_topics.count( topic ) > 0 ) {
         if( p->chatbin.mission_selected == nullptr ) {
-            return "mission_selected == nullptr; BUG!  (npctalk.cpp:dynamic_line)";
+            return "mission_selected == nullptr; BUG! (npctalk.cpp:dynamic_line)";
         }
         mission *miss = p->chatbin.mission_selected;
         const auto &type = miss->get_type();
@@ -1730,9 +1730,9 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         okay = true;
         std::set<dialogue_consequence> consequences = responses[ch].get_consequences( *this );
         if( consequences.count( dialogue_consequence::hostile ) > 0 ) {
-            okay = query_yn( _( "You may be attacked!  Proceed?" ) );
+            okay = query_yn( _( "You may be attacked! Proceed?" ) );
         } else if( consequences.count( dialogue_consequence::helpless ) > 0 ) {
-            okay = query_yn( _( "You'll be helpless!  Proceed?" ) );
+            okay = query_yn( _( "You'll be helpless! Proceed?" ) );
         }
     } while( !okay );
     d_win.add_history_separator();
@@ -2548,7 +2548,7 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
         const std::string recipe_id = jo.get_string( "u_learn_recipe" );
         subeffect_fun.set_u_learn_recipe( recipe_id );
     } else {
-        jo.throw_error( "invalid sub effect syntax: " + jo.str() );
+        jo.throw_error( "invalid sub effect syntax :" + jo.str() );
     }
     set_effect( subeffect_fun );
 }
@@ -2577,7 +2577,6 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObjec
             WRAP( do_butcher ),
             WRAP( do_farming ),
             WRAP( assign_guard ),
-            WRAP( assign_camp ),
             WRAP( stop_guard ),
             WRAP( start_camp ),
             WRAP( buy_cow ),

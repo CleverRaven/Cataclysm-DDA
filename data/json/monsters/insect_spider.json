@@ -106,7 +106,7 @@
   {
     "id": "mon_giant_cockroach",
     "type": "MONSTER",
-    "name": { "str": "giant cockroach", "str_pl": "giant cockroaches" },
+    "name": "giant cockroach",
     "description": "A mutant cockroach the size of a small dog.",
     "default_faction": "roach",
     "bodytype": "insect",
@@ -171,7 +171,7 @@
   {
     "id": "mon_pregnant_giant_cockroach",
     "type": "MONSTER",
-    "name": { "str": "pregnant giant cockroach", "str_pl": "pregnant giant cockroaches" },
+    "name": "pregnant giant cockroach",
     "description": "A mutant cockroach the size of a small dog.  Its abdomen is heavily swollen.",
     "default_faction": "roach",
     "bodytype": "insect",
@@ -270,7 +270,8 @@
   {
     "id": "mon_dragonfly_giant",
     "type": "MONSTER",
-    "name": { "str": "giant dragonfly", "str_pl": "giant dragonflies" },
+    "name": "giant dragonfly",
+    "name_plural": "giant dragonflies",
     "description": "A ferocious mutant dragonfly as big as a cat, darting through the air with a cluster of fangs for a mouth.",
     "default_faction": "dragonfly",
     "bodytype": "flying insect",
@@ -301,7 +302,8 @@
   {
     "id": "mon_fly",
     "type": "MONSTER",
-    "name": { "str": "giant fly", "str_pl": "giant flies" },
+    "name": "giant fly",
+    "name_plural": "giant flies",
     "description": "A tremendous housefly the size of a small dog, predictably accompanied by a loud, incessant buzzing sound.",
     "default_faction": "small_animal",
     "bodytype": "flying insect",
@@ -740,7 +742,7 @@
   {
     "id": "mon_dermatik_larva",
     "type": "MONSTER",
-    "name": { "str": "dermatik larva", "str_pl": "dermatik larvae" },
+    "name": "dermatik larva",
     "description": "A fat white grub as big as a squirrel, with a pair of large, spadelike mandibles.",
     "default_faction": "dermatik",
     "bodytype": "insect",
@@ -833,7 +835,7 @@
   {
     "id": "mon_ant_acid_larva",
     "type": "MONSTER",
-    "name": { "str": "acidic ant larva", "str_pl": "acidic ant larvae" },
+    "name": "acidic ant larva",
     "description": "A squirming yellow grub that seems to be oozing liquid from both ends of its body.  It appears its chitin hasn't developed enough to resist acid.",
     "default_faction": "acid_ant",
     "bodytype": "insect",
@@ -955,7 +957,7 @@
   {
     "id": "mon_ant_larva",
     "type": "MONSTER",
-    "name": { "str": "ant larva", "str_pl": "ant larvae" },
+    "name": "ant larva",
     "description": "A pulsating sausage of glistening white flesh, the size of a large cat.  On one end is a set of squirming mouth parts.",
     "default_faction": "ant",
     "bodytype": "insect",

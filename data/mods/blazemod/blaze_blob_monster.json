@@ -20,7 +20,7 @@
   {
     "id": "mon_gloople",
     "type": "MONSTER",
-    "name": { "str": "gelatinous mass", "str_pl": "gelatinous mass" },
+    "name": "gelatinous mass",
     "description": "An escaping noisy blob, catch it before it brings in every zombie for miles!",
     "default_faction": "blob",
     "species": [ "BLOB" ],
@@ -49,7 +49,7 @@
   {
     "id": "mon_gray",
     "type": "MONSTER",
-    "name": { "str": "gray mass", "str_pl": "gray mass" },
+    "name": "gray mass",
     "description": "An escaping noisy blob, catch it before it brings in every zombie for miles!",
     "default_faction": "blob",
     "species": [ "BLOB" ],
@@ -78,7 +78,7 @@
   {
     "id": "mon_oozle",
     "type": "MONSTER",
-    "name": { "str": "gelatinous mass", "str_pl": "gelatinous mass" },
+    "name": "gelatinous mass",
     "description": "An escaping noisy blob, catch it before it brings in every zombie for miles!",
     "default_faction": "blob",
     "species": [ "BLOB" ],

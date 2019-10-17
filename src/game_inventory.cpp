@@ -1433,7 +1433,7 @@ void game_menus::inv::reassign_letter( player &p, item &it )
 {
     while( true ) {
         const int invlet = popup_getkey(
-                               _( "Enter new letter.  Press SPACE to clear a manually assigned letter, ESCAPE to cancel." ) );
+                               _( "Enter new letter. Press SPACE to clear a manually assigned letter, ESCAPE to cancel." ) );
 
         if( invlet == KEY_ESCAPE ) {
             break;
@@ -1921,16 +1921,14 @@ class bionic_sterilize_preset : public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
             auto reqs = *requirement_id( "autoclave_item" );
+
+            if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
+                return pgettext( "volume of water", "2 L" );
+            }
+
             if( loc.get_item()->has_flag( "FILTHY" ) ) {
                 return  _( "CBM is filthy.  Wash it first." );
             }
-            if( loc.get_item()->has_flag( "NO_PACKED" ) ) {
-                return  _( "You should put this CBM in an autoclave pouch to keep it sterile." );
-            }
-            if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
-                return _( "You need at least 2L of water." );
-            }
-
             return std::string();
         }
 

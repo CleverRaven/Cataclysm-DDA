@@ -9,12 +9,6 @@
   },
   {
     "type": "MONSTER_BLACKLIST",
-    "monsters": [
-      "mon_zombie_spitter",
-      "mon_zombie_corrosive",
-      "mon_zombie_acidic",
-      "mon_zombie_soldier_acid_1",
-      "mon_zombie_soldier_acid_2"
-    ]
+    "monsters": [ "mon_zombie_spitter", "mon_zombie_corrosive", "mon_zombie_acidic" ]
   }
 ]

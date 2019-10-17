@@ -472,7 +472,7 @@ void basecamp::validate_assignees()
 {
     for( auto it2 = assigned_npcs.begin(); it2 != assigned_npcs.end(); ) {
         auto ptr = *it2;
-        if( ptr->mission != NPC_MISSION_ASSIGNED_CAMP || ptr->global_omt_location() != omt_pos ||
+        if( ptr->mission != NPC_MISSION_GUARD_ALLY || ptr->global_omt_location() != omt_pos ||
             ptr->has_companion_mission() ) {
             it2 = assigned_npcs.erase( it2 );
         } else {
@@ -484,20 +484,12 @@ void basecamp::validate_assignees()
         if( !npc_to_add ) {
             continue;
         }
-        if( std::find( assigned_npcs.begin(), assigned_npcs.end(), npc_to_add ) != assigned_npcs.end() ) {
-            continue;
-        } else {
-            if( npc_to_add->global_omt_location() == omt_pos &&
-                npc_to_add->mission == NPC_MISSION_ASSIGNED_CAMP &&
-                !npc_to_add->has_companion_mission() ) {
-                assigned_npcs.push_back( npc_to_add );
-            }
+        if( npc_to_add->global_omt_location() == omt_pos &&
+            npc_to_add->mission == NPC_MISSION_GUARD_ALLY &&
+            !npc_to_add->has_companion_mission() ) {
+            assigned_npcs.push_back( npc_to_add );
         }
     }
-    // remove duplicates - for legacy handling.
-    std::sort( assigned_npcs.begin(), assigned_npcs.end() );
-    auto last = std::unique( assigned_npcs.begin(), assigned_npcs.end() );
-    assigned_npcs.erase( last, assigned_npcs.end() );
 }
 
 std::vector<npc_ptr> basecamp::get_npcs_assigned()

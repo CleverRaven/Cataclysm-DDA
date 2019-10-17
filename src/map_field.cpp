@@ -248,20 +248,12 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     const int winddirection = g->weather.winddirection;
     const int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
                           sheltered );
-
-    const int current_intensity = cur.get_field_intensity();
-    const field_type_id ft_id = cur.get_field_type();
-
-    const int scent_neutralize = ft_id->get_intensity_level( current_intensity -
-                                 1 ).scent_neutralization;
-
-    if( scent_neutralize > 0 ) {
-        // modify scents by neutralization value (minus)
-        for( const tripoint &tmp : points_in_radius( p, 1 ) ) {
-            sblk.apply_gas( tmp, scent_neutralize );
-        }
+    // Reset nearby scents to zero
+    for( const tripoint &tmp : points_in_radius( p, 1 ) ) {
+        sblk.apply_gas( tmp );
     }
 
+    const int current_intensity = cur.get_field_intensity();
     // Dissipate faster outdoors.
     if( is_outside( p ) ) {
         const time_duration current_age = cur.get_field_age();
@@ -638,12 +630,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         cur.get_field_intensity() == fire_there->get_field_intensity() ) {
                                         new_intensity++;
                                     }
+                                    fire_there->set_field_intensity( new_intensity );
                                     // A raging fire below us can support us for a while
                                     // Otherwise decay and decay fast
-                                    if( fire_there->get_field_intensity() < 3 || one_in( 10 ) ) {
+                                    if( new_intensity < 3 || one_in( 10 ) ) {
                                         cur.set_field_intensity( cur.get_field_intensity() - 1 );
                                     }
-                                    fire_there->set_field_intensity( new_intensity );
                                 }
                                 break;
                             }
@@ -656,7 +648,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         // Nothing to burn = fire should be dying out faster
                         // Drain more power from big fires, so that they stop raging over nothing
                         // Except for fires on stoves and fireplaces, those are made to keep the fire alive
-                        cur.mod_field_age( 10_seconds * cur.get_field_intensity() );
+                        cur.set_field_age( cur.get_field_age() + 10_seconds * cur.get_field_intensity() );
                     }
 
                     // Below we will access our nearest 8 neighbors, so let's cache them now
@@ -793,7 +785,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             dst_ter.has_flag( TFLAG_FLAMMABLE_HARD ) ) {
                             field_entry *nearfire = dst.find_field( fd_fire );
                             if( nearfire != nullptr ) {
-                                nearfire->mod_field_age( -2_turns );
+                                nearfire->set_field_age( nearfire->get_field_age() - 2_minutes );
                             } else {
                                 dst.add_field( fd_fire, 1, 0_turns );
                             }
@@ -1428,7 +1420,7 @@ void map::player_in_field( player &u )
         if( ft == fd_sludge ) {
             // Sludge is on the ground, but you are above the ground when boarded on a vehicle
             if( !u.in_vehicle ) {
-                u.add_msg_if_player( m_bad, _( "The sludge is thick and sticky.  You struggle to pull free." ) );
+                u.add_msg_if_player( m_bad, _( "The sludge is thick and sticky. You struggle to pull free." ) );
                 u.moves -= cur.get_field_intensity() * 300;
                 cur.set_field_intensity( 0 );
             }

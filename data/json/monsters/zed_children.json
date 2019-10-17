@@ -34,7 +34,8 @@
   {
     "id": "mon_zombie_child",
     "type": "MONSTER",
-    "name": { "str": "zombie child", "str_pl": "zombie children" },
+    "name": "zombie child",
+    "name_plural": "zombie children",
     "description": "It was only a child, and little is different about it now aside from the hungry look in its eyes.  You'd be hard pressed to not feel like you were killing an actual child by putting it down.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -85,6 +86,7 @@
     "id": "mon_zombie_child_scorched",
     "type": "MONSTER",
     "name": "zombie kinderling",
+    "name_plural": "zombie kinderlings",
     "description": "A tiny charred body, jumping and kicked and flailing around in a mockery of playground exercise.  It does not need a face for you to feel bad about killing it.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -346,7 +348,8 @@
   {
     "id": "mon_zombie_child_fungus",
     "type": "MONSTER",
-    "name": { "str": "fungal child", "str_pl": "fungal children" },
+    "name": "fungal child",
+    "name_plural": "fungal children",
     "description": "It is hard to recognize a human child in this creature.  Disgusting-looking mold covers most of its skin.  Many cracks perforate its body, with small fungal stalks poking through.",
     "default_faction": "fungus",
     "bodytype": "human",

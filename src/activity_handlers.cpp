@@ -457,7 +457,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
         if( big_corpse ) {
             if( has_rope && !has_tree_nearby && !b_rack_present ) {
                 u.add_msg_if_player( m_info,
-                                     _( "You need to suspend this corpse to butcher it.  While you have a rope to lift the corpse, there is no tree nearby to hang it from." ) );
+                                     _( "You need to suspend this corpse to butcher it. While you have a rope to lift the corpse, there is no tree nearby to hang it from." ) );
                 act.targets.pop_back();
                 return;
             }
@@ -469,7 +469,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
             }
             if( !has_table_nearby ) {
                 u.add_msg_if_player( m_info,
-                                     _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface.  A leather tarp spread out on the ground could suffice." ) );
+                                     _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface. A leather tarp spread out on the ground could suffice." ) );
                 act.targets.pop_back();
                 return;
             }
@@ -1680,7 +1680,7 @@ void activity_handlers::pickaxe_do_turn( player_activity *act, player * )
     sfx::play_activity_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
     if( calendar::once_every( 1_minutes ) ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
-        sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK!  CHNK!  CHNK!" ) );
+        sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK! CHNK! CHNK!" ) );
     }
 }
 
@@ -1885,9 +1885,7 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
         return;
     }
 
-    if( it.type->can_have_charges() ) {
-        p->consume_charges( it, it.type->charges_to_use() );
-    }
+    p->consume_charges( it, it.type->charges_to_use() );
     p->practice( skill_survival, act->index, 5 );
 
     firestarter_actor::resolve_firestarter_use( *p, act->placement );
@@ -2424,7 +2422,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // target selection and validation.
     while( act->targets.size() < 2 ) {
-        g->draw();
         auto item_loc = game_menus::inv::repair( *p, actor, &main_tool );
 
         if( item_loc == item_location::nowhere ) {
@@ -2441,6 +2438,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     const item &fix = *act->targets[1];
 
     if( repeat == REPEAT_INIT ) {
+        g->draw();
         const int level = p->get_skill_level( actor->used_skill );
         auto action_type = actor->default_action( fix, level );
         if( action_type == repair_item_actor::RT_NOTHING ) {
@@ -2470,7 +2468,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             act->values.resize( 1 );
         }
         do {
-            g->draw();
             repeat = repeat_menu( title, repeat );
 
             if( repeat == REPEAT_CANCEL ) {
@@ -2866,6 +2863,10 @@ void activity_handlers::read_do_turn( player_activity *act, player *p )
             }
             p->stamina = act->values[0] - 1;
             act->values[0] = p->stamina;
+        }
+        if( p->stamina < p->get_stamina_max() / 10 ) {
+            p->add_msg_if_player( m_info, _( "This training is exhausting.  Time to rest." ) );
+            act->set_to_null();
         }
     } else {
         p->moves = 0;
@@ -4115,7 +4116,7 @@ void activity_handlers::robot_control_do_turn( player_activity *act, player *p )
     const std::shared_ptr<monster> z = act->monsters[0].lock();
 
     if( !z || !iuse::robotcontrol_can_target( p, *z ) ) {
-        p->add_msg_if_player( _( "Target lost.  IFF override failed." ) );
+        p->add_msg_if_player( _( "Target lost. IFF override failed." ) );
         act->set_to_null();
         return;
     }
@@ -4139,7 +4140,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
     act->monsters.clear();
 
     if( !z || !iuse::robotcontrol_can_target( p, *z ) ) {
-        p->add_msg_if_player( _( "Target lost.  IFF override failed." ) );
+        p->add_msg_if_player( _( "Target lost. IFF override failed." ) );
         return;
     }
 

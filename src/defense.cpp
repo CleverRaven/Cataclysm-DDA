@@ -812,7 +812,7 @@ std::string defense_style_name( defense_style style )
         case NUM_DEFENSE_STYLES:
             break;
     }
-    return "Bug!  (bug in defense.cpp:defense_style_name)";
+    return "Bug! (bug in defense.cpp:defense_style_name)";
 }
 
 std::string defense_style_description( defense_style style )
@@ -842,14 +842,14 @@ std::string defense_style_description( defense_style style )
         case NUM_DEFENSE_STYLES:
             break;
     }
-    return "What the heck is this I don't even know.  (defense.cpp:defense_style_description)";
+    return "What the heck is this I don't even know. (defense.cpp:defense_style_description)";
 }
 
 std::string defense_location_name( defense_location location )
 {
     switch( location ) {
         case DEFLOC_NULL:
-            return "Nowhere?!  (bug in defense.cpp:defense_location_name)";
+            return "Nowhere?! (bug in defense.cpp:defense_location_name)";
         case DEFLOC_HOSPITAL:
             return _( "Hospital" );
         case DEFLOC_WORKS:
@@ -870,7 +870,7 @@ std::string defense_location_description( defense_location location )
 {
     switch( location ) {
         case DEFLOC_NULL:
-            return "NULL Bug.  (defense.cpp:defense_location_description)";
+            return "NULL Bug. (defense.cpp:defense_location_description)";
         case DEFLOC_HOSPITAL:
             return                 _( "One entrance and many rooms.  Some medical supplies." );
         case DEFLOC_WORKS:
@@ -884,7 +884,7 @@ std::string defense_location_description( defense_location location )
         case NUM_DEFENSE_LOCATIONS:
             break;
     }
-    return "Unknown data bug.  (defense.cpp:defense_location_description)";
+    return "Unknown data bug. (defense.cpp:defense_location_description)";
 }
 
 void defense_game::caravan()
@@ -1465,7 +1465,7 @@ std::string defense_game::special_wave_message( std::string name )
             ret << string_format( _( "%s from Hell!" ), name );
             break;
         case 5:
-            ret << string_format( _( "Beware!  %s!" ), name );
+            ret << string_format( _( "Beware! %s!" ), name );
             break;
         case 6:
             ret << string_format( _( "The Day of the %s!" ), name );

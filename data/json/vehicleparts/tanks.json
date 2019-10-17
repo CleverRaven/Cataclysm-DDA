@@ -14,15 +14,6 @@
     "damage_modifier": 80,
     "folded_volume": 8,
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
-    "requirements": {
-      "install": {
-        "time": "10 m",
-        "skills": [ [ "mechanics", 1 ] ],
-        "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "DRILL", "level": 2 } ]
-      },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] }
-    },
     "flags": [ "FLUIDTANK", "FOLDABLE" ],
     "damage_reduction": { "all": 26, "stab": 8 }
   },
@@ -40,15 +31,6 @@
     "size": 10000,
     "damage_modifier": 80,
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 40 ] } ],
-    "requirements": {
-      "install": {
-        "time": "20 m",
-        "skills": [ [ "mechanics", 1 ] ],
-        "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "DRILL", "level": 2 } ]
-      },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "soldering_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] }
-    },
     "flags": [ "FLUIDTANK" ],
     "damage_reduction": { "all": 9, "stab": 0 }
   },
@@ -70,15 +52,6 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
-    "requirements": {
-      "install": {
-        "time": "45 m",
-        "skills": [ [ "mechanics", 1 ] ],
-        "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ]
-      },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "22 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "WRENCH", "level": 2 } ] }
-    },
     "flags": [ "FLUIDTANK" ],
     "damage_reduction": { "all": 28, "stab": 10 }
   },
@@ -100,15 +73,6 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
-    "requirements": {
-      "install": {
-        "time": "90 m",
-        "skills": [ [ "mechanics", 1 ] ],
-        "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ]
-      },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "WRENCH", "level": 2 } ] }
-    },
     "flags": [ "FLUIDTANK" ],
     "damage_reduction": { "all": 28, "stab": 12 }
   },

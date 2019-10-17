@@ -197,7 +197,8 @@
   {
     "id": "mon_blank",
     "type": "MONSTER",
-    "name": { "str": "blank body", "str_pl": "blank bodies" },
+    "name": "blank body",
+    "name_plural": "blank bodies",
     "description": "This is some form of unnatural changeling creature; its appearance is a bland mockery of the human form.  Featureless and pale, its repugnant countenance is all the more unsettling due to its lack of eyes and distinguishing features except for a perfectly round mouth.  Naked and trembling, it almost seems pitiful but for the way that its unearthly presence makes the hair on the back of your neck stand up in nameless horror.",
     "default_faction": "nether",
     "bodytype": "human",
@@ -1570,7 +1571,7 @@
   {
     "id": "mon_giant_crayfish",
     "type": "MONSTER",
-    "name": { "str": "giant crayfish", "str_pl": "giant crayfish" },
+    "name": "giant crayfish",
     "description": "A mutant, terrestrial variety of the signal crayfish, this massive crustacean resembles a humongous lobster.",
     "default_faction": "crayfish",
     "bodytype": "crab",
@@ -1838,7 +1839,8 @@
   {
     "id": "mon_homunculus",
     "type": "MONSTER",
-    "name": { "str": "homunculus", "str_pl": "homunculuses" },
+    "name": "homunculus",
+    "name_plural": "homunculuses",
     "description": "A pale hairless man with an impressive athletic physique.  Its lidless eyes are totally black, and seeping with blood.",
     "default_faction": "cult",
     "bodytype": "human",
@@ -1866,7 +1868,7 @@
   {
     "id": "mon_hound_tindalos",
     "type": "MONSTER",
-    "name": { "str": "hound of tindalos", "str_pl": "hounds of tindalos" },
+    "name": "hound of tindalos",
     "description": "A grotesque hound-like beast, its frame is angular and emaciated and its head is like that of an abyssal fish.  When it moves, twisted limbs duplicate, merge, disappear, and reform in dissonance, as if a hundred copies of itself were somehow forced to inhabit the same space.  Extraneous to our reality, it moves between the corners of the world, hunting those that would dare stepping beyond time and space.",
     "default_faction": "nether",
     "bodytype": "dog",
@@ -1909,7 +1911,7 @@
   {
     "id": "mon_hound_tindalos_afterimage",
     "type": "MONSTER",
-    "name": { "str": "hound of tindalos", "str_pl": "hounds of tindalos" },
+    "name": "hound of tindalos",
     "description": "A grotesque hound-like beast, its frame is angular and emaciated and its head is like that of an abyssal fish.  When it moves, twisted limbs duplicate, merge, disappear, and reform in dissonance, as if a hundred copies of itself were somehow forced to inhabit the same space.  Extraneous to our reality, it moves between the corners of the world, hunting those that would dare stepping beyond time and space.",
     "default_faction": "nether",
     "bodytype": "dog",
@@ -2490,7 +2492,8 @@
   {
     "id": "mon_shia",
     "type": "MONSTER",
-    "name": { "str": "Shia LaBeouf", "str_pl": "Shia LaBeouf" },
+    "name": "Shia LaBeouf",
+    "name_plural": "Shia LaBeouf",
     "description": "Living in the woods, \nkilling for sport, \neating all the bodies, \nactual cannibal Shia LaBeouf.",
     "default_faction": "zombie",
     "bodytype": "human",
@@ -2895,7 +2898,8 @@
   {
     "id": "mon_twisted_body",
     "type": "MONSTER",
-    "name": { "str": "twisted body", "str_pl": "twisted bodies" },
+    "name": "twisted body",
+    "name_plural": "twisted bodies",
     "description": "A human body, but with its limbs, neck, and hair impossibly twisted.  It clambers around swiftly, making awful screeching sounds.",
     "default_faction": "mutant",
     "bodytype": "human",
@@ -2921,7 +2925,8 @@
   {
     "id": "mon_vortex",
     "type": "MONSTER",
-    "name": { "str": "vortex", "str_pl": "vortexes" },
+    "name": "vortex",
+    "name_plural": "vortexes",
     "description": "A twisting spot in the air, with some kind of morphing mass at its center.",
     "default_faction": "vortex",
     "species": [ "UNKNOWN" ],
@@ -3986,7 +3991,7 @@
   {
     "id": "mon_zombie_gasbag_immobile",
     "type": "MONSTER",
-    "name": { "str": "gangrenous flesh", "str_pl": "gangrenous flesh" },
+    "name": "gangrenous flesh",
     "description": "Immobile from grievous wounds, its gray skin has bloated to near rupture with putrid gas.  Between lumps of unrecognizable gore, a human head lamely follows your walking with empty, black eyes.",
     "default_faction": "zombie",
     "bodytype": "human",

@@ -70,10 +70,10 @@ struct scent_block {
     }
 
     // We should be working entirely within the range, so don't range check here
-    void apply_gas( const tripoint &p, const int nintensity = 0 ) {
+    void apply_gas( const tripoint &p ) {
         const point ndx = index( p );
         assignment[ndx.x][ndx.y].mode = SET;
-        assignment[ndx.x][ndx.y].intensity = std::max( 0, assignment[ndx.x][ndx.y].intensity - nintensity );
+        assignment[ndx.x][ndx.y].intensity = 0;
         ++modification_count;
     }
     void apply_slime( const tripoint &p, int intensity ) {

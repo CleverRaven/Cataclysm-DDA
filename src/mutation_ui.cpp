@@ -246,7 +246,7 @@ void player::power_mutations()
                 continue;
             }
             if( !mutation_chars.valid( newch ) ) {
-                popup( _( "Invalid mutation letter.  Only those characters are valid:\n\n%s" ),
+                popup( _( "Invalid mutation letter. Only those characters are valid:\n\n%s" ),
                        mutation_chars.get_allowed_chars() );
                 continue;
             }

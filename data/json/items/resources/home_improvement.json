@@ -168,20 +168,5 @@
     "weight": "5 g",
     "volume": "250 ml",
     "to_hit": -3
-  },
-  {
-    "type": "GENERIC",
-    "id": "screen_mesh",
-    "symbol": "#",
-    "color": "brown",
-    "looks_like": "r_carpet",
-    "name": "mesh screen",
-    "category": "spare_parts",
-    "description": "A roll of fine mesh screen for bug barriers on porches.",
-    "price": 1200,
-    "material": [ "plastic" ],
-    "weight": "25 g",
-    "volume": "1000 ml",
-    "to_hit": -3
   }
 ]

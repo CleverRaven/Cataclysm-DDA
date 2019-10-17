@@ -610,13 +610,6 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     // Now we're gonna handle traps we're standing on (if we're still moving).
     if( !vertical && can_move ) {
         const auto wheel_indices = veh.wheelcache; // Don't use a reference here, it causes a crash.
-
-        // Values to deal with crushing items.
-        // The math needs to be floating-point to work, so the values might as well be.
-        const float vehicle_grounded_wheel_area = static_cast<int>( vehicle_wheel_traction( veh, true ) );
-        const float weight_to_damage_factor = 0.05; // Nobody likes a magic number.
-        const float vehicle_mass_kg = to_kilogram( veh.total_mass() );
-
         for( auto &w : wheel_indices ) {
             const tripoint wheel_p = veh.global_part_pos3( w );
             if( one_in( 2 ) && displace_water( wheel_p ) ) {
@@ -626,16 +619,9 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
 
             veh.handle_trap( wheel_p, w );
             if( !has_flag( "SEALED", wheel_p ) ) {
-                const float wheel_area =  veh.parts[ w ].wheel_area();
-
-                // Damage is calculated based on the weight of the vehicle,
-                // The area of it's wheels, and the area of the wheel running over the items.
-                // This number is multiplied by weight_to_damage_factor to get reasonable results, damage-wise.
-                const int wheel_damage = static_cast<int>( ( ( wheel_area / vehicle_grounded_wheel_area ) *
-                                         vehicle_mass_kg ) * weight_to_damage_factor );
-
+                // TODO: Make this value depend on the wheel
                 //~ %1$s: vehicle name
-                smash_items( wheel_p, wheel_damage, string_format( _( "weight of %1$s" ), veh.disp_name() ) );
+                smash_items( wheel_p, 5, string_format( _( "weight of %1$s" ), veh.disp_name() ) );
             }
         }
     }
@@ -2933,15 +2919,13 @@ void map::collapse_at( const tripoint &p, const bool silent )
     destroy( p, silent );
     crush( p );
     make_rubble( p );
-    for( const tripoint &t : points_in_radius( p, 1, 1 ) ) {
-        if( p == t || ( t.z < p.z && has_flag( "SUPPORTS_ROOF", p ) ) ) {
+    for( const tripoint &t : points_in_radius( p, 1 ) ) {
+        if( p == t ) {
             continue;
         }
         if( has_flag( "COLLAPSES", t ) && one_in( collapse_check( t ) ) ) {
             destroy( t, silent );
             // We only check for rubble spread if it doesn't already collapse to prevent double crushing
-        } else if( t.z > p.z && has_flag( "FLAT", t ) ) {
-            destroy( t );
         } else if( has_flag( "FLAT", t ) && one_in( 8 ) ) {
             crush( t );
             make_rubble( t );
@@ -3684,22 +3668,17 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         }
     } else if( terrain == t_wall_glass  ||
                terrain == t_wall_glass_alarm ||
-               terrain == t_door_glass_c ||
-               terrain == t_laminated_glass ) {
+               terrain == t_door_glass_c ) {
         if( ammo_effects.count( "LASER" ) ) {
             dam -= rng( 0, 5 );
         } else {
             dam -= rng( 1, 8 );
             if( dam > 0 ) {
-                if( terrain != t_laminated_glass || one_in( 40 ) ) {
-                    break_glass( p, 16 );
-                    ter_set( p, t_floor );
-                }
+                break_glass( p, 16 );
+                ter_set( p, t_floor );
             }
         }
-    } else if( terrain == t_ballistic_glass || terrain == t_reinforced_glass ||
-               terrain == t_reinforced_door_glass_c
-               || terrain == t_reinforced_glass_shutter || terrain ==  t_reinforced_glass_shutter_open ) {
+    } else if( terrain == t_reinforced_glass || terrain == t_reinforced_door_glass_c ) {
         // reinforced glass stops most bullets
         // laser beams are attenuated
         if( ammo_effects.count( "LASER" ) ) {
@@ -3708,10 +3687,10 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
             //Greatly weakens power of bullets
             dam -= 40;
             if( dam <= 0 && g->u.sees( p ) ) {
-                if( terrain == t_reinforced_door_glass_c ) {
-                    add_msg( _( "The shot is stopped by the reinforced glass door!" ) );
-                } else {
+                if( terrain == t_reinforced_glass ) {
                     add_msg( _( "The shot is stopped by the reinforced glass wall!" ) );
+                } else {
+                    add_msg( _( "The shot is stopped by the reinforced glass door!" ) );
                 }
             } else if( dam >= 40 ) {
                 //high powered bullets penetrate the glass, but only extremely strong
@@ -3821,21 +3800,9 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         return;
     }
 
-    // Make sure the message is sensible for the ammo effects. Lasers aren't projectiles.
-    std::string damage_message;
-    if( ammo_effects.count( "LASER" ) ) {
-        damage_message = _( "laser beam" );
-    } else if( ammo_effects.count( "LIGHTNING" ) ) {
-        damage_message = _( "bolt of electricity" );
-    } else if( ammo_effects.count( "PLASMA" ) ) {
-        damage_message = _( "bolt of plasma" );
-    } else {
-        damage_message = _( "flying projectile" );
-    }
-
     // Now, smash items on that tile.
     // dam / 3, because bullets aren't all that good at destroying items...
-    smash_items( p, dam / 3, damage_message );
+    smash_items( p, dam / 3, _( "flying projectile" ) );
 }
 
 bool map::hit_with_acid( const tripoint &p )
@@ -4437,11 +4404,6 @@ item &map::add_item( const tripoint &p, item new_item )
     }
 
     if( new_item.has_flag( "ACT_IN_FIRE" ) && get_field( p, fd_fire ) != nullptr ) {
-        if( new_item.has_flag( "BOMB" ) && new_item.is_transformable() ) {
-            //Convert a bomb item into its transformable version, e.g. incendiary grenade -> active incendiary grenade
-            new_item.convert( item::find_type( dynamic_cast<const iuse_transform *>( item::find_type(
-                                                   new_item.typeId() )->get_use( "transform" )->get_actor_ptr() )->target )->get_id() );
-        }
         new_item.active = true;
     }
 
@@ -6896,7 +6858,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
     submap *tmpsub = MAPBUFFER.lookup_submap( grid_abs_sub );
     if( tmpsub == nullptr ) {
         // It doesn't exist; we must generate it!
-        dbg( D_INFO | D_WARNING ) << "map::loadn: Missing mapbuffer data.  Regenerating.";
+        dbg( D_INFO | D_WARNING ) << "map::loadn: Missing mapbuffer data. Regenerating.";
 
         // Each overmap square is two nonants; to prevent overlap, generate only at
         //  squares divisible by 2.
@@ -8037,7 +7999,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     }
 
     const tripoint &p = g->u.pos();
-    bool is_crouching = g->u.movement_mode_is( CMM_CROUCH );
+    bool is_crouching = g->u.movement_mode_is( PMM_CROUCH );
     for( const tripoint &loc : points_in_radius( p, 1 ) ) {
         if( loc == p ) {
             // The tile player is standing on should always be transparent

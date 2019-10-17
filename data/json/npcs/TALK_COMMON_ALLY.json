@@ -90,12 +90,6 @@
         "topic": "TALK_FRIEND_GUARD",
         "effect": "assign_guard"
       },
-      {
-        "text": "I want to assign you to work at this camp.",
-        "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
-        "topic": "TALK_FRIEND_GUARD",
-        "effect": "assign_camp"
-      },
       { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
       { "text": "Let's talk about faction camps.", "topic": "TALK_CAMP_GENERAL" },
       {

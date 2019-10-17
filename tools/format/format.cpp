@@ -203,8 +203,7 @@ int main( int argc, char *argv[] )
             std::ofstream fout( filename, std::ios::binary | std::ios::trunc );
             fout << out.str();
             fout.close();
-            std::cout << filename << " needs to be linted" << std::endl;
-            std::cout << "Please read doc/JSON_STYLE.md" << std::endl;
+            std::cout << "Formatted " << filename << std::endl;
             exit( EXIT_FAILURE );
         }
     }

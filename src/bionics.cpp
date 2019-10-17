@@ -1329,7 +1329,7 @@ bool player::can_uninstall_bionic( const bionic_id &b_id, player &installer, boo
 
     if( ( b_id == "bio_reactor" ) || ( b_id == "bio_advreactor" ) ) {
         if( !g->u.query_yn(
-                _( "WARNING: Removing a reactor may leave radioactive material!  Remove anyway?" ) ) ) {
+                _( "WARNING: Removing a reactor may leave radioactive material! Remove anyway?" ) ) ) {
             return false;
         }
     }
@@ -1373,7 +1373,7 @@ bool player::can_uninstall_bionic( const bionic_id &b_id, player &installer, boo
         }
     } else {
         if( !g->u.query_yn(
-                _( "WARNING: %i percent chance of SEVERE damage to all body parts!  Continue anyway?" ),
+                _( "WARNING: %i percent chance of SEVERE damage to all body parts! Continue anyway?" ),
                 ( 100 - static_cast<int>( chance_of_success ) ) ) ) {
             return false;
         }
@@ -1624,7 +1624,7 @@ bool player::can_install_bionics( const itype &type, player &installer, bool aut
         }
     } else {
         if( !g->u.query_yn(
-                _( "WARNING: %i percent chance of failure that may result in damage, pain, or a faulty installation!  Continue anyway?" ),
+                _( "WARNING: %i percent chance of failure that may result in damage, pain, or a faulty installation! Continue anyway?" ),
                 ( 100 - static_cast<int>( chance_of_success ) ) ) ) {
             return false;
         }

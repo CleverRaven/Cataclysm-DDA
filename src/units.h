@@ -374,22 +374,13 @@ inline constexpr quantity<value_type, energy_in_millijoule_tag> from_millijoule(
 template<typename value_type>
 inline constexpr quantity<value_type, energy_in_millijoule_tag> from_joule( const value_type v )
 {
-    const value_type max_energy_joules = std::numeric_limits<value_type>::max() / 1000;
-    // Check for overflow - if the energy provided is greater than max energy, then it
-    // if overflow when converted to millijoules
-    const value_type energy = v > max_energy_joules ? max_energy_joules : v;
-    return from_millijoule<value_type>( energy * 1000 );
+    return from_millijoule<value_type>( v * 1000 );
 }
 
 template<typename value_type>
 inline constexpr quantity<value_type, energy_in_millijoule_tag> from_kilojoule( const value_type v )
 {
-    const value_type max_energy_joules = std::numeric_limits<value_type>::max() / 1000;
-    // This checks for value_type overflow - if the energy we are given in Joules is greater
-    // than the max energy in Joules, overflow will occur when it is converted to millijoules
-    // The value we are given is in kJ, multiply by 1000 to convert it to joules, for use in from_joule
-    value_type energy = v * 1000 > max_energy_joules ? max_energy_joules : v * 1000;
-    return from_joule<value_type>( energy );
+    return from_joule<value_type>( v * 1000 );
 }
 
 template<typename value_type>

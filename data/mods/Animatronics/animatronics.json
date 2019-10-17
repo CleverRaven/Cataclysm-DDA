@@ -2,7 +2,7 @@
   {
     "type": "MONSTER",
     "id": "mon_animatronic_fox_old",
-    "name": { "str": "old animatronic fox", "str_pl": "old animatronic foxes" },
+    "name": "old animatronic fox",
     "species": "ROBOT",
     "default_faction": "animatronics",
     "symbol": "F",
@@ -36,7 +36,7 @@
   {
     "type": "MONSTER",
     "id": "mon_animatronic_fox_new",
-    "name": { "str": "new animatronic fox", "str_pl": "new animatronic foxes" },
+    "name": "new animatronic fox",
     "species": "ROBOT",
     "default_faction": "animatronics",
     "symbol": "F",
@@ -70,7 +70,7 @@
   {
     "type": "MONSTER",
     "id": "mon_animatronic_fox_wreck",
-    "name": { "str": "wrecked animatronic fox", "str_pl": "wrecked animatronic foxes" },
+    "name": "wrecked animatronic fox",
     "species": "ROBOT",
     "default_faction": "animatronics",
     "symbol": "F",
@@ -104,7 +104,7 @@
   {
     "type": "MONSTER",
     "id": "mon_animatronic_bunny_new",
-    "name": { "str": "new animatronic bunny", "str_pl": "new animatronic bunnies" },
+    "name": "new animatronic bunny",
     "species": "ROBOT",
     "default_faction": "animatronics",
     "symbol": "B",
@@ -138,7 +138,7 @@
   {
     "type": "MONSTER",
     "id": "mon_animatronic_bunny_old",
-    "name": { "str": "old animatronic bunny", "str_pl": "old animatronic bunnies" },
+    "name": "old animatronic bunny",
     "species": "ROBOT",
     "default_faction": "animatronics",
     "symbol": "B",
@@ -614,7 +614,7 @@
   {
     "type": "MONSTER",
     "id": "mon_animatronic_sheep",
-    "name": { "str": "animatronic sheep", "str_pl": "animatronic sheep" },
+    "name": "animatronic sheep",
     "name_plural": "animatronic sheep",
     "species": "ROBOT",
     "default_faction": "animatronics",
@@ -683,7 +683,7 @@
   {
     "type": "MONSTER",
     "id": "mon_animatronic_child",
-    "name": { "str": "animatronic child", "str_pl": "animatronic children" },
+    "name": "animatronic child",
     "species": "ROBOT",
     "default_faction": "animatronics",
     "symbol": "c",
@@ -751,7 +751,7 @@
   {
     "type": "MONSTER",
     "id": "mon_animatronic_wolf",
-    "name": { "str": "animatronic wolf", "str_pl": "animatronic wolves" },
+    "name": "animatronic wolf",
     "species": "ROBOT",
     "default_faction": "animatronics",
     "symbol": "W",

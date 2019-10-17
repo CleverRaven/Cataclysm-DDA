@@ -28,35 +28,6 @@
   },
   {
     "type": "furniture",
-    "id": "f_entertainment_center",
-    "name": "entertainment center",
-    "symbol": "{",
-    "description": "Stores audio visual equipment, books and collectible.",
-    "color": "brown",
-    "looks_like": "f_bookcase",
-    "move_cost_mod": -1,
-    "coverage": 80,
-    "required_str": 10,
-    "flags": [ "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR" ],
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 14 }, { "item": "wood_panel", "count": 2 }, { "item": "nail", "charges": [ 12, 20 ] } ]
-    },
-    "max_volume": 8000,
-    "bash": {
-      "str_min": 6,
-      "str_max": 40,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [
-        { "item": "2x4", "count": [ 2, 12 ] },
-        { "item": "nail", "charges": [ 4, 20 ] },
-        { "item": "splinter", "count": [ 6, 10 ] },
-        { "item": "wood_panel", "count": [ 0, 1 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
     "id": "f_coffin_c",
     "name": "coffin",
     "description": "Holds the bodies of the countless killed in the Cataclysm.",
@@ -187,31 +158,6 @@
       "sound": "smash!",
       "sound_fail": "wham!",
       "items": [ { "item": "2x4", "count": [ 1, 5 ] }, { "item": "nail", "charges": [ 2, 10 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_cardboard_box",
-    "name": "large cardboard box",
-    "symbol": "X",
-    "description": "A large cardboard box: this could be used to store things, or as a hiding place.",
-    "color": "brown",
-    "move_cost_mod": 7,
-    "coverage": 90,
-    "comfort": 1,
-    "floor_bedding_warmth": 200,
-    "required_str": 3,
-    "deconstruct": { "items": [ { "item": "box_large", "count": 1 } ] },
-    "max_volume": 6000,
-    "deployed_item": "box_large",
-    "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "BASHABLE", "HIDE_PLACE", "NO_SIGHT" ],
-    "bash": {
-      "str_min": 2,
-      "str_max": 15,
-      "sound": "crumple!",
-      "sound_fail": "thud.",
-      "items": [ { "item": "paper", "charges": [ 50, 100 ] } ]
     }
   },
   {
@@ -634,64 +580,6 @@
   },
   {
     "type": "furniture",
-    "id": "f_wardrobe",
-    "name": "wardrobe",
-    "looks_like": "f_dresser",
-    "description": "A tall piece of furniture - basically a freestanding closet.",
-    "symbol": "{",
-    "color": "i_brown",
-    "move_cost_mod": -1,
-    "coverage": 85,
-    "required_str": 9,
-    "flags": [ "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 20 }, { "item": "nail", "charges": [ 16, 24 ] }, { "item": "pipe", "count": 2 } ]
-    },
-    "max_volume": 2000,
-    "bash": {
-      "str_min": 12,
-      "str_max": 40,
-      "sound": "smash!",
-      "sound_fail": "whump.",
-      "items": [
-        { "item": "2x4", "count": [ 8, 12 ] },
-        { "item": "nail", "charges": [ 8, 14 ] },
-        { "item": "splinter", "count": [ 4, 10 ] },
-        { "item": "pipe", "count": [ 0, 1 ] },
-        { "item": "scrap", "count": [ 2, 5 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_filing_cabinet",
-    "name": "filing cabinet",
-    "looks_like": "f_rack",
-    "description": "A set of drawers in a sturdy metal cabinet, used to hold files.  It can be locked to protect important information.  If you're lucky, there are often keys nearby.",
-    "symbol": "}",
-    "color": "dark_gray",
-    "move_cost_mod": 2,
-    "coverage": 70,
-    "required_str": 7,
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE" ],
-    "deconstruct": {
-      "items": [
-        { "item": "sheet_metal", "count": [ 2, 6 ] },
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "lock", "count": [ 0, 1 ] }
-      ]
-    },
-    "max_volume": 800,
-    "bash": {
-      "str_min": 8,
-      "str_max": 30,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 0, 6 ] }, { "item": "sheet_metal", "count": [ 0, 4 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
     "id": "f_utility_shelf",
     "name": "utility shelf",
     "symbol": "{",
@@ -757,92 +645,6 @@
         { "item": "sheet_metal_small", "count": [ 6, 12 ] },
         { "item": "scrap", "count": [ 10, 20 ] },
         { "item": "splinter", "count": 1 }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_displaycase",
-    "name": "display case",
-    "description": "Display your stuff fancily and securely.",
-    "symbol": "#",
-    "color": "light_cyan",
-    "move_cost_mod": 2,
-    "coverage": 80,
-    "required_str": 9,
-    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM" ],
-    "bash": {
-      "str_min": 6,
-      "str_max": 20,
-      "sound": "glass breaking",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 12,
-      "furn_set": "f_displaycase_b",
-      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_displaycase_b",
-    "name": "broken display case",
-    "description": "Display your stuff.  It'll get stolen.",
-    "symbol": "#",
-    "color": "light_gray",
-    "move_cost_mod": 2,
-    "coverage": 80,
-    "required_str": 9,
-    "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
-    "bash": {
-      "str_min": 8,
-      "str_max": 30,
-      "sound": "crunch!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 2, 4 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_standing_tank",
-    "name": "standing tank",
-    "description": "A large freestanding metal tank, useful for holding liquids.",
-    "symbol": "O",
-    "color": "light_gray",
-    "move_cost_mod": -1,
-    "coverage": 90,
-    "required_str": -1,
-    "flags": [ "BASHABLE", "CONTAINER", "DECONSTRUCT", "LIQUIDCONT", "NOITEM", "SEALED", "TRANSPARENT" ],
-    "deconstruct": { "items": [ { "item": "metal_tank", "count": 4 }, { "item": "water_faucet", "count": 1 } ] },
-    "examine_action": "keg",
-    "keg_capacity": 1200,
-    "bash": {
-      "str_min": 10,
-      "str_max": 20,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 8, 32 ] }, { "item": "water_faucet", "prob": 50 } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_dumpster",
-    "name": "dumpster",
-    "description": "Stores trash.  Doesn't get picked up anymore.  Note the smell.",
-    "symbol": "{",
-    "color": "green",
-    "move_cost_mod": 3,
-    "coverage": 70,
-    "required_str": 16,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "HIDE_PLACE", "NO_SIGHT" ],
-    "bash": {
-      "str_min": 8,
-      "str_max": 45,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
-        { "item": "pipe", "count": [ 1, 2 ] }
       ]
     }
   }

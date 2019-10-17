@@ -18,7 +18,8 @@
         [ "diesel", 600 ],
         [ "chem_rdx", 1 ],
         [ "chem_hmtd", 2 ],
-        [ "chem_anfo", 5 ]
+        [ "chem_anfo", 5 ],
+        [ "matchbomb", 3 ]
       ],
       [
         [ "smpistol_primer", 1 ],

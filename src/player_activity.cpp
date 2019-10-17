@@ -61,37 +61,38 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
 
 cata::optional<std::string> player_activity::get_progress_message() const
 {
-    if( type == activity_id( "ACT_NULL" ) || get_verb().empty() ) {
-        return cata::optional<std::string>();
-    }
-
-    std::string extra_info;
     if( type == activity_id( "ACT_CRAFT" ) ) {
         if( const item *craft = targets.front().get_item() ) {
-            extra_info = craft->tname();
+            return string_format( _( "Crafting: %s" ), craft->tname() );
         }
     } else if( moves_total > 0 ) {
         const int percentage = ( ( moves_total - moves_left ) * 100 ) / moves_total;
 
-        if( type == activity_id( "ACT_BURROW" ) ||
-            type == activity_id( "ACT_HACKSAW" ) ||
-            type == activity_id( "ACT_JACKHAMMER" ) ||
-            type == activity_id( "ACT_PICKAXE" ) ||
-            type == activity_id( "ACT_DISASSEMBLE" ) ||
+        if( type == activity_id( "ACT_BURROW" ) ) {
+            return string_format( _( "Burrowing: %d%%" ), percentage );
+        } else if( type == activity_id( "ACT_HACKSAW" ) ) {
+            return string_format( _( "Sawing: %d%%" ), percentage );
+        } else if( type == activity_id( "ACT_JACKHAMMER" ) ) {
+            return string_format( _( "Jackhammering: %d%%" ), percentage );
+        } else if( type == activity_id( "ACT_PICKAXE" ) ) {
+            return string_format( _( "Digging: %d%%" ), percentage );
+        } else if( type == activity_id( "ACT_DISASSEMBLE" ) ) {
+            return string_format( _( "Disassembling: %d%%" ), percentage );
+        } else if(
             type == activity_id( "ACT_FILL_PIT" ) ||
             type == activity_id( "ACT_DIG" ) ||
-            type == activity_id( "ACT_DIG_CHANNEL" ) ||
+            type == activity_id( "ACT_DIG_CHANNEL" )
+        ) {
+            return string_format( _( "Shoveling: %d%%" ), percentage );
+        } else if(
             type == activity_id( "ACT_CHOP_TREE" ) ||
             type == activity_id( "ACT_CHOP_LOGS" ) ||
             type == activity_id( "ACT_CHOP_PLANKS" )
-          ) {
-            extra_info = string_format( "%d%%", percentage );
+        ) {
+            return string_format( _( "Chopping: %d%%" ), percentage );
         }
     }
-
-    return extra_info.empty() ? string_format( _( "%s…" ),
-            get_verb().translated() ) : string_format( _( "%s: %s" ),
-                    get_verb().translated(), extra_info );
+    return cata::optional<std::string>();
 }
 
 void player_activity::do_turn( player &p )

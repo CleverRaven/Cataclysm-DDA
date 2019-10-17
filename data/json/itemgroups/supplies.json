@@ -75,7 +75,6 @@
       { "item": "brick", "prob": 40, "count": [ 5, 10 ] },
       { "item": "pipe", "prob": 40, "count": [ 5, 10 ] },
       { "item": "wire", "prob": 40, "count": [ 5, 10 ] },
-      { "item": "screen_mesh", "prob": 40, "count": [ 5, 10 ] },
       { "item": "spike", "prob": 40, "count": [ 5, 10 ] },
       { "item": "nail", "prob": 60, "count": [ 5, 20 ] },
       { "item": "hinge", "prob": 60, "count": [ 5, 10 ] }
@@ -180,7 +179,6 @@
       [ "frame", 20 ],
       [ "hdframe", 10 ],
       [ "metal_tank", 10 ],
-      [ "screen_mesh", 10 ],
       [ "metal_tank_little", 10 ],
       [ "water_faucet", 10 ],
       [ "wood_panel", 10 ],
@@ -346,7 +344,6 @@
       [ "v2_combustion", 10 ],
       [ "i4_combustion", 10 ],
       [ "v6_combustion", 10 ],
-      [ "v6_diesel", 10 ],
       [ "steam_triple_small", 1 ],
       [ "steam_triple_medium", 1 ],
       [ "steam_watts_small", 1 ],

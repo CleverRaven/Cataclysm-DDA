@@ -210,7 +210,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Cloaking System CBM",
-    "description": "This high-power system uses a set of cameras and LEDs to make the user blend into their surroundings, rendering them fully invisible to eyes and optical sensors.  However, this doesn't prevent detection from other means such as infrared, sonar, etc.",
+    "description": "This high-power system uses a set of cameras and LEDs to make the user blend into their surroundings, rendering them fully invisible to eyes and optical sensors.  However, this does't prevent detection from other means such as infrared, sonar, etc.",
     "price": 850000,
     "difficulty": 5
   },
@@ -314,7 +314,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Facial Distortion CBM",
-    "description": "Through controlled application of electrochemical impulses, this bionic module lets the user alter their facial structure so as to subtly affect the reactions of others.  This grants a bonus to all social interactions.",
+    "description": "Through controlled application of electrochemical impulses, this bionic mudule lets the user alter their facial structure so as to subtly affect the reactions of others.  This grants a bonus to all social interactions.",
     "price": 850000,
     "weight": "200 g",
     "difficulty": 5
@@ -993,7 +993,7 @@
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": "Itchy Metal Thing",
-    "description": "You can't recognize what this is supposed to be, but it's a very awkward thing to have in one's body.",
+    "description": "You can't recognise what this is supposed to be, but it's a very awkward thing to have in one's body.",
     "weight": "200 g",
     "difficulty": 3
   },

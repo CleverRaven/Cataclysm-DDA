@@ -192,6 +192,7 @@
       [ "shotgun_d", 5 ],
       [ "pipebomb", 10 ],
       [ "molotov", 10 ],
+      [ "matchbomb", 10 ],
       [ "longbow", 5 ],
       [ "compositebow", 15 ],
       [ "shortbow", 10 ],

@@ -68,17 +68,5 @@
     "bashing": 1,
     "price": 20000,
     "copy-from": "vehicle_controls"
-  },
-  {
-    "type": "GENERIC",
-    "id": "turret_controls",
-    "name": "turret control unit",
-    "description": "A set of motor, camera, and various electronic modules banded together to allow for tracking targets, friend-or-foe identification, and firing the connected turret in full automatic mode.",
-    "weight": "4000 g",
-    "color": "white",
-    "symbol": "&",
-    "volume": "9 L",
-    "price": 500000,
-    "copy-from": "vehicle_controls"
   }
 ]

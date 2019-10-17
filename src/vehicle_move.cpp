@@ -1243,7 +1243,7 @@ vehicle *vehicle::act_on_map()
 {
     const tripoint pt = global_pos3();
     if( !g->m.inbounds( pt ) ) {
-        dbg( D_INFO ) << "stopping out-of-map vehicle.  (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z <<
+        dbg( D_INFO ) << "stopping out-of-map vehicle. (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z <<
                       ")";
         stop( false );
         of_turn = 0;
@@ -1431,8 +1431,7 @@ void vehicle::check_falling_or_floating()
     in_water =  2 * water_tiles >= pts.size();
 }
 
-float map::vehicle_wheel_traction( const vehicle &veh,
-                                   const bool ignore_movement_modifiers /*=false*/ ) const
+float map::vehicle_wheel_traction( const vehicle &veh ) const
 {
     if( veh.is_in_water( true ) ) {
         return veh.can_float() ? 1.0f : -1.0f;
@@ -1478,12 +1477,6 @@ float map::vehicle_wheel_traction( const vehicle &veh,
                 break;
             }
         }
-
-        // Ignore the movement modifier if needed.
-        if( ignore_movement_modifiers ) {
-            move_mod = 2;
-        }
-
         traction_wheel_area += 2.0 * wheel_area / move_mod;
     }
 

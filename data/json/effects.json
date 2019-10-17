@@ -1780,11 +1780,5 @@
   {
     "type": "effect_type",
     "id": "has_prospectus"
-  },
-  {
-    "type": "effect_type",
-    "id": "ignore_fall_damage",
-    "//": "Used for translocation via teleporter_list as a way to avoid fall damage by teleporting Z levels",
-    "flags": [ "EFFECT_FEATHER_FALL" ]
   }
 ]

@@ -162,7 +162,7 @@
     "dynamic_line": "Do not mock me, for my strength is quite real!  Get out of here now!",
     "responses": [
       { "text": "Sheesh, ok, calm down, I'm leaving!", "topic": "TALK_DONE" },
-      { "text": "Forgive me, I didn't mean to disrespect you.", "topic": "TALK_FOODPERSON_MAIN" },
+      { "text": "Forgive me,  I didn't mean to disrespect you.", "topic": "TALK_FOODPERSON_MAIN" },
       { "text": "Oh yeah?  Show me what you can do!", "topic": "TALK_DONE", "effect": "hostile" }
     ]
   },
@@ -531,7 +531,7 @@
       { "text": "I AM THE ONE!", "topic": "TALK_DONE", "effect": "hostile", "opinion": { "trust": -20, "value": -20 } },
       {
         "condition": { "not": { "u_has_trait": "PROF_FOODP" } },
-        "text": "Wow calm down, it's just a prank bro.",
+        "text": "Wow calm down,  it's just a prank bro.",
         "topic": "TALK_DONE",
         "opinion": { "trust": -20, "value": -20 }
       },

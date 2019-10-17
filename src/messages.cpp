@@ -751,7 +751,7 @@ void Messages::dialog::run()
 std::vector<std::string> Messages::dialog::filter_help_text( int width )
 {
     const auto &help_fmt = _(
-                               "Format is [[TYPE]:]TEXT.  The values for TYPE are: %s\n"
+                               "Format is [[TYPE]:]TEXT. The values for TYPE are: %s\n"
                                "Examples:\n"
                                "  good:mutation\n"
                                "  :you pick up: 1\n"

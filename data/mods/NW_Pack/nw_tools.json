@@ -1,0 +1,15 @@
+[
+  {
+    "id": "laevateinn_replica",
+    "copy-from": "arming_sword",
+    "type": "TOOL",
+    "name": "Laevateinn",
+    "description": "A replica of Laevateinn, the sword of Freyr.  It is rumored to be able to fight by itself.  It is decorated with gold and silver ornaments.",
+    "price": 160000,
+    "material": [ "steel", "gold" ],
+    "techniques": "WBLOCK_2",
+    "weight": 1860,
+    "bashing": 17,
+    "cutting": 33
+  }
+]

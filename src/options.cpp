@@ -2363,9 +2363,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 {
     // temporary alias so the code below does not need to be changed
     options_container &OPTIONS = options;
-    options_container &ACTIVE_WORLD_OPTIONS = world_options.has_value() ?
-            *world_options.value() :
-            OPTIONS;
+    options_container &ACTIVE_WORLD_OPTIONS = world_generator->active_world ?
+            world_generator->active_world->WORLD_OPTIONS :
+            world_options_only ? *world_options : OPTIONS;
 
     auto OPTIONS_OLD = OPTIONS;
     auto WOPTIONS_OLD = ACTIVE_WORLD_OPTIONS;
@@ -2891,11 +2891,11 @@ options_manager::cOpt &options_manager::get_option( const std::string &name )
     if( options.count( name ) == 0 ) {
         debugmsg( "requested non-existing option %s", name );
     }
-    if( !world_options.has_value() ) {
+    if( !world_generator || !world_generator->active_world ) {
         // Global options contains the default for new worlds, which is good enough here.
         return options[name];
     }
-    auto &wopts = *world_options.value();
+    auto &wopts = world_generator->active_world->WORLD_OPTIONS;
     if( wopts.count( name ) == 0 ) {
         auto &opt = options[name];
         if( opt.getPage() != "world_default" ) {
@@ -2924,15 +2924,6 @@ std::vector<std::string> options_manager::getWorldOptPageItems() const
     // TODO: mPageItems is const here, so we can not use its operator[], therefore the copy
     auto temp = mPageItems;
     return temp[iWorldOptPage];
-}
-
-void options_manager::set_world_options( options_container *options )
-{
-    if( options == nullptr ) {
-        world_options.reset();
-    } else {
-        world_options = options;
-    }
 }
 
 void options_manager::update_global_locale()

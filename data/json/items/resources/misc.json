@@ -46,7 +46,7 @@
     "material": [ "cotton" ],
     "symbol": "0",
     "color": "white",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_down_mattress" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_feather_mattress" }
   },
   {
     "id": "fuse",

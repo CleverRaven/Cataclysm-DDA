@@ -292,15 +292,11 @@ void vehicle::turrets_set_targeting()
 {
     std::vector<vehicle_part *> turrets;
     std::vector<tripoint> locations;
-    std::vector<vehicle_part *> turret_controls;
 
     for( auto &p : parts ) {
-        if( p.base.is_gun() ) {
+        if( p.base.is_gun() && !p.info().has_flag( "MANUAL" ) ) {
             turrets.push_back( &p );
             locations.push_back( global_part_pos3( p ) );
-        }
-        if( part_flag( index_of_part( &p ), "TURRET_CONTROLS" ) ) {
-            turret_controls.push_back( &p );
         }
     }
 
@@ -316,11 +312,8 @@ void vehicle::turrets_set_targeting()
         menu.w_y = 2;
 
         for( auto &p : turrets ) {
-            menu.addentry( -1, has_part( global_part_pos3( *p ), "TURRET_CONTROLS" ), MENU_AUTOASSIGN,
-                           "%s [%s]", p->name(), p->enabled ?
-                           _( "auto -> manual" ) : has_part( global_part_pos3( *p ), "TURRET_CONTROLS" ) ?
-                           _( "manual -> auto" ) :
-                           _( "manual (turret control unit required for auto mode)" ) );
+            menu.addentry( -1, true, MENU_AUTOASSIGN, "%s [%s]", p->name(),
+                           p->enabled ? _( "auto" ) : _( "manual" ) );
         }
 
         menu.query();
@@ -329,12 +322,7 @@ void vehicle::turrets_set_targeting()
         }
 
         sel = menu.ret;
-        if( has_part( locations[ sel ], "TURRET_CONTROLS" ) ) {
-            turrets[sel]->enabled = !turrets[sel]->enabled;
-            turret_controls[sel]->enabled = turrets[sel]->enabled;
-        } else {
-            turrets[sel]->enabled = false;
-        }
+        turrets[ sel ]->enabled = !turrets[ sel ]->enabled;
 
         // clear the turret's current targets to prevent unwanted auto-firing
         tripoint pos = locations[ sel ];
@@ -393,8 +381,7 @@ bool vehicle::turrets_aim( bool manual, bool automatic, vehicle_part *tur_part )
     } ), last );
 
     if( opts.empty() ) {
-        add_msg( m_warning,
-                 _( "Can't aim turrets: all turrets are offline or set to manual targeting mode." ) );
+        add_msg( m_warning, _( "Can't aim turrets: all turrets are offline" ) );
         return false;
     }
 

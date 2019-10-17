@@ -258,7 +258,6 @@ class basecamp
                             bool by_radio );
         std::string om_upgrade_description( const std::string &bldg, bool trunc = false ) const;
         void start_menial_labor();
-        void job_assignment_ui();
         void start_crafting( const std::string &cur_id, const point &cur_dir,
                              const std::string &type, const std::string &miss_id,
                              bool by_radio = false );
@@ -284,14 +283,11 @@ class basecamp
         /// called with a companion @ref comp who is not the camp manager, finishes updating their
         /// skills, consuming food, and returning them to the base.
         void finish_return( npc &comp, bool fixed_time, const std::string &return_msg,
-                            const std::string &skill, int difficulty, bool cancel = false );
+                            const std::string &skill, int difficulty );
         /// a wrapper function for @ref companion_choose_return and @ref finish_return
         npc_ptr mission_return( const std::string &miss_id, time_duration min_duration,
                                 bool fixed_time, const std::string &return_msg,
                                 const std::string &skill, int difficulty );
-        /// select a companion for any mission to return to base
-        npc_ptr emergency_recall();
-
         /// Called to close upgrade missions, @ref miss is the name of the mission id
         /// and @ref dir is the direction of the location to be upgraded
         bool upgrade_return( const point &dir, const std::string &miss );

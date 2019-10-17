@@ -152,7 +152,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_3",
     "type": "mission_definition",
     "name": "Light retrieval",
-    "description": "Reach the collapsed tower basement, and search the ruins for a photonic circuitry template. The intercom warned you about heavy enemy presence, and of the existence of a hazardous environment.",
+    "description": "Reach the collapsed tower basement, and search the ruins for a photonic circuitry template. The intercom warned you about heavy enemy prescence, and of the existence of a hazardous enviroment.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "item": "template_photonics",

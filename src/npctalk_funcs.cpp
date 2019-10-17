@@ -363,43 +363,39 @@ void talk_function::assign_guard( npc &p )
     p.set_mission( NPC_MISSION_GUARD_ALLY );
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.set_omt_destination();
-}
-
-void talk_function::assign_camp( npc &p )
-{
     cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
-        p.set_attitude( NPCATT_NULL );
-        p.set_mission( NPC_MISSION_ASSIGNED_CAMP );
         temp_camp->validate_assignees();
-        add_msg( _( "%1$s is assigned to %2$s" ), p.disp_name(), temp_camp->camp_name() );
-        if( p.has_player_activity() ) {
-            p.revert_after_activity();
+        if( p.rules.has_flag( ally_rule::ignore_noise ) ) {
+            //~ %1$s is the NPC's translated name, %2$s is the translated faction camp name
+            add_msg( _( "%1$s is assigned to %2$s" ), p.disp_name(), temp_camp->camp_name() );
+        } else {
+            //~ %1$s is the NPC's translated name, %2$s is the translated faction camp name
+            add_msg( _( "%1$s is assigned to guard %2$s" ), p.disp_name(), temp_camp->camp_name() );
         }
-
-        if( p.is_travelling() ) {
-            if( p.has_companion_mission() ) {
-                p.reset_companion_mission();
-            }
+    } else {
+        if( p.rules.has_flag( ally_rule::ignore_noise ) ) {
+            //~ %1$s is the NPC's translated name, %2$s is the pronoun for the NPC's gender
+            add_msg( _( "%1$s will wait for you where %2$s is." ), p.disp_name(),
+                     p.male ? _( "he" ) : _( "she" ) );
+        } else {
+            add_msg( _( "%s is posted as a guard." ), p.disp_name() );
         }
-        p.chatbin.first_topic = "TALK_FRIEND_GUARD";
-        p.set_omt_destination();
-        temp_camp->job_assignment_ui();
     }
 }
 
 void talk_function::stop_guard( npc &p )
 {
-    if( p.mission != NPC_MISSION_GUARD_ALLY && p.mission != NPC_MISSION_ASSIGNED_CAMP ) {
+    if( p.mission != NPC_MISSION_GUARD_ALLY ) {
         p.set_attitude( NPCATT_NULL );
         p.set_mission( NPC_MISSION_NULL );
         return;
     }
+
     p.set_attitude( NPCATT_FOLLOW );
     add_msg( _( "%s begins to follow you." ), p.name );
     p.set_mission( NPC_MISSION_NULL );
-    p.set_job( static_cast<npc_job>( 0 ) );
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
     p.guard_pos = npc::no_goal_point;
@@ -596,7 +592,7 @@ static void generic_barber( const std::string &mut_type )
     }
     hair_menu.text = menu_text;
     int index = 0;
-    hair_menu.addentry( index, true, 'q', _( "Actually...  I've changed my mind." ) );
+    hair_menu.addentry( index, true, 'q', _( "Actually... I've changed my mind." ) );
     std::vector<trait_id> hair_muts = get_mutations_in_type( mut_type );
     trait_id cur_hair;
     for( auto elem : hair_muts ) {

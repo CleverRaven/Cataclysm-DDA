@@ -672,7 +672,7 @@ bool player::eat( item &food, bool force )
         ( get_hunger() > -60 && get_thirst() > -60 ) &&
         ( get_hunger() - nutr < -60 || get_thirst() - quench < -60 ) ) {
         add_msg_if_player(
-            _( "You've begun stockpiling calories and liquid for hibernation.  You get the feeling that you should prepare for bed, just in case, but... you're hungry again, and you could eat a whole week's worth of food RIGHT NOW." ) );
+            _( "You've begun stockpiling calories and liquid for hibernation.  You get the feeling that you should prepare for bed, just in case, but...you're hungry again, and you could eat a whole week's worth of food RIGHT NOW." ) );
     }
 
     const bool will_vomit = stomach.stomach_remaining() < food.volume() &&
@@ -851,7 +851,7 @@ bool player::eat( item &food, bool force )
             // Small bonus for violating a taboo.
             add_morale( MORALE_CANNIBAL, 5, 50 );
         } else if( psycho || sapiovore ) {
-            add_msg_if_player( _( "Meh.  You've eaten worse." ) );
+            add_msg_if_player( _( "Meh. You've eaten worse." ) );
         } else if( spiritual ) {
             add_msg_if_player( m_bad,
                                _( "This is probably going to count against you if there's still an afterlife." ) );
@@ -883,7 +883,7 @@ bool player::eat( item &food, bool force )
     // Allergy check
     const auto allergy = allergy_type( food );
     if( allergy != MORALE_NULL ) {
-        add_msg_if_player( m_bad, _( "Yuck!  How can anybody eat this stuff?" ) );
+        add_msg_if_player( m_bad, _( "Yuck! How can anybody eat this stuff?" ) );
         add_morale( allergy, -75, -400, 30_minutes, 24_minutes );
     }
     if( food.has_flag( "ALLERGEN_JUNK" ) ) {
@@ -986,7 +986,7 @@ void player::modify_stimulation( const islot_comestible &comest )
                                                 _( "They're coming to get you." ),
                                                 _( "This might've been a bad idea..." ),
                                                 _( "You've really done it this time, haven't you?" ),
-                                                _( "You have to stay vigilant.  They're always watching..." ),
+                                                _( "You have to stay vigilant. They're always watching..." ),
                                                 _( "mistake mistake mistake mistake mistake" ),
                                                 _( "Just gotta stay calm, and you'll make it through this." ),
                                                 _( "You're starting to feel very jumpy." ),
@@ -1076,7 +1076,7 @@ bool player::consume_effects( item &food )
         }
         if( ( nutr > 0 && get_hunger() < -200 ) || ( comest.quench > 0 && get_thirst() < -200 ) ) {
             //Hibernation should cut burn to 60/day
-            add_msg_if_player( _( "You feel stocked for a day or two.  Got your bed all ready and secured?" ) );
+            add_msg_if_player( _( "You feel stocked for a day or two. Got your bed all ready and secured?" ) );
             if( one_in( 2 ) ) {
                 //And another 50%, intended cumulative
                 mod_fatigue( nutr );
@@ -1085,7 +1085,7 @@ bool player::consume_effects( item &food )
 
         if( ( nutr > 0 && get_hunger() < -400 ) || ( comest.quench > 0 && get_thirst() < -400 ) ) {
             add_msg_if_player(
-                _( "Mmm.  You can still fit some more in... but maybe you should get comfortable and sleep." ) );
+                _( "Mmm.  You can still fit some more in...but maybe you should get comfortable and sleep." ) );
             if( !one_in( 3 ) ) {
                 //Third check, this one at 66%
                 mod_fatigue( nutr );
@@ -1117,7 +1117,7 @@ bool player::consume_effects( item &food )
         mod_thirst( 40 );
         //~slimespawns have *small voices* which may be the Nice equivalent
         //~of the Rat King's ALL CAPS invective.  Probably shared-brain telepathy.
-        add_msg_if_player( m_good, _( "hey, you look like me!  let's work together!" ) );
+        add_msg_if_player( m_good, _( "hey, you look like me! let's work together!" ) );
     }
 
     // Last thing that happens before capping hunger

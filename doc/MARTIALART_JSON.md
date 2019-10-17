@@ -55,7 +55,6 @@
 "down_dur": 2,              // Duration that target is downed for
 "side_switch": true,        // Technique moves the target behind user
 "disarms": true,            // This technique can disarm the opponent
-"take_weapon": true,        // Technique will disarm and equip target's weapon if hands are free
 "grab_break": true,         // This technique may break a grab against the user
 "aoe": "spin",              // This technique has an area-of-effect; doesn't work against solo targets
 "block_counter": true,      // This technique may automatically counterattack on a successful block

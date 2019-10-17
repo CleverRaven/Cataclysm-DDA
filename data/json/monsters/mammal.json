@@ -520,7 +520,7 @@
     "id": "mon_dog_pup",
     "type": "MONSTER",
     "copy-from": "mon_dog",
-    "name": { "str": "Labrador puppy", "str_pl": "Labrador puppies" },
+    "name": "Labrador puppy",
     "description": "An adorable, defenseless Labrador puppy.  Much safer to tame than an adult dog.",
     "volume": "750 ml",
     "weight": 1000,
@@ -571,7 +571,7 @@
   {
     "id": "mon_dog_bull_pup",
     "type": "MONSTER",
-    "name": { "str": "bulldog puppy", "str_pl": "bulldog puppies" },
+    "name": "bulldog puppy",
     "description": "An adorable, defenseless American bulldog puppy.  Much safer to tame than an adult dog.",
     "default_faction": "dog",
     "bodytype": "dog",
@@ -602,7 +602,7 @@
     "id": "mon_dog_pitbullmix",
     "copy-from": "mon_dog",
     "type": "MONSTER",
-    "name": { "str": "pit bull mix", "str_pl": "pit bull mixes" },
+    "name": "pit bull mix",
     "description": "The oft-misunderstood pit bull is not actually a single breed but a label for several kinds of terriers.  It has average abilities, and is well-known for its 'lock jaw' - which isn't real, but their incredible determination is.",
     "hp": 27,
     "weight": 25000,
@@ -632,7 +632,7 @@
   {
     "id": "mon_dog_pitbullmix_pup",
     "type": "MONSTER",
-    "name": { "str": "pit bull puppy", "str_pl": "pit bull puppies" },
+    "name": "pit bull puppy",
     "description": "An adorable, defenseless pit bull puppy.  Much safer to tame than an adult dog.",
     "default_faction": "dog",
     "bodytype": "dog",
@@ -698,7 +698,7 @@
   {
     "id": "mon_dog_beagle_pup",
     "type": "MONSTER",
-    "name": { "str": "beagle puppy", "str_pl": "beagle puppies" },
+    "name": "beagle puppy",
     "description": "An adorable, defenseless beagle puppy.  Much safer to tame than an adult dog.",
     "default_faction": "dog",
     "bodytype": "dog",
@@ -761,7 +761,7 @@
   {
     "id": "mon_dog_bcollie_pup",
     "type": "MONSTER",
-    "name": { "str": "border collie puppy", "str_pl": "border collie puppies" },
+    "name": "border collie puppy",
     "description": "An adorable, defenseless Border Collie puppy.  Much safer to tame than an adult dog.",
     "default_faction": "dog",
     "bodytype": "dog",
@@ -813,7 +813,7 @@
   {
     "id": "mon_dog_boxer_pup",
     "type": "MONSTER",
-    "name": { "str": "boxer puppy", "str_pl": "boxer puppies" },
+    "name": "boxer puppy",
     "description": "An adorable, defenseless boxer puppy.  Much safer to tame than an adult dog.",
     "default_faction": "dog",
     "bodytype": "dog",
@@ -892,7 +892,7 @@
   {
     "id": "mon_dog_chihuahua_pup",
     "type": "MONSTER",
-    "name": { "str": "Chihuahua puppy", "str_pl": "Chihuahua puppies" },
+    "name": "Chihuahua puppy",
     "description": "An adorable, defenseless Chihuahua puppy.  Much safer to tame than an adult dog.",
     "default_faction": "dog",
     "bodytype": "dog",
@@ -958,7 +958,7 @@
   {
     "id": "mon_dog_dachshund_pup",
     "type": "MONSTER",
-    "name": { "str": "dachshund puppy", "str_pl": "dachshund puppies" },
+    "name": "dachshund puppy",
     "bodytype": "dog",
     "description": "An adorable, defenseless dachshund puppy.  Much safer to tame than an adult dog.",
     "default_faction": "dog",
@@ -1009,7 +1009,7 @@
   {
     "id": "mon_dog_gshepherd_pup",
     "type": "MONSTER",
-    "name": { "str": "German shepherd puppy", "str_pl": "German shepherd puppies" },
+    "name": "German shepherd puppy",
     "description": "An adorable, defenseless German shepherd puppy.  Much safer to tame than an adult dog.",
     "default_faction": "dog",
     "bodytype": "dog",
@@ -1043,7 +1043,7 @@
     "id": "mon_dog_gpyrenees",
     "copy-from": "mon_dog",
     "type": "MONSTER",
-    "name": { "str": "Great Pyrenees", "str_pl": "Great Pyrenees" },
+    "name": "Great Pyrenees",
     "//": "Rare, location specific only",
     "description": "A large and powerful breed, the Great Pyrenees has a beautiful, thick white coat.  Originally bred to deter wolves and other predators, now faced with protecting livestock from shambling hordes of undead.",
     "volume": "52500 ml",
@@ -1076,7 +1076,7 @@
   {
     "id": "mon_dog_gpyrenees_pup",
     "type": "MONSTER",
-    "name": { "str": "Great Pyrenees puppy", "str_pl": "Great Pyrenees puppies" },
+    "name": "Great Pyrenees puppy",
     "description": "An adorable, defenseless Great Pyrenees puppy.  Much safer to tame than an adult dog.",
     "default_faction": "dog",
     "bodytype": "dog",
@@ -1143,7 +1143,7 @@
   {
     "id": "mon_dog_rottweiler_pup",
     "type": "MONSTER",
-    "name": { "str": "rottweiler puppy", "str_pl": "rottweiler puppies" },
+    "name": "rottweiler puppy",
     "description": "An adorable, defenseless Rottweiler puppy.  Much safer to tame than an adult dog.",
     "default_faction": "dog",
     "bodytype": "dog",
@@ -1208,7 +1208,7 @@
   {
     "id": "mon_dog_auscattle_pup",
     "type": "MONSTER",
-    "name": { "str": "cattle dog puppy", "str_pl": "cattle dog puppies" },
+    "name": "cattle dog puppy",
     "description": "An adorable, defenseless Australian cattle dog puppy.  Much safer to tame than an adult dog.",
     "default_faction": "dog",
     "bodytype": "dog",
@@ -1241,7 +1241,8 @@
   {
     "id": "mon_fox_gray",
     "type": "MONSTER",
-    "name": { "str": "fox", "str_pl": "foxes" },
+    "name": "fox",
+    "name_plural": "foxes",
     "description": "A small omnivorous canine with an almost cat-like manner.  It is a solitary hunter, and one of the only canids able to climb trees.",
     "default_faction": "fox",
     "bodytype": "dog",
@@ -1272,7 +1273,8 @@
   {
     "id": "mon_fox_red",
     "type": "MONSTER",
-    "name": { "str": "fox", "str_pl": "foxes" },
+    "name": "fox",
+    "name_plural": "foxes",
     "description": "The red fox, an omnivorous canine and largest of the true foxes, it is a wily hunter with a combative, suspicious temperament.",
     "default_faction": "fox",
     "bodytype": "dog",
@@ -1453,7 +1455,7 @@
   {
     "id": "mon_moose",
     "type": "MONSTER",
-    "name": { "str": "moose", "str_pl": "moose" },
+    "name": "moose",
     "description": "The Eastern moose, the largest living species of deer.  While they aren't aggressive unless angered, the mating season can make the bulls quite ill-tempered.",
     "default_faction": "herbivore",
     "bodytype": "horse",
@@ -1832,7 +1834,8 @@
   {
     "id": "mon_sheep",
     "type": "MONSTER",
-    "name": { "str": "sheep", "str_pl": "sheep" },
+    "name": "sheep",
+    "name_plural": "sheep",
     "description": "A timid, hooved grazing mammal, and one of the first animals ever domesticated.  Its body is covered in a thick layer of wool, and the males have long, spiralling horns.",
     "default_faction": "herbivore",
     "bodytype": "dog",
@@ -1946,7 +1949,8 @@
   {
     "id": "mon_wolf",
     "type": "MONSTER",
-    "name": { "str": "wolf", "str_pl": "wolves" },
+    "name": "wolf",
+    "name_plural": "wolves",
     "description": "A cunning pack predator, once extinct in the New England area, the wolf was successfully reintroduced and their numbers reached record highs in the decade before the Cataclysm.  Lucky you.",
     "default_faction": "wolf",
     "bodytype": "dog",

@@ -41,7 +41,7 @@
     "id": "TALK_ISHERWOOD_CHRIS",
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
-      "yes": "I see that badge, You need to leave our land, my relatives have no fondness for Marshals.",
+      "yes": "I see that badge, You need to leave our land, my relatives have no fondess for Marshals.",
       "no": "Hi, what's up?"
     },
     "responses": [

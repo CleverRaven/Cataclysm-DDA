@@ -347,44 +347,5 @@
         { "item": "plastic_chunk", "count": [ 1, 5 ] }
       ]
     }
-  },
-  {
-    "type": "furniture",
-    "id": "f_speaker_cabinet",
-    "name": "speaker cabinet",
-    "description": "A cabinet loaded with 12-inch speakers, intended to help make various things loud.  It can't serve its original purpose these days, but it could be disassembled for various electronic parts.",
-    "symbol": "7",
-    "color": "blue",
-    "move_cost_mod": -1,
-    "coverage": 50,
-    "max_volume": 15,
-    "required_str": 7,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM" ],
-    "deconstruct": {
-      "items": [
-        { "item": "scrap", "count": [ 4, 6 ] },
-        { "item": "e_scrap", "count": [ 1, 2 ] },
-        { "item": "plastic_chunk", "count": [ 0, 2 ] },
-        { "item": "wood_panel", "count": 1 },
-        { "item": "2x4", "count": 4 },
-        { "item": "nail", "charges": [ 8, 10 ] },
-        { "item": "cable", "charges": [ 3, 4 ] }
-      ]
-    },
-    "bash": {
-      "str_min": 8,
-      "str_max": 20,
-      "sound": "smash!",
-      "sound_fail": "whump!",
-      "items": [
-        { "item": "splinter", "count": [ 0, 6 ] },
-        { "item": "scrap", "count": [ 0, 3 ] },
-        { "item": "2x4", "count": [ 1, 2 ] },
-        { "item": "nail", "charges": [ 2, 6 ] },
-        { "item": "cable", "charges": [ 1, 3 ] },
-        { "item": "e_scrap", "prob": 25 },
-        { "item": "plastic_chunk", "count": [ 0, 1 ] }
-      ]
-    }
   }
 ]

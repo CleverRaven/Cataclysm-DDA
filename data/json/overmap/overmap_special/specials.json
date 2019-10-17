@@ -3342,7 +3342,7 @@
   },
   {
     "type": "overmap_special",
-    "id": "Apple Orchard",
+    "id": "apple_orchard",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "orchard_processing_north" },
       { "point": [ 1, 0, 0 ], "overmap": "orchard_tree_apple_north" },
@@ -3361,10 +3361,10 @@
       { "point": [ 2, 3, 0 ], "overmap": "orchard_tree_apple_north" },
       { "point": [ 3, 3, 0 ], "overmap": "orchard_tree_apple_north" }
     ],
-    "connections": [ { "point": [ -1, 1, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ -1, 1, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "land" ],
-    "city_distance": [ 5, -1 ],
-    "city_sizes": [ 1, -1 ],
+    "city_distance": [ 20, -1 ],
+    "city_sizes": [ 1, 12 ],
     "occurrences": [ 0, 5 ],
     "flags": [ "CLASSIC" ]
   },

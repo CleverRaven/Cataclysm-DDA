@@ -201,8 +201,7 @@
         "effect_body_part": "MOUTH",
         "effect_intensity": 2,
         "effect_min_duration": "7 seconds",
-        "effect_max_duration": "7 seconds",
-        "scent_neutralization": 1
+        "effect_max_duration": "7 seconds"
       },
       {
         "name": "thick smoke",
@@ -212,8 +211,7 @@
         "effect_body_part": "MOUTH",
         "effect_intensity": 4,
         "effect_min_duration": "15 seconds",
-        "effect_max_duration": "15 seconds",
-        "scent_neutralization": 5
+        "effect_max_duration": "15 seconds"
       }
     ],
     "decay_amount_factor": 5,
@@ -257,14 +255,8 @@
     "legacy_enum_id": 14,
     "intensity_levels": [
       { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 1 },
-      {
-        "name": "tear gas",
-        "color": "light_green",
-        "transparent": false,
-        "translucency": 10,
-        "scent_neutralization": 1
-      },
-      { "name": "thick tear gas", "color": "green", "translucency": 0, "scent_neutralization": 5 }
+      { "name": "tear gas", "color": "light_green", "transparent": false, "translucency": 10 },
+      { "name": "thick tear gas", "color": "green", "translucency": 0 }
     ],
     "decay_amount_factor": 5,
     "gas_absorption_factor": 15,

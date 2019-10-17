@@ -49,7 +49,7 @@
   {
     "id": "mon_zombie_skeltal_minion",
     "type": "MONSTER",
-    "name": { "str": "minion of skeltal", "str_pl": "minions of skeltal" },
+    "name": "minion of skeltal",
     "description": "A lesser skeleton, raised by the forlorn dooting of a trumpet.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],

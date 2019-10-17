@@ -1893,7 +1893,7 @@ bool mattack::fungus_fortify( monster *z )
                                         _( "You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you." ) );
                 g->u.add_msg_if_player( m_good,
                                         //~ Beginning to hear the Mycus while conscious: this is it speaking
-                                        _( "assistance, on an arduous quest.  unity.  together we have reached the door.  now to pass through..." ) );
+                                        _( "assistance, on an arduous quest. unity. together we have reached the door. now to pass through..." ) );
                 return true;
             } else {
                 peaceful = false; // You declined the offer.  Fight!
@@ -2756,12 +2756,6 @@ bool mattack::stare( monster *z )
     }
     z->moves -= 200;
     if( z->sees( g->u ) ) {
-        //dimensional effects don't take against dimensionally anchored foes.
-        if( g->u.worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
-            g->u.has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) {
-            add_msg( m_warning, _( "You feel a strange reverberation accross your body." ), z->name() );
-            return true;
-        }
         if( g->u.sees( *z ) ) {
             add_msg( m_bad, _( "The %s stares at you, and you shudder." ), z->name() );
         } else {
@@ -3117,7 +3111,7 @@ bool mattack::photograph( monster *z )
     z->moves -= 150;
     add_msg( m_warning, _( "The %s takes your picture!" ), z->name() );
     // TODO: Make the player known to the faction
-    std::string cname = _( "...database connection lost!" ) ;
+    std::string cname = _( "...  database connection lost!" ) ;
     if( one_in( 6 ) ) {
         cname = Name::generate( g->u.male );
     } else if( one_in( 3 ) ) {
@@ -4284,8 +4278,8 @@ bool mattack::longswipe( monster *z )
 
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     if( dodge_check( z, target ) ) {
-        target->add_msg_player_or_npc( _( "The %s slashes at your neck!  You duck!" ),
-                                       _( "The %s slashes at <npcname>'s neck!  They duck!" ), z->name() );
+        target->add_msg_player_or_npc( _( "The %s slashes at your neck! You duck!" ),
+                                       _( "The %s slashes at <npcname>'s neck! They duck!" ), z->name() );
         target->on_dodge( z, z->type->melee_skill * 2 );
         return true;
     }
@@ -4535,7 +4529,7 @@ bool mattack::riotbot( monster *z )
 
         if( calendar::once_every( 25_turns ) ) {
             sounds::sound( z->pos(), 10, sounds::sound_t::speech,
-                           _( "Halt and submit to arrest, citizen!  The police will be here any moment." ), false, "speech",
+                           _( "Halt and submit to arrest, citizen! The police will be here any moment." ), false, "speech",
                            z->type->id.str() );
         }
 
