@@ -1180,7 +1180,8 @@ tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &p
                 } else if( u.mutations.has_trait( cur_trait ) ) {
                     cLine = col_on_pas;
 
-                } else if( u.mutations.has_conflicting_trait( cur_trait ) || g->scen->is_forbidden_trait( cur_trait ) ) {
+                } else if( u.mutations.has_conflicting_trait( cur_trait ) ||
+                           g->scen->is_forbidden_trait( cur_trait ) ) {
                     cLine = c_light_gray;
                 }
 

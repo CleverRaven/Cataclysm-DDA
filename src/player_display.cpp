@@ -1037,14 +1037,16 @@ static void draw_initial_windows( const catacurses::window &w_stats,
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
-    if( you.mutations.has_trait( trait_id( "SUNLIGHT_DEPENDENT" ) ) && !g->is_in_sunlight( you.pos() ) ) {
+    if( you.mutations.has_trait( trait_id( "SUNLIGHT_DEPENDENT" ) ) &&
+        !g->is_in_sunlight( you.pos() ) ) {
         pen = ( g->light_level( you.posz() ) >= 12 ? 5 : 10 );
         mvwprintz( w_speed, point( 1, line ), c_red, _( "Out of Sunlight     -%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
 
-    const float temperature_speed_modifier = you.mutations.mutation_value( "temperature_speed_modifier" );
+    const float temperature_speed_modifier =
+        you.mutations.mutation_value( "temperature_speed_modifier" );
     if( temperature_speed_modifier != 0 ) {
         nc_color pen_color;
         std::string pen_sign;
