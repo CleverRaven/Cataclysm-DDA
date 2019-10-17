@@ -1931,7 +1931,6 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
 
 static bool magic_train( player_activity *act, player *p )
 {
-    add_msg( "magic_train started" );
     if( !p ) {
         return false;
     }
