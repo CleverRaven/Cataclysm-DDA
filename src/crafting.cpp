@@ -1114,13 +1114,13 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 if( component.has_flag( "FIT" ) ) {
                     newit.item_tags.insert( "FIT" );
                 }
-                if ( !newit.has_flag( "NO_CRAFT_INHERIT" ) ) {
-                    for ( const std::string &f : component.item_tags ) {
+                if( !newit.has_flag( "NO_CRAFT_INHERIT" ) ) {
+                    for( const std::string &f : component.item_tags ) {
                         if( json_flag::get( f ).craft_inherit() ) {
                             newit.set_flag( f );
                         }
                     }
-                    for ( const std::string &f : component.type->item_tags ) {
+                    for( const std::string &f : component.type->item_tags ) {
                         if( json_flag::get( f ).craft_inherit() ) {
                             newit.set_flag( f );
                         }
