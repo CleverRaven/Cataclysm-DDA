@@ -334,8 +334,8 @@ time_duration player::vitamin_rate( const vitamin_id &vit ) const
 {
     time_duration res = vit.obj().rate();
 
-    for( const auto &m : get_mutations() ) {
-        const auto &mut = m.obj();
+    for( const trait_id &m : mutations.get_mutations() ) {
+        const mutation_branch &mut = m.obj();
         auto iter = mut.vitamin_rates.find( vit );
         if( iter != mut.vitamin_rates.end() ) {
             res += iter->second;
@@ -536,7 +536,7 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
                 _( "The thought of eating that makes you feel sick." ) );
     }
 
-    for( const trait_id &mut : get_mutations() ) {
+    for( const trait_id &mut : mutations.get_mutations() ) {
         if( !food.made_of_any( mut.obj().can_only_eat ) && !mut.obj().can_only_eat.empty() ) {
             return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION, _( "You can't eat this." ) );
         }
