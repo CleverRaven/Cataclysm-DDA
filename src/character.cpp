@@ -55,6 +55,7 @@
 #include "rng.h"
 #include "stomach.h"
 #include "ui.h"
+#include "vitamin.h"
 
 static const bionic_id bio_ads( "bio_ads" );
 static const bionic_id bio_armor_arms( "bio_armor_arms" );
@@ -131,6 +132,8 @@ static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
 static const trait_id trait_PACKMULE( "PACKMULE" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
+static const trait_id trait_ROOTS2( "ROOTS2" );
+static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL( "SHELL" );
@@ -4988,4 +4991,114 @@ void Character::blossoms()
     for( const tripoint &tmp : g->m.points_in_radius( pos(), 2 ) ) {
         g->m.add_field( tmp, fd_fungal_haze, rng( 1, 2 ) );
     }
+}
+
+void Character::update_vitamins( const vitamin_id &vit )
+{
+    if( is_npc() ) {
+        return; // NPCs cannot develop vitamin diseases
+    }
+
+    efftype_id def = vit.obj().deficiency();
+    efftype_id exc = vit.obj().excess();
+
+    int lvl = vit.obj().severity( vitamin_get( vit ) );
+    if( lvl <= 0 ) {
+        remove_effect( def );
+    }
+    if( lvl >= 0 ) {
+        remove_effect( exc );
+    }
+    if( lvl > 0 ) {
+        if( has_effect( def, num_bp ) ) {
+            get_effect( def, num_bp ).set_intensity( lvl, true );
+        } else {
+            add_effect( def, 1_turns, num_bp, true, lvl );
+        }
+    }
+    if( lvl < 0 ) {
+        if( has_effect( exc, num_bp ) ) {
+            get_effect( exc, num_bp ).set_intensity( lvl, true );
+        } else {
+            add_effect( exc, 1_turns, num_bp, true, lvl );
+        }
+    }
+}
+
+void Character::rooted_message() const
+{
+    bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
+    if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
+        g->m.has_flag( "PLOWABLE", pos() ) &&
+        !wearing_shoes ) {
+        add_msg( m_info, _( "You sink your roots into the soil." ) );
+    }
+}
+
+void Character::rooted()
+// Should average a point every two minutes or so; ground isn't uniformly fertile
+{
+    double shoe_factor = footwear_factor();
+    if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
+        g->m.has_flag( "PLOWABLE", pos() ) && shoe_factor != 1.0 ) {
+        if( one_in( 96 ) ) {
+            vitamin_mod( vitamin_id( "iron" ), 1, true );
+            vitamin_mod( vitamin_id( "calcium" ), 1, true );
+        }
+        if( get_thirst() <= -2000 && x_in_y( 75, 425 ) ) {
+            mod_thirst( -1 );
+        }
+        mod_healthy_mod( 5, 50 );
+    }
+}
+
+bool Character::wearing_something_on( body_part bp ) const
+{
+    for( auto &i : worn ) {
+        if( i.covers( bp ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::is_wearing_shoes( const side &which_side ) const
+{
+    bool left = true;
+    bool right = true;
+    if( which_side == side::LEFT || which_side == side::BOTH ) {
+        left = false;
+        for( const item &worn_item : worn ) {
+            if( worn_item.covers( bp_foot_l ) && !worn_item.has_flag( "BELTED" ) &&
+                !worn_item.has_flag( "PERSONAL" ) && !worn_item.has_flag( "AURA" ) &&
+                !worn_item.has_flag( "SEMITANGIBLE" ) && !worn_item.has_flag( "SKINTIGHT" ) ) {
+                left = true;
+                break;
+            }
+        }
+    }
+    if( which_side == side::RIGHT || which_side == side::BOTH ) {
+        right = false;
+        for( const item &worn_item : worn ) {
+            if( worn_item.covers( bp_foot_r ) && !worn_item.has_flag( "BELTED" ) &&
+                !worn_item.has_flag( "PERSONAL" ) && !worn_item.has_flag( "AURA" ) &&
+                !worn_item.has_flag( "SEMITANGIBLE" ) && !worn_item.has_flag( "SKINTIGHT" ) ) {
+                right = true;
+                break;
+            }
+        }
+    }
+    return ( left && right );
+}
+
+double Character::footwear_factor() const
+{
+    double ret = 0;
+    if( wearing_something_on( bp_foot_l ) ) {
+        ret += .5;
+    }
+    if( wearing_something_on( bp_foot_r ) ) {
+        ret += .5;
+    }
+    return ret;
 }
