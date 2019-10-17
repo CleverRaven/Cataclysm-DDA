@@ -109,6 +109,16 @@
         " ^X^^^X^        ^X^^^X^                    #######$$.......::.......$$  "
       ],
       "palettes": [ "railroad", "railroad_station" ],
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 0, 1 ], "density": 1 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 49, 70 ], "y": [ 1, 22 ], "repeat": [ 0, 1 ], "density": 1 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 25, 46 ], "repeat": [ 0, 1 ], "density": 1 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 25, 46 ], "y": [ 25, 46 ], "repeat": [ 0, 1 ], "density": 1 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 49, 70 ], "repeat": [ 0, 1 ], "density": 1 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 49, 70 ], "y": [ 49, 70 ], "repeat": [ 0, 1 ], "density": 1 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 25, 46 ], "y": [ 73, 94 ], "repeat": [ 0, 1 ], "density": 1 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 49, 70 ], "y": [ 73, 94 ], "repeat": [ 0, 1 ], "density": 1 }
+      ],
       "vendingmachines": {
         "6": { "item_group": "vending_drink" },
         "7": { "item_group": "vending_food" },
