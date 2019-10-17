@@ -9935,26 +9935,14 @@ void game::on_move_effects()
     // TODO: Move this to a character method
     if( !u.is_mounted() ) {
         const item muscle( "muscle" );
-        if( one_in( 8 ) ) {// active power gen
-            if( u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-                u.mod_power_level( 1_kJ );
-            }
-            for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
-                if( u.has_active_bionic( bid ) ) {
-                    u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
-                }
+        for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
+            if( u.has_active_bionic( bid ) ) {// active power gen
+                u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
+            } else if( u.has_bionic( bid ) ) {// passive power gen
+                u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->passive_fuel_efficiency );
             }
         }
-        if( one_in( 160 ) ) {//  passive power gen
-            if( u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-                u.mod_power_level( 1_kJ );
-            }
-            for( const bionic_id &bid : u.get_bionic_fueled_with( muscle ) ) {
-                if( u.has_bionic( bid ) ) {
-                    u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
-                }
-            }
-        }
+
         if( u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
             if( u.movement_mode_is( CMM_RUN ) ) {
                 u.mod_power_level( -20_kJ );

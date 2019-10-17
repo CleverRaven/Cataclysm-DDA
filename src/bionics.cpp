@@ -2104,6 +2104,7 @@ void load_bionic( JsonObject &jsobj )
     new_bionic.shockproof = get_bool_or_flag( jsobj, "shockproof", "BIONIC_SHOCKPROOF", false );
 
     new_bionic.fuel_efficiency = jsobj.get_float( "fuel_efficiency", 0 );
+    new_bionic.passive_fuel_efficiency = jsobj.get_float( "passive_fuel_efficiency", 0 );
 
     if( new_bionic.gun_bionic && new_bionic.weapon_bionic ) {
         debugmsg( "Bionic %s specified as both gun and weapon bionic", id.c_str() );

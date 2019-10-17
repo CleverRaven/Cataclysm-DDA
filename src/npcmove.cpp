@@ -98,7 +98,6 @@ const bionic_id bio_ethanol( "bio_ethanol" );
 const bionic_id bio_furnace( "bio_furnace" );
 const bionic_id bio_metabolics( "bio_metabolics" );
 const bionic_id bio_reactor( "bio_reactor" );
-const bionic_id bio_torsionratchet( "bio_torsionratchet" );
 
 // active defense CBMs - activate when in danger
 const bionic_id bio_ads( "bio_ads" );
@@ -160,7 +159,6 @@ const std::vector<bionic_id> power_cbms = { {
         bio_furnace,
         bio_metabolics,
         bio_reactor,
-        bio_torsionratchet
     }
 };
 const std::vector<bionic_id> defense_cbms = { {
@@ -1643,13 +1641,10 @@ bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
 
 bool npc::wants_to_recharge_cbm()
 {
-
     for( const bionic_id bid : get_fueled_bionics() ) {
-        for( const itype_id fid : bid->fuel_opts ) {
-            return get_fuel_available( bid ).empty() || ( !get_fuel_available( bid ).empty() &&
-                    get_power_level() < ( get_max_power_level() * static_cast<int>( rules.cbm_recharge ) / 100 ) &&
-                    !use_bionic_by_id( bid ) );
-        }
+        return get_fuel_available( bid ).empty() || ( !get_fuel_available( bid ).empty() &&
+                get_power_level() < ( get_max_power_level() * static_cast<int>( rules.cbm_recharge ) / 100 ) &&
+                !use_bionic_by_id( bid ) );
     }
     return get_power_level() < ( get_max_power_level() * static_cast<int>( rules.cbm_recharge ) / 100 );
 }
@@ -1686,10 +1681,9 @@ bool npc::recharge_cbm()
         return true;
     }
 
-    use_bionic_by_id( bio_torsionratchet );
     use_bionic_by_id( bio_metabolics );
 
-    for( bionic_id bid : get_fueled_bionics() ) {
+    for( bionic_id &bid : get_fueled_bionics() ) {
         if( !get_fuel_available( bid ).empty() ) {
             use_bionic_by_id( bid );
             return true;
