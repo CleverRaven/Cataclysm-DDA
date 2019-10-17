@@ -144,7 +144,7 @@ class character_mutations
         /** Retrieves a stat mod of a mutation. */
         int get_mod( const trait_id &mut, const std::string &arg ) const;
         /** Empties the trait list */
-        void empty_traits();
+        void empty_traits( Character &guy );
         /** Correction factor of the body temperature due to traits and mutations **/
         int bodytemp_modifier_traits( bool overheated ) const;
         /** Correction factor of the body temperature due to traits and mutations for player lying on the floor **/

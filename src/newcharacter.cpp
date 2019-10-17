@@ -2500,10 +2500,10 @@ std::vector<trait_id> character_mutations::get_mutations( bool include_hidden ) 
     return result;
 }
 
-void character_mutations::empty_traits()
+void character_mutations::empty_traits( Character &guy )
 {
     for( auto &mut : my_mutations ) {
-        on_mutation_loss( mut.first );
+        guy.on_mutation_loss( mut.first );
     }
     my_traits.clear();
     my_mutations.clear();
