@@ -493,12 +493,14 @@ class Character : public Creature, public visitable<Character>
         int get_working_arm_count() const;
         /** Returns the number of functioning legs */
         int get_working_leg_count() const;
-        /** Returns true if the limb is disabled */
+        /** Returns true if the limb is disabled(12.5% or less hp)*/
         bool is_limb_disabled( hp_part limb ) const;
         /** Returns true if the limb is hindered(40% or less hp) */
         bool is_limb_hindered( hp_part limb ) const;
         /** Returns true if the limb is broken */
         bool is_limb_broken( hp_part limb ) const;
+        /** source of truth of whether a Character can run */
+        bool can_run();
         /** Hurts all body parts for dam, no armor reduction */
         void hurtall( int dam, Creature *source, bool disturb = true );
         /** Harms all body parts for dam, with armor reduction. If vary > 0 damage to parts are random within vary % (1-100) */

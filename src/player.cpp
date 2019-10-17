@@ -1583,15 +1583,11 @@ int player::run_cost( int base_cost, bool diag ) const
                     75; // Mycal characters are faster on their home territory, even through things like shrubs
             }
         }
-        if( is_limb_broken( hp_leg_l ) ) {
-            movecost += 50;
-        } else if( is_limb_hindered( hp_leg_l ) ) {
+        if( is_limb_hindered( hp_leg_l ) ) {
             movecost += 25;
         }
 
-        if( is_limb_broken( hp_leg_r ) ) {
-            movecost += 50;
-        } else if( is_limb_hindered( hp_leg_r ) ) {
+        if( is_limb_hindered( hp_leg_r ) ) {
             movecost += 25;
         }
         movecost *= Character::mutation_value( "movecost_modifier" );
@@ -3038,6 +3034,9 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
     g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
 
     if( hp_cur[hurtpart] <= 0 && ( source == nullptr || !source->is_hallucination() ) ) {
+        if( !can_wield( weapon ).success() ) {
+            put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
+        }
         if( has_effect( effect_mending, hurt ) ) {
             effect &e = get_effect( effect_mending, hurt );
             float remove_mend = dam / 20.0f;
@@ -7324,6 +7323,11 @@ ret_val<bool> player::can_wield( const item &it ) const
 {
     if( it.made_of_from_type( LIQUID ) ) {
         return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
+    }
+
+    if( get_working_arm_count() <= 0 ) {
+        return ret_val<bool>::make_failure(
+                   _( "You need at least one arm to even consider wielding something." ) );
     }
 
     if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) ) ) {
