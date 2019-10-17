@@ -43,6 +43,17 @@ class character_mutations
             void serialize( JsonOut &json ) const;
             void deserialize( JsonIn &jsin );
         };
+
+        character_mutations( const std::unordered_map<trait_id, character_mutations::trait_data>
+                             &my_mutations, const std::unordered_set<trait_id> &my_traits ) {
+            this->my_mutations = my_mutations;
+            this->my_traits = my_traits;
+        }
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
+
+        void load_cache_data( Character &guy );
+
         /** Get the idents of all base traits. */
         std::vector<trait_id> get_base_traits() const;
         /** Get the idents of all traits/mutations. */

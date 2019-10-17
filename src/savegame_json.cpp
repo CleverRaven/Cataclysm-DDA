@@ -31,6 +31,7 @@
 #include "basecamp.h"
 #include "bionics.h"
 #include "calendar.h"
+#include "character_mutations.h"
 #include "debug.h"
 #include "effect.h"
 #include "game.h"
@@ -341,7 +342,7 @@ void character_id::deserialize( JsonIn &jsin )
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// Character.h, avatar + npc
 
-void Character::trait_data::serialize( JsonOut &json ) const
+void character_mutations::trait_data::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "key", key );
@@ -350,7 +351,7 @@ void Character::trait_data::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void Character::trait_data::deserialize( JsonIn &jsin )
+void character_mutations::trait_data::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     data.read( "key", key );
@@ -416,47 +417,56 @@ void Character::load( JsonObject &data )
     JsonArray parray;
 
     data.read( "underwater", underwater );
+    if( savegame_loading_version <= 25 ) {
 
-    data.read( "traits", my_traits );
-    for( auto it = my_traits.begin(); it != my_traits.end(); ) {
-        const auto &tid = *it;
-        if( tid.is_valid() ) {
-            ++it;
+        std::unordered_map<trait_id, character_mutations::trait_data> my_mutations;
+        std::unordered_set<trait_id> my_traits;
+
+        data.read( "traits", my_traits );
+        for( auto it = my_traits.begin(); it != my_traits.end(); ) {
+            const auto &tid = *it;
+            if( tid.is_valid() ) {
+                ++it;
+            } else {
+                debugmsg( "character %s has invalid trait %s, it will be ignored", name, tid.c_str() );
+                my_traits.erase( it++ );
+            }
+        }
+
+        if( savegame_loading_version <= 23 ) {
+            std::unordered_set<trait_id> old_my_mutations;
+            data.read( "mutations", old_my_mutations );
+            for( const auto &mut : old_my_mutations ) {
+                my_mutations[mut]; // Creates a new entry with default values
+            }
+            std::map<trait_id, char> trait_keys;
+            data.read( "mutation_keys", trait_keys );
+            for( const auto &k : trait_keys ) {
+                my_mutations[k.first].key = k.second;
+            }
+            std::set<trait_id> active_muts;
+            data.read( "active_mutations_hacky", active_muts );
+            for( const auto &mut : active_muts ) {
+                my_mutations[mut].powered = true;
+            }
         } else {
-            debugmsg( "character %s has invalid trait %s, it will be ignored", name, tid.c_str() );
-            my_traits.erase( it++ );
+            data.read( "mutations", my_mutations );
         }
-    }
-
-    if( savegame_loading_version <= 23 ) {
-        std::unordered_set<trait_id> old_my_mutations;
-        data.read( "mutations", old_my_mutations );
-        for( const auto &mut : old_my_mutations ) {
-            my_mutations[mut]; // Creates a new entry with default values
-        }
-        std::map<trait_id, char> trait_keys;
-        data.read( "mutation_keys", trait_keys );
-        for( const auto &k : trait_keys ) {
-            my_mutations[k.first].key = k.second;
-        }
-        std::set<trait_id> active_muts;
-        data.read( "active_mutations_hacky", active_muts );
-        for( const auto &mut : active_muts ) {
-            my_mutations[mut].powered = true;
-        }
+        mutations = character_mutations( my_mutations, my_traits );
     } else {
-        data.read( "mutations", my_mutations );
+        data.read( "mutations", mutations );
     }
-    for( auto it = my_mutations.begin(); it != my_mutations.end(); ) {
-        const auto &mid = it->first;
-        if( mid.is_valid() ) {
-            on_mutation_gain( mid );
-            cached_mutations.push_back( &mid.obj() );
-            ++it;
-        } else {
-            debugmsg( "character %s has invalid mutation %s, it will be ignored", name, mid.c_str() );
-            my_mutations.erase( it++ );
-        }
+    mutations.load_cache_data( *this );
+    mutations.set_highest_cat_level();
+    mutations.drench_mut_calc();
+
+    // Fixes bugged characters for telescopic eyes CBM.
+    if( has_bionic( bionic_id( "bio_eye_optic" ) ) && mutations.has_trait( trait_HYPEROPIC ) ) {
+        mutations.remove_mutation( *this, trait_HYPEROPIC );
+    }
+
+    if( has_bionic( bionic_id( "bio_eye_optic" ) ) && mutations.has_trait( trait_MYOPIC ) ) {
+        mutations.remove_mutation( *this, trait_MYOPIC );
     }
 
     data.read( "my_bionics", *my_bionics );
@@ -590,8 +600,7 @@ void Character::store( JsonOut &json ) const
     json.member( "oxygen", oxygen );
 
     // traits: permanent 'mutations' more or less
-    json.member( "traits", my_traits );
-    json.member( "mutations", my_mutations );
+    json.member( "mutations", mutations );
 
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", *my_bionics );
@@ -785,15 +794,6 @@ void player::load( JsonObject &data )
     // Add the blindfold.
     if( has_bionic( bionic_id( "bio_sunglasses" ) ) && !has_bionic( bionic_id( "bio_blindfold" ) ) ) {
         add_bionic( bionic_id( "bio_blindfold" ) );
-    }
-
-    // Fixes bugged characters for telescopic eyes CBM.
-    if( has_bionic( bionic_id( "bio_eye_optic" ) ) && has_trait( trait_HYPEROPIC ) ) {
-        remove_mutation( trait_HYPEROPIC );
-    }
-
-    if( has_bionic( bionic_id( "bio_eye_optic" ) ) && has_trait( trait_MYOPIC ) ) {
-        remove_mutation( trait_MYOPIC );
     }
 
     if( has_bionic( bionic_id( "bio_solar" ) ) ) {
@@ -1002,8 +1002,6 @@ void avatar::load( JsonObject &data )
     data.read( "stamina", stamina );
     data.read( "magic", magic );
 
-    set_highest_cat_level();
-    drench_mut_calc();
     std::string scen_ident = "(null)";
     if( data.read( "scenario", scen_ident ) && string_id<scenario>( scen_ident ).is_valid() ) {
         g->scen = &string_id<scenario>( scen_ident ).obj();
