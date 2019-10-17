@@ -1211,7 +1211,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
 
             //~Skill name: current level (exercise) -> next level (exercise) (cost in dollars)
             std::string text = string_format( cost > 0 ? _( "%s: %d (%d%%) -> %d (%d%%) (cost $%d)" ) :
-                                              _( "%s: %d (%d%%) -> %d" ),
+                                              _( "%s: %d (%d%%) -> %d (%d%%)" ),
                                               trained.obj().name(), cur_level, cur_level_exercise,
                                               next_level, next_level_exercise, cost / 100 );
             add_response( text, "TALK_TRAIN_START", trained );
