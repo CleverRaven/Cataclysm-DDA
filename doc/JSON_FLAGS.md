@@ -1256,6 +1256,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```FIELD_DRESS``` Corpse was field dressed. Affects butcher results.
 - ```FIT``` Reduces encumbrance by one.
 - ```FROZEN``` Item is frozen solid (used by freezer).
+- ```HIDDEN_ITEM``` This item cannot be seen in AIM.
 - ```HOT``` Item is hot (see EATEN_HOT).
 - ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
 - ```MUSHY``` FREEZERBURN item was frozen and is now mushy and tasteless and will go bad after freezing again.
