@@ -571,8 +571,9 @@ class map
         bool displace_water( const tripoint &dp );
 
         // Returns the wheel area of the vehicle multiplied by traction of the surface
+        // When ignore_movement_modifiers is set to true, it returns the area of the wheels touching the ground
         // TODO: Remove the ugly sinking vehicle hack
-        float vehicle_wheel_traction( const vehicle &veh ) const;
+        float vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modifiers = false ) const;
 
         // Executes vehicle-vehicle collision based on vehicle::collision results
         // Returns impulse of the executed collision

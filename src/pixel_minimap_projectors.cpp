@@ -67,9 +67,9 @@ SDL_Rect pixel_minimap_iso_projector::get_chunk_rect(
     const point &p,
     const point &tiles_count ) const
 {
-    const auto size = get_tiles_size( tiles_count );
-    const auto offset = point{ 0, tile_size.y *tiles_count.y / 2 };
-    const auto pos = get_tile_pos( p, total_tiles_count ) - offset;
+    const point size = get_tiles_size( tiles_count );
+    const point offset = point{ 0, tile_size.y *tiles_count.y / 2 };
+    const point pos = get_tile_pos( p, total_tiles_count ) - offset;
 
     return { pos.x, pos.y, size.x, size.y };
 }

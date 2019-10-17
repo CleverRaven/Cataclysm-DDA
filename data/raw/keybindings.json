@@ -607,6 +607,13 @@
   },
   {
     "type": "keybinding",
+    "id": "RESET",
+    "category": "SOKOBAN",
+    "name": "Reset level",
+    "bindings": [ { "input_method": "keyboard", "key": "r" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "UNDO",
     "category": "SOKOBAN",
     "name": "Undo move",
@@ -1955,8 +1962,7 @@
   },
   {
     "type": "keybinding",
-    "name": "Toggle Pixel Minimap",
-    "category": "DEFAULTMODE",
+    "name": "Toggle Minimap",
     "id": "toggle_pixel_minimap",
     "bindings": [ { "input_method": "keyboard", "key": "N" } ]
   },

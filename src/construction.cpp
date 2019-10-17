@@ -1171,7 +1171,7 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
     g->u.mod_fatigue( 10 + mine_penalty + no_mut_penalty );
 
     if( tmpmap.ter( local_tmp ) == t_lava ) {
-        if( !( query_yn( _( "The rock feels much warmer than normal. Proceed?" ) ) ) ) {
+        if( !( query_yn( _( "The rock feels much warmer than normal.  Proceed?" ) ) ) ) {
             g->m.ter_set( p, t_pit ); // You dug down a bit before detecting the problem
             unroll_digging( dig ? 8 : 12 );
         } else {
@@ -1345,14 +1345,22 @@ void load_construction( JsonObject &jo )
                                   time_duration::units ) );
     }
 
+    // Warning: the IDs may change!
+    const requirement_id req_id( string_format( "inline_construction_%u", con.id ) );
+    requirement_data::load_requirement( jo, req_id );
+    con.requirements = req_id;
+
     if( jo.has_string( "using" ) ) {
-        con.requirements = requirement_id( jo.get_string( "using" ) );
-    } else {
-        // Warning: the IDs may change!
-        const requirement_id req_id( string_format( "inline_construction_%u", con.id ) );
-        requirement_data::load_requirement( jo, req_id );
-        con.requirements = req_id;
+        con.reqs_using = { { requirement_id( jo.get_string( "using" ) ), 1} };
+    } else if( jo.has_array( "using" ) ) {
+        auto arr = jo.get_array( "using" );
+
+        while( arr.has_more() ) {
+            auto cur = arr.next_array();
+            con.reqs_using.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
+        }
     }
+
     con.pre_note = jo.get_string( "pre_note", "" );
     con.pre_terrain = jo.get_string( "pre_terrain", "" );
     if( con.pre_terrain.size() > 1
@@ -1556,6 +1564,14 @@ void finalize_constructions()
             debugmsg( "Invalid construction category (%s) defined for construction (%s)", con.category.str(),
                       con.description );
         }
+        requirement_data requirements_ = std::accumulate( con.reqs_using.begin(), con.reqs_using.end(),
+                                         *con.requirements,
+        []( const requirement_data & lhs, const std::pair<requirement_id, int> &rhs ) {
+            return lhs + ( *rhs.first * rhs.second );
+        } );
+
+        requirement_data::save_requirement( requirements_, con.requirements );
+        con.reqs_using.clear();
     }
 
     constructions.erase( std::remove_if( constructions.begin(), constructions.end(),
