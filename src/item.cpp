@@ -305,19 +305,6 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
             }
         }
     }
-
-    for( const item &it : components ) {
-        if( it.has_flag( "HIDDEN_POISON" ) ) {
-            set_flag( "HIDDEN_POISON" );
-        }
-        if( it.has_flag( "HIDDEN_HALLU" ) ) {
-            set_flag( "HIDDEN_HALLU" );
-        }
-        if( it.is_filthy() ) {
-            set_flag( "FILTHY" );
-        }
-    }
-
 }
 
 item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name )
