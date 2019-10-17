@@ -1123,9 +1123,6 @@ class Character : public Creature, public visitable<Character>
         bool is_wearing_shoes( const side &which_side = side::BOTH ) const;
 
         character_mutations mutations;
-
-        void spores();
-        void blossoms();
     protected:
         Character();
         Character( Character && );
