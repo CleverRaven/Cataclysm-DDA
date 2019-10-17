@@ -2280,7 +2280,6 @@ bool game::handle_action()
                 if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
                     break;    //don't do anything when sharing and not debugger
                 }
-                debug_menu::debug();
                 break;
 
             case ACTION_TOGGLE_FULLSCREEN:
