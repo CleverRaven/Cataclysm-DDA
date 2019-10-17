@@ -1010,7 +1010,7 @@ class npc : public player
         // Finds something to complain about and complains. Returns if complained.
         bool complain();
 
-        int calc_spell_training_cost( const bool knows, int difficulty, int level );
+        int calc_spell_training_cost( bool knows, int difficulty, int level );
 
         void handle_sound( int priority, const std::string &description, int heard_volume,
                            const tripoint &spos );
