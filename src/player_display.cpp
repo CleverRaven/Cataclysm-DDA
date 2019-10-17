@@ -431,7 +431,7 @@ static void draw_encumbrance_tab( const catacurses::window &w_encumb,
 
 static void draw_traits_tab( const catacurses::window &w_traits, const catacurses::window &w_info,
                              unsigned int &line, int &curtab, input_context &ctxt, bool &done,
-                             std::string &action, std::vector<trait_id> &traitslist,
+                             std::string &action, const std::vector<trait_id> &traitslist,
                              const size_t trait_win_size_y )
 {
     werase( w_traits );
@@ -920,7 +920,7 @@ static void draw_initial_windows( const catacurses::window &w_stats,
                                   const catacurses::window &w_encumb, const catacurses::window &w_traits,
                                   const catacurses::window &w_bionics, const catacurses::window &w_effects,
                                   const catacurses::window &w_skills, const catacurses::window &w_speed, player &you,
-                                  unsigned int &line, std::vector<trait_id> &traitslist, std::vector<bionic> &bionicslist,
+                                  unsigned int &line, const std::vector<trait_id> &traitslist, std::vector<bionic> &bionicslist,
                                   std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
                                   std::vector<HeaderSkill> &skillslist,
                                   const size_t bionics_win_size_y, const size_t effect_win_size_y, const size_t trait_win_size_y,
@@ -1037,19 +1037,19 @@ static void draw_initial_windows( const catacurses::window &w_stats,
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
-    if( you.has_trait( trait_id( "SUNLIGHT_DEPENDENT" ) ) && !g->is_in_sunlight( you.pos() ) ) {
+    if( you.mutations.has_trait( trait_id( "SUNLIGHT_DEPENDENT" ) ) && !g->is_in_sunlight( you.pos() ) ) {
         pen = ( g->light_level( you.posz() ) >= 12 ? 5 : 10 );
         mvwprintz( w_speed, point( 1, line ), c_red, _( "Out of Sunlight     -%s%d%%" ),
                    ( pen < 10 ? " " : "" ), pen );
         line++;
     }
 
-    const float temperature_speed_modifier = you.mutation_value( "temperature_speed_modifier" );
+    const float temperature_speed_modifier = you.mutations.mutation_value( "temperature_speed_modifier" );
     if( temperature_speed_modifier != 0 ) {
         nc_color pen_color;
         std::string pen_sign;
         const auto player_local_temp = g->weather.get_temperature( you.pos() );
-        if( you.has_trait( trait_id( "COLDBLOOD4" ) ) && player_local_temp > 65 ) {
+        if( you.mutations.has_trait( trait_id( "COLDBLOOD4" ) ) && player_local_temp > 65 ) {
             pen_color = c_green;
             pen_sign = "+";
         } else if( player_local_temp < 65 ) {
@@ -1066,11 +1066,11 @@ static void draw_initial_windows( const catacurses::window &w_stats,
 
     int quick_bonus = static_cast<int>( newmoves - ( newmoves / 1.1 ) );
     int bio_speed_bonus = quick_bonus;
-    if( you.has_trait( trait_id( "QUICK" ) ) && you.has_bionic( bionic_id( "bio_speed" ) ) ) {
+    if( you.mutations.has_trait( trait_id( "QUICK" ) ) && you.has_bionic( bionic_id( "bio_speed" ) ) ) {
         bio_speed_bonus = static_cast<int>( newmoves / 1.1 - ( newmoves / 1.1 / 1.1 ) );
         std::swap( quick_bonus, bio_speed_bonus );
     }
-    if( you.has_trait( trait_id( "QUICK" ) ) ) {
+    if( you.mutations.has_trait( trait_id( "QUICK" ) ) ) {
         mvwprintz( w_speed, point( 1, line ), c_green, _( "Quick               +%s%d%%" ),
                    ( quick_bonus < 10 ? " " : "" ), quick_bonus );
         line++;
@@ -1145,20 +1145,20 @@ void player::disp_info()
         effect_name_and_text.push_back( { starvation_name, starvation_text.str() } );
     }
 
-    if( ( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
+    if( ( mutations.has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
           g->weather.weather == WEATHER_SUNNY ) ||
-        ( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) &&
+        ( mutations.has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) &&
           g->weather.weather != WEATHER_SUNNY ) ) {
         effect_name_and_text.push_back( { _( "In Sunlight" ),
                                           _( "The sunlight irritates you.\n"
                                              "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )
                                         } );
-    } else if( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) ) {
+    } else if( mutations.has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) ) {
         effect_name_and_text.push_back( { _( "In Sunlight" ),
                                           _( "The sunlight irritates you badly.\n"
                                              "Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" )
                                         } );
-    } else if( has_trait( trait_id( "TROGLO3" ) ) && g->is_in_sunlight( pos() ) ) {
+    } else if( mutations.has_trait( trait_id( "TROGLO3" ) ) && g->is_in_sunlight( pos() ) ) {
         effect_name_and_text.push_back( { _( "In Sunlight" ),
                                           _( "The sunlight irritates you terribly.\n"
                                              "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" )
@@ -1175,7 +1175,7 @@ void player::disp_info()
 
     unsigned int effect_win_size_y = 1 + static_cast<unsigned>( effect_name_and_text.size() );
 
-    std::vector<trait_id> traitslist = get_mutations( false );
+    const std::vector<trait_id> traitslist = mutations.get_mutations( false );
     unsigned int trait_win_size_y = 1 + static_cast<unsigned>( traitslist.size() );
 
     std::vector<bionic> bionicslist = *my_bionics;
@@ -1283,10 +1283,9 @@ void player::disp_info()
     // Post-humanity trumps your pre-Cataclysm life.
     if( crossed_threshold() ) {
         std::string race;
-        for( auto &mut : my_mutations ) {
-            const auto &mdata = mut.first.obj();
-            if( mdata.threshold ) {
-                race = mdata.name();
+        for( const trait_id &mut : mutations.get_mutations() ) {
+            if( mut->threshold ) {
+                race = mut->name();
                 break;
             }
         }

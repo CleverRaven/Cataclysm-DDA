@@ -2690,7 +2690,7 @@ void reset_scenario( avatar &u, const scenario *scen )
             u.mutations.toggle_trait( u, t );
         }
     }
-    u.empty_traits();
+    u.mutations.empty_traits( u );
     u.recalc_hp();
     u.empty_skills();
     u.add_traits();
