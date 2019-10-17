@@ -669,7 +669,7 @@ void activity_on_turn_pickup()
     }
 
     // If the player moves while picking up (ie: in a moving vehicle) cancel the activity, only populate coords when grabbing from the ground
-    if( g->u.activity.coords.size() > 0 && g->u.activity.coords.at( 0 ) != g->u.pos() ) {
+    if( !g->u.activity.coords.empty() && g->u.activity.coords.at( 0 ) != g->u.pos() ) {
         g->u.cancel_activity();
         if( g->u.is_player() ) {
             g->u.add_msg_if_player( _( "Moving cancelled auto-pickup." ) );
