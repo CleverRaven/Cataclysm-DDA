@@ -3584,7 +3584,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "PRY", 2 ], [ "HAMMER", 1 ] ],
-    "use_action": [ "HAMMER", "CROWBAR" ],
+    "use_action": "CROWBAR",
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP" ]
   },
