@@ -305,6 +305,19 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
             }
         }
     }
+
+    for( item &component : components ) {
+        for( const std::string &f : component.item_tags ) {
+            if( json_flag::get( f ).craft_inherit() ) {
+                set_flag( f );
+            }
+        }
+        for( const std::string &f : component.type->item_tags ) {
+            if( json_flag::get( f ).craft_inherit() ) {
+                set_flag( f );
+            }
+        }
+    }
 }
 
 item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &name )
