@@ -1260,6 +1260,36 @@
   },
   {
     "type": "martial_art",
+    "id": "style_taekwondo",
+    "name": "Taekwondo",
+    "description": "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century.  Focused on kicks and so it does not benefit from wielded weapons.  It also includes strength training; your blocks absorb extra damage and your attacks do more damage if you are not holding anything.",
+    "initiate": [ "You adopt a narrow fighting stance.", "You adopts a narrow fighting stance." ],
+    "learn_difficulty": 5,
+    "arm_block": 1,
+    "leg_block": 3,
+    "force_unarmed": true,
+    "static_buffs": [
+      {
+        "id": "buff_taekwondo_static",
+        "name": "Taekwondo Stance",
+        "description": "Using your legs to attack allows your hands to be free for better defense.\n\nBlocked damage decreased by 50%% of Strength.",
+        "unarmed_allowed": true,
+        "flat_bonuses": [ [ "block", "str", 0.5 ] ]
+      },
+      {
+        "id": "buff_taekwondo_static2",
+        "name": "Unhindered",
+        "description": "Your attacks are stronger if you are not holding anything in your hands.\n\n+33% bash damage when not using a weapon.",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "strictly_unarmed": true,
+        "mult_bonuses": [ [ "damage", "bash", 1.33 ] ]
+      }
+    ],
+    "techniques": [ "tec_taekwondo_disarm", "tec_taekwondo_precise", "tec_taekwondo_push", "tec_taekwondo_sweep" ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_tai_chi",
     "name": "Tai Chi",
     "description": "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
@@ -1280,27 +1310,6 @@
       }
     ],
     "techniques": [ "tec_taichi_disarm", "tec_taichi_precise" ]
-  },
-  {
-    "type": "martial_art",
-    "id": "style_taekwondo",
-    "name": "Taekwondo",
-    "description": "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century.  Focused on kicks and so it does not benefit from wielded weapons.  It also includes strength training; your blocks absorb extra damage the stronger you are.",
-    "initiate": [ "You adopt a narrow fighting stance.", "You adopts a narrow fighting stance." ],
-    "learn_difficulty": 5,
-    "arm_block": 2,
-    "leg_block": 3,
-    "force_unarmed": true,
-    "static_buffs": [
-      {
-        "id": "taekwondo_static",
-        "name": "Taekwondo",
-        "unarmed_allowed": true,
-        "flat_bonuses": [ [ "block", "str", 0.5 ] ],
-        "description": "Strength decreases damage when blocking."
-      }
-    ],
-    "techniques": [ "tec_taekwondo_precise", "tec_taekwondo_push", "tec_taekwondo_sweep" ]
   },
   {
     "type": "martial_art",

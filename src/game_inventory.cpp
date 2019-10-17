@@ -481,6 +481,17 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return std::string( _( "indefinite" ) );
             }, _( "SHELF LIFE" ) );
 
+            append_cell( [ this ]( const item_location & loc ) {
+                const item &it = get_consumable_item( loc );
+
+                int converted_volume_scale = 0;
+                const double converted_volume = round_up( convert_volume( it.volume().value() / it.charges,
+                                                &converted_volume_scale ), 2 );
+
+                //~ Eat menu Volume: <num><unit>
+                return string_format( _( "%.2f%s" ), converted_volume, volume_units_abbr() );
+            }, _( "VOLUME" ) );
+
             append_cell( [this]( const item_location & loc ) {
                 if( g->u.can_estimate_rot() ) {
                     const islot_comestible item = get_edible_comestible( loc );

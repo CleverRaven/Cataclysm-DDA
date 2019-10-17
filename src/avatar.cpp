@@ -79,6 +79,7 @@ const efftype_id effect_sleep_deprived( "sleep_deprived" );
 const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 const efftype_id effect_stim( "stim" );
 const efftype_id effect_stim_overdose( "stim_overdose" );
+const efftype_id effect_winded( "winded" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
@@ -1355,4 +1356,163 @@ void avatar::upgrade_stat_prompt( const Character::stat &stat )
 faction *avatar::get_faction() const
 {
     return g->faction_manager_ptr->get( faction_id( "your_followers" ) );
+}
+
+void avatar::set_movement_mode( character_movemode new_mode )
+{
+    switch( new_mode ) {
+        case CMM_WALK: {
+            if( is_mounted() ) {
+                if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+                    add_msg( _( "You set your mech's leg power to a loping fast walk." ) );
+                } else {
+                    add_msg( _( "You nudge your steed into a steady trot." ) );
+                }
+            } else {
+                add_msg( _( "You start walking." ) );
+            }
+            break;
+        }
+        case CMM_RUN: {
+            if( can_run() ) {
+                if( is_hauling() ) {
+                    stop_hauling();
+                }
+                if( is_mounted() ) {
+                    if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+                        add_msg( _( "You set the power of your mech's leg servos to maximum." ) );
+                    } else {
+                        add_msg( _( "You spur your steed into a gallop." ) );
+                    }
+                } else {
+                    add_msg( _( "You start running." ) );
+                }
+            } else {
+                if( is_mounted() ) {
+                    // mounts dont currently have stamina, but may do in future.
+                    add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
+                } else if( get_working_leg_count() < 2 ) {
+                    add_msg( m_bad, _( "You need two functional legs to run." ) );
+                } else {
+                    add_msg( m_bad, _( "You're too tired to run." ) );
+                }
+                return;
+            }
+            break;
+        }
+        case CMM_CROUCH: {
+            if( is_mounted() ) {
+                if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+                    add_msg( _( "You reduce the power of your mech's leg servos to minimum." ) );
+                } else {
+                    add_msg( _( "You slow your steed to a walk." ) );
+                }
+            } else {
+                add_msg( _( "You start crouching." ) );
+            }
+            break;
+        }
+        default: {
+            return;
+        }
+    }
+    move_mode = new_mode;
+}
+
+void avatar::toggle_run_mode()
+{
+    if( move_mode == CMM_RUN ) {
+        set_movement_mode( CMM_WALK );
+    } else {
+        set_movement_mode( CMM_RUN );
+    }
+}
+
+void avatar::toggle_crouch_mode()
+{
+    if( move_mode == CMM_CROUCH ) {
+        set_movement_mode( CMM_WALK );
+    } else {
+        set_movement_mode( CMM_CROUCH );
+    }
+}
+
+void avatar::reset_move_mode()
+{
+    if( move_mode != CMM_WALK ) {
+        set_movement_mode( CMM_WALK );
+    }
+}
+
+void avatar::cycle_move_mode()
+{
+    unsigned char as_uchar = static_cast<unsigned char>( move_mode );
+    as_uchar = ( as_uchar + 1 + CMM_COUNT ) % CMM_COUNT;
+    set_movement_mode( static_cast<character_movemode>( as_uchar ) );
+    // if a movemode is disabled then just cycle to the next one
+    if( !movement_mode_is( static_cast<character_movemode>( as_uchar ) ) ) {
+        as_uchar = ( as_uchar + 1 + CMM_COUNT ) % CMM_COUNT;
+        set_movement_mode( static_cast<character_movemode>( as_uchar ) );
+    }
+}
+
+bool avatar::wield( item &target )
+{
+    if( is_wielding( target ) ) {
+        return true;
+    }
+
+    if( !can_wield( target ).success() ) {
+        return false;
+    }
+
+    if( !unwield() ) {
+        return false;
+    }
+    cached_info.erase( "weapon_value" );
+    if( target.is_null() ) {
+        return true;
+    }
+
+    // Query whether to draw an item from a holster when attempting to wield the holster
+    if( target.get_use( "holster" ) && !target.contents.empty() ) {
+        //~ %1$s: weapon name, %2$s: holster name
+        if( query_yn( pgettext( "holster", "Draw %1$s from %2$s?" ), target.get_contained().tname(),
+                      target.tname() ) ) {
+            invoke_item( &target );
+            return false;
+        }
+    }
+
+    // Wielding from inventory is relatively slow and does not improve with increasing weapon skill.
+    // Worn items (including guns with shoulder straps) are faster but still slower
+    // than a skilled player with a holster.
+    // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
+
+    bool worn = is_worn( target );
+    int mv = item_handling_cost( target, true,
+                                 worn ? INVENTORY_HANDLING_PENALTY / 2 : INVENTORY_HANDLING_PENALTY );
+
+    if( worn ) {
+        target.on_takeoff( *this );
+    }
+
+    add_msg( m_debug, "wielding took %d moves", mv );
+    moves -= mv;
+
+    if( has_item( target ) ) {
+        weapon = i_rem( &target );
+    } else {
+        weapon = target;
+    }
+
+    last_item = weapon.typeId();
+    recoil = MAX_RECOIL;
+
+    weapon.on_wield( *this, mv );
+
+    inv.update_invlet( weapon );
+    inv.update_cache_with_item( weapon );
+
+    return true;
 }

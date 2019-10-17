@@ -27,6 +27,26 @@
   },
   {
     "type": "city_building",
+    "id": "house_w_2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_w_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_w_2_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_w_3",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_w_3_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_w_3_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "s_electronics",
     "locations": [ "land" ],
     "overmaps": [

@@ -9,8 +9,7 @@ def buildAsLibrary = project.hasProperty('BUILD_AS_LIBRARY');
 def buildAsApplication = !buildAsLibrary
 if (buildAsApplication) {
     apply plugin: 'com.android.application'
-}
-else {
+} else {
     apply plugin: 'com.android.library'
 }
 
@@ -23,7 +22,7 @@ if (localPropertiesFile.exists()) {
 }
 
 def keystorePropertiesFilename = 'keystore.properties'
-if( localProperties.getProperty('keystorePropertiesFilename') != null ) {
+if (localProperties.getProperty('keystorePropertiesFilename') != null) {
     keystorePropertiesFilename = localProperties.getProperty("keystorePropertiesFilename")
 }
 
@@ -37,85 +36,135 @@ if (keystorePropertiesFile.exists()) {
 
 def njobs = getProperty("j")
 
+def localize = getProperty("localize").toBoolean()
+def abi32 = getProperty("abi32").toBoolean()
+def abi64 = getProperty("abi64").toBoolean()
+def deps = getProperty("deps")
+def override_version = getProperty("override_version")
+def version_header_path = getProperty("version_header_path")
+
+if (!abi32 && !abi64) {
+    throw new GradleException("Both `abi32` and `abi64` properties are set to false")
+}
+if (!file(deps).exists()) {
+    throw new GradleException("Dependencies file does not exist:" + deps)
+}
+
+if (!override_version.isEmpty()) {
+    if (version_header_path.isEmpty()) {
+        throw new GradleException("`version_header_path` cannot be empty when `override_version` is not empty")
+    } else {
+        println("Overriding version number to $override_version using path $version_header_path")
+    }
+}
+
 task unzipDeps(type: Copy) {
-    def zipFile = new File('./deps.zip')
+    println("Using dependencies file: $deps")
+    def zipFile = new File("$deps")
     def outputDir = new File('.')
     from zipTree(zipFile)
     into outputDir
 }
 
-preBuild.dependsOn unzipDeps
-
-switch(OperatingSystem.current()) {
-    case OperatingSystem.LINUX:
-        task makeLocalization(type: Exec) {
-            workingDir './../..'
-            commandLine 'make', 'localization', 'LANGUAGES=all'
+task makeLocalization(type: Exec) {
+    if (localize) {
+        println("Building with localization'")
+        switch (OperatingSystem.current()) {
+            case OperatingSystem.LINUX:
+                workingDir './../..'
+                commandLine 'make', 'localization', 'LANGUAGES=all'
+                break
+            case OperatingSystem.WINDOWS:
+                workingDir './../..'
+                commandLine 'sh.exe', 'android/app/makelocalizations.sh'
+                break
+            default:
+                workingDir './../..'
+                commandLine 'echo', 'Building without localization'
+                break
         }
-
-        preBuild.dependsOn makeLocalization
-        break
-    case OperatingSystem.WINDOWS:
-        task makeLocalization(type: Exec) {
-            workingDir './../..'
-            commandLine 'sh.exe', 'android/app/makelocalizations.sh'
-        }
-
-        unzipDeps.dependsOn makeLocalization
-        break
+    } else {
+        workingDir './../..'
+        commandLine 'echo', 'Building without localization'
+    }
 }
+
+makeLocalization
+unzipDeps.dependsOn makeLocalization
+preBuild.dependsOn unzipDeps
 
 android {
     compileSdkVersion 28
 
-    if(OperatingSystem.current().isLinux()) {
-        exec {
-            workingDir './../..'
-            commandLine 'make', 'version'
+    if (override_version.isEmpty()) {
+        println("Generating version number to $version_header_path")
+        switch (OperatingSystem.current()) {
+            case OperatingSystem.LINUX:
+                exec {
+                    workingDir './../..'
+                    commandLine 'make', 'version'
+                }
+                break
+            case OperatingSystem.WINDOWS:
+                exec {
+                    workingDir './../..'
+                    commandLine 'sh.exe', '-c', 'make version'
+                }
+                break
+            default:
+                exec {
+                    workingDir './../..'
+                    commandLine 'make', 'version'
+                }
+                break
         }
-    }
-    if(OperatingSystem.current().isWindows()) {
+    } else {
+        println("Overriding version number to $override_version")
         exec {
             workingDir './../..'
-            commandLine 'sh.exe', '-c', 'make version'
+            commandLine 'echo', '#define VERSION $override_version', '>', '$version_header_path'
         }
     }
 
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode Integer.valueOf(System.env.UPSTREAM_BUILD_NUMBER ?: 1 )
-        versionName new File('app/jni/src/version.h').text.split("\"")[1]
+        versionCode Integer.valueOf(System.env.UPSTREAM_BUILD_NUMBER ?: 1)
+        versionName new File("$version_header_path").text.split('\"')[1]
         if (buildAsApplication) {
             applicationId "com.cleverraven.cataclysmdda"
             setProperty("archivesBaseName", "cataclysmdda-" + versionName)
         }
 
-    splits {
-        // Configures multiple APKs based on ABI.
-        abi {
-            // Enables building multiple APKs per ABI.
-            enable true
-            // Resets the list of ABIs that Gradle should create APKs for to none.
-            reset()
-            // Specifies a list of ABIs that Gradle should create APKs for.
-            include "armeabi-v7a"
-            include "arm64-v8a"
-            // Specifies that we do not want to also generate a universal APK that includes all ABIs.
-            universalApk false
+        splits {
+            // Configures multiple APKs based on ABI.
+            abi {
+                // Enables building multiple APKs per ABI.
+                enable true
+                // Resets the list of ABIs that Gradle should create APKs for to none.
+                reset()
+                // Specifies a list of ABIs that Gradle should create APKs for.
+                if (abi32) {
+                    include "armeabi-v7a"
+                }
+                if (abi64) {
+                    include "arm64-v8a"
+                }
+                // Specifies that we do not want to also generate a universal APK that includes all ABIs.
+                universalApk false
+            }
         }
-    }
 
-    externalNativeBuild {
-        ndkBuild {
-            arguments "APP_PLATFORM=android-21", "-j$njobs"
+        externalNativeBuild {
+            ndkBuild {
+                arguments "APP_PLATFORM=android-21", "-j$njobs"
+            }
         }
-    }
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
-        if( keystoreProperties.getProperty('storeFile') != null ) {
-            if( file(keystoreProperties.getProperty('storeFile')).exists() ) {
+        if (keystoreProperties.getProperty('storeFile') != null) {
+            if (file(keystoreProperties.getProperty('storeFile')).exists()) {
                 release {
                     storeFile file(keystoreProperties.getProperty("storeFile"))
                     storePassword keystoreProperties.getProperty("storePassword")
@@ -131,7 +180,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            if( signingConfigs.hasProperty("release") ) {
+            if (signingConfigs.hasProperty("release")) {
                 signingConfig signingConfigs.release
             }
             externalNativeBuild {

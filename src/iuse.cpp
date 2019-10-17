@@ -7227,7 +7227,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
             continue; // disallow photos with non-visible objects
         }
         monster *const mon = g->critter_at<monster>( current, false );
-        player *guy = g->critter_at<player>( current );
+        avatar *guy = g->critter_at<avatar>( current );
 
         total_tiles_num++;
         if( g->m.is_outside( current ) ) {
@@ -7248,7 +7248,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
                 if( guy->is_hallucination() ) {
                     continue; // do not include hallucinations
                 }
-                if( guy->movement_mode_is( PMM_CROUCH ) ) {
+                if( guy->movement_mode_is( CMM_CROUCH ) ) {
                     pose = _( "sits" );
                 } else {
                     pose = _( "stands" );

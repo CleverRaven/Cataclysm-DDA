@@ -719,9 +719,9 @@ void vehicle::drive_to_local_target( const tripoint &autodrive_local_target, boo
     // when following player, take distance to player into account.
     // we really want to avoid running the player over.
     int safe_player_follow_speed = 400;
-    if( g->u.movement_mode_is( PMM_RUN ) ) {
+    if( g->u.movement_mode_is( CMM_RUN ) ) {
         safe_player_follow_speed = 800;
-    } else if( g->u.movement_mode_is( PMM_CROUCH ) ) {
+    } else if( g->u.movement_mode_is( CMM_CROUCH ) ) {
         safe_player_follow_speed = 200;
     }
     if( follow_protocol ) {
@@ -962,8 +962,9 @@ bool vehicle::is_alternator_on( const int a ) const
 
     return std::any_of( engines.begin(), engines.end(), [this, &alt]( int idx ) {
         auto &eng = parts [ idx ];
-        return eng.enabled && eng.is_available() && eng.mount == alt.mount &&
-               !eng.faults().count( fault_belt );
+        //fuel_left checks that the engine can produce power to be absorbed
+        return eng.is_available() && eng.enabled && fuel_left( eng.fuel_current() ) &&
+               eng.mount == alt.mount && !eng.faults().count( fault_belt );
     } );
 }
 
@@ -1372,6 +1373,20 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
         bool anchor_found = false;
         for( const auto &elem : parts_in_square ) {
             if( part_info( elem ).has_flag( "WHEEL_MOUNT_HEAVY" ) ) {
+                anchor_found = true;
+                break;
+            }
+        }
+        if( !anchor_found ) {
+            return false;
+        }
+    }
+
+    //Turret controls must be installed on a turret
+    if( part.has_flag( "TURRET_CONTROLS" ) ) {
+        bool anchor_found = false;
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "TURRET" ) ) {
                 anchor_found = true;
                 break;
             }
@@ -4444,7 +4459,7 @@ void vehicle::update_alternator_load()
     if( engine_on ) {
         int engine_vpower = 0;
         for( size_t e = 0; e < engines.size(); ++e ) {
-            if( is_engine_on( e ) ) {
+            if( is_engine_on( e ) && parts[engines[e]].info().has_flag( "E_ALTERNATOR" ) ) {
                 engine_vpower += part_vpower_w( engines[e] );
             }
         }
@@ -5287,6 +5302,9 @@ void vehicle::refresh()
         if( camera_on && vpi.has_flag( "CAMERA" ) ) {
             vp.part().enabled = true;
         } else if( !camera_on && vpi.has_flag( "CAMERA" ) ) {
+            vp.part().enabled = false;
+        }
+        if( vpi.has_flag( "TURRET" ) && !has_part( global_part_pos3( vp.part() ), "TURRET_CONTROLS" ) ) {
             vp.part().enabled = false;
         }
     }

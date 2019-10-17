@@ -4378,3 +4378,8 @@ bool npc::adjust_worn()
 
     return false;
 }
+
+void npc::set_movement_mode( character_movemode new_mode )
+{
+    move_mode = new_mode;
+}

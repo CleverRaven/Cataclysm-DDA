@@ -397,8 +397,12 @@ int trading_window::get_var_trade( const item &it, int total_count )
 {
     string_input_popup popup_input;
     int how_many = total_count;
-    const std::string title = string_format( _( "Trade how many %s [MAX: %d]: " ),
-                              it.display_name(), total_count );
+    const bool contained = it.is_container() && !it.contents.empty();
+
+    const std::string title = string_format( _( "Trade how many %s [MAX: %d]: " ), contained ?
+                              "containers with " + it.get_contained().type_name( how_many ) :
+                              it.type_name( how_many ),
+                              total_count );
     popup_input.title( title ).edit( how_many );
     if( popup_input.canceled() || how_many <= 0 ) {
         return -1;

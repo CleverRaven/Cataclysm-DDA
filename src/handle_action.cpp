@@ -1367,7 +1367,7 @@ static void fire()
 
 static void open_movement_mode_menu()
 {
-    player &u = g->u;
+    avatar &u = g->u;
     uilist as_m;
 
     as_m.text = _( "Change to which movement mode?" );
@@ -1379,13 +1379,13 @@ static void open_movement_mode_menu()
 
     switch( as_m.ret ) {
         case 0:
-            u.set_movement_mode( PMM_WALK );
+            u.set_movement_mode( CMM_WALK );
             break;
         case 1:
-            u.set_movement_mode( PMM_RUN );
+            u.set_movement_mode( CMM_RUN );
             break;
         case 2:
-            u.set_movement_mode( PMM_CROUCH );
+            u.set_movement_mode( CMM_CROUCH );
             break;
         default:
             break;

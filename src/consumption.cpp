@@ -345,7 +345,7 @@ time_duration player::vitamin_rate( const vitamin_id &vit ) const
     return res;
 }
 
-int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
+int Character::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
 {
     auto it = vitamin_levels.find( vit );
     if( it == vitamin_levels.end() ) {
@@ -373,7 +373,7 @@ void player::vitamins_mod( const std::map<vitamin_id, int> &vitamins, bool cappe
     }
 }
 
-int player::vitamin_get( const vitamin_id &vit ) const
+int Character::vitamin_get( const vitamin_id &vit ) const
 {
     if( get_option<bool>( "NO_VITAMINS" ) ) {
         return 0;

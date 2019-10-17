@@ -4437,6 +4437,11 @@ item &map::add_item( const tripoint &p, item new_item )
     }
 
     if( new_item.has_flag( "ACT_IN_FIRE" ) && get_field( p, fd_fire ) != nullptr ) {
+        if( new_item.has_flag( "BOMB" ) && new_item.is_transformable() ) {
+            //Convert a bomb item into its transformable version, e.g. incendiary grenade -> active incendiary grenade
+            new_item.convert( item::find_type( dynamic_cast<const iuse_transform *>( item::find_type(
+                                                   new_item.typeId() )->get_use( "transform" )->get_actor_ptr() )->target )->get_id() );
+        }
         new_item.active = true;
     }
 
@@ -8032,7 +8037,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     }
 
     const tripoint &p = g->u.pos();
-    bool is_crouching = g->u.movement_mode_is( PMM_CROUCH );
+    bool is_crouching = g->u.movement_mode_is( CMM_CROUCH );
     for( const tripoint &loc : points_in_radius( p, 1 ) ) {
         if( loc == p ) {
             // The tile player is standing on should always be transparent

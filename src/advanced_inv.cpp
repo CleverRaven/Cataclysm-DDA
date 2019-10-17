@@ -882,6 +882,9 @@ bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) con
 
 bool advanced_inventory_pane::is_filtered( const item &it ) const
 {
+    if( it.has_flag( "HIDDEN_ITEM" ) ) {
+        return true;
+    }
     if( filter.empty() ) {
         return false;
     }
