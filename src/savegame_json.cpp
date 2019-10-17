@@ -873,8 +873,6 @@ void avatar::store( JsonOut &json ) const
     json.member( "style_selected", style_selected );
     json.member( "keep_hands_free", keep_hands_free );
 
-    json.member( "move_mode", player_movemode_str[ move_mode ] );
-
     // stats through kills
     json.member( "str_upgrade", abs( str_upgrade ) );
     json.member( "dex_upgrade", abs( dex_upgrade ) );
@@ -987,14 +985,6 @@ void avatar::load( JsonObject &data )
     }
 
     data.read( "stamina", stamina );
-    std::string tmove_mode;
-    data.read( "move_mode", tmove_mode );
-    for( int i = 0; i < PMM_COUNT; ++i ) {
-        if( tmove_mode == player_movemode_str[i] ) {
-            move_mode = static_cast<player_movemode>( i );
-            break;
-        }
-    }
 
     set_highest_cat_level();
     drench_mut_calc();
