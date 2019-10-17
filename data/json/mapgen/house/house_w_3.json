@@ -37,9 +37,7 @@
         "1": {
           "chunks": [
             [ "bedroom_5x5_adult_N_1", 50 ],
-            [ "bedroom_5x5_adult_S_1", 50 ],
             [ "bedroom_5x5_adult_N_2", 50 ],
-            [ "bedroom_5x5_adult_S_2", 50 ],
             [ "bedroom_5x5_adult_E_2", 50 ],
             [ "bedroom_5x5_adult_W_2", 50 ]
           ]
