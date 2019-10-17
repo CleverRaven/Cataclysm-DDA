@@ -3446,7 +3446,7 @@ void player::update_stomach( const time_point &from, const time_point &to )
     }
 }
 
-void player::update_vitamins( const vitamin_id &vit )
+void Character::update_vitamins( const vitamin_id &vit )
 {
     if( is_npc() ) {
         return; // NPCs cannot develop vitamin diseases
@@ -6864,7 +6864,7 @@ bool player::consume( int target_position )
     return true;
 }
 
-void player::rooted_message() const
+void Character::rooted_message() const
 {
     bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
@@ -6875,7 +6875,7 @@ void player::rooted_message() const
 }
 
 // TODO: Move this into player::suffer()
-void player::rooted()
+void Character::rooted()
 // Should average a point every two minutes or so; ground isn't uniformly fertile
 {
     double shoe_factor = footwear_factor();
@@ -9652,7 +9652,7 @@ int player::get_env_resist( body_part bp ) const
     return ret;
 }
 
-bool player::wearing_something_on( body_part bp ) const
+bool Character::wearing_something_on( body_part bp ) const
 {
     for( auto &i : worn ) {
         if( i.covers( bp ) ) {
@@ -9673,7 +9673,7 @@ bool player::natural_attack_restricted_on( body_part bp ) const
     return false;
 }
 
-bool player::is_wearing_shoes( const side &which_side ) const
+bool Character::is_wearing_shoes( const side &which_side ) const
 {
     bool left = true;
     bool right = true;
@@ -9727,7 +9727,7 @@ int player::head_cloth_encumbrance() const
     return ret;
 }
 
-double player::footwear_factor() const
+double Character::footwear_factor() const
 {
     double ret = 0;
     if( wearing_something_on( bp_foot_l ) ) {

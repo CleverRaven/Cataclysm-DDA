@@ -251,9 +251,6 @@ class player : public Character
         void update_needs( int rate_multiplier );
         needs_rates calc_needs_rates();
 
-        /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
-        void update_vitamins( const vitamin_id &vit );
-
         /**
           * Handles passive regeneration of pain and maybe hp.
           */
@@ -829,27 +826,7 @@ class player : public Character
         /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
         time_duration vitamin_rate( const vitamin_id &vit ) const;
 
-        /**
-         * Add or subtract vitamins from player storage pools
-         * @param vit ID of vitamin to modify
-         * @param qty amount by which to adjust vitamin (negative values are permitted)
-         * @param capped if true prevent vitamins which can accumulate in excess from doing so
-         * @return adjusted level for the vitamin or zero if vitamin does not exist
-         */
-        int vitamin_mod( const vitamin_id &vit, int qty, bool capped = true );
-
         void vitamins_mod( const std::map<vitamin_id, int> &, bool capped = true );
-
-        /**
-         * Check current level of a vitamin
-         *
-         * Accesses level of a given vitamin.  If the vitamin_id specified does not
-         * exist then this function simply returns 0.
-         *
-         * @param vit ID of vitamin to check level for.
-         * @returns current level for specified vitamin
-         */
-        int vitamin_get( const vitamin_id &vit ) const;
 
         /**
          * Sets level of a vitamin or returns false if id given in vit does not exist
@@ -866,9 +843,6 @@ class player : public Character
         float metabolic_rate() const;
         /** Handles the effects of consuming an item */
         bool consume_effects( item &food );
-        /** Handles rooting effects */
-        void rooted_message() const;
-        void rooted();
         int get_lift_assist() const;
 
         bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
@@ -1124,18 +1098,12 @@ class player : public Character
         int get_armor_fire( body_part bp ) const;
         /** Returns overall resistance to given type on the bod part */
         int get_armor_type( damage_type dt, body_part bp ) const override;
-        /** Returns true if the player is wearing something on the entered body_part */
-        bool wearing_something_on( body_part bp ) const;
         /** Returns true if the player is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
         bool natural_attack_restricted_on( body_part bp ) const;
-        /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
-        bool is_wearing_shoes( const side &which_side = side::BOTH ) const;
         /** Returns true if the player is wearing something occupying the helmet slot */
         bool is_wearing_helmet() const;
         /** Returns the total encumbrance of all SKINTIGHT and HELMET_COMPAT items covering the head */
         int head_cloth_encumbrance() const;
-        /** Returns 1 if the player is wearing something on both feet, .5 if on one, and 0 if on neither */
-        double footwear_factor() const;
         /** Same as footwear factor, but for arms */
         double armwear_factor() const;
         /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both, and zero if on neither */
@@ -1734,9 +1702,6 @@ class player : public Character
         std::shared_ptr<targeting_data> tdata;
 
     protected:
-        // TODO: move these to avatar
-        /** Current deficiency/excess quantity for each vitamin */
-        std::map<vitamin_id, int> vitamin_levels;
 
         /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
         mutable pimpl<recipe_subset> learned_recipes;

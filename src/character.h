@@ -1137,6 +1137,38 @@ class Character : public Creature, public visitable<Character>
 
         void spores();
         void blossoms();
+
+        /** Handles rooting effects */
+        void rooted_message() const;
+        void rooted();
+
+        /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
+        void update_vitamins( const vitamin_id &vit );
+        /**
+         * Check current level of a vitamin
+         *
+         * Accesses level of a given vitamin.  If the vitamin_id specified does not
+         * exist then this function simply returns 0.
+         *
+         * @param vit ID of vitamin to check level for.
+         * @returns current level for specified vitamin
+         */
+        int vitamin_get( const vitamin_id &vit ) const;
+        /**
+         * Add or subtract vitamins from player storage pools
+         * @param vit ID of vitamin to modify
+         * @param qty amount by which to adjust vitamin (negative values are permitted)
+         * @param capped if true prevent vitamins which can accumulate in excess from doing so
+         * @return adjusted level for the vitamin or zero if vitamin does not exist
+         */
+        int vitamin_mod( const vitamin_id &vit, int qty, bool capped = true );
+
+        /** Returns true if the player is wearing something on the entered body_part */
+        bool wearing_something_on( body_part bp ) const;
+        /** Returns 1 if the player is wearing something on both feet, .5 if on one, and 0 if on neither */
+        double footwear_factor() const;
+        /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
+        bool is_wearing_shoes( const side &which_side = side::BOTH ) const;
     protected:
         Character();
         Character( Character && );
@@ -1222,6 +1254,8 @@ class Character : public Creature, public visitable<Character>
         faction *my_fac = nullptr;
 
         character_movemode move_mode;
+        /** Current deficiency/excess quantity for each vitamin */
+        std::map<vitamin_id, int> vitamin_levels;
 
     private:
         // a cache of all active enchantment values.
