@@ -2,9 +2,28 @@
 #ifndef CHARACTER_MUTATIONS_H
 #define CHARACTER_MUTATIONS_H
 
-#include "mutation.h"
-#include "player.h"
+#include "damage.h"
 #include "type_id.h"
+
+#include <map>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
+
+class Creature;
+class Character;
+class JsonOut;
+class JsonIn;
+
+enum body_part;
+
+struct resistances;
+struct social_modifiers;
+
+struct special_attack {
+    std::string text;
+    damage_instance damage;
+};
 
 // contains all of the mutation data a character has
 class character_mutations

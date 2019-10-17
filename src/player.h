@@ -129,11 +129,6 @@ enum class comfort_level {
     very_comfortable = 10
 };
 
-struct special_attack {
-    std::string text;
-    damage_instance damage;
-};
-
 class player_morale;
 
 // The maximum level recoil will ever reach.

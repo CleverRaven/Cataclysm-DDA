@@ -12,7 +12,6 @@
 
 #include "bodypart.h"
 #include "calendar.h"
-#include "character.h"
 #include "damage.h"
 #include "string_id.h"
 #include "hash_utils.h"
@@ -20,6 +19,7 @@
 #include "type_id.h"
 #include "point.h"
 
+class Character;
 class nc_color;
 class JsonObject;
 class player;
@@ -466,7 +466,7 @@ struct mutagen_attempt {
     int charges_used;
 };
 
-mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,
+mutagen_attempt mutagen_common_checks( Character &p, const item &it, bool strong,
                                        mutagen_technique technique );
 
 void test_crossing_threshold( Character &guy, const mutation_category_trait &m_category );
