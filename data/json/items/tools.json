@@ -4272,6 +4272,24 @@
     "use_action": "OXYGEN_BOTTLE"
   },
   {
+    "id": "oxygen_cylinder",
+    "type": "TOOL",
+    "name": "oxygen cylinder",
+    "description": "A large steel cylinder used for storing pressurized gas.  It is marked with a faded, but legible O2 symbol.",
+    "weight": "12888 g",
+    "volume": "2500 ml",
+    "price": 13400,
+    "to_hit": -4,
+    "bashing": 10,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "blue",
+    "initial_charges": 300,
+    "max_charges": 300,
+    "charges_per_use": 10,
+    "use_action": "OXYGEN_BOTTLE"
+  },
+  {
     "id": "nitrogen_tank",
     "type": "TOOL",
     "name": "nitrogen tank",
