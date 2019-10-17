@@ -2047,8 +2047,8 @@ std::vector<std::string> Character::get_overlay_ids() const
     }
 
     // then get mutations
-    for( const auto &mut : my_mutations ) {
-        overlay_id = ( mut.second.powered ? "active_" : "" ) + mut.first.str();
+    for( const trait_id &mut : mutations.get_mutations() ) {
+        overlay_id = ( mutations.get_trait_data( mut ).powered ? "active_" : "" ) + mut.first.str();
         order = get_overlay_order_of_mutation( overlay_id );
         mutation_sorting.insert( std::pair<int, std::string>( order, overlay_id ) );
     }

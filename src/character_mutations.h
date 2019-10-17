@@ -153,6 +153,7 @@ class character_mutations
         std::string visible_mutations( int visibility_cap ) const;
         // gets modifiable trait data
         trait_data &get_trait_data( const trait_id &mut );
+        trait_data get_trait_data( const trait_id &mut ) const;
     private:
         /**
          * Traits / mutations of the character. Key is the mutation id (it's also a valid
