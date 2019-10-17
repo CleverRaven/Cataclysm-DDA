@@ -1717,7 +1717,6 @@
     ],
     "components": [
       [ [ "ai_module", 1 ] ],
-      [ [ "RAM", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "spidery_legs_small", 1 ] ],
