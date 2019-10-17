@@ -1479,6 +1479,7 @@ class vehicle
         void play_chimes();
         void operate_planter();
         std::string tracking_toggle_string();
+        void autopilot_patrol_check();
         void toggle_autopilot();
         void enable_patrol();
         void toggle_tracking();
@@ -1710,6 +1711,8 @@ class vehicle
         std::array<int, 2> pivot_rotation = { { 0, 0 } };
 
         bounding_box rail_wheel_bounding_box;
+        point front_left;
+        point front_right;
         // points used for rotation of mount precalc values
         std::array<point, 2> pivot_anchor;
         // frame direction

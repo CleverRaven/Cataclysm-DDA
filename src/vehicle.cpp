@@ -655,15 +655,14 @@ void vehicle::autopilot_patrol()
      * in a criss-cross fashion.
      * in an auto-tractor, this would eventually cover the entire rectangle.
      */
-    // if we are close to a waypoint, then return to come back here next turn.
+    // if we are close to a waypoint, then return to come back to this function next turn.
     if( autodrive_local_target != tripoint_zero ) {
-        for( auto elem : get_points() ) {
-            if( autodrive_local_target == g->m.getabs( elem ) ) {
-                autodrive_local_target = tripoint_zero;
-                return;
-            }
+        if( rl_dist( g->m.getabs( global_pos3() ), autodrive_local_target ) <= 3 ) {
+            autodrive_local_target = tripoint_zero;
+            return;
         }
         if( !g->m.inbounds( g->m.getlocal( autodrive_local_target ) ) ) {
+            autodrive_local_target = tripoint_zero;
             is_patrolling = false;
             return;
         }
@@ -690,21 +689,21 @@ void vehicle::autopilot_patrol()
         min.y = std::min( box.y, min.y );
         min.z = std::min( box.z, min.z );
         max.x = std::max( box.x, max.x );
-        max.y = std::max( box.y, min.y );
-        max.z = std::max( box.z, min.z );
+        max.y = std::max( box.y, max.y );
+        max.z = std::max( box.z, max.z );
     }
-    bool x_side = ( max.x - min.x ) < ( max.y - min.y );
-    int point_along = x_side ? rng( min.x, max.x ) : rng( min.y, max.y );
-    tripoint max_tri = x_side ? tripoint( point_along, max.y, min.z ) : tripoint( max.x, point_along,
-                       min.z );
-    tripoint min_tri = x_side ? tripoint( point_along, min.y, min.z ) : tripoint( min.x, point_along,
-                       min.z );
-    tripoint chosen_tri;
+    const bool x_side = ( max.x - min.x ) < ( max.y - min.y );
+    const int point_along = x_side ? rng( min.x, max.x ) : rng( min.y, max.y );
+    const tripoint max_tri = x_side ? tripoint( point_along, max.y, min.z ) : tripoint( max.x,
+                             point_along,
+                             min.z );
+    const tripoint min_tri = x_side ? tripoint( point_along, min.y, min.z ) : tripoint( min.x,
+                             point_along,
+                             min.z );
+    tripoint chosen_tri = min_tri;
     if( rl_dist( max_tri, g->m.getabs( global_pos3() ) ) >= rl_dist( min_tri,
             g->m.getabs( global_pos3() ) ) ) {
         chosen_tri = max_tri;
-    } else {
-        chosen_tri = min_tri;
     }
     autodrive_local_target = chosen_tri;
     drive_to_local_target( autodrive_local_target, false );
@@ -712,23 +711,27 @@ void vehicle::autopilot_patrol()
 
 std::set<point> vehicle::immediate_path( int rotate )
 {
-    int distance_to_check = 10 + ( velocity / 800 );
-    tileray collision_vector;
+    std::set<point> points_to_check;
+    const int distance_to_check = 10 + ( velocity / 800 );
     int adjusted_angle = ( face.dir() + rotate ) % 360;
     if( adjusted_angle < 0 ) {
         adjusted_angle += 360;
     }
+    // clamp to multiples of 15.
+    adjusted_angle = ( ( adjusted_angle + 15 / 2 ) / 15 ) * 15;
+    tileray collision_vector;
     collision_vector.init( adjusted_angle );
-    tripoint vehpos = global_pos3();
-    std::set<point> points_to_check;
-    for( int i = 0; i < distance_to_check; ++i ) {
-        collision_vector.advance( i );
-        for( int y = mount_min.y; y < mount_max.y; ++y ) {
-            points_to_check.emplace( vehpos.x + collision_vector.dx(), vehpos.y + y + collision_vector.dy() );
+    point top_left_actual = point( global_pos3().x, global_pos3().y ) + coord_translate( front_left );
+    point top_right_actual = point( global_pos3().x, global_pos3().y ) + coord_translate( front_right );
+    std::vector<point> front_row = line_to( top_left_actual, top_right_actual );
+    for( point &elem : front_row ) {
+        for( int i = 0; i < distance_to_check; ++i ) {
+            collision_vector.advance( i );
+            point point_to_add = point( elem.x + collision_vector.dx(), elem.y + collision_vector.dy() );
+            points_to_check.emplace( point_to_add );
         }
     }
     return points_to_check;
-
 }
 
 void vehicle::drive_to_local_target( const tripoint target, bool follow_protocol )
@@ -737,6 +740,7 @@ void vehicle::drive_to_local_target( const tripoint target, bool follow_protocol
         is_following = false;
         return;
     }
+    refresh();
     tripoint vehpos = g->m.getabs( global_pos3() );
     rl_vec2d facevec = face_vec();
     point rel_pos_target = target.xy() - vehpos.xy();
@@ -753,42 +757,61 @@ void vehicle::drive_to_local_target( const tripoint target, bool follow_protocol
     // Check the tileray in the direction we need to head towards.
     std::set<point> points_to_check = immediate_path( angle );
     bool stop = false;
-    for( const auto &elem : points_to_check ) {
+
+    for( const auto &pt : points_to_check ) {
         if( stop ) {
             break;
         }
+        point elem = point( pt.x, pt.y );
         const optional_vpart_position ovp = g->m.veh_at( tripoint( elem, sm_pos.z ) );
         if( g->m.impassable_ter_furn( tripoint( elem, sm_pos.z ) ) || ( ovp &&
                 &ovp->vehicle() != this ) ) {
-            if( follow_protocol && elem == g->u.pos().xy() ) {
+            stop = true;
+            break;
+        }
+        if( elem == g->u.pos().xy() ) {
+            if( follow_protocol || g->u.in_vehicle ) {
                 continue;
+            } else {
+                stop = true;
+                break;
             }
-            bool its_a_pet = false;
-            if( g->critter_at( tripoint( elem, sm_pos.z ) ) ) {
-                if( elem == g->u.pos().xy() || g->critter_at<npc>( tripoint( elem, sm_pos.z ) ) ) {
-                    stop = true;
+        }
+        bool its_a_pet = false;
+        if( g->critter_at( tripoint( elem, sm_pos.z ) ) ) {
+            npc *guy = g->critter_at<npc>( tripoint( elem, sm_pos.z ) );
+            if( guy && !guy->in_vehicle ) {
+                stop = true;
+                break;
+            }
+            for( const auto &p : parts ) {
+                monster *mon = get_pet( index_of_part( &p ) );
+                if( mon && mon->pos().xy() == elem ) {
+                    its_a_pet = true;
                     break;
                 }
-                for( const auto &p : parts ) {
-                    monster *mon = get_pet( index_of_part( &p ) );
-                    if( mon && mon->pos().xy() == elem ) {
-                        its_a_pet = true;
-                        break;
-                    }
-                }
-                if( !its_a_pet ) {
-                    stop = true;
-                }
+            }
+            if( !its_a_pet ) {
+                stop = true;
+                break;
             }
         }
     }
     if( stop ) {
+        if( autopilot_on ) {
+            sounds::sound( global_pos3(), 30, sounds::sound_t::alert,
+                           string_format( _( "the %s emitting a beep and saying \"Obstacle detected!\"" ),
+                                          name ) );
+        }
         if( velocity > 0 ) {
-            pldrive( point( 0, 10 ) );
+            follow_protocol ||
+            is_patrolling ? autodrive( 0, 10 ) : pldrive( point( 0, 10 ) );
         }
         is_autodriving = false;
         is_patrolling = false;
         is_following = false;
+        autopilot_on = false;
+        autodrive_local_target = tripoint_zero;
         return;
     }
     int turn_x = 0;
@@ -845,6 +868,7 @@ void vehicle::do_autodrive()
 {
     if( omt_path.empty() ) {
         is_autodriving = false;
+        autodrive_local_target = tripoint_zero;
         return;
     }
     tripoint vehpos = global_pos3();
@@ -858,6 +882,7 @@ void vehicle::do_autodrive()
     if( omt_diff.x > 3 || omt_diff.x < -3 || omt_diff.y > 3 || omt_diff.y < -3 ) {
         // we've gone walkabout somehow, call off the whole thing
         is_autodriving = false;
+        autodrive_local_target = tripoint_zero;
         return;
     }
     int x_side = 0;
@@ -879,9 +904,18 @@ void vehicle::do_autodrive()
     // get the shared border mid-point of the next path omt
     tripoint global_a = tripoint( veh_omt_pos.x * ( 2 * SEEX ), veh_omt_pos.y * ( 2 * SEEY ),
                                   veh_omt_pos.z );
-    tripoint autodrive_local_target = ( global_a + tripoint( x_side, y_side,
-                                        sm_pos.z ) - g->m.getabs( vehpos ) ) + global_pos3();
-    drive_to_local_target( g->m.getabs( autodrive_local_target ), false );
+    tripoint autodrive_temp_target = ( global_a + tripoint( x_side, y_side,
+                                       sm_pos.z ) - g->m.getabs( vehpos ) ) + global_pos3();
+    autodrive_local_target = g->m.getabs( autodrive_temp_target );
+    if( rl_dist( g->m.getabs( global_pos3() ), autodrive_local_target ) <= 3 ) {
+        if( is_autodriving && !g->u.omt_path.empty() && !omt_path.empty() ) {
+            g->u.omt_path.pop_back();
+            omt_path.pop_back();
+        }
+        autodrive_local_target = tripoint_zero;
+        return;
+    }
+    drive_to_local_target( autodrive_local_target, false );
 }
 
 /**
@@ -5389,6 +5423,9 @@ void vehicle::refresh()
 
     rail_wheel_bounding_box.p1 = point( railwheel_xmin, railwheel_ymin );
     rail_wheel_bounding_box.p2 = point( railwheel_xmax, railwheel_ymax );
+    front_left.x = mount_max.x;
+    front_left.y = mount_min.y;
+    front_right = mount_max;
 
     // NB: using the _old_ pivot point, don't recalc here, we only do that when moving!
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );

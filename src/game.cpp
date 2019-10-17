@@ -5298,6 +5298,8 @@ void game::control_vehicle()
         }
         veh->is_following = false;
         veh->is_patrolling = false;
+        veh->autopilot_on = false;
+        veh->is_autodriving = false;
     }
 }
 

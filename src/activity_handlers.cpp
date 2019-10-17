@@ -2647,6 +2647,21 @@ void activity_handlers::drive_do_turn( player_activity *act, player *p )
         p->cancel_activity();
         return;
     }
+    if( p->in_vehicle ) {
+        add_msg( "in vehicle" );
+    }
+    if( p->controlling_vehicle ) {
+        add_msg( "controlling vehicle " );
+    }
+    if( player_veh->is_autodriving ) {
+        add_msg( "is autodriving " );
+    }
+    if( !g->u.omt_path.empty() ) {
+        add_msg( "plyer path not empty " );
+    }
+    if( !player_veh->omt_path.empty() ) {
+        add_msg( "vehicle path not empty " );
+    }
     if( p->in_vehicle && p->controlling_vehicle && player_veh->is_autodriving &&
         !g->u.omt_path.empty() && !player_veh->omt_path.empty() ) {
         player_veh->do_autodrive();
@@ -2659,12 +2674,14 @@ void activity_handlers::drive_do_turn( player_activity *act, player *p )
         if( !player_veh->omt_path.empty() ) {
             player_veh->omt_path.clear();
         }
+        player_veh->is_autodriving = false;
         act->set_to_null();
         p->cancel_activity();
         return;
     }
     if( player_veh->omt_path.empty() ) {
         act->set_to_null();
+        player_veh->is_autodriving = false;
         p->add_msg_if_player( m_info, _( "You have reached your destination." ) );
         p->cancel_activity();
     }

@@ -12,6 +12,7 @@
 #include "action.h"
 #include "activity_handlers.h"
 #include "avatar.h"
+#include "clzones.h"
 #include "debug.h"
 #include "game.h"
 #include "iexamine.h"
@@ -496,12 +497,45 @@ std::string vehicle::tracking_toggle_string()
     return tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" );
 }
 
+void vehicle::autopilot_patrol_check()
+{
+    zone_manager &mgr = zone_manager::get_manager();
+    if( mgr.has_near( zone_type_id( "VEHICLE_PATROL" ), g->m.getabs( global_pos3() ), 60 ) ) {
+        enable_patrol();
+    } else {
+        g->zones_manager();
+    }
+}
+
 void vehicle::toggle_autopilot()
 {
-    autopilot_on = !autopilot_on;
-    if( !autopilot_on ) {
-        is_patrolling = false;
-        stop_engines();
+    uilist smenu;
+    enum autopilot_option : int {
+        PATROL,
+        STOP
+    };
+    smenu.desc_enabled = true;
+    smenu.text = _( "Choose action for the autopilot" );
+    smenu.addentry_col( PATROL, true, 'P', _( "Patrol..." ),
+                        "", string_format( _( "Program the autopilot to patrol a nearby vehicle patrol zone. "
+                                           "If no zones are nearby, you will be prompted to create one." ) ) );
+    smenu.addentry_col( STOP, true, 'S', _( "Stop..." ),
+                        "", string_format( _( "Stop all autopilot related activities." ) ) );
+    smenu.query();
+    switch( smenu.ret ) {
+        case PATROL:
+            autopilot_patrol_check();
+            break;
+        case STOP:
+            autopilot_on = false;
+            is_patrolling = false;
+            is_following = false;
+            is_autodriving = false;
+            autodrive_local_target = tripoint_zero;
+            stop_engines();
+            break;
+        default:
+            return;
     }
 }
 
@@ -626,14 +660,10 @@ void vehicle::use_controls( const tripoint &pos )
         options.emplace_back( _( "Honk horn" ), keybind( "SOUND_HORN" ) );
         actions.push_back( [&] { honk_horn(); refresh(); } );
     }
-    if( has_part( "AUTOPILOT" ) && autopilot_on ) {
-        options.emplace_back( _( "Enable autopilot patrolling" ), keybind( "AUTOPILOT_PATROL" ) );
-        actions.push_back( [&] { enable_patrol(); refresh(); } );
-    }
     if( has_part( "AUTOPILOT" ) && ( has_part( "CTRL_ELECTRONIC" ) ||
                                      has_part( "REMOTE_CONTROLS" ) ) ) {
-        options.emplace_back( autopilot_on ? _( "Disable autopilot" ) : _( "Enable autopilot" ),
-                              keybind( "TOGGLE_AUTOPILOT" ) );
+        options.emplace_back( _( "Control autopilot" ),
+                              keybind( "CONTROL_AUTOPILOT" ) );
         actions.push_back( [&] { toggle_autopilot(); refresh(); } );
     }
 
@@ -1025,6 +1055,7 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
 void vehicle::enable_patrol()
 {
     is_patrolling = true;
+    autopilot_on = true;
     autodrive_local_target = tripoint_zero;
     start_engines();
     refresh();
