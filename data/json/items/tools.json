@@ -1598,7 +1598,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 1 ] ],
-    "use_action": "CROWBAR",
+    "use_action": [ "HAMMER", "CROWBAR" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP" ]
   },
@@ -2921,7 +2921,7 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ] ],
-    "use_action": "CROWBAR",
+    "use_action": [ "HAMMER", "CROWBAR" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP" ]
   },
   {
@@ -3402,7 +3402,7 @@
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ]
     ],
-    "use_action": [ "GUN_REPAIR", "CROWBAR" ],
+    "use_action": [ "GUN_REPAIR", "CROWBAR", "HAMMER" ],
     "magazines": [
       [
         "battery",
@@ -5390,7 +5390,7 @@
       [ "SCREW", 1 ],
       [ "CHISEL", 3 ]
     ],
-    "use_action": [ "GUN_REPAIR", "CROWBAR" ],
+    "use_action": [ "GUN_REPAIR", "CROWBAR", "HAMMER" ],
     "magazines": [
       [
         "battery",
