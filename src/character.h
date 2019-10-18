@@ -1131,7 +1131,6 @@ class Character : public Creature, public visitable<Character>
         // outputs player activity level to a printable string
         std::string activity_level_str() const;
 
-
         int get_stim() const;
         void set_stim( int new_stim );
         void mod_stim( int mod );
