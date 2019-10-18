@@ -165,10 +165,7 @@
     "price": 40000,
     "to_hit": -1,
     "bashing": 8,
-    "material": [
-      "plastic",
-      "copper"
-    ],
+    "material": [ "plastic", "copper" ],
     "symbol": "(",
     "color": "magenta",
     "ammo": "battery",
@@ -179,23 +176,11 @@
     "durability": 10,
     "loudness": 8,
     "reload": 500,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "ammo_effects": [
-      "LASER",
-      "DRAW_AS_LINE"
-    ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "ammo_effects": [ "LASER", "DRAW_AS_LINE" ],
     "magazines": [
       [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ],
-    "flags": [
-      "NEVER_JAMS",
-      "FIRE_20"
-    ]
+    "flags": [ "NEVER_JAMS", "FIRE_20" ]
   }
 ]
