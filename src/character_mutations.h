@@ -2,6 +2,7 @@
 #ifndef CHARACTER_MUTATIONS_H
 #define CHARACTER_MUTATIONS_H
 
+#include "bodypart.h"
 #include "damage.h"
 #include "type_id.h"
 
@@ -43,7 +44,15 @@ class character_mutations
             void serialize( JsonOut &json ) const;
             void deserialize( JsonIn &jsin );
         };
+        // Drench cache
+        enum water_tolerance {
+            WT_IGNORED = 0,
+            WT_NEUTRAL,
+            WT_GOOD,
+            NUM_WATER_TOLERANCE
+        };
 
+        character_mutations() = default;
         character_mutations( const std::unordered_map<trait_id, character_mutations::trait_data>
                              &my_mutations, const std::unordered_set<trait_id> &my_traits ) {
             this->my_mutations = my_mutations;
@@ -167,6 +176,7 @@ class character_mutations
         trait_data get_trait_data( const trait_id &mut ) const;
 
         int get_cat_level( const std::string &category ) const;
+        std::array<int, NUM_WATER_TOLERANCE> get_mut_drench( body_part bp ) const;
     private:
         /**
          * Traits / mutations of the character. Key is the mutation id (it's also a valid
@@ -185,6 +195,8 @@ class character_mutations
         std::vector<const mutation_branch *> cached_mutations;
 
         std::map<std::string, int> mutation_category_level;
+
+        std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
 };
 
 #endif
