@@ -2,7 +2,7 @@
   {
     "type": "recipe",
     "result": "rune_magus_weapon",
-    "\\": "Forging and water included for glass heat-tempering process",
+    "//": "Forging and water included for glass heat-tempering process",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
     "skill_used": "fabrication",

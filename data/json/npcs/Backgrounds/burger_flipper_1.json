@@ -22,7 +22,7 @@
   {
     "id": "BGSS_BURGER_FLIPPER_1_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "I haven't found them yet.  Whenever I see a <zombie>, a little part of me is afraid it's going to be one of them.   But then, maybe not.  Maybe they were evacuated, maybe they fought and tried to wait for me but the military took them anyway?  I've heard that sort of thing happened.  I don't know if I'll ever know.",
+    "dynamic_line": "I haven't found them yet.  Whenever I see a <zombie>, a little part of me is afraid it's going to be one of them.  But then, maybe not.  Maybe they were evacuated, maybe they fought and tried to wait for me but the military took them anyway?  I've heard that sort of thing happened.  I don't know if I'll ever know.",
     "responses": [
       { "text": "So, did you evacuate?", "topic": "BGSS_BURGER_FLIPPER_1_STORY3" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },

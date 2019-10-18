@@ -778,6 +778,38 @@
   },
   {
     "type": "vehicle_part",
+    "id": "programmable_autopilot",
+    "name": "programmable autopilot",
+    "symbol": "A",
+    "color": "light_blue",
+    "broken_symbol": "#",
+    "broken_color": "red",
+    "damage_modifier": 80,
+    "durability": 100,
+    "description": "A computer system hooked up to the steering and engine of the vehicle to allow it to follow simple paths.",
+    "item": "programmable_autopilot",
+    "difficulty": 5,
+    "looks_like": "cam_control",
+    "epower": -15,
+    "flags": [ "ENABLED_DRAINS_EPOWER", "AUTOPILOT" ],
+    "requirements": {
+      "install": {
+        "time": 35000,
+        "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ], [ "computer", 5 ] ],
+        "qualities": [ { "id": "SCREW", "level": 1 } ]
+      },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": 8000, "using": [ [ "adhesive", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
+    },
+    "breaks_into": [
+      { "item": "steel_lump", "prob": 50 },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 0, 3 ] }
+    ],
+    "damage_reduction": { "all": 8 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "storage_battery_mount",
     "name": "swappable storage battery case",
     "symbol": "O",
@@ -910,7 +942,7 @@
     "broken_color": "light_blue",
     "damage_modifier": 80,
     "durability": 100,
-    "description": "A small washing machine.  With detergent or soap, water, and some electrical power, you could clean a lot of clothes.  'e'xamine the tile with the washing machine to use it.",
+    "description": "A small washing machine.  With detergent, water, and some electrical power, you could clean a lot of clothes.  'e'xamine the tile with the washing machine to use it.",
     "epower": -400,
     "size": 160,
     "item": "washing_machine",
@@ -935,7 +967,7 @@
     "broken_color": "light_blue",
     "damage_modifier": 80,
     "durability": 100,
-    "description": "A small dishwasher.  With detergent or soap, water, and some electrical power, you could clean your dishes...  Or something more useful like a CBM dripping with zombie gore.  'e'xamine the tile with the dishwasher to use it.",
+    "description": "A small dishwasher.  With detergent, water, and some electrical power, you could clean your dishes...  Or something more useful like a CBM dripping with zombie gore.  'e'xamine the tile with the dishwasher to use it.",
     "epower": -400,
     "size": 160,
     "item": "dishwasher",
@@ -1318,7 +1350,7 @@
     "folded_volume": 3,
     "flags": [ "MOUNTABLE", "FOLDABLE", "BOARDABLE", "CARGO" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ],
-    "damage_reduction": { "smash": 10 }
+    "damage_reduction": { "bash": 10 }
   },
   {
     "type": "vehicle_part",
@@ -1336,7 +1368,7 @@
     "folded_volume": 3,
     "flags": [ "FLOATS", "VARIABLE_SIZE", "FOLDABLE" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ],
-    "damage_reduction": { "smash": 10 }
+    "damage_reduction": { "bash": 10 }
   },
   {
     "type": "vehicle_part",
@@ -1737,7 +1769,7 @@
     "item": "solar_panel",
     "difficulty": 4,
     "location": "on_roof",
-    "flags": [ "SOLAR_PANEL", "TOOL_WRENCH" ],
+    "flags": [ "SOLAR_PANEL", "TOOL_WRENCH", "NO_REPAIR" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 2, 4 ] },
@@ -3100,5 +3132,31 @@
     "flags": [ "TURRET_MOUNT" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "damage_reduction": { "all": 54 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "controls_turret",
+    "name": "turret control unit",
+    "symbol": "$",
+    "color": "yellow",
+    "broken_symbol": "$",
+    "broken_color": "red",
+    "damage_modifier": 10,
+    "durability": 50,
+    "epower": -250,
+    "item": "turret_controls",
+    "description": "A set of motor, camera, and an AI unit which allows for tracking targets, friend-or-foe identification, and firing the connected turret in full automatic mode.  When installed over the turret, it will enable auto targeting mode for said turret.",
+    "folded_volume": 3,
+    "flags": [ "ENABLED_DRAINS_EPOWER", "TURRET_CONTROLS", "UNMOUNT_ON_DAMAGE" ],
+    "requirements": {
+      "install": {
+        "time": 120000,
+        "skills": [ [ "mechanics", 3 ], [ "electronics", 3 ] ],
+        "qualities": [ { "id": "SCREW", "level": 1 } ]
+      },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": 8000, "using": [ [ "adhesive", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
+    },
+    "breaks_into": "ig_vp_device"
   }
 ]

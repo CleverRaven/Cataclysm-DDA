@@ -1,11 +1,5 @@
 [
   {
-    "abstract": "engine_disassembly",
-    "type": "uncraft",
-    "skill_used": "mechanics",
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ]
-  },
-  {
     "type": "uncraft",
     "result": "1cyl_combustion",
     "skill_used": "mechanics",

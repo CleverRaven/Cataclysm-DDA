@@ -1155,6 +1155,11 @@ bool monster::is_warm() const
     return has_flag( MF_WARM );
 }
 
+bool monster::in_species( const species_id &spec ) const
+{
+    return type->in_species( spec );
+}
+
 bool monster::is_elec_immune() const
 {
     return is_immune_damage( DT_ELECTRIC );
@@ -1394,7 +1399,7 @@ void monster::melee_attack( Creature &target, float accuracy )
 
     if( stab_cut > 0 && has_flag( MF_BADVENOM ) ) {
         target.add_msg_if_player( m_bad,
-                                  _( "You feel venom flood your body, wracking you with pain..." ) );
+                                  _( "You feel venom flood your body, wracking you with pain…" ) );
         target.add_effect( effect_badpoison, 4_minutes );
     }
 
@@ -2245,8 +2250,27 @@ void monster::drop_items_on_death()
     if( type->death_drops.empty() ) {
         return;
     }
-    const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(),
-                         calendar::start_of_cataclysm );
+
+    std::vector<item> items = item_group::items_from( type->death_drops, calendar::start_of_cataclysm );
+
+    // This block removes some items, according to item spawn scaling factor
+    const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
+    if( spawn_rate < 1 ) {
+        // Temporary vector, to remember which items will be dropped
+        std::vector<item> remaining;
+        for( const item &it : items ) {
+            if( rng_float( 0, 1 ) < spawn_rate ) {
+                remaining.push_back( it );
+            }
+        }
+        // If there aren't any items left, there's nothing left to do
+        if( remaining.empty() ) {
+            return;
+        }
+        items = remaining;
+    }
+
+    const auto dropped = g->m.spawn_items( pos(), items );
 
     if( has_flag( MF_FILTHY ) && get_option<bool>( "FILTHY_CLOTHES" ) ) {
         for( const auto &it : dropped ) {

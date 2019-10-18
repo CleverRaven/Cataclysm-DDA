@@ -54,7 +54,7 @@ static void reveal_route( mission *miss, const tripoint &destination )
     const tripoint dest_road = overmap_buffer.find_closest( destination, "road", 3, false );
 
     if( overmap_buffer.reveal_route( source_road, dest_road ) ) {
-        add_msg( _( "%s also marks the road that leads to it..." ), p->name );
+        add_msg( _( "%s also marks the road that leads to it…" ), p->name );
     }
 }
 

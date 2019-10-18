@@ -260,28 +260,6 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_STUDY_SPELL" ), study_spell_finish }
 };
 
-static void messages_in_process( const player_activity &act, const player &p )
-{
-    const time_duration act_time_left = time_duration::from_turns<int>( act.moves_left /
-                                        p.get_speed() );
-    if( act_time_left <= 90_minutes + 30_seconds && act_time_left > 90_minutes - 30_seconds ) {
-        p.add_msg_if_player( m_info, _( "You figure it'll take about an hour and a half at this rate." ) );
-        return;
-    }
-    if( act_time_left <= 60_minutes + 30_seconds && act_time_left > 60_minutes - 30_seconds ) {
-        p.add_msg_if_player( m_info, _( "About an hour left to go." ) );
-        return;
-    }
-    if( act_time_left <= 30_minutes + 30_seconds && act_time_left > 30_minutes - 30_seconds ) {
-        p.add_msg_if_player( m_info, _( "Shouldn't be more than half an hour or so now!" ) );
-        return;
-    }
-    if( act_time_left <= 10_minutes + 30_seconds && act_time_left > 10_minutes - 30_seconds ) {
-        p.add_msg_if_player( m_info, _( "Almost there! Ten more minutes of work and you'll be through." ) );
-        return;
-    }
-}
-
 bool activity_handlers::resume_for_multi_activities( player &p )
 {
     if( !p.backlog.empty() ) {
@@ -295,14 +273,13 @@ bool activity_handlers::resume_for_multi_activities( player &p )
     return false;
 }
 
-void activity_handlers::burrow_do_turn( player_activity *act, player *p )
+void activity_handlers::burrow_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "activity", "burrow", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         sounds::sound( act->placement, 10, sounds::sound_t::movement,
                        //~ Sound of a Rat mutant burrowing!
                        _( "ScratchCrunchScrabbleScurry." ) );
-        messages_in_process( *act, *p );
     }
 }
 
@@ -480,7 +457,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
         if( big_corpse ) {
             if( has_rope && !has_tree_nearby && !b_rack_present ) {
                 u.add_msg_if_player( m_info,
-                                     _( "You need to suspend this corpse to butcher it. While you have a rope to lift the corpse, there is no tree nearby to hang it from." ) );
+                                     _( "You need to suspend this corpse to butcher it.  While you have a rope to lift the corpse, there is no tree nearby to hang it from." ) );
                 act.targets.pop_back();
                 return;
             }
@@ -492,7 +469,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
             }
             if( !has_table_nearby ) {
                 u.add_msg_if_player( m_info,
-                                     _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface. A leather tarp spread out on the ground could suffice." ) );
+                                     _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface.  A leather tarp spread out on the ground could suffice." ) );
                 act.targets.pop_back();
                 return;
             }
@@ -1697,14 +1674,13 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::pickaxe_do_turn( player_activity *act, player *p )
+void activity_handlers::pickaxe_do_turn( player_activity *act, player * )
 {
     const tripoint &pos = act->placement;
     sfx::play_activity_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
     if( calendar::once_every( 1_minutes ) ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
-        sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK! CHNK! CHNK!" ) );
-        messages_in_process( *act, *p );
+        sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK!  CHNK!  CHNK!" ) );
     }
 }
 
@@ -1909,7 +1885,9 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
         return;
     }
 
-    p->consume_charges( it, it.type->charges_to_use() );
+    if( it.type->can_have_charges() ) {
+        p->consume_charges( it, it.type->charges_to_use() );
+    }
     p->practice( skill_survival, act->index, 5 );
 
     firestarter_actor::resolve_firestarter_use( *p, act->placement );
@@ -2416,6 +2394,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // target selection and validation.
     while( act->targets.size() < 2 ) {
+        g->draw();
         auto item_loc = game_menus::inv::repair( *p, actor, &main_tool );
 
         if( item_loc == item_location::nowhere ) {
@@ -2432,7 +2411,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     const item &fix = *act->targets[1];
 
     if( repeat == REPEAT_INIT ) {
-        g->draw();
         const int level = p->get_skill_level( actor->used_skill );
         auto action_type = actor->default_action( fix, level );
         if( action_type == repair_item_actor::RT_NOTHING ) {
@@ -2462,6 +2440,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             act->values.resize( 1 );
         }
         do {
+            g->draw();
             repeat = repeat_menu( title, repeat );
 
             if( repeat == REPEAT_CANCEL ) {
@@ -2683,12 +2662,14 @@ void activity_handlers::drive_do_turn( player_activity *act, player *p )
         if( !player_veh->omt_path.empty() ) {
             player_veh->omt_path.clear();
         }
+        player_veh->is_autodriving = false;
         act->set_to_null();
         p->cancel_activity();
         return;
     }
     if( player_veh->omt_path.empty() ) {
         act->set_to_null();
+        player_veh->is_autodriving = false;
         p->add_msg_if_player( m_info, _( "You have reached your destination." ) );
         p->cancel_activity();
     }
@@ -2858,10 +2839,6 @@ void activity_handlers::read_do_turn( player_activity *act, player *p )
             p->stamina = act->values[0] - 1;
             act->values[0] = p->stamina;
         }
-        if( p->stamina < p->get_stamina_max() / 10 ) {
-            p->add_msg_if_player( m_info, _( "This training is exhausting.  Time to rest." ) );
-            act->set_to_null();
-        }
     } else {
         p->moves = 0;
     }
@@ -2941,7 +2918,7 @@ void activity_handlers::find_mount_do_turn( player_activity *act, player *p )
 
 void activity_handlers::wait_npc_finish( player_activity *act, player *p )
 {
-    p->add_msg_if_player( _( "%s finishes with you..." ), act->str_values[0] );
+    p->add_msg_if_player( _( "%s finishes with you…" ), act->str_values[0] );
     act->set_to_null();
 }
 
@@ -2991,7 +2968,7 @@ void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
             p->fall_asleep();
             p->remove_value( "sleep_query" );
         } else if( one_in( 1000 ) ) {
-            p->add_msg_if_player( _( "You toss and turn..." ) );
+            p->add_msg_if_player( _( "You toss and turn…" ) );
         }
         if( calendar::once_every( 30_minutes ) ) {
             try_sleep_query( act, p );
@@ -3194,7 +3171,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
 void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 {
     if( !p->has_effect( effect_sleep ) ) {
-        p->add_msg_if_player( _( "You try to sleep, but can't..." ) );
+        p->add_msg_if_player( _( "You try to sleep, but can't…" ) );
     }
     act->set_to_null();
 }
@@ -3484,13 +3461,12 @@ void activity_handlers::eat_menu_finish( player_activity *, player * )
     return;
 }
 
-void activity_handlers::hacksaw_do_turn( player_activity *act, player *p )
+void activity_handlers::hacksaw_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a metal sawing tool at work!
         sounds::sound( act->placement, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
-        messages_in_process( *act, *p );
     }
 }
 
@@ -3550,13 +3526,12 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::chop_tree_do_turn( player_activity *act, player *p )
+void activity_handlers::chop_tree_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "tool", "axe", sfx::get_heard_volume( g->m.getlocal( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
         sounds::sound( g->m.getlocal( act->placement ), 15, sounds::sound_t::activity, _( "CHK!" ) );
-        messages_in_process( *act, *p );
     }
 }
 
@@ -3684,13 +3659,12 @@ void activity_handlers::chop_planks_finish( player_activity *act, player *p )
     resume_for_multi_activities( *p );
 }
 
-void activity_handlers::jackhammer_do_turn( player_activity *act, player *p )
+void activity_handlers::jackhammer_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "tool", "jackhammer", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a jackhammer at work!
         sounds::sound( act->placement, 15, sounds::sound_t::destructive_activity, _( "TATATATATATATAT!" ) );
-        messages_in_process( *act, *p );
     }
 }
 
@@ -3709,23 +3683,21 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::dig_do_turn( player_activity *act, player *p )
+void activity_handlers::dig_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
         sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
-        messages_in_process( *act, *p );
     }
 }
 
-void activity_handlers::dig_channel_do_turn( player_activity *act, player *p )
+void activity_handlers::dig_channel_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
         sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
-        messages_in_process( *act, *p );
     }
 }
 
@@ -3808,13 +3780,12 @@ void activity_handlers::dig_channel_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-void activity_handlers::fill_pit_do_turn( player_activity *act, player *p )
+void activity_handlers::fill_pit_do_turn( player_activity *act, player * )
 {
     sfx::play_activity_sound( "tool", "shovel", 100 );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel filling a pit or mound at work!
         sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
-        messages_in_process( *act, *p );
     }
 }
 
@@ -4116,7 +4087,7 @@ void activity_handlers::robot_control_do_turn( player_activity *act, player *p )
     const std::shared_ptr<monster> z = act->monsters[0].lock();
 
     if( !z || !iuse::robotcontrol_can_target( p, *z ) ) {
-        p->add_msg_if_player( _( "Target lost. IFF override failed." ) );
+        p->add_msg_if_player( _( "Target lost.  IFF override failed." ) );
         act->set_to_null();
         return;
     }
@@ -4140,7 +4111,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
     act->monsters.clear();
 
     if( !z || !iuse::robotcontrol_can_target( p, *z ) ) {
-        p->add_msg_if_player( _( "Target lost. IFF override failed." ) );
+        p->add_msg_if_player( _( "Target lost.  IFF override failed." ) );
         return;
     }
 
@@ -4171,7 +4142,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
             return; // Do not do the other effects if the robot died
         }
         if( one_in( 3 ) ) {
-            p->add_msg_if_player( _( "...and turns friendly!" ) );
+            p->add_msg_if_player( _( "…and turns friendly!" ) );
             if( one_in( 3 ) ) { //did the robot became friendly permanently?
                 z->friendly = -1; //it did
             } else {
@@ -4179,7 +4150,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
             }
         }
     } else {
-        p->add_msg_if_player( _( "...but the robot refuses to acknowledge you as an ally!" ) );
+        p->add_msg_if_player( _( "…but the robot refuses to acknowledge you as an ally!" ) );
     }
     p->practice( skill_id( "computer" ), 10 );
 }
@@ -4385,7 +4356,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                 p->mod_stat( "stamina", -cost );
                 break;
             case bionic_energy:
-                p->power_level -= units::from_kilojoule( cost );
+                p->mod_power_level( -units::from_kilojoule( cost ) );
                 break;
             case hp_energy:
                 blood_magic( p, cost );
@@ -4468,7 +4439,7 @@ void activity_handlers::mind_splicer_finish( player_activity *act, player *p )
         return;
     }
     item &data_card = *act->targets[0];
-    p->add_msg_if_player( m_info, _( "...you finally find the memory banks." ) );
+    p->add_msg_if_player( m_info, _( "…you finally find the memory banks." ) );
     p->add_msg_if_player( m_info, _( "The kit makes a copy of the data inside the bionic." ) );
     data_card.contents.clear();
     data_card.put_in( item( "mind_scan_robofac" ) );

@@ -779,19 +779,28 @@ static std::pair<nc_color, std::string> power_stat( const avatar &u )
 {
     nc_color c_pwr = c_red;
     std::string s_pwr;
-    if( u.max_power_level == 0_kJ ) {
+    if( !u.has_max_power() ) {
         s_pwr = "--";
         c_pwr = c_light_gray;
     } else {
-        if( u.power_level >= u.max_power_level / 2 ) {
+        if( u.get_power_level() >= u.get_max_power_level() / 2 ) {
             c_pwr = c_light_blue;
-        } else if( u.power_level >= u.max_power_level / 3 ) {
+        } else if( u.get_power_level() >= u.get_max_power_level() / 3 ) {
             c_pwr = c_yellow;
-        } else if( u.power_level >= u.max_power_level / 4 ) {
+        } else if( u.get_power_level() >= u.get_max_power_level() / 4 ) {
             c_pwr = c_red;
         }
-        s_pwr = to_string( units::to_kilojoule( u.power_level ) ) + pgettext( "energy unit: kilojoule",
-                "kJ" );
+
+        if( u.get_power_level() < 1_J ) {
+            s_pwr = to_string( units::to_millijoule( u.get_power_level() ) ) +
+                    pgettext( "energy unit: millijoule", "mJ" );
+        } else if( u.get_power_level() < 1_kJ ) {
+            s_pwr = to_string( units::to_joule( u.get_power_level() ) ) +
+                    pgettext( "energy unit: joule", "J" );
+        } else {
+            s_pwr = to_string( units::to_kilojoule( u.get_power_level() ) ) +
+                    pgettext( "energy unit: kilojoule", "kJ" );
+        }
     }
     return std::make_pair( c_pwr, s_pwr );
 }
@@ -858,7 +867,8 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
             wprintz( w, color, sym );
         }
     };
-    if( u.hp_cur[limb_index] == 0 && ( limb_index >= hp_arm_l && limb_index <= hp_leg_r ) ) {
+    if( u.is_limb_broken( static_cast<hp_part>( limb_index ) ) && ( limb_index >= hp_arm_l &&
+            limb_index <= hp_leg_r ) ) {
         //Limb is broken
         std::string limb = "~~%~~";
         nc_color color = c_light_red;
@@ -983,9 +993,9 @@ static void draw_stats( avatar &u, const catacurses::window &w )
 
 static nc_color move_mode_color( avatar &u )
 {
-    if( u.movement_mode_is( PMM_RUN ) ) {
+    if( u.movement_mode_is( CMM_RUN ) ) {
         return c_red;
-    } else if( u.movement_mode_is( PMM_CROUCH ) ) {
+    } else if( u.movement_mode_is( CMM_CROUCH ) ) {
         return c_light_blue;
     } else {
         return c_light_gray;
@@ -994,9 +1004,9 @@ static nc_color move_mode_color( avatar &u )
 
 static std::string move_mode_string( avatar &u )
 {
-    if( u.movement_mode_is( PMM_RUN ) ) {
+    if( u.movement_mode_is( CMM_RUN ) ) {
         return pgettext( "movement-type", "R" );
-    } else if( u.movement_mode_is( PMM_CROUCH ) ) {
+    } else if( u.movement_mode_is( CMM_CROUCH ) ) {
         return pgettext( "movement-type", "C" );
     } else {
         return pgettext( "movement-type", "W" );
@@ -1080,6 +1090,7 @@ static void draw_time( const avatar &u, const catacurses::window &w )
         wmove( w, point( 11, 0 ) );
         draw_time_graphic( w );
     } else {
+        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
         mvwprintz( w, point( 11, 0 ), c_light_gray, _( "Time: ???" ) );
     }
     //display moon
@@ -1348,6 +1359,7 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     } else if( g->get_levz() >= 0 ) {
         mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ), time_approx() );
     } else {
+        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
         mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : ???" ) );
     }
     if( minimap ) {
@@ -1588,9 +1600,9 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     if( !u.in_vehicle ) {
         mvwprintz( w, point( 21, 5 ), u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + to_string( u.get_speed() ) );
-        nc_color move_color = u.movement_mode_is( PMM_WALK ) ? c_white : move_mode_color( u );
+        nc_color move_color = u.movement_mode_is( CMM_WALK ) ? c_white : move_mode_color( u );
         std::string move_string = to_string( u.movecounter ) + " " + move_mode_string( u );
-        mvwprintz( w, point( 26 + move_string.length(), 5 ), move_color, move_string );
+        mvwprintz( w, point( 29, 5 ), move_color, move_string );
     }
 
     // temperature
@@ -1876,6 +1888,7 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
         wmove( w, point( 15, 0 ) );
         draw_time_graphic( w );
     } else {
+        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
         mvwprintz( w, point( 15, 0 ), c_light_gray, _( "Time: ???" ) );
     }
 
