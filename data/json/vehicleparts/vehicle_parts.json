@@ -778,6 +778,38 @@
   },
   {
     "type": "vehicle_part",
+    "id": "programmable_autopilot",
+    "name": "programmable autopilot",
+    "symbol": "A",
+    "color": "light_blue",
+    "broken_symbol": "#",
+    "broken_color": "red",
+    "damage_modifier": 80,
+    "durability": 100,
+    "description": "A computer system hooked up to the steering and engine of the vehicle to allow it to follow simple paths.",
+    "item": "programmable_autopilot",
+    "difficulty": 5,
+    "looks_like": "cam_control",
+    "epower": -15,
+    "flags": [ "ENABLED_DRAINS_EPOWER", "AUTOPILOT" ],
+    "requirements": {
+      "install": {
+        "time": 35000,
+        "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ], [ "computer", 5 ] ],
+        "qualities": [ { "id": "SCREW", "level": 1 } ]
+      },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": 8000, "using": [ [ "adhesive", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
+    },
+    "breaks_into": [
+      { "item": "steel_lump", "prob": 50 },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 0, 3 ] }
+    ],
+    "damage_reduction": { "all": 8 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "storage_battery_mount",
     "name": "swappable storage battery case",
     "symbol": "O",

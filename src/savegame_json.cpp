@@ -2507,6 +2507,8 @@ void vehicle::deserialize( JsonIn &jsin )
     pivot_anchor[1] = pivot_anchor[0];
     pivot_rotation[1] = pivot_rotation[0] = fdir;
     data.read( "is_following", is_following );
+    data.read( "is_patrolling", is_patrolling );
+    data.read( "autodrive_local_target", autodrive_local_target );
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
     for( const vpart_reference &vp : get_any_parts( VPFLAG_CARGO ) ) {
         auto it = vp.part().items.begin();
@@ -2656,6 +2658,8 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "last_update_turn", last_update );
     json.member( "pivot", pivot_anchor[0] );
     json.member( "is_following", is_following );
+    json.member( "is_patrolling", is_patrolling );
+    json.member( "autodrive_local_target", autodrive_local_target );
     json.end_object();
 }
 

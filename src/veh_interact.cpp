@@ -862,6 +862,7 @@ bool veh_interact::do_install( std::string &msg )
                part.has_flag( "FORGE" ) ||
                part.has_flag( "HORN" ) ||
                part.has_flag( "BEEPER" ) ||
+               part.has_flag( "AUTOPILOT" ) ||
                part.has_flag( "WATCH" ) ||
                part.has_flag( "ALARMCLOCK" ) ||
                part.has_flag( VPFLAG_RECHARGE ) ||

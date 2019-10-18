@@ -12,6 +12,7 @@
 #include "action.h"
 #include "activity_handlers.h"
 #include "avatar.h"
+#include "clzones.h"
 #include "debug.h"
 #include "game.h"
 #include "iexamine.h"
@@ -496,6 +497,48 @@ std::string vehicle::tracking_toggle_string()
     return tracking_on ? _( "Forget vehicle position" ) : _( "Remember vehicle position" );
 }
 
+void vehicle::autopilot_patrol_check()
+{
+    zone_manager &mgr = zone_manager::get_manager();
+    if( mgr.has_near( zone_type_id( "VEHICLE_PATROL" ), g->m.getabs( global_pos3() ), 60 ) ) {
+        enable_patrol();
+    } else {
+        g->zones_manager();
+    }
+}
+
+void vehicle::toggle_autopilot()
+{
+    uilist smenu;
+    enum autopilot_option : int {
+        PATROL,
+        STOP
+    };
+    smenu.desc_enabled = true;
+    smenu.text = _( "Choose action for the autopilot" );
+    smenu.addentry_col( PATROL, true, 'P', _( "Patrol..." ),
+                        "", string_format( _( "Program the autopilot to patrol a nearby vehicle patrol zone. "
+                                           "If no zones are nearby, you will be prompted to create one." ) ) );
+    smenu.addentry_col( STOP, true, 'S', _( "Stop..." ),
+                        "", string_format( _( "Stop all autopilot related activities." ) ) );
+    smenu.query();
+    switch( smenu.ret ) {
+        case PATROL:
+            autopilot_patrol_check();
+            break;
+        case STOP:
+            autopilot_on = false;
+            is_patrolling = false;
+            is_following = false;
+            is_autodriving = false;
+            autodrive_local_target = tripoint_zero;
+            stop_engines();
+            break;
+        default:
+            return;
+    }
+}
+
 void vehicle::toggle_tracking()
 {
     if( tracking_on ) {
@@ -600,26 +643,10 @@ void vehicle::use_controls( const tripoint &pos )
             actions.push_back( [&] {
                 if( engine_on )
                 {
-                    vehicle_noise = 0;
                     engine_on = false;
-                    add_msg( _( "You turn the engine off." ) );
                     sounds::sound( pos, 2, sounds::sound_t::movement,
                                    _( "the engine go silent" ) );
-                    for( size_t e = 0; e < engines.size(); ++e ) {
-                        if( is_engine_on( e ) ) {
-                            if( sfx::has_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str() ) ) {
-                                sfx::play_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str(),
-                                                         parts[ engines[ e ] ].info().engine_noise_factor() );
-                            } else if( is_engine_type( e, fuel_type_battery ) ) {
-                                sfx::play_variant_sound( "engine_stop", "electric",
-                                                         parts[ engines[ e ] ].info().engine_noise_factor() );
-                            } else {
-                                sfx::play_variant_sound( "engine_stop", "combustion",
-                                                         parts[ engines[ e ] ].info().engine_noise_factor() );
-                            }
-                        }
-                    }
-                    sfx::do_vehicle_engine_sfx();
+                    stop_engines();
                 } else
                 {
                     start_engines();
@@ -632,6 +659,12 @@ void vehicle::use_controls( const tripoint &pos )
     if( has_part( "HORN" ) ) {
         options.emplace_back( _( "Honk horn" ), keybind( "SOUND_HORN" ) );
         actions.push_back( [&] { honk_horn(); refresh(); } );
+    }
+    if( has_part( "AUTOPILOT" ) && ( has_part( "CTRL_ELECTRONIC" ) ||
+                                     has_part( "REMOTE_CONTROLS" ) ) ) {
+        options.emplace_back( _( "Control autopilot" ),
+                              keybind( "CONTROL_AUTOPILOT" ) );
+        actions.push_back( [&] { toggle_autopilot(); refresh(); } );
     }
 
     options.emplace_back( cruise_on ? _( "Disable cruise control" ) : _( "Enable cruise control" ),
@@ -946,6 +979,28 @@ bool vehicle::start_engine( const int e )
     return true;
 }
 
+void vehicle::stop_engines()
+{
+    vehicle_noise = 0;
+    engine_on = false;
+    add_msg( _( "You turn the engine off." ) );
+    for( size_t e = 0; e < engines.size(); ++e ) {
+        if( is_engine_on( e ) ) {
+            if( sfx::has_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str() ) ) {
+                sfx::play_variant_sound( "engine_stop", parts[ engines[ e ] ].info().get_id().str(),
+                                         parts[ engines[ e ] ].info().engine_noise_factor() );
+            } else if( is_engine_type( e, fuel_type_battery ) ) {
+                sfx::play_variant_sound( "engine_stop", "electric",
+                                         parts[ engines[ e ] ].info().engine_noise_factor() );
+            } else {
+                sfx::play_variant_sound( "engine_stop", "combustion",
+                                         parts[ engines[ e ] ].info().engine_noise_factor() );
+            }
+        }
+    }
+    sfx::do_vehicle_engine_sfx();
+}
+
 void vehicle::start_engines( const bool take_control, const bool autodrive )
 {
     bool has_engine = std::any_of( engines.begin(), engines.end(), [&]( int idx ) {
@@ -993,6 +1048,15 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
         g->u.activity.placement = starting_engine_position - g->u.pos();
         g->u.activity.values.push_back( take_control );
     }
+}
+
+void vehicle::enable_patrol()
+{
+    is_patrolling = true;
+    autopilot_on = true;
+    autodrive_local_target = tripoint_zero;
+    start_engines();
+    refresh();
 }
 
 void vehicle::honk_horn()
