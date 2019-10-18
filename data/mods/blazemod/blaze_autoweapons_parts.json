@@ -687,7 +687,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    },
     "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
@@ -702,7 +702,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    },
     "extend": { "flags": [ "USE_TANKS" ] }
   },
   {

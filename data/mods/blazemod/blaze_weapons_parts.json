@@ -4,7 +4,7 @@
     "copy-from": "turret",
     "type": "vehicle_part",
     "broken_symbol": "#",
-    "description": "This heavy weapon is mounted on a turret, and can be fired from your vehicle controls.",
+    "description": "This heavy weapon is mounted on a turret, and can be fired from your vehicle controls."
   },
   {
     "id": "bolter",

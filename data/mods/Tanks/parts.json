@@ -86,7 +86,7 @@
     "size": 50,
     "breaks_into": [ { "item": "30mm_autocannon", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 3 ] ] },
+      "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 3 ] ] }
     }
   }
 ]
