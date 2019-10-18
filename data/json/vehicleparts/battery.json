@@ -17,10 +17,11 @@
       { "item": "scrap", "count": [ 6, 9 ] }
     ],
     "requirements": {
-      "install": { "time": 5000, "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": 60000, "using": [ [ "welding_standard", 5 ] ] }
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "600 s", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "FOLDABLE", "REVERSIBLE" ]
+    "flags": [ "FOLDABLE" ]
   },
   {
     "id": "battery_motorbike",
@@ -71,7 +72,10 @@
     "name": "swappable large storage battery",
     "item": "large_storage_battery",
     "location": "on_battery_mount",
-    "requirements": { "install": { "time": 1000 } },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "10 s", "using": [] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "10 s", "using": [] }
+    },
     "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.  This one is mounted on a quick release framework to allow it to be easily swapped, though it still weighs so much that a lifting tool of some kind is necessary for most people.",
     "flags": [ "NEEDS_BATTERY_MOUNT" ]
   },
@@ -85,8 +89,11 @@
     "durability": 250,
     "folded_volume": 10,
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "small_storage_battery", "count": [ 0, 7 ] } ],
-    "requirements": { "install": { "time": 20000 } },
-    "extend": { "flags": [ "TOOL_SCREWDRIVER", "FOLDABLE" ] }
+    "requirements": {
+    "install": { "skills": [ [ "mechanics", 0 ] ], "time": "200 s", "using": "vehicle_screw" },
+    "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "200 s", "using": "vehicle_screw" }
+    },
+    "extend": { "flags": [ "FOLDABLE" ] }
   },
   {
     "id": "small_storage_battery",
@@ -98,8 +105,11 @@
     "durability": 100,
     "folded_volume": 2,
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
-    "requirements": { "install": { "time": 10000 } },
-    "extend": { "flags": [ "TOOL_NONE", "FOLDABLE" ] }
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "100 s", "using": [] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "100 s", "using": [] }
+    },
+    "extend": { "flags": [ "FOLDABLE" ] }
   },
   {
     "id": "storage_battery",
@@ -120,7 +130,10 @@
       { "item": "scrap", "count": [ 5, 10 ] },
       { "item": "medium_storage_battery", "count": [ 1, 2 ] }
     ],
-    "requirements": { "install": { "skills": [ [ "mechanics", 2 ] ], "time": 60000, "using": [ [ "welding_standard", 5 ] ] } }
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "600 s", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "300 s", "using": "vehicle_weld_removal" }
+    }
   },
   {
     "id": "storage_battery_removable",
@@ -129,7 +142,10 @@
     "name": "swappable storage battery",
     "item": "storage_battery",
     "location": "on_battery_mount",
-    "requirements": { "install": { "time": 1000 } },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "10 s", "using": [] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "10 s", "using": [] }
+    },
     "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.  This one is mounted on a quick release framework to allow it to be easily swapped, though it still weighs so much that a lifting tool of some kind is necessary for most people.",
     "flags": [ "NEEDS_BATTERY_MOUNT" ]
   }

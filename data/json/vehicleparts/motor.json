@@ -12,7 +12,7 @@
     "symbol": "*",
     "color": "yellow",
     "broken_color": "red",
-    "flags": [ "ENGINE", "TOOL_WRENCH", "E_HIGHER_SKILL", "E_HEATER" ]
+    "flags": [ "ENGINE", "E_HIGHER_SKILL", "E_HEATER" ]
   },
   {
     "id": "engine_electric_tiny",
@@ -27,13 +27,17 @@
     "energy_consumption": 854,
     "damage_modifier": 80,
     "folded_volume": 1,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "adhesive", 1 ] ] }
+    },
     "breaks_into": [
       { "item": "plastic_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] },
       { "item": "cable", "charges": [ 1, 3 ] }
     ],
-    "extend": { "flags": [ "TOOL_SCREWDRIVER", "FOLDABLE" ] },
-    "delete": { "flags": [ "TOOL_WRENCH" ] }
+    "extend": { "flags": [ "FOLDABLE" ] }
   },
   {
     "id": "engine_electric_small",
@@ -41,20 +45,23 @@
     "type": "vehicle_part",
     "name": "small electric motor",
     "item": "motor_small",
-    "difficulty": 1,
     "durability": 120,
     "power": 7460,
     "energy_consumption": 8500,
     "damage_modifier": 80,
     "folded_volume": 1,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "adhesive", 1 ] ] }
+    },
     "breaks_into": [
       { "item": "steel_lump", "count": [ 1, 2 ] },
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] },
       { "item": "cable", "charges": [ 3, 6 ] }
     ],
-    "extend": { "flags": [ "TOOL_SCREWDRIVER", "FOLDABLE" ] },
-    "delete": { "flags": [ "TOOL_WRENCH" ] },
+    "extend": { "flags": [ "FOLDABLE" ] },
     "damage_reduction": { "all": 6 }
   },
   {
@@ -63,12 +70,16 @@
     "type": "vehicle_part",
     "name": "electric motor",
     "item": "motor",
-    "difficulty": 2,
     "durability": 200,
     "power": 37300,
     "energy_consumption": 41500,
     "damage_modifier": 80,
     "folded_volume": 6,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 5 ] },
       { "item": "steel_chunk", "count": [ 3, 5 ] },
@@ -83,11 +94,15 @@
     "type": "vehicle_part",
     "name": "large electric motor",
     "item": "motor_large",
-    "difficulty": 3,
     "durability": 400,
     "power": 149200,
     "energy_consumption": 166000,
     "damage_modifier": 80,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 5 ] },
       { "item": "steel_chunk", "count": [ 3, 5 ] },
@@ -102,11 +117,15 @@
     "type": "vehicle_part",
     "name": "enhanced electric motor",
     "item": "motor_enhanced",
-    "difficulty": 4,
     "durability": 200,
     "power": 313300,
     "energy_consumption": 348500,
     "damage_modifier": 80,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 5 ] },
       { "item": "steel_chunk", "count": [ 3, 5 ] },
@@ -121,11 +140,15 @@
     "type": "vehicle_part",
     "name": "super electric motor",
     "item": "motor_super",
-    "difficulty": 5,
     "durability": 400,
     "power": 400000,
     "energy_consumption": 444940,
     "damage_modifier": 80,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "breaks_into": [
       { "item": "steel_lump", "count": [ 6, 10 ] },
       { "item": "steel_chunk", "count": [ 6, 10 ] },

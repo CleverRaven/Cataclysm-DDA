@@ -9,11 +9,15 @@
     "broken_symbol": "#",
     "color": "brown",
     "broken_color": "brown",
-    "difficulty": 1,
     "durability": 75,
     "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
     "size": 200,
     "damage_modifier": 60,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ],
     "damage_reduction": { "all": 6 }
   },
@@ -27,11 +31,15 @@
     "broken_symbol": "#",
     "color": "brown",
     "broken_color": "brown",
-    "difficulty": 1,
     "durability": 75,
     "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
     "size": 60,
     "damage_modifier": 60,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ],
     "damage_reduction": { "all": 6 }
   },
@@ -45,11 +53,15 @@
     "broken_symbol": "#",
     "color": "light_gray",
     "broken_color": "dark_gray",
-    "difficulty": 3,
     "durability": 250,
     "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
     "size": 1000,
     "breaks_into": [  ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED", "BOARDABLE" ],
     "damage_reduction": { "all": 26 }
   },
@@ -63,7 +75,6 @@
     "broken_symbol": "#",
     "color": "light_gray",
     "broken_color": "dark_gray",
-    "difficulty": 1,
     "durability": 150,
     "description": "A collection of pipes and frames for supporting a bike or other small vehicle and carrying it on your vehicle.  Move a single tile wide vehicle so that all of that vehicle's tiles are next to bike racks, and then 'e'xamine any bike rack to mount that vehicle onto the bike rack.  'e'xamine the bike rack to unmount the carried vehicle.",
     "breaks_into": [
@@ -71,7 +82,12 @@
       { "item": "steel_chunk", "count": [ 6, 8 ] },
       { "item": "scrap", "count": [ 6, 8 ] }
     ],
-    "flags": [ "BIKE_RACK_VEH", "MULTISQUARE", "TOOL_WRENCH" ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "BIKE_RACK_VEH", "MULTISQUARE" ],
     "damage_reduction": { "all": 10 }
   },
   {
@@ -84,12 +100,16 @@
     "broken_symbol": "#",
     "color": "light_gray",
     "broken_color": "dark_gray",
-    "difficulty": 1,
     "durability": 75,
     "description": "Spare tire stored on an external carrier rig.",
     "size": 60,
     "damage_modifier": 60,
-    "flags": [ "UNMOUNT_ON_DAMAGE", "PROTRUSION", "TOOL_WRENCH" ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "UNMOUNT_ON_DAMAGE", "PROTRUSION" ],
     "damage_reduction": { "all": 10 }
   }
 ]

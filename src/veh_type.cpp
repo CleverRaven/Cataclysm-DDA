@@ -184,21 +184,20 @@ static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
 
     if( src.has_string( "using" ) ) {
         reqs = { { requirement_id( src.get_string( "using" ) ), 1 } };
-
     } else if( src.has_array( "using" ) ) {
+        reqs.clear();
         auto arr = src.get_array( "using" );
         while( arr.has_more() ) {
             auto cur = arr.next_array();
             reqs.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
         }
-
+    } else {
+        // Construct a requirement to capture "components", "qualities", and
+        // "tools" that might be listed.
+        const requirement_id req_id( string_format( "inline_%s_%s", key.c_str(), id.c_str() ) );
+        requirement_data::load_requirement( src, req_id );
+        reqs.emplace_back( req_id, 1 );
     }
-
-    // Construct a requirement to capture "components", "qualities", and
-    // "tools" that might be listed.
-    const requirement_id req_id( string_format( "inline_%s_%s", key.c_str(), id.c_str() ) );
-    requirement_data::load_requirement( src, req_id );
-    reqs.emplace_back( req_id, 1 );
 }
 
 /**
@@ -374,8 +373,6 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
                        def.removal_moves );
         parse_vp_reqs( reqs, def.id.str(), "repair",  def.repair_reqs,  def.repair_skills,
                        def.repair_moves );
-
-        def.legacy = false;
     }
 
     if( jo.has_member( "symbol" ) ) {
@@ -508,50 +505,6 @@ void vpart_info::check()
 {
     for( auto &vp : vpart_info_all ) {
         auto &part = vp.second;
-
-        // handle legacy parts without requirement data
-        // TODO: deprecate once requirements are entirely loaded from JSON
-        if( part.legacy ) {
-
-            part.install_skills.emplace( skill_mechanics, part.difficulty );
-            part.removal_skills.emplace( skill_mechanics, std::max( part.difficulty - 2, 2 ) );
-            part.repair_skills.emplace( skill_mechanics, std::min( part.difficulty + 1, MAX_SKILL ) );
-
-            if( part.has_flag( "TOOL_WRENCH" ) || part.has_flag( "WHEEL" ) ) {
-                part.install_reqs = { { requirement_id( "vehicle_bolt" ), 1 } };
-                part.removal_reqs = { { requirement_id( "vehicle_bolt" ), 1 } };
-                if( !part.has_flag( "NO_REPAIR" ) ) {
-                    part.repair_reqs  = { { requirement_id( "welding_standard" ), 5 } };
-                }
-            } else if( part.has_flag( "TOOL_SCREWDRIVER" ) ) {
-                part.install_reqs = { { requirement_id( "vehicle_screw" ), 1 } };
-                part.removal_reqs = { { requirement_id( "vehicle_screw" ), 1 } };
-                if( !part.has_flag( "NO_REPAIR" ) ) {
-                    part.repair_reqs  = { { requirement_id( "adhesive" ), 1 } };
-                }
-            } else if( part.has_flag( "NAILABLE" ) ) {
-                part.install_reqs = { { requirement_id( "vehicle_nail_install" ), 1 } };
-                part.removal_reqs = { { requirement_id( "vehicle_nail_removal" ), 1 } };
-                if( !part.has_flag( "NO_REPAIR" ) ) {
-                    part.repair_reqs  = { { requirement_id( "adhesive" ), 2 } };
-                }
-            } else if( part.has_flag( "TOOL_NONE" ) ) {
-                // no-op
-
-            } else {
-                part.install_reqs = { { requirement_id( "welding_standard" ), 5 } };
-                part.removal_reqs = { { requirement_id( "vehicle_weld_removal" ), 1 } };
-                part.repair_reqs  = { { requirement_id( "welding_standard" ), 5 } };
-            }
-
-        } else {
-            if( part.has_flag( "REVERSIBLE" ) ) {
-                if( !part.removal_reqs.empty() ) {
-                    debugmsg( "vehicle part %s specifies both REVERSIBLE and removal", part.id.c_str() );
-                }
-                part.removal_reqs = part.install_reqs;
-            }
-        }
 
         // add the base item to the installation requirements
         // TODO: support multiple/alternative base items
