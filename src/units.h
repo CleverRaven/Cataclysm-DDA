@@ -489,7 +489,7 @@ inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag
     return o << v.value() << tag_type{};
 }
 
-inline const std::string display( const units::energy v )
+inline std::string display( const units::energy v )
 {
     const int kj = units::to_kilojoule( v );
     const int j = units::to_joule( v );
