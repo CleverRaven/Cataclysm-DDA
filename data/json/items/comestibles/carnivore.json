@@ -112,6 +112,30 @@
     "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "vitB", 0 ] ]
   },
   {
+    "id": "mutant_meat",
+    "type": "COMESTIBLE",
+    "copy-from": "meat",
+    "name": "chunk of mutant meat",
+    "name_plural": "chunks of mutant meat",
+    "description": "Meat from a heavily mutated animal.  It has an unsettling loose and spongy texture, but smells… mostly normal.  Seems safe to eat, if you cook it.",
+    "looks_like": "meat",
+    "cooks_like": "mutant_meat_cooked",
+    "proportional": { "price": 0.2, "calories": 0.5 },
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 26 ], [ "vitB", 389 ] ],
+    "flags": [ "SMOKABLE" ]
+  },
+  {
+    "id": "mutant_meat_scrap",
+    "type": "COMESTIBLE",
+    "copy-from": "meat_scrap",
+    "name": "scrap of mutant meat",
+    "name_plural": "scraps of mutant meat",
+    "description": "A tiny scrap of meat from a heavily mutated animal.  It's not much, and it smells a bit odd, but it's probably safe to eat if cooked.",
+    "looks_like": "meat_scrap",
+    "cooks_like": "mutant_meat_scrap_cooked",
+    "proportional": { "price": 0.2, "calories": 0.5 }
+  },
+  {
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
     "id": "ruined_chunks",
@@ -157,6 +181,33 @@
     "healthy": 0,
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "calories": 51
+  },
+  {
+    "id": "mutant_meat_cooked",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_meat",
+    "name": "cooked mutant meat",
+    "description": "This is a cooked chunk of meat from a mutated animal.  It has an unsettling, spongy texture, but otherwise tastes… mostly normal.",
+    "looks_like": "meat_cooked",
+    "proportional": { "price": 1.5 },
+    "parasites": 0,
+    "calories": 200,
+    "healthy": 0,
+    "fun": 0,
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
+  },
+  {
+    "id": "mutant_meat_scrap_cooked",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_meat_scrap",
+    "name": "cooked scrap of mutant meat",
+    "name_plural": "cooked scraps of mutant meat",
+    "looks_like": "meat_scrap_cooked",
+    "parasites": 0,
+    "calories": 25,
+    "fun": 0,
+    "healthy": 0,
+    "flags": [ "NUTRIENT_OVERRIDE" ]
   },
   {
     "id": "offal",
@@ -547,6 +598,32 @@
     "name": "lard",
     "copy-from": "tallow",
     "description": "A smooth white block of dry-rendered animal fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
+  },
+  {
+    "id": "mutant_fat",
+    "type": "COMESTIBLE",
+    "copy-from": "fat",
+    "name": "chunk of mutant fat",
+    "name_plural": "chunks of mutant fat",
+    "description": "Freshly butchered fat from a heavily mutated animal.  You could eat it raw, but it is better used as an ingredient in other foods or projects.",
+    "looks_like": "fat",
+    "proportional": { "price": 0.2 }
+  },
+  {
+    "id": "mutant_tallow",
+    "type": "COMESTIBLE",
+    "copy-from": "tallow",
+    "name": "mutant tallow",
+    "description": "A smooth white block of cleaned and rendered fat sourced from a mutant animal.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
+    "looks_like": "tallow",
+    "proportional": { "price": 0.2 }
+  },
+  {
+    "id": "mutant_lard",
+    "type": "COMESTIBLE",
+    "copy-from": "mutant_tallow",
+    "name": "mutant lard",
+    "description": "A smooth white block of dry-rendered fat sourced from a mutant animal.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
   },
   {
     "type": "COMESTIBLE",
