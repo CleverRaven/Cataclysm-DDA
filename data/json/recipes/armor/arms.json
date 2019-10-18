@@ -9,9 +9,9 @@
     "time": "5 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "cordage", 4 ] ],
+    "using": [ [ "cordage", 4 ], [ "fabric_standard_any", 8 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "rag", 8 ] ] ]
+    "components": [ [ [ "2x4", 2 ] ] ]
   },
   {
     "result": "arm_warmers",
@@ -22,8 +22,7 @@
     "difficulty": 1,
     "time": "5 m",
     "autolearn": true,
-    "using": [ [ "sewing_standard", 10 ] ],
-    "components": [ [ [ "rag", 4 ] ] ]
+    "using": [ [ "sewing_standard", 10 ], ["fabric_standard_any", 10] ]
   },
   {
     "result": "armguard_chitin",

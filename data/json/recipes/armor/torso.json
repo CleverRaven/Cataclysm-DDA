@@ -199,7 +199,7 @@
     "time": "30 m",
     "autolearn": true,
     "tools": [  ],
-    "components": [ [ [ "duct_tape", 50 ] ], [ [ "bag_plastic", 10 ] ], [ [ "rag", 10 ] ] ]
+    "components": [ [ [ "duct_tape", 50 ] ], [ [ "bag_plastic", 10 ] ], [ [ "rag", 10 ], [ "nylon", 10 ] ] ]
   },
   {
     "result": "cuirass_lightplate",

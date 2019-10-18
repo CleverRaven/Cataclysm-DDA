@@ -801,7 +801,7 @@
     "price": 5000,
     "price_postapoc": 300,
     "to_hit": -1,
-    "material": [ "plastic", "steel" ],
+    "material": [ "plastic", "nylon", "steel" ],
     "symbol": "[",
     "color": "dark_gray",
     "covers": [ "HAND_EITHER" ],
