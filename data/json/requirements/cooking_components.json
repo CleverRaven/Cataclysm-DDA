@@ -101,8 +101,14 @@
   {
     "id": "meat_red",
     "type": "requirement",
-    "//": "Anything you might consider raw 'red' meat.  About 300-400kcal of meat.",
-    "components": [ [ [ "meat", 1 ], [ "meat_scrap", 10 ], [ "rehydrated_meat", 1 ], [ "meat_canned", 1 ] ] ]
+    "//": "Anything you might consider raw 'red' meat.  About 250mL of meat.",
+    "components": [ [ [ "meat", 1 ], [ "mutant_meat", 1 ], [ "meat_scrap", 10 ], [ "mutant_meat_scrap", 10 ], [ "rehydrated_meat", 1 ], [ "meat_canned", 1 ] ] ]
+  },
+  {
+    "id": "meat_red_raw",
+    "type": "requirement",
+    "//": "Anything you might consider raw, unpreserved 'red' meat.  About 250mL of meat.",
+    "components": [ [ [ "meat", 1 ], [ "mutant_meat", 1 ], [ "meat_scrap", 10 ], [ "mutant_meat_scrap", 10 ] ] ]
   },
   {
     "id": "meat_nofish",
@@ -135,6 +141,7 @@
     "components": [
       [
         [ "meat_cooked", 1 ],
+        [ "mutant_meat_cooked", 1 ],
         [ "meat_pickled", 1 ],
         [ "meat_smoked", 1 ],
         [ "meat_salted", 1 ],
@@ -162,6 +169,30 @@
         [ "bratwurst_sausage", 1 ]
       ]
     ]
+  },
+  {
+    "id": "any_fat",
+    "type": "requirement",
+    "//": "Any type of raw fat.",
+    "components": [ [ [ "fat", 1 ], [ "mutant_fat", 1 ], [ "fat_tainted", 1 ] ] ]
+  },
+  {
+    "id": "edible_fat",
+    "type": "requirement",
+    "//": "Any type of edible raw fat.",
+    "components": [ [ [ "fat", 1 ], [ "mutant_fat", 1 ] ] ]
+  },
+  {
+    "id": "edible_tallow_lard",
+    "type": "requirement",
+    "//": "Any type of edible rendered fat.",
+    "components": [ [ [ "tallow", 1 ], [ "lard", 1 ], [ "mutant_tallow", 1 ], [ "mutant_lard", 1 ] ] ]
+  },
+  {
+    "id": "any_tallow",
+    "type": "requirement",
+    "//": "Any type of tallow.",
+    "components": [ [ [ "tallow", 1 ], [ "mutant_tallow", 1 ], [ "tallow_tainted", 1 ] ] ]
   },
   {
     "id": "seasoning_mild",
