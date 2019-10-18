@@ -234,102 +234,96 @@
   },
   {
     "id": "avortexaccelerator",
+    "copy-from": "turret_blaze",
     "type": "vehicle_part",
     "name": "vortex accelerator turret",
     "item": "vortexaccelerator",
-    "symbol": "t",
-    "broken_symbol": "#",
     "color": "pink",
     "broken_color": "pink",
-    "difficulty": 4,
-    "durability": 400,
     "size": 5,
-    "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexaccelerator", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET" ]
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "avortexacceleratornc",
+    "copy-from": "turret_blaze",
     "type": "vehicle_part",
     "name": "automated vortex accelerator",
     "item": "vortexaccelerator",
-    "symbol": "t",
-    "broken_symbol": "#",
     "color": "pink",
     "broken_color": "pink",
-    "difficulty": 4,
-    "durability": 400,
-    "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexaccelerator", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET" ]
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "avortexbolter",
+    "copy-from": "turret_blaze",
     "type": "vehicle_part",
     "name": "vortex bolter turret",
     "item": "vortexbolter",
-    "symbol": "t",
-    "broken_symbol": "#",
     "color": "pink",
     "broken_color": "pink",
-    "difficulty": 4,
-    "durability": 400,
     "size": 10,
-    "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexbolter", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET" ]
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "avortexbolternc",
+    "copy-from": "turret_blaze",
     "type": "vehicle_part",
     "name": "automated vortex bolter",
     "item": "vortexbolter",
-    "symbol": "t",
-    "broken_symbol": "#",
     "color": "pink",
     "broken_color": "pink",
-    "difficulty": 4,
-    "durability": 400,
-    "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexbolter", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET" ]
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "avortexrifle",
+    "copy-from": "turret_blaze",
     "type": "vehicle_part",
     "name": "vortex rifle turret",
     "item": "vortexrifle",
-    "symbol": "t",
-    "broken_symbol": "#",
     "color": "pink",
     "broken_color": "pink",
-    "difficulty": 4,
-    "durability": 400,
     "size": 40,
-    "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexrifle", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET" ]
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "avortexriflenc",
+    "copy-from": "turret_blaze",
     "type": "vehicle_part",
     "name": "automated vortex rifle",
     "item": "vortexrifle",
-    "symbol": "t",
-    "broken_symbol": "#",
     "color": "pink",
     "broken_color": "pink",
-    "difficulty": 4,
-    "durability": 400,
-    "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexrifle", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET" ]
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "charcoal",
@@ -350,9 +344,13 @@
     "color": "white",
     "broken_color": "white",
     "description": "A transparent, solid sheet of self-sustaining crystals.",
-    "difficulty": 6,
     "durability": 5000,
     "breaks_into": [ { "item": "spiral_matrix" }, { "item": "dshards", "count": [ 50, 100 ] }, { "item": "dcluster", "count": [ 2, 6 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "flags": [ "OBSTACLE", "WINDOW", "FULL_BOARD" ]
   },
   {
@@ -419,9 +417,13 @@
     "color": "white",
     "broken_color": "white",
     "description": "A framework of super-strong crystal.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
-    "difficulty": 6,
     "durability": 3000,
     "breaks_into": [ { "item": "spiral_matrix" }, { "item": "dshards", "count": [ 75, 150 ] }, { "item": "dcluster", "count": [ 4, 8 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "flags": [ "MOUNTABLE" ]
   },
   {
@@ -524,37 +526,37 @@
   },
   {
     "id": "diamondlance",
+    "copy-from": "turret_manual_blaze",
     "type": "vehicle_part",
     "name": "diamond lance",
     "item": "diamondlance",
-    "symbol": "t",
-    "broken_symbol": "#",
     "color": "white",
     "broken_color": "white",
     "difficulty": 6,
-    "durability": 400,
     "size": 10,
-    "damage_modifier": 80,
     "folded_volume": 22,
-    "breaks_into": [ { "item": "vortexrifle", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET" ]
+    "breaks_into": [ { "item": "diamondlance", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "diamondnova",
+    "copy-from": "turret_manual_blaze",
     "type": "vehicle_part",
     "name": "diamond nova",
     "item": "diamondnova",
-    "symbol": "t",
-    "broken_symbol": "#",
     "color": "white",
     "broken_color": "white",
     "difficulty": 6,
-    "durability": 400,
     "size": 10,
-    "damage_modifier": 80,
     "folded_volume": 22,
     "breaks_into": [ { "item": "diamondnova", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET" ]
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "diamondnova",
@@ -629,9 +631,13 @@
     "color": "white",
     "broken_color": "white",
     "description": "Transparent crystal armor plate.  Will partially protect other components on the same frame from damage.",
-    "difficulty": 5,
     "durability": 5000,
     "breaks_into": [ { "item": "spiral_matrix" }, { "item": "dshards", "count": [ 50, 100 ] }, { "item": "dcluster", "count": [ 2, 6 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "flags": [ "ARMOR", "WINDOW" ]
   },
   {
@@ -660,11 +666,15 @@
     "broken_symbol": "O",
     "color": "magenta",
     "broken_color": "magenta",
-    "difficulty": 8,
     "durability": 400,
     "size": 40000,
     "cargo_weight_modifier": 0,
     "breaks_into": [  ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 9 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "flags": [ "CARGO", "COVERED", "UNMOUNT_ON_DAMAGE" ]
   },
   {
@@ -715,7 +725,6 @@
     "broken_symbol": "x",
     "color": "magenta",
     "broken_color": "magenta",
-    "difficulty": 6,
     "durability": 400,
     "//": "Here power is a multiplier on power efficiency, though ignored because of the PERPTUAL flag",
     "power": 100,
@@ -731,6 +740,11 @@
       { "item": "steel_chunk", "count": [ 2, 5 ] },
       { "item": "plastic_chunk", "count": [ 2, 8 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "flags": [ "REACTOR", "PERPETUAL" ]
   },
   {
@@ -744,7 +758,6 @@
     "broken_symbol": "x",
     "color": "magenta",
     "broken_color": "magenta",
-    "difficulty": 6,
     "durability": 400,
     "power": 37300,
     "epower": 1865,
@@ -760,6 +773,11 @@
       { "item": "scrap", "count": [ 4, 12 ] },
       { "item": "plastic_chunk", "count": [ 2, 8 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "flags": [ "ENGINE", "E_STARTS_INSTANTLY", "E_HIGHER_SKILL", "E_ALTERNATOR" ]
   },
   {
@@ -806,37 +824,35 @@
   },
   {
     "id": "vortexaccelerator",
+    "copy-from": "turret_manual_blaze",
     "type": "vehicle_part",
     "name": "vortex accelerator",
     "item": "vortexaccelerator",
-    "symbol": "t",
-    "broken_symbol": "#",
     "color": "pink",
     "broken_color": "pink",
-    "difficulty": 4,
-    "durability": 400,
     "size": 1000,
-    "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexaccelerator", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET" ]
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "vortexbolter",
+    "copy-from": "turret_manual_blaze",
     "type": "vehicle_part",
     "name": "vortex bolter",
     "item": "vortexbolter",
-    "symbol": "t",
-    "broken_symbol": "#",
     "color": "pink",
     "broken_color": "pink",
-    "difficulty": 4,
-    "durability": 400,
     "size": 10,
-    "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexbolter", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET" ]
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "vortexbolter",
@@ -868,38 +884,36 @@
   },
   {
     "id": "vortexcannon",
+    "copy-from": "turret_manual_blaze",
     "type": "vehicle_part",
     "name": "vortex cannon",
     "item": "vortexcannon",
-    "symbol": "t",
-    "broken_symbol": "#",
     "color": "pink",
     "broken_color": "pink",
-    "difficulty": 4,
-    "durability": 400,
     "size": 10,
-    "damage_modifier": 80,
     "folded_volume": 20,
     "breaks_into": [ { "item": "vortexcannon", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET" ]
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "vortexcannon",
+    "copy-from": "turret_blaze",
     "type": "vehicle_part",
     "name": "vortex cannon turret",
     "item": "vortexcannon",
-    "symbol": "t",
-    "broken_symbol": "#",
     "color": "pink",
     "broken_color": "pink",
-    "difficulty": 4,
-    "durability": 400,
     "size": 10,
     "range": 18,
-    "damage_modifier": 80,
     "folded_volume": 20,
     "breaks_into": [ { "item": "vortexcannon", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET" ]
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "vortexcannon",
@@ -928,20 +942,20 @@
   },
   {
     "id": "vortexrifle",
+    "copy-from": "turret_manual_blaze",
     "type": "vehicle_part",
     "name": "vortex rifle",
     "item": "vortexrifle",
-    "symbol": "t",
-    "broken_symbol": "#",
     "color": "pink",
     "broken_color": "pink",
     "difficulty": 4,
-    "durability": 400,
     "size": 40,
-    "damage_modifier": 80,
     "folded_volume": 10,
     "breaks_into": [ { "item": "vortexrifle", "count": [ 0, 1 ] } ],
-    "flags": [ "TURRET" ]
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "vortexrifle",

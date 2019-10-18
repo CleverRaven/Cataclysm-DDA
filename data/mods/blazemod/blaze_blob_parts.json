@@ -9,13 +9,12 @@
     "broken_symbol": "x",
     "color": "light_green",
     "broken_color": "light_green",
-    "difficulty": 1,
     "durability": 250,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
     "description": "A set of continuous, interlocking tracks made out of blob. They can be used in place of wheels, and provide good traction and off-road performance.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
     "wheel_type": "treads",
     "contact_area": 2500,
     "rolling_resistance": 6,
@@ -47,15 +46,14 @@
     "broken_symbol": "#",
     "color": "blue",
     "broken_color": "blue",
-    "difficulty": 1,
     "durability": 400,
     "range": 1,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "bitergrow" } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
     "descriptions": "A living blob, transformed into a heavy vehicle weapon.",
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE", "OBSTACLE" ]
+    "flags": [ "TURRET", "FOLDABLE", "OBSTACLE" ]
   },
   {
     "id": "clutter",
@@ -67,15 +65,14 @@
     "broken_symbol": "#",
     "color": "magenta",
     "broken_color": "magenta",
-    "difficulty": 1,
     "durability": 200,
     "range": 8,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "cluttergrow" } ],
     "description": "A living blob, transformed into a heavy vehicle weapon.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TURRET", "FOLDABLE" ]
   },
   {
     "id": "freezie",
@@ -87,15 +84,14 @@
     "broken_symbol": "#",
     "color": "light_blue",
     "broken_color": "light_blue",
-    "difficulty": 1,
     "durability": 200,
     "range": 18,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "freeziegrow" } ],
     "description": "A living blob, existing in a super-cooled state and transformed into a heavy vehicle weapon.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TURRET", "FOLDABLE" ]
   },
   {
     "id": "frostie_ram",
@@ -107,14 +103,13 @@
     "broken_symbol": "0",
     "color": "light_blue",
     "broken_color": "light_blue",
-    "difficulty": 1,
     "durability": 1000,
     "damage_modifier": 200,
     "folded_volume": 1,
     "breaks_into": [ { "item": "frostiegrow" } ],
     "description": "A living blob, existing in a super-cooled state.  It will absorb damage in a vehicle collision and deliver additional damage to the other object in the collision.  It should be mounted on the edge of the vehicle, preferably the front.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "OBSTACLE", "PROTRUSION", "SHARP", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "OBSTACLE", "PROTRUSION", "SHARP", "FOLDABLE" ]
   },
   {
     "id": "frostie_trunk",
@@ -134,8 +129,8 @@
     "folded_volume": 1,
     "breaks_into": [ { "item": "frostiegrow" } ],
     "description": "A living blob, existing in a super-cooled state.  It will keep items stored in it cold, reducing the speed at which food and drink rots.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "FOLDABLE" ]
   },
   {
     "id": "frostie_wall",
@@ -147,14 +142,13 @@
     "broken_symbol": "0",
     "color": "light_blue",
     "broken_color": "light_blue",
-    "difficulty": 1,
     "durability": 500,
     "damage_modifier": 80,
     "folded_volume": 1,
     "breaks_into": [ { "item": "frostiegrow" } ],
     "description": "A living blob, existing in a super-cooled state.  It is transparent, and can be used to see out of the vehicle.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "OBSTACLE", "WINDOW", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "OBSTACLE", "WINDOW", "FOLDABLE" ]
   },
   {
     "id": "frostie_wheel",
@@ -166,17 +160,16 @@
     "broken_symbol": "x",
     "color": "light_blue",
     "broken_color": "light_blue",
-    "difficulty": 1,
     "durability": 500,
     "damage_modifier": 200,
     "folded_volume": 1,
     "breaks_into": [ { "item": "frostiegrow" } ],
     "description": "A living blob, existing in a super-cooled state.  It acts as a wheel.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
     "rolling_resistance": 1.5,
     "wheel_type": "standard",
     "contact_area": 153,
-    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG", "SHARP", "TRACKED" ]
+    "flags": [ "WHEEL", "FOLDABLE", "EXTRA_DRAG", "SHARP", "TRACKED" ]
   },
   {
     "id": "frostie_wheel_sea",
@@ -188,14 +181,13 @@
     "broken_symbol": "x",
     "color": "light_blue",
     "broken_color": "light_blue",
-    "difficulty": 1,
     "durability": 500,
     "damage_modifier": 200,
     "folded_volume": 1,
     "breaks_into": [ { "item": "frostiegrow" } ],
     "description": "A living blob, existing in a super-cooled state.  It acts as a boat hull.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "FLOATS", "TOOL_NONE", "FOLDABLE", "EXTRA_DRAG", "SHARP", "TRACKED" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "FLOATS", "FOLDABLE", "EXTRA_DRAG", "SHARP", "TRACKED" ]
   },
   {
     "id": "fuzzle",
@@ -207,15 +199,14 @@
     "broken_symbol": "#",
     "color": "brown",
     "broken_color": "brown",
-    "difficulty": 1,
     "durability": 600,
     "range": 1,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "fuzzlegrow" } ],
     "description": "A living blob, transformed into a heavy vehicle weapon.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE", "OBSTACLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TURRET", "FOLDABLE", "OBSTACLE" ]
   },
   {
     "id": "gel_lamp",
@@ -227,7 +218,6 @@
     "broken_symbol": "x",
     "color": "cyan",
     "broken_color": "cyan",
-    "difficulty": 1,
     "durability": 200,
     "epower": 0,
     "bonus": 200,
@@ -235,8 +225,8 @@
     "folded_volume": 1,
     "breaks_into": [ { "item": "glowiegrow" } ],
     "description": "A living, glowing blob.  It produces a bright light that illuminates a narrow cone outside the vehicle when turned on.  During installation, you can choose what direction to point the light, so multiple gel lamps can illuminate the sides or rear, as well as the front.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "CONE_LIGHT", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "CONE_LIGHT", "FOLDABLE" ]
   },
   {
     "id": "gel_lamp_d",
@@ -254,7 +244,6 @@
     "broken_symbol": ";",
     "color": "light_green",
     "broken_color": "light_green",
-    "difficulty": 1,
     "durability": 250,
     "epower": 0,
     "size": 300,
@@ -262,8 +251,8 @@
     "folded_volume": 1,
     "description": "A living blob, formed to act as a scoop.  Use the vehicle controls to turn it on or off.  When turned on, it will scoop up any loose items that it travels over, putting them into the vehicle's storage.",
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "SCOOP", "CARGO", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "SCOOP", "CARGO", "FOLDABLE" ]
   },
   {
     "id": "gloople_belt",
@@ -275,22 +264,21 @@
     "broken_symbol": ",",
     "color": "light_green",
     "broken_color": "light_green",
-    "difficulty": 1,
     "durability": 250,
     "bonus": 25,
     "damage_modifier": 10,
     "folded_volume": 1,
     "description": "A living blob, reformed as a belt and attached to a seat.",
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "SEATBELT", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "SEATBELT", "FOLDABLE" ]
   },
   {
     "id": "gloople_cross",
     "type": "vehicle_part",
     "copy-from": "gloople_horizontal",
     "symbol": "c",
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE", "INITIAL_PART" ]
+    "flags": [ "FOLDABLE", "MOUNTABLE", "INITIAL_PART" ]
   },
   {
     "id": "gloople_tank",
@@ -302,15 +290,14 @@
     "broken_symbol": "#",
     "color": "light_green",
     "broken_color": "light_green",
-    "difficulty": 1,
     "durability": 250,
     "size": 5000,
     "damage_modifier": 10,
     "folded_volume": 20,
     "breaks_into": [ { "item": "glooplegrow" } ],
     "description": "A living blob, formed into a storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TOOL_NONE", "FOLDABLE", "FUEL_TANK" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "FOLDABLE", "FUEL_TANK" ]
   },
   {
     "id": "gloople_tank_large",
@@ -331,14 +318,13 @@
     "broken_symbol": "#",
     "color": "light_green",
     "broken_color": "light_green",
-    "difficulty": 1,
     "durability": 250,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
     "description": "A living blob, shaped to provide attachment points for other blobs.  Other vehicle components and blobs can be mounted on it.  If all the frames and components of a vehicle are foldable or made from blobs, the vehicle can be folding into a small package and picked up as a normal item.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "gloople_horizontal_2",
@@ -368,14 +354,13 @@
     "broken_symbol": "*",
     "color": "light_green",
     "broken_color": "light_green",
-    "difficulty": 1,
     "durability": 250,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
     "description": "A living blob, acting as armor plate.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "ARMOR", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "ARMOR", "FOLDABLE" ]
   },
   {
     "id": "gloople_roof",
@@ -387,14 +372,13 @@
     "broken_symbol": "#",
     "color": "light_green",
     "broken_color": "light_green",
-    "difficulty": 1,
     "durability": 250,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
     "description": "A living blob, placed as roof.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "ROOF", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "ROOF", "FOLDABLE" ]
   },
   {
     "id": "gloople_se",
@@ -412,14 +396,13 @@
     "broken_symbol": "*",
     "color": "light_green",
     "broken_color": "light_green",
-    "difficulty": 1,
     "durability": 250,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
     "description": "A living blob, formed into a comfy couch.  You can sit here.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "SEAT", "BED", "BOARDABLE", "BELTABLE", "TOOL_NONE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "SEAT", "BED", "BOARDABLE", "BELTABLE" ]
   },
   {
     "id": "gloople_sw",
@@ -437,15 +420,14 @@
     "broken_symbol": "#",
     "color": "light_green",
     "broken_color": "light_green",
-    "difficulty": 1,
     "durability": 250,
     "size": 400,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
     "description": "A living blob, shaped into a cargo space.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "CARGO", "COVERED", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "CARGO", "COVERED", "FOLDABLE" ]
   },
   {
     "id": "gloople_trunk_u",
@@ -476,17 +458,16 @@
     "broken_symbol": "x",
     "color": "light_green",
     "broken_color": "light_green",
-    "difficulty": 1,
     "durability": 250,
     "damage_modifier": 10,
     "folded_volume": 1,
     "description": "A living blob.  It acts as a wheel.",
     "breaks_into": [ { "item": "glooplegrow" }, { "item": "water", "count": [ 50, 100 ] } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
     "rolling_resistance": 1.75,
     "wheel_type": "standard",
     "contact_area": 153,
-    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED" ]
+    "flags": [ "WHEEL", "FOLDABLE", "TRACKED" ]
   },
   {
     "id": "gloopleaisle_horizontal",
@@ -498,14 +479,13 @@
     "broken_symbol": "#",
     "color": "light_green",
     "broken_color": "light_green",
-    "difficulty": 1,
     "durability": 250,
     "damage_modifier": 10,
     "folded_volume": 1,
     "description": "A living blob, formed into a walkway.",
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "AISLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "AISLE", "BOARDABLE", "FOLDABLE" ]
   },
   {
     "id": "gloopleaisle_vertical",
@@ -523,13 +503,12 @@
     "broken_symbol": "#",
     "color": "light_green",
     "broken_color": "light_green",
-    "difficulty": 1,
     "durability": 250,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE", "FULL_BOARD" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE", "FULL_BOARD" ]
   },
   {
     "id": "gloopleboard_ne",
@@ -571,14 +550,13 @@
     "broken_symbol": "&",
     "color": "light_green",
     "broken_color": "light_green",
-    "difficulty": 2,
     "durability": 250,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
     "description": "A living blob, acting as a door.  Has a transparent patch so you can see out of it, even when closed.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "FOLDABLE" ]
   },
   {
     "id": "gloopledoor_opaque",
@@ -590,14 +568,13 @@
     "broken_symbol": "&",
     "color": "light_green",
     "broken_color": "light_green",
-    "difficulty": 2,
     "durability": 250,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
     "description": "A living blob, acting as a door.  Entirely opaque so you can't see through it when closed.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "FOLDABLE" ]
   },
   {
     "id": "glowie_battery",
@@ -610,14 +587,13 @@
     "broken_symbol": "x",
     "color": "cyan",
     "broken_color": "cyan",
-    "difficulty": 1,
     "durability": 200,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glowiegrow" } ],
     "description": "A living, glowing blob.  Having been filled with electrical power, it stores that power and can release it to power other parts of the vehicle, allowing it to act as a storage battery.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "FOLDABLE" ]
   },
   {
     "id": "glowie_battery_u",
@@ -637,7 +613,6 @@
     "broken_symbol": "x",
     "color": "cyan",
     "broken_color": "cyan",
-    "difficulty": 1,
     "durability": 200,
     "//": "Power is a multiplier on power efficiency - 1 unit is 100 units of battery or 100 kJ",
     "power": 50,
@@ -647,8 +622,8 @@
     "folded_volume": 1,
     "breaks_into": [ { "item": "glowiegrow" } ],
     "description": "A living, glowing blob.  It consumes blob feed and produces electrical power, allowing it to be used as a reactor.  It also glows, and can be turned on to illuminate several squares inside the vehicle.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "REACTOR", "TOOL_NONE", "FOLDABLE", "ATOMIC_LIGHT", "ENABLED_DRAINS_EPOWER" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "REACTOR", "FOLDABLE", "ATOMIC_LIGHT", "ENABLED_DRAINS_EPOWER" ]
   },
   {
     "id": "gray_amalgam",
@@ -660,16 +635,15 @@
     "broken_symbol": ";",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 1,
     "durability": 1000,
     "epower": 0,
     "size": 800,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
     "description": "A living blob, formed to act as a scoop.  Use the vehicle controls to turn it on or off.  When turned on, it will scoop up any loose items that it travels over, putting them into the vehicle's storage.",
-    "flags": [ "SCOOP", "CARGO", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "SCOOP", "CARGO", "FOLDABLE" ]
   },
   {
     "id": "gray_belt",
@@ -681,22 +655,21 @@
     "broken_symbol": ",",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 1,
     "durability": 1000,
     "bonus": 50,
     "damage_modifier": 10,
     "folded_volume": 1,
     "description": "A living blob, reformed as a belt and attached to a seat.",
     "breaks_into": [ { "item": "graygrow" } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "SEATBELT", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "SEATBELT", "FOLDABLE" ]
   },
   {
     "id": "gray_cross",
     "type": "vehicle_part",
     "copy-from": "gray_horizontal",
     "symbol": "c",
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE", "INITIAL_PART" ]
+    "flags": [ "FOLDABLE", "MOUNTABLE", "INITIAL_PART" ]
   },
   {
     "id": "gray_tank",
@@ -708,15 +681,14 @@
     "broken_symbol": "#",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 1,
     "durability": 1000,
     "size": 10000,
     "damage_modifier": 10,
     "folded_volume": 40,
     "breaks_into": [ { "item": "graygrow" } ],
     "description": "A living blob, formed into a storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TOOL_NONE", "FOLDABLE", "FUEL_TANK" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "FOLDABLE", "FUEL_TANK" ]
   },
   {
     "id": "gray_tank_large",
@@ -737,14 +709,13 @@
     "broken_symbol": "#",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 1,
     "durability": 1000,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
     "description": "A living blob, shaped to provide attachment points for other blobs.  Other vehicle components and blobs can be mounted on it.  If all the frames and components of a vehicle are foldable or made from blobs, the vehicle can be folding into a small package and picked up as a normal item.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "gray_horizontal_2",
@@ -774,14 +745,13 @@
     "broken_symbol": "*",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 1,
     "durability": 1000,
     "damage_modifier": 10,
     "folded_volume": 1,
     "description": "A living blob, acting as armor plate.",
     "breaks_into": [ { "item": "graygrow" } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "ARMOR", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "ARMOR", "FOLDABLE" ]
   },
   {
     "id": "gray_roof",
@@ -793,14 +763,13 @@
     "broken_symbol": "#",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 1,
     "durability": 1000,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
     "description": "A living blob, placed as roof.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "ROOF", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "ROOF", "FOLDABLE" ]
   },
   {
     "id": "gray_se",
@@ -818,14 +787,13 @@
     "broken_symbol": "*",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 1,
     "durability": 1000,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
     "description": "A living blob, formed into a comfy couch.  You can sit here.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "SEAT", "BED", "BOARDABLE", "BELTABLE", "TOOL_NONE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "SEAT", "BED", "BOARDABLE", "BELTABLE" ]
   },
   {
     "id": "gray_sw",
@@ -843,15 +811,14 @@
     "broken_symbol": "#",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 1,
     "durability": 1000,
     "size": 1000,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
     "description": "A living blob, shaped into a cargo space.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "CARGO", "COVERED", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "CARGO", "COVERED", "FOLDABLE" ]
   },
   {
     "id": "gray_trunk_u",
@@ -882,17 +849,16 @@
     "broken_symbol": "x",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 1,
     "durability": 1000,
     "damage_modifier": 10,
     "folded_volume": 1,
     "description": "A living blob.  It acts as a wheel.",
     "breaks_into": [ { "item": "graygrow" }, { "item": "water", "count": [ 100, 200 ] } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
     "rolling_resistance": 1.25,
     "wheel_type": "standard",
     "contact_area": 153,
-    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED" ]
+    "flags": [ "WHEEL", "FOLDABLE", "TRACKED" ]
   },
   {
     "id": "grayaisle_horizontal",
@@ -904,14 +870,13 @@
     "broken_symbol": "#",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 1,
     "durability": 1000,
     "damage_modifier": 10,
     "folded_volume": 1,
     "description": "A living blob, formed into a walkway.",
     "breaks_into": [ { "item": "graygrow" } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "AISLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "AISLE", "BOARDABLE", "FOLDABLE" ]
   },
   {
     "id": "grayaisle_vertical",
@@ -929,14 +894,13 @@
     "broken_symbol": "#",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 1,
     "durability": 1000,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
     "description": "A living blob, formed into a vehicle wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE", "FULL_BOARD" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE", "FULL_BOARD" ]
   },
   {
     "id": "grayboard_ne",
@@ -978,14 +942,13 @@
     "broken_symbol": "&",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 2,
     "durability": 1000,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
     "description": "A living blob, acting as a door.  Has a transparent patch so you can see out of it, even when closed.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "FOLDABLE" ]
   },
   {
     "id": "graydoor_opaque",
@@ -997,14 +960,13 @@
     "broken_symbol": "&",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 2,
     "durability": 1000,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
     "description": "A living blob, acting as a door.  Entirely opaque so you can't see through it when closed.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "FOLDABLE" ]
   },
   {
     "id": "grinder",
@@ -1016,16 +978,15 @@
     "broken_symbol": "#",
     "color": "brown",
     "broken_color": "brown",
-    "difficulty": 1,
     "durability": 2500,
     "damage_modifier": 250,
     "folded_volume": 1,
     "breaks_into": [ { "item": "gray" } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
     "rolling_resistance": 6,
     "wheel_type": "rigid",
     "contact_area": 500,
-    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "PROTRUSION", "STABLE", "TRACKED" ]
+    "flags": [ "WHEEL", "FOLDABLE", "PROTRUSION", "STABLE", "TRACKED" ]
   },
   {
     "id": "halfgloopleboard_horizontal",
@@ -1037,14 +998,13 @@
     "broken_symbol": "#",
     "color": "light_green",
     "broken_color": "light_green",
-    "difficulty": 1,
     "durability": 250,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "glooplegrow" } ],
     "description": "A living blob, formed into a half-height vehicle wall.  Keeps zombies outside the vehicle but allows people to see over it.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE", "HALF_BOARD" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "OBSTACLE", "FOLDABLE", "HALF_BOARD" ]
   },
   {
     "id": "halfgloopleboard_horizontal_2",
@@ -1098,14 +1058,13 @@
     "broken_symbol": "#",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 1,
     "durability": 1000,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "graygrow" } ],
     "description": "A living blob, formed into a half-height vehicle wall.  Keeps zombies outside the vehicle but allows people to see over it.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE", "HALF_BOARD" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "OBSTACLE", "FOLDABLE", "HALF_BOARD" ]
   },
   {
     "id": "halfgrayboard_horizontal_2",
@@ -1159,14 +1118,13 @@
     "broken_symbol": "#",
     "color": "green",
     "broken_color": "green",
-    "difficulty": 1,
     "durability": 500,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
     "description": "A living blob, formed into a half-height vehicle wall.  Keeps zombies outside the vehicle but allows people to see over it.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "OBSTACLE", "TOOL_NONE", "FOLDABLE", "HALF_BOARD" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "OBSTACLE", "FOLDABLE", "HALF_BOARD" ]
   },
   {
     "id": "halfoozleboard_horizontal_2",
@@ -1220,14 +1178,13 @@
     "broken_symbol": "#",
     "color": "blue",
     "broken_color": "blue",
-    "difficulty": 1,
     "durability": 1000,
     "range": 1,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "horrorgrow" } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE", "OBSTACLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TURRET", "FOLDABLE", "OBSTACLE" ]
   },
   {
     "id": "inkie",
@@ -1239,14 +1196,13 @@
     "broken_symbol": "#",
     "color": "brown",
     "broken_color": "brown",
-    "difficulty": 1,
     "durability": 200,
     "range": 8,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "inkiegrow" } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE", "USE_TANKS" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TURRET", "FOLDABLE", "USE_TANKS" ]
   },
   {
     "id": "meltie",
@@ -1258,14 +1214,13 @@
     "broken_symbol": "#",
     "color": "light_red",
     "broken_color": "light_red",
-    "difficulty": 1,
     "durability": 200,
     "range": 8,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "meltiegrow" } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE", "USE_TANKS" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TURRET", "FOLDABLE", "USE_TANKS" ]
   },
   {
     "id": "oozle_amalgam",
@@ -1277,16 +1232,15 @@
     "broken_symbol": ";",
     "color": "green",
     "broken_color": "green",
-    "difficulty": 1,
     "durability": 600,
     "epower": 0,
     "size": 400,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
     "description": "A living blob, formed to act as a scoop.  Use the vehicle controls to turn it on or off.  When turned on, it will scoop up any loose items that it travels over, putting them into the vehicle's storage.",
-    "flags": [ "SCOOP", "CARGO", "TOOL_NONE", "FOLDABLE" ]
+    "flags": [ "SCOOP", "CARGO", "FOLDABLE" ]
   },
   {
     "id": "oozle_belt",
@@ -1298,22 +1252,21 @@
     "broken_symbol": ",",
     "color": "green",
     "broken_color": "green",
-    "difficulty": 1,
     "durability": 500,
     "bonus": 35,
     "damage_modifier": 10,
     "folded_volume": 1,
     "description": "A living blob, reformed as a belt and attached to a seat.",
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "SEATBELT", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "SEATBELT", "FOLDABLE" ]
   },
   {
     "id": "oozle_cross",
     "type": "vehicle_part",
     "copy-from": "oozle_horizontal",
     "symbol": "c",
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE", "INITIAL_PART" ]
+    "flags": [ "FOLDABLE", "MOUNTABLE", "INITIAL_PART" ]
   },
   {
     "id": "oozle_tank",
@@ -1325,15 +1278,14 @@
     "broken_symbol": "#",
     "color": "green",
     "broken_color": "green",
-    "difficulty": 1,
     "durability": 500,
     "size": 7500,
     "damage_modifier": 10,
     "folded_volume": 30,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
     "description": "A living blob, formed into a storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
-    "flags": [ "TOOL_NONE", "FOLDABLE", "FUEL_TANK" ]
+    "flags": [ "FOLDABLE", "FUEL_TANK" ]
   },
   {
     "id": "oozle_tank_large",
@@ -1354,14 +1306,13 @@
     "broken_symbol": "#",
     "color": "green",
     "broken_color": "green",
-    "difficulty": 1,
     "durability": 500,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
     "description": "A living blob, shaped to provide attachment points for other blobs.  Other vehicle components and blobs can be mounted on it.  If all the frames and components of a vehicle are foldable or made from blobs, the vehicle can be folding into a small package and picked up as a normal item.",
-    "flags": [ "TOOL_NONE", "FOLDABLE", "MOUNTABLE" ]
+    "flags": [ "FOLDABLE", "MOUNTABLE" ]
   },
   {
     "id": "oozle_horizontal_2",
@@ -1391,14 +1342,13 @@
     "broken_symbol": "*",
     "color": "green",
     "broken_color": "green",
-    "difficulty": 1,
     "durability": 500,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
     "description": "A living blob, acting as armor plate.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "ARMOR", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "ARMOR", "FOLDABLE" ]
   },
   {
     "id": "oozle_roof",
@@ -1410,14 +1360,13 @@
     "broken_symbol": "#",
     "color": "green",
     "broken_color": "light_green",
-    "difficulty": 1,
     "durability": 500,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
     "description": "A living blob, placed as roof.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "ROOF", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "ROOF", "FOLDABLE" ]
   },
   {
     "id": "oozle_se",
@@ -1435,14 +1384,13 @@
     "broken_symbol": "*",
     "color": "green",
     "broken_color": "green",
-    "difficulty": 1,
     "durability": 500,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
     "description": "A living blob, formed into a comfy couch.  You can sit here.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "SEAT", "BED", "BOARDABLE", "BELTABLE", "TOOL_NONE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "SEAT", "BED", "BOARDABLE", "BELTABLE" ]
   },
   {
     "id": "oozle_sw",
@@ -1460,15 +1408,14 @@
     "broken_symbol": "#",
     "color": "green",
     "broken_color": "green",
-    "difficulty": 1,
     "durability": 500,
     "size": 800,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
     "description": "A living blob, shaped into a cargo space.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "CARGO", "COVERED", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "CARGO", "COVERED", "FOLDABLE" ]
   },
   {
     "id": "oozle_trunk_u",
@@ -1499,16 +1446,15 @@
     "broken_symbol": "x",
     "color": "green",
     "broken_color": "green",
-    "difficulty": 1,
     "durability": 500,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" }, { "item": "water", "count": [ 100, 200 ] } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
     "rolling_resistance": 1.5,
     "wheel_type": "standard",
     "contact_area": 153,
-    "flags": [ "WHEEL", "TOOL_NONE", "FOLDABLE", "TRACKED" ]
+    "flags": [ "WHEEL", "FOLDABLE", "TRACKED" ]
   },
   {
     "id": "oozleaisle_horizontal",
@@ -1520,14 +1466,13 @@
     "broken_symbol": "#",
     "color": "green",
     "broken_color": "green",
-    "difficulty": 1,
     "durability": 500,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
     "description": "A living blob, formed into a walkway.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "AISLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "AISLE", "BOARDABLE", "FOLDABLE" ]
   },
   {
     "id": "oozleaisle_vertical",
@@ -1545,14 +1490,13 @@
     "broken_symbol": "#",
     "color": "green",
     "broken_color": "green",
-    "difficulty": 1,
     "durability": 500,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
     "description": "A living blob, formed into a vehicle wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "OPAQUE", "OBSTACLE", "TOOL_NONE", "FOLDABLE", "FULL_BOARD" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE", "FULL_BOARD" ]
   },
   {
     "id": "oozleboard_ne",
@@ -1594,14 +1538,13 @@
     "broken_symbol": "&",
     "color": "green",
     "broken_color": "green",
-    "difficulty": 2,
     "durability": 500,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
     "description": "A living blob, acting as a door.  Has a transparent patch so you can see out of it, even when closed.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "FOLDABLE" ]
   },
   {
     "id": "oozledoor_opaque",
@@ -1613,14 +1556,13 @@
     "broken_symbol": "&",
     "color": "green",
     "broken_color": "green",
-    "difficulty": 2,
     "durability": 500,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "oozlegrow" } ],
     "description": "A living blob, acting as a door.  Entirely opaque so you can't see through it when closed.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "OBSTACLE", "OPAQUE", "OPENABLE", "BOARDABLE", "FOLDABLE" ]
   },
   {
     "id": "queen",
@@ -1633,7 +1575,6 @@
     "broken_symbol": "#",
     "color": "red",
     "broken_color": "red",
-    "difficulty": 1,
     "durability": 1000,
     "power": 223800,
     "energy_consumption": 600000,
@@ -1643,12 +1584,11 @@
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "queengrow" } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
     "description": "An amorphous mass, the living heart and brain of a blob vehicle.",
     "flags": [
       "BOARDABLE",
       "BELTABLE",
-      "TOOL_NONE",
       "FOLDABLE",
       "ENGINE",
       "CONTROLS",
@@ -1675,9 +1615,8 @@
     "durability": 400,
     "folded_volume": 1,
     "description": "A sleeping amorphous core, acting as a rotating, universal mount for a weapon.  If your hands are empty, you can stand next to a tentacle and 'f'ire the weapon by selecting the tile.",
-    "difficulty": 2,
     "breaks_into": [ { "item": "queengrow" } ],
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
     "flags": [ "TURRET_MOUNT", "FOLDABLE" ]
   },
   {
@@ -1691,15 +1630,14 @@
     "broken_symbol": "#",
     "color": "red",
     "broken_color": "red",
-    "difficulty": 1,
     "durability": 200,
     "range": 60,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "queengrow" } ],
     "description": "A living blob turned into a heavy vehicle weapon.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE", "USE_TANKS" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TURRET", "FOLDABLE", "USE_TANKS" ]
   },
   {
     "id": "razorqueen",
@@ -1711,15 +1649,14 @@
     "broken_symbol": "#",
     "color": "cyan",
     "broken_color": "cyan",
-    "difficulty": 1,
     "durability": 200,
     "range": 18,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "razorqueengrow" } ],
     "description": "A living blob turned into a heavy vehicle weapon.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TURRET", "FOLDABLE" ]
   },
   {
     "id": "sharp",
@@ -1731,15 +1668,14 @@
     "broken_symbol": "#",
     "color": "light_blue",
     "broken_color": "light_blue",
-    "difficulty": 1,
     "durability": 200,
     "range": 16,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "sharpgrow" } ],
     "description": "A living blob turned into a heavy vehicle weapon.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TURRET", "FOLDABLE" ]
   },
   {
     "id": "gelrazor",
@@ -1751,15 +1687,14 @@
     "broken_symbol": "#",
     "color": "blue",
     "broken_color": "blue",
-    "difficulty": 1,
     "durability": 200,
     "range": 12,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "sicklegrow" } ],
     "description": "A living blob turned into a heavy vehicle weapon.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TURRET", "FOLDABLE" ]
   },
   {
     "id": "sparkie",
@@ -1771,15 +1706,14 @@
     "broken_symbol": "#",
     "color": "cyan",
     "broken_color": "cyan",
-    "difficulty": 1,
     "durability": 200,
     "range": 16,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "sparkiegrow" } ],
     "description": "A living blob turned into a heavy vehicle weapon.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TURRET", "FOLDABLE" ]
   },
   {
     "id": "stickie",
@@ -1791,15 +1725,14 @@
     "broken_symbol": "#",
     "color": "yellow",
     "broken_color": "yellow",
-    "difficulty": 1,
     "durability": 200,
     "range": 8,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "stickiegrow" } ],
     "description": "A living blob turned into a heavy vehicle weapon.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE", "USE_TANKS" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TURRET", "FOLDABLE", "USE_TANKS" ]
   },
   {
     "id": "torchie",
@@ -1811,15 +1744,14 @@
     "broken_symbol": "#",
     "color": "light_red",
     "broken_color": "light_red",
-    "difficulty": 1,
     "durability": 200,
     "range": 10,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "torchiegrow" } ],
     "description": "A living blob turned into a heavy vehicle weapon.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE", "USE_TANKS" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TURRET", "FOLDABLE", "USE_TANKS" ]
   },
   {
     "id": "voideater",
@@ -1831,14 +1763,13 @@
     "broken_symbol": "#",
     "color": "cyan",
     "broken_color": "cyan",
-    "difficulty": 1,
     "durability": 200,
     "range": 12,
     "damage_modifier": 10,
     "folded_volume": 1,
     "breaks_into": [ { "item": "voideatergrow" } ],
     "description": "A living blob turned into a heavy vehicle weapon.",
-    "requirements": { "repair": { "time": 30000, "using": [ [ "blobrep", 1 ] ] } },
-    "flags": [ "TURRET", "TOOL_NONE", "FOLDABLE" ]
+    "requirements": { "repair": { "time": "5 m", "using": [ [ "blobrep", 1 ] ] } },
+    "flags": [ "TURRET", "FOLDABLE" ]
   }
 ]
