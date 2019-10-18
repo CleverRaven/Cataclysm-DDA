@@ -230,15 +230,15 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
 {
     if( !p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) ) {
         std::string entry = _( "Cost: $1000\n\n\n"
-                               "                .........\n"
-                               "                .........\n"
-                               "                .........\n"
-                               "                .........\n"
-                               "                .........\n"
-                               "                .........\n"
-                               "                ..#....**\n"
-                               "                ..#Ov..**\n"
-                               "                ...O|....\n\n"
+                               "                .........\n" // NOLINT(cata-text-style)
+                               "                .........\n" // NOLINT(cata-text-style)
+                               "                .........\n" // NOLINT(cata-text-style)
+                               "                .........\n" // NOLINT(cata-text-style)
+                               "                .........\n" // NOLINT(cata-text-style)
+                               "                .........\n" // NOLINT(cata-text-style)
+                               "                ..#....**\n" // NOLINT(cata-text-style)
+                               "                ..#Ov..**\n" // NOLINT(cata-text-style)
+                               "                ...O|....\n\n" // NOLINT(cata-text-style)
                                "We're willing to let you purchase a field at a substantial "
                                "discount to use for your own agricultural enterprises.  We'll "
                                "plow it for you so you know exactly what is yours… after you "
@@ -249,15 +249,15 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
     }
     if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) && !p.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ) {
         std::string entry = _( "Cost: $5500\n\n"
-                               "\n              ........."
-                               "\n              ........."
-                               "\n              ........."
-                               "\n              ........."
-                               "\n              ........."
-                               "\n              ........."
-                               "\n              ..#....**"
-                               "\n              ..#Ov..**"
-                               "\n              ...O|....\n\n"
+                               "\n              ........." // NOLINT(cata-text-style)
+                               "\n              ........." // NOLINT(cata-text-style)
+                               "\n              ........." // NOLINT(cata-text-style)
+                               "\n              ........." // NOLINT(cata-text-style)
+                               "\n              ........." // NOLINT(cata-text-style)
+                               "\n              ........." // NOLINT(cata-text-style)
+                               "\n              ..#....**" // NOLINT(cata-text-style)
+                               "\n              ..#Ov..**" // NOLINT(cata-text-style)
+                               "\n              ...O|....\n\n" // NOLINT(cata-text-style)
                                "Protecting your field with a sturdy picket fence will keep most "
                                "wildlife from nibbling your crops apart.  You can expect yields to "
                                "increase." );
@@ -266,29 +266,29 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
 
     if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) ) {
         std::string entry = _( "Cost: $3.00/plot\n\n"
-                               "\n              ........."
-                               "\n              ........."
-                               "\n              ........."
-                               "\n              ........."
-                               "\n              ........."
-                               "\n              ........."
-                               "\n              ..#....**"
-                               "\n              ..#Ov..**"
-                               "\n              ...O|....\n\n"
+                               "\n              ........." // NOLINT(cata-text-style)
+                               "\n              ........." // NOLINT(cata-text-style)
+                               "\n              ........." // NOLINT(cata-text-style)
+                               "\n              ........." // NOLINT(cata-text-style)
+                               "\n              ........." // NOLINT(cata-text-style)
+                               "\n              ........." // NOLINT(cata-text-style)
+                               "\n              ..#....**" // NOLINT(cata-text-style)
+                               "\n              ..#Ov..**" // NOLINT(cata-text-style)
+                               "\n              ...O|....\n\n" // NOLINT(cata-text-style)
                                "We'll plant the field with your choice of crop if you are willing "
                                "to finance it.  When the crop is ready to harvest you can have us "
                                "liquidate it or harvest it for you." );
         mission_key.add( "Plant East Field", _( "Plant East Field" ), entry );
         entry = _( "Cost: $2.00/plot\n\n"
-                   "\n              ........."
-                   "\n              ........."
-                   "\n              ........."
-                   "\n              ........."
-                   "\n              ........."
-                   "\n              ........."
-                   "\n              ..#....**"
-                   "\n              ..#Ov..**"
-                   "\n              ...O|....\n\n"
+                   "\n              ........." // NOLINT(cata-text-style)
+                   "\n              ........." // NOLINT(cata-text-style)
+                   "\n              ........." // NOLINT(cata-text-style)
+                   "\n              ........." // NOLINT(cata-text-style)
+                   "\n              ........." // NOLINT(cata-text-style)
+                   "\n              ........." // NOLINT(cata-text-style)
+                   "\n              ..#....**" // NOLINT(cata-text-style)
+                   "\n              ..#Ov..**" // NOLINT(cata-text-style)
+                   "\n              ...O|....\n\n" // NOLINT(cata-text-style)
                    "You can either have us liquidate the crop and give you the cash or pay us to "
                    "harvest it for you." );
         mission_key.add( "Harvest East Field", _( "Harvest East Field" ), entry );

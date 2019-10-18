@@ -1200,12 +1200,12 @@ std::string main_menu::halloween_spider()
         "        |\n"
         "        |\n"
         "        |\n"
-        "  , .   |  . ,\n"
-        "  { | ,--, | }\n"
+        "  , .   |  . ,\n" // NOLINT(cata-text-style)
+        "  { | ,--, | }\n" // NOLINT(cata-text-style)
         "   \\\\{~~~~}//\n"
         "  /_/ {<color_c_red>..</color>} \\_\\\n"
         "  { {      } }\n"
-        "  , ,      , .";
+        "  , ,      , ."; // NOLINT(cata-text-style)
 
     return spider;
 }
@@ -1216,10 +1216,10 @@ std::string main_menu::halloween_graves()
         "                    _\n"
         "        -q       __(\")_\n"
         "         (\\      \\_  _/\n"
-        " .-.   .-''\"'.     |/\n"
+        " .-.   .-''\"'.     |/\n" // NOLINT(cata-text-style)
         "|RIP|  | RIP |   .-.\n"
         "|   |  |     |  |RIP|\n"
-        ";   ;  |     | ,'---',";
+        ";   ;  |     | ,'---',"; // NOLINT(cata-text-style)
 
     return graves;
 }

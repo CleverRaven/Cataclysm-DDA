@@ -393,6 +393,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
     int cap = fuel_capacity( fuel_type );
     int f_left = fuel_left( fuel_type );
     nc_color f_color = item::find_type( fuel_type )->color;
+    // NOLINTNEXTLINE(cata-text-style): not an ellipsis
     mvwprintz( win, p, col_indf1, "E...F" );
     int amnt = cap > 0 ? f_left * 99 / cap : 0;
     int indf = ( amnt / 20 ) % 5;
