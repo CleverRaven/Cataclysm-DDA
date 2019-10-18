@@ -18,7 +18,6 @@ misc-*,\
 modernize-*,\
 performance-*,\
 readability-*,\
--cata-text-style,\
 -bugprone-misplaced-widening-cast,\
 -bugprone-narrowing-conversions,\
 -bugprone-unused-return-value,\
