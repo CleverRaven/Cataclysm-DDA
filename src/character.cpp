@@ -67,6 +67,7 @@ static const bionic_id bio_armor_head( "bio_armor_head" );
 static const bionic_id bio_armor_legs( "bio_armor_legs" );
 static const bionic_id bio_armor_torso( "bio_armor_torso" );
 static const bionic_id bio_carbon( "bio_carbon" );
+static const bionic_id bio_gills( "bio_gills" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
@@ -4235,6 +4236,54 @@ void Character::burn_move_stamina( int moves )
             mod_pain( 1 );
         }
     }
+}
+
+void Character::update_stamina( int turns )
+{
+    const int current_stim = get_stim();
+    float stamina_recovery = 0.0f;
+    // Recover some stamina every turn.
+    // Mutated stamina works even when winded
+    float stamina_multiplier = ( !has_effect( effect_winded ) ? 1.0f : 0.1f ) +
+                               mutation_value( "stamina_regen_modifier" );
+    // But mouth encumbrance interferes, even with mutated stamina.
+    stamina_recovery += stamina_multiplier * std::max( 1.0f,
+                        get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) - ( encumb( bp_mouth ) / 5.0f ) );
+    // TODO: recovering stamina causes hunger/thirst/fatigue.
+    // TODO: Tiredness slowing recovery
+
+    // stim recovers stamina (or impairs recovery)
+    if( current_stim > 0 ) {
+        // TODO: Make stamina recovery with stims cost health
+        stamina_recovery += std::min( 5.0f, current_stim / 15.0f );
+    } else if( current_stim < 0 ) {
+        // Affect it less near 0 and more near full
+        // Negative stim kill at -200
+        // At -100 stim it inflicts -20 malus to regen at 100%  stamina,
+        // effectivly countering stamina gain of default 20,
+        // at 50% stamina its -10 (50%), cuts by 25% at 25% stamina
+        stamina_recovery += current_stim / 5.0f * get_stamina() / get_stamina_max();
+    }
+
+    const int max_stam = get_stamina_max();
+    if( get_power_level() >= 3_kJ && has_active_bionic( bio_gills ) ) {
+        int bonus = std::min<int>( units::to_kilojoule( get_power_level() ) / 3,
+                                   max_stam - get_stamina() - stamina_recovery * turns );
+        // so the effective recovery is up to 5x default
+        bonus = std::min( bonus, 4 * static_cast<int>
+                          ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) );
+        if( bonus > 0 ) {
+            stamina_recovery += bonus;
+            bonus /= 10;
+            bonus = std::max( bonus, 1 );
+            mod_power_level( units::from_kilojoule( -bonus ) );
+        }
+    }
+
+    mod_stamina( roll_remainder( stamina_recovery * turns ) );
+    add_msg( m_debug, "Stamina recovery: %d", roll_remainder( stamina_recovery * turns ) );
+    // Cap at max
+    set_stamina( std::min( std::max( get_stamina(), 0 ), max_stam ) );
 }
 
 int Character::item_handling_cost( const item &it, bool penalties, int base_cost ) const

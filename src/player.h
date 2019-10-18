@@ -258,8 +258,7 @@ class player : public Character
         // called once per 24 hours to enforce the minimum of 1 hp healed per day
         // TODO: Move to Character once heal() is moved
         void enforce_minimum_healing();
-        /** Regenerates stamina */
-        void update_stamina( int turns );
+
         /** Kills the player if too hungry, stimmed up etc., forces tired player to sleep and prints warnings. */
         void check_needs_extremes();
 

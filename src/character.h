@@ -1141,6 +1141,8 @@ class Character : public Creature, public visitable<Character>
         void set_stamina( int new_stamina );
         void mod_stamina( int mod );
         void burn_move_stamina(int moves);
+        /** Regenerates stamina */
+        void update_stamina(int turns);
 
 
     protected:
