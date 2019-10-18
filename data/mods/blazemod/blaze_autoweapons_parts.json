@@ -1,16 +1,12 @@
 [
   {
     "abstract": "turret_blaze",
+    "copy-from": "turret",
     "type": "vehicle_part",
-    "symbol": "t",
     "broken_symbol": "#",
     "color": "dark_gray",
     "broken_color": "dark_gray",
-    "durability": 400,
-    "damage_modifier": 80,
-    "location": "on_roof",
-    "description": "This heavy weapon is mounted on an automated turret.  If you set it to fire automatically from your vehicle controls, it will fire at any hostile creature that gets too close to your vehicle.  It has a safety system and won't fire if you're in or near the line of fire, but you may get caught in any explosions.",
-    "flags": [ "TURRET", "TOOL_NONE" ]
+    "description": "This heavy weapon is mounted on an automated turret.  If you set it to fire automatically from your vehicle controls, it will fire at any hostile creature that gets too close to your vehicle.  It has a safety system and won't fire if you're in or near the line of fire, but you may get caught in any explosions."
   },
   {
     "id": "TDI",
@@ -18,8 +14,11 @@
     "type": "vehicle_part",
     "name": "TDI Vector turret",
     "item": "TDI",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "TDI", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "TDI", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "TDInc",
@@ -27,8 +26,11 @@
     "type": "vehicle_part",
     "name": "automated TDI Vector",
     "item": "TDI",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "TDI", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "TDI", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "abolter",
@@ -38,8 +40,11 @@
     "item": "bolter",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "bolter", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "bolter", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "abolternc",
@@ -49,8 +54,11 @@
     "item": "bolter",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "bolter", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "bolter", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "acangun",
@@ -60,8 +68,11 @@
     "item": "cangun",
     "color": "brown",
     "broken_color": "brown",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "cangun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "cangun", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "acangunnc",
@@ -71,8 +82,11 @@
     "item": "cangun",
     "color": "brown",
     "broken_color": "brown",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "cangun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "cangun", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "acr",
@@ -80,8 +94,11 @@
     "type": "vehicle_part",
     "name": "Bushmaster ACR turret",
     "item": "acr",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "acr", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "acr", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "acrnc",
@@ -89,8 +106,11 @@
     "type": "vehicle_part",
     "name": "automated Bushmaster ACR",
     "item": "acr",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "acr", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "acr", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "agattler1",
@@ -98,8 +118,11 @@
     "type": "vehicle_part",
     "name": "rotary cannon turret",
     "item": "gattler",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "gattler", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "gattler", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "agattler1nc",
@@ -107,8 +130,11 @@
     "type": "vehicle_part",
     "name": "automated rotary cannon",
     "item": "gattler",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "gattler", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "gattler", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "ak47",
@@ -116,8 +142,11 @@
     "type": "vehicle_part",
     "name": "AK47 turret",
     "item": "ak47",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "ak47", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "ak47", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "ak74",
@@ -125,8 +154,11 @@
     "type": "vehicle_part",
     "name": "AK74 turret",
     "item": "ak74",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "ak74", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "ak74", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "alasgun",
@@ -136,8 +168,11 @@
     "item": "lasgun",
     "color": "blue",
     "broken_color": "blue",
-    "difficulty": 6,
-    "breaks_into": [ { "item": "lasgun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "lasgun", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ] }
+    }
   },
   {
     "id": "alasgunp",
@@ -147,8 +182,11 @@
     "item": "lasgunp",
     "color": "blue",
     "broken_color": "blue",
-    "difficulty": 6,
-    "breaks_into": [ { "item": "lasgun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "lasgun", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ] }
+    }
   },
   {
     "id": "alasgunx",
@@ -158,8 +196,11 @@
     "item": "lasgunx",
     "color": "magenta",
     "broken_color": "magenta",
-    "difficulty": 6,
-    "breaks_into": [ { "item": "lasgunx", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "lasgunx", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ] }
+    }
   },
   {
     "id": "american_180",
@@ -167,8 +208,11 @@
     "type": "vehicle_part",
     "name": "American-180 turret",
     "item": "american_180",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "american_180", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "american_180", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "american_180nc",
@@ -176,8 +220,11 @@
     "type": "vehicle_part",
     "name": "automated American-180",
     "item": "american_180",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "american_180", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "american_180", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "an94",
@@ -185,8 +232,11 @@
     "type": "vehicle_part",
     "name": "AN94 turret",
     "item": "an94",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "an94", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "an94", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "anailer",
@@ -194,8 +244,11 @@
     "type": "vehicle_part",
     "name": "perforator turret",
     "item": "nailer",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "nailer", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "nailer", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "anailernc",
@@ -203,8 +256,11 @@
     "type": "vehicle_part",
     "name": "automated perforator",
     "item": "nailer",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "nailer", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "nailer", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "aneedler",
@@ -214,8 +270,11 @@
     "item": "needler",
     "color": "blue",
     "broken_color": "blue",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "needler", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "needler", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "aneedlernc",
@@ -225,8 +284,11 @@
     "item": "needler",
     "color": "blue",
     "broken_color": "blue",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "needler", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "needler", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "ar15",
@@ -234,8 +296,11 @@
     "type": "vehicle_part",
     "name": "AR-15 turret",
     "item": "ar15",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "ar15", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "ar15", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "ar15nc",
@@ -243,8 +308,11 @@
     "type": "vehicle_part",
     "name": "automated AR-15",
     "item": "ar15",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "ar15", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "ar15", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "arailturret",
@@ -254,40 +322,45 @@
     "item": "railturret",
     "color": "magenta",
     "broken_color": "magenta",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "railturret", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "railturret", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "aripper",
+    "copy-from": "turret_blaze",
     "type": "vehicle_part",
     "name": "ripper turret",
     "item": "ripper",
-    "symbol": "t",
     "broken_symbol": "x",
     "color": "dark_gray",
     "broken_color": "dark_gray",
-    "difficulty": 5,
-    "durability": 400,
     "power": -8750,
     "breaks_into": [ { "item": "ripper", "count": [ 0, 1 ] } ],
-    "location": "on_roof",
-    "flags": [ "TURRET", "TOOL_NONE", "EXTRA_DRAG" ]
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    },
+    "extend": { "flags": [ "EXTRA_DRAG" ] }
   },
   {
     "id": "arippernc",
+    "copy-from": "turret_blaze",
     "type": "vehicle_part",
     "name": "automated ripper",
     "item": "ripper",
-    "symbol": "t",
     "broken_symbol": "x",
     "color": "dark_gray",
     "broken_color": "dark_gray",
-    "difficulty": 5,
-    "durability": 400,
     "power": -8750,
     "breaks_into": [ { "item": "ripper", "count": [ 0, 1 ] } ],
-    "location": "on_roof",
-    "flags": [ "TURRET", "TOOL_NONE", "EXTRA_DRAG" ]
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    },
+    "extend": { "flags": [ "EXTRA_DRAG" ] }
   },
   {
     "id": "ascorpion",
@@ -297,8 +370,11 @@
     "item": "scorpion",
     "color": "brown",
     "broken_color": "brown",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "scorpion", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "scorpion", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "ascorpionnc",
@@ -308,8 +384,11 @@
     "item": "scorpion",
     "color": "brown",
     "broken_color": "brown",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "scorpion", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "scorpion", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "ashardgun",
@@ -319,8 +398,11 @@
     "item": "shardgun",
     "color": "blue",
     "broken_color": "blue",
-    "difficulty": 6,
-    "breaks_into": [ { "item": "shardgun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "shardgun", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ] }
+    }
   },
   {
     "id": "ashardgunnc",
@@ -330,8 +412,11 @@
     "item": "shardgun",
     "color": "blue",
     "broken_color": "blue",
-    "difficulty": 6,
-    "breaks_into": [ { "item": "shardgun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "shardgun", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ] }
+    }
   },
   {
     "id": "ateslagun",
@@ -341,8 +426,11 @@
     "item": "teslagun",
     "color": "blue",
     "broken_color": "blue",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "teslagun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "teslagun", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "atiharturret",
@@ -352,8 +440,11 @@
     "item": "tiharturret",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "tiharturret", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "tiharturret", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "atiharturretnc",
@@ -363,8 +454,11 @@
     "item": "tiharturret",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "tiharturret", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "tiharturret", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "bigun",
@@ -372,8 +466,11 @@
     "type": "vehicle_part",
     "name": "autoshotgun turret",
     "item": "bigun",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "bigun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "bigun", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "bigunnc",
@@ -381,8 +478,11 @@
     "type": "vehicle_part",
     "name": "automated autoshotgun",
     "item": "bigun",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "bigun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "bigun", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "blunderbuss",
@@ -390,8 +490,11 @@
     "type": "vehicle_part",
     "name": "blunderbuss turret",
     "item": "blunderbuss",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "blunderbuss", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "blunderbuss", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "blunderbussnc",
@@ -399,8 +502,11 @@
     "type": "vehicle_part",
     "name": "automated blunderbuss",
     "item": "blunderbuss",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "blunderbuss", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "blunderbuss", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "browning_blr",
@@ -408,8 +514,11 @@
     "type": "vehicle_part",
     "name": "Browning BLR turret",
     "item": "browning_blr",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "browning_blr", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "browning_blr", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "calico",
@@ -417,8 +526,11 @@
     "type": "vehicle_part",
     "name": "Calico M960 turret",
     "item": "calico",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "calico", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "calico", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "caliconc",
@@ -426,11 +538,15 @@
     "type": "vehicle_part",
     "name": "automated Calico M960",
     "item": "calico",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "calico", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "calico", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "carbine_flintlock",
+    "copy-from": "turret_blaze",
     "type": "vehicle_part",
     "name": "flintlock carbine turret",
     "item": "carbine_flintlock",
@@ -438,14 +554,16 @@
     "broken_symbol": "x",
     "color": "dark_gray",
     "broken_color": "dark_gray",
-    "difficulty": 4,
     "durability": 240,
     "breaks_into": [ { "item": "carbine_flintlock", "count": [ 0, 1 ] } ],
-    "location": "on_roof",
-    "flags": [ "TURRET", "TOOL_NONE" ]
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "carbine_flintlocknc",
+    "copy-from": "turret_blaze",
     "type": "vehicle_part",
     "name": "automated flintlock carbine",
     "item": "carbine_flintlock",
@@ -453,11 +571,12 @@
     "broken_symbol": "x",
     "color": "dark_gray",
     "broken_color": "dark_gray",
-    "difficulty": 4,
     "durability": 240,
     "breaks_into": [ { "item": "carbine_flintlock", "count": [ 0, 1 ] } ],
-    "location": "on_roof",
-    "flags": [ "TURRET", "TOOL_NONE" ]
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "coilgun",
@@ -465,8 +584,11 @@
     "type": "vehicle_part",
     "name": "coilgun turret",
     "item": "coilgun",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "coilgun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "coilgun", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "coilgunnc",
@@ -474,40 +596,45 @@
     "type": "vehicle_part",
     "name": "automated coilgun",
     "item": "coilgun",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "coilgun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "coilgun", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "cutter",
+    "copy-from": "turret_blaze",
     "type": "vehicle_part",
     "name": "lacerator turret",
     "item": "cutter",
-    "symbol": "t",
     "broken_symbol": "x",
     "color": "dark_gray",
     "broken_color": "dark_gray",
-    "difficulty": 5,
-    "durability": 400,
     "power": -1750,
     "breaks_into": [ { "item": "cutter", "count": [ 0, 1 ] } ],
-    "location": "on_roof",
-    "flags": [ "TURRET", "TOOL_NONE", "EXTRA_DRAG" ]
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    },
+    "extend": { "flags": [ "EXTRA_DRAG" ] }
   },
   {
     "id": "cutternc",
+    "copy-from": "turret_blaze",
     "type": "vehicle_part",
     "name": "automated lacerator",
     "item": "cutter",
-    "symbol": "t",
     "broken_symbol": "x",
     "color": "dark_gray",
     "broken_color": "dark_gray",
-    "difficulty": 5,
-    "durability": 400,
     "power": -1750,
     "breaks_into": [ { "item": "cutter", "count": [ 0, 1 ] } ],
-    "location": "on_roof",
-    "flags": [ "TURRET", "TOOL_NONE", "EXTRA_DRAG" ]
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    },
+    "extend": { "flags": [ "EXTRA_DRAG" ] }
   },
   {
     "id": "cx4",
@@ -515,8 +642,11 @@
     "type": "vehicle_part",
     "name": "Cx4 Storm turret",
     "item": "cx4",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "cx4", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "cx4", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "cx4nc",
@@ -524,8 +654,11 @@
     "type": "vehicle_part",
     "name": "automated Cx4 Storm",
     "item": "cx4",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "cx4", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "cx4", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "flamethrower1",
@@ -535,8 +668,11 @@
     "item": "flamethrower_simple",
     "color": "red",
     "broken_color": "red",
-    "difficulty": 5,
     "breaks_into": [ { "item": "flamethrower_simple", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    },
     "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
@@ -547,8 +683,11 @@
     "item": "flamethrower",
     "color": "red",
     "broken_color": "red",
-    "difficulty": 4,
     "breaks_into": [ { "item": "flamethrower", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
     "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
@@ -559,8 +698,11 @@
     "item": "rm451_flamethrower",
     "color": "red",
     "broken_color": "red",
-    "difficulty": 4,
     "breaks_into": [ { "item": "rm451_flamethrower", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
     "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
@@ -569,8 +711,11 @@
     "type": "vehicle_part",
     "name": "FN FAL turret",
     "item": "fn_fal",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "fn_fal", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "fn_fal", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "fn_falnc",
@@ -578,8 +723,11 @@
     "type": "vehicle_part",
     "name": "automated FN FAL",
     "item": "fn_fal",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "fn_fal", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "fn_fal", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "fn_p90",
@@ -587,8 +735,11 @@
     "type": "vehicle_part",
     "name": "FN P90 turret",
     "item": "fn_p90",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "fn_p90", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "fn_p90", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "h&k416a5",
@@ -596,8 +747,11 @@
     "type": "vehicle_part",
     "name": "H&K 416A5 turret",
     "item": "h&k416a5",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "h&k416a5", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "h&k416a5", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "h&k416a5nc",
@@ -605,8 +759,11 @@
     "type": "vehicle_part",
     "name": "automated H&K 416A5",
     "item": "h&k416a5",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "h&k416a5", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "h&k416a5", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "heavy_rail_rifle",
@@ -614,8 +771,11 @@
     "type": "vehicle_part",
     "name": "heavy rail rifle turret",
     "item": "heavy_rail_rifle",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "heavy_rail_rifle", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "heavy_rail_rifle", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "hk_g3",
@@ -623,8 +783,11 @@
     "type": "vehicle_part",
     "name": "H&K G3 turret",
     "item": "hk_g3",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "hk_g3", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "hk_g3", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "hk_g36",
@@ -632,8 +795,11 @@
     "type": "vehicle_part",
     "name": "H&K G36 turret",
     "item": "hk_g36",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "hk_g36", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "hk_g36", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "hk_g36nc",
@@ -641,8 +807,11 @@
     "type": "vehicle_part",
     "name": "automated H&K G36",
     "item": "hk_g36",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "hk_g36", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "hk_g36", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "hk_g3nc",
@@ -650,8 +819,11 @@
     "type": "vehicle_part",
     "name": "automated H&K G3",
     "item": "hk_g3",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "hk_g3", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "hk_g3", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "hk_g80",
@@ -659,8 +831,11 @@
     "type": "vehicle_part",
     "name": "H&K G80 turret",
     "item": "hk_g80",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "hk_g80", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "hk_g80", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "hk_mp5",
@@ -668,8 +843,11 @@
     "type": "vehicle_part",
     "name": "H&K MP5 turret",
     "item": "hk_mp5",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "hk_mp5", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "hk_mp5", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "hk_mp5nc",
@@ -677,8 +855,11 @@
     "type": "vehicle_part",
     "name": "automated H&K MP5",
     "item": "hk_mp5",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "hk_mp5", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "hk_mp5", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "hk_mp7",
@@ -686,8 +867,11 @@
     "type": "vehicle_part",
     "name": "H&K MP7 turret",
     "item": "hk_mp7",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "hk_mp7", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "hk_mp7", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "hk_ump45",
@@ -695,8 +879,11 @@
     "type": "vehicle_part",
     "name": "H&K UMP45 turret",
     "item": "hk_ump45",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "hk_ump45", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "hk_ump45", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "hk_ump45nc",
@@ -704,8 +891,11 @@
     "type": "vehicle_part",
     "name": "automated H&K UMP45",
     "item": "hk_ump45",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "hk_ump45", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "hk_ump45", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "ksg",
@@ -713,8 +903,11 @@
     "type": "vehicle_part",
     "name": "Kel-Tec KSG turret",
     "item": "ksg",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "ksg", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "ksg", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "ksgnc",
@@ -722,8 +915,11 @@
     "type": "vehicle_part",
     "name": "automated Kel-Tec KSG",
     "item": "ksg",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "ksg", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "ksg", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "l_base_223",
@@ -731,8 +927,11 @@
     "type": "vehicle_part",
     "name": "L523 turret",
     "item": "l_base_223",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "l_base_223", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "l_base_223", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "l_base_223nc",
@@ -740,8 +939,11 @@
     "type": "vehicle_part",
     "name": "automated L523",
     "item": "l_base_223",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "l_base_223", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "l_base_223", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "l_car_223",
@@ -749,8 +951,11 @@
     "type": "vehicle_part",
     "name": "L523-CAR turret",
     "item": "l_car_223",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "l_car_223", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "l_car_223", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "l_car_223nc",
@@ -758,8 +963,11 @@
     "type": "vehicle_part",
     "name": "automated L523-CAR",
     "item": "l_car_223",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "l_car_223", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "l_car_223", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "l_def_12",
@@ -767,8 +975,11 @@
     "type": "vehicle_part",
     "name": "L12 Defender turret",
     "item": "l_def_12",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "l_def_12", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "l_def_12", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "l_def_12nc",
@@ -776,8 +987,11 @@
     "type": "vehicle_part",
     "name": "automated L12 Defender",
     "item": "l_def_12",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "l_def_12", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "l_def_12", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "l_dsr_223",
@@ -785,8 +999,11 @@
     "type": "vehicle_part",
     "name": "L523-DSR turret",
     "item": "l_dsr_223",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "l_dsr_223", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "l_dsr_223", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "l_dsr_223nc",
@@ -794,8 +1011,11 @@
     "type": "vehicle_part",
     "name": "automated L523-DSR",
     "item": "l_dsr_223",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "l_dsr_223", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "l_dsr_223", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "l_lmg_223",
@@ -803,8 +1023,11 @@
     "type": "vehicle_part",
     "name": "L523-LMG turret",
     "item": "l_lmg_223",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "l_lmg_223", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "l_lmg_223", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "l_lmg_223nc",
@@ -812,8 +1035,11 @@
     "type": "vehicle_part",
     "name": "automated L523-LMG",
     "item": "l_lmg_223",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "l_lmg_223", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "l_lmg_223", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "l_long_45",
@@ -821,8 +1047,11 @@
     "type": "vehicle_part",
     "name": "Long Ranger turret",
     "item": "l_long_45",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "l_long_45", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "l_long_45", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "l_long_45nc",
@@ -830,8 +1059,11 @@
     "type": "vehicle_part",
     "name": "automated Long Ranger",
     "item": "l_long_45",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "l_long_45", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "l_long_45", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "l_mbr_223",
@@ -839,8 +1071,11 @@
     "type": "vehicle_part",
     "name": "L523-MBR turret",
     "item": "l_mbr_223",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "l_mbr_223", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "l_mbr_223", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "l_mbr_223nc",
@@ -848,8 +1083,11 @@
     "type": "vehicle_part",
     "name": "automated L523-MBR",
     "item": "l_mbr_223",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "l_mbr_223", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "l_mbr_223", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "launcher_simple",
@@ -857,8 +1095,11 @@
     "type": "vehicle_part",
     "name": "40mm launcher turret",
     "item": "launcher_simple",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "launcher_simple", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "launcher_simple", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "m1014",
@@ -866,8 +1107,11 @@
     "type": "vehicle_part",
     "name": "M1014 shotgun turret",
     "item": "m1014",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "m1014", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "m1014", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "m1014nc",
@@ -875,8 +1119,11 @@
     "type": "vehicle_part",
     "name": "automated M1014 shotgun",
     "item": "m1014",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "m1014", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "m1014", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "m107a1",
@@ -884,8 +1131,11 @@
     "type": "vehicle_part",
     "name": "Barrett M107A1 turret",
     "item": "m107a1",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "m107a1", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "m107a1", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "m107a1nc",
@@ -893,8 +1143,11 @@
     "type": "vehicle_part",
     "name": "automated Barrett M107A1",
     "item": "m107a1",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "m107a1", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "m107a1", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "m14ebr",
@@ -902,8 +1155,11 @@
     "type": "vehicle_part",
     "name": "M14-EBR turret",
     "item": "m14ebr",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "m14ebr", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "m14ebr", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "m14ebrnc",
@@ -911,8 +1167,11 @@
     "type": "vehicle_part",
     "name": "automated M14-EBR",
     "item": "m14ebr",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "m14ebr", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "m14ebr", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "m1a",
@@ -920,8 +1179,11 @@
     "type": "vehicle_part",
     "name": "M1A turret",
     "item": "m1a",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "m1a", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "m1a", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "m1anc",
@@ -929,8 +1191,11 @@
     "type": "vehicle_part",
     "name": "automated M1A",
     "item": "m1a",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "m1a", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "m1a", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "m2010",
@@ -938,8 +1203,11 @@
     "type": "vehicle_part",
     "name": "M2010 ESR turret",
     "item": "m2010",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "m2010", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "m2010", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "m27iar",
@@ -947,8 +1215,11 @@
     "type": "vehicle_part",
     "name": "M27 IAR turret",
     "item": "m27iar",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "m27iar", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "m27iar", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "m27iarnc",
@@ -956,8 +1227,11 @@
     "type": "vehicle_part",
     "name": "automated M27 IAR",
     "item": "m27iar",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "m27iar", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "m27iar", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "m2browning_sawn",
@@ -965,8 +1239,11 @@
     "type": "vehicle_part",
     "name": ".50 caliber turret",
     "item": "m2browning_sawn",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "m2browning_sawn", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "m2browning_sawn", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "m2browning_sawnnc",
@@ -974,8 +1251,11 @@
     "type": "vehicle_part",
     "name": "automated .50 caliber rifle",
     "item": "m2browning_sawn",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "m2browning_sawn", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "m2browning_sawn", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "m320",
@@ -983,8 +1263,11 @@
     "type": "vehicle_part",
     "name": "M320 turret",
     "item": "m320",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "m320", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "m320", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "m4a1",
@@ -992,8 +1275,11 @@
     "type": "vehicle_part",
     "name": "M4A1 turret",
     "item": "m4a1",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "m4a1", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "m4a1", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "m4a1nc",
@@ -1001,8 +1287,11 @@
     "type": "vehicle_part",
     "name": "automated M4A1",
     "item": "m4a1",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "m4a1", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "m4a1", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "m60",
@@ -1010,8 +1299,11 @@
     "type": "vehicle_part",
     "name": "M60 turret",
     "item": "m60",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "m60", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "m60", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "m60nc",
@@ -1019,8 +1311,11 @@
     "type": "vehicle_part",
     "name": "automated M60",
     "item": "m60",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "m60", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "m60", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "m79",
@@ -1028,8 +1323,11 @@
     "type": "vehicle_part",
     "name": "M79 turret",
     "item": "m79",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "m79", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "m79", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "mac_10",
@@ -1037,8 +1335,11 @@
     "type": "vehicle_part",
     "name": "MAC-10 turret",
     "item": "mac_10",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "mac_10", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "mac_10", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "mac_10nc",
@@ -1046,8 +1347,11 @@
     "type": "vehicle_part",
     "name": "automated MAC-10",
     "item": "mac_10",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "mac_10", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "mac_10", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "marlin_9a",
@@ -1055,8 +1359,11 @@
     "type": "vehicle_part",
     "name": "Marlin 39A turret",
     "item": "marlin_9a",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "marlin_9a", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "marlin_9a", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "marlin_9anc",
@@ -1064,8 +1371,11 @@
     "type": "vehicle_part",
     "name": "automated Marlin 39A",
     "item": "marlin_9a",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "marlin_9a", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "marlin_9a", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "mgl",
@@ -1073,8 +1383,11 @@
     "type": "vehicle_part",
     "name": "Milkor MGL turret",
     "item": "mgl",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "mgl", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "mgl", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "mossberg_500",
@@ -1082,8 +1395,11 @@
     "type": "vehicle_part",
     "name": "Mossberg 500 turret",
     "item": "mossberg_500",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "mossberg_500", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "mossberg_500", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "mossberg_500nc",
@@ -1091,8 +1407,11 @@
     "type": "vehicle_part",
     "name": "automated Mossberg 500",
     "item": "mossberg_500",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "mossberg_500", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "mossberg_500", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "nailrifle",
@@ -1100,8 +1419,11 @@
     "type": "vehicle_part",
     "name": "nail rifle turret",
     "item": "nailrifle",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "nailrifle", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "nailrifle", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "nailriflenc",
@@ -1109,8 +1431,11 @@
     "type": "vehicle_part",
     "name": "automated nail rifle",
     "item": "nailrifle",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "nailrifle", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "nailrifle", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "needlegun",
@@ -1118,8 +1443,11 @@
     "type": "vehicle_part",
     "name": "RM216 SPIW turret",
     "item": "needlegun",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "needlegun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "needlegun", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "pipe_double_shotgun",
@@ -1127,8 +1455,11 @@
     "type": "vehicle_part",
     "name": "double pipe shotgun turret",
     "item": "pipe_double_shotgun",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "pipe_double_shotgun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "pipe_double_shotgun", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "pipe_double_shotgunnc",
@@ -1136,8 +1467,11 @@
     "type": "vehicle_part",
     "name": "automated double pipe shotgun",
     "item": "pipe_double_shotgun",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "pipe_double_shotgun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "pipe_double_shotgun", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "pipe_shotgun",
@@ -1145,8 +1479,11 @@
     "type": "vehicle_part",
     "name": "pipe shotgun turret",
     "item": "pipe_shotgun",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "pipe_shotgun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "pipe_shotgun", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "pipe_shotgunnc",
@@ -1154,8 +1491,11 @@
     "type": "vehicle_part",
     "name": "automated pipe shotgun",
     "item": "pipe_shotgun",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "pipe_shotgun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "pipe_shotgun", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "rebar_rifle",
@@ -1163,8 +1503,11 @@
     "type": "vehicle_part",
     "name": "rail rifle turret",
     "item": "rebar_rifle",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "rebar_rifle", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "rebar_rifle", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "remington_700",
@@ -1172,8 +1515,11 @@
     "type": "vehicle_part",
     "name": "Remington 700 turret",
     "item": "remington_700",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "remington_700", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "remington_700", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "remington_870",
@@ -1181,8 +1527,11 @@
     "type": "vehicle_part",
     "name": "Remington 870 turret",
     "item": "remington_870",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "remington_870", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "remington_870", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "remington_870nc",
@@ -1190,8 +1539,11 @@
     "type": "vehicle_part",
     "name": "automated Remington 870",
     "item": "remington_870",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "remington_870", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "remington_870", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "repeatingcrossbow",
@@ -1201,8 +1553,11 @@
     "item": "rep_crossbow",
     "color": "brown",
     "broken_color": "light_gray",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "rep_crossbow", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "rep_crossbow", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "repeatingcrossbownc",
@@ -1212,8 +1567,11 @@
     "item": "rep_crossbow",
     "color": "brown",
     "broken_color": "light_gray",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "rep_crossbow", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "rep_crossbow", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "revolver_shotgun",
@@ -1221,8 +1579,11 @@
     "type": "vehicle_part",
     "name": "revolver shotgun turret",
     "item": "revolver_shotgun",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "revolver_shotgun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "revolver_shotgun", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "revolver_shotgunnc",
@@ -1230,8 +1591,11 @@
     "type": "vehicle_part",
     "name": "automated revolver shotgun",
     "item": "revolver_shotgun",
-    "difficulty": 5,
-    "breaks_into": [ { "item": "revolver_shotgun", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "revolver_shotgun", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "id": "rifle_22",
@@ -1239,8 +1603,11 @@
     "type": "vehicle_part",
     "name": ".22 pipe rifle turret",
     "item": "rifle_22",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "rifle_22", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "rifle_22", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "rifle_22nc",
@@ -1248,8 +1615,11 @@
     "type": "vehicle_part",
     "name": "automated .22 pipe rifle",
     "item": "rifle_22",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "rifle_22", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "rifle_22", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "rifle_308",
@@ -1257,8 +1627,11 @@
     "type": "vehicle_part",
     "name": ".308 pipe rifle turret",
     "item": "rifle_308",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "rifle_308", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "rifle_308", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "rifle_308nc",
@@ -1266,8 +1639,11 @@
     "type": "vehicle_part",
     "name": "automated .308 pipe rifle",
     "item": "rifle_308",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "rifle_308", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "rifle_308", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "rifle_9mm",
@@ -1275,8 +1651,11 @@
     "type": "vehicle_part",
     "name": "9x19mm pipe rifle turret",
     "item": "rifle_9mm",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "rifle_9mm", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "rifle_9mm", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "rifle_9mmnc",
@@ -1284,24 +1663,30 @@
     "type": "vehicle_part",
     "name": "automated 9x19mm pipe rifle",
     "item": "rifle_9mm",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "rifle_9mm", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "rifle_9mm", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "rifle_flintlock",
+    "copy-from": "turret_blaze",
     "type": "vehicle_part",
     "name": "flintlock rifle turret",
     "item": "rifle_flintlock",
     "symbol": "+",
     "broken_symbol": "x",
-    "difficulty": 4,
     "durability": 240,
     "breaks_into": [ { "item": "rifle_flintlock", "count": [ 0, 1 ] } ],
-    "location": "on_roof",
-    "flags": [ "TURRET", "TOOL_NONE" ]
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "rifle_flintlocknc",
+    "copy-from": "turret_blaze",
     "type": "vehicle_part",
     "name": "automated flintlock rifle",
     "item": "rifle_flintlock",
@@ -1309,11 +1694,12 @@
     "broken_symbol": "x",
     "color": "dark_gray",
     "broken_color": "dark_gray",
-    "difficulty": 4,
     "durability": 240,
     "breaks_into": [ { "item": "rifle_flintlock", "count": [ 0, 1 ] } ],
-    "location": "on_roof",
-    "flags": [ "TURRET", "TOOL_NONE" ]
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "rm11b_sniper_rifle",
@@ -1321,8 +1707,11 @@
     "type": "vehicle_part",
     "name": "RM11B scout rifle turret",
     "item": "rm11b_sniper_rifle",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "rm11b_sniper_rifle", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "rm11b_sniper_rifle", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "rm2000_smg",
@@ -1330,8 +1719,11 @@
     "type": "vehicle_part",
     "name": "RM2000 SMG turret",
     "item": "rm2000_smg",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "rm2000_smg", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "rm2000_smg", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "rm360_carbine",
@@ -1339,8 +1731,11 @@
     "type": "vehicle_part",
     "name": "RM360 carbine turret",
     "item": "rm360_carbine",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "rm360_carbine", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "rm360_carbine", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "rm360_carbinenc",
@@ -1348,8 +1743,11 @@
     "type": "vehicle_part",
     "name": "automated RM360 carbine",
     "item": "rm360_carbine",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "rm360_carbine", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "rm360_carbine", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "rm51_assault_rifle",
@@ -1357,8 +1755,11 @@
     "type": "vehicle_part",
     "name": "RM51 assault rifle turret",
     "item": "rm51_assault_rifle",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "rm51_assault_rifle", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "rm51_assault_rifle", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "rm614_lmg",
@@ -1366,8 +1767,11 @@
     "type": "vehicle_part",
     "name": "RM614 LMG turret",
     "item": "rm614_lmg",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "rm614_lmg", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "rm614_lmg", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "rm802",
@@ -1375,8 +1779,11 @@
     "type": "vehicle_part",
     "name": "RM802 turret",
     "item": "rm802",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "rm802", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "rm802", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "rm88_battle_rifle",
@@ -1384,8 +1791,11 @@
     "type": "vehicle_part",
     "name": "RM88 battle rifle turret",
     "item": "rm88_battle_rifle",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "rm88_battle_rifle", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "rm88_battle_rifle", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "rslauncher",
@@ -1395,8 +1805,11 @@
     "item": "rslauncher",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "rslauncher", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "rslauncher", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "rslaunchernc",
@@ -1406,8 +1819,11 @@
     "item": "rslauncher",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "rslauncher", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "rslauncher", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "ruger_1022",
@@ -1415,8 +1831,11 @@
     "type": "vehicle_part",
     "name": "Ruger 10/22 turret",
     "item": "ruger_1022",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "ruger_1022", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "ruger_1022", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "ruger_1022nc",
@@ -1424,8 +1843,11 @@
     "type": "vehicle_part",
     "name": "automated Ruger 10/22",
     "item": "ruger_1022",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "ruger_1022", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "ruger_1022", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "ruger_mini",
@@ -1433,8 +1855,11 @@
     "type": "vehicle_part",
     "name": "Ruger mini-14 turret",
     "item": "ruger_mini",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "ruger_mini", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "ruger_mini", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "ruger_mininc",
@@ -1442,8 +1867,11 @@
     "type": "vehicle_part",
     "name": "automated Ruger mini-14",
     "item": "ruger_mini",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "ruger_mini", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "ruger_mini", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "saiga_12",
@@ -1451,8 +1879,11 @@
     "type": "vehicle_part",
     "name": "Saiga 12 turret",
     "item": "saiga_12",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "saiga_12", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "saiga_12", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "saiga_12nc",
@@ -1460,8 +1891,11 @@
     "type": "vehicle_part",
     "name": "automated Saiga 12",
     "item": "saiga_12",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "saiga_12", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "saiga_12", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "savage_111f",
@@ -1469,8 +1903,11 @@
     "type": "vehicle_part",
     "name": "Savage 111F turret",
     "item": "savage_111f",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "savage_111f", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "savage_111f", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "savage_111fnc",
@@ -1478,8 +1915,11 @@
     "type": "vehicle_part",
     "name": "automated Savage 111F",
     "item": "savage_111f",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "savage_111f", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "savage_111f", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "scar_h",
@@ -1487,8 +1927,11 @@
     "type": "vehicle_part",
     "name": "FN SCAR-H turret",
     "item": "scar_h",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "scar_h", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "scar_h", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "scar_hnc",
@@ -1496,8 +1939,11 @@
     "type": "vehicle_part",
     "name": "automated FN SCAR-H",
     "item": "scar_h",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "scar_h", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "scar_h", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "scar_l",
@@ -1505,8 +1951,11 @@
     "type": "vehicle_part",
     "name": "FN SCAR-L turret",
     "item": "scar_l",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "scar_l", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "scar_l", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "scar_lnc",
@@ -1514,8 +1963,11 @@
     "type": "vehicle_part",
     "name": "automated FN SCAR-L",
     "item": "scar_l",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "scar_l", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "scar_l", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "shotgun_d",
@@ -1523,8 +1975,11 @@
     "type": "vehicle_part",
     "name": "double shotgun turret",
     "item": "shotgun_d",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "shotgun_d", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "shotgun_d", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "shotgun_dnc",
@@ -1532,8 +1987,11 @@
     "type": "vehicle_part",
     "name": "automated double shotgun",
     "item": "shotgun_d",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "shotgun_d", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "shotgun_d", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "shotgun_s",
@@ -1541,8 +1999,11 @@
     "type": "vehicle_part",
     "name": "single shotgun turret",
     "item": "shotgun_s",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "shotgun_s", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "shotgun_s", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "shotgun_snc",
@@ -1550,8 +2011,11 @@
     "type": "vehicle_part",
     "name": "automated single shotgun",
     "item": "shotgun_s",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "shotgun_s", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "shotgun_s", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "sks",
@@ -1559,8 +2023,11 @@
     "type": "vehicle_part",
     "name": "SKS turret",
     "item": "sks",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "sks", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "sks", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "slauncher",
@@ -1570,8 +2037,11 @@
     "item": "slauncher",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "slauncher", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "slauncher", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "slaunchernc",
@@ -1581,8 +2051,11 @@
     "item": "slauncher",
     "color": "light_gray",
     "broken_color": "light_gray",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "slauncher", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "slauncher", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "steyr_aug",
@@ -1590,8 +2063,11 @@
     "type": "vehicle_part",
     "name": "Steyr AUG turret",
     "item": "steyr_aug",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "steyr_aug", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "steyr_aug", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "steyr_augnc",
@@ -1599,8 +2075,11 @@
     "type": "vehicle_part",
     "name": "automated Steyr AUG",
     "item": "steyr_aug",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "steyr_aug", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "steyr_aug", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "surv_carbine_223",
@@ -1608,8 +2087,11 @@
     "type": "vehicle_part",
     "name": "223 carbine turret",
     "item": "surv_carbine_223",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "surv_carbine_223", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "surv_carbine_223", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "surv_carbine_223nc",
@@ -1617,8 +2099,11 @@
     "type": "vehicle_part",
     "name": "automated 223 carbine",
     "item": "surv_carbine_223",
-    "difficulty": 4,
-    "breaks_into": [ { "item": "surv_carbine_223", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "surv_carbine_223", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
+    }
   },
   {
     "id": "survivor_special_700",
@@ -1626,8 +2111,11 @@
     "type": "vehicle_part",
     "name": "survivor special turret",
     "item": "survivor_special_700",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "survivor_special_700", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "survivor_special_700", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "tec9",
@@ -1635,8 +2123,11 @@
     "type": "vehicle_part",
     "name": "TEC-9 turret",
     "item": "tec9",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "tec9", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "tec9", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "tec9nc",
@@ -1644,8 +2135,11 @@
     "type": "vehicle_part",
     "name": "automated TEC-9",
     "item": "tec9",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "tec9", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "tec9", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "uzi",
@@ -1653,8 +2147,11 @@
     "type": "vehicle_part",
     "name": "Uzi turret",
     "item": "uzi",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "uzi", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "uzi", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "uzinc",
@@ -1662,8 +2159,11 @@
     "type": "vehicle_part",
     "name": "automated Uzi",
     "item": "uzi",
-    "difficulty": 3,
-    "breaks_into": [ { "item": "uzi", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "uzi", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
+    }
   },
   {
     "id": "v29",
@@ -1671,8 +2171,11 @@
     "type": "vehicle_part",
     "name": "V29 laser turret",
     "item": "v29",
-    "difficulty": 6,
-    "breaks_into": [ { "item": "v29", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "v29", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ] }
+    }
   },
   {
     "id": "v29_cheap",
@@ -1680,7 +2183,10 @@
     "type": "vehicle_part",
     "name": "LACP laser turret",
     "item": "v29_cheap",
-    "difficulty": 6,
-    "breaks_into": [ { "item": "v29_cheap", "count": [ 0, 1 ] } ]
+    "breaks_into": [ { "item": "v29_cheap", "count": [ 0, 1 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 6 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ] }
+    }
   }
 ]

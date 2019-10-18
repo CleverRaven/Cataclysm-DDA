@@ -104,7 +104,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    },
     "extend": { "flags": [ "EXTRA_DRAG" ] }
   },
   {
@@ -119,7 +119,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ] }
-    }
+    },
     "extend": { "flags": [ "USE_TANKS" ] }
   },
   {
@@ -178,7 +178,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
+    },
     "extend": { "flags": [ "EXTRA_DRAG" ] }
   },
   {
