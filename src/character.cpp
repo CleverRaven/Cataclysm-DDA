@@ -112,6 +112,7 @@ const skill_id skill_throw( "throw" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
+static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
 static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
@@ -4201,6 +4202,39 @@ void Character::set_stamina( int new_stamina )
 void Character::mod_stamina( int mod )
 {
     stamina += mod;
+}
+
+void Character::burn_move_stamina( int moves )
+{
+    int overburden_percentage = 0;
+    units::mass current_weight = weight_carried();
+    units::mass max_weight = weight_capacity();
+    if( current_weight > max_weight ) {
+        overburden_percentage = ( current_weight - max_weight ) * 100 / max_weight;
+    }
+
+    int burn_ratio = get_option<int>( "PLAYER_BASE_STAMINA_BURN_RATE" );
+    for( const bionic_id &bid : get_bionic_fueled_with( item( "muscle" ) ) ) {
+        if( has_active_bionic( bid ) ) {
+            burn_ratio = burn_ratio * 2 - 3;
+        }
+    }
+    burn_ratio += overburden_percentage;
+    if( move_mode == CMM_RUN ) {
+        burn_ratio = burn_ratio * 7;
+    }
+    mod_stat( "stamina", -( ( moves * burn_ratio ) / 100.0 ) );
+    add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
+    // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
+    // Starts at 1 in 25, goes down by 5 for every 50% more carried
+    if( ( current_weight > max_weight ) && ( has_trait( trait_BADBACK ) || get_stamina() == 0 ) &&
+        one_in( 35 - 5 * current_weight / ( max_weight / 2 ) ) ) {
+        add_msg_if_player( m_bad, _( "Your body strains under the weight!" ) );
+        // 1 more pain for every 800 grams more (5 per extra STR needed)
+        if( ( ( current_weight - max_weight ) / 800_gram > get_pain() && get_pain() < 100 ) ) {
+            mod_pain( 1 );
+        }
+    }
 }
 
 int Character::item_handling_cost( const item &it, bool penalties, int base_cost ) const

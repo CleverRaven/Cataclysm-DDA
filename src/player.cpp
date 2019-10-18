@@ -264,7 +264,6 @@ static const trait_id trait_AMPHIBIAN( "AMPHIBIAN" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
-static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_BARK( "BARK" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -10129,39 +10128,6 @@ int player::get_hp_max( hp_part bp ) const
         hp_total += hp_max[i];
     }
     return hp_total;
-}
-
-void player::burn_move_stamina( int moves )
-{
-    int overburden_percentage = 0;
-    units::mass current_weight = weight_carried();
-    units::mass max_weight = weight_capacity();
-    if( current_weight > max_weight ) {
-        overburden_percentage = ( current_weight - max_weight ) * 100 / max_weight;
-    }
-
-    int burn_ratio = get_option<int>( "PLAYER_BASE_STAMINA_BURN_RATE" );
-    for( const bionic_id &bid : get_bionic_fueled_with( item( "muscle" ) ) ) {
-        if( has_active_bionic( bid ) ) {
-            burn_ratio = burn_ratio * 2 - 3;
-        }
-    }
-    burn_ratio += overburden_percentage;
-    if( move_mode == CMM_RUN ) {
-        burn_ratio = burn_ratio * 7;
-    }
-    mod_stat( "stamina", -( ( moves * burn_ratio ) / 100.0 ) );
-    add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
-    // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
-    // Starts at 1 in 25, goes down by 5 for every 50% more carried
-    if( ( current_weight > max_weight ) && ( has_trait( trait_BADBACK ) || get_stamina() == 0 ) &&
-        one_in( 35 - 5 * current_weight / ( max_weight / 2 ) ) ) {
-        add_msg_if_player( m_bad, _( "Your body strains under the weight!" ) );
-        // 1 more pain for every 800 grams more (5 per extra STR needed)
-        if( ( ( current_weight - max_weight ) / 800_gram > get_pain() && get_pain() < 100 ) ) {
-            mod_pain( 1 );
-        }
-    }
 }
 
 Creature::Attitude player::attitude_to( const Creature &other ) const

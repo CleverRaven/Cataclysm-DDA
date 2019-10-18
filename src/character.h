@@ -1140,6 +1140,7 @@ class Character : public Creature, public visitable<Character>
         int get_stamina_max() const;
         void set_stamina( int new_stamina );
         void mod_stamina( int mod );
+        void burn_move_stamina(int moves);
 
 
     protected:
