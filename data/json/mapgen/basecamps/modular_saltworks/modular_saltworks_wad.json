@@ -1,4 +1,4 @@
-[[
+[
   {
     "type": "palette",
     "id": "fbms_wad_palette",
@@ -12,12 +12,21 @@
       "^": "t_dirtfloor",
       "s": "t_dirtfloor",
       "~": "t_swater_sh",
-      "$": "t_machinery_light",
+      "#": "f_counter",
       "o": "t_wall_wattle_half",
       "w": "t_wall_wattle",
       "+": "t_door_c"
     },
-    "furniture": { "b": "f_bench", "r": "f_rack", "t": "f_table", "#": "f_stool", "H": "f_wood_keg", "O": "f_fvat_empty", "^": "f_still", "s": "f_woodstove" }
+    "furniture": {
+      "b": "f_bench",
+      "r": "f_rack",
+      "t": "f_table",
+      "#": "f_stool",
+      "H": "f_wood_keg",
+      "O": "f_fvat_empty",
+      "^": "f_still",
+      "s": "f_woodstove"
+    }
   },
   {
     "type": "mapgen",
@@ -28,7 +37,7 @@
       "rows": [
         "wwwowww",
         "w.....w",
-        "w.$.$.w",
+        "w.#.#.w",
         "o.~t~.o",
         "w.~#~.w",
         "w.....w",
@@ -108,3 +117,28 @@
       "palettes": [ "fbms_wad_palette" ]
     }
   },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_brewery2_wad",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwwwwww",
+        "wHrrrrw",
+        "oH....+",
+        "wO..^.w",
+        "oH..#.w",
+        "wHs.trw",
+        "wwwwwww"
+      ],
+      "palettes": [ "fbms_wad_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_brewery2_wad_west",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_brewery2_wad" ], "x": 3, "y": 14 } ] }
+  }
+]

@@ -12,12 +12,21 @@
       "^": "t_floor_primitive",
       "s": "t_floor_primitive",
       "~": "t_swater_sh",
-      "$": "t_machinery_light",
+      "#": "f_counter",
       "o": "t_window_no_curtains",
       "w": "t_wall_log",
       "+": "t_door_c"
     },
-    "furniture": { "b": "f_bench", "r": "f_rack", "t": "f_table", "#": "f_stool", "H": "f_wood_keg", "O": "f_fvat_empty", "^": "f_still", "s": "f_woodstove" }
+    "furniture": {
+      "b": "f_bench",
+      "r": "f_rack",
+      "t": "f_table",
+      "#": "f_stool",
+      "H": "f_wood_keg",
+      "O": "f_fvat_empty",
+      "^": "f_still",
+      "s": "f_woodstove"
+    }
   },
   {
     "type": "mapgen",
@@ -28,7 +37,7 @@
       "rows": [
         "wwwowww",
         "w.....w",
-        "w.$.$.w",
+        "w.#.#.w",
         "o.~t~.o",
         "w.~#~.w",
         "w.....w",
