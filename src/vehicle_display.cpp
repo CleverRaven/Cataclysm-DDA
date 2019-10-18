@@ -272,9 +272,8 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
             new_lines += 1;
         }
         if( vp.has_flag( vehicle_part::carried_flag ) ) {
-            std::string carried_name = vp.carry_names.top();
             possible_msg << string_format( "  Part of a %s carried on a rack.\n",
-                                           carried_name.substr( vehicle_part::name_offset ) );
+                                           vp.carried_name() );
             new_lines += 1;
         }
 
