@@ -785,7 +785,7 @@ class jmapgen_npc : public jmapgen_piece
             npc *p = g->find_npc( npc_id );
             if( p != nullptr ) {
                 for( const std::string &new_trait : traits ) {
-                    p->set_mutation( trait_id( new_trait ) );
+                    p->mutations.set_mutation( *p, trait_id( new_trait ) );
                 }
             }
         }
@@ -6361,7 +6361,7 @@ character_id map::place_npc( const point &p, const string_id<npc_template> &type
     temp->normalize();
     temp->load_npc_template( type );
     temp->spawn_at_precise( { abs_sub.xy() }, { p, abs_sub.z } );
-    temp->toggle_trait( trait_id( "NPC_STATIC_NPC" ) );
+    temp->mutations.toggle_trait( *temp, trait_id( "NPC_STATIC_NPC" ) );
     overmap_buffer.insert_npc( temp );
     return temp->getID();
 }

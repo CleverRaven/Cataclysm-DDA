@@ -79,7 +79,7 @@ bool tutorial_game::init()
     starting_om.ter_set( lp + tripoint_below, oter_id( "tutorial" ) );
     starting_om.clear_mon_groups();
 
-    g->u.toggle_trait( trait_id( "QUICK" ) );
+    g->u.mutations.toggle_trait( g->u, trait_id( "QUICK" ) );
     item lighter( "lighter", 0 );
     lighter.invlet = 'e';
     g->u.inv.add_item( lighter, true, false );

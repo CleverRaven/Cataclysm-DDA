@@ -302,13 +302,13 @@ float player::hit_roll() const
     // Dexterity, skills, weapon and martial arts
     float hit = get_hit();
     // Drunken master makes us hit better
-    if( has_trait( trait_DRUNKEN ) ) {
+    if( mutations.has_trait( trait_DRUNKEN ) ) {
         hit += to_turns<float>( get_effect_dur( effect_drunk ) ) / ( used_weapon().is_null() ? 300.0f :
                 400.0f );
     }
 
     // Farsightedness makes us hit worse
-    if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
+    if( mutations.has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
         !has_effect( effect_contacts ) ) {
         hit -= 2.0f;
     }
@@ -342,7 +342,7 @@ std::string player::get_miss_reason()
     add_miss_reason(
         _( "Your torso encumbrance throws you off-balance." ),
         roll_remainder( encumb( bp_torso ) / 10.0 ) );
-    const int farsightedness = 2 * ( has_trait( trait_HYPEROPIC ) &&
+    const int farsightedness = 2 * ( mutations.has_trait( trait_HYPEROPIC ) &&
                                      !worn_with_flag( "FIX_FARSIGHT" ) &&
                                      !has_effect( effect_contacts ) );
     add_miss_reason(
@@ -564,7 +564,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
     /** @EFFECT_STR reduces stamina cost for melee attack with heavier weapons */
     const int weight_cost = cur_weapon.weight() / ( 2_gram * std::max( 1, str_cur ) );
     const int encumbrance_cost = roll_remainder( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) * 2.0f );
-    const int deft_bonus = hit_spread < 0 && has_trait( trait_DEFT ) ? 50 : 0;
+    const int deft_bonus = hit_spread < 0 && mutations.has_trait( trait_DEFT ) ? 50 : 0;
     /** @EFFECT_MELEE reduces stamina cost of melee attacks */
     const int mod_sta = ( weight_cost + encumbrance_cost - melee - deft_bonus + 50 ) * -1;
     mod_stat( "stamina", std::min( -50, mod_sta ) );
@@ -642,7 +642,7 @@ void player::reach_attack( const tripoint &p )
 
 int stumble( player &u, const item &weap )
 {
-    if( u.has_trait( trait_DEFT ) ) {
+    if( u.mutations.has_trait( trait_DEFT ) ) {
         return 0;
     }
 
@@ -771,7 +771,7 @@ float player::get_dodge() const
     if( worn_with_flag( "ROLLER_INLINE" ) ||
         worn_with_flag( "ROLLER_QUAD" ) ||
         worn_with_flag( "ROLLER_ONE" ) ) {
-        ret /= has_trait( trait_PROF_SKATER ) ? 2 : 5;
+        ret /= mutations.has_trait( trait_PROF_SKATER ) ? 2 : 5;
     }
 
     if( has_effect( effect_bouldering ) ) {
@@ -824,7 +824,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average,
     stat_bonus += mabuff_damage_bonus( DT_BASH );
 
     // Drunken Master damage bonuses
-    if( has_trait( trait_DRUNKEN ) && has_effect( effect_drunk ) ) {
+    if( mutations.has_trait( trait_DRUNKEN ) && has_effect( effect_drunk ) ) {
         // Remember, a single drink gives 600 levels of "drunk"
         int mindrunk = 0;
         int maxdrunk = 0;
@@ -899,23 +899,23 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
                                  weap.is_null();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
-            if( has_trait( trait_CLAWS ) || ( has_active_mutation( trait_CLAWS_RETRACT ) ) ) {
+            if( mutations.has_trait( trait_CLAWS ) || ( mutations.has_active_mutation( trait_CLAWS_RETRACT ) ) ) {
                 per_hand += 3;
             }
             if( has_bionic( bionic_id( "bio_razors" ) ) ) {
                 per_hand += 2;
             }
-            if( has_trait( trait_TALONS ) ) {
+            if( mutations.has_trait( trait_TALONS ) ) {
                 /** @EFFECT_UNARMED increases cutting damage with TALONS */
                 per_hand += 3 + ( unarmed_skill > 8 ? 4 : unarmed_skill / 2 );
             }
             // Stainless Steel Claws do stabbing damage, too.
-            if( has_trait( trait_CLAWS_RAT ) || has_trait( trait_CLAWS_ST ) ) {
+            if( mutations.has_trait( trait_CLAWS_RAT ) || mutations.has_trait( trait_CLAWS_ST ) ) {
                 /** @EFFECT_UNARMED increases cutting damage with CLAWS_RAT and CLAWS_ST */
                 per_hand += 1 + ( unarmed_skill > 8 ? 4 : unarmed_skill / 2 );
             }
             // TODO: add acidproof check back to slime hands (probably move it elsewhere)
-            if( has_trait( trait_SLIME_HANDS ) ) {
+            if( mutations.has_trait( trait_SLIME_HANDS ) ) {
                 /** @EFFECT_UNARMED increases cutting damage with SLIME_HANDS */
                 per_hand += average ? 2.5f : rng( 2, 3 );
             }
@@ -972,11 +972,11 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average,
                                  weap.is_null();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
-            if( has_trait( trait_CLAWS ) || has_active_mutation( trait_CLAWS_RETRACT ) ) {
+            if( mutations.has_trait( trait_CLAWS ) || mutations.has_active_mutation( trait_CLAWS_RETRACT ) ) {
                 per_hand += 3;
             }
 
-            if( has_trait( trait_NAILS ) ) {
+            if( mutations.has_trait( trait_NAILS ) ) {
                 per_hand += .5;
             }
 
@@ -984,11 +984,11 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average,
                 per_hand += 2;
             }
 
-            if( has_trait( trait_THORNS ) ) {
+            if( mutations.has_trait( trait_THORNS ) ) {
                 per_hand += 2;
             }
 
-            if( has_trait( trait_CLAWS_ST ) ) {
+            if( mutations.has_trait( trait_CLAWS_ST ) ) {
                 /** @EFFECT_UNARMED increases stabbing damage with CLAWS_ST */
                 per_hand += 3 + unarmed_skill / 2.0;
             }
@@ -1660,7 +1660,7 @@ void player::perform_special_attacks( Creature &t )
 {
     bool can_poison = false;
 
-    std::vector<special_attack> special_attacks = mutation_attacks( t );
+    std::vector<special_attack> special_attacks = mutations.mutation_attacks( t );
 
     std::string target = t.disp_name();
 
@@ -1692,11 +1692,11 @@ void player::perform_special_attacks( Creature &t )
                      dealt_dam.type_damage( DT_STAB ) > 0;
     }
 
-    if( can_poison && ( has_trait( trait_POISONOUS ) || has_trait( trait_POISONOUS2 ) ) ) {
-        if( has_trait( trait_POISONOUS ) ) {
+    if( can_poison && ( mutations.has_trait( trait_POISONOUS ) || mutations.has_trait( trait_POISONOUS2 ) ) ) {
+        if( mutations.has_trait( trait_POISONOUS ) ) {
             add_msg_if_player( m_good, _( "You poison %s!" ), target );
             t.add_effect( effect_poison, 6_turns );
-        } else if( has_trait( trait_POISONOUS2 ) ) {
+        } else if( mutations.has_trait( trait_POISONOUS2 ) ) {
             add_msg_if_player( m_good, _( "You inject your venom into %s!" ), target );
             t.add_effect( effect_badpoison, 6_turns );
         }
@@ -1818,7 +1818,7 @@ static damage_instance hardcoded_mutation_attack( const player &u, const trait_i
             return damage_instance();
         }
 
-        const bool rake = u.has_trait( trait_CLAWS_TENTACLE );
+        const bool rake = u.mutations.has_trait( trait_CLAWS_TENTACLE );
 
         /** @EFFECT_STR increases damage with ARM_TENTACLES* */
         damage_instance ret;
@@ -2059,7 +2059,7 @@ void player_hit_message( player *attacker, const std::string &message,
         msgtype = m_neutral;
     } else if(
         crit ) { //Player won't see exact numbers of damage dealt by NPC unless player has DEBUG_NIGHTVISION trait
-        if( attacker->is_npc() && !g->u.has_trait( trait_DEBUG_NIGHTVISION ) ) {
+        if( attacker->is_npc() && !g->u.mutations.has_trait( trait_DEBUG_NIGHTVISION ) ) {
             //~ NPC hits something (critical)
             msg = string_format( _( "%s. Critical!" ), message );
         } else {
@@ -2069,7 +2069,7 @@ void player_hit_message( player *attacker, const std::string &message,
         sSCTmod = _( "Critical!" );
         gmtSCTcolor = m_critical;
     } else {
-        if( attacker->is_npc() && !g->u.has_trait( trait_DEBUG_NIGHTVISION ) ) {
+        if( attacker->is_npc() && !g->u.mutations.has_trait( trait_DEBUG_NIGHTVISION ) ) {
             //~ NPC hits something
             msg = string_format( _( "%s." ), message );
         } else {
@@ -2131,7 +2131,7 @@ int player::attack_speed( const item &weap ) const
     move_cost *= ma_mult;
     move_cost += ma_move_cost;
 
-    move_cost *= mutation_value( "attackcost_modifier" );
+    move_cost *= mutations.mutation_value( "attackcost_modifier" );
 
     if( move_cost < 25 ) {
         return 25;
@@ -2312,10 +2312,10 @@ void avatar::steal( npc &target )
     if( !is_armed() ) {
         my_roll += dice( 4, 3 );
     }
-    if( has_trait( trait_DEFT ) ) {
+    if( mutations.has_trait( trait_DEFT ) ) {
         my_roll += dice( 2, 6 );
     }
-    if( has_trait( trait_CLUMSY ) ) {
+    if( mutations.has_trait( trait_CLUMSY ) ) {
         my_roll -= dice( 4, 6 );
     }
 

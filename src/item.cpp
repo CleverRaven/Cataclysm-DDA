@@ -991,11 +991,11 @@ static std::string get_freshness_description( const item &food_item )
 item::sizing item::get_sizing( const Character &p, bool wearable ) const
 {
     if( wearable ) {
-        const bool small = p.has_trait( trait_small2 ) ||
-                           p.has_trait( trait_small_ok );
+        const bool small = p.mutations.has_trait( trait_small2 ) ||
+                           p.mutations.has_trait( trait_small_ok );
 
-        const bool big = p.has_trait( trait_huge ) ||
-                         p.has_trait( trait_huge_ok );
+        const bool big = p.mutations.has_trait( trait_huge ) ||
+                         p.mutations.has_trait( trait_huge_ok );
 
         // due to the iterative nature of these features, something can fit and be undersized/oversized
         // but that is fine because we have separate logic to adjust encumberance per each. One day we
@@ -1364,7 +1364,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                       abs( static_cast<int>( food_item->charges ) * batch ) ) );
         }
         if( food_item->corpse != nullptr && ( debug || ( g != nullptr &&
-                                              ( g->u.has_bionic( bionic_id( "bio_scent_vision" ) ) || g->u.has_trait( trait_id( "CARNIVORE" ) ) ||
+                                              ( g->u.has_bionic( bionic_id( "bio_scent_vision" ) ) ||
+                                                g->u.mutations.has_trait( trait_id( "CARNIVORE" ) ) ||
                                                 g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) )
             && parts->test( iteminfo_parts::FOOD_SMELL ) ) {
             info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
@@ -1389,7 +1390,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
 
         if( food_item->has_flag( "CANNIBALISM" ) && parts->test( iteminfo_parts::FOOD_CANNIBALISM ) ) {
-            if( !g->u.has_trait_flag( "CANNIBAL" ) ) {
+            if( !g->u.mutations.has_trait_flag( "CANNIBAL" ) ) {
                 info.emplace_back( "DESCRIPTION", _( "* This food contains <bad>human flesh</bad>." ) );
             } else {
                 info.emplace_back( "DESCRIPTION", _( "* This food contains <good>human flesh</good>." ) );
@@ -1442,7 +1443,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 if( g->u.has_bionic( bionic_id( "bio_digestion" ) ) ) {
                     info.push_back( iteminfo( "DESCRIPTION",
                                               _( "This food has started to <neutral>rot</neutral>, but <info>your bionic digestion can tolerate it</info>." ) ) );
-                } else if( g->u.has_trait( trait_id( "SAPROVORE" ) ) ) {
+                } else if( g->u.mutations.has_trait( trait_id( "SAPROVORE" ) ) ) {
                     info.push_back( iteminfo( "DESCRIPTION",
                                               _( "This food has started to <neutral>rot</neutral>, but <info>you can tolerate it</info>." ) ) );
                 } else {
@@ -2568,8 +2569,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             insert_separation_line();
         }
 
-        if( is_armor() && u.has_trait( trait_id( "WOOLALLERGY" ) ) && ( made_of( material_id( "wool" ) ) ||
-                item_tags.count( "wooled" ) ) ) {
+        if( is_armor() && u.mutations.has_trait( trait_id( "WOOLALLERGY" ) ) &&
+            ( made_of( material_id( "wool" ) ) ||
+              item_tags.count( "wooled" ) ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This clothing will give you an <bad>allergic reaction</bad>." ) ) );
         }
@@ -3110,7 +3112,7 @@ nc_color item::color_in_inventory() const
         ret = c_cyan;
     } else if( has_flag( "LITCIG" ) ) {
         ret = c_red;
-    } else if( is_armor() && u.has_trait( trait_id( "WOOLALLERGY" ) ) &&
+    } else if( is_armor() && u.mutations.has_trait( trait_id( "WOOLALLERGY" ) ) &&
                ( made_of( material_id( "wool" ) ) || item_tags.count( "wooled" ) ) ) {
         ret = c_red;
     } else if( is_filthy() || item_tags.count( "DIRTY" ) ) {
@@ -8289,9 +8291,9 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
     // if carried by someone:
     if( carrier != nullptr ) {
         time_duration duration = 15_seconds;
-        if( carrier->has_trait( trait_id( "TOLERANCE" ) ) ) {
+        if( carrier->mutations.has_trait( trait_id( "TOLERANCE" ) ) ) {
             duration = 7_seconds;
-        } else if( carrier->has_trait( trait_id( "LIGHTWEIGHT" ) ) ) {
+        } else if( carrier->mutations.has_trait( trait_id( "LIGHTWEIGHT" ) ) ) {
             duration = 30_seconds;
         }
         carrier->add_msg_if_player( m_neutral, _( "You take a puff of your %s." ), tname() );
@@ -8303,7 +8305,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
         carrier->moves -= 15;
 
         if( ( carrier->has_effect( effect_shakes ) && one_in( 10 ) ) ||
-            ( carrier->has_trait( trait_id( "JITTERY" ) ) && one_in( 200 ) ) ) {
+            ( carrier->mutations.has_trait( trait_id( "JITTERY" ) ) && one_in( 200 ) ) ) {
             carrier->add_msg_if_player( m_bad, _( "Your shaking hand causes you to drop your %s." ),
                                         tname() );
             g->m.add_item_or_charges( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), *this );
@@ -8980,7 +8982,7 @@ skill_id item::contextualize_skill( const skill_id &id ) const
 bool item::is_filthy() const
 {
     return has_flag( "FILTHY" ) && ( get_option<bool>( "FILTHY_MORALE" ) ||
-                                     g->u.has_trait( trait_id( "SQUEAMISH" ) ) );
+                                     g->u.mutations.has_trait( trait_id( "SQUEAMISH" ) ) );
 }
 
 bool item::on_drop( const tripoint &pos )

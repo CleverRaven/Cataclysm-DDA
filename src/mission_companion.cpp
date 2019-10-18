@@ -120,7 +120,7 @@ void talk_function::companion_mission( npc &p )
     if( role_id == "SCAVENGER" ) {
         title = _( "Junk Shop Missions" );
         scavenger_patrol( mission_key, p );
-        if( p.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
+        if( p.mutations.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
             scavenger_raid( mission_key, p );
         }
     } else if( role_id == "COMMUNE CROPS" ) {
@@ -131,7 +131,7 @@ void talk_function::companion_mission( npc &p )
     } else if( role_id == "FOREMAN" ) {
         title = _( "Construction Missions" );
         commune_menial( mission_key, p );
-        if( p.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
+        if( p.mutations.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
             commune_carpentry( mission_key, p );
         }
     } else if( role_id == "REFUGEE MERCHANT" ) {
@@ -228,7 +228,7 @@ void talk_function::commune_carpentry( mission_data &mission_key, npc &p )
 
 void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
 {
-    if( !p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) ) {
+    if( !p.mutations.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) ) {
         std::string entry = _( "Cost: $1000\n\n\n"
                                "                .........\n" // NOLINT(cata-text-style)
                                "                .........\n" // NOLINT(cata-text-style)
@@ -247,7 +247,7 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
                                "willing to liquidate it." );
         mission_key.add( "Purchase East Field", _( "Purchase East Field" ), entry );
     }
-    if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) && !p.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ) {
+    if( p.mutations.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) && !p.mutations.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ) {
         std::string entry = _( "Cost: $5500\n\n"
                                "\n              ........." // NOLINT(cata-text-style)
                                "\n              ........." // NOLINT(cata-text-style)
@@ -264,7 +264,7 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
         mission_key.add( "Upgrade East Field I", _( "Upgrade East Field I" ), entry );
     }
 
-    if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) ) {
+    if( p.mutations.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) ) {
         std::string entry = _( "Cost: $3.00/plot\n\n"
                                "\n              ........." // NOLINT(cata-text-style)
                                "\n              ........." // NOLINT(cata-text-style)
@@ -920,7 +920,7 @@ void talk_function::field_build_1( npc &p )
         popup( _( "I'm sorry, you don't have enough money." ) );
         return;
     }
-    p.set_mutation( trait_NPC_CONSTRUCTION_LEV_1 );
+    p.mutations.set_mutation( p, trait_NPC_CONSTRUCTION_LEV_1 );
     g->u.cash += -100000;
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "ranch_camp_63", 20,
                           false );
@@ -944,7 +944,7 @@ void talk_function::field_build_2( npc &p )
         popup( _( "I'm sorry, you don't have enough money." ) );
         return;
     }
-    p.set_mutation( trait_NPC_CONSTRUCTION_LEV_2 );
+    p.mutations.set_mutation( p, trait_NPC_CONSTRUCTION_LEV_2 );
     g->u.cash += -550000;
     const tripoint site = overmap_buffer.find_closest( g->u.global_omt_location(), "ranch_camp_63",
                           20, false );
@@ -1107,7 +1107,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     int number_plants = 0;
     int number_seeds = 0;
     int skillLevel = 2;
-    if( p.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ) {
+    if( p.mutations.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ) {
         skillLevel += 2;
     }
 
@@ -1239,8 +1239,8 @@ bool talk_function::scavenging_patrol_return( npc &p )
                p.name, comp->name );
         g->u.cash += 10000;
     }
-    if( one_in( 10 ) && !p.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
-        p.set_mutation( trait_NPC_MISSION_LEV_1 );
+    if( one_in( 10 ) && !p.mutations.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
+        p.mutations.set_mutation( p, trait_NPC_MISSION_LEV_1 );
         popup( _( "%s feels more confident in your abilities and is willing to let you "
                   "participate in daring raids." ), p.name );
     }
@@ -1326,8 +1326,8 @@ bool talk_function::labor_return( npc &p )
     popup( _( "%s returns from working as a laborer having earned $%d and a bit of experience…" ),
            comp->name, money );
     companion_return( *comp );
-    if( hours >= 8 && one_in( 8 ) && !p.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
-        p.set_mutation( trait_NPC_MISSION_LEV_1 );
+    if( hours >= 8 && one_in( 8 ) && !p.mutations.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
+        p.mutations.set_mutation( p, trait_NPC_MISSION_LEV_1 );
         popup( _( "%s feels more confident in your companions and is willing to let them "
                   "participate in advanced tasks." ), p.name );
     }
@@ -1474,8 +1474,8 @@ bool talk_function::forage_return( npc &p )
             popup( _( "%s returned with a %s for you!" ), comp->name, result.tname() );
             g->u.i_add( result );
         }
-        if( one_in( 6 ) && !p.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
-            p.set_mutation( trait_NPC_MISSION_LEV_1 );
+        if( one_in( 6 ) && !p.mutations.has_trait( trait_NPC_MISSION_LEV_1 ) ) {
+            p.mutations.set_mutation( p, trait_NPC_MISSION_LEV_1 );
             popup( _( "%s feels more confident in your companions and is willing to let them "
                       "participate in advanced tasks." ), p.name );
         }
@@ -2008,7 +2008,7 @@ npc_ptr talk_function::companion_choose_return( const tripoint &omt_pos,
             ( by_mission && c_mission.mission_id != mission_id ) || c_mission.role_id != role_id ) {
             continue;
         }
-        if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
+        if( g->u.mutations.has_trait( trait_id( "DEBUG_HS" ) ) ) {
             available.push_back( guy );
         } else if( deadline == calendar::before_time_starts ) {
             if( guy->companion_mission_time_ret <= calendar::turn ) {

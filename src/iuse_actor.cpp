@@ -692,9 +692,9 @@ int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
     // Apply the various effects.
     for( const auto &eff : effects ) {
         time_duration dur = eff.duration;
-        if( p.has_trait( trait_TOLERANCE ) ) {
+        if( p.mutations.has_trait( trait_TOLERANCE ) ) {
             dur *= .8;
-        } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
+        } else if( p.mutations.has_trait( trait_LIGHTWEIGHT ) ) {
             dur *= 1.2;
         }
         p.add_effect( eff.id, dur, eff.bp, eff.permanent );
@@ -1254,7 +1254,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos )
 {
     if( g->m.add_field( pos, fd_fire, 1, 10_minutes ) ) {
-        if( !p.has_trait( trait_PYROMANIA ) ) {
+        if( !p.mutations.has_trait( trait_PYROMANIA ) ) {
             p.add_msg_if_player( _( "You successfully light a fire." ) );
         } else {
             if( one_in( 4 ) ) {
@@ -1748,7 +1748,7 @@ bool cauterize_actor::cauterize_effect( player &p, item &it, bool force )
     hp_part hpart = dummy.use_healing_item( p, p, it, force );
     if( hpart != num_hp_parts ) {
         p.add_msg_if_player( m_neutral, _( "You cauterize yourself." ) );
-        if( !( p.has_trait( trait_NOPAIN ) ) ) {
+        if( !( p.mutations.has_trait( trait_NOPAIN ) ) ) {
             p.mod_pain( 15 );
             p.add_msg_if_player( m_bad, _( "It hurts like hell!" ) );
         } else {
@@ -1781,8 +1781,8 @@ int cauterize_actor::use( player &p, item &it, bool t, const tripoint & ) const
     if( has_disease ) {
         did_cauterize = cauterize_effect( p, it, false );
     } else {
-        const bool can_have_fun = p.has_trait( trait_MASOCHIST ) || p.has_trait( trait_MASOCHIST_MED ) ||
-                                  p.has_trait( trait_CENOBITE );
+        const bool can_have_fun = p.mutations.has_trait( trait_MASOCHIST ) || p.mutations.has_trait( trait_MASOCHIST_MED ) ||
+                                  p.mutations.has_trait( trait_CENOBITE );
 
         if( can_have_fun && query_yn( _( "Cauterize yourself for fun?" ) ) ) {
             did_cauterize = cauterize_effect( p, it, true );
@@ -1807,9 +1807,9 @@ ret_val<bool> cauterize_actor::can_use( const player &p, const item &it, bool,
 {
     if( !p.has_effect( effect_bite ) &&
         !p.has_effect( effect_bleed ) &&
-        !p.has_trait( trait_MASOCHIST ) &&
-        !p.has_trait( trait_MASOCHIST_MED ) &&
-        !p.has_trait( trait_CENOBITE ) ) {
+        !p.mutations.has_trait( trait_MASOCHIST ) &&
+        !p.mutations.has_trait( trait_MASOCHIST_MED ) &&
+        !p.mutations.has_trait( trait_CENOBITE ) ) {
 
         return ret_val<bool>::make_failure(
                    _( "You are not bleeding or bitten, there is no need to cauterize yourself." ) );
@@ -1873,11 +1873,11 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     }
 
     int tolerance_level = 9;
-    if( p.has_trait( trait_PSYCHOPATH ) || p.has_trait( trait_SAPIOVORE ) ) {
+    if( p.mutations.has_trait( trait_PSYCHOPATH ) || p.mutations.has_trait( trait_SAPIOVORE ) ) {
         tolerance_level = 0;
-    } else if( p.has_trait( trait_PRED4 ) ) {
+    } else if( p.mutations.has_trait( trait_PRED4 ) ) {
         tolerance_level = 5;
-    } else if( p.has_trait( trait_PRED3 ) ) {
+    } else if( p.mutations.has_trait( trait_PRED3 ) ) {
         tolerance_level = 7;
     }
 
@@ -1918,12 +1918,12 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
         time_duration duration = 30_minutes * ( 5.0 / p.get_skill_level( skill_survival ) );
         time_duration decayDelay = 3_minutes * ( 5.0 / p.get_skill_level( skill_survival ) );
 
-        if( p.has_trait( trait_PACIFIST ) ) {
+        if( p.mutations.has_trait( trait_PACIFIST ) ) {
             moraleMalus *= 5;
             maxMalus *= 3;
-        } else if( p.has_trait( trait_PRED1 ) ) {
+        } else if( p.mutations.has_trait( trait_PRED1 ) ) {
             moraleMalus /= 4;
-        } else if( p.has_trait( trait_PRED2 ) ) {
+        } else if( p.mutations.has_trait( trait_PRED2 ) ) {
             moraleMalus /= 5;
         }
 
@@ -3092,7 +3092,7 @@ bool repair_item_actor::can_repair_target( player &pl, const item &fix,
     }
 
     const bool resizing_matters = fix.get_encumber( pl ) != 0;
-    const bool small = pl.has_trait( trait_SMALL2 ) || pl.has_trait( trait_SMALL_OK );
+    const bool small = pl.mutations.has_trait( trait_SMALL2 ) || pl.mutations.has_trait( trait_SMALL_OK );
     const bool can_resize = small != fix.has_flag( "UNDERSIZE" );
     if( can_be_refitted && resizing_matters && can_resize ) {
         return true;
@@ -3181,19 +3181,19 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
         return RT_REFIT;
     }
 
-    const bool smol = g->u.has_trait( trait_id( "SMALL2" ) ) ||
-                      g->u.has_trait( trait_id( "SMALL_OK" ) );
+    const bool small = g->u.mutations.has_trait( trait_id( "SMALL2" ) ) ||
+                      g->u.mutations.has_trait( trait_id( "SMALL_OK" ) );
 
     const bool is_undersized = fix.has_flag( "UNDERSIZE" );
     const bool is_oversized = fix.has_flag( "OVERSIZE" );
     const bool resizing_matters = fix.get_encumber( g->u ) != 0;
 
-    const bool too_big_while_smol = smol && !is_undersized && !is_oversized;
+    const bool too_big_while_smol = small && !is_undersized && !is_oversized;
     if( too_big_while_smol && can_be_refitted && resizing_matters ) {
         return RT_DOWNSIZING;
     }
 
-    const bool too_small_while_big = !smol && is_undersized && !is_oversized;
+    const bool too_small_while_big = !small && is_undersized && !is_oversized;
     if( too_small_while_big && can_be_refitted && resizing_matters ) {
         return RT_UPSIZING;
     }
@@ -3660,7 +3660,7 @@ static hp_part pick_part_to_heal(
     const bool bite = bite_chance > 0.0f;
     const bool infect = infect_chance > 0.0f;
     const bool precise = &healer == &patient ?
-                         patient.has_trait( trait_SELFAWARE ) :
+                         patient.mutations.has_trait( trait_SELFAWARE ) :
                          /** @EFFECT_PER slightly increases precision when using first aid on someone else */
 
                          /** @EFFECT_FIRSTAID increases precision when using first aid on someone else */
@@ -4099,9 +4099,9 @@ ret_val<bool> install_bionic_actor::can_use( const player &p, const item &it, bo
         return ret_val<bool>::make_failure( _( "You can't install bionics while mounted." ) );
     }
     if( !get_option<bool>( "MANUAL_BIONIC_INSTALLATION" ) &&
-        !p.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+        !p.mutations.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
         return ret_val<bool>::make_failure( _( "You can't self-install bionics." ) );
-    } else if( !p.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+    } else if( !p.mutations.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
         if( it.has_flag( "FILTHY" ) ) {
             return ret_val<bool>::make_failure( _( "You can't install a filthy CBM!" ) );
         } else if( it.has_flag( "NO_STERILE" ) ) {
@@ -4233,8 +4233,8 @@ int mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
     const mutation_category_trait &m_category = mutation_category_trait::get_category(
                 mutation_category );
 
-    if( p.has_trait( trait_MUT_JUNKIE ) ) {
-        p.add_msg_if_player( m_good, _( "You quiver with anticipation…" ) );
+    if( p.mutations.has_trait( trait_MUT_JUNKIE ) ) {
+        p.add_msg_if_player( m_good, _( "You quiver with anticipation..." ) );
         p.add_morale( MORALE_MUTAGEN, 5, 50 );
     }
 
@@ -4250,7 +4250,7 @@ int mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
     int mut_count = 1 + ( is_strong ? one_in( 3 ) : 0 );
 
     for( int i = 0; i < mut_count; i++ ) {
-        p.mutate_category( m_category.id );
+        p.mutations.mutate_category( p, m_category.id );
         p.mod_pain( m_category.mutagen_pain * rng( 1, 5 ) );
     }
     // burn calories directly
@@ -4283,7 +4283,7 @@ int mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     const mutation_category_trait &m_category = mutation_category_trait::get_category(
                 mutation_category );
 
-    if( p.has_trait( trait_MUT_JUNKIE ) ) {
+    if( p.mutations.has_trait( trait_MUT_JUNKIE ) ) {
         p.add_msg_if_player( m_category.junkie_message() );
     } else {
         p.add_msg_if_player( m_category.iv_message() );
@@ -4293,7 +4293,7 @@ int mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     test_crossing_threshold( p, m_category );
 
     // TODO: Remove the "is_player" part, implement NPC screams
-    if( p.is_player() && !( p.has_trait( trait_NOPAIN ) ) && m_category.iv_sound ) {
+    if( p.is_player() && !( p.mutations.has_trait( trait_NOPAIN ) ) && m_category.iv_sound ) {
         p.mod_pain( m_category.iv_pain );
         /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
         sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, sounds::sound_t::alert,
@@ -4308,7 +4308,7 @@ int mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     for( int i = 0; i < mut_count; i++ ) {
-        p.mutate_category( m_category.id );
+        p.mutations.mutate_category( p, m_category.id );
         p.mod_pain( m_category.iv_pain  * rng( 1, 5 ) );
     }
 

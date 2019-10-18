@@ -1102,7 +1102,7 @@ void player::bionics_uninstall_failure( int difficulty, int success, float adjus
     add_msg( m_neutral, _( "The removal is a failure." ) );
     switch( fail_type ) {
         case 1:
-            if( !has_trait( trait_id( "NOPAIN" ) ) ) {
+            if( !mutations.has_trait( trait_id( "NOPAIN" ) ) ) {
                 add_msg_if_player( m_bad, _( "It really hurts!" ) );
                 mod_pain( rng( failure_level * 3, failure_level * 6 ) );
             }
@@ -1177,7 +1177,7 @@ void player::bionics_uninstall_failure( monster &installer, player &patient, int
     }
     switch( fail_type ) {
         case 1:
-            if( !has_trait( trait_id( "NOPAIN" ) ) ) {
+            if( !mutations.has_trait( trait_id( "NOPAIN" ) ) ) {
                 patient.add_msg_if_player( m_bad, _( "It really hurts!" ) );
                 patient.mod_pain( rng( failure_level * 3, failure_level * 6 ) );
             }
@@ -1219,8 +1219,8 @@ bool player::has_enough_anesth( const itype *cbm, player &patient )
         return false;
     }
 
-    if( has_bionic( bionic_id( "bio_painkiller" ) ) || has_trait( trait_NOPAIN ) ||
-        has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+    if( has_bionic( bionic_id( "bio_painkiller" ) ) || mutations.has_trait( trait_NOPAIN ) ||
+        mutations.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
         return true;
     }
 
@@ -1266,14 +1266,14 @@ int player::bionics_pl_skill( const skill_id &most_important_skill, const skill_
     }
 
     // Medical residents have some idea what they're doing
-    if( has_trait( trait_PROF_MED ) ) {
+    if( mutations.has_trait( trait_PROF_MED ) ) {
         pl_skill += 3;
         add_msg_player_or_npc( m_neutral, _( "You prep to begin surgery." ),
                                _( "<npcname> prepares for surgery." ) );
     }
 
     // People trained in bionics gain an additional advantage towards using it
-    if( has_trait( trait_PROF_AUTODOC ) ) {
+    if( mutations.has_trait( trait_PROF_AUTODOC ) ) {
         pl_skill += 7;
         add_msg( m_neutral, _( "A lifetime of augmentation has taught %s a thing or two…" ),
                  disp_name() );
@@ -1285,7 +1285,7 @@ int player::bionics_pl_skill( const skill_id &most_important_skill, const skill_
 int bionic_manip_cos( float adjusted_skill, bool autodoc, int bionic_difficulty )
 {
     if( ( autodoc && get_option < bool > ( "SAFE_AUTODOC" ) ) ||
-        g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+        g->u.mutations.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
         return 100;
     }
 
@@ -1698,7 +1698,8 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
         activity.str_values.push_back( "" );
         activity.str_values.push_back( "" );
     }
-    if( installer.has_trait( trait_PROF_MED ) || installer.has_trait( trait_PROF_AUTODOC ) ) {
+    if( installer.mutations.has_trait( trait_PROF_MED ) ||
+        installer.mutations.has_trait( trait_PROF_AUTODOC ) ) {
         activity.str_values.push_back( installer.disp_name( true ) );
     } else {
         activity.str_values.push_back( "NOT_MED" );
@@ -1713,7 +1714,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
         add_effect( effect_under_op, difficulty * 20_minutes, elem.first, true, difficulty );
     }
     for( const trait_id &mid : bioid->canceled_mutations ) {
-        if( has_trait( mid ) ) {
+        if( mutations.has_trait( mid ) ) {
             activity.str_values.push_back( mid.c_str() );
         }
     }
@@ -1740,7 +1741,7 @@ void player::perform_install( bionic_id bid, bionic_id upbid, int difficulty, in
 
         if( !trait_to_rem.empty() ) {
             for( trait_id tid : trait_to_rem ) {
-                remove_mutation( tid );
+                mutations.remove_mutation( *this, tid );
             }
         }
 
@@ -1790,7 +1791,7 @@ void player::bionics_install_failure( bionic_id bid, std::string installer, int 
         switch( fail_type ) {
 
             case 1:
-                if( !( has_trait( trait_id( "NOPAIN" ) ) ) ) {
+                if( !( mutations.has_trait( trait_id( "NOPAIN" ) ) ) ) {
                     add_msg_if_player( m_bad, _( "It really hurts!" ) );
                     mod_pain( rng( failure_level * 3, failure_level * 6 ) );
                 }
@@ -2274,7 +2275,7 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
                            _( "<npcname> settles into position, sliding their wrist into the couch's strap." ) );
     if( needs_anesthesia ) {
         //post-threshold medical mutants do not fear operations.
-        if( has_trait( trait_THRESH_MEDICAL ) ) {
+        if( mutations.has_trait( trait_THRESH_MEDICAL ) ) {
             add_msg_if_player( m_mixed,
                                _( "You feel excited as the operation starts." ) );
         }
@@ -2285,7 +2286,7 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
         //post-threshold medical mutants with Deadened don't need anesthesia due to their inability to feel pain
     } else {
         //post-threshold medical mutants do not fear operations.
-        if( has_trait( trait_THRESH_MEDICAL ) ) {
+        if( mutations.has_trait( trait_THRESH_MEDICAL ) ) {
             add_msg_if_player( m_mixed,
                                _( "You feel excited as the Autodoc slices painlessly into you.  You enjoy the sight of scalpels slicing you apart, but as operation proceeds you suddenly feel tired and pass out." ) );
         } else {
@@ -2295,8 +2296,8 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
     }
 
     //Pain junkies feel sorry about missed pain from operation.
-    if( has_trait( trait_MASOCHIST ) || has_trait( trait_MASOCHIST_MED ) ||
-        has_trait( trait_CENOBITE ) ) {
+    if( mutations.has_trait( trait_MASOCHIST ) || mutations.has_trait( trait_MASOCHIST_MED ) ||
+        mutations.has_trait( trait_CENOBITE ) ) {
         add_msg_if_player( m_mixed,
                            _( "As your conciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
     }

@@ -983,47 +983,47 @@ monster_attitude monster::attitude( const Character *u ) const
         static const trait_id mycus_friend( "MYCUS_FRIEND" );
         static const trait_id terrifying( "TERRIFYING" );
         if( faction == faction_bee ) {
-            if( u->has_trait( trait_BEE ) ) {
+            if( u->mutations.has_trait( trait_BEE ) ) {
                 return MATT_FRIEND;
-            } else if( u->has_trait( trait_FLOWERS ) ) {
+            } else if( u->mutations.has_trait( trait_FLOWERS ) ) {
                 effective_anger -= 10;
             }
         }
 
-        if( type->in_species( FUNGUS ) && ( u->has_trait( mycus_thresh ) ||
-                                            u->has_trait( mycus_friend ) ) ) {
+        if( type->in_species( FUNGUS ) && ( u->mutations.has_trait( mycus_thresh ) ||
+                                            u->mutations.has_trait( mycus_friend ) ) ) {
             return MATT_FRIEND;
         }
 
         if( effective_anger >= 10 &&
-            ( ( type->in_species( MAMMAL ) && u->has_trait( pheromone_mammal ) ) ||
-              ( type->in_species( INSECT ) && u->has_trait( pheromone_insect ) ) ) ) {
+            ( ( type->in_species( MAMMAL ) && u->mutations.has_trait( pheromone_mammal ) ) ||
+              ( type->in_species( INSECT ) && u->mutations.has_trait( pheromone_insect ) ) ) ) {
             effective_anger -= 20;
         }
 
-        if( u->has_trait( terrifying ) ) {
+        if( u->mutations.has_trait( terrifying ) ) {
             effective_morale -= 10;
         }
 
         if( has_flag( MF_ANIMAL ) ) {
-            if( u->has_trait( trait_ANIMALEMPATH ) ) {
+            if( u->mutations.has_trait( trait_ANIMALEMPATH ) ) {
                 effective_anger -= 10;
                 if( effective_anger < 10 ) {
                     effective_morale += 55;
                 }
-            } else if( u->has_trait( trait_ANIMALEMPATH2 ) ) {
+            } else if( u->mutations.has_trait( trait_ANIMALEMPATH2 ) ) {
                 effective_anger -= 20;
                 if( effective_anger < 20 ) {
                     effective_morale += 80;
                 }
-            } else if( u->has_trait( trait_ANIMALDISCORD ) ) {
+            } else if( u->mutations.has_trait( trait_ANIMALDISCORD ) ) {
                 if( effective_anger >= 10 ) {
                     effective_anger += 10;
                 }
                 if( effective_anger < 10 ) {
                     effective_morale -= 5;
                 }
-            } else if( u->has_trait( trait_ANIMALDISCORD2 ) ) {
+            } else if( u->mutations.has_trait( trait_ANIMALDISCORD2 ) ) {
                 if( effective_anger >= 20 ) {
                     effective_anger += 20;
                 }
@@ -1033,7 +1033,7 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
-        for( const trait_id &mut : u->get_mutations() ) {
+        for( const trait_id &mut : u->mutations.get_mutations() ) {
             for( const species_id &spe : mut.obj().ignored_by ) {
                 if( type->in_species( spe ) ) {
                     return MATT_IGNORE;
@@ -2095,13 +2095,13 @@ void monster::die( Creature *nkiller )
     // TODO: should actually be class Character
     player *ch = dynamic_cast<player *>( get_killer() );
     if( !is_hallucination() && ch != nullptr ) {
-        if( ( has_flag( MF_GUILT ) && ch->is_player() ) || ( ch->has_trait( trait_PACIFIST ) &&
+        if( ( has_flag( MF_GUILT ) && ch->is_player() ) || ( ch->mutations.has_trait( trait_PACIFIST ) &&
                 has_flag( MF_HUMAN ) ) ) {
             // has guilt flag or player is pacifist && monster is humanoid
             mdeath::guilt( *this );
         }
         g->events().send<event_type::character_kills_monster>( ch->getID(), type->id );
-        if( ch->is_player() && ch->has_trait( trait_KILLER ) ) {
+        if( ch->is_player() && ch->mutations.has_trait( trait_KILLER ) ) {
             if( one_in( 4 ) ) {
                 std::string snip = SNIPPET.random_from_category( "killer_on_kill" );
                 ch->add_msg_if_player( m_good, _( snip ) );
