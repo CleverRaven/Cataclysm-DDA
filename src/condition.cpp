@@ -84,7 +84,7 @@ void conditional_t<T>::set_has_any_trait( JsonObject &jo, const std::string &mem
             actor = dynamic_cast<player *>( d.beta );
         }
         for( const auto &trait : traits_to_check ) {
-            if( actor->has_trait( trait ) ) {
+            if( actor->mutations.has_trait( trait ) ) {
                 return true;
             }
         }
@@ -101,7 +101,7 @@ void conditional_t<T>::set_has_trait( JsonObject &jo, const std::string &member,
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
         }
-        return actor->has_trait( trait_id( trait_to_check ) );
+        return actor->mutations.has_trait( trait_id( trait_to_check ) );
     };
 }
 
@@ -117,7 +117,7 @@ void conditional_t<T>::set_has_trait_flag( JsonObject &jo, const std::string &me
         if( trait_flag_to_check == "MUTATION_THRESHOLD" ) {
             return actor->crossed_threshold();
         }
-        return actor->has_trait_flag( trait_flag_to_check );
+        return actor->mutations.has_trait_flag( trait_flag_to_check );
     };
 }
 

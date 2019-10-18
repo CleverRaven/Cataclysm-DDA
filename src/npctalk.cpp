@@ -362,7 +362,7 @@ void game::chat()
     } );
     const int guard_count = guards.size();
 
-    if( g->u.has_trait( trait_PROF_FOODP ) && !( g->u.is_wearing( itype_id( "foodperson_mask" ) ) ||
+    if( g->u.mutations.has_trait( trait_PROF_FOODP ) && !( g->u.is_wearing( itype_id( "foodperson_mask" ) ) ||
             g->u.is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
         g->u.add_msg_if_player( m_warning, _( "You can't speak without your face!" ) );
         return;
@@ -658,7 +658,7 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
         set_attitude( NPCATT_NULL );
         return;
     }
-    const bool has_mind_control = g->u.has_trait( trait_DEBUG_MIND_CONTROL );
+    const bool has_mind_control = g->u.mutations.has_trait( trait_DEBUG_MIND_CONTROL );
     // This is necessary so that we don't bug the player over and over
     if( get_attitude() == NPCATT_TALK ) {
         set_attitude( NPCATT_NULL );
@@ -766,12 +766,12 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
         }
     }
 
-    if( g->u.has_trait( trait_PROF_FOODP ) && !( g->u.is_wearing( itype_id( "foodperson_mask" ) ) ||
+    if( g->u.mutations.has_trait( trait_PROF_FOODP ) && !( g->u.is_wearing( itype_id( "foodperson_mask" ) ) ||
             g->u.is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
         d.add_topic( "TALK_NOFACE" );
     }
 
-    if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
+    if( mutations.has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
                                             is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
         d.add_topic( "TALK_NPC_NOFACE" );
     }
@@ -1222,7 +1222,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response_done( _( "Let's keep moving." ) );
     }
 
-    if( g->u.has_trait( trait_DEBUG_MIND_CONTROL ) && !p->is_player_ally() ) {
+    if( g->u.mutations.has_trait( trait_DEBUG_MIND_CONTROL ) && !p->is_player_ally() ) {
         add_response( _( "OBEY ME!" ), "TALK_MIND_CONTROL" );
         add_response_done( _( "Bye." ) );
     }
@@ -1269,10 +1269,10 @@ static int parse_mod( const dialogue &d, const std::string &attribute, const int
 int talk_trial::calc_chance( const dialogue &d ) const
 {
     player &u = *d.alpha;
-    if( u.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
+    if( u.mutations.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
         return 100;
     }
-    const social_modifiers &u_mods = u.get_mutation_social_mods();
+    const social_modifiers &u_mods = u.mutations.get_mutation_social_mods();
 
     npc &p = *d.beta;
     int chance = difficulty;
@@ -1342,7 +1342,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
 bool talk_trial::roll( dialogue &d ) const
 {
     player &u = *d.alpha;
-    if( type == TALK_TRIAL_NONE || u.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
+    if( type == TALK_TRIAL_NONE || u.mutations.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
         return true;
     }
     const int chance = calc_chance( d );
@@ -1814,7 +1814,7 @@ void talk_effect_fun_t::set_add_trait( JsonObject jo, const std::string &member,
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
         }
-        actor->set_mutation( trait_id( new_trait ) );
+        actor->mutations.set_mutation( *actor, trait_id( new_trait ) );
     };
 }
 
@@ -1826,7 +1826,7 @@ void talk_effect_fun_t::set_remove_trait( JsonObject jo, const std::string &memb
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
         }
-        actor->unset_mutation( trait_id( old_trait ) );
+        actor->mutations.unset_mutation( *actor, trait_id( old_trait ) );
     };
 }
 
@@ -3168,7 +3168,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         return _( "How?" );
     }
 
-    if( given.is_dangerous() && !g->u.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
+    if( given.is_dangerous() && !g->u.mutations.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
         return _( "Are you <swear> insane!?" );
     }
 

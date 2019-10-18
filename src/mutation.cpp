@@ -1361,11 +1361,11 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
     std::string mutation_category = m_category.id;
     int total = 0;
     for( const auto &iter : mutation_category_trait::get_all() ) {
-        total += guy.mutation_category_level[ iter.first ];
+        total += guy.mutations.get_cat_level( iter.first );
     }
     // Threshold-breaching
-    const std::string &primary = guy.get_highest_category();
-    int breach_power = guy.mutation_category_level[primary];
+    const std::string &primary = guy.mutations.get_highest_category();
+    int breach_power = guy.mutations.get_cat_level( primary );
     // Only if you were pushing for more in your primary category.
     // You wanted to be more like it and less human.
     // That said, you're required to have hit third-stage dreams first.
@@ -1381,18 +1381,18 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
         int breacher = breach_power + booster;
         if( x_in_y( breacher, total ) ) {
             guy.add_msg_if_player( m_good,
-                                   _( "Something strains mightily for a moment… and then… you're… FREE!" ) );
-            guy.set_mutation( mutation_thresh );
+                                   _( "Something strains mightily for a moment... and then... you're... FREE!" ) );
+            guy.mutations.set_mutation( guy, mutation_thresh );
             g->events().send<event_type::crosses_mutation_threshold>( guy.getID(), m_category.id );
             // Manually removing Carnivore, since it tends to creep in
             // This is because carnivore is a prerequisite for the
             // predator-style post-threshold mutations.
-            if( mutation_category == "URSINE" && guy.has_trait( trait_CARNIVORE ) ) {
-                guy.unset_mutation( trait_CARNIVORE );
+            if( mutation_category == "URSINE" && guy.mutations.has_trait( trait_CARNIVORE ) ) {
+                guy.mutations.unset_mutation( guy, trait_CARNIVORE );
                 guy.add_msg_if_player( _( "Your appetite for blood fades." ) );
             }
         }
-    } else if( guy.has_trait( trait_NOPAIN ) ) {
+    } else if( guy.mutations.has_trait( trait_NOPAIN ) ) {
         //~NOPAIN is a post-Threshold trait, so you shouldn't
         //~legitimately have it and get here!
         guy.add_msg_if_player( m_bad, _( "You feel extremely Bugged." ) );

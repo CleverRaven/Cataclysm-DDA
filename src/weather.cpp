@@ -88,7 +88,7 @@ void weather_effect::glare( sun_intensity intensity )
     //apply final glare effect
     if( dur > 0_turns && effect != nullptr ) {
         //enhance/reduce by some traits
-        if( g->u.has_trait( trait_CEPH_VISION ) ) {
+        if( g->u.mutations.has_trait( trait_CEPH_VISION ) ) {
             dur = dur * 2;
         }
         g->u.add_env_effect( *effect, bp_eyes, 2, dur );
@@ -356,7 +356,7 @@ static void fill_water_collectors( int mmPerHour, bool acid )
 static void wet_player( int amount )
 {
     if( !is_player_outside() ||
-        g->u.has_trait( trait_FEATHERS ) ||
+        g->u.mutations.has_trait( trait_FEATHERS ) ||
         g->u.weapon.has_flag( "RAIN_PROTECT" ) ||
         ( !one_in( 50 ) && g->u.worn_with_flag( "RAINPROOF" ) ) ) {
         return;
@@ -449,10 +449,10 @@ void weather_effect::thunder()
             add_msg( _( "You hear a distant rumble of thunder." ) );
             sfx::play_variant_sound( "environment", "thunder_far", 80, rng( 0, 359 ) );
         } else if( one_in( std::max( roll_remainder( 2.0f * g->get_levz() /
-                                     g->u.mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
+                                     g->u.mutations.mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
             add_msg( _( "You hear a rumble of thunder from above." ) );
             sfx::play_variant_sound( "environment", "thunder_far",
-                                     ( 80 * g->u.mutation_value( "hearing_modifier" ) ), rng( 0, 359 ) );
+                                     ( 80 * g->u.mutations.mutation_value( "hearing_modifier" ) ), rng( 0, 359 ) );
         }
     }
 }

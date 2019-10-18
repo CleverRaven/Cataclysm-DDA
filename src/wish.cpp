@@ -57,17 +57,17 @@ class wish_mutate_callback: public uilist_callback
 
         wish_mutate_callback() = default;
         bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override {
-            if( event.get_first_input() == 't' && p->has_trait( vTraits[ entnum ] ) ) {
-                if( p->has_base_trait( vTraits[ entnum ] ) ) {
-                    p->toggle_trait( vTraits[ entnum ] );
-                    p->unset_mutation( vTraits[ entnum ] );
+            if( event.get_first_input() == 't' && p->mutations.has_trait( vTraits[ entnum ] ) ) {
+                if( p->mutations.has_base_trait( vTraits[ entnum ] ) ) {
+                    p->mutations.toggle_trait( *p, vTraits[ entnum ] );
+                    p->mutations.unset_mutation( *p, vTraits[ entnum ] );
 
                 } else {
-                    p->set_mutation( vTraits[ entnum ] );
-                    p->toggle_trait( vTraits[ entnum ] );
+                    p->mutations.set_mutation( *p, vTraits[ entnum ] );
+                    p->mutations.toggle_trait( *p, vTraits[ entnum ] );
                 }
-                menu->entries[ entnum ].text_color = p->has_trait( vTraits[ entnum ] ) ? c_green : menu->text_color;
-                menu->entries[ entnum ].extratxt.txt = p->has_base_trait( vTraits[ entnum ] ) ? "T" : "";
+                menu->entries[ entnum ].text_color = p->mutations.has_trait( vTraits[ entnum ] ) ? c_green : menu->text_color;
+                menu->entries[ entnum ].extratxt.txt = p->mutations.has_base_trait( vTraits[ entnum ] ) ? "T" : "";
                 return true;
             }
             return false;
@@ -79,7 +79,7 @@ class wish_mutate_callback: public uilist_callback
                 padding = std::string( menu->pad_right - 1, ' ' );
                 for( auto &traits_iter : mutation_branch::get_all() ) {
                     vTraits.push_back( traits_iter.id );
-                    pTraits[traits_iter.id] = p->has_trait( traits_iter.id );
+                    pTraits[traits_iter.id] = p->mutations.has_trait( traits_iter.id );
                 }
             }
             const mutation_branch &mdata = vTraits[entnum].obj();
@@ -210,9 +210,9 @@ void debug_menu::wishmutate( player *p )
         wmenu.entries[ c ].extratxt.left = 1;
         wmenu.entries[ c ].extratxt.txt.clear();
         wmenu.entries[ c ].extratxt.color = c_light_green;
-        if( p->has_trait( traits_iter.id ) ) {
+        if( p->mutations.has_trait( traits_iter.id ) ) {
             wmenu.entries[ c ].text_color = c_green;
-            if( p->has_base_trait( traits_iter.id ) ) {
+            if( p->mutations.has_base_trait( traits_iter.id ) ) {
                 wmenu.entries[ c ].extratxt.txt = "T";
             }
         }
@@ -236,27 +236,27 @@ void debug_menu::wishmutate( player *p )
             const bool profession = mdata.profession;
             // Manual override for the threshold-gaining
             if( threshold || profession ) {
-                if( p->has_trait( mstr ) ) {
+                if( p->mutations.has_trait( mstr ) ) {
                     do {
-                        p->remove_mutation( mstr );
+                        p->mutations.remove_mutation( *p, mstr );
                         rc++;
-                    } while( p->has_trait( mstr ) && rc < 10 );
+                    } while( p->mutations.has_trait( mstr ) && rc < 10 );
                 } else {
                     do {
-                        p->set_mutation( mstr );
+                        p->mutations.set_mutation( *p, mstr );
                         rc++;
-                    } while( !p->has_trait( mstr ) && rc < 10 );
+                    } while( !p->mutations.has_trait( mstr ) && rc < 10 );
                 }
-            } else if( p->has_trait( mstr ) ) {
+            } else if( p->mutations.has_trait( mstr ) ) {
                 do {
-                    p->remove_mutation( mstr );
+                    p->mutations.remove_mutation( *p, mstr );
                     rc++;
-                } while( p->has_trait( mstr ) && rc < 10 );
+                } while( p->mutations.has_trait( mstr ) && rc < 10 );
             } else {
                 do {
-                    p->mutate_towards( mstr );
+                    p->mutations.mutate_towards( *p, mstr );
                     rc++;
-                } while( !p->has_trait( mstr ) && rc < 10 );
+                } while( !p->mutations.has_trait( mstr ) && rc < 10 );
             }
             cb.msg = string_format( _( "%s Mutation changes: %d" ), mstr.c_str(), rc );
             uistate.wishmutate_selected = wmenu.selected;
@@ -264,10 +264,10 @@ void debug_menu::wishmutate( player *p )
                 for( size_t i = 0; i < cb.vTraits.size(); i++ ) {
                     uilist_entry &entry = wmenu.entries[ i ];
                     entry.extratxt.txt.clear();
-                    if( p->has_trait( cb.vTraits[ i ] ) ) {
+                    if( p->mutations.has_trait( cb.vTraits[ i ] ) ) {
                         entry.text_color = c_green;
                         cb.pTraits[ cb.vTraits[ i ] ] = true;
-                        if( p->has_base_trait( cb.vTraits[ i ] ) ) {
+                        if( p->mutations.has_base_trait( cb.vTraits[ i ] ) ) {
                             entry.extratxt.txt = "T";
                         }
                     } else {

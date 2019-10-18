@@ -581,7 +581,7 @@ bool spell::can_learn( const player &p ) const
     if( type->spell_class == trait_id( "NONE" ) ) {
         return true;
     }
-    return p.has_trait( type->spell_class );
+    return p.mutations.has_trait( type->spell_class );
 }
 
 int spell::energy_cost( const player &p ) const
@@ -1254,7 +1254,7 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
         return;
     }
     if( !force && sp->spell_class != trait_id( "NONE" ) ) {
-        if( can_learn_spell( p, sp->id ) && !p.has_trait( sp->spell_class ) ) {
+        if( can_learn_spell( p, sp->id ) && !p.mutations.has_trait( sp->spell_class ) ) {
             std::string trait_cancel;
             for( const trait_id &cancel : sp->spell_class->cancels ) {
                 if( cancel == sp->spell_class->cancels.back() &&
@@ -1275,7 +1275,7 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
             if( query_yn(
                     _( "Learning this spell will make you a\n\n%s: %s\n\nand lock you out of\n\n%s\n\nContinue?" ),
                     sp->spell_class->name(), sp->spell_class->desc(), trait_cancel ) ) {
-                p.set_mutation( sp->spell_class );
+                p.mutations.set_mutation( p, sp->spell_class );
                 p.on_mutation_gain( sp->spell_class );
                 p.add_msg_if_player( sp->spell_class.obj().desc() );
             } else {
@@ -1312,7 +1312,7 @@ bool known_magic::can_learn_spell( const player &p, const spell_id &sp ) const
     if( sp_t.spell_class == trait_id( "NONE" ) ) {
         return true;
     }
-    return !p.has_opposite_trait( sp_t.spell_class );
+    return !p.mutations.has_opposite_trait( sp_t.spell_class );
 }
 
 spell &known_magic::get_spell( const spell_id &sp )
@@ -1352,8 +1352,8 @@ int known_magic::max_mana( const player &p ) const
 {
     const float int_bonus = ( ( 0.2f + p.get_int() * 0.1f ) - 1.0f ) * mana_base;
     const float unaugmented_mana = std::max( 0.0f,
-                                   ( ( mana_base + int_bonus ) * p.mutation_value( "mana_multiplier" ) ) +
-                                   p.mutation_value( "mana_modifier" ) - units::to_kilojoule( p.get_power_level() ) );
+                                   ( ( mana_base + int_bonus ) * p.mutations.mutation_value( "mana_multiplier" ) ) +
+                                   p.mutations.mutation_value( "mana_modifier" ) - units::to_kilojoule( p.get_power_level() ) );
     return p.calculate_by_enchantment( unaugmented_mana, enchantment::mod::MAX_MANA, true );
 }
 
@@ -1363,7 +1363,7 @@ void known_magic::update_mana( const player &p, float turns )
     const float full_replenish = to_turns<float>( 8_hours );
     const float ratio = turns / full_replenish;
     mod_mana( p, floor( ratio * p.calculate_by_enchantment( max_mana( p ) *
-                        p.mutation_value( "mana_regen_multiplier" ), enchantment::mod::REGEN_MANA ) ) );
+                        p.mutations.mutation_value( "mana_regen_multiplier" ), enchantment::mod::REGEN_MANA ) ) );
 }
 
 std::vector<spell_id> known_magic::spells() const

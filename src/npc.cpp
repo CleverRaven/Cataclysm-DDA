@@ -414,18 +414,18 @@ void npc::randomize( const npc_class_id &type )
     starting_clothes( *this, myclass, male );
     starting_inv( *this, myclass );
     has_new_items = true;
-    empty_traits();
+    mutations.empty_traits( *this );
 
     // Add fixed traits
-    for( const auto &tid : trait_group::traits_from( myclass->traits ) ) {
-        set_mutation( tid );
+    for( const trait_id &tid : trait_group::traits_from( myclass->traits ) ) {
+        mutations.set_mutation( *this, tid );
     }
 
     // Run mutation rounds
     for( const auto &mr : type->mutation_rounds ) {
         int rounds = mr.second.roll();
         for( int i = 0; i < rounds; ++i ) {
-            mutate_category( mr.first );
+            mutations.mutate_category( *this, mr.first );
         }
     }
     // Add bionics
@@ -841,9 +841,9 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
     }
 
     // Check for conditions that disqualify us
-    if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
+    if( type->intel > 0 && mutations.has_trait( trait_ILLITERATE ) ) {
         fail_reasons.emplace_back( _( "I can't read!" ) );
-    } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
+    } else if( mutations.has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
                !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
         fail_reasons.emplace_back( _( "I can't read without my glasses." ) );
     } else if( fine_detail_vision_mod() > 4 ) {
@@ -867,7 +867,7 @@ int npc::time_to_read( const item &book, const player &reader ) const
     int retval = type->time * reading_speed;
     retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
 
-    if( type->intel > reader.get_int() && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
+    if( type->intel > reader.get_int() && !reader.mutations.has_trait( trait_PROF_DICEMASTER ) ) {
         retval += type->time * ( type->intel - reader.get_int() ) * 100;
     }
     return retval;
@@ -947,7 +947,7 @@ void npc::finish_read( item &book )
         }
 
         if( ( skill_level == reading->level || !skill_level.can_train() ) ||
-            ( ( has_trait( trait_id( "SCHIZOPHRENIC" ) ) ||
+            ( ( mutations.has_trait( trait_id( "SCHIZOPHRENIC" ) ) ||
                 has_artifact_with( AEP_SCHIZO ) ) && one_in( 25 ) ) ) {
             if( display_messages ) {
                 add_msg( m_info, _( "%s can no longer learn from %s." ), disp_name(), book.type_name() );
@@ -1221,15 +1221,15 @@ void npc::form_opinion( const player &u )
         }
     }
 
-    if( u.has_trait( trait_SAPIOVORE ) ) {
+    if( u.mutations.has_trait( trait_SAPIOVORE ) ) {
         op_of_u.fear += 10; // Sapiovores = Scary
     }
-    if( u.has_trait( trait_TERRIFYING ) ) {
+    if( u.mutations.has_trait( trait_TERRIFYING ) ) {
         op_of_u.fear += 6;
     }
 
     int u_ugly = 0;
-    for( trait_id &mut : u.get_mutations() ) {
+    for( const trait_id &mut : u.mutations.get_mutations() ) {
         u_ugly += mut.obj().ugliness;
     }
     op_of_u.fear += u_ugly / 2;
@@ -1501,7 +1501,7 @@ void npc::say( const std::string &line, const int priority ) const
 {
     std::string formatted_line = line;
     parse_tags( formatted_line, g->u, *this );
-    if( has_trait( trait_id( "MUTE" ) ) ) {
+    if( mutations.has_trait( trait_id( "MUTE" ) ) ) {
         return;
     }
 
@@ -2221,7 +2221,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         visibility_cap = round( dist * dist / 20.0 / ( per - 1 ) );
     }
 
-    const auto trait_str = visible_mutations( visibility_cap );
+    const std::string trait_str = mutations.visible_mutations( visibility_cap );
     if( !trait_str.empty() ) {
         std::string mutations = _( "Traits: " ) + remove_color_tags( trait_str );
         enumerate_print( mutations, c_green );
@@ -2391,9 +2391,9 @@ void npc::die( Creature *nkiller )
     }
 
     if( killer == &g->u && ( !guaranteed_hostile() || hit_by_player ) ) {
-        bool cannibal = g->u.has_trait( trait_CANNIBAL );
-        bool psycho = g->u.has_trait( trait_PSYCHOPATH );
-        if( g->u.has_trait( trait_SAPIOVORE ) || psycho ) {
+        bool cannibal = g->u.mutations.has_trait( trait_CANNIBAL );
+        bool psycho = g->u.mutations.has_trait( trait_PSYCHOPATH );
+        if( g->u.mutations.has_trait( trait_SAPIOVORE ) || psycho ) {
             // No morale effect
         } else if( cannibal ) {
             g->u.add_morale( MORALE_KILLED_INNOCENT, -5, 0, 2_days, 3_hours );
@@ -2685,7 +2685,7 @@ void npc::on_load()
                      disp_name() );
         }
     }
-    if( has_trait( trait_id( "HALLUCINATION" ) ) ) {
+    if( mutations.has_trait( trait_id( "HALLUCINATION" ) ) ) {
         hallucination = true;
     }
 }
@@ -2868,7 +2868,7 @@ bool npc::will_accept_from_player( const item &it ) const
         return false;
     }
 
-    if( is_minion() || g->u.has_trait( trait_id( "DEBUG_MIND_CONTROL" ) ) ||
+    if( is_minion() || g->u.mutations.has_trait( trait_id( "DEBUG_MIND_CONTROL" ) ) ||
         it.has_flag( "NPC_SAFE" ) ) {
         return true;
     }
@@ -2952,7 +2952,7 @@ mfaction_id npc::get_monster_faction() const
         return player_fac.id();
     }
 
-    if( has_trait( trait_id( "BEE" ) ) ) {
+    if( mutations.has_trait( trait_id( "BEE" ) ) ) {
         return bee_fac.id();
     }
 

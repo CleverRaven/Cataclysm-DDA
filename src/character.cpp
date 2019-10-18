@@ -4451,7 +4451,7 @@ void character_mutations::set_highest_cat_level()
     mutation_category_level.clear();
 
     // For each of our mutations...
-    for( const std::pair<trait_id, Character::trait_data> &mut : my_mutations ) {
+    for( const std::pair<trait_id, character_mutations::trait_data> &mut : my_mutations ) {
         // ...build up a map of all prerequisite/replacement mutations along the tree, along with their distance from the current mutation
         std::unordered_map<trait_id, int> dependency_map;
         build_mut_dependency_map( mut.first, dependency_map, 0 );
@@ -4486,9 +4486,9 @@ void character_mutations::drench_mut_calc()
             }
         }
 
-        mut_drench[bp][WT_GOOD] = good;
-        mut_drench[bp][WT_NEUTRAL] = neutral;
-        mut_drench[bp][WT_IGNORED] = ignored;
+        mut_drench[bp][Character::water_tolerance::WT_GOOD] = Character::water_tolerance::good;
+        mut_drench[bp][Character::water_tolerance::WT_NEUTRAL] = Character::water_tolerance::neutral;
+        mut_drench[bp][Character::water_tolerance::WT_IGNORED] = Character::water_tolerance::ignored;
     }
 }
 

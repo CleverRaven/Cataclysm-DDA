@@ -12,6 +12,7 @@
 
 #include "bodypart.h"
 #include "calendar.h"
+#include "character.h"
 #include "damage.h"
 #include "string_id.h"
 #include "hash_utils.h"
