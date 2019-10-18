@@ -977,8 +977,8 @@ void player::modify_stimulation( const islot_comestible &comest )
         }
     }
     if( has_trait( trait_id( "STIMBOOST" ) ) && ( current_stim > 30 ) &&
-        ( ( comest.add == ADD_CAFFEINE )
-          || ( comest.add == ADD_SPEED ) || ( comest.add == ADD_COKE ) || ( comest.add == ADD_CRACK ) ) ) {
+        ( ( comest.add == ADD_CAFFEINE ) || ( comest.add == ADD_SPEED ) || ( comest.add == ADD_COKE ) ||
+          ( comest.add == ADD_CRACK ) ) ) {
         int hallu_duration = ( current_stim - comest.stim < 30 ) ? current_stim - 30 : comest.stim;
         add_effect( effect_visuals, hallu_duration * 30_minutes );
         std::vector<std::string> stimboost_msg{ _( "The shadows are getting ever closer." ),
