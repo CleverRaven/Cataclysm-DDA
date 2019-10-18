@@ -928,9 +928,9 @@ static void sleep()
             active.push_back( info.name.translated() );
         }
     }
-    for( auto &mut : u.get_mutations() ) {
-        const auto &mdata = mut.obj();
-        if( mdata.cost > 0 && u.has_active_mutation( mut ) ) {
+    for( const trait_id &mut : u.mutations.get_mutations() ) {
+        const mutation_branch &mdata = mut.obj();
+        if( mdata.cost > 0 && u.mutations.has_active_mutation( mut ) ) {
             active.push_back( mdata.name() );
         }
     }
@@ -969,7 +969,7 @@ static void sleep()
     time_duration try_sleep_dur = 24_hours;
     if( u.has_alarm_clock() ) {
         /* Reuse menu to ask player whether they want to set an alarm. */
-        bool can_hibernate = u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE );
+        bool can_hibernate = u.get_hunger() < -60 && u.mutations.has_active_mutation( trait_HIBERNATE );
 
         as_m.reset();
         as_m.text = can_hibernate
@@ -1767,7 +1767,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_OPEN:
-                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                if( u.mutations.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't open things while you're in your shell." ) );
                 } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't open things while you're riding." ) );
@@ -1777,7 +1777,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_CLOSE:
-                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                if( u.mutations.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't close things while you're in your shell." ) );
                 } else if( u.is_mounted() ) {
                     auto mon = u.mounted_creature.get();
@@ -1794,7 +1794,7 @@ bool game::handle_action()
             case ACTION_SMASH:
                 if( veh_ctrl ) {
                     handbrake();
-                } else if( u.has_active_mutation( trait_SHELL2 ) ) {
+                } else if( u.mutations.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't smash things while you're in your shell." ) );
                 } else {
                     smash();
@@ -1802,7 +1802,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_EXAMINE:
-                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                if( u.mutations.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't examine your surroundings while you're in your shell." ) );
                 } else if( mouse_target ) {
                     examine( *mouse_target );
@@ -1812,7 +1812,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_ADVANCEDINV:
-                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                if( u.mutations.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't move mass quantities while you're in your shell." ) );
                 } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't move mass quantities while you're riding." ) );
@@ -1822,7 +1822,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_PICKUP:
-                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                if( u.mutations.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't pick anything up while you're in your shell." ) );
                 } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't pick anything up while you're riding." ) );
@@ -1834,7 +1834,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_PICKUP_FEET:
-                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                if( u.mutations.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't pick anything up while you're in your shell." ) );
                 } else {
                     pickup_feet();
@@ -1842,7 +1842,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_GRAB:
-                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                if( u.mutations.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't grab things while you're in your shell." ) );
                 } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't grab things while you're riding." ) );
@@ -1852,7 +1852,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_HAUL:
-                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                if( u.mutations.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't haul things while you're in your shell." ) );
                 } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't haul things while you're riding." ) );
@@ -1862,7 +1862,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_BUTCHER:
-                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                if( u.mutations.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't butcher while you're in your shell." ) );
                 } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't butcher while you're riding." ) );
@@ -1876,7 +1876,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_PEEK:
-                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                if( u.mutations.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't peek around corners while you're in your shell." ) );
                 } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't peek around corners while you're riding." ) );
@@ -2008,7 +2008,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_DIR_DROP:
-                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                if( u.mutations.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't drop things to another tile while you're in your shell." ) );
                 } else {
                     drop_in_direction();
@@ -2019,7 +2019,7 @@ bool game::handle_action()
                 refresh_all();
                 break;
             case ACTION_MUTATIONS:
-                u.power_mutations();
+                u.mutations.power_mutations();
                 refresh_all();
                 break;
 
@@ -2033,7 +2033,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_CRAFT:
-                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                if( u.mutations.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't craft while you're in your shell." ) );
                 } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't craft while you're riding." ) );
@@ -2043,7 +2043,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_RECRAFT:
-                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                if( u.mutations.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't craft while you're in your shell." ) );
                 } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't craft while you're riding." ) );
@@ -2053,7 +2053,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_LONGCRAFT:
-                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                if( u.mutations.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't craft while you're in your shell." ) );
                 } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't craft while you're riding." ) );
@@ -2076,7 +2076,7 @@ bool game::handle_action()
             case ACTION_CONSTRUCT:
                 if( u.in_vehicle ) {
                     add_msg( m_info, _( "You can't construct while in a vehicle." ) );
-                } else if( u.has_active_mutation( trait_SHELL2 ) ) {
+                } else if( u.mutations.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't construct while you're in your shell." ) );
                 } else if( u.is_mounted() ) {
                     add_msg( m_info, _( "You can't construct while you're riding." ) );
@@ -2096,9 +2096,9 @@ bool game::handle_action()
                 break;
 
             case ACTION_CONTROL_VEHICLE:
-                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                if( u.mutations.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't operate a vehicle while you're in your shell." ) );
-                } else if( u.has_trait( trait_id( "WAYFARER" ) ) ) {
+                } else if( u.mutations.has_trait( trait_id( "WAYFARER" ) ) ) {
                     add_msg( m_info, _( "You refuse to take control of this vehicle." ) );
                 } else if( u.is_mounted() ) {
                     u.dismount();
@@ -2146,7 +2146,7 @@ bool game::handle_action()
                     }
                     set_safe_mode( SAFE_MODE_ON );
                 } else if( u.has_effect( effect_laserlocked ) ) {
-                    if( u.has_trait( trait_id( "PROF_CHURL" ) ) ) {
+                    if( u.mutations.has_trait( trait_id( "PROF_CHURL" ) ) ) {
                         add_msg( m_warning, _( "You make the sign of the cross." ) );
                     } else {
                         add_msg( m_info, _( "Ignoring laser targeting!" ) );
