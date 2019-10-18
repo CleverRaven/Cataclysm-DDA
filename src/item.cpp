@@ -3845,10 +3845,11 @@ units::mass item::weight( bool include_contents, bool integral ) const
     }
 
     units::mass ret;
-    if( integral ) {
-        ret = units::from_gram( get_var( "integral_weight", to_gram( type->integral_weight ) ) );
+    std::string local_str_mass = integral ? get_var( "integral_weight" ) : get_var( "weight" );
+    if( local_str_mass.empty() ) {
+        ret = integral ? type->integral_weight : type->weight;
     } else {
-        ret = units::from_gram( get_var( "weight", to_gram( type->weight ) ) );
+        ret = units::from_milligram( std::stoll( local_str_mass ) );
     }
 
     if( has_flag( "REDUCED_WEIGHT" ) ) {
