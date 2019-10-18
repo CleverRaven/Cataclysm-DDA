@@ -67,9 +67,30 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
                             fuel ) << "</color>" << "/" << p->get_total_fuel_capacity( fuel ) << " ";
         }
     }
+    std::string power_string;
+    const int curr_power = units::to_millijoule( p->get_power_level() );
+    const int kilo = curr_power / units::to_millijoule( 1_kJ );
+    const int joule = ( curr_power % units::to_millijoule( 1_kJ ) ) / units::to_millijoule( 1_J );
+    const int milli = curr_power % units::to_millijoule( 1_J );
+    if( kilo > 0 ) {
+        power_string = to_string( kilo );
+        if( joule > 0 ) {
+            power_string += pgettext( "decimal separator", "." ) + to_string( joule );
+        }
+        power_string += pgettext( "energy unit: kilojoule", "kJ" );
+    } else if( joule > 0 ) {
+        power_string = to_string( joule );
+        if( milli > 0 ) {
+            power_string += pgettext( "decimal separator", "." ) + to_string( milli );
+        }
+        power_string += pgettext( "energy unit: joule", "J" );
+    } else {
+        power_string = to_string( milli ) + pgettext( "energy unit: millijoule", "mJ" );
+    }
+
     const int pwr_str_pos = right_print( window, 0, 1, c_white,
-                                         string_format( _( "Bionic Power: <color_light_blue>%i</color>/<color_light_blue>%i</color>" ),
-                                                 units::to_kilojoule( p->get_power_level() ), units::to_kilojoule( p->get_max_power_level() ) ) );
+                                         string_format( _( "Bionic Power: <color_light_blue>%s</color>/<color_light_blue>%ikJ</color>" ),
+                                                 power_string, units::to_kilojoule( p->get_max_power_level() ) ) );
     std::string desc;
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
