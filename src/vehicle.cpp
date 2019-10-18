@@ -721,13 +721,13 @@ std::set<point> vehicle::immediate_path( int rotate )
     adjusted_angle = ( ( adjusted_angle + 15 / 2 ) / 15 ) * 15;
     tileray collision_vector;
     collision_vector.init( adjusted_angle );
-    point top_left_actual = point( global_pos3().x, global_pos3().y ) + coord_translate( front_left );
-    point top_right_actual = point( global_pos3().x, global_pos3().y ) + coord_translate( front_right );
+    point top_left_actual = global_pos3().xy() + coord_translate( front_left );
+    point top_right_actual = global_pos3().xy() + coord_translate( front_right );
     std::vector<point> front_row = line_to( top_left_actual, top_right_actual );
-    for( point &elem : front_row ) {
+    for( const point &elem : front_row ) {
         for( int i = 0; i < distance_to_check; ++i ) {
             collision_vector.advance( i );
-            point point_to_add = point( elem.x + collision_vector.dx(), elem.y + collision_vector.dy() );
+            point point_to_add = elem + point( collision_vector.dx(), collision_vector.dy() );
             points_to_check.emplace( point_to_add );
         }
     }
@@ -758,11 +758,10 @@ void vehicle::drive_to_local_target( const tripoint target, bool follow_protocol
     std::set<point> points_to_check = immediate_path( angle );
     bool stop = false;
 
-    for( const auto &pt : points_to_check ) {
+    for( const point &elem : points_to_check ) {
         if( stop ) {
             break;
         }
-        point elem = point( pt.x, pt.y );
         const optional_vpart_position ovp = g->m.veh_at( tripoint( elem, sm_pos.z ) );
         if( g->m.impassable_ter_furn( tripoint( elem, sm_pos.z ) ) || ( ovp &&
                 &ovp->vehicle() != this ) ) {
@@ -1740,7 +1739,7 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
                 "CONE_LIGHT",
                 "CIRCLE_LIGHT",
                 "AISLE_LIGHT",
-                "AUTOPILOT"
+                "AUTOPILOT",
                 "DOME_LIGHT",
                 "ATOMIC_LIGHT",
                 "STEREO",
