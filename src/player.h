@@ -1043,11 +1043,6 @@ class player : public Character
         int sleep_spot( const tripoint &p ) const;
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
-        /** Adds "sleep" to the player */
-        void fall_asleep();
-        void fall_asleep( const time_duration &duration );
-        /** Checks to see if the player is using floor items to keep warm, and return the name of one such item if so */
-        std::string is_snuggling() const;
 
     private:
         /** last time we checked for sleep */
@@ -1121,18 +1116,6 @@ class player : public Character
         void practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
         /** This handles warning the player that there current activity will not give them xp */
         void handle_skill_warning( const skill_id &id, bool force_warning = false );
-        /** Legacy activity assignment, should not be used where resuming is important. */
-        void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
-                              int index = -1, int pos = INT_MIN,
-                              const std::string &name = "" );
-        /** Assigns activity to player, possibly resuming old activity if it's similar enough. */
-        void assign_activity( const player_activity &act, bool allow_resume = true );
-        /** Check if player currently has a given activity */
-        bool has_activity( const activity_id &type ) const;
-        /** Check if player currently has any of the given activities */
-        bool has_activity( const std::vector<activity_id> &types ) const;
-        void cancel_activity();
-        void resume_backlog_activity();
 
         int get_morale_level() const; // Modified by traits, &c
         void add_morale( const morale_type &type, int bonus, int max_bonus = 0,
@@ -1400,11 +1383,6 @@ class player : public Character
         bool defer_move( const tripoint &next );
         void shift_destination( const point &shift );
 
-        // Hauling items on the ground
-        void start_hauling();
-        void stop_hauling();
-        bool is_hauling() const;
-
         /**
          * Global position, expressed in map square coordinate system
          * (the most detailed coordinate system), used by the @ref map.
@@ -1422,15 +1400,10 @@ class player : public Character
         // ---------------VALUES-----------------
 
         tripoint view_offset;
-        // Means player sit inside vehicle on the tile he is now
-        bool in_vehicle;
         // Is currently in control of a vehicle
         bool controlling_vehicle;
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
-        bool hauling;
-        player_activity activity;
-        std::list<player_activity> backlog;
         cata::optional<tripoint> destination_point;
         int volume;
         const profession *prof;

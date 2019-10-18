@@ -9268,7 +9268,7 @@ bool player::can_sleep()
     return result;
 }
 
-void player::fall_asleep()
+void Character::fall_asleep()
 {
     // Communicate to the player that he is using items on the floor
     std::string item_name = is_snuggling();
@@ -9301,7 +9301,7 @@ void player::fall_asleep()
     fall_asleep( 10_hours ); // default max sleep time.
 }
 
-void player::fall_asleep( const time_duration &duration )
+void Character::fall_asleep( const time_duration &duration )
 {
     if( activity ) {
         if( activity.id() == "ACT_TRY_SLEEP" ) {
@@ -9313,7 +9313,7 @@ void player::fall_asleep( const time_duration &duration )
     add_effect( effect_sleep, duration );
 }
 
-std::string player::is_snuggling() const
+std::string Character::is_snuggling() const
 {
     auto begin = g->m.i_at( pos() ).begin();
     auto end = g->m.i_at( pos() ).end();
@@ -9831,13 +9831,13 @@ void player::learn_recipe( const recipe *const rec )
     learned_recipes->include( rec );
 }
 
-void player::assign_activity( const activity_id &type, int moves, int index, int pos,
-                              const std::string &name )
+void Character::assign_activity( const activity_id &type, int moves, int index, int pos,
+                                 const std::string &name )
 {
     assign_activity( player_activity( type, moves, index, pos, name ) );
 }
 
-void player::assign_activity( const player_activity &act, bool allow_resume )
+void Character::assign_activity( const player_activity &act, bool allow_resume )
 {
     if( allow_resume && !backlog.empty() && backlog.front().can_resume_with( act, *this ) ) {
         add_msg_if_player( _( "You resume your task." ) );
@@ -9862,17 +9862,17 @@ void player::assign_activity( const player_activity &act, bool allow_resume )
     }
 }
 
-bool player::has_activity( const activity_id &type ) const
+bool Character::has_activity( const activity_id &type ) const
 {
     return activity.id() == type;
 }
 
-bool player::has_activity( const std::vector<activity_id> &types ) const
+bool Character::has_activity( const std::vector<activity_id> &types ) const
 {
     return std::find( types.begin(), types.end(), activity.id() ) != types.end() ;
 }
 
-void player::cancel_activity()
+void Character::cancel_activity()
 {
     if( has_activity( activity_id( "ACT_MOVE_ITEMS" ) ) && is_hauling() ) {
         stop_hauling();
@@ -9895,7 +9895,7 @@ void player::cancel_activity()
     activity = player_activity();
 }
 
-void player::resume_backlog_activity()
+void Character::resume_backlog_activity()
 {
     if( !backlog.empty() && backlog.front().auto_resume ) {
         activity = backlog.front();
@@ -10238,7 +10238,7 @@ void player::shift_destination( const point &shift )
     }
 }
 
-void player::start_hauling()
+void Character::start_hauling()
 {
     add_msg( _( "You start hauling items along the ground." ) );
     if( is_armed() ) {
@@ -10247,7 +10247,7 @@ void player::start_hauling()
     hauling = true;
 }
 
-void player::stop_hauling()
+void Character::stop_hauling()
 {
     add_msg( _( "You stop hauling items." ) );
     hauling = false;
@@ -10256,7 +10256,7 @@ void player::stop_hauling()
     }
 }
 
-bool player::is_hauling() const
+bool Character::is_hauling() const
 {
     return hauling;
 }

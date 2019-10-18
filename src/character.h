@@ -30,6 +30,7 @@
 #include "enums.h"
 #include "item.h"
 #include "optional.h"
+#include "player_activity.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -1057,7 +1058,12 @@ class Character : public Creature, public visitable<Character>
         std::list<item> worn;
         std::array<int, num_hp_parts> hp_cur, hp_max, damage_bandaged, damage_disinfected;
         bool nv_cached;
+        // Means player sit inside vehicle on the tile he is now
+        bool in_vehicle;
+        bool hauling;
 
+        player_activity activity;
+        std::list<player_activity> backlog;
         inventory inv;
         itype_id last_item;
         item weapon;
@@ -1076,6 +1082,24 @@ class Character : public Creature, public visitable<Character>
         int mounted_creature_id;
         // for vehicle work
         int activity_vehicle_part_index = -1;
+
+        // Hauling items on the ground
+        void start_hauling();
+        void stop_hauling();
+        bool is_hauling() const;
+
+        /** Legacy activity assignment, should not be used where resuming is important. */
+        void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
+                              int index = -1, int pos = INT_MIN,
+                              const std::string &name = "" );
+        /** Assigns activity to player, possibly resuming old activity if it's similar enough. */
+        void assign_activity( const player_activity &act, bool allow_resume = true );
+        /** Check if player currently has a given activity */
+        bool has_activity( const activity_id &type ) const;
+        /** Check if player currently has any of the given activities */
+        bool has_activity( const std::vector<activity_id> &types ) const;
+        void resume_backlog_activity();
+        void cancel_activity();
 
         void initialize_stomach_contents();
 
@@ -1143,6 +1167,12 @@ class Character : public Creature, public visitable<Character>
         /** Handles rooting effects */
         void rooted_message() const;
         void rooted();
+
+        /** Adds "sleep" to the player */
+        void fall_asleep();
+        void fall_asleep( const time_duration &duration );
+        /** Checks to see if the player is using floor items to keep warm, and return the name of one such item if so */
+        std::string is_snuggling() const;
 
         /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
         void update_vitamins( const vitamin_id &vit );
