@@ -7,7 +7,9 @@
     "broken_symbol": "#",
     "broken_color": "green",
     "durability": 800,
-    "difficulty": 8
+    "requirements": {
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+    }
   },
   {
     "type": "vehicle_part",
@@ -19,8 +21,7 @@
     "size": 10,
     "breaks_into": [ { "item": "tank_gun_manual", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 2 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 2 ] ] }
     }
   },
   {
@@ -33,8 +34,7 @@
     "size": 50,
     "breaks_into": [ { "item": "tank_gun_auto", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 2 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 2 ] ] }
     }
   },
   {
@@ -47,8 +47,7 @@
     "size": 100,
     "breaks_into": [ { "item": "tank_gun_rws", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ], [ "electronics", 3 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ], [ "electronics", 3 ] ] }
     }
   },
   {
@@ -61,8 +60,7 @@
     "size": 15,
     "breaks_into": [ { "item": "howitzer_gun", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ] }
     }
   },
   {
@@ -75,8 +73,7 @@
     "size": 35,
     "breaks_into": [ { "item": "atgm_turret", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ], [ "electronics", 3 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ], [ "electronics", 3 ] ] }
     }
   },
   {
@@ -89,8 +86,7 @@
     "size": 50,
     "breaks_into": [ { "item": "30mm_autocannon", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 3 ] ], "time": 10000 },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
+      "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 3 ] ] },
     }
   }
 ]

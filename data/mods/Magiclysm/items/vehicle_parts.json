@@ -9,11 +9,12 @@
     "broken_color": "light_gray",
     "durability": 800,
     "item": "bulette_plate",
-    "difficulty": 0,
     "location": "armor",
     "flags": [ "ARMOR" ],
     "breaks_into": [ { "item": "leather", "count": [ 1, 2 ] } ],
     "damage_reduction": { "all": 12 },
-    "requirements": { "install": { "time": 160000, "using": [ [ "rope_natural", 2 ] ] } }
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "1600 s", "using": [ [ "rope_natural", 2 ] ] }
+    }
   }
 ]

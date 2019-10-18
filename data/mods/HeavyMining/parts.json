@@ -36,7 +36,6 @@
     "color": "white",
     "broken_color": "light_gray",
     "looks_like": "55gal_drum",
-    "difficulty": 8,
     "damage_modifier": 100,
     "durability": 300,
     "description": "A large and heavy metal drum for balancing a vehicle.",
@@ -46,6 +45,11 @@
       { "item": "steel_chunk", "count": [ 4, 15 ] },
       { "item": "scrap", "count": [ 4, 100 ] }
     ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 9 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "flags": [ "PROTRUSION", "EXTRA_DRAG" ],
     "damage_reduction": { "all": 132 }
   },
@@ -60,7 +64,6 @@
     "color": "light_gray",
     "broken_color": "light_gray",
     "looks_like": "crane_medium",
-    "difficulty": 8,
     "damage_modifier": 100,
     "durability": 300,
     "description": "A large metal jagged metalhead, powered by the vehicle's engines.  Use the vehicle controls to turn it on or off.  When turned on, it will stop the vehicle unless it has a strong engine.  When turned on, it will destroy walls near it.",
@@ -72,6 +75,11 @@
       { "item": "scrap", "count": [ 4, 100 ] }
     ],
     "transform_terrain": { "pre_flags": [ "MINEABLE" ], "post_terrain": "don't used" },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 9 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
     "flags": [ "PROTRUSION", "EXTRA_DRAG", "ROADHEAD", "CRASH_TERRAIN_AROUND" ],
     "damage_reduction": { "all": 132 }
   }

@@ -6,7 +6,11 @@
     "durability": 400,
     "damage_modifier": 80,
     "location": "on_roof",
-    "flags": [ "TURRET", "TOOL_NONE" ]
+    "requirements": {
+      "install": { "time": "100 s" },
+      "removal": { "time": "50 s" }
+    },
+    "flags": [ "TURRET" ]
   },
   {
     "id": "mounted_chemical_thrower",
@@ -19,8 +23,8 @@
     "breaks_into": [ { "item": "chemical_thrower", "prob": 50 } ],
     "//": "doesn't work correctly if using ammo from vehicle tanks at the moment, so uses the usual magazines",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 1 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
   },
   {
@@ -33,8 +37,8 @@
     "broken_color": "magenta",
     "breaks_into": [ { "item": "heavy_rail_rifle", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
   },
   {
@@ -47,8 +51,8 @@
     "broken_color": "magenta",
     "breaks_into": [ { "item": "emp_gun", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
   },
   {
@@ -61,8 +65,8 @@
     "broken_color": "magenta",
     "breaks_into": [ { "item": "rebar_rifle", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
   },
   {
@@ -75,8 +79,8 @@
     "broken_color": "magenta",
     "breaks_into": [ { "item": "coilgun", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
   },
   {
@@ -89,8 +93,8 @@
     "broken_color": "magenta",
     "breaks_into": [ { "item": "hk_g80", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
   },
   {
@@ -103,8 +107,8 @@
     "broken_color": "green",
     "breaks_into": [ { "item": "mininuke_launcher", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
   },
   {
@@ -118,8 +122,8 @@
     "broken_color": "dark_gray",
     "breaks_into": [ { "item": "flamethrower", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 1 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
     },
     "extend": { "flags": [ "USE_TANKS" ] }
   },
@@ -133,8 +137,8 @@
     "broken_color": "magenta",
     "breaks_into": [ { "item": "plasma_gun", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ], [ "electronics", 6 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 6 ], [ "electronics", 6 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ] }
     }
   },
   {
@@ -147,8 +151,8 @@
     "broken_color": "magenta",
     "breaks_into": [ { "item": "laser_rifle", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
   },
   {
@@ -161,8 +165,8 @@
     "broken_color": "magenta",
     "breaks_into": [ { "item": "laser_cannon", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
   },
   {
@@ -175,8 +179,8 @@
     "broken_color": "cyan",
     "breaks_into": [ { "item": "m249", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 3 ], [ "rifle", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
     }
   },
   {
@@ -189,8 +193,8 @@
     "broken_color": "green",
     "breaks_into": [ { "item": "abzats", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ], [ "shotgun", 1 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 3 ], [ "shotgun", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ] }
     }
   },
   {
@@ -203,8 +207,8 @@
     "broken_color": "green",
     "breaks_into": [ { "item": "m2browning", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
     }
   },
   {
@@ -217,8 +221,8 @@
     "broken_color": "green",
     "breaks_into": [ { "item": "m134", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ], [ "rifle", 3 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 6 ], [ "rifle", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ] }
     }
   },
   {
@@ -231,8 +235,8 @@
     "broken_color": "cyan",
     "breaks_into": [ { "item": "m1918", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
     }
   },
   {
@@ -245,8 +249,8 @@
     "broken_color": "cyan",
     "breaks_into": [ { "item": "m240", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
     }
   },
   {
@@ -259,8 +263,8 @@
     "broken_color": "cyan",
     "breaks_into": [ { "item": "m60", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 4 ], [ "rifle", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
     }
   },
   {
@@ -273,8 +277,8 @@
     "broken_color": "green",
     "breaks_into": [ { "item": "mark19", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 1 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
   },
   {
@@ -288,8 +292,8 @@
     "durability": 800,
     "breaks_into": [ { "item": "atgm_launcher", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 5 ], [ "launcher", 3 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
   },
   {
@@ -302,8 +306,8 @@
     "broken_color": "white",
     "breaks_into": [ { "item": "rm298", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 2 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
   },
   {
@@ -316,8 +320,8 @@
     "broken_color": "white",
     "breaks_into": [ { "item": "rm614_lmg", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 2 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 5 ], [ "rifle", 2 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
   },
   {
@@ -330,8 +334,8 @@
     "broken_color": "light_blue",
     "breaks_into": [ { "item": "plasma_rifle", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
   },
   {
@@ -345,8 +349,8 @@
     "broken_color": "blue",
     "breaks_into": [ { "item": "watercannon", "prob": 50 } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "100 s", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "100 s", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 4 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ] }
     },
     "extend": { "flags": [ "USE_TANKS" ] }
   }
