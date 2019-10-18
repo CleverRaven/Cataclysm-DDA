@@ -630,7 +630,7 @@
     "id": "bio_night",
     "type": "bionic",
     "name": "Artificial Night Generator",
-    "description": "When active, this bionic eliminates all light within a 15 tile radius through destructive interference.",
+    "description": "When active, this bionic eliminates all light within a 2 tile radius through destructive interference.",
     "occupied_bodyparts": [ [ "TORSO", 16 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": "9 kJ",

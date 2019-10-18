@@ -91,17 +91,17 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
     std::vector<std::string> properties;
 
     if( bio_data.power_activate > 0_kJ ) {
-        properties.push_back( string_format( _( "%d kJ act" ),
-                                             units::to_kilojoule( bio_data.power_activate ) ) );
+        properties.push_back( string_format( _( "%s act" ),
+                                             units::display( bio_data.power_activate ) ) );
     }
     if( bio_data.power_deactivate > 0_kJ ) {
-        properties.push_back( string_format( _( "%d kJ deact" ),
-                                             units::to_kilojoule( bio_data.power_deactivate ) ) );
+        properties.push_back( string_format( _( "%s deact" ),
+                                             units::display( bio_data.power_deactivate ) ) );
     }
     if( bio_data.charge_time > 0 && bio_data.power_over_time > 0_kJ ) {
         properties.push_back( bio_data.charge_time == 1
-                              ? string_format( _( "%d kJ/turn" ), units::to_kilojoule( bio_data.power_over_time ) )
-                              : string_format( _( "%d kJ/%d turns" ), units::to_kilojoule( bio_data.power_over_time ),
+                              ? string_format( _( "%s/turn" ), units::display( bio_data.power_over_time ) )
+                              : string_format( _( "%s/%d turns" ), units::display( bio_data.power_over_time ),
                                                bio_data.charge_time ) );
     }
     if( bio_data.toggled ) {
