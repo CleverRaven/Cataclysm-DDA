@@ -4186,6 +4186,13 @@ int Character::get_stamina() const
     return stamina;
 }
 
+int Character::get_stamina_max() const
+{
+    int maxStamina = get_option< int >( "PLAYER_MAX_STAMINA" );
+    maxStamina *= Character::mutation_value( "max_stamina_modifier" );
+    return maxStamina;
+}
+
 void Character::set_stamina( int new_stamina )
 {
     stamina = new_stamina;

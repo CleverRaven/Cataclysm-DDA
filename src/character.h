@@ -1137,6 +1137,7 @@ class Character : public Creature, public visitable<Character>
         void mod_stim( int mod );
 
         int get_stamina() const;
+        int get_stamina_max() const;
         void set_stamina( int new_stamina );
         void mod_stamina( int mod );
 

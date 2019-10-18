@@ -10131,13 +10131,6 @@ int player::get_hp_max( hp_part bp ) const
     return hp_total;
 }
 
-int player::get_stamina_max() const
-{
-    int maxStamina = get_option< int >( "PLAYER_MAX_STAMINA" );
-    maxStamina *= Character::mutation_value( "max_stamina_modifier" );
-    return maxStamina;
-}
-
 void player::burn_move_stamina( int moves )
 {
     int overburden_percentage = 0;

@@ -1476,7 +1476,6 @@ class player : public Character
         int get_hp() const override;
         int get_hp_max( hp_part bp ) const override;
         int get_hp_max() const override;
-        int get_stamina_max() const;
         void burn_move_stamina( int moves );
 
         //message related stuff
