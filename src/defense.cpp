@@ -1261,6 +1261,7 @@ void draw_caravan_borders( const catacurses::window &w, int current_window )
     mvwputch( w, point( FULL_SCREEN_WIDTH - 1, FULL_SCREEN_HEIGHT - 1 ), col, LINE_XOOX );
 
     // Quick reminded about help.
+    // NOLINTNEXTLINE(cata-text-style): literal question mark
     mvwprintz( w, point( 2, FULL_SCREEN_HEIGHT - 1 ), c_red, _( "Press ? for help." ) );
     wrefresh( w );
 }

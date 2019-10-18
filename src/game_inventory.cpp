@@ -1613,8 +1613,10 @@ class bionic_install_preset: public inventory_selector_preset
             const bionic_id &bid = itemtype->bionic->id;
 
             if( it->has_flag( "FILTHY" ) ) {
+                // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
                 return _( "/!\\ CBM is highly contaminated. /!\\" );
             } else if( it->has_flag( "NO_STERILE" ) ) {
+                // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
                 return _( "/!\\ CBM is not sterile. /!\\" ) ;
             } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
                 return _( "CBM already deployed.  Please reset to factory state." );

@@ -1116,8 +1116,9 @@ void vehicle::backfire( const int e ) const
     const int power = part_vpower_w( engines[e], true );
     const tripoint pos = global_part_pos3( engines[e] );
     sounds::sound( pos, 40 + power / 10000, sounds::sound_t::movement,
+                   // single space after the exclaimation mark because it does not end the sentence
                    //~ backfire sound
-                   string_format( _( "a loud BANG! from the %s" ),
+                   string_format( _( "a loud BANG! from the %s" ), // NOLINT(cata-text-style)
                                   parts[ engines[ e ] ].name() ), true, "vehicle", "engine_backfire" );
 }
 

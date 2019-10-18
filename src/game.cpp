@@ -1018,7 +1018,7 @@ bool game::cleanup_at_end()
                 vRip.emplace_back( "              |   _        |" );
                 vRip.emplace_back( "              |__/         |" );
                 vRip.emplace_back( "             % / `--.      |%" );
-                vRip.emplace_back( "         * .%%|          -< @%%%" );
+                vRip.emplace_back( "         * .%%|          -< @%%%" ); // NOLINT(cata-text-style)
                 vRip.emplace_back( "         `\\%`@|            |@@%@%%" );
                 vRip.emplace_back( "       .%%%@@@|%     `   % @@@%%@%%%%" );
                 vRip.emplace_back( "  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%" );
@@ -1045,7 +1045,7 @@ bool game::cleanup_at_end()
                 vRip.emplace_back( "|                                         |" );
                 vRip.emplace_back( "|_____.-._______            __/|__________|" );
                 vRip.emplace_back( "             % / `_-.   _  |%" );
-                vRip.emplace_back( "         * .%%|  |_) | |_)< @%%%" );
+                vRip.emplace_back( "         * .%%|  |_) | |_)< @%%%" ); // NOLINT(cata-text-style)
                 vRip.emplace_back( "         `\\%`@|  | \\ | |   |@@%@%%" );
                 vRip.emplace_back( "       .%%%@@@|%     `   % @@@%%@%%%%" );
                 vRip.emplace_back( "  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%" );
@@ -5867,6 +5867,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     std::string signage = m.get_signage( lp );
     if( !signage.empty() ) {
         trim_and_print( w_look, point( column, ++lines ), max_width, c_dark_gray,
+                        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
                         u.has_trait( trait_ILLITERATE ) ? _( "Sign: ???" ) : _( "Sign: %s" ), signage );
     }
 

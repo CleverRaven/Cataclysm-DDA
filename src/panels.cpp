@@ -1090,6 +1090,7 @@ static void draw_time( const avatar &u, const catacurses::window &w )
         wmove( w, point( 11, 0 ) );
         draw_time_graphic( w );
     } else {
+        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
         mvwprintz( w, point( 11, 0 ), c_light_gray, _( "Time: ???" ) );
     }
     //display moon
@@ -1358,6 +1359,7 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     } else if( g->get_levz() >= 0 ) {
         mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ), time_approx() );
     } else {
+        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
         mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : ???" ) );
     }
     if( minimap ) {
@@ -1886,6 +1888,7 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
         wmove( w, point( 15, 0 ) );
         draw_time_graphic( w );
     } else {
+        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
         mvwprintz( w, point( 15, 0 ), c_light_gray, _( "Time: ???" ) );
     }
 

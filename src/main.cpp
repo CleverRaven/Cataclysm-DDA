@@ -339,6 +339,7 @@ int main( int argc, char *argv[] )
                 },
                 {
                     "--userdir", "<path>",
+                    // NOLINTNEXTLINE(cata-text-style): the dot is not a period
                     "Base path for user-overrides to files from the ./data directory and named below",
                     section_user_directory,
                     []( int num_args, const char **params ) -> int {
