@@ -13,6 +13,7 @@
 #include <cmath>
 #include <limits>
 #include <locale>
+#include <stdlib.h>
 
 #include "advanced_inv.h"
 #include "ammo.h"
