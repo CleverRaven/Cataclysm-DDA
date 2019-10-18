@@ -4165,6 +4165,21 @@ std::string Character::activity_level_str() const
     }
 }
 
+int Character::get_stim() const
+{
+    return stim;
+}
+
+void Character::set_stim( int new_stim )
+{
+    stim = new_stim;
+}
+
+void Character::mod_stim( int mod )
+{
+    stim += mod;
+}
+
 int Character::item_handling_cost( const item &it, bool penalties, int base_cost ) const
 {
     int mv = base_cost;

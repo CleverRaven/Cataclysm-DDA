@@ -1423,7 +1423,6 @@ class player : public Character
         int scent;
         int dodges_left;
         int blocks_left;
-        int stim;
         int cash;
         int movecounter;
         bool death_drops;// Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight

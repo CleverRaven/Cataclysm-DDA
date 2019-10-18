@@ -66,8 +66,8 @@ void addict_effect( player &u, addiction &add )
             if( one_in( 800 - 50 * in ) ) {
                 u.mod_fatigue( 1 );
             }
-            if( u.stim > -5 * in && one_in( 400 - 20 * in ) ) {
-                u.stim--;
+            if( u.get_stim() > -5 * in && one_in( 400 - 20 * in ) ) {
+                u.mod_stim( -1 );
             }
             break;
 
@@ -78,8 +78,8 @@ void addict_effect( player &u, addiction &add )
 
             u.add_msg_if_player( m_warning, _( "You want some caffeine." ) );
             u.add_morale( MORALE_CRAVING_CAFFEINE, -5, -30 );
-            if( u.stim > -10 * in && rng( 0, 10 ) < in ) {
-                u.stim--;
+            if( u.get_stim() > -10 * in && rng( 0, 10 ) < in ) {
+                u.mod_stim( -1 );
             }
             if( rng( 8, 400 ) < in ) {
                 u.add_msg_if_player( m_bad, _( "Your hands start shaking… you need it bad!" ) );
@@ -157,8 +157,8 @@ void addict_effect( player &u, addiction &add )
         case ADD_SPEED: {
             u.mod_int_bonus( -1 );
             u.mod_str_bonus( -1 );
-            if( u.stim > -100 && x_in_y( in, 20 ) ) {
-                u.stim--;
+            if( u.get_stim() > -100 && x_in_y( in, 20 ) ) {
+                u.mod_stim( -1 );
             }
             if( rng( 0, 150 ) <= in ) {
                 u.mod_healthy_mod( -1, -in );
@@ -194,8 +194,8 @@ void addict_effect( player &u, addiction &add )
             if( dice( 2, 80 ) <= in ) {
                 u.add_msg_if_player( m_warning, cur_msg );
                 u.add_morale( morale_type, -20, -15 * in );
-                if( u.stim > -150 ) {
-                    u.stim -= 3;
+                if( u.get_stim() > -150 ) {
+                    u.mod_stim( -3 );
                 }
             }
             break;
