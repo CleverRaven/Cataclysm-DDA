@@ -13,7 +13,6 @@
 #include <cmath>
 #include <limits>
 #include <locale>
-#include <stdlib.h>
 
 #include "advanced_inv.h"
 #include "ammo.h"
@@ -3850,7 +3849,7 @@ units::mass item::weight( bool include_contents, bool integral ) const
     if( local_str_mass.empty() ) {
         ret = integral ? type->integral_weight : type->weight;
     } else {
-        ret = units::from_milligram( _atoi64( local_str_mass.c_str() ) );
+        ret = units::from_milligram( std::stoll( local_str_mass ) );
     }
 
     if( has_flag( "REDUCED_WEIGHT" ) ) {
