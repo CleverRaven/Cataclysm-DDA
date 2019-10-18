@@ -1322,7 +1322,7 @@ void debug()
                 default:
                     break;
             }
-            if( query_int( dbg_damage, _( "Damage self for how much? hp: %d" ), part ) ) {
+            if( query_int( dbg_damage, _( "Damage self for how much?  hp: %d" ), part ) ) {
                 u.apply_damage( nullptr, part, dbg_damage );
                 u.die( nullptr );
             }

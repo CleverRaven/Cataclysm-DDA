@@ -516,10 +516,10 @@ void vehicle::toggle_autopilot()
     };
     smenu.desc_enabled = true;
     smenu.text = _( "Choose action for the autopilot" );
-    smenu.addentry_col( PATROL, true, 'P', _( "Patrol..." ),
-                        "", string_format( _( "Program the autopilot to patrol a nearby vehicle patrol zone. "
+    smenu.addentry_col( PATROL, true, 'P', _( "Patrol…" ),
+                        "", string_format( _( "Program the autopilot to patrol a nearby vehicle patrol zone.  "
                                            "If no zones are nearby, you will be prompted to create one." ) ) );
-    smenu.addentry_col( STOP, true, 'S', _( "Stop..." ),
+    smenu.addentry_col( STOP, true, 'S', _( "Stop…" ),
                         "", string_format( _( "Stop all autopilot related activities." ) ) );
     smenu.query();
     switch( smenu.ret ) {
