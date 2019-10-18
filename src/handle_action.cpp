@@ -797,7 +797,7 @@ static void wait()
         }
 
     } else {
-        if( g->u.stamina < g->u.get_stamina_max() ) {
+        if( g->u.get_stamina() < g->u.get_stamina_max() ) {
             as_m.addentry( 12, true, 'w', _( "Wait until you catch your breath" ) );
             durations.emplace( 12, 15_minutes ); // to hide it from showing
         }

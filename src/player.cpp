@@ -477,7 +477,8 @@ player::player() :
     blocks_left = 1;
     set_power_level( 0_kJ );
     set_max_power_level( 0_kJ );
-    stamina = 10000; //Temporary value for stamina. It will be reset later from external json option.
+    set_stamina(
+        10000 ); //Temporary value for stamina. It will be reset later from external json option.
     pkill = 0;
     radiation = 0;
     tank_plut = 0;
@@ -558,7 +559,7 @@ void player::normalize()
     recalc_hp();
 
     temp_conv.fill( BODYTEMP_NORM );
-    stamina = get_stamina_max();
+    set_stamina( get_stamina_max() );
 }
 
 void player::process_turn()
@@ -1659,8 +1660,8 @@ int player::run_cost( int base_cost, bool diag ) const
         }
         // Both walk and run speed drop to half their maximums as stamina approaches 0.
         // Convert stamina to a float first to allow for decimal place carrying
-        float stamina_modifier = ( static_cast<float>( stamina ) / get_stamina_max() + 1 ) / 2;
-        if( move_mode == CMM_RUN && stamina > 0 ) {
+        float stamina_modifier = ( static_cast<float>( get_stamina() ) / get_stamina_max() + 1 ) / 2;
+        if( move_mode == CMM_RUN && get_stamina() > 0 ) {
             // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
             stamina_modifier *= 2.0;
         }
@@ -1933,12 +1934,12 @@ void player::mod_stat( const std::string &stat, float modifier )
     } else if( stat == "oxygen" ) {
         oxygen += modifier;
     } else if( stat == "stamina" ) {
-        if( stamina + modifier < 0 ) {
+        if( get_stamina() + modifier < 0 ) {
             add_effect( effect_winded, 10_turns );
         }
-        stamina += modifier;
-        stamina = std::min( stamina, get_stamina_max() );
-        stamina = std::max( 0, stamina );
+        mod_stamina( modifier );
+        set_stamina( std::min( get_stamina(), get_stamina_max() ) );
+        set_stamina( std::max( 0, get_stamina() ) );
     } else {
         // Fall through to the creature method.
         Character::mod_stat( stat, modifier );
@@ -2573,7 +2574,7 @@ void player::on_dodge( Creature *source, float difficulty )
         matec_id tec = pick_technique( *source, used_weapon(), false, true, false );
 
         if( tec != tec_none && !is_dead_state() ) {
-            if( stamina < get_stamina_max() / 3 ) {
+            if( get_stamina() < get_stamina_max() / 3 ) {
                 add_msg( m_bad, _( "You try to counterattack but you are too exhausted!" ) );
             } else {
                 melee_attack( *source, false, tec );
@@ -3969,13 +3970,13 @@ void player::update_stamina( int turns )
         // At -100 stim it inflicts -20 malus to regen at 100%  stamina,
         // effectivly countering stamina gain of default 20,
         // at 50% stamina its -10 (50%), cuts by 25% at 25% stamina
-        stamina_recovery += current_stim / 5.0f * stamina / get_stamina_max() ;
+        stamina_recovery += current_stim / 5.0f * get_stamina() / get_stamina_max() ;
     }
 
     const int max_stam = get_stamina_max();
     if( get_power_level() >= 3_kJ && has_active_bionic( bio_gills ) ) {
         int bonus = std::min<int>( units::to_kilojoule( get_power_level() ) / 3,
-                                   max_stam - stamina - stamina_recovery * turns );
+                                   max_stam - get_stamina() - stamina_recovery * turns );
         // so the effective recovery is up to 5x default
         bonus = std::min( bonus, 4 * static_cast<int>
                           ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) );
@@ -3987,10 +3988,10 @@ void player::update_stamina( int turns )
         }
     }
 
-    stamina += roll_remainder( stamina_recovery * turns );
+    mod_stamina( roll_remainder( stamina_recovery * turns ) );
     add_msg( m_debug, "Stamina recovery: %d", roll_remainder( stamina_recovery * turns ) );
     // Cap at max
-    stamina = std::min( std::max( stamina, 0 ), max_stam );
+    set_stamina( std::min( std::max( get_stamina(), 0 ), max_stam ) ) ;
 }
 
 bool player::is_hibernating() const
@@ -4103,7 +4104,7 @@ void player::siphon( vehicle &veh, const itype_id &desired_liquid )
 void player::cough( bool harmful, int loudness )
 {
     if( harmful ) {
-        const int stam = stamina;
+        const int stam = get_stamina();
         const int malus = get_stamina_max() * 0.05; // 5% max stamina
         mod_stat( "stamina", -malus );
         if( stam < malus && x_in_y( malus - stam, malus ) && one_in( 6 ) ) {
@@ -4398,7 +4399,7 @@ void player::process_one_effect( effect &it, bool is_new )
     if( val != 0 ) {
         mod = 1;
         if( is_new || it.activated( calendar::turn, "STAMINA", val, reduced, mod ) ) {
-            mod_stat( "stamina", bound_mod_to_vals( stamina, val,
+            mod_stat( "stamina", bound_mod_to_vals( get_stamina(), val,
                                                     it.get_max_val( "STAMINA", reduced ),
                                                     it.get_min_val( "STAMINA", reduced ) ) );
         }
@@ -10160,7 +10161,7 @@ void player::burn_move_stamina( int moves )
     add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried
-    if( ( current_weight > max_weight ) && ( has_trait( trait_BADBACK ) || stamina == 0 ) &&
+    if( ( current_weight > max_weight ) && ( has_trait( trait_BADBACK ) || get_stamina() == 0 ) &&
         one_in( 35 - 5 * current_weight / ( max_weight / 2 ) ) ) {
         add_msg_if_player( m_bad, _( "Your body strains under the weight!" ) );
         // 1 more pain for every 800 grams more (5 per extra STR needed)
@@ -10593,7 +10594,7 @@ float player::speed_rating() const
     ret *= 100.0f / run_cost( 100, false );
     // Adjustment for player being able to run, but not doing so at the moment
     if( move_mode != CMM_RUN ) {
-        ret *= 1.0f + ( static_cast<float>( stamina ) / static_cast<float>( get_stamina_max() ) );
+        ret *= 1.0f + ( static_cast<float>( get_stamina() ) / static_cast<float>( get_stamina_max() ) );
     }
     return ret;
 }

@@ -463,7 +463,7 @@ static int throw_cost( const player &c, const item &to_throw )
     const int dexbonus = c.get_dex();
     const int encumbrance_penalty = c.encumb( bp_torso ) +
                                     ( c.encumb( bp_hand_l ) + c.encumb( bp_hand_r ) ) / 2;
-    const float stamina_ratio = static_cast<float>( c.stamina ) / c.get_stamina_max();
+    const float stamina_ratio = static_cast<float>( c.get_stamina() ) / c.get_stamina_max();
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
 
     int move_cost = base_move_cost;

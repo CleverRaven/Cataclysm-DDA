@@ -750,7 +750,7 @@ bool avatar_action::fire( avatar &you, map &m )
             you.mod_stat( "stamina", gun->get_min_str() * static_cast<int>( 0.002f *
                           get_option<int>( "PLAYER_MAX_STAMINA" ) ) );
             // At low stamina levels, firing starts getting slow.
-            int sta_percent = ( 100 * you.stamina ) / you.get_stamina_max();
+            int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
             reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
 
             // Update targeting data to include ammo's range bonus

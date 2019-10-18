@@ -5400,7 +5400,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_STAMINA_EMPTY:
                 p->add_msg_if_player( m_bad, _( "Your body feels like jelly." ) );
-                p->stamina = p->stamina * 1 / ( rng( 3, 8 ) );
+                p->set_stamina( p->get_stamina() * 1 / ( rng( 3, 8 ) ) );
                 break;
 
             case AEA_FUN:
@@ -5757,7 +5757,7 @@ int iuse::stimpack( player *p, item *it, bool, const tripoint & )
         p->mod_painkiller( 2 );
         p->mod_stim( 20 );
         p->mod_fatigue( -100 );
-        p->stamina = p->get_stamina_max();
+        p->set_stamina( p->get_stamina_max() );
     }
     return it->type->charges_to_use();
 }

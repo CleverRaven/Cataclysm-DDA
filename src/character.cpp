@@ -688,7 +688,7 @@ bool Character::is_limb_broken( hp_part limb ) const
 
 bool Character::can_run()
 {
-    return stamina > 0 && !has_effect( effect_winded ) && get_working_leg_count() >= 2;
+    return get_stamina() > 0 && !has_effect( effect_winded ) && get_working_leg_count() >= 2;
 }
 
 bool Character::move_effects( bool attacking )
@@ -4179,6 +4179,21 @@ void Character::set_stim( int new_stim )
 void Character::mod_stim( int mod )
 {
     stim += mod;
+}
+
+int Character::get_stamina() const
+{
+    return stamina;
+}
+
+void Character::set_stamina( int new_stamina )
+{
+    stamina = new_stamina;
+}
+
+void Character::mod_stamina( int mod )
+{
+    stamina += mod;
 }
 
 int Character::item_handling_cost( const item &it, bool penalties, int base_cost ) const

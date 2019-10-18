@@ -954,7 +954,7 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 27, 2 ), morale_pair.first, smiley );
 
     // print stamina
-    const auto &stamina = get_hp_bar( u.stamina, u.get_stamina_max() );
+    const auto &stamina = get_hp_bar( u.get_stamina(), u.get_stamina_max() );
     mvwprintz( w, point( 22, 0 ), c_light_gray, _( "STM" ) );
     mvwprintz( w, point( 26, 0 ), stamina.second, stamina.first );
 
@@ -1215,8 +1215,8 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 8, 0 ), c_light_gray, "%s", u.volume );
 
     // print stamina
-    auto needs_pair = std::make_pair( get_hp_bar( u.stamina, u.get_stamina_max() ).second,
-                                      get_hp_bar( u.stamina, u.get_stamina_max() ).first );
+    auto needs_pair = std::make_pair( get_hp_bar( u.get_stamina(), u.get_stamina_max() ).second,
+                                      get_hp_bar( u.get_stamina(), u.get_stamina_max() ).first );
     mvwprintz( w, point( 8, 1 ), needs_pair.first, needs_pair.second );
     for( size_t i = 0; i < 5 - needs_pair.second.length(); i++ ) {
         mvwprintz( w, point( 12 - i, 1 ), c_white, "." );
@@ -1258,8 +1258,8 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 38, 0 ), focus_color( u.focus_pool ), "%s", u.focus_pool );
 
     // print stamina
-    auto needs_pair = std::make_pair( get_hp_bar( u.stamina, u.get_stamina_max() ).second,
-                                      get_hp_bar( u.stamina, u.get_stamina_max() ).first );
+    auto needs_pair = std::make_pair( get_hp_bar( u.get_stamina(), u.get_stamina_max() ).second,
+                                      get_hp_bar( u.get_stamina(), u.get_stamina_max() ).first );
     mvwprintz( w, point( 8, 1 ), needs_pair.first, needs_pair.second );
     for( size_t i = 0; i < 5 - needs_pair.second.length(); i++ ) {
         mvwprintz( w, point( 12 - i, 1 ), c_white, "." );
@@ -1588,8 +1588,8 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 40, 4 ), safe_color(), safe_str );
 
     // print stamina
-    auto pair = std::make_pair( get_hp_bar( u.stamina, u.get_stamina_max() ).second,
-                                get_hp_bar( u.stamina, u.get_stamina_max() ).first );
+    auto pair = std::make_pair( get_hp_bar( u.get_stamina(), u.get_stamina_max() ).second,
+                                get_hp_bar( u.get_stamina(), u.get_stamina_max() ).first );
     mvwprintz( w, point( 35, 5 ), c_light_gray, _( "Stm" ) );
     mvwprintz( w, point( 39, 5 ), pair.first, pair.second );
     for( size_t i = 0; i < 5 - pair.second.length(); i++ ) {
