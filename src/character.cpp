@@ -180,7 +180,7 @@ Character::Character() :
     thirst = 0;
     fatigue = 0;
     sleep_deprivation = 0;
-    set_stim(0);
+    set_stim( 0 );
     // 45 days to starve to death
     healthy_calories = 55000;
     stored_calories = healthy_calories;
