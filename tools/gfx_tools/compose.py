@@ -73,6 +73,8 @@ class PngRefs(object):
         self.tileset_pathname = tileset_dirname
         if not tileset_dirname.startswith("gfx/"):
             self.tileset_pathname = "gfx/" + tileset_dirname
+        if self.tileset_pathname.endswith("/"):
+            self.tileset_pathname = self.tileset_pathname[:-1]
 
         try:
             os.stat(self.tileset_pathname)
