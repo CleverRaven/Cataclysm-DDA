@@ -187,7 +187,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 20 ] ],
     "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 8 ] ], [ [ "rag", 4 ], [ "leather", 4 ], [ "fur", 4 ] ] ]
+    "components": [ [ [ "plastic_chunk", 8 ] ], [ [ "nylon", 4 ], [ "rag", 4 ], [ "leather", 4 ], [ "fur", 4 ] ] ]
   },
   {
     "result": "leg_warmers",
