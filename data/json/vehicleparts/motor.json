@@ -82,8 +82,8 @@
     "item": "motor_large",
     "difficulty": 3,
     "durability": 400,
-    "power": 138000,
-    "energy_consumption": 150000,
+    "power": 150000,
+    "energy_consumption": 163000,
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 5, 10 ] },
