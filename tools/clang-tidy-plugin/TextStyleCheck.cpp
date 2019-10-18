@@ -132,7 +132,7 @@ void TextStyleCheck::check( const MatchFinder::MatchResult &Result )
         { U"...",    U"",   {  true, 0, 1, 0, 0, 0, 2, 2, 2, 2, 1 }, {  true, "\u2026", R"(\u2026)", "three dots",      "ellipsis" } },
         { U"::",     U"",   { false,                              }, { false,                                                      } },
         { U"\r\n",   U"",   { false,                              }, {  true, R"(\n)",  R"(\n)",     "carriage return", "new line" } },
-        { U"\u2026", U"",   {  true, 0, 1, 1, 3, 2, 2, 2, 2, 2, 1 }, { false,                                                      } },
+        { U"\u2026", U"",   {  true, 0, 1, 0, 0, 0, 2, 2, 2, 2, 1 }, { false,                                                      } },
         { U".",      U"",   {  true, 0, 3, 1, 3, 2, 0, 2, 0, 0, 1 }, { false,                                                      } },
         { U";",      U"",   {  true, 0, 1, 1, 2, 1, 1, 1, 0, 0, 1 }, { false,                                                      } },
         { U"!",      U"!?", {  true, 0, 1, 1, 3, 2, 2, 2, 0, 0, 1 }, { false,                                                      } },
