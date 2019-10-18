@@ -3847,10 +3847,11 @@ units::mass item::weight( bool include_contents, bool integral ) const
 
     units::mass ret;
     std::string local_str_mass = integral ? get_var( "integral_weight" ) : get_var( "weight" );
-    if( local_str_mass.empty() )
+    if( local_str_mass.empty() ) {
         ret = integral ? type->integral_weight : type->weight;
-    else
+    } else {
         ret = units::from_milligram( _atoi64( local_str_mass.c_str() ) );
+    }
 
     if( has_flag( "REDUCED_WEIGHT" ) ) {
         ret *= 0.75;
