@@ -1161,6 +1161,7 @@
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "cooking",
     "difficulty": 3,
+    "charges": 1412,
     "time": "2 h",
     "autolearn": true,
     "byproducts": [ [ "chem_zinc" ] ],
@@ -1186,9 +1187,9 @@
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "fabrication",
     "difficulty": 4,
+    "charges": 420,
     "time": "1 h",
     "autolearn": true,
-    "byproducts": [ [ "chem_manganese_dioxide", 50 ] ],
     "qualities": [ { "id": "CHISEL", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "material_rhodonite", 1 ] ] ]
   }
