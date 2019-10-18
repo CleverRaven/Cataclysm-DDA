@@ -741,7 +741,7 @@
     "type": "material",
     "ident": "lycra",
     "name": "Lycra",
-    "//": "not actually pure lycra, but poly/nylon and lycra blend",
+	"//": "not actually pure lycra, but poly/nylon and lycra blend",
     "density": 2,
     "specific_heat_liquid": 1.7,
     "specific_heat_solid": 2.3,
@@ -753,16 +753,16 @@
     "acid_resist": 9,
     "fire_resist": 2,
     "elec_resist": 1,
-    "chip_resist": 6,
+    "chip_resist": 0,
     "repaired_with": "lycra_patch",
     "salvaged_into": "lycra_patch",
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
     "burn_data": [
-      { "fuel": 1, "smoke": 2, "burn": 1, "volume_per_turn": "650_ml" },
-      { "fuel": 1, "smoke": 3, "burn": 3 },
-      { "fuel": 1, "smoke": 5, "burn": 5 }
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "650_ml" },
+      { "fuel": 1, "smoke": 1, "burn": 1 },
+      { "fuel": 1, "smoke": 1, "burn": 2 }
     ]
   },
   {
