@@ -3757,6 +3757,7 @@ needs_rates player::calc_needs_rates()
 
 void player::update_needs( int rate_multiplier )
 {
+    const int current_stim = get_stim();
     // Hunger, thirst, & fatigue up every 5 minutes
     effect &sleep = get_effect( effect_sleep );
     // No food/thirst/fatigue clock at all
@@ -3849,10 +3850,10 @@ void player::update_needs( int rate_multiplier )
         }
     }
 
-    if( get_stim() < 0 ) {
-        set_stim( std::min( get_stim() + rate_multiplier, 0 ) );
-    } else if( get_stim() > 0 ) {
-        set_stim( std::max( get_stim() - rate_multiplier, 0 ) );
+    if( current_stim < 0 ) {
+        set_stim( std::min( current_stim + rate_multiplier, 0 ) );
+    } else if( current_stim > 0 ) {
+        set_stim( std::max( current_stim - rate_multiplier, 0 ) );
     }
 
     if( get_painkiller() > 0 ) {
@@ -3946,6 +3947,7 @@ void player::regen( int rate_multiplier )
 
 void player::update_stamina( int turns )
 {
+    const int current_stim = get_stim();
     float stamina_recovery = 0.0f;
     // Recover some stamina every turn.
     // Mutated stamina works even when winded
@@ -3958,16 +3960,16 @@ void player::update_stamina( int turns )
     // TODO: Tiredness slowing recovery
 
     // stim recovers stamina (or impairs recovery)
-    if( get_stim() > 0 ) {
+    if( current_stim > 0 ) {
         // TODO: Make stamina recovery with stims cost health
-        stamina_recovery += std::min( 5.0f, get_stim() / 15.0f );
-    } else if( get_stim() < 0 ) {
+        stamina_recovery += std::min( 5.0f, current_stim / 15.0f );
+    } else if( current_stim < 0 ) {
         // Affect it less near 0 and more near full
         // Negative stim kill at -200
         // At -100 stim it inflicts -20 malus to regen at 100%  stamina,
         // effectivly countering stamina gain of default 20,
         // at 50% stamina its -10 (50%), cuts by 25% at 25% stamina
-        stamina_recovery += get_stim() / 5.0f * stamina / get_stamina_max() ;
+        stamina_recovery += current_stim / 5.0f * stamina / get_stamina_max() ;
     }
 
     const int max_stam = get_stamina_max();
@@ -4483,6 +4485,7 @@ double player::vomit_mod()
 
 void player::suffer()
 {
+    const int current_stim = get_stim();
     // TODO: Remove this section and encapsulate hp_cur
     for( int i = 0; i < num_hp_parts; i++ ) {
         body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
@@ -4883,8 +4886,8 @@ void player::suffer()
         }
 
         if( has_trait( trait_JITTERY ) && !has_effect( effect_shakes ) ) {
-            if( get_stim() > 50 && one_in( to_turns<int>( 30_minutes ) - ( get_stim() * 6 ) ) ) {
-                add_effect( effect_shakes, 30_minutes + 1_turns * get_stim() );
+            if( current_stim > 50 && one_in( to_turns<int>( 30_minutes ) - ( current_stim * 6 ) ) ) {
+                add_effect( effect_shakes, 30_minutes + 1_turns * current_stim );
             } else if( ( get_hunger() > 80 || get_kcal_percent() < 1.0f ) && get_hunger() > 0 &&
                        one_in( to_turns<int>( 50_minutes ) - ( get_hunger() * 6 ) ) ) {
                 add_effect( effect_shakes, 40_minutes );
@@ -4922,7 +4925,7 @@ void player::suffer()
 
     if( has_trait( trait_ASTHMA ) && !has_effect( effect_adrenaline ) &&
         !has_effect( effect_datura ) &&
-        one_in( ( to_turns<int>( 6_hours ) - get_stim() * 300 ) *
+        one_in( ( to_turns<int>( 6_hours ) - current_stim * 300 ) *
                 ( has_effect( effect_sleep ) ? 10 : 1 ) ) ) {
         bool auto_use = has_charges( "inhaler", 1 ) || has_charges( "oxygen_tank", 1 ) ||
                         has_charges( "smoxygen_tank", 1 );
@@ -5541,7 +5544,7 @@ void player::suffer()
     }
 
     // Stim +250 kills
-    if( get_stim() > 210 ) {
+    if( current_stim > 210 ) {
         if( one_turn_in( 2_minutes ) && !has_effect( effect_downed ) ) {
             add_msg_if_player( m_bad, _( "Your muscles spasm!" ) );
             if( !has_effect( effect_downed ) ) {
@@ -5550,19 +5553,19 @@ void player::suffer()
             }
         }
     }
-    if( get_stim() > 170 ) {
+    if( current_stim > 170 ) {
         if( !has_effect( effect_winded ) && calendar::once_every( 10_minutes ) ) {
             add_msg( m_bad, _( "You feel short of breath." ) );
             add_effect( effect_winded, 10_minutes + 1_turns );
         }
     }
-    if( get_stim() > 110 ) {
+    if( current_stim > 110 ) {
         if( !has_effect( effect_shakes ) && calendar::once_every( 10_minutes ) ) {
             add_msg( _( "You shake uncontrollably." ) );
             add_effect( effect_shakes, 15_minutes + 1_turns );
         }
     }
-    if( get_stim() > 75 ) {
+    if( current_stim > 75 ) {
         if( !one_turn_in( 2_minutes ) && !has_effect( effect_nausea ) ) {
             add_msg( _( "You feel nauseous…" ) );
             add_effect( effect_nausea, 5_minutes );
@@ -5570,7 +5573,7 @@ void player::suffer()
     }
 
     //stim -200 or painkillers 240 kills
-    if( get_stim() < -160 || pkill > 200 ) {
+    if( current_stim < -160 || pkill > 200 ) {
         if( one_turn_in( 3_minutes ) && !in_sleep_state() ) {
             add_msg_if_player( m_bad, _( "You black out!" ) );
             const time_duration dur = rng( 30_minutes, 60_minutes );
@@ -5579,13 +5582,13 @@ void player::suffer()
             fall_asleep( dur );
         }
     }
-    if( get_stim() < -120 || pkill > 160 ) {
+    if( current_stim < -120 || pkill > 160 ) {
         if( !has_effect( effect_winded ) && calendar::once_every( 10_minutes ) ) {
             add_msg( m_bad, _( "Your breathing slows down." ) );
             add_effect( effect_winded, 10_minutes + 1_turns );
         }
     }
-    if( get_stim() < -85 || pkill > 145 ) {
+    if( current_stim < -85 || pkill > 145 ) {
         if( one_turn_in( 15_seconds ) && !has_effect( effect_sleep ) ) {
             add_msg_if_player( m_bad, _( "You feel dizzy for a moment." ) );
             mod_moves( -rng( 10, 30 ) );
@@ -5595,7 +5598,7 @@ void player::suffer()
             }
         }
     }
-    if( get_stim() < -60 || pkill > 130 ) {
+    if( current_stim < -60 || pkill > 130 ) {
         if( calendar::once_every( 10_minutes ) ) {
             add_msg( m_warning, _( "You feel tired…" ) );
             mod_fatigue( rng( 1, 2 ) );
@@ -5605,11 +5608,11 @@ void player::suffer()
     int sleep_deprivation = !in_sleep_state() ? get_sleep_deprivation() : 0;
     // Stimulants can lessen the PERCEIVED effects of sleep deprivation, but
     // they do nothing to cure it. As such, abuse is even more dangerous now.
-    if( get_stim() > 0 ) {
+    if( current_stim > 0 ) {
         // 100% of blacking out = 20160sd ; Max. stim modifier = 12500sd @ 250stim
         // Note: Very high stim already has its own slew of bad effects,
         // so the "useful" part of this bonus is actually lower.
-        sleep_deprivation -= get_stim() * 50;
+        sleep_deprivation -= current_stim * 50;
     }
 
     // Harmless warnings
@@ -9186,6 +9189,7 @@ comfort_level player::base_comfort_value( const tripoint &p ) const
 
 int player::sleep_spot( const tripoint &p ) const
 {
+    const int current_stim = get_stim();
     comfort_level base_level = base_comfort_value( p );
     int sleepy = static_cast<int>( base_level );
     bool watersleep = has_trait( trait_WATERSLEEP );
@@ -9219,11 +9223,11 @@ int player::sleep_spot( const tripoint &p ) const
         sleepy += static_cast<int>( ( get_fatigue() - TIRED + 1 ) / 16 );
     }
 
-    if( get_stim() > 0 || !has_trait( trait_INSOMNIA ) ) {
-        sleepy -= 2 * get_stim();
+    if( current_stim > 0 || !has_trait( trait_INSOMNIA ) ) {
+        sleepy -= 2 * current_stim;
     } else {
         // Make it harder for insomniac to get around the trait
-        sleepy -= get_stim();
+        sleepy -= current_stim;
     }
 
     return sleepy;
