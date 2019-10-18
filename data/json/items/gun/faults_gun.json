@@ -3,8 +3,8 @@
     "id": "fault_gun_blackpowder",
     "type": "fault",
     "name": "Blackpowder fouling",
-    "description": "Firing blackpowder loads from a gun fouls it, which reduces reliability and, if left uncleaned, leads to rust.",
-    "time": "50 s",
+    "description": "Firing blackpowder loads from a gun fouls it, which reduces reliability and, if left uncleaned, leads to rust. It fouls the gun much faster than the use of modern smokeless powder cartridges. Fouling is only a significant impact on reliability at high levels, but black powder fouling accumulates quickly.",
+    "time": "50 m",
     "skills": [ [ "mechanics", 1 ] ],
     "requirements": {
       "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -21,11 +21,11 @@
     "requirements": {  }
   },
   {
-    "id": "fault_gun_clogged",
+    "id": "fault_gun_dirt",
     "type": "fault",
-    "name": "Clogging",
-    "description": "Clogging is usually caused by firing many blackpowder loads without cleaning; it prevents firing the gun until cleaned.  Some guns are more resistant to this than others.",
-    "time": "5 m",
+    "name": "Fouling",
+    "description": "Fouling is caused by firing gunpowder loads repeatedly, which reduces reliability and can eventually cause damage to the gun. Fouling accumulates slowly (unless blackpowder is used) due to the design of modern smokeless powder found in the vast majority of retail cartridges and it is not a significant problem until high levels of fouling are reached due to firing thousands of rounds without cleaning your firearm.",
+    "time": "50 m",
     "skills": [ [ "mechanics", 1 ] ],
     "requirements": {
       "qualities": [ { "id": "SCREW", "level": 1 } ],

@@ -38,7 +38,6 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
                                   player &receiver, std::list<item_location *> &from_map,
                                   bool npc_gives )
 {
-    faction *fac = receiver.get_faction();
     for( item_pricing &ip : stuff ) {
         if( !ip.selected ) {
             continue;
@@ -50,7 +49,7 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
         }
 
         item gift = *ip.loc.get_item();
-        gift.set_owner( fac );
+        gift.set_owner( receiver );
         int charges = npc_gives ? ip.u_charges : ip.npc_charges;
         int count = npc_gives ? ip.u_has : ip.npc_has;
 
@@ -153,7 +152,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         item &it = *it_ptr;
 
         // Don't sell items we don't own.
-        if( it.has_owner() && it.get_owner() != seller.get_faction() ) {
+        if( !it.is_owned_by( seller ) ) {
             return;
         }
 
@@ -398,8 +397,12 @@ int trading_window::get_var_trade( const item &it, int total_count )
 {
     string_input_popup popup_input;
     int how_many = total_count;
-    const std::string title = string_format( _( "Trade how many %s [MAX: %d]: " ),
-                              it.display_name(), total_count );
+    const bool contained = it.is_container() && !it.contents.empty();
+
+    const std::string title = string_format( _( "Trade how many %s [MAX: %d]: " ), contained ?
+                              "containers with " + it.get_contained().type_name( how_many ) :
+                              it.type_name( how_many ),
+                              total_count );
     popup_input.title( title ).edit( how_many );
     if( popup_input.canceled() || how_many <= 0 ) {
         return -1;
@@ -477,7 +480,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                 } else if( calc_npc_owes_you( np ) < your_balance ) {
                     // NPC is happy with the trade, but isn't willing to remember the whole debt.
                     const bool trade_ok = query_yn(
-                                              _( "I'm never going to be able to pay you back for all that. The most I'm willing to owe you is %s.\n\nContinue with trade?" ),
+                                              _( "I'm never going to be able to pay you back for all that.  The most I'm willing to owe you is %s.\n\nContinue with trade?" ),
                                               format_money( np.max_willing_to_owe() )
                                           );
 
@@ -486,7 +489,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                         ch = ' ';
                     }
                 } else {
-                    if( ! query_yn( _( "Looks like a deal! Accept this trade?" ) ) ) {
+                    if( ! query_yn( _( "Looks like a deal!  Accept this trade?" ) ) ) {
                         update = true;
                         ch = ' ';
                     }
@@ -539,10 +542,12 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                         change_amount *= -1;
                     }
                     int delta_price = ip.price * change_amount;
-                    if( ! np.will_exchange_items_freely() ) {
+                    if( !np.will_exchange_items_freely() ) {
                         your_balance -= delta_price;
-                        volume_left -= ip.vol * change_amount;
-                        weight_left -= ip.weight * change_amount;
+                    }
+                    if( ip.loc.where() == item_location::type::character ) {
+                        volume_left += ip.vol * change_amount;
+                        weight_left += ip.weight * change_amount;
                     }
                 }
                 ch = 0;
@@ -587,6 +592,10 @@ void trading_window::update_npc_owed( npc &np )
 bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 {
     np.shop_restock();
+    //np.drop_items( np.weight_carried() - np.weight_capacity(),
+    //               np.volume_carried() - np.volume_capacity() );
+    np.drop_invalid_inventory();
+
     trading_window trade_win;
     trade_win.setup_win( np );
     trade_win.setup_trade( cost, np );

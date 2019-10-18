@@ -60,6 +60,9 @@
       "b": [ "f_crate_c", "f_crate_c", "f_crate_o" ],
       "0": [ "f_sink" ],
       "C": [ "f_counter" ],
+      "n": [ "f_counter" ],
+      "q": [ "f_counter" ],
+      "y": [ "f_counter" ],
       "W": [ "f_water_heater" ],
       "w": [ "f_water_purifier" ],
       "U": [ "f_home_furnace" ],
@@ -68,7 +71,23 @@
       "V": [ "f_vending_c" ],
       "7": [ "f_filing_cabinet" ]
     },
+    "items": {
+      "T": { "item": "snacks", "chance": 30 },
+      "d": { "item": "office", "chance": 30 },
+      "y": { "item": "office", "chance": 30 },
+      "f": { "item": "fridge", "chance": 30 },
+      "n": { "item": "fast_table", "chance": 30 },
+      "|": { "item": "steel_mill_mill", "chance": 15 },
+      "s": { "item": "metal_workshop", "chance": 10 },
+      "C": { "item": "metal_workshop", "chance": 10 },
+      "b": { "item": "metal_workshop", "chance": 20 },
+      "!": { "item": "steel_mill_mill", "chance": 3 },
+      "1": { "item": "steel_mill_foundry", "chance": 5 },
+      "l": { "item": "clothing_work_set", "chance": 15 },
+      "S": { "item": "homebooks", "chance": 30 },
+      "7": { "item": "office_paper", "chance": 30 }
+    },
     "toilets": { "t": {  } },
-    "vendingmachines": { "D": { "itemgroup": "vending_drink" }, "V": { "itemgroup": "vending_food" } }
+    "vendingmachines": { "D": { "item_group": "vending_drink" }, "V": { "item_group": "vending_food" } }
   }
 ]

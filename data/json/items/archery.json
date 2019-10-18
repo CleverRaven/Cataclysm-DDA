@@ -64,7 +64,7 @@
     "name": "wooden broadhead arrow",
     "symbol": "=",
     "color": "green",
-    "description": "A fletched wooden arrow shaft with a bladed tip.  Useful for maximising damage to the target.  Stands a decent chance of remaining intact once fired.",
+    "description": "A fletched wooden arrow shaft with a bladed tip.  Useful for maximizing damage to the target.  Stands a decent chance of remaining intact once fired.",
     "material": [ "wood", "steel" ],
     "volume": "250 ml",
     "weight": "55 g",
@@ -163,7 +163,7 @@
     "name": "aluminum broadhead arrow",
     "symbol": "=",
     "color": "green",
-    "description": "A fletched aluminum arrow shaft with a bladed tip.  Useful for maximising damage to the target.  Stands a good chance of remaining intact once fired.",
+    "description": "A fletched aluminum arrow shaft with a bladed tip.  Useful for maximizing damage to the target.  Stands a good chance of remaining intact once fired.",
     "material": [ "aluminum", "steel" ],
     "volume": "250 ml",
     "weight": "50 g",
@@ -229,7 +229,7 @@
     "symbol": "=",
     "color": "green",
     "description": "A fletched carbon fiber arrow shaft with an expanding broadhead tip.  Deals impressive damage to targets.  Stands a good chance of remaining intact once fired.",
-    "material": [ "kevlar", "steel" ],
+    "material": [ "kevlar_rigid", "steel" ],
     "volume": "250 ml",
     "weight": "40 g",
     "bashing": 1,
@@ -275,9 +275,7 @@
     "weight": "562 g",
     "volume": "250 ml",
     "bashing": 10,
-    "to_hit": -1,
-    "count": 5,
-    "effects": [ "EXPLOSIVE_SMALL" ]
+    "to_hit": -1
   },
   {
     "type": "AMMO",
@@ -389,7 +387,6 @@
   {
     "id": "compbow_high",
     "copy-from": "compbow",
-    "override": true,
     "type": "GUN",
     "name": "compound bow (high)",
     "name_plural": "compound bows (high)",
@@ -410,7 +407,6 @@
   {
     "id": "compbow_low",
     "copy-from": "compbow",
-    "override": true,
     "type": "GUN",
     "name": "compound bow (low)",
     "name_plural": "compound bows (low)",
@@ -566,7 +562,6 @@
   {
     "id": "woodgreatbow",
     "copy-from": "longbow",
-    "override": true,
     "type": "GUN",
     "name": "wooden greatbow",
     "description": "An extremely large and stiff longbow, made with enormous limbs and a thick string to take an immense amount of energy.  Takes incredible strength to draw.",
@@ -650,10 +645,7 @@
     "weight": "268 g",
     "bashing": 1,
     "cutting": 10,
-    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
-    "ammo_type": "thrown",
-    "count": 5,
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE" ]
+    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ]
   },
   {
     "type": "GENERIC",
@@ -669,9 +661,7 @@
     "weight": "792 g",
     "bashing": 6,
     "cutting": 16,
-    "thrown_damage": [ { "damage_type": "bash", "amount": 6 }, { "damage_type": "cut", "amount": 16 } ],
-    "ammo_type": "thrown",
-    "count": 3
+    "thrown_damage": [ { "damage_type": "bash", "amount": 6 }, { "damage_type": "cut", "amount": 16 } ]
   },
   {
     "type": "GENERIC",
@@ -687,9 +677,7 @@
     "weight": "175 g",
     "to_hit": -1,
     "cutting": 8,
-    "thrown_damage": [ { "damage_type": "stab", "amount": 16 } ],
-    "ammo_type": "thrown",
-    "count": 2
+    "thrown_damage": [ { "damage_type": "stab", "amount": 16 } ]
   },
   {
     "type": "GENERIC",
@@ -704,9 +692,7 @@
     "volume": "500 ml",
     "weight": "175 g",
     "bashing": 1,
-    "thrown_damage": [ { "damage_type": "bash", "amount": 1 } ],
-    "ammo_type": "thrown",
-    "count": 2
+    "thrown_damage": [ { "damage_type": "bash", "amount": 1 } ]
   },
   {
     "type": "GENERIC",
@@ -721,9 +707,7 @@
     "volume": "250 ml",
     "weight": "170 g",
     "bashing": 2,
-    "thrown_damage": [ { "damage_type": "bash", "amount": 1 } ],
-    "ammo_type": "thrown",
-    "count": 2
+    "thrown_damage": [ { "damage_type": "bash", "amount": 1 } ]
   },
   {
     "type": "AMMO",
@@ -775,7 +759,7 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "An underwater fishing spear made from carbon fiber.  It's very light, but doesn't have much range.  Stands a bad chance of remaining intact once fired.",
-    "material": "kevlar",
+    "material": "kevlar_rigid",
     "volume": "250 ml",
     "weight": "12 g",
     "bashing": 1,

@@ -3,6 +3,7 @@
 #include <climits>
 #include <algorithm>
 #include <list>
+#include <iostream>
 #include <vector>
 #include <iterator>
 #include <memory>
@@ -667,6 +668,15 @@ void activity_on_turn_pickup()
         return;
     }
 
+    // If the player moves while picking up (ie: in a moving vehicle) cancel the activity, only populate coords when grabbing from the ground
+    if( g->u.activity.coords.size() > 0 && g->u.activity.coords.at( 0 ) != g->u.pos() ) {
+        g->u.cancel_activity();
+        if( g->u.is_player() ) {
+            g->u.add_msg_if_player( _( "Moving cancelled auto-pickup." ) );
+        }
+        return;
+    }
+
     // Auto_resume implies autopickup.
     const bool autopickup = g->u.activity.auto_resume;
 
@@ -734,8 +744,10 @@ static void move_items( player &p, const tripoint &relative_dest, bool to_vehicl
         if( !newit.made_of_from_type( LIQUID ) ) {
             // This is for hauling across zlevels, remove when going up and down stairs
             // is no longer teleportation
-            if( !newit.has_owner() && p.is_player() ) {
-                newit.set_owner( p.get_faction() );
+            if( newit.is_owned_by( p, true ) ) {
+                newit.set_owner( p );
+            } else {
+                continue;
             }
             const tripoint src = target.position();
             int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;
@@ -1414,7 +1426,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
             if( i.typeId() == "log" ) {
                 // do we have an axe?
                 if( p.has_quality( quality_id( "AXE" ), 1 ) ) {
-                    return activity_reason_info::fail( NEEDS_CHOPPING );
+                    return activity_reason_info::ok( NEEDS_CHOPPING );
                 } else {
                     return activity_reason_info::fail( NEEDS_CHOPPING );
                 }
@@ -2117,7 +2129,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
 
                 // check if we found path to source / adjacent tile
                 if( route.empty() ) {
-                    add_msg( m_info, _( "%s can't reach the source tile. Try to sort out loot without a cart." ),
+                    add_msg( m_info, _( "%s can't reach the source tile.  Try to sort out loot without a cart." ),
                              p.disp_name() );
                     continue;
                 }
@@ -2393,6 +2405,7 @@ void generic_multi_activity_handler( player_activity &act, player &p )
         src_set = mgr.get_near( zone_type_id( "FISHING_SPOT" ), abspos, 60 );
     }
     // prune the set to remove tiles that are never gonna work out.
+    const bool pre_dark_check = src_set.empty();
     for( auto it2 = src_set.begin(); it2 != src_set.end(); ) {
         // remove dangerous tiles
         tripoint set_pt = g->m.getlocal( *it2 );
@@ -2411,6 +2424,10 @@ void generic_multi_activity_handler( player_activity &act, player &p )
         } else {
             ++it2;
         }
+    }
+    const bool post_dark_check = src_set.empty();
+    if( !pre_dark_check && post_dark_check ) {
+        p.add_msg_if_player( m_info, _( "It is too dark to do this activity." ) );
     }
     // now we have our final set of points
     std::vector<tripoint> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
@@ -2647,6 +2664,9 @@ void generic_multi_activity_handler( player_activity &act, player &p )
             }
         } else if( reason == CAN_DO_FETCH && activity_to_restore == activity_id( "ACT_FETCH_REQUIRED" ) ) {
             fetch_activity( p, src_loc, activity_to_restore );
+            // Npcs will automatically start the next thing in the backlog, players need to be manually prompted
+            // Because some player activities are necessarily not marked as auto-resume.
+            activity_handlers::resume_for_multi_activities( p );
             return;
         } else if( reason == NEEDS_TREE_CHOPPING && p.has_quality( quality_id( "AXE" ), 1 ) ) {
             p.backlog.push_front( activity_to_restore );
@@ -2684,13 +2704,7 @@ void generic_multi_activity_handler( player_activity &act, player &p )
     if( p.backlog.empty() || src_set.empty() ) {
         check_npc_revert( p );
         // tidy up leftover moved parts and tools left lying near the work spots.
-        if( activity_to_restore == activity_id( "ACT_MULTIPLE_FARM" ) ||
-            activity_to_restore == activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) ||
-            activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) ||
-            activity_to_restore == activity_id( "ACT_MULTIPLE_BUTCHER" ) ||
-            activity_to_restore == activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) ||
-            activity_to_restore == activity_id( "ACT_VEHICLE_REPAIR" ) ||
-            activity_to_restore == activity_id( "ACT_MULTIPLE_CHOP_TREES" ) ) {
+        if( player_activity( activity_to_restore ).is_multi_type() ) {
             p.assign_activity( activity_id( "ACT_TIDY_UP" ) );
             if( p.is_npc() ) {
                 npc *guy = dynamic_cast<npc *>( &p );
@@ -2808,13 +2822,8 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
         if( !contained && fire_age < -40_minutes && fd.fuel_produced > 1.0f && !it.made_of( LIQUID ) ) {
             // Too much - we don't want a firestorm!
             // Move item back to refueling pile
-            // Note: this handles messages (they're the generic "you drop x")
-            drop_on_map( p, item_drop_reason::deliberate, { it }, *refuel_spot );
-
-            const int distance = std::max( rl_dist( *best_fire, *refuel_spot ), 1 );
-            p.mod_moves( -Pickup::cost_to_move_item( p, it ) * distance );
-
-            g->m.i_rem( *best_fire, &it );
+            // Note: move_item() handles messages (they're the generic "you drop x")
+            move_item( p, it, 0, *best_fire, *refuel_spot, nullptr, -1 );
             return;
         }
     }
@@ -2835,13 +2844,9 @@ void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
         float last_fuel = fd.fuel_produced;
         it.simulate_burn( fd );
         if( fd.fuel_produced > last_fuel ) {
-            // Note: this handles messages (they're the generic "you drop x")
-            drop_on_map( p, item_drop_reason::deliberate, { it }, *best_fire );
-
-            const int distance = std::max( rl_dist( *refuel_spot, *best_fire ), 1 );
-            p.mod_moves( -Pickup::cost_to_move_item( p, it ) * distance );
-
-            g->m.i_rem( *refuel_spot, &it );
+            int quantity = std::max( 1, std::min( it.charges, it.charges_per_volume( 250_ml ) ) );
+            // Note: move_item() handles messages (they're the generic "you drop x")
+            move_item( p, it, quantity, *refuel_spot, *best_fire, nullptr, -1 );
             return;
         }
     }

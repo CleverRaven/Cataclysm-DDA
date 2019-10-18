@@ -16,5 +16,64 @@
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.15, "add": 5 } ] } ]
     }
+  },
+  {
+    "id": "magi_staff_minor",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "brown",
+    "name": "lesser staff of the magi",
+    "name_plural": "lesser staves of the magi",
+    "description": "A beautifully carved staff, made of enchanted wood and mithril.  It faintly glows with magic when you cast spells, but it is not a sturdy melee weapon.",
+    "price": 40000,
+    "material": "wood",
+    "flags": [ "SHEATH_SPEAR", "ALWAYS_TWOHAND", "FRAGILE_MELEE", "MAGIC_FOCUS" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "multiply": 0.2, "add": 750 } ] } ]
+    },
+    "weight": "1400 g",
+    "volume": "3 L",
+    "bashing": 19,
+    "category": "weapons",
+    "to_hit": 3
+  },
+  {
+    "id": "wizard_hat",
+    "type": "ARMOR",
+    "name": "wizard hat",
+    "description": "A blue pointed hat with stars stiched into it.  Wearing it increases your mana regeneration.",
+    "weight": "390 g",
+    "volume": "2 L",
+    "price": 9500,
+    "material": [ "cotton" ],
+    "symbol": "^",
+    "color": "light_blue",
+    "covers": [ "HEAD" ],
+    "coverage": 50,
+    "encumbrance": 12,
+    "warmth": 7,
+    "material_thickness": 2,
+    "environmental_protection": 2,
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "REGEN_MANA", "multiply": 1 } ] } ]
+    },
+    "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "debug_fireball_hammer",
+    "type": "GENERIC",
+    "name": "fireball hammer",
+    "copy-from": "magi_staff_minor",
+    "description": "Use with caution!  Flammable!  Explosive!",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WIELD",
+          "condition": "ALWAYS",
+          "hit_you_effect": [ { "id": "fireball" } ],
+          "hit_me_effect": [ { "id": "light_healing" } ]
+        }
+      ]
+    }
   }
 ]

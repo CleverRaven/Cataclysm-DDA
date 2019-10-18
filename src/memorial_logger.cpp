@@ -287,7 +287,7 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
     }
     file << string_format(
              _( "Bionic Power: <color_light_blue>%d</color>/<color_light_blue>%d</color>" ),
-             u.power_level, u.max_power_level ) << eol;
+             units::to_kilojoule( u.get_power_level() ), units::to_kilojoule( u.get_max_power_level() ) ) << eol;
     file << eol;
 
     //Equipment
@@ -824,10 +824,11 @@ void memorial_logger::notify( const cata::event &e )
                 skill_id skill = e.get<skill_id>( "skill" );
                 int new_level = e.get<int>( "new_level" );
                 if( new_level % 4 == 0 ) {
-                    //~ %d is skill level %s is skill name
                     add( pgettext( "memorial_male",
+                                   //~ %d is skill level %s is skill name
                                    "Reached skill level %1$d in %2$s." ),
                          pgettext( "memorial_female",
+                                   //~ %d is skill level %s is skill name
                                    "Reached skill level %1$d in %2$s." ),
                          new_level, skill->name() );
                 }

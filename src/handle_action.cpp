@@ -402,7 +402,7 @@ static void pldrive( int x, int y )
         remote = false;
     }
     if( !veh ) {
-        dbg( D_ERROR ) << "game::pldrive: can't find vehicle! Drive mode is now off.";
+        dbg( D_ERROR ) << "game::pldrive: can't find vehicle!  Drive mode is now off.";
         debugmsg( "game::pldrive error: can't find vehicle! Drive mode is now off." );
         u.in_vehicle = false;
         return;
@@ -410,13 +410,13 @@ static void pldrive( int x, int y )
     if( !remote ) {
         int pctr = veh->part_with_feature( part, "CONTROLS", true );
         if( pctr < 0 ) {
-            add_msg( m_info, _( "You can't drive the vehicle from here. You need controls!" ) );
+            add_msg( m_info, _( "You can't drive the vehicle from here.  You need controls!" ) );
             u.controlling_vehicle = false;
             return;
         }
     } else {
         if( empty( veh->get_avail_parts( "REMOTE_CONTROLS" ) ) ) {
-            add_msg( m_info, _( "Can't drive this vehicle remotely. It has no working controls." ) );
+            add_msg( m_info, _( "Can't drive this vehicle remotely.  It has no working controls." ) );
             return;
         }
     }
@@ -737,8 +737,8 @@ static int try_set_alarm()
     const bool already_set = g->u.has_effect( effect_alarm_clock );
 
     as_m.text = already_set ?
-                _( "You already have an alarm set. What do you want to do?" ) :
-                _( "You have an alarm clock. What do you want to do?" );
+                _( "You already have an alarm set.  What do you want to do?" ) :
+                _( "You have an alarm clock.  What do you want to do?" );
 
     as_m.entries.emplace_back( 0, true, 'w', already_set ?
                                _( "Keep the alarm and wait a while" ) :
@@ -924,7 +924,7 @@ static void sleep()
         }
 
         const auto &info = bio.info();
-        if( info.power_over_time > 0 ) {
+        if( info.power_over_time > 0_kJ ) {
             active.push_back( info.name.translated() );
         }
     }
@@ -972,9 +972,9 @@ static void sleep()
         bool can_hibernate = u.get_hunger() < -60 && u.has_active_mutation( trait_HIBERNATE );
 
         as_m.reset();
-        as_m.text = can_hibernate ?
-                    _( "You're engorged to hibernate. The alarm would only attract attention. Set an alarm anyway?" ) :
-                    _( "You have an alarm clock. Set an alarm?" );
+        as_m.text = can_hibernate
+                    ? _( "You're engorged to hibernate.  The alarm would only attract attention.  Set an alarm anyway?" )
+                    : _( "You have an alarm clock.  Set an alarm?" );
 
         as_m.entries.emplace_back( 0, true,
                                    get_option<bool>( "FORCE_CAPITAL_YN" ) ? 'N' : 'n',
@@ -1009,10 +1009,11 @@ static void loot()
         HarvestPlots = 32,
         ConstructPlots = 64,
         MultiFarmPlots = 128,
-    };
-
-    auto just_one = []( int flags ) {
-        return flags && !( flags & ( flags - 1 ) );
+        Multichoptrees = 256,
+        Multichopplanks = 512,
+        Multideconvehicle = 1024,
+        Multirepairvehicle = 2048,
+        MultiButchery = 4096
     };
 
     player &u = g->u;
@@ -1040,6 +1041,12 @@ static void loot()
     flags |= g->check_near_zone( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
                                  u.pos() ) ? ConstructPlots : 0;
 
+    flags |= g->check_near_zone( zone_type_id( "CHOP_TREES" ), u.pos() ) ? Multichoptrees : 0;
+    flags |= g->check_near_zone( zone_type_id( "LOOT_WOOD" ), u.pos() ) ? Multichopplanks : 0;
+    flags |= g->check_near_zone( zone_type_id( "VEHICLE_DECONSTRUCT" ),
+                                 u.pos() ) ? Multideconvehicle : 0;
+    flags |= g->check_near_zone( zone_type_id( "VEHICLE_REPAIR" ), u.pos() ) ? Multirepairvehicle : 0;
+    flags |= g->check_near_zone( zone_type_id( "LOOT_CORPSE" ), u.pos() ) ? MultiButchery : 0;
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
@@ -1048,50 +1055,68 @@ static void loot()
         return;
     }
 
-    if( !just_one( flags ) ) {
-        uilist menu;
-        menu.text = _( "Pick action:" );
-        menu.desc_enabled = true;
+    uilist menu;
+    menu.text = _( "Pick action:" );
+    menu.desc_enabled = true;
 
-        if( flags & SortLoot ) {
-            menu.addentry_desc( SortLoot, true, 'o', _( "Sort out my loot" ),
-                                _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones. Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
-        }
-
-        if( flags & TillPlots ) {
-            menu.addentry_desc( TillPlots, has_hoe, 't',
-                                has_hoe ? _( "Till farm plots" ) : _( "Till farm plots... you need a tool to dig with" ),
-                                _( "Tills nearby Farm: Plot zones." ) );
-        }
-
-        if( flags & PlantPlots ) {
-            menu.addentry_desc( PlantPlots, warm_enough_to_plant( g->u.pos() ) && has_seeds, 'p',
-                                !warm_enough_to_plant( g->u.pos() ) ? _( "Plant seeds... it is too cold for planting" ) :
-                                !has_seeds ? _( "Plant seeds... you don't have any" ) : _( "Plant seeds" ),
-                                _( "Plant seeds into nearby Farm: Plot zones. Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
-        }
-        if( flags & FertilizePlots ) {
-            menu.addentry_desc( FertilizePlots, has_fertilizer, 'f',
-                                !has_fertilizer ? _( "Fertilize plots... you don't have any fertilizer" ) : _( "Fertilize plots" ),
-                                _( "Fertilize any nearby Farm: Plot zones." ) );
-        }
-
-        if( flags & HarvestPlots ) {
-            menu.addentry_desc( HarvestPlots, true, 'h', _( "Harvest plots" ),
-                                _( "Harvest any full-grown plants from nearby Farm: Plot zones" ) );
-        }
-        if( flags & ConstructPlots ) {
-            menu.addentry_desc( ConstructPlots, true, 'c', _( "Construct Plots" ),
-                                _( "Work on any nearby Blueprint: construction zones" ) );
-        }
-        if( flags & MultiFarmPlots ) {
-            menu.addentry_desc( MultiFarmPlots, true, 'm', _( "Farm Plots" ),
-                                _( "till and plant on any nearby farm plots - auto-fetch seeds and tools" ) );
-        }
-
-        menu.query();
-        flags = ( menu.ret >= 0 ) ? menu.ret : None;
+    if( flags & SortLoot ) {
+        menu.addentry_desc( SortLoot, true, 'o', _( "Sort out my loot" ),
+                            _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
     }
+
+    if( flags & TillPlots ) {
+        menu.addentry_desc( TillPlots, has_hoe, 't',
+                            has_hoe ? _( "Till farm plots" ) : _( "Till farm plots... you need a tool to dig with" ),
+                            _( "Tills nearby Farm: Plot zones." ) );
+    }
+
+    if( flags & PlantPlots ) {
+        menu.addentry_desc( PlantPlots, warm_enough_to_plant( g->u.pos() ) && has_seeds, 'p',
+                            !warm_enough_to_plant( g->u.pos() ) ? _( "Plant seeds... it is too cold for planting" ) :
+                            !has_seeds ? _( "Plant seeds... you don't have any" ) : _( "Plant seeds" ),
+                            _( "Plant seeds into nearby Farm: Plot zones.  Farm plot has to be set to specific plant seed and you must have seeds in your inventory." ) );
+    }
+    if( flags & FertilizePlots ) {
+        menu.addentry_desc( FertilizePlots, has_fertilizer, 'f',
+                            !has_fertilizer ? _( "Fertilize plots... you don't have any fertilizer" ) : _( "Fertilize plots" ),
+                            _( "Fertilize any nearby Farm: Plot zones." ) );
+    }
+
+    if( flags & HarvestPlots ) {
+        menu.addentry_desc( HarvestPlots, true, 'h', _( "Harvest plots" ),
+                            _( "Harvest any full-grown plants from nearby Farm: Plot zones." ) );
+    }
+    if( flags & ConstructPlots ) {
+        menu.addentry_desc( ConstructPlots, true, 'c', _( "Construct plots" ),
+                            _( "Work on any nearby Blueprint: construction zones." ) );
+    }
+    if( flags & MultiFarmPlots ) {
+        menu.addentry_desc( MultiFarmPlots, true, 'm', _( "Farm plots" ),
+                            _( "Till and plant on any nearby farm plots - auto-fetch seeds and tools." ) );
+    }
+    if( flags & Multichoptrees ) {
+        menu.addentry_desc( Multichoptrees, true, 'C', _( "Chop trees" ),
+                            _( "Chop down any trees in the designated zone - auto-fetch tools." ) );
+    }
+    if( flags & Multichopplanks ) {
+        menu.addentry_desc( Multichopplanks, true, 'P', _( "Chop planks" ),
+                            _( "Auto-chop logs in wood loot zones into planks - auto-fetch tools." ) );
+    }
+    if( flags & Multideconvehicle ) {
+        menu.addentry_desc( Multideconvehicle, true, 'v', _( "Deconstruct vehicle" ),
+                            _( "Auto-deconstruct vehicle in designated zone - auto-fetch tools." ) );
+    }
+    if( flags & Multirepairvehicle ) {
+        menu.addentry_desc( Multirepairvehicle, true, 'V', _( "Repair vehicle" ),
+                            _( "Auto-repair vehicle in designated zone - auto-fetch tools." ) );
+    }
+    if( flags & MultiButchery ) {
+        menu.addentry_desc( MultiButchery, true, 'B', _( "Butcher corpses" ),
+                            _( "Auto-butcher anything in corpse loot zones - auto-fetch tools." ) );
+    }
+
+    menu.query();
+    flags = ( menu.ret >= 0 ) ? menu.ret : None;
 
     switch( flags ) {
         case None:
@@ -1127,6 +1152,21 @@ static void loot()
             break;
         case MultiFarmPlots:
             u.assign_activity( activity_id( "ACT_MULTIPLE_FARM" ) );
+            break;
+        case Multichoptrees:
+            u.assign_activity( activity_id( "ACT_MULTIPLE_CHOP_TREES" ) );
+            break;
+        case Multichopplanks:
+            u.assign_activity( activity_id( "ACT_MULTIPLE_CHOP_PLANKS" ) );
+            break;
+        case Multideconvehicle:
+            u.assign_activity( activity_id( "ACT_VEHICLE_DECONSTRUCTION" ) );
+            break;
+        case Multirepairvehicle:
+            u.assign_activity( activity_id( "ACT_VEHICLE_REPAIR" ) );
+            break;
+        case MultiButchery:
+            u.assign_activity( activity_id( "ACT_MULTIPLE_BUTCHER" ) );
             break;
         default:
             debugmsg( "Unsupported flag" );
@@ -1327,7 +1367,7 @@ static void fire()
 
 static void open_movement_mode_menu()
 {
-    player &u = g->u;
+    avatar &u = g->u;
     uilist as_m;
 
     as_m.text = _( "Change to which movement mode?" );
@@ -1339,13 +1379,13 @@ static void open_movement_mode_menu()
 
     switch( as_m.ret ) {
         case 0:
-            u.set_movement_mode( PMM_WALK );
+            u.set_movement_mode( CMM_WALK );
             break;
         case 1:
-            u.set_movement_mode( PMM_RUN );
+            u.set_movement_mode( CMM_RUN );
             break;
         case 2:
-            u.set_movement_mode( PMM_CROUCH );
+            u.set_movement_mode( CMM_CROUCH );
             break;
         default:
             break;
@@ -2058,6 +2098,8 @@ bool game::handle_action()
             case ACTION_CONTROL_VEHICLE:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't operate a vehicle while you're in your shell." ) );
+                } else if( u.has_trait( trait_id( "WAYFARER" ) ) ) {
+                    add_msg( m_info, _( "You refuse to take control of this vehicle." ) );
                 } else if( u.is_mounted() ) {
                     u.dismount();
                 } else {
@@ -2079,7 +2121,7 @@ bool game::handle_action()
                     turnssincelastmon = 0;
                     set_safe_mode( SAFE_MODE_OFF );
                     add_msg( m_info, get_option<bool>( "AUTOSAFEMODE" )
-                             ? _( "Safe mode OFF! (Auto safe mode still enabled!)" ) : _( "Safe mode OFF!" ) );
+                             ? _( "Safe mode OFF!  (Auto safe mode still enabled!)" ) : _( "Safe mode OFF!" ) );
                 }
                 if( u.has_effect( effect_laserlocked ) ) {
                     u.remove_effect( effect_laserlocked );
@@ -2343,6 +2385,13 @@ bool game::handle_action()
                     break;    //don't do anything when sharing and not debugger
                 }
                 display_visibility();
+                break;
+
+            case ACTION_DISPLAY_LIGHTING:
+                if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
+                    break;    //don't do anything when sharing and not debugger
+                }
+                display_lighting();
                 break;
 
             case ACTION_DISPLAY_RADIATION:

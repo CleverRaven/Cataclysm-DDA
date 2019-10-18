@@ -404,7 +404,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
 
         if( charges_to_store > 0 ) {
             if( !query_yn(
-                    _( "You don't have anything in which to store %s and may have to pour it out or consume it as soon as it is prepared! Proceed?" ),
+                    _( "You don't have anything in which to store %s and may have to pour it out or consume it as soon as it is prepared!  Proceed?" ),
                     prod.tname() ) ) {
                 return false;
             }
@@ -548,7 +548,7 @@ const inventory &player::crafting_inventory( const tripoint &src_pos, int radius
         if( ( !bio_data.activated || bio.powered ) &&
             !bio_data.fake_item.empty() ) {
             cached_crafting_inventory += item( bio.info().fake_item,
-                                               calendar::turn, power_level );
+                                               calendar::turn, units::to_kilojoule( get_power_level() ) );
         }
     }
     if( has_trait( trait_BURROW ) ) {
@@ -630,7 +630,7 @@ static void finalize_crafted_item( item &newit, faction *maker_fac )
     }
     // TODO for now this assumes player is doing the crafting
     // this will need to be updated when NPCs do crafting
-    newit.set_owner( maker_fac );
+    newit.set_owner( maker_fac->id );
 }
 
 static cata::optional<item_location> wield_craft( player &p, item &craft )
@@ -737,6 +737,10 @@ void player::start_craft( craft_command &command, const tripoint &loc )
     }
 
     item craft = command.create_in_progress_craft();
+    const recipe &making = craft.get_making();
+    if( get_skill_level( command.get_skill_id() ) > making.difficulty * 1.25 ) {
+        handle_skill_warning( command.get_skill_id(), true );
+    }
 
     // In case we were wearing something just consumed
     if( !craft.components.empty() ) {
@@ -769,7 +773,9 @@ void player::start_craft( craft_command &command, const tripoint &loc )
 
     // Crafting without a workbench
     if( target == tripoint_zero ) {
-        if( !is_armed() ) {
+        if( !has_two_arms() ) {
+            craft_in_world = set_item_map_or_vehicle( *this, pos(), craft );
+        } else if( !is_armed() ) {
             if( cata::optional<item_location> it_loc = wield_craft( *this, craft ) ) {
                 craft_in_world = *it_loc;
             }  else {
@@ -860,7 +866,7 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
         const int base_practice = roll_remainder( ( making.difficulty * 15 + 10 ) * batch_mult /
                                   20.0 ) * multiplier;
         const int skill_cap = static_cast<int>( making.difficulty * 1.25 );
-        practice( making.skill_used, base_practice, skill_cap );
+        practice( making.skill_used, base_practice, skill_cap, true );
 
         // NPCs assisting or watching should gain experience...
         for( auto &helper : helpers ) {
@@ -1093,7 +1099,20 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 }
             }
 
+            //If item is crafted neither from poor-fit nor from perfect-fit components, and it can be refitted, the result is refitted by default
+            if( newit.has_flag( "VARSIZE" ) ) {
+                newit.item_tags.insert( "FIT" );
+            }
+
             for( auto &component : used ) {
+                //If item is crafted from poor-fit components, the result is poorly fitted too
+                if( component.has_flag( "VARSIZE" ) ) {
+                    newit.unset_flag( "FIT" );
+                }
+                //If item is crafted from perfect-fit components, the result is perfectly fitted too
+                if( component.has_flag( "FIT" ) ) {
+                    newit.item_tags.insert( "FIT" );
+                }
                 if( component.has_flag( "HIDDEN_HALLU" ) ) {
                     newit.item_tags.insert( "HIDDEN_HALLU" );
                 }

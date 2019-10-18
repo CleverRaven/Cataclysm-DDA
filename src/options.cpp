@@ -47,6 +47,7 @@ bool log_from_top;
 int message_ttl;
 int message_cooldown;
 bool fov_3d;
+int fov_3d_z_range;
 bool tile_iso;
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
@@ -1137,12 +1138,12 @@ void options_manager::add_options_general()
 
     add( "AUTOSAFEMODETURNS", "general", translate_marker( "Turns to auto reactivate safe mode" ),
          translate_marker( "Number of turns after which safe mode is reactivated. Will only reactivate if no hostiles are in 'Safe mode proximity distance.'" ),
-         1, 100, 50
+         1, 600, 50
        );
 
     add( "SAFEMODEIGNORETURNS", "general", translate_marker( "Turns to remember ignored monsters" ),
          translate_marker( "Number of turns an ignored monster stays ignored after it is no longer seen.  0 disables this option and monsters are permanently ignored." ),
-         0, 600, 200
+         0, 3600, 200
        );
 
     mOptionsSort["general"]++;
@@ -1872,6 +1873,13 @@ void options_manager::add_options_debug()
          false
        );
 
+    add( "FOV_3D_Z_RANGE", "debug", translate_marker( "Vertical range of 3D field of vision" ),
+         translate_marker( "How many levels up and down the experimental 3D field of vision reaches.  (This many levels up, this many levels down.)  3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster." ),
+         0, OVERMAP_LAYERS, 4
+       );
+
+    get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
+
     add( "ENCODING_CONV", "debug", translate_marker( "Experimental path name encoding conversion" ),
          translate_marker( "If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users." ),
          true
@@ -2355,9 +2363,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 {
     // temporary alias so the code below does not need to be changed
     options_container &OPTIONS = options;
-    options_container &ACTIVE_WORLD_OPTIONS = world_generator->active_world ?
-            world_generator->active_world->WORLD_OPTIONS :
-            world_options_only ? *world_options : OPTIONS;
+    options_container &ACTIVE_WORLD_OPTIONS = world_options.has_value() ?
+            *world_options.value() :
+            OPTIONS;
 
     auto OPTIONS_OLD = OPTIONS;
     auto WOPTIONS_OLD = ACTIVE_WORLD_OPTIONS;
@@ -2809,6 +2817,7 @@ bool options_manager::save()
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
+    fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
 
     update_music_volume();
 
@@ -2841,6 +2850,7 @@ void options_manager::load()
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
+    fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
 #if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 #endif
@@ -2881,11 +2891,11 @@ options_manager::cOpt &options_manager::get_option( const std::string &name )
     if( options.count( name ) == 0 ) {
         debugmsg( "requested non-existing option %s", name );
     }
-    if( !world_generator || !world_generator->active_world ) {
+    if( !world_options.has_value() ) {
         // Global options contains the default for new worlds, which is good enough here.
         return options[name];
     }
-    auto &wopts = world_generator->active_world->WORLD_OPTIONS;
+    auto &wopts = *world_options.value();
     if( wopts.count( name ) == 0 ) {
         auto &opt = options[name];
         if( opt.getPage() != "world_default" ) {
@@ -2914,6 +2924,15 @@ std::vector<std::string> options_manager::getWorldOptPageItems() const
     // TODO: mPageItems is const here, so we can not use its operator[], therefore the copy
     auto temp = mPageItems;
     return temp[iWorldOptPage];
+}
+
+void options_manager::set_world_options( options_container *options )
+{
+    if( options == nullptr ) {
+        world_options.reset();
+    } else {
+        world_options = options;
+    }
 }
 
 void options_manager::update_global_locale()

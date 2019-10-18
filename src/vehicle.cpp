@@ -141,22 +141,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
             g->m.dirty_vehicle_list.insert( &veh );
         }
         void spawn_animal_from_part( item &base, const tripoint &loc ) override {
-            tripoint target = loc;
-            bool spawn = true;
-            if( !g->is_empty( target ) ) {
-                std::vector<tripoint> valid;
-                for( const tripoint &dest : g->m.points_in_radius( target, 1 ) ) {
-                    if( g->is_empty( dest ) ) {
-                        valid.push_back( dest );
-                    }
-                }
-                if( valid.empty() ) {
-                    spawn = false;
-                } else {
-                    target = random_entry( valid );
-                }
-            }
-            base.release_monster( target, spawn );
+            base.release_monster( loc, 1 );
         }
 };
 
@@ -734,9 +719,9 @@ void vehicle::drive_to_local_target( const tripoint &autodrive_local_target, boo
     // when following player, take distance to player into account.
     // we really want to avoid running the player over.
     int safe_player_follow_speed = 400;
-    if( g->u.movement_mode_is( PMM_RUN ) ) {
+    if( g->u.movement_mode_is( CMM_RUN ) ) {
         safe_player_follow_speed = 800;
-    } else if( g->u.movement_mode_is( PMM_CROUCH ) ) {
+    } else if( g->u.movement_mode_is( CMM_CROUCH ) ) {
         safe_player_follow_speed = 200;
     }
     if( follow_protocol ) {
@@ -1396,6 +1381,20 @@ bool vehicle::can_mount( const point &dp, const vpart_id &id ) const
         }
     }
 
+    //Turret controls must be installed on a turret
+    if( part.has_flag( "TURRET_CONTROLS" ) ) {
+        bool anchor_found = false;
+        for( const auto &elem : parts_in_square ) {
+            if( part_info( elem ).has_flag( "TURRET" ) ) {
+                anchor_found = true;
+                break;
+            }
+        }
+        if( !anchor_found ) {
+            return false;
+        }
+    }
+
     //Anything not explicitly denied is permitted
     return true;
 }
@@ -1623,7 +1622,8 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
                 "SPACE_HEATER",
                 "COOLER",
                 "WATER_PURIFIER",
-                "ROCKWHEEL"
+                "ROCKWHEEL",
+                "ROADHEAD"
             }
         };
 
@@ -1886,7 +1886,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
 
     // Release any animal held by the part
     if( parts[p].has_flag( vehicle_part::animal_flag ) ) {
-        item base = item( parts[p].get_base() );
+        item base = parts[p].get_base();
         handler.spawn_animal_from_part( base, part_loc );
         parts[p].set_base( base );
         parts[p].remove_flag( vehicle_part::animal_flag );
@@ -2042,7 +2042,7 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts )
             // We can't be sure to which vehicle it really belongs to, so it will be detached from the vehicle.
             // We can at least inform the player that there's something wrong.
             add_msg( m_warning,
-                     _( "A part of the vehicle ('%s') has no containing vehicle's name. It will be detached from the %s vehicle." ),
+                     _( "A part of the vehicle ('%s') has no containing vehicle's name.  It will be detached from the %s vehicle." ),
                      parts[carried_part].name(),  new_vehicle->name );
 
             // check if any other parts at the same location have a valid carry name so we can still have a valid mount location.
@@ -3168,10 +3168,9 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
             const int p = avail_part_with_feature( vp->part_index(), VPFLAG_ENGINE, true );
             if( p >= 0 && is_part_on( p ) && part_info( p ).fuel_type == fuel_type_muscle ) {
                 //Broken limbs prevent muscle engines from working
-                if( ( part_info( p ).has_flag( "MUSCLE_LEGS" ) && g->u.hp_cur[hp_leg_l] > 0 &&
-                      g->u.hp_cur[hp_leg_r] > 0 ) || ( part_info( p ).has_flag( "MUSCLE_ARMS" ) &&
-                                                       g->u.hp_cur[hp_arm_l] > 0 &&
-                                                       g->u.hp_cur[hp_arm_r] > 0 ) ) {
+                if( ( part_info( p ).has_flag( "MUSCLE_LEGS" ) && ( g->u.get_working_leg_count() >= 2 ) ) ||
+                    ( part_info( p ).has_flag( "MUSCLE_ARMS" ) &&
+                      ( g->u.get_working_arm_count() >= 2 ) ) ) {
                     fl += 10;
                 }
             }
@@ -3582,12 +3581,11 @@ void vehicle::spew_field( double joules, int part, field_type_id type, int inten
  */
 void vehicle::noise_and_smoke( int load, time_duration time )
 {
-    const std::array<int, 8> sound_levels = {{ 0, 15, 30, 60, 100, 140, 180, INT_MAX }};
-    const std::array<std::string, 8> sound_msgs = {{
-            translate_marker( "hmm" ), translate_marker( "hummm!" ),
-            translate_marker( "whirrr!" ), translate_marker( "vroom!" ),
-            translate_marker( "roarrr!" ), translate_marker( "ROARRR!" ),
-            translate_marker( "BRRROARRR!" ), translate_marker( "BRUMBRUMBRUMBRUM!" )
+    static const std::array<std::pair<std::string, int>, 8> sounds = { {
+            { translate_marker( "hmm" ), 0 }, { translate_marker( "hummm!" ), 15 },
+            { translate_marker( "whirrr!" ), 30 }, { translate_marker( "vroom!" ), 60 },
+            { translate_marker( "roarrr!" ), 100 }, { translate_marker( "ROARRR!" ), 140 },
+            { translate_marker( "BRRROARRR!" ), 180 }, { translate_marker( "BRUMBRUMBRUMBRUM!" ), INT_MAX }
         }
     };
     double noise = 0.0;
@@ -3604,6 +3602,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     }
 
     bool bad_filter = false;
+    bool combustion = false;
 
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
@@ -3619,6 +3618,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
             double part_noise = cur_stress * part_info( p ).engine_noise_factor();
 
             if( part_info( p ).has_flag( "E_COMBUSTION" ) ) {
+                combustion = true;
                 double health = parts[p].health_percent();
                 if( parts[ p ].base.faults.count( fault_filter_fuel ) ) {
                     health = 0.0;
@@ -3639,13 +3639,16 @@ void vehicle::noise_and_smoke( int load, time_duration time )
                     mufflesmoke += j;
                 }
                 part_noise = ( part_noise + max_stress * 3 + 5 ) * muffle;
-                //add_msg( m_good, "PART NOISE (2nd): %d", static_cast<int>( part_noise ) );
             }
             noise = std::max( noise, part_noise ); // Only the loudest engine counts.
         }
     }
-    if( ( exhaust_part != -1 ) && engine_on &&
-        has_engine_type_not( fuel_type_muscle, true ) ) { // No engine, no smoke
+    if( !combustion ) {
+        return;
+    }
+    /// @todo handle other engine types: muscle / animal / wind / coal / ...
+
+    if( exhaust_part != -1 && engine_on ) {
         spew_field( mufflesmoke, exhaust_part, fd_smoke,
                     bad_filter ? fd_smoke.obj().get_max_intensity() : 1 );
     }
@@ -3654,16 +3657,14 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     // Even a vehicle with engines off will make noise traveling at high speeds
     noise = std::max( noise, static_cast<double>( fabs( velocity / 500.0 ) ) );
     int lvl = 0;
-    if( one_in( 4 ) && rng( 0, 30 ) < noise && has_engine_type_not( fuel_type_muscle, true ) ) {
-        while( noise > sound_levels[lvl] ) {
+    if( one_in( 4 ) && rng( 0, 30 ) < noise ) {
+        while( noise > sounds[lvl].second ) {
             lvl++;
         }
     }
     add_msg( m_debug, "VEH NOISE final: %d", static_cast<int>( noise ) );
     vehicle_noise = static_cast<unsigned char>( noise );
-    if( has_engine_type_not( fuel_type_muscle, true ) ) {
-        sounds::sound( global_pos3(), noise, sounds::sound_t::movement, _( sound_msgs[lvl] ), true );
-    }
+    sounds::sound( global_pos3(), noise, sounds::sound_t::movement, _( sounds[lvl].first ), true );
 }
 
 int vehicle::wheel_area() const
@@ -4011,29 +4012,71 @@ bool vehicle::sufficient_wheel_config() const
     return true;
 }
 
+bool vehicle::is_owned_by( const Character &c, bool available_to_take ) const
+{
+    if( owner.is_null() ) {
+        return available_to_take;
+    }
+    if( !c.get_faction() ) {
+        debugmsg( "vehicle::is_owned_by() player %s has no faction", c.disp_name() );
+        return false;
+    }
+    return c.get_faction()->id == get_owner();
+}
+
+bool vehicle::is_old_owner( const Character &c, bool available_to_take ) const
+{
+    if( old_owner.is_null() ) {
+        return available_to_take;
+    }
+    if( !c.get_faction() ) {
+        debugmsg( "vehicle::is_old_owner() player %s has no faction", c.disp_name() );
+        return false;
+    }
+    return c.get_faction()->id == get_old_owner();
+}
+
+std::string vehicle::get_owner_name() const
+{
+    if( !g->faction_manager_ptr->get( owner ) ) {
+        debugmsg( "vehicle::get_owner_name() vehicle %s has no valid nor null faction id ", disp_name() );
+        return "no owner";
+    }
+    return g->faction_manager_ptr->get( owner )->name;
+}
+
+void vehicle::set_owner( const Character &c )
+{
+    if( !c.get_faction() ) {
+        debugmsg( "vehicle::set_owner() player %s has no valid faction", c.disp_name() );
+        return;
+    }
+    owner = c.get_faction()->id;
+}
+
 bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
 {
-    faction *yours = p.get_faction();
+    const bool is_owned_by_player = is_owned_by( p );
     std::vector<npc *> witnesses;
     for( npc &elem : g->all_npcs() ) {
         if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && has_owner() &&
-            elem.get_faction() == get_owner() && elem.sees( p.pos() ) ) {
+            !is_owned_by_player && elem.sees( p.pos() ) ) {
             witnesses.push_back( &elem );
         }
     }
     // the vehicle is yours, thats fine.
-    if( get_owner() == yours ) {
+    if( is_owned_by_player ) {
         return true;
         // if There is no owner
         // handle transfer of ownership
     } else if( !has_owner() ) {
-        set_owner( yours );
+        set_owner( p.get_faction()->id );
         remove_old_owner();
         return true;
         // if there is a marker for having been stolen, but 15 minutes have passed, then officially transfer ownership
-    } else if( witnesses.empty() && get_old_owner() && get_old_owner() != yours && theft_time &&
+    } else if( witnesses.empty() && has_old_owner() && !is_old_owner( p ) && theft_time &&
                calendar::turn - *theft_time > 15_minutes ) {
-        set_owner( yours );
+        set_owner( p.get_faction()->id );
         remove_old_owner();
         return true;
         // No witnesses? then dont need to prompt, we assume the player is in process of stealing it.
@@ -4052,7 +4095,7 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
     if( prompt ) {
         if( !query_yn(
                 _( "This vehicle belongs to: %s, there may be consequences if you are observed interacting with it, continue?" ),
-                _( get_owner()->name ) ) ) {
+                _( get_owner_name() ) ) ) {
             return false;
         }
     }
@@ -4062,7 +4105,7 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
         elem->say( "<witnessed_thievery>", 7 );
     }
     if( !witnesses.empty() ) {
-        if( p.add_faction_warning( get_owner()->id ) ) {
+        if( p.add_faction_warning( get_owner() ) ) {
             for( npc *elem : witnesses ) {
                 elem->make_angry();
             }
@@ -4240,31 +4283,31 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
         const item muscle( "muscle" );
         if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             if( one_in( 1000 / load ) ) { // more pedaling = more power
-                g->u.charge_power( 1 );
+                g->u.mod_power_level( 1_kJ );
             }
             mod += eff_load / 5;
         }
         if( g->u.has_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
             if( one_in( 1000 / load ) && one_in( 20 ) ) { // intentional double chance check
-                g->u.charge_power( 1 );
+                g->u.mod_power_level( 1_kJ );
             }
             mod += eff_load / 10;
         }
         for( const bionic_id &bid : g->u.get_bionic_fueled_with( muscle ) ) {
             if( g->u.has_active_bionic( bid ) ) {
                 if( one_in( 1000 / load ) ) { // more pedaling = more power
-                    g->u.charge_power( muscle.fuel_energy() * bid->fuel_efficiency );
+                    g->u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
                 }
                 mod += eff_load / 5;
             }
             if( one_in( 1000 / load ) && one_in( 20 ) ) { // intentional double chance check
-                g->u.charge_power( muscle.fuel_energy() * bid->fuel_efficiency );
+                g->u.mod_power_level( units::from_kilojoule( muscle.fuel_energy() ) * bid->fuel_efficiency );
             }
             mod += eff_load / 10;
         }
         // decreased stamina burn scalable with load
         if( g->u.has_active_bionic( bionic_id( "bio_jointservo" ) ) ) {
-            g->u.charge_power( -std::max( eff_load / 20, 1 ) );
+            g->u.mod_power_level( units::from_kilojoule( -std::max( eff_load / 20, 1 ) ) );
             mod -= std::max( eff_load / 5, 5 );
         }
         if( one_in( 1000 / load ) && one_in( 10 ) ) {
@@ -4753,6 +4796,10 @@ void vehicle::idle( bool on_map )
         play_chimes();
     }
 
+    if( has_part( "CRASH_TERRAIN_AROUND", true ) ) {
+        crash_terrain_around();
+    }
+
     if( is_alarm_on ) {
         alarm();
     }
@@ -5155,6 +5202,8 @@ void vehicle::refresh()
     int railwheel_xmax = INT_MIN;
     int railwheel_ymax = INT_MIN;
 
+    bool refresh_done = false;
+
     // Main loop over all vehicle parts.
     for( const vpart_reference &vp : get_all_parts() ) {
         const size_t p = vp.part_index();
@@ -5162,6 +5211,7 @@ void vehicle::refresh()
         if( vp.part().removed ) {
             continue;
         }
+        refresh_done = true;
 
         // Build map of point -> all parts in that point
         const point pt = vp.mount();
@@ -5253,10 +5303,19 @@ void vehicle::refresh()
         } else if( !camera_on && vpi.has_flag( "CAMERA" ) ) {
             vp.part().enabled = false;
         }
+        if( vpi.has_flag( "TURRET" ) && !has_part( global_part_pos3( vp.part() ), "TURRET_CONTROLS" ) ) {
+            vp.part().enabled = false;
+        }
     }
 
     rail_wheel_bounding_box.p1 = point( railwheel_xmin, railwheel_ymin );
     rail_wheel_bounding_box.p2 = point( railwheel_xmax, railwheel_ymax );
+
+    if( !refresh_done ) {
+        mount_min = mount_max = point_zero;
+        rail_wheel_bounding_box.p1 = point_zero;
+        rail_wheel_bounding_box.p2 = point_zero;
+    }
 
     // NB: using the _old_ pivot point, don't recalc here, we only do that when moving!
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
@@ -6030,7 +6089,7 @@ void vehicle::update_time( const time_point &update_to )
 
         if( qty > 0 ) {
             if( has_part( global_part_pos3( pt ), "WATER_PURIFIER", true ) &&
-                ( fuel_left( "battery" ) > cost_to_purify ) ) {
+                ( fuel_left( "battery", true ) > cost_to_purify ) ) {
                 tank->ammo_set( "water_clean", c_qty );
                 discharge_battery( cost_to_purify );
             } else {

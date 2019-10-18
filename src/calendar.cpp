@@ -72,7 +72,7 @@ moon_phase get_moon_phase( const time_point &p )
 time_point sunrise( const time_point &p )
 {
     static_assert( static_cast<int>( SPRING ) == 0,
-                   "Expected spring to be the first season. If not, code below will use wrong index into array" );
+                   "Expected spring to be the first season.  If not, code below will use wrong index into array" );
 
     static const std::array<int, 4> start_hours = { { sunrise_equinox, sunrise_summer, sunrise_equinox, sunrise_winter, } };
     const size_t season = static_cast<size_t>( season_of_year( p ) );
@@ -92,7 +92,7 @@ time_point sunrise( const time_point &p )
 time_point sunset( const time_point &p )
 {
     static_assert( static_cast<int>( SPRING ) == 0,
-                   "Expected spring to be the first season. If not, code below will use wrong index into array" );
+                   "Expected spring to be the first season.  If not, code below will use wrong index into array" );
 
     static const std::array<int, 4> start_hours = { { sunset_equinox, sunset_summer, sunset_equinox, sunset_winter, } };
     const size_t season = static_cast<size_t>( season_of_year( p ) );
@@ -454,7 +454,7 @@ float calendar::season_ratio()
 
 float calendar::season_from_default_ratio()
 {
-    static const int default_season_length = 14;
+    static const int default_season_length = 91;
     return to_days<float>( season_length() ) / default_season_length;
 }
 

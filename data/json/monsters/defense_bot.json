@@ -172,7 +172,6 @@
     "bodytype": "human",
     "species": [ "ROBOT" ],
     "diff": 100,
-    "size": "MEDIUM",
     "hp": 50,
     "speed": 140,
     "material": [ "steel" ],

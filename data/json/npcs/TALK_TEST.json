@@ -474,7 +474,7 @@
       {
         "text": "This is an opinion response",
         "topic": "TALK_DONE",
-        "opinion": { "trust": 10, "fear": 11, "value": 12, "anger": 13, "owed": 14, "favors": 14 }
+        "opinion": { "trust": 10, "fear": 11, "value": 12, "anger": 13, "owed": 14 }
       },
       {
         "text": "This is a u_sell_item plastic bottle response",
@@ -591,13 +591,13 @@
         "text": "This is a u_has_var, u_remove_var test response.",
         "topic": "TALK_DONE",
         "condition": { "u_has_var": "test", "type": "test", "context": "var_test", "value": "beer" },
-        "effect": { "u_lose_var": "test", "type": "test", "context": "var_test", "value": "beer" }
+        "effect": { "u_lose_var": "test", "type": "test", "context": "var_test" }
       },
       {
         "text": "This is a npc_has_var, npc_remove_var test response.",
         "topic": "TALK_DONE",
         "condition": { "npc_has_var": "test", "type": "test", "context": "var_test", "value": "reeb" },
-        "effect": { "npc_lose_var": "test", "type": "test", "context": "var_test", "value": "reeb" }
+        "effect": { "npc_lose_var": "test", "type": "test", "context": "var_test" }
       }
     ]
   },

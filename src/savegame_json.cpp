@@ -26,6 +26,7 @@
 #include <bitset>
 
 #include "auto_pickup.h"
+#include "assign.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
@@ -364,6 +365,13 @@ void Character::load( JsonObject &data )
 {
     Creature::load( data );
 
+    if( !data.read( "posx", position.x ) ) {  // uh-oh.
+        debugmsg( "BAD PLAYER/NPC JSON: no 'posx'?" );
+    }
+    data.read( "posy", position.y );
+    if( !data.read( "posz", position.z ) && g != nullptr ) {
+        position.z = g->get_levz();
+    }
     // stats
     data.read( "str_cur", str_cur );
     data.read( "str_max", str_max );
@@ -471,6 +479,15 @@ void Character::load( JsonObject &data )
     weapon = item( "null", 0 );
     data.read( "weapon", weapon );
 
+    std::string tmove_mode;
+    data.read( "move_mode", tmove_mode );
+    for( int i = 0; i < CMM_COUNT; ++i ) {
+        if( tmove_mode == character_movemode_str[i] ) {
+            move_mode = static_cast<character_movemode>( i );
+            break;
+        }
+    }
+
     if( has_effect( effect_riding ) ) {
         int temp_id;
         if( data.read( "mounted_creature", temp_id ) ) {
@@ -484,10 +501,6 @@ void Character::load( JsonObject &data )
     _skills->clear();
     JsonObject pmap = data.get_object( "skills" );
     for( const std::string &member : pmap.get_member_names() ) {
-        // FIXME: Fix corrupted bionic power data loading (see #31627). Temporary.
-        if( member == "power_level" || member == "max_power_level" ) {
-            continue;
-        }
         pmap.read( member, ( *_skills )[skill_id( member )] );
     }
 
@@ -505,9 +518,9 @@ void Character::load( JsonObject &data )
     recalc_sight_limits();
     reset_encumbrance();
 
-    // FIXME: Fix corrupted bionic power data loading (see #31627). Temporary.
-    power_level = pmap.get_int( "power_level", data.get_int( "power_level", 0 ) );
-    max_power_level = pmap.get_int( "max_power_level", data.get_int( "max_power_level", 0 ) );
+    assign( data, "power_level", power_level, false, 0_kJ );
+    assign( data, "max_power_level", max_power_level, false, 0_kJ );
+
     // Bionic power scale has been changed, savegame version 21 has the new scale
     if( savegame_loading_version <= 20 ) {
         power_level *= 25;
@@ -515,8 +528,8 @@ void Character::load( JsonObject &data )
     }
 
     // Bionic power should not be negative!
-    if( power_level < 0 ) {
-        power_level = 0;
+    if( power_level < 0_kJ ) {
+        power_level = 0_kJ;
     }
 }
 
@@ -526,6 +539,12 @@ void Character::load( JsonObject &data )
 void Character::store( JsonOut &json ) const
 {
     Creature::store( json );
+
+    // assumes already in Character object
+    // positional data
+    json.member( "posx", position.x );
+    json.member( "posy", position.y );
+    json.member( "posz", position.z );
 
     // stat
     json.member( "str_cur", str_cur );
@@ -567,6 +586,9 @@ void Character::store( JsonOut &json ) const
 
     // "Fracking Toasters" - Saul Tigh, toaster
     json.member( "my_bionics", *my_bionics );
+
+    json.member( "move_mode", character_movemode_str[ move_mode ] );
+
     // storing the mount
     if( is_mounted() ) {
         json.member( "mounted_creature", g->critter_tracker->temporary_id( *mounted_creature ) );
@@ -580,8 +602,8 @@ void Character::store( JsonOut &json ) const
     json.end_object();
 
     // npc; unimplemented
-    json.member( "power_level", power_level );
-    json.member( "max_power_level", max_power_level );
+    json.member( "power_level", units::to_kilojoule( power_level ) );
+    json.member( "max_power_level", units::to_kilojoule( max_power_level ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -593,12 +615,6 @@ void Character::store( JsonOut &json ) const
 void player::store( JsonOut &json ) const
 {
     Character::store( json );
-
-    // assumes already in player object
-    // positional data
-    json.member( "posx", position.x );
-    json.member( "posy", position.y );
-    json.member( "posz", position.z );
 
     // energy
     json.member( "stim", stim );
@@ -708,13 +724,6 @@ void player::load( JsonObject &data )
     JsonArray parray;
     character_id tmpid;
 
-    if( !data.read( "posx", position.x ) ) { // uh-oh.
-        debugmsg( "BAD PLAYER/NPC JSON: no 'posx'?" );
-    }
-    data.read( "posy", position.y );
-    if( !data.read( "posz", position.z ) && g != nullptr ) {
-        position.z = g->get_levz();
-    }
     data.read( "stim", stim );
     data.read( "pkill", pkill );
     data.read( "tank_plut", tank_plut );
@@ -864,7 +873,6 @@ void avatar::store( JsonOut &json ) const
     json.member( "style_selected", style_selected );
     json.member( "keep_hands_free", keep_hands_free );
 
-    json.member( "move_mode", player_movemode_str[ move_mode ] );
     json.member( "magic", magic );
 
     // stats through kills
@@ -980,14 +988,6 @@ void avatar::load( JsonObject &data )
 
     data.read( "stamina", stamina );
     data.read( "magic", magic );
-    std::string tmove_mode;
-    data.read( "move_mode", tmove_mode );
-    for( int i = 0; i < PMM_COUNT; ++i ) {
-        if( tmove_mode == player_movemode_str[i] ) {
-            move_mode = static_cast<player_movemode>( i );
-            break;
-        }
-    }
 
     set_highest_cat_level();
     drench_mut_calc();
@@ -1350,6 +1350,7 @@ void npc::load( JsonObject &data )
     int misstmp = 0;
     int classtmp = 0;
     int atttmp = 0;
+    int jobtmp = 0;
     std::string facID;
     std::string comp_miss_id;
     std::string comp_miss_role;
@@ -1478,6 +1479,9 @@ void npc::load( JsonObject &data )
             attitude = NPCATT_NULL;
         }
     }
+    if( data.read( "job", jobtmp ) ) {
+        job = static_cast<npc_job>( jobtmp );
+    }
     if( data.read( "previous_attitude", atttmp ) ) {
         previous_attitude = static_cast<npc_attitude>( atttmp );
         static const std::set<npc_attitude> legacy_attitudes = {{
@@ -1601,6 +1605,7 @@ void npc::store( JsonOut &json ) const
     json.member( "pulp_location", pulp_location );
 
     json.member( "mission", mission ); // TODO: stringid
+    json.member( "job", static_cast<int>( job ) );
     json.member( "previous_mission", previous_mission );
     json.member( "faction_api_ver", faction_api_version );
     if( !fac_id.str().empty() ) { // set in constructor
@@ -1832,8 +1837,6 @@ void monster::load( JsonObject &data )
     if( !data.read( "last_updated", last_updated ) ) {
         last_updated = calendar::turn;
     }
-    last_baby = data.get_int( "last_baby", to_turn<int>( calendar::turn ) );
-    last_biosig = data.get_int( "last_biosig", to_turn<int>( calendar::turn ) );
     data.read( "mounted_player_id", mounted_player_id );
     data.read( "path", path );
 }
@@ -1885,10 +1888,8 @@ void monster::store( JsonOut &json ) const
     json.member( "last_updated", last_updated );
     json.member( "reproduces", reproduces );
     json.member( "baby_timer", baby_timer );
-    json.member( "last_baby", last_baby );
     json.member( "biosignatures", biosignatures );
     json.member( "biosig_timer", biosig_timer );
-    json.member( "last_biosig", last_biosig );
 
     json.member( "summon_time_limit", summon_time_limit );
 
@@ -1980,15 +1981,6 @@ void item::io( Archive &archive )
     const auto load_making = [this]( const std::string & id ) {
         making = &recipe_id( id ).obj();
     };
-    const auto load_owner = [this]( const std::string & id ) {
-        owner = g->faction_manager_ptr->get( faction_id( id ), false );
-        if( !owner && !id.empty() ) {
-            // this is a dynamic faction and therefore not loaded yet.
-            // create a stub to be filled in later when factions deserialize.
-            owner = g->faction_manager_ptr->add_new_faction( "temp_name", faction_id( id ),
-                    faction_id( "no_faction" ) );
-        }
-    };
 
     archive.template io<const itype>( "typeid", type, load_type, []( const itype & i ) {
         return i.get_id();
@@ -2012,6 +2004,8 @@ void item::io( Archive &archive )
     archive.io( "player_id", player_id, -1 );
     archive.io( "item_vars", item_vars, io::empty_default_tag() );
     archive.io( "name", corpse_name, std::string() ); // TODO: change default to empty string
+    archive.io( "owner", owner );
+    archive.io( "old_owner", old_owner );
     archive.io( "invlet", invlet, '\0' );
     archive.io( "damaged", damage_, 0 );
     archive.io( "active", active, false );
@@ -2040,10 +2034,6 @@ void item::io( Archive &archive )
     archive.template io<const recipe>( "making", making, load_making,
     []( const recipe & i ) {
         return i.ident().str();
-    } );
-    archive.template io<const faction>( "owner", owner, load_owner,
-    []( const faction & i ) {
-        return i.id.str();
     } );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
@@ -2128,6 +2118,10 @@ void item::io( Archive &archive )
             }
         }
     }
+
+    // Remove stored translated gerund in favor of storing the inscription tool type
+    item_vars.erase( "item_label_type" );
+    item_vars.erase( "item_note_type" );
 
     current_phase = static_cast<phase_id>( cur_phase );
     // override phase if frozen, needed for legacy save
@@ -2482,28 +2476,17 @@ void vehicle::deserialize( JsonIn &jsin )
     std::string temp_id;
     std::string temp_old_id;
     data.read( "owner", temp_id );
-    if( !temp_id.empty() ) {
-        owner = g->faction_manager_ptr->get( faction_id( temp_id ), false );
-        if( !owner ) {
-            // this is a dynamic faction and therefore not loaded yet.
-            // create a stub to be filled in later when factions deserialize.
-            owner = g->faction_manager_ptr->add_new_faction( "temp_name", faction_id( temp_id ),
-                    faction_id( "no_faction" ) );
-        }
-    } else {
-        owner = nullptr;
-    }
     data.read( "old_owner", temp_old_id );
-    if( !temp_old_id.empty() ) {
-        old_owner = g->faction_manager_ptr->get( faction_id( temp_old_id ), false );
-        if( !old_owner ) {
-            // this is a dynamic faction and therefore not loaded yet.
-            // create a stub to be filled in later when factions deserialize.
-            old_owner = g->faction_manager_ptr->add_new_faction( "temp_name", faction_id( temp_old_id ),
-                        faction_id( "no_faction" ) );
-        }
+    // for savegames before the change to faction_id for ownership.
+    if( temp_id.empty() ) {
+        owner = faction_id::NULL_ID();
     } else {
-        old_owner = nullptr;
+        owner = faction_id( temp_id );
+    }
+    if( temp_old_id.empty() ) {
+        old_owner = faction_id::NULL_ID();
+    } else {
+        old_owner = faction_id( temp_old_id );
     }
     data.read( "theft_time", theft_time );
 
@@ -2531,6 +2514,15 @@ void vehicle::deserialize( JsonIn &jsin )
 
     for( const vpart_reference &vp : get_any_parts( "TURRET" ) ) {
         install_part( vp.mount(), vpart_id( "turret_mount" ), false );
+
+        //Forcibly set turrets' targeting mode to manual if no turret control unit is present on turret's tile on loading save
+        if( !has_part( global_part_pos3( vp.part() ), "TURRET_CONTROLS" ) ) {
+            vp.part().enabled = false;
+        }
+        //Set turret control unit's state equal to turret's targeting mode on loading save
+        for( const vpart_reference &turret_part : get_any_parts( "TURRET_CONTROLS" ) ) {
+            turret_part.part().enabled = vp.part().enabled;
+        }
     }
 
     // Add vehicle mounts to cars that are missing them.
@@ -2637,8 +2629,8 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "skidding", skidding );
     json.member( "of_turn_carry", of_turn_carry );
     json.member( "name", name );
-    json.member( "owner", owner ? owner->id.str() : "" );
-    json.member( "old_owner", old_owner ? old_owner->id.str() : "" );
+    json.member( "owner", owner );
+    json.member( "old_owner", old_owner );
     json.member( "theft_time", theft_time );
     json.member( "parts", parts );
     json.member( "tags", tags );

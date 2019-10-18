@@ -356,11 +356,13 @@
     "decomp_learn": 0,
     "autolearn": [ [ "electronics", 2 ] ],
     "book_learn": [ [ "manual_electronics", 1 ], [ "advanced_electronics", 2 ], [ "textbook_anarch", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "antenna", 1 ], [ "screwdriver", 1 ], [ "xacto", 1 ], [ "knife_butter", 1 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "element", 1 ] ],
-      [ [ "scrap", 2 ] ]
+      [ [ "e_scrap", 2 ], [ "glowplug", 1 ] ],
+      [ [ "copper", 1 ], [ "nail", 1 ], [ "wire", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "duct_tape", 10 ] ],
+      [ [ "cable", 5 ] ]
     ]
   },
   {
@@ -595,7 +597,7 @@
     "difficulty": 5,
     "time": "40 m",
     "reversible": true,
-    "note": "you might be able to reverse-engineer assembly, but not the music",
+    "//": "you might be able to reverse-engineer assembly, but not the music",
     "book_learn": [ [ "textbook_electronics", 6 ], [ "textbook_robots", 5 ] ],
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
@@ -611,7 +613,7 @@
     "difficulty": 8,
     "time": "1 h",
     "reversible": true,
-    "note": "as with mp3, no learning how to encode the software from taking it apart",
+    "//": "as with mp3, no learning how to encode the software from taking it apart",
     "book_learn": [ [ "textbook_electronics", 7 ], [ "textbook_robots", 6 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],

@@ -18,7 +18,6 @@
     "flags": "TRADER_AVOID",
     "volume": "100 ml",
     "ammo_type": "crystallized_mana",
-    "reload_time": 1,
     "count": 100,
     "looks_like": "battery",
     "fuel": { "energy": 1 }

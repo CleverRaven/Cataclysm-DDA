@@ -40,7 +40,7 @@
       ],
       "items": { "@": { "item": "lab_torso", "chance": 100 } },
       "item": { "@": [ { "item": "rmi2_corpse" } ] },
-      "place_loot": [ { "item": "223_casing", "charges": [ 1, 1 ], "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100, "repeat": [ 20, 60 ] } ],
+      "place_loot": [ { "item": "223_casing", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100, "repeat": [ 20, 60 ] } ],
       "monster": { "M": { "monster": "mon_zombie_armored" }, "A": { "monster": "mon_zombie_soldier_acid_1" } },
       "place_monsters": [ { "monster": "GROUP_MIL_STRONG", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 1.6 } ]
     }
