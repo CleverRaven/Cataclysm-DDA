@@ -1661,7 +1661,7 @@ void player::perform_special_attacks( Creature &t )
 {
     bool can_poison = false;
 
-    std::vector<special_attack> special_attacks = mutations.mutation_attacks( t );
+    std::vector<special_attack> special_attacks = mutations.mutation_attacks( *this, t );
 
     std::string target = t.disp_name();
 
@@ -1845,14 +1845,14 @@ static damage_instance hardcoded_mutation_attack( const player &u, const trait_i
     return damage_instance();
 }
 
-std::vector<special_attack> character_mutations::mutation_attacks( Creature &t ) const
+std::vector<special_attack> character_mutations::mutation_attacks( Character &owner, Creature &t ) const
 {
     std::vector<special_attack> ret;
 
     std::string target = t.disp_name();
 
-    const auto usable_body_parts = exclusive_flag_coverage( "ALLOWS_NATURAL_ATTACKS" );
-    const int unarmed = get_skill_level( skill_unarmed );
+    const auto usable_body_parts = owner.exclusive_flag_coverage( "ALLOWS_NATURAL_ATTACKS" );
+    const int unarmed = owner.get_skill_level( skill_unarmed );
 
     for( const auto &pr : my_mutations ) {
         const auto &branch = pr.first.obj();
@@ -1866,7 +1866,7 @@ std::vector<special_attack> character_mutations::mutation_attacks( Creature &t )
             /** @EFFECT_DEX increases chance of attacking with mutated body parts */
 
             // Calculate actor ability value to be compared against mutation attack difficulty and add debug message
-            const int proc_value = get_dex() + unarmed;
+            const int proc_value = owner.get_dex() + unarmed;
             add_msg( m_debug, "%s proc chance: %d in %d", pr.first.c_str(), proc_value, mut_atk.chance );
             // If the mutation attack fails to proc, bail out
             if( !x_in_y( proc_value, mut_atk.chance ) ) {
@@ -1895,19 +1895,19 @@ std::vector<special_attack> character_mutations::mutation_attacks( Creature &t )
             // Ugly special case: player's strings have only 1 variable, NPC have 2
             // Can't use <npcname> here
             // TODO: Fix
-            if( is_player() ) {
+            if( owner.is_player() ) {
                 tmp.text = string_format( _( mut_atk.attack_text_u ), target );
             } else {
-                tmp.text = string_format( _( mut_atk.attack_text_npc ), name, target );
+                tmp.text = string_format( _( mut_atk.attack_text_npc ), owner.name, target );
             }
 
             // Attack starts here
             if( mut_atk.hardcoded_effect ) {
-                tmp.damage = hardcoded_mutation_attack( *this, pr.first );
+                tmp.damage = hardcoded_mutation_attack( *owner.as_player(), pr.first );
             } else {
                 damage_instance dam = mut_atk.base_damage;
                 damage_instance scaled = mut_atk.strength_damage;
-                scaled.mult_damage( std::min<float>( 15.0f, get_str() ), true );
+                scaled.mult_damage( std::min<float>( 15.0f, owner.get_str() ), true );
                 dam.add( scaled );
 
                 tmp.damage = dam;

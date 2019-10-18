@@ -160,7 +160,7 @@ class character_mutations
 
         void power_mutations();
         /** Returns a vector of valid mutation attacks */
-        std::vector<special_attack> mutation_attacks( Creature &t ) const;
+        std::vector<special_attack> mutation_attacks( Character &owner, Creature &t ) const;
         /** Retrieves a stat mod of a mutation. */
         int get_mod( const trait_id &mut, const std::string &arg ) const;
         /** Empties the trait list */
