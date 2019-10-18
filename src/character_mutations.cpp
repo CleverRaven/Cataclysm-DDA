@@ -50,6 +50,8 @@ int character_mutations::get_cat_level( const std::string &category ) const
     }
 }
 
-std::array<int, character_mutations::water_tolerance::NUM_WATER_TOLERANCE> character_mutations::get_mut_drench( body_part bp ) const {
+std::array<int, character_mutations::water_tolerance::NUM_WATER_TOLERANCE>
+character_mutations::get_mut_drench( body_part bp ) const
+{
     return mut_drench[bp];
 }

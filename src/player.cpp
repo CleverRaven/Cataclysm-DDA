@@ -6024,10 +6024,10 @@ void player::apply_wetness_morale( int temperature )
             continue;
         }
 
-        const auto &part_arr = mut_drench[bp];
-        const int part_ignored = part_arr[WT_IGNORED];
-        const int part_neutral = part_arr[WT_NEUTRAL];
-        const int part_good    = part_arr[WT_GOOD];
+        const auto &part_arr = mutations.get_mut_drench( bp );
+        const int part_ignored = part_arr[character_mutations::water_tolerance::WT_IGNORED];
+        const int part_neutral = part_arr[character_mutations::water_tolerance::WT_NEUTRAL];
+        const int part_good    = part_arr[character_mutations::water_tolerance::WT_GOOD];
 
         if( part_ignored >= part_drench ) {
             continue;

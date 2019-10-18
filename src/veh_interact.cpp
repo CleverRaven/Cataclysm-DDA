@@ -121,7 +121,7 @@ player_activity veh_interact::serialize_activity()
             time = vp->removal_time( g->u );
             break;
     }
-    if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
+    if( g->u.mutations.has_trait( trait_id( "DEBUG_HS" ) ) ) {
         time = 1;
     }
     player_activity res( activity_id( "ACT_VEHICLE" ), time, static_cast<int>( sel_cmd ) );
@@ -512,7 +512,7 @@ task_reason veh_interact::cant_do( char mode )
 
         case 'm': { // mend mode
             enough_morale = g->u.has_morale_to_craft();
-            const bool toggling = g->u.has_trait( trait_DEBUG_HS );
+            const bool toggling = g->u.mutations.has_trait( trait_DEBUG_HS );
             valid_target = std::any_of( veh->parts.begin(),
             veh->parts.end(), [toggling]( const vehicle_part & pt ) {
                 if( toggling ) {
@@ -772,7 +772,7 @@ bool veh_interact::can_install_part()
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_gray, msg.str() );
     wrefresh( w_msg );
-    return ok || g->u.has_trait( trait_DEBUG_HS );
+    return ok || g->u.mutations.has_trait( trait_DEBUG_HS );
 }
 
 /**
@@ -1184,7 +1184,7 @@ bool veh_interact::do_mend( std::string &msg )
 
     set_title( _( "Choose a part here to mend:" ) );
 
-    const bool toggling = g->u.has_trait( trait_DEBUG_HS );
+    const bool toggling = g->u.mutations.has_trait( trait_DEBUG_HS );
     auto sel = [toggling]( const vehicle_part & pt ) {
         if( toggling ) {
             return !pt.faults_potential().empty();
@@ -1695,7 +1695,7 @@ bool veh_interact::can_remove_part( int idx, const player &p )
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     fold_and_print( w_msg, point( 1, 0 ), getmaxx( w_msg ) - 2, c_light_gray, msg.str() );
     wrefresh( w_msg );
-    return ok || g->u.has_trait( trait_DEBUG_HS );
+    return ok || g->u.mutations.has_trait( trait_DEBUG_HS );
 }
 
 bool veh_interact::do_remove( std::string &msg )
@@ -1923,7 +1923,7 @@ int veh_interact::part_at( const point &d )
  */
 bool veh_interact::can_potentially_install( const vpart_info &vpart )
 {
-    return g->u.has_trait( trait_DEBUG_HS ) ||
+    return g->u.mutations.has_trait( trait_DEBUG_HS ) ||
            vpart.install_requirements().can_make_with_inventory( crafting_inv, is_crafting_component );
 }
 
@@ -2796,7 +2796,7 @@ void veh_interact::complete_vehicle( player &p )
                 }
             }
             if( base.is_null() ) {
-                if( !p.has_trait( trait_DEBUG_HS ) ) {
+                if( !p.mutations.has_trait( trait_DEBUG_HS ) ) {
                     add_msg( m_info, _( "Could not find base part in requirements for %s." ), vpinfo.name() );
                     break;
                 } else {

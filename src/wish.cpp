@@ -66,7 +66,8 @@ class wish_mutate_callback: public uilist_callback
                     p->mutations.set_mutation( *p, vTraits[ entnum ] );
                     p->mutations.toggle_trait( *p, vTraits[ entnum ] );
                 }
-                menu->entries[ entnum ].text_color = p->mutations.has_trait( vTraits[ entnum ] ) ? c_green : menu->text_color;
+                menu->entries[ entnum ].text_color = p->mutations.has_trait( vTraits[ entnum ] ) ? c_green :
+                                                     menu->text_color;
                 menu->entries[ entnum ].extratxt.txt = p->mutations.has_base_trait( vTraits[ entnum ] ) ? "T" : "";
                 return true;
             }

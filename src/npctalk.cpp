@@ -362,8 +362,9 @@ void game::chat()
     } );
     const int guard_count = guards.size();
 
-    if( g->u.mutations.has_trait( trait_PROF_FOODP ) && !( g->u.is_wearing( itype_id( "foodperson_mask" ) ) ||
-            g->u.is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+    if( g->u.mutations.has_trait( trait_PROF_FOODP ) &&
+        !( g->u.is_wearing( itype_id( "foodperson_mask" ) ) ||
+           g->u.is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
         g->u.add_msg_if_player( m_warning, _( "You can't speak without your face!" ) );
         return;
     }
@@ -766,13 +767,14 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
         }
     }
 
-    if( g->u.mutations.has_trait( trait_PROF_FOODP ) && !( g->u.is_wearing( itype_id( "foodperson_mask" ) ) ||
-            g->u.is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+    if( g->u.mutations.has_trait( trait_PROF_FOODP ) &&
+        !( g->u.is_wearing( itype_id( "foodperson_mask" ) ) ||
+           g->u.is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
         d.add_topic( "TALK_NOFACE" );
     }
 
     if( mutations.has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
-                                            is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+            is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
         d.add_topic( "TALK_NPC_NOFACE" );
     }
 

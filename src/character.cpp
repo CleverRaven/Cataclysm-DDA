@@ -4486,9 +4486,9 @@ void character_mutations::drench_mut_calc()
             }
         }
 
-        mut_drench[bp][Character::water_tolerance::WT_GOOD] = Character::water_tolerance::good;
-        mut_drench[bp][Character::water_tolerance::WT_NEUTRAL] = Character::water_tolerance::neutral;
-        mut_drench[bp][Character::water_tolerance::WT_IGNORED] = Character::water_tolerance::ignored;
+        mut_drench[bp][water_tolerance::WT_GOOD] = good;
+        mut_drench[bp][water_tolerance::WT_NEUTRAL] = neutral;
+        mut_drench[bp][water_tolerance::WT_IGNORED] = ignored;
     }
 }
 
@@ -5040,7 +5040,7 @@ void Character::update_vitamins( const vitamin_id &vit )
 void Character::rooted_message() const
 {
     bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
-    if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
+    if( ( mutations.has_trait( trait_ROOTS2 ) || mutations.has_trait( trait_ROOTS3 ) ) &&
         g->m.has_flag( "PLOWABLE", pos() ) &&
         !wearing_shoes ) {
         add_msg( m_info, _( "You sink your roots into the soil." ) );
@@ -5051,7 +5051,7 @@ void Character::rooted()
 // Should average a point every two minutes or so; ground isn't uniformly fertile
 {
     double shoe_factor = footwear_factor();
-    if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
+    if( ( mutations.has_trait( trait_ROOTS2 ) || mutations.has_trait( trait_ROOTS3 ) ) &&
         g->m.has_flag( "PLOWABLE", pos() ) && shoe_factor != 1.0 ) {
         if( one_in( 96 ) ) {
             vitamin_mod( vitamin_id( "iron" ), 1, true );

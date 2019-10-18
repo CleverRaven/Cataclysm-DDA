@@ -1711,11 +1711,13 @@ bool mattack::fungus_inject( monster *z )
         return false;
     }
 
-    if( g->u.mutations.has_trait( trait_THRESH_MARLOSS ) || g->u.mutations.has_trait( trait_THRESH_MYCUS ) ) {
+    if( g->u.mutations.has_trait( trait_THRESH_MARLOSS ) ||
+        g->u.mutations.has_trait( trait_THRESH_MYCUS ) ) {
         z->friendly = 1;
         return true;
     }
-    if( ( g->u.mutations.has_trait( trait_MARLOSS ) ) && ( g->u.mutations.has_trait( trait_MARLOSS_BLUE ) ) &&
+    if( ( g->u.mutations.has_trait( trait_MARLOSS ) ) &&
+        ( g->u.mutations.has_trait( trait_MARLOSS_BLUE ) ) &&
         !g->u.crossed_threshold() ) {
         add_msg( m_info, _( "The %s seems to wave you toward the tower…" ), z->name() );
         z->anger = 0;
@@ -1768,7 +1770,8 @@ bool mattack::fungus_inject( monster *z )
 
 bool mattack::fungus_bristle( monster *z )
 {
-    if( g->u.mutations.has_trait( trait_THRESH_MARLOSS ) || g->u.mutations.has_trait( trait_THRESH_MYCUS ) ) {
+    if( g->u.mutations.has_trait( trait_THRESH_MARLOSS ) ||
+        g->u.mutations.has_trait( trait_THRESH_MYCUS ) ) {
         z->friendly = 1;
     }
     Creature *target = z->attack_target();
@@ -1865,10 +1868,12 @@ bool mattack::fungus_fortify( monster *z )
     Creature *target = &g->u;
     bool mycus = false;
     bool peaceful = true;
-    if( g->u.mutations.has_trait( trait_THRESH_MARLOSS ) || g->u.mutations.has_trait( trait_THRESH_MYCUS ) ) {
+    if( g->u.mutations.has_trait( trait_THRESH_MARLOSS ) ||
+        g->u.mutations.has_trait( trait_THRESH_MYCUS ) ) {
         mycus = true; //No nifty support effects.  Yet.  This lets it rebuild hedges.
     }
-    if( ( g->u.mutations.has_trait( trait_MARLOSS ) ) && ( g->u.mutations.has_trait( trait_MARLOSS_BLUE ) ) &&
+    if( ( g->u.mutations.has_trait( trait_MARLOSS ) ) &&
+        ( g->u.mutations.has_trait( trait_MARLOSS_BLUE ) ) &&
         !g->u.crossed_threshold() && !mycus ) {
         // You have the other two.  Is it really necessary for us to fight?
         add_msg( m_info, _( "The %s spreads its tendrils.  It seems as though it's expecting you…" ),
@@ -2119,7 +2124,8 @@ bool mattack::dermatik( monster *z )
     target->add_msg_if_player( m_bad, _( "The %1$s sinks its ovipositor into your %2$s!" ),
                                z->name(),
                                body_part_name_accusative( targeted ) );
-    if( !foe->mutations.has_trait( trait_PARAIMMUNE ) || !foe->mutations.has_trait( trait_ACIDBLOOD ) ) {
+    if( !foe->mutations.has_trait( trait_PARAIMMUNE ) ||
+        !foe->mutations.has_trait( trait_ACIDBLOOD ) ) {
         foe->add_effect( effect_dermatik, 1_turns, targeted, true );
         g->events().send<event_type::dermatik_eggs_injected>( foe->getID() );
     }
