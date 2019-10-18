@@ -176,7 +176,7 @@ static void draw_grid( const catacurses::window &w, const int list_width )
 static nc_color construction_color( const std::string &con_name, bool highlight )
 {
     nc_color col = c_dark_gray;
-    if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
+    if( g->u.mutations.has_trait( trait_id( "DEBUG_HS" ) ) ) {
         col = c_white;
     } else if( can_construct( con_name ) ) {
         construction *con_first = nullptr;
@@ -663,7 +663,7 @@ int construction_menu( bool blueprint )
             }
             if( !blueprint ) {
                 if( player_can_build( g->u, total_inv, constructs[select] ) ) {
-                    if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
+                    if( g->u.fine_detail_vision_mod() > 4 && !g->u.mutations.has_trait( trait_DEBUG_HS ) ) {
                         add_msg( m_info, _( "It is too dark to construct right now." ) );
                     } else {
                         place_construction( constructs[select] );
@@ -709,7 +709,7 @@ bool player_can_build( player &p, const inventory &inv, const std::string &desc 
 
 bool player_can_build( player &p, const inventory &inv, const construction &con )
 {
-    if( p.has_trait( trait_DEBUG_HS ) ) {
+    if( p.mutations.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
 
@@ -1013,7 +1013,7 @@ void construct::done_grave( const tripoint &p )
         if( it.is_corpse() ) {
             if( it.get_corpse_name().empty() ) {
                 if( it.get_mtype()->has_flag( MF_HUMAN ) ) {
-                    if( g->u.has_trait( trait_SPIRITUAL ) ) {
+                    if( g->u.mutations.has_trait( trait_SPIRITUAL ) ) {
                         g->u.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
                         add_msg( m_good,
                                  _( "You feel relieved after providing last rites for this human being, whose name is lost in the Cataclysm." ) );
@@ -1022,7 +1022,7 @@ void construct::done_grave( const tripoint &p )
                     }
                 }
             } else {
-                if( g->u.has_trait( trait_SPIRITUAL ) ) {
+                if( g->u.mutations.has_trait( trait_SPIRITUAL ) ) {
                     g->u.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
                     add_msg( m_good,
                              _( "You feel sadness, but also relief after providing last rites for %s, whose name you will keep in your memory." ),
@@ -1162,7 +1162,8 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
     tmpmap.load( tripoint( pos_sm.xy(), pos_sm.z - 1 ), false );
     const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
-    bool dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) || g->u.has_trait( trait_STOCKY_TROGLO );
+    bool dig_muts = g->u.mutations.has_trait( trait_PAINRESIST_TROGLO ) ||
+                    g->u.mutations.has_trait( trait_STOCKY_TROGLO );
 
     int no_mut_penalty = dig_muts ? 10 : 0;
     int mine_penalty = dig ? 0 : 10;
@@ -1235,7 +1236,8 @@ void construct::done_mine_upstair( const tripoint &p )
         return;
     }
 
-    bool dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) || g->u.has_trait( trait_STOCKY_TROGLO );
+    bool dig_muts = g->u.mutations.has_trait( trait_PAINRESIST_TROGLO ) ||
+                    g->u.mutations.has_trait( trait_STOCKY_TROGLO );
 
     int no_mut_penalty = dig_muts ? 15 : 0;
     g->u.mod_stored_nutr( 20 + no_mut_penalty );

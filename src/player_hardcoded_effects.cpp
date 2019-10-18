@@ -98,7 +98,7 @@ static void eff_fun_spores( player &u, effect &it )
 {
     // Equivalent to X in 150000 + health * 100
     const int intense = it.get_intensity();
-    if( ( !u.has_trait( trait_id( "M_IMMUNE" ) ) ) && ( one_in( 100 ) &&
+    if( ( !u.mutations.has_trait( trait_id( "M_IMMUNE" ) ) ) && ( one_in( 100 ) &&
             x_in_y( intense, 900 + u.get_healthy() * 0.6 ) ) ) {
         u.add_effect( effect_fungus, 1_turns, num_bp, true );
     }
@@ -187,10 +187,10 @@ static void eff_fun_rat( player &u, effect &it )
     it.set_intensity( dur / 10 );
     if( rng( 0, 100 ) < dur / 10 ) {
         if( !one_in( 5 ) ) {
-            u.mutate_category( "RAT" );
+            u.mutations.mutate_category( u, "RAT" );
             it.mult_duration( .2 );
         } else {
-            u.mutate_category( "TROGLOBITE" );
+            u.mutations.mutate_category( u, "TROGLOBITE" );
             it.mult_duration( .33 );
         }
     } else if( rng( 0, 100 ) < dur / 8 ) {
@@ -676,7 +676,7 @@ void player::hardcoded_effects( effect &it )
             }
             if( one_in( 21000 - ( dur - 360_minutes ) / 4_turns ) ) {
                 add_msg_if_player( m_bad, _( "You shudder suddenly." ) );
-                mutate();
+                mutations.mutate( *this );
                 if( one_in( 4 ) ) {
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
@@ -713,7 +713,7 @@ void player::hardcoded_effects( effect &it )
             }
         }
         if( one_in( 10000 ) ) {
-            if( !has_trait( trait_id( "M_IMMUNE" ) ) ) {
+            if( !mutations.has_trait( trait_id( "M_IMMUNE" ) ) ) {
                 add_effect( effect_fungus, 1_turns, num_bp, true );
             } else {
                 add_msg_if_player( m_info, _( "We have many colonists awaiting passage." ) );
@@ -841,7 +841,7 @@ void player::hardcoded_effects( effect &it )
         }
 
         if( dur > 1800_minutes && one_in( 300 * 512 ) ) {
-            if( !has_trait( trait_id( "NOPAIN" ) ) ) {
+            if( !mutations.has_trait( trait_id( "NOPAIN" ) ) ) {
                 add_msg_if_player( m_bad,
                                    _( "Your heart spasms painfully and stops, dragging you back to reality as you die." ) );
             } else {
@@ -894,7 +894,7 @@ void player::hardcoded_effects( effect &it )
             if( has_effect( effect_recover ) ) {
                 recover_factor -= get_effect_dur( effect_recover ) / 1_hours;
             }
-            if( has_trait( trait_id( "INFRESIST" ) ) ) {
+            if( mutations.has_trait( trait_id( "INFRESIST" ) ) ) {
                 recover_factor += 200;
             }
             if( has_effect( effect_panacea ) ) {
@@ -946,7 +946,7 @@ void player::hardcoded_effects( effect &it )
             if( has_effect( effect_recover ) ) {
                 recover_factor -= get_effect_dur( effect_recover ) / 1_hours;
             }
-            if( has_trait( trait_id( "INFRESIST" ) ) ) {
+            if( mutations.has_trait( trait_id( "INFRESIST" ) ) ) {
                 recover_factor += 200;
             }
             if( has_effect( effect_panacea ) ) {
@@ -1040,10 +1040,10 @@ void player::hardcoded_effects( effect &it )
                                         g->weather.weather == WEATHER_FLURRIES
                                         || g->weather.weather == WEATHER_CLOUDY || g->weather.weather == WEATHER_SNOW;
 
-        if( calendar::once_every( 10_minutes ) && ( has_trait( trait_id( "CHLOROMORPH" ) ) ||
-                has_trait( trait_id( "M_SKIN3" ) ) || has_trait( trait_id( "WATERSLEEP" ) ) ) &&
+        if( calendar::once_every( 10_minutes ) && ( mutations.has_trait( trait_id( "CHLOROMORPH" ) ) ||
+                mutations.has_trait( trait_id( "M_SKIN3" ) ) || mutations.has_trait( trait_id( "WATERSLEEP" ) ) ) &&
             g->m.is_outside( pos() ) ) {
-            if( has_trait( trait_id( "CHLOROMORPH" ) ) ) {
+            if( mutations.has_trait( trait_id( "CHLOROMORPH" ) ) ) {
                 // Hunger and thirst fall before your Chloromorphic physiology!
                 if( g->natural_light_level( posz() ) >= 12 && compatible_weather_types ) {
                     if( get_hunger() >= -30 ) {
@@ -1056,7 +1056,7 @@ void player::hardcoded_effects( effect &it )
                     }
                 }
             }
-            if( has_trait( trait_id( "M_SKIN3" ) ) ) {
+            if( mutations.has_trait( trait_id( "M_SKIN3" ) ) ) {
                 // Spores happen!
                 if( g->m.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
                     if( get_fatigue() >= 0 ) {
@@ -1067,14 +1067,14 @@ void player::hardcoded_effects( effect &it )
                     }
                 }
             }
-            if( has_trait( trait_id( "WATERSLEEP" ) ) ) {
+            if( mutations.has_trait( trait_id( "WATERSLEEP" ) ) ) {
                 mod_fatigue( -3 ); // Fish sleep less in water
             }
         }
 
         // Check mutation category strengths to see if we're mutated enough to get a dream
-        std::string highcat = get_highest_category();
-        int highest = mutation_category_level[highcat];
+        std::string highcat = mutations.get_highest_category();
+        int highest = mutations.get_cat_level( highcat );
 
         // Determine the strength of effects or dreams based upon category strength
         int strength = 0; // Category too weak for any effect or dream
@@ -1098,9 +1098,9 @@ void player::hardcoded_effects( effect &it )
                     add_msg_if_player( dream );
                 }
                 // Mycus folks upgrade in their sleep.
-                if( has_trait( trait_id( "THRESH_MYCUS" ) ) ) {
+                if( mutations.has_trait( trait_id( "THRESH_MYCUS" ) ) ) {
                     if( one_in( 8 ) ) {
-                        mutate_category( "MYCUS" );
+                        mutations.mutate_category( *this, "MYCUS" );
                         mod_stored_nutr( 10 );
                         mod_thirst( 10 );
                         mod_fatigue( 5 );
@@ -1112,9 +1112,10 @@ void player::hardcoded_effects( effect &it )
         bool woke_up = false;
         int tirednessVal = rng( 5, 200 ) + rng( 0, abs( get_fatigue() * 2 * 5 ) );
         if( !is_blind() && !has_effect( effect_narcosis ) ) {
-            if( !has_trait(
+            if( !mutations.has_trait(
                     trait_id( "SEESLEEP" ) ) ) { // People who can see while sleeping are acclimated to the light.
-                if( has_trait( trait_id( "HEAVYSLEEPER2" ) ) && !has_trait( trait_id( "HIBERNATE" ) ) ) {
+                if( mutations.has_trait( trait_id( "HEAVYSLEEPER2" ) ) &&
+                    !mutations.has_trait( trait_id( "HIBERNATE" ) ) ) {
                     // So you can too sleep through noon
                     if( ( tirednessVal * 1.25 ) < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
                             one_in( get_fatigue() / 2 ) ) ) {
@@ -1124,7 +1125,7 @@ void player::hardcoded_effects( effect &it )
                         woke_up = true;
                     }
                     // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
-                } else if( has_trait( trait_id( "HIBERNATE" ) ) ) {
+                } else if( mutations.has_trait( trait_id( "HIBERNATE" ) ) ) {
                     if( ( tirednessVal * 5 ) < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
                             one_in( get_fatigue() / 2 ) ) ) {
                         add_msg_if_player( _( "It's too bright to sleep." ) );
@@ -1139,7 +1140,7 @@ void player::hardcoded_effects( effect &it )
                     it.set_duration( 0_turns );
                     woke_up = true;
                 }
-            } else if( has_active_mutation( trait_id( "SEESLEEP" ) ) ) {
+            } else if( mutations.has_active_mutation( trait_id( "SEESLEEP" ) ) ) {
                 Creature *hostile_critter = g->is_hostile_very_close();
                 if( hostile_critter != nullptr ) {
                     add_msg_if_player( _( "You see %s approaching!" ),
@@ -1181,7 +1182,7 @@ void player::hardcoded_effects( effect &it )
                     }
                 }
             }
-            if( ( ( has_trait( trait_id( "SCHIZOPHRENIC" ) ) || has_artifact_with( AEP_SCHIZO ) ) &&
+            if( ( ( mutations.has_trait( trait_id( "SCHIZOPHRENIC" ) ) || has_artifact_with( AEP_SCHIZO ) ) &&
                   one_in( 43200 ) && is_player() ) ) {
                 if( one_in( 2 ) ) {
                     sound_hallu();
@@ -1239,11 +1240,11 @@ void player::hardcoded_effects( effect &it )
                     if( !asleep ) {
                         add_msg_if_player( _( "Your internal chronometer went off and you haven't slept a wink." ) );
                         activity.set_to_null();
-                    } else if( ( !( has_trait( trait_id( "HEAVYSLEEPER" ) ) ||
-                                    has_trait( trait_id( "HEAVYSLEEPER2" ) ) ) &&
+                    } else if( ( !( mutations.has_trait( trait_id( "HEAVYSLEEPER" ) ) ||
+                                    mutations.has_trait( trait_id( "HEAVYSLEEPER2" ) ) ) &&
                                  dice( 2, 15 ) < volume ) ||
-                               ( has_trait( trait_id( "HEAVYSLEEPER" ) ) && dice( 3, 15 ) < volume ) ||
-                               ( has_trait( trait_id( "HEAVYSLEEPER2" ) ) && dice( 6, 15 ) < volume ) ) {
+                               ( mutations.has_trait( trait_id( "HEAVYSLEEPER" ) ) && dice( 3, 15 ) < volume ) ||
+                               ( mutations.has_trait( trait_id( "HEAVYSLEEPER2" ) ) && dice( 6, 15 ) < volume ) ) {
                         // Secure the flag before wake_up() clears the effect
                         bool slept_through = has_effect( effect_slept_through_alarm );
                         wake_up();

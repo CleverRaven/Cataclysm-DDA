@@ -551,7 +551,7 @@ const inventory &player::crafting_inventory( const tripoint &src_pos, int radius
                                                calendar::turn, units::to_kilojoule( get_power_level() ) );
         }
     }
-    if( has_trait( trait_BURROW ) ) {
+    if( mutations.has_trait( trait_BURROW ) ) {
         cached_crafting_inventory += item( "pickaxe", calendar::turn );
         cached_crafting_inventory += item( "shovel", calendar::turn );
     }
@@ -921,7 +921,7 @@ double player::crafting_success_roll( const recipe &making ) const
 
     // farsightedness can impose a penalty on electronics and tailoring success
     // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
-    if( has_trait( trait_id( "HYPEROPIC" ) ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
+    if( mutations.has_trait( trait_id( "HYPEROPIC" ) ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
         !has_effect( effect_contacts ) ) {
         int main_rank_penalty = 0;
         if( making.skill_used == skill_id( "electronics" ) ) {
@@ -934,9 +934,9 @@ double player::crafting_success_roll( const recipe &making ) const
 
     // It's tough to craft with paws.  Fortunately it's just a matter of grip and fine-motor,
     // not inability to see what you're doing
-    if( has_trait( trait_PAWS ) || has_trait( trait_PAWS_LARGE ) ) {
+    if( mutations.has_trait( trait_PAWS ) || mutations.has_trait( trait_PAWS_LARGE ) ) {
         int paws_rank_penalty = 0;
-        if( has_trait( trait_PAWS_LARGE ) ) {
+        if( mutations.has_trait( trait_PAWS_LARGE ) ) {
             paws_rank_penalty += 1;
         }
         if( making.skill_used == skill_id( "electronics" )
@@ -1444,7 +1444,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         // Unlike with tools, it's a bad thing if there aren't any components available
         if( cmenu.entries.empty() ) {
             if( player_inv ) {
-                if( has_trait( trait_id( "DEBUG_HS" ) ) ) {
+                if( mutations.has_trait( trait_id( "DEBUG_HS" ) ) ) {
                     selected.use_from = use_from_player;
                     return selected;
                 }
@@ -1514,7 +1514,7 @@ std::list<item> player::consume_items( map &m, const comp_selection<item_comp> &
 {
     std::list<item> ret;
 
-    if( has_trait( trait_DEBUG_HS ) ) {
+    if( mutations.has_trait( trait_DEBUG_HS ) ) {
         return ret;
     }
 
@@ -1770,7 +1770,7 @@ void player::consume_tools( const comp_selection<tool_comp> &tool, int batch )
 void player::consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
                             const tripoint &origin, int radius, basecamp *bcp )
 {
-    if( has_trait( trait_DEBUG_HS ) ) {
+    if( mutations.has_trait( trait_DEBUG_HS ) ) {
         return;
     }
 

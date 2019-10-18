@@ -161,9 +161,10 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
 
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
-            if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 512 ) ) ) {
+            if( ( n->mutations.has_trait( trait_INFRESIST ) ) && ( one_in( 512 ) ) ) {
                 n->add_effect( effect_tetanus, 1_turns, num_bp, true );
-            } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
+            } else if( ( !n->mutations.has_trait( trait_INFIMMUNE ) ||
+                         !n->mutations.has_trait( trait_INFRESIST ) ) &&
                        ( one_in( 128 ) ) ) {
                 n->add_effect( effect_tetanus, 1_turns, num_bp, true );
             }
@@ -200,9 +201,10 @@ bool trapfunc::board( const tripoint &, Creature *c, item * )
     } else {
         c->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, rng( 6, 10 ) ) );
         c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, rng( 6, 10 ) ) );
-        if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
+        if( ( n->mutations.has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
             n->add_effect( effect_tetanus, 1_turns, num_bp, true );
-        } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
+        } else if( ( !n->mutations.has_trait( trait_INFIMMUNE ) ||
+                     !n->mutations.has_trait( trait_INFRESIST ) ) &&
                    ( one_in( 35 ) ) ) {
             n->add_effect( effect_tetanus, 1_turns, num_bp, true );
         }
@@ -765,8 +767,8 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     player *n = dynamic_cast<player *>( c );
     if( n != nullptr ) {
-        if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
-                ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
+        if( ( n->mutations.has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
+                ( n->mutations.has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
             n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
         } else if( n->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
             n->add_msg_if_player( m_info,
@@ -813,8 +815,8 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
     if( n != nullptr ) {
         int dodge = n->get_dodge();
         int damage = pit_effectiveness( p ) * rng( 20, 50 );
-        if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
-                ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
+        if( ( n->mutations.has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
+                ( n->mutations.has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
             n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
         } else if( n->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
             n->add_msg_if_player( m_info,
@@ -849,9 +851,10 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
             n->add_msg_if_player( m_bad, _( "The spikes impale your %s!" ),
                                   body_part_name_accusative( hit ) );
             n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
-            if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
+            if( ( n->mutations.has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
                 n->add_effect( effect_tetanus, 1_turns, num_bp, true );
-            } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
+            } else if( ( !n->mutations.has_trait( trait_INFIMMUNE ) ||
+                         !n->mutations.has_trait( trait_INFRESIST ) ) &&
                        ( one_in( 35 ) ) ) {
                 n->add_effect( effect_tetanus, 1_turns, num_bp, true );
             }
@@ -895,8 +898,8 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
     if( n != nullptr ) {
         int dodge = n->get_dodge();
         int damage = pit_effectiveness( p ) * rng( 15, 35 );
-        if( ( n->has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
-                ( n->has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
+        if( ( n->mutations.has_trait( trait_WINGS_BIRD ) ) || ( ( one_in( 2 ) ) &&
+                ( n->mutations.has_trait( trait_WINGS_BUTTERFLY ) ) ) ) {
             n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
         } else if( n->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
             n->add_msg_if_player( m_info,
@@ -935,9 +938,10 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
             n->add_msg_if_player( m_bad, _( "The glass shards slash your %s!" ),
                                   body_part_name_accusative( hit ) );
             n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
-            if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
+            if( ( n->mutations.has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
                 n->add_effect( effect_tetanus, 1_turns, num_bp, true );
-            } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
+            } else if( ( !n->mutations.has_trait( trait_INFIMMUNE ) ||
+                         !n->mutations.has_trait( trait_INFRESIST ) ) &&
                        ( one_in( 35 ) ) ) {
                 n->add_effect( effect_tetanus, 1_turns, num_bp, true );
             }
@@ -1124,8 +1128,8 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         if( c == &g->u ) {
             add_msg( m_warning, _( "You fall down a level!" ) );
             g->vertical_move( -1, true );
-            if( g->u.has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
-                    g->u.has_trait( trait_WINGS_BUTTERFLY ) ) ) {
+            if( g->u.mutations.has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
+                    g->u.mutations.has_trait( trait_WINGS_BUTTERFLY ) ) ) {
                 add_msg( _( "You flap your wings and flutter down gracefully." ) );
             } else if( g->u.has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {
                 add_msg( m_info,
@@ -1203,8 +1207,8 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     } else {
         pl->setpos( where );
     }
-    if( pl->has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
-            pl->has_trait( trait_WINGS_BUTTERFLY ) ) ) {
+    if( pl->mutations.has_trait( trait_WINGS_BIRD ) || ( one_in( 2 ) &&
+            pl->mutations.has_trait( trait_WINGS_BUTTERFLY ) ) ) {
         pl->add_msg_player_or_npc( _( "You flap your wings and flutter down gracefully." ),
                                    _( "<npcname> flaps their wings and flutters down gracefully." ) );
     } else if( pl->has_active_bionic( bionic_id( "bio_shock_absorber" ) ) ) {

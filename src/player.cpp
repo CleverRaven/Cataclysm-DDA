@@ -509,7 +509,7 @@ player::player() :
     next_expected_position = cata::nullopt;
     death_drops = true;
 
-    mutations.empty_traits();
+    mutations.empty_traits( *this );
 
     temp_cur.fill( BODYTEMP_NORM );
     frostbite_timer.fill( 0 );

@@ -843,9 +843,9 @@ class player : public Character
                 str = mons->mech_str_addition() == 0 ? str : mons->mech_str_addition();
             }
             const int npc_str = get_lift_assist();
-            if( has_trait( trait_id( "STRONGBACK" ) ) ) {
+            if( mutations.has_trait( trait_id( "STRONGBACK" ) ) ) {
                 str *= 1.35;
-            } else if( has_trait( trait_id( "BADBACK" ) ) ) {
+            } else if( mutations.has_trait( trait_id( "BADBACK" ) ) ) {
                 str /= 1.35;
             }
             return str + npc_str >= obj.lift_strength();

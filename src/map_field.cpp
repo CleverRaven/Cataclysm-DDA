@@ -1360,7 +1360,7 @@ void map::player_in_field( player &u )
         if( ft == fd_web ) {
             // If we are in a web, can't walk in webs or are in a vehicle, get webbed maybe.
             // Moving through multiple webs stacks the effect.
-            if( !u.has_trait( trait_id( "WEB_WALKER" ) ) && !u.in_vehicle ) {
+            if( !u.mutations.has_trait( trait_id( "WEB_WALKER" ) ) && !u.in_vehicle ) {
                 // Between 5 and 15 minus your current web level.
                 u.add_effect( effect_webbed, 1_turns, num_bp, true, cur.get_field_intensity() );
                 // It is spent.
@@ -1376,7 +1376,7 @@ void map::player_in_field( player &u )
         if( ft == fd_acid ) {
             // Assume vehicles block acid damage entirely,
             // you're certainly not standing in it.
-            if( !u.in_vehicle && !u.has_trait( trait_id( "ACIDPROOF" ) ) ) {
+            if( !u.in_vehicle && !u.mutations.has_trait( trait_id( "ACIDPROOF" ) ) ) {
                 int total_damage = 0;
                 const int intensity = cur.get_field_intensity();
                 // 1-3 at intensity, 1-4 at 2, 1-5 at 3
@@ -1530,7 +1530,7 @@ void map::player_in_field( player &u )
             }
         }
         if( ft == fd_fungal_haze ) {
-            if( !u.has_trait( trait_id( "M_IMMUNE" ) ) && ( !inside || one_in( 4 ) ) ) {
+            if( !u.mutations.has_trait( trait_id( "M_IMMUNE" ) ) && ( !inside || one_in( 4 ) ) ) {
                 u.add_env_effect( effect_fungus, bp_mouth, 4, 10_minutes, num_bp, true );
                 u.add_env_effect( effect_fungus, bp_eyes, 4, 10_minutes, num_bp, true );
             }
@@ -1603,7 +1603,7 @@ void map::player_in_field( player &u )
                 }
 
                 if( total_damage > 0 ) {
-                    if( u.has_trait( trait_ELECTRORECEPTORS ) ) {
+                    if( u.mutations.has_trait( trait_ELECTRORECEPTORS ) ) {
                         u.add_msg_player_or_npc( m_bad, _( "You're painfully electrocuted!" ),
                                                  _( "<npcname> is shocked!" ) );
                         u.mod_pain( total_damage / 2 );
@@ -1678,8 +1678,8 @@ void map::player_in_field( player &u )
         }
         if( ft == fd_incendiary ) {
             // Mysterious incendiary substance melts you horribly.
-            if( u.has_trait( trait_M_SKIN2 ) ||
-                u.has_trait( trait_M_SKIN3 ) ||
+            if( u.mutations.has_trait( trait_M_SKIN2 ) ||
+                u.mutations.has_trait( trait_M_SKIN3 ) ||
                 cur.get_field_intensity() == 1 ) {
                 u.add_msg_player_or_npc( m_bad, _( "The incendiary burns you!" ),
                                          _( "The incendiary burns <npcname>!" ) );
@@ -1700,9 +1700,10 @@ void map::player_in_field( player &u )
                        u.get_env_resist( bp_eyes ) >= 15 ) ) {
                     const int intensity = cur.get_field_intensity();
                     bool inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, intensity * 1_minutes );
-                    if( u.has_trait( trait_id( "THRESH_MYCUS" ) ) || u.has_trait( trait_id( "THRESH_MARLOSS" ) ) ||
-                        ( ft == fd_insecticidal_gas && ( u.get_highest_category() == "INSECT" ||
-                                                         u.get_highest_category() == "SPIDER" ) ) ) {
+                    if( u.mutations.has_trait( trait_id( "THRESH_MYCUS" ) ) ||
+                        u.mutations.has_trait( trait_id( "THRESH_MARLOSS" ) ) ||
+                        ( ft == fd_insecticidal_gas && ( u.mutations.get_highest_category() == "INSECT" ||
+                                                         u.mutations.get_highest_category() == "SPIDER" ) ) ) {
                         inhaled |= u.add_env_effect( effect_badpoison, bp_mouth, 5, intensity * 1_minutes );
                         u.hurtall( rng( intensity, intensity * 2 ), nullptr );
                         u.add_msg_if_player( m_bad, _( "The %s burns your skin." ), cur.name() );

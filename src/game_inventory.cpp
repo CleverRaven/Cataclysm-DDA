@@ -600,7 +600,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             if( time > 0_turns && !( loc->type->container && loc->type->container->preserves ) ) {
                 return 0;
             } else if( get_consumable_item( loc ).rotten() ) {
-                if( p.has_trait( trait_SAPROPHAGE ) || p.has_trait( trait_SAPROVORE ) ) {
+                if( p.mutations.has_trait( trait_SAPROPHAGE ) || p.mutations.has_trait( trait_SAPROVORE ) ) {
                     return 1;
                 } else {
                     return 4;
@@ -1513,7 +1513,7 @@ static item_location autodoc_internal( player &u, player &patient,
     int drug_count = 0;
 
     if( !surgeon ) {//surgeon use their own anesthetic, player just need money
-        if( patient.has_trait( trait_NOPAIN ) ) {
+        if( patient.mutations.has_trait( trait_NOPAIN ) ) {
             hint = _( "<color_yellow>Patient has Deadened nerves.  Anesthesia unneeded.</color>" );
         } else if( patient.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
             hint = _( "<color_yellow>Patient has Sensory Dulling CBM installed.  Anesthesia unneeded.</color>" );
@@ -1674,7 +1674,7 @@ class bionic_install_preset: public inventory_selector_preset
                                        -1 );
 
             if( ( get_option < bool > ( "SAFE_AUTODOC" ) ) ||
-                g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+                g->u.mutations.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
                 chance_of_failure = 0;
             } else {
                 float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
@@ -1785,7 +1785,7 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
                                        20 );//override player's skills with surgeon skill
 
             if( ( get_option < bool >( "SAFE_AUTODOC" ) ) ||
-                g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+                g->u.mutations.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
                 chance_of_failure = 0;
             } else {
                 float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /
@@ -1876,7 +1876,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
                                        -1 );
 
             if( ( get_option < bool >( "SAFE_AUTODOC" ) ) ||
-                g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+                g->u.mutations.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
                 chance_of_failure = 0;
             } else {
                 float skill_difficulty_parameter = static_cast<float>( ( adjusted_skill + assist_bonus ) /

@@ -367,7 +367,7 @@ void sounds::process_sound_markers( player *p )
             if( is_sound_deafening && !p->is_immune_effect( effect_deaf ) ) {
                 p->add_effect( effect_deaf, std::min( 4_minutes,
                                                       time_duration::from_turns( felt_volume - 130 ) / 8 ) );
-                if( !p->has_trait( trait_id( "NOPAIN" ) ) ) {
+                if( !p->mutations.has_trait( trait_id( "NOPAIN" ) ) ) {
                     p->add_msg_if_player( m_bad, _( "Your eardrums suddenly ache!" ) );
                     if( p->get_pain() < 10 ) {
                         p->mod_pain( rng( 0, 2 ) );
@@ -404,10 +404,10 @@ void sounds::process_sound_markers( player *p )
         bool slept_through = p->has_effect( effect_slept_through_alarm );
         // See if we need to wake someone up
         if( p->has_effect( effect_sleep ) ) {
-            if( ( ( !( p->has_trait( trait_HEAVYSLEEPER ) ||
-                       p->has_trait( trait_HEAVYSLEEPER2 ) ) && dice( 2, 15 ) < heard_volume ) ||
-                  ( p->has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < heard_volume ) ||
-                  ( p->has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < heard_volume ) ) &&
+            if( ( ( !( p->mutations.has_trait( trait_HEAVYSLEEPER ) ||
+                       p->mutations.has_trait( trait_HEAVYSLEEPER2 ) ) && dice( 2, 15 ) < heard_volume ) ||
+                  ( p->mutations.has_trait( trait_HEAVYSLEEPER ) && dice( 3, 15 ) < heard_volume ) ||
+                  ( p->mutations.has_trait( trait_HEAVYSLEEPER2 ) && dice( 6, 15 ) < heard_volume ) ) &&
                 !p->has_effect( effect_narcosis ) ) {
                 //Not kidding about sleep-through-firefight
                 p->wake_up();

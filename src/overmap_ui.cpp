@@ -118,7 +118,7 @@ static std::tuple<char, nc_color, size_t> get_note_display_info( const std::stri
 static std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_overmap_neighbors(
     const tripoint &current )
 {
-    const bool has_debug_vision = g->u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
+    const bool has_debug_vision = g->u.mutations.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
 
     std::array<std::pair<nc_color, std::string>, npm_width *npm_height> map_around;
     int index = 0;
@@ -442,7 +442,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     bool csee = false;
     oter_id ccur_ter = oter_str_id::NULL_ID();
     // Debug vision allows seeing everything
-    const bool has_debug_vision = g->u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
+    const bool has_debug_vision = g->u.mutations.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
     // sight_points is hoisted for speed reasons.
     const int sight_points = !has_debug_vision ?
                              g->u.overmap_sight_range( g->light_level( g->u.posz() ) ) :

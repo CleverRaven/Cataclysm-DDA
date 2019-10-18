@@ -683,11 +683,11 @@ static std::string get_armor( const avatar &u, body_part bp, unsigned int trunca
 static face_type get_face_type( const avatar &u )
 {
     face_type fc = face_human;
-    if( u.has_trait( trait_THRESH_FELINE ) ) {
+    if( u.mutations.has_trait( trait_THRESH_FELINE ) ) {
         fc = face_cat;
-    } else if( u.has_trait( trait_THRESH_URSINE ) ) {
+    } else if( u.mutations.has_trait( trait_THRESH_URSINE ) ) {
         fc = face_bear;
-    } else if( u.has_trait( trait_THRESH_BIRD ) ) {
+    } else if( u.mutations.has_trait( trait_THRESH_BIRD ) ) {
         fc = face_bird;
     }
     return fc;
@@ -859,8 +859,8 @@ static int get_int_digits( const int &digits )
 
 static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_index )
 {
-    const bool no_feeling = u.has_trait( trait_NOPAIN );
-    const bool is_self_aware = u.has_trait( trait_SELFAWARE ) && !no_feeling;
+    const bool no_feeling = u.mutations.has_trait( trait_NOPAIN );
+    const bool is_self_aware = u.mutations.has_trait( trait_SELFAWARE ) && !no_feeling;
     static auto print_symbol_num = []( const catacurses::window & w, int num, const std::string & sym,
     const nc_color & color ) {
         while( num-- > 0 ) {

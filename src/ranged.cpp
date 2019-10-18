@@ -386,7 +386,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
 
         cycle_action( gun, pos() );
 
-        if( has_trait( trait_PYROMANIA ) && !has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
+        if( mutations.has_trait( trait_PYROMANIA ) && !has_morale( MORALE_PYROMANIA_STARTFIRE ) ) {
             if( gun.ammo_current() == "flammable" || gun.ammo_current() == "66mm" ||
                 gun.ammo_current() == "84x246mm" || gun.ammo_current() == "m235" ) {
                 add_msg_if_player( m_good, _( "You feel a surge of euphoria as flames roar out of the %s!" ),
@@ -472,7 +472,7 @@ static int throw_cost( const player &c, const item &to_throw )
     move_cost *= stamina_penalty;
     move_cost += skill_cost;
     move_cost -= dexbonus;
-    move_cost *= c.mutation_value( "attackcost_modifier" );
+    move_cost *= c.mutations.mutation_value( "attackcost_modifier" );
 
     return std::max( 25, move_cost );
 }

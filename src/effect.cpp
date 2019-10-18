@@ -155,9 +155,9 @@ void weed_msg( player &p )
             case 1: // Real Life
                 p.add_msg_if_player( _( "Man, a cheeseburger sounds SO awesome right now." ) );
                 p.mod_hunger( 4 );
-                if( p.has_trait( trait_id( "VEGETARIAN" ) ) ) {
+                if( p.mutations.has_trait( trait_id( "VEGETARIAN" ) ) ) {
                     p.add_msg_if_player( _( "Eh… maybe not." ) );
-                } else if( p.has_trait( trait_id( "LACTOSE" ) ) ) {
+                } else if( p.mutations.has_trait( trait_id( "LACTOSE" ) ) ) {
                     p.add_msg_if_player( _( "I guess, maybe, without the cheese… yeah." ) );
                 }
                 return;

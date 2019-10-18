@@ -2205,7 +2205,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     // Inventory has a weight capacity, map and vehicle don't have that
     if( destarea == AIM_INVENTORY  || destarea == AIM_WORN ) {
         const units::mass unitweight = it.weight() / ( by_charges ? it.charges : 1 );
-        const units::mass max_weight = g->u.has_trait( trait_id( "DEBUG_STORAGE" ) ) ?
+        const units::mass max_weight = g->u.mutations.has_trait( trait_id( "DEBUG_STORAGE" ) ) ?
                                        units::mass_max : g->u.weight_capacity() * 4 - g->u.weight_carried();
         if( unitweight > 0_gram && unitweight * amount > max_weight ) {
             const int weightmax = max_weight / unitweight;

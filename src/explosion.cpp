@@ -533,11 +533,11 @@ void flashbang( const tripoint &p, bool player_immune )
         }
         if( g->m.sees( g->u.pos(), p, 8 ) ) {
             int flash_mod = 0;
-            if( g->u.has_trait( trait_id( "PER_SLIME" ) ) ) {
+            if( g->u.mutations.has_trait( trait_id( "PER_SLIME" ) ) ) {
                 if( one_in( 2 ) ) {
                     flash_mod = 3; // Yay, you weren't looking!
                 }
-            } else if( g->u.has_trait( trait_id( "PER_SLIME_OK" ) ) ) {
+            } else if( g->u.mutations.has_trait( trait_id( "PER_SLIME_OK" ) ) ) {
                 flash_mod = 8; // Just retract those and extrude fresh eyes
             } else if( g->u.has_bionic( bionic_id( "bio_sunglasses" ) ) ||
                        g->u.is_wearing( "rm13_armor_on" ) ) {
@@ -590,7 +590,7 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
         }
     }
     if( rl_dist( g->u.pos(), p ) <= radius && !ignore_player &&
-        ( !g->u.has_trait( trait_id( "LEG_TENT_BRACE" ) ) || g->u.footwear_factor() == 1 ||
+        ( !g->u.mutations.has_trait( trait_id( "LEG_TENT_BRACE" ) ) || g->u.footwear_factor() == 1 ||
           ( g->u.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
         add_msg( m_bad, _( "You're caught in the shockwave!" ) );
         g->knockback( p, g->u.pos(), force, stun, dam_mult );

@@ -5227,7 +5227,7 @@ void Character::fall_asleep()
             add_msg_if_player( _( "You use your %s to keep warm." ), item_name );
         }
     }
-    if( has_active_mutation( trait_id( "HIBERNATE" ) ) &&
+    if( mutations.has_active_mutation( trait_id( "HIBERNATE" ) ) &&
         get_kcal_percent() > 0.8f ) {
         if( is_avatar() ) {
             g->memorial().add( pgettext( "memorial_male", "Entered hibernation." ),

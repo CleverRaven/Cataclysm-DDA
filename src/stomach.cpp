@@ -69,16 +69,16 @@ void stomach_contents::deserialize( JsonIn &json )
 units::volume stomach_contents::capacity() const
 {
     float max_mod = 1;
-    if( g->u.has_trait( trait_id( "GIZZARD" ) ) ) {
+    if( g->u.mutations.has_trait( trait_id( "GIZZARD" ) ) ) {
         max_mod *= 0.9;
     }
-    if( g->u.has_active_mutation( trait_id( "HIBERNATE" ) ) ) {
+    if( g->u.mutations.has_active_mutation( trait_id( "HIBERNATE" ) ) ) {
         max_mod *= 3;
     }
-    if( g->u.has_active_mutation( trait_id( "GOURMAND" ) ) ) {
+    if( g->u.mutations.has_active_mutation( trait_id( "GOURMAND" ) ) ) {
         max_mod *= 2;
     }
-    if( g->u.has_trait( trait_id( "SLIMESPAWNER" ) ) ) {
+    if( g->u.mutations.has_trait( trait_id( "SLIMESPAWNER" ) ) ) {
         max_mod *= 3;
     }
     return max_volume * max_mod;

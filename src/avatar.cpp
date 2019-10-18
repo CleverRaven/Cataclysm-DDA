@@ -159,7 +159,7 @@ size_t avatar::max_memorized_tiles() const
     if( current_map_memory_turn != calendar::turn ) {
         current_map_memory_turn = calendar::turn;
         float map_memory_capacity_multiplier =
-            mutation_value( "map_memory_capacity_multiplier" );
+            mutations.mutation_value( "map_memory_capacity_multiplier" );
         if( has_active_bionic( bio_memory ) ) {
             map_memory_capacity_multiplier = 50;
         }
@@ -272,9 +272,9 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     }
 
     // Check for conditions that disqualify us only if no NPCs can read to us
-    if( type->intel > 0 && has_trait( trait_ILLITERATE ) ) {
+    if( type->intel > 0 && mutations.has_trait( trait_ILLITERATE ) ) {
         reasons.emplace_back( _( "You're illiterate!" ) );
-    } else if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
+    } else if( mutations.has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
                !has_effect( effect_contacts ) && !has_bionic( bio_eye_optic ) ) {
         reasons.emplace_back( _( "Your eyes won't focus without reading glasses." ) );
     } else if( fine_detail_vision_mod() > 4 ) {
@@ -297,14 +297,15 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
 
     for( const npc *elem : candidates ) {
         // Check for disqualifying factors:
-        if( type->intel > 0 && elem->has_trait( trait_ILLITERATE ) ) {
+        if( type->intel > 0 && elem->mutations.has_trait( trait_ILLITERATE ) ) {
             reasons.push_back( string_format( _( "%s is illiterate!" ),
                                               elem->disp_name() ) );
         } else if( skill && elem->get_skill_level( skill ) < type->req &&
                    has_identified( book.typeId() ) ) {
             reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
                                               skill.obj().name(), type->req, elem->disp_name(), elem->get_skill_level( skill ) ) );
-        } else if( elem->has_trait( trait_HYPEROPIC ) && !elem->worn_with_flag( "FIX_FARSIGHT" ) &&
+        } else if( elem->mutations.has_trait( trait_HYPEROPIC ) &&
+                   !elem->worn_with_flag( "FIX_FARSIGHT" ) &&
                    !elem->has_effect( effect_contacts ) ) {
             reasons.push_back( string_format( _( "%s needs reading glasses!" ),
                                               elem->disp_name() ) );
@@ -347,7 +348,7 @@ int avatar::time_to_read( const item &book, const player &reader, const player *
     retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
 
     const int effective_int = std::min( { get_int(), reader.get_int(), learner ? learner->get_int() : INT_MAX } );
-    if( type->intel > effective_int && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
+    if( type->intel > effective_int && !reader.mutations.has_trait( trait_PROF_DICEMASTER ) ) {
         retval += type->time * ( type->intel - effective_int ) * 100;
     }
     if( !has_identified( book.typeId() ) ) {
@@ -602,7 +603,7 @@ bool avatar::read( int inventory_position, const bool continuous )
 
     const int intelligence = get_int();
     const bool complex_penalty = type->intel > std::min( intelligence, reader->get_int() ) &&
-                                 !reader->has_trait( trait_PROF_DICEMASTER );
+                                 !reader->mutations.has_trait( trait_PROF_DICEMASTER );
     const player *complex_player = reader->get_int() < intelligence ? reader : this;
     if( complex_penalty && !continuous ) {
         add_msg( m_warning,
@@ -806,7 +807,7 @@ void avatar::do_read( item &book )
             }
 
             if( ( skill_level == reading->level || !skill_level.can_train() ) ||
-                ( ( learner->has_trait( trait_id( "SCHIZOPHRENIC" ) ) ||
+                ( ( learner->mutations.has_trait( trait_id( "SCHIZOPHRENIC" ) ) ||
                     learner->has_artifact_with( AEP_SCHIZO ) ) && one_in( 25 ) ) ) {
                 if( learner->is_player() ) {
                     add_msg( m_info, _( "You can no longer learn from %s." ), book.type_name() );
@@ -962,7 +963,7 @@ void avatar::disp_morale()
     }
 
     int pain_penalty = 0;
-    if( get_perceived_pain() && !has_trait( trait_CENOBITE ) ) {
+    if( get_perceived_pain() && !mutations.has_trait( trait_CENOBITE ) ) {
         pain_penalty = calc_focus_equilibrium( true ) - equilibrium - fatigue_penalty;
     }
 
@@ -988,7 +989,7 @@ int avatar::calc_focus_equilibrium( bool ignore_pain ) const
     int eff_morale = get_morale_level();
     // Factor in perceived pain, since it's harder to rest your mind while your body hurts.
     // Cenobites don't mind, though
-    if( !ignore_pain && !has_trait( trait_CENOBITE ) ) {
+    if( !ignore_pain && !mutations.has_trait( trait_CENOBITE ) ) {
         eff_morale = eff_morale - get_perceived_pain();
     }
 
@@ -1086,19 +1087,20 @@ void avatar::update_mental_focus()
 void avatar::reset_stats()
 {
     // Trait / mutation buffs
-    if( has_trait( trait_THICK_SCALES ) ) {
+    if( mutations.has_trait( trait_THICK_SCALES ) ) {
         add_miss_reason( _( "Your thick scales get in the way." ), 2 );
     }
-    if( has_trait( trait_CHITIN2 ) || has_trait( trait_CHITIN3 ) || has_trait( trait_CHITIN_FUR3 ) ) {
+    if( mutations.has_trait( trait_CHITIN2 ) || mutations.has_trait( trait_CHITIN3 ) ||
+        mutations.has_trait( trait_CHITIN_FUR3 ) ) {
         add_miss_reason( _( "Your chitin gets in the way." ), 1 );
     }
-    if( has_trait( trait_COMPOUND_EYES ) && !wearing_something_on( bp_eyes ) ) {
+    if( mutations.has_trait( trait_COMPOUND_EYES ) && !wearing_something_on( bp_eyes ) ) {
         mod_per_bonus( 1 );
     }
-    if( has_trait( trait_INSECT_ARMS ) ) {
+    if( mutations.has_trait( trait_INSECT_ARMS ) ) {
         add_miss_reason( _( "Your insect limbs get in the way." ), 2 );
     }
-    if( has_trait( trait_INSECT_ARMS_OK ) ) {
+    if( mutations.has_trait( trait_INSECT_ARMS_OK ) ) {
         if( !wearing_something_on( bp_torso ) ) {
             mod_dex_bonus( 1 );
         } else {
@@ -1106,13 +1108,13 @@ void avatar::reset_stats()
             add_miss_reason( _( "Your clothing restricts your insect arms." ), 1 );
         }
     }
-    if( has_trait( trait_WEBBED ) ) {
+    if( mutations.has_trait( trait_WEBBED ) ) {
         add_miss_reason( _( "Your webbed hands get in the way." ), 1 );
     }
-    if( has_trait( trait_ARACHNID_ARMS ) ) {
+    if( mutations.has_trait( trait_ARACHNID_ARMS ) ) {
         add_miss_reason( _( "Your arachnid limbs get in the way." ), 4 );
     }
-    if( has_trait( trait_ARACHNID_ARMS_OK ) ) {
+    if( mutations.has_trait( trait_ARACHNID_ARMS_OK ) ) {
         if( !wearing_something_on( bp_torso ) ) {
             mod_dex_bonus( 2 );
         } else if( !exclusive_flag_coverage( "OVERSIZE" ).test( bp_torso ) ) {
@@ -1159,7 +1161,7 @@ void avatar::reset_stats()
     // Stimulants
     set_fake_effect_dur( effect_stim, 1_turns * stim );
     set_fake_effect_dur( effect_depressants, 1_turns * -stim );
-    if( has_trait( trait_STIMBOOST ) ) {
+    if( mutations.has_trait( trait_STIMBOOST ) ) {
         set_fake_effect_dur( effect_stim_overdose, 1_turns * ( stim - 60 ) );
     } else {
         set_fake_effect_dur( effect_stim_overdose, 1_turns * ( stim - 30 ) );
@@ -1194,10 +1196,10 @@ void avatar::reset_stats()
     mod_dodge_bonus( mabuff_dodge_bonus() -
                      ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f - encumb( bp_torso ) / 10.0f );
     // Whiskers don't work so well if they're covered
-    if( has_trait( trait_WHISKERS ) && !wearing_something_on( bp_mouth ) ) {
+    if( mutations.has_trait( trait_WHISKERS ) && !wearing_something_on( bp_mouth ) ) {
         mod_dodge_bonus( 1 );
     }
-    if( has_trait( trait_WHISKERS_RAT ) && !wearing_something_on( bp_mouth ) ) {
+    if( mutations.has_trait( trait_WHISKERS_RAT ) && !wearing_something_on( bp_mouth ) ) {
         mod_dodge_bonus( 2 );
     }
     // depending on mounts size, attacks will hit the mount and use their dodge rating.
@@ -1206,7 +1208,7 @@ void avatar::reset_stats()
         mod_dodge_bonus( -4 );
     }
     // Spider hair is basically a full-body set of whiskers, once you get the brain for it
-    if( has_trait( trait_CHITIN_FUR3 ) ) {
+    if( mutations.has_trait( trait_CHITIN_FUR3 ) ) {
         static const std::array<body_part, 5> parts{ { bp_head, bp_arm_r, bp_arm_l, bp_leg_r, bp_leg_l } };
         for( auto bp : parts ) {
             if( !wearing_something_on( bp ) ) {

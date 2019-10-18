@@ -257,10 +257,10 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
 
     //Traits
     file << _( "Traits:" ) << eol;
-    for( const trait_id &mut : u.get_mutations() ) {
+    for( const trait_id &mut : u.mutations.get_mutations() ) {
         file << indent << mutation_branch::get_name( mut ) << eol;
     }
-    if( u.get_mutations().empty() ) {
+    if( u.mutations.get_mutations().empty() ) {
         file << indent << _( "(None)" ) << eol;
     }
     file << eol;
@@ -464,9 +464,9 @@ void memorial_logger::notify( const cata::event &e )
             character_id ch = e.get<character_id>( "killer" );
             if( ch == g->u.getID() ) {
                 std::string name = e.get<cata_variant_type::string>( "victim_name" );
-                bool cannibal = g->u.has_trait( trait_CANNIBAL );
-                bool psycho = g->u.has_trait( trait_PSYCHOPATH );
-                if( g->u.has_trait( trait_SAPIOVORE ) ) {
+                bool cannibal = g->u.mutations.has_trait( trait_CANNIBAL );
+                bool psycho = g->u.mutations.has_trait( trait_PSYCHOPATH );
+                if( g->u.mutations.has_trait( trait_SAPIOVORE ) ) {
                     add( pgettext( "memorial_male",
                                    "Caught and killed an ape.  Prey doesn't have a name." ),
                          pgettext( "memorial_female",

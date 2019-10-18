@@ -63,8 +63,8 @@ static const efftype_id effect_harnessed( "harnessed" );
 
 bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
 {
-    if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
-        if( you.has_active_mutation( trait_SHELL2 ) ) {
+    if( ( !g->check_safe_mode_allowed() ) || you.mutations.has_active_mutation( trait_SHELL2 ) ) {
+        if( you.mutations.has_active_mutation( trait_SHELL2 ) ) {
             add_msg( m_warning, _( "You can't move while in your shell.  Deactivate it to go mobile." ) );
         }
         return false;
@@ -104,7 +104,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
                 return true;
             }
         }
-        if( you.has_trait( trait_BURROW ) ) {
+        if( you.mutations.has_trait( trait_BURROW ) ) {
             item burrowing_item( itype_id( "fake_burrowing" ) );
             you.invoke_item( &burrowing_item, "BURROW", dest_loc );
             you.defer_move( dest_loc ); // don't move into the tile until done mining
@@ -831,7 +831,7 @@ bool avatar_action::fire( avatar &you, map &m, item &weapon, int bp_cost )
 void avatar_action::plthrow( avatar &you, int pos,
                              const cata::optional<tripoint> &blind_throw_from_pos )
 {
-    if( you.has_active_mutation( trait_SHELL2 ) ) {
+    if( you.mutations.has_active_mutation( trait_SHELL2 ) ) {
         add_msg( m_info, _( "You can't effectively throw while you're in your shell." ) );
         return;
     }

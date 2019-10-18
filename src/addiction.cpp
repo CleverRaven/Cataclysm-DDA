@@ -202,7 +202,7 @@ void addict_effect( player &u, addiction &add )
         }
 
         case ADD_MUTAGEN:
-            if( u.has_trait( trait_id( "MUT_JUNKIE" ) ) ) {
+            if( u.mutations.has_trait( trait_id( "MUT_JUNKIE" ) ) ) {
                 if( one_in( 600 - 50 * in ) ) {
                     u.add_msg_if_player( m_warning, rng( 0,
                                                          6 ) < in ? _( "You so miss the exquisite rainbow of post-humanity." ) :

@@ -3902,7 +3902,8 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
                            "open_door", ter.id.str() );
             ter_set( p, ter.open );
 
-            if( ( g->u.has_trait( trait_id( "SCHIZOPHRENIC" ) ) || g->u.has_artifact_with( AEP_SCHIZO ) )
+            if( ( g->u.mutations.has_trait( trait_id( "SCHIZOPHRENIC" ) ) ||
+                  g->u.has_artifact_with( AEP_SCHIZO ) )
                 && one_in( 50 ) && !ter.has_flag( "TRANSPARENT" ) ) {
                 tripoint mp = p + -2 * g->u.pos().xy() + tripoint( 2 * p.x, 2 * p.y, p.z );
                 g->spawn_hallucination( mp );

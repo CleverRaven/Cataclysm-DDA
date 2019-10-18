@@ -416,8 +416,8 @@ void mdeath::guilt( monster &z )
     guilt_tresholds[50] = _( "You regret killing %s." );
     guilt_tresholds[25] = _( "You feel remorse for killing %s." );
 
-    if( g->u.has_trait( trait_PSYCHOPATH ) || g->u.has_trait( trait_PRED3 ) ||
-        g->u.has_trait( trait_PRED4 ) || g->u.has_trait( trait_KILLER ) ) {
+    if( g->u.mutations.has_trait( trait_PSYCHOPATH ) || g->u.mutations.has_trait( trait_PRED3 ) ||
+        g->u.mutations.has_trait( trait_PRED4 ) || g->u.mutations.has_trait( trait_KILLER ) ) {
         return;
     }
     if( rl_dist( z.pos(), g->u.pos() ) > MAX_GUILT_DISTANCE ) {
@@ -436,7 +436,8 @@ void mdeath::guilt( monster &z )
                                 "about their deaths anymore." ), z.name( maxKills ) );
         }
         return;
-    } else if( ( g->u.has_trait( trait_PRED1 ) ) || ( g->u.has_trait( trait_PRED2 ) ) ) {
+    } else if( ( g->u.mutations.has_trait( trait_PRED1 ) ) ||
+               ( g->u.mutations.has_trait( trait_PRED2 ) ) ) {
         msg = ( _( "Culling the weak is distasteful, but necessary." ) );
         msgtype = m_neutral;
     } else {
@@ -457,11 +458,11 @@ void mdeath::guilt( monster &z )
     time_duration decayDelay = 3_minutes * ( 1.0 - ( static_cast<float>( kill_count ) / maxKills ) );
     if( z.type->in_species( ZOMBIE ) ) {
         moraleMalus /= 10;
-        if( g->u.has_trait( trait_PACIFIST ) ) {
+        if( g->u.mutations.has_trait( trait_PACIFIST ) ) {
             moraleMalus *= 5;
-        } else if( g->u.has_trait( trait_PRED1 ) ) {
+        } else if( g->u.mutations.has_trait( trait_PRED1 ) ) {
             moraleMalus /= 4;
-        } else if( g->u.has_trait( trait_PRED2 ) ) {
+        } else if( g->u.mutations.has_trait( trait_PRED2 ) ) {
             moraleMalus /= 5;
         }
     }

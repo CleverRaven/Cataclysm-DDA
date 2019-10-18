@@ -367,7 +367,7 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
             target.add_effect( effect_bite, 1_turns, hit, true );
         }
     }
-    if( target.has_trait( trait_id( "TOXICFLESH" ) ) ) {
+    if( target.mutations.has_trait( trait_id( "TOXICFLESH" ) ) ) {
         z.add_effect( effect_poison, 5_minutes );
         z.add_effect( effect_badpoison, 5_minutes );
     }

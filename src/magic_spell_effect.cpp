@@ -817,12 +817,12 @@ void spell_effect::mutate( const spell &sp, Creature &caster, const tripoint &ta
             continue;
         }
         if( sp.effect_data().empty() ) {
-            guy->mutate();
+            guy->mutations.mutate( *guy );
         } else {
             if( sp.has_flag( spell_flag::MUTATE_TRAIT ) ) {
-                guy->mutate_towards( trait_id( sp.effect_data() ) );
+                guy->mutations.mutate_towards( *guy, trait_id( sp.effect_data() ) );
             } else {
-                guy->mutate_category( sp.effect_data() );
+                guy->mutations.mutate_category( *guy, sp.effect_data() );
             }
         }
         sp.make_sound( potential_target );

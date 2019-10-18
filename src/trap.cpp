@@ -209,8 +209,8 @@ bool trap::detect_trap( const tripoint &pos, const player &p ) const
            // ...malus farther we are from trap...
            rl_dist( p.pos(), pos ) +
            // Police are trained to notice Something Wrong.
-           ( p.has_trait( trait_id( "PROF_POLICE" ) ) ? 1 : 0 ) +
-           ( p.has_trait( trait_id( "PROF_PD_DET" ) ) ? 2 : 0 ) >
+           ( p.mutations.has_trait( trait_id( "PROF_POLICE" ) ) ? 1 : 0 ) +
+           ( p.mutations.has_trait( trait_id( "PROF_PD_DET" ) ) ? 2 : 0 ) >
            // ...must all be greater than the trap visibility.
            visibility;
 }

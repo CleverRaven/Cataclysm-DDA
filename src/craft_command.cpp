@@ -209,7 +209,7 @@ item craft_command::create_in_progress_craft()
     // Use up the components and tools
     std::list<item> used;
     std::vector<item_comp> comps_used;
-    if( crafter->has_trait( trait_id( "DEBUG_HS" ) ) ) {
+    if( crafter->mutations.has_trait( trait_id( "DEBUG_HS" ) ) ) {
         return item( rec, batch_size, used, comps_used );
     }
 

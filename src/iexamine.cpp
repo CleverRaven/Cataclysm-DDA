@@ -871,7 +871,7 @@ void iexamine::intercom( player &p, const tripoint &examp )
 void iexamine::rubble( player &p, const tripoint &examp )
 {
     int moves;
-    if( p.has_quality( quality_id( "DIG" ), 3 ) || p.has_trait( trait_BURROW ) ) {
+    if( p.has_quality( quality_id( "DIG" ), 3 ) || p.mutations.has_trait( trait_BURROW ) ) {
         moves = to_moves<int>( 1_minutes );
     } else if( p.has_quality( quality_id( "DIG" ), 2 ) ) {
         moves = to_moves<int>( 2_minutes );
@@ -901,26 +901,27 @@ void iexamine::chainfence( player &p, const tripoint &examp )
         return;
     }
 
-    if( g->m.has_flag( "CLIMB_SIMPLE", examp ) && p.has_trait( trait_PARKOUR ) ) {
+    if( g->m.has_flag( "CLIMB_SIMPLE", examp ) && p.mutations.has_trait( trait_PARKOUR ) ) {
         add_msg( _( "You vault over the obstacle with ease." ) );
         p.moves -= 100; // Not tall enough to warrant spider-climbing, so only relevant trait.
     } else if( g->m.has_flag( "CLIMB_SIMPLE", examp ) ) {
         add_msg( _( "You vault over the obstacle." ) );
         p.moves -= 300; // Most common move cost for barricades pre-change.
-    } else if( p.has_trait( trait_ARACHNID_ARMS_OK ) && !p.wearing_something_on( bp_torso ) ) {
+    } else if( p.mutations.has_trait( trait_ARACHNID_ARMS_OK ) &&
+               !p.wearing_something_on( bp_torso ) ) {
         add_msg( _( "Climbing this obstacle is trivial for one such as you." ) );
         p.moves -= 75; // Yes, faster than walking.  6-8 limbs are impressive.
-    } else if( p.has_trait( trait_INSECT_ARMS_OK ) && !p.wearing_something_on( bp_torso ) ) {
+    } else if( p.mutations.has_trait( trait_INSECT_ARMS_OK ) && !p.wearing_something_on( bp_torso ) ) {
         add_msg( _( "You quickly scale the fence." ) );
         p.moves -= 90;
-    } else if( p.has_trait( trait_PARKOUR ) ) {
+    } else if( p.mutations.has_trait( trait_PARKOUR ) ) {
         add_msg( _( "This obstacle is no match for your freerunning abilities." ) );
         p.moves -= 100;
     } else {
         p.moves -= 400;
         ///\EFFECT_DEX decreases chances of slipping while climbing
         int climb = p.dex_cur;
-        if( p.has_trait( trait_BADKNEES ) ) {
+        if( p.mutations.has_trait( trait_BADKNEES ) ) {
             climb = climb / 2;
         }
         if( one_in( climb ) ) {
@@ -950,7 +951,7 @@ void iexamine::chainfence( player &p, const tripoint &examp )
  */
 void iexamine::bars( player &p, const tripoint &examp )
 {
-    if( !( p.has_trait( trait_AMORPHOUS ) ) ) {
+    if( !( p.mutations.has_trait( trait_AMORPHOUS ) ) ) {
         none( p, examp );
         return;
     }
@@ -1461,8 +1462,8 @@ static bool dead_plant( bool flower, player &p, const tripoint &examp )
  */
 static bool can_drink_nectar( const player &p )
 {
-    return ( p.has_active_mutation( trait_id( "PROBOSCIS" ) )  ||
-             p.has_active_mutation( trait_id( "BEAK_HUM" ) ) ) &&
+    return ( p.mutations.has_active_mutation( trait_id( "PROBOSCIS" ) )  ||
+             p.mutations.has_active_mutation( trait_id( "BEAK_HUM" ) ) ) &&
            ( ( p.get_hunger() ) > 0 ) && ( !( p.wearing_something_on( bp_mouth ) ) );
 }
 
@@ -1598,7 +1599,7 @@ void iexamine::flower_dahlia( player &p, const tripoint &examp )
         return;
     }
 
-    bool can_get_root = p.has_quality( quality_id( "DIG" ) ) || p.has_trait( trait_BURROW );
+    bool can_get_root = p.has_quality( quality_id( "DIG" ) ) || p.mutations.has_trait( trait_BURROW );
 
     if( can_get_root ) {
         if( !query_yn( _( "Pick %s?" ), g->m.furnname( examp ) ) ) {
@@ -2013,16 +2014,18 @@ void iexamine::harvest_plant( player &p, const tripoint &examp, bool from_activi
     } else if( seedType == "marloss_seed" ) {
         fungus( p, examp );
         g->m.i_clear( examp );
-        if( p.has_trait( trait_M_DEPENDENT ) && ( p.get_kcal_percent() < 0.8f || p.get_thirst() > 300 ) ) {
+        if( p.mutations.has_trait( trait_M_DEPENDENT ) && ( p.get_kcal_percent() < 0.8f ||
+                p.get_thirst() > 300 ) ) {
             g->m.ter_set( examp, t_marloss );
             add_msg( m_info,
                      _( "We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides." ) );
-        } else if( ( p.has_trait( trait_M_DEFENDER ) ) || ( ( p.has_trait( trait_M_SPORES ) ||
-                   p.has_trait( trait_M_FERTILE ) ) &&
-                   one_in( 2 ) ) ) {
+        } else if( ( p.mutations.has_trait( trait_M_DEFENDER ) ) ||
+                   ( ( p.mutations.has_trait( trait_M_SPORES ) ||
+                       p.mutations.has_trait( trait_M_FERTILE ) ) &&
+                     one_in( 2 ) ) ) {
             g->place_critter_at( mon_fungal_blossom, examp );
             add_msg( m_info, _( "The seed blooms forth!  We have brought true beauty to this world." ) );
-        } else if( ( p.has_trait( trait_THRESH_MYCUS ) ) || one_in( 4 ) ) {
+        } else if( ( p.mutations.has_trait( trait_THRESH_MYCUS ) ) || one_in( 4 ) ) {
             g->m.furn_set( examp, f_flower_marloss );
             add_msg( m_info, _( "The seed blossoms rather rapidly…" ) );
         } else {
@@ -3286,9 +3289,9 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
 
 void iexamine::shrub_marloss( player &p, const tripoint &examp )
 {
-    if( p.has_trait( trait_THRESH_MYCUS ) ) {
+    if( p.mutations.has_trait( trait_THRESH_MYCUS ) ) {
         pick_plant( p, examp, "mycus_fruit", t_shrub_fungal );
-    } else if( p.has_trait( trait_THRESH_MARLOSS ) ) {
+    } else if( p.mutations.has_trait( trait_THRESH_MARLOSS ) ) {
         g->m.spawn_item( p.pos(), "mycus_fruit", 1, 0, calendar::turn );
         g->m.ter_set( examp, t_fungus );
         add_msg( m_info, _( "The shrub offers up a fruit, then crumbles into a fungal bed." ) );
@@ -3299,16 +3302,16 @@ void iexamine::shrub_marloss( player &p, const tripoint &examp )
 
 void iexamine::tree_marloss( player &p, const tripoint &examp )
 {
-    if( p.has_trait( trait_THRESH_MYCUS ) ) {
+    if( p.mutations.has_trait( trait_THRESH_MYCUS ) ) {
         pick_plant( p, examp, "mycus_fruit", t_tree_fungal );
-        if( p.has_trait( trait_M_DEPENDENT ) && one_in( 3 ) ) {
+        if( p.mutations.has_trait( trait_M_DEPENDENT ) && one_in( 3 ) ) {
             // Folks have a better shot at keeping fed.
             add_msg( m_info,
                      _( "We have located a particularly vital nutrient deposit underneath this location." ) );
             add_msg( m_good, _( "Additional nourishment is available." ) );
             g->m.ter_set( examp, t_marloss_tree );
         }
-    } else if( p.has_trait( trait_THRESH_MARLOSS ) ) {
+    } else if( p.mutations.has_trait( trait_THRESH_MARLOSS ) ) {
         g->m.spawn_item( p.pos(), "mycus_fruit", 1, 0, calendar::turn );
         g->m.ter_set( examp, t_tree_fungal );
         add_msg( m_info, _( "The tree offers up a fruit, then shrivels into a fungal tree." ) );
@@ -3660,7 +3663,7 @@ void iexamine::sign( player &p, const tripoint &examp )
     bool previous_signage_exists = !existing_signage.empty();
 
     // Display existing message, or lack thereof.
-    if( p.has_trait( trait_ILLITERATE ) ) {
+    if( p.mutations.has_trait( trait_ILLITERATE ) ) {
         popup( _( "You're illiterate, and can't read the message on the sign." ) );
     } else if( previous_signage_exists ) {
         popup( existing_signage.c_str() );
@@ -3785,7 +3788,7 @@ static int findBestGasDiscount( player &p )
 
 static std::string str_to_illiterate_str( std::string s )
 {
-    if( !g->u.has_trait( trait_ILLITERATE ) ) {
+    if( !g->u.mutations.has_trait( trait_ILLITERATE ) ) {
         return s;
     } else {
         for( auto &i : s ) {
@@ -3914,7 +3917,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     const int hack = 3;
     const int refund = 4;
 
-    if( p.has_trait( trait_ILLITERATE ) ) {
+    if( p.mutations.has_trait( trait_ILLITERATE ) ) {
         popup( _( "You're illiterate, and can't read the screen." ) );
     }
 
@@ -3947,8 +3950,9 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
 
     int pricePerUnit = getGasPricePerLiter( discount );
 
-    bool can_hack = ( !p.has_trait( trait_ILLITERATE ) && ( ( p.has_charges( "electrohack", 25 ) ) ||
-                      ( p.has_bionic( bionic_id( "bio_fingerhack" ) ) && p.get_power_level() > 24_kJ ) ) );
+    bool can_hack = ( !p.mutations.has_trait( trait_ILLITERATE ) &&
+                      ( ( p.has_charges( "electrohack", 25 ) ) ||
+                        ( p.has_bionic( bionic_id( "bio_fingerhack" ) ) && p.get_power_level() > 24_kJ ) ) );
 
     uilist amenu;
     amenu.selected = 1;
@@ -4367,7 +4371,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     std::vector<tool_comp> anesth_kit;
     int drug_count = 0;
 
-    if( patient.has_trait( trait_NOPAIN ) || patient.has_bionic( bionic_id( "bio_painkiller" ) ) ||
+    if( patient.mutations.has_trait( trait_NOPAIN ) ||
+        patient.has_bionic( bionic_id( "bio_painkiller" ) ) ||
         amenu.ret > 1 ) {
         needs_anesthesia = false;
     } else {
@@ -5502,7 +5507,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
     const option choice = static_cast<option>( amenu.ret );
     switch( choice ) {
         case start_craft: {
-            if( p.has_active_mutation( trait_SHELL2 ) ) {
+            if( p.mutations.has_active_mutation( trait_SHELL2 ) ) {
                 p.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
             } else {
                 p.craft( examp );
@@ -5510,7 +5515,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
             break;
         }
         case repeat_craft: {
-            if( p.has_active_mutation( trait_SHELL2 ) ) {
+            if( p.mutations.has_active_mutation( trait_SHELL2 ) ) {
                 p.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
             } else {
                 p.recraft( examp );
@@ -5518,7 +5523,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
             break;
         }
         case start_long_craft: {
-            if( p.has_active_mutation( trait_SHELL2 ) ) {
+            if( p.mutations.has_active_mutation( trait_SHELL2 ) ) {
                 p.add_msg_if_player( m_info, _( "You can't craft while you're in your shell." ) );
             } else {
                 p.long_craft( examp );
@@ -5684,7 +5689,7 @@ static int hack_level( const player &p )
 
 hack_result iexamine::hack_attempt( player &p )
 {
-    if( p.has_trait( trait_ILLITERATE ) ) {
+    if( p.mutations.has_trait( trait_ILLITERATE ) ) {
         return HACK_UNABLE;
     }
     bool using_electrohack = p.has_charges( "electrohack", 25 ) &&
