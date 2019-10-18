@@ -8471,10 +8471,10 @@ void game::eat( item_location( *menu )( player &p ), int pos )
         u.consume( pos );
 
     } else if( u.consume_item( *it ) ) {
-        if( it->is_food_container() ) {
+        if( it->is_food_container() || !u.can_consume_as_is( *it ) ) {
             it->contents.erase( it->contents.begin() );
             add_msg( _( "You leave the empty %s." ), it->tname() );
-        } else if( u.can_consume_as_is( *it ) ) {
+        } else {
             item_loc.remove_item();
         }
     }
