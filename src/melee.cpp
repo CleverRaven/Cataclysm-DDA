@@ -1845,7 +1845,8 @@ static damage_instance hardcoded_mutation_attack( const player &u, const trait_i
     return damage_instance();
 }
 
-std::vector<special_attack> character_mutations::mutation_attacks( Character &owner, Creature &t ) const
+std::vector<special_attack> character_mutations::mutation_attacks( Character &owner,
+        Creature &t ) const
 {
     std::vector<special_attack> ret;
 
