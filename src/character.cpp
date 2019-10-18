@@ -4184,7 +4184,6 @@ void Character::mod_stim( int mod )
     stim += mod;
 }
 
-<<<<<<< HEAD
 int Character::get_stamina() const
 {
     return stamina;
