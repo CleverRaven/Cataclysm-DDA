@@ -876,7 +876,7 @@
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "cooking",
     "difficulty": 5,
-	"charges": 680,
+    "charges": 680,
     "time": "45 m",
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "adv_chemistry", 5 ] ],
     "tools": [
