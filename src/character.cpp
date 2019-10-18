@@ -4239,6 +4239,7 @@ void Character::burn_move_stamina( int moves )
     }
 }
 
+<<<<<<< HEAD
 void Character::update_stamina( int turns )
 {
     const int current_stim = get_stim();
