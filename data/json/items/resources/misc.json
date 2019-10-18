@@ -40,13 +40,13 @@
     "name": "down mattress",
     "name_plural": "down mattresses",
     "description": "This is a single, or twin, sized down filled mattress.",
-    "weight": 20000,
+    "weight": "6 kg",
     "volume": "300000 ml",
     "price": 1000,
     "material": [ "cotton" ],
     "symbol": "0",
     "color": "white",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_feather_mattress" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_down_mattress" }
   },
   {
     "id": "fuse",
