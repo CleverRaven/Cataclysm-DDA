@@ -11,7 +11,7 @@
       "s_liquor",
       "s_gun",
       "s_library",
-      "megastore_entrance",
+      "megastore_1_2_0",
       "fire_station",
       "mil_surplus",
       "mansion_entry"
@@ -30,7 +30,7 @@
   {
     "type": "overmap_location",
     "id": "source_of_weapon",
-    "terrains": [ "s_gun", "s_sports", "s_hardware", "megastore_entrance", "hdwr_large_entrance", "fire_station", "mansion_entry" ]
+    "terrains": [ "s_gun", "s_sports", "s_hardware", "megastore_1_2_0", "hdwr_large_entrance", "fire_station", "mansion_entry" ]
   },
   {
     "type": "overmap_location",
@@ -52,7 +52,7 @@
       "bar_1",
       "s_liquor",
       "s_grocery",
-      "megastore_entrance",
+      "megastore_1_2_0",
       "mansion_entry"
     ]
   },
@@ -77,7 +77,7 @@
       "s_butcher_2",
       "s_pizza_parlor",
       "s_pizza_parlor_1",
-      "megastore_entrance",
+      "megastore_1_2_0",
       "bakery",
       "mansion_entry"
     ]
