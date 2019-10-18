@@ -73,8 +73,8 @@
     "item": "large_storage_battery",
     "location": "on_battery_mount",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "10 s", "using": [] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "10 s", "using": [] }
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "10 s", "using": [  ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "10 s", "using": [  ] }
     },
     "description": "A battery for storing electrical power, and discharging it to power electrical devices built into the vehicle.  This one is mounted on a quick release framework to allow it to be easily swapped, though it still weighs so much that a lifting tool of some kind is necessary for most people.",
     "flags": [ "NEEDS_BATTERY_MOUNT" ]
@@ -106,8 +106,8 @@
     "folded_volume": 2,
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "100 s", "using": [] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "100 s", "using": [] }
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "100 s", "using": [  ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "100 s", "using": [  ] }
     },
     "extend": { "flags": [ "FOLDABLE" ] }
   },
