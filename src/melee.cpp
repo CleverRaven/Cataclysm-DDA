@@ -899,7 +899,8 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
                                  weap.is_null();
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
-            if( mutations.has_trait( trait_CLAWS ) || ( mutations.has_active_mutation( trait_CLAWS_RETRACT ) ) ) {
+            if( mutations.has_trait( trait_CLAWS ) ||
+                ( mutations.has_active_mutation( trait_CLAWS_RETRACT ) ) ) {
                 per_hand += 3;
             }
             if( has_bionic( bionic_id( "bio_razors" ) ) ) {
@@ -1692,7 +1693,8 @@ void player::perform_special_attacks( Creature &t )
                      dealt_dam.type_damage( DT_STAB ) > 0;
     }
 
-    if( can_poison && ( mutations.has_trait( trait_POISONOUS ) || mutations.has_trait( trait_POISONOUS2 ) ) ) {
+    if( can_poison && ( mutations.has_trait( trait_POISONOUS ) ||
+                        mutations.has_trait( trait_POISONOUS2 ) ) ) {
         if( mutations.has_trait( trait_POISONOUS ) ) {
             add_msg_if_player( m_good, _( "You poison %s!" ), target );
             t.add_effect( effect_poison, 6_turns );

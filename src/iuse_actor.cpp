@@ -1781,7 +1781,8 @@ int cauterize_actor::use( player &p, item &it, bool t, const tripoint & ) const
     if( has_disease ) {
         did_cauterize = cauterize_effect( p, it, false );
     } else {
-        const bool can_have_fun = p.mutations.has_trait( trait_MASOCHIST ) || p.mutations.has_trait( trait_MASOCHIST_MED ) ||
+        const bool can_have_fun = p.mutations.has_trait( trait_MASOCHIST ) ||
+                                  p.mutations.has_trait( trait_MASOCHIST_MED ) ||
                                   p.mutations.has_trait( trait_CENOBITE );
 
         if( can_have_fun && query_yn( _( "Cauterize yourself for fun?" ) ) ) {
@@ -3092,7 +3093,8 @@ bool repair_item_actor::can_repair_target( player &pl, const item &fix,
     }
 
     const bool resizing_matters = fix.get_encumber( pl ) != 0;
-    const bool small = pl.mutations.has_trait( trait_SMALL2 ) || pl.mutations.has_trait( trait_SMALL_OK );
+    const bool small = pl.mutations.has_trait( trait_SMALL2 ) ||
+                       pl.mutations.has_trait( trait_SMALL_OK );
     const bool can_resize = small != fix.has_flag( "UNDERSIZE" );
     if( can_be_refitted && resizing_matters && can_resize ) {
         return true;
@@ -3182,7 +3184,7 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
     }
 
     const bool small = g->u.mutations.has_trait( trait_id( "SMALL2" ) ) ||
-                      g->u.mutations.has_trait( trait_id( "SMALL_OK" ) );
+                       g->u.mutations.has_trait( trait_id( "SMALL_OK" ) );
 
     const bool is_undersized = fix.has_flag( "UNDERSIZE" );
     const bool is_oversized = fix.has_flag( "OVERSIZE" );

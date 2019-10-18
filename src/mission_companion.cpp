@@ -247,7 +247,8 @@ void talk_function::commune_farmfield( mission_data &mission_key, npc &p )
                                "willing to liquidate it." );
         mission_key.add( "Purchase East Field", _( "Purchase East Field" ), entry );
     }
-    if( p.mutations.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) && !p.mutations.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ) {
+    if( p.mutations.has_trait( trait_NPC_CONSTRUCTION_LEV_1 ) &&
+        !p.mutations.has_trait( trait_NPC_CONSTRUCTION_LEV_2 ) ) {
         std::string entry = _( "Cost: $5500\n\n"
                                "\n              ........." // NOLINT(cata-text-style)
                                "\n              ........." // NOLINT(cata-text-style)
