@@ -2373,6 +2373,13 @@ bool game::handle_action()
                 display_scent();
                 break;
 
+            case ACTION_DISPLAY_SCENT_TYPE:
+                if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
+                    break;    //don't do anything when sharing and not debugger
+                }
+                display_scent();
+                break;
+
             case ACTION_DISPLAY_TEMPERATURE:
                 if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
                     break;    //don't do anything when sharing and not debugger
