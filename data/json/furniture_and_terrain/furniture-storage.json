@@ -760,47 +760,47 @@
       ]
     }
   },
-    {
-        "type": "furniture",
-        "id": "f_displaycase",
-        "name": "display case",
-        "description": "Display your stuff fancily and securely.",
-        "symbol": "#",
-        "color": "light_cyan",
-        "move_cost_mod": 2,
-        "coverage": 80,
-        "required_str": 9,
-        "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM" ],
-        "bash": {
-          "str_min": 6,
-          "str_max": 20,
-          "sound": "glass breaking",
-          "sound_fail": "whack!",
-          "sound_vol": 16,
-          "sound_fail_vol": 12,
-          "furn_set": "f_displaycase_b",
-          "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
-        }
-      },
   {
-        "type": "furniture",
-        "id": "f_displaycase_b",
-        "name": "broken display case",
-        "description": "Display your stuff.  It'll get stolen.",
-        "symbol": "#",
-        "color": "light_gray",
-        "move_cost_mod": 2,
-        "coverage": 80,
-        "required_str": 9,
-        "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
-        "bash": {
-          "str_min": 8,
-          "str_max": 30,
-          "sound": "crunch!",
-          "sound_fail": "whump.",
-          "items": [ { "item": "2x4", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 2, 4 ] } ]
-        }
-      },
+    "type": "furniture",
+    "id": "f_displaycase",
+    "name": "display case",
+    "description": "Display your stuff fancily and securely.",
+    "symbol": "#",
+    "color": "light_cyan",
+    "move_cost_mod": 2,
+    "coverage": 80,
+    "required_str": 9,
+    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 20,
+      "sound": "glass breaking",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 12,
+      "furn_set": "f_displaycase_b",
+      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_displaycase_b",
+    "name": "broken display case",
+    "description": "Display your stuff.  It'll get stolen.",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost_mod": 2,
+    "coverage": 80,
+    "required_str": 9,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "2x4", "count": [ 3, 6 ] }, { "item": "splinter", "count": [ 2, 4 ] } ]
+    }
+  },
   {
     "type": "furniture",
     "id": "f_standing_tank",
@@ -884,4 +884,5 @@
         { "item": "splinter", "count": [ 1, 20 ] }
       ]
     }
+  }
 ]
