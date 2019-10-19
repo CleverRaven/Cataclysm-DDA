@@ -3,6 +3,7 @@
 #include "character.h"
 #include "debug.h"
 #include "json.h"
+#include "messages.h"
 
 void character_mutations::serialize( JsonOut &json ) const
 {
@@ -54,4 +55,11 @@ std::array<int, character_mutations::water_tolerance::NUM_WATER_TOLERANCE>
 character_mutations::get_mut_drench( body_part bp ) const
 {
     return mut_drench[bp];
+}
+
+void character_mutations::print_cat_levels() const
+{
+    for( const std::pair<std::string, int> &elem : mutation_category_level ) {
+        add_msg( "%s: %d", elem.first.c_str(), elem.second );
+    }
 }

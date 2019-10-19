@@ -1451,9 +1451,7 @@ void debug()
         }
         break;
         case DEBUG_SHOW_MUT_CAT:
-            for( const auto &elem : u.mutation_category_level ) {
-                add_msg( "%s: %d", elem.first.c_str(), elem.second );
-            }
+            u.mutations.print_cat_levels();
             break;
 
         case DEBUG_OM_EDITOR:

@@ -177,6 +177,7 @@ class character_mutations
 
         int get_cat_level( const std::string &category ) const;
         std::array<int, NUM_WATER_TOLERANCE> get_mut_drench( body_part bp ) const;
+        void print_cat_levels() const;
     private:
         /**
          * Traits / mutations of the character. Key is the mutation id (it's also a valid
