@@ -163,6 +163,19 @@
     "components": [ [ [ "rag", 4 ] ], [ [ "string_6", 4 ], [ "filament", 40, "LIST" ] ] ]
   },
   {
+    "result": "bholster",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "skills_required": [ [ "gun", 1 ], [ "pistol", 1 ] ],
+    "time": "10 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 18 ] ],
+    "components": [ [ [ "lycra_patch", 12 ] ] ]
+  },
+  {
     "result": "bindle",
     "type": "recipe",
     "category": "CC_ARMOR",

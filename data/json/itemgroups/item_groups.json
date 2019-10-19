@@ -1002,6 +1002,7 @@
       [ "picklocks", 10 ],
       [ "wolfsuit", 4 ],
       [ "dinosuit", 4 ],
+      [ "zentai", 4 ],
       [ "glowstick", 60 ],
       [ "handflare", 40 ],
       [ "blanket", 10 ],
@@ -1161,6 +1162,7 @@
       [ "firecracker", 5 ],
       [ "wolfsuit", 4 ],
       [ "dinosuit", 4 ],
+      [ "zentai", 5 ],
       [ "vibrator", 5 ],
       { "item": "condom", "prob": 30, "count": [ 1, 5 ] },
       [ "snuggie", 5 ],
@@ -1169,6 +1171,7 @@
       [ "socks_wool", 30 ],
       [ "pocketwatch", 5 ],
       [ "flask_hip", 2 ],
+      [ "bholster", 5 ],
       [ "tux", 1 ],
       [ "dress_wedding", 1 ],
       [ "clogs", 2 ],
@@ -2074,6 +2077,8 @@
       [ "longshirt", 70 ],
       [ "tank_top", 50 ],
       [ "sports_bra", 30 ],
+      [ "unitard", 10 ],
+      [ "leotard", 5 ],
       [ "trunks", 50 ],
       [ "bikini_top", 50 ],
       [ "arm_warmers", 20 ],
@@ -2824,6 +2829,7 @@
       [ "under_armor", 20 ],
       [ "jersey", 40 ],
       [ "camisole", 60 ],
+      [ "leotard", 5 ],
       [ "tie_clipon", 10 ],
       [ "tie_necktie", 10 ],
       [ "tie_skinny", 10 ],
@@ -2890,6 +2896,7 @@
       [ "thermal_suit", 10 ],
       [ "thermal_mask", 10 ],
       [ "thermal_outfit", 5 ],
+      [ "thermal_shirt", 10 ],
       [ "gloves_winter", 40 ],
       [ "gloves_liner", 25 ],
       [ "gloves_leather", 45 ],
@@ -3037,7 +3044,7 @@
   {
     "type": "item_group",
     "id": "female_underwear_top",
-    "items": [ [ "bra", 70 ], [ "sports_bra", 50 ], [ "bikini_top", 10 ] ]
+    "items": [ [ "bra", 70 ], [ "sports_bra", 50 ], [ "leotard", 10 ], [ "bikini_top", 10 ] ]
   },
   {
     "type": "item_group",
@@ -3047,7 +3054,7 @@
   {
     "type": "item_group",
     "id": "male_underwear_top",
-    "items": [ [ "undershirt", 50 ], [ "long_undertop", 20 ], [ "under_armor", 20 ], [ "tank_top", 50 ] ]
+    "items": [ [ "undershirt", 50 ], [ "long_undertop", 20 ], [ "thermal_shirt", 10 ],  [ "under_armor", 20 ], [ "tank_top", 50 ] ]
   },
   {
     "type": "item_group",
@@ -3116,6 +3123,7 @@
       [ "thermal_suit", 2 ],
       [ "thermal_mask", 2 ],
       [ "thermal_outfit", 1 ],
+      [ "thermal_shirt", 1 ],
       [ "gloves_winter", 40 ],
       [ "gloves_liner", 25 ],
       [ "gloves_leather", 45 ],
@@ -3141,6 +3149,8 @@
       [ "long_underpants", 40 ],
       [ "long_undertop", 40 ],
       [ "union_suit", 20 ],
+      [ "leotard", 3 ],
+      [ "unitard", 1 ],
       [ "arm_warmers", 20 ],
       [ "leg_warmers", 20 ],
       [ "trenchcoat_leather", 12 ],
@@ -3173,6 +3183,7 @@
       [ "clownshoes", 1 ],
       [ "bondage_suit", 1 ],
       [ "bondage_mask", 1 ],
+      [ "zentai", 1 ],
       [ "corset", 10 ],
       [ "chestwrap", 5 ],
       [ "boots_combat", 10 ],
@@ -7656,6 +7667,7 @@
       [ "backpack", 38 ],
       [ "backpack_leather", 28 ],
       [ "holster", 8 ],
+      [ "bholster", 2 ],
       [ "armguard_soft", 40 ],
       [ "armguard_hard", 20 ],
       [ "legguard_hard", 15 ],
@@ -9372,6 +9384,8 @@
       [ "armguard_soft", 50 ],
       [ "armguard_hard", 20 ],
       [ "legguard_hard", 50 ],
+      [ "leotard", 5 ],
+      [ "unitard", 5 ],
       [ "hat_ball", 100 ],
       [ "helmet_ball", 80 ],
       [ "baseball", 100 ],
