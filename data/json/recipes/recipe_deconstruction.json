@@ -2243,7 +2243,7 @@
     "type": "uncraft",
     "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 50 ] ] ]
+    "components": [ [ [ "scrap", 54 ] ] ]
   },
   {
     "result": "stick_long",
