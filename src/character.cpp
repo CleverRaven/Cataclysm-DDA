@@ -4980,6 +4980,17 @@ bool Character::crossed_threshold() const
     return false;
 }
 
+std::string Character::get_scent_type()
+{
+    std::string scent_type;
+    for( const trait_id &mut : get_mutations() ) {
+        if( !mut.obj().scent_type.empty() ) {
+            scent_type = mut.obj().scent_type;
+        }
+    }
+    return scent_type;
+}
+
 void Character::spores()
 {
     fungal_effects fe( *g, g->m );
