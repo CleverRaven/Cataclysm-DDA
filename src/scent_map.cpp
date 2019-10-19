@@ -94,20 +94,28 @@ int scent_map::get( const tripoint &p ) const
     return 0;
 }
 
-void scent_map::set( const tripoint &p, int value )
+void scent_map::set( const tripoint &p, int value, std::string type )
 {
     if( inbounds( p ) ) {
-        set_unsafe( p, value );
+        set_unsafe( p, value, type );
     }
 }
 
-void scent_map::set_unsafe( const tripoint &p, int value )
+void scent_map::set_unsafe( const tripoint &p, int value, std::string type )
 {
     grscent[p.x][p.y] = value;
+    if( type != "" ) {
+        typescent[p.x][p.y] = type;
+    }
 }
 int scent_map::get_unsafe( const tripoint &p ) const
 {
     return grscent[p.x][p.y] - std::abs( gm.get_levz() - p.z );
+}
+
+std::string scent_map::get_type_unsafe( const tripoint &p ) const
+{
+    return typescent[p.x][p.y];
 }
 
 bool scent_map::inbounds( const tripoint &p ) const
