@@ -105,6 +105,7 @@ bool stomach_contents::store_absorbed( player &p )
         absorbed = true;
     }
     p.vitamins_mod( vitamins_absorbed, false );
+    vitamins_absorbed.clear();
     return absorbed;
 }
 
