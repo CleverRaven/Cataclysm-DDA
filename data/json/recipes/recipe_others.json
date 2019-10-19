@@ -3789,13 +3789,14 @@
   {
     "type": "recipe",
     "result": "chem_sulphur",
-    "result_mult": 5,
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "1 m",
+    "charges": 1562,
+    "time": "5 m",
     "autolearn": true,
+    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "chunk_sulfur", 1 ] ] ]
   },
