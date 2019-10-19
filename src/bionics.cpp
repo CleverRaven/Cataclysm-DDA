@@ -1462,7 +1462,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     return true;
 }
 
-void player::perform_uninstall( bionic_id bid, int difficulty, int success, int power_lvl,
+void player::perform_uninstall( bionic_id bid, int difficulty, int success, units::energy power_lvl,
                                 int pl_skill )
 {
     if( success > 0 ) {
@@ -1475,7 +1475,7 @@ void player::perform_uninstall( bionic_id bid, int difficulty, int success, int 
         remove_bionic( bid );
 
         // remove power bank provided by bionic
-        mod_max_power_level( -units::from_kilojoule( power_lvl ) );
+        mod_max_power_level( - power_lvl );
 
         item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( bid.c_str() ) ) {
@@ -1687,7 +1687,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
 
     activity.values.push_back( difficulty );
     activity.values.push_back( success );
-    activity.values.push_back( units::to_kilojoule( bionics[bioid].capacity ) );
+    activity.values.push_back( units::to_millijoule( bionics[bioid].capacity ) );
     activity.values.push_back( pl_skill );
     activity.str_values.push_back( "install" );
     activity.str_values.push_back( "" );
