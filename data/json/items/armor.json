@@ -6294,6 +6294,27 @@
     "flags": [ "WATER_FRIENDLY" ]
   },
   {
+    "id": "mask_clown",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "clown mask",
+    "description": "What is a clown without a silly mask to hide the true horrors underneath.",
+    "weight": "272 g",
+    "volume": "750 ml",
+    "price": 5000,
+    "to_hit": -3,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "orange",
+    "covers": [ "MOUTH", "EYES" ],
+    "coverage": 95,
+    "encumbrance": 15,
+    "warmth": 5,
+    "material_thickness": 2,
+    "environmental_protection": 1,
+    "flags": [ "WATER_FRIENDLY" ]
+  },
+  {
     "id": "mask_hockey",
     "type": "ARMOR",
     "category": "armor",
