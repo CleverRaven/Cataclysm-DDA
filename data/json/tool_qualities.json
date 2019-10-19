@@ -18,10 +18,11 @@
   },
   {
     "type": "tool_quality",
-    {
     "id": "CHURN",
     "name": "churn"
   },
+  {
+    "type": "tool_quality"
     "id": "LEATHER_AWL",
     "name": "awl"
   },

@@ -1,15 +1,15 @@
 [
-{
-   "type": "recipe",
-   "result": "butter",
-   "result_mult": 1,
-   "category": "CC_FOOD",
-   "subcategory": "CSC_FOOD_DAIRY",
-   "skill_used": "cooking",
-   "difficulty": 5,
-   "time": "30 m",
-   "qualities": [ { "id": "CHURN", "level": 1 } ],
-   "autolearn": true,
-   "components": [ [ [ "milk_raw", 45 ] ] ]
- }
+  {
+    "type": "recipe",
+    "result": "butter",
+    "result_mult": 1,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DAIRY",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "30 m",
+    "qualities": [ { "id": "CHURN", "level": 1 } ],
+    "autolearn": true,
+    "components": [ [ [ "milk_raw", 45 ] ] ]
+  }
 ]
