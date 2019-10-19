@@ -14,17 +14,18 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
-    "id": "plastic_chunk",
+    "id": "nylon",
     "type": "TOOL",
     "category": "spare_parts",
     "name": "plastic chunk",
-    "description": "This is a piece of plastic.  It could be used to fabricate, repair, or reinforce plastic items.",
-    "weight": "70 g",
+    "description": "This is small bolt of synthetic fabric.",
+    "weight": "55 g",
     "volume": "250 ml",
     "price": 0,
-    "material": "plastic",
+    "material": "nylon",
     "symbol": ",",
-    "color": "light_blue",
+    "color": "white",
+    "use_action": [ { "type": "heal", "move_cost": 200, "used_up_item": "rag_bloody", "bleed": 0.5, "limb_power": 0 }, "WASH_HARD_ITEMS" ],
     "flags": [ "NO_SALVAGE" ]
   },
   {

@@ -50,8 +50,20 @@
   {
     "id": "fabric_standard",
     "type": "requirement",
-    "//": "Materials used for crafting or repairing clothing or sheeting",
-    "components": [ [ [ "rag", 1 ], [ "leather", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]
+    "//": "Materials used for crafting or repairing clothing or sheeting, etc.",
+    "components": [ [ [ "rag", 1 ], [ "lycra", 1 ], [ "nylon", 1 ], [ "leather", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]
+  },
+  {
+    "id": "fabric_standard_permeable",
+    "type": "requirement",
+    "//": "Materials used for crafting or repairing woven fabrics",
+    "components": [ [ [ "rag", 1 ], [ "lycra", 1 ], [ "nylon", 1 ], [ "nomex", 1 ] ] ]
+  },
+  {
+    "id": "fabric_standard_nostretch",
+    "type": "requirement",
+    "//": "Materials used for crafting or repairing non-form fitting clothing",
+    "components": [ [ [ "rag", 1 ], [ "nylon", 1 ], [ "nomex", 1 ] ] ]
   },
   {
     "id": "filament",

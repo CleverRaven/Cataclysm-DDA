@@ -445,6 +445,7 @@
       [ "jersey", 40 ],
       [ "coat_rain", 15 ],
       [ "hood_rain", 15 ],
+      [ "unitard", 10 ],
       [ "gloves_wraps", 45 ],
       [ "jeans", 30 ],
       [ "sports_bra", 25 ],
@@ -520,6 +521,8 @@
       [ "nanoskirt", 30 ],
       [ "camisole", 60 ],
       [ "corset", 20 ],
+      [ "unitard", 5 ],
+      [ "leotard", 10 ],
       [ "stockings", 50 ],
       [ "leggings", 20 ],
       [ "tights", 50 ]

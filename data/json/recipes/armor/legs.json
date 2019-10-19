@@ -226,6 +226,19 @@
     "components": [ [ [ "fur", 10 ], [ "tanned_pelt", 2 ] ] ]
   },
   {
+    "result": "leggins",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "35 m",
+    "autolearn": true,
+    "book_learn": [ [ "mag_tailor", 2 ], [ "manual_tailor", 2 ] ],
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "lycra_patch", 10 ] ] ]
+  },
+  {
     "result": "legguard_hard",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -571,6 +584,19 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 24 ] ],
     "components": [ [ [ "rag", 30 ] ] ]
+  },
+  {
+    "result": "under_armor_shorts",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_LEGS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "25 m",
+    "autolearn": true,
+    "book_learn": [ [ "mag_tailor", 2 ], [ "manual_tailor", 2 ] ],
+    "using": [ [ "sewing_standard", 10 ] ],
+    "components": [ [ [ "lycra_patch", 5 ] ] ]
   },
   {
     "result": "chainmail_legs",

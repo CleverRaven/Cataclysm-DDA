@@ -631,6 +631,7 @@
       { "item": "blood", "prob": 10, "container-item": "jar_3l_glass" },
       [ "bone_human", 10 ],
       [ "bondage_mask", 10 ],
+      [ "zentai", 5 ],
       [ "bondage_suit", 5 ]
     ]
   },
@@ -660,6 +661,7 @@
       [ "novel_erotic", 10 ],
       [ "bondage_suit", 10 ],
       [ "bondage_mask", 10 ],
+      [ "zentai", 2 ],
       [ "bullwhip", 10 ],
       [ "leather_cat_ears", 5 ],
       [ "leather_cat_tail", 5 ],
@@ -1021,6 +1023,8 @@
       [ "tshirt", 60 ],
       [ "sneakers", 60 ],
       [ "hot_pants", 44 ],
+      [ "leotard", 10 ],
+      [ "unitard", 10 ],
       [ "undershirt", 60 ],
       [ "hoodie", 50 ],
       [ "shorts", 60 ],
@@ -1209,6 +1213,8 @@
       { "group": "bed", "prob": 30, "damage": [ 0, 2 ] },
       [ "sewing_kit", 30 ],
       [ "rag", 30 ],
+      [ "lycra", 15 ],
+      [ "nylon", 10 ],
       [ "tailors_kit", 20 ]
     ]
   },
@@ -1301,6 +1307,8 @@
       [ "hoodie", 65 ],
       [ "under_armor", 20 ],
       [ "under_armor_shorts", 20 ],
+      [ "leotard", 5 ],
+      [ "unitard", 5 ],
       [ "long_underpants", 40 ],
       [ "long_undertop", 40 ],
       [ "union_suit", 20 ],
@@ -1346,6 +1354,8 @@
       [ "long_underpants", 40 ],
       [ "long_undertop", 40 ],
       [ "union_suit", 20 ],
+      [ "leotard", 5 ],
+      [ "unitard", 5 ],
       [ "corset", 10 ],
       [ "halter_top", 50 ],
       [ "nanoskirt", 10 ]

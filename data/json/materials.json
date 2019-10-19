@@ -741,7 +741,7 @@
     "type": "material",
     "ident": "lycra",
     "name": "Lycra",
-	"//": "not actually pure lycra, but poly/nylon and lycra blend",
+    "//": "not actually pure lycra, but poly/nylon and lycra blend",
     "density": 2,
     "specific_heat_liquid": 1.7,
     "specific_heat_solid": 2.3,
@@ -760,9 +760,9 @@
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
     "burn_data": [
-      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "650_ml" },
-      { "fuel": 1, "smoke": 1, "burn": 1 },
-      { "fuel": 1, "smoke": 1, "burn": 2 }
+      { "fuel": 1, "smoke": 2, "burn": 1, "volume_per_turn": "650 ml" },
+      { "fuel": 1, "smoke": 3, "burn": 3 },
+      { "fuel": 1, "smoke": 5, "burn": 5 }
     ]
   },
   {
@@ -1132,31 +1132,31 @@
     "cut_dmg_verb": "scratched"
   },
   {
-  "ident": "nylon",
-  "name": "synthetic fabric",
-  "//": "blend between nylon 6 and 6,6",
-  "density": 2,
-  "specific_heat_liquid": 1.7,
-  "specific_heat_solid": 2.3,
-  "latent_heat": 42,
-  "soft": true,
-  "reinforces": true,
-  "bash_resist": 3,
-  "cut_resist": 3,
-  "acid_resist": 9,
-  "fire_resist": 2,
-  "elec_resist": 1,
-  "chip_resist": 0,
-  "repaired_with": "synthetic_fabric",
-  "salvaged_into": "synthetic_fabric",
-  "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
-  "bash_dmg_verb": "ripped",
-  "cut_dmg_verb": "cut",
-  "burn_data": [
-    { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "650_ml" },
-    { "fuel": 1, "smoke": 1, "burn": 1 },
-    { "fuel": 1, "smoke": 1, "burn": 2 }
-  ]
+    "ident": "nylon",
+    "name": "synthetic fabric",
+    "//": "blend between nylon 6 and 6,6",
+    "density": 2,
+    "specific_heat_liquid": 1.7,
+    "specific_heat_solid": 2.3,
+    "latent_heat": 42,
+    "soft": true,
+    "reinforces": true,
+    "bash_resist": 3,
+    "cut_resist": 3,
+    "acid_resist": 9,
+    "fire_resist": 2,
+    "elec_resist": 1,
+    "chip_resist": 0,
+    "repaired_with": "synthetic_fabric",
+    "salvaged_into": "synthetic_fabric",
+    "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "cut",
+    "burn_data": [
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "650_ml" },
+      { "fuel": 1, "smoke": 1, "burn": 1 },
+      { "fuel": 1, "smoke": 1, "burn": 2 }
+    ]
   },
   {
     "type": "material",
