@@ -183,6 +183,7 @@ Character::Character() :
     fatigue = 0;
     sleep_deprivation = 0;
     set_stim( 0 );
+    set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.
     // 45 days to starve to death
     healthy_calories = 55000;
     stored_calories = healthy_calories;

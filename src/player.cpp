@@ -476,8 +476,6 @@ player::player() :
     blocks_left = 1;
     set_power_level( 0_kJ );
     set_max_power_level( 0_kJ );
-    set_stamina(
-        10000 ); //Temporary value for stamina. It will be reset later from external json option.
     pkill = 0;
     radiation = 0;
     tank_plut = 0;
