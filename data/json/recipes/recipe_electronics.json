@@ -2035,7 +2035,7 @@
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ] ],
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "e_scrap", 1 ] ], [ [ "scrap", 1 ] ], [ [ "cable", 3 ] ] ]
+    "components": [ [ [ "e_scrap", 1 ] ], [ [ "scrap", 1 ] ], [ [ "cable", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2049,9 +2049,9 @@
     "reversible": true,
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
-    "using": [ [ "soldering_standard", 5 ], [ "steel_standard", 5 ] ],
+    "using": [ [ "soldering_standard", 5 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "cable", 3 ] ], [ [ "e_scrap", 5 ] ] ]
+    "components": [ [ [ "cable", 3 ] ], [ [ "e_scrap", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -2065,9 +2065,9 @@
     "reversible": true,
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
-    "using": [ [ "soldering_standard", 5 ] ],
+    "using": [ [ "soldering_standard", 5 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 2 ] ], [ [ "scrap", 2 ] ], [ [ "cable", 6 ] ] ]
+    "components": [ [ [ "e_scrap", 5 ] ], [ [ "cable", 6 ] ] ]
   },
   {
     "type": "recipe",
