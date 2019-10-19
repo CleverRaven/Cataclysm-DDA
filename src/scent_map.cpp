@@ -50,14 +50,26 @@ void scent_map::reset()
             val = 0;
         }
     }
+    for( auto &elem : typescent ) {
+        for( std::string &val : elem ) {
+            val.clear();
+        }
+    }
 }
 
 void scent_map::decay()
 {
+    int x = 0;
     for( auto &elem : grscent ) {
+        int y = 0;
         for( auto &val : elem ) {
             val = std::max( 0, val - 1 );
+            if( val == 0 ) {
+                typescent[x][y].clear();
+            }
+            y ++;
         }
+        x++;
     }
 }
 
@@ -77,13 +89,16 @@ void scent_map::draw( const catacurses::window &win, const int div, const tripoi
 void scent_map::shift( const int sm_shift_x, const int sm_shift_y )
 {
     scent_array<int> new_scent;
+    scent_array<std::string> new_scent_type;
     for( size_t x = 0; x < MAPSIZE_X; ++x ) {
         for( size_t y = 0; y < MAPSIZE_Y; ++y ) {
             const point p( x + sm_shift_x, y + sm_shift_y );
             new_scent[x][y] = inbounds( p ) ? grscent[ p.x ][ p.y ] : 0;
+            new_scent_type[x][y] = inbounds( p ) ? typescent[p.x][p.y] : "";
         }
     }
     grscent = new_scent;
+    typescent = new_scent_type;
 }
 
 int scent_map::get( const tripoint &p ) const
@@ -111,6 +126,15 @@ void scent_map::set_unsafe( const tripoint &p, int value, std::string type )
 int scent_map::get_unsafe( const tripoint &p ) const
 {
     return grscent[p.x][p.y] - std::abs( gm.get_levz() - p.z );
+}
+
+std::string scent_map::get_type( const tripoint &p ) const
+{
+    std::string scent_type;
+    if( inbounds( p ) && grscent[p.x][p.y] > 0 ) {
+        scent_type = get_type_unsafe( p );
+    }
+    return scent_type;
 }
 
 std::string scent_map::get_type_unsafe( const tripoint &p ) const

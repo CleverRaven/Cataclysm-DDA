@@ -59,6 +59,7 @@ class scent_map
         void set_unsafe( const tripoint &p, int value, std::string type = "" );
         int get_unsafe( const tripoint &p ) const;
 
+        std::string get_type( const tripoint &p ) const;
         std::string get_type_unsafe( const tripoint &p ) const;
 
         bool inbounds( const tripoint &p ) const;
