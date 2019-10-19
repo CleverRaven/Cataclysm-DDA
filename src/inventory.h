@@ -17,6 +17,7 @@
 #include "cata_utility.h"
 #include "item.h"
 #include "item_stack.h"
+#include "magic_enchantment.h"
 #include "visitable.h"
 #include "units.h"
 
@@ -222,6 +223,9 @@ class inventory : public visitable<inventory>
         void update_cache_with_item( item &newit );
 
         void copy_invlet_of( const inventory &other );
+
+        // gets a singular enchantment that is an amalgamation of all items that have active enchantments
+        enchantment get_active_enchantment_cache( const Character &owner ) const;
 
     private:
         invlet_favorites invlet_cache;

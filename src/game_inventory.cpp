@@ -481,6 +481,17 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return std::string( _( "indefinite" ) );
             }, _( "SHELF LIFE" ) );
 
+            append_cell( [ this ]( const item_location & loc ) {
+                const item &it = get_consumable_item( loc );
+
+                int converted_volume_scale = 0;
+                const double converted_volume = round_up( convert_volume( it.volume().value() / it.charges,
+                                                &converted_volume_scale ), 2 );
+
+                //~ Eat menu Volume: <num><unit>
+                return string_format( _( "%.2f%s" ), converted_volume, volume_units_abbr() );
+            }, _( "VOLUME" ) );
+
             append_cell( [this]( const item_location & loc ) {
                 if( g->u.can_estimate_rot() ) {
                     const islot_comestible item = get_edible_comestible( loc );
@@ -546,8 +557,15 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
+            const item &med = !( *loc ).is_container_empty() && ( *loc ).get_contained().is_medication() &&
+                              ( *loc ).get_contained().type->has_use() ? ( *loc ).get_contained() : *loc;
+
             if( loc->made_of_from_type( LIQUID ) && !g->m.has_flag( "LIQUIDCONT", loc.position() ) ) {
                 return _( "Can't drink spilt liquids" );
+            }
+
+            if( med.is_medication() && !p.can_use_heal_item( med ) ) {
+                return _( "Your biology is not compatible with that item." );
             }
 
             const auto &it = get_consumable_item( loc );
@@ -556,7 +574,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             if( !res.success() && cbm == rechargeable_cbm::none ) {
                 return res.str();
-            } else if( cbm == rechargeable_cbm::battery && p.power_level >= p.max_power_level ) {
+            } else if( cbm == rechargeable_cbm::battery && p.is_max_power() ) {
                 return _( "You're fully charged" );
             } else if( cbm == rechargeable_cbm::other && ( p.get_fuel_capacity( it.typeId() ) <= 0 ) ) {
                 return string_format( _( "No space to store more %s" ), it.tname() );
@@ -783,6 +801,10 @@ class activatable_inventory_preset : public pickup_inventory_preset
                 }
             }
 
+            if( it.is_medication() && !p.can_use_heal_item( it ) ) {
+                return _( "Your biology is not compatible with that item." );
+            }
+
             if( !p.has_enough_charges( it, false ) ) {
                 return string_format(
                            ngettext( "Needs at least %d charge",
@@ -804,7 +826,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
             if( uses.size() == 1 ) {
                 return uses.begin()->second.get_name();
             } else if( uses.size() > 1 ) {
-                return _( "..." );
+                return _( "…" );
             }
 
             return std::string();
@@ -909,7 +931,9 @@ class read_inventory_preset: public pickup_inventory_preset
                 if( book.skill ) {
                     const SkillLevel &skill = p.get_skill_level_object( book.skill );
                     if( skill.can_train() ) {
-                        return string_format( _( "%s to %d (%d)" ), book.skill->name(), book.level, skill.level() );
+                        //~ %1$s: book skill name, %2$d: book skill level, %3$d: player skill level
+                        return string_format( pgettext( "skill", "%1$s to %2$d (%3$d)" ), book.skill->name(), book.level,
+                                              skill.level() );
                     }
                 }
                 return std::string();
@@ -924,7 +948,6 @@ class read_inventory_preset: public pickup_inventory_preset
 
                 return unlearned > 0 ? to_string( unlearned ) : std::string();
             }, _( "RECIPES" ), unknown );
-
             append_cell( [ this, &p, unknown ]( const item_location & loc ) -> std::string {
                 if( !is_known( loc ) ) {
                     return unknown;
@@ -1003,6 +1026,35 @@ class read_inventory_preset: public pickup_inventory_preset
             };
         }
 
+        bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
+            const bool base_sort = inventory_selector_preset::sort_compare( lhs, rhs );
+
+            const bool known_a = is_known( lhs.any_item() );
+            const bool known_b = is_known( rhs.any_item() );
+
+            if( !known_a || !known_b ) {
+                return ( !known_a && !known_b ) ? base_sort : !known_a;
+            }
+
+            const auto &book_a = get_book( lhs.any_item() );
+            const auto &book_b = get_book( rhs.any_item() );
+
+            if( !book_a.skill && !book_b.skill ) {
+                return ( book_a.fun == book_b.fun ) ? base_sort : book_a.fun > book_b.fun;
+            } else if( !book_a.skill || !book_a.skill ) {
+                return static_cast<bool>( book_a.skill );
+            }
+
+            const bool train_a = p.get_skill_level( book_a.skill ) < book_a.level;
+            const bool train_b = p.get_skill_level( book_b.skill ) < book_b.level;
+
+            if( !train_a || !train_b ) {
+                return ( !train_a && !train_b ) ? base_sort : train_a;
+            }
+
+            return base_sort;
+        }
+
     private:
         const islot_book &get_book( const item_location &loc ) const {
             return *loc->type->book;
@@ -1030,11 +1082,11 @@ class read_inventory_preset: public pickup_inventory_preset
         const player &p;
 };
 
-item_location game_menus::inv::read( avatar &you )
+item_location game_menus::inv::read( player &pl )
 {
-    return inv_internal( you, read_inventory_preset( you ),
-                         _( "Read" ), 1,
-                         _( "You have nothing to read." ) );
+    const std::string msg = pl.is_player() ? _( "You have nothing to read." ) :
+                            string_format( _( "%s has nothing to read." ), pl.disp_name() );
+    return inv_internal( pl, read_inventory_preset( pl ), _( "Read" ), 1, msg );
 }
 
 class steal_inventory_preset : public pickup_inventory_preset
@@ -1392,7 +1444,7 @@ void game_menus::inv::reassign_letter( player &p, item &it )
 {
     while( true ) {
         const int invlet = popup_getkey(
-                               _( "Enter new letter. Press SPACE to clear a manually assigned letter, ESCAPE to cancel." ) );
+                               _( "Enter new letter.  Press SPACE to clear a manually assigned letter, ESCAPE to cancel." ) );
 
         if( invlet == KEY_ESCAPE ) {
             break;
@@ -1561,13 +1613,17 @@ class bionic_install_preset: public inventory_selector_preset
             const bionic_id &bid = itemtype->bionic->id;
 
             if( it->has_flag( "FILTHY" ) ) {
+                // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
                 return _( "/!\\ CBM is highly contaminated. /!\\" );
             } else if( it->has_flag( "NO_STERILE" ) ) {
+                // NOLINTNEXTLINE(cata-text-style): single space after the period for symmetry
                 return _( "/!\\ CBM is not sterile. /!\\" ) ;
             } else if( it->has_fault( fault_id( "fault_bionic_salvaged" ) ) ) {
                 return _( "CBM already deployed.  Please reset to factory state." );
             } else if( pa.has_bionic( bid ) ) {
                 return _( "CBM already installed" );
+            } else if( !pa.can_install_cbm_on_bp( get_occupied_bodyparts( bid ) ) ) {
+                return _( "CBM not compatible with patient's body." );
             } else if( bid->upgraded_bionic &&
                        !pa.has_bionic( bid->upgraded_bionic ) &&
                        it->is_upgrade() ) {
@@ -1579,6 +1635,8 @@ class bionic_install_preset: public inventory_selector_preset
                 return _( "Superior version installed" );
             } else if( pa.is_npc() && !bid->npc_usable ) {
                 return _( "CBM not compatible with patient" );
+            } else if( units::energy_max - pa.get_max_power_level() < bid->capacity ) {
+                return _( "Max power capacity already reached" );
             } else if( !p.has_enough_anesth( itemtype, pa ) ) {
                 const int weight = units::to_kilogram( pa.bodyweight() ) / 10;
                 const int duration = loc.get_item()->type->bionic->difficulty * 2;
@@ -1876,14 +1934,16 @@ class bionic_sterilize_preset : public inventory_selector_preset
 
         std::string get_denial( const item_location &loc ) const override {
             auto reqs = *requirement_id( "autoclave_item" );
-
-            if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
-                return pgettext( "volume of water", "2 L" );
-            }
-
             if( loc.get_item()->has_flag( "FILTHY" ) ) {
                 return  _( "CBM is filthy.  Wash it first." );
             }
+            if( loc.get_item()->has_flag( "NO_PACKED" ) ) {
+                return  _( "You should put this CBM in an autoclave pouch to keep it sterile." );
+            }
+            if( !reqs.can_make_with_inventory( p.crafting_inventory(), is_crafting_component ) ) {
+                return _( "You need at least 2L of water." );
+            }
+
             return std::string();
         }
 

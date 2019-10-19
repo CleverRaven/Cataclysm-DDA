@@ -377,9 +377,9 @@
         "defends your space": true,
         "knows your voice": true
       },
-      "free_merchants": { "kill_on_sight": true },
-      "old_guard": { "kill_on_sight": true },
-      "your_followers": { "kill_on_sight": true }
+      "free_merchants": { "kill on sight": true },
+      "old_guard": { "kill on sight": true },
+      "your_followers": { "kill on sight": true }
     },
     "description": "The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat."
   },
@@ -404,9 +404,9 @@
         "defends your space": true,
         "knows your voice": true
       },
-      "free_merchants": { "kill_on_sight": true },
-      "old_guard": { "kill_on_sight": true },
-      "your_followers": { "kill_on_sight": true }
+      "free_merchants": { "kill on sight": true },
+      "old_guard": { "kill on sight": true },
+      "your_followers": { "kill on sight": true }
     },
     "description": "Mutant bees who hate everyone."
   },

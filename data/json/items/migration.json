@@ -708,5 +708,10 @@
     "id": "magbandolier",
     "type": "MIGRATION",
     "replace": "chestrig"
+  },
+  {
+    "id": "tool_black_powder_bomb",
+    "type": "MIGRATION",
+    "replace": "can_bomb"
   }
 ]

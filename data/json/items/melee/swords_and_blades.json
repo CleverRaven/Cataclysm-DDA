@@ -101,11 +101,12 @@
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "smg", "crossbow" ],
       "dispersion_modifier": 10,
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
-      "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
+    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": "RAPID",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
+    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN" ]
   },
   {
@@ -166,11 +167,12 @@
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle" ],
       "dispersion_modifier": 10,
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
-      "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ]
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
+    "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": [ "RAPID", "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
+    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NO_CVD" ]
   },
   {
@@ -323,7 +325,6 @@
     "use_action": [
       {
         "type": "fireweapon_on",
-        "target_id": "firemachete_off",
         "noise": 5,
         "noise_chance": 25,
         "noise_message": "Your No. 9 hisses.",
@@ -781,9 +782,9 @@
       "location": "underbarrel",
       "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
       "dispersion_modifier": 20,
-      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
-      "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ]
+      "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ]
     },
+    "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
@@ -1402,7 +1403,6 @@
     "use_action": [
       {
         "type": "fireweapon_on",
-        "target_id": "firemachete_off",
         "noise_chance": 35,
         "noise_message": "The Sun shines brightly.",
         "voluntary_extinguish_message": "The Sun sets.",

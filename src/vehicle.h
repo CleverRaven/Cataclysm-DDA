@@ -40,6 +40,7 @@ class Creature;
 class nc_color;
 class player;
 class npc;
+class map;
 class vehicle;
 class vehicle_part_range;
 class JsonIn;
@@ -316,6 +317,8 @@ struct vehicle_part {
         /** Can a player or NPC use this part as a seat? */
         bool is_seat() const;
 
+        /* if this is a carried part, what is the name of the carried vehicle */
+        std::string carried_name() const;
         /*@}*/
 
     public:
@@ -331,6 +334,8 @@ struct vehicle_part {
 
         /** Current part damage in same units as item::damage. */
         int damage() const;
+        /** max damage of part base */
+        int max_damage() const;
 
         /** Current part damage level in same units as item::damage_level */
         int damage_level( int max ) const;
@@ -523,6 +528,8 @@ struct label : public point {
 
     std::string text;
 };
+
+class RemovePartHandler;
 
 /**
  * A vehicle as a whole with all its components.
@@ -720,9 +727,8 @@ class vehicle
         void init_state( int init_veh_fuel, int init_veh_status );
 
         // damages all parts of a vehicle by a random amount
-        void smash( float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
-                    float percent_of_parts_to_affect = 1.0f, point damage_origin = point_zero,
-                    float damage_size = 0 );
+        void smash( map &m, float hp_percent_loss_min = 0.1f, float hp_percent_loss_max = 1.2f,
+                    float percent_of_parts_to_affect = 1.0f, point damage_origin = point_zero, float damage_size = 0 );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
@@ -734,33 +740,41 @@ class vehicle
         void print_vparts_descs( const catacurses::window &win, int max_y, int width, int p,
                                  int &start_at, int &start_limit ) const;
         // owner functions
-        void set_old_owner( const faction *temp_owner ) {
+        bool is_owned_by( const Character &c, bool available_to_take = false ) const;
+        bool is_old_owner( const Character &c, bool available_to_take = false ) const;
+        std::string get_owner_name() const;
+        void set_old_owner( faction_id temp_owner ) {
             theft_time = calendar::turn;
             old_owner = temp_owner;
         }
         void remove_old_owner() {
             theft_time = cata::nullopt;
-            old_owner = nullptr;
+            old_owner = faction_id::NULL_ID();
         }
-        void set_owner( faction *new_owner ) {
+        void set_owner( faction_id new_owner ) {
             owner = new_owner;
         }
+        void set_owner( const Character &c );
         void remove_owner() {
-            owner = nullptr;
+            owner = faction_id::NULL_ID();
         }
-        const faction *get_owner() const {
+        faction_id get_owner() const {
             return owner;
         }
-        const faction *get_old_owner() const {
+        faction_id get_old_owner() const {
             return old_owner;
         }
         bool has_owner() const {
-            return owner;
+            return !owner.is_null();
+        }
+        bool has_old_owner() const {
+            return !old_owner.is_null();
         }
         bool handle_potential_theft( player &p, bool check_only = false, bool prompt = true );
         // project a tileray forward to predict obstacles
         std::set<point> immediate_path( int rotate = 0 );
-        void drive_to_local_target( const tripoint &autodrive_local_target, bool follow_protocol );
+        void autopilot_patrol();
+        void drive_to_local_target( tripoint target, bool follow_protocol );
         void do_autodrive();
         /**
          *  Operate vehicle controls
@@ -773,7 +787,8 @@ class vehicle
 
         // Attempt to start an engine
         bool start_engine( int e );
-
+        // stop all engines
+        void stop_engines();
         // Attempt to start the vehicle's active engines
         void start_engines( bool take_control = false, bool autodrive = false );
 
@@ -804,6 +819,13 @@ class vehicle
         // merge a previously found single tile vehicle into this vehicle
         bool merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts );
 
+        /**
+         * @param handler A class that receives various callbacks, e.g. for placing items.
+         * This handler is different when called during mapgen (when items need to be placed
+         * on the temporary mapgen map), and when called during normal game play (when items
+         * go on the main map g->m).
+         */
+        bool remove_part( int p, RemovePartHandler &handler );
         bool remove_part( int p );
         void part_removal_cleanup();
 
@@ -1459,10 +1481,15 @@ class vehicle
         void play_chimes();
         void operate_planter();
         std::string tracking_toggle_string();
+        void autopilot_patrol_check();
+        void toggle_autopilot();
+        void enable_patrol();
         void toggle_tracking();
         //scoop operation,pickups, battery drain, etc.
         void operate_scoop();
         void operate_reaper();
+        // for destorying any terrain around viehicle part. Automated mining tool.
+        void crash_terrain_around();
         void transform_terrain();
         void add_toggle_to_opts( std::vector<uilist_entry> &options,
                                  std::vector<std::function<void()>> &actions, const std::string &name, char key,
@@ -1563,9 +1590,9 @@ class vehicle
         void update_time( const time_point &update_to );
 
         // The faction that owns this vehicle.
-        const faction *owner = nullptr;
+        faction_id owner = faction_id::NULL_ID();
         // The faction that previously owned this vehicle
-        const faction *old_owner = nullptr;
+        faction_id old_owner = faction_id::NULL_ID();
 
     private:
         mutable double coefficient_air_resistance = 1;
@@ -1686,6 +1713,8 @@ class vehicle
         std::array<int, 2> pivot_rotation = { { 0, 0 } };
 
         bounding_box rail_wheel_bounding_box;
+        point front_left;
+        point front_right;
         // points used for rotation of mount precalc values
         std::array<point, 2> pivot_anchor;
         // frame direction
@@ -1718,6 +1747,7 @@ class vehicle
     public:
         bool is_autodriving = false;
         bool is_following = false;
+        bool is_patrolling = false;
         bool all_wheels_on_one_axis;
         // TODO: change these to a bitset + enum?
         // cruise control on/off
@@ -1731,6 +1761,7 @@ class vehicle
         // vehicle has alarm on
         bool is_alarm_on = false;
         bool camera_on = false;
+        bool autopilot_on = false;
         // skidding mode
         bool skidding = false;
         // has bloody or smoking parts

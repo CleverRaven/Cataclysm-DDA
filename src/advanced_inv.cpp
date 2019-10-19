@@ -353,12 +353,9 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         std::string item_name;
         std::string stolen_string;
         bool stolen = false;
-        if( it.has_owner() ) {
-            const faction *item_fac = it.get_owner();
-            if( item_fac != g->u.get_faction() ) {
-                stolen_string = "<color_light_red>!</color>";
-                stolen = true;
-            }
+        if( !it.is_owned_by( g->u, true ) ) {
+            stolen_string = "<color_light_red>!</color>";
+            stolen = true;
         }
         if( it.is_money() ) {
             //Count charges
@@ -885,6 +882,9 @@ bool advanced_inventory_pane::is_filtered( const advanced_inv_listitem &it ) con
 
 bool advanced_inventory_pane::is_filtered( const item &it ) const
 {
+    if( it.has_flag( "HIDDEN_ITEM" ) ) {
+        return true;
+    }
     if( filter.empty() ) {
         return false;
     }
@@ -1147,7 +1147,7 @@ void advanced_inventory::redraw_pane( side p )
     const int max_page = ( pane.items.size() + itemsPerPage - 1 ) / itemsPerPage;
     if( active && max_page > 1 ) {
         const int page = pane.index / itemsPerPage;
-        mvwprintz( w, point( 2, 4 ), c_light_blue, _( "[<] page %d of %d [>]" ), page + 1, max_page );
+        mvwprintz( w, point( 2, 4 ), c_light_blue, _( "[<] page %1$d of %2$d [>]" ), page + 1, max_page );
     }
 
     if( active ) {
@@ -1202,7 +1202,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
     if( spane.get_area() == AIM_ALL ) {
         // move all to `AIM_WORN' doesn't make sense (see `MAX_WORN_PER_TYPE')
         if( dpane.get_area() == AIM_WORN ) {
-            popup( _( "You look at the items, then your clothes, and scratch your head..." ) );
+            popup( _( "You look at the items, then your clothes, and scratch your head…" ) );
             return false;
         }
         // if the source pane (AIM_ALL) is empty, then show a message and leave
@@ -1357,6 +1357,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
     } else {
         if( dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ) {
             g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
+            g->u.activity.coords.push_back( g->u.pos() );
         } else { // Vehicle and map destinations are handled the same.
 
             // Check first if the destination area still have enough room for moving all.
@@ -1421,7 +1422,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
 bool advanced_inventory::show_sort_menu( advanced_inventory_pane &pane )
 {
     uilist sm;
-    sm.text = _( "Sort by... " );
+    sm.text = _( "Sort by…" );
     sm.addentry( SORTBY_NONE,     true, 'u', _( "Unsorted (recently added first)" ) );
     sm.addentry( SORTBY_NAME,     true, 'n', get_sortname( SORTBY_NAME ) );
     sm.addentry( SORTBY_WEIGHT,   true, 'w', get_sortname( SORTBY_WEIGHT ) );
@@ -1732,6 +1733,7 @@ void advanced_inventory::display()
 
                 if( destarea == AIM_INVENTORY ) {
                     g->u.assign_activity( activity_id( "ACT_PICKUP" ) );
+                    g->u.activity.coords.push_back( g->u.pos() );
                 } else if( destarea == AIM_WORN ) {
                     g->u.assign_activity( activity_id( "ACT_WEAR" ) );
                 } else { // Vehicle and map destinations are handled similarly.
@@ -2229,10 +2231,10 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         const char *msg = nullptr;
         std::string popupmsg;
         if( amount >= input_amount ) {
-            msg = _( "How many do you want to move? [Have %d] (0 to cancel)" );
+            msg = _( "How many do you want to move?  [Have %d] (0 to cancel)" );
             popupmsg = string_format( msg, count );
         } else {
-            msg = _( "Destination can only hold %d! Move how many? [Have %d] (0 to cancel)" );
+            msg = _( "Destination can only hold %d!  Move how many?  [Have %d] (0 to cancel)" );
             popupmsg = string_format( msg, amount, count );
         }
         // At this point amount contains the maximal amount that the destination can hold.
@@ -2550,7 +2552,8 @@ void advanced_inventory::swap_panes()
     std::swap( panes[left], panes[right] );
     // Window pointer must be unchanged!
     std::swap( panes[left].window, panes[right].window );
-    // No recalculation needed, data has not changed
+    // Recalculation required for weight & volume
+    recalc = true;
     redraw = true;
 }
 

@@ -92,7 +92,7 @@
           ]
         },
         "text": "I am you but from an alternate reality.",
-        "trial": { "type": "LIE", "difficulty": 10, "opinion": { "trust": 1, "value": 1 } },
+        "trial": { "type": "LIE", "difficulty": 10, "mod": { "trust": 1, "value": 1 } },
         "success": { "topic": "TALK_FOODPERSON_MULTIVERSE", "opinion": { "trust": 2, "value": 2 } },
         "failure": { "topic": "TALK_FOODPERSON_ONLYONE", "opinion": { "trust": -5, "value": -5 } }
       },
@@ -162,7 +162,7 @@
     "dynamic_line": "Do not mock me, for my strength is quite real!  Get out of here now!",
     "responses": [
       { "text": "Sheesh, ok, calm down, I'm leaving!", "topic": "TALK_DONE" },
-      { "text": "Forgive me,  I didn't mean to disrespect you.", "topic": "TALK_FOODPERSON_MAIN" },
+      { "text": "Forgive me, I didn't mean to disrespect you.", "topic": "TALK_FOODPERSON_MAIN" },
       { "text": "Oh yeah?  Show me what you can do!", "topic": "TALK_DONE", "effect": "hostile" }
     ]
   },
@@ -531,7 +531,7 @@
       { "text": "I AM THE ONE!", "topic": "TALK_DONE", "effect": "hostile", "opinion": { "trust": -20, "value": -20 } },
       {
         "condition": { "not": { "u_has_trait": "PROF_FOODP" } },
-        "text": "Wow calm down,  it's just a prank bro.",
+        "text": "Wow calm down, it's just a prank bro.",
         "topic": "TALK_DONE",
         "opinion": { "trust": -20, "value": -20 }
       },

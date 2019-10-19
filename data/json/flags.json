@@ -31,7 +31,7 @@
     "id": "AURA",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "This item goes in the outer aura layer, intended for metaphysical effects.",
+    "//": "This item goes in the outer aura layer, intended for metaphysical effects.",
     "info": "This is in your <info>outer aura</info>.",
     "conflicts": [ "OUTER", "SKINTIGHT", "WAIST", "PERSONAL", "BELTED" ]
   },
@@ -39,19 +39,19 @@
     "id": "BAROMETER",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "This gear is equipped with an accurate barometer (which is used to measure atmospheric pressure)."
+    "info": "This gear is equipped with an accurate barometer (which is used to measure atmospheric pressure)."
   },
   {
     "id": "BELT_CLIP",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "description": "This item can be clipped on to a <info>belt loop</info> of the appropriate size."
+    "info": "This item can be clipped on to a <info>belt loop</info> of the appropriate size."
   },
   {
     "id": "BELTED",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Layer for backpacks and things worn over outerwear.",
+    "//": "Layer for backpacks and things worn over outerwear.",
     "info": "This gear is <info>strapped</info> onto you.",
     "conflicts": [ "OUTER", "SKINTIGHT", "WAIST", "PERSONAL", "AURA" ]
   },
@@ -65,7 +65,7 @@
     "id": "BLIND",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Blinds the wearer while worn, and provides nominal protection vs flashbang flashes.",
+    "//": "Blinds the wearer while worn, and provides nominal protection vs flashbang flashes.",
     "info": "This gear <bad>prevents</bad> you from <info>seeing</info> anything."
   },
   {
@@ -156,7 +156,7 @@
     "id": "FANCY",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Wearing this clothing gives a morale bonus if the player has the Stylish trait.",
+    "//": "Wearing this clothing gives a morale bonus if the player has the Stylish trait.",
     "info": "This piece of clothing is <info>fancy</info>.",
     "conflicts": [ "SUPER_FANCY" ]
   },
@@ -194,14 +194,14 @@
     "id": "FILTHY",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Zombie-dropped clothing giving various penalties if Filthy mod is active.  Also CBMs harvested from zombies.",
+    "//": "Zombie-dropped clothing giving various penalties if Filthy mod is active.  Also CBMs harvested from zombies.",
     "info": "This item is <bad>filthy</bad>."
   },
   {
     "id": "FLASH_PROTECTION",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Used for eyes protection from flashbang."
+    "//": "Used for eyes protection from flashbang."
   },
   {
     "id": "FLOTATION",
@@ -239,39 +239,39 @@
     "id": "HYGROMETER",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "This gear is equipped with an accurate hygrometer (which is used to measure humidity)."
+    "info": "This gear is equipped with an accurate hygrometer (which is used to measure humidity)."
   },
   {
     "id": "IRREMOVABLE",
     "type": "json_flag",
     "context": [ "GUNMOD" ],
-    "description": "This item is a component of the gun it is attached to.  It can't be removed without destroying it.",
+    "info": "This item is a component of the gun it is attached to.  It can't be removed without destroying it.",
     "inherit": false
   },
   {
     "id": "NO_CVD",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "description": "Item can never be used with a CVD machine."
+    "//": "Item can never be used with a CVD machine."
   },
   {
     "id": "NO_QUICKDRAW",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Don't offer to draw items from this holster when the fire key is pressed whilst the player's hands are empty."
+    "//": "Don't offer to draw items from this holster when the fire key is pressed whilst the player's hands are empty."
   },
   {
     "id": "NO_REPAIR",
     "type": "json_flag",
     "context": [ "GENERIC" ],
-    "description": "Prevents repairing of this item even if otherwise suitable tools exist.",
+    "//": "Prevents repairing of this item even if otherwise suitable tools exist.",
     "inherit": false
   },
   {
     "id": "NUTRIENT_OVERRIDE",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
-    "description": "forces calories and vitamins to be the ones defined in the json, instead of inheriting from ingredients"
+    "//": "forces calories and vitamins to be the ones defined in the json, instead of inheriting from ingredients"
   },
   {
     "id": "PLANTABLE_SEED",
@@ -289,7 +289,7 @@
     "id": "OUTER",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Outer garment layer.",
+    "//": "Outer garment layer.",
     "info": "This gear is generally <info>worn over</info> clothing.",
     "conflicts": [ "BELTED", "SKINTIGHT", "WAIST", "PERSONAL", "AURA" ]
   },
@@ -297,14 +297,14 @@
     "id": "OVERSIZE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Can always be worn no matter encumbrance/mutations/bionics/etc., but prevents any other clothing being worn over this.",
+    "//": "Can always be worn no matter encumbrance/mutations/bionics/etc., but prevents any other clothing being worn over this.",
     "info": "This clothing is large enough to accommodate <info>abnormally large mutated anatomy</info>."
   },
   {
     "id": "UNDERSIZE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Can be worn comfortably by mutants with Tiny or Unassuming.  Too small for anyone else."
+    "//": "Can be worn comfortably by mutants with Tiny or Unassuming.  Too small for anyone else."
   },
   {
     "id": "PARTIAL_DEAF",
@@ -317,7 +317,7 @@
     "id": "PERSONAL",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "This item goes in the personal aura layer, intended for metaphysical effects.",
+    "//": "This item goes in the personal aura layer, intended for metaphysical effects.",
     "info": "This is in your <info>personal aura</info>.",
     "conflicts": [ "BELTED", "OUTER", "WAIST", "SKINTIGHT", "AURA" ]
   },
@@ -325,20 +325,20 @@
     "id": "POCKETS",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Increases warmth for hands if the player's hands are cold and the player is wielding nothing.",
+    "//": "Increases warmth for hands if the player's hands are cold and the player is wielding nothing.",
     "info": "This clothing has <info>pockets</info> to warm your hands when you are wielding nothing."
   },
   {
     "id": "POWERED",
     "type": "json_flag",
     "context": [ "TOOL" ],
-    "description": "If turned ON, it uses its own source of power, instead of relying on power of the user."
+    "//": "If turned ON, it uses its own source of power, instead of relying on power of the user."
   },
   {
     "id": "PSYSHIELD_PARTIAL",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "25% chance to protect against fear_paralyze monster attack.",
+    "//": "25% chance to protect against fear_paralyze monster attack.",
     "info": "This gear <good>keeps out</good> the <info>mind control rays</info>."
   },
   {
@@ -371,51 +371,51 @@
     "id": "RAINPROOF",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Prevents the covered body-part(s) from getting wet in the rain.",
+    "//": "Prevents the covered body-part(s) from getting wet in the rain.",
     "info": "This piece of clothing is designed to keep you <info>dry</info> in the rain."
   },
   {
     "id": "RESTRICT_HANDS",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Prevents the player from wielding a weapon two-handed, forcing one-handed use if the weapon permits it."
+    "//": "Prevents the player from wielding a weapon two-handed, forcing one-handed use if the weapon permits it."
   },
   {
     "id": "SEMITANGIBLE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Prevents the item from participating in the encumbrance system when worn.",
+    "//": "Prevents the item from participating in the encumbrance system when worn.",
     "info": "It seems <info>partially intangible</info>, and can occupy the same space as other things when worn."
   },
   {
     "id": "SHEATH_KNIFE",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "description": "This item can be stored in a sheath of the appropriate size."
+    "//": "This item can be stored in a sheath of the appropriate size."
   },
   {
     "id": "SHEATH_SWORD",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "description": "This item can be stored in a scabbard of the appropriate size."
+    "//": "This item can be stored in a scabbard of the appropriate size."
   },
   {
     "id": "SHEATH_SPEAR",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "description": "This item can be stored in a sling of the appropriate size."
+    "//": "This item can be stored in a sling of the appropriate size."
   },
   {
     "id": "SHEATH_GOLF",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "description": "This item can be stored in a bag of the appropriate size."
+    "//": "This item can be stored in a bag of the appropriate size."
   },
   {
     "id": "SKINTIGHT",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Undergarment layer.",
+    "//": "Undergarment layer.",
     "info": "This clothing <info>lies close</info> to the skin.",
     "conflicts": [ "BELTED", "OUTER", "WAIST", "PERSONAL", "AURA" ]
   },
@@ -442,14 +442,14 @@
     "id": "SUN_GLASSES",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Prevents glaring when in sunlight.",
+    "//": "Prevents glaring when in sunlight.",
     "info": "This clothing keeps the <info>glare</info> out of your eyes."
   },
   {
     "id": "SUPER_FANCY",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Gives an additional moral bonus over FANCY if the player has the Stylish trait.",
+    "//": "Gives an additional moral bonus over FANCY if the player has the Stylish trait.",
     "info": "This clothing is <info>very fancy</info>.",
     "conflicts": [ "FANCY" ]
   },
@@ -457,27 +457,26 @@
     "id": "SWIM_GOGGLES",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Allows you to see much further under water.",
+    "//": "Allows you to see much further under water.",
     "info": "This clothing allows you to <good>see much further</good> <info>under water</info>."
   },
   {
     "id": "THERMOMETER",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "This gear is equipped with an accurate thermometer (which is used to measure temperature).",
     "info": "This gear is equipped with an <info>accurate thermometer</info>."
   },
   {
     "id": "VARSIZE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Can be made to fit via tailoring."
+    "//": "Can be made to fit via tailoring."
   },
   {
     "id": "WAIST",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Layer for belts and other things worn on the waist.",
+    "//": "Layer for belts and other things worn on the waist.",
     "info": "This gear is worn on or around your <info>waist</info>.",
     "conflicts": [ "BELTED", "OUTER", "SKINTIGHT", "PERSONAL", "AURA" ]
   },
@@ -485,56 +484,52 @@
     "id": "WATCH",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Acts as a watch and allows the player to see actual time.",
+    "//": "Acts as a watch and allows the player to see actual time.",
     "info": "This gear allows to see <info>actual time</info>."
   },
   {
     "id": "WATERPROOF",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Prevents the covered body-part(s) from getting wet in any circumstance.",
+    "//": "Prevents the covered body-part(s) from getting wet in any circumstance.",
     "info": "This clothing <info>won't let water through</info>.  Unless you jump in the river or something like that."
   },
   {
     "id": "WATER_FRIENDLY",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "description": "Prevents the item from making the body part count as unfriendly to water and thus causing negative morale from being wet.",
+    "//": "Prevents the item from making the body part count as unfriendly to water and thus causing negative morale from being wet.",
     "info": "This clothing <good>performs well</good> even when <info>soaking wet</info>. This can feel good."
   },
   {
     "id": "furred",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": "This clothing has a fur lining sewn into it to <good>increase</good> its overall <info>warmth</info>.",
-    "pseudo": true
+    "info": "This clothing has a fur lining sewn into it to <good>increase</good> its overall <info>warmth</info>."
   },
   {
     "id": "kevlar_padded",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": "This gear has Kevlar inserted into strategic locations to <good>increase protection</good> with some <bad>increase to encumbrance</bad>.",
-    "pseudo": true
+    "info": "This gear has Kevlar inserted into strategic locations to <good>increase protection</good> with some <bad>increase to encumbrance</bad>."
   },
   {
     "id": "leather_padded",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": "This gear has certain parts padded with leather to <good>increase protection</good> with moderate <bad>increase to encumbrance</bad>.",
-    "pseudo": true
+    "info": "This gear has certain parts padded with leather to <good>increase protection</good> with moderate <bad>increase to encumbrance</bad>."
   },
   {
     "id": "wooled",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": "This clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>.",
-    "pseudo": true
+    "info": "This clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>."
   },
   {
     "id": "UNARMED_WEAPON",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "description": "Allows wielding with unarmed fighting styles and trains unarmed when used.",
+    "//": "Allows wielding with unarmed fighting styles and trains unarmed when used.",
     "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>."
   },
   {
@@ -547,115 +542,121 @@
     "id": "BIONIC_FAULTY",
     "type": "json_flag",
     "context": [ "BIONIC" ],
-    "description": "This bionic is a <bad>faulty</bad> bionic."
+    "info": "This bionic is <bad>faulty</bad>."
   },
   {
     "id": "BIONIC_POWER_SOURCE",
     "type": "json_flag",
     "context": [ "BIONIC" ],
-    "description": "This bionic is a power source bionic."
+    "info": "This bionic provides power."
   },
   {
     "id": "BIONIC_TOGGLED",
     "type": "json_flag",
     "context": [ "BIONIC" ],
-    "description": "This bionic only has a function when activated, else it causes its effect every turn."
+    "//": "This bionic only has a function when activated, else it causes its effect every turn."
   },
   {
     "id": "BIONIC_GUN",
     "type": "json_flag",
     "context": [ "BIONIC" ],
-    "description": "This bionic is a gun bionic and activating it will fire it.  Prevents all other activation effects."
+    "//": "This bionic is a gun bionic and activating it will fire it.  Prevents all other activation effects."
   },
   {
     "id": "BIONIC_WEAPON",
     "type": "json_flag",
     "context": [ "BIONIC" ],
-    "description": "This bionic is a weapon bionic and activating it will create (or destroy) bionic's fake_item in user's hands.  Prevents all other activation effects."
+    "//": "This bionic is a weapon bionic and activating it will create (or destroy) bionic's fake_item in user's hands.  Prevents all other activation effects."
   },
   {
     "id": "BIONIC_ARMOR_INTERFACE",
     "type": "json_flag",
     "context": [ "BIONIC" ],
-    "description": "This bionic can provide power to powered armor."
+    "info": "This bionic can provide power to powered armor."
   },
   {
     "id": "PERMANENT",
     "type": "json_flag",
     "context": [ "SPELL" ],
-    "description": "This makes the spell's effects permanent."
+    "//": "This makes the spell's effects permanent."
   },
   {
     "id": "IGNORE_WALLS",
     "type": "json_flag",
     "context": [ "SPELL" ],
-    "description": "This makes the spell's Area of Effect ignore walls."
+    "//": "This makes the spell's Area of Effect ignore walls."
   },
   {
     "id": "MAGIC_FOCUS",
     "type": "json_flag",
     "context": [ "item" ],
-    "description": "You can cast spells with this item in your hand."
+    "//": "You can cast spells with this item in your hand."
   },
   {
     "id": "HOSTILE_SUMMON",
     "type": "json_flag",
     "context": [ "SPELL" ],
-    "description": "This makes the spell's summoned monster always hostile.  Note that the spell needs to be a summon spell for this to do anything."
+    "//": "This makes the spell's summoned monster always hostile.  Note that the spell needs to be a summon spell for this to do anything."
   },
   {
     "id": "HOSTILE_50",
     "type": "json_flag",
     "context": [ "SPELL" ],
-    "description": "This makes the spell's summoned monster hostile 50% of the time.  Note that the spell needs to be a summon spell for this to do anything."
+    "//": "This makes the spell's summoned monster hostile 50% of the time.  Note that the spell needs to be a summon spell for this to do anything."
   },
   {
     "id": "SILENT",
     "type": "json_flag",
     "context": [ "SPELL" ],
-    "description": "The spell makes no sound at its point of impact."
+    "//": "The spell makes no sound at its point of impact."
   },
   {
     "id": "LOUD",
     "type": "json_flag",
     "context": [ "SPELL" ],
-    "description": "This spell is much louder at its point of impact."
+    "//": "This spell is much louder at its point of impact."
   },
   {
     "id": "VERBAL",
     "type": "json_flag",
     "context": [ "SPELL" ],
-    "description": "The caster must speak in order to cast the spell.  More mouth encumbrannce increases failure percent, and the caster speaks when casting."
+    "//": "The caster must speak in order to cast the spell.  More mouth encumbrannce increases failure percent, and the caster speaks when casting."
   },
   {
     "id": "SOMATIC",
     "type": "json_flag",
     "context": [ "SPELL" ],
-    "description": "The spell requires arm movement to cast.  Arm encumbrance affects failure percentage and casting time."
+    "//": "The spell requires arm movement to cast.  Arm encumbrance affects failure percentage and casting time."
   },
   {
     "id": "NO_HANDS",
     "type": "json_flag",
     "context": [ "SPELL" ],
-    "description": "The spell does not require hands in order to cast it.  Encumbrance penalties on hands are nullified."
+    "//": "The spell does not require hands in order to cast it.  Encumbrance penalties on hands are nullified."
   },
   {
     "id": "NO_LEGS",
     "type": "json_flag",
     "context": [ "SPELL" ],
-    "description": "This spell does not require leg movement in order to be cast.  All encumbrance penalties for legs are nullified."
+    "//": "This spell does not require leg movement in order to be cast.  All encumbrance penalties for legs are nullified."
   },
   {
     "id": "CONCENTRATE",
     "type": "json_flag",
     "context": [ "SPELL" ],
-    "description": "This spell requires focus to cast.  The lower your focus, the higher failure rate to cast."
+    "//": "This spell requires focus to cast.  The lower your focus, the higher failure rate to cast."
+  },
+  {
+    "id": "WONDER",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "//": "Chooses a spell at random to cast from extra_effects.  See MAGIC.md for details"
   },
   {
     "id": "NON_THRESH",
     "type": "json_flag",
     "context": [ "mutation" ],
-    "description": "This mutation does not count toward thresholds at all."
+    "//": "This mutation does not count toward thresholds at all."
   },
   {
     "id": "EFFECT_FEATHER_FALL",

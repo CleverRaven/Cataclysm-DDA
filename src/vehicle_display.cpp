@@ -144,7 +144,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
     int y = y1;
     for( size_t i = 0; i < pl.size(); i++ ) {
         if( y >= max_y ) {
-            mvwprintz( win, point( 1, y ), c_yellow, _( "More parts here..." ) );
+            mvwprintz( win, point( 1, y ), c_yellow, _( "More parts here…" ) );
             ++y;
             break;
         }
@@ -256,17 +256,15 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
      */
     start_at = std::max( 0, std::min( start_at, start_limit ) );
     if( start_at ) {
-        msg << "<color_yellow>" << "<  " << _( "More parts here..." ) << "</color>\n";
+        msg << "<color_yellow>" << "<  " << _( "More parts here…" ) << "</color>\n";
         lines += 1;
     }
     for( size_t i = start_at; i < pl.size(); i++ ) {
         const vehicle_part &vp = parts[ pl [ i ] ];
         std::ostringstream possible_msg;
-        std::string name_color = string_format( "<color_%1$s>",
-                                                string_from_color( vp.is_broken() ? c_dark_gray : c_light_green ) );
-        possible_msg << name_color << vp.name() << "</color>\n";
-        std::string desc_color = string_format( "<color_%1$s>",
-                                                string_from_color( vp.is_broken() ? c_dark_gray : c_light_gray ) );
+        const nc_color name_color = vp.is_broken() ? c_dark_gray : c_light_green;
+        possible_msg << colorize( vp.name(), name_color ) << "\n";
+        const nc_color desc_color = vp.is_broken() ? c_dark_gray : c_light_gray;
         // -4 = -2 for left & right padding + -2 for "> "
         int new_lines = 2 + vp.info().format_description( possible_msg, desc_color, width - 4 );
         if( vp.has_flag( vehicle_part::carrying_flag ) ) {
@@ -274,9 +272,8 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
             new_lines += 1;
         }
         if( vp.has_flag( vehicle_part::carried_flag ) ) {
-            std::string carried_name = vp.carry_names.top();
             possible_msg << string_format( "  Part of a %s carried on a rack.\n",
-                                           carried_name.substr( vehicle_part::name_offset ) );
+                                           vp.carried_name() );
             new_lines += 1;
         }
 
@@ -286,7 +283,7 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
             lines += new_lines;
             start_limit = start_at;
         } else {
-            msg << "<color_yellow>" << _( "More parts here..." ) << "  >" << "</color>\n";
+            msg << "<color_yellow>" << _( "More parts here…" ) << "  >" << "</color>\n";
             start_limit = i;
             break;
         }
@@ -396,6 +393,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
     int cap = fuel_capacity( fuel_type );
     int f_left = fuel_left( fuel_type );
     nc_color f_color = item::find_type( fuel_type )->color;
+    // NOLINTNEXTLINE(cata-text-style): not an ellipsis
     mvwprintz( win, p, col_indf1, "E...F" );
     int amnt = cap > 0 ? f_left * 99 / cap : 0;
     int indf = ( amnt / 20 ) % 5;

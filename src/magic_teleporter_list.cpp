@@ -15,6 +15,7 @@
 #include "line.h"
 #include "map.h"
 #include "messages.h"
+#include "map_iterator.h"
 #include "output.h"
 #include "panels.h"
 #include "string_input_popup.h"
@@ -58,20 +59,16 @@ static cata::optional<tripoint> find_valid_teleporters_omt( const tripoint &omt_
     // an OMT is SEEX * SEEY in size
     const tripoint sm_pt = omt_to_sm_copy( omt_pt );
     tinymap checker;
-    const int z_level = omt_pt.z;
     checker.load( sm_pt, true );
-
-    for( int x = 0; x < SEEX * 2; x++ ) {
-        for( int y = 0; y < SEEY * 2; y++ ) {
-            if( checker.has_flag_furn( "TRANSLOCATOR", tripoint( x, y, z_level ) ) ) {
-                return tripoint( checker.getabs( point( x, y ) ), z_level );
-            }
+    for( const tripoint &p : checker.points_on_zlevel() ) {
+        if( checker.has_flag_furn( "TRANSLOCATOR", p ) ) {
+            return checker.getabs( p );
         }
     }
     return cata::nullopt;
 }
 
-bool teleporter_list::place_avatar_overmap( avatar &, const tripoint &omt_pt ) const
+bool teleporter_list::place_avatar_overmap( avatar &you, const tripoint &omt_pt ) const
 {
     tinymap omt_dest( 2, true );
     tripoint sm_dest = omt_to_sm_copy( omt_pt );
@@ -81,6 +78,7 @@ bool teleporter_list::place_avatar_overmap( avatar &, const tripoint &omt_pt ) c
         return false;
     }
     tripoint local_dest = omt_dest.getlocal( *global_dest ) + point( 60, 60 );
+    you.add_effect( efftype_id( "ignore_fall_damage" ), 1_seconds, num_bp, false, 0, true );
     g->place_player_overmap( omt_pt );
     g->place_player( local_dest );
     return true;

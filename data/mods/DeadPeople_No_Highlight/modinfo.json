@@ -6,6 +6,7 @@
     "authors": [ "SomeDeadGuy" ],
     "description": "Removes action highlight graphics from the game.",
     "category": "graphical",
+    "obsolete": true,
     "dependencies": [ "dda" ]
   }
 ]

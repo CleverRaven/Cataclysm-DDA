@@ -22,7 +22,7 @@
       ],
       "terrain": { "_": "t_null", "-": "t_wall", "W": "t_window_boarded" },
       "furniture": { "r": "f_rack", "f": "f_fridge", "t": "f_table", "#": "f_counter", "m": "f_makeshift_bed" },
-      "place_npcs": [ { "chance": 100, "class": "survivor_chef", "x": 5, "y": 1 } ],
+      "place_npcs": [ { "class": "survivor_chef", "x": 5, "y": 1 } ],
       "place_loot": [
         { "group": "produce", "x": [ 10, 11 ], "y": 2, "chance": 70, "repeat": [ 2, 3 ] },
         { "group": "groce_meat", "x": [ 10, 11 ], "y": 2, "chance": 70, "repeat": [ 2, 3 ] },
@@ -58,7 +58,7 @@
       ],
       "terrain": { "_": "t_null", "-": "t_wall", ".": "t_floor" },
       "furniture": { "t": "f_table", "b": "f_brazier", "m": "f_makeshift_bed", "7": "f_safe_o", "L": "f_locker" },
-      "place_npcs": [ { "chance": 100, "class": "survivor_cop", "x": 5, "y": 8 } ],
+      "place_npcs": [ { "class": "survivor_cop", "x": 5, "y": 8 } ],
       "items": {
         "L": [ { "item": "cannedfood", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "alcohol", "chance": 50, "repeat": [ 1, 2 ] } ],
         "7": [
@@ -101,7 +101,7 @@
         "a": "f_armchair"
       },
       "place_nested": [ { "chunks": [ [ "foodperson_barred_bathroom", 20 ], [ "null", 80 ] ], "x": 3, "y": 1 } ],
-      "place_npcs": [ { "chance": 100, "class": "true_foodperson", "x": 4, "y": 8 } ]
+      "place_npcs": [ { "class": "true_foodperson", "x": 4, "y": 8 } ]
     }
   },
   {

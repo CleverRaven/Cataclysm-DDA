@@ -30,7 +30,7 @@
     "type": "item_group",
     "id": "NC_ROBOFAC_INTERCOM_trade",
     "subtype": "collection",
-    "entries": [ { "group": "robofac_basic_trade", "repeat": [ 15, 25 ] } ]
+    "entries": [ { "group": "robofac_basic_trade", "count": [ 15, 25 ] } ]
   },
   {
     "type": "item_group",
@@ -152,7 +152,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_3",
     "type": "mission_definition",
     "name": "Light retrieval",
-    "description": "Reach the collapsed tower basement, and search the ruins for a photonic circuitry template. The intercom warned you about heavy enemy prescence, and of the existence of a hazardous enviroment.",
+    "description": "Reach the collapsed tower basement, and search the ruins for a photonic circuitry template. The intercom warned you about heavy enemy presence, and of the existence of a hazardous environment.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "item": "template_photonics",

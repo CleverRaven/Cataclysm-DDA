@@ -79,7 +79,7 @@ static const trait_id trait_BURROW( "BURROW" );
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
     if( p.morale_crafting_speed_multiplier( rec ) <= 0.0f ) {
-        add_msg( m_info, _( "Your morale is too low to craft such a difficult thing..." ) );
+        add_msg( m_info, _( "Your morale is too low to craft such a difficult thing…" ) );
         return false;
     }
 
@@ -404,7 +404,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
 
         if( charges_to_store > 0 ) {
             if( !query_yn(
-                    _( "You don't have anything in which to store %s and may have to pour it out or consume it as soon as it is prepared! Proceed?" ),
+                    _( "You don't have anything in which to store %s and may have to pour it out or consume it as soon as it is prepared!  Proceed?" ),
                     prod.tname() ) ) {
                 return false;
             }
@@ -548,7 +548,7 @@ const inventory &player::crafting_inventory( const tripoint &src_pos, int radius
         if( ( !bio_data.activated || bio.powered ) &&
             !bio_data.fake_item.empty() ) {
             cached_crafting_inventory += item( bio.info().fake_item,
-                                               calendar::turn, power_level );
+                                               calendar::turn, units::to_kilojoule( get_power_level() ) );
         }
     }
     if( has_trait( trait_BURROW ) ) {
@@ -630,7 +630,7 @@ static void finalize_crafted_item( item &newit, faction *maker_fac )
     }
     // TODO for now this assumes player is doing the crafting
     // this will need to be updated when NPCs do crafting
-    newit.set_owner( maker_fac );
+    newit.set_owner( maker_fac->id );
 }
 
 static cata::optional<item_location> wield_craft( player &p, item &craft )
@@ -697,8 +697,8 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
         if( const cata::optional<vehicle_stack::iterator> it = vp->vehicle().add_item( vp->part_index(),
                 newit ) ) {
             p.add_msg_player_or_npc(
-                pgettext( "item, furniture", "You put the %s on the %s." ),
-                pgettext( "item, furniture", "<npcname> puts the %s on the %s." ),
+                pgettext( "item, furniture", "You put the %1$s on the %2$s." ),
+                pgettext( "item, furniture", "<npcname> puts the %1$s on the %2$s." ),
                 ( *it )->tname(), vp->part().name() );
 
             return item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), & **it );
@@ -716,8 +716,8 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
         if( g->m.has_furn( loc ) ) {
             const furn_t &workbench = g->m.furn( loc ).obj();
             p.add_msg_player_or_npc(
-                pgettext( "item, furniture", "You put the %s on the %s." ),
-                pgettext( "item, furniture", "<npcname> puts the %s on the %s." ),
+                pgettext( "item, furniture", "You put the %1$s on the %2$s." ),
+                pgettext( "item, furniture", "<npcname> puts the %1$s on the %2$s." ),
                 newit.tname(), workbench.name() );
         } else {
             p.add_msg_player_or_npc(
@@ -737,6 +737,10 @@ void player::start_craft( craft_command &command, const tripoint &loc )
     }
 
     item craft = command.create_in_progress_craft();
+    const recipe &making = craft.get_making();
+    if( get_skill_level( command.get_skill_id() ) > making.difficulty * 1.25 ) {
+        handle_skill_warning( command.get_skill_id(), true );
+    }
 
     // In case we were wearing something just consumed
     if( !craft.components.empty() ) {
@@ -769,7 +773,9 @@ void player::start_craft( craft_command &command, const tripoint &loc )
 
     // Crafting without a workbench
     if( target == tripoint_zero ) {
-        if( !is_armed() ) {
+        if( !has_two_arms() ) {
+            craft_in_world = set_item_map_or_vehicle( *this, pos(), craft );
+        } else if( !is_armed() ) {
             if( cata::optional<item_location> it_loc = wield_craft( *this, craft ) ) {
                 craft_in_world = *it_loc;
             }  else {
@@ -860,7 +866,7 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
         const int base_practice = roll_remainder( ( making.difficulty * 15 + 10 ) * batch_mult /
                                   20.0 ) * multiplier;
         const int skill_cap = static_cast<int>( making.difficulty * 1.25 );
-        practice( making.skill_used, base_practice, skill_cap );
+        practice( making.skill_used, base_practice, skill_cap, true );
 
         // NPCs assisting or watching should gain experience...
         for( auto &helper : helpers ) {
@@ -869,17 +875,17 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
                 helper->practice( making.skill_used, roll_remainder( base_practice / 2.0 ),
                                   skill_cap );
                 if( batch_size > 1 && one_in( 3 ) ) {
-                    add_msg( m_info, _( "%s assists with crafting..." ), helper->name );
+                    add_msg( m_info, _( "%s assists with crafting…" ), helper->name );
                 }
                 if( batch_size == 1 && one_in( 3 ) ) {
-                    add_msg( m_info, _( "%s could assist you with a batch..." ), helper->name );
+                    add_msg( m_info, _( "%s could assist you with a batch…" ), helper->name );
                 }
                 // NPCs around you understand the skill used better
             } else {
                 helper->practice( making.skill_used, roll_remainder( base_practice / 10.0 ),
                                   skill_cap );
                 if( one_in( 3 ) ) {
-                    add_msg( m_info, _( "%s watches you craft..." ), helper->name );
+                    add_msg( m_info, _( "%s watches you craft…" ), helper->name );
                 }
             }
         }
@@ -908,7 +914,7 @@ double player::crafting_success_roll( const recipe &making ) const
             get_skill_level( making.skill_used ) ) {
             // NPC assistance is worth half a skill level
             skill_dice += 2;
-            add_msg_if_player( m_info, _( "%s helps with crafting..." ), np->name );
+            add_msg_if_player( m_info, _( "%s helps with crafting…" ), np->name );
             break;
         }
     }
@@ -1093,7 +1099,20 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 }
             }
 
+            //If item is crafted neither from poor-fit nor from perfect-fit components, and it can be refitted, the result is refitted by default
+            if( newit.has_flag( "VARSIZE" ) ) {
+                newit.item_tags.insert( "FIT" );
+            }
+
             for( auto &component : used ) {
+                //If item is crafted from poor-fit components, the result is poorly fitted too
+                if( component.has_flag( "VARSIZE" ) ) {
+                    newit.unset_flag( "FIT" );
+                }
+                //If item is crafted from perfect-fit components, the result is perfectly fitted too
+                if( component.has_flag( "FIT" ) ) {
+                    newit.item_tags.insert( "FIT" );
+                }
                 if( component.has_flag( "HIDDEN_HALLU" ) ) {
                     newit.item_tags.insert( "HIDDEN_HALLU" );
                 }
@@ -1831,8 +1850,9 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
                 return ret_val<bool>::make_failure( _( "You need %s." ),
                                                     item::nname( tool_required.type ) );
             } else {
-                return ret_val<bool>::make_failure( ngettext( "You need a %s with %d charge.",
-                                                    "You need a %s with %d charges.", tool_required.count ),
+                //~ %1$s: tool name, %2$d: needed charges
+                return ret_val<bool>::make_failure( ngettext( "You need a %1$s with %2$d charge.",
+                                                    "You need a %1$s with %2$d charges.", tool_required.count ),
                                                     item::nname( tool_required.type ),
                                                     tool_required.count );
             }

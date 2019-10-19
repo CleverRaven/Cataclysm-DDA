@@ -35,7 +35,6 @@ class int_id
         template < typename S, typename std::enable_if_t < !std::is_same<S, T>::value, int > = 0 >
         int_id( const int_id<S> &id ) = delete;
 
-
         /**
          * Default constructor constructs a 0-id. No id value is special to this class, 0 as id
          * is just as normal as any other integer value.

@@ -242,8 +242,8 @@ std::pair<int, int> player::fun_for( const item &comest ) const
     }
 
     if( has_active_bionic( bio_taste_blocker ) &&
-        power_level > abs( comest.get_comestible()->fun ) &&
-        comest.get_comestible()->fun < 0 ) {
+        get_power_level() > units::from_kilojoule( abs( comest.get_comestible()->fun ) ) &&
+        fun < 0 ) {
         fun = 0;
     }
 
@@ -345,7 +345,7 @@ time_duration player::vitamin_rate( const vitamin_id &vit ) const
     return res;
 }
 
-int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
+int Character::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
 {
     auto it = vitamin_levels.find( vit );
     if( it == vitamin_levels.end() ) {
@@ -373,7 +373,7 @@ void player::vitamins_mod( const std::map<vitamin_id, int> &vitamins, bool cappe
     }
 }
 
-int player::vitamin_get( const vitamin_id &vit ) const
+int Character::vitamin_get( const vitamin_id &vit ) const
 {
     if( get_option<bool>( "NO_VITAMINS" ) ) {
         return 0;
@@ -536,6 +536,12 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
                 _( "The thought of eating that makes you feel sick." ) );
     }
 
+    for( const trait_id &mut : get_mutations() ) {
+        if( !food.made_of_any( mut.obj().can_only_eat ) && !mut.obj().can_only_eat.empty() ) {
+            return ret_val<edible_rating>::make_failure( INEDIBLE_MUTATION, _( "You can't eat this." ) );
+        }
+    }
+
     return ret_val<edible_rating>::make_success();
 }
 
@@ -666,7 +672,7 @@ bool player::eat( item &food, bool force )
         ( get_hunger() > -60 && get_thirst() > -60 ) &&
         ( get_hunger() - nutr < -60 || get_thirst() - quench < -60 ) ) {
         add_msg_if_player(
-            _( "You've begun stockpiling calories and liquid for hibernation.  You get the feeling that you should prepare for bed, just in case, but...you're hungry again, and you could eat a whole week's worth of food RIGHT NOW." ) );
+            _( "You've begun stockpiling calories and liquid for hibernation.  You get the feeling that you should prepare for bed, just in case, but… you're hungry again, and you could eat a whole week's worth of food RIGHT NOW." ) );
     }
 
     const bool will_vomit = stomach.stomach_remaining() < food.volume() &&
@@ -675,13 +681,13 @@ bool player::eat( item &food, bool force )
                                 stomach.capacity() );
     const bool saprophage = has_trait( trait_id( "SAPROPHAGE" ) );
     if( spoiled && !saprophage ) {
-        add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good..." ), food.tname() );
+        add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good…" ), food.tname() );
         if( !has_trait( trait_id( "SAPROVORE" ) ) && !has_trait( trait_id( "EATDEAD" ) ) &&
             ( !has_bionic( bio_digestion ) || one_in( 3 ) ) ) {
             add_effect( effect_foodpoison, rng( 6_minutes, ( nutr + 1 ) * 6_minutes ) );
         }
     } else if( spoiled && saprophage ) {
-        add_msg_if_player( m_good, _( "Mmm, this %s tastes delicious..." ), food.tname() );
+        add_msg_if_player( m_good, _( "Mmm, this %s tastes delicious…" ), food.tname() );
     }
     if( !consume_effects( food ) ) {
         //Already consumed by using `food.type->invoke`?
@@ -753,7 +759,7 @@ bool player::eat( item &food, bool force )
         if( ( has_trait( trait_id( "SCHIZOPHRENIC" ) ) || has_artifact_with( AEP_SCHIZO ) ) &&
             one_in( 50 ) && !spoiled && food.goes_bad() && is_player() ) {
 
-            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good..." ), food.tname() );
+            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
             add_msg( _( "You drink your %s (rotten)." ), food.tname() );
         } else {
             add_msg_player_or_npc( _( "You drink your %s." ), _( "<npcname> drinks a %s." ),
@@ -763,7 +769,7 @@ bool player::eat( item &food, bool force )
         if( ( has_trait( trait_id( "SCHIZOPHRENIC" ) ) || has_artifact_with( AEP_SCHIZO ) ) &&
             one_in( 50 ) && !spoiled && food.goes_bad() && is_player() ) {
 
-            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good..." ), food.tname() );
+            add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
             add_msg( _( "You eat your %s (rotten)." ), food.tname() );
         } else {
             add_msg_player_or_npc( _( "You eat your %s." ), _( "<npcname> eats a %s." ),
@@ -805,17 +811,17 @@ bool player::eat( item &food, bool force )
     }
 
     if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL" ) ) {
-        charge_power( rng( 50, 200 ) );
+        mod_power_level( units::from_kilojoule( rng( 50, 200 ) ) );
     }
     if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL_WEAK" ) ) {
-        charge_power( rng( 25, 100 ) );
+        mod_power_level( units::from_kilojoule( rng( 25, 100 ) ) );
     }
     if( has_bionic( bio_ethanol ) && food.type->can_use( "ALCOHOL_STRONG" ) ) {
-        charge_power( rng( 75, 300 ) );
+        mod_power_level( units::from_kilojoule( rng( 75, 300 ) ) );
     }
 
     if( has_active_bionic( bio_taste_blocker ) ) {
-        charge_power( -abs( food.get_comestible()->fun ) );
+        mod_power_level( units::from_kilojoule( -abs( food.get_comestible()->fun ) ) );
     }
 
     if( food.has_flag( "CANNIBALISM" ) ) {
@@ -845,7 +851,7 @@ bool player::eat( item &food, bool force )
             // Small bonus for violating a taboo.
             add_morale( MORALE_CANNIBAL, 5, 50 );
         } else if( psycho || sapiovore ) {
-            add_msg_if_player( _( "Meh. You've eaten worse." ) );
+            add_msg_if_player( _( "Meh.  You've eaten worse." ) );
         } else if( spiritual ) {
             add_msg_if_player( m_bad,
                                _( "This is probably going to count against you if there's still an afterlife." ) );
@@ -877,7 +883,7 @@ bool player::eat( item &food, bool force )
     // Allergy check
     const auto allergy = allergy_type( food );
     if( allergy != MORALE_NULL ) {
-        add_msg_if_player( m_bad, _( "Yuck! How can anybody eat this stuff?" ) );
+        add_msg_if_player( m_bad, _( "Yuck!  How can anybody eat this stuff?" ) );
         add_morale( allergy, -75, -400, 30_minutes, 24_minutes );
     }
     if( food.has_flag( "ALLERGEN_JUNK" ) ) {
@@ -889,7 +895,7 @@ bool player::eat( item &food, bool force )
             if( !one_in( 100 ) ) {
                 add_msg_if_player( m_good, _( "When life's got you down, there's always sugar." ) );
             } else {
-                add_msg_if_player( m_good, _( "They may do what they must... you've already won." ) );
+                add_msg_if_player( m_good, _( "They may do what they must… you've already won." ) );
             }
             add_morale( MORALE_SWEETTOOTH, 10, 50, 1_hours, 50_minutes );
         }
@@ -978,14 +984,14 @@ void player::modify_stimulation( const islot_comestible &comest )
                                                 _( "A powerful sense of dread comes over you." ),
                                                 _( "Your skin starts crawling." ),
                                                 _( "They're coming to get you." ),
-                                                _( "This might've been a bad idea..." ),
+                                                _( "This might've been a bad idea…" ),
                                                 _( "You've really done it this time, haven't you?" ),
-                                                _( "You have to stay vigilant. They're always watching..." ),
+                                                _( "You have to stay vigilant.  They're always watching…" ),
                                                 _( "mistake mistake mistake mistake mistake" ),
                                                 _( "Just gotta stay calm, and you'll make it through this." ),
                                                 _( "You're starting to feel very jumpy." ),
                                                 _( "Something is twitching at the edge of your vision." ),
-                                                _( "They know what you've done..." ),
+                                                _( "They know what you've done…" ),
                                                 _( "You're feeling even more paranoid than usual." ) };
         add_msg_if_player( m_bad, random_entry_ref( stimboost_msg ) );
     }
@@ -1070,7 +1076,7 @@ bool player::consume_effects( item &food )
         }
         if( ( nutr > 0 && get_hunger() < -200 ) || ( comest.quench > 0 && get_thirst() < -200 ) ) {
             //Hibernation should cut burn to 60/day
-            add_msg_if_player( _( "You feel stocked for a day or two. Got your bed all ready and secured?" ) );
+            add_msg_if_player( _( "You feel stocked for a day or two.  Got your bed all ready and secured?" ) );
             if( one_in( 2 ) ) {
                 //And another 50%, intended cumulative
                 mod_fatigue( nutr );
@@ -1079,14 +1085,14 @@ bool player::consume_effects( item &food )
 
         if( ( nutr > 0 && get_hunger() < -400 ) || ( comest.quench > 0 && get_thirst() < -400 ) ) {
             add_msg_if_player(
-                _( "Mmm.  You can still fit some more in...but maybe you should get comfortable and sleep." ) );
+                _( "Mmm.  You can still fit some more in… but maybe you should get comfortable and sleep." ) );
             if( !one_in( 3 ) ) {
                 //Third check, this one at 66%
                 mod_fatigue( nutr );
             }
         }
         if( ( nutr > 0 && get_hunger() < -600 ) || ( comest.quench > 0 && get_thirst() < -600 ) ) {
-            add_msg_if_player( _( "That filled a hole!  Time for bed..." ) );
+            add_msg_if_player( _( "That filled a hole!  Time for bed…" ) );
             // At this point, you're done.  Schlaf gut.
             mod_fatigue( nutr );
         }
@@ -1101,16 +1107,9 @@ bool player::consume_effects( item &food )
         add_msg_if_player( m_mixed,
                            _( "You feel as though you're going to split open!  In a good way?" ) );
         mod_pain( 5 );
-        std::vector<tripoint> valid;
-        for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
-            if( g->is_empty( dest ) ) {
-                valid.push_back( dest );
-            }
-        }
         int numslime = 1;
-        for( int i = 0; i < numslime && !valid.empty(); i++ ) {
-            const tripoint target = random_entry_removed( valid );
-            if( monster *const slime = g->summon_mon( mon_player_blob, target ) ) {
+        for( int i = 0; i < numslime; i++ ) {
+            if( monster *const slime = g->place_critter_around( mon_player_blob, pos(), 1 ) ) {
                 slime->friendly = -1;
             }
         }
@@ -1118,7 +1117,7 @@ bool player::consume_effects( item &food )
         mod_thirst( 40 );
         //~slimespawns have *small voices* which may be the Nice equivalent
         //~of the Rat King's ALL CAPS invective.  Probably shared-brain telepathy.
-        add_msg_if_player( m_good, _( "hey, you look like me! let's work together!" ) );
+        add_msg_if_player( m_good, _( "hey, you look like me!  let's work together!" ) );
     }
 
     // Last thing that happens before capping hunger
@@ -1175,7 +1174,8 @@ bool player::feed_battery_with( item &it )
     }
 
     const int energy = get_acquirable_energy( it, rechargeable_cbm::battery );
-    const int profitable_energy = std::min( energy, max_power_level - power_level );
+    const int profitable_energy = std::min( energy,
+                                            units::to_kilojoule( get_max_power_level() - get_power_level() ) );
 
     if( profitable_energy <= 0 ) {
         add_msg_player_or_npc( m_info,
@@ -1184,7 +1184,7 @@ bool player::feed_battery_with( item &it )
         return false;
     }
 
-    charge_power( it.charges );
+    mod_power_level( units::from_kilojoule( it.charges ) );
     it.charges -= profitable_energy;
 
     add_msg_player_or_npc( m_info,
@@ -1268,21 +1268,22 @@ bool player::feed_furnace_with( item &it )
         return false;
     }
 
-    const int consumed_charges = std::min( it.charges, it.charges_per_volume( furnace_max_volume ) );
-    const int energy = get_acquirable_energy( it, rechargeable_cbm::furnace );
+    const int consumed_charges =  std::min( it.charges, it.charges_per_volume( furnace_max_volume ) );
+    const int energy =  get_acquirable_energy( it, rechargeable_cbm::furnace ) ;
 
     if( energy == 0 ) {
         add_msg_player_or_npc( m_info,
                                _( "You digest your %s, but fail to acquire energy from it." ),
                                _( "<npcname> digests their %s for energy, but fails to acquire energy from it." ),
                                it.tname() );
-    } else if( power_level >= max_power_level ) {
+    } else if( is_max_power() ) {
         add_msg_player_or_npc(
             _( "You digest your %s, but you're fully powered already, so the energy is wasted." ),
             _( "<npcname> digests a %s for energy, they're fully powered already, so the energy is wasted." ),
             it.tname() );
     } else {
-        const int profitable_energy = std::min( energy, max_power_level - power_level );
+        const int profitable_energy = std::min( energy,
+                                                units::to_kilojoule( get_max_power_level() - get_power_level() ) );
         if( it.count_by_charges() ) {
             add_msg_player_or_npc( m_info,
                                    ngettext( "You digest %d %s and recharge %d point of energy.",
@@ -1306,7 +1307,7 @@ bool player::feed_furnace_with( item &it )
                                            ), it.tname(), profitable_energy
                                  );
         }
-        charge_power( profitable_energy );
+        mod_power_level( units::from_kilojoule( profitable_energy ) );
     }
 
     it.charges -= consumed_charges;
@@ -1324,17 +1325,24 @@ bool player::fuel_bionic_with( item &it )
     const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
 
     const int loadable = std::min( it.charges, get_fuel_capacity( it.typeId() ) );
+    const std::string str_loaded  = get_value( it.typeId() );
+    int loaded = 0;
+    if( !str_loaded.empty() ) {
+        loaded = std::stoi( str_loaded );
+    }
 
-    const std::string loaded_charge = std::to_string( loadable );
+    const std::string new_charge = std::to_string( loadable + loaded );
 
     it.charges -= loadable;
-    set_value( it.typeId(), loaded_charge );// type and amount of fuel
+    set_value( it.typeId(), new_charge );// type and amount of fuel
     update_fuel_storage( it.typeId() );
     add_msg_player_or_npc( m_info,
-                           ngettext( "You load %i charge of %s in your %s.",
-                                     "You load %i charges of %s in your %s.", loadable ),
-                           ngettext( "<npcname> load %i charge of %s in their %s.",
-                                     "<npcname> load %i charges of %s in their %s.", loadable ), loadable, it.tname(), bio->name );
+                           //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
+                           ngettext( "You load %1$i charge of %2$s in your %3$s.",
+                                     "You load %1$i charges of %2$s in your %3$s.", loadable ),
+                           //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
+                           ngettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
+                                     "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, it.tname(), bio->name );
     mod_moves( -250 );
     return true;
 }
@@ -1402,7 +1410,7 @@ int player::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) const
         case rechargeable_cbm::other:
             const int to_consume = std::min( it.charges, std::numeric_limits<int>::max() );
             const int to_charge = std::min( static_cast<int>( it.fuel_energy() * to_consume ),
-                                            max_power_level - power_level );
+                                            units::to_kilojoule( get_max_power_level() - get_power_level() ) );
             return to_charge;
             break;
     }

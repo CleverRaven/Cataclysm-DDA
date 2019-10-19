@@ -108,6 +108,11 @@ static item food_or_food_container( const item &it )
 
 TEST_CASE( "recipe_permutations" )
 {
+    // Are these tests failing? Here's how to fix that:
+    // If the average is greater than the upper bound, you need to increase the calories
+    // for the item that is causing the test to fail
+    // If the average is greater than the lower bound, you need to decrease the calories
+    // for the item that is causing the test to fail
     for( const auto &recipe_pair : recipe_dict ) {
         // the resulting item
         const recipe &recipe_obj = recipe_pair.first.obj();

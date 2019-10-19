@@ -1007,6 +1007,63 @@
     ]
   },
   {
+    "result": "broken_grocerybot",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "150 m",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "android_legs", 1 ] ],
+      [ [ "android_chassis", 1 ] ],
+      [ [ "android_arms", 1 ] ],
+      [ [ "medium_storage_battery", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_grocerybot_busted",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "150 m",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "self_monitoring_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "android_legs", 1 ] ],
+      [ [ "android_chassis", 1 ] ],
+      [ [ "medium_storage_battery", 1 ] ]
+    ]
+  },
+  {
+    "result": "bot_grocerybot_busted",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": "150 m",
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "self_monitoring_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "android_legs", 1 ] ],
+      [ [ "android_chassis", 1 ] ],
+      [ [ "medium_storage_battery", 1 ] ]
+    ]
+  },
+  {
     "result": "broken_dispatch",
     "type": "uncraft",
     "skill_used": "electronics",
@@ -1456,13 +1513,6 @@
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "processor", 1 ] ], [ [ "light_minus_battery_cell", 1 ] ] ]
-  },
-  {
-    "result": "down_blanket",
-    "type": "uncraft",
-    "time": "2 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 35 ] ], [ [ "down_feather", 160 ] ] ]
   },
   {
     "result": "down_pillow",
@@ -2045,7 +2095,12 @@
     "result": "radio_car_box",
     "type": "uncraft",
     "time": "30 s",
-    "components": [ [ [ "radio_car", 1 ] ], [ [ "radiocontrol", 1 ] ], [ [ "light_battery_cell", 2 ] ] ]
+    "components": [
+      [ [ "radio_car", 1 ] ],
+      [ [ "radiocontrol", 1 ] ],
+      [ [ "light_minus_battery_cell", 1 ] ],
+      [ [ "light_battery_cell", 1 ] ]
+    ]
   },
   {
     "result": "radiocontrol",
@@ -2702,13 +2757,6 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "leaf_spring",
-    "type": "uncraft",
-    "time": "3 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "steel_lump", 4 ] ] ]
-  },
-  {
     "result": "styrofoam_cup",
     "type": "uncraft",
     "time": "6 s",
@@ -2946,13 +2994,6 @@
       [ [ "e_scrap", 3 ] ],
       [ [ "RAM", 1 ] ]
     ]
-  },
-  {
-    "result": "camp_chair",
-    "type": "uncraft",
-    "time": "5 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "steel_chunk", 2 ] ] ]
   },
   {
     "result": "platinum_hairpin",

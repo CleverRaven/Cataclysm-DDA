@@ -180,6 +180,7 @@
       { "item": "glasses_bifocal", "bonus": [ [ "HYPEROPIC", "MYOPIC" ] ] },
       { "item": "glasses_reading", "bonus": [ [ "HYPEROPIC" ], [ "MYOPIC" ] ] },
       { "item": "inhaler", "bonus": [ [ "ASTHMA" ] ] },
+      { "item": "thorazine", "bonus": [ [ "SCHIZOPHRENIC" ] ] },
       { "item": "cookbook_human", "bonus": [ [ "CANNIBAL" ] ] },
       { "item": "teleumbrella", "bonus": [ [ "ALBINO" ] ] }
     ]
@@ -2238,8 +2239,10 @@
     "points": 1,
     "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "firstaid" } ],
     "items": {
-      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "adderall", "matches" ],
-      "entries": [ { "item": "condom", "contents_item": "dayquil" } ],
+      "both": {
+        "items": [ "striped_shirt", "striped_pants", "sneakers", "socks", "adderall", "matches" ],
+        "entries": [ { "item": "condom", "contents-item": "dayquil" } ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
@@ -2253,8 +2256,10 @@
     "points": 1,
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
-      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "gum" ],
-      "entries": [ { "group": "charged_cell_phone" } ],
+      "both": {
+        "items": [ "striped_shirt", "striped_pants", "sneakers", "socks", "gum" ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
@@ -2423,39 +2428,6 @@
         "money_bundle",
         "file"
       ],
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
-    }
-  },
-  {
-    "type": "profession",
-    "ident": "millionaire",
-    "name": "Millionaire",
-    "description": "You had a fortune, whether inherited, built by hard work, or gained by pure luck.  You invested in trade and nothing was beyond your reach.  Now it's not worth a dime and no money in the world can guarantee your safety and well being.  Hard times are ahead, so it's time to undust your skills and try to sell some ice to the Innuit.  What currency do they accept?",
-    "points": 3,
-    "traits": [ "MILLIONAIRE" ],
-    "skills": [ { "level": 3, "name": "barter" }, { "level": 2, "name": "speech" } ],
-    "items": {
-      "both": {
-        "items": [
-          "suit",
-          "tie_skinny",
-          "tieclip",
-          "socks",
-          "dress_shoes",
-          "smart_phone",
-          "money_bundle",
-          "gold_watch",
-          "gold_ear",
-          "gold_bracelet",
-          "gasdiscount_platinum",
-          "diamond_ring",
-          "gold_small",
-          "silver_small",
-          "platinum_small"
-        ],
-        "entries": [ { "item": "cash_card", "charges": 1000000 }, { "item": "diamond", "count": 5 } ]
-      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -2979,7 +2951,7 @@
         ],
         "entries": [
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "gasoline_cooker", "ammo_item": "gasoline", "charges": 500 },
+          { "item": "gasoline_cooker", "ammo-item": "gasoline", "charges": 500 },
           { "item": "XL_holster", "contents-group": "shotgun_d_roadwarrior" },
           { "item": "reloaded_shot_00", "charges": 18, "container-item": "bandolier_shotgun" },
           { "item": "light_battery_cell", "charges": 100, "container-item": "wearable_light" }
@@ -3057,7 +3029,7 @@
           "gold_ear",
           "pants_survivor",
           "motorbike_boots",
-          "gauntlets_bone",
+          "gauntlets_larmor",
           "survivor_goggles",
           "combatnail",
           "waterskin2",
@@ -3135,13 +3107,13 @@
           "fur_rollmat",
           "fire_drill"
         ],
-        "male": [ "chestwrap_fur", "loincloth_fur" ],
-        "female": [ "bikini_top_fur", "hot_pants_fur" ],
         "entries": [
           { "item": "primitive_knife", "container-item": "sheath" },
           { "item": "arrow_wood", "charges": 20, "container-item": "quiver" }
         ]
-      }
+      },
+      "male": [ "chestwrap_fur", "loincloth_fur" ],
+      "female": [ "bikini_top_fur", "hot_pants_fur" ]
     }
   },
   {
@@ -3909,7 +3881,7 @@
           "soldering_iron",
           "matches"
         ],
-        "entries": [ { "group": "charged_cell_phone" }, { "item": "jacket_jean", "snippet_category": "patched" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "jacket_jean" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]

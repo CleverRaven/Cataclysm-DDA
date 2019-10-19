@@ -216,7 +216,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
 
     uilist menu;
     menu.allow_cancel = false;
-    menu.text = string_format( _( "Select a style. (press %s for more info)" ),
+    menu.text = string_format( _( "Select a style.  (press %s for more info)" ),
                                ctxt.get_desc( "SHOW_DESCRIPTION" ) );
     ma_style_callback callback( 0, styles );
     menu.callback = &callback;
@@ -502,10 +502,10 @@ bool avatar::create( character_type type, const std::string &tempname )
                 result = set_profession( w, *this, points, result );
                 break;
             case 3:
-                result = set_traits( w, *this, points );
+                result = set_stats( w, *this, points );
                 break;
             case 4:
-                result = set_stats( w, *this, points );
+                result = set_traits( w, *this, points );
                 break;
             case 5:
                 result = set_skills( w, *this, points );
@@ -566,18 +566,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     }
 
     // setup staring bank money
-
     cash = rng( -200000, 200000 );
-
-    if( has_trait( trait_id( "MILLIONAIRE" ) ) ) {
-        cash = rng( 500000000, 1000000000 );
-    }
-    if( has_trait( trait_id( "DEBT" ) ) ) {
-        cash = rng( -1500000, -3000000 );
-    }
-    if( has_trait( trait_id( "SAVINGS" ) ) ) {
-        cash = rng( 1500000, 2000000 );
-    }
 
     if( has_trait( trait_id( "XS" ) ) ) {
         set_stored_kcal( 10000 );
@@ -637,7 +626,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         add_bionic( bio );
     }
     // Adjust current energy level to maximum
-    power_level = max_power_level;
+    set_power_level( get_max_power_level() );
 
     for( auto &t : get_base_traits() ) {
         std::vector<matype_id> styles;
@@ -677,8 +666,8 @@ static void draw_character_tabs( const catacurses::window &w, const std::string 
         _( "POINTS" ),
         _( "SCENARIO" ),
         _( "PROFESSION" ),
-        _( "TRAITS" ),
         _( "STATS" ),
+        _( "TRAITS" ),
         _( "SKILLS" ),
         _( "DESCRIPTION" ),
     };
@@ -1750,9 +1739,9 @@ tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &p
             } );
 
             if( elem.first == currentSkill->name() ) {
-                rec_disp = "\n \n" + colorize( rec_temp, c_brown ) + rec_disp;
+                rec_disp = "\n\n" + colorize( rec_temp, c_brown ) + rec_disp;
             } else {
-                rec_disp += "\n \n" + colorize( "[" + elem.first + "]\n" + rec_temp, c_light_gray );
+                rec_disp += "\n\n" + colorize( "[" + elem.first + "]\n" + rec_temp, c_light_gray );
             }
         }
 
@@ -2014,7 +2003,7 @@ tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left 
 
         if( sorted_scens[cur_id]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
             const std::string scenUnavailable =
-                _( "This scenario is not available in this world due to city size settings. " );
+                _( "This scenario is not available in this world due to city size settings." );
             fold_and_print( w_description, point_zero, TERMX - 2, c_red, scenUnavailable );
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             fold_and_print( w_description, point( 0, 1 ), TERMX - 2, c_green, scenDesc );
@@ -2190,20 +2179,19 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
     catacurses::window w_gender =
         catacurses::newwin( 2, 33, point( getbegx( w ) + 46, getbegy( w ) + 5 ) );
     catacurses::window w_location =
-        catacurses::newwin( 1, 76, point( getbegx( w ) + 2, getbegy( w ) + 7 ) );
+        catacurses::newwin( 1, TERMX - 3, point( getbegx( w ) + 2, getbegy( w ) + 7 ) );
     catacurses::window w_stats =
         catacurses::newwin( 6, 20, point( getbegx( w ) + 2, getbegy( w ) + 9 ) );
     catacurses::window w_traits =
-        catacurses::newwin( 13, 24, point( getbegx( w ) + 22, getbegy( w ) + 9 ) );
+        catacurses::newwin( 30, 24, point( getbegx( w ) + 22, getbegy( w ) + 9 ) );
     catacurses::window w_scenario =
-        catacurses::newwin( 1, 33, point( getbegx( w ) + 46, getbegy( w ) + 9 ) );
+        catacurses::newwin( 1, TERMX - 47, point( getbegx( w ) + 46, getbegy( w ) + 9 ) );
     catacurses::window w_profession =
         catacurses::newwin( 1, 33, point( getbegx( w ) + 46, getbegy( w ) + 10 ) );
     catacurses::window w_skills =
-        catacurses::newwin( 9, 33, point( getbegx( w ) + 46, getbegy( w ) + 11 ) );
+        catacurses::newwin( 30, 33, point( getbegx( w ) + 46, getbegy( w ) + 11 ) );
     catacurses::window w_guide =
-        catacurses::newwin( TERMY - getbegy( w ) - 19 - 1, TERMX - 3,
-                            point( getbegx( w ) + 2, getbegy( w ) + 19 ) );
+        catacurses::newwin( 4, TERMX - 3, point( getbegx( w ) + 2, TERMY - 5 ) );
 
     draw_points( w, points );
 
@@ -2288,9 +2276,10 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             if( current_traits.empty() ) {
                 wprintz( w_traits, c_light_red, _( "None!" ) );
             } else {
-                for( auto &current_trait : current_traits ) {
-                    wprintz( w_traits, c_light_gray, "\n" );
-                    wprintz( w_traits, current_trait->get_display_color(), current_trait->name() );
+                for( size_t i = 0; i < current_traits.size(); i++ ) {
+                    const auto current_trait = current_traits[i];
+                    trim_and_print( w_traits, point( 0, i + 1 ), getmaxx( w_traits ) - 1,
+                                    current_trait->get_display_color(), current_trait->name() );
                 }
             }
             wrefresh( w_traits );
@@ -2327,8 +2316,6 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             }
             if( !has_skills ) {
                 mvwprintz( w_skills, point( utf8_width( _( "Skills:" ) ) + 1, 0 ), c_light_red, _( "None!" ) );
-            } else if( line > 10 ) {
-                mvwprintz( w_skills, point( utf8_width( _( "Skills:" ) ) + 1, 0 ), c_light_gray, _( "(Top 8)" ) );
             }
             wrefresh( w_skills );
 
@@ -2417,7 +2404,7 @@ tab_direction set_description( const catacurses::window &w, avatar &you, const b
             } else if( you.name.empty() ) {
                 mvwprintz( w_name, point( namebar_pos, 0 ), h_light_gray, _( "_______NO NAME ENTERED!_______" ) );
                 wrefresh( w_name );
-                if( !query_yn( _( "Are you SURE you're finished? Your name will be randomly generated." ) ) ) {
+                if( !query_yn( _( "Are you SURE you're finished?  Your name will be randomly generated." ) ) ) {
                     redraw = true;
                     continue;
                 } else {
@@ -2618,8 +2605,8 @@ void save_template( const avatar &u, const std::string &name, const points_left 
     std::string native = utf8_to_native( name );
 #if defined(_WIN32)
     if( native.find_first_of( "\"*/:<>?\\|"
-                              "\x01\x02\x03\x04\x05\x06\x07\x08\x09"
-                              "\x0A\x0B\x0C\x0D\x0E\x0F\x10\x11\x12"
+                              "\x01\x02\x03\x04\x05\x06\x07\x08\x09" // NOLINT(cata-text-style)
+                              "\x0A\x0B\x0C\x0D\x0E\x0F\x10\x11\x12" // NOLINT(cata-text-style)
                               "\x13\x14\x15\x16\x17\x18\x19\x1A\x1B"
                               "\x1C\x1D\x1E\x1F"
                             ) != std::string::npos ) {

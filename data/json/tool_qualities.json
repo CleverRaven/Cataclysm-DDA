@@ -18,8 +18,18 @@
   },
   {
     "type": "tool_quality",
+    {
     "id": "CHURN",
     "name": "churn"
+  },
+    "id": "LEATHER_AWL",
+    "name": "awl"
+  },
+  {
+    "type": "tool_quality",
+    "id": "SEW_CURVED",
+    "name": "curved needle"
+
   },
   {
     "type": "tool_quality",

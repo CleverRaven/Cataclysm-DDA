@@ -11,7 +11,6 @@
 #include "string_id.h"
 #include "map_extras.h"
 
-
 namespace auto_notes
 {
 /**
@@ -38,7 +37,6 @@ class auto_note_manager_gui
 
         bool wasChanged{false};
 };
-
 
 /**
  * A class storing auto note settings for all map features for a given player.

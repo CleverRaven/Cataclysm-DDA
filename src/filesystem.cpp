@@ -117,6 +117,7 @@ bool remove_directory( const std::string &path )
 const char *cata_files::eol()
 {
 #if defined(_WIN32)
+    // NOLINTNEXTLINE(cata-text-style): carriage return is necessary here
     static const char local_eol[] = "\r\n";
 #else
     static const char local_eol[] = "\n";
