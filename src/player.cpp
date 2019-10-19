@@ -6446,7 +6446,7 @@ bool player::use_charges_if_avail( const itype_id &it, int quantity )
     return false;
 }
 
-bool player::has_fire( const int quantity ) const
+bool Character::has_fire( const int quantity ) const
 {
     // TODO: Replace this with a "tool produces fire" flag.
 
@@ -6617,8 +6617,8 @@ int player::amount_worn( const itype_id &id ) const
     return amount;
 }
 
-bool player::has_charges( const itype_id &it, int quantity,
-                          const std::function<bool( const item & )> &filter ) const
+bool Character::has_charges( const itype_id &it, int quantity,
+                             const std::function<bool( const item & )> &filter ) const
 {
     if( it == "fire" || it == "apparatus" ) {
         return has_fire( quantity );
@@ -10595,7 +10595,7 @@ float player::speed_rating() const
     return ret;
 }
 
-std::vector<const item *> player::all_items_with_flag( const std::string &flag ) const
+std::vector<const item *> Character::all_items_with_flag( const std::string &flag ) const
 {
     return items_with( [&flag]( const item & it ) {
         return it.has_flag( flag );
@@ -10644,7 +10644,7 @@ bool player::crush_frozen_liquid( item_location loc )
     return false;
 }
 
-bool player::has_item_with_flag( const std::string &flag, bool need_charges ) const
+bool Character::has_item_with_flag( const std::string &flag, bool need_charges ) const
 {
     return has_item_with( [&flag, &need_charges]( const item & it ) {
         if( it.is_tool() && need_charges ) {
