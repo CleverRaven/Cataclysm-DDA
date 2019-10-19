@@ -7173,6 +7173,8 @@
       "active": true,
       "need_fire": 1,
       "need_fire_msg": "You need a lighter or fire to light this.",
+      "need_charges": 1,
+      "need_charges_msg": "The ember carrier is out of tinder.",
       "type": "transform"
     }
   },
