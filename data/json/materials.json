@@ -1134,7 +1134,7 @@
   {
     "type": "material",
     "ident": "nylon",
-    "name": "synthetic fabric",
+    "name": "Synthetic Fabric",
   	"//": "blend between nylon 6 and 6,6",
     "density": 1,
     "specific_heat_liquid": 1.6,
