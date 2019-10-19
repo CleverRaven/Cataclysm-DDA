@@ -193,6 +193,7 @@ static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
             reqs.emplace_back( requirement_id( cur.get_string( 0 ) ), cur.get_int( 1 ) );
         }
     } else {
+        reqs.clear();
         // Construct a requirement to capture "components", "qualities", and
         // "tools" that might be listed.
         const requirement_id req_id( string_format( "inline_%s_%s", key.c_str(), id.c_str() ) );
