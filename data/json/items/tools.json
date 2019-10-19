@@ -1175,6 +1175,26 @@
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
+    "id": "lifestraw",
+    "type": "TOOL",
+    "name": "lifestraw",
+    "description": "Set the lifestraw in suspect water, let sit for one minute then drink. The two part filtration system will purify the water you drink.  Water taken from uncertain sources like a river may be dirty.",
+    "weight": "104 g",
+    "volume": "592 ml",
+    "price": 4000,
+    "price_postapoc": 75000,
+    "to_hit": -3,
+    "bashing": 1,
+    "material": [ "cotton", "plastic" ],
+    "symbol": "i",
+    "looks_like": "advanced_ecig",
+    "color": "light_cyan",
+    "initial_charges": 4000,
+    "max_charges": 4000,
+    "charges_per_use": 1,
+    "use_action": { "type": "WATER_PURIFIER", "moves": 70 }
+  },
+  {
     "id": "char_smoker",
     "type": "TOOL",
     "name": "charcoal smoker",
