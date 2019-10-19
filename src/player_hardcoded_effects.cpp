@@ -4,6 +4,7 @@
 #include <cstdlib>
 
 #include "avatar.h"
+#include "activity_handlers.h"
 #include "effect.h"
 #include "event_bus.h"
 #include "fungal_effects.h"
@@ -68,6 +69,7 @@ const efftype_id effect_infected( "infected" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_mending( "mending" );
 const efftype_id effect_meth( "meth" );
+const efftype_id effect_motor_seizure( "motor_seizure" );
 const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_paincysts( "paincysts" );
@@ -83,6 +85,7 @@ const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
+const efftype_id effect_toxin_buildup( "toxin_buildup" );
 const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
@@ -1301,5 +1304,76 @@ void player::hardcoded_effects( effect &it )
             hp_cur[i] += 10;
         }
         mod_pain( -10 );
+    } else if( id == effect_toxin_buildup ) {
+        // Loosely based on toxic man-made compounds (mostly pesticides) which don't degrade
+        // easily, leading to build-up in muscle and fat tissue through bioaccumulation.
+        // Symptoms vary, and many are too long-term to be relevant in C:DDA (i.e. carcinogens),
+        // but lowered immune response and neurotoxicity (i.e. seizures, migraines) are common.
+
+        if( in_sleep_state() ) {
+            return;
+        }
+        // Modifier for symptom frequency.
+        // Each symptom is twice as frequent for each level of intensity above the one it first appears for.
+        int mod = 1;
+        switch( intense ) {
+            case 3:
+                // Tonic-clonic seizure (full body convulsive seizure)
+                if( one_turn_in( 3_days ) && !has_effect( effect_valium ) ) {
+                    add_msg_if_player( m_bad, _( "You lose control of your body as it begins to convulse!" ) );
+                    time_duration td = rng( 30_seconds, 4_minutes );
+                    add_effect( effect_motor_seizure, td );
+                    add_effect( effect_downed, td );
+                    add_effect( effect_stunned, td );
+                    if( one_in( 3 ) ) {
+                        add_msg_if_player( m_bad, _( "You lose conciousness!" ) );
+                        fall_asleep( td );
+                    }
+                }
+                mod *= 2;
+                [[fallthrough]];
+            case 2:
+                // Myoclonic seizure (muscle spasm)
+                if( one_turn_in( 2_hours / mod ) && !has_effect( effect_valium ) ) {
+                    std::string limb = random_entry<std::vector<std::string>>( { "arm", "hand", "leg" } );
+                    add_msg_if_player( m_bad,
+                                       _( string_format( "Your %s suddenly jerks in an unexpected direction!", limb ) ) );
+                    if( limb == "arm" ) {
+                        mod_dex_bonus( -8 );
+                        recoil = MAX_RECOIL;
+                    } else if( limb == "hand" ) {
+                        if( is_armed() && can_unwield( weapon ).success() ) {
+                            if( dice( 4, 4 ) > get_dex() ) {
+                                put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { remove_weapon() } );
+                            } else {
+                                add_msg_if_player( m_neutral, _( "However, you manage to keep hold of your weapon." ) );
+                            }
+                        }
+                    } else if( limb == "leg" ) {
+                        if( dice( 4, 4 ) > get_dex() ) {
+                            add_effect( effect_downed, rng( 5_seconds, 10_seconds ) );
+                        } else {
+                            add_msg_if_player( m_neutral, _( "However, you manage to keep your footing." ) );
+                        }
+                    }
+                }
+                // Atonic seizure (a.k.a. drop seizure)
+                if( one_turn_in( 2_days / mod ) && !has_effect( effect_valium ) ) {
+                    add_msg_if_player( m_bad,
+                                       _( "You suddenly lose all muscle tone, and can't support your own weight!" ) );
+                    add_effect( effect_motor_seizure, rng( 1_seconds, 2_seconds ) );
+                    add_effect( effect_downed, rng( 5_seconds, 10_seconds ) );
+                }
+                mod *= 2;
+                break;
+            case 1:
+                // Migraine
+                if( one_turn_in( 2_days / mod ) ) {
+                    add_msg_if_player( m_bad, _( "You have a splitting headache." ) );
+                    mod_pain( 12 );
+                }
+
+                break;
+        }
     }
 }

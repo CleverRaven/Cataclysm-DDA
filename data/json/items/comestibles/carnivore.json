@@ -121,7 +121,7 @@
     "looks_like": "meat",
     "cooks_like": "mutant_meat_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
-    "vitamins": [ [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 26 ], [ "vitB", 389 ] ],
+    "vitamins": [ [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 26 ], [ "vitB", 389 ], [ "mutant_toxin", 25 ] ],
     "flags": [ "SMOKABLE" ]
   },
   {
@@ -133,7 +133,8 @@
     "description": "A tiny scrap of meat from a heavily mutated animal.  It's not much, and it smells a bit odd, but it's probably safe to eat if cooked.",
     "looks_like": "meat_scrap",
     "cooks_like": "mutant_meat_scrap_cooked",
-    "proportional": { "price": 0.2, "calories": 0.5 }
+    "proportional": { "price": 0.2, "calories": 0.5 },
+    "vitamins": [ [ "mutant_toxin", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -607,7 +608,8 @@
     "name_plural": "chunks of mutant fat",
     "description": "Freshly butchered fat from a heavily mutated animal.  You could eat it raw, but it is better used as an ingredient in other foods or projects.",
     "looks_like": "fat",
-    "proportional": { "price": 0.2 }
+    "proportional": { "price": 0.2 },
+    "vitamins": [ [ "mutant_toxin", 360 ] ]
   },
   {
     "id": "mutant_tallow",
@@ -616,7 +618,8 @@
     "name": "mutant tallow",
     "description": "A smooth white block of cleaned and rendered fat sourced from a mutant animal.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
     "looks_like": "tallow",
-    "proportional": { "price": 0.2 }
+    "proportional": { "price": 0.2 },
+    "vitamins": [ [ "mutant_toxin", 180 ] ]
   },
   {
     "id": "mutant_lard",
