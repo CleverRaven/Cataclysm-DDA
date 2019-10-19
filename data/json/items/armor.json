@@ -9674,7 +9674,7 @@
     "material": [ "lycra" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "HEAD", "MOUTH", "ET", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
     "coverage": 100,
     "warmth": 20,
     "material_thickness": 1,
