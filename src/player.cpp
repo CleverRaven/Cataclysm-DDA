@@ -6446,34 +6446,6 @@ bool player::use_charges_if_avail( const itype_id &it, int quantity )
     return false;
 }
 
-bool Character::has_fire( const int quantity ) const
-{
-    // TODO: Replace this with a "tool produces fire" flag.
-
-    if( g->m.has_nearby_fire( pos() ) ) {
-        return true;
-    } else if( has_item_with_flag( "FIRE" ) ) {
-        return true;
-    } else if( has_item_with_flag( "FIRESTARTER" ) ) {
-        auto firestarters = all_items_with_flag( "FIRESTARTER" );
-        for( auto &i : firestarters ) {
-            if( has_charges( i->typeId(), quantity ) ) {
-                return true;
-            }
-        }
-    } else if( has_active_bionic( bio_tools ) && get_power_level() > quantity * 5_kJ ) {
-        return true;
-    } else if( has_bionic( bio_lighter ) && get_power_level() > quantity * 5_kJ ) {
-        return true;
-    } else if( has_bionic( bio_laser ) && get_power_level() > quantity * 5_kJ ) {
-        return true;
-    } else if( is_npc() ) {
-        // A hack to make NPCs use their Molotovs
-        return true;
-    }
-    return false;
-}
-
 void player::use_fire( const int quantity )
 {
     //Okay, so checks for nearby fires first,
@@ -6615,20 +6587,6 @@ int player::amount_worn( const itype_id &id ) const
         }
     }
     return amount;
-}
-
-bool Character::has_charges( const itype_id &it, int quantity,
-                             const std::function<bool( const item & )> &filter ) const
-{
-    if( it == "fire" || it == "apparatus" ) {
-        return has_fire( quantity );
-    }
-    if( it == "UPS" && is_mounted() &&
-        mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
-        auto mons = mounted_creature.get();
-        return quantity <= mons->battery_item->ammo_remaining();
-    }
-    return charges_of( it, quantity, filter ) == quantity;
 }
 
 int  player::leak_level( const std::string &flag ) const
@@ -10595,13 +10553,6 @@ float player::speed_rating() const
     return ret;
 }
 
-std::vector<const item *> Character::all_items_with_flag( const std::string &flag ) const
-{
-    return items_with( [&flag]( const item & it ) {
-        return it.has_flag( flag );
-    } );
-}
-
 item &player::item_with_best_of_quality( const quality_id &qid )
 {
     int maxq = max_quality( qid );
@@ -10642,16 +10593,6 @@ bool player::crush_frozen_liquid( item_location loc )
         popup( _( "You need a hammering tool to crush up frozen liquids!" ) );
     }
     return false;
-}
-
-bool Character::has_item_with_flag( const std::string &flag, bool need_charges ) const
-{
-    return has_item_with( [&flag, &need_charges]( const item & it ) {
-        if( it.is_tool() && need_charges ) {
-            return it.has_flag( flag ) && it.type->tool->max_charges ? it.charges > 0 : it.has_flag( flag );
-        }
-        return it.has_flag( flag );
-    } );
 }
 
 void player::on_mutation_gain( const trait_id &mid )
