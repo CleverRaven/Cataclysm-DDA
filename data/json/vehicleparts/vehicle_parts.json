@@ -1923,7 +1923,11 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "electronics", 6 ]  ], "time": "50 m", "using": [ [ "vehicle_screw", 1 ], [ "solar_panel", 1 ], [ "soldering_standard", 8 ] ] }
+      "repair": {
+        "skills": [ [ "electronics", 6 ] ],
+        "time": "50 m",
+        "using": [ [ "vehicle_screw", 1 ], [ "solar_panel", 1 ], [ "soldering_standard", 8 ] ]
+      }
     },
     "flags": [ "SOLAR_PANEL" ],
     "breaks_into": [
@@ -2000,7 +2004,13 @@
     "durability": 300,
     "description": "A solar panel.  Will slowly recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed even more.  Reinforced with armored glass to make it more resistant to damage.",
     "item": "reinforced_solar_panel",
-    "requirements": { "repair": { "using": [ [ "welding_standard", 1 ] ] } },
+    "requirements": {
+      "repair": {
+        "skills": [ [ "electronics", 6 ] ],
+        "time": "50 m",
+        "using": [ [ "vehicle_screw", 1 ], [ "solar_panel", 1 ], [ "soldering_standard", 8 ], [ "welding_standard", 1 ] ]
+      }
+    },
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 7 ] },
       { "item": "steel_chunk", "count": [ 4, 7 ] },
@@ -2012,22 +2022,19 @@
   {
     "type": "vehicle_part",
     "id": "solar_panel_v2",
+    "copy-from": "solar_panel",
     "name": "upgraded solar panel",
-    "symbol": "#",
-    "color": "yellow",
-    "broken_symbol": "x",
-    "broken_color": "yellow",
-    "damage_modifier": 10,
-    "durability": 20,
     "description": "A high performance solar panel.  Will slowly recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed even more.",
     "item": "solar_panel_v2",
-    "epower": 100,
-    "location": "on_roof",
-    "flags": [ "SOLAR_PANEL" ],
+    "proportional": { "epower": 2.0 },
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "electronics", 8 ] ], "time": "75 m", "using": [ [ "vehicle_screw", 1 ], [ "solar_panel_v2", 1 ], [ "soldering_standard", 16 ] ] }
+      "install": { "skills": [ [ "mechanics", 6 ] ] },
+      "removal": { "skills": [ [ "mechanics", 4 ] ] },
+      "repair": {
+        "skills": [ [ "electronics", 8 ] ],
+        "time": "75 m",
+        "using": [ [ "vehicle_screw", 1 ], [ "solar_panel_v2", 1 ], [ "soldering_standard", 16 ] ]
+      }
     },
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
@@ -2048,7 +2055,13 @@
     "durability": 300,
     "description": "A high performance solar panel.  Will slowly recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed even more.  Reinforced with armored glass to make it more resistant to damage.",
     "item": "reinforced_solar_panel_v2",
-    "requirements": { "repair": { "using": [ [ "welding_standard", 1 ] ] } },
+    "requirements": {
+      "repair": {
+        "skills": [ [ "electronics", 8 ] ],
+        "time": "75 m",
+        "using": [ [ "vehicle_screw", 1 ], [ "solar_panel_v2", 1 ], [ "soldering_standard", 16 ], [ "welding_standard", 1 ] ]
+      }
+    },
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 7 ] },
       { "item": "steel_chunk", "count": [ 4, 7 ] },
@@ -2060,22 +2073,17 @@
   {
     "type": "vehicle_part",
     "id": "solar_panel_v3",
+    "copy-from": "solar_panel",
     "name": "quantum solar panel",
-    "symbol": "#",
-    "color": "yellow",
-    "broken_symbol": "x",
-    "broken_color": "light_gray",
-    "damage_modifier": 10,
-    "epower": 300,
+    "proportional": { "epower": 6.0 },
     "item": "solar_panel_v3",
     "durability": 40,
-    "location": "on_roof",
     "description": "An extremely high performance solar panel.  Will recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed.  Extremely fragile and cannot be armored.",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] }
     },
-    "flags": [ "SOLAR_PANEL", "NO_REPAIR" ],
+    "extend": { "flags": [ "NO_REPAIR" ] },
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 4 ] },
       { "item": "steel_chunk", "count": [ 4, 4 ] },
