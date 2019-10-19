@@ -14,7 +14,11 @@
     "folded_volume": 8,
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "DRILL", "level": 2 } ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "10 m",
+        "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "DRILL", "level": 2 } ]
+      },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "welding_standard", 5 ] ] }
     },
@@ -35,7 +39,11 @@
     "damage_modifier": 80,
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 40 ] } ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "DRILL", "level": 2 } ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "20 m",
+        "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "DRILL", "level": 2 } ]
+      },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "soldering_standard", 5 ] ] }
     },
@@ -60,7 +68,11 @@
       { "item": "scrap", "count": [ 1, 2 ] }
     ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "45 m",
+        "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ]
+      },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "22 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "22 m", "using": [ [ "welding_standard", 5 ] ] }
     },
@@ -85,7 +97,11 @@
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "90 m", "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "90 m",
+        "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ]
+      },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "using": [ [ "welding_standard", 5 ] ] }
     },
