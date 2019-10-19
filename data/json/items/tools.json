@@ -1143,7 +1143,7 @@
     "id": "butter_churn",
     "type": "TOOL",
     "name": "butter churn",
-    "description": "This is a portable, pedal powered butter churn. Once filled with raw milk the pedals can be turned to turn it into butter.",
+    "description": "This is a portable, pedal powered butter churn.  Once filled with raw milk the pedals can be turned to turn it into butter.",
     "weight": "6464 g",
     "volume": "9 L",
     "price": 20000,
