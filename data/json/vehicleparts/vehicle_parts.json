@@ -198,16 +198,7 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "breaks_into": "ig_vp_wood_plate",
-    "flags": [
-      "ENGINE",
-      "BOARDABLE",
-      "E_STARTS_INSTANTLY",
-      "ANIMAL_CTRL",
-      "HARNESS_any",
-      "STEERABLE",
-      "UNMOUNT_ON_DAMAGE",
-      "WHEEL"
-    ],
+    "flags": [ "ENGINE", "BOARDABLE", "E_STARTS_INSTANTLY", "ANIMAL_CTRL", "HARNESS_any", "STEERABLE", "UNMOUNT_ON_DAMAGE", "WHEEL" ],
     "damage_reduction": { "all": 2 }
   },
   {
@@ -233,15 +224,7 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "welding_standard", 5 ] ] }
     },
     "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] } ],
-    "flags": [
-      "ENGINE",
-      "BOARDABLE",
-      "E_STARTS_INSTANTLY",
-      "ANIMAL_CTRL",
-      "HARNESS_human",
-      "STEERABLE",
-      "UNMOUNT_ON_DAMAGE"
-    ],
+    "flags": [ "ENGINE", "BOARDABLE", "E_STARTS_INSTANTLY", "ANIMAL_CTRL", "HARNESS_human", "STEERABLE", "UNMOUNT_ON_DAMAGE" ],
     "damage_reduction": { "all": 2 }
   },
   {
@@ -909,7 +892,7 @@
     "flags": [ "NO_REPAIR" ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "SCREW", "level": 3 }, { "id": "WRENCH", "level": 3 } ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "using": [ [ "vehicle_screw", 1] ] }
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "using": [ [ "vehicle_screw", 1 ] ] }
     },
     "breaks_into": [
       { "item": "steel_lump", "count": [ 0, 2 ] },
@@ -1760,8 +1743,16 @@
     "item": "processor",
     "location": "on_controls",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ], [ "electronics", 4 ] ], "time": "5 m", "qualities": [ { "id": "SCREW_FINE", "level": 1 } ] },
-      "removal": { "skills": [ [ "mechanics", 4 ], [ "electronics", 4 ] ], "time": "5 m", "qualities": [ { "id": "SCREW_FINE", "level": 1 } ] }
+      "install": {
+        "skills": [ [ "mechanics", 4 ], [ "electronics", 4 ] ],
+        "time": "5 m",
+        "qualities": [ { "id": "SCREW_FINE", "level": 1 } ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 4 ], [ "electronics", 4 ] ],
+        "time": "5 m",
+        "qualities": [ { "id": "SCREW_FINE", "level": 1 } ]
+      }
     },
     "flags": [ "ON_CONTROLS", "SECURITY", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ],
     "breaks_into": "ig_vp_device"
@@ -1826,7 +1817,11 @@
     "item": "sheet",
     "location": "on_ceiling",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ], [ "tailor", 1 ] ], "time": "5 m", "using": [ [ "rope_natural_short", 1 ], [ "vehicle_screw", 1 ], [ "sewing_standard", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ], [ "tailor", 1 ] ],
+        "time": "5 m",
+        "using": [ [ "rope_natural_short", 1 ], [ "vehicle_screw", 1 ], [ "sewing_standard", 1 ] ]
+      },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
