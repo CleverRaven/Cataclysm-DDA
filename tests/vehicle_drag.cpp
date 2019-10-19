@@ -243,7 +243,6 @@ TEST_CASE( "vehicle_drag_calc_baseline", "[.]" )
 // coeffs are dimensionless, speeds are 100ths of mph, so 6101 is 61.01 mph
 TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
 {
-<<<<<<< HEAD
     test_vehicle_drag( "bicycle", 0.609525, 0.016957, 42.679167, 2356, 3078 );
     test_vehicle_drag( "bicycle_electric", 0.609525, 0.031865, 80.202083, 2722, 3243 );
     test_vehicle_drag( "motorcycle", 0.609525, 0.568903, 254.351562, 7212, 8628 );
