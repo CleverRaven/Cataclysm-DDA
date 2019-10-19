@@ -119,7 +119,7 @@ void scent_map::set( const tripoint &p, int value, std::string type )
 void scent_map::set_unsafe( const tripoint &p, int value, std::string type )
 {
     grscent[p.x][p.y] = value;
-    if( type != "" ) {
+    if( !type.empty() ) {
         typescent[p.x][p.y] = type;
     }
 }
