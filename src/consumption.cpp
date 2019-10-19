@@ -176,12 +176,16 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
     static const std::string flag_MELTS( "MELTS" );
     static const std::string flag_LUPINE( "LUPINE" );
     static const std::string flag_FELINE( "FELINE" );
+    static const std::string flag_BAD_TASTE( "BAD_TASTE" );
     if( !comest.is_comestible() ) {
         return std::pair<int, int>( 0, 0 );
     }
 
     // As float to avoid rounding too many times
     float fun = comest.get_comestible()->fun;
+    if( comest.has_flag( flag_BAD_TASTE ) ) {
+        fun -= 5; // BAD_TASTE is just a morale debuff that persists through crafting
+    }
     if( comest.has_flag( flag_MUSHY ) && fun > -5.0f ) {
         fun = -5.0f; // defrosted MUSHY food is practicaly tastless or tastes off
     }

@@ -122,7 +122,7 @@
     "cooks_like": "mutant_meat_cooked",
     "proportional": { "price": 0.2, "calories": 0.5 },
     "vitamins": [ [ "vitC", 6 ], [ "calcium", 1 ], [ "iron", 26 ], [ "vitB", 389 ], [ "mutant_toxin", 25 ] ],
-    "flags": [ "SMOKABLE" ]
+    "flags": [ "SMOKABLE", "BAD_TASTE" ]
   },
   {
     "id": "mutant_meat_scrap",
@@ -195,7 +195,7 @@
     "calories": 200,
     "healthy": 0,
     "fun": 0,
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "BAD_TASTE" ]
   },
   {
     "id": "mutant_meat_scrap_cooked",
@@ -308,7 +308,7 @@
     "fun": 4,
     "calories": 348,
     "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 26 ], [ "vitB", 35 ] ],
-    "delete": { "flags": [ "SMOKABLE" ] },
+    "delete": { "flags": [ "SMOKABLE", "NO_CRAFT_INHERIT" ] },
     "proportional": { "price": 0.64 }
   },
   {
