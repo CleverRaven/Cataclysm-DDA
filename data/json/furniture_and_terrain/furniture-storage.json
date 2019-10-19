@@ -798,6 +798,7 @@
         { "item": "splinter", "count": [ 1, 20 ] }
       ]
     },
+    {
     "type": "furniture",
     "id": "f_displaycase",
     "name": "display case",
