@@ -630,7 +630,7 @@
     "id": "bio_night",
     "type": "bionic",
     "name": "Artificial Night Generator",
-    "description": "When active, this bionic eliminates all light within a 15 tile radius through destructive interference.",
+    "description": "When active, this bionic eliminates all light within a 2 tile radius through destructive interference.",
     "occupied_bodyparts": [ [ "TORSO", 16 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": "9 kJ",
@@ -1014,6 +1014,9 @@
     "name": "Joint Torsion Ratchet",
     "description": "Your joints have been surgically equipped with torsion ratchets that slowly generate power when you move.  Whilst this is toggled, moving will require more effort, though more power will be generated.",
     "occupied_bodyparts": [ [ "ARM_L", 8 ], [ "ARM_R", 8 ], [ "LEG_L", 12 ], [ "LEG_R", 12 ] ],
+    "fuel_options": [ "muscle" ],
+    "fuel_efficiency": 0.125,
+    "passive_fuel_efficiency": 0.00625,
     "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_TOGGLED" ]
   },
   {

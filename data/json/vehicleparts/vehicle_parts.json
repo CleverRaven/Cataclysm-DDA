@@ -778,6 +778,38 @@
   },
   {
     "type": "vehicle_part",
+    "id": "programmable_autopilot",
+    "name": "programmable autopilot",
+    "symbol": "A",
+    "color": "light_blue",
+    "broken_symbol": "#",
+    "broken_color": "red",
+    "damage_modifier": 80,
+    "durability": 100,
+    "description": "A computer system hooked up to the steering and engine of the vehicle to allow it to follow simple paths.",
+    "item": "programmable_autopilot",
+    "difficulty": 5,
+    "looks_like": "cam_control",
+    "epower": -15,
+    "flags": [ "ENABLED_DRAINS_EPOWER", "AUTOPILOT" ],
+    "requirements": {
+      "install": {
+        "time": 35000,
+        "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ], [ "computer", 5 ] ],
+        "qualities": [ { "id": "SCREW", "level": 1 } ]
+      },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": 8000, "using": [ [ "adhesive", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
+    },
+    "breaks_into": [
+      { "item": "steel_lump", "prob": 50 },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 0, 3 ] }
+    ],
+    "damage_reduction": { "all": 8 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "storage_battery_mount",
     "name": "swappable storage battery case",
     "symbol": "O",
@@ -1737,7 +1769,17 @@
     "item": "solar_panel",
     "difficulty": 4,
     "location": "on_roof",
-    "flags": [ "SOLAR_PANEL", "TOOL_WRENCH", "NO_REPAIR" ],
+    "flags": [ "SOLAR_PANEL" ],
+    "requirements": {
+      "install": { "time": 360000, "skills": [ [ "mechanics", 4 ] ], "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "repair": {
+        "skills": [ [ "electronics", 6 ] ],
+        "time": 300000,
+        "qualities": [ { "id": "SCREW", "level": 1 } ],
+        "using": [ [ "solar_panel", 1 ], [ "soldering_standard", 8 ] ]
+      },
+      "removal": { "time": 180000, "skills": [ [ "mechanics", 2 ] ], "qualities": [ { "id": "WRENCH", "level": 2 } ] }
+    },
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 2, 4 ] },
@@ -1812,6 +1854,7 @@
     "durability": 300,
     "description": "A solar panel.  Will slowly recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed even more.  Reinforced with armored glass to make it more resistant to damage.",
     "item": "reinforced_solar_panel",
+    "requirements": { "repair": { "using": [ [ "welding_standard", 1 ] ] } },
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 7 ] },
       { "item": "steel_chunk", "count": [ 4, 7 ] },
@@ -1823,12 +1866,29 @@
   {
     "type": "vehicle_part",
     "id": "solar_panel_v2",
-    "copy-from": "solar_panel",
     "name": "upgraded solar panel",
-    "proportional": { "epower": 2.0 },
+    "symbol": "#",
+    "color": "yellow",
+    "broken_symbol": "x",
+    "broken_color": "yellow",
+    "damage_modifier": 10,
+    "durability": 20,
     "description": "A high performance solar panel.  Will slowly recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed even more.",
+    "epower": 100,
     "difficulty": 6,
     "item": "solar_panel_v2",
+    "location": "on_roof",
+    "flags": [ "SOLAR_PANEL" ],
+    "requirements": {
+      "install": { "time": 360000, "skills": [ [ "mechanics", 6 ] ], "qualities": [ { "id": "WRENCH", "level": 2 } ] },
+      "repair": {
+        "skills": [ [ "electronics", 8 ] ],
+        "time": 450000,
+        "qualities": [ { "id": "SCREW", "level": 1 } ],
+        "using": [ [ "solar_panel_v2", 1 ], [ "soldering_standard", 16 ] ]
+      },
+      "removal": { "time": 180000, "skills": [ [ "mechanics", 4 ] ], "qualities": [ { "id": "WRENCH", "level": 2 } ] }
+    },
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 4 ] },
       { "item": "steel_chunk", "count": [ 2, 4 ] },
@@ -1849,6 +1909,7 @@
     "description": "A high performance solar panel.  Will slowly recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed even more.  Reinforced with armored glass to make it more resistant to damage.",
     "difficulty": 6,
     "item": "reinforced_solar_panel_v2",
+    "requirements": { "repair": { "using": [ [ "welding_standard", 1 ] ] } },
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 7 ] },
       { "item": "steel_chunk", "count": [ 4, 7 ] },
@@ -1860,14 +1921,19 @@
   {
     "type": "vehicle_part",
     "id": "solar_panel_v3",
-    "copy-from": "solar_panel",
     "name": "quantum solar panel",
-    "proportional": { "epower": 6.0 },
+    "symbol": "#",
+    "color": "yellow",
+    "broken_symbol": "x",
+    "broken_color": "light_gray",
+    "damage_modifier": 10,
+    "epower": 300,
     "item": "solar_panel_v3",
     "durability": 40,
+    "location": "on_roof",
     "description": "An extremely high performance solar panel.  Will recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed.  Extremely fragile and cannot be armored.",
     "difficulty": 8,
-    "broken_color": "light_gray",
+    "flags": [ "SOLAR_PANEL", "NO_REPAIR", "TOOL_WRENCH" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 4 ] },
       { "item": "steel_chunk", "count": [ 4, 4 ] },

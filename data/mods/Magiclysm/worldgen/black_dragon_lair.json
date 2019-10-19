@@ -274,6 +274,7 @@
         { "monster": "mon_dragon_black_young", "x": 30, "y": 26, "repeat": [ 1, 2 ], "chance": 100 },
         { "monster": "mon_dragon_black_young", "x": 30, "y": 26, "repeat": [ 1, 2 ], "chance": 100 },
         { "monster": "mon_dragon_black_wyrmling", "x": 41, "y": 45, "repeat": [ 1, 2 ], "chance": 100 },
+        { "monster": "mon_dragon_black_adult", "x": 29, "y": 28, "chance": 100 },
         { "monster": "mon_dragon_black_wyrmling", "x": 17, "y": 2, "repeat": [ 1, 2 ], "chance": 100 },
         { "monster": "mon_dragon_black_wyrmling", "x": 9, "y": 17, "repeat": [ 1, 2 ], "chance": 100 },
         { "monster": "mon_dragon_black_wyrmling", "x": 30, "y": 2, "repeat": [ 1, 2 ], "chance": 100 },

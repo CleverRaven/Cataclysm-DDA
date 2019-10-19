@@ -109,9 +109,9 @@ static void bar()
     foo( "foo.\n\u2026  bar." );
     // CHECK-MESSAGES: [[@LINE-1]]:23: warning: undesired spaces after a punctuation that starts a line.
     // CHECK-FIXES: foo( "foo.\n\u2026bar." );
-    foo( "foo : bar" );
+    foo( "foo , bar" );
     // CHECK-MESSAGES: [[@LINE-1]]:15: warning: unnecessary spaces before this location.
-    // CHECK-FIXES: foo( "foo: bar" );
+    // CHECK-FIXES: foo( "foo, bar" );
     foo( "foo \nbar" );
     // CHECK-MESSAGES: [[@LINE-1]]:15: warning: unnecessary spaces before this location.
     // CHECK-FIXES: foo( "foo\nbar" );

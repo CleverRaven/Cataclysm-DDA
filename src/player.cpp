@@ -1583,15 +1583,11 @@ int player::run_cost( int base_cost, bool diag ) const
                     75; // Mycal characters are faster on their home territory, even through things like shrubs
             }
         }
-        if( is_limb_broken( hp_leg_l ) ) {
-            movecost += 50;
-        } else if( is_limb_hindered( hp_leg_l ) ) {
+        if( is_limb_hindered( hp_leg_l ) ) {
             movecost += 25;
         }
 
-        if( is_limb_broken( hp_leg_r ) ) {
-            movecost += 50;
-        } else if( is_limb_hindered( hp_leg_r ) ) {
+        if( is_limb_hindered( hp_leg_r ) ) {
             movecost += 25;
         }
         movecost *= Character::mutation_value( "movecost_modifier" );
@@ -3038,6 +3034,9 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
     g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
 
     if( hp_cur[hurtpart] <= 0 && ( source == nullptr || !source->is_hallucination() ) ) {
+        if( !can_wield( weapon ).success() ) {
+            put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
+        }
         if( has_effect( effect_mending, hurt ) ) {
             effect &e = get_effect( effect_mending, hurt );
             float remove_mend = dam / 20.0f;
@@ -3207,7 +3206,7 @@ int player::impact( const int force, const tripoint &p )
     } else if( is_player() && shock_absorbers ) {
         add_msg( m_bad, _( "You are slammed against %s!" ),
                  target_name, total_dealt );
-        add_msg( m_good, _( "...but your shock absorbers negate the damage!" ) );
+        add_msg( m_good, _( "…but your shock absorbers negate the damage!" ) );
     } else if( slam ) {
         // Only print this line if it is a slam and not a landing
         // Non-players should only get this one: player doesn't know how much damage was dealt
@@ -3446,38 +3445,6 @@ void player::update_stomach( const time_point &from, const time_point &to )
     }
 }
 
-void player::update_vitamins( const vitamin_id &vit )
-{
-    if( is_npc() ) {
-        return; // NPCs cannot develop vitamin diseases
-    }
-
-    efftype_id def = vit.obj().deficiency();
-    efftype_id exc = vit.obj().excess();
-
-    int lvl = vit.obj().severity( vitamin_get( vit ) );
-    if( lvl <= 0 ) {
-        remove_effect( def );
-    }
-    if( lvl >= 0 ) {
-        remove_effect( exc );
-    }
-    if( lvl > 0 ) {
-        if( has_effect( def, num_bp ) ) {
-            get_effect( def, num_bp ).set_intensity( lvl, true );
-        } else {
-            add_effect( def, 1_turns, num_bp, true, lvl );
-        }
-    }
-    if( lvl < 0 ) {
-        if( has_effect( exc, num_bp ) ) {
-            get_effect( exc, num_bp ).set_intensity( lvl, true );
-        } else {
-            add_effect( exc, 1_turns, num_bp, true, lvl );
-        }
-    }
-}
-
 void player::get_sick()
 {
     // NPCs are too dumb to handle infections now
@@ -3559,17 +3526,17 @@ void player::check_needs_extremes()
                 std::string message;
                 if( stomach.contains() <= stomach.capacity() / 4 ) {
                     if( get_kcal_percent() < 0.1f ) {
-                        message = _( "Food..." );
+                        message = _( "Food…" );
                     } else if( get_kcal_percent() < 0.25f ) {
                         message = _( "Due to insufficient nutrition, your body is suffering from starvation." );
                     } else if( get_kcal_percent() < 0.5f ) {
-                        message = _( "Despite having something in your stomach, you still feel like you haven't eaten in days..." );
+                        message = _( "Despite having something in your stomach, you still feel like you haven't eaten in days…" );
                     } else if( get_kcal_percent() < 0.8f ) {
-                        message = _( "Your stomach feels so empty..." );
+                        message = _( "Your stomach feels so empty…" );
                     }
                 } else {
                     if( get_kcal_percent() < 0.1f ) {
-                        message = _( "Food..." );
+                        message = _( "Food…" );
                     } else if( get_kcal_percent() < 0.25f ) {
                         message = _( "You are EMACIATED!" );
                     } else if( get_kcal_percent() < 0.5f ) {
@@ -3591,11 +3558,11 @@ void player::check_needs_extremes()
             g->events().send<event_type::dies_of_thirst>( getID() );
             hp_cur[hp_torso] = 0;
         } else if( get_thirst() >= 1000 && calendar::once_every( 30_minutes ) ) {
-            add_msg_if_player( m_warning, _( "Even your eyes feel dry..." ) );
+            add_msg_if_player( m_warning, _( "Even your eyes feel dry…" ) );
         } else if( get_thirst() >= 800 && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "You are THIRSTY!" ) );
         } else if( calendar::once_every( 30_minutes ) ) {
-            add_msg_if_player( m_warning, _( "Your mouth feels so dry..." ) );
+            add_msg_if_player( m_warning, _( "Your mouth feels so dry…" ) );
         }
     }
 
@@ -3607,7 +3574,7 @@ void player::check_needs_extremes()
             mod_fatigue( -10 );
             fall_asleep();
         } else if( get_fatigue() >= 800 && calendar::once_every( 30_minutes ) ) {
-            add_msg_if_player( m_warning, _( "Anywhere would be a good place to sleep..." ) );
+            add_msg_if_player( m_warning, _( "Anywhere would be a good place to sleep…" ) );
         } else if( calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "You feel like you haven't slept in days." ) );
         }
@@ -4862,7 +4829,7 @@ void player::suffer()
                 }
                 // Numbness
                 if( !done_effect && one_turn_in( 4_hours ) ) {
-                    add_msg( m_bad, _( "You suddenly feel so numb..." ) );
+                    add_msg( m_bad, _( "You suddenly feel so numb…" ) );
                     mod_painkiller( 25 );
                     done_effect = true;
                 }
@@ -5266,7 +5233,7 @@ void player::suffer()
         // Yes, you can be blind and hallucinate at the same time.
         // Your post-human biology is truly remarkable.
         if( one_turn_in( 30_minutes ) && !( has_effect( effect_visuals ) ) ) {
-            add_msg_if_player( m_bad, _( "Your visual centers must be acting up..." ) );
+            add_msg_if_player( m_bad, _( "Your visual centers must be acting up…" ) );
             add_effect( effect_visuals, rng( 36_minutes, 72_minutes ) );
         }
     }
@@ -5598,7 +5565,7 @@ void player::suffer()
     }
     if( stim > 75 ) {
         if( !one_turn_in( 2_minutes ) && !has_effect( effect_nausea ) ) {
-            add_msg( _( "You feel nauseous..." ) );
+            add_msg( _( "You feel nauseous…" ) );
             add_effect( effect_nausea, 5_minutes );
         }
     }
@@ -5631,7 +5598,7 @@ void player::suffer()
     }
     if( stim < -60 || pkill > 130 ) {
         if( calendar::once_every( 10_minutes ) ) {
-            add_msg( m_warning, _( "You feel tired..." ) );
+            add_msg( m_warning, _( "You feel tired…" ) );
             mod_fatigue( rng( 1, 2 ) );
         }
     }
@@ -6864,34 +6831,6 @@ bool player::consume( int target_position )
     return true;
 }
 
-void player::rooted_message() const
-{
-    bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
-    if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
-        g->m.has_flag( "PLOWABLE", pos() ) &&
-        !wearing_shoes ) {
-        add_msg( m_info, _( "You sink your roots into the soil." ) );
-    }
-}
-
-// TODO: Move this into player::suffer()
-void player::rooted()
-// Should average a point every two minutes or so; ground isn't uniformly fertile
-{
-    double shoe_factor = footwear_factor();
-    if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
-        g->m.has_flag( "PLOWABLE", pos() ) && shoe_factor != 1.0 ) {
-        if( one_in( 96 ) ) {
-            vitamin_mod( vitamin_id( "iron" ), 1, true );
-            vitamin_mod( vitamin_id( "calcium" ), 1, true );
-        }
-        if( get_thirst() <= -2000 && x_in_y( 75, 425 ) ) {
-            mod_thirst( -1 );
-        }
-        mod_healthy_mod( 5, 50 );
-    }
-}
-
 bool player::add_faction_warning( const faction_id &id )
 {
     const auto it = warning_record.find( id );
@@ -7386,6 +7325,11 @@ ret_val<bool> player::can_wield( const item &it ) const
         return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
     }
 
+    if( get_working_arm_count() <= 0 ) {
+        return ret_val<bool>::make_failure(
+                   _( "You need at least one arm to even consider wielding something." ) );
+    }
+
     if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( "RESTRICT_HANDS" ) ) ) {
         if( worn_with_flag( "RESTRICT_HANDS" ) ) {
             return ret_val<bool>::make_failure(
@@ -7438,8 +7382,26 @@ bool player::unwield()
 }
 
 // ids of martial art styles that are available with the bio_cqb bionic.
-static const std::vector<matype_id> bio_cqb_styles {{
-        matype_id{ "style_karate" }, matype_id{ "style_judo" }, matype_id{ "style_muay_thai" }, matype_id{ "style_biojutsu" }
+static const std::vector<matype_id> bio_cqb_styles{ {
+        matype_id{ "style_aikido" },
+        matype_id{ "style_biojutsu" },
+        matype_id{ "style_boxing" },
+        matype_id{ "style_capoeira" },
+        matype_id{ "style_crane" },
+        matype_id{ "style_dragon" },
+        matype_id{ "style_judo" },
+        matype_id{ "style_karate" },
+        matype_id{ "style_krav_maga" },
+        matype_id{ "style_leopard" },
+        matype_id{ "style_muay_thai" },
+        matype_id{ "style_ninjutsu" },
+        matype_id{ "style_pankration" },
+        matype_id{ "style_snake" },
+        matype_id{ "style_taekwondo" },
+        matype_id{ "style_tai_chi" },
+        matype_id{ "style_tiger" },
+        matype_id{ "style_wingchun" },
+        matype_id{ "style_zui_quan" }
     }};
 
 bool player::pick_style() // Style selection menu
@@ -7914,11 +7876,11 @@ player::wear_item( const item &to_wear, bool interactive )
         }
         if( supertinymouse && !to_wear.has_flag( "UNDERSIZE" ) ) {
             add_msg_if_player( m_warning,
-                               _( "This %s is too big to wear comfortably!  Maybe it could be refitted..." ),
+                               _( "This %s is too big to wear comfortably!  Maybe it could be refitted…" ),
                                to_wear.tname() );
         } else if( to_wear.has_flag( "UNDERSIZE" ) ) {
             add_msg_if_player( m_warning,
-                               _( "This %s is too small to wear comfortably!  Maybe it could be refitted..." ),
+                               _( "This %s is too small to wear comfortably!  Maybe it could be refitted…" ),
                                to_wear.tname() );
         }
     } else {
@@ -9022,7 +8984,7 @@ void player::try_to_sleep( const time_duration &dur )
             // At this point, it's kinda weird, but surprisingly comfy...
             if( web >= 3 ) {
                 add_msg_if_player( m_good,
-                                   _( "These thick webs support your weight, and are strangely comfortable..." ) );
+                                   _( "These thick webs support your weight, and are strangely comfortable…" ) );
                 websleeping = true;
             } else if( web > 0 ) {
                 add_msg_if_player( m_info,
@@ -9048,10 +9010,10 @@ void player::try_to_sleep( const time_duration &dur )
     if( has_trait( trait_WATERSLEEP ) ) {
         if( underwater ) {
             add_msg_if_player( m_good,
-                               _( "You lay beneath the waves' embrace, gazing up through the water's surface..." ) );
+                               _( "You lay beneath the waves' embrace, gazing up through the water's surface…" ) );
             watersleep = true;
         } else if( g->m.has_flag_ter( "SWIMMABLE", pos() ) ) {
-            add_msg_if_player( m_good, _( "You settle into the water and begin to drowse..." ) );
+            add_msg_if_player( m_good, _( "You settle into the water and begin to drowse…" ) );
             watersleep = true;
         }
     }
@@ -9304,97 +9266,6 @@ bool player::can_sleep()
     }
 
     return result;
-}
-
-void player::fall_asleep()
-{
-    // Communicate to the player that he is using items on the floor
-    std::string item_name = is_snuggling();
-    if( item_name == "many" ) {
-        if( one_in( 15 ) ) {
-            add_msg_if_player( _( "You nestle your pile of clothes for warmth." ) );
-        } else {
-            add_msg_if_player( _( "You use your pile of clothes for warmth." ) );
-        }
-    } else if( item_name != "nothing" ) {
-        if( one_in( 15 ) ) {
-            add_msg_if_player( _( "You snuggle your %s to keep warm." ), item_name );
-        } else {
-            add_msg_if_player( _( "You use your %s to keep warm." ), item_name );
-        }
-    }
-    if( has_active_mutation( trait_id( "HIBERNATE" ) ) &&
-        get_kcal_percent() > 0.8f ) {
-        if( is_avatar() ) {
-            g->memorial().add( pgettext( "memorial_male", "Entered hibernation." ),
-                               pgettext( "memorial_female", "Entered hibernation." ) );
-        }
-        // some days worth of round-the-clock Snooze.  Cata seasons default to 91 days.
-        fall_asleep( 10_days );
-        // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
-        // In practice, the fatigue from filling the tank from (no msg) to Time For Bed
-        // will last about 8 days.
-    }
-
-    fall_asleep( 10_hours ); // default max sleep time.
-}
-
-void player::fall_asleep( const time_duration &duration )
-{
-    if( activity ) {
-        if( activity.id() == "ACT_TRY_SLEEP" ) {
-            activity.set_to_null();
-        } else {
-            cancel_activity();
-        }
-    }
-    add_effect( effect_sleep, duration );
-}
-
-std::string player::is_snuggling() const
-{
-    auto begin = g->m.i_at( pos() ).begin();
-    auto end = g->m.i_at( pos() ).end();
-
-    if( in_vehicle ) {
-        if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos() ).part_with_feature( VPFLAG_CARGO,
-                false ) ) {
-            vehicle *const veh = &vp->vehicle();
-            const int cargo = vp->part_index();
-            if( !veh->get_items( cargo ).empty() ) {
-                begin = veh->get_items( cargo ).begin();
-                end = veh->get_items( cargo ).end();
-            }
-        }
-    }
-    const item *floor_armor = nullptr;
-    int ticker = 0;
-
-    // If there are no items on the floor, return nothing
-    if( begin == end ) {
-        return "nothing";
-    }
-
-    for( auto candidate = begin; candidate != end; ++candidate ) {
-        if( !candidate->is_armor() ) {
-            continue;
-        } else if( candidate->volume() > 250_ml && candidate->get_warmth() > 0 &&
-                   ( candidate->covers( bp_torso ) || candidate->covers( bp_leg_l ) ||
-                     candidate->covers( bp_leg_r ) ) ) {
-            floor_armor = &*candidate;
-            ticker++;
-        }
-    }
-
-    if( ticker == 0 ) {
-        return "nothing";
-    } else if( ticker == 1 ) {
-        return floor_armor->type_name();
-    } else if( ticker > 1 ) {
-        return "many";
-    }
-
-    return "nothing";
 }
 
 // Returned values range from 1.0 (unimpeded vision) to 11.0 (totally blind).
@@ -9652,16 +9523,6 @@ int player::get_env_resist( body_part bp ) const
     return ret;
 }
 
-bool player::wearing_something_on( body_part bp ) const
-{
-    for( auto &i : worn ) {
-        if( i.covers( bp ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool player::natural_attack_restricted_on( body_part bp ) const
 {
     for( auto &i : worn ) {
@@ -9671,35 +9532,6 @@ bool player::natural_attack_restricted_on( body_part bp ) const
         }
     }
     return false;
-}
-
-bool player::is_wearing_shoes( const side &which_side ) const
-{
-    bool left = true;
-    bool right = true;
-    if( which_side == side::LEFT || which_side == side::BOTH ) {
-        left = false;
-        for( const item &worn_item : worn ) {
-            if( worn_item.covers( bp_foot_l ) && !worn_item.has_flag( "BELTED" ) &&
-                !worn_item.has_flag( "PERSONAL" ) && !worn_item.has_flag( "AURA" ) &&
-                !worn_item.has_flag( "SEMITANGIBLE" ) && !worn_item.has_flag( "SKINTIGHT" ) ) {
-                left = true;
-                break;
-            }
-        }
-    }
-    if( which_side == side::RIGHT || which_side == side::BOTH ) {
-        right = false;
-        for( const item &worn_item : worn ) {
-            if( worn_item.covers( bp_foot_r ) && !worn_item.has_flag( "BELTED" ) &&
-                !worn_item.has_flag( "PERSONAL" ) && !worn_item.has_flag( "AURA" ) &&
-                !worn_item.has_flag( "SEMITANGIBLE" ) && !worn_item.has_flag( "SKINTIGHT" ) ) {
-                right = true;
-                break;
-            }
-        }
-    }
-    return ( left && right );
 }
 
 bool player::is_wearing_helmet() const
@@ -9723,18 +9555,6 @@ int player::head_cloth_encumbrance() const
             ( worn_item->has_flag( "HELMET_COMPAT" ) || worn_item->has_flag( "SKINTIGHT" ) ) ) {
             ret += worn_item->get_encumber( *this );
         }
-    }
-    return ret;
-}
-
-double player::footwear_factor() const
-{
-    double ret = 0;
-    if( wearing_something_on( bp_foot_l ) ) {
-        ret += .5;
-    }
-    if( wearing_something_on( bp_foot_r ) ) {
-        ret += .5;
     }
     return ret;
 }
@@ -9920,78 +9740,6 @@ void player::learn_recipe( const recipe *const rec )
     learned_recipes->include( rec );
 }
 
-void player::assign_activity( const activity_id &type, int moves, int index, int pos,
-                              const std::string &name )
-{
-    assign_activity( player_activity( type, moves, index, pos, name ) );
-}
-
-void player::assign_activity( const player_activity &act, bool allow_resume )
-{
-    if( allow_resume && !backlog.empty() && backlog.front().can_resume_with( act, *this ) ) {
-        add_msg_if_player( _( "You resume your task." ) );
-        activity = backlog.front();
-        backlog.pop_front();
-    } else {
-        if( activity ) {
-            backlog.push_front( activity );
-        }
-
-        activity = act;
-    }
-
-    if( activity.rooted() ) {
-        rooted_message();
-    }
-    if( is_npc() ) {
-        npc *guy = dynamic_cast<npc *>( this );
-        guy->set_attitude( NPCATT_ACTIVITY );
-        guy->set_mission( NPC_MISSION_ACTIVITY );
-        guy->current_activity_id = activity.id();
-    }
-}
-
-bool player::has_activity( const activity_id &type ) const
-{
-    return activity.id() == type;
-}
-
-bool player::has_activity( const std::vector<activity_id> &types ) const
-{
-    return std::find( types.begin(), types.end(), activity.id() ) != types.end() ;
-}
-
-void player::cancel_activity()
-{
-    if( has_activity( activity_id( "ACT_MOVE_ITEMS" ) ) && is_hauling() ) {
-        stop_hauling();
-    }
-    if( has_activity( activity_id( "ACT_TRY_SLEEP" ) ) ) {
-        remove_value( "sleep_query" );
-    }
-    // Clear any backlog items that aren't auto-resume.
-    for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {
-        if( backlog_item->auto_resume ) {
-            backlog_item++;
-        } else {
-            backlog_item = backlog.erase( backlog_item );
-        }
-    }
-    if( activity && activity.is_suspendable() ) {
-        backlog.push_front( activity );
-    }
-    sfx::end_activity_sounds(); // kill activity sounds when canceled
-    activity = player_activity();
-}
-
-void player::resume_backlog_activity()
-{
-    if( !backlog.empty() && backlog.front().auto_resume ) {
-        activity = backlog.front();
-        backlog.pop_front();
-    }
-}
-
 bool player::has_gun_for_ammo( const ammotype &at ) const
 {
     return has_item_with( [at]( const item & it ) {
@@ -10173,7 +9921,7 @@ bool player::uncanny_dodge()
         if( is_u ) {
             add_msg( _( "Time seems to slow down and you instinctively dodge!" ) );
         } else if( seen ) {
-            add_msg( _( "%s dodges... so fast!" ), this->disp_name() );
+            add_msg( _( "%s dodges… so fast!" ), this->disp_name() );
 
         }
         return true;
@@ -10327,29 +10075,6 @@ void player::shift_destination( const point &shift )
     }
 }
 
-void player::start_hauling()
-{
-    add_msg( _( "You start hauling items along the ground." ) );
-    if( is_armed() ) {
-        add_msg( m_warning, _( "Your hands are not free, which makes hauling slower." ) );
-    }
-    hauling = true;
-}
-
-void player::stop_hauling()
-{
-    add_msg( _( "You stop hauling items." ) );
-    hauling = false;
-    if( has_activity( activity_id( "ACT_MOVE_ITEMS" ) ) ) {
-        cancel_activity();
-    }
-}
-
-bool player::is_hauling() const
-{
-    return hauling;
-}
-
 bool player::has_weapon() const
 {
     return !unarmed_attack();
@@ -10419,9 +10144,6 @@ void player::burn_move_stamina( int moves )
     }
 
     int burn_ratio = get_option<int>( "PLAYER_BASE_STAMINA_BURN_RATE" );
-    if( g->u.has_active_bionic( bionic_id( "bio_torsionratchet" ) ) ) {
-        burn_ratio = burn_ratio * 2 - 3;
-    }
     for( const bionic_id &bid : get_bionic_fueled_with( item( "muscle" ) ) ) {
         if( has_active_bionic( bid ) ) {
             burn_ratio = burn_ratio * 2 - 3;

@@ -16,6 +16,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "programmable_autopilot",
+    "name": "programmable autopilot",
+    "description": "A computer system hooked up to the steering and engine of a vehicle to allow it to follow simple paths.",
+    "weight": "11246 g",
+    "to_hit": -2,
+    "color": "light_blue",
+    "symbol": "A",
+    "material": "steel",
+    "volume": "10 L",
+    "bashing": 3,
+    "category": "veh_parts",
+    "price": 90000
+  },
+  {
+    "type": "GENERIC",
     "id": "vh_autoclave",
     "name": "mountable autoclave",
     "description": "This autoclave has been rigged to run off a vehicle power grid.",

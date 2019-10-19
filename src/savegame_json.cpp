@@ -395,6 +395,14 @@ void Character::load( JsonObject &data )
     data.read( "stored_calories", stored_calories );
     data.read( "radiation", radiation );
     data.read( "oxygen", oxygen );
+
+    JsonObject vits = data.get_object( "vitamin_levels" );
+    for( const std::pair<vitamin_id, vitamin> &v : vitamin::all() ) {
+        int lvl = vits.get_int( v.first.str(), 0 );
+        lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
+        vitamin_levels[v.first] = lvl;
+    }
+
     // npc activity on vehicles.
     data.read( "activity_vehicle_part_index", activity_vehicle_part_index );
     // health
@@ -528,8 +536,8 @@ void Character::load( JsonObject &data )
     }
 
     // Bionic power should not be negative!
-    if( power_level < 0_kJ ) {
-        power_level = 0_kJ;
+    if( power_level < 0_mJ ) {
+        power_level = 0_mJ;
     }
 }
 
@@ -575,6 +583,7 @@ void Character::store( JsonOut &json ) const
     json.member( "stored_calories", stored_calories );
     json.member( "radiation", radiation );
     json.member( "stamina", stamina );
+    json.member( "vitamin_levels", vitamin_levels );
 
     // breathing
     json.member( "underwater", underwater );
@@ -602,7 +611,13 @@ void Character::store( JsonOut &json ) const
     json.end_object();
 
     // npc; unimplemented
-    json.member( "power_level", units::to_kilojoule( power_level ) );
+    if( power_level < 1_J ) {
+        json.member( "power_level", to_string( units::to_millijoule( power_level ) ) + " mJ" );
+    } else if( power_level < 1_kJ ) {
+        json.member( "power_level", to_string( units::to_joule( power_level ) ) + " J" );
+    } else {
+        json.member( "power_level", units::to_kilojoule( power_level ) );
+    }
     json.member( "max_power_level", units::to_kilojoule( max_power_level ) );
 }
 
@@ -896,8 +911,6 @@ void avatar::store( JsonOut &json ) const
     // Player only, books they have read at least once.
     json.member( "items_identified", items_identified );
 
-    json.member( "vitamin_levels", vitamin_levels );
-
     json.member( "stomach", stomach );
     json.member( "guts", guts );
 
@@ -1021,13 +1034,6 @@ void avatar::load( JsonObject &data )
 
     items_identified.clear();
     data.read( "items_identified", items_identified );
-
-    auto vits = data.get_object( "vitamin_levels" );
-    for( const auto &v : vitamin::all() ) {
-        int lvl = vits.get_int( v.first.str(), 0 );
-        lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
-        vitamin_levels[ v.first ] = lvl;
-    }
 
     data.read( "stomach", stomach );
     data.read( "guts", guts );
@@ -2501,6 +2507,8 @@ void vehicle::deserialize( JsonIn &jsin )
     pivot_anchor[1] = pivot_anchor[0];
     pivot_rotation[1] = pivot_rotation[0] = fdir;
     data.read( "is_following", is_following );
+    data.read( "is_patrolling", is_patrolling );
+    data.read( "autodrive_local_target", autodrive_local_target );
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
     for( const vpart_reference &vp : get_any_parts( VPFLAG_CARGO ) ) {
         auto it = vp.part().items.begin();
@@ -2650,6 +2658,8 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "last_update_turn", last_update );
     json.member( "pivot", pivot_anchor[0] );
     json.member( "is_following", is_following );
+    json.member( "is_patrolling", is_patrolling );
+    json.member( "autodrive_local_target", autodrive_local_target );
     json.end_object();
 }
 
