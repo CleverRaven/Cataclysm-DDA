@@ -904,7 +904,7 @@ static bool attempt_recharge( player &p, bionic &bio, units::energy &amount, int
                               int rate = 1 )
 {
     const bionic_data &info = bio.info();
-    const units::energy  armor_power_cost = 1_kJ;
+    const units::energy armor_power_cost = 1_kJ;
     units::energy power_cost = info.power_over_time * factor;
     bool recharged = false;
 
@@ -1475,7 +1475,7 @@ void player::perform_uninstall( bionic_id bid, int difficulty, int success, unit
         remove_bionic( bid );
 
         // remove power bank provided by bionic
-        mod_max_power_level( - power_lvl );
+        mod_max_power_level( -power_lvl );
 
         item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( bid.c_str() ) ) {
