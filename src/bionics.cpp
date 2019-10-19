@@ -920,7 +920,7 @@ static bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 
         }
         if( p.get_power_level() >= power_cost ) {
             // Set the recharging cost and charge the bionic.
-            amount = units::to_kilojoule( power_cost );
+            amount = units::to_millijoule( power_cost );
             // This is our first turn of charging, so subtract a turn from the recharge delay.
             bio.charge_timer = info.charge_time - rate;
             recharged = true;
@@ -964,7 +964,7 @@ void player::process_bionic( int b )
                     return;
                 }
                 if( cost ) {
-                    mod_power_level( units::from_kilojoule( -cost ) );
+                    mod_power_level( units::from_millijoule( -cost ) );
                 }
             }
         }
