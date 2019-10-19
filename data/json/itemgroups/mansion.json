@@ -1213,7 +1213,7 @@
       { "group": "bed", "prob": 30, "damage": [ 0, 2 ] },
       [ "sewing_kit", 30 ],
       [ "rag", 30 ],
-      [ "lycra", 15 ],
+      [ "lycra_patch", 15 ],
       [ "nylon", 10 ],
       [ "tailors_kit", 20 ]
     ]

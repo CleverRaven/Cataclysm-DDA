@@ -226,7 +226,7 @@
     "components": [ [ [ "fur", 10 ], [ "tanned_pelt", 2 ] ] ]
   },
   {
-    "result": "leggins",
+    "result": "leggings",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_LEGS",
