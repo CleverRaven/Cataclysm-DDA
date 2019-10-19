@@ -296,7 +296,7 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
             for( const auto &vit : component_map ) {
                 res[ vit.first ] += byproduct_multiplier * ceil( static_cast<float>
                                     ( vit.second ) / static_cast<float>
-                                    ( it.type->charges_default() ) );
+                                    ( it.recipe_charges ) );
             }
         }
     } else {
