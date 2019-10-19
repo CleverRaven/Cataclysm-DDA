@@ -55,21 +55,6 @@
     "flags": [ "WATERPROOF", "STURDY" ]
   },
   {
-    "id": "mboots_silence",
-    "type": "ARMOR",
-    "copy-from": "boots_hiking",
-    "name": "boots of the silent walker",
-    "name_plural": "pairs of boots of the silent walker",
-    "looks-like": "boots_hiking",
-    "description": "Rugged yet extremely comfortable and well fitting boots of worn leather and steel, they look like they've seen a lot of use and will likely see a lot more.  They make your movement very quiet.",
-    "encumbrance": 8,
-    "warmth": 30,
-    "material_thickness": 3,
-    "environmental_protection": 3,
-    "flags": [ "WATERPROOF", "STURDY" ],
-    "artifact_data": { "effects_worn": [ "AEP_STEALTH" ] }
-  },
-  {
     "id": "mboots_grounding",
     "type": "ARMOR",
     "copy-from": "boots_hiking",
@@ -81,6 +66,7 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 3,
-    "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
+    "flags": [ "WATERPROOF", "STURDY" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ELEC", "add": -20 } ] } ] }
   }
 ]
