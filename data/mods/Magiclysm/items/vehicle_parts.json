@@ -13,8 +13,6 @@
     "flags": [ "ARMOR" ],
     "breaks_into": [ { "item": "leather", "count": [ 1, 2 ] } ],
     "damage_reduction": { "all": 12 },
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "1600 s", "using": [ [ "rope_natural", 2 ] ] }
-    }
+    "requirements": { "install": { "skills": [ [ "mechanics", 0 ] ], "time": "1600 s", "using": [ [ "rope_natural", 2 ] ] } }
   }
 ]
