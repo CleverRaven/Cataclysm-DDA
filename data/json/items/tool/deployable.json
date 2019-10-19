@@ -160,5 +160,23 @@
     "symbol": "*",
     "color": "yellow",
     "use_action": { "type": "deploy_furn", "furn_type": "f_fiber_mat" }
-  }
+  },
+  {
+     "id": "churn",
+     "type": "TOOL",
+     "name": "butter churn",
+     "description": "A large wooden containter used to turn raw milk into butter and buttermilk. This model uses a foot crank and holds three gallons of raw milk.",
+     "weight": "6464 g",
+     "volume": "11356 ml",
+     "price": 5000,
+     "price_postapoc": 45000,
+     "to_hit": -4,
+     "bashing": 7,
+     "material": [ "wood" ],
+     "looks_like": [ "f_wood_keg" ],
+     "symbol": "u",
+     "color": "light_gray",
+     "use_action": { "type": "deploy_furn", "furn_type": "f_butter_churn" },
+     "qualities": [ [ "CONTAIN", 1 ], ["CHURN", 1 ] ]
+   }
 ]

@@ -647,5 +647,44 @@
         { "item": "splinter", "count": 1 }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_butter_churn",
+    "name": "butter churn",
+    "description": "A pedal driven butter churn.",
+    "symbol": "H",
+    "color": "light_cyan",
+    "crafting_pseudo_item": "butter_churn",
+    "move_cost_mod": -1,
+    "coverage": 70,
+    "required_str": -1,
+    "flags": [ "NOITEM", "SEALED", "ALLOW_FIELD_EFFECT", "TRANSPARENT", "FLAMMABLE", "CONTAINER", "LIQUIDCONT" ],
+    "examine_action": "keg",
+    "keg_capacity": 45,
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": 18 },
+        { "item": "nail", "charges": [ 7, 14 ] },
+        { "item": "water_faucet", "count": 1 },
+        { "item": "sheet_metal_small", "count": [ 12, 20 ] },
+        { "item": "scrap", "count": [ 5, 10 ] },
+        { "item": "foot_crank", "count": 1 }
+      ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 50,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "2x4", "count": [ 6, 12 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "water_faucet", "prob": 50 },
+        { "item": "sheet_metal_small", "count": [ 6, 12 ] },
+        { "item": "scrap", "count": [ 10, 20 ] },
+        { "item": "splinter", "count": 1 }
+      ]
+    }
   }
 ]

@@ -18,6 +18,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "CHURN",
+    "name": "churn"
+  },
+  {
+    "type": "tool_quality",
     "id": "ANESTHESIA",
     "name": "anesthesia"
   },

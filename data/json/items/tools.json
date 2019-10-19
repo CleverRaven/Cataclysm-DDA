@@ -1128,6 +1128,22 @@
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
+    "id": "butter_churn",
+    "type": "TOOL",
+    "name": "butter churn",
+    "description": "This is a portable, pedal powered butter churn. Once filled with raw milk the pedals can be turned to turn it into butter.",
+    "weight": "6464 g",
+    "volume": "9 L",
+    "price": 20000,
+    "to_hit": -2,
+    "bashing": 9,
+    "material": "wood",
+    "qualities": [ [ "CHURN", 1 ] ],
+    "symbol": "H",
+    "color": "light_cyan",
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
     "id": "char_kiln",
     "type": "GENERIC",
     "category": "tools",

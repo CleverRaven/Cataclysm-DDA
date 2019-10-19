@@ -15,6 +15,26 @@
     "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "wire", 1 ] ], [ [ "scrap", 1 ] ], [ [ "weights", 40, "LIST" ] ] ]
   },
   {
+    "result": "churn",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "cooking", 4 ],
+    "time": "300 m",
+    "reversible": true,
+    "book_learn": [ [ "family_cookbook", 4 ], [ "textbook_survival", 4 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "2x4", 18 ] ],
+      [ [ "nail", 14 ] ],
+      [ [ "sheet_metal", 1 ] ],
+      [ [ "foot_crank", 1 ] ],
+      [ [ "sheet_metal_small", 1 ] ]
+    ]
+  }
+  {
     "result": "riding_saddle",
     "type": "recipe",
     "category": "CC_OTHER",
