@@ -900,10 +900,11 @@ bool player::burn_fuel( int b, bool start )
  * @param rate divides the number of turns we may charge (rate of 2 discharges in half the time).
  * @return indicates whether we successfully charged the bionic.
  */
-static bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 1, int rate = 1 )
+static bool attempt_recharge( player &p, bionic &bio, units::energy &amount, int factor = 1,
+                              int rate = 1 )
 {
     const bionic_data &info = bio.info();
-    const int armor_power_cost = 1;
+    const units::energy  armor_power_cost = 1_kJ;
     units::energy power_cost = info.power_over_time * factor;
     bool recharged = false;
 
@@ -915,12 +916,12 @@ static bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 
                 return w.active && w.is_power_armor();
             } );
             if( !powered_armor ) {
-                power_cost -= units::from_kilojoule( armor_power_cost ) * factor;
+                power_cost -= armor_power_cost * factor;
             }
         }
         if( p.get_power_level() >= power_cost ) {
             // Set the recharging cost and charge the bionic.
-            amount = units::to_millijoule( power_cost );
+            amount = power_cost;
             // This is our first turn of charging, so subtract a turn from the recharge delay.
             bio.charge_timer = info.charge_time - rate;
             recharged = true;
@@ -953,7 +954,7 @@ void player::process_bionic( int b )
                 bio.charge_timer = bio.info().charge_time;
             } else {
                 // Try to recharge our bionic if it is made for it
-                int cost = 0;
+                units::energy cost = 0_mJ;
                 bool recharged = attempt_recharge( *this, bio, cost, discharge_factor, discharge_rate );
                 if( !recharged ) {
                     // No power to recharge, so deactivate
@@ -963,8 +964,8 @@ void player::process_bionic( int b )
                     deactivate_bionic( b, true );
                     return;
                 }
-                if( cost ) {
-                    mod_power_level( units::from_millijoule( -cost ) );
+                if( cost > 0_mJ ) {
+                    mod_power_level( -cost );
                 }
             }
         }
