@@ -862,6 +862,7 @@ bool veh_interact::do_install( std::string &msg )
                part.has_flag( "FORGE" ) ||
                part.has_flag( "HORN" ) ||
                part.has_flag( "BEEPER" ) ||
+               part.has_flag( "AUTOPILOT" ) ||
                part.has_flag( "WATCH" ) ||
                part.has_flag( "ALARMCLOCK" ) ||
                part.has_flag( VPFLAG_RECHARGE ) ||
@@ -963,10 +964,10 @@ bool veh_interact::do_install( std::string &msg )
             if( can_install ) {
                 switch( reason ) {
                     case LOW_MORALE:
-                        msg = _( "Your morale is too low to construct..." );
+                        msg = _( "Your morale is too low to construct…" );
                         return false;
                     case LOW_LIGHT:
-                        msg = _( "It's too dark to see what you are doing..." );
+                        msg = _( "It's too dark to see what you are doing…" );
                         return false;
                     case MOVING_VEHICLE:
                         msg = _( "You can't install parts while driving." );
@@ -975,7 +976,7 @@ bool veh_interact::do_install( std::string &msg )
                         break;
                 }
                 if( veh->is_foldable() && !sel_vpart_info->has_flag( "FOLDABLE" ) &&
-                    !query_yn( _( "Installing this part will make the vehicle unfoldable. Continue?" ) ) ) {
+                    !query_yn( _( "Installing this part will make the vehicle unfoldable.  Continue?" ) ) ) {
                     return true;
                 }
                 const auto &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->item ];
@@ -1075,10 +1076,10 @@ bool veh_interact::do_repair( std::string &msg )
     auto can_repair = [&msg, &reason]() {
         switch( reason ) {
             case LOW_MORALE:
-                msg = _( "Your morale is too low to repair..." );
+                msg = _( "Your morale is too low to repair…" );
                 return false;
             case LOW_LIGHT:
-                msg = _( "It's too dark to see what you are doing..." );
+                msg = _( "It's too dark to see what you are doing…" );
                 return false;
             case MOVING_VEHICLE:
                 msg = _( "You can't repair stuff while driving." );
@@ -1141,7 +1142,7 @@ bool veh_interact::do_repair( std::string &msg )
             sel_vpart_info = &vp;
             const std::vector<npc *> helpers = g->u.get_crafting_helpers();
             for( const npc *np : helpers ) {
-                add_msg( m_info, _( "%s helps with this task..." ), np->name );
+                add_msg( m_info, _( "%s helps with this task…" ), np->name );
             }
             sel_cmd = 'r';
             break;
@@ -1166,10 +1167,10 @@ bool veh_interact::do_mend( std::string &msg )
 {
     switch( cant_do( 'm' ) ) {
         case LOW_MORALE:
-            msg = _( "Your morale is too low to mend..." );
+            msg = _( "Your morale is too low to mend…" );
             return false;
         case LOW_LIGHT:
-            msg = _( "It's too dark to see what you are doing..." );
+            msg = _( "It's too dark to see what you are doing…" );
             return false;
         case INVALID_TARGET:
             msg = _( "No faulty parts require mending." );
@@ -1734,10 +1735,10 @@ bool veh_interact::do_remove( std::string &msg )
         if( can_remove && ( action == "REMOVE" || action == "CONFIRM" ) ) {
             switch( reason ) {
                 case LOW_MORALE:
-                    msg = _( "Your morale is too low to construct..." );
+                    msg = _( "Your morale is too low to construct…" );
                     return false;
                 case LOW_LIGHT:
-                    msg = _( "It's too dark to see what you are doing..." );
+                    msg = _( "It's too dark to see what you are doing…" );
                     return false;
                 case NOT_FREE:
                     msg = _( "You cannot remove that part while something is attached to it." );
@@ -1750,7 +1751,7 @@ bool veh_interact::do_remove( std::string &msg )
             }
             const std::vector<npc *> helpers = g->u.get_crafting_helpers();
             for( const npc *np : helpers ) {
-                add_msg( m_info, _( "%s helps with this task..." ), np->name );
+                add_msg( m_info, _( "%s helps with this task…" ), np->name );
             }
             sel_cmd = 'o';
             break;
@@ -1788,7 +1789,7 @@ bool veh_interact::do_siphon( std::string &msg )
             break;
     }
 
-    set_title( _( "Select part to siphon: " ) );
+    set_title( _( "Select part to siphon:" ) );
 
     auto sel = [&]( const vehicle_part & pt ) {
         return( pt.is_tank() && pt.base.contents_made_of( LIQUID ) );

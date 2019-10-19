@@ -2,7 +2,7 @@
   {
     "id": "mon_fish_tiny",
     "type": "MONSTER",
-    "name": "tiny fish",
+    "name": { "str": "tiny fish", "str_pl": "tiny fish" },
     "//": "a default fish type - does not appear in-game",
     "description": "A tiny fish.",
     "default_faction": "fish",
@@ -33,7 +33,7 @@
   {
     "id": "mon_fish_small",
     "type": "MONSTER",
-    "name": "small fish",
+    "name": { "str": "small fish", "str_pl": "small fish" },
     "//": "a default fish type - does not appear in-game",
     "description": "A small fish.",
     "default_faction": "fish",
@@ -66,7 +66,7 @@
     "type": "MONSTER",
     "description": "A medium fish.",
     "default_faction": "fish",
-    "name": "medium fish",
+    "name": { "str": "medium fish", "str_pl": "medium fish" },
     "//": "a default fish type - does not appear in-game",
     "bodytype": "fish",
     "categories": [ "WILDLIFE" ],
@@ -101,7 +101,7 @@
     "categories": [ "WILDLIFE" ],
     "species": [ "FISH" ],
     "volume": "16000 ml",
-    "name": "large fish",
+    "name": { "str": "large fish", "str_pl": "large fish" },
     "//": "a default fish type - does not appear in-game",
     "weight": 12000,
     "hp": 20,
@@ -132,7 +132,7 @@
     "categories": [ "WILDLIFE" ],
     "species": [ "FISH" ],
     "volume": "30000 ml",
-    "name": "huge fish",
+    "name": { "str": "huge fish", "str_pl": "huge fish" },
     "//": "a default fish type - does not appear in-game",
     "weight": 40750,
     "hp": 30,
@@ -236,35 +236,35 @@
     "id": "mon_fish_whitefish",
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
-    "name": "whitefish",
+    "name": { "str": "whitefish", "str_pl": "whitefish" },
     "description": "A whitefish, closely related to salmon.  One can assume they are just as nice when cooked with smoke."
   },
   {
     "id": "mon_fish_lbass",
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
-    "name": "largemouth bass",
+    "name": { "str": "largemouth bass", "str_pl": "largemouth bass" },
     "description": "A Largemouth Bass.  Very popular with sports fishermen."
   },
   {
     "id": "mon_fish_sbass",
     "type": "MONSTER",
     "copy-from": "mon_fish_small",
-    "name": "smallmouth bass",
+    "name": { "str": "smallmouth bass", "str_pl": "smallmouth bass" },
     "description": "A Smallmouth Bass.  Being intolerant to pollution in the water, smallmouth bass are a good indicator of how clean it is."
   },
   {
     "id": "mon_fish_pbass",
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
-    "name": "striped bass",
+    "name": { "str": "striped bass", "str_pl": "striped bass" },
     "description": "A Striped Bass.  Mostly a salt water fish, they migrate to fresher water to spawn."
   },
   {
     "id": "mon_fish_white_bass",
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
-    "name": "white bass",
+    "name": { "str": "white bass", "str_pl": "white bass" },
     "looks_like": "mon_fish_pbass",
     "description": "A White Bass.  Common to the region, a slab-sided and spiny-rayed little fish."
   },
@@ -272,7 +272,7 @@
     "id": "mon_fish_perch",
     "type": "MONSTER",
     "copy-from": "mon_fish_small",
-    "name": "perch",
+    "name": { "str": "perch", "str_pl": "perches" },
     "looks_like": "mon_fish_pickerel",
     "description": "A small spritely Perch.  A very bony fish, still got some tasty meat on it though."
   },
@@ -288,14 +288,14 @@
     "id": "mon_fish_sunfish",
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
-    "name": "sunfish",
+    "name": { "str": "sunfish", "str_pl": "sunfish" },
     "description": "A Sunfish.  A small fish related to bass or bluegill."
   },
   {
     "id": "mon_fish_pumpkinseed",
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
-    "name": "pumpkinseed sunfish",
+    "name": { "str": "pumpkinseed sunfish", "str_pl": "pumpkinseed sunfish" },
     "looks_like": "mon_fish_sunfish",
     "description": "A Pumpkinseed Sunfish.  A small fish related to bass or bluegill."
   },
@@ -310,7 +310,7 @@
     "id": "mon_fish_redbreast",
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
-    "name": "redbreast sunfish",
+    "name": { "str": "redbreast sunfish", "str_pl": "redbreast sunfish" },
     "looks_like": "mon_fish_sunfish",
     "description": "A Redbreast Sunfish.  A small fish related to bass or bluegill."
   },
@@ -318,7 +318,7 @@
     "id": "mon_fish_green_sunfish",
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
-    "name": "green sunfish",
+    "name": { "str": "green sunfish", "str_pl": "green sunfish" },
     "looks_like": "mon_fish_sunfish",
     "description": "A Green Sunfish.  A small fish related to bass or bluegill."
   },
@@ -326,7 +326,7 @@
     "id": "mon_fish_longear_sunfish",
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
-    "name": "longear sunfish",
+    "name": { "str": "longear sunfish", "str_pl": "longear sunfish" },
     "looks_like": "mon_fish_sunfish",
     "description": "A Longear Sunfish.  A small fish related to bass or bluegill."
   },
@@ -334,7 +334,7 @@
     "id": "mon_fish_redear_sunfish",
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
-    "name": "redear sunfish",
+    "name": { "str": "redear sunfish", "str_pl": "redear sunfish" },
     "looks_like": "mon_fish_sunfish",
     "description": "A Redear Sunfish.  A small fish related to bass or bluegill."
   },
@@ -342,7 +342,7 @@
     "id": "mon_fish_rock_bass",
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
-    "name": "rock bass",
+    "name": { "str": "rock bass", "str_pl": "rock bass" },
     "looks_like": "mon_fish_sunfish",
     "description": "A Rock Bass.  Related to sunfish, this tiny fish has a camoflauge-like patterning and a red eye."
   },
@@ -350,7 +350,7 @@
     "id": "mon_fish_calico_bass",
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
-    "name": "calico bass",
+    "name": { "str": "calico bass", "str_pl": "calico bass" },
     "looks_like": "mon_fish_pbass",
     "description": "A Calico Bass.  A medium-sized fish also known as a 'Crappie'."
   },
@@ -373,7 +373,7 @@
     "id": "mon_fish_channel_catfish",
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
-    "name": "channel catfish",
+    "name": { "str": "channel catfish", "str_pl": "channel catfish" },
     "looks_like": "mon_fish_bullhead",
     "description": "A Channel Catfish, they have a forked tail and long whiskers."
   },
@@ -381,7 +381,7 @@
     "id": "mon_fish_white_catfish",
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
-    "name": "white catfish",
+    "name": { "str": "white catfish", "str_pl": "white catfish" },
     "looks_like": "mon_fish_bullhead",
     "description": "A White Catfish, a small whiskered fish with a broad head."
   },
@@ -449,7 +449,7 @@
     "id": "mon_fish_fallfish",
     "type": "MONSTER",
     "copy-from": "mon_fish_small",
-    "name": "fallfish",
+    "name": { "str": "fallfish", "str_pl": "fallfish" },
     "looks_like": "mon_fish_pbass",
     "description": "A Fallfish.  These fish are related to gar but without the huge teeth, skin rending scales, and aggression."
   },
@@ -485,7 +485,7 @@
   {
     "id": "mon_fish_crayfish",
     "type": "MONSTER",
-    "name": "crayfish",
+    "name": { "str": "crayfish", "str_pl": "crayfish" },
     "description": "If you could get ahold of a bunch more of these, a hefty pot of boiling water, and some spicy seasonings...",
     "default_faction": "fish",
     "bodytype": "crab",
@@ -514,8 +514,7 @@
   {
     "id": "mon_fish_blinky",
     "type": "MONSTER",
-    "name": "Blinky",
-    "name_plural": "Blinkies",
+    "name": { "str": "Blinky", "str_pl": "Blinkies" },
     "description": "A strange three-eyed fish.",
     "default_faction": "fish",
     "bodytype": "fish",

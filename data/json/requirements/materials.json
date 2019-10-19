@@ -156,5 +156,17 @@
     "type": "requirement",
     "//": "Materials used for plastic and rubber things.",
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "id": "solar_panel",
+    "type": "requirement",
+    "//": "Materials used for repairing solar panels",
+    "components": [ [ [ "solar_cell", 3 ] ], [ [ "cable", 5 ] ] ]
+  },
+  {
+    "id": "solar_panel_v2",
+    "type": "requirement",
+    "//": "Materials used for repairing upgraded solar panels",
+    "components": [ [ [ "solar_cell", 5 ] ], [ [ "cable", 8 ] ], [ [ "power_supply", 1 ] ], [ [ "amplifier", 1 ] ] ]
   }
 ]

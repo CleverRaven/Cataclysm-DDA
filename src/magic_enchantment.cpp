@@ -89,6 +89,14 @@ namespace io
             case enchantment::mod::SOCIAL_LIE: return "SOCIAL_LIE";
             case enchantment::mod::SOCIAL_PERSUADE: return "SOCIAL_PERSUADE";
             case enchantment::mod::SOCIAL_INTIMIDATE: return "SOCIAL_INTIMIDATE";
+            case enchantment::mod::ARMOR_ACID: return "ARMOR_ACID";
+            case enchantment::mod::ARMOR_BASH: return "ARMOR_BASH";
+            case enchantment::mod::ARMOR_BIO: return "ARMOR_BIO";
+            case enchantment::mod::ARMOR_COLD: return "ARMOR_COLD";
+            case enchantment::mod::ARMOR_CUT: return "ARMOR_CUT";
+            case enchantment::mod::ARMOR_ELEC: return "ARMOR_ELEC";
+            case enchantment::mod::ARMOR_HEAT: return "ARMOR_HEAT";
+            case enchantment::mod::ARMOR_STAB: return "ARMOR_STAB";
             case enchantment::mod::ITEM_DAMAGE_BASH: return "ITEM_DAMAGE_BASH";
             case enchantment::mod::ITEM_DAMAGE_CUT: return "ITEM_DAMAGE_CUT";
             case enchantment::mod::ITEM_DAMAGE_STAB: return "ITEM_DAMAGE_STAB";
@@ -243,21 +251,11 @@ void enchantment::serialize( JsonOut &jsout ) const
     jsout.member( "condition", io::enum_to_string<condition>( active_conditions.second ) );
 
     if( !hit_you_effect.empty() ) {
-        jsout.member( "hit_you_effect" );
-        jsout.start_array();
-        for( const fake_spell &sp : hit_you_effect ) {
-            sp.serialize( jsout );
-        }
-        jsout.end_array();
+        jsout.member( "hit_you_effect", hit_you_effect );
     }
 
     if( !hit_me_effect.empty() ) {
-        jsout.member( "hit_me_effect" );
-        jsout.start_array();
-        for( const fake_spell &sp : hit_me_effect ) {
-            sp.serialize( jsout );
-        }
-        jsout.end_array();
+        jsout.member( "hit_me_effect", hit_me_effect );
     }
 
     if( !intermittent_activation.empty() ) {
@@ -372,4 +370,18 @@ void enchantment::activate_passive( Character &guy ) const
 
     guy.mod_speed_bonus( get_value_add( mod::SPEED ) );
     guy.mod_speed_bonus( mult_bonus( mod::SPEED, guy.get_speed_base() ) );
+}
+
+void enchantment::cast_hit_you( Character &caster, const tripoint &target ) const
+{
+    for( const fake_spell &sp : hit_you_effect ) {
+        sp.get_spell( sp.level ).cast_all_effects( caster, target );
+    }
+}
+
+void enchantment::cast_hit_me( Character &caster ) const
+{
+    for( const fake_spell &sp : hit_me_effect ) {
+        sp.get_spell( sp.level ).cast_all_effects( caster, caster.pos() );
+    }
 }

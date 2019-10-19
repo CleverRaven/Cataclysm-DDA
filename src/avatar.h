@@ -73,7 +73,7 @@ class avatar : public player
         /** Provides the window and detailed morale data */
         void disp_morale();
         /** Uses morale and other factors to return the player's focus target goto value */
-        int calc_focus_equilibrium() const;
+        int calc_focus_equilibrium( bool ignore_pain = false ) const;
         /** Calculates actual focus gain/loss value from focus equilibrium*/
         int calc_focus_change() const;
         /** Uses calc_focus_change to update the player's current focus */
@@ -162,6 +162,15 @@ class avatar : public player
         int kill_xp() const;
 
         faction *get_faction() const override;
+
+        void set_movement_mode( character_movemode mode ) override;
+
+        void cycle_move_mode();    // Cycles to the next move mode.
+        void reset_move_mode();    // Resets to walking.
+        void toggle_run_mode();    // Toggles running on/off.
+        void toggle_crouch_mode(); // Toggles crouching on/off.
+
+        bool wield( item &target ) override;
 
     private:
         map_memory player_map_memory;

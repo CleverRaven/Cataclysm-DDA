@@ -25,7 +25,7 @@
     "construction_blueprint": "fbmw_room1_log_northeast",
     "blueprint_name": "northeast kiln and forge",
     "blueprint_requires": [ { "id": "fbmw_northeast" } ],
-    "blueprint_provides": [ { "id": "fbmw_northeast" }, { "id": "blacksmith" }, { "id": "blacksmith_recipes_1" } ],
+    "blueprint_provides": [ { "id": "fbmw_northeast" }, { "id": "blacksmith_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbmw_northeast", "amount": 2 } ],
     "blueprint_resources": [ "fake_forge", "fake_char_kiln", "makeshift_hammer" ],
     "components": [ [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ], [ [ "primitive_hammer", 1 ], [ "makeshift_hammer", 1 ] ] ],

@@ -457,7 +457,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
         if( big_corpse ) {
             if( has_rope && !has_tree_nearby && !b_rack_present ) {
                 u.add_msg_if_player( m_info,
-                                     _( "You need to suspend this corpse to butcher it. While you have a rope to lift the corpse, there is no tree nearby to hang it from." ) );
+                                     _( "You need to suspend this corpse to butcher it.  While you have a rope to lift the corpse, there is no tree nearby to hang it from." ) );
                 act.targets.pop_back();
                 return;
             }
@@ -469,7 +469,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
             }
             if( !has_table_nearby ) {
                 u.add_msg_if_player( m_info,
-                                     _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface. A leather tarp spread out on the ground could suffice." ) );
+                                     _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface.  A leather tarp spread out on the ground could suffice." ) );
                 act.targets.pop_back();
                 return;
             }
@@ -1680,7 +1680,7 @@ void activity_handlers::pickaxe_do_turn( player_activity *act, player * )
     sfx::play_activity_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
     if( calendar::once_every( 1_minutes ) ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
-        sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK! CHNK! CHNK!" ) );
+        sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK!  CHNK!  CHNK!" ) );
     }
 }
 
@@ -1885,7 +1885,9 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
         return;
     }
 
-    p->consume_charges( it, it.type->charges_to_use() );
+    if( it.type->can_have_charges() ) {
+        p->consume_charges( it, it.type->charges_to_use() );
+    }
     p->practice( skill_survival, act->index, 5 );
 
     firestarter_actor::resolve_firestarter_use( *p, act->placement );
@@ -2392,6 +2394,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // target selection and validation.
     while( act->targets.size() < 2 ) {
+        g->draw();
         auto item_loc = game_menus::inv::repair( *p, actor, &main_tool );
 
         if( item_loc == item_location::nowhere ) {
@@ -2408,7 +2411,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     const item &fix = *act->targets[1];
 
     if( repeat == REPEAT_INIT ) {
-        g->draw();
         const int level = p->get_skill_level( actor->used_skill );
         auto action_type = actor->default_action( fix, level );
         if( action_type == repair_item_actor::RT_NOTHING ) {
@@ -2438,6 +2440,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             act->values.resize( 1 );
         }
         do {
+            g->draw();
             repeat = repeat_menu( title, repeat );
 
             if( repeat == REPEAT_CANCEL ) {
@@ -2659,12 +2662,14 @@ void activity_handlers::drive_do_turn( player_activity *act, player *p )
         if( !player_veh->omt_path.empty() ) {
             player_veh->omt_path.clear();
         }
+        player_veh->is_autodriving = false;
         act->set_to_null();
         p->cancel_activity();
         return;
     }
     if( player_veh->omt_path.empty() ) {
         act->set_to_null();
+        player_veh->is_autodriving = false;
         p->add_msg_if_player( m_info, _( "You have reached your destination." ) );
         p->cancel_activity();
     }
@@ -2834,10 +2839,6 @@ void activity_handlers::read_do_turn( player_activity *act, player *p )
             p->stamina = act->values[0] - 1;
             act->values[0] = p->stamina;
         }
-        if( p->stamina < p->get_stamina_max() / 10 ) {
-            p->add_msg_if_player( m_info, _( "This training is exhausting.  Time to rest." ) );
-            act->set_to_null();
-        }
     } else {
         p->moves = 0;
     }
@@ -2917,7 +2918,7 @@ void activity_handlers::find_mount_do_turn( player_activity *act, player *p )
 
 void activity_handlers::wait_npc_finish( player_activity *act, player *p )
 {
-    p->add_msg_if_player( _( "%s finishes with you..." ), act->str_values[0] );
+    p->add_msg_if_player( _( "%s finishes with you…" ), act->str_values[0] );
     act->set_to_null();
 }
 
@@ -2967,7 +2968,7 @@ void activity_handlers::try_sleep_do_turn( player_activity *act, player *p )
             p->fall_asleep();
             p->remove_value( "sleep_query" );
         } else if( one_in( 1000 ) ) {
-            p->add_msg_if_player( _( "You toss and turn..." ) );
+            p->add_msg_if_player( _( "You toss and turn…" ) );
         }
         if( calendar::once_every( 30_minutes ) ) {
             try_sleep_query( act, p );
@@ -3170,7 +3171,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
 void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 {
     if( !p->has_effect( effect_sleep ) ) {
-        p->add_msg_if_player( _( "You try to sleep, but can't..." ) );
+        p->add_msg_if_player( _( "You try to sleep, but can't…" ) );
     }
     act->set_to_null();
 }
@@ -4086,7 +4087,7 @@ void activity_handlers::robot_control_do_turn( player_activity *act, player *p )
     const std::shared_ptr<monster> z = act->monsters[0].lock();
 
     if( !z || !iuse::robotcontrol_can_target( p, *z ) ) {
-        p->add_msg_if_player( _( "Target lost. IFF override failed." ) );
+        p->add_msg_if_player( _( "Target lost.  IFF override failed." ) );
         act->set_to_null();
         return;
     }
@@ -4110,7 +4111,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
     act->monsters.clear();
 
     if( !z || !iuse::robotcontrol_can_target( p, *z ) ) {
-        p->add_msg_if_player( _( "Target lost. IFF override failed." ) );
+        p->add_msg_if_player( _( "Target lost.  IFF override failed." ) );
         return;
     }
 
@@ -4141,7 +4142,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
             return; // Do not do the other effects if the robot died
         }
         if( one_in( 3 ) ) {
-            p->add_msg_if_player( _( "...and turns friendly!" ) );
+            p->add_msg_if_player( _( "…and turns friendly!" ) );
             if( one_in( 3 ) ) { //did the robot became friendly permanently?
                 z->friendly = -1; //it did
             } else {
@@ -4149,7 +4150,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
             }
         }
     } else {
-        p->add_msg_if_player( _( "...but the robot refuses to acknowledge you as an ally!" ) );
+        p->add_msg_if_player( _( "…but the robot refuses to acknowledge you as an ally!" ) );
     }
     p->practice( skill_id( "computer" ), 10 );
 }
@@ -4438,7 +4439,7 @@ void activity_handlers::mind_splicer_finish( player_activity *act, player *p )
         return;
     }
     item &data_card = *act->targets[0];
-    p->add_msg_if_player( m_info, _( "...you finally find the memory banks." ) );
+    p->add_msg_if_player( m_info, _( "…you finally find the memory banks." ) );
     p->add_msg_if_player( m_info, _( "The kit makes a copy of the data inside the bionic." ) );
     data_card.contents.clear();
     data_card.put_in( item( "mind_scan_robofac" ) );

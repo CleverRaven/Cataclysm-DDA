@@ -687,11 +687,11 @@ action_id handle_action_menu()
     }
 
     // If we're already running, make it simple to toggle running to off.
-    if( g->u.movement_mode_is( PMM_RUN ) ) {
+    if( g->u.movement_mode_is( CMM_RUN ) ) {
         action_weightings[ACTION_TOGGLE_RUN] = 300;
     }
     // If we're already crouching, make it simple to toggle crouching to off.
-    if( g->u.movement_mode_is( PMM_CROUCH ) ) {
+    if( g->u.movement_mode_is( CMM_CROUCH ) ) {
         action_weightings[ACTION_TOGGLE_CROUCH] = 300;
     }
 
@@ -771,7 +771,7 @@ action_id handle_action_menu()
             }
             REGISTER_ACTION( ACTION_HELP );
             if( ( entry = &entries.back() ) ) {
-                entry->txt += "...";        // help _is_a menu.
+                entry->txt += "…";        // help _is_a menu.
             }
             if( hotkey_for_action( ACTION_DEBUG ) > -1 ) {
                 REGISTER_CATEGORY( _( "Debug" ) ); // register with global key
@@ -809,7 +809,7 @@ action_id handle_action_menu()
         } else if( category == _( "Debug" ) ) {
             REGISTER_ACTION( ACTION_DEBUG );
             if( ( entry = &entries.back() ) ) {
-                entry->txt += "..."; // debug _is_a menu.
+                entry->txt += "…"; // debug _is_a menu.
             }
 #if !defined(TILES)
             REGISTER_ACTION( ACTION_TOGGLE_FULLSCREEN );
@@ -892,7 +892,7 @@ action_id handle_action_menu()
 
         if( category != "back" ) {
             std::string msg = _( "Back" );
-            msg += "...";
+            msg += "…";
             entries.emplace_back( 2 * NUM_ACTIONS, true,
                                   hotkey_for_action( ACTION_ACTIONMENU ), msg );
         }
