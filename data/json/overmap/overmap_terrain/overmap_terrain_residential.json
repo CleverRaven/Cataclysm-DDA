@@ -408,6 +408,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "house_w_5_roof",
+    "name": "house",
+    "copy-from": "generic_city_building",
+    "color": "light_green",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "emptyresidentiallot",
     "copy-from": "generic_city_building",
     "name": "empty residential lot",

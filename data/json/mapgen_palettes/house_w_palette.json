@@ -23,7 +23,7 @@
       "P": "f_locker",
       "Q": "f_rack",
       "R": "f_bookcase",
-      "S": [ "f_filing_cabinet", "f_shredder" ],
+      "S": [ [ "f_filing_cabinet", 80 ], [ "f_shredder", 20 ] ],
       "U": "f_utility_shelf",
       "V": "f_glass_cabinet",
       "W": "f_washer",
@@ -60,9 +60,9 @@
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "-": "t_dirt",
-      "|": "t_dirt",
+      "|": "t_wall",
       "#": "t_glass_railing",
-      "+": "t_dirt",
+      "+": "t_door_c",
       "=": "t_dirt",
       "p": "t_dirt",
       "2": "t_dirt",
@@ -139,13 +139,13 @@
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "o": [
-        [ "t_window_domestic", 5 ],
+        [ "t_window_domestic", 10 ],
         "t_window_no_curtains",
+        "t_window_open",
         "t_window_no_curtains_open",
-        [ "t_window_open", 2 ],
-        [ "t_curtains", 3 ]
+        [ "t_curtains", 5 ]
       ],
-      "+": [ [ "t_door_c", 10 ], [ "t_door_locked_interior", 3 ] ],
+      "+": [ [ "t_door_c", 10 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 3 ] ],
       "*": [ [ "t_door_locked_peep", 2 ], "t_door_locked_alarm", [ "t_door_locked", 10 ], "t_door_c" ],
       "s": "t_concrete",
       "~": "t_thconc_floor",
@@ -335,7 +335,10 @@
       "3": { "item": { "item": "seed_thyme" }, "furniture": "f_planter_harvest" },
       "4": { "item": { "item": "seed_bee_balm" }, "furniture": "f_planter_harvest" },
       "5": { "item": { "item": "seed_mugwort" }, "furniture": "f_planter_harvest" },
-      "6": { "item": { "item": "seed_tomato" }, "furniture": "f_planter_harvest" }
+      "6": { "item": { "item": "seed_tomato" }, "furniture": "f_planter_harvest" },
+      "7": { "item": { "item": "seed_cucumber" }, "furniture": "f_planter_harvest" },
+      "8": { "item": { "item": "soybean_seed" }, "furniture": "f_planter_harvest" },
+      "9": { "item": { "item": "seed_zucchini" }, "furniture": "f_planter_harvest" }
     }
   }
 ]
