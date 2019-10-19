@@ -193,17 +193,53 @@ struct value_constraint {
     }
 };
 
+// Helper struct to abstract the two possible sources of event_multisets:
+// event_types and event_transformations
+struct event_source {
+    event_source( const JsonObject &jo ) {
+        if( jo.has_member( "event_type" ) == jo.has_member( "event_transformation" ) ) {
+            jo.throw_error( "Must specify exactly one of 'event_type' or 'event_transformation'" );
+        }
+        if( jo.has_member( "event_type" ) ) {
+            jo.read( "event_type", type );
+        } else {
+            jo.read( "event_transformation", transformation );
+        }
+    }
+    event_source( event_type t ) : type( t ) {}
+    event_source( const string_id<event_transformation> &t ) : transformation( t ) {}
+
+    event_type type = event_type::num_event_types;
+    string_id<event_transformation> transformation;
+
+    event_multiset get( stats_tracker &stats ) const {
+        if( transformation.is_empty() ) {
+            return stats.get_events( type );
+        } else {
+            return stats.get_events( transformation );
+        }
+    }
+
+    void add_watcher( stats_tracker &stats, event_multiset_watcher *watcher ) const {
+        if( transformation.is_empty() ) {
+            stats.add_watcher( type, watcher );
+        } else {
+            stats.add_watcher( transformation, watcher );
+        }
+    }
+};
+
 struct event_transformation_match : public event_transformation::impl {
-    template<typename Constriants>
-    event_transformation_match( const string_id<event_transformation> &id, event_type type,
-                                const Constriants &constriants ) :
+    template<typename Constraints>
+    event_transformation_match( const string_id<event_transformation> &id, event_source source,
+                                const Constraints &constraints ) :
         id_( id ),
-        type_( type ),
-        constraints_( constriants.begin(), constriants.end() )
+        source_( source ),
+        constraints_( constraints.begin(), constraints.end() )
     {}
 
     string_id<event_transformation> id_;
-    event_type type_;
+    event_source source_;
     std::vector<std::pair<std::string, value_constraint>> constraints_;
 
     bool matches( const cata::event::data_type &data, stats_tracker &stats ) const {
@@ -220,7 +256,7 @@ struct event_transformation_match : public event_transformation::impl {
 
     event_multiset initialize( const event_multiset::counts_type &input,
                                stats_tracker &stats ) const {
-        event_multiset result( type_ );
+        event_multiset result( source_.type );
 
         for( const std::pair<const cata::event::data_type, int> &p : input ) {
             if( matches( p.first, stats ) ) {
@@ -231,14 +267,14 @@ struct event_transformation_match : public event_transformation::impl {
     }
 
     event_multiset initialize( stats_tracker &stats ) const override {
-        return initialize( stats.get_events( type_ ).counts(), stats );
+        return initialize( source_.get( stats ).counts(), stats );
     }
 
     struct state : stats_tracker_state, event_multiset_watcher, stat_watcher {
         state( const event_transformation_match *trans, stats_tracker &stats ) :
             transformation_( trans ),
             data_( trans->initialize( stats ) ) {
-            stats.add_watcher( trans->type_, this );
+            trans->source_.add_watcher( stats, this );
             for( const auto &p : trans->constraints_ ) {
                 if( p.second.equals_statistic_ ) {
                     stats.add_watcher( *p.second.equals_statistic_, this );
@@ -294,44 +330,16 @@ std::unique_ptr<stats_tracker_state> event_transformation::watch( stats_tracker 
 
 void event_transformation::load( const JsonObject &jo, const std::string & )
 {
-    event_type type = event_type::num_event_types;
-    mandatory( jo, was_loaded, "event_type", type );
     std::map<std::string, value_constraint> constraints;
     mandatory( jo, was_loaded, "value_constraints", constraints );
 
-    impl_ = std::make_unique<event_transformation_match>( id, type, constraints );
+    impl_ = std::make_unique<event_transformation_match>( id, event_source( jo ), constraints );
 }
 
 void event_transformation::check() const
 {
     impl_->check( id.str() );
 }
-
-// Helper struct to abstract the two possible sources of event_multisets:
-// event_types and event_transformations
-struct event_source {
-    event_source( event_type t ) : type( t ) {}
-    event_source( const string_id<event_transformation> &t ) : transformation( t ) {}
-
-    event_type type = event_type::num_event_types;
-    string_id<event_transformation> transformation;
-
-    event_multiset get( stats_tracker &stats ) const {
-        if( transformation.is_empty() ) {
-            return stats.get_events( type );
-        } else {
-            return stats.get_events( transformation );
-        }
-    }
-
-    void add_watcher( stats_tracker &stats, event_multiset_watcher *watcher ) const {
-        if( transformation.is_empty() ) {
-            stats.add_watcher( type, watcher );
-        } else {
-            stats.add_watcher( transformation, watcher );
-        }
-    }
-};
 
 struct event_statistic_count : event_statistic::impl {
     event_statistic_count( const string_id<event_statistic> &i, const event_source &s ) :
@@ -509,30 +517,12 @@ void event_statistic::load( const JsonObject &jo, const std::string & )
     std::string type;
     mandatory( jo, was_loaded, "stat_type", type );
 
-    auto get_event_source = [&]() {
-        event_type event_t = event_type::num_event_types;
-        optional( jo, was_loaded, "event_type", event_t, event_type::num_event_types );
-        string_id<event_transformation> event_transformation;
-        optional( jo, was_loaded, "event_transformation", event_transformation );
-
-        if( ( event_t == event_type::num_event_types ) == event_transformation.is_empty() ) {
-            jo.throw_error( "Must specify exactly one of 'event_type' or 'event_transformation' in "
-                            "event_statistic of type 'count'" );
-        }
-
-        if( event_transformation.is_empty() ) {
-            return event_source( event_t );
-        } else {
-            return event_source( event_transformation );
-        }
-    };
-
     if( type == "count" ) {
-        impl_ = std::make_unique<event_statistic_count>( id, get_event_source() );
+        impl_ = std::make_unique<event_statistic_count>( id, event_source( jo ) );
     } else if( type == "total" ) {
         std::string field;
         mandatory( jo, was_loaded, "field", field );
-        impl_ = std::make_unique<event_statistic_total>( id, get_event_source(), field );
+        impl_ = std::make_unique<event_statistic_total>( id, event_source( jo ), field );
     } else if( type == "unique_value" ) {
         event_type event_t = event_type::num_event_types;
         mandatory( jo, was_loaded, "event_type", event_t );
