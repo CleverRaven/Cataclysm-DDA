@@ -1044,7 +1044,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
 bool advanced_inventory::show_sort_menu( advanced_inventory_pane &pane )
 {
     uilist sm;
-    sm.text = _( "Sort by... " );
+    sm.text = _( "Sort by..." );
     sm.addentry( SORTBY_NONE,     true, 'u', _( "Unsorted (recently added first)" ) );
     sm.addentry( SORTBY_NAME,     true, 'n', get_sortname( SORTBY_NAME ) );
     sm.addentry( SORTBY_WEIGHT,   true, 'w', get_sortname( SORTBY_WEIGHT ) );

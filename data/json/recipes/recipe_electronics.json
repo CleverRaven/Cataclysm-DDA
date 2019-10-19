@@ -2035,7 +2035,7 @@
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ] ],
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "e_scrap", 1 ] ], [ [ "scrap", 1 ] ], [ [ "cable", 3 ] ] ]
+    "components": [ [ [ "e_scrap", 1 ] ], [ [ "scrap", 1 ] ], [ [ "cable", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2049,9 +2049,9 @@
     "reversible": true,
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
-    "using": [ [ "soldering_standard", 5 ], [ "steel_standard", 5 ] ],
+    "using": [ [ "soldering_standard", 5 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "cable", 3 ] ], [ [ "e_scrap", 5 ] ] ]
+    "components": [ [ [ "cable", 3 ] ], [ [ "e_scrap", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -2065,9 +2065,9 @@
     "reversible": true,
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
-    "using": [ [ "soldering_standard", 5 ] ],
+    "using": [ [ "soldering_standard", 5 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 2 ] ], [ [ "scrap", 2 ] ], [ [ "cable", 6 ] ] ]
+    "components": [ [ [ "e_scrap", 5 ] ], [ [ "cable", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -2401,9 +2401,9 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 20 ], [ "oxy_torch", 4 ] ] ],
     "components": [
-      [ [ "chem_manganese_dioxide", 2 ] ],
+      [ [ "chem_manganese_dioxide", 29 ] ],
       [ [ "zinc_metal", 2 ] ],
-      [ [ "chem_potassium_hydroxide", 1 ] ],
+      [ [ "chem_potassium_hydroxide", 7 ] ],
       [ [ "water_clean", 1 ] ],
       [ [ "steel_chunk", 1 ], [ "scrap", 2 ] ]
     ]
@@ -2421,9 +2421,9 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 20 ], [ "oxy_torch", 4 ] ] ],
     "components": [
-      [ [ "chem_manganese_dioxide", 6 ] ],
+      [ [ "chem_manganese_dioxide", 87 ] ],
       [ [ "zinc_metal", 6 ] ],
-      [ [ "chem_potassium_hydroxide", 3 ] ],
+      [ [ "chem_potassium_hydroxide", 20 ] ],
       [ [ "water_clean", 3 ] ],
       [ [ "steel_chunk", 3 ], [ "scrap", 6 ] ]
     ]
@@ -2441,9 +2441,9 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 20 ], [ "oxy_torch", 4 ] ] ],
     "components": [
-      [ [ "chem_manganese_dioxide", 24 ] ],
+      [ [ "chem_manganese_dioxide", 348 ] ],
       [ [ "zinc_metal", 24 ] ],
-      [ [ "chem_potassium_hydroxide", 12 ] ],
+      [ [ "chem_potassium_hydroxide", 82 ] ],
       [ [ "water_clean", 12 ] ],
       [ [ "steel_chunk", 12 ], [ "scrap", 24 ] ]
     ]
@@ -2461,9 +2461,9 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 20 ], [ "oxy_torch", 4 ] ] ],
     "components": [
-      [ [ "chem_manganese_dioxide", 50 ] ],
+      [ [ "chem_manganese_dioxide", 725 ] ],
       [ [ "zinc_metal", 50 ] ],
-      [ [ "chem_potassium_hydroxide", 25 ] ],
+      [ [ "chem_potassium_hydroxide", 170 ] ],
       [ [ "water_clean", 25 ] ],
       [ [ "steel_chunk", 25 ], [ "scrap", 50 ] ]
     ]

@@ -164,16 +164,16 @@ static void eff_fun_fungus( player &u, effect &it )
                 if( u.is_limb_broken( hp_arm_l ) || u.is_limb_broken( hp_arm_r ) ) {
                     if( u.is_limb_broken( hp_arm_l ) && u.is_limb_broken( hp_arm_r ) ) {
                         u.add_msg_player_or_npc( m_bad,
-                                                 _( "The flesh on your broken arms bulges. Fungus stalks burst through!" ),
-                                                 _( "<npcname>'s broken arms bulge. Fungus stalks burst out of the bulges!" ) );
+                                                 _( "The flesh on your broken arms bulges.  Fungus stalks burst through!" ),
+                                                 _( "<npcname>'s broken arms bulge.  Fungus stalks burst out of the bulges!" ) );
                     } else {
                         u.add_msg_player_or_npc( m_bad,
-                                                 _( "The flesh on your broken and unbroken arms bulge. Fungus stalks burst through!" ),
-                                                 _( "<npcname>'s arms bulge. Fungus stalks burst out of the bulges!" ) );
+                                                 _( "The flesh on your broken and unbroken arms bulge.  Fungus stalks burst through!" ),
+                                                 _( "<npcname>'s arms bulge.  Fungus stalks burst out of the bulges!" ) );
                     }
                 } else {
-                    u.add_msg_player_or_npc( m_bad, _( "Your hands bulge. Fungus stalks burst through the bulge!" ),
-                                             _( "<npcname>'s hands bulge. Fungus stalks burst through the bulge!" ) );
+                    u.add_msg_player_or_npc( m_bad, _( "Your hands bulge.  Fungus stalks burst through the bulge!" ),
+                                             _( "<npcname>'s hands bulge.  Fungus stalks burst through the bulge!" ) );
                 }
                 u.apply_damage( nullptr, bp_arm_l, 999 );
                 u.apply_damage( nullptr, bp_arm_r, 999 );
@@ -689,7 +689,7 @@ void player::hardcoded_effects( effect &it )
                 add_effect( effect_shakes, rng( 4_minutes, 8_minutes ) );
             }
             if( one_in( 12000 - to_turns<int>( dur ) ) ) {
-                add_msg_if_player( m_bad, _( "Your vision is filled with bright lights..." ) );
+                add_msg_if_player( m_bad, _( "Your vision is filled with bright lights…" ) );
                 add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
                 if( one_in( 8 ) ) {
                     // Set ourselves up for removal
@@ -998,7 +998,7 @@ void player::hardcoded_effects( effect &it )
             it.set_duration( 0_turns );
         }
         if( dur == 1_turns && !sleeping ) {
-            add_msg_if_player( _( "You try to sleep, but can't..." ) );
+            add_msg_if_player( _( "You try to sleep, but can't…" ) );
         }
     } else if( id == effect_sleep ) {
         set_moves( 0 );
@@ -1217,9 +1217,9 @@ void player::hardcoded_effects( effect &it )
                 remove_effect( effect_alarm_clock );
             } else if( has_effect( effect_slept_through_alarm ) ) { // slept though the alarm.
                 if( has_bionic( bionic_id( "bio_watch" ) ) ) {
-                    add_msg_if_player( m_warning, _( "It looks like you've slept through your internal alarm..." ) );
+                    add_msg_if_player( m_warning, _( "It looks like you've slept through your internal alarm…" ) );
                 } else {
-                    add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm..." ) );
+                    add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm…" ) );
                 }
                 get_effect( effect_slept_through_alarm ).set_duration( 0_turns );
                 remove_effect( effect_alarm_clock );

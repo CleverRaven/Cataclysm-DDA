@@ -79,7 +79,7 @@ static const trait_id trait_BURROW( "BURROW" );
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
     if( p.morale_crafting_speed_multiplier( rec ) <= 0.0f ) {
-        add_msg( m_info, _( "Your morale is too low to craft such a difficult thing..." ) );
+        add_msg( m_info, _( "Your morale is too low to craft such a difficult thing…" ) );
         return false;
     }
 
@@ -404,7 +404,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
 
         if( charges_to_store > 0 ) {
             if( !query_yn(
-                    _( "You don't have anything in which to store %s and may have to pour it out or consume it as soon as it is prepared! Proceed?" ),
+                    _( "You don't have anything in which to store %s and may have to pour it out or consume it as soon as it is prepared!  Proceed?" ),
                     prod.tname() ) ) {
                 return false;
             }
@@ -737,6 +737,10 @@ void player::start_craft( craft_command &command, const tripoint &loc )
     }
 
     item craft = command.create_in_progress_craft();
+    const recipe &making = craft.get_making();
+    if( get_skill_level( command.get_skill_id() ) > making.difficulty * 1.25 ) {
+        handle_skill_warning( command.get_skill_id(), true );
+    }
 
     // In case we were wearing something just consumed
     if( !craft.components.empty() ) {
@@ -862,7 +866,7 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
         const int base_practice = roll_remainder( ( making.difficulty * 15 + 10 ) * batch_mult /
                                   20.0 ) * multiplier;
         const int skill_cap = static_cast<int>( making.difficulty * 1.25 );
-        practice( making.skill_used, base_practice, skill_cap );
+        practice( making.skill_used, base_practice, skill_cap, true );
 
         // NPCs assisting or watching should gain experience...
         for( auto &helper : helpers ) {
@@ -871,17 +875,17 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
                 helper->practice( making.skill_used, roll_remainder( base_practice / 2.0 ),
                                   skill_cap );
                 if( batch_size > 1 && one_in( 3 ) ) {
-                    add_msg( m_info, _( "%s assists with crafting..." ), helper->name );
+                    add_msg( m_info, _( "%s assists with crafting…" ), helper->name );
                 }
                 if( batch_size == 1 && one_in( 3 ) ) {
-                    add_msg( m_info, _( "%s could assist you with a batch..." ), helper->name );
+                    add_msg( m_info, _( "%s could assist you with a batch…" ), helper->name );
                 }
                 // NPCs around you understand the skill used better
             } else {
                 helper->practice( making.skill_used, roll_remainder( base_practice / 10.0 ),
                                   skill_cap );
                 if( one_in( 3 ) ) {
-                    add_msg( m_info, _( "%s watches you craft..." ), helper->name );
+                    add_msg( m_info, _( "%s watches you craft…" ), helper->name );
                 }
             }
         }
@@ -910,7 +914,7 @@ double player::crafting_success_roll( const recipe &making ) const
             get_skill_level( making.skill_used ) ) {
             // NPC assistance is worth half a skill level
             skill_dice += 2;
-            add_msg_if_player( m_info, _( "%s helps with crafting..." ), np->name );
+            add_msg_if_player( m_info, _( "%s helps with crafting…" ), np->name );
             break;
         }
     }
@@ -1095,7 +1099,20 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 }
             }
 
+            //If item is crafted neither from poor-fit nor from perfect-fit components, and it can be refitted, the result is refitted by default
+            if( newit.has_flag( "VARSIZE" ) ) {
+                newit.item_tags.insert( "FIT" );
+            }
+
             for( auto &component : used ) {
+                //If item is crafted from poor-fit components, the result is poorly fitted too
+                if( component.has_flag( "VARSIZE" ) ) {
+                    newit.unset_flag( "FIT" );
+                }
+                //If item is crafted from perfect-fit components, the result is perfectly fitted too
+                if( component.has_flag( "FIT" ) ) {
+                    newit.item_tags.insert( "FIT" );
+                }
                 if( component.has_flag( "HIDDEN_HALLU" ) ) {
                     newit.item_tags.insert( "HIDDEN_HALLU" );
                 }

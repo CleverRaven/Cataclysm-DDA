@@ -208,9 +208,34 @@
     "name": "shallow pool water",
     "description": "A shallow pool of water.",
     "symbol": "~",
+    "looks_like": "t_water_pool",
     "color": "light_blue",
     "move_cost": 5,
     "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE", "INDOORS" ],
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_water_pool_outdoors",
+    "name": "pool water",
+    "description": "A deep pool full of water.  Never swim without a lifeguard present.  Even though monsters probably ate them.",
+    "symbol": "~",
+    "looks_like": "t_water_pool",
+    "color": "light_blue",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER" ],
+    "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_water_pool_shallow_outdoors",
+    "name": "shallow pool water",
+    "description": "A shallow pool of water.",
+    "symbol": "~",
+    "looks_like": "t_water_pool",
+    "color": "light_blue",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE" ],
     "examine_action": "water_source"
   },
   {

@@ -1868,6 +1868,7 @@ void fake_spell::load( JsonObject &jo )
 
 void fake_spell::serialize( JsonOut &json ) const
 {
+    json.start_object();
     json.member( "id", id );
     json.member( "hit_self", self );
     if( !max_level ) {
@@ -1876,6 +1877,7 @@ void fake_spell::serialize( JsonOut &json ) const
         json.member( "max_level", *max_level );
     }
     json.member( "min_level", level );
+    json.end_object();
 }
 
 void fake_spell::deserialize( JsonIn &jsin )

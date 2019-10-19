@@ -59,6 +59,7 @@
 #include "trap.h"
 #include "ui.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "vitamin.h"
 #include "weather.h"
 #include "enums.h"
@@ -993,7 +994,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     } else if( type == t_door_bar_locked ) {
         new_type = t_door_bar_o;
         //Bar doors auto-open (and lock if closed again) so show a different message)
-        open_message = _( "The door swings open..." );
+        open_message = _( "The door swings open…" );
     } else {
         return 0;
     }
@@ -1247,7 +1248,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
     }
     return !has_unactivated_brazier ||
            query_yn(
-               _( "There's a brazier there but you haven't set it up to contain the fire. Continue?" ) );
+               _( "There's a brazier there but you haven't set it up to contain the fire.  Continue?" ) );
 }
 
 void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos )
@@ -1258,7 +1259,7 @@ void firestarter_actor::resolve_firestarter_use( player &p, const tripoint &pos 
         } else {
             if( one_in( 4 ) ) {
                 p.add_msg_if_player( m_mixed,
-                                     _( "You light a fire, but it isn't enough. You need to light more." ) );
+                                     _( "You light a fire, but it isn't enough.  You need to light more." ) );
             } else {
                 p.add_msg_if_player( m_good, _( "You happily light a fire." ) );
                 p.add_morale( MORALE_PYROMANIA_STARTFIRE, 5, 10, 6_hours, 4_hours );
@@ -1907,7 +1908,7 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     if( tolerance_level == 0 ) {
         // You just don't care, no message.
     } else if( tolerance_level <= 5 ) {
-        add_msg( m_neutral, _( "Well, it's more constructive than just chopping 'em into gooey meat..." ) );
+        add_msg( m_neutral, _( "Well, it's more constructive than just chopping 'em into gooey meat…" ) );
     } else {
         add_msg( m_bad, _( "You feel horrible for mutilating and enslaving someone's corpse." ) );
 
@@ -2885,10 +2886,28 @@ bool repair_item_actor::can_use_tool( const player &p, const item &tool, bool pr
 
 static item_location get_item_location( player &p, item &it, const tripoint &pos )
 {
+    // Item on a character
     if( p.has_item( it ) ) {
         return item_location( p, &it );
     }
 
+    // Item in a vehicle
+    if( const optional_vpart_position &vp = g->m.veh_at( pos ) ) {
+        vehicle_cursor vc( vp->vehicle(), vp->part_index() );
+        bool found_in_vehicle = false;
+        vc.visit_items( [&]( const item * e ) {
+            if( e == &it ) {
+                found_in_vehicle = true;
+                return VisitResponse::ABORT;
+            }
+            return VisitResponse::NEXT;
+        } );
+        if( found_in_vehicle ) {
+            return item_location( vc, &it );
+        }
+    }
+
+    // Item on the map
     return item_location( pos, &it );
 }
 
@@ -2974,7 +2993,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
             for( const auto &entry : valid_entries ) {
                 const auto &mat_comp = entry.obj().repaired_with();
                 pl.add_msg_if_player( m_info,
-                                      _( "You don't have enough %s to do that. Have: %d, need: %d" ),
+                                      _( "You don't have enough %s to do that.  Have: %d, need: %d" ),
                                       item::nname( mat_comp, 2 ),
                                       item::find_type( mat_comp )->count_by_charges() ?
                                       crafting_inv.amount_of( mat_comp, false ) :
@@ -3195,7 +3214,7 @@ static bool damage_item( player &pl, item_location &fix )
     const std::string startdurability = fix->durability_indicator( true );
     const auto destroyed = fix->inc_damage();
     const std::string resultdurability = fix->durability_indicator( true );
-    pl.add_msg_if_player( m_bad, _( "You damage your %s! ( %s-> %s)" ), fix->tname( 1, false ),
+    pl.add_msg_if_player( m_bad, _( "You damage your %s!  ( %s-> %s)" ), fix->tname( 1, false ),
                           startdurability, resultdurability );
     if( destroyed ) {
         pl.add_msg_if_player( m_bad, _( "You destroy it!" ) );
@@ -3268,10 +3287,10 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
             fix->set_damage( std::max( damage - itype::damage_scale, 0 ) );
             const std::string resultdurability = fix->durability_indicator( true );
             if( damage > itype::damage_scale ) {
-                pl.add_msg_if_player( m_good, _( "You repair your %s! ( %s-> %s)" ), fix->tname( 1, false ),
+                pl.add_msg_if_player( m_good, _( "You repair your %s!  ( %s-> %s)" ), fix->tname( 1, false ),
                                       startdurability, resultdurability );
             } else {
-                pl.add_msg_if_player( m_good, _( "You repair your %s completely! ( %s-> %s)" ), fix->tname( 1,
+                pl.add_msg_if_player( m_good, _( "You repair your %s completely!  ( %s-> %s)" ), fix->tname( 1,
                                       false ), startdurability, resultdurability );
             }
             return AS_SUCCESS;
@@ -3861,7 +3880,7 @@ static bool has_neighbor( const tripoint &pos, const ter_id &terrain_id )
 bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::string &name ) const
 {
     if( !allow_under_player && pos == p.pos() ) {
-        p.add_msg_if_player( m_info, _( "Yeah. Place the %s at your feet. Real damn smart move." ),
+        p.add_msg_if_player( m_info, _( "Yeah.  Place the %s at your feet.  Real damn smart move." ),
                              name );
         return false;
     }
@@ -3884,7 +3903,7 @@ bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::st
     const trap &existing_trap = g->m.tr_at( pos );
     if( !existing_trap.is_null() ) {
         if( existing_trap.can_see( pos, p ) ) {
-            p.add_msg_if_player( m_info, _( "You can't place a %s there. It contains a trap already." ),
+            p.add_msg_if_player( m_info, _( "You can't place a %s there.  It contains a trap already." ),
                                  name );
         } else {
             p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name() );
@@ -4215,7 +4234,7 @@ int mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
                 mutation_category );
 
     if( p.has_trait( trait_MUT_JUNKIE ) ) {
-        p.add_msg_if_player( m_good, _( "You quiver with anticipation..." ) );
+        p.add_msg_if_player( m_good, _( "You quiver with anticipation…" ) );
         p.add_morale( MORALE_MUTAGEN, 5, 50 );
     }
 
@@ -4552,7 +4571,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( it.charges >= thread_needed ) {
         tmenu.text = _( "How do you want to modify it?" );
     } else {
-        tmenu.text = _( "Not enough thread to modify. Which modification do you want to remove?" );
+        tmenu.text = _( "Not enough thread to modify.  Which modification do you want to remove?" );
     }
 
     int index = 0;
@@ -4625,7 +4644,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         const std::string startdurability = mod.durability_indicator( true );
         const auto destroyed = mod.inc_damage();
         const std::string resultdurability = mod.durability_indicator( true );
-        p.add_msg_if_player( m_bad, _( "You damage your %s trying to modify it! ( %s-> %s)" ),
+        p.add_msg_if_player( m_bad, _( "You damage your %s trying to modify it!  ( %s-> %s)" ),
                              mod.tname( 1, false ), startdurability, resultdurability );
         if( destroyed ) {
             p.add_msg_if_player( m_bad, _( "You destroy it!" ) );

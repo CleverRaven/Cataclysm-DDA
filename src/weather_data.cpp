@@ -103,7 +103,7 @@ static weather_result weather_data_internal( weather_type const type )
             }
         }};
 
-    const auto i = static_cast<size_t>( type );
+    const size_t i = static_cast<size_t>( type );
     if( i < NUM_WEATHER_TYPES ) {
         return { data[i], i > 0 };
     }

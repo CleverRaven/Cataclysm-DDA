@@ -2798,36 +2798,36 @@ bool cata_tiles::draw_zombie_revival_indicators( const tripoint &pos, const lit_
     return false;
 }
 
-void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll,
+void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint &p, lit_level ll,
         int &height_3d )
 {
     std::string ent_name;
 
-    if( pl.is_npc() ) {
-        ent_name = pl.male ? "npc_male" : "npc_female";
+    if( ch.is_npc() ) {
+        ent_name = ch.male ? "npc_male" : "npc_female";
     } else {
-        ent_name = pl.male ? "player_male" : "player_female";
+        ent_name = ch.male ? "player_male" : "player_female";
     }
     // first draw the character itself(i guess this means a tileset that
     // takes this seriously needs a naked sprite)
     int prev_height_3d = height_3d;
 
     // depending on the toggle flip sprite left or right
-    if( pl.facing == FD_RIGHT ) {
+    if( ch.facing == FD_RIGHT ) {
         draw_from_id_string( ent_name, C_NONE, "", p, corner, 0, ll, false, height_3d );
-    } else if( pl.facing == FD_LEFT ) {
+    } else if( ch.facing == FD_LEFT ) {
         draw_from_id_string( ent_name, C_NONE, "", p, corner, 4, ll, false, height_3d );
     }
 
     // next up, draw all the overlays
-    std::vector<std::string> overlays = pl.get_overlay_ids();
+    std::vector<std::string> overlays = ch.get_overlay_ids();
     for( const std::string &overlay : overlays ) {
         std::string draw_id = overlay;
-        if( find_overlay_looks_like( pl.male, overlay, draw_id ) ) {
+        if( find_overlay_looks_like( ch.male, overlay, draw_id ) ) {
             int overlay_height_3d = prev_height_3d;
-            if( pl.facing == FD_RIGHT ) {
+            if( ch.facing == FD_RIGHT ) {
                 draw_from_id_string( draw_id, C_NONE, "", p, corner, /*rota:*/ 0, ll, false, overlay_height_3d );
-            } else if( pl.facing == FD_LEFT ) {
+            } else if( ch.facing == FD_LEFT ) {
                 draw_from_id_string( draw_id, C_NONE, "", p, corner, /*rota:*/ 4, ll, false, overlay_height_3d );
             }
             // the tallest height-having overlay is the one that counts

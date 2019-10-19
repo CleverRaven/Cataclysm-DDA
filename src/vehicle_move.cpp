@@ -1243,7 +1243,7 @@ vehicle *vehicle::act_on_map()
 {
     const tripoint pt = global_pos3();
     if( !g->m.inbounds( pt ) ) {
-        dbg( D_INFO ) << "stopping out-of-map vehicle. (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z <<
+        dbg( D_INFO ) << "stopping out-of-map vehicle.  (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z <<
                       ")";
         stop( false );
         of_turn = 0;

@@ -26,7 +26,9 @@ TEST_CASE( "armor_info", "[item][iteminfo]" )
     iteminfo_test(
         item( "longshirt" ), q,
         "--\n"
+        // NOLINTNEXTLINE(cata-text-style)
         "Covers: The <color_c_cyan>torso</color>. The <color_c_cyan>arms</color>. \n"
+        // NOLINTNEXTLINE(cata-text-style)
         "Layer: <color_c_light_blue>Normal</color>. \n"
         "Coverage: <color_c_yellow>90</color>%  Warmth: <color_c_yellow>5</color>\n"
         "--\n"

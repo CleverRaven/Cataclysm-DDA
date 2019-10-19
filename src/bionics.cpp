@@ -1275,7 +1275,7 @@ int player::bionics_pl_skill( const skill_id &most_important_skill, const skill_
     // People trained in bionics gain an additional advantage towards using it
     if( has_trait( trait_PROF_AUTODOC ) ) {
         pl_skill += 7;
-        add_msg( m_neutral, _( "A lifetime of augmentation has taught %s a thing or two..." ),
+        add_msg( m_neutral, _( "A lifetime of augmentation has taught %s a thing or two…" ),
                  disp_name() );
     }
     return pl_skill;
@@ -1329,7 +1329,7 @@ bool player::can_uninstall_bionic( const bionic_id &b_id, player &installer, boo
 
     if( ( b_id == "bio_reactor" ) || ( b_id == "bio_advreactor" ) ) {
         if( !g->u.query_yn(
-                _( "WARNING: Removing a reactor may leave radioactive material! Remove anyway?" ) ) ) {
+                _( "WARNING: Removing a reactor may leave radioactive material!  Remove anyway?" ) ) ) {
             return false;
         }
     }
@@ -1373,7 +1373,7 @@ bool player::can_uninstall_bionic( const bionic_id &b_id, player &installer, boo
         }
     } else {
         if( !g->u.query_yn(
-                _( "WARNING: %i percent chance of SEVERE damage to all body parts! Continue anyway?" ),
+                _( "WARNING: %i percent chance of SEVERE damage to all body parts!  Continue anyway?" ),
                 ( 100 - static_cast<int>( chance_of_success ) ) ) ) {
             return false;
         }
@@ -1624,7 +1624,7 @@ bool player::can_install_bionics( const itype &type, player &installer, bool aut
         }
     } else {
         if( !g->u.query_yn(
-                _( "WARNING: %i percent chance of failure that may result in damage, pain, or a faulty installation! Continue anyway?" ),
+                _( "WARNING: %i percent chance of failure that may result in damage, pain, or a faulty installation!  Continue anyway?" ),
                 ( 100 - static_cast<int>( chance_of_success ) ) ) ) {
             return false;
         }
@@ -2104,6 +2104,7 @@ void load_bionic( JsonObject &jsobj )
     new_bionic.shockproof = get_bool_or_flag( jsobj, "shockproof", "BIONIC_SHOCKPROOF", false );
 
     new_bionic.fuel_efficiency = jsobj.get_float( "fuel_efficiency", 0 );
+    new_bionic.passive_fuel_efficiency = jsobj.get_float( "passive_fuel_efficiency", 0 );
 
     if( new_bionic.gun_bionic && new_bionic.weapon_bionic ) {
         debugmsg( "Bionic %s specified as both gun and weapon bionic", id.c_str() );

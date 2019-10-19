@@ -400,22 +400,22 @@ bool main_menu::opening_screen()
     print_menu( w_open, 0, menu_offset );
 
     if( !assure_dir_exist( FILENAMES["config_dir"] ) ) {
-        popup( _( "Unable to make config directory. Check permissions." ) );
+        popup( _( "Unable to make config directory.  Check permissions." ) );
         return false;
     }
 
     if( !assure_dir_exist( FILENAMES["savedir"] ) ) {
-        popup( _( "Unable to make save directory. Check permissions." ) );
+        popup( _( "Unable to make save directory.  Check permissions." ) );
         return false;
     }
 
     if( !assure_dir_exist( FILENAMES["templatedir"] ) ) {
-        popup( _( "Unable to make templates directory. Check permissions." ) );
+        popup( _( "Unable to make templates directory.  Check permissions." ) );
         return false;
     }
 
     if( !assure_dir_exist( FILENAMES["user_sound"] ) ) {
-        popup( _( "Unable to make sound directory. Check permissions." ) );
+        popup( _( "Unable to make sound directory.  Check permissions." ) );
         return false;
     }
 
@@ -668,7 +668,7 @@ bool main_menu::new_character_tab()
     vSubItems.push_back( pgettext( "Main Menu|New Game", "<P|p>reset Character" ) );
     vSubItems.push_back( pgettext( "Main Menu|New Game", "<R|r>andom Character" ) );
     if( !MAP_SHARING::isSharing() ) { // "Play Now" function doesn't play well together with shared maps
-        vSubItems.push_back( pgettext( "Main Menu|New Game", "Play Now! (<F|f>ixed Scenario)" ) );
+        vSubItems.push_back( pgettext( "Main Menu|New Game", "Play Now!  (<F|f>ixed Scenario)" ) );
         vSubItems.push_back( pgettext( "Main Menu|New Game", "Play <N|n>ow!" ) );
     }
     std::vector<std::vector<std::string>> vNewGameHotkeys;
@@ -1200,12 +1200,12 @@ std::string main_menu::halloween_spider()
         "        |\n"
         "        |\n"
         "        |\n"
-        "  , .   |  . ,\n"
-        "  { | ,--, | }\n"
+        "  , .   |  . ,\n" // NOLINT(cata-text-style)
+        "  { | ,--, | }\n" // NOLINT(cata-text-style)
         "   \\\\{~~~~}//\n"
         "  /_/ {<color_c_red>..</color>} \\_\\\n"
         "  { {      } }\n"
-        "  , ,      , .";
+        "  , ,      , ."; // NOLINT(cata-text-style)
 
     return spider;
 }
@@ -1216,10 +1216,10 @@ std::string main_menu::halloween_graves()
         "                    _\n"
         "        -q       __(\")_\n"
         "         (\\      \\_  _/\n"
-        " .-.   .-''\"'.     |/\n"
+        " .-.   .-''\"'.     |/\n" // NOLINT(cata-text-style)
         "|RIP|  | RIP |   .-.\n"
         "|   |  |     |  |RIP|\n"
-        ";   ;  |     | ,'---',";
+        ";   ;  |     | ,'---',"; // NOLINT(cata-text-style)
 
     return graves;
 }

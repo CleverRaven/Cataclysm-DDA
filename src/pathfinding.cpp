@@ -319,7 +319,8 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 const int rating = ( bash == 0 || cost != 0 ) ? -1 :
                                    bash_rating_internal( bash, furniture, terrain, false, veh, part );
 
-                if( cost == 0 && rating <= 0 && ( !doors || !terrain.open ) && veh == nullptr && climb_cost <= 0 ) {
+                if( cost == 0 && rating <= 0 && ( !doors || !terrain.open || !furniture.open ) && veh == nullptr &&
+                    climb_cost <= 0 ) {
                     layer.state[index] = ASL_CLOSED; // Close it so that next time we won't try to calculate costs
                     continue;
                 }
@@ -329,8 +330,9 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                     if( climb_cost > 0 && p_special & PF_CLIMBABLE ) {
                         // Climbing fences
                         newg += climb_cost;
-                    } else if( doors && terrain.open &&
-                               ( !terrain.has_flag( "OPENCLOSE_INSIDE" ) || !is_outside( cur ) ) ) {
+                    } else if( doors && ( terrain.open || furniture.open ) &&
+                               ( !terrain.has_flag( "OPENCLOSE_INSIDE" ) || !furniture.has_flag( "OPENCLOSE_INSIDE" ) ||
+                                 !is_outside( cur ) ) ) {
                         // Only try to open INSIDE doors from the inside
                         // To open and then move onto the tile
                         newg += 4;
@@ -374,7 +376,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                         newg += 500;
                     } else {
                         // Unbashable and unopenable from here
-                        if( !doors || !terrain.open ) {
+                        if( !doors || !terrain.open || !furniture.open ) {
                             // Or anywhere else for that matter
                             layer.state[index] = ASL_CLOSED;
                         }
