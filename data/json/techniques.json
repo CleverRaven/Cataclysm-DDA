@@ -1358,7 +1358,6 @@
     "messages": [ "You snatch %s's weapon", "<npcname> snatches %s's weapon" ],
     "min_unarmed": 4,
     "unarmed_allowed": true,
-    "strictly_unarmed": true,
     "weighting": 2,
     "take_weapon": true,
     "mult_bonuses": [ [ "damage", "bash", 0.5 ] ]
