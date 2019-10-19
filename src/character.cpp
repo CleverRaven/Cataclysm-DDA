@@ -5300,3 +5300,16 @@ std::string Character::is_snuggling() const
 
     return "nothing";
 }
+
+bool Character::resists_effect( const effect &e )
+{
+    if( Creature::resists_effect( e ) ) {
+        return true;
+    }
+    for( const trait_id &i : e.get_resist_traits() ) {
+        if( mutations.has_trait( i ) ) {
+            return true;
+        }
+    }
+    return false;
+}

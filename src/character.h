@@ -1072,6 +1072,8 @@ class Character : public Creature, public visitable<Character>
         // the amount healed per bodypart per day
         std::array<int, num_hp_parts> healed_total;
 
+        bool resists_effect( const effect &e ) override;
+
         void spores();
         void blossoms();
 
