@@ -1021,7 +1021,7 @@
     "power_draw": 500,
     "revert_to": "cell_phone",
     "use_action": { "target": "cell_phone", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "WATCH", "LIGHT_15", "CHARGEDIM", "TRADER_AVOID" ]
+    "flags": [ "WATCH", "LIGHT_8", "CHARGEDIM", "TRADER_AVOID" ]
   },
   {
     "id": "smart_phone",
@@ -1074,7 +1074,7 @@
     "type": "TOOL",
     "name": "smartphone - Flashlight",
     "name_plural": "smartphones - Flashlight",
-    "power_draw": 500,
+    "power_draw": 1500,
     "revert_to": "smart_phone",
     "use_action": {
       "target": "smart_phone",
@@ -4872,10 +4872,10 @@
     "name": "reading light (active)",
     "name_plural": "reading lights (active)",
     "description": "A little clip-on LED light, meant for reading books in the dark.  This one is turned on.",
-    "power_draw": 6000,
+    "power_draw": 1000,
     "revert_to": "reading_light",
     "use_action": { "target": "reading_light", "msg": "You switch off the reading light.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "LIGHT_8", "CHARGEDIM" ]
+    "flags": [ "LIGHT_15", "CHARGEDIM" ]
   },
   {
     "id": "ref_lighter",
